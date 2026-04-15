@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "electsim-espana"
+version = "0.1.0"
+description = "Digital twin de datos electorales, sociales y económicos de España (fase 1: arquitectura e ingesta)"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "integration: tests que requieren PostgreSQL u otros servicios",
+]

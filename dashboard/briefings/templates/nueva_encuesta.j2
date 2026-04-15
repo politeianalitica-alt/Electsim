@@ -1,0 +1,14 @@
+## Nueva encuesta: {{ new_poll.get('pollster', 'N/D') }}
+
+- Campo: {{ new_poll.get('fieldwork_start', 'N/D') }} a {{ new_poll.get('fieldwork_end', 'N/D') }}
+- Muestra: {{ new_poll.get('sample_size', 'N/D') }}
+
+### Movimientos principales
+Media actual: {{ current_average }}
+
+### Advertencias metodológicas
+House effects: {{ house_effects }}
+
+### Implicaciones en escaños
+{{ seat_implications }}
+

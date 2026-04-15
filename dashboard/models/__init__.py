@@ -1,0 +1,2 @@
+"""Modelos estadísticos del dashboard."""
+

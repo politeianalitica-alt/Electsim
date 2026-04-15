@@ -1,0 +1,216 @@
+"""
+Página: Validación del Sistema
+
+Muestra metricas de backtesting, calibracion de agentes,
+calidad de datos y evolución temporal de las metricas del modelo.
+"""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+_ROOT = Path(__file__).parent.parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+import pandas as pd
+import plotly.graph_objects as go
+import streamlit as st
+from dashboard.shared import sidebar_nav
+
+try:
+    from dashboard.db import cargar_historial_validacion, cargar_validacion_por_partido
+except ImportError:
+    import pandas as _pd
+
+    def cargar_historial_validacion() -> "_pd.DataFrame":  # type: ignore[return]
+        return _pd.DataFrame()
+
+    def cargar_validacion_por_partido(run_id: str) -> "_pd.DataFrame":  # type: ignore[return]
+        return _pd.DataFrame()
+
+st.set_page_config(page_title="Validación — ElectSim", layout="wide")
+
+sidebar_nav()
+st.title("Validación del Sistema")
+st.markdown("Metricas de precision del modelo, calibracion de agentes y calidad de datos.")
+
+# ── Historial ─────────────────────────────────────────────────────────────────
+df_hist = cargar_historial_validacion()
+
+if df_hist.empty or "tipo" not in df_hist.columns:
+    st.info("""
+    Sin resultados de validación. Ejecuta la Fase 5:
+    ```
+    python -m pipelines.fase5_validación
+    ```
+    """)
+    st.stop()
+
+ultimo_bt = df_hist[df_hist["tipo"].astype(str) == "backtesting"].head(1)
+ultimo_cal = df_hist[df_hist["tipo"].astype(str) == "calibracion"].head(1)
+ultimo_qc = df_hist[df_hist["tipo"].astype(str) == "calidad"].head(1)
+
+# ── KPIs ──────────────────────────────────────────────────────────────────────
+st.subheader("Ultima Ejecucion de Validación")
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col1:
+    if not ultimo_bt.empty and pd.notna(ultimo_bt.iloc[0].get("brier_score")):
+        bs = float(ultimo_bt.iloc[0]["brier_score"])
+        st.metric("Brier Score", f"{bs:.4f}",
+                  help="Regla de puntuacion propia. 0=perfecto, 2=max. error. Bueno si <0.10")
+    else:
+        st.metric("Brier Score", "—")
+
+with col2:
+    if not ultimo_bt.empty and pd.notna(ultimo_bt.iloc[0].get("rmse_voto")):
+        rmse = float(ultimo_bt.iloc[0]["rmse_voto"])
+        st.metric("RMSE Voto", f"{rmse*100:.2f} pp")
+    else:
+        st.metric("RMSE Voto", "—")
+
+with col3:
+    if not ultimo_bt.empty and pd.notna(ultimo_bt.iloc[0].get("mae_escanos")):
+        mae_esc = float(ultimo_bt.iloc[0]["mae_escanos"])
+        st.metric("MAE Escanos", f"{mae_esc:.1f}")
+    else:
+        st.metric("MAE Escanos", "—")
+
+with col4:
+    if not ultimo_qc.empty and pd.notna(ultimo_qc.iloc[0].get("pct_completitud")):
+        pct = float(ultimo_qc.iloc[0]["pct_completitud"])
+        sem_color = "normal" if pct >= 90 else "off" if pct >= 70 else "inverse"
+        st.metric("Calidad Datos", f"{pct:.1f}%", delta_color=sem_color)
+    else:
+        st.metric("Calidad Datos", "—")
+
+with col5:
+    if not ultimo_bt.empty and pd.notna(ultimo_bt.iloc[0].get("cobertura_95ci")):
+        cob = float(ultimo_bt.iloc[0]["cobertura_95ci"])
+        st.metric("Cobertura IC 95%", f"{cob*100:.1f}%", help="Objetivo: ~95%")
+    else:
+        st.metric("Cobertura IC 95%", "—")
+
+st.divider()
+
+tab1, tab2, tab3 = st.tabs(["Backtesting", "Calibracion Agentes", "Calidad de Datos"])
+
+# ── Tab 1: Backtesting ────────────────────────────────────────────────────────
+with tab1:
+    df_bt = df_hist[df_hist["tipo"].astype(str) == "backtesting"].copy()
+
+    if df_bt.empty:
+        st.info("Sin resultados de backtesting")
+    else:
+        if len(df_bt) > 1:
+            st.subheader("Evolución del Brier Score")
+            fig_ev = go.Figure()
+            fig_ev.add_trace(go.Scatter(
+                x=df_bt["created_at"], y=df_bt["brier_score"],
+                mode="lines+markers", name="Brier Score",
+                line=dict(color="#C60B1E", width=2),
+            ))
+            fig_ev.update_layout(
+                height=300, plot_bgcolor="white", paper_bgcolor="white",
+                xaxis_title="Fecha", yaxis_title="Brier Score",
+            )
+            st.plotly_chart(fig_ev, use_container_width=True)
+
+        st.subheader("Error por Partido (ultima ejecucion)")
+        run_id_last = df_bt.iloc[0]["run_id"]
+        df_part = cargar_validacion_por_partido(run_id_last)
+
+        if not df_part.empty:
+            fig_part = go.Figure(go.Bar(
+                x=df_part["partido_siglas"],
+                y=df_part["error_pct"].abs(),
+                marker_color=df_part["error_pct"].abs().apply(
+                    lambda x: "#27ae60" if x < 2 else "#f39c12" if x < 5 else "#e74c3c"
+                ),
+                text=df_part["error_pct"].round(2).astype(str) + " pp",
+                textposition="outside",
+            ))
+            fig_part.update_layout(
+                title="Error de predicción por partido (pp)",
+                xaxis_title="Partido", yaxis_title="Error absoluto (pp)",
+                height=380, plot_bgcolor="white", paper_bgcolor="white",
+            )
+            st.plotly_chart(fig_part, use_container_width=True)
+
+            st.subheader("Real vs Predicho por Partido")
+            cols_show = ["partido_siglas", "voto_real_pct", "voto_pred_pct", "error_pct",
+                         "escanos_reales", "escanos_pred_mediana", "escanos_pred_p5", "escanos_pred_p95"]
+            cols_show = [c for c in cols_show if c in df_part.columns]
+            st.dataframe(
+                df_part[cols_show].rename(columns={
+                    "partido_siglas": "Partido",
+                    "voto_real_pct": "Voto Real (%)",
+                    "voto_pred_pct": "Voto Pred. (%)",
+                    "error_pct": "Error (pp)",
+                    "escanos_reales": "Esc. Real",
+                    "escanos_pred_mediana": "Esc. Pred.",
+                    "escanos_pred_p5": "Esc. P5",
+                    "escanos_pred_p95": "Esc. P95",
+                }).round(2),
+                hide_index=True, use_container_width=True,
+            )
+
+# ── Tab 2: Calibracion ────────────────────────────────────────────────────────
+with tab2:
+    df_cal = df_hist[df_hist["tipo"].astype(str) == "calibracion"].copy()
+
+    if df_cal.empty:
+        st.info("Sin resultados de calibracion de agentes")
+    else:
+        for _, row in df_cal.head(5).iterrows():
+            n_ok = row.get("n_checks_ok")
+            n_fail = row.get("n_checks_fail")
+            calibrado = n_fail is not None and int(n_fail) == 0
+            estado = "Calibrado" if calibrado else "Descalibrado"
+
+            with st.expander(f"{estado} — {row['created_at']}"):
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.metric("Checks OK", int(n_ok) if n_ok is not None else "—")
+                with c2:
+                    st.metric("Checks Fail", int(n_fail) if n_fail is not None else "—")
+                with c3:
+                    st.metric("Modelo", row.get("modelo", "—"))
+
+# ── Tab 3: Calidad Datos ──────────────────────────────────────────────────────
+with tab3:
+    df_qc = df_hist[df_hist["tipo"].astype(str) == "calidad"].copy()
+
+    if df_qc.empty:
+        st.info("Sin resultados de calidad de datos")
+    else:
+        if len(df_qc) > 1:
+            fig_qc = go.Figure()
+            fig_qc.add_trace(go.Scatter(
+                x=df_qc["created_at"],
+                y=df_qc["pct_completitud"].astype(float),
+                mode="lines+markers", name="% Checks OK",
+                fill="tozeroy", fillcolor="rgba(39, 174, 96, 0.15)",
+                line=dict(color="#27ae60"),
+            ))
+            fig_qc.add_hline(y=90, line_dash="dash", line_color="#27ae60",
+                             annotation_text="Objetivo 90%")
+            fig_qc.add_hline(y=70, line_dash="dash", line_color="#f39c12",
+                             annotation_text="Minimo 70%")
+            fig_qc.update_layout(
+                height=300, plot_bgcolor="white", paper_bgcolor="white",
+                xaxis_title="Fecha", yaxis_title="% Checks OK",
+            )
+            st.plotly_chart(fig_qc, use_container_width=True)
+
+        ultimo_qc_row = df_qc.iloc[0]
+        c1, c2 = st.columns(2)
+        with c1:
+            st.metric("% Checks OK", f"{float(ultimo_qc_row['pct_completitud']):.1f}%")
+        with c2:
+            n_ok = int(ultimo_qc_row.get("n_checks_ok") or 0)
+            n_fail = int(ultimo_qc_row.get("n_checks_fail") or 0)
+            st.metric("Checks OK / Fail", f"{n_ok} / {n_fail}")
