@@ -270,7 +270,7 @@ with col_nc:
                 fixedrange=True,
             ),
             yaxis=dict(
-                gridcolor=f"{BORDER}88", gridwidth=1, griddash="dot",
+                gridcolor=f"{BORDER}88", gridwidth=1,
                 color=TEXT2,
                 range=[0, df_top["ic_95_sup"].max() + 6],
                 tickfont=dict(size=10, color=MUTED),
@@ -281,8 +281,8 @@ with col_nc:
             margin=dict(t=15, b=5, l=5, r=5),
             font=dict(family="Inter, sans-serif"),
             hoverlabel=dict(
-                bgcolor=BG2, font_size=12,
-                font_family="JetBrains Mono, monospace",
+                bgcolor=BG2,
+                font=dict(size=12, family="JetBrains Mono, monospace"),
                 bordercolor=BORDER,
             ),
         )
