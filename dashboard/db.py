@@ -552,6 +552,31 @@ def cargar_encuestas_tracking_recientes(dias: int = 45, limit: int = 200) -> pd.
     )
 
 
+@st.cache_data(ttl=300)
+def cargar_resultados_provinciales(eleccion_id: int) -> pd.DataFrame:
+    """Resultados por provincia con nombre de provincia y partido ganador."""
+    return _q(
+        """
+        SELECT
+            pr.id            AS provincia_id,
+            pr.nombre        AS provincia,
+            ca.nombre        AS ccaa,
+            p.siglas,
+            re.votos,
+            re.porcentaje,
+            re.escanos
+        FROM resultados_electorales re
+        JOIN partidos             p  ON p.id  = re.partido_id
+        JOIN provincias           pr ON pr.id = re.provincia_id
+        LEFT JOIN comunidades_autonomas ca ON ca.id = COALESCE(re.ccaa_id, pr.ccaa_id)
+        WHERE re.eleccion_id = :eid
+          AND re.provincia_id IS NOT NULL
+        ORDER BY pr.id, re.escanos DESC NULLS LAST
+        """,
+        {"eid": eleccion_id},
+    )
+
+
 @st.cache_data(ttl=120)
 def cargar_perfiles_votante(limit: int = 30) -> pd.DataFrame:
     return _q(

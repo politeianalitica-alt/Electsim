@@ -1,15 +1,12 @@
 """
-Página: Mapa Electoral
-
-Choropleth interactivo por CCAA y provincia. Muestra distribución
-de voto por partido y comparativa entre elecciones.
+Pagina: Mapa Electoral — Dark Tech Edition
+Choropleth interactivo por provincias, hemiciclo y comparativa.
 """
 
 from __future__ import annotations
 
-import math
 import json
-import os
+import math
 import sys
 from pathlib import Path
 
@@ -20,228 +17,114 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import requests
 import streamlit as st
-from dashboard.shared import sidebar_nav
 
+from dashboard.shared import (
+    sidebar_nav,
+    COLORES_PARTIDOS,
+    BG, BG2, BG3, BORDER,
+    CYAN, CYAN2, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED,
+    GREEN, AMBER, RED,
+)
 from dashboard.db import (
     cargar_elecciones,
     cargar_nowcasting,
-    cargar_encuestas_tracking_recientes,
     cargar_resultados_electorales,
     cargar_resultados_nacionales,
+    cargar_resultados_provinciales,
 )
 
-# ── Design tokens ─────────────────────────────────────────────────────────────
-NAVY  = "#1E3A5F"
-BLUE  = "#2563EB"
-LBLUE = "#60A5FA"
-PALE  = "#EFF6FF"
-WHITE = "#FFFFFF"
-SURF  = "#F8FAFC"
-BORD  = "#CBD5E1"
-TEXT  = "#0F172A"
-MUTED = "#64748B"
-GREEN = "#10B981"
-AMBER = "#F59E0B"
-RED   = "#EF4444"
-
-COLORES_PARTIDO = {
-    "PP":       "#009FDB",
-    "PSOE":     "#E30613",
-    "VOX":      "#63BE21",
-    "SUMAR":    "#E4007C",
-    "PODEMOS":  "#6A2E74",
-    "CS":       "#EB6109",
-    "ERC":      "#F4B20A",
-    "JUNTS":    "#00AEEF",
-    "JxCAT":    "#00AEEF",
-    "PNV":      "#007A3D",
-    "EH Bildu": "#A9C55A",
-    "EH_BILDU": "#A9C55A",
-    "BILDU":    "#A9C55A",
-    "BNG":      "#73C6E0",
-    "CUP":      "#FFCC00",
-    "CC":       "#FFCB00",
-    "UPN":      "#003A8C",
-    "PRC":      "#008037",
-    "IU":       "#C8293A",
-    "UP":       "#6A2E74",
-}
-
-TIPOS_ELECCION = ["generales", "autonómicas", "municipales", "europeas"]
-TIPOS_DB       = ["generales", "autonomicas", "municipales", "europeas"]
-
+# ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Mapa Electoral — ElectSim", layout="wide")
-
 sidebar_nav()
 
+TIPOS_ELECCION = ["generales", "autonomicas", "municipales", "europeas"]
+TIPOS_DB       = ["generales", "autonomicas", "municipales", "europeas"]
+
+ORDEN_IDEOLOGICO = [
+    "CUP", "EH Bildu", "EH_BILDU", "BNG", "ERC", "PODEMOS", "UP", "IU",
+    "SUMAR", "PSOE", "PNV", "JUNTS", "JxCAT", "CC", "CS", "UPN", "PP", "VOX",
+]
+
+# Province name mapping: GeoJSON name -> DB province_id
+GEOJSON_PATH = Path(__file__).parent.parent / "data" / "spain_provinces.geojson"
+MAPPING_PATH = Path(__file__).parent.parent / "data" / "province_mapping.json"
+
+
+def _color(siglas: str) -> str:
+    return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
+
+
+# ── Estilos extra ────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>
-body, .stApp {{ background: {WHITE}; color: {TEXT}; }}
-.section-title {{
-    font-size:.75rem;font-weight:700;color:{MUTED};
-    letter-spacing:.1em;text-transform:uppercase;
-    border-bottom:2px solid {PALE};padding-bottom:.4rem;margin:1.5rem 0 1rem;
+@keyframes fadeInUp {{
+  from {{ opacity: 0; transform: translateY(16px); }}
+  to   {{ opacity: 1; transform: translateY(0); }}
 }}
-.partido-card {{
-    background:{WHITE};border:1px solid {BORD};border-radius:10px;
-    padding:1rem;text-align:center;margin-bottom:.5rem;
+.map-animate {{ animation: fadeInUp .5s ease-out both; }}
+.section-hdr {{
+  display:flex;align-items:center;gap:.7rem;margin:1.5rem 0 1rem;
+}}
+.section-hdr .bar {{
+  width:4px;height:20px;border-radius:2px;
+}}
+.section-hdr .label {{
+  font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+}}
+.section-hdr .line {{
+  flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG});
+}}
+.glass {{
+  background:linear-gradient(135deg,{BG2}ee,{BG3}cc);
+  border:1px solid {BORDER};border-radius:12px;
+  padding:1rem 1.2rem;transition:all .2s ease;
+}}
+.glass:hover {{ border-color:{CYAN}44;box-shadow:0 2px 16px {CYAN}0a; }}
+.partido-pill {{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.25rem .6rem;border-radius:8px;font-size:.68rem;
+  font-weight:700;font-family:'JetBrains Mono',monospace;
 }}
 </style>
 """, unsafe_allow_html=True)
 
-# ── Header ────────────────────────────────────────────────────────────────────
+# ── Header ───────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div style="background:linear-gradient(135deg,{NAVY} 0%,{BLUE} 100%);
-            color:white;padding:1.8rem 2.2rem;border-radius:16px;margin-bottom:1.5rem">
-    <div style="font-size:1.5rem;font-weight:800">Mapa Electoral</div>
-    <div style="opacity:.8;font-size:.88rem;margin-top:.2rem">
-        Resultados históricos, estimaciones futuras y comparativa por CCAA
+<div class="map-animate" style="
+    background:linear-gradient(135deg,{BG2} 0%,#0a1628 50%,{BG3} 100%);
+    border:1px solid {BORDER};border-radius:16px;
+    padding:2rem 2.5rem;margin-bottom:1.5rem;
+    position:relative;overflow:hidden">
+    <div style="position:absolute;top:-60px;right:-30px;width:240px;height:240px;
+                background:radial-gradient(circle,{PURPLE}12,transparent 70%);pointer-events:none"></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,{PURPLE},{BLUE});
+                    border-radius:12px;display:flex;align-items:center;justify-content:center;
+                    font-size:1.1rem;flex-shrink:0;box-shadow:0 4px 16px {PURPLE}33">&#9670;</div>
+        <div>
+            <div style="font-size:1.6rem;font-weight:900;color:{TEXT};letter-spacing:-.03em">
+                Mapa Electoral
+            </div>
+            <div style="font-size:.78rem;color:{TEXT2};margin-top:.15rem">
+                Resultados historicos, estimaciones y distribucion territorial por provincias
+            </div>
+        </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_pasadas, tab_futuras, tab_hist, tab_ccaa = st.tabs([
-    "Elecciones Pasadas",
-    "Estimaciones Futuras",
-    "Comparativa Histórica",
-    "Mapa por CCAA",
-])
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Helpers
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _color_partido(siglas: str) -> str:
-    return COLORES_PARTIDO.get(siglas, BLUE)
-
-
-def _media_sondeos_partido(siglas: str) -> float | None:
-    df_tr = cargar_encuestas_tracking_recientes(dias=60, limit=300)
-    if df_tr.empty:
-        return None
-    vals = []
-    for _, row in df_tr.iterrows():
-        raw = row.get("partido_datos_json")
-        if not raw:
-            continue
-        try:
-            data = json.loads(raw) if isinstance(raw, str) else raw
-            if isinstance(data, dict):
-                if siglas in data:
-                    vals.append(float(data[siglas]))
-            elif isinstance(data, list):
-                for item in data:
-                    if isinstance(item, dict):
-                        if item.get("siglas") == siglas and item.get("pct") is not None:
-                            vals.append(float(item["pct"]))
-                        elif siglas in item:
-                            vals.append(float(item[siglas]))
-        except Exception:
-            continue
-    if not vals:
-        return None
-    return float(sum(vals) / len(vals))
-
-
-@st.cache_data(ttl=3600)
-def _cargar_callejero_pais() -> pd.DataFrame:
-    """
-    Ingesta opcional de dataset estilo "callejero electoral" de El País.
-    Debe pasarse por variable de entorno ELPAIS_CALLEJERO_URL.
-    """
-    url = os.environ.get("ELPAIS_CALLEJERO_URL")
-    if not url:
-        return pd.DataFrame()
-    try:
-        r = requests.get(url, timeout=15, headers={"User-Agent": "ElectSim/1.0"})
-        r.raise_for_status()
-        data = r.json()
-        if isinstance(data, list):
-            return pd.DataFrame(data)
-        if isinstance(data, dict) and "data" in data and isinstance(data["data"], list):
-            return pd.DataFrame(data["data"])
-    except Exception:
-        return pd.DataFrame()
-    return pd.DataFrame()
-
-
-def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
-    """
-    partidos_escanos: list of (siglas, escanos, color)
-    Dibuja un hemiciclo de escaños usando Plotly Scatter.
-    """
-    total = sum(e for _, e, _ in partidos_escanos)
-    if total == 0:
-        return go.Figure()
-
-    traces = []
-    angle_start = 0.0
-    for siglas, escanos, color in partidos_escanos:
-        if escanos <= 0:
-            continue
-        angle_span = (escanos / total) * math.pi
-        angles = [angle_start + i * angle_span / max(escanos, 1) for i in range(escanos)]
-        rows = [angles[i::4] for i in range(4)]
-        for row_i, row_angles in enumerate(rows):
-            if not row_angles:
-                continue
-            r = 0.7 + row_i * 0.1
-            xs = [r * math.cos(a) for a in row_angles]
-            ys = [r * math.sin(a) for a in row_angles]
-            traces.append(go.Scatter(
-                x=xs, y=ys,
-                mode="markers",
-                marker=dict(color=color, size=8),
-                name=siglas,
-                showlegend=(row_i == 0),
-                hovertemplate=f"{siglas}: {escanos} escaños<extra></extra>",
-            ))
-        angle_start += angle_span
-
-    fig = go.Figure(traces)
-    fig.update_layout(
-        height=350,
-        xaxis=dict(visible=False, range=[-1.1, 1.1]),
-        yaxis=dict(visible=False, range=[-0.1, 1.1]),
-        plot_bgcolor=WHITE,
-        paper_bgcolor=WHITE,
-        legend=dict(orientation="h", y=-0.05, font=dict(size=10)),
-        margin=dict(t=10, b=40, l=10, r=10),
-    )
-    return fig
-
-
-def _sidebar_selector(label_tipo: str = "Tipo de elección") -> tuple[str, int | None]:
-    """Devuelve (tipo_db, eleccion_id) desde la sidebar."""
-    tipo_idx = st.sidebar.selectbox(
-        label_tipo,
-        range(len(TIPOS_ELECCION)),
-        format_func=lambda i: TIPOS_ELECCION[i],
-    )
-    tipo_db = TIPOS_DB[tipo_idx]
-    df_elec = cargar_elecciones(tipo_db)
-    if df_elec.empty:
-        st.sidebar.warning(f"No hay elecciones '{TIPOS_ELECCION[tipo_idx]}' en la BD.")
-        return tipo_db, None
-    opciones = {
-        row.get("descripcion") or str(row["fecha"]): row["id"]
-        for _, row in df_elec.iterrows()
-    }
-    sel = st.sidebar.selectbox("Elección", list(opciones.keys()))
-    return tipo_db, opciones[sel]
-
-
-# ── Sidebar controles ─────────────────────────────────────────────────────────
+# ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.header("Filtros")
+    st.markdown(f"""
+    <div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;color:{MUTED};
+                text-transform:uppercase;padding:.5rem 0 .3rem">Filtros del Mapa</div>
+    """, unsafe_allow_html=True)
     tipo_idx = st.selectbox(
-        "Tipo de elección",
+        "Tipo de eleccion",
         range(len(TIPOS_ELECCION)),
-        format_func=lambda i: TIPOS_ELECCION[i],
+        format_func=lambda i: TIPOS_ELECCION[i].title(),
     )
     tipo_db = TIPOS_DB[tipo_idx]
     df_elec_sidebar = cargar_elecciones(tipo_db)
@@ -251,10 +134,207 @@ with st.sidebar:
             row.get("descripcion") or str(row["fecha"]): row["id"]
             for _, row in df_elec_sidebar.iterrows()
         }
-        sel_sidebar = st.selectbox("Elección", list(opciones_sidebar.keys()))
+        sel_sidebar = st.selectbox("Eleccion", list(opciones_sidebar.keys()))
         eleccion_id = opciones_sidebar[sel_sidebar]
     else:
         st.warning(f"No hay elecciones '{TIPOS_ELECCION[tipo_idx]}' en la BD.")
+
+
+# ── Helpers ──────────────────────────────────────────────────────────────────
+
+def _section_header(label: str, color: str):
+    st.markdown(f"""
+    <div class="section-hdr">
+        <div class="bar" style="background:linear-gradient({color},{BLUE})"></div>
+        <span class="label" style="color:{color}">{label}</span>
+        <div class="line"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
+    """Hemiciclo dark con escanos como puntos en semicirculo."""
+    total = sum(e for _, e, _ in partidos_escanos)
+    if total == 0:
+        return go.Figure()
+
+    traces = []
+    angle_start = 0.0
+    n_rows = 5
+    for siglas, escanos, color in partidos_escanos:
+        if escanos <= 0:
+            continue
+        angle_span = (escanos / total) * math.pi
+        angles = [angle_start + (i + 0.5) * angle_span / max(escanos, 1) for i in range(escanos)]
+        rows = [angles[i::n_rows] for i in range(n_rows)]
+        for row_i, row_angles in enumerate(rows):
+            if not row_angles:
+                continue
+            r = 0.55 + row_i * 0.1
+            xs = [r * math.cos(a) for a in row_angles]
+            ys = [r * math.sin(a) for a in row_angles]
+            traces.append(go.Scatter(
+                x=xs, y=ys, mode="markers",
+                marker=dict(color=color, size=7, line=dict(width=0.5, color=f"{color}88")),
+                name=siglas, showlegend=(row_i == 0),
+                hovertemplate=f"{siglas}: {escanos} escanos<extra></extra>",
+            ))
+        angle_start += angle_span
+
+    fig = go.Figure(traces)
+    fig.update_layout(
+        height=320,
+        xaxis=dict(visible=False, range=[-1.15, 1.15]),
+        yaxis=dict(visible=False, range=[-0.12, 1.15]),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        legend=dict(
+            orientation="h", y=-0.08,
+            font=dict(size=10, color=TEXT2, family="Inter, sans-serif"),
+            bgcolor="rgba(0,0,0,0)",
+        ),
+        margin=dict(t=10, b=45, l=10, r=10),
+    )
+    # Linea central del hemiciclo
+    fig.add_shape(type="line", x0=0, y0=-0.05, x1=0, y1=0.02,
+                  line=dict(color=BORDER, width=1, dash="dot"))
+    return fig
+
+
+@st.cache_data(ttl=3600)
+def _load_geojson():
+    """Carga GeoJSON de provincias."""
+    if GEOJSON_PATH.exists():
+        with open(GEOJSON_PATH) as f:
+            return json.load(f)
+    return None
+
+
+@st.cache_data(ttl=3600)
+def _load_province_mapping():
+    """Mapping GeoJSON name -> DB province_id."""
+    if MAPPING_PATH.exists():
+        with open(MAPPING_PATH) as f:
+            return json.load(f)
+    return {}
+
+
+def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) -> go.Figure | None:
+    """Construye mapa choropleth de provincias."""
+    geojson = _load_geojson()
+    mapping = _load_province_mapping()
+    if geojson is None or not mapping:
+        return None
+
+    # Reverse mapping: DB province_id -> GeoJSON name
+    id_to_geo = {v: k for k, v in mapping.items()}
+
+    if partido_filter:
+        # Show one party's results
+        df_map = df_prov[df_prov["siglas"] == partido_filter].copy()
+        if df_map.empty:
+            return None
+        df_map["geo_name"] = df_map["provincia_id"].map(id_to_geo)
+        df_map = df_map.dropna(subset=["geo_name"])
+        color = _color(partido_filter)
+
+        fig = px.choropleth_mapbox(
+            df_map,
+            geojson=geojson,
+            locations="geo_name",
+            featureidkey="properties.name",
+            color="escanos",
+            color_continuous_scale=[
+                [0, f"{BG3}"],
+                [0.01, f"{color}33"],
+                [0.5, f"{color}88"],
+                [1, color],
+            ],
+            hover_name="provincia",
+            hover_data={"escanos": True, "porcentaje": ":.1f", "geo_name": False},
+            labels={"escanos": "Escanos", "porcentaje": "% Voto"},
+            mapbox_style="carto-darkmatter",
+            center={"lat": 40.0, "lon": -3.7},
+            zoom=4.5,
+            opacity=0.85,
+        )
+    else:
+        # Show winning party per province
+        winner_rows = []
+        for prov_id in df_prov["provincia_id"].unique():
+            prov_data = df_prov[df_prov["provincia_id"] == prov_id]
+            winner = prov_data.loc[prov_data["escanos"].idxmax()]
+            geo_name = id_to_geo.get(int(prov_id))
+            if geo_name:
+                winner_rows.append({
+                    "geo_name": geo_name,
+                    "provincia": winner["provincia"],
+                    "partido_ganador": winner["siglas"],
+                    "escanos": int(winner["escanos"]),
+                    "porcentaje": float(winner["porcentaje"]),
+                    "color": _color(winner["siglas"]),
+                })
+        if not winner_rows:
+            return None
+        df_winners = pd.DataFrame(winner_rows)
+
+        # Assign numeric for color mapping
+        partidos_unicos = df_winners["partido_ganador"].unique().tolist()
+        color_map = {p: _color(p) for p in partidos_unicos}
+        df_winners["color_val"] = df_winners["partido_ganador"].map(
+            {p: i for i, p in enumerate(partidos_unicos)}
+        )
+
+        fig = go.Figure()
+        for partido in partidos_unicos:
+            df_p = df_winners[df_winners["partido_ganador"] == partido]
+            color = color_map[partido]
+            fig.add_trace(go.Choroplethmapbox(
+                geojson=geojson,
+                locations=df_p["geo_name"],
+                featureidkey="properties.name",
+                z=[1] * len(df_p),
+                colorscale=[[0, color], [1, color]],
+                showscale=False,
+                name=partido,
+                marker=dict(opacity=0.8, line=dict(width=1, color=BG)),
+                text=df_p.apply(
+                    lambda r: f"{r['provincia']}<br>{r['partido_ganador']}: {r['escanos']} esc. ({r['porcentaje']:.1f}%)",
+                    axis=1,
+                ),
+                hovertemplate="%{text}<extra></extra>",
+            ))
+
+        fig.update_layout(
+            mapbox=dict(
+                style="carto-darkmatter",
+                center={"lat": 40.0, "lon": -3.7},
+                zoom=4.5,
+            ),
+        )
+
+    fig.update_layout(
+        height=520,
+        paper_bgcolor="rgba(0,0,0,0)",
+        margin=dict(t=5, b=5, l=5, r=5),
+        legend=dict(
+            bgcolor=f"{BG2}dd",
+            bordercolor=BORDER,
+            borderwidth=1,
+            font=dict(color=TEXT2, size=11),
+            orientation="h", y=-0.02,
+        ),
+    )
+    return fig
+
+
+# ── Tabs ─────────────────────────────────────────────────────────────────────
+tab_pasadas, tab_futuras, tab_mapa, tab_hist = st.tabs([
+    "Elecciones Pasadas",
+    "Estimaciones Futuras",
+    "Mapa Provincial",
+    "Comparativa Historica",
+])
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -262,265 +342,402 @@ with st.sidebar:
 # ═════════════════════════════════════════════════════════════════════════════
 with tab_pasadas:
     if eleccion_id is None:
-        st.info("Selecciona una elección en la barra lateral.")
-        st.stop()
-
-    df_nac  = cargar_resultados_nacionales(eleccion_id)
-    df_prov = cargar_resultados_electorales(eleccion_id)
-
-    if df_nac.empty:
-        st.info("No hay resultados para esta elección. Carga datos con el ETL primero.")
+        st.info("Selecciona una eleccion en la barra lateral.")
     else:
-        # ── Tarjetas de resultados ────────────────────────────────────────────
-        st.markdown('<div class="section-title">Resultados Nacionales</div>', unsafe_allow_html=True)
-        cols = st.columns(min(len(df_nac), 6))
-        for i, (_, row) in enumerate(df_nac.head(6).iterrows()):
-            escanos = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else "—"
-            pct = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "—"
-            color = _color_partido(row["siglas"])
-            with cols[i]:
-                st.markdown(f"""
-                <div class="partido-card" style="border-top:4px solid {color}">
-                    <div style="font-weight:700;font-size:1rem;color:{TEXT}">{row['siglas']}</div>
-                    <div style="font-size:1.6rem;font-weight:800;color:{color}">{escanos}</div>
-                    <div style="color:{MUTED};font-size:.82rem">escaños · {pct}</div>
-                </div>
-                """, unsafe_allow_html=True)
+        df_nac = cargar_resultados_nacionales(eleccion_id)
+        if df_nac.empty:
+            st.info("No hay resultados para esta eleccion. Carga datos con el ETL.")
+        else:
+            # ── Tarjetas nacionales ──────────────────────────────────────────
+            _section_header("Resultados Nacionales", CYAN)
+            n_cards = min(len(df_nac), 8)
+            cols = st.columns(min(n_cards, 4))
+            for i, (_, row) in enumerate(df_nac.head(n_cards).iterrows()):
+                escanos = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else 0
+                pct = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "---"
+                color = _color(row["siglas"])
+                r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+                with cols[i % 4]:
+                    st.markdown(f"""
+                    <div class="glass" style="text-align:center;margin-bottom:.5rem;
+                                border-top:3px solid {color}">
+                        <div style="font-size:.65rem;font-weight:700;color:{MUTED};
+                                    letter-spacing:.08em;margin-bottom:.25rem">{row['siglas']}</div>
+                        <div style="font-size:1.8rem;font-weight:900;color:{color};
+                                    font-family:'JetBrains Mono',monospace;
+                                    text-shadow:0 0 20px rgba({r_c},{g_c},{b_c},0.3)">{escanos}</div>
+                        <div style="font-size:.7rem;color:{TEXT2};margin-top:.15rem">escanos &middot; {pct}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
 
-        st.divider()
+            st.markdown(f"<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
-        # ── Gráficos ──────────────────────────────────────────────────────────
-        col_bar, col_hem = st.columns(2)
+            # ── Graficos: barras + hemiciclo ─────────────────────────────────
+            col_bar, col_hem = st.columns(2, gap="large")
 
-        with col_bar:
-            st.markdown('<div class="section-title">% Voto por Partido</div>', unsafe_allow_html=True)
-            colores_bar = [_color_partido(s) for s in df_nac["siglas"]]
-            fig_bar = go.Figure(go.Bar(
-                x=df_nac["siglas"],
-                y=df_nac["pct_medio"].round(2),
-                marker_color=colores_bar,
-                text=df_nac["pct_medio"].round(1).astype(str) + "%",
-                textposition="outside",
-            ))
-            fig_bar.update_layout(
-                xaxis_title="Partido", yaxis_title="% Voto",
-                height=380, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                margin=dict(t=20, b=20), showlegend=False,
-            )
-            st.plotly_chart(fig_bar, use_container_width=True)
-
-        with col_hem:
-            df_esc = df_nac[df_nac["escanos_totales"].notna() & (df_nac["escanos_totales"] > 0)].copy()
-            if not df_esc.empty:
-                st.markdown('<div class="section-title">Hemiciclo — Distribución de Escaños</div>', unsafe_allow_html=True)
-                partidos_hem = [
-                    (row["siglas"], int(row["escanos_totales"]), _color_partido(row["siglas"]))
-                    for _, row in df_esc.iterrows()
-                ]
-                # Ordenar ideológicamente (izq → der)
-                orden_ideo = ["CUP", "EH Bildu", "EH_BILDU", "BNG", "ERC", "PODEMOS", "UP", "IU", "SUMAR", "PSOE", "PNV", "JUNTS", "JxCAT", "CS", "CC", "UPN", "PP", "VOX"]
-                partidos_hem.sort(key=lambda x: orden_ideo.index(x[0]) if x[0] in orden_ideo else 99)
-                st.plotly_chart(hemiciclo_chart(partidos_hem), use_container_width=True)
-            else:
-                st.markdown('<div class="section-title">Distribución de Escaños</div>', unsafe_allow_html=True)
-                st.info("Sin datos de escaños para esta elección.")
-
-        st.divider()
-
-        # ── Posicionamiento ideológico ─────────────────────────────────────────
-        if "eje_izda_dcha" in df_nac.columns:
-            df_ideo = df_nac.dropna(subset=["eje_izda_dcha", "pct_medio"])
-            if not df_ideo.empty:
-                st.markdown('<div class="section-title">Posicionamiento Ideológico vs Resultado</div>', unsafe_allow_html=True)
-                fig_sc = px.scatter(
-                    df_ideo, x="eje_izda_dcha", y="pct_medio",
-                    size="escanos_totales" if "escanos_totales" in df_ideo.columns else None,
-                    text="siglas",
-                    color="siglas",
-                    color_discrete_map=COLORES_PARTIDO,
-                    labels={
-                        "eje_izda_dcha": "Posición ideológica (Izq 1 → Der 10)",
-                        "pct_medio": "% Voto",
-                    },
+            with col_bar:
+                _section_header("% Voto por Partido", BLUE)
+                colores_bar = [_color(s) for s in df_nac["siglas"]]
+                fig_bar = go.Figure(go.Bar(
+                    x=df_nac["siglas"],
+                    y=df_nac["pct_medio"].round(2),
+                    marker=dict(
+                        color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)"
+                               for c in colores_bar],
+                        line=dict(color=colores_bar, width=1.5),
+                    ),
+                    text=df_nac["pct_medio"].round(1).astype(str) + "%",
+                    textposition="outside",
+                    textfont=dict(color=TEXT, size=10, family="JetBrains Mono, monospace"),
+                ))
+                fig_bar.update_layout(
+                    height=380,
+                    plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                    xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
+                    yaxis=dict(color=TEXT2, gridcolor=f"{BORDER}88", griddash="dot",
+                               tickfont=dict(size=9, color=MUTED), ticksuffix="%"),
+                    margin=dict(t=20, b=20, l=10, r=10), showlegend=False,
                 )
-                fig_sc.update_traces(textposition="top center")
-                fig_sc.update_layout(
-                    showlegend=False, height=400,
-                    plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                )
-                st.plotly_chart(fig_sc, use_container_width=True)
+                st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
 
-        # ── Tabla provincial ──────────────────────────────────────────────────
-        if not df_prov.empty:
-            st.markdown('<div class="section-title">Resultados por Provincia</div>', unsafe_allow_html=True)
-            partidos_lista = df_nac["siglas"].tolist()
-            partido_sel = st.selectbox("Partido para tabla provincial", partidos_lista)
-            df_p = df_prov[df_prov["siglas"] == partido_sel][
-                ["provincia", "ccaa", "porcentaje", "escanos"]
-            ].copy().sort_values("porcentaje", ascending=False)
+            with col_hem:
+                df_esc = df_nac[df_nac["escanos_totales"].notna() & (df_nac["escanos_totales"] > 0)].copy()
+                if not df_esc.empty:
+                    _section_header("Hemiciclo — Escanos", PURPLE)
+                    partidos_hem = [
+                        (row["siglas"], int(row["escanos_totales"]), _color(row["siglas"]))
+                        for _, row in df_esc.iterrows()
+                    ]
+                    partidos_hem.sort(key=lambda x: ORDEN_IDEOLOGICO.index(x[0])
+                                     if x[0] in ORDEN_IDEOLOGICO else 99)
+                    st.plotly_chart(hemiciclo_chart(partidos_hem), use_container_width=True,
+                                   config={"displayModeBar": False})
 
-            fig_tabla = go.Figure(go.Table(
-                header=dict(
-                    values=["Provincia", "CCAA", "% Voto", "Escaños"],
-                    fill_color=NAVY,
-                    font=dict(color="white", size=12),
-                    align="left",
-                ),
-                cells=dict(
-                    values=[
-                        df_p["provincia"],
-                        df_p["ccaa"],
-                        df_p["porcentaje"].round(2).astype(str) + "%",
-                        df_p["escanos"].fillna(0).astype(int),
-                    ],
-                    align="left",
-                    fill_color=[["white", SURF] * (len(df_p) // 2 + 1)],
-                ),
-            ))
-            fig_tabla.update_layout(height=450, margin=dict(t=10))
-            st.plotly_chart(fig_tabla, use_container_width=True)
+                    # Bloques
+                    izq = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP", "PODEMOS", "UP"]
+                    der = ["PP", "VOX", "CS", "UPN"]
+                    e_izq = int(df_esc[df_esc["siglas"].isin(izq)]["escanos_totales"].sum())
+                    e_der = int(df_esc[df_esc["siglas"].isin(der)]["escanos_totales"].sum())
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        st.markdown(f"""
+                        <div class="glass" style="text-align:center;border-top:2px solid {RED}55">
+                            <div style="font-size:.58rem;font-weight:700;color:{MUTED};
+                                        letter-spacing:.1em;text-transform:uppercase">Bloque Izquierda</div>
+                            <div style="font-size:1.5rem;font-weight:900;color:{TEXT};
+                                        font-family:'JetBrains Mono',monospace">{e_izq}</div>
+                            <div style="font-size:.58rem;color:{'#10B981' if e_izq>=176 else AMBER}">
+                                {'Mayoria' if e_izq>=176 else f'{176-e_izq} para mayoria'}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    with c2:
+                        st.markdown(f"""
+                        <div class="glass" style="text-align:center;border-top:2px solid {BLUE}55">
+                            <div style="font-size:.58rem;font-weight:700;color:{MUTED};
+                                        letter-spacing:.1em;text-transform:uppercase">Bloque Derecha</div>
+                            <div style="font-size:1.5rem;font-weight:900;color:{TEXT};
+                                        font-family:'JetBrains Mono',monospace">{e_der}</div>
+                            <div style="font-size:.58rem;color:{'#10B981' if e_der>=176 else AMBER}">
+                                {'Mayoria' if e_der>=176 else f'{176-e_der} para mayoria'}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+
+            # ── Posicionamiento ideologico ────────────────────────────────────
+            if "eje_izda_dcha" in df_nac.columns:
+                df_ideo = df_nac.dropna(subset=["eje_izda_dcha", "pct_medio"])
+                if not df_ideo.empty:
+                    st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.2rem 0'></div>", unsafe_allow_html=True)
+                    _section_header("Posicionamiento Ideologico vs Resultado", CYAN)
+                    fig_sc = go.Figure()
+                    for _, rr in df_ideo.iterrows():
+                        c = _color(rr["siglas"])
+                        sz = max(12, int(rr.get("escanos_totales", 10) or 10) / 3)
+                        fig_sc.add_trace(go.Scatter(
+                            x=[rr["eje_izda_dcha"]], y=[rr["pct_medio"]],
+                            mode="markers+text", text=[rr["siglas"]],
+                            textposition="top center",
+                            textfont=dict(color=c, size=10, family="Inter"),
+                            marker=dict(color=f"{c}55", size=sz, line=dict(color=c, width=1.5)),
+                            name=rr["siglas"], showlegend=False,
+                            hovertemplate=f"{rr['siglas']}: {rr['pct_medio']:.1f}%<extra></extra>",
+                        ))
+                    fig_sc.update_layout(
+                        height=350, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                        xaxis=dict(title="Izquierda  ←  →  Derecha", color=TEXT2,
+                                   gridcolor=f"{BORDER}66", griddash="dot",
+                                   tickfont=dict(color=MUTED, size=9)),
+                        yaxis=dict(title="% Voto", color=TEXT2,
+                                   gridcolor=f"{BORDER}66", griddash="dot",
+                                   tickfont=dict(color=MUTED, size=9), ticksuffix="%"),
+                        margin=dict(t=15, b=40, l=50, r=10),
+                    )
+                    st.plotly_chart(fig_sc, use_container_width=True, config={"displayModeBar": False})
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# TAB 2 — ESTIMACIONES FUTURAS (NOWCASTING)
+# TAB 2 — ESTIMACIONES FUTURAS
 # ═════════════════════════════════════════════════════════════════════════════
 with tab_futuras:
-    st.markdown('<div class="section-title">Proyección Electoral — Próximas Elecciones</div>', unsafe_allow_html=True)
-    st.markdown("""
-    Estimación agregada de intención de voto basada en el modelo de nowcasting.
-    Datos procedentes de `estimaciones_voto_agregadas` con corrección de *house effects* y decay temporal.
-    """)
+    _section_header("Proyeccion Electoral — Nowcasting", CYAN)
 
     df_nc = cargar_nowcasting()
-
     if df_nc.empty:
-        st.info("""
-        **Sin datos de nowcasting.** Ejecuta el pipeline de modelos:
-        ```bash
-        python -m pipelines.fase2_modelos
-        ```
-        """)
+        st.info("Sin datos de nowcasting. Ejecuta el pipeline de modelos.")
     else:
-        # ── Tarjetas de estimación ────────────────────────────────────────────
-        top_n = min(len(df_nc), 8)
-        df_nc_top = df_nc.head(top_n)
-        cols_nc = st.columns(min(top_n, 4))
-        for i, (_, row) in enumerate(df_nc_top.iterrows()):
-            color = _color_partido(row["partido_siglas"])
-            ic_str = f"IC [{row['ic_95_inf']:.1f}, {row['ic_95_sup']:.1f}]"
+        df_nc_sorted = df_nc.sort_values("estimacion_pct", ascending=False)
+
+        # Tarjetas de estimacion
+        n_show = min(len(df_nc_sorted), 8)
+        cols_nc = st.columns(min(n_show, 4))
+        for i, (_, row) in enumerate(df_nc_sorted.head(n_show).iterrows()):
+            color = _color(row["partido_siglas"])
+            ic_str = f"[{row['ic_95_inf']:.1f} - {row['ic_95_sup']:.1f}]"
             with cols_nc[i % 4]:
                 st.markdown(f"""
-                <div class="partido-card" style="border-top:4px solid {color}">
-                    <div style="font-weight:700;font-size:1rem;color:{TEXT}">{row['partido_siglas']}</div>
-                    <div style="font-size:1.6rem;font-weight:800;color:{color}">{row['estimacion_pct']:.1f}%</div>
-                    <div style="color:{MUTED};font-size:.75rem">{ic_str}</div>
+                <div class="glass" style="text-align:center;margin-bottom:.5rem;
+                            border-top:3px solid {color}">
+                    <div style="font-size:.62rem;font-weight:700;color:{MUTED};
+                                letter-spacing:.08em">{row['partido_siglas']}</div>
+                    <div style="font-size:1.6rem;font-weight:900;color:{color};
+                                font-family:'JetBrains Mono',monospace">{row['estimacion_pct']:.1f}%</div>
+                    <div style="font-size:.55rem;color:{MUTED};margin-top:.2rem;
+                                font-family:'JetBrains Mono',monospace">IC 95% {ic_str}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
-        st.divider()
+        st.markdown(f"<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
-        # ── Gráfico de barras con IC ──────────────────────────────────────────
-        col_barra, col_hem2 = st.columns(2)
+        col_b, col_h = st.columns(2, gap="large")
 
-        with col_barra:
-            st.markdown('<div class="section-title">% Voto Estimado con IC 95%</div>', unsafe_allow_html=True)
+        with col_b:
+            _section_header("% Voto Estimado con IC 95%", BLUE)
             fig_nc = go.Figure()
-            for _, row in df_nc_top.iterrows():
-                color = _color_partido(row["partido_siglas"])
+            for _, row in df_nc_sorted.iterrows():
+                color = _color(row["partido_siglas"])
+                r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
                 fig_nc.add_trace(go.Bar(
                     name=row["partido_siglas"],
-                    x=[row["partido_siglas"]],
-                    y=[row["estimacion_pct"]],
+                    x=[row["partido_siglas"]], y=[row["estimacion_pct"]],
                     error_y=dict(
-                        type="data",
-                        symmetric=False,
-                        array=[max(0.0, row["ic_95_sup"] - row["estimacion_pct"])],
-                        arrayminus=[max(0.0, row["estimacion_pct"] - row["ic_95_inf"])],
-                        color=BORD, thickness=2,
+                        type="data", symmetric=False,
+                        array=[max(0, row["ic_95_sup"] - row["estimacion_pct"])],
+                        arrayminus=[max(0, row["estimacion_pct"] - row["ic_95_inf"])],
+                        color=f"rgba({r_c},{g_c},{b_c},0.5)", thickness=1.5, width=4,
                     ),
                     text=[f"{row['estimacion_pct']:.1f}%"],
                     textposition="outside",
-                    marker_color=color,
+                    textfont=dict(color=TEXT, size=10, family="JetBrains Mono"),
+                    marker=dict(color=f"rgba({r_c},{g_c},{b_c},0.75)",
+                                line=dict(color=color, width=1.5)),
                 ))
             fig_nc.update_layout(
-                barmode="group",
-                height=400,
-                xaxis_title="Partido",
-                yaxis_title="% Voto estimado",
-                plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+                barmode="group", height=400,
+                plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 showlegend=False,
-                margin=dict(t=30, b=20),
+                xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
+                yaxis=dict(color=TEXT2, gridcolor=f"{BORDER}88", griddash="dot",
+                           tickfont=dict(size=9, color=MUTED), ticksuffix="%"),
+                margin=dict(t=20, b=20, l=10, r=10),
             )
-            st.plotly_chart(fig_nc, use_container_width=True)
+            st.plotly_chart(fig_nc, use_container_width=True, config={"displayModeBar": False})
 
-        with col_hem2:
-            st.markdown('<div class="section-title">Hemiciclo Proyectado</div>', unsafe_allow_html=True)
+        with col_h:
+            _section_header("Hemiciclo Proyectado (350 esc.)", PURPLE)
             total_escanos = 350
-            pct_sum = df_nc_top["estimacion_pct"].sum()
+            df_hem2 = df_nc_sorted[df_nc_sorted["estimacion_pct"] >= 2.0].copy()
+            pct_sum = df_hem2["estimacion_pct"].sum()
             if pct_sum > 0:
-                df_hem2 = df_nc_top.copy()
-                df_hem2 = df_hem2[df_hem2["estimacion_pct"] >= 3.0]
                 df_hem2["escanos_est"] = (
-                    df_hem2["estimacion_pct"] / df_hem2["estimacion_pct"].sum() * total_escanos
+                    df_hem2["estimacion_pct"] / pct_sum * total_escanos
                 ).round(0).astype(int)
                 partidos_hem2 = [
-                    (row["partido_siglas"], int(row["escanos_est"]), _color_partido(row["partido_siglas"]))
+                    (row["partido_siglas"], int(row["escanos_est"]), _color(row["partido_siglas"]))
                     for _, row in df_hem2.iterrows()
                 ]
-                orden_ideo = ["CUP", "EH Bildu", "EH_BILDU", "BNG", "ERC", "PODEMOS", "UP", "IU", "SUMAR", "PSOE", "PNV", "JUNTS", "JxCAT", "CS", "CC", "UPN", "PP", "VOX"]
-                partidos_hem2.sort(key=lambda x: orden_ideo.index(x[0]) if x[0] in orden_ideo else 99)
-                st.plotly_chart(hemiciclo_chart(partidos_hem2), use_container_width=True)
+                partidos_hem2.sort(key=lambda x: ORDEN_IDEOLOGICO.index(x[0])
+                                   if x[0] in ORDEN_IDEOLOGICO else 99)
+                st.plotly_chart(hemiciclo_chart(partidos_hem2), use_container_width=True,
+                               config={"displayModeBar": False})
 
-                # Bloques
-                izq_partidos  = ["PSOE", "SUMAR", "EH Bildu", "ERC", "BNG", "CUP"]
-                der_partidos  = ["PP", "VOX", "CS"]
-                esc_izq = df_hem2[df_hem2["partido_siglas"].isin(izq_partidos)]["escanos_est"].sum()
-                esc_der = df_hem2[df_hem2["partido_siglas"].isin(der_partidos)]["escanos_est"].sum()
+                izq_p = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP"]
+                der_p = ["PP", "VOX", "CS"]
+                esc_izq = int(df_hem2[df_hem2["partido_siglas"].isin(izq_p)]["escanos_est"].sum())
+                esc_der = int(df_hem2[df_hem2["partido_siglas"].isin(der_p)]["escanos_est"].sum())
                 c1, c2 = st.columns(2)
                 with c1:
-                    st.metric(
-                        "Bloque izquierda", int(esc_izq),
-                        delta="mayoría" if esc_izq >= 176 else f"{176 - esc_izq} para mayoría",
-                        delta_color="normal" if esc_izq >= 176 else "inverse",
-                    )
+                    st.metric("Bloque Izquierda", esc_izq,
+                              delta="mayoria" if esc_izq >= 176 else f"{176-esc_izq} para mayoria",
+                              delta_color="normal" if esc_izq >= 176 else "inverse")
                 with c2:
-                    st.metric(
-                        "Bloque derecha", int(esc_der),
-                        delta="mayoría" if esc_der >= 176 else f"{176 - esc_der} para mayoría",
-                        delta_color="normal" if esc_der >= 176 else "inverse",
-                    )
-            else:
-                st.info("Sin datos suficientes para proyectar el hemiciclo.")
+                    st.metric("Bloque Derecha", esc_der,
+                              delta="mayoria" if esc_der >= 176 else f"{176-esc_der} para mayoria",
+                              delta_color="normal" if esc_der >= 176 else "inverse")
 
-        st.divider()
-
-        # ── Tabla detallada ───────────────────────────────────────────────────
-        st.markdown('<div class="section-title">Detalle de Estimaciones</div>', unsafe_allow_html=True)
-        cols_show = [c for c in ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup", "n_encuestas"] if c in df_nc.columns]
+        # Tabla detallada
+        st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
+        _section_header("Detalle de Estimaciones", CYAN)
+        cols_show = [c for c in ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup", "n_encuestas"]
+                     if c in df_nc.columns]
         st.dataframe(
-            df_nc[cols_show].rename(columns={
+            df_nc_sorted[cols_show].rename(columns={
                 "partido_siglas": "Partido",
-                "estimacion_pct": "Estimación (%)",
+                "estimacion_pct": "Estimacion (%)",
                 "ic_95_inf": "IC 95% Inf",
                 "ic_95_sup": "IC 95% Sup",
                 "n_encuestas": "N Encuestas",
             }).round(2),
-            hide_index=True,
-            use_container_width=True,
+            hide_index=True, use_container_width=True,
         )
-        st.caption("Nowcasting: agregación con decay exp(−λ·días), corrección house effects, ponderación √N muestra.")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# TAB 3 — COMPARATIVA HISTÓRICA
+# TAB 3 — MAPA PROVINCIAL
+# ═════════════════════════════════════════════════════════════════════════════
+with tab_mapa:
+    _section_header("Distribucion Territorial por Provincias", PURPLE)
+
+    if eleccion_id is None:
+        st.info("Selecciona una eleccion en la barra lateral.")
+    else:
+        df_prov = cargar_resultados_provinciales(eleccion_id)
+
+        if df_prov.empty:
+            st.warning("Sin datos provinciales para esta eleccion.")
+        else:
+            # Selector de vista
+            col_ctrl1, col_ctrl2 = st.columns([1, 2])
+            with col_ctrl1:
+                vista = st.radio(
+                    "Tipo de vista",
+                    ["Partido ganador", "Por partido"],
+                    horizontal=True, key="vista_mapa",
+                )
+            partido_mapa = None
+            if vista == "Por partido":
+                with col_ctrl2:
+                    partidos_disp = sorted(df_prov["siglas"].unique().tolist())
+                    partido_mapa = st.selectbox("Selecciona partido", partidos_disp, key="partido_mapa")
+
+            # ── Mapa choropleth ──────────────────────────────────────────────
+            fig_map = _build_choropleth(df_prov, partido_filter=partido_mapa)
+            if fig_map:
+                st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
+            else:
+                st.warning("No se pudo generar el mapa. Verifica que el GeoJSON existe en dashboard/data/")
+
+            st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
+
+            # ── Ranking provincial ───────────────────────────────────────────
+            col_rank, col_detail = st.columns([1, 1], gap="large")
+
+            with col_rank:
+                _section_header("Escanos por Provincia", CYAN)
+                # Aggregate: sum seats per province for the winning party
+                partido_rank = partido_mapa or "PP"
+                partidos_avail = sorted(df_prov["siglas"].unique().tolist())
+                if partido_mapa is None:
+                    partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
+
+                df_rank = df_prov[df_prov["siglas"] == partido_rank].copy()
+                df_rank = df_rank.sort_values("escanos", ascending=True)
+                df_rank = df_rank[df_rank["escanos"] > 0]
+
+                if not df_rank.empty:
+                    color = _color(partido_rank)
+                    r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+                    fig_rank = go.Figure(go.Bar(
+                        y=df_rank["provincia"],
+                        x=df_rank["escanos"],
+                        orientation="h",
+                        marker=dict(
+                            color=f"rgba({r_c},{g_c},{b_c},0.7)",
+                            line=dict(color=color, width=1),
+                        ),
+                        text=df_rank["escanos"].astype(int),
+                        textposition="outside",
+                        textfont=dict(color=TEXT, size=9, family="JetBrains Mono"),
+                    ))
+                    fig_rank.update_layout(
+                        height=max(380, len(df_rank) * 24),
+                        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                        xaxis=dict(title="Escanos", color=TEXT2,
+                                   gridcolor=f"{BORDER}66", griddash="dot",
+                                   tickfont=dict(color=MUTED, size=9)),
+                        yaxis=dict(color=TEXT2, tickfont=dict(color=TEXT2, size=9)),
+                        margin=dict(t=10, b=30, l=120, r=40), showlegend=False,
+                    )
+                    st.plotly_chart(fig_rank, use_container_width=True, config={"displayModeBar": False})
+                else:
+                    st.info(f"{partido_rank} no obtuvo escanos en ninguna provincia.")
+
+            with col_detail:
+                _section_header("Detalle por Comunidad Autonoma", BLUE)
+                ccaa_list = sorted(df_prov["ccaa"].dropna().unique().tolist())
+                if ccaa_list:
+                    ccaa_sel = st.selectbox("Comunidad Autonoma", ccaa_list, key="ccaa_detail")
+                    df_ccaa = df_prov[df_prov["ccaa"] == ccaa_sel]
+
+                    # Multi-party bars for this CCAA
+                    df_ccaa_agg = (
+                        df_ccaa.groupby("siglas")
+                        .agg(escanos_sum=("escanos", "sum"), pct_media=("porcentaje", "mean"))
+                        .reset_index()
+                        .sort_values("escanos_sum", ascending=False)
+                    )
+                    if not df_ccaa_agg.empty:
+                        colors_ccaa = [_color(s) for s in df_ccaa_agg["siglas"]]
+                        fig_ccaa = go.Figure(go.Bar(
+                            x=df_ccaa_agg["siglas"],
+                            y=df_ccaa_agg["escanos_sum"],
+                            marker=dict(
+                                color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)"
+                                       for c in colors_ccaa],
+                                line=dict(color=colors_ccaa, width=1.5),
+                            ),
+                            text=df_ccaa_agg["escanos_sum"].astype(int),
+                            textposition="outside",
+                            textfont=dict(color=TEXT, size=10, family="JetBrains Mono"),
+                        ))
+                        fig_ccaa.update_layout(
+                            title=dict(text=f"Escanos en {ccaa_sel}",
+                                       font=dict(color=TEXT2, size=12)),
+                            height=350,
+                            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                            xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
+                            yaxis=dict(color=TEXT2, gridcolor=f"{BORDER}66", griddash="dot",
+                                       tickfont=dict(size=9, color=MUTED)),
+                            margin=dict(t=35, b=20, l=10, r=10), showlegend=False,
+                        )
+                        st.plotly_chart(fig_ccaa, use_container_width=True, config={"displayModeBar": False})
+
+                    # Province breakdown table
+                    provinces_in_ccaa = sorted(df_ccaa["provincia"].unique().tolist())
+                    if len(provinces_in_ccaa) > 1:
+                        for prov in provinces_in_ccaa:
+                            df_p = df_ccaa[df_ccaa["provincia"] == prov].sort_values("escanos", ascending=False)
+                            pills = ""
+                            for _, rr in df_p.head(4).iterrows():
+                                c = _color(rr["siglas"])
+                                pills += f'<span class="partido-pill" style="background:{c}15;border:1px solid {c}44;color:{c}">{rr["siglas"]} {int(rr["escanos"])}</span> '
+                            st.markdown(f"""
+                            <div class="glass" style="padding:.5rem .8rem;margin-bottom:.3rem;
+                                        display:flex;justify-content:space-between;align-items:center">
+                                <span style="font-size:.75rem;font-weight:600;color:{TEXT}">{prov}</span>
+                                <div>{pills}</div>
+                            </div>
+                            """, unsafe_allow_html=True)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# TAB 4 — COMPARATIVA HISTORICA
 # ═════════════════════════════════════════════════════════════════════════════
 with tab_hist:
-    st.markdown('<div class="section-title">Tendencias Históricas por Partido</div>', unsafe_allow_html=True)
+    _section_header("Tendencias Historicas por Partido", AMBER)
 
     tipo_hist_idx = st.selectbox(
-        "Tipo de elección para comparativa",
+        "Tipo de eleccion para comparativa",
         range(len(TIPOS_ELECCION)),
-        format_func=lambda i: TIPOS_ELECCION[i],
+        format_func=lambda i: TIPOS_ELECCION[i].title(),
         key="tipo_hist",
     )
     tipo_hist_db = TIPOS_DB[tipo_hist_idx]
@@ -529,7 +746,6 @@ with tab_hist:
     if df_hist_elec.empty:
         st.info(f"No hay elecciones '{TIPOS_ELECCION[tipo_hist_idx]}' registradas.")
     else:
-        # Cargar resultados de todas las elecciones del tipo
         registros = []
         for _, row_e in df_hist_elec.iterrows():
             df_r = cargar_resultados_nacionales(row_e["id"])
@@ -539,7 +755,6 @@ with tab_hist:
             for _, row_r in df_r.iterrows():
                 registros.append({
                     "fecha": fecha_str,
-                    "eleccion_id": row_e["id"],
                     "descripcion": row_e.get("descripcion") or fecha_str,
                     "siglas": row_r["siglas"],
                     "pct_medio": row_r.get("pct_medio"),
@@ -547,46 +762,49 @@ with tab_hist:
                 })
 
         if not registros:
-            st.info("Sin resultados históricos cargados para este tipo de elección.")
+            st.info("Sin resultados historicos para este tipo.")
         else:
             df_trend = pd.DataFrame(registros)
             df_trend["fecha"] = pd.to_datetime(df_trend["fecha"], errors="coerce")
             df_trend = df_trend.dropna(subset=["pct_medio"]).sort_values("fecha")
 
             partidos_disp = sorted(df_trend["siglas"].unique().tolist())
-            partidos_def  = partidos_disp[:min(6, len(partidos_disp))]
-            partidos_sel  = st.multiselect("Partidos a mostrar", partidos_disp, default=partidos_def, key="hist_partidos")
+            partidos_def = partidos_disp[:min(6, len(partidos_disp))]
+            partidos_sel = st.multiselect("Partidos", partidos_disp, default=partidos_def, key="hist_p")
 
             if partidos_sel:
-                col_linea, col_barras = st.columns(2)
+                col_l, col_b = st.columns(2, gap="large")
 
-                with col_linea:
-                    st.markdown('<div class="section-title">% Voto — Evolución Histórica</div>', unsafe_allow_html=True)
+                with col_l:
+                    _section_header("% Voto — Evolucion", CYAN)
                     fig_trend = go.Figure()
                     for siglas in partidos_sel:
                         df_p = df_trend[df_trend["siglas"] == siglas].sort_values("fecha")
                         if df_p.empty:
                             continue
-                        color = _color_partido(siglas)
+                        color = _color(siglas)
                         fig_trend.add_trace(go.Scatter(
-                            x=df_p["fecha"],
-                            y=df_p["pct_medio"],
-                            name=siglas,
-                            mode="lines+markers",
+                            x=df_p["fecha"], y=df_p["pct_medio"],
+                            name=siglas, mode="lines+markers",
                             line=dict(color=color, width=2.5),
-                            marker=dict(size=8, color=color),
+                            marker=dict(size=8, color=color, line=dict(width=1, color=BG)),
                         ))
                     fig_trend.update_layout(
-                        height=400, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                        xaxis_title="Fecha", yaxis_title="% Voto",
+                        height=400, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                        xaxis=dict(color=TEXT2, gridcolor=f"{BORDER}66", griddash="dot",
+                                   tickfont=dict(color=MUTED, size=9)),
+                        yaxis=dict(title="% Voto", color=TEXT2, gridcolor=f"{BORDER}66", griddash="dot",
+                                   tickfont=dict(color=MUTED, size=9), ticksuffix="%"),
                         hovermode="x unified",
-                        legend=dict(orientation="h", y=-0.2),
-                        margin=dict(t=20, b=60),
+                        hoverlabel=dict(bgcolor=BG2, font_size=11, bordercolor=BORDER),
+                        legend=dict(orientation="h", y=-0.18, font=dict(color=TEXT2, size=10),
+                                    bgcolor="rgba(0,0,0,0)"),
+                        margin=dict(t=20, b=60, l=50, r=10),
                     )
-                    st.plotly_chart(fig_trend, use_container_width=True)
+                    st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
 
-                with col_barras:
-                    st.markdown('<div class="section-title">Escaños Históricos</div>', unsafe_allow_html=True)
+                with col_b:
+                    _section_header("Escanos Historicos", PURPLE)
                     df_esc_hist = df_trend[
                         df_trend["siglas"].isin(partidos_sel) &
                         df_trend["escanos_totales"].notna()
@@ -597,193 +815,44 @@ with tab_hist:
                             df_ps = df_esc_hist[df_esc_hist["siglas"] == siglas].sort_values("fecha")
                             if df_ps.empty:
                                 continue
-                            color = _color_partido(siglas)
+                            color = _color(siglas)
+                            r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
                             fig_esc.add_trace(go.Bar(
                                 x=df_ps["fecha"].dt.strftime("%Y"),
                                 y=df_ps["escanos_totales"].astype(int),
                                 name=siglas,
-                                marker_color=color,
+                                marker=dict(
+                                    color=f"rgba({r_c},{g_c},{b_c},0.75)",
+                                    line=dict(color=color, width=1),
+                                ),
                             ))
                         fig_esc.update_layout(
-                            barmode="group",
-                            height=400, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                            xaxis_title="Año", yaxis_title="Escaños",
-                            legend=dict(orientation="h", y=-0.2),
-                            margin=dict(t=20, b=60),
+                            barmode="group", height=400,
+                            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                            xaxis=dict(title="Ano", color=TEXT2, showgrid=False,
+                                       tickfont=dict(color=TEXT2, size=10)),
+                            yaxis=dict(title="Escanos", color=TEXT2,
+                                       gridcolor=f"{BORDER}66", griddash="dot",
+                                       tickfont=dict(color=MUTED, size=9)),
+                            legend=dict(orientation="h", y=-0.18, font=dict(color=TEXT2, size=10),
+                                        bgcolor="rgba(0,0,0,0)"),
+                            margin=dict(t=20, b=60, l=50, r=10),
                         )
-                        st.plotly_chart(fig_esc, use_container_width=True)
-                    else:
-                        st.info("Sin datos de escaños históricos.")
+                        st.plotly_chart(fig_esc, use_container_width=True, config={"displayModeBar": False})
 
                 # Tabla resumen
-                st.markdown('<div class="section-title">Tabla Comparativa</div>', unsafe_allow_html=True)
+                st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
+                _section_header("Tabla Comparativa", BLUE)
                 df_pivot = df_trend[df_trend["siglas"].isin(partidos_sel)].pivot_table(
                     index="siglas", columns="descripcion", values="pct_medio"
                 ).round(2)
                 st.dataframe(df_pivot, use_container_width=True)
 
-
-# ═════════════════════════════════════════════════════════════════════════════
-# TAB 4 — MAPA POR CCAA
-# ═════════════════════════════════════════════════════════════════════════════
-with tab_ccaa:
-    st.markdown('<div class="section-title">Resultados por Comunidad Autónoma</div>', unsafe_allow_html=True)
-
-    if eleccion_id is None:
-        st.info("Selecciona una elección en la barra lateral.")
-    else:
-        df_prov_ccaa = cargar_resultados_electorales(eleccion_id)
-
-        if df_prov_ccaa.empty:
-            st.warning("Sin datos provinciales directos para esta elección. Mostrando estimación territorial basada en histórico.")
-            df_nat_actual = cargar_resultados_nacionales(eleccion_id)
-            if df_nat_actual.empty:
-                st.info("No hay datos suficientes para construir estimación por CCAA.")
-            else:
-                # Busca una elección previa del mismo tipo con detalle territorial
-                df_hist = cargar_elecciones(tipo_db)
-                df_hist = df_hist[df_hist["id"] != eleccion_id] if "id" in df_hist.columns else df_hist
-                base_territorial = pd.DataFrame()
-                if not df_hist.empty:
-                    for _, eh in df_hist.sort_values("fecha", ascending=False).iterrows():
-                        base_territorial = cargar_resultados_electorales(int(eh["id"]))
-                        if not base_territorial.empty and base_territorial["ccaa"].notna().any():
-                            break
-                if base_territorial.empty:
-                    st.info("No hay histórico territorial para estimar reparto por CCAA.")
-                else:
-                    partido_ccaa = st.selectbox("Partido", sorted(df_nat_actual["siglas"].unique().tolist()), key="partido_ccaa_fallback")
-                    pct_nat = float(
-                        df_nat_actual[df_nat_actual["siglas"] == partido_ccaa]["pct_medio"].head(1).fillna(0).iloc[0]
-                    )
-                    pct_sondeos = _media_sondeos_partido(partido_ccaa)
-                    if pct_sondeos is not None and pct_sondeos > 0:
-                        pct_nat = (pct_nat * 0.6) + (pct_sondeos * 0.4)
-                    df_base_p = base_territorial[base_territorial["siglas"] == partido_ccaa].copy()
-                    if df_base_p.empty:
-                        st.info(f"No hay base territorial histórica para {partido_ccaa}.")
-                    else:
-                        df_ccaa_share = (
-                            df_base_p.groupby("ccaa")
-                            .agg(base_pct=("porcentaje", "mean"))
-                            .reset_index()
-                        )
-                        total_base = float(df_ccaa_share["base_pct"].sum()) or 1.0
-                        df_ccaa_share["share"] = df_ccaa_share["base_pct"] / total_base
-                        df_ccaa_share["pct_estimado"] = df_ccaa_share["share"] * pct_nat
-                        color = _color_partido(partido_ccaa)
-                        fig_fb = go.Figure(go.Bar(
-                            x=df_ccaa_share["pct_estimado"].round(2),
-                            y=df_ccaa_share["ccaa"],
-                            orientation="h",
-                            marker_color=color,
-                            text=df_ccaa_share["pct_estimado"].round(1).astype(str) + "%",
-                            textposition="outside",
-                        ))
-                        fig_fb.update_layout(
-                            height=max(380, len(df_ccaa_share) * 28),
-                            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                            xaxis_title="% voto estimado CCAA",
-                            yaxis_title=None,
-                            margin=dict(t=10, b=10, l=150, r=60),
-                            showlegend=False,
-                        )
-                        st.plotly_chart(fig_fb, use_container_width=True)
-                        callejero = _cargar_callejero_pais()
-                        if not callejero.empty:
-                            st.caption("Estimación territorial ajustada con sondeos recientes y dataset de comportamiento electoral territorial (fuente externa).")
-                        else:
-                            st.caption("Estimación territorial basada en oficial histórico + ajuste de sondeos recientes.")
-        else:
-            # ── Selector de partido ────────────────────────────────────────────
-            partidos_disp_ccaa = sorted(df_prov_ccaa["siglas"].unique().tolist())
-            partido_ccaa = st.selectbox("Partido", partidos_disp_ccaa, key="partido_ccaa")
-
-            df_ccaa_agg = (
-                df_prov_ccaa[df_prov_ccaa["siglas"] == partido_ccaa]
-                .groupby("ccaa")
-                .agg(pct_media=("porcentaje", "mean"), escanos_sum=("escanos", "sum"))
-                .reset_index()
-                .sort_values("pct_media", ascending=True)
-            )
-
-            if df_ccaa_agg.empty:
-                st.info(f"Sin datos de {partido_ccaa} por CCAA.")
-            else:
-                color = _color_partido(partido_ccaa)
-                col_c1, col_c2 = st.columns(2)
-
-                with col_c1:
-                    st.markdown(f'<div class="section-title">% Voto de {partido_ccaa} por CCAA</div>', unsafe_allow_html=True)
-                    fig_ccaa = go.Figure(go.Bar(
-                        x=df_ccaa_agg["pct_media"].round(1),
-                        y=df_ccaa_agg["ccaa"],
-                        orientation="h",
-                        marker_color=color,
-                        text=df_ccaa_agg["pct_media"].round(1).astype(str) + "%",
-                        textposition="outside",
-                    ))
-                    fig_ccaa.update_layout(
-                        height=max(350, len(df_ccaa_agg) * 28),
-                        plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                        xaxis_title="% Voto medio",
-                        yaxis_title=None,
-                        margin=dict(t=10, b=10, l=150, r=60),
-                        showlegend=False,
-                    )
-                    st.plotly_chart(fig_ccaa, use_container_width=True)
-
-                with col_c2:
-                    st.markdown(f'<div class="section-title">Escaños de {partido_ccaa} por CCAA</div>', unsafe_allow_html=True)
-                    df_esc_ccaa = df_ccaa_agg[df_ccaa_agg["escanos_sum"] > 0].sort_values("escanos_sum", ascending=True)
-                    if not df_esc_ccaa.empty:
-                        fig_esc_ccaa = go.Figure(go.Bar(
-                            x=df_esc_ccaa["escanos_sum"].astype(int),
-                            y=df_esc_ccaa["ccaa"],
-                            orientation="h",
-                            marker_color=color,
-                            text=df_esc_ccaa["escanos_sum"].astype(int),
-                            textposition="outside",
-                        ))
-                        fig_esc_ccaa.update_layout(
-                            height=max(350, len(df_esc_ccaa) * 28),
-                            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                            xaxis_title="Escaños",
-                            yaxis_title=None,
-                            margin=dict(t=10, b=10, l=150, r=60),
-                            showlegend=False,
-                        )
-                        st.plotly_chart(fig_esc_ccaa, use_container_width=True)
-                    else:
-                        st.info(f"Sin escaños asignados a {partido_ccaa} en esta elección.")
-
-                # ── Comparativa multi-partido por CCAA ─────────────────────────
-                st.markdown('<div class="section-title">Comparativa Multi-Partido por CCAA</div>', unsafe_allow_html=True)
-                ccaa_disponibles = sorted(df_prov_ccaa["ccaa"].dropna().unique().tolist())
-                ccaa_sel = st.selectbox("Comunidad Autónoma", ccaa_disponibles, key="ccaa_sel")
-
-                df_ccaa_partidos = (
-                    df_prov_ccaa[df_prov_ccaa["ccaa"] == ccaa_sel]
-                    .groupby("siglas")
-                    .agg(pct_media=("porcentaje", "mean"))
-                    .reset_index()
-                    .sort_values("pct_media", ascending=False)
-                )
-
-                if not df_ccaa_partidos.empty:
-                    colores_multi = [_color_partido(s) for s in df_ccaa_partidos["siglas"]]
-                    fig_multi = go.Figure(go.Bar(
-                        x=df_ccaa_partidos["siglas"],
-                        y=df_ccaa_partidos["pct_media"].round(1),
-                        marker_color=colores_multi,
-                        text=df_ccaa_partidos["pct_media"].round(1).astype(str) + "%",
-                        textposition="outside",
-                    ))
-                    fig_multi.update_layout(
-                        title=f"Resultados en {ccaa_sel}",
-                        height=380, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                        xaxis_title="Partido", yaxis_title="% Voto",
-                        margin=dict(t=40, b=20),
-                        showlegend=False,
-                    )
-                    st.plotly_chart(fig_multi, use_container_width=True)
+# ── Footer ───────────────────────────────────────────────────────────────────
+st.markdown(f"""
+<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);
+            margin:1.5rem 0 .5rem"></div>
+<div style="text-align:center;font-size:.58rem;color:{MUTED};padding:.3rem 0">
+    ElectSim Espana v2.0 &middot; Mapa Electoral &middot; Politeia Analytics
+</div>
+""", unsafe_allow_html=True)
