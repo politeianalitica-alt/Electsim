@@ -485,8 +485,7 @@ fig_ani = go.Figure(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(
-            showgrid=False, color=TEXT2,
-            tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
+            showgrid=False, tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
             categoryorder="array",
             categoryarray=df_nc["partido_siglas"].tolist(),
             fixedrange=True,
@@ -618,11 +617,10 @@ with col_seats:
             height=max(380, len(df_seats) * 38),
             barmode="overlay",
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(title="Escanos", color=TEXT2,
-                       gridcolor="rgba(30,41,59,0.5)", gridwidth=1,
+            xaxis=dict(title="Escanos", gridcolor="rgba(30,41,59,0.5)", gridwidth=1,
                        range=[0, max_seats],
                        tickfont=dict(color=MUTED, size=9)),
-            yaxis=dict(color=TEXT2, tickfont=dict(color=TEXT2, size=10)),
+            yaxis=dict(tickfont=dict(color=TEXT2, size=10)),
             margin=dict(t=10, b=30, l=10, r=120), showlegend=False,
         )
         st.plotly_chart(fig_seats, use_container_width=True, config={"displayModeBar": False})
@@ -710,10 +708,9 @@ with col_ts:
         fig_ts.update_layout(
             height=480,
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(color=TEXT2, gridcolor="rgba(30,41,59,0.5)",
+            xaxis=dict(gridcolor="rgba(30,41,59,0.5)",
                        tickfont=dict(color=MUTED, size=9)),
-            yaxis=dict(title="% Voto", color=TEXT2,
-                       gridcolor="rgba(30,41,59,0.5)",
+            yaxis=dict(title="% Voto", gridcolor="rgba(30,41,59,0.5)",
                        tickfont=dict(color=MUTED, size=9), ticksuffix="%"),
             hovermode="x unified",
             hoverlabel=dict(bgcolor=BG2, font=dict(size=11), bordercolor=BORDER),

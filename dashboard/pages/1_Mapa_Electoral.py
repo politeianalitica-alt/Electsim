@@ -395,8 +395,8 @@ with tab_pasadas:
                 fig_bar.update_layout(
                     height=380,
                     plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                    xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
-                    yaxis=dict(color=TEXT2, gridcolor="rgba(30,41,59,0.53)",
+                    xaxis=dict(showgrid=False, tickfont=dict(size=10)),
+                    yaxis=dict(gridcolor="rgba(30,41,59,0.53)",
                                tickfont=dict(size=9, color=MUTED), ticksuffix="%"),
                     margin=dict(t=20, b=20, l=10, r=10), showlegend=False,
                 )
@@ -465,11 +465,9 @@ with tab_pasadas:
                         ))
                     fig_sc.update_layout(
                         height=350, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                        xaxis=dict(title="Izquierda  ←  →  Derecha", color=TEXT2,
-                                   gridcolor="rgba(30,41,59,0.40)",
+                        xaxis=dict(title="Izquierda  ←  →  Derecha", gridcolor="rgba(30,41,59,0.40)",
                                    tickfont=dict(color=MUTED, size=9)),
-                        yaxis=dict(title="% Voto", color=TEXT2,
-                                   gridcolor="rgba(30,41,59,0.40)",
+                        yaxis=dict(title="% Voto", gridcolor="rgba(30,41,59,0.40)",
                                    tickfont=dict(color=MUTED, size=9), ticksuffix="%"),
                         margin=dict(t=15, b=40, l=50, r=10),
                     )
@@ -536,8 +534,8 @@ with tab_futuras:
                 barmode="group", height=400,
                 plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 showlegend=False,
-                xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
-                yaxis=dict(color=TEXT2, gridcolor="rgba(30,41,59,0.53)",
+                xaxis=dict(showgrid=False, tickfont=dict(size=10)),
+                yaxis=dict(gridcolor="rgba(30,41,59,0.53)",
                            tickfont=dict(size=9, color=MUTED), ticksuffix="%"),
                 margin=dict(t=20, b=20, l=10, r=10),
             )
@@ -662,10 +660,9 @@ with tab_mapa:
                     fig_rank.update_layout(
                         height=max(380, len(df_rank) * 24),
                         plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                        xaxis=dict(title="Escanos", color=TEXT2,
-                                   gridcolor="rgba(30,41,59,0.40)",
+                        xaxis=dict(title="Escanos", gridcolor="rgba(30,41,59,0.40)",
                                    tickfont=dict(color=MUTED, size=9)),
-                        yaxis=dict(color=TEXT2, tickfont=dict(color=TEXT2, size=9)),
+                        yaxis=dict(tickfont=dict(color=TEXT2, size=9)),
                         margin=dict(t=10, b=30, l=120, r=40), showlegend=False,
                     )
                     st.plotly_chart(fig_rank, use_container_width=True, config={"displayModeBar": False})
@@ -705,8 +702,8 @@ with tab_mapa:
                                        font=dict(color=TEXT2, size=12)),
                             height=350,
                             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                            xaxis=dict(color=TEXT2, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
-                            yaxis=dict(color=TEXT2, gridcolor="rgba(30,41,59,0.40)",
+                            xaxis=dict(showgrid=False, tickfont=dict(size=10)),
+                            yaxis=dict(gridcolor="rgba(30,41,59,0.40)",
                                        tickfont=dict(size=9, color=MUTED)),
                             margin=dict(t=35, b=20, l=10, r=10), showlegend=False,
                         )
@@ -793,9 +790,9 @@ with tab_hist:
                         ))
                     fig_trend.update_layout(
                         height=400, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                        xaxis=dict(color=TEXT2, gridcolor="rgba(30,41,59,0.40)",
+                        xaxis=dict(gridcolor="rgba(30,41,59,0.40)",
                                    tickfont=dict(color=MUTED, size=9)),
-                        yaxis=dict(title="% Voto", color=TEXT2, gridcolor="rgba(30,41,59,0.40)",
+                        yaxis=dict(title="% Voto", gridcolor="rgba(30,41,59,0.40)",
                                    tickfont=dict(color=MUTED, size=9), ticksuffix="%"),
                         hovermode="x unified",
                         hoverlabel=dict(bgcolor=BG2, font=dict(size=11), bordercolor=BORDER),
@@ -831,10 +828,9 @@ with tab_hist:
                         fig_esc.update_layout(
                             barmode="group", height=400,
                             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                            xaxis=dict(title="Ano", color=TEXT2, showgrid=False,
+                            xaxis=dict(title="Ano", showgrid=False,
                                        tickfont=dict(color=TEXT2, size=10)),
-                            yaxis=dict(title="Escanos", color=TEXT2,
-                                       gridcolor="rgba(30,41,59,0.40)",
+                            yaxis=dict(title="Escanos", gridcolor="rgba(30,41,59,0.40)",
                                        tickfont=dict(color=MUTED, size=9)),
                             legend=dict(orientation="h", y=-0.18, font=dict(color=TEXT2, size=10),
                                         bgcolor="rgba(0,0,0,0)"),

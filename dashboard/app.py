@@ -263,8 +263,7 @@ with col_nc:
             height=340, barmode="group",
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
             xaxis=dict(
-                showgrid=False, color=TEXT2,
-                tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
+                showgrid=False, tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
                 categoryorder="array",
                 categoryarray=df_top["partido_siglas"].tolist(),
                 fixedrange=True,
