@@ -125,7 +125,7 @@ with col_nc:
     """, unsafe_allow_html=True)
 
     if not df_nc.empty:
-        df_top = df_nc.head(8).copy()
+        df_top = df_nc.sort_values("estimacion_pct", ascending=False).copy()
 
         fig = go.Figure()
         for _, row in df_top.iterrows():
@@ -151,9 +151,11 @@ with col_nc:
             ))
 
         fig.update_layout(
-            height=290, barmode="group",
+            height=320, barmode="group",
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(showgrid=False, color=TEXT2, tickfont=dict(size=11, color=TEXT2)),
+            xaxis=dict(showgrid=False, color=TEXT2, tickfont=dict(size=10, color=TEXT2),
+                       categoryorder="array",
+                       categoryarray=df_top["partido_siglas"].tolist()),
             yaxis=dict(gridcolor=BORDER, gridwidth=1, color=TEXT2,
                        range=[0, df_top["ic_95_sup"].max() + 6],
                        tickfont=dict(size=10, color=MUTED)),
