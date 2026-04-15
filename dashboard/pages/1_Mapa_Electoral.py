@@ -164,6 +164,7 @@ def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
     for siglas, escanos, color in partidos_escanos:
         if escanos <= 0:
             continue
+        cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
         angle_span = (escanos / total) * math.pi
         angles = [angle_start + (i + 0.5) * angle_span / max(escanos, 1) for i in range(escanos)]
         rows = [angles[i::n_rows] for i in range(n_rows)]
@@ -175,7 +176,7 @@ def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
             ys = [r * math.sin(a) for a in row_angles]
             traces.append(go.Scatter(
                 x=xs, y=ys, mode="markers",
-                marker=dict(color=color, size=7, line=dict(width=0.5, color=f"{color}88")),
+                marker=dict(color=color, size=7, line=dict(width=0.5, color=f"rgba({cr},{cg},{cb},0.53)")),
                 name=siglas, showlegend=(row_i == 0),
                 hovertemplate=f"{siglas}: {escanos} escanos<extra></extra>",
             ))
@@ -453,13 +454,14 @@ with tab_pasadas:
                     fig_sc = go.Figure()
                     for _, rr in df_ideo.iterrows():
                         c = _color(rr["siglas"])
+                        cr2, cg2, cb2 = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
                         sz = max(12, int(rr.get("escanos_totales", 10) or 10) / 3)
                         fig_sc.add_trace(go.Scatter(
                             x=[rr["eje_izda_dcha"]], y=[rr["pct_medio"]],
                             mode="markers+text", text=[rr["siglas"]],
                             textposition="top center",
                             textfont=dict(color=c, size=10, family="Inter"),
-                            marker=dict(color=f"{c}55", size=sz, line=dict(color=c, width=1.5)),
+                            marker=dict(color=f"rgba({cr2},{cg2},{cb2},0.33)", size=sz, line=dict(color=c, width=1.5)),
                             name=rr["siglas"], showlegend=False,
                             hovertemplate=f"{rr['siglas']}: {rr['pct_medio']:.1f}%<extra></extra>",
                         ))

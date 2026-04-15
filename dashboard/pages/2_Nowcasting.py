@@ -492,7 +492,6 @@ fig_ani = go.Figure(
         ),
         yaxis=dict(
             gridcolor="rgba(30,41,59,0.5)", gridwidth=1,
-            color=TEXT2,
             range=[0, df_nc["ic_95_sup"].max() + 5],
             tickfont=dict(size=10, color=MUTED),
             ticksuffix="%",
