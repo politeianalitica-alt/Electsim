@@ -604,8 +604,13 @@ with col_seats:
 
         # Linea de mayoria absoluta
         fig_seats.add_vline(
-            x=176, line=dict(color=AMBER, width=1.5, dash="dash"),
-            annotation=dict(text="176 mayoria", font=dict(color=AMBER, size=9), x=176),
+            x=176,
+            line_dash="dash",
+            line_color=AMBER,
+            line_width=1.5,
+            annotation_text="176",
+            annotation_font_color=AMBER,
+            annotation_font_size=9,
         )
 
         max_seats = df_seats["high"].max() + 20
@@ -737,11 +742,10 @@ df_tabla["escanos_max"]  = df_tabla["partido_siglas"].map(lambda p: seat_ranges.
 # Delta vs periodo anterior
 if not df_prev.empty:
     prev_map = dict(zip(df_prev["partido_siglas"], df_prev["estimacion_pct"]))
-    df_tabla["delta_semana"] = df_tabla["partido_siglas"].map(
-        lambda p: df_tabla[df_tabla["partido_siglas"] == p]["estimacion_pct"].iloc[0]
-                  - prev_map.get(p, df_tabla[df_tabla["partido_siglas"] == p]["estimacion_pct"].iloc[0])
-        if p in prev_map else 0
-    ).round(2)
+    df_tabla["delta_semana"] = df_tabla.apply(
+        lambda row: round(row["estimacion_pct"] - prev_map.get(row["partido_siglas"], row["estimacion_pct"]), 2),
+        axis=1,
+    )
 else:
     df_tabla["delta_semana"] = 0.0
 
