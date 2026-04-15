@@ -221,9 +221,25 @@ def sidebar_nav():
         st.markdown(f"""
         <div style="padding:1.4rem 1rem 1rem;border-bottom:1px solid {BORDER};margin-bottom:.8rem">
             <div style="display:flex;align-items:center;gap:.6rem">
-                <div style="width:32px;height:32px;background:linear-gradient(135deg,{CYAN},{BLUE});
-                            border-radius:8px;display:flex;align-items:center;justify-content:center;
-                            font-weight:900;font-size:.9rem;color:{BG};flex-shrink:0">ES</div>
+                <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;
+                            box-shadow:0 2px 8px rgba(0,0,0,0.35)">
+                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+                    <rect width="100" height="100" rx="0" fill="#F0A214"/>
+                    <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
+                    <circle cx="22" cy="28" r="5.5" fill="#F0A214"/>
+                    <circle cx="22" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
+                    <circle cx="22" cy="28" r="2.2" fill="#1B3FA8"/>
+                    <circle cx="78" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
+                    <circle cx="78" cy="28" r="5.5" fill="#F0A214"/>
+                    <circle cx="78" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
+                    <circle cx="78" cy="28" r="2.2" fill="#1B3FA8"/>
+                    <rect x="21" y="24" width="58" height="8" fill="#1B3FA8"/>
+                    <rect x="8" y="37" width="84" height="10" rx="2" fill="#1B3FA8"/>
+                    <rect x="14" y="58" width="19" height="30" rx="3" fill="#1B3FA8"/>
+                    <rect x="40" y="50" width="19" height="38" rx="3" fill="#1B3FA8"/>
+                    <rect x="66" y="43" width="19" height="45" rx="3" fill="#1B3FA8"/>
+                  </svg>
+                </div>
                 <div>
                     <div style="font-size:1rem;font-weight:800;color:{TEXT};letter-spacing:-.01em;line-height:1.1">ElectSim</div>
                     <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;color:{MUTED};

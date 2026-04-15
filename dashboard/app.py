@@ -74,6 +74,11 @@ st.markdown(f"""
   from {{ opacity: 0; transform: translateX(-20px); }}
   to   {{ opacity: 1; transform: translateX(0); }}
 }}
+@keyframes logoEntrance {{
+  0%   {{ opacity: 0; transform: scale(0.72) rotate(-6deg); }}
+  65%  {{ opacity: 1; transform: scale(1.08) rotate(2deg); }}
+  100% {{ opacity: 1; transform: scale(1) rotate(0deg); }}
+}}
 
 .es-animate {{ animation: fadeInUp .6s ease-out both; }}
 .es-animate-d1 {{ animation: fadeInUp .6s ease-out .1s both; }}
@@ -121,14 +126,26 @@ st.markdown(f"""
 
     <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
         <div style="display:flex;align-items:center;gap:1.4rem">
-            <!-- Logo placeholder -->
-            <div style="width:56px;height:56px;
-                        background:linear-gradient(135deg,{CYAN},{BLUE},{PURPLE});
-                        border-radius:14px;display:flex;align-items:center;justify-content:center;
-                        font-weight:900;font-size:1.2rem;color:{BG};
-                        box-shadow:0 4px 20px {CYAN}33;
-                        animation:pulseGlow 3s ease infinite;flex-shrink:0">
-                ES
+            <!-- Politeia Analytics Logo -->
+            <div style="width:56px;height:56px;border-radius:14px;overflow:hidden;flex-shrink:0;
+                        box-shadow:0 6px 24px rgba(0,212,255,0.22),0 2px 8px rgba(0,0,0,0.4);
+                        animation:logoEntrance .75s cubic-bezier(0.34,1.56,0.64,1) both,pulseGlow 4s ease 1s infinite">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+                  <rect width="100" height="100" rx="0" fill="#F0A214"/>
+                  <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
+                  <circle cx="22" cy="28" r="5.5" fill="#F0A214"/>
+                  <circle cx="22" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
+                  <circle cx="22" cy="28" r="2.2" fill="#1B3FA8"/>
+                  <circle cx="78" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
+                  <circle cx="78" cy="28" r="5.5" fill="#F0A214"/>
+                  <circle cx="78" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
+                  <circle cx="78" cy="28" r="2.2" fill="#1B3FA8"/>
+                  <rect x="21" y="24" width="58" height="8" fill="#1B3FA8"/>
+                  <rect x="8" y="37" width="84" height="10" rx="2" fill="#1B3FA8"/>
+                  <rect x="14" y="58" width="19" height="30" rx="3" fill="#1B3FA8"/>
+                  <rect x="40" y="50" width="19" height="38" rx="3" fill="#1B3FA8"/>
+                  <rect x="66" y="43" width="19" height="45" rx="3" fill="#1B3FA8"/>
+                </svg>
             </div>
             <div>
                 <div style="font-size:.62rem;font-weight:700;letter-spacing:.25em;color:{CYAN}aa;
