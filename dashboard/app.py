@@ -270,7 +270,7 @@ with col_nc:
                 fixedrange=True,
             ),
             yaxis=dict(
-                gridcolor=f"{BORDER}88", gridwidth=1,
+                gridcolor="rgba(30,41,59,0.53)", gridwidth=1,
                 color=TEXT2,
                 range=[0, df_top["ic_95_sup"].max() + 6],
                 tickfont=dict(size=10, color=MUTED),
