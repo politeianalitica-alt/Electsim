@@ -236,6 +236,52 @@ for idx, (label, value, color, subtitle) in enumerate(kpi_data):
 
 st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
 
+# ── Estimaciones Electorales ──────────────────────────────────────────────────
+import pandas as pd
+
+st.markdown(f"""<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem">
+<div style="width:4px;height:20px;background:linear-gradient({CYAN},{BLUE});border-radius:2px"></div>
+<span style="font-size:.75rem;font-weight:700;color:{CYAN};letter-spacing:.15em;text-transform:uppercase">Estimaciones Electorales</span>
+<div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
+<span style="font-size:.6rem;color:{MUTED};background:{BG3};padding:.2rem .5rem;border-radius:8px;border:1px solid {BORDER}">Nowcasting · Tiempo real</span>
+</div>""", unsafe_allow_html=True)
+
+_df_est = df_nc.sort_values("estimacion_pct", ascending=False) if not df_nc.empty else pd.DataFrame([
+    {"partido_siglas": "PP",      "estimacion_pct": 33.0, "ic_95_inf": 30.5, "ic_95_sup": 35.5},
+    {"partido_siglas": "PSOE",    "estimacion_pct": 28.5, "ic_95_inf": 26.0, "ic_95_sup": 31.0},
+    {"partido_siglas": "VOX",     "estimacion_pct": 12.0, "ic_95_inf":  9.5, "ic_95_sup": 14.5},
+    {"partido_siglas": "SUMAR",   "estimacion_pct": 10.5, "ic_95_inf":  8.0, "ic_95_sup": 13.0},
+    {"partido_siglas": "JUNTS",   "estimacion_pct":  3.5, "ic_95_inf":  2.0, "ic_95_sup":  5.0},
+    {"partido_siglas": "PNV",     "estimacion_pct":  2.8, "ic_95_inf":  1.5, "ic_95_sup":  4.1},
+    {"partido_siglas": "ERC",     "estimacion_pct":  2.5, "ic_95_inf":  1.2, "ic_95_sup":  3.8},
+    {"partido_siglas": "EH Bildu","estimacion_pct":  2.2, "ic_95_inf":  1.0, "ic_95_sup":  3.4},
+])
+
+_est_rows = list(_df_est.head(8).iterrows())
+cols_est = st.columns(len(_est_rows))
+for i, (_, row) in enumerate(_est_rows):
+    color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
+    r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+    delta = row["estimacion_pct"] - row.get("ic_95_inf", row["estimacion_pct"])
+    with cols_est[i]:
+        st.markdown(
+            f'<div style="text-align:center;padding:.75rem .2rem .6rem;'
+            f'background:linear-gradient(180deg,rgba({r},{g},{b},0.11),{BG2});'
+            f'border:1px solid {BORDER};border-top:3px solid {color};'
+            f'border-radius:0 0 10px 10px;transition:all .2s ease">'
+            f'<div style="font-size:.58rem;font-weight:700;color:{MUTED};'
+            f'letter-spacing:.08em;margin-bottom:.25rem">{row["partido_siglas"]}</div>'
+            f'<div style="font-size:1.3rem;font-weight:900;color:{color};'
+            f'font-family:\'JetBrains Mono\',monospace;line-height:1">{row["estimacion_pct"]:.1f}%</div>'
+            f'<div style="font-size:.5rem;color:{MUTED};margin-top:.2rem;'
+            f'font-family:\'JetBrains Mono\',monospace">'
+            f'[{row["ic_95_inf"]:.1f}\u2013{row["ic_95_sup"]:.1f}]</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
+
 # ── Nowcasting Panel ─────────────────────────────────────────────────────────
 col_nc, col_right = st.columns([1.7, 1], gap="large")
 

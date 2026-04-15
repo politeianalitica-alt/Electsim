@@ -172,24 +172,36 @@ def aplicar_estilos():
         border-radius: 8px !important;
     }}
 
-    /* ── Tabs ─────────────────────────────────────────────────────── */
+    /* ── Tabs ─────────────────────────────────────────────────── */
     [data-testid="stTabs"] [data-baseweb="tab-list"] {{
         background: {BG2} !important;
         border-bottom: 1px solid {BORDER} !important;
-        border-radius: 8px 8px 0 0 !important;
-        gap: 0 !important;
+        border-radius: 10px 10px 0 0 !important;
+        gap: .3rem !important;
+        padding: .35rem .4rem 0 !important;
     }}
     [data-testid="stTabs"] [data-baseweb="tab"] {{
-        background: transparent !important;
+        background: {BG3} !important;
         color: {TEXT2} !important;
-        border: none !important;
+        border: 1px solid {BORDER} !important;
+        border-bottom: none !important;
+        border-radius: 8px 8px 0 0 !important;
         font-weight: 600 !important;
-        font-size: .82rem !important;
-        letter-spacing: .04em !important;
+        font-size: .78rem !important;
+        letter-spacing: .05em !important;
+        padding: .45rem 1.1rem !important;
+        transition: background .18s ease, color .18s ease, border-color .18s ease !important;
+    }}
+    [data-testid="stTabs"] [data-baseweb="tab"]:hover {{
+        background: {CYAN}0F !important;
+        color: {CYAN} !important;
+        border-color: {CYAN}44 !important;
     }}
     [data-testid="stTabs"] [aria-selected="true"] {{
+        background: linear-gradient(180deg,{CYAN}1A,{BG2}) !important;
         color: {CYAN} !important;
-        border-bottom: 2px solid {CYAN} !important;
+        border-color: {CYAN}66 !important;
+        border-bottom: 1px solid {BG2} !important;
     }}
 
     /* ── Expander ─────────────────────────────────────────────────── */

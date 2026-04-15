@@ -14,7 +14,9 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.io as pio
 import streamlit as st
+import streamlit.components.v1 as components
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
@@ -540,10 +542,27 @@ fig_ani = go.Figure(
     ),
 )
 
-st.plotly_chart(fig_ani, use_container_width=True, config={
-    "displayModeBar": False,
-    "responsive": True,
-})
+_fig_html = pio.to_html(
+    fig_ani,
+    full_html=True,
+    include_plotlyjs="cdn",
+    auto_play=False,
+    config={"displayModeBar": False, "responsive": True},
+    default_width="100%",
+    default_height="460px",
+    div_id="nc-anim",
+    post_script="""
+setTimeout(function(){
+  Plotly.animate('nc-anim', null, {
+    frame: {duration: 35, redraw: true},
+    transition: {duration: 25, easing: 'cubic-in-out'},
+    fromcurrent: true,
+    mode: 'immediate'
+  });
+}, 300);
+""",
+)
+components.html(_fig_html, height=500, scrolling=False)
 
 # ── Escanos proyectados + Timeline ──────────────────────────────────────────
 col_seats, col_ts = st.columns([1, 1.3], gap="large")
