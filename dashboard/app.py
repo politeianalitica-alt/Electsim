@@ -123,7 +123,6 @@ st.markdown(f"""
     <div style="position:absolute;bottom:-60px;left:20%;width:200px;height:200px;
                 background:radial-gradient(circle, {PURPLE}10 0%, transparent 70%);
                 pointer-events:none"></div>
-
     <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
         <div style="display:flex;align-items:center;gap:1.4rem">
             <!-- Politeia Analytics Logo -->
