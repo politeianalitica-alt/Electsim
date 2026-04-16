@@ -507,38 +507,7 @@ fig_ani = go.Figure(
             font=dict(size=12, family="JetBrains Mono, monospace"),
             bordercolor=BORDER,
         ),
-        updatemenus=[dict(
-            type="buttons",
-            showactive=False,
-            x=0.5, y=-0.14,
-            xanchor="center",
-            buttons=[
-                dict(
-                    label="&#9654; Animar",
-                    method="animate",
-                    args=[None, {
-                        "frame": {"duration": 35, "redraw": True},
-                        "transition": {"duration": 25, "easing": "cubic-in-out"},
-                        "fromcurrent": True,
-                        "mode": "immediate",
-                    }],
-                ),
-                dict(
-                    label="&#9646;&#9646; Reiniciar",
-                    method="animate",
-                    args=[["0"], {
-                        "frame": {"duration": 0, "redraw": True},
-                        "mode": "immediate",
-                        "transition": {"duration": 0},
-                    }],
-                ),
-            ],
-            bgcolor=BG2,
-            bordercolor=BORDER,
-            borderwidth=1,
-            font=dict(color=CYAN, size=11),
-            pad=dict(t=5, b=5, l=8, r=8),
-        )],
+        updatemenus=[],
     ),
 )
 
