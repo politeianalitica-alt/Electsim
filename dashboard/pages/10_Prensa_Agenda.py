@@ -57,6 +57,19 @@ PARTIDOS_KEYWORDS = {
     "ERC":     ["erc", "esquerra"],
 }
 
+TOPIC_CANON = {
+    "vivienda": ["vivienda", "alquiler", "hipoteca", "okupa", "desahuc"],
+    "terrorismo": ["terrorismo", "terrorista", "atentado", "ihad", "eta"],
+    "sanidad": ["sanidad", "hospital", "médic", "lista de espera", "atención primaria"],
+    "politica": ["gobierno", "congreso", "senado", "presidente", "ministro", "partido"],
+    "instituciones": ["tribunal", "fiscalía", "tc", "boe", "cgpj", "instituci"],
+    "economia": ["ipc", "inflación", "pib", "deuda", "euribor", "paro", "salario"],
+    "inmigracion": ["inmigración", "migrante", "frontera", "asilo"],
+    "energia": ["energía", "eléctrica", "luz", "gas", "renovable"],
+    "empleo": ["empleo", "paro", "laboral", "trabajo"],
+    "educacion": ["educación", "colegio", "universidad", "beca", "fp"],
+}
+
 
 def _hex_to_rgba(hex_color: str, alpha: float) -> str:
     h = (hex_color or "").lstrip("#")
@@ -132,6 +145,17 @@ def _theme_narratives(df_noticias: pd.DataFrame, tema: str, topn: int = 6) -> li
     }
     freq = Counter(t for t in tokens if t not in stop)
     return [w for w, _ in freq.most_common(topn)]
+
+
+def _canon_topic(raw_topic: str, text_hint: str = "") -> str:
+    rt = (raw_topic or "").strip().lower()
+    if rt in TOPIC_CANON:
+        return rt
+    base = f"{rt} {text_hint.lower()}".strip()
+    for canon, kws in TOPIC_CANON.items():
+        if any(k in base for k in kws):
+            return canon
+    return "politica" if rt in {"general", "generalista", ""} else rt
 
 
 # ── Datos sintéticos de bulos ─────────────────────────────────────────────────
@@ -465,12 +489,30 @@ with tab_agenda_t:
     with col_agenda:
         sec_hdr("Mapa de Agenda — Hoy")
         df_agenda_view = df_agenda.copy()
+        if not df_agenda_view.empty:
+            df_agenda_view["tema"] = df_agenda_view["tema"].astype(str).apply(_canon_topic)
+            df_agenda_view = (
+                df_agenda_view.groupby("tema", as_index=False)
+                .agg(
+                    n_noticias=("n_noticias", "sum"),
+                    sentimiento_medio=("sentimiento_medio", "mean"),
+                    peso_agenda=("peso_agenda", "sum"),
+                    tendencia=("tendencia", "first"),
+                )
+                .sort_values("n_noticias", ascending=False)
+            )
         if df_agenda_view.empty and not df_noticias.empty:
             # Fallback in-memory cuando agenda_mediatica no está cargada en la fecha actual.
             try:
                 tmp = df_noticias.copy()
                 tmp["tema"] = tmp.get("categoria", "general").fillna("general").astype(str).str.strip()
-                tmp["tema"] = tmp["tema"].replace({"": "general"})
+                tmp["tema"] = tmp.apply(
+                    lambda r: _canon_topic(
+                        str(r.get("tema", "")),
+                        f"{str(r.get('titular',''))} {str(r.get('resumen',''))}",
+                    ),
+                    axis=1,
+                )
                 tmp["sentimiento_score"] = pd.to_numeric(tmp.get("sentimiento_score"), errors="coerce").fillna(0.0)
                 df_agenda_view = (
                     tmp.groupby("tema", as_index=False)

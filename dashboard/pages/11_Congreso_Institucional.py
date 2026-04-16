@@ -685,6 +685,23 @@ with tab_votaciones:
 with tab_agenda:
     sec_hdr("Agenda institucional y política (fuentes oficiales)")
     agenda_rows = fetch_all_agendas(max_items_per_source=25)
+    if not agenda_rows:
+        # Fallback operativo para no dejar la pestaña vacía cuando fallan fuentes remotas.
+        agenda_rows = []
+        for actor, eventos in AGENDA_SEMANA.items():
+            for ev in eventos:
+                agenda_rows.append(
+                    {
+                        "fuente": "Agenda institucional (fallback)",
+                        "titulo": ev.get("evento", ""),
+                        "fecha": ev.get("dia", ""),
+                        "tipo": ev.get("tipo", "institucional"),
+                        "actor": actor,
+                        "lugar": None,
+                        "enlace": None,
+                        "cita": actor,
+                    }
+                )
     df_ag = pd.DataFrame(agenda_rows)
     if df_ag.empty:
         st.info("No hay eventos de agenda en este momento. Reintenta tras ejecutar ETL de agendas.")
@@ -801,7 +818,34 @@ with tab_leyes:
         leyes = vot[mask_v].rename(columns={"tipo_votacion": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
 
     if leyes.empty:
-        st.info("Sin normas legislativas recientes en base de datos. Ejecuta el ETL de Congreso para poblar esta sección.")
+        st.info("Sin normas legislativas recientes en base de datos. Mostrando fallback curado de legislatura.")
+        leyes_fb = pd.DataFrame(
+            [
+                {
+                    "titulo_norma": x["nombre"],
+                    "fecha_norma": x["fecha_aprobacion"],
+                    "tipo": x["numero"],
+                    "partido_siglas": "/".join(x.get("apoyos", [])[:2]) if x.get("apoyos") else "N/D",
+                    "resultado": x.get("estado", "En vigor"),
+                }
+                for x in LEYES_LEGISLATURA
+            ]
+        )
+        for _, row in leyes_fb.head(30).iterrows():
+            partido = str(row.get("partido_siglas", "N/A"))
+            estado = str(row.get("resultado", "Registro"))
+            card = (
+                f'<div class="data-card" style="border-left:3px solid {BLUE}">'
+                f'<div style="display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start">'
+                f'<div style="flex:1">'
+                f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row.get("titulo_norma","")}</div>'
+                f'<div style="font-size:.77rem;color:{MUTED};margin-top:.2rem">{str(row.get("fecha_norma",""))[:16]} · {row.get("tipo","")} · {partido}</div>'
+                f'</div>'
+                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{estado}</span>'
+                f'</div>'
+                f'</div>'
+            )
+            st.markdown(card, unsafe_allow_html=True)
     else:
         leyes = leyes.sort_values("fecha_norma", ascending=False)
         k1, k2, k3 = st.columns(3)
@@ -858,7 +902,22 @@ with tab_comisiones:
     sec_hdr("Comisiones de investigación y actividad de comisiones (traza real)")
     act = cargar_actividad_reciente_congreso(dias=540, limit=1000)
     if act.empty:
-        st.info("No hay actividad de comisiones en la base de datos. Ejecuta ETL de Congreso para activarla.")
+        st.info("No hay actividad de comisiones en la base de datos. Mostrando fallback curado.")
+        for c in COMISIONES_INVESTIGACION:
+            rel = str(c.get("relevancia_politica", "Media"))
+            rel_color = RED if "Muy" in rel or rel == "Alta" else (AMBER if rel == "Media" else GREEN)
+            card = (
+                f'<div class="data-card" style="border-left:3px solid {PURPLE}">'
+                f'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem">'
+                f'<div style="flex:1">'
+                f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{c.get("nombre","")}</div>'
+                f'<div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">{c.get("inicio","")} · Estado: {c.get("estado","")}</div>'
+                f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem;line-height:1.45">{c.get("ultimos_avances","")}</div>'
+                f'</div>'
+                f'<span class="badge" style="background:{rel_color}20;color:{rel_color};border:1px solid {rel_color}55">{rel}</span>'
+                f'</div></div>'
+            )
+            st.markdown(card, unsafe_allow_html=True)
     else:
         act = act.copy()
         act["tipo_acto"] = act["tipo_acto"].astype(str)
