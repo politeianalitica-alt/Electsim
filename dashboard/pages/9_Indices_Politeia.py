@@ -15,7 +15,9 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.io as pio
 import streamlit as st
+import streamlit.components.v1 as components
 from dashboard.shared import (
     sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, CYAN2, BLUE, PURPLE,
@@ -274,39 +276,81 @@ st.markdown(f"""
 codigos = [r["indice_codigo"] for r in idx_list]
 valores = [float(r.get("valor") or 0) for r in idx_list]
 
-fig_radar = go.Figure()
-fig_radar.add_trace(go.Scatterpolar(
-    r=valores + [valores[0]],
-    theta=codigos + [codigos[0]],
-    fill="toself",
-    fillcolor="rgba(0,212,255,0.10)",
-    line=dict(color=CYAN, width=2.5),
-    marker=dict(size=8, color=CYAN),
-    name="Estado actual",
-))
-fig_radar.update_layout(
-    polar=dict(
-        bgcolor="rgba(0,0,0,0)",
-        radialaxis=dict(
-            visible=True,
-            range=[0, 100],
-            tickfont=dict(size=9, color=MUTED),
-            gridcolor=BORDER,
-            linecolor=BORDER,
+# ── Frames animados: expanden de 0 → valor real con ease-out cúbico ──────────
+_N = 50
+_radar_frames = []
+for fi in range(_N + 1):
+    t   = fi / _N
+    t_e = 1 - (1 - t) ** 3          # ease-out cubic
+    r_f = [v * t_e for v in valores] + [valores[0] * t_e]
+    _radar_frames.append(go.Frame(
+        data=[go.Scatterpolar(
+            r=r_f,
+            theta=codigos + [codigos[0]],
+            fill="toself",
+            fillcolor=f"rgba(0,212,255,{0.10 * t_e:.4f})",
+            line=dict(color=CYAN, width=2.5),
+            marker=dict(size=8, color=CYAN),
+        )],
+        name=str(fi),
+    ))
+
+fig_radar = go.Figure(
+    data=[go.Scatterpolar(
+        r=[0] * (len(codigos) + 1),
+        theta=codigos + [codigos[0]],
+        fill="toself",
+        fillcolor="rgba(0,212,255,0)",
+        line=dict(color=CYAN, width=2.5),
+        marker=dict(size=8, color=CYAN),
+        name="Estado actual",
+    )],
+    frames=_radar_frames,
+    layout=go.Layout(
+        polar=dict(
+            bgcolor="rgba(0,0,0,0)",
+            radialaxis=dict(
+                visible=True,
+                range=[0, 100],
+                tickfont=dict(size=9, color=MUTED),
+                gridcolor=BORDER,
+                linecolor=BORDER,
+            ),
+            angularaxis=dict(
+                tickfont=dict(size=11, color=TEXT2),
+                gridcolor=BORDER,
+            ),
         ),
-        angularaxis=dict(
-            tickfont=dict(size=11, color=TEXT2),
-            gridcolor=BORDER,
-        ),
+        height=420,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(t=30, b=30, l=60, r=60),
+        showlegend=False,
+        font=dict(color=TEXT2),
     ),
-    height=420,
-    paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(0,0,0,0)",
-    margin=dict(t=30, b=30, l=60, r=60),
-    showlegend=False,
-    font=dict(color=TEXT2),
 )
-st.plotly_chart(fig_radar, use_container_width=True)
+
+_radar_html = pio.to_html(
+    fig_radar,
+    full_html=True,
+    include_plotlyjs="cdn",
+    auto_play=False,
+    div_id="radar-anim",
+    post_script="""
+setTimeout(function(){
+  Plotly.animate('radar-anim', null, {
+    frame: {duration: 20, redraw: true},
+    transition: {duration: 15, easing: 'cubic-in-out'},
+    fromcurrent: true,
+    mode: 'immediate'
+  });
+}, 350);
+""",
+    config={"displayModeBar": False, "responsive": True},
+    default_width="100%",
+    default_height="440px",
+)
+components.html(_radar_html, height=460, scrolling=False)
 
 # ── Explorador de índice individual ───────────────────────────────────────────
 st.markdown(f"""
