@@ -4,6 +4,7 @@ Análisis en tiempo real de la cobertura mediática española.
 """
 from __future__ import annotations
 
+from collections import Counter
 import json
 import re
 import sys
@@ -77,6 +78,60 @@ def sec_hdr(title: str, color: str = CYAN) -> None:
         f'</div>',
         unsafe_allow_html=True,
     )
+
+
+def _theme_party_impact(df_noticias: pd.DataFrame, tema: str) -> pd.DataFrame:
+    if df_noticias.empty:
+        return pd.DataFrame(columns=["partido", "n", "sent_medio"])
+    dfx = df_noticias.copy()
+    dfx["categoria"] = dfx.get("categoria", "").fillna("").astype(str)
+    dfx = dfx[dfx["categoria"].str.lower() == str(tema).lower()]
+    if dfx.empty:
+        return pd.DataFrame(columns=["partido", "n", "sent_medio"])
+    rows: list[dict[str, object]] = []
+    for _, r in dfx.iterrows():
+        partidos_raw = str(r.get("partidos_mencionados") or "")
+        parties = [p.strip() for p in partidos_raw.split(",") if p.strip()]
+        if not parties:
+            continue
+        sent = float(pd.to_numeric(r.get("sentimiento_score"), errors="coerce") or 0.0)
+        for p in parties:
+            rows.append({"partido": p, "sent": sent})
+    if not rows:
+        return pd.DataFrame(columns=["partido", "n", "sent_medio"])
+    dfr = pd.DataFrame(rows)
+    out = (
+        dfr.groupby("partido", as_index=False)
+        .agg(n=("sent", "count"), sent_medio=("sent", "mean"))
+        .sort_values(["n", "sent_medio"], ascending=[False, False])
+        .head(10)
+    )
+    return out
+
+
+def _theme_narratives(df_noticias: pd.DataFrame, tema: str, topn: int = 6) -> list[str]:
+    if df_noticias.empty:
+        return []
+    dfx = df_noticias.copy()
+    dfx["categoria"] = dfx.get("categoria", "").fillna("").astype(str)
+    dfx = dfx[dfx["categoria"].str.lower() == str(tema).lower()]
+    if dfx.empty:
+        return []
+    text_blob = " ".join(
+        [
+            f"{str(r.get('titular') or '')} {str(r.get('resumen') or '')}"
+            for _, r in dfx.head(300).iterrows()
+        ]
+    ).lower()
+    tokens = re.findall(r"[a-záéíóúñ]{4,}", text_blob)
+    stop = {
+        "para", "desde", "sobre", "entre", "tras", "ante", "esta", "este", "estos", "estas",
+        "como", "pero", "porque", "donde", "cuando", "tambien", "segun", "sobre", "gobierno",
+        "partido", "partidos", "espana", "españa", "dice", "hace", "hoy", "ayer", "toda", "todas",
+        "todos", "cada", "solo", "sido", "será", "seran", "puede", "pueden", "tiene", "tienen",
+    }
+    freq = Counter(t for t in tokens if t not in stop)
+    return [w for w, _ in freq.most_common(topn)]
 
 
 # ── Datos sintéticos de bulos ─────────────────────────────────────────────────
@@ -409,12 +464,36 @@ with tab_agenda_t:
 
     with col_agenda:
         sec_hdr("Mapa de Agenda — Hoy")
-        if not df_agenda.empty:
-            df_agenda["color"] = df_agenda["sentimiento_medio"].apply(
+        df_agenda_view = df_agenda.copy()
+        if df_agenda_view.empty and not df_noticias.empty:
+            # Fallback in-memory cuando agenda_mediatica no está cargada en la fecha actual.
+            try:
+                tmp = df_noticias.copy()
+                tmp["tema"] = tmp.get("categoria", "general").fillna("general").astype(str).str.strip()
+                tmp["tema"] = tmp["tema"].replace({"": "general"})
+                tmp["sentimiento_score"] = pd.to_numeric(tmp.get("sentimiento_score"), errors="coerce").fillna(0.0)
+                df_agenda_view = (
+                    tmp.groupby("tema", as_index=False)
+                    .agg(
+                        n_noticias=("titular", "count"),
+                        sentimiento_medio=("sentimiento_score", "mean"),
+                    )
+                    .sort_values("n_noticias", ascending=False)
+                    .head(25)
+                )
+                total_n = max(float(df_agenda_view["n_noticias"].sum()), 1.0)
+                df_agenda_view["peso_agenda"] = df_agenda_view["n_noticias"].astype(float) / total_n
+                df_agenda_view["tendencia"] = "estable"
+            except Exception:
+                df_agenda_view = pd.DataFrame()
+
+        selected_theme = None
+        if not df_agenda_view.empty:
+            df_agenda_view["color"] = df_agenda_view["sentimiento_medio"].apply(
                 lambda s: "positivo" if (s or 0) > 0.1 else "negativo" if (s or 0) < -0.1 else "neutro"
             )
             fig_tree = px.treemap(
-                df_agenda,
+                df_agenda_view,
                 path=["tema"],
                 values="n_noticias",
                 color="sentimiento_medio",
@@ -432,45 +511,82 @@ with tab_agenda_t:
                 margin=dict(t=0, b=0, l=0, r=0),
                 coloraxis_colorbar=dict(title="Sent.", tickfont=dict(size=9, color=TEXT2)),
             )
-            st.plotly_chart(fig_tree, use_container_width=True)
+            selection = st.plotly_chart(
+                fig_tree,
+                use_container_width=True,
+                key="agenda_treemap",
+                on_select="rerun",
+            )
+            try:
+                points = (selection or {}).get("selection", {}).get("points", [])
+                if points:
+                    selected_theme = str(points[0].get("label") or "").strip() or None
+            except Exception:
+                selected_theme = None
         else:
-            st.info("Ejecuta el scraper RSS para poblar la agenda: `python -m etl.sources.rss_noticias`")
+            st.info("Sin datos de agenda para la ventana actual. Ejecuta actualización ETL de prensa/agenda.")
 
     with col_sent_partidos:
-        sec_hdr("Sentimiento por Partido")
-        if not df_sent_all.empty:
-            df_sent_sorted = df_sent_all.sort_values("sent_medio")
-            colors = [GREEN if v > 0.05 else RED if v < -0.05 else AMBER
-                      for v in df_sent_sorted["sent_medio"]]
-            fig_sent = go.Figure(go.Bar(
-                x=df_sent_sorted["sent_medio"].round(3),
-                y=df_sent_sorted["entidad"],
-                orientation="h",
-                marker_color=colors,
-                text=df_sent_sorted["sent_medio"].round(3).astype(str),
-                textposition="outside",
-                textfont=dict(color=TEXT2, size=10),
-            ))
-            fig_sent.update_layout(
-                xaxis=dict(
-                    title="Sentimiento medio (-1 negativo → +1 positivo)",
-                    range=[-1, 1],
-                    zeroline=True, zerolinecolor=MUTED, zerolinewidth=1,
-                    gridcolor=BORDER,
-                    tickfont=dict(color=TEXT2, size=9),
-                    titlefont=dict(color=MUTED, size=10),
-                ),
-                yaxis=dict(title=None, tickfont=dict(color=TEXT2, size=10)),
-                height=380,
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                margin=dict(t=10, b=10, l=10, r=60),
-                showlegend=False,
-            )
-            fig_sent.add_vline(x=0, line_color=MUTED, line_width=1)
-            st.plotly_chart(fig_sent, use_container_width=True)
+        temas_options = df_agenda_view["tema"].astype(str).dropna().tolist() if not df_agenda_view.empty else []
+        if temas_options:
+            if selected_theme and selected_theme in temas_options:
+                st.session_state["tema_agenda_activo"] = selected_theme
+            tema_default = st.session_state.get("tema_agenda_activo", temas_options[0])
+            if tema_default not in temas_options:
+                tema_default = temas_options[0]
+            tema_activo = st.selectbox("Tema activo (mapa)", temas_options, index=temas_options.index(tema_default), key="tema_agenda_activo_select")
+            st.session_state["tema_agenda_activo"] = tema_activo
+
+            sec_hdr(f"Impacto por Partido — {tema_activo}")
+            df_impact = _theme_party_impact(df_noticias, tema_activo)
+            if not df_impact.empty:
+                colors = [GREEN if float(v) > 0.05 else RED if float(v) < -0.05 else AMBER for v in df_impact["sent_medio"]]
+                fig_imp = go.Figure(go.Bar(
+                    x=df_impact["sent_medio"].round(3),
+                    y=df_impact["partido"],
+                    orientation="h",
+                    marker_color=colors,
+                    text=[f"{x:+.2f} · n={int(n)}" for x, n in zip(df_impact["sent_medio"], df_impact["n"])],
+                    textposition="outside",
+                    textfont=dict(color=TEXT2, size=10),
+                ))
+                fig_imp.update_layout(
+                    xaxis=dict(
+                        title="Sentimiento medio por partido en este tema",
+                        range=[-1, 1],
+                        zeroline=True, zerolinecolor=MUTED, zerolinewidth=1,
+                        gridcolor=BORDER,
+                        tickfont=dict(color=TEXT2, size=9),
+                        titlefont=dict(color=MUTED, size=10),
+                    ),
+                    yaxis=dict(title=None, tickfont=dict(color=TEXT2, size=10)),
+                    height=300,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    margin=dict(t=10, b=10, l=10, r=80),
+                    showlegend=False,
+                )
+                fig_imp.add_vline(x=0, line_color=MUTED, line_width=1)
+                st.plotly_chart(fig_imp, use_container_width=True)
+            else:
+                st.info("Sin suficiente señal de partidos en este tema.")
+
+            sec_hdr("Narrativas y Debates")
+            narr = _theme_narratives(df_noticias, tema_activo, topn=8)
+            if narr:
+                st.markdown(
+                    "".join(
+                        [
+                            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:4px">{t}</span>'
+                            for t in narr
+                        ]
+                    ),
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.info("Sin narrativas claras para este tema en la ventana actual.")
         else:
-            st.info("Sin datos de sentimiento. Ejecuta el scraper RSS.")
+            st.info("Sin temas disponibles para analizar en el mapa.")
 
     # Agenda histórica heatmap
     sec_hdr("Evolución de la Agenda — Últimos 30 Días", BLUE)
@@ -656,7 +772,7 @@ with tab_bulos:
     bulos_fuente = cargar_bulos_newtral(limit=18)
     bulos_data = bulos_fuente if bulos_fuente else cargar_bulos_desde_noticias(df_noticias, limit=18)
     if not bulos_data:
-        bulos_data = []
+        bulos_data = BULOS_RECIENTES[:18]
 
     st.markdown(
         f'<div class="info-banner">'

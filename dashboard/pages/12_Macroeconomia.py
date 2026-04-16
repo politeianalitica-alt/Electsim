@@ -319,20 +319,58 @@ with tab2:
             return {"PP": 42, "VOX": 18, "PSOE": 23, "Abstención": 9, "Otros": 8}
         return {"PP": 48, "VOX": 26, "PSOE": 12, "Abstención": 7, "Otros": 7}
 
+    def _friendly_profile_name(voto: dict[str, float], ideol: float, edad: float, idx: int) -> str:
+        top = next(iter(voto.keys()), "Otros")
+        if top == "PP":
+            return "Votante Popular Clásico" if edad >= 55 else "Centro Pragmático"
+        if top == "PSOE":
+            return "Socialista de Siempre" if edad >= 45 else "Profesional Liberal Centrista"
+        if top == "VOX":
+            return "Votante de VOX Obrero" if edad >= 30 else "Joven VOX Urbano"
+        if top == "SUMAR":
+            return "Joven Progresista Urbana" if edad < 36 else "Universitaria Progresista"
+        if top == "PNV":
+            return "Votante del PNV Vasco"
+        if top in {"ERC", "Junts"}:
+            return "Independentista Catalán"
+        if top == "EH Bildu":
+            return "Izquierda Abertzale"
+        if top == "BNG":
+            return "Votante Nacionalista Gallega"
+        if top == "Abstención":
+            return "Abstencionista Desencantado"
+        if ideol <= 3:
+            return "Izquierda Urbana Joven"
+        if ideol >= 7.2:
+            return "Rural Castellano Conservador"
+        return f"Perfil Generalista {idx}"
+
+    def _to_float_or(value: object, default: float) -> float:
+        try:
+            if value is None or pd.isna(value):
+                return default
+            return float(value)
+        except Exception:
+            return default
+
     def _build_micro_from_profiles() -> dict[str, dict]:
         dfp = cargar_perfiles_votante(limit=40)
         out: dict[str, dict] = {}
+        used_names: set[str] = set()
         if dfp.empty:
             return out
-        for _, row in dfp.iterrows():
-            label = str(row.get("label") or f"Perfil {int(row.get('cluster_id') or 0)}")
-            ideol = float(row.get("ideologia_media") or 5.0)
-            edad = float(row.get("edad_media") or 42.0)
+        for idx, (_, row) in enumerate(dfp.iterrows(), start=1):
+            ideol = _to_float_or(row.get("ideologia_media"), 5.0)
+            edad = _to_float_or(row.get("edad_media"), 42.0)
             renta = max(14000, int(18500 + (ideol - 5.0) * 1700 + (edad - 40.0) * 230))
             paro = max(4, min(30, int(round(15 + (5.0 - ideol) * 1.1 + (34.0 - edad) * 0.15))))
             pct_alquiler = max(12, min(78, int(round(43 + (30 - edad) * 0.6 + (5.0 - ideol) * 1.4))))
             hipoteca = 0 if pct_alquiler >= 55 else max(280, int(round((renta / 12) * 0.24)))
             voto = _vote_dict(row.get("distribucion_voto_json"), ideol)
+            label = _friendly_profile_name(voto, ideol, edad, idx)
+            if label in used_names:
+                label = f"{label} ({idx})"
+            used_names.add(label)
             top_party = next(iter(voto.keys()), "Otros")
             preocup = "vivienda y empleo" if edad < 36 else ("pensiones y sanidad" if edad >= 60 else "inflación y fiscalidad")
 

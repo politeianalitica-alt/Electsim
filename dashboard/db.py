@@ -442,6 +442,32 @@ def cargar_agenda_hoy() -> pd.DataFrame:
     """)
     if not df.empty:
         return df
+    # Fallback robusto:
+    # 1) última fecha disponible en noticias_prensa
+    # 2) si tampoco hay, agrega ventana de últimos 7 días
+    df_last = _q(
+        """
+        WITH last_day AS (
+            SELECT MAX(fecha_publicacion::date) AS d
+            FROM noticias_prensa
+            WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '14 days'
+        )
+        SELECT
+            COALESCE(NULLIF(categoria, ''), 'general') AS tema,
+            COUNT(*) AS n_noticias,
+            AVG(sentimiento_score) AS sentimiento_medio,
+            COUNT(*)::numeric / NULLIF(SUM(COUNT(*)) OVER (), 0) AS peso_agenda,
+            'estable'::text AS tendencia
+        FROM noticias_prensa np
+        CROSS JOIN last_day
+        WHERE np.fecha_publicacion::date = last_day.d
+        GROUP BY 1
+        ORDER BY n_noticias DESC
+        LIMIT 25
+        """
+    )
+    if not df_last.empty:
+        return df_last
     return _q(
         """
         SELECT
@@ -451,7 +477,7 @@ def cargar_agenda_hoy() -> pd.DataFrame:
             COUNT(*)::numeric / NULLIF(SUM(COUNT(*)) OVER (), 0) AS peso_agenda,
             'estable'::text AS tendencia
         FROM noticias_prensa
-        WHERE fecha_publicacion = CURRENT_DATE
+        WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '7 days'
         GROUP BY 1
         ORDER BY n_noticias DESC
         LIMIT 25

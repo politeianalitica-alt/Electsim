@@ -581,6 +581,43 @@ def _build_general_profile_label(ideologia: float, edad_media: float, idx: int) 
     return PROFILE_NAME_LIBRARY[(idx - 1) % len(PROFILE_NAME_LIBRARY)]
 
 
+def _label_from_signals(voto: dict[str, float], ideologia: float, edad_media: float, idx: int) -> str:
+    top_party = next(iter(voto.keys()), "")
+    if top_party == "Abstención":
+        return "Abstencionista Desencantado" if edad_media >= 26 else "Joven Feminista Crítica"
+    if top_party in {"SUMAR"}:
+        return "Joven Progresista Urbana" if edad_media < 36 else "Universitaria Progresista"
+    if top_party in {"PSOE"}:
+        return "Socialista de Siempre" if edad_media >= 45 else "Profesional Liberal Centrista"
+    if top_party in {"PP"}:
+        return "Votante Popular Clásico" if edad_media >= 55 else "Centro Pragmático"
+    if top_party in {"VOX"}:
+        return "Votante de VOX Obrero" if edad_media >= 30 else "Joven VOX Urbano"
+    if top_party in {"PNV"}:
+        return "Votante del PNV Vasco"
+    if top_party in {"ERC", "Junts"}:
+        return "Independentista Catalán"
+    if top_party in {"EH Bildu"}:
+        return "Izquierda Abertzale"
+    if top_party in {"BNG"}:
+        return "Votante Nacionalista Gallega"
+    # Fallback por ideología cuando no hay señal partidista fuerte.
+    if ideologia >= 7.5:
+        return "Rural Castellano Conservador"
+    if ideologia <= 2.8:
+        return "Joven Progresista Urbana"
+    return _build_general_profile_label(ideologia, edad_media, idx)
+
+
+def _safe_float(value: object, default: float) -> float:
+    try:
+        if value is None or pd.isna(value):
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
 def _attributes_for_label(label: str, ideologia: float, edad_media: float) -> dict[str, str]:
     defaults = {
         "Sexo": "Mixto",
@@ -623,8 +660,8 @@ def _attributes_for_label(label: str, ideologia: float, edad_media: float) -> di
 
 
 def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
-    ideologia = float(row.get("ideologia_media") or 5.0)
-    edad_media = float(row.get("edad_media") or (26 + 6 * idx))
+    ideologia = _safe_float(row.get("ideologia_media"), 5.0)
+    edad_media = _safe_float(row.get("edad_media"), float(26 + 6 * idx))
     renta_est = max(12000.0, 19500.0 + (ideologia - 5.0) * 950.0 + (edad_media - 40.0) * 130.0)
     paro_est = min(32.0, max(4.0, 14.5 + (5.0 - ideologia) * 0.7 + (34.0 - edad_media) * 0.11))
     ahorro_est = max(30.0, 290.0 + (ideologia - 5.0) * 28.0 + (edad_media - 38.0) * 8.0)
@@ -633,7 +670,7 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
     acceso_servicios = "Alto" if edad_media >= 38.0 else "Medio"
     ideo_label, ideo_color = _ideo_label_color(ideologia)
     voto = _safe_vote_dist(row.get("distribucion_voto_json"), ideologia)
-    label = _build_general_profile_label(ideologia, edad_media, idx)
+    label = _label_from_signals(voto, ideologia, edad_media, idx)
     desc = str(row.get("descripcion_perfil_llm") or "").strip()
     top1 = next(iter(voto.keys()), "otros")
     return {
@@ -669,7 +706,24 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
 
 
 def _build_unified_profiles(max_total: int = 20) -> list[dict]:
+    def _unique_label(base: str, used: set[str]) -> str:
+        candidate = (base or "").strip() or "Perfil"
+        if candidate not in used:
+            used.add(candidate)
+            return candidate
+        for lib_name in PROFILE_NAME_LIBRARY:
+            if lib_name not in used:
+                used.add(lib_name)
+                return lib_name
+        i = 2
+        while f"{candidate} ({i})" in used:
+            i += 1
+        final = f"{candidate} ({i})"
+        used.add(final)
+        return final
+
     perfiles: list[dict] = []
+    used_labels: set[str] = set()
     df = cargar_perfiles_votante(limit=300)
     df_micro = pd.DataFrame()
     if not df.empty:
@@ -679,12 +733,13 @@ def _build_unified_profiles(max_total: int = 20) -> list[dict]:
         if idx <= len(df_micro):
             row = df_micro.iloc[idx - 1]
             ui = _micro_profile_to_ui(row, idx)
+            ui["etiqueta"] = _unique_label(str(ui.get("etiqueta", "")), used_labels)
             perfiles.append(ui)
             continue
         base = dict(PERFILES[(idx - 1) % len(PERFILES)])
         label = PROFILE_NAME_LIBRARY[idx - 1]
         base["id"] = idx
-        base["etiqueta"] = label
+        base["etiqueta"] = _unique_label(label, used_labels)
         base["atributos"] = _attributes_for_label(label, float(base.get("ideo_media", 5.0)), float(base.get("edad_media", 45.0)))
         perfiles.append(base)
     return perfiles
@@ -1308,8 +1363,11 @@ with tab1:
     st.divider()
 
     # Selector de perfil
-    perfil_sel = st.selectbox("Explorar perfil en detalle", [p["etiqueta"] for p in PERFILES_UNIFICADOS])
-    p = next(x for x in PERFILES_UNIFICADOS if x["etiqueta"] == perfil_sel)
+    perfil_options = [f"{i+1}. {p['etiqueta']}" for i, p in enumerate(PERFILES_UNIFICADOS)]
+    perfil_sel_opt = st.selectbox("Explorar perfil en detalle", perfil_options)
+    perfil_idx = max(0, perfil_options.index(perfil_sel_opt))
+    p = PERFILES_UNIFICADOS[perfil_idx]
+    perfil_sel = p["etiqueta"]
 
     col_main, col_side = st.columns([3, 2])
 

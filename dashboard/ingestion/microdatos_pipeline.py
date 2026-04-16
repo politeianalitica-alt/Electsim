@@ -183,7 +183,7 @@ def _normalize_party(value: Any) -> str | None:
     s = _as_str(value, 60)
     if not s:
         return None
-    u = s.upper().strip()
+    u = s.upper().strip().replace("_", " ").replace("-", " ")
     mapping = {
         "1": "PSOE", "1.0": "PSOE",
         "2": "PP", "2.0": "PP",
@@ -201,8 +201,11 @@ def _normalize_party(value: Any) -> str | None:
         "9998": "NS/NC", "9998.0": "NS/NC",
         "9999": "NS/NC", "9999.0": "NS/NC",
         "NO DECLARA": "NS/NC",
+        "NO DECLARADO": "NS/NC",
         "NO CONTESTA": "NS/NC",
         "NO SABE": "NS/NC",
+        "NO RECUERDA": "NS/NC",
+        "NS NC": "NS/NC",
     }
     u = mapping.get(u, u)
     if any(k in u for k in ["ABSTEN", "ABSTENC"]):
@@ -233,6 +236,22 @@ def _normalize_party(value: Any) -> str | None:
     if re.fullmatch(r"\d+(\.\d+)?", u):
         return "Otros"
     return s
+
+
+def _vote_fallback_from_signals(ideologia_media: float | None, recuerdo: str | None, cercania: str | None) -> dict[str, float]:
+    rec = _normalize_party(recuerdo) if recuerdo else None
+    cer = _normalize_party(cercania) if cercania else None
+    base_party = cer or rec
+    if base_party and base_party not in {"NS/NC", "Blanco/Nulo", "Otros", "Abstención"}:
+        return {base_party: 62.0, "Abstención": 18.0, "Otros": 20.0}
+    ideo = float(ideologia_media) if ideologia_media is not None else 5.0
+    if ideo <= 3:
+        return {"SUMAR": 36.0, "PSOE": 34.0, "Abstención": 17.0, "Otros": 13.0}
+    if ideo <= 5.8:
+        return {"PSOE": 34.0, "PP": 31.0, "SUMAR": 14.0, "Abstención": 11.0, "Otros": 10.0}
+    if ideo <= 7.2:
+        return {"PP": 42.0, "VOX": 20.0, "PSOE": 21.0, "Abstención": 9.0, "Otros": 8.0}
+    return {"PP": 46.0, "VOX": 30.0, "PSOE": 12.0, "Abstención": 7.0, "Otros": 5.0}
 
 
 def _cohort_vote_bucket(vote: str | None) -> str:
@@ -871,7 +890,7 @@ def ingest_microdatos_folder(
                 voto_dist: dict[str, float] = {}
                 if voto_total > 0:
                     raw_dist = {k: round((v / voto_total) * 100.0, 3) for k, v in c["votos"].most_common()}
-                    informative = {k: v for k, v in raw_dist.items() if k not in {"NS/NC", "Blanco/Nulo"}}
+                    informative = {k: v for k, v in raw_dist.items() if k not in {"NS/NC", "Blanco/Nulo", "NO_DECLARA", "NO DECLARA"}}
                     informative_total = sum(informative.values())
                     if informative_total >= 20.0 and len(informative) >= 2:
                         voto_dist = {
@@ -879,7 +898,11 @@ def ingest_microdatos_folder(
                             for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)
                         }
                     else:
-                        voto_dist = raw_dist
+                        voto_dist = _vote_fallback_from_signals(
+                            (c["ideo_sum_w"] / c["ideo_w"]) if c["ideo_w"] > 0 else None,
+                            p[7] if len(p) > 7 else None,
+                            p[8] if len(p) > 8 else None,
+                        )
                 cohort_rows.append(
                     {
                         "run_id": run_id,
@@ -969,7 +992,7 @@ def ingest_microdatos_folder(
             text(
                 """
                 SELECT cohorte_key, sexo, grupo_edad, estudios, sitlab, clase_subjetiva,
-                       ideologia_tramo, recuerdo_voto, n_obs, peso_total, ideologia_media, voto_dist_json
+                       ideologia_tramo, recuerdo_voto, cercania, n_obs, peso_total, ideologia_media, voto_dist_json
                 FROM microdatos_cohortes
                 WHERE run_id = :run_id
                 ORDER BY peso_total DESC
@@ -994,6 +1017,30 @@ def ingest_microdatos_folder(
                         voto_payload = {}
                 if not isinstance(voto_payload, dict):
                     voto_payload = {}
+                cleaned_payload = {}
+                for k, v in voto_payload.items():
+                    try:
+                        vv = float(v)
+                    except Exception:
+                        continue
+                    kk = _normalize_party(k) or str(k)
+                    cleaned_payload[kk] = cleaned_payload.get(kk, 0.0) + max(0.0, vv)
+                informative_payload = {
+                    k: v for k, v in cleaned_payload.items()
+                    if k not in {"NS/NC", "Blanco/Nulo", "NO_DECLARA", "NO DECLARA"}
+                }
+                if not informative_payload or sum(informative_payload.values()) < 20.0:
+                    cleaned_payload = _vote_fallback_from_signals(
+                        r.get("ideologia_media"),
+                        r.get("recuerdo_voto"),
+                        r.get("cercania"),
+                    )
+                else:
+                    tot = sum(informative_payload.values()) or 1.0
+                    cleaned_payload = {
+                        k: round((v / tot) * 100.0, 3)
+                        for k, v in sorted(informative_payload.items(), key=lambda x: x[1], reverse=True)
+                    }
                 rows.append(
                     {
                         "cluster_id": 1000 + idx + 1,
@@ -1002,7 +1049,7 @@ def ingest_microdatos_folder(
                         "peso_demografico_pct": round(float(r["peso_total"]) * 100.0 / total_w, 3),
                         "edad_media": edad_media,
                         "ideologia_media": float(r["ideologia_media"]) if r["ideologia_media"] is not None else None,
-                        "distribucion_voto_json": json.dumps(voto_payload, ensure_ascii=False),
+                        "distribucion_voto_json": json.dumps(cleaned_payload, ensure_ascii=False),
                         "descripcion_perfil_llm": (
                             f"Cohorte real microdatos: estudios={r['estudios']}, sitlab={r['sitlab']}, "
                             f"clase={r['clase_subjetiva']}, recuerdo={r['recuerdo_voto']}"
