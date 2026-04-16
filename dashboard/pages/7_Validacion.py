@@ -17,7 +17,11 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+)
 
 try:
     from dashboard.db import cargar_historial_validacion, cargar_validacion_por_partido
@@ -33,8 +37,45 @@ except ImportError:
 st.set_page_config(page_title="Validación — ElectSim", layout="wide")
 
 sidebar_nav()
-st.title("Validación del Sistema")
-st.markdown("Metricas de precision del modelo, calibracion de agentes y calidad de datos.")
+
+st.markdown(f"""
+<style>
+@keyframes fadeInUp {{
+    from {{ opacity:0; transform:translateY(18px); }}
+    to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes dotPulse {{
+    0%,100% {{ opacity:.4; transform:scale(1); }}
+    50%      {{ opacity:1; transform:scale(1.3); }}
+}}
+.sec-hdr {{
+    display:flex; align-items:center; gap:.7rem; margin:1.8rem 0 1rem;
+}}
+.sec-hdr .bar  {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.sec-hdr .lbl  {{ font-size:.65rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:{MUTED}; }}
+.sec-hdr .line {{ flex:1; height:1px; background:{BORDER}; }}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
+            border:1px solid {BORDER};border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;overflow:hidden;animation:fadeInUp .5s ease both">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+                background:radial-gradient(circle,{BLUE}1A,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem">
+            <div style="width:8px;height:8px;border-radius:50%;background:{GREEN};animation:dotPulse 2s ease infinite"></div>
+            <span style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:{GREEN}">SISTEMA VALIDADO</span>
+        </div>
+        <div style="font-size:1.85rem;font-weight:800;letter-spacing:-.02em;color:{TEXT};line-height:1.1">
+            Validación del <span style="color:{CYAN}">Sistema</span>
+        </div>
+        <div style="font-size:.88rem;color:{TEXT2};margin-top:.4rem">
+            Métricas de precisión del modelo, calibración de agentes y calidad de datos
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ── Historial ─────────────────────────────────────────────────────────────────
 df_hist = cargar_historial_validacion()
@@ -53,7 +94,7 @@ ultimo_cal = df_hist[df_hist["tipo"].astype(str) == "calibracion"].head(1)
 ultimo_qc = df_hist[df_hist["tipo"].astype(str) == "calidad"].head(1)
 
 # ── KPIs ──────────────────────────────────────────────────────────────────────
-st.subheader("Ultima Ejecucion de Validación")
+st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Última Ejecución de Validación</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -94,7 +135,7 @@ with col5:
     else:
         st.metric("Cobertura IC 95%", "—")
 
-st.divider()
+st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 tab1, tab2, tab3 = st.tabs(["Backtesting", "Calibracion Agentes", "Calidad de Datos"])
 
@@ -106,20 +147,21 @@ with tab1:
         st.info("Sin resultados de backtesting")
     else:
         if len(df_bt) > 1:
-            st.subheader("Evolución del Brier Score")
+            st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Evolución del Brier Score</span><div class="line"></div></div>', unsafe_allow_html=True)
             fig_ev = go.Figure()
             fig_ev.add_trace(go.Scatter(
                 x=df_bt["created_at"], y=df_bt["brier_score"],
                 mode="lines+markers", name="Brier Score",
-                line=dict(color="#C60B1E", width=2),
+                line=dict(color=RED, width=2),
             ))
             fig_ev.update_layout(
-                height=300, plot_bgcolor="white", paper_bgcolor="white",
+                height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 xaxis_title="Fecha", yaxis_title="Brier Score",
+                font=dict(color=TEXT2),
             )
             st.plotly_chart(fig_ev, use_container_width=True)
 
-        st.subheader("Error por Partido (ultima ejecucion)")
+        st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Error por Partido (última ejecución)</span><div class="line"></div></div>', unsafe_allow_html=True)
         run_id_last = df_bt.iloc[0]["run_id"]
         df_part = cargar_validacion_por_partido(run_id_last)
 
@@ -128,7 +170,7 @@ with tab1:
                 x=df_part["partido_siglas"],
                 y=df_part["error_pct"].abs(),
                 marker_color=df_part["error_pct"].abs().apply(
-                    lambda x: "#27ae60" if x < 2 else "#f39c12" if x < 5 else "#e74c3c"
+                    lambda x: GREEN if x < 2 else AMBER if x < 5 else RED
                 ),
                 text=df_part["error_pct"].round(2).astype(str) + " pp",
                 textposition="outside",
@@ -136,11 +178,12 @@ with tab1:
             fig_part.update_layout(
                 title="Error de predicción por partido (pp)",
                 xaxis_title="Partido", yaxis_title="Error absoluto (pp)",
-                height=380, plot_bgcolor="white", paper_bgcolor="white",
+                height=380, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(color=TEXT2),
             )
             st.plotly_chart(fig_part, use_container_width=True)
 
-            st.subheader("Real vs Predicho por Partido")
+            st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Real vs Predicho por Partido</span><div class="line"></div></div>', unsafe_allow_html=True)
             cols_show = ["partido_siglas", "voto_real_pct", "voto_pred_pct", "error_pct",
                          "escanos_reales", "escanos_pred_mediana", "escanos_pred_p5", "escanos_pred_p95"]
             cols_show = [c for c in cols_show if c in df_part.columns]
@@ -194,15 +237,16 @@ with tab3:
                 y=df_qc["pct_completitud"].astype(float),
                 mode="lines+markers", name="% Checks OK",
                 fill="tozeroy", fillcolor="rgba(39, 174, 96, 0.15)",
-                line=dict(color="#27ae60"),
+                line=dict(color=GREEN),
             ))
-            fig_qc.add_hline(y=90, line_dash="dash", line_color="#27ae60",
+            fig_qc.add_hline(y=90, line_dash="dash", line_color=GREEN,
                              annotation_text="Objetivo 90%")
-            fig_qc.add_hline(y=70, line_dash="dash", line_color="#f39c12",
+            fig_qc.add_hline(y=70, line_dash="dash", line_color=AMBER,
                              annotation_text="Minimo 70%")
             fig_qc.update_layout(
-                height=300, plot_bgcolor="white", paper_bgcolor="white",
+                height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 xaxis_title="Fecha", yaxis_title="% Checks OK",
+                font=dict(color=TEXT2),
             )
             st.plotly_chart(fig_qc, use_container_width=True)
 

@@ -15,15 +15,17 @@ if str(_ROOT) not in sys.path:
 
 import plotly.graph_objects as go
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+)
 
 from dashboard.db import cargar_alertas, cargar_macro_serie, cargar_macro_ultimo, cargar_scraping_log
 
 st.set_page_config(page_title="Tiempo Real — ElectSim", layout="wide")
 
 sidebar_nav()
-st.title("Tiempo Real")
-st.markdown("Estado de scrapers, alertas del sistema y feed de indicadores económicos.")
 
 with st.sidebar:
     st.header("Configuración")
@@ -37,11 +39,58 @@ with st.sidebar:
     solo_no_leidas = st.checkbox("Solo alertas no leidas", value=True)
     dias_macro = st.slider("Ventana macro (dias)", 30, 730, 180)
 
+st.markdown(f"""
+<style>
+@keyframes fadeInUp {{
+    from {{ opacity:0; transform:translateY(18px); }}
+    to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes dotPulse {{
+    0%,100% {{ opacity:.4; transform:scale(1); }}
+    50%      {{ opacity:1; transform:scale(1.3); }}
+}}
+.alert-card {{
+    border-radius:8px; padding:.55rem 1rem; margin:.3rem 0;
+    border-left-width:4px; border-left-style:solid; animation:fadeInUp .35s ease both;
+}}
+.scraper-row {{
+    background:{BG2}; border:1px solid {BORDER}; border-radius:8px;
+    padding:.5rem 1rem; margin:.3rem 0; font-size:.85rem;
+}}
+.sec-hdr {{
+    display:flex; align-items:center; gap:.7rem; margin:1.8rem 0 1rem;
+}}
+.sec-hdr .bar  {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.sec-hdr .lbl  {{ font-size:.65rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:{MUTED}; }}
+.sec-hdr .line {{ flex:1; height:1px; background:{BORDER}; }}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
+            border:1px solid {BORDER};border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;overflow:hidden;animation:fadeInUp .5s ease both">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+                background:radial-gradient(circle,{CYAN}1A,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem">
+            <div style="width:8px;height:8px;border-radius:50%;background:{CYAN};animation:dotPulse 2s ease infinite"></div>
+            <span style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:{CYAN}">EN VIVO</span>
+        </div>
+        <div style="font-size:1.85rem;font-weight:800;letter-spacing:-.02em;color:{TEXT};line-height:1.1">
+            Monitor <span style="color:{CYAN}">Tiempo Real</span>
+        </div>
+        <div style="font-size:.88rem;color:{TEXT2};margin-top:.4rem">
+            Estado de scrapers, alertas del sistema y feed de indicadores económicos
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 # ── Estado de scrapers ────────────────────────────────────────────────────────
 col_scrapers, col_alertas = st.columns([1, 1])
 
 with col_scrapers:
-    st.subheader("Estado de Scrapers")
+    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Estado de Scrapers</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_log = cargar_scraping_log(30)
 
     if df_log.empty:
@@ -67,7 +116,7 @@ with col_scrapers:
 
         for _, row in df_resumen.iterrows():
             status = "OK" if row["ultimo_estado"] == "ok" else "ERROR"
-            color = "#27ae60" if row["ultimo_estado"] == "ok" else "#e74c3c"
+            color = GREEN if row["ultimo_estado"] == "ok" else RED
             st.markdown(
                 f'<span style="color:{color};font-weight:600">[{status}]</span> '
                 f'**{row["fuente"]}** — {row["n_nuevos_total"]} registros · '
@@ -75,12 +124,12 @@ with col_scrapers:
                 unsafe_allow_html=True,
             )
 
-        st.subheader("Log detallado")
+        st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Log detallado</span><div class="line"></div></div>', unsafe_allow_html=True)
         cols_log = [c for c in ["fuente", "tipo", "estado", "n_registros_nuevos", "duracion_segundos", "created_at"] if c in df_log.columns]
         st.dataframe(df_log[cols_log].head(20), hide_index=True, use_container_width=True)
 
 with col_alertas:
-    st.subheader("Alertas del Sistema")
+    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Alertas del Sistema</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_alertas = cargar_alertas(solo_no_leidas)
 
     if df_alertas.empty:
@@ -88,21 +137,21 @@ with col_alertas:
     else:
         for _, row in df_alertas.iterrows():
             sev = row.get("severidad", "INFO")
-            border = {"CRITICAL": "#e74c3c", "WARNING": "#f39c12"}.get(sev, "#3498db")
+            border = {"CRITICAL": RED, "WARNING": AMBER}.get(sev, BLUE)
             tipo_alerta = row.get("tipo", "")
             st.markdown(f"""
-            <div style="border-left:4px solid {border};padding:0.5rem 1rem;
-                        margin:0.3rem 0;background:#fafafa;border-radius:0 4px 4px 0">
-                <strong>[{sev}]</strong> {row.get('titulo', '')}
-                <br><small style="color:#666">{str(row.get('descripcion', ''))[:150]}</small>
-                <br><small style="color:#999">{str(row.get('created_at', ''))[:16]} · {tipo_alerta}</small>
+            <div style="border-left:4px solid {border};padding:0.55rem 1rem;
+                        margin:0.3rem 0;background:{BG2};border-radius:0 8px 8px 0;border:1px solid {BORDER};border-left:4px solid {border}">
+                <strong style="color:{TEXT}">[{sev}]</strong> <span style="color:{TEXT2}">{row.get('titulo', '')}</span>
+                <br><small style="color:{MUTED}">{str(row.get('descripcion', ''))[:150]}</small>
+                <br><small style="color:{MUTED}">{str(row.get('created_at', ''))[:16]} · {tipo_alerta}</small>
             </div>
             """, unsafe_allow_html=True)
 
-st.divider()
+st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Indicadores macroeconómicos ───────────────────────────────────────────────
-st.subheader("Indicadores Macroeconómicos")
+st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores Macroeconómicos</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 df_macro_last = cargar_macro_ultimo()
 if not df_macro_last.empty:
@@ -140,7 +189,7 @@ ind_sel = st.multiselect(
 
 if ind_sel:
     fig_macro = go.Figure()
-    colores = ["#C60B1E", "#1a5276", "#117a65", "#7d6608"]
+    colores = [CYAN, BLUE, GREEN, AMBER]
 
     for i, ind in enumerate(ind_sel):
         label = dict(indicadores_disponibles).get(ind, ind)
@@ -159,20 +208,21 @@ if ind_sel:
             height=400,
             xaxis_title="Fecha",
             yaxis_title="Valor",
-            plot_bgcolor="white",
-            paper_bgcolor="white",
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)",
             hovermode="x unified",
-            legend=dict(orientation="h", y=-0.2),
+            legend=dict(orientation="h", y=-0.2, font=dict(color=TEXT2)),
             margin=dict(t=20, b=60),
+            font=dict(color=TEXT2),
         )
         st.plotly_chart(fig_macro, use_container_width=True)
     else:
         st.info("Sin series temporales macroeconómicas.")
 
-st.divider()
+st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Monitor CIS ───────────────────────────────────────────────────────────────
-st.subheader("Monitor CIS")
+st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Monitor CIS</span><div class="line"></div></div>', unsafe_allow_html=True)
 st.markdown("""
 El monitor CIS detecta nuevas públicaciones de barometros y estudios preelectorales
 y los ingesta automaticamente.
@@ -191,10 +241,10 @@ if not df_cis_log.empty:
 else:
     st.info("Sin logs de scraping")
 
-st.divider()
+st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Noche electoral ───────────────────────────────────────────────────────────
-st.subheader("Monitor Noche Electoral")
+st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Monitor Noche Electoral</span><div class="line"></div></div>', unsafe_allow_html=True)
 st.markdown("""
 Activalo durante una noche electoral para seguir el escrutinio en tiempo real:
 ```bash

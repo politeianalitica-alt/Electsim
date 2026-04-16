@@ -19,27 +19,19 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+)
 
 from dashboard.db import cargar_nowcasting
 from dashboard.adapters import create_simulation_adapter
 
-# ── Design ────────────────────────────────────────────────────────────────────
-NAVY  = "#1E3A5F"
-BLUE  = "#2563EB"
-PALE  = "#EFF6FF"
-WHITE = "#FFFFFF"
-BORDER= "#CBD5E1"
-TEXT  = "#0F172A"
-MUTED = "#64748B"
-GREEN = "#10B981"
-AMBER = "#F59E0B"
-RED   = "#EF4444"
-
 COLORES_PARTIDO = {
-    "PP": "#0066CC", "PSOE": "#E31C1C", "VOX": "#63BE21",
-    "SUMAR": "#BE0025", "Junts": "#00C0B2", "ERC": "#FAB710",
-    "PNV": "#008000", "EH Bildu": "#95C11F",
+    "PP": "#3B82F6", "PSOE": "#EF4444", "VOX": "#22C55E",
+    "SUMAR": "#EC4899", "Junts": "#00C0B2", "ERC": "#FAB710",
+    "PNV": "#22C55E", "EH Bildu": "#4ADE80",
     "Abstención": "#9CA3AF", "Blanco/Nulo": "#D1D5DB",
 }
 
@@ -49,38 +41,62 @@ sidebar_nav()
 
 st.markdown(f"""
 <style>
-body, .stApp {{ background:{WHITE}; color:{TEXT}; }}
-.politeia-header {{
-    background: linear-gradient(135deg, {NAVY} 0%, {BLUE} 100%);
-    color: white; padding: 1.8rem 2.5rem; border-radius: 16px; margin-bottom: 1.5rem;
+@keyframes fadeInUp {{
+    from {{ opacity:0; transform:translateY(18px); }}
+    to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes dotPulse {{
+    0%,100% {{ opacity:.4; transform:scale(1); }}
+    50%      {{ opacity:1; transform:scale(1.3); }}
 }}
 .card {{
-    background:{WHITE}; border:1px solid {BORDER}; border-radius:12px;
+    background:{BG2}; border:1px solid {BORDER}; border-radius:12px;
     padding:1.2rem 1.4rem; margin-bottom:1rem;
-}}
-.preocupacion-bar {{
-    display:flex; align-items:center; gap:.5rem; margin-bottom:.4rem; font-size:.85rem;
+    animation:fadeInUp .4s ease both;
 }}
 .section-title {{
-    font-size:.72rem; font-weight:700; color:{MUTED};
-    letter-spacing:.1em; text-transform:uppercase;
-    border-bottom:2px solid {PALE}; padding-bottom:.3rem; margin:1rem 0 .6rem;
+    display:flex; align-items:center; gap:.7rem; margin:1.6rem 0 .9rem;
 }}
+.section-title .bar {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.section-title .lbl {{
+    font-size:.65rem; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:{MUTED};
+}}
+.section-title .line {{ flex:1; height:1px; background:{BORDER}; }}
 .ideo-badge {{
     display:inline-block; padding:.15rem .7rem; border-radius:999px;
     font-size:.75rem; font-weight:700; color:white;
 }}
 .trend-up   {{ color:{GREEN}; font-weight:700; }}
 .trend-down {{ color:{RED}; font-weight:700; }}
+.kpi-pill {{
+    background:{BG3}; border:1px solid {BORDER}; border-radius:10px;
+    padding:.5rem .6rem; text-align:center; animation:fadeInUp .4s ease both;
+}}
 </style>
 """, unsafe_allow_html=True)
 
 st.markdown(f"""
-<div class="politeia-header">
-  <div style="font-size:1.6rem;font-weight:800">Análisis de Perfiles de Votante</div>
-  <div style="opacity:.85;margin-top:.4rem">
-    Segmentación electoral · Simulador de campaña (sin API) · Encuesta sintética CIS
-  </div>
+<div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
+            border:1px solid {BORDER};border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;overflow:hidden;animation:fadeInUp .5s ease both">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+                background:radial-gradient(circle,{PURPLE}1A,transparent 65%);
+                border-radius:50%;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:28%;width:130px;height:130px;
+                background:radial-gradient(circle,{CYAN}12,transparent 65%);
+                border-radius:50%;pointer-events:none"></div>
+    <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem">
+            <div style="width:8px;height:8px;border-radius:50%;background:{CYAN};animation:dotPulse 2s ease infinite"></div>
+            <span style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:{CYAN}">ANÁLISIS ACTIVO</span>
+        </div>
+        <div style="font-size:1.85rem;font-weight:800;letter-spacing:-.02em;color:{TEXT};line-height:1.1">
+            Perfiles de <span style="color:{CYAN}">Votante</span>
+        </div>
+        <div style="font-size:.88rem;color:{TEXT2};margin-top:.4rem">
+            Segmentación electoral · Simulador de campaña (sin API) · Encuesta sintética CIS
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -383,7 +399,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # TAB 1: PERFILES
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown('<div class="section-title">Segmentación del electorado español (6 perfiles principales)</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Segmentación del electorado español (6 perfiles principales)</span><div class="line"></div></div>', unsafe_allow_html=True)
 
     # KPIs
     kpi_cols = st.columns(6)
@@ -392,11 +408,11 @@ with tab1:
         tend = "↑" if "creciente" in p["tendencia_perfil"] else ("↓" if "decreciente" in p["tendencia_perfil"] else "→")
         with kpi_cols[i]:
             st.markdown(f"""
-            <div style="background:{PALE};border-left:3px solid {color};
+            <div style="background:{BG3};border:1px solid {BORDER};border-left:3px solid {color};
                         padding:.5rem .6rem;border-radius:8px;text-align:center">
                 <div style="font-size:.75rem;font-weight:700;color:{color}">{p['etiqueta']}</div>
                 <div style="font-size:1.3rem;font-weight:800">{p['peso']*100:.0f}%</div>
-                <div style="font-size:.72rem;color:{MUTED}">{p['n_personas']} {tend}</div>
+                <div style="font-size:.72rem;color:{TEXT2}">{p['n_personas']} {tend}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -425,10 +441,10 @@ with tab1:
             </div>
           </div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap">
-            <div style="background:{PALE};border-radius:8px;padding:.5rem .8rem">
+            <div style="background:{BG3};border-radius:8px;padding:.5rem .8rem">
               <strong>Peso electoral:</strong> {p['peso']*100:.0f}% · {p['n_personas']}
             </div>
-            <div style="background:{PALE};border-radius:8px;padding:.5rem .8rem;color:{color_tend}">
+            <div style="background:{BG3};border-radius:8px;padding:.5rem .8rem;color:{color_tend}">
               <strong>Tendencia:</strong> {tend_txt}
             </div>
           </div>
@@ -436,14 +452,14 @@ with tab1:
         """, unsafe_allow_html=True)
 
         # Preocupaciones
-        st.markdown('<div class="section-title">Principales preocupaciones</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Principales preocupaciones</span><div class="line"></div></div>', unsafe_allow_html=True)
         for tema, pct in p["preocupaciones"]:
             bar_w = int(pct * 1.8)
             bar_color = p["ideo_color"]
             st.markdown(f"""
             <div class="preocupacion-bar">
               <div style="width:160px;font-size:.83rem">{tema}</div>
-              <div style="flex:1;background:#F1F5F9;border-radius:4px;height:14px;max-width:280px">
+              <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:280px">
                 <div style="width:{bar_w}px;max-width:280px;background:{bar_color};border-radius:4px;height:14px"></div>
               </div>
               <div style="font-weight:700;font-size:.85rem;width:38px;text-align:right">{pct}%</div>
@@ -453,7 +469,7 @@ with tab1:
         st.divider()
 
         # Opiniones
-        st.markdown('<div class="section-title">Opiniones generales del perfil</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Opiniones generales del perfil</span><div class="line"></div></div>', unsafe_allow_html=True)
         col_o1, col_o2 = st.columns(2)
         with col_o1:
             st.markdown(f"**Sobre el gobierno:** {p['opinion_gobierno']}")
@@ -463,21 +479,21 @@ with tab1:
             st.markdown(f"**Tendencia del voto:** {p['tendencia_voto']}")
 
         # Microeconomía
-        st.markdown('<div class="section-title">Perfil microeconómico</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Perfil microeconómico</span><div class="line"></div></div>', unsafe_allow_html=True)
         eco_cols = st.columns(3)
         items = list(p["micro_eco"].items())
         for i, (k, v) in enumerate(items):
             with eco_cols[i % 3]:
                 st.markdown(f"""
-                <div style="background:{PALE};border-radius:8px;padding:.5rem .7rem;margin-bottom:.5rem">
-                    <div style="font-size:.72rem;color:{MUTED};text-transform:uppercase">{k}</div>
+                <div style="background:{BG3};border-radius:8px;padding:.5rem .7rem;margin-bottom:.5rem">
+                    <div style="font-size:.72rem;color:{TEXT2};text-transform:uppercase">{k}</div>
                     <div style="font-weight:700;font-size:.95rem">{v}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
     with col_side:
         # Intención de voto
-        st.markdown('<div class="section-title">Intención de voto</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto</span><div class="line"></div></div>', unsafe_allow_html=True)
         partidos_v = list(p["intencion_voto"].keys())
         pcts_v = list(p["intencion_voto"].values())
         colors_v = [COLORES_PARTIDO.get(pt, MUTED) for pt in partidos_v]
@@ -490,14 +506,15 @@ with tab1:
         ))
         fig_donut.update_layout(
             height=280, margin=dict(t=10, b=10, l=10, r=10),
-            showlegend=False, paper_bgcolor=WHITE,
+            showlegend=False, paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
             annotations=[dict(text=f"<b>{perfil_sel[:12]}</b>", x=0.5, y=0.5,
-                              font_size=10, showarrow=False)],
+                              font_size=10, showarrow=False, font_color=TEXT2)],
         )
         st.plotly_chart(fig_donut, use_container_width=True)
 
         # Distribución geográfica
-        st.markdown('<div class="section-title">Distribución geográfica</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Distribución geográfica</span><div class="line"></div></div>', unsafe_allow_html=True)
         ccaa_list = list(p["ccaa"].keys())
         ccaa_pct  = list(p["ccaa"].values())
         fig_geo = go.Figure(go.Bar(
@@ -506,14 +523,16 @@ with tab1:
             text=[f"{v}%" for v in ccaa_pct], textposition="outside",
         ))
         fig_geo.update_layout(
-            height=260, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(title="%", range=[0, 45]),
+            height=260, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(title="%", range=[0, 45], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
             margin=dict(t=5, b=10, l=10, r=30),
         )
         st.plotly_chart(fig_geo, use_container_width=True)
 
         # Posición ideológica
-        st.markdown('<div class="section-title">Posición ideológica</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Posición ideológica</span><div class="line"></div></div>', unsafe_allow_html=True)
         fig_ideo = go.Figure(go.Bar(
             x=[p["ideo_media"]], y=[""],
             orientation="h",
@@ -524,15 +543,17 @@ with tab1:
         fig_ideo.add_vline(x=5, line_dash="dash", line_color=MUTED, annotation_text="Centro")
         fig_ideo.update_layout(
             height=100,
-            xaxis=dict(range=[0, 10], title="Izquierda ← → Derecha"),
-            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+            xaxis=dict(range=[0, 10], title="Izquierda ← → Derecha", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
             margin=dict(t=5, b=5, l=5, r=40),
         )
         st.plotly_chart(fig_ideo, use_container_width=True)
 
     # Comparativa general
     st.divider()
-    st.markdown('<div class="section-title">Comparativa de todos los perfiles</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Comparativa de todos los perfiles</span><div class="line"></div></div>', unsafe_allow_html=True)
     col_c1, col_c2 = st.columns(2)
     with col_c1:
         fig_pesos = go.Figure(go.Bar(
@@ -544,8 +565,10 @@ with tab1:
         ))
         fig_pesos.update_layout(
             title="Peso electoral (%)", height=300,
-            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(tickfont=dict(size=10)),
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(tickfont=dict(size=10, color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=40, b=10),
         )
         st.plotly_chart(fig_pesos, use_container_width=True)
@@ -560,9 +583,10 @@ with tab1:
         fig_ideo_comp.add_hline(y=5, line_dash="dash", line_color=MUTED, annotation_text="Centro")
         fig_ideo_comp.update_layout(
             title="Posición ideológica media (1=Izq, 10=Der)", height=300,
-            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(range=[0, 10]),
-            xaxis=dict(tickfont=dict(size=10)),
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            yaxis=dict(range=[0, 10], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(size=10, color=TEXT2), linecolor=BORDER),
             margin=dict(t=40, b=10),
         )
         st.plotly_chart(fig_ideo_comp, use_container_width=True)
@@ -572,7 +596,7 @@ with tab1:
 # TAB 2: SIMULADOR DE CAMPAÑA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown('<div class="section-title">Simulador de impacto de mensajes electorales (sin API)</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Simulador de impacto de mensajes electorales (sin API)</span><div class="line"></div></div>', unsafe_allow_html=True)
     st.markdown("""
     Este simulador usa un **modelo de impacto basado en reglas** calibrado con datos electorales históricos.
     Selecciona un tema de campaña y un partido emisor para ver cómo afecta a cada perfil de votante
@@ -611,7 +635,7 @@ with tab2:
         col_r1, col_r2 = st.columns(2)
 
         with col_r1:
-            st.markdown('<div class="section-title">Impacto en intención de voto (±pp)</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Impacto en intención de voto (±pp)</span><div class="line"></div></div>', unsafe_allow_html=True)
             if impactos_partido:
                 partidos_imp = list(impactos_partido.keys())
                 vals_imp = list(impactos_partido.values())
@@ -624,8 +648,10 @@ with tab2:
                 ))
                 fig_imp.add_hline(y=0, line_color=MUTED)
                 fig_imp.update_layout(
-                    height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-                    yaxis=dict(title="Variación en pp"),
+                    height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                    font=dict(color=TEXT2),
+                    yaxis=dict(title="Variación en pp", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+                    xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
                     margin=dict(t=10, b=10),
                 )
                 st.plotly_chart(fig_imp, use_container_width=True)
@@ -633,7 +659,7 @@ with tab2:
                 st.info("Este tema no tiene impacto paramétrico definido para el partido seleccionado.")
 
         with col_r2:
-            st.markdown('<div class="section-title">Receptividad por perfil de votante</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Receptividad por perfil de votante</span><div class="line"></div></div>', unsafe_allow_html=True)
             reacciones = []
             for perf in PERFILES:
                 beneficiado = perf["etiqueta"] in perfiles_beneficiados
@@ -649,7 +675,7 @@ with tab2:
                 st.markdown(f"""
                 <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
                     <div style="width:150px;font-size:.82rem">{etiq}</div>
-                    <div style="flex:1;background:#F1F5F9;border-radius:4px;height:14px;max-width:180px">
+                    <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:180px">
                         <div style="width:{bar_w}px;background:{color};border-radius:4px;height:14px"></div>
                     </div>
                     <div style="font-weight:700;font-size:.85rem;width:40px">{score:.1f}/10</div>
@@ -681,7 +707,7 @@ with tab2:
 # TAB 3: ENCUESTA SINTÉTICA CIS
 # ══════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown('<div class="section-title">Barómetro CIS sintético — Generado localmente sin API</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Barómetro CIS sintético — Generado localmente sin API</span><div class="line"></div></div>', unsafe_allow_html=True)
     st.markdown("""
     Simulación de un barómetro CIS generado a partir de los perfiles de votante y los datos de nowcasting.
     Los resultados sintéticos se calibran con las últimas encuestas publicadas.
@@ -720,7 +746,7 @@ with tab3:
         "Mucho mejor": 3, "Algo mejor": 14, "Igual": 28, "Algo peor": 35, "Mucho peor": 20,
     }
 
-    st.markdown('<div class="section-title">Intención de voto directa</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto directa</span><div class="line"></div></div>', unsafe_allow_html=True)
     col_d1, col_d2 = st.columns(2)
     with col_d1:
         df_int = pd.DataFrame({"Partido": list(intencion.keys()), "% Directa": list(intencion.values())})
@@ -733,7 +759,10 @@ with tab3:
         ))
         fig_int.update_layout(
             title="Intención de voto directa (%)", height=320,
-            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=40, b=10),
         )
         st.plotly_chart(fig_int, use_container_width=True)
@@ -748,7 +777,10 @@ with tab3:
         ))
         fig_est.update_layout(
             title='Estimación de voto (tras "cocina" CIS) (%)', height=320,
-            plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=40, b=10),
         )
         st.plotly_chart(fig_est, use_container_width=True)
@@ -756,7 +788,7 @@ with tab3:
     st.divider()
     col_p1, col_p2 = st.columns(2)
     with col_p1:
-        st.markdown('<div class="section-title">Problema principal que más le preocupa</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Problema principal que más le preocupa</span><div class="line"></div></div>', unsafe_allow_html=True)
         df_prob = pd.DataFrame({"Problema": list(problemas.keys()), "%": list(problemas.values())})
         df_prob = df_prob.sort_values("%", ascending=True)
         fig_prob = go.Figure(go.Bar(
@@ -765,13 +797,15 @@ with tab3:
             text=[f"{v}%" for v in df_prob["%"]], textposition="outside",
         ))
         fig_prob.update_layout(
-            height=340, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(range=[0, 80]),
+            height=340, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(range=[0, 80], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_prob, use_container_width=True)
     with col_p2:
-        st.markdown('<div class="section-title">Valoración de la gestión del gobierno</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Valoración de la gestión del gobierno</span><div class="line"></div></div>', unsafe_allow_html=True)
         vg_colors = ["#16A34A", "#86EFAC", "#FEF3C7", "#FBBF24", "#DC2626"]
         fig_val = go.Figure(go.Pie(
             labels=list(valoracion_gobierno.keys()),
@@ -779,13 +813,13 @@ with tab3:
             marker_colors=vg_colors,
             textinfo="label+percent",
         ))
-        fig_val.update_layout(height=320, paper_bgcolor=WHITE, margin=dict(t=10, b=10))
+        fig_val.update_layout(height=320, paper_bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2), margin=dict(t=10, b=10))
         st.plotly_chart(fig_val, use_container_width=True)
 
     st.divider()
     col_s1, col_s2 = st.columns(2)
     with col_s1:
-        st.markdown('<div class="section-title">Situación económica personal (últimos 12 meses)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Situación económica personal (últimos 12 meses)</span><div class="line"></div></div>', unsafe_allow_html=True)
         se_colors = ["#16A34A", "#86EFAC", "#D1D5DB", "#FBBF24", "#DC2626"]
         fig_se = go.Figure(go.Bar(
             x=list(situacion_eco.keys()), y=list(situacion_eco.values()),
@@ -793,12 +827,15 @@ with tab3:
             text=[f"{v}%" for v in situacion_eco.values()], textposition="outside",
         ))
         fig_se.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_se, use_container_width=True)
     with col_s2:
-        st.markdown('<div class="section-title">Autoubicación ideológica (1=izquierda, 10=derecha)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Autoubicación ideológica (1=izquierda, 10=derecha)</span><div class="line"></div></div>', unsafe_allow_html=True)
         x_ideo = list(range(1, 11))
         y_ideo = [4, 8, 10, 13, 18, 14, 12, 9, 7, 5]  # Distribución normal ligeramente centrada
         fig_ideo_dist = go.Figure(go.Bar(
@@ -811,10 +848,12 @@ with tab3:
             text=[f"{v}%" for v in y_ideo], textposition="outside",
         ))
         fig_ideo_dist.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
             xaxis=dict(title="Posición ideológica", tickvals=x_ideo,
-                       ticktext=["1\n(Izq)", "2", "3", "4", "5", "6", "7", "8", "9", "10\n(Der)"]),
-            yaxis=dict(title="%"),
+                       ticktext=["1\n(Izq)", "2", "3", "4", "5", "6", "7", "8", "9", "10\n(Der)"],
+                       tickfont=dict(color=TEXT2), linecolor=BORDER),
+            yaxis=dict(title="%", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_ideo_dist, use_container_width=True)
@@ -839,7 +878,7 @@ with tab3:
 # TAB 4: SIMULADOR LLM (ADAPTER)
 # ══════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown('<div class="section-title">Conexión con simulador existente (adapter no destructivo)</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Conexión con simulador existente (adapter no destructivo)</span><div class="line"></div></div>', unsafe_allow_html=True)
     st.markdown(
         "Este panel ejecuta el adaptador del pipeline validado para obtener resultados simulados "
         "sin modificar los módulos core ya aprobados."

@@ -17,18 +17,15 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+)
 
 from dashboard.db import cargar_indicadores_riesgo, cargar_macro_ultimo
 
 # ── Estilos ───────────────────────────────────────────────────────────────────
-NAVY = "#1E3A5F"
-BLUE = "#2563EB"
-WHITE = "#FFFFFF"
-BORDER = "#CBD5E1"
-BG = "#F8FAFC"
-TEXT = "#0F172A"
-MUTED = "#64748B"
 
 st.set_page_config(page_title="Riesgo Político — ElectSim", layout="wide")
 
@@ -36,32 +33,57 @@ sidebar_nav()
 
 st.markdown(f"""
 <style>
-    .main {{ background-color: {BG}; }}
-    h1, h2, h3 {{ color: {NAVY}; font-family: 'Inter', sans-serif; }}
-    .metric-card {{
-        background: {WHITE};
-        border: 1px solid {BORDER};
-        border-radius: 10px;
-        padding: 1.2rem 1.5rem;
-        margin-bottom: 1rem;
-    }}
-    .semaforo-verde {{ color: #16a34a; font-weight: 700; }}
-    .semaforo-amarillo {{ color: #d97706; font-weight: 700; }}
-    .semaforo-rojo {{ color: #dc2626; font-weight: 700; }}
-    .tab-content {{ padding: 1rem 0; }}
-    .escenario-card {{
-        background: {WHITE};
-        border: 1px solid {BORDER};
-        border-left: 4px solid {BLUE};
-        border-radius: 8px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 0.8rem;
-    }}
+@keyframes fadeInUp {{
+    from {{ opacity:0; transform:translateY(18px); }}
+    to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes dotPulse {{
+    0%,100% {{ opacity:.4; transform:scale(1); }}
+    50%      {{ opacity:1; transform:scale(1.3); }}
+}}
+.metric-card {{
+    background:{BG2}; border:1px solid {BORDER}; border-radius:12px;
+    padding:1.2rem 1.5rem; margin-bottom:1rem;
+    animation:fadeInUp .4s ease both;
+}}
+.escenario-card {{
+    background:{BG2}; border:1px solid {BORDER};
+    border-radius:10px; padding:1rem 1.2rem; margin-bottom:.8rem;
+}}
+.tab-content {{ padding:1rem 0; }}
+.sec-hdr {{
+    display:flex; align-items:center; gap:.7rem; margin:1.8rem 0 1rem;
+}}
+.sec-hdr .bar  {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.sec-hdr .lbl  {{
+    font-size:.65rem; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:{MUTED};
+}}
+.sec-hdr .line {{ flex:1; height:1px; background:{BORDER}; }}
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown(f"<h1 style='color:{NAVY};margin-bottom:0.2rem'>Índice de Riesgo Político</h1>", unsafe_allow_html=True)
-st.markdown(f"<p style='color:{MUTED};margin-top:0'>Modelo de riesgo multidimensional para España — ElectSim España 2025-2026</p>", unsafe_allow_html=True)
+st.markdown(f"""
+<div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
+            border:1px solid {BORDER};border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;overflow:hidden;animation:fadeInUp .5s ease both">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+                background:radial-gradient(circle,{RED}1A,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:28%;width:130px;height:130px;
+                background:radial-gradient(circle,{AMBER}12,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem">
+            <div style="width:8px;height:8px;border-radius:50%;background:{RED};animation:dotPulse 2s ease infinite"></div>
+            <span style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:{RED}">MONITOR ACTIVO</span>
+        </div>
+        <div style="font-size:1.85rem;font-weight:800;letter-spacing:-.02em;color:{TEXT};line-height:1.1">
+            Índice de <span style="color:{RED}">Riesgo Político</span>
+        </div>
+        <div style="font-size:.88rem;color:{TEXT2};margin-top:.4rem">
+            Modelo de riesgo multidimensional para España — ElectSim España 2025-2026
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ── Datos ─────────────────────────────────────────────────────────────────────
 df_riesgo = cargar_indicadores_riesgo()
@@ -155,23 +177,23 @@ with tab1:
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=indice_total,
-            title={"text": "Índice Compuesto", "font": {"size": 14, "color": NAVY}},
+            title={"text": "Índice Compuesto", "font": {"size": 14, "color": TEXT2}},
             number={"font": {"size": 48, "color": color_riesgo}, "suffix": "/10"},
             gauge={
                 "axis": {"range": [0, 10], "tickwidth": 1, "tickcolor": MUTED,
                          "tickfont": {"size": 10}},
                 "bar": {"color": color_riesgo, "thickness": 0.3},
-                "bgcolor": WHITE,
+                "bgcolor": "rgba(0,0,0,0)",
                 "borderwidth": 1,
                 "bordercolor": BORDER,
                 "steps": [
-                    {"range": [0, 3], "color": "#dcfce7"},
-                    {"range": [3, 6], "color": "#fef9c3"},
-                    {"range": [6, 8], "color": "#fee2e2"},
-                    {"range": [8, 10], "color": "#fca5a5"},
+                    {"range": [0, 3], "color": f"rgba(34,197,94,0.12)"},
+                    {"range": [3, 6], "color": f"rgba(245,158,11,0.12)"},
+                    {"range": [6, 8], "color": f"rgba(239,68,68,0.15)"},
+                    {"range": [8, 10], "color": f"rgba(239,68,68,0.25)"},
                 ],
                 "threshold": {
-                    "line": {"color": NAVY, "width": 3},
+                    "line": {"color": TEXT2, "width": 3},
                     "thickness": 0.8,
                     "value": indice_total,
                 },
@@ -180,13 +202,13 @@ with tab1:
         fig_gauge.update_layout(
             height=280,
             margin=dict(t=40, b=20, l=30, r=30),
-            paper_bgcolor=WHITE,
-            font={"family": "Inter, sans-serif"},
+            paper_bgcolor="rgba(0,0,0,0)",
+            font={"family": "Inter, sans-serif", "color": TEXT2},
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
 
         st.markdown(f"""
-        <div style="text-align:center;padding:0.8rem;background:{WHITE};
+        <div style="text-align:center;padding:0.8rem;background:{BG3};
                     border:1px solid {BORDER};border-radius:8px;
                     border-top:3px solid {color_riesgo}">
             <div style="font-size:1.1rem;font-weight:700;color:{color_riesgo}">{nivel_str}</div>
@@ -198,7 +220,7 @@ with tab1:
         """, unsafe_allow_html=True)
 
     with col_info:
-        st.markdown(f"<h3 style='color:{NAVY}'>Dimensiones del Riesgo</h3>", unsafe_allow_html=True)
+        st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">DIMENSIONES DEL RIESGO</span><div class="line"></div></div>""", unsafe_allow_html=True)
         st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>Descomposición del índice en 5 ejes estructurales ponderados por impacto sistémico.</p>", unsafe_allow_html=True)
 
         for key, info in DIMS_SINTETICAS.items():
@@ -206,22 +228,22 @@ with tab1:
             pct_barra = val / 10.0
             if val >= 6.5:
                 color_bar = "#dc2626"
-                badge_color = "#fee2e2"
-                badge_text = "#dc2626"
+                badge_color = f"rgba(239,68,68,0.15)"
+                badge_text = "#ef4444"
             elif val >= 4.5:
                 color_bar = "#d97706"
-                badge_color = "#fef9c3"
-                badge_text = "#d97706"
+                badge_color = f"rgba(245,158,11,0.15)"
+                badge_text = "#F59E0B"
             else:
                 color_bar = "#16a34a"
-                badge_color = "#dcfce7"
-                badge_text = "#16a34a"
+                badge_color = f"rgba(34,197,94,0.15)"
+                badge_text = "#22C55E"
 
             st.markdown(f"""
-            <div style="background:{WHITE};border:1px solid {BORDER};border-radius:8px;
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
                         padding:0.9rem 1rem;margin-bottom:0.6rem">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem">
-                    <span style="font-weight:600;color:{NAVY};font-size:0.9rem">{info['label']}</span>
+                    <span style="font-weight:600;color:{TEXT};font-size:0.9rem">{info['label']}</span>
                     <span style="background:{badge_color};color:{badge_text};font-weight:700;
                                  font-size:0.9rem;padding:0.15rem 0.6rem;border-radius:12px">
                         {val:.1f}/10 &nbsp;·&nbsp; peso {info['peso']}
@@ -238,7 +260,7 @@ with tab1:
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Radar chart
-    st.markdown(f"<h3 style='color:{NAVY};margin-top:1.5rem'>Perfil de Riesgo — Vista Radial</h3>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr" style="margin-top:1.5rem"><div class="bar" style="background:{PURPLE}"></div><span class="lbl">PERFIL DE RIESGO — VISTA RADIAL</span><div class="line"></div></div>""", unsafe_allow_html=True)
 
     labels = [v["label"] for v in DIMS_SINTETICAS.values()]
     values = [v["valor"] for v in DIMS_SINTETICAS.values()]
@@ -255,17 +277,17 @@ with tab1:
         polar=dict(
             radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(size=9, color=MUTED),
                             gridcolor=BORDER, linecolor=BORDER),
-            angularaxis=dict(tickfont=dict(size=11, color=NAVY), gridcolor=BORDER),
-            bgcolor=WHITE,
+            angularaxis=dict(tickfont=dict(size=11, color=TEXT2), gridcolor=BORDER),
+            bgcolor="rgba(0,0,0,0)",
         ),
         height=380,
         margin=dict(t=40, b=40, l=80, r=80),
-        paper_bgcolor=WHITE,
-        font={"family": "Inter, sans-serif"},
+        paper_bgcolor="rgba(0,0,0,0)",
+        font={"family": "Inter, sans-serif", "color": TEXT2},
     )
     st.plotly_chart(fig_radar, use_container_width=True)
 
-    st.markdown(f"<h3 style='color:{NAVY};margin-top:1rem'>¿Riesgo de qué y por qué?</h3>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr" style="margin-top:1rem"><div class="bar" style="background:{AMBER}"></div><span class="lbl">¿RIESGO DE QUÉ Y POR QUÉ?</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(
         """
         El índice mide el riesgo de **bloqueo institucional**, **inestabilidad de gobierno**, **choque económico-social**
@@ -276,7 +298,7 @@ with tab1:
         - Tensiones centro-periferia y litigios institucionales en curso.
         """
     )
-    st.markdown(f"<h4 style='color:{NAVY};margin-top:.7rem'>Evidencias y pruebas usadas por el modelo</h4>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr" style="margin-top:.7rem"><div class="bar" style="background:{CYAN}"></div><span class="lbl">EVIDENCIAS Y PRUEBAS USADAS POR EL MODELO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     evidencias = pd.DataFrame(
         [
             {"Prueba": "Prima de riesgo", "Métrica": "78 pb", "Interpretación": "Estrés soberano contenido pero sensible a shocks"},
@@ -292,7 +314,7 @@ with tab1:
 # TAB 2: ANÁLISIS DE ESCENARIOS DE RIESGO
 # ==============================================================================
 with tab2:
-    st.markdown(f"<h3 style='color:{NAVY}'>Escenarios de Riesgo — Análisis Prospectivo</h3>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{RED}"></div><span class="lbl">ESCENARIOS DE RIESGO — ANÁLISIS PROSPECTIVO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>Cuatro escenarios principales con probabilidad estimada, condicionantes e implicaciones sistémicas.</p>", unsafe_allow_html=True)
 
     escenarios = [
@@ -300,7 +322,8 @@ with tab2:
             "nombre": "Caída del Gobierno",
             "probabilidad": 15,
             "color_borde": "#dc2626",
-            "color_bg": "#fef2f2",
+            "color_bg": f"rgba(239,68,68,0.08)",
+            "color_texto": TEXT2,
             "icono": "Escenario A",
             "descripcion": (
                 "Ruptura de la coalición de gobierno por desacuerdo en presupuestos, ley de amnistía o "
@@ -321,7 +344,8 @@ with tab2:
             "nombre": "Crisis Económica Aguda",
             "probabilidad": 22,
             "color_borde": "#d97706",
-            "color_bg": "#fffbeb",
+            "color_bg": f"rgba(245,158,11,0.08)",
+            "color_texto": TEXT2,
             "icono": "Escenario B",
             "descripcion": (
                 "Escalada de la prima de riesgo por encima de 150pb, combinada con recesión técnica "
@@ -342,7 +366,8 @@ with tab2:
             "nombre": "Crisis Territorial Grave",
             "probabilidad": 18,
             "color_borde": "#7c3aed",
-            "color_bg": "#f5f3ff",
+            "color_bg": f"rgba(139,92,246,0.08)",
+            "color_texto": TEXT2,
             "icono": "Escenario C",
             "descripcion": (
                 "Ruptura de los pactos con los partidos independentistas catalanes o vascos. "
@@ -363,7 +388,8 @@ with tab2:
             "nombre": "Estabilidad Controlada",
             "probabilidad": 45,
             "color_borde": "#16a34a",
-            "color_bg": "#f0fdf4",
+            "color_bg": f"rgba(34,197,94,0.08)",
+            "color_texto": TEXT2,
             "icono": "Escenario D",
             "descripcion": (
                 "El gobierno aguanta la legislatura hasta 2027 gestionando los conflictos "
@@ -396,14 +422,15 @@ with tab2:
                     gauge={
                         "axis": {"range": [0, 100], "tickfont": {"size": 8}},
                         "bar": {"color": esc["color_borde"], "thickness": 0.35},
-                        "bgcolor": WHITE,
+                        "bgcolor": "rgba(0,0,0,0)",
                         "borderwidth": 1,
                         "bordercolor": BORDER,
                         "steps": [{"range": [0, prob], "color": esc["color_bg"]}],
                     },
                 ))
                 fig_prob.update_layout(height=200, margin=dict(t=30, b=10, l=20, r=20),
-                                       paper_bgcolor=WHITE)
+                                       paper_bgcolor="rgba(0,0,0,0)",
+                                       font=dict(color=TEXT2))
                 st.plotly_chart(fig_prob, use_container_width=True)
 
             with col_desc:
@@ -412,21 +439,23 @@ with tab2:
                 for cond in esc["condiciones"]:
                     st.markdown(f"- {cond}")
 
+            _cbg = esc["color_bg"]
+            _ctxt = esc["color_texto"]
             col_a, col_b, col_c = st.columns(3)
             with col_a:
                 st.markdown(f"**Impacto en mercados**")
-                st.markdown(f"<div style='background:{esc['color_bg']};padding:0.7rem;border-radius:6px;"
-                            f"font-size:0.85rem;color:{TEXT}'>{esc['mercados']}</div>",
+                st.markdown(f"<div style='background:{_cbg};padding:0.7rem;border-radius:6px;"
+                            f"font-size:0.85rem;color:{_ctxt}'>{esc['mercados']}</div>",
                             unsafe_allow_html=True)
             with col_b:
                 st.markdown(f"**Impacto electoral**")
-                st.markdown(f"<div style='background:{esc['color_bg']};padding:0.7rem;border-radius:6px;"
-                            f"font-size:0.85rem;color:{TEXT}'>{esc['electoral']}</div>",
+                st.markdown(f"<div style='background:{_cbg};padding:0.7rem;border-radius:6px;"
+                            f"font-size:0.85rem;color:{_ctxt}'>{esc['electoral']}</div>",
                             unsafe_allow_html=True)
             with col_c:
                 st.markdown(f"**Indicadores de alerta**")
-                st.markdown(f"<div style='background:{esc['color_bg']};padding:0.7rem;border-radius:6px;"
-                            f"font-size:0.85rem;color:{TEXT}'>{esc['indicadores']}</div>",
+                st.markdown(f"<div style='background:{_cbg};padding:0.7rem;border-radius:6px;"
+                            f"font-size:0.85rem;color:{_ctxt}'>{esc['indicadores']}</div>",
                             unsafe_allow_html=True)
 
     # Suma de probabilidades
@@ -440,7 +469,7 @@ with tab2:
 # TAB 3: INDICADORES DE ALERTA TEMPRANA
 # ==============================================================================
 with tab3:
-    st.markdown(f"<h3 style='color:{NAVY}'>Panel de Alertas Tempranas</h3>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{GREEN}"></div><span class="lbl">PANEL DE ALERTAS TEMPRANAS</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>"
                 f"Semáforo de 12 indicadores clave. Umbrales calibrados con datos históricos españoles 1996-2026.</p>",
                 unsafe_allow_html=True)
@@ -558,9 +587,9 @@ with tab3:
     ]
 
     SEMAFORO_COLORS = {
-        "VERDE": {"bg": "#dcfce7", "text": "#16a34a", "borde": "#bbf7d0", "label": "VERDE"},
-        "AMARILLO": {"bg": "#fef9c3", "text": "#d97706", "borde": "#fde68a", "label": "AMARILLO"},
-        "ROJO": {"bg": "#fee2e2", "text": "#dc2626", "borde": "#fecaca", "label": "ROJO"},
+        "VERDE": {"bg": "rgba(34,197,94,0.12)", "text": "#22C55E", "borde": "rgba(34,197,94,0.25)", "label": "VERDE"},
+        "AMARILLO": {"bg": "rgba(245,158,11,0.12)", "text": "#F59E0B", "borde": "rgba(245,158,11,0.25)", "label": "AMARILLO"},
+        "ROJO": {"bg": "rgba(239,68,68,0.12)", "text": "#EF4444", "borde": "rgba(239,68,68,0.25)", "label": "ROJO"},
     }
 
     # Resumen contadores
@@ -572,17 +601,17 @@ with tab3:
     with c1:
         st.metric("Total Indicadores", len(indicadores_alerta))
     with c2:
-        st.markdown(f"<div style='background:#dcfce7;border-radius:8px;padding:0.8rem;text-align:center'>"
-                    f"<div style='font-size:1.5rem;font-weight:700;color:#16a34a'>{n_verde}</div>"
-                    f"<div style='font-size:0.8rem;color:#16a34a'>VERDE</div></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background:rgba(34,197,94,0.12);border-radius:8px;padding:0.8rem;text-align:center'>"
+                    f"<div style='font-size:1.5rem;font-weight:700;color:{GREEN}'>{n_verde}</div>"
+                    f"<div style='font-size:0.8rem;color:{GREEN}'>VERDE</div></div>", unsafe_allow_html=True)
     with c3:
-        st.markdown(f"<div style='background:#fef9c3;border-radius:8px;padding:0.8rem;text-align:center'>"
-                    f"<div style='font-size:1.5rem;font-weight:700;color:#d97706'>{n_amarillo}</div>"
-                    f"<div style='font-size:0.8rem;color:#d97706'>AMARILLO</div></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background:rgba(245,158,11,0.12);border-radius:8px;padding:0.8rem;text-align:center'>"
+                    f"<div style='font-size:1.5rem;font-weight:700;color:{AMBER}'>{n_amarillo}</div>"
+                    f"<div style='font-size:0.8rem;color:{AMBER}'>AMARILLO</div></div>", unsafe_allow_html=True)
     with c4:
-        st.markdown(f"<div style='background:#fee2e2;border-radius:8px;padding:0.8rem;text-align:center'>"
-                    f"<div style='font-size:1.5rem;font-weight:700;color:#dc2626'>{n_rojo}</div>"
-                    f"<div style='font-size:0.8rem;color:#dc2626'>ROJO</div></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background:rgba(239,68,68,0.12);border-radius:8px;padding:0.8rem;text-align:center'>"
+                    f"<div style='font-size:1.5rem;font-weight:700;color:{RED}'>{n_rojo}</div>"
+                    f"<div style='font-size:0.8rem;color:{RED}'>ROJO</div></div>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -602,11 +631,11 @@ with tab3:
                     pct_fill = 50
 
                 st.markdown(f"""
-                <div style="background:{WHITE};border:1px solid {sc['borde']};
+                <div style="background:{BG2};border:1px solid {sc['borde']};
                             border-top:3px solid {sc['text']};border-radius:8px;
                             padding:0.9rem 1rem;margin-bottom:0.5rem;min-height:140px">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                        <span style="font-weight:600;color:{NAVY};font-size:0.85rem;
+                        <span style="font-weight:600;color:{TEXT};font-size:0.85rem;
                                      flex:1;line-height:1.3">{ind['nombre']}</span>
                         <span style="background:{sc['bg']};color:{sc['text']};font-weight:700;
                                      font-size:0.75rem;padding:0.1rem 0.5rem;border-radius:10px;
@@ -630,7 +659,7 @@ with tab3:
 # TAB 4: HISTÓRICO DE RIESGO
 # ==============================================================================
 with tab4:
-    st.markdown(f"<h3 style='color:{NAVY}'>Evolución Histórica del Riesgo Político</h3>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{BLUE}"></div><span class="lbl">EVOLUCIÓN HISTÓRICA DEL RIESGO POLÍTICO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>"
                 f"Serie mensual del índice compuesto de riesgo 2022-2026, con anotaciones de eventos clave.</p>",
                 unsafe_allow_html=True)
@@ -733,7 +762,7 @@ with tab4:
             fig_hist.add_vline(
                 x=fecha_ev,
                 line_dash="dash",
-                line_color=NAVY,
+                line_color=TEXT2,
                 line_width=1,
                 opacity=0.4,
             )
@@ -743,15 +772,15 @@ with tab4:
                 text=texto_ev,
                 showarrow=False,
                 textangle=-35,
-                font=dict(size=9, color=NAVY),
+                font=dict(size=9, color=TEXT2),
                 xanchor="left",
                 yanchor="top",
             )
 
     fig_hist.update_layout(
         height=450,
-        plot_bgcolor=WHITE,
-        paper_bgcolor=WHITE,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(
             title="Mes",
             gridcolor=BORDER,
@@ -766,13 +795,13 @@ with tab4:
         ),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         margin=dict(t=60, b=60, l=60, r=60),
-        font={"family": "Inter, sans-serif"},
+        font={"family": "Inter, sans-serif", "color": TEXT2},
         hovermode="x unified",
     )
     st.plotly_chart(fig_hist, use_container_width=True)
 
     # Estadísticas de la serie
-    st.markdown(f"<h4 style='color:{NAVY}'>Estadísticas de la Serie</h4>", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">ESTADÍSTICAS DE LA SERIE</span><div class="line"></div></div>""", unsafe_allow_html=True)
     col_s1, col_s2, col_s3, col_s4, col_s5 = st.columns(5)
     with col_s1:
         st.metric("Valor Actual", f"{float(valores_hist.iloc[-1]):.1f}")

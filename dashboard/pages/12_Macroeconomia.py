@@ -19,21 +19,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+)
 
 from dashboard.db import cargar_macro_ultimo
-
-# ── Design ────────────────────────────────────────────────────────────────────
-NAVY  = "#1E3A5F"
-BLUE  = "#2563EB"
-PALE  = "#EFF6FF"
-WHITE = "#FFFFFF"
-BORDER= "#CBD5E1"
-TEXT  = "#0F172A"
-MUTED = "#64748B"
-GREEN = "#10B981"
-AMBER = "#F59E0B"
-RED   = "#EF4444"
 
 st.set_page_config(page_title="Macroeconomía — ElectSim", layout="wide")
 
@@ -41,23 +33,28 @@ sidebar_nav()
 
 st.markdown(f"""
 <style>
-body, .stApp {{ background:{WHITE}; color:{TEXT}; }}
-.politeia-header {{
-    background: linear-gradient(135deg, {NAVY} 0%, {BLUE} 100%);
-    color: white; padding: 1.8rem 2.5rem; border-radius: 16px; margin-bottom: 1.5rem;
+@keyframes fadeInUp {{
+    from {{ opacity:0; transform:translateY(18px); }}
+    to   {{ opacity:1; transform:translateY(0); }}
+}}
+@keyframes dotPulse {{
+    0%,100% {{ opacity:.4; transform:scale(1); }}
+    50%      {{ opacity:1; transform:scale(1.3); }}
 }}
 .card {{
-    background:{WHITE}; border:1px solid {BORDER}; border-radius:12px;
-    padding:1.2rem 1.4rem; margin-bottom:1rem;
+    background:{BG2}; border:1px solid {BORDER}; border-radius:12px;
+    padding:1.2rem 1.4rem; margin-bottom:1rem; animation:fadeInUp .4s ease both;
 }}
 .kpi-box {{
-    background:{PALE}; border-radius:10px; padding:.8rem 1rem; text-align:center;
+    background:{BG3}; border:1px solid {BORDER}; border-radius:10px;
+    padding:.8rem 1rem; text-align:center; animation:fadeInUp .4s ease both;
 }}
 .section-title {{
-    font-size:.72rem; font-weight:700; color:{MUTED};
-    letter-spacing:.1em; text-transform:uppercase;
-    border-bottom:2px solid {PALE}; padding-bottom:.3rem; margin:1rem 0 .6rem;
+    display:flex; align-items:center; gap:.7rem; margin:1.6rem 0 .9rem;
 }}
+.section-title .bar {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.section-title .lbl {{ font-size:.65rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:{MUTED}; }}
+.section-title .line {{ flex:1; height:1px; background:{BORDER}; }}
 .indicator-badge {{
     display:inline-block; padding:.15rem .6rem; border-radius:999px;
     font-size:.75rem; font-weight:700;
@@ -66,11 +63,24 @@ body, .stApp {{ background:{WHITE}; color:{TEXT}; }}
 """, unsafe_allow_html=True)
 
 st.markdown(f"""
-<div class="politeia-header">
-  <div style="font-size:1.6rem;font-weight:800">Macroeconomía Financiera y Microeconomía del Votante</div>
-  <div style="opacity:.85;margin-top:.4rem">
-    Indicadores de nicho · Prima de riesgo · Euríbor · Perfiles de consumo · Brecha electoral-económica
-  </div>
+<div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
+            border:1px solid {BORDER};border-radius:16px;padding:2rem 2.5rem;margin-bottom:2rem;overflow:hidden;animation:fadeInUp .5s ease both">
+    <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+                background:radial-gradient(circle,{GREEN}1A,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-30px;left:28%;width:130px;height:130px;
+                background:radial-gradient(circle,{BLUE}12,transparent 65%);border-radius:50%;pointer-events:none"></div>
+    <div style="position:relative">
+        <div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem">
+            <div style="width:8px;height:8px;border-radius:50%;background:{GREEN};animation:dotPulse 2s ease infinite"></div>
+            <span style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:{GREEN}">DATOS EN VIVO</span>
+        </div>
+        <div style="font-size:1.85rem;font-weight:800;letter-spacing:-.02em;color:{TEXT};line-height:1.1">
+            Macroeconomía <span style="color:{CYAN}">Financiera</span>
+        </div>
+        <div style="font-size:.88rem;color:{TEXT2};margin-top:.4rem">
+            Indicadores de nicho · Prima de riesgo · Euríbor · Perfiles de consumo · Brecha electoral-económica
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -97,7 +107,7 @@ if not df_macro.empty:
             macro_vals[k] = float(r[k])
 
 # ── KPIs principales ──────────────────────────────────────────────────────────
-st.markdown('<div class="section-title">Indicadores clave — Abril 2026</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores clave — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 kpi_data = [
     ("PIB (crecimiento)", f"{macro_vals['crecimiento_pib']:.1f}%", "interanual T4 2025", GREEN if macro_vals['crecimiento_pib'] > 1.5 else RED),
@@ -121,7 +131,7 @@ for i, (label, val, sub, color) in enumerate(kpi_data):
         </div>
         """, unsafe_allow_html=True)
 
-st.divider()
+st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 tab1, tab2, tab3, tab4 = st.tabs([
     "Macro Financiera",
@@ -138,7 +148,7 @@ with tab1:
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.markdown('<div class="section-title">Prima de riesgo: España vs Italia vs Portugal (pb)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Prima de riesgo: España vs Italia vs Portugal (pb)</span><div class="line"></div></div>', unsafe_allow_html=True)
         # Serie histórica sintética (2020-2026)
         fechas_mes = pd.date_range("2020-01", "2026-04", freq="ME")
         np.random.seed(1)
@@ -158,15 +168,17 @@ with tab1:
         fig_prima.add_hrect(y0=100, y1=150, fillcolor=AMBER, opacity=0.1, line_width=0, annotation_text="Zona de alerta")
         fig_prima.add_hrect(y0=150, y1=280, fillcolor=RED, opacity=0.08, line_width=0, annotation_text="Zona de riesgo")
         fig_prima.update_layout(
-            height=320, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            legend=dict(orientation="h", y=1.02),
-            yaxis=dict(title="Puntos básicos"),
+            height=320, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            legend=dict(orientation="h", y=1.02, font=dict(color=TEXT2)),
+            yaxis=dict(title="Puntos básicos", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=20, b=10),
+            font=dict(color=TEXT2),
         )
         st.plotly_chart(fig_prima, use_container_width=True)
 
     with col_b:
-        st.markdown('<div class="section-title">Euríbor 12 meses — Evolución histórica (%)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Euríbor 12 meses — Evolución histórica (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         euribor_hist = [-0.5, -0.5, -0.5, 0.0, 0.8, 2.1, 3.8, 4.1, 3.9, 3.5, 3.2, 2.9, 2.82]
         fechas_eur = pd.date_range("2021-04", periods=len(euribor_hist), freq="4ME")
         colores_eur = [RED if v > 3.5 else (AMBER if v > 2 else GREEN) for v in euribor_hist]
@@ -183,9 +195,11 @@ with tab1:
                                showarrow=True, arrowhead=2, bgcolor=AMBER,
                                font=dict(color="white", size=11))
         fig_eur.update_layout(
-            height=320, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(title="% Euríbor"),
+            height=320, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(title="% Euríbor", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             margin=dict(t=20, b=10),
+            font=dict(color=TEXT2),
         )
         st.plotly_chart(fig_eur, use_container_width=True)
 
@@ -202,7 +216,7 @@ with tab1:
     col_c, col_d = st.columns(2)
 
     with col_c:
-        st.markdown('<div class="section-title">IPC desglosado por componentes (%)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">IPC desglosado por componentes (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         componentes_ipc = {
             "Alimentos y bebidas": 3.8,
             "Vivienda y servicios": 4.2,
@@ -227,14 +241,16 @@ with tab1:
         fig_ipc.add_vline(x=2.0, line_dash="dash", line_color=MUTED,
                           annotation_text="Objetivo BCE 2%")
         fig_ipc.update_layout(
-            height=340, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(range=[0, 7]),
+            height=340, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(range=[0, 7], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_ipc, use_container_width=True)
 
     with col_d:
-        st.markdown('<div class="section-title">Deuda pública: España en contexto europeo (%PIB)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Deuda pública: España en contexto europeo (%PIB)</span><div class="line"></div></div>', unsafe_allow_html=True)
         paises = ["Alemania", "Países Bajos", "Suecia", "Polonia", "UE media", "España", "Francia", "Bélgica", "Italia", "Grecia"]
         deudas = [63, 47, 32, 51, 82, 108, 112, 104, 141, 162]
         colors_deuda = [GREEN if d < 80 else (AMBER if d < 110 else RED) for d in deudas]
@@ -246,8 +262,10 @@ with tab1:
         fig_deuda.add_vline(x=60, line_dash="dash", line_color=MUTED,
                             annotation_text="Límite Maastricht 60%")
         fig_deuda.update_layout(
-            height=340, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(range=[0, 200]),
+            height=340, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(range=[0, 200], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_deuda, use_container_width=True)
@@ -331,7 +349,7 @@ with tab2:
     col_m1, col_m2, col_m3 = st.columns([2, 2, 1])
 
     with col_m1:
-        st.markdown('<div class="section-title">Cascada de ingresos y gastos mensuales (€)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Cascada de ingresos y gastos mensuales (€)</span><div class="line"></div></div>', unsafe_allow_html=True)
         renta_mensual = m["renta"] / 12 * 0.78  # aprox neta
         total_gasto = sum(m["gasto"].values())
         ahorro = renta_mensual - total_gasto
@@ -351,15 +369,16 @@ with tab2:
         ))
         fig_wf.add_hline(y=0, line_color=MUTED, line_width=1)
         fig_wf.update_layout(
-            height=360, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(title="€/mes"),
-            xaxis=dict(tickfont=dict(size=9)),
+            height=360, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(title="€/mes", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(size=9, color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_wf, use_container_width=True)
 
     with col_m2:
-        st.markdown('<div class="section-title">Sensibilidad a indicadores económicos (1-10)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Sensibilidad a indicadores económicos (1-10)</span><div class="line"></div></div>', unsafe_allow_html=True)
         categorias_radar = ["Euríbor", "IPC/inflación", "Paro", "IRPF/impuestos"]
         valores_radar = [m["euribor_sens"], m["ipc_sens"], m["paro_sens"], m["irpf_sens"]]
         fig_radar = go.Figure(go.Scatterpolar(
@@ -372,15 +391,16 @@ with tab2:
             opacity=0.3,
         ))
         fig_radar.update_layout(
-            polar=dict(radialaxis=dict(visible=True, range=[0, 10])),
-            height=320, paper_bgcolor=WHITE,
+            polar=dict(radialaxis=dict(visible=True, range=[0, 10], tickfont=dict(color=TEXT2), gridcolor=BORDER), angularaxis=dict(tickfont=dict(color=TEXT2))),
+            height=320, paper_bgcolor="rgba(0,0,0,0)",
             margin=dict(t=20, b=20),
             showlegend=False,
+            font=dict(color=TEXT2),
         )
         st.plotly_chart(fig_radar, use_container_width=True)
 
     with col_m3:
-        st.markdown('<div class="section-title">Datos clave</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Datos clave</span><div class="line"></div></div>', unsafe_allow_html=True)
         datos_clave = [
             ("Renta anual", f"{m['renta']:,}€"),
             ("Tasa de paro", f"{m['paro']}%"),
@@ -390,21 +410,21 @@ with tab2:
         ]
         for k, v in datos_clave:
             st.markdown(f"""
-            <div style="background:{PALE};border-radius:8px;padding:.4rem .7rem;margin-bottom:.4rem">
+            <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;padding:.4rem .7rem;margin-bottom:.4rem">
                 <div style="font-size:.68rem;color:{MUTED}">{k}</div>
-                <div style="font-weight:700">{v}</div>
+                <div style="font-weight:700;color:{TEXT}">{v}</div>
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-title">Activos principales</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Activos principales</span><div class="line"></div></div>', unsafe_allow_html=True)
         for a in m["activos"]:
             st.markdown(f"— {a}")
 
     st.info(f"**Nota analítica:** {m['nota']}")
 
     # Calculadora de impacto del euríbor
-    st.divider()
-    st.markdown('<div class="section-title">Calculadora: impacto de una subida del euríbor</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Calculadora: impacto de una subida del euríbor</span><div class="line"></div></div>', unsafe_allow_html=True)
     col_calc1, col_calc2, col_calc3 = st.columns(3)
     with col_calc1:
         capital_hip = st.number_input("Capital pendiente de hipoteca (€)", value=120000, step=10000)
@@ -430,8 +450,8 @@ with tab2:
         st.metric("Coste extra anual", f"{coste_extra_anual:.0f} €")
 
     # Comparativa de perfiles
-    st.divider()
-    st.markdown('<div class="section-title">Comparativa microeconómica entre perfiles</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Comparativa microeconómica entre perfiles</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_comp = pd.DataFrame([
         {
             "Perfil": k,
@@ -459,7 +479,7 @@ with tab3:
     col_n1, col_n2 = st.columns(2)
 
     with col_n1:
-        st.markdown('<div class="section-title">Curva de tipos bonos españoles (% rendimiento)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Curva de tipos bonos españoles (% rendimiento)</span><div class="line"></div></div>', unsafe_allow_html=True)
         vencimientos = ["3M", "6M", "1A", "2A", "3A", "5A", "7A", "10A", "15A", "30A"]
         rendimientos = [3.2, 3.1, 2.95, 2.88, 2.92, 3.05, 3.18, 3.35, 3.52, 3.78]
         fig_curva = go.Figure(go.Scatter(
@@ -470,16 +490,17 @@ with tab3:
             fill="tozeroy", fillcolor="rgba(37,99,235,0.08)",
         ))
         fig_curva.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(title="Rendimiento (%)"),
-            xaxis=dict(title="Vencimiento"),
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(title="Rendimiento (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(title="Vencimiento", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_curva, use_container_width=True)
         st.caption("La curva de tipos está ligeramente invertida en el tramo corto, lo que históricamente señala precaución sobre el crecimiento a corto plazo.")
 
     with col_n2:
-        st.markdown('<div class="section-title">PMI compuesto España vs Eurozona (puntos)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">PMI compuesto España vs Eurozona (puntos)</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_pmi = ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"]
         pmi_es  = [52.4, 51.8, 50.9, 51.2, 52.1, 53.0, 52.7]
         pmi_eur = [49.8, 49.2, 49.5, 50.1, 50.8, 51.2, 51.0]
@@ -490,8 +511,10 @@ with tab3:
         fig_pmi.add_annotation(x=meses_pmi[-1], y=50.5, text="Umbral expansión/contracción",
                                showarrow=False, font=dict(size=10, color=MUTED))
         fig_pmi.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(title="Índice PMI", range=[47, 56]),
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(title="Índice PMI", range=[47, 56], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_pmi, use_container_width=True)
@@ -500,7 +523,7 @@ with tab3:
     col_n3, col_n4 = st.columns(2)
 
     with col_n3:
-        st.markdown('<div class="section-title">Confianza del consumidor vs confianza empresarial</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Confianza del consumidor vs confianza empresarial</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_conf = pd.date_range("2024-01", "2026-04", freq="ME")
         np.random.seed(3)
         conf_cons = -8 + np.cumsum(np.random.normal(0.2, 1.2, len(meses_conf)))
@@ -512,15 +535,17 @@ with tab3:
         fig_conf.add_trace(go.Scatter(x=meses_conf, y=conf_emp,  name="Empresarial", line=dict(color=BLUE, width=2)))
         fig_conf.add_hline(y=0, line_dash="dash", line_color=MUTED, annotation_text="Neutro")
         fig_conf.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            yaxis=dict(title="Índice (–100 a +100)"),
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            yaxis=dict(title="Índice (–100 a +100)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_conf, use_container_width=True)
         st.caption("La brecha entre confianza empresarial y del consumidor es un indicador adelantado de voto de castigo.")
 
     with col_n4:
-        st.markdown('<div class="section-title">Morosidad bancaria por sector (%)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Morosidad bancaria por sector (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         sectores_mor = ["Promotores/constructores", "Autónomos", "Consumo hogares",
                         "Pymes industria", "Hipotecas residenciales", "Grandes empresas"]
         morosidad_sec = [12.4, 7.8, 4.2, 3.9, 2.8, 1.2]
@@ -532,8 +557,10 @@ with tab3:
         fig_mor.add_vline(x=3.5, line_dash="dash", line_color=MUTED,
                           annotation_text="Media sistema bancario")
         fig_mor.update_layout(
-            height=300, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(range=[0, 15]),
+            height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(range=[0, 15], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_mor, use_container_width=True)
@@ -562,7 +589,7 @@ with tab4:
     col_e1, col_e2 = st.columns(2)
 
     with col_e1:
-        st.markdown('<div class="section-title">Tasa de paro vs % voto partido gobernante (generales 1982-2023)</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Tasa de paro vs % voto partido gobernante (generales 1982-2023)</span><div class="line"></div></div>', unsafe_allow_html=True)
         datos_historicos = [
             ("1982", 16.2, 48.1, "PSOE (González)"),
             ("1986", 21.1, 44.1, "PSOE (González)"),
@@ -614,17 +641,18 @@ with tab4:
             name="Estimación 2026",
         ))
         fig_scatter.update_layout(
-            height=380, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
-            xaxis=dict(title="Tasa de paro (%)"),
-            yaxis=dict(title="Voto partido gobernante (%)"),
-            legend=dict(orientation="h", y=-0.2),
+            height=380, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(title="Tasa de paro (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            yaxis=dict(title="Voto partido gobernante (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            legend=dict(orientation="h", y=-0.2, font=dict(color=TEXT2)),
+            font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
         st.caption(f"Correlación histórica: cada +1pp de paro → -{abs(m_coef):.2f}pp de voto al partido gobernante (R²≈0.61)")
 
     with col_e2:
-        st.markdown('<div class="section-title">Termómetro económico Politeia — Abril 2026</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Termómetro económico Politeia — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
 
         # Score compuesto de bienestar económico
         score_paro  = max(0, min(100, (15 - macro_vals["tasa_paro"]) / 10 * 100))
@@ -668,7 +696,7 @@ with tab4:
             st.markdown(f"""
             <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.83rem">
                 <div style="width:160px">{nombre} <span style="color:{MUTED}">({peso})</span></div>
-                <div style="flex:1;background:#F1F5F9;border-radius:4px;height:12px;max-width:150px">
+                <div style="flex:1;background:{BG3};border:1px solid {BORDER};border-radius:4px;height:12px;max-width:150px">
                     <div style="width:{bar_w}px;max-width:150px;background:{color_c};border-radius:4px;height:12px"></div>
                 </div>
                 <div style="font-weight:700;width:35px">{score:.0f}</div>
@@ -676,8 +704,8 @@ with tab4:
             """, unsafe_allow_html=True)
 
     # Matriz de correlaciones económicas-electorales
-    st.divider()
-    st.markdown('<div class="section-title">Matriz de correlaciones: economía vs desgaste electoral (histórico España)</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Matriz de correlaciones: economía vs desgaste electoral (histórico España)</span><div class="line"></div></div>', unsafe_allow_html=True)
     indicadores_corr = ["Paro (+1pp)", "IPC (+1pp)", "PIB (-1pp)", "Prima (+50pb)", "Euríbor (+1pp)"]
     efectos_corr = ["Voto gobernante", "Aprobación gobierno", "Intención cambio"]
     matriz_corr = [
@@ -689,15 +717,18 @@ with tab4:
     ]
     fig_corr = go.Figure(go.Heatmap(
         z=matriz_corr, x=efectos_corr, y=indicadores_corr,
-        colorscale=[[0, RED], [0.5, WHITE], [1, GREEN]],
+        colorscale=[[0, RED], [0.5, BG3], [1, GREEN]],
         zmin=-1, zmax=1,
         text=[[f"{v:+.2f}" for v in row] for row in matriz_corr],
         texttemplate="%{text}",
         showscale=True,
-        colorbar=dict(title="Correlación"),
+        colorbar=dict(title="Correlación", tickfont=dict(color=TEXT2), titlefont=dict(color=TEXT2)),
     ))
     fig_corr.update_layout(
-        height=320, plot_bgcolor=WHITE, paper_bgcolor=WHITE,
+        height=320, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+        yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+        font=dict(color=TEXT2),
         margin=dict(t=10, b=10),
     )
     st.plotly_chart(fig_corr, use_container_width=True)
