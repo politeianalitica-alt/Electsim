@@ -13,15 +13,12 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import streamlit as st
 
+from dashboard.app_state import get_app_snapshot
 from dashboard.shared import sidebar_nav, CYAN, BORDER, BG2, BG3, TEXT, TEXT2
 from dashboard.components import inject_base_css, section_header
 from dashboard.db import (
-    cargar_alertas,
     cargar_agenda_hoy,
-    cargar_indices_politeia,
-    cargar_macro_ultimo,
     cargar_noticias_recientes,
-    cargar_nowcasting,
 )
 from dashboard.services.briefing import (
     top_party,
@@ -58,10 +55,15 @@ audiencia = st.selectbox(
 
 # Inputs base
 with st.spinner("Cargando datos de briefing..."):
-    df_nc = cargar_nowcasting()
-    df_macro = cargar_macro_ultimo()
-    df_indices = cargar_indices_politeia()
-    df_alert = cargar_alertas(solo_no_leidas=True, limit=20)
+    snapshot = get_app_snapshot()
+    df_nc = snapshot.get("nowcasting", pd.DataFrame())
+    df_macro = snapshot.get("macro", pd.DataFrame())
+    df_indices = snapshot.get("indices", pd.DataFrame())
+    df_alert = snapshot.get("alertas", pd.DataFrame())
+    if not df_alert.empty and "leida" in df_alert.columns:
+        df_alert = df_alert[df_alert["leida"] == False]  # noqa: E712
+    if not df_alert.empty:
+        df_alert = df_alert.head(20)
     df_news = cargar_noticias_recientes(dias=2, limit=80)
     df_agenda = cargar_agenda_hoy()
     try:

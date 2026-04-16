@@ -35,11 +35,8 @@ COLORES_PARTIDOS = {
     "CS":       "#EB6109",
     "ERC":      "#F4B20A",
     "JUNTS":    "#00AEEF",
-    "JxCAT":    "#00AEEF",
     "PNV":      "#007A3D",
     "EH Bildu": "#A9C55A",
-    "EH_BILDU": "#A9C55A",
-    "BILDU":    "#A9C55A",
     "BNG":      "#73C6E0",
     "CUP":      "#FFCC00",
     "CC":       "#FFCB00",
@@ -49,9 +46,47 @@ COLORES_PARTIDOS = {
     "UP":       "#6A2E74",
 }
 
+_FRAGMENT = getattr(st, "fragment", getattr(st, "experimental_fragment", None))
+
 
 def color_partido(siglas: str) -> str:
-    return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
+    try:
+        from dashboard.entity_resolver import _cargar_entidades
+
+        df_ent = _cargar_entidades().reset_index()
+        if not df_ent.empty and "siglas" in df_ent.columns:
+            row = df_ent[df_ent["siglas"].astype(str).str.upper() == str(siglas).upper()]
+            if not row.empty and str(row.iloc[0].get("color_hex", "")).startswith("#"):
+                return str(row.iloc[0]["color_hex"])
+    except Exception:
+        pass
+    return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(str(siglas).upper(), CYAN))
+
+
+if _FRAGMENT:
+    @_FRAGMENT(run_every=15)
+    def _sidebar_alerts_fragment() -> None:
+        """Ticker crítico global en sidebar (actualización parcial)."""
+        try:
+            from dashboard.db import cargar_alertas
+
+            df = cargar_alertas(solo_no_leidas=True, limit=3)
+            if df.empty or "severidad" not in df.columns:
+                return
+            crit = df[df["severidad"].astype(str).str.upper() == "CRITICAL"]
+            if crit.empty:
+                return
+            row = crit.iloc[0]
+            st.error(f"⚡ {str(row.get('titulo', 'Alerta crítica'))}", icon="🔴")
+            ts = str(row.get("created_at", ""))[:16]
+            if ts:
+                st.caption(f"Actualizada: {ts}")
+        except Exception:
+            # No romper la navegación si falla la consulta
+            return
+else:
+    def _sidebar_alerts_fragment() -> None:
+        return
 
 
 def aplicar_estilos():
@@ -283,6 +318,26 @@ def sidebar_nav():
         st.page_link("pages/7_Validacion.py",               label="◉  Validación")
         st.page_link("pages/8_Tiempo_Real.py",              label="⬡  Tiempo Real")
         st.page_link("pages/12_Macroeconomia.py",           label="◈  Macroeconomía")
+
+        st.markdown(f"<div style='height:.35rem'></div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.2rem .1rem .3rem'>Snapshot Global</div>", unsafe_allow_html=True)
+        try:
+            from dashboard.app_state import get_app_snapshot
+
+            if st.button("Refrescar snapshot ahora", use_container_width=True):
+                get_app_snapshot(force_refresh=True)
+                st.success("Snapshot actualizado")
+                st.rerun()
+
+            snap = get_app_snapshot()
+            loaded_at = str(snap.get("loaded_at", ""))[:19].replace("T", " ")
+            if loaded_at:
+                st.caption(f"Corte de datos: {loaded_at} UTC")
+        except Exception:
+            st.caption("Snapshot no disponible")
+
+        # Ticker crítico global en todas las páginas
+        _sidebar_alerts_fragment()
 
         # Footer
         st.markdown(f"""

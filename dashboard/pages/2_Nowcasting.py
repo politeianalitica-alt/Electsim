@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import streamlit as st
 import streamlit.components.v1 as components
+from dashboard.app_state import get_app_snapshot
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
@@ -24,7 +25,7 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
 )
-from dashboard.db import cargar_nowcasting, cargar_serie_nowcasting
+from dashboard.db import cargar_serie_nowcasting
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
@@ -146,8 +147,9 @@ def _section_header(label: str, color: str):
     """, unsafe_allow_html=True)
 
 
-# ── Cargar datos ──────────────────────────────────────────────────────────────
-df_nc = _normalizar(cargar_nowcasting())
+# ── Cargar datos (snapshot coherente) ────────────────────────────────────────
+snapshot = get_app_snapshot()
+df_nc = _normalizar(snapshot.get("nowcasting", pd.DataFrame()))
 
 if df_nc.empty or "estimacion_pct" not in df_nc.columns:
     st.info("Sin datos de nowcasting. Ejecuta el pipeline de modelos.")

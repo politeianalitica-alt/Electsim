@@ -14,6 +14,7 @@ if str(_ROOT) not in sys.path:
 
 import plotly.graph_objects as go
 import streamlit as st
+from dashboard.app_state import get_app_snapshot
 from dashboard.shared import (
     sidebar_nav, aplicar_estilos,
     COLORES_PARTIDOS,
@@ -33,14 +34,14 @@ sidebar_nav()
 
 # ── Data ──────────────────────────────────────────────────────────────────────
 from dashboard.db import (
-    cargar_alertas, cargar_elecciones, cargar_nowcasting,
-    cargar_macro_ultimo, cargar_indices_politeia,
+    cargar_elecciones,
 )
 
 df_elec    = cargar_elecciones("generales")
-df_macro   = cargar_macro_ultimo()
-df_alertas = cargar_alertas(solo_no_leidas=False)
-df_nc      = cargar_nowcasting()
+snapshot   = get_app_snapshot()
+df_macro   = snapshot["macro"]
+df_alertas = snapshot["alertas"]
+df_nc      = snapshot["nowcasting"]
 
 # ── Intro animation CSS ──────────────────────────────────────────────────────
 st.markdown(f"""

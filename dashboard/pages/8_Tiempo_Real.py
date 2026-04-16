@@ -40,25 +40,33 @@ from dashboard.db import (
     cargar_nowcasting,
 )
 
+_FRAGMENT = getattr(st, "fragment", getattr(st, "experimental_fragment", None))
+
 st.set_page_config(page_title="Tiempo Real — ElectSim", layout="wide")
 sidebar_nav()
 inject_base_css()
 
 with st.sidebar:
     st.header("Configuración")
-    auto_refresh = st.checkbox("Auto-refresh (30s)", value=False)
+    push_ticker = st.checkbox("Ticker push (15s)", value=True)
     solo_no_leidas = st.checkbox("Solo alertas no leidas", value=True)
     dias_macro = st.slider("Ventana macro (dias)", 30, 730, 180)
 
-if auto_refresh:
-    st.markdown(
-        """
-        <script>
-        setTimeout(function(){ window.location.reload(); }, 30000);
-        </script>
-        """,
-        unsafe_allow_html=True,
-    )
+if _FRAGMENT:
+    @_FRAGMENT(run_every=15)
+    def _critical_ticker() -> None:
+        df = cargar_alertas(solo_no_leidas=True, limit=5)
+        if df.empty:
+            return
+        crit = df[df.get("severidad", "").astype(str).str.upper() == "CRITICAL"]
+        if crit.empty:
+            return
+        row = crit.iloc[0]
+        st.error(f"🔴 {str(row.get('titulo', 'Alerta crítica'))}", icon="🚨")
+        st.caption(f"{str(row.get('created_at', ''))[:16]} · {str(row.get('tipo', ''))}")
+else:
+    def _critical_ticker() -> None:
+        return
 
 st.markdown(f"""
 <div style="position:relative;background:linear-gradient(135deg,{BG2} 0%,{BG3} 55%,{BG2} 100%);
@@ -79,6 +87,9 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+if push_ticker:
+    _critical_ticker()
 
 df_alertas = cargar_alertas(solo_no_leidas, limit=200)
 df_log = cargar_scraping_log(150)
@@ -164,16 +175,32 @@ with col_scrapers:
 
 with col_alertas:
     section_header("Alertas del Sistema")
-    if df_alertas.empty:
-        st.success("Sin alertas activas")
+    if _FRAGMENT and push_ticker:
+        @_FRAGMENT(run_every=20)
+        def _alerts_fragment() -> None:
+            df_live = cargar_alertas(solo_no_leidas, limit=20)
+            if df_live.empty:
+                st.success("Sin alertas activas")
+                return
+            for _, row in df_live.head(20).iterrows():
+                alert_card(
+                    str(row.get("severidad", "INFO")),
+                    str(row.get("titulo", "")),
+                    str(row.get("descripcion", ""))[:180],
+                    f"{str(row.get('created_at', ''))[:16]} · {str(row.get('tipo', ''))}",
+                )
+        _alerts_fragment()
     else:
-        for _, row in df_alertas.head(20).iterrows():
-            alert_card(
-                str(row.get("severidad", "INFO")),
-                str(row.get("titulo", "")),
-                str(row.get("descripcion", ""))[:180],
-                f"{str(row.get('created_at', ''))[:16]} · {str(row.get('tipo', ''))}",
-            )
+        if df_alertas.empty:
+            st.success("Sin alertas activas")
+        else:
+            for _, row in df_alertas.head(20).iterrows():
+                alert_card(
+                    str(row.get("severidad", "INFO")),
+                    str(row.get("titulo", "")),
+                    str(row.get("descripcion", ""))[:180],
+                    f"{str(row.get('created_at', ''))[:16]} · {str(row.get('tipo', ''))}",
+                )
 
 section_header("Distribución temporal de alertas")
 if not df_alertas.empty and "created_at" in df_alertas.columns:

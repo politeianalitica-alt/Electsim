@@ -11,6 +11,8 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+from dashboard.entity_resolver import registrar_alias_desconocido, resolver_df
+
 logger = logging.getLogger(__name__)
 
 PARTY_MAP = {"PARTIDO POPULAR": "PP", "PSOE": "PSOE", "VOX": "VOX", "SUMAR": "SUMAR", "CS": "CS"}
@@ -65,6 +67,7 @@ def normalize_polls_schema(raw_df: pd.DataFrame) -> pd.DataFrame:
         return raw_df
     df = raw_df.copy()
     df["party"] = df["party"].astype(str).str.upper().replace(PARTY_MAP)
+    raw_party = df["party"].astype(str).copy()
     df["fieldwork_start"] = pd.to_datetime(df["fieldwork_start"], errors="coerce")
     df["fieldwork_end"] = pd.to_datetime(df["fieldwork_end"], errors="coerce")
     df["sample_size"] = pd.to_numeric(df["sample_size"], errors="coerce").fillna(1000).astype(int)
@@ -81,5 +84,21 @@ def normalize_polls_schema(raw_df: pd.DataFrame) -> pd.DataFrame:
         lambda r: hashlib.md5(f"{r['pollster']}-{r['fieldwork_end']}-{r['party']}".encode()).hexdigest()[:12],
         axis=1,
     )
-    return df
 
+    # Resolución canónica de entidades de partido (no rompe si ontología no está disponible).
+    try:
+        df_res = resolver_df(df.rename(columns={"party": "siglas"}), col_siglas="siglas")
+        unresolved = df_res[df_res.get("entidad_id").isna()] if "entidad_id" in df_res.columns else pd.DataFrame()
+        if not unresolved.empty:
+            for alias in unresolved["siglas"].dropna().astype(str).unique().tolist():
+                registrar_alias_desconocido(alias, fuente="polls_scraper")
+
+        df["party"] = df_res.get("siglas_canonical", raw_party).astype(str)
+        if "entidad_id" in df_res.columns:
+            df["entidad_id"] = df_res["entidad_id"]
+        if "color_hex" in df_res.columns:
+            df["party_color_hex"] = df_res["color_hex"]
+    except Exception as exc:
+        logger.warning("No se pudo resolver ontología en polls_scraper: %s", exc)
+
+    return df

@@ -53,6 +53,25 @@ def _q(sql: str, params: dict | None = None) -> pd.DataFrame:
         return pd.DataFrame()
 
 
+def _q_first_available(queries: list[str], params: dict | None = None) -> pd.DataFrame:
+    """
+    Ejecuta la primera query válida de una lista.
+    Útil para migraciones progresivas (vista nueva + fallback legacy).
+    """
+    engine = get_engine()
+    last_exc: Exception | None = None
+    for sql in queries:
+        try:
+            with engine.connect() as conn:
+                return pd.read_sql(text(sql), conn, params=params or {})
+        except Exception as exc:  # noqa: PERF203
+            last_exc = exc
+            continue
+    if last_exc:
+        st.warning(f"Error de BD: {last_exc}")
+    return pd.DataFrame()
+
+
 def _ensure_microdatos_schema() -> None:
     try:
         ensure_microdatos_tables(get_engine())
@@ -102,23 +121,49 @@ def cargar_resultados_electorales(eleccion_id: int) -> pd.DataFrame:
 @st.cache_data(ttl=300)
 def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
     """Agrega resultados por partido a nivel nacional (sin provincia)."""
-    return _q(
-        """
-        SELECT
-            p.siglas,
-            p.nombre_completo          AS partido_nombre,
-            p.ideologia,
-            p.eje_izda_dcha,
-            SUM(re.votos)              AS votos_totales,
-            MAX(re.porcentaje)         AS pct_medio,
-            SUM(re.escanos)            AS escanos_totales
-        FROM resultados_electorales re
-        JOIN partidos p ON p.id = re.partido_id
-        WHERE re.eleccion_id = :eid
-          AND re.provincia_id IS NULL
-        GROUP BY p.id, p.siglas, p.nombre_completo, p.ideologia, p.eje_izda_dcha
-        ORDER BY votos_totales DESC NULLS LAST
-        """,
+    return _q_first_available(
+        [
+            """
+            SELECT
+                pr.entidad_id,
+                pr.siglas,
+                pr.nombre_oficial AS partido_nombre,
+                pr.ideologia,
+                pr.eje_izda_dcha,
+                pr.color_hex,
+                pr.sucesor_de_id,
+                SUM(re.votos)      AS votos_totales,
+                MAX(re.porcentaje) AS pct_medio,
+                SUM(re.escanos)    AS escanos_totales
+            FROM resultados_electorales re
+            JOIN partidos_resueltos pr ON pr.partido_id_original = re.partido_id
+            WHERE re.eleccion_id = :eid
+              AND re.provincia_id IS NULL
+            GROUP BY
+                pr.entidad_id, pr.siglas, pr.nombre_oficial, pr.ideologia,
+                pr.eje_izda_dcha, pr.color_hex, pr.sucesor_de_id
+            ORDER BY votos_totales DESC NULLS LAST
+            """,
+            """
+            SELECT
+                p.id                   AS entidad_id,
+                p.siglas,
+                p.nombre_completo      AS partido_nombre,
+                p.ideologia,
+                p.eje_izda_dcha,
+                '#94A3B8'::text        AS color_hex,
+                NULL::INTEGER          AS sucesor_de_id,
+                SUM(re.votos)          AS votos_totales,
+                MAX(re.porcentaje)     AS pct_medio,
+                SUM(re.escanos)        AS escanos_totales
+            FROM resultados_electorales re
+            JOIN partidos p ON p.id = re.partido_id
+            WHERE re.eleccion_id = :eid
+              AND re.provincia_id IS NULL
+            GROUP BY p.id, p.siglas, p.nombre_completo, p.ideologia, p.eje_izda_dcha
+            ORDER BY votos_totales DESC NULLS LAST
+            """,
+        ],
         {"eid": eleccion_id},
     )
 
@@ -128,20 +173,44 @@ def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
 @st.cache_data(ttl=60)
 def cargar_nowcasting() -> pd.DataFrame:
     """Última estimación por partido (fecha más reciente en BD)."""
-    return _q(
-        """
-        SELECT DISTINCT ON (p.siglas)
-            p.siglas        AS partido_siglas,
-            p.nombre_completo AS partido_nombre,
-            e.estimacion_pct,
-            e.ic_95_inf,
-            e.ic_95_sup,
-            e.n_encuestas,
-            e.fecha_estimacion AS fecha_calculo
-        FROM estimaciones_voto_agregadas e
-        JOIN partidos p ON p.id = e.partido_id
-        ORDER BY p.siglas, e.fecha_estimacion DESC
-        """
+    return _q_first_available(
+        [
+            """
+            SELECT DISTINCT ON (pr.entidad_id)
+                pr.entidad_id,
+                pr.siglas              AS partido_siglas,
+                pr.nombre_oficial      AS partido_nombre,
+                pr.color_hex,
+                pr.eje_izda_dcha,
+                e.estimacion_pct,
+                e.ic_95_inf,
+                e.ic_95_sup,
+                e.n_encuestas,
+                (e.ic_95_sup - e.ic_95_inf) AS ic_width,
+                e.fecha_estimacion     AS fecha_calculo
+            FROM estimaciones_voto_agregadas e
+            JOIN partidos p ON p.id = e.partido_id
+            JOIN partidos_resueltos pr ON pr.partido_id_original = p.id
+            ORDER BY pr.entidad_id, e.fecha_estimacion DESC
+            """,
+            """
+            SELECT DISTINCT ON (p.id)
+                p.id             AS entidad_id,
+                p.siglas         AS partido_siglas,
+                p.nombre_completo AS partido_nombre,
+                '#94A3B8'::text  AS color_hex,
+                p.eje_izda_dcha,
+                e.estimacion_pct,
+                e.ic_95_inf,
+                e.ic_95_sup,
+                e.n_encuestas,
+                (e.ic_95_sup - e.ic_95_inf) AS ic_width,
+                e.fecha_estimacion AS fecha_calculo
+            FROM estimaciones_voto_agregadas e
+            JOIN partidos p ON p.id = e.partido_id
+            ORDER BY p.id, e.fecha_estimacion DESC
+            """,
+        ]
     )
 
 
@@ -336,7 +405,7 @@ def cargar_validacion_por_partido(run_id: str) -> pd.DataFrame:
 
 # ── Tiempo real ───────────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=30)
+@st.cache_data(ttl=10)
 def cargar_alertas(solo_no_leidas: bool = False, limit: int = 20) -> pd.DataFrame:
     cond = "AND leida = false" if solo_no_leidas else ""
     return _q(
@@ -350,7 +419,7 @@ def cargar_alertas(solo_no_leidas: bool = False, limit: int = 20) -> pd.DataFram
     )
 
 
-@st.cache_data(ttl=30)
+@st.cache_data(ttl=15)
 def cargar_scraping_log(limit: int = 20) -> pd.DataFrame:
     return _q(
         f"""
@@ -597,24 +666,47 @@ def cargar_encuestas_tracking_recientes(dias: int = 45, limit: int = 200) -> pd.
 @st.cache_data(ttl=300)
 def cargar_resultados_provinciales(eleccion_id: int) -> pd.DataFrame:
     """Resultados por provincia con nombre de provincia y partido ganador."""
-    return _q(
-        """
-        SELECT
-            pr.id            AS provincia_id,
-            pr.nombre        AS provincia,
-            ca.nombre        AS ccaa,
-            p.siglas,
-            re.votos,
-            re.porcentaje,
-            re.escanos
-        FROM resultados_electorales re
-        JOIN partidos             p  ON p.id  = re.partido_id
-        JOIN provincias           pr ON pr.id = re.provincia_id
-        LEFT JOIN comunidades_autonomas ca ON ca.id = COALESCE(re.ccaa_id, pr.ccaa_id)
-        WHERE re.eleccion_id = :eid
-          AND re.provincia_id IS NOT NULL
-        ORDER BY pr.id, re.escanos DESC NULLS LAST
-        """,
+    return _q_first_available(
+        [
+            """
+            SELECT
+                pr_geo.id      AS provincia_id,
+                pr_geo.nombre  AS provincia,
+                ca.nombre      AS ccaa,
+                pr.entidad_id,
+                pr.siglas,
+                pr.color_hex,
+                re.votos,
+                re.porcentaje,
+                re.escanos
+            FROM resultados_electorales re
+            JOIN partidos_resueltos pr  ON pr.partido_id_original = re.partido_id
+            JOIN provincias pr_geo       ON pr_geo.id = re.provincia_id
+            LEFT JOIN comunidades_autonomas ca ON ca.id = COALESCE(re.ccaa_id, pr_geo.ccaa_id)
+            WHERE re.eleccion_id = :eid
+              AND re.provincia_id IS NOT NULL
+            ORDER BY pr_geo.id, re.escanos DESC NULLS LAST
+            """,
+            """
+            SELECT
+                pr.id            AS provincia_id,
+                pr.nombre        AS provincia,
+                ca.nombre        AS ccaa,
+                p.id             AS entidad_id,
+                p.siglas,
+                '#94A3B8'::text  AS color_hex,
+                re.votos,
+                re.porcentaje,
+                re.escanos
+            FROM resultados_electorales re
+            JOIN partidos             p  ON p.id  = re.partido_id
+            JOIN provincias           pr ON pr.id = re.provincia_id
+            LEFT JOIN comunidades_autonomas ca ON ca.id = COALESCE(re.ccaa_id, pr.ccaa_id)
+            WHERE re.eleccion_id = :eid
+              AND re.provincia_id IS NOT NULL
+            ORDER BY pr.id, re.escanos DESC NULLS LAST
+            """,
+        ],
         {"eid": eleccion_id},
     )
 

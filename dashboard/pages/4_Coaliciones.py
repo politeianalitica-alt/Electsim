@@ -15,7 +15,9 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 import plotly.graph_objects as go
+import pandas as pd
 import streamlit as st
+from dashboard.app_state import get_app_snapshot
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
@@ -23,7 +25,6 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
 )
-from dashboard.db import cargar_nowcasting
 
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Coaliciones — ElectSim", layout="wide")
@@ -492,7 +493,7 @@ with tab1:
     st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 
     # ── Nowcasting pill strip ─────────────────────────────────────────────────
-    df_nc = cargar_nowcasting()
+    df_nc = get_app_snapshot().get("nowcasting", pd.DataFrame())
     if not df_nc.empty and "estimacion_pct" in df_nc.columns:
         _section_header("Estimación Actual de Voto", CYAN)
         pills_html = '<div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">'

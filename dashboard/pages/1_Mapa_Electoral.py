@@ -20,6 +20,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from dashboard.app_state import get_app_snapshot
 from dashboard.shared import (
     sidebar_nav,
     COLORES_PARTIDOS,
@@ -30,8 +31,6 @@ from dashboard.shared import (
 )
 from dashboard.db import (
     cargar_elecciones,
-    cargar_nowcasting,
-    cargar_resultados_electorales,
     cargar_resultados_nacionales,
     cargar_resultados_provinciales,
 )
@@ -47,14 +46,64 @@ ORDEN_IDEOLOGICO = [
     "CUP", "EH Bildu", "EH_BILDU", "BNG", "ERC", "PODEMOS", "UP", "IU",
     "SUMAR", "PSOE", "PNV", "JUNTS", "JxCAT", "CC", "CS", "UPN", "PP", "VOX",
 ]
+BLOQUE_IZQ = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP", "PODEMOS", "UP"]
+BLOQUE_DER = ["PP", "VOX", "CS", "UPN"]
 
 # Province name mapping: GeoJSON name -> DB province_id
 GEOJSON_PATH = Path(__file__).parent.parent / "data" / "spain_provinces.geojson"
 MAPPING_PATH = Path(__file__).parent.parent / "data" / "province_mapping.json"
+SEATS_PATH = Path(__file__).parent.parent / "data" / "circunscripciones_escanos.json"
+SIGLAS_ALIAS = {
+    "EH BILDU": "EH_BILDU",
+    "EH Bildu": "EH_BILDU",
+    "EH_BILDU": "EH_BILDU",
+    "JxCAT": "JUNTS",
+    "PODEMOS/UP": "PODEMOS",
+}
 
 
 def _color(siglas: str) -> str:
     return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
+
+
+def _hex_to_rgb(h: str) -> tuple[int, int, int]:
+    h = (h or "#00D4FF").lstrip("#")
+    if len(h) != 6:
+        return (0, 212, 255)
+    return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+
+
+def _rgba(h: str, alpha: float) -> str:
+    r, g, b = _hex_to_rgb(h)
+    return f"rgba({r},{g},{b},{alpha})"
+
+
+def _norm_sigla(sigla: str) -> str:
+    s = str(sigla or "").strip()
+    if not s:
+        return s
+    return SIGLAS_ALIAS.get(s, SIGLAS_ALIAS.get(s.upper(), s.upper()))
+
+
+def _normaliza_siglas_df(df: pd.DataFrame, col: str) -> pd.DataFrame:
+    if df.empty or col not in df.columns:
+        return df
+    out = df.copy()
+    out[col] = out[col].astype(str).map(_norm_sigla)
+    return out
+
+
+def _hamilton_seats(pcts: pd.Series, total: int) -> pd.Series:
+    if total <= 0 or pcts.empty:
+        return pd.Series(dtype=int)
+    raw = pcts / max(float(pcts.sum()), 1.0) * total
+    base = raw.astype(int)
+    remainder = raw - base
+    deficit = int(total - int(base.sum()))
+    if deficit > 0:
+        for idx in remainder.nlargest(deficit).index:
+            base.loc[idx] += 1
+    return base.astype(int)
 
 
 # ── Estilos extra ────────────────────────────────────────────────────────────
@@ -153,6 +202,83 @@ def _section_header(label: str, color: str):
     """, unsafe_allow_html=True)
 
 
+@st.cache_data(ttl=3600)
+def _nac_cached(eleccion_id: int) -> pd.DataFrame:
+    return cargar_resultados_nacionales(eleccion_id)
+
+
+@st.cache_data(ttl=900)
+def _estimate_seats_dhondt_cached(
+    eleccion_id: int,
+    nc_signature: tuple[tuple[str, float, float, float], ...],
+) -> pd.DataFrame:
+    if not nc_signature:
+        return pd.DataFrame()
+    df_prov_cached = cargar_resultados_provinciales(eleccion_id)
+    if df_prov_cached.empty:
+        return pd.DataFrame()
+    df_nc_cached = pd.DataFrame(
+        [
+            {
+                "partido_siglas": sig,
+                "estimacion_pct": est,
+                "ic_95_inf": inf,
+                "ic_95_sup": sup,
+            }
+            for sig, est, inf, sup in nc_signature
+        ]
+    )
+    return _estimate_seats_dhondt(df_prov_cached, df_nc_cached)
+
+
+@st.cache_data(ttl=3600)
+def _load_historical_results(tipo_hist_db: str) -> pd.DataFrame:
+    df_hist_elec = cargar_elecciones(tipo_hist_db)
+    if df_hist_elec.empty:
+        return pd.DataFrame()
+    registros: list[dict[str, object]] = []
+    for _, row_e in df_hist_elec.iterrows():
+        df_r = cargar_resultados_nacionales(int(row_e["id"]))
+        if df_r.empty:
+            continue
+        fecha_str = str(row_e.get("fecha", ""))[:10]
+        descripcion = row_e.get("descripcion") or fecha_str
+        for _, row_r in df_r.iterrows():
+            registros.append(
+                {
+                    "fecha": fecha_str,
+                    "descripcion": descripcion,
+                    "siglas": row_r["siglas"],
+                    "pct_medio": row_r.get("pct_medio"),
+                    "escanos_totales": row_r.get("escanos_totales"),
+                }
+            )
+    return pd.DataFrame(registros)
+
+
+@st.cache_data(ttl=3600)
+def _load_seat_reference() -> dict[int, int]:
+    """Carga escaños de circunscripción por provincia (si existe fichero)."""
+    if not SEATS_PATH.exists():
+        return {}
+    try:
+        with open(SEATS_PATH) as f:
+            raw = json.load(f)
+        # formatos soportados:
+        # { "1": 7, "2": 4, ... }  o  [{ "provincia_id": 1, "n_escanos": 7}, ...]
+        if isinstance(raw, dict):
+            return {int(k): int(v) for k, v in raw.items()}
+        if isinstance(raw, list):
+            out: dict[int, int] = {}
+            for r in raw:
+                if isinstance(r, dict) and "provincia_id" in r and "n_escanos" in r:
+                    out[int(r["provincia_id"])] = int(r["n_escanos"])
+            return out
+    except Exception:
+        return {}
+    return {}
+
+
 def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
     """Hemiciclo dark con escanos como puntos en semicirculo."""
     total = sum(e for _, e, _ in partidos_escanos)
@@ -165,13 +291,11 @@ def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
     for siglas, escanos, color in partidos_escanos:
         if escanos <= 0:
             continue
-        cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        cr, cg, cb = _hex_to_rgb(color)
         angle_span = (escanos / total) * math.pi
         angles = [angle_start + (i + 0.5) * angle_span / max(escanos, 1) for i in range(escanos)]
-        rows = [angles[i::n_rows] for i in range(n_rows)]
-        for row_i, row_angles in enumerate(rows):
-            if not row_angles:
-                continue
+        for row_i in range(n_rows):
+            row_angles = [ang for j, ang in enumerate(angles) if j % n_rows == row_i]
             r = 0.55 + row_i * 0.1
             xs = [r * math.cos(a) for a in row_angles]
             ys = [r * math.sin(a) for a in row_angles]
@@ -241,7 +365,7 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
         color = _color(partido_filter)
 
         # Convert party hex color to rgba variants for color scale
-        rc, gc, bc = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        rc, gc, bc = _hex_to_rgb(color)
         fig = px.choropleth_mapbox(
             df_map,
             geojson=geojson,
@@ -257,7 +381,7 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
             hover_name="provincia",
             hover_data={"escanos": True, "porcentaje": ":.1f", "geo_name": False},
             labels={"escanos": "Escanos", "porcentaje": "% Voto"},
-            mapbox_style="carto-darkmatter",
+            mapbox_style="open-street-map",
             center={"lat": 40.0, "lon": -3.7},
             zoom=4.5,
             opacity=0.85,
@@ -311,7 +435,7 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
 
         fig.update_layout(
             mapbox=dict(
-                style="carto-darkmatter",
+                style="open-street-map",
                 center={"lat": 40.0, "lon": -3.7},
                 zoom=4.5,
             ),
@@ -337,6 +461,9 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
     if df_nc.empty or df_prov.empty:
         return pd.DataFrame()
 
+    df_nc = _normaliza_siglas_df(df_nc, "partido_siglas")
+    df_prov = _normaliza_siglas_df(df_prov, "siglas")
+
     nc_est = {
         row["partido_siglas"]: float(row["estimacion_pct"])
         for _, row in df_nc.iterrows()
@@ -355,6 +482,12 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
         df_prov.groupby(["provincia_id", "provincia", "ccaa"])["escanos"]
         .sum().reset_index().rename(columns={"escanos": "total_escanos"})
     )
+    seat_ref = _load_seat_reference()
+    if seat_ref:
+        prov_info["total_escanos"] = prov_info.apply(
+            lambda r: int(seat_ref.get(int(r["provincia_id"]), int(r["total_escanos"]))),
+            axis=1,
+        )
 
     eligible = {p: v for p, v in nc_est.items() if v >= 3.0}
     if not eligible:
@@ -446,7 +579,7 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
             hovertemplate="%{text}<extra></extra>",
         ))
     fig.update_layout(
-        mapbox=dict(style="carto-darkmatter", center={"lat": 40.0, "lon": -3.7}, zoom=4.5),
+        mapbox=dict(style="open-street-map", center={"lat": 40.0, "lon": -3.7}, zoom=4.5),
         height=520,
         paper_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=5, b=5, l=5, r=5),
@@ -474,31 +607,34 @@ with tab_pasadas:
     if eleccion_id is None:
         st.info("Selecciona una eleccion en la barra lateral.")
     else:
-        df_nac = cargar_resultados_nacionales(eleccion_id)
+        df_nac = _nac_cached(eleccion_id)
         if df_nac.empty:
             st.info("No hay resultados para esta eleccion. Carga datos con el ETL.")
         else:
             # ── Tarjetas nacionales ──────────────────────────────────────────
             _section_header("Resultados Nacionales", CYAN)
             n_cards = min(len(df_nac), 8)
-            cols = st.columns(min(n_cards, 4))
-            for i, (_, row) in enumerate(df_nac.head(n_cards).iterrows()):
-                escanos = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else 0
-                pct = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "---"
-                color = _color(row["siglas"])
-                r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-                with cols[i % 4]:
-                    st.markdown(f"""
-                    <div class="glass" style="text-align:center;margin-bottom:.5rem;
-                                border-top:3px solid {color}">
-                        <div style="font-size:.65rem;font-weight:700;color:{MUTED};
-                                    letter-spacing:.08em;margin-bottom:.25rem">{row['siglas']}</div>
-                        <div style="font-size:1.8rem;font-weight:900;color:{color};
-                                    font-family:'JetBrains Mono',monospace;
-                                    text-shadow:0 0 20px rgba({r_c},{g_c},{b_c},0.3)">{escanos}</div>
-                        <div style="font-size:.7rem;color:{TEXT2};margin-top:.15rem">escanos &middot; {pct}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
+            if n_cards <= 0:
+                st.info("Sin resultados.")
+            else:
+                cols = st.columns(min(n_cards, 4))
+                for i, (_, row) in enumerate(df_nac.head(n_cards).iterrows()):
+                    escanos = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else 0
+                    pct = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "---"
+                    color = _color(row["siglas"])
+                    r_c, g_c, b_c = _hex_to_rgb(color)
+                    with cols[i % 4]:
+                        st.markdown(f"""
+                        <div class="glass" style="text-align:center;margin-bottom:.5rem;
+                                    border-top:3px solid {color}">
+                            <div style="font-size:.65rem;font-weight:700;color:{MUTED};
+                                        letter-spacing:.08em;margin-bottom:.25rem">{row['siglas']}</div>
+                            <div style="font-size:1.8rem;font-weight:900;color:{color};
+                                        font-family:'JetBrains Mono',monospace;
+                                        text-shadow:0 0 20px rgba({r_c},{g_c},{b_c},0.3)">{escanos}</div>
+                            <div style="font-size:.7rem;color:{TEXT2};margin-top:.15rem">escanos &middot; {pct}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
 
             st.markdown(f"<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
@@ -512,8 +648,7 @@ with tab_pasadas:
                     x=df_nac["siglas"],
                     y=df_nac["pct_medio"].round(2),
                     marker=dict(
-                        color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)"
-                               for c in colores_bar],
+                        color=[_rgba(c, 0.75) for c in colores_bar],
                         line=dict(color=colores_bar, width=1.5),
                     ),
                     text=df_nac["pct_medio"].round(1).astype(str) + "%",
@@ -544,10 +679,8 @@ with tab_pasadas:
                                    config={"displayModeBar": False})
 
                     # Bloques
-                    izq = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP", "PODEMOS", "UP"]
-                    der = ["PP", "VOX", "CS", "UPN"]
-                    e_izq = int(df_esc[df_esc["siglas"].isin(izq)]["escanos_totales"].sum())
-                    e_der = int(df_esc[df_esc["siglas"].isin(der)]["escanos_totales"].sum())
+                    e_izq = int(df_esc[df_esc["siglas"].isin(BLOQUE_IZQ)]["escanos_totales"].sum())
+                    e_der = int(df_esc[df_esc["siglas"].isin(BLOQUE_DER)]["escanos_totales"].sum())
                     c1, c2 = st.columns(2)
                     with c1:
                         st.markdown(f"""
@@ -581,7 +714,7 @@ with tab_pasadas:
                     fig_sc = go.Figure()
                     for _, rr in df_ideo.iterrows():
                         c = _color(rr["siglas"])
-                        cr2, cg2, cb2 = int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)
+                        cr2, cg2, cb2 = _hex_to_rgb(c)
                         sz = max(12, int(rr.get("escanos_totales", 10) or 10) / 3)
                         fig_sc.add_trace(go.Scatter(
                             x=[rr["eje_izda_dcha"]], y=[rr["pct_medio"]],
@@ -609,7 +742,9 @@ with tab_pasadas:
 with tab_futuras:
     _section_header("Proyeccion Electoral — Nowcasting", CYAN)
 
-    df_nc = cargar_nowcasting()
+    df_nc = get_app_snapshot()["nowcasting"].copy()
+    if not df_nc.empty:
+        df_nc = _normaliza_siglas_df(df_nc, "partido_siglas")
     if df_nc.empty:
         st.info("Sin datos de nowcasting. Ejecuta el pipeline de modelos.")
     else:
@@ -643,7 +778,7 @@ with tab_futuras:
             fig_nc = go.Figure()
             for _, row in df_nc_sorted.iterrows():
                 color = _color(row["partido_siglas"])
-                r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+                r_c, g_c, b_c = _hex_to_rgb(color)
                 fig_nc.add_trace(go.Bar(
                     name=row["partido_siglas"],
                     x=[row["partido_siglas"]], y=[row["estimacion_pct"]],
@@ -676,9 +811,7 @@ with tab_futuras:
             df_hem2 = df_nc_sorted[df_nc_sorted["estimacion_pct"] >= 2.0].copy()
             pct_sum = df_hem2["estimacion_pct"].sum()
             if pct_sum > 0:
-                df_hem2["escanos_est"] = (
-                    df_hem2["estimacion_pct"] / pct_sum * total_escanos
-                ).round(0).astype(int)
+                df_hem2["escanos_est"] = _hamilton_seats(df_hem2["estimacion_pct"], total_escanos)
                 partidos_hem2 = [
                     (row["partido_siglas"], int(row["escanos_est"]), _color(row["partido_siglas"]))
                     for _, row in df_hem2.iterrows()
@@ -688,10 +821,8 @@ with tab_futuras:
                 st.plotly_chart(hemiciclo_chart(partidos_hem2), use_container_width=True,
                                config={"displayModeBar": False})
 
-                izq_p = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP"]
-                der_p = ["PP", "VOX", "CS"]
-                esc_izq = int(df_hem2[df_hem2["partido_siglas"].isin(izq_p)]["escanos_est"].sum())
-                esc_der = int(df_hem2[df_hem2["partido_siglas"].isin(der_p)]["escanos_est"].sum())
+                esc_izq = int(df_hem2[df_hem2["partido_siglas"].isin(BLOQUE_IZQ)]["escanos_est"].sum())
+                esc_der = int(df_hem2[df_hem2["partido_siglas"].isin(BLOQUE_DER)]["escanos_est"].sum())
                 c1, c2 = st.columns(2)
                 with c1:
                     st.metric("Bloque Izquierda", esc_izq,
@@ -729,7 +860,11 @@ with tab_mapa:
         st.markdown(f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {CYAN};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Selecciona una elección en la barra lateral.</div>', unsafe_allow_html=True)
     else:
         df_prov    = cargar_resultados_provinciales(eleccion_id)
-        df_nc_mapa = cargar_nowcasting()
+        df_nc_mapa = get_app_snapshot()["nowcasting"].copy()
+        if not df_prov.empty:
+            df_prov = _normaliza_siglas_df(df_prov, "siglas")
+        if not df_nc_mapa.empty:
+            df_nc_mapa = _normaliza_siglas_df(df_nc_mapa, "partido_siglas")
 
         if df_prov.empty:
             st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Sin datos provinciales para esta elección.</div>', unsafe_allow_html=True)
@@ -757,8 +892,20 @@ with tab_mapa:
                         partido_mapa = st.selectbox("Partido", partidos_disp, key="partido_mapa")
 
             # ── Choropleth principal ──────────────────────────────────────────
+            df_est = pd.DataFrame()
             if modo_mapa == "Estimación actual":
-                df_est = _estimate_seats_dhondt(df_prov, df_nc_mapa)
+                nc_signature = tuple(
+                    sorted(
+                        (
+                            str(r["partido_siglas"]),
+                            float(r["estimacion_pct"]),
+                            float(r.get("ic_95_inf", r["estimacion_pct"])),
+                            float(r.get("ic_95_sup", r["estimacion_pct"])),
+                        )
+                        for _, r in df_nc_mapa.iterrows()
+                    )
+                )
+                df_est = _estimate_seats_dhondt_cached(eleccion_id, nc_signature)
                 fig_map = _build_choropleth_estimado(df_est)
                 if fig_map:
                     st.markdown(
@@ -791,8 +938,8 @@ with tab_mapa:
                     df_rank = df_est[df_est["siglas"] == partido_rank][["provincia", "escanos_est"]].rename(columns={"escanos_est": "escanos"})
                     df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
                 else:
-                    partido_rank = partido_mapa or partidos_avail[0]
-                    if partido_mapa is None:
+                    partido_rank = partido_mapa
+                    if partido_rank is None:
                         partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
                     df_rank = df_prov[df_prov["siglas"] == partido_rank][["provincia", "escanos"]].copy()
                     df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
@@ -842,7 +989,7 @@ with tab_mapa:
                             x=df_ccaa_agg["siglas"],
                             y=df_ccaa_agg["escanos_sum"],
                             marker=dict(
-                                color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)" for c in colors_ccaa],
+                                color=[_rgba(c, 0.75) for c in colors_ccaa],
                                 line=dict(color=colors_ccaa, width=1.5),
                             ),
                             text=df_ccaa_agg["escanos_sum"].astype(int),
@@ -880,8 +1027,7 @@ with tab_mapa:
             # ═══════════════════════════════════════════════════════════════
             st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.5rem 0"></div>', unsafe_allow_html=True)
             _section_header("Cambios en Estimación vs Referencia Histórica", AMBER)
-
-            df_est_banner = _estimate_seats_dhondt(df_prov, df_nc_mapa)
+            df_est_banner = df_est.copy() if not df_est.empty else pd.DataFrame()
 
             if df_est_banner.empty:
                 st.markdown(
@@ -937,7 +1083,7 @@ with tab_mapa:
                     if df_p.empty:
                         continue
                     winner_color = _color(df_p.iloc[0]["siglas"])
-                    wc_r, wc_g, wc_b = int(winner_color[1:3], 16), int(winner_color[3:5], 16), int(winner_color[5:7], 16)
+                    wc_r, wc_g, wc_b = _hex_to_rgb(winner_color)
                     total_prov = int(df_p["escanos_est"].sum())
 
                     pills_html = ""
@@ -947,7 +1093,7 @@ with tab_mapa:
                         d_color = GREEN if d > 0 else RED if d < 0 else MUTED
                         arrow = "▲" if d > 0 else "▼" if d < 0 else "—"
                         d_str  = f"{arrow}{abs(d)}" if d != 0 else "="
-                        pr2, pg2, pb2 = int(pc[1:3], 16), int(pc[3:5], 16), int(pc[5:7], 16)
+                        pr2, pg2, pb2 = _hex_to_rgb(pc)
                         pills_html += (
                             f'<div style="display:flex;align-items:center;justify-content:space-between;'
                             f'margin:.18rem 0;padding:.18rem .4rem;'
@@ -987,13 +1133,13 @@ with tab_mapa:
                         .sort_values(ascending=False).head(8).index.tolist()
                     )
                     df_heat_filt = df_heat[df_heat["siglas"].isin(top_parties)]
-                    df_pivot = df_heat_filt.pivot_table(
+                    df_pivot_heat = df_heat_filt.pivot_table(
                         index="siglas", columns="provincia", values="delta", fill_value=0
                     )
                     fig_hm = go.Figure(go.Heatmap(
-                        z=df_pivot.values,
-                        x=df_pivot.columns.tolist(),
-                        y=df_pivot.index.tolist(),
+                        z=df_pivot_heat.values,
+                        x=df_pivot_heat.columns.tolist(),
+                        y=df_pivot_heat.index.tolist(),
                         colorscale=[
                             [0.0, "#7F1D1D"],
                             [0.4, "#991B1B"],
@@ -1040,27 +1186,12 @@ with tab_hist:
     if df_hist_elec.empty:
         st.info(f"No hay elecciones '{TIPOS_ELECCION[tipo_hist_idx]}' registradas.")
     else:
-        registros = []
-        for _, row_e in df_hist_elec.iterrows():
-            df_r = cargar_resultados_nacionales(row_e["id"])
-            if df_r.empty:
-                continue
-            fecha_str = str(row_e.get("fecha", ""))[:10]
-            for _, row_r in df_r.iterrows():
-                registros.append({
-                    "fecha": fecha_str,
-                    "descripcion": row_e.get("descripcion") or fecha_str,
-                    "siglas": row_r["siglas"],
-                    "pct_medio": row_r.get("pct_medio"),
-                    "escanos_totales": row_r.get("escanos_totales"),
-                })
-
-        if not registros:
+        df_trend = _load_historical_results(tipo_hist_db)
+        if df_trend.empty:
             st.info("Sin resultados historicos para este tipo.")
         else:
-            df_trend = pd.DataFrame(registros)
             df_trend["fecha"] = pd.to_datetime(df_trend["fecha"], errors="coerce")
-            df_trend = df_trend.dropna(subset=["pct_medio"]).sort_values("fecha")
+            df_trend = df_trend.dropna(subset=["pct_medio", "fecha"]).sort_values("fecha")
 
             partidos_disp = sorted(df_trend["siglas"].unique().tolist())
             partidos_def = partidos_disp[:min(6, len(partidos_disp))]
@@ -1110,7 +1241,7 @@ with tab_hist:
                             if df_ps.empty:
                                 continue
                             color = _color(siglas)
-                            r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+                            r_c, g_c, b_c = _hex_to_rgb(color)
                             fig_esc.add_trace(go.Bar(
                                 x=df_ps["fecha"].dt.strftime("%Y"),
                                 y=df_ps["escanos_totales"].astype(int),
@@ -1136,10 +1267,10 @@ with tab_hist:
                 # Tabla resumen
                 st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
                 _section_header("Tabla Comparativa", BLUE)
-                df_pivot = df_trend[df_trend["siglas"].isin(partidos_sel)].pivot_table(
+                df_pivot_trend = df_trend[df_trend["siglas"].isin(partidos_sel)].pivot_table(
                     index="siglas", columns="descripcion", values="pct_medio"
                 ).round(2)
-                st.dataframe(df_pivot, use_container_width=True)
+                st.dataframe(df_pivot_trend, use_container_width=True)
 
 # ── Footer ───────────────────────────────────────────────────────────────────
 st.markdown(f"""
