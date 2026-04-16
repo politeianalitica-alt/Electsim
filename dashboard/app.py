@@ -1,6 +1,7 @@
 """
-ElectSim España — Dashboard Principal (Politeia Edition · Dark Tech v3)
-Rediseño profesional con animaciones, glassmorphism y visualización avanzada.
+ElectSim España — Dashboard Principal (Politeia Edition · v3.1)
+Inicio rediseñado: KPIs cross-módulo, panel de señales, nowcasting con sparkline,
+alertas priorizadas, macro compacta y estado del sistema en tiempo real.
 """
 
 from __future__ import annotations
@@ -12,15 +13,17 @@ _ROOT = Path(__file__).parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+
 from dashboard.shared import (
-    sidebar_nav, aplicar_estilos,
     COLORES_PARTIDOS,
-    BG, BG2, BG3, BORDER, BORDER2,
-    CYAN, CYAN2, BLUE, PURPLE,
+    BG, BG2, BG3, BORDER,
+    CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
+    sidebar_nav,
 )
 
 st.set_page_config(
@@ -31,104 +34,168 @@ st.set_page_config(
 
 sidebar_nav()
 
-# ── Data ──────────────────────────────────────────────────────────────────────
+# ── Data ─────────────────────────────────────────────────────────────────────
 from dashboard.db import (
-    cargar_alertas, cargar_elecciones, cargar_nowcasting,
-    cargar_macro_ultimo, cargar_indices_politeia,
+    cargar_alertas,
+    cargar_elecciones,
+    cargar_nowcasting,
+    cargar_macro_ultimo,
+    cargar_indices_politeia,
+    cargar_noticias_recientes,
 )
 
-df_elec    = cargar_elecciones("generales")
-df_macro   = cargar_macro_ultimo()
-df_alertas = cargar_alertas(solo_no_leidas=False)
-df_nc      = cargar_nowcasting()
+@st.cache_data(ttl=120)
+def _load():
+    return (
+        cargar_elecciones("generales"),
+        cargar_macro_ultimo(),
+        cargar_alertas(solo_no_leidas=False),
+        cargar_nowcasting(),
+        cargar_indices_politeia(),
+        cargar_noticias_recientes(dias=1, limit=20),
+    )
 
-# ── Intro animation CSS ──────────────────────────────────────────────────────
+df_elec, df_macro, df_alertas, df_nc, df_indices, df_news = _load()
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+def _macro_val(indicador: str, fmt: str = ".1f", suffix: str = "") -> str:
+    if df_macro.empty:
+        return "—"
+    fila = df_macro[df_macro["indicador"] == indicador]
+    if fila.empty:
+        return "—"
+    try:
+        v = float(fila.iloc[0]["valor"])
+        return f"{v:{fmt}}{suffix}"
+    except Exception:
+        return str(fila.iloc[0].get("valor", "—"))
+
+def _top_partido() -> tuple[str, float]:
+    if df_nc.empty or "estimacion_pct" not in df_nc.columns:
+        return "—", 0.0
+    row = df_nc.sort_values("estimacion_pct", ascending=False).iloc[0]
+    return str(row.get("partido_siglas", "—")), float(row.get("estimacion_pct", 0))
+
+def _n_alertas(sev: str | None = None) -> int:
+    if df_alertas.empty:
+        return 0
+    if sev:
+        return len(df_alertas[df_alertas["severidad"] == sev])
+    return len(df_alertas)
+
+def _indice_top() -> tuple[str, float]:
+    if df_indices.empty:
+        return "—", 0.0
+    row = df_indices.sort_values("valor", ascending=False).iloc[0]
+    return str(row.get("indice_codigo", "—")), float(row.get("valor", 0))
+
+# ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>
-@keyframes fadeInUp {{
-  from {{ opacity: 0; transform: translateY(24px); }}
-  to   {{ opacity: 1; transform: translateY(0); }}
+@keyframes fadeInUp  {{ from {{ opacity:0; transform:translateY(18px); }} to {{ opacity:1; transform:translateY(0); }} }}
+@keyframes fadeIn    {{ from {{ opacity:0; }} to {{ opacity:1; }} }}
+@keyframes dotPulse  {{ 0%,100% {{ opacity:.45; transform:scale(1); }} 50% {{ opacity:1; transform:scale(1.35); }} }}
+@keyframes pulseGlow {{ 0%,100% {{ box-shadow:0 0 0 0 {CYAN}44; }} 50% {{ box-shadow:0 0 14px 4px {CYAN}22; }} }}
+@keyframes logoIn    {{ 0% {{ opacity:0; transform:scale(.72) rotate(-6deg); }}
+                        65% {{ opacity:1; transform:scale(1.08) rotate(2deg); }}
+                        100% {{ opacity:1; transform:scale(1) rotate(0deg); }} }}
+@keyframes gradShift {{ 0%,100% {{ background-position:0% 50%; }} 50% {{ background-position:100% 50%; }} }}
+
+.es-a  {{ animation:fadeInUp .55s ease-out both; }}
+.es-a1 {{ animation:fadeInUp .55s ease-out .08s both; }}
+.es-a2 {{ animation:fadeInUp .55s ease-out .16s both; }}
+.es-a3 {{ animation:fadeInUp .55s ease-out .24s both; }}
+.es-a4 {{ animation:fadeInUp .55s ease-out .32s both; }}
+.es-a5 {{ animation:fadeInUp .55s ease-out .40s both; }}
+.es-a6 {{ animation:fadeInUp .55s ease-out .48s both; }}
+
+.g-card {{
+    background:linear-gradient(135deg,{BG2}f0,{BG3}dd);
+    border:1px solid {BORDER};
+    border-radius:12px;
+    transition:border-color .22s ease, box-shadow .22s ease;
 }}
-@keyframes fadeIn {{
-  from {{ opacity: 0; }}
-  to   {{ opacity: 1; }}
-}}
-@keyframes shimmer {{
-  0% {{ background-position: -200% center; }}
-  100% {{ background-position: 200% center; }}
-}}
-@keyframes pulseGlow {{
-  0%, 100% {{ box-shadow: 0 0 0 0 {CYAN}44; }}
-  50% {{ box-shadow: 0 0 12px 4px {CYAN}22; }}
-}}
-@keyframes gradientMove {{
-  0% {{ background-position: 0% 50%; }}
-  50% {{ background-position: 100% 50%; }}
-  100% {{ background-position: 0% 50%; }}
-}}
-@keyframes dotPulse {{
-  0%, 100% {{ opacity: 1; box-shadow: 0 0 0 0 {GREEN}66; }}
-  50% {{ opacity: .7; box-shadow: 0 0 0 6px transparent; }}
-}}
-@keyframes slideInLeft {{
-  from {{ opacity: 0; transform: translateX(-20px); }}
-  to   {{ opacity: 1; transform: translateX(0); }}
-}}
-@keyframes logoEntrance {{
-  0%   {{ opacity: 0; transform: scale(0.72) rotate(-6deg); }}
-  65%  {{ opacity: 1; transform: scale(1.08) rotate(2deg); }}
-  100% {{ opacity: 1; transform: scale(1) rotate(0deg); }}
+.g-card:hover {{
+    border-color:{CYAN}44;
+    box-shadow:0 4px 22px {CYAN}0e;
 }}
 
-.es-animate {{ animation: fadeInUp .6s ease-out both; }}
-.es-animate-d1 {{ animation: fadeInUp .6s ease-out .1s both; }}
-.es-animate-d2 {{ animation: fadeInUp .6s ease-out .2s both; }}
-.es-animate-d3 {{ animation: fadeInUp .6s ease-out .3s both; }}
-.es-animate-d4 {{ animation: fadeInUp .6s ease-out .4s both; }}
-.es-animate-d5 {{ animation: fadeInUp .6s ease-out .5s both; }}
+.sec-hdr {{
+    display:flex; align-items:center; gap:.65rem; margin:1.6rem 0 .9rem;
+}}
+.sec-hdr .bar  {{ width:4px; height:18px; border-radius:2px; flex-shrink:0; }}
+.sec-hdr .lbl  {{ font-size:.65rem; font-weight:700; letter-spacing:.15em;
+                  text-transform:uppercase; color:{CYAN}; }}
+.sec-hdr .line {{ flex:1; height:1px; background:linear-gradient(90deg,{BORDER},{BG}); }}
+.sec-hdr .tag  {{ font-size:.58rem; color:{MUTED}; background:{BG3}; padding:.18rem .5rem;
+                  border-radius:6px; border:1px solid {BORDER}; }}
 
-.glass-card {{
-  background: linear-gradient(135deg, {BG2}ee, {BG3}cc);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid {BORDER};
-  border-radius: 14px;
-  transition: all .25s ease;
+.signal-row {{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:.55rem; margin-bottom:.5rem;
 }}
-.glass-card:hover {{
-  border-color: {CYAN}55;
-  box-shadow: 0 4px 24px {CYAN}11;
+.signal-card {{
+    background:{BG2}; border:1px solid {BORDER}; border-radius:10px;
+    padding:.9rem 1rem; position:relative; overflow:hidden;
+    transition:border-color .2s ease;
 }}
+.signal-card:hover {{ border-color:{CYAN}55; }}
+.signal-card .accent {{ position:absolute; top:0; left:0; right:0; height:3px; border-radius:10px 10px 0 0; }}
+.signal-card .lbl {{ font-size:.57rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:{MUTED}; margin-bottom:.4rem; }}
+.signal-card .val {{ font-size:1.55rem; font-weight:900; color:{TEXT}; font-family:'JetBrains Mono',monospace; line-height:1.1; }}
+.signal-card .sub {{ font-size:.58rem; margin-top:.3rem; font-weight:600; letter-spacing:.04em; }}
+
+.alert-item {{
+    border-left:3px solid var(--ac);
+    padding:.48rem .8rem;
+    margin:.28rem 0;
+    background:linear-gradient(90deg,rgba(var(--acr),.06),{BG2});
+    border-radius:0 9px 9px 0;
+    border-top:1px solid {BORDER};
+    border-right:1px solid {BORDER};
+    border-bottom:1px solid {BORDER};
+    transition:background .2s ease;
+}}
+
+.party-strip {{
+    display:flex; gap:.4rem; flex-wrap:nowrap; overflow-x:auto;
+    padding-bottom:.2rem; scrollbar-width:thin;
+}}
+.party-chip {{
+    flex:1 0 auto; min-width:64px; text-align:center;
+    background:var(--bg); border:1px solid {BORDER};
+    border-top:3px solid var(--c); border-radius:0 0 8px 8px;
+    padding:.5rem .3rem; transition:box-shadow .2s ease;
+}}
+.party-chip:hover {{ box-shadow:0 3px 12px rgba(var(--cr),.25); }}
 </style>
 """, unsafe_allow_html=True)
 
-# ── Logo Animation + Header ──────────────────────────────────────────────────
-n_alertas_criticas = len(df_alertas[df_alertas["severidad"] == "CRITICAL"]) if not df_alertas.empty else 0
+# ─────────────────────────────────────────────────────────────────────────────
+# HEADER
+# ─────────────────────────────────────────────────────────────────────────────
+n_crit  = _n_alertas("CRITICAL")
+n_warn  = _n_alertas("WARNING")
+lider, lider_pct = _top_partido()
+indice_top, indice_val = _indice_top()
 
 st.markdown(f"""
-<div class="es-animate" style="
-    background: linear-gradient(135deg, {BG2} 0%, #0a1628 40%, {BG3} 100%);
-    border: 1px solid {BORDER};
-    border-radius: 16px;
-    padding: 2rem 2.5rem;
-    margin-bottom: 1.8rem;
-    position: relative;
-    overflow: hidden;
+<div class="es-a" style="
+    background:linear-gradient(135deg,{BG2} 0%,#091628 45%,{BG3} 100%);
+    border:1px solid {BORDER}; border-radius:16px;
+    padding:1.8rem 2.2rem; margin-bottom:1.6rem;
+    position:relative; overflow:hidden;
 ">
-    <!-- Animated gradient orb -->
-    <div style="position:absolute;top:-80px;right:-40px;width:280px;height:280px;
-                background:radial-gradient(circle, {CYAN}15 0%, {BLUE}08 40%, transparent 70%);
-                pointer-events:none;animation:gradientMove 8s ease infinite;
-                background-size:200% 200%"></div>
-    <div style="position:absolute;bottom:-60px;left:20%;width:200px;height:200px;
-                background:radial-gradient(circle, {PURPLE}10 0%, transparent 70%);
-                pointer-events:none"></div>
+    <div style="position:absolute;top:-70px;right:-30px;width:260px;height:260px;
+                background:radial-gradient(circle,{CYAN}12 0%,{BLUE}07 45%,transparent 70%);
+                animation:gradShift 9s ease infinite;background-size:200% 200%;pointer-events:none"></div>
+    <div style="position:absolute;bottom:-50px;left:22%;width:180px;height:180px;
+                background:radial-gradient(circle,{PURPLE}0d 0%,transparent 70%);pointer-events:none"></div>
+
     <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
-        <div style="display:flex;align-items:center;gap:1.4rem">
-            <!-- Politeia Analytics Logo -->
-            <div style="width:56px;height:56px;border-radius:14px;overflow:hidden;flex-shrink:0;
-                        box-shadow:0 6px 24px rgba(0,212,255,0.22),0 2px 8px rgba(0,0,0,0.4);
-                        animation:logoEntrance .75s cubic-bezier(0.34,1.56,0.64,1) both,pulseGlow 4s ease 1s infinite">
+        <div style="display:flex;align-items:center;gap:1.3rem">
+            <div style="width:52px;height:52px;border-radius:12px;overflow:hidden;flex-shrink:0;
+                        box-shadow:0 6px 22px rgba(0,212,255,.2),0 2px 8px rgba(0,0,0,.4);
+                        animation:logoIn .75s cubic-bezier(.34,1.56,.64,1) both,pulseGlow 4s ease 1s infinite">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
                   <rect width="100" height="100" rx="0" fill="#F0A214"/>
                   <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
@@ -147,400 +214,436 @@ st.markdown(f"""
                 </svg>
             </div>
             <div>
-                <div style="font-size:.62rem;font-weight:700;letter-spacing:.25em;color:{CYAN}aa;
-                            text-transform:uppercase;margin-bottom:.4rem">
-                    Gemelo Digital Politico &middot; Social &middot; Economico
+                <div style="font-size:.6rem;font-weight:700;letter-spacing:.26em;color:{CYAN}99;
+                            text-transform:uppercase;margin-bottom:.35rem">
+                    Gemelo Digital · Político · Social · Económico
                 </div>
-                <div style="font-size:2.2rem;font-weight:900;color:{TEXT};letter-spacing:-.04em;line-height:1.05">
+                <div style="font-size:2rem;font-weight:900;color:{TEXT};letter-spacing:-.04em;line-height:1.05">
                     Elect<span style="background:linear-gradient(90deg,{CYAN},{BLUE});
                     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
                     background-clip:text">Sim</span>
-                    <span style="font-weight:400;color:{TEXT2};font-size:1.4rem;margin-left:.15rem">Espana</span>
+                    <span style="font-weight:400;color:{TEXT2};font-size:1.25rem;margin-left:.1rem">España</span>
                 </div>
-                <div style="font-size:.78rem;color:{TEXT2};margin-top:.3rem;font-weight:400">
-                    Politeia Analytics &mdash; Modelos electorales en tiempo real
+                <div style="font-size:.72rem;color:{TEXT2};margin-top:.28rem">
+                    Politeia Analytics &mdash; Inteligencia electoral en tiempo real
                 </div>
             </div>
         </div>
-        <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
-            <div style="display:inline-flex;align-items:center;gap:.45rem;
+
+        <!-- Estado del sistema + señales rápidas -->
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.55rem">
+            <div style="display:inline-flex;align-items:center;gap:.4rem;
                         background:{GREEN}12;border:1px solid {GREEN}33;
-                        border-radius:24px;padding:.35rem .9rem">
-                <span style="display:inline-block;width:8px;height:8px;background:{GREEN};
-                              border-radius:50%;animation:dotPulse 2s ease infinite"></span>
-                <span style="font-size:.68rem;font-weight:700;color:{GREEN};letter-spacing:.1em;
-                              text-transform:uppercase">Sistema activo</span>
+                        border-radius:20px;padding:.3rem .85rem">
+                <span style="display:inline-block;width:7px;height:7px;background:{GREEN};
+                              border-radius:50%;animation:dotPulse 2.2s ease infinite"></span>
+                <span style="font-size:.65rem;font-weight:700;color:{GREEN};letter-spacing:.1em;text-transform:uppercase">Sistema activo</span>
             </div>
-            <div style="font-size:.65rem;color:{MUTED};font-family:'JetBrains Mono',monospace">
-                v2.0 &middot; Real-time
+            <div style="display:flex;gap:.45rem">
+                <div style="background:{'#EF444418' if n_crit>0 else BG3};border:1px solid {'#EF444433' if n_crit>0 else BORDER};
+                            border-radius:8px;padding:.28rem .7rem;text-align:center">
+                    <div style="font-size:.55rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Críticas</div>
+                    <div style="font-size:.9rem;font-weight:900;color:{'#EF4444' if n_crit>0 else MUTED};
+                                font-family:'JetBrains Mono',monospace">{n_crit}</div>
+                </div>
+                <div style="background:{'#F59E0B18' if n_warn>0 else BG3};border:1px solid {'#F59E0B33' if n_warn>0 else BORDER};
+                            border-radius:8px;padding:.28rem .7rem;text-align:center">
+                    <div style="font-size:.55rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Avisos</div>
+                    <div style="font-size:.9rem;font-weight:900;color:{'#F59E0B' if n_warn>0 else MUTED};
+                                font-family:'JetBrains Mono',monospace">{n_warn}</div>
+                </div>
+                <div style="background:{BG3};border:1px solid {BORDER};
+                            border-radius:8px;padding:.28rem .7rem;text-align:center">
+                    <div style="font-size:.55rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Líder</div>
+                    <div style="font-size:.9rem;font-weight:900;color:{CYAN};
+                                font-family:'JetBrains Mono',monospace">{lider}</div>
+                </div>
+            </div>
+            <div style="font-size:.58rem;color:{MUTED};font-family:'JetBrains Mono',monospace;letter-spacing:.05em">
+                v3.1 &middot; Real-time &middot; Politeia
             </div>
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── KPI Cards ────────────────────────────────────────────────────────────────
-kpi_data = []
+# ─────────────────────────────────────────────────────────────────────────────
+# SEÑALES CROSS-MÓDULO (5 KPIs)
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown(f"""
+<div class="sec-hdr es-a1">
+    <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+    <span class="lbl">Señales del Sistema</span>
+    <div class="line"></div>
+    <span class="tag">Nowcasting · Macro · Riesgo · Prensa · Alertas</span>
+</div>
+""", unsafe_allow_html=True)
 
-# 1 - Elecciones
-n_elec = len(df_elec) if not df_elec.empty else 0
-kpi_data.append(("Elecciones en BD", str(n_elec), CYAN, "Base de datos historica"))
+ipc_val   = _macro_val("IPC General (%)", suffix="%")
+prima_val = _macro_val("Prima Riesgo (pb)", fmt=".0f", suffix=" pb")
+paro_val  = _macro_val("Tasa de Paro (%)", suffix="%")
+n_news    = len(df_news) if not df_news.empty else 0
 
-# 2 - Nowcasting
-n_nc = len(df_nc) if not df_nc.empty else 0
-kpi_data.append(("Estimaciones activas", str(n_nc), BLUE, "Partidos con nowcasting"))
+signals = [
+    ("Partido líder",    f"{lider}",              f"{lider_pct:.1f}% estimado",  CYAN,   CYAN),
+    ("IPC General",      ipc_val,                  "Último dato INE",              AMBER,  AMBER),
+    ("Prima de Riesgo",  prima_val,                "Bono 10Y España/Alemania",     RED,    RED),
+    ("Índice top riesgo",f"{indice_top}",          f"{indice_val:.1f} puntos",     PURPLE, PURPLE),
+    ("Alertas activas",  str(_n_alertas()),        f"{n_crit} críticas · {n_warn} avisos",
+     RED if n_crit > 0 else (AMBER if n_warn > 0 else GREEN),
+     RED if n_crit > 0 else (AMBER if n_warn > 0 else GREEN)),
+]
 
-# 3 - IPC
-if not df_macro.empty:
-    fila = df_macro[df_macro["indicador"] == "IPC General (%)"]
-    ipc_val = f"{fila.iloc[0]['valor']:.1f}%" if not fila.empty else "---"
-else:
-    ipc_val = "---"
-kpi_data.append(("IPC General", ipc_val, AMBER, "Ultimo dato disponible"))
-
-# 4 - Prima Riesgo
-if not df_macro.empty:
-    fila = df_macro[df_macro["indicador"] == "Prima Riesgo (pb)"]
-    prima_val = f"{fila.iloc[0]['valor']:.0f} pb" if not fila.empty else "---"
-else:
-    prima_val = "---"
-kpi_data.append(("Prima de Riesgo", prima_val, PURPLE, "Diferencial bono 10Y"))
-
-# 5 - Alertas
-n_alertas = len(df_alertas) if not df_alertas.empty else 0
-alert_color = RED if n_alertas_criticas > 0 else GREEN
-kpi_data.append(("Alertas del sistema", str(n_alertas), alert_color,
-                 f"{n_alertas_criticas} criticas" if n_alertas_criticas > 0 else "Sin alertas criticas"))
-
-cols_kpi = st.columns(5, gap="medium")
-for idx, (label, value, color, subtitle) in enumerate(kpi_data):
-    with cols_kpi[idx]:
+cols_sig = st.columns(5, gap="small")
+for i, (lbl, val, sub, color, _) in enumerate(signals):
+    with cols_sig[i]:
         st.markdown(f"""
-        <div class="glass-card es-animate-d{idx+1}" style="
-            padding: 1.2rem 1.3rem;
-            border-top: 2px solid {color}55;
-            position: relative;
-            overflow: hidden;
-        ">
-            <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;
-                        background:radial-gradient({color}0a, transparent 70%);pointer-events:none"></div>
-            <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;color:{MUTED};
-                        text-transform:uppercase;margin-bottom:.5rem">{label}</div>
-            <div style="font-size:1.7rem;font-weight:900;color:{TEXT};
-                        font-family:'JetBrains Mono',monospace;line-height:1">{value}</div>
-            <div style="font-size:.6rem;color:{color};margin-top:.4rem;font-weight:600;
-                        letter-spacing:.04em">{subtitle}</div>
+        <div class="signal-card es-a{i+1}">
+            <div class="accent" style="background:{color}"></div>
+            <div class="lbl">{lbl}</div>
+            <div class="val">{val}</div>
+            <div class="sub" style="color:{color}">{sub}</div>
         </div>
         """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
-# ── Estimaciones Electorales ──────────────────────────────────────────────────
-import pandas as pd
+# ─────────────────────────────────────────────────────────────────────────────
+# BLOQUE CENTRAL: Nowcasting (izq) + Alertas (der)
+# ─────────────────────────────────────────────────────────────────────────────
+col_nc, col_alerts = st.columns([1.75, 1], gap="large")
 
-st.markdown(f"""<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem">
-<div style="width:4px;height:20px;background:linear-gradient({CYAN},{BLUE});border-radius:2px"></div>
-<span style="font-size:.75rem;font-weight:700;color:{CYAN};letter-spacing:.15em;text-transform:uppercase">Estimaciones Electorales</span>
-<div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
-<span style="font-size:.6rem;color:{MUTED};background:{BG3};padding:.2rem .5rem;border-radius:8px;border:1px solid {BORDER}">Nowcasting · Tiempo real</span>
-</div>""", unsafe_allow_html=True)
-
-_df_est = df_nc.sort_values("estimacion_pct", ascending=False) if not df_nc.empty else pd.DataFrame([
-    {"partido_siglas": "PP",      "estimacion_pct": 33.0, "ic_95_inf": 30.5, "ic_95_sup": 35.5},
-    {"partido_siglas": "PSOE",    "estimacion_pct": 28.5, "ic_95_inf": 26.0, "ic_95_sup": 31.0},
-    {"partido_siglas": "VOX",     "estimacion_pct": 12.0, "ic_95_inf":  9.5, "ic_95_sup": 14.5},
-    {"partido_siglas": "SUMAR",   "estimacion_pct": 10.5, "ic_95_inf":  8.0, "ic_95_sup": 13.0},
-    {"partido_siglas": "JUNTS",   "estimacion_pct":  3.5, "ic_95_inf":  2.0, "ic_95_sup":  5.0},
-    {"partido_siglas": "PNV",     "estimacion_pct":  2.8, "ic_95_inf":  1.5, "ic_95_sup":  4.1},
-    {"partido_siglas": "ERC",     "estimacion_pct":  2.5, "ic_95_inf":  1.2, "ic_95_sup":  3.8},
-    {"partido_siglas": "EH Bildu","estimacion_pct":  2.2, "ic_95_inf":  1.0, "ic_95_sup":  3.4},
-])
-
-_est_rows = list(_df_est.head(8).iterrows())
-cols_est = st.columns(len(_est_rows))
-for i, (_, row) in enumerate(_est_rows):
-    color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
-    r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-    delta = row["estimacion_pct"] - row.get("ic_95_inf", row["estimacion_pct"])
-    with cols_est[i]:
-        st.markdown(
-            f'<div style="text-align:center;padding:.75rem .2rem .6rem;'
-            f'background:linear-gradient(180deg,rgba({r},{g},{b},0.11),{BG2});'
-            f'border:1px solid {BORDER};border-top:3px solid {color};'
-            f'border-radius:0 0 10px 10px;transition:all .2s ease">'
-            f'<div style="font-size:.58rem;font-weight:700;color:{MUTED};'
-            f'letter-spacing:.08em;margin-bottom:.25rem">{row["partido_siglas"]}</div>'
-            f'<div style="font-size:1.3rem;font-weight:900;color:{color};'
-            f'font-family:\'JetBrains Mono\',monospace;line-height:1">{row["estimacion_pct"]:.1f}%</div>'
-            f'<div style="font-size:.5rem;color:{MUTED};margin-top:.2rem;'
-            f'font-family:\'JetBrains Mono\',monospace">'
-            f'[{row["ic_95_inf"]:.1f}\u2013{row["ic_95_sup"]:.1f}]</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-
-# ── Nowcasting Panel ─────────────────────────────────────────────────────────
-col_nc, col_right = st.columns([1.7, 1], gap="large")
-
+# ── Nowcasting ────────────────────────────────────────────────────────────────
 with col_nc:
     st.markdown(f"""
-    <div class="es-animate-d2" style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem">
-        <div style="width:4px;height:20px;background:linear-gradient({CYAN},{BLUE});border-radius:2px"></div>
-        <span style="font-size:.75rem;font-weight:700;color:{CYAN};
-                     letter-spacing:.15em;text-transform:uppercase">Estimacion Electoral &middot; Nowcasting</span>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
+    <div class="sec-hdr es-a2">
+        <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+        <span class="lbl">Estimación Electoral · Nowcasting</span>
+        <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
 
-    if not df_nc.empty:
-        df_top = df_nc.sort_values("estimacion_pct", ascending=False).copy()
+    _df = (
+        df_nc.sort_values("estimacion_pct", ascending=False).copy()
+        if not df_nc.empty
+        else pd.DataFrame([
+            {"partido_siglas": "PP",       "estimacion_pct": 33.0, "ic_95_inf": 30.5, "ic_95_sup": 35.5},
+            {"partido_siglas": "PSOE",     "estimacion_pct": 28.5, "ic_95_inf": 26.0, "ic_95_sup": 31.0},
+            {"partido_siglas": "VOX",      "estimacion_pct": 12.0, "ic_95_inf":  9.5, "ic_95_sup": 14.5},
+            {"partido_siglas": "SUMAR",    "estimacion_pct": 10.5, "ic_95_inf":  8.0, "ic_95_sup": 13.0},
+            {"partido_siglas": "JUNTS",    "estimacion_pct":  3.5, "ic_95_inf":  2.0, "ic_95_sup":  5.0},
+            {"partido_siglas": "PNV",      "estimacion_pct":  2.8, "ic_95_inf":  1.5, "ic_95_sup":  4.1},
+            {"partido_siglas": "ERC",      "estimacion_pct":  2.5, "ic_95_inf":  1.2, "ic_95_sup":  3.8},
+            {"partido_siglas": "EH Bildu", "estimacion_pct":  2.2, "ic_95_inf":  1.0, "ic_95_sup":  3.4},
+        ])
+    )
 
-        fig = go.Figure()
-        for _, row in df_top.iterrows():
-            color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#888888")
-            r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-            fig.add_trace(go.Bar(
-                x=[row["partido_siglas"]],
-                y=[row["estimacion_pct"]],
-                name=row["partido_siglas"],
-                marker=dict(
-                    color=f"rgba({r},{g},{b},0.75)",
-                    line=dict(color=color, width=1.5),
-                    pattern=dict(shape="", solidity=0.1),
-                ),
-                error_y=dict(
-                    type="data", symmetric=False,
-                    array=[max(0, row["ic_95_sup"] - row["estimacion_pct"])],
-                    arrayminus=[max(0, row["estimacion_pct"] - row["ic_95_inf"])],
-                    color=f"rgba({r},{g},{b},0.5)", thickness=1.5, width=4,
-                ),
-                text=[f"{row['estimacion_pct']:.1f}%"],
-                textposition="outside",
-                textfont=dict(color=TEXT, size=11, family="JetBrains Mono, monospace"),
-            ))
-
-        fig.update_layout(
-            height=340, barmode="group",
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(
-                showgrid=False, tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
-                categoryorder="array",
-                categoryarray=df_top["partido_siglas"].tolist(),
-                fixedrange=True,
+    # Gráfico de barras con IC
+    fig = go.Figure()
+    for _, row in _df.iterrows():
+        color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
+        r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        fig.add_trace(go.Bar(
+            x=[row["partido_siglas"]],
+            y=[row["estimacion_pct"]],
+            name=row["partido_siglas"],
+            marker=dict(
+                color=f"rgba({r},{g},{b},0.72)",
+                line=dict(color=color, width=1.5),
             ),
-            yaxis=dict(
-                gridcolor="rgba(30,41,59,0.53)", gridwidth=1,
-                range=[0, df_top["ic_95_sup"].max() + 6],
-                tickfont=dict(size=10, color=MUTED),
-                ticksuffix="%",
-                fixedrange=True,
+            error_y=dict(
+                type="data", symmetric=False,
+                array=[max(0, row["ic_95_sup"] - row["estimacion_pct"])],
+                arrayminus=[max(0, row["estimacion_pct"] - row["ic_95_inf"])],
+                color=f"rgba({r},{g},{b},0.45)", thickness=1.5, width=5,
             ),
-            showlegend=False,
-            margin=dict(t=15, b=5, l=5, r=5),
-            font=dict(family="Inter, sans-serif"),
-            hoverlabel=dict(
-                bgcolor=BG2,
-                font=dict(size=12, family="JetBrains Mono, monospace"),
-                bordercolor=BORDER,
+            text=[f"{row['estimacion_pct']:.1f}%"],
+            textposition="outside",
+            textfont=dict(color=TEXT2, size=10, family="JetBrains Mono, monospace"),
+            hovertemplate=(
+                f"<b style='color:{color}'>{row['partido_siglas']}</b><br>"
+                f"Estimación: <b>{row['estimacion_pct']:.1f}%</b><br>"
+                f"IC 95%: [{row['ic_95_inf']:.1f} – {row['ic_95_sup']:.1f}]"
+                "<extra></extra>"
             ),
-        )
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+        ))
 
-        # ── Party metric strip ───────────────────────────────────────────────
-        cols_p = st.columns(len(df_top))
-        for i, (_, row) in enumerate(df_top.iterrows()):
-            color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#888888")
-            r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-            with cols_p[i]:
-                st.markdown(f"""
-                <div style="text-align:center;padding:.55rem .15rem;
-                            background:linear-gradient(180deg,rgba({r},{g},{b},0.08),{BG2});
-                            border:1px solid {BORDER};
-                            border-top:3px solid {color};border-radius:0 0 8px 8px;
-                            transition:all .2s ease">
-                    <div style="font-size:.55rem;font-weight:700;color:{MUTED};
-                                letter-spacing:.08em;margin-bottom:.2rem">{row['partido_siglas']}</div>
-                    <div style="font-size:1.1rem;font-weight:900;color:{color};
-                                font-family:'JetBrains Mono',monospace">{row['estimacion_pct']:.1f}%</div>
-                    <div style="font-size:.48rem;color:{MUTED};margin-top:.15rem;
-                                font-family:'JetBrains Mono',monospace">
-                        [{row['ic_95_inf']:.1f} - {row['ic_95_sup']:.1f}]
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-    else:
-        st.info("Sin datos de nowcasting.")
+    fig.update_layout(
+        height=300,
+        barmode="group",
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        xaxis=dict(
+            showgrid=False, fixedrange=True,
+            tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
+            categoryorder="array",
+            categoryarray=_df["partido_siglas"].tolist(),
+        ),
+        yaxis=dict(
+            gridcolor=f"{BORDER}88", gridwidth=1, fixedrange=True,
+            range=[0, _df["ic_95_sup"].max() + 7],
+            tickfont=dict(size=9, color=MUTED),
+            ticksuffix="%",
+        ),
+        showlegend=False,
+        margin=dict(t=16, b=4, l=4, r=4),
+        hoverlabel=dict(bgcolor=BG2, bordercolor=BORDER,
+                        font=dict(size=11, family="JetBrains Mono, monospace")),
+    )
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-with col_right:
-    # ── Alertas ──────────────────────────────────────────────────────────────
+    # Tira de chips de partido
+    chips_html = '<div class="party-strip">'
+    for _, row in _df.iterrows():
+        color  = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
+        r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        chips_html += f"""
+        <div class="party-chip"
+             style="--c:{color};--cr:{r},{g},{b};--bg:linear-gradient(180deg,rgba({r},{g},{b},.09),{BG2});">
+            <div style="font-size:.52rem;font-weight:700;color:{MUTED};letter-spacing:.07em;margin-bottom:.15rem">
+                {row['partido_siglas']}
+            </div>
+            <div style="font-size:1.05rem;font-weight:900;color:{color};font-family:'JetBrains Mono',monospace">
+                {row['estimacion_pct']:.1f}%
+            </div>
+            <div style="font-size:.46rem;color:{MUTED};font-family:'JetBrains Mono',monospace;margin-top:.1rem">
+                [{row['ic_95_inf']:.1f}–{row['ic_95_sup']:.1f}]
+            </div>
+        </div>"""
+    chips_html += "</div>"
+    st.markdown(chips_html, unsafe_allow_html=True)
+
+    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+    if st.button("Ver análisis completo de nowcasting →", use_container_width=True):
+        st.switch_page("pages/2_Nowcasting.py")
+
+# ── Alertas priorizadas ───────────────────────────────────────────────────────
+with col_alerts:
     st.markdown(f"""
-    <div class="es-animate-d3" style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem">
-        <div style="width:4px;height:20px;background:linear-gradient({RED},{AMBER});border-radius:2px"></div>
-        <span style="font-size:.75rem;font-weight:700;color:{RED};
-                     letter-spacing:.15em;text-transform:uppercase">Alertas</span>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
-        <span style="font-size:.6rem;font-weight:700;color:{MUTED};
-                     background:{BG3};padding:.2rem .5rem;border-radius:10px;
-                     border:1px solid {BORDER}">{n_alertas} total</span>
+    <div class="sec-hdr es-a3">
+        <div class="bar" style="background:linear-gradient({RED},{AMBER})"></div>
+        <span class="lbl" style="color:{RED}">Alertas</span>
+        <div class="line"></div>
+        <span class="tag">{_n_alertas()} total</span>
     </div>
     """, unsafe_allow_html=True)
 
     if not df_alertas.empty:
-        for idx, (_, a) in enumerate(df_alertas.head(7).iterrows()):
-            sev = a.get("severidad", "INFO")
-            if sev == "CRITICAL":
-                bc, icon = RED, "!!"
-            elif sev == "WARNING":
-                bc, icon = AMBER, "!"
-            else:
-                bc, icon = CYAN, "i"
+        # Ordenar: CRITICAL primero, luego WARNING, luego INFO
+        _order = {"CRITICAL": 0, "WARNING": 1, "INFO": 2}
+        df_sorted = df_alertas.copy()
+        df_sorted["_ord"] = df_sorted["severidad"].map(lambda x: _order.get(str(x).upper(), 3))
+        df_sorted = df_sorted.sort_values(["_ord", "created_at"], ascending=[True, False])
+
+        for _, a in df_sorted.head(8).iterrows():
+            sev = str(a.get("severidad", "INFO")).upper()
+            color_map = {"CRITICAL": RED, "WARNING": AMBER, "INFO": CYAN}
+            icon_map  = {"CRITICAL": "!!", "WARNING": "!", "INFO": "i"}
+            ac = color_map.get(sev, CYAN)
+            icon = icon_map.get(sev, "i")
+            titulo = str(a.get("titulo", ""))[:44]
+            fecha  = str(a.get("created_at", ""))[:10]
+            tipo   = str(a.get("tipo", ""))
+
             st.markdown(f"""
-            <div class="es-animate" style="
-                border-left:3px solid {bc};
-                padding:.5rem .85rem;margin:.3rem 0;
-                background:linear-gradient(90deg,{bc}08,{BG2});
-                border-radius:0 10px 10px 0;
-                border-top:1px solid {BORDER};border-right:1px solid {BORDER};
-                border-bottom:1px solid {BORDER};
-                transition:all .2s ease;
-            ">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                    <div style="display:flex;align-items:center;gap:.45rem;flex:1;min-width:0">
-                        <span style="font-size:.58rem;font-weight:900;color:{bc};
-                                     background:{bc}15;width:18px;height:18px;
+            <div class="alert-item" style="--ac:{ac}">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:.3rem">
+                    <div style="display:flex;align-items:center;gap:.4rem;flex:1;min-width:0">
+                        <span style="font-size:.55rem;font-weight:900;color:{ac};
+                                     background:{ac}18;width:17px;height:17px;flex-shrink:0;
                                      display:flex;align-items:center;justify-content:center;
-                                     border-radius:5px;flex-shrink:0;border:1px solid {bc}33">{icon}</span>
-                        <span style="font-size:.74rem;font-weight:600;color:{TEXT};
-                                     overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
-                            {str(a.get('titulo',''))[:42]}
-                        </span>
+                                     border-radius:4px;border:1px solid {ac}33">{icon}</span>
+                        <span style="font-size:.72rem;font-weight:600;color:{TEXT};
+                                     overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{titulo}</span>
                     </div>
-                    <span style="font-size:.52rem;font-weight:700;color:{bc};
-                                 background:{bc}12;border:1px solid {bc}33;
-                                 padding:.12rem .4rem;border-radius:5px;white-space:nowrap;
-                                 margin-left:.3rem;letter-spacing:.08em">{sev}</span>
+                    <span style="font-size:.5rem;font-weight:700;color:{ac};
+                                 background:{ac}12;border:1px solid {ac}33;
+                                 padding:.1rem .38rem;border-radius:4px;white-space:nowrap;
+                                 letter-spacing:.07em">{sev}</span>
                 </div>
-                <div style="font-size:.58rem;color:{MUTED};margin-top:.2rem;margin-left:1.6rem;
-                            font-family:'JetBrains Mono',monospace">{str(a.get('created_at',''))[:10]}</div>
+                <div style="display:flex;gap:.5rem;margin-top:.18rem;margin-left:1.4rem">
+                    <span style="font-size:.54rem;color:{MUTED};font-family:'JetBrains Mono',monospace">{fecha}</span>
+                    {f'<span style="font-size:.54rem;color:{MUTED};background:{BG3};padding:.05rem .35rem;border-radius:4px;border:1px solid {BORDER}">{tipo}</span>' if tipo else ''}
+                </div>
             </div>
             """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div class="glass-card" style="padding:1.8rem;text-align:center">
-            <div style="width:36px;height:36px;background:{GREEN}15;border:2px solid {GREEN}33;
-                        border-radius:10px;margin:0 auto .6rem;display:flex;align-items:center;
-                        justify-content:center;font-size:1rem;color:{GREEN}">&#10003;</div>
-            <div style="color:{GREEN};font-weight:700;font-size:.78rem;letter-spacing:.08em;
-                        text-transform:uppercase">Sin alertas activas</div>
-            <div style="color:{MUTED};font-size:.62rem;margin-top:.3rem">
-                Todos los sistemas operativos
-            </div>
+        <div class="g-card" style="padding:2rem;text-align:center;margin-top:.5rem">
+            <div style="width:34px;height:34px;background:{GREEN}14;border:2px solid {GREEN}33;
+                        border-radius:9px;margin:0 auto .6rem;display:flex;align-items:center;
+                        justify-content:center;font-size:.95rem;color:{GREEN}">✓</div>
+            <div style="color:{GREEN};font-weight:700;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase">Sin alertas activas</div>
+            <div style="color:{MUTED};font-size:.6rem;margin-top:.3rem">Todos los módulos operativos</div>
         </div>
         """, unsafe_allow_html=True)
 
+    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+    if st.button("Ver todas las alertas →", use_container_width=True):
+        st.switch_page("pages/8_Tiempo_Real.py")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BLOQUE INFERIOR: Macro (izq) + Últimas Elecciones + Noticias (der)
+# ─────────────────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);
-            margin:1.5rem 0"></div>
+<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.2rem 0"></div>
 """, unsafe_allow_html=True)
 
-# ── Macro + Ultimas Elecciones ────────────────────────────────────────────────
-col_macro, col_elec = st.columns([1, 1], gap="large")
+col_macro, col_elec_news = st.columns([1, 1], gap="large")
 
+# ── Macro compacta ────────────────────────────────────────────────────────────
 with col_macro:
     st.markdown(f"""
-    <div class="es-animate-d3" style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem">
-        <div style="width:4px;height:20px;background:linear-gradient({BLUE},{PURPLE});border-radius:2px"></div>
-        <span style="font-size:.75rem;font-weight:700;color:{BLUE};
-                     letter-spacing:.15em;text-transform:uppercase">Indicadores Macro</span>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
+    <div class="sec-hdr es-a4">
+        <div class="bar" style="background:linear-gradient({BLUE},{PURPLE})"></div>
+        <span class="lbl" style="color:{BLUE}">Indicadores Macro</span>
+        <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
+
+    indicadores = [
+        ("IPC General (%)",        AMBER,  ".1f", "%",    "IPC"),
+        ("Crec. PIB (%)",           GREEN,  ".1f", "%",    "PIB"),
+        ("Tasa de Paro (%)",        RED,    ".1f", "%",    "Paro"),
+        ("Prima Riesgo (pb)",       RED,    ".0f", " pb",  "Prima"),
+        ("Euribor 12m (%)",         CYAN,   ".2f", "%",    "Euribor"),
+        ("Deuda Publica (% PIB)",   PURPLE, ".1f", "%",    "Deuda"),
+    ]
 
     if not df_macro.empty:
-        indicadores_show = [
-            ("IPC General (%)",        AMBER, "%"),
-            ("Crec. PIB (%)",          GREEN, "%"),
-            ("Prima Riesgo (pb)",      RED,   " pb"),
-            ("Euribor 12m (%)",        CYAN,  "%"),
-            ("IBEX 35",                BLUE,  ""),
-            ("Deuda Publica (% PIB)",  PURPLE, "%"),
-        ]
         cols_m = st.columns(3)
         shown = 0
-        for ind, ind_color, suffix in indicadores_show:
+        for ind, color, fmt, suffix, short in indicadores:
             fila = df_macro[df_macro["indicador"] == ind]
-            if not fila.empty:
-                val = float(fila.iloc[0]["valor"])
-                label = ind.replace(" (%)", "").replace(" (pb)", "").replace(" (% PIB)", "")
-                if ind == "IBEX 35":
-                    display_val = f"{val:,.0f}"
-                else:
-                    display_val = f"{val:.1f}{suffix}"
-                with cols_m[shown % 3]:
-                    st.markdown(f"""
-                    <div class="glass-card" style="padding:1rem 1.1rem;margin-bottom:.5rem;
-                                border-top:2px solid {ind_color}44">
-                        <div style="font-size:.58rem;font-weight:700;letter-spacing:.1em;
-                                    color:{MUTED};text-transform:uppercase;margin-bottom:.35rem">{label}</div>
-                        <div style="font-size:1.35rem;font-weight:800;color:{TEXT};
-                                    font-family:'JetBrains Mono',monospace">{display_val}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                shown += 1
-    else:
-        st.info("Sin datos macro. Ejecuta el ETL de INE/BDE.")
-
-with col_elec:
-    st.markdown(f"""
-    <div class="es-animate-d4" style="display:flex;align-items:center;gap:.7rem;margin-bottom:1rem">
-        <div style="width:4px;height:20px;background:linear-gradient({PURPLE},{CYAN});border-radius:2px"></div>
-        <span style="font-size:.75rem;font-weight:700;color:{PURPLE};
-                     letter-spacing:.15em;text-transform:uppercase">Ultimas Elecciones</span>
-        <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if not df_elec.empty:
-        for idx, (_, e) in enumerate(df_elec.head(6).iterrows()):
-            fecha = str(e.get("fecha", ""))[:10]
-            desc  = str(e.get("descripcion", "Elecciones Generales"))
-            st.markdown(f"""
-            <div class="glass-card" style="
-                display:flex;justify-content:space-between;align-items:center;
-                padding:.6rem 1rem;margin-bottom:.35rem;
-                border-left:3px solid {PURPLE}55;
-            ">
-                <div style="display:flex;align-items:center;gap:.6rem;flex:1;min-width:0">
-                    <div style="width:7px;height:7px;background:{PURPLE};border-radius:50%;
-                                flex-shrink:0;box-shadow:0 0 6px {PURPLE}44"></div>
-                    <span style="font-size:.78rem;font-weight:600;color:{TEXT};
-                                 overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{desc[:55]}</span>
+            if fila.empty:
+                continue
+            try:
+                v = float(fila.iloc[0]["valor"])
+                display = f"{v:{fmt}}{suffix}"
+            except Exception:
+                display = str(fila.iloc[0].get("valor", "—"))
+            with cols_m[shown % 3]:
+                st.markdown(f"""
+                <div class="g-card" style="padding:.85rem 1rem;margin-bottom:.45rem;border-top:2px solid {color}44">
+                    <div style="font-size:.55rem;font-weight:700;letter-spacing:.1em;color:{MUTED};
+                                text-transform:uppercase;margin-bottom:.28rem">{short}</div>
+                    <div style="font-size:1.25rem;font-weight:900;color:{TEXT};
+                                font-family:'JetBrains Mono',monospace">{display}</div>
+                    <div style="font-size:.52rem;color:{color};margin-top:.2rem;font-weight:600">{ind.replace(' (%)', '').replace(' (pb)', '').replace(' (% PIB)', '')}</div>
                 </div>
-                <span style="font-size:.65rem;color:{MUTED};white-space:nowrap;margin-left:.6rem;
-                             font-family:'JetBrains Mono',monospace;
-                             background:{BG3};padding:.15rem .5rem;border-radius:6px;
-                             border:1px solid {BORDER}">{fecha}</span>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
-        if st.button("Ver mapa electoral completo  ->", use_container_width=True):
-            st.switch_page("pages/1_Mapa_Electoral.py")
+                """, unsafe_allow_html=True)
+            shown += 1
     else:
-        st.info("Sin datos de elecciones.")
+        st.markdown(f"""
+        <div class="g-card" style="padding:1.4rem;text-align:center;color:{MUTED};font-size:.75rem">
+            Sin datos macro · Ejecuta el ETL de INE/BDE
+        </div>
+        """, unsafe_allow_html=True)
 
-# ── Footer ────────────────────────────────────────────────────────────────────
+    st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
+    if st.button("Ver análisis macroeconómico completo →", use_container_width=True):
+        st.switch_page("pages/12_Macroeconomia.py")
+
+# ── Últimas elecciones + noticias recientes ───────────────────────────────────
+with col_elec_news:
+    tab_elec, tab_news = st.tabs(["📋 Últimas Elecciones", "📰 Noticias Recientes"])
+
+    with tab_elec:
+        st.markdown(f"""
+        <div class="sec-hdr" style="margin-top:.6rem">
+            <div class="bar" style="background:linear-gradient({PURPLE},{CYAN})"></div>
+            <span class="lbl" style="color:{PURPLE}">Histórico Electoral</span>
+            <div class="line"></div>
+            <span class="tag">{len(df_elec) if not df_elec.empty else 0} elecciones</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if not df_elec.empty:
+            for _, e in df_elec.head(7).iterrows():
+                fecha = str(e.get("fecha", ""))[:10]
+                desc  = str(e.get("descripcion", "Elecciones Generales"))[:56]
+                st.markdown(f"""
+                <div class="g-card" style="
+                    display:flex;justify-content:space-between;align-items:center;
+                    padding:.52rem .9rem;margin-bottom:.3rem;
+                    border-left:3px solid {PURPLE}55;border-radius:0 9px 9px 0;
+                ">
+                    <div style="display:flex;align-items:center;gap:.55rem;flex:1;min-width:0">
+                        <div style="width:6px;height:6px;background:{PURPLE};border-radius:50%;
+                                    flex-shrink:0;box-shadow:0 0 5px {PURPLE}66"></div>
+                        <span style="font-size:.74rem;font-weight:600;color:{TEXT};
+                                     overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{desc}</span>
+                    </div>
+                    <span style="font-size:.6rem;color:{MUTED};white-space:nowrap;margin-left:.5rem;
+                                 font-family:'JetBrains Mono',monospace;
+                                 background:{BG3};padding:.12rem .42rem;border-radius:5px;
+                                 border:1px solid {BORDER}">{fecha}</span>
+                </div>
+                """, unsafe_allow_html=True)
+            st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
+            if st.button("Ir al Mapa Electoral →", use_container_width=True):
+                st.switch_page("pages/1_Mapa_Electoral.py")
+        else:
+            st.info("Sin datos de elecciones. Carga el ETL histórico.")
+
+    with tab_news:
+        st.markdown(f"""
+        <div class="sec-hdr" style="margin-top:.6rem">
+            <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+            <span class="lbl">Noticias (24h)</span>
+            <div class="line"></div>
+            <span class="tag">{n_news} noticias</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if not df_news.empty:
+            _cols_news = [c for c in ["titulo", "fuente", "fecha_publicacion", "sentimiento_score"] if c in df_news.columns]
+            df_show = df_news[_cols_news].head(8).copy()
+
+            for _, n in df_show.iterrows():
+                titulo = str(n.get("titulo", ""))[:60]
+                fuente = str(n.get("fuente", ""))
+                fecha  = str(n.get("fecha_publicacion", ""))[:10]
+                score  = n.get("sentimiento_score", None)
+                if score is not None:
+                    try:
+                        sv = float(score)
+                        scolor = GREEN if sv > 0.1 else (RED if sv < -0.1 else MUTED)
+                        score_badge = f'<span style="font-size:.5rem;color:{scolor};background:{scolor}12;padding:.1rem .3rem;border-radius:4px;border:1px solid {scolor}33;font-family:JetBrains Mono,monospace">{sv:+.2f}</span>'
+                    except Exception:
+                        score_badge = ""
+                else:
+                    score_badge = ""
+
+                st.markdown(f"""
+                <div class="g-card" style="padding:.5rem .85rem;margin-bottom:.28rem">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.4rem">
+                        <span style="font-size:.7rem;font-weight:600;color:{TEXT};flex:1;min-width:0;
+                                     overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{titulo}</span>
+                        {score_badge}
+                    </div>
+                    <div style="display:flex;gap:.5rem;margin-top:.12rem">
+                        <span style="font-size:.54rem;color:{CYAN}88;font-weight:600">{fuente}</span>
+                        <span style="font-size:.54rem;color:{MUTED};font-family:'JetBrains Mono',monospace">{fecha}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            if st.button("Ver prensa & agenda completa →", use_container_width=True):
+                st.switch_page("pages/10_Prensa_Agenda.py")
+        else:
+            st.info("Sin noticias recientes. Ejecuta el scraper de prensa.")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FOOTER
+# ─────────────────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);
-            margin:1.5rem 0 .8rem"></div>
-<div style="display:flex;justify-content:space-between;align-items:center;
-            padding:.4rem 0;font-size:.6rem;color:{MUTED}">
-    <span>ElectSim Espana v2.0 &middot; Politeia Analytics</span>
-    <span style="font-family:'JetBrains Mono',monospace;color:{CYAN}66">
-        {len(df_elec) if not df_elec.empty else 0} elecciones &nbsp;&middot;&nbsp;
-        {len(df_nc) if not df_nc.empty else 0} estimaciones
+<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.4rem 0 .7rem"></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;font-size:.58rem;color:{MUTED}">
+    <span>ElectSim España v3.1 &middot; Politeia Analytics &middot; Todos los derechos reservados</span>
+    <span style="font-family:'JetBrains Mono',monospace;color:{CYAN}55;display:flex;gap:1rem">
+        <span>{len(df_elec) if not df_elec.empty else 0} elecciones</span>
+        <span>{len(df_nc) if not df_nc.empty else 0} estimaciones</span>
+        <span>{_n_alertas()} alertas</span>
     </span>
 </div>
 """, unsafe_allow_html=True)
