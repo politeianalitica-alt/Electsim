@@ -243,6 +243,7 @@ for i, row in enumerate(idx_list):
     var_color = GREEN if var7 and var7 > 0 else RED if var7 and var7 < 0 else MUTED
     pct = min(100, max(0, valor))
     cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+    vc_r, vc_g, vc_b = int(var_color[1:3], 16), int(var_color[3:5], 16), int(var_color[5:7], 16)
     with col:
         st.markdown(f"""
         <div class="idx-card" style="border-top:3px solid rgba({cr},{cg},{cb},0.7)">
@@ -250,12 +251,12 @@ for i, row in enumerate(idx_list):
             <div class="idx-valor" style="color:{color};margin:.4rem 0">{valor:.1f}</div>
             <div style="display:flex;align-items:center;gap:.5rem;margin:.25rem 0 .5rem">
                 <span class="idx-badge"
-                      style="background:rgba({cr},{cg},{cb},0.12);
-                             color:{color};
-                             border:1px solid rgba({cr},{cg},{cb},0.3)">
-                    {row.get('semaforo','—')}
+                      style="background:rgba({vc_r},{vc_g},{vc_b},0.14);
+                             color:{var_color};
+                             border:1px solid rgba({vc_r},{vc_g},{vc_b},0.32);
+                             font-family:'JetBrains Mono',monospace">
+                    {var_str} 7d
                 </span>
-                <span style="font-size:.7rem;color:{var_color};font-weight:600">{var_str} 7d</span>
             </div>
             <div class="progress-track">
                 <div class="progress-fill" style="background:{color};width:{pct}%"></div>
@@ -375,6 +376,11 @@ col_def, col_serie = st.columns([1, 2])
 with col_def:
     color_sel = SEMAFORO_COLOR.get(row_sel.get("semaforo", ""), CYAN)
     sr, sg, sb = int(color_sel[1:3], 16), int(color_sel[3:5], 16), int(color_sel[5:7], 16)
+    sel_var7 = row_sel.get("variacion_7d")
+    sel_arrow = "▲" if sel_var7 and sel_var7 > 0 else "▼" if sel_var7 and sel_var7 < 0 else "—"
+    sel_var_str = f"{sel_arrow} {abs(sel_var7):.1f}" if sel_var7 else "—"
+    sel_var_color = GREEN if sel_var7 and sel_var7 > 0 else RED if sel_var7 and sel_var7 < 0 else MUTED
+    svc_r, svc_g, svc_b = int(sel_var_color[1:3], 16), int(sel_var_color[3:5], 16), int(sel_var_color[5:7], 16)
     st.markdown(f"""
     <div class="detail-card" style="border-top:3px solid {color_sel}">
         <div style="font-size:.65rem;font-weight:700;color:{MUTED};
@@ -391,11 +397,12 @@ with col_def:
         </div>
         <div style="margin:.6rem 0">
             <span class="idx-badge"
-                  style="background:rgba({sr},{sg},{sb},0.15);
-                         color:{color_sel};
-                         border:1px solid rgba({sr},{sg},{sb},0.35);
-                         padding:.25rem .8rem">
-                {row_sel.get('semaforo','—')}
+                  style="background:rgba({svc_r},{svc_g},{svc_b},0.15);
+                         color:{sel_var_color};
+                         border:1px solid rgba({svc_r},{svc_g},{svc_b},0.35);
+                         padding:.25rem .8rem;
+                         font-family:'JetBrains Mono',monospace">
+                {sel_var_str} 7d
             </span>
         </div>
         <hr style="border:none;border-top:1px solid {BORDER};margin:.8rem 0">
