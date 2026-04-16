@@ -5,8 +5,10 @@ Queries cacheadas con st.cache_data sobre el schema real de ElectSim.
 
 from __future__ import annotations
 
+import logging
 import os
 import sys
+_log = logging.getLogger(__name__)
 from pathlib import Path
 from typing import Any
 
@@ -49,7 +51,9 @@ def _q(sql: str, params: dict | None = None) -> pd.DataFrame:
         with engine.connect() as conn:
             return pd.read_sql(text(sql), conn, params=params or {})
     except Exception as e:
-        st.warning(f"Error de BD: {e}")
+        _log.error("DB query failed: %s", e, exc_info=True)
+        if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
+            st.warning(f"Error de BD: {e}")
         return pd.DataFrame()
 
 
@@ -147,6 +151,8 @@ def cargar_nowcasting() -> pd.DataFrame:
 
 @st.cache_data(ttl=60)
 def cargar_serie_nowcasting(partido_siglas: str, dias: int = 180) -> pd.DataFrame:
+    if not partido_siglas or not str(partido_siglas).strip():
+        return pd.DataFrame()
     return _q(
         """
         SELECT e.fecha_estimacion, e.estimacion_pct, e.ic_95_inf, e.ic_95_sup
@@ -167,7 +173,7 @@ def cargar_macro_ultimo() -> pd.DataFrame:
     """Últimos valores disponibles de indicadores clave."""
     return _q(
         """
-        SELECT indicador, valor, fecha FROM (
+        SELECT DISTINCT ON (indicador) indicador, valor, fecha FROM (
             SELECT 'IPC General (%)'   AS indicador, ipc_general::numeric            AS valor, fecha FROM indicadores_macroeconomicos WHERE ipc_general IS NOT NULL
             UNION ALL
             SELECT 'Prima Riesgo (pb)',               prima_riesgo_bono10::numeric,           fecha FROM indicadores_macroeconomicos WHERE prima_riesgo_bono10 IS NOT NULL
@@ -338,28 +344,29 @@ def cargar_validacion_por_partido(run_id: str) -> pd.DataFrame:
 
 @st.cache_data(ttl=30)
 def cargar_alertas(solo_no_leidas: bool = False, limit: int = 20) -> pd.DataFrame:
-    cond = "AND leida = false" if solo_no_leidas else ""
     return _q(
-        f"""
+        """
         SELECT tipo, severidad, titulo, descripcion, leida, created_at
         FROM alertas_sistema
-        WHERE 1=1 {cond}
+        WHERE (:solo_no_leidas = false OR leida = false)
         ORDER BY created_at DESC
-        LIMIT {limit}
-        """
+        LIMIT :limit
+        """,
+        {"solo_no_leidas": bool(solo_no_leidas), "limit": int(limit)},
     )
 
 
 @st.cache_data(ttl=30)
 def cargar_scraping_log(limit: int = 20) -> pd.DataFrame:
     return _q(
-        f"""
+        """
         SELECT fuente, tipo, estado, n_registros_nuevos, n_registros_duplicados,
                duracion_segundos, error_mensaje, created_at
         FROM scraping_log
         ORDER BY created_at DESC
-        LIMIT {limit}
-        """
+        LIMIT :limit
+        """,
+        {"limit": int(limit)},
     )
 
 
