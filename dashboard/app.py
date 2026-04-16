@@ -399,7 +399,7 @@ with col_nc:
                 categoryarray=_df["partido_siglas"].astype(str).tolist(),
             ),
             yaxis=dict(
-                gridcolor=f"{BORDER}88", gridwidth=1, fixedrange=True,
+                gridcolor=f"rgba({int(BORDER[1:3],16)},{int(BORDER[3:5],16)},{int(BORDER[5:7],16)},0.5)", gridwidth=1, fixedrange=True,
                 range=[0, ymax],
                 tickfont=dict(size=9, color=MUTED),
                 ticksuffix="%",
