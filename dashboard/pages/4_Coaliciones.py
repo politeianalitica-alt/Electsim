@@ -7,7 +7,9 @@ y matriz de compatibilidad entre formaciones.
 
 from __future__ import annotations
 
+import logging
 import sys
+from itertools import combinations
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -15,15 +17,20 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 import plotly.graph_objects as go
+import numpy as np
 import pandas as pd
 import streamlit as st
 from dashboard.app_state import get_app_snapshot
+from dashboard.db import cargar_coaliciones_metadata, cargar_nowcasting
+from dashboard.election_math import dhondt_nacional
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
     CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
+    color_partido,
+    hex_to_rgb,
 )
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -34,13 +41,14 @@ sidebar_nav()
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _color(siglas: str) -> str:
-    return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
+    return color_partido(siglas)
 
 
-def _section_header(label: str, color: str):
+def _section_header(label: str, color: str, gradient_end: str | None = None):
+    end = gradient_end or BG3
     st.markdown(f"""
     <div style="display:flex;align-items:center;gap:.7rem;margin:1.2rem 0 .8rem">
-        <div style="width:4px;height:20px;background:linear-gradient({color},{BLUE});border-radius:2px"></div>
+        <div style="width:4px;height:20px;background:linear-gradient({color},{end});border-radius:2px"></div>
         <span style="font-size:.72rem;font-weight:700;color:{color};
                      letter-spacing:.15em;text-transform:uppercase">{label}</span>
         <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
@@ -57,9 +65,23 @@ def _pill(label: str, color: str) -> str:
     )
 
 
-def _hex_to_rgb(hex_color: str) -> tuple[int, int, int]:
-    h = hex_color.lstrip("#")
-    return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+def _normalizar(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    ren = {
+        "estimación_pct": "estimacion_pct",
+        "estimacion": "estimacion_pct",
+        "fecha_estimación": "fecha_estimacion",
+        "fecha_calculo": "fecha_estimacion",
+        "ic95_inf": "ic_95_inf",
+        "ic95_sup": "ic_95_sup",
+    }
+    return df.rename(columns={src: dst for src, dst in ren.items() if src in df.columns and dst not in df.columns})
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _nc_cached() -> pd.DataFrame:
+    return _normalizar(cargar_nowcasting())
 
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
@@ -146,255 +168,186 @@ st.markdown(f"""
 
 # ── Datos ─────────────────────────────────────────────────────────────────────
 
-MOTIVACIONES = {
-    "PP": {
-        "nombre": "Partido Popular",
-        "lider": "Alberto Núñez Feijóo",
-        "color": _color("PP"),
-        "bloque": "derecha",
-        "objetivo": "Llegar a La Moncloa con estabilidad presupuestaria y mayoría sólida",
-        "lineas_rojas": [
-            "Amnistía a independentistas",
-            "Plurinacionalidad constitucional",
-            "Derogación de la reforma laboral de 2021",
-            "Cualquier acuerdo que debilite la unidad territorial",
-        ],
-        "concesiones": [
-            "Bajada conjunta de impuestos sobre la renta",
-            "Refuerzo del gasto en defensa y seguridad",
-            "Política migratoria más restrictiva",
-            "Reforma del sistema de financiación autonómica",
-        ],
-        "socios_preferentes": ["VOX (si es necesario)", "CC", "PRC", "UPN", "Foro Asturias"],
-        "socios_vetados": ["ERC", "EH Bildu", "Junts en cuestiones constitucionales", "CUP"],
-        "precio_coalicion": "Vicepresidencia + Ministerios de Economía e Interior + agenda propia en seguridad",
-        "estrategia": "Máxima exigencia inicial, cede en temas simbólicos pero no en sustantivos. Prefiere gobernar en solitario con apoyos puntuales.",
-        "fortaleza": 85,
-    },
-    "PSOE": {
-        "nombre": "Partido Socialista Obrero Español",
-        "lider": "Pedro Sánchez",
-        "color": _color("PSOE"),
-        "bloque": "izquierda",
-        "objetivo": "Revalidar el gobierno preservando la coalición progresista más el apoyo nacionalista",
-        "lineas_rojas": [
-            "Recortes en gasto social o en el Estado del bienestar",
-            "Reversión de derechos civiles (matrimonio igualitario, aborto, eutanasia)",
-            "Cualquier gobierno con VOX",
-        ],
-        "concesiones": [
-            "Mayor autonomía fiscal a las CCAA (concierto ampliado)",
-            "Política lingüística más flexible en Cataluña",
-            "Reforma del sistema de financiación autonómica",
-            "Transferencias de competencias pendientes",
-        ],
-        "socios_preferentes": ["SUMAR", "PNV", "Junts (transaccional)", "ERC", "EH Bildu", "BNG"],
-        "socios_vetados": ["VOX en cualquier caso"],
-        "precio_coalicion": "Ministerios clave para socios, concesiones territoriales graduales, agenda social compartida",
-        "estrategia": "Pragmatismo extremo, gestión de las contradicciones internas de la coalición. Cada acuerdo se negocia caso a caso.",
-        "fortaleza": 80,
-    },
-    "VOX": {
-        "nombre": "VOX",
-        "lider": "Santiago Abascal",
-        "color": _color("VOX"),
-        "bloque": "derecha radical",
-        "objetivo": "Entrar en el gobierno, marcar la agenda cultural y migratoria",
-        "lineas_rojas": [
-            "Cualquier política de género o identitaria",
-            "Amnistía o beneficios a independentistas",
-            "Más autonomía territorial para las CCAA",
-            "Agenda climática o impuestos ecológicos",
-        ],
-        "concesiones": [
-            "Apoyar presupuestos a cambio de política migratoria restrictiva",
-            "Derogación de leyes de violencia de género y memoria democrática",
-            "Políticas de seguridad y orden público",
-        ],
-        "socios_preferentes": ["PP (única opción viable)"],
-        "socios_vetados": ["Todos los demás — incompatibilidad ideológica total"],
-        "precio_coalicion": "Ministerio del Interior + Vicepresidencia + control de fronteras + derogación de leyes identitarias",
-        "estrategia": "Presión máxima en temas migratorio y cultural. No ceden en identidad. Prefieren la oposición dura a un acuerdo sin contenido.",
-        "fortaleza": 60,
-    },
-    "SUMAR": {
-        "nombre": "SUMAR",
-        "lider": "Yolanda Díaz",
-        "color": _color("SUMAR"),
-        "bloque": "izquierda",
-        "objetivo": "Mantener carteras sociales y laborales, avanzar en derechos y transición ecológica",
-        "lineas_rojas": [
-            "Recortes en prestaciones sociales o derechos laborales",
-            "Privatizaciones de servicios públicos",
-            "Reforma laboral regresiva",
-            "Gasto excesivo en defensa",
-        ],
-        "concesiones": [
-            "Flexibilidad en política exterior si hay contraprestaciones sociales",
-            "Apoyar la agenda del PSOE en temas no nucleares",
-        ],
-        "socios_preferentes": ["PSOE", "EH Bildu en temas sociales"],
-        "socios_vetados": ["PP", "VOX", "cualquier gobierno de derecha"],
-        "precio_coalicion": "Vicepresidencia Social + Ministerio de Trabajo + Ministerio de Vivienda + agenda verde",
-        "estrategia": "Negociación desde la izquierda del PSOE. Su debilidad es la fragmentación interna.",
-        "fortaleza": 55,
-    },
-    "PNV": {
-        "nombre": "Partido Nacionalista Vasco",
-        "lider": "Andoni Ortuzar",
-        "color": _color("PNV"),
-        "bloque": "nacionalismo vasco moderado",
-        "objetivo": "Ampliar el cupo vasco, transferencias pendientes, autogobierno máximo",
-        "lineas_rojas": [
-            "Recentralización de competencias",
-            "Intervención del gobierno en la política autonómica vasca",
-            "Cualquier medida que afecte al concierto económico",
-        ],
-        "concesiones": [
-            "Apoyo estable a la investidura a cambio de transferencias concretas",
-            "Son un socio muy fiable una vez cerrado el acuerdo",
-        ],
-        "socios_preferentes": ["PSOE (socio histórico)", "PP (si ofrece más autonomía)"],
-        "socios_vetados": ["VOX", "EH Bildu en coalición nacional"],
-        "precio_coalicion": "Concierto ampliado + transferencias de Seguridad Social + inversiones en el País Vasco",
-        "estrategia": "Extremadamente precisos en sus demandas. Muy fiables como socios una vez firmado el acuerdo.",
-        "fortaleza": 78,
-    },
-    "Junts": {
-        "nombre": "Junts per Catalunya",
-        "lider": "Carles Puigdemont",
-        "color": _color("JUNTS"),
-        "bloque": "independentismo catalán",
-        "objetivo": "Amnistía plena, autodeterminación, retorno de Puigdemont sin consecuencias",
-        "lineas_rojas": [
-            "Amnistía parcial o con condiciones",
-            "Sin negociación explícita sobre autodeterminación",
-            "Recentralización o ataque al autogobierno catalán",
-        ],
-        "concesiones": [
-            "Apoyo puntual a presupuestos a cambio de avances concretos y verificables",
-        ],
-        "socios_preferentes": ["PSOE (relación transaccional)"],
-        "socios_vetados": ["PP", "VOX"],
-        "precio_coalicion": "Amnistía plena + referéndum o consulta pactada + financiación singular para Cataluña",
-        "estrategia": "Máxima exigencia. Retirada de apoyo ante cualquier incumplimiento percibido. El socio más volátil del arco parlamentario.",
-        "fortaleza": 72,
-    },
-    "ERC": {
-        "nombre": "Esquerra Republicana de Catalunya",
-        "lider": "Oriol Junqueras",
-        "color": _color("ERC"),
-        "bloque": "independentismo catalán",
-        "objetivo": "Diálogo permanente, financiación singular, avance gradual hacia la independencia",
-        "lineas_rojas": [
-            "Represión policial o judicial del activismo independentista",
-            "Sin avances verificables en autogobierno",
-        ],
-        "concesiones": [
-            "Más flexible que Junts en plazos y formas",
-            "Acepta avances graduales si son reales",
-        ],
-        "socios_preferentes": ["PSOE"],
-        "socios_vetados": ["PP", "VOX"],
-        "precio_coalicion": "Mesa de negociación activa + financiación singular + inversiones en Cataluña",
-        "estrategia": "Más pragmática que Junts. Su debilidad es la competencia con Junts por el electorado independentista.",
-        "fortaleza": 65,
-    },
-    "EH Bildu": {
-        "nombre": "EH Bildu",
-        "lider": "Arnaldo Otegi (portavoz)",
-        "color": _color("EH Bildu"),
-        "bloque": "izquierda abertzale",
-        "objetivo": "Políticas sociales, acercamiento de presos de ETA, ampliación del autogobierno vasco",
-        "lineas_rojas": [
-            "Militarismo o política de defensa agresiva",
-            "Recortes en derechos sociales o laborales",
-        ],
-        "concesiones": [
-            "Apoyo a presupuestos con fuerte contenido social",
-            "Transversalidad en temas de bienestar",
-        ],
-        "socios_preferentes": ["PSOE + SUMAR (coalición progresista)"],
-        "socios_vetados": ["VOX", "PP en gobiernos de derecha"],
-        "precio_coalicion": "Acercamiento de presos + más competencias autonómicas + políticas de vivienda",
-        "estrategia": "Transversal en lo social, firme en lo identitario. Han moderado su imagen electoral.",
-        "fortaleza": 62,
-    },
-}
 
-COMPATIBILIDAD = {
-    ("PP",       "VOX"):      +1,
-    ("PP",       "PSOE"):     -1,
-    ("PP",       "SUMAR"):    -2,
-    ("PP",       "PNV"):      +1,
-    ("PP",       "Junts"):    -2,
-    ("PP",       "ERC"):      -2,
-    ("PP",       "EH Bildu"): -2,
-    ("PSOE",     "SUMAR"):    +2,
-    ("PSOE",     "PNV"):      +2,
-    ("PSOE",     "Junts"):     0,
-    ("PSOE",     "ERC"):      +1,
-    ("PSOE",     "EH Bildu"): +1,
-    ("PSOE",     "VOX"):      -2,
-    ("SUMAR",    "EH Bildu"): +2,
-    ("SUMAR",    "ERC"):      +1,
-    ("SUMAR",    "PNV"):       0,
-    ("SUMAR",    "VOX"):      -2,
-    ("SUMAR",    "Junts"):     0,
-    ("VOX",      "PNV"):      -2,
-    ("VOX",      "Junts"):    -2,
-    ("VOX",      "ERC"):      -2,
-    ("VOX",      "EH Bildu"): -2,
-    ("PNV",      "EH Bildu"): -1,
-    ("PNV",      "ERC"):       0,
-    ("PNV",      "Junts"):     0,
-    ("Junts",    "ERC"):      +1,
-    ("Junts",    "EH Bildu"):  0,
-    ("ERC",      "EH Bildu"): +1,
-}
+def _resolve_color_token(token: str | None) -> str:
+    if not token:
+        return CYAN
+    t = str(token)
+    if t == "MUTED":
+        return MUTED
+    if t.startswith("#"):
+        return t
+    return _color(t)
 
-ESCENARIOS = [
-    {
-        "nombre": "Gobierno PP con apoyo de VOX",
-        "partidos": ["PP", "VOX"],
-        "escanos_est": 171, "prob": 38, "color": _color("PP"),
-        "tipo": "Mayoría simple con apoyos",
-        "desc": "Gobierno PP en solitario con apoyo externo de VOX en votaciones clave. PP intentaría evitar una coalición formal.",
-        "condicion": "PP necesita ~140+ escaños y VOX obtiene 30+",
-    },
-    {
-        "nombre": "Mayoría progresista ampliada",
-        "partidos": ["PSOE", "SUMAR", "PNV", "ERC", "EH Bildu"],
-        "escanos_est": 178, "prob": 29, "color": _color("PSOE"),
-        "tipo": "Mayoría absoluta multipartidista",
-        "desc": "Renovación del gobierno actual con acuerdos reforzados con PNV, ERC y EH Bildu.",
-        "condicion": "PSOE+SUMAR necesitan ~155 escaños + apoyos nacionalistas",
-    },
-    {
-        "nombre": "Bloqueo / elecciones repetidas",
-        "partidos": [],
-        "escanos_est": 0, "prob": 18, "color": MUTED,
-        "tipo": "Sin mayoría viable",
-        "desc": "España repite elecciones tras fallo de investidura (ocurrió en 2015-16 y 2019).",
-        "condicion": "Ni PP ni PSOE alcanza 176 escaños con socios viables",
-    },
-    {
-        "nombre": "PP con PNV y CC",
-        "partidos": ["PP", "PNV", "CC"],
-        "escanos_est": 176, "prob": 8, "color": "#336699",
-        "tipo": "Mayoría ajustada",
-        "desc": "Gobierno de centroderecha con socios nacionalistas moderados. Requiere concesiones al PNV en el cupo vasco.",
-        "condicion": "PP necesita ~165 escaños y VOX queda fuera de la mayoría",
-    },
-    {
-        "nombre": "Gran coalición PP-PSOE",
-        "partidos": ["PP", "PSOE"],
-        "escanos_est": 255, "prob": 7, "color": "#6B7280",
-        "tipo": "Mayoría absoluta amplia",
-        "desc": "Escenario extremo. Ambos partidos lo rechazan públicamente pero no es imposible ante una crisis institucional.",
-        "condicion": "Crisis sistémica grave o necesidad de reforma constitucional",
-    },
-]
+
+def _validate_compat_matrix(compat: dict[tuple[str, str], int], partidos: list[str]) -> None:
+    missing: list[tuple[str, str]] = []
+    for p1, p2 in combinations(partidos, 2):
+        if (p1, p2) not in compat and (p2, p1) not in compat:
+            missing.append((p1, p2))
+    if missing:
+        raise ValueError(f"Faltan pares de compatibilidad: {missing}")
+
+
+def _build_metadata_defaults() -> tuple[dict[str, dict], list[dict], dict[tuple[str, str], int], list[str]]:
+    meta = cargar_coaliciones_metadata() or {}
+    motivaciones = meta.get("motivaciones", {})
+    escenarios = meta.get("escenarios", [])
+    compat_rows = meta.get("compatibilidad", [])
+    partidos_orden = meta.get("partidos_orden", ["PP", "VOX", "PSOE", "SUMAR", "PNV", "EH Bildu", "ERC", "Junts"])
+
+    motivaciones_out: dict[str, dict] = {}
+    for siglas, payload in motivaciones.items():
+        d = dict(payload)
+        d["color"] = _color(siglas)
+        motivaciones_out[siglas] = d
+
+    escenarios_out: list[dict] = []
+    for esc in escenarios:
+        out = dict(esc)
+        out["color"] = _resolve_color_token(str(esc.get("color", "")))
+        out["bloque"] = str(esc.get("bloque", "centro"))
+        escenarios_out.append(out)
+
+    compat_out: dict[tuple[str, str], int] = {}
+    for row in compat_rows:
+        p1 = str(row.get("p1", "")).strip()
+        p2 = str(row.get("p2", "")).strip()
+        if not p1 or not p2:
+            continue
+        compat_out[(p1, p2)] = int(row.get("valor", 0))
+
+    if compat_out and partidos_orden:
+        _validate_compat_matrix(compat_out, list(partidos_orden))
+    return motivaciones_out, escenarios_out, compat_out, list(partidos_orden)
+
+
+MOTIVACIONES, ESCENARIOS_BASE, COMPATIBILIDAD, PARTIDOS_ORDEN = _build_metadata_defaults()
+_WARNED_COMPAT_PAIRS: set[tuple[str, str]] = set()
+
+
+def _seat(seats: dict[str, int], *aliases: str) -> int:
+    return sum(seats.get(a, 0) for a in aliases)
+
+
+def _compute_scenario_probs(df_nc: pd.DataFrame) -> list[dict]:
+    if df_nc.empty or "estimacion_pct" not in df_nc.columns:
+        return [dict(e) for e in ESCENARIOS_BASE]
+    votes = {
+        str(row["partido_siglas"]): float(row["estimacion_pct"])
+        for _, row in df_nc.iterrows()
+        if pd.notna(row.get("estimacion_pct"))
+    }
+    if not votes:
+        return [dict(e) for e in ESCENARIOS_BASE]
+
+    seats = dhondt_nacional(votes)
+    pp_vox = _seat(seats, "PP") + _seat(seats, "VOX")
+    prog = (
+        _seat(seats, "PSOE")
+        + _seat(seats, "SUMAR")
+        + _seat(seats, "PNV")
+        + _seat(seats, "ERC")
+        + _seat(seats, "EH Bildu", "EH_BILDU")
+        + _seat(seats, "BNG")
+        + _seat(seats, "Junts", "JUNTS")
+    )
+    pp_pnv_cc = _seat(seats, "PP") + _seat(seats, "PNV") + _seat(seats, "CC")
+    grand = _seat(seats, "PP") + _seat(seats, "PSOE")
+    best_block = max(pp_vox, prog, pp_pnv_cc)
+
+    raw = {
+        "Gobierno PP con apoyo de VOX": max(2.0, min(85.0, 50.0 + 2.1 * (pp_vox - 176))),
+        "Mayoría progresista ampliada": max(2.0, min(85.0, 50.0 + 2.1 * (prog - 176))),
+        "PP con PNV y CC": max(1.0, min(40.0, 18.0 + 2.4 * (pp_pnv_cc - 176))),
+        "Gran coalición PP-PSOE": max(1.0, min(20.0, 3.0 + max(0.0, (170.0 - float(best_block))) / 3.0)),
+        "Bloqueo / elecciones repetidas": max(2.0, min(70.0, 55.0 - 1.8 * (float(best_block) - 176.0))),
+    }
+    total_raw = sum(raw.values()) or 1.0
+
+    esc_map = {
+        "Gobierno PP con apoyo de VOX": pp_vox,
+        "Mayoría progresista ampliada": prog,
+        "PP con PNV y CC": pp_pnv_cc,
+        "Gran coalición PP-PSOE": grand,
+        "Bloqueo / elecciones repetidas": 0,
+    }
+
+    escenarios: list[dict] = []
+    for base in ESCENARIOS_BASE:
+        n = base["nombre"]
+        out = dict(base)
+        out["prob"] = int(round(raw.get(n, float(base["prob"])) / total_raw * 100.0))
+        out["escanos_est"] = int(esc_map.get(n, base["escanos_est"]))
+        escenarios.append(out)
+
+    # Ajuste de redondeo para cerrar 100.
+    diff = 100 - sum(e["prob"] for e in escenarios)
+    if escenarios and diff != 0:
+        escenarios[0]["prob"] += diff
+    return escenarios
+
+
+def _apply_mc_to_escenarios(escenarios: list[dict], mc_res: dict[str, list[int]] | None) -> list[dict]:
+    if not mc_res:
+        return escenarios
+    n = len(next(iter(mc_res.values()), [])) if mc_res else 0
+    if n <= 0:
+        return escenarios
+
+    izq_parties = {"PSOE", "SUMAR", "ERC", "EH Bildu", "EH_BILDU", "BNG", "PNV"}
+    der_parties = {"PP", "VOX"}
+    arr_izq = np.sum([np.array(mc_res[p], dtype=float) for p in izq_parties if p in mc_res], axis=0) if any(p in mc_res for p in izq_parties) else np.zeros(n)
+    arr_der = np.sum([np.array(mc_res[p], dtype=float) for p in der_parties if p in mc_res], axis=0) if any(p in mc_res for p in der_parties) else np.zeros(n)
+
+    out: list[dict] = []
+    for esc in escenarios:
+        e = dict(esc)
+        partidos = [p for p in e.get("partidos", []) if p in mc_res]
+        if partidos:
+            arr = np.sum([np.array(mc_res[p], dtype=float) for p in partidos], axis=0)
+            e["prob"] = int(round(float((arr >= 176).mean() * 100)))
+            e["escanos_est"] = int(round(float(np.median(arr))))
+        else:
+            # Escenario de bloqueo/repetición.
+            p_block = float(((arr_izq < 176) & (arr_der < 176)).mean() * 100)
+            e["prob"] = int(round(p_block))
+            e["escanos_est"] = 0
+        out.append(e)
+
+    diff = 100 - sum(int(e.get("prob", 0)) for e in out)
+    if out and diff != 0:
+        out[0]["prob"] = int(out[0].get("prob", 0)) + diff
+    return out
+
+
+def _get_compat(p1: str, p2: str) -> int:
+    if p1 == p2:
+        return 2
+    key = (p1, p2) if (p1, p2) in COMPATIBILIDAD else (p2, p1)
+    if key not in COMPATIBILIDAD:
+        pair = tuple(sorted((p1, p2)))
+        if pair not in _WARNED_COMPAT_PAIRS:
+            _WARNED_COMPAT_PAIRS.add(pair)
+            logging.warning("Par de compatibilidad no definido: (%s, %s) -> asumiendo 0", p1, p2)
+    return int(COMPATIBILIDAD.get(key, 0))
+
+
+def _compute_fortaleza(siglas: str, seats: dict[str, int], escenarios: list[dict]) -> int:
+    seat_aliases = {
+        "Junts": ("Junts", "JUNTS"),
+        "EH Bildu": ("EH Bildu", "EH_BILDU"),
+    }
+    esc = _seat(seats, *(seat_aliases.get(siglas, (siglas,))))
+    seat_score = min((esc / 350.0) * 60.0, 60.0)
+
+    viable = [e for e in escenarios if e.get("escanos_est", 0) >= 176 and e.get("partidos")]
+    if not viable:
+        indispens = 0.0
+    else:
+        needed = sum(1 for e in viable if siglas in e["partidos"])
+        indispens = (needed / len(viable)) * 40.0
+    return int(round(min(100.0, seat_score + indispens)))
 
 
 # ── Animated header ───────────────────────────────────────────────────────────
@@ -424,6 +377,31 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# ── Datos dinámicos (nowcasting -> escaños/escenarios/fortaleza) ───────────
+df_nc_current = _nc_cached()
+if df_nc_current.empty:
+    df_nc_current = _normalizar(get_app_snapshot().get("nowcasting", pd.DataFrame()))
+
+if not df_nc_current.empty and "estimacion_pct" in df_nc_current.columns:
+    df_nc_current = df_nc_current.sort_values("estimacion_pct", ascending=False).copy()
+
+ESCENARIOS = _compute_scenario_probs(df_nc_current)
+ESCENARIOS = _apply_mc_to_escenarios(ESCENARIOS, st.session_state.get("mc_resultados"))
+_votes_now = (
+    {str(r["partido_siglas"]): float(r["estimacion_pct"]) for _, r in df_nc_current.iterrows()}
+    if not df_nc_current.empty and "estimacion_pct" in df_nc_current.columns
+    else {}
+)
+SEATS_NOW = dhondt_nacional(_votes_now) if _votes_now else {}
+FORTALEZA_BY_PARTY = {
+    p: _compute_fortaleza(p, SEATS_NOW, ESCENARIOS)
+    for p in MOTIVACIONES.keys()
+}
+
+if not MOTIVACIONES or not ESCENARIOS:
+    st.error("No se pudo cargar metadata de coaliciones desde assets/coaliciones.json")
+    st.stop()
+
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3 = st.tabs([
@@ -440,9 +418,12 @@ with tab1:
 
     # ── KPI row ───────────────────────────────────────────────────────────────
     total_esc = len(ESCENARIOS)
-    prob_derecha  = sum(e["prob"] for e in ESCENARIOS if "PP" in e["partidos"] and "PSOE" not in e["partidos"])
-    prob_izq      = sum(e["prob"] for e in ESCENARIOS if "PSOE" in e["partidos"])
-    prob_bloqueo  = next((e["prob"] for e in ESCENARIOS if not e["partidos"]), 0)
+    prob_derecha = sum(int(e.get("prob", 0)) for e in ESCENARIOS if e.get("bloque") == "derecha")
+    prob_izq = sum(int(e.get("prob", 0)) for e in ESCENARIOS if e.get("bloque") == "izquierda")
+    prob_bloqueo = sum(int(e.get("prob", 0)) for e in ESCENARIOS if e.get("bloque") == "bloqueo")
+    prob_resto = 100 - prob_derecha - prob_izq - prob_bloqueo
+    if abs(prob_derecha + prob_izq + prob_bloqueo + prob_resto - 100) > 1:
+        st.warning("Las probabilidades de escenarios no están cerrando correctamente al 100%.")
 
     kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
     with kpi_col1:
@@ -456,7 +437,7 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
     with kpi_col2:
-        r, g, b = _hex_to_rgb(_color("PP"))
+        r, g, b = hex_to_rgb(_color("PP"))
         st.markdown(f"""
         <div class="kpi-card coal-animate" style="border-top:3px solid {_color('PP')};animation-delay:.08s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
@@ -468,7 +449,7 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
     with kpi_col3:
-        r2, g2, b2 = _hex_to_rgb(_color("PSOE"))
+        r2, g2, b2 = hex_to_rgb(_color("PSOE"))
         st.markdown(f"""
         <div class="kpi-card coal-animate" style="border-top:3px solid {_color('PSOE')};animation-delay:.16s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
@@ -493,7 +474,7 @@ with tab1:
     st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 
     # ── Nowcasting pill strip ─────────────────────────────────────────────────
-    df_nc = get_app_snapshot().get("nowcasting", pd.DataFrame())
+    df_nc = df_nc_current
     if not df_nc.empty and "estimacion_pct" in df_nc.columns:
         _section_header("Estimación Actual de Voto", CYAN)
         pills_html = '<div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">'
@@ -614,7 +595,7 @@ with tab2:
     )
     m = MOTIVACIONES[partido_sel]
     mc = m["color"]
-    mr, mg, mb = _hex_to_rgb(mc)
+    mr, mg, mb = hex_to_rgb(mc)
 
     # ── Party header card ─────────────────────────────────────────────────────
     st.markdown(f"""
@@ -706,9 +687,10 @@ with tab2:
 
     # ── Fortaleza negociadora — big number + progress bar ─────────────────────
     _section_header("Fortaleza negociadora", mc)
-    fort = m["fortaleza"]
+    fort = int(FORTALEZA_BY_PARTY.get(partido_sel, 0))
     fort_color = GREEN if fort >= 75 else (AMBER if fort >= 55 else RED)
-    fr, fg, fb = _hex_to_rgb(fort_color)
+    fr, fg, fb = hex_to_rgb(fort_color)
+    st.caption("Fortaleza = 60% peso parlamentario estimado + 40% indispensabilidad en coaliciones viables (>=176).")
 
     col_fort, col_pad = st.columns([1, 2])
     with col_fort:
@@ -732,7 +714,7 @@ with tab2:
     _section_header("Comparativa de fortaleza — todos los partidos", PURPLE)
 
     partidos_l  = list(MOTIVACIONES.keys())
-    fort_vals   = [MOTIVACIONES[p]["fortaleza"] for p in partidos_l]
+    fort_vals   = [int(FORTALEZA_BY_PARTY.get(p, 0)) for p in partidos_l]
     fort_colors = [MOTIVACIONES[p]["color"] for p in partidos_l]
 
     fig_comp = go.Figure(go.Bar(
@@ -795,34 +777,34 @@ with tab3:
     </div>
     """, unsafe_allow_html=True)
 
-    partidos_m = ["PP", "PSOE", "VOX", "SUMAR", "PNV", "Junts", "ERC", "EH Bildu"]
+    partidos_m = PARTIDOS_ORDEN
     matrix: list[list[int]] = []
     for p1 in partidos_m:
         row_vals: list[int] = []
         for p2 in partidos_m:
-            if p1 == p2:
-                row_vals.append(2)
-            else:
-                key = (p1, p2) if (p1, p2) in COMPATIBILIDAD else (p2, p1)
-                row_vals.append(COMPATIBILIDAD.get(key, 0))
+            row_vals.append(_get_compat(p1, p2))
         matrix.append(row_vals)
 
-    # Custom colorscale: -2 deep red → 0 dark neutral → +2 deep green
+    matrix_np = np.array(matrix, dtype=float)
+    np.fill_diagonal(matrix_np, np.nan)
+
+    # Escala discreta (ordinal), sin interpolación perceptiva continua.
     dark_colorscale = [
-        [0.00, "#7F1D1D"],
-        [0.25, "#991B1B"],
-        [0.50, BG3],
-        [0.75, "#14532D"],
-        [1.00, "#166534"],
+        [0.000, "#7F1D1D"], [0.249, "#7F1D1D"],  # -2
+        [0.250, "#B91C1C"], [0.499, "#B91C1C"],  # -1
+        [0.500, BG3],       [0.749, BG3],        # 0
+        [0.750, "#065F46"], [0.999, "#065F46"],  # +1
+        [1.000, "#14532D"],                     # +2
     ]
+    text_matrix = [[("—" if np.isnan(v) else str(int(v))) for v in row_vals] for row_vals in matrix_np]
 
     fig_hm = go.Figure(go.Heatmap(
-        z=matrix,
+        z=matrix_np.tolist(),
         x=partidos_m,
         y=partidos_m,
         colorscale=dark_colorscale,
         zmin=-2, zmax=2,
-        text=[[str(v) for v in row_vals] for row_vals in matrix],
+        text=text_matrix,
         texttemplate="%{text}",
         textfont=dict(color=TEXT, size=11, family="JetBrains Mono, monospace"),
         showscale=True,
@@ -841,8 +823,17 @@ with tab3:
             font=dict(size=11, family="JetBrains Mono, monospace"),
             bordercolor=BORDER,
         ),
-        hovertemplate="<b>%{y}</b> ↔ <b>%{x}</b><br>Compatibilidad: %{z}<extra></extra>",
+        hovertemplate="<b>%{y}</b> ↔ <b>%{x}</b><br>Compatibilidad: %{text}<extra></extra>",
     ))
+    # Diagonal separada semánticamente.
+    for p in partidos_m:
+        fig_hm.add_annotation(
+            x=p,
+            y=p,
+            text="◆",
+            showarrow=False,
+            font=dict(color=CYAN, size=14),
+        )
     fig_hm.update_layout(
         height=500,
         paper_bgcolor="rgba(0,0,0,0)",
@@ -860,6 +851,17 @@ with tab3:
         margin=dict(t=30, b=10, l=10, r=10),
         font=dict(color=TEXT),
     )
+    for x_sep in [1.5, 3.5]:
+        fig_hm.add_shape(
+            type="line",
+            x0=x_sep, x1=x_sep, y0=-0.5, y1=len(partidos_m) - 0.5,
+            line=dict(color=BORDER, width=2, dash="dot"),
+        )
+        fig_hm.add_shape(
+            type="line",
+            x0=-0.5, x1=len(partidos_m) - 0.5, y0=x_sep, y1=x_sep,
+            line=dict(color=BORDER, width=2, dash="dot"),
+        )
     st.plotly_chart(fig_hm, use_container_width=True)
 
     # ── Bloc cards ────────────────────────────────────────────────────────────

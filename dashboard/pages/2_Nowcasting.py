@@ -5,18 +5,19 @@ Estimacion en tiempo real con animacion, proyeccion D'Hondt y alertas de transfe
 
 from __future__ import annotations
 
+import hashlib
 import sys
+from io import StringIO
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.io as pio
 import streamlit as st
-import streamlit.components.v1 as components
 from dashboard.app_state import get_app_snapshot
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
@@ -25,7 +26,11 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
 )
-from dashboard.db import cargar_serie_nowcasting
+from dashboard.db import (
+    cargar_serie_historica_nowcasting,
+    cargar_series_nowcasting_batch,
+)
+from dashboard.election_math import dhondt_nacional
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
@@ -43,95 +48,122 @@ def _color(siglas: str) -> str:
     return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
 
 
-def _normalizar(df: pd.DataFrame) -> pd.DataFrame:
+_REQUIRED_COLS = {"partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup"}
+_COL_ALIASES = {
+    "estimación_pct": "estimacion_pct",
+    "estimacion": "estimacion_pct",
+    "fecha_estimación": "fecha_estimacion",
+    "fecha_calculo": "fecha_estimacion",
+    "ic95_inf": "ic_95_inf",
+    "ic95_sup": "ic_95_sup",
+    "partido": "partido_siglas",
+    "siglas": "partido_siglas",
+}
+
+
+def _normalizar(df: pd.DataFrame, context: str = "") -> pd.DataFrame:
     if df.empty:
         return df
-    ren = {
-        "estimación_pct": "estimacion_pct", "estimacion": "estimacion_pct",
-        "fecha_estimación": "fecha_estimacion", "fecha_calculo": "fecha_estimacion",
-        "ic95_inf": "ic_95_inf", "ic95_sup": "ic_95_sup",
+    rename_map = {
+        src: dst for src, dst in _COL_ALIASES.items()
+        if src in df.columns and dst not in df.columns
     }
-    return df.rename(columns={c: ren[c] for c in df.columns if c in ren})
+    out = df.rename(columns=rename_map)
+
+    missing = _REQUIRED_COLS - set(out.columns)
+    if missing:
+        ctx = f" ({context})" if context else ""
+        st.warning(
+            "Columnas faltantes en nowcasting"
+            + ctx
+            + ": "
+            + ", ".join(sorted(missing))
+        )
+    return out
 
 
-def dhondt(votos: dict[str, float], n_escanos: int = 350, umbral: float = 3.0) -> dict[str, int]:
-    """Metodo D'Hondt. Umbral 3% nacional; partidos regionales con >= 1% compiten."""
-    elegibles = {}
-    for p, v in votos.items():
-        # Partidos regionales (PNV, EH_BILDU, BNG, ERC, JUNTS, etc.) con >=1% compiten
-        partidos_regionales = {"PNV", "EH_BILDU", "EH BILDU", "BNG", "ERC", "JUNTS",
-                               "JxCAT", "CC", "CUP", "UPN", "PRC"}
-        if v >= umbral or (p.upper() in {x.upper() for x in partidos_regionales} and v >= 1.0):
-            elegibles[p] = max(v, 0)
-    if not elegibles:
+def _hash_df(df: pd.DataFrame, cols: list[str]) -> str:
+    if df.empty:
+        return "empty"
+    payload = df[cols].copy()
+    for col in payload.select_dtypes(include="number").columns:
+        payload[col] = payload[col].round(3)
+    return hashlib.md5(
+        payload.to_json(date_format="iso", orient="split").encode("utf-8")
+    ).hexdigest()
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _seat_ranges_cached(df_hash: str, df_json: str, n_boot: int = 500) -> dict[str, dict[str, int]]:
+    df = pd.read_json(StringIO(df_json), orient="split")
+    needed = ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup"]
+    if df.empty or any(col not in df.columns for col in needed):
         return {}
-    seats = {p: 0 for p in elegibles}
-    for _ in range(n_escanos):
-        q = {p: v / (seats[p] + 1) for p, v in elegibles.items()}
-        winner = max(q, key=q.get)
-        seats[winner] += 1
-    return seats
 
+    partidos = df["partido_siglas"].tolist()
+    pcts = df["estimacion_pct"].to_numpy(dtype=float)
+    inf_arr = df["ic_95_inf"].to_numpy(dtype=float)
+    sup_arr = df["ic_95_sup"].to_numpy(dtype=float)
 
-def calc_seat_ranges(df: pd.DataFrame) -> dict[str, dict]:
-    """Calcula escanos central, IC_inf e IC_sup via D'Hondt."""
-    central_votos = dict(zip(df["partido_siglas"], df["estimacion_pct"]))
-    inf_votos     = dict(zip(df["partido_siglas"], df["ic_95_inf"]))
-    sup_votos     = dict(zip(df["partido_siglas"], df["ic_95_sup"]))
+    # IC 95% -> sigma (aprox normal), con suelo para evitar sigma 0.
+    sigmas = (sup_arr - inf_arr) / (2 * 1.96)
+    sigmas = np.maximum(sigmas, 0.1)
 
-    seats_c = dhondt(central_votos)
-    seats_l = dhondt(inf_votos)
-    seats_h = dhondt(sup_votos)
+    rng_seed = int(df_hash[:8], 16) if df_hash and df_hash != "empty" else 42
+    rng = np.random.default_rng(rng_seed)
+    noise_matrix = rng.normal(0, sigmas, size=(n_boot, len(partidos)))
+    pct_matrix = np.clip(pcts + noise_matrix, 0.3, None)
 
-    result = {}
-    for p in set(list(seats_c) + list(seats_l) + list(seats_h)):
-        result[p] = {
-            "central": seats_c.get(p, 0),
-            "low":     seats_l.get(p, 0),
-            "high":    seats_h.get(p, 0),
+    all_seats: dict[str, list[int]] = {p: [] for p in partidos}
+    for i in range(n_boot):
+        sim = pct_matrix[i]
+        norm_pcts = sim / sim.sum() * 100.0
+        seats = dhondt_nacional(dict(zip(partidos, norm_pcts.tolist())))
+        for p in partidos:
+            all_seats[p].append(int(seats.get(p, 0)))
+
+    return {
+        p: {
+            "central": int(np.median(all_seats[p])),
+            "low": int(np.percentile(all_seats[p], 5)),
+            "high": int(np.percentile(all_seats[p], 95)),
         }
-    return result
+        for p in partidos
+    }
 
 
-def seat_transfer_alerts(df_now: pd.DataFrame, df_prev: pd.DataFrame) -> list[dict]:
+def _compute_seat_ranges(df: pd.DataFrame, n_boot: int = 500) -> dict[str, dict[str, int]]:
+    needed = ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup"]
+    if df.empty or any(col not in df.columns for col in needed):
+        return {}
+    payload = df[needed].copy()
+    key = _hash_df(payload, needed)
+    return _seat_ranges_cached(key, payload.to_json(date_format="iso", orient="split"), n_boot=n_boot)
+
+
+def seat_transfer_alerts(
+    seat_ranges_now: dict[str, dict[str, int]],
+    seat_ranges_prev: dict[str, dict[str, int]],
+) -> list[dict]:
     """Detecta transferencias de escanos entre periodos."""
-    if df_now.empty or df_prev.empty:
+    if not seat_ranges_now or not seat_ranges_prev:
         return []
-    v_now  = dict(zip(df_now["partido_siglas"],  df_now["estimacion_pct"]))
-    v_prev = dict(zip(df_prev["partido_siglas"], df_prev["estimacion_pct"]))
-
-    s_now  = dhondt(v_now)
-    s_prev = dhondt(v_prev)
 
     changes = []
-    all_p = set(s_now) | set(s_prev)
+    all_p = set(seat_ranges_now) | set(seat_ranges_prev)
     for p in all_p:
-        delta = s_now.get(p, 0) - s_prev.get(p, 0)
+        current = seat_ranges_now.get(p, {}).get("central", 0)
+        prev = seat_ranges_prev.get(p, {}).get("central", 0)
+        delta = current - prev
         if delta != 0:
             changes.append({
                 "partido": p,
                 "delta":   delta,
-                "actual":  s_now.get(p, 0),
-                "previo":  s_prev.get(p, 0),
+                "actual":  current,
+                "previo":  prev,
             })
 
     changes.sort(key=lambda x: abs(x["delta"]), reverse=True)
-
-    # Add transfer narrative: gainers steal from losers proportionally
-    gainers = [c for c in changes if c["delta"] > 0]
-    losers  = [c for c in changes if c["delta"] < 0]
-    total_lost = sum(abs(c["delta"]) for c in losers)
-
-    for g in gainers:
-        sources = []
-        remaining = g["delta"]
-        for l in sorted(losers, key=lambda x: abs(x["delta"]), reverse=True):
-            if remaining <= 0:
-                break
-            take = min(remaining, abs(l["delta"]))
-            sources.append(f"{l['partido']} ({take})")
-            remaining -= take
-        g["fuente"] = " + ".join(sources) if sources else "—"
 
     return changes
 
@@ -149,7 +181,7 @@ def _section_header(label: str, color: str):
 
 # ── Cargar datos (snapshot coherente) ────────────────────────────────────────
 snapshot = get_app_snapshot()
-df_nc = _normalizar(snapshot.get("nowcasting", pd.DataFrame()))
+df_nc = _normalizar(snapshot.get("nowcasting", pd.DataFrame()), context="snapshot_nowcasting")
 
 if df_nc.empty or "estimacion_pct" not in df_nc.columns:
     st.info("Sin datos de nowcasting. Ejecuta el pipeline de modelos.")
@@ -159,31 +191,26 @@ if df_nc.empty or "estimacion_pct" not in df_nc.columns:
 df_nc = df_nc[df_nc["ic_95_sup"] > 1.0].sort_values("estimacion_pct", ascending=False).copy()
 
 # Obtener datos del periodo anterior para comparativa
-from dashboard.db import _q
-df_all = _normalizar(_q("""
-    SELECT DISTINCT ON (p.siglas, e.fecha_estimacion)
-        p.siglas AS partido_siglas,
-        e.estimacion_pct,
-        e.ic_95_inf,
-        e.ic_95_sup,
-        e.fecha_estimacion
-    FROM estimaciones_voto_agregadas e
-    JOIN partidos p ON p.id = e.partido_id
-    ORDER BY p.siglas, e.fecha_estimacion DESC
-"""))
+df_all = _normalizar(cargar_serie_historica_nowcasting(n_fechas=30), context="serie_historica")
 
 if not df_all.empty and "fecha_estimacion" in df_all.columns:
     fechas_sorted = sorted(df_all["fecha_estimacion"].unique())
     fecha_actual  = fechas_sorted[-1] if fechas_sorted else None
     fecha_prev    = fechas_sorted[-2] if len(fechas_sorted) >= 2 else None
-    df_prev = df_all[df_all["fecha_estimacion"] == fecha_prev] if fecha_prev else pd.DataFrame()
+    df_prev = df_all[df_all["fecha_estimacion"] == fecha_prev].copy() if fecha_prev else pd.DataFrame()
 else:
     fecha_actual = fecha_prev = None
     df_prev = pd.DataFrame()
 
 # Calcular escanos y alertas
-seat_ranges = calc_seat_ranges(df_nc)
-alerts = seat_transfer_alerts(df_nc, df_prev)
+seat_ranges = _compute_seat_ranges(df_nc)
+df_prev_filtered = (
+    df_prev[df_prev["ic_95_sup"] > 1.0].copy()
+    if not df_prev.empty and "ic_95_sup" in df_prev.columns
+    else df_prev
+)
+seat_ranges_prev = _compute_seat_ranges(df_prev_filtered)
+alerts = seat_transfer_alerts(seat_ranges, seat_ranges_prev)
 
 # ── Estilos extra ────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -275,7 +302,6 @@ with st.sidebar:
             bg_color = GREEN if delta > 0 else RED
             arrow = "▲" if delta > 0 else "▼"
             sign  = "+" if delta > 0 else ""
-            fuente = alert.get("fuente", "")
 
             st.markdown(f"""
             <div style="border-left:3px solid {bg_color};border-radius:0 8px 8px 0;
@@ -292,7 +318,6 @@ with st.sidebar:
                 </div>
                 <div style="font-size:.58rem;color:{MUTED};margin-top:.15rem">
                     {actual} escanos totales
-                    {"&nbsp;·&nbsp;via " + fuente if fuente and delta > 0 else ""}
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -435,136 +460,56 @@ if len(df_nc) > n_col:
 
 st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
 
+def _render_animated_bar_chart(df_input: pd.DataFrame, seat_ranges_input: dict[str, dict[str, int]]) -> None:
+    bars_html = ""
+    max_val = float(df_input["ic_95_sup"].max()) + 3.0
+    for i, (_, row) in enumerate(df_input.iterrows()):
+        partido = str(row["partido_siglas"])
+        color = _color(partido)
+        pct = float(row["estimacion_pct"])
+        inf = float(row["ic_95_inf"])
+        sup = float(row["ic_95_sup"])
+        sr = seat_ranges_input.get(partido, {"central": 0})
+        bar_w = max(0.0, min(100.0, pct / max_val * 100.0))
+        ic_l = max(0.0, min(100.0, inf / max_val * 100.0))
+        ic_r = max(0.0, min(100.0, sup / max_val * 100.0))
+        delay = i * 70
+
+        bars_html += f"""
+        <div style="margin-bottom:.55rem">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.22rem">
+            <span style="width:64px;font-size:.72rem;font-weight:700;color:{color};
+                         font-family:'JetBrains Mono',monospace">{partido}</span>
+            <div style="flex:1;position:relative;height:22px;background:{BG3};
+                        border-radius:4px;overflow:visible;border:1px solid {BORDER}">
+              <div style="position:absolute;top:3px;height:14px;
+                          left:{ic_l:.1f}%;width:{max(ic_r - ic_l, 0.8):.1f}%;
+                          background:{color}22;border:1px solid {color}55;
+                          border-radius:2px"></div>
+              <div style="position:absolute;top:0;left:0;height:22px;width:0;border-radius:4px;
+                          background:linear-gradient(90deg,{color}cc,{color}88);
+                          animation:growBar_{i} .75s cubic-bezier(.16,1,.3,1) {delay}ms forwards"></div>
+            </div>
+            <span style="width:44px;text-align:right;font-size:.78rem;font-weight:800;color:{color};
+                         font-family:'JetBrains Mono',monospace">{pct:.1f}%</span>
+            <span style="width:56px;text-align:right;font-size:.62rem;color:{MUTED};
+                         font-family:'JetBrains Mono',monospace">{sr['central']} esc.</span>
+          </div>
+        </div>
+        <style>
+          @keyframes growBar_{i} {{
+            from {{ width: 0; opacity: 0; }}
+            to   {{ width: {bar_w:.1f}%; opacity: 1; }}
+          }}
+        </style>
+        """
+
+    st.markdown(f"<div style='padding:.35rem 0'>{bars_html}</div>", unsafe_allow_html=True)
+
+
 # ── Gráfico animado con barras + IC ──────────────────────────────────────────
 _section_header("Estimacion de Voto con Intervalo de Confianza 95% — Animado", CYAN)
-
-# Crear frames para animacion de barras (ease-out cubic)
-N_FRAMES = 40
-frames = []
-initial_traces = []
-
-for fi in range(N_FRAMES + 1):
-    t = fi / N_FRAMES
-    t_eased = 1 - (1 - t) ** 3  # ease-out cubic
-
-    frame_data = []
-    for _, row in df_nc.iterrows():
-        p = row["partido_siglas"]
-        color = _color(p)
-        r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-        val = row["estimacion_pct"] * t_eased
-        err_up = max(0, row["ic_95_sup"] - row["estimacion_pct"]) * t_eased
-        err_dn = max(0, row["estimacion_pct"] - row["ic_95_inf"]) * t_eased
-
-        frame_data.append(go.Bar(
-            name=p,
-            x=[p],
-            y=[val],
-            marker=dict(
-                color=f"rgba({r_c},{g_c},{b_c},0.75)",
-                line=dict(color=color, width=1.5),
-            ),
-            error_y=dict(
-                type="data", symmetric=False,
-                array=[err_up], arrayminus=[err_dn],
-                color=f"rgba({r_c},{g_c},{b_c},0.45)",
-                thickness=2, width=5,
-            ),
-            text=[f"{val:.1f}%" if t_eased > 0.8 else ""],
-            textposition="outside",
-            textfont=dict(color=TEXT, size=11, family="JetBrains Mono, monospace"),
-            showlegend=False,
-        ))
-
-    if fi == 0:
-        initial_traces = frame_data
-    frames.append(go.Frame(data=frame_data, name=str(fi)))
-
-fig_ani = go.Figure(
-    data=initial_traces,
-    frames=frames,
-    layout=go.Layout(
-        height=400,
-        barmode="group",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(
-            showgrid=False, tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
-            categoryorder="array",
-            categoryarray=df_nc["partido_siglas"].tolist(),
-            fixedrange=True,
-        ),
-        yaxis=dict(
-            gridcolor="rgba(30,41,59,0.5)", gridwidth=1,
-            range=[0, df_nc["ic_95_sup"].max() + 5],
-            tickfont=dict(size=10, color=MUTED),
-            ticksuffix="%",
-            fixedrange=True,
-        ),
-        showlegend=False,
-        margin=dict(t=15, b=50, l=10, r=10),
-        font=dict(family="Inter, sans-serif"),
-        hoverlabel=dict(
-            bgcolor=BG2,
-            font=dict(size=12, family="JetBrains Mono, monospace"),
-            bordercolor=BORDER,
-        ),
-        updatemenus=[dict(
-            type="buttons",
-            showactive=False,
-            x=0.5, y=-0.14,
-            xanchor="center",
-            buttons=[
-                dict(
-                    label="&#9654; Animar",
-                    method="animate",
-                    args=[None, {
-                        "frame": {"duration": 35, "redraw": True},
-                        "transition": {"duration": 25, "easing": "cubic-in-out"},
-                        "fromcurrent": True,
-                        "mode": "immediate",
-                    }],
-                ),
-                dict(
-                    label="&#9646;&#9646; Reiniciar",
-                    method="animate",
-                    args=[["0"], {
-                        "frame": {"duration": 0, "redraw": True},
-                        "mode": "immediate",
-                        "transition": {"duration": 0},
-                    }],
-                ),
-            ],
-            bgcolor=BG2,
-            bordercolor=BORDER,
-            borderwidth=1,
-            font=dict(color=CYAN, size=11),
-            pad=dict(t=5, b=5, l=8, r=8),
-        )],
-    ),
-)
-
-_fig_html = pio.to_html(
-    fig_ani,
-    full_html=True,
-    include_plotlyjs="cdn",
-    auto_play=False,
-    config={"displayModeBar": False, "responsive": True},
-    default_width="100%",
-    default_height="460px",
-    div_id="nc-anim",
-    post_script="""
-setTimeout(function(){
-  Plotly.animate('nc-anim', null, {
-    frame: {duration: 35, redraw: true},
-    transition: {duration: 25, easing: 'cubic-in-out'},
-    fromcurrent: true,
-    mode: 'immediate'
-  });
-}, 300);
-""",
-)
-components.html(_fig_html, height=500, scrolling=False)
+_render_animated_bar_chart(df_nc, seat_ranges)
 
 # ── Escanos proyectados + Timeline ──────────────────────────────────────────
 col_seats, col_ts = st.columns([1, 1.3], gap="large")
@@ -690,9 +635,13 @@ with col_ts:
 
     if partidos_sel:
         fig_ts = go.Figure()
+        df_series_all = _normalizar(
+            cargar_series_nowcasting_batch(tuple(sorted(partidos_sel)), dias),
+            context="series_batch",
+        )
 
         for partido in partidos_sel:
-            df_serie = _normalizar(cargar_serie_nowcasting(partido, dias))
+            df_serie = df_series_all[df_series_all["partido_siglas"] == partido]
             if df_serie.empty or "estimacion_pct" not in df_serie.columns:
                 continue
 
@@ -791,6 +740,7 @@ st.markdown(f"""
             margin:1rem 0 .5rem"></div>
 <div style="text-align:center;font-size:.58rem;color:{MUTED};padding:.3rem 0">
     Nowcasting: agregacion con decay exp(-&lambda;&middot;dias) &middot; correccion house effects &middot;
-    ponderacion &radic;N &middot; D'Hondt 350 escanos &middot; umbral 3% (partidos nacionales) / 1% (regionales)
+    ponderacion &radic;N &middot; D'Hondt provincial (52 circunscripciones) &middot;
+    umbral 3% (partidos nacionales) / 1% (regionales)
 </div>
 """, unsafe_allow_html=True)

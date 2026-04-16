@@ -15,19 +15,50 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.io as pio
 import streamlit as st
-import streamlit.components.v1 as components
 from dashboard.shared import (
     sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, CYAN2, BLUE, PURPLE,
-    TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+    TEXT, TEXT2, MUTED, GREEN, AMBER, RED, hex_to_rgb,
 )
 
 from dashboard.db import cargar_indices_politeia, cargar_serie_indice
 
 # ── Semáforo mapping ───────────────────────────────────────────────────────────
 SEMAFORO_COLOR = {"VERDE": GREEN, "AMARILLO": AMBER, "ROJO": RED}
+INDICES_INVERTIDOS = {"IPPS", "ICED", "IBEP", "IVCE"}
+SERIE_DIAS_EXPLORADOR = 90
+SERIE_DIAS_HEATMAP = 90
+
+
+def _safe_float(v: object) -> float | None:
+    try:
+        if v is None or str(v).strip().lower() in {"none", "nan", ""}:
+            return None
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _comp_color(codigo: str, pct: float) -> str:
+    if codigo in INDICES_INVERTIDOS:
+        return GREEN if pct < 35 else AMBER if pct < 65 else RED
+    return RED if pct < 35 else AMBER if pct < 65 else GREEN
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _indices_cached() -> pd.DataFrame:
+    return cargar_indices_politeia()
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _serie_cached(codigo: str, dias: int) -> pd.DataFrame:
+    return cargar_serie_indice(codigo, dias=dias)
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _all_series_cached(codigos: tuple[str, ...], dias: int) -> dict[str, pd.DataFrame]:
+    return {c: cargar_serie_indice(c, dias=dias) for c in codigos}
 
 st.set_page_config(page_title="Índices Politeia — ElectSim", layout="wide")
 sidebar_nav()
@@ -162,7 +193,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Cargar datos ───────────────────────────────────────────────────────────────
-df = cargar_indices_politeia()
+df = _indices_cached()
 if "metodología" not in df.columns and "metodologia" in df.columns:
     df["metodología"] = df["metodologia"]
 
@@ -237,13 +268,15 @@ for i, row in enumerate(idx_list):
     col = cols_row1[i] if i < n1 else cols_row2[i - n1]
     color = SEMAFORO_COLOR.get(row.get("semaforo", ""), CYAN)
     valor = float(row.get("valor") or 0)
-    var7  = row.get("variacion_7d")
-    arrow = "▲" if var7 and var7 > 0 else "▼" if var7 and var7 < 0 else "—"
-    var_str   = f"{arrow} {abs(var7):.1f}" if var7 else "—"
-    var_color = GREEN if var7 and var7 > 0 else RED if var7 and var7 < 0 else MUTED
+    var7 = _safe_float(row.get("variacion_7d"))
+    arrow = "▲" if (var7 is not None and var7 > 0) else "▼" if (var7 is not None and var7 < 0) else "—"
+    var_str = f"{arrow} {abs(var7):.1f}" if var7 is not None else "—"
+    var_color = GREEN if (var7 is not None and var7 > 0) else RED if (var7 is not None and var7 < 0) else MUTED
     pct = min(100, max(0, valor))
-    cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-    vc_r, vc_g, vc_b = int(var_color[1:3], 16), int(var_color[3:5], 16), int(var_color[5:7], 16)
+    cr, cg, cb = hex_to_rgb(color)
+    vc_r, vc_g, vc_b = hex_to_rgb(var_color)
+    interp = str(row.get("interpretacion", ""))
+    interp_display = interp[:92] + ("…" if len(interp) > 92 else "")
     with col:
         st.markdown(f"""
         <div class="idx-card" style="border-top:3px solid rgba({cr},{cg},{cb},0.7)">
@@ -261,7 +294,7 @@ for i, row in enumerate(idx_list):
             <div class="progress-track">
                 <div class="progress-fill" style="background:{color};width:{pct}%"></div>
             </div>
-            <div class="idx-interp">{str(row.get('interpretacion',''))[:92]}…</div>
+            <div class="idx-interp">{interp_display}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -277,36 +310,16 @@ st.markdown(f"""
 codigos = [r["indice_codigo"] for r in idx_list]
 valores = [float(r.get("valor") or 0) for r in idx_list]
 
-# ── Frames animados: expanden de 0 → valor real con ease-out cúbico ──────────
-_N = 50
-_radar_frames = []
-for fi in range(_N + 1):
-    t   = fi / _N
-    t_e = 1 - (1 - t) ** 3          # ease-out cubic
-    r_f = [v * t_e for v in valores] + [valores[0] * t_e]
-    _radar_frames.append(go.Frame(
-        data=[go.Scatterpolar(
-            r=r_f,
-            theta=codigos + [codigos[0]],
-            fill="toself",
-            fillcolor=f"rgba(0,212,255,{0.10 * t_e:.4f})",
-            line=dict(color=CYAN, width=2.5),
-            marker=dict(size=8, color=CYAN),
-        )],
-        name=str(fi),
-    ))
-
 fig_radar = go.Figure(
     data=[go.Scatterpolar(
-        r=[0] * (len(codigos) + 1),
-        theta=codigos + [codigos[0]],
+        r=valores,
+        theta=codigos,
         fill="toself",
-        fillcolor="rgba(0,212,255,0)",
+        fillcolor="rgba(0,212,255,0.10)",
         line=dict(color=CYAN, width=2.5),
         marker=dict(size=8, color=CYAN),
         name="Estado actual",
     )],
-    frames=_radar_frames,
     layout=go.Layout(
         polar=dict(
             bgcolor="rgba(0,0,0,0)",
@@ -330,28 +343,7 @@ fig_radar = go.Figure(
         font=dict(color=TEXT2),
     ),
 )
-
-_radar_html = pio.to_html(
-    fig_radar,
-    full_html=True,
-    include_plotlyjs="cdn",
-    auto_play=False,
-    div_id="radar-anim",
-    post_script="""
-setTimeout(function(){
-  Plotly.animate('radar-anim', null, {
-    frame: {duration: 20, redraw: true},
-    transition: {duration: 15, easing: 'cubic-in-out'},
-    fromcurrent: true,
-    mode: 'immediate'
-  });
-}, 350);
-""",
-    config={"displayModeBar": False, "responsive": True},
-    default_width="100%",
-    default_height="440px",
-)
-components.html(_radar_html, height=460, scrolling=False)
+st.plotly_chart(fig_radar, use_container_width=True)
 
 # ── Explorador de índice individual ───────────────────────────────────────────
 st.markdown(f"""
@@ -375,12 +367,11 @@ col_def, col_serie = st.columns([1, 2])
 
 with col_def:
     color_sel = SEMAFORO_COLOR.get(row_sel.get("semaforo", ""), CYAN)
-    sr, sg, sb = int(color_sel[1:3], 16), int(color_sel[3:5], 16), int(color_sel[5:7], 16)
-    sel_var7 = row_sel.get("variacion_7d")
-    sel_arrow = "▲" if sel_var7 and sel_var7 > 0 else "▼" if sel_var7 and sel_var7 < 0 else "—"
-    sel_var_str = f"{sel_arrow} {abs(sel_var7):.1f}" if sel_var7 else "—"
-    sel_var_color = GREEN if sel_var7 and sel_var7 > 0 else RED if sel_var7 and sel_var7 < 0 else MUTED
-    svc_r, svc_g, svc_b = int(sel_var_color[1:3], 16), int(sel_var_color[3:5], 16), int(sel_var_color[5:7], 16)
+    sel_var7 = _safe_float(row_sel.get("variacion_7d"))
+    sel_arrow = "▲" if (sel_var7 is not None and sel_var7 > 0) else "▼" if (sel_var7 is not None and sel_var7 < 0) else "—"
+    sel_var_str = f"{sel_arrow} {abs(sel_var7):.1f}" if sel_var7 is not None else "—"
+    sel_var_color = GREEN if (sel_var7 is not None and sel_var7 > 0) else RED if (sel_var7 is not None and sel_var7 < 0) else MUTED
+    svc_r, svc_g, svc_b = hex_to_rgb(sel_var_color)
     st.markdown(f"""
     <div class="detail-card" style="border-top:3px solid {color_sel}">
         <div style="font-size:.65rem;font-weight:700;color:{MUTED};
@@ -423,9 +414,12 @@ with col_def:
                         margin-bottom:.5rem">Componentes</div>
             """, unsafe_allow_html=True)
             for nombre_comp, val_comp in comp.items():
-                val_n = float(val_comp or 0)
+                try:
+                    val_n = 0.0 if isinstance(val_comp, (dict, list)) else float(val_comp or 0)
+                except (TypeError, ValueError):
+                    val_n = 0.0
                 pct   = min(100, val_n)
-                c_bar = CYAN if pct < 65 else AMBER if pct < 80 else RED
+                c_bar = _comp_color(sel_codigo, pct)
                 st.markdown(f"""
                 <div style="margin:.4rem 0">
                     <div style="display:flex;justify-content:space-between;
@@ -442,7 +436,7 @@ with col_def:
             pass
 
 with col_serie:
-    df_serie = cargar_serie_indice(sel_codigo, dias=90)
+    df_serie = _serie_cached(sel_codigo, dias=SERIE_DIAS_EXPLORADOR)
     if not df_serie.empty:
         fig_s = go.Figure()
         # Bandas semáforo
@@ -463,7 +457,7 @@ with col_serie:
         fig_s.add_hline(y=35, line_dash="dot", line_color=GREEN, line_width=1)
         fig_s.add_hline(y=65, line_dash="dot", line_color=RED,   line_width=1)
         fig_s.update_layout(
-            title=dict(text="Evolución histórica (90 días)",
+            title=dict(text=f"Evolución histórica ({SERIE_DIAS_EXPLORADOR} días)",
                        font=dict(size=13, color=TEXT2)),
             xaxis=dict(
                 showgrid=False, title=None,
@@ -507,19 +501,26 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 heatmap_data = []
+series_map = _all_series_cached(tuple(codigos), dias=SERIE_DIAS_HEATMAP)
 for row in idx_list:
-    serie = cargar_serie_indice(row["indice_codigo"], dias=60)
+    serie = series_map.get(row["indice_codigo"], pd.DataFrame())
     if not serie.empty:
         for _, s in serie.iterrows():
+            val = float(s["valor"] or 0)
+            # Normalizar semántica: en todos los índices, mayor valor en heatmap = peor (más rojo)
+            if row["indice_codigo"] not in INDICES_INVERTIDOS:
+                val = 100.0 - val
             heatmap_data.append({
                 "indice": row["indice_codigo"],
                 "fecha":  str(s["fecha_calculo"]),
-                "valor":  float(s["valor"] or 0),
+                "valor":  val,
             })
 
 if heatmap_data:
     df_heat   = pd.DataFrame(heatmap_data)
-    df_pivot  = df_heat.pivot(index="indice", columns="fecha", values="valor").fillna(0)
+    df_pivot = df_heat.pivot_table(
+        index="indice", columns="fecha", values="valor", aggfunc="last"
+    ).fillna(0)
     fig_heat  = go.Figure(go.Heatmap(
         z=df_pivot.values,
         x=df_pivot.columns.tolist(),
@@ -539,7 +540,14 @@ if heatmap_data:
         ),
         hoverongaps=False,
     ))
+    fecha_min = pd.to_datetime(df_heat["fecha"], errors="coerce").min()
+    fecha_max = pd.to_datetime(df_heat["fecha"], errors="coerce").max()
+    rango_txt = ""
+    if pd.notna(fecha_min) and pd.notna(fecha_max):
+        rango_txt = f" · {fecha_min.strftime('%Y-%m-%d')} → {fecha_max.strftime('%Y-%m-%d')}"
     fig_heat.update_layout(
+        title=dict(text=f"Últimos {SERIE_DIAS_HEATMAP} días{rango_txt}",
+                   font=dict(size=11, color=MUTED)),
         height=280,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -690,46 +698,47 @@ INDICES_DOC = {
     },
 }
 
-cols_met = st.columns(2)
-for i, (codigo, doc) in enumerate(INDICES_DOC.items()):
-    with cols_met[i % 2]:
-        with st.expander(f"{codigo} · {doc['nombre']}"):
-            sem_html = (
-                doc["semaforo"]
-                .replace("VERDE",    f'<span style="color:{GREEN};font-weight:700">VERDE</span>')
-                .replace("AMARILLO", f'<span style="color:{AMBER};font-weight:700">AMARILLO</span>')
-                .replace("ROJO",     f'<span style="color:{RED};font-weight:700">ROJO</span>')
-            )
-            st.markdown(f"""
-            <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
-                        padding:.65rem .9rem;margin-bottom:.7rem;font-size:.85rem;color:{TEXT2}">
-                <strong style="color:{TEXT}">Rango:</strong> {doc['rango']}<br>
-                <strong style="color:{TEXT}">Semáforo:</strong> {sem_html}
-            </div>
-            """, unsafe_allow_html=True)
+for codigo in codigos:
+    doc = INDICES_DOC.get(codigo)
+    if not doc:
+        continue
+    with st.expander(f"{codigo} · {doc['nombre']}"):
+        sem_html = (
+            doc["semaforo"]
+            .replace("VERDE",    f'<span style="color:{GREEN};font-weight:700">VERDE</span>')
+            .replace("AMARILLO", f'<span style="color:{AMBER};font-weight:700">AMARILLO</span>')
+            .replace("ROJO",     f'<span style="color:{RED};font-weight:700">ROJO</span>')
+        )
+        st.markdown(f"""
+        <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
+                    padding:.65rem .9rem;margin-bottom:.7rem;font-size:.85rem;color:{TEXT2}">
+            <strong style="color:{TEXT}">Rango:</strong> {doc['rango']}<br>
+            <strong style="color:{TEXT}">Semáforo:</strong> {sem_html}
+        </div>
+        """, unsafe_allow_html=True)
 
-            st.markdown(f"<span style='font-size:.78rem;font-weight:700;color:{MUTED};"
-                        f"letter-spacing:.1em;text-transform:uppercase'>COMPONENTES</span>",
-                        unsafe_allow_html=True)
-            for nombre_c, desc_c in doc["componentes"]:
-                st.markdown(
-                    f"<div style='margin:.55rem 0'>"
-                    f"<strong style='color:{CYAN2};font-size:.85rem'>{nombre_c}</strong><br>"
-                    f"<span style='font-size:.82rem;color:{TEXT2}'>{desc_c}</span>"
-                    f"</div>",
-                    unsafe_allow_html=True,
-                )
-
-            st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:.7rem 0">',
-                        unsafe_allow_html=True)
+        st.markdown(f"<span style='font-size:.78rem;font-weight:700;color:{MUTED};"
+                    f"letter-spacing:.1em;text-transform:uppercase'>COMPONENTES</span>",
+                    unsafe_allow_html=True)
+        for nombre_c, desc_c in doc["componentes"]:
             st.markdown(
-                f"<div style='font-size:.85rem;color:{TEXT2}'>"
-                f"<strong style='color:{TEXT}'>Interpretación:</strong> {doc['interpretacion']}"
+                f"<div style='margin:.55rem 0'>"
+                f"<strong style='color:{CYAN2};font-size:.85rem'>{nombre_c}</strong><br>"
+                f"<span style='font-size:.82rem;color:{TEXT2}'>{desc_c}</span>"
                 f"</div>",
                 unsafe_allow_html=True,
             )
-            st.markdown(
-                f"<div style='font-size:.75rem;color:{MUTED};margin-top:.4rem'>"
-                f"Referencias: {doc['referencias']}</div>",
-                unsafe_allow_html=True,
-            )
+
+        st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:.7rem 0">',
+                    unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='font-size:.85rem;color:{TEXT2}'>"
+            f"<strong style='color:{TEXT}'>Interpretación:</strong> {doc['interpretacion']}"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            f"<div style='font-size:.75rem;color:{MUTED};margin-top:.4rem'>"
+            f"Referencias: {doc['referencias']}</div>",
+            unsafe_allow_html=True,
+        )

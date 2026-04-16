@@ -4,7 +4,9 @@ BOE, votaciones, agenda de decisores, leyes aprobadas y comisiones de investigac
 """
 from __future__ import annotations
 
+from datetime import datetime
 import sys
+import unicodedata
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -29,6 +31,10 @@ from dashboard.db import (
 from etl.sources.agendas_dinamicas import fetch_all_agendas
 
 ORANGE = "#F97316"
+MESES_ES = {
+    "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
+    "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
+}
 
 PARTY_COLORS = {
     "PP":       "#3B82F6",
@@ -61,7 +67,14 @@ def cargar_boe_hoy_real() -> list[dict]:
                 summary = str(getattr(e, "summary", "")).strip()
                 if not title:
                     continue
-                rel = "Alta" if any(k in title.lower() for k in ["ley", "real decreto", "presupuesto"]) else "Media"
+                title_l = title.lower()
+                high_kw = {"ley", "real decreto", "presupuesto", "decreto-ley"}
+                med_kw = {"orden ministerial", "resolución", "acuerdo"}
+                rel = (
+                    "Alta" if any(k in title_l for k in high_kw)
+                    else "Media" if any(k in title_l for k in med_kw)
+                    else "Baja"
+                )
                 items.append({
                     "seccion":            "BOE",
                     "organismo":          "BOE",
@@ -79,6 +92,11 @@ def cargar_boe_hoy_real() -> list[dict]:
     return list(dedup.values())[:8]
 
 
+@st.cache_data(ttl=1800, show_spinner=False)
+def _agenda_cached(max_items_per_source: int = 25) -> list[dict]:
+    return fetch_all_agendas(max_items_per_source=max_items_per_source)
+
+
 @st.cache_data(ttl=3600)
 def cargar_comunicados_oficiales(limit: int = 25) -> pd.DataFrame:
     rows = fetch_all_agendas(max_items_per_source=max(6, limit // 4))
@@ -88,6 +106,31 @@ def cargar_comunicados_oficiales(limit: int = 25) -> pd.DataFrame:
     if "resumen" not in df.columns:
         df["resumen"] = "Comunicación oficial agenda/actividad institucional."
     return df.drop_duplicates(subset=["titulo"]).head(limit)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _actividad_legislatura() -> pd.DataFrame:
+    return cargar_actividad_reciente_congreso(dias=540, limit=1000)
+
+
+def _norm_ascii(texto: object) -> str:
+    return unicodedata.normalize("NFKD", str(texto or "")).encode("ascii", "ignore").decode("ascii").lower()
+
+
+def _parse_fecha_es(fecha_texto: object) -> pd.Timestamp:
+    s = str(fecha_texto or "").strip().lower()
+    m = s.split()
+    if len(m) >= 3 and m[0].isdigit() and m[1] in MESES_ES and m[2].isdigit():
+        return pd.Timestamp(year=int(m[2]), month=MESES_ES[m[1]], day=int(m[0]))
+    dt = pd.to_datetime(s, errors="coerce")
+    return dt if pd.notna(dt) else pd.Timestamp("1970-01-01")
+
+
+def _safe_text(val: object, fallback: str = "") -> str:
+    if pd.isna(val):
+        return fallback
+    txt = str(val).strip()
+    return txt if txt else fallback
 
 
 def sec_hdr(title: str, color: str = CYAN) -> None:
@@ -489,14 +532,16 @@ tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones 
 with tab_boe:
     boe_real = cargar_boe_hoy_real()
     boe_data = boe_real if boe_real else BOE_HOY
+    hoy_txt = datetime.now().strftime("%d/%m/%Y")
+    num_boe = str(boe_data[0].get("numero", "—")) if boe_data else "—"
 
     st.markdown(
         f'<div class="info-banner">'
         f'<div>'
         f'<span style="font-weight:700;font-size:.95rem;color:{TEXT}">Boletín Oficial del Estado</span>'
-        f'<span style="margin-left:.8rem;font-size:.82rem;color:{MUTED}">Lunes, 13 de abril de 2026 · Núm. 89</span>'
+        f'<span style="margin-left:.8rem;font-size:.82rem;color:{MUTED}">{hoy_txt} · Núm. {num_boe}</span>'
         f'</div>'
-        f'<span class="badge" style="background:rgba(59,130,246,0.15);color:{BLUE};border:1px solid rgba(59,130,246,0.3)">5 disposiciones relevantes</span>'
+        f'<span class="badge" style="background:rgba(59,130,246,0.15);color:{BLUE};border:1px solid rgba(59,130,246,0.3)">{len(boe_data)} disposiciones</span>'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -528,11 +573,12 @@ with tab_boe:
     if relevancia_sel != "Todas":
         boe_mostrar = [b for b in boe_mostrar if b["relevancia_politica"] == relevancia_sel]
 
+    cards_boe = []
     for item in boe_mostrar:
         rel       = item["relevancia_politica"]
         rel_color = RED if rel == "Alta" else AMBER if rel == "Media" else MUTED
         css_rel   = f"boe-{rel.lower()}"
-        card = (
+        cards_boe.append(
             f'<div class="boe-card {css_rel}">'
             f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem">'
             f'<div style="flex:1">'
@@ -546,7 +592,7 @@ with tab_boe:
             f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.5">{item["resumen"]}</div>'
             f'</div>'
         )
-        st.markdown(card, unsafe_allow_html=True)
+    st.markdown("".join(cards_boe), unsafe_allow_html=True)
 
     st.caption("Fuente: BOE RSS en tiempo real (fallback sintético si falla el feed).")
 
@@ -570,11 +616,14 @@ with tab_votaciones:
 
     # Timeline
     sec_hdr("Línea Temporal", BLUE)
+    vot_df = pd.DataFrame(VOTACIONES_SEMANA).copy()
+    vot_df["fecha_dt"] = vot_df["fecha"].map(_parse_fecha_es)
+    vot_df = vot_df.sort_values("fecha_dt", ascending=True).reset_index(drop=True)
     fig_vot_timeline = go.Figure()
-    for i, v in enumerate(VOTACIONES_SEMANA):
+    for i, v in enumerate(vot_df.to_dict("records")):
         color = GREEN if v["resultado"] == "APROBADA" else RED
         fig_vot_timeline.add_trace(go.Scatter(
-            x=[v["fecha"]],
+            x=[v["fecha_dt"]],
             y=[i],
             mode="markers+text",
             marker=dict(size=22, color=color, line=dict(color=BG2, width=2)),
@@ -594,11 +643,11 @@ with tab_votaciones:
         height=220,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(title=None, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
+        xaxis=dict(title=None, showgrid=False, tickfont=dict(size=10, color=TEXT2), type="date"),
         yaxis=dict(
-            tickvals=list(range(len(VOTACIONES_SEMANA))),
+            tickvals=list(range(len(vot_df))),
             ticktext=[v["titulo"][:50] + "..." if len(v["titulo"]) > 50 else v["titulo"]
-                      for v in VOTACIONES_SEMANA],
+                      for v in vot_df.to_dict("records")],
             tickfont=dict(size=9, color=TEXT2),
             title=None,
         ),
@@ -609,9 +658,9 @@ with tab_votaciones:
 
     # Detalle por votación
     sec_hdr("Detalle por Votación")
-    for v in VOTACIONES_SEMANA:
+    for v in vot_df.to_dict("records"):
         res_color = GREEN if v["resultado"] == "APROBADA" else RED
-        total     = v["votos_favor"] + v["votos_contra"] + v["abstenciones"] or 1
+        total     = (v["votos_favor"] + v["votos_contra"] + v["abstenciones"]) or 1
         pct_favor = v["votos_favor"] / total * 100
         pct_contra = v["votos_contra"] / total * 100
 
@@ -684,7 +733,7 @@ with tab_votaciones:
 # ── Tab 3: Agenda de Decisores ───────────────────────────────────────────────
 with tab_agenda:
     sec_hdr("Agenda institucional y política (fuentes oficiales)")
-    agenda_rows = fetch_all_agendas(max_items_per_source=25)
+    agenda_rows = _agenda_cached(max_items_per_source=25)
     if not agenda_rows:
         # Fallback operativo para no dejar la pestaña vacía cuando fallan fuentes remotas.
         agenda_rows = []
@@ -729,13 +778,14 @@ with tab_agenda:
         f1, f2 = st.columns(2)
         fuente_sel = f1.selectbox("Fuente", fuentes)
         tipo_sel = f2.selectbox("Tipo de acto", tipos)
+        df_ag_full = df_ag.copy()
 
         if fuente_sel != "Todas":
             df_ag = df_ag[df_ag["fuente"].astype(str) == fuente_sel]
         if tipo_sel != "Todos":
             df_ag = df_ag[df_ag["tipo"].astype(str) == tipo_sel]
 
-        st.metric("Eventos normalizados", int(len(df_ag)))
+        st.metric("Eventos filtrados", int(len(df_ag)), delta=f"de {len(df_ag_full)} totales")
         for _, ev in df_ag.head(60).iterrows():
             tipo = str(ev.get("tipo") or "institucional")
             tipo_color = TIPO_COLORS.get(tipo, MUTED)
@@ -790,12 +840,19 @@ with tab_comunicados:
             df_com = df_com[df_com["fuente"] == fuente_sel]
 
         st.metric("Comunicados monitorizados", len(df_com))
-        for _, row in df_com.iterrows():
+        page_size = 10
+        max_page = max(1, (len(df_com) - 1) // page_size + 1)
+        page = st.number_input("Página", min_value=1, max_value=max_page, value=1, step=1)
+        start = (int(page) - 1) * page_size
+        end = start + page_size
+        df_page = df_com.iloc[start:end]
+        for _, row in df_page.iterrows():
+            resumen = _safe_text(row.get("cita"), _safe_text(row.get("resumen"), "Sin descripción."))
             card = (
                 f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {CYAN};border-radius:8px;padding:.7rem .9rem;margin-bottom:.5rem">'
                 f'<div style="font-weight:700;color:{TEXT};font-size:.9rem">{row.get("titulo", "")}</div>'
                 f'<div style="font-size:.75rem;color:{MUTED};margin:.25rem 0">{row.get("fuente", "")} · {row.get("fecha", "")}</div>'
-                f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.45">{row.get("cita", row.get("resumen", ""))}</div>'
+                f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.45">{resumen}</div>'
                 f'</div>'
             )
             st.markdown(card, unsafe_allow_html=True)
@@ -803,18 +860,20 @@ with tab_comunicados:
 # ── Tab 5: Leyes Aprobadas esta Legislatura ──────────────────────────────────
 with tab_leyes:
     sec_hdr("Leyes y normas con traza real (actividad parlamentaria)")
-    act = cargar_actividad_reciente_congreso(dias=540, limit=800)
+    act = _actividad_legislatura()
     vot = cargar_votaciones()
     leyes = pd.DataFrame()
     if not act.empty:
         act = act.copy()
         act["tipo_acto"] = act["tipo_acto"].astype(str)
-        mask = act["tipo_acto"].str.contains("ley|decreto|norma|proposición", case=False, na=False)
+        act["tipo_norm"] = act["tipo_acto"].map(_norm_ascii)
+        mask = act["tipo_norm"].str.contains("ley|decreto|norma|proposicion", case=False, na=False)
         leyes = act[mask].rename(columns={"tipo_acto": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
     if leyes.empty and not vot.empty:
         vot = vot.copy()
         vot["tipo_votacion"] = vot["tipo_votacion"].astype(str)
-        mask_v = vot["tipo_votacion"].str.contains("ley|decreto|norma|proposición", case=False, na=False)
+        vot["tipo_norm"] = vot["tipo_votacion"].map(_norm_ascii)
+        mask_v = vot["tipo_norm"].str.contains("ley|decreto|norma|proposicion", case=False, na=False)
         leyes = vot[mask_v].rename(columns={"tipo_votacion": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
 
     if leyes.empty:
@@ -900,7 +959,7 @@ with tab_leyes:
 # ── Tab 6: Comisiones de Investigación ───────────────────────────────────────
 with tab_comisiones:
     sec_hdr("Comisiones de investigación y actividad de comisiones (traza real)")
-    act = cargar_actividad_reciente_congreso(dias=540, limit=1000)
+    act = _actividad_legislatura()
     if act.empty:
         st.info("No hay actividad de comisiones en la base de datos. Mostrando fallback curado.")
         for c in COMISIONES_INVESTIGACION:
@@ -923,11 +982,29 @@ with tab_comisiones:
         act["tipo_acto"] = act["tipo_acto"].astype(str)
         com = act[act["tipo_acto"].str.contains("comisi", case=False, na=False)]
         if com.empty:
-            st.info("La base no contiene filas etiquetadas como comisión todavía.")
+            st.info("La base no contiene filas etiquetadas como comisión todavía. Mostrando fallback curado.")
+            for c in COMISIONES_INVESTIGACION:
+                rel = str(c.get("relevancia_politica", "Media"))
+                rel_color = RED if "Muy" in rel or rel == "Alta" else (AMBER if rel == "Media" else GREEN)
+                card = (
+                    f'<div class="data-card" style="border-left:3px solid {PURPLE}">'
+                    f'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem">'
+                    f'<div style="flex:1">'
+                    f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{c.get("nombre","")}</div>'
+                    f'<div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">{c.get("inicio","")} · Estado: {c.get("estado","")}</div>'
+                    f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem;line-height:1.45">{c.get("ultimos_avances","")}</div>'
+                    f'</div>'
+                    f'<span class="badge" style="background:{rel_color}20;color:{rel_color};border:1px solid {rel_color}55">{rel}</span>'
+                    f'</div></div>'
+                )
+                st.markdown(card, unsafe_allow_html=True)
         else:
+            com = com.copy()
+            com["titulo_norm"] = com["titulo"].astype(str).str.strip().str.lower().str[:80]
             por_comision = (
-                com.groupby("titulo")
+                com.groupby("titulo_norm")
                 .agg(
+                    titulo=("titulo", "first"),
                     ultimo_movimiento=("fecha", "max"),
                     n_registros=("titulo", "count"),
                     partidos=("partido_siglas", lambda s: ", ".join(sorted({str(x) for x in s if pd.notna(x)}))),
@@ -939,7 +1016,8 @@ with tab_comisiones:
             with k1:
                 st.metric("Comisiones detectadas", int(len(por_comision)))
             with k2:
-                st.metric("Actividad 90d", int((pd.to_datetime(com["fecha"], errors="coerce") >= (pd.Timestamp.utcnow() - pd.Timedelta(days=90))).sum()))
+                cutoff = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=90)
+                st.metric("Actividad 90d", int((pd.to_datetime(com["fecha"], errors="coerce", utc=True) >= cutoff).sum()))
             with k3:
                 st.metric("Registros totales", int(len(com)))
 

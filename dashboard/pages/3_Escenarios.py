@@ -7,8 +7,9 @@ y Variables Estructurales.
 
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -21,29 +22,17 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    COLORES_PARTIDOS as COLORES_PARTIDO,
     BG, BG2, BG3, BORDER, CYAN, CYAN2, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
 from dashboard.db import cargar_elecciones, cargar_nowcasting, cargar_macro_ultimo
+from dashboard.election_math import dhondt_nacional
+from dashboard.transfer_rules import calcular_ajustes, reglas_transferencia_info
 
 st.set_page_config(page_title="Escenarios — ElectSim", layout="wide")
 sidebar_nav()
-
-# ── Colores de partidos ────────────────────────────────────────────────────────
-COLORES_PARTIDO = {
-    "PP":       "#009FDB",
-    "PSOE":     "#E30613",
-    "VOX":      "#63BE21",
-    "SUMAR":    "#E4007C",
-    "Junts":    "#00AEEF",
-    "PNV":      "#007A3D",
-    "ERC":      "#F4B20A",
-    "EH Bildu": "#A9C55A",
-    "BNG":      "#73C6E0",
-    "CC":       "#FFCB00",
-    "Otros":    "#64748B",
-}
 
 BLOQUE_COLOR = {
     "derecha":   RED,
@@ -57,6 +46,25 @@ BLOQUE_LABEL = {
     "centro":    "Centro / Gran Pacto",
     "bloqueo":   "Bloqueo / Repetición",
 }
+
+BLOQUES: dict[str, list[str]] = {
+    "izquierda": ["PSOE", "SUMAR", "ERC", "EH Bildu", "EH_BILDU", "BNG"],
+    "derecha": ["PP", "VOX"],
+}
+
+COALICIONES_PRINCIPALES: dict[str, list[str]] = {
+    "PP + VOX": ["PP", "VOX"],
+    "PP + VOX + CC": ["PP", "VOX", "CC"],
+    "PSOE + SUMAR": ["PSOE", "SUMAR"],
+    "PSOE + SUMAR + ERC + EH Bildu + BNG": ["PSOE", "SUMAR", "ERC", "EH Bildu", "BNG"],
+    "PSOE + SUMAR + Junts": ["PSOE", "SUMAR", "Junts"],
+    "PP + PNV": ["PP", "PNV"],
+    "Gran coalición PP + PSOE": ["PP", "PSOE"],
+}
+
+
+def _color(siglas: str) -> str:
+    return COLORES_PARTIDO.get(siglas, COLORES_PARTIDO.get(str(siglas).upper(), CYAN))
 
 # ── CSS dark tech ──────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -205,7 +213,12 @@ st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:1rem 0
             unsafe_allow_html=True)
 
 # ── Datos nowcasting ───────────────────────────────────────────────────────────
-df_nc = cargar_nowcasting()
+@st.cache_data(ttl=1800, show_spinner=False)
+def _load_nc() -> pd.DataFrame:
+    return cargar_nowcasting()
+
+
+df_nc = _load_nc()
 
 ESTIMACIONES_SINTETICAS = {
     "PP": 33.0, "PSOE": 28.5, "VOX": 12.0, "SUMAR": 10.5,
@@ -220,40 +233,134 @@ if not df_nc.empty:
         if float(row["estimacion_pct"]) >= 1.0
     }
 else:
+    st.warning(
+        "Nowcasting no disponible. Los sliders usan valores sintéticos de referencia; "
+        "los resultados no reflejan la estimación actual del modelo."
+    )
     estimaciones_base = ESTIMACIONES_SINTETICAS.copy()
 
 
-# ── Funciones D'Hondt ──────────────────────────────────────────────────────────
-def dhondt_provincia(votos_pct: dict, escanos: int, umbral: float = 3.0) -> dict:
-    elegibles = {p: v for p, v in votos_pct.items() if v >= umbral}
-    if not elegibles:
+# ── Helpers ────────────────────────────────────────────────────────────────────
+def _hash_estimaciones(estimaciones: dict[str, float], sigma: float, n_sims: int) -> str:
+    payload = {
+        "estimaciones": sorted((k, round(float(v), 4)) for k, v in estimaciones.items()),
+        "sigma": round(float(sigma), 4),
+        "n_sims": int(n_sims),
+    }
+    return hashlib.md5(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def _bloque_sims(
+    resultados_mc: dict[str, list[int]],
+    partidos_bloque: list[str],
+    n_sims: int,
+) -> np.ndarray:
+    arrays = [np.array(resultados_mc[p], dtype=float) for p in partidos_bloque if p in resultados_mc]
+    if not arrays:
+        return np.zeros(n_sims, dtype=float)
+    return np.sum(np.stack(arrays, axis=0), axis=0)
+
+
+def _prob_escenario_desde_mc(
+    resultados_mc: dict[str, list[int]] | None,
+    partidos_c: list[str],
+    condicion: str = "mayoria",
+) -> float | None:
+    if not resultados_mc:
+        return None
+    n = len(next(iter(resultados_mc.values()), []))
+    if n == 0:
+        return None
+
+    if condicion == "bloqueo":
+        izq = _bloque_sims(resultados_mc, BLOQUES["izquierda"] + ["PNV"], n)
+        der = _bloque_sims(resultados_mc, BLOQUES["derecha"], n)
+        return float(((izq < 176) & (der < 176)).mean())
+    if condicion == "minoritario":
+        izq = _bloque_sims(resultados_mc, BLOQUES["izquierda"] + ["PNV"], n)
+        der = _bloque_sims(resultados_mc, BLOQUES["derecha"], n)
+        pp_arr = np.array(resultados_mc.get("PP", [0] * n), dtype=float)
+        psoe_arr = np.array(resultados_mc.get("PSOE", [0] * n), dtype=float)
+        return float((((pp_arr >= 150) | (psoe_arr >= 150)) & (izq < 176) & (der < 176)).mean())
+
+    esc_arr = _bloque_sims(resultados_mc, partidos_c, n)
+    return float((esc_arr >= 176).mean())
+
+
+def _scenario_seats_from_mc(
+    resultados_mc: dict[str, list[int]] | None,
+    partidos_esc: dict[str, int],
+) -> dict[str, int] | None:
+    if not resultados_mc:
+        return None
+    n = len(next(iter(resultados_mc.values()), []))
+    if n == 0:
+        return None
+
+    out: dict[str, int] = {}
+    known_total = 0
+    for p in partidos_esc:
+        if p == "Otros":
+            continue
+        vals = resultados_mc.get(p, [])
+        out[p] = int(np.median(vals)) if vals else 0
+        known_total += out[p]
+    if "Otros" in partidos_esc:
+        out["Otros"] = max(0, 350 - known_total)
+    return out
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def monte_carlo_escanos(
+    estimaciones: dict[str, float],
+    ic_inf: dict[str, float] | None = None,
+    ic_sup: dict[str, float] | None = None,
+    n_sims: int = 5000,
+    sigma: float = 2.5,
+) -> dict[str, list[int]]:
+    partidos = list(estimaciones.keys())
+    if not partidos or n_sims <= 0:
         return {}
-    totales = sum(elegibles.values())
-    votos_abs = {p: v / totales * 100_000 for p, v in elegibles.items()}
-    asignados: dict[str, int] = defaultdict(int)
-    for _ in range(escanos):
-        cocientes = {p: votos_abs[p] / (asignados[p] + 1) for p in elegibles}
-        ganador = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
-        asignados[ganador] += 1
-    return dict(asignados)
+
+    pcts_arr = np.array([max(float(estimaciones[p]), 0.0) for p in partidos], dtype=float)
+    mu = np.clip(pcts_arr / max(float(pcts_arr.sum()), 1e-9), 1e-6, 1.0)
+    mu = mu / mu.sum()
+
+    # Modelo Dirichlet: proporciones que suman 100% y covarianza coherente.
+    k_default = max(15.0, 500.0 / max(float(sigma) ** 2, 1e-6))
+    k_concentration = k_default
+    if ic_inf and ic_sup:
+        k_candidates: list[float] = []
+        for j, p in enumerate(partidos):
+            if p not in ic_inf or p not in ic_sup:
+                continue
+            sigma_pp = max((float(ic_sup[p]) - float(ic_inf[p])) / (2 * 1.96), 0.10)
+            var = (sigma_pp / 100.0) ** 2
+            mu_j = float(mu[j])
+            k_j = (mu_j * (1.0 - mu_j) / max(var, 1e-9)) - 1.0
+            if np.isfinite(k_j) and k_j > 0:
+                k_candidates.append(float(k_j))
+        if k_candidates:
+            k_concentration = float(np.clip(np.median(k_candidates), 10.0, 500.0))
+
+    alpha = np.clip(mu * k_concentration, 1e-3, None)
+    rng_seed = int(hashlib.md5(json.dumps(sorted(estimaciones.items())).encode("utf-8")).hexdigest()[:8], 16)
+    rng = np.random.default_rng(rng_seed)
+    pcts_matrix = rng.dirichlet(alpha, size=n_sims) * 100.0
+
+    resultados: dict[str, list[int]] = {p: [] for p in partidos}
+    for sim_i in range(n_sims):
+        sim_pcts = pcts_matrix[sim_i]
+        norm = {p: float(sim_pcts[j]) for j, p in enumerate(partidos)}
+        escanos = dhondt_nacional(norm)
+        for p in partidos:
+            resultados[p].append(int(escanos.get(p, 0)))
+    return resultados
 
 
-def monte_carlo_escanos(estimaciones: dict, n_sims: int = 5000, sigma: float = 2.5) -> dict:
-    resultados: dict[str, list[int]] = defaultdict(list)
-    for _ in range(n_sims):
-        muestreado = {}
-        for partido, pct in estimaciones.items():
-            noise = np.random.normal(0, sigma * (pct / 100) ** 0.5)
-            muestreado[partido] = max(0.5, pct + noise)
-        total = sum(muestreado.values())
-        norm = {p: v / total * 100 for p, v in muestreado.items()}
-        escanos = dhondt_provincia(norm, 350, umbral=3.0)
-        for partido, n in escanos.items():
-            resultados[partido].append(n)
-        for partido in estimaciones:
-            if partido not in escanos:
-                resultados[partido].append(0)
-    return dict(resultados)
+@st.cache_data(ttl=3600, show_spinner=False)
+def _macro_cached() -> pd.DataFrame:
+    return cargar_macro_ultimo()
 
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
@@ -279,7 +386,7 @@ with tab1:
     st.markdown(f"""
     <div class="info-box">
         Ajusta las estimaciones de voto y ejecuta <strong style="color:{CYAN}">5.000 simulaciones</strong>
-        con D'Hondt nacional para obtener la distribución de escaños con intervalos de confianza.
+        con D'Hondt por 52 circunscripciones para obtener la distribución de escaños con intervalos de confianza.
     </div>
     """, unsafe_allow_html=True)
 
@@ -317,42 +424,55 @@ with tab1:
             value=2.5, step=0.5,
         )
 
+    n_sims_cfg = 5000
+    hash_actual = _hash_estimaciones(estimaciones_ajustadas, float(sigma_val), n_sims_cfg)
     if ejecutar:
         with st.spinner("Ejecutando 5.000 simulaciones D'Hondt…"):
+            ic_inf_map = (
+                {str(r["partido_siglas"]): float(r["ic_95_inf"]) for _, r in df_nc.iterrows()}
+                if not df_nc.empty and "ic_95_inf" in df_nc.columns
+                else None
+            )
+            ic_sup_map = (
+                {str(r["partido_siglas"]): float(r["ic_95_sup"]) for _, r in df_nc.iterrows()}
+                if not df_nc.empty and "ic_95_sup" in df_nc.columns
+                else None
+            )
             resultados_mc = monte_carlo_escanos(
-                estimaciones_ajustadas, n_sims=5000, sigma=float(sigma_val)
+                estimaciones_ajustadas,
+                ic_inf=ic_inf_map,
+                ic_sup=ic_sup_map,
+                n_sims=n_sims_cfg,
+                sigma=float(sigma_val),
             )
         st.session_state["mc_resultados"] = resultados_mc
+        st.session_state["mc_estimaciones_hash"] = hash_actual
 
     if "mc_resultados" in st.session_state:
         resultados_mc = st.session_state["mc_resultados"]
-        n_sims_total = 5000
+        hash_guardado = st.session_state.get("mc_estimaciones_hash", "")
+        if hash_actual != hash_guardado:
+            st.markdown(f"""
+            <div class="warn-box">
+                ⚠ Las estimaciones han cambiado desde la última simulación.
+                Pulsa <strong style="color:{CYAN}">Ejecutar simulación</strong> para actualizar resultados.
+            </div>
+            """, unsafe_allow_html=True)
 
-        bloques = {
-            "izquierda": ["PSOE", "SUMAR", "ERC", "EH Bildu", "BNG"],
-            "derecha":   ["PP", "VOX"],
-        }
-        escanos_izq_sims, escanos_der_sims = [], []
-        for sim_i in range(n_sims_total):
-            izq_i = sum(
-                resultados_mc.get(p, [0] * n_sims_total)[sim_i]
-                for p in bloques["izquierda"]
-                if sim_i < len(resultados_mc.get(p, []))
-            )
-            der_i = sum(
-                resultados_mc.get(p, [0] * n_sims_total)[sim_i]
-                for p in bloques["derecha"]
-                if sim_i < len(resultados_mc.get(p, []))
-            )
-            escanos_izq_sims.append(izq_i)
-            escanos_der_sims.append(der_i)
+        n_sims_real = len(next(iter(resultados_mc.values()), []))
+        if n_sims_real == 0:
+            st.warning("Resultados vacíos. Re-ejecuta la simulación.")
+            st.stop()
 
-        pp_e   = resultados_mc.get("PP",   [])
-        psoe_e = resultados_mc.get("PSOE", [])
-        may_pp   = sum(1 for x in pp_e   if x >= 176) / len(pp_e)   * 100 if pp_e   else 0.0
-        may_psoe = sum(1 for x in psoe_e if x >= 176) / len(psoe_e) * 100 if psoe_e else 0.0
-        may_izq  = sum(1 for x in escanos_izq_sims if x >= 176) / len(escanos_izq_sims) * 100 if escanos_izq_sims else 0.0
-        may_der  = sum(1 for x in escanos_der_sims  if x >= 176) / len(escanos_der_sims)  * 100 if escanos_der_sims  else 0.0
+        escanos_izq_arr = _bloque_sims(resultados_mc, BLOQUES["izquierda"], n_sims_real)
+        escanos_der_arr = _bloque_sims(resultados_mc, BLOQUES["derecha"], n_sims_real)
+
+        pp_arr = np.array(resultados_mc.get("PP", []), dtype=float)
+        psoe_arr = np.array(resultados_mc.get("PSOE", []), dtype=float)
+        may_pp = float((pp_arr >= 176).mean() * 100) if pp_arr.size else 0.0
+        may_psoe = float((psoe_arr >= 176).mean() * 100) if psoe_arr.size else 0.0
+        may_izq = float((escanos_izq_arr >= 176).mean() * 100) if escanos_izq_arr.size else 0.0
+        may_der = float((escanos_der_arr >= 176).mean() * 100) if escanos_der_arr.size else 0.0
 
         # KPI row
         st.markdown(f"""
@@ -397,7 +517,7 @@ with tab1:
             media = np.mean(sims)
             p5    = np.percentile(sims, 5)
             p95   = np.percentile(sims, 95)
-            color = COLORES_PARTIDO.get(partido, CYAN)
+            color = _color(partido)
             cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
             fig_h = go.Figure()
             fig_h.add_trace(go.Histogram(
@@ -460,7 +580,7 @@ with tab1:
                 "IC 80% sup": int(np.percentile(sims, 90)),
                 "IC 95% inf": int(np.percentile(sims, 2.5)),
                 "IC 95% sup": int(np.percentile(sims, 97.5)),
-                "P(>176)":    f"{sum(1 for x in sims if x >= 176)/len(sims)*100:.1f}%",
+                "P(>176)":    f"{float((np.array(sims) >= 176).mean() * 100):.1f}%",
             })
         st.dataframe(pd.DataFrame(filas_ic), hide_index=True, use_container_width=True)
 
@@ -473,24 +593,18 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
 
-        COALICIONES = {
-            "PP + VOX":                           ["PP", "VOX"],
-            "PP + VOX + CC":                      ["PP", "VOX", "CC"],
-            "PSOE + SUMAR":                       ["PSOE", "SUMAR"],
-            "PSOE + SUMAR + ERC + EH Bildu":      ["PSOE", "SUMAR", "ERC", "EH Bildu"],
-            "PSOE + SUMAR + Junts":               ["PSOE", "SUMAR", "Junts"],
-            "PP + PNV":                           ["PP", "PNV"],
-            "Gran coalición PP + PSOE":            ["PP", "PSOE"],
-        }
-        n_sims_r = len(next(iter(resultados_mc.values())))
+        n_sims_r = len(next(iter(resultados_mc.values()), []))
+        partidos_en_mc = list(resultados_mc.keys())
+        matriz = np.array([resultados_mc[p] for p in partidos_en_mc], dtype=float) if partidos_en_mc else np.empty((0, n_sims_r))
+        idx_map = {p: i for i, p in enumerate(partidos_en_mc)}
         filas_coal = []
-        for nombre_c, partidos_c in COALICIONES.items():
-            esc_c = [
-                sum(resultados_mc.get(p, [0] * n_sims_r)[si] for p in partidos_c)
-                for si in range(n_sims_r)
-            ]
-            prob_may  = sum(1 for x in esc_c if x >= 176) / n_sims_r * 100
-            media_esc = np.mean(esc_c)
+        for nombre_c, partidos_c in COALICIONES_PRINCIPALES.items():
+            indices = [idx_map[p] for p in partidos_c if p in idx_map]
+            if not indices or n_sims_r == 0:
+                continue
+            esc_c = matriz[indices, :].sum(axis=0)
+            prob_may = float((esc_c >= 176).mean() * 100)
+            media_esc = float(esc_c.mean())
             filas_coal.append({
                 "Coalición":             nombre_c,
                 "Escaños medios":        round(media_esc, 0),
@@ -532,7 +646,7 @@ with tab1:
             text=list(esc_prev.values()),
             textposition="outside",
             textfont=dict(color=TEXT2, size=11),
-            marker_color=[COLORES_PARTIDO.get(p, MUTED) for p in esc_prev],
+            marker_color=[_color(p) for p in esc_prev],
         ))
         fig_prev.add_hline(
             y=176, line_dash="dash", line_color=AMBER, line_width=1.5,
@@ -710,6 +824,16 @@ with tab2:
     </div>
     """, unsafe_allow_html=True)
 
+    mc_res = st.session_state.get("mc_resultados")
+    ESCENARIO_MC_MAP = {
+        "Mayoría PP-Vox": {"partidos": ["PP", "VOX"], "cond": "mayoria"},
+        "Mayoría progresista": {"partidos": BLOQUES["izquierda"], "cond": "mayoria"},
+        "Gran coalición PP-PSOE": {"partidos": ["PP", "PSOE"], "cond": "mayoria"},
+        "Bloqueo parlamentario": {"partidos": [], "cond": "bloqueo"},
+        "Elecciones repetidas": {"partidos": [], "cond": "bloqueo"},
+        "Gobierno minoritario": {"partidos": [], "cond": "minoritario"},
+    }
+
     # 2-column card grid
     col_a, col_b = st.columns(2)
     col_pairs = [col_a, col_b]
@@ -717,7 +841,13 @@ with tab2:
     for i, esc in enumerate(ESCENARIOS):
         blq_color = BLOQUE_COLOR.get(esc["bloque"], CYAN)
         blq_label = BLOQUE_LABEL.get(esc["bloque"], esc["bloque"])
-        prob_pct  = esc["probabilidad"] * 100
+        cfg = ESCENARIO_MC_MAP.get(esc["nombre"])
+        prob_mc = _prob_escenario_desde_mc(mc_res, cfg["partidos"], cfg["cond"]) if cfg else None
+        prob_value = prob_mc if prob_mc is not None else float(esc["probabilidad"])
+        prob_source = "MC" if prob_mc is not None else "est."
+        prob_pct = prob_value * 100
+        esc_mc = _scenario_seats_from_mc(mc_res, esc["escanos"])
+        esc_data = esc_mc if esc_mc is not None else esc["escanos"]
         br, bg, bb = int(blq_color[1:3], 16), int(blq_color[3:5], 16), int(blq_color[5:7], 16)
 
         # Build conditions HTML
@@ -736,7 +866,7 @@ with tab2:
                 f'</div>'
                 f'<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.3rem">'
                 f'<div style="font-size:1.5rem;font-weight:800;font-family:\'JetBrains Mono\',monospace;color:{blq_color}">{prob_pct:.0f}%</div>'
-                f'<div style="font-size:.72rem;color:{MUTED};font-weight:600">probabilidad estimada</div>'
+                f'<div style="font-size:.72rem;color:{MUTED};font-weight:600">probabilidad ({prob_source})</div>'
                 f'</div>'
                 f'<div class="prob-track"><div class="prob-fill" style="background:{blq_color};width:{prob_pct:.1f}%"></div></div>'
                 f'<div style="font-size:.83rem;color:{TEXT2};margin:.75rem 0 .6rem;line-height:1.5">{esc["descripcion"]}</div>'
@@ -747,10 +877,9 @@ with tab2:
             st.markdown(card_html, unsafe_allow_html=True)
 
             # Bar chart of seats
-            esc_data  = esc["escanos"]
             partidos_e = list(esc_data.keys())
             escanos_e  = list(esc_data.values())
-            colores_e  = [COLORES_PARTIDO.get(p, MUTED) for p in partidos_e]
+            colores_e  = [_color(p) for p in partidos_e]
             fig_esc = go.Figure(go.Bar(
                 x=escanos_e, y=partidos_e, orientation="h",
                 marker_color=colores_e,
@@ -780,7 +909,8 @@ with tab2:
                 font=dict(color=TEXT2),
                 showlegend=False,
             )
-            st.plotly_chart(fig_esc, use_container_width=True)
+            with st.expander("Ver distribución de escaños", expanded=False):
+                st.plotly_chart(fig_esc, use_container_width=True)
 
             # Consequences in an expander
             with st.expander("Consecuencias esperadas"):
@@ -812,7 +942,7 @@ with tab3:
     </div>
     """, unsafe_allow_html=True)
 
-    df_macro = cargar_macro_ultimo()
+    df_macro = _macro_cached()
     MACRO_DEFAULT = {
         "Tasa de Paro (%)":              11.2,
         "IPC General (%)":               2.8,
@@ -846,21 +976,17 @@ with tab3:
                             float(macro_actual.get("Prima Riesgo (pb)", 95.0)), 5.0)
         vivienda = st.slider("Preocupación por vivienda (% ciudadanos)", 30.0, 95.0, 72.0, 1.0)
 
-    # Reglas de transferencia
+    # Reglas de transferencia (externas y acotadas)
     base = estimaciones_base.copy()
-    delta_paro  = paro - 11.2
-    delta_ipc   = ipc  - 2.8
-    delta_pib   = pib  - 2.1
-    delta_sent  = sent - 4.2
-    delta_prima = (prima - 95.0) / 50.0
-    delta_viv   = (vivienda - 72.0) / 10.0
-
-    ajustes = {
-        "PP":    -0.3*delta_paro + 0.2*delta_ipc - 0.1*delta_pib - 0.3*delta_sent + 0.3*delta_prima - 0.2*delta_viv,
-        "PSOE":  -0.2*delta_paro - 0.4*delta_ipc + 0.4*delta_pib + 0.6*delta_sent - 0.3*delta_prima + 0.1*delta_viv,
-        "VOX":    0.4*delta_paro + 0.2*delta_ipc - 0.3*delta_pib - 0.2*delta_sent + 0.1*delta_prima,
-        "SUMAR":  0.2*delta_paro + 0.1*delta_ipc - 0.1*delta_pib + 0.2*delta_sent + 0.4*delta_viv,
+    macro_for_rules = {
+        "paro": paro,
+        "ipc": ipc,
+        "pib": pib,
+        "sent": sent,
+        "prima": prima,
+        "vivienda": vivienda,
     }
+    ajustes = calcular_ajustes(macro_for_rules)
 
     st.markdown(f"""
     <div class="sec-hdr">
@@ -924,26 +1050,7 @@ with tab3:
     </div>
     """, unsafe_allow_html=True)
 
-    reglas_info = {
-        "Tasa de paro":
-            "Un paro elevado penaliza al partido en el gobierno y beneficia a partidos "
-            "de oposición extrema (VOX) y a la izquierda alternativa (SUMAR).",
-        "Inflación (IPC)":
-            "La inflación alta castiga especialmente al PSOE como partido de gobierno. "
-            "El PP capitaliza el descontento económico moderado.",
-        "Crecimiento del PIB":
-            "El crecimiento beneficia directamente al partido en el gobierno (PSOE). "
-            "Un PIB fuerte reduce el voto de protesta.",
-        "Sentimiento hacia el gobierno":
-            "El indicador más directo: mayor valoración del gobierno implica transferencia "
-            "de voto hacia PSOE y SUMAR.",
-        "Prima de riesgo":
-            "Una prima alta señala inestabilidad financiera y beneficia al discurso de "
-            "austeridad del PP. Perjudica al gobierno.",
-        "Preocupación por vivienda":
-            "A mayor preocupación por acceso a vivienda, mayor beneficio para SUMAR y "
-            "la izquierda, que han capitalizado este tema.",
-    }
+    reglas_info = reglas_transferencia_info()
     for var, explicacion in reglas_info.items():
         with st.expander(var):
             st.markdown(

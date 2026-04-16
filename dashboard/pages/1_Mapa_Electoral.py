@@ -8,7 +8,6 @@ from __future__ import annotations
 import json
 import math
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -31,6 +30,7 @@ from dashboard.shared import (
 )
 from dashboard.db import (
     cargar_elecciones,
+    cargar_escanos_circunscripcion,
     cargar_resultados_nacionales,
     cargar_resultados_provinciales,
 )
@@ -52,7 +52,6 @@ BLOQUE_DER = ["PP", "VOX", "CS", "UPN"]
 # Province name mapping: GeoJSON name -> DB province_id
 GEOJSON_PATH = Path(__file__).parent.parent / "data" / "spain_provinces.geojson"
 MAPPING_PATH = Path(__file__).parent.parent / "data" / "province_mapping.json"
-SEATS_PATH = Path(__file__).parent.parent / "data" / "circunscripciones_escanos.json"
 SIGLAS_ALIAS = {
     "EH BILDU": "EH_BILDU",
     "EH Bildu": "EH_BILDU",
@@ -202,6 +201,32 @@ def _section_header(label: str, color: str):
     """, unsafe_allow_html=True)
 
 
+def _resolve_partido_rank(
+    modo_mapa: str,
+    vista: str,
+    mapa_click_partido: str | None,
+    partidos_est: list[str],
+    partidos_avail: list[str],
+    key: str = "partido_rank",
+) -> str:
+    """
+    Resuelve el partido activo para ranking según modo/vista.
+    """
+    if modo_mapa == "Estimación actual":
+        opciones = partidos_est if partidos_est else ["Sin datos"]
+        return st.selectbox("Partido para ranking", opciones, key=f"{key}_est")
+
+    if vista == "Partido ganador":
+        return ""
+
+    if mapa_click_partido and mapa_click_partido in partidos_avail:
+        st.info(f"Partido seleccionado desde el mapa: {mapa_click_partido}")
+        return mapa_click_partido
+
+    opciones = partidos_avail if partidos_avail else ["Sin datos"]
+    return st.selectbox("Partido para ranking", opciones, index=0, key=f"{key}_hist")
+
+
 @st.cache_data(ttl=3600)
 def _nac_cached(eleccion_id: int) -> pd.DataFrame:
     return cargar_resultados_nacionales(eleccion_id)
@@ -211,6 +236,7 @@ def _nac_cached(eleccion_id: int) -> pd.DataFrame:
 def _estimate_seats_dhondt_cached(
     eleccion_id: int,
     nc_signature: tuple[tuple[str, float, float, float], ...],
+    seats_signature: tuple[tuple[int, int], ...],
 ) -> pd.DataFrame:
     if not nc_signature:
         return pd.DataFrame()
@@ -228,7 +254,8 @@ def _estimate_seats_dhondt_cached(
             for sig, est, inf, sup in nc_signature
         ]
     )
-    return _estimate_seats_dhondt(df_prov_cached, df_nc_cached)
+    escanos_ref = {int(pid): int(n) for pid, n in seats_signature}
+    return _estimate_seats_dhondt(df_prov_cached, df_nc_cached, escanos_ref=escanos_ref)
 
 
 @st.cache_data(ttl=3600)
@@ -258,25 +285,8 @@ def _load_historical_results(tipo_hist_db: str) -> pd.DataFrame:
 
 @st.cache_data(ttl=3600)
 def _load_seat_reference() -> dict[int, int]:
-    """Carga escaños de circunscripción por provincia (si existe fichero)."""
-    if not SEATS_PATH.exists():
-        return {}
-    try:
-        with open(SEATS_PATH) as f:
-            raw = json.load(f)
-        # formatos soportados:
-        # { "1": 7, "2": 4, ... }  o  [{ "provincia_id": 1, "n_escanos": 7}, ...]
-        if isinstance(raw, dict):
-            return {int(k): int(v) for k, v in raw.items()}
-        if isinstance(raw, list):
-            out: dict[int, int] = {}
-            for r in raw:
-                if isinstance(r, dict) and "provincia_id" in r and "n_escanos" in r:
-                    out[int(r["provincia_id"])] = int(r["n_escanos"])
-            return out
-    except Exception:
-        return {}
-    return {}
+    """Carga escaños oficiales por circunscripción desde la capa de datos."""
+    return cargar_escanos_circunscripcion("generales")
 
 
 def hemiciclo_chart(partidos_escanos: list[tuple[str, int, str]]) -> go.Figure:
@@ -456,8 +466,25 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
     return fig
 
 
-def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.DataFrame:
-    """Aplica D'Hondt por provincia usando las estimaciones nacionales de nowcasting."""
+def _dhondt(votos: dict[str, float], n_escanos: int) -> dict[str, int]:
+    if n_escanos <= 0:
+        return {}
+    elegibles = {p: max(float(v), 0.0) for p, v in votos.items() if float(v) > 0}
+    if not elegibles:
+        return {}
+    seats = {p: 0 for p in elegibles}
+    for _ in range(n_escanos):
+        ganador = max(elegibles, key=lambda p: elegibles[p] / (seats[p] + 1))
+        seats[ganador] += 1
+    return seats
+
+
+def _estimate_seats_dhondt(
+    df_prov: pd.DataFrame,
+    df_nc: pd.DataFrame,
+    escanos_ref: dict[int, int] | None = None,
+) -> pd.DataFrame:
+    """Aplica D'Hondt por provincia con magnitudes oficiales por circunscripción."""
     if df_nc.empty or df_prov.empty:
         return pd.DataFrame()
 
@@ -468,51 +495,43 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
         row["partido_siglas"]: float(row["estimacion_pct"])
         for _, row in df_nc.iterrows()
     }
-    nc_ic_inf = {
-        row["partido_siglas"]: float(row.get("ic_95_inf", row["estimacion_pct"]))
-        for _, row in df_nc.iterrows()
-    }
-    nc_ic_sup = {
-        row["partido_siglas"]: float(row.get("ic_95_sup", row["estimacion_pct"]))
-        for _, row in df_nc.iterrows()
-    }
-
-    # Seats per province from historical reference
-    prov_info = (
-        df_prov.groupby(["provincia_id", "provincia", "ccaa"])["escanos"]
-        .sum().reset_index().rename(columns={"escanos": "total_escanos"})
-    )
-    seat_ref = _load_seat_reference()
-    if seat_ref:
-        prov_info["total_escanos"] = prov_info.apply(
-            lambda r: int(seat_ref.get(int(r["provincia_id"]), int(r["total_escanos"]))),
-            axis=1,
-        )
-
-    eligible = {p: v for p, v in nc_est.items() if v >= 3.0}
-    if not eligible:
+    escanos_ref = escanos_ref or _load_seat_reference()
+    if not escanos_ref:
         return pd.DataFrame()
-    total_pct = sum(eligible.values())
-    norm = {p: v / total_pct * 100 for p, v in eligible.items()}
+
+    prov_info = (
+        df_prov[["provincia_id", "provincia", "ccaa"]]
+        .drop_duplicates(subset=["provincia_id"])
+        .reset_index(drop=True)
+    )
 
     rows = []
+    missing_ids: list[int] = []
     for _, prov_row in prov_info.iterrows():
-        total = int(prov_row["total_escanos"])
-        if total <= 0:
+        prov_id = int(prov_row["provincia_id"])
+        total = int(escanos_ref.get(prov_id, 0))
+        if total < 1:
+            missing_ids.append(prov_id)
             continue
-        asignados: dict[str, int] = defaultdict(int)
-        for _ in range(total):
-            cocientes = {p: norm[p] / (asignados[p] + 1) for p in eligible}
-            winner = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
-            asignados[winner] += 1
+
+        total_votos = sum(max(v, 0.0) for v in nc_est.values())
+        if total_votos <= 0:
+            continue
+        votos_filtrados = {
+            p: v for p, v in nc_est.items()
+            if v > 0 and (v / total_votos) >= 0.03
+        }
+        if not votos_filtrados:
+            continue
+        asignados = _dhondt(votos_filtrados, total)
 
         for partido, esc_est in asignados.items():
             hist = df_prov[
-                (df_prov["provincia_id"] == prov_row["provincia_id"]) &
+                (df_prov["provincia_id"] == prov_id) &
                 (df_prov["siglas"] == partido)
             ]["escanos"].sum()
             rows.append({
-                "provincia_id":  prov_row["provincia_id"],
+                "provincia_id":  prov_id,
                 "provincia":     prov_row["provincia"],
                 "ccaa":          prov_row["ccaa"],
                 "siglas":        partido,
@@ -520,7 +539,16 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
                 "escanos_hist":  int(hist),
                 "delta":         esc_est - int(hist),
                 "pct_est":       nc_est.get(partido, 0),
+                "total_escanos_prov": total,
             })
+
+    if missing_ids:
+        uniq = sorted(set(missing_ids))
+        st.warning(
+            "Sin magnitudes oficiales para provincia_id: "
+            + ", ".join(str(x) for x in uniq[:8])
+            + ("..." if len(uniq) > 8 else "")
+        )
 
     return pd.DataFrame(rows) if rows else pd.DataFrame()
 
@@ -877,6 +905,9 @@ with tab_mapa:
                     ["Histórico", "Estimación actual"],
                     horizontal=True, key="modo_mapa",
                 )
+            if st.session_state.get("_ultimo_modo_mapa") != modo_mapa:
+                st.session_state.pop("mapa_click_partido", None)
+                st.session_state["_ultimo_modo_mapa"] = modo_mapa
             vista = "Partido ganador"
             partido_mapa = None
             if modo_mapa == "Histórico":
@@ -894,6 +925,8 @@ with tab_mapa:
             # ── Choropleth principal ──────────────────────────────────────────
             df_est = pd.DataFrame()
             if modo_mapa == "Estimación actual":
+                escanos_ref = _load_seat_reference()
+                seats_signature = tuple(sorted((int(pid), int(n)) for pid, n in escanos_ref.items()))
                 nc_signature = tuple(
                     sorted(
                         (
@@ -905,13 +938,13 @@ with tab_mapa:
                         for _, r in df_nc_mapa.iterrows()
                     )
                 )
-                df_est = _estimate_seats_dhondt_cached(eleccion_id, nc_signature)
+                df_est = _estimate_seats_dhondt_cached(eleccion_id, nc_signature, seats_signature)
                 fig_map = _build_choropleth_estimado(df_est)
                 if fig_map:
                     st.markdown(
                         f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};border-radius:8px;padding:.6rem 1rem;font-size:.8rem;color:{TEXT2};margin-bottom:.5rem">'
                         f'<strong style="color:{CYAN}">Estimación D\'Hondt</strong> · Distribuye las estimaciones nacionales de nowcasting '
-                        f'aplicando D\'Hondt provincia a provincia usando los escaños históricos de referencia como base.'
+                        f'aplicando D\'Hondt provincia a provincia con magnitudes oficiales de circunscripción.'
                         f'</div>',
                         unsafe_allow_html=True,
                     )
@@ -933,16 +966,30 @@ with tab_mapa:
             with col_rank:
                 _section_header("Escaños por Provincia", CYAN)
                 partidos_avail = sorted(df_prov["siglas"].unique().tolist())
-                if modo_mapa == "Estimación actual" and not df_est.empty:
-                    partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
-                    df_rank = df_est[df_est["siglas"] == partido_rank][["provincia", "escanos_est"]].rename(columns={"escanos_est": "escanos"})
+                partidos_est = sorted(df_est["siglas"].unique().tolist()) if not df_est.empty else []
+                mapa_click_partido: str | None = st.session_state.get("mapa_click_partido", None)
+                partido_rank = _resolve_partido_rank(
+                    modo_mapa=modo_mapa,
+                    vista=vista,
+                    mapa_click_partido=mapa_click_partido,
+                    partidos_est=partidos_est,
+                    partidos_avail=partidos_avail,
+                    key="partido_rank",
+                )
+                if partido_rank:
+                    st.session_state["partido_rank_active"] = partido_rank
+
+                if modo_mapa == "Estimación actual" and partido_rank:
+                    df_rank = (
+                        df_est[df_est["siglas"] == partido_rank][["provincia", "escanos_est"]]
+                        .rename(columns={"escanos_est": "escanos"})
+                    )
                     df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
-                else:
-                    partido_rank = partido_mapa
-                    if partido_rank is None:
-                        partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
+                elif modo_mapa == "Histórico" and vista == "Por partido" and partido_rank:
                     df_rank = df_prov[df_prov["siglas"] == partido_rank][["provincia", "escanos"]].copy()
                     df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
+                else:
+                    df_rank = pd.DataFrame(columns=["provincia", "escanos"])
 
                 if not df_rank.empty:
                     color_r = _color(partido_rank)
@@ -969,7 +1016,18 @@ with tab_mapa:
                     )
                     st.plotly_chart(fig_rank, use_container_width=True, config={"displayModeBar": False})
                 else:
-                    st.markdown(f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem;color:{TEXT2};font-size:.85rem">{partido_rank} no obtuvo escaños en ninguna provincia.</div>', unsafe_allow_html=True)
+                    if modo_mapa == "Histórico" and vista == "Partido ganador":
+                        st.markdown(
+                            f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem;color:{TEXT2};font-size:.85rem">'
+                            f'La vista actual no requiere selección de partido para ranking.</div>',
+                            unsafe_allow_html=True,
+                        )
+                    elif partido_rank:
+                        st.markdown(
+                            f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem;color:{TEXT2};font-size:.85rem">'
+                            f'{partido_rank} no obtuvo escaños en ninguna provincia.</div>',
+                            unsafe_allow_html=True,
+                        )
 
             with col_detail:
                 _section_header("Detalle por Comunidad Autónoma", BLUE)

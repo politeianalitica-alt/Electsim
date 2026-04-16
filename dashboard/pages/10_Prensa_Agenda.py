@@ -5,6 +5,7 @@ Análisis en tiempo real de la cobertura mediática española.
 from __future__ import annotations
 
 from collections import Counter
+from html import escape
 import json
 import re
 import sys
@@ -130,12 +131,13 @@ def _theme_narratives(df_noticias: pd.DataFrame, tema: str, topn: int = 6) -> li
     dfx = dfx[dfx["categoria"].str.lower() == str(tema).lower()]
     if dfx.empty:
         return []
-    text_blob = " ".join(
-        [
-            f"{str(r.get('titular') or '')} {str(r.get('resumen') or '')}"
-            for _, r in dfx.head(300).iterrows()
-        ]
-    ).lower()
+    text_blob = (
+        dfx.head(300)[["titular", "resumen"]]
+        .fillna("")
+        .agg(" ".join, axis=1)
+        .str.cat(sep=" ")
+        .lower()
+    )
     tokens = re.findall(r"[a-záéíóúñ]{4,}", text_blob)
     stop = {
         "para", "desde", "sobre", "entre", "tras", "ante", "esta", "este", "estos", "estas",
@@ -266,6 +268,8 @@ def _inferir_veredicto(texto: str) -> str:
         return "FALSO"
     if any(k in t for k in ["engañoso", "enganoso", "fuera de contexto", "manipulad"]):
         return "ENGAÑOSO"
+    if any(k in t for k in ["sin aval", "sin evidencia", "sin respaldo", "no científico", "no cientifico"]):
+        return "SIN AVAL CIENTÍFICO"
     return "SIN VERIFICAR"
 
 
@@ -304,7 +308,11 @@ def cargar_bulos_newtral(limit: int = 20) -> list[dict]:
 
 @st.cache_data(ttl=3600)
 def cargar_agenda_oficial(limit: int = 20) -> pd.DataFrame:
-    rows = fetch_all_agendas(max_items_per_source=max(6, limit // 4))
+    try:
+        rows = fetch_all_agendas(max_items_per_source=max(6, limit // 4))
+    except Exception as e:
+        st.toast(f"Agenda oficial no disponible: {e}", icon="⚠️")
+        rows = []
     if not rows:
         return pd.DataFrame()
     df = pd.DataFrame(rows).drop_duplicates(subset=["titulo"]).head(limit)
@@ -354,6 +362,31 @@ VEREDICTO_COLORS = {
     "SIN VERIFICAR":     YELLOW,
     "SIN AVAL CIENTÍFICO": PURPLE,
 }
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _noticias_cached(dias: int) -> pd.DataFrame:
+    return cargar_noticias_recientes(dias=dias, limit=100)
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _agenda_hoy_cached() -> pd.DataFrame:
+    return cargar_agenda_hoy()
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _sent_all_cached(dias: int) -> pd.DataFrame:
+    return cargar_sentimiento_todos_partidos(dias=dias)
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _sent_partido_cached(partido: str, dias: int) -> pd.DataFrame:
+    return cargar_sentimiento_partido(partido, dias)
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _agenda_hist_cached(dias: int, top_temas: int = 12) -> pd.DataFrame:
+    return cargar_agenda_historica(dias=dias, top_temas=top_temas)
 
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Prensa & Agenda — ElectSim", layout="wide")
@@ -448,9 +481,9 @@ with st.sidebar:
     dias_sent     = st.slider("Ventana sentimiento (días)", 7, 90, 30)
 
 # ── KPIs ──────────────────────────────────────────────────────────────────────
-df_noticias  = cargar_noticias_recientes(dias=dias_noticias, limit=100)
-df_agenda    = cargar_agenda_hoy()
-df_sent_all  = cargar_sentimiento_todos_partidos(dias=dias_noticias)
+df_noticias  = _noticias_cached(dias_noticias)
+df_agenda    = _agenda_hoy_cached()
+df_sent_all  = _sent_all_cached(dias_noticias)
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:
@@ -526,7 +559,8 @@ with tab_agenda_t:
                 total_n = max(float(df_agenda_view["n_noticias"].sum()), 1.0)
                 df_agenda_view["peso_agenda"] = df_agenda_view["n_noticias"].astype(float) / total_n
                 df_agenda_view["tendencia"] = "estable"
-            except Exception:
+            except (KeyError, TypeError, ValueError) as e:
+                st.warning(f"Fallback de agenda falló: {e}")
                 df_agenda_view = pd.DataFrame()
 
         selected_theme = None
@@ -559,25 +593,21 @@ with tab_agenda_t:
                 key="agenda_treemap",
                 on_select="rerun",
             )
-            try:
-                points = (selection or {}).get("selection", {}).get("points", [])
-                if points:
-                    selected_theme = str(points[0].get("label") or "").strip() or None
-            except Exception:
-                selected_theme = None
+            points = (selection or {}).get("selection", {}).get("points", [])
+            if isinstance(points, list) and points and isinstance(points[0], dict):
+                label = points[0].get("label") or points[0].get("id") or ""
+                selected_theme = str(label).strip() or None
         else:
             st.info("Sin datos de agenda para la ventana actual. Ejecuta actualización ETL de prensa/agenda.")
 
     with col_sent_partidos:
         temas_options = df_agenda_view["tema"].astype(str).dropna().tolist() if not df_agenda_view.empty else []
         if temas_options:
+            if "tema_agenda_activo" not in st.session_state or st.session_state["tema_agenda_activo"] not in temas_options:
+                st.session_state["tema_agenda_activo"] = temas_options[0]
             if selected_theme and selected_theme in temas_options:
                 st.session_state["tema_agenda_activo"] = selected_theme
-            tema_default = st.session_state.get("tema_agenda_activo", temas_options[0])
-            if tema_default not in temas_options:
-                tema_default = temas_options[0]
-            tema_activo = st.selectbox("Tema activo (mapa)", temas_options, index=temas_options.index(tema_default), key="tema_agenda_activo_select")
-            st.session_state["tema_agenda_activo"] = tema_activo
+            tema_activo = st.selectbox("Tema activo (mapa)", temas_options, key="tema_agenda_activo")
 
             sec_hdr(f"Impacto por Partido — {tema_activo}")
             df_impact = _theme_party_impact(df_noticias, tema_activo)
@@ -631,8 +661,8 @@ with tab_agenda_t:
             st.info("Sin temas disponibles para analizar en el mapa.")
 
     # Agenda histórica heatmap
-    sec_hdr("Evolución de la Agenda — Últimos 30 Días", BLUE)
-    df_agenda_hist = cargar_agenda_historica(dias=30, top_temas=12)
+    sec_hdr(f"Evolución de la Agenda — Últimos {max(dias_noticias, 7)} Días", BLUE)
+    df_agenda_hist = _agenda_hist_cached(dias=max(dias_noticias, 7), top_temas=12)
     if not df_agenda_hist.empty:
         df_pivot = df_agenda_hist.pivot_table(
             index="tema", columns="fecha", values="n_noticias", fill_value=0
@@ -674,50 +704,61 @@ with tab_agenda_t:
         )
         if fuente_off != "Todas":
             df_oficial = df_oficial[df_oficial["fuente"] == fuente_off]
+        cards = []
         for _, row in df_oficial.iterrows():
-            card = (
+            cards.append(
                 f'<div class="news-card news-neu">'
-                f'<div style="font-weight:600;color:{TEXT};font-size:.88rem">{row.get("titulo", "")}</div>'
-                f'<div style="font-size:.74rem;color:{MUTED};margin-top:.2rem">{row.get("fuente", "")} · {row.get("fecha", "")}</div>'
-                f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem;line-height:1.45">{row.get("cita", "")}</div>'
+                f'<div style="font-weight:600;color:{TEXT};font-size:.88rem">{escape(str(row.get("titulo", "")))}</div>'
+                f'<div style="font-size:.74rem;color:{MUTED};margin-top:.2rem">{escape(str(row.get("fuente", "")))} · {escape(str(row.get("fecha", "")))}</div>'
+                f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem;line-height:1.45">{escape(str(row.get("cita", "")))}</div>'
                 f'</div>'
             )
-            st.markdown(card, unsafe_allow_html=True)
+        st.markdown("".join(cards), unsafe_allow_html=True)
 
 # ── Tab 2: Sentimiento ────────────────────────────────────────────────────────
 with tab_sentimiento:
     sec_hdr("Evolución del Sentimiento — Serie Temporal")
 
     partidos_disponibles = (
-        df_sent_all["entidad"].tolist() if not df_sent_all.empty
+        df_sent_all["entidad"].dropna().astype(str).drop_duplicates().tolist() if not df_sent_all.empty
         else ["PP", "PSOE", "VOX", "SUMAR"]
     )
     sel_partidos = st.multiselect(
         "Partidos a comparar",
         partidos_disponibles,
-        default=partidos_disponibles[:4],
+        default=[p for p in partidos_disponibles[:4] if p in partidos_disponibles],
     )
 
     if sel_partidos:
         fig_ts = go.Figure()
         palette = [CYAN, RED, AMBER, GREEN, PURPLE, ORANGE, "#EC4899"]
         for i, partido in enumerate(sel_partidos):
-            df_s = cargar_sentimiento_partido(partido, dias_sent)
+            df_s = _sent_partido_cached(partido, dias_sent)
             if df_s.empty:
                 continue
             color = palette[i % len(palette)]
+            x_vals = pd.to_datetime(df_s["fecha"], errors="coerce")
+            y_pos = pd.to_numeric(df_s.get("pct_positivo"), errors="coerce").fillna(0.0) / 100.0
+            y_neg = -pd.to_numeric(df_s.get("pct_negativo"), errors="coerce").fillna(0.0) / 100.0
             fig_ts.add_trace(go.Scatter(
-                x=list(df_s["fecha"]) + list(df_s["fecha"])[::-1],
-                y=(list((df_s["pct_positivo"] - 50).fillna(0) / 100) +
-                   list(-(df_s["pct_negativo"] - 50).fillna(0)[::-1] / 100)),
-                fill="toself",
+                x=x_vals,
+                y=y_pos,
+                fill=None,
+                line=dict(color="rgba(0,0,0,0)"),
+                showlegend=False,
+                hoverinfo="skip",
+            ))
+            fig_ts.add_trace(go.Scatter(
+                x=x_vals,
+                y=y_neg,
+                fill="tonexty",
                 fillcolor=_hex_to_rgba(color, 0.10),
                 line=dict(color="rgba(0,0,0,0)"),
                 showlegend=False,
                 hoverinfo="skip",
             ))
             fig_ts.add_trace(go.Scatter(
-                x=df_s["fecha"],
+                x=x_vals,
                 y=df_s["sentimiento_medio"],
                 name=partido,
                 mode="lines+markers",
@@ -778,16 +819,20 @@ with tab_noticias:
             partidos   = row.get("partidos_mencionados", "") or ""
             temas_raw  = row.get("temas_json", "[]") or "[]"
             try:
-                temas = json.loads(temas_raw) if isinstance(temas_raw, str) else temas_raw
+                temas_raw_clean = str(temas_raw).strip().lstrip("\ufeff")
+                temas = json.loads(temas_raw_clean) if isinstance(temas_raw_clean, str) else temas_raw_clean
             except Exception:
                 temas = []
+            titular_trunc = str(row.get("titular", ""))[:100]
+            titular_safe = escape(titular_trunc)
+            url_safe = escape(str(row.get("url", "#")))
 
             partidos_html = "".join(
-                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p.strip()}</span>'
+                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{escape(p.strip())}</span>'
                 for p in partidos.split(",") if p.strip()
             )
             temas_html = "".join(
-                f'<span class="badge" style="background:rgba(0,212,255,0.08);color:{CYAN};border:1px solid rgba(0,212,255,0.2);margin-right:3px">{t}</span>'
+                f'<span class="badge" style="background:rgba(0,212,255,0.08);color:{CYAN};border:1px solid rgba(0,212,255,0.2);margin-right:3px">{escape(str(t))}</span>'
                 for t in temas[:3]
             )
             css_cls = "news-pos" if sent == "positivo" else "news-neg" if sent == "negativo" else "news-neu"
@@ -795,8 +840,8 @@ with tab_noticias:
                 f'<div class="news-card {css_cls}">'
                 f'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
                 f'<div style="flex:1">'
-                f'<a href="{row.get("url","#")}" target="_blank" style="font-weight:600;color:{TEXT};text-decoration:none;font-size:.9rem">{str(row.get("titular",""))[:100]}</a>'
-                f'<div style="margin-top:.3rem;font-size:.75rem;color:{MUTED}">{row.get("fuente","—")} · {str(row.get("fecha_publicacion",""))[:10]} &nbsp; {partidos_html} {temas_html}</div>'
+                f'<a href="{url_safe}" target="_blank" style="font-weight:600;color:{TEXT};text-decoration:none;font-size:.9rem">{titular_safe}</a>'
+                f'<div style="margin-top:.3rem;font-size:.75rem;color:{MUTED}">{escape(str(row.get("fuente","—")))} · {escape(str(row.get("fecha_publicacion",""))[:10])} &nbsp; {partidos_html} {temas_html}</div>'
                 f'</div>'
                 f'<div style="margin-left:1rem;text-align:right;min-width:4rem">'
                 f'<div style="font-size:1rem;font-weight:700;color:{sent_color};font-family:JetBrains Mono,monospace">{sent_score:+.2f}</div>'
@@ -812,17 +857,27 @@ with tab_noticias:
 # ── Tab 4: Bulos y Desinformación ─────────────────────────────────────────────
 with tab_bulos:
     bulos_fuente = cargar_bulos_newtral(limit=18)
-    bulos_data = bulos_fuente if bulos_fuente else cargar_bulos_desde_noticias(df_noticias, limit=18)
+    bulos_desde_noticias = [] if bulos_fuente else cargar_bulos_desde_noticias(df_noticias, limit=18)
+    bulos_data = bulos_fuente if bulos_fuente else bulos_desde_noticias
+    usando_sinteticos = False
     if not bulos_data:
         bulos_data = BULOS_RECIENTES[:18]
+        usando_sinteticos = True
 
+    subtitulo_bulos = (
+        "Mostrando datos ilustrativos por falta de señal en fuentes verificadas."
+        if usando_sinteticos
+        else "Seguimiento de bulos verificados por Newtral/Maldita/EFE y detección preliminar desde prensa monitorizada."
+    )
     st.markdown(
         f'<div class="info-banner">'
         f'<div style="font-weight:700;font-size:.95rem;color:{TEXT}">Monitor de Desinformación — Abril 2026</div>'
-        f'<div style="font-size:.82rem;color:{TEXT2};margin-top:.3rem">Seguimiento de bulos verificados por Newtral/Maldita/EFE y detección preliminar desde prensa monitorizada. Sin datos sintéticos.</div>'
+        f'<div style="font-size:.82rem;color:{TEXT2};margin-top:.3rem">{subtitulo_bulos}</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
+    if usando_sinteticos:
+        st.warning("Mostrando bulos sintéticos de referencia por falta de datos verificables en esta ventana.")
 
     if not bulos_data:
         st.info("No se detectaron bulos en las fuentes verificadas ni en la prensa ingestada para esta ventana temporal.")
@@ -906,30 +961,22 @@ with tab_bulos:
         b["titular_bulo"][:60] + "..." if len(b["titular_bulo"]) > 60 else b["titular_bulo"]
         for b in bulos_data
     ]
-    fig_timeline = go.Figure()
-    for i, bulo in enumerate(bulos_data):
-        fig_timeline.add_trace(go.Scatter(
-            x=[bulo["fecha"]],
-            y=[i],
-            mode="markers+text",
-            marker=dict(
-                size=18,
-                color=VEREDICTO_COLORS.get(bulo["veredicto"], MUTED),
-                line=dict(color=BG2, width=2),
-            ),
-            text=[bulo["veredicto"]],
-            textposition="middle right",
-            textfont=dict(size=9, color=TEXT2),
-            hovertemplate=(
-                f"<b>{bulo['fecha']}</b><br>"
-                f"{bulo['titular_bulo'][:80]}<br>"
-                f"Veredicto: <b>{bulo['veredicto']}</b><br>"
-                f"Impacto: {bulo['impacto']}<br>"
-                f"Fuente: {bulo['fuente_verificacion']}"
-                "<extra></extra>"
-            ),
-            showlegend=False,
-        ))
+    fig_timeline = go.Figure(go.Scatter(
+        x=[b["fecha"] for b in bulos_data],
+        y=list(range(len(bulos_data))),
+        mode="markers",
+        marker=dict(
+            size=18,
+            color=[VEREDICTO_COLORS.get(b["veredicto"], MUTED) for b in bulos_data],
+            line=dict(color=BG2, width=2),
+        ),
+        customdata=[
+            [b["titular_bulo"][:80], b["veredicto"], b["impacto"], b["fuente_verificacion"]]
+            for b in bulos_data
+        ],
+        hovertemplate="<b>%{x}</b><br>%{customdata[0]}<br>Veredicto: <b>%{customdata[1]}</b><br>Impacto: %{customdata[2]}<br>Fuente: %{customdata[3]}<extra></extra>",
+        showlegend=False,
+    ))
     fig_timeline.update_layout(
         height=320,
         paper_bgcolor="rgba(0,0,0,0)",
@@ -961,30 +1008,34 @@ with tab_bulos:
     for bulo in bulos_mostrar:
         ver_color    = VEREDICTO_COLORS.get(bulo["veredicto"], MUTED)
         partidos_html = "".join(
-            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
+            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{escape(str(p))}</span>'
             for p in bulo["partidos_implicados"]
+        )
+        url_html = (
+            f'<div style="margin-top:.45rem"><a href="{escape(str(bulo.get("url","")))}" target="_blank" style="color:{CYAN};font-size:.75rem;text-decoration:none">Ver fuente →</a></div>'
+            if bulo.get("url")
+            else ""
         )
         card = (
             f'<div class="bulo-card" style="border-left:3px solid {ver_color}">'
             f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">'
             f'<div style="flex:1">'
-            f'<div style="font-weight:700;font-size:.92rem;color:{TEXT};margin-bottom:.3rem">{bulo["titular_bulo"]}</div>'
-            f'<div style="font-size:.75rem;color:{MUTED}">{bulo["fecha"]} &nbsp;&bull;&nbsp; Origen: {bulo["fuente_origen"]} &nbsp;&bull;&nbsp; {partidos_html}</div>'
+            f'<div style="font-weight:700;font-size:.92rem;color:{TEXT};margin-bottom:.3rem">{escape(str(bulo["titular_bulo"]))}</div>'
+            f'<div style="font-size:.75rem;color:{MUTED}">{escape(str(bulo["fecha"]))} &nbsp;&bull;&nbsp; Origen: {escape(str(bulo["fuente_origen"]))} &nbsp;&bull;&nbsp; {partidos_html}</div>'
             f'</div>'
             f'<div style="margin-left:1rem;flex-shrink:0">'
-            f'<span class="badge" style="background:{ver_color}25;color:{ver_color};border:1px solid {ver_color}55;font-size:.75rem;padding:.25rem .7rem">{bulo["veredicto"]}</span>'
+            f'<span class="badge" style="background:{ver_color}25;color:{ver_color};border:1px solid {ver_color}55;font-size:.75rem;padding:.25rem .7rem">{escape(str(bulo["veredicto"]))}</span>'
             f'</div>'
             f'</div>'
-            f'<div style="font-size:.82rem;color:{TEXT2};background:{BG3};border-radius:6px;padding:.6rem .8rem;margin-bottom:.4rem;line-height:1.5">{bulo["explicacion"]}</div>'
+            f'<div style="font-size:.82rem;color:{TEXT2};background:{BG3};border-radius:6px;padding:.6rem .8rem;margin-bottom:.4rem;line-height:1.5">{escape(str(bulo["explicacion"]))}</div>'
             f'<div style="display:flex;justify-content:space-between;font-size:.75rem;color:{MUTED}">'
-            f'<span>Impacto: <b style="color:{TEXT2}">{bulo["impacto"]}</b></span>'
-            f'<span>Verificado por: <b style="color:{CYAN}">{bulo["fuente_verificacion"]}</b></span>'
+            f'<span>Impacto: <b style="color:{TEXT2}">{escape(str(bulo["impacto"]))}</b></span>'
+            f'<span>Verificado por: <b style="color:{CYAN}">{escape(str(bulo["fuente_verificacion"]))}</b></span>'
             f'</div>'
+            f'{url_html}'
             f'</div>'
         )
         st.markdown(card, unsafe_allow_html=True)
-        if bulo.get("url"):
-            st.markdown(f"[Ver fuente]({bulo['url']})")
 
 st.caption(
     "Fuentes: El País, El Mundo, ABC, RTVE, La Vanguardia, El Confidencial, elDiario.es, "

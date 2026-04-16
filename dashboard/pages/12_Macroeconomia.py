@@ -8,6 +8,7 @@ por perfil de votante. Diseñado para analistas políticos y financieros.
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -86,7 +87,17 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Cargar datos reales ───────────────────────────────────────────────────────
-df_macro = cargar_macro_ultimo()
+@st.cache_data(ttl=900, show_spinner=False)
+def _macro_cached() -> pd.DataFrame:
+    return cargar_macro_ultimo()
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _micro_cached() -> dict[str, dict]:
+    return _build_micro_from_profiles()
+
+
+df_macro = _macro_cached()
 
 # Valores por defecto si la BD está vacía
 macro_vals = {
@@ -104,16 +115,24 @@ macro_vals = {
 if not df_macro.empty:
     r = df_macro.iloc[0]
     for k in macro_vals:
-        if k in r and r[k] is not None:
+        if k in r.index and pd.notna(r[k]):
             macro_vals[k] = float(r[k])
+
+macro_period = "último dato"
+if not df_macro.empty:
+    r0 = df_macro.iloc[0]
+    if "fecha" in r0.index and pd.notna(r0["fecha"]):
+        macro_period = str(r0["fecha"])[:10]
+    elif "periodo" in r0.index and pd.notna(r0["periodo"]):
+        macro_period = str(r0["periodo"])
 
 # ── KPIs principales ──────────────────────────────────────────────────────────
 st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores clave — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 kpi_data = [
-    ("PIB (crecimiento)", f"{macro_vals['crecimiento_pib']:.1f}%", "interanual T4 2025", GREEN if macro_vals['crecimiento_pib'] > 1.5 else RED),
-    ("Tasa de paro (EPA)", f"{macro_vals['tasa_paro']:.1f}%", "Q4 2025", GREEN if macro_vals['tasa_paro'] < 10 else (AMBER if macro_vals['tasa_paro'] < 14 else RED)),
-    ("IPC general", f"{macro_vals['ipc_general']:.1f}%", "marzo 2026", GREEN if macro_vals['ipc_general'] < 2.5 else (AMBER if macro_vals['ipc_general'] < 4 else RED)),
+    ("PIB (crecimiento)", f"{macro_vals['crecimiento_pib']:.1f}%", macro_period, GREEN if macro_vals['crecimiento_pib'] > 1.5 else RED),
+    ("Tasa de paro (EPA)", f"{macro_vals['tasa_paro']:.1f}%", macro_period, GREEN if macro_vals['tasa_paro'] < 10 else (AMBER if macro_vals['tasa_paro'] < 14 else RED)),
+    ("IPC general", f"{macro_vals['ipc_general']:.1f}%", macro_period, GREEN if macro_vals['ipc_general'] < 2.5 else (AMBER if macro_vals['ipc_general'] < 4 else RED)),
     ("Prima de riesgo", f"{macro_vals['prima_riesgo']:.0f} pb", "vs Bund alemán", GREEN if macro_vals['prima_riesgo'] < 80 else (AMBER if macro_vals['prima_riesgo'] < 150 else RED)),
     ("Euríbor 12M", f"{macro_vals['euribor_12m']:.2f}%", "última sesión", AMBER),
     ("Deuda pública/PIB", f"{macro_vals['deuda_pib']:.1f}%", "2025", AMBER if macro_vals['deuda_pib'] > 100 else GREEN),
@@ -152,15 +171,20 @@ with tab1:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Prima de riesgo: España vs Italia vs Portugal (pb)</span><div class="line"></div></div>', unsafe_allow_html=True)
         # Serie histórica sintética (2020-2026)
         fechas_mes = pd.date_range("2020-01", "2026-04", freq="ME")
-        np.random.seed(1)
-        prima_es = 80 + np.cumsum(np.random.normal(0, 3, len(fechas_mes)))
-        prima_it = 130 + np.cumsum(np.random.normal(0, 4, len(fechas_mes)))
-        prima_pt = 65 + np.cumsum(np.random.normal(0, 2.5, len(fechas_mes)))
+        rng = np.random.default_rng(seed=1)
+        prima_es = 80 + np.cumsum(rng.normal(0, 3, len(fechas_mes)))
+        prima_it = 130 + np.cumsum(rng.normal(0, 4, len(fechas_mes)))
+        prima_pt = 65 + np.cumsum(rng.normal(0, 2.5, len(fechas_mes)))
         prima_es = np.clip(prima_es, 40, 220)
         prima_it = np.clip(prima_it, 80, 280)
         prima_pt = np.clip(prima_pt, 30, 160)
-        # Forzar ultimo valor al real
-        prima_es[-1] = macro_vals["prima_riesgo"]
+        # Forzar último valor al real, suavizando para evitar salto visual brusco.
+        target_prima = float(macro_vals["prima_riesgo"])
+        if len(prima_es) >= 4:
+            base = float(prima_es[-4])
+            for j in range(1, 4):
+                prima_es[-j] = base + (target_prima - base) * (j / 3.0)
+        prima_es[-1] = target_prima
 
         fig_prima = go.Figure()
         fig_prima.add_trace(go.Scatter(x=fechas_mes, y=prima_es, name="España", line=dict(color=RED, width=2.5)))
@@ -181,6 +205,7 @@ with tab1:
     with col_b:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Euríbor 12 meses — Evolución histórica (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         euribor_hist = [-0.5, -0.5, -0.5, 0.0, 0.8, 2.1, 3.8, 4.1, 3.9, 3.5, 3.2, 2.9, 2.82]
+        euribor_hist[-1] = float(macro_vals["euribor_12m"])
         fechas_eur = pd.date_range("2021-04", periods=len(euribor_hist), freq="4ME")
         colores_eur = [RED if v > 3.5 else (AMBER if v > 2 else GREEN) for v in euribor_hist]
         fig_eur = go.Figure()
@@ -190,7 +215,7 @@ with tab1:
             marker=dict(color=colores_eur, size=8),
             name="Euríbor 12M",
         ))
-        fig_eur.add_hrect(y0=0, y1=0, line_width=2, line_dash="dash", line_color=MUTED)
+        fig_eur.add_hline(y=0, line_width=2, line_dash="dash", line_color=MUTED, annotation_text="Umbral cero", annotation_position="right")
         fig_eur.add_annotation(x=fechas_eur[-1], y=euribor_hist[-1],
                                text=f"Actual: {euribor_hist[-1]:.2f}%",
                                showarrow=True, arrowhead=2, bgcolor=AMBER,
@@ -249,6 +274,7 @@ with tab1:
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_ipc, use_container_width=True)
+        st.caption("Componentes sectoriales de IPC estimados; IPC general sincronizado con el dato más reciente disponible.")
 
     with col_d:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Deuda pública: España en contexto europeo (%PIB)</span><div class="line"></div></div>', unsafe_allow_html=True)
@@ -403,6 +429,7 @@ with tab2:
                 "pct_alquiler": pct_alquiler,
                 "hipoteca": hipoteca,
                 "gasto": gasto,
+                "renta_neta_mensual": int(round(neto)),
                 "ahorro": ahorro,
                 "deuda_media": deuda_media,
                 "euribor_sens": 2 if pct_alquiler > 55 else 8,
@@ -414,7 +441,7 @@ with tab2:
             }
         return out
 
-    MICRO = _build_micro_from_profiles()
+    MICRO = _micro_cached()
     if not MICRO:
         MICRO = {
             "Centro Pragmático": {
@@ -433,8 +460,8 @@ with tab2:
     with col_m1:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Cascada de ingresos y gastos mensuales (€)</span><div class="line"></div></div>', unsafe_allow_html=True)
         renta_mensual = m["renta"] / 12 * 0.78  # aprox neta
-        total_gasto = sum(m["gasto"].values())
-        ahorro = renta_mensual - total_gasto
+        renta_mensual = float(m.get("renta_neta_mensual", m["renta"] / 12 * 0.79))
+        ahorro = float(m.get("ahorro", 0))
 
         conceptos = ["Renta neta mensual"] + list(m["gasto"].keys()) + ["Ahorro/déficit"]
         valores = [renta_mensual] + [-v for v in m["gasto"].values()] + [ahorro]
@@ -519,8 +546,13 @@ with tab2:
     tipo_actual = euribor_actual + 0.5  # diferencial habitual
     tipo_nuevo = tipo_actual + subida_eur
     n = anos_restantes * 12
-    cuota_actual = capital_hip * (tipo_actual/100/12) / (1 - (1 + tipo_actual/100/12)**(-n))
-    cuota_nueva  = capital_hip * (tipo_nuevo/100/12) / (1 - (1 + tipo_nuevo/100/12)**(-n))
+    def _cuota(capital: float, tipo_anual_pct: float, n_meses: int) -> float:
+        r = tipo_anual_pct / 100.0 / 12.0
+        if abs(r) < 1e-12:
+            return capital / max(n_meses, 1)
+        return capital * r / (1 - (1 + r) ** (-n_meses))
+    cuota_actual = _cuota(capital_hip, tipo_actual, n)
+    cuota_nueva = _cuota(capital_hip, tipo_nuevo, n)
 
     col_r1, col_r2, col_r3 = st.columns(3)
     with col_r1:
@@ -547,7 +579,7 @@ with tab2:
     ])
     st.dataframe(
         df_comp.style.background_gradient(subset=["Renta anual (€)"], cmap="Blues")
-                     .background_gradient(subset=["Paro (%)"], cmap="Reds_r"),
+                     .background_gradient(subset=["Paro (%)"], cmap="RdYlGn_r"),
         use_container_width=True, hide_index=True,
     )
 
@@ -562,7 +594,8 @@ with tab3:
 
     with col_n1:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Curva de tipos bonos españoles (% rendimiento)</span><div class="line"></div></div>', unsafe_allow_html=True)
-        vencimientos = ["3M", "6M", "1A", "2A", "3A", "5A", "7A", "10A", "15A", "30A"]
+        vencimientos = [0.25, 0.5, 1, 2, 3, 5, 7, 10, 15, 30]
+        venc_labels = ["3M", "6M", "1A", "2A", "3A", "5A", "7A", "10A", "15A", "30A"]
         rendimientos = [3.2, 3.1, 2.95, 2.88, 2.92, 3.05, 3.18, 3.35, 3.52, 3.78]
         fig_curva = go.Figure(go.Scatter(
             x=vencimientos, y=rendimientos,
@@ -574,7 +607,7 @@ with tab3:
         fig_curva.update_layout(
             height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             yaxis=dict(title="Rendimiento (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            xaxis=dict(title="Vencimiento", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+            xaxis=dict(title="Vencimiento", tickvals=vencimientos, ticktext=venc_labels, tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
             font=dict(color=TEXT2),
             margin=dict(t=10, b=10),
         )
@@ -589,7 +622,7 @@ with tab3:
         fig_pmi = go.Figure()
         fig_pmi.add_trace(go.Scatter(x=meses_pmi, y=pmi_es,  name="España", line=dict(color=RED, width=2.5)))
         fig_pmi.add_trace(go.Scatter(x=meses_pmi, y=pmi_eur, name="Eurozona", line=dict(color=BLUE, width=2)))
-        fig_pmi.add_hrect(y0=50, y1=50, line_width=2, line_dash="dash", line_color=MUTED)
+        fig_pmi.add_hline(y=50, line_width=2, line_dash="dash", line_color=MUTED)
         fig_pmi.add_annotation(x=meses_pmi[-1], y=50.5, text="Umbral expansión/contracción",
                                showarrow=False, font=dict(size=10, color=MUTED))
         fig_pmi.update_layout(
@@ -607,9 +640,9 @@ with tab3:
     with col_n3:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Confianza del consumidor vs confianza empresarial</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_conf = pd.date_range("2024-01", "2026-04", freq="ME")
-        np.random.seed(3)
-        conf_cons = -8 + np.cumsum(np.random.normal(0.2, 1.2, len(meses_conf)))
-        conf_emp  =  2 + np.cumsum(np.random.normal(0.3, 0.8, len(meses_conf)))
+        rng_conf = np.random.default_rng(seed=3)
+        conf_cons = -8 + np.cumsum(rng_conf.normal(0.2, 1.2, len(meses_conf)))
+        conf_emp  =  2 + np.cumsum(rng_conf.normal(0.3, 0.8, len(meses_conf)))
         conf_cons = np.clip(conf_cons, -25, 10)
         conf_emp  = np.clip(conf_emp,  -10, 15)
         fig_conf = go.Figure()
@@ -702,10 +735,20 @@ with tab4:
                 name=row["Gobierno"],
                 showlegend=False,
             ))
+        fig_scatter.add_trace(go.Scatter(x=[None], y=[None], mode="markers",
+                                         marker=dict(color=RED, size=10),
+                                         name="PSOE gobernante", showlegend=True))
+        fig_scatter.add_trace(go.Scatter(x=[None], y=[None], mode="markers",
+                                         marker=dict(color=BLUE, size=10),
+                                         name="PP gobernante", showlegend=True))
         # Línea de tendencia simple
         parox = [r[1] for r in datos_historicos]
         votox = [r[2] for r in datos_historicos]
         m_coef, b_coef = np.polyfit(parox, votox, 1)
+        y_pred = m_coef * np.array(parox) + b_coef
+        ss_res = float(np.sum((np.array(votox) - y_pred) ** 2))
+        ss_tot = float(np.sum((np.array(votox) - np.mean(votox)) ** 2))
+        r2 = 0.0 if math.isclose(ss_tot, 0.0) else (1.0 - ss_res / ss_tot)
         x_trend = np.linspace(min(parox), max(parox), 100)
         fig_scatter.add_trace(go.Scatter(
             x=x_trend, y=m_coef * x_trend + b_coef,
@@ -731,7 +774,7 @@ with tab4:
             margin=dict(t=10, b=10),
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
-        st.caption(f"Correlación histórica: cada +1pp de paro → -{abs(m_coef):.2f}pp de voto al partido gobernante (R²≈0.61)")
+        st.caption(f"Correlación histórica: cada +1pp de paro → -{abs(m_coef):.2f}pp de voto al partido gobernante (R²={r2:.2f})")
 
     with col_e2:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Termómetro económico Politeia — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
@@ -754,9 +797,9 @@ with tab4:
                 "axis": {"range": [0, 100]},
                 "bar": {"color": GREEN if score_total > 60 else (AMBER if score_total > 40 else RED)},
                 "steps": [
-                    {"range": [0, 35],  "color": "#FEE2E2"},
-                    {"range": [35, 65], "color": "#FEF3C7"},
-                    {"range": [65, 100],"color": "#D1FAE5"},
+                    {"range": [0, 35],  "color": "rgba(239,68,68,0.15)"},
+                    {"range": [35, 65], "color": "rgba(245,158,11,0.15)"},
+                    {"range": [65, 100],"color": "rgba(34,197,94,0.15)"},
                 ],
                 "threshold": {"line": {"color": RED, "width": 3}, "thickness": 0.8, "value": 40},
             },
@@ -774,12 +817,12 @@ with tab4:
         ]
         for nombre, score, peso in componentes_termo:
             color_c = GREEN if score > 60 else (AMBER if score > 35 else RED)
-            bar_w = int(score * 1.5)
+            bar_w = max(0.0, min(100.0, float(score)))
             st.markdown(f"""
             <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.83rem">
                 <div style="width:160px">{nombre} <span style="color:{MUTED}">({peso})</span></div>
-                <div style="flex:1;background:{BG3};border:1px solid {BORDER};border-radius:4px;height:12px;max-width:150px">
-                    <div style="width:{bar_w}px;max-width:150px;background:{color_c};border-radius:4px;height:12px"></div>
+                <div style="flex:1;background:{BG3};border:1px solid {BORDER};border-radius:4px;height:12px">
+                    <div style="width:{bar_w:.1f}%;background:{color_c};border-radius:4px;height:12px"></div>
                 </div>
                 <div style="font-weight:700;width:35px">{score:.0f}</div>
             </div>

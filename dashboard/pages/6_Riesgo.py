@@ -23,7 +23,7 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import cargar_indicadores_riesgo, cargar_macro_ultimo
+from dashboard.db import cargar_indicadores_riesgo
 
 # ── Estilos ───────────────────────────────────────────────────────────────────
 
@@ -86,8 +86,12 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Datos ─────────────────────────────────────────────────────────────────────
-df_riesgo = cargar_indicadores_riesgo()
-df_macro = cargar_macro_ultimo()
+@st.cache_data(ttl=3600, show_spinner=False)
+def _riesgo_cached() -> pd.DataFrame:
+    return cargar_indicadores_riesgo()
+
+
+df_riesgo = _riesgo_cached()
 
 # Valores sintéticos de referencia
 DIMS_SINTETICAS = {
@@ -126,7 +130,103 @@ DIMS_SINTETICAS = {
 # Calcular índice compuesto sintético ponderado
 _pesos = {"inestabilidad_gubernamental": 0.25, "riesgo_economico_social": 0.30,
           "conflicto_territorial": 0.20, "polarizacion_politica": 0.15, "riesgo_institucional": 0.10}
+
+for _k, _p in _pesos.items():
+    if _k in DIMS_SINTETICAS:
+        DIMS_SINTETICAS[_k]["peso"] = f"{int(_p * 100)}%"
+
+
+_DIMS_DB_COLS = {
+    "inestabilidad_gubernamental": ["inestabilidad_gubernamental"],
+    "riesgo_economico_social": ["riesgo_economico_social"],
+    "conflicto_territorial": ["conflicto_territorial"],
+    "polarizacion_politica": ["polarizacion_politica"],
+    "riesgo_institucional": ["riesgo_institucional"],
+}
+
+if not df_riesgo.empty:
+    _row0 = df_riesgo.iloc[0]
+    for _dim_key, _cols in _DIMS_DB_COLS.items():
+        _val = None
+        for _col in _cols:
+            if _col in df_riesgo.columns:
+                _val = pd.to_numeric(pd.Series([_row0.get(_col)]), errors="coerce").iloc[0]
+                break
+        if pd.notna(_val):
+            DIMS_SINTETICAS[_dim_key]["valor"] = float(_val)
+
 INDICE_SINTETICO = sum(DIMS_SINTETICAS[k]["valor"] * v for k, v in _pesos.items())
+
+METRICAS_ACTUALES = {
+    "prima_riesgo_pb": 78.0,
+    "paro_pct": 11.4,
+    "dias_sin_presupuestos": 730.0,
+    "socios_gobierno": 6.0,
+    "iced_010": 6.4,
+}
+
+if not df_riesgo.empty:
+    _row0 = df_riesgo.iloc[0]
+    _metric_aliases = {
+        "prima_riesgo_pb": ["prima_riesgo", "prima_riesgo_pb", "spread_bono"],
+        "paro_pct": ["paro", "tasa_paro"],
+        "dias_sin_presupuestos": ["dias_sin_presupuestos", "días_sin_presupuestos"],
+        "socios_gobierno": ["socios_gobierno", "numero_socios"],
+        "iced_010": ["iced", "indice_crispacion", "índice_crispación"],
+    }
+    for _metric, _aliases in _metric_aliases.items():
+        for _col in _aliases:
+            if _col in df_riesgo.columns:
+                _num = pd.to_numeric(pd.Series([_row0.get(_col)]), errors="coerce").iloc[0]
+                if pd.notna(_num):
+                    METRICAS_ACTUALES[_metric] = float(_num)
+                break
+
+
+NIVELES_RIESGO = {
+    "BAJO": {"rango": (0.0, 3.0), "color": "#16a34a", "desc": "Situación política estable con riesgos manejables.", "bd_keys": {"BAJO"}},
+    "MODERADO": {"rango": (3.0, 4.5), "color": "#eab308", "desc": "Riesgo bajo control con factores de incertidumbre presentes.", "bd_keys": {"MODERADO"}},
+    "MODERADO-ALTO": {"rango": (4.5, 6.5), "color": "#d97706", "desc": "Tensiones estructurales acumuladas. Posibles perturbaciones en el corto plazo.", "bd_keys": {"MODERADO-ALTO", "MODERADO_ALTO"}},
+    "ALTO": {"rango": (6.5, 10.01), "color": "#dc2626", "desc": "Riesgo político significativo. Monitorización intensiva recomendada.", "bd_keys": {"ALTO"}},
+}
+
+
+def _classify_risk(indice: float, semaforo_bd: str) -> str:
+    sem = (semaforo_bd or "").strip().upper()
+    for nivel, cfg in NIVELES_RIESGO.items():
+        if sem in cfg["bd_keys"]:
+            return nivel
+    for nivel, cfg in NIVELES_RIESGO.items():
+        lo, hi = cfg["rango"]
+        if lo <= indice < hi:
+            return nivel
+    return "ALTO"
+
+
+def _calcular_estado(valor: float, umbral_amarillo: float, umbral_rojo: float, direccion: str, tipo: str = "continuo") -> str:
+    if tipo == "binario":
+        return "ROJO" if int(round(valor)) == 1 else "VERDE"
+    if direccion == "menor_peor":
+        if valor <= umbral_rojo:
+            return "ROJO"
+        if valor <= umbral_amarillo:
+            return "AMARILLO"
+        return "VERDE"
+    if valor >= umbral_rojo:
+        return "ROJO"
+    if valor >= umbral_amarillo:
+        return "AMARILLO"
+    return "VERDE"
+
+
+def _pct_fill(valor: float, umbral_amarillo: float, umbral_rojo: float, direccion: str, tipo: str = "continuo") -> float:
+    if tipo == "binario":
+        return 100.0 if int(round(valor)) == 1 else 0.0
+    if direccion == "menor_peor":
+        umbral_verde = max(umbral_amarillo, umbral_rojo, 1e-6)
+        return max(0.0, min(100.0, 100.0 - (valor / umbral_verde * 100.0)))
+    ref = max(umbral_rojo, umbral_amarillo, 1e-6)
+    return max(0.0, min(100.0, valor / ref * 100.0))
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -151,22 +251,9 @@ with tab1:
         semaforo_bd = ""
         usando_bd = False
 
-    if indice_total < 3 or semaforo_bd == "BAJO":
-        color_riesgo = "#16a34a"
-        nivel_str = "BAJO"
-        nivel_desc = "Situación política estable con riesgos manejables."
-    elif indice_total >= 6.5 or semaforo_bd == "ALTO":
-        color_riesgo = "#dc2626"
-        nivel_str = "ALTO"
-        nivel_desc = "Riesgo político significativo. Monitorización intensiva recomendada."
-    elif indice_total >= 4.5 or semaforo_bd == "MODERADO-ALTO":
-        color_riesgo = "#d97706"
-        nivel_str = "MODERADO-ALTO"
-        nivel_desc = "Tensiones estructurales acumuladas. Posibles perturbaciones en el corto plazo."
-    else:
-        color_riesgo = "#d97706"
-        nivel_str = "MODERADO"
-        nivel_desc = "Riesgo bajo control con factores de incertidumbre presentes."
+    nivel_str = _classify_risk(indice_total, semaforo_bd)
+    color_riesgo = NIVELES_RIESGO[nivel_str]["color"]
+    nivel_desc = NIVELES_RIESGO[nivel_str]["desc"]
 
     st.markdown("<div class='tab-content'>", unsafe_allow_html=True)
 
@@ -195,7 +282,7 @@ with tab1:
                 "threshold": {
                     "line": {"color": TEXT2, "width": 3},
                     "thickness": 0.8,
-                    "value": indice_total,
+                    "value": 6.5,
                 },
             },
         ))
@@ -266,8 +353,8 @@ with tab1:
     values = [v["valor"] for v in DIMS_SINTETICAS.values()]
 
     fig_radar = go.Figure(go.Scatterpolar(
-        r=values + [values[0]],
-        theta=labels + [labels[0]],
+        r=values,
+        theta=labels,
         fill="toself",
         fillcolor=f"rgba(37,99,235,0.15)",
         line=dict(color=BLUE, width=2),
@@ -301,11 +388,11 @@ with tab1:
     st.markdown(f"""<div class="sec-hdr" style="margin-top:.7rem"><div class="bar" style="background:{CYAN}"></div><span class="lbl">EVIDENCIAS Y PRUEBAS USADAS POR EL MODELO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     evidencias = pd.DataFrame(
         [
-            {"Prueba": "Prima de riesgo", "Métrica": "78 pb", "Interpretación": "Estrés soberano contenido pero sensible a shocks"},
-            {"Prueba": "Paro", "Métrica": "11.4%", "Interpretación": "Fragilidad social estructural"},
-            {"Prueba": "Días sin presupuestos nuevos", "Métrica": "730", "Interpretación": "Señal institucional en zona roja"},
-            {"Prueba": "Número de socios de gobierno", "Métrica": "6", "Interpretación": "Alta complejidad de coordinación legislativa"},
-            {"Prueba": "Índice de crispación (ICED)", "Métrica": "6.4/10", "Interpretación": "Debate público tensionado"},
+            {"Prueba": "Prima de riesgo", "Métrica": f"{METRICAS_ACTUALES['prima_riesgo_pb']:.0f} pb", "Interpretación": "Estrés soberano contenido pero sensible a shocks"},
+            {"Prueba": "Paro", "Métrica": f"{METRICAS_ACTUALES['paro_pct']:.1f}%", "Interpretación": "Fragilidad social estructural"},
+            {"Prueba": "Días sin presupuestos nuevos", "Métrica": f"{METRICAS_ACTUALES['dias_sin_presupuestos']:.0f}", "Interpretación": "Señal institucional en zona roja"},
+            {"Prueba": "Número de socios de gobierno", "Métrica": f"{METRICAS_ACTUALES['socios_gobierno']:.0f}", "Interpretación": "Alta complejidad de coordinación legislativa"},
+            {"Prueba": "Índice de crispación (ICED)", "Métrica": f"{METRICAS_ACTUALES['iced_010']:.1f}/10", "Interpretación": "Debate público tensionado"},
         ]
     )
     st.dataframe(evidencias, hide_index=True, use_container_width=True)
@@ -408,6 +495,12 @@ with tab2:
         },
     ]
 
+    total_prob = sum(e["probabilidad"] for e in escenarios)
+    if total_prob > 0 and abs(total_prob - 100) > 0.5:
+        st.warning(f"Las probabilidades sumaban {total_prob:.1f}% y se han renormalizado a 100%.")
+        for esc in escenarios:
+            esc["probabilidad"] = round(esc["probabilidad"] * 100.0 / total_prob, 1)
+
     for i, esc in enumerate(escenarios):
         prob = esc["probabilidad"]
         with st.expander(f"{esc['icono']} — {esc['nombre']}  ({prob}% probabilidad estimada)", expanded=(i == 3)):
@@ -422,10 +515,13 @@ with tab2:
                     gauge={
                         "axis": {"range": [0, 100], "tickfont": {"size": 8}},
                         "bar": {"color": esc["color_borde"], "thickness": 0.35},
-                        "bgcolor": "rgba(0,0,0,0)",
+                        "bgcolor": BG2,
                         "borderwidth": 1,
                         "bordercolor": BORDER,
-                        "steps": [{"range": [0, prob], "color": esc["color_bg"]}],
+                        "steps": [
+                            {"range": [0, prob], "color": esc["color_bg"]},
+                            {"range": [prob, 100], "color": "rgba(0,0,0,0)"},
+                        ],
                     },
                 ))
                 fig_prob.update_layout(height=200, margin=dict(t=30, b=10, l=20, r=20),
@@ -478,12 +574,13 @@ with tab3:
     indicadores_alerta = [
         {
             "nombre": "Prima de Riesgo",
-            "valor": 78,
+            "valor": METRICAS_ACTUALES["prima_riesgo_pb"],
             "umbral_amarillo": 100,
             "umbral_rojo": 150,
             "unidad": "pb",
             "desc": "Diferencial entre bono español y bund alemán a 10 años. Umbral amarillo: 100pb. Umbral rojo: 150pb.",
-            "estado": "VERDE",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Euríbor 12M",
@@ -492,7 +589,8 @@ with tab3:
             "umbral_rojo": 4.5,
             "unidad": "%",
             "desc": "Tipo de referencia para hipotecas variables. Impacto directo en 4M de hogares hipotecados.",
-            "estado": "VERDE",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Aprobación del Presidente",
@@ -501,25 +599,28 @@ with tab3:
             "umbral_rojo": 25,
             "unidad": "%",
             "desc": "Aprobación presidencial según CIS sintético. Por debajo del 25%, riesgo de convocatoria anticipada.",
-            "estado": "AMARILLO",
+            "direccion": "menor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Días sin Presupuestos",
-            "valor": 730,
+            "valor": METRICAS_ACTUALES["dias_sin_presupuestos"],
             "umbral_amarillo": 365,
             "umbral_rojo": 730,
             "unidad": "días",
             "desc": "Número de días desde que los últimos presupuestos fueron aprobados. Record histórico en democracia.",
-            "estado": "ROJO",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Socios de Gobierno Activos",
-            "valor": 6,
+            "valor": METRICAS_ACTUALES["socios_gobierno"],
             "umbral_amarillo": 4,
             "umbral_rojo": 6,
             "unidad": "partidos",
             "desc": "Número de partidos necesarios para aprobar legislación clave. Mayor número, mayor inestabilidad.",
-            "estado": "ROJO",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Alertas Sistémicas Activas",
@@ -528,7 +629,8 @@ with tab3:
             "umbral_rojo": 4,
             "unidad": "alertas",
             "desc": "Número de alertas sistémicas activas en el modelo ElectSim. Incluye económicas, territoriales e institucionales.",
-            "estado": "AMARILLO",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Distancia PP-PSOE en sondeos",
@@ -537,16 +639,18 @@ with tab3:
             "umbral_rojo": 10.0,
             "unidad": "pp",
             "desc": "Diferencia en intención de voto entre PP y PSOE. Valores >10pp indican ventaja estructural de la oposición.",
-            "estado": "AMARILLO",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Temperatura Mediática (ICED)",
-            "valor": 6.4,
+            "valor": METRICAS_ACTUALES["iced_010"],
             "umbral_amarillo": 5.5,
             "umbral_rojo": 7.5,
             "unidad": "/10",
             "desc": "Índice de Crispación Electoral y Discursiva. Mide el nivel de confrontación en medios y redes. Escala 0-10.",
-            "estado": "AMARILLO",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Suficiencia Moción de Censura",
@@ -555,7 +659,8 @@ with tab3:
             "umbral_rojo": 1,
             "unidad": "(0=No / 1=Sí)",
             "desc": "Indicador binario: ¿Tiene la oposición votos suficientes para prosperar una moción de censura?",
-            "estado": "VERDE",
+            "direccion": "mayor_peor",
+            "tipo": "binario",
         },
         {
             "nombre": "Días para Próximas Autonómicas",
@@ -564,7 +669,8 @@ with tab3:
             "umbral_rojo": 30,
             "unidad": "días",
             "desc": "Días hasta el próximo ciclo electoral autonómico significativo. Proximidad electoral aumenta la tensión.",
-            "estado": "VERDE",
+            "direccion": "menor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Índice de Confianza del Consumidor",
@@ -573,7 +679,8 @@ with tab3:
             "umbral_rojo": 90.0,
             "unidad": "puntos",
             "desc": "ICC del INE. Por debajo de 95 indica deterioro de expectativas. Umbral rojo: 90 puntos (recesión inminente).",
-            "estado": "AMARILLO",
+            "direccion": "menor_peor",
+            "tipo": "continuo",
         },
         {
             "nombre": "Spread CDS Soberano 5Y",
@@ -582,9 +689,19 @@ with tab3:
             "umbral_rojo": 130,
             "unidad": "pb",
             "desc": "Credit Default Swap soberano a 5 años. Mide el coste de asegurar deuda española frente a impago.",
-            "estado": "VERDE",
+            "direccion": "mayor_peor",
+            "tipo": "continuo",
         },
     ]
+
+    for ind in indicadores_alerta:
+        ind["estado"] = _calcular_estado(
+            float(ind["valor"]),
+            float(ind["umbral_amarillo"]),
+            float(ind["umbral_rojo"]),
+            str(ind.get("direccion", "mayor_peor")),
+            str(ind.get("tipo", "continuo")),
+        )
 
     SEMAFORO_COLORS = {
         "VERDE": {"bg": "rgba(34,197,94,0.12)", "text": "#22C55E", "borde": "rgba(34,197,94,0.25)", "label": "VERDE"},
@@ -623,12 +740,17 @@ with tab3:
         for col_idx, ind in enumerate(row_items):
             sc = SEMAFORO_COLORS[ind["estado"]]
             with cols[col_idx]:
-                # Barra de progreso visual (valor vs umbral rojo)
-                umbral_max = ind["umbral_rojo"] if ind["umbral_rojo"] > ind["umbral_amarillo"] else ind["umbral_amarillo"] * 1.5
-                if umbral_max > 0 and ind["valor"] <= umbral_max * 2:
-                    pct_fill = min(ind["valor"] / max(umbral_max, 0.001) * 100, 100)
-                else:
-                    pct_fill = 50
+                pct_fill = _pct_fill(
+                    float(ind["valor"]),
+                    float(ind["umbral_amarillo"]),
+                    float(ind["umbral_rojo"]),
+                    str(ind.get("direccion", "mayor_peor")),
+                    str(ind.get("tipo", "continuo")),
+                )
+
+                valor_display = f"{ind['valor']} {ind['unidad']}"
+                if ind.get("tipo") == "binario":
+                    valor_display = "SÍ" if int(round(float(ind["valor"]))) == 1 else "NO"
 
                 st.markdown(f"""
                 <div style="background:{BG2};border:1px solid {sc['borde']};
@@ -642,7 +764,7 @@ with tab3:
                                      white-space:nowrap;margin-left:0.5rem">{sc['label']}</span>
                     </div>
                     <div style="font-size:1.4rem;font-weight:700;color:{sc['text']};margin:0.4rem 0">
-                        {ind['valor']} <span style="font-size:0.8rem;color:{MUTED}">{ind['unidad']}</span>
+                        {valor_display}
                     </div>
                     <div style="background:{BORDER};border-radius:3px;height:5px;margin-bottom:0.4rem">
                         <div style="background:{sc['text']};width:{pct_fill:.0f}%;height:5px;border-radius:3px"></div>
@@ -667,24 +789,17 @@ with tab4:
     # Intentar usar datos reales de la BD
     usar_historico_bd = False
     if not df_riesgo.empty and len(df_riesgo) > 1:
-        col_fecha = None
-        if "fecha_calculo" in df_riesgo.columns:
-            col_fecha = "fecha_calculo"
-        elif "created_at" in df_riesgo.columns:
-            col_fecha = "created_at"
-        elif "fecha" in df_riesgo.columns:
-            col_fecha = "fecha"
-
-        col_indice = None
-        for c in ["indice_compuesto", "índice_compuesto", "valor"]:
-            if c in df_riesgo.columns:
-                col_indice = c
-                break
+        _FECHA_COLS = ["fecha_calculo", "created_at", "fecha", "timestamp", "date"]
+        _INDICE_COLS = ["indice_compuesto", "índice_compuesto", "valor", "riesgo"]
+        col_fecha = next((c for c in _FECHA_COLS if c in df_riesgo.columns), None)
+        col_indice = next((c for c in _INDICE_COLS if c in df_riesgo.columns), None)
 
         if col_fecha and col_indice:
             usar_historico_bd = True
             fechas_hist = pd.to_datetime(df_riesgo[col_fecha], errors="coerce")
             valores_hist = pd.to_numeric(df_riesgo[col_indice], errors="coerce")
+        else:
+            st.caption("ℹ️ Sin columnas válidas de histórico en BD. Mostrando serie sintética de referencia.")
 
     if not usar_historico_bd:
         # Serie sintética mensual 2022-2026
@@ -696,7 +811,9 @@ with tab4:
             7.0, 7.2, 6.8, 6.5, 6.3, 6.0,  # 2023 H2 — elecciones generales julio 2023
             6.2, 6.4, 6.7, 6.5, 6.3, 6.1,  # 2024 H1 — investidura enero 2024
             6.0, 6.2, 6.4, 6.6, 6.5, 6.3,  # 2024 H2
-            6.5, 6.4, 6.2, 6.4,             # 2025 H1
+            6.5, 6.4, 6.2, 6.4, 6.6, 6.5,  # 2025 H1
+            6.3, 6.5, 6.7, 6.6, 6.4, 6.3,  # 2025 H2
+            6.5, 6.4, 6.2, 6.4,            # 2026 ene-abr
         ])
         # Ajustar longitud
         n = min(len(fechas_hist), len(valores_hist))
@@ -760,7 +877,7 @@ with tab4:
         fecha_ev = pd.Timestamp(fecha_ev_str)
         if fecha_min <= fecha_ev <= fecha_max:
             fig_hist.add_vline(
-                x=fecha_ev,
+                x=fecha_ev.isoformat(),
                 line_dash="dash",
                 line_color=TEXT2,
                 line_width=1,
@@ -814,7 +931,7 @@ with tab4:
     with col_s5:
         tendencia = float(valores_hist.iloc[-1]) - float(valores_hist.iloc[-4]) if len(valores_hist) >= 4 else 0.0
         delta_str = f"{tendencia:+.1f} vs hace 3 meses"
-        st.metric("Tendencia (3M)", f"{float(valores_hist.iloc[-1]):.1f}", delta=delta_str)
+        st.metric("Tendencia (3M)", f"{float(valores_hist.iloc[-1]):.1f}", delta=delta_str, delta_color="inverse")
 
     st.markdown(f"<p style='color:{MUTED};font-size:0.8rem;margin-top:1rem'>"
                 f"{'Datos históricos reales de la BD ElectSim.' if usar_historico_bd else 'Serie sintética de referencia calibrada con eventos reales.'} "

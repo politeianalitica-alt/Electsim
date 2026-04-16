@@ -1,0 +1,258 @@
+{
+  "escenarios": [
+    {
+      "nombre": "Gobierno PP con apoyo de VOX",
+      "bloque": "derecha",
+      "partidos": ["PP", "VOX"],
+      "escanos_est": 171,
+      "prob": 38,
+      "color": "PP",
+      "tipo": "Mayoría simple con apoyos",
+      "desc": "Gobierno PP en solitario con apoyo externo de VOX en votaciones clave. PP intentaría evitar una coalición formal.",
+      "condicion": "PP necesita ~140+ escaños y VOX obtiene 30+"
+    },
+    {
+      "nombre": "Mayoría progresista ampliada",
+      "bloque": "izquierda",
+      "partidos": ["PSOE", "SUMAR", "PNV", "ERC", "EH Bildu"],
+      "escanos_est": 178,
+      "prob": 29,
+      "color": "PSOE",
+      "tipo": "Mayoría absoluta multipartidista",
+      "desc": "Renovación del gobierno actual con acuerdos reforzados con PNV, ERC y EH Bildu.",
+      "condicion": "PSOE+SUMAR necesitan ~155 escaños + apoyos nacionalistas"
+    },
+    {
+      "nombre": "Bloqueo / elecciones repetidas",
+      "bloque": "bloqueo",
+      "partidos": [],
+      "escanos_est": 0,
+      "prob": 18,
+      "color": "MUTED",
+      "tipo": "Sin mayoría viable",
+      "desc": "España repite elecciones tras fallo de investidura (ocurrió en 2015-16 y 2019).",
+      "condicion": "Ni PP ni PSOE alcanza 176 escaños con socios viables"
+    },
+    {
+      "nombre": "PP con PNV y CC",
+      "bloque": "derecha",
+      "partidos": ["PP", "PNV", "CC"],
+      "escanos_est": 176,
+      "prob": 8,
+      "color": "#336699",
+      "tipo": "Mayoría ajustada",
+      "desc": "Gobierno de centroderecha con socios nacionalistas moderados. Requiere concesiones al PNV en el cupo vasco.",
+      "condicion": "PP necesita ~165 escaños y VOX queda fuera de la mayoría"
+    },
+    {
+      "nombre": "Gran coalición PP-PSOE",
+      "bloque": "centro",
+      "partidos": ["PP", "PSOE"],
+      "escanos_est": 255,
+      "prob": 7,
+      "color": "#6B7280",
+      "tipo": "Mayoría absoluta amplia",
+      "desc": "Escenario extremo. Ambos partidos lo rechazan públicamente pero no es imposible ante una crisis institucional.",
+      "condicion": "Crisis sistémica grave o necesidad de reforma constitucional"
+    }
+  ],
+  "motivaciones": {
+    "PP": {
+      "nombre": "Partido Popular",
+      "lider": "Alberto Núñez Feijóo",
+      "bloque": "derecha",
+      "objetivo": "Llegar a La Moncloa con estabilidad presupuestaria y mayoría sólida",
+      "lineas_rojas": [
+        "Amnistía a independentistas",
+        "Plurinacionalidad constitucional",
+        "Derogación de la reforma laboral de 2021",
+        "Cualquier acuerdo que debilite la unidad territorial"
+      ],
+      "concesiones": [
+        "Bajada conjunta de impuestos sobre la renta",
+        "Refuerzo del gasto en defensa y seguridad",
+        "Política migratoria más restrictiva",
+        "Reforma del sistema de financiación autonómica"
+      ],
+      "socios_preferentes": ["VOX (si es necesario)", "CC", "PRC", "UPN", "Foro Asturias"],
+      "socios_vetados": ["ERC", "EH Bildu", "Junts en cuestiones constitucionales", "CUP"],
+      "precio_coalicion": "Vicepresidencia + Ministerios de Economía e Interior + agenda propia en seguridad",
+      "estrategia": "Máxima exigencia inicial, cede en temas simbólicos pero no en sustantivos. Prefiere gobernar en solitario con apoyos puntuales."
+    },
+    "PSOE": {
+      "nombre": "Partido Socialista Obrero Español",
+      "lider": "Pedro Sánchez",
+      "bloque": "izquierda",
+      "objetivo": "Revalidar el gobierno preservando la coalición progresista más el apoyo nacionalista",
+      "lineas_rojas": [
+        "Recortes en gasto social o en el Estado del bienestar",
+        "Reversión de derechos civiles (matrimonio igualitario, aborto, eutanasia)",
+        "Cualquier gobierno con VOX"
+      ],
+      "concesiones": [
+        "Mayor autonomía fiscal a las CCAA (concierto ampliado)",
+        "Política lingüística más flexible en Cataluña",
+        "Reforma del sistema de financiación autonómica",
+        "Transferencias de competencias pendientes"
+      ],
+      "socios_preferentes": ["SUMAR", "PNV", "Junts (transaccional)", "ERC", "EH Bildu", "BNG"],
+      "socios_vetados": ["VOX en cualquier caso"],
+      "precio_coalicion": "Ministerios clave para socios, concesiones territoriales graduales, agenda social compartida",
+      "estrategia": "Pragmatismo extremo, gestión de las contradicciones internas de la coalición. Cada acuerdo se negocia caso a caso."
+    },
+    "VOX": {
+      "nombre": "VOX",
+      "lider": "Santiago Abascal",
+      "bloque": "derecha radical",
+      "objetivo": "Entrar en el gobierno, marcar la agenda cultural y migratoria",
+      "lineas_rojas": [
+        "Cualquier política de género o identitaria",
+        "Amnistía o beneficios a independentistas",
+        "Más autonomía territorial para las CCAA",
+        "Agenda climática o impuestos ecológicos"
+      ],
+      "concesiones": [
+        "Apoyar presupuestos a cambio de política migratoria restrictiva",
+        "Derogación de leyes de violencia de género y memoria democrática",
+        "Políticas de seguridad y orden público"
+      ],
+      "socios_preferentes": ["PP (única opción viable)"],
+      "socios_vetados": ["Todos los demás — incompatibilidad ideológica total"],
+      "precio_coalicion": "Ministerio del Interior + Vicepresidencia + control de fronteras + derogación de leyes identitarias",
+      "estrategia": "Presión máxima en temas migratorio y cultural. No ceden en identidad. Prefieren la oposición dura a un acuerdo sin contenido."
+    },
+    "SUMAR": {
+      "nombre": "SUMAR",
+      "lider": "Yolanda Díaz",
+      "bloque": "izquierda",
+      "objetivo": "Mantener carteras sociales y laborales, avanzar en derechos y transición ecológica",
+      "lineas_rojas": [
+        "Recortes en prestaciones sociales o derechos laborales",
+        "Privatizaciones de servicios públicos",
+        "Reforma laboral regresiva",
+        "Gasto excesivo en defensa"
+      ],
+      "concesiones": [
+        "Flexibilidad en política exterior si hay contraprestaciones sociales",
+        "Apoyar la agenda del PSOE en temas no nucleares"
+      ],
+      "socios_preferentes": ["PSOE", "EH Bildu en temas sociales"],
+      "socios_vetados": ["PP", "VOX", "cualquier gobierno de derecha"],
+      "precio_coalicion": "Vicepresidencia Social + Ministerio de Trabajo + Ministerio de Vivienda + agenda verde",
+      "estrategia": "Negociación desde la izquierda del PSOE. Su debilidad es la fragmentación interna."
+    },
+    "PNV": {
+      "nombre": "Partido Nacionalista Vasco",
+      "lider": "Andoni Ortuzar",
+      "bloque": "nacionalismo vasco moderado",
+      "objetivo": "Ampliar el cupo vasco, transferencias pendientes, autogobierno máximo",
+      "lineas_rojas": [
+        "Recentralización de competencias",
+        "Intervención del gobierno en la política autonómica vasca",
+        "Cualquier medida que afecte al concierto económico"
+      ],
+      "concesiones": [
+        "Apoyo estable a la investidura a cambio de transferencias concretas",
+        "Son un socio muy fiable una vez cerrado el acuerdo"
+      ],
+      "socios_preferentes": ["PSOE (socio histórico)", "PP (si ofrece más autonomía)"],
+      "socios_vetados": ["VOX", "EH Bildu en coalición nacional"],
+      "precio_coalicion": "Concierto ampliado + transferencias de Seguridad Social + inversiones en el País Vasco",
+      "estrategia": "Extremadamente precisos en sus demandas. Muy fiables como socios una vez firmado el acuerdo."
+    },
+    "Junts": {
+      "nombre": "Junts per Catalunya",
+      "lider": "Carles Puigdemont",
+      "bloque": "independentismo catalán",
+      "objetivo": "Amnistía plena, autodeterminación, retorno de Puigdemont sin consecuencias",
+      "lineas_rojas": [
+        "Amnistía parcial o con condiciones",
+        "Sin negociación explícita sobre autodeterminación",
+        "Recentralización o ataque al autogobierno catalán"
+      ],
+      "concesiones": [
+        "Apoyo puntual a presupuestos a cambio de avances concretos y verificables"
+      ],
+      "socios_preferentes": ["PSOE (relación transaccional)"],
+      "socios_vetados": ["PP", "VOX"],
+      "precio_coalicion": "Amnistía plena + referéndum o consulta pactada + financiación singular para Cataluña",
+      "estrategia": "Máxima exigencia. Retirada de apoyo ante cualquier incumplimiento percibido. El socio más volátil del arco parlamentario."
+    },
+    "ERC": {
+      "nombre": "Esquerra Republicana de Catalunya",
+      "lider": "Oriol Junqueras",
+      "bloque": "independentismo catalán",
+      "objetivo": "Diálogo permanente, financiación singular, avance gradual hacia la independencia",
+      "lineas_rojas": [
+        "Represión policial o judicial del activismo independentista",
+        "Sin avances verificables en autogobierno"
+      ],
+      "concesiones": [
+        "Más flexible que Junts en plazos y formas",
+        "Acepta avances graduales si son reales"
+      ],
+      "socios_preferentes": ["PSOE"],
+      "socios_vetados": ["PP", "VOX"],
+      "precio_coalicion": "Mesa de negociación activa + financiación singular + inversiones en Cataluña",
+      "estrategia": "Más pragmática que Junts. Su debilidad es la competencia con Junts por el electorado independentista."
+    },
+    "EH Bildu": {
+      "nombre": "EH Bildu",
+      "lider": "Arnaldo Otegi (portavoz)",
+      "bloque": "izquierda abertzale",
+      "objetivo": "Políticas sociales, acercamiento de presos de ETA, ampliación del autogobierno vasco",
+      "lineas_rojas": [
+        "Militarismo o política de defensa agresiva",
+        "Recortes en derechos sociales o laborales"
+      ],
+      "concesiones": [
+        "Apoyo a presupuestos con fuerte contenido social",
+        "Transversalidad en temas de bienestar"
+      ],
+      "socios_preferentes": ["PSOE + SUMAR (coalición progresista)"],
+      "socios_vetados": ["VOX", "PP en gobiernos de derecha"],
+      "precio_coalicion": "Acercamiento de presos + más competencias autonómicas + políticas de vivienda",
+      "estrategia": "Transversal en lo social, firme en lo identitario. Han moderado su imagen electoral."
+    }
+  },
+  "compatibilidad": [
+    {"p1": "PP", "p2": "VOX", "valor": 1},
+    {"p1": "PP", "p2": "PSOE", "valor": -1},
+    {"p1": "PP", "p2": "SUMAR", "valor": -2},
+    {"p1": "PP", "p2": "PNV", "valor": 1},
+    {"p1": "PP", "p2": "Junts", "valor": -2},
+    {"p1": "PP", "p2": "ERC", "valor": -2},
+    {"p1": "PP", "p2": "EH Bildu", "valor": -2},
+    {"p1": "PP", "p2": "CC", "valor": 2},
+    {"p1": "PP", "p2": "BNG", "valor": -2},
+
+    {"p1": "PSOE", "p2": "SUMAR", "valor": 2},
+    {"p1": "PSOE", "p2": "PNV", "valor": 2},
+    {"p1": "PSOE", "p2": "Junts", "valor": 0},
+    {"p1": "PSOE", "p2": "ERC", "valor": 1},
+    {"p1": "PSOE", "p2": "EH Bildu", "valor": 1},
+    {"p1": "PSOE", "p2": "VOX", "valor": -2},
+    {"p1": "PSOE", "p2": "CC", "valor": 0},
+
+    {"p1": "SUMAR", "p2": "EH Bildu", "valor": 2},
+    {"p1": "SUMAR", "p2": "ERC", "valor": 1},
+    {"p1": "SUMAR", "p2": "PNV", "valor": 0},
+    {"p1": "SUMAR", "p2": "VOX", "valor": -2},
+    {"p1": "SUMAR", "p2": "Junts", "valor": 0},
+
+    {"p1": "VOX", "p2": "PNV", "valor": -2},
+    {"p1": "VOX", "p2": "Junts", "valor": -2},
+    {"p1": "VOX", "p2": "ERC", "valor": -2},
+    {"p1": "VOX", "p2": "EH Bildu", "valor": -2},
+
+    {"p1": "PNV", "p2": "EH Bildu", "valor": -1},
+    {"p1": "PNV", "p2": "ERC", "valor": 0},
+    {"p1": "PNV", "p2": "Junts", "valor": 0},
+
+    {"p1": "Junts", "p2": "ERC", "valor": 1},
+    {"p1": "Junts", "p2": "EH Bildu", "valor": 0},
+
+    {"p1": "ERC", "p2": "EH Bildu", "valor": 1}
+  ],
+  "partidos_orden": ["PP", "VOX", "PSOE", "SUMAR", "PNV", "EH Bildu", "ERC", "Junts"]
+}

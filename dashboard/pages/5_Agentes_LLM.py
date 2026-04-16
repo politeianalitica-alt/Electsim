@@ -7,10 +7,12 @@ en datos sintéticos calibrados con encuestas reales del CIS.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
 import sys
+import uuid
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -424,7 +426,7 @@ PROFILE_NAME_LIBRARY = [
 ]
 
 
-def _party_alias(name: str) -> str:
+def _party_alias(name: str, is_vote_field: bool = False) -> str:
     key = (name or "").strip().upper()
     alias = {
         "PARTIDOS LOCALES": "Otros",
@@ -480,7 +482,7 @@ def _party_alias(name: str) -> str:
         "9999": "NS/NC",
         "9999.0": "NS/NC",
     }
-    if key in alias:
+    if key in alias and (is_vote_field or not re.fullmatch(r"\d+(\.\d+)?", key)):
         return alias[key]
     if key in {"PP", "PSOE", "VOX", "SUMAR", "ERC", "PNV", "JUNTS", "CS", "CIUDADANOS", "BNG"}:
         return key
@@ -554,7 +556,7 @@ def _safe_vote_dist(raw: object, ideologia: float) -> dict[str, float]:
         except Exception:
             parsed = {}
     for k, v in parsed.items():
-        kk = _party_alias(k)
+        kk = _party_alias(k, is_vote_field=True)
         dist[kk] = dist.get(kk, 0.0) + max(0.0, float(v))
     total = sum(dist.values())
     if total <= 0:
@@ -705,6 +707,7 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
     }
 
 
+@st.cache_data(ttl=1800, show_spinner=False)
 def _build_unified_profiles(max_total: int = 20) -> list[dict]:
     def _unique_label(base: str, used: set[str]) -> str:
         candidate = (base or "").strip() or "Perfil"
@@ -753,7 +756,7 @@ def _values_to_shares(df: pd.DataFrame) -> dict[str, float]:
         return {}
     out: dict[str, float] = {}
     for _, r in df.iterrows():
-        k = _party_alias(str(r["categoria"]))
+        k = _party_alias(str(r["categoria"]), is_vote_field=True)
         out[k] = out.get(k, 0.0) + float(r["peso"]) * 100.0 / total
     return out
 
@@ -816,7 +819,7 @@ def _custom_profile_from_summary(
     acceso_servicios = "Alto" if habitat_attr.startswith("Gran") or "urbano" in habitat_attr.lower() else "Medio"
 
     return {
-        "id": 900001,
+        "id": str(uuid.uuid4()),
         "etiqueta": nombre_perfil.strip() or "Perfil Personalizado",
         "peso": 0.0,
         "ideo_media": float(ideologia_media),
@@ -908,13 +911,13 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
 
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Principales preocupaciones</span><div class="line"></div></div>', unsafe_allow_html=True)
         for tema, pct in p.get("preocupaciones", []):
-            bar_w = int(float(pct) * 1.8)
+            bar_w = max(0.0, min(100.0, float(pct)))
             st.markdown(
                 f"""
                 <div class="preocupacion-bar">
                   <div style="width:160px;font-size:.83rem">{tema}</div>
-                  <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:280px">
-                    <div style="width:{bar_w}px;max-width:280px;background:{p['ideo_color']};border-radius:4px;height:14px"></div>
+                  <div style="flex:1;background:{BG3};border-radius:4px;height:14px">
+                    <div style="width:{bar_w:.1f}%;background:{p['ideo_color']};border-radius:4px;height:14px"></div>
                   </div>
                   <div style="font-weight:700;font-size:.85rem;width:38px;text-align:right">{pct}%</div>
                 </div>
@@ -969,7 +972,8 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
             font=dict(color=TEXT2),
             annotations=[dict(text=f"<b>{str(p.get('etiqueta',''))[:12]}</b>", x=0.5, y=0.5, font_size=10, showarrow=False, font_color=TEXT2)],
         )
-        st.plotly_chart(fig_donut, use_container_width=True, key=f"donut_{key_suffix}")
+        safe_key = hashlib.md5(str(key_suffix).encode("utf-8")).hexdigest()[:8]
+        st.plotly_chart(fig_donut, use_container_width=True, key=f"donut_{safe_key}")
 
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Distribución geográfica</span><div class="line"></div></div>', unsafe_allow_html=True)
         ccaa_data = p.get("ccaa", {})
@@ -1021,7 +1025,7 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
 
 
 def _build_profile_evolution(voto_share: dict[str, float], ideologia_media: float, seed_text: str) -> pd.DataFrame:
-    seed = sum(ord(c) for c in (seed_text or "perfil")) % 997
+    seed = int(hashlib.sha256((seed_text or "perfil").encode("utf-8")).hexdigest()[:8], 16) % (2**31)
     rng = np.random.default_rng(seed)
     meses = ["-6m", "-5m", "-4m", "-3m", "-2m", "-1m", "actual"]
     top_parties = [k for k, _ in sorted(voto_share.items(), key=lambda x: x[1], reverse=True)[:3]]
@@ -1060,6 +1064,28 @@ def _recommended_messages(topics: list[str], party: str) -> list[str]:
         else:
             m.append(f"{party}: respuesta operativa sobre {t} con medidas medibles en 100 días.")
     return m
+
+
+def _zero_sum_deltas(raw: dict[str, float]) -> dict[str, float]:
+    if not raw:
+        return {}
+    pos = sum(v for v in raw.values() if v > 0)
+    neg = sum(v for v in raw.values() if v < 0)
+    if pos <= 0 or neg >= 0:
+        return raw
+    factor = abs(neg) / pos
+    out: dict[str, float] = {}
+    for p, v in raw.items():
+        out[p] = float(v * factor) if v > 0 else float(v)
+    return out
+
+
+def _renorm_vote_share(shares: dict[str, float]) -> dict[str, float]:
+    clipped = {k: max(0.0, float(v)) for k, v in shares.items()}
+    total = sum(clipped.values())
+    if total <= 0:
+        return clipped
+    return {k: round(v * 100.0 / total, 2) for k, v in clipped.items()}
 
 
 def _similar_profiles(perfiles: list[dict], edad_media: float, ideologia_media: float, voto_share: dict[str, float], topn: int = 3) -> list[dict]:
@@ -1281,10 +1307,10 @@ def _decode_micro_label(field: str, raw: str) -> str:
             "8996": "Abstención",
         }
         if u in party_map:
-            return _party_alias(party_map[u])
+            return _party_alias(party_map[u], is_vote_field=True)
         if re.fullmatch(r"\d+(\.\d+)?", v):
             return "Otros / No especificado"
-        return _party_alias(v)
+        return _party_alias(v, is_vote_field=True)
     if field == "recuerdo_voto_anterior":
         rec_map = {
             "1": "PSOE", "1.0": "PSOE",
@@ -1302,10 +1328,10 @@ def _decode_micro_label(field: str, raw: str) -> str:
             "9999": "NS/NC", "9999.0": "NS/NC", "9998": "NS/NC", "9998.0": "NS/NC",
         }
         if u in rec_map:
-            return _party_alias(rec_map[u])
+            return _party_alias(rec_map[u], is_vote_field=True)
         if re.fullmatch(r"\d+(\.\d+)?", v):
             return "Otros / No especificado"
-        return _party_alias(v)
+        return _party_alias(v, is_vote_field=True)
     return v
 
 
@@ -1329,6 +1355,30 @@ def _build_option_groups(raw_values: list[str], field: str) -> dict[str, tuple[s
 
 
 PERFILES_UNIFICADOS = _build_unified_profiles(max_total=20)
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _load_custom_profiles_cached(usuario_id: str) -> pd.DataFrame:
+    return cargar_perfiles_usuario_custom(usuario_id=usuario_id)
+
+
+def _to_jsonable(obj: object) -> object:
+    if isinstance(obj, dict):
+        return {str(k): _to_jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, tuple):
+        return [_to_jsonable(v) for v in obj]
+    if isinstance(obj, list):
+        return [_to_jsonable(v) for v in obj]
+    return obj
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _dist_campo_cached(filtros_json: str, campo: str, limit: int = 12) -> pd.DataFrame:
+    try:
+        filtros = json.loads(filtros_json) if filtros_json else {}
+    except Exception:
+        filtros = {}
+    return cargar_distribucion_campo_perfil_microdatos(filtros, campo, limit=limit)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -1417,13 +1467,13 @@ with tab1:
         # Preocupaciones
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Principales preocupaciones</span><div class="line"></div></div>', unsafe_allow_html=True)
         for tema, pct in p["preocupaciones"]:
-            bar_w = int(pct * 1.8)
+            bar_w = max(0.0, min(100.0, float(pct)))
             bar_color = p["ideo_color"]
             st.markdown(f"""
             <div class="preocupacion-bar">
               <div style="width:160px;font-size:.83rem">{tema}</div>
-              <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:280px">
-                <div style="width:{bar_w}px;max-width:280px;background:{bar_color};border-radius:4px;height:14px"></div>
+              <div style="flex:1;background:{BG3};border-radius:4px;height:14px">
+                <div style="width:{bar_w:.1f}%;background:{bar_color};border-radius:4px;height:14px"></div>
               </div>
               <div style="font-weight:700;font-size:.85rem;width:38px;text-align:right">{pct}%</div>
             </div>
@@ -1582,14 +1632,27 @@ with tab2:
         impactos_raw = TEMAS_IMPACTO.get(tema_sel, {})
         factor = intensidad / 5.0
 
-        # Impacto en intención de voto por partido
-        impactos_partido = {}
-        for pty, datos in impactos_raw.items():
-            pp_base = datos.get("pp_impacto", 0.0)
-            impactos_partido[pty] = round(pp_base * factor, 2)
+        # Impacto en intención de voto por partido (ajuste zero-sum).
+        impactos_partido_raw = {
+            pty: round(float(datos.get("pp_impacto", 0.0)) * factor, 2)
+            for pty, datos in impactos_raw.items()
+        }
+        impactos_partido = _zero_sum_deltas(impactos_partido_raw)
 
         # Impacto en receptividad de perfiles
         perfiles_beneficiados = impactos_raw.get(partido_emisor, {}).get("perfiles", [])
+
+        # Base de voto desde nowcasting y proyección renormalizada.
+        df_base = cargar_nowcasting()
+        base_shares = {
+            str(r["partido_siglas"]): float(r["estimacion_pct"])
+            for _, r in df_base.iterrows()
+            if "partido_siglas" in df_base.columns and "estimacion_pct" in df_base.columns
+        } if not df_base.empty else {}
+        proy = dict(base_shares)
+        for pty, delta in impactos_partido.items():
+            proy[pty] = float(proy.get(pty, 0.0) + delta)
+        proy = _renorm_vote_share(proy)
 
         st.divider()
         st.markdown(f"### Resultado para: **{partido_emisor}** — Tema: _{tema_sel}_")
@@ -1623,9 +1686,9 @@ with tab2:
         with col_r2:
             st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Receptividad por perfil de votante</span><div class="line"></div></div>', unsafe_allow_html=True)
             reacciones = []
-            for perf in PERFILES:
+            for perf in PERFILES_UNIFICADOS:
                 beneficiado = perf["etiqueta"] in perfiles_beneficiados
-                reac_base = REACCION_PERFIL.get(perf["etiqueta"], {})
+                _ = REACCION_PERFIL.get(perf["etiqueta"], {})
                 # Score de receptividad: mayor si el perfil está en la lista de beneficiados
                 score = 7.0 if beneficiado else 4.0
                 score = min(10, max(0, score + np.random.normal(0, 0.5)))
@@ -1633,12 +1696,12 @@ with tab2:
 
             reacciones.sort(key=lambda x: x[1], reverse=True)
             for etiq, score, color in reacciones:
-                bar_w = int(score * 18)
+                bar_w = max(0.0, min(100.0, float(score) * 10.0))
                 st.markdown(f"""
                 <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
                     <div style="width:150px;font-size:.82rem">{etiq}</div>
-                    <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:180px">
-                        <div style="width:{bar_w}px;background:{color};border-radius:4px;height:14px"></div>
+                    <div style="flex:1;background:{BG3};border-radius:4px;height:14px">
+                        <div style="width:{bar_w:.1f}%;background:{color};border-radius:4px;height:14px"></div>
                     </div>
                     <div style="font-weight:700;font-size:.85rem;width:40px">{score:.1f}/10</div>
                 </div>
@@ -1655,6 +1718,11 @@ with tab2:
             st.error(f"Perjudica principalmente a: **{', '.join(perjudicados)}** ({sum(v for v in impactos_partido.values() if v<0):.1f} pp de efecto negativo acumulado)")
         if perfiles_beneficiados:
             st.info(f"Perfiles más receptivos al mensaje: **{', '.join(perfiles_beneficiados)}**")
+        if proy:
+            st.caption(
+                "Proyección renormalizada (suma=100): "
+                + ", ".join(f"{k} {v:.1f}%" for k, v in sorted(proy.items(), key=lambda x: x[1], reverse=True)[:6])
+            )
     else:
         st.markdown(f"""
         <div class="card" style="border-left:3px solid {BLUE}">
@@ -2049,13 +2117,14 @@ with tab5:
             intencion_pf = cargar_intencion_perfil_microdatos(filtros_activos, limit=12)
             ccaa_pf = cargar_ccaa_perfil_microdatos(filtros_activos, limit=10)
             recuerdo_pf = cargar_recuerdo_perfil_microdatos(filtros_activos, limit=10)
-            preocup_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "principal_problema", limit=8)
-            habitat_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "tamano_habitat", limit=6)
-            ingresos_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "ingresos_hogar", limit=6)
-            religion_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "religion", limit=6)
-            econ_p_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "situacion_economica_personal", limit=5)
-            econ_e_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "situacion_economica_españa", limit=5)
-            ccaa_real_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "ccaa_residencia", limit=10)
+            filtros_json = json.dumps(_to_jsonable(filtros_activos), sort_keys=True, ensure_ascii=False)
+            preocup_pf = _dist_campo_cached(filtros_json, "principal_problema", limit=8)
+            habitat_pf = _dist_campo_cached(filtros_json, "tamano_habitat", limit=6)
+            ingresos_pf = _dist_campo_cached(filtros_json, "ingresos_hogar", limit=6)
+            religion_pf = _dist_campo_cached(filtros_json, "religion", limit=6)
+            econ_p_pf = _dist_campo_cached(filtros_json, "situacion_economica_personal", limit=5)
+            econ_e_pf = _dist_campo_cached(filtros_json, "situacion_economica_españa", limit=5)
+            ccaa_real_pf = _dist_campo_cached(filtros_json, "ccaa_residencia", limit=10)
 
             n_eff = max(80, n_obs)
             margen_base = 1.96 * math.sqrt(0.25 / n_eff) * 100.0
@@ -2077,7 +2146,11 @@ with tab5:
             )
             st.caption(f"Cobertura del ajuste: {cobertura_txt}.")
 
-            voto_share = _sanitize_vote_share(_values_to_shares(intencion_pf), ideologia_media)
+            voto_raw = _values_to_shares(intencion_pf)
+            nsnc_share = float(voto_raw.get("NS/NC", 0.0))
+            if nsnc_share >= 40.0:
+                st.caption(f"⚠️ NS/NC en el segmento: {nsnc_share:.1f}%. La estimación de voto es orientativa.")
+            voto_share = _sanitize_vote_share(voto_raw, ideologia_media)
             if voto_share:
                 rows = []
                 for k, pct in sorted(voto_share.items(), key=lambda x: x[1], reverse=True):
@@ -2209,10 +2282,14 @@ with tab5:
                     )
 
             if guardar:
+                nombre_sanitizado = (nombre_perfil or "").strip()[:80]
+                if not re.fullmatch(r"^[\w\s\-áéíóúñüÁÉÍÓÚÑÜ]{2,80}$", nombre_sanitizado):
+                    st.error("Nombre de perfil inválido. Usa 2-80 caracteres alfanuméricos.")
+                    st.stop()
                 top_vote = voto_ci.iloc[0]["partido"] if not voto_ci.empty else None
                 payload = {
                     "usuario_id": usuario_id.strip() or "default",
-                    "nombre_perfil": nombre_perfil.strip() or "perfil_objetivo",
+                    "nombre_perfil": nombre_sanitizado or "perfil_objetivo",
                     "sexo": None if sexo_sel == "Sin filtro" else sexo_sel,
                     "edad": int(round(edad_media)),
                     "estudios": None if estudios_sel == "Sin filtro" else estudios_sel,
@@ -2231,6 +2308,7 @@ with tab5:
                 }
                 res = guardar_perfil_usuario_custom(payload)
                 if res.get("ok"):
+                    _load_custom_profiles_cached.clear()
                     st.success("Perfil guardado.")
                 else:
                     st.error(f"No se pudo guardar: {res.get('error', 'error desconocido')}")
@@ -2256,7 +2334,8 @@ with tab5:
         ide_seg = float(res_seg.iloc[0].get("ideologia_media", 5.0) or 5.0) if not res_seg.empty else 5.0
         vote_seg = _sanitize_vote_share(_values_to_shares(cargar_intencion_perfil_microdatos(filtros_seg, limit=10)), ide_seg)
         top_party = next(iter(sorted(vote_seg.items(), key=lambda x: x[1], reverse=True)), ("Sin señal", 0.0))
-        preocup_seg = cargar_distribucion_campo_perfil_microdatos(filtros_seg, "principal_problema", limit=6)
+        filtros_seg_json = json.dumps(_to_jsonable(filtros_seg), sort_keys=True, ensure_ascii=False)
+        preocup_seg = _dist_campo_cached(filtros_seg_json, "principal_problema", limit=6)
         topics = [_decode_micro_label("principal_problema", str(x)) for x in preocup_seg["categoria"].tolist()] if not preocup_seg.empty else [x[0] for x in _preocupaciones_genericas(ide_seg, 40.0)[:4]]
         msgs = _recommended_messages(topics, top_party[0])
         a1, a2 = st.columns([2, 3])
@@ -2270,7 +2349,7 @@ with tab5:
             for m in msgs:
                 st.markdown(f"- {m}")
 
-    perfiles_usr_df = cargar_perfiles_usuario_custom(usuario_id=(usuario_id.strip() or "default"))
+    perfiles_usr_df = _load_custom_profiles_cached(usuario_id=(usuario_id.strip() or "default"))
     if not perfiles_usr_df.empty:
         st.markdown("##### Perfiles guardados")
         st.dataframe(perfiles_usr_df, use_container_width=True, height=220)
