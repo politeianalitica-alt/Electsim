@@ -25,7 +25,13 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import cargar_elecciones, cargar_nowcasting, cargar_macro_ultimo
+from dashboard.db import (
+    cargar_elecciones, cargar_nowcasting, cargar_macro_ultimo,
+    cargar_opciones_perfil_microdatos,
+    cargar_resumen_perfil_microdatos,
+    cargar_intencion_perfil_microdatos,
+    cargar_distribucion_campo_perfil_microdatos,
+)
 
 st.set_page_config(page_title="Escenarios — ElectSim", layout="wide")
 sidebar_nav()
@@ -257,10 +263,11 @@ def monte_carlo_escanos(estimaciones: dict, n_sims: int = 5000, sigma: float = 2
 
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "⬡  Monte Carlo de Escaños",
     "◈  Escenarios Morfológicos",
     "◎  Variables Estructurales",
+    "◉  Perfiles de Votante",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -950,3 +957,477 @@ with tab3:
                 f"<span style='font-size:.88rem;color:{TEXT2}'>{explicacion}</span>",
                 unsafe_allow_html=True,
             )
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 4 — PERFILES DE VOTANTE (MICRODATOS)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Modelo sintético de scoring ────────────────────────────────────────────────
+_EDAD_ADJ = {
+    "18-24": {"SUMAR": 14, "PSOE": 4, "Abstención": 18, "PP": -9, "VOX": -6},
+    "25-34": {"SUMAR": 9, "PSOE": 5, "Abstención": 10, "PP": -6, "VOX": -4},
+    "35-44": {"SUMAR": 3, "PSOE": 3, "PP": 1},
+    "45-54": {"PSOE": 2, "PP": 3, "VOX": 2, "SUMAR": -2},
+    "55-64": {"PP": 5, "PSOE": 3, "VOX": 3, "SUMAR": -6, "Abstención": -3},
+    "65+":   {"PP": 9, "PSOE": 5, "VOX": 4, "SUMAR": -9, "Abstención": -5},
+}
+_HABITAT_ADJ = {
+    "Rural (<2.000 hab.)":         {"PP": 6, "VOX": 5, "PSOE": 2, "SUMAR": -6},
+    "Pequeño (2.001–10.000)":      {"PP": 4, "VOX": 4, "PSOE": 2, "SUMAR": -3},
+    "Mediano (10.001–50.000)":     {},
+    "Grande (50.001–100.000)":     {"PSOE": 2, "SUMAR": 2, "PP": -1},
+    "Ciudad (100.001–400.000)":    {"PSOE": 4, "SUMAR": 5, "PP": -3, "VOX": -2},
+    "Gran ciudad (>400.000)":      {"SUMAR": 8, "PSOE": 6, "PP": -5, "VOX": -5, "Abstención": 4},
+}
+_ESTUDIOS_ADJ = {
+    "Sin estudios / Primaria":      {"PP": 3, "PSOE": 3, "VOX": 2, "SUMAR": -3, "Abstención": 5},
+    "Secundaria / ESO":             {},
+    "Bachillerato / FP":            {"SUMAR": 3, "PP": 1, "PSOE": 1},
+    "Universitarios / Posgrado":    {"SUMAR": 7, "PSOE": 5, "PP": -3, "VOX": -7},
+}
+_INGRESOS_ADJ = {
+    "Menos de 900 €/mes":   {"SUMAR": 10, "PSOE": 3, "Abstención": 12, "PP": -5, "VOX": 2},
+    "900 – 1.200 €/mes":    {"SUMAR": 6,  "PSOE": 4, "Abstención": 6,  "PP": -2},
+    "1.200 – 1.800 €/mes":  {"SUMAR": 2,  "PSOE": 3, "PP": 1},
+    "1.800 – 2.700 €/mes":  {"PP": 3,     "PSOE": 3, "SUMAR": -1},
+    "2.700 – 4.500 €/mes":  {"PP": 7,     "PSOE": 1, "SUMAR": -4, "VOX": 1},
+    "Más de 4.500 €/mes":   {"PP": 12,    "VOX": 3,  "SUMAR": -8, "PSOE": -2},
+}
+_SITLAB_ADJ = {
+    "Trabaja":           {},
+    "Jubilado/a":        {"PP": 7,  "PSOE": 4, "VOX": 3, "SUMAR": -7},
+    "Parado/a":          {"SUMAR": 7, "VOX": 5, "Abstención": 10, "PSOE": 2, "PP": -4},
+    "Estudiante":        {"SUMAR": 12, "Abstención": 16, "PSOE": 3, "PP": -7, "VOX": -6},
+    "Tareas del hogar":  {"PP": 2, "PSOE": 3},
+}
+_IDEO_ADJ = {
+    "Muy izquierda (1-2)":  {"SUMAR": 22, "PSOE": 8,  "PP": -16, "VOX": -22},
+    "Izquierda (3-4)":      {"SUMAR": 12, "PSOE": 13, "PP": -9,  "VOX": -16},
+    "Centro (5-6)":         {"PSOE": 5,   "PP": 5,    "SUMAR": -3, "VOX": -5},
+    "Derecha (7-8)":        {"PP": 14,    "VOX": 7,   "PSOE": -9, "SUMAR": -16},
+    "Muy derecha (9-10)":   {"PP": 9,     "VOX": 22,  "PSOE": -16, "SUMAR": -22},
+}
+_SEXO_ADJ = {
+    "Hombre": {"PP": 1, "VOX": 4, "SUMAR": -1, "Abstención": 1},
+    "Mujer":  {"PSOE": 4, "SUMAR": 3, "VOX": -5, "PP": -1},
+}
+
+_MENSAJES: dict[str, dict[str, str]] = {
+    "PP": {
+        "Vivienda y alquiler":      "Liberalizar el suelo y eliminar trabas a la construcción + bonificaciones fiscales al propietario",
+        "Empleo y economía":        "Bajada de IRPF a rentas medias, reducir cotizaciones a pymes y autonomía fiscal de las CCAA",
+        "Sanidad pública":          "Reducir listas de espera con gestión mixta eficiente; más plazas MIR y médicos de familia",
+        "Pensiones":                "Garantizar la sostenibilidad sin subir impuestos: modelo mixto y capitalización complementaria",
+        "Inmigración":              "Inmigración legal ordenada; expulsión efectiva y sin trabas judiciales de los irregulares",
+        "Seguridad ciudadana":      "Más inversión en Policía y GC; derogar leyes que favorecen al delincuente frente a la víctima",
+        "Corrupción":               "Transparencia total, comisión de ética interna y apoyo a la independencia judicial",
+        "Infraestructuras":         "Plan nacional de AVE convencional y banda ancha para la España vaciada",
+        "Unidad de España":         "La Constitución no se negocia; no más cesiones a independentistas a cambio de escaños",
+        "Cambio climático":         "Transición energética ordenada sin destruir empleo; nuclear como puente hacia las renovables",
+        "Despoblación rural":       "Incentivos fiscales para fijar residencia en municipios <5.000 hab.; servicios digitales en el campo",
+        "Desigualdad social":       "El empleo es la mejor política social: menos trabas para contratar y crecer",
+        "default":                  "Gobierno estable y fiable: gestión responsable, fin de la polarización y presupuestos reales",
+    },
+    "PSOE": {
+        "Vivienda y alquiler":      "Parque público de alquiler asequible y tope de precios en zonas tensionadas",
+        "Empleo y economía":        "SMI creciente, negociación colectiva fuerte y empleo de calidad para la clase trabajadora",
+        "Sanidad pública":          "Inversión directa en plantillas del SNS y cierre de la brecha de listas de espera",
+        "Pensiones":                "Revalorización automática con IPC; refuerzo de las pensiones mínimas",
+        "Cambio climático":         "Transición justa: 500.000 empleos verdes, renovables al 100 % en 2040",
+        "Desigualdad social":       "Impuesto sobre grandes fortunas + renta de emancipación para jóvenes",
+        "Igualdad de género":       "Paridad real, ampliación del permiso de paternidad y cierre de brecha salarial",
+        "Educación":                "Más inversión en educación pública; ratio máximo de 20 alumnos por aula",
+        "Infraestructuras":         "Inversión en ferrocarril convencional y digitalización de zonas rurales",
+        "Corrupción":               "Transparencia, protección de denunciantes y agilización de la justicia",
+        "Despoblación rural":       "Servicios públicos garantizados en el medio rural: el derecho a quedarse",
+        "default":                  "España avanzando: derechos sociales, empleo de calidad y Estado del bienestar reforzado",
+    },
+    "VOX": {
+        "Inmigración":              "Cierre de la frontera sur, expulsiones inmediatas y fin al efecto llamada de las políticas actuales",
+        "Seguridad ciudadana":      "Cadena perpetua revisable, tolerancia cero al reincidente; más policía en la calle",
+        "Pensiones":                "Sistema de capitalización individual: tus cotizaciones son tuyas, no del Estado",
+        "Empleo y economía":        "Eliminar impuesto de sucesiones y patrimonio; simplificación fiscal radical para empresas",
+        "Unidad de España":         "Ilegali­zar partidos independentistas; estado central fuerte frente a privilegios autonómicos",
+        "Sanidad pública":          "Atención prioritaria para quienes cotizan; acabar con el turismo sanitario",
+        "Desigualdad social":       "La meritocracia y no las cuotas como motor de ascenso social",
+        "Cambio climático":         "No al Pacto Verde que destruye el empleo agrícola e industrial español",
+        "Vivienda y alquiler":      "Desahucio inmediato y sin burocracia de los ocupas ilegales",
+        "Despoblación rural":       "Bajar impuestos al campo y eliminar trabas medioambientales al sector agrario",
+        "default":                  "España primero: seguridad, fronteras controladas y fin a la agenda ideológica de izquierdas",
+    },
+    "SUMAR": {
+        "Vivienda y alquiler":      "Alquiler social masivo y expropiación temporal de viviendas vacías de grandes tenedores",
+        "Empleo y economía":        "Jornada de 32h sin bajada salarial + salario mínimo vital universal",
+        "Cambio climático":         "100 % renovables en 2040 con transición justa y 500.000 empleos verdes",
+        "Desigualdad social":       "Impuesto a la riqueza y las herencias; renta básica universal incondicional",
+        "Igualdad de género":       "Aborto como derecho en la sanidad pública, paridad real en empresas e instituciones",
+        "Sanidad pública":          "Reversión de todas las privatizaciones sanitarias; sanidad universal sin excepciones",
+        "Educación":                "Universidad pública gratuita para todos y eliminación de las tasas de matrícula",
+        "Movilidad y transporte":   "Transporte público gratuito en ciudades y grandes áreas metropolitanas",
+        "Pensiones":                "Jubilación flexible desde los 60 para trabajos duros o con trayectoria larga",
+        "Despoblación rural":       "Servicios públicos garantizados en municipios rurales; incentivos para vivir en el campo",
+        "default":                  "Más derechos, menos desigualdad: que la economía trabaje para la mayoría y no solo para unos pocos",
+    },
+}
+
+_VULNERABILIDADES: dict[str, str] = {
+    "PP":    "Casos de corrupción interna y percepción de defender solo a rentas altas pueden alejar al votante de clase media",
+    "PSOE":  "Dependencia de socios independentistas y gestión del coste de la vida erosionan la credibilidad económica",
+    "VOX":   "Discurso percibido como extremo aleja al elector moderado y le cierra puertas en gobiernos de coalición",
+    "SUMAR": "Imagen de radicalismo económico y divisiones internas generan desconfianza en el votante pragmático",
+    "Abstención": "Perfil con alta probabilidad de no votar; el mensaje debe ser de utilidad directa y cambio tangible",
+}
+
+
+def _score_sintetico(edad, habitat, estudios, ingresos, sitlab, ideo, sexo) -> dict[str, float]:
+    scores: dict[str, float] = {"PP": 33.0, "PSOE": 28.5, "VOX": 12.0,
+                                  "SUMAR": 10.5, "Abstención": 8.0, "Otros": 7.5}
+    for adj_map, sel in [
+        (_EDAD_ADJ, edad), (_HABITAT_ADJ, habitat), (_ESTUDIOS_ADJ, estudios),
+        (_INGRESOS_ADJ, ingresos), (_SITLAB_ADJ, sitlab), (_IDEO_ADJ, ideo), (_SEXO_ADJ, sexo),
+    ]:
+        if sel and sel not in ("Todos", "") and sel in adj_map:
+            for k, v in adj_map[sel].items():
+                scores[k] = scores.get(k, 0.0) + v
+    total = sum(max(0.0, v) for v in scores.values()) or 1
+    return dict(sorted(
+        {k: round(max(0.0, v) / total * 100, 1) for k, v in scores.items()}.items(),
+        key=lambda x: -x[1],
+    ))
+
+
+def _preocupaciones_sinteticas(edad, habitat, estudios, ingresos, sitlab, ideo) -> dict[str, float]:
+    p: dict[str, float] = {
+        "Vivienda y alquiler": 45, "Empleo y economía": 55, "Sanidad pública": 52,
+        "Pensiones": 40, "Inmigración": 38, "Cambio climático": 28,
+        "Corrupción": 42, "Seguridad ciudadana": 32, "Educación": 35,
+        "Infraestructuras": 22, "Desigualdad social": 30, "Conflicto territorial": 25,
+    }
+    if edad in ("18-24", "25-34"):
+        p["Vivienda y alquiler"] += 45; p["Empleo y economía"] += 25
+        p["Cambio climático"] += 35; p["Pensiones"] -= 20; p["Inmigración"] -= 15
+    elif edad in ("55-64", "65+"):
+        p["Pensiones"] += 40; p["Sanidad pública"] += 20
+        p["Inmigración"] += 20; p["Vivienda y alquiler"] -= 25
+    if "Rural" in habitat or "Pequeño" in habitat:
+        p["Infraestructuras"] += 45; p["Inmigración"] += 15
+        p["Despoblación rural"] = 60; p["Cambio climático"] -= 10
+    elif "Gran ciudad" in habitat or "Ciudad" in habitat:
+        p["Vivienda y alquiler"] += 30; p["Desigualdad social"] += 20
+        p["Movilidad y transporte"] = 35
+    if "Universitarios" in estudios:
+        p["Cambio climático"] += 30; p["Desigualdad social"] += 20
+        p["Corrupción"] += 15; p["Inmigración"] -= 20
+    elif "Sin estudios" in estudios or "Primaria" in estudios:
+        p["Inmigración"] += 25; p["Seguridad ciudadana"] += 20
+    if "Menos de 900" in ingresos or "900 – 1.200" in ingresos:
+        p["Empleo y economía"] += 30; p["Vivienda y alquiler"] += 25; p["Desigualdad social"] += 20
+    elif "2.700" in ingresos or "4.500" in ingresos:
+        p["Impuestos y fiscalidad"] = 55; p["Seguridad ciudadana"] += 15; p["Desigualdad social"] -= 15
+    if "Parado" in sitlab:
+        p["Empleo y economía"] += 35; p["Desigualdad social"] += 20
+    elif "Jubilado" in sitlab:
+        p["Pensiones"] += 35; p["Sanidad pública"] += 25
+    elif "Estudiante" in sitlab:
+        p["Empleo y economía"] += 20; p["Educación"] += 30; p["Vivienda y alquiler"] += 25
+    if ideo and "izquierda" in ideo.lower():
+        p["Cambio climático"] += 25; p["Desigualdad social"] += 25
+        p["Igualdad de género"] = p.get("Igualdad de género", 0) + 40; p["Inmigración"] -= 25
+    elif ideo and "derecha" in ideo.lower():
+        p["Inmigración"] += 30; p["Seguridad ciudadana"] += 25
+        p["Unidad de España"] = p.get("Unidad de España", 0) + 45; p["Cambio climático"] -= 20
+    total = sum(max(0, v) for v in p.values()) or 1
+    return dict(sorted(
+        {k: round(max(0, v) / total * 100, 1) for k, v in p.items() if v > 0}.items(),
+        key=lambda x: -x[1],
+    )[:8])
+
+
+def _mensajes_partido(partido: str, preoc_top: list[str]) -> list[tuple[str, str]]:
+    d = _MENSAJES.get(partido, {})
+    bullets = [(pr, d[pr]) for pr in preoc_top[:3] if pr in d]
+    if len(bullets) < 2 and "default" in d:
+        bullets.append(("Mensaje general", d["default"]))
+    return bullets
+
+
+with tab4:
+    st.markdown(f"""
+    <div class="sec-hdr">
+        <div class="bar" style="background:{PURPLE}"></div>
+        <span class="lbl">Constructor de Perfiles · Microdatos</span>
+        <div class="line"></div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="info-box" style="border-left-color:{PURPLE}">
+        Configura un perfil sociodemográfico y obtén la <strong style="color:{CYAN}">estimación de intención de voto</strong>,
+        las <strong style="color:{AMBER}">preocupaciones dominantes</strong> y los
+        <strong style="color:{GREEN}">temas clave que cada partido debe abordar</strong> para ganar ese voto.
+        Alimentado por microdatos CIS cuando están disponibles; modelo sintético calibrado en caso contrario.
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_sel, col_res = st.columns([1, 2], gap="large")
+
+    # ── Panel de selección ──────────────────────────────────────────────────
+    with col_sel:
+        st.markdown(f"""
+        <div style="background:{BG2};border:1px solid {BORDER};border-top:3px solid {PURPLE};
+                    border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:.8rem">
+            <div style="font-size:.6rem;font-weight:700;color:{PURPLE};letter-spacing:.18em;
+                        text-transform:uppercase;margin-bottom:1rem">Configurar perfil</div>
+        """, unsafe_allow_html=True)
+
+        sel_edad    = st.selectbox("Edad", ["Todos", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"], key="p_edad")
+        sel_habitat = st.selectbox("Tamaño de municipio", [
+            "Todos", "Rural (<2.000 hab.)", "Pequeño (2.001–10.000)",
+            "Mediano (10.001–50.000)", "Grande (50.001–100.000)",
+            "Ciudad (100.001–400.000)", "Gran ciudad (>400.000)"], key="p_hab")
+        sel_estudios = st.selectbox("Nivel de estudios", [
+            "Todos", "Sin estudios / Primaria", "Secundaria / ESO",
+            "Bachillerato / FP", "Universitarios / Posgrado"], key="p_est")
+        sel_ingresos = st.selectbox("Ingresos anuales del hogar", [
+            "Todos", "Menos de 900 €/mes", "900 – 1.200 €/mes",
+            "1.200 – 1.800 €/mes", "1.800 – 2.700 €/mes",
+            "2.700 – 4.500 €/mes", "Más de 4.500 €/mes"], key="p_ing")
+        sel_sitlab   = st.selectbox("Situación laboral", [
+            "Todos", "Trabaja", "Jubilado/a", "Parado/a", "Estudiante", "Tareas del hogar"], key="p_sit")
+        sel_ideo     = st.selectbox("Autoubicación ideológica", [
+            "Todos", "Muy izquierda (1-2)", "Izquierda (3-4)",
+            "Centro (5-6)", "Derecha (7-8)", "Muy derecha (9-10)"], key="p_ideo")
+        sel_sexo     = st.selectbox("Sexo", ["Todos", "Hombre", "Mujer"], key="p_sex")
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        # Resumen textual del perfil
+        resumen_parts = [x for x in [sel_edad, sel_habitat, sel_estudios, sel_ingresos, sel_sitlab, sel_sexo] if x != "Todos"]
+        perfil_desc = " · ".join(resumen_parts) if resumen_parts else "Electorado general"
+        st.markdown(f"""
+        <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
+                    padding:.7rem 1rem;margin-top:.4rem;font-size:.72rem;color:{TEXT2}">
+            <span style="color:{MUTED};font-size:.6rem;text-transform:uppercase;
+                         letter-spacing:.1em;font-weight:700">Perfil activo</span><br>
+            <span style="color:{TEXT};font-weight:600">{perfil_desc}</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ── Panel de resultados ─────────────────────────────────────────────────
+    with col_res:
+        # Intentar cargar microdatos reales
+        filtros_micro: dict = {}
+        if sel_edad    != "Todos": filtros_micro["grupo_edad"]        = sel_edad
+        if sel_sexo    != "Todos": filtros_micro["sexo"]              = "H" if sel_sexo == "Hombre" else "M"
+        if sel_sitlab  != "Todos": filtros_micro["situacion_laboral"] = sel_sitlab
+
+        df_resumen_micro = pd.DataFrame()
+        df_intencion_micro = pd.DataFrame()
+        df_problemas_micro = pd.DataFrame()
+        usando_bd = False
+        n_micro = 0
+
+        try:
+            df_resumen_micro  = cargar_resumen_perfil_microdatos(filtros_micro)
+            df_intencion_micro = cargar_intencion_perfil_microdatos(filtros_micro, limit=8)
+            df_problemas_micro = cargar_distribucion_campo_perfil_microdatos(filtros_micro, "principal_problema", limit=8)
+            if not df_resumen_micro.empty:
+                n_micro = int(df_resumen_micro.iloc[0].get("n", 0) or 0)
+                usando_bd = n_micro >= 10
+        except Exception:
+            pass
+
+        # Scores finales
+        scores = _score_sintetico(sel_edad, sel_habitat, sel_estudios, sel_ingresos, sel_sitlab, sel_ideo, sel_sexo)
+
+        # Si hay datos BD de intención, sobreescribir scores
+        if usando_bd and not df_intencion_micro.empty:
+            total_w = float(df_intencion_micro["peso"].sum()) or 1
+            scores_bd = {str(r["categoria"]): round(float(r["peso"]) / total_w * 100, 1)
+                         for _, r in df_intencion_micro.iterrows()
+                         if r["categoria"] not in (None, "", "NS/NC", "Blanco/Nulo")}
+            if scores_bd:
+                scores = dict(sorted(scores_bd.items(), key=lambda x: -x[1]))
+
+        preocupaciones = _preocupaciones_sinteticas(sel_edad, sel_habitat, sel_estudios, sel_ingresos, sel_sitlab, sel_ideo)
+
+        # Si hay datos BD de problemas, sobreescribir
+        if usando_bd and not df_problemas_micro.empty:
+            total_w = float(df_problemas_micro["peso"].sum()) or 1
+            preoc_bd = {str(r["categoria"]): round(float(r["peso"]) / total_w * 100, 1)
+                        for _, r in df_problemas_micro.iterrows()
+                        if r["categoria"] not in (None, "")}
+            if preoc_bd:
+                preocupaciones = dict(sorted(preoc_bd.items(), key=lambda x: -x[1])[:8])
+
+        partido_lider  = list(scores.keys())[0]
+        prob_lider     = list(scores.values())[0]
+        preoc_top      = list(preocupaciones.keys())
+        color_lider    = COLORES_PARTIDO.get(partido_lider, CYAN)
+
+        # ── KPI row ──────────────────────────────────────────────────────
+        k1, k2, k3, k4 = st.columns(4)
+        with k1:
+            src_label = f"{n_micro:,} encuestados" if usando_bd else "Modelo sintético"
+            src_color = GREEN if usando_bd else AMBER
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{src_color}55">
+                <div class="lbl">Fuente datos</div>
+                <div class="val" style="font-size:.9rem;color:{src_color}">{src_label}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k2:
+            lr, lg, lb = int(color_lider[1:3],16), int(color_lider[3:5],16), int(color_lider[5:7],16)
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:rgba({lr},{lg},{lb},.55)">
+                <div class="lbl">Partido líder</div>
+                <div class="val" style="color:{color_lider}">{partido_lider}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k3:
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{CYAN}55">
+                <div class="lbl">Prob. estimada</div>
+                <div class="val">{prob_lider:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k4:
+            preoc1 = preoc_top[0] if preoc_top else "—"
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{AMBER}55">
+                <div class="lbl">Preocupación #1</div>
+                <div class="val" style="font-size:.82rem;color:{AMBER}">{preoc1}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown(f'<div style="height:.6rem"></div>', unsafe_allow_html=True)
+
+        # ── Gráficos: intención de voto + preocupaciones ─────────────────
+        gc1, gc2 = st.columns([1, 1], gap="medium")
+
+        with gc1:
+            st.markdown(f"""
+            <div class="sec-hdr" style="margin-top:.4rem">
+                <div class="bar" style="background:{CYAN}"></div>
+                <span class="lbl">Intención de voto estimada</span>
+                <div class="line"></div>
+            </div>
+            """, unsafe_allow_html=True)
+            parties_show = {k: v for k, v in list(scores.items())[:6] if v > 0.5}
+            labels_d = list(parties_show.keys())
+            values_d = list(parties_show.values())
+            colors_d = [COLORES_PARTIDO.get(p, "#64748B") for p in labels_d]
+            fig_donut = go.Figure(go.Pie(
+                labels=labels_d, values=values_d,
+                hole=.55,
+                marker=dict(colors=colors_d, line=dict(color=BG2, width=2)),
+                textfont=dict(size=11, color=TEXT2),
+                hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
+            ))
+            fig_donut.update_layout(
+                height=240, margin=dict(t=10, b=10, l=10, r=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                showlegend=True,
+                legend=dict(font=dict(size=10, color=TEXT2), bgcolor="rgba(0,0,0,0)",
+                            orientation="v", x=1.02, y=.5),
+                annotations=[dict(text=f"<b>{prob_lider:.0f}%</b>", x=.5, y=.5,
+                                  font=dict(size=18, color=color_lider), showarrow=False)],
+            )
+            st.plotly_chart(fig_donut, use_container_width=True, config={"displayModeBar": False})
+
+        with gc2:
+            st.markdown(f"""
+            <div class="sec-hdr" style="margin-top:.4rem">
+                <div class="bar" style="background:{AMBER}"></div>
+                <span class="lbl">Preocupaciones principales</span>
+                <div class="line"></div>
+            </div>
+            """, unsafe_allow_html=True)
+            preoc_labels = list(preocupaciones.keys())[:7]
+            preoc_vals   = [preocupaciones[k] for k in preoc_labels]
+            bar_colors   = [RED if v == max(preoc_vals) else AMBER if v >= sorted(preoc_vals)[-3] else MUTED
+                            for v in preoc_vals]
+            fig_preoc = go.Figure(go.Bar(
+                y=preoc_labels, x=preoc_vals, orientation="h",
+                marker=dict(color=bar_colors, line=dict(width=0)),
+                text=[f"{v:.0f}%" for v in preoc_vals], textposition="outside",
+                textfont=dict(color=TEXT2, size=9),
+            ))
+            fig_preoc.update_layout(
+                height=240, margin=dict(t=10, b=10, l=5, r=40),
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(visible=False),
+                yaxis=dict(tickfont=dict(size=9, color=TEXT2), gridcolor=BORDER),
+                font=dict(color=TEXT2),
+            )
+            st.plotly_chart(fig_preoc, use_container_width=True, config={"displayModeBar": False})
+
+        # ── Temas para ganar este voto ────────────────────────────────────
+        st.markdown(f"""
+        <div class="sec-hdr" style="margin-top:.8rem">
+            <div class="bar" style="background:{GREEN}"></div>
+            <span class="lbl">Temas que deben abordar los partidos para ganar este voto</span>
+            <div class="line"></div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="font-size:.75rem;color:{MUTED};margin-bottom:.8rem">
+            Basado en las preocupaciones del perfil · Top 3 partidos por probabilidad estimada
+        </div>
+        """, unsafe_allow_html=True)
+
+        top_partidos = [p for p in list(scores.keys())[:4] if p not in ("Abstención", "Otros") and scores[p] > 3][:3]
+        msg_cols = st.columns(len(top_partidos)) if top_partidos else []
+
+        for idx, partido in enumerate(top_partidos):
+            prob   = scores.get(partido, 0)
+            color  = COLORES_PARTIDO.get(partido, CYAN)
+            cr, cg, cb = int(color[1:3],16), int(color[3:5],16), int(color[5:7],16)
+            bullets = _mensajes_partido(partido, preoc_top)
+            vuln    = _VULNERABILIDADES.get(partido, "")
+
+            bullets_html = "".join(
+                f'<div style="display:flex;gap:.55rem;margin:.45rem 0;align-items:flex-start">'
+                f'<div style="width:4px;height:4px;border-radius:50%;background:{color};'
+                f'flex-shrink:0;margin-top:.45rem"></div>'
+                f'<div><span style="font-size:.6rem;font-weight:700;color:{color};'
+                f'text-transform:uppercase;letter-spacing:.08em">{pr}</span><br>'
+                f'<span style="font-size:.72rem;color:{TEXT2};line-height:1.45">{msg}</span></div>'
+                f'</div>'
+                for pr, msg in bullets
+            )
+            vuln_html = (
+                f'<div style="margin-top:.7rem;padding:.5rem .7rem;background:rgba({cr},{cg},{cb},.06);'
+                f'border-radius:6px;border:1px solid rgba({cr},{cg},{cb},.18)">'
+                f'<span style="font-size:.58rem;font-weight:700;color:{MUTED};text-transform:uppercase;'
+                f'letter-spacing:.1em">Riesgo</span><br>'
+                f'<span style="font-size:.7rem;color:{TEXT2};line-height:1.4">{vuln}</span></div>'
+            ) if vuln else ""
+
+            with msg_cols[idx]:
+                st.markdown(
+                    f'<div style="background:{BG2};border:1px solid {BORDER};'
+                    f'border-top:3px solid {color};border-radius:12px;padding:1.1rem 1.2rem;height:100%">'
+                    f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">'
+                    f'<span style="font-size:.85rem;font-weight:800;color:{color}">{partido}</span>'
+                    f'<span style="font-size:.68rem;font-weight:700;color:{color};'
+                    f'background:rgba({cr},{cg},{cb},.12);padding:.2rem .55rem;border-radius:999px;'
+                    f'border:1px solid rgba({cr},{cg},{cb},.3)">{prob:.1f}%</span>'
+                    f'</div>'
+                    f'{bullets_html}'
+                    f'{vuln_html}'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
+        # Si Abstención es top 2 → aviso especial
+        if scores.get("Abstención", 0) > 20:
+            abs_pct = scores["Abstención"]
+            st.markdown(f"""
+            <div class="warn-box" style="margin-top:.8rem">
+                <strong style="color:{AMBER}">⚠ Alta probabilidad de abstención ({abs_pct:.1f}%)</strong><br>
+                <span style="font-size:.82rem">Este perfil tiene una predisposición elevada a no votar.
+                Los partidos deben priorizar mensajes de <em>utilidad directa y tangible</em>:
+                medidas concretas sobre vivienda, empleo o economía que afecten inmediatamente a su situación.
+                El discurso abstracto o identitario no moviliza a este segmento.</span>
+            </div>
+            """, unsafe_allow_html=True)
