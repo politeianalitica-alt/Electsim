@@ -23,6 +23,7 @@ from sqlalchemy.engine import Engine
 
 from dashboard.ingestion.microdatos_pipeline import (
     DEFAULT_MICRODATOS_DIR,
+    _ensure_tables as ensure_microdatos_tables,
     ingest_microdatos_folder,
     save_custom_user_profile,
 )
@@ -50,6 +51,14 @@ def _q(sql: str, params: dict | None = None) -> pd.DataFrame:
     except Exception as e:
         st.warning(f"Error de BD: {e}")
         return pd.DataFrame()
+
+
+def _ensure_microdatos_schema() -> None:
+    try:
+        ensure_microdatos_tables(get_engine())
+    except Exception:
+        # No romper UI si falla la creación automática.
+        pass
 
 
 # ── Elecciones ────────────────────────────────────────────────────────────────
@@ -603,6 +612,7 @@ def cargar_perfiles_votante(limit: int = 30) -> pd.DataFrame:
 def ejecutar_ingesta_microdatos(source_dir: str = DEFAULT_MICRODATOS_DIR, max_files: int | None = None) -> dict[str, Any]:
     """Lanza la ingesta de microdatos propios y limpia cache de vistas."""
     try:
+        _ensure_microdatos_schema()
         result = ingest_microdatos_folder(
             engine=get_engine(),
             source_dir=source_dir,
@@ -618,6 +628,7 @@ def ejecutar_ingesta_microdatos(source_dir: str = DEFAULT_MICRODATOS_DIR, max_fi
 
 @st.cache_data(ttl=120)
 def cargar_microdatos_runs(limit: int = 20) -> pd.DataFrame:
+    _ensure_microdatos_schema()
     return _q(
         """
         SELECT run_id,
@@ -634,6 +645,7 @@ def cargar_microdatos_runs(limit: int = 20) -> pd.DataFrame:
 
 @st.cache_data(ttl=120)
 def cargar_microdatos_resumen(run_id: str | None = None) -> pd.DataFrame:
+    _ensure_microdatos_schema()
     if not run_id:
         run_df = cargar_microdatos_runs(limit=1)
         if run_df.empty:
@@ -655,6 +667,7 @@ def cargar_microdatos_resumen(run_id: str | None = None) -> pd.DataFrame:
 
 @st.cache_data(ttl=120)
 def cargar_microdatos_asociaciones(run_id: str | None = None, limit: int = 50) -> pd.DataFrame:
+    _ensure_microdatos_schema()
     if not run_id:
         run_df = cargar_microdatos_runs(limit=1)
         if run_df.empty:
@@ -674,6 +687,7 @@ def cargar_microdatos_asociaciones(run_id: str | None = None, limit: int = 50) -
 
 @st.cache_data(ttl=120)
 def cargar_microdatos_cohortes(run_id: str | None = None, limit: int = 100) -> pd.DataFrame:
+    _ensure_microdatos_schema()
     if not run_id:
         run_df = cargar_microdatos_runs(limit=1)
         if run_df.empty:
@@ -695,6 +709,7 @@ def cargar_microdatos_cohortes(run_id: str | None = None, limit: int = 100) -> p
 
 @st.cache_data(ttl=120)
 def cargar_microdatos_pool_ia(run_id: str | None = None, limit: int = 50) -> pd.DataFrame:
+    _ensure_microdatos_schema()
     if not run_id:
         run_df = cargar_microdatos_runs(limit=1)
         if run_df.empty:
@@ -714,6 +729,7 @@ def cargar_microdatos_pool_ia(run_id: str | None = None, limit: int = 50) -> pd.
 
 def guardar_perfil_usuario_custom(payload: dict[str, Any]) -> dict[str, Any]:
     try:
+        _ensure_microdatos_schema()
         save_custom_user_profile(get_engine(), payload)
         st.cache_data.clear()
         return {"ok": True}
@@ -723,6 +739,7 @@ def guardar_perfil_usuario_custom(payload: dict[str, Any]) -> dict[str, Any]:
 
 @st.cache_data(ttl=120)
 def cargar_perfiles_usuario_custom(usuario_id: str = "default") -> pd.DataFrame:
+    _ensure_microdatos_schema()
     return _q(
         """
         SELECT
@@ -735,4 +752,233 @@ def cargar_perfiles_usuario_custom(usuario_id: str = "default") -> pd.DataFrame:
         ORDER BY updated_at DESC
         """,
         {"usuario_id": usuario_id},
+    )
+
+
+def _build_micro_filter_where(filtros: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    mapping = {
+        "sexo": "sexo",
+        "grupo_edad": "grupo_edad",
+        "estudios": "estudios",
+        "situacion_laboral": "situacion_laboral",
+        "ocupacion": "ocupacion",
+        "clase_social_subjetiva": "clase_social_subjetiva",
+        "identidad_territorial": "identidad_territorial",
+        "ccaa_id": "ccaa_id::text",
+        "tamano_habitat": "tamano_habitat",
+        "principal_problema": "principal_problema",
+        "religion": "religion",
+        "ingresos_hogar": "ingresos_hogar",
+        "situacion_economica_personal": "situacion_economica_personal",
+        "situacion_economica_españa": "situacion_economica_españa",
+        "satisfaccion_democracia": "satisfaccion_democracia",
+        "recuerdo_voto_anterior": "recuerdo_voto_anterior",
+        "intencion_voto": "intencion_voto",
+    }
+    params: dict[str, Any] = {}
+    clauses: list[str] = []
+    for k, col in mapping.items():
+        v = filtros.get(k)
+        if not v:
+            continue
+        if isinstance(v, (list, tuple, set)):
+            vals = [str(x) for x in v if x is not None and str(x).strip() and str(x).strip().lower() not in {"todos", "all", ""}]
+            if not vals:
+                continue
+            in_params: list[str] = []
+            for i, val in enumerate(vals):
+                pk = f"f_{k}_{i}"
+                params[pk] = val
+                in_params.append(f":{pk}")
+            clauses.append(f"{col} IN ({', '.join(in_params)})")
+            continue
+        if str(v).strip().lower() in {"todos", "all", ""}:
+            continue
+        pk = f"f_{k}"
+        clauses.append(f"{col} = :{pk}")
+        params[pk] = str(v)
+    esc_bin = filtros.get("escideol_bin")
+    case_expr = """
+        (CASE
+          WHEN escala_ideologica IS NULL THEN 'NA'
+          WHEN escala_ideologica <= 2 THEN '1-2'
+          WHEN escala_ideologica <= 4 THEN '3-4'
+          WHEN escala_ideologica <= 6 THEN '5-6'
+          WHEN escala_ideologica <= 8 THEN '7-8'
+          ELSE '9-10'
+        END)
+    """
+    if isinstance(esc_bin, (list, tuple, set)):
+        esc_vals = [str(x) for x in esc_bin if x is not None and str(x).strip() and str(x).strip().lower() not in {"todos", "all", ""}]
+        if esc_vals:
+            in_params: list[str] = []
+            for i, val in enumerate(esc_vals):
+                pk = f"f_escideol_bin_{i}"
+                params[pk] = val
+                in_params.append(f":{pk}")
+            clauses.append(f"{case_expr} IN ({', '.join(in_params)})")
+    elif esc_bin and str(esc_bin).strip().lower() not in {"todos", "all", ""}:
+        params["f_escideol_bin"] = str(esc_bin)
+        clauses.append(f"{case_expr} = :f_escideol_bin")
+    where = " AND ".join(clauses) if clauses else "1=1"
+    return where, params
+
+
+@st.cache_data(ttl=120)
+def cargar_opciones_perfil_microdatos() -> dict[str, list[str]]:
+    _ensure_microdatos_schema()
+    out: dict[str, list[str]] = {}
+    cols = [
+        "sexo",
+        "grupo_edad",
+        "estudios",
+        "situacion_laboral",
+        "ocupacion",
+        "clase_social_subjetiva",
+        "identidad_territorial",
+        "ccaa_id",
+        "tamano_habitat",
+        "principal_problema",
+        "religion",
+        "ingresos_hogar",
+        "situacion_economica_personal",
+        "situacion_economica_españa",
+        "satisfaccion_democracia",
+        "recuerdo_voto_anterior",
+        "intencion_voto",
+    ]
+    for col in cols:
+        col_expr = f"{col}::text" if col == "ccaa_id" else col
+        df = _q(
+            f"""
+            SELECT DISTINCT {col_expr} AS v
+            FROM microdatos_encuesta
+            WHERE {col} IS NOT NULL AND TRIM({col_expr}) <> ''
+            ORDER BY v
+            """
+        )
+        out[col] = df["v"].astype(str).tolist() if not df.empty else []
+    out["escideol_bin"] = ["1-2", "3-4", "5-6", "7-8", "9-10", "NA"]
+    return out
+
+
+@st.cache_data(ttl=120)
+def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: str, limit: int = 12) -> pd.DataFrame:
+    _ensure_microdatos_schema()
+    where, params = _build_micro_filter_where(filtros)
+    params["limit"] = limit
+    if campo == "ccaa_residencia":
+        return _q(
+            f"""
+            SELECT COALESCE(ca.nombre, 'Sin identificar') AS categoria,
+                   SUM(COALESCE(me.peso_muestral,1)) AS peso
+            FROM microdatos_encuesta me
+            LEFT JOIN comunidades_autonomas ca ON ca.id = me.ccaa_id
+            WHERE {where.replace('ccaa_id::text', 'me.ccaa_id::text')}
+            GROUP BY COALESCE(ca.nombre, 'Sin identificar')
+            ORDER BY peso DESC
+            LIMIT :limit
+            """,
+            params,
+        )
+    allowed = {
+        "principal_problema",
+        "tamano_habitat",
+        "religion",
+        "ingresos_hogar",
+        "situacion_laboral",
+        "situacion_economica_personal",
+        "situacion_economica_españa",
+        "satisfaccion_democracia",
+        "ocupacion",
+    }
+    if campo not in allowed:
+        return pd.DataFrame(columns=["categoria", "peso"])
+    return _q(
+        f"""
+        SELECT {campo} AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
+        FROM microdatos_encuesta
+        WHERE {where}
+          AND {campo} IS NOT NULL
+          AND TRIM({campo}::text) <> ''
+        GROUP BY {campo}
+        ORDER BY peso DESC
+        LIMIT :limit
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_resumen_perfil_microdatos(filtros: dict[str, Any]) -> pd.DataFrame:
+    _ensure_microdatos_schema()
+    where, params = _build_micro_filter_where(filtros)
+    return _q(
+        f"""
+        SELECT
+          COUNT(*) AS n,
+          SUM(COALESCE(peso_muestral, 1)) AS peso_total,
+          AVG(edad) AS edad_media,
+          AVG(escala_ideologica) AS ideologia_media
+        FROM microdatos_encuesta
+        WHERE {where}
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_intencion_perfil_microdatos(filtros: dict[str, Any], limit: int = 12) -> pd.DataFrame:
+    _ensure_microdatos_schema()
+    where, params = _build_micro_filter_where(filtros)
+    params["limit"] = limit
+    return _q(
+        f"""
+        SELECT intencion_voto AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
+        FROM microdatos_encuesta
+        WHERE {where}
+          AND intencion_voto IS NOT NULL
+        GROUP BY intencion_voto
+        ORDER BY peso DESC
+        LIMIT :limit
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_ccaa_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) -> pd.DataFrame:
+    _ensure_microdatos_schema()
+    where, params = _build_micro_filter_where(filtros)
+    params["limit"] = limit
+    return _q(
+        f"""
+        SELECT identidad_territorial AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
+        FROM microdatos_encuesta
+        WHERE {where}
+          AND identidad_territorial IS NOT NULL
+        GROUP BY identidad_territorial
+        ORDER BY peso DESC
+        LIMIT :limit
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_recuerdo_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) -> pd.DataFrame:
+    _ensure_microdatos_schema()
+    where, params = _build_micro_filter_where(filtros)
+    params["limit"] = limit
+    return _q(
+        f"""
+        SELECT recuerdo_voto_anterior AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
+        FROM microdatos_encuesta
+        WHERE {where}
+          AND recuerdo_voto_anterior IS NOT NULL
+        GROUP BY recuerdo_voto_anterior
+        ORDER BY peso DESC
+        LIMIT :limit
+        """,
+        params,
     )

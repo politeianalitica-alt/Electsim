@@ -683,61 +683,69 @@ with tab_votaciones:
 
 # ── Tab 3: Agenda de Decisores ───────────────────────────────────────────────
 with tab_agenda:
-    st.markdown(
-        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem">'
-        f'<span style="font-weight:700;font-size:.92rem;color:{TEXT}">Agenda institucional y política</span>'
-        f'<span style="margin-left:.8rem;font-size:.82rem;color:{MUTED}">Semana del 14 al 18 de abril de 2026</span>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
+    sec_hdr("Agenda institucional y política (fuentes oficiales)")
+    agenda_rows = fetch_all_agendas(max_items_per_source=25)
+    df_ag = pd.DataFrame(agenda_rows)
+    if df_ag.empty:
+        st.info("No hay eventos de agenda en este momento. Reintenta tras ejecutar ETL de agendas.")
+    else:
+        for col in ["fuente", "titulo", "fecha", "tipo", "actor", "lugar", "enlace", "cita"]:
+            if col not in df_ag.columns:
+                df_ag[col] = None
+        df_ag["tipo"] = df_ag["tipo"].fillna("institucional").astype(str)
+        df_ag["actor"] = df_ag["actor"].fillna(df_ag["fuente"]).astype(str)
+        df_ag["fecha"] = df_ag["fecha"].fillna("").astype(str)
 
-    TIPO_COLORS = {
-        "institucional": BLUE,
-        "parlamento":    PURPLE,
-        "territorial":   AMBER,
-        "exterior":      "#EC4899",
-        "partido":       RED,
-        "gobierno":      GREEN,
-        "laboral":       "#06B6D4",
-        "social":        "#22C55E",
-    }
+        TIPO_COLORS = {
+            "institucional": BLUE,
+            "parlamento": PURPLE,
+            "territorial": AMBER,
+            "exterior": "#EC4899",
+            "partido": RED,
+            "gobierno": GREEN,
+            "laboral": "#06B6D4",
+            "social": "#22C55E",
+        }
 
-    decisores_sel = st.multiselect(
-        "Seleccionar decisores",
-        list(AGENDA_SEMANA.keys()),
-        default=list(AGENDA_SEMANA.keys()),
-    )
+        fuentes = ["Todas"] + sorted(df_ag["fuente"].dropna().astype(str).unique().tolist())
+        tipos = ["Todos"] + sorted(df_ag["tipo"].dropna().astype(str).unique().tolist())
+        f1, f2 = st.columns(2)
+        fuente_sel = f1.selectbox("Fuente", fuentes)
+        tipo_sel = f2.selectbox("Tipo de acto", tipos)
 
-    for decisor in decisores_sel:
-        eventos = AGENDA_SEMANA[decisor]
-        with st.expander(decisor, expanded=True):
-            for ev in eventos:
-                tipo_color = TIPO_COLORS.get(ev["tipo"], MUTED)
-                item_html = (
-                    f'<div class="agenda-item" style="border-left-color:{tipo_color}">'
-                    f'<div style="display:flex;justify-content:space-between;align-items:center">'
-                    f'<div>'
-                    f'<span style="font-size:.75rem;font-weight:600;color:{MUTED};margin-right:.6rem">{ev["dia"]}</span>'
-                    f'<span style="font-size:.88rem;color:{TEXT}">{ev["evento"]}</span>'
-                    f'</div>'
-                    f'<span class="badge" style="background:{tipo_color}20;color:{tipo_color};border:1px solid {tipo_color}44;margin-left:.8rem;flex-shrink:0">{ev["tipo"]}</span>'
-                    f'</div>'
-                    f'</div>'
-                )
-                st.markdown(item_html, unsafe_allow_html=True)
+        if fuente_sel != "Todas":
+            df_ag = df_ag[df_ag["fuente"].astype(str) == fuente_sel]
+        if tipo_sel != "Todos":
+            df_ag = df_ag[df_ag["tipo"].astype(str) == tipo_sel]
 
-    sec_hdr("Distribución de Actividad por Tipo", BLUE)
-    conteo_tipos: dict[str, int] = {}
-    for decisor in decisores_sel:
-        for ev in AGENDA_SEMANA.get(decisor, []):
-            conteo_tipos[ev["tipo"]] = conteo_tipos.get(ev["tipo"], 0) + 1
+        st.metric("Eventos normalizados", int(len(df_ag)))
+        for _, ev in df_ag.head(60).iterrows():
+            tipo = str(ev.get("tipo") or "institucional")
+            tipo_color = TIPO_COLORS.get(tipo, MUTED)
+            enlace = str(ev.get("enlace") or ev.get("url") or "").strip()
+            item_html = (
+                f'<div class="agenda-item" style="border-left-color:{tipo_color}">'
+                f'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem">'
+                f'<div style="flex:1">'
+                f'<div style="font-size:.75rem;color:{MUTED}">{str(ev.get("fecha",""))[:16]} · {ev.get("fuente","")}</div>'
+                f'<div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-top:.12rem">{ev.get("titulo","")}</div>'
+                f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.2rem">{ev.get("cita","")}</div>'
+                f'</div>'
+                f'<div style="text-align:right;flex-shrink:0">'
+                f'<span class="badge" style="background:{tipo_color}20;color:{tipo_color};border:1px solid {tipo_color}44">{tipo}</span>'
+                + (f'<div style="margin-top:.35rem"><a href="{enlace}" target="_blank" style="font-size:.75rem;color:{CYAN};text-decoration:none">Fuente</a></div>' if enlace else "")
+                + f'</div></div></div>'
+            )
+            st.markdown(item_html, unsafe_allow_html=True)
 
-    if conteo_tipos:
+        sec_hdr("Distribución por tipo de acto", BLUE)
+        tipo_count = df_ag["tipo"].value_counts().reset_index()
+        tipo_count.columns = ["tipo", "n"]
         fig_tipos_agenda = go.Figure(go.Bar(
-            x=list(conteo_tipos.keys()),
-            y=list(conteo_tipos.values()),
-            marker_color=[TIPO_COLORS.get(t, MUTED) for t in conteo_tipos.keys()],
-            text=list(conteo_tipos.values()),
+            x=tipo_count["tipo"],
+            y=tipo_count["n"],
+            marker_color=[TIPO_COLORS.get(str(t), MUTED) for t in tipo_count["tipo"]],
+            text=tipo_count["n"],
             textposition="outside",
             textfont=dict(color=TEXT2, size=10),
         ))
@@ -751,8 +759,6 @@ with tab_agenda:
             showlegend=False,
         )
         st.plotly_chart(fig_tipos_agenda, use_container_width=True)
-
-    st.caption("Agenda sintética representativa — semana del 14-18 abril 2026")
 
 # ── Tab 4: Comunicados Oficiales ─────────────────────────────────────────────
 with tab_comunicados:
@@ -779,224 +785,135 @@ with tab_comunicados:
 
 # ── Tab 5: Leyes Aprobadas esta Legislatura ──────────────────────────────────
 with tab_leyes:
-    sec_hdr("Leyes y Normas Aprobadas — XV Legislatura (2023-2026)")
+    sec_hdr("Leyes y normas con traza real (actividad parlamentaria)")
+    act = cargar_actividad_reciente_congreso(dias=540, limit=800)
+    vot = cargar_votaciones()
+    leyes = pd.DataFrame()
+    if not act.empty:
+        act = act.copy()
+        act["tipo_acto"] = act["tipo_acto"].astype(str)
+        mask = act["tipo_acto"].str.contains("ley|decreto|norma|proposición", case=False, na=False)
+        leyes = act[mask].rename(columns={"tipo_acto": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
+    if leyes.empty and not vot.empty:
+        vot = vot.copy()
+        vot["tipo_votacion"] = vot["tipo_votacion"].astype(str)
+        mask_v = vot["tipo_votacion"].str.contains("ley|decreto|norma|proposición", case=False, na=False)
+        leyes = vot[mask_v].rename(columns={"tipo_votacion": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
 
-    muy_alta = sum(1 for l in LEYES_LEGISLATURA if l["relevancia"] == "Muy Alta")
-    alta_l   = sum(1 for l in LEYES_LEGISLATURA if l["relevancia"] == "Alta")
-    media_l  = sum(1 for l in LEYES_LEGISLATURA if l["relevancia"] == "Media")
+    if leyes.empty:
+        st.info("Sin normas legislativas recientes en base de datos. Ejecuta el ETL de Congreso para poblar esta sección.")
+    else:
+        leyes = leyes.sort_values("fecha_norma", ascending=False)
+        k1, k2, k3 = st.columns(3)
+        with k1:
+            st.metric("Normas detectadas", int(len(leyes)))
+        with k2:
+            st.metric("Última actualización", str(leyes["fecha_norma"].iloc[0])[:10])
+        with k3:
+            st.metric("Partidos con actividad", int(leyes["partido_siglas"].astype(str).nunique()) if "partido_siglas" in leyes.columns else 0)
 
-    kl1, kl2, kl3, kl4 = st.columns(4)
-    with kl1:
-        st.metric("Total normas destacadas", len(LEYES_LEGISLATURA))
-    with kl2:
-        st.metric("Relevancia Muy Alta", muy_alta)
-    with kl3:
-        st.metric("Relevancia Alta", alta_l)
-    with kl4:
-        st.metric("Relevancia Media", media_l)
+        sec_hdr("Volumen legislativo por partido", BLUE)
+        if "partido_siglas" in leyes.columns:
+            por_partido = (
+                leyes.groupby("partido_siglas")
+                .size()
+                .reset_index(name="n_normas")
+                .sort_values("n_normas", ascending=False)
+                .head(12)
+            )
+            fig_lp = go.Figure(go.Bar(
+                x=por_partido["partido_siglas"],
+                y=por_partido["n_normas"],
+                marker_color=[PARTY_COLORS.get(p, MUTED) for p in por_partido["partido_siglas"]],
+                text=por_partido["n_normas"],
+                textposition="outside",
+            ))
+            fig_lp.update_layout(
+                height=280, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(tickfont=dict(color=TEXT2, size=10)),
+                yaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9), title="Nº normas"),
+                margin=dict(t=10, b=10), showlegend=False,
+            )
+            st.plotly_chart(fig_lp, use_container_width=True)
 
-    st.divider()
-
-    col_ley1, col_ley2 = st.columns(2)
-    nombres_cortos = [
-        l["nombre"][:35] + "..." if len(l["nombre"]) > 35 else l["nombre"]
-        for l in LEYES_LEGISLATURA
-    ]
-    margenes = [l["votos_favor"] - l["votos_contra"] for l in LEYES_LEGISLATURA]
-
-    with col_ley1:
-        sec_hdr("Margen de Aprobación por Ley", GREEN)
-        fig_margen = go.Figure(go.Bar(
-            x=margenes,
-            y=nombres_cortos,
-            orientation="h",
-            marker_color=[GREEN if m > 0 else RED for m in margenes],
-            text=[f"+{m}" if m > 0 else str(m) for m in margenes],
-            textposition="outside",
-            textfont=dict(color=TEXT2, size=9),
-        ))
-        fig_margen.update_layout(
-            height=320,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(
-                title="Diferencia votos (favor - contra)",
-                zeroline=True, zerolinecolor=MUTED,
-                gridcolor=BORDER,
-                tickfont=dict(color=TEXT2, size=9),
-                titlefont=dict(color=MUTED, size=9),
-            ),
-            yaxis=dict(title=None, tickfont=dict(size=9, color=TEXT2)),
-            margin=dict(t=10, b=10, l=10, r=60),
-            showlegend=False,
-        )
-        st.plotly_chart(fig_margen, use_container_width=True)
-
-    with col_ley2:
-        sec_hdr("Apoyos y Oposición por Ley", BLUE)
-        fig_apoyos = go.Figure()
-        fig_apoyos.add_trace(go.Bar(
-            name="Votos a favor",
-            x=nombres_cortos,
-            y=[l["votos_favor"] for l in LEYES_LEGISLATURA],
-            marker_color=GREEN,
-        ))
-        fig_apoyos.add_trace(go.Bar(
-            name="Votos en contra",
-            x=nombres_cortos,
-            y=[-l["votos_contra"] for l in LEYES_LEGISLATURA],
-            marker_color=RED,
-        ))
-        fig_apoyos.update_layout(
-            barmode="overlay",
-            height=320,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(title=None, tickfont=dict(size=8, color=TEXT2), tickangle=-25),
-            yaxis=dict(
-                title="Votos",
-                gridcolor=BORDER,
-                zeroline=True, zerolinecolor=MUTED,
-                tickfont=dict(color=TEXT2, size=9),
-            ),
-            legend=dict(orientation="h", y=1.05, font=dict(color=TEXT2, size=9),
-                        bgcolor="rgba(0,0,0,0)"),
-            margin=dict(t=30, b=60),
-        )
-        st.plotly_chart(fig_apoyos, use_container_width=True)
-
-    sec_hdr("Detalle de Normas Aprobadas")
-    relevancia_ley_sel = st.selectbox("Filtrar por relevancia", ["Todas", "Muy Alta", "Alta", "Media"], key="rel_ley")
-    leyes_mostrar = LEYES_LEGISLATURA if relevancia_ley_sel == "Todas" else [
-        l for l in LEYES_LEGISLATURA if l["relevancia"] == relevancia_ley_sel
-    ]
-
-    for ley in leyes_mostrar:
-        rel       = ley["relevancia"]
-        rel_color = RED if rel == "Muy Alta" else ORANGE if rel == "Alta" else AMBER
-        margen    = ley["votos_favor"] - ley["votos_contra"]
-        mg_color  = GREEN if margen > 0 else RED
-
-        apoyos_html = "".join(
-            f'<span class="badge" style="background:{PARTY_COLORS.get(p, BG3)};color:#ffffff;margin-right:3px">{p}</span>'
-            for p in ley["apoyos"]
-        )
-        oposicion_html = "".join(
-            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
-            for p in ley["oposicion"]
-        )
-        card = (
-            f'<div class="data-card" style="border-left:3px solid {rel_color}">'
-            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem">'
-            f'<div>'
-            f'<span class="badge" style="background:{BG3};color:{CYAN};border:1px solid {BORDER};margin-right:.4rem">{ley["numero"]}</span>'
-            f'<span class="badge" style="background:{BG3};color:{MUTED};border:1px solid {BORDER};margin-right:.4rem">{ley["fecha_aprobacion"]}</span>'
-            f'<span class="badge" style="background:{rel_color}25;color:{rel_color};border:1px solid {rel_color}55">Relevancia {rel}</span>'
-            f'</div>'
-            f'<span class="badge" style="background:{mg_color}25;color:{mg_color};border:1px solid {mg_color}55">{"+" if margen > 0 else ""}{margen} votos</span>'
-            f'</div>'
-            f'<div style="font-weight:700;font-size:.95rem;color:{TEXT};margin-bottom:.3rem">{ley["nombre"]}</div>'
-            f'<div style="font-size:.78rem;color:{MUTED};margin-bottom:.4rem">{ley["ministerio"]} &nbsp;&bull;&nbsp; Estado: {ley["estado"]}</div>'
-            f'<div style="font-size:.82rem;color:{TEXT2};margin-bottom:.5rem;line-height:1.5">{ley["descripcion"]}</div>'
-            f'<div style="display:flex;gap:1.5rem;flex-wrap:wrap">'
-            f'<div><div style="font-size:.7rem;color:{MUTED};margin-bottom:.2rem">A favor</div>{apoyos_html}</div>'
-            f'<div><div style="font-size:.7rem;color:{MUTED};margin-bottom:.2rem">En contra</div>{oposicion_html}</div>'
-            f'</div>'
-            f'</div>'
-        )
-        st.markdown(card, unsafe_allow_html=True)
-
-    st.caption("Selección de normas destacadas de la XV Legislatura — datos sintéticos representativos")
+        sec_hdr("Detalle de normas recientes")
+        for _, row in leyes.head(30).iterrows():
+            partido = str(row.get("partido_siglas", "N/A"))
+            estado = str(row.get("resultado", row.get("estado", "Registro")))
+            card = (
+                f'<div class="data-card" style="border-left:3px solid {BLUE}">'
+                f'<div style="display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start">'
+                f'<div style="flex:1">'
+                f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row.get("titulo_norma","")}</div>'
+                f'<div style="font-size:.77rem;color:{MUTED};margin-top:.2rem">{str(row.get("fecha_norma",""))[:10]} · {row.get("tipo","")} · {partido}</div>'
+                f'</div>'
+                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{estado}</span>'
+                f'</div>'
+                f'</div>'
+            )
+            st.markdown(card, unsafe_allow_html=True)
 
 # ── Tab 6: Comisiones de Investigación ───────────────────────────────────────
 with tab_comisiones:
-    sec_hdr("Comisiones de Investigación — XV Legislatura")
+    sec_hdr("Comisiones de investigación y actividad de comisiones (traza real)")
+    act = cargar_actividad_reciente_congreso(dias=540, limit=1000)
+    if act.empty:
+        st.info("No hay actividad de comisiones en la base de datos. Ejecuta ETL de Congreso para activarla.")
+    else:
+        act = act.copy()
+        act["tipo_acto"] = act["tipo_acto"].astype(str)
+        com = act[act["tipo_acto"].str.contains("comisi", case=False, na=False)]
+        if com.empty:
+            st.info("La base no contiene filas etiquetadas como comisión todavía.")
+        else:
+            por_comision = (
+                com.groupby("titulo")
+                .agg(
+                    ultimo_movimiento=("fecha", "max"),
+                    n_registros=("titulo", "count"),
+                    partidos=("partido_siglas", lambda s: ", ".join(sorted({str(x) for x in s if pd.notna(x)}))),
+                )
+                .reset_index()
+                .sort_values("ultimo_movimiento", ascending=False)
+            )
+            k1, k2, k3 = st.columns(3)
+            with k1:
+                st.metric("Comisiones detectadas", int(len(por_comision)))
+            with k2:
+                st.metric("Actividad 90d", int((pd.to_datetime(com["fecha"], errors="coerce") >= (pd.Timestamp.utcnow() - pd.Timedelta(days=90))).sum()))
+            with k3:
+                st.metric("Registros totales", int(len(com)))
 
-    ESTADO_COLORS = {
-        "Activa":                                GREEN,
-        "En tramitación":                        AMBER,
-        "Cerrada — Informe final aprobado":      MUTED,
-    }
+            sec_hdr("Detalle por comisión")
+            for _, row in por_comision.head(30).iterrows():
+                card = (
+                    f'<div class="data-card" style="border-left:3px solid {PURPLE}">'
+                    f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row["titulo"]}</div>'
+                    f'<div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">Último movimiento: {str(row["ultimo_movimiento"])[:10]} · Registros: {int(row["n_registros"])}</div>'
+                    f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem">Partidos con presencia: {row["partidos"] or "N/D"}</div>'
+                    f'</div>'
+                )
+                st.markdown(card, unsafe_allow_html=True)
 
-    activas  = sum(1 for c in COMISIONES_INVESTIGACION if c["estado"] == "Activa")
-    en_tram  = sum(1 for c in COMISIONES_INVESTIGACION if c["estado"] == "En tramitación")
-    cerradas = sum(1 for c in COMISIONES_INVESTIGACION if "Cerrada" in c["estado"])
-
-    kc1, kc2, kc3, kc4 = st.columns(4)
-    with kc1:
-        st.metric("Total comisiones", len(COMISIONES_INVESTIGACION))
-    with kc2:
-        st.metric("Activas", activas)
-    with kc3:
-        st.metric("En tramitación", en_tram)
-    with kc4:
-        st.metric("Cerradas", cerradas)
-
-    st.divider()
-
-    for comision in COMISIONES_INVESTIGACION:
-        estado_color = ESTADO_COLORS.get(comision["estado"], MUTED)
-        rel          = comision["relevancia_politica"]
-        rel_color    = RED if rel == "Muy Alta" else ORANGE if rel == "Alta" else AMBER
-
-        impulso_html = "".join(
-            f'<span class="badge" style="background:{PARTY_COLORS.get(p, BG3)};color:#ffffff;margin-right:3px">{p}</span>'
-            for p in comision["partidos_impulso"]
-        )
-        oposicion_html = "".join(
-            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
-            for p in comision["partidos_oposicion"]
-        )
-        card = (
-            f'<div class="data-card" style="border-left:3px solid {estado_color}">'
-            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">'
-            f'<div style="flex:1;margin-right:1rem">'
-            f'<div style="font-weight:700;font-size:.95rem;color:{TEXT};line-height:1.4;margin-bottom:.3rem">{comision["nombre"]}</div>'
-            f'<div style="font-size:.75rem;color:{MUTED}">Inicio: {comision["inicio"]} &nbsp;&bull;&nbsp; Previsión: {comision["prevision_fin"]} &nbsp;&bull;&nbsp; Presidencia: {comision["presidencia"]}</div>'
-            f'</div>'
-            f'<div style="text-align:right;flex-shrink:0">'
-            f'<div><span class="badge" style="background:{estado_color}25;color:{estado_color};border:1px solid {estado_color}55">{comision["estado"]}</span></div>'
-            f'<div style="margin-top:.3rem"><span class="badge" style="background:{rel_color}25;color:{rel_color};border:1px solid {rel_color}55">Relevancia {rel}</span></div>'
-            f'</div>'
-            f'</div>'
-            f'<div style="font-size:.83rem;color:{TEXT2};line-height:1.5;margin-bottom:.5rem">{comision["descripcion"]}</div>'
-            f'<div style="background:{BG3};border-radius:6px;padding:.5rem .8rem;margin-bottom:.5rem;font-size:.82rem;border-left:2px solid {CYAN}55">'
-            f'<span style="font-weight:600;color:{CYAN}">Últimos avances:</span>'
-            f'<span style="color:{TEXT2}"> {comision["ultimos_avances"]}</span>'
-            f'</div>'
-            f'<div style="display:flex;gap:1.5rem;flex-wrap:wrap">'
-            f'<div><div style="font-size:.7rem;color:{MUTED};margin-bottom:.2rem">Impulsada por</div>{impulso_html}</div>'
-            f'<div><div style="font-size:.7rem;color:{MUTED};margin-bottom:.2rem">Oposición</div>{oposicion_html}</div>'
-            f'</div>'
-            f'</div>'
-        )
-        st.markdown(card, unsafe_allow_html=True)
-
-    # Gráfico
-    sec_hdr("Comisiones Impulsadas por Partido", PURPLE)
-    conteo_comisiones: dict[str, int] = {}
-    for c in COMISIONES_INVESTIGACION:
-        for p in c["partidos_impulso"]:
-            conteo_comisiones[p] = conteo_comisiones.get(p, 0) + 1
-    ord_com = sorted(conteo_comisiones.items(), key=lambda x: x[1], reverse=True)
-
-    fig_com_bar = go.Figure(go.Bar(
-        x=[x[0] for x in ord_com],
-        y=[x[1] for x in ord_com],
-        marker_color=[PARTY_COLORS.get(x[0], MUTED) for x in ord_com],
-        text=[x[1] for x in ord_com],
-        textposition="outside",
-        textfont=dict(color=TEXT2, size=10),
-    ))
-    fig_com_bar.update_layout(
-        height=280,
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(title=None, tickfont=dict(color=TEXT2, size=10)),
-        yaxis=dict(title="Nº de comisiones", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
-        margin=dict(t=10, b=10),
-        showlegend=False,
-    )
-    st.plotly_chart(fig_com_bar, use_container_width=True)
-
-    st.caption("Fuente: Congreso de los Diputados — datos sintéticos representativos · XV Legislatura")
+            sec_hdr("Actividad de comisiones por partido", BLUE)
+            por_partido = (
+                com.groupby("partido_siglas")
+                .size()
+                .reset_index(name="n")
+                .sort_values("n", ascending=False)
+                .head(12)
+            )
+            fig_cp = go.Figure(go.Bar(
+                x=por_partido["partido_siglas"],
+                y=por_partido["n"],
+                marker_color=[PARTY_COLORS.get(str(p), MUTED) for p in por_partido["partido_siglas"]],
+                text=por_partido["n"],
+                textposition="outside",
+            ))
+            fig_cp.update_layout(
+                height=280, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(tickfont=dict(color=TEXT2, size=10)),
+                yaxis=dict(title="Nº registros", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
+                margin=dict(t=10, b=10), showlegend=False,
+            )
+            st.plotly_chart(fig_cp, use_container_width=True)

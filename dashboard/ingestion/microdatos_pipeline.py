@@ -36,6 +36,50 @@ DEFAULT_MICRODATOS_DIR = "/Users/antoniolegaz/Downloads/Politeria/Microdatos"
 
 _MISSING_CODES = {"-9", "-8", "-7", "97", "98", "99", "999", "9999", "nan", "none", ""}
 
+# Mapeo de código provincial INE -> id de CCAA (tabla comunidades_autonomas: 1..19)
+_PROVINCE_TO_CCAA_ID = {
+    1: 16, 2: 7, 3: 3, 4: 3, 5: 7, 6: 11, 7: 4, 8: 9, 9: 7, 10: 11,
+    11: 1, 12: 10, 13: 8, 14: 1, 15: 12, 16: 8, 17: 9, 18: 1, 19: 9, 20: 16,
+    21: 1, 22: 2, 23: 1, 24: 7, 25: 9, 26: 17, 27: 12, 28: 13, 29: 1, 30: 14,
+    31: 15, 32: 12, 33: 3, 34: 7, 35: 5, 36: 12, 37: 7, 38: 5, 39: 6, 40: 7,
+    41: 1, 42: 7, 43: 9, 44: 2, 45: 8, 46: 10, 47: 7, 48: 16, 49: 7, 50: 2,
+    51: 18, 52: 19,
+}
+
+_CCAA_NAME_TO_ID = {
+    "andalucia": 1,
+    "aragon": 2,
+    "principado de asturias": 3,
+    "asturias": 3,
+    "illes balears": 4,
+    "islas baleares": 4,
+    "baleares": 4,
+    "canarias": 5,
+    "cantabria": 6,
+    "castilla y leon": 7,
+    "castillayleon": 7,
+    "castilla-la mancha": 8,
+    "castilla la mancha": 8,
+    "cataluna": 9,
+    "catalunya": 9,
+    "comunitat valenciana": 10,
+    "comunidad valenciana": 10,
+    "extremadura": 11,
+    "galicia": 12,
+    "comunidad de madrid": 13,
+    "madrid": 13,
+    "region de murcia": 14,
+    "murcia": 14,
+    "comunidad foral de navarra": 15,
+    "navarra": 15,
+    "pais vasco": 16,
+    "euskadi": 16,
+    "la rioja": 17,
+    "rioja": 17,
+    "ceuta": 18,
+    "melilla": 19,
+}
+
 
 def _clean_col(name: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]+", "", str(name).upper())
@@ -60,6 +104,34 @@ def _as_str(v: Any, max_len: int = 80) -> str | None:
     if s.lower() in _MISSING_CODES:
         return None
     return s[:max_len]
+
+
+def _slug_text(value: str) -> str:
+    s = value.lower().strip()
+    s = (
+        s.replace("á", "a")
+        .replace("é", "e")
+        .replace("í", "i")
+        .replace("ó", "o")
+        .replace("ú", "u")
+        .replace("ü", "u")
+    )
+    s = re.sub(r"\s+", " ", s)
+    return s
+
+
+def _normalize_ccaa_id(raw_value: Any) -> int | None:
+    sval = _as_str(raw_value, 80)
+    if not sval:
+        return None
+    s = sval.replace(".0", "").strip()
+    if re.fullmatch(r"\d+", s):
+        n = int(s)
+        if 1 <= n <= 19:
+            return n
+        # Si llega un código provincial (CPRO), lo mapeamos a CCAA.
+        return _PROVINCE_TO_CCAA_ID.get(n)
+    return _CCAA_NAME_TO_ID.get(_slug_text(s))
 
 
 def _normalize_sex(v: Any) -> str | None:
@@ -105,6 +177,85 @@ def _ideology_bin(v: float | None) -> str:
     if v <= 8:
         return "7-8"
     return "9-10"
+
+
+def _normalize_party(value: Any) -> str | None:
+    s = _as_str(value, 60)
+    if not s:
+        return None
+    u = s.upper().strip()
+    mapping = {
+        "1": "PSOE", "1.0": "PSOE",
+        "2": "PP", "2.0": "PP",
+        "3": "VOX", "3.0": "VOX",
+        "4": "SUMAR", "4.0": "SUMAR",
+        "5": "CIUDADANOS", "5.0": "CIUDADANOS",
+        "6": "ERC", "6.0": "ERC",
+        "7": "JUNTS", "7.0": "JUNTS",
+        "8": "PNV", "8.0": "PNV",
+        "9": "EH BILDU", "9.0": "EH BILDU",
+        "10": "BNG", "10.0": "BNG",
+        "21": "SUMAR", "21.0": "SUMAR",
+        "8996": "ABSTENCIÓN", "8996.0": "ABSTENCIÓN",
+        "9997": "NS/NC", "9997.0": "NS/NC",
+        "9998": "NS/NC", "9998.0": "NS/NC",
+        "9999": "NS/NC", "9999.0": "NS/NC",
+        "NO DECLARA": "NS/NC",
+        "NO CONTESTA": "NS/NC",
+        "NO SABE": "NS/NC",
+    }
+    u = mapping.get(u, u)
+    if any(k in u for k in ["ABSTEN", "ABSTENC"]):
+        return "Abstención"
+    if u in {"NS/NC", "NSNC", "N.S./N.C.", "N.S", "N.C"}:
+        return "NS/NC"
+    if any(k in u for k in ["BLANCO", "NULO"]):
+        return "Blanco/Nulo"
+    party_alias = {
+        "PSOE": "PSOE",
+        "PP": "PP",
+        "VOX": "VOX",
+        "SUMAR": "SUMAR",
+        "PODEMOS": "SUMAR",
+        "UP": "SUMAR",
+        "CIUDADANOS": "Ciudadanos",
+        "CS": "Ciudadanos",
+        "ERC": "ERC",
+        "JUNTS": "Junts",
+        "JXCAT": "Junts",
+        "PNV": "PNV",
+        "EH BILDU": "EH Bildu",
+        "BILDU": "EH Bildu",
+        "BNG": "BNG",
+    }
+    if u in party_alias:
+        return party_alias[u]
+    if re.fullmatch(r"\d+(\.\d+)?", u):
+        return "Otros"
+    return s
+
+
+def _cohort_vote_bucket(vote: str | None) -> str:
+    if not vote:
+        return "NS/NC"
+    vv = str(vote).strip()
+    if vv in {"NS/NC", "Blanco/Nulo"}:
+        return vv
+    return vv
+
+
+def _age_mid_from_group(grp: str | None) -> float | None:
+    if not grp:
+        return None
+    return {
+        "<18": 17.0,
+        "18-24": 21.0,
+        "25-34": 29.5,
+        "35-44": 39.5,
+        "45-54": 49.5,
+        "55-64": 59.5,
+        "65+": 70.0,
+    }.get(str(grp).strip())
 
 
 def _find_col(df: pd.DataFrame, labels: dict[str, str], aliases: list[str], label_regex: str | None = None) -> str | None:
@@ -298,6 +449,21 @@ def _ensure_tables(engine: Engine) -> None:
         conn.execute(text("ALTER TABLE microdatos_cohortes ADD COLUMN IF NOT EXISTS clase_subjetiva VARCHAR(40)"))
         conn.execute(text("ALTER TABLE microdatos_cohortes ADD COLUMN IF NOT EXISTS ccaa VARCHAR(80)"))
         conn.execute(text("ALTER TABLE microdatos_cohortes ADD COLUMN IF NOT EXISTS cercania VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS sitlab VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS clasesub VARCHAR(40)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS ccaa VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS escideol NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS cercania VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS recuerdo VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS p12 VARCHAR(40)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS p13 VARCHAR(40)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS valor_lider_1 NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS valor_lider_2 NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS valor_lider_3 NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS valor_lider_4 NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS valor_lider_5 NUMERIC(4,1)"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS notes TEXT"))
+        conn.execute(text("ALTER TABLE perfil_usuario_custom ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW()"))
 
 
 def _get_or_create_fuente(conn) -> int:
@@ -490,9 +656,10 @@ def ingest_microdatos_folder(
                 sitlab = _as_str(row.get(col_sitlab) if col_sitlab else None, 50)
                 clasesub = _as_str(row.get(col_class) if col_class else None, 30)
                 ccaa = _as_str(row.get(col_ccaa) if col_ccaa else None, 80)
-                vote = _as_str(row.get(col_vote) if col_vote else None, 30)
-                rec = _as_str(row.get(col_rec) if col_rec else None, 30)
-                cercania = _as_str(row.get(col_cercania) if col_cercania else None, 30)
+                ccaa_id: int | None = _normalize_ccaa_id(row.get(col_ccaa) if col_ccaa else None)
+                vote = _normalize_party(row.get(col_vote) if col_vote else None)
+                rec = _normalize_party(row.get(col_rec) if col_rec else None)
+                cercania = _normalize_party(row.get(col_cercania) if col_cercania else None)
                 ideol = _as_num(row.get(col_ideol) if col_ideol else None)
                 if ideol is not None and (ideol < 0 or ideol > 10):
                     ideol = None
@@ -514,7 +681,7 @@ def ingest_microdatos_folder(
                         "estudios": studies,
                         "ocupacion": None,
                         "situacion_laboral": sitlab,
-                        "ccaa_id": None,
+                        "ccaa_id": ccaa_id,
                         "tamano_habitat": None,
                         "religion": None,
                         "clase_social_subjetiva": clasesub,
@@ -565,7 +732,7 @@ def ingest_microdatos_folder(
                 if ideol is not None:
                     c["ideo_sum_w"] += float(ideol) * float(weight)
                     c["ideo_w"] += float(weight)
-                c["votos"][vote or "NO_DECLARA"] += float(weight)
+                c["votos"][_cohort_vote_bucket(vote)] += float(weight)
                 assoc_records.append(
                     {
                         "sexo": sex,
@@ -701,9 +868,18 @@ def ingest_microdatos_folder(
                 if sexo_val:
                     sexo_val = sexo_val[:1]
                 voto_total = sum(c["votos"].values())
-                voto_dist = {}
+                voto_dist: dict[str, float] = {}
                 if voto_total > 0:
-                    voto_dist = {k: round((v / voto_total) * 100.0, 3) for k, v in c["votos"].most_common()}
+                    raw_dist = {k: round((v / voto_total) * 100.0, 3) for k, v in c["votos"].most_common()}
+                    informative = {k: v for k, v in raw_dist.items() if k not in {"NS/NC", "Blanco/Nulo"}}
+                    informative_total = sum(informative.values())
+                    if informative_total >= 20.0 and len(informative) >= 2:
+                        voto_dist = {
+                            k: round((v / informative_total) * 100.0, 3)
+                            for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)
+                        }
+                    else:
+                        voto_dist = raw_dist
                 cohort_rows.append(
                     {
                         "run_id": run_id,
@@ -788,7 +964,7 @@ def ingest_microdatos_folder(
                 )
                 inserted_assoc += len(assoc_rows)
 
-        # reconstrucción de perfiles_votante a partir de cohortes del run
+        # Añade perfiles derivados de microdatos sin eliminar los perfiles base existentes.
         cohort_df = pd.read_sql(
             text(
                 """
@@ -797,7 +973,7 @@ def ingest_microdatos_folder(
                 FROM microdatos_cohortes
                 WHERE run_id = :run_id
                 ORDER BY peso_total DESC
-                LIMIT 12
+                LIMIT 20
                 """
             ),
             conn,
@@ -805,19 +981,28 @@ def ingest_microdatos_folder(
         )
         if not cohort_df.empty:
             total_w = float(cohort_df["peso_total"].astype(float).sum()) or 1.0
-            conn.execute(text("DELETE FROM perfiles_votante"))
+            conn.execute(text("DELETE FROM perfiles_votante WHERE cluster_id >= 1000 OR label LIKE 'Microdatos · %'"))
             rows = []
             for idx, r in cohort_df.reset_index(drop=True).iterrows():
-                label = f"{r['sexo'] or 'NA'} · {r['grupo_edad'] or 'NA'} · {r['ideologia_tramo'] or 'NA'}"
+                label = f"Microdatos · {r['sexo'] or 'NA'} · {r['grupo_edad'] or 'NA'} · {r['ideologia_tramo'] or 'NA'}"
+                edad_media = _age_mid_from_group(r.get("grupo_edad"))
+                voto_payload = r["voto_dist_json"]
+                if isinstance(voto_payload, str):
+                    try:
+                        voto_payload = json.loads(voto_payload)
+                    except Exception:
+                        voto_payload = {}
+                if not isinstance(voto_payload, dict):
+                    voto_payload = {}
                 rows.append(
                     {
-                        "cluster_id": idx + 1,
+                        "cluster_id": 1000 + idx + 1,
                         "label": label,
                         "n_respondentes": int(r["n_obs"]),
                         "peso_demografico_pct": round(float(r["peso_total"]) * 100.0 / total_w, 3),
-                        "edad_media": None,
+                        "edad_media": edad_media,
                         "ideologia_media": float(r["ideologia_media"]) if r["ideologia_media"] is not None else None,
-                        "distribucion_voto_json": json.dumps(r["voto_dist_json"], ensure_ascii=False) if isinstance(r["voto_dist_json"], dict) else str(r["voto_dist_json"]),
+                        "distribucion_voto_json": json.dumps(voto_payload, ensure_ascii=False),
                         "descripcion_perfil_llm": (
                             f"Cohorte real microdatos: estudios={r['estudios']}, sitlab={r['sitlab']}, "
                             f"clase={r['clase_subjetiva']}, recuerdo={r['recuerdo_voto']}"

@@ -7,6 +7,7 @@ por perfil de votante. Diseñado para analistas políticos y financieros.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -25,7 +26,7 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import cargar_macro_ultimo
+from dashboard.db import cargar_macro_ultimo, cargar_perfiles_votante
 
 st.set_page_config(page_title="Macroeconomía — ElectSim", layout="wide")
 
@@ -275,73 +276,116 @@ with tab1:
 # TAB 2: MICROECONOMÍA DEL VOTANTE
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    MICRO = {
-        "Izquierda Urbana Joven": {
-            "color": "#DC2626",
-            "renta": 22000, "paro": 18, "pct_alquiler": 73, "hipoteca": 0,
-            "gasto": {"Alquiler": 850, "Alimentación": 280, "Transporte público": 65,
-                      "Ocio/cultura": 120, "Tecnología/streaming": 45, "Ropa": 80},
-            "ahorro": -85, "deuda_media": 8500,
-            "euribor_sens": 1,  # 1-10: sensibilidad al euríbor
-            "ipc_sens": 8,
-            "paro_sens": 9,
-            "irpf_sens": 5,
-            "activos": ["Cuenta corriente", "Poco ahorro"],
-            "nota": "El 73% vive de alquiler. Su mayor problema es la vivienda, no el euríbor.",
-        },
-        "Centro Pragmático": {
-            "color": "#6B7280",
-            "renta": 32000, "paro": 8, "pct_alquiler": 39, "hipoteca": 820,
-            "gasto": {"Hipoteca": 820, "Alimentación": 420, "Coche": 280,
-                      "Educación hijos": 180, "Ocio/vacaciones": 200, "Seguros": 120},
-            "ahorro": 380, "deuda_media": 95000,
-            "euribor_sens": 9,
-            "ipc_sens": 7,
-            "paro_sens": 7,
-            "irpf_sens": 8,
-            "activos": ["Vivienda propia", "Plan de pensiones", "Depósitos"],
-            "nota": "Perfil más afectado por el euríbor. +1pp de euríbor = +150€/mes en hipoteca media.",
-        },
-        "Derecha Tradicional": {
-            "color": "#0066CC",
-            "renta": 38000, "paro": 5, "pct_alquiler": 22, "hipoteca": 350,
-            "gasto": {"Hipoteca (casi pagada)": 350, "Alimentación": 480, "Coche(s)": 350,
-                      "Sanidad privada/seguros": 220, "Vacaciones": 280, "Inversión/ahorro": 400},
-            "ahorro": 650, "deuda_media": 28000,
-            "euribor_sens": 4,
-            "ipc_sens": 5,
-            "paro_sens": 4,
-            "irpf_sens": 9,
-            "activos": ["Vivienda propia (liquidada)", "Cartera de valores", "Seguros de vida", "Plan de pensiones"],
-            "nota": "Su principal preocupación fiscal es el IRPF alto y el impuesto sobre herencias.",
-        },
-        "Voto Rural Conservador": {
-            "color": "#D97706",
-            "renta": 19000, "paro": 11, "pct_alquiler": 29, "hipoteca": 350,
-            "gasto": {"Coche (imprescindible)": 350, "Alimentación": 380, "Hipoteca/renta": 350,
-                      "Combustible agrícola": 280, "Seguros": 90},
-            "ahorro": 120, "deuda_media": 22000,
-            "euribor_sens": 6,
-            "ipc_sens": 8,
-            "paro_sens": 7,
-            "irpf_sens": 5,
-            "activos": ["Vivienda propia", "Tierra/finca agrícola"],
-            "nota": "Muy afectado por el precio de los combustibles y fertilizantes.",
-        },
-        "Joven Abstencionista": {
-            "color": "#7C3AED",
-            "renta": 16000, "paro": 27, "pct_alquiler": 45, "hipoteca": 0,
-            "gasto": {"Ocio/salidas": 180, "Tecnología/suscripciones": 60, "Ropa/imagen": 90,
-                      "Transporte": 55, "Alimentación": 150},
-            "ahorro": -120, "deuda_media": 3200,
-            "euribor_sens": 1,
-            "ipc_sens": 7,
-            "paro_sens": 10,
-            "irpf_sens": 3,
-            "activos": ["Cuenta corriente con poco saldo"],
-            "nota": "El 48% vive con sus padres. Su problema no es el euríbor sino conseguir empleo estable.",
-        },
-    }
+    def _party_alias(v: str) -> str:
+        u = str(v or "").strip().upper()
+        m = {
+            "1": "PSOE", "2": "PP", "3": "VOX", "4": "SUMAR", "5": "Ciudadanos", "6": "ERC",
+            "7": "Junts", "8": "PNV", "9": "EH Bildu", "10": "BNG",
+            "9998": "NS/NC", "9997": "NS/NC", "9999": "NS/NC", "8996": "Abstención",
+            "NO_DECLARA": "NS/NC", "NO CONTESTA": "NS/NC", "NSNC": "NS/NC",
+        }
+        if u in m:
+            return m[u]
+        if "ABST" in u:
+            return "Abstención"
+        if "BLANCO" in u or "NULO" in u:
+            return "Blanco/Nulo"
+        return str(v or "Otros")
+
+    def _vote_dict(raw: object, ideol: float) -> dict[str, float]:
+        dist: dict[str, float] = {}
+        parsed: dict[str, float] = {}
+        if isinstance(raw, str) and raw.strip():
+            try:
+                obj = json.loads(raw)
+                if isinstance(obj, dict):
+                    parsed = {str(k): float(v) for k, v in obj.items() if v is not None}
+            except Exception:
+                parsed = {}
+        elif isinstance(raw, dict):
+            parsed = {str(k): float(v) for k, v in raw.items() if v is not None}
+        for k, v in parsed.items():
+            kk = _party_alias(k)
+            dist[kk] = dist.get(kk, 0.0) + max(0.0, float(v))
+        informative = {k: v for k, v in dist.items() if k not in {"NS/NC", "Blanco/Nulo"}}
+        if informative:
+            tot = sum(informative.values()) or 1.0
+            return {k: round(v * 100.0 / tot, 2) for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)}
+        if ideol <= 3:
+            return {"SUMAR": 34, "PSOE": 33, "Abstención": 20, "Otros": 13}
+        if ideol <= 5.8:
+            return {"PSOE": 33, "PP": 31, "SUMAR": 14, "Abstención": 12, "Otros": 10}
+        if ideol <= 7.2:
+            return {"PP": 42, "VOX": 18, "PSOE": 23, "Abstención": 9, "Otros": 8}
+        return {"PP": 48, "VOX": 26, "PSOE": 12, "Abstención": 7, "Otros": 7}
+
+    def _build_micro_from_profiles() -> dict[str, dict]:
+        dfp = cargar_perfiles_votante(limit=40)
+        out: dict[str, dict] = {}
+        if dfp.empty:
+            return out
+        for _, row in dfp.iterrows():
+            label = str(row.get("label") or f"Perfil {int(row.get('cluster_id') or 0)}")
+            ideol = float(row.get("ideologia_media") or 5.0)
+            edad = float(row.get("edad_media") or 42.0)
+            renta = max(14000, int(18500 + (ideol - 5.0) * 1700 + (edad - 40.0) * 230))
+            paro = max(4, min(30, int(round(15 + (5.0 - ideol) * 1.1 + (34.0 - edad) * 0.15))))
+            pct_alquiler = max(12, min(78, int(round(43 + (30 - edad) * 0.6 + (5.0 - ideol) * 1.4))))
+            hipoteca = 0 if pct_alquiler >= 55 else max(280, int(round((renta / 12) * 0.24)))
+            voto = _vote_dict(row.get("distribucion_voto_json"), ideol)
+            top_party = next(iter(voto.keys()), "Otros")
+            preocup = "vivienda y empleo" if edad < 36 else ("pensiones y sanidad" if edad >= 60 else "inflación y fiscalidad")
+
+            if ideol <= 3:
+                color = "#DC2626"
+            elif ideol <= 5.8:
+                color = "#6B7280"
+            elif ideol <= 7.2:
+                color = "#D97706"
+            else:
+                color = "#0066CC"
+
+            gasto = {
+                "Vivienda": int((renta / 12) * (0.34 if pct_alquiler > 50 else 0.26)),
+                "Alimentación": int((renta / 12) * 0.18),
+                "Transporte": int((renta / 12) * 0.12),
+                "Suministros": int((renta / 12) * 0.10),
+                "Ocio y cultura": int((renta / 12) * 0.08),
+                "Otros": int((renta / 12) * 0.07),
+            }
+            total_gasto = sum(gasto.values())
+            neto = (renta / 12) * 0.79
+            ahorro = int(round(neto - total_gasto))
+            deuda_media = int(max(2000, (hipoteca * 120) if hipoteca > 0 else renta * 0.3))
+
+            out[label] = {
+                "color": color,
+                "renta": renta,
+                "paro": paro,
+                "pct_alquiler": pct_alquiler,
+                "hipoteca": hipoteca,
+                "gasto": gasto,
+                "ahorro": ahorro,
+                "deuda_media": deuda_media,
+                "euribor_sens": 2 if pct_alquiler > 55 else 8,
+                "ipc_sens": min(10, 6 + int(paro > 12) + int(ahorro < 120)),
+                "paro_sens": min(10, max(3, int(paro / 2))),
+                "irpf_sens": min(10, max(3, int((renta - 12000) / 4500))),
+                "activos": ["Vivienda en propiedad" if hipoteca > 0 else "Alquiler", "Cuenta de ahorro" if ahorro > 0 else "Ahorro limitado"],
+                "nota": f"Partido dominante estimado: {top_party}. En este perfil pesan {preocup}.",
+            }
+        return out
+
+    MICRO = _build_micro_from_profiles()
+    if not MICRO:
+        MICRO = {
+            "Centro Pragmático": {
+                "color": "#6B7280", "renta": 32000, "paro": 8, "pct_alquiler": 39, "hipoteca": 820,
+                "gasto": {"Hipoteca": 820, "Alimentación": 420, "Coche": 280, "Educación": 180, "Ocio": 200, "Seguros": 120},
+                "ahorro": 380, "deuda_media": 95000, "euribor_sens": 9, "ipc_sens": 7, "paro_sens": 7, "irpf_sens": 8,
+                "activos": ["Vivienda propia", "Plan de pensiones"], "nota": "Perfil fallback: carga perfiles reales al ingerir microdatos.",
+            }
+        }
 
     perfil_micro = st.selectbox("Perfil de votante", list(MICRO.keys()), key="micro_sel")
     m = MICRO[perfil_micro]

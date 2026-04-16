@@ -234,6 +234,41 @@ def cargar_agenda_oficial(limit: int = 20) -> pd.DataFrame:
     return df
 
 
+def cargar_bulos_desde_noticias(df_noticias: pd.DataFrame, limit: int = 20) -> list[dict]:
+    if df_noticias.empty:
+        return []
+    out: list[dict] = []
+    for _, row in df_noticias.head(300).iterrows():
+        titular = str(row.get("titular", "")).strip()
+        if not titular:
+            continue
+        txt = titular.lower()
+        if not any(k in txt for k in ["bulo", "falso", "desinform", "engaños", "manipul"]):
+            continue
+        partidos = []
+        try:
+            partidos = [p.strip() for p in str(row.get("partidos_mencionados", "")).split(",") if p.strip()]
+        except Exception:
+            partidos = []
+        out.append({
+            "fecha": str(row.get("fecha_publicacion", ""))[:16] or "reciente",
+            "titular_bulo": titular[:300],
+            "veredicto": "SIN VERIFICAR",
+            "partidos_implicados": partidos or ["SIN CLASIFICAR"],
+            "fuente_origen": str(row.get("fuente", "prensa")).strip(),
+            "explicacion": "Detección preliminar desde prensa monitorizada. Requiere validación de fact-check.",
+            "impacto": "Pendiente",
+            "fuente_verificacion": "Pendiente",
+            "url": str(row.get("url", "")).strip(),
+        })
+        if len(out) >= limit:
+            break
+    dedup = {}
+    for it in out:
+        dedup[it["titular_bulo"]] = it
+    return list(dedup.values())[:limit]
+
+
 VEREDICTO_COLORS = {
     "FALSO":             RED,
     "ENGAÑOSO":          ORANGE,
@@ -619,15 +654,20 @@ with tab_noticias:
 # ── Tab 4: Bulos y Desinformación ─────────────────────────────────────────────
 with tab_bulos:
     bulos_fuente = cargar_bulos_newtral(limit=18)
-    bulos_data   = bulos_fuente if bulos_fuente else BULOS_RECIENTES
+    bulos_data = bulos_fuente if bulos_fuente else cargar_bulos_desde_noticias(df_noticias, limit=18)
+    if not bulos_data:
+        bulos_data = []
 
     st.markdown(
         f'<div class="info-banner">'
         f'<div style="font-weight:700;font-size:.95rem;color:{TEXT}">Monitor de Desinformación — Abril 2026</div>'
-        f'<div style="font-size:.82rem;color:{TEXT2};margin-top:.3rem">Seguimiento de bulos verificados por Newtral, Maldita.es, EFE Verifica y AFP Factual. Datos sintéticos representativos del ecosistema de desinformación político español.</div>'
+        f'<div style="font-size:.82rem;color:{TEXT2};margin-top:.3rem">Seguimiento de bulos verificados por Newtral/Maldita/EFE y detección preliminar desde prensa monitorizada. Sin datos sintéticos.</div>'
         f'</div>',
         unsafe_allow_html=True,
     )
+
+    if not bulos_data:
+        st.info("No se detectaron bulos en las fuentes verificadas ni en la prensa ingestada para esta ventana temporal.")
 
     # KPIs bulos
     total_bulos = len(bulos_data)
