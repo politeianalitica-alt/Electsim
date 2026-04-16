@@ -190,7 +190,6 @@ st.markdown(f"""
                 animation:gradShift 9s ease infinite;background-size:200% 200%;pointer-events:none"></div>
     <div style="position:absolute;bottom:-50px;left:22%;width:180px;height:180px;
                 background:radial-gradient(circle,{PURPLE}0d 0%,transparent 70%);pointer-events:none"></div>
-
     <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
         <div style="display:flex;align-items:center;gap:1.3rem">
             <div style="width:52px;height:52px;border-radius:12px;overflow:hidden;flex-shrink:0;
@@ -229,7 +228,6 @@ st.markdown(f"""
                 </div>
             </div>
         </div>
-
         <!-- Estado del sistema + señales rápidas -->
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.55rem">
             <div style="display:inline-flex;align-items:center;gap:.4rem;
