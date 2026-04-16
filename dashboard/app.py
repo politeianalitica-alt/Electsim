@@ -338,58 +338,82 @@ with col_nc:
         ])
     )
 
-    # Gráfico de barras con IC
-    fig = go.Figure()
-    for _, row in _df.iterrows():
-        color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
-        r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-        fig.add_trace(go.Bar(
-            x=[row["partido_siglas"]],
-            y=[row["estimacion_pct"]],
-            name=row["partido_siglas"],
-            marker=dict(
-                color=f"rgba({r},{g},{b},0.72)",
-                line=dict(color=color, width=1.5),
-            ),
-            error_y=dict(
-                type="data", symmetric=False,
-                array=[max(0, row["ic_95_sup"] - row["estimacion_pct"])],
-                arrayminus=[max(0, row["estimacion_pct"] - row["ic_95_inf"])],
-                color=f"rgba({r},{g},{b},0.45)", thickness=1.5, width=5,
-            ),
-            text=[f"{row['estimacion_pct']:.1f}%"],
-            textposition="outside",
-            textfont=dict(color=TEXT2, size=10, family="JetBrains Mono, monospace"),
-            hovertemplate=(
-                f"<b style='color:{color}'>{row['partido_siglas']}</b><br>"
-                f"Estimación: <b>{row['estimacion_pct']:.1f}%</b><br>"
-                f"IC 95%: [{row['ic_95_inf']:.1f} – {row['ic_95_sup']:.1f}]"
-                "<extra></extra>"
-            ),
-        ))
+    # Normalización defensiva para evitar fallos por tipos inesperados en BD.
+    for c in ["estimacion_pct", "ic_95_inf", "ic_95_sup"]:
+        if c in _df.columns:
+            _df[c] = pd.to_numeric(_df[c], errors="coerce")
+    _df = _df.dropna(subset=["partido_siglas", "estimacion_pct"]).copy()
+    if "ic_95_inf" in _df.columns and "ic_95_sup" in _df.columns:
+        _df["ic_95_inf"] = _df["ic_95_inf"].fillna(_df["estimacion_pct"])
+        _df["ic_95_sup"] = _df["ic_95_sup"].fillna(_df["estimacion_pct"])
 
-    fig.update_layout(
-        height=300,
-        barmode="group",
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(
-            showgrid=False, fixedrange=True,
-            tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
-            categoryorder="array",
-            categoryarray=_df["partido_siglas"].tolist(),
-        ),
-        yaxis=dict(
-            gridcolor=f"{BORDER}88", gridwidth=1, fixedrange=True,
-            range=[0, _df["ic_95_sup"].max() + 7],
-            tickfont=dict(size=9, color=MUTED),
-            ticksuffix="%",
-        ),
-        showlegend=False,
-        margin=dict(t=16, b=4, l=4, r=4),
-        hoverlabel=dict(bgcolor=BG2, bordercolor=BORDER,
-                        font=dict(size=11, family="JetBrains Mono, monospace")),
-    )
-    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    # Gráfico de barras con IC
+    try:
+        fig = go.Figure()
+        for _, row in _df.iterrows():
+            sigla = str(row.get("partido_siglas", "—"))
+            color = COLORES_PARTIDOS.get(sigla.upper(), "#64748B")
+            if not (isinstance(color, str) and color.startswith("#") and len(color) >= 7):
+                color = "#64748B"
+            r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+            est = float(row.get("estimacion_pct", 0) or 0)
+            ic_inf = float(row.get("ic_95_inf", est) or est)
+            ic_sup = float(row.get("ic_95_sup", est) or est)
+
+            fig.add_trace(go.Bar(
+                x=[sigla],
+                y=[est],
+                name=sigla,
+                marker=dict(
+                    color=f"rgba({r},{g},{b},0.72)",
+                    line=dict(color=color, width=1.5),
+                ),
+                error_y=dict(
+                    type="data", symmetric=False,
+                    array=[max(0.0, ic_sup - est)],
+                    arrayminus=[max(0.0, est - ic_inf)],
+                    color=f"rgba({r},{g},{b},0.45)", thickness=1.5, width=5,
+                ),
+                text=[f"{est:.1f}%"],
+                textposition="outside",
+                textfont=dict(color=TEXT2, size=10, family="JetBrains Mono, monospace"),
+                hovertemplate=(
+                    f"<b style='color:{color}'>{sigla}</b><br>"
+                    f"Estimación: <b>{est:.1f}%</b><br>"
+                    f"IC 95%: [{ic_inf:.1f} – {ic_sup:.1f}]"
+                    "<extra></extra>"
+                ),
+            ))
+
+        ymax_raw = pd.to_numeric(_df.get("ic_95_sup"), errors="coerce").max()
+        if pd.isna(ymax_raw):
+            ymax_raw = pd.to_numeric(_df.get("estimacion_pct"), errors="coerce").max()
+        ymax = float(ymax_raw) + 7 if pd.notna(ymax_raw) else 50.0
+
+        fig.update_layout(
+            height=300,
+            barmode="group",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(
+                showgrid=False, fixedrange=True,
+                tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
+                categoryorder="array",
+                categoryarray=_df["partido_siglas"].astype(str).tolist(),
+            ),
+            yaxis=dict(
+                gridcolor=f"{BORDER}88", gridwidth=1, fixedrange=True,
+                range=[0, ymax],
+                tickfont=dict(size=9, color=MUTED),
+                ticksuffix="%",
+            ),
+            showlegend=False,
+            margin=dict(t=16, b=4, l=4, r=4),
+            hoverlabel=dict(bgcolor=BG2, bordercolor=BORDER,
+                            font=dict(size=11, family="JetBrains Mono, monospace")),
+        )
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    except Exception:
+        st.warning("No se pudo renderizar el gráfico de nowcasting en portada. Revisa los datos de entrada.")
 
     # Tira de chips de partido
     chips_html = '<div class="party-strip">'

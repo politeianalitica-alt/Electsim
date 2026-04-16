@@ -16,7 +16,10 @@ from urllib.parse import urlencode
 
 import feedparser
 import requests
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except Exception:  # pragma: no cover - fallback en entornos sin bs4
+    BeautifulSoup = None
 
 UTC = timezone.utc
 
@@ -148,6 +151,9 @@ def _parse_rss(source: AgendaSource, max_items: int) -> list[dict[str, str]]:
 
 def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
+    if BeautifulSoup is None:
+        # Degradación elegante: sin bs4 seguimos sirviendo fuentes RSS.
+        return out
     html = _fetch(source.url, timeout=timeout)
     soup = BeautifulSoup(html, "html.parser")
     selectors = [
@@ -250,4 +256,3 @@ def fetch_all_agendas(max_items_per_source: int = 10, timeout: int = 18) -> list
     rows = list(dedup.values())
     rows.sort(key=lambda r: (_to_iso_day(str(r.get("fecha_publicacion", ""))) or "1900-01-01", str(r.get("fecha", ""))), reverse=True)
     return rows
-

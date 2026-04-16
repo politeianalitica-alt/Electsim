@@ -519,7 +519,7 @@ for row in idx_list:
 
 if heatmap_data:
     df_heat   = pd.DataFrame(heatmap_data)
-    df_pivot  = df_heat.pivot(index="indice", columns="fecha", values="valor").fillna(0)
+    df_pivot  = df_heat.pivot_table(index="indice", columns="fecha", values="valor", aggfunc="last").fillna(0)
     fig_heat  = go.Figure(go.Heatmap(
         z=df_pivot.values,
         x=df_pivot.columns.tolist(),
@@ -533,9 +533,8 @@ if heatmap_data:
         ],
         zmin=0, zmax=100,
         colorbar=dict(
-            title="Valor",
+            title=dict(text="Valor", font=dict(size=11, color=MUTED)),
             tickfont=dict(size=10, color=MUTED),
-            titlefont=dict(size=11, color=MUTED),
         ),
         hoverongaps=False,
     ))

@@ -1003,12 +1003,11 @@ with tab_mapa:
                         ],
                         zmid=0,
                         colorbar=dict(
-                            title="Δ esc.",
+                            title=dict(text="Δ esc.", font=dict(size=11, color=MUTED)),
                             tickfont=dict(size=10, color=MUTED),
-                            titlefont=dict(size=11, color=MUTED),
                         ),
                         hoverongaps=False,
-                        hovertemplate="<b>%{y}</b> en %{x}<br>Delta: %{z:+d} escaños<extra></extra>",
+                        hovertemplate="<b>%{y}</b> en %{x}<br>Delta: %{z:+.0f} escaños<extra></extra>",
                     ))
                     fig_hm.update_layout(
                         height=320,

@@ -552,12 +552,11 @@ with tab_agenda_t:
                 ))
                 fig_imp.update_layout(
                     xaxis=dict(
-                        title="Sentimiento medio por partido en este tema",
+                        title=dict(text="Sentimiento medio por partido en este tema", font=dict(color=MUTED, size=10)),
                         range=[-1, 1],
                         zeroline=True, zerolinecolor=MUTED, zerolinewidth=1,
                         gridcolor=BORDER,
                         tickfont=dict(color=TEXT2, size=9),
-                        titlefont=dict(color=MUTED, size=10),
                     ),
                     yaxis=dict(title=None, tickfont=dict(color=TEXT2, size=10)),
                     height=300,
@@ -689,12 +688,11 @@ with tab_sentimiento:
             plot_bgcolor="rgba(0,0,0,0)",
             xaxis=dict(showgrid=False, title=None, tickfont=dict(color=TEXT2, size=9)),
             yaxis=dict(
-                title="Sentimiento medio",
+                title=dict(text="Sentimiento medio", font=dict(color=MUTED, size=10)),
                 gridcolor=BORDER,
                 zeroline=True,
                 zerolinecolor=MUTED,
                 tickfont=dict(color=TEXT2, size=9),
-                titlefont=dict(color=MUTED, size=10),
             ),
             hovermode="x unified",
             legend=dict(

@@ -545,11 +545,16 @@ with tab2:
         }
         for k, v in MICRO.items()
     ])
-    st.dataframe(
-        df_comp.style.background_gradient(subset=["Renta anual (€)"], cmap="Blues")
-                     .background_gradient(subset=["Paro (%)"], cmap="Reds_r"),
-        use_container_width=True, hide_index=True,
-    )
+    try:
+        styled_comp = (
+            df_comp.style
+            .background_gradient(subset=["Renta anual (€)"], cmap="Blues")
+            .background_gradient(subset=["Paro (%)"], cmap="Reds_r")
+        )
+        st.dataframe(styled_comp, use_container_width=True, hide_index=True)
+    except Exception:
+        # Fallback seguro para entornos sin dependencias de Styler (ej. matplotlib).
+        st.dataframe(df_comp, use_container_width=True, hide_index=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -804,7 +809,10 @@ with tab4:
         text=[[f"{v:+.2f}" for v in row] for row in matriz_corr],
         texttemplate="%{text}",
         showscale=True,
-        colorbar=dict(title="Correlación", tickfont=dict(color=TEXT2), titlefont=dict(color=TEXT2)),
+        colorbar=dict(
+            title=dict(text="Correlación", font=dict(color=TEXT2)),
+            tickfont=dict(color=TEXT2),
+        ),
     ))
     fig_corr.update_layout(
         height=320, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
