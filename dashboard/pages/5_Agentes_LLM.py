@@ -7,6 +7,7 @@ en datos sintéticos calibrados con encuestas reales del CIS.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -25,8 +26,19 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import cargar_nowcasting
+from dashboard.db import (
+    cargar_microdatos_asociaciones,
+    cargar_microdatos_cohortes,
+    cargar_microdatos_pool_ia,
+    cargar_microdatos_resumen,
+    cargar_microdatos_runs,
+    cargar_nowcasting,
+    cargar_perfiles_usuario_custom,
+    ejecutar_ingesta_microdatos,
+    guardar_perfil_usuario_custom,
+)
 from dashboard.adapters import create_simulation_adapter
+from dashboard.ingestion.microdatos_pipeline import DEFAULT_MICRODATOS_DIR
 
 COLORES_PARTIDO = {
     "PP": "#3B82F6", "PSOE": "#EF4444", "VOX": "#22C55E",
@@ -388,11 +400,12 @@ REACCION_PERFIL: dict[str, dict[str, float]] = {
 }
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Perfiles de Votante",
     "Simulador de Campaña",
     "Encuesta Sintética CIS",
     "Simulador LLM (V3)",
+    "Microdatos Reales",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -909,3 +922,203 @@ with tab4:
         else:
             st.success("Simulación ejecutada correctamente.")
             st.dataframe(df_sim, use_container_width=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 5: MICRODATOS REALES
+# ══════════════════════════════════════════════════════════════════════════════
+with tab5:
+    st.markdown('<div class="section-title">Ingesta y análisis de microdatos propios (CIS/cliente)</div>', unsafe_allow_html=True)
+    st.markdown(
+        "Este módulo carga tus microdatos locales, genera cohortes y asociaciones estadísticas, "
+        "alimenta el pool IA y actualiza `perfiles_votante` con evidencia empírica."
+    )
+
+    with st.form("ingesta_microdatos_form"):
+        c1, c2, c3 = st.columns([2.8, 1, 1])
+        with c1:
+            source_dir = st.text_input("Carpeta de microdatos", value=DEFAULT_MICRODATOS_DIR)
+        with c2:
+            max_files_in = st.number_input("Máx ficheros (0 = todos)", min_value=0, max_value=5000, value=0, step=1)
+        with c3:
+            st.markdown("<div style='height:1.75rem'></div>", unsafe_allow_html=True)
+            lanzar_ingesta = st.form_submit_button("Ingerir microdatos", type="primary")
+
+    if lanzar_ingesta:
+        max_files = int(max_files_in) if int(max_files_in) > 0 else None
+        with st.spinner("Procesando microdatos y recalculando cohortes..."):
+            result = ejecutar_ingesta_microdatos(source_dir=source_dir, max_files=max_files)
+        if result.get("ok"):
+            st.success("Ingesta completada.")
+        else:
+            st.error(f"Error en ingesta: {result.get('error', 'desconocido')}")
+        st.json(result)
+
+    runs_df = cargar_microdatos_runs(limit=30)
+    if runs_df.empty:
+        st.info("Aún no hay runs de microdatos. Ejecuta la ingesta para inicializar la base.")
+    else:
+        run_id = st.selectbox("Run de microdatos", options=runs_df["run_id"].tolist(), index=0)
+
+        resumen_df = cargar_microdatos_resumen(run_id)
+        if not resumen_df.empty:
+            r = resumen_df.iloc[0]
+            k1, k2, k3, k4, k5 = st.columns(5)
+            k1.metric("Pool IA", int(r.get("n_pool_ia", 0)))
+            k2.metric("Cohortes", int(r.get("n_cohortes", 0)))
+            k3.metric("Asociaciones", int(r.get("n_asociaciones", 0)))
+            k4.metric("Microdatos total", int(r.get("n_microdatos_total", 0)))
+            k5.metric("Encuestas micro", int(r.get("n_encuestas_micro", 0)))
+
+        st.divider()
+        col_a1, col_a2 = st.columns([1.2, 1.8])
+        with col_a1:
+            st.markdown("#### Asociaciones (predictor → intención)")
+            assoc_df = cargar_microdatos_asociaciones(run_id=run_id, limit=50)
+            if assoc_df.empty:
+                st.info("Sin asociaciones disponibles para este run.")
+            else:
+                fig_assoc = go.Figure(
+                    go.Bar(
+                        y=assoc_df["predictor"],
+                        x=assoc_df["cramers_v"],
+                        orientation="h",
+                        marker_color=BLUE,
+                        text=[f"{float(v):.3f}" if pd.notna(v) else "" for v in assoc_df["cramers_v"]],
+                        textposition="outside",
+                    )
+                )
+                fig_assoc.update_layout(
+                    height=420,
+                    xaxis_title="Cramér's V",
+                    yaxis_title="Predictor",
+                    plot_bgcolor=WHITE,
+                    paper_bgcolor=WHITE,
+                    margin=dict(t=20, b=10, l=10, r=10),
+                )
+                st.plotly_chart(fig_assoc, use_container_width=True)
+                st.dataframe(assoc_df, use_container_width=True, height=220)
+
+        with col_a2:
+            st.markdown("#### Cohortes detectados")
+            cohort_df = cargar_microdatos_cohortes(run_id=run_id, limit=150)
+            if cohort_df.empty:
+                st.info("Sin cohortes para este run.")
+            else:
+                st.dataframe(
+                    cohort_df[
+                        [
+                            "encuesta_id",
+                            "sexo",
+                            "grupo_edad",
+                            "estudios",
+                            "sitlab",
+                            "clase_subjetiva",
+                            "ideologia_tramo",
+                            "recuerdo_voto",
+                            "cercania",
+                            "n_obs",
+                            "peso_total",
+                            "ideologia_media",
+                        ]
+                    ],
+                    use_container_width=True,
+                    height=350,
+                )
+                top = cohort_df.iloc[0]
+                raw_dist = top.get("voto_dist_json")
+                vote_dist: dict[str, float] = {}
+                if isinstance(raw_dist, dict):
+                    vote_dist = {str(k): float(v) for k, v in raw_dist.items()}
+                elif isinstance(raw_dist, str) and raw_dist.strip():
+                    try:
+                        parsed = json.loads(raw_dist)
+                        if isinstance(parsed, dict):
+                            vote_dist = {str(k): float(v) for k, v in parsed.items()}
+                    except Exception:
+                        vote_dist = {}
+                if vote_dist:
+                    st.markdown("##### Distribución de voto del cohorte principal")
+                    vd = pd.DataFrame({"Partido": list(vote_dist.keys()), "Pct": list(vote_dist.values())}).sort_values("Pct", ascending=False)
+                    fig_vd = px.bar(
+                        vd,
+                        x="Partido",
+                        y="Pct",
+                        color="Partido",
+                        color_discrete_map=COLORES_PARTIDO,
+                        text=vd["Pct"].map(lambda x: f"{x:.1f}%"),
+                    )
+                    fig_vd.update_layout(height=260, plot_bgcolor=WHITE, paper_bgcolor=WHITE, showlegend=False, margin=dict(t=20, b=10, l=10, r=10))
+                    st.plotly_chart(fig_vd, use_container_width=True)
+
+        st.divider()
+        st.markdown("#### Pool IA de perfiles reales")
+        pool_df = cargar_microdatos_pool_ia(run_id=run_id, limit=25)
+        if pool_df.empty:
+            st.info("Sin registros en pool IA para este run.")
+        else:
+            show_cols = ["encuesta_id", "respondent_hash", "cohorte_key", "label_voto", "escala_ideologica", "peso", "prompt_perfil"]
+            st.dataframe(pool_df[show_cols], use_container_width=True, height=280)
+
+    st.divider()
+    st.markdown("#### Perfil propio del usuario (persistido en BD)")
+    with st.form("perfil_usuario_custom_form"):
+        u1, u2, u3, u4 = st.columns(4)
+        usuario_id = u1.text_input("Usuario", value="default")
+        nombre_perfil = u2.text_input("Nombre perfil", value="perfil_personal_1")
+        sexo = u3.selectbox("Sexo", options=["", "H", "M"])
+        edad = u4.number_input("Edad", min_value=18, max_value=99, value=35, step=1)
+
+        v1, v2, v3, v4 = st.columns(4)
+        estudios = v1.text_input("Estudios", value="Universitarios")
+        sitlab = v2.text_input("Situación laboral", value="Trabajando")
+        clasesub = v3.text_input("Clase subjetiva", value="Media")
+        ccaa = v4.text_input("CCAA", value="Madrid")
+
+        w1, w2, w3, w4 = st.columns(4)
+        escideol = w1.slider("Escala ideológica (1-10)", 1.0, 10.0, 5.0, 0.1)
+        cercania = w2.text_input("Partido cercano", value="PP")
+        recuerdo = w3.text_input("Recuerdo de voto", value="PP")
+        p12 = w4.text_input("P12 Econ. España", value="Regular")
+
+        z1, z2, z3, z4 = st.columns(4)
+        p13 = z1.text_input("P13 Econ. personal", value="Regular")
+        val1 = z2.number_input("Valor líder 1", min_value=0.0, max_value=10.0, value=5.0, step=0.1)
+        val2 = z3.number_input("Valor líder 2", min_value=0.0, max_value=10.0, value=5.0, step=0.1)
+        val3 = z4.number_input("Valor líder 3", min_value=0.0, max_value=10.0, value=5.0, step=0.1)
+
+        notes = st.text_area("Notas", value="Perfil creado desde dashboard", height=80)
+        guardar = st.form_submit_button("Guardar perfil usuario", type="secondary")
+
+    if guardar:
+        payload = {
+            "usuario_id": usuario_id.strip() or "default",
+            "nombre_perfil": nombre_perfil.strip(),
+            "sexo": sexo or None,
+            "edad": int(edad),
+            "estudios": estudios.strip() or None,
+            "sitlab": sitlab.strip() or None,
+            "clasesub": clasesub.strip() or None,
+            "ccaa": ccaa.strip() or None,
+            "escideol": float(escideol),
+            "cercania": cercania.strip() or None,
+            "recuerdo": recuerdo.strip() or None,
+            "p12": p12.strip() or None,
+            "p13": p13.strip() or None,
+            "valor_lider_1": float(val1),
+            "valor_lider_2": float(val2),
+            "valor_lider_3": float(val3),
+            "notes": notes.strip() or None,
+        }
+        if not payload["nombre_perfil"]:
+            st.error("El campo 'Nombre perfil' es obligatorio.")
+        else:
+            res = guardar_perfil_usuario_custom(payload)
+            if res.get("ok"):
+                st.success("Perfil de usuario guardado.")
+            else:
+                st.error(f"No se pudo guardar: {res.get('error', 'error desconocido')}")
+
+    perfiles_usr_df = cargar_perfiles_usuario_custom(usuario_id=(usuario_id.strip() or "default"))
+    if not perfiles_usr_df.empty:
+        st.dataframe(perfiles_usr_df, use_container_width=True, height=220)

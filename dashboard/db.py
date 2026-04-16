@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 # Garantiza que el raíz del proyecto esté en el path, sea cual sea el cwd
 _ROOT = Path(__file__).parent.parent
@@ -19,6 +20,12 @@ import streamlit as st
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
+
+from dashboard.ingestion.microdatos_pipeline import (
+    DEFAULT_MICRODATOS_DIR,
+    ingest_microdatos_folder,
+    save_custom_user_profile,
+)
 
 load_dotenv(_ROOT / ".env")
 
@@ -588,4 +595,144 @@ def cargar_perfiles_votante(limit: int = 30) -> pd.DataFrame:
         LIMIT :limit
         """,
         {"limit": limit},
+    )
+
+
+# ── Microdatos propios ────────────────────────────────────────────────────────
+
+def ejecutar_ingesta_microdatos(source_dir: str = DEFAULT_MICRODATOS_DIR, max_files: int | None = None) -> dict[str, Any]:
+    """Lanza la ingesta de microdatos propios y limpia cache de vistas."""
+    try:
+        result = ingest_microdatos_folder(
+            engine=get_engine(),
+            source_dir=source_dir,
+            max_files=max_files,
+            replace_existing_for_survey=True,
+        )
+        # Invalida cache para refrescar paneles tras la ingesta.
+        st.cache_data.clear()
+        return result
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+@st.cache_data(ttl=120)
+def cargar_microdatos_runs(limit: int = 20) -> pd.DataFrame:
+    return _q(
+        """
+        SELECT run_id,
+               MAX(created_at) AS fecha_run,
+               COUNT(*) AS n_cohortes
+        FROM microdatos_cohortes
+        GROUP BY run_id
+        ORDER BY fecha_run DESC
+        LIMIT :limit
+        """,
+        {"limit": limit},
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_microdatos_resumen(run_id: str | None = None) -> pd.DataFrame:
+    if not run_id:
+        run_df = cargar_microdatos_runs(limit=1)
+        if run_df.empty:
+            return pd.DataFrame()
+        run_id = str(run_df.iloc[0]["run_id"])
+    return _q(
+        """
+        SELECT
+          :run_id AS run_id,
+          (SELECT COUNT(*) FROM microdatos_ai_pool WHERE run_id = :run_id) AS n_pool_ia,
+          (SELECT COUNT(*) FROM microdatos_cohortes WHERE run_id = :run_id) AS n_cohortes,
+          (SELECT COUNT(*) FROM microdatos_asociaciones WHERE run_id = :run_id) AS n_asociaciones,
+          (SELECT COUNT(*) FROM microdatos_encuesta) AS n_microdatos_total,
+          (SELECT COUNT(*) FROM encuestas WHERE tipo_encuesta = 'microdatos') AS n_encuestas_micro
+        """,
+        {"run_id": run_id},
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_microdatos_asociaciones(run_id: str | None = None, limit: int = 50) -> pd.DataFrame:
+    if not run_id:
+        run_df = cargar_microdatos_runs(limit=1)
+        if run_df.empty:
+            return pd.DataFrame()
+        run_id = str(run_df.iloc[0]["run_id"])
+    return _q(
+        """
+        SELECT predictor, target, n_obs, chi2, cramers_v, n_levels_pred, n_levels_target, encuesta_id, created_at
+        FROM microdatos_asociaciones
+        WHERE run_id = :run_id
+        ORDER BY cramers_v DESC NULLS LAST, chi2 DESC NULLS LAST
+        LIMIT :limit
+        """,
+        {"run_id": run_id, "limit": limit},
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_microdatos_cohortes(run_id: str | None = None, limit: int = 100) -> pd.DataFrame:
+    if not run_id:
+        run_df = cargar_microdatos_runs(limit=1)
+        if run_df.empty:
+            return pd.DataFrame()
+        run_id = str(run_df.iloc[0]["run_id"])
+    return _q(
+        """
+        SELECT
+          encuesta_id, cohorte_key, sexo, grupo_edad, estudios, sitlab, clase_subjetiva, ccaa,
+          ideologia_tramo, recuerdo_voto, cercania, n_obs, peso_total, ideologia_media, voto_dist_json
+        FROM microdatos_cohortes
+        WHERE run_id = :run_id
+        ORDER BY peso_total DESC NULLS LAST
+        LIMIT :limit
+        """,
+        {"run_id": run_id, "limit": limit},
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_microdatos_pool_ia(run_id: str | None = None, limit: int = 50) -> pd.DataFrame:
+    if not run_id:
+        run_df = cargar_microdatos_runs(limit=1)
+        if run_df.empty:
+            return pd.DataFrame()
+        run_id = str(run_df.iloc[0]["run_id"])
+    return _q(
+        """
+        SELECT encuesta_id, respondent_hash, cohorte_key, label_voto, escala_ideologica, peso, prompt_perfil, metadata_json, created_at
+        FROM microdatos_ai_pool
+        WHERE run_id = :run_id
+        ORDER BY peso DESC NULLS LAST, created_at DESC
+        LIMIT :limit
+        """,
+        {"run_id": run_id, "limit": limit},
+    )
+
+
+def guardar_perfil_usuario_custom(payload: dict[str, Any]) -> dict[str, Any]:
+    try:
+        save_custom_user_profile(get_engine(), payload)
+        st.cache_data.clear()
+        return {"ok": True}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}
+
+
+@st.cache_data(ttl=120)
+def cargar_perfiles_usuario_custom(usuario_id: str = "default") -> pd.DataFrame:
+    return _q(
+        """
+        SELECT
+          usuario_id, nombre_perfil, sexo, edad, estudios, sitlab, clasesub, ccaa,
+          escideol, cercania, recuerdo, p12, p13,
+          valor_lider_1, valor_lider_2, valor_lider_3, valor_lider_4, valor_lider_5,
+          notes, updated_at
+        FROM perfil_usuario_custom
+        WHERE usuario_id = :usuario_id
+        ORDER BY updated_at DESC
+        """,
+        {"usuario_id": usuario_id},
     )
