@@ -57,12 +57,15 @@ PAGES_NAV = {
     "analisis_electoral": [
         ("app.py", "⬡  Inicio"),
         ("pages/1_Mapa_Electoral.py", "◈  Mapa Electoral"),
-        ("pages/2_Nowcasting.py", "◉  Nowcasting"),
+        ("pages/17_Nowcasting_Component.py", "🗳️  Nowcasting"),
         ("pages/3_Escenarios.py", "◎  Escenarios"),
         ("pages/4_Coaliciones.py", "⬡  Coaliciones"),
+        ("pages/16_Fichas_Politicos.py", "🧑‍💼  Fichas de políticos"),
     ],
     "indices_politeia": [
         ("pages/9_Indices_Politeia.py", "◈  Índices"),
+        ("pages/14_Monitor_Sentimiento.py", "📊  Monitor de sentimiento"),
+        ("pages/15_Agenda_Lideres.py", "📅  Agenda de líderes"),
         ("pages/10_Prensa_Agenda.py", "◎  Prensa & Agenda"),
         ("pages/11_Congreso_Institucional.py", "◉  Congreso"),
         ("pages/13_Briefing_Diario.py", "⬡  Briefing Diario"),

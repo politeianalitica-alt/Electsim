@@ -27,9 +27,11 @@ from etl.logger import get_logger
 
 try:  # Preferencia: psycopg2 si está disponible.
     import psycopg2  # type: ignore
+    from psycopg2 import sql as psycopg2_sql  # type: ignore
     _DB_OP_ERROR = psycopg2.OperationalError
 except Exception:  # pragma: no cover - fallback entorno con psycopg v3
     psycopg2 = None  # type: ignore
+    psycopg2_sql = None  # type: ignore
     try:
         import psycopg  # type: ignore
         _DB_OP_ERROR = psycopg.OperationalError
@@ -79,6 +81,7 @@ _MACRO_SQL_MAP = {
     "deuda_pib": "deuda_publica_pib",
     "deficit_publico_pib": "deficit_publico_pib",
 }
+_COLUMNAS_MACRO = dict(_MACRO_SQL_MAP)
 
 _CAMPOS_PERFIL_PERMITIDOS = {
     "principal_problema",
@@ -97,6 +100,25 @@ _CAMPOS_PERFIL_PERMITIDOS = {
     "comunidad_autonoma",
     "sexo",
 }
+
+_CAMPOS_PERFIL_SQL_MAP = {
+    "principal_problema": "principal_problema",
+    "tamano_habitat": "tamano_habitat",
+    "religion": "religion",
+    "ingresos_hogar": "ingresos_hogar",
+    "situacion_laboral": "situacion_laboral",
+    "situacion_economica_personal": "situacion_economica_personal",
+    "situacion_economica_españa": "situacion_economica_españa",
+    "satisfaccion_democracia": "satisfaccion_democracia",
+    "ocupacion": "ocupacion",
+    # Alias funcionales del dashboard.
+    "edad_agrupada": "grupo_edad",
+    "nivel_estudios": "estudios",
+    "clase_social": "clase_social_subjetiva",
+    "comunidad_autonoma": "ccaa_id",
+    "sexo": "sexo",
+}
+_CAMPOS_PERFIL = dict(_CAMPOS_PERFIL_SQL_MAP)
 
 
 # ── Conexión ──────────────────────────────────────────────────────────────────
@@ -148,6 +170,17 @@ def get_conn():
 def _to_dbapi_named(sql: str) -> str:
     """Convierte parámetros estilo :name a %(name)s para psycopg2."""
     return _PARAM_RE.sub(r"%(\1)s", sql)
+
+
+def _quote_ident(col_name: str, conn: Any | None = None) -> str:
+    """
+    Quote seguro de identificadores SQL.
+    - Usa psycopg2.sql.Identifier cuando está disponible.
+    - Fallback con escape estricto de comillas.
+    """
+    if psycopg2_sql is not None and conn is not None and hasattr(conn, "cursor"):
+        return psycopg2_sql.Identifier(col_name).as_string(conn)
+    return '"' + str(col_name).replace('"', '""') + '"'
 
 
 def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = None) -> pd.DataFrame:
@@ -338,13 +371,14 @@ def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None
         raise ValueError(f"Columna '{columna}' no mapeada a campo SQL válido.")
     days = int(max(1, anios) * 365)
     conn = _conn or get_conn()
-    sql = """
-        SELECT fecha, __COL__ AS valor
-        FROM indicadores_macroeconomicos
-        WHERE __COL__ IS NOT NULL
-          AND fecha >= CURRENT_DATE - (:days * INTERVAL '1 day')
-        ORDER BY fecha
-    """.replace("__COL__", col_sql)
+    col_ident = _quote_ident(col_sql, conn=conn)
+    sql = (
+        "SELECT fecha, {col} AS valor "
+        "FROM indicadores_macroeconomicos "
+        "WHERE {col} IS NOT NULL "
+        "  AND fecha >= CURRENT_DATE - (:days * INTERVAL '1 day') "
+        "ORDER BY fecha"
+    ).format(col=col_ident)
     return _q(sql, {"days": days}, conn=conn)
 
 
@@ -694,12 +728,221 @@ def agenda_lider(lider_id: str, dias: int = 7, conn: Any | None = None) -> pd.Da
                lugar, tipo_evento, url_fuente
         FROM agenda_lideres
         WHERE lider_id = :lider_id
+          AND fecha_evento IS NOT NULL
           AND fecha_evento BETWEEN CURRENT_DATE AND (CURRENT_DATE + (:dias * INTERVAL '1 day'))
         ORDER BY fecha_evento, hora_inicio NULLS LAST
         """,
         {"lider_id": lider_id, "dias": int(dias)},
         conn=conn,
     )
+
+
+# ── Componentes: sentimiento / agenda / nowcasting ──────────────────────────
+
+def cargar_sentimiento_serie(conn: Any | None = None) -> pd.DataFrame:
+    """Serie diaria de sentimiento medio por partido (últimos 30 días)."""
+    return _q(
+        """
+        SELECT fecha, entidad AS partido, AVG(sentimiento_medio) AS sentimiento
+        FROM sentimiento_prensa_diario
+        WHERE fecha >= CURRENT_DATE - INTERVAL '30 days'
+          AND tipo_entidad = 'partido'
+          AND entidad IS NOT NULL
+        GROUP BY fecha, entidad
+        ORDER BY fecha, entidad
+        """,
+        conn=conn,
+    )
+
+
+def cargar_heatmap_fuente_partido(conn: Any | None = None) -> pd.DataFrame:
+    """Sentimiento medio por combinación fuente×partido (últimos 30 días)."""
+    return _q(
+        """
+        WITH news AS (
+            SELECT
+                COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida') AS fuente_id,
+                UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))::text AS partido,
+                COALESCE(sentimiento_score, 0.0) AS sentimiento
+            FROM noticias_prensa
+            WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '30 days'
+              AND COALESCE(partidos_mencionados, '') <> ''
+        )
+        SELECT
+            fuente_id,
+            BTRIM(partido) AS partido,
+            ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento,
+            COUNT(*) AS n_noticias
+        FROM news
+        WHERE BTRIM(partido) <> ''
+        GROUP BY fuente_id, BTRIM(partido)
+        ORDER BY fuente_id, partido
+        """,
+        conn=conn,
+    )
+
+
+def cargar_alertas_sentimiento(conn: Any | None = None, umbral: float = -0.5) -> pd.DataFrame:
+    """Picos negativos de cobertura en últimos 7 días."""
+    return _q(
+        """
+        WITH agg AS (
+            SELECT
+                fecha_publicacion::date AS fecha,
+                COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida') AS fuente_id,
+                BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                AVG(COALESCE(sentimiento_score, 0.0)) AS sentimiento_medio,
+                COUNT(*) AS n_noticias
+            FROM noticias_prensa
+            WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '7 days'
+              AND COALESCE(partidos_mencionados, '') <> ''
+            GROUP BY 1, 2, 3
+        )
+        SELECT
+            fecha,
+            partido,
+            fuente_id,
+            ROUND(sentimiento_medio::numeric, 3) AS sentimiento,
+            n_noticias
+        FROM agg
+        WHERE partido <> ''
+          AND sentimiento_medio <= :umbral
+        ORDER BY sentimiento_medio ASC
+        LIMIT 20
+        """,
+        {"umbral": float(umbral)},
+        conn=conn,
+    )
+
+
+def cargar_agenda_rango(conn: Any | None, fecha_inicio: str, fecha_fin: str) -> pd.DataFrame:
+    """Actos de agenda en rango de fechas, excluyendo fecha nula."""
+    return _q(
+        """
+        SELECT
+            al.fecha_evento AS fecha,
+            al.hora_inicio AS hora,
+            al.nombre_lider AS lider,
+            al.partido,
+            COALESCE(al.tipo_evento, 'otro') AS tipo_acto,
+            COALESCE(al.titulo_evento, al.descripcion, 'Sin descripción') AS descripcion,
+            al.lugar,
+            COALESCE(al.fuente_id, al.url_fuente) AS fuente
+        FROM agenda_lideres al
+        WHERE al.fecha_evento BETWEEN :fecha_inicio AND :fecha_fin
+          AND al.fecha_evento IS NOT NULL
+        ORDER BY al.fecha_evento, al.hora_inicio NULLS LAST, al.partido
+        """,
+        {"fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin},
+        conn=conn,
+    )
+
+
+def cargar_serie_voto(conn: Any | None = None) -> pd.DataFrame:
+    """Serie histórica de estimaciones de voto por partido (180 días)."""
+    return _q(
+        """
+        SELECT
+            p.siglas AS partido,
+            e.fecha_estimacion AS fecha,
+            e.estimacion_pct AS voto_estimado,
+            NULL::integer AS escanos_estimados
+        FROM estimaciones_voto_agregadas e
+        JOIN partidos p ON p.id = e.partido_id
+        WHERE e.fecha_estimacion >= CURRENT_DATE - INTERVAL '180 days'
+        ORDER BY e.fecha_estimacion, p.siglas
+        """,
+        conn=conn,
+    )
+
+
+def get_todos_politicos(conn: Any | None = None) -> pd.DataFrame:
+    return _q(
+        """
+        SELECT
+            politico_id,
+            nombre_completo,
+            COALESCE(nombre_corto, nombre_completo) AS nombre_corto,
+            partido_actual,
+            cargo_actual,
+            es_ministro,
+            es_lider_partido,
+            es_diputado,
+            foto_url
+        FROM politicos
+        ORDER BY partido_actual, es_lider_partido DESC, nombre_corto
+        """,
+        conn=conn,
+    )
+
+
+def get_ficha_politico(conn: Any | None, politico_id: str) -> dict[str, Any]:
+    perfil = _q(
+        "SELECT * FROM politicos WHERE politico_id = :pid",
+        {"pid": politico_id},
+        conn=conn,
+    )
+    trayectoria = _q(
+        """
+        SELECT cargo, organizacion, tipo_cargo, ambito,
+               fecha_inicio, fecha_fin, es_cargo_actual, descripcion
+        FROM politicos_trayectoria
+        WHERE politico_id = :pid
+        ORDER BY fecha_inicio DESC NULLS FIRST
+        """,
+        {"pid": politico_id},
+        conn=conn,
+    )
+    patrimonio = _q(
+        """
+        SELECT anio_declaracion, tipo_declaracion, total_activos,
+               total_pasivos, ingresos_cargo, url_declaracion
+        FROM politicos_patrimonio
+        WHERE politico_id = :pid
+        ORDER BY anio_declaracion DESC
+        """,
+        {"pid": politico_id},
+        conn=conn,
+    )
+    noticias = _q(
+        """
+        SELECT
+            n.titular AS titulo,
+            n.url,
+            n.fecha_publicacion AS fecha_pub,
+            n.fuente AS fuente_id,
+            n.categoria AS tema,
+            n.sentimiento_score AS sentimiento,
+            pn.relevancia
+        FROM politicos_noticias pn
+        JOIN noticias_prensa n ON n.url = pn.noticia_url
+        WHERE pn.politico_id = :pid
+          AND n.fecha_publicacion >= CURRENT_DATE - INTERVAL '30 days'
+        ORDER BY pn.relevancia DESC NULLS LAST, n.fecha_publicacion DESC
+        LIMIT 20
+        """,
+        {"pid": politico_id},
+        conn=conn,
+    )
+    votos = _q(
+        """
+        SELECT fecha_votacion, titulo_votacion,
+               resultado_voto, resultado_final, url_votacion
+        FROM politicos_votos
+        WHERE politico_id = :pid
+        ORDER BY fecha_votacion DESC
+        LIMIT 10
+        """,
+        {"pid": politico_id},
+        conn=conn,
+    )
+    return {
+        "perfil": perfil.iloc[0].to_dict() if not perfil.empty else {},
+        "trayectoria": trayectoria,
+        "patrimonio": patrimonio,
+        "noticias": noticias,
+        "votos": votos,
+    }
 
 
 # ── Congreso ──────────────────────────────────────────────────────────────────
@@ -1130,20 +1373,11 @@ def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: 
             sql,
             params,
         )
-    allowed = {
-        "principal_problema": "me.principal_problema",
-        "tamano_habitat": "me.tamano_habitat",
-        "religion": "me.religion",
-        "ingresos_hogar": "me.ingresos_hogar",
-        "situacion_laboral": "me.situacion_laboral",
-        "situacion_economica_personal": "me.situacion_economica_personal",
-        "situacion_economica_españa": "me.\"situacion_economica_españa\"",
-        "satisfaccion_democracia": "me.satisfaccion_democracia",
-        "ocupacion": "me.ocupacion",
-    }
-    col_sql = allowed.get(campo)
-    if not col_sql:
+    col_raw = _CAMPOS_PERFIL_SQL_MAP.get(campo)
+    if not col_raw:
         return pd.DataFrame(columns=["categoria", "peso"])
+    col_ident = _quote_ident(col_raw)
+    col_sql = f"me.{col_ident}"
     sql = (
         "SELECT __COL__ AS categoria, SUM(COALESCE(me.peso_muestral,1)) AS peso "
         "FROM microdatos_encuesta me "

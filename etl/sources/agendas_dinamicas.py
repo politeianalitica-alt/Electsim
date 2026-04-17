@@ -126,9 +126,9 @@ def parse_fecha_es(texto: str) -> date_type | None:
     return None
 
 
-def _to_iso_day(fecha_txt: str) -> str:
+def _to_iso_day(fecha_txt: str) -> str | None:
     parsed = parse_fecha_es(_clean_text(fecha_txt))
-    return parsed.strftime("%Y-%m-%d") if parsed else ""
+    return parsed.strftime("%Y-%m-%d") if parsed else None
 
 
 def _fetch(url: str, timeout: int) -> str:
