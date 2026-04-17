@@ -167,7 +167,10 @@ def get_conn():
         try:
             if _conn is None or _connection_closed(_conn):
                 _conn = _connect_db(os.environ["DATABASE_URL"])
-                _conn.autocommit = False
+                # Autocommit=True: el dashboard es read-only, así evitamos
+                # que un error en una query deje la transacción "aborted"
+                # y haga fallar silenciosamente todas las siguientes.
+                _conn.autocommit = True
                 logger.info("Conexión a PostgreSQL establecida.")
             with _conn.cursor() as cur:
                 cur.execute("SELECT 1")
@@ -214,6 +217,13 @@ def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = N
         return pd.read_sql(text(sql), active_conn, params=params or {})
     except Exception as e:
         logger.error("DB query failed: %s", e, exc_info=True)
+        # Rollback defensivo: si la conexión quedó en estado "aborted",
+        # la próxima query fallaría. Limpiamos antes de devolver vacío.
+        try:
+            if conn is None and _conn is not None and hasattr(_conn, "rollback"):
+                _conn.rollback()
+        except Exception:
+            pass
         if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
             st.warning(str(e))
         return pd.DataFrame()
