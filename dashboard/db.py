@@ -5,10 +5,10 @@ Queries cacheadas con st.cache_data sobre el schema real de ElectSim.
 
 from __future__ import annotations
 
-import logging
 import os
+import re
 import sys
-_log = logging.getLogger(__name__)
+import time
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +22,20 @@ import streamlit as st
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
+from sqlalchemy.pool import NullPool
+from etl.logger import get_logger
+
+try:  # Preferencia: psycopg2 si está disponible.
+    import psycopg2  # type: ignore
+    _DB_OP_ERROR = psycopg2.OperationalError
+except Exception:  # pragma: no cover - fallback entorno con psycopg v3
+    psycopg2 = None  # type: ignore
+    try:
+        import psycopg  # type: ignore
+        _DB_OP_ERROR = psycopg.OperationalError
+    except Exception:  # pragma: no cover
+        psycopg = None  # type: ignore
+        _DB_OP_ERROR = Exception
 
 from dashboard.ingestion.microdatos_pipeline import (
     DEFAULT_MICRODATOS_DIR,
@@ -31,9 +45,75 @@ from dashboard.ingestion.microdatos_pipeline import (
 )
 
 load_dotenv(_ROOT / ".env")
+logger = get_logger(__name__)
+
+_conn = None
+_PARAM_RE = re.compile(r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)")
+
+_COLUMNAS_MACRO_PERMITIDAS = {
+    "ipc_general",
+    "crecimiento_pib",
+    "prima_riesgo_bono10",
+    "euribor_12m",
+    "ibex35_cierre",
+    "deuda_publica_pib",
+    "deficit_publico_pib",
+    # Alias de modelo macro alternativo.
+    "pib_real",
+    "inflacion_ipc",
+    "tasa_paro",
+    "deuda_pib",
+    "balanza_cuenta_corriente",
+    "indice_confianza_consumidor",
+}
+
+_MACRO_SQL_MAP = {
+    "ipc_general": "ipc_general",
+    "inflacion_ipc": "ipc_general",
+    "crecimiento_pib": "crecimiento_pib",
+    "pib_real": "crecimiento_pib",
+    "prima_riesgo_bono10": "prima_riesgo_bono10",
+    "euribor_12m": "euribor_12m",
+    "ibex35_cierre": "ibex35_cierre",
+    "deuda_publica_pib": "deuda_publica_pib",
+    "deuda_pib": "deuda_publica_pib",
+    "deficit_publico_pib": "deficit_publico_pib",
+}
+
+_CAMPOS_PERFIL_PERMITIDOS = {
+    "principal_problema",
+    "tamano_habitat",
+    "religion",
+    "ingresos_hogar",
+    "situacion_laboral",
+    "situacion_economica_personal",
+    "situacion_economica_españa",
+    "satisfaccion_democracia",
+    "ocupacion",
+    # Alias pedidos en prompt
+    "edad_agrupada",
+    "nivel_estudios",
+    "clase_social",
+    "comunidad_autonoma",
+    "sexo",
+}
 
 
 # ── Conexión ──────────────────────────────────────────────────────────────────
+
+def _connection_closed(conn: Any) -> bool:
+    try:
+        return bool(getattr(conn, "closed"))
+    except Exception:
+        return True
+
+
+def _connect_db(url: str):
+    if psycopg2 is not None:
+        return psycopg2.connect(url)
+    if "psycopg" in globals() and psycopg is not None:  # type: ignore[name-defined]
+        return psycopg.connect(url)  # type: ignore[name-defined]
+    raise RuntimeError("No hay driver PostgreSQL disponible (psycopg/psycopg2).")
 
 @st.cache_resource
 def get_engine() -> Engine:
@@ -41,19 +121,56 @@ def get_engine() -> Engine:
         "DATABASE_URL",
         "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana",
     )
-    return create_engine(url, pool_pre_ping=True, pool_size=5, max_overflow=10)
+    workers = int(os.environ.get("STREAMLIT_SERVER_WORKERS", "1"))
+    if workers > 1:
+        return create_engine(url, pool_pre_ping=True, poolclass=NullPool)
+    return create_engine(url, pool_pre_ping=True, pool_size=3, max_overflow=5)
 
 
-def _q(sql: str, params: dict | None = None) -> pd.DataFrame:
+def get_conn():
+    global _conn
+    for intento in range(3):
+        try:
+            if _conn is None or _connection_closed(_conn):
+                _conn = _connect_db(os.environ["DATABASE_URL"])
+                _conn.autocommit = False
+                logger.info("Conexión a PostgreSQL establecida.")
+            with _conn.cursor() as cur:
+                cur.execute("SELECT 1")
+            return _conn
+        except _DB_OP_ERROR as e:
+            logger.warning("Intento %s/3 fallido al conectar a BD: %s", intento + 1, e)
+            _conn = None
+            time.sleep(0.5 * (intento + 1))
+    raise RuntimeError("No se puede conectar a PostgreSQL tras 3 intentos.")
+
+
+def _to_dbapi_named(sql: str) -> str:
+    """Convierte parámetros estilo :name a %(name)s para psycopg2."""
+    return _PARAM_RE.sub(r"%(\1)s", sql)
+
+
+def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = None) -> pd.DataFrame:
     """Ejecuta una query y devuelve DataFrame; retorna vacío si falla."""
     try:
-        engine = get_engine()
-        with engine.connect() as conn:
-            return pd.read_sql(text(sql), conn, params=params or {})
+        active_conn = conn or get_conn()
+        if hasattr(active_conn, "cursor"):
+            query = _to_dbapi_named(sql) if isinstance(params, dict) else sql
+            with active_conn.cursor() as cur:
+                cur.execute(query, params or None)
+                if cur.description is None:
+                    return pd.DataFrame()
+                cols = [d[0] for d in cur.description]
+                rows = cur.fetchall()
+            return pd.DataFrame(rows, columns=cols)
+        if hasattr(active_conn, "connect"):
+            with active_conn.connect() as sa_conn:
+                return pd.read_sql(text(sql), sa_conn, params=params or {})
+        return pd.read_sql(text(sql), active_conn, params=params or {})
     except Exception as e:
-        _log.error("DB query failed: %s", e, exc_info=True)
+        logger.error("DB query failed: %s", e, exc_info=True)
         if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
-            st.warning(f"Error de BD: {e}")
+            st.warning(str(e))
         return pd.DataFrame()
 
 
@@ -95,7 +212,11 @@ def cargar_resultados_electorales(eleccion_id: int) -> pd.DataFrame:
         FROM resultados_electorales re
         JOIN partidos             p  ON p.id  = re.partido_id
         LEFT JOIN provincias      pr ON pr.id = re.provincia_id
-        LEFT JOIN comunidades_autonomas ca ON ca.id = COALESCE(re.ccaa_id, pr.ccaa_id)
+        LEFT JOIN comunidades_autonomas ca ON ca.id = (
+            CASE WHEN re.provincia_id IS NULL THEN re.ccaa_id
+                 ELSE pr.ccaa_id
+            END
+        )
         WHERE re.eleccion_id = :eid
         ORDER BY re.porcentaje DESC NULLS LAST
         """,
@@ -114,7 +235,11 @@ def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
             p.ideologia,
             p.eje_izda_dcha,
             SUM(re.votos)              AS votos_totales,
-            MAX(re.porcentaje)         AS pct_medio,
+            ROUND(
+                SUM(re.votos)::numeric
+                / NULLIF(SUM(SUM(re.votos)) OVER (), 0)::numeric
+                * 100, 2
+            )                          AS pct_medio,
             SUM(re.escanos)            AS escanos_totales
         FROM resultados_electorales re
         JOIN partidos p ON p.id = re.partido_id
@@ -129,23 +254,33 @@ def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
 
 # ── Nowcasting ────────────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=60)
-def cargar_nowcasting() -> pd.DataFrame:
+@st.cache_data(ttl=300)
+def cargar_nowcasting(_conn=None) -> pd.DataFrame:
     """Última estimación por partido (fecha más reciente en BD)."""
+    conn = _conn or get_conn()
     return _q(
         """
-        SELECT DISTINCT ON (p.siglas)
-            p.siglas        AS partido_siglas,
-            p.nombre_completo AS partido_nombre,
-            e.estimacion_pct,
-            e.ic_95_inf,
-            e.ic_95_sup,
-            e.n_encuestas,
-            e.fecha_estimacion AS fecha_calculo
-        FROM estimaciones_voto_agregadas e
-        JOIN partidos p ON p.id = e.partido_id
-        ORDER BY p.siglas, e.fecha_estimacion DESC
-        """
+        SELECT partido_siglas, partido_nombre, estimacion_pct,
+               ic_95_inf, ic_95_sup, n_encuestas, fecha_calculo
+        FROM (
+            SELECT
+                p.siglas AS partido_siglas,
+                p.nombre_completo AS partido_nombre,
+                e.estimacion_pct,
+                e.ic_95_inf,
+                e.ic_95_sup,
+                e.n_encuestas,
+                e.fecha_estimacion AS fecha_calculo,
+                ROW_NUMBER() OVER (
+                    PARTITION BY p.siglas
+                    ORDER BY e.fecha_estimacion DESC
+                ) AS rn
+            FROM estimaciones_voto_agregadas e
+            JOIN partidos p ON p.id = e.partido_id
+        ) ranked
+        WHERE rn = 1
+        """,
+        conn=conn,
     )
 
 
@@ -191,46 +326,29 @@ def cargar_macro_ultimo() -> pd.DataFrame:
     )
 
 
-@st.cache_data(ttl=300)
-def cargar_macro_serie(columna: str, anios: int = 10) -> pd.DataFrame:
+@st.cache_data(ttl=3600)
+def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None) -> pd.DataFrame:
     """Serie temporal de un indicador macroeconómico."""
-    columnas_validas = {
-        "ipc_general", "crecimiento_pib",
-        "prima_riesgo_bono10", "euribor_12m", "ibex35_cierre",
-        "deuda_publica_pib", "deficit_publico_pib",
-    }
-    if columna not in columnas_validas:
-        return pd.DataFrame()
-    return _q(
-        f"""
-        SELECT fecha, {columna} AS valor
+    if columna not in _COLUMNAS_MACRO_PERMITIDAS:
+        raise ValueError(
+            f"Columna '{columna}' no permitida. Valores válidos: {_COLUMNAS_MACRO_PERMITIDAS}"
+        )
+    col_sql = _MACRO_SQL_MAP.get(columna)
+    if not col_sql:
+        raise ValueError(f"Columna '{columna}' no mapeada a campo SQL válido.")
+    days = int(max(1, anios) * 365)
+    conn = _conn or get_conn()
+    sql = """
+        SELECT fecha, __COL__ AS valor
         FROM indicadores_macroeconomicos
-        WHERE {columna} IS NOT NULL
-          AND fecha >= CURRENT_DATE - INTERVAL '{anios * 365} days'
+        WHERE __COL__ IS NOT NULL
+          AND fecha >= CURRENT_DATE - (:days * INTERVAL '1 day')
         ORDER BY fecha
-        """
-    )
+    """.replace("__COL__", col_sql)
+    return _q(sql, {"days": days}, conn=conn)
 
 
 # ── Perfiles de votante ───────────────────────────────────────────────────────
-
-@st.cache_data(ttl=600)
-def cargar_perfiles_votante() -> pd.DataFrame:
-    return _q(
-        """
-        SELECT cluster_id,
-               label                AS etiqueta,
-               n_respondentes,
-               peso_demografico_pct AS peso,
-               ideologia_media      AS ideo_media,
-               edad_media,
-               descripcion_perfil_llm AS descripcion_llm,
-               distribucion_voto_json
-        FROM perfiles_votante
-        ORDER BY peso_demografico_pct DESC NULLS LAST
-        """
-    )
-
 
 # ── Simulaciones ─────────────────────────────────────────────────────────────
 
@@ -266,9 +384,8 @@ def cargar_simulaciones_cis(n: int = 5) -> pd.DataFrame:
 
 @st.cache_data(ttl=600)
 def cargar_coaliciones(eleccion_id: int | None = None) -> pd.DataFrame:
-    cond = "WHERE eleccion_id = :eid" if eleccion_id else ""
     return _q(
-        f"""
+        """
         SELECT partidos_coalicion AS partidos,
                escanos_totales    AS escanos_total,
                es_minima          AS viable,
@@ -276,11 +393,11 @@ def cargar_coaliciones(eleccion_id: int | None = None) -> pd.DataFrame:
                distancia_ideologica,
                score_viabilidad   AS probabilidad
         FROM analisis_coaliciones
-        {cond}
+        WHERE (:eid IS NULL OR eleccion_id = :eid)
         ORDER BY escanos_totales DESC
         LIMIT 30
         """,
-        {"eid": eleccion_id} if eleccion_id else {},
+        {"eid": eleccion_id},
     )
 
 
@@ -399,8 +516,10 @@ def cargar_serie_indice(codigo: str, dias: int = 90) -> pd.DataFrame:
 
 # ── Prensa y agenda ───────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=60)
-def cargar_noticias_recientes(dias: int = 7, limit: int = 50) -> pd.DataFrame:
+@st.cache_data(ttl=300)
+def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None = None, _conn=None) -> pd.DataFrame:
+    conn = _conn or get_conn()
+    lim = int(limite if limite is not None else limit)
     return _q("""
         SELECT fuente, titular, url, fecha_publicacion, categoria,
                partidos_mencionados, sentimiento_score, sentimiento_label,
@@ -409,7 +528,7 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50) -> pd.DataFrame:
         WHERE fecha_publicacion >= CURRENT_DATE - :dias
         ORDER BY relevancia_score DESC NULLS LAST, fecha_publicacion DESC
         LIMIT :limit
-    """, {"dias": dias, "limit": limit})
+    """, {"dias": dias, "limit": lim}, conn=conn)
 
 
 @st.cache_data(ttl=60)
@@ -439,14 +558,15 @@ def cargar_sentimiento_todos_partidos(dias: int = 14) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=60)
-def cargar_agenda_hoy() -> pd.DataFrame:
+def cargar_agenda_hoy(_conn=None) -> pd.DataFrame:
+    conn = _conn or get_conn()
     df = _q("""
         SELECT tema, n_noticias, sentimiento_medio, peso_agenda, tendencia
         FROM agenda_mediatica
         WHERE fecha = CURRENT_DATE
         ORDER BY n_noticias DESC
         LIMIT 25
-    """)
+    """, conn=conn)
     if not df.empty:
         return df
     # Fallback robusto:
@@ -471,7 +591,8 @@ def cargar_agenda_hoy() -> pd.DataFrame:
         GROUP BY 1
         ORDER BY n_noticias DESC
         LIMIT 25
-        """
+        """,
+        conn=conn,
     )
     if not df_last.empty:
         return df_last
@@ -488,7 +609,8 @@ def cargar_agenda_hoy() -> pd.DataFrame:
         GROUP BY 1
         ORDER BY n_noticias DESC
         LIMIT 25
-        """
+        """,
+        conn=conn,
     )
 
 
@@ -536,6 +658,50 @@ def cargar_agenda_historica(dias: int = 30, top_temas: int = 10) -> pd.DataFrame
     )
 
 
+def agenda_hoy(conn: Any | None = None) -> pd.DataFrame:
+    """Todos los eventos de hoy, ordenados por hora y bloque político."""
+    return _q(
+        """
+        SELECT
+            partido, nombre_lider, cargo,
+            hora_inicio, titulo_evento, lugar,
+            tipo_evento, url_fuente
+        FROM agenda_hoy
+        ORDER BY
+            CASE partido
+                WHEN 'GOBIERNO'  THEN 1
+                WHEN 'PSOE'      THEN 2
+                WHEN 'PP'        THEN 3
+                WHEN 'VOX'       THEN 4
+                WHEN 'SUMAR'     THEN 5
+                WHEN 'CONGRESO'  THEN 6
+                ELSE 99
+            END,
+            hora_inicio ASC NULLS LAST
+        """,
+        conn=conn,
+    )
+
+
+def agenda_semana(conn: Any | None = None) -> pd.DataFrame:
+    return _q("SELECT * FROM agenda_semana", conn=conn)
+
+
+def agenda_lider(lider_id: str, dias: int = 7, conn: Any | None = None) -> pd.DataFrame:
+    return _q(
+        """
+        SELECT fecha_evento, hora_inicio, titulo_evento,
+               lugar, tipo_evento, url_fuente
+        FROM agenda_lideres
+        WHERE lider_id = :lider_id
+          AND fecha_evento BETWEEN CURRENT_DATE AND (CURRENT_DATE + (:dias * INTERVAL '1 day'))
+        ORDER BY fecha_evento, hora_inicio NULLS LAST
+        """,
+        {"lider_id": lider_id, "dias": int(dias)},
+        conn=conn,
+    )
+
+
 # ── Congreso ──────────────────────────────────────────────────────────────────
 
 @st.cache_data(ttl=300)
@@ -576,14 +742,13 @@ def cargar_votaciones() -> pd.DataFrame:
 
 @st.cache_data(ttl=600)
 def cargar_indicadores_sociales(indicador: str | None = None) -> pd.DataFrame:
-    cond = "AND indicador = :ind" if indicador else ""
-    return _q(f"""
+    return _q("""
         SELECT indicador, valor, unidad, fecha, fuente
         FROM indicadores_sociales
-        WHERE 1=1 {cond}
+        WHERE (:ind IS NULL OR indicador = :ind)
         ORDER BY indicador, fecha DESC
         LIMIT 200
-    """, {"ind": indicador} if indicador else {})
+    """, {"ind": indicador})
 
 
 @st.cache_data(ttl=300)
@@ -626,8 +791,10 @@ def cargar_resultados_provinciales(eleccion_id: int) -> pd.DataFrame:
     )
 
 
-@st.cache_data(ttl=120)
-def cargar_perfiles_votante(limit: int = 30) -> pd.DataFrame:
+@st.cache_data(ttl=3600)
+def cargar_perfiles_votante(_conn=None, limit: int = 30) -> pd.DataFrame:
+    conn = _conn or get_conn()
+    lim = max(1, int(limit))
     return _q(
         """
         SELECT cluster_id, label, n_respondentes, peso_demografico_pct,
@@ -636,7 +803,8 @@ def cargar_perfiles_votante(limit: int = 30) -> pd.DataFrame:
         ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id
         LIMIT :limit
         """,
-        {"limit": limit},
+        {"limit": lim},
+        conn=conn,
     )
 
 
@@ -686,13 +854,39 @@ def cargar_microdatos_resumen(run_id: str | None = None) -> pd.DataFrame:
         run_id = str(run_df.iloc[0]["run_id"])
     return _q(
         """
+        WITH
+          ai_pool AS (
+            SELECT COUNT(*)::bigint AS n_pool_ia
+            FROM microdatos_ai_pool
+            WHERE run_id = :run_id
+          ),
+          cohortes AS (
+            SELECT COUNT(*)::bigint AS n_cohortes
+            FROM microdatos_cohortes
+            WHERE run_id = :run_id
+          ),
+          asociaciones AS (
+            SELECT COUNT(*)::bigint AS n_asociaciones
+            FROM microdatos_asociaciones
+            WHERE run_id = :run_id
+          ),
+          enc_m AS (
+            SELECT COUNT(*)::bigint AS n_microdatos_total
+            FROM microdatos_encuesta
+          ),
+          encuestas_m AS (
+            SELECT COUNT(*)::bigint AS n_encuestas_micro
+            FROM encuestas
+            WHERE tipo_encuesta = 'microdatos'
+          )
         SELECT
           :run_id AS run_id,
-          (SELECT COUNT(*) FROM microdatos_ai_pool WHERE run_id = :run_id) AS n_pool_ia,
-          (SELECT COUNT(*) FROM microdatos_cohortes WHERE run_id = :run_id) AS n_cohortes,
-          (SELECT COUNT(*) FROM microdatos_asociaciones WHERE run_id = :run_id) AS n_asociaciones,
-          (SELECT COUNT(*) FROM microdatos_encuesta) AS n_microdatos_total,
-          (SELECT COUNT(*) FROM encuestas WHERE tipo_encuesta = 'microdatos') AS n_encuestas_micro
+          ai_pool.n_pool_ia,
+          cohortes.n_cohortes,
+          asociaciones.n_asociaciones,
+          enc_m.n_microdatos_total,
+          encuestas_m.n_encuestas_micro
+        FROM ai_pool, cohortes, asociaciones, enc_m, encuestas_m
         """,
         {"run_id": run_id},
     )
@@ -788,25 +982,26 @@ def cargar_perfiles_usuario_custom(usuario_id: str = "default") -> pd.DataFrame:
     )
 
 
-def _build_micro_filter_where(filtros: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+def _build_micro_filter_where(filtros: dict[str, Any], table_alias: str = "") -> tuple[str, dict[str, Any]]:
+    pref = f"{table_alias}." if table_alias else ""
     mapping = {
-        "sexo": "sexo",
-        "grupo_edad": "grupo_edad",
-        "estudios": "estudios",
-        "situacion_laboral": "situacion_laboral",
-        "ocupacion": "ocupacion",
-        "clase_social_subjetiva": "clase_social_subjetiva",
-        "identidad_territorial": "identidad_territorial",
-        "ccaa_id": "ccaa_id::text",
-        "tamano_habitat": "tamano_habitat",
-        "principal_problema": "principal_problema",
-        "religion": "religion",
-        "ingresos_hogar": "ingresos_hogar",
-        "situacion_economica_personal": "situacion_economica_personal",
-        "situacion_economica_españa": "situacion_economica_españa",
-        "satisfaccion_democracia": "satisfaccion_democracia",
-        "recuerdo_voto_anterior": "recuerdo_voto_anterior",
-        "intencion_voto": "intencion_voto",
+        "sexo": f"{pref}sexo",
+        "grupo_edad": f"{pref}grupo_edad",
+        "estudios": f"{pref}estudios",
+        "situacion_laboral": f"{pref}situacion_laboral",
+        "ocupacion": f"{pref}ocupacion",
+        "clase_social_subjetiva": f"{pref}clase_social_subjetiva",
+        "identidad_territorial": f"{pref}identidad_territorial",
+        "ccaa_id": f"{pref}ccaa_id::text",
+        "tamano_habitat": f"{pref}tamano_habitat",
+        "principal_problema": f"{pref}principal_problema",
+        "religion": f"{pref}religion",
+        "ingresos_hogar": f"{pref}ingresos_hogar",
+        "situacion_economica_personal": f"{pref}situacion_economica_personal",
+        "situacion_economica_españa": f"{pref}situacion_economica_españa",
+        "satisfaccion_democracia": f"{pref}satisfaccion_democracia",
+        "recuerdo_voto_anterior": f"{pref}recuerdo_voto_anterior",
+        "intencion_voto": f"{pref}intencion_voto",
     }
     params: dict[str, Any] = {}
     clauses: list[str] = []
@@ -818,12 +1013,12 @@ def _build_micro_filter_where(filtros: dict[str, Any]) -> tuple[str, dict[str, A
             vals = [str(x) for x in v if x is not None and str(x).strip() and str(x).strip().lower() not in {"todos", "all", ""}]
             if not vals:
                 continue
-            in_params: list[str] = []
+            in_params_map: list[str] = []
             for i, val in enumerate(vals):
                 pk = f"f_{k}_{i}"
                 params[pk] = val
-                in_params.append(f":{pk}")
-            clauses.append(f"{col} IN ({', '.join(in_params)})")
+                in_params_map.append(f":{pk}")
+            clauses.append(f"{col} IN ({', '.join(in_params_map)})")
             continue
         if str(v).strip().lower() in {"todos", "all", ""}:
             continue
@@ -831,25 +1026,25 @@ def _build_micro_filter_where(filtros: dict[str, Any]) -> tuple[str, dict[str, A
         clauses.append(f"{col} = :{pk}")
         params[pk] = str(v)
     esc_bin = filtros.get("escideol_bin")
-    case_expr = """
+    case_expr = f"""
         (CASE
-          WHEN escala_ideologica IS NULL THEN 'NA'
-          WHEN escala_ideologica <= 2 THEN '1-2'
-          WHEN escala_ideologica <= 4 THEN '3-4'
-          WHEN escala_ideologica <= 6 THEN '5-6'
-          WHEN escala_ideologica <= 8 THEN '7-8'
+          WHEN {pref}escala_ideologica IS NULL THEN 'NA'
+          WHEN {pref}escala_ideologica <= 2 THEN '1-2'
+          WHEN {pref}escala_ideologica <= 4 THEN '3-4'
+          WHEN {pref}escala_ideologica <= 6 THEN '5-6'
+          WHEN {pref}escala_ideologica <= 8 THEN '7-8'
           ELSE '9-10'
         END)
     """
     if isinstance(esc_bin, (list, tuple, set)):
         esc_vals = [str(x) for x in esc_bin if x is not None and str(x).strip() and str(x).strip().lower() not in {"todos", "all", ""}]
         if esc_vals:
-            in_params: list[str] = []
+            in_params_esc: list[str] = []
             for i, val in enumerate(esc_vals):
                 pk = f"f_escideol_bin_{i}"
                 params[pk] = val
-                in_params.append(f":{pk}")
-            clauses.append(f"{case_expr} IN ({', '.join(in_params)})")
+                in_params_esc.append(f":{pk}")
+            clauses.append(f"{case_expr} IN ({', '.join(in_params_esc)})")
     elif esc_bin and str(esc_bin).strip().lower() not in {"todos", "all", ""}:
         params["f_escideol_bin"] = str(esc_bin)
         clauses.append(f"{case_expr} = :f_escideol_bin")
@@ -861,36 +1056,52 @@ def _build_micro_filter_where(filtros: dict[str, Any]) -> tuple[str, dict[str, A
 def cargar_opciones_perfil_microdatos() -> dict[str, list[str]]:
     _ensure_microdatos_schema()
     out: dict[str, list[str]] = {}
-    cols = [
-        "sexo",
-        "grupo_edad",
-        "estudios",
-        "situacion_laboral",
-        "ocupacion",
-        "clase_social_subjetiva",
-        "identidad_territorial",
-        "ccaa_id",
-        "tamano_habitat",
-        "principal_problema",
-        "religion",
-        "ingresos_hogar",
-        "situacion_economica_personal",
-        "situacion_economica_españa",
-        "satisfaccion_democracia",
-        "recuerdo_voto_anterior",
-        "intencion_voto",
-    ]
-    for col in cols:
-        col_expr = f"{col}::text" if col == "ccaa_id" else col
-        df = _q(
-            f"""
-            SELECT DISTINCT {col_expr} AS v
-            FROM microdatos_encuesta
-            WHERE {col} IS NOT NULL AND TRIM({col_expr}) <> ''
-            ORDER BY v
-            """
+    cols = {
+        "sexo": "sexo::text",
+        "grupo_edad": "grupo_edad::text",
+        "estudios": "estudios::text",
+        "situacion_laboral": "situacion_laboral::text",
+        "ocupacion": "ocupacion::text",
+        "clase_social_subjetiva": "clase_social_subjetiva::text",
+        "identidad_territorial": "identidad_territorial::text",
+        "ccaa_id": "ccaa_id::text",
+        "tamano_habitat": "tamano_habitat::text",
+        "principal_problema": "principal_problema::text",
+        "religion": "religion::text",
+        "ingresos_hogar": "ingresos_hogar::text",
+        "situacion_economica_personal": "situacion_economica_personal::text",
+        "situacion_economica_españa": "\"situacion_economica_españa\"::text",
+        "satisfaccion_democracia": "satisfaccion_democracia::text",
+        "recuerdo_voto_anterior": "recuerdo_voto_anterior::text",
+        "intencion_voto": "intencion_voto::text",
+    }
+    select_chunks = ",\n               ".join(
+        (
+            "ARRAY(SELECT DISTINCT {expr} FROM microdatos_encuesta "
+            "WHERE {expr_base} IS NOT NULL AND TRIM({expr}) <> '' ORDER BY 1) AS {col}"
+        ).format(
+            expr=expr,
+            expr_base=expr.replace("::text", ""),
+            col=col,
         )
-        out[col] = df["v"].astype(str).tolist() if not df.empty else []
+        for col, expr in cols.items()
+    )
+    sql = """
+        SELECT
+               {select_chunks}
+    """.format(select_chunks=select_chunks)
+    df = _q(sql)
+    if not df.empty:
+        row = df.iloc[0]
+        for col in cols:
+            arr = row.get(col)
+            if isinstance(arr, list):
+                out[col] = [str(x) for x in arr if x is not None]
+            else:
+                out[col] = []
+    else:
+        for col in cols:
+            out[col] = []
     out["escideol_bin"] = ["1-2", "3-4", "5-6", "7-8", "9-10", "NA"]
     return out
 
@@ -898,46 +1109,53 @@ def cargar_opciones_perfil_microdatos() -> dict[str, list[str]]:
 @st.cache_data(ttl=120)
 def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: str, limit: int = 12) -> pd.DataFrame:
     _ensure_microdatos_schema()
-    where, params = _build_micro_filter_where(filtros)
+    if campo != "ccaa_residencia" and campo not in _CAMPOS_PERFIL_PERMITIDOS:
+        raise ValueError(
+            f"Campo '{campo}' no permitido. Valores válidos: {_CAMPOS_PERFIL_PERMITIDOS}"
+        )
+    where, params = _build_micro_filter_where(filtros, table_alias="me")
     params["limit"] = limit
     if campo == "ccaa_residencia":
+        sql = (
+            "SELECT COALESCE(ca.nombre, 'Sin identificar') AS categoria, "
+            "       SUM(COALESCE(me.peso_muestral,1)) AS peso "
+            "FROM microdatos_encuesta me "
+            "LEFT JOIN comunidades_autonomas ca ON ca.id = me.ccaa_id "
+            "WHERE __WHERE__ "
+            "GROUP BY COALESCE(ca.nombre, 'Sin identificar') "
+            "ORDER BY peso DESC "
+            "LIMIT :limit"
+        ).replace("__WHERE__", where)
         return _q(
-            f"""
-            SELECT COALESCE(ca.nombre, 'Sin identificar') AS categoria,
-                   SUM(COALESCE(me.peso_muestral,1)) AS peso
-            FROM microdatos_encuesta me
-            LEFT JOIN comunidades_autonomas ca ON ca.id = me.ccaa_id
-            WHERE {where.replace('ccaa_id::text', 'me.ccaa_id::text')}
-            GROUP BY COALESCE(ca.nombre, 'Sin identificar')
-            ORDER BY peso DESC
-            LIMIT :limit
-            """,
+            sql,
             params,
         )
     allowed = {
-        "principal_problema",
-        "tamano_habitat",
-        "religion",
-        "ingresos_hogar",
-        "situacion_laboral",
-        "situacion_economica_personal",
-        "situacion_economica_españa",
-        "satisfaccion_democracia",
-        "ocupacion",
+        "principal_problema": "me.principal_problema",
+        "tamano_habitat": "me.tamano_habitat",
+        "religion": "me.religion",
+        "ingresos_hogar": "me.ingresos_hogar",
+        "situacion_laboral": "me.situacion_laboral",
+        "situacion_economica_personal": "me.situacion_economica_personal",
+        "situacion_economica_españa": "me.\"situacion_economica_españa\"",
+        "satisfaccion_democracia": "me.satisfaccion_democracia",
+        "ocupacion": "me.ocupacion",
     }
-    if campo not in allowed:
+    col_sql = allowed.get(campo)
+    if not col_sql:
         return pd.DataFrame(columns=["categoria", "peso"])
+    sql = (
+        "SELECT __COL__ AS categoria, SUM(COALESCE(me.peso_muestral,1)) AS peso "
+        "FROM microdatos_encuesta me "
+        "WHERE __WHERE__ "
+        "  AND __COL__ IS NOT NULL "
+        "  AND TRIM(__COL__::text) <> '' "
+        "GROUP BY __COL__ "
+        "ORDER BY peso DESC "
+        "LIMIT :limit"
+    ).replace("__WHERE__", where).replace("__COL__", col_sql)
     return _q(
-        f"""
-        SELECT {campo} AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
-        FROM microdatos_encuesta
-        WHERE {where}
-          AND {campo} IS NOT NULL
-          AND TRIM({campo}::text) <> ''
-        GROUP BY {campo}
-        ORDER BY peso DESC
-        LIMIT :limit
-        """,
+        sql,
         params,
     )
 
@@ -946,16 +1164,17 @@ def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: 
 def cargar_resumen_perfil_microdatos(filtros: dict[str, Any]) -> pd.DataFrame:
     _ensure_microdatos_schema()
     where, params = _build_micro_filter_where(filtros)
+    sql = (
+        "SELECT "
+        "  COUNT(*) AS n, "
+        "  SUM(COALESCE(peso_muestral, 1)) AS peso_total, "
+        "  AVG(edad) AS edad_media, "
+        "  AVG(escala_ideologica) AS ideologia_media "
+        "FROM microdatos_encuesta "
+        "WHERE __WHERE__"
+    ).replace("__WHERE__", where)
     return _q(
-        f"""
-        SELECT
-          COUNT(*) AS n,
-          SUM(COALESCE(peso_muestral, 1)) AS peso_total,
-          AVG(edad) AS edad_media,
-          AVG(escala_ideologica) AS ideologia_media
-        FROM microdatos_encuesta
-        WHERE {where}
-        """,
+        sql,
         params,
     )
 
@@ -965,16 +1184,17 @@ def cargar_intencion_perfil_microdatos(filtros: dict[str, Any], limit: int = 12)
     _ensure_microdatos_schema()
     where, params = _build_micro_filter_where(filtros)
     params["limit"] = limit
+    sql = (
+        "SELECT intencion_voto AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso "
+        "FROM microdatos_encuesta "
+        "WHERE __WHERE__ "
+        "  AND intencion_voto IS NOT NULL "
+        "GROUP BY intencion_voto "
+        "ORDER BY peso DESC "
+        "LIMIT :limit"
+    ).replace("__WHERE__", where)
     return _q(
-        f"""
-        SELECT intencion_voto AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
-        FROM microdatos_encuesta
-        WHERE {where}
-          AND intencion_voto IS NOT NULL
-        GROUP BY intencion_voto
-        ORDER BY peso DESC
-        LIMIT :limit
-        """,
+        sql,
         params,
     )
 
@@ -984,16 +1204,17 @@ def cargar_ccaa_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) -> p
     _ensure_microdatos_schema()
     where, params = _build_micro_filter_where(filtros)
     params["limit"] = limit
+    sql = (
+        "SELECT identidad_territorial AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso "
+        "FROM microdatos_encuesta "
+        "WHERE __WHERE__ "
+        "  AND identidad_territorial IS NOT NULL "
+        "GROUP BY identidad_territorial "
+        "ORDER BY peso DESC "
+        "LIMIT :limit"
+    ).replace("__WHERE__", where)
     return _q(
-        f"""
-        SELECT identidad_territorial AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
-        FROM microdatos_encuesta
-        WHERE {where}
-          AND identidad_territorial IS NOT NULL
-        GROUP BY identidad_territorial
-        ORDER BY peso DESC
-        LIMIT :limit
-        """,
+        sql,
         params,
     )
 
@@ -1003,15 +1224,16 @@ def cargar_recuerdo_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) 
     _ensure_microdatos_schema()
     where, params = _build_micro_filter_where(filtros)
     params["limit"] = limit
+    sql = (
+        "SELECT recuerdo_voto_anterior AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso "
+        "FROM microdatos_encuesta "
+        "WHERE __WHERE__ "
+        "  AND recuerdo_voto_anterior IS NOT NULL "
+        "GROUP BY recuerdo_voto_anterior "
+        "ORDER BY peso DESC "
+        "LIMIT :limit"
+    ).replace("__WHERE__", where)
     return _q(
-        f"""
-        SELECT recuerdo_voto_anterior AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso
-        FROM microdatos_encuesta
-        WHERE {where}
-          AND recuerdo_voto_anterior IS NOT NULL
-        GROUP BY recuerdo_voto_anterior
-        ORDER BY peso DESC
-        LIMIT :limit
-        """,
+        sql,
         params,
     )

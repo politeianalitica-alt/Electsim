@@ -16,6 +16,7 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from etl.config import validate_env
 
 from dashboard.shared import (
     COLORES_PARTIDOS,
@@ -32,6 +33,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+validate_env()
+
 sidebar_nav()
 
 # ── Data ─────────────────────────────────────────────────────────────────────
@@ -43,6 +46,7 @@ from dashboard.db import (
     cargar_indices_politeia,
     cargar_noticias_recientes,
 )
+from dashboard.components.agenda_diaria import render_agenda_diaria
 
 @st.cache_data(ttl=120)
 def _load():
@@ -656,6 +660,15 @@ with col_elec_news:
                 st.switch_page("pages/10_Prensa_Agenda.py")
         else:
             st.info("Sin noticias recientes. Ejecuta el scraper de prensa.")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AGENDA POLÍTICA DIARIA
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown("<div style='height:.85rem'></div>", unsafe_allow_html=True)
+try:
+    render_agenda_diaria()
+except Exception:
+    st.caption("Agenda política no disponible temporalmente.")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FOOTER
