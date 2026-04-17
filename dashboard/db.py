@@ -130,7 +130,19 @@ def _connection_closed(conn: Any) -> bool:
         return True
 
 
+def _normalize_pg_url(url: str) -> str:
+    """Quita el sufijo SQLAlchemy (`+psycopg`, `+psycopg2`) antes de pasar
+    la URL a un driver DB-API directo, que sólo entiende `postgresql://`."""
+    if not url:
+        return url
+    for prefix in ("postgresql+psycopg2://", "postgresql+psycopg://"):
+        if url.startswith(prefix):
+            return "postgresql://" + url[len(prefix):]
+    return url
+
+
 def _connect_db(url: str):
+    url = _normalize_pg_url(url)
     if psycopg2 is not None:
         return psycopg2.connect(url)
     if "psycopg" in globals() and psycopg is not None:  # type: ignore[name-defined]
