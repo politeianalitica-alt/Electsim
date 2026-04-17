@@ -287,33 +287,137 @@ def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
 
 # ── Nowcasting ────────────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=300)
-def cargar_nowcasting(_conn=None) -> pd.DataFrame:
-    """Última estimación por partido (fecha más reciente en BD)."""
-    conn = _conn or get_conn()
+@st.cache_data(ttl=60)
+def cargar_nowcasting() -> pd.DataFrame:
+    """
+    Última estimación por partido.
+    Prioriza modelo bayesiano multi-fuente; si no hay, cae al agregador clásico.
+    Devuelve también KPIs de calidad (cobertura, consenso, confianza, n_fuentes).
+    """
+    df = _q(
+        """
+        SELECT DISTINCT ON (p.siglas)
+            p.siglas              AS partido_siglas,
+            p.nombre_completo     AS partido_nombre,
+            e.estimacion_pct,
+            e.ic_95_inf,
+            e.ic_95_sup,
+            e.n_encuestas,
+            e.n_fuentes_usadas,
+            e.cobertura_pct,
+            e.consenso_sd,
+            e.confianza_modelo,
+            e.tipos_fuente_json,
+            e.modelo,
+            e.run_id,
+            e.fecha_estimacion AS fecha_calculo
+        FROM estimaciones_voto_agregadas e
+        JOIN partidos p ON p.id = e.partido_id
+        WHERE e.modelo = 'bayes_multifuente_v1'
+        ORDER BY p.siglas, e.fecha_estimacion DESC, e.created_at DESC
+        """
+    )
+    if not df.empty:
+        return df
+    # Fallback al agregador clásico.
     return _q(
         """
-        SELECT partido_siglas, partido_nombre, estimacion_pct,
-               ic_95_inf, ic_95_sup, n_encuestas, fecha_calculo
-        FROM (
-            SELECT
-                p.siglas AS partido_siglas,
-                p.nombre_completo AS partido_nombre,
-                e.estimacion_pct,
-                e.ic_95_inf,
-                e.ic_95_sup,
-                e.n_encuestas,
-                e.fecha_estimacion AS fecha_calculo,
-                ROW_NUMBER() OVER (
-                    PARTITION BY p.siglas
-                    ORDER BY e.fecha_estimacion DESC
-                ) AS rn
-            FROM estimaciones_voto_agregadas e
-            JOIN partidos p ON p.id = e.partido_id
-        ) ranked
-        WHERE rn = 1
+        SELECT DISTINCT ON (p.siglas)
+            p.siglas        AS partido_siglas,
+            p.nombre_completo AS partido_nombre,
+            e.estimacion_pct,
+            e.ic_95_inf,
+            e.ic_95_sup,
+            e.n_encuestas,
+            NULL::int  AS n_fuentes_usadas,
+            NULL::numeric AS cobertura_pct,
+            NULL::numeric AS consenso_sd,
+            NULL::numeric AS confianza_modelo,
+            NULL::text AS tipos_fuente_json,
+            e.modelo,
+            NULL::uuid AS run_id,
+            e.fecha_estimacion AS fecha_calculo
+        FROM estimaciones_voto_agregadas e
+        JOIN partidos p ON p.id = e.partido_id
+        ORDER BY p.siglas, e.fecha_estimacion DESC
+        """
+    )
+
+
+@st.cache_data(ttl=60)
+def cargar_nowcasting_calidad() -> pd.DataFrame:
+    """KPIs globales del último run (cobertura media, consenso SD, confianza, n fuentes)."""
+    return _q(
+        """
+        SELECT run_id, fecha_estimacion, modelo, n_partidos,
+               cobertura_media, consenso_sd_medio, confianza_media,
+               n_fuentes_max, created_at
+        FROM v_nowcasting_calidad
+        LIMIT 1
+        """
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_contribuciones_run(run_id: str | None = None, limit: int = 30) -> pd.DataFrame:
+    """Trazabilidad: qué fuentes alimentaron el run (ENCUESTA/MICRO/MACRO/PRENSA)."""
+    if not run_id:
+        runs = _q("SELECT run_id FROM v_nowcasting_calidad LIMIT 1")
+        if runs.empty:
+            return pd.DataFrame()
+        run_id = str(runs.iloc[0]["run_id"])
+    return _q(
+        """
+        SELECT fuente_tipo, fuente_label, peso_efectivo, contribucion_pct, fecha_dato
+        FROM estimacion_fuente_peso
+        WHERE run_id = :rid
+        ORDER BY peso_efectivo DESC
+        LIMIT :limit
         """,
-        conn=conn,
+        {"rid": run_id, "limit": limit},
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_casas_cobertura() -> pd.DataFrame:
+    """Panel de casas encuestadoras con rating y cobertura reciente."""
+    return _q(
+        """
+        SELECT casa_nombre, activa, rating, mae_ewma, n_elecciones_bt,
+               ultima_fecha_encuesta, n_encuestas_7d, n_encuestas_30d
+        FROM v_casas_cobertura_reciente
+        ORDER BY rating DESC NULLS LAST, casa_nombre
+        """
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_accuracy_casa(casa_nombre: str) -> pd.DataFrame:
+    """Histórico de accuracy de una casa por elección."""
+    return _q(
+        """
+        SELECT e.fecha, e.descripcion, cah.dias_antes, cah.n_encuestas,
+               cah.mae_global, cah.rmse_global, cah.bias_medio, cah.bias_por_partido
+        FROM casa_accuracy_historica cah
+        JOIN casa_encuestadora ce ON ce.id = cah.casa_id
+        JOIN elecciones e ON e.id = cah.eleccion_id
+        WHERE ce.nombre = :nombre
+        ORDER BY e.fecha DESC
+        """,
+        {"nombre": casa_nombre},
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_fuentes_macro() -> pd.DataFrame:
+    """Catálogo de fuentes macro con peso y frecuencia."""
+    return _q(
+        """
+        SELECT codigo, proveedor, dataset, categoria, frecuencia,
+               latencia_dias, peso_base, activa
+        FROM fuente_macro
+        ORDER BY categoria, proveedor, codigo
+        """
     )
 
 

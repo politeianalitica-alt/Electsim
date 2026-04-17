@@ -1,0 +1,16 @@
+site_name: ElectSim España
+site_description: Arquitectura de datos e ingesta — fase 1
+theme:
+  name: material
+nav:
+  - Inicio: index.md
+  - Módulos:
+      - Geografía y electoral: modulos/geo_electoral.md
+      - Encuestas y sociedad: modulos/encuestas.md
+      - Economía y sectores: modulos/economia.md
+  - Operación:
+      - Docker y entorno: operacion/docker.md
+      - Pipelines: operacion/pipelines.md
+
+markdown_extensions:
+  - pymdownx.superfences

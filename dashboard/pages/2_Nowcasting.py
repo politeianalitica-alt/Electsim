@@ -24,7 +24,12 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
 )
-from dashboard.db import cargar_nowcasting, cargar_serie_nowcasting
+from dashboard.db import (
+    cargar_nowcasting,
+    cargar_serie_nowcasting,
+    cargar_nowcasting_calidad,
+    cargar_contribuciones_run,
+)
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
@@ -360,6 +365,72 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# ── Banner calidad multi-fuente ──────────────────────────────────────────────
+_df_cal = cargar_nowcasting_calidad()
+if not _df_cal.empty:
+    _r = _df_cal.iloc[0]
+    _cob = float(_r.get("cobertura_media") or 0.0)
+    _cons = float(_r.get("consenso_sd_medio") or 0.0)
+    _conf = float(_r.get("confianza_media") or 0.0) * 100
+    _nfu = int(_r.get("n_fuentes_max") or 0)
+    _modelo = str(_r.get("modelo") or "—")
+
+    def _c(v, thr_ok, thr_warn, higher_is_better=True):
+        if higher_is_better:
+            if v >= thr_ok: return GREEN
+            if v >= thr_warn: return AMBER
+            return RED
+        if v <= thr_ok: return GREEN
+        if v <= thr_warn: return AMBER
+        return RED
+
+    _col_cob = _c(_cob, 70, 40, higher_is_better=True)
+    _col_cons = _c(_cons, 1.2, 2.5, higher_is_better=False)
+    _col_conf = _c(_conf, 70, 40, higher_is_better=True)
+    _col_nfu = _c(_nfu, 3, 2, higher_is_better=True)
+
+    st.markdown(f"""
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:.6rem 0 1.2rem">
+      <div class="nc-card" style="border-top:2px solid {_col_cob};padding:.8rem 1rem">
+        <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:{MUTED};font-weight:800">Cobertura casas (7d)</div>
+        <div style="font-size:1.7rem;font-weight:900;color:{_col_cob};font-family:'JetBrains Mono',monospace;line-height:1;margin-top:.3rem">{_cob:.0f}%</div>
+        <div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">% de casas activas con encuesta reciente</div>
+      </div>
+      <div class="nc-card" style="border-top:2px solid {_col_cons};padding:.8rem 1rem">
+        <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:{MUTED};font-weight:800">Consenso fuentes</div>
+        <div style="font-size:1.7rem;font-weight:900;color:{_col_cons};font-family:'JetBrains Mono',monospace;line-height:1;margin-top:.3rem">±{_cons:.2f}pp</div>
+        <div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">SD entre casas — menor es mejor</div>
+      </div>
+      <div class="nc-card" style="border-top:2px solid {_col_conf};padding:.8rem 1rem">
+        <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:{MUTED};font-weight:800">Confianza modelo</div>
+        <div style="font-size:1.7rem;font-weight:900;color:{_col_conf};font-family:'JetBrains Mono',monospace;line-height:1;margin-top:.3rem">{_conf:.0f}%</div>
+        <div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">Inverso σ posterior — {_modelo}</div>
+      </div>
+      <div class="nc-card" style="border-top:2px solid {_col_nfu};padding:.8rem 1rem">
+        <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:{MUTED};font-weight:800">Fuentes integradas</div>
+        <div style="font-size:1.7rem;font-weight:900;color:{_col_nfu};font-family:'JetBrains Mono',monospace;line-height:1;margin-top:.3rem">{_nfu}</div>
+        <div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">Encuestas · Microdatos · Macro · Prensa</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.expander("Trazabilidad: fuentes del último run", expanded=False):
+        df_contrib = cargar_contribuciones_run(str(_r.get("run_id")))
+        if df_contrib.empty:
+            st.caption("No hay trazabilidad registrada para este run.")
+        else:
+            st.dataframe(
+                df_contrib.rename(columns={
+                    "fuente_tipo": "Tipo",
+                    "fuente_label": "Fuente",
+                    "peso_efectivo": "Peso",
+                    "contribucion_pct": "% contrib.",
+                    "fecha_dato": "Fecha",
+                }),
+                use_container_width=True,
+                hide_index=True,
+            )
 
 # ── KPI Cards con escanos proyectados ────────────────────────────────────────
 _section_header("Estimacion Actual de Voto — IC 95%", CYAN)

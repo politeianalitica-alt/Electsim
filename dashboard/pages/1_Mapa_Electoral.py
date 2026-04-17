@@ -51,6 +51,26 @@ ORDEN_IDEOLOGICO = [
 # Province name mapping: GeoJSON name -> DB province_id
 GEOJSON_PATH = Path(__file__).parent.parent / "data" / "spain_provinces.geojson"
 MAPPING_PATH = Path(__file__).parent.parent / "data" / "province_mapping.json"
+CIRC_PATH    = Path(__file__).parent.parent.parent / "data" / "static" / "circunscripciones.csv"
+
+
+def _norm_prov_name(name: str) -> str:
+    """Normaliza nombres de provincia para reconciliar CSV con mapping.json."""
+    if not isinstance(name, str):
+        return ""
+    import unicodedata
+    s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().lower()
+    s = s.replace("/", " ").replace("-", " ").strip()
+    # Casos especiales
+    aliases = {
+        "alicante": "alacant alicante",
+        "castellon": "castello castellon",
+        "valencia": "valencia valencia",
+        "gipuzkoa": "gipuzkoa guipuzcoa",
+        "bizkaia": "bizkaia vizcaya",
+        "santa cruz de tenerife": "santa cruz de tenerife",
+    }
+    return aliases.get(s, s)
 
 
 def _color(siglas: str) -> str:
@@ -221,6 +241,41 @@ def _load_province_mapping():
     return {}
 
 
+@st.cache_data(ttl=3600)
+def _load_circunscripciones() -> pd.DataFrame:
+    """Escaños oficiales por provincia (fuente canónica independiente del histórico).
+
+    Devuelve DataFrame con columnas: provincia_id, provincia (geo_name), ccaa (placeholder), total_escanos.
+    Reconcilia CSV (nombre corto) con province_mapping.json (nombres geojson) por normalización.
+    """
+    if not CIRC_PATH.exists():
+        return pd.DataFrame()
+    df = pd.read_csv(CIRC_PATH)
+    mapping = _load_province_mapping()
+    if not mapping:
+        return pd.DataFrame()
+    # Índice normalizado del mapping (geojson name -> province_id)
+    norm_map = {_norm_prov_name(k): (k, v) for k, v in mapping.items()}
+    rows = []
+    for _, r in df.iterrows():
+        key = _norm_prov_name(str(r["provincia_nombre"]))
+        if key not in norm_map:
+            # Intento por substring
+            match = next((k for k in norm_map if key in k or k in key), None)
+            if match is None:
+                continue
+            geo_name, pid = norm_map[match]
+        else:
+            geo_name, pid = norm_map[key]
+        rows.append({
+            "provincia_id":   int(pid),
+            "provincia":      geo_name,
+            "ccaa":           "—",
+            "total_escanos":  int(r["n_escanos"]),
+        })
+    return pd.DataFrame(rows)
+
+
 def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) -> go.Figure | None:
     """Construye mapa choropleth de provincias."""
     geojson = _load_geojson()
@@ -333,67 +388,100 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
 
 
 def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.DataFrame:
-    """Aplica D'Hondt por provincia usando las estimaciones nacionales de nowcasting."""
-    if df_nc.empty or df_prov.empty:
+    """Aplica D'Hondt por provincia usando las estimaciones nacionales de nowcasting.
+
+    Fuente de escaños por provincia (prioridad):
+      1. circunscripciones.csv (canónica, siempre 52 provincias+CE/ME).
+      2. fallback: agregado histórico df_prov si la CSV no existe.
+    """
+    if df_nc.empty:
         return pd.DataFrame()
 
     nc_est = {
         row["partido_siglas"]: float(row["estimacion_pct"])
         for _, row in df_nc.iterrows()
     }
-    nc_ic_inf = {
-        row["partido_siglas"]: float(row.get("ic_95_inf", row["estimacion_pct"]))
-        for _, row in df_nc.iterrows()
-    }
-    nc_ic_sup = {
-        row["partido_siglas"]: float(row.get("ic_95_sup", row["estimacion_pct"]))
-        for _, row in df_nc.iterrows()
-    }
 
-    # Seats per province from historical reference
-    prov_info = (
-        df_prov.groupby(["provincia_id", "provincia", "ccaa"])["escanos"]
-        .sum().reset_index().rename(columns={"escanos": "total_escanos"})
-    )
+    # ── Source of seats per province ──────────────────────────────────────────
+    df_circ = _load_circunscripciones()
+    if not df_circ.empty:
+        prov_info = df_circ.copy()
+    elif not df_prov.empty:
+        prov_info = (
+            df_prov.groupby(["provincia_id", "provincia", "ccaa"])["escanos"]
+            .sum().reset_index().rename(columns={"escanos": "total_escanos"})
+        )
+    else:
+        return pd.DataFrame()
 
-    eligible = {p: v for p, v in nc_est.items() if v >= 3.0}
+    # Umbral provincial del 3% aplicado luego en los cocientes; aquí filtramos
+    # partidos con presencia mínima nacional para evitar ruido.
+    eligible = {p: v for p, v in nc_est.items() if v >= 1.0}
     if not eligible:
         return pd.DataFrame()
-    total_pct = sum(eligible.values())
-    norm = {p: v / total_pct * 100 for p, v in eligible.items()}
 
     rows = []
     for _, prov_row in prov_info.iterrows():
         total = int(prov_row["total_escanos"])
         if total <= 0:
             continue
+        # Umbral 3% sobre voto normalizado a la provincia (aprox. = nacional)
+        sum_elig = sum(eligible.values())
+        filtrados = {p: v for p, v in eligible.items() if (v / sum_elig) * 100 >= 3.0}
+        if not filtrados:
+            filtrados = dict(eligible)
+        sum_f = sum(filtrados.values())
+        norm = {p: v / sum_f * 100 for p, v in filtrados.items()}
+
         asignados: dict[str, int] = defaultdict(int)
         for _ in range(total):
-            cocientes = {p: norm[p] / (asignados[p] + 1) for p in eligible}
+            cocientes = {p: norm[p] / (asignados[p] + 1) for p in norm}
             winner = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
             asignados[winner] += 1
 
         for partido, esc_est in asignados.items():
-            hist = df_prov[
-                (df_prov["provincia_id"] == prov_row["provincia_id"]) &
-                (df_prov["siglas"] == partido)
-            ]["escanos"].sum()
+            hist = 0
+            if not df_prov.empty:
+                hist = int(df_prov[
+                    (df_prov["provincia_id"] == prov_row["provincia_id"]) &
+                    (df_prov["siglas"] == partido)
+                ]["escanos"].sum())
             rows.append({
-                "provincia_id":  prov_row["provincia_id"],
+                "provincia_id":  int(prov_row["provincia_id"]),
                 "provincia":     prov_row["provincia"],
-                "ccaa":          prov_row["ccaa"],
+                "ccaa":          prov_row.get("ccaa", "—"),
                 "siglas":        partido,
-                "escanos_est":   esc_est,
-                "escanos_hist":  int(hist),
-                "delta":         esc_est - int(hist),
-                "pct_est":       nc_est.get(partido, 0),
+                "escanos_est":   int(esc_est),
+                "escanos_hist":  hist,
+                "delta":         int(esc_est) - hist,
+                "pct_est":       float(nc_est.get(partido, 0.0)),
             })
+
+        # Añadir también partidos elegibles con 0 escaños en esta provincia
+        # (para que el tooltip muestre la lista completa)
+        for partido, pct_val in eligible.items():
+            if partido not in asignados:
+                rows.append({
+                    "provincia_id":  int(prov_row["provincia_id"]),
+                    "provincia":     prov_row["provincia"],
+                    "ccaa":          prov_row.get("ccaa", "—"),
+                    "siglas":        partido,
+                    "escanos_est":   0,
+                    "escanos_hist":  0,
+                    "delta":         0,
+                    "pct_est":       float(pct_val),
+                })
 
     return pd.DataFrame(rows) if rows else pd.DataFrame()
 
 
 def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
-    """Choropleth de estimación de escaños: ganador por provincia."""
+    """Choropleth de estimación de escaños.
+
+    - Color de cada provincia = partido ganador.
+    - Tooltip: reparto completo de voto estimado (%) y escaños D'Hondt por cada
+      partido que tiene presencia en esa provincia.
+    """
     geojson  = _load_geojson()
     mapping  = _load_province_mapping()
     if geojson is None or not mapping or df_est.empty:
@@ -402,20 +490,41 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
 
     winner_rows = []
     for prov_id in df_est["provincia_id"].unique():
-        prov_data = df_est[df_est["provincia_id"] == prov_id]
+        prov_data = df_est[df_est["provincia_id"] == prov_id].sort_values(
+            ["escanos_est", "pct_est"], ascending=[False, False]
+        )
         if prov_data.empty:
             continue
-        winner = prov_data.loc[prov_data["escanos_est"].idxmax()]
         geo_name = id_to_geo.get(int(prov_id))
-        if geo_name:
-            winner_rows.append({
-                "geo_name":        geo_name,
-                "provincia":       winner["provincia"],
-                "partido_ganador": winner["siglas"],
-                "escanos_est":     int(winner["escanos_est"]),
-                "delta":           int(winner["delta"]),
-                "pct_est":         round(float(winner["pct_est"]), 1),
-            })
+        if not geo_name:
+            continue
+        winner = prov_data.iloc[0]
+        total_esc = int(prov_data["escanos_est"].sum())
+
+        # Build multi-line tooltip: siglas · pct% · N esc.
+        lineas = []
+        for _, rr in prov_data.iterrows():
+            esc = int(rr["escanos_est"])
+            pct = float(rr["pct_est"])
+            if esc == 0 and pct < 1.5:
+                continue
+            marker = "●" if esc > 0 else "○"
+            lineas.append(
+                f"{marker} <b>{rr['siglas']}</b>  {pct:5.1f}%  →  {esc} esc."
+            )
+        if not lineas:
+            lineas = ["(sin datos)"]
+        breakdown = "<br>".join(lineas[:12])
+
+        winner_rows.append({
+            "geo_name":        geo_name,
+            "provincia":       winner["provincia"],
+            "partido_ganador": winner["siglas"],
+            "pct_win":         float(winner["pct_est"]),
+            "escanos_win":     int(winner["escanos_est"]),
+            "total_escanos":   total_esc,
+            "breakdown":       breakdown,
+        })
     if not winner_rows:
         return None
 
@@ -425,7 +534,6 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
     for partido in partidos_unicos:
         dp = df_win[df_win["partido_ganador"] == partido]
         color = _color(partido)
-        delta_txt = dp["delta"].apply(lambda d: f"{'▲' if d>0 else '▼' if d<0 else '—'}{abs(d)}")
         fig.add_trace(go.Choroplethmapbox(
             geojson=geojson,
             locations=dp["geo_name"],
@@ -433,26 +541,31 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
             z=[1] * len(dp),
             colorscale=[[0, color], [1, color]],
             showscale=False, name=partido,
-            marker=dict(opacity=0.82, line=dict(width=1, color=BG)),
-            text=dp.apply(
-                lambda r: (
-                    f"<b>{r['provincia']}</b><br>"
-                    f"Ganador estimado: <b>{r['partido_ganador']}</b><br>"
-                    f"Escaños est.: {r['escanos_est']} "
-                    f"(vs ref.: {'+' if r['delta']>0 else ''}{r['delta']})<br>"
-                    f"Voto nacional: {r['pct_est']:.1f}%"
-                ), axis=1,
-            ),
+            marker=dict(opacity=0.85, line=dict(width=1, color=BG)),
+            text=dp.apply(lambda r: (
+                f"<b style='font-size:13px'>{r['provincia']}</b><br>"
+                f"<span style='color:#93a4bd'>━━━━━━━━━━━━━━━━━━━</span><br>"
+                f"Ganador: <b>{r['partido_ganador']}</b> "
+                f"({r['pct_win']:.1f}%, {r['escanos_win']} esc.)<br>"
+                f"Total escaños provincia: <b>{r['total_escanos']}</b><br>"
+                f"<span style='color:#93a4bd'>━━━ Reparto estimado ━━━</span><br>"
+                f"{r['breakdown']}"
+            ), axis=1),
             hovertemplate="%{text}<extra></extra>",
         ))
     fig.update_layout(
         mapbox=dict(style="carto-darkmatter", center={"lat": 40.0, "lon": -3.7}, zoom=4.5),
-        height=520,
+        height=560,
         paper_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=5, b=5, l=5, r=5),
         legend=dict(
             bgcolor="rgba(13,19,32,0.87)", bordercolor=BORDER, borderwidth=1,
             font=dict(color=TEXT2, size=11), orientation="h", y=-0.02,
+        ),
+        hoverlabel=dict(
+            bgcolor=BG2, bordercolor=BORDER,
+            font=dict(family="JetBrains Mono, monospace", size=11, color=TEXT),
+            align="left",
         ),
     )
     return fig
@@ -725,300 +838,320 @@ with tab_futuras:
 with tab_mapa:
     _section_header("Distribución Territorial por Provincias", PURPLE)
 
-    if eleccion_id is None:
-        st.markdown(f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {CYAN};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Selecciona una elección en la barra lateral.</div>', unsafe_allow_html=True)
-    else:
-        df_prov    = cargar_resultados_provinciales(eleccion_id)
-        df_nc_mapa = cargar_nowcasting()
+    # Carga nowcasting y (opcionalmente) datos históricos provinciales
+    df_nc_mapa = cargar_nowcasting()
+    df_prov = cargar_resultados_provinciales(eleccion_id) if eleccion_id else pd.DataFrame()
+    has_hist = not df_prov.empty
 
-        if df_prov.empty:
-            st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Sin datos provinciales para esta elección.</div>', unsafe_allow_html=True)
+    # ── Selector de modo + vista ─────────────────────────────────────────────
+    # Limpia session_state si tiene un valor incompatible con las opciones actuales
+    modo_opts = ["Estimación actual", "Histórico"] if has_hist else ["Estimación actual"]
+    if st.session_state.get("modo_mapa") not in modo_opts:
+        st.session_state.pop("modo_mapa", None)
+
+    col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([1, 1, 2])
+    with col_ctrl1:
+        modo_mapa = st.radio(
+            "Modo del mapa",
+            modo_opts,
+            horizontal=True, key="modo_mapa",
+        )
+    vista = "Partido ganador"
+    partido_mapa = None
+    if modo_mapa == "Histórico" and has_hist:
+        with col_ctrl2:
+            vista = st.radio(
+                "Vista histórica",
+                ["Partido ganador", "Por partido"],
+                horizontal=True, key="vista_mapa",
+            )
+        if vista == "Por partido":
+            with col_ctrl3:
+                partidos_disp = sorted(df_prov["siglas"].unique().tolist())
+                partido_mapa = st.selectbox("Partido", partidos_disp, key="partido_mapa")
+
+    # ── Choropleth principal ──────────────────────────────────────────
+    df_est = pd.DataFrame()
+    if modo_mapa == "Estimación actual":
+        df_est = _estimate_seats_dhondt(df_prov, df_nc_mapa)
+        fig_map = _build_choropleth_estimado(df_est)
+        if fig_map:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};border-radius:8px;padding:.6rem 1rem;font-size:.8rem;color:{TEXT2};margin-bottom:.5rem">'
+                f'<strong style="color:{CYAN}">Estimación D\'Hondt</strong> · Cada provincia se colorea por el '
+                f'partido con más escaños estimados. Pasa el cursor por encima para ver el reparto completo '
+                f'de voto (%) y escaños por partido.'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+            st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
         else:
-            # ── Selector de vista + modo estimado ────────────────────────────
-            col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([1, 1, 2])
-            with col_ctrl1:
-                modo_mapa = st.radio(
-                    "Modo del mapa",
-                    ["Histórico", "Estimación actual"],
-                    horizontal=True, key="modo_mapa",
-                )
-            vista = "Partido ganador"
-            partido_mapa = None
-            if modo_mapa == "Histórico":
-                with col_ctrl2:
-                    vista = st.radio(
-                        "Vista histórica",
-                        ["Partido ganador", "Por partido"],
-                        horizontal=True, key="vista_mapa",
-                    )
-                if vista == "Por partido":
-                    with col_ctrl3:
-                        partidos_disp = sorted(df_prov["siglas"].unique().tolist())
-                        partido_mapa = st.selectbox("Partido", partidos_disp, key="partido_mapa")
+            st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Sin GeoJSON, circunscripciones o nowcasting para generar la estimación.</div>', unsafe_allow_html=True)
+    else:
+        fig_map = _build_choropleth(df_prov, partido_filter=partido_mapa)
+        if fig_map:
+            st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
+        else:
+            st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">No se pudo generar el mapa. Verifica que el GeoJSON existe en dashboard/data/</div>', unsafe_allow_html=True)
 
-            # ── Choropleth principal ──────────────────────────────────────────
-            if modo_mapa == "Estimación actual":
-                df_est = _estimate_seats_dhondt(df_prov, df_nc_mapa)
-                fig_map = _build_choropleth_estimado(df_est)
-                if fig_map:
+    st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.2rem 0"></div>', unsafe_allow_html=True)
+
+    # ── Ranking + CCAA (sólo si hay datos suficientes) ────────────────
+    col_rank, col_detail = st.columns([1, 1], gap="large")
+
+    with col_rank:
+        _section_header("Escaños por Provincia", CYAN)
+        if modo_mapa == "Estimación actual" and not df_est.empty:
+            partidos_avail = sorted(df_est[df_est["escanos_est"] > 0]["siglas"].unique().tolist())
+            if partidos_avail:
+                partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
+                df_rank = df_est[df_est["siglas"] == partido_rank][["provincia", "escanos_est"]].rename(columns={"escanos_est": "escanos"})
+                df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
+            else:
+                df_rank = pd.DataFrame()
+                partido_rank = "—"
+        elif has_hist:
+            partidos_avail = sorted(df_prov["siglas"].unique().tolist())
+            partido_rank = partido_mapa or partidos_avail[0]
+            if partido_mapa is None:
+                partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
+            df_rank = df_prov[df_prov["siglas"] == partido_rank][["provincia", "escanos"]].copy()
+            df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
+        else:
+            df_rank = pd.DataFrame()
+            partido_rank = "—"
+
+        if not df_rank.empty:
+            color_r = _color(partido_rank)
+            rr, gg, bb = int(color_r[1:3], 16), int(color_r[3:5], 16), int(color_r[5:7], 16)
+            fig_rank = go.Figure(go.Bar(
+                y=df_rank["provincia"],
+                x=df_rank["escanos"],
+                orientation="h",
+                marker=dict(
+                    color=f"rgba({rr},{gg},{bb},0.7)",
+                    line=dict(color=color_r, width=1),
+                ),
+                text=df_rank["escanos"].astype(int),
+                textposition="outside",
+                textfont=dict(color=TEXT, size=9, family="JetBrains Mono"),
+            ))
+            fig_rank.update_layout(
+                height=max(380, len(df_rank) * 24),
+                plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(title="Escaños", gridcolor="rgba(30,41,59,0.40)", tickfont=dict(color=MUTED, size=9)),
+                yaxis=dict(tickfont=dict(color=TEXT2, size=9)),
+                margin=dict(t=10, b=30, l=120, r=40), showlegend=False,
+                font=dict(color=TEXT2),
+            )
+            st.plotly_chart(fig_rank, use_container_width=True, config={"displayModeBar": False})
+        else:
+            st.markdown(f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem;color:{TEXT2};font-size:.85rem">{partido_rank} sin escaños estimados en ninguna provincia.</div>', unsafe_allow_html=True)
+
+    with col_detail:
+        _section_header("Detalle por Comunidad Autónoma", BLUE)
+        if has_hist:
+            ccaa_list = sorted(df_prov["ccaa"].dropna().unique().tolist())
+            if ccaa_list:
+                ccaa_sel = st.selectbox("Comunidad Autónoma", ccaa_list, key="ccaa_detail")
+                df_ccaa = df_prov[df_prov["ccaa"] == ccaa_sel]
+                df_ccaa_agg = (
+                    df_ccaa.groupby("siglas")
+                    .agg(escanos_sum=("escanos", "sum"), pct_media=("porcentaje", "mean"))
+                    .reset_index()
+                    .sort_values("escanos_sum", ascending=False)
+                )
+                if not df_ccaa_agg.empty:
+                    colors_ccaa = [_color(s) for s in df_ccaa_agg["siglas"]]
+                    fig_ccaa = go.Figure(go.Bar(
+                        x=df_ccaa_agg["siglas"],
+                        y=df_ccaa_agg["escanos_sum"],
+                        marker=dict(
+                            color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)" for c in colors_ccaa],
+                            line=dict(color=colors_ccaa, width=1.5),
+                        ),
+                        text=df_ccaa_agg["escanos_sum"].astype(int),
+                        textposition="outside",
+                        textfont=dict(color=TEXT, size=10, family="JetBrains Mono"),
+                    ))
+                    fig_ccaa.update_layout(
+                        title=dict(text=f"Escaños en {ccaa_sel}", font=dict(color=TEXT2, size=12)),
+                        height=350,
+                        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+                        xaxis=dict(showgrid=False, tickfont=dict(size=10, color=TEXT2)),
+                        yaxis=dict(gridcolor="rgba(30,41,59,0.40)", tickfont=dict(size=9, color=MUTED)),
+                        margin=dict(t=35, b=20, l=10, r=10), showlegend=False,
+                        font=dict(color=TEXT2),
+                    )
+                    st.plotly_chart(fig_ccaa, use_container_width=True, config={"displayModeBar": False})
+
+                provinces_in_ccaa = sorted(df_ccaa["provincia"].unique().tolist())
+                if len(provinces_in_ccaa) > 1:
+                    for prov in provinces_in_ccaa:
+                        df_p = df_ccaa[df_ccaa["provincia"] == prov].sort_values("escanos", ascending=False)
+                        pills = "".join(
+                            f'<span class="partido-pill" style="background:{_color(rr["siglas"])}15;border:1px solid {_color(rr["siglas"])}44;color:{_color(rr["siglas"])}">{rr["siglas"]} {int(rr["escanos"])}</span> '
+                            for _, rr in df_p.head(4).iterrows()
+                        )
+                        st.markdown(
+                            f'<div class="glass" style="padding:.5rem .8rem;margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center">'
+                            f'<span style="font-size:.75rem;font-weight:600;color:{TEXT}">{prov}</span>'
+                            f'<div>{pills}</div></div>',
+                            unsafe_allow_html=True,
+                        )
+        else:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {CYAN}55;border-radius:8px;padding:.9rem 1.2rem;color:{TEXT2};font-size:.85rem">'
+                f'Selecciona una elección histórica en la barra lateral para ver el desglose por CCAA.'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    # ═══════════════════════════════════════════════════════════════
+    # BANNER: CAMBIOS EN ESTIMACIONES POR PROVINCIA (sólo con histórico)
+    # ═══════════════════════════════════════════════════════════════
+    if has_hist:
+        st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.5rem 0"></div>', unsafe_allow_html=True)
+        _section_header("Cambios en Estimación vs Referencia Histórica", AMBER)
+
+        df_est_banner = _estimate_seats_dhondt(df_prov, df_nc_mapa)
+
+        if df_est_banner.empty:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {AMBER};border-radius:8px;padding:.9rem 1.2rem;color:{TEXT2};font-size:.85rem">'
+                f'El banner de cambios se activará cuando haya datos de nowcasting en la BD.'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            # ── Summary KPIs ──────────────────────────────────────────────
+            n_ganadas = len(df_est_banner[df_est_banner["delta"] > 0]["provincia"].unique())
+            n_perdidas = len(df_est_banner[df_est_banner["delta"] < 0]["provincia"].unique())
+            mayor_gain = df_est_banner.loc[df_est_banner["delta"].idxmax()] if not df_est_banner.empty else None
+            mayor_loss = df_est_banner.loc[df_est_banner["delta"].idxmin()] if not df_est_banner.empty else None
+
+            k1, k2, k3, k4 = st.columns(4)
+            for col_k, lbl, val, sub, accent in [
+                (k1, "Provincias con ganancia", str(n_ganadas), "vs referencia histórica", GREEN),
+                (k2, "Provincias con pérdida",  str(n_perdidas), "vs referencia histórica", RED),
+                (k3, "Mayor ganancia",
+                 f"+{mayor_gain['delta']} {mayor_gain['siglas']}" if mayor_gain is not None else "—",
+                 str(mayor_gain["provincia"]) if mayor_gain is not None else "", GREEN),
+                (k4, "Mayor pérdida",
+                 f"{mayor_loss['delta']} {mayor_loss['siglas']}" if mayor_loss is not None else "—",
+                 str(mayor_loss["provincia"]) if mayor_loss is not None else "", RED),
+            ]:
+                with col_k:
                     st.markdown(
-                        f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};border-radius:8px;padding:.6rem 1rem;font-size:.8rem;color:{TEXT2};margin-bottom:.5rem">'
-                        f'<strong style="color:{CYAN}">Estimación D\'Hondt</strong> · Distribuye las estimaciones nacionales de nowcasting '
-                        f'aplicando D\'Hondt provincia a provincia usando los escaños históricos de referencia como base.'
+                        f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {accent}55;border-radius:10px;padding:.9rem 1.1rem;text-align:center">'
+                        f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">{lbl}</div>'
+                        f'<div style="font-size:1.4rem;font-weight:800;color:{accent};font-family:\'JetBrains Mono\',monospace">{val}</div>'
+                        f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem">{sub}</div>'
                         f'</div>',
                         unsafe_allow_html=True,
                     )
-                    st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
-                else:
-                    st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">Sin GeoJSON o nowcasting para generar la estimación.</div>', unsafe_allow_html=True)
-            else:
-                fig_map = _build_choropleth(df_prov, partido_filter=partido_mapa)
-                if fig_map:
-                    st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
-                else:
-                    st.markdown(f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">No se pudo generar el mapa. Verifica que el GeoJSON existe en dashboard/data/</div>', unsafe_allow_html=True)
 
-            st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.2rem 0"></div>', unsafe_allow_html=True)
+            st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
 
-            # ── Ranking + CCAA ────────────────────────────────────────────────
-            col_rank, col_detail = st.columns([1, 1], gap="large")
+            # ── Scrollable province cards ─────────────────────────────────
+            _section_header("Escaños Estimados vs Referencia — Por Provincia", CYAN)
 
-            with col_rank:
-                _section_header("Escaños por Provincia", CYAN)
-                partidos_avail = sorted(df_prov["siglas"].unique().tolist())
-                if modo_mapa == "Estimación actual" and not df_est.empty:
-                    partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
-                    df_rank = df_est[df_est["siglas"] == partido_rank][["provincia", "escanos_est"]].rename(columns={"escanos_est": "escanos"})
-                    df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
-                else:
-                    partido_rank = partido_mapa or partidos_avail[0]
-                    if partido_mapa is None:
-                        partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
-                    df_rank = df_prov[df_prov["siglas"] == partido_rank][["provincia", "escanos"]].copy()
-                    df_rank = df_rank[df_rank["escanos"] > 0].sort_values("escanos", ascending=True)
+            provs_sorted = (
+                df_est_banner.groupby("provincia")["delta"]
+                .apply(lambda s: s.abs().sum())
+                .sort_values(ascending=False)
+                .index.tolist()
+            )
 
-                if not df_rank.empty:
-                    color_r = _color(partido_rank)
-                    rr, gg, bb = int(color_r[1:3], 16), int(color_r[3:5], 16), int(color_r[5:7], 16)
-                    fig_rank = go.Figure(go.Bar(
-                        y=df_rank["provincia"],
-                        x=df_rank["escanos"],
-                        orientation="h",
-                        marker=dict(
-                            color=f"rgba({rr},{gg},{bb},0.7)",
-                            line=dict(color=color_r, width=1),
-                        ),
-                        text=df_rank["escanos"].astype(int),
-                        textposition="outside",
-                        textfont=dict(color=TEXT, size=9, family="JetBrains Mono"),
-                    ))
-                    fig_rank.update_layout(
-                        height=max(380, len(df_rank) * 24),
-                        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                        xaxis=dict(title="Escaños", gridcolor="rgba(30,41,59,0.40)", tickfont=dict(color=MUTED, size=9)),
-                        yaxis=dict(tickfont=dict(color=TEXT2, size=9)),
-                        margin=dict(t=10, b=30, l=120, r=40), showlegend=False,
-                        font=dict(color=TEXT2),
-                    )
-                    st.plotly_chart(fig_rank, use_container_width=True, config={"displayModeBar": False})
-                else:
-                    st.markdown(f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem;color:{TEXT2};font-size:.85rem">{partido_rank} no obtuvo escaños en ninguna provincia.</div>', unsafe_allow_html=True)
+            # Build the horizontal scrolling HTML banner
+            cards_html = ""
+            for prov_name in provs_sorted:
+                df_p = df_est_banner[df_est_banner["provincia"] == prov_name].sort_values("escanos_est", ascending=False)
+                if df_p.empty:
+                    continue
+                winner_color = _color(df_p.iloc[0]["siglas"])
+                wc_r, wc_g, wc_b = int(winner_color[1:3], 16), int(winner_color[3:5], 16), int(winner_color[5:7], 16)
+                total_prov = int(df_p["escanos_est"].sum())
 
-            with col_detail:
-                _section_header("Detalle por Comunidad Autónoma", BLUE)
-                ccaa_list = sorted(df_prov["ccaa"].dropna().unique().tolist())
-                if ccaa_list:
-                    ccaa_sel = st.selectbox("Comunidad Autónoma", ccaa_list, key="ccaa_detail")
-                    df_ccaa = df_prov[df_prov["ccaa"] == ccaa_sel]
-                    df_ccaa_agg = (
-                        df_ccaa.groupby("siglas")
-                        .agg(escanos_sum=("escanos", "sum"), pct_media=("porcentaje", "mean"))
-                        .reset_index()
-                        .sort_values("escanos_sum", ascending=False)
-                    )
-                    if not df_ccaa_agg.empty:
-                        colors_ccaa = [_color(s) for s in df_ccaa_agg["siglas"]]
-                        fig_ccaa = go.Figure(go.Bar(
-                            x=df_ccaa_agg["siglas"],
-                            y=df_ccaa_agg["escanos_sum"],
-                            marker=dict(
-                                color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)" for c in colors_ccaa],
-                                line=dict(color=colors_ccaa, width=1.5),
-                            ),
-                            text=df_ccaa_agg["escanos_sum"].astype(int),
-                            textposition="outside",
-                            textfont=dict(color=TEXT, size=10, family="JetBrains Mono"),
-                        ))
-                        fig_ccaa.update_layout(
-                            title=dict(text=f"Escaños en {ccaa_sel}", font=dict(color=TEXT2, size=12)),
-                            height=350,
-                            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-                            xaxis=dict(showgrid=False, tickfont=dict(size=10, color=TEXT2)),
-                            yaxis=dict(gridcolor="rgba(30,41,59,0.40)", tickfont=dict(size=9, color=MUTED)),
-                            margin=dict(t=35, b=20, l=10, r=10), showlegend=False,
-                            font=dict(color=TEXT2),
-                        )
-                        st.plotly_chart(fig_ccaa, use_container_width=True, config={"displayModeBar": False})
-
-                    provinces_in_ccaa = sorted(df_ccaa["provincia"].unique().tolist())
-                    if len(provinces_in_ccaa) > 1:
-                        for prov in provinces_in_ccaa:
-                            df_p = df_ccaa[df_ccaa["provincia"] == prov].sort_values("escanos", ascending=False)
-                            pills = "".join(
-                                f'<span class="partido-pill" style="background:{_color(rr["siglas"])}15;border:1px solid {_color(rr["siglas"])}44;color:{_color(rr["siglas"])}">{rr["siglas"]} {int(rr["escanos"])}</span> '
-                                for _, rr in df_p.head(4).iterrows()
-                            )
-                            st.markdown(
-                                f'<div class="glass" style="padding:.5rem .8rem;margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center">'
-                                f'<span style="font-size:.75rem;font-weight:600;color:{TEXT}">{prov}</span>'
-                                f'<div>{pills}</div></div>',
-                                unsafe_allow_html=True,
-                            )
-
-            # ═══════════════════════════════════════════════════════════════
-            # BANNER: CAMBIOS EN ESTIMACIONES POR PROVINCIA
-            # ═══════════════════════════════════════════════════════════════
-            st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.5rem 0"></div>', unsafe_allow_html=True)
-            _section_header("Cambios en Estimación vs Referencia Histórica", AMBER)
-
-            df_est_banner = _estimate_seats_dhondt(df_prov, df_nc_mapa)
-
-            if df_est_banner.empty:
-                st.markdown(
-                    f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {AMBER};border-radius:8px;padding:.9rem 1.2rem;color:{TEXT2};font-size:.85rem">'
-                    f'El banner de cambios se activará cuando haya datos de nowcasting en la BD.'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-            else:
-                # ── Summary KPIs ──────────────────────────────────────────────
-                n_ganadas = len(df_est_banner[df_est_banner["delta"] > 0]["provincia"].unique())
-                n_perdidas = len(df_est_banner[df_est_banner["delta"] < 0]["provincia"].unique())
-                mayor_gain = df_est_banner.loc[df_est_banner["delta"].idxmax()] if not df_est_banner.empty else None
-                mayor_loss = df_est_banner.loc[df_est_banner["delta"].idxmin()] if not df_est_banner.empty else None
-
-                k1, k2, k3, k4 = st.columns(4)
-                for col_k, lbl, val, sub, accent in [
-                    (k1, "Provincias con ganancia", str(n_ganadas), "vs referencia histórica", GREEN),
-                    (k2, "Provincias con pérdida",  str(n_perdidas), "vs referencia histórica", RED),
-                    (k3, "Mayor ganancia",
-                     f"+{mayor_gain['delta']} {mayor_gain['siglas']}" if mayor_gain is not None else "—",
-                     str(mayor_gain["provincia"]) if mayor_gain is not None else "", GREEN),
-                    (k4, "Mayor pérdida",
-                     f"{mayor_loss['delta']} {mayor_loss['siglas']}" if mayor_loss is not None else "—",
-                     str(mayor_loss["provincia"]) if mayor_loss is not None else "", RED),
-                ]:
-                    with col_k:
-                        st.markdown(
-                            f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {accent}55;border-radius:10px;padding:.9rem 1.1rem;text-align:center">'
-                            f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem">{lbl}</div>'
-                            f'<div style="font-size:1.4rem;font-weight:800;color:{accent};font-family:\'JetBrains Mono\',monospace">{val}</div>'
-                            f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem">{sub}</div>'
-                            f'</div>',
-                            unsafe_allow_html=True,
-                        )
-
-                st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
-
-                # ── Scrollable province cards ─────────────────────────────────
-                _section_header("Escaños Estimados vs Referencia — Por Provincia", CYAN)
-
-                provs_sorted = (
-                    df_est_banner.groupby("provincia")["delta"]
-                    .apply(lambda s: s.abs().sum())
-                    .sort_values(ascending=False)
-                    .index.tolist()
-                )
-
-                # Build the horizontal scrolling HTML banner
-                cards_html = ""
-                for prov_name in provs_sorted:
-                    df_p = df_est_banner[df_est_banner["provincia"] == prov_name].sort_values("escanos_est", ascending=False)
-                    if df_p.empty:
-                        continue
-                    winner_color = _color(df_p.iloc[0]["siglas"])
-                    wc_r, wc_g, wc_b = int(winner_color[1:3], 16), int(winner_color[3:5], 16), int(winner_color[5:7], 16)
-                    total_prov = int(df_p["escanos_est"].sum())
-
-                    pills_html = ""
-                    for _, rp in df_p[df_p["escanos_est"] > 0].head(5).iterrows():
-                        pc = _color(rp["siglas"])
-                        d  = int(rp["delta"])
-                        d_color = GREEN if d > 0 else RED if d < 0 else MUTED
-                        arrow = "▲" if d > 0 else "▼" if d < 0 else "—"
-                        d_str  = f"{arrow}{abs(d)}" if d != 0 else "="
-                        pr2, pg2, pb2 = int(pc[1:3], 16), int(pc[3:5], 16), int(pc[5:7], 16)
-                        pills_html += (
-                            f'<div style="display:flex;align-items:center;justify-content:space-between;'
-                            f'margin:.18rem 0;padding:.18rem .4rem;'
-                            f'background:rgba({pr2},{pg2},{pb2},0.1);border-radius:5px">'
-                            f'<span style="font-size:.62rem;font-weight:700;color:{pc}">{rp["siglas"]}</span>'
-                            f'<span style="font-size:.62rem;font-weight:800;color:{TEXT2};font-family:\'JetBrains Mono\',monospace">{int(rp["escanos_est"])}</span>'
-                            f'<span style="font-size:.58rem;font-weight:700;color:{d_color}">{d_str}</span>'
-                            f'</div>'
-                        )
-
-                    cards_html += (
-                        f'<div style="min-width:148px;max-width:148px;'
-                        f'background:linear-gradient(180deg,rgba({wc_r},{wc_g},{wc_b},0.08),{BG2});'
-                        f'border:1px solid {BORDER};border-top:3px solid {winner_color};'
-                        f'border-radius:0 0 10px 10px;padding:.65rem .7rem;flex-shrink:0">'
-                        f'<div style="font-size:.72rem;font-weight:700;color:{TEXT};margin-bottom:.1rem;'
-                        f'white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{prov_name}</div>'
-                        f'<div style="font-size:.55rem;color:{MUTED};margin-bottom:.4rem">{total_prov} escaños</div>'
-                        f'{pills_html}'
+                pills_html = ""
+                for _, rp in df_p[df_p["escanos_est"] > 0].head(5).iterrows():
+                    pc = _color(rp["siglas"])
+                    d  = int(rp["delta"])
+                    d_color = GREEN if d > 0 else RED if d < 0 else MUTED
+                    arrow = "▲" if d > 0 else "▼" if d < 0 else "—"
+                    d_str  = f"{arrow}{abs(d)}" if d != 0 else "="
+                    pr2, pg2, pb2 = int(pc[1:3], 16), int(pc[3:5], 16), int(pc[5:7], 16)
+                    pills_html += (
+                        f'<div style="display:flex;align-items:center;justify-content:space-between;'
+                        f'margin:.18rem 0;padding:.18rem .4rem;'
+                        f'background:rgba({pr2},{pg2},{pb2},0.1);border-radius:5px">'
+                        f'<span style="font-size:.62rem;font-weight:700;color:{pc}">{rp["siglas"]}</span>'
+                        f'<span style="font-size:.62rem;font-weight:800;color:{TEXT2};font-family:\'JetBrains Mono\',monospace">{int(rp["escanos_est"])}</span>'
+                        f'<span style="font-size:.58rem;font-weight:700;color:{d_color}">{d_str}</span>'
                         f'</div>'
                     )
 
-                st.markdown(
-                    f'<div style="overflow-x:auto;display:flex;gap:.45rem;padding:.4rem 0 .8rem;'
-                    f'scrollbar-width:thin;scrollbar-color:{BORDER} transparent">'
-                    f'{cards_html}'
-                    f'</div>',
-                    unsafe_allow_html=True,
+                cards_html += (
+                    f'<div style="min-width:148px;max-width:148px;'
+                    f'background:linear-gradient(180deg,rgba({wc_r},{wc_g},{wc_b},0.08),{BG2});'
+                    f'border:1px solid {BORDER};border-top:3px solid {winner_color};'
+                    f'border-radius:0 0 10px 10px;padding:.65rem .7rem;flex-shrink:0">'
+                    f'<div style="font-size:.72rem;font-weight:700;color:{TEXT};margin-bottom:.1rem;'
+                    f'white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{prov_name}</div>'
+                    f'<div style="font-size:.55rem;color:{MUTED};margin-bottom:.4rem">{total_prov} escaños</div>'
+                    f'{pills_html}'
+                    f'</div>'
                 )
 
-                # ── Heatmap de deltas ─────────────────────────────────────────
-                _section_header("Mapa de Calor: Delta Escaños (est. − ref.)", PURPLE)
-                df_heat = df_est_banner[df_est_banner["delta"] != 0].copy()
-                if not df_heat.empty:
-                    top_parties = (
-                        df_heat.groupby("siglas")["escanos_est"].sum()
-                        .sort_values(ascending=False).head(8).index.tolist()
-                    )
-                    df_heat_filt = df_heat[df_heat["siglas"].isin(top_parties)]
-                    df_pivot = df_heat_filt.pivot_table(
-                        index="siglas", columns="provincia", values="delta", fill_value=0
-                    )
-                    fig_hm = go.Figure(go.Heatmap(
-                        z=df_pivot.values,
-                        x=df_pivot.columns.tolist(),
-                        y=df_pivot.index.tolist(),
-                        colorscale=[
-                            [0.0, "#7F1D1D"],
-                            [0.4, "#991B1B"],
-                            [0.5, BG3],
-                            [0.6, "#14532D"],
-                            [1.0, "#166534"],
-                        ],
-                        zmid=0,
-                        colorbar=dict(
-                            title=dict(text="Δ esc.", font=dict(size=11, color=MUTED)),
-                            tickfont=dict(size=10, color=MUTED),
-                        ),
-                        hoverongaps=False,
-                        hovertemplate="<b>%{y}</b> en %{x}<br>Delta: %{z:+.0f} escaños<extra></extra>",
-                    ))
-                    fig_hm.update_layout(
-                        height=320,
-                        paper_bgcolor="rgba(0,0,0,0)",
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        margin=dict(t=10, b=10, l=70, r=10),
-                        xaxis=dict(tickfont=dict(size=9, color=MUTED), tickangle=-45),
-                        yaxis=dict(tickfont=dict(size=11, color=TEXT2)),
-                        font=dict(color=TEXT2),
-                    )
-                    st.plotly_chart(fig_hm, use_container_width=True, config={"displayModeBar": False})
+            st.markdown(
+                f'<div style="overflow-x:auto;display:flex;gap:.45rem;padding:.4rem 0 .8rem;'
+                f'scrollbar-width:thin;scrollbar-color:{BORDER} transparent">'
+                f'{cards_html}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+            # ── Heatmap de deltas ─────────────────────────────────────────
+            _section_header("Mapa de Calor: Delta Escaños (est. − ref.)", PURPLE)
+            df_heat = df_est_banner[df_est_banner["delta"] != 0].copy()
+            if not df_heat.empty:
+                top_parties = (
+                    df_heat.groupby("siglas")["escanos_est"].sum()
+                    .sort_values(ascending=False).head(8).index.tolist()
+                )
+                df_heat_filt = df_heat[df_heat["siglas"].isin(top_parties)]
+                df_pivot = df_heat_filt.pivot_table(
+                    index="siglas", columns="provincia", values="delta", fill_value=0
+                )
+                fig_hm = go.Figure(go.Heatmap(
+                    z=df_pivot.values,
+                    x=df_pivot.columns.tolist(),
+                    y=df_pivot.index.tolist(),
+                    colorscale=[
+                        [0.0, "#7F1D1D"],
+                        [0.4, "#991B1B"],
+                        [0.5, BG3],
+                        [0.6, "#14532D"],
+                        [1.0, "#166534"],
+                    ],
+                    zmid=0,
+                    colorbar=dict(
+                        title=dict(text="Δ esc.", font=dict(size=11, color=MUTED)),
+                        tickfont=dict(size=10, color=MUTED),
+                    ),
+                    hoverongaps=False,
+                    hovertemplate="<b>%{y}</b> en %{x}<br>Delta: %{z:+.0f} escaños<extra></extra>",
+                ))
+                fig_hm.update_layout(
+                    height=320,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    margin=dict(t=10, b=10, l=70, r=10),
+                    xaxis=dict(tickfont=dict(size=9, color=MUTED), tickangle=-45),
+                    yaxis=dict(tickfont=dict(size=11, color=TEXT2)),
+                    font=dict(color=TEXT2),
+                )
+                st.plotly_chart(fig_hm, use_container_width=True, config={"displayModeBar": False})
 
 
 # ═════════════════════════════════════════════════════════════════════════════

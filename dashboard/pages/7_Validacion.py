@@ -24,7 +24,12 @@ from dashboard.shared import (
 )
 
 try:
-    from dashboard.db import cargar_historial_validacion, cargar_validacion_por_partido
+    from dashboard.db import (
+        cargar_historial_validacion,
+        cargar_validacion_por_partido,
+        cargar_casas_cobertura,
+        cargar_fuentes_macro,
+    )
 except ImportError:
     import pandas as _pd
 
@@ -32,6 +37,12 @@ except ImportError:
         return _pd.DataFrame()
 
     def cargar_validacion_por_partido(run_id: str) -> "_pd.DataFrame":  # type: ignore[return]
+        return _pd.DataFrame()
+
+    def cargar_casas_cobertura() -> "_pd.DataFrame":  # type: ignore[return]
+        return _pd.DataFrame()
+
+    def cargar_fuentes_macro() -> "_pd.DataFrame":  # type: ignore[return]
         return _pd.DataFrame()
 
 st.set_page_config(page_title="Validación — ElectSim", layout="wide")
@@ -258,3 +269,70 @@ with tab3:
             n_ok = int(ultimo_qc_row.get("n_checks_ok") or 0)
             n_fail = int(ultimo_qc_row.get("n_checks_fail") or 0)
             st.metric("Checks OK / Fail", f"{n_ok} / {n_fail}")
+
+
+# ── Accuracy casas encuestadoras ──────────────────────────────────────────────
+st.markdown(f"""
+<div class="sec-hdr">
+    <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+    <span class="lbl" style="color:{CYAN}">CASAS ENCUESTADORAS · BACKTEST HISTÓRICO</span>
+    <div class="line"></div>
+</div>
+""", unsafe_allow_html=True)
+
+df_casas = cargar_casas_cobertura()
+if df_casas.empty:
+    st.info("Sin backtest disponible. Ejecuta `python -m validation.backtest_casas` para generar los ratings.")
+else:
+    # KPIs agregados.
+    n_casas_activas = int(df_casas["activa"].sum()) if "activa" in df_casas.columns else len(df_casas)
+    n_con_dato_7d = int((df_casas["n_encuestas_7d"].fillna(0).astype(int) > 0).sum())
+    rating_medio = float(df_casas["rating"].astype(float).mean()) if "rating" in df_casas.columns and not df_casas["rating"].isna().all() else 3.0
+    mae_medio = float(df_casas["mae_ewma"].astype(float).mean()) if "mae_ewma" in df_casas.columns and not df_casas["mae_ewma"].isna().all() else 0.0
+
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Casas activas", n_casas_activas)
+    k2.metric("Con dato ≤7d", f"{n_con_dato_7d} / {n_casas_activas}")
+    k3.metric("Rating medio", f"{rating_medio:.2f} / 5")
+    k4.metric("MAE EWMA medio", f"{mae_medio:.2f} pp")
+
+    df_show = df_casas.rename(columns={
+        "casa_nombre": "Casa",
+        "rating": "Rating",
+        "mae_ewma": "MAE (pp)",
+        "n_elecciones_bt": "N elecc.",
+        "ultima_fecha_encuesta": "Última",
+        "n_encuestas_7d": "Enc. 7d",
+        "n_encuestas_30d": "Enc. 30d",
+    })
+    cols_show = [c for c in ["Casa", "Rating", "MAE (pp)", "N elecc.", "Última", "Enc. 7d", "Enc. 30d"] if c in df_show.columns]
+    st.dataframe(df_show[cols_show], use_container_width=True, hide_index=True)
+
+
+# ── Fuentes macro catálogo ────────────────────────────────────────────────────
+st.markdown(f"""
+<div class="sec-hdr">
+    <div class="bar" style="background:linear-gradient({PURPLE},{CYAN})"></div>
+    <span class="lbl" style="color:{PURPLE}">FUENTES MACRO · CATÁLOGO DE DATOS</span>
+    <div class="line"></div>
+</div>
+""", unsafe_allow_html=True)
+
+df_fm = cargar_fuentes_macro()
+if df_fm.empty:
+    st.info("Sin catálogo de fuentes macro. Ejecuta el seed `db/seeds/04_casas_fuentes.sql`.")
+else:
+    st.dataframe(
+        df_fm.rename(columns={
+            "codigo": "Código",
+            "proveedor": "Proveedor",
+            "dataset": "Dataset",
+            "categoria": "Categoría",
+            "frecuencia": "Frecuencia",
+            "latencia_dias": "Latencia (d)",
+            "peso_base": "Peso",
+            "activa": "Activa",
+        }),
+        use_container_width=True,
+        hide_index=True,
+    )

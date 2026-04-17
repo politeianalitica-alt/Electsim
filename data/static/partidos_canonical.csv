@@ -1,0 +1,14 @@
+alias,partido_id,partido_nombre,color_hex,ideologia_lr
+PP,PP,Partido Popular,#0096D9,0.7
+Partido Popular,PP,Partido Popular,#0096D9,0.7
+PSOE,PSOE,Partido Socialista Obrero Español,#E4032E,-0.2
+Vox,VOX,VOX,#63BE21,0.9
+SUMAR,SUMAR,Sumar,#C23078,-0.6
+Ciudadanos,CS,Ciudadanos,#FF7500,0.2
+C's,CS,Ciudadanos,#FF7500,0.2
+CS,CS,Ciudadanos,#FF7500,0.2
+Junts,JUNTS,Junts per Catalunya,#0060A8,0.1
+ERC,ERC,Esquerra Republicana,#F4B301,-0.8
+PNV,PNV,Partido Nacionalista Vasco,#009944,0.0
+BILDU,BILDU,Euskal Herria Bildu,#B5CF18,-0.7
+BNG,BNG,Bloque Nacionalista Galego,#6B8F4E,-0.6
