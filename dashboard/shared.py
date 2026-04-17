@@ -210,21 +210,164 @@ def aplicar_estilos():
     }}
 
     /* ── Inputs / Selects ─────────────────────────────────────────── */
-    [data-testid="stSelectbox"] > div, [data-testid="stMultiSelect"] > div {{
+    [data-testid="stSelectbox"] > div,
+    [data-testid="stMultiSelect"] > div,
+    [data-testid="stTextInput"] > div,
+    [data-testid="stNumberInput"] > div,
+    [data-testid="stDateInput"] > div,
+    [data-testid="stTimeInput"] > div,
+    [data-testid="stTextArea"] > div,
+    [data-testid="stFileUploader"] > div,
+    .stSelectbox [data-baseweb="select"] > div,
+    .stMultiSelect [data-baseweb="select"] > div {{
         background: {BG2} !important;
         border-color: {BORDER} !important;
         color: {TEXT} !important;
         border-radius: 8px !important;
     }}
+    /* Inputs internos (el <input> real) */
+    [data-testid="stSelectbox"] input,
+    [data-testid="stMultiSelect"] input,
+    [data-testid="stTextInput"] input,
+    [data-testid="stNumberInput"] input,
+    [data-testid="stDateInput"] input,
+    [data-testid="stTimeInput"] input,
+    [data-testid="stTextArea"] textarea {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+        caret-color: {CYAN} !important;
+    }}
+    /* Valor seleccionado dentro del BaseWeb select */
+    [data-baseweb="select"] span,
+    [data-baseweb="select"] div[title] {{
+        color: {TEXT} !important;
+    }}
+    /* Tags de MultiSelect */
+    [data-baseweb="tag"] {{
+        background: {BG3} !important;
+        color: {TEXT} !important;
+        border: 1px solid {BORDER} !important;
+    }}
+    [data-baseweb="tag"] [role="button"] {{
+        color: {TEXT2} !important;
+    }}
+
+    /* ── Popovers / menús desplegables (BaseWeb) ──────────────────── */
+    [data-baseweb="popover"],
+    [data-baseweb="menu"],
+    [data-baseweb="calendar"] {{
+        background: {BG2} !important;
+        border: 1px solid {BORDER} !important;
+        color: {TEXT} !important;
+        border-radius: 8px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.55) !important;
+    }}
+    [data-baseweb="popover"] [role="listbox"],
+    [data-baseweb="menu"] ul,
+    [data-baseweb="select-dropdown"] {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+    }}
+    [data-baseweb="popover"] li,
+    [data-baseweb="menu"] li,
+    [data-baseweb="popover"] [role="option"] {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+    }}
+    [data-baseweb="popover"] li:hover,
+    [data-baseweb="menu"] li:hover,
+    [data-baseweb="popover"] [role="option"]:hover,
+    [data-baseweb="popover"] [aria-selected="true"] {{
+        background: {CYAN}1A !important;
+        color: {CYAN} !important;
+    }}
+    /* Calendar (stDateInput) */
+    [data-baseweb="calendar"] * {{ color: {TEXT} !important; }}
+    [data-baseweb="calendar"] [aria-selected="true"] {{
+        background: {CYAN}33 !important;
+        color: {CYAN} !important;
+    }}
+    [data-baseweb="calendar"] button:hover {{
+        background: {CYAN}22 !important;
+    }}
+
+    /* ── Radio / Checkbox ─────────────────────────────────────────── */
+    [data-testid="stRadio"] label,
+    [data-testid="stCheckbox"] label,
+    .stRadio label, .stCheckbox label {{
+        color: {TEXT2} !important;
+    }}
+    [data-testid="stRadio"] [role="radiogroup"] {{
+        background: transparent !important;
+    }}
+
+    /* ── Slider ───────────────────────────────────────────────────── */
     .stSlider [data-testid="stSlider"] {{
         color: {CYAN} !important;
     }}
+    [data-baseweb="slider"] [role="slider"] {{
+        background: {CYAN} !important;
+        border: 2px solid {BG} !important;
+    }}
+    [data-baseweb="slider"] div[data-testid="stTickBarMin"],
+    [data-baseweb="slider"] div[data-testid="stTickBarMax"] {{
+        color: {MUTED} !important;
+    }}
 
-    /* ── Dataframe ────────────────────────────────────────────────── */
-    .stDataFrame {{
+    /* ── Dataframe (st.dataframe / st.data_editor) ────────────────── */
+    .stDataFrame, [data-testid="stDataFrame"] {{
         background: {BG2} !important;
         border: 1px solid {BORDER} !important;
         border-radius: 10px !important;
+    }}
+    /* Glide Data Grid: Streamlit expone CSS vars para el canvas.
+       Sobrescribir aquí pinta celdas, cabeceras y fondos internos. */
+    [data-testid="stDataFrame"],
+    [data-testid="stDataFrameResizable"],
+    .stDataFrame > div {{
+        --gdg-bg-cell: {BG2};
+        --gdg-bg-cell-medium: {BG3};
+        --gdg-bg-header: {BG3};
+        --gdg-bg-header-has-focus: {CYAN}22;
+        --gdg-bg-header-hovered: {BG3};
+        --gdg-bg-bubble: {BG3};
+        --gdg-bg-bubble-selected: {CYAN}33;
+        --gdg-bg-search-result: {CYAN}22;
+        --gdg-border-color: {BORDER};
+        --gdg-drilldown-border: {BORDER};
+        --gdg-horizontal-border-color: {BORDER};
+        --gdg-text-dark: {TEXT};
+        --gdg-text-medium: {TEXT2};
+        --gdg-text-light: {MUTED};
+        --gdg-text-bubble: {TEXT};
+        --gdg-text-header: {TEXT};
+        --gdg-text-header-selected: {CYAN};
+        --gdg-accent-color: {CYAN};
+        --gdg-accent-fg: {BG};
+        --gdg-accent-light: {CYAN}22;
+        --gdg-link-color: {CYAN};
+        --gdg-cell-horizontal-padding: 10px;
+        --gdg-cell-vertical-padding: 6px;
+    }}
+    /* st.table clásica */
+    .stTable, [data-testid="stTable"] table {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 10px !important;
+    }}
+    [data-testid="stTable"] thead tr th {{
+        background: {BG3} !important;
+        color: {TEXT} !important;
+        border-bottom: 1px solid {BORDER} !important;
+    }}
+    [data-testid="stTable"] tbody tr td {{
+        background: {BG2} !important;
+        color: {TEXT2} !important;
+        border-bottom: 1px solid {BORDER} !important;
+    }}
+    [data-testid="stTable"] tbody tr:hover td {{
+        background: {CYAN}0E !important;
     }}
 
     /* ── Info / warnings ──────────────────────────────────────────── */
