@@ -26,7 +26,7 @@ GREEN    = "#10B981"
 AMBER    = "#F59E0B"
 RED      = "#EF4444"
 
-COLORES_PARTIDOS = {
+_RAW_COLORES_PARTIDOS = {
     "PP":       "#009FDB",
     "PSOE":     "#E30613",
     "VOX":      "#63BE21",
@@ -35,11 +35,8 @@ COLORES_PARTIDOS = {
     "CS":       "#EB6109",
     "ERC":      "#F4B20A",
     "JUNTS":    "#00AEEF",
-    "JxCAT":    "#00AEEF",
     "PNV":      "#007A3D",
     "EH Bildu": "#A9C55A",
-    "EH_BILDU": "#A9C55A",
-    "BILDU":    "#A9C55A",
     "BNG":      "#73C6E0",
     "CUP":      "#FFCC00",
     "CC":       "#FFCB00",
@@ -50,8 +47,71 @@ COLORES_PARTIDOS = {
 }
 
 
+_PARTY_ALIASES = {
+    "EH_BILDU": "EH Bildu",
+    "BILDU": "EH Bildu",
+    "JXCAT": "JUNTS",
+}
+
+PAGES_NAV = {
+    "analisis_electoral": [
+        ("app.py", "⬡  Inicio"),
+        ("pages/1_Mapa_Electoral.py", "◈  Mapa Electoral"),
+        ("pages/2_Nowcasting.py", "◉  Nowcasting"),
+        ("pages/3_Escenarios.py", "◎  Escenarios"),
+        ("pages/4_Coaliciones.py", "⬡  Coaliciones"),
+    ],
+    "indices_politeia": [
+        ("pages/9_Indices_Politeia.py", "◈  Índices"),
+        ("pages/10_Prensa_Agenda.py", "◎  Prensa & Agenda"),
+        ("pages/11_Congreso_Institucional.py", "◉  Congreso"),
+        ("pages/13_Briefing_Diario.py", "⬡  Briefing Diario"),
+    ],
+    "modelos_datos": [
+        ("pages/5_Agentes_LLM.py", "◈  Agentes LLM"),
+        ("pages/6_Riesgo.py", "◎  Riesgo Político"),
+        ("pages/7_Validacion.py", "◉  Validación"),
+        ("pages/8_Tiempo_Real.py", "⬡  Tiempo Real"),
+        ("pages/12_Macroeconomia.py", "◈  Macroeconomía"),
+    ],
+}
+
+
+def _normalize_siglas(siglas: str) -> str:
+    return str(siglas).strip().upper().replace(" ", "_").replace("-", "_")
+
+
+def _build_party_colors() -> dict[str, str]:
+    colors: dict[str, str] = {}
+    for key, val in _RAW_COLORES_PARTIDOS.items():
+        norm = _normalize_siglas(key)
+        colors[key] = val
+        colors[key.upper()] = val
+        colors[norm] = val
+        colors[norm.replace("_", " ")] = val
+    for alias, canonical in _PARTY_ALIASES.items():
+        val = _RAW_COLORES_PARTIDOS.get(canonical, CYAN)
+        norm = _normalize_siglas(alias)
+        colors[alias] = val
+        colors[alias.upper()] = val
+        colors[norm] = val
+        colors[norm.replace("_", " ")] = val
+    return colors
+
+
+COLORES_PARTIDOS = _build_party_colors()
+
+
 def color_partido(siglas: str) -> str:
-    return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
+    sigla_raw = str(siglas)
+    sigla_norm = _normalize_siglas(sigla_raw)
+    return (
+        COLORES_PARTIDOS.get(sigla_raw)
+        or COLORES_PARTIDOS.get(sigla_raw.upper())
+        or COLORES_PARTIDOS.get(sigla_norm)
+        or COLORES_PARTIDOS.get(sigla_norm.replace("_", " "))
+        or CYAN
+    )
 
 
 def aplicar_estilos():
@@ -106,7 +166,7 @@ def aplicar_estilos():
     }}
     [data-testid="stMetricLabel"] {{
         color: {MUTED} !important;
-        font-size: .72rem !important;
+        font-size: clamp(.75rem, .72rem + .12vw, .84rem) !important;
         font-weight: 700 !important;
         letter-spacing: .08em !important;
         text-transform: uppercase !important;
@@ -118,7 +178,7 @@ def aplicar_estilos():
         font-family: 'JetBrains Mono', monospace !important;
     }}
     [data-testid="stMetricDelta"] {{
-        font-size: .72rem !important;
+        font-size: clamp(.75rem, .72rem + .12vw, .84rem) !important;
         font-weight: 600 !important;
     }}
 
@@ -217,6 +277,10 @@ def aplicar_estilos():
     h1, h2, h3 {{ color: {TEXT}; }}
 
     /* ── Scrollbar ────────────────────────────────────────────────── */
+    * {{
+        scrollbar-width: thin;
+        scrollbar-color: {BORDER} {BG};
+    }}
     ::-webkit-scrollbar {{ width: 6px; height: 6px; }}
     ::-webkit-scrollbar-track {{ background: {BG}; }}
     ::-webkit-scrollbar-thumb {{ background: {BORDER}; border-radius: 3px; }}
@@ -263,31 +327,46 @@ def sidebar_nav():
 
         # Sección: Análisis Electoral
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.6rem .5rem .3rem'>Análisis Electoral</div>", unsafe_allow_html=True)
-        st.page_link("app.py",                              label="⬡  Inicio")
-        st.page_link("pages/1_Mapa_Electoral.py",           label="◈  Mapa Electoral")
-        st.page_link("pages/2_Nowcasting.py",               label="◉  Nowcasting")
-        st.page_link("pages/3_Escenarios.py",               label="◎  Escenarios")
-        st.page_link("pages/4_Coaliciones.py",              label="⬡  Coaliciones")
+        for path, label in PAGES_NAV["analisis_electoral"]:
+            st.page_link(path, label=label)
 
         # Sección: Índices Politeia
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Índices Politeia</div>", unsafe_allow_html=True)
-        st.page_link("pages/9_Indices_Politeia.py",         label="◈  Índices")
-        st.page_link("pages/10_Prensa_Agenda.py",           label="◎  Prensa & Agenda")
-        st.page_link("pages/11_Congreso_Institucional.py",  label="◉  Congreso")
-        st.page_link("pages/13_Briefing_Diario.py",         label="⬡  Briefing Diario")
+        for path, label in PAGES_NAV["indices_politeia"]:
+            st.page_link(path, label=label)
 
         # Sección: Modelos & Datos
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Modelos & Datos</div>", unsafe_allow_html=True)
-        st.page_link("pages/5_Agentes_LLM.py",              label="◈  Agentes LLM")
-        st.page_link("pages/6_Riesgo.py",                   label="◎  Riesgo Político")
-        st.page_link("pages/7_Validacion.py",               label="◉  Validación")
-        st.page_link("pages/8_Tiempo_Real.py",              label="⬡  Tiempo Real")
-        st.page_link("pages/12_Macroeconomia.py",           label="◈  Macroeconomía")
+        for path, label in PAGES_NAV["modelos_datos"]:
+            st.page_link(path, label=label)
 
         # Footer
+        dot_color = CYAN
+        status_text = "SISTEMA ACTIVO"
+        extra_text = "DATOS EN TIEMPO REAL"
+        try:
+            from dashboard.db import cargar_alertas
+
+            alertas = cargar_alertas(solo_no_leidas=True, limit=1)
+            if alertas.empty:
+                status_text = "SIN ALERTAS ABIERTAS"
+            else:
+                sev = str(alertas.iloc[0].get("severidad", "")).upper()
+                if sev in {"CRITICAL", "ALTA", "HIGH"}:
+                    dot_color = RED
+                    status_text = "ALERTA ACTIVA"
+                    extra_text = "REVISAR PANEL DE ALERTAS"
+                elif sev in {"MEDIA", "MEDIUM", "WARNING"}:
+                    dot_color = AMBER
+                    status_text = "SEGUIMIENTO ACTIVO"
+        except Exception:
+            dot_color = MUTED
+            status_text = "ESTADO NO DISPONIBLE"
+            extra_text = "SINCRONIZACIÓN PENDIENTE"
+
         st.markdown(f"""
         <div style="border-top:1px solid {BORDER};margin-top:1.2rem;padding:1rem .5rem .5rem;
                     font-size:.62rem;color:{MUTED};text-align:center;letter-spacing:.06em">
-            <span style="color:{CYAN}55">●</span> SISTEMA ACTIVO &nbsp;·&nbsp; DATOS EN TIEMPO REAL
+            <span style="color:{dot_color}">●</span> {status_text} &nbsp;·&nbsp; {extra_text}
         </div>
         """, unsafe_allow_html=True)

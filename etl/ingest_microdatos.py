@@ -14,6 +14,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from etl.config import validate_env
+from etl.logger import get_logger
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -24,6 +26,8 @@ from dashboard.ingestion.microdatos_pipeline import (  # noqa: E402
     ingest_microdatos_folder,
 )
 
+logger = get_logger(__name__)
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Ingesta microdatos propios (CIS/cliente)")
@@ -32,6 +36,7 @@ def main() -> int:
     args = parser.parse_args()
 
     load_dotenv(ROOT / ".env")
+    validate_env()
     db_url = os.environ.get(
         "DATABASE_URL",
         "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana",
@@ -43,10 +48,9 @@ def main() -> int:
         max_files=(args.max_files or None),
         replace_existing_for_survey=True,
     )
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    logger.info("Resultado ingesta microdatos: %s", json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("ok") else 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

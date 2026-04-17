@@ -9,25 +9,38 @@ Objetivo:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, date as date_type, timezone
+from io import BytesIO
+import json
 import re
 from typing import Any
 from urllib.parse import urlencode
 
 import feedparser
 import requests
+from etl.logger import get_logger
+from etl.utils.fecha_parser import parse_hora
 try:
     from bs4 import BeautifulSoup
 except Exception:  # pragma: no cover - fallback en entornos sin bs4
     BeautifulSoup = None
 
 UTC = timezone.utc
+logger = get_logger(__name__)
+MESES_ES = {
+    "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
+    "julio": 7, "agosto": 8, "septiembre": 9, "octubre": 10, "noviembre": 11, "diciembre": 12,
+}
+_DIAS_ES = {
+    "lunes", "martes", "miércoles", "miercoles",
+    "jueves", "viernes", "sábado", "sabado", "domingo",
+}
 
 
 @dataclass
 class AgendaSource:
     nombre: str
-    modo: str  # html | rss
+    modo: str  # html | rss | json
     url: str
 
 
@@ -81,32 +94,41 @@ def _extract_lugar(texto: str) -> str:
     return ""
 
 
-def _to_iso_day(fecha_txt: str) -> str:
-    s = _clean_text(fecha_txt)
-    if not s:
-        return ""
-    patterns = (
-        "%Y-%m-%d",
-        "%d/%m/%Y",
-        "%Y-%m-%dT%H:%M:%S",
-        "%a, %d %b %Y %H:%M:%S %z",
-        "%a, %d %b %Y %H:%M:%S %Z",
-    )
-    for fmt in patterns:
-        try:
-            return datetime.strptime(s, fmt).strftime("%Y-%m-%d")
-        except Exception:
-            continue
-    m = re.search(r"(\d{4}-\d{2}-\d{2})", s)
+def parse_fecha_es(texto: str) -> date_type | None:
+    """
+    Parsea fechas en formatos españoles habituales.
+    Devuelve None si no puede parsear.
+    """
+    if not texto or not isinstance(texto, str):
+        return None
+    txt = texto.strip().lower()
+    for dia in _DIAS_ES:
+        txt = re.sub(rf"^{re.escape(dia)},?\s*", "", txt)
+    txt = txt.strip()
+
+    m = re.search(r"(\d{1,2})\s+(?:de\s+)?([a-záéíóú]+)\s+(?:de\s+)?(\d{4})", txt)
     if m:
-        return m.group(1)
-    m2 = re.search(r"(\d{2}/\d{2}/\d{4})", s)
-    if m2:
+        dia_n = int(m.group(1))
+        mes_s = m.group(2)
+        anio_n = int(m.group(3))
+        mes_n = MESES_ES.get(mes_s)
+        if mes_n:
+            try:
+                return date_type(anio_n, mes_n, dia_n)
+            except ValueError:
+                pass
+
+    for fmt in ("%d/%m/%Y", "%Y-%m-%d", "%d-%m-%Y", "%d/%m/%y", "%Y/%m/%d"):
         try:
-            return datetime.strptime(m2.group(1), "%d/%m/%Y").strftime("%Y-%m-%d")
-        except Exception:
-            pass
-    return ""
+            return datetime.strptime(txt, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def _to_iso_day(fecha_txt: str) -> str:
+    parsed = parse_fecha_es(_clean_text(fecha_txt))
+    return parsed.strftime("%Y-%m-%d") if parsed else ""
 
 
 def _fetch(url: str, timeout: int) -> str:
@@ -120,9 +142,18 @@ def _fetch(url: str, timeout: int) -> str:
     return r.text
 
 
+def _fetch_feed_safe(url: str, timeout: int = 12) -> feedparser.FeedParserDict:
+    try:
+        content = _fetch(url, timeout=timeout)
+        return feedparser.parse(BytesIO(content.encode("utf-8")))
+    except Exception as exc:
+        logger.warning("RSS no disponible [%s]: %s", url, exc)
+        return feedparser.FeedParserDict()
+
+
 def _parse_rss(source: AgendaSource, max_items: int) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
-    feed = feedparser.parse(source.url)
+    feed = _fetch_feed_safe(source.url, timeout=12)
     for e in getattr(feed, "entries", [])[: max_items * 2]:
         titulo = _clean_text(getattr(e, "title", ""))
         if not titulo:
@@ -130,6 +161,10 @@ def _parse_rss(source: AgendaSource, max_items: int) -> list[dict[str, str]]:
         resumen = _clean_text(getattr(e, "summary", ""))
         link = _clean_text(getattr(e, "link", ""))
         fecha_raw = _clean_text(getattr(e, "published", "") or getattr(e, "updated", ""))
+        fecha_pub = parse_fecha_es(fecha_raw) or parse_fecha_es(titulo)
+        if fecha_pub is None:
+            logger.warning("No se pudo parsear fecha '%s' en RSS %s — evento descartado", fecha_raw, source.nombre)
+            continue
         actor = _infer_actor(f"{titulo} {resumen}", source.nombre)
         out.append(
             {
@@ -137,7 +172,7 @@ def _parse_rss(source: AgendaSource, max_items: int) -> list[dict[str, str]]:
                 "titulo": titulo[:240],
                 "resumen": (resumen or titulo)[:700],
                 "fecha": fecha_raw[:32],
-                "fecha_publicacion": _to_iso_day(fecha_raw) or _to_iso_day(titulo),
+                "fecha_publicacion": fecha_pub.strftime("%Y-%m-%d"),
                 "tipo": _infer_tipo(f"{titulo} {resumen}"),
                 "actor": actor,
                 "lugar": _extract_lugar(f"{titulo} {resumen}"),
@@ -187,9 +222,13 @@ def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict
                 continue
             seen.add(key)
 
-            m_hora = re.search(r"\b([01]?\d|2[0-3])[:.][0-5]\d\b", txt)
-            hora = m_hora.group(0).replace(".", ":") if m_hora else ""
-            fecha = f"{datetime.now(tz=UTC).strftime('%Y-%m-%d')} {hora}".strip()
+            h = parse_hora(txt)
+            hora = h.strftime("%H:%M") if h else ""
+            fecha_base = _to_iso_day(txt) or _to_iso_day(titulo)
+            if not fecha_base:
+                logger.warning("No se pudo parsear fecha '%s' — evento descartado (%s)", titulo[:80], source.nombre)
+                continue
+            fecha = f"{fecha_base} {hora}".strip() if fecha_base else ""
             actor = _infer_actor(f"{titulo} {txt}", source.nombre)
             out.append(
                 {
@@ -197,7 +236,7 @@ def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict
                     "titulo": titulo[:240],
                     "resumen": txt[:700],
                     "fecha": fecha,
-                    "fecha_publicacion": datetime.now(tz=UTC).strftime("%Y-%m-%d"),
+                    "fecha_publicacion": fecha_base,
                     "tipo": _infer_tipo(f"{titulo} {txt}"),
                     "actor": actor,
                     "lugar": _extract_lugar(txt),
@@ -208,6 +247,48 @@ def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict
             )
             if len(out) >= max_items:
                 return out
+    return out[:max_items]
+
+
+def _parse_json(source: AgendaSource, max_items: int, timeout: int) -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    body = _fetch(source.url, timeout=timeout)
+    payload = json.loads(body)
+    items = payload if isinstance(payload, list) else payload.get("data", payload.get("items", []))
+    seen: set[str] = set()
+    for item in items[: max_items * 2]:
+        titulo = _clean_text(item.get("title") or item.get("titulo") or item.get("name") or "")
+        if not titulo:
+            continue
+        resumen = _clean_text(item.get("summary") or item.get("descripcion") or item.get("description") or "")
+        link = _clean_text(item.get("url") or item.get("link") or "")
+        fecha_raw = _clean_text(item.get("date") or item.get("fecha") or item.get("createdDate") or item.get("updated"))
+        fecha_pub = _to_iso_day(fecha_raw)
+        if not fecha_pub:
+            logger.warning("No se pudo parsear fecha '%s' — evento descartado (%s)", fecha_raw, source.nombre)
+            continue
+        key = f"{titulo.lower()}|{fecha_pub}|{source.nombre.lower()}"
+        if key in seen:
+            continue
+        seen.add(key)
+        txt = f"{titulo} {resumen}".strip()
+        out.append(
+            {
+                "fuente": source.nombre,
+                "titulo": titulo[:240],
+                "resumen": (resumen or titulo)[:700],
+                "fecha": fecha_raw[:32],
+                "fecha_publicacion": fecha_pub,
+                "tipo": _infer_tipo(txt),
+                "actor": _infer_actor(txt, source.nombre),
+                "lugar": _extract_lugar(txt),
+                "enlace": link,
+                "url": link,
+                "cita": (resumen or titulo)[:220],
+            }
+        )
+        if len(out) >= max_items:
+            break
     return out[:max_items]
 
 
@@ -223,11 +304,11 @@ def fetch_all_agendas(max_items_per_source: int = 10, timeout: int = 18) -> list
 
     sources = [
         AgendaSource("Moncloa", "html", moncloa_agenda),
-        AgendaSource("Congreso", "html", "https://www.congreso.es/agenda"),
+        AgendaSource("Congreso API", "json", "https://www.congreso.es/rest/api/initiative?lang=es&pageSize=15"),
         AgendaSource("Senado", "html", "https://www.senado.es/web/actividadparlamentaria/actualidad/agenda/index.html"),
-        AgendaSource("Parlamento Europeo", "html", "https://www.europarl.europa.eu/plenary/es/agendas.html"),
+        AgendaSource("Parlamento Europeo", "rss", "https://www.europarl.europa.eu/rss/doc/plenary/es.xml"),
+        AgendaSource("Consejo Europeo", "rss", "https://www.consilium.europa.eu/es/feed/press-releases/"),
         AgendaSource("Moncloa RSS", "rss", "https://www.lamoncloa.gob.es/Paginas/index-rss.aspx"),
-        AgendaSource("Congreso RSS", "rss", "https://www.congreso.es/web/guest/rss"),
         AgendaSource("Casa Real RSS", "rss", "https://casareal.es/ES/Prensa/noticias/Paginas/subhome-rss.xml"),
     ]
 
@@ -236,11 +317,14 @@ def fetch_all_agendas(max_items_per_source: int = 10, timeout: int = 18) -> list
         try:
             if src.modo == "rss":
                 rows = _parse_rss(src, max_items=max_items_per_source)
+            elif src.modo == "json":
+                rows = _parse_json(src, max_items=max_items_per_source, timeout=timeout)
             else:
                 rows = _parse_html(src, max_items=max_items_per_source, timeout=timeout)
             all_rows.extend(rows)
-        except Exception:
+        except Exception as exc:
             # Degradación elegante: una fuente caída no rompe el agregado.
+            logger.warning("Fuente fallida [%s]: %s", src.nombre, exc)
             continue
 
     dedup: dict[str, dict[str, str]] = {}

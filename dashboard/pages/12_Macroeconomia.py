@@ -8,6 +8,7 @@ por perfil de votante. Diseñado para analistas políticos y financieros.
 from __future__ import annotations
 
 import json
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -152,15 +153,20 @@ with tab1:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Prima de riesgo: España vs Italia vs Portugal (pb)</span><div class="line"></div></div>', unsafe_allow_html=True)
         # Serie histórica sintética (2020-2026)
         fechas_mes = pd.date_range("2020-01", "2026-04", freq="ME")
-        np.random.seed(1)
-        prima_es = 80 + np.cumsum(np.random.normal(0, 3, len(fechas_mes)))
-        prima_it = 130 + np.cumsum(np.random.normal(0, 4, len(fechas_mes)))
-        prima_pt = 65 + np.cumsum(np.random.normal(0, 2.5, len(fechas_mes)))
+        rng_prima = np.random.default_rng(1)
+        prima_es = 80 + np.cumsum(rng_prima.normal(0, 3, len(fechas_mes)))
+        prima_it = 130 + np.cumsum(rng_prima.normal(0, 4, len(fechas_mes)))
+        prima_pt = 65 + np.cumsum(rng_prima.normal(0, 2.5, len(fechas_mes)))
         prima_es = np.clip(prima_es, 40, 220)
         prima_it = np.clip(prima_it, 80, 280)
         prima_pt = np.clip(prima_pt, 30, 160)
-        # Forzar ultimo valor al real
-        prima_es[-1] = macro_vals["prima_riesgo"]
+        # Forzar transición suave al último valor real.
+        target_prima = macro_vals["prima_riesgo"]
+        anchor = float(prima_es[-4]) if len(prima_es) >= 4 else float(prima_es[-1])
+        for j in range(3, 0, -1):
+            frac = (4 - j) / 3.0
+            prima_es[-j] = anchor + (target_prima - anchor) * frac
+        prima_es[-1] = target_prima
 
         fig_prima = go.Figure()
         fig_prima.add_trace(go.Scatter(x=fechas_mes, y=prima_es, name="España", line=dict(color=RED, width=2.5)))
@@ -180,7 +186,7 @@ with tab1:
 
     with col_b:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Euríbor 12 meses — Evolución histórica (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
-        euribor_hist = [-0.5, -0.5, -0.5, 0.0, 0.8, 2.1, 3.8, 4.1, 3.9, 3.5, 3.2, 2.9, 2.82]
+        euribor_hist = [-0.5, -0.5, -0.5, 0.0, 0.8, 2.1, 3.8, 4.1, 3.9, 3.5, 3.2, 2.9, float(macro_vals["euribor_12m"])]
         fechas_eur = pd.date_range("2021-04", periods=len(euribor_hist), freq="4ME")
         colores_eur = [RED if v > 3.5 else (AMBER if v > 2 else GREEN) for v in euribor_hist]
         fig_eur = go.Figure()
@@ -190,7 +196,7 @@ with tab1:
             marker=dict(color=colores_eur, size=8),
             name="Euríbor 12M",
         ))
-        fig_eur.add_hrect(y0=0, y1=0, line_width=2, line_dash="dash", line_color=MUTED)
+        fig_eur.add_hline(y=0, line_width=2, line_dash="dash", line_color=MUTED)
         fig_eur.add_annotation(x=fechas_eur[-1], y=euribor_hist[-1],
                                text=f"Actual: {euribor_hist[-1]:.2f}%",
                                showarrow=True, arrowhead=2, bgcolor=AMBER,
@@ -399,6 +405,7 @@ with tab2:
             out[label] = {
                 "color": color,
                 "renta": renta,
+                "renta_neta_mensual": int(round(neto)),
                 "paro": paro,
                 "pct_alquiler": pct_alquiler,
                 "hipoteca": hipoteca,
@@ -432,9 +439,9 @@ with tab2:
 
     with col_m1:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Cascada de ingresos y gastos mensuales (€)</span><div class="line"></div></div>', unsafe_allow_html=True)
-        renta_mensual = m["renta"] / 12 * 0.78  # aprox neta
+        renta_mensual = float(m.get("renta_neta_mensual", (m["renta"] / 12) * 0.79))
         total_gasto = sum(m["gasto"].values())
-        ahorro = renta_mensual - total_gasto
+        ahorro = float(m.get("ahorro", renta_mensual - total_gasto))
 
         conceptos = ["Renta neta mensual"] + list(m["gasto"].keys()) + ["Ahorro/déficit"]
         valores = [renta_mensual] + [-v for v in m["gasto"].values()] + [ahorro]
@@ -519,8 +526,14 @@ with tab2:
     tipo_actual = euribor_actual + 0.5  # diferencial habitual
     tipo_nuevo = tipo_actual + subida_eur
     n = anos_restantes * 12
-    cuota_actual = capital_hip * (tipo_actual/100/12) / (1 - (1 + tipo_actual/100/12)**(-n))
-    cuota_nueva  = capital_hip * (tipo_nuevo/100/12) / (1 - (1 + tipo_nuevo/100/12)**(-n))
+    def _cuota_hipoteca(capital: float, tipo_anual_pct: float, meses: int) -> float:
+        r_mensual = float(tipo_anual_pct) / 100.0 / 12.0
+        if abs(r_mensual) < 1e-12:
+            return float(capital) / max(1, int(meses))
+        return float(capital) * r_mensual / (1 - (1 + r_mensual) ** (-max(1, int(meses))))
+
+    cuota_actual = _cuota_hipoteca(capital_hip, tipo_actual, n)
+    cuota_nueva = _cuota_hipoteca(capital_hip, tipo_nuevo, n)
 
     col_r1, col_r2, col_r3 = st.columns(3)
     with col_r1:
@@ -545,15 +558,19 @@ with tab2:
         }
         for k, v in MICRO.items()
     ])
-    try:
-        styled_comp = (
-            df_comp.style
-            .background_gradient(subset=["Renta anual (€)"], cmap="Blues")
-            .background_gradient(subset=["Paro (%)"], cmap="Reds_r")
-        )
-        st.dataframe(styled_comp, use_container_width=True, hide_index=True)
-    except Exception:
-        # Fallback seguro para entornos sin dependencias de Styler (ej. matplotlib).
+    has_mpl = importlib.util.find_spec("matplotlib") is not None
+    if has_mpl:
+        try:
+            styled_comp = (
+                df_comp.style
+                .background_gradient(subset=["Renta anual (€)"], cmap="Blues")
+                .background_gradient(subset=["Paro (%)"], cmap="Reds")
+            )
+            st.dataframe(styled_comp, use_container_width=True, hide_index=True)
+        except Exception:
+            st.dataframe(df_comp, use_container_width=True, hide_index=True)
+    else:
+        # Entorno cloud sin matplotlib/styler.
         st.dataframe(df_comp, use_container_width=True, hide_index=True)
 
 
@@ -594,7 +611,7 @@ with tab3:
         fig_pmi = go.Figure()
         fig_pmi.add_trace(go.Scatter(x=meses_pmi, y=pmi_es,  name="España", line=dict(color=RED, width=2.5)))
         fig_pmi.add_trace(go.Scatter(x=meses_pmi, y=pmi_eur, name="Eurozona", line=dict(color=BLUE, width=2)))
-        fig_pmi.add_hrect(y0=50, y1=50, line_width=2, line_dash="dash", line_color=MUTED)
+        fig_pmi.add_hline(y=50, line_width=2, line_dash="dash", line_color=MUTED)
         fig_pmi.add_annotation(x=meses_pmi[-1], y=50.5, text="Umbral expansión/contracción",
                                showarrow=False, font=dict(size=10, color=MUTED))
         fig_pmi.update_layout(
@@ -612,9 +629,9 @@ with tab3:
     with col_n3:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Confianza del consumidor vs confianza empresarial</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_conf = pd.date_range("2024-01", "2026-04", freq="ME")
-        np.random.seed(3)
-        conf_cons = -8 + np.cumsum(np.random.normal(0.2, 1.2, len(meses_conf)))
-        conf_emp  =  2 + np.cumsum(np.random.normal(0.3, 0.8, len(meses_conf)))
+        rng_conf = np.random.default_rng(3)
+        conf_cons = -8 + np.cumsum(rng_conf.normal(0.2, 1.2, len(meses_conf)))
+        conf_emp  =  2 + np.cumsum(rng_conf.normal(0.3, 0.8, len(meses_conf)))
         conf_cons = np.clip(conf_cons, -25, 10)
         conf_emp  = np.clip(conf_emp,  -10, 15)
         fig_conf = go.Figure()
