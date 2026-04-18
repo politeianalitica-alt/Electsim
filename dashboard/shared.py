@@ -1,12 +1,15 @@
 """Utilidades compartidas para todas las páginas del dashboard."""
 from __future__ import annotations
 import sys
+from decimal import Decimal
 from pathlib import Path
+from typing import Iterable
 
 _ROOT = Path(__file__).parent.parent
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+import pandas as pd
 import streamlit as st
 
 # ── Design tokens (dark / tech theme) ────────────────────────────────────────
@@ -115,6 +118,130 @@ def color_partido(siglas: str) -> str:
         or COLORES_PARTIDOS.get(sigla_norm.replace("_", " "))
         or CYAN
     )
+
+
+# ── Helpers de datos (casting seguro Decimal/float, formato macro) ───────────
+
+
+def safe_numeric(df: pd.DataFrame, cols: Iterable[str]) -> pd.DataFrame:
+    """Castea columnas a float para evitar TypeError por Decimal de psycopg v3.
+
+    No muta el DataFrame de entrada; devuelve una copia con las columnas
+    pedidas convertidas via `pd.to_numeric(..., errors='coerce').astype(float)`
+    y NaN rellenos con 0.0.  Columnas ausentes se ignoran en silencio.
+    """
+    if df is None or df.empty:
+        return df
+    out = df.copy()
+    for c in cols:
+        if c in out.columns:
+            out[c] = pd.to_numeric(out[c], errors="coerce").astype(float).fillna(0.0)
+    return out
+
+
+def safe_float(value, default: float = 0.0) -> float:
+    """Convierte Decimal / str / None a float sin propagar TypeError."""
+    if value is None:
+        return default
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, Decimal):
+        return float(value)
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def macro_value(
+    df_macro: pd.DataFrame,
+    indicador: str,
+    fmt: str = ".1f",
+    suffix: str = "",
+    default: str = "—",
+) -> str:
+    """Formatea el último valor de un indicador macroeconómico.
+
+    Blinda contra Decimal, columnas ausentes y DataFrames vacíos.
+    """
+    if df_macro is None or df_macro.empty or "indicador" not in df_macro.columns:
+        return default
+    fila = df_macro[df_macro["indicador"] == indicador]
+    if fila.empty:
+        return default
+    val = safe_float(fila.iloc[0].get("valor"), default=float("nan"))
+    if val != val:  # NaN
+        return default
+    try:
+        return f"{val:{fmt}}{suffix}"
+    except (TypeError, ValueError):
+        return default
+
+
+def top_partido(df_nc: pd.DataFrame) -> tuple[str, float]:
+    """Devuelve (siglas, pct) del partido líder en nowcasting."""
+    if df_nc is None or df_nc.empty or "estimacion_pct" not in df_nc.columns:
+        return "—", 0.0
+    row = df_nc.sort_values("estimacion_pct", ascending=False).iloc[0]
+    return str(row.get("partido_siglas", "—")), safe_float(row.get("estimacion_pct"))
+
+
+def semaforo_color(
+    value: float,
+    thr_ok: float,
+    thr_warn: float,
+    higher_is_better: bool = True,
+) -> str:
+    """Devuelve GREEN/AMBER/RED según un valor y sus umbrales."""
+    v = safe_float(value)
+    if higher_is_better:
+        if v >= thr_ok:
+            return GREEN
+        if v >= thr_warn:
+            return AMBER
+        return RED
+    if v <= thr_ok:
+        return GREEN
+    if v <= thr_warn:
+        return AMBER
+    return RED
+
+
+def section_header(label: str, color: str | None = None) -> None:
+    """Renderiza un header de sección con barra lateral + línea degradada."""
+    c = color or CYAN
+    st.markdown(
+        f"""<div style="display:flex;align-items:center;gap:.7rem;margin:1.2rem 0 .8rem">
+            <div style="width:4px;height:18px;background:linear-gradient({c},{BLUE});border-radius:2px"></div>
+            <span style="font-size:.66rem;font-weight:700;color:{c};
+                         letter-spacing:.15em;text-transform:uppercase">{label}</span>
+            <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+
+
+def kpi_card(
+    label: str,
+    value: str,
+    sub: str = "",
+    color: str | None = None,
+) -> str:
+    """Devuelve el HTML de una tarjeta KPI (para usar en st.markdown)."""
+    c = color or CYAN
+    sub_html = (
+        f'<div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">{sub}</div>'
+        if sub
+        else ""
+    )
+    return f"""<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
+                   border-top:2px solid {c};padding:.9rem 1rem">
+        <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;
+                    text-transform:uppercase;color:{MUTED}">{label}</div>
+        <div style="font-size:1.55rem;font-weight:900;color:{c};
+                    font-family:'JetBrains Mono',monospace;line-height:1.1;margin-top:.3rem">{value}</div>
+        {sub_html}
+    </div>"""
 
 
 def aplicar_estilos():

@@ -24,7 +24,10 @@ from dashboard.shared import (
     CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
+    macro_value,
+    safe_float,
     sidebar_nav,
+    top_partido,
 )
 
 st.set_page_config(
@@ -61,24 +64,12 @@ def _load():
 
 df_elec, df_macro, df_alertas, df_nc, df_indices, df_news = _load()
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# ── Helpers (delegamos en dashboard.shared para no duplicar lógica) ───────────
 def _macro_val(indicador: str, fmt: str = ".1f", suffix: str = "") -> str:
-    if df_macro.empty:
-        return "—"
-    fila = df_macro[df_macro["indicador"] == indicador]
-    if fila.empty:
-        return "—"
-    try:
-        v = float(fila.iloc[0]["valor"])
-        return f"{v:{fmt}}{suffix}"
-    except Exception:
-        return str(fila.iloc[0].get("valor", "—"))
+    return macro_value(df_macro, indicador, fmt=fmt, suffix=suffix)
 
 def _top_partido() -> tuple[str, float]:
-    if df_nc.empty or "estimacion_pct" not in df_nc.columns:
-        return "—", 0.0
-    row = df_nc.sort_values("estimacion_pct", ascending=False).iloc[0]
-    return str(row.get("partido_siglas", "—")), float(row.get("estimacion_pct", 0))
+    return top_partido(df_nc)
 
 def _n_alertas(sev: str | None = None) -> int:
     if df_alertas.empty:
@@ -88,10 +79,12 @@ def _n_alertas(sev: str | None = None) -> int:
     return len(df_alertas)
 
 def _indice_top() -> tuple[str, float]:
-    if df_indices.empty:
+    if df_indices.empty or "valor" not in df_indices.columns:
         return "—", 0.0
-    row = df_indices.sort_values("valor", ascending=False).iloc[0]
-    return str(row.get("indice_codigo", "—")), float(row.get("valor", 0))
+    _df = df_indices.copy()
+    _df["valor"] = pd.to_numeric(_df["valor"], errors="coerce").fillna(0.0)
+    row = _df.sort_values("valor", ascending=False).iloc[0]
+    return str(row.get("indice_codigo", "—")), safe_float(row.get("valor"))
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""

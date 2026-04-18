@@ -13,7 +13,7 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import streamlit as st
-from dashboard.shared import sidebar_nav
+from dashboard.shared import macro_value, sidebar_nav, top_partido
 
 from dashboard.db import (
     cargar_alertas,
@@ -33,22 +33,12 @@ st.caption("Resumen automático de situación política, institucional, mediáti
 
 
 def _top_party(df_nc: pd.DataFrame) -> str:
-    if df_nc.empty or "estimacion_pct" not in df_nc.columns:
-        return "N/D"
-    row = df_nc.sort_values("estimacion_pct", ascending=False).head(1)
-    return str(row.iloc[0].get("partido_siglas", "N/D"))
+    siglas, _ = top_partido(df_nc)
+    return siglas if siglas != "—" else "N/D"
 
 
 def _macro(df_macro: pd.DataFrame, indicador: str) -> str:
-    if df_macro.empty:
-        return "N/D"
-    r = df_macro[df_macro["indicador"] == indicador]
-    if r.empty:
-        return "N/D"
-    try:
-        return f"{float(r.iloc[0]['valor']):.2f}"
-    except Exception:
-        return str(r.iloc[0].get("valor", "N/D"))
+    return macro_value(df_macro, indicador, fmt=".2f", default="N/D")
 
 
 def _noticias_criticas_diversificadas(df_news: pd.DataFrame, max_total: int = 24, max_por_fuente: int = 3) -> pd.DataFrame:
@@ -56,11 +46,13 @@ def _noticias_criticas_diversificadas(df_news: pd.DataFrame, max_total: int = 24
         return df_news
     df = df_news.copy()
     if "sentimiento_score" in df.columns:
-        df["abs_score"] = df["sentimiento_score"].astype(float).abs()
+        df["abs_score"] = pd.to_numeric(df["sentimiento_score"], errors="coerce").fillna(0.0).abs()
         df = df.sort_values(["abs_score", "fecha_publicacion"], ascending=[False, False])
+    # Limitar antes de iterar para evitar recorrer datasets enormes.
+    df_head = df.head(max_total * max(2, max_por_fuente))
     out = []
     counts: dict[str, int] = {}
-    for _, row in df.iterrows():
+    for _, row in df_head.iterrows():
         fuente = str(row.get("fuente") or "desconocida")
         if counts.get(fuente, 0) >= max_por_fuente:
             continue
@@ -93,8 +85,10 @@ briefing = []
 briefing.append(f"- **Pulso electoral:** liderazgo estimado para `{_top_party(df_nc)}` en nowcasting.")
 briefing.append(f"- **Macro clave:** IPC `{_macro(df_macro, 'IPC General (%)')}%`, paro `{_macro(df_macro, 'Tasa de Paro (%)')}%`, prima `{_macro(df_macro, 'Prima Riesgo (pb)')} pb`.")
 if not df_indices.empty:
-    top_risk = df_indices.sort_values("valor", ascending=False).head(3)[["indice_codigo", "valor"]]
-    riesgos_txt = ", ".join([f"{r['indice_codigo']}={float(r['valor']):.1f}" for _, r in top_risk.iterrows()])
+    _ind = df_indices.copy()
+    _ind["valor"] = pd.to_numeric(_ind["valor"], errors="coerce").fillna(0.0)
+    top_risk = _ind.sort_values("valor", ascending=False).head(3)[["indice_codigo", "valor"]]
+    riesgos_txt = ", ".join([f"{r['indice_codigo']}={r['valor']:.1f}" for _, r in top_risk.iterrows()])
     briefing.append(f"- **Índices Politeia:** focos prioritarios `{riesgos_txt}`.")
 if not df_alert.empty:
     alerts_txt = "; ".join(df_alert["titulo"].astype(str).head(3).tolist())

@@ -23,6 +23,7 @@ from dashboard.shared import (
     CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
+    safe_numeric,
 )
 from dashboard.db import (
     cargar_nowcasting,
@@ -55,18 +56,33 @@ def _normalizar(df: pd.DataFrame) -> pd.DataFrame:
         "fecha_estimación": "fecha_estimacion", "fecha_calculo": "fecha_estimacion",
         "ic95_inf": "ic_95_inf", "ic95_sup": "ic_95_sup",
     }
-    return df.rename(columns={c: ren[c] for c in df.columns if c in ren})
+    df = df.rename(columns={c: ren[c] for c in df.columns if c in ren})
+    # Cast Decimal→float para evitar TypeError al filtrar/operar.
+    return safe_numeric(
+        df,
+        ["estimacion_pct", "ic_95_inf", "ic_95_sup", "n_encuestas",
+         "n_fuentes_usadas", "cobertura_pct", "consenso_sd", "confianza_modelo"],
+    )
 
 
 def dhondt(votos: dict[str, float], n_escanos: int = 350, umbral: float = 3.0) -> dict[str, int]:
-    """Metodo D'Hondt. Umbral 3% nacional; partidos regionales con >= 1% compiten."""
-    elegibles = {}
+    """Metodo D'Hondt. Umbral 3% nacional; partidos regionales con >= 1% compiten.
+
+    Robusto ante valores `Decimal` / `None` procedentes de Postgres NUMERIC:
+    se castean a float antes de operar para evitar TypeError.
+    """
+    partidos_regionales = {
+        "PNV", "EH_BILDU", "EH BILDU", "BNG", "ERC", "JUNTS",
+        "JXCAT", "CC", "CUP", "UPN", "PRC",
+    }
+    elegibles: dict[str, float] = {}
     for p, v in votos.items():
-        # Partidos regionales (PNV, EH_BILDU, BNG, ERC, JUNTS, etc.) con >=1% compiten
-        partidos_regionales = {"PNV", "EH_BILDU", "EH BILDU", "BNG", "ERC", "JUNTS",
-                               "JxCAT", "CC", "CUP", "UPN", "PRC"}
-        if v >= umbral or (p.upper() in {x.upper() for x in partidos_regionales} and v >= 1.0):
-            elegibles[p] = max(v, 0)
+        try:
+            vf = float(v) if v is not None else 0.0
+        except (TypeError, ValueError):
+            vf = 0.0
+        if vf >= umbral or (str(p).upper() in partidos_regionales and vf >= 1.0):
+            elegibles[p] = max(vf, 0.0)
     if not elegibles:
         return {}
     seats = {p: 0 for p in elegibles}

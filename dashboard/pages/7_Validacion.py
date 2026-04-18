@@ -23,27 +23,12 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-try:
-    from dashboard.db import (
-        cargar_historial_validacion,
-        cargar_validacion_por_partido,
-        cargar_casas_cobertura,
-        cargar_fuentes_macro,
-    )
-except ImportError:
-    import pandas as _pd
-
-    def cargar_historial_validacion() -> "_pd.DataFrame":  # type: ignore[return]
-        return _pd.DataFrame()
-
-    def cargar_validacion_por_partido(run_id: str) -> "_pd.DataFrame":  # type: ignore[return]
-        return _pd.DataFrame()
-
-    def cargar_casas_cobertura() -> "_pd.DataFrame":  # type: ignore[return]
-        return _pd.DataFrame()
-
-    def cargar_fuentes_macro() -> "_pd.DataFrame":  # type: ignore[return]
-        return _pd.DataFrame()
+from dashboard.db import (
+    cargar_historial_validacion,
+    cargar_validacion_por_partido,
+    cargar_casas_cobertura,
+    cargar_fuentes_macro,
+)
 
 st.set_page_config(page_title="Validación — ElectSim", layout="wide")
 

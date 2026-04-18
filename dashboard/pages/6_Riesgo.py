@@ -152,19 +152,19 @@ with tab1:
         usando_bd = False
 
     if indice_total < 3 or semaforo_bd == "BAJO":
-        color_riesgo = "#16a34a"
+        color_riesgo = GREEN
         nivel_str = "BAJO"
         nivel_desc = "Situación política estable con riesgos manejables."
     elif indice_total >= 6.5 or semaforo_bd == "ALTO":
-        color_riesgo = "#dc2626"
+        color_riesgo = RED
         nivel_str = "ALTO"
         nivel_desc = "Riesgo político significativo. Monitorización intensiva recomendada."
     elif indice_total >= 4.5 or semaforo_bd == "MODERADO-ALTO":
-        color_riesgo = "#d97706"
+        color_riesgo = AMBER
         nivel_str = "MODERADO-ALTO"
         nivel_desc = "Tensiones estructurales acumuladas. Posibles perturbaciones en el corto plazo."
     else:
-        color_riesgo = "#d97706"
+        color_riesgo = AMBER
         nivel_str = "MODERADO"
         nivel_desc = "Riesgo bajo control con factores de incertidumbre presentes."
 
@@ -224,20 +224,20 @@ with tab1:
         st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>Descomposición del índice en 5 ejes estructurales ponderados por impacto sistémico.</p>", unsafe_allow_html=True)
 
         for key, info in DIMS_SINTETICAS.items():
-            val = info["valor"]
+            val = float(info["valor"]) if info.get("valor") is not None else 0.0
             pct_barra = val / 10.0
             if val >= 6.5:
-                color_bar = "#dc2626"
-                badge_color = f"rgba(239,68,68,0.15)"
-                badge_text = "#ef4444"
+                color_bar = RED
+                badge_color = "rgba(239,68,68,0.15)"
+                badge_text = RED
             elif val >= 4.5:
-                color_bar = "#d97706"
-                badge_color = f"rgba(245,158,11,0.15)"
-                badge_text = "#F59E0B"
+                color_bar = AMBER
+                badge_color = "rgba(245,158,11,0.15)"
+                badge_text = AMBER
             else:
-                color_bar = "#16a34a"
-                badge_color = f"rgba(34,197,94,0.15)"
-                badge_text = "#22C55E"
+                color_bar = GREEN
+                badge_color = "rgba(34,197,94,0.15)"
+                badge_text = GREEN
 
             st.markdown(f"""
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
@@ -745,12 +745,12 @@ with tab4:
     ))
 
     # Líneas de umbral
-    fig_hist.add_hline(y=3, line_dash="dot", line_color="#16a34a",
+    fig_hist.add_hline(y=3, line_dash="dot", line_color=GREEN,
                        line_width=1, annotation_text="Umbral BAJO",
-                       annotation_font_color="#16a34a", annotation_font_size=10)
-    fig_hist.add_hline(y=6, line_dash="dot", line_color="#dc2626",
+                       annotation_font_color=GREEN, annotation_font_size=10)
+    fig_hist.add_hline(y=6, line_dash="dot", line_color=RED,
                        line_width=1, annotation_text="Umbral ALTO",
-                       annotation_font_color="#dc2626", annotation_font_size=10)
+                       annotation_font_color=RED, annotation_font_size=10)
 
     # Anotaciones de eventos
     fecha_min = fechas_hist.min() if hasattr(fechas_hist, "min") else fechas_hist.iloc[0]
@@ -802,19 +802,28 @@ with tab4:
 
     # Estadísticas de la serie
     st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">ESTADÍSTICAS DE LA SERIE</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    # Blindar contra Decimal: convertir la serie a float antes de operar.
+    _vh = pd.to_numeric(valores_hist, errors="coerce").astype(float).dropna()
     col_s1, col_s2, col_s3, col_s4, col_s5 = st.columns(5)
-    with col_s1:
-        st.metric("Valor Actual", f"{float(valores_hist.iloc[-1]):.1f}")
-    with col_s2:
-        st.metric("Media Histórica", f"{float(valores_hist.mean()):.1f}")
-    with col_s3:
-        st.metric("Máximo", f"{float(valores_hist.max()):.1f}")
-    with col_s4:
-        st.metric("Mínimo", f"{float(valores_hist.min()):.1f}")
-    with col_s5:
-        tendencia = float(valores_hist.iloc[-1]) - float(valores_hist.iloc[-4]) if len(valores_hist) >= 4 else 0.0
-        delta_str = f"{tendencia:+.1f} vs hace 3 meses"
-        st.metric("Tendencia (3M)", f"{float(valores_hist.iloc[-1]):.1f}", delta=delta_str)
+    if _vh.empty:
+        col_s1.metric("Valor Actual", "—")
+        col_s2.metric("Media Histórica", "—")
+        col_s3.metric("Máximo", "—")
+        col_s4.metric("Mínimo", "—")
+        col_s5.metric("Tendencia (3M)", "—")
+    else:
+        with col_s1:
+            st.metric("Valor Actual", f"{_vh.iloc[-1]:.1f}")
+        with col_s2:
+            st.metric("Media Histórica", f"{_vh.mean():.1f}")
+        with col_s3:
+            st.metric("Máximo", f"{_vh.max():.1f}")
+        with col_s4:
+            st.metric("Mínimo", f"{_vh.min():.1f}")
+        with col_s5:
+            tendencia = (_vh.iloc[-1] - _vh.iloc[-4]) if len(_vh) >= 4 else 0.0
+            delta_str = f"{tendencia:+.1f} vs hace 3 meses"
+            st.metric("Tendencia (3M)", f"{_vh.iloc[-1]:.1f}", delta=delta_str)
 
     st.markdown(f"<p style='color:{MUTED};font-size:0.8rem;margin-top:1rem'>"
                 f"{'Datos históricos reales de la BD ElectSim.' if usar_historico_bd else 'Serie sintética de referencia calibrada con eventos reales.'} "

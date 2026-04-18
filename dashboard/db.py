@@ -309,7 +309,7 @@ def cargar_resultados_nacionales(eleccion_id: int) -> pd.DataFrame:
 
 # ── Nowcasting ────────────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=120)
 def cargar_nowcasting() -> pd.DataFrame:
     """
     Última estimación por partido.
@@ -366,7 +366,7 @@ def cargar_nowcasting() -> pd.DataFrame:
     )
 
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=120)
 def cargar_nowcasting_calidad() -> pd.DataFrame:
     """KPIs globales del último run (cobertura media, consenso SD, confianza, n fuentes)."""
     return _q(
@@ -443,7 +443,7 @@ def cargar_fuentes_macro() -> pd.DataFrame:
     )
 
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=180)
 def cargar_serie_nowcasting(partido_siglas: str, dias: int = 180) -> pd.DataFrame:
     if not partido_siglas or not str(partido_siglas).strip():
         return pd.DataFrame()

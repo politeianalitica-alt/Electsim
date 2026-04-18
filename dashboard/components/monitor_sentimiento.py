@@ -10,17 +10,7 @@ from dashboard.db import (
     cargar_heatmap_fuente_partido,
     cargar_sentimiento_serie,
 )
-
-COLORES_PARTIDO = {
-    "PSOE": "#E31C1C",
-    "PP": "#1A56DB",
-    "VOX": "#5E9E23",
-    "SUMAR": "#6B21D6",
-    "JUNTS": "#0056A2",
-    "ERC": "#FDB833",
-    "EH BILDU": "#00A651",
-    "PNV": "#007A3D",
-}
+from dashboard.shared import COLORES_PARTIDOSS, MUTED, color_partido
 
 
 def render_monitor_sentimiento(conn) -> None:
@@ -34,7 +24,7 @@ def render_monitor_sentimiento(conn) -> None:
         with st.expander("△  Alertas de cobertura negativa (últimos 7 días)", expanded=True):
             for _, row in df_alertas.iterrows():
                 partido = str(row.get("partido", ""))
-                color = COLORES_PARTIDO.get(partido, "#888")
+                color = color_partido(partido) if partido else MUTED
                 try:
                     sent = float(row.get("sentimiento", 0.0))
                 except Exception:
@@ -72,7 +62,7 @@ def render_monitor_sentimiento(conn) -> None:
             x="fecha",
             y="sentimiento",
             color="partido",
-            color_discrete_map=COLORES_PARTIDO,
+            color_discrete_map=COLORES_PARTIDOS,
             title="Sentimiento diario en prensa por partido (30 días)",
             labels={"sentimiento": "Sentimiento medio", "fecha": ""},
         )

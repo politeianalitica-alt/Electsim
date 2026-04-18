@@ -19,6 +19,7 @@ from dashboard.shared import (
     sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
+    COLORES_PARTIDOS, color_partido,
 )
 
 from dashboard.db import (
@@ -30,20 +31,9 @@ from etl.sources.agendas_dinamicas import fetch_all_agendas
 
 ORANGE = "#F97316"
 
-PARTY_COLORS = {
-    "PP":       "#3B82F6",
-    "PSOE":     "#EF4444",
-    "VOX":      "#22C55E",
-    "SUMAR":    "#EC4899",
-    "JUNTS":    "#06B6D4",
-    "ERC":      "#F97316",
-    "EH Bildu": "#84CC16",
-    "PNV":      "#10B981",
-    "BNG":      "#60A5FA",
-    "CC":       "#FBBF24",
-    "Junts":    "#06B6D4",
-    "OTROS":    MUTED,
-}
+# Paleta centralizada en shared.py (COLORES_PARTIDOS cubre siglas, alias y
+# formas normalizadas).  Se añade "OTROS" como fallback gris.
+PARTY_COLORS = {**COLORES_PARTIDOS, "OTROS": MUTED}
 
 
 @st.cache_data(ttl=3600)
