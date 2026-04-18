@@ -388,11 +388,18 @@ def _build_choropleth(df_prov: pd.DataFrame, partido_filter: str | None = None) 
 
 
 def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.DataFrame:
-    """Aplica D'Hondt por provincia usando las estimaciones nacionales de nowcasting.
+    """Aplica D'Hondt por provincia usando swing proporcional sobre el histórico.
 
-    Fuente de escaños por provincia (prioridad):
-      1. circunscripciones.csv (canónica, siempre 52 provincias+CE/ME).
-      2. fallback: agregado histórico df_prov si la CSV no existe.
+    Fuentes:
+      - Escaños por provincia: circunscripciones.csv (canónica, 52 circ.) o,
+        como fallback, agregado histórico de df_prov.
+      - % voto por provincia: se proyecta con *uniform proportional swing*
+        usando el histórico provincial como base:
+            pct_prov_new[p] = pct_prov_hist[p] * (pct_nac_new[p] / pct_nac_hist[p])
+        Luego cada provincia se renormaliza a 100%. Así los partidos regionales
+        (ERC, Junts, PNV, EH Bildu, BNG, CC, ...) conservan su fuerza territorial
+        en lugar de heredar el % nacional uniforme.
+      - Si no hay histórico, cae al % nacional uniforme en todas las provincias.
     """
     if df_nc.empty:
         return pd.DataFrame()
@@ -414,23 +421,80 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
     else:
         return pd.DataFrame()
 
-    # Umbral provincial del 3% aplicado luego en los cocientes; aquí filtramos
-    # partidos con presencia mínima nacional para evitar ruido.
+    # Partidos nacionales con presencia mínima (ruido filtrado)
     eligible = {p: v for p, v in nc_est.items() if v >= 1.0}
     if not eligible:
         return pd.DataFrame()
+
+    # ── Base histórica para swing proporcional ───────────────────────────────
+    # hist_nac[p] = % histórico nacional de cada partido (ponderado por escaños
+    # provinciales para aproximar el peso real del voto nacional).
+    has_hist = (
+        not df_prov.empty
+        and {"siglas", "porcentaje", "provincia_id", "escanos"}.issubset(df_prov.columns)
+    )
+    hist_nac: dict[str, float] = {}
+    if has_hist:
+        # Peso de cada provincia = nº de escaños totales de la provincia
+        total_esc_prov = df_prov.groupby("provincia_id")["escanos"].sum()
+        # Recalculamos nacional como media ponderada por peso provincial
+        df_hist = df_prov.copy()
+        df_hist["peso"] = df_hist["provincia_id"].map(total_esc_prov).fillna(1)
+        w = df_hist.groupby("siglas").apply(
+            lambda g: (g["porcentaje"] * g["peso"]).sum() / g["peso"].sum()
+            if g["peso"].sum() > 0 else 0.0
+        )
+        hist_nac = w.to_dict()
 
     rows = []
     for _, prov_row in prov_info.iterrows():
         total = int(prov_row["total_escanos"])
         if total <= 0:
             continue
-        # Umbral 3% sobre voto normalizado a la provincia (aprox. = nacional)
-        sum_elig = sum(eligible.values())
-        filtrados = {p: v for p, v in eligible.items() if (v / sum_elig) * 100 >= 3.0}
+        pid = int(prov_row["provincia_id"])
+
+        # ── Construir vector de % por provincia ──────────────────────────────
+        pct_prov: dict[str, float] = {}
+        if has_hist:
+            df_prov_sel = df_prov[df_prov["provincia_id"] == pid]
+            hist_prov = dict(zip(df_prov_sel["siglas"], df_prov_sel["porcentaje"]))
+
+            # 1) Partidos con presencia nacional nueva → swing proporcional
+            for p, nac_new in eligible.items():
+                hist_p = float(hist_prov.get(p, 0.0))
+                nac_old = float(hist_nac.get(p, 0.0))
+                if hist_p > 0 and nac_old > 0:
+                    pct_prov[p] = hist_p * (nac_new / nac_old)
+                else:
+                    # Sin base histórica provincial: penalizamos para no
+                    # inflar artificialmente en territorios donde no compite.
+                    # Damos sólo un 30% del nacional nuevo como piso.
+                    pct_prov[p] = nac_new * 0.30
+
+            # 2) Partidos regionales históricos no presentes en nc_est
+            #    (JUNTS, ERC, EH_BILDU, PNV, BNG, CC, CUP, ...) → mantener su
+            #    voto histórico provincial como mejor estimación disponible.
+            for p, hist_p in hist_prov.items():
+                if p not in pct_prov and float(hist_p) >= 1.5:
+                    pct_prov[p] = float(hist_p)
+
+            # 3) Renormalizar la provincia a 100%
+            s = sum(pct_prov.values())
+            if s > 0:
+                pct_prov = {p: v / s * 100 for p, v in pct_prov.items()}
+            else:
+                pct_prov = dict(eligible)
+        else:
+            # Sin histórico: % nacional uniforme en todas las provincias
+            pct_prov = dict(eligible)
+
+        # ── Umbral 3% provincial + D'Hondt ───────────────────────────────────
+        filtrados = {p: v for p, v in pct_prov.items() if v >= 3.0}
         if not filtrados:
-            filtrados = dict(eligible)
+            filtrados = dict(pct_prov)
         sum_f = sum(filtrados.values())
+        if sum_f <= 0:
+            continue
         norm = {p: v / sum_f * 100 for p, v in filtrados.items()}
 
         asignados: dict[str, int] = defaultdict(int)
@@ -439,30 +503,30 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
             winner = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
             asignados[winner] += 1
 
+        # ── Emitir filas ─────────────────────────────────────────────────────
         for partido, esc_est in asignados.items():
             hist = 0
             if not df_prov.empty:
                 hist = int(df_prov[
-                    (df_prov["provincia_id"] == prov_row["provincia_id"]) &
+                    (df_prov["provincia_id"] == pid) &
                     (df_prov["siglas"] == partido)
                 ]["escanos"].sum())
             rows.append({
-                "provincia_id":  int(prov_row["provincia_id"]),
+                "provincia_id":  pid,
                 "provincia":     prov_row["provincia"],
                 "ccaa":          prov_row.get("ccaa", "—"),
                 "siglas":        partido,
                 "escanos_est":   int(esc_est),
                 "escanos_hist":  hist,
                 "delta":         int(esc_est) - hist,
-                "pct_est":       float(nc_est.get(partido, 0.0)),
+                "pct_est":       float(pct_prov.get(partido, 0.0)),
             })
 
-        # Añadir también partidos elegibles con 0 escaños en esta provincia
-        # (para que el tooltip muestre la lista completa)
-        for partido, pct_val in eligible.items():
-            if partido not in asignados:
+        # Partidos con presencia (≥1%) pero sin escaños → para tooltip
+        for partido, pct_val in pct_prov.items():
+            if partido not in asignados and pct_val >= 1.0:
                 rows.append({
-                    "provincia_id":  int(prov_row["provincia_id"]),
+                    "provincia_id":  pid,
                     "provincia":     prov_row["provincia"],
                     "ccaa":          prov_row.get("ccaa", "—"),
                     "siglas":        partido,
@@ -490,8 +554,10 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
 
     winner_rows = []
     for prov_id in df_est["provincia_id"].unique():
+        # Ganador = partido con mayor % de voto estimado en la provincia
+        # (empate resuelto por más escaños).
         prov_data = df_est[df_est["provincia_id"] == prov_id].sort_values(
-            ["escanos_est", "pct_est"], ascending=[False, False]
+            ["pct_est", "escanos_est"], ascending=[False, False]
         )
         if prov_data.empty:
             continue
@@ -898,8 +964,8 @@ with tab_mapa:
             st.markdown(
                 f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};border-radius:8px;padding:.6rem 1rem;font-size:.8rem;color:{TEXT2};margin-bottom:.5rem">'
                 f'<strong style="color:{CYAN}">Estimación D\'Hondt</strong> · Cada provincia se colorea por el '
-                f'partido con más escaños estimados. Pasa el cursor por encima para ver el reparto completo '
-                f'de voto (%) y escaños por partido.'
+                f'partido con mayor % de voto estimado (swing proporcional sobre el histórico provincial). '
+                f'Pasa el cursor por encima para ver el reparto completo de voto (%) y escaños por partido.'
                 f'</div>',
                 unsafe_allow_html=True,
             )
