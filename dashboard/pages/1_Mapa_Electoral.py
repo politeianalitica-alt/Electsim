@@ -784,17 +784,28 @@ with tab_futuras:
             st.plotly_chart(fig_nc, use_container_width=True, config={"displayModeBar": False})
 
         with col_h:
-            _section_header("Hemiciclo Proyectado (350 esc.)", PURPLE)
+            _section_header("Hemiciclo Proyectado (350 esc.) — D'Hondt por provincia", PURPLE)
             total_escanos = 350
-            df_hem2 = df_nc_sorted[df_nc_sorted["estimacion_pct"] >= 2.0].copy()
-            pct_sum = df_hem2["estimacion_pct"].sum()
-            if pct_sum > 0:
-                df_hem2["escanos_est"] = (
-                    df_hem2["estimacion_pct"] / pct_sum * total_escanos
-                ).round(0).astype(int)
+
+            # Aplicar ley electoral: D'Hondt por las 52 circunscripciones con
+            # umbral del 3% provincial — mismo motor que usa el Mapa Provincial
+            # para mantener coherencia con la realidad territorial.
+            df_prov_fut = (
+                cargar_resultados_provinciales(eleccion_id)
+                if eleccion_id else pd.DataFrame()
+            )
+            df_est_dh = _estimate_seats_dhondt(df_prov_fut, df_nc)
+
+            if not df_est_dh.empty:
+                escanos_por_partido = (
+                    df_est_dh.groupby("siglas")["escanos_est"].sum().astype(int)
+                )
+                # Fallback de seguridad: si la suma no llega a 350 por redondeos
+                # de umbral, no inflamos; si un partido quedó a 0 se omite.
                 partidos_hem2 = [
-                    (row["partido_siglas"], int(row["escanos_est"]), _color(row["partido_siglas"]))
-                    for _, row in df_hem2.iterrows()
+                    (siglas, int(esc), _color(siglas))
+                    for siglas, esc in escanos_por_partido.items()
+                    if int(esc) > 0
                 ]
                 partidos_hem2.sort(key=lambda x: ORDEN_IDEOLOGICO.index(x[0])
                                    if x[0] in ORDEN_IDEOLOGICO else 99)
@@ -803,8 +814,8 @@ with tab_futuras:
 
                 izq_p = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP"]
                 der_p = ["PP", "VOX", "CS"]
-                esc_izq = int(df_hem2[df_hem2["partido_siglas"].isin(izq_p)]["escanos_est"].sum())
-                esc_der = int(df_hem2[df_hem2["partido_siglas"].isin(der_p)]["escanos_est"].sum())
+                esc_izq = int(sum(e for s, e, _ in partidos_hem2 if s in izq_p))
+                esc_der = int(sum(e for s, e, _ in partidos_hem2 if s in der_p))
                 c1, c2 = st.columns(2)
                 with c1:
                     st.metric("Bloque Izquierda", esc_izq,
@@ -814,6 +825,14 @@ with tab_futuras:
                     st.metric("Bloque Derecha", esc_der,
                               delta="mayoria" if esc_der >= 176 else f"{176-esc_der} para mayoria",
                               delta_color="normal" if esc_der >= 176 else "inverse")
+
+                total_asignados = int(sum(e for _, e, _ in partidos_hem2))
+                st.caption(
+                    f"Escaños asignados: {total_asignados} / {total_escanos} · "
+                    f"Método: D'Hondt en 52 circunscripciones, umbral 3% provincial."
+                )
+            else:
+                st.info("Sin datos de circunscripciones para aplicar D'Hondt.")
 
         # Tabla detallada
         st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
