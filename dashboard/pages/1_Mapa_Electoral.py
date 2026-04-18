@@ -893,11 +893,25 @@ with tab_futuras:
                 st.plotly_chart(hemiciclo_chart(partidos_hem2), use_container_width=True,
                                config={"displayModeBar": False})
 
-                izq_p = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP"]
-                der_p = ["PP", "VOX", "CS"]
+                # Clasificación por bloques — ampliada para cubrir todos los
+                # partidos con representación actual y evitar el "margen" de
+                # escaños sin asignar entre izq+der y el total.
+                izq_p = {
+                    "PSOE", "SUMAR", "PODEMOS", "IU",
+                    "ERC", "EH_BILDU", "EH Bildu", "BNG", "CUP",
+                }
+                der_p = {
+                    "PP", "VOX", "CS", "SALF", "UPN", "PAR",
+                }
+                # Nacionalistas/regionalistas sin alineación bloqueada con
+                # ninguno de los dos bloques nacionales (Junts suele ejercer
+                # de bisagra, PNV y CC han pactado con ambos, TE local...)
                 esc_izq = int(sum(e for s, e, _ in partidos_hem2 if s in izq_p))
                 esc_der = int(sum(e for s, e, _ in partidos_hem2 if s in der_p))
-                c1, c2 = st.columns(2)
+                esc_otros = int(sum(e for s, e, _ in partidos_hem2
+                                    if s not in izq_p and s not in der_p))
+
+                c1, c2, c3 = st.columns(3)
                 with c1:
                     st.metric("Bloque Izquierda", esc_izq,
                               delta="mayoria" if esc_izq >= 176 else f"{176-esc_izq} para mayoria",
@@ -906,10 +920,16 @@ with tab_futuras:
                     st.metric("Bloque Derecha", esc_der,
                               delta="mayoria" if esc_der >= 176 else f"{176-esc_der} para mayoria",
                               delta_color="normal" if esc_der >= 176 else "inverse")
+                with c3:
+                    # Escaños bisagra = los que puede decidir el gobierno
+                    st.metric("Nacionalistas/Otros", esc_otros,
+                              delta=f"bisagra: {esc_otros} esc.",
+                              delta_color="off")
 
-                total_asignados = int(sum(e for _, e, _ in partidos_hem2))
+                total_asignados = esc_izq + esc_der + esc_otros
                 st.caption(
-                    f"Escaños asignados: {total_asignados} / {total_escanos} · "
+                    f"Izquierda {esc_izq} · Derecha {esc_der} · "
+                    f"Bisagra {esc_otros} = **{total_asignados} / {total_escanos}** esc. · "
                     f"Método: D'Hondt en 52 circunscripciones, umbral 3% provincial."
                 )
             else:
