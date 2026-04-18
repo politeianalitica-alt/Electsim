@@ -61,19 +61,23 @@ def _color_sent(v: float) -> str:
 
 
 def _kpi(label: str, value: str, sub: str = "", color: str = CYAN) -> str:
+    # HTML en una sola línea: los saltos + indentación disparan el parser de
+    # code-block de markdown en Streamlit y el bloque acaba renderizándose
+    # como texto plano en vez de como tarjeta.
     sub_html = (
         f'<div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">{sub}</div>'
         if sub
         else ""
     )
-    return f"""<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
-                   border-top:2px solid {color};padding:.85rem 1rem">
-        <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;
-                    text-transform:uppercase;color:{MUTED}">{label}</div>
-        <div style="font-size:1.5rem;font-weight:900;color:{color};
-                    font-family:'JetBrains Mono',monospace;line-height:1.1;margin-top:.3rem">{value}</div>
-        {sub_html}
-    </div>"""
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+        f'border-top:2px solid {color};padding:.85rem 1rem">'
+        f'<div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;'
+        f'text-transform:uppercase;color:{MUTED}">{label}</div>'
+        f'<div style="font-size:1.5rem;font-weight:900;color:{color};'
+        f"font-family:'JetBrains Mono',monospace;line-height:1.1;margin-top:.3rem\">{value}</div>"
+        f"{sub_html}</div>"
+    )
 
 
 def _layout_dark(fig: go.Figure, height: int = 360, **kw) -> go.Figure:
@@ -432,31 +436,35 @@ def _render_alertas(df_alertas: pd.DataFrame) -> None:
     df["color"] = df["sentimiento"].apply(_color_sent)
     df["sent_fmt"] = df["sentimiento"].map(lambda v: f"{v:+.2f}")
 
-    # Tabla custom HTML para colorear filas
+    # Tabla custom HTML para colorear filas. HTML en una sola línea a
+    # propósito para evitar el detector de code-block de markdown.
+    row_grid = (
+        "display:grid;grid-template-columns:90px 130px 1fr 90px 70px;"
+        "gap:.6rem;align-items:center;padding:.55rem .8rem;"
+    )
     rows = []
     for _, r in df.head(20).iterrows():
         c = color_partido(str(r.get("partido", "")))
         sc = _color_sent(float(r.get("sentimiento", 0.0)))
         rows.append(
-            f"""<div style="display:grid;grid-template-columns:90px 130px 1fr 90px 70px;
-                         gap:.6rem;align-items:center;padding:.55rem .8rem;
-                         background:{BG2};border:1px solid {BORDER};border-radius:8px;margin-bottom:.35rem">
-                <span style="color:{TEXT2};font-size:.78rem;font-family:'JetBrains Mono',monospace">{r.get('fecha','')}</span>
-                <span style="color:{c};font-weight:700;font-size:.85rem">{r.get('partido','')}</span>
-                <span style="color:{TEXT};font-size:.82rem">{r.get('fuente_id','desconocida')}</span>
-                <span style="color:{sc};font-weight:800;font-family:'JetBrains Mono',monospace;font-size:.95rem">{r['sent_fmt']}</span>
-                <span style="color:{TEXT2};font-size:.78rem;text-align:right">{int(r.get('n_noticias',0))} not.</span>
-            </div>"""
+            f'<div style="{row_grid}background:{BG2};border:1px solid {BORDER};'
+            f'border-radius:8px;margin-bottom:.35rem">'
+            f'<span style="color:{TEXT2};font-size:.78rem;font-family:\'JetBrains Mono\',monospace">{r.get("fecha","")}</span>'
+            f'<span style="color:{c};font-weight:700;font-size:.85rem">{r.get("partido","")}</span>'
+            f'<span style="color:{TEXT};font-size:.82rem">{r.get("fuente_id","desconocida")}</span>'
+            f'<span style="color:{sc};font-weight:800;font-family:\'JetBrains Mono\',monospace;font-size:.95rem">{r["sent_fmt"]}</span>'
+            f'<span style="color:{TEXT2};font-size:.78rem;text-align:right">{int(r.get("n_noticias",0))} not.</span>'
+            f"</div>"
         )
-    st.markdown(
-        f"""<div style="display:grid;grid-template-columns:90px 130px 1fr 90px 70px;
-                       gap:.6rem;padding:.4rem .8rem;color:{MUTED};
-                       font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase">
-            <span>Fecha</span><span>Partido</span><span>Medio</span>
-            <span style="text-align:right">Sent.</span><span style="text-align:right">N.</span>
-        </div>{''.join(rows)}""",
-        unsafe_allow_html=True,
+    header = (
+        f'<div style="display:grid;grid-template-columns:90px 130px 1fr 90px 70px;'
+        f'gap:.6rem;padding:.4rem .8rem;color:{MUTED};font-size:.6rem;'
+        f'font-weight:700;letter-spacing:.1em;text-transform:uppercase">'
+        f"<span>Fecha</span><span>Partido</span><span>Medio</span>"
+        f'<span style="text-align:right">Sent.</span><span style="text-align:right">N.</span>'
+        f"</div>"
     )
+    st.markdown(header + "".join(rows), unsafe_allow_html=True)
 
 
 # ── Render principal ─────────────────────────────────────────────────────────

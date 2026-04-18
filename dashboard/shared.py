@@ -224,15 +224,19 @@ def semaforo_color(
 
 
 def section_header(label: str, color: str | None = None) -> None:
-    """Renderiza un header de sección con barra lateral + línea degradada."""
+    """Renderiza un header de sección con barra lateral + línea degradada.
+
+    HTML en una sola línea para evitar el detector de code-block del parser
+    de markdown de Streamlit (saltos + indentación lo disparan).
+    """
     c = color or CYAN
     st.markdown(
-        f"""<div style="display:flex;align-items:center;gap:.7rem;margin:1.2rem 0 .8rem">
-            <div style="width:4px;height:18px;background:linear-gradient({c},{BLUE});border-radius:2px"></div>
-            <span style="font-size:.66rem;font-weight:700;color:{c};
-                         letter-spacing:.15em;text-transform:uppercase">{label}</span>
-            <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
-        </div>""",
+        f'<div style="display:flex;align-items:center;gap:.7rem;margin:1.2rem 0 .8rem">'
+        f'<div style="width:4px;height:18px;background:linear-gradient({c},{BLUE});border-radius:2px"></div>'
+        f'<span style="font-size:.66rem;font-weight:700;color:{c};'
+        f'letter-spacing:.15em;text-transform:uppercase">{label}</span>'
+        f'<div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>'
+        f"</div>",
         unsafe_allow_html=True,
     )
 
@@ -243,21 +247,27 @@ def kpi_card(
     sub: str = "",
     color: str | None = None,
 ) -> str:
-    """Devuelve el HTML de una tarjeta KPI (para usar en st.markdown)."""
+    """Devuelve el HTML de una tarjeta KPI (para usar en st.markdown).
+
+    El HTML va en una sola línea a propósito: los saltos de línea con
+    indentación disparan el detector de code-block del parser de markdown
+    de Streamlit y el bloque se renderiza como texto en lugar de como tarjeta.
+    """
     c = color or CYAN
     sub_html = (
         f'<div style="font-size:.62rem;color:{TEXT2};margin-top:.25rem">{sub}</div>'
         if sub
         else ""
     )
-    return f"""<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
-                   border-top:2px solid {c};padding:.9rem 1rem">
-        <div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;
-                    text-transform:uppercase;color:{MUTED}">{label}</div>
-        <div style="font-size:1.55rem;font-weight:900;color:{c};
-                    font-family:'JetBrains Mono',monospace;line-height:1.1;margin-top:.3rem">{value}</div>
-        {sub_html}
-    </div>"""
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+        f'border-top:2px solid {c};padding:.9rem 1rem">'
+        f'<div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;'
+        f'text-transform:uppercase;color:{MUTED}">{label}</div>'
+        f'<div style="font-size:1.55rem;font-weight:900;color:{c};'
+        f"font-family:'JetBrains Mono',monospace;line-height:1.1;margin-top:.3rem\">{value}</div>"
+        f"{sub_html}</div>"
+    )
 
 
 def aplicar_estilos():
