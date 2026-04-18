@@ -794,6 +794,33 @@ with tab_futuras:
     else:
         df_nc_sorted = df_nc.sort_values("estimacion_pct", ascending=False)
 
+        # ── Proyección D'Hondt por provincia (usada por hemiciclo y tabla) ────
+        # Se calcula una sola vez; incluye regionalistas vía swing proporcional
+        # sobre histórico provincial en _estimate_seats_dhondt.
+        df_prov_fut = (
+            cargar_resultados_provinciales(eleccion_id)
+            if eleccion_id else pd.DataFrame()
+        )
+        df_est_dh = _estimate_seats_dhondt(df_prov_fut, df_nc)
+        escanos_por_partido_global = (
+            df_est_dh.groupby("siglas")["escanos_est"].sum().astype(int)
+            if not df_est_dh.empty else pd.Series(dtype=int)
+        )
+        # % de voto nacional efectivo por partido (media ponderada por total
+        # de escaños de cada provincia) — útil para tabla de detalle con
+        # regionalistas, que no están en el nowcasting nacional.
+        if not df_est_dh.empty:
+            pesos = df_est_dh.groupby("provincia_id")["escanos_est"].sum()
+            df_est_dh = df_est_dh.copy()
+            df_est_dh["_peso"] = df_est_dh["provincia_id"].map(pesos).fillna(1)
+            pct_nac_efect = (
+                df_est_dh.groupby("siglas").apply(
+                    lambda g: (g["pct_est"] * g["_peso"]).sum() / max(g["_peso"].sum(), 1)
+                )
+            )
+        else:
+            pct_nac_efect = pd.Series(dtype=float)
+
         # Tarjetas de estimacion
         n_show = min(len(df_nc_sorted), 8)
         cols_nc = st.columns(min(n_show, 4))
@@ -853,24 +880,12 @@ with tab_futuras:
             _section_header("Hemiciclo Proyectado (350 esc.) — D'Hondt por provincia", PURPLE)
             total_escanos = 350
 
-            # Aplicar ley electoral: D'Hondt por las 52 circunscripciones con
-            # umbral del 3% provincial — mismo motor que usa el Mapa Provincial
-            # para mantener coherencia con la realidad territorial.
-            df_prov_fut = (
-                cargar_resultados_provinciales(eleccion_id)
-                if eleccion_id else pd.DataFrame()
-            )
-            df_est_dh = _estimate_seats_dhondt(df_prov_fut, df_nc)
-
             if not df_est_dh.empty:
-                escanos_por_partido = (
-                    df_est_dh.groupby("siglas")["escanos_est"].sum().astype(int)
-                )
                 # Fallback de seguridad: si la suma no llega a 350 por redondeos
                 # de umbral, no inflamos; si un partido quedó a 0 se omite.
                 partidos_hem2 = [
                     (siglas, int(esc), _color(siglas))
-                    for siglas, esc in escanos_por_partido.items()
+                    for siglas, esc in escanos_por_partido_global.items()
                     if int(esc) > 0
                 ]
                 partidos_hem2.sort(key=lambda x: ORDEN_IDEOLOGICO.index(x[0])
@@ -900,20 +915,71 @@ with tab_futuras:
             else:
                 st.info("Sin datos de circunscripciones para aplicar D'Hondt.")
 
-        # Tabla detallada
+        # ── Tabla detallada: nacional + regionalistas con escaños D'Hondt ────
         st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1rem 0'></div>", unsafe_allow_html=True)
         _section_header("Detalle de Estimaciones", CYAN)
-        cols_show = [c for c in ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup", "n_encuestas"]
+
+        # Base: nowcasting nacional (partidos con IC 95% y nº de encuestas)
+        base_cols = [c for c in ["partido_siglas", "estimacion_pct", "ic_95_inf", "ic_95_sup", "n_encuestas"]
                      if c in df_nc.columns]
-        st.dataframe(
-            df_nc_sorted[cols_show].rename(columns={
-                "partido_siglas": "Partido",
-                "estimacion_pct": "Estimacion (%)",
-                "ic_95_inf": "IC 95% Inf",
-                "ic_95_sup": "IC 95% Sup",
-                "n_encuestas": "N Encuestas",
-            }).round(2),
-            hide_index=True, use_container_width=True,
+        df_detalle = df_nc_sorted[base_cols].copy().rename(columns={"partido_siglas": "siglas"})
+
+        # Añadir escaños D'Hondt por partido
+        df_detalle["escanos_est"] = df_detalle["siglas"].map(escanos_por_partido_global).fillna(0).astype(int)
+
+        # Añadir partidos con escaños estimados que NO están en el nowcasting
+        # nacional (regionalistas: ERC, Junts, PNV, EH Bildu, BNG, CC, CUP, ...).
+        # Su % proviene del voto nacional efectivo calculado sobre la
+        # proyección D'Hondt (swing proporcional sobre histórico).
+        partidos_en_tabla = set(df_detalle["siglas"].astype(str))
+        extras = []
+        if not df_est_dh.empty:
+            for siglas, esc in escanos_por_partido_global.items():
+                if int(esc) <= 0 or str(siglas) in partidos_en_tabla:
+                    continue
+                extras.append({
+                    "siglas":         str(siglas),
+                    "estimacion_pct": float(pct_nac_efect.get(siglas, 0.0)),
+                    "ic_95_inf":      pd.NA,
+                    "ic_95_sup":      pd.NA,
+                    "n_encuestas":    pd.NA,
+                    "escanos_est":    int(esc),
+                })
+        if extras:
+            df_extras = pd.DataFrame(extras)
+            # Alinear columnas con df_detalle para evitar columnas fantasma
+            for c in df_detalle.columns:
+                if c not in df_extras.columns:
+                    df_extras[c] = pd.NA
+            df_extras = df_extras[df_detalle.columns.tolist()]
+            df_detalle = pd.concat([df_detalle, df_extras], ignore_index=True)
+
+        # Orden: primero por escaños (desc), luego por % voto (desc)
+        df_detalle = df_detalle.sort_values(
+            ["escanos_est", "estimacion_pct"], ascending=[False, False]
+        )
+
+        # Renombrar y formatear
+        df_detalle_render = df_detalle.rename(columns={
+            "siglas":         "Partido",
+            "estimacion_pct": "Estimación (%)",
+            "escanos_est":    "Escaños est.",
+            "ic_95_inf":      "IC 95% Inf",
+            "ic_95_sup":      "IC 95% Sup",
+            "n_encuestas":    "N Encuestas",
+        })
+        # Reordenar columnas (Partido · Escaños · % · IC · N)
+        col_order = [c for c in [
+            "Partido", "Escaños est.", "Estimación (%)",
+            "IC 95% Inf", "IC 95% Sup", "N Encuestas",
+        ] if c in df_detalle_render.columns]
+        df_detalle_render = df_detalle_render[col_order].round(2)
+
+        st.dataframe(df_detalle_render, hide_index=True, use_container_width=True)
+        st.caption(
+            f"Total escaños asignados: {int(df_detalle['escanos_est'].sum())} / 350 · "
+            f"Regionalistas sin IC 95% se añaden con su voto histórico provincial "
+            f"ajustado por swing proporcional."
         )
 
 
