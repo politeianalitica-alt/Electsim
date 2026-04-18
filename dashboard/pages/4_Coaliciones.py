@@ -649,7 +649,7 @@ with tab2:
         lr_items = "".join(
             f'<div style="display:flex;gap:.5rem;align-items:flex-start;'
             f'margin-bottom:.4rem;font-size:.78rem;color:{TEXT2}">'
-            f'<span style="color:{RED};font-weight:700;flex-shrink:0">✗</span>'
+            f'<span style="color:{RED};font-weight:700;flex-shrink:0">−</span>'
             f'<span>{lr}</span></div>'
             for lr in m["lineas_rojas"]
         )
@@ -668,7 +668,7 @@ with tab2:
         con_items = "".join(
             f'<div style="display:flex;gap:.5rem;align-items:flex-start;'
             f'margin-bottom:.4rem;font-size:.78rem;color:{TEXT2}">'
-            f'<span style="color:{GREEN};font-weight:700;flex-shrink:0">✓</span>'
+            f'<span style="color:{GREEN};font-weight:700;flex-shrink:0">+</span>'
             f'<span>{c}</span></div>'
             for c in m["concesiones"]
         )

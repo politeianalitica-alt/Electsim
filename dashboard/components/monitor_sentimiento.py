@@ -31,7 +31,7 @@ def render_monitor_sentimiento(conn) -> None:
     df_alertas = cargar_alertas_sentimiento(conn)
 
     if not df_alertas.empty:
-        with st.expander("⚠  Alertas de cobertura negativa (últimos 7 días)", expanded=True):
+        with st.expander("△  Alertas de cobertura negativa (últimos 7 días)", expanded=True):
             for _, row in df_alertas.iterrows():
                 partido = str(row.get("partido", ""))
                 color = COLORES_PARTIDO.get(partido, "#888")

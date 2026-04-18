@@ -307,7 +307,7 @@ with tab1:
     if abs(total_pct - 100.0) > 5:
         st.markdown(f"""
         <div class="warn-box">
-            ⚠ La suma de estimaciones es <strong style="color:{AMBER}">{total_pct:.1f}%</strong>.
+            △  La suma de estimaciones es <strong style="color:{AMBER}">{total_pct:.1f}%</strong>.
             Se normalizará automáticamente al ejecutar.
         </div>
         """, unsafe_allow_html=True)
@@ -1424,7 +1424,7 @@ with tab4:
             abs_pct = scores["Abstención"]
             st.markdown(f"""
             <div class="warn-box" style="margin-top:.8rem">
-                <strong style="color:{AMBER}">⚠ Alta probabilidad de abstención ({abs_pct:.1f}%)</strong><br>
+                <strong style="color:{AMBER}">△  Alta probabilidad de abstención ({abs_pct:.1f}%)</strong><br>
                 <span style="font-size:.82rem">Este perfil tiene una predisposición elevada a no votar.
                 Los partidos deben priorizar mensajes de <em>utilidad directa y tangible</em>:
                 medidas concretas sobre vivienda, empleo o economía que afecten inmediatamente a su situación.

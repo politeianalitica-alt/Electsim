@@ -497,7 +497,7 @@ with col_alerts:
         <div class="g-card" style="padding:2rem;text-align:center;margin-top:.5rem">
             <div style="width:34px;height:34px;background:{GREEN}14;border:2px solid {GREEN}33;
                         border-radius:9px;margin:0 auto .6rem;display:flex;align-items:center;
-                        justify-content:center;font-size:.95rem;color:{GREEN}">✓</div>
+                        justify-content:center;font-size:.95rem;color:{GREEN}">+</div>
             <div style="color:{GREEN};font-weight:700;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase">Sin alertas activas</div>
             <div style="color:{MUTED};font-size:.6rem;margin-top:.3rem">Todos los módulos operativos</div>
         </div>
