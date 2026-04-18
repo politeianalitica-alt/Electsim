@@ -1,9 +1,7 @@
 """Utilidades compartidas para todas las páginas del dashboard."""
 from __future__ import annotations
 import sys
-from decimal import Decimal
 from pathlib import Path
-from typing import Iterable
 
 _ROOT = Path(__file__).parent.parent
 if str(_ROOT) not in sys.path:
@@ -123,14 +121,14 @@ def color_partido(siglas: str) -> str:
 # ── Helpers de datos (casting seguro Decimal/float, formato macro) ───────────
 
 
-def safe_numeric(df: pd.DataFrame, cols: Iterable[str]) -> pd.DataFrame:
+def safe_numeric(df, cols):
     """Castea columnas a float para evitar TypeError por Decimal de psycopg v3.
 
     No muta el DataFrame de entrada; devuelve una copia con las columnas
     pedidas convertidas via `pd.to_numeric(..., errors='coerce').astype(float)`
     y NaN rellenos con 0.0.  Columnas ausentes se ignoran en silencio.
     """
-    if df is None or df.empty:
+    if df is None or getattr(df, "empty", True):
         return df
     out = df.copy()
     for c in cols:
@@ -139,14 +137,10 @@ def safe_numeric(df: pd.DataFrame, cols: Iterable[str]) -> pd.DataFrame:
     return out
 
 
-def safe_float(value, default: float = 0.0) -> float:
+def safe_float(value, default=0.0):
     """Convierte Decimal / str / None a float sin propagar TypeError."""
     if value is None:
         return default
-    if isinstance(value, (int, float)):
-        return float(value)
-    if isinstance(value, Decimal):
-        return float(value)
     try:
         return float(value)
     except (TypeError, ValueError):
