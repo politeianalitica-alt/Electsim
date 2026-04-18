@@ -427,22 +427,29 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
         return pd.DataFrame()
 
     # ── Base histórica para swing proporcional ───────────────────────────────
-    # hist_nac[p] = % histórico nacional de cada partido (ponderado por escaños
-    # provinciales para aproximar el peso real del voto nacional).
+    # hist_nac[p] = % histórico NACIONAL de cada partido, ponderado por el peso
+    # de cada provincia donde compite respecto al total nacional.
+    #
+    # Bugfix crítico: antes se dividía por la suma de pesos de las provincias
+    # donde el partido competía, lo que daba un valor regional (no nacional).
+    # Ejemplo: ERC con 20% en provincias catalanas producía hist_nac[ERC]≈19%
+    # en lugar del ~2.6% real. El swing (nac_new/hist_nac) colapsaba entonces
+    # a ERC a ~2% en Barcelona, por debajo del umbral 3% → 0 escaños.
+    # Ahora dividimos por el peso total nacional (suma de escaños de las 52
+    # circunscripciones), de modo que los partidos que sólo compiten en su
+    # territorio tienen un peso nacional pequeño (~votos_region/350).
     has_hist = (
         not df_prov.empty
         and {"siglas", "porcentaje", "provincia_id", "escanos"}.issubset(df_prov.columns)
     )
     hist_nac: dict[str, float] = {}
     if has_hist:
-        # Peso de cada provincia = nº de escaños totales de la provincia
         total_esc_prov = df_prov.groupby("provincia_id")["escanos"].sum()
-        # Recalculamos nacional como media ponderada por peso provincial
+        peso_total_nac = float(total_esc_prov.sum()) or 1.0
         df_hist = df_prov.copy()
         df_hist["peso"] = df_hist["provincia_id"].map(total_esc_prov).fillna(1)
         w = df_hist.groupby("siglas").apply(
-            lambda g: (g["porcentaje"] * g["peso"]).sum() / g["peso"].sum()
-            if g["peso"].sum() > 0 else 0.0
+            lambda g: (g["porcentaje"] * g["peso"]).sum() / peso_total_nac
         )
         hist_nac = w.to_dict()
 
