@@ -7,6 +7,8 @@ from datetime import date
 import pandas as pd
 import plotly.graph_objects as go
 
+from dashboard.shared import hex_to_rgba
+
 PARTY_COLORS = {
     "PP": "#0096D9",
     "PSOE": "#E4032E",
@@ -41,7 +43,7 @@ def create_polling_trend_chart(
                 y=g["ci_low"],
                 mode="lines",
                 fill="tonexty",
-                fillcolor=col + "26",
+                fillcolor=hex_to_rgba(col, 0.15),
                 line=dict(width=0),
                 showlegend=False,
             )

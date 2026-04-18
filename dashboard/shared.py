@@ -118,6 +118,28 @@ def color_partido(siglas: str) -> str:
     )
 
 
+def hex_to_rgba(hex_color: str, alpha: float = 1.0) -> str:
+    """Convierte un color hex (#RRGGBB) a una cadena rgba() válida en Plotly.
+
+    Plotly 6.x rechaza el formato de 8 dígitos `#RRGGBBAA`, por lo que para
+    aplicar transparencia hay que construir `rgba(r,g,b,a)` explícitamente.
+    Si el input no es hex válido, devuelve un rgba CYAN translúcido por defecto.
+    """
+    h = str(hex_color or "").lstrip("#").strip()
+    a = max(0.0, min(1.0, float(alpha)))
+    if len(h) == 3:
+        h = "".join(ch * 2 for ch in h)
+    if len(h) != 6:
+        return f"rgba(0,212,255,{a:.4f})"
+    try:
+        r = int(h[0:2], 16)
+        g = int(h[2:4], 16)
+        b = int(h[4:6], 16)
+    except ValueError:
+        return f"rgba(0,212,255,{a:.4f})"
+    return f"rgba({r},{g},{b},{a:.4f})"
+
+
 # ── Helpers de datos (casting seguro Decimal/float, formato macro) ───────────
 
 

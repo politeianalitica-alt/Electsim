@@ -21,6 +21,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    hex_to_rgba,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
@@ -58,14 +59,7 @@ PARTIDOS_KEYWORDS = {
 }
 
 
-def _hex_to_rgba(hex_color: str, alpha: float) -> str:
-    h = (hex_color or "").lstrip("#")
-    if len(h) != 6:
-        return f"rgba(0,212,255,{alpha})"
-    r = int(h[0:2], 16)
-    g = int(h[2:4], 16)
-    b = int(h[4:6], 16)
-    return f"rgba({r},{g},{b},{alpha})"
+_hex_to_rgba = hex_to_rgba  # alias retrocompatible dentro de este módulo
 
 
 def sec_hdr(title: str, color: str = CYAN) -> None:

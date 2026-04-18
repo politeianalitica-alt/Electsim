@@ -33,6 +33,7 @@ from dashboard.shared import (
     TEXT,
     TEXT2,
     color_partido,
+    hex_to_rgba,
     safe_numeric,
     section_header,
 )
@@ -312,7 +313,7 @@ def _render_detalle_partido(partido: str) -> None:
                 line=dict(color=c, width=2.5),
                 marker=dict(size=5),
                 fill="tozeroy",
-                fillcolor=f"{c}22",
+                fillcolor=hex_to_rgba(c, 0.13),
                 hovertemplate="%{x|%d %b}<br>Sent: %{y:+.3f}<extra></extra>",
             )
         )
