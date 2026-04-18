@@ -444,14 +444,20 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
     )
     hist_nac: dict[str, float] = {}
     if has_hist:
-        total_esc_prov = df_prov.groupby("provincia_id")["escanos"].sum()
-        peso_total_nac = float(total_esc_prov.sum()) or 1.0
+        # Cast explícito a float para evitar TypeError cuando Postgres devuelve
+        # NUMERIC como Decimal (Decimal / float no está permitido en Python).
         df_hist = df_prov.copy()
-        df_hist["peso"] = df_hist["provincia_id"].map(total_esc_prov).fillna(1)
+        df_hist["porcentaje"] = pd.to_numeric(df_hist["porcentaje"], errors="coerce").astype(float).fillna(0.0)
+        df_hist["escanos"] = pd.to_numeric(df_hist["escanos"], errors="coerce").astype(float).fillna(0.0)
+
+        total_esc_prov = df_hist.groupby("provincia_id")["escanos"].sum()
+        peso_total_nac = float(total_esc_prov.sum()) or 1.0
+        df_hist["peso"] = df_hist["provincia_id"].map(total_esc_prov).fillna(1.0).astype(float)
+
         w = df_hist.groupby("siglas").apply(
-            lambda g: (g["porcentaje"] * g["peso"]).sum() / peso_total_nac
+            lambda g: float((g["porcentaje"] * g["peso"]).sum()) / peso_total_nac
         )
-        hist_nac = w.to_dict()
+        hist_nac = {str(k): float(v) for k, v in w.to_dict().items()}
 
     rows = []
     for _, prov_row in prov_info.iterrows():
@@ -463,8 +469,11 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
         # ── Construir vector de % por provincia ──────────────────────────────
         pct_prov: dict[str, float] = {}
         if has_hist:
-            df_prov_sel = df_prov[df_prov["provincia_id"] == pid]
-            hist_prov = dict(zip(df_prov_sel["siglas"], df_prov_sel["porcentaje"]))
+            df_prov_sel = df_hist[df_hist["provincia_id"] == pid]
+            hist_prov = {
+                str(s): float(p)
+                for s, p in zip(df_prov_sel["siglas"], df_prov_sel["porcentaje"])
+            }
 
             # 1) Partidos con presencia nacional nueva → swing proporcional
             for p, nac_new in eligible.items():
@@ -513,11 +522,11 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
         # ── Emitir filas ─────────────────────────────────────────────────────
         for partido, esc_est in asignados.items():
             hist = 0
-            if not df_prov.empty:
-                hist = int(df_prov[
-                    (df_prov["provincia_id"] == pid) &
-                    (df_prov["siglas"] == partido)
-                ]["escanos"].sum())
+            if has_hist:
+                hist = int(float(df_hist[
+                    (df_hist["provincia_id"] == pid) &
+                    (df_hist["siglas"] == partido)
+                ]["escanos"].sum()))
             rows.append({
                 "provincia_id":  pid,
                 "provincia":     prov_row["provincia"],
