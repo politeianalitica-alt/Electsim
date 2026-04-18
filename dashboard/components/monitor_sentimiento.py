@@ -76,7 +76,12 @@ def _kpi(label: str, value: str, sub: str = "", color: str = CYAN) -> str:
 
 
 def _layout_dark(fig: go.Figure, height: int = 360, **kw) -> go.Figure:
-    fig.update_layout(
+    """Aplica tema oscuro a una figura Plotly.
+
+    Si el caller pasa `xaxis`, `yaxis`, `margin` o `legend` via kwargs,
+    se mergean con los defaults para no chocar.
+    """
+    base = dict(
         height=height,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
@@ -88,8 +93,16 @@ def _layout_dark(fig: go.Figure, height: int = 360, **kw) -> go.Figure:
         ),
         xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT2),
         yaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT2),
-        **kw,
     )
+    # Mergear kwargs sobre defaults (override completo de cada clave dada).
+    for k, v in kw.items():
+        if k in base and isinstance(base[k], dict) and isinstance(v, dict):
+            merged = dict(base[k])
+            merged.update(v)
+            base[k] = merged
+        else:
+            base[k] = v
+    fig.update_layout(**base)
     return fig
 
 
