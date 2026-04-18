@@ -8,13 +8,13 @@ from etl.sources.agendas_lideres import run_agendas
 
 
 ICONOS_TIPO = {
-    "rueda_prensa": "🎤",
-    "pleno": "🏛️",
-    "viaje_oficial": "✈️",
-    "reunion": "🤝",
-    "acto_partido": "📣",
-    "comparecencia": "📋",
-    "acto_publico": "📍",
+    "rueda_prensa": "◉",
+    "pleno": "▣",
+    "viaje_oficial": "▲",
+    "reunion": "⬡",
+    "acto_partido": "◈",
+    "comparecencia": "▤",
+    "acto_publico": "●",
 }
 
 COLORES_PARTIDO = {
@@ -39,12 +39,12 @@ def _fmt_hora(v: object) -> str:
 
 
 def render_agenda_diaria(conn: object | None = None) -> None:
-    st.subheader("📅 Agenda política — Hoy")
+    st.subheader("▣  Agenda política — Hoy")
     engine = conn or get_engine()
 
     col1, col2 = st.columns([3, 1])
     with col2:
-        if st.button("🔄 Actualizar agenda", key="agenda_refresh_btn"):
+        if st.button("↻  Actualizar agenda", key="agenda_refresh_btn"):
             with st.spinner("Descargando agendas..."):
                 try:
                     resultado = run_agendas(engine, solo_hoy=True)
@@ -68,12 +68,12 @@ def render_agenda_diaria(conn: object | None = None) -> None:
                 unsafe_allow_html=True,
             )
             for _, ev in grupo.iterrows():
-                icono = ICONOS_TIPO.get(str(ev.get("tipo_evento", "")), "📍")
+                icono = ICONOS_TIPO.get(str(ev.get("tipo_evento", "")), "●")
                 hora = _fmt_hora(ev.get("hora_inicio"))
                 titulo = str(ev.get("titulo_evento", ""))
                 lugar = str(ev.get("lugar", "") or "").strip()
                 url = str(ev.get("url_fuente", "") or "").strip()
-                lugar_txt = f" · 📍 {lugar}" if lugar else ""
+                lugar_txt = f" · ● {lugar}" if lugar else ""
                 if url:
                     st.markdown(f"{icono} **{hora}**  [{titulo}]({url}){lugar_txt}")
                 else:

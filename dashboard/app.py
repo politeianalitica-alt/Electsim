@@ -571,7 +571,7 @@ with col_macro:
 
 # ── Últimas elecciones + noticias recientes ───────────────────────────────────
 with col_elec_news:
-    tab_elec, tab_news = st.tabs(["📋 Últimas Elecciones", "📰 Noticias Recientes"])
+    tab_elec, tab_news = st.tabs(["▤  Últimas Elecciones", "▥  Noticias Recientes"])
 
     with tab_elec:
         st.markdown(f"""
@@ -681,16 +681,16 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 _q1, _q2, _q3, _q4 = st.columns(4)
 with _q1:
-    if st.button("🗳️ Nowcasting", use_container_width=True):
+    if st.button("◐  Nowcasting", use_container_width=True):
         st.switch_page("pages/17_Nowcasting_Component.py")
 with _q2:
-    if st.button("📅 Agenda de líderes", use_container_width=True):
+    if st.button("▣  Agenda de líderes", use_container_width=True):
         st.switch_page("pages/15_Agenda_Lideres.py")
 with _q3:
-    if st.button("📊 Monitor de sentimiento", use_container_width=True):
+    if st.button("▦  Monitor de sentimiento", use_container_width=True):
         st.switch_page("pages/14_Monitor_Sentimiento.py")
 with _q4:
-    if st.button("🧑‍💼 Fichas de políticos", use_container_width=True):
+    if st.button("●  Fichas de políticos", use_container_width=True):
         st.switch_page("pages/16_Fichas_Politicos.py")
 
 # ─────────────────────────────────────────────────────────────────────────────

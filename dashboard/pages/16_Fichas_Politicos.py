@@ -21,7 +21,7 @@ try:
 except Exception:
     conn = None
 
-st.header("🧑‍💼 Fichas de Políticos")
+st.header("●  Fichas de Políticos")
 politico_id = render_selector_politico(conn)
 if politico_id:
     render_ficha(conn, politico_id)

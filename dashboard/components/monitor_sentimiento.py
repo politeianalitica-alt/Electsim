@@ -24,14 +24,14 @@ COLORES_PARTIDO = {
 
 
 def render_monitor_sentimiento(conn) -> None:
-    st.header("📊 Monitor de Sentimiento de Prensa")
+    st.header("▦  Monitor de Sentimiento de Prensa")
 
     df_serie = cargar_sentimiento_serie(conn)
     df_heatmap = cargar_heatmap_fuente_partido(conn)
     df_alertas = cargar_alertas_sentimiento(conn)
 
     if not df_alertas.empty:
-        with st.expander("⚠️ Alertas de cobertura negativa (últimos 7 días)", expanded=True):
+        with st.expander("⚠  Alertas de cobertura negativa (últimos 7 días)", expanded=True):
             for _, row in df_alertas.iterrows():
                 partido = str(row.get("partido", ""))
                 color = COLORES_PARTIDO.get(partido, "#888")

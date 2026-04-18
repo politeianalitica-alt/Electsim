@@ -52,7 +52,7 @@ def render_ficha(conn, politico_id: str) -> None:
             st.markdown(
                 f"<div style='width:140px;height:160px;background:{color}20;"
                 f"border:2px solid {color};border-radius:8px;display:flex;"
-                f"align-items:center;justify-content:center;font-size:3rem'>👤</div>",
+                f"align-items:center;justify-content:center;font-size:3rem'>●</div>",
                 unsafe_allow_html=True,
             )
 
@@ -65,11 +65,11 @@ def render_ficha(conn, politico_id: str) -> None:
             unsafe_allow_html=True,
         )
         if perfil.get("cargo_institucional"):
-            st.caption(f"🏛️ {perfil['cargo_institucional']}")
+            st.caption(f"▣  {perfil['cargo_institucional']}")
         if perfil.get("grupo_parlamentario"):
-            st.caption(f"📜 Grupo: {perfil['grupo_parlamentario']}")
+            st.caption(f"▤  Grupo: {perfil['grupo_parlamentario']}")
         if perfil.get("circunscripcion"):
-            st.caption(f"📍 Circunscripción: {perfil['circunscripcion']}")
+            st.caption(f"●  Circunscripción: {perfil['circunscripcion']}")
 
     with col_meta:
         sueldo = pd.to_numeric(perfil.get("sueldo_bruto_anual"), errors="coerce")
@@ -80,14 +80,14 @@ def render_ficha(conn, politico_id: str) -> None:
                 help=str(perfil.get("sueldo_fuente", "")),
             )
         if perfil.get("twitter_handle"):
-            st.markdown(f"[🐦 @{perfil['twitter_handle']}](https://twitter.com/{perfil['twitter_handle']})")
+            st.markdown(f"[@ {perfil['twitter_handle']}](https://twitter.com/{perfil['twitter_handle']})")
         if perfil.get("url_wikipedia_es"):
-            st.markdown(f"[📖 Wikipedia]({perfil['url_wikipedia_es']})")
+            st.markdown(f"[▢  Wikipedia]({perfil['url_wikipedia_es']})")
 
     st.divider()
 
     tab_bio, tab_tray, tab_noticias, tab_patrim = st.tabs([
-        "📋 Biografía", "⏳ Trayectoria", "📰 Noticias", "💰 Patrimonio"
+        "▤  Biografía", "◔  Trayectoria", "▥  Noticias", "◆  Patrimonio"
     ])
 
     with tab_bio:
@@ -99,17 +99,17 @@ def render_ficha(conn, politico_id: str) -> None:
                 try:
                     fecha_dt = pd.Timestamp(f_nac).date()
                     edad = (date.today() - fecha_dt).days // 365
-                    st.write(f"🎂 Nacimiento: {fecha_dt.strftime('%d/%m/%Y')} ({edad} años)")
+                    st.write(f"○  Nacimiento: {fecha_dt.strftime('%d/%m/%Y')} ({edad} años)")
                 except Exception:
-                    st.write(f"🎂 Nacimiento: {f_nac}")
+                    st.write(f"○  Nacimiento: {f_nac}")
             if perfil.get("lugar_nacimiento"):
-                st.write(f"📍 Lugar: {perfil['lugar_nacimiento']}")
+                st.write(f"●  Lugar: {perfil['lugar_nacimiento']}")
         with c2:
             form = perfil.get("formacion")
             if isinstance(form, list) and form:
                 st.markdown("**Formación**")
                 for f in form:
-                    st.write(f"🎓 {f}")
+                    st.write(f"▵  {f}")
 
     with tab_tray:
         df_tray = ficha.get("trayectoria", pd.DataFrame())
@@ -142,7 +142,7 @@ def render_ficha(conn, politico_id: str) -> None:
         else:
             for _, row in df_not.head(15).iterrows():
                 sent = pd.to_numeric(row.get("sentimiento"), errors="coerce")
-                icono = "😐" if pd.isna(sent) else ("😊" if sent > 0.2 else ("😠" if sent < -0.2 else "😐"))
+                icono = "─" if pd.isna(sent) else ("▲" if sent > 0.2 else ("▼" if sent < -0.2 else "─"))
                 st.markdown(
                     f"{icono} **[{row.get('titulo','Sin titular')}]({row.get('url','')})**  "
                     f"\n<small style='color:#666'>{row.get('fuente_id','')} · {row.get('fecha_pub','')} · {row.get('tema','')}</small>",
@@ -175,4 +175,4 @@ def render_ficha(conn, politico_id: str) -> None:
 
             for _, row in df_pat.iterrows():
                 if row.get("url_declaracion"):
-                    st.markdown(f"📄 [{row.get('anio_declaracion','')} — Declaración oficial]({row['url_declaracion']})")
+                    st.markdown(f"▢  [{row.get('anio_declaracion','')} — Declaración oficial]({row['url_declaracion']})")

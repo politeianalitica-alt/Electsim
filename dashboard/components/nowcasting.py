@@ -69,7 +69,7 @@ def _render_barometro(df: pd.DataFrame) -> None:
 
 
 def render_nowcasting(conn) -> None:
-    st.header("🗳️ Nowcasting Electoral")
+    st.header("◐  Nowcasting Electoral")
 
     df_now = cargar_nowcasting()
     df_serie = cargar_serie_voto(conn)
