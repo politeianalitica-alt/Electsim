@@ -2099,24 +2099,28 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
     with tab_issues:
         df_prob = data.get("problemas", pd.DataFrame())
         if not df_prob.empty:
-            fig = px.bar(
-                df_prob.head(10),
-                x="pct",
-                y="problema",
-                orientation="h",
-                title="Principales preocupaciones (%)",
-                color="pct",
-                color_continuous_scale=[[0, f"{color}40"], [1, color]],
-            )
-            fig.update_layout(
-                yaxis={"categoryorder": "total ascending"},
-                coloraxis_showscale=False,
-                height=420,
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-            )
-            fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
-            st.plotly_chart(fig, use_container_width=True)
+            df_prob_plot = df_prob.copy()
+            df_prob_plot["pct"] = pd.to_numeric(df_prob_plot["pct"], errors="coerce")
+            df_prob_plot = df_prob_plot.dropna(subset=["pct"])
+            if df_prob_plot.empty:
+                st.info("Sin datos de issues para este perfil.")
+            else:
+                fig = px.bar(
+                    df_prob_plot.head(10),
+                    x="pct",
+                    y="problema",
+                    orientation="h",
+                    title="Principales preocupaciones (%)",
+                    color_discrete_sequence=[color],
+                )
+                fig.update_layout(
+                    yaxis={"categoryorder": "total ascending"},
+                    height=420,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                )
+                fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
+                st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("Sin datos de issues para este perfil.")
 
