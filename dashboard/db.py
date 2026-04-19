@@ -705,9 +705,32 @@ def cargar_serie_indice(codigo: str, dias: int = 90) -> pd.DataFrame:
 
 @st.cache_data(ttl=300)
 def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None = None, _conn=None) -> pd.DataFrame:
+    """
+    Carga noticias recientes. Intenta tabla article primero (modelo nuevo),
+    con fallback a noticias_prensa (modelo legacy).
+    """
     conn = _conn or get_conn()
     lim = int(limite if limite is not None else limit)
-    return _q("""
+
+    df = _q(
+        """
+        SELECT source_id AS fuente, title AS titular, url_canonical AS url,
+               published_at::date AS fecha_publicacion, categoria,
+               partidos_mencionados, sentimiento_score, sentimiento_label,
+               temas_json, relevancia_score
+        FROM article
+        WHERE published_at >= NOW() - (:dias * INTERVAL '1 day')
+        ORDER BY relevancia_score DESC NULLS LAST, published_at DESC
+        LIMIT :limit
+        """,
+        {"dias": dias, "limit": lim},
+        conn=conn,
+    )
+    if not df.empty:
+        return df
+
+    return _q(
+        """
         SELECT fuente, titular, url, fecha_publicacion, categoria,
                partidos_mencionados, sentimiento_score, sentimiento_label,
                temas_json, relevancia_score
@@ -715,7 +738,10 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
         WHERE fecha_publicacion >= CURRENT_DATE - :dias
         ORDER BY relevancia_score DESC NULLS LAST, fecha_publicacion DESC
         LIMIT :limit
-    """, {"dias": dias, "limit": lim}, conn=conn)
+        """,
+        {"dias": dias, "limit": lim},
+        conn=conn,
+    )
 
 
 @st.cache_data(ttl=60)
@@ -2175,4 +2201,168 @@ def cargar_recuerdo_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) 
     return _q(
         sql,
         params,
+    )
+
+
+# ── Media infrastructure (QW2 / QW3 / QW4) ───────────────────────────────────
+
+@st.cache_data(ttl=120)
+def cargar_source_health() -> pd.DataFrame:
+    """Estado de salud de las fuentes de ingesta (últimas 24 h por fuente)."""
+    return _q(
+        """
+        SELECT DISTINCT ON (source_id)
+            source_id, source_type, fecha, articles_count,
+            errors_count, avg_latency_ms, freshness_lag_s, status, checked_at
+        FROM source_health
+        WHERE fecha >= CURRENT_DATE - INTERVAL '2 days'
+        ORDER BY source_id, checked_at DESC
+        """,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_scraper_incidents(solo_activos: bool = True) -> pd.DataFrame:
+    """Incidencias recientes de scrapers, por defecto solo las no resueltas."""
+    extra = "AND resolved = FALSE" if solo_activos else ""
+    return _q(
+        f"""
+        SELECT source_id, error_type, severity, first_seen, last_seen,
+               occurrence_count, details, resolved
+        FROM scraper_incident
+        WHERE last_seen >= NOW() - INTERVAL '7 days'
+          {extra}
+        ORDER BY
+            CASE severity WHEN 'critical' THEN 1 WHEN 'major' THEN 2 ELSE 3 END,
+            last_seen DESC
+        LIMIT 50
+        """,
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_fact_checks(dias: int = 30, limit: int = 50) -> pd.DataFrame:
+    """
+    Devuelve fact-checks reales de la tabla fact_check.
+    Devuelve DataFrame vacío si la tabla no existe todavía (migración pendiente).
+    """
+    return _q(
+        """
+        SELECT source_id, url, titular, resumen, claim_text,
+               verdict, partidos_json, temas_json, published_at
+        FROM fact_check
+        WHERE published_at >= NOW() - (:dias * INTERVAL '1 day')
+        ORDER BY published_at DESC
+        LIMIT :limit
+        """,
+        {"dias": dias, "limit": limit},
+    )
+
+
+# ── Institucional (QW-C4) ─────────────────────────────────────────────────────
+
+@st.cache_data(ttl=1800)
+def cargar_boe_publicaciones(dias: int = 1, limit: int = 40, solo_alta_media: bool = False) -> pd.DataFrame:
+    """
+    Carga publicaciones BOE de la tabla boe_publication.
+    Fallback: vacío (el caller llama a cargar_boe_hoy_rss() en ese caso).
+    """
+    extra = "AND relevancia IN ('Alta','Media')" if solo_alta_media else ""
+    return _q(
+        f"""
+        SELECT boe_no, fecha, seccion, departamento, tipo_norma,
+               titulo, resumen, url_html, relevancia, relevancia_score
+        FROM boe_publication
+        WHERE fecha >= CURRENT_DATE - :dias
+          {extra}
+        ORDER BY relevancia_score DESC, fecha DESC
+        LIMIT :limit
+        """,
+        {"dias": dias, "limit": limit},
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_agenda_institucional(
+    dias_atras: int = 0,
+    dias_adelante: int = 7,
+    limit: int = 60,
+) -> pd.DataFrame:
+    """
+    Carga agenda de decisores de la tabla agenda_item (modelo rico).
+    Fallback: vacío (el caller usa fetch_all_agendas() en ese caso).
+    """
+    return _q(
+        """
+        SELECT main_actor, main_actor_id, party_id, host_institution,
+               title, description, location, event_date,
+               start_time::text AS time_start,
+               event_type, topic, importance_score, certainty_score,
+               source_id, source_url
+        FROM agenda_item
+        WHERE event_date BETWEEN CURRENT_DATE - :dias_atras
+                              AND CURRENT_DATE + :dias_adelante
+          AND status != 'CANCELLED'
+        ORDER BY importance_score DESC, event_date, start_time NULLS LAST
+        LIMIT :limit
+        """,
+        {"dias_atras": dias_atras, "dias_adelante": dias_adelante, "limit": limit},
+    )
+
+
+@st.cache_data(ttl=300)
+def cargar_votaciones_pleno(dias: int = 14, limit: int = 30) -> pd.DataFrame:
+    """
+    Carga votaciones parlamentarias de la tabla parliamentary_vote.
+    Fallback: cargar_votaciones() (tabla actividad_congreso legacy) si vacía.
+    """
+    df = _q(
+        """
+        SELECT session_date AS fecha, vote_type AS tipo_votacion,
+               title AS titulo, result AS resultado,
+               votos_favor, votos_contra, abstenciones,
+               parties_favor_json, parties_against_json,
+               topic AS tema, implications AS implicaciones, url_congreso
+        FROM parliamentary_vote
+        WHERE session_date >= CURRENT_DATE - :dias
+        ORDER BY session_date DESC, votos_favor + votos_contra + abstenciones DESC
+        LIMIT :limit
+        """,
+        {"dias": dias, "limit": limit},
+    )
+    if not df.empty:
+        return df
+    return cargar_votaciones()
+
+
+@st.cache_data(ttl=1800)
+def cargar_dm_actividad_legislativa(dias: int = 30) -> pd.DataFrame:
+    """Actividad legislativa diaria desde data mart dm_legislative_activity_daily."""
+    df = _q(
+        """
+        SELECT fecha, partido_siglas, chamber,
+               n_iniciativas, n_votaciones, n_aprobadas, n_rechazadas, n_comisiones
+        FROM dm_legislative_activity_daily
+        WHERE fecha >= CURRENT_DATE - :dias
+        ORDER BY fecha DESC, n_iniciativas DESC
+        """,
+        {"dias": dias},
+    )
+    if not df.empty:
+        return df
+    # Fallback: agrega desde actividad_congreso
+    return _q(
+        """
+        SELECT fecha_publicacion::date AS fecha,
+               partido_siglas,
+               'congreso' AS chamber,
+               COUNT(*) AS n_iniciativas,
+               0 AS n_votaciones, 0 AS n_aprobadas, 0 AS n_rechazadas, 0 AS n_comisiones
+        FROM actividad_congreso
+        WHERE fecha >= CURRENT_DATE - :dias
+          AND partido_siglas IS NOT NULL
+        GROUP BY 1, 2, 3
+        ORDER BY 1 DESC, 5 DESC
+        """,
+        {"dias": dias},
     )
