@@ -1,60 +1,22 @@
-<<<<<<< HEAD
-"""Clientes LLM: stub (tests/offline) y OpenAI compatible vía HTTPX (sin SDK obligatorio)."""
-
-=======
->>>>>>> 6fda6ff (agentes 1)
 from __future__ import annotations
 
 import json
 import logging
 import os
-<<<<<<< HEAD
-from typing import Any, Protocol, runtime_checkable
-=======
 import random
 import time
 from typing import Any, Callable
->>>>>>> 6fda6ff (agentes 1)
 
 import httpx
 
 logger = logging.getLogger(__name__)
 
-<<<<<<< HEAD
-
-@runtime_checkable
-class LLMClient(Protocol):
-    def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str: ...
-
-
-class StubLLMClient:
-    """Respuesta fija con formato CoT para tests y entornos sin API."""
-
-    modelo: str = "stub"
-
-    def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
-        return (
-            "### Deliberación\n"
-            "Priorizo la economía familiar y la percepción de estabilidad. "
-            "Dudo entre opciones de centro y mi bloque habitual.\n\n"
-            "### Respuesta final\n"
-            "Me inclinaría por quien transmita más gestión competente, sin un compromiso cerrado."
-        )
-
-
-class OpenAIChatClient:
-    """``chat.completions`` OpenAI (o compatible) usando HTTPX."""
-=======
 _RETRIABLE_STATUS = {429, 500, 502, 503, 504}
 _MAX_RETRIES = 4
-_BASE_DELAY = 1.5  # segundos
+_BASE_DELAY = 1.5
 
 
 def _with_retry(fn: Callable[..., str], *args: Any, **kwargs: Any) -> str:
-    """
-    Ejecuta fn(*args, **kwargs) con exponential backoff + jitter.
-    Reintenta en HTTPStatusError retriable y TimeoutException.
-    """
     last_exc: Exception | None = None
     for attempt in range(_MAX_RETRIES):
         try:
@@ -65,7 +27,7 @@ def _with_retry(fn: Callable[..., str], *args: Any, **kwargs: Any) -> str:
             last_exc = exc
         except httpx.TimeoutException as exc:
             last_exc = exc
-        delay = _BASE_DELAY * (2 ** attempt) + random.uniform(0, 0.5)
+        delay = _BASE_DELAY * (2**attempt) + random.uniform(0.0, 0.5)
         logger.warning(
             "LLM retry %s/%s tras error %s — esperando %.1fs",
             attempt + 1,
@@ -80,9 +42,6 @@ def _with_retry(fn: Callable[..., str], *args: Any, **kwargs: Any) -> str:
 
 
 class OpenAIChatClient:
-    """Cliente OpenAI Chat Completions compatible con el runner de agentes."""
->>>>>>> 6fda6ff (agentes 1)
-
     def __init__(
         self,
         api_key: str | None = None,
@@ -92,11 +51,6 @@ class OpenAIChatClient:
     ) -> None:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         self.model = model or os.environ.get("ELECTSIM_OPENAI_MODEL", "gpt-4o-mini")
-<<<<<<< HEAD
-        self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip(
-            "/"
-        )
-=======
         self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
         self.timeout_s = timeout_s
 
@@ -107,7 +61,6 @@ class OpenAIChatClient:
     def _post_once(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         if not self.api_key:
             raise RuntimeError("OPENAI_API_KEY no definida")
-
         payload: dict[str, Any] = {
             "model": self.model,
             "messages": messages,
@@ -118,7 +71,6 @@ class OpenAIChatClient:
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
-
         with httpx.Client(timeout=self.timeout_s) as client:
             r = client.post(
                 f"{self.base_url}/chat/completions",
@@ -138,11 +90,6 @@ class OpenAIChatClient:
 
 
 class AnthropicChatClient:
-    """
-    Cliente para Anthropic Messages API.
-    Requiere ANTHROPIC_API_KEY.
-    """
-
     def __init__(
         self,
         api_key: str | None = None,
@@ -169,7 +116,6 @@ class AnthropicChatClient:
             if role == "system":
                 system_content = content
             else:
-                # Anthropic acepta roles user/assistant
                 safe_role = role if role in {"user", "assistant"} else "user"
                 user_messages.append({"role": safe_role, "content": content})
 
@@ -187,7 +133,6 @@ class AnthropicChatClient:
             "anthropic-version": "2023-06-01",
             "Content-Type": "application/json",
         }
-
         with httpx.Client(timeout=self.timeout_s) as client:
             r = client.post(
                 "https://api.anthropic.com/v1/messages",
@@ -213,11 +158,6 @@ class AnthropicChatClient:
 
 
 class OllamaClient:
-    """
-    Cliente para Ollama local.
-    No usa retry por defecto.
-    """
-
     def __init__(
         self,
         model: str | None = None,
@@ -226,7 +166,6 @@ class OllamaClient:
     ) -> None:
         self.model = model or os.environ.get("ELECTSIM_OLLAMA_MODEL", "llama3")
         self.base_url = (base_url or os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")).rstrip("/")
->>>>>>> 6fda6ff (agentes 1)
         self.timeout_s = timeout_s
 
     @property
@@ -234,29 +173,6 @@ class OllamaClient:
         return self.model
 
     def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
-<<<<<<< HEAD
-        if not self.api_key:
-            raise RuntimeError("OPENAI_API_KEY no definida")
-        url = f"{self.base_url}/chat/completions"
-        payload: dict[str, Any] = {
-            "model": self.model,
-            "messages": messages,
-            "temperature": float(kwargs.get("temperature", 0.4)),
-        }
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json",
-        }
-        with httpx.Client(timeout=self.timeout_s) as client:
-            r = client.post(url, headers=headers, content=json.dumps(payload))
-            r.raise_for_status()
-            data = r.json()
-        try:
-            return str(data["choices"][0]["message"]["content"] or "")
-        except (KeyError, IndexError) as e:
-            logger.error("Respuesta OpenAI inesperada: %s", data)
-            raise RuntimeError("Formato de respuesta OpenAI inválido") from e
-=======
         payload = {
             "model": self.model,
             "messages": messages,
@@ -277,8 +193,13 @@ class OllamaClient:
 class StubLLMClient:
     """Cliente fake para tests offline."""
 
-    def __init__(self, fixed_response: str = "RESPUESTA: NS/NC") -> None:
-        self.fixed_response = fixed_response
+    def __init__(self, fixed_response: str | None = None) -> None:
+        self.fixed_response = fixed_response or (
+            "### Deliberación\n"
+            "Priorizo economía del hogar, empleo y estabilidad institucional para decidir mi voto.\n\n"
+            "### Respuesta final\n"
+            "Regular"
+        )
         self.model = "stub-llm"
 
     @property
@@ -288,4 +209,3 @@ class StubLLMClient:
     def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         _ = messages, kwargs
         return str(self.fixed_response)
->>>>>>> 6fda6ff (agentes 1)

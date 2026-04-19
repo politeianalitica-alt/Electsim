@@ -12,6 +12,7 @@ import math
 import re
 import sys
 from pathlib import Path
+from typing import Any
 
 _ROOT = Path(__file__).parent.parent.parent
 if str(_ROOT) not in sys.path:
@@ -22,6 +23,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
+from sqlalchemy import text
 from dashboard.shared import (
     sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
@@ -38,6 +40,7 @@ from dashboard.db import (
     cargar_nowcasting,
     cargar_perfiles_votante,
     cargar_perfiles_usuario_custom,
+    get_engine,
     guardar_perfil_usuario_custom,
 )
 from dashboard.adapters import create_simulation_adapter
@@ -618,6 +621,377 @@ def _safe_float(value: object, default: float) -> float:
         return default
 
 
+def _get_page_engine() -> Any | None:
+    if "_engine" not in st.session_state:
+        try:
+            st.session_state["_engine"] = get_engine()
+        except Exception:
+            st.session_state["_engine"] = None
+    return st.session_state.get("_engine")
+
+
+def _opinions_from_signals(
+    voto: dict[str, float],
+    ideologia: float,
+    edad_media: float,
+    econ_personal: str = "",
+    econ_esp: str = "",
+    sat_demo: str = "",
+) -> dict[str, str]:
+    top_party, top_pct = next(iter(sorted(voto.items(), key=lambda x: x[1], reverse=True)), ("Otros", 0.0))
+    ideotxt = f"{ideologia:.1f}/10"
+    edadtxt = f"{edad_media:.0f}"
+
+    sat_l = sat_demo.lower()
+    if any(x in sat_l for x in ["nada", "poco"]):
+        op_gob = f"Evaluación crítica ({top_pct:.0f}% en {top_party}), con baja satisfacción democrática y eje ideológico {ideotxt}."
+    elif top_party in {"PP", "VOX"}:
+        op_gob = f"Muy críticos con la gestión actual: {top_party} concentra {top_pct:.0f}% y el bloque exige giro de políticas ({ideotxt})."
+    elif top_party in {"PSOE", "SUMAR"}:
+        op_gob = f"Apoyo condicionado a resultados: {top_party} lidera con {top_pct:.0f}% pero la valoración depende de ejecución y estabilidad."
+    elif abs(ideologia - 5.0) < 1.5:
+        op_gob = f"Valoración mixta y pragmática: segmento de centro ({ideotxt}) con preferencia dominante del {top_pct:.0f}%."
+    else:
+        op_gob = f"Valoración heterogénea, con preferencia electoral del {top_pct:.0f}% y perfil ideológico {ideotxt}."
+
+    econ_p_l = econ_personal.lower()
+    if any(x in econ_p_l for x in ["muy mala", "mala"]):
+        op_econ = f"Muy pesimistas en economía personal; con edad media {edadtxt}, priorizan aliviar pérdida de poder adquisitivo."
+    elif edad_media < 35:
+        op_econ = f"Con edad media {edadtxt}, la presión en vivienda y empleo juvenil domina la percepción económica del segmento."
+    elif edad_media > 55:
+        op_econ = f"Con edad media {edadtxt}, pesan más pensiones, ahorro y costes fijos en su valoración económica."
+    else:
+        op_econ = f"Percepción económica intermedia en cohortes de {edadtxt} años, condicionada por empleo estable e inflación."
+    if econ_esp:
+        op_econ += f" Señal sobre economía nacional: {econ_esp}."
+
+    if ideologia < 4:
+        op_terr = f"Abiertos al diálogo territorial desde posiciones {ideotxt}, con enfoque pactista y negociación institucional."
+    elif ideologia > 7:
+        op_terr = f"Rechazan concesiones constitucionales; el eje {ideotxt} y el bloque dominante ({top_pct:.0f}%) priorizan unidad competencial."
+    else:
+        op_terr = f"Prefieren negociación sin cambios constitucionales amplios, en un perfil de centro ({ideotxt}) con enfoque gradualista."
+
+    return {
+        "opinion_gobierno": op_gob,
+        "opinion_economia": op_econ,
+        "opinion_territorial": op_terr,
+    }
+
+
+@st.cache_data(ttl=300)
+def _cargar_impactos_desde_bd(_engine=None) -> dict[str, dict[str, dict]]:
+    if _engine is None:
+        return {}
+    try:
+        sql = text(
+            """
+            SELECT cluster_id, label, peso_demografico_pct, distribucion_voto_json, temas_relevantes_json
+            FROM perfiles_votante
+            WHERE cluster_id IS NOT NULL
+            ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id
+            """
+        )
+        with _engine.connect() as conn:
+            df = pd.read_sql(sql, conn)
+    except Exception:
+        return {}
+    if df.empty:
+        return {}
+
+    tema_rows: list[dict[str, Any]] = []
+    for _, r in df.iterrows():
+        peso = float(r.get("peso_demografico_pct") or 0.0)
+        voto = _safe_vote_dist(r.get("distribucion_voto_json"), 5.0)
+        temas_raw = r.get("temas_relevantes_json")
+        temas: list[str] = []
+        if isinstance(temas_raw, str) and temas_raw.strip():
+            try:
+                parsed = json.loads(temas_raw)
+                if isinstance(parsed, list):
+                    temas = [str(x) for x in parsed if str(x).strip()]
+            except Exception:
+                temas = []
+        if not temas:
+            top_party = next(iter(voto.keys()), "general")
+            temas = [f"agenda_{top_party.lower()}"]
+        for t in temas[:4]:
+            tema_rows.append(
+                {
+                    "tema": t,
+                    "label": str(r.get("label") or f"Cluster {int(r.get('cluster_id') or 0)}"),
+                    "peso": peso,
+                    "voto": voto,
+                }
+            )
+    if len(tema_rows) < 3:
+        return {}
+
+    df_t = pd.DataFrame(tema_rows)
+    all_parties = sorted({p for v in df_t["voto"] for p in v.keys()})
+    base_means: dict[str, float] = {}
+    for p in all_parties:
+        num = sum(float(row["peso"]) * float(row["voto"].get(p, 0.0)) for _, row in df_t.iterrows())
+        den = sum(float(row["peso"]) for _, row in df_t.iterrows()) or 1.0
+        base_means[p] = num / den
+
+    out: dict[str, dict[str, dict]] = {}
+    for tema, sub in df_t.groupby("tema"):
+        trow: dict[str, dict] = {}
+        for p in all_parties:
+            num = sum(float(row["peso"]) * float(row["voto"].get(p, 0.0)) for _, row in sub.iterrows())
+            den = sum(float(row["peso"]) for _, row in sub.iterrows()) or 1.0
+            tema_mean = num / den
+            delta = round((tema_mean - base_means.get(p, 0.0)) / 2.0, 2)
+            data: dict[str, Any] = {"pp_impacto": float(delta)}
+            if delta > 0:
+                data["perfiles"] = sorted(set(sub["label"].astype(str).tolist()))[:4]
+            trow[p] = data
+        out[str(tema)] = trow
+    return out
+
+
+def _receptividad_tema_perfil(
+    tema: str,
+    perfil: dict,
+    impactos_raw: dict,
+) -> float:
+    top3 = [str(t[0]).lower() for t in perfil.get("preocupaciones", [])[:3]]
+    score = 2.5
+    if any(tok and tok in tema.lower() for tok in top3):
+        score += 3.5
+    perfiles_focus = set(impactos_raw.get("perfiles", []) if isinstance(impactos_raw, dict) else [])
+    if perfil.get("etiqueta") in perfiles_focus:
+        score += 3.5
+    ideo = float(perfil.get("ideo_media", 5.0))
+    tema_l = tema.lower()
+    if any(k in tema_l for k in ["impuesto", "unidad", "migratoria", "gasto"]):
+        mult = 1.0 if ideo >= 5.5 else 0.6
+    elif any(k in tema_l for k in ["alquiler", "sanidad", "salario", "verde"]):
+        mult = 1.0 if ideo <= 5.5 else 0.6
+    else:
+        mult = 0.85
+    score *= mult
+    noise = ((abs(hash(f"{tema}|{perfil.get('etiqueta','')}")) % 61) / 100.0) - 0.3
+    return round(max(0.0, min(10.0, score + noise)), 1)
+
+
+def _narrativa_impacto(
+    tema: str,
+    partido_emisor: str,
+    ganadores: list[str],
+    perjudicados: list[str],
+    perfiles_beneficiados: list[str],
+    impactos_partido: dict[str, float],
+    perfiles_unificados: list[dict],
+) -> str:
+    focus_parts: list[str] = []
+    for g in ganadores[:2]:
+        perf_hits = []
+        for pf in perfiles_unificados:
+            voto = pf.get("intencion_voto", {})
+            top = next(iter(sorted(voto.items(), key=lambda x: x[1], reverse=True)), ("", 0.0))
+            if top[0] == g:
+                prio = pf.get("preocupaciones", [("sin señal", 0)])
+                perf_hits.append(
+                    f"{pf.get('etiqueta','Perfil')} ({pf.get('ideo_media',5):.1f}/10; {prio[0][0]} {prio[0][1]}%)"
+                )
+        if perf_hits:
+            focus_parts.append(f"{g}: " + ", ".join(perf_hits[:2]))
+    pos_total = sum(v for v in impactos_partido.values() if v > 0)
+    neg_total = sum(v for v in impactos_partido.values() if v < 0)
+    txt = (
+        f"El mensaje sobre '{tema}' para {partido_emisor} proyecta un efecto agregado de {pos_total:+.1f}pp "
+        f"en ganadores y {neg_total:.1f}pp en perdedores."
+    )
+    if focus_parts:
+        txt += " Segmentos más explicativos: " + " | ".join(focus_parts) + "."
+    if perjudicados:
+        txt += f" Las mayores pérdidas se concentran en {', '.join(perjudicados[:3])}."
+    if perfiles_beneficiados:
+        txt += f" Receptividad prioritaria en: {', '.join(perfiles_beneficiados[:3])}."
+    return txt
+
+
+@st.cache_data(ttl=300)
+def _generar_barometro_desde_bd(_engine=None) -> dict[str, Any]:
+    fallback = {
+        "intencion": {
+            "PP": 33.1, "PSOE": 27.8, "VOX": 11.4, "SUMAR": 8.9,
+            "Junts": 2.1, "ERC": 1.8, "PNV": 1.5, "EH Bildu": 1.2,
+            "Otros": 3.8, "En blanco": 2.9, "No sabe/No contesta": 5.5,
+        },
+        "intencion_estimada": {
+            "PP": 35.4, "PSOE": 29.0, "VOX": 12.1, "SUMAR": 9.4,
+            "Junts": 2.3, "ERC": 2.0, "PNV": 1.7, "EH Bildu": 1.3, "Otros": 6.8,
+        },
+        "problemas": {
+            "Vivienda": 62, "Economía/paro": 58, "Inmigración": 41,
+            "Sanidad": 38, "Corrupción": 35, "Educación": 28,
+            "Pensiones": 25, "Cambio climático": 22, "Violencia de género": 18, "Política territorial": 15,
+        },
+        "valoracion_gobierno": {"Muy buena": 5, "Buena": 22, "Regular": 31, "Mala": 24, "Muy mala": 18},
+        "situacion_eco": {"Mucho mejor": 3, "Algo mejor": 14, "Igual": 28, "Algo peor": 35, "Mucho peor": 20},
+        "y_ideo": [4, 8, 10, 13, 18, 14, 12, 9, 7, 5],
+        "source": "fallback",
+    }
+    if _engine is None:
+        return fallback
+    misses = 0
+    out = dict(fallback)
+    try:
+        with _engine.connect() as conn:
+            df = pd.read_sql(
+                text("SELECT peso_demografico_pct, distribucion_voto_json FROM perfiles_votante"),
+                conn,
+            )
+        if not df.empty:
+            raw: dict[str, float] = {}
+            total_w = 0.0
+            for _, r in df.iterrows():
+                w = float(r.get("peso_demografico_pct") or 0.0)
+                dist = _safe_vote_dist(r.get("distribucion_voto_json"), 5.0)
+                for p, v in dist.items():
+                    raw[p] = raw.get(p, 0.0) + w * float(v)
+                total_w += w
+            if total_w > 0:
+                intencion = {k: round(v / total_w, 1) for k, v in sorted(raw.items(), key=lambda x: x[1], reverse=True)}
+                out["intencion"] = dict(list(intencion.items())[:10])
+                nsnc = float(out["intencion"].pop("NS/NC", 0.0) + out["intencion"].pop("No sabe/No contesta", 0.0))
+                abst = float(out["intencion"].pop("Abstención", 0.0))
+                cooking = {k: v for k, v in out["intencion"].items() if k not in {"En blanco", "Blanco/Nulo"}}
+                denom = sum(cooking.values()) or 1.0
+                est = {}
+                for k, v in cooking.items():
+                    est[k] = v + (nsnc * (v / denom))
+                est_denom = sum(est.values()) or 1.0
+                out["intencion_estimada"] = {k: round(v / est_denom * 100.0, 1) for k, v in est.items()}
+            else:
+                misses += 1
+        else:
+            misses += 1
+    except Exception:
+        misses += 1
+
+    try:
+        probs = cargar_distribucion_campo_perfil_microdatos({}, "principal_problema", limit=10)
+        if not probs.empty:
+            total = float(probs["peso"].sum() or 1.0)
+            out["problemas"] = {
+                _decode_micro_label("principal_problema", str(r["categoria"])): int(round(float(r["peso"]) * 100.0 / total))
+                for _, r in probs.iterrows()
+            }
+        else:
+            misses += 1
+    except Exception:
+        misses += 1
+
+    def _map_eco(v: str) -> str:
+        vv = _decode_micro_label("situacion_economica_personal", v)
+        return vv if vv in {"Muy buena", "Buena", "Regular", "Mala", "Muy mala"} else "Regular"
+
+    try:
+        vg = cargar_distribucion_campo_perfil_microdatos({}, "situacion_economica_españa", limit=8)
+        if not vg.empty:
+            total = float(vg["peso"].sum() or 1.0)
+            agg = {"Muy buena": 0, "Buena": 0, "Regular": 0, "Mala": 0, "Muy mala": 0}
+            for _, r in vg.iterrows():
+                agg[_map_eco(str(r["categoria"]))] += int(round(float(r["peso"]) * 100.0 / total))
+            out["valoracion_gobierno"] = agg
+        else:
+            misses += 1
+    except Exception:
+        misses += 1
+
+    try:
+        se = cargar_distribucion_campo_perfil_microdatos({}, "situacion_economica_personal", limit=8)
+        if not se.empty:
+            total = float(se["peso"].sum() or 1.0)
+            mapped = {"Mucho mejor": 0, "Algo mejor": 0, "Igual": 0, "Algo peor": 0, "Mucho peor": 0}
+            for _, r in se.iterrows():
+                lab = _map_eco(str(r["categoria"]))
+                pct = int(round(float(r["peso"]) * 100.0 / total))
+                if lab == "Muy buena":
+                    mapped["Mucho mejor"] += pct
+                elif lab == "Buena":
+                    mapped["Algo mejor"] += pct
+                elif lab == "Regular":
+                    mapped["Igual"] += pct
+                elif lab == "Mala":
+                    mapped["Algo peor"] += pct
+                else:
+                    mapped["Mucho peor"] += pct
+            out["situacion_eco"] = mapped
+        else:
+            misses += 1
+    except Exception:
+        misses += 1
+
+    try:
+        with _engine.connect() as conn:
+            ideo = pd.read_sql(
+                text(
+                    """
+                    SELECT ROUND(escala_ideologica)::int AS ide, SUM(COALESCE(peso_muestral,1)) AS w
+                    FROM microdatos_encuesta
+                    WHERE escala_ideologica IS NOT NULL
+                    GROUP BY ROUND(escala_ideologica)::int
+                    """
+                ),
+                conn,
+            )
+        if not ideo.empty:
+            total = float(ideo["w"].sum() or 1.0)
+            arr = [0] * 10
+            for _, r in ideo.iterrows():
+                i = int(max(1, min(10, int(r["ide"]))))
+                arr[i - 1] = int(round(float(r["w"]) * 100.0 / total))
+            out["y_ideo"] = arr
+        else:
+            misses += 1
+    except Exception:
+        misses += 1
+
+    if misses > 3:
+        return fallback
+    out["source"] = "real"
+    return out
+
+
+@st.cache_data(ttl=300)
+def _cargar_evolucion_cluster(_engine=None, cluster_id: int = 0) -> pd.DataFrame:
+    if _engine is None or not cluster_id:
+        return pd.DataFrame()
+    try:
+        with _engine.connect() as conn:
+            df = pd.read_sql(
+                text(
+                    """
+                    SELECT fecha_estimacion, partido, estimacion_pct
+                    FROM estimaciones_voto_agregadas
+                    WHERE cluster_id = :cid
+                    ORDER BY fecha_estimacion ASC
+                    """
+                ),
+                conn,
+                params={"cid": int(cluster_id)},
+            )
+        if df.empty:
+            return df
+        df = df.rename(columns={"estimacion_pct": "pct"})
+        keep = (
+            df.groupby("partido")["pct"]
+            .max()
+            .reset_index()
+            .query("pct > 1.0")["partido"]
+            .tolist()
+        )
+        return df[df["partido"].isin(keep)][["fecha_estimacion", "partido", "pct"]]
+    except Exception:
+        return pd.DataFrame()
+
+
 def _attributes_for_label(label: str, ideologia: float, edad_media: float) -> dict[str, str]:
     defaults = {
         "Sexo": "Mixto",
@@ -659,7 +1033,7 @@ def _attributes_for_label(label: str, ideologia: float, edad_media: float) -> di
     return data
 
 
-def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
+def _micro_profile_to_ui(row: pd.Series, idx: int, engine=None) -> dict:
     ideologia = _safe_float(row.get("ideologia_media"), 5.0)
     edad_media = _safe_float(row.get("edad_media"), float(26 + 6 * idx))
     renta_est = max(12000.0, 19500.0 + (ideologia - 5.0) * 950.0 + (edad_media - 40.0) * 130.0)
@@ -673,6 +1047,73 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
     label = _label_from_signals(voto, ideologia, edad_media, idx)
     desc = str(row.get("descripcion_perfil_llm") or "").strip()
     top1 = next(iter(voto.keys()), "otros")
+    filtros_cluster = {"cluster_id": (str(int(row.get("cluster_id") or 0)),)}
+
+    ccaa_dict: dict[str, int] = {"Norte": 18, "Centro": 22, "Mediterráneo": 20, "Sur": 20, "Islas": 8, "Resto": 12}
+    if engine is not None:
+        try:
+            ccaa_df = cargar_distribucion_campo_perfil_microdatos(filtros_cluster, "ccaa_residencia", limit=8)
+            if ccaa_df.empty:
+                ccaa_df = cargar_ccaa_perfil_microdatos(filtros_cluster, limit=8)
+            if not ccaa_df.empty:
+                total_ccaa = float(ccaa_df["peso"].sum() or 1.0)
+                out_ccaa: dict[str, int] = {}
+                for _, crow in ccaa_df.iterrows():
+                    nombre_ccaa = _decode_micro_label("ccaa_id", str(crow["categoria"]))
+                    if nombre_ccaa and nombre_ccaa != "CCAA sin identificar":
+                        pct = int(round(float(crow["peso"]) * 100.0 / total_ccaa))
+                        if pct >= 1:
+                            out_ccaa[nombre_ccaa] = pct
+                if len(out_ccaa) >= 2:
+                    tot = sum(out_ccaa.values()) or 1
+                    ccaa_dict = {k: int(round(v * 100 / tot)) for k, v in out_ccaa.items()}
+        except Exception:
+            pass
+
+    preocupaciones = _preocupaciones_genericas(ideologia, edad_media)
+    econ_personal = ""
+    econ_esp = ""
+    sat_demo = ""
+    if engine is not None:
+        try:
+            preocup_df = cargar_distribucion_campo_perfil_microdatos(
+                filtros_cluster, "principal_problema", limit=8
+            )
+            if not preocup_df.empty:
+                tot = float(preocup_df["peso"].sum() or 1.0)
+                rows = []
+                for _, rr in preocup_df.iterrows():
+                    tema = _decode_micro_label("principal_problema", str(rr["categoria"]))
+                    pct = int(round(float(rr["peso"]) * 100.0 / tot))
+                    rows.append((tema, max(1, min(95, pct))))
+                if rows:
+                    preocupaciones = rows[:8]
+            econ_p_df = cargar_distribucion_campo_perfil_microdatos(
+                filtros_cluster, "situacion_economica_personal", limit=1
+            )
+            econ_e_df = cargar_distribucion_campo_perfil_microdatos(
+                filtros_cluster, "situacion_economica_españa", limit=1
+            )
+            sat_df = cargar_distribucion_campo_perfil_microdatos(
+                filtros_cluster, "satisfaccion_democracia", limit=1
+            )
+            econ_personal = _decode_micro_label("situacion_economica_personal", str(econ_p_df.iloc[0]["categoria"])) if not econ_p_df.empty else ""
+            econ_esp = _decode_micro_label("situacion_economica_españa", str(econ_e_df.iloc[0]["categoria"])) if not econ_e_df.empty else ""
+            sat_demo = _decode_micro_label("satisfaccion_democracia", str(sat_df.iloc[0]["categoria"])) if not sat_df.empty else ""
+        except Exception:
+            pass
+
+    opinions = _opinions_from_signals(
+        voto=voto,
+        ideologia=ideologia,
+        edad_media=edad_media,
+        econ_personal=econ_personal,
+        econ_esp=econ_esp,
+        sat_demo=sat_demo,
+    )
+
+    ingresos_modal = str(row.get("ingresos_hogar_modal") or "").strip()
+    paro_cluster = row.get("tasa_paro_cluster")
     return {
         "id": int(row.get("cluster_id") or (100 + idx)),
         "etiqueta": label,
@@ -686,16 +1127,16 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
         "atributos": _attributes_for_label(label, ideologia, edad_media),
         "tendencia_perfil": "estable",
         "tendencia_desc": "Perfil empírico construido con microdatos propios.",
-        "ccaa": {"Norte": 18, "Centro": 22, "Mediterráneo": 20, "Sur": 20, "Islas": 8, "Resto": 12},
-        "preocupaciones": _preocupaciones_genericas(ideologia, edad_media),
+        "ccaa": ccaa_dict,
+        "preocupaciones": preocupaciones,
         "intencion_voto": voto,
         "tendencia_voto": f"Preferencia principal: {top1}.",
-        "opinion_gobierno": "Visión mixta condicionada por economía y servicios públicos.",
-        "opinion_economia": "La inflación y el empleo son los ejes que más condicionan su voto.",
-        "opinion_territorial": "Prima la estabilidad institucional y la gestión práctica.",
+        "opinion_gobierno": opinions["opinion_gobierno"],
+        "opinion_economia": opinions["opinion_economia"],
+        "opinion_territorial": opinions["opinion_territorial"],
         "micro_eco": {
-            "Renta media anual": f"{renta_est:,.0f} €".replace(",", "."),
-            "Tasa de paro": f"{paro_est:.1f}%",
+            "Renta media anual": ingresos_modal or f"{renta_est:,.0f} €".replace(",", "."),
+            "Tasa de paro": f"{float(paro_cluster):.1f}%" if paro_cluster is not None and not pd.isna(paro_cluster) else f"{paro_est:.1f}%",
             "Ahorro mensual": f"{ahorro_est:,.0f} €".replace(",", "."),
             "Gasto vivienda": f"{vivienda_est:.1f}% renta",
             "Acceso a servicios": acceso_servicios,
@@ -705,7 +1146,7 @@ def _micro_profile_to_ui(row: pd.Series, idx: int) -> dict:
     }
 
 
-def _build_unified_profiles(max_total: int = 20) -> list[dict]:
+def _build_unified_profiles(max_total: int = 20, engine=None) -> list[dict]:
     def _unique_label(base: str, used: set[str]) -> str:
         candidate = (base or "").strip() or "Perfil"
         if candidate not in used:
@@ -732,7 +1173,7 @@ def _build_unified_profiles(max_total: int = 20) -> list[dict]:
     for idx in range(1, max_total + 1):
         if idx <= len(df_micro):
             row = df_micro.iloc[idx - 1]
-            ui = _micro_profile_to_ui(row, idx)
+            ui = _micro_profile_to_ui(row, idx, engine=engine)
             ui["etiqueta"] = _unique_label(str(ui.get("etiqueta", "")), used_labels)
             perfiles.append(ui)
             continue
@@ -743,6 +1184,11 @@ def _build_unified_profiles(max_total: int = 20) -> list[dict]:
         base["atributos"] = _attributes_for_label(label, float(base.get("ideo_media", 5.0)), float(base.get("edad_media", 45.0)))
         perfiles.append(base)
     return perfiles
+
+
+@st.cache_data(ttl=600, show_spinner="Cargando perfiles...")
+def _build_unified_profiles_cached(max_total: int = 20, _engine=None) -> list[dict]:
+    return _build_unified_profiles(max_total=max_total, engine=_engine)
 
 
 def _values_to_shares(df: pd.DataFrame) -> dict[str, float]:
@@ -1020,7 +1466,27 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
         st.plotly_chart(fig_ideo, use_container_width=True, key=f"ideo_{key_suffix}")
 
 
-def _build_profile_evolution(voto_share: dict[str, float], ideologia_media: float, seed_text: str) -> pd.DataFrame:
+def _build_profile_evolution(
+    voto_share: dict[str, float],
+    ideologia_media: float,
+    seed_text: str,
+    engine=None,
+    cluster_id: int | None = None,
+) -> pd.DataFrame:
+    if engine is not None and cluster_id is not None:
+        evo_real = _cargar_evolucion_cluster(engine, int(cluster_id))
+        if not evo_real.empty:
+            rows: list[dict[str, object]] = []
+            for _, r in evo_real.iterrows():
+                rows.append(
+                    {
+                        "periodo": str(pd.to_datetime(r["fecha_estimacion"]).date()),
+                        "serie": str(r["partido"]),
+                        "valor": float(r["pct"]),
+                    }
+                )
+            return pd.DataFrame(rows)
+
     seed = sum(ord(c) for c in (seed_text or "perfil")) % 997
     rng = np.random.default_rng(seed)
     meses = ["-6m", "-5m", "-4m", "-3m", "-2m", "-1m", "actual"]
@@ -1328,7 +1794,8 @@ def _build_option_groups(raw_values: list[str], field: str) -> dict[str, tuple[s
     return dict(sorted(out.items(), key=lambda kv: kv[0].lower()))
 
 
-PERFILES_UNIFICADOS = _build_unified_profiles(max_total=20)
+engine = _get_page_engine()
+PERFILES_UNIFICADOS = _build_unified_profiles_cached(max_total=20, _engine=engine)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -1454,6 +1921,49 @@ with tab1:
                 </div>
                 """, unsafe_allow_html=True)
 
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Evolución temporal del cluster</span><div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
+        evo = _build_profile_evolution(
+            voto_share=p["intencion_voto"],
+            ideologia_media=p["ideo_media"],
+            seed_text=p["etiqueta"],
+            engine=engine,
+            cluster_id=p.get("id"),
+        )
+        evo_parties = evo[evo["serie"] != "Ideología"]
+        if not evo_parties.empty:
+            fig_evo_parties = px.line(
+                evo_parties,
+                x="periodo",
+                y="valor",
+                color="serie",
+                markers=True,
+                color_discrete_map=COLORES_PARTIDO,
+                title="Voto estimado por partido",
+            )
+            fig_evo_parties.update_layout(
+                height=260,
+                showlegend=True,
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(color=TEXT2),
+            )
+            st.plotly_chart(fig_evo_parties, use_container_width=True)
+        evo_ideo = evo[evo["serie"] == "Ideología"]
+        if not evo_ideo.empty and (float(evo_ideo["valor"].max()) - float(evo_ideo["valor"].min()) > 0.3):
+            fig_evo_ideo = px.line(evo_ideo, x="periodo", y="valor", markers=True, title="Evolución ideológica")
+            fig_evo_ideo.update_layout(
+                height=180,
+                showlegend=False,
+                yaxis=dict(range=[1, 10]),
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(color=TEXT2),
+            )
+            st.plotly_chart(fig_evo_ideo, use_container_width=True)
+
     with col_side:
         # Intención de voto
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto</span><div class="line"></div></div>', unsafe_allow_html=True)
@@ -1565,12 +2075,15 @@ with tab2:
     y al balance de intención de voto estimado.
     """)
 
+    impactos_fuente = _cargar_impactos_desde_bd(_engine=engine)
+    impactos_catalogo = impactos_fuente or TEMAS_IMPACTO
+
     with st.form("simulador_campana"):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
             partido_emisor = st.selectbox("Partido emisor", ["PP", "PSOE", "VOX", "SUMAR", "Junts", "PNV"])
         with col_f2:
-            tema_sel = st.selectbox("Tema de campaña", list(TEMAS_IMPACTO.keys()))
+            tema_sel = st.selectbox("Tema de campaña", list(impactos_catalogo.keys()))
         with col_f3:
             intensidad = st.slider("Intensidad del mensaje", 1, 10, 5,
                                    help="1 = mensaje suave, 10 = campaña intensiva")
@@ -1579,7 +2092,7 @@ with tab2:
         simular = st.form_submit_button("Simular impacto", type="primary")
 
     if simular:
-        impactos_raw = TEMAS_IMPACTO.get(tema_sel, {})
+        impactos_raw = impactos_catalogo.get(tema_sel, {})
         factor = intensidad / 5.0
 
         # Impacto en intención de voto por partido
@@ -1623,13 +2136,13 @@ with tab2:
         with col_r2:
             st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Receptividad por perfil de votante</span><div class="line"></div></div>', unsafe_allow_html=True)
             reacciones = []
-            for perf in PERFILES:
-                beneficiado = perf["etiqueta"] in perfiles_beneficiados
-                reac_base = REACCION_PERFIL.get(perf["etiqueta"], {})
-                # Score de receptividad: mayor si el perfil está en la lista de beneficiados
-                score = 7.0 if beneficiado else 4.0
-                score = min(10, max(0, score + np.random.normal(0, 0.5)))
-                reacciones.append((perf["etiqueta"], round(score, 1), perf["ideo_color"]))
+            for perf in PERFILES_UNIFICADOS:
+                score = _receptividad_tema_perfil(
+                    tema=tema_sel,
+                    perfil=perf,
+                    impactos_raw=impactos_raw.get(partido_emisor, {}),
+                )
+                reacciones.append((perf["etiqueta"], score, perf["ideo_color"]))
 
             reacciones.sort(key=lambda x: x[1], reverse=True)
             for etiq, score, color in reacciones:
@@ -1655,6 +2168,17 @@ with tab2:
             st.error(f"Perjudica principalmente a: **{', '.join(perjudicados)}** ({sum(v for v in impactos_partido.values() if v<0):.1f} pp de efecto negativo acumulado)")
         if perfiles_beneficiados:
             st.info(f"Perfiles más receptivos al mensaje: **{', '.join(perfiles_beneficiados)}**")
+        st.caption(
+            _narrativa_impacto(
+                tema=tema_sel,
+                partido_emisor=partido_emisor,
+                ganadores=ganadores,
+                perjudicados=perjudicados,
+                perfiles_beneficiados=perfiles_beneficiados,
+                impactos_partido=impactos_partido,
+                perfiles_unificados=PERFILES_UNIFICADOS,
+            )
+        )
     else:
         st.markdown(f"""
         <div class="card" style="border-left:3px solid {BLUE}">
@@ -1675,38 +2199,30 @@ with tab3:
     Los resultados sintéticos se calibran con las últimas encuestas publicadas.
     """)
 
-    np.random.seed(42)
+    baro = _generar_barometro_desde_bd(_engine=engine)
+    intencion = baro["intencion"]
+    intencion_estimada = baro["intencion_estimada"]
+    problemas = baro["problemas"]
+    valoracion_gobierno = baro["valoracion_gobierno"]
+    situacion_eco = baro["situacion_eco"]
+    y_ideo = baro["y_ideo"]
+    fuente_real = baro.get("source") == "real"
+    fuente_tag = "[Fuente: microdatos reales]" if fuente_real else "[Fuente: sintético calibrado]"
 
-    # Intención de voto directa
-    intencion = {
-        "PP": 33.1, "PSOE": 27.8, "VOX": 11.4, "SUMAR": 8.9,
-        "Junts": 2.1, "ERC": 1.8, "PNV": 1.5, "EH Bildu": 1.2,
-        "Otros": 3.8, "En blanco": 2.9, "No sabe/No contesta": 5.5,
-    }
-
-    # Aplicar "cocina" CIS: distribuir NS/NC y reasignar En blanco
-    intencion_estimada = {
-        "PP": 33.1 + 2.5, "PSOE": 27.8 + 1.8, "VOX": 11.4 + 1.0,
-        "SUMAR": 8.9 + 0.7, "Junts": 2.1, "ERC": 1.8, "PNV": 1.5,
-        "EH Bildu": 1.2, "Otros": 3.8 + 0.3,
-    }
-    total_est = sum(intencion_estimada.values())
-    intencion_estimada = {k: round(v / total_est * 100, 1) for k, v in intencion_estimada.items()}
-
-    problemas = {
-        "Vivienda": 62, "Economía/paro": 58, "Inmigración": 41,
-        "Sanidad": 38, "Corrupción": 35, "Educación": 28,
-        "Pensiones": 25, "Cambio climático": 22, "Violencia de género": 18,
-        "Política territorial": 15,
-    }
-
-    valoracion_gobierno = {
-        "Muy buena": 5, "Buena": 22, "Regular": 31, "Mala": 24, "Muy mala": 18,
-    }
-
-    situacion_eco = {
-        "Mucho mejor": 3, "Algo mejor": 14, "Igual": 28, "Algo peor": 35, "Mucho peor": 20,
-    }
+    n_total_micro = 0
+    try:
+        if engine is not None:
+            with engine.connect() as conn:
+                n_total_micro = int(conn.execute(text("SELECT COUNT(*) FROM microdatos_encuesta")).scalar() or 0)
+    except Exception:
+        n_total_micro = 0
+    margen_barometro = round(1.96 * math.sqrt(0.25 / max(1, n_total_micro)) * 100, 1)
+    fuente_txt = "Microdatos reales" if n_total_micro > 100 else ("Sintético calibrado" if engine is not None else "Sin conexión a BD")
+    kpi_b1, kpi_b2, kpi_b3, kpi_b4 = st.columns(4)
+    kpi_b1.metric("Respondentes base", f"{n_total_micro:,}".replace(",", ".") if n_total_micro else ("Sin conexión a BD" if engine is None else "Sin datos"))
+    kpi_b2.metric("Margen de error", f"±{margen_barometro} pp" if n_total_micro > 100 else "N/A")
+    kpi_b3.metric("Intervalo de confianza", "95%" if n_total_micro > 100 else "N/A")
+    kpi_b4.metric("Fuente", fuente_txt)
 
     st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto directa</span><div class="line"></div></div>', unsafe_allow_html=True)
     col_d1, col_d2 = st.columns(2)
@@ -1720,7 +2236,7 @@ with tab3:
             textposition="outside",
         ))
         fig_int.update_layout(
-            title="Intención de voto directa (%)", height=320,
+            title=f"Intención de voto directa (%) {fuente_tag}", height=320,
             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
@@ -1738,7 +2254,7 @@ with tab3:
             textposition="outside",
         ))
         fig_est.update_layout(
-            title='Estimación de voto (tras "cocina" CIS) (%)', height=320,
+            title=f'Estimación de voto (tras "cocina" CIS) (%) {fuente_tag}', height=320,
             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
@@ -1759,6 +2275,7 @@ with tab3:
             text=[f"{v}%" for v in df_prob["%"]], textposition="outside",
         ))
         fig_prob.update_layout(
+            title=f"Problemas principales {fuente_tag}",
             height=340, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(range=[0, 80], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
@@ -1775,7 +2292,10 @@ with tab3:
             marker_colors=vg_colors,
             textinfo="label+percent",
         ))
-        fig_val.update_layout(height=320, paper_bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2), margin=dict(t=10, b=10))
+        fig_val.update_layout(
+            title=f"Valoración del gobierno {fuente_tag}",
+            height=320, paper_bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2), margin=dict(t=10, b=10)
+        )
         st.plotly_chart(fig_val, use_container_width=True)
 
     st.divider()
@@ -1789,6 +2309,7 @@ with tab3:
             text=[f"{v}%" for v in situacion_eco.values()], textposition="outside",
         ))
         fig_se.update_layout(
+            title=f"Situación económica personal {fuente_tag}",
             height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
@@ -1799,7 +2320,6 @@ with tab3:
     with col_s2:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Autoubicación ideológica (1=izquierda, 10=derecha)</span><div class="line"></div></div>', unsafe_allow_html=True)
         x_ideo = list(range(1, 11))
-        y_ideo = [4, 8, 10, 13, 18, 14, 12, 9, 7, 5]  # Distribución normal ligeramente centrada
         fig_ideo_dist = go.Figure(go.Bar(
             x=x_ideo, y=y_ideo,
             marker_color=[COLORES_PARTIDO["SUMAR"], COLORES_PARTIDO["SUMAR"],
@@ -1810,6 +2330,7 @@ with tab3:
             text=[f"{v}%" for v in y_ideo], textposition="outside",
         ))
         fig_ideo_dist.update_layout(
+            title=f"Distribución ideológica {fuente_tag}",
             height=300, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(title="Posición ideológica", tickvals=x_ideo,
@@ -1822,14 +2343,16 @@ with tab3:
 
     with st.expander("Metodología de la encuesta sintética"):
         st.markdown(f"""
-        **Generación de datos sintéticos CIS:**
+        **Generación de datos del barómetro:**
 
         1. **Base:** Perfiles de votante calibrados con datos reales del CIS (barómetros 2023-2025)
         2. **Intención de voto directa:** Promedio ponderado de los 6 perfiles de votante, con pesos poblacionales actualizados
         3. **"Cocina":** Se aplica el método habitual del CIS para distribuir el NS/NC y los indecisos entre los partidos según recuerdo de voto y simpatía
         4. **Problemas principales:** Agregación de las preocupaciones de cada perfil, ponderada por peso electoral
-        5. **Situación económica:** Distribución sintética basada en indicadores macro actuales (IPC, paro, euríbor)
-        6. **Autoubicación ideológica:** Distribución empírica estimada a partir de resultados electorales 2019-2023
+        5. **Situación económica:** si hay microdatos cargados se usa distribución empírica real; si no, fallback sintético calibrado.
+        6. **Autoubicación ideológica:** si hay microdatos, se agrega escala ideológica real; si no, distribución calibrada.
+        5b. Si los microdatos están cargados, los puntos 3-6 usan datos empíricos reales en lugar de distribuciones sintéticas calibradas manualmente.
+            Se indica en cada gráfico si la fuente es empírica o sintética.
 
         Esta encuesta sintética **no sustituye** a los barómetros reales del CIS. Sirve como referencia entre publicaciones
         y para testar el impacto de cambios en los supuestos del modelo.

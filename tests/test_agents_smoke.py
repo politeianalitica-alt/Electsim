@@ -40,14 +40,15 @@ def test_build_system_prompt_full_and_empty() -> None:
 
 
 def test_parse_chain_of_thought_ok_and_fallback() -> None:
-    ok = "RAZONAMIENTO: El coste de vida me preocupa.\nRESPUESTA: PSOE"
-    parsed_ok = parse_chain_of_thought(ok)
-    assert parsed_ok["respuesta"] == "PSOE"
-    assert "coste de vida" in parsed_ok["razonamiento"].lower()
+    ok = "### Deliberación\nEl coste de vida me preocupa.\n### Respuesta final\nPSOE"
+    deliberacion, respuesta = parse_chain_of_thought(ok)
+    assert respuesta == "PSOE"
+    assert "coste de vida" in deliberacion.lower()
 
     bad = "texto libre sin formato"
-    parsed_bad = parse_chain_of_thought(bad)
-    assert parsed_bad["respuesta"] == "texto libre sin formato"
+    deliberacion_bad, respuesta_bad = parse_chain_of_thought(bad)
+    assert deliberacion_bad == ""
+    assert respuesta_bad == "texto libre sin formato"
 
 
 def test_with_retry_recovers_after_timeouts() -> None:
