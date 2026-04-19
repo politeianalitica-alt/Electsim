@@ -8,6 +8,10 @@ import time
 from typing import Any, Callable
 
 import httpx
+try:
+    import tiktoken
+except Exception:  # pragma: no cover - opcional en entornos mínimos
+    tiktoken = None
 
 logger = logging.getLogger(__name__)
 
@@ -216,8 +220,19 @@ class EmbeddingClient:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         self.model = model or os.environ.get("ELECTSIM_EMBEDDING_MODEL", "text-embedding-3-small")
         self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
+        self._encoding = tiktoken.get_encoding("cl100k_base") if tiktoken is not None else None
+
+    def _truncate_for_embeddings(self, text_input: str, max_tokens: int = 8000) -> str:
+        if self._encoding is None:
+            # fallback aproximado si tiktoken no está instalado
+            return text_input[:24000]
+        tokens = self._encoding.encode(text_input)
+        if len(tokens) <= max_tokens:
+            return text_input
+        return self._encoding.decode(tokens[:max_tokens])
 
     def embed_text(self, text_input: str) -> list[float]:
+        text_input = self._truncate_for_embeddings(str(text_input))
         if not self.api_key:
             # fallback estable para entornos sin clave (tests locales)
             seed = sum(ord(ch) for ch in text_input) % 997
@@ -226,6 +241,19 @@ class EmbeddingClient:
         payload = {"model": self.model, "input": text_input}
         with httpx.Client(timeout=60.0) as client:
             response = client.post(f"{self.base_url}/embeddings", headers=headers, content=json.dumps(payload))
+            response.raise_for_status()
+        data = response.json()
+        return list(data["data"][0]["embedding"])
+
+    async def embed_text_async(self, text_input: str) -> list[float]:
+        text_input = self._truncate_for_embeddings(str(text_input))
+        if not self.api_key:
+            seed = sum(ord(ch) for ch in text_input) % 997
+            return [((seed + i) % 97) / 97.0 for i in range(1536)]
+        headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
+        payload = {"model": self.model, "input": text_input}
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            response = await client.post(f"{self.base_url}/embeddings", headers=headers, content=json.dumps(payload))
             response.raise_for_status()
         data = response.json()
         return list(data["data"][0]["embedding"])

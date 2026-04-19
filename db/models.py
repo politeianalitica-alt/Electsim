@@ -32,6 +32,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import ENUM as PGEnum
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from pgvector.sqlalchemy import Vector
 
 
 class Base(DeclarativeBase):
@@ -457,3 +458,32 @@ class AgentEvalRun(Base):
     coherence_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(6, 4))
     detalle_json: Mapped[Optional[str]] = mapped_column(Text)
     created_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
+
+
+class PostRedesSociales(Base):
+    __tablename__ = "posts_redes_sociales"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    plataforma: Mapped[Optional[str]] = mapped_column(String(30))
+    post_id_original: Mapped[Optional[str]] = mapped_column(String(100))
+    autor_handle: Mapped[Optional[str]] = mapped_column(String(100))
+    autor_tipo: Mapped[Optional[str]] = mapped_column(String(30))
+    partido_id: Mapped[Optional[int]] = mapped_column(Integer)
+    parlamentario_id: Mapped[Optional[int]] = mapped_column(Integer)
+    fecha_publicacion: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    texto: Mapped[Optional[str]] = mapped_column(Text)
+    idioma: Mapped[Optional[str]] = mapped_column(String(5))
+    embedding: Mapped[Optional[list[float]]] = mapped_column(Vector(1536))
+    tenant_id: Mapped[str] = mapped_column(String(64), nullable=False, server_default=text("'default'"))
+    created_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
+
+
+class MicrodatoEncuesta(Base):
+    __tablename__ = "microdatos_encuesta"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    encuesta_id: Mapped[Optional[int]] = mapped_column(Integer)
+    id_respondente: Mapped[Optional[str]] = mapped_column(String(20))
+    principal_problema: Mapped[Optional[str]] = mapped_column(String(200))
+    embedding: Mapped[Optional[list[float]]] = mapped_column(Vector(1536))
+    tenant_id: Mapped[str] = mapped_column(String(64), nullable=False, server_default=text("'default'"))

@@ -98,7 +98,14 @@ def upgrade() -> None:
         sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.text("NOW()"), nullable=False),
     )
 
-    for table in ("perfiles_votante", "simulaciones_encuesta", "simulaciones_campana", "agent_memory_log"):
+    for table in (
+        "perfiles_votante",
+        "simulaciones_encuesta",
+        "simulaciones_campana",
+        "agent_memory_log",
+        "posts_redes_sociales",
+        "microdatos_encuesta",
+    ):
         _safe_add_tenant_col(table)
 
     # RLS base (aplicable sobre tablas con tenant_id)

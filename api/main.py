@@ -7,11 +7,19 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 from api.routers import actions, analytics, ontology, search
+from agents.semantic_search import validate_semantic_schema
+from db.session import SessionLocal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("electsim.api")
 
 app = FastAPI(title="ElectSim API", version="0.2.0")
+
+
+@app.on_event("startup")
+def startup_checks() -> None:
+    with SessionLocal() as session:
+        validate_semantic_schema(session)
 
 
 @app.middleware("http")

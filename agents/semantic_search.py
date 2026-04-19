@@ -7,6 +7,25 @@ from sqlalchemy.orm import Session
 
 from agents.llm import get_embedding_client
 
+_SCHEMA_VALIDATED = False
+
+
+def validate_semantic_schema(session: Session) -> None:
+    expected = {"embedding", "tenant_id"}
+    rows = session.execute(
+        text(
+            """
+            SELECT column_name
+            FROM information_schema.columns
+            WHERE table_schema = 'public' AND table_name = 'posts_redes_sociales'
+            """
+        )
+    ).fetchall()
+    cols = {r[0] for r in rows}
+    missing = expected - cols
+    if missing:
+        raise RuntimeError(f"posts_redes_sociales sin columnas requeridas: {sorted(missing)}")
+
 
 def semantic_search_posts(
     session: Session,
@@ -17,20 +36,15 @@ def semantic_search_posts(
     min_score: float | None = None,
     filters: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
+    global _SCHEMA_VALIDATED
+    if not _SCHEMA_VALIDATED:
+        validate_semantic_schema(session)
+        _SCHEMA_VALIDATED = True
     client = get_embedding_client()
     embedding = client.embed_text(query)
-    params: dict[str, Any] = {"vec": embedding, "limit": int(limit)}
-    where = ["embedding IS NOT NULL"]
-    filter_map = {"plataforma": "plataforma", "partido_id": "partido_id", "autor_tipo": "autor_tipo"}
-
-    # tenant_id aún no existe en todas las instalaciones; aplicarlo solo cuando esté disponible
-    if tenant_id:
-        try:
-            session.execute(text("SELECT tenant_id FROM posts_redes_sociales LIMIT 1"))
-            where.append("tenant_id = :tenant_id")
-            params["tenant_id"] = tenant_id
-        except Exception:
-            pass
+    params: dict[str, Any] = {"vec": embedding, "limit": int(limit), "tenant_id": tenant_id}
+    where = ["embedding IS NOT NULL", "tenant_id = :tenant_id"]
+    filter_map = {"plataforma": "plataforma", "partido_id": "partido_id", "autor_tipo": "autor_tipo", "idioma": "idioma"}
 
     for key, value in (filters or {}).items():
         column = filter_map.get(key)
@@ -40,15 +54,15 @@ def semantic_search_posts(
         where.append(f"{column} = :{pname}")
         params[pname] = value
 
+    ts_query = str((filters or {}).get("q", "")).strip()
+    if ts_query:
+        params["ts_query"] = ts_query
+        where.append("to_tsvector('spanish', coalesce(texto,'')) @@ plainto_tsquery('spanish', :ts_query)")
+
     sql = text(
         f"""
-        SELECT
-          id,
-          texto,
-          plataforma,
-          partido_id,
-          fecha_publicacion,
-          (embedding <=> CAST(:vec AS vector)) AS distance
+        SELECT id, texto, plataforma, partido_id, fecha_publicacion,
+               (embedding <=> CAST(:vec AS vector)) AS distance
         FROM posts_redes_sociales
         WHERE {' AND '.join(where)}
         ORDER BY embedding <=> CAST(:vec AS vector)

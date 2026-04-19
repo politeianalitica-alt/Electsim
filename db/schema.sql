@@ -2,6 +2,7 @@
 -- Ejecutar en init de contenedor o vía psql.
 
 CREATE EXTENSION IF NOT EXISTS timescaledb;
+CREATE EXTENSION IF NOT EXISTS vector;
 
 -- =============================================================================
 -- MÓDULO 1: GEOGRAFÍA Y CIRCUNSCRIPCIONES
@@ -196,6 +197,8 @@ CREATE TABLE microdatos_encuesta (
     situacion_economica_españa VARCHAR(30),
     identidad_territorial VARCHAR(50),
     peso_muestral   NUMERIC(8,4),
+    embedding       vector(1536),
+    tenant_id       TEXT NOT NULL DEFAULT 'default',
     created_at      TIMESTAMP DEFAULT NOW()
 );
 
@@ -688,8 +691,14 @@ CREATE TABLE posts_redes_sociales (
     temas_detectados TEXT,
     entidades_mencionadas TEXT,
     is_campaign_content BOOLEAN,
+    embedding       vector(1536),
+    tenant_id       TEXT NOT NULL DEFAULT 'default',
     created_at      TIMESTAMP DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_posts_embedding_ivfflat
+ON posts_redes_sociales USING ivfflat (embedding vector_cosine_ops)
+WITH (lists = 100);
 
 -- =============================================================================
 -- MÓDULO 10: SERIES TEMPORALES (TimescaleDB)
