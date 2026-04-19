@@ -1,0 +1,20 @@
+cis_barometro:
+  module: etl.sources.cis_barometro
+  class: CISBarometroExtractor
+  mode: batch
+  schedule: "@monthly"
+ine_geografia:
+  module: etl.sources.ine_geografia
+  class: INEGeografiaExtractor
+  mode: batch
+  schedule: "@weekly"
+interior_resultados:
+  module: etl.sources.interior_resultados
+  class: InteriorResultadosExtractor
+  mode: batch
+  schedule: "0 */6 * * *"
+alertas_actuales:
+  module: etl.sources.alertas_actuales
+  class: AlertasActualesExtractor
+  mode: stream
+  schedule: "*/10 * * * *"

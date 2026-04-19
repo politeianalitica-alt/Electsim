@@ -1,0 +1,16 @@
+fase2_modelos:
+  steps:
+    - id: ipf
+      module: models.estadisticos.ipf
+      function: aplicar_ipf_a_encuesta
+      inputs:
+        encuesta_id_env: ELECTSIM_IPF_ENCUESTA_ID
+    - id: clustering
+      module: models.estadisticos.clustering_votantes
+      function: generar_perfiles
+    - id: nowcast
+      module: models.estadisticos.nowcasting
+      function: pipeline_nowcast
+    - id: pedersen
+      module: models.estadisticos.pedersen
+      function: pipeline_pedersen

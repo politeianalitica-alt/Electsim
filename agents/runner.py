@@ -14,6 +14,7 @@ from sqlalchemy.engine import Engine
 from agents.llm import AnthropicChatClient, OllamaClient, OpenAIChatClient, StubLLMClient
 from agents.prompts import build_system_prompt, parse_chain_of_thought
 from agents.rag_retriever import construir_extra_context
+from agents.tools import ToolRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +117,7 @@ def _default_llm() -> Any:
 
 
 class VoterAgent:
-    def __init__(self, *args: Any, llm: Any | None = None, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, llm: Any | None = None, tools: dict[str, Any] | None = None, **kwargs: Any) -> None:
         """Compatibilidad doble firma:
         - VoterAgent(engine, cluster_id, llm=...)
         - VoterAgent(cluster_id=..., engine=..., llm=...)
@@ -134,6 +135,7 @@ class VoterAgent:
         self.engine: Engine = engine
         self.cluster_id = cluster_id
         self.llm = llm or _default_llm()
+        self.tools = tools or ToolRegistry.list_tools()
         self.session_id = str(uuid.uuid4())
         self._history: list[dict[str, str]] = []
         self._max_history_turns = 6
@@ -252,6 +254,24 @@ class VoterAgent:
                 )
 
         return result
+
+    def run_turn_with_tool(
+        self,
+        user_content: str,
+        *,
+        tool_name: str | None = None,
+        tool_args: dict[str, Any] | None = None,
+        **kwargs: Any,
+    ) -> AgentTurnResult:
+        """Adaptador ligero de tool-calling para integrarlo con orquestadores externos."""
+        extra_context = kwargs.pop("extra_context", None)
+        if tool_name:
+            if tool_name not in self.tools:
+                raise KeyError(f"Tool no registrada: {tool_name}")
+            output = self.tools[tool_name](**(tool_args or {}))
+            tool_blob = json.dumps({"tool": tool_name, "output": output}, ensure_ascii=False)
+            extra_context = f"{extra_context or ''}\n\nTOOL_OUTPUT:\n{tool_blob}".strip()
+        return self.run_turn(user_content, extra_context=extra_context, **kwargs)
 
 
 def run_turn(

@@ -1,0 +1,18 @@
+name: Deploy Prod
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate
+        run: echo "Aprobación manual requerida por el environment de GitHub"
+      - name: Build images
+        run: docker compose build electsim-api electsim-dashboard prefect-worker
+      - name: Remote deploy placeholder
+        run: echo "Despliegue productivo (pull + up -d) pendiente de secretos"

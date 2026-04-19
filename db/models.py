@@ -16,6 +16,8 @@ from decimal import Decimal
 from typing import Optional
 
 from sqlalchemy import (
+    JSON,
+    BigInteger,
     Boolean,
     Date,
     DateTime,
@@ -428,3 +430,30 @@ class CacheHttp(Base):
     expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
     __table_args__ = (UniqueConstraint("url_hash", name="uq_cache_http_url_hash"),)
+
+
+class DecisionLog(Base):
+    __tablename__ = "decision_log"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    object_type: Mapped[Optional[str]] = mapped_column(String(64))
+    object_id: Mapped[Optional[str]] = mapped_column(String(64))
+    action_name: Mapped[str] = mapped_column(String(128), nullable=False)
+    input_params: Mapped[dict] = mapped_column(JSON, nullable=False)
+    output_summary: Mapped[str] = mapped_column(Text, nullable=False)
+    evaluation: Mapped[Optional[str]] = mapped_column(Text)
+    user_id: Mapped[str] = mapped_column(String(64), nullable=False)
+    tenant_id: Mapped[str] = mapped_column(String(64), nullable=False, server_default=text("'default'"))
+    created_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())
+
+
+class AgentEvalRun(Base):
+    __tablename__ = "agent_eval_run"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    cluster_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    tenant_id: Mapped[str] = mapped_column(String(64), nullable=False, server_default=text("'default'"))
+    n_prompts: Mapped[int] = mapped_column(Integer, nullable=False)
+    coherence_score: Mapped[Optional[Decimal]] = mapped_column(Numeric(6, 4))
+    detalle_json: Mapped[Optional[str]] = mapped_column(Text)
+    created_at: Mapped[Optional[datetime]] = mapped_column(DateTime, server_default=func.now())

@@ -248,6 +248,23 @@ psql "$DATABASE_URL" -c "SELECT fuente, estado, n_registros_nuevos, created_at F
 
 Solo se debe scrapear **fuentes públicas**, respetando `robots.txt` y ritmos razonables (delays en `BaseRealTimeScraper`). **No almacenar datos personales identificables.** Uso previsto: investigación académica y transparencia metodológica.
 
+## Fase 5 — Ontología operativa + API + War Room
+
+Se añade una capa "Palantir-like" compuesta por:
+
+- `ontology/`: tipos, relaciones y acciones operativas sobre datos electorales.
+- `api/`: FastAPI con endpoints de ontología (`/ontology/*`), acciones (`/actions/*`), analytics y búsqueda semántica.
+- `agents/tools.py` + `agents/semantic_search.py`: registro de tools y semantic search con `pgvector`.
+- `dashboard/pages/18_War_Room_Espana.py`: centro de mando operacional para España.
+
+Comandos:
+
+- API: `uvicorn api.main:app --reload`
+- Ingesta declarativa: `python -m pipelines.ingest_all`
+- Backfill embeddings: `python -m etl.quality.backfill_embeddings_posts`
+- Worker embeddings realtime: `python -m etl.realtime.embed_posts_worker`
+- SPA opcional: `cd dashboard/spa && npm install && npm run dev`
+
 ## Notas de diseño
 
 - **`resultados_electorales`**: la restricción `UNIQUE(eleccion_id, partido_id, provincia_id)` coincide con el diseño original; si se cargan resultados municipales con la misma provincia y partido, habrá que ampliar la clave (p. ej. incluir `municipio_id` o tipo de agregación).

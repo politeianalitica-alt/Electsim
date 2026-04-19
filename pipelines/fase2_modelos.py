@@ -7,10 +7,14 @@ from __future__ import annotations
 import logging
 import os
 import traceback
+import importlib
+from pathlib import Path
 
 from prefect import flow, task
+import yaml
 
 logger = logging.getLogger(__name__)
+SPEC_PATH = Path("pipelines/specs/fase2_modelos.yml")
 
 
 def _safe_import(name: str):
@@ -174,6 +178,54 @@ def run_fase2():
     task_dafo()
     task_riesgo()
     task_stress()
+
+
+@task(retries=1, retry_delay_seconds=3)
+def run_spec_step(step: dict):
+    module = importlib.import_module(step["module"])
+    fn_name = step.get("function")
+    if fn_name == "pipeline_nowcast":
+        from sqlalchemy import create_engine
+
+        engine = create_engine(os.environ["DATABASE_URL"])
+        raw = module.cargar_encuestas_bd(engine)
+        if raw.empty:
+            return {"step": step["id"], "skipped": "sin encuestas"}
+        res = module.agregar_encuestas(raw)
+        module.guardar_estimaciones(res, engine)
+        return {"step": step["id"], "rows": len(res)}
+    if fn_name == "pipeline_pedersen":
+        from sqlalchemy import create_engine
+
+        engine = create_engine(os.environ["DATABASE_URL"])
+        df = module.calcular_pedersen_serie(engine)
+        module.guardar_pedersen(df, engine)
+        return {"step": step["id"], "rows": len(df)}
+    fn = getattr(module, fn_name)
+    from sqlalchemy import create_engine
+
+    engine = create_engine(os.environ["DATABASE_URL"])
+    if step["id"] == "ipf":
+        env_key = step.get("inputs", {}).get("encuesta_id_env", "ELECTSIM_IPF_ENCUESTA_ID")
+        eid = os.getenv(env_key)
+        if not eid:
+            return {"step": "ipf", "skipped": f"{env_key} no definido"}
+        fn(int(eid), engine)
+    else:
+        fn(engine)
+    return {"step": step["id"], "ok": True}
+
+
+@flow(name="ElectSim España — Fase 2 declarativa")
+def run_fase2_from_spec() -> list[dict]:
+    if not SPEC_PATH.exists():
+        return []
+    spec = yaml.safe_load(SPEC_PATH.read_text(encoding="utf-8")) or {}
+    steps = spec.get("fase2_modelos", {}).get("steps", [])
+    results = []
+    for step in steps:
+        results.append(run_spec_step(step))
+    return results
 
 
 if __name__ == "__main__":

@@ -1,86 +1,88 @@
-"""Orquestación Prefect: orden de ingesta respetando dependencias FK."""
+"""Pipeline declarativo de ingesta con catálogo de conectores."""
 
-import os
+from __future__ import annotations
 
+import importlib
+import json
+from pathlib import Path
+from typing import Any
+
+import yaml
 from prefect import flow, task
+from sqlalchemy import text
+
+from db.session import SessionLocal
+
+CATALOG_PATH = Path("etl/sources/catalog.yml")
 
 
-@task(name="ingest_geografia")
-def ingest_geografia() -> None:
-    """Provincias y municipios desde API INE (WSTempus); actualiza CCAA/provincias/municipios."""
-    from etl.sources.ine_geografia import INEGeografiaExtractor
-
-    INEGeografiaExtractor().run()
-
-
-@task(name="ingest_partidos")
-def ingest_partidos() -> None:
-    """Ampliar catálogo partidos y relaciones históricas."""
-    return None
-
-
-@task(name="ingest_electoral")
-def ingest_electoral() -> None:
-    """Resultados Congreso desde ZIP MIR del Interior (04PROV*.DAT).
-
-    Defina ``ELECTSIM_CONGRESO=año:mes`` (p. ej. ``2023:7``, ``2019:4``, ``2019:11``).
-    Sin variable, la tarea no descarga nada (idempotente en CI).
-    """
-    from etl.sources.interior_resultados import InteriorResultadosExtractor
-
-    spec = os.getenv("ELECTSIM_CONGRESO", "").strip()
-    if not spec:
-        return
-    partes = spec.replace(",", ":").split(":")
-    if len(partes) != 2:
-        raise ValueError("ELECTSIM_CONGRESO debe ser año:mes, p. ej. 2023:7")
-    año, mes = int(partes[0]), int(partes[1])
-    InteriorResultadosExtractor(año=año, mes=mes).run()
+def _upsert_ingest_log(source_name: str, last_ingested_at: str | None) -> None:
+    with SessionLocal.begin() as session:
+        session.execute(
+            text(
+                """
+                INSERT INTO ingest_log (source_name, last_ingested_at)
+                VALUES (:source_name, COALESCE(:last_ingested_at::timestamptz, NOW()))
+                ON CONFLICT (source_name)
+                DO UPDATE SET last_ingested_at = EXCLUDED.last_ingested_at
+                """
+            ),
+            {"source_name": source_name, "last_ingested_at": last_ingested_at},
+        )
 
 
-@task(name="ingest_cis_barometros")
-def ingest_cis_barometros() -> None:
-    """Barómetros CIS desde ficheros .sav en data/raw/cis/."""
-    return None
+def _last_ingested_at(source_name: str) -> str | None:
+    with SessionLocal() as session:
+        row = session.execute(
+            text("SELECT last_ingested_at::text FROM ingest_log WHERE source_name = :source_name"),
+            {"source_name": source_name},
+        ).first()
+    return row[0] if row else None
 
 
-@task(name="ingest_ine_demografia")
-def ingest_ine_demografia() -> None:
-    """Padrón, EPA provincial, atlas renta."""
-    return None
+@task
+def load_catalog() -> dict[str, Any]:
+    if not CATALOG_PATH.exists():
+        return {}
+    return yaml.safe_load(CATALOG_PATH.read_text(encoding="utf-8")) or {}
 
 
-@task(name="ingest_macroeconomia")
-def ingest_macroeconomia() -> None:
-    """BdE, contabilidad nacional, Eurostat."""
-    return None
+def _instantiate_connector(cfg: dict[str, Any]):
+    module = importlib.import_module(cfg["module"])
+    cls = getattr(module, cfg["class"])
+    try:
+        return cls()
+    except TypeError:
+        # algunos extractores requieren params; dejamos fallback sin instanciar para ejecución manual
+        return cls
 
 
-@task(name="ingest_sectores")
-def ingest_sectores() -> None:
-    """Energía, inmobiliario, agro, turismo, puertos, etc."""
-    return None
+@task
+def run_connector(name: str, cfg: dict[str, Any]) -> dict[str, Any]:
+    connector = _instantiate_connector(cfg)
+    since = _last_ingested_at(name)
+    mode = str(cfg.get("mode", "batch")).lower()
+    if hasattr(connector, "ingest_batch") and mode == "batch":
+        out = connector.ingest_batch(since=since)
+    elif hasattr(connector, "ingest_stream") and mode == "stream":
+        connector.ingest_stream()
+        out = None
+    elif hasattr(connector, "run"):
+        # compatibilidad con extractores legacy
+        connector.run()
+        out = None
+    else:
+        raise RuntimeError(f"Conector {name} sin método de ejecución compatible")
+    _upsert_ingest_log(name, None)
+    return {"name": name, "mode": mode, "output": str(out) if out else None}
 
 
-@task(name="ingest_redes_sociales")
-def ingest_redes_sociales() -> None:
-    """Posts y métricas (fase avanzada / APIs)."""
-    return None
-
-
-@flow(name="ElectSim España: ingesta completa")
-def ingest_all(año_inicio: int = 2000, año_fin: int = 2026) -> None:
-    """Orden: geografía → partidos → electoral → encuestas → demografía → macro → sectores → redes."""
-    del año_inicio, año_fin
-    ingest_geografia()
-    ingest_partidos()
-    ingest_electoral()
-    ingest_cis_barometros()
-    ingest_ine_demografia()
-    ingest_macroeconomia()
-    ingest_sectores()
-    ingest_redes_sociales()
+@flow(name="ElectSim España: ingest all declarativo")
+def ingest_all() -> list[dict[str, Any]]:
+    catalog = load_catalog()
+    futures = [run_connector.submit(name, cfg) for name, cfg in catalog.items()]
+    return [f.result() for f in futures]
 
 
 if __name__ == "__main__":
-    ingest_all()
+    print(json.dumps(ingest_all(), ensure_ascii=False, indent=2))

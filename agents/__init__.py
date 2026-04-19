@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 from agents.llm import AnthropicChatClient, OllamaClient, OpenAIChatClient, StubLLMClient, _with_retry
+from agents.llm import EmbeddingClient, get_embedding_client
 from agents.memory_log import get_session_turns, get_simulation_responses, list_sessions, log_memory_turn
 from agents.prompts import build_system_prompt, parse_chain_of_thought
 from agents.rag_retriever import construir_extra_context
+from agents.semantic_search import semantic_search_posts
+from agents.tools import ToolRegistry
+from agents import tools_builtin as _tools_builtin  # noqa: F401
 from agents.red_social import (
     UMBRAL_INFLUENCIA,
     cargar_susceptibilidad,
@@ -33,6 +37,8 @@ __all__ = [
     "AnthropicChatClient",
     "OllamaClient",
     "StubLLMClient",
+    "EmbeddingClient",
+    "get_embedding_client",
     "_with_retry",
     "build_system_prompt",
     "parse_chain_of_thought",
@@ -60,4 +66,6 @@ __all__ = [
     "get_session_turns",
     "get_simulation_responses",
     "list_sessions",
+    "ToolRegistry",
+    "semantic_search_posts",
 ]
