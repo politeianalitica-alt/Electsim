@@ -16,8 +16,12 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-import psycopg2
-from psycopg2.extras import execute_values
+try:
+    import psycopg2  # type: ignore
+    from psycopg2.extras import execute_values  # type: ignore
+except Exception:  # pragma: no cover
+    psycopg2 = None  # type: ignore
+    execute_values = None  # type: ignore
 
 from etl.logger import get_logger
 
@@ -532,6 +536,11 @@ def upsert_perfil_bd(
     tipo: str = "predefinido",
 ) -> None:
     """Upsert del perfil principal y recarga de tablas satelite."""
+    if execute_values is None:
+        raise RuntimeError(
+            "Falta soporte de psycopg2.extras.execute_values en este entorno. "
+            "Instala psycopg2-binary o ejecuta el ETL en un entorno con driver PostgreSQL completo."
+        )
     with conn.cursor() as cur:
         cur.execute(
             """
@@ -846,7 +855,14 @@ if __name__ == "__main__":
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
-    conn = psycopg2.connect(db_url)
+    if psycopg2 is not None:
+        conn = psycopg2.connect(db_url)
+    else:  # pragma: no cover
+        try:
+            import psycopg  # type: ignore
+        except Exception as exc:  # pragma: no cover
+            raise RuntimeError("No hay driver PostgreSQL disponible (psycopg2/psycopg).") from exc
+        conn = psycopg.connect(db_url)  # type: ignore
     try:
         resultados = run_segmentacion(conn)
         for nombre, n in resultados.items():
@@ -861,4 +877,3 @@ def _normalize_pg_url(url: str) -> str:
     if url.startswith("postgresql+psycopg2://"):
         return "postgresql://" + url[len("postgresql+psycopg2://") :]
     return url
-
