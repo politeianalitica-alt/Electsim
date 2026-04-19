@@ -32,6 +32,11 @@ from dashboard.shared import (
 
 from dashboard import db as _db
 
+# Import al nivel de módulo para que el watcher de Streamlit detecte cambios
+# en segmentacion_microdatos.py y recargue la página automáticamente.
+import importlib
+from etl.models import segmentacion_microdatos as _segmod  # noqa: E402
+
 
 def _fallback_df(*_args, **_kwargs) -> pd.DataFrame:
     return pd.DataFrame()
@@ -2512,9 +2517,12 @@ def _render_constructor_perfil(conn) -> None:
 
     with st.spinner("Analizando subconjunto en microdatos..."):
         try:
-            from etl.models.segmentacion_microdatos import analizar_perfil_personalizado
-
-            resultado = analizar_perfil_personalizado(conn, filtros, nombre=nombre_perfil, usuario=usuario)
+            # Recarga forzada del módulo para evitar bytecode/módulo en caché
+            # con la versión antigua (Streamlit no recarga imports lazy).
+            importlib.reload(_segmod)
+            resultado = _segmod.analizar_perfil_personalizado(
+                conn, filtros, nombre=nombre_perfil, usuario=usuario
+            )
         except Exception as exc:
             st.error(f"No se pudo analizar el perfil: {exc}")
             return

@@ -856,7 +856,21 @@ def analizar_perfil_personalizado(
                 )
 
     n = len(sub)
-    if n == 0 or (n < MIN_N_HARD and not filtros_activos):
+
+    # Fallback definitivo: si tras toda la relajacion seguimos con N<MIN_N_HARD
+    # y aun quedan filtros activos no relajables (p.ej. habitat sin codigo
+    # valido), eliminamos TODO y devolvemos la poblacion entera marcada como
+    # precision="minima". Asi nunca devolvemos "subconjunto demasiado pequeno".
+    if n < MIN_N_HARD and filtros_activos:
+        for k in list(filtros_activos.keys()):
+            filtros_relajados.append(k)
+            del filtros_activos[k]
+        sub = df
+        n = len(sub)
+        logger.info("Fallback total: usando poblacion completa N=%s", n)
+
+    # Si la BD de microdatos esta vacia, devolvemos el unico error real.
+    if n == 0:
         return {"error": "No hay microdatos disponibles. Ejecuta el ETL de microdatos primero."}
 
     if n >= MIN_N:
