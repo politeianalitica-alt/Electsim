@@ -1189,17 +1189,124 @@ def cargar_resultados_provinciales(eleccion_id: int) -> pd.DataFrame:
 
 @st.cache_data(ttl=3600)
 def cargar_perfiles_votante(_conn=None, limit: int = 30) -> pd.DataFrame:
+    """
+    Carga perfiles para el selector principal y para la unificación legacy.
+    Incluye campos nuevos de v2 y mantiene columnas legacy compatibles.
+    """
     conn = _conn or get_conn()
     lim = max(1, int(limit))
+    cols = _table_columns("perfiles_votante", conn=conn)
+    if not cols:
+        return pd.DataFrame()
+
+    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
+    label_expr = "label" if "label" in cols else nombre_expr
+    color_expr = "color" if "color" in cols else "'#666666'::text"
+    fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
+
     return _q(
-        """
-        SELECT cluster_id, label, n_respondentes, peso_demografico_pct,
-               edad_media, ideologia_media, distribucion_voto_json, descripcion_perfil_llm
+        f"""
+        SELECT
+            cluster_id,
+            {label_expr} AS label,
+            {nombre_expr} AS nombre_perfil,
+            {color_expr} AS color,
+            COALESCE(peso_demografico_pct, 0.0) AS peso_demografico_pct,
+            COALESCE(ideologia_media, 5.0) AS ideologia_media,
+            COALESCE(edad_media, 45.0) AS edad_media,
+            COALESCE(n_respondentes, 0) AS n_respondentes,
+            COALESCE(cohorte_generacional, 'N/D') AS cohorte_generacional,
+            COALESCE(satisfaccion_demo_media, 0) AS satisfaccion_demo_media,
+            COALESCE(pct_pesimistas_eco, 0) AS pct_pesimistas_eco,
+            COALESCE(eco_personal_media, 0) AS eco_personal_media,
+            COALESCE(eco_espana_media, 0) AS eco_espana_media,
+            COALESCE(eje_redistribucion, 5.0) AS eje_redistribucion,
+            COALESCE(eje_inmigracion, 5.0) AS eje_inmigracion,
+            COALESCE(eje_territorial, 5.0) AS eje_territorial,
+            COALESCE(eje_valores, 5.0) AS eje_valores,
+            COALESCE(confianza_partidos_media, 0) AS confianza_partidos_media,
+            COALESCE(interes_politica_media, 0) AS interes_politica_media,
+            COALESCE(habitat_dominante, 'N/D') AS habitat_dominante,
+            COALESCE(clase_social_modal, 'N/D') AS clase_social_modal,
+            COALESCE(estudios_modal, 'N/D') AS estudios_modal,
+            COALESCE(situacion_laboral_modal, 'N/D') AS situacion_laboral_modal,
+            COALESCE(renta_media_anual, 0) AS renta_media_anual,
+            COALESCE(pct_alquiler, 0) AS pct_alquiler,
+            COALESCE(pct_paro, 0) AS pct_paro,
+            distribucion_voto_json,
+            descripcion_perfil_llm,
+            {fuente_expr} AS fuente_datos,
+            fecha_calculo
         FROM perfiles_votante
         ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id
         LIMIT :limit
         """,
         {"limit": lim},
+        conn=conn,
+    )
+
+
+def cargar_voto_perfil(conn, cluster_id: int) -> pd.DataFrame:
+    """Distribución de voto (intención + recuerdo) desde tabla satélite."""
+    if not _table_exists("perfil_voto", conn=conn):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT partido, pct_intencion, pct_recuerdo
+        FROM perfil_voto
+        WHERE cluster_id = :cluster_id
+          AND (pct_intencion IS NOT NULL OR pct_recuerdo IS NOT NULL)
+        ORDER BY COALESCE(pct_intencion, 0) DESC
+        """,
+        {"cluster_id": cluster_id},
+        conn=conn,
+    )
+
+
+def cargar_problemas_perfil(conn, cluster_id: int) -> pd.DataFrame:
+    """Problemas principales ordenados por ranking."""
+    if not _table_exists("perfil_problemas", conn=conn):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT problema, pct, ranking
+        FROM perfil_problemas
+        WHERE cluster_id = :cluster_id
+        ORDER BY ranking ASC
+        """,
+        {"cluster_id": cluster_id},
+        conn=conn,
+    )
+
+
+def cargar_ccaa_perfil(conn, cluster_id: int) -> pd.DataFrame:
+    """Distribución geográfica por CCAA de un perfil."""
+    if not _table_exists("perfil_ccaa", conn=conn):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT ccaa, pct
+        FROM perfil_ccaa
+        WHERE cluster_id = :cluster_id
+        ORDER BY pct DESC
+        """,
+        {"cluster_id": cluster_id},
+        conn=conn,
+    )
+
+
+def cargar_ejes_perfil(conn, cluster_id: int) -> pd.DataFrame:
+    """Ejes ideológicos agregados del perfil."""
+    if not _table_exists("perfil_ejes", conn=conn):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT eje, media, mediana, sd, pct_izq, pct_centro, pct_der
+        FROM perfil_ejes
+        WHERE cluster_id = :cluster_id
+        ORDER BY eje
+        """,
+        {"cluster_id": cluster_id},
         conn=conn,
     )
 
@@ -1257,44 +1364,9 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
     perfil_sql = "SELECT " + ", ".join(perfil_cols) + " FROM perfiles_votante WHERE cluster_id = :cluster_id"
     perfil = _q(perfil_sql, {"cluster_id": cluster_id}, conn=conn)
 
-    problemas = pd.DataFrame()
-    if _table_exists("perfil_problemas", conn=conn):
-        problemas = _q(
-            """
-            SELECT problema, pct, ranking
-            FROM perfil_problemas
-            WHERE cluster_id = :cluster_id
-            ORDER BY ranking
-            """,
-            {"cluster_id": cluster_id},
-            conn=conn,
-        )
-
-    ccaa = pd.DataFrame()
-    if _table_exists("perfil_ccaa", conn=conn):
-        ccaa = _q(
-            """
-            SELECT ccaa, pct
-            FROM perfil_ccaa
-            WHERE cluster_id = :cluster_id
-            ORDER BY pct DESC
-            """,
-            {"cluster_id": cluster_id},
-            conn=conn,
-        )
-
-    voto = pd.DataFrame()
-    if _table_exists("perfil_voto", conn=conn):
-        voto = _q(
-            """
-            SELECT partido, pct_intencion, pct_recuerdo
-            FROM perfil_voto
-            WHERE cluster_id = :cluster_id
-            ORDER BY pct_intencion DESC NULLS LAST
-            """,
-            {"cluster_id": cluster_id},
-            conn=conn,
-        )
+    problemas = cargar_problemas_perfil(conn, int(cluster_id))
+    ccaa = cargar_ccaa_perfil(conn, int(cluster_id))
+    voto = cargar_voto_perfil(conn, int(cluster_id))
     if voto.empty and not perfil.empty:
         # Fallback legacy: usar el JSON agregado del perfil cuando no existe la tabla satélite.
         raw = perfil.iloc[0].get("distribucion_voto_json")
@@ -1309,22 +1381,31 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
                             if v is not None
                         ]
                     )
-                    if not voto.empty:
-                        voto = voto.sort_values("pct_intencion", ascending=False).reset_index(drop=True)
+                elif isinstance(parsed, list):
+                    rows: list[dict[str, Any]] = []
+                    for item in parsed:
+                        if not isinstance(item, dict):
+                            continue
+                        partido = item.get("partido") or item.get("categoria")
+                        if not partido:
+                            continue
+                        rows.append(
+                            {
+                                "partido": str(partido),
+                                "pct_intencion": item.get("pct_intencion", item.get("pct")),
+                                "pct_recuerdo": item.get("pct_recuerdo"),
+                            }
+                        )
+                    voto = pd.DataFrame(rows)
+                if not voto.empty:
+                    voto["pct_intencion"] = pd.to_numeric(voto["pct_intencion"], errors="coerce")
+                    if "pct_recuerdo" in voto.columns:
+                        voto["pct_recuerdo"] = pd.to_numeric(voto["pct_recuerdo"], errors="coerce")
+                    voto = voto.sort_values("pct_intencion", ascending=False).reset_index(drop=True)
             except Exception:
                 voto = pd.DataFrame()
 
-    ejes = pd.DataFrame()
-    if _table_exists("perfil_ejes", conn=conn):
-        ejes = _q(
-            """
-            SELECT eje, media, mediana, sd, pct_izq, pct_centro, pct_der
-            FROM perfil_ejes
-            WHERE cluster_id = :cluster_id
-            """,
-            {"cluster_id": cluster_id},
-            conn=conn,
-        )
+    ejes = cargar_ejes_perfil(conn, int(cluster_id))
 
     evolucion = pd.DataFrame()
     if _table_exists("macro_series_perfil", conn=conn):
@@ -1757,15 +1838,117 @@ def cargar_opciones_perfil_microdatos() -> dict[str, list[str]]:
     return out
 
 
-@st.cache_data(ttl=120)
-def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: str, limit: int = 12) -> pd.DataFrame:
+def _extract_cluster_id_from_filtros(filtros: dict[str, Any]) -> int | None:
+    if not isinstance(filtros, dict):
+        return None
+    raw = filtros.get("cluster_id")
+    if raw is None:
+        return None
+    if isinstance(raw, (list, tuple, set)):
+        raw = next(iter(raw), None)
+    try:
+        return int(str(raw))
+    except Exception:
+        return None
+
+
+def cargar_distribucion_campo_perfil_microdatos(
+    filtros_o_conn: Any,
+    campo_o_cluster: Any,
+    limit: int | str = 12,
+    campo: str | None = None,
+) -> pd.DataFrame:
+    """
+    Compatibilidad dual:
+    - Legacy: cargar_distribucion_campo_perfil_microdatos(filtros: dict, campo: str, limit=12)
+      -> devuelve columnas categoria/peso desde microdatos_encuesta.
+    - Nuevo:  cargar_distribucion_campo_perfil_microdatos(conn, cluster_id: int, campo: str)
+      -> devuelve la tabla satélite equivalente.
+    """
+    # API nueva conn+cluster+campo:
+    #  - cargar_distribucion_campo_perfil_microdatos(conn, cluster_id, campo="intencion_voto")
+    #  - cargar_distribucion_campo_perfil_microdatos(conn, cluster_id, "intencion_voto")
+    if not isinstance(filtros_o_conn, dict):
+        conn = filtros_o_conn
+        try:
+            cluster_id = int(campo_o_cluster)
+        except Exception:
+            return pd.DataFrame()
+        campo_resolved = campo or (str(limit) if isinstance(limit, str) else "")
+        if not campo_resolved:
+            return pd.DataFrame()
+        if campo_resolved in {"intencion_voto", "recuerdo_voto"}:
+            return cargar_voto_perfil(conn, cluster_id)
+        if campo_resolved in {"problema_1", "principal_problema"}:
+            return cargar_problemas_perfil(conn, cluster_id)
+        if campo_resolved in {"ccaa", "ccaa_residencia"}:
+            return cargar_ccaa_perfil(conn, cluster_id)
+        if campo_resolved in {"ideologia", "ejes"}:
+            return cargar_ejes_perfil(conn, cluster_id)
+        return pd.DataFrame()
+
+    filtros = filtros_o_conn
+    campo = str(campo_o_cluster)
+
+    # Si llega cluster_id explícito, priorizar tabla satélite (más rápida y robusta).
+    cluster_id = _extract_cluster_id_from_filtros(filtros)
+    if cluster_id is not None:
+        conn = get_conn()
+        if campo in {"intencion_voto", "recuerdo_voto"}:
+            df = cargar_voto_perfil(conn, cluster_id)
+            if df.empty:
+                return df
+            col = "pct_recuerdo" if campo == "recuerdo_voto" else "pct_intencion"
+            return (
+                df[["partido", col]]
+                .rename(columns={"partido": "categoria", col: "peso"})
+                .dropna(subset=["peso"])
+                .sort_values("peso", ascending=False)
+                .head(int(limit))
+                .reset_index(drop=True)
+            )
+        if campo in {"principal_problema", "problema_1"}:
+            df = cargar_problemas_perfil(conn, cluster_id)
+            if df.empty:
+                return df
+            return (
+                df[["problema", "pct"]]
+                .rename(columns={"problema": "categoria", "pct": "peso"})
+                .dropna(subset=["peso"])
+                .head(int(limit))
+                .reset_index(drop=True)
+            )
+        if campo in {"ccaa", "ccaa_residencia"}:
+            df = cargar_ccaa_perfil(conn, cluster_id)
+            if df.empty:
+                return df
+            return (
+                df[["ccaa", "pct"]]
+                .rename(columns={"ccaa": "categoria", "pct": "peso"})
+                .dropna(subset=["peso"])
+                .head(int(limit))
+                .reset_index(drop=True)
+            )
+        if campo in {"ideologia", "ejes"}:
+            df = cargar_ejes_perfil(conn, cluster_id)
+            if df.empty:
+                return df
+            return (
+                df[["eje", "media"]]
+                .rename(columns={"eje": "categoria", "media": "peso"})
+                .dropna(subset=["peso"])
+                .head(int(limit))
+                .reset_index(drop=True)
+            )
+
+    # API legacy contra microdatos crudos.
     _ensure_microdatos_schema()
     if campo != "ccaa_residencia" and campo not in _CAMPOS_PERFIL_PERMITIDOS:
         raise ValueError(
             f"Campo '{campo}' no permitido. Valores válidos: {_CAMPOS_PERFIL_PERMITIDOS}"
         )
     where, params = _build_micro_filter_where(filtros, table_alias="me")
-    params["limit"] = limit
+    params["limit"] = int(limit)
     if campo == "ccaa_residencia":
         sql = (
             "SELECT COALESCE(ca.nombre, 'Sin identificar') AS categoria, "
@@ -1777,10 +1960,7 @@ def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: 
             "ORDER BY peso DESC "
             "LIMIT :limit"
         ).replace("__WHERE__", where)
-        return _q(
-            sql,
-            params,
-        )
+        return _q(sql, params)
     col_raw = _CAMPOS_PERFIL_SQL_MAP.get(campo)
     if not col_raw:
         return pd.DataFrame(columns=["categoria", "peso"])
@@ -1796,10 +1976,7 @@ def cargar_distribucion_campo_perfil_microdatos(filtros: dict[str, Any], campo: 
         "ORDER BY peso DESC "
         "LIMIT :limit"
     ).replace("__WHERE__", where).replace("__COL__", col_sql)
-    return _q(
-        sql,
-        params,
-    )
+    return _q(sql, params)
 
 
 @st.cache_data(ttl=120)
@@ -1841,24 +2018,46 @@ def cargar_intencion_perfil_microdatos(filtros: dict[str, Any], limit: int = 12)
     )
 
 
-@st.cache_data(ttl=120)
-def cargar_ccaa_perfil_microdatos(filtros: dict[str, Any], limit: int = 10) -> pd.DataFrame:
-    _ensure_microdatos_schema()
-    where, params = _build_micro_filter_where(filtros)
-    params["limit"] = limit
-    sql = (
-        "SELECT identidad_territorial AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso "
-        "FROM microdatos_encuesta "
-        "WHERE __WHERE__ "
-        "  AND identidad_territorial IS NOT NULL "
-        "GROUP BY identidad_territorial "
-        "ORDER BY peso DESC "
-        "LIMIT :limit"
-    ).replace("__WHERE__", where)
-    return _q(
-        sql,
-        params,
-    )
+def cargar_ccaa_perfil_microdatos(filtros_o_conn: Any, limit: int = 10) -> pd.DataFrame:
+    """
+    Compatibilidad dual:
+    - Legacy: cargar_ccaa_perfil_microdatos(filtros: dict, limit=10) -> categoria/peso
+    - Nuevo:  cargar_ccaa_perfil_microdatos(conn, cluster_id) -> ccaa/pct
+    """
+    if isinstance(filtros_o_conn, dict):
+        cluster_id = _extract_cluster_id_from_filtros(filtros_o_conn)
+        if cluster_id is not None:
+            conn = get_conn()
+            df = cargar_ccaa_perfil(conn, cluster_id)
+            if df.empty:
+                return df
+            return (
+                df[["ccaa", "pct"]]
+                .rename(columns={"ccaa": "categoria", "pct": "peso"})
+                .dropna(subset=["peso"])
+                .head(int(limit))
+                .reset_index(drop=True)
+            )
+        _ensure_microdatos_schema()
+        where, params = _build_micro_filter_where(filtros_o_conn)
+        params["limit"] = int(limit)
+        sql = (
+            "SELECT identidad_territorial AS categoria, SUM(COALESCE(peso_muestral,1)) AS peso "
+            "FROM microdatos_encuesta "
+            "WHERE __WHERE__ "
+            "  AND identidad_territorial IS NOT NULL "
+            "GROUP BY identidad_territorial "
+            "ORDER BY peso DESC "
+            "LIMIT :limit"
+        ).replace("__WHERE__", where)
+        return _q(sql, params)
+
+    conn = filtros_o_conn
+    try:
+        cluster_id = int(limit)
+    except Exception:
+        return pd.DataFrame()
+    return cargar_ccaa_perfil(conn, cluster_id)
 
 
 @st.cache_data(ttl=120)

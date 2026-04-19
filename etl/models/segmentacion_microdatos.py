@@ -779,6 +779,13 @@ def run_segmentacion(conn) -> dict[str, int]:
     return resultados
 
 
+def run_todos_los_perfiles(conn) -> dict[str, int]:
+    """
+    Alias estable para orquestadores externos.
+    """
+    return run_segmentacion(conn)
+
+
 def analizar_perfil_personalizado(
     conn,
     filtros: dict[str, Any],
@@ -835,7 +842,7 @@ def analizar_perfil_personalizado(
 
 
 if __name__ == "__main__":
-    db_url = os.environ.get("DATABASE_URL")
+    db_url = _normalize_pg_url(os.environ.get("DATABASE_URL", ""))
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
@@ -846,3 +853,12 @@ if __name__ == "__main__":
             logger.info("perfil=%s n_respondentes=%s", nombre, n)
     finally:
         conn.close()
+def _normalize_pg_url(url: str) -> str:
+    if not url:
+        return url
+    if url.startswith("postgresql+psycopg://"):
+        return "postgresql://" + url[len("postgresql+psycopg://") :]
+    if url.startswith("postgresql+psycopg2://"):
+        return "postgresql://" + url[len("postgresql+psycopg2://") :]
+    return url
+

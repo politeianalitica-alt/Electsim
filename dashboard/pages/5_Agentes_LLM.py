@@ -1917,6 +1917,31 @@ def _legacy_profile_to_data(p: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _merge_profile_data_with_fallback(
+    data: dict[str, Any],
+    fallback_profile: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """
+    Si la BD devuelve una ficha parcial (sin tablas satélite),
+    rellena voto/issues/geo/ejes con el fallback sintético local.
+    """
+    if not fallback_profile:
+        return data
+    fallback_data = _legacy_profile_to_data(fallback_profile)
+    out = dict(data)
+    if not (out.get("perfil") or {}):
+        out["perfil"] = fallback_data.get("perfil", {})
+    else:
+        merged = dict(fallback_data.get("perfil", {}))
+        merged.update(out.get("perfil", {}))
+        out["perfil"] = merged
+    for key in ("voto", "problemas", "ccaa", "ejes", "evolucion"):
+        df = out.get(key, pd.DataFrame())
+        if not isinstance(df, pd.DataFrame) or df.empty:
+            out[key] = fallback_data.get(key, pd.DataFrame())
+    return out
+
+
 def _resultado_personalizado_to_data(
     nombre_perfil: str,
     resultado: dict[str, Any],
@@ -2040,7 +2065,20 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
 
     with tab_voto:
         df_voto = data.get("voto", pd.DataFrame())
-        if not df_voto.empty and "pct_intencion" in df_voto.columns:
+        if (
+            not df_voto.empty
+            and "partido" in df_voto.columns
+            and ("pct_intencion" in df_voto.columns or "pct_recuerdo" in df_voto.columns)
+        ):
+            if "pct_intencion" not in df_voto.columns:
+                df_voto = df_voto.copy()
+                df_voto["pct_intencion"] = pd.NA
+            if "pct_recuerdo" not in df_voto.columns:
+                df_voto = df_voto.copy()
+                df_voto["pct_recuerdo"] = pd.NA
+            df_voto = df_voto.copy()
+            df_voto["pct_intencion"] = pd.to_numeric(df_voto["pct_intencion"], errors="coerce")
+            df_voto["pct_recuerdo"] = pd.to_numeric(df_voto["pct_recuerdo"], errors="coerce")
             fig = px.pie(
                 df_voto[df_voto["pct_intencion"].notna()],
                 names="partido",
@@ -2098,7 +2136,7 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
 
     with tab_issues:
         df_prob = data.get("problemas", pd.DataFrame())
-        if not df_prob.empty:
+        if not df_prob.empty and {"problema", "pct"}.issubset(set(df_prob.columns)):
             df_prob_plot = df_prob.copy()
             df_prob_plot["pct"] = pd.to_numeric(df_prob_plot["pct"], errors="coerce")
             df_prob_plot = df_prob_plot.dropna(subset=["pct"])
@@ -2126,28 +2164,34 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
 
     with tab_geo:
         df_ccaa = data.get("ccaa", pd.DataFrame())
-        if not df_ccaa.empty:
-            fig = px.bar(
-                df_ccaa.sort_values("pct", ascending=True).tail(10),
-                x="pct",
-                y="ccaa",
-                orientation="h",
-                title="Distribución geográfica (%)",
-                color_discrete_sequence=[color],
-            )
-            fig.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                height=380,
-            )
-            fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
-            st.plotly_chart(fig, use_container_width=True)
+        if not df_ccaa.empty and {"ccaa", "pct"}.issubset(set(df_ccaa.columns)):
+            df_ccaa = df_ccaa.copy()
+            df_ccaa["pct"] = pd.to_numeric(df_ccaa["pct"], errors="coerce")
+            df_ccaa = df_ccaa.dropna(subset=["pct"])
+            if df_ccaa.empty:
+                st.info("Sin datos geográficos para este perfil.")
+            else:
+                fig = px.bar(
+                    df_ccaa.sort_values("pct", ascending=True).tail(10),
+                    x="pct",
+                    y="ccaa",
+                    orientation="h",
+                    title="Distribución geográfica (%)",
+                    color_discrete_sequence=[color],
+                )
+                fig.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    height=380,
+                )
+                fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
+                st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("Sin datos geográficos para este perfil.")
 
     with tab_ejes:
         df_ejes = data.get("ejes", pd.DataFrame())
-        if not df_ejes.empty:
+        if not df_ejes.empty and {"eje", "media"}.issubset(set(df_ejes.columns)):
             ejes_labels = {
                 "ideologia": "Ideología (1=Izq, 10=Der)",
                 "eje_redistribucion": "Redistribución (1=Liberal, 10=Igualitario)",
@@ -2178,7 +2222,7 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
                     unsafe_allow_html=True,
                 )
 
-            if {"pct_izq", "pct_centro", "pct_der"}.issubset(df_ejes.columns):
+            if {"pct_izq", "pct_centro", "pct_der"}.issubset(set(df_ejes.columns)):
                 df_dist = df_ejes[["eje", "pct_izq", "pct_centro", "pct_der"]].copy()
                 df_dist = df_dist.melt(id_vars="eje", var_name="posicion", value_name="pct")
                 df_dist["posicion"] = df_dist["posicion"].map(
@@ -2188,25 +2232,29 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
                         "pct_der": "Derecha (7-10)",
                     }
                 )
-                fig = px.bar(
-                    df_dist.dropna(subset=["pct"]),
-                    x="eje",
-                    y="pct",
-                    color="posicion",
-                    barmode="stack",
-                    color_discrete_map={
-                        "Izquierda (1-4)": "#E31C1C",
-                        "Centro (5-6)": "#F59E0B",
-                        "Derecha (7-10)": "#1A56DB",
-                    },
-                    title="Distribución ideológica por eje",
-                )
-                fig.update_layout(
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="rgba(0,0,0,0)",
-                    height=340,
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                df_dist_plot = df_dist.dropna(subset=["pct"])
+                if not df_dist_plot.empty:
+                    fig = px.bar(
+                        df_dist_plot,
+                        x="eje",
+                        y="pct",
+                        color="posicion",
+                        barmode="stack",
+                        color_discrete_map={
+                            "Izquierda (1-4)": "#E31C1C",
+                            "Centro (5-6)": "#F59E0B",
+                            "Derecha (7-10)": "#1A56DB",
+                        },
+                        title="Distribución ideológica por eje",
+                    )
+                    fig.update_layout(
+                        paper_bgcolor="rgba(0,0,0,0)",
+                        plot_bgcolor="rgba(0,0,0,0)",
+                        height=340,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("Sin distribución detallada por ejes para este perfil.")
         else:
             st.info("Sin datos de ejes para este perfil.")
 
@@ -2529,9 +2577,13 @@ with tab1:
                 if seleccion:
                     cluster_id = opciones[seleccion]
                     data = cargar_perfil_completo(conn, cluster_id)
+                    fallback = next(
+                        (p for p in PERFILES_UNIFICADOS if int(p.get("id", -1)) == int(cluster_id)),
+                        None,
+                    )
+                    data = _merge_profile_data_with_fallback(data, fallback)
                     if not (data.get("perfil") or {}):
                         st.warning("No se pudo cargar ficha completa. Mostrando fallback sintético.")
-                        fallback = next((p for p in PERFILES_UNIFICADOS if int(p.get("id", -1)) == int(cluster_id)), None)
                         if fallback:
                             _render_ficha_perfil(_legacy_profile_to_data(fallback))
                     else:
