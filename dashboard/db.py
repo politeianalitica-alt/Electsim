@@ -5,6 +5,7 @@ Queries cacheadas con st.cache_data sobre el schema real de ElectSim.
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -227,6 +228,32 @@ def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = N
         if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
             st.warning(str(e))
         return pd.DataFrame()
+
+
+def _table_exists(table_name: str, conn: Any | None = None) -> bool:
+    df = _q(
+        "SELECT to_regclass(:table_name) AS reg",
+        {"table_name": table_name},
+        conn=conn,
+    )
+    if df.empty:
+        return False
+    return bool(df.iloc[0].get("reg"))
+
+
+def _table_columns(table_name: str, conn: Any | None = None) -> set[str]:
+    df = _q(
+        """
+        SELECT column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = :table_name
+        """,
+        {"table_name": table_name},
+        conn=conn,
+    )
+    if df.empty:
+        return set()
+    return {str(x) for x in df["column_name"].tolist() if x is not None}
 
 
 def _ensure_microdatos_schema() -> None:
@@ -1175,6 +1202,242 @@ def cargar_perfiles_votante(_conn=None, limit: int = 30) -> pd.DataFrame:
         {"limit": lim},
         conn=conn,
     )
+
+
+def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
+    """
+    Devuelve todos los datos para renderizar una ficha de perfil.
+    Compatible con schema legacy (label) y schema v2 (nombre_perfil/color).
+    """
+    cols = _table_columns("perfiles_votante", conn=conn)
+    if not cols:
+        return {
+            "perfil": {},
+            "problemas": pd.DataFrame(),
+            "ccaa": pd.DataFrame(),
+            "voto": pd.DataFrame(),
+            "ejes": pd.DataFrame(),
+            "evolucion": pd.DataFrame(),
+        }
+
+    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
+    color_expr = "color" if "color" in cols else "NULL::text"
+    perfil_cols = [
+        "cluster_id",
+        f"{nombre_expr} AS nombre_perfil",
+        f"{color_expr} AS color",
+        "ideologia_media" if "ideologia_media" in cols else "NULL::numeric AS ideologia_media",
+        "edad_media" if "edad_media" in cols else "NULL::numeric AS edad_media",
+        "peso_demografico_pct" if "peso_demografico_pct" in cols else "NULL::numeric AS peso_demografico_pct",
+        "n_respondentes" if "n_respondentes" in cols else "NULL::integer AS n_respondentes",
+        "cohorte_generacional" if "cohorte_generacional" in cols else "NULL::text AS cohorte_generacional",
+        "habitat_dominante" if "habitat_dominante" in cols else "NULL::text AS habitat_dominante",
+        "clase_social_modal" if "clase_social_modal" in cols else "NULL::text AS clase_social_modal",
+        "estudios_modal" if "estudios_modal" in cols else "NULL::text AS estudios_modal",
+        "situacion_laboral_modal" if "situacion_laboral_modal" in cols else "NULL::text AS situacion_laboral_modal",
+        "eje_redistribucion" if "eje_redistribucion" in cols else "NULL::numeric AS eje_redistribucion",
+        "eje_inmigracion" if "eje_inmigracion" in cols else "NULL::numeric AS eje_inmigracion",
+        "eje_territorial" if "eje_territorial" in cols else "NULL::numeric AS eje_territorial",
+        "eje_valores" if "eje_valores" in cols else "NULL::numeric AS eje_valores",
+        "satisfaccion_demo_media" if "satisfaccion_demo_media" in cols else "NULL::numeric AS satisfaccion_demo_media",
+        "confianza_partidos_media" if "confianza_partidos_media" in cols else "NULL::numeric AS confianza_partidos_media",
+        "interes_politica_media" if "interes_politica_media" in cols else "NULL::numeric AS interes_politica_media",
+        "eco_personal_media" if "eco_personal_media" in cols else "NULL::numeric AS eco_personal_media",
+        "eco_espana_media" if "eco_espana_media" in cols else "NULL::numeric AS eco_espana_media",
+        "pct_pesimistas_eco" if "pct_pesimistas_eco" in cols else "NULL::numeric AS pct_pesimistas_eco",
+        "renta_media_anual" if "renta_media_anual" in cols else "NULL::numeric AS renta_media_anual",
+        "pct_alquiler" if "pct_alquiler" in cols else "NULL::numeric AS pct_alquiler",
+        "pct_paro" if "pct_paro" in cols else "NULL::numeric AS pct_paro",
+        "descripcion_perfil_llm" if "descripcion_perfil_llm" in cols else "NULL::text AS descripcion_perfil_llm",
+        "tipo_perfil" if "tipo_perfil" in cols else "'predefinido'::text AS tipo_perfil",
+        "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text AS fuente_datos",
+        "fecha_calculo" if "fecha_calculo" in cols else "NULL::timestamptz AS fecha_calculo",
+    ]
+    perfil_sql = "SELECT " + ", ".join(perfil_cols) + " FROM perfiles_votante WHERE cluster_id = :cluster_id"
+    perfil = _q(perfil_sql, {"cluster_id": cluster_id}, conn=conn)
+
+    problemas = pd.DataFrame()
+    if _table_exists("perfil_problemas", conn=conn):
+        problemas = _q(
+            """
+            SELECT problema, pct, ranking
+            FROM perfil_problemas
+            WHERE cluster_id = :cluster_id
+            ORDER BY ranking
+            """,
+            {"cluster_id": cluster_id},
+            conn=conn,
+        )
+
+    ccaa = pd.DataFrame()
+    if _table_exists("perfil_ccaa", conn=conn):
+        ccaa = _q(
+            """
+            SELECT ccaa, pct
+            FROM perfil_ccaa
+            WHERE cluster_id = :cluster_id
+            ORDER BY pct DESC
+            """,
+            {"cluster_id": cluster_id},
+            conn=conn,
+        )
+
+    voto = pd.DataFrame()
+    if _table_exists("perfil_voto", conn=conn):
+        voto = _q(
+            """
+            SELECT partido, pct_intencion, pct_recuerdo
+            FROM perfil_voto
+            WHERE cluster_id = :cluster_id
+            ORDER BY pct_intencion DESC NULLS LAST
+            """,
+            {"cluster_id": cluster_id},
+            conn=conn,
+        )
+
+    ejes = pd.DataFrame()
+    if _table_exists("perfil_ejes", conn=conn):
+        ejes = _q(
+            """
+            SELECT eje, media, mediana, sd, pct_izq, pct_centro, pct_der
+            FROM perfil_ejes
+            WHERE cluster_id = :cluster_id
+            """,
+            {"cluster_id": cluster_id},
+            conn=conn,
+        )
+
+    evolucion = pd.DataFrame()
+    if _table_exists("macro_series_perfil", conn=conn):
+        evolucion = _q(
+            """
+            SELECT periodo, partido, valor
+            FROM macro_series_perfil
+            WHERE cluster_id = :cluster_id
+            ORDER BY periodo
+            """,
+            {"cluster_id": cluster_id},
+            conn=conn,
+        )
+
+    return {
+        "perfil": perfil.iloc[0].to_dict() if not perfil.empty else {},
+        "problemas": problemas,
+        "ccaa": ccaa,
+        "voto": voto,
+        "ejes": ejes,
+        "evolucion": evolucion,
+    }
+
+
+def cargar_lista_perfiles(conn, tipo: str | None = None) -> pd.DataFrame:
+    """Lista de perfiles para selectores de UI."""
+    cols = _table_columns("perfiles_votante", conn=conn)
+    if not cols:
+        return pd.DataFrame()
+    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
+    color_expr = "color" if "color" in cols else "NULL::text"
+    tipo_expr = "tipo_perfil" if "tipo_perfil" in cols else "'predefinido'::text"
+    fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
+    ideologia_expr = "ideologia_media" if "ideologia_media" in cols else "NULL::numeric"
+    peso_expr = "peso_demografico_pct" if "peso_demografico_pct" in cols else "NULL::numeric"
+    cohorte_expr = "cohorte_generacional" if "cohorte_generacional" in cols else "NULL::text"
+    n_expr = "n_respondentes" if "n_respondentes" in cols else "NULL::integer"
+    sql = f"""
+        SELECT cluster_id,
+               {nombre_expr} AS nombre_perfil,
+               {color_expr} AS color,
+               {ideologia_expr} AS ideologia_media,
+               {peso_expr} AS peso_demografico_pct,
+               {cohorte_expr} AS cohorte_generacional,
+               {n_expr} AS n_respondentes,
+               {tipo_expr} AS tipo_perfil,
+               {fuente_expr} AS fuente_datos
+        FROM perfiles_votante
+    """
+    params: dict[str, Any] = {}
+    if tipo:
+        sql += " WHERE " + ("tipo_perfil = :tipo" if "tipo_perfil" in cols else "1=1")
+        if "tipo_perfil" in cols:
+            params["tipo"] = tipo
+    sql += " ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id"
+    return _q(sql, params if params else None, conn=conn)
+
+
+def cargar_perfiles_personalizados(conn, usuario: str = "default") -> pd.DataFrame:
+    if not _table_exists("perfiles_personalizados", conn=conn):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT perfil_id, nombre, n_respondentes, pct_poblacion,
+               cluster_mas_cercano, similitud_cluster,
+               creado_en, actualizado_en
+        FROM perfiles_personalizados
+        WHERE usuario = :usuario
+        ORDER BY actualizado_en DESC
+        """,
+        {"usuario": usuario},
+        conn=conn,
+    )
+
+
+def cargar_perfil_personalizado_detalle(conn, perfil_id: int) -> dict[str, Any]:
+    if not _table_exists("perfiles_personalizados", conn=conn):
+        return {}
+    pv_cols = _table_columns("perfiles_votante", conn=conn)
+    nombre_expr = "pv.nombre_perfil" if "nombre_perfil" in pv_cols else "pv.label"
+    color_expr = "pv.color" if "color" in pv_cols else "NULL::text"
+    row = _q(
+        f"""
+        SELECT pp.*,
+               {nombre_expr} AS nombre_cluster_cercano,
+               {color_expr} AS color_cluster
+        FROM perfiles_personalizados pp
+        LEFT JOIN perfiles_votante pv ON pv.cluster_id = pp.cluster_mas_cercano
+        WHERE pp.perfil_id = :perfil_id
+        """,
+        {"perfil_id": perfil_id},
+        conn=conn,
+    )
+    if row.empty:
+        return {}
+    r = row.iloc[0].to_dict()
+    try:
+        r["filtros"] = json.loads(r.get("filtros_json") or "{}")
+    except Exception:
+        r["filtros"] = {}
+    try:
+        r["resultado"] = json.loads(r.get("resultado_json") or "{}")
+    except Exception:
+        r["resultado"] = {}
+    return r
+
+
+def guardar_descripcion_llm_perfil(conn, cluster_id: int, descripcion: str) -> None:
+    """Actualiza descripcion LLM de un perfil."""
+    cols = _table_columns("perfiles_votante", conn=conn)
+    if "descripcion_perfil_llm" not in cols:
+        return
+    with conn.cursor() as cur:
+        if "fecha_calculo" in cols:
+            cur.execute(
+                """
+                UPDATE perfiles_votante
+                SET descripcion_perfil_llm = %s, fecha_calculo = NOW()
+                WHERE cluster_id = %s
+                """,
+                (descripcion, cluster_id),
+            )
+        else:
+            cur.execute(
+                """
+                UPDATE perfiles_votante
+                SET descripcion_perfil_llm = %s
+                WHERE cluster_id = %s
+                """,
+                (descripcion, cluster_id),
+            )
+    conn.commit()
 
 
 # ── Microdatos propios ────────────────────────────────────────────────────────

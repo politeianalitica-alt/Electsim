@@ -31,6 +31,10 @@ from dashboard.shared import (
 )
 
 from dashboard.db import (
+    cargar_lista_perfiles,
+    cargar_perfil_completo,
+    cargar_perfil_personalizado_detalle,
+    cargar_perfiles_personalizados,
     cargar_ccaa_perfil_microdatos,
     cargar_distribucion_campo_perfil_microdatos,
     cargar_intencion_perfil_microdatos,
@@ -40,7 +44,9 @@ from dashboard.db import (
     cargar_nowcasting,
     cargar_perfiles_votante,
     cargar_perfiles_usuario_custom,
+    get_conn,
     get_engine,
+    guardar_descripcion_llm_perfil,
     guardar_perfil_usuario_custom,
 )
 from dashboard.adapters import create_simulation_adapter
@@ -50,6 +56,7 @@ COLORES_PARTIDO = {
     "SUMAR": "#EC4899", "Junts": "#00C0B2", "ERC": "#FAB710",
     "PNV": "#22C55E", "EH Bildu": "#4ADE80",
     "Abstención": "#9CA3AF", "Blanco/Nulo": "#D1D5DB",
+    "JUNTS": "#00C0B2", "EH BILDU": "#4ADE80", "Otros": "#94A3B8",
 }
 st.set_page_config(page_title="Perfiles de Votante — ElectSim", layout="wide")
 
@@ -628,6 +635,15 @@ def _get_page_engine() -> Any | None:
         except Exception:
             st.session_state["_engine"] = None
     return st.session_state.get("_engine")
+
+
+def _get_page_conn() -> Any | None:
+    if "_db_conn" not in st.session_state:
+        try:
+            st.session_state["_db_conn"] = get_conn()
+        except Exception:
+            st.session_state["_db_conn"] = None
+    return st.session_state.get("_db_conn")
 
 
 def _opinions_from_signals(
@@ -1794,7 +1810,624 @@ def _build_option_groups(raw_values: list[str], field: str) -> dict[str, tuple[s
     return dict(sorted(out.items(), key=lambda kv: kv[0].lower()))
 
 
+def _legacy_profile_to_data(p: dict[str, Any]) -> dict[str, Any]:
+    voto_rows = [
+        {"partido": k, "pct_intencion": float(v), "pct_recuerdo": None}
+        for k, v in (p.get("intencion_voto") or {}).items()
+    ]
+    problemas_rows = [
+        {"problema": tema, "pct": float(pct), "ranking": i}
+        for i, (tema, pct) in enumerate(p.get("preocupaciones") or [], 1)
+    ]
+    ccaa_rows = [
+        {"ccaa": k, "pct": float(v)}
+        for k, v in (p.get("ccaa") or {}).items()
+    ]
+    ejes_rows = [
+        {
+            "eje": "ideologia",
+            "media": float(p.get("ideo_media") or 5.0),
+            "mediana": float(p.get("ideo_media") or 5.0),
+            "sd": 0.0,
+            "pct_izq": None,
+            "pct_centro": None,
+            "pct_der": None,
+        }
+    ]
+    perfil = {
+        "nombre_perfil": p.get("etiqueta", "Perfil"),
+        "color": p.get("ideo_color", "#666666"),
+        "fuente_datos": "sintetico",
+        "cohorte_generacional": None,
+        "edad_media": p.get("edad_media"),
+        "n_respondentes": None,
+        "peso_demografico_pct": float(p.get("peso", 0.0)) * 100.0,
+        "ideologia_media": p.get("ideo_media"),
+        "satisfaccion_demo_media": None,
+        "pct_pesimistas_eco": None,
+        "eco_personal_media": None,
+        "eco_espana_media": None,
+        "eje_redistribucion": None,
+        "eje_inmigracion": None,
+        "eje_territorial": None,
+        "eje_valores": None,
+        "clase_social_modal": (p.get("atributos") or {}).get("Clase social"),
+        "estudios_modal": (p.get("atributos") or {}).get("Estudios"),
+        "situacion_laboral_modal": (p.get("atributos") or {}).get("Situación laboral"),
+        "habitat_dominante": (p.get("atributos") or {}).get("Hábitat"),
+        "renta_media_anual": None,
+        "pct_alquiler": None,
+        "pct_paro": None,
+        "descripcion_perfil_llm": p.get("descripcion_origen"),
+    }
+    return {
+        "perfil": perfil,
+        "voto": pd.DataFrame(voto_rows),
+        "problemas": pd.DataFrame(problemas_rows),
+        "ccaa": pd.DataFrame(ccaa_rows),
+        "ejes": pd.DataFrame(ejes_rows),
+        "evolucion": pd.DataFrame(),
+    }
+
+
+def _resultado_personalizado_to_data(
+    nombre_perfil: str,
+    resultado: dict[str, Any],
+    color: str = "#6366F1",
+) -> dict[str, Any]:
+    voto_rows = []
+    for item in resultado.get("voto_dist", []) or []:
+        raw_cat = str(item.get("categoria", ""))
+        partido = _decode_micro_label("intencion_voto", raw_cat) or raw_cat
+        voto_rows.append(
+            {
+                "partido": partido,
+                "pct_intencion": float(item.get("pct") or 0.0),
+                "pct_recuerdo": None,
+            }
+        )
+    problemas_rows = [
+        {
+            "problema": p.get("label", str(p.get("categoria", ""))),
+            "pct": float(p.get("pct") or 0.0),
+            "ranking": i,
+        }
+        for i, p in enumerate(resultado.get("problemas_dist", []) or [], 1)
+    ]
+    ccaa_rows = [
+        {
+            "ccaa": p.get("label", str(p.get("categoria", ""))),
+            "pct": float(p.get("pct") or 0.0),
+        }
+        for p in resultado.get("ccaa_dist", []) or []
+    ]
+    ejes_rows = [
+        {"eje": k, **v}
+        for k, v in (resultado.get("ejes_detalle") or {}).items()
+        if (v or {}).get("media") is not None
+    ]
+    perfil = {
+        "nombre_perfil": nombre_perfil,
+        "color": color,
+        "fuente_datos": "microdatos_cis",
+        "cohorte_generacional": resultado.get("cohorte_generacional"),
+        "edad_media": resultado.get("edad_media"),
+        "n_respondentes": resultado.get("n_respondentes"),
+        "peso_demografico_pct": resultado.get("pct_poblacion"),
+        "ideologia_media": resultado.get("ideologia_media"),
+        "satisfaccion_demo_media": resultado.get("satisfaccion_demo_media"),
+        "pct_pesimistas_eco": resultado.get("pct_pesimistas_eco"),
+        "eco_personal_media": resultado.get("eco_personal_media"),
+        "eco_espana_media": resultado.get("eco_espana_media"),
+        "eje_redistribucion": resultado.get("eje_redistribucion"),
+        "eje_inmigracion": resultado.get("eje_inmigracion"),
+        "eje_territorial": resultado.get("eje_territorial"),
+        "eje_valores": resultado.get("eje_valores"),
+        "clase_social_modal": resultado.get("clase_social_modal"),
+        "estudios_modal": resultado.get("estudios_modal"),
+        "situacion_laboral_modal": resultado.get("situacion_laboral_modal"),
+        "habitat_dominante": resultado.get("habitat_dominante"),
+        "renta_media_anual": resultado.get("renta_media_anual"),
+        "pct_alquiler": resultado.get("pct_alquiler"),
+        "pct_paro": resultado.get("pct_paro"),
+        "descripcion_perfil_llm": resultado.get("descripcion_perfil_llm"),
+    }
+    return {
+        "perfil": perfil,
+        "voto": pd.DataFrame(voto_rows),
+        "problemas": pd.DataFrame(problemas_rows),
+        "ccaa": pd.DataFrame(ccaa_rows),
+        "ejes": pd.DataFrame(ejes_rows),
+        "evolucion": pd.DataFrame(),
+    }
+
+
+def _render_ficha_perfil(data: dict[str, Any]) -> None:
+    """Renderiza la ficha completa de un perfil electoral."""
+    perfil = data.get("perfil") or {}
+    if not perfil:
+        st.error("Perfil no encontrado.")
+        return
+
+    color = str(perfil.get("color") or "#666666")
+    fuente = str(perfil.get("fuente_datos") or "")
+    es_real = fuente in {"microdatos_cis", "microdatos_propio"}
+    if not es_real:
+        st.warning(
+            "⚠️ Este perfil usa datos sintéticos. Ejecuta el ETL de microdatos para obtener datos reales."
+        )
+
+    edad_media = perfil.get("edad_media")
+    edad_txt = f"{float(edad_media):.0f}" if edad_media is not None and not pd.isna(edad_media) else "–"
+    n_enc = perfil.get("n_respondentes")
+    n_enc_txt = str(int(n_enc)) if n_enc is not None and not pd.isna(n_enc) else "–"
+    cohorte = perfil.get("cohorte_generacional") or ""
+
+    st.markdown(
+        f"""
+        <div style='border-left: 4px solid {color}; padding: 12px 20px; margin-bottom: 16px;
+                    background: {color}15; border-radius: 0 8px 8px 0'>
+            <h2 style='margin:0; color: {color}'>{perfil.get('nombre_perfil', 'Perfil')}</h2>
+            <span style='background:{color};color:white;padding:3px 10px;
+                         border-radius:4px;font-size:0.85rem'>
+                {cohorte}
+            </span>
+            &nbsp;
+            <span style='color:#888;font-size:0.9rem'>
+                Edad media: {edad_txt} años · {n_enc_txt} encuestados
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Peso electoral", f"{float(perfil.get('peso_demografico_pct') or 0):.1f}%")
+    col2.metric("Ideología media", f"{float(perfil.get('ideologia_media') or 5):.1f}/10")
+    sat_demo = perfil.get("satisfaccion_demo_media")
+    col3.metric("Satisfacción democracia", f"{float(sat_demo):.1f}/4" if sat_demo is not None and not pd.isna(sat_demo) else "–")
+    pes_eco = perfil.get("pct_pesimistas_eco")
+    col4.metric("% Pesimistas economía", f"{float(pes_eco):.0f}%" if pes_eco is not None and not pd.isna(pes_eco) else "–")
+
+    tab_voto, tab_issues, tab_geo, tab_ejes, tab_eco, tab_socio = st.tabs(
+        ["🗳️ Voto", "⚡ Issues", "🗺️ Geografía", "🧭 Ejes", "💰 Economía", "👤 Sociodemografía"]
+    )
+
+    with tab_voto:
+        df_voto = data.get("voto", pd.DataFrame())
+        if not df_voto.empty and "pct_intencion" in df_voto.columns:
+            fig = px.pie(
+                df_voto[df_voto["pct_intencion"].notna()],
+                names="partido",
+                values="pct_intencion",
+                hole=0.45,
+                title="Intención de voto",
+                color="partido",
+                color_discrete_map=COLORES_PARTIDO,
+            )
+            fig.update_traces(textposition="inside", textinfo="percent+label")
+            fig.update_layout(
+                showlegend=True,
+                height=380,
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+            if "pct_recuerdo" in df_voto.columns and df_voto["pct_recuerdo"].notna().any():
+                st.markdown("**Comparativa intención vs recuerdo de voto**")
+                df_comp = (
+                    df_voto.melt(
+                        id_vars="partido",
+                        value_vars=["pct_intencion", "pct_recuerdo"],
+                        var_name="tipo",
+                        value_name="pct",
+                    )
+                    .dropna(subset=["pct"])
+                )
+                df_comp["tipo"] = df_comp["tipo"].map(
+                    {
+                        "pct_intencion": "Intención actual",
+                        "pct_recuerdo": "Recuerdo 2023",
+                    }
+                )
+                fig2 = px.bar(
+                    df_comp,
+                    x="partido",
+                    y="pct",
+                    color="tipo",
+                    barmode="group",
+                    color_discrete_map={
+                        "Intención actual": color,
+                        "Recuerdo 2023": "#94A3B8",
+                    },
+                )
+                fig2.update_layout(
+                    height=320,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                )
+                st.plotly_chart(fig2, use_container_width=True)
+        else:
+            st.info("Sin datos de voto para este perfil.")
+
+    with tab_issues:
+        df_prob = data.get("problemas", pd.DataFrame())
+        if not df_prob.empty:
+            fig = px.bar(
+                df_prob.head(10),
+                x="pct",
+                y="problema",
+                orientation="h",
+                title="Principales preocupaciones (%)",
+                color="pct",
+                color_continuous_scale=[[0, f"{color}40"], [1, color]],
+            )
+            fig.update_layout(
+                yaxis={"categoryorder": "total ascending"},
+                coloraxis_showscale=False,
+                height=420,
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Sin datos de issues para este perfil.")
+
+    with tab_geo:
+        df_ccaa = data.get("ccaa", pd.DataFrame())
+        if not df_ccaa.empty:
+            fig = px.bar(
+                df_ccaa.sort_values("pct", ascending=True).tail(10),
+                x="pct",
+                y="ccaa",
+                orientation="h",
+                title="Distribución geográfica (%)",
+                color_discrete_sequence=[color],
+            )
+            fig.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                height=380,
+            )
+            fig.update_traces(texttemplate="%{x:.0f}%", textposition="outside")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Sin datos geográficos para este perfil.")
+
+    with tab_ejes:
+        df_ejes = data.get("ejes", pd.DataFrame())
+        if not df_ejes.empty:
+            ejes_labels = {
+                "ideologia": "Ideología (1=Izq, 10=Der)",
+                "eje_redistribucion": "Redistribución (1=Liberal, 10=Igualitario)",
+                "eje_inmigracion": "Inmigración (1=Abierta, 10=Restrictiva)",
+                "eje_territorial": "Territorial (1=Centralista, 10=Autonomista)",
+                "eje_valores": "Valores (1=Progresista, 10=Conservador)",
+            }
+            for _, row in df_ejes.iterrows():
+                media = row.get("media")
+                if media is None or pd.isna(media):
+                    continue
+                label = ejes_labels.get(str(row.get("eje")), str(row.get("eje")))
+                col_izq, col_bar, col_der = st.columns([1, 6, 1])
+                col_izq.caption("1")
+                col_der.caption("10")
+                pct_pos = max(0.0, min(1.0, (float(media) - 1.0) / 9.0))
+                col_bar.markdown(
+                    f"""
+                    <div style='position:relative;height:28px;background:#1e293b;
+                                border-radius:14px;overflow:hidden;margin-bottom:4px'>
+                        <div style='position:absolute;left:{pct_pos*100:.1f}%;top:50%;
+                                    transform:translate(-50%,-50%);width:18px;height:18px;
+                                    background:{color};border-radius:50%;border:2px solid white'></div>
+                    </div>
+                    <small style='color:#94a3b8'>{label} — media: {float(media):.1f}
+                    &nbsp;(±{float(row.get('sd') or 0):.1f})</small>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+            if {"pct_izq", "pct_centro", "pct_der"}.issubset(df_ejes.columns):
+                df_dist = df_ejes[["eje", "pct_izq", "pct_centro", "pct_der"]].copy()
+                df_dist = df_dist.melt(id_vars="eje", var_name="posicion", value_name="pct")
+                df_dist["posicion"] = df_dist["posicion"].map(
+                    {
+                        "pct_izq": "Izquierda (1-4)",
+                        "pct_centro": "Centro (5-6)",
+                        "pct_der": "Derecha (7-10)",
+                    }
+                )
+                fig = px.bar(
+                    df_dist.dropna(subset=["pct"]),
+                    x="eje",
+                    y="pct",
+                    color="posicion",
+                    barmode="stack",
+                    color_discrete_map={
+                        "Izquierda (1-4)": "#E31C1C",
+                        "Centro (5-6)": "#F59E0B",
+                        "Derecha (7-10)": "#1A56DB",
+                    },
+                    title="Distribución ideológica por eje",
+                )
+                fig.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    height=340,
+                )
+                st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Sin datos de ejes para este perfil.")
+
+    with tab_eco:
+        c1, c2, c3 = st.columns(3)
+        renta = perfil.get("renta_media_anual")
+        c1.metric(
+            "Renta media anual",
+            f"{float(renta):,.0f} €".replace(",", ".") if renta is not None and not pd.isna(renta) else "–",
+        )
+        pct_alq = perfil.get("pct_alquiler")
+        c2.metric("% en alquiler", f"{float(pct_alq):.0f}%" if pct_alq is not None and not pd.isna(pct_alq) else "–")
+        pct_paro = perfil.get("pct_paro")
+        c3.metric("Tasa de paro estimada", f"{float(pct_paro):.0f}%" if pct_paro is not None and not pd.isna(pct_paro) else "–")
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            val = perfil.get("eco_personal_media")
+            if val is not None and not pd.isna(val):
+                st.markdown("**Situación económica personal subjetiva**")
+                st.progress(float(val) / 5.0, text=f"{float(val):.1f} / 5.0")
+        with col_b:
+            if pes_eco is not None and not pd.isna(pes_eco):
+                st.markdown("**% que cree que la economía empeorará**")
+                st.metric(
+                    "",
+                    f"{float(pes_eco):.0f}%",
+                    delta=None,
+                    help="% del subconjunto con perspectiva económica negativa",
+                )
+
+    with tab_socio:
+        datos_socio = {
+            "Cohorte generacional": perfil.get("cohorte_generacional"),
+            "Hábitat dominante": perfil.get("habitat_dominante"),
+            "Clase social modal": perfil.get("clase_social_modal"),
+            "Estudios modales": perfil.get("estudios_modal"),
+            "Situación laboral modal": perfil.get("situacion_laboral_modal"),
+            "Edad media": f"{float(edad_media):.1f} años" if edad_media is not None and not pd.isna(edad_media) else None,
+        }
+        for k, v in datos_socio.items():
+            if v:
+                st.write(f"**{k}:** {v}")
+
+        if perfil.get("descripcion_perfil_llm"):
+            st.divider()
+            st.markdown("**Análisis cualitativo (generado por IA)**")
+            st.markdown(f"_{perfil['descripcion_perfil_llm']}_")
+
+
+def _render_constructor_perfil(conn) -> None:
+    """Constructor de perfiles personalizados con analisis en tiempo real."""
+    st.subheader("🔬 Constructor de Perfil Personalizado")
+    st.caption(
+        "Define el segmento combinando filtros. El sistema buscara en microdatos reales y generara el perfil."
+    )
+
+    with st.form("constructor_perfil_form"):
+        col_meta1, col_meta2 = st.columns(2)
+        usuario = col_meta1.text_input("Usuario", value="default")
+        nombre_perfil = col_meta2.text_input("Nombre del perfil", value="Mi perfil")
+
+        st.markdown("**Sociodemografía**")
+        c1, c2, c3, c4 = st.columns(4)
+        sexo = c1.multiselect("Sexo", ["1=Hombre", "2=Mujer"])
+        grupo_edad = c2.selectbox("Grupo de edad", ["Sin filtro", "18-29", "30-44", "45-64", "65+"])
+        estudios = c3.multiselect(
+            "Estudios",
+            [
+                "1=Sin estudios",
+                "2=Primaria",
+                "3=Secundaria/FP",
+                "4=Bachillerato",
+                "5=FP Superior",
+                "6=Universitarios",
+                "7=Posgrado",
+            ],
+        )
+        sit_lab = c4.multiselect(
+            "Situación laboral",
+            [
+                "1=Trabajando",
+                "2=Parado/a",
+                "3=Jubilado/a",
+                "4=Estudiante",
+                "5=Labores del hogar",
+            ],
+        )
+
+        c5, c6, c7, c8 = st.columns(4)
+        clase = c5.multiselect(
+            "Clase social",
+            [
+                "1=Alta/Media-alta",
+                "2=Media-alta",
+                "3=Media-media",
+                "4=Media-baja",
+                "5=Obrera",
+                "6=Baja",
+            ],
+        )
+        habitat = c6.multiselect(
+            "Tipo de municipio",
+            [
+                "1=Rural <2k",
+                "2=Pequeño 2-10k",
+                "3=Medio 10-50k",
+                "4=Ciudad 50-100k",
+                "5=Gran ciudad 100-400k",
+                "6=Metrópoli 400k+",
+            ],
+        )
+        ccaa_sel = c7.multiselect(
+            "CCAA de residencia",
+            [
+                "01=Andalucía",
+                "02=Aragón",
+                "03=Asturias",
+                "04=Baleares",
+                "05=Canarias",
+                "06=Cantabria",
+                "07=C-La Mancha",
+                "08=C y León",
+                "09=Cataluña",
+                "10=C. Valenciana",
+                "11=Extremadura",
+                "12=Galicia",
+                "13=Madrid",
+                "14=Murcia",
+                "15=Navarra",
+                "16=País Vasco",
+                "17=La Rioja",
+            ],
+        )
+        religion = c8.multiselect(
+            "Religión",
+            [
+                "1=Católico practicante",
+                "2=Católico no practicante",
+                "3=Otras religiones",
+                "4=No creyente/Ateo",
+            ],
+        )
+
+        st.markdown("**Comportamiento electoral**")
+        c9, c10, c11 = st.columns(3)
+        intencion = c9.multiselect(
+            "Intención de voto",
+            [
+                "1=PP",
+                "2=PSOE",
+                "3=VOX",
+                "4=SUMAR",
+                "5=ERC",
+                "6=JUNTS",
+                "7=PNV",
+                "8=EH BILDU",
+                "97=Otros",
+                "98=Abstención",
+                "99=NS/NC",
+            ],
+        )
+        recuerdo = c10.multiselect(
+            "Recuerdo de voto (2023)",
+            [
+                "1=PP",
+                "2=PSOE",
+                "3=VOX",
+                "4=SUMAR",
+                "5=ERC",
+                "6=JUNTS",
+                "7=PNV",
+                "8=EH BILDU",
+                "97=Otros",
+                "98=Abstención",
+                "99=No votó",
+            ],
+        )
+        ideologia_rango = c11.slider("Rango ideológico (1=Izquierda, 10=Derecha)", 1, 10, (1, 10))
+
+        st.markdown("**Actitudes y valoraciones**")
+        c12, c13, c14 = st.columns(3)
+        eco_personal = c12.multiselect(
+            "Situación económica personal",
+            ["1=Muy mala", "2=Mala", "3=Regular", "4=Buena", "5=Muy buena"],
+        )
+        eco_espana = c13.multiselect(
+            "Situación económica de España",
+            ["1=Muy mala", "2=Mala", "3=Regular", "4=Buena", "5=Muy buena"],
+        )
+        satisf_demo = c14.multiselect(
+            "Satisfacción con la democracia",
+            ["1=Muy satisfecho", "2=Satisfecho", "3=Poco satisfecho", "4=Nada satisfecho"],
+        )
+
+        notas = st.text_area("Notas", value="Perfil creado desde constructor personalizado")
+        submitted = st.form_submit_button("🔍 Analizar perfil", type="primary")
+
+    if not submitted:
+        return
+
+    def extraer_codigos(lista: list[str]) -> list[str]:
+        return [item.split("=")[0].strip() for item in lista]
+
+    filtros: dict[str, Any] = {}
+    if sexo:
+        filtros["sexo"] = extraer_codigos(sexo)
+    if grupo_edad != "Sin filtro":
+        rangos = {"18-29": (18, 29), "30-44": (30, 44), "45-64": (45, 64), "65+": (65, 100)}
+        filtros["edad"] = rangos[grupo_edad]
+    if estudios:
+        filtros["estudios"] = extraer_codigos(estudios)
+    if sit_lab:
+        filtros["situacion_laboral"] = extraer_codigos(sit_lab)
+    if clase:
+        filtros["clase_social"] = extraer_codigos(clase)
+    if habitat:
+        filtros["habitat"] = extraer_codigos(habitat)
+    if ccaa_sel:
+        filtros["ccaa"] = extraer_codigos(ccaa_sel)
+    if religion:
+        filtros["religion"] = extraer_codigos(religion)
+    if intencion:
+        filtros["intencion_voto"] = extraer_codigos(intencion)
+    if recuerdo:
+        filtros["recuerdo_voto"] = extraer_codigos(recuerdo)
+    if ideologia_rango != (1, 10):
+        filtros["ideologia"] = ideologia_rango
+    if eco_personal:
+        filtros["eco_personal"] = extraer_codigos(eco_personal)
+    if eco_espana:
+        filtros["eco_espana"] = extraer_codigos(eco_espana)
+    if satisf_demo:
+        filtros["satisfaccion_demo"] = extraer_codigos(satisf_demo)
+
+    if not filtros:
+        st.warning("Debes aplicar al menos un filtro.")
+        return
+    if conn is None:
+        st.error("No hay conexión activa a BD para analizar el perfil.")
+        return
+
+    with st.spinner("Analizando subconjunto en microdatos..."):
+        try:
+            from etl.models.segmentacion_microdatos import analizar_perfil_personalizado
+
+            resultado = analizar_perfil_personalizado(conn, filtros, nombre=nombre_perfil, usuario=usuario)
+        except Exception as exc:
+            st.error(f"No se pudo analizar el perfil: {exc}")
+            return
+
+    if "error" in resultado:
+        st.error(str(resultado["error"]))
+        return
+
+    st.success(
+        f"✅ Perfil calculado sobre **{resultado.get('n_respondentes', 0)} encuestados** "
+        f"({float(resultado.get('pct_poblacion', 0) or 0):.1f}% de la población ponderada)"
+    )
+    if resultado.get("cluster_mas_cercano"):
+        st.info(
+            f"🔗 Perfil más similar en la base: **cluster {resultado['cluster_mas_cercano']}** "
+            f"(similitud coseno: {float(resultado.get('similitud_cluster', 0)):.2f})"
+        )
+    st.caption(notas)
+    _render_ficha_perfil(_resultado_personalizado_to_data(nombre_perfil, resultado))
+
+
 engine = _get_page_engine()
+conn = _get_page_conn()
 PERFILES_UNIFICADOS = _build_unified_profiles_cached(max_total=20, _engine=engine)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
@@ -1810,259 +2443,80 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 # TAB 1: PERFILES
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Segmentación del electorado español (catálogo unificado de perfiles)</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Perfiles electorales (microdatos + constructor personalizado)</span><div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
 
-    # KPIs
-    kpi_cols = st.columns(6)
-    for i, p in enumerate(PERFILES_UNIFICADOS[:6]):
-        color = p["ideo_color"]
-        tend = "↑" if "creciente" in p["tendencia_perfil"] else ("↓" if "decreciente" in p["tendencia_perfil"] else "→")
-        with kpi_cols[i]:
-            st.markdown(f"""
-            <div style="background:{BG3};border:1px solid {BORDER};border-left:3px solid {color};
-                        padding:.5rem .6rem;border-radius:8px;text-align:center">
-                <div style="font-size:.75rem;font-weight:700;color:{color}">{p['etiqueta']}</div>
-                <div style="font-size:1.3rem;font-weight:800">{p['peso']*100:.0f}%</div>
-                <div style="font-size:.72rem;color:{TEXT2}">Prioridad estratégica {tend}</div>
-            </div>
-            """, unsafe_allow_html=True)
+    modo = st.radio(
+        "",
+        ["Perfiles predefinidos", "Mis perfiles guardados", "Constructor"],
+        horizontal=True,
+        label_visibility="collapsed",
+    )
 
-    st.divider()
+    if modo == "Perfiles predefinidos":
+        if conn is None:
+            st.warning("Sin conexión a BD. Mostrando catálogo sintético local.")
+            opciones_local = {p.get("etiqueta", f"Perfil {i+1}"): i for i, p in enumerate(PERFILES_UNIFICADOS)}
+            sel_local = st.selectbox("Selecciona perfil", list(opciones_local.keys()))
+            if sel_local:
+                _render_ficha_perfil(_legacy_profile_to_data(PERFILES_UNIFICADOS[opciones_local[sel_local]]))
+        else:
+            df_perfiles = cargar_lista_perfiles(conn, tipo="predefinido")
+            if df_perfiles.empty:
+                st.info("No hay perfiles calculados. Ejecuta: `python -m etl.models.segmentacion_microdatos`")
+                if PERFILES_UNIFICADOS:
+                    opciones_local = {p.get("etiqueta", f"Perfil {i+1}"): i for i, p in enumerate(PERFILES_UNIFICADOS)}
+                    sel_local = st.selectbox("Selecciona perfil (fallback)", list(opciones_local.keys()))
+                    if sel_local:
+                        _render_ficha_perfil(_legacy_profile_to_data(PERFILES_UNIFICADOS[opciones_local[sel_local]]))
+            else:
+                opciones = {
+                    f"{row['nombre_perfil']} ({float(row.get('peso_demografico_pct') or 0):.0f}%)": int(row["cluster_id"])
+                    for _, row in df_perfiles.iterrows()
+                }
+                seleccion = st.selectbox("Selecciona perfil", list(opciones.keys()))
+                if seleccion:
+                    cluster_id = opciones[seleccion]
+                    data = cargar_perfil_completo(conn, cluster_id)
+                    if not (data.get("perfil") or {}):
+                        st.warning("No se pudo cargar ficha completa. Mostrando fallback sintético.")
+                        fallback = next((p for p in PERFILES_UNIFICADOS if int(p.get("id", -1)) == int(cluster_id)), None)
+                        if fallback:
+                            _render_ficha_perfil(_legacy_profile_to_data(fallback))
+                    else:
+                        _render_ficha_perfil(data)
 
-    # Selector de perfil
-    perfil_options = [f"{i+1}. {p['etiqueta']}" for i, p in enumerate(PERFILES_UNIFICADOS)]
-    perfil_sel_opt = st.selectbox("Explorar perfil en detalle", perfil_options)
-    perfil_idx = max(0, perfil_options.index(perfil_sel_opt))
-    p = PERFILES_UNIFICADOS[perfil_idx]
-    perfil_sel = p["etiqueta"]
+    elif modo == "Mis perfiles guardados":
+        usuario = st.text_input("Usuario", value="default")
+        if conn is None:
+            st.error("No hay conexión a BD para cargar perfiles guardados.")
+        else:
+            df_guardados = cargar_perfiles_personalizados(conn, usuario=usuario)
+            if df_guardados.empty:
+                st.info("No tienes perfiles guardados. Crea uno en el Constructor.")
+            else:
+                opciones_g = {
+                    f"{row['nombre']} ({int(row.get('n_respondentes') or 0)} enc.)": int(row["perfil_id"])
+                    for _, row in df_guardados.iterrows()
+                }
+                sel_g = st.selectbox("Selecciona perfil guardado", list(opciones_g.keys()))
+                if sel_g:
+                    detalle = cargar_perfil_personalizado_detalle(conn, opciones_g[sel_g])
+                    st.json(detalle.get("filtros") or {}, expanded=False)
+                    if detalle.get("resultado"):
+                        data_custom = _resultado_personalizado_to_data(
+                            str(detalle.get("nombre") or "Perfil guardado"),
+                            dict(detalle.get("resultado") or {}),
+                            color=str(detalle.get("color_cluster") or "#6366F1"),
+                        )
+                        _render_ficha_perfil(data_custom)
+                    else:
+                        st.info("Este perfil guardado no tiene snapshot de resultados reutilizable.")
 
-    col_main, col_side = st.columns([3, 2])
-
-    with col_main:
-        # Cabecera del perfil
-        tend_txt = p["tendencia_desc"]
-        color_tend = GREEN if "creciente" in p["tendencia_perfil"] else (RED if "decreciente" in p["tendencia_perfil"] else AMBER)
-        st.markdown(f"""
-        <div class="card">
-          <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.8rem">
-            <div style="width:8px;height:60px;background:{p['ideo_color']};border-radius:4px"></div>
-            <div>
-              <div style="font-size:1.3rem;font-weight:800">{p['etiqueta']}</div>
-              <span class="ideo-badge" style="background:{p['ideo_color']}">{p['ideo_label']}</span>
-              <span style="margin-left:.5rem;color:{MUTED};font-size:.85rem">
-                Edad media: {p['edad_media']} años · {p['edad_rango']}
-              </span>
-            </div>
-          </div>
-          <div style="display:flex;gap:1rem;flex-wrap:wrap">
-            <div style="background:{BG3};border-radius:8px;padding:.5rem .8rem">
-              <strong>Peso electoral:</strong> {p['peso']*100:.0f}%
-            </div>
-            <div style="background:{BG3};border-radius:8px;padding:.5rem .8rem;color:{color_tend}">
-              <strong>Tendencia:</strong> {tend_txt}
-            </div>
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        attrs = p.get("atributos", {})
-        if attrs:
-            st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Ficha del perfil</span><div class="line"></div></div>', unsafe_allow_html=True)
-            cols_attr = st.columns(3)
-            for i, (k, v) in enumerate(attrs.items()):
-                with cols_attr[i % 3]:
-                    st.markdown(
-                        f"""
-                        <div style="background:{BG3};border-radius:8px;padding:.45rem .6rem;margin-bottom:.5rem;border:1px solid {BORDER}">
-                            <div style="font-size:.70rem;color:{TEXT2};text-transform:uppercase">{k}</div>
-                            <div style="font-weight:700;font-size:.90rem;color:{TEXT}">{v}</div>
-                        </div>
-                        """,
-                        unsafe_allow_html=True,
-                    )
-
-        # Preocupaciones
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Principales preocupaciones</span><div class="line"></div></div>', unsafe_allow_html=True)
-        for tema, pct in p["preocupaciones"]:
-            bar_w = int(pct * 1.8)
-            bar_color = p["ideo_color"]
-            st.markdown(f"""
-            <div class="preocupacion-bar">
-              <div style="width:160px;font-size:.83rem">{tema}</div>
-              <div style="flex:1;background:{BG3};border-radius:4px;height:14px;max-width:280px">
-                <div style="width:{bar_w}px;max-width:280px;background:{bar_color};border-radius:4px;height:14px"></div>
-              </div>
-              <div style="font-weight:700;font-size:.85rem;width:38px;text-align:right">{pct}%</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-        st.divider()
-
-        # Opiniones
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Opiniones generales del perfil</span><div class="line"></div></div>', unsafe_allow_html=True)
-        col_o1, col_o2 = st.columns(2)
-        with col_o1:
-            st.markdown(f"**Sobre el gobierno:** {p['opinion_gobierno']}")
-            st.markdown(f"**Sobre la economía:** {p['opinion_economia']}")
-        with col_o2:
-            st.markdown(f"**Sobre la cuestión territorial:** {p['opinion_territorial']}")
-            st.markdown(f"**Tendencia del voto:** {p['tendencia_voto']}")
-
-        # Microeconomía
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Perfil microeconómico</span><div class="line"></div></div>', unsafe_allow_html=True)
-        eco_cols = st.columns(3)
-        items = list(p["micro_eco"].items())
-        for i, (k, v) in enumerate(items):
-            with eco_cols[i % 3]:
-                st.markdown(f"""
-                <div style="background:{BG3};border-radius:8px;padding:.5rem .7rem;margin-bottom:.5rem">
-                    <div style="font-size:.72rem;color:{TEXT2};text-transform:uppercase">{k}</div>
-                    <div style="font-weight:700;font-size:.95rem">{v}</div>
-                </div>
-                """, unsafe_allow_html=True)
-
-        st.markdown(
-            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Evolución temporal del cluster</span><div class="line"></div></div>',
-            unsafe_allow_html=True,
-        )
-        evo = _build_profile_evolution(
-            voto_share=p["intencion_voto"],
-            ideologia_media=p["ideo_media"],
-            seed_text=p["etiqueta"],
-            engine=engine,
-            cluster_id=p.get("id"),
-        )
-        evo_parties = evo[evo["serie"] != "Ideología"]
-        if not evo_parties.empty:
-            fig_evo_parties = px.line(
-                evo_parties,
-                x="periodo",
-                y="valor",
-                color="serie",
-                markers=True,
-                color_discrete_map=COLORES_PARTIDO,
-                title="Voto estimado por partido",
-            )
-            fig_evo_parties.update_layout(
-                height=260,
-                showlegend=True,
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(color=TEXT2),
-            )
-            st.plotly_chart(fig_evo_parties, use_container_width=True)
-        evo_ideo = evo[evo["serie"] == "Ideología"]
-        if not evo_ideo.empty and (float(evo_ideo["valor"].max()) - float(evo_ideo["valor"].min()) > 0.3):
-            fig_evo_ideo = px.line(evo_ideo, x="periodo", y="valor", markers=True, title="Evolución ideológica")
-            fig_evo_ideo.update_layout(
-                height=180,
-                showlegend=False,
-                yaxis=dict(range=[1, 10]),
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(color=TEXT2),
-            )
-            st.plotly_chart(fig_evo_ideo, use_container_width=True)
-
-    with col_side:
-        # Intención de voto
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto</span><div class="line"></div></div>', unsafe_allow_html=True)
-        partidos_v = list(p["intencion_voto"].keys())
-        pcts_v = list(p["intencion_voto"].values())
-        colors_v = [COLORES_PARTIDO.get(pt, MUTED) for pt in partidos_v]
-        fig_donut = go.Figure(go.Pie(
-            labels=partidos_v, values=pcts_v,
-            hole=0.5,
-            marker_colors=colors_v,
-            textinfo="label+percent",
-            textfont=dict(size=11),
-        ))
-        fig_donut.update_layout(
-            height=280, margin=dict(t=10, b=10, l=10, r=10),
-            showlegend=False, paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=TEXT2),
-            annotations=[dict(text=f"<b>{perfil_sel[:12]}</b>", x=0.5, y=0.5,
-                              font_size=10, showarrow=False, font_color=TEXT2)],
-        )
-        st.plotly_chart(fig_donut, use_container_width=True)
-
-        # Distribución geográfica
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Distribución geográfica</span><div class="line"></div></div>', unsafe_allow_html=True)
-        ccaa_list = list(p["ccaa"].keys())
-        ccaa_pct  = list(p["ccaa"].values())
-        fig_geo = go.Figure(go.Bar(
-            y=ccaa_list, x=ccaa_pct, orientation="h",
-            marker_color=p["ideo_color"],
-            text=[f"{v}%" for v in ccaa_pct], textposition="outside",
-        ))
-        fig_geo.update_layout(
-            height=260, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=TEXT2),
-            xaxis=dict(title="%", range=[0, 45], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            yaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
-            margin=dict(t=5, b=10, l=10, r=30),
-        )
-        st.plotly_chart(fig_geo, use_container_width=True)
-
-        # Posición ideológica
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Posición ideológica</span><div class="line"></div></div>', unsafe_allow_html=True)
-        fig_ideo = go.Figure(go.Bar(
-            x=[p["ideo_media"]], y=[""],
-            orientation="h",
-            marker_color=p["ideo_color"],
-            text=[f"{p['ideo_media']:.1f}/10"],
-            textposition="outside",
-        ))
-        fig_ideo.add_vline(x=5, line_dash="dash", line_color=MUTED, annotation_text="Centro")
-        fig_ideo.update_layout(
-            height=100,
-            xaxis=dict(range=[0, 10], title="Izquierda ← → Derecha", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            yaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
-            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=TEXT2),
-            margin=dict(t=5, b=5, l=5, r=40),
-        )
-        st.plotly_chart(fig_ideo, use_container_width=True)
-
-    # Comparativa general
-    st.divider()
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Comparativa de todos los perfiles</span><div class="line"></div></div>', unsafe_allow_html=True)
-    col_c1, col_c2 = st.columns(2)
-    with col_c1:
-        fig_pesos = go.Figure(go.Bar(
-            x=[p["etiqueta"] for p in PERFILES_UNIFICADOS],
-            y=[p["peso"] * 100 for p in PERFILES_UNIFICADOS],
-            marker_color=[p["ideo_color"] for p in PERFILES_UNIFICADOS],
-            text=[f"{p['peso']*100:.0f}%" for p in PERFILES_UNIFICADOS],
-            textposition="outside",
-        ))
-        fig_pesos.update_layout(
-            title="Peso electoral (%)", height=300,
-            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=TEXT2),
-            xaxis=dict(tickfont=dict(size=10, color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            margin=dict(t=40, b=10),
-        )
-        st.plotly_chart(fig_pesos, use_container_width=True)
-    with col_c2:
-        fig_ideo_comp = go.Figure(go.Bar(
-            x=[p["etiqueta"] for p in PERFILES_UNIFICADOS],
-            y=[p["ideo_media"] for p in PERFILES_UNIFICADOS],
-            marker_color=[p["ideo_color"] for p in PERFILES_UNIFICADOS],
-            text=[f"{p['ideo_media']:.1f}" for p in PERFILES_UNIFICADOS],
-            textposition="outside",
-        ))
-        fig_ideo_comp.add_hline(y=5, line_dash="dash", line_color=MUTED, annotation_text="Centro")
-        fig_ideo_comp.update_layout(
-            title="Posición ideológica media (1=Izq, 10=Der)", height=300,
-            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=TEXT2),
-            yaxis=dict(range=[0, 10], tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            xaxis=dict(tickfont=dict(size=10, color=TEXT2), linecolor=BORDER),
-            margin=dict(t=40, b=10),
-        )
-        st.plotly_chart(fig_ideo_comp, use_container_width=True)
+    elif modo == "Constructor":
+        _render_constructor_perfil(conn)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2: SIMULADOR DE CAMPAÑA
