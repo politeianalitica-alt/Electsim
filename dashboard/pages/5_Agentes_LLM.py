@@ -30,25 +30,51 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import (
-    cargar_lista_perfiles,
-    cargar_perfil_completo,
-    cargar_perfil_personalizado_detalle,
-    cargar_perfiles_personalizados,
-    cargar_ccaa_perfil_microdatos,
-    cargar_distribucion_campo_perfil_microdatos,
-    cargar_intencion_perfil_microdatos,
-    cargar_opciones_perfil_microdatos,
-    cargar_recuerdo_perfil_microdatos,
-    cargar_resumen_perfil_microdatos,
-    cargar_nowcasting,
-    cargar_perfiles_votante,
-    cargar_perfiles_usuario_custom,
-    get_conn,
-    get_engine,
-    guardar_descripcion_llm_perfil,
-    guardar_perfil_usuario_custom,
+from dashboard import db as _db
+
+
+def _fallback_df(*_args, **_kwargs) -> pd.DataFrame:
+    return pd.DataFrame()
+
+
+def _fallback_dict(*_args, **_kwargs) -> dict:
+    return {}
+
+
+def _fallback_none(*_args, **_kwargs) -> None:
+    return None
+
+
+cargar_ccaa_perfil_microdatos = getattr(_db, "cargar_ccaa_perfil_microdatos", _fallback_df)
+cargar_distribucion_campo_perfil_microdatos = getattr(_db, "cargar_distribucion_campo_perfil_microdatos", _fallback_df)
+cargar_intencion_perfil_microdatos = getattr(_db, "cargar_intencion_perfil_microdatos", _fallback_df)
+cargar_opciones_perfil_microdatos = getattr(_db, "cargar_opciones_perfil_microdatos", _fallback_dict)
+cargar_recuerdo_perfil_microdatos = getattr(_db, "cargar_recuerdo_perfil_microdatos", _fallback_df)
+cargar_resumen_perfil_microdatos = getattr(_db, "cargar_resumen_perfil_microdatos", _fallback_df)
+cargar_nowcasting = getattr(_db, "cargar_nowcasting", _fallback_df)
+cargar_perfiles_votante = getattr(_db, "cargar_perfiles_votante", _fallback_df)
+cargar_perfiles_usuario_custom = getattr(_db, "cargar_perfiles_usuario_custom", _fallback_df)
+guardar_perfil_usuario_custom = getattr(_db, "guardar_perfil_usuario_custom", _fallback_dict)
+get_engine = getattr(_db, "get_engine", _fallback_none)
+get_conn = getattr(_db, "get_conn", _fallback_none)
+
+# Funciones nuevas: en despliegues con db.py antiguo no existen todavía.
+cargar_lista_perfiles = getattr(_db, "cargar_lista_perfiles", _fallback_df)
+cargar_perfil_completo = getattr(
+    _db,
+    "cargar_perfil_completo",
+    lambda _conn, _cluster_id: {
+        "perfil": {},
+        "problemas": pd.DataFrame(),
+        "ccaa": pd.DataFrame(),
+        "voto": pd.DataFrame(),
+        "ejes": pd.DataFrame(),
+        "evolucion": pd.DataFrame(),
+    },
 )
+cargar_perfiles_personalizados = getattr(_db, "cargar_perfiles_personalizados", _fallback_df)
+cargar_perfil_personalizado_detalle = getattr(_db, "cargar_perfil_personalizado_detalle", _fallback_dict)
+guardar_descripcion_llm_perfil = getattr(_db, "guardar_descripcion_llm_perfil", _fallback_none)
 from dashboard.adapters import create_simulation_adapter
 
 COLORES_PARTIDO = {
