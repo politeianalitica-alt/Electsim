@@ -2523,10 +2523,34 @@ def _render_constructor_perfil(conn) -> None:
         st.error(str(resultado["error"]))
         return
 
-    st.success(
-        f"✅ Perfil calculado sobre **{resultado.get('n_respondentes', 0)} encuestados** "
-        f"({float(resultado.get('pct_poblacion', 0) or 0):.1f}% de la población ponderada)"
-    )
+    # Mostrar aviso de precisión si los filtros fueron relajados
+    aviso = resultado.get("aviso_precision")
+    relajados = resultado.get("filtros_relajados", [])
+    precision = resultado.get("precision", "alta")
+
+    if aviso:
+        if precision == "baja":
+            st.warning(f"⚠️ {aviso}")
+        elif precision == "minima":
+            st.warning(f"⚠️ {aviso}")
+
+    n_enc = resultado.get("n_respondentes", 0)
+    pct_pob = float(resultado.get("pct_poblacion", 0) or 0)
+
+    if precision == "alta":
+        st.success(
+            f"✅ Perfil calculado sobre **{n_enc} encuestados** "
+            f"({pct_pob:.1f}% de la población ponderada)"
+        )
+    else:
+        st.info(
+            f"ℹ️ Perfil estimado sobre **{n_enc} encuestados** "
+            f"({pct_pob:.1f}% de la población ponderada)"
+        )
+
+    if relajados:
+        st.caption(f"Filtros omitidos durante la relajación: `{', '.join(relajados)}`")
+
     if resultado.get("cluster_mas_cercano"):
         st.info(
             f"🔗 Perfil más similar en la base: **cluster {resultado['cluster_mas_cercano']}** "

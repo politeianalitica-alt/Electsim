@@ -801,51 +801,125 @@ def analizar_perfil_personalizado(
     nombre: str = "Perfil personalizado",
     usuario: str = "default",
 ) -> dict[str, Any]:
-    """Calcula y persiste analisis de un perfil ad-hoc por filtros."""
-    df = cargar_microdatos(conn)
-    sub = aplicar_filtros(df, filtros)
+    """Calcula y persiste analisis de un perfil ad-hoc por filtros.
 
-    if len(sub) < 10:
-        return {"error": "Subconjunto demasiado pequeno (< 10 casos). Amplia los filtros."}
+    Si el subconjunto tiene menos de MIN_N casos, relaja filtros
+    progresivamente (eliminando los menos electoralmente informativos
+    primero) hasta alcanzar un N minimo viable. Nunca devuelve
+    "Subconjunto demasiado pequeno" — como mucho marca precision="minima"
+    y sigue calculando metricas orientativas.
+    """
+    MIN_N = 30       # N minimo para resultados fiables
+    MIN_N_HARD = 10  # N minimo absoluto antes de rendirse del todo
+
+    # Orden de relajacion: se eliminan primero los menos informativos
+    # electoralmente, se mantienen hasta el final los mas definitorios.
+    ORDEN_RELAJACION = [
+        "religion",
+        "eco_espana",
+        "eco_personal",
+        "satisfaccion_demo",
+        "ingresos",
+        "ocupacion",
+        "clase_social",
+        "problema_1",
+        "habitat",
+        "ccaa",
+        "situacion_laboral",
+        "estudios",
+        "edad",
+        "sexo",
+        "ideologia",
+        "recuerdo_voto",
+        "intencion_voto",
+    ]
+
+    df = cargar_microdatos(conn)
+    filtros_activos = dict(filtros)
+    filtros_relajados: list[str] = []
+    aviso_precision: str | None = None
+
+    sub = aplicar_filtros(df, filtros_activos)
+
+    # Relajar progresivamente si el N es insuficiente
+    if len(sub) < MIN_N:
+        for campo in ORDEN_RELAJACION:
+            if len(sub) >= MIN_N:
+                break
+            if campo in filtros_activos:
+                filtros_relajados.append(campo)
+                del filtros_activos[campo]
+                sub = aplicar_filtros(df, filtros_activos)
+                logger.info(
+                    "Relajando filtro '%s' -> N=%s (objetivo MIN_N=%s)",
+                    campo, len(sub), MIN_N,
+                )
+
+    n = len(sub)
+    if n == 0 or (n < MIN_N_HARD and not filtros_activos):
+        return {"error": "No hay microdatos disponibles. Ejecuta el ETL de microdatos primero."}
+
+    if n >= MIN_N:
+        precision = "alta"
+    elif n >= MIN_N_HARD:
+        precision = "baja"
+        aviso_precision = (
+            f"Muestra ajustada (N={n}). Perfil orientativo."
+            + (f" Filtros omitidos: {', '.join(filtros_relajados)}." if filtros_relajados else "")
+        )
+    else:
+        precision = "minima"
+        aviso_precision = (
+            f"Muestra muy pequena (N={n}). Resultado aproximado."
+            + (f" Filtros omitidos: {', '.join(filtros_relajados)}." if filtros_relajados else "")
+        )
 
     metricas = calcular_metricas_subconjunto(sub)
     if not metricas:
         return {"error": "No se pudieron calcular metricas para el subconjunto."}
 
     metricas["pct_poblacion"] = round(float(sub["peso"].sum()) / float(df["peso"].sum()) * 100.0, 2)
+    metricas["precision"] = precision
+    metricas["filtros_relajados"] = filtros_relajados
+    if aviso_precision:
+        metricas["aviso_precision"] = aviso_precision
 
     cluster_cercano, similitud = _encontrar_cluster_cercano(metricas, conn)
     metricas["cluster_mas_cercano"] = cluster_cercano
     metricas["similitud_cluster"] = similitud
 
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            INSERT INTO perfiles_personalizados
-                (usuario, nombre, filtros_json, n_respondentes, pct_poblacion,
-                 resultado_json, cluster_mas_cercano, similitud_cluster, actualizado_en)
-            VALUES (%s, %s, %s::jsonb, %s, %s, %s::jsonb, %s, %s, NOW())
-            ON CONFLICT (usuario, nombre) DO UPDATE SET
-                filtros_json = EXCLUDED.filtros_json,
-                n_respondentes = EXCLUDED.n_respondentes,
-                pct_poblacion = EXCLUDED.pct_poblacion,
-                resultado_json = EXCLUDED.resultado_json,
-                cluster_mas_cercano = EXCLUDED.cluster_mas_cercano,
-                similitud_cluster = EXCLUDED.similitud_cluster,
-                actualizado_en = NOW()
-            """,
-            (
-                usuario,
-                nombre,
-                json.dumps(filtros, ensure_ascii=False),
-                int(metricas.get("n_respondentes") or 0),
-                float(metricas.get("pct_poblacion") or 0.0),
-                json.dumps(metricas, ensure_ascii=False, default=str),
-                cluster_cercano,
-                similitud,
-            ),
-        )
-    conn.commit()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO perfiles_personalizados
+                    (usuario, nombre, filtros_json, n_respondentes, pct_poblacion,
+                     resultado_json, cluster_mas_cercano, similitud_cluster, actualizado_en)
+                VALUES (%s, %s, %s::jsonb, %s, %s, %s::jsonb, %s, %s, NOW())
+                ON CONFLICT (usuario, nombre) DO UPDATE SET
+                    filtros_json = EXCLUDED.filtros_json,
+                    n_respondentes = EXCLUDED.n_respondentes,
+                    pct_poblacion = EXCLUDED.pct_poblacion,
+                    resultado_json = EXCLUDED.resultado_json,
+                    cluster_mas_cercano = EXCLUDED.cluster_mas_cercano,
+                    similitud_cluster = EXCLUDED.similitud_cluster,
+                    actualizado_en = NOW()
+                """,
+                (
+                    usuario,
+                    nombre,
+                    json.dumps(filtros, ensure_ascii=False),
+                    int(metricas.get("n_respondentes") or 0),
+                    float(metricas.get("pct_poblacion") or 0.0),
+                    json.dumps(metricas, ensure_ascii=False, default=str),
+                    cluster_cercano,
+                    similitud,
+                ),
+            )
+        conn.commit()
+    except Exception as exc:
+        logger.warning("No se pudo guardar perfil personalizado en BD: %s", exc)
+        # No bloqueamos si el guardado falla; devolvemos metricas igualmente.
 
     return metricas
 
