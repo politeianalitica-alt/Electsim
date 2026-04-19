@@ -1248,6 +1248,7 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
         "renta_media_anual" if "renta_media_anual" in cols else "NULL::numeric AS renta_media_anual",
         "pct_alquiler" if "pct_alquiler" in cols else "NULL::numeric AS pct_alquiler",
         "pct_paro" if "pct_paro" in cols else "NULL::numeric AS pct_paro",
+        "distribucion_voto_json" if "distribucion_voto_json" in cols else "NULL::text AS distribucion_voto_json",
         "descripcion_perfil_llm" if "descripcion_perfil_llm" in cols else "NULL::text AS descripcion_perfil_llm",
         "tipo_perfil" if "tipo_perfil" in cols else "'predefinido'::text AS tipo_perfil",
         "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text AS fuente_datos",
@@ -1294,6 +1295,24 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
             {"cluster_id": cluster_id},
             conn=conn,
         )
+    if voto.empty and not perfil.empty:
+        # Fallback legacy: usar el JSON agregado del perfil cuando no existe la tabla satélite.
+        raw = perfil.iloc[0].get("distribucion_voto_json")
+        if raw:
+            try:
+                parsed = json.loads(raw) if isinstance(raw, str) else raw
+                if isinstance(parsed, dict):
+                    voto = pd.DataFrame(
+                        [
+                            {"partido": str(k), "pct_intencion": float(v), "pct_recuerdo": None}
+                            for k, v in parsed.items()
+                            if v is not None
+                        ]
+                    )
+                    if not voto.empty:
+                        voto = voto.sort_values("pct_intencion", ascending=False).reset_index(drop=True)
+            except Exception:
+                voto = pd.DataFrame()
 
     ejes = pd.DataFrame()
     if _table_exists("perfil_ejes", conn=conn):
