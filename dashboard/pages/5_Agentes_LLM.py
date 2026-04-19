@@ -45,6 +45,27 @@ def _fallback_none(*_args, **_kwargs) -> None:
     return None
 
 
+def _to_float_safe(value: Any, default: float = 0.0) -> float:
+    try:
+        if value is None or (hasattr(pd, "isna") and pd.isna(value)):
+            return default
+        if isinstance(value, str):
+            txt = value.strip().replace("%", "").replace(",", ".")
+            if txt == "":
+                return default
+            return float(txt)
+        return float(value)
+    except Exception:
+        return default
+
+
+def _to_int_safe(value: Any, default: int = 0) -> int:
+    try:
+        return int(round(_to_float_safe(value, float(default))))
+    except Exception:
+        return default
+
+
 cargar_ccaa_perfil_microdatos = getattr(_db, "cargar_ccaa_perfil_microdatos", _fallback_df)
 cargar_distribucion_campo_perfil_microdatos = getattr(_db, "cargar_distribucion_campo_perfil_microdatos", _fallback_df)
 cargar_intencion_perfil_microdatos = getattr(_db, "cargar_intencion_perfil_microdatos", _fallback_df)
@@ -1984,36 +2005,34 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
         )
 
     edad_media = perfil.get("edad_media")
-    edad_txt = f"{float(edad_media):.0f}" if edad_media is not None and not pd.isna(edad_media) else "–"
-    n_enc = perfil.get("n_respondentes")
-    n_enc_txt = str(int(n_enc)) if n_enc is not None and not pd.isna(n_enc) else "–"
-    cohorte = perfil.get("cohorte_generacional") or ""
+    edad_num = _to_float_safe(edad_media, -1)
+    edad_txt = f"{edad_num:.0f}" if edad_num >= 0 else "–"
+    n_enc_txt = str(_to_int_safe(perfil.get("n_respondentes"), 0)) if perfil.get("n_respondentes") is not None else "–"
+    cohorte = str(perfil.get("cohorte_generacional") or "").strip()
+    nombre = str(perfil.get("nombre_perfil") or "Perfil")
 
     st.markdown(
-        f"""
-        <div style='border-left: 4px solid {color}; padding: 12px 20px; margin-bottom: 16px;
-                    background: {color}15; border-radius: 0 8px 8px 0'>
-            <h2 style='margin:0; color: {color}'>{perfil.get('nombre_perfil', 'Perfil')}</h2>
-            <span style='background:{color};color:white;padding:3px 10px;
-                         border-radius:4px;font-size:0.85rem'>
-                {cohorte}
-            </span>
-            &nbsp;
-            <span style='color:#888;font-size:0.9rem'>
-                Edad media: {edad_txt} años · {n_enc_txt} encuestados
-            </span>
-        </div>
-        """,
+        f"<h2 style='margin-bottom:0;color:{color}'>{nombre}</h2>",
         unsafe_allow_html=True,
     )
+    if cohorte:
+        st.caption(cohorte)
+    st.caption(f"Edad media: {edad_txt} años · {n_enc_txt} encuestados")
+    st.divider()
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Peso electoral", f"{float(perfil.get('peso_demografico_pct') or 0):.1f}%")
-    col2.metric("Ideología media", f"{float(perfil.get('ideologia_media') or 5):.1f}/10")
+    col1.metric("Peso electoral", f"{_to_float_safe(perfil.get('peso_demografico_pct'), 0.0):.1f}%")
+    col2.metric("Ideología media", f"{_to_float_safe(perfil.get('ideologia_media'), 5.0):.1f}/10")
     sat_demo = perfil.get("satisfaccion_demo_media")
-    col3.metric("Satisfacción democracia", f"{float(sat_demo):.1f}/4" if sat_demo is not None and not pd.isna(sat_demo) else "–")
+    col3.metric(
+        "Satisfacción democracia",
+        f"{_to_float_safe(sat_demo, 0.0):.1f}/4" if sat_demo is not None and not pd.isna(sat_demo) else "–",
+    )
     pes_eco = perfil.get("pct_pesimistas_eco")
-    col4.metric("% Pesimistas economía", f"{float(pes_eco):.0f}%" if pes_eco is not None and not pd.isna(pes_eco) else "–")
+    col4.metric(
+        "% Pesimistas economía",
+        f"{_to_float_safe(pes_eco, 0.0):.0f}%" if pes_eco is not None and not pd.isna(pes_eco) else "–",
+    )
 
     tab_voto, tab_issues, tab_geo, tab_ejes, tab_eco, tab_socio = st.tabs(
         ["🗳️ Voto", "⚡ Issues", "🗺️ Geografía", "🧭 Ejes", "💰 Economía", "👤 Sociodemografía"]
@@ -2499,7 +2518,7 @@ with tab1:
                         _render_ficha_perfil(_legacy_profile_to_data(PERFILES_UNIFICADOS[opciones_local[sel_local]]))
             else:
                 opciones = {
-                    f"{row['nombre_perfil']} ({float(row.get('peso_demografico_pct') or 0):.0f}%)": int(row["cluster_id"])
+                    f"{row['nombre_perfil']} ({_to_float_safe(row.get('peso_demografico_pct'), 0.0):.0f}%)": _to_int_safe(row["cluster_id"], -1)
                     for _, row in df_perfiles.iterrows()
                 }
                 seleccion = st.selectbox("Selecciona perfil", list(opciones.keys()))
