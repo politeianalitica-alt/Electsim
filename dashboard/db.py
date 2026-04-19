@@ -1998,6 +1998,104 @@ def cargar_resumen_perfil_microdatos(filtros: dict[str, Any]) -> pd.DataFrame:
     )
 
 
+def cargar_resumen_perfil_microdatos_robusto(
+    filtros: dict[str, Any],
+    min_n_fiable: int = 100,
+    min_n_warn: int = 30,
+    min_n_minimo: int = 10,
+) -> dict[str, Any]:
+    """
+    Genera siempre un perfil, relajando filtros progresivamente si el N es bajo.
+
+    Devuelve:
+      - resumen: DataFrame con n, peso_total, edad_media, ideologia_media
+      - precision: 'alta' | 'media' | 'baja' | 'minima'
+      - n_efectivo: int
+      - filtros_activos: dict realmente usados
+      - filtros_relajados: list[str] descartados
+    """
+    _ensure_microdatos_schema()
+
+    orden_relajacion = [
+        "religion",
+        "situacion_economica_españa",
+        "situacion_economica_personal",
+        "satisfaccion_democracia",
+        "ingresos_hogar",
+        "ocupacion",
+        "clase_social_subjetiva",
+        "principal_problema",
+        "tamano_habitat",
+        "ccaa_id",
+        "identidad_territorial",
+        "situacion_laboral",
+        "estudios",
+        "grupo_edad",
+        "sexo",
+    ]
+
+    filtros_activos = {
+        k: v
+        for k, v in (filtros or {}).items()
+        if v and str(v).strip().lower() not in {"todos", "all", ""}
+    }
+    filtros_usados = dict(filtros_activos)
+    filtros_relajados: list[str] = []
+
+    def _get_n(filtros_local: dict[str, Any]) -> tuple[int, pd.DataFrame]:
+        where, params = _build_micro_filter_where(filtros_local)
+        sql = (
+            "SELECT COUNT(*) AS n, SUM(COALESCE(peso_muestral,1)) AS peso_total, "
+            "AVG(edad) AS edad_media, AVG(escala_ideologica) AS ideologia_media "
+            "FROM microdatos_encuesta WHERE __WHERE__"
+        ).replace("__WHERE__", where)
+        df = _q(sql, params)
+        if df.empty:
+            return 0, df
+        n_val = df.iloc[0].get("n", 0)
+        try:
+            n_int = int(float(n_val or 0))
+        except Exception:
+            n_int = 0
+        return n_int, df
+
+    n, resumen = _get_n(filtros_usados)
+
+    for campo in orden_relajacion:
+        if n >= int(min_n_minimo):
+            break
+        if campo in filtros_usados:
+            filtros_relajados.append(campo)
+            del filtros_usados[campo]
+            n, resumen = _get_n(filtros_usados)
+
+    if n >= int(min_n_fiable):
+        precision = "alta"
+    elif n >= int(min_n_warn):
+        precision = "media"
+    elif n >= int(min_n_minimo):
+        precision = "baja"
+    else:
+        precision = "minima"
+        # Si sigue por debajo de mínimo, último recurso: sin filtros.
+        n_global, resumen_global = _get_n({})
+        if not resumen_global.empty:
+            n = n_global
+            resumen = resumen_global
+            for k in list(filtros_usados.keys()):
+                if k not in filtros_relajados:
+                    filtros_relajados.append(k)
+            filtros_usados = {}
+
+    return {
+        "resumen": resumen if isinstance(resumen, pd.DataFrame) else pd.DataFrame(),
+        "precision": precision,
+        "n_efectivo": int(max(0, n)),
+        "filtros_activos": filtros_usados,
+        "filtros_relajados": filtros_relajados,
+    }
+
+
 @st.cache_data(ttl=120)
 def cargar_intencion_perfil_microdatos(filtros: dict[str, Any], limit: int = 12) -> pd.DataFrame:
     _ensure_microdatos_schema()

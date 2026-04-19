@@ -72,6 +72,19 @@ cargar_intencion_perfil_microdatos = getattr(_db, "cargar_intencion_perfil_micro
 cargar_opciones_perfil_microdatos = getattr(_db, "cargar_opciones_perfil_microdatos", _fallback_dict)
 cargar_recuerdo_perfil_microdatos = getattr(_db, "cargar_recuerdo_perfil_microdatos", _fallback_df)
 cargar_resumen_perfil_microdatos = getattr(_db, "cargar_resumen_perfil_microdatos", _fallback_df)
+cargar_resumen_perfil_microdatos_robusto = getattr(
+    _db,
+    "cargar_resumen_perfil_microdatos_robusto",
+    lambda filtros, **kwargs: {
+        "resumen": _db.cargar_resumen_perfil_microdatos(filtros)
+        if hasattr(_db, "cargar_resumen_perfil_microdatos")
+        else pd.DataFrame(),
+        "precision": "alta",
+        "n_efectivo": 999,
+        "filtros_activos": filtros,
+        "filtros_relajados": [],
+    },
+)
 cargar_nowcasting = getattr(_db, "cargar_nowcasting", _fallback_df)
 cargar_perfiles_votante = getattr(_db, "cargar_perfiles_votante", _fallback_df)
 cargar_perfiles_usuario_custom = getattr(_db, "cargar_perfiles_usuario_custom", _fallback_df)
@@ -3079,42 +3092,55 @@ with tab5:
         "recuerdo_voto_anterior": recuerdo_groups.get(recuerdo_sel) if recuerdo_sel != "Sin filtro" else None,
     }
 
-    relax_order = [
-        "recuerdo_voto_anterior",
-        "intencion_voto",
-        "escideol_bin",
-        "principal_problema",
-        "ingresos_hogar",
-        "religion",
-        "tamano_habitat",
-        "ocupacion",
-        "ccaa_id",
-        "clase_social_subjetiva",
-        "identidad_territorial",
-        "situacion_laboral",
-        "estudios",
-        "grupo_edad",
-        "sexo",
-    ]
-
-    def _resolver_filtros_con_fallback(base: dict[str, object]) -> tuple[dict[str, object], pd.DataFrame, int]:
-        active = dict(base)
-        dropped = 0
-        resumen_df = cargar_resumen_perfil_microdatos(active)
-        n = 0 if resumen_df.empty else int(float(resumen_df.iloc[0].get("n", 0) or 0))
-        if n > 0:
-            return active, resumen_df, dropped
-        for key in relax_order:
-            active[key] = None
-            dropped += 1
-            resumen_df = cargar_resumen_perfil_microdatos(active)
-            n = 0 if resumen_df.empty else int(float(resumen_df.iloc[0].get("n", 0) or 0))
-            if n > 0:
-                return active, resumen_df, dropped
-        return {}, cargar_resumen_perfil_microdatos({}), dropped
-
     if analizar or guardar:
-        filtros_activos, resumen, n_relajados = _resolver_filtros_con_fallback(filtros_base)
+        resultado_robusto = cargar_resumen_perfil_microdatos_robusto(filtros_base)
+        resumen = resultado_robusto["resumen"]
+        precision = str(resultado_robusto.get("precision", "alta"))
+        n_efectivo = int(resultado_robusto.get("n_efectivo", 0) or 0)
+        filtros_relajados = list(resultado_robusto.get("filtros_relajados", []) or [])
+        filtros_activos_reales = dict(resultado_robusto.get("filtros_activos", {}) or {})
+
+        if filtros_relajados:
+            nombres_legibles = {
+                "religion": "Religión",
+                "situacion_economica_españa": "Situación económica España",
+                "situacion_economica_personal": "Situación económica personal",
+                "satisfaccion_democracia": "Satisfacción con la democracia",
+                "ingresos_hogar": "Ingresos del hogar",
+                "ocupacion": "Ocupación",
+                "clase_social_subjetiva": "Clase social",
+                "principal_problema": "Principal problema",
+                "tamano_habitat": "Tipo de municipio",
+                "ccaa_id": "CCAA",
+                "identidad_territorial": "Identidad territorial",
+                "situacion_laboral": "Situación laboral",
+                "estudios": "Estudios",
+                "grupo_edad": "Grupo de edad",
+                "sexo": "Sexo",
+            }
+            relajados_nombres = [nombres_legibles.get(f, str(f)) for f in filtros_relajados]
+
+            if precision == "baja":
+                st.warning(
+                    f"⚠️ Muestra ajustada (N={n_efectivo} casos). Para ampliar la representatividad "
+                    f"se han omitido los filtros: **{', '.join(relajados_nombres)}**. "
+                    f"El perfil es orientativo."
+                )
+            elif precision == "minima":
+                st.warning(
+                    f"⚠️ Muestra muy pequeña (N={n_efectivo}). Perfil basado en características "
+                    f"generales. Se omitieron: **{', '.join(relajados_nombres)}**."
+                )
+            elif precision == "media":
+                st.info(
+                    f"ℹ️ Perfil basado en N={n_efectivo} casos. "
+                    + (
+                        f"Filtros omitidos para ampliar muestra: {', '.join(relajados_nombres)}."
+                        if relajados_nombres
+                        else ""
+                    )
+                )
+
         if resumen.empty or int(float(resumen.iloc[0].get("n", 0) or 0)) == 0:
             st.error("No hay microdatos cargados todavía para construir perfiles.")
         else:
@@ -3124,31 +3150,26 @@ with tab5:
             edad_media = float(r.get("edad_media", 45.0) or 45.0)
             ideologia_media = float(r.get("ideologia_media", escideol_manual) or escideol_manual)
 
-            intencion_pf = cargar_intencion_perfil_microdatos(filtros_activos, limit=12)
-            ccaa_pf = cargar_ccaa_perfil_microdatos(filtros_activos, limit=10)
-            recuerdo_pf = cargar_recuerdo_perfil_microdatos(filtros_activos, limit=10)
-            preocup_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "principal_problema", limit=8)
-            habitat_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "tamano_habitat", limit=6)
-            ingresos_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "ingresos_hogar", limit=6)
-            religion_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "religion", limit=6)
-            econ_p_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "situacion_economica_personal", limit=5)
-            econ_e_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "situacion_economica_españa", limit=5)
-            ccaa_real_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos, "ccaa_residencia", limit=10)
+            intencion_pf = cargar_intencion_perfil_microdatos(filtros_activos_reales, limit=12)
+            ccaa_pf = cargar_ccaa_perfil_microdatos(filtros_activos_reales, limit=10)
+            recuerdo_pf = cargar_recuerdo_perfil_microdatos(filtros_activos_reales, limit=10)
+            preocup_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "principal_problema", limit=8)
+            habitat_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "tamano_habitat", limit=6)
+            ingresos_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "ingresos_hogar", limit=6)
+            religion_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "religion", limit=6)
+            econ_p_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "situacion_economica_personal", limit=5)
+            econ_e_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "situacion_economica_españa", limit=5)
+            ccaa_real_pf = cargar_distribucion_campo_perfil_microdatos(filtros_activos_reales, "ccaa_residencia", limit=10)
 
             n_eff = max(80, n_obs)
             margen_base = 1.96 * math.sqrt(0.25 / n_eff) * 100.0
             confianza_txt = "Alta" if n_obs >= 700 else ("Media" if n_obs >= 220 else "Baja")
-            cobertura_txt = "Exacta" if n_relajados == 0 else f"Aproximada ({n_relajados} relajaciones)"
+            cobertura_txt = "Exacta" if not filtros_relajados else f"Aproximada ({len(filtros_relajados)} relajaciones)"
             k1, k2, k3, k4 = st.columns(4)
             k1.metric("Confianza estadística", confianza_txt)
             k2.metric("Precisión base", f"±{margen_base:.1f} pp")
             k3.metric("Edad media", f"{edad_media:.1f}")
             k4.metric("Ideología media", f"{ideologia_media:.2f}")
-
-            if n_relajados == 0:
-                st.success("Resultado exacto con los filtros seleccionados.")
-            else:
-                st.info(f"Resultado aproximado: se relajaron {n_relajados} filtro(s). Se muestran intervalos de confianza (IC 95%).")
 
             st.markdown(
                 f"**Perfil evaluado:** {sexo_sel} · {edad_sel} · {estudios_sel} · {sitlab_sel} · {clasesub_sel} · {ccaa_sel} · {habitat_sel}"
