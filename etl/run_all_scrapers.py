@@ -34,9 +34,9 @@ def main():
 
     # 1. RSS noticias
     try:
-        from etl.sources.rss_noticias import run_scraper
+        from etl.sources.rss_noticias import ingest as rss_ingest
         logger.info("=== RSS Noticias ===")
-        resultados["rss"] = run_scraper(engine)
+        resultados["rss"] = rss_ingest()
         time.sleep(2)
     except Exception as exc:
         logger.error("RSS error: %s", exc)
@@ -93,7 +93,33 @@ def main():
         logger.error("Agenda oficial error: %s", exc)
         resultados["agenda_oficial"] = {"error": str(exc)}
 
-    # 7. Índices Politeia
+    # 7. Institucional — BOE
+    try:
+        from etl.institucional.boe_rss import fetch_boe_items, upsert_boe_publications
+        logger.info("=== BOE RSS ===")
+        items = fetch_boe_items(limit=40)
+        with engine.connect() as conn:
+            n = upsert_boe_publications(items, conn)
+        resultados["boe"] = {"parsed": len(items), "new": n}
+        time.sleep(1)
+    except Exception as exc:
+        logger.error("BOE error: %s", exc)
+        resultados["boe"] = {"error": str(exc)}
+
+    # 8. Institucional — Moncloa agenda
+    try:
+        from etl.institucional.moncloa_agenda import fetch_moncloa_agenda, upsert_agenda_items
+        logger.info("=== Moncloa Agenda ===")
+        items = fetch_moncloa_agenda()
+        with engine.connect() as conn:
+            n = upsert_agenda_items(items, conn)
+        resultados["moncloa"] = {"parsed": len(items), "new": n}
+        time.sleep(1)
+    except Exception as exc:
+        logger.error("Moncloa error: %s", exc)
+        resultados["moncloa"] = {"error": str(exc)}
+
+    # 9. Índices Politeia
     try:
         from analytics.indices.compute_all import run_all_indices
         logger.info("=== Indices Politeia ===")
@@ -102,7 +128,7 @@ def main():
         logger.error("Indices error: %s", exc)
         resultados["indices"] = {"error": str(exc)}
 
-    # 8. QA checks ETL/reporting
+    # 10. QA checks ETL/reporting
     try:
         from etl.quality.election_reporting_checks import run_checks
         logger.info("=== QA election reporting checks ===")

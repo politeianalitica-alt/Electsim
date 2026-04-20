@@ -16,3 +16,19 @@ pyjwt>=2.9.0
 polars>=1.8.2
 tiktoken>=0.8.0
 pgvector>=0.3.6
+
+# ── Microdatos & survey analytics (pyreadstat, weightedcalcs) ────────────────
+pyreadstat>=1.2.7            # Leer SPSS/SAV del CIS directamente en pandas
+weightedcalcs>=0.4.1         # Cálculos estadísticos con pesos muestrales
+scipy>=1.13.0                # Tests estadísticos sobre datos de encuesta
+
+# ── Clustering & ML (kmodes para datos mixtos CIS) ───────────────────────────
+scikit-learn>=1.5.0          # KMeans, PCA, preprocessing
+kmodes>=0.12.2               # k-modes y k-prototypes para variables categóricas
+prince>=0.13.0               # MCA/PCA/FAMD sobre datos mixtos
+
+# ── Modelos estadísticos ──────────────────────────────────────────────────────
+statsmodels>=0.14.2          # Regresiones, modelos de respuesta sobre encuestas
+
+# ── ETL & calidad de datos ───────────────────────────────────────────────────
+alembic>=1.13.0              # Migraciones DB con autogenerate

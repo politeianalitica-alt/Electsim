@@ -41,6 +41,14 @@ from dashboard.services.agenda_service import (
     EVENT_TYPE_COLORS,
 )
 from dashboard.services.legislative_service import activity_kpis
+from dashboard.services.tipi_service import (
+    classify_text, tag_initiative, get_top_topics_overview,
+    get_topic_salience, topic_color, topic_label, TIPI_TOPICS,
+)
+from dashboard.services.quality_service import (
+    validate_boe, validate_agenda, validate_parliamentary_votes,
+    run_all_validations, reports_to_df,
+)
 from etl.sources.agendas_dinamicas import fetch_all_agendas
 
 ORANGE = "#F97316"
@@ -188,13 +196,14 @@ if not df_incidents.empty:
         st.warning(f"⚠️ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones, tab_etl = st.tabs([
+tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones, tab_temas, tab_etl = st.tabs([
     "◈  BOE de Hoy",
     "◉  Votaciones",
     "◎  Agenda Decisores",
     "⬡  Comunicados",
     "◈  Leyes & Actividad",
     "◉  Comisiones",
+    "⬢  Temas TIPI",
     "⚙  Estado ETL",
 ])
 
@@ -266,6 +275,13 @@ with tab_boe:
             if url else
             f'<div style="font-weight:700;font-size:.9rem;color:{TEXT};line-height:1.4">{item["titulo"]}</div>'
         )
+        # TIPI topic classification
+        _tipi = classify_text(f"{item['titulo']} {item.get('resumen','')}")
+        _tipi_html = "".join(
+            f'<span class="badge" style="background:{topic_color(t)}22;color:{topic_color(t)};'
+            f'border:1px solid {topic_color(t)}44;margin-right:3px">{topic_label(t)}</span>'
+            for t in _tipi.topics[:2]
+        )
         st.markdown(
             f'<div class="boe-card {css_rel}">'
             f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem">'
@@ -278,7 +294,8 @@ with tab_boe:
             + titulo_html +
             f'<div style="font-size:.78rem;color:{MUTED};margin:.3rem 0">{item.get("organismo","BOE")} &nbsp;&bull;&nbsp; {item.get("seccion","")}</div>'
             f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.5">{item.get("resumen","")}</div>'
-            f'</div>',
+            + (f'<div style="margin-top:.4rem">{_tipi_html}</div>' if _tipi.topics[0] != "OTROS" else "")
+            + f'</div>',
             unsafe_allow_html=True,
         )
 
@@ -296,8 +313,8 @@ with tab_votaciones:
 
     if not is_votes_real:
         st.info(
-            "Sin votaciones en base de datos. Ejecuta `python -m etl.sources.congreso_api` "
-            "para importar desde la API abierta del Congreso, o aplica la migración "
+            "Sin votaciones en base de datos. Ejecuta `python -m etl.institucional.congreso_iniciativas` "
+            "para importar iniciativas y votaciones desde la API del Congreso, o aplica la migración "
             "`0013_institucional_core.sql` y pobla `parliamentary_vote`."
         )
     else:
@@ -707,15 +724,121 @@ with tab_comisiones:
             )
             st.plotly_chart(fig_cp, use_container_width=True)
 
-# ── Tab 7: Estado ETL ─────────────────────────────────────────────────────────
+# ── Tab 7: Temas TIPI ────────────────────────────────────────────────────────
+with tab_temas:
+    sec_hdr("Radar temático — clasificación TIPI de actividad legislativa", CYAN)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{MUTED};margin-bottom:1rem">'
+        f'Clasificación temática inspirada en el <b>TIPI Engine</b> de Political Watch. '
+        f'Cada iniciativa del Congreso, publicación BOE y votación se clasifica automáticamente '
+        f'en las 24 áreas de política pública de la taxonomía TIPI.</div>',
+        unsafe_allow_html=True,
+    )
+
+    _df_boe_tipi = cargar_boe_publicaciones(dias=7, limit=100)
+    _df_init_tipi = cargar_actividad_reciente_congreso(dias=30, limit=300)
+
+    # Vista consolidada de temas del día/semana
+    sec_hdr("Distribución temática (BOE + iniciativas)", BLUE)
+    _df_overview = get_top_topics_overview(
+        df_boe=_df_boe_tipi if not _df_boe_tipi.empty else None,
+        df_initiatives=_df_init_tipi if not _df_init_tipi.empty else None,
+    )
+    if _df_overview.empty:
+        st.info("Sin datos para clasificar. Ejecuta los ETLs institucionales primero.")
+    else:
+        _top_k = min(15, len(_df_overview))
+        fig_tipi = go.Figure(go.Bar(
+            x=_df_overview["total"].head(_top_k).tolist()[::-1],
+            y=_df_overview["topic_label"].head(_top_k).tolist()[::-1],
+            orientation="h",
+            marker_color=_df_overview["color"].head(_top_k).tolist()[::-1],
+            text=_df_overview["total"].head(_top_k).tolist()[::-1],
+            textposition="outside",
+            textfont=dict(color=TEXT2, size=10),
+            hovertemplate=(
+                "<b>%{y}</b><br>"
+                "Total: %{x}<br>"
+                "<extra></extra>"
+            ),
+        ))
+        fig_tipi.update_layout(
+            height=max(350, _top_k * 28),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(title="Nº menciones", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
+            yaxis=dict(title=None, tickfont=dict(color=TEXT2, size=10)),
+            margin=dict(t=10, b=10, l=10, r=60),
+            showlegend=False,
+        )
+        st.plotly_chart(fig_tipi, use_container_width=True)
+
+        col_b, col_i = st.columns(2)
+        with col_b:
+            st.metric("Temas activos en BOE", int(_df_overview["n_boe"].gt(0).sum()))
+        with col_i:
+            st.metric("Temas activos en Congreso", int(_df_overview["n_initiatives"].gt(0).sum()))
+
+    # Saliencia temática por partido
+    if not _df_init_tipi.empty:
+        sec_hdr("Saliencia temática por partido", PURPLE)
+        st.markdown(
+            f'<div style="font-size:.76rem;color:{MUTED};margin-bottom:.6rem">'
+            f'% de iniciativas de cada partido por área temática — mide en qué temas se enfoca cada grupo parlamentario.</div>',
+            unsafe_allow_html=True,
+        )
+        _df_salience = get_topic_salience(_df_init_tipi)
+        if not _df_salience.empty:
+            _partidos_sal = sorted(_df_salience["partido_siglas"].unique().tolist())
+            _part_sel = st.selectbox("Partido", ["Todos"] + _partidos_sal, key="tipi_partido")
+            _df_sal_show = _df_salience if _part_sel == "Todos" else \
+                           _df_salience[_df_salience["partido_siglas"] == _part_sel]
+            _df_sal_top = _df_sal_show.head(30)
+            st.dataframe(
+                _df_sal_top[["partido_siglas", "topic_label", "n", "pct"]].rename(columns={
+                    "partido_siglas": "Partido",
+                    "topic_label": "Tema",
+                    "n": "Iniciativas",
+                    "pct": "% del partido",
+                }),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    # Buscador TIPI en tiempo real
+    sec_hdr("Clasificador temático interactivo", AMBER)
+    _texto_check = st.text_area(
+        "Pega aquí el título o descripción de una iniciativa:",
+        height=80, key="tipi_texto",
+        placeholder="Ej: Proposición de Ley para la regulación de los precios del alquiler en zonas tensionadas...",
+    )
+    if _texto_check:
+        _result = classify_text(_texto_check)
+        _topic_cols = st.columns(min(3, len(_result.topics)))
+        for _idx, _tc in enumerate(_result.topics[:3]):
+            with _topic_cols[_idx]:
+                _tc_color = topic_color(_tc)
+                st.markdown(
+                    f'<div style="background:{BG2};border:1px solid {_tc_color}44;'
+                    f'border-top:3px solid {_tc_color};border-radius:8px;padding:.7rem .9rem">'
+                    f'<div style="font-size:.65rem;color:{_tc_color};font-weight:700;margin-bottom:.2rem">TEMA {_idx+1}</div>'
+                    f'<div style="font-weight:700;color:{TEXT};font-size:.9rem">{topic_label(_tc)}</div>'
+                    f'<div style="font-size:.72rem;color:{MUTED};margin-top:.2rem">'
+                    f'Score: {_result.scores.get(_tc, 0):.0f}/100</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+        if _result.matched_keywords:
+            st.caption(f"Keywords detectadas: {', '.join(_result.matched_keywords[:8])}")
+
+# ── Tab 8: Estado ETL ─────────────────────────────────────────────────────────
 with tab_etl:
     sec_hdr("Estado de fuentes institucionales", CYAN)
 
     institucional_sources = [
-        ("boe",        "boe",     "https://www.boe.es/rss/boe.php",     "python -m etl.institucional.boe_rss"),
-        ("moncloa",    "agenda",  "Moncloa HTML + RSS",                  "python -m etl.institucional.moncloa_agenda"),
-        ("congreso",   "congreso","https://www.congreso.es/opendata/api","python -m etl.sources.congreso_api"),
-        ("senado",     "senado",  "https://www.senado.es/datosabiertos", "python -m etl.sources.senado_api (pendiente)"),
+        ("boe",        "boe",     "https://www.boe.es/rss/boe.php",              "python -m etl.institucional.boe_rss"),
+        ("moncloa",    "agenda",  "Moncloa HTML + RSS",                         "python -m etl.institucional.moncloa_agenda"),
+        ("congreso",   "congreso","https://www.congreso.es/opendata/api",       "python -m etl.institucional.congreso_iniciativas"),
+        ("senado",     "senado",  "https://www.senado.es/datosabiertos",        "python -m etl.sources.senado_api"),
     ]
 
     for source_id, stype, url, cmd in institucional_sources:
@@ -757,6 +880,38 @@ with tab_etl:
                 )
     else:
         st.success("Sin incidencias activas.")
+
+    # Quality reports — inspired by great_expectations
+    sec_hdr("Validación de calidad de datos", AMBER)
+    _qr_dfs = {}
+    _df_boe_q = cargar_boe_publicaciones(dias=3, limit=50)
+    _df_ag_q  = cargar_agenda_institucional(dias_atras=7, dias_adelante=7, limit=50)
+    _df_vot_q = cargar_votaciones_pleno(dias=30, limit=30)
+    if not _df_boe_q.empty: _qr_dfs["boe"] = _df_boe_q
+    if not _df_ag_q.empty:  _qr_dfs["agenda"] = _df_ag_q
+    if not _df_vot_q.empty: _qr_dfs["votes"] = _df_vot_q
+
+    if _qr_dfs:
+        _reports = run_all_validations(**_qr_dfs)
+        _df_qual = reports_to_df(_reports)
+        for _, _rr in _df_qual.iterrows():
+            _sc = GREEN if _rr["estado"] == "PASS" else (AMBER if _rr["estado"] == "WARN" else RED)
+            st.markdown(
+                f'<div style="display:flex;align-items:center;gap:.8rem;padding:.5rem .8rem;'
+                f'background:{BG2};border:1px solid {BORDER};border-radius:6px;margin-bottom:.3rem">'
+                f'<span style="font-size:.82rem;color:{TEXT};font-weight:600;flex:1">{_rr["fuente"]}</span>'
+                f'<span class="badge" style="background:{_sc}22;color:{_sc};border:1px solid {_sc}44">'
+                f'{_rr["estado"]}</span>'
+                f'<span style="font-size:.76rem;color:{MUTED}">Score: {_rr["score"]}/100</span>'
+                f'<span style="font-size:.72rem;color:{TEXT2}">'
+                f'✓{_rr["passed"]} ⚠{_rr["warned"]} ✗{_rr["failed"]}</span>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+            if _rr["detalle"]:
+                st.caption(f"  ↳ {_rr['detalle'][:150]}")
+    else:
+        st.info("Sin datos en BD para validar. Ejecuta los ETLs primero.")
 
     st.divider()
     st.markdown(
