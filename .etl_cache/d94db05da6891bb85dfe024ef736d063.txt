@@ -1,0 +1,1579 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/143825083.js"></script>
+    
+        <!-- End of HubSpot Embed Code -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	<link rel='stylesheet' id='tribe-events-views-v2-bootstrap-datepicker-styles-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css?ver=6.15.18' type='text/css' media='all' />
+<link rel='stylesheet' id='tec-variables-skeleton-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/css/variables-skeleton.css?ver=6.10.3' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-common-skeleton-style-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/css/common-skeleton.css?ver=6.10.3' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-tooltipster-css-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/vendor/tooltipster/tooltipster.bundle.min.css?ver=6.10.3' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-events-views-v2-skeleton-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/css/views-skeleton.css?ver=6.15.18' type='text/css' media='all' />
+<link rel='stylesheet' id='tec-variables-full-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/css/variables-full.css?ver=6.10.3' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-common-full-style-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/css/common-full.css?ver=6.10.3' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-events-views-v2-full-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/css/views-full.css?ver=6.15.18' type='text/css' media='all' />
+<link rel='stylesheet' id='tribe-events-views-v2-print-css' href='https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/css/views-print.css?ver=6.15.18' type='text/css' media='print' />
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v27.3 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Eventos en abril 2026 &#8211; VOX</title>
+	<link rel="canonical" href="https://www.voxespana.es/agenda/" />
+	<meta property="og:locale" content="es_ES" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Agenda | - VOX" />
+	<meta property="og:url" content="https://www.voxespana.es/agenda/" />
+	<meta property="og:site_name" content="VOX" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:site" content="@vox_es" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"CollectionPage","@id":"https:\/\/www.voxespana.es\/agenda\/","url":"https:\/\/www.voxespana.es\/agenda\/","name":"Agenda | - VOX","isPartOf":{"@id":"https:\/\/www.voxespana.es\/#website"},"primaryImageOfPage":{"@id":"https:\/\/www.voxespana.es\/agenda\/#primaryimage"},"image":{"@id":"https:\/\/www.voxespana.es\/agenda\/#primaryimage"},"thumbnailUrl":"https:\/\/www.voxespana.es\/wp-content\/uploads\/2024\/01\/Ganaderia-.jpg","breadcrumb":{"@id":"https:\/\/www.voxespana.es\/agenda\/#breadcrumb"},"inLanguage":"es"},{"@type":"ImageObject","inLanguage":"es","@id":"https:\/\/www.voxespana.es\/agenda\/#primaryimage","url":"https:\/\/www.voxespana.es\/wp-content\/uploads\/2024\/01\/Ganaderia-.jpg","contentUrl":"https:\/\/www.voxespana.es\/wp-content\/uploads\/2024\/01\/Ganaderia-.jpg","width":1200,"height":675},{"@type":"BreadcrumbList","@id":"https:\/\/www.voxespana.es\/agenda\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www.voxespana.es\/"},{"@type":"ListItem","position":2,"name":"Eventos"}]},{"@type":"WebSite","@id":"https:\/\/www.voxespana.es\/#website","url":"https:\/\/www.voxespana.es\/","name":"VOX","description":"Partido Político Español","publisher":{"@id":"https:\/\/www.voxespana.es\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.voxespana.es\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"es"},{"@type":"Organization","@id":"https:\/\/www.voxespana.es\/#organization","name":"VOX","url":"https:\/\/www.voxespana.es\/","logo":{"@type":"ImageObject","inLanguage":"es","@id":"https:\/\/www.voxespana.es\/#\/schema\/logo\/image\/","url":"https:\/\/www.voxespana.es\/wp-content\/uploads\/2019\/02\/logo-vox-espana.png","contentUrl":"https:\/\/www.voxespana.es\/wp-content\/uploads\/2019\/02\/logo-vox-espana.png","width":350,"height":168,"caption":"VOX"},"image":{"@id":"https:\/\/www.voxespana.es\/#\/schema\/logo\/image\/"},"sameAs":["https:\/\/www.facebook.com\/vox.espana","https:\/\/x.com\/vox_es","https:\/\/www.instagram.com\/vox_es\/","https:\/\/www.youtube.com\/user\/voxespana"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//js.stripe.com' />
+<link rel='dns-prefetch' href='//ajax.googleapis.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="text/calendar" title="VOX &raquo; iCal Feed" href="https://www.voxespana.es/agenda/?ical=1" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<link rel='stylesheet' id='css_style-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='hadoq_archive-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/archive.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='hadoq_search-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/search.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='footer-fixed-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/footer-fixed.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='social_share-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/social_share.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css?ver=6.9.4' type='text/css' media='all' />
+<link crossorigin="anonymous" rel='stylesheet' id='google-fonts_custom-css' href='//fonts.googleapis.com/css?family=Open+Sans%3A400%2C500%2C600%2C700%7CLato%3A400%2C300%7CSignika%3A400&#038;ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='flexbox-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/flexbox.css?ver=6.9.4' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://www.voxespana.es/wp-includes/css/dist/block-library/style.css?ver=6.9.4' type='text/css' media='all' />
+
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/**
+ * These rules are needed for backwards compatibility.
+ * They should match the button element rules in the base theme.json file.
+ */
+.wp-block-button__link {
+	color: #ffffff;
+	background-color: #32373c;
+	border-radius: 9999px; /* 100% causes an oval, but any explicit but really high value retains the pill shape. */
+
+	/* This needs a low specificity so it won't override the rules from the button element if defined in theme.json. */
+	box-shadow: none;
+	text-decoration: none;
+
+	/* The extra 2px are added to size solids the same as the outline versions.*/
+	padding: calc(0.667em + 2px) calc(1.333em + 2px);
+
+	font-size: 1.125em;
+}
+
+.wp-block-file__button {
+	background: #32373c;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+/*# sourceURL=/wp-includes/css/classic-themes.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='widgetopts-styles-css' href='https://www.voxespana.es/wp-content/plugins/extended-widget-options/assets/css/widget-options.css?ver=5.3.2' type='text/css' media='all' />
+<link rel='stylesheet' id='css-animate-css' href='https://www.voxespana.es/wp-content/plugins/extended-widget-options/assets/css/animate.min.css?ver=5.3.2' type='text/css' media='all' />
+<link rel='stylesheet' id='cf7cf-style-css' href='https://www.voxespana.es/wp-content/plugins/cf7-conditional-fields/style.css?ver=2.6.8' type='text/css' media='all' />
+<link rel='stylesheet' id='child-style-css' href='https://www.voxespana.es/wp-content/themes/voxespana/style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='sidebar-css' href='https://www.voxespana.es/wp-content/themes/hadoq/css/sidebar.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='calendar_vox-css' href='https://www.voxespana.es/wp-content/themes/voxespana/css/tribe-events-page.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='home_1-css' href='https://www.voxespana.es/wp-content/themes/voxespana/css/home_1.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='css_search-css' href='https://www.voxespana.es/wp-content/themes/voxespana/css/search.css?ver=6.9.4' type='text/css' media='all' />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" id="jquery-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/js/tribe-common.js?ver=9c44e11f3503a33e9540" id="tribe-common-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/breakpoints.js?ver=4208de2df2852e0b91ec" id="tribe-events-views-v2-breakpoints-js"></script>
+<link rel="https://api.w.org/" href="https://www.voxespana.es/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.voxespana.es/xmlrpc.php?rsd" />
+
+<meta name="cdp-version" content="1.5.3" /><script type="text/javascript">
+(function(url){
+	if(/(?:Chrome\/26\.0\.1410\.63 Safari\/537\.31|WordfenceTestMonBot)/.test(navigator.userAgent)){ return; }
+	var addEvent = function(evt, handler) {
+		if (window.addEventListener) {
+			document.addEventListener(evt, handler, false);
+		} else if (window.attachEvent) {
+			document.attachEvent('on' + evt, handler);
+		}
+	};
+	var removeEvent = function(evt, handler) {
+		if (window.removeEventListener) {
+			document.removeEventListener(evt, handler, false);
+		} else if (window.detachEvent) {
+			document.detachEvent('on' + evt, handler);
+		}
+	};
+	var evts = 'contextmenu dblclick drag dragend dragenter dragleave dragover dragstart drop keydown keypress keyup mousedown mousemove mouseout mouseover mouseup mousewheel scroll'.split(' ');
+	var logHuman = function() {
+		if (window.wfLogHumanRan) { return; }
+		window.wfLogHumanRan = true;
+		var wfscr = document.createElement('script');
+		wfscr.type = 'text/javascript';
+		wfscr.async = true;
+		wfscr.src = url + '&r=' + Math.random();
+		(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(wfscr);
+		for (var i = 0; i < evts.length; i++) {
+			removeEvent(evts[i], logHuman);
+		}
+	};
+	for (var i = 0; i < evts.length; i++) {
+		addEvent(evts[i], logHuman);
+	}
+})('//www.voxespana.es/?wordfence_lh=1&hid=A982B22DF10AB9CA900F5C2147824699');
+</script><meta name="tec-api-version" content="v1"><meta name="tec-api-origin" content="https://www.voxespana.es"><link rel="alternate" href="https://www.voxespana.es/wp-json/tribe/events/v1/" /><style>
+#sticky_sidebar {
+	height: 1700px;
+}
+</style>
+<!-- No hay ninguna versión amphtml disponible para esta URL. -->	<!-- Global site tag (gtag.js) - Google Ads: 443363439 -->
+	    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56056880-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'UA-56056880-1');
+    </script>
+	<link rel="icon" href="https://www.voxespana.es/wp-content/uploads/2019/03/cropped-VOX_logo-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.voxespana.es/wp-content/uploads/2019/03/cropped-VOX_logo-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.voxespana.es/wp-content/uploads/2019/03/cropped-VOX_logo-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.voxespana.es/wp-content/uploads/2019/03/cropped-VOX_logo-270x270.png" />
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<script src="//widget.manychat.com/467127060059387.js" defer="defer"></script>
+<script src="https://mccdn.me/assets/js/widget.js" defer="defer"></script>
+	<meta name="theme-color" content="#000000">
+	<meta name="msapplication-navbutton-color" content="#000000">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000000">
+<style id='core-block-supports-inline-css' type='text/css'>
+/**
+ * Core styles: block-supports
+ */
+
+/*# sourceURL=core-block-supports-inline-css */
+</style>
+
+</head>
+
+<body class="archive post-type-archive post-type-archive-tribe_events wp-theme-hadoq wp-child-theme-voxespana tribe-events-page-template tribe-no-js hfeed">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+	<div class="bandera bandera-rojo"></div>
+	<div class="bandera bandera-amarillo"></div>
+	<div class="bandera bandera-rojo"></div>
+	<header id="masthead" class="site-header">
+		<div class="site-branding flex-row">
+			<div class="header-container">
+				<div class="search header-part">
+					<div class="nav-search flex-column"><div class="dflex search-and-share"><div class="menu-redes-sociales-nacional-container"><ul id="menu-rrss" class="flex-row"><li id="menu-item-19473" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19473"><a target="_blank" href="https://www.facebook.com/vox.espana/"><i class="fa fa-facebook"></i></a></li>
+<li id="menu-item-19472" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19472"><a target="_blank" href="https://twitter.com/vox_es"><i class="fa fa-twitter"></i></a></li>
+<li id="menu-item-19474" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19474"><a target="_blank" href="https://www.instagram.com/vox_es/"><i class="fa fa-instagram"></i></a></li>
+<li id="menu-item-19475" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19475"><a target="_blank" href="https://www.flickr.com/photos/voxespana/"><i class="fa fa-flickr"></i></a></li>
+<li id="menu-item-19476" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19476"><a target="_blank" href="https://t.me/s/VOXTelegram"><i class="fa fa-telegram"></i></a></li>
+<li id="menu-item-20907" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-20907"><a target="_blank" href="https://www.youtube.com/user/voxespana"><i class="fa fa-youtube"></i></a></li>
+<li id="menu-item-19477" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19477"><a target="_blank" href="https://gab.com/VOX_Espana_"><img src="https://voxespana.es/wp-content/uploads/2020/03/gab-icon-new.png"></a></li>
+<li id="menu-item-19478" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19478"><a target="_blank" href="https://www.tiktok.com/@vox_espana"><img src="https://voxespana.es/wp-content/uploads/2020/03/tiktok-icon-new.png"></a></li>
+<li id="menu-item-182845" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182845"><a target="_blank" href="https://www.whatsapp.com/channel/0029VaDCD1UJJhzPmDOnRy2E"><i class="fa fa-whatsapp"></i></a></li>
+<li id="menu-item-182846" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182846"><a target="_blank" href="https://www.linkedin.com/company/18341837/admin/feed/posts/"><i class="fa fa-linkedin-square"></i></a></li>
+<li id="menu-item-182857" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182857"><a target="_blank" href="https://gettr.com/user/vox_es"><img src="https://www.voxespana.es/wp-content/uploads/2024/02/gettr-icon-1.png"></a></li>
+<li id="menu-item-182858" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182858"><a target="_blank" href="https://www.threads.net/@vox_es"><img src="https://www.voxespana.es/wp-content/uploads/2024/02/threads-icon.png"></a></li>
+</ul></div></div>
+	</div>				</div>
+				<div class='logo header-part'>
+					<div style='text-align: center;'><a href='https://www.voxespana.es'  alt='VOX'><img id='logo' src='https://www.voxespana.es/wp-content/themes/voxespana/img/logos-provincias/La Coruña.png' alt='VOX La Coruña' style='max-height: 91px;'/></a></div>				</div>
+				<div class="participa header-part">
+											<div class="afiliate-container" style="display: block;">
+							<a class="carnet" href="https://www.voxespana.es/vox-europa/manifiesto-patriots-eu" target="_blank" style="display: inline-block;"><img src="/wp-content/uploads/2025/12/PATRIOTS-AZUL.png" class="carnet_afiliado logoPatriots"/></a>
+						<a class="carnet" href="https://www.voxespana.es/alta-de-afiliados" target="_blank" style="display: inline-block;"><img src="https://www.voxespana.es/wp-content/themes/voxespana/img/carnet-afiliado-nuevo.png" class="carnet_afiliado"/></a>
+						<a class="carnet" href="https://www.voxespana.es/alta-de-afiliados" target="_blank" style="display: inline-block;line-height: 1;">¡AFÍLIATE!<br>Y PIDE TU CARNET</a>
+						<!-- <img class="crespon" src="https://www.voxespana.es/wp-content/themes/voxespana/img/crespon.png"/> -->
+							
+					</div>
+					<div class="afiliate-container">
+						<a class="vox-en-congreso" href="https://www.voxespana.es/vox-grupo-parlamentario" target="_blank"><span>VOX EN EL CONGRESO</span><img src="https://www.voxespana.es/wp-content/themes/voxespana/img/congreso.png" class="logo_congreso"/></a>
+					</div>
+									</div>
+			</div>
+		</div><!-- .site-branding -->
+		<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><i class="fa fa-bars"></i></button>
+		<nav id="site-navigation" class="main-navigation">
+			<div class="menu-madrid-container"><ul id="primary-menu" class="menu"><li id="menu-item-14674" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14674"><a href="https://www.voxespana.es/">Inicio</a></li>
+<li id="menu-item-5662" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5662"><a href="https://www.voxespana.es/espana/que-es-vox">¿Qué es VOX?</a>
+<ul class="sub-menu">
+	<li id="menu-item-4700" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4700"><a href="https://www.voxespana.es/espana/que-es-vox">¿Qué es VOX?</a></li>
+	<li id="menu-item-210394" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-210394"><a href="https://www.voxespana.es/espana/que-es-vox/normativa">Normativa</a></li>
+	<li id="menu-item-5667" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5667"><a href="https://www.voxespana.es/espana/organos-internos">Órganos internos</a></li>
+	<li id="menu-item-102259" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-102259"><a href="https://www.voxespana.es/transparencia">Transparencia</a></li>
+</ul>
+</li>
+<li id="menu-item-208795" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-208795"><a href="https://www.voxespana.es/vox-europa/manifiesto-patriots-eu">Manifiesto Patriots.eu</a></li>
+<li id="menu-item-56147" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-56147"><a href="https://www.voxespana.es/vox-europa">VOX Europa</a></li>
+<li id="menu-item-19986" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19986"><a href="https://www.voxespana.es/vox-en-tu-provincia">Vox en tu Provincia</a></li>
+<li id="menu-item-164937" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-164937"><a href="https://www.voxespana.es/programa/otras-propuestas-de-vox">Algunas propuestas de VOX</a>
+<ul class="sub-menu">
+	<li id="menu-item-238354" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238354"><a href="https://www.voxespana.es/programa/programa-electoral-vox">Programa electoral de VOX</a></li>
+</ul>
+</li>
+<li id="menu-item-5672" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-5672"><a href="https://www.voxespana.es/alta-de-afiliados">Participa</a>
+<ul class="sub-menu">
+	<li id="menu-item-5683" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5683"><a href="https://www.voxespana.es/alta-de-afiliados">Alta de afiliados</a></li>
+	<li id="menu-item-159654" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-159654"><a target="_blank" href="https://donacion.voxespana.es/">Donación</a></li>
+	<li id="menu-item-5675" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5675"><a href="https://www.voxespana.es/espana/panel-de-afiliados">Panel de Afiliados</a></li>
+	<li id="menu-item-6194" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6194"><a href="/noticias/recibe-las-ultimas-novedades-de-vox-en-tu-whatsapp-20180628">Recibe nuestro boletín</a></li>
+</ul>
+</li>
+<li id="menu-item-11790" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11790"><a href="https://www.voxespana.es/exteriores">VOX en el Exterior</a></li>
+<li id="menu-item-185868" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-185868"><a href="https://www.voxespana.es/noticias/previsiones-agenda-de-vox-actos-programados-20230510">Previsiones de agenda</a></li>
+<li id="menu-item-19296" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-19296"><a href="https://www.voxespana.es/espana/contacto">Contacto</a>
+<ul class="sub-menu">
+	<li id="menu-item-19297" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19297"><a href="https://www.voxespana.es/espana/contacto">Contacto</a></li>
+	<li id="menu-item-92168" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92168"><a href="https://www.voxespana.es/formulario-contacto">Formulario de Contacto</a></li>
+	<li id="menu-item-4702" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4702"><a href="https://www.voxespana.es/espana/sala-de-prensa-vox">Sala de Prensa</a></li>
+</ul>
+</li>
+<li id="menu-item-266610" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-266610"><a href="https://www.voxespana.es/proximos-actos">Próximos actos</a></li>
+</ul></div>
+			
+				<input type="checkbox" name="toggle-search" id="toggle-search" class="menu-search">
+				<label for="toggle-search" class="menu-search flex-column"><i class="fa fa-search"> </i></label>
+				<div class="search-box menu-search">
+					<form role="search" method="get" class="search-form flex-row" target="blank" action="https://www.voxespana.es/">
+						<label id="search-input">
+							<span class="screen-reader-text"></span>
+							<input autocomplete="off" type="search" class="search-field" placeholder="Buscar …" value="" name="s" title="Buscar:">
+						</label>
+						<input type="submit" class="search-submit" value="Buscar">
+						<label for="toggle-search" id="search-box-close" class="flex-column"><i class="fa fa-close"></i></label>
+					</form>
+				</div>
+			
+		</nav><!-- #site-navigation -->
+
+	</header><!-- #masthead -->
+	<nav id="category-navigation" class="category-navigation"><div class="menu-madrid-container"><ul id="category-menu" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14674"><a href="https://www.voxespana.es/">Inicio</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5662"><a href="https://www.voxespana.es/espana/que-es-vox">¿Qué es VOX?</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4700"><a href="https://www.voxespana.es/espana/que-es-vox">¿Qué es VOX?</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-210394"><a href="https://www.voxespana.es/espana/que-es-vox/normativa">Normativa</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5667"><a href="https://www.voxespana.es/espana/organos-internos">Órganos internos</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-102259"><a href="https://www.voxespana.es/transparencia">Transparencia</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-208795"><a href="https://www.voxespana.es/vox-europa/manifiesto-patriots-eu">Manifiesto Patriots.eu</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-56147"><a href="https://www.voxespana.es/vox-europa">VOX Europa</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19986"><a href="https://www.voxespana.es/vox-en-tu-provincia">Vox en tu Provincia</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-164937"><a href="https://www.voxespana.es/programa/otras-propuestas-de-vox">Algunas propuestas de VOX</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-238354"><a href="https://www.voxespana.es/programa/programa-electoral-vox">Programa electoral de VOX</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-5672"><a href="https://www.voxespana.es/alta-de-afiliados">Participa</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5683"><a href="https://www.voxespana.es/alta-de-afiliados">Alta de afiliados</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-159654"><a target="_blank" href="https://donacion.voxespana.es/">Donación</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5675"><a href="https://www.voxespana.es/espana/panel-de-afiliados">Panel de Afiliados</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6194"><a href="/noticias/recibe-las-ultimas-novedades-de-vox-en-tu-whatsapp-20180628">Recibe nuestro boletín</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11790"><a href="https://www.voxespana.es/exteriores">VOX en el Exterior</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-185868"><a href="https://www.voxespana.es/noticias/previsiones-agenda-de-vox-actos-programados-20230510">Previsiones de agenda</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-19296"><a href="https://www.voxespana.es/espana/contacto">Contacto</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19297"><a href="https://www.voxespana.es/espana/contacto">Contacto</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92168"><a href="https://www.voxespana.es/formulario-contacto">Formulario de Contacto</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4702"><a href="https://www.voxespana.es/espana/sala-de-prensa-vox">Sala de Prensa</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-266610"><a href="https://www.voxespana.es/proximos-actos">Próximos actos</a></li>
+</ul></div></nav><!-- #category-navigation -->	<div class="undermenu-sidebar">
+			</div>
+<div
+	 class="tribe-common tribe-events tribe-events-view tribe-events-view--month" 	data-js="tribe-events-view"
+	data-view-rest-url="https://www.voxespana.es/wp-json/tribe/views/v2/html"
+	data-view-rest-method="GET"
+	data-view-manage-url="1"
+				data-view-breakpoint-pointer="5602722e-d9cc-4e09-aa10-3e493c715427"
+	 role="main">
+	<section class="tribe-common-l-container tribe-events-l-container">
+		<div
+	class="tribe-events-view-loader tribe-common-a11y-hidden"
+	role="alert"
+	aria-live="polite"
+>
+	<span class="tribe-events-view-loader__text tribe-common-a11y-visual-hide">
+		35 eventos encontrados.	</span>
+	<div class="tribe-events-view-loader__dots tribe-common-c-loader">
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--dot tribe-common-c-loader__dot tribe-common-c-loader__dot--first" 	aria-hidden="true"
+	viewBox="0 0 15 15"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<circle cx="7.5" cy="7.5" r="7.5"/>
+</svg>
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--dot tribe-common-c-loader__dot tribe-common-c-loader__dot--second" 	aria-hidden="true"
+	viewBox="0 0 15 15"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<circle cx="7.5" cy="7.5" r="7.5"/>
+</svg>
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--dot tribe-common-c-loader__dot tribe-common-c-loader__dot--third" 	aria-hidden="true"
+	viewBox="0 0 15 15"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<circle cx="7.5" cy="7.5" r="7.5"/>
+</svg>
+	</div>
+</div>
+
+		
+		<script data-js="tribe-events-view-data" type="application/json">
+	{"slug":"month","prev_url":"https:\/\/www.voxespana.es\/agenda\/mes\/2026-03\/","next_url":"https:\/\/www.voxespana.es\/agenda\/mes\/2026-05\/","view_class":"Tribe\\Events\\Views\\V2\\Views\\Month_View","view_slug":"month","view_label":"Mes","title":"Agenda | - VOX","events":{"2026-03-30":[],"2026-03-31":[],"2026-04-01":[],"2026-04-02":[],"2026-04-03":[],"2026-04-04":[],"2026-04-05":[],"2026-04-06":[],"2026-04-07":[],"2026-04-08":[],"2026-04-09":[],"2026-04-10":[],"2026-04-11":[],"2026-04-12":[],"2026-04-13":[],"2026-04-14":[],"2026-04-15":[],"2026-04-16":[],"2026-04-17":[],"2026-04-18":[],"2026-04-19":[],"2026-04-20":[],"2026-04-21":[],"2026-04-22":[],"2026-04-23":[],"2026-04-24":[],"2026-04-25":[],"2026-04-26":[],"2026-04-27":[],"2026-04-28":[],"2026-04-29":[],"2026-04-30":[],"2026-05-01":[],"2026-05-02":[],"2026-05-03":[]},"url":"https:\/\/www.voxespana.es\/agenda\/mes\/","url_event_date":false,"bar":{"keyword":"","date":""},"today":"2026-04-16 00:00:00","now":"2026-04-16 17:19:47","home_url":"https:\/\/www.voxespana.es","rest_url":"https:\/\/www.voxespana.es\/wp-json\/tribe\/views\/v2\/html","rest_method":"GET","rest_nonce":"","should_manage_url":true,"today_url":"https:\/\/www.voxespana.es\/agenda\/mes\/","today_title":"Haz clic para seleccionar el mes actual","today_label":"Este mes","prev_label":"Mar","next_label":"May","date_formats":{"compact":"d\/m\/Y","month_and_year_compact":"m\/Y","month_and_year":"F Y","time_range_separator":" - ","date_time_separator":" -"},"messages":{"notice":["No hay eventos programados."]},"start_of_week":"1","header_title":"","header_title_element":"h1","content_title":"","show_content_title":false,"breadcrumbs":[],"backlink":false,"before_events":"","after_events":"\n<!--\nThis calendar is powered by The Events Calendar.\nhttp:\/\/evnt.is\/18wn\n-->\n","display_events_bar":true,"disable_event_search":true,"live_refresh":false,"ical":{"display_link":true,"link":{"url":"https:\/\/www.voxespana.es\/agenda\/mes\/?ical=1","text":"Exportar Eventos","title":"Usa esto para compartir los datos del calendario con Google Calendar, Apple iCal y otras aplicaciones compatibles"}},"container_classes":["tribe-common","tribe-events","tribe-events-view","tribe-events-view--month"],"container_data":[],"is_past":false,"breakpoints":{"xsmall":500,"medium":768,"full":960},"breakpoint_pointer":"5602722e-d9cc-4e09-aa10-3e493c715427","is_initial_load":true,"public_views":{"list":{"view_class":"Tribe\\Events\\Views\\V2\\Views\\List_View","view_url":"https:\/\/www.voxespana.es\/agenda\/lista\/","view_label":"Lista","aria_label":"Mostrar Eventos en la vista Lista"},"month":{"view_class":"Tribe\\Events\\Views\\V2\\Views\\Month_View","view_url":"https:\/\/www.voxespana.es\/agenda\/mes\/","view_label":"Mes","aria_label":"Mostrar Eventos en la vista Mes"}},"show_latest_past":true,"past":false,"today_date":"2026-04-16","grid_date":"2026-04-16","formatted_grid_date":"abril 2026","formatted_grid_date_mobile":"16\/04\/2026","days":{"2026-03-30":{"date":"2026-03-30","is_start_of_week":true,"year_number":"2026","month_number":"03","day_number":"30","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-03-30\/"},"2026-03-31":{"date":"2026-03-31","is_start_of_week":false,"year_number":"2026","month_number":"03","day_number":"31","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-03-31\/"},"2026-04-01":{"date":"2026-04-01","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"1","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-01\/"},"2026-04-02":{"date":"2026-04-02","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"2","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-02\/"},"2026-04-03":{"date":"2026-04-03","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"3","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-03\/"},"2026-04-04":{"date":"2026-04-04","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"4","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-04\/"},"2026-04-05":{"date":"2026-04-05","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"5","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-05\/"},"2026-04-06":{"date":"2026-04-06","is_start_of_week":true,"year_number":"2026","month_number":"04","day_number":"6","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-06\/"},"2026-04-07":{"date":"2026-04-07","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"7","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-07\/"},"2026-04-08":{"date":"2026-04-08","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"8","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-08\/"},"2026-04-09":{"date":"2026-04-09","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"9","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-09\/"},"2026-04-10":{"date":"2026-04-10","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"10","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-10\/"},"2026-04-11":{"date":"2026-04-11","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"11","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-11\/"},"2026-04-12":{"date":"2026-04-12","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"12","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-12\/"},"2026-04-13":{"date":"2026-04-13","is_start_of_week":true,"year_number":"2026","month_number":"04","day_number":"13","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-13\/"},"2026-04-14":{"date":"2026-04-14","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"14","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-14\/"},"2026-04-15":{"date":"2026-04-15","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"15","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-15\/"},"2026-04-16":{"date":"2026-04-16","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"16","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-16\/"},"2026-04-17":{"date":"2026-04-17","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"17","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-17\/"},"2026-04-18":{"date":"2026-04-18","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"18","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-18\/"},"2026-04-19":{"date":"2026-04-19","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"19","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-19\/"},"2026-04-20":{"date":"2026-04-20","is_start_of_week":true,"year_number":"2026","month_number":"04","day_number":"20","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-20\/"},"2026-04-21":{"date":"2026-04-21","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"21","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-21\/"},"2026-04-22":{"date":"2026-04-22","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"22","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-22\/"},"2026-04-23":{"date":"2026-04-23","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"23","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-23\/"},"2026-04-24":{"date":"2026-04-24","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"24","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-24\/"},"2026-04-25":{"date":"2026-04-25","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"25","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-25\/"},"2026-04-26":{"date":"2026-04-26","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"26","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-26\/"},"2026-04-27":{"date":"2026-04-27","is_start_of_week":true,"year_number":"2026","month_number":"04","day_number":"27","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-27\/"},"2026-04-28":{"date":"2026-04-28","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"28","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-28\/"},"2026-04-29":{"date":"2026-04-29","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"29","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-29\/"},"2026-04-30":{"date":"2026-04-30","is_start_of_week":false,"year_number":"2026","month_number":"04","day_number":"30","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-04-30\/"},"2026-05-01":{"date":"2026-05-01","is_start_of_week":false,"year_number":"2026","month_number":"05","day_number":"1","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-05-01\/"},"2026-05-02":{"date":"2026-05-02","is_start_of_week":false,"year_number":"2026","month_number":"05","day_number":"2","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-05-02\/"},"2026-05-03":{"date":"2026-05-03","is_start_of_week":false,"year_number":"2026","month_number":"05","day_number":"3","events":[],"featured_events":[],"multiday_events":[],"found_events":0,"more_events":0,"day_url":"https:\/\/www.voxespana.es\/agenda\/2026-05-03\/"}},"next_month":"5","prev_month":"3","next_rel":"noindex","prev_rel":"noindex","mobile_messages":{"notice":{"no-events-in-day":"No hay ning\u00fan evento este d\u00eda."}},"grid_start_date":"2026-03-30","subscribe_links":{"gcal":{"label":"Google Calendar","single_label":"A\u00f1adir a Google Calendar","visible":true,"block_slug":"hasGoogleCalendar"},"ical":{"label":"iCalendar","single_label":"Agregar a iCalendar","visible":true,"block_slug":"hasiCal"},"outlook-365":{"label":"Outlook 365","single_label":"Outlook 365","visible":true,"block_slug":"hasOutlook365"},"outlook-live":{"label":"Outlook Live","single_label":"Outlook Live","visible":true,"block_slug":"hasOutlookLive"},"ics":{"label":"Exportar archivo .ics","single_label":"Exportar archivo .ics","visible":true,"block_slug":null},"outlook-ics":{"label":"Exportar archivo .ics de Outlook","single_label":"Exportar archivo .ics de Outlook","visible":true,"block_slug":null}},"_context":{"slug":"month"},"text":"Cargando\u2026","classes":["tribe-common-c-loader__dot","tribe-common-c-loader__dot--third"]}</script>
+
+		
+		
+<header  class="tribe-events-header" >
+	
+	<div  class="tribe-events-header__messages tribe-events-c-messages tribe-common-b2 tribe-common-c-loader__dot tribe-common-c-loader__dot--third"  >
+			<div class="tribe-events-c-messages__message tribe-events-c-messages__message--notice" tabindex="0" role="alert" aria-live="assertive">
+										<div
+					 data-key="0" >
+					No hay eventos programados.				</div>
+					</div>
+	</div>
+
+	<div  class="tribe-events-header__messages tribe-events-c-messages tribe-common-b2 tribe-events-header__messages--mobile"  >
+			<div class="tribe-events-c-messages__message tribe-events-c-messages__message--notice" tabindex="0" role="alert" aria-live="assertive">
+										<div
+					 data-key="0" >
+					No hay eventos programados.				</div>
+					</div>
+	</div>
+
+	<div
+	 class="tribe-events-header__events-bar tribe-events-c-events-bar" 	data-js="tribe-events-events-bar"
+>
+
+	<h2 class="tribe-common-a11y-visual-hide">
+		Navegación de vistas	</h2>
+
+	
+	<div class="tribe-events-c-events-bar__views">
+	<h3 class="tribe-common-a11y-visual-hide">
+		Navegación de vistas de Evento	</h3>
+	<div  class="tribe-events-c-view-selector"  data-js="tribe-events-view-selector">
+		<button
+			class="tribe-events-c-view-selector__button tribe-common-c-btn__clear"
+			data-js="tribe-events-view-selector-button"
+			aria-current="true"
+			aria-description="Seleccionar vista de calendario"
+		>
+			<span class="tribe-events-c-view-selector__button-icon">
+				<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--month tribe-events-c-view-selector__button-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 18 19"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M0 .991v17.04c0 .236.162.428.361.428h17.175c.2 0 .361-.192.361-.429V.991c0-.237-.162-.428-.361-.428H.36C.161.563 0 .754 0 .99zm.985.803H16.89v2.301H.985v-2.3zM16.89 5.223H.985v12H16.89v-12zM6.31 7.366v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429H6.74a.429.429 0 00-.429.429zm3.429.857v-.857c0-.237.191-.429.428-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.428-.429zm3.428-.857v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429h-.857a.429.429 0 00-.429.429zm-6.857 4.286v-.858c0-.236.192-.428.429-.428h.857c.236 0 .428.192.428.428v.858a.429.429 0 01-.428.428H6.74a.429.429 0 01-.429-.428zm3.429-.858v.858c0 .236.191.428.428.428h.857a.429.429 0 00.429-.428v-.858a.429.429 0 00-.429-.428h-.857a.428.428 0 00-.428.428zm3.428.858v-.858c0-.236.192-.428.429-.428h.857c.236 0 .428.192.428.428v.858a.429.429 0 01-.428.428h-.857a.429.429 0 01-.429-.428zm-10.286-.858v.858c0 .236.192.428.429.428h.857a.429.429 0 00.429-.428v-.858a.429.429 0 00-.429-.428h-.857a.429.429 0 00-.429.428zm0 4.286v-.857c0-.237.192-.429.429-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.429-.429zm3.429-.857v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429H6.74a.429.429 0 00-.429.429zm3.429.857v-.857c0-.237.191-.429.428-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.428-.429z" class="tribe-common-c-svgicon__svg-fill"/>
+</svg>
+			</span>
+			<span class="tribe-events-c-view-selector__button-text tribe-common-a11y-visual-hide">
+				Mes			</span>
+			<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--caret-down tribe-events-c-view-selector__button-icon-caret-svg" 	aria-hidden="true"
+	viewBox="0 0 10 7"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M1.008.609L5 4.6 8.992.61l.958.958L5 6.517.05 1.566l.958-.958z" class="tribe-common-c-svgicon__svg-fill"/>
+</svg>
+		</button>
+		<div
+	class="tribe-events-c-view-selector__content"
+	id="tribe-events-view-selector-content"
+	data-js="tribe-events-view-selector-list-container"
+>
+	<ul class="tribe-events-c-view-selector__list">
+					<li
+	 class="tribe-events-c-view-selector__list-item tribe-events-c-view-selector__list-item--list" >
+	<a
+		href="https://www.voxespana.es/agenda/lista/"
+		class="tribe-events-c-view-selector__list-item-link"
+		data-js="tribe-events-view-link"
+		aria-label="Mostrar Eventos en la vista Lista"
+			>
+		<span class="tribe-events-c-view-selector__list-item-icon">
+			<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--list tribe-events-c-view-selector__list-item-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 19 19"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M.451.432V17.6c0 .238.163.432.364.432H18.12c.2 0 .364-.194.364-.432V.432c0-.239-.163-.432-.364-.432H.815c-.2 0-.364.193-.364.432zm.993.81h16.024V3.56H1.444V1.24zM17.468 3.56H1.444v13.227h16.024V3.56z" class="tribe-common-c-svgicon__svg-fill"/>
+	<g clip-path="url(#tribe-events-c-view-selector__list-item-icon-svg-0)" class="tribe-common-c-svgicon__svg-fill">
+		<path fill-rule="evenodd" clip-rule="evenodd" d="M11.831 4.912v1.825c0 .504.409.913.913.913h1.825a.913.913 0 00.912-.913V4.912A.913.913 0 0014.57 4h-1.825a.912.912 0 00-.913.912z"/>
+		<path d="M8.028 7.66a.449.449 0 00.446-.448v-.364c0-.246-.2-.448-.446-.448h-4.13a.449.449 0 00-.447.448v.364c0 .246.201.448.447.448h4.13zM9.797 5.26a.449.449 0 00.447-.448v-.364c0-.246-.201-.448-.447-.448h-5.9a.449.449 0 00-.446.448v.364c0 .246.201.448.447.448h5.9z"/>
+	</g>
+	<g clip-path="url(#tribe-events-c-view-selector__list-item-icon-svg-1)" class="tribe-common-c-svgicon__svg-fill">
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M11.831 10.912v1.825c0 .505.409.913.913.913h1.825a.913.913 0 00.912-.912v-1.825A.913.913 0 0014.57 10h-1.825a.912.912 0 00-.913.912z"/>
+		<path d="M8.028 13.66a.449.449 0 00.446-.448v-.364c0-.246-.2-.448-.446-.448h-4.13a.449.449 0 00-.447.448v.364c0 .246.201.448.447.448h4.13zM9.797 11.26a.449.449 0 00.447-.448v-.364c0-.246-.201-.448-.447-.448h-5.9a.449.449 0 00-.446.448v.364c0 .246.201.448.447.448h5.9z"/>
+	</g>
+	<defs>
+		<clipPath id="tribe-events-c-view-selector__list-item-icon-svg-0">
+			<path transform="translate(3.451 4)" d="M0 0h13v4H0z"/>
+		</clipPath>
+		<clipPath id="tribe-events-c-view-selector__list-item-icon-svg-1">
+			<path transform="translate(3.451 10)" d="M0 0h13v4H0z"/>
+		</clipPath>
+	</defs>
+</svg>
+		</span>
+		<span class="tribe-events-c-view-selector__list-item-text">
+			Lista		</span>
+	</a>
+</li>
+					<li
+	 class="tribe-events-c-view-selector__list-item tribe-events-c-view-selector__list-item--month tribe-events-c-view-selector__list-item--active" >
+	<a
+		href="https://www.voxespana.es/agenda/mes/"
+		class="tribe-events-c-view-selector__list-item-link"
+		data-js="tribe-events-view-link"
+		aria-label="Mostrar Eventos en la vista Mes"
+				aria-current="true"
+			>
+		<span class="tribe-events-c-view-selector__list-item-icon">
+			<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--month tribe-events-c-view-selector__list-item-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 18 19"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M0 .991v17.04c0 .236.162.428.361.428h17.175c.2 0 .361-.192.361-.429V.991c0-.237-.162-.428-.361-.428H.36C.161.563 0 .754 0 .99zm.985.803H16.89v2.301H.985v-2.3zM16.89 5.223H.985v12H16.89v-12zM6.31 7.366v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429H6.74a.429.429 0 00-.429.429zm3.429.857v-.857c0-.237.191-.429.428-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.428-.429zm3.428-.857v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429h-.857a.429.429 0 00-.429.429zm-6.857 4.286v-.858c0-.236.192-.428.429-.428h.857c.236 0 .428.192.428.428v.858a.429.429 0 01-.428.428H6.74a.429.429 0 01-.429-.428zm3.429-.858v.858c0 .236.191.428.428.428h.857a.429.429 0 00.429-.428v-.858a.429.429 0 00-.429-.428h-.857a.428.428 0 00-.428.428zm3.428.858v-.858c0-.236.192-.428.429-.428h.857c.236 0 .428.192.428.428v.858a.429.429 0 01-.428.428h-.857a.429.429 0 01-.429-.428zm-10.286-.858v.858c0 .236.192.428.429.428h.857a.429.429 0 00.429-.428v-.858a.429.429 0 00-.429-.428h-.857a.429.429 0 00-.429.428zm0 4.286v-.857c0-.237.192-.429.429-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.429-.429zm3.429-.857v.857c0 .237.192.429.429.429h.857a.429.429 0 00.428-.429v-.857a.429.429 0 00-.428-.429H6.74a.429.429 0 00-.429.429zm3.429.857v-.857c0-.237.191-.429.428-.429h.857c.237 0 .429.192.429.429v.857a.429.429 0 01-.429.429h-.857a.429.429 0 01-.428-.429z" class="tribe-common-c-svgicon__svg-fill"/>
+</svg>
+		</span>
+		<span class="tribe-events-c-view-selector__list-item-text">
+			Mes		</span>
+	</a>
+</li>
+			</ul>
+</div>
+	</div>
+</div>
+
+</div>
+
+	<div class="tribe-events-c-top-bar tribe-events-header__top-bar">
+
+	<nav class="tribe-events-c-top-bar__nav tribe-common-a11y-hidden" aria-label="Eventos Paginación">
+	<ul class="tribe-events-c-top-bar__nav-list">
+		<li class="tribe-events-c-top-bar__nav-list-item">
+	<a
+		href="https://www.voxespana.es/agenda/mes/2026-03/"
+		class="tribe-common-c-btn-icon tribe-common-c-btn-icon--caret-left tribe-events-c-top-bar__nav-link tribe-events-c-top-bar__nav-link--prev"
+		aria-label="Mes anterior"
+		title="Mes anterior"
+		data-js="tribe-events-view-link"
+		rel="noindex"
+	>
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--caret-left tribe-common-c-btn-icon__icon-svg tribe-events-c-top-bar__nav-link-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 10 16"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path d="M9.7 14.4l-1.5 1.5L.3 8 8.2.1l1.5 1.5L3.3 8l6.4 6.4z"/>
+</svg>
+	</a>
+</li>
+
+			</ul>
+</nav>
+
+	<a
+	href="https://www.voxespana.es/agenda/mes/"
+	class="tribe-common-c-btn-border-small tribe-events-c-top-bar__today-button tribe-common-a11y-hidden"
+	data-js="tribe-events-view-link"
+	aria-description="Haz clic para seleccionar el mes actual"
+>
+	Este mes</a>
+
+	<div class="tribe-events-c-top-bar__datepicker">
+	<button
+		class="tribe-common-c-btn__clear tribe-common-h3 tribe-common-h--alt tribe-events-c-top-bar__datepicker-button"
+		data-js="tribe-events-top-bar-datepicker-button"
+		type="button"
+		aria-description="Haz clic para desplegar el selector de fechas"
+	>
+		<time
+			datetime="2026-04"
+			class="tribe-events-c-top-bar__datepicker-time"
+		>
+			<span class="tribe-events-c-top-bar__datepicker-mobile">
+				16/04/2026			</span>
+			<span class="tribe-events-c-top-bar__datepicker-desktop tribe-common-a11y-hidden">
+				abril 2026			</span>
+		</time>
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--caret-down tribe-events-c-top-bar__datepicker-button-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 10 7"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path fill-rule="evenodd" clip-rule="evenodd" d="M1.008.609L5 4.6 8.992.61l.958.958L5 6.517.05 1.566l.958-.958z" class="tribe-common-c-svgicon__svg-fill"/>
+</svg>
+	</button>
+	<label
+		class="tribe-events-c-top-bar__datepicker-label tribe-common-a11y-visual-hide"
+		for="tribe-events-top-bar-date"
+	>
+		Seleccionar fecha.	</label>
+	<input
+		type="text"
+		class="tribe-events-c-top-bar__datepicker-input tribe-common-a11y-visual-hide"
+		data-js="tribe-events-top-bar-date"
+		id="tribe-events-top-bar-date"
+		name="tribe-events-views[tribe-bar-date]"
+		value="16/04/2026"
+		tabindex="-1"
+		autocomplete="off"
+		readonly="readonly"
+			/>
+	<div class="tribe-events-c-top-bar__datepicker-container" data-js="tribe-events-top-bar-datepicker-container"></div>
+	<template class="tribe-events-c-top-bar__datepicker-template-prev-icon">
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--caret-left tribe-events-c-top-bar__datepicker-nav-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 10 16"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path d="M9.7 14.4l-1.5 1.5L.3 8 8.2.1l1.5 1.5L3.3 8l6.4 6.4z"/>
+</svg>
+	</template>
+	<template class="tribe-events-c-top-bar__datepicker-template-next-icon">
+		<svg
+	 class="tribe-common-c-svgicon tribe-common-c-svgicon--caret-right tribe-events-c-top-bar__datepicker-nav-icon-svg" 	aria-hidden="true"
+	viewBox="0 0 10 16"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<path d="M.3 1.6L1.8.1 9.7 8l-7.9 7.9-1.5-1.5L6.7 8 .3 1.6z"/>
+</svg>
+	</template>
+</div>
+
+	
+	<div class="tribe-events-c-top-bar__actions tribe-common-a11y-hidden">
+	</div>
+
+</div>
+</header>
+
+		
+		<h2 class="tribe-common-a11y-visual-hide" id="tribe-events-calendar-header">
+						Calendario de Eventos		</h2>
+		<table
+			class="tribe-events-calendar-month"
+			data-js="tribe-events-month-grid"
+		>
+
+			
+			
+		</table>
+
+		<div  class="tribe-events-header__messages tribe-events-c-messages tribe-common-b2 tribe-events-header__messages--mobile"  >
+			<div class="tribe-events-c-messages__message tribe-events-c-messages__message--notice" tabindex="0" role="alert" aria-live="assertive">
+										<div
+					 data-key="0" >
+					No hay eventos programados.				</div>
+					</div>
+	</div>
+
+		
+		<div class="tribe-events-calendar-latest-past">
+
+	<h2 class="tribe-events-calendar-latest-past__heading tribe-common-h5 tribe-common-h3--min-medium">
+	Últimos Eventos Pasados</h2>
+
+			
+		<div  class="tribe-common-g-row tribe-events-calendar-latest-past__event-row" >
+
+	<div class="tribe-events-calendar-latest-past__event-date-tag tribe-common-g-col">
+	<time class="tribe-events-calendar-latest-past__event-date-tag-datetime" datetime="2024-01-31" aria-hidden="true">
+		<span class="tribe-events-calendar-latest-past__event-date-tag-month">
+			Ene		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-daynum tribe-common-h5 tribe-common-h4--min-medium">
+			31		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-year">
+			2024		</span>
+	</time>
+</div>
+
+	<div class="tribe-events-calendar-latest-past__event-wrapper tribe-common-g-col">
+		<article  class="tribe-events-calendar-latest-past__event tribe-common-g-row tribe-common-g-row--gutters post-182197 tribe_events type-tribe_events status-publish has-post-thumbnail tag-la-coruna" >
+			<div class="tribe-events-calendar-latest-past__event-featured-image-wrapper tribe-common-g-col">
+	<a
+		href="https://www.voxespana.es/evento/vox-reivindica-defender-el-sector-primario-en-galicia-frente-el-eco-radicalismo-apoyado-por-el-resto-de-partidos"
+		title="VOX reivindica defender el sector primario en Galicia frente el eco-radicalismo apoyado por el resto de partidos"
+		rel="bookmark"
+		class="tribe-events-calendar-latest-past__event-featured-image-link"
+		tabindex="-1"
+		aria-hidden="true"
+	>
+		<img
+			src="https://www.voxespana.es/wp-content/uploads/2024/01/Ganaderia-.jpg"
+							srcset="https://www.voxespana.es/wp-content/uploads/2024/01/Ganaderia--300x169.jpg 300w, https://www.voxespana.es/wp-content/uploads/2024/01/Ganaderia--1024x576.jpg 1024w, https://www.voxespana.es/wp-content/uploads/2024/01/Ganaderia--768x432.jpg 768w, https://www.voxespana.es/wp-content/uploads/2024/01/Ganaderia-.jpg 1200w"
+										alt=""
+										title="Ganadería"
+						class="tribe-events-calendar-latest-past__event-featured-image"
+							width="1200"
+				height="675"
+					/>
+	</a>
+</div>
+
+			<div class="tribe-events-calendar-latest-past__event-details tribe-common-g-col">
+
+				<header class="tribe-events-calendar-latest-past__event-header">
+					<div class="tribe-events-calendar-latest-past__event-datetime-wrapper tribe-common-b2">
+		<time class="tribe-events-calendar-latest-past__event-datetime" datetime="2024-01-31">
+		<span class="tribe-event-date-start">31 enero, 2024 -08:00</span> - <span class="tribe-event-time">17:00</span>	</time>
+	</div>
+					<h3 class="tribe-events-calendar-latest-past__event-title tribe-common-h6 tribe-common-h4--min-medium">
+	<a
+		href="https://www.voxespana.es/evento/vox-reivindica-defender-el-sector-primario-en-galicia-frente-el-eco-radicalismo-apoyado-por-el-resto-de-partidos"
+		title="VOX reivindica defender el sector primario en Galicia frente el eco-radicalismo apoyado por el resto de partidos"
+		rel="bookmark"
+		class="tribe-events-calendar-latest-past__event-title-link tribe-common-anchor-thin"
+	>
+		VOX reivindica defender el sector primario en Galicia frente el eco-radicalismo apoyado por el resto de partidos	</a>
+</h3>
+									</header>
+
+				<div class="tribe-events-calendar-latest-past__event-description tribe-common-b2 tribe-common-a11y-hidden">
+	<p>El candidato de VOX a la Presidencia de la Xunta de Galicia, Álvaro Díaz-Mella, ha destacado la necesidad de adoptar medidas “concretas y efectivas” en Galicia para apoyar al sector primario gallego, sustento de miles de familias gallegas. Frente a esto, Díaz-Mella ha denunciado que el PP y el PSOE, tanto en Bruselas como en [&hellip;]</p>
+</div>
+				
+			</div>
+		</article>
+	</div>
+
+</div>
+
+			
+		<div  class="tribe-common-g-row tribe-events-calendar-latest-past__event-row" >
+
+	<div class="tribe-events-calendar-latest-past__event-date-tag tribe-common-g-col">
+	<time class="tribe-events-calendar-latest-past__event-date-tag-datetime" datetime="2024-01-28" aria-hidden="true">
+		<span class="tribe-events-calendar-latest-past__event-date-tag-month">
+			Ene		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-daynum tribe-common-h5 tribe-common-h4--min-medium">
+			28		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-year">
+			2024		</span>
+	</time>
+</div>
+
+	<div class="tribe-events-calendar-latest-past__event-wrapper tribe-common-g-col">
+		<article  class="tribe-events-calendar-latest-past__event tribe-common-g-row tribe-common-g-row--gutters post-181614 tribe_events type-tribe_events status-publish has-post-thumbnail tag-la-coruna tag-lugo tag-ourense tag-pontevedra" >
+			<div class="tribe-events-calendar-latest-past__event-featured-image-wrapper tribe-common-g-col">
+	<a
+		href="https://www.voxespana.es/evento/abascal-pide-a-los-abstencionistas-en-galicia-confiar-en-vox-para-demostrar-que-las-cosas-si-cambian-con-vox-en-el-gobierno-tienen-la-llave-en-su-mano"
+		title="Abascal pide a los abstencionistas en Galicia confiar en VOX para demostrar que las cosas sí cambian con VOX en el Gobierno: «Tienen la llave en su mano”"
+		rel="bookmark"
+		class="tribe-events-calendar-latest-past__event-featured-image-link"
+		tabindex="-1"
+		aria-hidden="true"
+	>
+		<img
+			src="https://www.voxespana.es/wp-content/uploads/2024/01/Foto-Abascal-vicepresidentes-y-candidatos-Galicia-.jpg"
+							srcset="https://www.voxespana.es/wp-content/uploads/2024/01/Foto-Abascal-vicepresidentes-y-candidatos-Galicia--300x169.jpg 300w, https://www.voxespana.es/wp-content/uploads/2024/01/Foto-Abascal-vicepresidentes-y-candidatos-Galicia--1024x576.jpg 1024w, https://www.voxespana.es/wp-content/uploads/2024/01/Foto-Abascal-vicepresidentes-y-candidatos-Galicia--768x432.jpg 768w, https://www.voxespana.es/wp-content/uploads/2024/01/Foto-Abascal-vicepresidentes-y-candidatos-Galicia-.jpg 1200w"
+										alt=""
+										title="Foto Abascal-vicepresidentes y candidatos Galicia"
+						class="tribe-events-calendar-latest-past__event-featured-image"
+							width="1200"
+				height="675"
+					/>
+	</a>
+</div>
+
+			<div class="tribe-events-calendar-latest-past__event-details tribe-common-g-col">
+
+				<header class="tribe-events-calendar-latest-past__event-header">
+					<div class="tribe-events-calendar-latest-past__event-datetime-wrapper tribe-common-b2">
+		<time class="tribe-events-calendar-latest-past__event-datetime" datetime="2024-01-28">
+		<span class="tribe-event-date-start">28 enero, 2024 -08:00</span> - <span class="tribe-event-time">17:00</span>	</time>
+	</div>
+					<h3 class="tribe-events-calendar-latest-past__event-title tribe-common-h6 tribe-common-h4--min-medium">
+	<a
+		href="https://www.voxespana.es/evento/abascal-pide-a-los-abstencionistas-en-galicia-confiar-en-vox-para-demostrar-que-las-cosas-si-cambian-con-vox-en-el-gobierno-tienen-la-llave-en-su-mano"
+		title="Abascal pide a los abstencionistas en Galicia confiar en VOX para demostrar que las cosas sí cambian con VOX en el Gobierno: «Tienen la llave en su mano”"
+		rel="bookmark"
+		class="tribe-events-calendar-latest-past__event-title-link tribe-common-anchor-thin"
+	>
+		Abascal pide a los abstencionistas en Galicia confiar en VOX para demostrar que las cosas sí cambian con VOX en el Gobierno: «Tienen la llave en su mano”	</a>
+</h3>
+									</header>
+
+				<div class="tribe-events-calendar-latest-past__event-description tribe-common-b2 tribe-common-a11y-hidden">
+	<p>Abascal pide a los abstencionistas confiar en VOX para demostrar que las cosas sí cambian con VOX en el Gobierno: “Detectemos a los que habían perdido la esperanza. Tienen la llave en su mano”</p>
+</div>
+				
+			</div>
+		</article>
+	</div>
+
+</div>
+
+			
+		<div  class="tribe-common-g-row tribe-events-calendar-latest-past__event-row" >
+
+	<div class="tribe-events-calendar-latest-past__event-date-tag tribe-common-g-col">
+	<time class="tribe-events-calendar-latest-past__event-date-tag-datetime" datetime="2023-07-21" aria-hidden="true">
+		<span class="tribe-events-calendar-latest-past__event-date-tag-month">
+			Jul		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-daynum tribe-common-h5 tribe-common-h4--min-medium">
+			21		</span>
+		<span class="tribe-events-calendar-latest-past__event-date-tag-year">
+			2023		</span>
+	</time>
+</div>
+
+	<div class="tribe-events-calendar-latest-past__event-wrapper tribe-common-g-col">
+		<article  class="tribe-events-calendar-latest-past__event tribe-common-g-row tribe-common-g-row--gutters post-162538 tribe_events type-tribe_events status-publish" >
+			
+			<div class="tribe-events-calendar-latest-past__event-details tribe-common-g-col">
+
+				<header class="tribe-events-calendar-latest-past__event-header">
+					<div class="tribe-events-calendar-latest-past__event-datetime-wrapper tribe-common-b2">
+		<time class="tribe-events-calendar-latest-past__event-datetime" datetime="2023-07-21">
+		<span class="tribe-event-date-start">21 julio, 2023 -20:30</span>	</time>
+	</div>
+					<h3 class="tribe-events-calendar-latest-past__event-title tribe-common-h6 tribe-common-h4--min-medium">
+	<a
+		href="https://www.voxespana.es/evento/santiago-abascal-acto-cierre-de-campana-en-madrid"
+		title="Santiago Abascal: Acto cierre de campaña en Madrid"
+		rel="bookmark"
+		class="tribe-events-calendar-latest-past__event-title-link tribe-common-anchor-thin"
+	>
+		Santiago Abascal: Acto cierre de campaña en Madrid	</a>
+</h3>
+									</header>
+
+				<div class="tribe-events-calendar-latest-past__event-description tribe-common-b2 tribe-common-a11y-hidden">
+	<p>En la Plaza de Colón a las 20:30.</p>
+</div>
+				
+			</div>
+		</article>
+	</div>
+
+</div>
+
+	
+</div>
+
+		<div class="tribe-events-after-html">
+	
+<!--
+This calendar is powered by The Events Calendar.
+http://evnt.is/18wn
+-->
+</div>
+
+	</section>
+
+</div>
+
+<script class="tribe-events-breakpoints">
+	( function () {
+		var completed = false;
+
+		function initBreakpoints() {
+			if ( completed ) {
+				// This was fired already and completed no need to attach to the event listener.
+				document.removeEventListener( 'DOMContentLoaded', initBreakpoints );
+				return;
+			}
+
+			if ( 'undefined' === typeof window.tribe ) {
+				return;
+			}
+
+			if ( 'undefined' === typeof window.tribe.events ) {
+				return;
+			}
+
+			if ( 'undefined' === typeof window.tribe.events.views ) {
+				return;
+			}
+
+			if ( 'undefined' === typeof window.tribe.events.views.breakpoints ) {
+				return;
+			}
+
+			if ( 'function' !== typeof (window.tribe.events.views.breakpoints.setup) ) {
+				return;
+			}
+
+			var container = document.querySelectorAll( '[data-view-breakpoint-pointer="5602722e-d9cc-4e09-aa10-3e493c715427"]' );
+			if ( ! container ) {
+				return;
+			}
+
+			window.tribe.events.views.breakpoints.setup( container );
+			completed = true;
+			// This was fired already and completed no need to attach to the event listener.
+			document.removeEventListener( 'DOMContentLoaded', initBreakpoints );
+		}
+
+		// Try to init the breakpoints right away.
+		initBreakpoints();
+		document.addEventListener( 'DOMContentLoaded', initBreakpoints );
+	})();
+</script>
+<script data-js='tribe-events-view-nonce-data' type='application/json'>{"tvn1":"6911f2d645","tvn2":""}</script>	</div><!-- #content -->
+		<div id="end_article"></div>	<footer id="colophon" class="site-footer">
+		<div class="footer-columns">
+					</div>
+		<div class="custom-footer">
+			<div class="backgroundverde" style="width: 100%; height:5px"></div><div class="container fluid">
+					<div class="layout row wrap">
+						<div class="flex sm-12">
+						<div class="dflex social_list"><div class="menu-redes-sociales-nacional-container"><ul id="menu-rrss" class="flex-row"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19473"><a target="_blank" href="https://www.facebook.com/vox.espana/"><i class="fa fa-facebook"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19472"><a target="_blank" href="https://twitter.com/vox_es"><i class="fa fa-twitter"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19474"><a target="_blank" href="https://www.instagram.com/vox_es/"><i class="fa fa-instagram"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19475"><a target="_blank" href="https://www.flickr.com/photos/voxespana/"><i class="fa fa-flickr"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19476"><a target="_blank" href="https://t.me/s/VOXTelegram"><i class="fa fa-telegram"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-20907"><a target="_blank" href="https://www.youtube.com/user/voxespana"><i class="fa fa-youtube"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19477"><a target="_blank" href="https://gab.com/VOX_Espana_"><img src="https://voxespana.es/wp-content/uploads/2020/03/gab-icon-new.png"></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-19478"><a target="_blank" href="https://www.tiktok.com/@vox_espana"><img src="https://voxespana.es/wp-content/uploads/2020/03/tiktok-icon-new.png"></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182845"><a target="_blank" href="https://www.whatsapp.com/channel/0029VaDCD1UJJhzPmDOnRy2E"><i class="fa fa-whatsapp"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182846"><a target="_blank" href="https://www.linkedin.com/company/18341837/admin/feed/posts/"><i class="fa fa-linkedin-square"></i></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182857"><a target="_blank" href="https://gettr.com/user/vox_es"><img src="https://www.voxespana.es/wp-content/uploads/2024/02/gettr-icon-1.png"></a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-182858"><a target="_blank" href="https://www.threads.net/@vox_es"><img src="https://www.voxespana.es/wp-content/uploads/2024/02/threads-icon.png"></a></li>
+</ul></div>		</div></div>
+					</div>
+					<div class="layout row wrap">
+						<div class="flex sm-4">	
+							<div class="layout column">
+								<div class="logo">
+									<div style="text-align: center;"><a href="https://www.voxespana.es"  alt="VOX"><img src="https://www.voxespana.es/wp-content/uploads/2019/02/logo-vox-espana.png" alt="VOX"/></a></div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="flex sm-8 site-map">	
+							<div class="layout row wrap">
+								<div class="flex xs-6 md-3">
+									<div class="layout column">
+										<div class="title">
+											SITIO WEB
+										</div>
+										<div class="">
+											<a href="/">Inicio</a>
+										</div>
+										<div class="">
+											<a href="/espana/conocenos-vox">Conócenos</a>
+										</div>
+										<div class="">
+											<a href="/transparencia">Transparencia</a>
+											
+										</div>
+										<div class="">
+											<a href="/noticias">Actualidad</a>
+										
+										</div>
+										<div class="">
+											<a href="/notas-de-prensa">Sala de prensa</a>
+											
+										</div>
+										<div class="">
+											<a href="/opinion">VOX Opina</a>
+										</div>
+									</div>
+								</div>
+								<div class="flex xs-6 md-3">
+									<div class="layout column">
+										<div class="title">
+											AFILIADOS
+										</div>
+										<div class="">
+											<a href="/espana/panel-de-afiliados/">Panel de afiliados</a>
+										</div>
+									</div>
+								</div>
+								<div class="flex xs-6 md-3">
+									<div class="layout column">
+										<div class=" title">
+											PARTICIPA
+										</div>										
+										<div class="">
+											<a href="/alta-de-afiliados">Afiliarse</a>
+											
+										</div>
+										<div class="">
+											<a href="/espana/colabora-con-vox">Colaborar</a>
+										</div>
+										
+										<div class="">
+											<a href="/espana/suscribirse-a-vox">Suscribirse</a>
+										</div>
+									</div>
+								</div>
+								<div class="flex xs-6 md-3">
+									<div class="layout column">
+										<div class="title">
+											ATENCIÓN AL PÚBLICO
+										</div>
+										<div class="">
+											C/ Bambú, 12. Madrid. 28036
+										</div>
+										<div class="">
+											Tlf: <span style="white-space: nowrap;">91 141 96 07</span>
+										</div>
+										<div class="">
+											<a href="/formulario-contacto">Formulario de Contacto</a>
+										</div>
+										<div class="">
+											FAQ´s
+										</div>
+										<div class="">
+											<a href="/espana/contacto">Contacto</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						<div class="layout row wrap">
+							<div class="flex xs-12 copyright">		
+								<a href="https://www.voxespana.es"  alt="VOX"><span>WWW.VOXESPANA.ES</span> &#169 2026</a>
+							</div>
+							<div class="flex xs-12 site-politic">		
+								<span class="flex"><a href="/espana/politica-cookies">Uso de cookies</a></span><span class="flex"><a href="https://voxespana.whistlelink.com/" target="_blank">Canal Ético / Denuncias</a></span><span class="flex"><a href="/espana/aviso-legal">Aviso Legal</a></span>
+							</div>
+					</div>
+				</div>		</div>
+		<!-- .site-info -->
+		<div class="site-info">
+					</div><!-- .site-info -->
+			</footer><!-- #colophon -->
+	<div class="social-share-sep"></div><div class="donaciones-fixed">
+				<div class="donaciones-contenedor">
+				<a href="https://donacion.voxespana.es/?donar=25" target="_blank">25€</a>
+				<a href="https://donacion.voxespana.es/?donar=50" target="_blank">50€</a>
+				<a href="https://donacion.voxespana.es/?donar=100" target="_blank">100€</a>
+				<a href="https://donacion.voxespana.es/?donar=350" target="_blank">350€</a><a href="https://donacion.voxespana.es/" target="_blank">Donar</a>
+				</div>
+			</div><div class="footer-fixed">
+					<ul class="social-mobile-bar flex-row"><li id="site-logo"><a class="flex-row" href="https://www.voxespana.es"  alt="VOX"><img src="https://www.voxespana.es/wp-content/uploads/2019/02/logo-vox-espana.png"></a></li>
+		<li id="nav-mobile"><div class="mobile-toggle">
+			<label for="check-menu" class="open">
+				<i class="fa fa-bars"></i>
+			</label>
+			<input type="checkbox" id="check-menu">
+			<div class="mobile-menu">	<div class="logo-menu"><a href='https://www.voxespana.es'><img src='https://www.voxespana.es/wp-content/uploads/2019/02/logo-vox-espana.png' alt='VOX'/></a>
+				</div><div class="menu-menu-mobile-container"><ul id="menu-menu-mobile" class="menu"><li id="menu-item-14659" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14659"><a href="https://www.voxespana.es/">Inicio</a></li>
+<li id="menu-item-8233" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8233"><a href="https://www.voxespana.es/espana/que-es-vox">¿Qué es VOX?</a></li>
+<li id="menu-item-8234" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8234"><a href="https://www.voxespana.es/espana/manifiesto-fundacional-vox">Manifiesto Fundacional</a></li>
+<li id="menu-item-210448" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-210448"><a href="https://www.voxespana.es/espana/que-es-vox/normativa">Normativa</a></li>
+<li id="menu-item-210447" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-210447"><a href="https://voxespana.whistlelink.com/">Canal Ético / Denuncias</a></li>
+<li id="menu-item-8235" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8235"><a href="https://www.voxespana.es/espana/organos-internos">Órganos internos</a></li>
+<li id="menu-item-102260" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-102260"><a href="https://www.voxespana.es/transparencia">Transparencia</a></li>
+<li id="menu-item-71722" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-71722"><a target="_blank" href="https://xn--agendaespaa-beb.es/">Agenda España</a></li>
+<li id="menu-item-57452" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-57452"><a href="https://www.voxespana.es/vox-europa">VOX Europa</a></li>
+<li id="menu-item-22725" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22725"><a href="https://www.voxespana.es/vox-en-tu-provincia">Vox en tu Provincia</a></li>
+<li id="menu-item-22726" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22726"><a href="https://www.voxespana.es/alta-de-afiliados">Alta de afiliados</a></li>
+<li id="menu-item-159774" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-159774"><a target="_blank" href="https://donacion.voxespana.es/">Donación</a></li>
+<li id="menu-item-8246" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8246"><a href="https://www.voxespana.es/espana/panel-de-afiliados">Panel de Afiliados</a></li>
+<li id="menu-item-8247" class="menu-item menu-item-type-post_type menu-item-object-post menu-item-8247"><a href="https://www.voxespana.es/noticias/recibe-las-ultimas-novedades-de-vox-en-tu-telegram-20190710">Recibe nuestro boletín</a></li>
+<li id="menu-item-22727" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22727"><a href="https://www.voxespana.es/?page_id=19155">¿Quieres ser voluntario?</a></li>
+<li id="menu-item-22728" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22728"><a href="https://www.voxespana.es/exteriores">VOX en el Exterior</a></li>
+<li id="menu-item-19370" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19370"><a href="https://www.voxespana.es/espana/contacto">Contacto</a></li>
+<li id="menu-item-92171" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92171"><a href="https://www.voxespana.es/formulario-contacto">Formulario de Contacto</a></li>
+<li id="menu-item-8250" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8250"><a href="https://www.voxespana.es/espana/sala-de-prensa-vox">Sala de Prensa</a></li>
+</ul></div>
+				<label for="check-menu" class="close"><i class="fa fa-close"></i></a>
+				</label>
+			</div>	
+		</div></li></ul>
+				  </div></div><!-- #page -->
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/voxespana/*","/wp-content/themes/hadoq/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+		<script>
+		( function ( body ) {
+			'use strict';
+			body.className = body.className.replace( /\btribe-no-js\b/, 'tribe-js' );
+		} )( document.body );
+		</script>
+		<script> /* <![CDATA[ */var tribe_l10n_datatables = {"aria":{"sort_ascending":": activate to sort column ascending","sort_descending":": activate to sort column descending"},"length_menu":"Show _MENU_ entries","empty_table":"No data available in table","info":"Showing _START_ to _END_ of _TOTAL_ entries","info_empty":"Showing 0 to 0 of 0 entries","info_filtered":"(filtered from _MAX_ total entries)","zero_records":"No matching records found","search":"Search:","all_selected_text":"All items on this page were selected. ","select_all_link":"Select all pages","clear_selection":"Clear Selection.","pagination":{"all":"All","next":"Next","previous":"Previous"},"select":{"rows":{"0":"","_":": Selected %d rows","1":": Selected 1 row"}},"datepicker":{"dayNames":["domingo","lunes","martes","mi\u00e9rcoles","jueves","viernes","s\u00e1bado"],"dayNamesShort":["Dom","Lun","Mar","Mi\u00e9","Jue","Vie","S\u00e1b"],"dayNamesMin":["D","L","M","X","J","V","S"],"monthNames":["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],"monthNamesShort":["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],"monthNamesMin":["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"],"nextText":"Next","prevText":"Prev","currentText":"Today","closeText":"Done","today":"Today","clear":"Clear"}};/* ]]> */ </script><script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js?ver=6.15.18" id="tribe-events-views-v2-bootstrap-datepicker-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/viewport.js?ver=3e90f3ec254086a30629" id="tribe-events-views-v2-viewport-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/accordion.js?ver=b0cf88d89b3e05e7d2ef" id="tribe-events-views-v2-accordion-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/view-selector.js?ver=a8aa8890141fbcc3162a" id="tribe-events-views-v2-view-selector-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/ical-links.js?ver=0dadaa0667a03645aee4" id="tribe-events-views-v2-ical-links-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/navigation-scroll.js?ver=eba0057e0fd877f08e9d" id="tribe-events-views-v2-navigation-scroll-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/multiday-events.js?ver=780fd76b5b819e3a6ece" id="tribe-events-views-v2-multiday-events-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/month-mobile-events.js?ver=cee03bfee0063abbd5b8" id="tribe-events-views-v2-month-mobile-events-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/month-grid.js?ver=b5773d96c9ff699a45dd" id="tribe-events-views-v2-month-grid-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/vendor/tooltipster/tooltipster.bundle.min.js?ver=6.10.3" id="tribe-tooltipster-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/tooltip.js?ver=82f9d4de83ed0352be8e" id="tribe-events-views-v2-tooltip-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/events-bar.js?ver=3825b4a45b5c6f3f04b9" id="tribe-events-views-v2-events-bar-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/events-bar-inputs.js?ver=e3710df171bb081761bd" id="tribe-events-views-v2-events-bar-inputs-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/datepicker.js?ver=9ae0925bbe975f92bef4" id="tribe-events-views-v2-datepicker-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/js/user-agent.js?ver=da75d0bdea6dde3898df" id="tec-user-agent-js"></script>
+<script type="text/javascript" id="jquery-widgetopts-js-extra">
+/* <![CDATA[ */
+var varWidgetOpts = {"shallNotFixed":".site-footer","margin_top":"0","disable_width":"768","disable_height":"200"};
+//# sourceURL=jquery-widgetopts-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/extended-widget-options/assets/js/jquery.widgetopts.js?ver=5.3.2" id="jquery-widgetopts-js" data-wp-strategy="defer"></script>
+<script type="text/javascript" id="jquery-widgetopts-js-after">
+/* <![CDATA[ */
+(function(){
+                  jQuery(function($){
+                  $(".widget.extendedwopts-col").parent().addClass("extendedwopts-sidebar-wrapper");
+                  });
+            })();
+//# sourceURL=jquery-widgetopts-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/themes/hadoq/js/skip-link-focus-fix.js?ver=20151215" id="hadoq-skip-link-focus-fix-js"></script>
+<script type="text/javascript" id="load-more-cat-js-extra">
+/* <![CDATA[ */
+var loadmorecat = {"url":"https://www.voxespana.es/wp-admin/admin-ajax.php","query":[]};
+//# sourceURL=load-more-cat-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/themes/hadoq/js/load-more-cat.js?ver=1.0" id="load-more-cat-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-includes/js/dist/hooks.js?ver=220ff17f5667d013d468" id="wp-hooks-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-includes/js/dist/i18n.js?ver=6b3ae5bd3b8d9598492d" id="wp-i18n-js"></script>
+<script type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=6.1.5" id="swv-js"></script>
+<script type="text/javascript" id="contact-form-7-js-translations">
+/* <![CDATA[ */
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "contact-form-7", {"translation-revision-date":"2025-12-01 15:45:40+0000","generator":"GlotPress\/4.0.3","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","plural-forms":"nplurals=2; plural=n != 1;","lang":"es"},"This contact form is placed in the wrong place.":["Este formulario de contacto est\u00e1 situado en el lugar incorrecto."],"Error:":["Error:"]}},"comment":{"reference":"includes\/js\/index.js"}} );
+//# sourceURL=contact-form-7-js-translations
+/* ]]> */
+</script>
+<script type="text/javascript" id="contact-form-7-js-before">
+/* <![CDATA[ */
+var wpcf7 = {
+    "api": {
+        "root": "https:\/\/www.voxespana.es\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    }
+};
+//# sourceURL=contact-form-7-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/contact-form-7/includes/js/index.js?ver=6.1.5" id="contact-form-7-js"></script>
+<script type="text/javascript" id="wpcf7cf-scripts-js-extra">
+/* <![CDATA[ */
+var wpcf7cf_global_settings = {"ajaxurl":"https://www.voxespana.es/wp-admin/admin-ajax.php"};
+//# sourceURL=wpcf7cf-scripts-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/cf7-conditional-fields/js/scripts.js?ver=2.6.8" id="wpcf7cf-scripts-js"></script>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LeyNscUAAAAAD9UALaK1SAnEQcIM4_gbRXaVTvi&amp;ver=3.0" id="google-recaptcha-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-includes/js/dist/vendor/wp-polyfill.js?ver=3.15.0" id="wp-polyfill-js"></script>
+<script type="text/javascript" id="wpcf7-recaptcha-js-before">
+/* <![CDATA[ */
+var wpcf7_recaptcha = {
+    "sitekey": "6LeyNscUAAAAAD9UALaK1SAnEQcIM4_gbRXaVTvi",
+    "actions": {
+        "homepage": "homepage",
+        "contactform": "contactform"
+    }
+};
+//# sourceURL=wpcf7-recaptcha-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=6.1.5" id="wpcf7-recaptcha-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/themes/voxespana/js/vox_form_validation.js?ver=5.0.12" id="vox_form_validation_js-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/themes/voxespana/js/mobile-menu.js?ver=6.9.4" id="mobile-menu_js-js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v3/" id="stripe-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/themes/voxespana/js/acordeon.js?ver=6.9.4" id="acordeon-js"></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/js/utils/query-string.js?ver=694b0604b0c8eafed657" id="tribe-query-string-js"></script>
+<script src='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/js/underscore-before.js'></script>
+<script type="text/javascript" src="https://www.voxespana.es/wp-includes/js/underscore.min.js?ver=1.13.7" id="underscore-js"></script>
+<script src='https://www.voxespana.es/wp-content/plugins/the-events-calendar/common/build/js/underscore-after.js'></script>
+<script defer type="text/javascript" src="https://www.voxespana.es/wp-content/plugins/the-events-calendar/build/js/views/manager.js?ver=7af9c9f081f2a629c2f8" id="tribe-events-views-v2-manager-js"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"wpemoji":"https://www.voxespana.es/wp-includes/js/wp-emoji.js?ver=6.9.4","twemoji":"https://www.voxespana.es/wp-includes/js/twemoji.js?ver=6.9.4"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/**
+ * @output wp-includes/js/wp-emoji-loader.js
+ */
+
+/* eslint-env es6 */
+
+// Note: This is loaded as a script module, so there is no need for an IIFE to prevent pollution of the global scope.
+
+/**
+ * Emoji Settings as exported in PHP via _print_emoji_detection_script().
+ * @typedef WPEmojiSettings
+ * @type {object}
+ * @property {?object} source
+ * @property {?string} source.concatemoji
+ * @property {?string} source.twemoji
+ * @property {?string} source.wpemoji
+ */
+
+const settings = /** @type {WPEmojiSettings} */ (
+	JSON.parse( document.getElementById( 'wp-emoji-settings' ).textContent )
+);
+
+// For compatibility with other scripts that read from this global, in particular wp-includes/js/wp-emoji.js (source file: js/_enqueues/wp/emoji.js).
+window._wpemojiSettings = settings;
+
+/**
+ * Support tests.
+ * @typedef SupportTests
+ * @type {object}
+ * @property {?boolean} flag
+ * @property {?boolean} emoji
+ */
+
+const sessionStorageKey = 'wpEmojiSettingsSupports';
+const tests = [ 'flag', 'emoji' ];
+
+/**
+ * Checks whether the browser supports offloading to a Worker.
+ *
+ * @since 6.3.0
+ *
+ * @private
+ *
+ * @returns {boolean}
+ */
+function supportsWorkerOffloading() {
+	return (
+		typeof Worker !== 'undefined' &&
+		typeof OffscreenCanvas !== 'undefined' &&
+		typeof URL !== 'undefined' &&
+		URL.createObjectURL &&
+		typeof Blob !== 'undefined'
+	);
+}
+
+/**
+ * @typedef SessionSupportTests
+ * @type {object}
+ * @property {number} timestamp
+ * @property {SupportTests} supportTests
+ */
+
+/**
+ * Get support tests from session.
+ *
+ * @since 6.3.0
+ *
+ * @private
+ *
+ * @returns {?SupportTests} Support tests, or null if not set or older than 1 week.
+ */
+function getSessionSupportTests() {
+	try {
+		/** @type {SessionSupportTests} */
+		const item = JSON.parse(
+			sessionStorage.getItem( sessionStorageKey )
+		);
+		if (
+			typeof item === 'object' &&
+			typeof item.timestamp === 'number' &&
+			new Date().valueOf() < item.timestamp + 604800 && // Note: Number is a week in seconds.
+			typeof item.supportTests === 'object'
+		) {
+			return item.supportTests;
+		}
+	} catch ( e ) {}
+	return null;
+}
+
+/**
+ * Persist the supports in session storage.
+ *
+ * @since 6.3.0
+ *
+ * @private
+ *
+ * @param {SupportTests} supportTests Support tests.
+ */
+function setSessionSupportTests( supportTests ) {
+	try {
+		/** @type {SessionSupportTests} */
+		const item = {
+			supportTests: supportTests,
+			timestamp: new Date().valueOf()
+		};
+
+		sessionStorage.setItem(
+			sessionStorageKey,
+			JSON.stringify( item )
+		);
+	} catch ( e ) {}
+}
+
+/**
+ * Checks if two sets of Emoji characters render the same visually.
+ *
+ * This is used to determine if the browser is rendering an emoji with multiple data points
+ * correctly. set1 is the emoji in the correct form, using a zero-width joiner. set2 is the emoji
+ * in the incorrect form, using a zero-width space. If the two sets render the same, then the browser
+ * does not support the emoji correctly.
+ *
+ * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+ * scope. Everything must be passed by parameters.
+ *
+ * @since 4.9.0
+ *
+ * @private
+ *
+ * @param {CanvasRenderingContext2D} context 2D Context.
+ * @param {string} set1 Set of Emoji to test.
+ * @param {string} set2 Set of Emoji to test.
+ *
+ * @return {boolean} True if the two sets render the same.
+ */
+function emojiSetsRenderIdentically( context, set1, set2 ) {
+	// Cleanup from previous test.
+	context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+	context.fillText( set1, 0, 0 );
+	const rendered1 = new Uint32Array(
+		context.getImageData(
+			0,
+			0,
+			context.canvas.width,
+			context.canvas.height
+		).data
+	);
+
+	// Cleanup from previous test.
+	context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+	context.fillText( set2, 0, 0 );
+	const rendered2 = new Uint32Array(
+		context.getImageData(
+			0,
+			0,
+			context.canvas.width,
+			context.canvas.height
+		).data
+	);
+
+	return rendered1.every( ( rendered2Data, index ) => {
+		return rendered2Data === rendered2[ index ];
+	} );
+}
+
+/**
+ * Checks if the center point of a single emoji is empty.
+ *
+ * This is used to determine if the browser is rendering an emoji with a single data point
+ * correctly. The center point of an incorrectly rendered emoji will be empty. A correctly
+ * rendered emoji will have a non-zero value at the center point.
+ *
+ * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+ * scope. Everything must be passed by parameters.
+ *
+ * @since 6.8.2
+ *
+ * @private
+ *
+ * @param {CanvasRenderingContext2D} context 2D Context.
+ * @param {string} emoji Emoji to test.
+ *
+ * @return {boolean} True if the center point is empty.
+ */
+function emojiRendersEmptyCenterPoint( context, emoji ) {
+	// Cleanup from previous test.
+	context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+	context.fillText( emoji, 0, 0 );
+
+	// Test if the center point (16, 16) is empty (0,0,0,0).
+	const centerPoint = context.getImageData(16, 16, 1, 1);
+	for ( let i = 0; i < centerPoint.data.length; i++ ) {
+		if ( centerPoint.data[ i ] !== 0 ) {
+			// Stop checking the moment it's known not to be empty.
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Determines if the browser properly renders Emoji that Twemoji can supplement.
+ *
+ * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+ * scope. Everything must be passed by parameters.
+ *
+ * @since 4.2.0
+ *
+ * @private
+ *
+ * @param {CanvasRenderingContext2D} context 2D Context.
+ * @param {string} type Whether to test for support of "flag" or "emoji".
+ * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ *
+ * @return {boolean} True if the browser can render emoji, false if it cannot.
+ */
+function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
+	let isIdentical;
+
+	switch ( type ) {
+		case 'flag':
+			/*
+			 * Test for Transgender flag compatibility. Added in Unicode 13.
+			 *
+			 * To test for support, we try to render it, and compare the rendering to how it would look if
+			 * the browser doesn't render it correctly (white flag emoji + transgender symbol).
+			 */
+			isIdentical = emojiSetsRenderIdentically(
+				context,
+				'\uD83C\uDFF3\uFE0F\u200D\u26A7\uFE0F', // as a zero-width joiner sequence
+				'\uD83C\uDFF3\uFE0F\u200B\u26A7\uFE0F' // separated by a zero-width space
+			);
+
+			if ( isIdentical ) {
+				return false;
+			}
+
+			/*
+			 * Test for Sark flag compatibility. This is the least supported of the letter locale flags,
+			 * so gives us an easy test for full support.
+			 *
+			 * To test for support, we try to render it, and compare the rendering to how it would look if
+			 * the browser doesn't render it correctly ([C] + [Q]).
+			 */
+			isIdentical = emojiSetsRenderIdentically(
+				context,
+				'\uD83C\uDDE8\uD83C\uDDF6', // as the sequence of two code points
+				'\uD83C\uDDE8\u200B\uD83C\uDDF6' // as the two code points separated by a zero-width space
+			);
+
+			if ( isIdentical ) {
+				return false;
+			}
+
+			/*
+			 * Test for English flag compatibility. England is a country in the United Kingdom, it
+			 * does not have a two letter locale code but rather a five letter sub-division code.
+			 *
+			 * To test for support, we try to render it, and compare the rendering to how it would look if
+			 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
+			 */
+			isIdentical = emojiSetsRenderIdentically(
+				context,
+				// as the flag sequence
+				'\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F',
+				// with each code point separated by a zero-width space
+				'\uD83C\uDFF4\u200B\uDB40\uDC67\u200B\uDB40\uDC62\u200B\uDB40\uDC65\u200B\uDB40\uDC6E\u200B\uDB40\uDC67\u200B\uDB40\uDC7F'
+			);
+
+			return ! isIdentical;
+		case 'emoji':
+			/*
+			 * Is there a large, hairy, humanoid mythical creature living in the browser?
+			 *
+			 * To test for Emoji 17.0 support, try to render a new emoji: Hairy Creature.
+			 *
+			 * The hairy creature emoji is a single code point emoji. Testing for browser
+			 * support required testing the center point of the emoji to see if it is empty.
+			 *
+			 * 0xD83E 0x1FAC8 (\uD83E\u1FAC8) == 🫈 Hairy creature.
+			 *
+			 * When updating this test, please ensure that the emoji is either a single code point
+			 * or switch to using the emojiSetsRenderIdentically function and testing with a zero-width
+			 * joiner vs a zero-width space.
+			 */
+			const notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\u1FAC8' );
+			return ! notSupported;
+	}
+
+	return false;
+}
+
+/**
+ * Checks emoji support tests.
+ *
+ * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+ * scope. Everything must be passed by parameters.
+ *
+ * @since 6.3.0
+ *
+ * @private
+ *
+ * @param {string[]} tests Tests.
+ * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
+ * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+ * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+ *
+ * @return {SupportTests} Support tests.
+ */
+function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
+	let canvas;
+	if (
+		typeof WorkerGlobalScope !== 'undefined' &&
+		self instanceof WorkerGlobalScope
+	) {
+		canvas = new OffscreenCanvas( 300, 150 ); // Dimensions are default for HTMLCanvasElement.
+	} else {
+		canvas = document.createElement( 'canvas' );
+	}
+
+	const context = canvas.getContext( '2d', { willReadFrequently: true } );
+
+	/*
+	 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
+	 * it doesn't work when the font is bolder than 500 weight. So, we
+	 * check for bold rendering support to avoid invisible emoji in Chrome.
+	 */
+	context.textBaseline = 'top';
+	context.font = '600 32px Arial';
+
+	const supports = {};
+	tests.forEach( ( test ) => {
+		supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
+	} );
+	return supports;
+}
+
+/**
+ * Adds a script to the head of the document.
+ *
+ * @ignore
+ *
+ * @since 4.2.0
+ *
+ * @param {string} src The url where the script is located.
+ *
+ * @return {void}
+ */
+function addScript( src ) {
+	const script = document.createElement( 'script' );
+	script.src = src;
+	script.defer = true;
+	document.head.appendChild( script );
+}
+
+settings.supports = {
+	everything: true,
+	everythingExceptFlag: true
+};
+
+// Obtain the emoji support from the browser, asynchronously when possible.
+new Promise( ( resolve ) => {
+	let supportTests = getSessionSupportTests();
+	if ( supportTests ) {
+		resolve( supportTests );
+		return;
+	}
+
+	if ( supportsWorkerOffloading() ) {
+		try {
+			// Note that the functions are being passed as arguments due to minification.
+			const workerScript =
+				'postMessage(' +
+				testEmojiSupports.toString() +
+				'(' +
+				[
+					JSON.stringify( tests ),
+					browserSupportsEmoji.toString(),
+					emojiSetsRenderIdentically.toString(),
+					emojiRendersEmptyCenterPoint.toString()
+				].join( ',' ) +
+				'));';
+			const blob = new Blob( [ workerScript ], {
+				type: 'text/javascript'
+			} );
+			const worker = new Worker( URL.createObjectURL( blob ), { name: 'wpTestEmojiSupports' } );
+			worker.onmessage = ( event ) => {
+				supportTests = event.data;
+				setSessionSupportTests( supportTests );
+				worker.terminate();
+				resolve( supportTests );
+			};
+			return;
+		} catch ( e ) {}
+	}
+
+	supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
+	setSessionSupportTests( supportTests );
+	resolve( supportTests );
+} )
+	// Once the browser emoji support has been obtained from the session, finalize the settings.
+	.then( ( supportTests ) => {
+		/*
+		 * Tests the browser support for flag emojis and other emojis, and adjusts the
+		 * support settings accordingly.
+		 */
+		for ( const test in supportTests ) {
+			settings.supports[ test ] = supportTests[ test ];
+
+			settings.supports.everything =
+				settings.supports.everything && settings.supports[ test ];
+
+			if ( 'flag' !== test ) {
+				settings.supports.everythingExceptFlag =
+					settings.supports.everythingExceptFlag &&
+					settings.supports[ test ];
+			}
+		}
+
+		settings.supports.everythingExceptFlag =
+			settings.supports.everythingExceptFlag &&
+			! settings.supports.flag;
+
+		// When the browser can not render everything we need to load a polyfill.
+		if ( ! settings.supports.everything ) {
+			const src = settings.source || {};
+
+			if ( src.concatemoji ) {
+				addScript( src.concatemoji );
+			} else if ( src.wpemoji && src.twemoji ) {
+				addScript( src.twemoji );
+				addScript( src.wpemoji );
+			}
+		}
+	} );
+//# sourceURL=https://www.voxespana.es/wp-includes/js/wp-emoji-loader.js
+/* ]]> */
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ef5887619bbc8f8',t:'MTc3NjcwMjYyMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html><!-- WP Fastest Cache file was created in 0.554 seconds, on April 16, 2026 @ 17:19 --><!-- via php -->
