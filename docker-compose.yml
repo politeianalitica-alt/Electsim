@@ -44,6 +44,7 @@ services:
     build:
       context: .
       dockerfile: docker/prefect-worker/Dockerfile
+    image: ${ELECTSIM_PREFECT_WORKER_IMAGE:-electsim-prefect-worker}:${ELECTSIM_IMAGE_TAG:-local}
     env_file: .env
     environment:
       PREFECT_API_URL: http://prefect:4200/api
@@ -53,27 +54,26 @@ services:
     restart: unless-stopped
 
   electsim-api:
-    image: python:3.11-slim
-    working_dir: /app
-    volumes:
-      - .:/app
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    image: ${ELECTSIM_API_IMAGE:-electsim-api}:${ELECTSIM_IMAGE_TAG:-local}
     env_file: .env
-    command: /bin/sh -c "pip install -r requirements.txt && uvicorn api.main:app --host 0.0.0.0 --port 8000"
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
     depends_on:
       - postgres
     ports:
       - "8000:8000"
 
   electsim-dashboard:
-    image: node:20-alpine
-    working_dir: /app/dashboard/spa
-    volumes:
-      - .:/app
-    command: /bin/sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    build:
+      context: .
+      dockerfile: docker/dashboard-spa/Dockerfile
+    image: ${ELECTSIM_DASHBOARD_IMAGE:-electsim-dashboard-spa}:${ELECTSIM_IMAGE_TAG:-local}
     depends_on:
       - electsim-api
     ports:
-      - "5173:5173"
+      - "5173:80"
 
 volumes:
   pgdata:

@@ -1,0 +1,16 @@
+.git
+.github
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+node_modules
+dashboard/spa/node_modules
+data/raw
+data/processed
+data/outputs
+.etl_cache

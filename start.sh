@@ -25,6 +25,7 @@ echo ""
 echo "  → Arrancando Streamlit dashboard..."
 echo "     URL: http://localhost:8501"
 echo ""
+.venv/bin/pip install -q -r requirements.txt -e .
 .venv/bin/streamlit run dashboard/app.py \
     --server.port 8501 \
     --server.headless false \

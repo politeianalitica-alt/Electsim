@@ -50,8 +50,10 @@ electsim-espana/
 1. Copiar entorno: `cp .env.example .env` y revisar credenciales.
 2. Levantar servicios: `docker compose up -d postgres minio`
 3. La primera vez, Postgres ejecuta `db/schema.sql` y `db/seeds/02_seeds.sql`.
-4. Entorno Python: `python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
+4. Entorno Python: `python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt -e .`
 5. Tests: `pytest` (marcar integración: `pytest -m integration` si hay Postgres con `DATABASE_URL`).
+
+La instalación editable `-e .` evita depender de `sys.path` manual en dashboard, Alembic y scripts.
 
 Variables `RAW_DATA_PATH` y `PROCESSED_DATA_PATH` pueden apuntar a rutas absolutas si Prefect o los extractores corren fuera del directorio del proyecto.
 
@@ -78,6 +80,13 @@ Las tareas están preparadas como esqueleto: implemente extractores en `etl/sour
 
 - Sitio local: `mkdocs serve`
 - Metadatos de URLs y formatos por fuente: `etl/sources/config_fuentes.py`
+
+## CI/CD y despliegue
+
+- CI valida lint, tipado, tests unitarios y migraciones + tests de integración con PostgreSQL/Timescale.
+- Las imágenes de `electsim-api`, `electsim-dashboard-spa` y `electsim-prefect-worker` se construyen con Dockerfiles en `docker/`.
+- `deploy-dev.yml` publica imágenes en GHCR con tag `dev`; `deploy-prod.yml` publica con tag `prod`.
+- Para activar despliegue remoto por SSH configure en el environment de GitHub los secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_PATH` y `GHCR_PULL_TOKEN`. Opcionalmente `GHCR_PULL_USERNAME` si no coincide con el owner del repo.
 
 ## Loaders concretos (Fase 1)
 

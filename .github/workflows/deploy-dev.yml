@@ -5,14 +5,68 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   deploy-dev:
     runs-on: ubuntu-latest
+    environment:
+      name: development
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_TAG: dev
     steps:
       - uses: actions/checkout@v4
-      - name: Build images
-        run: docker compose build electsim-api electsim-dashboard prefect-worker
-      - name: Push step placeholder
-        run: echo "Configurar registry y credenciales del entorno dev"
-      - name: Remote deploy placeholder
-        run: echo "docker compose pull && docker compose up -d en servidor dev"
+      - uses: docker/setup-buildx-action@v3
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push API
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/api/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/electsim-api:${{ env.IMAGE_TAG }}
+            ghcr.io/${{ github.repository_owner }}/electsim-api:${{ github.sha }}
+      - name: Build and push dashboard SPA
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/dashboard-spa/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/electsim-dashboard-spa:${{ env.IMAGE_TAG }}
+            ghcr.io/${{ github.repository_owner }}/electsim-dashboard-spa:${{ github.sha }}
+      - name: Build and push Prefect worker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/prefect-worker/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/electsim-prefect-worker:${{ env.IMAGE_TAG }}
+            ghcr.io/${{ github.repository_owner }}/electsim-prefect-worker:${{ github.sha }}
+      - name: Deploy on development host
+        if: ${{ secrets.DEPLOY_HOST != '' && secrets.DEPLOY_USER != '' && secrets.DEPLOY_SSH_KEY != '' && secrets.DEPLOY_PATH != '' && secrets.GHCR_PULL_TOKEN != '' }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd "${{ secrets.DEPLOY_PATH }}"
+            git fetch origin main
+            git checkout main
+            git pull --ff-only origin main
+            echo "${{ secrets.GHCR_PULL_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_PULL_USERNAME || github.repository_owner }}" --password-stdin
+            export ELECTSIM_IMAGE_TAG=${{ env.IMAGE_TAG }}
+            docker compose pull electsim-api electsim-dashboard prefect-worker
+            docker compose up -d electsim-api electsim-dashboard prefect-worker

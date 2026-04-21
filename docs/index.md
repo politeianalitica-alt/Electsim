@@ -8,7 +8,7 @@ Esta documentación cubre la **fase 1**: arquitectura de datos, esquema PostgreS
 
 1. Copie `.env.example` a `.env` y ajuste credenciales.
 2. `docker compose up -d postgres minio`
-3. Instale dependencias: `pip install -r requirements.txt`
+3. Instale dependencias: `pip install -r requirements.txt -e .`
 4. Ejecute tests: `pytest`
 
 Para generar el sitio estático: `mkdocs serve` (desde la raíz del proyecto).
