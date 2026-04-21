@@ -6,6 +6,15 @@ from __future__ import annotations
 import pandas as pd
 
 
+_LAW_PATTERN = r"ley|decreto|norma|proposici[oó]n|\b(?:PPL|PL|RDL)\b"
+
+
+def _col(df: pd.DataFrame, name: str, default: str = "") -> pd.Series:
+    if name in df.columns:
+        return df[name]
+    return pd.Series([default] * len(df), index=df.index)
+
+
 # ── Constantes ────────────────────────────────────────────────────────────────
 
 TIPO_INICIATIVA_LABELS: dict[str, str] = {
@@ -125,3 +134,86 @@ def activity_kpis(df_activity: pd.DataFrame) -> dict:
             else "N/D"
         ),
     }
+
+
+def build_legislative_laws_view(
+    df_activity: pd.DataFrame | None = None,
+    df_votes: pd.DataFrame | None = None,
+) -> pd.DataFrame:
+    """Normaliza actividad/votaciones en una vista única de normas recientes.
+
+    Tolera esquemas legacy (`actividad_congreso`, `votaciones_parlamentarias`) y
+    el esquema rico (`parliamentary_vote`) sin asumir que todas las columnas
+    existen a la vez.
+    """
+
+    frames: list[pd.DataFrame] = []
+
+    if df_activity is not None and not df_activity.empty:
+        act = df_activity.copy()
+        act["tipo"] = _col(act, "tipo_acto").astype(str)
+        act["titulo_norma"] = _col(act, "titulo").astype(str)
+        act["fecha_norma"] = pd.to_datetime(_col(act, "fecha"), errors="coerce")
+        act["partido_siglas"] = _col(act, "partido_siglas")
+        act["estado"] = _col(act, "resultado", "Registro").fillna("Registro")
+        mask_act = (
+            act["tipo"].str.contains(_LAW_PATTERN, case=False, na=False)
+            | act["titulo_norma"].str.contains(_LAW_PATTERN, case=False, na=False)
+        )
+        frames.append(act.loc[mask_act, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]])
+
+    if df_votes is not None and not df_votes.empty:
+        vot = df_votes.copy()
+        tipo_col = "tipo_votacion" if "tipo_votacion" in vot.columns else "vote_type"
+        titulo_col = "titulo" if "titulo" in vot.columns else "title"
+        fecha_col = "fecha" if "fecha" in vot.columns else "session_date"
+        estado_col = "resultado" if "resultado" in vot.columns else "result"
+
+        vot["tipo"] = _col(vot, tipo_col).astype(str)
+        vot["titulo_norma"] = _col(vot, titulo_col).astype(str)
+        vot["fecha_norma"] = pd.to_datetime(_col(vot, fecha_col), errors="coerce")
+        vot["partido_siglas"] = _col(vot, "partido_siglas")
+        vot["estado"] = _col(vot, estado_col, "Registro").fillna("Registro")
+        mask_vot = (
+            vot["tipo"].str.contains(_LAW_PATTERN, case=False, na=False)
+            | vot["titulo_norma"].str.contains(_LAW_PATTERN, case=False, na=False)
+        )
+        frames.append(vot.loc[mask_vot, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]])
+
+    if not frames:
+        return pd.DataFrame(columns=["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"])
+
+    leyes = pd.concat(frames, ignore_index=True, sort=False)
+    leyes["titulo_norma"] = (
+        leyes["titulo_norma"]
+        .astype(str)
+        .str.strip()
+        .replace({"nan": "", "None": "", "<NA>": ""})
+    )
+    leyes["tipo"] = (
+        leyes["tipo"]
+        .astype(str)
+        .str.strip()
+        .replace({"nan": "", "None": "", "<NA>": ""})
+    )
+    leyes["estado"] = (
+        leyes["estado"]
+        .astype(str)
+        .str.strip()
+        .replace({"": "Registro", "nan": "Registro", "None": "Registro", "<NA>": "Registro"})
+    )
+    leyes["partido_siglas"] = (
+        leyes["partido_siglas"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+        .replace({"": "N/A", "nan": "N/A", "None": "N/A", "<NA>": "N/A"})
+    )
+    leyes = leyes[leyes["titulo_norma"] != ""].copy()
+    leyes["fecha_norma_label"] = leyes["fecha_norma"].dt.strftime("%Y-%m-%d").fillna("")
+    leyes = leyes.drop_duplicates(subset=["titulo_norma", "fecha_norma_label", "tipo"], keep="first")
+    return leyes.sort_values(
+        by=["fecha_norma", "titulo_norma"],
+        ascending=[False, True],
+        na_position="last",
+    ).reset_index(drop=True)

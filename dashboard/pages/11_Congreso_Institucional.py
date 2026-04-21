@@ -25,7 +25,6 @@ from dashboard.shared import (
 from dashboard.db import (
     cargar_actividad_reciente_congreso,
     cargar_stats_legislativas,
-    cargar_votaciones,
     cargar_boe_publicaciones,
     cargar_agenda_institucional,
     cargar_votaciones_pleno,
@@ -40,7 +39,7 @@ from dashboard.services.agenda_service import (
     sort_by_importance,
     EVENT_TYPE_COLORS,
 )
-from dashboard.services.legislative_service import activity_kpis
+from dashboard.services.legislative_service import activity_kpis, build_legislative_laws_view
 from dashboard.services.tipi_service import (
     classify_text, tag_initiative, get_top_topics_overview,
     get_topic_salience, topic_color, topic_label, TIPI_TOPICS,
@@ -80,6 +79,65 @@ def data_badge(real: bool, label: str = "") -> str:
     )
 
 
+def _txt(value: object) -> str:
+    if value is None:
+        return ""
+    try:
+        if pd.isna(value):
+            return ""
+    except Exception:
+        pass
+    return str(value).strip()
+
+
+def _date_label(value: object) -> str:
+    txt = _txt(value)
+    if not txt:
+        return ""
+    parsed = pd.to_datetime(txt, errors="coerce")
+    if pd.notna(parsed):
+        if parsed.hour or parsed.minute:
+            return parsed.strftime("%Y-%m-%d %H:%M")
+        return parsed.strftime("%Y-%m-%d")
+    return txt[:16]
+
+
+def _normalize_live_agenda_rows(rows: list[dict] | None, limit: int | None = None) -> list[dict[str, str]]:
+    cleaned: list[dict[str, str]] = []
+    seen: set[tuple[str, str, str]] = set()
+
+    for raw in rows or []:
+        if not isinstance(raw, dict):
+            continue
+        titulo = _txt(raw.get("titulo") or raw.get("title") or raw.get("name"))
+        if not titulo:
+            continue
+        fuente = _txt(raw.get("fuente") or raw.get("institution") or raw.get("source")) or "Fuente oficial"
+        fecha = _date_label(raw.get("fecha") or raw.get("fecha_publicacion") or raw.get("date"))
+        key = (titulo.lower(), fuente.lower(), fecha)
+        if key in seen:
+            continue
+        seen.add(key)
+        resumen = _txt(raw.get("resumen") or raw.get("cita") or raw.get("description") or raw.get("summary"))
+        enlace = _txt(raw.get("enlace") or raw.get("url") or raw.get("link"))
+        cleaned.append(
+            {
+                "titulo": titulo,
+                "actor": _txt(raw.get("actor") or raw.get("main_actor") or fuente),
+                "fuente": fuente,
+                "fecha": fecha,
+                "tipo": _txt(raw.get("tipo") or raw.get("event_type")),
+                "lugar": _txt(raw.get("lugar") or raw.get("location")),
+                "cita": resumen,
+                "resumen": resumen or "Comunicación oficial agenda/actividad institucional.",
+                "enlace": enlace,
+                "url": enlace,
+            }
+        )
+
+    return cleaned[:limit] if limit is not None else cleaned
+
+
 @st.cache_data(ttl=3600)
 def _boe_rss_fallback(limit: int = 20) -> list[dict]:
     """Lee BOE directamente del RSS como fallback cuando la BD está vacía."""
@@ -112,13 +170,18 @@ def _boe_rss_fallback(limit: int = 20) -> list[dict]:
 
 @st.cache_data(ttl=3600)
 def _comunicados_live(limit: int = 25) -> pd.DataFrame:
-    rows = fetch_all_agendas(max_items_per_source=max(6, limit // 4))
+    rows = _normalize_live_agenda_rows(
+        fetch_all_agendas(max_items_per_source=max(6, limit // 4)),
+        limit=limit,
+    )
     df = pd.DataFrame(rows)
     if df.empty:
         return df
-    if "resumen" not in df.columns:
-        df["resumen"] = "Comunicación oficial agenda/actividad institucional."
-    return df.drop_duplicates(subset=["titulo"]).head(limit)
+    for col in ["titulo", "fuente", "fecha", "resumen", "cita", "url"]:
+        if col not in df.columns:
+            df[col] = ""
+    df["resumen"] = df["resumen"].replace("", "Comunicación oficial agenda/actividad institucional.")
+    return df.drop_duplicates(subset=["titulo", "fuente", "fecha"]).head(limit)
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
@@ -439,18 +502,31 @@ with tab_agenda:
     if is_agenda_rica:
         # Construir lista de eventos desde tabla agenda_item
         raw_events = df_agenda_rica.to_dict("records")
-        events = [normalize_agenda_event({
-            "titulo": r.get("title"), "actor": r.get("main_actor"),
-            "fuente": r.get("host_institution"), "fecha": str(r.get("event_date", ""))[:10],
-            "hora": str(r.get("time_start") or "")[:5], "tipo": r.get("event_type"),
-            "lugar": r.get("location"), "cita": r.get("description"), "enlace": r.get("source_url"),
-        }) for r in raw_events]
+        events = [
+            normalize_agenda_event(
+                {
+                    "titulo": _txt(r.get("title")),
+                    "actor": _txt(r.get("main_actor")),
+                    "fuente": _txt(r.get("host_institution")),
+                    "fecha": _date_label(r.get("event_date")),
+                    "hora": _txt(r.get("time_start"))[:5],
+                    "tipo": _txt(r.get("event_type")),
+                    "lugar": _txt(r.get("location")),
+                    "cita": _txt(r.get("description")),
+                    "enlace": _txt(r.get("source_url")),
+                }
+            )
+            for r in raw_events
+            if _txt(r.get("title"))
+        ]
         data_src_label = "Tabla agenda_item"
     else:
         # Fallback: fetch_all_agendas() (fuentes RSS/HTML en vivo)
-        raw_live = fetch_all_agendas(max_items_per_source=25)
+        raw_live = _normalize_live_agenda_rows(fetch_all_agendas(max_items_per_source=25))
         events = [normalize_agenda_event(r) for r in raw_live]
         data_src_label = "RSS/HTML en vivo"
+
+    events = [ev for ev in events if _txt(ev.title)]
 
     sec_hdr("Agenda política — Qué pasa hoy / esta semana")
     st.markdown(
@@ -483,7 +559,7 @@ with tab_agenda:
 
         # ── Timeline por actor ────────────────────────────────────────────
         sec_hdr("Timeline por actor", BLUE)
-        timeline_data = build_timeline_data(events_sorted)
+        timeline_data = [row for row in build_timeline_data(events_sorted) if _txt(row.get("x")) and _txt(row.get("y"))]
 
         if timeline_data:
             actores = sorted({d["y"] for d in timeline_data if d["y"]})
@@ -604,7 +680,7 @@ with tab_comunicados:
 with tab_leyes:
     sec_hdr("Iniciativas y actividad legislativa — datos reales de la API del Congreso")
     act = cargar_actividad_reciente_congreso(dias=540, limit=800)
-    vot = cargar_votaciones()
+    vot = cargar_votaciones_pleno(dias=540, limit=800)
     kpis = activity_kpis(act)
 
     k1, k2, k3, k4 = st.columns(4)
@@ -613,26 +689,16 @@ with tab_leyes:
     with k3: st.metric("Tipos de iniciativa", kpis["tipos"])
     with k4: st.metric("Partido más activo", kpis["mas_activo"])
 
-    leyes = pd.DataFrame()
-    if not act.empty:
-        act2 = act.copy()
-        act2["tipo_acto"] = act2["tipo_acto"].astype(str)
-        mask = act2["tipo_acto"].str.contains("ley|decreto|norma|proposición|proposicion", case=False, na=False)
-        leyes = act2[mask].rename(columns={"tipo_acto": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
-    if leyes.empty and not vot.empty:
-        vot2 = vot.copy()
-        vot2["tipo_votacion"] = vot2["tipo_votacion"].astype(str)
-        mask_v = vot2["tipo_votacion"].str.contains("ley|decreto|norma|proposición", case=False, na=False)
-        leyes = vot2[mask_v].rename(columns={"tipo_votacion": "tipo", "titulo": "titulo_norma", "fecha": "fecha_norma"})
+    leyes = build_legislative_laws_view(act, vot)
 
     if leyes.empty:
         st.info("Sin normas legislativas recientes. Ejecuta `python -m etl.sources.congreso_api`.")
     else:
-        leyes = leyes.sort_values("fecha_norma", ascending=False)
         sec_hdr("Volumen legislativo por partido", BLUE)
-        if "partido_siglas" in leyes.columns:
+        leyes_partidos = leyes[leyes["partido_siglas"] != "N/A"].copy()
+        if not leyes_partidos.empty:
             por_partido = (
-                leyes.groupby("partido_siglas").size().reset_index(name="n_normas")
+                leyes_partidos.groupby("partido_siglas").size().reset_index(name="n_normas")
                 .sort_values("n_normas", ascending=False).head(12)
             )
             fig_lp = go.Figure(go.Bar(
@@ -652,14 +718,14 @@ with tab_leyes:
         sec_hdr("Detalle de normas recientes")
         for _, row in leyes.head(30).iterrows():
             partido = str(row.get("partido_siglas", "N/A"))
-            estado = str(row.get("resultado", row.get("estado", "Registro")))
+            estado = str(row.get("estado", "Registro"))
             st.markdown(
                 f'<div class="data-card" style="border-left:3px solid {BLUE}">'
                 f'<div style="display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start">'
                 f'<div style="flex:1">'
                 f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row.get("titulo_norma","")}</div>'
                 f'<div style="font-size:.77rem;color:{MUTED};margin-top:.2rem">'
-                f'{str(row.get("fecha_norma",""))[:10]} · {row.get("tipo","")} · {partido}</div>'
+                f'{row.get("fecha_norma_label","")} · {row.get("tipo","")} · {partido}</div>'
                 f'</div>'
                 f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{estado}</span>'
                 f'</div></div>',
