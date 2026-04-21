@@ -1,0 +1,54 @@
+name: Electoral Ingestion Daily
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Modo de ejecución"
+        required: true
+        default: "daily"
+      sources:
+        description: "CSV de fuentes (vacío = por defecto)"
+        required: false
+      from_date:
+        description: "Fecha inicial ISO para backfill"
+        required: false
+      to_date:
+        description: "Fecha final ISO para backfill"
+        required: false
+  schedule:
+    - cron: "10 4 * * *"
+
+jobs:
+  electoral-ingestion:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      RAW_DATA_PATH: data/raw
+      PROCESSED_DATA_PATH: data/processed
+      ELECTSIM_ELECTORAL_TRIGGERED_BY: github_actions
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run electoral ingestion
+        run: |
+          CMD="python -m pipelines.electoral_dashboard_ingestion --mode ${{ github.event.inputs.mode || 'daily' }}"
+          if [ -n "${{ github.event.inputs.sources }}" ]; then
+            CMD="$CMD --sources ${{ github.event.inputs.sources }}"
+          fi
+          if [ -n "${{ github.event.inputs.from_date }}" ]; then
+            CMD="$CMD --from-date ${{ github.event.inputs.from_date }}"
+          fi
+          if [ -n "${{ github.event.inputs.to_date }}" ]; then
+            CMD="$CMD --to-date ${{ github.event.inputs.to_date }}"
+          fi
+          echo "$CMD"
+          eval "$CMD"

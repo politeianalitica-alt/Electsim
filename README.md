@@ -71,8 +71,45 @@ Variables `RAW_DATA_PATH` y `PROCESSED_DATA_PATH` pueden apuntar a rutas absolut
 
 - Orquestación global: `python -m pipelines.ingest_all`
 - Por dominio: `ingest_electoral`, `ingest_economico`, `ingest_sectorial`, `ingest_social`
+- Dashboard electoral diario: `python -m pipelines.electoral_dashboard_ingestion --mode daily`
 
 Las tareas están preparadas como esqueleto: implemente extractores en `etl/sources/` y loaders en `etl/loaders/`.
+
+## Ingesta diaria del dashboard electoral
+
+La ingesta del dashboard electoral queda separada del resto del ETL en
+`pipelines/electoral_dashboard_ingestion.py` y `etl/electoral/`.
+
+### Qué hace
+
+- refresca diariamente fuentes electorales ya usadas por el proyecto
+- soporta carga completa, diaria incremental y backfill por rango
+- guarda snapshot raw por fuente en `data/raw/electoral_dashboard/`
+- registra trazabilidad en `ingestion_run`, `ingestion_run_source`, `ingestion_watermark`
+- actualiza `scraping_log` y `source_health` para observabilidad operativa
+- recalcula `estimaciones_voto_agregadas` al final, salvo que se desactive por entorno
+
+### Modos de ejecución
+
+- Carga diaria: `python -m pipelines.electoral_dashboard_ingestion --mode daily`
+- Carga completa: `python -m pipelines.electoral_dashboard_ingestion --mode full`
+- Backfill manual: `python -m pipelines.electoral_dashboard_ingestion --mode backfill --from-date 2023-01-01 --to-date 2023-12-31`
+- Deployment Prefect diario: `python -m pipelines.electoral_dashboard_ingestion --deploy`
+
+### Precedencia entre fuentes
+
+- Resultados oficiales: `interior_resultados` es la fuente prioritaria para voto y escaños.
+- Encuestas oficiales: `cis_monitor` y la materialización de microdatos CIS tienen prioridad sobre fuentes derivadas.
+- Encuestas publicadas: `wikipedia_polls` complementa el histórico cuando no hay microdato oficial.
+- Encuestas en prensa: `prensa_encuestas` solo complementa el modelo, con menor precedencia y sin sustituir fuentes oficiales.
+
+### Validaciones mínimas incluidas
+
+- claves no nulas y unicidad por clave natural
+- coerción de numéricos y fechas
+- detección de duplicados post-normalización
+- alerta por caída brusca de volumen frente a la última ejecución exitosa
+- alerta por cambios relevantes en resultados oficiales ya publicados
 
 ## Documentación
 
