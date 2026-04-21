@@ -1,5 +1,6 @@
 """
-Validación de calidad de datos con checks propios y Great Expectations.
+Validación de calidad de datos con checks propios inspirados en expectations,
+sin dependencia externa de Great Expectations.
 
 Reglas por tabla:
 - resultados_electorales: no nulls en voto%, suma por elección ≈ 100%, escaños ≥ 0

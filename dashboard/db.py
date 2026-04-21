@@ -667,6 +667,19 @@ def cargar_scraping_log(limit: int = 20) -> pd.DataFrame:
     )
 
 
+@st.cache_data(ttl=60)
+def cargar_ingest_log(limit: int = 20) -> pd.DataFrame:
+    return _q(
+        """
+        SELECT source_name, last_ingested_at, updated_at
+        FROM ingest_log
+        ORDER BY COALESCE(last_ingested_at, updated_at) DESC
+        LIMIT :limit
+        """,
+        {"limit": int(limit)},
+    )
+
+
 # ── Índices Politeia ──────────────────────────────────────────────────────────
 
 @st.cache_data(ttl=120)

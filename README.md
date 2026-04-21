@@ -8,11 +8,11 @@
 |------|------------|
 | Lenguaje | Python 3.11+ |
 | Base de datos | PostgreSQL 16 + TimescaleDB |
-| ORM / acceso | SQLAlchemy 2.0 + psycopg3 |
+| ORM / acceso | SQLAlchemy 2.0 + psycopg3 (compat legacy con psycopg2 en ETL heredado) |
 | Raw / objetos | MinIO o `data/raw/` |
 | Procesamiento | Pandas, Polars, PyArrow |
 | Orquestación | Prefect 2 |
-| Validación | pytest + Great Expectations |
+| Validación | pytest + checks de calidad propios |
 | Contenedores | Docker Compose |
 
 ## Estructura
@@ -57,6 +57,8 @@ La instalación editable `-e .` evita depender de `sys.path` manual en dashboard
 
 Variables `RAW_DATA_PATH` y `PROCESSED_DATA_PATH` pueden apuntar a rutas absolutas si Prefect o los extractores corren fuera del directorio del proyecto.
 
+`requirements-dashboard.txt` ya no mantiene una lista paralela: reexporta `requirements.txt` para que dashboard, API y ETL compartan la misma base de dependencias y evitar drift entre entornos.
+
 ## Módulos de base de datos
 
 1. **Geografía**: `comunidades_autonomas`, `provincias`, `municipios`, `secciones_censales`
@@ -98,6 +100,15 @@ Las tareas están preparadas como esqueleto: implemente extractores en `etl/sour
 Modelos en `db/models.py`. Tras el primer `docker compose up` de Postgres: `alembic stamp 0001_baseline`. Detalle en `db/migrations/README.md`.
 
 Fase 2 (tablas de salida): `alembic upgrade head` aplica la revisión `0002_fase2_output_tables`. Compruebe con `alembic current`.
+
+La vía oficial para cualquier cambio de esquema es `alembic upgrade head`. Los `.sql` bajo `db/migrations/` se conservan solo como bootstrap/manual legacy y `sql/migrations/` queda archivado para referencia histórica.
+
+## Observabilidad operativa
+
+- Liveness: `GET /health/live`
+- Readiness con comprobación de base de datos: `GET /health/ready`
+- Resumen operativo de fuentes, scrapers e ingestas: `GET /observability/summary`
+- Métricas Prometheus: `GET /metrics`
 
 ## Fase 2 — Ejecución
 

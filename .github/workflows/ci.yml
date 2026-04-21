@@ -29,7 +29,7 @@ jobs:
       - name: Lint
         run: ruff check .
       - name: Type check
-        run: mypy api/main.py dashboard/repositories dashboard/services/institutional_service.py dashboard/views/congreso.py etl/electoral pipelines/electoral_dashboard_ingestion.py
+        run: mypy api/main.py api/observability.py api/routers/observability.py dashboard/repositories dashboard/services/institutional_service.py dashboard/views/congreso.py dashboard/pages/8_Tiempo_Real.py etl/electoral etl/run_perfiles.py validation/calidad_datos.py
 
   unit-tests:
     runs-on: ubuntu-latest

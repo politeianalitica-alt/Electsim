@@ -9,6 +9,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from alembic import command
+from alembic.config import Config
 import psycopg2
 
 from etl.logger import get_logger
@@ -26,16 +28,14 @@ def _normalize_pg_url(url: str) -> str:
     return url
 
 
-def aplicar_migracion(conn: Any, ruta_sql: str) -> None:
-    sql_path = Path(ruta_sql)
-    if not sql_path.exists():
-        raise FileNotFoundError(f"No existe migración: {ruta_sql}")
-    with sql_path.open("r", encoding="utf-8") as f:
-        sql = f.read()
-    with conn.cursor() as cur:
-        cur.execute(sql)
-    conn.commit()
-    logger.info("Migración aplicada: %s", ruta_sql)
+def upgrade_database_to_head() -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    alembic_cfg = Config(str(repo_root / "alembic.ini"))
+    database_url = os.environ.get("DATABASE_URL")
+    if database_url:
+        alembic_cfg.set_main_option("sqlalchemy.url", database_url)
+    command.upgrade(alembic_cfg, "head")
+    logger.info("Migraciones Alembic aplicadas hasta head.")
 
 
 def main() -> None:
@@ -43,11 +43,9 @@ def main() -> None:
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
+    upgrade_database_to_head()
     conn = psycopg2.connect(db_url)
     try:
-        logger.info("Aplicando migración 005_perfiles_v2.sql...")
-        aplicar_migracion(conn, "sql/migrations/005_perfiles_v2.sql")
-
         from etl.models.diagnostico_microdatos import chequear_sistema
 
         estado = chequear_sistema(conn)

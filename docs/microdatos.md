@@ -55,5 +55,6 @@ Pestaña `Agentes LLM` → subpestaña `Microdatos Reales`:
 - `microdatos_ai_pool`
 - `perfil_usuario_custom`
 
-Migración SQL de referencia: `db/migrations/0010_microdatos_pipeline.sql`
-
+En entornos gestionados, la vía oficial es `alembic upgrade head`. El script
+`db/migrations/0010_microdatos_pipeline.sql` se conserva solo como bootstrap
+manual legado para recuperaciones o instalaciones antiguas.

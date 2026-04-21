@@ -1,9 +1,9 @@
 """
 Quality Service — Validación de calidad de datos de fuentes ETL.
 
-Inspirado en great_expectations (https://github.com/great-expectations/great_expectations),
-implementa expectations ligeras sobre DataFrames para detectar roturas
-de scrapers antes de que lleguen al frontend.
+Implementa expectations ligeras sobre DataFrames, inspiradas en el patrón de
+herramientas como Great Expectations pero resueltas localmente, para detectar
+roturas de scrapers antes de que lleguen al frontend.
 
 Uso:
     from dashboard.services.quality_service import validate_boe, validate_agenda, QualityReport

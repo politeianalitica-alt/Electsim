@@ -710,8 +710,9 @@ with tab_etl:
 
     if df_health.empty:
         st.info(
-            "Tabla `source_health` vacía. Ejecuta la migración "
-            "`db/migrations/0012_media_infrastructure.sql` y los jobs ETL."
+            "Tabla `source_health` vacía. En entornos normales aplica `alembic upgrade head` "
+            "y luego ejecuta los jobs ETL. El script `db/migrations/0012_media_infrastructure.sql` "
+            "queda como bootstrap manual legado."
         )
     else:
         STATUS_COLOR = {"ok": GREEN, "degraded": AMBER, "failing": RED, "unknown": MUTED}

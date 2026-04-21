@@ -240,8 +240,9 @@ def render_votes_tab(data: CongresoDashboardData) -> None:
     if not is_votes_real:
         st.info(
             "Sin votaciones en base de datos. Ejecuta `python -m etl.institucional.congreso_iniciativas` "
-            "para importar iniciativas y votaciones desde la API del Congreso, o aplica la migración "
-            "`0013_institucional_core.sql` y pobla `parliamentary_vote`."
+            "para importar iniciativas y votaciones desde la API del Congreso. En entornos normales "
+            "usa `alembic upgrade head`; el script `0013_institucional_core.sql` queda como bootstrap "
+            "manual legado para instalaciones antiguas."
         )
         return
 
@@ -875,7 +876,8 @@ def render_etl_tab(data: CongresoDashboardData) -> None:
     st.divider()
     st.markdown(
         f'<div style="font-size:.8rem;color:{MUTED}">'
-        f'Migraciones a aplicar: <code>db/migrations/0013_institucional_core.sql</code>'
+        f'Esquema oficial: <code>alembic upgrade head</code>. '
+        f'Bootstrap legado: <code>db/migrations/0013_institucional_core.sql</code>'
         f'</div>',
         unsafe_allow_html=True,
     )
