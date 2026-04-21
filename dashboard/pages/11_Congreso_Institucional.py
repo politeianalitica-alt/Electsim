@@ -421,10 +421,10 @@ with tab_votaciones:
             ),
             margin=dict(t=10, b=10, l=340, r=80), showlegend=False,
         )
-        st.plotly_chart(fig_tl, use_container_width=True)
+        st.plotly_chart(fig_tl, use_container_width=True, key="congreso_votaciones_timeline")
 
         sec_hdr("Detalle por votación")
-        for _, row in df_vot.iterrows():
+        for vote_idx, (_, row) in enumerate(df_vot.iterrows()):
             res = str(row.get("resultado", ""))
             res_color = GREEN if res == "APROBADA" else RED
             fav = int(row.get("votos_favor", 0) or 0)
@@ -491,7 +491,11 @@ with tab_votaciones:
                         annotations=[dict(text=f"{fav}/{total}", x=0.5, y=0.5, font_size=11,
                                           showarrow=False, font_color=TEXT2)],
                     )
-                    st.plotly_chart(fig_d, use_container_width=True)
+                    st.plotly_chart(
+                        fig_d,
+                        use_container_width=True,
+                        key=f"congreso_votacion_pie_{vote_idx}",
+                    )
 
 # ── Tab 3: Agenda de Decisores ────────────────────────────────────────────────
 with tab_agenda:
@@ -603,7 +607,7 @@ with tab_agenda:
                 margin=dict(t=10, b=10, l=180, r=20),
                 showlegend=False,
             )
-            st.plotly_chart(fig_tl, use_container_width=True)
+            st.plotly_chart(fig_tl, use_container_width=True, key="congreso_agenda_timeline")
 
         # ── Lista detallada ───────────────────────────────────────────────
         sec_hdr("Todos los eventos")
@@ -652,7 +656,7 @@ with tab_agenda:
             yaxis=dict(title="Nº actos", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
             margin=dict(t=10, b=10), showlegend=False,
         )
-        st.plotly_chart(fig_tc, use_container_width=True)
+        st.plotly_chart(fig_tc, use_container_width=True, key="congreso_agenda_tipos")
 
 # ── Tab 4: Comunicados ────────────────────────────────────────────────────────
 with tab_comunicados:
@@ -713,7 +717,7 @@ with tab_leyes:
                 yaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9), title="Nº normas"),
                 margin=dict(t=10, b=10), showlegend=False,
             )
-            st.plotly_chart(fig_lp, use_container_width=True)
+            st.plotly_chart(fig_lp, use_container_width=True, key="congreso_leyes_partidos")
 
         sec_hdr("Detalle de normas recientes")
         for _, row in leyes.head(30).iterrows():
@@ -788,7 +792,7 @@ with tab_comisiones:
                 yaxis=dict(title="Nº registros", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
                 margin=dict(t=10, b=10), showlegend=False,
             )
-            st.plotly_chart(fig_cp, use_container_width=True)
+            st.plotly_chart(fig_cp, use_container_width=True, key="congreso_comisiones_partidos")
 
 # ── Tab 7: Temas TIPI ────────────────────────────────────────────────────────
 with tab_temas:
@@ -836,7 +840,7 @@ with tab_temas:
             margin=dict(t=10, b=10, l=10, r=60),
             showlegend=False,
         )
-        st.plotly_chart(fig_tipi, use_container_width=True)
+        st.plotly_chart(fig_tipi, use_container_width=True, key="congreso_tipi_overview")
 
         col_b, col_i = st.columns(2)
         with col_b:
