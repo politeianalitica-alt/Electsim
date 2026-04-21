@@ -33,11 +33,11 @@ SERIES_CONFIG = {
     "4247": ("Tasa de Paro EPA", "%"),
     "25424": ("Indice de Confianza del Consumidor", "indice"),
     "3996": ("PIB crecimiento trimestral", "%"),
-    "1739": ("Deuda publica pct PIB", "%"),
+    # "1739": ("Deuda publica pct PIB", "%"),  # desactivado: tabla movida, usar BDE
     "10748": ("Tasa de riesgo de pobreza AROPE", "%"),
     "2077": ("Coste laboral medio mensual", "EUR"),
-    "51029": ("Indice Produccion Industrial IPI", "indice"),
-    "28254": ("Tasa de empleo 16-64", "%"),
+    "29991": ("Indice Produccion Industrial IPI", "indice"),
+    "4247": ("Tasa de empleo 16-64", "%"),
 }
 
 

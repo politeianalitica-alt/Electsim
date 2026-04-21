@@ -133,7 +133,7 @@ def fetch_eustat() -> None:
 
 def fetch_cis_html() -> None:
     """CIS microdata: página pública de listado de estudios."""
-    url = "https://www.cis.es/es/microdata"
+    url = "https://www.cis.es/es/estudios"
     try:
         r = requests.get(url, timeout=10, headers={"User-Agent": "ElectSim/2.0"})
         logger.info("CIS microdata: status=%d (%d bytes)", r.status_code, len(r.content))
@@ -172,7 +172,7 @@ def seed_estimaciones_voto(engine, fecha_estimacion: str = "2026-03-28") -> int:
             (fecha_estimacion, partido_id, estimacion_pct,
              ic_95_inf, ic_95_sup, n_encuestas, modelo, ventana_dias)
         SELECT
-            :fecha::date,
+            CAST(:fecha AS date),
             p.id,
             :estimacion_pct,
             :ic_95_inf,
