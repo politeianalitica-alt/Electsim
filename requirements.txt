@@ -19,7 +19,7 @@ pgvector>=0.3.6
 
 # ── Microdatos & survey analytics (pyreadstat, weightedcalcs) ────────────────
 pyreadstat>=1.2.7            # Leer SPSS/SAV del CIS directamente en pandas
-weightedcalcs>=0.4.1         # Cálculos estadísticos con pesos muestrales
+weightedcalcs>=0.1.3         # Cálculos estadísticos con pesos muestrales
 scipy>=1.13.0                # Tests estadísticos sobre datos de encuesta
 
 # ── Clustering & ML (kmodes para datos mixtos CIS) ───────────────────────────

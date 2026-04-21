@@ -1,35 +1,41 @@
-"""Validaciones con Great Expectations sobre DataFrames de ingesta."""
+"""Validaciones ligeras sobre DataFrames de ingesta sin Great Expectations."""
 
 import pandas as pd
 import pytest
-from great_expectations.dataset import PandasDataset
 
 
 def validate_microdatos_cis(df: pd.DataFrame) -> bool:
-    ge_df = PandasDataset(df)
-    ge_df.expect_column_values_to_be_between("edad", min_value=18, max_value=110)
-    ge_df.expect_column_values_to_be_between("escala_ideologica", min_value=1, max_value=10)
-    ge_df.expect_column_values_to_be_between("valoracion_gobierno", min_value=0, max_value=10)
-    ge_df.expect_column_values_to_be_between("peso_muestral", min_value=0.01, max_value=20.0)
-    ge_df.expect_column_values_to_not_be_null("peso_muestral")
-    ge_df.expect_column_values_to_not_be_null("encuesta_numero")
-    ge_df.expect_column_values_to_be_in_set(
-        "grupo_edad",
-        ["18-24", "25-34", "35-44", "45-54", "55-64", "65+", "nan"],
-    )
-    ge_df.expect_column_values_to_be_in_set("sexo", ["H", "M", "O", None])
-    result = ge_df.validate()
-    return bool(result.success)
+    if not df["edad"].between(18, 110).all():
+        return False
+    if not df["escala_ideologica"].between(1, 10).all():
+        return False
+    if not df["valoracion_gobierno"].between(0, 10).all():
+        return False
+    if not df["peso_muestral"].between(0.01, 20.0).all():
+        return False
+    if df["peso_muestral"].isnull().any():
+        return False
+    if df["encuesta_numero"].isnull().any():
+        return False
+    if not df["grupo_edad"].isin(
+        ["18-24", "25-34", "35-44", "45-54", "55-64", "65+", "nan"]
+    ).all():
+        return False
+    if not df["sexo"].isin(["H", "M", "O", None]).all():
+        return False
+    return True
 
 
 def validate_resultados_electorales(df: pd.DataFrame) -> bool:
-    ge_df = PandasDataset(df)
-    ge_df.expect_column_values_to_be_between("porcentaje", min_value=0, max_value=100)
-    ge_df.expect_column_values_to_be_between("participacion", min_value=0, max_value=100)
-    ge_df.expect_column_values_to_not_be_null("votos")
-    ge_df.expect_column_values_to_be_between("votos", min_value=0, max_value=12_000_000)
-    result = ge_df.validate()
-    return bool(result.success)
+    if not df["porcentaje"].between(0, 100).all():
+        return False
+    if not df["participacion"].between(0, 100).all():
+        return False
+    if df["votos"].isnull().any():
+        return False
+    if not df["votos"].between(0, 12_000_000).all():
+        return False
+    return True
 
 
 def test_validate_microdatos_cis_synthetic():

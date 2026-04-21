@@ -47,34 +47,47 @@ def load_catalog() -> dict[str, Any]:
     return yaml.safe_load(CATALOG_PATH.read_text(encoding="utf-8")) or {}
 
 
-def _instantiate_connector(cfg: dict[str, Any]):
+def _instantiate_connector(cfg):
     module = importlib.import_module(cfg["module"])
     cls = getattr(module, cfg["class"])
-    try:
-        return cls()
-    except TypeError:
-        # algunos extractores requieren params; dejamos fallback sin instanciar para ejecución manual
-        return cls
+
+    if not callable(cls):
+        raise RuntimeError(f"{cfg['class']} no es instanciable")
+
+    return cls()  # SIN fallback
 
 
 @task
 def run_connector(name: str, cfg: dict[str, Any]) -> dict[str, Any]:
-    connector = _instantiate_connector(cfg)
-    since = _last_ingested_at(name)
-    mode = str(cfg.get("mode", "batch")).lower()
-    if hasattr(connector, "ingest_batch") and mode == "batch":
-        out = connector.ingest_batch(since=since)
-    elif hasattr(connector, "ingest_stream") and mode == "stream":
-        connector.ingest_stream()
-        out = None
-    elif hasattr(connector, "run"):
-        # compatibilidad con extractores legacy
-        connector.run()
-        out = None
-    else:
-        raise RuntimeError(f"Conector {name} sin método de ejecución compatible")
-    _upsert_ingest_log(name, None)
-    return {"name": name, "mode": mode, "output": str(out) if out else None}
+    try:
+        connector = _instantiate_connector(cfg)
+        since = _last_ingested_at(name)
+        mode = str(cfg.get("mode", "batch")).lower()
+
+        if hasattr(connector, "ingest_batch") and mode == "batch":
+            out = connector.ingest_batch(since=since)
+
+        elif hasattr(connector, "ingest_stream") and mode == "stream":
+            connector.ingest_stream()
+            out = None
+
+        elif callable(connector):
+            connector = connector()
+            connector.run()
+            out = None
+
+        elif hasattr(connector, "run"):
+            connector.run()
+            out = None
+
+        else:
+            raise RuntimeError(f"Conector {name} sin método de ejecución compatible")
+
+        _upsert_ingest_log(name, None)
+        return {"name": name, "mode": mode, "output": str(out) if out else None}
+
+    except Exception as e:
+        return {"name": name, "error": str(e)}
 
 
 @flow(name="ElectSim España: ingest all declarativo")

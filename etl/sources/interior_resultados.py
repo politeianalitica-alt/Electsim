@@ -114,7 +114,7 @@ class InteriorResultadosExtractor(BaseExtractor):
         rows: list[dict[str, str]] = []
         with zipfile.ZipFile(cache_path) as zf:
             for name in zf.namelist():
-                if name.startswith("04PROV") and name.upper().endswith(".DAT"):
+                if ((name.startswith("04PROV") or name.startswith("04")) and name.upper().endswith(".DAT")):
                     raw = zf.read(name).decode("iso-8859-1", errors="replace")
                     for line in raw.splitlines():
                         if len(line) >= 82:
@@ -140,7 +140,7 @@ class InteriorResultadosExtractor(BaseExtractor):
         out["candidatos_electos"] = (
             pd.to_numeric(out["candidatos_electos"], errors="coerce").fillna(0).astype(int)
         )
-        out = out[(out["tipo_eleccion"] == "02") & (out["votos"] >= 0)]
+        out = out[(out["tipo_eleccion"] == "02") & (out["votos"] >= 0) & (out["codigo_provincia"] != "99")]
         # Porcentaje sobre total votos válidos por provincia en el fichero
         tot_prov = out.groupby("codigo_provincia", as_index=False)["votos"].sum().rename(
             columns={"votos": "votos_totales_provincia"}
@@ -282,7 +282,7 @@ def load_zip_from_path(path: Path, año: int, mes: int, vuelta: int = 1) -> pd.D
     rows: list[dict[str, str]] = []
     with zipfile.ZipFile(BytesIO(buf)) as zf:
         for name in zf.namelist():
-            if name.startswith("04PROV") and name.upper().endswith(".DAT"):
+            if ((name.startswith("04PROV") or name.startswith("04")) and name.upper().endswith(".DAT")):
                 raw = zf.read(name).decode("iso-8859-1", errors="replace")
                 for line in raw.splitlines():
                     if len(line) >= 82:
