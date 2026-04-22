@@ -13,6 +13,7 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import streamlit as st
+from dashboard.components.data_health import render_data_health
 from dashboard.shared import macro_value, sidebar_nav, top_partido
 
 from dashboard.db import (
@@ -107,7 +108,7 @@ st.markdown(
     "- Sincronizar agenda pública de decisores con agenda mediática para maximizar cobertura."
 )
 
-tab1, tab2, tab3 = st.tabs(["Agenda Oficial", "Alertas", "Noticias críticas"])
+tab1, tab2, tab3, tab4 = st.tabs(["Agenda Oficial", "Alertas", "Noticias críticas", "Salud de datos"])
 
 with tab1:
     if agenda_oficial.empty:
@@ -133,3 +134,15 @@ with tab3:
         cols = [c for c in ["fuente", "titular", "fecha_publicacion", "sentimiento_label", "sentimiento_score", "url"] if c in df_news.columns]
         st.dataframe(df_news_div[cols], hide_index=True, use_container_width=True)
 
+with tab4:
+    render_data_health(
+        tablas=[
+            "noticias_prensa",
+            "sentimiento_prensa_diario",
+            "agenda_mediatica",
+            "indices_politeia",
+            "informes_riesgo_politico",
+            "perfiles_votante",
+        ],
+        show_checks=True,
+    )

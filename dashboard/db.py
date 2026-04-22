@@ -3183,3 +3183,280 @@ def seed_elecciones_historicas() -> int:
         if guardar_eleccion_historica(row.to_dict()):
             n += 1
     return n
+
+
+# ── BLOQUE 9: observabilidad de datos (ingesta/calidad/SLA) ────────────────
+
+@st.cache_data(ttl=120)
+def cargar_frescura_tabla(tabla: str) -> pd.DataFrame:
+    """
+    Última ejecución de ingesta para una tabla y su SLA configurado.
+    Devuelve dataframe vacío si no existe metadato de observabilidad.
+    """
+    if not _table_exists("etl_ingestas"):
+        return pd.DataFrame()
+
+    df_ing = _q(
+        """
+        SELECT
+            pipeline,
+            tabla_destino AS tabla,
+            estado AS estado_ingesta,
+            started_at,
+            finished_at,
+            registros_nuevos,
+            registros_totales,
+            error_mensaje
+        FROM etl_ingestas
+        WHERE tabla_destino = :tabla
+        ORDER BY finished_at DESC NULLS LAST, started_at DESC
+        LIMIT 1
+        """,
+        {"tabla": tabla},
+    )
+    if df_ing.empty:
+        return df_ing
+
+    if _table_exists("etl_sla"):
+        df_sla = _q(
+            """
+            SELECT tabla, descripcion, cadencia, max_delay_min, owner, activo
+            FROM etl_sla
+            WHERE tabla = :tabla
+            LIMIT 1
+            """,
+            {"tabla": tabla},
+        )
+        if not df_sla.empty:
+            df_ing = df_ing.merge(df_sla, on="tabla", how="left")
+
+    if _table_exists("data_quality_checks"):
+        df_chk = _q(
+            """
+            SELECT
+                tabla,
+                check_name AS ultimo_check,
+                status AS status_ultimo_check,
+                detalle AS detalle_ultimo_check,
+                created_at AS check_at
+            FROM data_quality_checks
+            WHERE tabla = :tabla
+            ORDER BY created_at DESC
+            LIMIT 1
+            """,
+            {"tabla": tabla},
+        )
+        if not df_chk.empty:
+            df_ing = df_ing.merge(df_chk, on="tabla", how="left")
+
+    if "finished_at" in df_ing.columns:
+        ts = pd.to_datetime(df_ing["finished_at"], errors="coerce", utc=True)
+        delay_min = (pd.Timestamp.now(tz="UTC") - ts).dt.total_seconds() / 60.0
+        df_ing["delay_min"] = delay_min.round(1)
+
+    if {"delay_min", "max_delay_min"}.issubset(df_ing.columns):
+        ok = (pd.to_numeric(df_ing["delay_min"], errors="coerce")
+              <= pd.to_numeric(df_ing["max_delay_min"], errors="coerce"))
+        df_ing["sla_ok"] = ok.fillna(False)
+
+    return df_ing
+
+
+@st.cache_data(ttl=120)
+def cargar_data_health(tablas: list[str] | None = None) -> pd.DataFrame:
+    """
+    Vista de salud de datos por tabla:
+    - última ingesta
+    - SLA
+    - último check de calidad
+    - estado agregado (ok/warn/fail)
+    """
+    if not _table_exists("etl_ingestas"):
+        return pd.DataFrame()
+
+    params: dict[str, Any] = {}
+    where = ""
+    if tablas:
+        where = "WHERE tabla_destino = ANY(:tablas)"
+        params["tablas"] = tablas
+
+    has_sla = _table_exists("etl_sla")
+    has_checks = _table_exists("data_quality_checks")
+
+    with_parts = [
+        f"""
+        lr AS (
+            SELECT DISTINCT ON (tabla_destino)
+                tabla_destino AS tabla,
+                pipeline,
+                estado AS estado_ingesta,
+                started_at,
+                finished_at,
+                registros_nuevos,
+                registros_totales,
+                error_mensaje
+            FROM etl_ingestas
+            {where}
+            ORDER BY tabla_destino, finished_at DESC NULLS LAST, started_at DESC
+        )
+        """
+    ]
+    joins = []
+    select_extra = []
+
+    if has_sla:
+        joins.append("LEFT JOIN etl_sla sla ON sla.tabla = lr.tabla")
+        select_extra.extend(
+            [
+                "sla.descripcion",
+                "sla.cadencia",
+                "sla.max_delay_min",
+                "sla.owner",
+                "sla.activo",
+            ]
+        )
+    else:
+        select_extra.extend(
+            [
+                "NULL::text AS descripcion",
+                "NULL::text AS cadencia",
+                "NULL::int AS max_delay_min",
+                "NULL::text AS owner",
+                "NULL::bool AS activo",
+            ]
+        )
+
+    if has_checks:
+        with_parts.append(
+            f"""
+            lc AS (
+                SELECT DISTINCT ON (tabla)
+                    tabla,
+                    status AS status_ultimo_check,
+                    check_name AS ultimo_check,
+                    created_at AS check_at
+                FROM data_quality_checks
+                {"WHERE tabla = ANY(:tablas)" if tablas else ""}
+                ORDER BY tabla, created_at DESC
+            )
+            """
+        )
+        joins.append("LEFT JOIN lc ON lc.tabla = lr.tabla")
+        select_extra.extend(
+            [
+                "lc.status_ultimo_check",
+                "lc.ultimo_check",
+                "lc.check_at",
+            ]
+        )
+    else:
+        select_extra.extend(
+            [
+                "NULL::text AS status_ultimo_check",
+                "NULL::text AS ultimo_check",
+                "NULL::timestamptz AS check_at",
+            ]
+        )
+
+    sql = f"""
+        WITH {','.join(with_parts)}
+        SELECT
+            lr.*,
+            {', '.join(select_extra)}
+        FROM lr
+        {' '.join(joins)}
+        ORDER BY lr.tabla
+    """
+    df = _q(sql, params)
+    if df.empty:
+        return df
+
+    ts = pd.to_datetime(df.get("finished_at"), errors="coerce", utc=True)
+    df["delay_min"] = ((pd.Timestamp.now(tz="UTC") - ts).dt.total_seconds() / 60.0).round(1)
+
+    max_delay = pd.to_numeric(df.get("max_delay_min"), errors="coerce")
+    df["sla_ok"] = (df["delay_min"] <= max_delay).fillna(False)
+
+    def _estado(row: pd.Series) -> str:
+        estado_ing = str(row.get("estado_ingesta", "")).lower()
+        estado_chk = str(row.get("status_ultimo_check", "")).lower()
+        if estado_ing == "error" or estado_chk == "fail":
+            return "fail"
+        if estado_ing == "warning" or estado_chk == "warn" or not bool(row.get("sla_ok", False)):
+            return "warn"
+        return "ok"
+
+    df["estado_global"] = df.apply(_estado, axis=1)
+    return df
+
+
+@st.cache_data(ttl=300)
+def cargar_checks_calidad(tabla: str | None = None, limite: int = 200) -> pd.DataFrame:
+    """Histórico de checks de calidad (últimos N)."""
+    if not _table_exists("data_quality_checks"):
+        return pd.DataFrame()
+    params: dict[str, Any] = {"limite": int(max(limite, 1))}
+    where = ""
+    if tabla:
+        where = "WHERE tabla = :tabla"
+        params["tabla"] = tabla
+    return _q(
+        f"""
+        SELECT id, tabla, check_name, status, detalle, metric_value, threshold, created_at
+        FROM data_quality_checks
+        {where}
+        ORDER BY created_at DESC
+        LIMIT :limite
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=3600)
+def cargar_metadata_perfiles() -> pd.DataFrame:
+    """Metadatos de generación de perfiles de microdatos."""
+    if not _table_exists("perfiles_metadata"):
+        return pd.DataFrame()
+    return _q(
+        """
+        SELECT
+            fecha_calculo,
+            encuesta_origen,
+            version_modelo,
+            n_clusters,
+            features_json,
+            n_entrevistas,
+            tasa_respuesta,
+            creado_en
+        FROM perfiles_metadata
+        ORDER BY fecha_calculo DESC, version_modelo DESC
+        """
+    )
+
+
+@st.cache_data(ttl=600)
+def cargar_metadata_perfil_fecha(fecha: str) -> dict[str, Any]:
+    """Metadato más reciente de perfiles para una fecha de cálculo concreta."""
+    if not _table_exists("perfiles_metadata"):
+        return {}
+    df = _q(
+        """
+        SELECT
+            fecha_calculo,
+            encuesta_origen,
+            version_modelo,
+            n_clusters,
+            features_json,
+            n_entrevistas,
+            tasa_respuesta,
+            creado_en
+        FROM perfiles_metadata
+        WHERE fecha_calculo = :fecha
+        ORDER BY version_modelo DESC
+        LIMIT 1
+        """,
+        {"fecha": fecha},
+    )
+    if df.empty:
+        return {}
+    return df.iloc[0].to_dict()

@@ -19,6 +19,7 @@ from dashboard.db import (  # noqa: E402
     cargar_noticias_recientes,
     cargar_resultados_provinciales,
 )
+from dashboard.components.data_health import render_data_health  # noqa: E402
 from dashboard.shared import _safe_page_link, sidebar_nav  # noqa: E402
 
 st.set_page_config(page_title="War Room España", layout="wide")
@@ -53,6 +54,19 @@ with col_c:
     st.metric("Noticias 48h", len(df_news))
 with col_d:
     st.metric("Partidos en nowcast", df_now["partido_siglas"].nunique() if not df_now.empty and "partido_siglas" in df_now.columns else 0)
+
+st.subheader("Salud de datos")
+render_data_health(
+    tablas=[
+        "noticias_prensa",
+        "sentimiento_prensa_diario",
+        "agenda_mediatica",
+        "indices_politeia",
+        "informes_riesgo_politico",
+        "perfiles_votante",
+    ],
+    show_checks=False,
+)
 
 st.subheader("Semáforo nacional")
 if df_indices.empty:
