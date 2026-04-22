@@ -4,6 +4,7 @@ import os
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
@@ -20,15 +21,50 @@ _session_factory: sessionmaker | None = None
 def _database_url() -> str:
     url = os.getenv("DATABASE_URL", "").strip()
     if not url:
-        raise RuntimeError("DATABASE_URL no definida")
+        raise RuntimeError(
+            "DATABASE_URL no definida. Copia .env.example a .env y ajusta la conexión, "
+            "o exporta DATABASE_URL antes de ejecutar dashboard/API/Alembic."
+        )
     return url
+
+
+def _validate_env_consistency(database_url: str) -> None:
+    """
+    Sanity-check en modo local: si POSTGRES_USER/PASSWORD están definidos,
+    deben ser coherentes con DATABASE_URL cuando apunta a localhost.
+    """
+    try:
+        parsed = urlparse(database_url.replace("+psycopg", ""))
+    except Exception:
+        return
+    host = (parsed.hostname or "").strip().lower()
+    if host not in {"localhost", "127.0.0.1", "::1"}:
+        return
+
+    env_user = (os.getenv("POSTGRES_USER", "") or "").strip()
+    env_pwd = (os.getenv("POSTGRES_PASSWORD", "") or "").strip()
+    url_user = (parsed.username or "").strip()
+    url_pwd = (parsed.password or "").strip()
+
+    if env_user and url_user and env_user != url_user:
+        raise RuntimeError(
+            f"Inconsistencia DB local: POSTGRES_USER='{env_user}' pero DATABASE_URL usa usuario '{url_user}'. "
+            "Alinea ambas variables."
+        )
+    if env_pwd and url_pwd and env_pwd != url_pwd:
+        raise RuntimeError(
+            "Inconsistencia DB local: POSTGRES_PASSWORD no coincide con la contraseña en DATABASE_URL. "
+            "Alinea ambas variables."
+        )
 
 
 def get_engine() -> Engine:
     global _engine
     if _engine is None:
+        database_url = _database_url()
+        _validate_env_consistency(database_url)
         _engine = create_engine(
-            _database_url(),
+            database_url,
             future=True,
             pool_pre_ping=True,
             pool_size=int(os.getenv("DB_POOL_SIZE", "5")),

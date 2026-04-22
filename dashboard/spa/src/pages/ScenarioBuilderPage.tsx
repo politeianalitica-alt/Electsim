@@ -6,6 +6,7 @@ export function ScenarioBuilderPage() {
   const [mensaje, setMensaje] = useState("");
   const [tema, setTema] = useState("economia");
   const [result, setResult] = useState<unknown>(null);
+  const [error, setError] = useState<string | null>(null);
 
   return (
     <section>
@@ -19,25 +20,36 @@ export function ScenarioBuilderPage() {
       </select>
       <button
         onClick={async () => {
-          const data = await executeAction("simulate_campaign", {
-            object_type: "Partido",
-            object_id: partidoId,
-            mensaje,
-            tema,
-          });
-          setResult(data);
+          try {
+            const data = await executeAction("simulate_campaign", {
+              object_type: "Partido",
+              object_id: partidoId,
+              mensaje,
+              tema,
+            });
+            setResult(data);
+            setError(null);
+          } catch (err) {
+            setError(err instanceof Error ? err.message : "Error simulando campaña");
+          }
         }}
       >
         Simular campaña
       </button>
       <button
         onClick={async () => {
-          const data = await executeAction("compute_nowcast", {});
-          setResult(data);
+          try {
+            const data = await executeAction("compute_nowcast", {});
+            setResult(data);
+            setError(null);
+          } catch (err) {
+            setError(err instanceof Error ? err.message : "Error recalculando nowcast");
+          }
         }}
       >
         Recalcular nowcast
       </button>
+      {error ? <p style={{ color: "#dc2626" }}>{error}</p> : null}
       {result ? <pre>{JSON.stringify(result, null, 2)}</pre> : null}
     </section>
   );

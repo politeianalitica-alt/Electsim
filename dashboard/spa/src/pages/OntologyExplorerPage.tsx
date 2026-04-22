@@ -6,9 +6,17 @@ export function OntologyExplorerPage() {
   const [selectedType, setSelectedType] = useState("");
   const [objectId, setObjectId] = useState("");
   const [result, setResult] = useState<unknown>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    listOntologyTypes().then(setTypes).catch(console.error);
+    listOntologyTypes()
+      .then((rows) => {
+        setTypes(rows);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : "Error cargando tipos");
+      });
   }, []);
 
   return (
@@ -26,11 +34,17 @@ export function OntologyExplorerPage() {
       <button
         onClick={async () => {
           if (!selectedType || !objectId) return;
-          setResult(await getOntologyObject(selectedType, objectId));
+          try {
+            setResult(await getOntologyObject(selectedType, objectId));
+            setError(null);
+          } catch (err) {
+            setError(err instanceof Error ? err.message : "Error cargando objeto");
+          }
         }}
       >
         Cargar
       </button>
+      {error ? <p style={{ color: "#dc2626" }}>{error}</p> : null}
       {result ? <pre>{JSON.stringify(result, null, 2)}</pre> : null}
     </section>
   );

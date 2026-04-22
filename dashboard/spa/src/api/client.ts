@@ -12,7 +12,11 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     ...options,
     headers: { "Content-Type": "application/json", ...(options?.headers ?? {}) },
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    console.error("API error", { path, status: res.status, body });
+    throw new Error(`API error ${res.status}`);
+  }
   return res.json() as Promise<T>;
 }
 
@@ -30,4 +34,8 @@ export function executeAction(actionName: string, context: Record<string, unknow
 
 export function getRisk() {
   return request("/analytics/pedersen");
+}
+
+export function getApiHealth() {
+  return request<{ status: string; service: string }>("/health");
 }

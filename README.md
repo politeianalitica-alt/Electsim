@@ -52,7 +52,27 @@ electsim-espana/
 3. La primera vez, Postgres ejecuta `db/schema.sql` y `db/seeds/02_seeds.sql`.
 4. Entorno Python: `python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
 5. Tests: `pytest` (marcar integración: `pytest -m integration` si hay Postgres con `DATABASE_URL`).
-6. Lock de despliegue reproducible: `pip freeze > requirements.lock` (usado por Dockerfiles).
+6. Validar entorno antes de arrancar: `python bin/check_env.py`
+
+### Variables críticas (obligatorias)
+
+- `DATABASE_URL`: obligatoria para Dashboard, API, Prefect worker y Alembic.
+- Si falta, los módulos de DB/migraciones abortan con error explícito.
+- Formato local recomendado:
+
+```bash
+DATABASE_URL=postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana
+```
+
+### Modos de ejecución recomendados
+
+- **Modo local puro**:
+  - Postgres instalado en host.
+  - `DATABASE_URL` apunta a `localhost`.
+- **Modo Docker completo**:
+  - `docker compose up -d postgres prefect api`.
+  - Desde host, `DATABASE_URL` también puede apuntar a `localhost:5432` (puerto publicado).
+  - Dentro de contenedores se usa host `postgres`.
 
 ### Frontend SPA (si lo vais a usar)
 
@@ -74,8 +94,17 @@ npm run build
 ## Convenciones de repositorio (equipo)
 
 - No subir artefactos locales: `.venv/`, `.etl_cache/`, `logs/`, `data1/`, `Microdatos/`, `dashboard/spa/node_modules/`.
-- Mantener `requirements.txt` como editable y `requirements.lock` para builds reproducibles.
+- Mantener `requirements.txt` como fuente de verdad de dependencias (y `requirements.lock` opcional como snapshot local).
 - Arranque local estándar del dashboard: `bash start.sh`.
+
+### Dependencias en Docker
+
+- Las imágenes de API y Prefect worker instalan dependencias desde `requirements.txt`.
+- Si tocas dependencias, reconstruye imágenes:
+
+```bash
+docker compose build api prefect-worker
+```
 
 ### Arranque canónico local
 
@@ -135,6 +164,21 @@ Las tareas están preparadas como esqueleto: implemente extractores en `etl/sour
 Modelos en `db/models.py`. Tras el primer `docker compose up` de Postgres: `alembic stamp 0001_baseline`. Detalle en `db/migrations/README.md`.
 
 Fase 2 (tablas de salida): `alembic upgrade head` aplica la revisión `0002_fase2_output_tables`. Compruebe con `alembic current`.
+
+Migración recomendada (con el mismo `.env` de la app):
+
+```bash
+python bin/check_env.py
+alembic upgrade head
+```
+
+Atajo equivalente:
+
+```bash
+make migrate
+```
+
+Si ejecutas desde host con stack Docker, asegúrate de usar la misma `DATABASE_URL` que el dashboard.
 
 ## Fase 2 — Ejecución
 
@@ -229,6 +273,12 @@ agents/
 ### Pipeline Prefect
 
 Flow `ElectSim-España: Fase 3 — Agentes LLM`: verifica perfiles → simula CIS básico → campaña de ejemplo → propagación en red → resumen. Requiere `perfiles_votante` poblados (clustering Fase 2).
+
+Si lanzas comandos `prefect` desde el host (fuera de contenedor), exporta:
+
+```bash
+export PREFECT_API_URL="http://localhost:4200/api"
+```
 
 ### Tests
 

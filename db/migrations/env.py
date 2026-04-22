@@ -20,8 +20,12 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 database_url = os.getenv("DATABASE_URL", "").strip()
-if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+if not database_url:
+    raise RuntimeError(
+        "DATABASE_URL no definida. Alembic necesita esta variable para ejecutar migraciones. "
+        "Copia .env.example a .env o exporta DATABASE_URL en el entorno."
+    )
+config.set_main_option("sqlalchemy.url", database_url)
 
 target_metadata = Base.metadata
 

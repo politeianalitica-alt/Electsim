@@ -477,7 +477,7 @@ def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None
         "  AND fecha >= CURRENT_DATE - (:days * INTERVAL '1 day') "
         "ORDER BY fecha"
     ).format(col=col_ident)
-    return _q(sql, {"days": days})
+    return _q(sql, {"days": days}, conn=_conn)
 
 
 # ── Perfiles de votante ───────────────────────────────────────────────────────
@@ -676,6 +676,7 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
         LIMIT :limit
         """,
         {"dias": dias, "limit": lim},
+        conn=_conn,
     )
     if not df.empty:
         return df
@@ -691,6 +692,7 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
         LIMIT :limit
         """,
         {"dias": dias, "limit": lim},
+        conn=_conn,
     )
 
 
@@ -728,7 +730,7 @@ def cargar_agenda_hoy(_conn=None) -> pd.DataFrame:
         WHERE fecha = CURRENT_DATE
         ORDER BY n_noticias DESC
         LIMIT 25
-    """)
+    """, conn=_conn)
     if not df.empty:
         return df
     # Fallback robusto:
