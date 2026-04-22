@@ -65,12 +65,16 @@ PAGES_NAV = {
     ],
     "indices_politeia": [
         ("pages/9_Indices_Politeia.py",         "◈  Índices"),
-        ("pages/14_Monitor_Sentimiento.py",     "▦  Monitor de sentimiento"),
-        ("pages/15_Agenda_Lideres.py",          "▣  Agenda de líderes"),
         ("pages/10_Prensa_Agenda.py",           "◎  Prensa & Agenda"),
+        ("pages/14_Monitor_Sentimiento.py",     "   ↳ Monitor de sentimiento"),
+        ("pages/20_Monitor_Medios_RRSS.py",     "   ↳ Monitor Medios & RRSS"),
         ("pages/11_Congreso_Institucional.py",  "◉  Congreso"),
+        ("pages/15_Agenda_Lideres.py",          "   ↳ Agenda de líderes"),
         ("pages/13_Briefing_Diario.py",         "⬡  Briefing Diario"),
         ("pages/18_War_Room_Espana.py",         "⚔  War Room"),
+        ("pages/21_Opposition_Research.py",     "   ↳ Opposition Research"),
+        ("pages/22_Coordinacion_Campana.py",    "   ↳ Coordinación Campaña"),
+        ("pages/23_Memoria_Institucional.py",   "   ↳ Memoria Institucional"),
     ],
     "modelos_datos": [
         ("pages/5_Agentes_LLM.py",             "◈  Agentes LLM"),
@@ -717,6 +721,13 @@ def sidebar_nav():
     _ensure_pages_bridge()
     aplicar_estilos()
     with st.sidebar:
+        try:
+            from dashboard.services.cliente_context import selector_cliente_sidebar
+
+            selector_cliente_sidebar()
+        except Exception:
+            pass
+
         # Logo / header
         st.markdown(f"""
         <div style="padding:1.4rem 1rem 1rem;border-bottom:1px solid {BORDER};margin-bottom:.8rem">

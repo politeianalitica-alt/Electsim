@@ -54,6 +54,29 @@ electsim-espana/
 5. Tests: `pytest` (marcar integración: `pytest -m integration` si hay Postgres con `DATABASE_URL`).
 6. Lock de despliegue reproducible: `pip freeze > requirements.lock` (usado por Dockerfiles).
 
+### Frontend SPA (si lo vais a usar)
+
+El frontend de `dashboard/spa/` **no** versiona `node_modules`.
+
+```bash
+cd dashboard/spa
+npm install
+npm run dev
+```
+
+Para producción:
+
+```bash
+cd dashboard/spa
+npm run build
+```
+
+## Convenciones de repositorio (equipo)
+
+- No subir artefactos locales: `.venv/`, `.etl_cache/`, `logs/`, `data1/`, `Microdatos/`, `dashboard/spa/node_modules/`.
+- Mantener `requirements.txt` como editable y `requirements.lock` para builds reproducibles.
+- Arranque local estándar del dashboard: `bash start.sh`.
+
 ### Arranque canónico local
 
 Usar siempre el entrypoint del proyecto:
@@ -89,7 +112,10 @@ Estos artefactos son de ejecución local/operativa y no deben commitearse.
 
 ## Pipelines
 
-- Orquestación global: `python -m pipelines.ingest_all`
+- Ingesta simplificada (recomendada): `python -m pipelines.ingesta_simple --modo rapido`
+- Ingesta completa (base + medios + declaraciones): `python -m pipelines.ingesta_simple --modo completo`
+- Dry-run: `python -m pipelines.ingesta_simple --modo completo --dry-run`
+- Orquestación global legacy: `python -m pipelines.ingest_all`
 - Por dominio: `ingest_electoral`, `ingest_economico`, `ingest_sectorial`, `ingest_social`
 
 Las tareas están preparadas como esqueleto: implemente extractores en `etl/sources/` y loaders en `etl/loaders/`.

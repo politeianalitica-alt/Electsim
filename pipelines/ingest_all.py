@@ -1,101 +1,139 @@
-"""Pipeline declarativo de ingesta con catálogo de conectores."""
+"""Orquestador de ingesta simplificado (sin dependencia de catálogo dinámico).
+
+Mantiene compatibilidad con los wrappers existentes:
+- pipelines/ingest_electoral.py
+- pipelines/ingest_economico.py
+- pipelines/ingest_sectorial.py
+- pipelines/ingest_social.py
+"""
 
 from __future__ import annotations
 
-import importlib
 import json
-from pathlib import Path
+import logging
+import os
 from typing import Any
 
-import yaml
-from prefect import flow, task
-from sqlalchemy import text
+from sqlalchemy import create_engine
 
-from db.session import SessionLocal
-
-CATALOG_PATH = Path("etl/sources/catalog.yml")
+logger = logging.getLogger(__name__)
 
 
-def _upsert_ingest_log(source_name: str, last_ingested_at: str | None) -> None:
-    with SessionLocal.begin() as session:
-        session.execute(
-            text(
-                """
-                INSERT INTO ingest_log (source_name, last_ingested_at)
-                VALUES (:source_name, COALESCE(:last_ingested_at::timestamptz, NOW()))
-                ON CONFLICT (source_name)
-                DO UPDATE SET last_ingested_at = EXCLUDED.last_ingested_at
-                """
-            ),
-            {"source_name": source_name, "last_ingested_at": last_ingested_at},
-        )
+
+def _engine():
+    url = os.environ.get("DATABASE_URL")
+    if not url:
+        raise RuntimeError("DATABASE_URL no definida")
+    return create_engine(url, pool_pre_ping=True)
 
 
-def _last_ingested_at(source_name: str) -> str | None:
-    with SessionLocal() as session:
-        row = session.execute(
-            text("SELECT last_ingested_at::text FROM ingest_log WHERE source_name = :source_name"),
-            {"source_name": source_name},
-        ).first()
-    return row[0] if row else None
 
+def ingest_electoral() -> dict[str, Any]:
+    """Ingesta electoral/institucional base."""
+    engine = _engine()
+    out: dict[str, Any] = {}
 
-@task
-def load_catalog() -> dict[str, Any]:
-    if not CATALOG_PATH.exists():
-        return {}
-    return yaml.safe_load(CATALOG_PATH.read_text(encoding="utf-8")) or {}
-
-
-def _instantiate_connector(cfg):
-    module = importlib.import_module(cfg["module"])
-    cls = getattr(module, cfg["class"])
-
-    if not callable(cls):
-        raise RuntimeError(f"{cfg['class']} no es instanciable")
-
-    return cls()  # SIN fallback
-
-
-@task
-def run_connector(name: str, cfg: dict[str, Any]) -> dict[str, Any]:
     try:
-        connector = _instantiate_connector(cfg)
-        since = _last_ingested_at(name)
-        mode = str(cfg.get("mode", "batch")).lower()
+        from etl.sources.congreso_api import run_congreso
 
-        if hasattr(connector, "ingest_batch") and mode == "batch":
-            out = connector.ingest_batch(since=since)
+        out["congreso"] = run_congreso(engine)
+    except Exception as exc:
+        logger.exception("Fallo ingest_electoral.congreso")
+        out["congreso_error"] = str(exc)
 
-        elif hasattr(connector, "ingest_stream") and mode == "stream":
-            connector.ingest_stream()
-            out = None
+    try:
+        from etl.sources.agenda_oficial_api import run_agenda_ingest
 
-        elif callable(connector):
-            connector = connector()
-            connector.run()
-            out = None
+        out["agenda_oficial"] = run_agenda_ingest(engine)
+    except Exception as exc:
+        logger.exception("Fallo ingest_electoral.agenda")
+        out["agenda_error"] = str(exc)
 
-        elif hasattr(connector, "run"):
-            connector.run()
-            out = None
-
-        else:
-            raise RuntimeError(f"Conector {name} sin método de ejecución compatible")
-
-        _upsert_ingest_log(name, None)
-        return {"name": name, "mode": mode, "output": str(out) if out else None}
-
-    except Exception as e:
-        return {"name": name, "error": str(e)}
+    return out
 
 
-@flow(name="ElectSim España: ingest all declarativo")
+
+def ingest_macroeconomia() -> dict[str, Any]:
+    """Ingesta macroeconómica desde INE + BdE."""
+    engine = _engine()
+    out: dict[str, Any] = {}
+
+    try:
+        from etl.sources.ine_api_v2 import run_ine
+
+        out["ine"] = run_ine(engine)
+    except Exception as exc:
+        logger.exception("Fallo ingest_macroeconomia.ine")
+        out["ine_error"] = str(exc)
+
+    try:
+        from etl.sources.bde_api_v2 import run_bde
+
+        out["bde"] = run_bde(engine)
+    except Exception as exc:
+        logger.exception("Fallo ingest_macroeconomia.bde")
+        out["bde_error"] = str(exc)
+
+    return out
+
+
+
+def ingest_sectores() -> dict[str, Any]:
+    """Placeholder explícito para capa sectorial (no falla)."""
+    return {"status": "pending", "detail": "Ingesta sectorial específica no implementada en este entrypoint"}
+
+
+
+def ingest_cis_barometros() -> dict[str, Any]:
+    """Ingesta CIS/observatorios."""
+    try:
+        from etl.sources.cis_barometro_v2 import main as run_cis_obs
+
+        run_cis_obs()
+        return {"status": "ok"}
+    except Exception as exc:
+        logger.exception("Fallo ingest_cis_barometros")
+        return {"status": "error", "detail": str(exc)}
+
+
+
+def ingest_ine_demografia() -> dict[str, Any]:
+    """Alias de compatibilidad para wrappers sociales."""
+    return ingest_macroeconomia()
+
+
+
+def ingest_redes_sociales() -> dict[str, Any]:
+    """Ingesta simple de prensa/RSS como fallback social-compatible."""
+    try:
+        from etl.sources.rss_noticias import ingest as rss_ingest
+
+        return rss_ingest()
+    except Exception as exc:
+        logger.exception("Fallo ingest_redes_sociales")
+        return {"status": "error", "detail": str(exc)}
+
+
 def ingest_all() -> list[dict[str, Any]]:
-    catalog = load_catalog()
-    futures = [run_connector.submit(name, cfg) for name, cfg in catalog.items()]
-    return [f.result() for f in futures]
+    pasos = [
+        ("electoral", ingest_electoral),
+        ("macroeconomia", ingest_macroeconomia),
+        ("cis", ingest_cis_barometros),
+        ("redes", ingest_redes_sociales),
+        ("sectores", ingest_sectores),
+    ]
+
+    resultados: list[dict[str, Any]] = []
+    for nombre, fn in pasos:
+        try:
+            resultados.append({"step": nombre, "ok": True, "result": fn()})
+        except Exception as exc:
+            logger.exception("Fallo en paso %s", nombre)
+            resultados.append({"step": nombre, "ok": False, "error": str(exc)})
+
+    return resultados
 
 
 if __name__ == "__main__":
-    print(json.dumps(ingest_all(), ensure_ascii=False, indent=2))
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s — %(message)s")
+    print(json.dumps(ingest_all(), ensure_ascii=False, indent=2, default=str))

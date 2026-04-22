@@ -1,11 +1,8 @@
-"""Prefect: macroeconomía, finanzas públicas y BdE."""
-
-from prefect import flow
+"""Ingesta económica simplificada (sin dependencia de Prefect)."""
 
 from pipelines.ingest_all import ingest_macroeconomia
 
 
-@flow(name="ElectSim España: ingesta económica")
 def ingest_economico_flow() -> None:
     ingest_macroeconomia()
 
