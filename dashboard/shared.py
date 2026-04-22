@@ -9,6 +9,7 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import streamlit as st
+from streamlit.errors import StreamlitAPIException
 
 # ── Design tokens (dark / tech theme) ────────────────────────────────────────
 BG       = "#080C14"        # fondo principal
@@ -80,6 +81,128 @@ PAGES_NAV = {
         ("pages/17_Nowcasting_Component.py",   "⊕  Nowcasting Avanzado"),
     ],
 }
+
+
+def _ensure_pages_bridge() -> None:
+    """Garantiza que `pages/` exista en la raíz para Streamlit multipage."""
+    root = _ROOT
+    pages_root = root / "pages"
+    dashboard_pages = root / "dashboard" / "pages"
+
+    if not dashboard_pages.exists():
+        return
+
+    # Limpiar symlink roto.
+    if pages_root.is_symlink() and not pages_root.exists():
+        pages_root.unlink(missing_ok=True)
+
+    if pages_root.exists():
+        return
+
+    try:
+        pages_root.symlink_to(dashboard_pages, target_is_directory=True)
+    except OSError:
+        # Fallback defensivo: copia física.
+        import shutil
+
+        shutil.copytree(dashboard_pages, pages_root)
+
+
+def _resolve_page_path(path: str) -> str | None:
+    """Devuelve ruta relativa válida para st.page_link o None si no existe."""
+    target = _ROOT / path
+    if target.exists():
+        return path
+    # Fallback por nombre de archivo dentro de pages/
+    alt = _ROOT / "pages" / Path(path).name
+    if alt.exists():
+        return f"pages/{Path(path).name}"
+    return None
+
+
+def _safe_page_link(path: str, label: str) -> None:
+    """Renderiza enlaces de página sin romper toda la app por una ruta inválida."""
+    resolved = _resolve_page_path(path)
+    if resolved is None:
+        return
+    try:
+        st.page_link(resolved, label=label)
+    except StreamlitAPIException:
+        # Si Streamlit no acepta la ruta por contexto de ejecución, la omitimos.
+        return
+
+
+def _badge_alertas_sidebar() -> None:
+    """Muestra resumen rápido de alertas no leídas en la barra lateral."""
+    try:
+        from dashboard.db import cargar_alertas
+
+        df = cargar_alertas(solo_no_leidas=True)
+    except Exception:
+        return
+
+    if df.empty:
+        return
+
+    sev_col = "severidad" if "severidad" in df.columns else None
+    if sev_col is None:
+        return
+
+    criticas = int((df[sev_col].astype(str).str.upper() == "CRITICAL").sum())
+    warnings = int((df[sev_col].astype(str).str.upper().isin({"WARNING", "ALTA", "MEDIUM", "MEDIA"})).sum())
+
+    if criticas > 0:
+        st.markdown(
+            f'<div style="background:#7f1d1d;border:1px solid {RED};border-radius:8px;'
+            f'padding:0.5rem 0.75rem;margin:0.5rem 0;font-size:0.8rem;color:#fee2e2">'
+            f'🔴 <strong>{criticas} alerta{"s" if criticas != 1 else ""} crítica{"s" if criticas != 1 else ""}</strong>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+    if warnings > 0:
+        st.markdown(
+            f'<div style="background:#451a03;border:1px solid {AMBER};border-radius:8px;'
+            f'padding:0.5rem 0.75rem;margin:0.5rem 0;font-size:0.8rem;color:#fef3c7">'
+            f'🟡 <strong>{warnings} advertencia{"s" if warnings != 1 else ""}</strong>'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+
+def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
+    """Renderiza alertas relevantes para una página concreta."""
+    try:
+        from dashboard.db import cargar_alertas
+
+        df = cargar_alertas(solo_no_leidas=True)
+    except Exception:
+        return
+
+    if df.empty:
+        return
+
+    sev = df["severidad"].astype(str).str.upper() if "severidad" in df.columns else pd.Series(["INFO"] * len(df))
+    if "pagina_relevante" in df.columns:
+        rel = df["pagina_relevante"].astype(str)
+        mask = (rel == pagina_id) | (sev == "CRITICAL")
+        df_pag = df[mask]
+    else:
+        df_pag = df[sev == "CRITICAL"]
+
+    if df_pag.empty:
+        return
+
+    for _, row in df_pag.head(max_alertas).iterrows():
+        severidad = str(row.get("severidad", "INFO")).upper()
+        titulo = str(row.get("titulo", "Alerta"))
+        descripcion = str(row.get("descripcion", ""))
+        msg = f"**{titulo}** — {descripcion[:220]}"
+        if severidad == "CRITICAL":
+            st.error(msg, icon="🚨")
+        elif severidad in {"WARNING", "ALTA", "MEDIUM", "MEDIA"}:
+            st.warning(msg)
+        else:
+            st.info(msg)
 
 
 def _normalize_siglas(siglas: str) -> str:
@@ -591,6 +714,7 @@ def aplicar_estilos():
 
 def sidebar_nav():
     """Renderiza la barra lateral personalizada con tema dark/tech."""
+    _ensure_pages_bridge()
     aplicar_estilos()
     with st.sidebar:
         # Logo / header
@@ -628,17 +752,19 @@ def sidebar_nav():
         # Sección: Análisis Electoral
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.6rem .5rem .3rem'>Análisis Electoral</div>", unsafe_allow_html=True)
         for path, label in PAGES_NAV["analisis_electoral"]:
-            st.page_link(path, label=label)
+            _safe_page_link(path, label=label)
 
         # Sección: Índices Politeia
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Índices Politeia</div>", unsafe_allow_html=True)
         for path, label in PAGES_NAV["indices_politeia"]:
-            st.page_link(path, label=label)
+            _safe_page_link(path, label=label)
 
         # Sección: Modelos & Datos
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Modelos & Datos</div>", unsafe_allow_html=True)
         for path, label in PAGES_NAV["modelos_datos"]:
-            st.page_link(path, label=label)
+            _safe_page_link(path, label=label)
+
+        _badge_alertas_sidebar()
 
         # Footer
         dot_color = CYAN

@@ -52,8 +52,28 @@ electsim-espana/
 3. La primera vez, Postgres ejecuta `db/schema.sql` y `db/seeds/02_seeds.sql`.
 4. Entorno Python: `python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
 5. Tests: `pytest` (marcar integración: `pytest -m integration` si hay Postgres con `DATABASE_URL`).
+6. Lock de despliegue reproducible: `pip freeze > requirements.lock` (usado por Dockerfiles).
+
+### Arranque canónico local
+
+Usar siempre el entrypoint del proyecto:
+
+```bash
+bash start.sh
+```
+
+`start.sh` activa `.venv`, carga `.env`, exporta `PYTHONPATH` y arranca Streamlit desde `app.py`.
 
 Variables `RAW_DATA_PATH` y `PROCESSED_DATA_PATH` pueden apuntar a rutas absolutas si Prefect o los extractores corren fuera del directorio del proyecto.
+
+## Artefactos locales (no versionables)
+
+- `.etl_cache/`
+- `data/raw/`
+- `data/processed/`
+- Ficheros grandes de ingestión (`*.zip`, `*.DAT`, `*.sav`)
+
+Estos artefactos son de ejecución local/operativa y no deben commitearse.
 
 ## Módulos de base de datos
 

@@ -16,16 +16,26 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-try:
-    import psycopg2  # type: ignore
-    from psycopg2.extras import execute_values  # type: ignore
-except Exception:  # pragma: no cover
-    psycopg2 = None  # type: ignore
-    execute_values = None  # type: ignore
+import psycopg
 
 from etl.logger import get_logger
 
 logger = get_logger(__name__)
+
+
+def _execute_values_compat(cur, sql: str, rows: list[tuple], page_size: int = 500) -> None:
+    """Compatibilidad psycopg v3 para SQL heredado con `VALUES %s`."""
+    if not rows:
+        return
+    first = rows[0]
+    if not isinstance(first, (tuple, list)):
+        raise ValueError("rows debe ser una lista de tuples/lists")
+    placeholders = ",".join(["%s"] * len(first))
+    sql_exec = sql.replace("VALUES %s", f"VALUES ({placeholders})")
+    # paginar evita payloads enormes en inserciones de muchos registros
+    for i in range(0, len(rows), page_size):
+        chunk = rows[i : i + page_size]
+        cur.executemany(sql_exec, chunk)
 
 # Mapping columnas CIS -> nombres internos normalizados.
 COLUMNAS_CIS: dict[str, str] = {
@@ -536,11 +546,6 @@ def upsert_perfil_bd(
     tipo: str = "predefinido",
 ) -> None:
     """Upsert del perfil principal y recarga de tablas satelite."""
-    if execute_values is None:
-        raise RuntimeError(
-            "Falta soporte de psycopg2.extras.execute_values en este entorno. "
-            "Instala psycopg2-binary o ejecuta el ETL en un entorno con driver PostgreSQL completo."
-        )
     with conn.cursor() as cur:
         cur.execute(
             """
@@ -611,7 +616,7 @@ def upsert_perfil_bd(
             if p.get("categoria") is not None
         ]
         if problemas_rows:
-            execute_values(
+            _execute_values_compat(
                 cur,
                 """
                 INSERT INTO perfil_problemas (cluster_id, problema, pct, ranking)
@@ -630,7 +635,7 @@ def upsert_perfil_bd(
             if p.get("categoria") is not None
         ]
         if ccaa_rows:
-            execute_values(
+            _execute_values_compat(
                 cur,
                 """
                 INSERT INTO perfil_ccaa (cluster_id, ccaa, pct)
@@ -662,7 +667,7 @@ def upsert_perfil_bd(
             for party, vals in voto_map.items()
         ]
         if voto_rows:
-            execute_values(
+            _execute_values_compat(
                 cur,
                 """
                 INSERT INTO perfil_voto (cluster_id, partido, pct_intencion, pct_recuerdo)
@@ -689,7 +694,7 @@ def upsert_perfil_bd(
             for eje, vals in metricas.get("ejes_detalle", {}).items()
         ]
         if ejes_rows:
-            execute_values(
+            _execute_values_compat(
                 cur,
                 """
                 INSERT INTO perfil_ejes
@@ -943,14 +948,7 @@ if __name__ == "__main__":
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
-    if psycopg2 is not None:
-        conn = psycopg2.connect(db_url)
-    else:  # pragma: no cover
-        try:
-            import psycopg  # type: ignore
-        except Exception as exc:  # pragma: no cover
-            raise RuntimeError("No hay driver PostgreSQL disponible (psycopg2/psycopg).") from exc
-        conn = psycopg.connect(db_url)  # type: ignore
+    conn = psycopg.connect(db_url)
     try:
         resultados = run_segmentacion(conn)
         for nombre, n in resultados.items():

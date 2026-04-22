@@ -10,21 +10,13 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.engine import Connection, Engine
 
-try:
-    from psycopg.extras import execute_values as _execute_values  # type: ignore
-except Exception:  # pragma: no cover
-    _execute_values = None
-
-
 def _execute_values_compat(cur: Any, sql: str, rows: list[tuple], page_size: int = 500) -> None:
     if not rows:
         return
-    if _execute_values is not None:
-        _execute_values(cur, sql, rows, page_size=page_size)
-        return
     placeholders = ", ".join(["%s"] * len(rows[0]))
     sql_execmany = sql.replace("VALUES %s", f"VALUES ({placeholders})")
-    cur.executemany(sql_execmany, rows)
+    for i in range(0, len(rows), page_size):
+        cur.executemany(sql_execmany, rows[i : i + page_size])
 
 
 def upsert_agenda_lideres(conn: Any, eventos: list[dict]) -> int:

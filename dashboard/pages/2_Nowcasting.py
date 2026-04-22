@@ -19,6 +19,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from dashboard.shared import (
     sidebar_nav, COLORES_PARTIDOS,
+    mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER,
     CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
@@ -35,6 +36,7 @@ from dashboard.db import (
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
 sidebar_nav()
+mostrar_alertas_pagina("2_Nowcasting")
 
 ORDEN_IDEO = [
     "CUP", "EH_BILDU", "EH Bildu", "BNG", "ERC", "PODEMOS", "UP", "IU",

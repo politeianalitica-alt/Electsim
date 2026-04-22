@@ -7,7 +7,7 @@ name = "electsim-espana"
 version = "0.2.0"
 description = "Digital twin de datos electorales, sociales y económicos de España (fase 1: arquitectura e ingesta)"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

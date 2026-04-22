@@ -19,6 +19,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
@@ -30,6 +31,7 @@ from dashboard.db import cargar_indicadores_riesgo, cargar_macro_ultimo
 st.set_page_config(page_title="Riesgo Político — ElectSim", layout="wide")
 
 sidebar_nav()
+mostrar_alertas_pagina("6_Riesgo")
 
 st.markdown(f"""
 <style>

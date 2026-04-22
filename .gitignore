@@ -25,6 +25,11 @@ build/
 *.sqlite3
 *.parquet
 *.csv.gz
+.etl_cache/
+*.zip
+*.DAT
+*.sav
+*.SAV
 data/raw/**/*
 !data/raw/**/
 !data/raw/**/.gitkeep

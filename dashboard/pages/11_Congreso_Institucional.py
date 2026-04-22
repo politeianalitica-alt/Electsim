@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
     COLORES_PARTIDOS, color_partido,
@@ -187,6 +188,7 @@ def _comunicados_live(limit: int = 25) -> pd.DataFrame:
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Congreso — ElectSim", layout="wide")
 sidebar_nav()
+mostrar_alertas_pagina("11_Congreso_Institucional")
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""

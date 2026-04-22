@@ -28,12 +28,25 @@ def get_db() -> Generator[Session, None, None]:
 
 
 def _decode_token(authorization: str | None) -> UserContext:
+    dev_mode = os.getenv("ELECTSIM_DEV_MODE", "false").strip().lower() == "true"
+
     if not authorization or not authorization.lower().startswith("bearer "):
-        return UserContext(user_id="demo-user", tenant_id="default", role="admin")
+        if dev_mode:
+            return UserContext(user_id="demo-user", tenant_id="default", role="viewer")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authorization header requerido",
+        )
+
     token = authorization.split(" ", 1)[1]
     secret = os.getenv("ELECTSIM_API_JWT_SECRET")
     if not secret:
-        return UserContext(user_id="demo-user", tenant_id="default", role="admin")
+        if dev_mode:
+            return UserContext(user_id="demo-user", tenant_id="default", role="viewer")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="ELECTSIM_API_JWT_SECRET no definida",
+        )
     try:
         payload = jwt.decode(token, secret, algorithms=["HS256"])
     except jwt.PyJWTError as exc:

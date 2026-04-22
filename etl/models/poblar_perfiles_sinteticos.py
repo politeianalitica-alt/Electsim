@@ -10,7 +10,7 @@ import json
 import os
 from typing import Any
 
-import psycopg2
+import psycopg
 
 from etl.logger import get_logger
 
@@ -535,7 +535,7 @@ if __name__ == "__main__":
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
-    conn = psycopg2.connect(db_url)
+    conn = psycopg.connect(db_url)
     try:
         poblar_todos(conn)
         print(f"✓ {len(PERFILES_SINTETICOS)} perfiles sintéticos poblados correctamente.")

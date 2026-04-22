@@ -20,11 +20,6 @@ from sqlalchemy import create_engine
 from etl.config import validate_env
 from etl.logger import get_logger
 
-try:
-    from psycopg.extras import execute_values as _execute_values  # type: ignore
-except Exception:  # pragma: no cover
-    _execute_values = None
-
 
 FEEDS: dict[str, str] = {
     "elpais": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
@@ -327,11 +322,10 @@ def _fetch_dicts(cur: Any) -> list[dict[str, Any]]:
 def _execute_values_compat(cur: Any, sql: str, rows: list[tuple], page_size: int = 500) -> None:
     if not rows:
         return
-    if _execute_values is not None:
-        _execute_values(cur, sql, rows, page_size=page_size)
-        return
     placeholders = ", ".join(["%s"] * len(rows[0]))
-    cur.executemany(sql.replace("VALUES %s", f"VALUES ({placeholders})"), rows)
+    sql_execmany = sql.replace("VALUES %s", f"VALUES ({placeholders})")
+    for i in range(0, len(rows), page_size):
+        cur.executemany(sql_execmany, rows[i : i + page_size])
 
 
 def _insert_with_rollback(raw_conn: Any, sql: str, rows: list[tuple], page_size: int = 500, label: str = "") -> int:

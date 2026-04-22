@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 import json
 import logging
-import os
 import uuid
 from typing import Any
 
@@ -11,7 +10,7 @@ import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
 
-from agents.llm import AnthropicChatClient, OllamaClient, OpenAIChatClient, StubLLMClient
+from agents.llm import get_llm_client
 from agents.prompts import build_system_prompt, parse_chain_of_thought
 from agents.rag_retriever import construir_extra_context
 from agents.tools import ToolRegistry
@@ -104,16 +103,10 @@ def _persist_turn(
 
 
 def _default_llm() -> Any:
-    provider = os.environ.get("ELECTSIM_LLM_PROVIDER", "openai").strip().lower()
-    if provider == "anthropic":
-        return AnthropicChatClient()
-    if provider == "ollama":
-        return OllamaClient()
-    if provider == "stub":
-        return StubLLMClient()
-    if os.environ.get("OPENAI_API_KEY"):
-        return OpenAIChatClient()
-    return StubLLMClient()
+    try:
+        return get_llm_client()
+    except Exception:
+        return get_llm_client("stub")
 
 
 class VoterAgent:

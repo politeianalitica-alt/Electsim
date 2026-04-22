@@ -11,7 +11,7 @@ from sqlalchemy.exc import OperationalError
 
 from api.routers import actions, analytics, ontology, search
 from agents.semantic_search import validate_semantic_schema
-from db.session import SessionLocal
+from db.session import get_session_factory
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("electsim.api")
@@ -36,7 +36,7 @@ def startup_checks() -> None:
     max_retries = 10
     for attempt in range(max_retries):
         try:
-            with SessionLocal() as session:
+            with get_session_factory()() as session:
                 validate_semantic_schema(session)
             logger.info("startup_checks OK")
             return

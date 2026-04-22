@@ -9,8 +9,6 @@ import json
 import os
 import re
 import sys
-import threading
-import time
 from pathlib import Path
 from typing import Any
 
@@ -24,10 +22,10 @@ import psycopg
 from psycopg import sql as psycopg_sql
 import streamlit as st
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from sqlalchemy.engine import Engine
-from sqlalchemy.pool import NullPool
 from etl.logger import get_logger
+from db.session import get_engine as _shared_get_engine, get_raw_conn
 
 from etl.pipelines.microdatos_pipeline import (
     DEFAULT_MICRODATOS_DIR,
@@ -40,7 +38,6 @@ load_dotenv(_ROOT / ".env")
 logger = get_logger(__name__)
 
 _DB_OP_ERROR = psycopg.OperationalError
-_local = threading.local()
 _PARAM_RE = re.compile(r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)")
 
 _COLUMNAS_MACRO_PERMITIDAS = {
@@ -114,57 +111,13 @@ _CAMPOS_PERFIL = dict(_CAMPOS_PERFIL_SQL_MAP)
 
 # ── Conexión ──────────────────────────────────────────────────────────────────
 
-def _connection_closed(conn: Any) -> bool:
-    try:
-        return bool(getattr(conn, "closed"))
-    except Exception:
-        return True
-
-
-def _normalize_pg_url(url: str) -> str:
-    """Quita el sufijo SQLAlchemy (`+psycopg`, `+psycopg2`) antes de pasar
-    la URL a un driver DB-API directo, que sólo entiende `postgresql://`."""
-    if not url:
-        return url
-    for prefix in ("postgresql+psycopg2://", "postgresql+psycopg://"):
-        if url.startswith(prefix):
-            return "postgresql://" + url[len(prefix):]
-    return url
-
-
-def _connect_db(url: str):
-    url = _normalize_pg_url(url)
-    return psycopg.connect(url, autocommit=True)
-
 @st.cache_resource
 def get_engine() -> Engine:
-    url = os.environ["DATABASE_URL"]
-    workers = int(os.environ.get("STREAMLIT_SERVER_WORKERS", "1"))
-    if workers > 1:
-        return create_engine(url, pool_pre_ping=True, poolclass=NullPool)
-    return create_engine(url, pool_pre_ping=True, pool_size=3, max_overflow=5)
+    return _shared_get_engine()
 
 
 def get_conn():
-    for intento in range(3):
-        try:
-            conn = getattr(_local, "conn", None)
-            if conn is None or _connection_closed(conn):
-                conn = _connect_db(os.environ["DATABASE_URL"])
-                # Autocommit=True: el dashboard es read-only, así evitamos
-                # que un error en una query deje la transacción "aborted"
-                # y haga fallar silenciosamente todas las siguientes.
-                conn.autocommit = True
-                _local.conn = conn
-                logger.info("Conexión a PostgreSQL establecida.")
-            with conn.cursor() as cur:
-                cur.execute("SELECT 1")
-            return conn
-        except _DB_OP_ERROR as e:
-            logger.warning("Intento %s/3 fallido al conectar a BD: %s", intento + 1, e)
-            _local.conn = None
-            time.sleep(0.5 * (intento + 1))
-    raise RuntimeError("No se puede conectar a PostgreSQL tras 3 intentos.")
+    return get_raw_conn()
 
 
 def _to_dbapi_named(sql: str) -> str:
@@ -188,8 +141,10 @@ def _quote_ident(col_name: str, conn: Any | None = None) -> str:
 
 def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = None) -> pd.DataFrame:
     """Ejecuta una query y devuelve DataFrame; retorna vacío si falla."""
+    owns_conn = conn is None
+    active_conn = conn
     try:
-        active_conn = conn or get_conn()
+        active_conn = active_conn or get_conn()
         if hasattr(active_conn, "cursor"):
             query = _to_dbapi_named(sql) if isinstance(params, dict) else sql
             with active_conn.cursor() as cur:
@@ -205,17 +160,20 @@ def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = N
         return pd.read_sql(text(sql), active_conn, params=params or {})
     except Exception as e:
         logger.error("DB query failed: %s", e, exc_info=True)
-        # Rollback defensivo: si la conexión quedó en estado "aborted",
-        # la próxima query fallaría. Limpiamos antes de devolver vacío.
-        try:
-            current_conn = getattr(_local, "conn", None)
-            if conn is None and current_conn is not None and hasattr(current_conn, "rollback"):
-                current_conn.rollback()
-        except Exception:
-            pass
+        if owns_conn and active_conn is not None and hasattr(active_conn, "rollback"):
+            try:
+                active_conn.rollback()
+            except Exception:
+                pass
         if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
             st.warning(str(e))
         return pd.DataFrame()
+    finally:
+        if owns_conn and active_conn is not None and hasattr(active_conn, "close"):
+            try:
+                active_conn.close()
+            except Exception:
+                pass
 
 
 def _table_exists(table_name: str, conn: Any | None = None) -> bool:
@@ -511,8 +469,7 @@ def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None
     if not col_sql:
         raise ValueError(f"Columna '{columna}' no mapeada a campo SQL válido.")
     days = int(max(1, anios) * 365)
-    conn = _conn or get_conn()
-    col_ident = _quote_ident(col_sql, conn=conn)
+    col_ident = _quote_ident(col_sql)
     sql = (
         "SELECT fecha, {col} AS valor "
         "FROM indicadores_macroeconomicos "
@@ -520,7 +477,7 @@ def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None
         "  AND fecha >= CURRENT_DATE - (:days * INTERVAL '1 day') "
         "ORDER BY fecha"
     ).format(col=col_ident)
-    return _q(sql, {"days": days}, conn=conn)
+    return _q(sql, {"days": days})
 
 
 # ── Perfiles de votante ───────────────────────────────────────────────────────
@@ -697,7 +654,6 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
     Carga noticias recientes. Intenta tabla article primero (modelo nuevo),
     con fallback a noticias_prensa (modelo legacy).
     """
-    conn = _conn or get_conn()
     lim = int(limite if limite is not None else limit)
 
     df = _q(
@@ -712,7 +668,6 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
         LIMIT :limit
         """,
         {"dias": dias, "limit": lim},
-        conn=conn,
     )
     if not df.empty:
         return df
@@ -728,7 +683,6 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
         LIMIT :limit
         """,
         {"dias": dias, "limit": lim},
-        conn=conn,
     )
 
 
@@ -760,14 +714,13 @@ def cargar_sentimiento_todos_partidos(dias: int = 14) -> pd.DataFrame:
 
 @st.cache_data(ttl=60)
 def cargar_agenda_hoy(_conn=None) -> pd.DataFrame:
-    conn = _conn or get_conn()
     df = _q("""
         SELECT tema, n_noticias, sentimiento_medio, peso_agenda, tendencia
         FROM agenda_mediatica
         WHERE fecha = CURRENT_DATE
         ORDER BY n_noticias DESC
         LIMIT 25
-    """, conn=conn)
+    """)
     if not df.empty:
         return df
     # Fallback robusto:
@@ -1207,57 +1160,67 @@ def cargar_perfiles_votante(_conn=None, limit: int = 30) -> pd.DataFrame:
     Carga perfiles para el selector principal y para la unificación legacy.
     Incluye campos nuevos de v2 y mantiene columnas legacy compatibles.
     """
-    conn = _conn or get_conn()
+    conn = _conn
+    owns_conn = conn is None
+    if conn is None:
+        conn = get_conn()
     lim = max(1, int(limit))
-    cols = _table_columns("perfiles_votante", conn=conn)
-    if not cols:
-        return pd.DataFrame()
+    try:
+        cols = _table_columns("perfiles_votante", conn=conn)
+        if not cols:
+            return pd.DataFrame()
 
-    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
-    label_expr = "label" if "label" in cols else nombre_expr
-    color_expr = "color" if "color" in cols else "'#666666'::text"
-    fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
+        nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
+        label_expr = "label" if "label" in cols else nombre_expr
+        color_expr = "color" if "color" in cols else "'#666666'::text"
+        fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
 
-    return _q(
-        f"""
-        SELECT
-            cluster_id,
-            {label_expr} AS label,
-            {nombre_expr} AS nombre_perfil,
-            {color_expr} AS color,
-            COALESCE(peso_demografico_pct, 0.0) AS peso_demografico_pct,
-            COALESCE(ideologia_media, 5.0) AS ideologia_media,
-            COALESCE(edad_media, 45.0) AS edad_media,
-            COALESCE(n_respondentes, 0) AS n_respondentes,
-            COALESCE(cohorte_generacional, 'N/D') AS cohorte_generacional,
-            COALESCE(satisfaccion_demo_media, 0) AS satisfaccion_demo_media,
-            COALESCE(pct_pesimistas_eco, 0) AS pct_pesimistas_eco,
-            COALESCE(eco_personal_media, 0) AS eco_personal_media,
-            COALESCE(eco_espana_media, 0) AS eco_espana_media,
-            COALESCE(eje_redistribucion, 5.0) AS eje_redistribucion,
-            COALESCE(eje_inmigracion, 5.0) AS eje_inmigracion,
-            COALESCE(eje_territorial, 5.0) AS eje_territorial,
-            COALESCE(eje_valores, 5.0) AS eje_valores,
-            COALESCE(confianza_partidos_media, 0) AS confianza_partidos_media,
-            COALESCE(interes_politica_media, 0) AS interes_politica_media,
-            COALESCE(habitat_dominante, 'N/D') AS habitat_dominante,
-            COALESCE(clase_social_modal, 'N/D') AS clase_social_modal,
-            COALESCE(estudios_modal, 'N/D') AS estudios_modal,
-            COALESCE(situacion_laboral_modal, 'N/D') AS situacion_laboral_modal,
-            COALESCE(renta_media_anual, 0) AS renta_media_anual,
-            COALESCE(pct_alquiler, 0) AS pct_alquiler,
-            COALESCE(pct_paro, 0) AS pct_paro,
-            distribucion_voto_json,
-            descripcion_perfil_llm,
-            {fuente_expr} AS fuente_datos,
-            fecha_calculo
-        FROM perfiles_votante
-        ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id
-        LIMIT :limit
-        """,
-        {"limit": lim},
-        conn=conn,
-    )
+        return _q(
+            f"""
+            SELECT
+                cluster_id,
+                {label_expr} AS label,
+                {nombre_expr} AS nombre_perfil,
+                {color_expr} AS color,
+                COALESCE(peso_demografico_pct, 0.0) AS peso_demografico_pct,
+                COALESCE(ideologia_media, 5.0) AS ideologia_media,
+                COALESCE(edad_media, 45.0) AS edad_media,
+                COALESCE(n_respondentes, 0) AS n_respondentes,
+                COALESCE(cohorte_generacional, 'N/D') AS cohorte_generacional,
+                COALESCE(satisfaccion_demo_media, 0) AS satisfaccion_demo_media,
+                COALESCE(pct_pesimistas_eco, 0) AS pct_pesimistas_eco,
+                COALESCE(eco_personal_media, 0) AS eco_personal_media,
+                COALESCE(eco_espana_media, 0) AS eco_espana_media,
+                COALESCE(eje_redistribucion, 5.0) AS eje_redistribucion,
+                COALESCE(eje_inmigracion, 5.0) AS eje_inmigracion,
+                COALESCE(eje_territorial, 5.0) AS eje_territorial,
+                COALESCE(eje_valores, 5.0) AS eje_valores,
+                COALESCE(confianza_partidos_media, 0) AS confianza_partidos_media,
+                COALESCE(interes_politica_media, 0) AS interes_politica_media,
+                COALESCE(habitat_dominante, 'N/D') AS habitat_dominante,
+                COALESCE(clase_social_modal, 'N/D') AS clase_social_modal,
+                COALESCE(estudios_modal, 'N/D') AS estudios_modal,
+                COALESCE(situacion_laboral_modal, 'N/D') AS situacion_laboral_modal,
+                COALESCE(renta_media_anual, 0) AS renta_media_anual,
+                COALESCE(pct_alquiler, 0) AS pct_alquiler,
+                COALESCE(pct_paro, 0) AS pct_paro,
+                distribucion_voto_json,
+                descripcion_perfil_llm,
+                {fuente_expr} AS fuente_datos,
+                fecha_calculo
+            FROM perfiles_votante
+            ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id
+            LIMIT :limit
+            """,
+            {"limit": lim},
+            conn=conn,
+        )
+    finally:
+        if owns_conn and conn is not None and hasattr(conn, "close"):
+            try:
+                conn.close()
+            except Exception:
+                pass
 
 
 def cargar_voto_perfil(conn, cluster_id: int) -> pd.DataFrame:

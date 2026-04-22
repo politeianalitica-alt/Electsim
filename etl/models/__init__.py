@@ -1,7 +1,7 @@
 """Modelos ETL de segmentación y agregación.
 
 Este módulo evita imports pesados al cargar el paquete para mantener
-compatibilidad en entornos donde psycopg2 no está instalado.
+compatibilidad en entornos con dependencias DB mínimas.
 """
 
 from __future__ import annotations

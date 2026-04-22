@@ -23,6 +23,7 @@ import plotly.express as px
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
@@ -32,6 +33,7 @@ from dashboard.db import cargar_macro_ultimo, cargar_perfiles_votante
 st.set_page_config(page_title="Macroeconomía — ElectSim", layout="wide")
 
 sidebar_nav()
+mostrar_alertas_pagina("12_Macroeconomia")
 
 st.markdown(f"""
 <style>

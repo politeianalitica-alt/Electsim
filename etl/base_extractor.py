@@ -7,6 +7,7 @@ import pandas as pd
 import polars as pl
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from validation.schema_checks import validate_dataframe
 
 load_dotenv()
 
@@ -60,5 +61,8 @@ class BaseExtractor(ABC):
         logger.info("Iniciando ingesta: %s", self.source_name)
         raw = self.extract()
         clean = self.transform(raw)
+        issues = validate_dataframe(clean, schema=self.source_name)
+        if issues:
+            raise ValueError(f"Schema validation failed ({self.source_name}): {issues}")
         self.save_parquet(clean, self.source_name)
         return clean

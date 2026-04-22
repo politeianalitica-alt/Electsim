@@ -1,31 +1,32 @@
 #!/usr/bin/env bash
-# start.sh — Arrancar ElectSim España (PostgreSQL + Dashboard)
-# Uso: bash start.sh
+set -euo pipefail
 
-set -e
-cd "$(dirname "$0")"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV="$SCRIPT_DIR/.venv"
 
-echo "========================================================"
-echo "  ElectSim España — Arranque"
-echo "========================================================"
-
-# 1. PostgreSQL
-if pg_isready -h localhost -p 5432 -q; then
-    echo "  ✓ PostgreSQL ya está activo"
-else
-    echo "  → Arrancando PostgreSQL..."
-    brew services start postgresql@16
-    sleep 3
-    pg_isready -h localhost -p 5432 && echo "  ✓ PostgreSQL activo"
+if [ ! -f "$VENV/bin/activate" ]; then
+  echo "ERROR: .venv no encontrado."
+  echo "Ejecuta: python3.11 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt"
+  exit 1
 fi
 
-# 2. Dashboard
-echo ""
-echo "  → Arrancando Streamlit dashboard..."
-echo "     URL: http://localhost:8501"
-echo ""
-.venv/bin/streamlit run dashboard/app.py \
-    --server.port 8501 \
-    --server.headless false \
-    --browser.gatherUsageStats false
+# shellcheck disable=SC1090
+source "$VENV/bin/activate"
+
+if [ ! -f "$SCRIPT_DIR/.env" ]; then
+  echo "ERROR: .env no encontrado."
+  echo "Ejecuta: cp .env.example .env"
+  exit 1
+fi
+
+set -a
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/.env"
+set +a
+
+export PYTHONPATH="$SCRIPT_DIR${PYTHONPATH:+:$PYTHONPATH}"
+
+exec streamlit run app.py \
+  --server.port "${STREAMLIT_PORT:-8501}" \
+  --server.headless "${STREAMLIT_HEADLESS:-false}" \
+  --browser.gatherUsageStats false "$@"

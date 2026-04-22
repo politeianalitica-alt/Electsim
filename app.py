@@ -7,15 +7,27 @@ redirigiendo a ``dashboard/pages``.
 from __future__ import annotations
 
 import shutil
+import sys
 from pathlib import Path
+
+_ROOT = Path(__file__).resolve().parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
 
 
 def _ensure_pages_bridge() -> None:
-    root = Path(__file__).resolve().parent
+    root = _ROOT
     pages_root = root / "pages"
     dashboard_pages = root / "dashboard" / "pages"
 
-    if pages_root.exists() or not dashboard_pages.exists():
+    if not dashboard_pages.exists():
+        return
+
+    # Si hay symlink roto, lo eliminamos para recrearlo correctamente.
+    if pages_root.is_symlink() and not pages_root.exists():
+        pages_root.unlink(missing_ok=True)
+
+    if pages_root.exists():
         return
 
     # Preferimos symlink (rápido y sin duplicar ficheros).

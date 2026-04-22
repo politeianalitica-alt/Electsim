@@ -22,6 +22,7 @@ import streamlit as st
 
 from dashboard.shared import (
     sidebar_nav,
+    mostrar_alertas_pagina,
     COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
     CYAN, CYAN2, BLUE, PURPLE,
@@ -39,6 +40,7 @@ from dashboard.db import (
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Mapa Electoral — ElectSim", layout="wide")
 sidebar_nav()
+mostrar_alertas_pagina("1_Mapa_Electoral")
 
 TIPOS_ELECCION = ["generales", "autonomicas", "municipales", "europeas"]
 TIPOS_DB       = ["generales", "autonomicas", "municipales", "europeas"]

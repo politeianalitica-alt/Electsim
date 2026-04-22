@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-import psycopg2
+import psycopg
 
 from etl.logger import get_logger
 
@@ -43,7 +43,7 @@ def main() -> None:
     if not db_url:
         raise RuntimeError("DATABASE_URL no definida")
 
-    conn = psycopg2.connect(db_url)
+    conn = psycopg.connect(db_url)
     try:
         logger.info("Aplicando migración 005_perfiles_v2.sql...")
         aplicar_migracion(conn, "sql/migrations/005_perfiles_v2.sql")

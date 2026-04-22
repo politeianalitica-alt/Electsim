@@ -4,14 +4,12 @@ import json
 import logging
 import os
 import random
+import threading
 import time
 from typing import Any, Callable
 
 import httpx
-try:
-    import tiktoken
-except Exception:  # pragma: no cover - opcional en entornos mínimos
-    tiktoken = None
+import tiktoken
 
 logger = logging.getLogger(__name__)
 
@@ -101,7 +99,7 @@ class AnthropicChatClient:
         timeout_s: float = 120.0,
     ) -> None:
         self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
-        self.model = model or os.environ.get("ELECTSIM_ANTHROPIC_MODEL", "claude-haiku-4-5")
+        self.model = model or os.environ.get("ELECTSIM_ANTHROPIC_MODEL", "claude-3-5-haiku-20241022")
         self.timeout_s = timeout_s
 
     @property
@@ -176,7 +174,7 @@ class OllamaClient:
     def modelo(self) -> str:
         return self.model
 
-    def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
+    def _post_once(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         payload = {
             "model": self.model,
             "messages": messages,
@@ -192,6 +190,9 @@ class OllamaClient:
         except (KeyError, TypeError) as e:
             logger.error("Respuesta Ollama inesperada: %s", data)
             raise RuntimeError("Formato de respuesta Ollama inválido") from e
+
+    def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
+        return _with_retry(self._post_once, messages, **kwargs)
 
 
 class StubLLMClient:
@@ -220,12 +221,9 @@ class EmbeddingClient:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         self.model = model or os.environ.get("ELECTSIM_EMBEDDING_MODEL", "text-embedding-3-small")
         self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
-        self._encoding = tiktoken.get_encoding("cl100k_base") if tiktoken is not None else None
+        self._encoding = tiktoken.get_encoding("cl100k_base")
 
     def _truncate_for_embeddings(self, text_input: str, max_tokens: int = 8000) -> str:
-        if self._encoding is None:
-            # fallback aproximado si tiktoken no está instalado
-            return text_input[:24000]
         tokens = self._encoding.encode(text_input)
         if len(tokens) <= max_tokens:
             return text_input
@@ -260,10 +258,29 @@ class EmbeddingClient:
 
 
 _embedding_client: EmbeddingClient | None = None
+_embedding_lock = threading.Lock()
 
 
 def get_embedding_client() -> EmbeddingClient:
     global _embedding_client
     if _embedding_client is None:
-        _embedding_client = EmbeddingClient()
+        with _embedding_lock:
+            if _embedding_client is None:
+                _embedding_client = EmbeddingClient()
     return _embedding_client
+
+
+def get_llm_client(
+    provider: str | None = None,
+    **kwargs: Any,
+) -> OpenAIChatClient | AnthropicChatClient | OllamaClient | StubLLMClient:
+    prov = (provider or os.environ.get("ELECTSIM_LLM_PROVIDER", "anthropic")).strip().lower()
+    if prov == "openai":
+        return OpenAIChatClient(**kwargs)
+    if prov == "anthropic":
+        return AnthropicChatClient(**kwargs)
+    if prov == "ollama":
+        return OllamaClient(**kwargs)
+    if prov == "stub":
+        return StubLLMClient()
+    raise ValueError(f"ELECTSIM_LLM_PROVIDER desconocido: {prov!r}")
