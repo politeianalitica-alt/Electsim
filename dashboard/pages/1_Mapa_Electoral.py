@@ -35,6 +35,12 @@ from dashboard.db import (
     cargar_resultados_electorales,
     cargar_resultados_nacionales,
     cargar_resultados_provinciales,
+    cargar_elecciones_historicas,
+    cargar_contexto_actual,
+)
+from dashboard.models.analogias_historicas import (
+    ContextoElectoral,
+    MotorAnalogias,
 )
 
 # ── Config ───────────────────────────────────────────────────────────────────
@@ -682,12 +688,98 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
     return fig
 
 
+def _render_tab_analogias_historicas() -> None:
+    _section_header("Comparador con Elecciones Históricas Equivalentes", PURPLE)
+
+    cliente_id = st.session_state.get("cliente_id")
+    df_ctx = cargar_contexto_actual(cliente_id=cliente_id)
+    ctx_row = df_ctx.iloc[0] if not df_ctx.empty else {}
+
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        pib = st.number_input("PIB crecimiento (%)", value=float(ctx_row.get("pib_crecimiento", 2.5) or 2.5), step=0.1, key="an_pib")
+        paro = st.number_input("Tasa paro (%)", value=float(ctx_row.get("tasa_paro", 11.0) or 11.0), step=0.5, key="an_paro")
+        infl = st.number_input("Inflación (%)", value=float(ctx_row.get("inflacion", 3.5) or 3.5), step=0.1, key="an_infl")
+    with c2:
+        aprob = st.slider("Aprobación gobierno (%)", 0.0, 100.0, float(ctx_row.get("aprobacion_gobierno", 33.0) or 33.0), key="an_aprob")
+        frag = st.number_input("Fragmentación (N efectivo)", value=float(ctx_row.get("fragmentacion_pre", 5.8) or 5.8), step=0.1, key="an_frag")
+        pol = st.slider("Polarización [0-1]", 0.0, 1.0, float(ctx_row.get("polarizacion", 0.65) or 0.65), key="an_pol")
+    with c3:
+        tens = st.slider("Tensión territorial [0-1]", 0.0, 1.0, float(ctx_row.get("tension_territorial", 0.65) or 0.65), key="an_tension")
+        crisis = st.checkbox("Crisis internacional activa", value=bool(ctx_row.get("crisis_internacional", True)), key="an_crisis")
+        partido_prop = st.selectbox("Partido propio", ["PSOE", "PP", "SUMAR", "VOX"], index=0, key="an_partido")
+
+    filtro_pais = st.selectbox("Filtro país", ["Todos", "España", "Italia"], key="an_pais")
+    top_n = st.slider("Top analogías", 3, 8, 5, key="an_topn")
+
+    ctx = ContextoElectoral(
+        pib_crecimiento=pib,
+        tasa_paro=paro,
+        inflacion=infl,
+        deficit_pib=float(ctx_row.get("deficit_pib", 3.5) or 3.5),
+        satisfaccion_eco=float(ctx_row.get("satisfaccion_eco", 4.0) or 4.0),
+        incumbente_anios=int(ctx_row.get("incumbente_anios", 5) or 5),
+        aprobacion_gobierno=aprob,
+        fragmentacion_pre=frag,
+        polarizacion=pol,
+        escandalo_mayor=bool(ctx_row.get("escandalo_mayor", False)),
+        tension_territorial=tens,
+        crisis_internacional=crisis,
+    )
+
+    df_hist = cargar_elecciones_historicas(pais=None if filtro_pais == "Todos" else filtro_pais)
+    motor = MotorAnalogias(df_hist).ajustar_normalizacion()
+    analogias = motor.buscar(ctx, top_n=top_n)
+    proy = motor.proyeccion_resultado(analogias, partido_prop)
+
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Prob. vuelco", f"{float(proy.get('prob_vuelco', 0))*100:.0f}%")
+    k2.metric("Participación est.", f"{proy.get('participacion_est', '—')}%")
+    k3.metric("Volatilidad est.", f"{proy.get('volatilidad_est', '—')}")
+    k4.metric(f"% estimado {partido_prop}", f"{proy.get('pct_partido_est', '—')}%")
+
+    if not analogias:
+        st.info("No hay elecciones históricas para ese filtro.")
+        return
+
+    df_sim = pd.DataFrame([
+        {
+            "Elección": a.nombre_ref,
+            "Similitud %": a.similitud_pct,
+            "Distancia": a.distancia,
+            "Ganador": a.ganador or "—",
+            "Vuelco": "Sí" if a.vuelco_gobierno else "No",
+        }
+        for a in analogias
+    ])
+
+    fig_bar = px.bar(
+        df_sim,
+        x="Similitud %",
+        y="Elección",
+        orientation="h",
+        color="Similitud %",
+        color_continuous_scale="Blues",
+        text="Similitud %",
+    )
+    fig_bar.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
+    fig_bar.update_layout(
+        height=90 + 55 * len(df_sim),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(t=10, b=10, l=10, r=10),
+    )
+    st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
+    st.dataframe(df_sim, use_container_width=True, hide_index=True)
+
+
 # ── Tabs ─────────────────────────────────────────────────────────────────────
-tab_pasadas, tab_futuras, tab_mapa, tab_hist = st.tabs([
+tab_pasadas, tab_futuras, tab_mapa, tab_hist, tab_analogias = st.tabs([
     "◈  Elecciones Pasadas",
     "◉  Estimaciones Futuras",
     "◎  Mapa Provincial",
     "⬡  Comparativa Histórica",
+    "🕰️  Analogías históricas",
 ])
 
 
@@ -1472,6 +1564,13 @@ with tab_hist:
                     index="siglas", columns="descripcion", values="pct_medio"
                 ).round(2)
                 st.dataframe(df_pivot, use_container_width=True)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# TAB 5 — ANALOGÍAS HISTÓRICAS
+# ═════════════════════════════════════════════════════════════════════════════
+with tab_analogias:
+    _render_tab_analogias_historicas()
 
 # ── Footer ───────────────────────────────────────────────────────────────────
 st.markdown(f"""

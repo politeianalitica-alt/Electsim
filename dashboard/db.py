@@ -2940,3 +2940,246 @@ def buscar_decisiones_similares(
             conn.close()
         except Exception:
             pass
+
+# ── BLOQUE 7: voto blando y transferencia ───────────────────────────────────
+
+@st.cache_data(ttl=180)
+def cargar_scores_voto_blando(
+    circunscripciones: list[str] | None = None,
+    fecha: str | None = None,
+    cliente_id: int | None = None,
+    segmento_edad: str | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("voto_blando_territorial"):
+        return pd.DataFrame()
+
+    filtros = ["1=1"]
+    params: dict[str, Any] = {}
+    if cliente_id is not None:
+        filtros.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+    if fecha:
+        filtros.append("fecha_calculo = :fecha")
+        params["fecha"] = fecha
+    if segmento_edad:
+        filtros.append("segmento_edad = :segmento_edad")
+        params["segmento_edad"] = segmento_edad
+
+    where = " AND ".join(filtros)
+    df = _q(
+        f"""
+        SELECT *
+        FROM voto_blando_territorial
+        WHERE {where}
+        ORDER BY fecha_calculo DESC, circunscripcion
+        """,
+        params,
+    )
+    if df.empty:
+        return df
+    if circunscripciones:
+        sel = {str(x) for x in circunscripciones}
+        df = df[df["circunscripcion"].astype(str).isin(sel)]
+    return df.reset_index(drop=True)
+
+
+@st.cache_data(ttl=180)
+def cargar_matriz_transferencia(
+    circunscripcion: str = "nacional",
+    eleccion_ref: str | None = None,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("matriz_transferencia"):
+        return pd.DataFrame()
+
+    filtros = ["circunscripcion = :circ"]
+    params: dict[str, Any] = {"circ": circunscripcion}
+    if cliente_id is not None:
+        filtros.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+    if eleccion_ref:
+        filtros.append("eleccion_ref = :eleccion_ref")
+        params["eleccion_ref"] = eleccion_ref
+
+    return _q(
+        f"""
+        SELECT *
+        FROM matriz_transferencia
+        WHERE {' AND '.join(filtros)}
+        ORDER BY fecha_calculo DESC
+        LIMIT 500
+        """,
+        params,
+    )
+
+
+def guardar_scores_voto_blando(df: pd.DataFrame) -> int:
+    if df.empty or not _table_exists("voto_blando_territorial"):
+        return 0
+
+    campos = [
+        "cliente_id",
+        "circunscripcion",
+        "ambito",
+        "fecha_calculo",
+        "segmento_edad",
+        "segmento_estudios",
+        "segmento_ideologia",
+        "partido_ref",
+        "pct_voto_blando",
+        "score_medio_blando",
+        "pct_probable_abst",
+        "pct_transferible",
+        "n_electores_est",
+        "dist_quintiles",
+        "fuente_datos",
+        "modelo_version",
+    ]
+    cols_ok = [c for c in campos if c in df.columns]
+    if not cols_ok:
+        return 0
+
+    conn = get_conn()
+    n = 0
+    sql = f"""
+        INSERT INTO voto_blando_territorial ({', '.join(cols_ok)})
+        VALUES ({', '.join([f'%({c})s' for c in cols_ok])})
+        ON CONFLICT ON CONSTRAINT uq_voto_blando_segmento
+        DO UPDATE SET
+            pct_voto_blando = EXCLUDED.pct_voto_blando,
+            score_medio_blando = EXCLUDED.score_medio_blando,
+            pct_probable_abst = EXCLUDED.pct_probable_abst,
+            pct_transferible = EXCLUDED.pct_transferible,
+            dist_quintiles = EXCLUDED.dist_quintiles,
+            modelo_version = EXCLUDED.modelo_version
+    """
+    try:
+        with conn.cursor() as cur:
+            for _, row in df[cols_ok].iterrows():
+                payload = row.to_dict()
+                if "dist_quintiles" in payload and isinstance(payload["dist_quintiles"], dict):
+                    payload["dist_quintiles"] = json.dumps(payload["dist_quintiles"])
+                cur.execute(sql, payload)
+                n += 1
+        conn.commit()
+        return n
+    except Exception as e:
+        conn.rollback()
+        logger.error("guardar_scores_voto_blando: %s", e, exc_info=True)
+        return 0
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+# ── BLOQUE 8: analogías históricas ─────────────────────────────────────────
+
+@st.cache_data(ttl=600)
+def cargar_elecciones_historicas(
+    pais: str | None = None,
+    tipo: str | None = None,
+    min_anio: int | None = None,
+) -> pd.DataFrame:
+    if _table_exists("elecciones_historicas"):
+        filtros = ["1=1"]
+        params: dict[str, Any] = {}
+        if pais:
+            filtros.append("pais = :pais")
+            params["pais"] = pais
+        if tipo:
+            filtros.append("tipo = :tipo")
+            params["tipo"] = tipo
+        if min_anio:
+            filtros.append("anio >= :min_anio")
+            params["min_anio"] = int(min_anio)
+
+        df = _q(
+            f"""
+            SELECT * FROM elecciones_historicas
+            WHERE {' AND '.join(filtros)}
+            ORDER BY pais, anio
+            """,
+            params,
+        )
+        if not df.empty:
+            return df
+
+    from dashboard.models.analogias_historicas import construir_df_seed
+
+    df_seed = construir_df_seed()
+    if pais:
+        df_seed = df_seed[df_seed["pais"] == pais]
+    if tipo:
+        df_seed = df_seed[df_seed["tipo"] == tipo]
+    if min_anio:
+        df_seed = df_seed[df_seed["anio"] >= int(min_anio)]
+    return df_seed.reset_index(drop=True)
+
+
+@st.cache_data(ttl=180)
+def cargar_contexto_actual(cliente_id: int | None = None) -> pd.DataFrame:
+    if not _table_exists("contexto_electoral"):
+        return pd.DataFrame()
+
+    params: dict[str, Any] = {}
+    where = ""
+    if cliente_id is not None:
+        where = "WHERE cliente_id = :cliente_id"
+        params["cliente_id"] = int(cliente_id)
+
+    return _q(
+        f"""
+        SELECT *
+        FROM contexto_electoral
+        {where}
+        ORDER BY fecha_snapshot DESC
+        LIMIT 1
+        """,
+        params,
+    )
+
+
+def guardar_eleccion_historica(row: dict[str, Any]) -> bool:
+    if not _table_exists("elecciones_historicas"):
+        return False
+
+    campos = [k for k in row.keys() if k != "id"]
+    if not campos:
+        return False
+
+    conn = get_conn()
+    sql = f"""
+        INSERT INTO elecciones_historicas ({', '.join(campos)})
+        VALUES ({', '.join([f'%({c})s' for c in campos])})
+        ON CONFLICT ON CONSTRAINT uq_eleccion
+        DO UPDATE SET {', '.join([f'{c}=EXCLUDED.{c}' for c in campos if c not in {'pais', 'anio', 'mes', 'tipo'}])}
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, row)
+        conn.commit()
+        return True
+    except Exception as e:
+        conn.rollback()
+        logger.error("guardar_eleccion_historica: %s", e, exc_info=True)
+        return False
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+def seed_elecciones_historicas() -> int:
+    if not _table_exists("elecciones_historicas"):
+        return 0
+    from dashboard.models.analogias_historicas import construir_df_seed
+
+    df = construir_df_seed()
+    n = 0
+    for _, row in df.iterrows():
+        if guardar_eleccion_historica(row.to_dict()):
+            n += 1
+    return n

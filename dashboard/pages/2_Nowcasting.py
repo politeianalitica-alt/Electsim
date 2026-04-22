@@ -31,7 +31,10 @@ from dashboard.db import (
     cargar_serie_nowcasting,
     cargar_nowcasting_calidad,
     cargar_contribuciones_run,
+    cargar_scores_voto_blando,
+    cargar_matriz_transferencia,
 )
+from dashboard.models.voto_blando import InputsBlandura, calcular_score_analitico
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
@@ -167,6 +170,130 @@ def _section_header(label: str, color: str):
         <div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
     </div>
     """, unsafe_allow_html=True)
+
+
+def _render_tab_voto_blando() -> None:
+    _section_header("Detector de Voto Blando y Transferible", PURPLE)
+    cliente_id = st.session_state.get("cliente_id")
+
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        circ = st.selectbox(
+            "Circunscripción",
+            ["nacional", "Madrid", "Barcelona", "Valencia", "Sevilla"],
+            key="vb_circ",
+        )
+    with c2:
+        seg_edad = st.selectbox("Segmento edad", ["todos", "18-34", "35-54", "55+"], key="vb_edad")
+    with c3:
+        eleccion_ref = st.selectbox(
+            "Elección referencia",
+            ["2023-07-23_generales", "2019-11-10_generales", "2019-04-28_generales"],
+            key="vb_eleccion_ref",
+        )
+
+    seg_param = None if seg_edad == "todos" else seg_edad
+    df_blando = cargar_scores_voto_blando(
+        circunscripciones=None if circ == "nacional" else [circ],
+        segmento_edad=seg_param,
+        cliente_id=cliente_id,
+    )
+
+    if df_blando.empty:
+        demo = InputsBlandura(
+            circunscripcion=circ,
+            partido_ref="PSOE",
+            volatilidad_historica=0.55,
+            distancia_ideologica=0.40,
+            insatisfaccion_gobierno=0.60,
+            desempleo_local=0.35,
+            fragmentacion=0.70,
+            segmento_edad=seg_param,
+            segmento_ideologia="centro",
+            n_electores_est=500000,
+        )
+        r = calcular_score_analitico(demo)
+        df_blando = pd.DataFrame(
+            [
+                {
+                    "circunscripcion": r.circunscripcion,
+                    "score_medio_blando": r.score_medio_blando,
+                    "pct_voto_blando": r.pct_voto_blando,
+                    "pct_probable_abst": r.pct_probable_abst,
+                    "pct_transferible": r.pct_transferible,
+                }
+            ]
+        )
+
+    fila = df_blando.iloc[0]
+    k1, k2, k3, k4 = st.columns(4)
+    for col, title, value, subtitle, color in [
+        (
+            k1,
+            "Voto Blando",
+            f"{float(fila.get('pct_voto_blando', 0)) * 100:.1f}%",
+            "% electores con alta propensión al cambio",
+            AMBER,
+        ),
+        (k2, "Score Medio", f"{float(fila.get('score_medio_blando', 0)):.3f}", "Índice [0-1]", BLUE),
+        (
+            k3,
+            "Riesgo Abstención",
+            f"{float(fila.get('pct_probable_abst', 0)) * 100:.1f}%",
+            "% con probabilidad alta de no votar",
+            RED,
+        ),
+        (
+            k4,
+            "Voto Transferible",
+            f"{float(fila.get('pct_transferible', 0)) * 100:.1f}%",
+            "% capturable desde otros partidos",
+            GREEN,
+        ),
+    ]:
+        col.markdown(
+            f"""
+            <div class="nc-card" style="border-top:2px solid {color}66">
+                <div style="font-size:.6rem;color:{MUTED};letter-spacing:.08em;text-transform:uppercase">{title}</div>
+                <div style="font-size:1.45rem;font-weight:900;color:{TEXT};font-family:'JetBrains Mono',monospace">{value}</div>
+                <div style="font-size:.58rem;color:{TEXT2}">{subtitle}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    _section_header("Matriz de Transferencia", CYAN)
+    df_trans = cargar_matriz_transferencia(circunscripcion=circ, eleccion_ref=eleccion_ref, cliente_id=cliente_id)
+    if df_trans.empty:
+        partidos = ["PSOE", "PP", "SUMAR", "VOX"]
+        rows = []
+        for p0 in partidos:
+            for p1 in partidos:
+                prob = 0.70 if p0 == p1 else round(0.30 / (len(partidos) - 1), 4)
+                rows.append({"partido_origen": p0, "partido_destino": p1, "prob_transicion": prob})
+        df_trans = pd.DataFrame(rows)
+
+    pivot = df_trans.pivot(index="partido_origen", columns="partido_destino", values="prob_transicion")
+    fig_hm = go.Figure(
+        data=go.Heatmap(
+            z=pivot.values,
+            x=pivot.columns,
+            y=pivot.index,
+            colorscale="Blues",
+            zmin=0,
+            zmax=max(0.8, float(pivot.values.max())),
+            text=[[f"{v:.2f}" for v in row] for row in pivot.values],
+            texttemplate="%{text}",
+            hovertemplate="Origen: %{y}<br>Destino: %{x}<br>P: %{z:.2f}<extra></extra>",
+        )
+    )
+    fig_hm.update_layout(
+        height=360,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(t=8, b=10, l=10, r=10),
+    )
+    st.plotly_chart(fig_hm, use_container_width=True, config={"displayModeBar": False})
 
 
 # ── Cargar datos ──────────────────────────────────────────────────────────────
@@ -383,6 +510,12 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+tab_nc_core, tab_nc_vb = st.tabs(["◐  Nowcasting", "🎯  Voto blando y transferible"])
+with tab_nc_core:
+    st.caption("Vista principal de nowcasting en tiempo real.")
+with tab_nc_vb:
+    _render_tab_voto_blando()
 
 # ── Banner calidad multi-fuente ──────────────────────────────────────────────
 _df_cal = cargar_nowcasting_calidad()
