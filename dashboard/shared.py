@@ -767,8 +767,36 @@ def sidebar_nav():
 
         # Sección: Índices Politeia
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Índices Politeia</div>", unsafe_allow_html=True)
-        for path, label in PAGES_NAV["indices_politeia"]:
-            _safe_page_link(path, label=label)
+        _safe_page_link("pages/9_Indices_Politeia.py", label="◈  Índices")
+
+        _safe_page_link("pages/10_Prensa_Agenda.py", label="◎  Prensa & Agenda")
+        st.markdown(
+            f"<div style='padding:.1rem 0 .2rem 1.1rem;font-size:.78rem;color:{TEXT2}'>"
+            "Monitorización interna</div>",
+            unsafe_allow_html=True,
+        )
+        _safe_page_link("pages/14_Monitor_Sentimiento.py", label="   ↳ Monitor de sentimiento")
+        _safe_page_link("pages/20_Monitor_Medios_RRSS.py", label="   ↳ Monitor Medios & RRSS")
+
+        _safe_page_link("pages/11_Congreso_Institucional.py", label="◉  Congreso")
+        st.markdown(
+            f"<div style='padding:.1rem 0 .2rem 1.1rem;font-size:.78rem;color:{TEXT2}'>"
+            "Seguimiento parlamentario</div>",
+            unsafe_allow_html=True,
+        )
+        _safe_page_link("pages/15_Agenda_Lideres.py", label="   ↳ Agenda de líderes")
+
+        _safe_page_link("pages/13_Briefing_Diario.py", label="⬡  Briefing Diario")
+
+        _safe_page_link("pages/18_War_Room_Espana.py", label="⚔  War Room")
+        st.markdown(
+            f"<div style='padding:.1rem 0 .2rem 1.1rem;font-size:.78rem;color:{TEXT2}'>"
+            "Operaciones de campaña</div>",
+            unsafe_allow_html=True,
+        )
+        _safe_page_link("pages/21_Opposition_Research.py", label="   ↳ Opposition Research")
+        _safe_page_link("pages/22_Coordinacion_Campana.py", label="   ↳ Coordinación Campaña")
+        _safe_page_link("pages/23_Memoria_Institucional.py", label="   ↳ Memoria Institucional")
 
         # Sección: Modelos & Datos
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Modelos & Datos</div>", unsafe_allow_html=True)

@@ -593,9 +593,17 @@ def cargar_validacion_por_partido(run_id: str) -> pd.DataFrame:
 
 @st.cache_data(ttl=30)
 def cargar_alertas(solo_no_leidas: bool = False, limit: int = 20) -> pd.DataFrame:
+    cols = _table_columns("alertas_sistema")
+    has_extra = {"fuente", "valor_actual", "valor_anterior", "pagina_relevante"}.issubset(cols)
+    select_cols = (
+        "tipo, severidad, titulo, descripcion, leida, created_at, "
+        "fuente, valor_actual, valor_anterior, pagina_relevante"
+        if has_extra
+        else "tipo, severidad, titulo, descripcion, leida, created_at"
+    )
     return _q(
-        """
-        SELECT tipo, severidad, titulo, descripcion, leida, created_at
+        f"""
+        SELECT {select_cols}
         FROM alertas_sistema
         WHERE (:solo_no_leidas = false OR leida = false)
         ORDER BY created_at DESC
@@ -746,7 +754,7 @@ def cargar_agenda_hoy(_conn=None) -> pd.DataFrame:
         ORDER BY n_noticias DESC
         LIMIT 25
         """,
-        conn=conn,
+        conn=_conn,
     )
     if not df_last.empty:
         return df_last
@@ -764,7 +772,7 @@ def cargar_agenda_hoy(_conn=None) -> pd.DataFrame:
         ORDER BY n_noticias DESC
         LIMIT 25
         """,
-        conn=conn,
+        conn=_conn,
     )
 
 
@@ -2365,3 +2373,570 @@ def get_ccaa_catalogo() -> list[str]:
     if df.empty:
         return []
     return df["nombre"].dropna().astype(str).tolist()
+
+
+# =============================================================================
+# BLOQUE MONITORIZACION MEDIOS / OPPOSITION / MULTICLIENTE (append-only)
+# =============================================================================
+
+
+def insertar_contenidos_mediaticos(registros: list[dict]) -> int:
+    """Inserta contenidos mediaticos con deduplicacion por url."""
+    if not registros:
+        return 0
+    if not _table_exists("contenido_mediatico"):
+        return 0
+    conn = get_conn()
+    sql = """
+        INSERT INTO contenido_mediatico
+            (fuente, tipo, medio, autor, url, titular, resumen, texto_completo,
+             fecha_publicacion, idioma, alcance_est, likes, shares, comentarios,
+             sentimiento_score, sentimiento_label, tono, categoria, categorias_json,
+             partidos_mencionados, personas_mencionadas, embedding_vector, procesado, cliente_id)
+        VALUES
+            (%(fuente)s, %(tipo)s, %(medio)s, %(autor)s, %(url)s, %(titular)s, %(resumen)s, %(texto_completo)s,
+             %(fecha_publicacion)s, %(idioma)s, %(alcance_est)s, %(likes)s, %(shares)s, %(comentarios)s,
+             %(sentimiento_score)s, %(sentimiento_label)s, %(tono)s, %(categoria)s, %(categorias_json)s,
+             %(partidos_mencionados)s, %(personas_mencionadas)s, %(embedding_vector)s, %(procesado)s, %(cliente_id)s)
+        ON CONFLICT (url) DO NOTHING
+    """
+    inserted = 0
+    try:
+        with conn.cursor() as cur:
+            cur.executemany(sql, registros)
+            inserted = int(cur.rowcount or 0)
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_contenidos_mediaticos: %s", e, exc_info=True)
+        return 0
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+    return inserted
+
+
+@st.cache_data(ttl=300)
+def cargar_contenido_mediatico(
+    tipo: str | None = None,
+    canal: str | None = None,
+    categoria: str | None = None,
+    partido: str | None = None,
+    persona: str | None = None,
+    ventana_dias: int = 7,
+    limite: int = 500,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("contenido_mediatico"):
+        return pd.DataFrame()
+    conditions = ["fecha_publicacion >= NOW() - (:dias * INTERVAL '1 day')"]
+    params: dict[str, Any] = {"dias": int(ventana_dias), "limite": int(limite)}
+
+    if tipo:
+        conditions.append("tipo = :tipo")
+        params["tipo"] = tipo
+    if canal:
+        conditions.append("fuente = :canal")
+        params["canal"] = canal
+    if categoria:
+        conditions.append("categoria = :categoria")
+        params["categoria"] = categoria
+    if partido:
+        conditions.append("partidos_mencionados ILIKE :partido")
+        params["partido"] = f"%{partido}%"
+    if persona:
+        conditions.append("personas_mencionadas ILIKE :persona")
+        params["persona"] = f"%{persona}%"
+    if cliente_id is not None:
+        conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+
+    where = " AND ".join(conditions)
+    return _q(
+        f"""
+        SELECT *
+        FROM contenido_mediatico
+        WHERE {where}
+        ORDER BY fecha_publicacion DESC
+        LIMIT :limite
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_serie_objeto(
+    tipo_objeto: str,
+    valor: str,
+    canal: str | None = None,
+    ventana_dias: int = 30,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("contenido_mediatico") or not _table_exists("tags_contenido"):
+        return pd.DataFrame(columns=["fecha", "n_menciones", "sent_medio"])
+    params: dict[str, Any] = {
+        "tipo": tipo_objeto,
+        "valor": valor,
+        "dias": int(ventana_dias),
+    }
+    canal_filter = ""
+    cliente_filter = ""
+    if canal:
+        canal_filter = "AND cm.fuente = :canal"
+        params["canal"] = canal
+    if cliente_id is not None:
+        cliente_filter = "AND (cm.cliente_id = :cliente_id OR cm.cliente_id IS NULL)"
+        params["cliente_id"] = int(cliente_id)
+
+    return _q(
+        f"""
+        SELECT DATE_TRUNC('day', cm.fecha_publicacion) AS fecha,
+               COUNT(*) AS n_menciones,
+               AVG(cm.sentimiento_score) AS sent_medio
+        FROM contenido_mediatico cm
+        JOIN tags_contenido tc ON tc.contenido_id = cm.id
+        WHERE tc.tipo_objeto = :tipo
+          AND tc.valor ILIKE :valor
+          AND cm.fecha_publicacion >= NOW() - (:dias * INTERVAL '1 day')
+          {canal_filter}
+          {cliente_filter}
+        GROUP BY 1
+        ORDER BY 1
+        """,
+        params,
+    )
+
+
+@st.cache_data(ttl=30)
+def cargar_alertas_mediaticas(
+    solo_no_leidas: bool = True,
+    limite: int = 50,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("alertas_mediaticas"):
+        return pd.DataFrame()
+    conditions: list[str] = []
+    params: dict[str, Any] = {"limite": int(limite)}
+    if solo_no_leidas:
+        conditions.append("leida = false")
+    if cliente_id is not None:
+        conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+    where = "WHERE " + " AND ".join(conditions) if conditions else ""
+    return _q(
+        f"""
+        SELECT *
+        FROM alertas_mediaticas
+        {where}
+        ORDER BY fecha DESC
+        LIMIT :limite
+        """,
+        params,
+    )
+
+
+def insertar_declaracion(registro: dict) -> int | None:
+    if not _table_exists("declaraciones_politicas"):
+        return None
+    conn = get_conn()
+    sql = """
+        INSERT INTO declaraciones_politicas
+            (persona, partido, fecha, medio, contexto, texto, tema, subtema,
+             posicion_x, posicion_y, url, cliente_id)
+        VALUES
+            (%(persona)s, %(partido)s, %(fecha)s, %(medio)s, %(contexto)s, %(texto)s,
+             %(tema)s, %(subtema)s, %(posicion_x)s, %(posicion_y)s, %(url)s, %(cliente_id)s)
+        ON CONFLICT (url, texto) DO NOTHING
+        RETURNING id
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, registro)
+            row = cur.fetchone()
+        conn.commit()
+        return int(row[0]) if row else None
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_declaracion: %s", e, exc_info=True)
+        return None
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=120)
+def cargar_declaraciones(
+    persona: str | None = None,
+    partido: str | None = None,
+    tema: str | None = None,
+    ventana_dias: int = 365,
+    limite: int = 500,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("declaraciones_politicas"):
+        return pd.DataFrame()
+    conditions = ["fecha >= NOW() - (:dias * INTERVAL '1 day')"]
+    params: dict[str, Any] = {"dias": int(ventana_dias), "limite": int(limite)}
+
+    if persona:
+        conditions.append("persona ILIKE :persona")
+        params["persona"] = f"%{persona}%"
+    if partido:
+        conditions.append("partido ILIKE :partido")
+        params["partido"] = f"%{partido}%"
+    if tema:
+        conditions.append("tema = :tema")
+        params["tema"] = tema
+    if cliente_id is not None:
+        conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+
+    where = " AND ".join(conditions)
+    return _q(
+        f"""
+        SELECT id, persona, partido, fecha, medio, contexto, texto, tema, subtema,
+               posicion_x, posicion_y, url
+        FROM declaraciones_politicas
+        WHERE {where}
+        ORDER BY fecha DESC
+        LIMIT :limite
+        """,
+        params,
+    )
+
+
+def insertar_contradiccion(c: Any) -> None:
+    if not _table_exists("contradicciones"):
+        return
+    conn = get_conn()
+    sql = """
+        INSERT INTO contradicciones
+            (decl_a_id, decl_b_id, persona, partido, tema, tipo, confianza,
+             descripcion, gravedad, dias_entre, cliente_id)
+        VALUES
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql,
+                (
+                    c.decl_a_id,
+                    c.decl_b_id,
+                    c.persona,
+                    c.partido,
+                    c.tema,
+                    c.tipo,
+                    c.confianza,
+                    c.descripcion,
+                    c.gravedad,
+                    c.dias_entre,
+                    None,
+                ),
+            )
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_contradiccion: %s", e, exc_info=True)
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=120)
+def cargar_contradicciones(
+    persona: str | None = None,
+    partido: str | None = None,
+    gravedad: str | None = None,
+    solo_validadas: bool = False,
+    limite: int = 100,
+) -> pd.DataFrame:
+    if not _table_exists("contradicciones") or not _table_exists("declaraciones_politicas"):
+        return pd.DataFrame()
+    conditions: list[str] = []
+    params: dict[str, Any] = {"limite": int(limite)}
+
+    if persona:
+        conditions.append("c.persona ILIKE :persona")
+        params["persona"] = f"%{persona}%"
+    if partido:
+        conditions.append("c.partido ILIKE :partido")
+        params["partido"] = f"%{partido}%"
+    if gravedad:
+        conditions.append("c.gravedad = :gravedad")
+        params["gravedad"] = gravedad
+    if solo_validadas:
+        conditions.append("c.validada = true")
+
+    where = "WHERE " + " AND ".join(conditions) if conditions else ""
+    return _q(
+        f"""
+        SELECT c.*, da.texto AS texto_a, da.fecha AS fecha_a,
+               db.texto AS texto_b, db.fecha AS fecha_b
+        FROM contradicciones c
+        LEFT JOIN declaraciones_politicas da ON da.id = c.decl_a_id
+        LEFT JOIN declaraciones_politicas db ON db.id = c.decl_b_id
+        {where}
+        ORDER BY c.confianza DESC NULLS LAST, c.fecha_deteccion DESC
+        LIMIT :limite
+        """,
+        params,
+    )
+
+
+def insertar_argumentario(a: Any, cliente_id: int | None = None) -> int | None:
+    if not _table_exists("argumentarios"):
+        return None
+    conn = get_conn()
+    sql = """
+        INSERT INTO argumentarios (tipo, tema, adversario, partido_propio, contenido, cliente_id)
+        VALUES (%(tipo)s, %(tema)s, %(adversario)s, %(partido_propio)s, %(contenido)s, %(cliente_id)s)
+        RETURNING id
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql,
+                {
+                    "tipo": a.tipo,
+                    "tema": a.tema,
+                    "adversario": a.adversario,
+                    "partido_propio": a.partido_propio,
+                    "contenido": a.contenido,
+                    "cliente_id": cliente_id,
+                },
+            )
+            row = cur.fetchone()
+        conn.commit()
+        return int(row[0]) if row else None
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_argumentario: %s", e, exc_info=True)
+        return None
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+def cargar_mensajes_campana(
+    cliente_id: int | None = None,
+    tipo: str | None = None,
+    solo_activos: bool = True,
+) -> list[dict[str, Any]]:
+    if not _table_exists("mensajes_campana"):
+        return []
+    conn = get_conn()
+    filters: list[str] = []
+    params: dict[str, Any] = {}
+
+    if solo_activos:
+        filters.append("estado = 'activo'")
+    if cliente_id is not None:
+        filters.append("cliente_id = %(cliente_id)s")
+        params["cliente_id"] = int(cliente_id)
+    if tipo:
+        filters.append("tipo = %(tipo)s")
+        params["tipo"] = tipo
+
+    where = "WHERE " + " AND ".join(filters) if filters else ""
+    sql = f"""
+        SELECT id, titulo, mensaje, tipo, estado, fecha_inicio, fecha_fin, autor, creado_en
+        FROM mensajes_campana
+        {where}
+        ORDER BY creado_en DESC
+    """
+    try:
+        with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+            cur.execute(sql, params)
+            return list(cur.fetchall())
+    except Exception as e:
+        logger.warning("cargar_mensajes_campana: %s", e)
+        return []
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+def insertar_mensaje_campana(
+    titulo: str,
+    mensaje: str,
+    tipo: str,
+    cliente_id: int | None = None,
+    fecha_inicio: Any | None = None,
+    fecha_fin: Any | None = None,
+    autor: str | None = None,
+) -> bool:
+    if not _table_exists("mensajes_campana"):
+        return False
+    conn = get_conn()
+    sql = """
+        INSERT INTO mensajes_campana
+            (cliente_id, titulo, mensaje, tipo, estado, fecha_inicio, fecha_fin, autor)
+        VALUES
+            (%(cliente_id)s, %(titulo)s, %(mensaje)s, %(tipo)s, 'activo', %(fecha_inicio)s, %(fecha_fin)s, %(autor)s)
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql,
+                {
+                    "cliente_id": cliente_id,
+                    "titulo": titulo,
+                    "mensaje": mensaje,
+                    "tipo": tipo,
+                    "fecha_inicio": fecha_inicio,
+                    "fecha_fin": fecha_fin,
+                    "autor": autor,
+                },
+            )
+        conn.commit()
+        return True
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_mensaje_campana: %s", e, exc_info=True)
+        return False
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=120)
+def cargar_decisiones_estrategicas(
+    cliente_id: int | None = None,
+    tipo: str | None = None,
+    limite: int = 50,
+) -> list[dict[str, Any]]:
+    if not _table_exists("decisiones_estrategicas"):
+        return []
+    conn = get_conn()
+    filters: list[str] = []
+    params: dict[str, Any] = {"limite": int(limite)}
+    if cliente_id is not None:
+        filters.append("cliente_id = %(cliente_id)s")
+        params["cliente_id"] = int(cliente_id)
+    if tipo:
+        filters.append("tipo = %(tipo)s")
+        params["tipo"] = tipo
+
+    where = "WHERE " + " AND ".join(filters) if filters else ""
+    sql = f"""
+        SELECT id, fecha, tipo, descripcion, resultado, lecciones, etiquetas, datos_contexto, creado_en
+        FROM decisiones_estrategicas
+        {where}
+        ORDER BY fecha DESC
+        LIMIT %(limite)s
+    """
+    try:
+        with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+            cur.execute(sql, params)
+            return list(cur.fetchall())
+    except Exception as e:
+        logger.warning("cargar_decisiones_estrategicas: %s", e)
+        return []
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+def insertar_decision_estrategica(
+    fecha: Any,
+    tipo: str,
+    descripcion: str,
+    datos_contexto: dict | None = None,
+    resultado: str | None = None,
+    lecciones: str | None = None,
+    etiquetas: list[str] | None = None,
+    cliente_id: int | None = None,
+) -> bool:
+    if not _table_exists("decisiones_estrategicas"):
+        return False
+    conn = get_conn()
+    sql = """
+        INSERT INTO decisiones_estrategicas
+            (cliente_id, fecha, tipo, descripcion, datos_contexto, resultado, lecciones, etiquetas)
+        VALUES
+            (%(cliente_id)s, %(fecha)s, %(tipo)s, %(descripcion)s,
+             %(datos_contexto)s::jsonb, %(resultado)s, %(lecciones)s, %(etiquetas)s)
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                sql,
+                {
+                    "cliente_id": cliente_id,
+                    "fecha": fecha,
+                    "tipo": tipo,
+                    "descripcion": descripcion,
+                    "datos_contexto": json.dumps(datos_contexto or {}),
+                    "resultado": resultado,
+                    "lecciones": lecciones,
+                    "etiquetas": etiquetas or [],
+                },
+            )
+        conn.commit()
+        return True
+    except Exception as e:
+        conn.rollback()
+        logger.error("insertar_decision_estrategica: %s", e, exc_info=True)
+        return False
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=120)
+def buscar_decisiones_similares(
+    texto_query: str,
+    cliente_id: int | None = None,
+    limite: int = 5,
+) -> list[dict[str, Any]]:
+    if not _table_exists("decisiones_estrategicas"):
+        return []
+    conn = get_conn()
+    params: dict[str, Any] = {"query": texto_query, "limite": int(limite)}
+    cliente_filter = ""
+    if cliente_id is not None:
+        cliente_filter = "AND cliente_id = %(cliente_id)s"
+        params["cliente_id"] = int(cliente_id)
+
+    sql = f"""
+        SELECT id, fecha, tipo, descripcion, resultado, lecciones,
+               ts_rank(
+                   to_tsvector('spanish', descripcion || ' ' || COALESCE(lecciones, '')),
+                   plainto_tsquery('spanish', %(query)s)
+               ) AS rank
+        FROM decisiones_estrategicas
+        WHERE to_tsvector('spanish', descripcion || ' ' || COALESCE(lecciones, ''))
+              @@ plainto_tsquery('spanish', %(query)s)
+        {cliente_filter}
+        ORDER BY rank DESC
+        LIMIT %(limite)s
+    """
+    try:
+        with conn.cursor(row_factory=psycopg.rows.dict_row) as cur:
+            cur.execute(sql, params)
+            return list(cur.fetchall())
+    except Exception as e:
+        logger.warning("buscar_decisiones_similares: %s", e)
+        return []
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
