@@ -153,6 +153,14 @@ def _freshness_badge(df_health: pd.DataFrame) -> str:
 st.set_page_config(page_title="Prensa & Agenda — ElectSim", layout="wide")
 sidebar_nav()
 
+tabs_nav_10 = st.columns([1, 1, 1, 5])
+with tabs_nav_10[0]:
+    st.page_link("pages/10_Prensa_Agenda.py", label="Prensa & Agenda", icon="◎")
+with tabs_nav_10[1]:
+    st.page_link("pages/14_Monitor_Sentimiento.py", label="Monitor sentimiento", icon="▦")
+with tabs_nav_10[2]:
+    st.page_link("pages/20_Monitor_Medios_RRSS.py", label="Monitor medios", icon="📡")
+
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>

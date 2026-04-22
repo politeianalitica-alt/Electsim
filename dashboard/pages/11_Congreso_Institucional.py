@@ -190,6 +190,12 @@ st.set_page_config(page_title="Congreso — ElectSim", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("11_Congreso_Institucional")
 
+tabs_nav_11 = st.columns([1, 1, 6])
+with tabs_nav_11[0]:
+    st.page_link("pages/11_Congreso_Institucional.py", label="Congreso", icon="◉")
+with tabs_nav_11[1]:
+    st.page_link("pages/15_Agenda_Lideres.py", label="Agenda líderes", icon="▣")
+
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>

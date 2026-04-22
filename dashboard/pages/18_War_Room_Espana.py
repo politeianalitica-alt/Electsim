@@ -12,6 +12,7 @@ if str(_ROOT) not in sys.path:
 
 from dashboard.db import (  # noqa: E402
     cargar_alertas,
+    cargar_contradicciones,
     cargar_indices_politeia,
     cargar_macro_ultimo,
     cargar_nowcasting,
@@ -22,6 +23,16 @@ from dashboard.shared import sidebar_nav  # noqa: E402
 
 st.set_page_config(page_title="War Room España", layout="wide")
 sidebar_nav()
+
+tabs_nav_18 = st.columns([1, 1, 1, 1, 4])
+with tabs_nav_18[0]:
+    st.page_link("pages/18_War_Room_Espana.py", label="War Room", icon="⚔")
+with tabs_nav_18[1]:
+    st.page_link("pages/21_Opposition_Research.py", label="Opposition", icon="🎯")
+with tabs_nav_18[2]:
+    st.page_link("pages/22_Coordinacion_Campana.py", label="Coordinación", icon="📋")
+with tabs_nav_18[3]:
+    st.page_link("pages/23_Memoria_Institucional.py", label="Memoria", icon="🧠")
 
 st.title("War Room España Operativa")
 st.caption("Centro de mando: señales críticas, riesgo territorial y acciones en 2h/24h/72h.")
@@ -87,6 +98,18 @@ with right:
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("Sin datos de nowcasting.")
+
+st.subheader("Alerta de debate rápida")
+df_cont_wr = cargar_contradicciones(limite=3)
+if not df_cont_wr.empty:
+    for _, row in df_cont_wr.iterrows():
+        st.markdown(
+            f"- **{row.get('persona','')}** ({row.get('partido','')}) · "
+            f"{row.get('tema','')} · gravedad {row.get('gravedad','')} · "
+            f"{str(row.get('descripcion',''))[:150]}..."
+        )
+else:
+    st.info("No hay contradicciones registradas. Ejecuta Opposition Research para poblarlas.")
 
 st.subheader("Matriz territorial rápida")
 try:
