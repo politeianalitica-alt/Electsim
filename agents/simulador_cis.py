@@ -14,6 +14,10 @@ from agents.runner import AgentTurnResult, VoterAgent
 
 logger = logging.getLogger(__name__)
 
+TEMPERATURA_SIM_CIS = 0.25
+MAX_TOKENS_SIM_CIS = 512
+CALIBRACION_PRIOR = 0.40
+
 
 @dataclass(slots=True)
 class PreguntaCIS:
@@ -122,6 +126,28 @@ def _parsear_respuesta(texto: str, pregunta: PreguntaCIS) -> str:
     return "NS/NC"
 
 
+def _calibrar_respuesta_escala(respuesta_parseada: str, media_real: float | None, alpha: float = CALIBRACION_PRIOR) -> str:
+    """
+    Ajuste bayesiano simple para respuestas escala 1-10:
+    posterior = (1-alpha)*respuesta_llm + alpha*media_real.
+    """
+    try:
+        x = int(str(respuesta_parseada).strip())
+    except Exception:
+        return respuesta_parseada
+    if not 1 <= x <= 10:
+        return respuesta_parseada
+    if media_real is None:
+        return respuesta_parseada
+    try:
+        m = float(media_real)
+    except Exception:
+        return respuesta_parseada
+    m = min(10.0, max(1.0, m))
+    post = (1.0 - float(alpha)) * float(x) + float(alpha) * m
+    return str(int(round(min(10.0, max(1.0, post)))))
+
+
 def simular_encuesta(
     cuestionario: list[PreguntaCIS],
     engine: Engine,
@@ -153,8 +179,17 @@ def simular_encuesta(
             if (cid, q.codigo) in completed:
                 continue
             prompt = _build_pregunta_prompt(q)
-            out = agent.run_turn(prompt, persist=False, rag_engine=engine if usar_rag else None)
+            out = agent.run_turn(
+                prompt,
+                persist=False,
+                rag_engine=engine if usar_rag else None,
+                temperature=TEMPERATURA_SIM_CIS,
+                max_tokens=MAX_TOKENS_SIM_CIS,
+                tema=q.variable_bd,
+            )
             parsed = _parsear_respuesta(out.final_reply, q)
+            if q.tipo == "escala_1_10":
+                parsed = _calibrar_respuesta_escala(parsed, pf.get("ideologia_media"))
             row = {
                 "simulacion": sim_name,
                 "perfil_id": int(pf.get("id") or 0),

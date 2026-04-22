@@ -45,12 +45,23 @@ def load_perfil_por_cluster(engine: Engine, cluster_id: int) -> dict[str, Any] |
     return df.iloc[0].to_dict()
 
 
-def build_context_aware_prompt(perfil: dict[str, Any], rag_engine: Engine | None) -> str:
+def build_context_aware_prompt(
+    perfil: dict[str, Any],
+    rag_engine: Engine | None,
+    *,
+    tema: str | None = None,
+) -> str:
     base = build_system_prompt(perfil)
     if rag_engine is None:
         return base
     try:
-        extra = construir_extra_context(rag_engine, int(perfil.get("cluster_id") or 0))
+        ideo = perfil.get("ideologia_media")
+        extra = construir_extra_context(
+            rag_engine,
+            int(perfil.get("cluster_id") or 0),
+            tema=tema,
+            ideo_media=float(ideo) if ideo is not None else None,
+        )
         if not extra:
             return base
         return f"{base}\n\n--- CONTEXTO ACTUAL ---\n{extra}"
@@ -152,8 +163,9 @@ class VoterAgent:
         extra_context: str | None = None,
         temperature: float = 0.4,
         max_tokens: int = 1024,
+        tema: str | None = None,
     ) -> AgentTurnResult:
-        system_prompt = build_context_aware_prompt(self.perfil, rag_engine)
+        system_prompt = build_context_aware_prompt(self.perfil, rag_engine, tema=tema)
 
         msg_user = str(user_content)
         if extra_context:
@@ -202,7 +214,7 @@ class VoterAgent:
                         "role": "user",
                         "kind": "turn",
                         "content": msg_user,
-                        "metadata_json": _json_dumps({"temperature": temperature}),
+                        "metadata_json": _json_dumps({"temperature": temperature, "tema": tema}),
                         "modelo": modelo,
                     },
                 )
@@ -286,4 +298,5 @@ def run_turn(
         extra_context=kwargs.get("extra_context"),
         temperature=float(kwargs.get("temperature", 0.4)),
         max_tokens=int(kwargs.get("max_tokens", 1024)),
+        tema=kwargs.get("tema"),
     )

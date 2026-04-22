@@ -47,6 +47,27 @@ def _distribucion_voto_texto(dist_json: str | Mapping[str, Any] | None) -> str:
         return ""
 
 
+def _top_problemas_texto(raw: Any) -> str:
+    if not raw:
+        return ""
+    try:
+        data = json.loads(raw) if isinstance(raw, str) else raw
+    except Exception:
+        return ""
+    if not isinstance(data, Mapping):
+        return ""
+    pares: list[tuple[str, float]] = []
+    for k, v in data.items():
+        try:
+            pares.append((str(k), float(v)))
+        except Exception:
+            continue
+    if not pares:
+        return ""
+    top = sorted(pares, key=lambda x: -x[1])[:3]
+    return "Principales preocupaciones: " + ", ".join(f"{k} ({v:.0f}%)" for k, v in top) + "."
+
+
 def build_system_prompt(perfil: Mapping[str, Any]) -> str:
     desc = str(perfil.get("descripcion_perfil_llm") or "").strip()
     label = str(perfil.get("label") or "").strip()
@@ -59,30 +80,11 @@ def build_system_prompt(perfil: Mapping[str, Any]) -> str:
     clase = str(perfil.get("clase_social") or "").strip()
     educ = str(perfil.get("nivel_educativo") or "").strip()
     dist = _distribucion_voto_texto(perfil.get("distribucion_voto_json"))
-
-    if desc:
-        bloque_desc = f"Descripción del perfil:\n{desc}"
-    else:
-        partes_desc: list[str] = []
-        if label:
-            partes_desc.append(f"segmento '{label}'")
-        if edad is not None:
-            try:
-                partes_desc.append(f"{float(edad):.0f} años de media")
-            except Exception:
-                pass
-        if ccaa:
-            partes_desc.append(f"residencia en {ccaa}")
-        if clase:
-            partes_desc.append(f"clase social {clase}")
-        if educ:
-            partes_desc.append(f"nivel educativo {educ}")
-        extra = f" Contexto mínimo: {', '.join(partes_desc)}." if partes_desc else ""
-        bloque_desc = (
-            "No hay descripción detallada disponible. "
-            "Actúa como ciudadano español con posiciones moderadas y pragmáticas."
-            + extra
-        )
+    top_problemas = _top_problemas_texto(
+        perfil.get("top_problemas_json")
+        or perfil.get("problemas_principales_json")
+        or perfil.get("problemas_json")
+    )
 
     bloque_datos: list[str] = []
     if cid is not None:
@@ -109,12 +111,43 @@ def build_system_prompt(perfil: Mapping[str, Any]) -> str:
             bloque_datos.append(f"Basado en {int(n_res)} respondentes reales")
         except Exception:
             pass
+    if ccaa:
+        bloque_datos.append(f"Territorio dominante: {ccaa}")
+    if clase:
+        bloque_datos.append(f"Clase social: {clase}")
+    if educ:
+        bloque_datos.append(f"Nivel educativo: {educ}")
+
+    ideo_delta = ""
+    if ideo is not None:
+        try:
+            d = float(ideo) - 5.0
+            if d <= -0.5:
+                ideo_delta = f"Más a la izquierda que la media país (Δ={d:+.1f})."
+            elif d >= 0.5:
+                ideo_delta = f"Más a la derecha que la media país (Δ={d:+.1f})."
+            else:
+                ideo_delta = f"Cercano al centro ideológico del país (Δ={d:+.1f})."
+        except Exception:
+            pass
+
+    bloque_desc = (
+        "Interpreta y responde usando SOLO estos datos cuantitativos del segmento. "
+        "No inventes porcentajes ni atributos no presentes. "
+        "Si falta un dato, decláralo explícitamente."
+    )
 
     secciones = [BASE_AGENT_INSTRUCTIONS, "---", bloque_desc]
     if bloque_datos:
         secciones.append("\n".join(bloque_datos))
+    if ideo_delta:
+        secciones.append(ideo_delta)
     if dist:
         secciones.append(dist)
+    if top_problemas:
+        secciones.append(top_problemas)
+    if desc:
+        secciones.append("Contexto narrativo previo (usar solo como apoyo, no como fuente principal):\n" + desc)
     return "\n\n".join(secciones)
 
 
