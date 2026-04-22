@@ -29,19 +29,19 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED,
     GREEN, AMBER, RED,
 )
-from dashboard.db import (
-    cargar_elecciones,
-    cargar_nowcasting,
-    cargar_resultados_electorales,
-    cargar_resultados_nacionales,
-    cargar_resultados_provinciales,
-    cargar_elecciones_historicas,
-    cargar_contexto_actual,
-)
+import dashboard.db as _db
 from dashboard.models.analogias_historicas import (
     ContextoElectoral,
     MotorAnalogias,
 )
+
+cargar_elecciones = _db.cargar_elecciones
+cargar_nowcasting = _db.cargar_nowcasting
+cargar_resultados_electorales = _db.cargar_resultados_electorales
+cargar_resultados_nacionales = _db.cargar_resultados_nacionales
+cargar_resultados_provinciales = _db.cargar_resultados_provinciales
+cargar_elecciones_historicas = getattr(_db, "cargar_elecciones_historicas", lambda *args, **kwargs: pd.DataFrame())
+cargar_contexto_actual = getattr(_db, "cargar_contexto_actual", lambda *args, **kwargs: pd.DataFrame())
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Mapa Electoral — ElectSim", layout="wide")

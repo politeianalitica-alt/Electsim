@@ -26,15 +26,15 @@ from dashboard.shared import (
     GREEN, AMBER, RED,
     safe_numeric,
 )
-from dashboard.db import (
-    cargar_nowcasting,
-    cargar_serie_nowcasting,
-    cargar_nowcasting_calidad,
-    cargar_contribuciones_run,
-    cargar_scores_voto_blando,
-    cargar_matriz_transferencia,
-)
+import dashboard.db as _db
 from dashboard.models.voto_blando import InputsBlandura, calcular_score_analitico
+
+cargar_nowcasting = _db.cargar_nowcasting
+cargar_serie_nowcasting = _db.cargar_serie_nowcasting
+cargar_nowcasting_calidad = _db.cargar_nowcasting_calidad
+cargar_contribuciones_run = _db.cargar_contribuciones_run
+cargar_scores_voto_blando = getattr(_db, "cargar_scores_voto_blando", lambda *args, **kwargs: pd.DataFrame())
+cargar_matriz_transferencia = getattr(_db, "cargar_matriz_transferencia", lambda *args, **kwargs: pd.DataFrame())
 
 # ── Config ───────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Nowcasting — ElectSim", layout="wide")
