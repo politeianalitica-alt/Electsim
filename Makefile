@@ -4,4 +4,8 @@ check-env:
 	python bin/check_env.py
 
 migrate: check-env
-	alembic upgrade head
+	@if [ -x ".venv/bin/alembic" ]; then \
+		.venv/bin/alembic upgrade head; \
+	else \
+		python -m alembic upgrade head; \
+	fi
