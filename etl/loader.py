@@ -11,7 +11,7 @@ from sqlalchemy import text
 from sqlalchemy.engine import Connection, Engine
 
 try:
-    from psycopg2.extras import execute_values as _execute_values  # type: ignore
+    from psycopg.extras import execute_values as _execute_values  # type: ignore
 except Exception:  # pragma: no cover
     _execute_values = None
 

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import logging
+import os
 import time
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import OperationalError
 
 from api.routers import actions, analytics, ontology, search
 from agents.semantic_search import validate_semantic_schema
@@ -15,11 +18,35 @@ logger = logging.getLogger("electsim.api")
 
 app = FastAPI(title="ElectSim API", version="0.2.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:8501",
+        os.getenv("FRONTEND_URL", "http://localhost:5173"),
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.on_event("startup")
 def startup_checks() -> None:
-    with SessionLocal() as session:
-        validate_semantic_schema(session)
+    max_retries = 10
+    for attempt in range(max_retries):
+        try:
+            with SessionLocal() as session:
+                validate_semantic_schema(session)
+            logger.info("startup_checks OK")
+            return
+        except OperationalError as e:
+            logger.warning("DB no lista (intento %d/%d): %s", attempt + 1, max_retries, e)
+            time.sleep(2 ** min(attempt, 4))
+        except Exception as e:
+            logger.error("startup_checks no crítico: %s", e)
+            return
+    logger.error("No se pudo validar esquema semántico tras %d intentos.", max_retries)
 
 
 @app.middleware("http")

@@ -8,14 +8,20 @@ plotly>=5.22.0
 streamlit>=1.35.0
 requests>=2.31.0
 beautifulsoup4>=4.12.3
+lxml>=5.2.2
 pydantic>=2.7.0
 pyyaml>=6.0.2
 fastapi>=0.115.0
 uvicorn>=0.30.0
+httpx>=0.27.0
+python-multipart>=0.0.9
 pyjwt>=2.9.0
 polars>=1.8.2
 tiktoken>=0.8.0
 pgvector>=0.3.6
+prefect>=2.19.0,<3.0.0
+psycopg2-binary>=2.9.9
+networkx>=3.3
 
 # ── Microdatos & survey analytics (pyreadstat, weightedcalcs) ────────────────
 pyreadstat>=1.2.7            # Leer SPSS/SAV del CIS directamente en pandas

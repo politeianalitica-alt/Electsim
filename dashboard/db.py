@@ -9,6 +9,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Any
@@ -19,6 +20,8 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 import pandas as pd
+import psycopg
+from psycopg import sql as psycopg_sql
 import streamlit as st
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
@@ -26,21 +29,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.pool import NullPool
 from etl.logger import get_logger
 
-try:  # Preferencia: psycopg2 si está disponible.
-    import psycopg2  # type: ignore
-    from psycopg2 import sql as psycopg2_sql  # type: ignore
-    _DB_OP_ERROR = psycopg2.OperationalError
-except Exception:  # pragma: no cover - fallback entorno con psycopg v3
-    psycopg2 = None  # type: ignore
-    psycopg2_sql = None  # type: ignore
-    try:
-        import psycopg  # type: ignore
-        _DB_OP_ERROR = psycopg.OperationalError
-    except Exception:  # pragma: no cover
-        psycopg = None  # type: ignore
-        _DB_OP_ERROR = Exception
-
-from dashboard.ingestion.microdatos_pipeline import (
+from etl.pipelines.microdatos_pipeline import (
     DEFAULT_MICRODATOS_DIR,
     _ensure_tables as ensure_microdatos_tables,
     ingest_microdatos_folder,
@@ -50,7 +39,8 @@ from dashboard.ingestion.microdatos_pipeline import (
 load_dotenv(_ROOT / ".env")
 logger = get_logger(__name__)
 
-_conn = None
+_DB_OP_ERROR = psycopg.OperationalError
+_local = threading.local()
 _PARAM_RE = re.compile(r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)")
 
 _COLUMNAS_MACRO_PERMITIDAS = {
@@ -144,18 +134,11 @@ def _normalize_pg_url(url: str) -> str:
 
 def _connect_db(url: str):
     url = _normalize_pg_url(url)
-    if psycopg2 is not None:
-        return psycopg2.connect(url)
-    if "psycopg" in globals() and psycopg is not None:  # type: ignore[name-defined]
-        return psycopg.connect(url)  # type: ignore[name-defined]
-    raise RuntimeError("No hay driver PostgreSQL disponible (psycopg/psycopg2).")
+    return psycopg.connect(url, autocommit=True)
 
 @st.cache_resource
 def get_engine() -> Engine:
-    url = os.environ.get(
-        "DATABASE_URL",
-        "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana",
-    )
+    url = os.environ["DATABASE_URL"]
     workers = int(os.environ.get("STREAMLIT_SERVER_WORKERS", "1"))
     if workers > 1:
         return create_engine(url, pool_pre_ping=True, poolclass=NullPool)
@@ -163,39 +146,43 @@ def get_engine() -> Engine:
 
 
 def get_conn():
-    global _conn
     for intento in range(3):
         try:
-            if _conn is None or _connection_closed(_conn):
-                _conn = _connect_db(os.environ["DATABASE_URL"])
+            conn = getattr(_local, "conn", None)
+            if conn is None or _connection_closed(conn):
+                conn = _connect_db(os.environ["DATABASE_URL"])
                 # Autocommit=True: el dashboard es read-only, así evitamos
                 # que un error en una query deje la transacción "aborted"
                 # y haga fallar silenciosamente todas las siguientes.
-                _conn.autocommit = True
+                conn.autocommit = True
+                _local.conn = conn
                 logger.info("Conexión a PostgreSQL establecida.")
-            with _conn.cursor() as cur:
+            with conn.cursor() as cur:
                 cur.execute("SELECT 1")
-            return _conn
+            return conn
         except _DB_OP_ERROR as e:
             logger.warning("Intento %s/3 fallido al conectar a BD: %s", intento + 1, e)
-            _conn = None
+            _local.conn = None
             time.sleep(0.5 * (intento + 1))
     raise RuntimeError("No se puede conectar a PostgreSQL tras 3 intentos.")
 
 
 def _to_dbapi_named(sql: str) -> str:
-    """Convierte parámetros estilo :name a %(name)s para psycopg2."""
+    """Convierte parámetros estilo :name a %(name)s para psycopg v3 (pyformat)."""
     return _PARAM_RE.sub(r"%(\1)s", sql)
 
 
 def _quote_ident(col_name: str, conn: Any | None = None) -> str:
     """
     Quote seguro de identificadores SQL.
-    - Usa psycopg2.sql.Identifier cuando está disponible.
+    - Usa psycopg.sql.Identifier cuando hay conexión activa.
     - Fallback con escape estricto de comillas.
     """
-    if psycopg2_sql is not None and conn is not None and hasattr(conn, "cursor"):
-        return psycopg2_sql.Identifier(col_name).as_string(conn)
+    if conn is not None:
+        try:
+            return psycopg_sql.Identifier(col_name).as_string(conn)
+        except Exception:
+            pass
     return '"' + str(col_name).replace('"', '""') + '"'
 
 
@@ -221,8 +208,9 @@ def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = N
         # Rollback defensivo: si la conexión quedó en estado "aborted",
         # la próxima query fallaría. Limpiamos antes de devolver vacío.
         try:
-            if conn is None and _conn is not None and hasattr(_conn, "rollback"):
-                _conn.rollback()
+            current_conn = getattr(_local, "conn", None)
+            if conn is None and current_conn is not None and hasattr(current_conn, "rollback"):
+                current_conn.rollback()
         except Exception:
             pass
         if os.getenv("ENV", "prod").lower() in {"dev", "local"}:
@@ -2366,3 +2354,51 @@ def cargar_dm_actividad_legislativa(dias: int = 30) -> pd.DataFrame:
         """,
         {"dias": dias},
     )
+
+
+# ── Catálogos dinámicos UI ────────────────────────────────────────────────────
+
+@st.cache_data(ttl=3600)
+def get_partidos_activos() -> list[dict[str, Any]]:
+    df = _q(
+        """
+        SELECT
+            siglas AS sigla,
+            nombre_completo,
+            COALESCE(activo, TRUE) AS activo
+        FROM partidos
+        WHERE COALESCE(activo, TRUE) = TRUE
+        ORDER BY nombre_completo
+        """
+    )
+    if df.empty:
+        return []
+    return df.to_dict(orient="records")
+
+
+@st.cache_data(ttl=86400)
+def get_elecciones_catalogo() -> list[dict[str, Any]]:
+    df = _q(
+        """
+        SELECT id, tipo::text AS tipo, fecha, ambito
+        FROM elecciones
+        ORDER BY fecha DESC
+        """
+    )
+    if df.empty:
+        return []
+    return df.to_dict(orient="records")
+
+
+@st.cache_data(ttl=86400)
+def get_ccaa_catalogo() -> list[str]:
+    df = _q(
+        """
+        SELECT nombre
+        FROM comunidades_autonomas
+        ORDER BY nombre
+        """
+    )
+    if df.empty:
+        return []
+    return df["nombre"].dropna().astype(str).tolist()

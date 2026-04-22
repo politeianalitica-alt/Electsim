@@ -16,6 +16,7 @@ import logging
 import os
 import re
 from datetime import date, datetime
+from io import StringIO
 from typing import Any
 
 import pandas as pd
@@ -64,6 +65,15 @@ PARTIDO_ALIASES = {
     "Más País": "MP",
     "MP": "MP",
     "Compromís": "COMPROMIS",
+    "SE": "SALF",
+    "Se": "SALF",
+    "Se Acabó la Fiesta": "SALF",
+    "SALF": "SALF",
+    "Ahora Repúblicas": "AHORA_REP",
+    "Other": "OTROS",
+    "Others": "OTROS",
+    "Otros": "OTROS",
+    "Resto": "OTROS",
 }
 
 
@@ -98,14 +108,20 @@ def _parse_fieldwork_date(val: Any) -> date | None:
     s = re.sub(r"\[[^\]]*\]", "", s)
     # Busca el último número + mes + año (o número DD/MM/YYYY).
     patrones = [
-        r"(\d{1,2})\s*[–\-]\s*(\d{1,2})\s+([A-Za-zÁ-ú]+)\s+(\d{4})",  # 3–10 Apr 2024
-        r"(\d{1,2})\s+([A-Za-zÁ-ú]+)\s+(\d{4})",                      # 10 Apr 2024
-        r"(\d{1,2})/(\d{1,2})/(\d{4})",                               # 10/04/2024
+        r"(\d{1,2})\s*[–\-]\s*(\d{1,2})\s+([A-Za-záéíóúÁÉÍÓÚñÑ]+)\s+(\d{4})",   # 3–10 Apr 2024
+        r"(\d{1,2})\s+de\s+([A-Za-záéíóúÁÉÍÓÚñÑ]+)\s+de\s+(\d{4})",              # 3 de enero de 2024
+        r"(\d{1,2})\s+([A-Za-záéíóúÁÉÍÓÚñÑ]+)\s+(\d{4})",                         # 10 Apr 2024
+        r"(\d{1,2})/(\d{1,2})/(\d{4})",                                           # 10/04/2024
     ]
     meses = {
         "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
         "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
         "ene": 1, "abr": 4, "ago": 8, "dic": 12,
+        "enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6,
+        "julio": 7, "agosto": 8, "septiembre": 9, "setiembre": 9, "octubre": 10,
+        "noviembre": 11, "diciembre": 12,
+        "march": 3, "june": 6, "july": 7, "august": 8, "september": 9,
+        "october": 10, "november": 11, "december": 12,
     }
     for patt in patrones:
         m = re.search(patt, s)
@@ -115,11 +131,13 @@ def _parse_fieldwork_date(val: Any) -> date | None:
             g = m.groups()
             if len(g) == 4:
                 dia = int(g[1])
-                mes = meses.get(g[2][:3].lower(), 0)
+                token_mes = g[2].lower()
+                mes = meses.get(token_mes, meses.get(token_mes[:3], 0))
                 año = int(g[3])
             elif len(g) == 3 and g[1].isalpha():
                 dia = int(g[0])
-                mes = meses.get(g[1][:3].lower(), 0)
+                token_mes = g[1].lower()
+                mes = meses.get(token_mes, meses.get(token_mes[:3], 0))
                 año = int(g[2])
             else:
                 dia = int(g[0])
@@ -154,7 +172,8 @@ def _fetch_tables(urls: list[str]) -> list[pd.DataFrame]:
         try:
             r = requests.get(url, headers={"User-Agent": UA}, timeout=TIMEOUT)
             r.raise_for_status()
-            tables = pd.read_html(r.text)
+            r.encoding = r.apparent_encoding or r.encoding
+            tables = pd.read_html(StringIO(r.text), encoding="utf-8", flavor="lxml")
             logger.info("Descargadas %d tablas desde %s", len(tables), url)
             return tables
         except Exception as e:
@@ -260,37 +279,78 @@ def _upsert_encuesta(
     fecha_pub: date,
     n: int | None,
 ) -> int | None:
+    hash_src = _encuesta_hash(fuente_id, fecha_pub, n)
     with engine.begin() as conn:
-        row = conn.execute(
-            text("""
-                SELECT id FROM encuestas
-                WHERE fuente_id = :fid
-                  AND fecha_publicacion = :fp
-                  AND COALESCE(n_entrevistas, 0) = COALESCE(:n, 0)
-                LIMIT 1
-            """),
-            {"fid": fuente_id, "fp": fecha_pub, "n": n},
-        ).fetchone()
+        has_source_hash = bool(
+            conn.execute(
+                text(
+                    """
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_name = 'encuestas'
+                      AND column_name = 'source_hash'
+                    LIMIT 1
+                    """
+                )
+            ).fetchone()
+        )
+        if has_source_hash:
+            row = conn.execute(
+                text("SELECT id FROM encuestas WHERE source_hash = :h LIMIT 1"),
+                {"h": hash_src},
+            ).fetchone()
+        else:
+            row = conn.execute(
+                text("""
+                    SELECT id FROM encuestas
+                    WHERE fuente_id = :fid
+                      AND fecha_publicacion = :fp
+                      AND COALESCE(n_entrevistas, 0) = COALESCE(:n, 0)
+                    LIMIT 1
+                """),
+                {"fid": fuente_id, "fp": fecha_pub, "n": n},
+            ).fetchone()
         if row:
             return int(row[0])
-        res = conn.execute(
-            text("""
-                INSERT INTO encuestas
-                    (fuente_id, titulo, fecha_fin, fecha_publicacion, n_entrevistas,
-                     tipo_encuesta, ambito_geografico)
-                VALUES
-                    (:fid, :tit, :fc, :fp, :n,
-                     'intencion_voto_nacional', 'nacional')
-                RETURNING id
-            """),
-            {
-                "fid": fuente_id,
-                "tit": f"Encuesta Wikipedia {fecha_pub.isoformat()}",
-                "fc": fecha_campo_fin,
-                "fp": fecha_pub,
-                "n": n,
-            },
-        ).fetchone()
+        if has_source_hash:
+            res = conn.execute(
+                text("""
+                    INSERT INTO encuestas
+                        (fuente_id, titulo, fecha_fin, fecha_publicacion, n_entrevistas,
+                         tipo_encuesta, ambito_geografico, source_hash)
+                    VALUES
+                        (:fid, :tit, :fc, :fp, :n,
+                         'intencion_voto_nacional', 'nacional', :h)
+                    RETURNING id
+                """),
+                {
+                    "fid": fuente_id,
+                    "tit": f"Encuesta Wikipedia {fecha_pub.isoformat()}",
+                    "fc": fecha_campo_fin,
+                    "fp": fecha_pub,
+                    "n": n,
+                    "h": hash_src,
+                },
+            ).fetchone()
+        else:
+            res = conn.execute(
+                text("""
+                    INSERT INTO encuestas
+                        (fuente_id, titulo, fecha_fin, fecha_publicacion, n_entrevistas,
+                         tipo_encuesta, ambito_geografico)
+                    VALUES
+                        (:fid, :tit, :fc, :fp, :n,
+                         'intencion_voto_nacional', 'nacional')
+                    RETURNING id
+                """),
+                {
+                    "fid": fuente_id,
+                    "tit": f"Encuesta Wikipedia {fecha_pub.isoformat()}",
+                    "fc": fecha_campo_fin,
+                    "fp": fecha_pub,
+                    "n": n,
+                },
+            ).fetchone()
         return int(res[0]) if res else None
 
 
@@ -326,7 +386,10 @@ def _pick_best_table(tables: list[pd.DataFrame]) -> pd.DataFrame | None:
     partidos_keys = {a.lower() for a in PARTIDO_ALIASES}
     mejor, mejor_score = None, 0
     for t in tables:
-        if len(t) < 5:
+        if len(t) < 5 or len(t.columns) < 5:
+            continue
+        cols_raw = [str(c).strip() for c in t.columns]
+        if cols_raw and all(c.isdigit() for c in cols_raw[: min(3, len(cols_raw))]):
             continue
         cols = [_clean_party_col(c).lower() for c in t.columns]
         score = sum(1 for c in cols if c in partidos_keys or any(p in c for p in ("pp", "psoe", "vox", "sumar")))
@@ -350,9 +413,8 @@ def _detect_columns(df: pd.DataFrame) -> dict[str, str]:
             out["pollster"] = c
         elif out["date"] is None and any(k in low for k in ("fieldwork", "campo", "fecha", "date")):
             out["date"] = c
-        elif out["sample"] is None and any(k in low for k in ("sample", "muestra", "tamaño", "size", "n")):
-            # Evitamos que coja la columna de un partido ("PP" pasa sin problema; pero "N.")
-            if low.strip() in {"sample size", "muestra", "tamaño muestra", "n", "sample"}:
+        elif out["sample"] is None and any(k in low for k in ("sample", "muestra", "tamaño", "size")):
+            if not any(p in low for p in ("pp", "psoe", "vox", "sumar", "cs", "erc")):
                 out["sample"] = c
     return out
 

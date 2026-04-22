@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_DB: electsim_espana
       POSTGRES_USER: ${POSTGRES_USER:-electsim}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-electsim}
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
@@ -35,7 +35,7 @@ services:
       - .:/app
     working_dir: /app
     environment:
-      PREFECT_API_URL: http://127.0.0.1:4200/api
+      PREFECT_API_URL: http://0.0.0.0:4200/api
     command: prefect server start --host 0.0.0.0
     ports:
       - "4200:4200"
@@ -47,20 +47,30 @@ services:
     env_file: .env
     environment:
       PREFECT_API_URL: http://prefect:4200/api
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+    command: >
+      /bin/sh -lc "prefect work-pool create default-pool -t process >/dev/null 2>&1 || true;
+      prefect worker start --pool default-pool"
     depends_on:
-      - postgres
-      - prefect
+      postgres:
+        condition: service_healthy
+      prefect:
+        condition: service_started
     restart: unless-stopped
 
   electsim-api:
-    image: python:3.11-slim
-    working_dir: /app
-    volumes:
-      - .:/app
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
     env_file: .env
-    command: /bin/sh -c "pip install -r requirements.txt && uvicorn api.main:app --host 0.0.0.0 --port 8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      MICRODATOS_DIR: /app/data/microdatos
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data/microdatos:/app/data/microdatos
     ports:
       - "8000:8000"
 

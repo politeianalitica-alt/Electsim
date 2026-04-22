@@ -3,7 +3,8 @@
 FUENTES_DATOS = {
     "resultados_electorales": {
         "fuente": "Ministerio del Interior",
-        "url_base": "https://infoelectoral.interior.gob.es/opencms/es/elecciones-celebradas/",
+        "url_base": "https://infoelectoral.interior.gob.es/es/elecciones/",
+        "url_zip_patron": "https://infoelectoral.interior.gob.es/static/electoral/resultados_{tipo}_{anio}{mes}.zip",
         "formato": "ZIP con MDB/CSV por tipo elección",
         "frecuencia": "por elección",
         "variables_clave": ["votos partido", "censo", "participación", "escaños"],
@@ -12,6 +13,8 @@ FUENTES_DATOS = {
     "cis_barometros": {
         "fuente": "Centro de Investigaciones Sociológicas",
         "url_base": "https://www.cis.es/es/detalle.html",
+        "url_descarga_patron": "https://www.cis.es/es/detalle.html?lang=es&id={estudio_id}",
+        "url_api_estudios": "https://www.cis.es/es/buscador-estudios.html",
         "formato": "SPSS (.sav), Stata (.dta), CSV",
         "frecuencia": "mensual (barómetros), irregular (estudios ad-hoc)",
         "variables_clave": [
@@ -48,7 +51,7 @@ FUENTES_DATOS = {
     },
     "ine_atlas_renta": {
         "fuente": "INE - Atlas de Distribución de Renta de los Hogares",
-        "url": "https://www.ine.es/experimental/atlas/experimental_atlas.htm",
+        "url": "https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177088",
         "formato": "CSV / Excel descargable",
         "frecuencia": "anual (con 2 años de retraso)",
         "variables_clave": ["renta media", "renta mediana", "Gini", "por sección censal"],

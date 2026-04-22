@@ -77,6 +77,33 @@ def _color(siglas: str) -> str:
     return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
 
 
+@st.cache_data(ttl=1800)
+def _historical_trend(tipo_hist_db: str) -> pd.DataFrame:
+    """Carga comparativa histórica consolidada para evitar N queries por rerun."""
+    df_hist_elec = cargar_elecciones(tipo_hist_db)
+    if df_hist_elec.empty:
+        return pd.DataFrame()
+
+    registros: list[dict] = []
+    for _, row_e in df_hist_elec.iterrows():
+        df_r = cargar_resultados_nacionales(int(row_e["id"]))
+        if df_r.empty:
+            continue
+        fecha_str = str(row_e.get("fecha", ""))[:10]
+        for _, row_r in df_r.iterrows():
+            registros.append({
+                "fecha": fecha_str,
+                "descripcion": row_e.get("descripcion") or fecha_str,
+                "siglas": row_r["siglas"],
+                "pct_medio": row_r.get("pct_medio"),
+                "escanos_totales": row_r.get("escanos_totales"),
+            })
+
+    if not registros:
+        return pd.DataFrame()
+    return pd.DataFrame(registros)
+
+
 # ── Estilos extra ────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>
@@ -1201,7 +1228,8 @@ with tab_mapa:
         st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.5rem 0"></div>', unsafe_allow_html=True)
         _section_header("Cambios en Estimación vs Referencia Histórica", AMBER)
 
-        df_est_banner = _estimate_seats_dhondt(df_prov, df_nc_mapa)
+        # Reutiliza el resultado ya calculado para no duplicar D'Hondt.
+        df_est_banner = df_est if not df_est.empty else _estimate_seats_dhondt(df_prov, df_nc_mapa)
 
         if df_est_banner.empty:
             st.markdown(
@@ -1354,33 +1382,16 @@ with tab_hist:
         key="tipo_hist",
     )
     tipo_hist_db = TIPOS_DB[tipo_hist_idx]
-    df_hist_elec = cargar_elecciones(tipo_hist_db)
-
-    if df_hist_elec.empty:
+    df_trend = _historical_trend(tipo_hist_db)
+    if df_trend.empty:
         st.info(f"No hay elecciones '{TIPOS_ELECCION[tipo_hist_idx]}' registradas.")
     else:
-        registros = []
-        for _, row_e in df_hist_elec.iterrows():
-            df_r = cargar_resultados_nacionales(row_e["id"])
-            if df_r.empty:
-                continue
-            fecha_str = str(row_e.get("fecha", ""))[:10]
-            for _, row_r in df_r.iterrows():
-                registros.append({
-                    "fecha": fecha_str,
-                    "descripcion": row_e.get("descripcion") or fecha_str,
-                    "siglas": row_r["siglas"],
-                    "pct_medio": row_r.get("pct_medio"),
-                    "escanos_totales": row_r.get("escanos_totales"),
-                })
+        df_trend["fecha"] = pd.to_datetime(df_trend["fecha"], errors="coerce")
+        df_trend = df_trend.dropna(subset=["pct_medio", "fecha"]).sort_values("fecha")
 
-        if not registros:
+        if df_trend.empty:
             st.info("Sin resultados historicos para este tipo.")
         else:
-            df_trend = pd.DataFrame(registros)
-            df_trend["fecha"] = pd.to_datetime(df_trend["fecha"], errors="coerce")
-            df_trend = df_trend.dropna(subset=["pct_medio"]).sort_values("fecha")
-
             partidos_disp = sorted(df_trend["siglas"].unique().tolist())
             partidos_def = partidos_disp[:min(6, len(partidos_disp))]
             partidos_sel = st.multiselect("Partidos", partidos_disp, default=partidos_def, key="hist_p")

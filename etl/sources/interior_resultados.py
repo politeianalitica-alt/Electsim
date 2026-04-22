@@ -63,8 +63,11 @@ CAMPOS_04PROV = {
 }
 
 
-def _mesa_zip_url(año: int, mes: int) -> str:
-    return f"{BASE_URL_MESA}/02{año:04d}{mes:02d}_MESA.zip"
+def _mesa_zip_urls(año: int, mes: int) -> list[str]:
+    return [
+        f"{BASE_URL_MESA}/02{año:04d}{mes:02d}_MESA.zip",
+        f"{BASE_URL_MESA}/02{año:04d}{mes}_MESA.zip",
+    ]
 
 
 def _parse_fixed_line(line: str, spec: dict[str, tuple[int, int]]) -> dict[str, str]:
@@ -96,7 +99,7 @@ class InteriorResultadosExtractor(BaseExtractor):
             self.descripcion = f"Congreso {año}-{mes:02d} (fecha aproximada)"
         else:
             self.fecha_eleccion, self.descripcion = CONGRESO_FECHAS[key]
-        self.url = _mesa_zip_url(año, mes)
+        self.urls = _mesa_zip_urls(año, mes)
         self.verify_ssl = os.getenv("INTERIOR_SSL_VERIFY", "true").lower() in (
             "1",
             "true",
@@ -106,10 +109,23 @@ class InteriorResultadosExtractor(BaseExtractor):
     def extract(self) -> pd.DataFrame:
         cache_path = self.raw_path / f"congreso_{self.año}_{self.mes:02d}.zip"
         if not cache_path.exists():
-            logger.info("Descargando %s", self.url)
-            r = requests.get(self.url, timeout=180, verify=self.verify_ssl)
-            r.raise_for_status()
-            cache_path.write_bytes(r.content)
+            downloaded = False
+            for url in self.urls:
+                try:
+                    logger.info("Descargando %s", url)
+                    r = requests.get(url, timeout=180, verify=self.verify_ssl)
+                    if r.status_code == 200:
+                        cache_path.write_bytes(r.content)
+                        downloaded = True
+                        break
+                    logger.warning("Respuesta %s al descargar %s", r.status_code, url)
+                except Exception as e:
+                    logger.warning("Fallo descarga %s: %s", url, e)
+            if not downloaded:
+                raise RuntimeError(
+                    f"No se pudo descargar ZIP MIR para {self.año}/{self.mes}. "
+                    f"URLs probadas: {self.urls}"
+                )
 
         rows: list[dict[str, str]] = []
         with zipfile.ZipFile(cache_path) as zf:

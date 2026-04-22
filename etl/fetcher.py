@@ -36,7 +36,14 @@ HEADERS = {
 
 def _get_session() -> requests.Session:
     s = requests.Session()
-    retry = Retry(total=3, backoff_factor=1.5, status_forcelist=[429, 500, 502, 503, 504])
+    retry = Retry(
+        total=3,
+        backoff_factor=1.5,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET", "HEAD"],
+        raise_on_status=False,
+        respect_retry_after_header=True,
+    )
     s.mount("https://", HTTPAdapter(max_retries=retry))
     s.mount("http://", HTTPAdapter(max_retries=retry))
     return s

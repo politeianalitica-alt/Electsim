@@ -21,7 +21,7 @@ from etl.config import validate_env
 from etl.logger import get_logger
 
 try:
-    from psycopg2.extras import execute_values as _execute_values  # type: ignore
+    from psycopg.extras import execute_values as _execute_values  # type: ignore
 except Exception:  # pragma: no cover
     _execute_values = None
 
@@ -63,8 +63,8 @@ TOPIC_KEYWORDS = {
 
 POS_WORDS = {"mejora", "sube", "crece", "acuerdo", "éxito", "positivo", "avance", "récord", "gana"}
 NEG_WORDS = {"cae", "crisis", "huelga", "conflicto", "escándalo", "corrupción", "negativo", "recorte", "paro"}
-PALABRAS_POSITIVAS = {k: 1.0 for k in {"mejora", "sube", "crece", "acuerdo", "éxito", "positivo", "avance", "récord", "gana"}}
-PALABRAS_NEGATIVAS = {k: -1.0 for k in {"cae", "crisis", "huelga", "conflicto", "escándalo", "corrupción", "negativo", "recorte", "paro"}}
+PALABRAS_POSITIVAS = {k: 1.0 for k in POS_WORDS}
+PALABRAS_NEGATIVAS = {k: -1.0 for k in NEG_WORDS}
 logger = get_logger(__name__)
 
 # Contexto político por partido (heurístico, sin ML externo).
@@ -134,7 +134,7 @@ GOV_EVENTS_NEG = {
 def _engine():
     load_dotenv()
     validate_env()
-    url = os.environ.get("DATABASE_URL", "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana")
+    url = os.environ["DATABASE_URL"]
     return create_engine(url, pool_pre_ping=True)
 
 
@@ -331,8 +331,22 @@ def _execute_values_compat(cur: Any, sql: str, rows: list[tuple], page_size: int
         _execute_values(cur, sql, rows, page_size=page_size)
         return
     placeholders = ", ".join(["%s"] * len(rows[0]))
-    sql_execmany = sql.replace("VALUES %s", f"VALUES ({placeholders})")
-    cur.executemany(sql_execmany, rows)
+    cur.executemany(sql.replace("VALUES %s", f"VALUES ({placeholders})"), rows)
+
+
+def _insert_with_rollback(raw_conn: Any, sql: str, rows: list[tuple], page_size: int = 500, label: str = "") -> int:
+    if not rows:
+        return 0
+    try:
+        with raw_conn.cursor() as cur:
+            _execute_values_compat(cur, sql, rows, page_size=page_size)
+        raw_conn.commit()
+        logger.info("OK %s: %d filas", label or "batch", len(rows))
+        return len(rows)
+    except Exception as e:
+        raw_conn.rollback()
+        logger.error("Error en %s: %s", label or "batch", e)
+        return 0
 
 
 def ingest(limit_per_feed: int = 50) -> dict[str, int]:
@@ -344,79 +358,81 @@ def ingest(limit_per_feed: int = 50) -> dict[str, int]:
 
     raw_conn = eng.raw_connection()
     try:
-        with raw_conn.cursor() as cur:
-            news_rows: list[tuple[Any, ...]] = []
-            for fuente, url in FEEDS.items():
-                feed = _fetch_feed_safe(url, timeout=10)
-                if not getattr(feed, "entries", None):
-                    logger.warning("Feed vacío o inaccesible: %s", url)
+        news_rows: list[tuple[Any, ...]] = []
+        for fuente, url in FEEDS.items():
+            feed = _fetch_feed_safe(url, timeout=10)
+            if not getattr(feed, "entries", None):
+                logger.warning("Feed vacío o inaccesible: %s", url)
+                continue
+            entries = getattr(feed, "entries", [])[:limit_per_feed]
+            for entry in entries:
+                title = str(getattr(entry, "title", "")).strip()
+                if not title:
                     continue
-                entries = getattr(feed, "entries", [])[:limit_per_feed]
-                for entry in entries:
-                    title = str(getattr(entry, "title", "")).strip()
-                    if not title:
-                        continue
-                    link = str(getattr(entry, "link", "")).strip()
-                    if not link:
-                        continue
-                    summary = _clean_html(str(getattr(entry, "summary", "")))
-                    full_text = f"{title}. {summary}".strip()
-                    parties = _extract_parties(full_text)
-                    if parties:
-                        party_scores = [_sentiment_score_for_party(full_text, p) for p in parties]
-                        sscore = float(sum(party_scores) / max(1, len(party_scores)))
-                    else:
-                        sscore = _sentiment_score(full_text)
-                    slabel = _sentiment_label(sscore)
-                    cat = _topic(full_text)
-                    fpub = _published_date(entry)
-                    temas_json = json.dumps([cat], ensure_ascii=False)
-                    rel = _relevancia(full_text, len(parties))
+                link = str(getattr(entry, "link", "")).strip()
+                if not link:
+                    continue
+                summary = _clean_html(str(getattr(entry, "summary", "")))
+                full_text = f"{title}. {summary}".strip()
+                parties = _extract_parties(full_text)
+                if parties:
+                    party_scores = [_sentiment_score_for_party(full_text, p) for p in parties]
+                    sscore = float(sum(party_scores) / max(1, len(party_scores)))
+                else:
+                    sscore = _sentiment_score(full_text)
+                slabel = _sentiment_label(sscore)
+                cat = _topic(full_text)
+                fpub = _published_date(entry)
+                temas_json = json.dumps([cat], ensure_ascii=False)
+                rel = _relevancia(full_text, len(parties))
 
-                    news_rows.append(
-                        (
-                            fuente,
-                            title[:1000],
-                            link[:2000],
-                            fpub,
-                            cat,
-                            ",".join(parties),
-                            sscore,
-                            slabel,
-                            temas_json,
-                            rel,
-                            summary[:2000],
-                        )
+                news_rows.append(
+                    (
+                        fuente,
+                        title[:1000],
+                        summary[:2000],   # subtitular
+                        link[:2000],      # url
+                        fpub,
+                        cat,
+                        ",".join(parties),
+                        sscore,
+                        slabel,
+                        temas_json,
+                        rel,
+                        summary[:2000],   # resumen
                     )
-
-            sql_news = """
-                INSERT INTO noticias_prensa (
-                  fuente, titular, subtitular, url, fecha_publicacion, categoria,
-                  partidos_mencionados, sentimiento_score, sentimiento_label,
-                  temas_json, relevancia_score, resumen
                 )
-                VALUES %s
-                ON CONFLICT (url) DO UPDATE SET
-                  fuente = EXCLUDED.fuente,
-                  titular = EXCLUDED.titular,
-                  fecha_publicacion = EXCLUDED.fecha_publicacion,
-                  categoria = EXCLUDED.categoria,
-                  partidos_mencionados = EXCLUDED.partidos_mencionados,
-                  sentimiento_score = EXCLUDED.sentimiento_score,
-                  sentimiento_label = EXCLUDED.sentimiento_label,
-                  temas_json = EXCLUDED.temas_json,
-                  relevancia_score = EXCLUDED.relevancia_score,
-                  resumen = EXCLUDED.resumen
-            """
-            _execute_values_compat(cur, sql_news, news_rows, page_size=500)
-            inserted = len(news_rows)
 
+        sql_news = """
+            INSERT INTO noticias_prensa (
+              fuente, titular, subtitular, url, fecha_publicacion, categoria,
+              partidos_mencionados, sentimiento_score, sentimiento_label,
+              temas_json, relevancia_score, resumen
+            )
+            VALUES %s
+            ON CONFLICT (url) DO UPDATE SET
+              fuente = EXCLUDED.fuente,
+              titular = EXCLUDED.titular,
+              subtitular = EXCLUDED.subtitular,
+              fecha_publicacion = EXCLUDED.fecha_publicacion,
+              categoria = EXCLUDED.categoria,
+              partidos_mencionados = EXCLUDED.partidos_mencionados,
+              sentimiento_score = EXCLUDED.sentimiento_score,
+              sentimiento_label = EXCLUDED.sentimiento_label,
+              temas_json = EXCLUDED.temas_json,
+              relevancia_score = EXCLUDED.relevancia_score,
+              resumen = EXCLUDED.resumen
+        """
+        inserted = _insert_with_rollback(raw_conn, sql_news, news_rows, page_size=500, label="noticias_prensa")
+
+        with raw_conn.cursor() as cur:
             cur.execute(
                 """
                 SELECT
                   CURRENT_DATE AS fecha,
                   COALESCE(NULLIF(categoria, ''), 'generalista') AS tema,
                   COUNT(*) AS n_noticias,
+                  string_agg(DISTINCT NULLIF(partidos_mencionados, ''), ',') AS partidos_relacionados,
                   AVG(COALESCE(sentimiento_score, 0)) AS sentimiento_medio
                 FROM noticias_prensa
                 WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '1 day'
@@ -424,33 +440,36 @@ def ingest(limit_per_feed: int = 50) -> dict[str, int]:
                 """
             )
             agenda_data = _fetch_dicts(cur)
-            total_n = sum(int(r["n_noticias"]) for r in agenda_data) or 1
-            agenda_payload = [
-                (
-                    r["fecha"],
-                    r["tema"],
-                    int(r["n_noticias"]),
-                    float(r["sentimiento_medio"] or 0.0),
-                    float(r["n_noticias"]) / float(total_n),
-                    r["tema"],
-                )
-                for r in agenda_data
-            ]
-            sql_agenda = """
-                INSERT INTO agenda_mediatica (
-                  fecha, tema, n_noticias, tendencia, partidos_relacionados, sentimiento_medio, peso_agenda, categoria
-                )
-                VALUES %s
-                ON CONFLICT (fecha, tema) DO UPDATE SET
-                  n_noticias = EXCLUDED.n_noticias,
-                  tendencia = EXCLUDED.tendencia,
-                  sentimiento_medio = EXCLUDED.sentimiento_medio,
-                  peso_agenda = EXCLUDED.peso_agenda,
-                  categoria = EXCLUDED.categoria
-            """
-            _execute_values_compat(cur, sql_agenda, agenda_payload, page_size=250)
-            agenda_rows = len(agenda_payload)
+        total_n = sum(int(r["n_noticias"]) for r in agenda_data) or 1
+        agenda_payload = [
+            (
+                r["fecha"],
+                r["tema"],
+                int(r["n_noticias"]),
+                "estable",
+                str(r.get("partidos_relacionados") or "")[:500],
+                float(r["sentimiento_medio"] or 0.0),
+                float(r["n_noticias"]) / float(total_n),
+                r["tema"],
+            )
+            for r in agenda_data
+        ]
+        sql_agenda = """
+            INSERT INTO agenda_mediatica (
+              fecha, tema, n_noticias, tendencia, partidos_relacionados, sentimiento_medio, peso_agenda, categoria
+            )
+            VALUES %s
+            ON CONFLICT (fecha, tema) DO UPDATE SET
+              n_noticias = EXCLUDED.n_noticias,
+              tendencia = EXCLUDED.tendencia,
+              partidos_relacionados = EXCLUDED.partidos_relacionados,
+              sentimiento_medio = EXCLUDED.sentimiento_medio,
+              peso_agenda = EXCLUDED.peso_agenda,
+              categoria = EXCLUDED.categoria
+        """
+        agenda_rows = _insert_with_rollback(raw_conn, sql_agenda, agenda_payload, page_size=250, label="agenda_mediatica")
 
+        with raw_conn.cursor() as cur:
             cur.execute(
                 """
                 SELECT fuente, COALESCE(categoria,'generalista') AS categoria,
@@ -461,75 +480,66 @@ def ingest(limit_per_feed: int = 50) -> dict[str, int]:
             )
             rows_news = _fetch_dicts(cur)
 
-            by_party_scores: dict[str, list[float]] = {p: [] for p in PARTIDOS_KEYWORDS}
-            by_party_sources: dict[str, set[str]] = {p: set() for p in PARTIDOS_KEYWORDS}
-            by_party_topics: dict[str, dict[str, int]] = {p: {} for p in PARTIDOS_KEYWORDS}
+        by_party_scores: dict[str, list[float]] = {p: [] for p in PARTIDOS_KEYWORDS}
+        by_party_sources: dict[str, set[str]] = {p: set() for p in PARTIDOS_KEYWORDS}
+        by_party_topics: dict[str, dict[str, int]] = {p: {} for p in PARTIDOS_KEYWORDS}
 
-            for r in rows_news:
-                txt = f"{r.get('titular', '')}. {r.get('resumen', '')}".strip()
-                if not txt:
-                    continue
-                parties_hit = _extract_parties(txt)
-                if not parties_hit:
-                    continue
-                source = str(r.get("fuente", "") or "")
-                topic = str(r.get("categoria", "generalista") or "generalista")
-                for party in parties_hit:
-                    s = _sentiment_score_for_party(txt, party)
-                    by_party_scores[party].append(float(s))
-                    if source:
-                        by_party_sources[party].add(source)
-                    by_party_topics[party][topic] = by_party_topics[party].get(topic, 0) + 1
+        for r in rows_news:
+            txt = f"{r.get('titular', '')}. {r.get('resumen', '')}".strip()
+            if not txt:
+                continue
+            parties_hit = _extract_parties(txt)
+            if not parties_hit:
+                continue
+            source = str(r.get("fuente", "") or "")
+            topic = str(r.get("categoria", "generalista") or "generalista")
+            for party in parties_hit:
+                s = _sentiment_score_for_party(txt, party)
+                by_party_scores[party].append(float(s))
+                if source:
+                    by_party_sources[party].add(source)
+                by_party_topics[party][topic] = by_party_topics[party].get(topic, 0) + 1
 
-            sentiment_payload: list[tuple[Any, ...]] = []
-            for party, vals in by_party_scores.items():
-                if not vals:
-                    continue
-                n = len(vals)
-                pos = sum(1 for v in vals if v > 0.1)
-                neg = sum(1 for v in vals if v < -0.1)
-                neu = n - pos - neg
-                top_topics = sorted(by_party_topics[party].items(), key=lambda kv: kv[1], reverse=True)[:5]
-                sentiment_payload.append(
-                    (
-                        today,
-                        party,
-                        n,
-                        sum(vals) / max(1, n),
-                        round(pos * 100.0 / n, 2),
-                        round(neg * 100.0 / n, 2),
-                        round(neu * 100.0 / n, 2),
-                        json.dumps(sorted(by_party_sources[party])[:10], ensure_ascii=False),
-                        json.dumps([t for t, _ in top_topics], ensure_ascii=False),
-                    )
+        sentiment_payload: list[tuple[Any, ...]] = []
+        for party, vals in by_party_scores.items():
+            if not vals:
+                continue
+            n = len(vals)
+            pos = sum(1 for v in vals if v > 0.1)
+            neg = sum(1 for v in vals if v < -0.1)
+            neu = n - pos - neg
+            top_topics = sorted(by_party_topics[party].items(), key=lambda kv: kv[1], reverse=True)[:5]
+            sentiment_payload.append(
+                (
+                    today,
+                    party,
+                    "partido",
+                    n,
+                    sum(vals) / max(1, n),
+                    round(pos * 100.0 / n, 2),
+                    round(neg * 100.0 / n, 2),
+                    round(neu * 100.0 / n, 2),
+                    json.dumps(sorted(by_party_sources[party])[:10], ensure_ascii=False),
+                    json.dumps([t for t, _ in top_topics], ensure_ascii=False),
                 )
+            )
 
-            sql_sent = """
-                INSERT INTO sentimiento_prensa_diario (
-                  fecha, entidad, tipo_entidad, n_noticias, sentimiento_medio, pct_positivo, pct_negativo, pct_neutro, fuentes_json, temas_top_json
-                )
-                VALUES %s
-                ON CONFLICT (fecha, entidad) DO UPDATE SET
-                  tipo_entidad = EXCLUDED.tipo_entidad,
-                  n_noticias = EXCLUDED.n_noticias,
-                  sentimiento_medio = EXCLUDED.sentimiento_medio,
-                  pct_positivo = EXCLUDED.pct_positivo,
-                  pct_negativo = EXCLUDED.pct_negativo,
-                  pct_neutro = EXCLUDED.pct_neutro,
-                  fuentes_json = EXCLUDED.fuentes_json,
-                  temas_top_json = EXCLUDED.temas_top_json
-            """
-            sent_rows = len(sentiment_payload)
-            sentiment_payload_db = [
-                (d, entidad, "partido", n, sm, pp, pn, pneu, fuentes, temas)
-                for (d, entidad, n, sm, pp, pn, pneu, fuentes, temas) in sentiment_payload
-            ]
-            _execute_values_compat(cur, sql_sent, sentiment_payload_db, page_size=200)
-
-        raw_conn.commit()
-    except Exception:
-        raw_conn.rollback()
-        raise
+        sql_sent = """
+            INSERT INTO sentimiento_prensa_diario (
+              fecha, entidad, tipo_entidad, n_noticias, sentimiento_medio, pct_positivo, pct_negativo, pct_neutro, fuentes_json, temas_top_json
+            )
+            VALUES %s
+            ON CONFLICT (fecha, entidad) DO UPDATE SET
+              tipo_entidad = EXCLUDED.tipo_entidad,
+              n_noticias = EXCLUDED.n_noticias,
+              sentimiento_medio = EXCLUDED.sentimiento_medio,
+              pct_positivo = EXCLUDED.pct_positivo,
+              pct_negativo = EXCLUDED.pct_negativo,
+              pct_neutro = EXCLUDED.pct_neutro,
+              fuentes_json = EXCLUDED.fuentes_json,
+              temas_top_json = EXCLUDED.temas_top_json
+        """
+        sent_rows = _insert_with_rollback(raw_conn, sql_sent, sentiment_payload, page_size=200, label="sentimiento_prensa_diario")
     finally:
         raw_conn.close()
 

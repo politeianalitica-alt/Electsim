@@ -9,7 +9,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -18,10 +17,7 @@ from etl.config import validate_env
 from etl.logger import get_logger
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from dashboard.ingestion.microdatos_pipeline import (  # noqa: E402
+from etl.pipelines.microdatos_pipeline import (
     DEFAULT_MICRODATOS_DIR,
     ingest_microdatos_folder,
 )
@@ -37,10 +33,7 @@ def main() -> int:
 
     load_dotenv(ROOT / ".env")
     validate_env()
-    db_url = os.environ.get(
-        "DATABASE_URL",
-        "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana",
-    )
+    db_url = os.environ["DATABASE_URL"]
     engine = create_engine(db_url, pool_pre_ping=True)
     result = ingest_microdatos_folder(
         engine=engine,
