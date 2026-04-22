@@ -17,6 +17,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    _safe_page_link,
     mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
@@ -192,9 +193,9 @@ mostrar_alertas_pagina("11_Congreso_Institucional")
 
 tabs_nav_11 = st.columns([1, 1, 6])
 with tabs_nav_11[0]:
-    st.page_link("pages/11_Congreso_Institucional.py", label="Congreso", icon="◉")
+    _safe_page_link("pages/11_Congreso_Institucional.py", label="Congreso")
 with tabs_nav_11[1]:
-    st.page_link("pages/15_Agenda_Lideres.py", label="Agenda líderes", icon="▣")
+    _safe_page_link("pages/15_Agenda_Lideres.py", label="Agenda líderes")
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""

@@ -18,6 +18,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from dashboard.shared import (
     sidebar_nav,
+    _safe_page_link,
     hex_to_rgba,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
@@ -155,11 +156,11 @@ sidebar_nav()
 
 tabs_nav_10 = st.columns([1, 1, 1, 5])
 with tabs_nav_10[0]:
-    st.page_link("pages/10_Prensa_Agenda.py", label="Prensa & Agenda", icon="◎")
+    _safe_page_link("pages/10_Prensa_Agenda.py", label="Prensa & Agenda")
 with tabs_nav_10[1]:
-    st.page_link("pages/14_Monitor_Sentimiento.py", label="Monitor sentimiento", icon="▦")
+    _safe_page_link("pages/14_Monitor_Sentimiento.py", label="Monitor sentimiento")
 with tabs_nav_10[2]:
-    st.page_link("pages/20_Monitor_Medios_RRSS.py", label="Monitor medios", icon="📡")
+    _safe_page_link("pages/20_Monitor_Medios_RRSS.py", label="Monitor medios")
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""

@@ -19,20 +19,20 @@ from dashboard.db import (  # noqa: E402
     cargar_noticias_recientes,
     cargar_resultados_provinciales,
 )
-from dashboard.shared import sidebar_nav  # noqa: E402
+from dashboard.shared import _safe_page_link, sidebar_nav  # noqa: E402
 
 st.set_page_config(page_title="War Room España", layout="wide")
 sidebar_nav()
 
 tabs_nav_18 = st.columns([1, 1, 1, 1, 4])
 with tabs_nav_18[0]:
-    st.page_link("pages/18_War_Room_Espana.py", label="War Room", icon="⚔")
+    _safe_page_link("pages/18_War_Room_Espana.py", label="WarRoom")
 with tabs_nav_18[1]:
-    st.page_link("pages/21_Opposition_Research.py", label="Opposition", icon="🎯")
+    _safe_page_link("pages/21_Opposition_Research.py", label="Opposition")
 with tabs_nav_18[2]:
-    st.page_link("pages/22_Coordinacion_Campana.py", label="Coordinación", icon="📋")
+    _safe_page_link("pages/22_Coordinacion_Campana.py", label="Coordinación")
 with tabs_nav_18[3]:
-    st.page_link("pages/23_Memoria_Institucional.py", label="Memoria", icon="🧠")
+    _safe_page_link("pages/23_Memoria_Institucional.py", label="Memoria")
 
 st.title("War Room España Operativa")
 st.caption("Centro de mando: señales críticas, riesgo territorial y acciones en 2h/24h/72h.")
