@@ -159,9 +159,21 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
     try:
         if value is None:
             return float(default)
-        return float(value)
+        out = float(value)
+        return out if math.isfinite(out) else float(default)
     except Exception:
         return float(default)
+
+
+def _safe_int(value: Any, default: int = 0) -> int:
+    """Conversión robusta a entero para payloads con NaN/inf."""
+    try:
+        out = _safe_float(value, float(default))
+        if not math.isfinite(out):
+            return int(default)
+        return int(out)
+    except Exception:
+        return int(default)
 
 
 def _normalize_token_text(text: str) -> str:
@@ -1663,7 +1675,7 @@ def cargar_alertas_prensa_dinamicas(
         for _, row in df_momentum.head(15).iterrows():
             ratio = _safe_float(row.get("ratio_menciones"))
             sent = _safe_float(row.get("sent_reciente"))
-            n_recent = int(_safe_float(row.get("n_reciente")))
+            n_recent = _safe_int(row.get("n_reciente"))
             consenso = _safe_float(row.get("consenso_score"))
             if n_recent < 5:
                 continue
@@ -1674,7 +1686,7 @@ def cargar_alertas_prensa_dinamicas(
             else:
                 continue
             prioridad = _safe_float(row.get("prioridad_score")) or _safe_float(row.get("presion_score"))
-            fuentes = int(_safe_float(row.get("fuentes_recientes")))
+            fuentes = _safe_int(row.get("fuentes_recientes"))
             rows.append(
                 {
                     "tipo": "partido_presion",
@@ -1693,8 +1705,8 @@ def cargar_alertas_prensa_dinamicas(
     if not df_trending.empty:
         for _, row in df_trending.head(10).iterrows():
             ratio = _safe_float(row.get("momentum_ratio"))
-            n_recent = int(_safe_float(row.get("n_reciente")))
-            fuentes = int(_safe_float(row.get("fuentes_recientes")))
+            n_recent = _safe_int(row.get("n_reciente"))
+            fuentes = _safe_int(row.get("fuentes_recientes"))
             if n_recent < 6:
                 continue
             if ratio >= 2.8 and fuentes >= 2:
@@ -1730,8 +1742,8 @@ def cargar_alertas_prensa_dinamicas(
                     "objeto": str(row.get("source_id") or ""),
                     "titulo": f"Fuente {row.get('source_id')} en estado {status}",
                     "detalle": (
-                        f"errors={int(_safe_float(row.get('errors_count')))} · "
-                        f"lag={int(_safe_float(row.get('freshness_lag_s')))}s"
+                        f"errors={_safe_int(row.get('errors_count'))} · "
+                        f"lag={_safe_int(row.get('freshness_lag_s'))}s"
                     ),
                     "score": _safe_float(row.get("errors_count")) + _safe_float(row.get("freshness_lag_s")) / 3600.0,
                     "accion": "Reintentar scraper y revisar parser de la fuente.",
@@ -1749,7 +1761,7 @@ def cargar_alertas_prensa_dinamicas(
                     "objeto": str(row.get("source_id") or ""),
                     "titulo": f"Incidencia activa en {row.get('source_id')}: {row.get('error_type')}",
                     "detalle": (
-                        f"Ocurrencias: {int(_safe_float(row.get('occurrence_count')))} · "
+                        f"Ocurrencias: {_safe_int(row.get('occurrence_count'))} · "
                         f"Última detección: {str(row.get('last_seen') or '')[:16]}"
                     ),
                     "score": _safe_float(row.get("occurrence_count")),

@@ -5,6 +5,7 @@ Análisis en tiempo real de la cobertura mediática española.
 from __future__ import annotations
 
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -68,6 +69,15 @@ _hex_to_rgba = hex_to_rgba  # alias retrocompatible
 
 
 # ── Helpers de UI ─────────────────────────────────────────────────────────────
+
+def _safe_int(value: object, default: int = 0) -> int:
+    try:
+        out = float(value)
+        if not math.isfinite(out):
+            return int(default)
+        return int(out)
+    except Exception:
+        return int(default)
 
 def sec_hdr(title: str, color: str = CYAN) -> None:
     st.markdown(
@@ -145,7 +155,11 @@ def _freshness_badge(df_health: pd.DataFrame) -> str:
     lags = df_health["freshness_lag_s"].dropna()
     if lags.empty:
         return ""
-    max_lag = int(lags.max())
+    lag_max = pd.to_numeric(lags, errors="coerce")
+    lag_max = lag_max[lag_max.map(lambda v: bool(pd.notna(v) and math.isfinite(float(v))))]
+    if lag_max.empty:
+        return ""
+    max_lag = _safe_int(lag_max.max(), 0)
     if max_lag < 3600:
         color, texto = GREEN, f"Actualizado hace {max_lag // 60} min"
     elif max_lag < 7200:
@@ -406,7 +420,7 @@ with radar_overview:
                 .head(1)
             )
             if not fuente_top.empty:
-                st.metric("Medio más activo", str(fuente_top.iloc[0]["fuente"]), int(fuente_top.iloc[0]["size"]))
+                st.metric("Medio más activo", str(fuente_top.iloc[0]["fuente"]), _safe_int(fuente_top.iloc[0]["size"]))
             else:
                 st.metric("Medio más activo", "—")
         else:
@@ -417,7 +431,7 @@ with radar_overview:
             st.metric(
                 "Tema dominante",
                 str(top_tema.get("tema", "—")),
-                f"{int(top_tema.get('n_noticias', 0))} noticias",
+                f"{_safe_int(top_tema.get('n_noticias', 0))} noticias",
             )
         else:
             st.metric("Tema dominante", "—")
@@ -785,7 +799,7 @@ with tab_agenda_t:
                     y=df_impact["partido"],
                     orientation="h",
                     marker_color=colors,
-                    text=[f"{x:+.2f} · n={int(n)}" for x, n in zip(df_impact["sent_medio"], df_impact["n"])],
+                    text=[f"{x:+.2f} · n={_safe_int(n)}" for x, n in zip(df_impact["sent_medio"], df_impact["n"])],
                     textposition="outside",
                     textfont=dict(color=TEXT2, size=10),
                 ))
@@ -1017,9 +1031,9 @@ with tab_noticias:
                 if horas < 1:
                     recency = "hace <1h"
                 elif horas < 24:
-                    recency = f"hace {int(horas)}h"
+                    recency = f"hace {_safe_int(horas)}h"
                 else:
-                    recency = f"hace {int(horas // 24)}d"
+                    recency = f"hace {_safe_int(horas // 24)}d"
                 fecha_txt = fecha_dt.tz_convert(None).strftime("%Y-%m-%d %H:%M")
             else:
                 recency = "fecha n/d"
@@ -1220,7 +1234,8 @@ with tab_etl:
         for _, row in df_health.iterrows():
             sc = STATUS_COLOR.get(str(row.get("status", "unknown")), MUTED)
             lag = row.get("freshness_lag_s")
-            lag_txt = f"{int(lag) // 60} min" if lag and lag < 3600 else (f"{int(lag) // 3600} h" if lag else "—")
+            lag_i = _safe_int(lag)
+            lag_txt = f"{lag_i // 60} min" if lag_i and lag_i < 3600 else (f"{lag_i // 3600} h" if lag_i else "—")
             st.markdown(
                 f'<div style="display:flex;align-items:center;gap:.8rem;padding:.5rem .8rem;'
                 f'background:{BG2};border:1px solid {BORDER};border-radius:6px;margin-bottom:.3rem">'

@@ -5,6 +5,7 @@ Página inicial estable (sin redirecciones) para evitar errores de navegación.
 
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
@@ -45,7 +46,8 @@ def _safe_float(v: object, default: float = 0.0) -> float:
     try:
         if v is None:
             return float(default)
-        return float(v)
+        out = float(v)
+        return out if math.isfinite(out) else float(default)
     except Exception:
         return float(default)
 
@@ -61,13 +63,22 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Datos clave para portada
-_df_news = cargar_noticias_recientes(dias=1, limit=120)
-_df_alertas = cargar_alertas(solo_no_leidas=True, limit=200)
-_df_dyn = cargar_alertas_prensa_dinamicas(dias=14, ventana_reciente=3)
-_df_mom = cargar_momentum_sentimiento_partidos(dias=14, ventana_reciente=3)
-_df_health = cargar_source_health()
-_df_nc = cargar_nowcasting()
+# Datos clave para portada (con fallback para no romper la pantalla principal)
+try:
+    _df_news = cargar_noticias_recientes(dias=1, limit=120)
+    _df_alertas = cargar_alertas(solo_no_leidas=True, limit=200)
+    _df_dyn = cargar_alertas_prensa_dinamicas(dias=14, ventana_reciente=3)
+    _df_mom = cargar_momentum_sentimiento_partidos(dias=14, ventana_reciente=3)
+    _df_health = cargar_source_health()
+    _df_nc = cargar_nowcasting()
+except Exception:
+    _df_news = pd.DataFrame()
+    _df_alertas = pd.DataFrame()
+    _df_dyn = pd.DataFrame()
+    _df_mom = pd.DataFrame()
+    _df_health = pd.DataFrame()
+    _df_nc = pd.DataFrame()
+    st.warning("No se pudieron cargar todos los datos operativos. Mostrando vista degradada.")
 
 n_news = len(_df_news)
 n_alert_crit = int((_df_alertas["severidad"].astype(str).str.upper() == "CRITICAL").sum()) if not _df_alertas.empty and "severidad" in _df_alertas.columns else 0

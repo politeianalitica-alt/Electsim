@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import math
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -160,7 +161,8 @@ def _f(value: Any, default: float = 0.0) -> float:
     try:
         if value is None:
             return float(default)
-        return float(value)
+        out = float(value)
+        return out if math.isfinite(out) else float(default)
     except Exception:
         return float(default)
 
