@@ -61,16 +61,30 @@ def _content_hash(titulo: str, fecha: str) -> str:
 
 
 def _parse_date(entry) -> str:
+    parsed = getattr(entry, "published_parsed", None) or getattr(entry, "updated_parsed", None)
+    if parsed:
+        try:
+            return date(parsed.tm_year, parsed.tm_mon, parsed.tm_mday).isoformat()
+        except Exception:
+            pass
+
     raw = str(getattr(entry, "published", "") or getattr(entry, "updated", "") or "").strip()
     if not raw:
         return date.today().isoformat()
-    # Intentar parsear fecha estándar RSS
+
+    # RSS típico con zona UTC (+0000 o GMT).
     for fmt in ("%a, %d %b %Y %H:%M:%S %z", "%a, %d %b %Y %H:%M:%S GMT"):
         try:
-            return datetime.strptime(raw[:29], fmt).date().isoformat()
+            return datetime.strptime(raw, fmt).date().isoformat()
         except ValueError:
             continue
-    return raw[:10] if len(raw) >= 10 else date.today().isoformat()
+
+    # Extrae YYYY-MM-DD si aparece incrustado.
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", raw)
+    if m:
+        return m.group(1)
+
+    return date.today().isoformat()
 
 
 def fetch_boe_items(limit: int = 30) -> list[dict]:
@@ -139,7 +153,7 @@ def upsert_boe_publications(items: list[dict], conn) -> int:
             (boe_no, fecha, seccion, departamento, tipo_norma, titulo, resumen,
              url_html, relevancia, relevancia_score, temas_json, content_hash)
         VALUES
-            (:boe_no, :fecha::date, :seccion, :departamento, :tipo_norma, :titulo, :resumen,
+            (:boe_no, CAST(:fecha AS date), :seccion, :departamento, :tipo_norma, :titulo, :resumen,
              :url_html, :relevancia, :relevancia_score, :temas_json, :content_hash)
         ON CONFLICT (content_hash) DO UPDATE SET
             relevancia       = EXCLUDED.relevancia,

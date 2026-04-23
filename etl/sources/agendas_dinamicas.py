@@ -35,6 +35,7 @@ _DIAS_ES = {
     "lunes", "martes", "miércoles", "miercoles",
     "jueves", "viernes", "sábado", "sabado", "domingo",
 }
+_DIAS_EN = {"mon", "monday", "tue", "tuesday", "wed", "wednesday", "thu", "thursday", "fri", "friday", "sat", "saturday", "sun", "sunday"}
 
 
 @dataclass
@@ -101,8 +102,25 @@ def parse_fecha_es(texto: str) -> date_type | None:
     """
     if not texto or not isinstance(texto, str):
         return None
-    txt = texto.strip().lower()
+    raw = texto.strip()
+    if not raw:
+        return None
+
+    # RSS/Atom internacional (ej. Thu, 23 Apr 2026 12:23:14 GMT).
+    for fmt in (
+        "%a, %d %b %Y %H:%M:%S %z",
+        "%a, %d %b %Y %H:%M:%S GMT",
+        "%a, %d %b %Y %H:%M:%S %Z",
+    ):
+        try:
+            return datetime.strptime(raw, fmt).date()
+        except ValueError:
+            continue
+
+    txt = raw.lower()
     for dia in _DIAS_ES:
+        txt = re.sub(rf"^{re.escape(dia)},?\s*", "", txt)
+    for dia in _DIAS_EN:
         txt = re.sub(rf"^{re.escape(dia)},?\s*", "", txt)
     txt = txt.strip()
 
@@ -123,6 +141,14 @@ def parse_fecha_es(texto: str) -> date_type | None:
             return datetime.strptime(txt, fmt).date()
         except ValueError:
             continue
+
+    # Último fallback: extraer YYYY-MM-DD si viene incrustado.
+    m_iso = re.search(r"(\d{4}-\d{2}-\d{2})", raw)
+    if m_iso:
+        try:
+            return datetime.strptime(m_iso.group(1), "%Y-%m-%d").date()
+        except ValueError:
+            pass
     return None
 
 
@@ -184,7 +210,12 @@ def _parse_rss(source: AgendaSource, max_items: int) -> list[dict[str, str]]:
     return out[:max_items]
 
 
-def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict[str, str]]:
+def _parse_html(
+    source: AgendaSource,
+    max_items: int,
+    timeout: int,
+    fallback_day: str | None = None,
+) -> list[dict[str, str]]:
     out: list[dict[str, str]] = []
     if BeautifulSoup is None:
         # Degradación elegante: sin bs4 seguimos sirviendo fuentes RSS.
@@ -224,10 +255,16 @@ def _parse_html(source: AgendaSource, max_items: int, timeout: int) -> list[dict
 
             h = parse_hora(txt)
             hora = h.strftime("%H:%M") if h else ""
+            has_hour_hint = bool(h or re.search(r"\b\d{1,2}:\d{2}\b|\bhoras?\b", txt.lower()))
             fecha_base = _to_iso_day(txt) or _to_iso_day(titulo)
             if not fecha_base:
-                logger.warning("No se pudo parsear fecha '%s' — evento descartado (%s)", titulo[:80], source.nombre)
-                continue
+                # Muchos sitios publican agenda diaria con hora pero sin fecha explícita
+                # en cada item. Usamos día fallback para no perder esos eventos.
+                if has_hour_hint:
+                    fecha_base = fallback_day or date_type.today().strftime("%Y-%m-%d")
+                else:
+                    logger.debug("No se pudo parsear fecha '%s' — evento descartado (%s)", titulo[:80], source.nombre)
+                    continue
             fecha = f"{fecha_base} {hora}".strip() if fecha_base else ""
             actor = _infer_actor(f"{titulo} {txt}", source.nombre)
             out.append(
@@ -320,7 +357,12 @@ def fetch_all_agendas(max_items_per_source: int = 10, timeout: int = 18) -> list
             elif src.modo == "json":
                 rows = _parse_json(src, max_items=max_items_per_source, timeout=timeout)
             else:
-                rows = _parse_html(src, max_items=max_items_per_source, timeout=timeout)
+                rows = _parse_html(
+                    src,
+                    max_items=max_items_per_source,
+                    timeout=timeout,
+                    fallback_day=datetime.now(tz=UTC).strftime("%Y-%m-%d"),
+                )
             all_rows.extend(rows)
         except Exception as exc:
             # Degradación elegante: una fuente caída no rompe el agregado.
