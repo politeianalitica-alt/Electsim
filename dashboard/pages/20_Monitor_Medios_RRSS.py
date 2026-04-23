@@ -126,7 +126,7 @@ else:
             color_discrete_sequence=["#1DA1F2"],
         )
         fig_vol.update_layout(height=320, margin=dict(t=10, b=10))
-        st.plotly_chart(fig_vol, width="stretch")
+        st.plotly_chart(fig_vol, use_container_width=True)
 
     with c5:
         fig_sent = go.Figure()
@@ -147,7 +147,7 @@ else:
             yaxis_title="Score",
             xaxis_title="Fecha",
         )
-        st.plotly_chart(fig_sent, width="stretch")
+        st.plotly_chart(fig_sent, use_container_width=True)
 
 st.markdown("---")
 section_header("Alertas mediáticas")

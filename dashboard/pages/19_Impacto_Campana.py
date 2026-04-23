@@ -217,7 +217,7 @@ with tab_analisis:
                 ]
             )
             fig.update_layout(title="Delta por metrica", height=360, margin=dict(t=40, b=10))
-            st.plotly_chart(fig, width="stretch")
+            st.plotly_chart(fig, use_container_width=True)
 
             with st.expander("Tabla completa"):
                 st.dataframe(df_res, use_container_width=True, hide_index=True)
@@ -235,4 +235,4 @@ with tab_analisis:
                     ]
                 )
                 fig_cpp.update_layout(title="Coste por punto", height=300, margin=dict(t=40, b=10))
-                st.plotly_chart(fig_cpp, width="stretch")
+                st.plotly_chart(fig_cpp, use_container_width=True)

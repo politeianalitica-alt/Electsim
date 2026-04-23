@@ -88,25 +88,59 @@ PAGES_NAV = {
     ],
 }
 
-SIDEBAR_MAIN_LINKS: list[tuple[str, str]] = [
+SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     ("app.py",                          "⌂  Página inicial"),
     ("pages/1_Mapa_Electoral.py",       "◈  Mapa electoral"),
     ("pages/2_Nowcasting.py",           "◐  Nowcasting"),
     ("pages/3_Escenarios.py",           "◎  Escenarios"),
-    ("pages/4_Coaliciones.py",          "⬢  Coaliciones"),
-    ("pages/9_Indices_Politeia.py",     "◈  Índices"),
-    ("pages/10_Prensa_Agenda.py",       "◎  Prensa y agenda"),
-    ("pages/11_Congreso_Institucional.py", "◉  Congreso"),
-    ("pages/13_Briefing_Diario.py",     "⬡  Briefing diario"),
-    ("pages/19_Impacto_Campana.py",     "◎  Impacto de campaña"),
     ("pages/18_War_Room_Espana.py",     "⚔  War room"),
+    ("pages/13_Briefing_Diario.py",     "⬡  Briefing diario"),
+    ("pages/10_Prensa_Agenda.py",       "◎  Prensa y agenda"),
+    ("pages/9_Indices_Politeia.py",     "◈  Índices"),
+]
+
+SIDEBAR_ADVANCED_GROUPS: list[tuple[str, list[tuple[str, str]]]] = [
+    (
+        "Campaña y Operaciones",
+        [
+            ("pages/22_Coordinacion_Campana.py", "↳ Coordinación campaña"),
+            ("pages/23_Memoria_Institucional.py", "↳ Memoria institucional"),
+            ("pages/21_Opposition_Research.py", "↳ Opposition research"),
+            ("pages/19_Impacto_Campana.py", "↳ Impacto de campaña"),
+        ],
+    ),
+    (
+        "Medios, Narrativa y Voto",
+        [
+            ("pages/24_Tracker_Narrativas.py",  "↳ Tracker narrativas"),
+            ("pages/20_Monitor_Medios_RRSS.py", "↳ Monitor medios RRSS"),
+            ("pages/14_Monitor_Sentimiento.py", "↳ Monitor sentimiento"),
+            ("pages/25_Voto_Blando.py",         "↳ Voto blando"),
+        ],
+    ),
+    (
+        "Modelos y Sistema",
+        [
+            ("pages/4_Coaliciones.py",          "↳ Coaliciones"),
+            ("pages/11_Congreso_Institucional.py", "↳ Congreso institucional"),
+            ("pages/12_Macroeconomia.py",       "↳ Macroeconomía"),
+            ("pages/5_Agentes_LLM.py",          "↳ Agentes LLM"),
+            ("pages/6_Riesgo.py",               "↳ Riesgo político"),
+            ("pages/7_Validacion.py",           "↳ Validación"),
+            ("pages/8_Tiempo_Real.py",          "↳ Tiempo real"),
+            ("pages/15_Agenda_Lideres.py",      "↳ Agenda líderes"),
+            ("pages/16_Fichas_Politicos.py",    "↳ Fichas políticos"),
+            ("pages/17_Nowcasting_Component.py","↳ Nowcasting avanzado"),
+        ],
+    ),
+]
+
+SIDEBAR_MAIN_LINKS: list[tuple[str, str]] = [
+    # Compatibilidad retro para código que itere esta constante.
+    *SIDEBAR_CORE_LINKS,
+    ("pages/4_Coaliciones.py",          "⬢  Coaliciones"),
     ("pages/24_Tracker_Narrativas.py",  "◎  Tracker narrativas"),
     ("pages/25_Voto_Blando.py",         "◎  Voto blando"),
-    ("pages/5_Agentes_LLM.py",          "◈  Agentes LLM"),
-    ("pages/6_Riesgo.py",               "◎  Riesgo político"),
-    ("pages/7_Validacion.py",           "◉  Validación"),
-    ("pages/12_Macroeconomia.py",       "◈  Macroeconomía"),
-    ("pages/17_Nowcasting_Component.py","⊕  Nowcasting avanzado"),
 ]
 
 
@@ -157,6 +191,11 @@ def _safe_page_link(path: str, label: str) -> None:
     except StreamlitAPIException:
         # Si Streamlit no acepta la ruta por contexto de ejecución, la omitimos.
         return
+
+
+def _render_page_links(links: list[tuple[str, str]]) -> None:
+    for path, label in links:
+        _safe_page_link(path, label=label)
 
 
 def _badge_alertas_sidebar() -> None:
@@ -783,9 +822,26 @@ def sidebar_nav():
         </div>
         """, unsafe_allow_html=True)
 
-        # Navegación principal (solo categorías pedidas)
-        for path, label in SIDEBAR_MAIN_LINKS:
-            _safe_page_link(path, label=label)
+        st.markdown(
+            f'<div style="font-size:.58rem;color:{MUTED};font-weight:700;'
+            f'letter-spacing:.12em;text-transform:uppercase;margin:.6rem .2rem .35rem">Navegación</div>',
+            unsafe_allow_html=True,
+        )
+
+        _render_page_links(SIDEBAR_CORE_LINKS)
+
+        show_advanced = st.checkbox(
+            "Mostrar módulos avanzados",
+            value=bool(st.session_state.get("sidebar_show_advanced", False)),
+            key="sidebar_show_advanced",
+            help="Muestra módulos de operación avanzada y análisis técnico.",
+        )
+        if show_advanced:
+            for group_label, group_links in SIDEBAR_ADVANCED_GROUPS:
+                with st.expander(group_label, expanded=False):
+                    _render_page_links(group_links)
+        else:
+            st.caption("Vista simplificada activa")
 
         _badge_alertas_sidebar()
 

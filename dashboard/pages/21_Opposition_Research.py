@@ -80,7 +80,7 @@ with tab_radar:
                     "fecha_b",
                 ]
             ],
-            width="stretch",
+            use_container_width=True,
             hide_index=True,
         )
 
@@ -132,6 +132,6 @@ with tab_pos:
             title="Mapa de posicionamiento rival",
         )
         fig.update_layout(height=420)
-        st.plotly_chart(fig, width="stretch")
-        st.dataframe(dfp, width="stretch", hide_index=True)
+        st.plotly_chart(fig, use_container_width=True)
+        st.dataframe(dfp, use_container_width=True, hide_index=True)
 

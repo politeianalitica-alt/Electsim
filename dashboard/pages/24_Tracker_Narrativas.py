@@ -124,13 +124,13 @@ with tab_monitor:
                 margin=dict(t=40, b=10),
                 hovermode="x unified",
             )
-            st.plotly_chart(fig, width="stretch")
+            st.plotly_chart(fig, use_container_width=True)
 
             df_sent = df_serie.groupby("fecha", as_index=False)["sentiment_medio"].mean()
             fig_s = px.line(df_sent, x="fecha", y="sentiment_medio", title="Evolucion de sentimiento")
             fig_s.add_hline(y=0.0, line_dash="dot", line_color="#94a3b8")
             fig_s.update_layout(height=280, margin=dict(t=40, b=10), yaxis_range=[-1, 1])
-            st.plotly_chart(fig_s, width="stretch")
+            st.plotly_chart(fig_s, use_container_width=True)
 
 with tab_sov:
     c1, c2, c3 = st.columns(3)
@@ -160,7 +160,7 @@ with tab_sov:
                 title="Distribucion de menciones",
             )
             fig_pie.update_layout(height=340, margin=dict(t=40, b=10))
-            st.plotly_chart(fig_pie, width="stretch")
+            st.plotly_chart(fig_pie, use_container_width=True)
 
         with c2:
             fig_bar = px.bar(
@@ -173,7 +173,7 @@ with tab_sov:
                 title="Share % y sentimiento",
             )
             fig_bar.update_layout(height=340, margin=dict(t=40, b=10))
-            st.plotly_chart(fig_bar, width="stretch")
+            st.plotly_chart(fig_bar, use_container_width=True)
 
 with tab_menciones:
     df_obj = svc.listar_objetos(cliente_id=cliente_id, solo_activos=True)
