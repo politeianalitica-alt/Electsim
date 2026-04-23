@@ -325,7 +325,7 @@ with radar_overview:
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
             )
-            st.plotly_chart(fig_top_temas, use_container_width=True)
+            st.plotly_chart(fig_top_temas, width="stretch")
         else:
             st.info("Sin agenda del día para la ventana actual.")
 
@@ -351,7 +351,7 @@ with radar_overview:
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
             )
-            st.plotly_chart(fig_rank_sent, use_container_width=True)
+            st.plotly_chart(fig_rank_sent, width="stretch")
         else:
             st.info("No hay datos de sentimiento por partido.")
 
@@ -416,7 +416,7 @@ with radar_narrativas:
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
             )
-            st.plotly_chart(fig_tema_part, use_container_width=True)
+            st.plotly_chart(fig_tema_part, width="stretch")
         else:
             st.info("No hay señal tema×partido para esta selección.")
 
@@ -428,7 +428,7 @@ with radar_narrativas:
                 .sum()
                 .sort_values("n_noticias", ascending=False)
             )
-            st.dataframe(df_lider, use_container_width=True, hide_index=True)
+            st.dataframe(df_lider, width="stretch", hide_index=True)
         else:
             st.info("Sin liderazgo medible en esta ventana.")
 
@@ -439,7 +439,7 @@ with radar_narrativas:
         if not df_tit.empty:
             st.dataframe(
                 df_tit[["fecha_publicacion", "fuente", "titular", "sentimiento_label"]].head(12),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
         else:
@@ -467,7 +467,7 @@ with radar_medios:
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
             )
-            st.plotly_chart(fig_heat_fp, use_container_width=True)
+            st.plotly_chart(fig_heat_fp, width="stretch")
         else:
             st.info("Sin datos para construir el heatmap fuente×partido.")
 
@@ -482,14 +482,14 @@ with radar_medios:
                 )
                 .sort_values("sesgo_medio", ascending=False)
             )
-            st.dataframe(df_rank_sesgo.head(20), use_container_width=True, hide_index=True)
+            st.dataframe(df_rank_sesgo.head(20), width="stretch", hide_index=True)
         else:
             st.info("Sin datos de sesgo fuente×partido en la ventana seleccionada.")
 
         st.markdown("#### Alertas de cobertura negativa")
         df_alertas_med = cargar_alertas_sentimiento(umbral=-0.35)
         if not df_alertas_med.empty:
-            st.dataframe(df_alertas_med.head(12), use_container_width=True, hide_index=True)
+            st.dataframe(df_alertas_med.head(12), width="stretch", hide_index=True)
         else:
             st.caption("Sin alertas negativas activas en 7 días.")
 
@@ -501,7 +501,7 @@ with radar_salud:
                 "source_id", "source_type", "status", "articles_count",
                 "errors_count", "freshness_lag_s", "checked_at",
             ]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     else:
@@ -510,13 +510,13 @@ with radar_salud:
     st.markdown("#### Últimas ejecuciones scraping")
     df_scraping = cargar_scraping_log(limit=40)
     if not df_scraping.empty:
-        st.dataframe(df_scraping, use_container_width=True, hide_index=True)
+        st.dataframe(df_scraping, width="stretch", hide_index=True)
     else:
         st.caption("No hay registros de `scraping_log`.")
 
     if not df_incidents.empty:
         st.markdown("#### Incidencias activas")
-        st.dataframe(df_incidents, use_container_width=True, hide_index=True)
+        st.dataframe(df_incidents, width="stretch", hide_index=True)
     else:
         st.success("Sin incidencias activas.")
 
@@ -578,7 +578,7 @@ with tab_agenda_t:
                 margin=dict(t=0, b=0, l=0, r=0),
                 coloraxis_colorbar=dict(title="Sent.", tickfont=dict(size=9, color=TEXT2)),
             )
-            selection = st.plotly_chart(fig_tree, use_container_width=True, key="agenda_treemap", on_select="rerun")
+            selection = st.plotly_chart(fig_tree, width="stretch", key="agenda_treemap", on_select="rerun")
             try:
                 points = (selection or {}).get("selection", {}).get("points", [])
                 if points:
@@ -627,7 +627,7 @@ with tab_agenda_t:
                     showlegend=False,
                 )
                 fig_imp.add_vline(x=0, line_color=MUTED, line_width=1)
-                st.plotly_chart(fig_imp, use_container_width=True)
+                st.plotly_chart(fig_imp, width="stretch")
             else:
                 st.info("Sin suficiente señal de partidos en este tema.")
 
@@ -666,7 +666,7 @@ with tab_agenda_t:
             yaxis=dict(tickfont=dict(size=11, color=TEXT2), title=None),
             margin=dict(t=10, b=10, l=120, r=10),
         )
-        st.plotly_chart(fig_heat, use_container_width=True)
+        st.plotly_chart(fig_heat, width="stretch")
     else:
         st.info("Sin datos de agenda histórica aún.")
 
@@ -740,7 +740,7 @@ with tab_sentimiento:
             legend=dict(orientation="h", y=1.05, bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2, size=10)),
             margin=dict(t=30, b=20),
         )
-        st.plotly_chart(fig_ts, use_container_width=True)
+        st.plotly_chart(fig_ts, width="stretch")
     else:
         st.info("Selecciona al menos un partido para visualizar la evolución temporal.")
 
@@ -866,7 +866,7 @@ with tab_bulos:
                 yaxis=dict(title="Nº de bulos", gridcolor=BORDER, tickfont=dict(color=TEXT2, size=9)),
                 margin=dict(t=10, b=10), showlegend=False,
             )
-            st.plotly_chart(fig_bulos_bar, use_container_width=True)
+            st.plotly_chart(fig_bulos_bar, width="stretch")
 
         with col_pie_b:
             sec_hdr("Distribución por Veredicto", PURPLE)
@@ -882,7 +882,7 @@ with tab_bulos:
                 margin=dict(t=10, b=10, l=10, r=10), showlegend=False,
                 annotations=[dict(text="Veredictos", x=0.5, y=0.5, font_size=11, showarrow=False, font_color=TEXT2)],
             )
-            st.plotly_chart(fig_pie_ver, use_container_width=True)
+            st.plotly_chart(fig_pie_ver, width="stretch")
 
         sec_hdr("Línea Temporal de Bulos", AMBER)
         timeline_titulares = [
@@ -919,7 +919,7 @@ with tab_bulos:
             ),
             margin=dict(t=10, b=10, l=280, r=20), showlegend=False,
         )
-        st.plotly_chart(fig_timeline, use_container_width=True)
+        st.plotly_chart(fig_timeline, width="stretch")
 
         sec_hdr("Detalle de Bulos Verificados")
         filtro_ver = st.selectbox(

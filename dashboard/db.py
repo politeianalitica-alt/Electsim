@@ -1009,23 +1009,26 @@ def cargar_agenda_tema_partido(tema: str | None = None, dias: int = 30, conn: An
     Serie diaria tema×partido con volumen y sentimiento.
     Prioriza article (modelo nuevo) y cae a noticias_prensa (legacy).
     """
+    tema_norm = str(tema).strip() if tema is not None and str(tema).strip() else None
+    tema_filter = "AND tema = :tema" if tema_norm else ""
+
     if _table_exists("v_agenda_tema_partido", conn=conn):
         df = _q(
-            """
+            f"""
             SELECT fecha, tema, partido, n_noticias, sentimiento_medio
             FROM v_agenda_tema_partido
             WHERE fecha >= CURRENT_DATE - :dias
-              AND (:tema IS NULL OR tema = :tema)
+              {tema_filter}
             ORDER BY fecha, n_noticias DESC, partido
             """,
-            {"tema": tema, "dias": int(dias)},
+            {"tema": tema_norm, "dias": int(dias)},
             conn=conn,
         )
         if not df.empty:
             return df
     if _table_exists("article", conn=conn):
         df = _q(
-            """
+            f"""
             WITH base AS (
                 SELECT
                     published_at::date AS fecha,
@@ -1044,17 +1047,17 @@ def cargar_agenda_tema_partido(tema: str | None = None, dias: int = 30, conn: An
                 ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento_medio
             FROM base
             WHERE partido <> ''
-              AND (:tema IS NULL OR tema = :tema)
+              {tema_filter}
             GROUP BY fecha, tema, partido
             ORDER BY fecha, n_noticias DESC, partido
             """,
-            {"tema": tema, "dias": int(dias)},
+            {"tema": tema_norm, "dias": int(dias)},
             conn=conn,
         )
         if not df.empty:
             return df
     return _q(
-        """
+        f"""
         WITH base AS (
             SELECT
                 fecha_publicacion::date AS fecha,
@@ -1073,11 +1076,11 @@ def cargar_agenda_tema_partido(tema: str | None = None, dias: int = 30, conn: An
             ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento_medio
         FROM base
         WHERE partido <> ''
-          AND (:tema IS NULL OR tema = :tema)
+          {tema_filter}
         GROUP BY fecha, tema, partido
         ORDER BY fecha, n_noticias DESC, partido
         """,
-        {"tema": tema, "dias": int(dias)},
+        {"tema": tema_norm, "dias": int(dias)},
         conn=conn,
     )
 

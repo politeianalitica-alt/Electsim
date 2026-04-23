@@ -210,7 +210,8 @@ def upsert_factchecks(items: list[dict], conn) -> int:
              partidos_json, temas_json, published_at, content_hash)
         VALUES
             (:source_id, :url, :titular, :resumen, :claim_text, :verdict, :verdict_label,
-             :partidos_json, :temas_json, :published_at::timestamptz, :content_hash)
+             CAST(:partidos_json AS JSONB), CAST(:temas_json AS JSONB),
+             CAST(:published_at AS timestamptz), :content_hash)
         ON CONFLICT (content_hash) DO UPDATE SET
             verdict        = EXCLUDED.verdict,
             verdict_label  = EXCLUDED.verdict_label,
@@ -243,7 +244,7 @@ def main(dry: bool = False) -> None:
         return
 
     try:
-        from dashboard.db import get_engine
+        from db.session import get_engine
         engine = get_engine()
         with engine.connect() as conn:
             n = upsert_factchecks(items, conn)
