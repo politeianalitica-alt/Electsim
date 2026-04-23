@@ -173,7 +173,11 @@ def _fetch_feed_safe(url: str, timeout: int = 12) -> feedparser.FeedParserDict:
         content = _fetch(url, timeout=timeout)
         return feedparser.parse(BytesIO(content.encode("utf-8")))
     except Exception as exc:
-        logger.warning("RSS no disponible [%s]: %s", url, exc)
+        msg = str(exc)
+        if "403" in msg or "404" in msg:
+            logger.info("RSS no disponible (esperable) [%s]: %s", url, msg)
+        else:
+            logger.warning("RSS no disponible [%s]: %s", url, msg)
         return feedparser.FeedParserDict()
 
 
@@ -366,7 +370,11 @@ def fetch_all_agendas(max_items_per_source: int = 10, timeout: int = 18) -> list
             all_rows.extend(rows)
         except Exception as exc:
             # Degradación elegante: una fuente caída no rompe el agregado.
-            logger.warning("Fuente fallida [%s]: %s", src.nombre, exc)
+            msg = str(exc)
+            if "403" in msg or "404" in msg:
+                logger.info("Fuente no disponible (esperable) [%s]: %s", src.nombre, msg)
+            else:
+                logger.warning("Fuente fallida [%s]: %s", src.nombre, msg)
             continue
 
     dedup: dict[str, dict[str, str]] = {}

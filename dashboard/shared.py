@@ -9,7 +9,6 @@ if str(_ROOT) not in sys.path:
 
 import pandas as pd
 import streamlit as st
-from streamlit.errors import StreamlitAPIException
 
 # ── Design tokens (dark / tech theme) ────────────────────────────────────────
 BG       = "#080C14"        # fondo principal
@@ -89,7 +88,7 @@ PAGES_NAV = {
 }
 
 SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
-    ("app.py",                          "⌂  Página inicial"),
+    ("pages/0_Pagina_Inicial.py",       "⌂  Página inicial"),
     ("pages/1_Mapa_Electoral.py",       "◈  Mapa electoral"),
     ("pages/2_Nowcasting.py",           "◐  Nowcasting"),
     ("pages/3_Escenarios.py",           "◎  Escenarios"),
@@ -188,8 +187,10 @@ def _safe_page_link(path: str, label: str) -> None:
         return
     try:
         st.page_link(resolved, label=label)
-    except StreamlitAPIException:
-        # Si Streamlit no acepta la ruta por contexto de ejecución, la omitimos.
+    except Exception:
+        # Compatibilidad defensiva: algunas combinaciones de versión/contexto
+        # lanzan errores internos (p. ej. KeyError('url_pathname')) en page_link.
+        # La navegación no debe romper la renderización de la página.
         return
 
 
