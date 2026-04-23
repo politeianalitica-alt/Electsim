@@ -114,6 +114,17 @@ class MotorAnalogias:
         out: list[ResultadoAnalogia] = []
         for i in idx:
             row = df.iloc[int(i)]
+            pct_ganador = row.get("pct_ganador")
+            pct_ganador = float(pct_ganador) if pd.notna(pct_ganador) else None
+            vuelco = row.get("vuelco_gobierno")
+            vuelco = bool(vuelco) if pd.notna(vuelco) else None
+            participacion = row.get("participacion")
+            participacion = float(participacion) if pd.notna(participacion) else None
+            volatilidad = row.get("volatilidad_total")
+            volatilidad = float(volatilidad) if pd.notna(volatilidad) else None
+            resultados_json = row.get("resultados_json") or {}
+            if not isinstance(resultados_json, dict):
+                resultados_json = {}
             dims = {
                 feat: round(float(np.sqrt(FEATURE_WEIGHTS[fi] * (diff[i, fi] ** 2))), 4)
                 for fi, feat in enumerate(FEATURE_NAMES)
@@ -128,13 +139,13 @@ class MotorAnalogias:
                     distancia=round(float(distancias[i]), 4),
                     similitud_pct=round(float(similitudes[i]), 1),
                     dimensiones=dims,
-                    ganador=row.get("ganador"),
-                    pct_ganador=row.get("pct_ganador"),
-                    vuelco_gobierno=row.get("vuelco_gobierno"),
-                    participacion=row.get("participacion"),
-                    volatilidad=row.get("volatilidad_total"),
-                    notas=row.get("notas"),
-                    resultados_json=row.get("resultados_json") or {},
+                    ganador=str(row.get("ganador")) if pd.notna(row.get("ganador")) else None,
+                    pct_ganador=pct_ganador,
+                    vuelco_gobierno=vuelco,
+                    participacion=participacion,
+                    volatilidad=volatilidad,
+                    notas=str(row.get("notas")) if pd.notna(row.get("notas")) else None,
+                    resultados_json=resultados_json,
                 )
             )
         return out
@@ -170,7 +181,7 @@ class MotorAnalogias:
             pct_partido = float(np.dot(np.array(pct_vals), np.array(pct_w)) / max(wsum, 1e-9))
 
         return {
-            "vuelco_probable": prob_vuelco > 0.5,
+            "vuelco_probable": bool(prob_vuelco > 0.5),
             "prob_vuelco": round(prob_vuelco, 3),
             "participacion_est": round(participacion, 1) if participacion is not None else None,
             "volatilidad_est": round(volatilidad, 2) if volatilidad is not None else None,
@@ -178,9 +189,9 @@ class MotorAnalogias:
             "escenarios": [
                 {
                     "nombre": a.nombre_ref,
-                    "similitud": a.similitud_pct,
+                    "similitud": float(a.similitud_pct),
                     "ganador": a.ganador,
-                    "vuelco": a.vuelco_gobierno,
+                    "vuelco": bool(a.vuelco_gobierno) if a.vuelco_gobierno is not None else None,
                     "participacion": a.participacion,
                 }
                 for a in analogias

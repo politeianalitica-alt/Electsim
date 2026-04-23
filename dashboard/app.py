@@ -39,7 +39,11 @@ st.set_page_config(
 
 # Hace robusto el arranque cuando se ejecuta sin `start.sh`.
 load_dotenv(_ROOT / ".env")
-validate_env()
+_env_error: str | None = None
+try:
+    validate_env()
+except Exception as exc:
+    _env_error = str(exc)
 
 sidebar_nav()
 
@@ -55,17 +59,33 @@ from dashboard.db import (
 from dashboard.components.agenda_diaria import render_agenda_diaria
 
 @st.cache_data(ttl=120)
-def _load():
+def _load(db_enabled: bool = True):
+    if not db_enabled:
+        empty = pd.DataFrame()
+        return empty, empty, empty, empty, empty, empty
+
+    def _safe(callable_):
+        try:
+            return callable_()
+        except Exception:
+            return pd.DataFrame()
+
     return (
-        cargar_elecciones("generales"),
-        cargar_macro_ultimo(),
-        cargar_alertas(solo_no_leidas=False),
-        cargar_nowcasting(),
-        cargar_indices_politeia(),
-        cargar_noticias_recientes(dias=1, limit=20),
+        _safe(lambda: cargar_elecciones("generales")),
+        _safe(cargar_macro_ultimo),
+        _safe(lambda: cargar_alertas(solo_no_leidas=False)),
+        _safe(cargar_nowcasting),
+        _safe(cargar_indices_politeia),
+        _safe(lambda: cargar_noticias_recientes(dias=1, limit=20)),
     )
 
-df_elec, df_macro, df_alertas, df_nc, df_indices, df_news = _load()
+df_elec, df_macro, df_alertas, df_nc, df_indices, df_news = _load(db_enabled=_env_error is None)
+
+if _env_error:
+    st.warning(
+        "Base de datos no disponible en portada. Mostrando dashboard en modo degradado. "
+        "Configura `DATABASE_URL` y reinicia para activar datos en vivo."
+    )
 
 # ── Helpers (delegamos en dashboard.shared para no duplicar lógica) ───────────
 def _macro_val(indicador: str, fmt: str = ".1f", suffix: str = "") -> str:

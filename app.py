@@ -64,6 +64,14 @@ try:
 except Exception as exc:  # pragma: no cover - fallback visual en runtime Streamlit
     import streamlit as st
 
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebarNav"] { display: none !important; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     st.title("ElectSim España")
     st.error(
         "No se pudo cargar la página principal. Revisa configuración de entorno "
