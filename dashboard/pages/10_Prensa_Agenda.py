@@ -27,7 +27,12 @@ from dashboard.shared import (
 from dashboard.db import (
     cargar_agenda_hoy,
     cargar_agenda_historica,
+    cargar_agenda_tema_partido,
+    cargar_alertas_sentimiento,
+    cargar_heatmap_fuente_partido,
     cargar_noticias_recientes,
+    cargar_scraping_log,
+    cargar_sesgo_fuente_partido,
     cargar_sentimiento_partido,
     cargar_sentimiento_todos_partidos,
     cargar_source_health,
@@ -284,6 +289,239 @@ with col4:
     st.metric("Temas en agenda hoy", len(df_agenda) if not df_agenda.empty else 0)
 
 st.divider()
+
+# ── Radar operativo (nueva capa consolidada) ─────────────────────────────────
+sec_hdr("Radar Operativo de Prensa", CYAN)
+
+radar_overview, radar_narrativas, radar_medios, radar_salud = st.tabs([
+    "🧭 Overview",
+    "🧠 Narrativas",
+    "📰 Medios & Sesgo",
+    "🛠️ Salud de Ingesta",
+])
+
+with radar_overview:
+    c_ov_1, c_ov_2, c_ov_3 = st.columns([1.2, 1, 1])
+
+    with c_ov_1:
+        st.markdown("#### Agenda de hoy")
+        if not df_agenda.empty:
+            df_top_temas = df_agenda.sort_values("n_noticias", ascending=False).head(10)
+            fig_top_temas = go.Figure(go.Bar(
+                x=df_top_temas["n_noticias"],
+                y=df_top_temas["tema"],
+                orientation="h",
+                marker_color=df_top_temas["sentimiento_medio"],
+                marker_colorscale="RdYlGn",
+                marker_cmid=0,
+                text=df_top_temas["sentimiento_medio"].round(2),
+                textposition="outside",
+            ))
+            fig_top_temas.update_layout(
+                height=340,
+                margin=dict(t=10, b=10, l=10, r=30),
+                yaxis=dict(autorange="reversed"),
+                xaxis_title="Nº noticias",
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_top_temas, use_container_width=True)
+        else:
+            st.info("Sin agenda del día para la ventana actual.")
+
+    with c_ov_2:
+        st.markdown("#### Sentimiento por partido")
+        if not df_sent_all.empty:
+            df_rank_sent = df_sent_all.copy().sort_values("sent_medio", ascending=False)
+            fig_rank_sent = go.Figure(go.Bar(
+                x=df_rank_sent["sent_medio"],
+                y=df_rank_sent["entidad"],
+                orientation="h",
+                marker_color=df_rank_sent["sent_medio"],
+                marker_colorscale="RdYlGn",
+                marker_cmid=0,
+                text=df_rank_sent["n_total"].astype(int),
+                textposition="outside",
+            ))
+            fig_rank_sent.update_layout(
+                height=340,
+                margin=dict(t=10, b=10, l=10, r=35),
+                yaxis=dict(autorange="reversed"),
+                xaxis=dict(title="Sentimiento medio", range=[-1, 1]),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_rank_sent, use_container_width=True)
+        else:
+            st.info("No hay datos de sentimiento por partido.")
+
+    with c_ov_3:
+        st.markdown("#### Señales operativas")
+        if not df_sent_all.empty:
+            peor = df_sent_all.sort_values("sent_medio", ascending=True).iloc[0]
+            st.metric("Partido más castigado", str(peor.get("entidad", "—")), f"{float(peor.get('sent_medio', 0)):.3f}")
+        else:
+            st.metric("Partido más castigado", "—")
+        if not df_noticias.empty and "fuente" in df_noticias.columns:
+            fuente_top = (
+                df_noticias.groupby("fuente", as_index=False)
+                .size()
+                .sort_values("size", ascending=False)
+                .head(1)
+            )
+            if not fuente_top.empty:
+                st.metric("Medio más activo", str(fuente_top.iloc[0]["fuente"]), int(fuente_top.iloc[0]["size"]))
+            else:
+                st.metric("Medio más activo", "—")
+        else:
+            st.metric("Medio más activo", "—")
+
+        if not df_agenda.empty:
+            top_tema = df_agenda.sort_values("n_noticias", ascending=False).iloc[0]
+            st.metric(
+                "Tema dominante",
+                str(top_tema.get("tema", "—")),
+                f"{int(top_tema.get('n_noticias', 0))} noticias",
+            )
+        else:
+            st.metric("Tema dominante", "—")
+
+        df_alertas_r = cargar_alertas_sentimiento(umbral=-0.35)
+        st.metric("Alertas negativas (7d)", len(df_alertas_r) if not df_alertas_r.empty else 0)
+
+with radar_narrativas:
+    temas_radar = df_agenda["tema"].astype(str).dropna().unique().tolist() if not df_agenda.empty else []
+    tema_radar = st.selectbox(
+        "Tema para seguimiento narrativo",
+        temas_radar if temas_radar else ["general"],
+        key="radar_tema_narrativo",
+    )
+    df_tema_partido = cargar_agenda_tema_partido(tema=tema_radar, dias=30)
+
+    col_np_1, col_np_2 = st.columns([1.3, 1])
+    with col_np_1:
+        st.markdown("#### Evolución tema × partido (30 días)")
+        if not df_tema_partido.empty:
+            fig_tema_part = px.area(
+                df_tema_partido,
+                x="fecha",
+                y="n_noticias",
+                color="partido",
+                line_group="partido",
+                hover_data=["sentimiento_medio"],
+            )
+            fig_tema_part.update_layout(
+                height=360,
+                margin=dict(t=10, b=10, l=10, r=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_tema_part, use_container_width=True)
+        else:
+            st.info("No hay señal tema×partido para esta selección.")
+
+    with col_np_2:
+        st.markdown("#### Liderazgo narrativo")
+        if not df_tema_partido.empty:
+            df_lider = (
+                df_tema_partido.groupby("partido", as_index=False)["n_noticias"]
+                .sum()
+                .sort_values("n_noticias", ascending=False)
+            )
+            st.dataframe(df_lider, use_container_width=True, hide_index=True)
+        else:
+            st.info("Sin liderazgo medible en esta ventana.")
+
+        st.markdown("#### Titulares clave del tema")
+        df_tit = df_noticias.copy()
+        if not df_tit.empty and "categoria" in df_tit.columns:
+            df_tit = df_tit[df_tit["categoria"].fillna("general").astype(str) == str(tema_radar)]
+        if not df_tit.empty:
+            st.dataframe(
+                df_tit[["fecha_publicacion", "fuente", "titular", "sentimiento_label"]].head(12),
+                use_container_width=True,
+                hide_index=True,
+            )
+        else:
+            st.caption("Sin titulares en el tema seleccionado.")
+
+with radar_medios:
+    col_m_1, col_m_2 = st.columns([1.25, 1])
+    df_heatmap = cargar_heatmap_fuente_partido()
+    df_sesgo = cargar_sesgo_fuente_partido(dias=max(dias_noticias, 14), min_noticias=3)
+
+    with col_m_1:
+        st.markdown("#### Heatmap fuente × partido")
+        if not df_heatmap.empty:
+            pivot = df_heatmap.pivot(index="fuente_id", columns="partido", values="sentimiento")
+            fig_heat_fp = px.imshow(
+                pivot,
+                color_continuous_scale="RdYlGn",
+                zmin=-1,
+                zmax=1,
+                aspect="auto",
+            )
+            fig_heat_fp.update_layout(
+                height=420,
+                margin=dict(t=10, b=10, l=10, r=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_heat_fp, use_container_width=True)
+        else:
+            st.info("Sin datos para construir el heatmap fuente×partido.")
+
+    with col_m_2:
+        st.markdown("#### Sesgo relativo por fuente")
+        if not df_sesgo.empty:
+            df_rank_sesgo = (
+                df_sesgo.groupby("fuente_id", as_index=False)
+                .agg(
+                    sesgo_medio=("sesgo_vs_global", "mean"),
+                    n_noticias=("n_noticias", "sum"),
+                )
+                .sort_values("sesgo_medio", ascending=False)
+            )
+            st.dataframe(df_rank_sesgo.head(20), use_container_width=True, hide_index=True)
+        else:
+            st.info("Sin datos de sesgo fuente×partido en la ventana seleccionada.")
+
+        st.markdown("#### Alertas de cobertura negativa")
+        df_alertas_med = cargar_alertas_sentimiento(umbral=-0.35)
+        if not df_alertas_med.empty:
+            st.dataframe(df_alertas_med.head(12), use_container_width=True, hide_index=True)
+        else:
+            st.caption("Sin alertas negativas activas en 7 días.")
+
+with radar_salud:
+    st.markdown("#### Salud de fuentes")
+    if not df_health.empty:
+        st.dataframe(
+            df_health[[
+                "source_id", "source_type", "status", "articles_count",
+                "errors_count", "freshness_lag_s", "checked_at",
+            ]],
+            use_container_width=True,
+            hide_index=True,
+        )
+    else:
+        st.info("Sin datos de `source_health`.")
+
+    st.markdown("#### Últimas ejecuciones scraping")
+    df_scraping = cargar_scraping_log(limit=40)
+    if not df_scraping.empty:
+        st.dataframe(df_scraping, use_container_width=True, hide_index=True)
+    else:
+        st.caption("No hay registros de `scraping_log`.")
+
+    if not df_incidents.empty:
+        st.markdown("#### Incidencias activas")
+        st.dataframe(df_incidents, use_container_width=True, hide_index=True)
+    else:
+        st.success("Sin incidencias activas.")
+
+st.divider()
+st.caption("Vista detallada legacy disponible debajo para análisis granular.")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_agenda_t, tab_sentimiento, tab_noticias, tab_bulos, tab_etl = st.tabs([

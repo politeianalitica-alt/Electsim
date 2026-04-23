@@ -887,6 +887,32 @@ def cargar_sentimiento_serie(conn: Any | None = None) -> pd.DataFrame:
 
 def cargar_heatmap_fuente_partido(conn: Any | None = None) -> pd.DataFrame:
     """Sentimiento medio por combinación fuente×partido (últimos 30 días)."""
+    if _table_exists("article", conn=conn):
+        df = _q(
+            """
+            WITH news AS (
+                SELECT
+                    COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida') AS fuente_id,
+                    UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))::text AS partido,
+                    COALESCE(sentimiento_score, 0.0) AS sentimiento
+                FROM article
+                WHERE published_at >= NOW() - INTERVAL '30 days'
+                  AND COALESCE(partidos_mencionados, '') <> ''
+            )
+            SELECT
+                fuente_id,
+                BTRIM(partido) AS partido,
+                ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento,
+                COUNT(*) AS n_noticias
+            FROM news
+            WHERE BTRIM(partido) <> ''
+            GROUP BY fuente_id, BTRIM(partido)
+            ORDER BY fuente_id, partido
+            """,
+            conn=conn,
+        )
+        if not df.empty:
+            return df
     return _q(
         """
         WITH news AS (
@@ -914,6 +940,38 @@ def cargar_heatmap_fuente_partido(conn: Any | None = None) -> pd.DataFrame:
 
 def cargar_alertas_sentimiento(conn: Any | None = None, umbral: float = -0.5) -> pd.DataFrame:
     """Picos negativos de cobertura en últimos 7 días."""
+    if _table_exists("article", conn=conn):
+        df = _q(
+            """
+            WITH agg AS (
+                SELECT
+                    published_at::date AS fecha,
+                    COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida') AS fuente_id,
+                    BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                    AVG(COALESCE(sentimiento_score, 0.0)) AS sentimiento_medio,
+                    COUNT(*) AS n_noticias
+                FROM article
+                WHERE published_at >= NOW() - INTERVAL '7 days'
+                  AND COALESCE(partidos_mencionados, '') <> ''
+                GROUP BY 1, 2, 3
+            )
+            SELECT
+                fecha,
+                partido,
+                fuente_id,
+                ROUND(sentimiento_medio::numeric, 3) AS sentimiento,
+                n_noticias
+            FROM agg
+            WHERE partido <> ''
+              AND sentimiento_medio <= :umbral
+            ORDER BY sentimiento_medio ASC
+            LIMIT 20
+            """,
+            {"umbral": float(umbral)},
+            conn=conn,
+        )
+        if not df.empty:
+            return df
     return _q(
         """
         WITH agg AS (
@@ -941,6 +999,203 @@ def cargar_alertas_sentimiento(conn: Any | None = None, umbral: float = -0.5) ->
         LIMIT 20
         """,
         {"umbral": float(umbral)},
+        conn=conn,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_agenda_tema_partido(tema: str | None = None, dias: int = 30, conn: Any | None = None) -> pd.DataFrame:
+    """
+    Serie diaria tema×partido con volumen y sentimiento.
+    Prioriza article (modelo nuevo) y cae a noticias_prensa (legacy).
+    """
+    if _table_exists("v_agenda_tema_partido", conn=conn):
+        df = _q(
+            """
+            SELECT fecha, tema, partido, n_noticias, sentimiento_medio
+            FROM v_agenda_tema_partido
+            WHERE fecha >= CURRENT_DATE - :dias
+              AND (:tema IS NULL OR tema = :tema)
+            ORDER BY fecha, n_noticias DESC, partido
+            """,
+            {"tema": tema, "dias": int(dias)},
+            conn=conn,
+        )
+        if not df.empty:
+            return df
+    if _table_exists("article", conn=conn):
+        df = _q(
+            """
+            WITH base AS (
+                SELECT
+                    published_at::date AS fecha,
+                    COALESCE(NULLIF(categoria, ''), 'general') AS tema,
+                    BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                    COALESCE(sentimiento_score, 0.0) AS sentimiento
+                FROM article
+                WHERE published_at >= NOW() - (:dias * INTERVAL '1 day')
+                  AND COALESCE(partidos_mencionados, '') <> ''
+            )
+            SELECT
+                fecha,
+                tema,
+                partido,
+                COUNT(*) AS n_noticias,
+                ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento_medio
+            FROM base
+            WHERE partido <> ''
+              AND (:tema IS NULL OR tema = :tema)
+            GROUP BY fecha, tema, partido
+            ORDER BY fecha, n_noticias DESC, partido
+            """,
+            {"tema": tema, "dias": int(dias)},
+            conn=conn,
+        )
+        if not df.empty:
+            return df
+    return _q(
+        """
+        WITH base AS (
+            SELECT
+                fecha_publicacion::date AS fecha,
+                COALESCE(NULLIF(categoria, ''), 'general') AS tema,
+                BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                COALESCE(sentimiento_score, 0.0) AS sentimiento
+            FROM noticias_prensa
+            WHERE fecha_publicacion >= CURRENT_DATE - :dias
+              AND COALESCE(partidos_mencionados, '') <> ''
+        )
+        SELECT
+            fecha,
+            tema,
+            partido,
+            COUNT(*) AS n_noticias,
+            ROUND(AVG(sentimiento)::numeric, 3) AS sentimiento_medio
+        FROM base
+        WHERE partido <> ''
+          AND (:tema IS NULL OR tema = :tema)
+        GROUP BY fecha, tema, partido
+        ORDER BY fecha, n_noticias DESC, partido
+        """,
+        {"tema": tema, "dias": int(dias)},
+        conn=conn,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_sesgo_fuente_partido(
+    dias: int = 30,
+    min_noticias: int = 5,
+    conn: Any | None = None,
+) -> pd.DataFrame:
+    """
+    Sesgo relativo por fuente×partido:
+    sentimiento_fuente_partido - sentimiento_global_partido.
+    """
+    if _table_exists("v_sesgo_fuente_partido", conn=conn):
+        df = _q(
+            """
+            SELECT
+                fuente_id,
+                partido,
+                sentimiento_fuente_partido,
+                sentimiento_global_partido,
+                sesgo_vs_global,
+                n_noticias
+            FROM v_sesgo_fuente_partido
+            WHERE n_noticias >= :min_noticias
+            ORDER BY sesgo_vs_global DESC, n_noticias DESC
+            """,
+            {"min_noticias": int(min_noticias)},
+            conn=conn,
+        )
+        if not df.empty:
+            return df
+    if _table_exists("article", conn=conn):
+        df = _q(
+            """
+            WITH base AS (
+                SELECT
+                    COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida') AS fuente_id,
+                    BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                    COALESCE(sentimiento_score, 0.0) AS sentimiento
+                FROM article
+                WHERE published_at >= NOW() - (:dias * INTERVAL '1 day')
+                  AND COALESCE(partidos_mencionados, '') <> ''
+            ),
+            global_partido AS (
+                SELECT partido, AVG(sentimiento) AS sentimiento_global_partido
+                FROM base
+                WHERE partido <> ''
+                GROUP BY partido
+            ),
+            fuente_partido AS (
+                SELECT
+                    fuente_id,
+                    partido,
+                    AVG(sentimiento) AS sentimiento_fuente_partido,
+                    COUNT(*) AS n_noticias
+                FROM base
+                WHERE partido <> ''
+                GROUP BY fuente_id, partido
+            )
+            SELECT
+                fp.fuente_id,
+                fp.partido,
+                ROUND(fp.sentimiento_fuente_partido::numeric, 3) AS sentimiento_fuente_partido,
+                ROUND(gp.sentimiento_global_partido::numeric, 3) AS sentimiento_global_partido,
+                ROUND((fp.sentimiento_fuente_partido - gp.sentimiento_global_partido)::numeric, 3) AS sesgo_vs_global,
+                fp.n_noticias
+            FROM fuente_partido fp
+            JOIN global_partido gp ON gp.partido = fp.partido
+            WHERE fp.n_noticias >= :min_noticias
+            ORDER BY sesgo_vs_global DESC, fp.n_noticias DESC
+            """,
+            {"dias": int(dias), "min_noticias": int(min_noticias)},
+            conn=conn,
+        )
+        if not df.empty:
+            return df
+    return _q(
+        """
+        WITH base AS (
+            SELECT
+                COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida') AS fuente_id,
+                BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                COALESCE(sentimiento_score, 0.0) AS sentimiento
+            FROM noticias_prensa
+            WHERE fecha_publicacion >= CURRENT_DATE - :dias
+              AND COALESCE(partidos_mencionados, '') <> ''
+        ),
+        global_partido AS (
+            SELECT partido, AVG(sentimiento) AS sentimiento_global_partido
+            FROM base
+            WHERE partido <> ''
+            GROUP BY partido
+        ),
+        fuente_partido AS (
+            SELECT
+                fuente_id,
+                partido,
+                AVG(sentimiento) AS sentimiento_fuente_partido,
+                COUNT(*) AS n_noticias
+            FROM base
+            WHERE partido <> ''
+            GROUP BY fuente_id, partido
+        )
+        SELECT
+            fp.fuente_id,
+            fp.partido,
+            ROUND(fp.sentimiento_fuente_partido::numeric, 3) AS sentimiento_fuente_partido,
+            ROUND(gp.sentimiento_global_partido::numeric, 3) AS sentimiento_global_partido,
+            ROUND((fp.sentimiento_fuente_partido - gp.sentimiento_global_partido)::numeric, 3) AS sesgo_vs_global,
+            fp.n_noticias
+        FROM fuente_partido fp
+        JOIN global_partido gp ON gp.partido = fp.partido
+        WHERE fp.n_noticias >= :min_noticias
+        ORDER BY sesgo_vs_global DESC, fp.n_noticias DESC
+        """,
+        {"dias": int(dias), "min_noticias": int(min_noticias)},
         conn=conn,
     )
 
