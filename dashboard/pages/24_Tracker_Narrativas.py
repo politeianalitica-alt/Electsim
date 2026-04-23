@@ -222,6 +222,24 @@ with tab_obj:
                     st.success(f"Objeto guardado (ID {obj_id})")
                     st.rerun()
 
+        st.markdown("### Sugerencias automáticas")
+        sugerencias = svc.sugerir_objetos(cliente_id=cliente_id, dias=14, limite=12, min_freq=4)
+        if not sugerencias:
+            st.caption("Sin sugerencias por ahora.")
+        else:
+            cols = st.columns(2)
+            for i, sug in enumerate(sugerencias):
+                col = cols[i % 2]
+                with col:
+                    if st.button(f"➕ {sug}", key=f"sug_obj_{sug}"):
+                        obj_id = svc.crear_objeto(
+                            cliente_id=cliente_id,
+                            tipo="palabra",
+                            valor=sug.strip(),
+                        )
+                        st.success(f"Objeto sugerido añadido (ID {obj_id})")
+                        st.rerun()
+
     with col_list:
         st.markdown("### Objetos activos")
         df_obj = svc.listar_objetos(cliente_id=cliente_id, solo_activos=True)

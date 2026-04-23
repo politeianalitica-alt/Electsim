@@ -62,6 +62,7 @@ _MACRO_SQL_MAP = {
     "inflacion_ipc": "ipc_general",
     "crecimiento_pib": "crecimiento_pib",
     "pib_real": "crecimiento_pib",
+    "tasa_paro": "tasa_paro",
     "prima_riesgo_bono10": "prima_riesgo_bono10",
     "euribor_12m": "euribor_12m",
     "ibex35_cierre": "ibex35_cierre",
@@ -3542,17 +3543,27 @@ def cargar_snapshots_analogia(
     """Últimos snapshots de analogías (sin cargar payload completo)."""
     if not _table_exists("snapshots_analogia"):
         return pd.DataFrame()
-
+    if cliente_id is None:
+        return _q(
+            """
+            SELECT
+                id, tipo_eleccion, partido_ref, calculado_en, proyeccion_json
+            FROM snapshots_analogia
+            ORDER BY calculado_en DESC
+            LIMIT :limite
+            """,
+            {"limite": int(limite)},
+        )
     return _q(
         """
         SELECT
             id, tipo_eleccion, partido_ref, calculado_en, proyeccion_json
         FROM snapshots_analogia
-        WHERE (:cliente_id IS NULL OR cliente_id = :cliente_id)
+        WHERE cliente_id = :cliente_id
         ORDER BY calculado_en DESC
         LIMIT :limite
         """,
-        {"cliente_id": cliente_id, "limite": int(limite)},
+        {"cliente_id": int(cliente_id), "limite": int(limite)},
     )
 
 

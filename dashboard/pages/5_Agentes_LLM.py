@@ -2591,7 +2591,7 @@ with tab1:
     )
 
     modo = st.radio(
-        "",
+        "Modo de perfiles",
         ["Perfiles predefinidos", "Mis perfiles guardados", "Constructor"],
         horizontal=True,
         label_visibility="collapsed",

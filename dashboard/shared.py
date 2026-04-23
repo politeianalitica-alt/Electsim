@@ -93,6 +93,7 @@ SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     ("pages/2_Nowcasting.py",           "◐  Nowcasting"),
     ("pages/3_Escenarios.py",           "◎  Escenarios"),
     ("pages/18_War_Room_Espana.py",     "⚔  War room"),
+    ("pages/26_Centro_Operaciones.py",  "⬢  Centro operaciones"),
     ("pages/13_Briefing_Diario.py",     "⬡  Briefing diario"),
     ("pages/10_Prensa_Agenda.py",       "◎  Prensa y agenda"),
     ("pages/9_Indices_Politeia.py",     "◈  Índices"),
@@ -130,6 +131,7 @@ SIDEBAR_ADVANCED_GROUPS: list[tuple[str, list[tuple[str, str]]]] = [
             ("pages/15_Agenda_Lideres.py",      "↳ Agenda líderes"),
             ("pages/16_Fichas_Politicos.py",    "↳ Fichas políticos"),
             ("pages/17_Nowcasting_Component.py","↳ Nowcasting avanzado"),
+            ("pages/26_Centro_Operaciones.py", "↳ Centro operaciones"),
         ],
     ),
 ]

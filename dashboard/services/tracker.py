@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from collections import Counter
 from datetime import date, timedelta
+import re
 from typing import Any
 
 import pandas as pd
@@ -11,6 +13,15 @@ from db.session import get_raw_conn
 from etl.logger import get_logger
 
 logger = get_logger(__name__)
+
+_STOPWORDS_ES = {
+    "de", "la", "el", "y", "en", "a", "los", "las", "un", "una", "con", "por", "para",
+    "del", "al", "se", "que", "su", "sus", "como", "más", "mas", "es", "ha", "han",
+    "tras", "sobre", "desde", "entre", "sin", "ante", "hoy", "ayer", "mañana", "ser",
+    "esta", "este", "estos", "estas", "esa", "ese", "eso", "pero", "también",
+}
+
+_TOKEN_RE = re.compile(r"[a-záéíóúñü][a-záéíóúñü\\-]{2,}", flags=re.IGNORECASE)
 
 
 def _table_exists(table_name: str) -> bool:
@@ -374,3 +385,65 @@ def marcar_alerta_leida(alerta_id: int) -> None:
         conn.commit()
     finally:
         conn.close()
+
+
+def sugerir_objetos(
+    cliente_id: int | None,
+    dias: int = 14,
+    limite: int = 20,
+    min_freq: int = 3,
+) -> list[str]:
+    """Sugiere objetos de seguimiento con frecuencia alta en contenido reciente.
+
+    Estrategia:
+    - toma titulares/resúmenes recientes,
+    - extrae tokens de longitud >=3,
+    - filtra stopwords y términos ya seguidos.
+    """
+    if not _table_exists("contenido_mediatico"):
+        return []
+
+    fecha_desde = date.today() - timedelta(days=int(dias))
+    df = _q(
+        """
+        SELECT
+            COALESCE(titular, '') AS titular,
+            COALESCE(resumen, '') AS resumen
+        FROM contenido_mediatico
+        WHERE fecha_publicacion::date >= %s
+        ORDER BY fecha_publicacion DESC
+        LIMIT 1200
+        """,
+        (fecha_desde,),
+    )
+    if df.empty:
+        return []
+
+    existentes = set()
+    df_obj = listar_objetos(cliente_id=cliente_id, solo_activos=True)
+    if not df_obj.empty and "valor" in df_obj.columns:
+        existentes = {str(v).strip().lower() for v in df_obj["valor"].dropna().tolist()}
+
+    bag: Counter[str] = Counter()
+    for _, row in df.iterrows():
+        text = f"{row.get('titular', '')} {row.get('resumen', '')}".lower()
+        for tok in _TOKEN_RE.findall(text):
+            tok = tok.strip("- ").lower()
+            if len(tok) < 3:
+                continue
+            if tok in _STOPWORDS_ES:
+                continue
+            if tok.isdigit():
+                continue
+            bag[tok] += 1
+
+    sugeridas: list[str] = []
+    for token, freq in bag.most_common(200):
+        if freq < int(min_freq):
+            break
+        if token in existentes:
+            continue
+        sugeridas.append(token)
+        if len(sugeridas) >= int(limite):
+            break
+    return sugeridas

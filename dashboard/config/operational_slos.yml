@@ -1,0 +1,46 @@
+datasets:
+  - fase: ingesta
+    nombre: Noticias prensa
+    tabla: noticias_prensa
+    fecha_cols: [fecha_publicacion, created_at, fecha]
+    sla_horas: 6
+  - fase: ingesta
+    nombre: Agenda oficial
+    tabla: agenda_oficial
+    fecha_cols: [fecha_evento, created_at, fecha]
+    sla_horas: 24
+  - fase: ingesta
+    nombre: Macroeconómicos
+    tabla: indicadores_macroeconomicos
+    fecha_cols: [fecha, created_at]
+    sla_horas: 24
+  - fase: procesamiento
+    nombre: Índices Politeia
+    tabla: indices_politeia
+    fecha_cols: [fecha_calculo, fecha, created_at]
+    sla_horas: 24
+  - fase: procesamiento
+    nombre: Serie tracker narrativas
+    tabla: serie_temporal_objeto
+    fecha_cols: [fecha, created_at]
+    sla_horas: 12
+  - fase: analisis
+    nombre: Nowcasting agregado
+    tabla: estimaciones_voto_agregadas
+    fecha_cols: [fecha_estimacion, fecha, created_at]
+    sla_horas: 24
+  - fase: analisis
+    nombre: Simulaciones de debate
+    tabla: simulaciones_debate
+    fecha_cols: [creado_en, created_at, fecha]
+    sla_horas: 72
+  - fase: visualizacion
+    nombre: Alertas sistema
+    tabla: alertas_sistema
+    fecha_cols: [created_at, fecha, ts]
+    sla_horas: 6
+  - fase: visualizacion
+    nombre: Snapshots analogías
+    tabla: snapshots_analogia
+    fecha_cols: [calculado_en, created_at, fecha]
+    sla_horas: 48
