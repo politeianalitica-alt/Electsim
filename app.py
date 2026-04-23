@@ -8,7 +8,10 @@ from __future__ import annotations
 
 import shutil
 import sys
+import traceback
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 _ROOT = Path(__file__).resolve().parent
 if str(_ROOT) not in sys.path:
@@ -51,4 +54,19 @@ def _ensure_pages_bridge() -> None:
 
 _ensure_pages_bridge()
 
-from dashboard.app import *  # noqa: F401,F403,E402
+# Carga variables desde .env también cuando se ejecuta con `streamlit run app.py`
+# (sin pasar por start.sh).
+load_dotenv(_ROOT / ".env")
+
+try:
+    from dashboard.app import *  # noqa: F401,F403,E402
+except Exception as exc:  # pragma: no cover - fallback visual en runtime Streamlit
+    import streamlit as st
+
+    st.title("ElectSim España")
+    st.error(
+        "No se pudo cargar la página principal. Revisa configuración de entorno "
+        "(especialmente `DATABASE_URL`) y vuelve a iniciar."
+    )
+    with st.expander("Detalle técnico"):
+        st.code("".join(traceback.format_exception(exc)))

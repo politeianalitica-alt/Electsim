@@ -16,6 +16,7 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from dotenv import load_dotenv
 from etl.config import validate_env
 
 from dashboard.shared import (
@@ -36,6 +37,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# Hace robusto el arranque cuando se ejecuta sin `start.sh`.
+load_dotenv(_ROOT / ".env")
 validate_env()
 
 sidebar_nav()
