@@ -160,7 +160,9 @@ def build_legislative_laws_view(
             act["tipo"].str.contains(_LAW_PATTERN, case=False, na=False)
             | act["titulo_norma"].str.contains(_LAW_PATTERN, case=False, na=False)
         )
-        frames.append(act.loc[mask_act, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]])
+        act_view = act.loc[mask_act, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]].copy()
+        act_view["_source_priority"] = 0
+        frames.append(act_view)
 
     if df_votes is not None and not df_votes.empty:
         vot = df_votes.copy()
@@ -178,7 +180,9 @@ def build_legislative_laws_view(
             vot["tipo"].str.contains(_LAW_PATTERN, case=False, na=False)
             | vot["titulo_norma"].str.contains(_LAW_PATTERN, case=False, na=False)
         )
-        frames.append(vot.loc[mask_vot, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]])
+        vot_view = vot.loc[mask_vot, ["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"]].copy()
+        vot_view["_source_priority"] = 1
+        frames.append(vot_view)
 
     if not frames:
         return pd.DataFrame(columns=["tipo", "titulo_norma", "fecha_norma", "partido_siglas", "estado"])
@@ -211,9 +215,15 @@ def build_legislative_laws_view(
     )
     leyes = leyes[leyes["titulo_norma"] != ""].copy()
     leyes["fecha_norma_label"] = leyes["fecha_norma"].dt.strftime("%Y-%m-%d").fillna("")
-    leyes = leyes.drop_duplicates(subset=["titulo_norma", "fecha_norma_label", "tipo"], keep="first")
+    leyes = leyes.sort_values(
+        by=["titulo_norma", "_source_priority", "fecha_norma"],
+        ascending=[True, True, True],
+        na_position="last",
+    )
+    # Consolidar por título, priorizando actividad legislativa sobre votación.
+    leyes = leyes.drop_duplicates(subset=["titulo_norma"], keep="first")
     return leyes.sort_values(
         by=["fecha_norma", "titulo_norma"],
         ascending=[False, True],
         na_position="last",
-    ).reset_index(drop=True)
+    ).drop(columns=["_source_priority"], errors="ignore").reset_index(drop=True)

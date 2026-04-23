@@ -5,7 +5,7 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from agents.llm import get_embedding_client
+from agents.llm import embed_text_safe, get_embedding_client
 
 _SCHEMA_VALIDATED = False
 
@@ -41,7 +41,7 @@ def semantic_search_posts(
         validate_semantic_schema(session)
         _SCHEMA_VALIDATED = True
     client = get_embedding_client()
-    embedding = client.embed_text(query)
+    embedding = embed_text_safe(client, query)
     params: dict[str, Any] = {"vec": embedding, "limit": int(limit), "tenant_id": tenant_id}
     where = ["embedding IS NOT NULL", "tenant_id = :tenant_id"]
     filter_map = {"plataforma": "plataforma", "partido_id": "partido_id", "autor_tipo": "autor_tipo", "idioma": "idioma"}

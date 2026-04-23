@@ -12,10 +12,26 @@ import logging
 import os
 from datetime import timedelta
 
+import pandas as pd
 from prefect import flow, task
 from sqlalchemy import create_engine, text
 
 logger = logging.getLogger(__name__)
+
+
+def safe_flow(*dargs, **dkwargs):
+    """
+    Compatibilidad Prefect/Pydantic:
+    si falla la creación del flow en import-time, usa función normal.
+    """
+    def _wrap(fn):
+        try:
+            return flow(*dargs, **dkwargs)(fn)
+        except Exception as exc:
+            logger.warning("Prefect flow disabled for %s: %s", fn.__name__, exc)
+            return fn
+
+    return _wrap
 
 
 def get_engine():
@@ -113,7 +129,70 @@ def task_recalcular_stress_test() -> None:
     st.guardar_stress_test(df, engine, ["PSOE", "SUMAR"])
 
 
-@flow(name="ElectSim: Scraping Prensa", log_prints=True)
+@task(name="generar_alertas_automaticas")
+def task_generar_alertas_automaticas() -> str:
+    from dashboard.services.alert_engine import ejecutar_motor_alertas
+
+    engine = get_engine()
+    with engine.connect() as conn:
+        df_macro = pd.read_sql(
+            text(
+                """
+                SELECT fecha, 'ipc_general'::text AS indicador, ipc_general::numeric AS valor
+                FROM indicadores_macroeconomicos
+                WHERE ipc_general IS NOT NULL
+                UNION ALL
+                SELECT fecha, 'tasa_paro'::text, tasa_paro::numeric
+                FROM indicadores_macroeconomicos
+                WHERE tasa_paro IS NOT NULL
+                UNION ALL
+                SELECT fecha, 'prima_riesgo_bono10'::text, prima_riesgo_bono10::numeric
+                FROM indicadores_macroeconomicos
+                WHERE prima_riesgo_bono10 IS NOT NULL
+                UNION ALL
+                SELECT fecha, 'crecimiento_pib'::text, crecimiento_pib::numeric
+                FROM indicadores_macroeconomicos
+                WHERE crecimiento_pib IS NOT NULL
+                """
+            ),
+            conn,
+        )
+        df_encuestas = pd.read_sql(
+            text(
+                """
+                SELECT
+                    e.fecha_estimacion::date AS fecha,
+                    p.siglas AS partido,
+                    e.estimacion_pct::numeric AS intencion_voto
+                FROM estimaciones_voto_agregadas e
+                JOIN partidos p ON p.id = e.partido_id
+                WHERE e.fecha_estimacion >= CURRENT_DATE - INTERVAL '90 days'
+                ORDER BY e.fecha_estimacion
+                """
+            ),
+            conn,
+        )
+        riesgo_val = conn.execute(
+            text(
+                """
+                SELECT valor::numeric
+                FROM indices_politeia
+                WHERE indice_codigo IN ('riesgo_politico', 'riesgo')
+                ORDER BY fecha_calculo DESC
+                LIMIT 1
+                """
+            )
+        ).scalar()
+
+    n = ejecutar_motor_alertas(
+        df_macro=df_macro,
+        df_encuestas=df_encuestas,
+        indice_riesgo=float(riesgo_val) if riesgo_val is not None else None,
+    )
+    return f"{n} alertas generadas"
+
+
+@safe_flow(name="ElectSim: Scraping Prensa", log_prints=True)
 def flow_prensa_encuestas():
     from etl.realtime.prensa_encuestas import PrensaEncuestasScraper
 
@@ -126,7 +205,7 @@ def flow_prensa_encuestas():
         task_recalcular_simulacion_mc()
 
 
-@flow(name="ElectSim: Monitor Macro", log_prints=True)
+@safe_flow(name="ElectSim: Monitor Macro", log_prints=True)
 def flow_macro_monitor():
     from etl.realtime.macro_monitor import MacroMonitor
 
@@ -138,7 +217,7 @@ def flow_macro_monitor():
         task_recalcular_riesgo_politico()
 
 
-@flow(name="ElectSim: Monitor CIS", log_prints=True)
+@safe_flow(name="ElectSim: Monitor CIS", log_prints=True)
 def flow_cis_monitor():
     from etl.realtime.cis_monitor import CISMonitor
 
@@ -150,7 +229,7 @@ def flow_cis_monitor():
         task_recalcular_nowcasting()
 
 
-@flow(name="ElectSim: Alertas", log_prints=True)
+@safe_flow(name="ElectSim: Alertas", log_prints=True)
 def flow_alertas():
     from etl.realtime.alertas import procesar_alertas_pendientes
 
@@ -160,15 +239,16 @@ def flow_alertas():
         print(f"Enviadas {n} alertas")
 
 
-@flow(name="ElectSim: Recálculo Diario", log_prints=True)
+@safe_flow(name="ElectSim: Recálculo Diario", log_prints=True)
 def flow_recalculo_diario():
     task_recalcular_nowcasting()
     task_recalcular_riesgo_politico()
     task_recalcular_pedersen()
     task_recalcular_stress_test()
+    task_generar_alertas_automaticas()
 
 
-@flow(name="ElectSim: Noche electoral", log_prints=True)
+@safe_flow(name="ElectSim: Noche electoral", log_prints=True)
 def flow_noche_electoral():
     from etl.realtime.interior_noche_electoral import NocheElectoralMonitor, detectar_eleccion_activa
 

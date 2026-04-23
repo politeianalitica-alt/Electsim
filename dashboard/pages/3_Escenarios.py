@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import sys
 from collections import defaultdict
+from dataclasses import asdict
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -27,10 +28,19 @@ from dashboard.shared import (
 
 from dashboard.db import (
     cargar_elecciones, cargar_nowcasting, cargar_macro_ultimo,
+    cargar_macro_serie,
     cargar_opciones_perfil_microdatos,
     cargar_resumen_perfil_microdatos,
     cargar_intencion_perfil_microdatos,
     cargar_distribucion_campo_perfil_microdatos,
+    cargar_elecciones_historicas,
+    cargar_snapshots_analogia,
+    guardar_snapshot_analogia,
+)
+from dashboard.models.analogias_historicas import (
+    ContextoElectoral,
+    FEATURES_CONFIG,
+    MotorAnalogias,
 )
 
 st.set_page_config(page_title="Escenarios — ElectSim", layout="wide")
@@ -263,11 +273,12 @@ def monte_carlo_escanos(estimaciones: dict, n_sims: int = 5000, sigma: float = 2
 
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "⬡  Monte Carlo de Escaños",
     "◈  Escenarios Morfológicos",
     "◎  Variables Estructurales",
     "◉  Perfiles de Votante",
+    "⊛  Análogos Históricos",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1431,3 +1442,263 @@ with tab4:
                 El discurso abstracto o identitario no moviliza a este segmento.</span>
             </div>
             """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 5 — Análogos Históricos
+# ══════════════════════════════════════════════════════════════════════════════
+with tab5:
+    st.markdown(f"""
+    <div class="sec-hdr">
+        <div class="bar" style="background:{PURPLE}"></div>
+        <span class="lbl">Comparador de Elecciones Históricas Equivalentes</span>
+        <div class="line"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div class="info-box" style="border-left-color:{PURPLE}">
+        Encuentra las elecciones más parecidas al contexto actual con distancia ponderada
+        en 12 dimensiones estructurales y proyecta escenarios probables.
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Defaults automáticos: macro + nowcasting actual.
+    pib_auto, paro_auto, ipc_auto = 2.5, 11.0, 3.5
+    frag_auto, aprob_auto = 5.8, 33.0
+    try:
+        pib_auto = float(cargar_macro_serie("crecimiento_pib", anios=2)["valor"].iloc[-1])
+    except Exception:
+        pass
+    try:
+        ipc_auto = float(cargar_macro_serie("ipc_general", anios=2)["valor"].iloc[-1])
+    except Exception:
+        pass
+    try:
+        paro_auto = float(cargar_macro_serie("tasa_paro", anios=2)["valor"].iloc[-1])
+    except Exception:
+        pass
+    try:
+        _df_nc_auto = cargar_nowcasting()
+        if not _df_nc_auto.empty and "estimacion_pct" in _df_nc_auto.columns:
+            p = (_df_nc_auto["estimacion_pct"].astype(float).clip(lower=0) / 100.0).values
+            p = p[p > 0.01]
+            if len(p) > 0:
+                frag_auto = max(2.0, min(10.0, float(1.0 / (p ** 2).sum())))
+            aprob_auto = max(20.0, min(60.0, float(_df_nc_auto["estimacion_pct"].max()) + 2.0))
+    except Exception:
+        pass
+
+    with st.expander("⚙️ Calibrar contexto electoral", expanded=False):
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            pib = st.number_input("PIB crecimiento (%)", value=float(round(pib_auto, 2)), step=0.1, key="an_pib")
+            paro = st.number_input("Tasa de paro (%)", value=float(round(paro_auto, 2)), step=0.1, key="an_paro")
+            ipc = st.number_input("Inflación (%)", value=float(round(ipc_auto, 2)), step=0.1, key="an_ipc")
+            deficit = st.number_input("Déficit (% PIB)", value=3.5, step=0.1, key="an_deficit")
+        with c2:
+            sat_eco = st.slider("Satisfacción económica (0-10)", 0.0, 10.0, 4.0, 0.1, key="an_sat")
+            inc_anios = st.number_input("Años del incumbente", min_value=0, max_value=20, value=5, key="an_inc")
+            aprob = st.slider("Aprobación gobierno (%)", 0.0, 100.0, float(round(aprob_auto, 1)), 0.5, key="an_aprob")
+            frag = st.number_input("Fragmentación preelectoral", value=float(round(frag_auto, 2)), step=0.1, key="an_frag")
+        with c3:
+            polar = st.slider("Polarización (0-1)", 0.0, 1.0, 0.65, 0.01, key="an_polar")
+            tension = st.slider("Tensión territorial (0-1)", 0.0, 1.0, 0.65, 0.01, key="an_tension")
+            escandalo = st.checkbox("Escándalo mayor activo", value=False, key="an_esc")
+            crisis_int = st.checkbox("Crisis internacional activa", value=True, key="an_crisis")
+
+    filtros_col1, filtros_col2, filtros_col3, filtros_col4 = st.columns([2, 1, 1, 1])
+    with filtros_col1:
+        partido_ref = st.selectbox(
+            "Partido de referencia para proyección",
+            list(estimaciones_base.keys()),
+            index=(list(estimaciones_base.keys()).index("PSOE") if "PSOE" in estimaciones_base else 0),
+            key="an_partido_ref",
+        )
+    with filtros_col2:
+        tipo_ref = st.selectbox("Tipo elección histórica", ["todas", "generales", "legislativas"], index=1, key="an_tipo")
+    with filtros_col3:
+        top_n = st.selectbox("Top N", [3, 4, 5, 6, 7, 8], index=2, key="an_topn")
+    with filtros_col4:
+        pais_ref = st.selectbox("País", ["todos", "España", "Alemania", "Francia", "Portugal"], index=0, key="an_pais")
+
+    buscar_col, guardar_col = st.columns([1, 1])
+    with buscar_col:
+        ejecutar_analogias = st.button("🔍 Buscar análogos", type="primary", use_container_width=True)
+    with guardar_col:
+        guardar_auto = st.checkbox("Guardar snapshot automáticamente", value=True, key="an_guardar")
+
+    if ejecutar_analogias or "analogias_result" not in st.session_state:
+        tipo_filtro = None if tipo_ref == "todas" else tipo_ref
+        pais_filtro = None if pais_ref == "todos" else pais_ref
+        df_hist = cargar_elecciones_historicas(tipo=tipo_filtro, pais=pais_filtro)
+        motor = MotorAnalogias(df_hist).ajustar_normalizacion()
+
+        ctx = ContextoElectoral(
+            pib_crecimiento=float(pib),
+            tasa_paro=float(paro),
+            inflacion=float(ipc),
+            deficit_pib=float(deficit),
+            satisfaccion_eco=float(sat_eco),
+            incumbente_anios=int(inc_anios),
+            aprobacion_gobierno=float(aprob),
+            fragmentacion_pre=float(frag),
+            polarizacion=float(polar),
+            escandalo_mayor=bool(escandalo),
+            tension_territorial=float(tension),
+            crisis_internacional=bool(crisis_int),
+        )
+        analogias = motor.buscar(ctx, top_n=int(top_n), filtro_pais=pais_filtro, filtro_tipo=tipo_filtro)
+        proyeccion = motor.proyeccion_resultado(analogias, str(partido_ref))
+
+        st.session_state["analogias_contexto"] = asdict(ctx)
+        st.session_state["analogias_result"] = analogias
+        st.session_state["analogias_proyeccion"] = proyeccion
+        st.session_state["analogias_n_hist"] = len(df_hist)
+
+        if guardar_auto and analogias:
+            snapshot_id = guardar_snapshot_analogia(
+                contexto_dict=asdict(ctx),
+                resultados=[asdict(a) for a in analogias],
+                proyeccion=proyeccion or None,
+                partido_ref=str(partido_ref),
+                tipo_eleccion=tipo_filtro or "generales",
+            )
+            st.session_state["analogias_snapshot_id"] = snapshot_id
+
+    analogias = st.session_state.get("analogias_result", [])
+    proyeccion = st.session_state.get("analogias_proyeccion", {})
+    n_hist = st.session_state.get("analogias_n_hist", 0)
+    snapshot_id = st.session_state.get("analogias_snapshot_id")
+
+    if not analogias:
+        st.markdown(f"""
+        <div class="warn-box">
+            No hay elecciones históricas para los filtros seleccionados.
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        k1, k2, k3, k4 = st.columns(4)
+        with k1:
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{PURPLE}55">
+                <div class="lbl">Histórico disponible</div>
+                <div class="val">{n_hist}</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k2:
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{CYAN}55">
+                <div class="lbl">Mejor similitud</div>
+                <div class="val">{analogias[0].similitud_pct:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k3:
+            prob_vuelco = float(proyeccion.get("prob_vuelco", 0.0) or 0.0) * 100.0
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{AMBER}55">
+                <div class="lbl">Prob. vuelco</div>
+                <div class="val">{prob_vuelco:.0f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with k4:
+            pct_est = proyeccion.get("pct_partido_est")
+            pct_lbl = f"{pct_est:.1f}%" if pct_est is not None else "N/D"
+            st.markdown(f"""
+            <div class="kpi-pill" style="border-top-color:{GREEN}55">
+                <div class="lbl">Voto est. {partido_ref}</div>
+                <div class="val">{pct_lbl}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        if snapshot_id:
+            st.caption(f"Snapshot guardado con ID #{snapshot_id}")
+
+        st.markdown(f"""
+        <div class="sec-hdr">
+            <div class="bar" style="background:{CYAN}"></div>
+            <span class="lbl">Distancia por dimensión (Top 5 análogos)</span>
+            <div class="line"></div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        labels = list(FEATURES_CONFIG.keys())
+        labels_pretty = [FEATURES_CONFIG[k][1] for k in labels]
+        fig_radar = go.Figure()
+        colors = [CYAN, AMBER, PURPLE, BLUE, GREEN]
+        max_r = 0.01
+        for i, a in enumerate(analogias[:5]):
+            vals = [float(a.dimensiones.get(k, 0.0)) for k in labels]
+            max_r = max(max_r, max(vals) if vals else 0.01)
+            fig_radar.add_trace(
+                go.Scatterpolar(
+                    r=vals + [vals[0]],
+                    theta=labels_pretty + [labels_pretty[0]],
+                    fill="toself",
+                    opacity=0.20,
+                    line=dict(color=colors[i % len(colors)], width=2),
+                    name=f"{a.pais} {a.anio} ({a.similitud_pct:.1f}%)",
+                )
+            )
+
+        fig_radar.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, range=[0, max_r * 1.2], gridcolor=BORDER),
+                angularaxis=dict(gridcolor=BORDER),
+                bgcolor="rgba(0,0,0,0)",
+            ),
+            height=460,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            legend=dict(orientation="h", y=-0.15),
+            margin=dict(l=20, r=20, t=20, b=40),
+        )
+        st.plotly_chart(fig_radar, use_container_width=True)
+
+        st.markdown(f"""
+        <div class="sec-hdr">
+            <div class="bar" style="background:{BLUE}"></div>
+            <span class="lbl">Fichas de análogos</span>
+            <div class="line"></div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        filas = []
+        for a in analogias:
+            filas.append(
+                {
+                    "Elección": a.nombre_ref,
+                    "País": a.pais,
+                    "Año": a.anio,
+                    "Tipo": a.tipo,
+                    "Similitud (%)": a.similitud_pct,
+                    "Distancia": a.distancia,
+                    "Ganador": a.ganador or "—",
+                    "% ganador": a.pct_ganador if a.pct_ganador is not None else "—",
+                    "Vuelco": "Sí" if a.vuelco_gobierno else "No",
+                    "Participación": a.participacion if a.participacion is not None else "—",
+                }
+            )
+        st.dataframe(pd.DataFrame(filas), hide_index=True, use_container_width=True)
+
+        for i, a in enumerate(analogias):
+            with st.expander(f"#{i+1} · {a.nombre_ref} · Similitud {a.similitud_pct:.1f}%"):
+                if a.notas:
+                    st.caption(a.notas)
+                if a.resultados_json:
+                    if isinstance(a.resultados_json, dict):
+                        resumen = ", ".join([f"{k}: {v}%" for k, v in a.resultados_json.items()])
+                    else:
+                        resumen = str(a.resultados_json)
+                    st.markdown(f"**Resultados relevantes:** {resumen}")
+
+    with st.expander("📁 Historial de snapshots"):
+        df_snap = cargar_snapshots_analogia(limite=10)
+        if df_snap.empty:
+            st.caption("No hay snapshots guardados.")
+        else:
+            st.dataframe(
+                df_snap[["id", "tipo_eleccion", "partido_ref", "calculado_en"]],
+                hide_index=True,
+                use_container_width=True,
+            )

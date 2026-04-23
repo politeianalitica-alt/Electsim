@@ -48,6 +48,8 @@ services:
     environment:
       PREFECT_API_URL: http://prefect:4200/api
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      PYTHONPATH: /app
+      ETL_CACHE_DIR: /tmp/.etl_cache
     command: >
       /bin/sh -lc "prefect work-pool create default-pool -t process >/dev/null 2>&1 || true;
       prefect worker start --pool default-pool"
@@ -57,6 +59,9 @@ services:
       prefect:
         condition: service_started
     restart: unless-stopped
+    volumes:
+      - .:/app
+      - etl_cache:/tmp/.etl_cache
 
   electsim-api:
     build:
@@ -66,11 +71,14 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
       MICRODATOS_DIR: /app/data/microdatos
+      PYTHONPATH: /app
+      ETL_CACHE_DIR: /tmp/.etl_cache
     depends_on:
       postgres:
         condition: service_healthy
     volumes:
       - ./data/microdatos:/app/data/microdatos
+      - etl_cache:/tmp/.etl_cache
     ports:
       - "8000:8000"
 
@@ -88,3 +96,4 @@ services:
 volumes:
   pgdata:
   miniodata:
+  etl_cache:

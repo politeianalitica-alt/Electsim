@@ -34,8 +34,15 @@ def find_objects(
     type_: str,
     request: Request,
     ontology: OntologyStore = Depends(get_ontology),
-    limit: int = Query(default=100, ge=1, le=500),
-) -> list[dict[str, Any]]:
-    filters = {k: v for k, v in request.query_params.items() if k not in {"limit"}}
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
+) -> dict[str, Any]:
+    filters = {k: v for k, v in request.query_params.items() if k not in {"limit", "offset"}}
     objs = ontology.find_objects(type_, filters=filters)
-    return [{"type": o.type, "id": o.id, "properties": o.properties} for o in objs[:limit]]
+    page = objs[offset : offset + limit]
+    return {
+        "total": len(objs),
+        "offset": offset,
+        "limit": limit,
+        "items": [{"type": o.type, "id": o.id, "properties": o.properties} for o in page],
+    }

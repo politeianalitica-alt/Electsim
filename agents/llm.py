@@ -5,6 +5,7 @@ import logging
 import os
 import random
 import threading
+import asyncio
 import time
 from typing import Any, Callable
 
@@ -268,6 +269,20 @@ def get_embedding_client() -> EmbeddingClient:
             if _embedding_client is None:
                 _embedding_client = EmbeddingClient()
     return _embedding_client
+
+
+def embed_text_safe(client: EmbeddingClient, text_input: str) -> list[float]:
+    """Wrapper seguro para contextos con event loop activo."""
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return client.embed_text(text_input)
+
+    import concurrent.futures
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+        future = ex.submit(client.embed_text, text_input)
+        return future.result()
 
 
 def get_llm_client(

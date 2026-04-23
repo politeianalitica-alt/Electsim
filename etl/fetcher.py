@@ -6,6 +6,8 @@ Cliente HTTP con caché local, retry y rate-limit por dominio.
 from __future__ import annotations
 
 import hashlib
+import os
+import threading
 import time
 from pathlib import Path
 from urllib.parse import urlparse
@@ -15,10 +17,11 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
-CACHE_DIR = Path(".etl_cache")
-CACHE_DIR.mkdir(exist_ok=True)
+CACHE_DIR = Path(os.environ.get("ETL_CACHE_DIR", "/tmp/.etl_cache"))
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
 _domain_last_call: dict[str, float] = {}
+_rate_limit_lock = threading.Lock()
 
 RATE_LIMITS = {
     "default": 0.5,
@@ -55,11 +58,12 @@ def _cache_key(url: str) -> Path:
 
 def _rate_limit(domain: str) -> None:
     delay = RATE_LIMITS.get(domain, RATE_LIMITS["default"])
-    last = _domain_last_call.get(domain, 0.0)
-    wait = delay - (time.time() - last)
-    if wait > 0:
-        time.sleep(wait)
-    _domain_last_call[domain] = time.time()
+    with _rate_limit_lock:
+        last = _domain_last_call.get(domain, 0.0)
+        wait = delay - (time.time() - last)
+        if wait > 0:
+            time.sleep(wait)
+        _domain_last_call[domain] = time.time()
 
 
 def fetch(url: str, cache_ttl: int = 3600, timeout: int = 15) -> str | None:

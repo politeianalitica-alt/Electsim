@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from agents.llm import AnthropicChatClient, OllamaClient, OpenAIChatClient, StubLLMClient, _with_retry
-from agents.llm import EmbeddingClient, get_embedding_client
+from agents.llm import EmbeddingClient, embed_text_safe, get_embedding_client, get_llm_client
 from agents.memory_log import get_session_turns, get_simulation_responses, list_sessions, log_memory_turn
 from agents.prompts import build_system_prompt, parse_chain_of_thought
 from agents.rag_retriever import construir_extra_context
@@ -39,6 +39,8 @@ __all__ = [
     "StubLLMClient",
     "EmbeddingClient",
     "get_embedding_client",
+    "embed_text_safe",
+    "get_llm_client",
     "_with_retry",
     "build_system_prompt",
     "parse_chain_of_thought",

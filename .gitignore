@@ -49,6 +49,8 @@ htmlcov/
 .vscode/
 .idea/
 *.swp
+.claude1/
+.git1/
 
 # macOS
 .DS_Store
@@ -69,3 +71,13 @@ logs/
 great_expectations/uncommitted/
 tmp/
 *.tmp
+path/
+
+# Frontend SPA (local build artifacts)
+dashboard/spa/node_modules/
+dashboard/spa/dist/
+dashboard/spa/.vite/
+
+# Carpetas locales auxiliares (no versionables)
+Microdatos/
+data1/

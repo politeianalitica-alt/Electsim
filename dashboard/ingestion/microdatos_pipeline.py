@@ -628,372 +628,377 @@ def ingest_microdatos_folder(
             if df.empty or not _is_political_dataset(df, labels, path):
                 continue
 
-            study_code = _extract_study_code(path, df)
-            grupo = _dataset_group(path)
-            encuesta_id = _get_or_create_encuesta(conn, fuente_id, study_code, path, grupo)
-
-            if replace_existing_for_survey:
-                conn.execute(text("DELETE FROM microdatos_encuesta WHERE encuesta_id = :e"), {"e": encuesta_id})
-
-            col_id = _find_col(df, labels, ["ID", "IDP", "NENTRE", "NUMERO"])
-            col_sex = _find_col(df, labels, ["SEXO", "A.3"], r"\bsexo\b")
-            col_age = _find_col(df, labels, ["EDAD", "A.4"], r"\bedad\b")
-            col_studies = _find_col(df, labels, ["ESTUDIOS", "NIVELESTENTREV", "E.2", "E.2.1", "E.2.2"], r"estudios")
-            col_sitlab = _find_col(df, labels, ["SITLAB", "SITULABA1T3"], r"situaci[oó]n laboral")
-            col_class = _find_col(df, labels, ["CLASESUB", "CLASESOCIAL", "H.1", "CS"], r"clase social")
-            col_ccaa = _find_col(df, labels, ["CCAA", "A.6", "CPRO"], r"comunidad aut[oó]noma|provincia")
-            col_vote = _find_col(df, labels, ["INTENCIONG", "INTENCIONGR", "INTENCIONGALTER", "VOTOSIMG", "P3"], r"intenci[oó]n de voto")
-            col_rec = _find_col(df, labels, ["RECUVOTOG", "RECUVOTOGR", "RECUERDO"], r"recuerdo de voto")
-            col_cercania = _find_col(df, labels, ["CERCANIA", "SIMPATIA", "P4"], r"partido.*cercan|simpat[ií]a")
-            col_ideol = _find_col(df, labels, ["ESCIDEOL", "G.1", "F.1", "C.3.1", "H.4.1"], r"autoubicaci[oó]n ideol[oó]gica|escala.*ideol")
-            col_weight = _find_col(df, labels, ["PESO", "PESOCCAA", "PESO_A", "I.1", "H.1"], r"ponderaci[oó]n|peso")
-            col_p12 = _find_col(df, labels, ["P12"], r"situaci[oó]n econ[oó]mica.*espa")
-            col_p13 = _find_col(df, labels, ["P13"], r"situaci[oó]n econ[oó]mica.*personal")
-            lider_cols = [
-                _find_col(df, labels, [f"VALORALIDERES{i}", f"LIDERESCORONA{i}"], r"valoraci[oó]n.*lider")
-                for i in range(1, 6)
-            ]
-
-            micro_rows: list[dict[str, Any]] = []
-            raw_rows: list[dict[str, Any]] = []
-            ai_rows: list[dict[str, Any]] = []
-
-            cohortes: dict[str, dict[str, Any]] = defaultdict(
-                lambda: {
-                    "n_obs": 0,
-                    "peso_total": 0.0,
-                    "ideo_sum_w": 0.0,
-                    "ideo_w": 0.0,
-                    "votos": Counter(),
-                }
-            )
-            assoc_records: list[dict[str, Any]] = []
-
-            assoc_df = pd.DataFrame()
-
-            for idx, row in df.iterrows():
-                respondent = _as_str(row.get(col_id) if col_id else None, 20) or f"{study_code}-{idx+1}"
-                respondent_hash = hashlib.sha1(f"{path.name}|{respondent}|{idx}".encode("utf-8")).hexdigest()
-
-                sex = _normalize_sex(row.get(col_sex) if col_sex else None)
-                age = _as_num(row.get(col_age) if col_age else None)
-                if age is not None and (age < 15 or age > 100):
-                    age = None
-                studies = _as_str(row.get(col_studies) if col_studies else None, 50)
-                sitlab = _as_str(row.get(col_sitlab) if col_sitlab else None, 50)
-                clasesub = _as_str(row.get(col_class) if col_class else None, 30)
-                ccaa = _as_str(row.get(col_ccaa) if col_ccaa else None, 80)
-                ccaa_id: int | None = _normalize_ccaa_id(row.get(col_ccaa) if col_ccaa else None)
-                vote = _normalize_party(row.get(col_vote) if col_vote else None)
-                rec = _normalize_party(row.get(col_rec) if col_rec else None)
-                cercania = _normalize_party(row.get(col_cercania) if col_cercania else None)
-                ideol = _as_num(row.get(col_ideol) if col_ideol else None)
-                if ideol is not None and (ideol < 0 or ideol > 10):
-                    ideol = None
-                weight = _as_num(row.get(col_weight) if col_weight else None)
-                if weight is None or weight <= 0:
-                    weight = 1.0
-
-                p12 = _as_str(row.get(col_p12) if col_p12 else None, 40)
-                p13 = _as_str(row.get(col_p13) if col_p13 else None, 40)
-                lider_vals = [(_as_num(row.get(c)) if c else None) for c in lider_cols]
-
-                micro_rows.append(
-                    {
-                        "encuesta_id": encuesta_id,
-                        "id_respondente": respondent,
-                        "sexo": sex,
-                        "edad": int(age) if age is not None else None,
-                        "grupo_edad": _age_group(age),
-                        "estudios": studies,
-                        "ocupacion": None,
-                        "situacion_laboral": sitlab,
-                        "ccaa_id": ccaa_id,
-                        "tamano_habitat": None,
-                        "religion": None,
-                        "clase_social_subjetiva": clasesub,
-                        "ingresos_hogar": None,
-                        "recuerdo_voto_anterior": rec,
-                        "intencion_voto": vote,
-                        "intencion_voto_cocina": None,
-                        "escala_ideologica": ideol,
-                        "valoracion_gobierno": None,
-                        "valoracion_oposicion": None,
-                        "satisfaccion_democracia": None,
-                        "principal_problema": None,
-                        "situacion_economica_personal": p13,
-                        "situacion_economica_españa": p12,
-                        "identidad_territorial": ccaa,
-                        "peso_muestral": weight,
-                    }
-                )
-                raw_rows.append(
-                    {
-                        "encuesta_id": encuesta_id,
-                        "source_file": str(path),
-                        "dataset_grupo": grupo,
-                        "row_hash": respondent_hash,
-                        "payload_json": json.dumps({k: (None if pd.isna(v) else v) for k, v in row.to_dict().items()}, default=str, ensure_ascii=False),
-                        "source_labels": json.dumps(labels, ensure_ascii=False) if labels else None,
-                        "has_vote": vote is not None,
-                        "has_ideology": ideol is not None,
-                    }
-                )
-
-                cohort_key = "|".join(
-                    [
-                        sex or "NA",
-                        _age_group(age) or "NA",
-                        studies or "NA",
-                        sitlab or "NA",
-                        clasesub or "NA",
-                        ccaa or "NA",
-                        _ideology_bin(ideol),
-                        rec or "NA",
-                        cercania or "NA",
+            try:
+                with conn.begin_nested():
+                    study_code = _extract_study_code(path, df)
+                    grupo = _dataset_group(path)
+                    encuesta_id = _get_or_create_encuesta(conn, fuente_id, study_code, path, grupo)
+        
+                    if replace_existing_for_survey:
+                        conn.execute(text("DELETE FROM microdatos_encuesta WHERE encuesta_id = :e"), {"e": encuesta_id})
+        
+                    col_id = _find_col(df, labels, ["ID", "IDP", "NENTRE", "NUMERO"])
+                    col_sex = _find_col(df, labels, ["SEXO", "A.3"], r"\bsexo\b")
+                    col_age = _find_col(df, labels, ["EDAD", "A.4"], r"\bedad\b")
+                    col_studies = _find_col(df, labels, ["ESTUDIOS", "NIVELESTENTREV", "E.2", "E.2.1", "E.2.2"], r"estudios")
+                    col_sitlab = _find_col(df, labels, ["SITLAB", "SITULABA1T3"], r"situaci[oó]n laboral")
+                    col_class = _find_col(df, labels, ["CLASESUB", "CLASESOCIAL", "H.1", "CS"], r"clase social")
+                    col_ccaa = _find_col(df, labels, ["CCAA", "A.6", "CPRO"], r"comunidad aut[oó]noma|provincia")
+                    col_vote = _find_col(df, labels, ["INTENCIONG", "INTENCIONGR", "INTENCIONGALTER", "VOTOSIMG", "P3"], r"intenci[oó]n de voto")
+                    col_rec = _find_col(df, labels, ["RECUVOTOG", "RECUVOTOGR", "RECUERDO"], r"recuerdo de voto")
+                    col_cercania = _find_col(df, labels, ["CERCANIA", "SIMPATIA", "P4"], r"partido.*cercan|simpat[ií]a")
+                    col_ideol = _find_col(df, labels, ["ESCIDEOL", "G.1", "F.1", "C.3.1", "H.4.1"], r"autoubicaci[oó]n ideol[oó]gica|escala.*ideol")
+                    col_weight = _find_col(df, labels, ["PESO", "PESOCCAA", "PESO_A", "I.1", "H.1"], r"ponderaci[oó]n|peso")
+                    col_p12 = _find_col(df, labels, ["P12"], r"situaci[oó]n econ[oó]mica.*espa")
+                    col_p13 = _find_col(df, labels, ["P13"], r"situaci[oó]n econ[oó]mica.*personal")
+                    lider_cols = [
+                        _find_col(df, labels, [f"VALORALIDERES{i}", f"LIDERESCORONA{i}"], r"valoraci[oó]n.*lider")
+                        for i in range(1, 6)
                     ]
-                )
-                c = cohortes[cohort_key]
-                c["n_obs"] += 1
-                c["peso_total"] += float(weight)
-                if ideol is not None:
-                    c["ideo_sum_w"] += float(ideol) * float(weight)
-                    c["ideo_w"] += float(weight)
-                c["votos"][_cohort_vote_bucket(vote)] += float(weight)
-                assoc_records.append(
-                    {
-                        "sexo": sex,
-                        "grupo_edad": _age_group(age),
-                        "estudios": studies,
-                        "sitlab": sitlab,
-                        "clasesub": clasesub,
-                        "ccaa": ccaa,
-                        "escideol_bin": _ideology_bin(ideol),
-                        "recuerdo": rec,
-                        "cercania": cercania,
-                        "intencion": vote,
-                    }
-                )
-
-                if vote is not None or ideol is not None:
-                    ai_rows.append(
-                        {
-                            "run_id": run_id,
-                            "encuesta_id": encuesta_id,
-                            "respondent_hash": respondent_hash,
-                            "cohorte_key": cohort_key,
-                            "prompt_perfil": _mk_prompt(
+        
+                    micro_rows: list[dict[str, Any]] = []
+                    raw_rows: list[dict[str, Any]] = []
+                    ai_rows: list[dict[str, Any]] = []
+        
+                    cohortes: dict[str, dict[str, Any]] = defaultdict(
+                        lambda: {
+                            "n_obs": 0,
+                            "peso_total": 0.0,
+                            "ideo_sum_w": 0.0,
+                            "ideo_w": 0.0,
+                            "votos": Counter(),
+                        }
+                    )
+                    assoc_records: list[dict[str, Any]] = []
+        
+                    assoc_df = pd.DataFrame()
+        
+                    for idx, row in df.iterrows():
+                        respondent = _as_str(row.get(col_id) if col_id else None, 20) or f"{study_code}-{idx+1}"
+                        respondent_hash = hashlib.sha1(f"{path.name}|{respondent}|{idx}".encode("utf-8")).hexdigest()
+        
+                        sex = _normalize_sex(row.get(col_sex) if col_sex else None)
+                        age = _as_num(row.get(col_age) if col_age else None)
+                        if age is not None and (age < 15 or age > 100):
+                            age = None
+                        studies = _as_str(row.get(col_studies) if col_studies else None, 50)
+                        sitlab = _as_str(row.get(col_sitlab) if col_sitlab else None, 50)
+                        clasesub = _as_str(row.get(col_class) if col_class else None, 30)
+                        ccaa = _as_str(row.get(col_ccaa) if col_ccaa else None, 80)
+                        ccaa_id: int | None = _normalize_ccaa_id(row.get(col_ccaa) if col_ccaa else None)
+                        vote = _normalize_party(row.get(col_vote) if col_vote else None)
+                        rec = _normalize_party(row.get(col_rec) if col_rec else None)
+                        cercania = _normalize_party(row.get(col_cercania) if col_cercania else None)
+                        ideol = _as_num(row.get(col_ideol) if col_ideol else None)
+                        if ideol is not None and (ideol < 0 or ideol > 10):
+                            ideol = None
+                        weight = _as_num(row.get(col_weight) if col_weight else None)
+                        if weight is None or weight <= 0:
+                            weight = 1.0
+        
+                        p12 = _as_str(row.get(col_p12) if col_p12 else None, 40)
+                        p13 = _as_str(row.get(col_p13) if col_p13 else None, 40)
+                        lider_vals = [(_as_num(row.get(c)) if c else None) for c in lider_cols]
+        
+                        micro_rows.append(
+                            {
+                                "encuesta_id": encuesta_id,
+                                "id_respondente": respondent,
+                                "sexo": sex,
+                                "edad": int(age) if age is not None else None,
+                                "grupo_edad": _age_group(age),
+                                "estudios": studies,
+                                "ocupacion": None,
+                                "situacion_laboral": sitlab,
+                                "ccaa_id": ccaa_id,
+                                "tamano_habitat": None,
+                                "religion": None,
+                                "clase_social_subjetiva": clasesub,
+                                "ingresos_hogar": None,
+                                "recuerdo_voto_anterior": rec,
+                                "intencion_voto": vote,
+                                "intencion_voto_cocina": None,
+                                "escala_ideologica": ideol,
+                                "valoracion_gobierno": None,
+                                "valoracion_oposicion": None,
+                                "satisfaccion_democracia": None,
+                                "principal_problema": None,
+                                "situacion_economica_personal": p13,
+                                "situacion_economica_españa": p12,
+                                "identidad_territorial": ccaa,
+                                "peso_muestral": weight,
+                            }
+                        )
+                        raw_rows.append(
+                            {
+                                "encuesta_id": encuesta_id,
+                                "source_file": str(path),
+                                "dataset_grupo": grupo,
+                                "row_hash": respondent_hash,
+                                "payload_json": json.dumps({k: (None if pd.isna(v) else v) for k, v in row.to_dict().items()}, default=str, ensure_ascii=False),
+                                "source_labels": json.dumps(labels, ensure_ascii=False) if labels else None,
+                                "has_vote": vote is not None,
+                                "has_ideology": ideol is not None,
+                            }
+                        )
+        
+                        cohort_key = "|".join(
+                            [
+                                sex or "NA",
+                                _age_group(age) or "NA",
+                                studies or "NA",
+                                sitlab or "NA",
+                                clasesub or "NA",
+                                ccaa or "NA",
+                                _ideology_bin(ideol),
+                                rec or "NA",
+                                cercania or "NA",
+                            ]
+                        )
+                        c = cohortes[cohort_key]
+                        c["n_obs"] += 1
+                        c["peso_total"] += float(weight)
+                        if ideol is not None:
+                            c["ideo_sum_w"] += float(ideol) * float(weight)
+                            c["ideo_w"] += float(weight)
+                        c["votos"][_cohort_vote_bucket(vote)] += float(weight)
+                        assoc_records.append(
+                            {
+                                "sexo": sex,
+                                "grupo_edad": _age_group(age),
+                                "estudios": studies,
+                                "sitlab": sitlab,
+                                "clasesub": clasesub,
+                                "ccaa": ccaa,
+                                "escideol_bin": _ideology_bin(ideol),
+                                "recuerdo": rec,
+                                "cercania": cercania,
+                                "intencion": vote,
+                            }
+                        )
+        
+                        if vote is not None or ideol is not None:
+                            ai_rows.append(
                                 {
-                                    "sexo": sex, "edad": int(age) if age is not None else None, "estudios": studies,
-                                    "sitlab": sitlab, "clasesub": clasesub, "ccaa": ccaa, "escideol": ideol,
-                                    "cercania": cercania, "recuerdo": rec,
+                                    "run_id": run_id,
+                                    "encuesta_id": encuesta_id,
+                                    "respondent_hash": respondent_hash,
+                                    "cohorte_key": cohort_key,
+                                    "prompt_perfil": _mk_prompt(
+                                        {
+                                            "sexo": sex, "edad": int(age) if age is not None else None, "estudios": studies,
+                                            "sitlab": sitlab, "clasesub": clasesub, "ccaa": ccaa, "escideol": ideol,
+                                            "cercania": cercania, "recuerdo": rec,
+                                        }
+                                    ),
+                                    "label_voto": vote,
+                                    "escala_ideologica": ideol,
+                                    "peso": float(weight),
+                                    "metadata_json": json.dumps(
+                                        {
+                                            "sexo": sex, "edad": int(age) if age is not None else None, "grupo_edad": _age_group(age),
+                                            "estudios": studies, "sitlab": sitlab, "clasesub": clasesub, "ccaa": ccaa,
+                                            "escideol": ideol, "cercania": cercania, "recuerdo": rec,
+                                            "p12": p12, "p13": p13,
+                                            "valor_lider_1": lider_vals[0], "valor_lider_2": lider_vals[1], "valor_lider_3": lider_vals[2],
+                                            "valor_lider_4": lider_vals[3], "valor_lider_5": lider_vals[4],
+                                        },
+                                        ensure_ascii=False,
+                                    ),
                                 }
+                            )
+        
+                    if not micro_rows:
+                        continue
+        
+                    processed += 1
+        
+                    conn.execute(
+                        text(
+                            """
+                            INSERT INTO microdatos_encuesta (
+                              encuesta_id, id_respondente, sexo, edad, grupo_edad, estudios,
+                              ocupacion, situacion_laboral, ccaa_id, tamano_habitat, religion,
+                              clase_social_subjetiva, ingresos_hogar, recuerdo_voto_anterior,
+                              intencion_voto, intencion_voto_cocina, escala_ideologica,
+                              valoracion_gobierno, valoracion_oposicion, satisfaccion_democracia,
+                              principal_problema, situacion_economica_personal, situacion_economica_españa,
+                              identidad_territorial, peso_muestral
+                            )
+                            VALUES (
+                              :encuesta_id, :id_respondente, :sexo, :edad, :grupo_edad, :estudios,
+                              :ocupacion, :situacion_laboral, :ccaa_id, :tamano_habitat, :religion,
+                              :clase_social_subjetiva, :ingresos_hogar, :recuerdo_voto_anterior,
+                              :intencion_voto, :intencion_voto_cocina, :escala_ideologica,
+                              :valoracion_gobierno, :valoracion_oposicion, :satisfaccion_democracia,
+                              :principal_problema, :situacion_economica_personal, :situacion_economica_españa,
+                              :identidad_territorial, :peso_muestral
+                            )
+                            """
+                        ),
+                        micro_rows,
+                    )
+                    inserted_micro += len(micro_rows)
+        
+                    conn.execute(
+                        text(
+                            """
+                            INSERT INTO microdatos_cis_raw (
+                              encuesta_id, source_file, dataset_grupo, row_hash, payload_json, source_labels, has_vote, has_ideology
+                            )
+                            VALUES (
+                              :encuesta_id, :source_file, :dataset_grupo, :row_hash,
+                              CAST(:payload_json AS JSONB), CAST(:source_labels AS JSONB), :has_vote, :has_ideology
+                            )
+                            ON CONFLICT (source_file, row_hash) DO UPDATE SET
+                              dataset_grupo = EXCLUDED.dataset_grupo,
+                              payload_json = EXCLUDED.payload_json,
+                              source_labels = EXCLUDED.source_labels,
+                              has_vote = EXCLUDED.has_vote,
+                              has_ideology = EXCLUDED.has_ideology
+                            """
+                        ),
+                        raw_rows,
+                    )
+                    inserted_raw += len(raw_rows)
+        
+                    if ai_rows:
+                        conn.execute(
+                            text(
+                                """
+                                INSERT INTO microdatos_ai_pool (
+                                  run_id, encuesta_id, respondent_hash, cohorte_key, prompt_perfil,
+                                  label_voto, escala_ideologica, peso, metadata_json
+                                )
+                                VALUES (
+                                  :run_id, :encuesta_id, :respondent_hash, :cohorte_key, :prompt_perfil,
+                                  :label_voto, :escala_ideologica, :peso, CAST(:metadata_json AS JSONB)
+                                )
+                                ON CONFLICT (encuesta_id, respondent_hash) DO UPDATE SET
+                                  run_id = EXCLUDED.run_id,
+                                  cohorte_key = EXCLUDED.cohorte_key,
+                                  prompt_perfil = EXCLUDED.prompt_perfil,
+                                  label_voto = EXCLUDED.label_voto,
+                                  escala_ideologica = EXCLUDED.escala_ideologica,
+                                  peso = EXCLUDED.peso,
+                                  metadata_json = EXCLUDED.metadata_json
+                                """
                             ),
-                            "label_voto": vote,
-                            "escala_ideologica": ideol,
-                            "peso": float(weight),
-                            "metadata_json": json.dumps(
+                            ai_rows,
+                        )
+                        inserted_ai += len(ai_rows)
+        
+                    cohort_rows = []
+                    for key, c in cohortes.items():
+                        p = key.split("|")
+                        sexo_val = p[0] if len(p) > 0 else None
+                        if sexo_val == "NA":
+                            sexo_val = "N"
+                        if sexo_val:
+                            sexo_val = sexo_val[:1]
+                        voto_total = sum(c["votos"].values())
+                        voto_dist: dict[str, float] = {}
+                        if voto_total > 0:
+                            raw_dist = {k: round((v / voto_total) * 100.0, 3) for k, v in c["votos"].most_common()}
+                            informative = {k: v for k, v in raw_dist.items() if k not in {"NS/NC", "Blanco/Nulo", "NO_DECLARA", "NO DECLARA"}}
+                            informative_total = sum(informative.values())
+                            if informative_total >= 20.0 and len(informative) >= 2:
+                                voto_dist = {
+                                    k: round((v / informative_total) * 100.0, 3)
+                                    for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)
+                                }
+                            else:
+                                voto_dist = _vote_fallback_from_signals(
+                                    (c["ideo_sum_w"] / c["ideo_w"]) if c["ideo_w"] > 0 else None,
+                                    p[7] if len(p) > 7 else None,
+                                    p[8] if len(p) > 8 else None,
+                                )
+                        cohort_rows.append(
+                            {
+                                "run_id": run_id,
+                                "encuesta_id": encuesta_id,
+                                "cohorte_key": key,
+                                "sexo": sexo_val,
+                                "grupo_edad": p[1] if len(p) > 1 else None,
+                                "estudios": p[2] if len(p) > 2 else None,
+                                "sitlab": p[3] if len(p) > 3 else None,
+                                "clase_subjetiva": p[4] if len(p) > 4 else None,
+                                "ccaa": p[5] if len(p) > 5 else None,
+                                "ideologia_tramo": p[6] if len(p) > 6 else None,
+                                "recuerdo_voto": p[7] if len(p) > 7 else None,
+                                "cercania": p[8] if len(p) > 8 else None,
+                                "n_obs": c["n_obs"],
+                                "peso_total": c["peso_total"],
+                                "ideologia_media": (c["ideo_sum_w"] / c["ideo_w"]) if c["ideo_w"] > 0 else None,
+                                "voto_dist_json": json.dumps(voto_dist, ensure_ascii=False),
+                            }
+                        )
+                    if cohort_rows:
+                        conn.execute(
+                            text(
+                                """
+                                INSERT INTO microdatos_cohortes (
+                                  run_id, encuesta_id, cohorte_key, sexo, grupo_edad, estudios,
+                                  sitlab, clase_subjetiva, ccaa, ideologia_tramo, recuerdo_voto,
+                                  cercania, n_obs, peso_total, ideologia_media, voto_dist_json
+                                )
+                                VALUES (
+                                  :run_id, :encuesta_id, :cohorte_key, :sexo, :grupo_edad, :estudios,
+                                  :sitlab, :clase_subjetiva, :ccaa, :ideologia_tramo, :recuerdo_voto,
+                                  :cercania, :n_obs, :peso_total, :ideologia_media, CAST(:voto_dist_json AS JSONB)
+                                )
+                                ON CONFLICT (run_id, encuesta_id, cohorte_key) DO NOTHING
+                                """
+                            ),
+                            cohort_rows,
+                        )
+                        inserted_cohortes += len(cohort_rows)
+        
+                    # asociaciones
+                    assoc_df = pd.DataFrame(assoc_records)
+                    assoc_rows = []
+                    if not assoc_df.empty:
+                        assoc_df = assoc_df.dropna(subset=["intencion"])
+                        predictors = ["sexo", "grupo_edad", "estudios", "sitlab", "clasesub", "ccaa", "escideol_bin", "recuerdo", "cercania"]
+                        for pred in predictors:
+                            tdf = assoc_df[[pred, "intencion"]].dropna()
+                            if tdf.empty:
+                                continue
+                            ct = pd.crosstab(tdf[pred].astype(str), tdf["intencion"].astype(str))
+                            if ct.shape[0] < 2 or ct.shape[1] < 2:
+                                continue
+                            chi2, cv = _chi2_and_cramers_v(ct)
+                            assoc_rows.append(
                                 {
-                                    "sexo": sex, "edad": int(age) if age is not None else None, "grupo_edad": _age_group(age),
-                                    "estudios": studies, "sitlab": sitlab, "clasesub": clasesub, "ccaa": ccaa,
-                                    "escideol": ideol, "cercania": cercania, "recuerdo": rec,
-                                    "p12": p12, "p13": p13,
-                                    "valor_lider_1": lider_vals[0], "valor_lider_2": lider_vals[1], "valor_lider_3": lider_vals[2],
-                                    "valor_lider_4": lider_vals[3], "valor_lider_5": lider_vals[4],
-                                },
-                                ensure_ascii=False,
+                                    "run_id": run_id,
+                                    "encuesta_id": encuesta_id,
+                                    "predictor": pred,
+                                    "target": "INTENCIONG",
+                                    "n_obs": int(tdf.shape[0]),
+                                    "chi2": chi2,
+                                    "cramers_v": cv,
+                                    "n_levels_pred": int(ct.shape[0]),
+                                    "n_levels_target": int(ct.shape[1]),
+                                }
+                            )
+                    if assoc_rows:
+                        conn.execute(
+                            text(
+                                """
+                                INSERT INTO microdatos_asociaciones (
+                                  run_id, encuesta_id, predictor, target, n_obs, chi2, cramers_v, n_levels_pred, n_levels_target
+                                )
+                                VALUES (
+                                  :run_id, :encuesta_id, :predictor, :target, :n_obs, :chi2, :cramers_v, :n_levels_pred, :n_levels_target
+                                )
+                                """
                             ),
-                        }
-                    )
-
-            if not micro_rows:
+                            assoc_rows,
+                        )
+                        inserted_assoc += len(assoc_rows)
+            except Exception as exc:
+                logger.error("Error procesando %s — saltando: %s", path, exc)
                 continue
-
-            processed += 1
-
-            conn.execute(
-                text(
-                    """
-                    INSERT INTO microdatos_encuesta (
-                      encuesta_id, id_respondente, sexo, edad, grupo_edad, estudios,
-                      ocupacion, situacion_laboral, ccaa_id, tamano_habitat, religion,
-                      clase_social_subjetiva, ingresos_hogar, recuerdo_voto_anterior,
-                      intencion_voto, intencion_voto_cocina, escala_ideologica,
-                      valoracion_gobierno, valoracion_oposicion, satisfaccion_democracia,
-                      principal_problema, situacion_economica_personal, situacion_economica_españa,
-                      identidad_territorial, peso_muestral
-                    )
-                    VALUES (
-                      :encuesta_id, :id_respondente, :sexo, :edad, :grupo_edad, :estudios,
-                      :ocupacion, :situacion_laboral, :ccaa_id, :tamano_habitat, :religion,
-                      :clase_social_subjetiva, :ingresos_hogar, :recuerdo_voto_anterior,
-                      :intencion_voto, :intencion_voto_cocina, :escala_ideologica,
-                      :valoracion_gobierno, :valoracion_oposicion, :satisfaccion_democracia,
-                      :principal_problema, :situacion_economica_personal, :situacion_economica_españa,
-                      :identidad_territorial, :peso_muestral
-                    )
-                    """
-                ),
-                micro_rows,
-            )
-            inserted_micro += len(micro_rows)
-
-            conn.execute(
-                text(
-                    """
-                    INSERT INTO microdatos_cis_raw (
-                      encuesta_id, source_file, dataset_grupo, row_hash, payload_json, source_labels, has_vote, has_ideology
-                    )
-                    VALUES (
-                      :encuesta_id, :source_file, :dataset_grupo, :row_hash,
-                      CAST(:payload_json AS JSONB), CAST(:source_labels AS JSONB), :has_vote, :has_ideology
-                    )
-                    ON CONFLICT (source_file, row_hash) DO UPDATE SET
-                      dataset_grupo = EXCLUDED.dataset_grupo,
-                      payload_json = EXCLUDED.payload_json,
-                      source_labels = EXCLUDED.source_labels,
-                      has_vote = EXCLUDED.has_vote,
-                      has_ideology = EXCLUDED.has_ideology
-                    """
-                ),
-                raw_rows,
-            )
-            inserted_raw += len(raw_rows)
-
-            if ai_rows:
-                conn.execute(
-                    text(
-                        """
-                        INSERT INTO microdatos_ai_pool (
-                          run_id, encuesta_id, respondent_hash, cohorte_key, prompt_perfil,
-                          label_voto, escala_ideologica, peso, metadata_json
-                        )
-                        VALUES (
-                          :run_id, :encuesta_id, :respondent_hash, :cohorte_key, :prompt_perfil,
-                          :label_voto, :escala_ideologica, :peso, CAST(:metadata_json AS JSONB)
-                        )
-                        ON CONFLICT (encuesta_id, respondent_hash) DO UPDATE SET
-                          run_id = EXCLUDED.run_id,
-                          cohorte_key = EXCLUDED.cohorte_key,
-                          prompt_perfil = EXCLUDED.prompt_perfil,
-                          label_voto = EXCLUDED.label_voto,
-                          escala_ideologica = EXCLUDED.escala_ideologica,
-                          peso = EXCLUDED.peso,
-                          metadata_json = EXCLUDED.metadata_json
-                        """
-                    ),
-                    ai_rows,
-                )
-                inserted_ai += len(ai_rows)
-
-            cohort_rows = []
-            for key, c in cohortes.items():
-                p = key.split("|")
-                sexo_val = p[0] if len(p) > 0 else None
-                if sexo_val == "NA":
-                    sexo_val = "N"
-                if sexo_val:
-                    sexo_val = sexo_val[:1]
-                voto_total = sum(c["votos"].values())
-                voto_dist: dict[str, float] = {}
-                if voto_total > 0:
-                    raw_dist = {k: round((v / voto_total) * 100.0, 3) for k, v in c["votos"].most_common()}
-                    informative = {k: v for k, v in raw_dist.items() if k not in {"NS/NC", "Blanco/Nulo", "NO_DECLARA", "NO DECLARA"}}
-                    informative_total = sum(informative.values())
-                    if informative_total >= 20.0 and len(informative) >= 2:
-                        voto_dist = {
-                            k: round((v / informative_total) * 100.0, 3)
-                            for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)
-                        }
-                    else:
-                        voto_dist = _vote_fallback_from_signals(
-                            (c["ideo_sum_w"] / c["ideo_w"]) if c["ideo_w"] > 0 else None,
-                            p[7] if len(p) > 7 else None,
-                            p[8] if len(p) > 8 else None,
-                        )
-                cohort_rows.append(
-                    {
-                        "run_id": run_id,
-                        "encuesta_id": encuesta_id,
-                        "cohorte_key": key,
-                        "sexo": sexo_val,
-                        "grupo_edad": p[1] if len(p) > 1 else None,
-                        "estudios": p[2] if len(p) > 2 else None,
-                        "sitlab": p[3] if len(p) > 3 else None,
-                        "clase_subjetiva": p[4] if len(p) > 4 else None,
-                        "ccaa": p[5] if len(p) > 5 else None,
-                        "ideologia_tramo": p[6] if len(p) > 6 else None,
-                        "recuerdo_voto": p[7] if len(p) > 7 else None,
-                        "cercania": p[8] if len(p) > 8 else None,
-                        "n_obs": c["n_obs"],
-                        "peso_total": c["peso_total"],
-                        "ideologia_media": (c["ideo_sum_w"] / c["ideo_w"]) if c["ideo_w"] > 0 else None,
-                        "voto_dist_json": json.dumps(voto_dist, ensure_ascii=False),
-                    }
-                )
-            if cohort_rows:
-                conn.execute(
-                    text(
-                        """
-                        INSERT INTO microdatos_cohortes (
-                          run_id, encuesta_id, cohorte_key, sexo, grupo_edad, estudios,
-                          sitlab, clase_subjetiva, ccaa, ideologia_tramo, recuerdo_voto,
-                          cercania, n_obs, peso_total, ideologia_media, voto_dist_json
-                        )
-                        VALUES (
-                          :run_id, :encuesta_id, :cohorte_key, :sexo, :grupo_edad, :estudios,
-                          :sitlab, :clase_subjetiva, :ccaa, :ideologia_tramo, :recuerdo_voto,
-                          :cercania, :n_obs, :peso_total, :ideologia_media, CAST(:voto_dist_json AS JSONB)
-                        )
-                        ON CONFLICT (run_id, encuesta_id, cohorte_key) DO NOTHING
-                        """
-                    ),
-                    cohort_rows,
-                )
-                inserted_cohortes += len(cohort_rows)
-
-            # asociaciones
-            assoc_df = pd.DataFrame(assoc_records)
-            assoc_rows = []
-            if not assoc_df.empty:
-                assoc_df = assoc_df.dropna(subset=["intencion"])
-                predictors = ["sexo", "grupo_edad", "estudios", "sitlab", "clasesub", "ccaa", "escideol_bin", "recuerdo", "cercania"]
-                for pred in predictors:
-                    tdf = assoc_df[[pred, "intencion"]].dropna()
-                    if tdf.empty:
-                        continue
-                    ct = pd.crosstab(tdf[pred].astype(str), tdf["intencion"].astype(str))
-                    if ct.shape[0] < 2 or ct.shape[1] < 2:
-                        continue
-                    chi2, cv = _chi2_and_cramers_v(ct)
-                    assoc_rows.append(
-                        {
-                            "run_id": run_id,
-                            "encuesta_id": encuesta_id,
-                            "predictor": pred,
-                            "target": "INTENCIONG",
-                            "n_obs": int(tdf.shape[0]),
-                            "chi2": chi2,
-                            "cramers_v": cv,
-                            "n_levels_pred": int(ct.shape[0]),
-                            "n_levels_target": int(ct.shape[1]),
-                        }
-                    )
-            if assoc_rows:
-                conn.execute(
-                    text(
-                        """
-                        INSERT INTO microdatos_asociaciones (
-                          run_id, encuesta_id, predictor, target, n_obs, chi2, cramers_v, n_levels_pred, n_levels_target
-                        )
-                        VALUES (
-                          :run_id, :encuesta_id, :predictor, :target, :n_obs, :chi2, :cramers_v, :n_levels_pred, :n_levels_target
-                        )
-                        """
-                    ),
-                    assoc_rows,
-                )
-                inserted_assoc += len(assoc_rows)
 
         # Añade perfiles derivados de microdatos sin eliminar los perfiles base existentes.
         cohort_df = pd.read_sql(
@@ -1075,6 +1080,14 @@ def ingest_microdatos_folder(
                       :cluster_id, :label, :n_respondentes, :peso_demografico_pct,
                       :edad_media, :ideologia_media, :distribucion_voto_json, :descripcion_perfil_llm
                     )
+                    ON CONFLICT (cluster_id) DO UPDATE SET
+                      label = EXCLUDED.label,
+                      n_respondentes = EXCLUDED.n_respondentes,
+                      peso_demografico_pct = EXCLUDED.peso_demografico_pct,
+                      edad_media = EXCLUDED.edad_media,
+                      ideologia_media = EXCLUDED.ideologia_media,
+                      distribucion_voto_json = EXCLUDED.distribucion_voto_json,
+                      descripcion_perfil_llm = EXCLUDED.descripcion_perfil_llm
                     """
                 ),
                 rows,

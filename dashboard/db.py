@@ -2641,13 +2641,13 @@ def get_ccaa_catalogo() -> list[str]:
 
 
 def insertar_contenidos_mediaticos(registros: list[dict]) -> int:
-    """Inserta contenidos mediaticos con deduplicacion por url."""
+    """Inserta contenidos mediaticos y tags con deduplicacion por URL."""
     if not registros:
         return 0
     if not _table_exists("contenido_mediatico"):
         return 0
     conn = get_conn()
-    sql = """
+    sql_insert = """
         INSERT INTO contenido_mediatico
             (fuente, tipo, medio, autor, url, titular, resumen, texto_completo,
              fecha_publicacion, idioma, alcance_est, likes, shares, comentarios,
@@ -2656,15 +2656,76 @@ def insertar_contenidos_mediaticos(registros: list[dict]) -> int:
         VALUES
             (%(fuente)s, %(tipo)s, %(medio)s, %(autor)s, %(url)s, %(titular)s, %(resumen)s, %(texto_completo)s,
              %(fecha_publicacion)s, %(idioma)s, %(alcance_est)s, %(likes)s, %(shares)s, %(comentarios)s,
-             %(sentimiento_score)s, %(sentimiento_label)s, %(tono)s, %(categoria)s, %(categorias_json)s,
+             %(sentimiento_score)s, %(sentimiento_label)s, %(tono)s, %(categoria)s, %(categorias_json)s::jsonb,
              %(partidos_mencionados)s, %(personas_mencionadas)s, %(embedding_vector)s, %(procesado)s, %(cliente_id)s)
         ON CONFLICT (url) DO NOTHING
+        RETURNING id
+    """
+    sql_tag = """
+        INSERT INTO tags_contenido (contenido_id, tipo_objeto, valor, confianza)
+        VALUES (%(contenido_id)s, %(tipo_objeto)s, %(valor)s, %(confianza)s)
     """
     inserted = 0
     try:
         with conn.cursor() as cur:
-            cur.executemany(sql, registros)
-            inserted = int(cur.rowcount or 0)
+            for rec in registros:
+                record = dict(rec)
+                categorias_json = record.get("categorias_json")
+                if categorias_json is None:
+                    categorias_json = record.get("topics", [])
+                if isinstance(categorias_json, str):
+                    try:
+                        categorias_json = json.loads(categorias_json)
+                    except Exception:
+                        categorias_json = []
+                if not isinstance(categorias_json, list):
+                    categorias_json = []
+                record["categorias_json"] = json.dumps(categorias_json, ensure_ascii=False)
+
+                if record.get("resumen") is None:
+                    record["resumen"] = record.get("texto") or record.get("summary")
+                if record.get("titular") is None:
+                    record["titular"] = record.get("title")
+
+                cur.execute(sql_insert, record)
+                row = cur.fetchone()
+                if not row:
+                    continue
+                inserted += 1
+                contenido_id = int(row[0])
+
+                raw_tags = record.get("tags") or []
+                if isinstance(raw_tags, str):
+                    try:
+                        raw_tags = json.loads(raw_tags)
+                    except Exception:
+                        raw_tags = []
+
+                # Fallback: reconstruir tags básicos si no vienen en el payload.
+                if not raw_tags:
+                    partidos = str(record.get("partidos_mencionados") or "")
+                    personas = str(record.get("personas_mencionadas") or "")
+                    for p in [x.strip() for x in partidos.split(",") if x.strip()]:
+                        raw_tags.append({"tipo_objeto": "partido", "valor": p, "confianza": 0.95})
+                    for p in [x.strip() for x in personas.split(",") if x.strip()]:
+                        raw_tags.append({"tipo_objeto": "persona", "valor": p, "confianza": 0.9})
+                    for t in categorias_json:
+                        raw_tags.append({"tipo_objeto": "tema", "valor": str(t), "confianza": 0.8})
+
+                for tag in raw_tags:
+                    tipo_objeto = str(tag.get("tipo_objeto", "")).strip()
+                    valor = str(tag.get("valor", "")).strip()
+                    if not tipo_objeto or not valor:
+                        continue
+                    cur.execute(
+                        sql_tag,
+                        {
+                            "contenido_id": contenido_id,
+                            "tipo_objeto": tipo_objeto,
+                            "valor": valor,
+                            "confianza": float(tag.get("confianza", 1.0) or 1.0),
+                        },
+                    )
         conn.commit()
     except Exception as e:
         conn.rollback()
@@ -2766,6 +2827,26 @@ def cargar_serie_objeto(
         ORDER BY 1
         """,
         params,
+    )
+
+
+@st.cache_data(ttl=120)
+def cargar_monitor_serie(
+    objeto_tipo: str,
+    objeto_valor: str,
+    canal: str | None = None,
+    ventana_dias: int = 30,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    """
+    Alias semántico para monitor de medios; mantiene compat con `cargar_serie_objeto`.
+    """
+    return cargar_serie_objeto(
+        tipo_objeto=objeto_tipo,
+        valor=objeto_valor,
+        canal=canal,
+        ventana_dias=ventana_dias,
+        cliente_id=cliente_id,
     )
 
 
@@ -3401,6 +3482,80 @@ def cargar_contexto_actual(cliente_id: int | None = None) -> pd.DataFrame:
     )
 
 
+def guardar_snapshot_analogia(
+    contexto_dict: dict[str, Any],
+    resultados: list[dict[str, Any]],
+    proyeccion: dict[str, Any] | None = None,
+    partido_ref: str | None = None,
+    tipo_eleccion: str = "generales",
+    cliente_id: int | None = None,
+) -> int | None:
+    """Persiste un snapshot de búsqueda de analogías y devuelve su ID."""
+    if not _table_exists("snapshots_analogia"):
+        return None
+
+    sql = """
+        INSERT INTO snapshots_analogia
+            (cliente_id, tipo_eleccion, contexto_json, resultados_json,
+             proyeccion_json, partido_ref)
+        VALUES
+            (:cliente_id, :tipo_eleccion, :contexto_json, :resultados_json,
+             :proyeccion_json, :partido_ref)
+        RETURNING id
+    """
+    params = {
+        "cliente_id": cliente_id,
+        "tipo_eleccion": tipo_eleccion,
+        "contexto_json": json.dumps(contexto_dict, ensure_ascii=False, default=str),
+        "resultados_json": json.dumps(resultados, ensure_ascii=False, default=str),
+        "proyeccion_json": (
+            json.dumps(proyeccion, ensure_ascii=False, default=str)
+            if proyeccion is not None
+            else None
+        ),
+        "partido_ref": partido_ref,
+    }
+
+    conn = get_conn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(_to_dbapi_named(sql), params)
+            row = cur.fetchone()
+        conn.commit()
+        return int(row[0]) if row else None
+    except Exception as e:
+        conn.rollback()
+        logger.error("guardar_snapshot_analogia: %s", e, exc_info=True)
+        return None
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=120)
+def cargar_snapshots_analogia(
+    cliente_id: int | None = None,
+    limite: int = 10,
+) -> pd.DataFrame:
+    """Últimos snapshots de analogías (sin cargar payload completo)."""
+    if not _table_exists("snapshots_analogia"):
+        return pd.DataFrame()
+
+    return _q(
+        """
+        SELECT
+            id, tipo_eleccion, partido_ref, calculado_en, proyeccion_json
+        FROM snapshots_analogia
+        WHERE (:cliente_id IS NULL OR cliente_id = :cliente_id)
+        ORDER BY calculado_en DESC
+        LIMIT :limite
+        """,
+        {"cliente_id": cliente_id, "limite": int(limite)},
+    )
+
+
 def guardar_eleccion_historica(row: dict[str, Any]) -> bool:
     if not _table_exists("elecciones_historicas"):
         return False
@@ -3720,3 +3875,198 @@ def cargar_metadata_perfil_fecha(fecha: str) -> dict[str, Any]:
     if df.empty:
         return {}
     return df.iloc[0].to_dict()
+
+
+# ── BLOQUE 7B: voto_blando_resultados + transferencia_voto (nuevo) ─────────
+
+@st.cache_data(ttl=180)
+def cargar_voto_blando(
+    partido_ref: str,
+    tipo_eleccion: str = "generales",
+    circunscripcion: str | None = None,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("voto_blando_resultados"):
+        return pd.DataFrame()
+
+    filtros = ["partido_ref = :partido_ref", "tipo_eleccion = :tipo_eleccion"]
+    params: dict[str, Any] = {
+        "partido_ref": str(partido_ref).upper(),
+        "tipo_eleccion": tipo_eleccion,
+    }
+    if circunscripcion:
+        filtros.append("circunscripcion = :circunscripcion")
+        params["circunscripcion"] = circunscripcion
+    if cliente_id is not None:
+        filtros.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+
+    where = " AND ".join(filtros)
+    return _q(
+        f"""
+        SELECT
+            id, cliente_id, tipo_eleccion, partido_ref, circunscripcion,
+            segmento_edad, segmento_estudios, segmento_ideologia,
+            score_medio_blando, pct_voto_blando, pct_probable_abst,
+            pct_transferible, etiqueta, n_electores_est,
+            contribuciones_json, calculado_en
+        FROM voto_blando_resultados
+        WHERE {where}
+        ORDER BY pct_transferible DESC NULLS LAST, calculado_en DESC
+        """,
+        params,
+    )
+
+
+def guardar_voto_blando(
+    registros: list[dict] | pd.DataFrame,
+    partido_ref: str,
+    tipo_eleccion: str = "generales",
+    cliente_id: int | None = None,
+) -> int:
+    if not _table_exists("voto_blando_resultados"):
+        return 0
+
+    if isinstance(registros, pd.DataFrame):
+        if registros.empty:
+            return 0
+        rows = registros.to_dict(orient="records")
+    else:
+        rows = list(registros or [])
+    if not rows:
+        return 0
+
+    conn = get_conn()
+    insertados = 0
+    sql = """
+        INSERT INTO voto_blando_resultados
+            (cliente_id, tipo_eleccion, partido_ref, circunscripcion,
+             segmento_edad, segmento_estudios, segmento_ideologia,
+             score_medio_blando, pct_voto_blando, pct_probable_abst,
+             pct_transferible, etiqueta, n_electores_est, contribuciones_json)
+        VALUES
+            (%(cliente_id)s, %(tipo_eleccion)s, %(partido_ref)s, %(circunscripcion)s,
+             %(segmento_edad)s, %(segmento_estudios)s, %(segmento_ideologia)s,
+             %(score_medio_blando)s, %(pct_voto_blando)s, %(pct_probable_abst)s,
+             %(pct_transferible)s, %(etiqueta)s, %(n_electores_est)s, %(contribuciones_json)s::jsonb)
+    """
+    try:
+        with conn.cursor() as cur:
+            for r in rows:
+                payload = {
+                    "cliente_id": int(cliente_id) if cliente_id is not None else None,
+                    "tipo_eleccion": tipo_eleccion,
+                    "partido_ref": str(partido_ref).upper(),
+                    "circunscripcion": r.get("circunscripcion") or r.get("provincia") or "nacional",
+                    "segmento_edad": r.get("segmento_edad"),
+                    "segmento_estudios": r.get("segmento_estudios"),
+                    "segmento_ideologia": r.get("segmento_ideologia"),
+                    "score_medio_blando": r.get("score_medio_blando"),
+                    "pct_voto_blando": r.get("pct_voto_blando"),
+                    "pct_probable_abst": r.get("pct_probable_abst"),
+                    "pct_transferible": r.get("pct_transferible"),
+                    "etiqueta": r.get("etiqueta"),
+                    "n_electores_est": int(r.get("n_electores_est") or 0),
+                    "contribuciones_json": json.dumps(
+                        r.get("contribuciones_json") or r.get("contribuciones") or {},
+                        ensure_ascii=False,
+                    ),
+                }
+                cur.execute(sql, payload)
+                insertados += 1
+        conn.commit()
+        return insertados
+    except Exception as e:
+        conn.rollback()
+        logger.error("guardar_voto_blando: %s", e, exc_info=True)
+        return 0
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+@st.cache_data(ttl=180)
+def cargar_transferencia_voto(
+    partido_origen: str | None = None,
+    tipo_eleccion: str = "generales",
+    circunscripcion: str | None = None,
+    cliente_id: int | None = None,
+) -> pd.DataFrame:
+    if not _table_exists("transferencia_voto"):
+        return pd.DataFrame()
+
+    filtros = ["tipo_eleccion = :tipo_eleccion"]
+    params: dict[str, Any] = {"tipo_eleccion": tipo_eleccion}
+    if partido_origen:
+        filtros.append("partido_origen = :partido_origen")
+        params["partido_origen"] = str(partido_origen).upper()
+    if circunscripcion:
+        filtros.append("(circunscripcion = :circunscripcion OR circunscripcion IS NULL)")
+        params["circunscripcion"] = circunscripcion
+    if cliente_id is not None:
+        filtros.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
+        params["cliente_id"] = int(cliente_id)
+
+    return _q(
+        f"""
+        SELECT
+            id, cliente_id, tipo_eleccion, partido_origen, partido_destino,
+            circunscripcion, prob_transferencia, votos_captables_est,
+            metodo, calculado_en
+        FROM transferencia_voto
+        WHERE {' AND '.join(filtros)}
+        ORDER BY calculado_en DESC, partido_origen, partido_destino
+        """,
+        params,
+    )
+
+
+def guardar_transferencia_voto(
+    df_matriz: pd.DataFrame,
+    tipo_eleccion: str = "generales",
+    cliente_id: int | None = None,
+    metodo: str = "heuristico",
+) -> int:
+    if df_matriz.empty or not _table_exists("transferencia_voto"):
+        return 0
+
+    conn = get_conn()
+    insertados = 0
+    sql = """
+        INSERT INTO transferencia_voto
+            (cliente_id, tipo_eleccion, partido_origen, partido_destino,
+             circunscripcion, prob_transferencia, votos_captables_est, metodo)
+        VALUES
+            (%(cliente_id)s, %(tipo_eleccion)s, %(partido_origen)s, %(partido_destino)s,
+             %(circunscripcion)s, %(prob_transferencia)s, %(votos_captables_est)s, %(metodo)s)
+    """
+    try:
+        with conn.cursor() as cur:
+            for _, row in df_matriz.iterrows():
+                payload = {
+                    "cliente_id": int(cliente_id) if cliente_id is not None else None,
+                    "tipo_eleccion": tipo_eleccion,
+                    "partido_origen": str(row.get("partido_origen", "")).upper(),
+                    "partido_destino": str(row.get("partido_destino", "")).upper(),
+                    "circunscripcion": row.get("circunscripcion"),
+                    "prob_transferencia": row.get("prob_transferencia", row.get("prob_transicion")),
+                    "votos_captables_est": int(row.get("votos_captables_est") or 0),
+                    "metodo": str(row.get("metodo") or metodo),
+                }
+                if not payload["partido_origen"] or not payload["partido_destino"]:
+                    continue
+                cur.execute(sql, payload)
+                insertados += 1
+        conn.commit()
+        return insertados
+    except Exception as e:
+        conn.rollback()
+        logger.error("guardar_transferencia_voto: %s", e, exc_info=True)
+        return 0
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass

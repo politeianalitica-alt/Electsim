@@ -24,6 +24,31 @@ set -a
 source "$SCRIPT_DIR/.env"
 set +a
 
+for VAR in POSTGRES_PASSWORD DATABASE_URL; do
+  if ! grep -q "^${VAR}=" "$SCRIPT_DIR/.env"; then
+    echo "ADVERTENCIA: ${VAR} no está definida en .env"
+  fi
+done
+
+LLM_PROVIDER="${ELECTSIM_LLM_PROVIDER:-anthropic}"
+case "${LLM_PROVIDER}" in
+  openai)
+    if [ -z "${OPENAI_API_KEY:-}" ]; then
+      echo "ADVERTENCIA: ELECTSIM_LLM_PROVIDER=openai pero OPENAI_API_KEY está vacío"
+    fi
+    ;;
+  anthropic)
+    if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
+      echo "ADVERTENCIA: ELECTSIM_LLM_PROVIDER=anthropic pero ANTHROPIC_API_KEY está vacío"
+    fi
+    ;;
+  ollama|stub)
+    ;;
+  *)
+    echo "ADVERTENCIA: ELECTSIM_LLM_PROVIDER desconocido (${LLM_PROVIDER})"
+    ;;
+esac
+
 export PYTHONPATH="$SCRIPT_DIR${PYTHONPATH:+:$PYTHONPATH}"
 
 exec streamlit run app.py \

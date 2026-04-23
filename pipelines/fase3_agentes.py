@@ -20,6 +20,37 @@ from agents.simulador_cis import CUESTIONARIO_CIS_BASICO, agregar_respuestas, si
 logger = logging.getLogger(__name__)
 
 
+def safe_flow(*dargs, **dkwargs):
+    """
+    Compatibilidad Prefect/Pydantic:
+    en algunos entornos la decoración de flows falla en import-time.
+    Degradamos a función normal para no romper tests ni CLI.
+    """
+    def _wrap(fn):
+        try:
+            return flow(*dargs, **dkwargs)(fn)
+        except Exception as exc:
+            logger.warning("Prefect flow disabled for %s: %s", fn.__name__, exc)
+            return fn
+
+    return _wrap
+
+
+def _run_task(task_obj, *args, **kwargs):
+    """
+    Ejecuta task Prefect y, si falla el motor/orquestación local, usa .fn.
+    Útil para tests unitarios y entornos sin backend Prefect.
+    """
+    try:
+        return task_obj(*args, **kwargs)
+    except Exception as exc:
+        fn = getattr(task_obj, "fn", None)
+        if callable(fn):
+            logger.warning("Fallback a task.fn para %s: %s", getattr(task_obj, "name", task_obj), exc)
+            return fn(*args, **kwargs)
+        raise
+
+
 def verificar_perfiles_en_bd(engine) -> bool:
     with engine.connect() as conn:
         n = conn.execute(text("SELECT COUNT(*) FROM perfiles_votante")).scalar()
@@ -150,7 +181,7 @@ def task_generar_resumen_fase3(engine):
         logger.warning("task_generar_resumen_fase3: %s", traceback.format_exc())
 
 
-@flow(name="ElectSim-España: Fase 3 — Agentes LLM")
+@safe_flow(name="ElectSim-España: Fase 3 — Agentes LLM")
 def run_fase3():
     url = os.getenv("DATABASE_URL")
     if not url:
@@ -163,10 +194,10 @@ def run_fase3():
         )
         return
 
-    task_simular_encuesta_cis(engine)
-    react, sid = task_simular_campana_ejemplo(engine)
-    task_propagacion_red(react, sid, engine)
-    task_generar_resumen_fase3(engine)
+    _run_task(task_simular_encuesta_cis, engine)
+    react, sid = _run_task(task_simular_campana_ejemplo, engine)
+    _run_task(task_propagacion_red, react, sid, engine)
+    _run_task(task_generar_resumen_fase3, engine)
 
 
 if __name__ == "__main__":

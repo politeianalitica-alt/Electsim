@@ -8,6 +8,7 @@ import logging
 import os
 
 from dashboard.ingestion.media_fetcher import fetch_rss
+from dashboard.ingestion.news_api import fetch_newsapi
 from dashboard.ingestion.social_media import fetch_x_reciente, fetch_youtube
 from dashboard.nlp.enricher import enriquecer
 from dashboard.nlp.alertas import evaluar_objeto
@@ -30,6 +31,12 @@ def tarea_fetch_x(query: str = "politica Espana lang:es -is:retweet") -> list[di
 def tarea_fetch_youtube(query: str = "politica Espana") -> list[dict]:
     items = list(fetch_youtube(query=query, max_results=20))
     logger.info("YouTube obtenidos: %d", len(items))
+    return items
+
+
+def tarea_fetch_newsapi(query: str = "politica Espana OR elecciones Espana") -> list[dict]:
+    items = list(fetch_newsapi(query=query, page_size=30))
+    logger.info("NewsAPI obtenidos: %d", len(items))
     return items
 
 
@@ -109,7 +116,8 @@ def media_monitoring_flow() -> None:
     rss = tarea_fetch_rss()
     x = tarea_fetch_x()
     yt = tarea_fetch_youtube()
-    regs = rss + x + yt
+    news = tarea_fetch_newsapi()
+    regs = rss + x + yt + news
     enriched = tarea_enriquecer(regs)
     ins = tarea_insertar(enriched)
     alerts = tarea_alertas()

@@ -12,6 +12,8 @@ from __future__ import annotations
 import logging
 import os
 import time
+import sys
+from pathlib import Path
 
 from sqlalchemy import create_engine
 
@@ -26,7 +28,16 @@ def main():
         format="%(asctime)s %(levelname)s %(name)s — %(message)s",
     )
 
-    db_url = os.environ["DATABASE_URL"]
+    root = Path(__file__).resolve().parents[1]
+    if str(root) not in sys.path:
+        sys.path.insert(0, str(root))
+
+    db_url = os.environ.get("DATABASE_URL")
+    if not db_url:
+        logger.critical(
+            "DATABASE_URL no está definida. Asegúrate de cargar .env o pasarla por entorno."
+        )
+        raise SystemExit(1)
     engine = create_engine(db_url, pool_pre_ping=True)
 
     resultados = {}

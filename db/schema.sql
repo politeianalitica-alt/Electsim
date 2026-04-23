@@ -696,10 +696,6 @@ CREATE TABLE posts_redes_sociales (
     created_at      TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_posts_embedding_ivfflat
-ON posts_redes_sociales USING ivfflat (embedding vector_cosine_ops)
-WITH (lists = 100);
-
 -- =============================================================================
 -- MÓDULO 10: SERIES TEMPORALES (TimescaleDB)
 -- =============================================================================
@@ -724,3 +720,34 @@ CREATE TABLE tracking_indicadores_economicos (
 
 SELECT create_hypertable('tracking_opinion_publica', 'tiempo', if_not_exists => TRUE);
 SELECT create_hypertable('tracking_indicadores_economicos', 'tiempo', if_not_exists => TRUE);
+
+-- =============================================================================
+-- MÓDULO 11: VISTAS/TABLAS ANALÍTICAS REQUERIDAS POR API
+-- =============================================================================
+
+CREATE TABLE IF NOT EXISTS estimaciones_voto_agregadas (
+    id                  BIGSERIAL PRIMARY KEY,
+    fecha_estimacion    DATE NOT NULL,
+    partido_id          INTEGER REFERENCES partidos(id),
+    estimacion_pct      NUMERIC(6,3),
+    margen_error        NUMERIC(5,3),
+    metodologia         VARCHAR(100),
+    fuente_id           INTEGER REFERENCES fuentes_encuesta(id),
+    tenant_id           TEXT NOT NULL DEFAULT 'default',
+    created_at          TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_estimaciones_fecha
+    ON estimaciones_voto_agregadas(fecha_estimacion DESC);
+CREATE INDEX IF NOT EXISTS idx_estimaciones_partido
+    ON estimaciones_voto_agregadas(partido_id);
+
+CREATE TABLE IF NOT EXISTS volatilidad_electoral_historica (
+    id                      SERIAL PRIMARY KEY,
+    eleccion_actual         INTEGER REFERENCES elecciones(id),
+    eleccion_anterior       INTEGER REFERENCES elecciones(id),
+    volatilidad_total       NUMERIC(6,3),
+    volatilidad_bloques     NUMERIC(6,3),
+    volatilidad_interna     NUMERIC(6,3),
+    created_at              TIMESTAMP DEFAULT NOW()
+);

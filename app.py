@@ -21,13 +21,20 @@ def _ensure_pages_bridge() -> None:
     dashboard_pages = root / "dashboard" / "pages"
 
     if not dashboard_pages.exists():
-        return
+        raise RuntimeError(f"dashboard/pages no existe en {dashboard_pages}")
 
-    # Si hay symlink roto, lo eliminamos para recrearlo correctamente.
-    if pages_root.is_symlink() and not pages_root.exists():
+    # Symlink ya correcto.
+    if pages_root.is_symlink():
+        try:
+            if pages_root.resolve() == dashboard_pages.resolve():
+                return
+        except OSError:
+            # symlink roto -> se recrea
+            pass
         pages_root.unlink(missing_ok=True)
 
-    if pages_root.exists():
+    # Directorio real ya presente (por copia previa): no tocar.
+    if pages_root.exists() and not pages_root.is_symlink():
         return
 
     # Preferimos symlink (rápido y sin duplicar ficheros).
@@ -38,7 +45,8 @@ def _ensure_pages_bridge() -> None:
         pass
 
     # Fallback portable: copia física de páginas.
-    shutil.copytree(dashboard_pages, pages_root)
+    if not pages_root.exists():
+        shutil.copytree(dashboard_pages, pages_root)
 
 
 _ensure_pages_bridge()

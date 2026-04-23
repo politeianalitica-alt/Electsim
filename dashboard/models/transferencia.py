@@ -133,3 +133,96 @@ def _estimar_heuristico(partidos: list[str]) -> pd.DataFrame:
                 }
             )
     return pd.DataFrame(rows)
+
+
+def calcular_transferencia_heuristica(partidos: list[str] | None = None) -> pd.DataFrame:
+    """Exposición pública del fallback heurístico."""
+    partidos_base = partidos or ["PSOE", "PP", "SUMAR", "VOX", "ERC", "JUNTS", "PNV"]
+    return _estimar_heuristico(partidos_base)
+
+
+def pivot_matriz_transferencia(df_transferencia: pd.DataFrame) -> pd.DataFrame:
+    """Convierte tabla larga en matriz partido_origen x partido_destino."""
+    if df_transferencia.empty:
+        return pd.DataFrame()
+    value_col = "prob_transferencia" if "prob_transferencia" in df_transferencia.columns else "prob_transicion"
+    if value_col not in df_transferencia.columns:
+        return pd.DataFrame()
+    return (
+        df_transferencia.pivot_table(
+            index="partido_origen",
+            columns="partido_destino",
+            values=value_col,
+            aggfunc="mean",
+        )
+        .fillna(0.0)
+        .sort_index(axis=0)
+        .sort_index(axis=1)
+    )
+
+
+def calcular_captacion_potencial(
+    df_transferencia: pd.DataFrame,
+    df_voto_blando: pd.DataFrame,
+    partido_destino: str,
+    partidos_origen: list[str],
+) -> pd.DataFrame:
+    """
+    Cruza matriz de transferencia con voto blando para estimar votos captables.
+    """
+    if df_transferencia.empty or df_voto_blando.empty:
+        return pd.DataFrame()
+
+    value_col = "prob_transferencia" if "prob_transferencia" in df_transferencia.columns else "prob_transicion"
+    if value_col not in df_transferencia.columns:
+        return pd.DataFrame()
+
+    df_hacia = df_transferencia[
+        df_transferencia["partido_destino"].astype(str).str.upper() == str(partido_destino).upper()
+    ].copy()
+    if df_hacia.empty:
+        return pd.DataFrame()
+
+    rows: list[dict] = []
+    for _, t_row in df_hacia.iterrows():
+        origen = str(t_row.get("partido_origen", ""))
+        if origen.upper() == str(partido_destino).upper() or origen not in partidos_origen:
+            continue
+
+        try:
+            prob = float(t_row.get(value_col) or 0.0)
+        except Exception:
+            prob = 0.0
+
+        for _, vb_row in df_voto_blando.iterrows():
+            try:
+                pct_blando = float(vb_row.get("pct_voto_blando", 0.0))
+            except Exception:
+                pct_blando = 0.0
+            # Soporta escalas 0..1 y 0..100
+            if pct_blando > 1.0:
+                pct_blando = pct_blando / 100.0
+            pct_blando = min(max(pct_blando, 0.0), 1.0)
+
+            n_elec = int(vb_row.get("n_electores_est", 0) or 0)
+            circ = (
+                vb_row.get("circunscripcion")
+                or vb_row.get("provincia")
+                or vb_row.get("segmento")
+                or "nacional"
+            )
+            votos_captables = int(n_elec * pct_blando * prob)
+            rows.append(
+                {
+                    "partido_origen": origen,
+                    "circunscripcion": circ,
+                    "prob_transferencia": round(prob, 4),
+                    "pct_voto_blando": round(pct_blando * 100, 1),
+                    "votos_captables_est": votos_captables,
+                    "prioridad": round(prob * pct_blando, 4),
+                }
+            )
+
+    if not rows:
+        return pd.DataFrame()
+    return pd.DataFrame(rows).sort_values("prioridad", ascending=False).reset_index(drop=True)

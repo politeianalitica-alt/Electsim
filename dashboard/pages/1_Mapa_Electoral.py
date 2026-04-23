@@ -1572,6 +1572,34 @@ with tab_hist:
 with tab_analogias:
     _render_tab_analogias_historicas()
 
+# ── Integración Bloque 7: resumen voto blando ───────────────────────────────
+with st.expander("Voto blando por provincia (resumen)", expanded=False):
+    try:
+        _partido_mapa = str(st.session_state.get("partido_seleccionado", "PSOE")).upper()
+        df_vb_mapa = _db.cargar_voto_blando(partido_ref=_partido_mapa, tipo_eleccion="generales")
+        if df_vb_mapa.empty:
+            st.caption("Sin datos de voto blando calculados. Revisa la página 25.")
+        else:
+            cols = [
+                c
+                for c in [
+                    "circunscripcion",
+                    "etiqueta",
+                    "pct_voto_blando",
+                    "pct_transferible",
+                ]
+                if c in df_vb_mapa.columns
+            ]
+            st.dataframe(
+                df_vb_mapa[cols]
+                .sort_values("pct_transferible", ascending=False)
+                .head(15),
+                use_container_width=True,
+                hide_index=True,
+            )
+    except Exception:
+        st.caption("Módulo de voto blando no disponible.")
+
 # ── Footer ───────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);

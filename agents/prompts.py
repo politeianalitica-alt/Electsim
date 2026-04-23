@@ -147,7 +147,10 @@ def build_system_prompt(perfil: Mapping[str, Any]) -> str:
     if top_problemas:
         secciones.append(top_problemas)
     if desc:
+        secciones.append("Descripción del perfil:\n" + desc)
         secciones.append("Contexto narrativo previo (usar solo como apoyo, no como fuente principal):\n" + desc)
+    else:
+        secciones.append("Descripción del perfil:\nNo hay descripción detallada para este segmento.")
     return "\n\n".join(secciones)
 
 
