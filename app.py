@@ -6,6 +6,7 @@ redirigiendo a ``dashboard/pages``.
 
 from __future__ import annotations
 
+import runpy
 import shutil
 import sys
 import traceback
@@ -59,7 +60,7 @@ _ensure_pages_bridge()
 load_dotenv(_ROOT / ".env")
 
 try:
-    from dashboard.app import *  # noqa: F401,F403,E402
+    runpy.run_path(str(_ROOT / "dashboard" / "app.py"), run_name="__main__")
 except Exception as exc:  # pragma: no cover - fallback visual en runtime Streamlit
     import streamlit as st
 
