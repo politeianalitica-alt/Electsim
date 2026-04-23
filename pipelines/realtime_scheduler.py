@@ -172,6 +172,116 @@ def task_generar_alertas_automaticas() -> str:
             ),
             conn,
         )
+        df_prensa = pd.read_sql(
+            text(
+                """
+                WITH base AS (
+                    SELECT
+                        published_at::date AS fecha,
+                        COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida') AS fuente,
+                        BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                        COALESCE(sentimiento_score, 0.0)::numeric AS sent
+                    FROM article
+                    WHERE published_at >= NOW() - INTERVAL '14 days'
+                      AND COALESCE(partidos_mencionados, '') <> ''
+                ),
+                agg AS (
+                    SELECT
+                        partido,
+                        COUNT(*) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS n_24h,
+                        COUNT(*) FILTER (WHERE fecha < CURRENT_DATE - INTERVAL '1 day') AS n_prev,
+                        COUNT(DISTINCT fuente) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS fuentes_recientes,
+                        AVG(sent) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS sent_24h,
+                        AVG(sent) FILTER (WHERE fecha < CURRENT_DATE - INTERVAL '1 day') AS sent_prev
+                    FROM base
+                    WHERE partido <> ''
+                    GROUP BY partido
+                )
+                SELECT
+                    partido,
+                    n_24h,
+                    n_prev,
+                    fuentes_recientes,
+                    COALESCE(sent_24h, 0.0) AS sent_24h,
+                    COALESCE(sent_prev, 0.0) AS sent_prev,
+                    LEAST(1.0, (COALESCE(fuentes_recientes, 0)::numeric / 6.0)) AS consenso_score,
+                    ROUND(
+                        (
+                            (n_24h + 1)::numeric
+                            / (((n_prev)::numeric / 13.0) + 1.0)
+                        )::numeric,
+                        3
+                    ) AS ratio_menciones
+                FROM agg
+                WHERE n_24h > 0
+                ORDER BY ratio_menciones DESC
+                """
+            ),
+            conn,
+        )
+        if df_prensa.empty:
+            df_prensa = pd.read_sql(
+                text(
+                    """
+                    WITH base AS (
+                        SELECT
+                            fecha_publicacion::date AS fecha,
+                            COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida') AS fuente,
+                            BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                            COALESCE(sentimiento_score, 0.0)::numeric AS sent
+                        FROM noticias_prensa
+                        WHERE fecha_publicacion >= CURRENT_DATE - INTERVAL '14 days'
+                          AND COALESCE(partidos_mencionados, '') <> ''
+                    ),
+                    agg AS (
+                        SELECT
+                            partido,
+                            COUNT(*) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS n_24h,
+                            COUNT(*) FILTER (WHERE fecha < CURRENT_DATE - INTERVAL '1 day') AS n_prev,
+                            COUNT(DISTINCT fuente) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS fuentes_recientes,
+                            AVG(sent) FILTER (WHERE fecha >= CURRENT_DATE - INTERVAL '1 day') AS sent_24h,
+                            AVG(sent) FILTER (WHERE fecha < CURRENT_DATE - INTERVAL '1 day') AS sent_prev
+                        FROM base
+                        WHERE partido <> ''
+                        GROUP BY partido
+                    )
+                    SELECT
+                        partido,
+                        n_24h,
+                        n_prev,
+                        fuentes_recientes,
+                        COALESCE(sent_24h, 0.0) AS sent_24h,
+                        COALESCE(sent_prev, 0.0) AS sent_prev,
+                        LEAST(1.0, (COALESCE(fuentes_recientes, 0)::numeric / 6.0)) AS consenso_score,
+                        ROUND(
+                            (
+                                (n_24h + 1)::numeric
+                                / (((n_prev)::numeric / 13.0) + 1.0)
+                            )::numeric,
+                            3
+                        ) AS ratio_menciones
+                    FROM agg
+                    WHERE n_24h > 0
+                    ORDER BY ratio_menciones DESC
+                    """
+                ),
+                conn,
+            )
+        try:
+            df_source_health = pd.read_sql(
+                text(
+                    """
+                    SELECT DISTINCT ON (source_id)
+                        source_id, status, errors_count, freshness_lag_s, checked_at
+                    FROM source_health
+                    WHERE fecha >= CURRENT_DATE - INTERVAL '2 days'
+                    ORDER BY source_id, checked_at DESC
+                    """
+                ),
+                conn,
+            )
+        except Exception:
+            df_source_health = pd.DataFrame()
         riesgo_val = conn.execute(
             text(
                 """
@@ -188,6 +298,8 @@ def task_generar_alertas_automaticas() -> str:
         df_macro=df_macro,
         df_encuestas=df_encuestas,
         indice_riesgo=float(riesgo_val) if riesgo_val is not None else None,
+        df_prensa=df_prensa,
+        df_source_health=df_source_health,
     )
     return f"{n} alertas generadas"
 

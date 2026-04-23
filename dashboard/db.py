@@ -6,9 +6,13 @@ Queries cacheadas con st.cache_data sobre el schema real de ElectSim.
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import sys
+import unicodedata
+from collections import defaultdict
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -71,6 +75,17 @@ _MACRO_SQL_MAP = {
     "deficit_publico_pib": "deficit_publico_pib",
 }
 _COLUMNAS_MACRO = dict(_MACRO_SQL_MAP)
+
+_TOKEN_KEYWORDS_RE = re.compile(r"[a-záéíóúñü][a-záéíóúñü\\-]{3,}", flags=re.IGNORECASE)
+_STOPWORDS_KEYWORDS = {
+    "para", "sobre", "entre", "desde", "hasta", "tras", "ante", "contra",
+    "porque", "cuando", "donde", "tambien", "tambi", "solo", "esta", "este",
+    "estos", "estas", "haber", "hacer", "dicho", "dice", "dijo", "ser", "sido",
+    "gobierno", "congreso", "senado", "espana", "espanol", "espanola", "español", "española",
+    "partido", "partidos", "presidente", "ministro", "ministra", "hoy", "ayer",
+    "manana", "mañana", "ultimas", "ultimo", "último", "últimas", "segun", "según",
+    "tras", "frente", "desde", "podria", "podría", "puede", "pueden", "debe",
+}
 
 _CAMPOS_PERFIL_PERMITIDOS = {
     "principal_problema",
@@ -138,6 +153,38 @@ def _quote_ident(col_name: str, conn: Any | None = None) -> str:
         except Exception:
             pass
     return '"' + str(col_name).replace('"', '""') + '"'
+
+
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    try:
+        if value is None:
+            return float(default)
+        return float(value)
+    except Exception:
+        return float(default)
+
+
+def _normalize_token_text(text: str) -> str:
+    txt = unicodedata.normalize("NFKD", str(text or "").lower())
+    txt = "".join(c for c in txt if not unicodedata.combining(c))
+    return re.sub(r"\s+", " ", txt).strip()
+
+
+def _extract_keywords(text: str) -> list[str]:
+    if not text:
+        return []
+    norm = _normalize_token_text(text)
+    out: list[str] = []
+    for tok in _TOKEN_KEYWORDS_RE.findall(norm):
+        tok = tok.strip("-_ ")
+        if len(tok) < 4:
+            continue
+        if tok in _STOPWORDS_KEYWORDS:
+            continue
+        if tok.isdigit():
+            continue
+        out.append(tok)
+    return out
 
 
 def _q(sql: str, params: dict | tuple | list | None = None, conn: Any | None = None) -> pd.DataFrame:
@@ -668,7 +715,7 @@ def cargar_noticias_recientes(dias: int = 7, limit: int = 50, limite: int | None
     df = _q(
         """
         SELECT source_id AS fuente, title AS titular, url_canonical AS url,
-               published_at::date AS fecha_publicacion, categoria,
+               published_at AS fecha_publicacion, categoria,
                partidos_mencionados, sentimiento_score, sentimiento_label,
                temas_json, relevancia_score
         FROM article
@@ -1202,6 +1249,521 @@ def cargar_sesgo_fuente_partido(
         {"dias": int(dias), "min_noticias": int(min_noticias)},
         conn=conn,
     )
+
+
+@st.cache_data(ttl=120)
+def cargar_momentum_sentimiento_partidos(
+    dias: int = 14,
+    ventana_reciente: int = 3,
+    _conn: Any | None = None,
+) -> pd.DataFrame:
+    """
+    Señal dinámica por partido:
+    - ratio_menciones: actividad reciente vs baseline histórico de la ventana.
+    - delta_sent: cambio de sentimiento reciente vs previo.
+    - presion_score: prioriza alta actividad reciente + tono negativo.
+    """
+    dias_i = max(5, int(dias))
+    rec_i = max(1, min(int(ventana_reciente), dias_i - 1))
+    base_days = float(max(dias_i - rec_i, 1))
+
+    def _query(table_expr: str, date_expr: str, source_expr: str) -> pd.DataFrame:
+        return _q(
+            f"""
+            WITH base AS (
+                SELECT
+                    {date_expr}::date AS fecha,
+                    BTRIM(UNNEST(STRING_TO_ARRAY(COALESCE(partidos_mencionados, ''), ','))) AS partido,
+                    COALESCE(sentimiento_score, 0.0)::float AS sentimiento,
+                    {source_expr} AS fuente
+                FROM {table_expr}
+                WHERE {date_expr}::date >= CURRENT_DATE - :dias
+                  AND COALESCE(partidos_mencionados, '') <> ''
+            ),
+            agg AS (
+                SELECT
+                    partido,
+                    COUNT(*) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS n_reciente,
+                    COUNT(*) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS n_prev,
+                    AVG(sentimiento) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS sent_reciente,
+                    AVG(sentimiento) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS sent_prev,
+                    COUNT(DISTINCT fuente) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS fuentes_recientes,
+                    COUNT(DISTINCT fuente) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS fuentes_prev
+                FROM base
+                WHERE partido <> ''
+                GROUP BY partido
+            ),
+            metrics AS (
+                SELECT
+                    partido,
+                    n_reciente,
+                    n_prev,
+                    fuentes_recientes,
+                    fuentes_prev,
+                    COALESCE(sent_reciente, 0.0) AS sent_reciente,
+                    COALESCE(sent_prev, 0.0) AS sent_prev,
+                    (
+                        (n_reciente + 1)::numeric
+                        / (((n_prev)::numeric / :base_days) + 1.0)
+                    ) AS ratio_menciones,
+                    (
+                        (fuentes_recientes + 1)::numeric
+                        / (((fuentes_prev)::numeric / :base_days) + 1.0)
+                    ) AS ratio_fuentes
+                FROM agg
+            )
+            SELECT
+                partido,
+                n_reciente::int,
+                n_prev::int,
+                fuentes_recientes::int,
+                fuentes_prev::int,
+                ROUND(sent_reciente::numeric, 3) AS sent_reciente,
+                ROUND(sent_prev::numeric, 3) AS sent_prev,
+                ROUND((sent_reciente - sent_prev)::numeric, 3) AS delta_sent,
+                ROUND(ratio_menciones::numeric, 3) AS ratio_menciones,
+                ROUND(ratio_fuentes::numeric, 3) AS ratio_fuentes,
+                ROUND(LEAST(1.0, (fuentes_recientes::numeric / 6.0))::numeric, 3) AS consenso_score,
+                ROUND(LEAST(1.0, GREATEST(0.0, (ratio_menciones - 1.0) / 3.0))::numeric, 3) AS novedad_score,
+                ROUND(
+                    (
+                        ratio_menciones
+                        * GREATEST(0.0, -sent_reciente)
+                        * LN((n_reciente + 1)::numeric + 1)
+                    )::numeric,
+                    3
+                ) AS presion_score,
+                ROUND(
+                    (
+                        (
+                            ratio_menciones
+                            * GREATEST(0.0, -sent_reciente)
+                            * LN((n_reciente + 1)::numeric + 1)
+                        )
+                        * (1.0 + LEAST(1.0, (fuentes_recientes::numeric / 6.0)))
+                    )::numeric,
+                    3
+                ) AS prioridad_score
+            FROM metrics
+            WHERE n_reciente > 0
+            ORDER BY prioridad_score DESC, presion_score DESC, ratio_menciones DESC, n_reciente DESC
+            """,
+            {"dias": dias_i, "rec": rec_i, "base_days": base_days},
+            conn=_conn,
+        )
+
+    if _table_exists("article", conn=_conn):
+        df = _query("article", "published_at", "COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida')")
+        if not df.empty:
+            return df
+    return _query("noticias_prensa", "fecha_publicacion", "COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida')")
+
+
+@st.cache_data(ttl=120)
+def cargar_temas_trending(
+    dias: int = 14,
+    ventana_reciente: int = 2,
+    min_noticias: int = 3,
+    _conn: Any | None = None,
+) -> pd.DataFrame:
+    """
+    Calcula aceleración temática (tema en tendencia) comparando últimos días
+    frente al baseline de la ventana previa.
+    """
+    dias_i = max(5, int(dias))
+    rec_i = max(1, min(int(ventana_reciente), dias_i - 1))
+    base_days = float(max(dias_i - rec_i, 1))
+    min_n = max(1, int(min_noticias))
+
+    def _query(table_expr: str, date_expr: str, source_expr: str) -> pd.DataFrame:
+        return _q(
+            f"""
+            WITH base AS (
+                SELECT
+                    {date_expr}::date AS fecha,
+                    COALESCE(NULLIF(categoria, ''), 'general') AS tema,
+                    COALESCE(sentimiento_score, 0.0)::float AS sentimiento,
+                    {source_expr} AS fuente
+                FROM {table_expr}
+                WHERE {date_expr}::date >= CURRENT_DATE - :dias
+            ),
+            agg AS (
+                SELECT
+                    tema,
+                    COUNT(*) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS n_reciente,
+                    COUNT(*) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS n_prev,
+                    AVG(sentimiento) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS sent_reciente,
+                    AVG(sentimiento) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS sent_prev,
+                    COUNT(DISTINCT fuente) FILTER (WHERE fecha >= CURRENT_DATE - :rec) AS fuentes_recientes,
+                    COUNT(DISTINCT fuente) FILTER (WHERE fecha < CURRENT_DATE - :rec) AS fuentes_prev
+                FROM base
+                GROUP BY tema
+            ),
+            metrics AS (
+                SELECT
+                    tema,
+                    n_reciente,
+                    n_prev,
+                    fuentes_recientes,
+                    fuentes_prev,
+                    COALESCE(sent_reciente, 0.0) AS sent_reciente,
+                    COALESCE(sent_prev, 0.0) AS sent_prev,
+                    (
+                        (n_reciente + 1)::numeric
+                        / (((n_prev)::numeric / :base_days) + 1.0)
+                    ) AS momentum_ratio,
+                    (
+                        (fuentes_recientes + 1)::numeric
+                        / (((fuentes_prev)::numeric / :base_days) + 1.0)
+                    ) AS ratio_fuentes
+                FROM agg
+            )
+            SELECT
+                tema,
+                n_reciente::int,
+                n_prev::int,
+                fuentes_recientes::int,
+                fuentes_prev::int,
+                ROUND(sent_reciente::numeric, 3) AS sent_reciente,
+                ROUND(sent_prev::numeric, 3) AS sent_prev,
+                ROUND((sent_reciente - sent_prev)::numeric, 3) AS delta_sent,
+                ROUND(momentum_ratio::numeric, 3) AS momentum_ratio,
+                ROUND(ratio_fuentes::numeric, 3) AS ratio_fuentes,
+                ROUND(LEAST(1.0, (fuentes_recientes::numeric / 6.0))::numeric, 3) AS consenso_fuentes,
+                ROUND(
+                    (
+                        momentum_ratio
+                        * ABS(sent_reciente)
+                        * LN((n_reciente + 1)::numeric + 1)
+                    )::numeric,
+                    3
+                ) AS urgencia_score,
+                ROUND(
+                    (
+                        (
+                            momentum_ratio
+                            * ABS(sent_reciente)
+                            * LN((n_reciente + 1)::numeric + 1)
+                        )
+                        * (1.0 + LEAST(1.0, (fuentes_recientes::numeric / 6.0)) * 0.5)
+                    )::numeric,
+                    3
+                ) AS prioridad_score
+            FROM metrics
+            WHERE n_reciente >= :min_n
+            ORDER BY prioridad_score DESC, momentum_ratio DESC, n_reciente DESC
+            LIMIT 30
+            """,
+            {"dias": dias_i, "rec": rec_i, "base_days": base_days, "min_n": min_n},
+            conn=_conn,
+        )
+
+    if _table_exists("article", conn=_conn):
+        df = _query("article", "published_at", "COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida')")
+        if not df.empty:
+            return df
+    return _query("noticias_prensa", "fecha_publicacion", "COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida')")
+
+
+@st.cache_data(ttl=180)
+def cargar_tracking_palabras_clave(
+    dias: int = 14,
+    ventana_reciente: int = 3,
+    min_menciones: int = 4,
+    top_n: int = 40,
+    _conn: Any | None = None,
+) -> pd.DataFrame:
+    """
+    Tracking dinámico de palabras clave en titulares/resúmenes.
+    Señal principal:
+    - momentum_ratio: frecuencia reciente vs baseline previo.
+    - consenso_fuentes: cobertura en medios distintos.
+    """
+    dias_i = max(5, int(dias))
+    rec_i = max(1, min(int(ventana_reciente), dias_i - 1))
+    min_n = max(2, int(min_menciones))
+    top_i = max(10, int(top_n))
+
+    def _rows_from(
+        table_expr: str,
+        date_expr: str,
+        source_expr: str,
+        title_expr: str,
+        summary_expr: str,
+    ) -> pd.DataFrame:
+        return _q(
+            f"""
+            SELECT
+                {date_expr}::date AS fecha,
+                {source_expr} AS fuente,
+                COALESCE(sentimiento_score, 0.0)::float AS sentimiento,
+                CONCAT_WS(' ', COALESCE({title_expr}, ''), COALESCE({summary_expr}, '')) AS texto
+            FROM {table_expr}
+            WHERE {date_expr}::date >= CURRENT_DATE - :dias
+            ORDER BY {date_expr} DESC
+            LIMIT 4000
+            """,
+            {"dias": dias_i},
+            conn=_conn,
+        )
+
+    if _table_exists("article", conn=_conn):
+        df_raw = _rows_from(
+            "article",
+            "published_at",
+            "COALESCE(NULLIF(TRIM(source_id), ''), 'desconocida')",
+            "title",
+            "summary",
+        )
+        if df_raw.empty:
+            df_raw = _rows_from(
+                "noticias_prensa",
+                "fecha_publicacion",
+                "COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida')",
+                "titular",
+                "resumen",
+            )
+    else:
+        df_raw = _rows_from(
+            "noticias_prensa",
+            "fecha_publicacion",
+            "COALESCE(NULLIF(TRIM(fuente), ''), 'desconocida')",
+            "titular",
+            "resumen",
+        )
+
+    if df_raw.empty:
+        return pd.DataFrame(
+            columns=[
+                "palabra", "n_reciente", "n_prev", "fuentes_recientes", "fuentes_prev",
+                "sent_reciente", "sent_prev", "delta_sent", "momentum_ratio",
+                "ratio_fuentes", "consenso_fuentes", "prioridad_score",
+            ]
+        )
+
+    df_raw["fecha"] = pd.to_datetime(df_raw["fecha"], errors="coerce").dt.date
+    df_raw["fuente"] = df_raw["fuente"].fillna("desconocida").astype(str)
+    df_raw["sentimiento"] = pd.to_numeric(df_raw["sentimiento"], errors="coerce").fillna(0.0)
+    df_raw["texto"] = df_raw["texto"].fillna("").astype(str)
+    df_raw = df_raw.dropna(subset=["fecha"])
+    if df_raw.empty:
+        return pd.DataFrame()
+
+    cutoff = date.today() - timedelta(days=rec_i)
+    base_days = float(max(dias_i - rec_i, 1))
+
+    stats: dict[str, dict[str, Any]] = defaultdict(
+        lambda: {
+            "n_reciente": 0,
+            "n_prev": 0,
+            "fuentes_recientes": set(),
+            "fuentes_prev": set(),
+            "sent_rec_sum": 0.0,
+            "sent_prev_sum": 0.0,
+        }
+    )
+
+    for _, row in df_raw.iterrows():
+        fecha = row["fecha"]
+        fuente = str(row["fuente"] or "desconocida")
+        sent = _safe_float(row["sentimiento"])
+        tokens = set(_extract_keywords(str(row["texto"])))
+        if not tokens:
+            continue
+
+        recent = fecha >= cutoff
+        for tok in tokens:
+            rec = stats[tok]
+            if recent:
+                rec["n_reciente"] += 1
+                rec["fuentes_recientes"].add(fuente)
+                rec["sent_rec_sum"] += sent
+            else:
+                rec["n_prev"] += 1
+                rec["fuentes_prev"].add(fuente)
+                rec["sent_prev_sum"] += sent
+
+    rows: list[dict[str, Any]] = []
+    for palabra, rec in stats.items():
+        n_rec = int(rec["n_reciente"])
+        if n_rec < min_n:
+            continue
+        n_prev = int(rec["n_prev"])
+        f_rec = len(rec["fuentes_recientes"])
+        f_prev = len(rec["fuentes_prev"])
+        sent_rec = rec["sent_rec_sum"] / max(n_rec, 1)
+        sent_prev = rec["sent_prev_sum"] / max(n_prev, 1) if n_prev > 0 else 0.0
+
+        ratio_mentions = (n_rec + 1.0) / ((n_prev / base_days) + 1.0)
+        ratio_sources = (f_rec + 1.0) / ((f_prev / base_days) + 1.0)
+        consensus = min(1.0, f_rec / 6.0)
+        priority = (
+            ratio_mentions
+            * (0.35 + 0.65 * abs(sent_rec))
+            * math.log(n_rec + 2.0)
+            * (1.0 + (0.5 * consensus))
+        )
+
+        rows.append(
+            {
+                "palabra": palabra,
+                "n_reciente": n_rec,
+                "n_prev": n_prev,
+                "fuentes_recientes": f_rec,
+                "fuentes_prev": f_prev,
+                "sent_reciente": round(sent_rec, 3),
+                "sent_prev": round(sent_prev, 3),
+                "delta_sent": round(sent_rec - sent_prev, 3),
+                "momentum_ratio": round(ratio_mentions, 3),
+                "ratio_fuentes": round(ratio_sources, 3),
+                "consenso_fuentes": round(consensus, 3),
+                "prioridad_score": round(priority, 3),
+            }
+        )
+
+    if not rows:
+        return pd.DataFrame()
+
+    out = pd.DataFrame(rows)
+    out = out.sort_values(
+        ["prioridad_score", "momentum_ratio", "n_reciente"],
+        ascending=[False, False, False],
+    ).head(top_i)
+    return out.reset_index(drop=True)
+
+
+@st.cache_data(ttl=120)
+def cargar_alertas_prensa_dinamicas(
+    dias: int = 14,
+    ventana_reciente: int = 3,
+    _conn: Any | None = None,
+) -> pd.DataFrame:
+    """
+    Alertas operativas derivadas de señales dinámicas de prensa:
+    - presión mediática negativa por partido,
+    - temas en aceleración,
+    - estado de salud de fuentes.
+    """
+    df_momentum = cargar_momentum_sentimiento_partidos(
+        dias=dias,
+        ventana_reciente=ventana_reciente,
+        _conn=_conn,
+    )
+    df_trending = cargar_temas_trending(
+        dias=dias,
+        ventana_reciente=max(1, ventana_reciente - 1),
+        _conn=_conn,
+    )
+    df_health = cargar_source_health()
+    df_incidents = cargar_scraper_incidents(solo_activos=True)
+
+    rows: list[dict[str, Any]] = []
+
+    if not df_momentum.empty:
+        for _, row in df_momentum.head(15).iterrows():
+            ratio = _safe_float(row.get("ratio_menciones"))
+            sent = _safe_float(row.get("sent_reciente"))
+            n_recent = int(_safe_float(row.get("n_reciente")))
+            consenso = _safe_float(row.get("consenso_score"))
+            if n_recent < 5:
+                continue
+            if ratio >= 2.4 and sent <= -0.30 and consenso >= 0.35:
+                sev = "CRITICAL"
+            elif ratio >= 1.7 and sent <= -0.15:
+                sev = "WARNING"
+            else:
+                continue
+            prioridad = _safe_float(row.get("prioridad_score")) or _safe_float(row.get("presion_score"))
+            fuentes = int(_safe_float(row.get("fuentes_recientes")))
+            rows.append(
+                {
+                    "tipo": "partido_presion",
+                    "severidad": sev,
+                    "objeto": str(row.get("partido") or ""),
+                    "titulo": f"{row.get('partido')}: presión mediática {ratio:.2f}x",
+                    "detalle": (
+                        f"Tono reciente {sent:+.2f} con {n_recent} menciones, "
+                        f"{fuentes} fuentes y aceleración {ratio:.2f}x."
+                    ),
+                    "score": prioridad,
+                    "accion": "Revisar narrativa defensiva y plan de portavocía en 4h.",
+                }
+            )
+
+    if not df_trending.empty:
+        for _, row in df_trending.head(10).iterrows():
+            ratio = _safe_float(row.get("momentum_ratio"))
+            n_recent = int(_safe_float(row.get("n_reciente")))
+            fuentes = int(_safe_float(row.get("fuentes_recientes")))
+            if n_recent < 6:
+                continue
+            if ratio >= 2.8 and fuentes >= 2:
+                sev = "WARNING"
+            elif ratio >= 2.0 and fuentes >= 2:
+                sev = "INFO"
+            else:
+                continue
+            rows.append(
+                {
+                    "tipo": "tema_aceleracion",
+                    "severidad": sev,
+                    "objeto": str(row.get("tema") or ""),
+                    "titulo": f"Tema en aceleración: {row.get('tema')}",
+                    "detalle": (
+                        f"Volumen reciente {n_recent} menciones en {fuentes} fuentes "
+                        f"con momentum {ratio:.2f}x."
+                    ),
+                    "score": _safe_float(row.get("prioridad_score")) or _safe_float(row.get("urgencia_score")),
+                    "accion": "Validar framing y preparar Q&A para rueda de prensa.",
+                }
+            )
+
+    if not df_health.empty and "status" in df_health.columns:
+        for _, row in df_health.iterrows():
+            status = str(row.get("status") or "").lower()
+            if status not in {"failing", "degraded"}:
+                continue
+            rows.append(
+                {
+                    "tipo": "fuente_salud",
+                    "severidad": "CRITICAL" if status == "failing" else "WARNING",
+                    "objeto": str(row.get("source_id") or ""),
+                    "titulo": f"Fuente {row.get('source_id')} en estado {status}",
+                    "detalle": (
+                        f"errors={int(_safe_float(row.get('errors_count')))} · "
+                        f"lag={int(_safe_float(row.get('freshness_lag_s')))}s"
+                    ),
+                    "score": _safe_float(row.get("errors_count")) + _safe_float(row.get("freshness_lag_s")) / 3600.0,
+                    "accion": "Reintentar scraper y revisar parser de la fuente.",
+                }
+            )
+
+    if not df_incidents.empty:
+        for _, row in df_incidents.head(8).iterrows():
+            sev_raw = str(row.get("severity") or "minor").lower()
+            sev = "CRITICAL" if sev_raw == "critical" else ("WARNING" if sev_raw in {"major", "minor"} else "INFO")
+            rows.append(
+                {
+                    "tipo": "ingesta_incidente",
+                    "severidad": sev,
+                    "objeto": str(row.get("source_id") or ""),
+                    "titulo": f"Incidencia activa en {row.get('source_id')}: {row.get('error_type')}",
+                    "detalle": (
+                        f"Ocurrencias: {int(_safe_float(row.get('occurrence_count')))} · "
+                        f"Última detección: {str(row.get('last_seen') or '')[:16]}"
+                    ),
+                    "score": _safe_float(row.get("occurrence_count")),
+                    "accion": "Aplicar hotfix de extractor y monitorizar 2 ejecuciones.",
+                }
+            )
+
+    if not rows:
+        return pd.DataFrame(columns=["tipo", "severidad", "objeto", "titulo", "detalle", "accion", "score"])
+    out = pd.DataFrame(rows)
+    sev_rank = {"CRITICAL": 0, "WARNING": 1, "INFO": 2}
+    out["_sev"] = out["severidad"].map(lambda s: sev_rank.get(str(s).upper(), 3))
+    out = out.sort_values(["_sev", "score"], ascending=[True, False]).drop(columns=["_sev"])
+    return out.reset_index(drop=True)
 
 
 def cargar_agenda_rango(conn: Any | None, fecha_inicio: str, fecha_fin: str) -> pd.DataFrame:

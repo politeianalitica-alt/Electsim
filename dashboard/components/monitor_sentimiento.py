@@ -13,8 +13,11 @@ import streamlit as st
 
 from dashboard.db import (
     cargar_alertas_sentimiento,
+    cargar_alertas_prensa_dinamicas,
     cargar_heatmap_fuente_partido,
+    cargar_momentum_sentimiento_partidos,
     cargar_noticias_recientes,
+    cargar_tracking_palabras_clave,
     cargar_sentimiento_partido,
     cargar_sentimiento_serie,
     cargar_sentimiento_todos_partidos,
@@ -268,6 +271,106 @@ def _render_heatmap(df_heat: pd.DataFrame) -> None:
     st.plotly_chart(fig, use_container_width=True)
 
 
+def _render_momentum(df_momentum: pd.DataFrame) -> None:
+    if df_momentum.empty:
+        st.info("Sin datos de momentum de cobertura.")
+        return
+    df = df_momentum.copy()
+    numeric_cols = [
+        "n_reciente",
+        "n_prev",
+        "ratio_menciones",
+        "sent_reciente",
+        "delta_sent",
+        "presion_score",
+        "prioridad_score",
+    ]
+    df = safe_numeric(df, numeric_cols)
+    score_col = "prioridad_score" if "prioridad_score" in df.columns else "presion_score"
+    df = df.sort_values(score_col, ascending=False).head(15)
+
+    fig = px.scatter(
+        df,
+        x="ratio_menciones",
+        y="sent_reciente",
+        size="n_reciente",
+        color="delta_sent",
+        text="partido",
+        color_continuous_scale="RdYlGn",
+        range_color=[-0.6, 0.6],
+        hover_data=["n_prev", score_col],
+    )
+    fig.update_traces(textposition="top center")
+    fig.add_hline(y=0, line_dash="dot", line_color=MUTED, opacity=0.7)
+    fig.add_vline(x=1.0, line_dash="dot", line_color=MUTED, opacity=0.7)
+    _layout_dark(
+        fig,
+        height=380,
+        title=dict(text="Momentum cobertura × sentimiento reciente", font=dict(color=TEXT, size=14)),
+        xaxis=dict(title="Aceleración menciones (x baseline)", gridcolor=BORDER, color=TEXT2),
+        yaxis=dict(title="Sentimiento reciente", range=[-1, 1], gridcolor=BORDER, color=TEXT2),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    top_cols = ["partido", "n_reciente", "ratio_menciones", "ratio_fuentes", "consenso_score", "sent_reciente", "delta_sent", "presion_score", "prioridad_score"]
+    cols_show = [c for c in top_cols if c in df.columns]
+    st.dataframe(df[cols_show], hide_index=True, use_container_width=True)
+
+
+def _render_keywords(df_keywords: pd.DataFrame) -> None:
+    if df_keywords.empty:
+        st.info("Sin palabras clave con señal dinámica en la ventana actual.")
+        return
+    df = df_keywords.copy().head(20)
+    df = safe_numeric(
+        df,
+        [
+            "n_reciente",
+            "fuentes_recientes",
+            "sent_reciente",
+            "delta_sent",
+            "momentum_ratio",
+            "prioridad_score",
+        ],
+    )
+
+    fig = px.scatter(
+        df,
+        x="momentum_ratio",
+        y="sent_reciente",
+        size="n_reciente",
+        color="delta_sent",
+        text="palabra",
+        color_continuous_scale="RdYlGn",
+        range_color=[-0.6, 0.6],
+        hover_data=["fuentes_recientes", "prioridad_score"],
+    )
+    fig.update_traces(textposition="top center")
+    fig.add_hline(y=0, line_dash="dot", line_color=MUTED, opacity=0.7)
+    fig.add_vline(x=1.0, line_dash="dot", line_color=MUTED, opacity=0.7)
+    _layout_dark(
+        fig,
+        height=360,
+        title=dict(text="Palabras clave: momentum × tono", font=dict(color=TEXT, size=14)),
+        xaxis=dict(title="Aceleración menciones (x baseline)", gridcolor=BORDER, color=TEXT2),
+        yaxis=dict(title="Sentimiento reciente", range=[-1, 1], gridcolor=BORDER, color=TEXT2),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    st.dataframe(
+        df[[
+            "palabra",
+            "n_reciente",
+            "fuentes_recientes",
+            "sent_reciente",
+            "delta_sent",
+            "momentum_ratio",
+            "prioridad_score",
+        ]],
+        hide_index=True,
+        use_container_width=True,
+    )
+
+
 # ── Detalle por partido ─────────────────────────────────────────────────────
 
 
@@ -483,10 +586,27 @@ def render_monitor_sentimiento(conn) -> None:
         cargar_sentimiento_todos_partidos(dias=14),
         ["sent_medio", "n_total", "pct_pos", "pct_neg"],
     )
+    df_momentum = safe_numeric(
+        cargar_momentum_sentimiento_partidos(dias=14, ventana_reciente=3),
+        [
+            "n_reciente",
+            "n_prev",
+            "ratio_menciones",
+            "ratio_fuentes",
+            "consenso_score",
+            "sent_reciente",
+            "delta_sent",
+            "presion_score",
+            "prioridad_score",
+        ],
+    )
+    df_keywords = cargar_tracking_palabras_clave(dias=14, ventana_reciente=3, min_menciones=4, top_n=25)
+    df_alertas_dyn = cargar_alertas_prensa_dinamicas(dias=14, ventana_reciente=3)
 
     _render_kpis(df_serie, df_ranking, df_alertas, df_heat)
 
     n_alert = int(len(df_alertas)) if not df_alertas.empty else 0
+    n_alert += int(len(df_alertas_dyn)) if not df_alertas_dyn.empty else 0
     t_resumen, t_partido, t_cmp, t_alert = st.tabs([
         "▦  Resumen general",
         "●  Detalle por partido",
@@ -511,6 +631,12 @@ def render_monitor_sentimiento(conn) -> None:
         suavizar = col_opts.toggle("Suavizar (3d)", value=True, key="mon_smooth")
         _render_serie(df_serie, seleccion, suavizar)
 
+        section_header("Momentum y presión de cobertura")
+        _render_momentum(df_momentum)
+
+        section_header("Tracking de palabras clave")
+        _render_keywords(df_keywords)
+
         section_header("Sentimiento por medio")
         _render_heatmap(df_heat)
 
@@ -528,3 +654,8 @@ def render_monitor_sentimiento(conn) -> None:
     with t_alert:
         section_header("Picos negativos (7 días, umbral ≤ −0.5)")
         _render_alertas(df_alertas)
+        section_header("Alertas dinámicas (presión + aceleración)")
+        if df_alertas_dyn.empty:
+            st.caption("Sin alertas dinámicas relevantes.")
+        else:
+            st.dataframe(df_alertas_dyn.head(20), hide_index=True, use_container_width=True)

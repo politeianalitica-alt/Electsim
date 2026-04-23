@@ -60,6 +60,15 @@ _ensure_pages_bridge()
 load_dotenv(_ROOT / ".env")
 
 try:
+    import streamlit as st
+
+    st.switch_page("pages/0_Pagina_Inicial.py")
+    st.stop()
+except Exception:
+    # Compatibilidad con entornos sin switch_page o ejecución no-Streamlit.
+    pass
+
+try:
     runpy.run_path(str(_ROOT / "dashboard" / "app.py"), run_name="__main__")
 except Exception as exc:  # pragma: no cover - fallback visual en runtime Streamlit
     import streamlit as st

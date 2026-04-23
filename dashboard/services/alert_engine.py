@@ -50,6 +50,14 @@ UMBRALES_RIESGO: dict[str, float] = {
     "critical": 80.0,
 }
 
+UMBRALES_PRENSA: dict[str, float] = {
+    "ratio_warning": 1.8,
+    "ratio_critical": 2.5,
+    "sent_warning": -0.2,
+    "sent_critical": -0.35,
+    "min_menciones": 5.0,
+}
+
 
 @dataclass
 class Alerta:
@@ -146,6 +154,15 @@ def _persistir_alertas(alertas: list[Alerta]) -> int:
             pass
     logger.info("AlertEngine: %d alertas nuevas insertadas", inserted)
     return inserted
+
+
+def _f(value: Any, default: float = 0.0) -> float:
+    try:
+        if value is None:
+            return float(default)
+        return float(value)
+    except Exception:
+        return float(default)
 
 
 def detectar_alertas_macro(df_macro: pd.DataFrame) -> list[Alerta]:
@@ -255,10 +272,109 @@ def detectar_alertas_riesgo(indice_riesgo: float, fuente: str = "6_Riesgo") -> l
     return alertas
 
 
+def detectar_alertas_prensa(df_prensa: pd.DataFrame) -> list[Alerta]:
+    """
+    Detecta presión mediática por partido:
+    combina caída de sentimiento reciente con aceleración de cobertura.
+    """
+    alertas: list[Alerta] = []
+    if df_prensa.empty:
+        return alertas
+    if "partido" not in df_prensa.columns:
+        return alertas
+
+    for _, row in df_prensa.iterrows():
+        partido = str(row.get("partido") or "").strip()
+        if not partido:
+            continue
+        n_24h = _f(row.get("n_24h"), _f(row.get("n_reciente")))
+        ratio = _f(row.get("ratio_menciones"))
+        sent_24h = _f(row.get("sent_24h"), _f(row.get("sent_reciente")))
+        sent_prev = _f(row.get("sent_prev"), _f(row.get("sent_previo")))
+        consenso = _f(row.get("consenso_score"), _f(row.get("consenso_fuentes"), 1.0))
+        fuentes = int(_f(row.get("fuentes_recientes")))
+        if n_24h < UMBRALES_PRENSA["min_menciones"]:
+            continue
+
+        sev: str | None = None
+        if (
+            ratio >= UMBRALES_PRENSA["ratio_critical"]
+            and sent_24h <= UMBRALES_PRENSA["sent_critical"]
+            and consenso >= 0.35
+        ):
+            sev = "CRITICAL"
+        elif ratio >= UMBRALES_PRENSA["ratio_warning"] and sent_24h <= UMBRALES_PRENSA["sent_warning"]:
+            sev = "WARNING"
+        if sev is None:
+            continue
+
+        trend = "empeora" if sent_24h < sent_prev else "estable"
+        alertas.append(
+            Alerta(
+                tipo="prensa",
+                severidad=sev,
+                titulo=f"{partido}: presión mediática negativa ({ratio:.2f}x)",
+                descripcion=(
+                    f"{partido} concentra {n_24h:.0f} menciones en 24h con sentimiento "
+                    f"{sent_24h:+.2f} ({trend} vs {sent_prev:+.2f}) en {fuentes} fuentes."
+                ),
+                fuente="noticias_prensa",
+                valor_actual=sent_24h,
+                valor_anterior=sent_prev,
+                pagina_relevante="10_Prensa_Agenda",
+                metadata={
+                    "partido": partido,
+                    "n_24h": n_24h,
+                    "ratio_menciones": ratio,
+                    "consenso": consenso,
+                    "fuentes_recientes": fuentes,
+                    "accion_sugerida": "Ajustar mensaje y activar réplica en medios en <4h.",
+                },
+            )
+        )
+    return alertas
+
+
+def detectar_alertas_fuentes(df_source_health: pd.DataFrame) -> list[Alerta]:
+    """Convierte estados de salud de fuentes en alertas operativas."""
+    alertas: list[Alerta] = []
+    if df_source_health.empty:
+        return alertas
+    if not {"source_id", "status"}.issubset(df_source_health.columns):
+        return alertas
+
+    for _, row in df_source_health.iterrows():
+        source_id = str(row.get("source_id") or "").strip()
+        status = str(row.get("status") or "").lower().strip()
+        if not source_id or status not in {"failing", "degraded"}:
+            continue
+        errors = _f(row.get("errors_count"))
+        lag_s = _f(row.get("freshness_lag_s"))
+        sev = "CRITICAL" if status == "failing" else "WARNING"
+        alertas.append(
+            Alerta(
+                tipo="ingesta_prensa",
+                severidad=sev,
+                titulo=f"Fuente {source_id} en estado {status}",
+                descripcion=(
+                    f"Ingesta {status}: errors={errors:.0f}, freshness_lag={lag_s/3600:.1f}h."
+                ),
+                fuente="source_health",
+                valor_actual=lag_s,
+                valor_anterior=errors,
+                pagina_relevante="10_Prensa_Agenda",
+                metadata={"source_id": source_id, "status": status},
+            )
+        )
+    return alertas
+
+
 def ejecutar_motor_alertas(
     df_macro: pd.DataFrame | None = None,
     df_encuestas: pd.DataFrame | None = None,
     indice_riesgo: float | None = None,
+    df_prensa: pd.DataFrame | None = None,
+    df_source_health: pd.DataFrame | None = None,
 ) -> int:
     todas: list[Alerta] = []
     if df_macro is not None and not df_macro.empty:
@@ -267,4 +383,8 @@ def ejecutar_motor_alertas(
         todas += detectar_alertas_encuesta(df_encuestas)
     if indice_riesgo is not None:
         todas += detectar_alertas_riesgo(indice_riesgo)
+    if df_prensa is not None and not df_prensa.empty:
+        todas += detectar_alertas_prensa(df_prensa)
+    if df_source_health is not None and not df_source_health.empty:
+        todas += detectar_alertas_fuentes(df_source_health)
     return _persistir_alertas(todas)

@@ -35,6 +35,10 @@ from dashboard.db import (
     cargar_sesgo_fuente_partido,
     cargar_sentimiento_partido,
     cargar_sentimiento_todos_partidos,
+    cargar_momentum_sentimiento_partidos,
+    cargar_temas_trending,
+    cargar_tracking_palabras_clave,
+    cargar_alertas_prensa_dinamicas,
     cargar_source_health,
     cargar_scraper_incidents,
     cargar_fact_checks,
@@ -155,6 +159,33 @@ def _freshness_badge(df_health: pd.DataFrame) -> str:
     )
 
 
+def _source_status_map(df_health: pd.DataFrame) -> dict[str, str]:
+    if df_health.empty:
+        return {}
+    out: dict[str, str] = {}
+    for _, row in df_health.iterrows():
+        src = str(row.get("source_id") or "").strip().lower()
+        status = str(row.get("status") or "unknown").strip().lower()
+        if src:
+            out[src] = status
+    return out
+
+
+def _status_badge(status: str) -> str:
+    st_norm = str(status or "unknown").lower()
+    if st_norm == "ok":
+        c, txt = GREEN, "OK"
+    elif st_norm == "degraded":
+        c, txt = AMBER, "DEG"
+    elif st_norm == "failing":
+        c, txt = RED, "FAIL"
+    else:
+        c, txt = MUTED, "UNK"
+    return (
+        f'<span class="badge" style="background:{c}20;color:{c};border:1px solid {c}44">{txt}</span>'
+    )
+
+
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Prensa & Agenda — ElectSim", layout="wide")
 sidebar_nav()
@@ -266,6 +297,11 @@ with st.sidebar:
 df_noticias  = cargar_noticias_recientes(dias=dias_noticias, limit=100)
 df_agenda    = cargar_agenda_hoy()
 df_sent_all  = cargar_sentimiento_todos_partidos(dias=dias_noticias)
+df_momentum  = cargar_momentum_sentimiento_partidos(dias=max(10, dias_sent), ventana_reciente=3)
+df_trending  = cargar_temas_trending(dias=max(10, dias_sent), ventana_reciente=2, min_noticias=3)
+df_keywords  = cargar_tracking_palabras_clave(dias=max(10, dias_sent), ventana_reciente=3, min_menciones=4, top_n=30)
+df_dyn_alert = cargar_alertas_prensa_dinamicas(dias=max(10, dias_sent), ventana_reciente=3)
+source_status = _source_status_map(df_health)
 
 # ── KPIs ──────────────────────────────────────────────────────────────────────
 col1, col2, col3, col4 = st.columns(4)
@@ -389,6 +425,37 @@ with radar_overview:
         df_alertas_r = cargar_alertas_sentimiento(umbral=-0.35)
         st.metric("Alertas negativas (7d)", len(df_alertas_r) if not df_alertas_r.empty else 0)
 
+        if not df_trending.empty:
+            top_trend = df_trending.iloc[0]
+            st.metric(
+                "Tema en aceleración",
+                str(top_trend.get("tema", "—")),
+                f"{float(top_trend.get('momentum_ratio', 0)):.2f}x",
+            )
+        else:
+            st.metric("Tema en aceleración", "—")
+
+        if not df_momentum.empty:
+            sort_col = "prioridad_score" if "prioridad_score" in df_momentum.columns else "presion_score"
+            presion = df_momentum.sort_values(sort_col, ascending=False).iloc[0]
+            st.metric(
+                "Presión mediática",
+                str(presion.get("partido", "—")),
+                f"{float(presion.get('ratio_menciones', 0)):.2f}x",
+            )
+        else:
+            st.metric("Presión mediática", "—")
+
+        if not df_keywords.empty:
+            top_kw = df_keywords.iloc[0]
+            st.metric(
+                "Keyword caliente",
+                str(top_kw.get("palabra", "—")),
+                f"{float(top_kw.get('momentum_ratio', 0)):.2f}x",
+            )
+        else:
+            st.metric("Keyword caliente", "—")
+
 with radar_narrativas:
     temas_radar = df_agenda["tema"].astype(str).dropna().unique().tolist() if not df_agenda.empty else []
     tema_radar = st.selectbox(
@@ -444,6 +511,109 @@ with radar_narrativas:
             )
         else:
             st.caption("Sin titulares en el tema seleccionado.")
+
+    sec_hdr("Señales Dinámicas (Aceleración + Presión)", BLUE)
+    col_dyn_1, col_dyn_2 = st.columns(2)
+    with col_dyn_1:
+        st.markdown("#### Temas en aceleración")
+        if not df_trending.empty:
+            df_t = df_trending.head(10).copy()
+            fig_trend = go.Figure(go.Bar(
+                x=df_t["momentum_ratio"],
+                y=df_t["tema"],
+                orientation="h",
+                marker_color=df_t["sent_reciente"],
+                marker_colorscale="RdYlGn",
+                marker_cmid=0,
+                text=df_t["n_reciente"].astype(int),
+                textposition="outside",
+                hovertemplate="<b>%{y}</b><br>Momentum: %{x:.2f}x<br>Noticias recientes: %{text}<extra></extra>",
+            ))
+            fig_trend.update_layout(
+                height=330,
+                margin=dict(t=10, b=10, l=10, r=20),
+                yaxis=dict(autorange="reversed", title=None),
+                xaxis=dict(title="Aceleración reciente"),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_trend, use_container_width=True)
+        else:
+            st.caption("Sin temas con aceleración estadísticamente relevante.")
+
+    with col_dyn_2:
+        st.markdown("#### Presión mediática por partido")
+        if not df_momentum.empty:
+            df_m = df_momentum.head(10).copy()
+            x_col = "prioridad_score" if "prioridad_score" in df_m.columns else "presion_score"
+            color_vals = [GREEN if float(v) >= 0 else RED for v in df_m["delta_sent"]]
+            fig_pressure = go.Figure(go.Bar(
+                x=df_m[x_col],
+                y=df_m["partido"],
+                orientation="h",
+                marker_color=color_vals,
+                text=[f"{float(r):.2f}x" for r in df_m["ratio_menciones"]],
+                textposition="outside",
+                hovertemplate=(
+                    "<b>%{y}</b><br>Pressure: %{x:.3f}<br>"
+                    "Aceleración: %{text}<extra></extra>"
+                ),
+            ))
+            fig_pressure.update_layout(
+                height=330,
+                margin=dict(t=10, b=10, l=10, r=20),
+                yaxis=dict(autorange="reversed", title=None),
+                xaxis=dict(title="Pressure score"),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_pressure, use_container_width=True)
+        else:
+            st.caption("Sin presión mediática destacable en la ventana actual.")
+
+    sec_hdr("Tracking de Palabras Clave", PURPLE)
+    if df_keywords.empty:
+        st.caption("Sin palabras con señal dinámica suficiente en la ventana actual.")
+    else:
+        col_kw_1, col_kw_2 = st.columns([1.2, 1])
+        with col_kw_1:
+            df_kw = df_keywords.head(15).copy()
+            fig_kw = go.Figure(
+                go.Bar(
+                    x=df_kw["momentum_ratio"],
+                    y=df_kw["palabra"],
+                    orientation="h",
+                    marker_color=df_kw["sent_reciente"],
+                    marker_colorscale="RdYlGn",
+                    marker_cmid=0,
+                    text=df_kw["n_reciente"].astype(int),
+                    textposition="outside",
+                    hovertemplate=(
+                        "<b>%{y}</b><br>Momentum: %{x:.2f}x<br>"
+                        "Reciente: %{text} menciones<extra></extra>"
+                    ),
+                )
+            )
+            fig_kw.update_layout(
+                height=360,
+                margin=dict(t=10, b=10, l=10, r=25),
+                yaxis=dict(autorange="reversed", title=None),
+                xaxis=dict(title="Momentum palabra"),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig_kw, use_container_width=True)
+        with col_kw_2:
+            st.markdown("#### Prioridad de keywords")
+            cols_show = [
+                "palabra",
+                "n_reciente",
+                "fuentes_recientes",
+                "sent_reciente",
+                "momentum_ratio",
+                "prioridad_score",
+            ]
+            st.dataframe(df_keywords[cols_show].head(15), use_container_width=True, hide_index=True)
 
 with radar_medios:
     col_m_1, col_m_2 = st.columns([1.25, 1])
@@ -519,6 +689,12 @@ with radar_salud:
         st.dataframe(df_incidents, use_container_width=True, hide_index=True)
     else:
         st.success("Sin incidencias activas.")
+
+    st.markdown("#### Alertas dinámicas (operativas)")
+    if not df_dyn_alert.empty:
+        st.dataframe(df_dyn_alert.head(20), use_container_width=True, hide_index=True)
+    else:
+        st.caption("Sin alertas dinámicas relevantes para esta ventana.")
 
 st.divider()
 st.caption("Vista detallada legacy disponible debajo para análisis granular.")
@@ -744,6 +920,63 @@ with tab_sentimiento:
     else:
         st.info("Selecciona al menos un partido para visualizar la evolución temporal.")
 
+    sec_hdr("Momentum de Cobertura y Tono", AMBER)
+    if not df_momentum.empty:
+        df_m = df_momentum[df_momentum["partido"].astype(str).isin(sel_partidos)].copy()
+        if df_m.empty:
+            df_m = df_momentum.copy()
+        df_m = df_m.head(18)
+        fig_mom = px.scatter(
+            df_m,
+            x="ratio_menciones",
+            y="sent_reciente",
+            size="n_reciente",
+            color="delta_sent",
+            text="partido",
+            color_continuous_scale="RdYlGn",
+            range_color=[-0.6, 0.6],
+            hover_data=["n_prev", "sent_prev", "presion_score"],
+        )
+        fig_mom.add_hline(y=0, line_dash="dot", line_color=MUTED)
+        fig_mom.add_vline(x=1.0, line_dash="dot", line_color=MUTED)
+        fig_mom.update_traces(textposition="top center")
+        fig_mom.update_layout(
+            height=360,
+            xaxis_title="Aceleración de menciones (x baseline)",
+            yaxis_title="Sentimiento reciente",
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            margin=dict(t=10, b=10, l=10, r=10),
+        )
+        st.plotly_chart(fig_mom, use_container_width=True)
+    else:
+        st.caption("Sin señal de momentum en la ventana seleccionada.")
+
+    if not df_dyn_alert.empty:
+        st.markdown("#### Alertas dinámicas priorizadas")
+        st.dataframe(df_dyn_alert.head(12), use_container_width=True, hide_index=True)
+
+    sec_hdr("Tracking de palabras en sentimiento", PURPLE)
+    if not df_keywords.empty:
+        df_kw_neg = df_keywords.sort_values(
+            ["sent_reciente", "momentum_ratio"],
+            ascending=[True, False],
+        ).head(12)
+        st.dataframe(
+            df_kw_neg[[
+                "palabra",
+                "sent_reciente",
+                "delta_sent",
+                "momentum_ratio",
+                "fuentes_recientes",
+                "n_reciente",
+            ]],
+            use_container_width=True,
+            hide_index=True,
+        )
+    else:
+        st.caption("Sin tracking de palabras disponible.")
+
 # ── Tab 3: Feed de Noticias ───────────────────────────────────────────────────
 with tab_noticias:
     sec_hdr("Feed de Noticias Recientes")
@@ -770,11 +1003,27 @@ with tab_noticias:
             sent_color = GREEN if sent == "positivo" else RED if sent == "negativo" else MUTED
             sent_score = float(row.get("sentimiento_score") or 0)
             partidos   = row.get("partidos_mencionados", "") or ""
+            fuente_raw = str(row.get("fuente", "—") or "—")
+            status_badge = _status_badge(source_status.get(fuente_raw.strip().lower(), "unknown"))
             temas_raw  = row.get("temas_json", "[]") or "[]"
             try:
                 temas = json.loads(temas_raw) if isinstance(temas_raw, str) else temas_raw
             except Exception:
                 temas = []
+            fecha_raw = row.get("fecha_publicacion")
+            fecha_dt = pd.to_datetime(fecha_raw, errors="coerce", utc=True)
+            if pd.notna(fecha_dt):
+                horas = max(0.0, (pd.Timestamp.now(tz="UTC") - fecha_dt).total_seconds() / 3600.0)
+                if horas < 1:
+                    recency = "hace <1h"
+                elif horas < 24:
+                    recency = f"hace {int(horas)}h"
+                else:
+                    recency = f"hace {int(horas // 24)}d"
+                fecha_txt = fecha_dt.tz_convert(None).strftime("%Y-%m-%d %H:%M")
+            else:
+                recency = "fecha n/d"
+                fecha_txt = str(fecha_raw or "")[:16]
 
             partidos_html = "".join(
                 f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p.strip()}</span>'
@@ -790,7 +1039,7 @@ with tab_noticias:
                 f'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
                 f'<div style="flex:1">'
                 f'<a href="{row.get("url","#")}" target="_blank" style="font-weight:600;color:{TEXT};text-decoration:none;font-size:.9rem">{str(row.get("titular",""))[:100]}</a>'
-                f'<div style="margin-top:.3rem;font-size:.75rem;color:{MUTED}">{row.get("fuente","—")} · {str(row.get("fecha_publicacion",""))[:10]} &nbsp; {partidos_html} {temas_html}</div>'
+                f'<div style="margin-top:.3rem;font-size:.75rem;color:{MUTED}">{fuente_raw} · {fecha_txt} ({recency}) &nbsp; {status_badge} &nbsp; {partidos_html} {temas_html}</div>'
                 f'</div>'
                 f'<div style="margin-left:1rem;text-align:right;min-width:4rem">'
                 f'<div style="font-size:1rem;font-weight:700;color:{sent_color};font-family:JetBrains Mono,monospace">{sent_score:+.2f}</div>'

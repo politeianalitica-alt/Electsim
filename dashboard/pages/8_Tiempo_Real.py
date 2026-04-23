@@ -21,7 +21,14 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
 
-from dashboard.db import cargar_alertas, cargar_macro_serie, cargar_macro_ultimo, cargar_scraping_log
+from dashboard.db import (
+    cargar_alertas,
+    cargar_alertas_prensa_dinamicas,
+    cargar_tracking_palabras_clave,
+    cargar_macro_serie,
+    cargar_macro_ultimo,
+    cargar_scraping_log,
+)
 
 st.set_page_config(page_title="Tiempo Real — ElectSim", layout="wide")
 
@@ -147,6 +154,24 @@ with col_alertas:
                 <br><small style="color:{MUTED}">{str(row.get('created_at', ''))[:16]} · {tipo_alerta}</small>
             </div>
             """, unsafe_allow_html=True)
+
+    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{AMBER}"></div><span class="lbl">Alertas dinámicas de prensa</span><div class="line"></div></div>', unsafe_allow_html=True)
+    df_alertas_dyn = cargar_alertas_prensa_dinamicas(dias=14, ventana_reciente=3)
+    if df_alertas_dyn.empty:
+        st.caption("Sin alertas dinámicas relevantes en prensa.")
+    else:
+        st.dataframe(df_alertas_dyn.head(12), hide_index=True, use_container_width=True)
+
+    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{PURPLE}"></div><span class="lbl">Tracking de palabras clave</span><div class="line"></div></div>', unsafe_allow_html=True)
+    df_kw = cargar_tracking_palabras_clave(dias=14, ventana_reciente=3, min_menciones=4, top_n=10)
+    if df_kw.empty:
+        st.caption("Sin keywords con señal dinámica.")
+    else:
+        st.dataframe(
+            df_kw[[c for c in ["palabra", "momentum_ratio", "n_reciente", "fuentes_recientes", "sent_reciente"] if c in df_kw.columns]].head(10),
+            hide_index=True,
+            use_container_width=True,
+        )
 
 st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
