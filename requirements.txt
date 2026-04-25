@@ -1,4 +1,7 @@
-# Dashboard ElectSim España
+# ElectSim España — dependencias para Streamlit Cloud y despliegue local
+# Streamlit Cloud lee este fichero automáticamente desde la raíz del repo.
+
+# ── Core ──────────────────────────────────────────────────────────────────────
 python-dotenv>=1.0.1
 feedparser>=6.0.0
 sqlalchemy>=2.0.36
@@ -7,10 +10,17 @@ pandas>=2.2.2
 plotly>=5.22.0
 streamlit>=1.35.0
 requests>=2.31.0
+
+# ── Almacenamiento de datos ───────────────────────────────────────────────────
 duckdb>=0.10.0
-# Análisis estadístico (cohortes, chi², tau Goodman-Kruskal)
+pyarrow>=14.0.0          # necesario para leer/escribir parquet
+
+# ── Análisis estadístico (cohortes, chi², tau Goodman-Kruskal) ────────────────
 scipy>=1.13.0
-# Microdatos SPSS .sav (opcional: pip install pyreadstat)
-pyreadstat>=1.2.6
-# Tests
+
+# ── Formatos de fichero ───────────────────────────────────────────────────────
+openpyxl>=3.1.0          # ficheros .xlsx
+# pyreadstat>=1.2.6      # ficheros SPSS .sav — requiere libreadstat (ver packages.txt)
+
+# ── Tests ─────────────────────────────────────────────────────────────────────
 pytest>=8.2.0

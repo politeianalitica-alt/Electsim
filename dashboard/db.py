@@ -27,7 +27,11 @@ load_dotenv(_ROOT / ".env")
 
 @st.cache_resource
 def get_engine() -> Engine:
-    url = os.environ.get(
+    url = (
+        st.secrets.get("DATABASE_URL")
+        if hasattr(st, "secrets")
+        else None
+    ) or os.environ.get(
         "DATABASE_URL",
         "postgresql+psycopg://electsim:electsim@localhost:5432/electsim_espana",
     )

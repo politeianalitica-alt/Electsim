@@ -1,0 +1,3 @@
+# packages.txt — dependencias del sistema para Streamlit Cloud (apt-get)
+# Descomenta la línea siguiente si quieres soporte .sav (SPSS):
+# libreadstat-dev
