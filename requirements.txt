@@ -7,3 +7,10 @@ pandas>=2.2.2
 plotly>=5.22.0
 streamlit>=1.35.0
 requests>=2.31.0
+duckdb>=0.10.0
+# Análisis estadístico (cohortes, chi², tau Goodman-Kruskal)
+scipy>=1.13.0
+# Microdatos SPSS .sav (opcional: pip install pyreadstat)
+pyreadstat>=1.2.6
+# Tests
+pytest>=8.2.0

@@ -24,9 +24,36 @@ from dashboard.shared import (
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
-
+from dashboard.components.data_source_indicator import (
+    DataSource, render_source_banner,
+)
 from dashboard.db import cargar_nowcasting
 from dashboard.adapters import create_simulation_adapter
+
+
+def _cargar_perfiles_reales() -> list[dict] | None:
+    """
+    Intenta cargar perfiles derivados de microdatos reales.
+    Devuelve None si no hay datos disponibles (fallback a sintéticos).
+    Resuelve audit 4.3: reconciliación dinámica desde microdatos CIS.
+    """
+    try:
+        from dashboard.config import settings
+        from dashboard.ingestion.microdatos_loader import get_loaded_studies, load_study_from_bronze
+        from dashboard.models.cohort_analysis import auto_segment
+
+        studies = get_loaded_studies(settings.data_dir)
+        if not studies:
+            return None
+        # Usar el estudio más reciente (último en la lista)
+        estudio = studies[-1]
+        df = load_study_from_bronze(estudio["codigo_estudio"], settings.data_dir)
+        if df.empty or len(df) < 100:
+            return None
+        perfiles = auto_segment(df, n_perfiles=6, method="ideology_x_vote")
+        return perfiles if perfiles else None
+    except Exception:
+        return None
 
 COLORES_PARTIDO = {
     "PP": "#3B82F6", "PSOE": "#EF4444", "VOX": "#22C55E",
@@ -387,6 +414,25 @@ REACCION_PERFIL: dict[str, dict[str, float]] = {
     "Joven Abstencionista":    {"izquierda": 0.6, "derecha": 0.2, "social": 1.0, "eco": 1.1, "territorial": 0.3},
 }
 
+# ── Reconciliación: datos reales vs sintéticos (audit 4.3 + 1.1) ────────────
+_perfiles_reales = _cargar_perfiles_reales()
+if _perfiles_reales:
+    _PERFILES_ACTIVOS = _perfiles_reales
+    _FUENTE_PERFILES  = DataSource(
+        kind="microdatos",
+        label="Microdatos propios",
+        detail="Perfiles generados dinámicamente desde los microdatos cargados.",
+        n_records=sum(p.get("n_respondentes", 0) for p in _perfiles_reales),
+    )
+else:
+    _PERFILES_ACTIVOS = PERFILES
+    _FUENTE_PERFILES  = DataSource(
+        kind="sintetico",
+        label="Datos sintéticos hardcoded",
+        detail="No hay microdatos cargados. Carga un fichero en la página 14_Microdatos "
+               "para ver perfiles basados en encuestas reales.",
+    )
+
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs([
     "Perfiles de Votante",
@@ -399,11 +445,12 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # TAB 1: PERFILES
 # ══════════════════════════════════════════════════════════════════════════════
 with tab1:
+    render_source_banner(_FUENTE_PERFILES)
     st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Segmentación del electorado español (6 perfiles principales)</span><div class="line"></div></div>', unsafe_allow_html=True)
 
     # KPIs
-    kpi_cols = st.columns(6)
-    for i, p in enumerate(PERFILES):
+    kpi_cols = st.columns(len(_PERFILES_ACTIVOS))
+    for i, p in enumerate(_PERFILES_ACTIVOS):
         color = p["ideo_color"]
         tend = "↑" if "creciente" in p["tendencia_perfil"] else ("↓" if "decreciente" in p["tendencia_perfil"] else "→")
         with kpi_cols[i]:
