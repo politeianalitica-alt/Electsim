@@ -15,8 +15,9 @@ requests>=2.31.0
 duckdb>=0.10.0
 pyarrow>=14.0.0          # necesario para leer/escribir parquet
 
-# ── Análisis estadístico (cohortes, chi², tau Goodman-Kruskal) ────────────────
+# ── Análisis estadístico (cohortes, chi², tau Goodman-Kruskal, MLP) ──────────
 scipy>=1.13.0
+scikit-learn>=1.4.0          # modelos de intención de voto
 
 # ── Formatos de fichero ───────────────────────────────────────────────────────
 openpyxl>=3.1.0          # ficheros .xlsx
