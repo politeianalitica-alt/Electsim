@@ -362,10 +362,10 @@ st.divider()
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_agenda_t, tab_sentimiento, tab_noticias, tab_bulos = st.tabs([
-    "◈  Agenda & Mapa",
-    "◉  Sentimiento",
-    "◎  Feed Noticias",
-    "⬡  Bulos & Desinformación",
+    "◎  Agenda & Mapa",
+    "○  Sentimiento",
+    "▤  Feed Noticias",
+    "△  Bulos & Desinformación",
 ])
 
 # ── Tab 1: Agenda & Mapa ──────────────────────────────────────────────────────

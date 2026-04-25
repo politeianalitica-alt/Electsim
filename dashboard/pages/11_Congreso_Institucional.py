@@ -477,12 +477,12 @@ st.markdown(
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones = st.tabs([
-    "◈  BOE de Hoy",
-    "◉  Votaciones",
-    "◎  Agenda Decisores",
-    "⬡  Comunicados",
-    "◈  Leyes Aprobadas",
-    "◉  Comisiones",
+    "▤  BOE de Hoy",
+    "●  Votaciones",
+    "○  Agenda Decisores",
+    "◈  Comunicados",
+    "◇  Leyes Aprobadas",
+    "≡  Comisiones",
 ])
 
 # ── Tab 1: BOE de Hoy ────────────────────────────────────────────────────────

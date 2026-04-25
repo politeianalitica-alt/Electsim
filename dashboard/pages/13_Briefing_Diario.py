@@ -107,7 +107,7 @@ def _acciones_dinamicas(
         criticas = df_alert[df_alert.get("severidad", pd.Series(dtype=str)).astype(str) == "CRITICAL"]
         if not criticas.empty:
             acciones.append(
-                f"🔴 **Alerta crítica activa:** {criticas.iloc[0].get('titulo', '')}. "
+                f"▸ **Alerta crítica activa:** {criticas.iloc[0].get('titulo', '')}. "
                 "Preparar comunicación de crisis antes de 2h."
             )
 
@@ -118,12 +118,12 @@ def _acciones_dinamicas(
             ipc = _macro_val(df_macro, "IPC General (%)", ".1f", "%")
             paro = _macro_val(df_macro, "Tasa de Paro (%)", ".1f", "%")
             acciones.append(
-                f"⚠️ **Contexto económico {eco_score.nivel.lower()}** (IPC {ipc}, paro {paro}). "
+                f"△ **Contexto económico {eco_score.nivel.lower()}** (IPC {ipc}, paro {paro}). "
                 "Reforzar mensajes de gestión económica y coste de vida."
             )
         elif eco_score.nivel == "Favorable":
             acciones.append(
-                "✅ **Coyuntura económica favorable.** "
+                "◇ **Coyuntura económica favorable.** "
                 "Amplificar indicadores de empleo y crecimiento en comunicación pública."
             )
 
@@ -133,7 +133,7 @@ def _acciones_dinamicas(
         if len(negativas) > 5:
             tema_top = negativas.iloc[0].get("titular", "")[:60]
             acciones.append(
-                f"📰 **{len(negativas)} noticias con sentimiento muy negativo** en 48h. "
+                f"◎ **{len(negativas)} noticias con sentimiento muy negativo** en 48h. "
                 f"Tema dominante: «{tema_top}…». Evaluar respuesta proactiva."
             )
 
@@ -146,12 +146,12 @@ def _acciones_dinamicas(
             p2 = top2.iloc[1].get("partido_siglas", "?")
             if brecha < 3:
                 acciones.append(
-                    f"⚡ **Empate técnico:** {p1} y {p2} separados solo {brecha:.1f} pp. "
+                    f"◆ **Empate técnico:** {p1} y {p2} separados solo {brecha:.1f} pp. "
                     "Máxima atención a movilización y GOTV."
                 )
             elif brecha > 10:
                 acciones.append(
-                    f"📊 **Ventaja consolidada:** {p1} lidera por {brecha:.1f} pp sobre {p2}. "
+                    f"≡ **Ventaja consolidada:** {p1} lidera por {brecha:.1f} pp sobre {p2}. "
                     "Mantener disciplina de agenda para no erosionar ventaja."
                 )
 
@@ -163,13 +163,13 @@ def _acciones_dinamicas(
             idx_val = float(top_idx.iloc[0]["valor"])
             if idx_val > 70:
                 acciones.append(
-                    f"🎯 **Índice {idx_name} en nivel alto ({idx_val:.1f}/100).** "
+                    f"● **Índice {idx_name} en nivel alto ({idx_val:.1f}/100).** "
                     "Priorizar este eje en comunicación y agenda pública esta semana."
                 )
 
     if not acciones:
         acciones.append(
-            "ℹ️ Sin señales de alerta prioritaria. "
+            "○ Sin señales de alerta prioritaria. "
             "Mantener cadencia de comunicación ordinaria y monitoreo continuo."
         )
 
@@ -309,7 +309,7 @@ for accion in acciones:
 
 # ── Exportar briefing ─────────────────────────────────────────────────────────
 
-with st.expander("⬇️ Exportar briefing completo"):
+with st.expander("↓  Exportar briefing completo"):
     md_content = _briefing_markdown(df_nc, df_macro, df_indices, df_alert, df_agenda, eco_score)
     st.download_button(
         label="Descargar como Markdown (.md)",

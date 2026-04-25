@@ -460,10 +460,10 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
 
 # ── Tabs ─────────────────────────────────────────────────────────────────────
 tab_pasadas, tab_futuras, tab_mapa, tab_hist = st.tabs([
-    "◈  Elecciones Pasadas",
-    "◉  Estimaciones Futuras",
+    "▣  Elecciones Pasadas",
+    "▷  Estimaciones Futuras",
     "◎  Mapa Provincial",
-    "⬡  Comparativa Histórica",
+    "≡  Comparativa Histórica",
 ])
 
 

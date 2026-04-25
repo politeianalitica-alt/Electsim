@@ -263,26 +263,26 @@ def sidebar_nav():
 
         # Sección: Análisis Electoral
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.6rem .5rem .3rem'>Análisis Electoral</div>", unsafe_allow_html=True)
-        st.page_link("app.py",                              label="⬡  Inicio")
-        st.page_link("pages/1_Mapa_Electoral.py",           label="◈  Mapa Electoral")
+        st.page_link("app.py",                              label="▣  Inicio")
+        st.page_link("pages/1_Mapa_Electoral.py",           label="◎  Mapa Electoral")
         st.page_link("pages/2_Nowcasting.py",               label="◉  Nowcasting")
-        st.page_link("pages/3_Escenarios.py",               label="◎  Escenarios")
-        st.page_link("pages/4_Coaliciones.py",              label="⬡  Coaliciones")
+        st.page_link("pages/3_Escenarios.py",               label="◇  Escenarios")
+        st.page_link("pages/4_Coaliciones.py",              label="◆  Coaliciones")
 
         # Sección: Índices Politeia
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Índices Politeia</div>", unsafe_allow_html=True)
-        st.page_link("pages/9_Indices_Politeia.py",         label="◈  Índices")
-        st.page_link("pages/10_Prensa_Agenda.py",           label="◎  Prensa & Agenda")
-        st.page_link("pages/11_Congreso_Institucional.py",  label="◉  Congreso")
-        st.page_link("pages/13_Briefing_Diario.py",         label="⬡  Briefing Diario")
+        st.page_link("pages/9_Indices_Politeia.py",         label="≡  Índices")
+        st.page_link("pages/10_Prensa_Agenda.py",           label="▤  Prensa & Agenda")
+        st.page_link("pages/11_Congreso_Institucional.py",  label="○  Congreso")
+        st.page_link("pages/13_Briefing_Diario.py",         label="▸  Briefing Diario")
 
         # Sección: Modelos & Datos
         st.markdown(f"<div style='font-size:.62rem;font-weight:700;letter-spacing:.14em;color:{MUTED};text-transform:uppercase;padding:.8rem .5rem .3rem'>Modelos & Datos</div>", unsafe_allow_html=True)
-        st.page_link("pages/5_Agentes_LLM.py",              label="◈  Agentes LLM")
-        st.page_link("pages/6_Riesgo.py",                   label="◎  Riesgo Político")
-        st.page_link("pages/7_Validacion.py",               label="◉  Validación")
-        st.page_link("pages/8_Tiempo_Real.py",              label="⬡  Tiempo Real")
-        st.page_link("pages/12_Macroeconomia.py",           label="◈  Macroeconomía")
+        st.page_link("pages/5_Agentes_LLM.py",              label="◌  Agentes LLM")
+        st.page_link("pages/6_Riesgo.py",                   label="△  Riesgo Político")
+        st.page_link("pages/7_Validacion.py",               label="✓  Validación")
+        st.page_link("pages/8_Tiempo_Real.py",              label="●  Tiempo Real")
+        st.page_link("pages/12_Macroeconomia.py",           label="≈  Macroeconomía")
 
         # Footer
         st.markdown(f"""

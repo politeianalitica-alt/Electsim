@@ -258,9 +258,9 @@ def monte_carlo_escanos(estimaciones: dict, n_sims: int = 5000, sigma: float = 2
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3 = st.tabs([
-    "⬡  Monte Carlo de Escaños",
-    "◈  Escenarios Morfológicos",
-    "◎  Variables Estructurales",
+    "◉  Monte Carlo de Escaños",
+    "◇  Escenarios Morfológicos",
+    "≡  Variables Estructurales",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════

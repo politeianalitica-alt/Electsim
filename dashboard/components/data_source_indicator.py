@@ -27,12 +27,18 @@ class DataSource:
     n_records: Optional[int] = None
 
 
+def _dot(color: str) -> str:
+    return (
+        f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;'
+        f'background:{color};vertical-align:middle;flex-shrink:0"></span>'
+    )
+
 _STYLE = {
-    "real":        {"color": "#22C55E", "icon": "🟢", "text": "Datos reales"},
-    "microdatos":  {"color": "#06B6D4", "icon": "🟢", "text": "Microdatos propios"},
-    "sintetico":   {"color": "#F59E0B", "icon": "🟡", "text": "Datos sintéticos"},
-    "fallback":    {"color": "#EF4444", "icon": "🔴", "text": "Fallback (BD caída)"},
-    "cache":       {"color": "#8B5CF6", "icon": "🟣", "text": "Caché local"},
+    "real":        {"color": "#22C55E", "icon": _dot("#22C55E"), "text": "Datos reales"},
+    "microdatos":  {"color": "#06B6D4", "icon": _dot("#06B6D4"), "text": "Microdatos propios"},
+    "sintetico":   {"color": "#F59E0B", "icon": _dot("#F59E0B"), "text": "Datos sintéticos"},
+    "fallback":    {"color": "#EF4444", "icon": _dot("#EF4444"), "text": "Fallback (BD caída)"},
+    "cache":       {"color": "#8B5CF6", "icon": _dot("#8B5CF6"), "text": "Caché local"},
 }
 
 
@@ -58,7 +64,7 @@ def render_source_banner(source: DataSource, compact: bool = False) -> None:
         f"""<div style="display:flex;align-items:center;gap:.8rem;
             padding:.55rem .9rem;border-radius:10px;margin:.4rem 0 1rem;
             background:{style['color']}15;border-left:3px solid {style['color']}">
-            <div style="font-size:1.1rem">{style['icon']}</div>
+            <div style="display:flex;align-items:center;justify-content:center;width:1.4rem">{style['icon']}</div>
             <div style="flex:1">
                 <div style="font-size:.78rem;font-weight:700;color:{style['color']};
                     text-transform:uppercase;letter-spacing:.08em">
