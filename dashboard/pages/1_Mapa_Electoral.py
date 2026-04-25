@@ -1021,6 +1021,176 @@ with tab_mapa:
                     )
                     st.plotly_chart(fig_hm, use_container_width=True, config={"displayModeBar": False})
 
+    # ═══════════════════════════════════════════════════════════════════════════
+    # SECCIÓN: ATLAS ELECTORAL — MAPA HISTÓRICO POR ELECCIÓN GENERAL
+    # ═══════════════════════════════════════════════════════════════════════════
+    st.markdown(
+        f'<div style="height:2px;background:linear-gradient(90deg,transparent,{PURPLE}55,{CYAN}55,transparent);'
+        f'margin:2.5rem 0 1.5rem"></div>',
+        unsafe_allow_html=True,
+    )
+    _section_header("Atlas Electoral — Mapa Histórico por Elección General", CYAN)
+
+    df_gen_all = cargar_elecciones("generales")
+
+    if df_gen_all.empty:
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {AMBER};'
+            f'border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">'
+            f'No hay elecciones generales registradas en la base de datos.</div>',
+            unsafe_allow_html=True,
+        )
+    else:
+        df_gen_sorted = df_gen_all.sort_values("fecha", ascending=False)
+        opciones_atlas = {
+            row.get("descripcion") or str(row["fecha"])[:10]: row["id"]
+            for _, row in df_gen_sorted.iterrows()
+        }
+
+        col_atlas_sel, col_atlas_vista, col_atlas_partido = st.columns([2, 1, 1])
+        with col_atlas_sel:
+            atlas_label = st.selectbox(
+                "Elección General",
+                list(opciones_atlas.keys()),
+                key="atlas_elec_selector",
+            )
+        atlas_elec_id = opciones_atlas[atlas_label]
+
+        with col_atlas_vista:
+            atlas_vista = st.radio(
+                "Vista",
+                ["Partido ganador", "Por partido"],
+                horizontal=True,
+                key="atlas_vista",
+            )
+
+        df_prov_atlas = cargar_resultados_provinciales(atlas_elec_id)
+        df_nac_atlas  = cargar_resultados_nacionales(atlas_elec_id)
+
+        if df_prov_atlas.empty:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};'
+                f'border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">'
+                f'Sin datos provinciales para esta elección. Carga los datos con el ETL.</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            atlas_partido = None
+            if atlas_vista == "Por partido":
+                partidos_atlas_disp = sorted(df_prov_atlas["siglas"].unique().tolist())
+                with col_atlas_partido:
+                    atlas_partido = st.selectbox("Partido", partidos_atlas_disp, key="atlas_partido_sel")
+
+            # ── Tarjetas de resultado nacional ────────────────────────────────
+            if not df_nac_atlas.empty:
+                n_cards_a = min(len(df_nac_atlas), 7)
+                cols_a = st.columns(min(n_cards_a, 7))
+                for i, (_, row) in enumerate(df_nac_atlas.head(n_cards_a).iterrows()):
+                    esc_a = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else 0
+                    pct_a = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "—"
+                    color_a = _color(row["siglas"])
+                    ra, ga, ba = int(color_a[1:3], 16), int(color_a[3:5], 16), int(color_a[5:7], 16)
+                    with cols_a[i]:
+                        st.markdown(
+                            f'<div class="glass" style="text-align:center;margin-bottom:.5rem;'
+                            f'border-top:3px solid {color_a}">'
+                            f'<div style="font-size:.58rem;font-weight:700;color:{MUTED};letter-spacing:.08em">'
+                            f'{row["siglas"]}</div>'
+                            f'<div style="font-size:1.5rem;font-weight:900;color:{color_a};'
+                            f'font-family:\'JetBrains Mono\',monospace;'
+                            f'text-shadow:0 0 16px rgba({ra},{ga},{ba},0.3)">{esc_a}</div>'
+                            f'<div style="font-size:.65rem;color:{TEXT2};margin-top:.1rem">'
+                            f'esc &middot; {pct_a}</div>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
+                st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+
+            # ── Mapa + Hemiciclo ───────────────────────────────────────────────
+            col_amap, col_ahem = st.columns([3, 2], gap="large")
+
+            with col_amap:
+                _section_header("Resultados Provinciales", PURPLE)
+                fig_atlas = _build_choropleth(df_prov_atlas, partido_filter=atlas_partido)
+                if fig_atlas:
+                    st.plotly_chart(fig_atlas, use_container_width=True, config={"displayModeBar": False})
+                else:
+                    st.markdown(
+                        f'<div style="background:{BG2};border:1px solid {AMBER}44;border-left:3px solid {AMBER};'
+                        f'border-radius:8px;padding:1rem 1.2rem;color:{TEXT2};font-size:.88rem">'
+                        f'No se pudo generar el mapa. Verifica que el GeoJSON existe en dashboard/data/</div>',
+                        unsafe_allow_html=True,
+                    )
+
+            with col_ahem:
+                if not df_nac_atlas.empty:
+                    _section_header("Hemiciclo", BLUE)
+                    df_esc_atlas = df_nac_atlas[
+                        df_nac_atlas["escanos_totales"].notna() & (df_nac_atlas["escanos_totales"] > 0)
+                    ].copy()
+                    if not df_esc_atlas.empty:
+                        partidos_hem_a = [
+                            (r["siglas"], int(r["escanos_totales"]), _color(r["siglas"]))
+                            for _, r in df_esc_atlas.iterrows()
+                        ]
+                        partidos_hem_a.sort(
+                            key=lambda x: ORDEN_IDEOLOGICO.index(x[0]) if x[0] in ORDEN_IDEOLOGICO else 99
+                        )
+                        st.plotly_chart(
+                            hemiciclo_chart(partidos_hem_a),
+                            use_container_width=True,
+                            config={"displayModeBar": False},
+                        )
+
+                        izq_a = ["PSOE", "SUMAR", "EH_BILDU", "EH Bildu", "ERC", "BNG", "CUP", "PODEMOS", "UP", "IU"]
+                        der_a = ["PP", "VOX", "CS", "UPN"]
+                        e_izq_a = int(df_esc_atlas[df_esc_atlas["siglas"].isin(izq_a)]["escanos_totales"].sum())
+                        e_der_a = int(df_esc_atlas[df_esc_atlas["siglas"].isin(der_a)]["escanos_totales"].sum())
+                        ca1, ca2 = st.columns(2)
+                        with ca1:
+                            st.markdown(
+                                f'<div class="glass" style="text-align:center;border-top:2px solid {RED}55">'
+                                f'<div style="font-size:.55rem;font-weight:700;color:{MUTED};'
+                                f'letter-spacing:.1em;text-transform:uppercase">Bloque Izq.</div>'
+                                f'<div style="font-size:1.4rem;font-weight:900;color:{TEXT};'
+                                f'font-family:\'JetBrains Mono\',monospace">{e_izq_a}</div>'
+                                f'<div style="font-size:.55rem;color:{"#10B981" if e_izq_a>=176 else AMBER}">'
+                                f'{"✓ Mayoría" if e_izq_a>=176 else f"{176-e_izq_a} para mayoría"}'
+                                f'</div></div>',
+                                unsafe_allow_html=True,
+                            )
+                        with ca2:
+                            st.markdown(
+                                f'<div class="glass" style="text-align:center;border-top:2px solid {BLUE}55">'
+                                f'<div style="font-size:.55rem;font-weight:700;color:{MUTED};'
+                                f'letter-spacing:.1em;text-transform:uppercase">Bloque Der.</div>'
+                                f'<div style="font-size:1.4rem;font-weight:900;color:{TEXT};'
+                                f'font-family:\'JetBrains Mono\',monospace">{e_der_a}</div>'
+                                f'<div style="font-size:.55rem;color:{"#10B981" if e_der_a>=176 else AMBER}">'
+                                f'{"✓ Mayoría" if e_der_a>=176 else f"{176-e_der_a} para mayoría"}'
+                                f'</div></div>',
+                                unsafe_allow_html=True,
+                            )
+
+                    # ── Tabla provincia → ganador ──────────────────────────────
+                    st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+                    _section_header("Ganador por Provincia", AMBER)
+                    prov_winner_atlas = []
+                    for prov_id in df_prov_atlas["provincia_id"].unique():
+                        df_pp = df_prov_atlas[df_prov_atlas["provincia_id"] == prov_id]
+                        if df_pp.empty:
+                            continue
+                        top = df_pp.loc[df_pp["escanos"].idxmax()]
+                        prov_winner_atlas.append({
+                            "Provincia": top.get("provincia", str(prov_id)),
+                            "Ganador": top["siglas"],
+                            "Esc.": int(top["escanos"]),
+                            "%": round(float(top["porcentaje"]), 1) if pd.notna(top.get("porcentaje")) else None,
+                        })
+                    if prov_winner_atlas:
+                        df_pw = pd.DataFrame(prov_winner_atlas).sort_values("Esc.", ascending=False)
+                        st.dataframe(df_pw, hide_index=True, use_container_width=True, height=300)
+
 
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 4 — COMPARATIVA HISTORICA
