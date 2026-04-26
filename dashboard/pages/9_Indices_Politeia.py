@@ -244,10 +244,18 @@ for i, row in enumerate(idx_list):
     pct = min(100, max(0, valor))
     cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
     vc_r, vc_g, vc_b = int(var_color[1:3], 16), int(var_color[3:5], 16), int(var_color[5:7], 16)
+    sem = row.get("semaforo", "")
+    sem_label = {"VERDE": "Favorable", "AMARILLO": "Atención", "ROJO": "Alerta"}.get(sem, sem)
+    interp = str(row.get("interpretacion") or "")
     with col:
         st.markdown(f"""
         <div class="idx-card" style="border-top:3px solid rgba({cr},{cg},{cb},0.7)">
-            <div class="idx-nombre">{row['indice_codigo']}</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="idx-nombre">{row['indice_codigo']}</div>
+                <span style="font-size:.6rem;font-weight:700;padding:.12rem .45rem;
+                             border-radius:999px;background:rgba({cr},{cg},{cb},0.15);
+                             color:{color};border:1px solid rgba({cr},{cg},{cb},0.35)">{sem_label}</span>
+            </div>
             <div class="idx-valor" style="color:{color};margin:.4rem 0">{valor:.1f}</div>
             <div style="display:flex;align-items:center;gap:.5rem;margin:.25rem 0 .5rem">
                 <span class="idx-badge"
@@ -261,7 +269,7 @@ for i, row in enumerate(idx_list):
             <div class="progress-track">
                 <div class="progress-fill" style="background:{color};width:{pct}%"></div>
             </div>
-            <div class="idx-interp">{str(row.get('interpretacion',''))[:92]}…</div>
+            <div class="idx-interp">{interp}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -352,6 +360,95 @@ setTimeout(function(){
     default_height="440px",
 )
 components.html(_radar_html, height=460, scrolling=False)
+
+# ── Diagnóstico Integrado ──────────────────────────────────────────────────────
+st.markdown(f"""
+<div class="sec-hdr">
+    <div class="bar" style="background:{AMBER}"></div>
+    <span class="lbl">Diagnóstico Integrado del Sistema Político</span>
+    <div class="line"></div>
+</div>
+""", unsafe_allow_html=True)
+
+_INDICE_INVERSION = {"IESP", "ISMA", "ICGE"}  # índices donde alto = bueno
+_rojos   = [r for r in idx_list if r.get("semaforo") == "ROJO"]
+_amars   = [r for r in idx_list if r.get("semaforo") == "AMARILLO"]
+_verdes  = [r for r in idx_list if r.get("semaforo") == "VERDE"]
+_vals    = [float(r.get("valor") or 0) for r in idx_list]
+_composite = round(sum(_vals) / len(_vals), 1) if _vals else 0
+
+# Narrativa automática
+_frases = []
+if _rojos:
+    _frases.append(
+        f"**{len(_rojos)} {'índice' if len(_rojos)==1 else 'índices'} en zona roja:** "
+        + ", ".join(f"**{r['indice_codigo']}**" for r in _rojos)
+        + (" — requiere atención inmediata." if len(_rojos) >= 2 else " — monitoreo prioritario.")
+    )
+if _amars:
+    _frases.append(
+        f"{len(_amars)} en zona de atención: "
+        + ", ".join(r['indice_codigo'] for r in _amars) + "."
+    )
+if not _rojos and not _amars:
+    _frases.append("Todos los índices en zona favorable. El sistema político muestra estabilidad en el momento actual.")
+
+_puntuacion_txt = (
+    "Situación crítica" if _composite > 70 else
+    "Situación de riesgo elevado" if _composite > 55 else
+    "Situación de tensión moderada" if _composite > 40 else
+    "Situación estable con focos de atención" if _composite > 25 else
+    "Situación favorable"
+)
+
+col_diag1, col_diag2, col_diag3 = st.columns([2, 1, 1])
+with col_diag1:
+    _color_comp = RED if _composite > 65 else AMBER if _composite > 40 else GREEN
+    st.markdown(
+        f'<div style="background:linear-gradient(135deg,{BG2},{BG3});border:1px solid {BORDER};'
+        f'border-left:4px solid {_color_comp};border-radius:10px;padding:1.1rem 1.3rem">'
+        f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;'
+        f'text-transform:uppercase;margin-bottom:.4rem">Diagnóstico · {_puntuacion_txt}</div>'
+        + "".join(f'<div style="font-size:.82rem;color:{TEXT2};margin:.35rem 0;line-height:1.5">▸ {f}</div>' for f in _frases)
+        + f'</div>',
+        unsafe_allow_html=True,
+    )
+
+with col_diag2:
+    _cc_r, _cc_g, _cc_b = int(_color_comp[1:3],16), int(_color_comp[3:5],16), int(_color_comp[5:7],16)
+    st.markdown(
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+        f'padding:1rem;text-align:center;height:100%">'
+        f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;'
+        f'text-transform:uppercase">Índice compuesto</div>'
+        f'<div style="font-size:2.8rem;font-weight:900;color:{_color_comp};'
+        f'font-family:\'JetBrains Mono\',monospace;margin:.3rem 0;'
+        f'text-shadow:0 0 20px rgba({_cc_r},{_cc_g},{_cc_b},0.3)">{_composite:.1f}</div>'
+        f'<div style="font-size:.68rem;color:{MUTED}">media de los {len(idx_list)} índices</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+with col_diag3:
+    st.markdown(
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem">'
+        f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;'
+        f'text-transform:uppercase;margin-bottom:.6rem">Distribución semáforo</div>'
+        + f'<div style="display:flex;align-items:center;gap:.5rem;margin:.3rem 0">'
+        f'<div style="width:10px;height:10px;border-radius:50%;background:{RED}"></div>'
+        f'<span style="font-size:.8rem;color:{TEXT2}">Alerta</span>'
+        f'<span style="margin-left:auto;font-size:.9rem;font-weight:700;color:{RED}">{len(_rojos)}</span></div>'
+        + f'<div style="display:flex;align-items:center;gap:.5rem;margin:.3rem 0">'
+        f'<div style="width:10px;height:10px;border-radius:50%;background:{AMBER}"></div>'
+        f'<span style="font-size:.8rem;color:{TEXT2}">Atención</span>'
+        f'<span style="margin-left:auto;font-size:.9rem;font-weight:700;color:{AMBER}">{len(_amars)}</span></div>'
+        + f'<div style="display:flex;align-items:center;gap:.5rem;margin:.3rem 0">'
+        f'<div style="width:10px;height:10px;border-radius:50%;background:{GREEN}"></div>'
+        f'<span style="font-size:.8rem;color:{TEXT2}">Favorable</span>'
+        f'<span style="margin-left:auto;font-size:.9rem;font-weight:700;color:{GREEN}">{len(_verdes)}</span></div>'
+        + f'</div>',
+        unsafe_allow_html=True,
+    )
 
 # ── Explorador de índice individual ───────────────────────────────────────────
 st.markdown(f"""
@@ -492,6 +589,86 @@ with col_serie:
         </div>
         """, unsafe_allow_html=True)
 
+    # Señal política y qué vigilar
+    _DOC_SEL = INDICES_DOC.get(sel_codigo, {})
+    if _DOC_SEL:
+        valor_sel = float(row_sel.get("valor") or 0)
+        sem_sel   = row_sel.get("semaforo", "")
+
+        # Señal política según nivel
+        _SENIALES = {
+            "IPPS": {
+                "VERDE":    "Sistema estable. La fragmentación está en niveles manejables y los partidos no muestran posiciones extremas. El riesgo de bloqueo de investidura es bajo.",
+                "AMARILLO": "Polarización moderada. Aumenta la dificultad para formar coaliciones estables. El debate público puede endurecerse en las próximas semanas.",
+                "ROJO":     "Polarización alta. El sistema electoral está en zona de riesgo de bloqueo. Históricamente este nivel precede periodos de repetición electoral o gobiernos muy inestables.",
+            },
+            "IESP": {
+                "VERDE":    "El sistema político muestra solidez institucional. El gobierno puede aprobar legislación con relativa fluidez y la presión fiscal es manejable.",
+                "AMARILLO": "Estabilidad en riesgo. El gobierno enfrenta dificultades parlamentarias o presión macroeconómica que limita su capacidad de acción.",
+                "ROJO":     "Inestabilidad sistémica. Alta probabilidad de adelanto electoral o crisis institucional en el horizonte de 6-12 meses. Los mercados ya lo descuentan en la prima de riesgo.",
+            },
+            "ISMA": {
+                "VERDE":    "La agenda mediática es equilibrada y el sentimiento de los medios, constructivo. El ruido político no está dominando el espacio informativo.",
+                "AMARILLO": "Agenda mediática crispada. Los medios están dedicando una parte desproporcionada a la crisis política. Esto puede amplificar la percepción de inestabilidad.",
+                "ROJO":     "Agenda de crisis total. El ciclo mediático está completamente dominado por el conflicto político. Este contexto favorece el voto de castigo y la abstención.",
+            },
+            "ICED": {
+                "VERDE":    "Debate político dentro de parámetros normales. El léxico confrontacional no supera umbrales históricos de alerta.",
+                "AMARILLO": "Crispación perceptible. El lenguaje político se está radicalizando y el Congreso dedica más tiempo a la confrontación que a la legislación.",
+                "ROJO":     "Crispación máxima. El sistema político está en un ciclo de hostilidad verbal sostenida que dificulta los acuerdos y erosiona la confianza ciudadana en las instituciones.",
+            },
+            "ICGE": {
+                "VERDE":    "El gobierno mantiene una buena conexión con su electorado. El desgaste respecto al resultado electoral es leve y las promesas macroeconómicas se están cumpliendo.",
+                "AMARILLO": "Distancia creciente entre el gobierno y sus votantes. Si no se corrige en los próximos meses, puede convertirse en un factor determinante en las próximas elecciones.",
+                "ROJO":     "Ruptura severa entre el gobierno y su base electoral. Históricamente, ICGE < 35 predice con alta fiabilidad un voto de castigo significativo.",
+            },
+            "IBEP": {
+                "VERDE":    "La economía no está actuando como palanca de castigo electoral. Los ciudadanos no perciben una brecha relevante entre su situación económica y la gestión política.",
+                "AMARILLO": "Brecha económico-política creciente. El paro y la prima de riesgo están generando frustración que puede trasladarse a las urnas.",
+                "ROJO":     "La economía es el principal factor de desgaste electoral. Este nivel de brecha ha precedido históricamente cambios de gobierno en España (1996, 2011, 2015).",
+            },
+            "IVCE": {
+                "VERDE":    "El contrato electoral está en buen estado. No hay señales de pre-crisis representativa ni de emergencia de nuevas fuerzas disruptivas.",
+                "AMARILLO": "Vulnerabilidad moderada. La fragmentación territorial y la tensión ideológica pueden facilitar la entrada de nuevas opciones políticas.",
+                "ROJO":     "Condiciones de pre-ruptura del contrato representativo. Este nivel ha precedido la irrupción de Podemos (2015) y Ciudadanos. Alta probabilidad de emergencia de nuevas fuerzas.",
+            },
+        }
+        _QUE_VIGILAR = {
+            "IPPS": ["Evolución de la intención de voto de los partidos extremos", "Resultado de elecciones autonómicas como barómetro", "Declaraciones sobre posibles pactos de gobierno"],
+            "IESP": ["Prima de riesgo diaria (umbral de alerta: >150 pb)", "Resultado de votaciones clave en el Congreso", "Declaraciones del Banco de España sobre sostenibilidad fiscal"],
+            "ISMA": ["Portadas de los 5 principales diarios", "Ratio de noticias sobre gestión vs. escándalo", "Evolución del sentimiento en redes sociales políticas"],
+            "ICED": ["Lenguaje en los debates parlamentarios", "Número de mociones de censura y proposiciones urgentes", "Cobertura de los medios más polarizados"],
+            "ICGE": ["Encuestas de intención de voto semanales", "Valoración del presidente del gobierno (CIS)", "Cumplimiento de los objetivos de paro e inflación prometidos"],
+            "IBEP": ["Datos mensuales del EPA (paro)", "Movimientos de la prima de riesgo", "Índice de confianza del consumidor (CIS/Eurostat)"],
+            "IVCE": ["Fragmentación en próximas elecciones autonómicas", "Aparición de nuevas plataformas o candidaturas", "Tensión en negociaciones territoriales (Catalunya, País Vasco)"],
+        }
+
+        senial_txt = _SENIALES.get(sel_codigo, {}).get(sem_sel, "")
+        qv_list    = _QUE_VIGILAR.get(sel_codigo, [])
+
+        if senial_txt or qv_list:
+            color_s = SEMAFORO_COLOR.get(sem_sel, CYAN)
+            cs_r, cs_g, cs_b = int(color_s[1:3],16), int(color_s[3:5],16), int(color_s[5:7],16)
+            bloque = (
+                f'<div style="margin-top:.9rem;background:rgba({cs_r},{cs_g},{cs_b},0.07);'
+                f'border:1px solid rgba({cs_r},{cs_g},{cs_b},0.25);border-radius:8px;padding:.8rem .9rem">'
+                f'<div style="font-size:.6rem;font-weight:700;color:{color_s};letter-spacing:.1em;'
+                f'text-transform:uppercase;margin-bottom:.4rem">Señal política actual</div>'
+                f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.5">{senial_txt}</div>'
+            )
+            if qv_list:
+                bloque += (
+                    f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;'
+                    f'text-transform:uppercase;margin:.7rem 0 .35rem">Qué vigilar</div>'
+                    + "".join(
+                        f'<div style="font-size:.77rem;color:{TEXT2};padding:.2rem 0;'
+                        f'border-bottom:1px solid {BORDER}">▸ {item}</div>'
+                        for item in qv_list
+                    )
+                )
+            bloque += "</div>"
+            st.markdown(bloque, unsafe_allow_html=True)
+
     with st.expander("Metodología del índice"):
         met = row_sel.get("metodología", "Sin metodología definida.")
         st.markdown(f"<span style='color:{TEXT2};font-size:.88rem'>{met}</span>",
@@ -573,6 +750,12 @@ INDICES_DOC = {
         "nombre": "Índice de Polarización Política y Social",
         "rango": "0–100 · (100 = máxima polarización)",
         "semaforo": "VERDE ≤35 · AMARILLO 36–65 · ROJO >65",
+        "calibracion": [
+            ("2011", 32.4, "Bipartidismo PP-PSOE. NEP bajo, volatilidad mínima."),
+            ("2015", 71.8, "Irrupción de Podemos y Ciudadanos. Máxima fragmentación."),
+            ("2019", 68.1, "Sistema más fragmentado. Dos elecciones sin gobierno."),
+            ("2023", 58.3, "Consolidación de VOX. Fragmentación alta pero estable."),
+        ],
         "componentes": [
             ("C1 · Distancia ideológica ponderada (30 %)",
              "Dispersión ponderada de los partidos en el eje izquierda–derecha usando posiciones CIS-Manifesto Project. Se calcula como la desviación típica ponderada por el peso electoral de cada partido."),
@@ -590,6 +773,12 @@ INDICES_DOC = {
         "nombre": "Índice de Estabilidad del Sistema Político",
         "rango": "0–100 · (100 = máxima estabilidad)",
         "semaforo": "VERDE ≥60 · AMARILLO 35–59 · ROJO <35",
+        "calibracion": [
+            ("2011", 28.1, "Crisis de deuda soberana. Prima >400 pb. ROJO histórico."),
+            ("2016", 35.4, "Bloqueo político 10 meses. Gobierno en funciones."),
+            ("2019", 42.7, "Investidura fallida. Repetición electoral. Presupuestos bloqueados."),
+            ("2023", 61.2, "Gobierno de coalición. Prima baja. Legislación avanzando."),
+        ],
         "componentes": [
             ("C1 · Salud fiscal y financiera (30 %)",
              "Combinación de prima de riesgo, déficit estructural y sostenibilidad de la deuda pública respecto al PIB. Se normaliza con umbrales del Pacto de Estabilidad europeo."),
@@ -607,6 +796,12 @@ INDICES_DOC = {
         "nombre": "Índice de Sentimiento Mediático y Agenda",
         "rango": "0–100 · (100 = agenda más positiva y equilibrada)",
         "semaforo": "VERDE ≥60 · AMARILLO 35–59 · ROJO <35",
+        "calibracion": [
+            ("2008", 62.1, "Agenda económica positiva antes de la crisis. Medios constructivos."),
+            ("2012", 21.4, "Dominio total de la crisis en agenda. Sentimiento muy negativo."),
+            ("2021", 44.8, "Pandemia y recuperación. Agenda mixta con alta polarización."),
+            ("2024", 51.3, "Amnistía y conflicto Cataluña dominan. Sentimiento dividido."),
+        ],
         "componentes": [
             ("C1 · Sentimiento neto de la prensa (35 %)",
              "Promedio ponderado del sentimiento NLP de 12 medios nacionales: El País, El Mundo, ABC, RTVE, La Vanguardia, El Confidencial, elDiario.es, Expansión, Cinco Días, El Economista, InfoLibre y La Razón."),
@@ -624,6 +819,12 @@ INDICES_DOC = {
         "nombre": "Índice de Crispación del Debate Público",
         "rango": "0–100 · (100 = máxima crispación)",
         "semaforo": "VERDE ≤35 · AMARILLO 36–65 · ROJO >65",
+        "calibracion": [
+            ("2014", 38.2, "Debate de abdicación del rey. Crispación moderada."),
+            ("2017", 78.9, "Crisis territorial 1-O en Cataluña. Máximo histórico."),
+            ("2020", 55.1, "Pandemia. Crispación alta pero unida por la emergencia."),
+            ("2024", 66.8, "Ley de amnistía. Manifestaciones masivas. Zona roja."),
+        ],
         "componentes": [
             ("C1 · Léxico confrontacional (35 %)",
              "Frecuencia de términos como 'traición', 'golpe', 'invasión', 'dictador' o 'fascista' en prensa política. Se normaliza con el máximo observado en la muestra histórica."),
@@ -641,6 +842,12 @@ INDICES_DOC = {
         "nombre": "Índice de Cohesión Gobierno-Electores",
         "rango": "0–100 · (100 = máxima cohesión)",
         "semaforo": "VERDE ≥60 · AMARILLO 35–59 · ROJO <35",
+        "calibracion": [
+            ("2008", 71.3, "PSOE revalida con amplia ventaja. Alta cohesión con electorado."),
+            ("2011", 22.1, "Desgaste máximo. PSOE cae 15 pp respecto a 2008."),
+            ("2020", 58.4, "Gobierno de coalición joven. Soporte aún sólido."),
+            ("2023", 44.1, "Desgaste moderado. El PSOE pierde soporte pero retiene el gobierno."),
+        ],
         "componentes": [
             ("C1 · Desgaste electoral del gobierno (35 %)",
              "Diferencia entre el resultado electoral del partido o coalición gobernante en las últimas generales y su estimación actual de intención de voto (nowcasting)."),
@@ -658,6 +865,12 @@ INDICES_DOC = {
         "nombre": "Índice de Brecha Económico-Política",
         "rango": "0–100 · (100 = máxima brecha)",
         "semaforo": "VERDE ≤35 · AMARILLO 36–65 · ROJO >65",
+        "calibracion": [
+            ("2000", 18.2, "Pleno empleo relativo. Economía alineada con expectativas políticas."),
+            ("2011", 89.4, "Paro al 22 %. Prima >400 pb. Máxima brecha histórica."),
+            ("2015", 61.7, "Recuperación desigual. Desempleo alto pese al crecimiento del PIB."),
+            ("2023", 38.9, "Paro bajo para el estándar español. Brecha moderada."),
+        ],
         "componentes": [
             ("C1 · Correlación paro-castigo electoral (30 %)",
              "Correlación histórica entre la variación de la tasa de paro y la caída de voto al partido gobernante en España (1982-2023). Se aplica como factor de escala al cambio actual del paro."),
@@ -675,6 +888,12 @@ INDICES_DOC = {
         "nombre": "Índice de Vulnerabilidad del Contrato Electoral",
         "rango": "0–100 · (100 = máxima vulnerabilidad)",
         "semaforo": "VERDE ≤35 · AMARILLO 36–65 · ROJO >65",
+        "calibracion": [
+            ("2011", 29.3, "Bipartidismo intacto. Contrato representativo estable."),
+            ("2014", 58.1, "Pre-irrupción de Podemos. IVCE señaló la ruptura 12 meses antes."),
+            ("2015", 74.2, "Ruptura del bipartidismo. El índice lo anticipó correctamente."),
+            ("2023", 55.8, "Tensión territorial alta. Fragmentación consolidada. Riesgo latente."),
+        ],
         "componentes": [
             ("C1 · Distancia posicional entre partidos (30 %)",
              "Distancia euclidiana media entre los partidos relevantes (≥3 % de voto) en el plano ideológico bidimensional: eje izquierda-derecha × eje libertario-autoritario. Se normaliza con la diagonal del cuadrado 9×9 (≈12,73)."),
@@ -690,46 +909,96 @@ INDICES_DOC = {
     },
 }
 
-cols_met = st.columns(2)
-for i, (codigo, doc) in enumerate(INDICES_DOC.items()):
-    with cols_met[i % 2]:
-        with st.expander(f"{codigo} · {doc['nombre']}"):
-            sem_html = (
-                doc["semaforo"]
-                .replace("VERDE",    f'<span style="color:{GREEN};font-weight:700">VERDE</span>')
-                .replace("AMARILLO", f'<span style="color:{AMBER};font-weight:700">AMARILLO</span>')
-                .replace("ROJO",     f'<span style="color:{RED};font-weight:700">ROJO</span>')
-            )
-            st.markdown(f"""
-            <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
-                        padding:.65rem .9rem;margin-bottom:.7rem;font-size:.85rem;color:{TEXT2}">
-                <strong style="color:{TEXT}">Rango:</strong> {doc['rango']}<br>
-                <strong style="color:{TEXT}">Semáforo:</strong> {sem_html}
-            </div>
-            """, unsafe_allow_html=True)
+for codigo, doc in INDICES_DOC.items():
+    with st.expander(f"**{codigo}** — {doc['nombre']}"):
+        sem_html = (
+            doc["semaforo"]
+            .replace("VERDE",    f'<span style="color:{GREEN};font-weight:700">VERDE</span>')
+            .replace("AMARILLO", f'<span style="color:{AMBER};font-weight:700">AMARILLO</span>')
+            .replace("ROJO",     f'<span style="color:{RED};font-weight:700">ROJO</span>')
+        )
 
-            st.markdown(f"<span style='font-size:.78rem;font-weight:700;color:{MUTED};"
-                        f"letter-spacing:.1em;text-transform:uppercase'>COMPONENTES</span>",
-                        unsafe_allow_html=True)
+        col_m1, col_m2 = st.columns([3, 2], gap="large")
+
+        with col_m1:
+            # Rango y semáforo
+            st.markdown(
+                f'<div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;'
+                f'padding:.65rem .9rem;margin-bottom:.9rem;font-size:.84rem;color:{TEXT2}">'
+                f'<strong style="color:{TEXT}">Rango:</strong> {doc["rango"]}<br>'
+                f'<strong style="color:{TEXT}">Semáforo:</strong> {sem_html}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+            # Componentes
+            st.markdown(
+                f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};'
+                f'letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem">Componentes del cálculo</div>',
+                unsafe_allow_html=True,
+            )
             for nombre_c, desc_c in doc["componentes"]:
                 st.markdown(
-                    f"<div style='margin:.55rem 0'>"
-                    f"<strong style='color:{CYAN2};font-size:.85rem'>{nombre_c}</strong><br>"
-                    f"<span style='font-size:.82rem;color:{TEXT2}'>{desc_c}</span>"
+                    f"<div style='margin:.6rem 0;padding:.5rem .7rem;background:{BG3};"
+                    f"border-radius:6px;border-left:2px solid {CYAN2}44'>"
+                    f"<strong style='color:{CYAN2};font-size:.82rem'>{nombre_c}</strong><br>"
+                    f"<span style='font-size:.8rem;color:{TEXT2};line-height:1.5'>{desc_c}</span>"
                     f"</div>",
                     unsafe_allow_html=True,
                 )
 
-            st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:.7rem 0">',
-                        unsafe_allow_html=True)
+            # Interpretación
             st.markdown(
-                f"<div style='font-size:.85rem;color:{TEXT2}'>"
-                f"<strong style='color:{TEXT}'>Interpretación:</strong> {doc['interpretacion']}"
-                f"</div>",
+                f'<div style="margin-top:.8rem;padding:.7rem .9rem;background:{BG2};'
+                f'border:1px solid {BORDER};border-radius:8px;font-size:.83rem;color:{TEXT2};line-height:1.5">'
+                f'<strong style="color:{TEXT}">Interpretación sistémica:</strong><br>{doc["interpretacion"]}'
+                f'</div>',
                 unsafe_allow_html=True,
             )
             st.markdown(
-                f"<div style='font-size:.75rem;color:{MUTED};margin-top:.4rem'>"
-                f"Referencias: {doc['referencias']}</div>",
+                f'<div style="font-size:.72rem;color:{MUTED};margin-top:.4rem">'
+                f'Referencias académicas: {doc["referencias"]}</div>',
                 unsafe_allow_html=True,
             )
+
+        with col_m2:
+            # Calibración histórica
+            calib = doc.get("calibracion", [])
+            if calib:
+                st.markdown(
+                    f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};'
+                    f'letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem">Calibración histórica</div>',
+                    unsafe_allow_html=True,
+                )
+                for año, val, nota in calib:
+                    c_cal = GREEN if val < 35 else AMBER if val < 65 else RED
+                    st.markdown(
+                        f'<div style="display:flex;gap:.6rem;align-items:flex-start;'
+                        f'padding:.45rem .5rem;border-bottom:1px solid {BORDER};margin-bottom:.1rem">'
+                        f'<span style="font-size:.72rem;font-weight:700;color:{MUTED};'
+                        f'font-family:\'JetBrains Mono\',monospace;flex-shrink:0;width:36px">{año}</span>'
+                        f'<span style="font-size:.82rem;font-weight:800;color:{c_cal};'
+                        f'font-family:\'JetBrains Mono\',monospace;flex-shrink:0;width:34px">{val}</span>'
+                        f'<span style="font-size:.75rem;color:{TEXT2};line-height:1.4">{nota}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
+
+            # Señal política resumida
+            st.markdown(
+                f'<div style="margin-top:.9rem;font-size:.6rem;font-weight:700;color:{MUTED};'
+                f'letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem">Lecturas políticas por nivel</div>',
+                unsafe_allow_html=True,
+            )
+            for nivel, color_n, etiqueta in [("VERDE", GREEN, "Favorable"), ("AMARILLO", AMBER, "Atención"), ("ROJO", RED, "Alerta")]:
+                cn_r, cn_g, cn_b = int(color_n[1:3],16), int(color_n[3:5],16), int(color_n[5:7],16)
+                txt = _SENIALES.get(codigo, {}).get(nivel, "")
+                if txt:
+                    st.markdown(
+                        f'<div style="padding:.4rem .6rem;border-radius:6px;margin-bottom:.35rem;'
+                        f'background:rgba({cn_r},{cn_g},{cn_b},0.08);border:1px solid rgba({cn_r},{cn_g},{cn_b},0.25)">'
+                        f'<span style="font-size:.6rem;font-weight:700;color:{color_n}">{etiqueta} · </span>'
+                        f'<span style="font-size:.75rem;color:{TEXT2}">{txt}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
