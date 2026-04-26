@@ -137,7 +137,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
     "Macro Financiera",
     "Microeconomía del Votante",
     "Indicadores de Nicho",
-    "Nexo Electoral-Económico",
+    "Analogías Históricas",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -581,139 +581,350 @@ with tab3:
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TAB 4: NEXO ELECTORAL-ECONÓMICO
+# TAB 4: ANALOGÍAS HISTÓRICAS
 # ══════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown("Relación empírica entre indicadores económicos y resultados electorales en España (1982-2025).")
 
-    col_e1, col_e2 = st.columns(2)
+    # ── Dataset histórico enriquecido ─────────────────────────────────────────
+    CICLOS = [
+        {
+            "año": "1982", "paro": 16.2, "ipc": 14.4, "pib": 1.2, "prima": 350,
+            "incumbente": "UCD", "color_inc": "#95A5A6",
+            "voto_inc": 6.8, "ganador": "PSOE", "voto_gan": 48.1, "escanos_gan": 202,
+            "resultado": "Derrumbe histórico del partido gobernante. PSOE obtiene mayoría absoluta arrasadora.",
+            "leccion": "El agotamiento institucional extremo tras crisis interna puede provocar una reconfiguración total del sistema de partidos.",
+        },
+        {
+            "año": "1986", "paro": 21.1, "ipc": 8.7, "pib": 3.3, "prima": 280,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 44.1, "ganador": "PSOE", "voto_gan": 44.1, "escanos_gan": 184,
+            "resultado": "PSOE revalida mayoría absoluta pese al paro récord gracias al fuerte crecimiento y efecto González.",
+            "leccion": "Un crecimiento vigoroso puede compensar una tasa de paro alta si el electorado percibe una tendencia de mejora.",
+        },
+        {
+            "año": "1989", "paro": 16.9, "ipc": 6.8, "pib": 4.8, "prima": 220,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 39.6, "ganador": "PSOE", "voto_gan": 39.6, "escanos_gan": 175,
+            "resultado": "Tercera mayoría socialista, aunque con pérdida de votos. Comienzan a notarse los escándalos.",
+            "leccion": "La degradación de la imagen de integridad erosiona el voto incluso en contextos económicos favorables.",
+        },
+        {
+            "año": "1993", "paro": 24.2, "ipc": 4.6, "pib": -1.0, "prima": 390,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 38.8, "ganador": "PSOE", "voto_gan": 38.8, "escanos_gan": 159,
+            "resultado": "PSOE gana en minoría pese a la recesión. González convierte la campaña en un plebiscito personal.",
+            "leccion": "Un liderazgo carismático puede amortiguar el castigo electoral en recesión; sin mayoría, la gobernabilidad se complica.",
+        },
+        {
+            "año": "1996", "paro": 22.9, "ipc": 3.6, "pib": 2.4, "prima": 290,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 37.6, "ganador": "PP", "voto_gan": 38.8, "escanos_gan": 156,
+            "resultado": "PP gana por la mínima. El desgaste acumulado de 13 años supera una economía en recuperación.",
+            "leccion": "La fatiga de gobierno a largo plazo puede costar la victoria incluso cuando la economía mejora.",
+        },
+        {
+            "año": "2000", "paro": 13.9, "ipc": 3.5, "pib": 4.7, "prima": 55,
+            "incumbente": "PP", "color_inc": "#2980B9",
+            "voto_inc": 44.5, "ganador": "PP", "voto_gan": 44.5, "escanos_gan": 183,
+            "resultado": "PP logra mayoría absoluta en pleno boom económico. Paro bajando, PIB al 4,7%.",
+            "leccion": "La convergencia de bajo paro + alto crecimiento + baja inflación es la condición ideal para revalidar con amplitud.",
+        },
+        {
+            "año": "2004", "paro": 10.9, "ipc": 3.0, "pib": 3.3, "prima": 12,
+            "incumbente": "PP", "color_inc": "#2980B9",
+            "voto_inc": 37.7, "ganador": "PSOE", "voto_gan": 42.6, "escanos_gan": 164,
+            "resultado": "PSOE gana tras los atentados del 11-M y la gestión del Gobierno. Economía sólida pero factor extrapolitico decisivo.",
+            "leccion": "Los shocks exógenos graves (terrorismo, guerra) pueden anular una ventaja económica clara del incumbente.",
+        },
+        {
+            "año": "2008", "paro": 11.2, "ipc": 4.1, "pib": 0.9, "prima": 25,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 43.9, "ganador": "PSOE", "voto_gan": 43.9, "escanos_gan": 169,
+            "resultado": "PSOE revalida justo cuando la crisis financiera global empieza a impactar. El paro aún no se disparaba en campaña.",
+            "leccion": "El deterioro económico incipiente no castiga si el colapso llega después de las urnas; la percepción importa más que los datos.",
+        },
+        {
+            "año": "2011", "paro": 22.9, "ipc": 3.1, "pib": 0.1, "prima": 420,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 28.7, "ganador": "PP", "voto_gan": 44.6, "escanos_gan": 186,
+            "resultado": "PP gana mayoría absoluta. El paro disparado, la prima de riesgo récord y el rescate obligan al PSOE a convocar anticipadas.",
+            "leccion": "Una crisis económica profunda con prima de riesgo >400pb produce el mayor castigo electoral documentado al incumbente.",
+        },
+        {
+            "año": "2015", "paro": 21.3, "ipc": -0.5, "pib": 3.2, "prima": 115,
+            "incumbente": "PP", "color_inc": "#2980B9",
+            "voto_inc": 28.7, "ganador": "PP", "voto_gan": 28.7, "escanos_gan": 123,
+            "resultado": "El sistema bipartidista se rompe. Podemos y Ciudadanos irrumpen. PP pierde la mayoría absoluta pese a la recuperación.",
+            "leccion": "La recuperación económica con alta desigualdad percibida genera una ola populista que fragmenta el sistema de partidos.",
+        },
+        {
+            "año": "2016", "paro": 19.6, "ipc": -0.2, "pib": 3.3, "prima": 145,
+            "incumbente": "PP", "color_inc": "#2980B9",
+            "voto_inc": 33.0, "ganador": "PP", "voto_gan": 33.0, "escanos_gan": 137,
+            "resultado": "PP gana en minoría tras repetición electoral. El sistema sigue fragmentado. Recuperación económica en marcha.",
+            "leccion": "En un sistema multipartidista fragmentado, ganar en minoría se convierte en la nueva normalidad.",
+        },
+        {
+            "año": "2019a", "paro": 14.2, "ipc": 1.5, "pib": 2.3, "prima": 115,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 28.7, "ganador": "PSOE", "voto_gan": 28.7, "escanos_gan": 123,
+            "resultado": "PSOE gana en minoría. Sánchez fuerza las elecciones tras rechazar los presupuestos. VOX irrumpe con 24 escaños.",
+            "leccion": "Convocar anticipadas desde el gobierno para aprovechar un momento de ventaja en las encuestas genera beneficios moderados.",
+        },
+        {
+            "año": "2019n", "paro": 13.8, "ipc": 0.8, "pib": 2.0, "prima": 65,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 28.0, "ganador": "PSOE", "voto_gan": 28.0, "escanos_gan": 120,
+            "resultado": "PSOE vuelve a ganar pero pierde escaños. VOX sube a 52. Repetición sin mejora de gobernabilidad.",
+            "leccion": "Repetir elecciones sin cambio de contexto no resuelve la fragmentación; puede deteriorar aún más la posición del convocante.",
+        },
+        {
+            "año": "2023", "paro": 11.8, "ipc": 3.4, "pib": 2.5, "prima": 105,
+            "incumbente": "PSOE", "color_inc": "#E74C3C",
+            "voto_inc": 31.7, "ganador": "PSOE", "voto_gan": 31.7, "escanos_gan": 122,
+            "resultado": "PSOE gana de forma inesperada (las encuestas favorecían al PP). Coalición con SUMAR y apoyo de partidos territoriales.",
+            "leccion": "Un paro bajo y crecimiento moderado permiten al incumbente superar las expectativas cuando la alternativa se percibe como extrema.",
+        },
+    ]
 
-    with col_e1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Tasa de paro vs % voto partido gobernante (generales 1982-2023)</span><div class="line"></div></div>', unsafe_allow_html=True)
-        datos_historicos = [
-            ("1982", 16.2, 48.1, "PSOE (González)"),
-            ("1986", 21.1, 44.1, "PSOE (González)"),
-            ("1989", 16.9, 39.6, "PSOE (González)"),
-            ("1993", 24.2, 38.8, "PSOE (González)"),
-            ("1996", 22.9, 37.6, "PSOE (González)"),
-            ("2000",  13.9, 44.5, "PP (Aznar)"),
-            ("2004",  10.9, 37.7, "PP (Aznar)"),
-            ("2008",  11.2, 43.9, "PSOE (Zapatero)"),
-            ("2011",  22.9, 28.7, "PSOE (Zapatero)"),
-            ("2015",  21.3, 28.7, "PP (Rajoy)"),
-            ("2016",  19.6, 33.0, "PP (Rajoy)"),
-            ("2019a", 14.2, 28.7, "PP (Rajoy→Sánchez)"),
-            ("2019n", 13.8, 28.0, "PSOE (Sánchez)"),
-            ("2023",  11.8, 31.7, "PSOE (Sánchez)"),
-        ]
-        df_hist = pd.DataFrame(datos_historicos, columns=["Año", "Paro (%)", "Voto gobernante (%)", "Gobierno"])
-        fig_scatter = go.Figure()
-        for _, row in df_hist.iterrows():
-            color = RED if "PSOE" in row["Gobierno"] else BLUE
-            fig_scatter.add_trace(go.Scatter(
-                x=[row["Paro (%)"]],
-                y=[row["Voto gobernante (%)"]],
+    # ── Similitud euclidiana normalizada ──────────────────────────────────────
+    paro_hist  = [c["paro"]  for c in CICLOS]
+    ipc_hist   = [c["ipc"]   for c in CICLOS]
+    pib_hist   = [c["pib"]   for c in CICLOS]
+    prima_hist = [c["prima"] for c in CICLOS]
+
+    def _norm_range(vals):
+        mn, mx = min(vals), max(vals)
+        return (mx - mn) if mx != mn else 1.0
+
+    rng_paro  = _norm_range(paro_hist)
+    rng_ipc   = _norm_range(ipc_hist)
+    rng_pib   = _norm_range(pib_hist)
+    rng_prima = _norm_range(prima_hist)
+
+    cur_paro  = macro_vals["tasa_paro"]
+    cur_ipc   = macro_vals["ipc_general"]
+    cur_pib   = macro_vals["crecimiento_pib"]
+    cur_prima = macro_vals["prima_riesgo"]
+
+    W = {"paro": 0.40, "ipc": 0.25, "pib": 0.20, "prima": 0.15}
+
+    for c in CICLOS:
+        d = (
+            W["paro"]  * ((c["paro"]  - cur_paro)  / rng_paro)  ** 2
+            + W["ipc"]   * ((c["ipc"]   - cur_ipc)   / rng_ipc)   ** 2
+            + W["pib"]   * ((c["pib"]   - cur_pib)   / rng_pib)   ** 2
+            + W["prima"] * ((c["prima"] - cur_prima) / rng_prima) ** 2
+        ) ** 0.5
+        c["distancia"] = round(d, 4)
+        c["similitud"] = round(max(0, 1 - d) * 100, 1)
+
+    ciclos_ranked = sorted(CICLOS, key=lambda x: x["distancia"])
+
+    # ── Encabezado del tab ────────────────────────────────────────────────────
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+        f'<span class="lbl">¿A qué ciclo electoral se parece más el momento actual?</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'<div style="font-size:.82rem;color:{TEXT2};margin-bottom:1.2rem;max-width:780px">'
+        f'Distancia euclidiana normalizada entre el perfil macroeconómico de hoy '
+        f'(paro <strong style="color:{TEXT}">{cur_paro:.1f}%</strong>, '
+        f'IPC <strong style="color:{TEXT}">{cur_ipc:.1f}%</strong>, '
+        f'PIB <strong style="color:{TEXT}">+{cur_pib:.1f}%</strong>, '
+        f'prima <strong style="color:{TEXT}">{cur_prima:.0f} pb</strong>) '
+        f'y cada elección general española desde 1982. Ponderación: paro 40 % · IPC 25 % · PIB 20 % · prima 15 %.'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── TOP 3 tarjetas de analogía ────────────────────────────────────────────
+    top3 = ciclos_ranked[:3]
+    cols_top = st.columns(3, gap="large")
+    medallas = ["◆  Máxima analogía", "◇  2.ª analogía", "○  3.ª analogía"]
+    medalla_colors = [CYAN, BLUE, PURPLE]
+
+    for col, ciclo, medalla, mc in zip(cols_top, top3, medallas, medalla_colors):
+        inc_color = ciclo["color_inc"]
+        inc_r, inc_g, inc_b = int(inc_color[1:3],16), int(inc_color[3:5],16), int(inc_color[5:7],16)
+        simil_bar = int(ciclo["similitud"] * 1.5)
+
+        with col:
+            st.markdown(
+                f'<div style="background:linear-gradient(160deg,{BG2},{BG3});'
+                f'border:1px solid {mc}55;border-top:3px solid {mc};'
+                f'border-radius:12px;padding:1.1rem 1.2rem">'
+
+                # Medalla + año
+                f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem">'
+                f'<span style="font-size:.6rem;font-weight:700;color:{mc};letter-spacing:.1em;text-transform:uppercase">{medalla}</span>'
+                f'<span style="font-size:1.6rem;font-weight:900;color:{TEXT};font-family:\'JetBrains Mono\',monospace">{ciclo["año"]}</span>'
+                f'</div>'
+
+                # Similitud barra
+                f'<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.8rem">'
+                f'<div style="flex:1;background:{BG3};border-radius:4px;height:6px">'
+                f'<div style="width:{simil_bar}px;max-width:100%;background:{mc};border-radius:4px;height:6px"></div>'
+                f'</div>'
+                f'<span style="font-size:.72rem;font-weight:700;color:{mc};width:38px">{ciclo["similitud"]:.0f}%</span>'
+                f'</div>'
+
+                # Indicadores económicos
+                f'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .6rem;margin-bottom:.8rem">'
+                f'<div style="font-size:.7rem;color:{TEXT2}">Paro: <strong style="color:{TEXT}">{ciclo["paro"]:.1f}%</strong></div>'
+                f'<div style="font-size:.7rem;color:{TEXT2}">IPC: <strong style="color:{TEXT}">{ciclo["ipc"]:.1f}%</strong></div>'
+                f'<div style="font-size:.7rem;color:{TEXT2}">PIB: <strong style="color:{TEXT}">{ciclo["pib"]:+.1f}%</strong></div>'
+                f'<div style="font-size:.7rem;color:{TEXT2}">Prima: <strong style="color:{TEXT}">{ciclo["prima"]:.0f} pb</strong></div>'
+                f'</div>'
+
+                # Resultado
+                f'<div style="background:rgba({inc_r},{inc_g},{inc_b},0.1);border-left:2px solid {inc_color};'
+                f'border-radius:0 6px 6px 0;padding:.45rem .6rem;margin-bottom:.7rem">'
+                f'<div style="font-size:.6rem;font-weight:700;color:{inc_color};letter-spacing:.08em;text-transform:uppercase;margin-bottom:.2rem">'
+                f'{ciclo["incumbente"]} incumbente · {ciclo["voto_inc"]:.1f}% → ganó {ciclo["ganador"]} ({ciclo["voto_gan"]:.1f}%)</div>'
+                f'<div style="font-size:.72rem;color:{TEXT2}">{ciclo["resultado"]}</div>'
+                f'</div>'
+
+                # Lección
+                f'<div style="font-size:.7rem;color:{MUTED};font-style:italic;line-height:1.45">'
+                f'<span style="color:{mc};font-style:normal;font-weight:700">Lección · </span>{ciclo["leccion"]}'
+                f'</div>'
+
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.8rem 0"></div>', unsafe_allow_html=True)
+
+    # ── Scatter paro vs voto + posición actual ────────────────────────────────
+    col_sc, col_rank = st.columns([3, 2], gap="large")
+
+    with col_sc:
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{BLUE}"></div>'
+            f'<span class="lbl">Paro vs voto al partido gobernante — 1982-2026</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
+        fig_sc = go.Figure()
+        for c in CICLOS:
+            color_pt = c["color_inc"]
+            is_top3 = c in top3
+            fig_sc.add_trace(go.Scatter(
+                x=[c["paro"]], y=[c["voto_inc"]],
                 mode="markers+text",
-                marker=dict(color=color, size=12),
-                text=[row["Año"]],
+                marker=dict(
+                    color=color_pt,
+                    size=16 if is_top3 else 10,
+                    opacity=1.0 if is_top3 else 0.55,
+                    line=dict(width=2 if is_top3 else 0, color=CYAN if is_top3 else color_pt),
+                    symbol="diamond" if is_top3 else "circle",
+                ),
+                text=[c["año"]],
                 textposition="top center",
-                name=row["Gobierno"],
+                textfont=dict(
+                    color=CYAN if is_top3 else TEXT2,
+                    size=10 if is_top3 else 9,
+                    family="JetBrains Mono, monospace",
+                ),
+                name=c["año"],
                 showlegend=False,
+                hovertemplate=(
+                    f"<b>{c['año']}</b><br>"
+                    f"Paro: {c['paro']:.1f}%<br>"
+                    f"Voto gob.: {c['voto_inc']:.1f}%<br>"
+                    f"Similitud actual: {c['similitud']:.0f}%"
+                    "<extra></extra>"
+                ),
             ))
-        # Línea de tendencia simple
-        parox = [r[1] for r in datos_historicos]
-        votox = [r[2] for r in datos_historicos]
-        m_coef, b_coef = np.polyfit(parox, votox, 1)
-        x_trend = np.linspace(min(parox), max(parox), 100)
-        fig_scatter.add_trace(go.Scatter(
-            x=x_trend, y=m_coef * x_trend + b_coef,
-            mode="lines", line=dict(color=MUTED, dash="dash"),
-            name=f"Tendencia (β={m_coef:.2f})",
+
+        # Tendencia
+        parox = [c["paro"] for c in CICLOS]
+        votox = [c["voto_inc"] for c in CICLOS]
+        m_c, b_c = np.polyfit(parox, votox, 1)
+        x_tr = np.linspace(min(parox) - 1, max(parox) + 1, 120)
+        fig_sc.add_trace(go.Scatter(
+            x=x_tr, y=m_c * x_tr + b_c,
+            mode="lines", line=dict(color=MUTED, dash="dash", width=1),
+            name=f"β={m_c:.2f}", showlegend=True,
+            hovertemplate="Tendencia<extra></extra>",
         ))
-        # Punto actual estimado
-        fig_scatter.add_trace(go.Scatter(
-            x=[macro_vals["tasa_paro"]],
-            y=[28.0],  # Estimación actual PSOE
+
+        # Punto actual estimado (PSOE incumbente)
+        fig_sc.add_trace(go.Scatter(
+            x=[cur_paro], y=[28.5],
             mode="markers+text",
-            marker=dict(color=AMBER, size=16, symbol="star"),
+            marker=dict(color=AMBER, size=20, symbol="star", line=dict(width=1.5, color=BG)),
             text=["2026 est."],
             textposition="top center",
-            name="Estimación 2026",
+            textfont=dict(color=AMBER, size=11, family="JetBrains Mono"),
+            name="2026 (estimado)",
+            hovertemplate=f"<b>Estimación 2026</b><br>Paro: {cur_paro:.1f}%<br>Voto proyectado: ~28.5%<extra></extra>",
         ))
-        fig_scatter.update_layout(
-            height=380, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-            xaxis=dict(title="Tasa de paro (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            yaxis=dict(title="Voto partido gobernante (%)", tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            legend=dict(orientation="h", y=-0.2, font=dict(color=TEXT2)),
+
+        fig_sc.update_layout(
+            height=420,
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+            xaxis=dict(
+                title="Tasa de paro (%)", gridcolor=BORDER, linecolor=BORDER,
+                tickfont=dict(color=TEXT2, size=10), title_font=dict(color=MUTED, size=11),
+            ),
+            yaxis=dict(
+                title="Voto partido gobernante (%)", gridcolor=BORDER, linecolor=BORDER,
+                tickfont=dict(color=TEXT2, size=10), title_font=dict(color=MUTED, size=11),
+            ),
+            legend=dict(orientation="h", y=-0.18, font=dict(color=TEXT2, size=10), bgcolor="rgba(0,0,0,0)"),
             font=dict(color=TEXT2),
-            margin=dict(t=10, b=10),
+            margin=dict(t=10, b=50, l=55, r=10),
         )
-        st.plotly_chart(fig_scatter, use_container_width=True)
-        st.caption(f"Correlación histórica: cada +1pp de paro → -{abs(m_coef):.2f}pp de voto al partido gobernante (R²≈0.61)")
+        st.plotly_chart(fig_sc, use_container_width=True, config={"displayModeBar": False})
+        st.caption(f"Los puntos destacados (⬥) son las 3 mayores analogías con el contexto actual. β={m_c:.2f}: cada +1 pp de paro ≈ {m_c:.2f} pp de voto al partido gobernante.")
 
-    with col_e2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Termómetro económico Politeia — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
+    with col_rank:
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{PURPLE}"></div>'
+            f'<span class="lbl">Ranking completo de similitud</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
+        for i, c in enumerate(ciclos_ranked):
+            bar_pct = int(c["similitud"])
+            accent = CYAN if i == 0 else (BLUE if i == 1 else (PURPLE if i == 2 else BORDER))
+            st.markdown(
+                f'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.35rem;'
+                f'padding:.3rem .5rem;border-radius:6px;'
+                f'background:{"rgba(6,182,212,0.06)" if i < 3 else "transparent"}">'
+                f'<span style="font-size:.65rem;font-weight:700;color:{MUTED};width:16px;text-align:right">{i+1}</span>'
+                f'<span style="font-size:.8rem;font-weight:{"700" if i < 3 else "500"};'
+                f'color:{accent if i < 3 else TEXT2};font-family:\'JetBrains Mono\',monospace;width:40px">{c["año"]}</span>'
+                f'<div style="flex:1;background:{BG3};border-radius:3px;height:8px">'
+                f'<div style="width:{bar_pct}%;background:{accent};border-radius:3px;height:8px;'
+                f'opacity:{"1" if i < 3 else "0.45"}"></div>'
+                f'</div>'
+                f'<span style="font-size:.7rem;font-weight:700;color:{accent if i < 3 else MUTED};width:36px;text-align:right">'
+                f'{c["similitud"]:.0f}%</span>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
-        # Score compuesto de bienestar económico
-        score_paro  = max(0, min(100, (15 - macro_vals["tasa_paro"]) / 10 * 100))
-        score_pib   = max(0, min(100, macro_vals["crecimiento_pib"] / 4 * 100))
-        score_ipc   = max(0, min(100, (5 - macro_vals["ipc_general"]) / 3 * 100))
-        score_prima = max(0, min(100, (200 - macro_vals["prima_riesgo"]) / 160 * 100))
-        score_eur   = max(0, min(100, (4.5 - macro_vals["euribor_12m"]) / 3.5 * 100))
-        score_total = round(score_paro * 0.3 + score_pib * 0.2 + score_ipc * 0.2 + score_prima * 0.15 + score_eur * 0.15, 1)
-
-        fig_termo = go.Figure(go.Indicator(
-            mode="gauge+number+delta",
-            value=score_total,
-            title={"text": "Bienestar económico<br>(0=crisis, 100=óptimo)", "font": {"size": 13}},
-            delta={"reference": 50, "relative": False},
-            number={"font": {"size": 36}},
-            gauge={
-                "axis": {"range": [0, 100]},
-                "bar": {"color": GREEN if score_total > 60 else (AMBER if score_total > 40 else RED)},
-                "steps": [
-                    {"range": [0, 35],  "color": "#FEE2E2"},
-                    {"range": [35, 65], "color": "#FEF3C7"},
-                    {"range": [65, 100],"color": "#D1FAE5"},
-                ],
-                "threshold": {"line": {"color": RED, "width": 3}, "thickness": 0.8, "value": 40},
-            },
-        ))
-        fig_termo.update_layout(height=300, margin=dict(t=30, b=10))
-        st.plotly_chart(fig_termo, use_container_width=True)
-
-        # Descomposición del termómetro
-        componentes_termo = [
-            ("Empleo (paro)", score_paro, "30%"),
-            ("Crecimiento (PIB)", score_pib, "20%"),
-            ("Inflación (IPC)", score_ipc, "20%"),
-            ("Financiero (prima)", score_prima, "15%"),
-            ("Hipotecas (euríbor)", score_eur, "15%"),
-        ]
-        for nombre, score, peso in componentes_termo:
-            color_c = GREEN if score > 60 else (AMBER if score > 35 else RED)
-            bar_w = int(score * 1.5)
-            st.markdown(f"""
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;font-size:.83rem">
-                <div style="width:160px">{nombre} <span style="color:{MUTED}">({peso})</span></div>
-                <div style="flex:1;background:{BG3};border:1px solid {BORDER};border-radius:4px;height:12px;max-width:150px">
-                    <div style="width:{bar_w}px;max-width:150px;background:{color_c};border-radius:4px;height:12px"></div>
-                </div>
-                <div style="font-weight:700;width:35px">{score:.0f}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-    # Matriz de correlaciones económicas-electorales
-    st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Matriz de correlaciones: economía vs desgaste electoral (histórico España)</span><div class="line"></div></div>', unsafe_allow_html=True)
-    indicadores_corr = ["Paro (+1pp)", "IPC (+1pp)", "PIB (-1pp)", "Prima (+50pb)", "Euríbor (+1pp)"]
-    efectos_corr = ["Voto gobernante", "Aprobación gobierno", "Intención cambio"]
+    # ── Matriz de correlaciones ───────────────────────────────────────────────
+    st.markdown(f'<div style="height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.8rem 0"></div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{AMBER}"></div>'
+        f'<span class="lbl">Correlaciones históricas: economía vs resultado electoral (España 1982-2025)</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
+    indicadores_corr = ["Paro (+1pp)", "IPC (+1pp)", "PIB (−1pp)", "Prima (+50pb)", "Euríbor (+1pp)"]
+    efectos_corr     = ["Voto gobernante", "Aprobación gobierno", "Intención de cambio"]
     matriz_corr = [
-        [-0.71, -0.65, +0.61],  # paro
-        [-0.48, -0.52, +0.44],  # ipc
-        [+0.58, +0.61, -0.55],  # pib
-        [-0.39, -0.42, +0.38],  # prima
-        [-0.41, -0.45, +0.40],  # euribor
+        [-0.71, -0.65, +0.61],
+        [-0.48, -0.52, +0.44],
+        [+0.58, +0.61, -0.55],
+        [-0.39, -0.42, +0.38],
+        [-0.41, -0.45, +0.40],
     ]
     fig_corr = go.Figure(go.Heatmap(
         z=matriz_corr, x=efectos_corr, y=indicadores_corr,
@@ -722,14 +933,18 @@ with tab4:
         text=[[f"{v:+.2f}" for v in row] for row in matriz_corr],
         texttemplate="%{text}",
         showscale=True,
-        colorbar=dict(title="Correlación", tickfont=dict(color=TEXT2), titlefont=dict(color=TEXT2)),
+        colorbar=dict(
+            title="r", thickness=12,
+            tickfont=dict(color=TEXT2, size=10),
+            titlefont=dict(color=MUTED, size=11),
+        ),
     ))
     fig_corr.update_layout(
-        height=320, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-        xaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-        yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
+        height=280, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        xaxis=dict(tickfont=dict(color=TEXT2, size=11), linecolor=BORDER),
+        yaxis=dict(tickfont=dict(color=TEXT2, size=10), linecolor=BORDER),
         font=dict(color=TEXT2),
-        margin=dict(t=10, b=10),
+        margin=dict(t=10, b=10, l=130, r=10),
     )
-    st.plotly_chart(fig_corr, use_container_width=True)
-    st.caption("Correlaciones estimadas con datos electorales y macroeconómicos españoles 1982-2025. El paro es el indicador con mayor correlación con el voto al partido gobernante.")
+    st.plotly_chart(fig_corr, use_container_width=True, config={"displayModeBar": False})
+    st.caption("Correlaciones de Pearson estimadas sobre datos electorales y macroeconómicos españoles 1982-2025. El paro es el predictor con mayor r para el voto al partido gobernante.")
