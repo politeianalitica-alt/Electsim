@@ -60,6 +60,8 @@ COLORES_PARTIDO = {
     "SUMAR": "#EC4899", "Junts": "#00C0B2", "ERC": "#FAB710",
     "PNV": "#22C55E", "EH Bildu": "#4ADE80",
     "Abstención": "#9CA3AF", "Blanco/Nulo": "#D1D5DB",
+    "En blanco": "#E5E7EB", "No sabe/No contesta": "#6B7280",
+    "Voto nulo": "#F3F4F6",
 }
 
 st.set_page_config(page_title="Perfiles de Votante — ElectSim", layout="wide")
@@ -754,29 +756,58 @@ with tab2:
 # TAB 3: ENCUESTA SINTÉTICA CIS
 # ══════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Barómetro CIS sintético — Generado localmente sin API</span><div class="line"></div></div>', unsafe_allow_html=True)
-    st.markdown("""
-    Simulación de un barómetro CIS generado a partir de los perfiles de votante y los datos de nowcasting.
-    Los resultados sintéticos se calibran con las últimas encuestas publicadas.
-    """)
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+        f'<span class="lbl">Barómetro CIS sintético — Generado localmente sin API</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "Simulación de un barómetro CIS generado a partir de los perfiles de votante y los datos "
+        "de nowcasting. Los resultados sintéticos se calibran con las últimas encuestas publicadas."
+    )
 
     np.random.seed(42)
 
-    # Intención de voto directa
+    # ── Datos de intención de voto ────────────────────────────────────────────
+    # Encuesta directa: 100 % de entrevistados (incl. NS/NC y voto en blanco)
     intencion = {
         "PP": 33.1, "PSOE": 27.8, "VOX": 11.4, "SUMAR": 8.9,
         "Junts": 2.1, "ERC": 1.8, "PNV": 1.5, "EH Bildu": 1.2,
         "Otros": 3.8, "En blanco": 2.9, "No sabe/No contesta": 5.5,
     }
 
-    # Aplicar "cocina" CIS: distribuir NS/NC y reasignar En blanco
+    # Participación estimada derivada de perfiles (media ponderada de los perfiles de votante)
+    _PART_ESTIMADA = 71.8   # % del censo electoral que prevé votar
+    _ABSTEN        = round(100 - _PART_ESTIMADA, 1)
+    _BLANCO_DIREC  = intencion["En blanco"]   # % sobre el total de entrevistados
+    _NULO_ESTIM    = 0.6                       # % histórico típico de votos nulos en España
+    # Voto en blanco expresado sobre el total de votos válidos emitidos
+    _votantes_sint = sum(v for k, v in intencion.items() if k != "No sabe/No contesta")
+    _BLANCO_VOTOS  = round(_BLANCO_DIREC / _votantes_sint * 100, 1)
+
+    # Estimación de voto ("cocina" CIS):
+    #   · El NS/NC se distribuye entre partidos según recuerdo de voto y simpatía declarada
+    #   · El voto en blanco NO se redistribuye: permanece como categoría válida que
+    #     computa en participación pero no genera representación parlamentaria
+    _nsnc = intencion["No sabe/No contesta"]
+    _nscd = {  # distribución del NS/NC por recuerdo de voto (proporcional + corrección simpatía)
+        "PP": 2.5, "PSOE": 1.8, "VOX": 1.0, "SUMAR": 0.7, "Otros": 0.3,
+    }
     intencion_estimada = {
-        "PP": 33.1 + 2.5, "PSOE": 27.8 + 1.8, "VOX": 11.4 + 1.0,
-        "SUMAR": 8.9 + 0.7, "Junts": 2.1, "ERC": 1.8, "PNV": 1.5,
-        "EH Bildu": 1.2, "Otros": 3.8 + 0.3,
+        k: intencion[k] + _nscd.get(k, 0)
+        for k in intencion
+        if k not in ("No sabe/No contesta",)
     }
     total_est = sum(intencion_estimada.values())
     intencion_estimada = {k: round(v / total_est * 100, 1) for k, v in intencion_estimada.items()}
+
+    # Partidos con representación parlamentaria (excluye blancos para escaños D'Hondt)
+    intencion_partidos = {
+        k: v for k, v in intencion_estimada.items() if k != "En blanco"
+    }
+    total_part = sum(intencion_partidos.values())
+    intencion_partidos = {k: round(v / total_part * 100, 1) for k, v in intencion_partidos.items()}
 
     problemas = {
         "Vivienda": 62, "Economía/paro": 58, "Inmigración": 41,
@@ -793,49 +824,228 @@ with tab3:
         "Mucho mejor": 3, "Algo mejor": 14, "Igual": 28, "Algo peor": 35, "Mucho peor": 20,
     }
 
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto directa</span><div class="line"></div></div>', unsafe_allow_html=True)
+    # ── KPIs de participación ─────────────────────────────────────────────────
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+        f'<span class="lbl">Participación estimada y voto no representado</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
+    _kpis = [
+        ("Participación proyectada", f"{_PART_ESTIMADA:.1f} %", GREEN,
+         "Porcentaje del censo que se prevé vote (media ponderada de los 6 perfiles)"),
+        ("Abstención proyectada",    f"{_ABSTEN:.1f} %",        RED,
+         "Ciudadanos con derecho a voto que no acudirán a las urnas"),
+        ("Voto en blanco",           f"{_BLANCO_VOTOS:.1f} %",  "#E5E7EB",
+         "Sobre votos emitidos. Cuenta como participación pero no genera escaños"),
+        ("Voto nulo estimado",        f"{_NULO_ESTIM:.1f} %",   MUTED,
+         "Papeletas inválidas. Media histórica española en elecciones generales"),
+    ]
+    _kpi_cols = st.columns(4)
+    for _ci, (lbl, val, col, desc) in enumerate(_kpis):
+        _r, _g, _b = int(col.lstrip("#")[0:2], 16), int(col.lstrip("#")[2:4], 16), int(col.lstrip("#")[4:6], 16)
+        with _kpi_cols[_ci]:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};'
+                f'border-top:3px solid rgba({_r},{_g},{_b},0.7);border-radius:10px;'
+                f'padding:.9rem 1rem;text-align:center">'
+                f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.1em;'
+                f'text-transform:uppercase;margin-bottom:.3rem">{lbl}</div>'
+                f'<div style="font-size:1.9rem;font-weight:900;color:{col};'
+                f'font-family:\'JetBrains Mono\',monospace">{val}</div>'
+                f'<div style="font-size:.7rem;color:{MUTED};margin-top:.3rem;line-height:1.35">{desc}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    # ── Bloque explicativo: tipos de voto no representado ────────────────────
+    st.markdown(
+        f'<div style="margin:.9rem 0 1.2rem;background:{BG2};border:1px solid {BORDER};'
+        f'border-left:3px solid {CYAN}44;border-radius:8px;padding:.75rem 1rem;'
+        f'display:flex;gap:2rem;flex-wrap:wrap">'
+        f'<div style="flex:1;min-width:180px">'
+        f'<span style="font-size:.65rem;font-weight:700;color:{CYAN};letter-spacing:.1em;'
+        f'text-transform:uppercase">Voto en blanco</span><br>'
+        f'<span style="font-size:.78rem;color:{TEXT2}">Papeleta válida sin ningún partido. '
+        f'Computa en la participación total y en el umbral del 3 % para acceder al reparto '
+        f'D\'Hondt, pero no genera ningún escaño.</span>'
+        f'</div>'
+        f'<div style="flex:1;min-width:180px">'
+        f'<span style="font-size:.65rem;font-weight:700;color:{AMBER};letter-spacing:.1em;'
+        f'text-transform:uppercase">Voto nulo</span><br>'
+        f'<span style="font-size:.78rem;color:{TEXT2}">Papeleta inválida (rota, con marcas, '
+        f'de otro material…). No cuenta ni para participación ni para el umbral. '
+        f'Media histórica en generales: ~0,5-0,8 %.</span>'
+        f'</div>'
+        f'<div style="flex:1;min-width:180px">'
+        f'<span style="font-size:.65rem;font-weight:700;color:{RED};letter-spacing:.1em;'
+        f'text-transform:uppercase">Abstención</span><br>'
+        f'<span style="font-size:.78rem;color:{TEXT2}">Ciudadanos con derecho a voto que '
+        f'no acuden a las urnas. En España la abstención media en generales es del 26-30 %, '
+        f'con picos en 2011 (28,9 %) y 2019-A (33,9 %).</span>'
+        f'</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Gráficos de intención de voto ─────────────────────────────────────────
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+        f'<span class="lbl">Intención de voto directa vs. estimación corregida</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
     col_d1, col_d2 = st.columns(2)
     with col_d1:
-        df_int = pd.DataFrame({"Partido": list(intencion.keys()), "% Directa": list(intencion.values())})
-        df_int = df_int.sort_values("% Directa", ascending=False)
+        df_int = pd.DataFrame({"Partido": list(intencion.keys()), "%": list(intencion.values())})
+        df_int = df_int.sort_values("%", ascending=False)
+        _colors_int = []
+        for p in df_int["Partido"]:
+            if p == "En blanco":
+                _colors_int.append("#E5E7EB")
+            elif p == "No sabe/No contesta":
+                _colors_int.append("#6B7280")
+            else:
+                _colors_int.append(COLORES_PARTIDO.get(p, MUTED))
         fig_int = go.Figure(go.Bar(
-            x=df_int["Partido"], y=df_int["% Directa"],
-            marker_color=[COLORES_PARTIDO.get(p, MUTED) for p in df_int["Partido"]],
-            text=[f"{v}%" for v in df_int["% Directa"]],
+            x=df_int["Partido"], y=df_int["%"],
+            marker_color=_colors_int,
+            marker_line=dict(
+                color=["#374151" if p in ("En blanco", "No sabe/No contesta") else "rgba(0,0,0,0)"
+                       for p in df_int["Partido"]],
+                width=1,
+            ),
+            text=[f"{v}%" for v in df_int["%"]],
             textposition="outside",
         ))
         fig_int.update_layout(
-            title="Intención de voto directa (%)", height=320,
+            title="Intención directa — incluye NS/NC y en blanco (%)", height=340,
             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
             yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            margin=dict(t=40, b=10),
+            margin=dict(t=45, b=10),
         )
         st.plotly_chart(fig_int, use_container_width=True)
+        st.caption(
+            "Las barras grises (NS/NC y En blanco) no se trasladan a escaños. "
+            "El NS/NC se redistribuye en la estimación; el En blanco permanece."
+        )
     with col_d2:
-        df_est = pd.DataFrame({"Partido": list(intencion_estimada.keys()), "% Estimada": list(intencion_estimada.values())})
-        df_est = df_est.sort_values("% Estimada", ascending=False)
+        # Mostrar estimada incluyendo "En blanco" como barra diferenciada
+        df_est = pd.DataFrame({
+            "Partido": list(intencion_estimada.keys()),
+            "%": list(intencion_estimada.values()),
+        })
+        df_est = df_est.sort_values("%", ascending=False)
+        _colors_est = [
+            "#E5E7EB" if p == "En blanco" else COLORES_PARTIDO.get(p, MUTED)
+            for p in df_est["Partido"]
+        ]
         fig_est = go.Figure(go.Bar(
-            x=df_est["Partido"], y=df_est["% Estimada"],
-            marker_color=[COLORES_PARTIDO.get(p, MUTED) for p in df_est["Partido"]],
-            text=[f"{v}%" for v in df_est["% Estimada"]],
+            x=df_est["Partido"], y=df_est["%"],
+            marker_color=_colors_est,
+            marker_line=dict(
+                color=["#374151" if p == "En blanco" else "rgba(0,0,0,0)"
+                       for p in df_est["Partido"]],
+                width=1,
+            ),
+            text=[f"{v}%" for v in df_est["%"]],
             textposition="outside",
         ))
+        fig_est.add_annotation(
+            x="En blanco", y=intencion_estimada.get("En blanco", 3) + 1.5,
+            text="No genera escaños",
+            showarrow=True, arrowhead=2, arrowsize=0.8,
+            arrowcolor=MUTED, font=dict(size=9, color=MUTED),
+            ax=0, ay=-28,
+        )
         fig_est.update_layout(
-            title='Estimación de voto (tras "cocina" CIS) (%)', height=320,
+            title='Estimación corregida — NS/NC distribuido, En blanco conservado (%)',
+            height=340,
             plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             font=dict(color=TEXT2),
             xaxis=dict(tickfont=dict(color=TEXT2), linecolor=BORDER),
             yaxis=dict(tickfont=dict(color=TEXT2), gridcolor=BORDER, linecolor=BORDER),
-            margin=dict(t=40, b=10),
+            margin=dict(t=45, b=10),
         )
         st.plotly_chart(fig_est, use_container_width=True)
+        st.caption(
+            f"En blanco: {intencion_estimada.get('En blanco', 0):.1f} % de los votos emitidos "
+            f"({_BLANCO_VOTOS:.1f} % sobre votos válidos). "
+            "Umbral D'Hondt calculado sobre votos a partidos únicamente."
+        )
+
+    # ── Desglose del destino del voto ─────────────────────────────────────────
+    st.markdown(
+        f'<div class="section-title"><div class="bar" style="background:{PURPLE}"></div>'
+        f'<span class="lbl">Destino del voto — descomposición completa</span>'
+        f'<div class="line"></div></div>',
+        unsafe_allow_html=True,
+    )
+    col_dest1, col_dest2 = st.columns([3, 2], gap="large")
+    with col_dest1:
+        # Donut: Abstención + No vota + Voto a partidos + En blanco + Nulo
+        _part_partidos = round(_PART_ESTIMADA * (1 - _BLANCO_VOTOS / 100 - _NULO_ESTIM / 100), 1)
+        _part_blanco   = round(_PART_ESTIMADA * _BLANCO_VOTOS / 100, 1)
+        _part_nulo     = round(_PART_ESTIMADA * _NULO_ESTIM / 100, 1)
+        fig_dest = go.Figure(go.Pie(
+            labels=["Voto a partidos", "Voto en blanco", "Voto nulo", "Abstención"],
+            values=[_part_partidos, _part_blanco, _part_nulo, _ABSTEN],
+            hole=0.55,
+            marker_colors=[CYAN, "#E5E7EB", MUTED, RED],
+            marker_line=dict(color=BG, width=2),
+            textinfo="label+percent",
+            textfont=dict(size=11),
+        ))
+        fig_dest.update_layout(
+            height=320, paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2),
+            showlegend=False,
+            margin=dict(t=10, b=10, l=10, r=10),
+            annotations=[dict(
+                text=f"<b>{_PART_ESTIMADA:.1f}%</b><br><span style='font-size:10'>part.</span>",
+                x=0.5, y=0.5, font_size=15, showarrow=False, font_color=TEXT,
+            )],
+        )
+        st.plotly_chart(fig_dest, use_container_width=True)
+    with col_dest2:
+        _filas = [
+            ("Voto a partidos",  f"{_part_partidos:.1f} %",  CYAN,     "Votos que generan escaños en el Congreso"),
+            ("Voto en blanco",   f"{_part_blanco:.1f} %",    "#E5E7EB","Participación sin representación"),
+            ("Voto nulo",        f"{_part_nulo:.1f} %",      MUTED,    "Papeleta inválida"),
+            ("Abstención",       f"{_ABSTEN:.1f} %",         RED,      "No acude a las urnas"),
+        ]
+        for lbl_f, val_f, col_f, desc_f in _filas:
+            _rf, _gf, _bf = (
+                int(col_f.lstrip("#")[0:2], 16),
+                int(col_f.lstrip("#")[2:4], 16),
+                int(col_f.lstrip("#")[4:6], 16),
+            )
+            st.markdown(
+                f'<div style="display:flex;align-items:center;gap:.7rem;'
+                f'padding:.5rem .6rem;border-bottom:1px solid {BORDER}">'
+                f'<div style="width:10px;height:10px;border-radius:50%;'
+                f'background:rgba({_rf},{_gf},{_bf},1);flex-shrink:0"></div>'
+                f'<div style="flex:1">'
+                f'<div style="font-size:.8rem;font-weight:600;color:{TEXT}">{lbl_f}</div>'
+                f'<div style="font-size:.7rem;color:{MUTED}">{desc_f}</div>'
+                f'</div>'
+                f'<div style="font-size:.95rem;font-weight:800;color:{col_f};'
+                f'font-family:\'JetBrains Mono\',monospace">{val_f}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
     st.divider()
     col_p1, col_p2 = st.columns(2)
     with col_p1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Problema principal que más le preocupa</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+            f'<span class="lbl">Problema principal que más le preocupa</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
         df_prob = pd.DataFrame({"Problema": list(problemas.keys()), "%": list(problemas.values())})
         df_prob = df_prob.sort_values("%", ascending=True)
         fig_prob = go.Figure(go.Bar(
@@ -852,7 +1062,12 @@ with tab3:
         )
         st.plotly_chart(fig_prob, use_container_width=True)
     with col_p2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Valoración de la gestión del gobierno</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+            f'<span class="lbl">Valoración de la gestión del gobierno</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
         vg_colors = ["#16A34A", "#86EFAC", "#FEF3C7", "#FBBF24", "#DC2626"]
         fig_val = go.Figure(go.Pie(
             labels=list(valoracion_gobierno.keys()),
@@ -860,13 +1075,21 @@ with tab3:
             marker_colors=vg_colors,
             textinfo="label+percent",
         ))
-        fig_val.update_layout(height=320, paper_bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2), margin=dict(t=10, b=10))
+        fig_val.update_layout(
+            height=320, paper_bgcolor="rgba(0,0,0,0)",
+            font=dict(color=TEXT2), margin=dict(t=10, b=10),
+        )
         st.plotly_chart(fig_val, use_container_width=True)
 
     st.divider()
     col_s1, col_s2 = st.columns(2)
     with col_s1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Situación económica personal (últimos 12 meses)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+            f'<span class="lbl">Situación económica personal (últimos 12 meses)</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
         se_colors = ["#16A34A", "#86EFAC", "#D1D5DB", "#FBBF24", "#DC2626"]
         fig_se = go.Figure(go.Bar(
             x=list(situacion_eco.keys()), y=list(situacion_eco.values()),
@@ -882,9 +1105,14 @@ with tab3:
         )
         st.plotly_chart(fig_se, use_container_width=True)
     with col_s2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Autoubicación ideológica (1=izquierda, 10=derecha)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div>'
+            f'<span class="lbl">Autoubicación ideológica (1=izquierda, 10=derecha)</span>'
+            f'<div class="line"></div></div>',
+            unsafe_allow_html=True,
+        )
         x_ideo = list(range(1, 11))
-        y_ideo = [4, 8, 10, 13, 18, 14, 12, 9, 7, 5]  # Distribución normal ligeramente centrada
+        y_ideo = [4, 8, 10, 13, 18, 14, 12, 9, 7, 5]
         fig_ideo_dist = go.Figure(go.Bar(
             x=x_ideo, y=y_ideo,
             marker_color=[COLORES_PARTIDO["SUMAR"], COLORES_PARTIDO["SUMAR"],
@@ -910,14 +1138,24 @@ with tab3:
         **Generación de datos sintéticos CIS:**
 
         1. **Base:** Perfiles de votante calibrados con datos reales del CIS (barómetros 2023-2025)
-        2. **Intención de voto directa:** Promedio ponderado de los 6 perfiles de votante, con pesos poblacionales actualizados
-        3. **"Cocina":** Se aplica el método habitual del CIS para distribuir el NS/NC y los indecisos entre los partidos según recuerdo de voto y simpatía
-        4. **Problemas principales:** Agregación de las preocupaciones de cada perfil, ponderada por peso electoral
-        5. **Situación económica:** Distribución sintética basada en indicadores macro actuales (IPC, paro, euríbor)
-        6. **Autoubicación ideológica:** Distribución empírica estimada a partir de resultados electorales 2019-2023
+        2. **Intención de voto directa:** Promedio ponderado de los 6 perfiles de votante, con pesos
+           poblacionales actualizados. Incluye NS/NC, voto en blanco y abstención proyectada.
+        3. **"Cocina" CIS:** Se distribuye el NS/NC entre los partidos según el recuerdo de voto y
+           la simpatía partidista declarada. El **voto en blanco no se redistribuye**: es una opción
+           de participación activa que computa en la tasa de participación y en el umbral del 3 %
+           provincial, pero no genera ningún escaño.
+        4. **Voto nulo:** No se distribuye ni computa para el umbral. Se estima en el ~{_NULO_ESTIM} %
+           histórico de las elecciones generales españolas.
+        5. **Estimación de escaños:** El reparto D'Hondt se aplica únicamente sobre los votos a
+           partidos (excluyendo blancos, nulos y abstención).
+        6. **Problemas principales:** Agregación ponderada de las preocupaciones de cada perfil
+           por su peso electoral.
+        7. **Situación económica:** Distribución sintética basada en IPC, paro y euríbor actuales.
+        8. **Autoubicación ideológica:** Distribución empírica estimada a partir de resultados
+           electorales 2019–2023.
 
-        Esta encuesta sintética **no sustituye** a los barómetros reales del CIS. Sirve como referencia entre publicaciones
-        y para testar el impacto de cambios en los supuestos del modelo.
+        Esta encuesta sintética **no sustituye** a los barómetros reales del CIS. Sirve como
+        referencia entre publicaciones y para testar el impacto de cambios en los supuestos del modelo.
         """)
 
 
