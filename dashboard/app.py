@@ -74,11 +74,6 @@ st.markdown(f"""
   from {{ opacity: 0; transform: translateX(-20px); }}
   to   {{ opacity: 1; transform: translateX(0); }}
 }}
-@keyframes logoEntrance {{
-  0%   {{ opacity: 0; transform: scale(0.72) rotate(-6deg); }}
-  65%  {{ opacity: 1; transform: scale(1.08) rotate(2deg); }}
-  100% {{ opacity: 1; transform: scale(1) rotate(0deg); }}
-}}
 
 .es-animate {{ animation: fadeInUp .6s ease-out both; }}
 .es-animate-d1 {{ animation: fadeInUp .6s ease-out .1s both; }}
@@ -102,7 +97,7 @@ st.markdown(f"""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Logo Animation + Header ──────────────────────────────────────────────────
+# ── Header ──────────────────────────────────────────────────────────────────
 n_alertas_criticas = len(df_alertas[df_alertas["severidad"] == "CRITICAL"]) if not df_alertas.empty else 0
 
 st.markdown(f"""
@@ -115,7 +110,6 @@ st.markdown(f"""
     position: relative;
     overflow: hidden;
 ">
-    <!-- Animated gradient orb -->
     <div style="position:absolute;top:-80px;right:-40px;width:280px;height:280px;
                 background:radial-gradient(circle, {CYAN}15 0%, {BLUE}08 40%, transparent 70%);
                 pointer-events:none;animation:gradientMove 8s ease infinite;
@@ -125,26 +119,13 @@ st.markdown(f"""
                 pointer-events:none"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
         <div style="display:flex;align-items:center;gap:1.4rem">
-            <!-- Politeia Analytics Logo -->
-            <div style="width:56px;height:56px;border-radius:14px;overflow:hidden;flex-shrink:0;
-                        box-shadow:0 6px 24px rgba(0,212,255,0.22),0 2px 8px rgba(0,0,0,0.4);
-                        animation:logoEntrance .75s cubic-bezier(0.34,1.56,0.64,1) both,pulseGlow 4s ease 1s infinite">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
-                  <rect width="100" height="100" rx="0" fill="#F0A214"/>
-                  <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                  <circle cx="22" cy="28" r="5.5" fill="#F0A214"/>
-                  <circle cx="22" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                  <circle cx="22" cy="28" r="2.2" fill="#1B3FA8"/>
-                  <circle cx="78" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                  <circle cx="78" cy="28" r="5.5" fill="#F0A214"/>
-                  <circle cx="78" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                  <circle cx="78" cy="28" r="2.2" fill="#1B3FA8"/>
-                  <rect x="21" y="24" width="58" height="8" fill="#1B3FA8"/>
-                  <rect x="8" y="37" width="84" height="10" rx="2" fill="#1B3FA8"/>
-                  <rect x="14" y="58" width="19" height="30" rx="3" fill="#1B3FA8"/>
-                  <rect x="40" y="50" width="19" height="38" rx="3" fill="#1B3FA8"/>
-                  <rect x="66" y="43" width="19" height="45" rx="3" fill="#1B3FA8"/>
-                </svg>
+            <div style="width:56px;height:56px;
+                        background:linear-gradient(135deg,{CYAN},{BLUE},{PURPLE});
+                        border-radius:14px;display:flex;align-items:center;justify-content:center;
+                        font-weight:900;font-size:1.2rem;color:{BG};
+                        box-shadow:0 4px 20px {CYAN}33;
+                        animation:pulseGlow 3s ease infinite;flex-shrink:0">
+                ES
             </div>
             <div>
                 <div style="font-size:.62rem;font-weight:700;letter-spacing:.25em;color:{CYAN}aa;
@@ -182,15 +163,12 @@ st.markdown(f"""
 # ── KPI Cards ────────────────────────────────────────────────────────────────
 kpi_data = []
 
-# 1 - Elecciones
 n_elec = len(df_elec) if not df_elec.empty else 0
 kpi_data.append(("Elecciones en BD", str(n_elec), CYAN, "Base de datos historica"))
 
-# 2 - Nowcasting
 n_nc = len(df_nc) if not df_nc.empty else 0
-kpi_data.append(("Estimaciones activas", str(n_nc), BLUE, "Partidos con nowcasting"))
+kpi_data.append(("Partidos monitorizados", str(n_nc), BLUE, "Con nowcasting activo"))
 
-# 3 - IPC
 if not df_macro.empty:
     fila = df_macro[df_macro["indicador"] == "IPC General (%)"]
     ipc_val = f"{fila.iloc[0]['valor']:.1f}%" if not fila.empty else "---"
@@ -198,7 +176,6 @@ else:
     ipc_val = "---"
 kpi_data.append(("IPC General", ipc_val, AMBER, "Ultimo dato disponible"))
 
-# 4 - Prima Riesgo
 if not df_macro.empty:
     fila = df_macro[df_macro["indicador"] == "Prima Riesgo (pb)"]
     prima_val = f"{fila.iloc[0]['valor']:.0f} pb" if not fila.empty else "---"
@@ -206,7 +183,6 @@ else:
     prima_val = "---"
 kpi_data.append(("Prima de Riesgo", prima_val, PURPLE, "Diferencial bono 10Y"))
 
-# 5 - Alertas
 n_alertas = len(df_alertas) if not df_alertas.empty else 0
 alert_color = RED if n_alertas_criticas > 0 else GREEN
 kpi_data.append(("Alertas del sistema", str(n_alertas), alert_color,
@@ -235,52 +211,6 @@ for idx, (label, value, color, subtitle) in enumerate(kpi_data):
 
 st.markdown("<div style='height:1.2rem'></div>", unsafe_allow_html=True)
 
-# ── Estimaciones Electorales ──────────────────────────────────────────────────
-import pandas as pd
-
-st.markdown(f"""<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.9rem">
-<div style="width:4px;height:20px;background:linear-gradient({CYAN},{BLUE});border-radius:2px"></div>
-<span style="font-size:.75rem;font-weight:700;color:{CYAN};letter-spacing:.15em;text-transform:uppercase">Estimaciones Electorales</span>
-<div style="flex:1;height:1px;background:linear-gradient(90deg,{BORDER},{BG})"></div>
-<span style="font-size:.6rem;color:{MUTED};background:{BG3};padding:.2rem .5rem;border-radius:8px;border:1px solid {BORDER}">Nowcasting · Tiempo real</span>
-</div>""", unsafe_allow_html=True)
-
-_df_est = df_nc.sort_values("estimacion_pct", ascending=False) if not df_nc.empty else pd.DataFrame([
-    {"partido_siglas": "PP",      "estimacion_pct": 33.0, "ic_95_inf": 30.5, "ic_95_sup": 35.5},
-    {"partido_siglas": "PSOE",    "estimacion_pct": 28.5, "ic_95_inf": 26.0, "ic_95_sup": 31.0},
-    {"partido_siglas": "VOX",     "estimacion_pct": 12.0, "ic_95_inf":  9.5, "ic_95_sup": 14.5},
-    {"partido_siglas": "SUMAR",   "estimacion_pct": 10.5, "ic_95_inf":  8.0, "ic_95_sup": 13.0},
-    {"partido_siglas": "JUNTS",   "estimacion_pct":  3.5, "ic_95_inf":  2.0, "ic_95_sup":  5.0},
-    {"partido_siglas": "PNV",     "estimacion_pct":  2.8, "ic_95_inf":  1.5, "ic_95_sup":  4.1},
-    {"partido_siglas": "ERC",     "estimacion_pct":  2.5, "ic_95_inf":  1.2, "ic_95_sup":  3.8},
-    {"partido_siglas": "EH Bildu","estimacion_pct":  2.2, "ic_95_inf":  1.0, "ic_95_sup":  3.4},
-])
-
-_est_rows = list(_df_est.head(8).iterrows())
-cols_est = st.columns(len(_est_rows))
-for i, (_, row) in enumerate(_est_rows):
-    color = COLORES_PARTIDOS.get(row["partido_siglas"].upper(), "#64748B")
-    r, g, b = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-    delta = row["estimacion_pct"] - row.get("ic_95_inf", row["estimacion_pct"])
-    with cols_est[i]:
-        st.markdown(
-            f'<div style="text-align:center;padding:.75rem .2rem .6rem;'
-            f'background:linear-gradient(180deg,rgba({r},{g},{b},0.11),{BG2});'
-            f'border:1px solid {BORDER};border-top:3px solid {color};'
-            f'border-radius:0 0 10px 10px;transition:all .2s ease">'
-            f'<div style="font-size:.58rem;font-weight:700;color:{MUTED};'
-            f'letter-spacing:.08em;margin-bottom:.25rem">{row["partido_siglas"]}</div>'
-            f'<div style="font-size:1.3rem;font-weight:900;color:{color};'
-            f'font-family:\'JetBrains Mono\',monospace;line-height:1">{row["estimacion_pct"]:.1f}%</div>'
-            f'<div style="font-size:.5rem;color:{MUTED};margin-top:.2rem;'
-            f'font-family:\'JetBrains Mono\',monospace">'
-            f'[{row["ic_95_inf"]:.1f}\u2013{row["ic_95_sup"]:.1f}]</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-st.markdown("<div style='height:1rem'></div>", unsafe_allow_html=True)
-
 # ── Nowcasting Panel ─────────────────────────────────────────────────────────
 col_nc, col_right = st.columns([1.7, 1], gap="large")
 
@@ -308,7 +238,6 @@ with col_nc:
                 marker=dict(
                     color=f"rgba({r},{g},{b},0.75)",
                     line=dict(color=color, width=1.5),
-                    pattern=dict(shape="", solidity=0.1),
                 ),
                 error_y=dict(
                     type="data", symmetric=False,
@@ -325,13 +254,14 @@ with col_nc:
             height=340, barmode="group",
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
             xaxis=dict(
-                showgrid=False, tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
+                showgrid=False,
+                tickfont=dict(size=11, color=TEXT2, family="Inter, sans-serif"),
                 categoryorder="array",
                 categoryarray=df_top["partido_siglas"].tolist(),
                 fixedrange=True,
             ),
             yaxis=dict(
-                gridcolor="rgba(30,41,59,0.53)", gridwidth=1,
+                gridcolor=f"rgba(30,41,59,0.53)", gridwidth=1,
                 range=[0, df_top["ic_95_sup"].max() + 6],
                 tickfont=dict(size=10, color=MUTED),
                 ticksuffix="%",
@@ -540,7 +470,7 @@ st.markdown(f"""
     <span>ElectSim Espana v2.0 &middot; Politeia Analytics</span>
     <span style="font-family:'JetBrains Mono',monospace;color:{CYAN}66">
         {len(df_elec) if not df_elec.empty else 0} elecciones &nbsp;&middot;&nbsp;
-        {len(df_nc) if not df_nc.empty else 0} estimaciones
+        {len(df_nc) if not df_nc.empty else 0} partidos monitorizados
     </span>
 </div>
 """, unsafe_allow_html=True)
