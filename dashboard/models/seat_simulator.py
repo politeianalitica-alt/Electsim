@@ -7,19 +7,14 @@ import random
 
 import pandas as pd
 
+from etl.electoral_math import dhondt as _dhondt
+
 
 def hondt(votes: dict[str, float], seats: int, threshold: float = 0.03) -> dict[str, int]:
-    """Reparte escaños por método D'Hondt."""
-    valid = {p: v for p, v in votes.items() if v >= threshold}
-    quotients: list[tuple[str, float]] = []
-    for party, share in valid.items():
-        for d in range(1, seats + 1):
-            quotients.append((party, share / d))
-    winners = sorted(quotients, key=lambda x: x[1], reverse=True)[:seats]
-    out = {p: 0 for p in votes}
-    for party, _ in winners:
-        out[party] = out.get(party, 0) + 1
-    return out
+    """Reparte escaños por método D'Hondt. Delega a etl.electoral_math.dhondt."""
+    # threshold en esta API era fracción (0.03), electoral_math espera porcentaje (3.0)
+    umbral_pct = threshold * 100.0 if threshold <= 1.0 else threshold
+    return _dhondt(votes, seats, umbral_pct=umbral_pct)
 
 
 def simulate_congress(

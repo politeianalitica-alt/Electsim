@@ -28,6 +28,11 @@ from dashboard.shared import (  # noqa: E402
     semaforo_color,
     sidebar_nav,
 )
+from dashboard.services.rss_feeds import (  # noqa: E402
+    cargar_noticias_rss,
+    nombres_medios,
+    temas_disponibles,
+)
 
 st.set_page_config(page_title="Monitor Medios & RRSS", layout="wide")
 sidebar_nav()
@@ -94,8 +99,8 @@ df = cargar_monitor_serie(
 
 if df.empty:
     st.info(
-        f"Sin datos para `{valor_objeto}` en los últimos {ventana_dias} días. "
-        "Ejecuta el pipeline de monitorización y revisa objetos de seguimiento."
+        f"Sin datos de BD para `{valor_objeto}` en los últimos {ventana_dias} días. "
+        "Mostrando titulares RSS en tiempo real."
     )
 else:
     df = safe_numeric(df, ["n_menciones", "sent_medio"])
@@ -148,6 +153,70 @@ else:
             xaxis_title="Fecha",
         )
         st.plotly_chart(fig_sent, use_container_width=True)
+
+st.markdown("---")
+section_header("Titulares RSS — Medios españoles")
+st.caption("Actualizado cada 15 minutos desde RSS públicos de 10 medios nacionales.")
+
+with st.sidebar:
+    st.markdown("---")
+    st.subheader("Filtro RSS")
+    medios_sel = st.multiselect("Medios", nombres_medios(), default=nombres_medios()[:5])
+    tema_sel = st.selectbox("Tema", [None] + temas_disponibles(), format_func=lambda x: "Todos" if x is None else x.capitalize())
+    partido_rss = st.text_input("Partido mencionado", "")
+
+with st.spinner("Cargando titulares..."):
+    noticias = cargar_noticias_rss(
+        medios=medios_sel or None,
+        partido_filtro=partido_rss.strip() or None,
+        tema_filtro=tema_sel,
+        max_noticias=50,
+    )
+
+if not noticias:
+    st.warning("No se pudieron cargar titulares RSS. Comprueba conexión a internet o instala `feedparser` (`pip install feedparser`).")
+else:
+    partidos_total: dict[str, int] = {}
+    temas_total: dict[str, int] = {}
+    for n in noticias:
+        for p in (n["partidos"].split(", ") if n["partidos"] != "—" else []):
+            partidos_total[p] = partidos_total.get(p, 0) + 1
+        for t in (n["temas"].split(", ") if n["temas"] != "—" else []):
+            temas_total[t] = temas_total.get(t, 0) + 1
+
+    c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
+    c_kpi1.markdown(kpi_card("Titulares cargados", str(len(noticias)), "RSS en vivo"), unsafe_allow_html=True)
+    top_partido = max(partidos_total, key=partidos_total.get, default="—")
+    c_kpi2.markdown(kpi_card("Partido más citado", top_partido, f"{partidos_total.get(top_partido, 0)} menciones"), unsafe_allow_html=True)
+    top_tema = max(temas_total, key=temas_total.get, default="—")
+    c_kpi3.markdown(kpi_card("Tema dominante", top_tema.capitalize() if top_tema != "—" else "—", f"{temas_total.get(top_tema, 0)} noticias"), unsafe_allow_html=True)
+
+    st.markdown("---")
+    col_tabla, col_dist = st.columns([2, 1])
+    with col_tabla:
+        df_rss = pd.DataFrame(noticias)[["titulo", "medio", "fecha", "partidos", "temas"]]
+        df_rss.columns = ["Título", "Medio", "Fecha", "Partidos", "Temas"]
+        st.dataframe(df_rss, use_container_width=True, height=420)
+
+    with col_dist:
+        if partidos_total:
+            df_partidos = pd.DataFrame(list(partidos_total.items()), columns=["Partido", "Menciones"])
+            df_partidos = df_partidos.sort_values("Menciones", ascending=False).head(8)
+            fig_p = px.bar(df_partidos, x="Menciones", y="Partido", orientation="h",
+                            color_discrete_sequence=["#00D4FF"], title="Menciones por partido")
+            fig_p.update_layout(height=300, margin=dict(t=35, b=5),
+                                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+            st.plotly_chart(fig_p, use_container_width=True)
+
+    st.markdown("---")
+    st.subheader("Titulares completos")
+    for n in noticias[:20]:
+        with st.expander(f"[{n['medio']}] {n['titulo'][:90]}{'…' if len(n['titulo']) > 90 else ''}"):
+            st.caption(f"{n['fecha']} · Partidos: {n['partidos']} · Temas: {n['temas']}")
+            if n["resumen"]:
+                st.write(n["resumen"])
+            if n["url"]:
+                st.markdown(f"[Leer artículo completo]({n['url']})")
 
 st.markdown("---")
 section_header("Alertas mediáticas")

@@ -29,12 +29,16 @@ from dashboard.shared import (
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
+from dashboard.data_source import (
+    DataSourceStatus,
+    data_source_banner,
+    fiabilidad_baja_badge,
+)
 
 from dashboard import db as _db
 
 # Import al nivel de módulo para que el watcher de Streamlit detecte cambios
 # en segmentacion_microdatos.py y recargue la página automáticamente.
-import importlib
 from etl.models import segmentacion_microdatos as _segmod  # noqa: E402
 
 
@@ -114,7 +118,20 @@ cargar_perfil_completo = getattr(
 cargar_perfiles_personalizados = getattr(_db, "cargar_perfiles_personalizados", _fallback_df)
 cargar_perfil_personalizado_detalle = getattr(_db, "cargar_perfil_personalizado_detalle", _fallback_dict)
 guardar_descripcion_llm_perfil = getattr(_db, "guardar_descripcion_llm_perfil", _fallback_none)
+obtener_oleada_activa = getattr(_db, "obtener_oleada_activa", lambda fuente="CIS": {})
 from dashboard.adapters import create_simulation_adapter
+from dashboard.models.voter_profiles import (
+    PERFILES as _PERFILES_CANONICOS,
+    TEMAS_IMPACTO as _TEMAS_IMPACTO_CANONICOS,
+    REACCION_PERFIL as _REACCION_PERFIL_CANONICOS,
+    PROFILE_NAME_LIBRARY as _PROFILE_NAME_LIBRARY_CANONICOS,
+)
+from dashboard.services.campaign_simulator import (
+    receptividad_tema_perfil as _receptividad_tema_perfil_svc,
+    narrativa_impacto as _narrativa_impacto_svc,
+    simular_impacto_tema,
+)
+from dashboard.services import llm_narrativas as _llm
 
 COLORES_PARTIDO = {
     "PP": "#3B82F6", "PSOE": "#EF4444", "VOX": "#22C55E",
@@ -188,8 +205,10 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ── Datos de perfiles sintéticos ─────────────────────────────────────────────
-PERFILES = [
+# ── Constantes — fuente canónica: dashboard/models/voter_profiles.py ──────────
+# Aliases para compatibilidad con el código de renderizado de esta página.
+PERFILES = _PERFILES_CANONICOS
+_PERFILES_REMOVED = [
     {
         "id": 1,
         "etiqueta": "Izquierda Urbana Joven",
@@ -413,8 +432,9 @@ PERFILES = [
         },
     },
 ]
-# ── Modelo de campaña sin API ─────────────────────────────────────────────────
-TEMAS_IMPACTO: dict[str, dict[str, dict[str, float]]] = {
+# Aliases para los restantes — fuente canónica: dashboard/models/voter_profiles.py
+TEMAS_IMPACTO = _TEMAS_IMPACTO_CANONICOS
+_TEMAS_IMPACTO_REMOVED: dict[str, dict[str, dict[str, float]]] = {
     "Bajada de impuestos a clase media": {
         "PP": {"pp_impacto": +3.2, "perfiles": ["Centro Pragmático", "Derecha Tradicional"]},
         "PSOE": {"pp_impacto": -1.8},
@@ -466,37 +486,8 @@ TEMAS_IMPACTO: dict[str, dict[str, dict[str, float]]] = {
     },
 }
 
-REACCION_PERFIL: dict[str, dict[str, float]] = {
-    "Izquierda Urbana Joven":  {"izquierda": 0.9, "derecha": 0.1, "social": 1.3, "eco": 1.2, "territorial": 0.6},
-    "Centro Pragmático":       {"izquierda": 0.5, "derecha": 0.5, "social": 0.8, "eco": 0.6, "territorial": 0.4},
-    "Derecha Tradicional":     {"izquierda": 0.1, "derecha": 0.9, "social": 0.5, "eco": 0.3, "territorial": 0.9},
-    "Nacionalista Periférico": {"izquierda": 0.5, "derecha": 0.3, "social": 0.7, "eco": 0.6, "territorial": 1.5},
-    "Voto Rural Conservador":  {"izquierda": 0.2, "derecha": 0.8, "social": 0.7, "eco": 0.4, "territorial": 0.5},
-    "Joven Abstencionista":    {"izquierda": 0.6, "derecha": 0.2, "social": 1.0, "eco": 1.1, "territorial": 0.3},
-}
-
-PROFILE_NAME_LIBRARY = [
-    "Socialista de Siempre",
-    "Votante Popular Clásico",
-    "Votante de VOX Obrero",
-    "Joven Progresista Urbana",
-    "Abstencionista Desencantado",
-    "Profesional Liberal Centrista",
-    "Independentista Catalán",
-    "Ama de Casa Conservadora",
-    "Votante del PNV Vasco",
-    "Joven VOX Urbano",
-    "Pensionista de Izquierda",
-    "Universitaria Progresista",
-    "Empresario de Derechas",
-    "Escéptico Ilustrado",
-    "Votante Nacionalista Gallega",
-    "Migrante Nuevo Ciudadano",
-    "Rural Castellano Conservador",
-    "Joven Feminista Crítica",
-    "Ex-Ciudadanos Flotante",
-    "Izquierda Abertzale",
-]
+REACCION_PERFIL = _REACCION_PERFIL_CANONICOS
+PROFILE_NAME_LIBRARY = _PROFILE_NAME_LIBRARY_CANONICOS
 
 
 def _party_alias(name: str) -> str:
@@ -616,7 +607,24 @@ def _preocupaciones_genericas(ideo: float, edad_media: float) -> list[tuple[str,
     return base
 
 
+_NSNC_FIABILIDAD_UMBRAL = 85.0  # Clústeres con NS/NC > umbral → fallback ideológico + badge
+
+
 def _safe_vote_dist(raw: object, ideologia: float) -> dict[str, float]:
+    """Devuelve distribución de voto limpia. Ver `_safe_vote_dist_ex` para flags de fiabilidad."""
+    return _safe_vote_dist_ex(raw, ideologia)[0]
+
+
+def _safe_vote_dist_ex(
+    raw: object, ideologia: float
+) -> tuple[dict[str, float], bool, str]:
+    """Distribución de voto con flag de fiabilidad.
+
+    Returns:
+        (distribucion, fiabilidad_baja, razon)
+        fiabilidad_baja=True cuando NS/NC > _NSNC_FIABILIDAD_UMBRAL
+        o cuando no hay datos declarados suficientes.
+    """
     dist: dict[str, float] = {}
     parsed: dict[str, float] = {}
     if isinstance(raw, dict):
@@ -633,23 +641,34 @@ def _safe_vote_dist(raw: object, ideologia: float) -> dict[str, float]:
         dist[kk] = dist.get(kk, 0.0) + max(0.0, float(v))
     total = sum(dist.values())
     if total <= 0:
-        return _voto_fallback_por_ideologia(ideologia)
+        return _voto_fallback_por_ideologia(ideologia), True, "Sin datos declarados de voto."
+
     normalized = {k: round(v * 100.0 / total, 2) for k, v in sorted(dist.items(), key=lambda x: x[1], reverse=True)}
     nsnc_share = float(normalized.get("NS/NC", 0.0))
-    # Si tenemos voto informativo, quitamos NS/NC y re-normalizamos para evitar perfiles "vacíos".
+
     informative = {k: v for k, v in normalized.items() if k not in {"NS/NC", "Blanco/Nulo"}}
     informative_total = sum(informative.values())
     if informative_total >= 25.0 and len(informative) >= 2:
-        return {
+        clean = {
             k: round(v * 100.0 / informative_total, 2)
             for k, v in sorted(informative.items(), key=lambda x: x[1], reverse=True)
         }
-    # Si el clúster llega prácticamente vacío (solo "no declara"), forzamos fallback útil.
+        return clean, False, ""
+
+    # NS/NC dominante: umbral documentado y configurable en _NSNC_FIABILIDAD_UMBRAL
     if len(normalized) == 1 and nsnc_share >= 99.0:
-        return _voto_fallback_por_ideologia(ideologia)
-    if nsnc_share >= 85.0:
-        return _voto_fallback_por_ideologia(ideologia)
-    return normalized
+        razon = f"El {nsnc_share:.0f}% del clúster no declara intención de voto. Distribución estimada por posición ideológica."
+        return _voto_fallback_por_ideologia(ideologia), True, razon
+
+    if nsnc_share >= _NSNC_FIABILIDAD_UMBRAL:
+        razon = (
+            f"El {nsnc_share:.0f}% del clúster responde NS/NC "
+            f"(umbral: {_NSNC_FIABILIDAD_UMBRAL:.0f}%). "
+            "Distribución estimada por posición ideológica, no por intención declarada."
+        )
+        return _voto_fallback_por_ideologia(ideologia), True, razon
+
+    return normalized, False, ""
 
 
 def _build_general_profile_label(ideologia: float, edad_media: float, idx: int) -> str:
@@ -833,66 +852,18 @@ def _cargar_impactos_desde_bd(_engine=None) -> dict[str, dict[str, dict]]:
     return out
 
 
-def _receptividad_tema_perfil(
-    tema: str,
-    perfil: dict,
-    impactos_raw: dict,
-) -> float:
-    top3 = [str(t[0]).lower() for t in perfil.get("preocupaciones", [])[:3]]
-    score = 2.5
-    if any(tok and tok in tema.lower() for tok in top3):
-        score += 3.5
-    perfiles_focus = set(impactos_raw.get("perfiles", []) if isinstance(impactos_raw, dict) else [])
-    if perfil.get("etiqueta") in perfiles_focus:
-        score += 3.5
-    ideo = float(perfil.get("ideo_media", 5.0))
-    tema_l = tema.lower()
-    if any(k in tema_l for k in ["impuesto", "unidad", "migratoria", "gasto"]):
-        mult = 1.0 if ideo >= 5.5 else 0.6
-    elif any(k in tema_l for k in ["alquiler", "sanidad", "salario", "verde"]):
-        mult = 1.0 if ideo <= 5.5 else 0.6
-    else:
-        mult = 0.85
-    score *= mult
-    noise = ((abs(hash(f"{tema}|{perfil.get('etiqueta','')}")) % 61) / 100.0) - 0.3
-    return round(max(0.0, min(10.0, score + noise)), 1)
+def _receptividad_tema_perfil(tema: str, perfil: dict, impactos_raw: dict) -> float:
+    return _receptividad_tema_perfil_svc(tema, perfil, impactos_raw)
 
 
 def _narrativa_impacto(
-    tema: str,
-    partido_emisor: str,
-    ganadores: list[str],
-    perjudicados: list[str],
-    perfiles_beneficiados: list[str],
-    impactos_partido: dict[str, float],
-    perfiles_unificados: list[dict],
+    tema: str, partido_emisor: str, ganadores: list[str], perjudicados: list[str],
+    perfiles_beneficiados: list[str], impactos_partido: dict[str, float], perfiles_unificados: list[dict],
 ) -> str:
-    focus_parts: list[str] = []
-    for g in ganadores[:2]:
-        perf_hits = []
-        for pf in perfiles_unificados:
-            voto = pf.get("intencion_voto", {})
-            top = next(iter(sorted(voto.items(), key=lambda x: x[1], reverse=True)), ("", 0.0))
-            if top[0] == g:
-                prio = pf.get("preocupaciones", [("sin señal", 0)])
-                perf_hits.append(
-                    f"{pf.get('etiqueta','Perfil')} ({pf.get('ideo_media',5):.1f}/10; {prio[0][0]} {prio[0][1]}%)"
-                )
-        if perf_hits:
-            focus_parts.append(f"{g}: " + ", ".join(perf_hits[:2]))
-    pos_total = sum(v for v in impactos_partido.values() if v > 0)
-    neg_total = sum(v for v in impactos_partido.values() if v < 0)
-    txt = (
-        f"El mensaje sobre '{tema}' para {partido_emisor} proyecta un efecto agregado de {pos_total:+.1f}pp "
-        f"en ganadores y {neg_total:.1f}pp en perdedores."
+    return _narrativa_impacto_svc(
+        tema, partido_emisor, ganadores, perjudicados,
+        perfiles_beneficiados, impactos_partido, perfiles_unificados,
     )
-    if focus_parts:
-        txt += " Segmentos más explicativos: " + " | ".join(focus_parts) + "."
-    if perjudicados:
-        txt += f" Las mayores pérdidas se concentran en {', '.join(perjudicados[:3])}."
-    if perfiles_beneficiados:
-        txt += f" Receptividad prioritaria en: {', '.join(perfiles_beneficiados[:3])}."
-    return txt
 
 
 @st.cache_data(ttl=300)
@@ -1124,7 +1095,7 @@ def _micro_profile_to_ui(row: pd.Series, idx: int, engine=None) -> dict:
     riesgo_social = "Bajo" if paro_est <= 9.0 else ("Medio" if paro_est <= 16.0 else "Alto")
     acceso_servicios = "Alto" if edad_media >= 38.0 else "Medio"
     ideo_label, ideo_color = _ideo_label_color(ideologia)
-    voto = _safe_vote_dist(row.get("distribucion_voto_json"), ideologia)
+    voto, _voto_fiabilidad_baja, _voto_fiabilidad_razon = _safe_vote_dist_ex(row.get("distribucion_voto_json"), ideologia)
     label = _label_from_signals(voto, ideologia, edad_media, idx)
     desc = str(row.get("descripcion_perfil_llm") or "").strip()
     top1 = next(iter(voto.keys()), "otros")
@@ -1224,6 +1195,8 @@ def _micro_profile_to_ui(row: pd.Series, idx: int, engine=None) -> dict:
             "Riesgo social": riesgo_social,
         },
         "descripcion_origen": desc,
+        "fiabilidad_baja": _voto_fiabilidad_baja,
+        "fiabilidad_razon": _voto_fiabilidad_razon,
     }
 
 
@@ -1475,6 +1448,8 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
 
     with col_side:
         st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Intención de voto</span><div class="line"></div></div>', unsafe_allow_html=True)
+        if p.get("fiabilidad_baja"):
+            fiabilidad_baja_badge(p.get("fiabilidad_razon", ""))
         partidos_v = list(p.get("intencion_voto", {}).keys())
         pcts_v = list(p.get("intencion_voto", {}).values())
         colors_v = [COLORES_PARTIDO.get(pt, MUTED) for pt in partidos_v]
@@ -1550,10 +1525,15 @@ def _render_profile_detail_layout(p: dict, key_suffix: str = "") -> None:
 def _build_profile_evolution(
     voto_share: dict[str, float],
     ideologia_media: float,
-    seed_text: str,
+    seed_text: str,  # mantenido por compatibilidad de firma; ya no se usa para generar ruido
     engine=None,
     cluster_id: int | None = None,
 ) -> pd.DataFrame:
+    """Devuelve evolución temporal del clúster desde BD, o DataFrame vacío si no hay datos reales.
+
+    No genera series sintéticas aleatorias: un DataFrame vacío indica honestamente
+    que los datos de evolución no están disponibles hasta ejecutar el ETL.
+    """
     if engine is not None and cluster_id is not None:
         evo_real = _cargar_evolucion_cluster(engine, int(cluster_id))
         if not evo_real.empty:
@@ -1568,24 +1548,8 @@ def _build_profile_evolution(
                 )
             return pd.DataFrame(rows)
 
-    seed = sum(ord(c) for c in (seed_text or "perfil")) % 997
-    rng = np.random.default_rng(seed)
-    meses = ["-6m", "-5m", "-4m", "-3m", "-2m", "-1m", "actual"]
-    top_parties = [k for k, _ in sorted(voto_share.items(), key=lambda x: x[1], reverse=True)[:3]]
-    if not top_parties:
-        top_parties = list(_voto_fallback_por_ideologia(ideologia_media).keys())[:3]
-    rows: list[dict[str, object]] = []
-    for p in top_parties:
-        base = float(voto_share.get(p, 0.0))
-        trend = rng.normal(0.0, 0.5)
-        for i, mes in enumerate(meses):
-            val = max(1.0, base + (i - len(meses) + 1) * trend + rng.normal(0.0, 0.9))
-            rows.append({"periodo": mes, "serie": p, "valor": round(val, 2)})
-    ideo_vals = []
-    for i, mes in enumerate(meses):
-        ideo_vals.append(round(max(1.0, min(10.0, ideologia_media + rng.normal(0.0, 0.12) + (i - 3) * 0.03)), 2))
-        rows.append({"periodo": mes, "serie": "Ideología", "valor": ideo_vals[-1]})
-    return pd.DataFrame(rows)
+    # Sin datos reales: devolver vacío. La UI debe mostrar un empty-state honesto.
+    return pd.DataFrame()
 
 
 def _recommended_messages(topics: list[str], party: str) -> list[str]:
@@ -2041,11 +2005,15 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
 
     color = str(perfil.get("color") or "#666666")
     fuente = str(perfil.get("fuente_datos") or "")
-    es_real = fuente in {"microdatos_cis", "microdatos_propio"}
-    if not es_real:
-        st.warning(
-            "⚠️ Este perfil usa datos sintéticos. Ejecuta el ETL de microdatos para obtener datos reales."
+
+    data_source_banner(
+        DataSourceStatus.from_fuente(
+            fuente,
+            timestamp=str(perfil.get("updated_at") or ""),
+            n_registros=perfil.get("n_respondentes"),
+            oleada=str(perfil.get("oleada_cis") or ""),
         )
+    )
 
     edad_media = perfil.get("edad_media")
     edad_num = _to_float_safe(edad_media, -1)
@@ -2322,6 +2290,43 @@ def _render_ficha_perfil(data: dict[str, Any]) -> None:
             st.markdown("**Análisis cualitativo (generado por IA)**")
             st.markdown(f"_{perfil['descripcion_perfil_llm']}_")
 
+    # ── Análisis IA bajo demanda ──────────────────────────────────────────────
+    st.divider()
+    _llm_key = f"llm_narrativa_perfil_{nombre}"
+    if _llm.llm_disponible():
+        if st.button("Generar análisis IA", key=f"btn_llm_{nombre}", type="secondary"):
+            with st.spinner("Generando análisis con Claude..."):
+                preocupaciones_raw = data.get("problemas", pd.DataFrame())
+                preocupaciones = (
+                    list(preocupaciones_raw["problema"].head(5))
+                    if not preocupaciones_raw.empty and "problema" in preocupaciones_raw.columns
+                    else []
+                )
+                df_voto_raw = data.get("voto", pd.DataFrame())
+                partido_lider = "—"
+                if not df_voto_raw.empty and "partido" in df_voto_raw.columns and "pct_intencion" in df_voto_raw.columns:
+                    df_v2 = df_voto_raw.copy()
+                    df_v2["pct_intencion"] = pd.to_numeric(df_v2["pct_intencion"], errors="coerce")
+                    idx = df_v2["pct_intencion"].idxmax()
+                    partido_lider = str(df_v2.loc[idx, "partido"]) if not pd.isna(idx) else "—"
+                texto = _llm.narrativa_perfil(
+                    nombre=nombre,
+                    ideologia=_to_float_safe(perfil.get("ideologia_media"), 5.0),
+                    peso_pct=_to_float_safe(perfil.get("peso_demografico_pct"), 0.0),
+                    preocupaciones=preocupaciones,
+                    partido_lider=partido_lider,
+                    cohorte=str(perfil.get("cohorte_generacional") or ""),
+                )
+                if texto:
+                    st.session_state[_llm_key] = texto
+                else:
+                    st.session_state[_llm_key] = None
+        if st.session_state.get(_llm_key):
+            st.markdown("**Análisis generado por Claude:**")
+            st.markdown(st.session_state[_llm_key])
+    else:
+        st.caption("Análisis IA disponible cuando se configure `ANTHROPIC_API_KEY`.")
+
 
 def _render_constructor_perfil(conn) -> None:
     """Constructor de perfiles personalizados con analisis en tiempo real."""
@@ -2517,9 +2522,6 @@ def _render_constructor_perfil(conn) -> None:
 
     with st.spinner("Analizando subconjunto en microdatos..."):
         try:
-            # Recarga forzada del módulo para evitar bytecode/módulo en caché
-            # con la versión antigua (Streamlit no recarga imports lazy).
-            importlib.reload(_segmod)
             resultado = _segmod.analizar_perfil_personalizado(
                 conn, filtros, nombre=nombre_perfil, usuario=usuario
             )
@@ -2589,6 +2591,29 @@ with tab1:
         f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Perfiles electorales (microdatos + constructor personalizado)</span><div class="line"></div></div>',
         unsafe_allow_html=True,
     )
+
+    # ── Fix 4.3 + 4.4: indicador de fuente de perfiles + oleada activa ────────
+    _n_bd = sum(1 for p in PERFILES_UNIFICADOS if p.get("fuente_datos", "sintetico") not in ("sintetico", "fallback", ""))
+    _n_total = len(PERFILES_UNIFICADOS)
+    _oleada_info = obtener_oleada_activa("CIS")
+    _oleada_txt = str(_oleada_info.get("oleada", "")) if _oleada_info else ""
+    _oleada_fecha = str(_oleada_info.get("fecha_datos", "")) if _oleada_info else ""
+    _oleada_desc = f" · Oleada: {_oleada_txt} ({_oleada_fecha})" if _oleada_txt and _oleada_txt != "sintetico_calibrado" else ""
+    if _n_bd > 0:
+        data_source_banner(DataSourceStatus(
+            tipo="real",
+            descripcion=f"{_n_bd}/{_n_total} perfiles desde microdatos CIS reales{_oleada_desc}",
+            timestamp=_oleada_fecha,
+            n_registros=_n_bd,
+            oleada=_oleada_txt,
+        ))
+    else:
+        data_source_banner(DataSourceStatus(
+            tipo="sintetico",
+            descripcion=f"{_n_total} perfiles sintéticos calibrados con CIS{_oleada_desc}. Ejecuta la segmentación para activar datos reales.",
+            timestamp="",
+            oleada=_oleada_txt or "sintético",
+        ))
 
     modo = st.radio(
         "Modo de perfiles",
@@ -2678,6 +2703,10 @@ with tab2:
     impactos_fuente = _cargar_impactos_desde_bd(_engine=engine)
     impactos_catalogo = impactos_fuente or TEMAS_IMPACTO
 
+    # Contador de saturación por tema en esta sesión
+    if "sim_tema_uso" not in st.session_state:
+        st.session_state["sim_tema_uso"] = {}
+
     with st.form("simulador_campana"):
         col_f1, col_f2, col_f3 = st.columns(3)
         with col_f1:
@@ -2687,25 +2716,52 @@ with tab2:
         with col_f3:
             intensidad = st.slider("Intensidad del mensaje", 1, 10, 5,
                                    help="1 = mensaje suave, 10 = campaña intensiva")
-        mensaje_libre = st.text_area("Mensaje (opcional, para referencia)", height=80,
+        col_f4, col_f5 = st.columns(2)
+        with col_f4:
+            semana_campana = st.slider(
+                "Semana de campaña", 1, 7, 3,
+                help="El impacto es máximo en semana 2-3 y decae hacia la jornada de reflexión",
+            )
+        with col_f5:
+            st.caption("La saturación se calcula automáticamente según cuántas veces simulas el mismo tema en esta sesión.")
+        mensaje_libre = st.text_area("Mensaje (opcional, para referencia)", height=60,
                                      placeholder="Ej: 'Vamos a bajar los impuestos a las familias trabajadoras...'")
         simular = st.form_submit_button("Simular impacto", type="primary")
 
     if simular:
-        impactos_raw = impactos_catalogo.get(tema_sel, {})
+        veces_usado = st.session_state["sim_tema_uso"].get(tema_sel, 0)
+        from dashboard.services.campaign_simulator import simular_impacto_tema as _sim_svc
+        resultado_sim = _sim_svc(
+            tema=tema_sel,
+            partido_emisor=partido_emisor,
+            perfiles_unificados=PERFILES_UNIFICADOS,
+            impactos_catalogo=impactos_catalogo,
+            semana_campana=semana_campana,
+            veces_tema_usado=veces_usado,
+        )
+        st.session_state["sim_tema_uso"][tema_sel] = veces_usado + 1
+
         factor = intensidad / 5.0
-
-        # Impacto en intención de voto por partido
-        impactos_partido = {}
-        for pty, datos in impactos_raw.items():
-            pp_base = datos.get("pp_impacto", 0.0)
-            impactos_partido[pty] = round(pp_base * factor, 2)
-
-        # Impacto en receptividad de perfiles
-        perfiles_beneficiados = impactos_raw.get(partido_emisor, {}).get("perfiles", [])
+        impactos_partido = {p: round(v * factor, 2) for p, v in resultado_sim["impactos_partido"].items()}
+        perfiles_beneficiados = resultado_sim["perfiles_beneficiados"]
+        t_factor = resultado_sim["timing_factor"]
+        s_factor = resultado_sim["saturation_factor"]
 
         st.divider()
         st.markdown(f"### Resultado para: **{partido_emisor}** — Tema: _{tema_sel}_")
+
+        from dashboard.models.timing_model import describe_timing, describe_saturation
+        _tc = f"⏱ Timing semana {semana_campana}: {t_factor:.0%} del impacto base"
+        _sc = f"♻ Saturación: {s_factor:.0%} (uso #{st.session_state['sim_tema_uso'].get(tema_sel, 1)})"
+        _tc_color = CYAN if t_factor >= 0.8 else (AMBER if t_factor >= 0.5 else RED)
+        _sc_color = GREEN if s_factor >= 0.8 else (AMBER if s_factor >= 0.5 else RED)
+        st.markdown(
+            f"<div style='display:flex;gap:.8rem;margin-bottom:.8rem'>"
+            f"<span style='background:{_tc_color}22;border:1px solid {_tc_color};border-radius:8px;padding:.3rem .8rem;font-size:.82rem'>{_tc}</span>"
+            f"<span style='background:{_sc_color}22;border:1px solid {_sc_color};border-radius:8px;padding:.3rem .8rem;font-size:.82rem'>{_sc}</span>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
 
         col_r1, col_r2 = st.columns(2)
 
@@ -2757,6 +2813,35 @@ with tab2:
                 </div>
                 """, unsafe_allow_html=True)
 
+        # ── Diagrama de flujos de transferencia (Sankey) ──────────────────────
+        sankey_data = resultado_sim.get("sankey_data", {})
+        if sankey_data.get("labels") and sankey_data.get("value"):
+            st.divider()
+            st.markdown(f'<div class="section-title"><div class="bar" style="background:{PURPLE}"></div><span class="lbl">Origen de los votos transferidos</span><div class="line"></div></div>', unsafe_allow_html=True)
+            st.caption("De dónde proviene cada punto porcentual ganado. Basado en vectores de transferencia históricos.")
+            fig_sankey = go.Figure(go.Sankey(
+                arrangement="snap",
+                node=dict(
+                    pad=15, thickness=20,
+                    label=sankey_data["labels"],
+                    color=[CYAN if l in ["PP", "PSOE", "VOX", "SUMAR", "Junts", "PNV"] else MUTED
+                           for l in sankey_data["labels"]],
+                ),
+                link=dict(
+                    source=sankey_data["source"],
+                    target=sankey_data["target"],
+                    value=sankey_data["value"],
+                    color=[f"{CYAN}44"] * len(sankey_data["value"]),
+                ),
+            ))
+            fig_sankey.update_layout(
+                height=320,
+                paper_bgcolor="rgba(0,0,0,0)",
+                font=dict(color=TEXT2, size=11),
+                margin=dict(t=10, b=10, l=10, r=10),
+            )
+            st.plotly_chart(fig_sankey, use_container_width=True)
+
         # Narrativa
         st.divider()
         ganadores = [p for p, v in impactos_partido.items() if v > 1.5]
@@ -2779,6 +2864,24 @@ with tab2:
                 perfiles_unificados=PERFILES_UNIFICADOS,
             )
         )
+
+        # ── Análisis estratégico IA ────────────────────────────────────────────
+        _sim_llm_key = f"llm_sim_{partido_emisor}_{tema_sel}"
+        if _llm.llm_disponible():
+            if st.button("Análisis estratégico IA", key="btn_llm_sim", type="secondary"):
+                with st.spinner("Analizando con Claude..."):
+                    texto_sim = _llm.narrativa_impacto_campana(
+                        tema=tema_sel,
+                        partido_emisor=partido_emisor,
+                        impactos=impactos_partido,
+                        perfiles_afectados=perfiles_beneficiados,
+                    )
+                    st.session_state[_sim_llm_key] = texto_sim or None
+            if st.session_state.get(_sim_llm_key):
+                st.markdown("**Análisis estratégico generado por Claude:**")
+                st.markdown(st.session_state[_sim_llm_key])
+        else:
+            st.caption("Análisis estratégico IA disponible con `ANTHROPIC_API_KEY`.")
     else:
         st.markdown(f"""
         <div class="card" style="border-left:3px solid {BLUE}">
@@ -3301,22 +3404,30 @@ with tab5:
             st.markdown("#### Vista de perfil equivalente a ‘Perfiles de Votante’")
             _render_profile_detail_layout(p_custom, key_suffix="custom")
 
-            st.markdown("##### Evolución histórica estimada del perfil")
+            st.markdown("##### Evolución histórica del perfil")
             evo = _build_profile_evolution(voto_view, ideologia_media, seed_text=nombre_perfil or usuario_id)
-            fig_evo = px.line(
-                evo[evo["serie"] != "Ideología"],
-                x="periodo",
-                y="valor",
-                color="serie",
-                markers=True,
-                color_discrete_map=COLORES_PARTIDO,
-            )
-            fig_evo.update_layout(height=280, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis_title="Ventana temporal", yaxis_title="% intención")
-            st.plotly_chart(fig_evo, use_container_width=True)
-            evo_ideo = evo[evo["serie"] == "Ideología"]
-            fig_ideo_evo = px.line(evo_ideo, x="periodo", y="valor", markers=True)
-            fig_ideo_evo.update_layout(height=200, showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", yaxis=dict(range=[1, 10], title="Escala 1-10"))
-            st.plotly_chart(fig_ideo_evo, use_container_width=True)
+            if evo.empty:
+                st.info(
+                    "📊 Datos de evolución temporal no disponibles. "
+                    "Ejecuta el ETL de microdatos para poblar esta sección con series históricas reales.",
+                    icon=None,
+                )
+            else:
+                fig_evo = px.line(
+                    evo[evo["serie"] != "Ideología"],
+                    x="periodo",
+                    y="valor",
+                    color="serie",
+                    markers=True,
+                    color_discrete_map=COLORES_PARTIDO,
+                )
+                fig_evo.update_layout(height=280, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis_title="Ventana temporal", yaxis_title="% intención")
+                st.plotly_chart(fig_evo, use_container_width=True)
+                evo_ideo = evo[evo["serie"] == "Ideología"]
+                if not evo_ideo.empty:
+                    fig_ideo_evo = px.line(evo_ideo, x="periodo", y="valor", markers=True)
+                    fig_ideo_evo.update_layout(height=200, showlegend=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", yaxis=dict(range=[1, 10], title="Escala 1-10"))
+                    st.plotly_chart(fig_ideo_evo, use_container_width=True)
 
             if not recuerdo_pf.empty:
                 st.markdown("##### Recuerdo de voto dominante")

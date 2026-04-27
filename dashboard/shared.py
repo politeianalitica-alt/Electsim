@@ -463,17 +463,77 @@ def kpi_card(
     )
 
 
+def coming_soon_card(
+    titulo: str,
+    descripcion: str = "",
+    hitos: list[str] | None = None,
+    eta: str = "",
+) -> None:
+    """Muestra un banner 'Próximamente' para módulos en desarrollo.
+
+    Usar en páginas que no tienen datos ni implementación funcional aún,
+    de modo que no se muestre una pantalla en blanco desde el menú.
+    """
+    hitos_html = ""
+    if hitos:
+        items = "".join(f"<li style='margin:.3rem 0;color:{TEXT2}'>{h}</li>" for h in hitos)
+        hitos_html = f"<ul style='margin:.5rem 0 0 1rem;padding:0;list-style:disc'>{items}</ul>"
+    eta_html = f"<div style='margin-top:.8rem;font-size:.8rem;color:{MUTED}'>ETA estimado: {eta}</div>" if eta else ""
+    st.markdown(
+        f"""
+        <div style="
+            border:1px solid {BORDER};border-left:4px solid {CYAN};
+            border-radius:14px;padding:2rem 2.2rem;margin:2rem 0;
+            background:linear-gradient(135deg,{BG2} 0%,{BG3} 100%);
+            max-width:680px;
+        ">
+            <div style="font-size:1.6rem;margin-bottom:.4rem">🚧</div>
+            <div style="font-size:1.35rem;font-weight:800;color:{TEXT};margin-bottom:.4rem">{titulo}</div>
+            {"" if not descripcion else f'<div style="color:{TEXT2};font-size:.95rem;margin-bottom:.6rem">{descripcion}</div>'}
+            {hitos_html}
+            {eta_html}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def aplicar_estilos():
-    """Inyecta el tema dark/tech global en todas las páginas."""
+    """Inyecta el tema dark/tech global en todas las páginas.
+
+    CSS custom properties en :root permiten cambiar el color primario editando
+    una sola línea aquí, en lugar de editar los 20+ ficheros de páginas.
+    Las constantes Python (BG, CYAN, etc.) se mantienen para código Python;
+    el CSS usa var(--ep-*) para componentes HTML inline.
+    """
     st.markdown(f"""
     <style>
+    /* ── Design tokens como CSS custom properties ─────────────────── */
+    /* Edita aquí para cambiar el tema global. Refs: var(--ep-*) en HTML inline */
+    :root {{
+        --ep-bg:        {BG};
+        --ep-bg2:       {BG2};
+        --ep-bg3:       {BG3};
+        --ep-border:    {BORDER};
+        --ep-cyan:      {CYAN};
+        --ep-cyan2:     {CYAN2};
+        --ep-blue:      {BLUE};
+        --ep-purple:    {PURPLE};
+        --ep-text:      {TEXT};
+        --ep-text2:     {TEXT2};
+        --ep-muted:     {MUTED};
+        --ep-green:     {GREEN};
+        --ep-amber:     {AMBER};
+        --ep-red:       {RED};
+    }}
+
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
     /* ── Reset y base ─────────────────────────────────────────────── */
     [data-testid="stSidebarNav"] {{ display: none !important; }}
 
     html, body, .stApp, .main {{
-        background: {BG} !important;
+        background: var(--ep-bg) !important;
         color: {TEXT};
         font-family: 'Inter', system-ui, sans-serif;
     }}

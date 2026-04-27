@@ -129,10 +129,24 @@ _CAMPOS_PERFIL = dict(_CAMPOS_PERFIL_SQL_MAP)
 
 @st.cache_resource
 def get_engine() -> Engine:
+    """Engine con pool de conexiones (pool_size=5, max_overflow=10).
+    Configurado en db/session.py via DB_POOL_SIZE / DB_MAX_OVERFLOW env vars.
+    """
     return _shared_get_engine()
 
 
 def get_conn():
+    """Devuelve una conexión raw del pool de SQLAlchemy.
+
+    ATENCIÓN: la llamada devuelve una conexión que debe cerrarse manualmente.
+    Preferir `get_engine().connect()` como context manager:
+
+        with get_engine().connect() as conn:
+            df = pd.read_sql(text("SELECT ..."), conn)
+
+    Esta función se mantiene por compatibilidad con código existente que
+    pasa la conexión como argumento a funciones de psycopg.
+    """
     return get_raw_conn()
 
 
@@ -4650,6 +4664,95 @@ def guardar_transferencia_voto(
         conn.rollback()
         logger.error("guardar_transferencia_voto: %s", e, exc_info=True)
         return 0
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+# ── Trazabilidad de fuentes de datos / oleadas CIS (Fix 4.4) ──────────────────
+
+def obtener_oleada_activa(fuente: str = "CIS") -> dict:
+    """Retorna el registro activo más reciente de data_sources para la fuente dada.
+
+    Returns:
+        dict con keys: fuente, oleada, fecha_datos, fecha_carga, n_registros, notas
+        o {} si la tabla no existe o no hay registros.
+    """
+    conn = get_conn()
+    try:
+        cols = _table_columns("data_sources", conn=conn)
+        if not cols:
+            return {}
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT fuente, oleada, fecha_datos::text, fecha_carga::text,
+                       n_registros, notas
+                FROM data_sources
+                WHERE fuente = %s AND activo = TRUE
+                ORDER BY fecha_carga DESC
+                LIMIT 1
+                """,
+                (fuente,),
+            )
+            row = cur.fetchone()
+            if not row:
+                return {}
+            cols_out = [d[0] for d in cur.description]
+            return dict(zip(cols_out, row))
+    except Exception as exc:
+        logger.warning("obtener_oleada_activa: %s", exc)
+        return {}
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
+def registrar_carga_oleada(
+    fuente: str,
+    oleada: str,
+    fecha_datos: str,
+    n_registros: int,
+    usuario_carga: str = "etl",
+    notas: str = "",
+    hash_fichero: str = "",
+) -> bool:
+    """Registra una carga de datos en data_sources y desactiva la anterior.
+
+    Returns:
+        True si se insertó correctamente.
+    """
+    conn = get_conn()
+    try:
+        cols = _table_columns("data_sources", conn=conn)
+        if not cols:
+            return False
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE data_sources SET activo = FALSE WHERE fuente = %s AND activo = TRUE",
+                (fuente,),
+            )
+            cur.execute(
+                """
+                INSERT INTO data_sources
+                    (fuente, oleada, fecha_datos, n_registros, usuario_carga, notas, hash_fichero, activo)
+                VALUES (%s, %s, %s::date, %s, %s, %s, %s, TRUE)
+                ON CONFLICT (fuente, oleada) DO UPDATE
+                    SET fecha_carga = NOW(), n_registros = EXCLUDED.n_registros,
+                        notas = EXCLUDED.notas, activo = TRUE
+                """,
+                (fuente, oleada, fecha_datos, n_registros, usuario_carga, notas, hash_fichero or None),
+            )
+        conn.commit()
+        return True
+    except Exception as exc:
+        conn.rollback()
+        logger.error("registrar_carga_oleada: %s", exc)
+        return False
     finally:
         try:
             conn.close()

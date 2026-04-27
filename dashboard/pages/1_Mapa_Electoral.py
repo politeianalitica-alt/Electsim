@@ -30,6 +30,7 @@ from dashboard.shared import (
     GREEN, AMBER, RED,
 )
 import dashboard.db as _db
+from etl.electoral_math import dhondt as _dhondt_canonical
 from dashboard.models.analogias_historicas import (
     ContextoElectoral,
     MotorAnalogias,
@@ -548,11 +549,7 @@ def _estimate_seats_dhondt(df_prov: pd.DataFrame, df_nc: pd.DataFrame) -> pd.Dat
             continue
         norm = {p: v / sum_f * 100 for p, v in filtrados.items()}
 
-        asignados: dict[str, int] = defaultdict(int)
-        for _ in range(total):
-            cocientes = {p: norm[p] / (asignados[p] + 1) for p in norm}
-            winner = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
-            asignados[winner] += 1
+        asignados: dict[str, int] = _dhondt_canonical(norm, total, umbral_pct=0.0)
 
         # ── Emitir filas ─────────────────────────────────────────────────────
         for partido, esc_est in asignados.items():

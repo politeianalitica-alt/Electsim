@@ -25,6 +25,7 @@ from dashboard.shared import (
     BG, BG2, BG3, BORDER, CYAN, CYAN2, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
+from etl.electoral_math import dhondt as _dhondt_canonical
 
 from dashboard.db import (
     cargar_elecciones, cargar_nowcasting, cargar_macro_ultimo,
@@ -239,19 +240,9 @@ else:
     estimaciones_base = ESTIMACIONES_SINTETICAS.copy()
 
 
-# ── Funciones D'Hondt ──────────────────────────────────────────────────────────
+# ── Funciones D'Hondt — delegadas a etl.electoral_math (fuente única de verdad) ─
 def dhondt_provincia(votos_pct: dict, escanos: int, umbral: float = 3.0) -> dict:
-    elegibles = {p: v for p, v in votos_pct.items() if v >= umbral}
-    if not elegibles:
-        return {}
-    totales = sum(elegibles.values())
-    votos_abs = {p: v / totales * 100_000 for p, v in elegibles.items()}
-    asignados: dict[str, int] = defaultdict(int)
-    for _ in range(escanos):
-        cocientes = {p: votos_abs[p] / (asignados[p] + 1) for p in elegibles}
-        ganador = max(cocientes, key=cocientes.get)  # type: ignore[arg-type]
-        asignados[ganador] += 1
-    return dict(asignados)
+    return _dhondt_canonical(votos_pct, escanos, umbral_pct=umbral)
 
 
 def monte_carlo_escanos(estimaciones: dict, n_sims: int = 5000, sigma: float = 2.5) -> dict:
