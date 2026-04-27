@@ -41,3 +41,41 @@ alembic>=1.13.0              # Migraciones DB con autogenerate
 
 # ── Impacto causal (opcional para metodo BSTS) ───────────────────────────────
 pycausalimpact>=0.1.1
+
+# ── NLP español — análisis de discurso político ──────────────────────────────
+# pysentimiento>=0.7.0         # Sentiment, hate_speech, emotion, NER en español
+                               # (descomentar; requiere torch ~1.5GB descarga modelos)
+yake>=0.4.8                    # Keyword extraction sin modelos (YAKE)
+# spacy>=3.7.0                 # NLP industrial (requiere modelo: python -m spacy download es_core_news_md)
+
+# ── News crawling — medios españoles ─────────────────────────────────────────
+# fundus>=0.4.0                # Structured news crawlers: El País, El Mundo, ABC, La Vanguardia, etc.
+                               # (descomentar si se quiere texto completo vs. RSS)
+
+# ── Time series forecasting — proyecciones electorales ───────────────────────
+statsforecast>=1.7.0           # AutoARIMA, ETS, Theta, CES — muy rápido
+
+# ── Causal inference — análisis de impacto de eventos ───────────────────────
+# causalpy>=0.4.0              # DiD, Synthetic Control, ITS (requiere pymc>=5)
+# pymc>=5.0.0                  # Bayesian inference (depende de aesara/pytensor)
+# dowhy>=0.11.0                # Microsoft causal graphs
+
+# ── Financial data — correlaciones economía-política ─────────────────────────
+# openbb>=4.0.0                # Financial data platform (descomentar para mercados)
+# financetoolkit>=1.8.0        # Financial ratios & metrics
+
+# ── Agent frameworks — pipelines IA estructurados ────────────────────────────
+pydantic-ai>=0.0.20            # Type-safe AI agents (Pydantic team)
+# crewai>=0.30.0               # Multi-agent orchestration
+# langchain>=0.2.0             # RAG + LLM chains
+
+# ── Geospatial — mapas España ────────────────────────────────────────────────
+# geopandas>=0.14.0            # GeoDataFrames para mapas electorales
+# pydeck>=0.8.0                # deck.gl geospatial visualization
+
+# ── Topic modeling — BERTopic ─────────────────────────────────────────────────
+# bertopic>=0.16.0             # Dynamic topic modeling (requiere torch)
+# sentence-transformers>=2.7.0 # Embeddings para BERTopic
+
+# ── Graph/Network visualization ───────────────────────────────────────────────
+pyvis>=0.3.2                   # Interactive network graphs in Streamlit

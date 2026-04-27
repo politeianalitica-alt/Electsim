@@ -62,7 +62,14 @@ load_dotenv(_ROOT / ".env")
 try:
     import streamlit as st
 
-    st.switch_page("pages/0_Pagina_Inicial.py")
+    # Nueva arquitectura: redirigir a la página de inicio N0_Inicio.py
+    # Fallback a 0_Pagina_Inicial.py si la nueva no existe aún
+    import os
+    _new_home = os.path.join(os.path.dirname(__file__), "pages", "N0_Inicio.py")
+    if os.path.exists(_new_home):
+        st.switch_page("pages/N0_Inicio.py")
+    else:
+        st.switch_page("pages/0_Pagina_Inicial.py")
     st.stop()
 except Exception:
     # Compatibilidad con entornos sin switch_page o ejecución no-Streamlit.

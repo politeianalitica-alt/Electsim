@@ -54,95 +54,64 @@ _PARTY_ALIASES = {
     "JXCAT": "JUNTS",
 }
 
-PAGES_NAV = {
-    "analisis_electoral": [
-        ("pages/1_Mapa_Electoral.py",          "◈  Mapa Electoral"),
-        ("pages/2_Nowcasting.py",               "◐  Nowcasting"),
-        ("pages/3_Escenarios.py",               "◎  Escenarios"),
-        ("pages/4_Coaliciones.py",              "⬢  Coaliciones"),
-        ("pages/16_Fichas_Politicos.py",        "●  Fichas de políticos"),
-    ],
-    "indices_politeia": [
-        ("pages/9_Indices_Politeia.py",         "◈  Índices"),
-        ("pages/10_Prensa_Agenda.py",           "◎  Prensa & Agenda"),
-        ("pages/14_Monitor_Sentimiento.py",     "   ↳ Monitor de sentimiento"),
-        ("pages/20_Monitor_Medios_RRSS.py",     "   ↳ Monitor Medios & RRSS"),
-        ("pages/24_Tracker_Narrativas.py",      "   ↳ Tracker Narrativas"),
-        ("pages/25_Voto_Blando.py",             "   ↳ Voto Blando"),
-        ("pages/11_Congreso_Institucional.py",  "◉  Congreso"),
-        ("pages/15_Agenda_Lideres.py",          "   ↳ Agenda de líderes"),
-        ("pages/13_Briefing_Diario.py",         "⬡  Briefing Diario"),
-        ("pages/18_War_Room_Espana.py",         "⚔  War Room"),
-        ("pages/21_Opposition_Research.py",     "   ↳ Opposition Research"),
-        ("pages/22_Coordinacion_Campana.py",    "   ↳ Coordinación Campaña"),
-        ("pages/23_Memoria_Institucional.py",   "   ↳ Memoria Institucional"),
-    ],
-    "modelos_datos": [
-        ("pages/5_Agentes_LLM.py",             "◈  Agentes LLM"),
-        ("pages/6_Riesgo.py",                  "◎  Riesgo Político"),
-        ("pages/7_Validacion.py",              "◉  Validación"),
-        ("pages/8_Tiempo_Real.py",             "⬡  Tiempo Real"),
-        ("pages/12_Macroeconomia.py",          "◈  Macroeconomía"),
-        ("pages/17_Nowcasting_Component.py",   "⊕  Nowcasting Avanzado"),
-    ],
-}
+# ── Nueva arquitectura simplificada: 8 secciones principales ─────────────────
+# Cada sección es una mega-página con múltiples tabs internos.
+# Las 27 páginas heredadas siguen accesibles desde cada sección.
 
 SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
-    ("pages/0_Pagina_Inicial.py",       "⌂  Página inicial"),
-    ("pages/1_Mapa_Electoral.py",       "◈  Mapa electoral"),
-    ("pages/2_Nowcasting.py",           "◐  Nowcasting"),
-    ("pages/3_Escenarios.py",           "◎  Escenarios"),
-    ("pages/18_War_Room_Espana.py",     "⚔  War room"),
-    ("pages/26_Centro_Operaciones.py",  "⬢  Centro operaciones"),
-    ("pages/13_Briefing_Diario.py",     "⬡  Briefing diario"),
-    ("pages/10_Prensa_Agenda.py",       "◎  Prensa y agenda"),
-    ("pages/9_Indices_Politeia.py",     "◈  Índices"),
+    ("pages/N0_Inicio.py",          "🏠  Inicio"),
+    ("pages/N1_Electoral.py",       "🗳️   Electoral"),
+    ("pages/N2_Inteligencia.py",    "🧠  Inteligencia"),
+    ("pages/N3_Medios.py",          "📰  Medios & Narrativa"),
+    ("pages/N4_Institucional.py",   "🏛️   Institucional"),
+    ("pages/N5_Campana.py",         "⚔️   Campaña"),
+    ("pages/N6_Economia.py",        "📈  Economía"),
+    ("pages/N7_Laboratorio.py",     "🔬  Laboratorio"),
 ]
 
-SIDEBAR_ADVANCED_GROUPS: list[tuple[str, list[tuple[str, str]]]] = [
-    (
-        "Campaña y Operaciones",
-        [
-            ("pages/22_Coordinacion_Campana.py", "↳ Coordinación campaña"),
-            ("pages/23_Memoria_Institucional.py", "↳ Memoria institucional"),
-            ("pages/21_Opposition_Research.py", "↳ Opposition research"),
-            ("pages/19_Impacto_Campana.py", "↳ Impacto de campaña"),
-        ],
-    ),
-    (
-        "Medios, Narrativa y Voto",
-        [
-            ("pages/24_Tracker_Narrativas.py",  "↳ Tracker narrativas"),
-            ("pages/20_Monitor_Medios_RRSS.py", "↳ Monitor medios RRSS"),
-            ("pages/14_Monitor_Sentimiento.py", "↳ Monitor sentimiento"),
-            ("pages/25_Voto_Blando.py",         "↳ Voto blando"),
-        ],
-    ),
-    (
-        "Modelos y Sistema",
-        [
-            ("pages/4_Coaliciones.py",          "↳ Coaliciones"),
-            ("pages/11_Congreso_Institucional.py", "↳ Congreso institucional"),
-            ("pages/12_Macroeconomia.py",       "↳ Macroeconomía"),
-            ("pages/5_Agentes_LLM.py",          "↳ Agentes LLM"),
-            ("pages/6_Riesgo.py",               "↳ Riesgo político"),
-            ("pages/7_Validacion.py",           "↳ Validación"),
-            ("pages/8_Tiempo_Real.py",          "↳ Tiempo real"),
-            ("pages/15_Agenda_Lideres.py",      "↳ Agenda líderes"),
-            ("pages/16_Fichas_Politicos.py",    "↳ Fichas políticos"),
-            ("pages/17_Nowcasting_Component.py","↳ Nowcasting avanzado"),
-            ("pages/26_Centro_Operaciones.py", "↳ Centro operaciones"),
-        ],
-    ),
+# Páginas heredadas — accesibles para compatibilidad
+SIDEBAR_LEGACY_LINKS: list[tuple[str, str]] = [
+    ("pages/0_Pagina_Inicial.py",       "Página inicial (v1)"),
+    ("pages/1_Mapa_Electoral.py",       "Mapa Electoral"),
+    ("pages/2_Nowcasting.py",           "Nowcasting"),
+    ("pages/3_Escenarios.py",           "Escenarios"),
+    ("pages/4_Coaliciones.py",          "Coaliciones"),
+    ("pages/5_Agentes_LLM.py",          "Agentes LLM"),
+    ("pages/6_Riesgo.py",               "Riesgo político"),
+    ("pages/7_Validacion.py",           "Validación"),
+    ("pages/8_Tiempo_Real.py",          "Tiempo real"),
+    ("pages/9_Indices_Politeia.py",     "Índices"),
+    ("pages/10_Prensa_Agenda.py",       "Prensa & Agenda"),
+    ("pages/11_Congreso_Institucional.py", "Congreso"),
+    ("pages/12_Macroeconomia.py",       "Macroeconomía"),
+    ("pages/13_Briefing_Diario.py",     "Briefing diario"),
+    ("pages/14_Monitor_Sentimiento.py", "Monitor sentimiento"),
+    ("pages/15_Agenda_Lideres.py",      "Agenda líderes"),
+    ("pages/16_Fichas_Politicos.py",    "Fichas políticos"),
+    ("pages/17_Nowcasting_Component.py","Nowcasting avanzado"),
+    ("pages/18_War_Room_Espana.py",     "War Room"),
+    ("pages/19_Impacto_Campana.py",     "Impacto campaña"),
+    ("pages/20_Monitor_Medios_RRSS.py", "Monitor RRSS"),
+    ("pages/21_Opposition_Research.py", "Opposition research"),
+    ("pages/22_Coordinacion_Campana.py","Coordinación campaña"),
+    ("pages/23_Memoria_Institucional.py","Memoria institucional"),
+    ("pages/24_Tracker_Narrativas.py",  "Tracker narrativas"),
+    ("pages/25_Voto_Blando.py",         "Voto blando"),
+    ("pages/26_Centro_Operaciones.py",  "Centro operaciones"),
 ]
 
+# Retro-compat alias
 SIDEBAR_MAIN_LINKS: list[tuple[str, str]] = [
-    # Compatibilidad retro para código que itere esta constante.
     *SIDEBAR_CORE_LINKS,
-    ("pages/4_Coaliciones.py",          "⬢  Coaliciones"),
-    ("pages/24_Tracker_Narrativas.py",  "◎  Tracker narrativas"),
-    ("pages/25_Voto_Blando.py",         "◎  Voto blando"),
 ]
+
+PAGES_NAV: dict[str, list] = {
+    "principal": SIDEBAR_CORE_LINKS,
+    "legacy": SIDEBAR_LEGACY_LINKS,
+}
+
+# Vacío para que el código antiguo no explote si itera SIDEBAR_ADVANCED_GROUPS
+SIDEBAR_ADVANCED_GROUPS: list[tuple[str, list[tuple[str, str]]]] = []
 
 
 def _ensure_pages_bridge() -> None:
@@ -544,20 +513,39 @@ def aplicar_estilos():
 
     /* ── Sidebar ──────────────────────────────────────────────────── */
     [data-testid="stSidebar"] {{
-        background: {BG2} !important;
+        background: linear-gradient(180deg, {BG2} 0%, #0A0F1C 100%) !important;
         border-right: 1px solid {BORDER} !important;
+        min-width: 220px !important;
     }}
     [data-testid="stSidebar"] * {{
         color: {TEXT2} !important;
     }}
+    /* Página-link principal (8 módulos) */
     [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"] {{
-        border-radius: 6px;
-        padding: .35rem .6rem !important;
-        transition: all .15s ease;
+        border-radius: 8px !important;
+        padding: .55rem .75rem !important;
+        margin: .15rem 0 !important;
+        font-size: .82rem !important;
+        font-weight: 600 !important;
+        letter-spacing: .02em !important;
+        transition: all .18s ease !important;
+        border: 1px solid transparent !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: .5rem !important;
     }}
     [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {{
-        background: {CYAN}18 !important;
+        background: {CYAN}15 !important;
         color: {CYAN} !important;
+        border-color: {CYAN}33 !important;
+        box-shadow: 0 0 12px {CYAN}15 !important;
+    }}
+    [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"][aria-current="page"],
+    [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"].active {{
+        background: linear-gradient(135deg, {CYAN}20, {BLUE}18) !important;
+        color: {CYAN} !important;
+        border-color: {CYAN}44 !important;
+        box-shadow: 0 0 16px {CYAN}20 !important;
     }}
 
     /* ── Metrics ──────────────────────────────────────────────────── */
@@ -886,25 +874,26 @@ def sidebar_nav():
         """, unsafe_allow_html=True)
 
         st.markdown(
-            f'<div style="font-size:.58rem;color:{MUTED};font-weight:700;'
-            f'letter-spacing:.12em;text-transform:uppercase;margin:.6rem .2rem .35rem">Navegación</div>',
+            f'<div style="font-size:.55rem;color:{MUTED};font-weight:800;'
+            f'letter-spacing:.14em;text-transform:uppercase;margin:.8rem .2rem .4rem;'
+            f'padding-left:.2rem">Módulos principales</div>',
             unsafe_allow_html=True,
         )
 
+        # Renderizar las 8 secciones principales con estilo mejorado
         _render_page_links(SIDEBAR_CORE_LINKS)
 
-        show_advanced = st.checkbox(
-            "Mostrar módulos avanzados",
-            value=bool(st.session_state.get("sidebar_show_advanced", False)),
-            key="sidebar_show_advanced",
-            help="Muestra módulos de operación avanzada y análisis técnico.",
-        )
-        if show_advanced:
-            for group_label, group_links in SIDEBAR_ADVANCED_GROUPS:
-                with st.expander(group_label, expanded=False):
-                    _render_page_links(group_links)
-        else:
-            st.caption("Vista simplificada activa")
+        st.markdown(f'<div style="height:1px;background:{BORDER};margin:.8rem 0"></div>',
+                    unsafe_allow_html=True)
+
+        # Páginas heredadas en expander colapsado
+        with st.expander("📂  Módulos clásicos (v1)", expanded=False):
+            st.markdown(
+                f'<div style="font-size:.7rem;color:{MUTED};margin-bottom:.5rem">'
+                f'Páginas individuales — acceso directo</div>',
+                unsafe_allow_html=True,
+            )
+            _render_page_links(SIDEBAR_LEGACY_LINKS)
 
         _badge_alertas_sidebar()
 
