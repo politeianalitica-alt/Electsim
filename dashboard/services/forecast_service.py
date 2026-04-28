@@ -31,7 +31,10 @@ warnings.filterwarnings("ignore")
 
 try:
     from statsforecast import StatsForecast  # type: ignore
-    from statsforecast.models import AutoARIMA, ETS, Theta, CES  # type: ignore
+    from statsforecast.models import AutoARIMA, AutoETS, AutoTheta  # type: ignore
+    # Aliases para compatibilidad con código legacy
+    ETS = AutoETS
+    Theta = AutoTheta
     _STATSFORECAST_OK = True
 except ImportError:
     _STATSFORECAST_OK = False
@@ -123,7 +126,7 @@ def _forecast_statsforecast(serie, horizonte, freq, nivel_confianza, partido, ul
         niveles = [int(nivel_confianza), 80] if nivel_confianza != 80 else [80]
 
         sf = StatsForecast(
-            models=[AutoARIMA(season_length=1), ETS(season_length=1), Theta()],
+            models=[AutoARIMA(season_length=1), AutoETS(season_length=1), AutoTheta()],
             freq=freq,
             n_jobs=1,
         )

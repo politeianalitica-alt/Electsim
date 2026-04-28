@@ -1,12 +1,7 @@
-"""LLM opcional para narrativas de perfil y análisis de campaña (Anthropic Claude).
+"""LLM para narrativas de perfil y análisis de campaña.
 
-Fallback determinístico cuando no hay ANTHROPIC_API_KEY. La integración
-sigue el mismo patrón que _safe_llm en dashboard/services/opposition.py.
-
-Inspiración:
-- _safe_llm() de opposition.py (mismo proyecto)
-- AnthropicModel de prefect-main/examples/ai_database_cleanup_with_approval.py
-  (patrón: client = anthropic.Anthropic(api_key=...), messages.create())
+Prioridad: Ollama local (politeia-brain) → Claude API → vacío.
+Sin coste cuando usa Ollama. Fallback determinístico si ninguno disponible.
 """
 from __future__ import annotations
 
@@ -29,18 +24,32 @@ _SYSTEM_CONSULTOR = (
 
 
 def llm_disponible() -> bool:
-    """True si ANTHROPIC_API_KEY está configurada en el entorno."""
+    """True si hay algún modelo disponible (Ollama o Claude API)."""
+    try:
+        from dashboard.services.llm_local import esta_disponible
+        if esta_disponible():
+            return True
+    except Exception:
+        pass
     return bool(os.getenv("ANTHROPIC_API_KEY", "").strip())
 
 
 def _llamar(prompt: str, *, max_tokens: int = 800, system: str = _SYSTEM_ANALISTA) -> str:
-    """Llama a la API de Anthropic. Retorna '' si no hay credenciales o falla."""
+    """Llama al mejor modelo disponible. Prioridad: Ollama > Claude API."""
+    # 1. Intentar Ollama local (sin coste, sin API key)
+    try:
+        from dashboard.services.llm_local import chat, esta_disponible
+        if esta_disponible():
+            return chat(prompt, sistema=system) or ""
+    except Exception:
+        pass
+
+    # 2. Fallback: Claude API
     api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
     if not api_key:
         return ""
     try:
         import anthropic  # type: ignore
-
         client = anthropic.Anthropic(api_key=api_key)
         msg = client.messages.create(
             model=os.getenv("ANTHROPIC_MODEL", _MODEL_DEFAULT),

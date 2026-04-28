@@ -67,6 +67,7 @@ SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     ("pages/N5_Campana.py",         "⚔️   Campaña"),
     ("pages/N6_Economia.py",        "📈  Economía"),
     ("pages/N7_Laboratorio.py",     "🔬  Laboratorio"),
+    ("pages/N8_ChatIA.py",          "🤖  Politeia Brain"),
 ]
 
 # Páginas heredadas — accesibles para compatibilidad
@@ -98,6 +99,7 @@ SIDEBAR_LEGACY_LINKS: list[tuple[str, str]] = [
     ("pages/24_Tracker_Narrativas.py",  "Tracker narrativas"),
     ("pages/25_Voto_Blando.py",         "Voto blando"),
     ("pages/26_Centro_Operaciones.py",  "Centro operaciones"),
+    ("pages/27_IA_Local.py",            "IA local"),
 ]
 
 # Retro-compat alias

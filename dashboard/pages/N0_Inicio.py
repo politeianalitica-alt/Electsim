@@ -17,12 +17,20 @@ import plotly.express as px
 import streamlit as st
 
 from dashboard.shared import (
-    sidebar_nav, aplicar_estilos,
+    sidebar_nav, mostrar_alertas_pagina, aplicar_estilos,
     BG, BG2, BG3, BORDER, CYAN, CYAN2, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
     COLORES_PARTIDOS, kpi_card, section_header, safe_float,
 )
 import dashboard.db as _db
+
+# ── IA Local ──────────────────────────────────────────────────────────────────
+try:
+    from dashboard.services import llm_local as _brain
+    _BRAIN_OK = _brain.esta_disponible()
+except Exception:
+    _brain = None  # type: ignore
+    _BRAIN_OK = False
 
 st.set_page_config(
     page_title="ElectSim España",
@@ -31,6 +39,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 sidebar_nav()
+mostrar_alertas_pagina("inicio")
 
 # ── Estado y datos ────────────────────────────────────────────────────────────
 @st.cache_data(ttl=300)
@@ -88,17 +97,21 @@ st.markdown(f"""
         ElectSim <span style="color:{CYAN}">España</span>
       </h1>
       <div style="color:{TEXT2}; font-size:.92rem; margin-top:.5rem">
-        Inteligencia electoral en tiempo real · Powered by Anthropic Claude
+        Inteligencia electoral en tiempo real · Powered by Politeia Brain
       </div>
     </div>
     <div style="text-align:right">
       <div style="font-size:.65rem; color:{MUTED}; font-family:'JetBrains Mono',monospace">
         {ahora.strftime('%d %b %Y — %H:%M UTC')}
       </div>
-      <div style="margin-top:.3rem">
+      <div style="margin-top:.3rem;display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end">
         <span style="background:{GREEN}22; color:{GREEN}; border:1px solid {GREEN}44;
                border-radius:20px; padding:.2rem .7rem; font-size:.7rem; font-weight:700">
           ● ACTIVO
+        </span>
+        <span style="background:{'#8B5CF6'}22; color:{'#8B5CF6'}; border:1px solid {'#8B5CF6'}44;
+               border-radius:20px; padding:.2rem .7rem; font-size:.7rem; font-weight:700">
+          🧠 {('politeia-brain' if _BRAIN_OK else 'sin IA')}
         </span>
       </div>
     </div>
@@ -397,6 +410,7 @@ _QUICK_LINKS = [
     ("pages/N5_Campana.py",      "⚔️",  "Campaña",       "War Room, simulador, voto blando",          RED),
     ("pages/N6_Economia.py",     "📈",  "Economía",      "Macro, indicadores, ESG, correlaciones",    GREEN),
     ("pages/N7_Laboratorio.py",  "🔬",  "Laboratorio",   "Modelos causales, Bayesianos, validación",  "#F97316"),
+    ("pages/N8_ChatIA.py",       "🤖",  "Brain",         "Chat IA, análisis autónomo, RAG local",     PURPLE),
 ]
 
 cols_ql = st.columns(len(_QUICK_LINKS))
@@ -409,3 +423,50 @@ for col, (page, icon, label, desc, color) in zip(cols_ql, _QUICK_LINKS):
             f'<div style="font-size:.65rem;color:{MUTED};margin-top:-.3rem;line-height:1.3">{desc}</div>',
             unsafe_allow_html=True,
         )
+
+# ── Panel Politeia Brain ──────────────────────────────────────────────────────
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown(f"""
+<div style="background:linear-gradient(135deg,{PURPLE}11,{CYAN}08,{BG2});
+            border:1px solid {PURPLE}33; border-radius:16px; padding:1.2rem 1.5rem;">
+  <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem">
+    <span style="font-size:1.4rem">🧠</span>
+    <div>
+      <div style="font-size:.75rem;font-weight:900;color:{PURPLE};text-transform:uppercase;letter-spacing:.1em">
+        Politeia Brain — Insight del día
+      </div>
+      <div style="font-size:.7rem;color:{TEXT2}">
+        {'Modelo activo: ' + _brain.modelo_principal() if _BRAIN_OK else 'IA local no disponible'}
+      </div>
+    </div>
+    <div style="margin-left:auto">
+      {'<span style="background:' + GREEN + '22;color:' + GREEN + ';border:1px solid ' + GREEN + '44;border-radius:20px;padding:.2rem .6rem;font-size:.7rem">● online</span>'
+       if _BRAIN_OK else
+       '<span style="background:#EF444422;color:#EF4444;border:1px solid #EF444444;border-radius:20px;padding:.2rem .6rem;font-size:.7rem">offline</span>'}
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+if _BRAIN_OK:
+    if st.button("✨ Generar insight del panorama electoral", key="btn_brain_inicio"):
+        with st.spinner("🧠 Politeia Brain analizando..."):
+            contexto = _brain.construir_contexto_dashboard(
+                escanos={"PP": 132, "PSOE": 110, "VOX": 38, "SUMAR": 31, "Resto": 39}
+            )
+            insight = _brain.generar_insight("sondeo", contexto)
+        st.markdown(f"""
+        <div style="background:{BG2};border:1px solid {PURPLE}33;border-radius:12px;
+                    padding:1.2rem;margin-top:.8rem;border-left:4px solid {PURPLE}">
+          <div style="font-size:.7rem;color:{PURPLE};font-weight:700;text-transform:uppercase;
+                      letter-spacing:.1em;margin-bottom:.5rem">🧠 Análisis Brain</div>
+          <div style="font-size:.85rem;color:{TEXT};line-height:1.7">{insight}</div>
+        </div>
+        """, unsafe_allow_html=True)
+else:
+    st.markdown(f"""
+    <div style="padding:.6rem 1rem;font-size:.8rem;color:{MUTED}">
+      Inicia Ollama para activar los insights automáticos:
+      <code style="background:{BG3};padding:.1rem .4rem;border-radius:4px;color:{CYAN}">ollama serve</code>
+    </div>
+    """, unsafe_allow_html=True)

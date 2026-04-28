@@ -125,19 +125,39 @@ with tab_indices:
 with tab_briefing:
     section_header("BRIEFING DIARIO GENERADO POR IA", CYAN)
 
+    # Prioridad: Ollama local (politeia-brain) > Claude API
     try:
-        from dashboard.services import llm_narrativas as _llm
-        _LLM_OK = _llm.llm_disponible()
+        from dashboard.services import llm_local as _brain_lab
+        _LLM_OK = _brain_lab.esta_disponible()
+        _BRAIN_MODELO = _brain_lab.modelo_principal() if _LLM_OK else ""
     except Exception:
+        _brain_lab = None  # type: ignore
         _LLM_OK = False
+        _BRAIN_MODELO = ""
+
+    # Fallback a narrativas (Claude API)
+    if not _LLM_OK:
+        try:
+            from dashboard.services import llm_narrativas as _llm_narr
+            _LLM_OK = _llm_narr.llm_disponible()
+            _BRAIN_MODELO = "Claude API"
+        except Exception:
+            pass
 
     today_str = pd.Timestamp.today().strftime("%d de %B de %Y")
 
-    if not _LLM_OK:
-        st.info("Configure ANTHROPIC_API_KEY para activar el briefing generativo.")
-        st.page_link("pages/13_Briefing_Diario.py", label="→ Briefing Diario (v1)")
+    # Indicador del modelo activo
+    if _LLM_OK:
+        st.markdown(f"""
+        <div style="background:{GREEN}11;border:1px solid {GREEN}33;border-radius:8px;
+                    padding:.5rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">
+          🧠 Modelo activo: <strong>{_BRAIN_MODELO}</strong> — sin coste de API
+        </div>
+        """, unsafe_allow_html=True)
 
-        # Demo briefing
+    if not _LLM_OK:
+        st.warning("Activa Ollama (`ollama serve`) o configura ANTHROPIC_API_KEY para el briefing.")
+        st.page_link("pages/13_Briefing_Diario.py", label="→ Briefing Diario (v1)")
         st.markdown(f"""
         <div style="background:{BG2};border:1px solid {CYAN}33;border-radius:12px;
                     padding:1.5rem;border-left:4px solid {CYAN}">
@@ -160,30 +180,48 @@ with tab_briefing:
         </div>
         """, unsafe_allow_html=True)
     else:
-        if st.button("🤖 Generar briefing del día", type="primary", key="btn_briefing"):
-            _bk = f"briefing_{today_str}"
-            if _bk not in st.session_state:
-                with st.spinner(f"Generando briefing para {today_str}..."):
+        col_bf1, col_bf2 = st.columns(2)
+        with col_bf1:
+            if st.button("🤖 Generar briefing del día", type="primary", key="btn_briefing"):
+                _bk = f"briefing_{today_str}"
+                with st.spinner(f"🧠 {_BRAIN_MODELO} generando briefing para {today_str}..."):
                     prompt = (
                         f"Genera un briefing ejecutivo del panorama político español para {today_str}. "
                         "Incluye: 1) Estado del escenario electoral, 2) Principales vectores de riesgo, "
-                        "3) Tendencias en medios, 4) Calendario clave. "
-                        "Formato: ejecutivo, estructurado, en español, máximo 400 palabras."
+                        "3) Tendencias en medios, 4) Calendario clave próximo. "
+                        "Formato: ejecutivo, estructurado con headers markdown, máximo 400 palabras."
                     )
-                    resp = _llm._llamar(prompt, max_tokens=600, system="Eres un analista político senior especializado en España.")
+                    if _brain_lab:
+                        resp = _brain_lab.chat(prompt)
+                    else:
+                        resp = _llm_narr._llamar(prompt, max_tokens=600)
                     st.session_state[_bk] = resp
-            briefing = st.session_state.get(_bk, "")
-            if briefing:
-                st.markdown(f"""
-                <div style="background:{BG2};border:1px solid {CYAN}33;border-radius:12px;
-                            padding:1.5rem;border-left:4px solid {CYAN}">
-                  <div style="font-size:.6rem;color:{CYAN};font-weight:700;letter-spacing:.15em;
-                               text-transform:uppercase;margin-bottom:.6rem">
-                    BRIEFING — {today_str.upper()}
-                  </div>
-                """, unsafe_allow_html=True)
-                st.markdown(briefing)
-                st.markdown("</div>", unsafe_allow_html=True)
+        with col_bf2:
+            if st.button("📰 Briefing desde noticias reales", key="btn_briefing_news"):
+                _bk2 = f"briefing_news_{today_str}"
+                with st.spinner("Cargando noticias y generando briefing..."):
+                    try:
+                        from dashboard.services.news_crawler import cargar_noticias
+                        news = cargar_noticias(max_noticias=20)
+                        resp2 = _brain_lab.resumir_noticias(news) if _brain_lab else ""
+                        st.session_state[_bk2] = resp2
+                    except Exception as e:
+                        st.session_state[_bk2] = f"Error: {e}"
+
+        briefing = st.session_state.get(f"briefing_{today_str}", "") or st.session_state.get(f"briefing_news_{today_str}", "")
+        if briefing:
+            st.markdown(f"""
+<div style="background:{BG2};border:1px solid {CYAN}33;border-radius:12px;
+            padding:1.5rem;border-left:4px solid {CYAN}">
+  <div style="font-size:.6rem;color:{CYAN};font-weight:700;letter-spacing:.15em;
+               text-transform:uppercase;margin-bottom:.6rem">
+    BRIEFING — {today_str.upper()} · {_BRAIN_MODELO.upper()}
+  </div>
+""", unsafe_allow_html=True)
+            st.markdown(briefing)
+            st.markdown("</div>", unsafe_allow_html=True)
+        else:
+            st.info("Pulsa los botones de arriba para generar un briefing.")
 
 
 with tab_causal:

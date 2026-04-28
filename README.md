@@ -149,6 +149,21 @@ Estos artefactos son de ejecución local/operativa y no deben commitearse.
 
 Las tareas están preparadas como esqueleto: implemente extractores en `etl/sources/` y loaders en `etl/loaders/`.
 
+## IA local sobre scrapers
+
+Politeia incluye una capa local de inteligencia en `agents.local_intelligence`: ingiere CSV/JSON/JSONL/Parquet/TXT/HTML de scrapers, extrae hechos electorales, políticos, económicos y sociales, mantiene una ontología local y expone chatbot/API.
+
+```bash
+python -m agents.local_intelligence ingest data/raw --max-records 500
+python -m agents.local_intelligence chat "Resume las señales electorales y económicas" --no-llm
+python -m agents.git_amigos_indexer build
+python bin/setup_ollama_brain.py
+python -m agents.backend_manager chat "Qué repos de gits amigos uso para montar el backend IA?"
+uvicorn api.main:app --reload
+```
+
+Ollama queda configurado como `politeia-brain:latest` sobre `qwen2.5:7b`, con contexto 8192 y memoria persistente. Endpoints: `POST /ai/ingest/path`, `POST /ai/search`, `POST /ai/chat`, `GET /ai/ontology/summary`, `GET /ai/manager/ui`, `POST /ai/manager/chat`. Documentación: `docs/ia_local.md`.
+
 ## Documentación
 
 - Sitio local: `mkdocs serve`

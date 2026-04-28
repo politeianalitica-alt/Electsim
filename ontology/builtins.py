@@ -38,3 +38,44 @@ def semantic_search_posts_action(ctx: dict[str, Any]) -> Any:
         tenant_id=ctx.get("tenant_id", "default"),
         filters=ctx.get("filters") or {},
     )
+
+
+@ActionRegistry.register("local_ai_chat")
+def local_ai_chat_action(ctx: dict[str, Any]) -> Any:
+    tool = ToolRegistry.get("local_ai_chat")
+    return tool(
+        question=ctx.get("question", ctx.get("query", "")),
+        k=int(ctx.get("k", 8)),
+        domain=ctx.get("domain"),
+        use_llm=bool(ctx.get("use_llm", True)),
+        allow_tools=bool(ctx.get("allow_tools", True)),
+    )
+
+
+@ActionRegistry.register("local_ai_ingest_path")
+def local_ai_ingest_path_action(ctx: dict[str, Any]) -> Any:
+    tool = ToolRegistry.get("local_ai_ingest_path")
+    return tool(
+        path=ctx.get("path", ""),
+        max_records=ctx.get("max_records"),
+    )
+
+
+@ActionRegistry.register("local_ai_ontology_summary")
+def local_ai_ontology_summary_action(ctx: dict[str, Any]) -> Any:
+    _ = ctx
+    tool = ToolRegistry.get("local_ai_ontology_summary")
+    return tool()
+
+
+@ActionRegistry.register("backend_manager_chat")
+def backend_manager_chat_action(ctx: dict[str, Any]) -> Any:
+    tool = ToolRegistry.get("backend_manager_chat")
+    return tool(
+        question=ctx.get("question", ctx.get("query", "")),
+        k=int(ctx.get("k", 10)),
+        provider=ctx.get("provider"),
+        use_llm=bool(ctx.get("use_llm", True)),
+        repo=ctx.get("repo"),
+        domain=ctx.get("domain"),
+    )

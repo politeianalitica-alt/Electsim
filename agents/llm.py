@@ -19,6 +19,24 @@ _MAX_RETRIES = 4
 _BASE_DELAY = 1.5
 
 
+def _safe_int(value: Any, default: int) -> int:
+    try:
+        if value is None or value == "":
+            return default
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _safe_float(value: Any, default: float) -> float:
+    try:
+        if value is None or value == "":
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
 def _with_retry(fn: Callable[..., str], *args: Any, **kwargs: Any) -> str:
     last_exc: Exception | None = None
     for attempt in range(_MAX_RETRIES):
@@ -176,12 +194,31 @@ class OllamaClient:
         return self.model
 
     def _post_once(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
+        max_tokens = _safe_int(kwargs.get("max_tokens"), _safe_int(os.environ.get("ELECTSIM_OLLAMA_NUM_PREDICT"), 1024))
+        options: dict[str, Any] = {
+            "temperature": _safe_float(
+                kwargs.get("temperature"),
+                _safe_float(os.environ.get("ELECTSIM_OLLAMA_TEMPERATURE"), 0.4),
+            ),
+            "num_ctx": _safe_int(kwargs.get("num_ctx"), _safe_int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX"), 8192)),
+            "num_predict": max_tokens,
+        }
+        top_p = kwargs.get("top_p", os.environ.get("ELECTSIM_OLLAMA_TOP_P"))
+        if top_p not in (None, ""):
+            options["top_p"] = _safe_float(top_p, 0.9)
+        repeat_penalty = kwargs.get("repeat_penalty", os.environ.get("ELECTSIM_OLLAMA_REPEAT_PENALTY"))
+        if repeat_penalty not in (None, ""):
+            options["repeat_penalty"] = _safe_float(repeat_penalty, 1.05)
+
         payload = {
             "model": self.model,
             "messages": messages,
             "stream": False,
-            "options": {"temperature": float(kwargs.get("temperature", 0.4))},
+            "options": options,
         }
+        keep_alive = str(kwargs.get("keep_alive") or os.environ.get("ELECTSIM_OLLAMA_KEEP_ALIVE") or "").strip()
+        if keep_alive:
+            payload["keep_alive"] = keep_alive
         with httpx.Client(timeout=self.timeout_s) as client:
             r = client.post(f"{self.base_url}/api/chat", content=json.dumps(payload))
             r.raise_for_status()
@@ -218,10 +255,23 @@ class StubLLMClient:
 
 
 class EmbeddingClient:
-    def __init__(self, api_key: str | None = None, model: str | None = None, base_url: str | None = None) -> None:
+    def __init__(
+        self,
+        api_key: str | None = None,
+        model: str | None = None,
+        base_url: str | None = None,
+        provider: str | None = None,
+    ) -> None:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         self.model = model or os.environ.get("ELECTSIM_EMBEDDING_MODEL", "text-embedding-3-small")
         self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
+        self.provider = (
+            provider
+            or os.environ.get("ELECTSIM_EMBEDDING_PROVIDER")
+            or ("openai" if self.api_key else "stub")
+        ).strip().lower()
+        self.ollama_model = os.environ.get("ELECTSIM_OLLAMA_EMBEDDING_MODEL", "nomic-embed-text")
+        self.ollama_base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
         self._encoding = tiktoken.get_encoding("cl100k_base")
 
     def _truncate_for_embeddings(self, text_input: str, max_tokens: int = 8000) -> str:
@@ -232,10 +282,10 @@ class EmbeddingClient:
 
     def embed_text(self, text_input: str) -> list[float]:
         text_input = self._truncate_for_embeddings(str(text_input))
-        if not self.api_key:
-            # fallback estable para entornos sin clave (tests locales)
-            seed = sum(ord(ch) for ch in text_input) % 997
-            return [((seed + i) % 97) / 97.0 for i in range(1536)]
+        if self.provider == "ollama":
+            return self._embed_text_ollama(text_input)
+        if not self.api_key or self.provider == "stub":
+            return self._fallback_embedding(text_input)
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         payload = {"model": self.model, "input": text_input}
         with httpx.Client(timeout=60.0) as client:
@@ -246,9 +296,10 @@ class EmbeddingClient:
 
     async def embed_text_async(self, text_input: str) -> list[float]:
         text_input = self._truncate_for_embeddings(str(text_input))
-        if not self.api_key:
-            seed = sum(ord(ch) for ch in text_input) % 997
-            return [((seed + i) % 97) / 97.0 for i in range(1536)]
+        if self.provider == "ollama":
+            return await self._embed_text_ollama_async(text_input)
+        if not self.api_key or self.provider == "stub":
+            return self._fallback_embedding(text_input)
         headers = {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         payload = {"model": self.model, "input": text_input}
         async with httpx.AsyncClient(timeout=60.0) as client:
@@ -256,6 +307,58 @@ class EmbeddingClient:
             response.raise_for_status()
         data = response.json()
         return list(data["data"][0]["embedding"])
+
+    def _fallback_embedding(self, text_input: str) -> list[float]:
+        seed = sum(ord(ch) for ch in text_input) % 997
+        return [((seed + i) % 97) / 97.0 for i in range(1536)]
+
+    def _parse_ollama_embedding(self, data: dict[str, Any]) -> list[float]:
+        if isinstance(data.get("embedding"), list):
+            return [float(x) for x in data["embedding"]]
+        embeddings = data.get("embeddings")
+        if isinstance(embeddings, list) and embeddings and isinstance(embeddings[0], list):
+            return [float(x) for x in embeddings[0]]
+        raise RuntimeError("Formato de embedding Ollama invalido")
+
+    def _embed_text_ollama(self, text_input: str) -> list[float]:
+        payload = {
+            "model": self.ollama_model,
+            "input": text_input,
+            "keep_alive": os.environ.get("ELECTSIM_OLLAMA_KEEP_ALIVE", "30m"),
+        }
+        try:
+            with httpx.Client(timeout=120.0) as client:
+                response = client.post(f"{self.ollama_base_url}/api/embed", json=payload)
+                if response.status_code == 404:
+                    response = client.post(
+                        f"{self.ollama_base_url}/api/embeddings",
+                        json={"model": self.ollama_model, "prompt": text_input},
+                    )
+                response.raise_for_status()
+            return self._parse_ollama_embedding(response.json())
+        except Exception as exc:
+            logger.warning("Embedding Ollama no disponible; usando fallback local: %s", exc)
+            return self._fallback_embedding(text_input)
+
+    async def _embed_text_ollama_async(self, text_input: str) -> list[float]:
+        payload = {
+            "model": self.ollama_model,
+            "input": text_input,
+            "keep_alive": os.environ.get("ELECTSIM_OLLAMA_KEEP_ALIVE", "30m"),
+        }
+        try:
+            async with httpx.AsyncClient(timeout=120.0) as client:
+                response = await client.post(f"{self.ollama_base_url}/api/embed", json=payload)
+                if response.status_code == 404:
+                    response = await client.post(
+                        f"{self.ollama_base_url}/api/embeddings",
+                        json={"model": self.ollama_model, "prompt": text_input},
+                    )
+                response.raise_for_status()
+            return self._parse_ollama_embedding(response.json())
+        except Exception as exc:
+            logger.warning("Embedding Ollama no disponible; usando fallback local: %s", exc)
+            return self._fallback_embedding(text_input)
 
 
 _embedding_client: EmbeddingClient | None = None
