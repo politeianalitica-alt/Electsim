@@ -82,7 +82,7 @@ def _gen_mensajes(partido: str, n: int = 12) -> pd.DataFrame:
         f"Empleo de calidad para la clase trabajadora",
         f"Apoyo a las PYMES y autónomos",
     ]
-    fechas = [datetime.now() - timedelta(days=rng.integers(1, 30)) for _ in range(n)]
+    fechas = [datetime.now() - timedelta(days=int(rng.integers(1, 30))) for _ in range(n)]
     return pd.DataFrame({
         "mensaje": frases[:n],
         "canal": rng.choice(CANALES, n),
@@ -405,13 +405,11 @@ with tab2:
                     r=vals_radar,
                     theta=cats,
                     fill="toself",
-                    fillcolor="rgba(233,69,96,0.2)",
                     line=dict(color="#e94560", width=2),
                     name="Mensaje testeado",
                 ))
                 fig_radar.update_layout(
                     polar=dict(
-                        bgcolor="#0d1117",
                         radialaxis=dict(visible=True, range=[0, 10], color="#555", gridcolor="#333"),
                         angularaxis=dict(color="#ccc", gridcolor="#333"),
                     ),
