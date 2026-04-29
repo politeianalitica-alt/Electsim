@@ -1,17 +1,23 @@
 """
-ELECTSIM — Mapa de Actores
-============================
-Red de actores politicos, empresariales, mediaticos y de influencia en Espana.
-Grafo force-directed con pyvis, perfiles detallados, analisis de red y
-consultas en lenguaje natural via IA.
+ELECTSIM — Mapa de Actores (v2 — Motor Dinámico)
+=================================================
+Red de actores políticos, empresariales, mediáticos y de influencia.
+Grafo force-directed (pyvis) con datos reales de actors_service,
+métricas networkx, scraping Wikipedia/Wikidata, NER via Ollama,
+y pipeline de actualización automática en background.
+
+Inspirado en:
+  • Osintgraph (Neo4j + LLM OSINT agent)
+  • NER-for-News-Headlines (NER en titulares)
+  • news-briefing-generator (clustering + Ollama)
+  • congreso-scrapper (modelo de datos parlamentarios)
 """
 from __future__ import annotations
-import sys
-import html
+
 import json
-import unicodedata
+import sys
+import time
 from collections import Counter
-from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -19,6 +25,7 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 import streamlit.components.v1 as components
@@ -26,9 +33,8 @@ import streamlit.components.v1 as components
 from dashboard.shared import (
     sidebar_nav, mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
-    TEXT, TEXT2, MUTED, section_header, kpi_card, COLORES_PARTIDOS,
+    TEXT, TEXT2, MUTED, section_header, kpi_card,
 )
-import dashboard.db as _db
 
 st.set_page_config(
     page_title="Mapa de Actores — Politeia",
@@ -41,1099 +47,1147 @@ mostrar_alertas_pagina("D2_Actores")
 
 # ── Servicios ─────────────────────────────────────────────────────────────────
 try:
+    from dashboard.services import actors_service as _svc
+    _SVC_OK = True
+except Exception as _e:
+    _SVC_OK = False
+    st.error(f"❌ actors_service no disponible: {_e}")
+    st.stop()
+
+try:
+    from dashboard.services import actors_scraper as _scraper
+    _SCRAPER_OK = True
+except Exception:
+    _SCRAPER_OK = False
+
+try:
     from dashboard.services import llm_local as _llm
     _LLM_OK = _llm.esta_disponible()
 except Exception:
     _LLM_OK = False
 
-# ── CSS ───────────────────────────────────────────────────────────────────────
-st.markdown(f"""
-<style>
-[data-testid="stAppViewContainer"] {{background: {BG};}}
-.actor-profile-header {{
-  background: linear-gradient(135deg, {BG2}, {BG3});
-  border: 1px solid {BORDER}; border-radius: 14px;
-  padding: 1.2rem 1.5rem; margin-bottom: 1rem;
-  display: flex; align-items: center; gap: 1.2rem;
-}}
-.actor-avatar {{
-  width: 56px; height: 56px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.6rem; font-weight: 900; flex-shrink: 0;
-}}
-.actor-name {{
-  font-size: 1.1rem; font-weight: 900; color: {TEXT}; margin-bottom: .2rem;
-}}
-.actor-role {{
-  font-size: .75rem; color: {TEXT2}; margin-bottom: .2rem;
-}}
-.actor-tags {{display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .3rem;}}
-.tag {{
-  font-size: .58rem; font-weight: 800; letter-spacing: .07em;
-  text-transform: uppercase; border-radius: 5px; padding: 2px 7px;
-}}
-.connection-item {{
-  background: {BG2}; border: 1px solid {BORDER};
-  border-radius: 8px; padding: .55rem .85rem; margin-bottom: .35rem;
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: .78rem;
-}}
-.mention-bar-row {{
-  display: flex; align-items: center; gap: .5rem; margin-bottom: .3rem;
-}}
-.mention-bar-bg {{
-  flex: 1; height: 6px; background: {BORDER}; border-radius: 3px; overflow: hidden;
-}}
-.chat-box {{
-  background: linear-gradient(135deg, {CYAN}08, {BG2});
-  border: 1px solid {CYAN}33; border-radius: 12px;
-  padding: 1rem 1.2rem; margin-bottom: .5rem;
-  font-size: .85rem; color: {TEXT}; line-height: 1.6;
-}}
-.centrality-card {{
-  background: {BG2}; border: 1px solid {BORDER};
-  border-top: 2px solid {PURPLE};
-  border-radius: 10px; padding: .8rem 1rem;
-  text-align: center;
-}}
-</style>
-""", unsafe_allow_html=True)
+try:
+    from pyvis.network import Network as _PyvisNetwork
+    _PYVIS_OK = True
+except ImportError:
+    _PYVIS_OK = False
 
-# ── Datos de actores ──────────────────────────────────────────────────────────
-# tipo: politico | empresarial | mediatico | influencia
-# color: segun tipo
-_COLOR_MAP = {
+# ── Paleta por tipo ───────────────────────────────────────────────────────────
+_COLOR_TIPO = {
     "politico":    CYAN,
     "empresarial": AMBER,
     "mediatico":   GREEN,
     "influencia":  PURPLE,
 }
-_ICON_MAP = {
+_ICON_TIPO = {
     "politico":    "🏛️",
     "empresarial": "🏢",
     "mediatico":   "📰",
     "influencia":  "🔮",
 }
-
-ACTORES: list[dict] = [
-    # ── Politicos ─────────────────────────────────────────────────────────────
-    {"id": "sanchez",      "nombre": "Pedro Sanchez",             "tipo": "politico",    "org": "PSOE",   "rol": "Presidente del Gobierno",              "poder": 10, "region": "Nacional"},
-    {"id": "feijoo",       "nombre": "Alberto N. Feijoo",         "tipo": "politico",    "org": "PP",     "rol": "Lider de la Oposicion / PP",           "poder": 9,  "region": "Nacional"},
-    {"id": "abascal",      "nombre": "Santiago Abascal",          "tipo": "politico",    "org": "VOX",    "rol": "Secretario General VOX",               "poder": 7,  "region": "Nacional"},
-    {"id": "diaz_y",       "nombre": "Yolanda Diaz",              "tipo": "politico",    "org": "SUMAR",  "rol": "Ministra Trabajo / Lider SUMAR",        "poder": 7,  "region": "Nacional"},
-    {"id": "puigdemont",   "nombre": "Carles Puigdemont",         "tipo": "politico",    "org": "JUNTS",  "rol": "Lider JUNTS (exilio)",                 "poder": 8,  "region": "Cataluna"},
-    {"id": "junqueras",    "nombre": "Oriol Junqueras",           "tipo": "politico",    "org": "ERC",    "rol": "Lider ERC",                            "poder": 6,  "region": "Cataluna"},
-    {"id": "urkullu",      "nombre": "Inigo Urkullu",             "tipo": "politico",    "org": "PNV",    "rol": "Lendakari / PNV",                      "poder": 7,  "region": "Pais Vasco"},
-    {"id": "otegi",        "nombre": "Arnaldo Otegi",             "tipo": "politico",    "org": "EH Bildu","rol": "Coordinador EH Bildu",               "poder": 6,  "region": "Pais Vasco"},
-    {"id": "mazon",        "nombre": "Carlos Mazon",              "tipo": "politico",    "org": "PP",     "rol": "Pres. Generalitat Valenciana",         "poder": 5,  "region": "Valencia"},
-    {"id": "ayuso",        "nombre": "Isabel D. Ayuso",           "tipo": "politico",    "org": "PP",     "rol": "Presidenta Comunidad Madrid",          "poder": 8,  "region": "Madrid"},
-    {"id": "moreno",       "nombre": "Juan Manuel Moreno",        "tipo": "politico",    "org": "PP",     "rol": "Presidente Junta de Andalucia",        "poder": 7,  "region": "Andalucia"},
-    {"id": "caamaño",      "nombre": "Felix Bolanos",             "tipo": "politico",    "org": "PSOE",   "rol": "Ministro Presidencia",                 "poder": 6,  "region": "Nacional"},
-    # ── Empresariales ─────────────────────────────────────────────────────────
-    {"id": "iberdrola",    "nombre": "Iberdrola",                 "tipo": "empresarial", "org": "Energia","rol": "Corporacion energetica global",        "poder": 9,  "region": "Internacional"},
-    {"id": "santander",    "nombre": "Banco Santander",           "tipo": "empresarial", "org": "Banca",  "rol": "Mayor banco espanol por activos",      "poder": 9,  "region": "Internacional"},
-    {"id": "telefonica",   "nombre": "Telefonica",                "tipo": "empresarial", "org": "Teleco", "rol": "Operador teleco e infraestructura",    "poder": 8,  "region": "Internacional"},
-    {"id": "inditex",      "nombre": "Inditex / Amancio Ortega",  "tipo": "empresarial", "org": "Moda",   "rol": "Mayor grupo moda del mundo (Zara)",    "poder": 9,  "region": "Internacional"},
-    {"id": "repsol",       "nombre": "Repsol",                    "tipo": "empresarial", "org": "Energia","rol": "Corporacion petroleo y gas",           "poder": 8,  "region": "Internacional"},
-    {"id": "acs",          "nombre": "ACS / Florentino Perez",    "tipo": "empresarial", "org": "Construccion","rol": "Grupo infraestructuras + Real Madrid", "poder": 8, "region": "Internacional"},
-    # ── Medios ────────────────────────────────────────────────────────────────
-    {"id": "elpais",       "nombre": "El Pais",                   "tipo": "mediatico",   "org": "PRISA",  "rol": "Diario nacional progresista",          "poder": 8,  "region": "Nacional"},
-    {"id": "elmundo",      "nombre": "El Mundo",                  "tipo": "mediatico",   "org": "Unidad Editorial","rol": "Diario nacional centroderecha", "poder": 7,  "region": "Nacional"},
-    {"id": "abc",          "nombre": "ABC",                       "tipo": "mediatico",   "org": "Vocento","rol": "Diario conservador / monarquico",      "poder": 6,  "region": "Nacional"},
-    {"id": "lavanguardia", "nombre": "La Vanguardia",             "tipo": "mediatico",   "org": "Grupo Godó","rol": "Referencia Cataluna y nacional",    "poder": 6,  "region": "Cataluna"},
-    {"id": "eldiario",     "nombre": "elDiario.es",               "tipo": "mediatico",   "org": "Progres","rol": "Diario progresista digital",           "poder": 6,  "region": "Nacional"},
-    # ── Think tanks / Influencia ───────────────────────────────────────────────
-    {"id": "faes",         "nombre": "FAES",                      "tipo": "influencia",  "org": "PP",     "rol": "Fundacion think tank PP / Aznar",      "poder": 7,  "region": "Nacional"},
-    {"id": "alternativas", "nombre": "Fundacion Alternativas",    "tipo": "influencia",  "org": "PSOE",   "rol": "Think tank progresista",               "poder": 5,  "region": "Nacional"},
-    {"id": "cidob",        "nombre": "CIDOB",                     "tipo": "influencia",  "org": "Independiente","rol": "Think tank relaciones internacionales", "poder": 5, "region": "Cataluna"},
-    {"id": "ceoe",         "nombre": "CEOE",                      "tipo": "influencia",  "org": "Empresarial","rol": "Patronal espanola / lobby empresarial", "poder": 8, "region": "Nacional"},
-    {"id": "ccoo",         "nombre": "CCOO",                      "tipo": "influencia",  "org": "Sindical","rol": "Mayor sindicato espanol",              "poder": 7,  "region": "Nacional"},
-    {"id": "ugt",          "nombre": "UGT",                       "tipo": "influencia",  "org": "Sindical","rol": "Segundo sindicato espanol / PSOE",     "poder": 7,  "region": "Nacional"},
-    {"id": "church",       "nombre": "Conferencia Episcopal",     "tipo": "influencia",  "org": "Iglesia","rol": "Iglesia Catolica espanola",             "poder": 6,  "region": "Nacional"},
-]
-
-# ── Relaciones ────────────────────────────────────────────────────────────────
-# tipo_rel: gubernamental | adversarial | mediatico | empresarial | lobby
-_REL_COLORS = {
-    "gubernamental": "#1E40AF",  # azul oscuro
+_COLOR_REL = {
+    "gubernamental": "#1E40AF",
     "adversarial":   RED,
     "mediatico":     AMBER,
     "empresarial":   GREEN,
     "lobby":         PURPLE,
     "alianza":       CYAN,
     "sindical":      "#F472B6",
+    "rss":           "#94A3B8",
 }
+# Colores de comunidad
+_COMM_COLORS = [CYAN, AMBER, GREEN, PURPLE, RED, "#F97316", "#06B6D4", "#84CC16"]
 
-RELACIONES: list[dict] = [
-    # Gobierno
-    {"from": "sanchez",    "to": "diaz_y",      "tipo": "gubernamental", "label": "Coalicion"},
-    {"from": "sanchez",    "to": "caamaño",      "tipo": "gubernamental", "label": "Ministro"},
-    {"from": "sanchez",    "to": "puigdemont",   "tipo": "adversarial",   "label": "Tension amnistia"},
-    {"from": "sanchez",    "to": "junqueras",    "tipo": "alianza",       "label": "Acuerdo investidura"},
-    {"from": "sanchez",    "to": "otegi",        "tipo": "alianza",       "label": "Apoyo parlamentario"},
-    {"from": "sanchez",    "to": "urkullu",      "tipo": "alianza",       "label": "Financiacion singular"},
-    # Oposicion
-    {"from": "feijoo",     "to": "abascal",      "tipo": "adversarial",   "label": "Competencia derechas"},
-    {"from": "feijoo",     "to": "sanchez",      "tipo": "adversarial",   "label": "Oposicion"},
-    {"from": "feijoo",     "to": "ayuso",        "tipo": "gubernamental", "label": "PP Madrid"},
-    {"from": "feijoo",     "to": "moreno",       "tipo": "gubernamental", "label": "PP Andalucia"},
-    {"from": "ayuso",      "to": "abascal",      "tipo": "adversarial",   "label": "Rivalidad Madrid"},
-    # Empresarial - politico
-    {"from": "iberdrola",  "to": "sanchez",      "tipo": "lobby",         "label": "Energias renovables"},
-    {"from": "iberdrola",  "to": "feijoo",       "tipo": "lobby",         "label": "Regulacion energia"},
-    {"from": "santander",  "to": "sanchez",      "tipo": "lobby",         "label": "Regulacion banca"},
-    {"from": "ceoe",       "to": "feijoo",       "tipo": "lobby",         "label": "Agenda empresarial"},
-    {"from": "ceoe",       "to": "sanchez",      "tipo": "lobby",         "label": "Dialogo social"},
-    {"from": "acs",        "to": "feijoo",       "tipo": "lobby",         "label": "Infraestructuras"},
-    {"from": "repsol",     "to": "sanchez",      "tipo": "lobby",         "label": "Transicion energetica"},
-    # Medios - politico
-    {"from": "elpais",     "to": "sanchez",      "tipo": "mediatico",     "label": "Cobertura favorable"},
-    {"from": "elmundo",    "to": "feijoo",       "tipo": "mediatico",     "label": "Cobertura favorable"},
-    {"from": "abc",        "to": "abascal",      "tipo": "mediatico",     "label": "Cobertura favorable"},
-    {"from": "eldiario",   "to": "diaz_y",       "tipo": "mediatico",     "label": "Cobertura progresista"},
-    {"from": "lavanguardia","to": "puigdemont",  "tipo": "mediatico",     "label": "Cobertura Cataluna"},
-    # Think tanks
-    {"from": "faes",       "to": "feijoo",       "tipo": "alianza",       "label": "Programa PP"},
-    {"from": "alternativas","to": "sanchez",     "tipo": "alianza",       "label": "Ideas PSOE"},
-    {"from": "ccoo",       "to": "diaz_y",       "tipo": "sindical",      "label": "Concertacion laboral"},
-    {"from": "ugt",        "to": "sanchez",      "tipo": "sindical",      "label": "Dialogo social"},
-    {"from": "church",     "to": "feijoo",       "tipo": "alianza",       "label": "Educacion / valores"},
-    # Empresarial entre si
-    {"from": "iberdrola",  "to": "repsol",       "tipo": "empresarial",   "label": "Competencia energia"},
-    {"from": "santander",  "to": "telefonica",   "tipo": "empresarial",   "label": "Accionariado cruzado"},
-]
-
-try:
-    from dashboard.services import git_amigos_bridge as _git_amigos
-
-    _GIT_ACTOR_SOURCES = _git_amigos.actor_intelligence(limit=8)
-except Exception:
-    _git_amigos = None  # type: ignore
-    _GIT_ACTOR_SOURCES = []
-
-for idx, src in enumerate(_GIT_ACTOR_SOURCES):
-    actor_id = f"git_actor_{idx}"
-    if any(a["id"] == actor_id for a in ACTORES):
-        continue
-    tipo = "influencia" if src.get("tipo") in {"ue", "osint"} else "mediatico"
-    ACTORES.append(
-        {
-            "id": actor_id,
-            "nombre": str(src.get("nombre") or src.get("label") or "Fuente Git Amigos")[:48],
-            "tipo": tipo,
-            "org": "Git Amigos",
-            "rol": f"{src.get('rol','Fuente local')} · {src.get('label','repo')}",
-            "poder": min(8, max(4, int(4 + float(src.get("score") or 0)))),
-            "region": "UE/OSINT",
-            "git_source": src,
-        }
-    )
-    target = "sanchez" if idx % 3 == 0 else "feijoo" if idx % 3 == 1 else "iberdrola"
-    RELACIONES.append(
-        {
-            "from": actor_id,
-            "to": target,
-            "tipo": "lobby",
-            "label": str(src.get("tool_name") or "fuente inteligencia"),
-        }
-    )
-
-_ACTORES_BY_ID = {a["id"]: a for a in ACTORES}
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-def _actor_color(tipo: str) -> str:
-    return _COLOR_MAP.get(tipo, CYAN)
+# ── CSS ───────────────────────────────────────────────────────────────────────
+st.markdown(f"""
+<style>
+[data-testid="stAppViewContainer"] {{background:{BG};}}
+.actor-card {{
+  background:linear-gradient(135deg,{BG2},{BG3});
+  border:1px solid {BORDER}; border-radius:14px;
+  padding:1.1rem 1.4rem; margin-bottom:.7rem;
+}}
+.actor-name  {{font-size:1rem; font-weight:900; color:{TEXT}; margin-bottom:.15rem;}}
+.actor-role  {{font-size:.73rem; color:{TEXT2}; margin-bottom:.3rem;}}
+.tag {{
+  display:inline-block; font-size:.58rem; font-weight:800;
+  letter-spacing:.07em; text-transform:uppercase;
+  border-radius:5px; padding:2px 7px; margin-right:.3rem;
+}}
+.conn-item {{
+  background:{BG2}; border:1px solid {BORDER};
+  border-radius:8px; padding:.5rem .8rem; margin-bottom:.3rem;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.77rem;
+}}
+.metric-box {{
+  background:{BG2}; border:1px solid {BORDER};
+  border-top:2px solid {PURPLE};
+  border-radius:10px; padding:.7rem .9rem; text-align:center;
+}}
+.metric-val {{font-size:1.3rem; font-weight:900; color:{CYAN};}}
+.metric-lbl {{font-size:.68rem; color:{MUTED}; margin-top:.1rem;}}
+.log-row {{
+  font-family:monospace; font-size:.72rem; color:{TEXT2};
+  border-bottom:1px solid {BORDER}; padding:.25rem 0;
+}}
+.log-ok  {{color:{GREEN};}} .log-err {{color:{RED};}}
+.wiki-box {{
+  background:linear-gradient(135deg,{CYAN}09,{BG2});
+  border:1px solid {CYAN}33; border-radius:10px;
+  padding:.8rem 1rem; font-size:.82rem; color:{TEXT}; line-height:1.65;
+  margin-bottom:.6rem;
+}}
+.ner-chip {{
+  display:inline-block; font-size:.68rem; font-weight:700;
+  border-radius:6px; padding:2px 8px; margin:2px;
+}}
+.chat-msg {{
+  background:linear-gradient(135deg,{CYAN}08,{BG2});
+  border:1px solid {CYAN}33; border-radius:12px;
+  padding:.9rem 1.1rem; margin-bottom:.5rem;
+  font-size:.84rem; color:{TEXT}; line-height:1.6;
+}}
+</style>
+""", unsafe_allow_html=True)
 
 
-def _actor_icon(tipo: str) -> str:
-    return _ICON_MAP.get(tipo, "•")
+# ═══════════════════════════════════════════════════════════════════════════════
+# HELPERS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _color_tipo(tipo: str) -> str:
+    return _COLOR_TIPO.get(tipo, CYAN)
+
+def _icon_tipo(tipo: str) -> str:
+    return _ICON_TIPO.get(tipo, "•")
+
+def _actor_badge(tipo: str) -> str:
+    c = _color_tipo(tipo)
+    return (f'<span class="tag" style="background:{c}22;color:{c};">'
+            f'{_icon_tipo(tipo)} {tipo}</span>')
+
+def _rel_badge(tipo: str) -> str:
+    c = _COLOR_REL.get(tipo, MUTED)
+    return f'<span class="tag" style="background:{c}22;color:{c};">{tipo}</span>'
+
+def _node_color(actor: dict, comm: dict) -> str:
+    cid = comm.get(actor["id"])
+    if cid is not None:
+        return _COMM_COLORS[int(cid) % len(_COMM_COLORS)]
+    return _color_tipo(actor.get("tipo", ""))
+
+@st.cache_data(ttl=120, show_spinner=False)
+def _load_metricas() -> dict:
+    return _svc.calcular_metricas()
 
 
-def _degree_centrality() -> dict[str, int]:
-    deg: dict[str, int] = {a["id"]: 0 for a in ACTORES}
-    for r in RELACIONES:
-        deg[r["from"]] = deg.get(r["from"], 0) + 1
-        deg[r["to"]] = deg.get(r["to"], 0) + 1
-    return deg
+# ═══════════════════════════════════════════════════════════════════════════════
+# HEADER + KPIs
+# ═══════════════════════════════════════════════════════════════════════════════
+
+st.markdown(f"""
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;">
+  <div style="font-size:2.2rem;">🕸️</div>
+  <div>
+    <div style="font-size:1.5rem;font-weight:900;color:{TEXT};">Mapa de Actores Políticos</div>
+    <div style="font-size:.8rem;color:{MUTED};">
+      Red dinámica · Scraping Wikipedia/Wikidata · NER vía Ollama · Actualización automática · {
+        "🟢 LLM activo" if _LLM_OK else "⚪ LLM no disponible"
+      }
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+_estado_w = _svc.estado_worker_actores()
+_metricas = _load_metricas()
+
+c1, c2, c3, c4, c5 = st.columns(5)
+with c1:
+    kpi_card("Actores", str(_estado_w.get("n_actores", 0)), "🏛️", color=CYAN)
+with c2:
+    kpi_card("Relaciones", str(_estado_w.get("n_relaciones", 0)), "🔗", color=PURPLE)
+with c3:
+    kpi_card("Menciones", str(_estado_w.get("n_menciones", 0)), "📰", color=AMBER)
+with c4:
+    kpi_card("Comunidades", str(_metricas.get("n_comunidades", 0)), "🫧", color=GREEN)
+with c5:
+    w_on = _estado_w.get("running", False)
+    kpi_card("Worker", "🟢 Activo" if w_on else "⏸ Parado", "⚡", color=GREEN if w_on else MUTED)
+
+st.markdown("---")
 
 
-def _betweenness_approx() -> dict[str, float]:
-    """Betweenness aproximado (conteo caminos directos como proxy)."""
-    deg = _degree_centrality()
-    max_deg = max(deg.values()) if deg else 1
-    return {k: round(v / max_deg, 3) for k, v in deg.items()}
+# ═══════════════════════════════════════════════════════════════════════════════
+# TABS PRINCIPALES
+# ═══════════════════════════════════════════════════════════════════════════════
 
-
-def _connections_for(actor_id: str) -> list[dict]:
-    conns = []
-    for r in RELACIONES:
-        if r["from"] == actor_id:
-            other = _ACTORES_BY_ID.get(r["to"])
-            if other:
-                conns.append({"actor": other, "rel": r["label"], "tipo": r["tipo"], "direction": "out"})
-        elif r["to"] == actor_id:
-            other = _ACTORES_BY_ID.get(r["from"])
-            if other:
-                conns.append({"actor": other, "rel": r["label"], "tipo": r["tipo"], "direction": "in"})
-    return conns
-
-
-_POS_WORDS = {
-    "acuerdo", "aprueba", "avance", "crece", "mejora", "positivo", "apoyo",
-    "lidera", "éxito", "exito", "récord", "record", "pacto", "respaldo",
-}
-_NEG_WORDS = {
-    "crisis", "dimisión", "dimision", "corrupción", "corrupcion", "rechaza",
-    "bloqueo", "cae", "fracaso", "tensión", "tension", "polémica",
-    "polemica", "investiga", "denuncia", "ruptura", "riesgo",
-}
-
-
-def _norm_text(value: str) -> str:
-    value = unicodedata.normalize("NFKD", str(value or "").lower())
-    return "".join(ch for ch in value if not unicodedata.combining(ch))
-
-
-def _sentiment_score(text: str) -> float:
-    low = _norm_text(text)
-    pos = sum(1 for w in _POS_WORDS if _norm_text(w) in low)
-    neg = sum(1 for w in _NEG_WORDS if _norm_text(w) in low)
-    if pos == neg:
-        return 0.0
-    return max(-1.0, min(1.0, (pos - neg) / max(pos + neg, 1)))
-
-
-@st.cache_data(ttl=900, show_spinner=False)
-def _actor_live_news(actor_id: str, limit: int = 120) -> list[dict]:
-    """Noticias RSS reales que mencionan al actor. Falla a lista vacía."""
-    actor = _ACTORES_BY_ID.get(actor_id)
-    if not actor:
-        return []
-    name_norm = _norm_text(actor.get("nombre", ""))
-    terms = {name_norm}
-    terms.update(t for t in name_norm.replace("/", " ").split() if len(t) >= 5 and t not in {"amancio"})
-    org = str(actor.get("org") or "").strip()
-    if org and (org.upper() in COLORES_PARTIDOS or len(org) >= 5):
-        terms.add(_norm_text(org))
-    terms = {t for t in terms if t}
-
-    try:
-        from dashboard.services.news_crawler import cargar_noticias
-
-        news = cargar_noticias(max_noticias=limit)
-    except Exception:
-        news = []
-
-    out: list[dict] = []
-    for item in news or []:
-        text = f"{item.get('titulo','')} {item.get('resumen','')} {item.get('texto','')}"
-        text_norm = _norm_text(text)
-        if not any(term in text_norm for term in terms):
-            continue
-        score = _sentiment_score(text)
-        enriched = dict(item)
-        enriched["sentimiento"] = score
-        out.append(enriched)
-    return out[:30]
-
-
-def _fallback_actor_analysis(actor_id: str) -> str:
-    actor = _ACTORES_BY_ID.get(actor_id, {})
-    conns = _connections_for(actor_id)
-    rels = Counter(c["tipo"] for c in conns)
-    deg = _degree_centrality().get(actor_id, 0)
-    main_rel = rels.most_common(1)[0][0] if rels else "sin relaciones dominantes"
-    return (
-        f"**Lectura operativa:** {actor.get('nombre', 'Este actor')} tiene centralidad {deg} y "
-        f"un poder estimado de {actor.get('poder', 0)}/10. Su rol principal es "
-        f"{actor.get('rol', 'n/d')}. La relación dominante en el grafo es `{main_rel}`, "
-        "por lo que conviene vigilar cambios de narrativa, alianzas y menciones cruzadas con sus nodos conectados."
-    )
-
-
-def _network_payload() -> dict:
-    deg = _degree_centrality()
-    top = sorted(deg.items(), key=lambda x: x[1], reverse=True)[:8]
-    return {
-        "n_actores": len(ACTORES),
-        "n_relaciones": len(RELACIONES),
-        "top_centralidad": [
-            {
-                "actor": _ACTORES_BY_ID[aid]["nombre"],
-                "tipo": _ACTORES_BY_ID[aid]["tipo"],
-                "org": _ACTORES_BY_ID[aid]["org"],
-                "conexiones": val,
-            }
-            for aid, val in top
-            if aid in _ACTORES_BY_ID
-        ],
-        "tipos_relacion": dict(Counter(r["tipo"] for r in RELACIONES)),
-    }
-
-
-def _fallback_network_analysis() -> str:
-    payload = _network_payload()
-    return (
-        f"Red con {len(ACTORES)} actores y {len(RELACIONES)} relaciones. "
-        f"Los hubs principales son {', '.join(item['actor'] for item in payload['top_centralidad'][:4])}. "
-        "La lectura operativa es priorizar brokers con alta centralidad y relaciones de lobby, medios o apoyo parlamentario."
-    )
-
-
-@st.cache_data(ttl=900, show_spinner=False)
-def _ai_actor_analysis(actor_id: str) -> str:
-    actor = _ACTORES_BY_ID.get(actor_id)
-    if not actor:
-        return ""
-    conns = _connections_for(actor_id)
-    context = {
-        "actor": actor,
-        "centralidad": _degree_centrality().get(actor_id, 0),
-        "betweenness_proxy": _betweenness_approx().get(actor_id, 0),
-        "conexiones": [
-            {
-                "nombre": c["actor"]["nombre"],
-                "tipo_actor": c["actor"]["tipo"],
-                "relacion": c["rel"],
-                "tipo_relacion": c["tipo"],
-                "direccion": c["direction"],
-            }
-            for c in conns
-        ],
-    }
-    if _git_amigos is not None:
-        try:
-            topic = f"{actor.get('nombre','')} {actor.get('org','')} {actor.get('rol','')}"
-            context["fuentes_git_amigos"] = _git_amigos.search_corpus(topic, module="D2", limit=5)
-        except Exception:
-            pass
-    try:
-        from agents.ai_engine import get_ai_engine
-
-        engine = get_ai_engine()
-        if not engine.is_ollama_available():
-            return _fallback_actor_analysis(actor_id)
-        system = (
-            "Eres ATLAS, analista de redes de poder politico en España. "
-            "Responde en español, con hechos del contexto, sin inventar datos externos."
-        )
-        user = (
-            "Analiza esta ficha de actor para un dashboard ejecutivo. "
-            "Incluye: rol real en la red, riesgos, oportunidades y señales a monitorizar. "
-            f"Datos:\n{json.dumps(context, ensure_ascii=False, default=str)[:3500]}"
-        )
-        return engine.ollama_chat(system, user, temperature=0.2, max_tokens=320)
-    except Exception:
-        return _fallback_actor_analysis(actor_id)
-
-
-@st.cache_data(ttl=900, show_spinner=False)
-def _ai_network_analysis() -> str:
-    payload = _network_payload()
-    fallback = _fallback_network_analysis()
-    try:
-        from agents.ai_engine import get_ai_engine
-
-        engine = get_ai_engine()
-        if not engine.is_ollama_available():
-            return fallback
-        system = "Eres ATLAS, analista senior de redes politicas. Responde en español con criterio operativo."
-        user = (
-            "Evalúa esta red de actores. Señala hubs, dependencias, riesgos de coalición, "
-            "actores puente y prioridades de seguimiento.\n"
-            f"Datos:\n{json.dumps(payload, ensure_ascii=False, default=str)}"
-        )
-        return engine.ollama_chat(system, user, temperature=0.2, max_tokens=380)
-    except Exception:
-        return fallback
-
-
-@st.cache_data(ttl=300)
-def _build_pyvis_html(selected_tipos: tuple, selected_rels: tuple) -> str:
-    try:
-        from pyvis.network import Network
-
-        net = Network(height="500px", width="100%", bgcolor=BG2, font_color=TEXT)
-        net.set_options(json.dumps({
-            "nodes": {
-                "borderWidth": 2,
-                "shadow": {"enabled": True, "size": 8},
-                "font": {"size": 13, "face": "Inter, Arial, sans-serif"},
-            },
-            "edges": {
-                "smooth": {"type": "continuous"},
-                "color": {"opacity": 0.55},
-                "arrows": {"to": {"enabled": True, "scaleFactor": 0.5}},
-            },
-            "physics": {
-                "solver": "forceAtlas2Based",
-                "forceAtlas2Based": {
-                    "gravitationalConstant": -60,
-                    "centralGravity": 0.01,
-                    "springLength": 110,
-                    "springConstant": 0.08,
-                },
-                "stabilization": {"iterations": 120},
-            },
-            "interaction": {
-                "hover": True,
-                "tooltipDelay": 200,
-            },
-        }))
-
-        for actor in ACTORES:
-            if actor["tipo"] not in selected_tipos:
-                continue
-            color = _actor_color(actor["tipo"])
-            size = 15 + actor.get("poder", 5) * 3
-            label = actor["nombre"]
-            title = (
-                f"<b style='color:{color}'>{actor['nombre']}</b><br>"
-                f"<i>{actor['rol']}</i><br>"
-                f"Org: {actor['org']} | Zona: {actor['region']}<br>"
-                f"Influencia: {'★' * actor.get('poder',5)}"
-            )
-            net.add_node(
-                actor["id"],
-                label=label,
-                title=title,
-                color={"background": color + "33", "border": color, "highlight": {"background": color + "66", "border": color}},
-                size=size,
-                font={"color": TEXT, "size": 12},
-                shape="dot",
-            )
-
-        active_ids = {a["id"] for a in ACTORES if a["tipo"] in selected_tipos}
-        for rel in RELACIONES:
-            if rel["from"] not in active_ids or rel["to"] not in active_ids:
-                continue
-            if rel["tipo"] not in selected_rels:
-                continue
-            rel_color = _REL_COLORS.get(rel["tipo"], BORDER)
-            net.add_edge(
-                rel["from"], rel["to"],
-                title=rel["label"],
-                label=rel["label"],
-                color=rel_color,
-                width=1.5,
-                font={"size": 9, "color": TEXT2},
-            )
-
-        return net.generate_html()
-    except ImportError:
-        return (
-            f"<div style='background:{BG2};color:{TEXT2};padding:2rem;text-align:center;"
-            f"border:1px dashed {BORDER};border-radius:12px;font-family:monospace'>"
-            f"<b style='color:{AMBER}'>pyvis no instalado</b><br>"
-            f"Ejecuta: <code>pip install pyvis</code>"
-            f"</div>"
-        )
-    except Exception as exc:
-        return (
-            f"<div style='background:{BG2};color:{RED};padding:2rem;text-align:center'>"
-            f"Error generando grafo: {exc}</div>"
-        )
-
-
-def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
-    actor = _ACTORES_BY_ID.get(actor_id)
-    if not actor:
-        st.warning("Actor no encontrado.")
-        return
-
-    color = _actor_color(actor["tipo"])
-    icon = _actor_icon(actor["tipo"])
-    tipo_label = actor["tipo"].capitalize()
-    c_org = COLORES_PARTIDOS.get(actor["org"], color)
-
-    st.markdown(
-        f'<div class="actor-profile-header">'
-        f'<div class="actor-avatar" style="background:{color}22;border:2px solid {color}">'
-        f'{icon}</div>'
-        f'<div style="flex:1">'
-        f'<div class="actor-name">{actor["nombre"]}</div>'
-        f'<div class="actor-role">{actor["rol"]}</div>'
-        f'<div class="actor-tags">'
-        f'<span class="tag" style="background:{color}22;color:{color};border:1px solid {color}44">{tipo_label}</span>'
-        f'<span class="tag" style="background:{c_org}22;color:{c_org};border:1px solid {c_org}44">{actor["org"]}</span>'
-        f'<span class="tag" style="background:{MUTED}22;color:{TEXT2};border:1px solid {MUTED}44">{actor["region"]}</span>'
-        f'</div>'
-        f'</div>'
-        f'<div style="text-align:center">'
-        f'<div style="font-size:1.4rem;font-weight:900;color:{color}">{actor.get("poder",5)}/10</div>'
-        f'<div style="font-size:.6rem;color:{MUTED};text-transform:uppercase;letter-spacing:.08em">Influencia</div>'
-        f'</div>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
-    tp1, tp2, tp3, tp4 = st.tabs(["📝 Perfil", "📈 Actividad", "🔗 Red", "🔔 Alertas"])
-
-    with tp1:
-        c1, c2 = st.columns(2)
-        with c1:
-            st.markdown(kpi_card("Tipo", tipo_label, "", color), unsafe_allow_html=True)
-            st.markdown("<br>", unsafe_allow_html=True)
-            st.markdown(kpi_card("Organizacion", actor["org"], "", c_org), unsafe_allow_html=True)
-        with c2:
-            st.markdown(kpi_card("Region", actor["region"], "", BLUE), unsafe_allow_html=True)
-            st.markdown("<br>", unsafe_allow_html=True)
-            conns = _connections_for(actor_id)
-            st.markdown(kpi_card("Conexiones", str(len(conns)), "en el grafo", PURPLE), unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        section_header("ROL Y DESCRIPCION", color)
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {color};'
-            f'border-radius:10px;padding:1rem 1.2rem;color:{TEXT};font-size:.85rem;line-height:1.7">'
-            f'<b>{actor["nombre"]}</b> ocupa el rol de <i>{actor["rol"]}</i> en el ecosistema politico espanol. '
-            f'Su organizacion de referencia es <b>{actor["org"]}</b>, con base en {actor["region"]}. '
-            f'Su nivel de influencia estimado es <b>{actor.get("poder",5)}/10</b>.'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-        if actor.get("git_source"):
-            src = actor["git_source"]
-            st.markdown(
-                f'<div style="background:{PURPLE}0c;border:1px solid {PURPLE}33;border-radius:8px;'
-                f'padding:.65rem .85rem;margin-top:.55rem">'
-                f'<div style="font-size:.62rem;font-weight:900;color:{PURPLE};letter-spacing:.1em;'
-                f'text-transform:uppercase;margin-bottom:.2rem">FUENTE LOCAL GIT AMIGOS</div>'
-                f'<div style="font-size:.72rem;color:{TEXT2};line-height:1.45">'
-                f'{html.escape(str(src.get("label","repo")))} · '
-                f'<span style="font-family:monospace;color:{MUTED}">{html.escape(str(src.get("repo","")))} / {html.escape(str(src.get("path","")))}</span><br>'
-                f'{html.escape(str(src.get("snippet",""))[:280])}</div>'
-                f'</div>',
-                unsafe_allow_html=True,
-            )
-        section_header("ANÁLISIS IA DEL ACTOR", CYAN)
-        if st.button("Generar lectura IA de esta ficha", key=f"{key_prefix}_{actor_id}_ai_profile", use_container_width=True):
-            with st.spinner("ATLAS analizando actor..."):
-                st.session_state[f"{key_prefix}_{actor_id}_ai_profile_text"] = _ai_actor_analysis(actor_id)
-        analysis_text = st.session_state.get(f"{key_prefix}_{actor_id}_ai_profile_text") or _fallback_actor_analysis(actor_id)
-        st.markdown(
-            f'<div style="background:{CYAN}0c;border:1px solid {CYAN}33;border-radius:10px;'
-            f'padding:.85rem 1rem;color:{TEXT2};font-size:.8rem;line-height:1.65;white-space:pre-wrap">'
-            f'{html.escape(analysis_text)}</div>',
-            unsafe_allow_html=True,
-        )
-
-    with tp2:
-        live_news = _actor_live_news(actor_id)
-        section_header("ACTIVIDAD MENSUAL (RSS EN VIVO)", color)
-        month_starts = []
-        now = datetime.now(timezone.utc)
-        for offset in range(6, -1, -1):
-            base_month = (now.replace(day=1) - timedelta(days=32 * offset)).replace(day=1)
-            month_starts.append(base_month)
-        meses = [d.strftime("%m/%y") for d in month_starts]
-        counts = {label: 0 for label in meses}
-        for item in live_news:
-            dt = pd.to_datetime(item.get("fecha"), errors="coerce", utc=True)
-            if pd.isna(dt):
-                continue
-            label = dt.strftime("%m/%y")
-            if label in counts:
-                counts[label] += 1
-        menciones = [counts[m] for m in meses]
-        if not any(menciones):
-            deg = _degree_centrality().get(actor_id, 0)
-            menciones = [0, 0, 0, 0, 0, 0, deg]
-        fig_act = go.Figure(go.Bar(
-            x=meses, y=menciones,
-            marker_color=[color] * len(meses),
-            marker_line_width=0,
-            text=menciones, textposition="outside",
-            textfont=dict(color=TEXT2, size=10),
-        ))
-        fig_act.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=220, margin=dict(l=10, r=10, t=20, b=10),
-            font=dict(color=TEXT2, size=11),
-            yaxis=dict(gridcolor=BORDER, zeroline=False),
-            xaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        )
-        st.plotly_chart(fig_act, use_container_width=True, key=f"{key_prefix}_{actor_id}_actividad")
-
-        section_header("DISTRIBUCION DE TONO MEDIÁTICO", AMBER)
-        scores = [float(n.get("sentimiento", 0.0) or 0.0) for n in live_news]
-        total_scores = max(len(scores), 1)
-        pos_pct = round(sum(1 for s in scores if s > 0.05) / total_scores * 100)
-        neg_pct = round(sum(1 for s in scores if s < -0.05) / total_scores * 100)
-        neu_pct = max(0, 100 - pos_pct - neg_pct)
-        fig_tone = go.Figure(go.Pie(
-            labels=["Positivo", "Negativo", "Neutro"],
-            values=[pos_pct, neg_pct, neu_pct],
-            hole=0.55,
-            marker_colors=[GREEN, RED, MUTED],
-            textfont_color=TEXT,
-        ))
-        fig_tone.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=200, margin=dict(l=20, r=20, t=10, b=10),
-            font=dict(color=TEXT2, size=11), showlegend=True,
-            legend=dict(font=dict(color=TEXT2, size=10)),
-        )
-        st.plotly_chart(fig_tone, use_container_width=True, key=f"{key_prefix}_{actor_id}_tono")
-
-    with tp3:
-        conns = _connections_for(actor_id)
-        section_header(f"CONEXIONES DE {actor['nombre'].upper()}", color)
-        if conns:
-            tipos_rel_presentes = sorted(set(c["tipo"] for c in conns))
-            filtro_tipo_rel = st.selectbox(
-                "Filtrar relacion",
-                ["Todas"] + tipos_rel_presentes,
-                key=f"{key_prefix}_{actor_id}_filtro_rel",
-            )
-            conns_fil = conns if filtro_tipo_rel == "Todas" else [c for c in conns if c["tipo"] == filtro_tipo_rel]
-            for conn in conns_fil:
-                other = conn["actor"]
-                other_color = _actor_color(other["tipo"])
-                rel_color = _REL_COLORS.get(conn["tipo"], BORDER)
-                arrow = "→" if conn["direction"] == "out" else "←"
-                st.markdown(
-                    f'<div class="connection-item">'
-                    f'<div style="display:flex;align-items:center;gap:.6rem">'
-                    f'<span style="color:{rel_color};font-weight:900">{arrow}</span>'
-                    f'<span style="font-weight:800;color:{other_color}">{other["nombre"]}</span>'
-                    f'<span style="font-size:.65rem;color:{MUTED}">{other["rol"][:40]}</span>'
-                    f'</div>'
-                    f'<span style="font-size:.65rem;font-weight:800;color:{rel_color};'
-                    f'background:{rel_color}22;border-radius:5px;padding:2px 7px">{conn["rel"]}</span>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-        else:
-            st.info("Sin conexiones registradas.")
-
-    with tp4:
-        section_header("NOTICIAS Y ALERTAS RELACIONADAS", RED)
-        live_news_alerts = _actor_live_news(actor_id)[:5]
-        if not live_news_alerts:
-            st.success("Sin menciones recientes detectadas en RSS para este actor.")
-        else:
-            for item in live_news_alerts:
-                sent = float(item.get("sentimiento", 0.0) or 0.0)
-                col = RED if sent < -0.05 else GREEN if sent > 0.05 else AMBER
-                nivel = "NEGATIVA" if sent < -0.05 else "POSITIVA" if sent > 0.05 else "NEUTRA"
-                title = html.escape(str(item.get("titulo") or "Noticia sin título"))
-                medio = html.escape(str(item.get("medio") or "RSS"))
-                url = html.escape(str(item.get("url") or ""))
-                link_html = (
-                    f'<a href="{url}" target="_blank" style="font-size:.66rem;color:{CYAN}">Abrir fuente</a>'
-                    if url else ""
-                )
-                st.markdown(
-                    f'<div style="background:{col}11;border:1px solid {col}44;border-radius:8px;'
-                    f'padding:.6rem .9rem;margin-bottom:.4rem">'
-                    f'<div style="font-size:.65rem;font-weight:800;color:{col};margin-bottom:.15rem">{nivel}</div>'
-                    f'<div style="font-size:.78rem;color:{TEXT}">{title}</div>'
-                    f'<div style="font-size:.66rem;color:{MUTED};margin-top:.2rem">{medio}</div>'
-                    f'{link_html}'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-
-
-# ── Header ────────────────────────────────────────────────────────────────────
-st.markdown(
-    f'<div style="margin-bottom:.5rem">'
-    f'<div style="font-size:1.6rem;font-weight:900;color:{CYAN};letter-spacing:-.01em">🕸️ Mapa de Actores</div>'
-    f'<div style="font-size:.75rem;color:{TEXT2};margin-top:.2rem">'
-    f'Red de influencias politica espanola · {len(ACTORES)} actores · {len(RELACIONES)} relaciones'
-    f'</div>'
-    f'</div>',
-    unsafe_allow_html=True,
-)
-
-# ── KPIs rapidos ──────────────────────────────────────────────────────────────
-kc1, kc2, kc3, kc4 = st.columns(4)
-with kc1:
-    n_pol = sum(1 for a in ACTORES if a["tipo"] == "politico")
-    st.markdown(kpi_card("Politicos", str(n_pol), "actores registrados", CYAN), unsafe_allow_html=True)
-with kc2:
-    n_emp = sum(1 for a in ACTORES if a["tipo"] == "empresarial")
-    st.markdown(kpi_card("Empresariales", str(n_emp), "corporaciones", AMBER), unsafe_allow_html=True)
-with kc3:
-    n_med = sum(1 for a in ACTORES if a["tipo"] == "mediatico")
-    st.markdown(kpi_card("Medios", str(n_med), "outlets registrados", GREEN), unsafe_allow_html=True)
-with kc4:
-    n_inf = sum(1 for a in ACTORES if a["tipo"] == "influencia")
-    st.markdown(kpi_card("Influencia", str(n_inf), "think tanks / lobbies", PURPLE), unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-# ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_mapa, tab_busqueda, tab_analisis, tab_ia = st.tabs([
-    "🕸️ Mapa de Red",
-    "🔍 Búsqueda de Actores",
-    "📊 Análisis de Red",
+tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query = st.tabs([
+    "🕸️ Red Dinámica",
+    "👤 Perfiles",
+    "🔗 Relaciones",
+    "📊 Análisis networkx",
+    "🔄 Actualización",
     "🤖 Query IA",
 ])
 
-# ─── TAB 1: Mapa de Red ───────────────────────────────────────────────────────
-with tab_mapa:
-    c_ctrl, c_info = st.columns([3, 1])
-    with c_ctrl:
-        tipos_seleccionados = st.multiselect(
-            "Tipos de actor",
-            ["politico", "empresarial", "mediatico", "influencia"],
-            default=["politico", "empresarial", "mediatico", "influencia"],
-            format_func=lambda x: f"{_actor_icon(x)} {x.capitalize()}",
-            key="tipos_sel",
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 1 — RED DINÁMICA
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_red:
+    st.markdown("### 🕸️ Grafo Force-Directed")
+    st.caption("Tamaño = PageRank · Color = comunidad Louvain · Arista = tipo de relación")
+
+    fc1, fc2, fc3, fc4 = st.columns([2, 2, 2, 1])
+    with fc1:
+        tipo_sel = st.selectbox(
+            "Tipo actor", ["Todos", "politico", "empresarial", "mediatico", "influencia"],
+            key="red_tipo"
         )
-        rels_seleccionadas = st.multiselect(
-            "Tipos de relacion",
-            list(_REL_COLORS.keys()),
-            default=list(_REL_COLORS.keys()),
-            key="rels_sel",
+    with fc2:
+        rel_sel = st.selectbox(
+            "Tipo relación", ["Todas"] + list(_COLOR_REL.keys()),
+            key="red_rel"
         )
-    with c_info:
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:.8rem 1rem">'
-            f'<div style="font-size:.6rem;font-weight:800;color:{MUTED};text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">LEYENDA</div>'
-            + "".join(
-                f'<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">'
-                f'<div style="width:10px;height:10px;border-radius:50%;background:{_actor_color(t)}"></div>'
-                f'<span style="font-size:.7rem;color:{TEXT2}">{_actor_icon(t)} {t.capitalize()}</span>'
-                f'</div>'
-                for t in ["politico", "empresarial", "mediatico", "influencia"]
-            )
-            + f'</div>',
-            unsafe_allow_html=True,
-        )
-
-    if not tipos_seleccionados:
-        st.warning("Selecciona al menos un tipo de actor.")
-    else:
-        with st.spinner("Renderizando red..."):
-            html_grafo = _build_pyvis_html(
-                tuple(sorted(tipos_seleccionados)),
-                tuple(sorted(rels_seleccionadas)),
-            )
-        components.html(html_grafo, height=530, scrolling=False)
-        st.caption("Arrastra nodos para reorganizar. Pasa el cursor para ver detalles. Usa el zoom con la rueda del raton.")
-
-    # Selector de perfil desde el mapa
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("PERFIL DE ACTOR (seleccionar desde lista)", CYAN)
-    actores_opciones = {a["nombre"]: a["id"] for a in ACTORES}
-    sel_nombre = st.selectbox(
-        "Seleccionar actor para ver perfil completo",
-        list(actores_opciones.keys()),
-        key="sel_actor_mapa",
-    )
-    _render_actor_profile(actores_opciones[sel_nombre], key_prefix="mapa")
-
-
-# ─── TAB 2: Busqueda ─────────────────────────────────────────────────────────
-with tab_busqueda:
-    section_header("BUSCADOR DE ACTORES", BLUE)
-
-    c_search, c_tipo_fil = st.columns([3, 2])
-    with c_search:
-        query = st.text_input("Buscar actor por nombre, rol u organizacion...", key="search_actor", placeholder="ej: Sanchez, Iberdrola, think tank...")
-    with c_tipo_fil:
-        tipo_fil = st.selectbox("Tipo", ["Todos", "Politico", "Empresarial", "Mediatico", "Influencia"], key="tipo_fil_tab2")
-
-    actores_fil = ACTORES
-    if query:
-        q = query.lower()
-        actores_fil = [
-            a for a in actores_fil
-            if q in a["nombre"].lower() or q in a["rol"].lower() or q in a["org"].lower()
+    with fc3:
+        _actores_todos = _svc.get_actores()
+        opciones_actor = ["(Todo el grafo)"] + [
+            a["nombre"] for a in sorted(_actores_todos, key=lambda x: -x.get("poder", 0))
         ]
-    if tipo_fil != "Todos":
-        actores_fil = [a for a in actores_fil if a["tipo"] == tipo_fil.lower()]
+        actor_ego_nombre = st.selectbox("Foco en actor (red ego)", opciones_actor, key="red_ego")
+    with fc4:
+        mostrar_labels = st.checkbox("Nombres", value=True, key="red_labels")
 
-    st.caption(f"{len(actores_fil)} actores encontrados")
+    _t_f = None if tipo_sel == "Todos" else tipo_sel
+    _r_f = None if rel_sel  == "Todas" else rel_sel
+    _comm = _metricas.get("comunidades", {})
+    _pgr  = _metricas.get("pagerank", {})
+    _max_pgr = max(_pgr.values()) if _pgr else 1.0
 
-    if actores_fil:
-        # Tabla
-        df_actores = pd.DataFrame([
-            {
-                "Nombre": a["nombre"],
-                "Tipo": a["tipo"].capitalize(),
-                "Organizacion": a["org"],
-                "Rol": a["rol"][:55] + ("..." if len(a["rol"]) > 55 else ""),
-                "Region": a["region"],
-                "Poder": "★" * a.get("poder", 5),
-            }
-            for a in actores_fil
-        ])
-        st.dataframe(
-            df_actores,
-            use_container_width=True,
-            hide_index=True,
-            height=min(420, 40 + len(actores_fil) * 38),
-        )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-        section_header("VER PERFIL COMPLETO", PURPLE)
-        nombres_fil = [a["nombre"] for a in actores_fil]
-        sel_nombre_tab2 = st.selectbox("Seleccionar actor", nombres_fil, key="sel_actor_tab2")
-        sel_id_tab2 = next((a["id"] for a in actores_fil if a["nombre"] == sel_nombre_tab2), None)
-        if sel_id_tab2:
-            _render_actor_profile(sel_id_tab2, key_prefix="busqueda")
-    else:
-        st.info("No se encontraron actores con los criterios de busqueda.")
-
-
-# ─── TAB 3: Analisis de Red ──────────────────────────────────────────────────
-with tab_analisis:
-    section_header("ANALISIS DE RED POLITICA", PURPLE)
-
-    deg = _degree_centrality()
-    bet = _betweenness_approx()
-
-    # Top 10 por grado
-    top10 = sorted(deg.items(), key=lambda x: x[1], reverse=True)[:12]
-    top10_nombres = [_ACTORES_BY_ID[aid]["nombre"] for aid, _ in top10 if aid in _ACTORES_BY_ID]
-    top10_valores = [v for _, v in top10 if _ACTORES_BY_ID.get(_[0])]
-    # Rebuild after filter
-    top10_nombres = []
-    top10_valores = []
-    top10_colors = []
-    for aid, val in top10:
-        if aid in _ACTORES_BY_ID:
-            actor = _ACTORES_BY_ID[aid]
-            top10_nombres.append(actor["nombre"])
-            top10_valores.append(val)
-            top10_colors.append(_actor_color(actor["tipo"]))
-
-    col_deg, col_bet = st.columns(2)
-    with col_deg:
-        section_header("CENTRALIDAD DE GRADO (TOP 12)", CYAN)
-        fig_deg = go.Figure(go.Bar(
-            y=top10_nombres[::-1],
-            x=top10_valores[::-1],
-            orientation="h",
-            marker_color=top10_colors[::-1],
-            marker_line_width=0,
-            text=top10_valores[::-1],
-            textposition="outside",
-            textfont=dict(color=TEXT2, size=10),
-        ))
-        fig_deg.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=380, margin=dict(l=10, r=40, t=20, b=10),
-            font=dict(color=TEXT2, size=11),
-            xaxis=dict(gridcolor=BORDER, zeroline=False, title="Conexiones"),
-            yaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        )
-        st.plotly_chart(fig_deg, use_container_width=True, key="actores_centralidad_grado")
-
-    with col_bet:
-        section_header("BETWEENNESS CENTRALIDAD", PURPLE)
-        top_bet = sorted(bet.items(), key=lambda x: x[1], reverse=True)[:12]
-        bet_nombres = [_ACTORES_BY_ID[a]["nombre"] for a, _ in top_bet if a in _ACTORES_BY_ID]
-        bet_valores = [v for a, v in top_bet if a in _ACTORES_BY_ID]
-        bet_colors = [_actor_color(_ACTORES_BY_ID[a]["tipo"]) for a, _ in top_bet if a in _ACTORES_BY_ID]
-        fig_bet = go.Figure(go.Bar(
-            y=bet_nombres[::-1],
-            x=bet_valores[::-1],
-            orientation="h",
-            marker_color=bet_colors[::-1],
-            marker_line_width=0,
-            text=[f"{v:.2f}" for v in bet_valores[::-1]],
-            textposition="outside",
-            textfont=dict(color=TEXT2, size=10),
-        ))
-        fig_bet.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=380, margin=dict(l=10, r=50, t=20, b=10),
-            font=dict(color=TEXT2, size=11),
-            xaxis=dict(gridcolor=BORDER, zeroline=False, title="Betweenness (norm.)"),
-            yaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        )
-        st.plotly_chart(fig_bet, use_container_width=True, key="actores_betweenness")
-
-    # Distribucion por tipo
-    section_header("DISTRIBUCION POR TIPO DE ACTOR Y CONEXIONES PROMEDIO", AMBER)
-    col_tipo1, col_tipo2 = st.columns(2)
-    with col_tipo1:
-        tipos_count = {}
-        for a in ACTORES:
-            tipos_count[a["tipo"]] = tipos_count.get(a["tipo"], 0) + 1
-        fig_tipo = go.Figure(go.Pie(
-            labels=[t.capitalize() for t in tipos_count.keys()],
-            values=list(tipos_count.values()),
-            hole=0.55,
-            marker_colors=[_actor_color(t) for t in tipos_count.keys()],
-            textfont_color=TEXT,
-        ))
-        fig_tipo.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=240, margin=dict(l=10, r=10, t=20, b=10),
-            font=dict(color=TEXT2, size=11), showlegend=True,
-            legend=dict(font=dict(color=TEXT2, size=10)),
-        )
-        st.plotly_chart(fig_tipo, use_container_width=True, key="actores_tipo_pie")
-
-    with col_tipo2:
-        # Conexiones promedio por tipo
-        tipo_deg: dict[str, list[int]] = {}
-        for a in ACTORES:
-            tipo_deg.setdefault(a["tipo"], []).append(deg.get(a["id"], 0))
-        tipos_list = list(tipo_deg.keys())
-        avg_deg = [round(sum(v) / len(v), 1) for v in tipo_deg.values()]
-        fig_avg = go.Figure(go.Bar(
-            x=[t.capitalize() for t in tipos_list],
-            y=avg_deg,
-            marker_color=[_actor_color(t) for t in tipos_list],
-            marker_line_width=0,
-            text=avg_deg, textposition="outside",
-            textfont=dict(color=TEXT2, size=11),
-        ))
-        fig_avg.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=240, margin=dict(l=10, r=10, t=20, b=10),
-            font=dict(color=TEXT2, size=11),
-            yaxis=dict(gridcolor=BORDER, zeroline=False, title="Conexiones promedio"),
-            xaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        )
-        st.plotly_chart(fig_avg, use_container_width=True, key="actores_avg_degree")
-
-    # Tarjetas de estadisticas globales
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("ESTADISTICAS GLOBALES DE LA RED", GREEN)
-    sc1, sc2, sc3, sc4 = st.columns(4)
-    n_nodos = len(ACTORES)
-    n_aristas = len(RELACIONES)
-    densidad = round(2 * n_aristas / max(n_nodos * (n_nodos - 1), 1), 3)
-    actor_max_deg = max(deg.items(), key=lambda x: x[1], default=("—", 0))
-    actor_max_nombre = _ACTORES_BY_ID.get(actor_max_deg[0], {}).get("nombre", "—")
-    with sc1:
-        st.markdown(kpi_card("Nodos", str(n_nodos), "actores totales", CYAN), unsafe_allow_html=True)
-    with sc2:
-        st.markdown(kpi_card("Aristas", str(n_aristas), "relaciones totales", PURPLE), unsafe_allow_html=True)
-    with sc3:
-        st.markdown(kpi_card("Densidad", f"{densidad:.3f}", "0=dispersa 1=completa", AMBER), unsafe_allow_html=True)
-    with sc4:
-        st.markdown(kpi_card("Hub principal", actor_max_nombre.split()[-1], f"{actor_max_deg[1]} conexiones", GREEN), unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("LECTURA IA DE LA RED", CYAN)
-    if st.button("Generar análisis IA de la red", key="actores_ai_network", use_container_width=True):
-        with st.spinner("ATLAS evaluando red de poder..."):
-            st.session_state["actores_ai_network_text"] = _ai_network_analysis()
-    network_ai = st.session_state.get("actores_ai_network_text") or _fallback_network_analysis()
-    st.markdown(
-        f'<div style="background:{CYAN}0c;border:1px solid {CYAN}33;border-radius:10px;'
-        f'padding:.9rem 1rem;color:{TEXT2};font-size:.82rem;line-height:1.7;white-space:pre-wrap">'
-        f'{html.escape(network_ai)}</div>',
-        unsafe_allow_html=True,
-    )
-
-
-# ─── TAB 4: Query IA ─────────────────────────────────────────────────────────
-with tab_ia:
-    section_header("CONSULTAS EN LENGUAJE NATURAL — GRAFO POLITICO", CYAN)
-
-    estado_ia = "conectado" if _LLM_OK else "sin conexion"
-    color_ia = GREEN if _LLM_OK else RED
-    st.markdown(
-        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
-        f'padding:.6rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem">'
-        f'<div style="width:8px;height:8px;border-radius:50%;background:{color_ia};'
-        f'box-shadow:0 0 6px {color_ia}88"></div>'
-        f'<span style="font-size:.72rem;color:{TEXT2}">Politeia Brain: <b style="color:{color_ia}">{estado_ia}</b></span>'
-        f'</div>',
-        unsafe_allow_html=True,
-    )
-
-    preguntas_ejemplo = [
-        "¿Quiénes son los actores más influyentes entre PP y medios conservadores?",
-        "¿Qué empresas tienen más conexiones de lobby con el gobierno?",
-        "Analiza las conexiones adversariales entre los partidos principales",
-        "¿Qué think tanks tienen mayor centralidad en la red?",
-        "Describe el papel de los sindicatos en la red de influencia española",
-    ]
-
-    st.markdown(
-        f'<div style="font-size:.72rem;color:{MUTED};margin-bottom:.5rem">Ejemplos de consulta:</div>',
-        unsafe_allow_html=True,
-    )
-    cols_ex = st.columns(len(preguntas_ejemplo))
-    for i, pej in enumerate(preguntas_ejemplo):
-        with cols_ex[i]:
-            if st.button(f"💬 {pej[:35]}...", key=f"ej_{i}", use_container_width=True):
-                st.session_state["ia_query_input"] = pej
-
-    query_ia = st.text_area(
-        "Escribe tu consulta sobre el grafo politico:",
-        value=st.session_state.get("ia_query_input", ""),
-        height=90,
-        placeholder="ej: ¿Quiénes son los brokers de información entre el gobierno y los medios?",
-        key="ia_query_input",
-    )
-
-    if st.button("🔍 Consultar al grafo", type="primary", key="btn_ia_query", use_container_width=False):
-        if not query_ia.strip():
-            st.warning("Escribe una consulta primero.")
+    # Red ego o grafo completo
+    if actor_ego_nombre != "(Todo el grafo)":
+        actor_ego_obj = next((a for a in _actores_todos if a["nombre"] == actor_ego_nombre), None)
+        if actor_ego_obj:
+            actores_g, relaciones_g = _svc.egocentric_network(actor_ego_obj["id"], profundidad=1)
         else:
-            # Construir contexto del grafo para el LLM
-            grafo_resumen = (
-                f"Red politica espanola con {len(ACTORES)} actores y {len(RELACIONES)} relaciones.\n"
-                f"ACTORES: " + "; ".join(f"{a['nombre']} ({a['tipo']}, {a['org']})" for a in ACTORES) + "\n"
-                f"RELACIONES PRINCIPALES: " + "; ".join(f"{r['from']}--[{r['label']}]-->{r['to']}" for r in RELACIONES[:20])
+            actores_g = _svc.get_actores(tipo=_t_f)
+            relaciones_g = _svc.get_relaciones(tipo=_r_f)
+    else:
+        actores_g = _svc.get_actores(tipo=_t_f)
+        relaciones_g = _svc.get_relaciones(tipo=_r_f)
+
+    if _r_f:
+        relaciones_g = [r for r in relaciones_g if r.get("tipo") == _r_f]
+    ids_grafo = {a["id"] for a in actores_g}
+    relaciones_g = [r for r in relaciones_g
+                    if r.get("from") in ids_grafo and r.get("to") in ids_grafo]
+
+    if _PYVIS_OK and actores_g:
+        net = _PyvisNetwork(
+            height="580px", width="100%",
+            bgcolor=BG, font_color=TEXT,
+            directed=True,
+        )
+        net.set_options("""{
+          "physics": {
+            "enabled": true,
+            "solver": "forceAtlas2Based",
+            "forceAtlas2Based": {
+              "gravitationalConstant": -60,
+              "centralGravity": 0.005,
+              "springLength": 100,
+              "springConstant": 0.06,
+              "damping": 0.4
+            },
+            "stabilization": {"iterations": 180}
+          },
+          "interaction": {
+            "hover": true,
+            "tooltipDelay": 150,
+            "navigationButtons": true,
+            "keyboard": true
+          },
+          "edges": {
+            "smooth": {"type": "dynamic"},
+            "arrows": {"to": {"enabled": true, "scaleFactor": 0.5}}
+          },
+          "nodes": {"shadow": true, "shape": "dot"}
+        }""")
+
+        for a in actores_g:
+            pgr_v = _pgr.get(a["id"], 0.01)
+            size  = 10 + int(pgr_v / _max_pgr * 35)
+            color = _node_color(a, _comm)
+            comm_id = _comm.get(a["id"])
+            tooltip = (
+                f"<b>{a.get('nombre','')}</b><br>"
+                f"<i>{a.get('rol','')}</i><br>"
+                f"Org: {a.get('org','')} | Región: {a.get('region','')}<br>"
+                f"Poder: {a.get('poder',0)}/10 | PageRank: {pgr_v:.4f}<br>"
+                f"Comunidad: {comm_id if comm_id is not None else 'n/a'}"
             )
-            if _LLM_OK:
-                try:
-                    with st.spinner("Analizando el grafo con IA..."):
-                        prompt = (
-                            f"Eres un experto en analisis de redes politicas espanolas. "
-                            f"Responde esta consulta sobre el grafo de actores politicos:\n\n"
-                            f"CONSULTA: {query_ia}\n\n"
-                            f"DATOS DEL GRAFO:\n{grafo_resumen}"
-                        )
-                        respuesta = _llm.chat(prompt)
-                except Exception as exc:
-                    respuesta = f"Error consultando la IA: {exc}"
-            else:
-                # Respuesta local determinista cuando el LLM no está disponible.
-                respuesta = (
-                    f"**Analisis del grafo** (modo heuristico local):\n\n"
-                    f"Consulta recibida: *{query_ia}*\n\n"
-                    f"La red contiene **{len(ACTORES)} actores** con **{len(RELACIONES)} relaciones**. "
-                    f"Los actores con mayor centralidad son Pedro Sanchez ({deg.get('sanchez',0)} conexiones), "
-                    f"Alberto N. Feijoo ({deg.get('feijoo',0)} conexiones) e Iberdrola ({deg.get('iberdrola',0)} conexiones). "
-                    f"Para analisis mas profundos, activa Ollama (`ollama serve`) o configura tu clave Claude API."
+            net.add_node(
+                a["id"],
+                label=a.get("nombre", a["id"]) if mostrar_labels else "",
+                title=tooltip,
+                color={"background": color, "border": color,
+                       "highlight": {"background": "#FFFFFF", "border": color}},
+                size=size,
+            )
+
+        for r in relaciones_g:
+            col = _COLOR_REL.get(r.get("tipo", ""), MUTED)
+            fuerza = float(r.get("fuerza", 1))
+            net.add_edge(
+                r["from"], r["to"],
+                title=r.get("label", ""),
+                color=col,
+                width=max(0.5, fuerza * 0.4),
+                label=r.get("tipo", "") if _r_f else "",
+            )
+
+        _html_path = _ROOT / "dashboard" / "data" / "actors_graph_vis.html"
+        _html_path.parent.mkdir(parents=True, exist_ok=True)
+        net.save_graph(str(_html_path))
+        with open(_html_path, "r", encoding="utf-8") as f:
+            _html_content = f.read()
+        components.html(_html_content, height=590, scrolling=False)
+
+        # Leyenda
+        leg_cols = st.columns(len(_COLOR_TIPO) + 1)
+        for i, (t, c) in enumerate(_COLOR_TIPO.items()):
+            with leg_cols[i]:
+                n = len([a for a in actores_g if a.get("tipo") == t])
+                st.markdown(
+                    f'<div style="font-size:.72rem;"><span style="color:{c};">●</span> {_icon_tipo(t)} {t} ({n})</div>',
+                    unsafe_allow_html=True
                 )
+        with leg_cols[-1]:
+            st.markdown(
+                f'<div style="font-size:.72rem;color:{MUTED};">🫧 {_metricas.get("n_comunidades",0)} comunidades</div>',
+                unsafe_allow_html=True
+            )
+    elif not _PYVIS_OK:
+        st.warning("pyvis no disponible — instala `pyvis>=0.3.2`")
+    else:
+        st.info("Sin actores que mostrar con los filtros actuales")
 
-            st.session_state["ia_last_response"] = respuesta
-            st.session_state["ia_last_query"] = query_ia
 
-    if "ia_last_response" in st.session_state:
-        st.markdown("<br>", unsafe_allow_html=True)
-        section_header("RESPUESTA DEL ANALIZADOR", CYAN)
-        st.markdown(
-            f'<div class="chat-box">'
-            f'<div style="font-size:.6rem;font-weight:800;color:{CYAN};letter-spacing:.1em;'
-            f'text-transform:uppercase;margin-bottom:.5rem">POLITEIA BRAIN</div>'
-            f'{st.session_state["ia_last_response"].replace(chr(10), "<br>")}'
-            f'</div>',
-            unsafe_allow_html=True,
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 2 — PERFILES
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_perfil:
+    st.markdown("### 👤 Perfiles de Actores")
+
+    pc1, pc2 = st.columns([3, 1])
+    with pc1:
+        _todos = sorted(_svc.get_actores(), key=lambda x: -x.get("poder", 0))
+        actor_nombre_p = st.selectbox("Seleccionar actor", [a["nombre"] for a in _todos], key="perfil_actor")
+    with pc2:
+        if _SCRAPER_OK and st.button("🌐 Enriquecer Wikipedia", key="btn_wiki"):
+            actor_sel = next((a for a in _todos if a["nombre"] == actor_nombre_p), None)
+            if actor_sel:
+                with st.spinner(f"Scrapeando {actor_sel['nombre']}…"):
+                    perfil_wiki = _scraper.wikipedia_perfil(
+                        actor_sel["nombre"],
+                        actor_sel.get("wikipedia_titulo", "")
+                    )
+                    if perfil_wiki:
+                        actor_sel.update(perfil_wiki)
+                        _svc.upsert_actor(actor_sel)
+                        st.success("✅ Perfil enriquecido")
+                        _load_metricas.clear()
+                    else:
+                        st.warning("No encontrado en Wikipedia")
+
+    actor = next((a for a in _todos if a["nombre"] == actor_nombre_p), None)
+    if not actor:
+        st.info("Selecciona un actor")
+        st.stop()
+
+    # Layout foto + info
+    col_foto, col_info = st.columns([1, 3])
+
+    with col_foto:
+        foto_url = actor.get("foto_url", "")
+        if foto_url:
+            st.image(foto_url, width=160)
+        else:
+            c_av = _color_tipo(actor.get("tipo", ""))
+            st.markdown(f"""
+            <div style="width:140px;height:140px;border-radius:50%;
+                        background:{c_av}22;border:2px solid {c_av};
+                        display:flex;align-items:center;justify-content:center;font-size:3rem;">
+              {_icon_tipo(actor.get("tipo",""))}
+            </div>""", unsafe_allow_html=True)
+
+        m_a = _load_metricas()
+        pgr_a = m_a.get("pagerank",{}).get(actor["id"],0)
+        btw_a = m_a.get("betweenness",{}).get(actor["id"],0)
+        deg_a = m_a.get("degree",{}).get(actor["id"],0)
+        com_a = m_a.get("comunidades",{}).get(actor["id"])
+
+        for val, lbl in [(f"{pgr_a:.4f}","PageRank"), (str(deg_a),"Conexiones"), (f"{btw_a:.4f}","Betweenness")]:
+            st.markdown(
+                f'<div class="metric-box" style="margin-top:.4rem;">'
+                f'<div class="metric-val">{val}</div>'
+                f'<div class="metric-lbl">{lbl}</div></div>',
+                unsafe_allow_html=True
+            )
+        if com_a is not None:
+            cc = _COMM_COLORS[int(com_a) % len(_COMM_COLORS)]
+            st.markdown(
+                f'<div class="metric-box" style="margin-top:.4rem;border-top-color:{cc};">'
+                f'<div class="metric-val" style="color:{cc};">#{com_a}</div>'
+                f'<div class="metric-lbl">Comunidad</div></div>',
+                unsafe_allow_html=True
+            )
+
+    with col_info:
+        c_t = _color_tipo(actor.get("tipo",""))
+        st.markdown(f"""
+        <div class="actor-card">
+          <div class="actor-name">{actor.get("nombre","")}</div>
+          <div class="actor-role">{actor.get("rol","")}</div>
+          <div>
+            {_actor_badge(actor.get("tipo",""))}
+            <span class="tag" style="background:{BORDER};color:{TEXT2};">{actor.get("org","")}</span>
+            <span class="tag" style="background:{BORDER};color:{TEXT2};">🗺️ {actor.get("region","")}</span>
+            <span class="tag" style="background:{AMBER}22;color:{AMBER};">⚡ Poder {actor.get("poder",0)}/10</span>
+          </div>
+          {"<div style='margin-top:.4rem;font-size:.73rem;color:"+TEXT2+";'>🐦 "+actor.get("twitter","")+"</div>" if actor.get("twitter") else ""}
+          {"<div style='margin-top:.3rem;font-size:.73rem;color:"+TEXT2+";'>"+actor.get("descripcion","")+"</div>" if actor.get("descripcion") else ""}
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Wikipedia extracto
+        wiki_txt = actor.get("wikipedia_extracto", actor.get("extracto", ""))
+        if wiki_txt:
+            wiki_link = ""
+            if actor.get("wikipedia_url"):
+                wiki_link = f"· <a href='{actor['wikipedia_url']}' target='_blank' style='color:{CYAN};'>ver artículo ↗</a>"
+            st.markdown(f"""
+            <div class="wiki-box">
+              <div style="font-size:.7rem;font-weight:700;color:{CYAN};margin-bottom:.4rem;">📖 Wikipedia {wiki_link}</div>
+              {wiki_txt[:600]}{"…" if len(wiki_txt)>600 else ""}
+            </div>
+            """, unsafe_allow_html=True)
+        elif actor.get("tipo") == "politico":
+            st.caption("ℹ️ Sin datos Wikipedia — pulsa 'Enriquecer Wikipedia'")
+
+        # Conexiones
+        rels_a = _svc.get_relaciones(actor_id=actor["id"])
+        if rels_a:
+            st.markdown(f"**🔗 Conexiones ({len(rels_a)})**")
+            for r in sorted(rels_a, key=lambda x: -float(x.get("fuerza",1)))[:12]:
+                otro_id = r["to"] if r["from"] == actor["id"] else r["from"]
+                otro = _svc.get_actor(otro_id)
+                if not otro:
+                    continue
+                direction = "→" if r["from"] == actor["id"] else "←"
+                cr = _COLOR_REL.get(r.get("tipo",""), MUTED)
+                fuente_tag = ""
+                if r.get("fuente","manual") != "manual":
+                    fuente_tag = f'<span style="font-size:.6rem;color:{MUTED};">🌐 {r["fuente"]}</span>'
+                st.markdown(f"""
+                <div class="conn-item">
+                  <span>{_icon_tipo(otro.get("tipo",""))} {otro.get("nombre",otro_id)}</span>
+                  <span style="display:flex;align-items:center;gap:.4rem;">
+                    {fuente_tag}
+                    <span style="color:{cr};">{direction} {r.get("label","")}</span>
+                    {_rel_badge(r.get("tipo",""))}
+                  </span>
+                </div>
+                """, unsafe_allow_html=True)
+
+        # Menciones recientes
+        menciones = _svc.get_menciones(actor_id=actor["id"], limit=6)
+        if menciones:
+            st.markdown(f"**📰 Menciones recientes ({len(menciones)})**")
+            for m in menciones:
+                st.markdown(f"""
+                <div style="font-size:.75rem;border-left:2px solid {CYAN};
+                            padding-left:.6rem;margin-bottom:.3rem;color:{TEXT2};">
+                  {m.get("titular","")[:120]}
+                  <span style="color:{MUTED};"> — {m.get("medio","")}, {m.get("fecha","")[:10]}</span>
+                </div>
+                """, unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 3 — RELACIONES
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_rels:
+    st.markdown("### 🔗 Explorer de Relaciones")
+
+    rc1, rc2, rc3 = st.columns(3)
+    with rc1:
+        tipo_rel_f = st.selectbox("Tipo", ["Todas"] + list(_COLOR_REL.keys()), key="rel_tipo")
+    with rc2:
+        fuente_f = st.selectbox("Fuente", ["Todas","manual","rss","wikipedia","wikidata","ner_ollama"], key="rel_fuente")
+    with rc3:
+        min_fuerza = st.slider("Fuerza mínima", 0.0, 10.0, 0.0, 0.5, key="rel_fuerza")
+
+    _rels_all = _svc.get_relaciones(tipo=tipo_rel_f if tipo_rel_f != "Todas" else None)
+    if fuente_f != "Todas":
+        _rels_all = [r for r in _rels_all if r.get("fuente","manual") == fuente_f]
+    if min_fuerza > 0:
+        _rels_all = [r for r in _rels_all if float(r.get("fuerza",0)) >= min_fuerza]
+
+    st.caption(f"Mostrando **{len(_rels_all)}** relaciones")
+
+    if _rels_all:
+        rows = []
+        for r in _rels_all:
+            a_f = _svc.get_actor(r.get("from",""))
+            a_t = _svc.get_actor(r.get("to",""))
+            rows.append({
+                "Desde":    a_f.get("nombre",r.get("from","")) if a_f else r.get("from",""),
+                "Hasta":    a_t.get("nombre",r.get("to",""))   if a_t else r.get("to",""),
+                "Tipo":     r.get("tipo",""),
+                "Etiqueta": r.get("label",""),
+                "Fuerza":   float(r.get("fuerza",1)),
+                "Fuente":   r.get("fuente","manual"),
+                "N.menciones": r.get("n_menciones",0),
+            })
+        df_rels = pd.DataFrame(rows).sort_values("Fuerza", ascending=False)
+        st.dataframe(df_rels, use_container_width=True, height=320)
+
+        # Histograma por tipo
+        cnt = Counter(r.get("tipo","") for r in _rels_all)
+        fig_hist = go.Figure(go.Bar(
+            x=list(cnt.keys()), y=list(cnt.values()),
+            marker_color=[_COLOR_REL.get(t, MUTED) for t in cnt.keys()],
+        ))
+        fig_hist.update_layout(
+            paper_bgcolor=BG, plot_bgcolor=BG2, font_color=TEXT,
+            height=220, margin=dict(l=0,r=0,t=20,b=0)
+        )
+        st.plotly_chart(fig_hist, use_container_width=True)
+
+    with st.expander("➕ Añadir / editar relación manual"):
+        _todos_n = sorted(_svc.get_actores(), key=lambda x: x.get("nombre",""))
+        ae1, ae2 = st.columns(2)
+        with ae1:
+            from_actor = st.selectbox("Desde", [a["nombre"] for a in _todos_n], key="new_rel_from")
+        with ae2:
+            to_actor   = st.selectbox("Hasta",  [a["nombre"] for a in _todos_n], key="new_rel_to")
+        ae3, ae4, ae5 = st.columns(3)
+        with ae3:
+            new_tipo   = st.selectbox("Tipo", list(_COLOR_REL.keys()), key="new_rel_tipo")
+        with ae4:
+            new_label  = st.text_input("Etiqueta", key="new_rel_label")
+        with ae5:
+            new_fuerza = st.slider("Fuerza", 1.0, 10.0, 5.0, 0.5, key="new_rel_fuerza")
+
+        if st.button("💾 Guardar relación", key="btn_save_rel"):
+            a_f2 = next((a for a in _todos_n if a["nombre"] == from_actor), None)
+            a_t2 = next((a for a in _todos_n if a["nombre"] == to_actor), None)
+            if a_f2 and a_t2 and a_f2["id"] != a_t2["id"]:
+                _svc.upsert_relacion({
+                    "from": a_f2["id"], "to": a_t2["id"],
+                    "tipo": new_tipo, "label": new_label,
+                    "fuerza": new_fuerza, "fuente": "manual",
+                })
+                st.success(f"✅ {from_actor} → {to_actor} guardada")
+                st.cache_data.clear()
+            else:
+                st.error("Selecciona dos actores distintos")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 4 — ANÁLISIS NETWORKX
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_analisis:
+    st.markdown("### 📊 Análisis de Red — networkx")
+    st.caption("Degree · Betweenness · PageRank · Closeness · Comunidades Louvain (greedy_modularity)")
+
+    m = _load_metricas()
+    ac1, ac2, ac3, ac4 = st.columns(4)
+    for col, (val, lbl) in zip(
+        [ac1, ac2, ac3, ac4],
+        [(m.get("n_nodos",0),"Nodos"), (m.get("n_aristas",0),"Aristas"),
+         (f"{m.get('densidad',0):.4f}","Densidad"), (m.get("n_comunidades",0),"Comunidades")]
+    ):
+        with col:
+            st.markdown(
+                f'<div class="metric-box"><div class="metric-val">{val}</div>'
+                f'<div class="metric-lbl">{lbl}</div></div>',
+                unsafe_allow_html=True
+            )
+
+    st.markdown("")
+
+    # Ranking por métrica
+    metrica_sel = st.selectbox(
+        "Métrica de centralidad",
+        ["pagerank","degree","betweenness","closeness"],
+        format_func=lambda x: {"pagerank":"PageRank","degree":"Grado",
+                                "betweenness":"Betweenness","closeness":"Closeness"}[x],
+        key="analisis_metrica",
+    )
+    top_n = st.slider("Top N", 5, 30, 15, key="analisis_topn")
+    top_items = _svc.top_actores_por_metrica(metrica_sel, top_n)
+
+    if top_items:
+        labels, vals = zip(*top_items)
+        nombres, colores = [], []
+        for lid in labels:
+            a = _svc.get_actor(lid)
+            nombres.append(a["nombre"] if a else lid)
+            colores.append(_color_tipo(a.get("tipo","") if a else ""))
+
+        fig_top = go.Figure(go.Bar(
+            x=list(vals), y=nombres, orientation="h",
+            marker_color=colores,
+            text=[f"{v:.4f}" for v in vals], textposition="outside",
+        ))
+        fig_top.update_layout(
+            paper_bgcolor=BG, plot_bgcolor=BG2, font_color=TEXT,
+            height=max(300, top_n * 28),
+            margin=dict(l=0,r=80,t=10,b=0),
+            yaxis=dict(autorange="reversed"),
+        )
+        st.plotly_chart(fig_top, use_container_width=True)
+
+    # Brokers
+    st.markdown("#### 🌉 Actores Puente — Brokers de Información")
+    st.caption("Betweenness > media + σ : actores que conectan comunidades distintas")
+    puentes = _svc.actores_puente()
+    if puentes:
+        p_cols = st.columns(min(4, len(puentes)))
+        for i, p in enumerate(puentes[:8]):
+            a = _svc.get_actor(p["id"])
+            c = _color_tipo(a.get("tipo","") if a else "")
+            with p_cols[i % len(p_cols)]:
+                st.markdown(f"""
+                <div class="metric-box" style="border-top-color:{c};">
+                  <div style="font-size:.9rem;font-weight:800;color:{TEXT};">
+                    {_icon_tipo(a.get("tipo","") if a else "")} {p["nombre"]}
+                  </div>
+                  <div style="font-size:.65rem;color:{MUTED};">{a.get("org","") if a else ""}</div>
+                  <div class="metric-val" style="font-size:1rem;margin-top:.4rem;">{p["betweenness"]:.4f}</div>
+                  <div class="metric-lbl">Betweenness · {p["grado"]} conexiones</div>
+                </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("Networkx no disponible o sin suficientes datos")
+
+    # Camino más corto
+    st.markdown("#### 🔍 Camino Más Corto entre Dos Actores")
+    _todos_s = sorted(_svc.get_actores(), key=lambda x: x.get("nombre",""))
+    sp1, sp2 = st.columns(2)
+    with sp1:
+        actor_a_n = st.selectbox("Actor A", [a["nombre"] for a in _todos_s], key="path_a")
+    with sp2:
+        actor_b_n = st.selectbox("Actor B", [a["nombre"] for a in _todos_s], index=1, key="path_b")
+
+    if st.button("🔍 Calcular camino", key="btn_path"):
+        obj_a = next((a for a in _todos_s if a["nombre"] == actor_a_n), None)
+        obj_b = next((a for a in _todos_s if a["nombre"] == actor_b_n), None)
+        if obj_a and obj_b:
+            path = _svc.camino_entre_actores(obj_a["id"], obj_b["id"])
+            if path:
+                path_n = []
+                for pid in path:
+                    pa = _svc.get_actor(pid)
+                    path_n.append(f"**{pa['nombre']}**" if pa else pid)
+                st.success(f"✅ Distancia: {len(path)-1} pasos")
+                st.markdown(" → ".join(path_n))
+            else:
+                st.warning("No hay camino entre estos actores")
+
+    # Scatter PageRank vs Betweenness
+    st.markdown("#### 🎯 PageRank vs Betweenness")
+    _all_a = _svc.get_actores()
+    sdata = [{
+        "nombre":     a.get("nombre",a["id"]),
+        "tipo":       a.get("tipo",""),
+        "poder":      a.get("poder",5),
+        "pagerank":   m.get("pagerank",{}).get(a["id"],0),
+        "betweenness":m.get("betweenness",{}).get(a["id"],0),
+    } for a in _all_a]
+    df_sc = pd.DataFrame(sdata)
+
+    if not df_sc.empty and df_sc["pagerank"].sum() > 0:
+        fig_sc = px.scatter(
+            df_sc, x="pagerank", y="betweenness",
+            color="tipo", size="poder", hover_name="nombre",
+            color_discrete_map=_COLOR_TIPO, template="plotly_dark",
+        )
+        fig_sc.update_layout(
+            paper_bgcolor=BG, plot_bgcolor=BG2, font_color=TEXT,
+            height=380, margin=dict(l=0,r=0,t=20,b=0),
+            legend=dict(bgcolor=BG3, bordercolor=BORDER),
+        )
+        st.plotly_chart(fig_sc, use_container_width=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 5 — ACTUALIZACIÓN
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_update:
+    st.markdown("### 🔄 Motor de Actualización Dinámica")
+    st.caption("Worker background · Scraping Wikipedia/Wikidata · NER RSS · Relaciones inferidas")
+
+    est = _svc.estado_worker_actores()
+
+    # Worker control
+    uw1, uw2, uw3 = st.columns(3)
+    with uw1:
+        w_running = est.get("running", False)
+        if w_running:
+            st.markdown(f'<div style="color:{GREEN};font-weight:800;">🟢 Worker activo</div>', unsafe_allow_html=True)
+            if st.button("⏹ Detener worker", key="btn_stop"):
+                _svc.detener_worker_actores()
+                st.info("Worker detenido")
+                st.rerun()
+        else:
+            st.markdown(f'<div style="color:{MUTED};font-weight:800;">⏸ Worker parado</div>', unsafe_allow_html=True)
+            if st.button("▶️ Iniciar worker", key="btn_start"):
+                _svc.iniciar_worker_actores()
+                st.success("Worker iniciado")
+                st.rerun()
+    with uw2:
+        st.metric("Actores en store",   est.get("n_actores",0))
+        st.metric("Relaciones totales", est.get("n_relaciones",0))
+    with uw3:
+        st.metric("Menciones",          est.get("n_menciones",0))
+        ultima = est.get("meta",{}).get("ultima_actualizacion","")
+        if ultima:
+            st.caption(f"Última actualiz.: {ultima[:19]}")
+
+    # Próximas ejecuciones
+    proximas = est.get("proximas", {})
+    if proximas:
+        st.markdown("**⏱ Próximas ejecuciones:**")
+        df_prx = pd.DataFrame([
+            {"Tarea": k, "En (s)": max(0,v), "En (min)": round(max(0,v)/60,1)}
+            for k, v in proximas.items()
+        ])
+        st.dataframe(df_prx, hide_index=True, use_container_width=True, height=140)
+
+    # Actualizaciones manuales por módulo
+    st.markdown("#### ⚡ Actualización Manual por Módulo")
+    mu1, mu2, mu3 = st.columns(3)
+    with mu1:
+        if st.button("📰 Menciones RSS", key="btn_mencion"):
+            with st.spinner("Scrapeando menciones…"):
+                n = _svc.ejecutar_actualizacion_manual("menciones_rss")
+            st.success(f"✅ {n} menciones nuevas")
+            st.cache_data.clear()
+    with mu2:
+        if st.button("🔗 Inferir relaciones RSS", key="btn_rel"):
+            with st.spinner("Analizando co-menciones…"):
+                n = _svc.ejecutar_actualizacion_manual("relaciones_rss")
+            st.success(f"✅ {n} relaciones inferidas")
+            st.cache_data.clear()
+    with mu3:
+        if st.button("🌐 Enriquecer Wikipedia (lote)", key="btn_wiki_lote"):
+            with st.spinner("Enriqueciendo lote de 5 actores…"):
+                n = _svc.ejecutar_actualizacion_manual("enriquecimiento")
+            st.success(f"✅ {n} actores enriquecidos")
+            st.cache_data.clear()
+
+    # Enriquecimiento individual
+    st.markdown("#### 🎯 Enriquecimiento Individual")
+    _todos_e = sorted(_svc.get_actores(), key=lambda x: x.get("nombre",""))
+    enr1, enr2 = st.columns([3,1])
+    with enr1:
+        actor_enr_n = st.selectbox("Actor a enriquecer", [a["nombre"] for a in _todos_e], key="actor_enr")
+    with enr2:
+        force_r = st.checkbox("Forzar refresh", key="enr_force")
+
+    if _SCRAPER_OK:
+        if st.button("🌐 Enriquecer este actor", key="btn_enr_ind"):
+            actor_enr = next((a for a in _todos_e if a["nombre"] == actor_enr_n), None)
+            if actor_enr:
+                with st.spinner(f"Enriqueciendo {actor_enr['nombre']}…"):
+                    enriquecidos = _scraper.enriquecer_lote([actor_enr], max_actores=1, force=force_r)
+                    for ae in enriquecidos:
+                        _svc.upsert_actor(ae)
+                    if enriquecidos:
+                        res = enriquecidos[0]
+                        st.success(f"✅ {actor_enr['nombre']} actualizado")
+                        if res.get("extracto"):
+                            st.markdown(
+                                f'<div class="wiki-box"><b>Wikipedia:</b> {res["extracto"][:400]}…</div>',
+                                unsafe_allow_html=True
+                            )
+                    else:
+                        st.warning("Sin datos adicionales encontrados")
+                st.cache_data.clear()
+
+        # Wikidata bulk
+        st.markdown("#### 🗄️ Descarga Bulk — Wikidata SPARQL")
+        st.caption("~150 políticos españoles estructurados desde Wikidata")
+        if st.button("⬇️ Descargar políticos de Wikidata", key="btn_wikidata"):
+            with st.spinner("Consultando Wikidata (10-20s)…"):
+                wd_pol = _scraper.wikidata_politicos_espana()
+            if wd_pol:
+                st.success(f"✅ {len(wd_pol)} políticos encontrados")
+                df_wd = pd.DataFrame(wd_pol)
+                st.dataframe(
+                    df_wd[["nombre","partido","cargo","nacimiento"]].head(30),
+                    use_container_width=True, height=300
+                )
+            else:
+                st.warning("Sin respuesta de Wikidata")
+    else:
+        st.info("actors_scraper no disponible")
+
+    # Log de operaciones
+    st.markdown("#### 📋 Log de Operaciones")
+    log_entries = est.get("log", [])
+    if log_entries:
+        for entry in log_entries[:20]:
+            ok = entry.get("ok", True)
+            info = (f" — {entry.get('error','')}" if not ok and entry.get("error")
+                    else f" ({entry.get('n',0)} items)")
+            st.markdown(f"""
+            <div class="log-row">
+              <span class="{'log-ok' if ok else 'log-err'}">{'✓' if ok else '✗'}</span>
+              <span style="color:{MUTED};">[{entry.get("ts","")[:19]}]</span>
+              <span style="color:{TEXT2};"> {entry.get("tipo","")}{info}</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+    if _SCRAPER_OK:
+        scraper_log = getattr(_scraper, "_SCRAPE_LOG", [])
+        if scraper_log:
+            st.markdown("#### 🌐 Log Scraper")
+            for entry in reversed(scraper_log[-12:]):
+                ok_s = entry.get("ok", True)
+                st.markdown(f"""
+                <div class="log-row">
+                  <span class="{'log-ok' if ok_s else 'log-err'}">{'✓' if ok_s else '✗'}</span>
+                  <span style="color:{MUTED};">[{entry.get("ts","")}]</span>
+                  <span style="color:{TEXT2};"> {entry.get("tipo","")} · {entry.get("actor","")} · {entry.get("info","")}</span>
+                </div>
+                """, unsafe_allow_html=True)
+
+    if st.button("🔄 Reset a datos seed", key="btn_reset", type="secondary"):
+        _svc.reset_a_seed()
+        st.cache_data.clear()
+        st.success("✅ Store reseteado a datos base")
+        st.rerun()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 6 — QUERY IA (Ollama)
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_query:
+    st.markdown("### 🤖 Motor de Consulta IA — Ollama Local")
+    st.caption("Consulta libre · NER de noticias · Ficha ejecutiva · Briefing de relación")
+
+    if not _LLM_OK:
+        st.warning("⚠️ Ollama no disponible — `ollama serve` para activarlo")
+    else:
+        st.success("🟢 Ollama activo")
+
+    qt1, qt2, qt3, qt4 = st.tabs([
+        "💬 Consulta libre",
+        "🔍 NER — Extraer actores",
+        "📋 Ficha de actor IA",
+        "🤝 Briefing de relación",
+    ])
+
+    # ── QT1: Consulta libre ───────────────────────────────────────────────────
+    with qt1:
+        st.markdown("#### 💬 Consulta en lenguaje natural sobre el grafo")
+
+        _preguntas = [
+            "¿Quién tiene más influencia en el grafo político actual?",
+            "¿Qué actores conectan el bloque gubernamental con los medios?",
+            "¿Cuáles son los principales brokers de información entre bloques?",
+            "¿Qué lobbies tienen mayor acceso al Gobierno de Sánchez?",
+            "¿Qué actores tienen relaciones adversariales con el PP?",
+            "Explica las comunidades detectadas en el grafo",
+        ]
+        for pq in _preguntas:
+            if st.button(f"💡 {pq}", key=f"pq_{hash(pq)}"):
+                st.session_state["qia_input"] = pq
+
+        pregunta = st.text_area(
+            "Tu pregunta",
+            value=st.session_state.get("qia_input",""),
+            height=90, key="qia_input_area",
+            placeholder="Ej: ¿Qué actores conectan a Puigdemont con el Gobierno?",
         )
 
-    # Historial de queries
-    if "ia_query_history" not in st.session_state:
-        st.session_state["ia_query_history"] = []
-    if "ia_last_query" in st.session_state and "ia_last_response" in st.session_state:
-        entry = (st.session_state["ia_last_query"], st.session_state["ia_last_response"])
-        if not st.session_state["ia_query_history"] or st.session_state["ia_query_history"][0] != entry:
-            st.session_state["ia_query_history"].insert(0, entry)
-            st.session_state["ia_query_history"] = st.session_state["ia_query_history"][:5]
+        if st.button("🔍 Consultar", key="btn_query", disabled=not _LLM_OK):
+            if pregunta.strip():
+                m_ctx = _load_metricas()
+                top_pgr = _svc.top_actores_por_metrica("pagerank",10)
+                top_btw = _svc.top_actores_por_metrica("betweenness",5)
+                puentes_ctx = _svc.actores_puente()[:5]
 
-    if len(st.session_state.get("ia_query_history", [])) > 1:
-        with st.expander("📜 Historial de consultas"):
-            for q, r in st.session_state["ia_query_history"][1:]:
-                st.markdown(
-                    f'<div style="border:1px solid {BORDER};border-radius:8px;padding:.6rem .9rem;'
-                    f'margin-bottom:.5rem;background:{BG2}">'
-                    f'<div style="font-size:.68rem;font-weight:800;color:{PURPLE};margin-bottom:.2rem">Q: {q}</div>'
-                    f'<div style="font-size:.74rem;color:{TEXT2}">{r[:200]}...</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
+                top_pgr_s = ", ".join(
+                    f"{_svc.get_actor(aid)['nombre'] if _svc.get_actor(aid) else aid} ({v:.4f})"
+                    for aid,v in top_pgr
                 )
+                top_btw_s = ", ".join(
+                    f"{_svc.get_actor(aid)['nombre'] if _svc.get_actor(aid) else aid} ({v:.4f})"
+                    for aid,v in top_btw
+                )
+                rels_cnt = Counter(r.get("tipo") for r in _svc.get_relaciones())
+
+                contexto = f"""GRAFO POLÍTICO ESPAÑOL:
+Actores: {m_ctx.get("n_nodos",0)} | Relaciones: {m_ctx.get("n_aristas",0)} | Densidad: {m_ctx.get("densidad",0):.4f}
+Comunidades Louvain: {m_ctx.get("n_comunidades",0)}
+
+Top PageRank: {top_pgr_s}
+Top Betweenness: {top_btw_s}
+Actores puente: {", ".join(p["nombre"] for p in puentes_ctx)}
+Distribución relaciones: {dict(rels_cnt)}
+
+Actores clave:
+PSOE/Gobierno: Sánchez, Yolanda Díaz, Félix Bolaños, Marlaska
+PP/Oposición: Feijóo, Ayuso (Madrid), Moreno (Andalucía), Mazón (Valencia)
+Independentismo: Puigdemont (JUNTS/exilio), Junqueras (ERC), Otegi (EH Bildu)
+Empresarial: Iberdrola, Santander, BBVA, Inditex, Repsol, ACS/Florentino
+Medios: El País (PRISA/prog), El Mundo, ABC, RTVE, OKDiario
+Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
+
+                sistema = ("Eres un analista experto en política española con acceso a un grafo "
+                           "de relaciones entre actores. Responde en español, conciso y preciso.")
+
+                with st.spinner("🤔 Analizando…"):
+                    respuesta = _llm.chat(pregunta, contexto=contexto, sistema=sistema, modo="normal")
+
+                st.markdown(f'<div class="chat-msg">{respuesta}</div>', unsafe_allow_html=True)
+                if "qia_historia" not in st.session_state:
+                    st.session_state["qia_historia"] = []
+                st.session_state["qia_historia"].append({
+                    "q": pregunta, "a": respuesta, "ts": time.strftime("%H:%M")
+                })
+
+        if st.session_state.get("qia_historia"):
+            with st.expander(f"📜 Historial ({len(st.session_state['qia_historia'])} consultas)"):
+                for item in reversed(st.session_state["qia_historia"][-8:]):
+                    st.markdown(f"**[{item['ts']}]** {item['q']}")
+                    st.markdown(
+                        f'<div class="chat-msg">{item["a"][:300]}{"…" if len(item["a"])>300 else ""}</div>',
+                        unsafe_allow_html=True
+                    )
+
+    # ── QT2: NER ─────────────────────────────────────────────────────────────
+    with qt2:
+        st.markdown("#### 🔍 NER — Extracción de Actores y Relaciones desde Texto")
+        st.caption("Inspirado en NER-for-News-Headlines · text2knowledge · orlandxrf/relation-extraction")
+
+        _ejemplos_ner = [
+            "Pedro Sánchez y Yolanda Díaz discrepan sobre la reforma de las pensiones ante las presiones de CEOE y los sindicatos.",
+            "Isabel Díaz Ayuso acusa a Sánchez de favorecer a Iberdrola con la regulación energética, mientras el PP de Feijóo exige transparencia.",
+            "Junts per Catalunya, liderado por Puigdemont, anuncia que retirará su apoyo al gobierno si no avanza la negociación sobre Catalunya.",
+        ]
+        for ej in _ejemplos_ner:
+            if st.button(f"📌 {ej[:65]}…", key=f"ner_ej_{hash(ej)}"):
+                st.session_state["ner_texto"] = ej
+
+        texto_ner = st.text_area(
+            "Texto a analizar",
+            value=st.session_state.get("ner_texto",""),
+            height=130, key="ner_texto_area",
+            placeholder="Pega un titular o párrafo de noticia política española…",
+        )
+
+        if st.button("🔍 Extraer entidades y relaciones", key="btn_ner", disabled=not _LLM_OK):
+            txt = texto_ner.strip()
+            if txt:
+                actores_bbdd = [a["nombre"] for a in _svc.get_actores()][:35]
+                prompt_ner = f"""Analiza el texto político español y extrae entidades y relaciones.
+
+Texto: "{txt}"
+
+Tipos de relación válidos: {list(_COLOR_REL.keys())}
+Actores en base de datos: {', '.join(actores_bbdd[:20])}
+
+Responde SOLO con JSON válido (sin texto adicional):
+{{
+  "entidades": [
+    {{"nombre": "...", "tipo": "persona|partido|organizacion", "en_bbdd": true}}
+  ],
+  "relaciones": [
+    {{"sujeto": "...", "tipo": "...", "objeto": "...", "descripcion": "..."}}
+  ],
+  "resumen": "una frase sobre la noticia en clave política"
+}}"""
+
+                with st.spinner("🔍 Extrayendo entidades…"):
+                    resp_ner = _llm.chat(prompt_ner,
+                                         sistema="Eres un sistema NER político. Devuelve SOLO JSON.",
+                                         modo="fast")
+
+                try:
+                    import re as _re
+                    jm = _re.search(r'\{.*\}', resp_ner, _re.DOTALL)
+                    ner_data = json.loads(jm.group() if jm else resp_ner)
+
+                    resumen = ner_data.get("resumen","")
+                    if resumen:
+                        st.info(f"💡 {resumen}")
+
+                    entidades = ner_data.get("entidades",[])
+                    if entidades:
+                        st.markdown("**Entidades detectadas:**")
+                        chips = ""
+                        for e in entidades:
+                            bg = CYAN if e.get("en_bbdd") else AMBER
+                            chips += f'<span class="ner-chip" style="background:{bg}22;color:{bg};">{e["nombre"]} <small>({e.get("tipo","")})</small></span>'
+                        st.markdown(chips, unsafe_allow_html=True)
+
+                    rels_ner = ner_data.get("relaciones",[])
+                    if rels_ner:
+                        st.markdown("**Relaciones inferidas:**")
+                        for r_n in rels_ner:
+                            cr = _COLOR_REL.get(r_n.get("tipo",""), MUTED)
+                            st.markdown(f"""
+                            <div class="conn-item">
+                              <span style="font-weight:700;">{r_n.get("sujeto","")}</span>
+                              <span style="color:{cr};">→ {r_n.get("tipo","")} →</span>
+                              <span style="font-weight:700;">{r_n.get("objeto","")}</span>
+                              <span style="color:{MUTED};font-size:.72rem;">{r_n.get("descripcion","")}</span>
+                            </div>
+                            """, unsafe_allow_html=True)
+
+                        if st.button("💾 Añadir relaciones al grafo", key="btn_save_ner"):
+                            _ids = {a["nombre"]: a["id"] for a in _svc.get_actores()}
+                            n_s = 0
+                            for r_n in rels_ner:
+                                fid = _ids.get(r_n.get("sujeto",""))
+                                tid = _ids.get(r_n.get("objeto",""))
+                                if fid and tid:
+                                    _svc.upsert_relacion({
+                                        "from": fid, "to": tid,
+                                        "tipo": r_n.get("tipo","adversarial"),
+                                        "label": r_n.get("descripcion","")[:60],
+                                        "fuerza": 3.0, "fuente": "ner_ollama",
+                                    })
+                                    n_s += 1
+                            st.success(f"✅ {n_s} relaciones añadidas")
+                            st.cache_data.clear()
+
+                except Exception:
+                    st.markdown(f'<div class="chat-msg">{resp_ner}</div>', unsafe_allow_html=True)
+
+    # ── QT3: Ficha ejecutiva ──────────────────────────────────────────────────
+    with qt3:
+        st.markdown("#### 📋 Ficha Ejecutiva de Actor")
+        st.caption("Briefing completo generado por Ollama con datos del grafo")
+
+        _todos_f = sorted(_svc.get_actores(), key=lambda x: -x.get("poder",0))
+        ficha_n = st.selectbox("Actor", [a["nombre"] for a in _todos_f], key="ficha_actor")
+
+        if st.button("📋 Generar ficha ejecutiva", key="btn_ficha", disabled=not _LLM_OK):
+            actor_f = next((a for a in _todos_f if a["nombre"] == ficha_n), None)
+            if actor_f:
+                m_f = _load_metricas()
+                pgr_f = m_f.get("pagerank",{}).get(actor_f["id"],0)
+                btw_f = m_f.get("betweenness",{}).get(actor_f["id"],0)
+                deg_f = m_f.get("degree",{}).get(actor_f["id"],0)
+                com_f = m_f.get("comunidades",{}).get(actor_f["id"])
+
+                rels_f = _svc.get_relaciones(actor_id=actor_f["id"])
+                conns_desc = []
+                for r in rels_f[:8]:
+                    otro_id = r["to"] if r["from"] == actor_f["id"] else r["from"]
+                    otro = _svc.get_actor(otro_id)
+                    if otro:
+                        d = "→" if r["from"] == actor_f["id"] else "←"
+                        conns_desc.append(f"{d} {otro['nombre']} ({r.get('tipo','')}): {r.get('label','')}")
+
+                wiki_e = actor_f.get("wikipedia_extracto", actor_f.get("extracto",""))
+
+                prompt_f = f"""Genera una ficha ejecutiva para analistas sobre este actor político español:
+
+DATOS: {actor_f.get("nombre","")} | {actor_f.get("rol","")} | {actor_f.get("org","")} | Poder {actor_f.get("poder",0)}/10
+MÉTRICAS RED: PageRank {pgr_f:.4f} | Betweenness {btw_f:.4f} | Conexiones {deg_f} | Comunidad #{com_f}
+CONEXIONES: {chr(10).join(conns_desc) if conns_desc else "Sin datos"}
+WIKIPEDIA: {wiki_e[:400] if wiki_e else "Sin datos"}
+
+Estructura:
+1. **Quién es** (2-3 frases)
+2. **Influencia real en el grafo** (PageRank, posición)
+3. **Relaciones estratégicas clave** (top 3)
+4. **Riesgos y oportunidades** para terceros
+5. **Palancas de acceso** (cómo interactuar con este actor)
+
+Español. Analítico. Orientado a decisores."""
+
+                with st.spinner(f"📋 Generando ficha de {ficha_n}…"):
+                    ficha_txt = _llm.chat(prompt_f,
+                                          sistema="Eres un analista político de alto nivel especializado en España.",
+                                          modo="normal")
+                st.markdown(f'<div class="chat-msg">{ficha_txt}</div>', unsafe_allow_html=True)
+
+    # ── QT4: Briefing relación ────────────────────────────────────────────────
+    with qt4:
+        st.markdown("#### 🤝 Briefing de Relación entre Dos Actores")
+        st.caption("Solidez · Historia · Palancas de negociación · Escenarios futuros")
+
+        _todos_b = sorted(_svc.get_actores(), key=lambda x: -x.get("poder",0))
+        br1, br2 = st.columns(2)
+        with br1:
+            b_a_n = st.selectbox("Actor A", [a["nombre"] for a in _todos_b], key="brief_a")
+        with br2:
+            b_b_n = st.selectbox("Actor B", [a["nombre"] for a in _todos_b], index=1, key="brief_b")
+
+        if st.button("🤝 Generar briefing", key="btn_briefing", disabled=not _LLM_OK):
+            obj_a = next((a for a in _todos_b if a["nombre"] == b_a_n), None)
+            obj_b = next((a for a in _todos_b if a["nombre"] == b_b_n), None)
+            if obj_a and obj_b:
+                rels_ab = [r for r in _svc.get_relaciones()
+                           if (r.get("from")==obj_a["id"] and r.get("to")==obj_b["id"]) or
+                              (r.get("from")==obj_b["id"] and r.get("to")==obj_a["id"])]
+                path_ab = _svc.camino_entre_actores(obj_a["id"], obj_b["id"])
+                path_n = []
+                for pid in path_ab:
+                    pa = _svc.get_actor(pid)
+                    path_n.append(pa["nombre"] if pa else pid)
+
+                rels_desc = "\n".join(
+                    f"- {r.get('from','')} → {r.get('to','')}: {r.get('label','')} ({r.get('tipo','')})"
+                    for r in rels_ab
+                ) or "Sin relaciones directas en el grafo"
+
+                prompt_br = f"""Analiza la relación entre:
+A: {obj_a.get("nombre","")} — {obj_a.get("rol","")} ({obj_a.get("org","")}) · Poder {obj_a.get("poder",0)}/10
+B: {obj_b.get("nombre","")} — {obj_b.get("rol","")} ({obj_b.get("org","")}) · Poder {obj_b.get("poder",0)}/10
+
+RELACIONES EN EL GRAFO: {rels_desc}
+CAMINO MÁS CORTO: {" → ".join(path_n) if path_n else "No conectados"} ({len(path_ab)-1 if path_ab else "∞"} pasos)
+
+Analiza:
+1. **Naturaleza** (alianza, tensión, dependencia, competencia)
+2. **Contexto histórico** de esta relación
+3. **Solidez**: ¿estable o frágil? ¿qué la rompería?
+4. **Palancas de negociación**: ¿qué tiene cada uno que el otro necesita?
+5. **Escenarios futuros** (6 meses)
+
+Español. Accionable."""
+
+                with st.spinner(f"🤝 Analizando relación {b_a_n} ↔ {b_b_n}…"):
+                    br_txt = _llm.chat(prompt_br,
+                                       sistema="Eres analista de relaciones de poder en política española.",
+                                       modo="normal")
+                st.markdown(f'<div class="chat-msg">{br_txt}</div>', unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUTO-INICIAR WORKER
+# ─────────────────────────────────────────────────────────────────────────────
+
+if not _svc.estado_worker_actores().get("running", False):
+    try:
+        _svc.iniciar_worker_actores()
+    except Exception:
+        pass

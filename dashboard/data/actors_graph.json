@@ -1,0 +1,838 @@
+{
+  "actores": {
+    "sanchez": {
+      "id": "sanchez",
+      "nombre": "Pedro Sánchez",
+      "tipo": "politico",
+      "org": "PSOE",
+      "rol": "Presidente del Gobierno",
+      "poder": 10,
+      "region": "Nacional",
+      "twitter": "@sanchezcastejon"
+    },
+    "feijoo": {
+      "id": "feijoo",
+      "nombre": "Alberto Núñez Feijóo",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Líder de la Oposición",
+      "poder": 9,
+      "region": "Nacional",
+      "twitter": "@NunezFeijoo"
+    },
+    "abascal": {
+      "id": "abascal",
+      "nombre": "Santiago Abascal",
+      "tipo": "politico",
+      "org": "VOX",
+      "rol": "Secretario General VOX",
+      "poder": 7,
+      "region": "Nacional",
+      "twitter": "@Santi_ABASCAL"
+    },
+    "diaz_y": {
+      "id": "diaz_y",
+      "nombre": "Yolanda Díaz",
+      "tipo": "politico",
+      "org": "SUMAR",
+      "rol": "Ministra Trabajo / Líder Sumar",
+      "poder": 7,
+      "region": "Nacional",
+      "twitter": "@Yolanda_Diaz_"
+    },
+    "puigdemont": {
+      "id": "puigdemont",
+      "nombre": "Carles Puigdemont",
+      "tipo": "politico",
+      "org": "JUNTS",
+      "rol": "Líder Junts (exilio)",
+      "poder": 8,
+      "region": "Cataluña",
+      "wikipedia_titulo": "Carles Puigdemont"
+    },
+    "junqueras": {
+      "id": "junqueras",
+      "nombre": "Oriol Junqueras",
+      "tipo": "politico",
+      "org": "ERC",
+      "rol": "Presidente ERC",
+      "poder": 6,
+      "region": "Cataluña"
+    },
+    "urkullu": {
+      "id": "urkullu",
+      "nombre": "Iñigo Urkullu",
+      "tipo": "politico",
+      "org": "PNV",
+      "rol": "Lendakari / PNV",
+      "poder": 7,
+      "region": "País Vasco"
+    },
+    "otegi": {
+      "id": "otegi",
+      "nombre": "Arnaldo Otegi",
+      "tipo": "politico",
+      "org": "EH Bildu",
+      "rol": "Coordinador EH Bildu",
+      "poder": 6,
+      "region": "País Vasco"
+    },
+    "ayuso": {
+      "id": "ayuso",
+      "nombre": "Isabel Díaz Ayuso",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Presidenta Comunidad de Madrid",
+      "poder": 8,
+      "region": "Madrid",
+      "twitter": "@IdiazAyuso"
+    },
+    "moreno": {
+      "id": "moreno",
+      "nombre": "Juan Manuel Moreno",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Presidente Junta de Andalucía",
+      "poder": 7,
+      "region": "Andalucía"
+    },
+    "mazón": {
+      "id": "mazón",
+      "nombre": "Carlos Mazón",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Pres. Generalitat Valenciana",
+      "poder": 5,
+      "region": "Valencia"
+    },
+    "bolanos": {
+      "id": "bolanos",
+      "nombre": "Félix Bolaños",
+      "tipo": "politico",
+      "org": "PSOE",
+      "rol": "Ministro de Presidencia",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "marlaska": {
+      "id": "marlaska",
+      "nombre": "Fernando Grande-Marlaska",
+      "tipo": "politico",
+      "org": "PSOE",
+      "rol": "Ministro del Interior",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "calviño": {
+      "id": "calviño",
+      "nombre": "Nadia Calviño",
+      "tipo": "politico",
+      "org": "PSOE",
+      "rol": "Presidenta BEI / ex-vicepresidenta",
+      "poder": 7,
+      "region": "Internacional"
+    },
+    "montero_i": {
+      "id": "montero_i",
+      "nombre": "Irene Montero",
+      "tipo": "politico",
+      "org": "PODEMOS",
+      "rol": "Diputada / ex-ministra",
+      "poder": 5,
+      "region": "Nacional"
+    },
+    "zapatero": {
+      "id": "zapatero",
+      "nombre": "José Luis Rodríguez Zapatero",
+      "tipo": "politico",
+      "org": "PSOE",
+      "rol": "Ex-Presidente del Gobierno",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "rajoy": {
+      "id": "rajoy",
+      "nombre": "Mariano Rajoy",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Ex-Presidente del Gobierno",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "casado": {
+      "id": "casado",
+      "nombre": "Pablo Casado",
+      "tipo": "politico",
+      "org": "PP",
+      "rol": "Ex-líder del PP",
+      "poder": 4,
+      "region": "Nacional"
+    },
+    "ciudadanos": {
+      "id": "ciudadanos",
+      "nombre": "Inés Arrimadas",
+      "tipo": "politico",
+      "org": "CS",
+      "rol": "Ex-líder Ciudadanos",
+      "poder": 3,
+      "region": "Nacional"
+    },
+    "rufian": {
+      "id": "rufian",
+      "nombre": "Gabriel Rufián",
+      "tipo": "politico",
+      "org": "ERC",
+      "rol": "Portavoz ERC en Congreso",
+      "poder": 5,
+      "region": "Cataluña"
+    },
+    "nogueras": {
+      "id": "nogueras",
+      "nombre": "Míriam Nogueras",
+      "tipo": "politico",
+      "org": "JUNTS",
+      "rol": "Portavoz Junts en Congreso",
+      "poder": 5,
+      "region": "Cataluña"
+    },
+    "iberdrola": {
+      "id": "iberdrola",
+      "nombre": "Iberdrola / Galán",
+      "tipo": "empresarial",
+      "org": "Energía",
+      "rol": "Mayor eléctrica española",
+      "poder": 9,
+      "region": "Internacional"
+    },
+    "santander": {
+      "id": "santander",
+      "nombre": "Banco Santander",
+      "tipo": "empresarial",
+      "org": "Banca",
+      "rol": "Mayor banco español por activos",
+      "poder": 9,
+      "region": "Internacional"
+    },
+    "telefonica": {
+      "id": "telefonica",
+      "nombre": "Telefónica",
+      "tipo": "empresarial",
+      "org": "Teleco",
+      "rol": "Operador teleco e infraestructura",
+      "poder": 8,
+      "region": "Internacional"
+    },
+    "inditex": {
+      "id": "inditex",
+      "nombre": "Inditex / Amancio Ortega",
+      "tipo": "empresarial",
+      "org": "Moda",
+      "rol": "Mayor grupo moda del mundo",
+      "poder": 9,
+      "region": "Internacional"
+    },
+    "repsol": {
+      "id": "repsol",
+      "nombre": "Repsol",
+      "tipo": "empresarial",
+      "org": "Energía",
+      "rol": "Corporación petróleo y gas",
+      "poder": 8,
+      "region": "Internacional"
+    },
+    "acs": {
+      "id": "acs",
+      "nombre": "ACS / Florentino Pérez",
+      "tipo": "empresarial",
+      "org": "Construcción",
+      "rol": "Infraestructuras + Real Madrid",
+      "poder": 8,
+      "region": "Internacional"
+    },
+    "caixabank": {
+      "id": "caixabank",
+      "nombre": "CaixaBank",
+      "tipo": "empresarial",
+      "org": "Banca",
+      "rol": "Tercer banco español",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "bbva": {
+      "id": "bbva",
+      "nombre": "BBVA",
+      "tipo": "empresarial",
+      "org": "Banca",
+      "rol": "Segundo banco español",
+      "poder": 8,
+      "region": "Internacional"
+    },
+    "acciona": {
+      "id": "acciona",
+      "nombre": "Acciona / Entrecanales",
+      "tipo": "empresarial",
+      "org": "Infraestructura",
+      "rol": "Construcción y renovables",
+      "poder": 7,
+      "region": "Internacional"
+    },
+    "elpais": {
+      "id": "elpais",
+      "nombre": "El País",
+      "tipo": "mediatico",
+      "org": "PRISA",
+      "rol": "Diario nacional progresista",
+      "poder": 8,
+      "region": "Nacional"
+    },
+    "elmundo": {
+      "id": "elmundo",
+      "nombre": "El Mundo",
+      "tipo": "mediatico",
+      "org": "Unidad Ed.",
+      "rol": "Diario nacional centroderecha",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "abc": {
+      "id": "abc",
+      "nombre": "ABC",
+      "tipo": "mediatico",
+      "org": "Vocento",
+      "rol": "Diario conservador / monárquico",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "lavanguardia": {
+      "id": "lavanguardia",
+      "nombre": "La Vanguardia",
+      "tipo": "mediatico",
+      "org": "Grupo Godó",
+      "rol": "Referencia en Cataluña",
+      "poder": 6,
+      "region": "Cataluña"
+    },
+    "eldiario": {
+      "id": "eldiario",
+      "nombre": "elDiario.es",
+      "tipo": "mediatico",
+      "org": "Progresista",
+      "rol": "Digital progresista nativo",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "okdiario": {
+      "id": "okdiario",
+      "nombre": "OKDiario",
+      "tipo": "mediatico",
+      "org": "Derechas",
+      "rol": "Digital derecha / VOX-afín",
+      "poder": 5,
+      "region": "Nacional"
+    },
+    "publico": {
+      "id": "publico",
+      "nombre": "Público",
+      "tipo": "mediatico",
+      "org": "Izquierda",
+      "rol": "Digital izquierda",
+      "poder": 4,
+      "region": "Nacional"
+    },
+    "confidencial": {
+      "id": "confidencial",
+      "nombre": "El Confidencial",
+      "tipo": "mediatico",
+      "org": "Independiente",
+      "rol": "Digital economía y política",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "rtve": {
+      "id": "rtve",
+      "nombre": "RTVE",
+      "tipo": "mediatico",
+      "org": "Pública",
+      "rol": "Televisión y radio pública nacional",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "faes": {
+      "id": "faes",
+      "nombre": "FAES",
+      "tipo": "influencia",
+      "org": "PP",
+      "rol": "Fundación think tank PP / Aznar",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "alternativas": {
+      "id": "alternativas",
+      "nombre": "Fundación Alternativas",
+      "tipo": "influencia",
+      "org": "PSOE",
+      "rol": "Think tank progresista",
+      "poder": 5,
+      "region": "Nacional"
+    },
+    "cidob": {
+      "id": "cidob",
+      "nombre": "CIDOB",
+      "tipo": "influencia",
+      "org": "Independiente",
+      "rol": "Think tank RRII",
+      "poder": 5,
+      "region": "Cataluña"
+    },
+    "ceoe": {
+      "id": "ceoe",
+      "nombre": "CEOE / Garamendi",
+      "tipo": "influencia",
+      "org": "Empresarial",
+      "rol": "Patronal española / lobby",
+      "poder": 8,
+      "region": "Nacional"
+    },
+    "ccoo": {
+      "id": "ccoo",
+      "nombre": "CCOO / Couto",
+      "tipo": "influencia",
+      "org": "Sindical",
+      "rol": "Mayor sindicato español",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "ugt": {
+      "id": "ugt",
+      "nombre": "UGT / Álvarez",
+      "tipo": "influencia",
+      "org": "Sindical",
+      "rol": "Segundo sindicato / PSOE-afín",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "church": {
+      "id": "church",
+      "nombre": "Conferencia Episcopal",
+      "tipo": "influencia",
+      "org": "Iglesia",
+      "rol": "Iglesia Católica española",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "consejo_estado": {
+      "id": "consejo_estado",
+      "nombre": "Consejo de Estado",
+      "tipo": "influencia",
+      "org": "Estado",
+      "rol": "Órgano consultivo supremo",
+      "poder": 6,
+      "region": "Nacional"
+    },
+    "banco_espana": {
+      "id": "banco_espana",
+      "nombre": "Banco de España",
+      "tipo": "influencia",
+      "org": "Estado",
+      "rol": "Banco central y supervisor",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "cgpj": {
+      "id": "cgpj",
+      "nombre": "CGPJ",
+      "tipo": "influencia",
+      "org": "Judicial",
+      "rol": "Gobierno del poder judicial",
+      "poder": 7,
+      "region": "Nacional"
+    },
+    "tc": {
+      "id": "tc",
+      "nombre": "Tribunal Constitucional",
+      "tipo": "influencia",
+      "org": "Judicial",
+      "rol": "Máximo intérprete Constitución",
+      "poder": 8,
+      "region": "Nacional"
+    }
+  },
+  "relaciones": [
+    {
+      "from": "sanchez",
+      "to": "diaz_y",
+      "tipo": "gubernamental",
+      "label": "Coalición PSOE-Sumar",
+      "fuerza": 9,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "bolanos",
+      "tipo": "gubernamental",
+      "label": "Ministro Presidencia",
+      "fuerza": 8,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "marlaska",
+      "tipo": "gubernamental",
+      "label": "Ministro Interior",
+      "fuerza": 8,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "puigdemont",
+      "tipo": "adversarial",
+      "label": "Tensión Amnistía/exilio",
+      "fuerza": 8,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "junqueras",
+      "tipo": "alianza",
+      "label": "Acuerdo investidura",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "otegi",
+      "tipo": "alianza",
+      "label": "Apoyo parlamentario",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "urkullu",
+      "tipo": "alianza",
+      "label": "Financiación singular PV",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "rufian",
+      "tipo": "alianza",
+      "label": "Apoyo legislativo ERC",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "sanchez",
+      "to": "nogueras",
+      "tipo": "adversarial",
+      "label": "Tensión Junts",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "feijoo",
+      "to": "abascal",
+      "tipo": "adversarial",
+      "label": "Competencia derechas",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "feijoo",
+      "to": "sanchez",
+      "tipo": "adversarial",
+      "label": "Oposición principal",
+      "fuerza": 9,
+      "fuente": "manual"
+    },
+    {
+      "from": "feijoo",
+      "to": "ayuso",
+      "tipo": "gubernamental",
+      "label": "PP — Madrid",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "feijoo",
+      "to": "moreno",
+      "tipo": "gubernamental",
+      "label": "PP — Andalucía",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "feijoo",
+      "to": "mazón",
+      "tipo": "gubernamental",
+      "label": "PP — Valencia",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "ayuso",
+      "to": "abascal",
+      "tipo": "adversarial",
+      "label": "Rivalidad Madrid-VOX",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "ayuso",
+      "to": "feijoo",
+      "tipo": "alianza",
+      "label": "Presidenta autonómica PP",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "iberdrola",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "Lobby renovables / tarifas",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "iberdrola",
+      "to": "feijoo",
+      "tipo": "lobby",
+      "label": "Regulación energía",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "santander",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "Regulación banca",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "bbva",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "OPA Sabadell / regulación",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "ceoe",
+      "to": "feijoo",
+      "tipo": "lobby",
+      "label": "Agenda empresarial PP",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "ceoe",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "Diálogo social gobierno",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "acs",
+      "to": "feijoo",
+      "tipo": "lobby",
+      "label": "Infraestructuras / Florentino",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "repsol",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "Transición energética",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "telefonica",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "5G / inversiones tech",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "banco_espana",
+      "to": "sanchez",
+      "tipo": "lobby",
+      "label": "Supervisión fiscal",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "elpais",
+      "to": "sanchez",
+      "tipo": "mediatico",
+      "label": "Cobertura favorable PSOE",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "elmundo",
+      "to": "feijoo",
+      "tipo": "mediatico",
+      "label": "Cobertura favorable PP",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "abc",
+      "to": "abascal",
+      "tipo": "mediatico",
+      "label": "Cobertura favorable VOX",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "eldiario",
+      "to": "diaz_y",
+      "tipo": "mediatico",
+      "label": "Cobertura progresista",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "lavanguardia",
+      "to": "puigdemont",
+      "tipo": "mediatico",
+      "label": "Cobertura soberanismo",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "okdiario",
+      "to": "abascal",
+      "tipo": "mediatico",
+      "label": "Medio afín VOX",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "rtve",
+      "to": "sanchez",
+      "tipo": "mediatico",
+      "label": "RTVE pública / gobierno",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "confidencial",
+      "to": "bbva",
+      "tipo": "mediatico",
+      "label": "Cobertura empresarial",
+      "fuerza": 4,
+      "fuente": "manual"
+    },
+    {
+      "from": "faes",
+      "to": "feijoo",
+      "tipo": "alianza",
+      "label": "Think tank PP / agenda ideológica",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "alternativas",
+      "to": "sanchez",
+      "tipo": "alianza",
+      "label": "Ideas PSOE / políticas",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "ccoo",
+      "to": "diaz_y",
+      "tipo": "sindical",
+      "label": "Concertación laboral",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "ugt",
+      "to": "sanchez",
+      "tipo": "sindical",
+      "label": "Diálogo social PSOE",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "church",
+      "to": "feijoo",
+      "tipo": "alianza",
+      "label": "Educación / valores",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "iberdrola",
+      "to": "repsol",
+      "tipo": "empresarial",
+      "label": "Competencia energía",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "santander",
+      "to": "bbva",
+      "tipo": "empresarial",
+      "label": "Competencia bancaria",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "santander",
+      "to": "telefonica",
+      "tipo": "empresarial",
+      "label": "Accionariado cruzado",
+      "fuerza": 5,
+      "fuente": "manual"
+    },
+    {
+      "from": "bbva",
+      "to": "caixabank",
+      "tipo": "empresarial",
+      "label": "Competencia banca minorista",
+      "fuerza": 6,
+      "fuente": "manual"
+    },
+    {
+      "from": "cgpj",
+      "to": "sanchez",
+      "tipo": "adversarial",
+      "label": "Bloqueo renovación CGPJ",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "cgpj",
+      "to": "feijoo",
+      "tipo": "alianza",
+      "label": "PP bloquea renovación CGPJ",
+      "fuerza": 7,
+      "fuente": "manual"
+    },
+    {
+      "from": "tc",
+      "to": "sanchez",
+      "tipo": "gubernamental",
+      "label": "Sentencias Ley Amnistía",
+      "fuerza": 6,
+      "fuente": "manual"
+    }
+  ],
+  "menciones": [],
+  "meta": {
+    "version": "1.0",
+    "creado": "2026-04-29T22:03:02.902036",
+    "n_actores": 50,
+    "n_relaciones": 46,
+    "ultima_actualizacion": "2026-04-29T22:03:02.902045"
+  }
+}
