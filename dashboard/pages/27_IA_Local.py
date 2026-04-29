@@ -9,6 +9,7 @@ if str(_ROOT) not in sys.path:
 
 import streamlit as st
 
+from agents.ai_engine import get_ai_engine
 from agents.backend_manager import get_backend_manager
 from agents.local_intelligence import get_local_store
 from dashboard.shared import BG2, BG3, BORDER, CYAN, GREEN, TEXT, TEXT2, sidebar_nav
@@ -23,6 +24,8 @@ manager = get_backend_manager(provider="ollama", use_llm=False)
 manager_status = manager.status()
 gits_manifest = (manager_status.get("gits_index", {}).get("manifest") or {})
 llm_status = manager_status.get("llm", {})
+engine = get_ai_engine()
+engine_status = engine.status()
 
 st.markdown(
     f"""
@@ -38,10 +41,10 @@ st.markdown(
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Repos gits amigos", gits_manifest.get("repos_indexed", 0))
 c2.metric("Fragmentos indexados", gits_manifest.get("chunks", 0))
-c3.metric("Documentos scraper", summary["documents"])
+c3.metric("Vectores semánticos", engine_status.get("vector_count", 0))
 c4.metric("Nodos ontología", summary["nodes"])
 
-tab_brain, tab_ingest, tab_ontology, tab_status = st.tabs(["Cerebro Ollama", "Ingesta", "Ontología", "Estado"])
+tab_brain, tab_scrapers, tab_ingest, tab_ontology, tab_status = st.tabs(["Cerebro Ollama", "Scrapers RAG", "Ingesta", "Ontología", "Estado"])
 
 with tab_brain:
     st.markdown(
@@ -95,6 +98,50 @@ Este chat usa el gerente backend: índice de <code>gits amigos</code>, memoria l
             st.caption(f"Modelo: {result.model} · Proveedor: {result.provider} · LLM activo: {result.used_llm}")
         st.session_state.politeia_brain_messages.append({"role": "assistant", "content": result.answer})
 
+with tab_scrapers:
+    st.markdown(
+        f"""
+<div style="background:{BG3};border:1px solid {BORDER};border-radius:10px;padding:1rem;margin-bottom:1rem;color:{TEXT2}">
+Chat RAG sobre la memoria semántica de scrapers: ChromaDB, embeddings locales, ontología y Ollama.
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    col_a, col_b, col_c = st.columns(3)
+    col_a.metric("Documentos", summary["documents"])
+    col_b.metric("Hechos", summary["facts"])
+    col_c.metric("Colección", engine_status.get("collection", "n/a"))
+    local_domain = st.selectbox(
+        "Dominio local",
+        ["Todos", "electoral", "politica", "economia", "social", "institucional", "medios", "general"],
+        index=0,
+        key="rag_domain",
+    )
+    local_question = st.text_area(
+        "Pregunta sobre información ingerida",
+        height=100,
+        placeholder="Resume señales económicas y electorales detectadas por los scrapers...",
+        key="rag_question",
+    )
+    c_run, c_reindex = st.columns([1, 1])
+    if c_run.button("Consultar RAG local", type="primary", use_container_width=True):
+        with st.spinner("Buscando evidencias semánticas y razonando..."):
+            result = store.chat(
+                local_question,
+                domain=None if local_domain == "Todos" else local_domain,
+                use_llm=True,
+                allow_tools=True,
+                use_semantic=True,
+            )
+        st.markdown(result.answer)
+        st.caption(f"Modelo: {result.model} · evidencias: {len(result.citations)}")
+        with st.expander("Evidencias"):
+            st.json(result.citations)
+    if c_reindex.button("Reindexar memoria vectorial", use_container_width=True):
+        docs = store._read_jsonl(store.documents_path)  # noqa: SLF001 - herramienta local de operación
+        inserted = engine.upsert_documents(docs)
+        st.success(f"Memoria vectorial actualizada: {inserted} documentos.")
+
 with tab_ingest:
     st.markdown(
         f"""
@@ -134,6 +181,8 @@ with tab_ontology:
         )
 
 with tab_status:
+    st.markdown("**Motor IA local**")
+    st.json(engine.status())
     st.markdown("**Ollama / LLM**")
     st.json(llm_status)
     st.markdown("**Índice gits amigos**")

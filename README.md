@@ -151,7 +151,7 @@ Las tareas están preparadas como esqueleto: implemente extractores en `etl/sour
 
 ## IA local sobre scrapers
 
-Politeia incluye una capa local de inteligencia en `agents.local_intelligence`: ingiere CSV/JSON/JSONL/Parquet/TXT/HTML de scrapers, extrae hechos electorales, políticos, económicos y sociales, mantiene una ontología local y expone chatbot/API.
+Politeia incluye una capa local de inteligencia en `agents.local_intelligence` y `agents.ai_engine`: ingiere CSV/JSON/JSONL/Parquet/TXT/HTML de scrapers, extrae hechos electorales, políticos, económicos y sociales, mantiene una ontología local y expone chatbot/API. El motor común usa Ollama (`politeia-brain:latest`), embeddings locales (`nomic-embed-text`), ChromaDB persistente, NER en español y sentimiento multilingüe.
 
 ```bash
 python -m agents.local_intelligence ingest data/raw --max-records 500
@@ -163,6 +163,8 @@ uvicorn api.main:app --reload
 ```
 
 Ollama queda configurado como `politeia-brain:latest` sobre `qwen2.5:7b`, con contexto 8192 y memoria persistente. Endpoints: `POST /ai/ingest/path`, `POST /ai/search`, `POST /ai/chat`, `GET /ai/ontology/summary`, `GET /ai/manager/ui`, `POST /ai/manager/chat`. Documentación: `docs/ia_local.md`.
+
+Los scrapers y pipelines enriquecen registros con IA local y sincronizan la memoria vectorial cuando están activadas `ELECTSIM_AI_ENRICH_SCRAPERS=1`, `ELECTSIM_AI_VECTOR_SYNC=1` y `ELECTSIM_AI_REASON_PIPELINES=1`. Estado y reindexado: `GET /ai/engine/status` y `POST /ai/engine/reindex-local`.
 
 ## Documentación
 

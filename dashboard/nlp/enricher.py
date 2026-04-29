@@ -144,4 +144,10 @@ def enriquecer(registro: dict[str, Any]) -> dict[str, Any]:
             pass
 
     out["procesado"] = True
+    try:
+        from agents.scraper_ai import enrich_article
+
+        out = enrich_article(out)
+    except Exception:
+        pass
     return out

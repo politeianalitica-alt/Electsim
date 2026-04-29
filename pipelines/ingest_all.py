@@ -126,7 +126,14 @@ def ingest_all() -> list[dict[str, Any]]:
     resultados: list[dict[str, Any]] = []
     for nombre, fn in pasos:
         try:
-            resultados.append({"step": nombre, "ok": True, "result": fn()})
+            result = fn()
+            try:
+                from agents.pipeline_ai import reason_pipeline_result
+
+                ai_analysis = reason_pipeline_result(f"ingest_all.{nombre}", result if isinstance(result, dict) else {"result": result})
+            except Exception:
+                ai_analysis = {}
+            resultados.append({"step": nombre, "ok": True, "result": result, "ai_analysis": ai_analysis})
         except Exception as exc:
             logger.exception("Fallo en paso %s", nombre)
             resultados.append({"step": nombre, "ok": False, "error": str(exc)})

@@ -29,6 +29,7 @@ class LocalSearchRequest(BaseModel):
     query: str = Field(..., min_length=2, max_length=1000)
     k: int = Field(default=8, ge=1, le=50)
     domain: str | None = None
+    use_semantic: bool = True
 
 
 class LocalChatRequest(BaseModel):
@@ -37,6 +38,7 @@ class LocalChatRequest(BaseModel):
     domain: str | None = None
     use_llm: bool = True
     allow_tools: bool = True
+    use_semantic: bool = True
 
 
 class ManagerChatRequest(BaseModel):
@@ -56,16 +58,28 @@ class ReindexGitsRequest(BaseModel):
     docs_only: bool = False
 
 
+class InsightRequest(BaseModel):
+    context_data: dict[str, Any] = Field(default_factory=dict)
+    insight_type: str = Field(default="general", max_length=40)
+
+
 @router.get("/health")
 def ai_health(ctx: UserContext = Depends(get_user_context)) -> dict[str, Any]:
     store = get_local_store()
     summary = store.ontology_summary()
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine_status = get_ai_engine().status()
+    except Exception:
+        engine_status = {"chroma": False, "ollama": False}
     return {
         "status": "ok",
         "tenant_id": ctx.tenant_id,
         "store_path": summary["store_path"],
         "documents": summary["documents"],
         "nodes": summary["nodes"],
+        "engine": engine_status,
     }
 
 
@@ -106,7 +120,7 @@ def ingest_records(payload: IngestRecordsRequest, ctx: UserContext = Depends(get
 def local_search(payload: LocalSearchRequest, ctx: UserContext = Depends(get_user_context)) -> list[dict[str, Any]]:
     _ = ctx
     store = get_local_store()
-    return store.search(payload.query, k=payload.k, domain=payload.domain)
+    return store.search(payload.query, k=payload.k, domain=payload.domain, use_semantic=payload.use_semantic)
 
 
 @router.post("/chat")
@@ -119,8 +133,37 @@ def local_chat(payload: LocalChatRequest, ctx: UserContext = Depends(get_user_co
         domain=payload.domain,
         use_llm=payload.use_llm,
         allow_tools=payload.allow_tools,
+        use_semantic=payload.use_semantic,
     )
     return asdict(result)
+
+
+@router.get("/engine/status")
+def ai_engine_status(ctx: UserContext = Depends(get_user_context)) -> dict[str, Any]:
+    _ = ctx
+    from agents.ai_engine import get_ai_engine
+
+    return get_ai_engine().status()
+
+
+@router.post("/engine/reindex-local")
+def ai_engine_reindex_local(ctx: UserContext = Depends(get_user_context)) -> dict[str, Any]:
+    _ = ctx
+    from agents.ai_engine import get_ai_engine
+
+    store = get_local_store()
+    docs = store._read_jsonl(store.documents_path)  # noqa: SLF001 - endpoint operativo interno
+    inserted = get_ai_engine().upsert_documents(docs)
+    return {"documents_seen": len(docs), "vectors_upserted": inserted, "engine": get_ai_engine().status()}
+
+
+@router.post("/insight")
+def ai_insight(payload: InsightRequest, ctx: UserContext = Depends(get_user_context)) -> dict[str, Any]:
+    _ = ctx
+    from agents.ai_engine import get_ai_engine
+
+    answer = get_ai_engine().reason_dashboard(payload.context_data, payload.insight_type)
+    return {"answer": answer, "insight_type": payload.insight_type}
 
 
 @router.get("/manager/status")
@@ -234,7 +277,8 @@ def local_search_get(
     q: str = Query(..., min_length=2, max_length=1000),
     k: int = Query(default=8, ge=1, le=50),
     domain: str | None = None,
+    use_semantic: bool = True,
     ctx: UserContext = Depends(get_user_context),
 ) -> list[dict[str, Any]]:
     _ = ctx
-    return get_local_store().search(q, k=k, domain=domain)
+    return get_local_store().search(q, k=k, domain=domain, use_semantic=use_semantic)

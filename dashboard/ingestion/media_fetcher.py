@@ -58,7 +58,7 @@ def fetch_rss(fuente_id: str | None = None) -> Generator[dict, None, None]:
                 continue
             title = str(entry.get("title", "")).strip()
             summary = str(entry.get("summary", "")).replace("<p>", " ").replace("</p>", " ").strip()
-            yield {
+            record = {
                 "fuente": fid,
                 "tipo": meta["tipo"],
                 "medio": meta["medio"],
@@ -85,3 +85,10 @@ def fetch_rss(fuente_id: str | None = None) -> Generator[dict, None, None]:
                 "cliente_id": None,
                 "source_uid": _url_hash(url),
             }
+            try:
+                from agents.scraper_ai import enrich_article
+
+                record = enrich_article(record)
+            except Exception:
+                pass
+            yield record

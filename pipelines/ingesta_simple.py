@@ -35,8 +35,21 @@ def _run_media() -> dict[str, Any]:
     regs += list(fetch_x_reciente(query="politica Espana lang:es -is:retweet", max_results=80))
     regs += list(fetch_youtube(query="politica Espana", max_results=20))
     enriched = [enriquecer(r) for r in regs]
+    try:
+        from agents.scraper_ai import sync_records_to_local_ai
+
+        ai_sync = sync_records_to_local_ai(enriched, default_source="ingesta_simple_media")
+    except Exception as exc:
+        ai_sync = {"error": str(exc)}
     inserted = 0 if os.getenv("ELECTSIM_DRY_RUN") == "1" else insertar_contenidos_mediaticos(enriched)
-    return {"ok": True, "obtenidos": len(regs), "insertados": inserted}
+    result = {"ok": True, "obtenidos": len(regs), "insertados": inserted, "ai_sync": ai_sync}
+    try:
+        from agents.pipeline_ai import reason_pipeline_result
+
+        result["ai_analysis"] = reason_pipeline_result("ingesta_simple.media", result)
+    except Exception:
+        pass
+    return result
 
 
 
@@ -141,6 +154,13 @@ def main() -> int:
         except Exception as exc:
             logger.exception("Fallo en declaraciones")
             resultados.append({"step": "declaraciones", "error": str(exc)})
+
+    try:
+        from agents.pipeline_ai import reason_pipeline_result
+
+        resultados.append({"step": "ai_reasoning", "result": reason_pipeline_result("ingesta_simple", {"modo": args.modo, "pasos": resultados})})
+    except Exception:
+        pass
 
     print(json.dumps(resultados, ensure_ascii=False, indent=2, default=str))
     return 0

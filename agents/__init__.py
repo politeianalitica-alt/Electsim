@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from agents.ai_engine import AIEngine, get_ai_engine
 from agents.llm import AnthropicChatClient, OllamaClient, OpenAIChatClient, StubLLMClient, _with_retry
 from agents.llm import EmbeddingClient, embed_text_safe, get_embedding_client, get_llm_client
 from agents.memory_log import get_session_turns, get_simulation_responses, list_sessions, log_memory_turn
@@ -33,6 +34,8 @@ from agents.simulador_cis import (
 __all__ = [
     "AgentTurnResult",
     "VoterAgent",
+    "AIEngine",
+    "get_ai_engine",
     "OpenAIChatClient",
     "AnthropicChatClient",
     "OllamaClient",

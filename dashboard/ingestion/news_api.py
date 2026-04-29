@@ -55,7 +55,7 @@ def fetch_newsapi(
         article_url = str(art.get("url") or "").strip()
         if not article_url:
             continue
-        yield {
+        record = {
             "fuente": "newsapi",
             "tipo": "newsapi",
             "medio": source_name or "NewsAPI",
@@ -81,4 +81,10 @@ def fetch_newsapi(
             "procesado": False,
             "cliente_id": None,
         }
+        try:
+            from agents.scraper_ai import enrich_article
 
+            record = enrich_article(record)
+        except Exception:
+            pass
+        yield record

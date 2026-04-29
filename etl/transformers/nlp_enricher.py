@@ -170,6 +170,12 @@ def enriquecer_registro(record: dict[str, Any]) -> dict[str, Any]:
     record["personas_mencionadas"] = ", ".join(personas)
     record["tags"] = tags
     record["procesado"] = True
+    try:
+        from agents.scraper_ai import enrich_article
+
+        record = enrich_article(record)
+    except Exception:
+        pass
     return record
 
 

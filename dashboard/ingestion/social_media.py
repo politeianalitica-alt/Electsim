@@ -66,7 +66,7 @@ def fetch_x_reciente(query: str, max_results: int = 50, bearer_token: str | None
         if not tw_id:
             continue
         text = str(tw.get("text", "")).strip()
-        yield {
+        record = {
             "fuente": "x",
             "tipo": "x",
             "medio": "X / Twitter",
@@ -92,6 +92,13 @@ def fetch_x_reciente(query: str, max_results: int = 50, bearer_token: str | None
             "procesado": False,
             "cliente_id": None,
         }
+        try:
+            from agents.scraper_ai import enrich_article
+
+            record = enrich_article(record)
+        except Exception:
+            pass
+        yield record
 
 
 def fetch_youtube(query: str, max_results: int = 20, api_key: str | None = None) -> Generator[dict, None, None]:
@@ -128,7 +135,7 @@ def fetch_youtube(query: str, max_results: int = 20, api_key: str | None = None)
         title = str(snip.get("title", "")).strip()
         desc = str(snip.get("description", "")).strip()
         channel = str(snip.get("channelTitle", "")).strip()
-        yield {
+        record = {
             "fuente": "youtube",
             "tipo": "youtube",
             "medio": channel,
@@ -154,3 +161,10 @@ def fetch_youtube(query: str, max_results: int = 20, api_key: str | None = None)
             "procesado": False,
             "cliente_id": None,
         }
+        try:
+            from agents.scraper_ai import enrich_article
+
+            record = enrich_article(record)
+        except Exception:
+            pass
+        yield record

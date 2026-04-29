@@ -41,7 +41,14 @@ def tarea_fetch_newsapi(query: str = "politica Espana OR elecciones Espana") -> 
 
 
 def tarea_enriquecer(regs: list[dict]) -> list[dict]:
-    return [enriquecer(r) for r in regs]
+    enriched = [enriquecer(r) for r in regs]
+    try:
+        from agents.scraper_ai import sync_records_to_local_ai
+
+        sync_records_to_local_ai(enriched, default_source="media_monitoring")
+    except Exception:
+        pass
+    return enriched
 
 
 def tarea_insertar(regs: list[dict]) -> int:
@@ -121,7 +128,16 @@ def media_monitoring_flow() -> None:
     enriched = tarea_enriquecer(regs)
     ins = tarea_insertar(enriched)
     alerts = tarea_alertas()
+    result = {"ok": True, "obtenidos": len(regs), "insertados": ins, "alertas": alerts}
+    try:
+        from agents.pipeline_ai import reason_pipeline_result
+
+        result["ai_analysis"] = reason_pipeline_result("media_monitoring", result)
+    except Exception:
+        pass
     print(f"[media_monitoring] obtenidos={len(regs)} insertados={ins} alertas={alerts}")
+    if result.get("ai_analysis"):
+        print(json.dumps(result["ai_analysis"], ensure_ascii=False, default=str))
 
 
 if __name__ == "__main__":

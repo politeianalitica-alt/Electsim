@@ -4,6 +4,7 @@ import argparse
 import csv
 import hashlib
 import json
+import logging
 import math
 import os
 import re
@@ -11,7 +12,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Generator, Iterable
 
 import pandas as pd
 from dotenv import load_dotenv
@@ -22,6 +23,7 @@ from agents.llm import get_llm_client
 _ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_ROOT / ".env")
 DEFAULT_KNOWLEDGE_DIR = _ROOT / "data" / "processed" / "ai_knowledge"
+logger = logging.getLogger(__name__)
 
 SUPPORTED_EXTENSIONS = {".csv", ".json", ".jsonl", ".ndjson", ".parquet", ".txt", ".md", ".html", ".htm"}
 
@@ -307,6 +309,7 @@ class IntelligenceDocument:
     keywords: list[str]
     summary: str
     ingested_at: str
+    sentiment: dict[str, Any] = field(default_factory=dict)
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -678,6 +681,29 @@ class PoliticalIntelligenceExtractor:
             else:
                 entities[key].mentions += 1
 
+        try:
+            from agents.ner_pipeline import extract_entities_spacy
+
+            for item in extract_entities_spacy(text):
+                name = str(item.get("name") or "").strip()
+                entity_type = str(item.get("type") or "").strip()
+                if not name or entity_type not in {"Persona", "Organizacion", "Lugar", "Misc"}:
+                    continue
+                key = (name, entity_type)
+                if key not in entities:
+                    entities[key] = ExtractedEntity(
+                        name=name,
+                        type=entity_type,
+                        canonical=name,
+                        confidence=float(item.get("confidence") or 0.82),
+                        mentions=1,
+                    )
+                else:
+                    entities[key].mentions += 1
+                    entities[key].confidence = max(entities[key].confidence, float(item.get("confidence") or 0.82))
+        except Exception:
+            pass
+
         return sorted(entities.values(), key=lambda e: (-e.mentions, e.type, e.name))[:40]
 
     def extract_metrics(self, text: str) -> list[ExtractedMetric]:
@@ -792,6 +818,7 @@ class LocalKnowledgeStore:
             if doc.id in existing_ids:
                 skipped += 1
                 continue
+            doc.sentiment = self._safe_sentiment(doc)
             docs.append(doc)
             existing_ids.add(doc.id)
 
@@ -805,6 +832,7 @@ class LocalKnowledgeStore:
             self._append_jsonl(self.documents_path, (asdict(doc) for doc in docs))
             self._append_jsonl(self.facts_path, facts)
             self._write_json(self.ontology_path, ontology)
+            self._sync_vector_store(docs)
 
         domain_counts = Counter(doc.domain for doc in docs)
         topic_counts = Counter(topic for doc in docs for topic in doc.topics)
@@ -824,7 +852,17 @@ class LocalKnowledgeStore:
         records = load_scraper_records(path, recursive=recursive, max_records=max_records)
         return self.ingest_records(records)
 
-    def search(self, query: str, *, k: int = 8, domain: str | None = None) -> list[dict[str, Any]]:
+    def search(self, query: str, *, k: int = 8, domain: str | None = None, use_semantic: bool = True) -> list[dict[str, Any]]:
+        if use_semantic and self._semantic_enabled():
+            try:
+                from agents.ai_engine import get_ai_engine
+
+                hits = get_ai_engine().semantic_search(query, k=k, domain=domain)
+                if hits:
+                    return hits
+            except Exception as exc:
+                logger.debug("Busqueda semantica no disponible; fallback TF-IDF: %s", exc)
+
         docs = self._read_jsonl(self.documents_path)
         if domain:
             docs = [doc for doc in docs if str(doc.get("domain")) == domain]
@@ -904,11 +942,17 @@ class LocalKnowledgeStore:
         domain: str | None = None,
         use_llm: bool = True,
         allow_tools: bool = True,
-    ) -> ChatResult:
-        citations = self.search(question, k=k, domain=domain)
+        stream: bool = False,
+        use_semantic: bool = True,
+    ) -> ChatResult | Generator[str, None, None]:
+        citations = self.search(question, k=k, domain=domain, use_semantic=use_semantic)
         tool_results = self._run_tools(question) if allow_tools else []
         context = self._build_context(citations, tool_results)
         if use_llm:
+            if stream:
+                streamed = self._answer_with_ai_engine_stream(question, context)
+                if streamed is not None:
+                    return streamed
             llm_answer = self._answer_with_llm(question, context)
             if llm_answer:
                 return ChatResult(
@@ -1006,6 +1050,7 @@ class LocalKnowledgeStore:
                     "published_at": doc.published_at,
                     "domain": doc.domain,
                     "summary": doc.summary,
+                    "sentiment": doc.sentiment,
                 },
             ),
         )
@@ -1087,9 +1132,10 @@ class LocalKnowledgeStore:
     def _build_context(self, citations: list[dict[str, Any]], tool_results: list[dict[str, Any]]) -> str:
         blocks = []
         for i, item in enumerate(citations, start=1):
+            summary = item.get("summary") or item.get("snippet") or ""
             blocks.append(
                 f"[{i}] {item.get('title') or item.get('source')} | dominio={item.get('domain')} | "
-                f"temas={', '.join(item.get('topics') or [])}\n{item.get('summary')}"
+                f"temas={', '.join(item.get('topics') or [])}\n{summary}"
             )
         if tool_results:
             blocks.append("Herramientas locales:\n" + json.dumps(tool_results, ensure_ascii=False, default=_json_default)[:4000])
@@ -1097,6 +1143,9 @@ class LocalKnowledgeStore:
 
     def _answer_with_llm(self, question: str, context: str) -> dict[str, str] | None:
         provider = os.environ.get("ELECTSIM_LOCAL_AI_PROVIDER", os.environ.get("ELECTSIM_LLM_PROVIDER", "ollama"))
+        engine_answer = self._answer_with_ai_engine(question, context)
+        if engine_answer:
+            return engine_answer
         try:
             client = get_llm_client(provider)
             messages = [
@@ -1120,6 +1169,53 @@ class LocalKnowledgeStore:
             answer = client.complete(messages, temperature=0.25, max_tokens=900)
             return {"answer": str(answer).strip(), "model": getattr(client, "modelo", provider)}
         except Exception:
+            return None
+
+    def _answer_with_ai_engine(self, question: str, context: str) -> dict[str, str] | None:
+        try:
+            from agents.ai_engine import get_ai_engine
+
+            engine = get_ai_engine()
+            if not engine.is_ollama_available():
+                return None
+            system_prompt = (
+                "Eres Politeia Brain, analista politico, economico y social de ElectionSim. "
+                "Razona solo con evidencia local cuando cites datos concretos. "
+                "Separa hechos, inferencias y acciones. Responde en espanol, conciso y operativo. "
+                "Usa las referencias [1], [2] cuando proceda y no inventes encuestas ni cifras."
+            )
+            user_prompt = (
+                f"Contexto recuperado de scrapers, ontologia y memoria semantica:\n{context or 'Sin contexto recuperado.'}\n\n"
+                f"Pregunta:\n{question}\n\n"
+                "Entrega una respuesta accionable para dashboard o analista politico."
+            )
+            answer = engine.ollama_chat(system_prompt, user_prompt, temperature=0.2, max_tokens=650)
+            if not answer:
+                return None
+            return {"answer": answer, "model": engine.ollama_model}
+        except Exception as exc:
+            logger.debug("AIEngine chat no disponible: %s", exc)
+            return None
+
+    def _answer_with_ai_engine_stream(self, question: str, context: str) -> Generator[str, None, None] | None:
+        try:
+            from agents.ai_engine import get_ai_engine
+
+            engine = get_ai_engine()
+            if not engine.is_ollama_available():
+                return None
+            system_prompt = (
+                "Eres Politeia Brain, analista politico/economico local. "
+                "Responde en espanol con evidencia, inferencias y acciones. No inventes datos."
+            )
+            user_prompt = (
+                f"Contexto local:\n{context or 'Sin contexto recuperado.'}\n\n"
+                f"Pregunta: {question}\n\n"
+                "Responde para un usuario del dashboard."
+            )
+            return engine.ollama_chat_stream(system_prompt, user_prompt, temperature=0.2, max_tokens=650)
+        except Exception as exc:
+            logger.debug("AIEngine streaming no disponible: %s", exc)
             return None
 
     def _answer_without_llm(
@@ -1155,6 +1251,36 @@ class LocalKnowledgeStore:
             for term in re.findall(r"[a-z0-9áéíóúüñ]+", _norm(text))
             if len(term) >= 3 and term not in STOPWORDS
         ]
+
+    def _safe_sentiment(self, doc: IntelligenceDocument) -> dict[str, Any]:
+        try:
+            from agents.sentiment_pipeline import analyze_sentiment
+
+            return analyze_sentiment(f"{doc.title} {doc.text[:1000]}")
+        except Exception:
+            return {}
+
+    def _sync_vector_store(self, docs: list[IntelligenceDocument]) -> None:
+        if not docs or not self._semantic_enabled(sync=True):
+            return
+        try:
+            from agents.ai_engine import get_ai_engine
+
+            get_ai_engine().upsert_documents([asdict(doc) for doc in docs])
+        except Exception as exc:
+            logger.warning("No se pudo sincronizar ChromaDB; la ingesta sigue: %s", exc)
+
+    def _semantic_enabled(self, *, sync: bool = False) -> bool:
+        env_name = "ELECTSIM_AI_VECTOR_SYNC" if sync else "ELECTSIM_AI_SEMANTIC_SEARCH"
+        enabled = os.environ.get(env_name, "1").strip().lower() not in {"0", "false", "no", "off"}
+        if not enabled:
+            return False
+        default_dir = Path(os.environ.get("ELECTSIM_AI_STORE", DEFAULT_KNOWLEDGE_DIR)).expanduser()
+        if not default_dir.is_absolute():
+            default_dir = (_ROOT / default_dir).resolve()
+        if self.base_dir == default_dir:
+            return True
+        return os.environ.get("ELECTSIM_AI_SEMANTIC_ALL_STORES", "0").strip() == "1"
 
     def _load_ontology(self) -> dict[str, Any]:
         if not self.ontology_path.exists():
@@ -1204,13 +1330,19 @@ def _cmd_ingest(args: argparse.Namespace) -> None:
 
 def _cmd_search(args: argparse.Namespace) -> None:
     store = get_local_store(args.store)
-    result = store.search(args.query, k=args.k, domain=args.domain)
+    result = store.search(args.query, k=args.k, domain=args.domain, use_semantic=not args.no_semantic)
     print(json.dumps(result, ensure_ascii=False, indent=2, default=_json_default))
 
 
 def _cmd_chat(args: argparse.Namespace) -> None:
     store = get_local_store(args.store)
-    result = store.chat(args.question, k=args.k, domain=args.domain, use_llm=not args.no_llm)
+    result = store.chat(
+        args.question,
+        k=args.k,
+        domain=args.domain,
+        use_llm=not args.no_llm,
+        use_semantic=not args.no_semantic,
+    )
     print(json.dumps(asdict(result), ensure_ascii=False, indent=2, default=_json_default))
 
 
@@ -1234,6 +1366,7 @@ def main(argv: list[str] | None = None) -> int:
     p_search.add_argument("query")
     p_search.add_argument("-k", type=int, default=8)
     p_search.add_argument("--domain", default=None)
+    p_search.add_argument("--no-semantic", action="store_true")
     p_search.set_defaults(func=_cmd_search)
 
     p_chat = sub.add_parser("chat", help="Pregunta al chatbot local.")
@@ -1241,6 +1374,7 @@ def main(argv: list[str] | None = None) -> int:
     p_chat.add_argument("-k", type=int, default=8)
     p_chat.add_argument("--domain", default=None)
     p_chat.add_argument("--no-llm", action="store_true", help="Usa solo síntesis heurística local.")
+    p_chat.add_argument("--no-semantic", action="store_true")
     p_chat.set_defaults(func=_cmd_chat)
 
     p_summary = sub.add_parser("summary", help="Resume la ontología local.")

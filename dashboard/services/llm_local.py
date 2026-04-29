@@ -36,10 +36,10 @@ _ROOT = Path(__file__).parent.parent.parent
 
 # ─── Constantes ──────────────────────────────────────────────────────────────
 
-MODELO_BRAIN  = "politeia-brain:latest"
-MODELO_RAPIDO = "llama3.2:3b"
-MODELO_GENERAL = "qwen2.5:7b"
-MODELO_EMBED  = "nomic-embed-text:latest"
+MODELO_BRAIN  = os.environ.get("ELECTSIM_OLLAMA_MODEL", "politeia-brain:latest")
+MODELO_RAPIDO = os.environ.get("ELECTSIM_OLLAMA_FAST_MODEL", "llama3.2:3b")
+MODELO_GENERAL = os.environ.get("ELECTSIM_OLLAMA_GENERAL_MODEL", "qwen2.5:7b")
+MODELO_EMBED  = os.environ.get("ELECTSIM_OLLAMA_EMBEDDING_MODEL", "nomic-embed-text")
 
 SYSTEM_BRAIN = (
     "Eres Politeia Brain, el asistente de inteligencia electoral de ElectSim España. "
@@ -80,9 +80,9 @@ def _get_chroma():
     global _chroma_client
     if _chroma_client is None:
         try:
-            import chromadb  # type: ignore
-            db_path = str(_ROOT / ".chroma_db")
-            _chroma_client = chromadb.PersistentClient(path=db_path)
+            from agents.ai_engine import get_ai_engine
+
+            _chroma_client = get_ai_engine().chroma
         except Exception:
             pass
     return _chroma_client
@@ -96,6 +96,15 @@ def disponible() -> dict[str, bool | str]:
         return _status_cache
 
     resultado: dict[str, bool | str] = {}
+
+    # Motor comun AIEngine
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine_status = get_ai_engine().status()
+        resultado["engine"] = engine_status
+    except Exception:
+        resultado["engine"] = {}
 
     # Ollama
     ollama = _get_ollama()
@@ -185,7 +194,7 @@ def chat(
         return _chat_claude(mensaje, historia, contexto, sys_prompt, stream)
 
     # Construir mensajes
-    mensajes: list[dict] = []
+    mensajes: list[dict] = [{"role": "system", "content": sys_prompt}]
     if contexto:
         mensajes.append({
             "role": "user",
@@ -208,7 +217,11 @@ def chat(
             resp = ollama.chat(
                 model=mod,
                 messages=mensajes,
-                options={"num_predict": 1024, "temperature": 0.7},
+                options={
+                    "num_ctx": int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "8192")),
+                    "num_predict": int(os.environ.get("ELECTSIM_BACK_MANAGER_MAX_TOKENS", "700")),
+                    "temperature": 0.3,
+                },
                 stream=False,
             )
             # Handle both object and dict response
@@ -225,7 +238,11 @@ def _stream_ollama(ollama, modelo: str, mensajes: list, sistema: str) -> Generat
         stream = ollama.chat(
             model=modelo,
             messages=mensajes,
-            options={"num_predict": 1024, "temperature": 0.7},
+            options={
+                "num_ctx": int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "8192")),
+                "num_predict": int(os.environ.get("ELECTSIM_BACK_MANAGER_MAX_TOKENS", "700")),
+                "temperature": 0.3,
+            },
             stream=True,
         )
         for chunk in stream:
@@ -387,15 +404,10 @@ def evaluar_partido(partido: str, datos_contexto: str = "") -> str:
 
 def _get_embedding(texto: str) -> list[float] | None:
     """Obtiene embedding con nomic-embed-text via Ollama."""
-    ollama = _get_ollama()
-    s = disponible()
-    if not ollama or not s.get("embed"):
-        return None
     try:
-        resp = ollama.embeddings(model=MODELO_EMBED, prompt=texto[:2000])
-        if hasattr(resp, 'embedding'):
-            return resp.embedding
-        return resp.get("embedding") if isinstance(resp, dict) else None
+        from agents.ai_engine import get_ai_engine
+
+        return get_ai_engine().embed([texto[:2000]])[0]
     except Exception:
         return None
 

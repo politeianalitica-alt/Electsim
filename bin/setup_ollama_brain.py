@@ -37,6 +37,14 @@ def configure_env(model: str, embedding_model: str, *, num_ctx: int, keep_alive:
     set_key(str(ENV_PATH), "ELECTSIM_OLLAMA_TOP_P", "0.85")
     set_key(str(ENV_PATH), "ELECTSIM_OLLAMA_REPEAT_PENALTY", "1.08")
     set_key(str(ENV_PATH), "ELECTSIM_OLLAMA_EMBEDDING_MODEL", embedding_model)
+    set_key(str(ENV_PATH), "ELECTSIM_CHROMA_DIR", "./data/processed/chroma_store")
+    set_key(str(ENV_PATH), "ELECTSIM_AI_EMBEDDING_BACKEND", "ollama")
+    set_key(str(ENV_PATH), "ELECTSIM_AI_SEMANTIC_SEARCH", "1")
+    set_key(str(ENV_PATH), "ELECTSIM_AI_VECTOR_SYNC", "1")
+    set_key(str(ENV_PATH), "ELECTSIM_AI_ENRICH_SCRAPERS", "1")
+    set_key(str(ENV_PATH), "ELECTSIM_AI_REASON_PIPELINES", "1")
+    set_key(str(ENV_PATH), "ELECTSIM_SENTIMENT_BACKEND", "auto")
+    set_key(str(ENV_PATH), "ELECTSIM_SPACY_AUTO_DOWNLOAD", "0")
 
 
 def smoke_test(model: str, *, num_ctx: int, keep_alive: str) -> dict[str, object]:
@@ -63,6 +71,13 @@ def smoke_test(model: str, *, num_ctx: int, keep_alive: str) -> dict[str, object
         "ELECTSIM_OLLAMA_NUM_CTX",
         "ELECTSIM_OLLAMA_KEEP_ALIVE",
         "ELECTSIM_OLLAMA_EMBEDDING_MODEL",
+        "ELECTSIM_CHROMA_DIR",
+        "ELECTSIM_AI_EMBEDDING_BACKEND",
+        "ELECTSIM_AI_SEMANTIC_SEARCH",
+        "ELECTSIM_AI_VECTOR_SYNC",
+        "ELECTSIM_AI_ENRICH_SCRAPERS",
+        "ELECTSIM_AI_REASON_PIPELINES",
+        "ELECTSIM_SENTIMENT_BACKEND",
     )
     return {
         "model": model,

@@ -27,6 +27,42 @@ python -m agents.local_intelligence search "encuesta vivienda paro"
 python -m agents.local_intelligence chat "¿Qué señales electorales y económicas son relevantes?" --no-llm
 ```
 
+## Motor IA operativo
+
+El cerebro local común vive en `agents.ai_engine` y se usa desde API, dashboard, pipelines y scrapers:
+
+- Ollama como LLM local (`politeia-brain:latest`) para razonamiento y chatbot.
+- `nomic-embed-text` vía Ollama para embeddings locales sin API externa.
+- ChromaDB persistente en `data/processed/chroma_store` como memoria vectorial.
+- spaCy en español para entidades políticas, institucionales y territoriales.
+- `cardiffnlp/twitter-xlm-roberta-base-sentiment` como sentimiento multilingüe, con fallback léxico.
+
+Reindexar documentos ya ingeridos hacia la memoria semántica:
+
+```bash
+python - <<'PY'
+from dataclasses import asdict
+from agents.ai_engine import get_ai_engine
+from agents.local_intelligence import get_local_store
+
+store = get_local_store()
+docs = [asdict(doc) for doc in store.documents.values()]
+print(get_ai_engine().upsert_documents(docs))
+print(get_ai_engine().status())
+PY
+```
+
+Variables de control:
+
+```bash
+export ELECTSIM_AI_EMBEDDING_BACKEND=ollama
+export ELECTSIM_AI_SEMANTIC_SEARCH=1
+export ELECTSIM_AI_VECTOR_SYNC=1
+export ELECTSIM_AI_ENRICH_SCRAPERS=1
+export ELECTSIM_AI_REASON_PIPELINES=1
+export ELECTSIM_SENTIMENT_BACKEND=auto
+```
+
 ## Gerente backend con `gits amigos`
 
 El agente `agents.backend_manager` es la IA gerente funcional del backend. Usa:
@@ -108,6 +144,9 @@ Endpoints principales:
 - `POST /ai/search`
 - `GET /ai/search?q=...`
 - `POST /ai/chat`
+- `GET /ai/engine/status`
+- `POST /ai/engine/reindex-local`
+- `POST /ai/insight`
 - `GET /ai/ontology/summary`
 - `GET /ai/manager/ui`
 - `POST /ai/manager/chat`

@@ -260,6 +260,73 @@ def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
             st.info(msg)
 
 
+def ai_dashboard_insight(context_data: dict, insight_type: str = "general") -> str:
+    """Genera un insight local con Politeia Brain sobre datos actuales del dashboard."""
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine = get_ai_engine()
+        if not engine.is_ollama_available():
+            return ""
+        return engine.reason_dashboard(context_data, insight_type=insight_type)
+    except Exception:
+        return ""
+
+
+def render_ai_insight_card(context_data: dict, insight_type: str = "general", *, button_label: str = "Analizar con IA") -> None:
+    """Renderiza un botón de insight IA reutilizable para cualquier página."""
+    if st.button(button_label, use_container_width=True):
+        with st.spinner("Politeia Brain razonando..."):
+            insight = ai_dashboard_insight(context_data, insight_type)
+        if insight:
+            st.info(insight)
+        else:
+            st.warning("IA local no disponible. Revisa Ollama y la página Cerebro Ollama.")
+
+
+def render_sidebar_ai_chatbot() -> None:
+    """Chat compacto en sidebar para razonar sobre el dashboard desde cualquier página."""
+    with st.expander("🧠  Analista IA", expanded=False):
+        try:
+            from agents.ai_engine import get_ai_engine
+            from agents.local_intelligence import get_local_store
+
+            engine = get_ai_engine()
+            status = engine.status()
+            color = GREEN if status.get("ollama") else AMBER
+            st.caption(
+                f"Modelo: {status.get('model')} · Vectores: {status.get('vector_count')} · "
+                f"{'Ollama activo' if status.get('ollama') else 'Ollama offline'}"
+            )
+            question = st.text_area(
+                "Pregunta al cerebro local",
+                key="sidebar_ai_question",
+                height=90,
+                placeholder="¿Qué está pasando en el dashboard y qué debería revisar?",
+            )
+            use_context = st.checkbox("Usar memoria semántica", value=True, key="sidebar_ai_semantic")
+            if st.button("Razonar", key="sidebar_ai_run", use_container_width=True):
+                if not question.strip():
+                    st.warning("Escribe una pregunta.")
+                else:
+                    with st.spinner("Consultando memoria local y Ollama..."):
+                        result = get_local_store().chat(
+                            question,
+                            k=5,
+                            use_llm=True,
+                            allow_tools=True,
+                            use_semantic=use_context,
+                        )
+                    st.markdown(result.answer)
+                    st.caption(f"{result.model} · evidencias: {len(result.citations)}")
+            st.markdown(
+                f"<div style='height:2px;background:{color};border-radius:2px;margin-top:.6rem'></div>",
+                unsafe_allow_html=True,
+            )
+        except Exception as exc:
+            st.caption(f"IA local no disponible: {exc}")
+
+
 def _normalize_siglas(siglas: str) -> str:
     return str(siglas).strip().upper().replace(" ", "_").replace("-", "_")
 
@@ -913,6 +980,8 @@ def sidebar_nav():
           </span>
         </div>
         """, unsafe_allow_html=True)
+
+        render_sidebar_ai_chatbot()
 
         st.markdown(
             f'<div style="font-size:.55rem;color:{MUTED};font-weight:800;'
