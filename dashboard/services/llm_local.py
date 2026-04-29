@@ -103,6 +103,12 @@ def disponible() -> dict[str, bool | str]:
 
         engine_status = get_ai_engine().status()
         resultado["engine"] = engine_status
+        if engine_status.get("ollama"):
+            resultado["ollama"] = True
+            resultado["brain"] = str(engine_status.get("model") or "") == MODELO_BRAIN
+            resultado["modelo_activo"] = str(engine_status.get("model") or MODELO_BRAIN)
+            resultado["embed"] = str(engine_status.get("embedding_model") or "").split(":")[0] == MODELO_EMBED.split(":")[0]
+            resultado["rag"] = bool(engine_status.get("chroma"))
     except Exception:
         resultado["engine"] = {}
 
@@ -117,20 +123,20 @@ def disponible() -> dict[str, bool | str]:
             resultado["brain"]   = MODELO_BRAIN in modelos
             resultado["rapido"]  = MODELO_RAPIDO in modelos
             resultado["general"] = MODELO_GENERAL in modelos
-            resultado["embed"]   = MODELO_EMBED in modelos
+            resultado["embed"]   = any(str(model).split(":")[0] == MODELO_EMBED.split(":")[0] for model in modelos)
             resultado["modelo_activo"] = (
                 MODELO_BRAIN if MODELO_BRAIN in modelos
                 else MODELO_GENERAL if MODELO_GENERAL in modelos
                 else modelos[0] if modelos else ""
             )
         except Exception:
-            resultado["ollama"] = False
+            resultado["ollama"] = bool(resultado.get("ollama"))
     else:
-        resultado["ollama"] = False
+        resultado["ollama"] = bool(resultado.get("ollama"))
 
     # ChromaDB
     chroma = _get_chroma()
-    resultado["rag"] = chroma is not None
+    resultado["rag"] = bool(resultado.get("rag")) or chroma is not None
 
     # Claude API fallback
     resultado["claude_api"] = bool(os.getenv("ANTHROPIC_API_KEY", "").strip())

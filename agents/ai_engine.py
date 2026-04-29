@@ -23,10 +23,12 @@ from pathlib import Path
 from typing import Any, Generator, Iterable
 
 import httpx
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
 _ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(_ROOT / ".env")
 DEFAULT_CHROMA_DIR = _ROOT / "data" / "processed" / "chroma_store"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
 DEFAULT_OLLAMA_MODEL = "politeia-brain:latest"
