@@ -125,6 +125,21 @@ def _cargar_riesgo() -> dict:
     activacion_soc = float(np.clip((neg_sentiment * 0.6 + base_tension * 0.4) * 100 + rng.uniform(-5, 5), 0, 100))
     parlamentarizacion = float(np.clip(boe_critical_norm * 80 + rng.uniform(-3, 3), 0, 100))
 
+    git_risk: dict = {}
+    try:
+        from dashboard.services import git_amigos_bridge as _git
+
+        git_risk = _git.risk_components()
+        componentes_git = git_risk.get("componentes", {})
+        if componentes_git:
+            parlamentarizacion = max(parlamentarizacion, float(componentes_git.get("actividad_normativa_local", parlamentarizacion)))
+            presion_media = max(presion_media, float(componentes_git.get("presion_osint", presion_media)))
+            base_tension = max(base_tension, float(componentes_git.get("riesgo_geopolitico", 0)) / 100.0 * 0.65)
+            raw = (neg_sentiment * 0.35) + (boe_critical_norm * 0.25) + (base_tension * 0.25) + (float(git_risk.get("score", 0)) / 100.0 * 0.15) + jitter
+            risk_score = float(np.clip(raw * 100, 0, 100))
+    except Exception:
+        git_risk = {}
+
     # CCAA risk (distribución realista con seeds)
     ccaa_risks = {}
     for i, ccaa in enumerate(CCAA_LIST):
@@ -163,6 +178,7 @@ def _cargar_riesgo() -> dict:
         "hist_scores": hist_scores,
         "forecast_dates": forecast_dates,
         "forecast_scores": forecast_scores,
+        "git_amigos": git_risk,
     }
 
 
@@ -209,6 +225,23 @@ with k4:
     st.markdown(kpi_card("Parlamentarización", f"{data['parlamentarizacion']:.0f}/100", sub="Actividad legislativa crítica", color=CYAN), unsafe_allow_html=True)
 
 st.markdown("<div style='margin:.5rem 0'></div>", unsafe_allow_html=True)
+
+git_risk = data.get("git_amigos") or {}
+if git_risk:
+    comps = git_risk.get("componentes", {})
+    st.markdown(
+        f'<div style="background:{BG2};border:1px solid {AMBER}33;border-left:3px solid {AMBER};'
+        f'border-radius:10px;padding:.75rem 1rem;margin:.6rem 0 1rem 0">'
+        f'<div style="font-size:.62rem;font-weight:900;color:{AMBER};letter-spacing:.12em;'
+        f'text-transform:uppercase;margin-bottom:.35rem">INTELIGENCIA LOCAL GIT AMIGOS EN EL SCORE</div>'
+        f'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem">'
+        f'<div><b style="color:{TEXT}">{git_risk.get("legislativo",0)}</b><br><span style="color:{MUTED};font-size:.66rem">señales normativas</span></div>'
+        f'<div><b style="color:{TEXT}">{git_risk.get("compliance",0)}</b><br><span style="color:{MUTED};font-size:.66rem">refs compliance</span></div>'
+        f'<div><b style="color:{TEXT}">{git_risk.get("osint",0)}</b><br><span style="color:{MUTED};font-size:.66rem">fuentes OSINT</span></div>'
+        f'<div><b style="color:{TEXT}">{comps.get("riesgo_geopolitico",0)}</b><br><span style="color:{MUTED};font-size:.66rem">riesgo geo local</span></div>'
+        f'</div></div>',
+        unsafe_allow_html=True,
+    )
 
 # ── Brain widget import ───────────────────────────────────────────────────────
 try:

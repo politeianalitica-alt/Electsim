@@ -3,6 +3,7 @@ D5 — Gobierno & Coalición
 Mega-página: Hemiciclo · Análisis de Coalición · Agenda Ejecutiva · Escenarios de Ruptura
 """
 from __future__ import annotations
+import re
 import sys
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -143,6 +144,121 @@ def _probabilidad_bayesiana(sondeo_tuple: tuple, sigma: float = 2.5, n_sim: int 
             resultados["PP+VOX"] += int(mayoria_pp_vox)
             resultados["PSOE+izquierda"] += int(mayoria_psoe_izq)
         return {k: round(v / n_sim, 3) for k, v in resultados.items()}
+
+
+def _normalizar_tipo_agenda(tipo: str, texto: str = "") -> str:
+    raw = f"{tipo or ''} {texto or ''}".lower()
+    if "senado" in raw:
+        return "senado"
+    if any(k in raw for k in ["congreso", "pleno", "comisión", "comision", "parlamento"]):
+        return "congreso"
+    if any(k in raw for k in ["consejo", "ministros", "gobierno"]):
+        return "consejo"
+    if any(k in raw for k in ["rueda", "prensa", "comparecencia", "entrevista", "comunicación"]):
+        return "media"
+    if any(k in raw for k in ["cumbre", "ue", "europe", "exterior", "internacional", "diplomacia"]):
+        return "diplomacia"
+    if any(k in raw for k in ["ley", "decreto", "boe", "legisl"]):
+        return "legislación"
+    if any(k in raw for k in ["psoe", "pp", "vox", "sumar", "junts", "erc", "pnv", "bildu"]):
+        return "partido"
+    return "institucional"
+
+
+def _parse_agenda_dt(value) -> pd.Timestamp | None:
+    dt = pd.to_datetime(value, errors="coerce")
+    if pd.isna(dt):
+        return None
+    return dt
+
+
+def _agenda_row_to_event(row: dict, lunes_dt: datetime, domingo_dt: datetime) -> dict | None:
+    title = str(
+        row.get("titulo_evento")
+        or row.get("titulo")
+        or row.get("title")
+        or row.get("resumen")
+        or ""
+    ).strip()
+    if not title:
+        return None
+    raw_date = (
+        row.get("fecha_evento")
+        or row.get("fecha_publicacion")
+        or row.get("fecha")
+        or row.get("date")
+    )
+    dt = _parse_agenda_dt(raw_date)
+    if dt is None:
+        return None
+    dt_py = dt.to_pydatetime()
+    if not (lunes_dt.date() <= dt_py.date() <= domingo_dt.date()):
+        return None
+    raw_hour = str(row.get("hora_inicio") or row.get("hora") or "").strip()
+    if raw_hour:
+        hour_match = re.search(r"\b(\d{1,2}:\d{2})\b", raw_hour)
+        hora = hour_match.group(1) if hour_match else raw_hour[:5]
+    else:
+        hour_match = re.search(r"\b(\d{1,2}:\d{2})\b", str(raw_date))
+        hora = hour_match.group(1) if hour_match else ""
+    actor = str(
+        row.get("actor")
+        or row.get("nombre_lider")
+        or row.get("partido")
+        or row.get("fuente")
+        or "Agenda oficial"
+    ).strip()
+    tipo = _normalizar_tipo_agenda(str(row.get("tipo_evento") or row.get("tipo") or ""), f"{actor} {title}")
+    return {
+        "dia": (dt_py.date() - lunes_dt.date()).days,
+        "hora": hora or "—",
+        "actor": actor[:38],
+        "evento": title[:140],
+        "tipo": tipo,
+        "url": str(row.get("url_fuente") or row.get("url") or row.get("enlace") or ""),
+        "fuente": str(row.get("fuente") or "BD"),
+    }
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _cargar_agenda_operativa(lunes_iso: str, domingo_iso: str) -> tuple[list[dict], str]:
+    """Agenda real: BD institucional primero, fuentes oficiales online después."""
+    lunes_dt = datetime.fromisoformat(lunes_iso)
+    domingo_dt = datetime.fromisoformat(domingo_iso)
+    rows: list[dict] = []
+    source = ""
+
+    try:
+        df = _db.cargar_agenda_institucional(dias_atras=0, dias_adelante=7, limit=120)
+        if df is not None and not df.empty:
+            rows = df.to_dict("records")
+            source = "BD agenda_item"
+    except Exception:
+        rows = []
+
+    if not rows:
+        try:
+            from etl.sources.agendas_dinamicas import fetch_all_agendas
+
+            rows = fetch_all_agendas(max_items_per_source=18)
+            source = "Fuentes oficiales online"
+        except Exception:
+            rows = []
+            source = ""
+
+    events = []
+    seen = set()
+    for row in rows:
+        ev = _agenda_row_to_event(row, lunes_dt, domingo_dt)
+        if not ev:
+            continue
+        key = (ev["dia"], ev["hora"], ev["actor"].lower(), ev["evento"].lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        events.append(ev)
+    events.sort(key=lambda e: (e["dia"], e["hora"] if e["hora"] != "—" else "99:99", e["actor"]))
+    return events[:70], source or "Sin fuente"
 
 
 # ── Header ────────────────────────────────────────────────────────────────────
@@ -524,7 +640,7 @@ with tab_agenda:
     dias_semana = [(lunes + timedelta(days=i)) for i in range(7)]
     nombres_dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
-    # Demo datos agenda
+    # Agenda real: BD institucional o fuentes oficiales online. Sin datos demo.
     TIPO_COLOR = {
         "legislación": CYAN,
         "diplomacia": BLUE,
@@ -533,37 +649,22 @@ with tab_agenda:
         "consejo": GREEN,
         "congreso": RED,
         "senado": "#F472B6",
+        "institucional": CYAN,
+        "parlamento": RED,
+        "exterior": BLUE,
     }
 
-    agenda_demo = [
-        # Lunes
-        {"dia": 0, "hora": "10:00", "actor": "Presidencia", "evento": "Despacho ordinario con Ministros", "tipo": "consejo"},
-        {"dia": 0, "hora": "16:00", "actor": "Congreso", "evento": "Pleno — Debate Proyecto de Ley de IA", "tipo": "legislación"},
-        {"dia": 0, "hora": "18:30", "actor": "PSOE", "evento": "Reunión Comité Electoral Federal", "tipo": "partido"},
-        # Martes
-        {"dia": 1, "hora": "09:00", "actor": "Presidencia", "evento": "Consejo de Ministros extraordinario", "tipo": "consejo"},
-        {"dia": 1, "hora": "11:00", "actor": "Presidencia", "evento": "Rueda de prensa post-Consejo", "tipo": "media"},
-        {"dia": 1, "hora": "15:30", "actor": "Congreso", "evento": "Comisión Hacienda — Presupuestos", "tipo": "legislación"},
-        {"dia": 1, "hora": "19:00", "actor": "PP", "evento": "Conferencia de presidentes territoriales", "tipo": "partido"},
-        # Miércoles
-        {"dia": 2, "hora": "10:00", "actor": "Presidencia", "evento": "Cumbre bilateral con Francia (París)", "tipo": "diplomacia"},
-        {"dia": 2, "hora": "14:00", "actor": "Congreso", "evento": "Sesión de control al Gobierno", "tipo": "congreso"},
-        {"dia": 2, "hora": "17:00", "actor": "Senado", "evento": "Debate moción JUNTS sobre infraestructuras", "tipo": "senado"},
-        # Jueves
-        {"dia": 3, "hora": "09:00", "actor": "Presidencia", "evento": "Retorno de gira diplomática", "tipo": "diplomacia"},
-        {"dia": 3, "hora": "12:00", "actor": "Congreso", "evento": "Votación definitiva Ley de Vivienda", "tipo": "legislación"},
-        {"dia": 3, "hora": "16:00", "actor": "SUMAR", "evento": "Rueda de prensa balance legislativo", "tipo": "media"},
-        {"dia": 3, "hora": "20:00", "actor": "Presidencia", "evento": "Entrevista TVE La 1", "tipo": "media"},
-        # Viernes
-        {"dia": 4, "hora": "10:00", "actor": "Presidencia", "evento": "Despacho con Presidentes CCAA", "tipo": "consejo"},
-        {"dia": 4, "hora": "13:00", "actor": "PP", "evento": "Convención nacional PP — Madrid", "tipo": "partido"},
-        {"dia": 4, "hora": "17:00", "actor": "Senado", "evento": "Pleno Senado — Ratificación Ley IA", "tipo": "senado"},
-        # Sábado
-        {"dia": 5, "hora": "10:30", "actor": "PSOE", "evento": "Acto provincial Barcelona", "tipo": "partido"},
-        {"dia": 5, "hora": "12:00", "actor": "PP", "evento": "Convención nacional PP — Clausura", "tipo": "partido"},
-        # Domingo
-        {"dia": 6, "hora": "11:00", "actor": "Medios", "evento": "Programas de debate político TV", "tipo": "media"},
-    ]
+    agenda_eventos, agenda_fuente = _cargar_agenda_operativa(
+        lunes.date().isoformat(),
+        dias_semana[-1].date().isoformat(),
+    )
+    fuente_color = GREEN if agenda_eventos else AMBER
+    st.markdown(
+        f'<div style="font-size:.72rem;color:{TEXT2};margin:-.2rem 0 .7rem 0">'
+        f'Fuente: <b style="color:{fuente_color}">{agenda_fuente}</b> · '
+        f'{len(agenda_eventos)} eventos reales para esta semana</div>',
+        unsafe_allow_html=True,
+    )
 
     # Renderizar calendario semanal
     semana_str = f"{dias_semana[0].strftime('%d/%m')} — {dias_semana[6].strftime('%d/%m/%Y')}"
@@ -576,7 +677,7 @@ with tab_agenda:
     # Grid de la semana (5 días laborales + fin de semana agrupado)
     cols_cal = st.columns(7)
     for di, (nombre_dia, dia_dt) in enumerate(zip(nombres_dias, dias_semana)):
-        eventos_dia = [e for e in agenda_demo if e["dia"] == di]
+        eventos_dia = [e for e in agenda_eventos if e["dia"] == di]
         es_hoy = dia_dt.date() == hoy.date()
         borde_dia = CYAN if es_hoy else BORDER
         bg_dia = f"{CYAN}08" if es_hoy else BG2
@@ -603,6 +704,12 @@ with tab_agenda:
                     unsafe_allow_html=True,
                 )
             st.markdown("</div>", unsafe_allow_html=True)
+
+    if not agenda_eventos:
+        st.info(
+            "No hay agenda oficial disponible ahora mismo desde BD ni fuentes online. "
+            "La página ya no muestra eventos simulados; ejecuta la ingesta institucional o reintenta cuando respondan las fuentes."
+        )
 
     # Leyenda tipos
     st.markdown("<br>", unsafe_allow_html=True)

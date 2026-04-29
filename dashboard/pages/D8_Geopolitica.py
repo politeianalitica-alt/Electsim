@@ -25,6 +25,11 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
+try:
+    from dashboard.services import git_amigos_bridge as _git_amigos
+except Exception:
+    _git_amigos = None  # type: ignore
+
 st.set_page_config(page_title="Geopolítica — Politeia", page_icon="🌍", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("geopolitica")
@@ -74,10 +79,19 @@ EVENTOS_GEO = [
     {"pais": "China",       "lat": 35.0, "lon": 105.0, "riesgo": 60, "tipo": "Comercio",    "desc": "Aranceles UE sobre EVs chinos"},
 ]
 
+if _git_amigos is not None:
+    try:
+        _git_geo_events = _git_amigos.geopolitical_signals(limit=8)
+        EVENTOS_GEO.extend(_git_geo_events)
+    except Exception:
+        _git_geo_events = []
+else:
+    _git_geo_events = []
+
 TIPO_COLORS = {
     "Conflicto": RED, "Tensión": AMBER, "Elecciones": CYAN,
     "Energía": "#F97316", "Diplomacia": GREEN, "Comercio": BLUE,
-    "Migración": PURPLE,
+    "Migración": PURPLE, "OSINT": PURPLE, "UE": CYAN, "Riesgo": RED,
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -105,8 +119,8 @@ with tab_teatro:
         # Capas activas
         capas = st.multiselect(
             "Capas activas",
-            ["Conflictos", "Elecciones", "Energía", "Comercio", "Tensiones", "Diplomacia"],
-            default=["Conflictos", "Tensiones", "Elecciones"],
+            ["Conflictos", "Elecciones", "Energía", "Comercio", "Tensiones", "Diplomacia", "OSINT/UE"],
+            default=["Conflictos", "Tensiones", "Elecciones", "OSINT/UE"],
             key="geo_capas",
         )
 
@@ -123,6 +137,8 @@ with tab_teatro:
             tipos_activos.append("Comercio")
         if "Diplomacia" in capas:
             tipos_activos.append("Diplomacia")
+        if "OSINT/UE" in capas:
+            tipos_activos.extend(["OSINT", "UE", "Riesgo"])
 
         ev_fil = [e for e in EVENTOS_GEO if e["tipo"] in tipos_activos] if tipos_activos else EVENTOS_GEO
 
@@ -366,6 +382,20 @@ with tab_osint:
         {"tier": 2, "fuente": "IISS London", "titulo": "Iberian Peninsula: emerging hub for transatlantic green hydrogen",
          "confianza": 82, "fecha": "2026-04-24", "tipo": "Energía"},
     ]
+
+    if _git_amigos is not None:
+        try:
+            for src in _git_amigos.osint_signals(limit=10):
+                OSINT_SIGNALS.append({
+                    "tier": 1 if "cia" in str(src.get("repo", "")).lower() else 2,
+                    "fuente": f"Git Amigos · {src.get('label', src.get('repo', 'repo local'))}",
+                    "titulo": str(src.get("title") or src.get("snippet") or "Fuente OSINT local")[:180],
+                    "confianza": min(95, 65 + int(float(src.get("score") or 0) * 8)),
+                    "fecha": "local",
+                    "tipo": "OSINT",
+                })
+        except Exception:
+            pass
 
     col_search, col_filter = st.columns([2, 1])
     with col_search:

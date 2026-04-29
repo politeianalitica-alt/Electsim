@@ -142,3 +142,29 @@ def git_amigos_reindex(
         max_files_per_repo=max_files_per_repo,
         docs_only=docs_only,
     )
+
+
+@ToolRegistry.register("git_amigos_search")
+def git_amigos_search(query: str, domain: str | None = None, module: str | None = None, k: int = 8) -> list[dict[str, Any]]:
+    from dashboard.services.git_amigos_bridge import search_corpus
+
+    return search_corpus(query=query, domain=domain, module=module, limit=int(k))
+
+
+@ToolRegistry.register("git_amigos_context")
+def git_amigos_context(topic: str, module: str | None = None, max_chars: int = 5000) -> dict[str, Any]:
+    from dashboard.services.git_amigos_bridge import llm_context_pack, summary_for_module
+
+    return {
+        "topic": topic,
+        "module": module,
+        "summary": summary_for_module(module or "D10"),
+        "context": llm_context_pack(topic, module=module, max_chars=int(max_chars)),
+    }
+
+
+@ToolRegistry.register("git_amigos_sync_ai_engine")
+def git_amigos_sync_ai_engine(limit: int = 80) -> dict[str, Any]:
+    from dashboard.services.git_amigos_bridge import sync_to_ai_engine
+
+    return sync_to_ai_engine(limit=int(limit))

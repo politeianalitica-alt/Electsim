@@ -23,6 +23,11 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
+try:
+    from dashboard.services import git_amigos_bridge as _git_amigos
+except Exception:
+    _git_amigos = None  # type: ignore
+
 st.set_page_config(
     page_title="Monitor Legislativo — ElectSim",
     page_icon="📜",
@@ -158,6 +163,14 @@ tab_boe, tab_votaciones, tab_busqueda, tab_ia = st.tabs([
     "🤖 Análisis IA",
 ])
 
+if _git_amigos is not None:
+    try:
+        _git_d4_summary = _git_amigos.summary_for_module("D4")
+    except Exception:
+        _git_d4_summary = {}
+else:
+    _git_d4_summary = {}
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 1: BOE HOY
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -194,6 +207,19 @@ with tab_boe:
       {kpi_card("TOTAL BOE",   str(total_items),                 "disposiciones hoy",      CYAN)}
     </div>
     """, unsafe_allow_html=True)
+
+    if _git_d4_summary:
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};'
+            f'border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem">'
+            f'<div style="font-size:.64rem;font-weight:900;color:{CYAN};letter-spacing:.12em;'
+            f'text-transform:uppercase;margin-bottom:.25rem">FUENTES GIT AMIGOS INTEGRADAS</div>'
+            f'<div style="font-size:.78rem;color:{TEXT2};line-height:1.55">'
+            f'{_git_d4_summary.get("repos_disponibles",0)}/{_git_d4_summary.get("repos_catalogados",0)} repos disponibles para BOE, Senado, Congreso, Parlamento Europeo, contratación pública y datos UE. '
+            f'Se usan como corpus local para búsqueda, análisis IA y señales del workspace.</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
     if items:
         # Filtros
@@ -300,6 +326,39 @@ with tab_boe:
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_votaciones:
     section_header("Votaciones recientes — Congreso de los Diputados", BLUE)
+
+    git_votos: list[dict] = []
+    if _git_amigos is not None:
+        try:
+            git_votos = _git_amigos.search_corpus(
+                "votaciones senado congreso diputados parliament voting initiatives",
+                module="D4",
+                limit=6,
+            )
+        except Exception:
+            git_votos = []
+
+    if git_votos:
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BLUE}33;border-left:3px solid {BLUE};'
+            f'border-radius:10px;padding:.75rem 1rem;margin-bottom:1rem">'
+            f'<div style="font-size:.64rem;font-weight:900;color:{BLUE};letter-spacing:.12em;'
+            f'text-transform:uppercase;margin-bottom:.35rem">Capa local Congreso/Senado/PE</div>'
+            f'<div style="font-size:.72rem;color:{TEXT2};line-height:1.45">'
+            f'Señales leídas desde repos locales de Senado, Congreso y Parlamento Europeo. '
+            f'Estas fuentes alimentan el RAG de Ollama y completan el mapa de votaciones cuando la fuente oficial no expone todos los metadatos.</div></div>',
+            unsafe_allow_html=True,
+        )
+        for col, src in zip(st.columns(3), git_votos[:3]):
+            with col:
+                st.markdown(
+                    f'<div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;padding:.55rem .7rem;min-height:118px">'
+                    f'<div style="font-size:.7rem;font-weight:800;color:{TEXT}">{src.get("label","Git Amigos")}</div>'
+                    f'<div style="font-size:.62rem;color:{MUTED};margin:.12rem 0">{src.get("repo","")}/{src.get("path","")}</div>'
+                    f'<div style="font-size:.66rem;color:{TEXT2};line-height:1.35">{src.get("snippet","")[:180]}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
 
     votaciones = _demo_votaciones()
     partidos_voto = ["PP", "PSOE", "VOX", "SUMAR", "JUNTS"]
@@ -432,7 +491,7 @@ with tab_votaciones:
 # TAB 3: BÚSQUEDA
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_busqueda:
-    section_header("Búsqueda en normativa BOE", CYAN)
+    section_header("Búsqueda en normativa BOE + corpus Git Amigos", CYAN)
 
     col_s1, col_s2 = st.columns([3, 1])
     with col_s1:
@@ -523,6 +582,27 @@ with tab_busqueda:
                 st.info(f"No se han encontrado resultados para «{query_text}» en el BOE de hoy.")
             else:
                 st.info("No hay datos del BOE cargados. La búsqueda se realizará cuando haya datos disponibles.")
+
+            if _git_amigos is not None:
+                try:
+                    resultados_git = _git_amigos.search_corpus(query_text, module="D4", limit=8)
+                except Exception:
+                    resultados_git = []
+                if resultados_git:
+                    section_header("Resultados en repos Git Amigos", PURPLE)
+                    for idx, res in enumerate(resultados_git, 1):
+                        st.markdown(
+                            f'<div style="background:{BG2};border:1px solid {PURPLE}33;border-left:3px solid {PURPLE};'
+                            f'border-radius:9px;padding:.7rem .9rem;margin-bottom:.45rem">'
+                            f'<div style="display:flex;gap:.5rem;align-items:center">'
+                            f'<span style="font-size:.63rem;font-weight:900;color:{PURPLE};letter-spacing:.08em">GIT {idx}</span>'
+                            f'<span style="font-size:.78rem;font-weight:800;color:{TEXT}">{res.get("label","Fuente local")}</span>'
+                            f'<span style="margin-left:auto;font-size:.62rem;color:{MUTED};font-family:monospace">{res.get("repo","")}/{res.get("path","")}</span>'
+                            f'</div>'
+                            f'<div style="font-size:.7rem;color:{TEXT2};line-height:1.45;margin-top:.35rem">{res.get("snippet","")[:420]}</div>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
     else:
         # Estadísticas generales si no hay búsqueda activa
         if items_busq:
@@ -591,11 +671,22 @@ with tab_ia:
             contexto_items.append(f"[{imp}] {titulo} — {dept}")
 
         contexto_boe = "\n".join(contexto_items) if contexto_items else "No hay datos del BOE disponibles hoy."
+        contexto_git = ""
+        if _git_amigos is not None:
+            try:
+                contexto_git = _git_amigos.llm_context_pack(
+                    "BOE Congreso Senado Parlamento Europeo compliance normativa España",
+                    module="D4",
+                    max_chars=4500,
+                )
+            except Exception:
+                contexto_git = ""
         fecha_hoy = datetime.now().strftime("%d de %B de %Y")
 
         pregunta = (
             f"Fecha: {fecha_hoy}\n\n"
             f"Disposiciones del BOE de hoy:\n{contexto_boe}\n\n"
+            f"Fuentes locales Git Amigos disponibles:\n{contexto_git or 'Sin contexto local adicional.'}\n\n"
             f"¿Cuáles son las 3 normas más relevantes del BOE de hoy y qué impacto político, económico "
             f"o social tienen para España? Sé preciso y usa formato estructurado."
         )
@@ -660,8 +751,7 @@ with tab_ia:
                 )
             st.markdown("</div>", unsafe_allow_html=True)
 
-            st.info("Para activar el análisis con IA local instala Ollama con el modelo politeia-brain. "
-                    "Más info en la página IA Local del menú.")
+            st.info("Para activar el análisis con IA local arranca Ollama y usa el modelo configurado en ELECTSIM_OLLAMA_MODEL.")
 
     # Compliance export hint
     st.markdown("<br>", unsafe_allow_html=True)
@@ -717,3 +807,21 @@ with tab_ia:
             f'{badges}</div></div>',
             unsafe_allow_html=True,
         )
+
+    if _git_amigos is not None:
+        try:
+            compliance_refs = _git_amigos.compliance_signals("ai act dora nis2 contratacion boe eurlex", limit=6)
+        except Exception:
+            compliance_refs = []
+        if compliance_refs:
+            section_header("Referencias compliance desde Git Amigos", CYAN)
+            for ref in compliance_refs[:4]:
+                st.markdown(
+                    f'<div style="background:{BG2};border:1px solid {CYAN}22;border-radius:8px;'
+                    f'padding:.55rem .75rem;margin-bottom:.35rem">'
+                    f'<span style="font-size:.7rem;font-weight:800;color:{CYAN}">{ref.get("label")}</span>'
+                    f'<span style="font-size:.62rem;color:{MUTED};margin-left:.5rem">{ref.get("repo")}/{ref.get("path")}</span>'
+                    f'<div style="font-size:.68rem;color:{TEXT2};line-height:1.35;margin-top:.25rem">{ref.get("snippet","")[:260]}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )

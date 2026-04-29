@@ -20,6 +20,7 @@ from api.routers import (
     pipelines,
     search,
     voto_blando,
+    workspace_signals,
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
@@ -104,3 +105,4 @@ app.include_router(opposition.router, prefix="/opposition", tags=["opposition"])
 app.include_router(campana.router, prefix="/campana", tags=["campana"])
 app.include_router(voto_blando.router)
 app.include_router(analogias.router)
+app.include_router(workspace_signals.router, tags=["workspace"])

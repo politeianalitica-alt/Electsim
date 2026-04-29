@@ -238,11 +238,13 @@ def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
 
     sev = df["severidad"].astype(str).str.upper() if "severidad" in df.columns else pd.Series(["INFO"] * len(df))
     if "pagina_relevante" in df.columns:
-        rel = df["pagina_relevante"].astype(str)
-        mask = (rel == pagina_id) | (sev == "CRITICAL")
+        rel = df["pagina_relevante"].fillna("").astype(str).str.strip()
+        # No inyectamos todas las alertas CRITICAL en todas las páginas: eso
+        # acababa mostrando seeds antiguos/estáticos como si fueran contexto vivo.
+        mask = (rel == pagina_id) | ((rel.str.lower() == "global") & (sev == "CRITICAL"))
         df_pag = df[mask]
     else:
-        df_pag = df[sev == "CRITICAL"]
+        return
 
     if df_pag.empty:
         return

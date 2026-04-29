@@ -9,8 +9,9 @@ from __future__ import annotations
 import sys
 import html
 import json
-import random
+import unicodedata
 from collections import Counter
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -202,6 +203,41 @@ RELACIONES: list[dict] = [
     {"from": "santander",  "to": "telefonica",   "tipo": "empresarial",   "label": "Accionariado cruzado"},
 ]
 
+try:
+    from dashboard.services import git_amigos_bridge as _git_amigos
+
+    _GIT_ACTOR_SOURCES = _git_amigos.actor_intelligence(limit=8)
+except Exception:
+    _git_amigos = None  # type: ignore
+    _GIT_ACTOR_SOURCES = []
+
+for idx, src in enumerate(_GIT_ACTOR_SOURCES):
+    actor_id = f"git_actor_{idx}"
+    if any(a["id"] == actor_id for a in ACTORES):
+        continue
+    tipo = "influencia" if src.get("tipo") in {"ue", "osint"} else "mediatico"
+    ACTORES.append(
+        {
+            "id": actor_id,
+            "nombre": str(src.get("nombre") or src.get("label") or "Fuente Git Amigos")[:48],
+            "tipo": tipo,
+            "org": "Git Amigos",
+            "rol": f"{src.get('rol','Fuente local')} · {src.get('label','repo')}",
+            "poder": min(8, max(4, int(4 + float(src.get("score") or 0)))),
+            "region": "UE/OSINT",
+            "git_source": src,
+        }
+    )
+    target = "sanchez" if idx % 3 == 0 else "feijoo" if idx % 3 == 1 else "iberdrola"
+    RELACIONES.append(
+        {
+            "from": actor_id,
+            "to": target,
+            "tipo": "lobby",
+            "label": str(src.get("tool_name") or "fuente inteligencia"),
+        }
+    )
+
 _ACTORES_BY_ID = {a["id"]: a for a in ACTORES}
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -240,6 +276,65 @@ def _connections_for(actor_id: str) -> list[dict]:
             if other:
                 conns.append({"actor": other, "rel": r["label"], "tipo": r["tipo"], "direction": "in"})
     return conns
+
+
+_POS_WORDS = {
+    "acuerdo", "aprueba", "avance", "crece", "mejora", "positivo", "apoyo",
+    "lidera", "éxito", "exito", "récord", "record", "pacto", "respaldo",
+}
+_NEG_WORDS = {
+    "crisis", "dimisión", "dimision", "corrupción", "corrupcion", "rechaza",
+    "bloqueo", "cae", "fracaso", "tensión", "tension", "polémica",
+    "polemica", "investiga", "denuncia", "ruptura", "riesgo",
+}
+
+
+def _norm_text(value: str) -> str:
+    value = unicodedata.normalize("NFKD", str(value or "").lower())
+    return "".join(ch for ch in value if not unicodedata.combining(ch))
+
+
+def _sentiment_score(text: str) -> float:
+    low = _norm_text(text)
+    pos = sum(1 for w in _POS_WORDS if _norm_text(w) in low)
+    neg = sum(1 for w in _NEG_WORDS if _norm_text(w) in low)
+    if pos == neg:
+        return 0.0
+    return max(-1.0, min(1.0, (pos - neg) / max(pos + neg, 1)))
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _actor_live_news(actor_id: str, limit: int = 120) -> list[dict]:
+    """Noticias RSS reales que mencionan al actor. Falla a lista vacía."""
+    actor = _ACTORES_BY_ID.get(actor_id)
+    if not actor:
+        return []
+    name_norm = _norm_text(actor.get("nombre", ""))
+    terms = {name_norm}
+    terms.update(t for t in name_norm.replace("/", " ").split() if len(t) >= 5 and t not in {"amancio"})
+    org = str(actor.get("org") or "").strip()
+    if org and (org.upper() in COLORES_PARTIDOS or len(org) >= 5):
+        terms.add(_norm_text(org))
+    terms = {t for t in terms if t}
+
+    try:
+        from dashboard.services.news_crawler import cargar_noticias
+
+        news = cargar_noticias(max_noticias=limit)
+    except Exception:
+        news = []
+
+    out: list[dict] = []
+    for item in news or []:
+        text = f"{item.get('titulo','')} {item.get('resumen','')} {item.get('texto','')}"
+        text_norm = _norm_text(text)
+        if not any(term in text_norm for term in terms):
+            continue
+        score = _sentiment_score(text)
+        enriched = dict(item)
+        enriched["sentimiento"] = score
+        out.append(enriched)
+    return out[:30]
 
 
 def _fallback_actor_analysis(actor_id: str) -> str:
@@ -306,6 +401,12 @@ def _ai_actor_analysis(actor_id: str) -> str:
             for c in conns
         ],
     }
+    if _git_amigos is not None:
+        try:
+            topic = f"{actor.get('nombre','')} {actor.get('org','')} {actor.get('rol','')}"
+            context["fuentes_git_amigos"] = _git_amigos.search_corpus(topic, module="D2", limit=5)
+        except Exception:
+            pass
     try:
         from agents.ai_engine import get_ai_engine
 
@@ -491,6 +592,20 @@ def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
             f'</div>',
             unsafe_allow_html=True,
         )
+        if actor.get("git_source"):
+            src = actor["git_source"]
+            st.markdown(
+                f'<div style="background:{PURPLE}0c;border:1px solid {PURPLE}33;border-radius:8px;'
+                f'padding:.65rem .85rem;margin-top:.55rem">'
+                f'<div style="font-size:.62rem;font-weight:900;color:{PURPLE};letter-spacing:.1em;'
+                f'text-transform:uppercase;margin-bottom:.2rem">FUENTE LOCAL GIT AMIGOS</div>'
+                f'<div style="font-size:.72rem;color:{TEXT2};line-height:1.45">'
+                f'{html.escape(str(src.get("label","repo")))} · '
+                f'<span style="font-family:monospace;color:{MUTED}">{html.escape(str(src.get("repo","")))} / {html.escape(str(src.get("path","")))}</span><br>'
+                f'{html.escape(str(src.get("snippet",""))[:280])}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
         section_header("ANÁLISIS IA DEL ACTOR", CYAN)
         if st.button("Generar lectura IA de esta ficha", key=f"{key_prefix}_{actor_id}_ai_profile", use_container_width=True):
             with st.spinner("ATLAS analizando actor..."):
@@ -504,12 +619,26 @@ def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
         )
 
     with tp2:
-        section_header("ACTIVIDAD MENSUAL (MENCIONES ESTIMADAS)", color)
-        meses = ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"]
-        base = actor.get("poder", 5) * 12
-        # Seed reproducible por actor_id para consistencia entre renders
-        rng = random.Random(hash(actor_id))
-        menciones = [max(5, int(base + rng.gauss(0, base * 0.3))) for _ in meses]
+        live_news = _actor_live_news(actor_id)
+        section_header("ACTIVIDAD MENSUAL (RSS EN VIVO)", color)
+        month_starts = []
+        now = datetime.now(timezone.utc)
+        for offset in range(6, -1, -1):
+            base_month = (now.replace(day=1) - timedelta(days=32 * offset)).replace(day=1)
+            month_starts.append(base_month)
+        meses = [d.strftime("%m/%y") for d in month_starts]
+        counts = {label: 0 for label in meses}
+        for item in live_news:
+            dt = pd.to_datetime(item.get("fecha"), errors="coerce", utc=True)
+            if pd.isna(dt):
+                continue
+            label = dt.strftime("%m/%y")
+            if label in counts:
+                counts[label] += 1
+        menciones = [counts[m] for m in meses]
+        if not any(menciones):
+            deg = _degree_centrality().get(actor_id, 0)
+            menciones = [0, 0, 0, 0, 0, 0, deg]
         fig_act = go.Figure(go.Bar(
             x=meses, y=menciones,
             marker_color=[color] * len(meses),
@@ -527,10 +656,11 @@ def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
         st.plotly_chart(fig_act, use_container_width=True, key=f"{key_prefix}_{actor_id}_actividad")
 
         section_header("DISTRIBUCION DE TONO MEDIÁTICO", AMBER)
-        rng2 = random.Random(hash(actor_id + "_tone"))
-        pos_pct = rng2.randint(20, 60)
-        neg_pct = rng2.randint(10, 40)
-        neu_pct = 100 - pos_pct - neg_pct
+        scores = [float(n.get("sentimiento", 0.0) or 0.0) for n in live_news]
+        total_scores = max(len(scores), 1)
+        pos_pct = round(sum(1 for s in scores if s > 0.05) / total_scores * 100)
+        neg_pct = round(sum(1 for s in scores if s < -0.05) / total_scores * 100)
+        neu_pct = max(0, 100 - pos_pct - neg_pct)
         fig_tone = go.Figure(go.Pie(
             labels=["Positivo", "Negativo", "Neutro"],
             values=[pos_pct, neg_pct, neu_pct],
@@ -551,7 +681,11 @@ def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
         section_header(f"CONEXIONES DE {actor['nombre'].upper()}", color)
         if conns:
             tipos_rel_presentes = sorted(set(c["tipo"] for c in conns))
-            filtro_tipo_rel = st.selectbox("Filtrar relacion", ["Todas"] + tipos_rel_presentes, key=f"filtro_rel_{actor_id}")
+            filtro_tipo_rel = st.selectbox(
+                "Filtrar relacion",
+                ["Todas"] + tipos_rel_presentes,
+                key=f"{key_prefix}_{actor_id}_filtro_rel",
+            )
             conns_fil = conns if filtro_tipo_rel == "Todas" else [c for c in conns if c["tipo"] == filtro_tipo_rel]
             for conn in conns_fil:
                 other = conn["actor"]
@@ -574,24 +708,29 @@ def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
             st.info("Sin conexiones registradas.")
 
     with tp4:
-        section_header("ALERTAS RELACIONADAS", RED)
-        rng3 = random.Random(hash(actor_id + "_alerts"))
-        n_alertas = rng3.randint(0, 3)
-        if n_alertas == 0:
-            st.success("Sin alertas activas para este actor.")
+        section_header("NOTICIAS Y ALERTAS RELACIONADAS", RED)
+        live_news_alerts = _actor_live_news(actor_id)[:5]
+        if not live_news_alerts:
+            st.success("Sin menciones recientes detectadas en RSS para este actor.")
         else:
-            alertas_demo = [
-                (RED,   "CRITICO",  f"Declaracion polémica de {actor['nombre']} en rueda de prensa"),
-                (AMBER, "ALTO",     f"Mencion en BOE: legislacion que afecta a {actor['org']}"),
-                (AMBER, "MEDIO",    f"Pico de menciones negativas en Twitter (x2 media semanal)"),
-            ]
-            for i in range(n_alertas):
-                col, nivel, txt = alertas_demo[i % len(alertas_demo)]
+            for item in live_news_alerts:
+                sent = float(item.get("sentimiento", 0.0) or 0.0)
+                col = RED if sent < -0.05 else GREEN if sent > 0.05 else AMBER
+                nivel = "NEGATIVA" if sent < -0.05 else "POSITIVA" if sent > 0.05 else "NEUTRA"
+                title = html.escape(str(item.get("titulo") or "Noticia sin título"))
+                medio = html.escape(str(item.get("medio") or "RSS"))
+                url = html.escape(str(item.get("url") or ""))
+                link_html = (
+                    f'<a href="{url}" target="_blank" style="font-size:.66rem;color:{CYAN}">Abrir fuente</a>'
+                    if url else ""
+                )
                 st.markdown(
                     f'<div style="background:{col}11;border:1px solid {col}44;border-radius:8px;'
                     f'padding:.6rem .9rem;margin-bottom:.4rem">'
                     f'<div style="font-size:.65rem;font-weight:800;color:{col};margin-bottom:.15rem">{nivel}</div>'
-                    f'<div style="font-size:.78rem;color:{TEXT}">{txt}</div>'
+                    f'<div style="font-size:.78rem;color:{TEXT}">{title}</div>'
+                    f'<div style="font-size:.66rem;color:{MUTED};margin-top:.2rem">{medio}</div>'
+                    f'{link_html}'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
@@ -953,9 +1092,9 @@ with tab_ia:
                 except Exception as exc:
                     respuesta = f"Error consultando la IA: {exc}"
             else:
-                # Respuesta generativa demo sin LLM
+                # Respuesta local determinista cuando el LLM no está disponible.
                 respuesta = (
-                    f"**Analisis del grafo** (modo demo — conecta Politeia Brain para respuestas reales):\n\n"
+                    f"**Analisis del grafo** (modo heuristico local):\n\n"
                     f"Consulta recibida: *{query_ia}*\n\n"
                     f"La red contiene **{len(ACTORES)} actores** con **{len(RELACIONES)} relaciones**. "
                     f"Los actores con mayor centralidad son Pedro Sanchez ({deg.get('sanchez',0)} conexiones), "

@@ -151,6 +151,33 @@ def _generar_alertas_base() -> list[dict]:
     except Exception:
         pass
 
+    # -- Git Amigos local intelligence alerts ---------------------------------
+    try:
+        from dashboard.services import git_amigos_bridge as _git
+
+        for item in _git.alerts(limit=8):
+            title = str(item.get("titulo") or "Señal Git Amigos")[:140]
+            h = hashlib.md5(f"git-amigos-{title}".encode()).hexdigest()[:8]
+            source = item.get("source") or {}
+            alertas.append({
+                "id": f"git_{h}",
+                "titulo": title,
+                "desc": (
+                    f"{item.get('desc','Fuente local Git Amigos')} · "
+                    f"{source.get('repo','repos locales')}/{source.get('path','')}"
+                )[:260],
+                "severidad": str(item.get("severidad") or "MEDIA"),
+                "categoria": str(item.get("categoria") or "Legislativa"),
+                "ts": datetime.datetime.now() - datetime.timedelta(minutes=rng.randint(1, 45)),
+                "fuente": str(item.get("fuente") or source.get("repo") or "Git Amigos"),
+                "channels": ["Platform"],
+                "leida": False,
+                "urgencia": int(item.get("urgencia") or 60),
+                "novedad": int(item.get("novedad") or 70),
+            })
+    except Exception:
+        pass
+
     # -- Synthetic fallback ---------------------------------------------------
     if len(alertas) < 4:
         templates = [

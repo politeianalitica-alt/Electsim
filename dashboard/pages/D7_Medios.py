@@ -3,11 +3,10 @@ ELECTSIM — D7 Medios & Narrativa (Edición Avanzada)
 Feed · Monitor de Palabras · Amenazas & Desinformación · Correlación Prensa-Parlamento
 """
 from __future__ import annotations
+import html
 import sys
 from pathlib import Path
-from datetime import datetime, timedelta
-import random
-import math
+from collections import Counter
 
 _ROOT = Path(__file__).parent.parent.parent
 if str(_ROOT) not in sys.path:
@@ -25,6 +24,11 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, section_header, kpi_card, COLORES_PARTIDOS,
 )
 import dashboard.db as _db
+
+try:
+    from dashboard.services import git_amigos_bridge as _git_amigos
+except Exception:
+    _git_amigos = None  # type: ignore
 
 st.set_page_config(
     page_title="Medios & Narrativa — ElectSim",
@@ -101,107 +105,150 @@ except Exception:
     def generar_insight(tipo, datos):
         return "Insight no disponible."
 
-# ── Demo data helpers ─────────────────────────────────────────────────────────
+
+_POS_WORDS = {
+    "acuerdo", "aprueba", "crece", "mejora", "baja", "récord", "record",
+    "respaldo", "avance", "pacto", "positivo", "lidera",
+}
+_NEG_WORDS = {
+    "crisis", "bulo", "falso", "engañoso", "enganoso", "corrupción",
+    "corrupcion", "dimisión", "dimision", "rechaza", "bloqueo", "cae",
+    "tensión", "tension", "polémica", "polemica", "denuncia", "riesgo",
+}
+
+
+def _sentiment_score(text: str) -> float:
+    low = str(text or "").lower()
+    pos = sum(1 for w in _POS_WORDS if w in low)
+    neg = sum(1 for w in _NEG_WORDS if w in low)
+    if pos == neg:
+        return 0.0
+    return max(-1.0, min(1.0, (pos - neg) / max(pos + neg, 1)))
+
+
+def _safe_float(value, default: float = 0.0) -> float:
+    try:
+        if value is None or value == "":
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _normalizar_noticia(item: dict) -> dict:
+    titulo = str(item.get("titulo") or item.get("titular") or "Sin título")
+    resumen = str(item.get("resumen") or "")
+    fecha_raw = item.get("fecha") or item.get("fecha_publicacion") or ""
+    dt = pd.to_datetime(fecha_raw, errors="coerce", utc=True)
+    fecha = dt.strftime("%Y-%m-%d %H:%M") if not pd.isna(dt) else str(fecha_raw)[:16]
+    partidos = item.get("partidos") or item.get("partidos_mencionados") or []
+    if isinstance(partidos, str):
+        partidos = [p.strip() for p in partidos.replace(";", ",").split(",") if p.strip()]
+    sent = item.get("sentimiento")
+    if sent is None:
+        sent = item.get("sentimiento_score")
+    try:
+        sent_f = float(sent)
+    except Exception:
+        sent_f = _sentiment_score(f"{titulo} {resumen}")
+    return {
+        "titulo": titulo,
+        "resumen": resumen,
+        "medio": str(item.get("medio") or item.get("fuente") or "RSS"),
+        "tema": str(item.get("tema") or item.get("categoria") or "General"),
+        "url": str(item.get("url") or "#"),
+        "fecha": fecha,
+        "fecha_dt": dt if not pd.isna(dt) else None,
+        "sentimiento": sent_f,
+        "partidos": partidos,
+        "velocidad": item.get("velocidad"),
+        "alcance": item.get("alcance"),
+    }
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _get_noticias_live(max_noticias: int = 80) -> list[dict]:
+    """Noticias reales por RSS/crawler. No devuelve datos inventados."""
+    items: list[dict] = []
+    if _CRAWLER_OK:
+        try:
+            items = cargar_noticias(max_noticias=max_noticias)
+        except Exception:
+            items = []
+    if not items:
+        try:
+            from dashboard.services.rss_feeds import cargar_noticias_rss
+
+            items = cargar_noticias_rss(max_noticias=max_noticias)
+        except Exception:
+            items = []
+    return [_normalizar_noticia(item) for item in (items or [])[:max_noticias]]
+
+
+def _factcheck_to_threat(item: dict) -> dict:
+    verdict = str(item.get("verdict") or item.get("veredicto") or item.get("verdict_label") or "SIN VERIFICAR").upper()
+    color = RED if "FALSO" in verdict else AMBER if "ENGA" in verdict or "MANIP" in verdict else PURPLE
+    tipo = "Fake news" if "FALSO" in verdict else "Manipulación" if "ENGA" in verdict or "MANIP" in verdict else "Verificación"
+    titulo = str(item.get("titular") or item.get("titulo") or "Verificación sin título")
+    resumen = str(item.get("resumen") or item.get("claim_text") or "Verificación publicada por fact-checker.")
+    source = str(item.get("source_id") or item.get("fuente") or "fact-checker")
+    url = str(item.get("url") or "")
+    return {
+        "titulo": titulo[:220],
+        "fuente": source,
+        "confianza": 0.92 if "FALSO" in verdict else 0.78 if tipo == "Manipulación" else 0.62,
+        "tipo": tipo,
+        "color": color,
+        "descripcion": resumen[:360],
+        "url": url,
+        "verdict": verdict,
+    }
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def _get_factcheck_threats(limit: int = 25) -> list[dict]:
+    """Fact-checks reales desde BD o feeds Newtral/Maldita/EFE/AFP."""
+    rows: list[dict] = []
+    try:
+        df_fc = _db.cargar_fact_checks(dias=30, limit=limit)
+        if df_fc is not None and not df_fc.empty:
+            rows = df_fc.to_dict("records")
+    except Exception:
+        rows = []
+    if not rows:
+        try:
+            from etl.sources.factcheck_feeds import fetch_all_factchecks
+
+            rows = fetch_all_factchecks(limit_per_source=max(5, limit // 4))
+        except Exception:
+            rows = []
+    threats = [_factcheck_to_threat(row) for row in rows[:limit]]
+    if _git_amigos is not None:
+        try:
+            for src in _git_amigos.osint_signals("news crawler rss disinformation threat narrative", limit=8):
+                threats.append({
+                    "titulo": str(src.get("title") or src.get("label") or "Fuente OSINT local")[:220],
+                    "fuente": f"Git Amigos · {src.get('label', src.get('repo', 'repo local'))}",
+                    "confianza": min(0.95, 0.60 + float(src.get("score") or 0) / 20.0),
+                    "tipo": "OSINT",
+                    "color": PURPLE,
+                    "descripcion": str(src.get("snippet") or "")[:360],
+                    "url": "",
+                    "verdict": "FUENTE LOCAL",
+                })
+        except Exception:
+            pass
+    return threats[:limit]
+
+
+# ── Fallback labels para ejes cuando una fuente viva viene vacía ─────────────
 _MEDIOS = [
     "El País", "El Mundo", "ABC", "La Vanguardia", "El Confidencial",
     "elDiario.es", "La Razón", "Público", "20 Minutos", "El Español",
     "Expansión", "Cinco Días", "El Periódico", "La Sexta", "RTVE",
     "Cadena SER", "COPE", "Onda Cero", "El Economista", "Infolibre",
 ]
-_TEMAS = [
-    "Política nacional", "Economía", "Internacional", "Judicial",
-    "Cataluña", "País Vasco", "Social", "Corrupción", "Elecciones",
-]
 _PARTIDOS_LISTA = list(COLORES_PARTIDOS.keys())[:8]
-
-_random = random.Random(42)
-
-@st.cache_data(ttl=300)
-def _get_noticias_demo(n=50):
-    titulos = [
-        "El Gobierno aprueba el decreto de medidas económicas urgentes",
-        "Sánchez anuncia nueva ronda de negociaciones con los socios de investidura",
-        "El PP registra una moción de censura en el Congreso",
-        "VOX celebra su congreso nacional con récord de asistencia",
-        "Feijóo exige la dimisión del ministro tras el escándalo",
-        "El TC admite a trámite el recurso de amparo de los presos del procés",
-        "Sumar propone reducir la jornada laboral a 32 horas semanales",
-        "La economía española crece un 2,8% en el primer trimestre",
-        "El paro baja a mínimos históricos según la EPA trimestral",
-        "Cataluña negocia nuevo modelo de financiación singular",
-        "El Senado rechaza los Presupuestos Generales del Estado",
-        "Junts condiciona su apoyo a la aprobación de la amnistía plena",
-        "La inflación repunta al 3,2% impulsada por la energía",
-        "El CGPJ renueva tras cinco años de bloqueo",
-        "Puigdemont anuncia su regreso a España para el próximo mes",
-        "El Banco de España rebaja las previsiones de crecimiento",
-        "Yolanda Díaz presenta el plan de choque contra la pobreza energética",
-        "La oposición exige explicaciones sobre el espionaje con Pegasus",
-        "El Gobierno presenta la nueva Ley de Vivienda en el Congreso",
-        "Abascal acusa al Gobierno de traicionar la Constitución",
-        "El ministro de Asuntos Exteriores viaja a Bruselas para la cumbre",
-        "El IBEX 35 cierra en máximos anuales tras la bajada de tipos",
-        "La Fiscalía pide 12 años de prisión para el extesorero del PP",
-        "ERC rompe el acuerdo de investidura con el PSC",
-        "El Gobierno prorroga los ERTE hasta fin de año",
-        "Bildu propone un referéndum de autodeterminación en el Parlamento vasco",
-        "El PNV apoya la reforma del Código Penal",
-        "La Guardia Civil detiene a varios cargos municipales por corrupción",
-        "El Congreso aprueba la Ley de Inteligencia Artificial",
-        "Sánchez comparece en el Congreso para explicar el viaje a China",
-        "El Defensor del Pueblo alerta sobre las condiciones en los CIE",
-        "La CEOE rechaza el aumento del salario mínimo propuesto",
-        "Los sindicatos convocan huelga general para el mes de mayo",
-        "El Parlamento Europeo aprueba el pacto de migración",
-        "España presidirá el Consejo de Seguridad de la ONU",
-        "La Ley de Secretos Oficiales se aprueba en primera lectura",
-        "El Tribunal Supremo condena al expresidente de la Comunidad de Madrid",
-        "Coalición Canaria exige más fondos para la gestión migratoria",
-        "El PP arrasa en las encuestas en la Comunidad Valenciana",
-        "El PSOE gana las elecciones en Extremadura por mayoría simple",
-        "Ciudadanos anuncia su disolución definitiva",
-        "El Gobierno negocia con Marruecos la regularización de migrantes",
-        "La deuda pública escala al 113% del PIB",
-        "El Congreso debate la reforma del sistema de pensiones",
-        "Nuevas filtraciones apuntan a financiación ilegal del PP",
-        "El Gobierno aprueba ayudas de 500M para la DANA",
-        "España recibe 15.000 millones del fondo de recuperación europeo",
-        "La Guardia Civil refuerza la vigilancia en Melilla",
-        "El Consejo de Estado rechaza el decreto de amnistía",
-        "Podemos abandona el Gobierno de coalición",
-    ]
-    noticias = []
-    base_dt = datetime.now()
-    for i, titulo in enumerate(titulos[:n]):
-        medio = _MEDIOS[i % len(_MEDIOS)]
-        tema = _TEMAS[i % len(_TEMAS)]
-        sentimiento = _random.uniform(-1, 1)
-        partidos = _random.sample(_PARTIDOS_LISTA, k=_random.randint(0, 3))
-        noticias.append({
-            "titulo": titulo,
-            "medio": medio,
-            "tema": tema,
-            "sentimiento": round(sentimiento, 3),
-            "partidos": partidos,
-            "url": f"https://example.com/noticia-{i}",
-            "fecha": (base_dt - timedelta(minutes=i * 18)).strftime("%H:%M"),
-            "velocidad": _random.randint(5, 980),
-            "alcance": _random.randint(1000, 500000),
-        })
-    return noticias
-
-
-@st.cache_data(ttl=300)
-def _get_keywords_demo():
-    words = [
-        "Sánchez", "PP", "PSOE", "VOX", "presupuestos", "cataluña",
-        "elecciones", "corrupción", "economía", "reforma", "sumar",
-        "congreso", "senado", "constitución", "amnistía", "pacto",
-        "gobierno", "oposición", "inflación", "pensiones", "vivienda",
-        "energía", "migración", "sanidad", "educación", "empleo",
-        "impuestos", "deuda", "bruselas", "nato",
-    ]
-    return {w: _random.randint(5, 200) for w in words}
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -218,15 +265,25 @@ tab_feed, tab_palabras, tab_amenazas, tab_correlacion = st.tabs([
 # TAB 1: FEED
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_feed:
-    noticias_raw = []
-    if _CRAWLER_OK:
-        try:
-            noticias_raw = cargar_noticias(max_noticias=50)
-        except Exception:
-            noticias_raw = []
-
+    noticias_raw = _get_noticias_live(80)
     if not noticias_raw:
-        noticias_raw = _get_noticias_demo(50)
+        st.warning("No se han podido cargar noticias reales por RSS/crawler en este momento. No se muestran datos simulados.")
+    if _git_amigos is not None:
+        try:
+            srcs = _git_amigos.search_corpus("news crawler rss fundus bertopic narrative topic modeling", module="D7", limit=4)
+        except Exception:
+            srcs = []
+        if srcs:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {CYAN}33;border-left:3px solid {CYAN};'
+                f'border-radius:10px;padding:.7rem .9rem;margin-bottom:1rem">'
+                f'<div style="font-size:.62rem;font-weight:900;color:{CYAN};letter-spacing:.12em;'
+                f'text-transform:uppercase;margin-bottom:.25rem">INGESTA MEDIOS DESDE GIT AMIGOS</div>'
+                f'<div style="font-size:.72rem;color:{TEXT2};line-height:1.45">'
+                f'Patrones locales de News Crawlers, Fundus, FreshRSS y BERTopic quedan disponibles para el pipeline y el RAG de Ollama. '
+                f'Fuentes activas: {", ".join(str(s.get("label")) for s in srcs[:4])}.</div></div>',
+                unsafe_allow_html=True,
+            )
 
     # ── Top bar KPIs ──────────────────────────────────────────────────────────
     total = len(noticias_raw)
@@ -309,7 +366,7 @@ with tab_feed:
     if sort_by == "Sentimiento":
         noticias_f.sort(key=lambda x: x.get("sentimiento", 0))
     elif sort_by == "Alcance":
-        noticias_f.sort(key=lambda x: x.get("alcance", 0), reverse=True)
+        noticias_f.sort(key=lambda x: _safe_float(x.get("alcance"), 0.0), reverse=True)
 
     st.markdown(f"<div style='color:{TEXT2};font-size:.8rem;margin-bottom:.5rem'>"
                 f"{len(noticias_f)} artículos mostrados</div>", unsafe_allow_html=True)
@@ -323,9 +380,22 @@ with tab_feed:
         url = n.get("url", "#")
         titulo = n.get("titulo", "Sin título")
         fecha = n.get("fecha", "")
-        vel = n.get("velocidad", 0)
-        alc = n.get("alcance", 0)
+        vel = n.get("velocidad")
+        alc = n.get("alcance")
         partidos = n.get("partidos", [])
+        vel_html = ""
+        if vel is not None:
+            vel_html = (
+                f'<span style="font-size:.72rem;color:{TEXT2}">'
+                f'⚡ <b style="color:{AMBER}">{html.escape(str(vel))}</b> art/h</span>'
+            )
+        alc_html = ""
+        alc_num = _safe_float(alc, -1.0)
+        if alc_num >= 0:
+            alc_html = (
+                f'<span style="font-size:.72rem;color:{TEXT2}">'
+                f'👁 <b style="color:{BLUE}">{int(alc_num):,}</b> alcance</span>'
+            )
 
         medio_color = CYAN
         tcolor = AMBER
@@ -356,11 +426,10 @@ with tab_feed:
           </div>
           <div style="display:flex;gap:1.5rem;margin-top:.5rem">
             <span style="font-size:.72rem;color:{TEXT2}">
-              ⚡ <b style="color:{AMBER}">{vel}</b> art/h
+              Fuente RSS/crawler en vivo
             </span>
-            <span style="font-size:.72rem;color:{TEXT2}">
-              👁 <b style="color:{BLUE}">{alc:,}</b> alcance
-            </span>
+            {vel_html}
+            {alc_html}
             <span style="font-size:.72rem;color:{TEXT2}">
               Sentimiento <b style="color:{'#10B981' if sent > 0 else '#EF4444'}">{sent:+.2f}</b>
             </span>
@@ -373,13 +442,7 @@ with tab_feed:
 # TAB 2: MONITOR DE PALABRAS
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_palabras:
-    if _CRAWLER_OK:
-        try:
-            noticias_kw = cargar_noticias(max_noticias=50)
-        except Exception:
-            noticias_kw = _get_noticias_demo(50)
-    else:
-        noticias_kw = _get_noticias_demo(50)
+    noticias_kw = _get_noticias_live(100)
 
     # Extraer keywords
     kw_dict = {}
@@ -392,7 +455,21 @@ with tab_palabras:
             kw_dict = {}
 
     if not kw_dict:
-        kw_dict = _get_keywords_demo()
+        texto_total = " ".join(n.get("titulo", "") for n in noticias_kw)
+        words = [
+            w.strip(".,;:()[]¿?¡!\"'").lower()
+            for w in texto_total.split()
+            if len(w.strip(".,;:()[]¿?¡!\"'")) > 5
+        ]
+        kw_dict = dict(Counter(words).most_common(30))
+    if _git_amigos is not None:
+        try:
+            for src in _git_amigos.search_corpus("topic modeling narrative bertopic rss media", module="D7", limit=6):
+                for word in str(src.get("label") or "").lower().split():
+                    if len(word) > 5:
+                        kw_dict[word] = kw_dict.get(word, 0) + 1
+        except Exception:
+            pass
 
     top_kw = sorted(kw_dict.items(), key=lambda x: x[1], reverse=True)[:20]
     kw_names = [k for k, _ in top_kw]
@@ -403,13 +480,17 @@ with tab_palabras:
     with col_hm:
         section_header("HEATMAP KEYWORDS × MEDIOS", AMBER)
 
-        # Construir matriz medios × keywords
+        # Construir matriz real medios × keywords desde titulares RSS
         top10_kw = kw_names[:10]
-        sample_medios = _MEDIOS[:10]
+        sample_medios = sorted({n.get("medio", "RSS") for n in noticias_kw})[:10] or _MEDIOS[:3]
         matrix = []
-        rng = random.Random(99)
         for medio in sample_medios:
-            row = [rng.randint(0, 30) for _ in top10_kw]
+            docs_medio = [
+                f"{n.get('titulo','')} {n.get('resumen','')}".lower()
+                for n in noticias_kw
+                if n.get("medio") == medio
+            ]
+            row = [sum(1 for doc in docs_medio if kw.lower() in doc) for kw in top10_kw]
             matrix.append(row)
 
         fig_hm = go.Figure(go.Heatmap(
@@ -459,18 +540,17 @@ with tab_palabras:
 
     # ── Emerging terms ────────────────────────────────────────────────────────
     st.markdown(f"<br>", unsafe_allow_html=True)
-    section_header("TÉRMINOS EMERGENTES (+50% vs ayer)", RED)
-    emerging_rng = random.Random(77)
-    emerging = [(k, emerging_rng.uniform(50, 300)) for k in kw_names[:8]]
+    section_header("TÉRMINOS RELEVANTES EN TITULARES RECIENTES", RED)
+    emerging = top_kw[:8]
     cols_em = st.columns(4)
-    for idx, (word, growth) in enumerate(emerging):
+    for idx, (word, mentions) in enumerate(emerging):
         with cols_em[idx % 4]:
             st.markdown(f"""
             <div style="background:{RED}15;border:1px solid {RED}33;border-radius:8px;
                         padding:.7rem;text-align:center;margin-bottom:.5rem">
               <div style="font-size:1.1rem;font-weight:800;color:{TEXT}">{word}</div>
-              <div style="font-size:.9rem;color:{RED};font-weight:700">+{growth:.0f}%</div>
-              <div style="font-size:.68rem;color:{MUTED}">vs ayer</div>
+              <div style="font-size:.9rem;color:{RED};font-weight:700">{mentions}</div>
+              <div style="font-size:.68rem;color:{MUTED}">menciones RSS</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -480,34 +560,37 @@ with tab_palabras:
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_amenazas:
     col_radar, col_cards = st.columns([2, 3], gap="large")
+    threats = _get_factcheck_threats(25)
 
     with col_radar:
         section_header("RADAR DE AMENAZAS", RED)
 
         categories = [
-            "Desinformación", "Manipulación",
-            "Sesgo mediático", "Fake news",
-            "Propaganda", "Astroturfing",
+            "Fake news", "Manipulación",
+            "Verificación", "Economía",
+            "Migración", "Institucional",
         ]
-        values_high = [78, 45, 62, 88, 55, 40]
-        values_med = [45, 65, 38, 52, 72, 58]
-        values_low = [22, 32, 18, 30, 28, 22]
+        type_counts = Counter(t["tipo"] for t in threats)
+        text_all = " ".join(f"{t.get('titulo','')} {t.get('descripcion','')}".lower() for t in threats)
+        values_live = [
+            min(100, type_counts.get("Fake news", 0) * 18),
+            min(100, type_counts.get("Manipulación", 0) * 18),
+            min(100, type_counts.get("Verificación", 0) * 18),
+            min(100, text_all.count("econom") * 12),
+            min(100, text_all.count("migr") * 12),
+            min(100, (text_all.count("gobierno") + text_all.count("congreso")) * 10),
+        ]
 
         fig_radar = go.Figure()
-        for vals, name, color, fill in [
-            (values_high, "Alto riesgo", RED, f"{RED}33"),
-            (values_med, "Riesgo medio", AMBER, f"{AMBER}22"),
-            (values_low, "Bajo riesgo", GREEN, f"{GREEN}22"),
-        ]:
-            v = vals + [vals[0]]
-            c = categories + [categories[0]]
-            fig_radar.add_trace(go.Scatterpolar(
-                r=v, theta=c,
-                fill="toself",
-                line=dict(color=color, width=2),
-                name=name,
-                hovertemplate="%{theta}: <b>%{r}</b><extra></extra>",
-            ))
+        v = values_live + [values_live[0]]
+        c = categories + [categories[0]]
+        fig_radar.add_trace(go.Scatterpolar(
+            r=v, theta=c,
+            fill="toself",
+            line=dict(color=RED if threats else MUTED, width=2),
+            name="Fact-checks últimos 30 días",
+            hovertemplate="%{theta}: <b>%{r}</b><extra></extra>",
+        ))
 
         fig_radar.update_layout(
             polar=dict(
@@ -526,61 +609,28 @@ with tab_amenazas:
 
     with col_cards:
         section_header("ALERTAS DETECTADAS", RED)
-        threats = [
-            {
-                "titulo": "Bulo sobre dimisión del Presidente",
-                "fuente": "Twitter / X (cuenta falsa)",
-                "confianza": 0.94,
-                "tipo": "Fake news",
-                "color": RED,
-                "descripcion": "Varios cuentas coordinadas difunden información falsa sobre una supuesta dimisión.",
-            },
-            {
-                "titulo": "Manipulación de encuestas electorales",
-                "fuente": "Telegram (grupo privado)",
-                "confianza": 0.78,
-                "tipo": "Manipulación",
-                "color": AMBER,
-                "descripcion": "Sondeos con metodología oscura circulan amplificados por bots.",
-            },
-            {
-                "titulo": "Red de medios coordinada contra el Gobierno",
-                "fuente": "Análisis de patrones NLP",
-                "confianza": 0.67,
-                "tipo": "Sesgo mediático",
-                "color": PURPLE,
-                "descripcion": "14 medios digitales publican el mismo frame narrativo en 2 horas.",
-            },
-            {
-                "titulo": "Deepfake de declaraciones del ministro",
-                "fuente": "YouTube (cuenta nueva)",
-                "confianza": 0.88,
-                "tipo": "Desinformación",
-                "color": RED,
-                "descripcion": "Vídeo manipulado con audio falso atribuido al ministro de Interior.",
-            },
-            {
-                "titulo": "Campaña de astroturfing en redes",
-                "fuente": "Detector NLP interno",
-                "confianza": 0.71,
-                "tipo": "Astroturfing",
-                "color": BLUE,
-                "descripcion": "Patrón de hashtags generados artificialmente trending durante 3 días.",
-            },
-        ]
+        if not threats:
+            st.info(
+                "No hay fact-checks reales disponibles ahora mismo desde BD ni feeds. "
+                "La vista ya no muestra amenazas simuladas."
+            )
 
-        for t in threats:
+        for t in threats[:12]:
             bar_w = int(t["confianza"] * 100)
+            title = html.escape(str(t["titulo"]))
+            fuente = html.escape(str(t["fuente"]))
+            desc = html.escape(str(t["descripcion"]))
+            url = html.escape(str(t.get("url") or ""))
             st.markdown(f"""
             <div class="threat-card" style="border-left-color:{t['color']}">
               <div style="display:flex;justify-content:space-between;align-items:center">
-                <div style="font-weight:700;color:{TEXT};font-size:.9rem">{t['titulo']}</div>
+                <div style="font-weight:700;color:{TEXT};font-size:.9rem">{title}</div>
                 <span class="badge" style="background:{t['color']}33;color:{t['color']}">{t['tipo']}</span>
               </div>
               <div style="font-size:.75rem;color:{TEXT2};margin:.25rem 0">
-                Fuente: <span style="color:{MUTED}">{t['fuente']}</span>
+                Fuente: <span style="color:{MUTED}">{fuente}</span>
               </div>
-              <div style="font-size:.78rem;color:{TEXT2};margin-bottom:.4rem">{t['descripcion']}</div>
+              <div style="font-size:.78rem;color:{TEXT2};margin-bottom:.4rem">{desc}</div>
               <div style="display:flex;align-items:center;gap:.5rem">
                 <div style="flex:1;height:5px;background:{BORDER};border-radius:3px">
                   <div style="width:{bar_w}%;height:5px;background:{t['color']};border-radius:3px"></div>
@@ -589,6 +639,7 @@ with tab_amenazas:
                   {t['confianza']:.0%} confianza
                 </span>
               </div>
+              {f'<a href="{url}" target="_blank" style="font-size:.7rem;color:{CYAN}">Abrir verificación</a>' if url else ''}
             </div>
             """, unsafe_allow_html=True)
 
@@ -597,13 +648,22 @@ with tab_amenazas:
     section_header("KIT DE RESPUESTA IA", CYAN)
     col_kit1, col_kit2 = st.columns([2, 3], gap="large")
     with col_kit1:
-        amenaza_sel = st.selectbox("Amenaza a responder", [t["titulo"] for t in threats])
-        if st.button("🤖 Generar Kit de Respuesta", key="btn_kit", type="primary"):
+        amenaza_options = [t["titulo"] for t in threats] or ["Sin amenaza real seleccionable"]
+        amenaza_sel = st.selectbox("Amenaza a responder", amenaza_options)
+        if st.button("🤖 Generar Kit de Respuesta", key="btn_kit", type="primary", disabled=not threats):
             with st.spinner("Generando respuesta..."):
+                selected_threat = next((t for t in threats if t["titulo"] == amenaza_sel), threats[0] if threats else {})
+                threat_context = (
+                    f"Título: {selected_threat.get('titulo', amenaza_sel)}\n"
+                    f"Fuente: {selected_threat.get('fuente', 'fact-check')}\n"
+                    f"Veredicto/tipo: {selected_threat.get('verdict') or selected_threat.get('tipo', '')}\n"
+                    f"Descripción: {selected_threat.get('descripcion', '')}\n"
+                    f"URL: {selected_threat.get('url', '')}"
+                )
                 if _LLM_OK:
                     try:
                         respuesta = chat(
-                            f"Genera un kit de respuesta ante esta amenaza informativa: '{amenaza_sel}'. "
+                            f"Genera un kit de respuesta ante esta amenaza informativa verificada:\n{threat_context}\n\n"
                             "Incluye 5 bloques: 1-Clarificación factual, 2-Contranarrative, "
                             "3-Portavoces recomendados, 4-Timing óptimo, 5-Canales.",
                             sistema="Eres un experto en comunicación política y gestión de crisis.",
@@ -615,16 +675,14 @@ with tab_amenazas:
 
                 if not respuesta:
                     respuesta = (
-                        "**1. Clarificación factual:** Publicar comunicado oficial con datos verificados "
-                        "en menos de 2 horas de detectada la amenaza.\n\n"
-                        "**2. Contranarrative:** Redirigir el debate hacia los logros del ejecutivo; "
-                        "usar cifras oficiales y fuentes acreditadas.\n\n"
-                        "**3. Portavoces:** Ministro/a responsable + portavoz parlamentario + "
-                        "experto independiente de confianza.\n\n"
-                        "**4. Timing:** Responder antes de las 18:00 para impactar en los informativos de noche. "
-                        "Evitar respuesta en fin de semana.\n\n"
-                        "**5. Canales:** Twitter/X oficial, rueda de prensa, nota a medios afines, "
-                        "hilo de verificación con hilos documentados."
+                        f"**1. Clarificación factual:** Responder sobre `{selected_threat.get('titulo', amenaza_sel)}` "
+                        f"citando la fuente de verificación `{selected_threat.get('fuente', 'fact-check')}` "
+                        "y enlazando la comprobación original.\n\n"
+                        f"**2. Contexto:** Explicar el veredicto `{selected_threat.get('verdict') or selected_threat.get('tipo', '')}` "
+                        "sin ampliar la afirmación falsa más de lo necesario.\n\n"
+                        "**3. Portavoces:** Usar un portavoz técnico o institucional con capacidad de aportar documento, dato oficial o rectificación verificable.\n\n"
+                        "**4. Timing:** Publicar una respuesta breve primero y una pieza ampliada cuando haya fuente primaria disponible.\n\n"
+                        f"**5. Canales:** Web/nota oficial + redes propias + enlace directo a la verificación: {selected_threat.get('url', '') or 'sin URL disponible'}."
                     )
                 st.session_state["d7_kit_resp"] = respuesta
 
@@ -648,10 +706,25 @@ with tab_amenazas:
 with tab_correlacion:
     section_header("MAPA DE MENCIONES PRENSA × PARTIDOS", CYAN)
 
-    medios_corr = _MEDIOS[:10]
-    partidos_corr = _PARTIDOS_LISTA[:7]
-    rng_c = random.Random(55)
-    z_corr = [[rng_c.randint(0, 100) for _ in partidos_corr] for _ in medios_corr]
+    noticias_corr = _get_noticias_live(120)
+    medios_corr = sorted({n.get("medio", "RSS") for n in noticias_corr})[:10]
+    partidos_corr = sorted({p for n in noticias_corr for p in (n.get("partidos") or [])})[:8]
+    if not medios_corr:
+        medios_corr = _MEDIOS[:3]
+    if not partidos_corr:
+        partidos_corr = _PARTIDOS_LISTA[:4]
+    z_corr = []
+    for medio in medios_corr:
+        row = []
+        for partido in partidos_corr:
+            row.append(
+                sum(
+                    1
+                    for n in noticias_corr
+                    if n.get("medio") == medio and partido in (n.get("partidos") or [])
+                )
+            )
+        z_corr.append(row)
 
     fig_corr = go.Figure(go.Heatmap(
         z=z_corr,
@@ -671,69 +744,50 @@ with tab_correlacion:
 
     col_lag, col_proj = st.columns(2, gap="large")
     with col_lag:
-        section_header("CORRELACIÓN PRENSA → ACTIVIDAD PARLAMENTARIA", PURPLE)
-        days = list(range(-15, 16))
-        rng_l = random.Random(33)
-        corr_values = [
-            0.1 + 0.6 * math.exp(-((d - 3) ** 2) / 8) + rng_l.uniform(-0.05, 0.05)
-            for d in days
-        ]
+        section_header("MENCIONES REALES POR PARTIDO", PURPLE)
+        party_counts = Counter(p for n in noticias_corr for p in (n.get("partidos") or []))
+        party_items = party_counts.most_common(10)
         fig_lag = go.Figure()
-        fig_lag.add_trace(go.Scatter(
-            x=days, y=corr_values,
-            mode="lines+markers",
-            line=dict(color=PURPLE, width=2.5),
-            marker=dict(size=6, color=PURPLE),
-            fill="tozeroy", fillcolor="rgba(139,92,246,0.13)",
-            name="Correlación",
-            hovertemplate="Día %{x}: r=<b>%{y:.2f}</b><extra></extra>",
+        fig_lag.add_trace(go.Bar(
+            x=[p for p, _ in party_items],
+            y=[v for _, v in party_items],
+            marker_color=[COLORES_PARTIDOS.get(p, PURPLE) for p, _ in party_items],
+            name="Menciones RSS",
+            hovertemplate="%{x}: <b>%{y}</b> menciones<extra></extra>",
         ))
-        fig_lag.add_vline(x=3, line_dash="dash", line_color=AMBER,
-                          annotation_text="Pico +3d", annotation_font_color=AMBER)
-        fig_lag.add_vline(x=0, line_dash="dot", line_color=MUTED)
         fig_lag.update_layout(
             paper_bgcolor=BG2, plot_bgcolor=BG2,
             font=dict(color=TEXT),
             height=300,
             margin=dict(l=10, r=10, t=30, b=30),
-            xaxis=dict(title="Días (negativo=prensa antes)", gridcolor=BORDER),
-            yaxis=dict(title="Correlación r", range=[0, 1], gridcolor=BORDER),
+            xaxis=dict(title="Partido", gridcolor=BORDER),
+            yaxis=dict(title="Menciones", gridcolor=BORDER),
         )
         st.plotly_chart(fig_lag, use_container_width=True)
 
     with col_proj:
-        section_header("PROYECCIÓN 30 DÍAS (Cobertura media)", GREEN)
-        rng_p = random.Random(22)
-        days_future = list(range(30))
-        cob_hist = [50 + rng_p.gauss(0, 5) for _ in range(20)]
-        trend = [cob_hist[-1] + 1.2 * d + rng_p.gauss(0, 3) for d in days_future]
-        upper = [v + 10 for v in trend]
-        lower = [max(0, v - 10) for v in trend]
+        section_header("COBERTURA RECIENTE POR FECHA", GREEN)
+        counts_by_day = Counter()
+        for n in noticias_corr:
+            dt = n.get("fecha_dt")
+            if dt is not None:
+                counts_by_day[dt.strftime("%Y-%m-%d")] += 1
+        dates_sorted = sorted(counts_by_day.keys())[-20:]
+        cob_hist = [counts_by_day[d] for d in dates_sorted]
 
         fig_proj = go.Figure()
         fig_proj.add_trace(go.Scatter(
-            x=list(range(-20, 0)), y=cob_hist,
-            mode="lines", line=dict(color=CYAN, width=2),
-            name="Histórico", hovertemplate="Día %{x}: <b>%{y:.0f}</b><extra></extra>",
+            x=dates_sorted, y=cob_hist,
+            mode="lines+markers", line=dict(color=GREEN, width=2.5),
+            marker=dict(color=GREEN, size=6),
+            name="RSS recientes", hovertemplate="%{x}: <b>%{y:.0f}</b><extra></extra>",
         ))
-        fig_proj.add_trace(go.Scatter(
-            x=days_future + days_future[::-1],
-            y=upper + lower[::-1],
-            fill="toself", fillcolor="rgba(16,185,129,0.13)",
-            line=dict(width=0), name="IC 80%", hoverinfo="skip",
-        ))
-        fig_proj.add_trace(go.Scatter(
-            x=days_future, y=trend,
-            mode="lines", line=dict(color=GREEN, width=2.5, dash="dot"),
-            name="Proyección", hovertemplate="Día +%{x}: <b>%{y:.0f}</b><extra></extra>",
-        ))
-        fig_proj.add_vline(x=0, line_dash="dash", line_color=AMBER)
         fig_proj.update_layout(
             paper_bgcolor=BG2, plot_bgcolor=BG2,
             font=dict(color=TEXT),
             height=300,
             margin=dict(l=10, r=10, t=30, b=30),
-            xaxis=dict(title="Días desde hoy", gridcolor=BORDER),
+            xaxis=dict(title="Fecha", gridcolor=BORDER),
             yaxis=dict(title="Artículos/día", gridcolor=BORDER),
             legend=dict(bgcolor=BG3, font=dict(color=TEXT2, size=10)),
         )

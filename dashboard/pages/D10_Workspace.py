@@ -1,21 +1,20 @@
-"""D10 — Centro de Operaciones (Workspace del Analista)
-Espacio de trabajo central: Investigation Canvas, Draft Studio,
-Intelligence Notebook y Calendario Político.
+"""D10 — Centro de Operaciones.
+
+Sala central del analista: agrega señales vivas de riesgo, alertas,
+legislativo, medios, electoral, geopolítica, agenda y memoria operativa.
 """
 from __future__ import annotations
 
-import json
+import html
+import math
 import sys
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 
 _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
@@ -26,8 +25,20 @@ from dashboard.shared import (
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED,
 )
+from dashboard.services.workspace_signals import (
+    all_signals,
+    api_payload,
+    get_workspace,
+    global_activity,
+    list_workspaces,
+    morning_briefing,
+    workspace_estado_ahora,
+    workspace_news,
+    workspace_status,
+    workspace_timeline,
+)
 
-# ── page config ────────────────────────────────────────────────────────────────
+
 st.set_page_config(
     page_title="Centro de Operaciones · Politeia",
     page_icon="🔬",
@@ -36,734 +47,668 @@ st.set_page_config(
 )
 sidebar_nav()
 
-# ── LLM optional ───────────────────────────────────────────────────────────────
+
 try:
     from dashboard.services.llm_local import chat as llm_chat, disponible as llm_disponible
-    _LLM_OK = llm_disponible().get("brain", False)
+
+    _LLM_OK = bool(llm_disponible().get("brain", False))
 except Exception:
     _LLM_OK = False
 
-# ── rng ────────────────────────────────────────────────────────────────────────
-rng = np.random.default_rng(99)
+try:
+    from agents.ai_engine import get_ai_engine
 
-# ── session state init ─────────────────────────────────────────────────────────
-if "ws_cliente_activo" not in st.session_state:
-    st.session_state["ws_cliente_activo"] = "IBERDROLA"
-if "ws_notas" not in st.session_state:
-    st.session_state["ws_notas"] = {}
-if "ws_borrador" not in st.session_state:
-    st.session_state["ws_borrador"] = ""
-if "ws_notebook" not in st.session_state:
-    st.session_state["ws_notebook"] = []
-
-# ── demo data ──────────────────────────────────────────────────────────────────
-CLIENTES = [
-    {"nombre": "IBERDROLA",    "tipo": "Public Affairs",          "alertas": 2, "urgente": True,  "proxima": "Briefing: vence viernes"},
-    {"nombre": "PP — EURO",    "tipo": "Partido político",        "alertas": 1, "urgente": False, "proxima": "Reunión: mañana 10h"},
-    {"nombre": "REPSOL",       "tipo": "Riesgo regulatorio",      "alertas": 0, "urgente": False, "proxima": None},
-    {"nombre": "FUNDACIÓN FIDE","tipo": "Think tank",             "alertas": 3, "urgente": False, "proxima": "Informe: esta semana"},
-    {"nombre": "AYTO. MADRID", "tipo": "Gestión política local",  "alertas": 0, "urgente": False, "proxima": None},
-]
-
-ACTIVIDAD_RECIENTE = [
-    {"icono": "📝", "texto": "Borrador Iberdrola: v4",      "tiempo": "hace 23 min",   "tipo": "borrador"},
-    {"icono": "🔔", "texto": "Alerta: RD 342/2026",         "tiempo": "hace 1h 24min", "tipo": "alerta"},
-    {"icono": "📌", "texto": 'Nota: "revisar Junts"',        "tiempo": "hace 2h",       "tipo": "nota"},
-    {"icono": "🔲", "texto": "Canvas PP guardado",           "tiempo": "hace 3h",       "tipo": "canvas"},
-    {"icono": "📊", "texto": "Informe riesgo Repsol",        "tiempo": "hace 5h",       "tipo": "informe"},
-]
-
-EVENTOS_CALENDARIO = [
-    {"fecha": datetime.now() + timedelta(hours=2),  "evento": "Reunión PP — Estrategia Euro",     "tipo": "reunion", "cliente": "PP — EURO"},
-    {"fecha": datetime.now() + timedelta(days=1),   "evento": "Briefing Iberdrola vence",          "tipo": "deadline", "cliente": "IBERDROLA"},
-    {"fecha": datetime.now() + timedelta(days=2),   "evento": "Pleno Congreso — Reforma energética","tipo": "institucional", "cliente": "IBERDROLA"},
-    {"fecha": datetime.now() + timedelta(days=3),   "evento": "Entrega informe Fundación FIDE",   "tipo": "deadline", "cliente": "FUNDACIÓN FIDE"},
-    {"fecha": datetime.now() + timedelta(days=5),   "evento": "Consejo de Ministros ordinario",   "tipo": "institucional", "cliente": None},
-    {"fecha": datetime.now() + timedelta(days=7),   "evento": "Debate presupuestos Ayto. Madrid", "tipo": "institucional", "cliente": "AYTO. MADRID"},
-    {"fecha": datetime.now() + timedelta(days=10),  "evento": "Rueda de prensa Repsol",           "tipo": "reunion", "cliente": "REPSOL"},
-    {"fecha": datetime.now() + timedelta(days=14),  "evento": "Elecciones autonómicas (simulación)", "tipo": "electoral", "cliente": None},
-]
-
-NOTAS_DEMO = [
-    {"id": "n1", "titulo": "Estrategia Junts próximas semanas", "texto": "Revisar posición de Junts ante reforma del CGPJ. Posible abstención si se garantizan contrapartidas en financiación singular.", "tags": ["Junts", "CGPJ", "coalición"], "fecha": "hace 2h"},
-    {"id": "n2", "titulo": "Puntos clave reunión Iberdrola",    "texto": "1) Renewable targets 2030. 2) Riesgo regulatorio RD tarifas. 3) Mensaje nuclear ante apagón UE.", "tags": ["Iberdrola", "energía", "regulación"], "fecha": "hace 5h"},
-    {"id": "n3", "titulo": "Análisis encuesta interna PP",      "texto": "Gap de -4pts en jóvenes 18-35. Prioridad: vivienda y empleo. Feijóo mantiene valoración positiva 4.2/10.", "tags": ["PP", "encuesta", "jóvenes"], "fecha": "ayer"},
-]
+    _ENGINE_STATUS = get_ai_engine().status()
+except Exception:
+    _ENGINE_STATUS = {}
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# LAYOUT — 3 columnas fijas
-# ══════════════════════════════════════════════════════════════════════════════
-st.markdown("""
-<style>
-.ws-panel-left { background: #0a0f1a; border-right: 1px solid #1e2d40; }
-.ws-cliente-card { border-left: 3px solid #333; padding: 0.5rem 0.75rem;
-  border-radius: 0 6px 6px 0; margin: 4px 0; cursor: pointer;
-  transition: border-color 0.2s; }
-.ws-cliente-card.activo { border-left-color: #4ecdc4; background: #0d1117; }
-</style>
-""", unsafe_allow_html=True)
-
-# ── PAGE HEADER ─────────────────────────────────────────────────────────────
-st.markdown("""
-<div style='background:linear-gradient(135deg,#0a0f1a 0%,#16213e 50%,#0f3460 100%);
-     padding:1.2rem 2rem;border-radius:12px;margin-bottom:1rem;
-     border-left:4px solid #4ecdc4;display:flex;align-items:center;gap:1rem;'>
-  <div>
-    <h1 style='color:#fff;margin:0;font-size:1.6rem;'>🔬 Centro de Operaciones</h1>
-    <p style='color:#aaa;margin:0.2rem 0 0;font-size:0.88rem;'>
-      Workspace · Investigation Canvas · Draft Studio · Intelligence Notebook · Calendario Político
-    </p>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-# ── 3-column layout ────────────────────────────────────────────────────────────
-panel_left, main_zone, panel_right = st.columns([1, 3, 1.2])
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PANEL IZQUIERDO — Dock de clientes y herramientas
-# ══════════════════════════════════════════════════════════════════════════════
-with panel_left:
-    st.markdown("""
-<div style='background:#0a0f1a;padding:0.75rem;border-radius:8px;border:1px solid #1e2d40;'>
-  <div style='display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;'>
-    <div style='width:36px;height:36px;border-radius:50%;background:#4ecdc4;
-         display:flex;align-items:center;justify-content:center;font-size:1rem;'>👤</div>
-    <div>
-      <div style='color:#fff;font-weight:700;font-size:0.9rem;'>Analista</div>
-      <div style='color:#aaa;font-size:0.75rem;'>Politeia · Senior</div>
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-    st.markdown("**— MIS CLIENTES —**")
-    for cliente in CLIENTES:
-        es_activo = cliente["nombre"] == st.session_state["ws_cliente_activo"]
-        alerta_badge = f"🔴 {cliente['alertas']}" if cliente["alertas"] > 0 else "✅"
-        border_col = "#4ecdc4" if es_activo else "#333"
-        bg_col = "#0d1117" if es_activo else "#0a0f1a"
-
-        if st.button(
-            f"{'●' if es_activo else '○'} {cliente['nombre']}",
-            key=f"btn_cliente_{cliente['nombre']}",
-            use_container_width=True,
-            type="primary" if es_activo else "secondary",
-        ):
-            st.session_state["ws_cliente_activo"] = cliente["nombre"]
-            st.rerun()
-
-        st.markdown(
-            f"<div style='font-size:0.72rem;color:#aaa;margin:-6px 0 4px 10px;'>"
-            f"{cliente['tipo']} · {alerta_badge}</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("")
-    if st.button("+ Nuevo cliente", use_container_width=True, key="btn_nuevo_cliente"):
-        st.toast("Función disponible próximamente", icon="🚧")
-
-    st.markdown("---")
-    st.markdown("**— HERRAMIENTAS —**")
-    herramientas = [
-        ("🔲", "Investigation Canvas"),
-        ("✏️", "Draft Studio"),
-        ("📓", "Intelligence Notebook"),
-        ("📅", "Calendario Político"),
-    ]
-    if "ws_tool" not in st.session_state:
-        st.session_state["ws_tool"] = "Investigation Canvas"
-
-    for icono, nombre in herramientas:
-        is_active = st.session_state["ws_tool"] == nombre
-        if st.button(
-            f"{icono} {nombre}",
-            key=f"btn_tool_{nombre}",
-            use_container_width=True,
-            type="primary" if is_active else "secondary",
-        ):
-            st.session_state["ws_tool"] = nombre
-            st.rerun()
-
-    st.markdown("---")
-    st.markdown("**— EQUIPO —**")
-    equipo = [
-        ("🟢", "Carlos López", "online",  "PP canvas"),
-        ("🟡", "Marta Ruiz",   "ausente", "—"),
-        ("⚫", "Diego Fernández","offline","—"),
-    ]
-    for dot, nombre, estado, tarea in equipo:
-        st.markdown(
-            f"<div style='font-size:0.8rem;margin:3px 0;'>"
-            f"{dot} <span style='color:#ccc;'>{nombre}</span> "
-            f"<span style='color:#555;'>({estado})</span></div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("---")
-    st.markdown("**— ACTIVIDAD RECIENTE —**")
-    for act in ACTIVIDAD_RECIENTE[:4]:
-        st.markdown(
-            f"<div style='font-size:0.78rem;margin:3px 0;'>"
-            f"{act['icono']} <span style='color:#ccc;'>{act['texto']}</span><br>"
-            f"<span style='color:#555;margin-left:1rem;'>{act['tiempo']}</span></div>",
-            unsafe_allow_html=True,
-        )
+if "ops_tool" not in st.session_state:
+    st.session_state["ops_tool"] = "Panel Vivo"
+if "ops_workspace_id" not in st.session_state:
+    st.session_state["ops_workspace_id"] = list_workspaces()[0]["id"]
+if "ops_notes" not in st.session_state:
+    st.session_state["ops_notes"] = {}
+if "ops_draft" not in st.session_state:
+    st.session_state["ops_draft"] = ""
+if "ops_right_mode" not in st.session_state:
+    st.session_state["ops_right_mode"] = "resumen"
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# ZONA DE TRABAJO ACTIVA — Herramienta seleccionada
-# ══════════════════════════════════════════════════════════════════════════════
-with main_zone:
-    cliente_activo = st.session_state["ws_cliente_activo"]
-    herramienta = st.session_state["ws_tool"]
+def _color_for_level(level: str | None, score: float | None = None) -> str:
+    raw = str(level or "").lower()
+    if raw in {"critico", "crítico", "critical"} or (score is not None and score >= 70):
+        return RED
+    if raw in {"alto", "warning", "amarillo"} or (score is not None and score >= 40):
+        return AMBER
+    if raw in {"medio", "moderado"}:
+        return PURPLE
+    return GREEN
 
-    cliente_info = next((c for c in CLIENTES if c["nombre"] == cliente_activo), CLIENTES[0])
 
+def _fmt_dt(value: str | None) -> str:
+    if not value:
+        return "sin fecha"
+    try:
+        dt = pd.to_datetime(value, errors="coerce", utc=True)
+        if pd.isna(dt):
+            return str(value)[:16]
+        return dt.strftime("%d/%m %H:%M")
+    except Exception:
+        return str(value)[:16]
+
+
+def _safe_text(value: object, limit: int = 300) -> str:
+    return html.escape(str(value or ""))[:limit]
+
+
+def _card(title: str, value: str, sub: str = "", color: str = CYAN) -> str:
+    return (
+        f'<div class="ops-card ops-kpi" style="border-top-color:{color}">'
+        f'<div class="ops-label">{html.escape(title)}</div>'
+        f'<div class="ops-value" style="color:{color}">{html.escape(value)}</div>'
+        f'<div class="ops-sub">{html.escape(sub)}</div>'
+        f"</div>"
+    )
+
+
+def _section(title: str, color: str = CYAN) -> None:
     st.markdown(
-        f"<div style='background:#0d1117;border:1px solid #1e2d40;border-radius:8px;"
-        f"padding:0.6rem 1rem;margin-bottom:0.75rem;display:flex;"
-        f"justify-content:space-between;align-items:center;'>"
-        f"<span style='color:#4ecdc4;font-weight:700;'>{cliente_activo}</span>"
-        f"<span style='color:#aaa;font-size:0.82rem;'>{cliente_info['tipo']}</span>"
-        f"<span style='color:#aaa;font-size:0.82rem;'>{herramienta}</span></div>",
+        f'<div class="ops-section"><span style="background:{color}"></span>{html.escape(title)}</div>',
         unsafe_allow_html=True,
     )
 
-    # ── Investigation Canvas ────────────────────────────────────────────────
-    if herramienta == "Investigation Canvas":
-        st.markdown("### 🔲 Investigation Canvas")
+
+def _pill(text: str, color: str = CYAN) -> str:
+    return (
+        f'<span class="ops-pill" style="border-color:{color}55;color:{color};'
+        f'background:{color}14">{html.escape(text)}</span>'
+    )
+
+
+st.markdown(
+    f"""
+<style>
+.stApp {{ background:{BG}; }}
+.block-container {{ padding-top:.7rem; padding-bottom:1.2rem; max-width:100%; }}
+.ops-topbar {{
+  background:{BG2}; border:1px solid {BORDER}; border-radius:10px;
+  padding:.65rem .9rem; display:flex; align-items:center; justify-content:space-between;
+  gap:.8rem; margin-bottom:.75rem;
+}}
+.ops-top-title {{ color:{TEXT}; font-weight:900; font-size:1rem; }}
+.ops-top-meta {{ color:{TEXT2}; font-size:.72rem; }}
+.ops-panel {{
+  background:{BG2}; border:1px solid {BORDER}; border-radius:10px;
+  padding:.75rem; margin-bottom:.75rem;
+}}
+.ops-card {{
+  background:{BG2}; border:1px solid {BORDER}; border-radius:8px;
+  padding:.75rem .85rem; margin-bottom:.65rem; border-top:3px solid {CYAN};
+}}
+.ops-kpi {{ min-height:86px; }}
+.ops-label {{
+  color:{MUTED}; font-size:.58rem; text-transform:uppercase; letter-spacing:.12em;
+  font-weight:900; margin-bottom:.28rem;
+}}
+.ops-value {{ font-size:1.45rem; font-weight:950; line-height:1.1; }}
+.ops-sub {{ color:{TEXT2}; font-size:.72rem; margin-top:.25rem; line-height:1.35; }}
+.ops-section {{
+  color:{CYAN}; font-size:.62rem; text-transform:uppercase; letter-spacing:.16em;
+  font-weight:950; display:flex; align-items:center; gap:.45rem; margin:.8rem 0 .5rem;
+}}
+.ops-section span {{ width:4px; height:18px; border-radius:2px; display:inline-block; }}
+.ops-pill {{
+  display:inline-flex; align-items:center; gap:.25rem; padding:.13rem .42rem;
+  border:1px solid; border-radius:999px; font-size:.63rem; font-weight:800;
+  margin:.1rem .16rem .1rem 0; white-space:nowrap;
+}}
+.ops-mini {{
+  color:{TEXT2}; font-size:.75rem; line-height:1.45;
+  border-left:2px solid {BORDER}; padding:.28rem .55rem; margin:.24rem 0;
+}}
+.ops-mini strong {{ color:{TEXT}; }}
+.ops-workspace-btn button {{ text-align:left; justify-content:flex-start; }}
+.ops-signal-title {{ color:{TEXT}; font-size:.85rem; font-weight:900; margin-bottom:.45rem; }}
+.ops-link {{ color:{CYAN}; text-decoration:none; }}
+.ops-scroll {{ max-height:430px; overflow-y:auto; padding-right:.2rem; }}
+.ops-muted {{ color:{MUTED}; font-size:.7rem; }}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+
+workspaces = list_workspaces()
+workspace_ids = {str(ws["id"]) for ws in workspaces}
+if str(st.session_state["ops_workspace_id"]) not in workspace_ids:
+    st.session_state["ops_workspace_id"] = workspaces[0]["id"]
+
+workspace = get_workspace(st.session_state["ops_workspace_id"])
+workspace_id = str(workspace["id"])
+signals = all_signals(workspace_id)
+status = workspace_status(workspace_id)
+estado = workspace_estado_ahora(workspace_id, signals=signals)
+timeline = workspace_timeline(workspace_id, limit=28)
+briefing = morning_briefing(workspace_id)
+
+llm_dot = GREEN if _LLM_OK or _ENGINE_STATUS.get("ollama") else AMBER
+vector_count = _ENGINE_STATUS.get("vector_count", "—")
+
+st.markdown(
+    f"""
+<div class="ops-topbar">
+  <div>
+    <div class="ops-top-title">🔬 Centro de Operaciones · Sistema Nervioso Politeia</div>
+    <div class="ops-top-meta">
+      ElectSim &gt; {_safe_text(workspace['nombre'], 80)} &gt; {_safe_text(st.session_state['ops_tool'], 60)}
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;justify-content:flex-end">
+    {_pill(f"Alertas {status['alertas_total']}", _color_for_level(None, 75 if status['alertas_criticas'] else 20))}
+    {_pill(f"Riesgo {status['riesgo']}/100", _color_for_level(status['riesgo_nivel'], status['riesgo']))}
+    {_pill(f"LLM {'activo' if (_LLM_OK or _ENGINE_STATUS.get('ollama')) else 'degradado'}", llm_dot)}
+    {_pill(f"Vectores {vector_count}", BLUE)}
+  </div>
+</div>
+""",
+    unsafe_allow_html=True,
+)
+
+
+left_col, main_col, right_col = st.columns([1.05, 3.2, 1.25], gap="medium")
+
+
+with left_col:
+    st.markdown('<div class="ops-panel">', unsafe_allow_html=True)
+    st.markdown(
+        f"""
+<div style="display:flex;gap:.55rem;align-items:center;margin-bottom:.7rem">
+  <div style="width:34px;height:34px;border-radius:8px;background:{CYAN}22;
+       border:1px solid {CYAN}55;display:flex;align-items:center;justify-content:center">👤</div>
+  <div>
+    <div style="color:{TEXT};font-weight:900;font-size:.86rem">Analista</div>
+    <div style="color:{TEXT2};font-size:.68rem">Sala viva · {datetime.now().strftime('%H:%M')}</div>
+  </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+    _section("Mis clientes", CYAN)
+    for ws in workspaces:
+        ws_status = workspace_status(ws["id"])
+        active = str(ws["id"]) == workspace_id
+        risk_color = _color_for_level(ws_status.get("riesgo_nivel"), ws_status.get("riesgo"))
+        label = f"{'●' if active else '○'} {ws['nombre']}"
+        if st.button(
+            label,
+            key=f"ops_ws_{ws['id']}",
+            width="stretch",
+            type="primary" if active else "secondary",
+        ):
+            st.session_state["ops_workspace_id"] = ws["id"]
+            st.session_state["ops_right_mode"] = "resumen"
+            st.rerun()
         st.markdown(
-            "<p style='color:#aaa;font-size:0.88rem;'>Lienzo de investigación visual. "
-            "Conecta actores, eventos y documentos en un mapa de relaciones.</p>",
+            f"""
+<div style="margin:-.35rem 0 .45rem .2rem;line-height:1.5">
+  <div class="ops-muted">{_safe_text(ws.get('sector') or ws.get('tipo'), 80)}</div>
+  {_pill(f"Riesgo {ws_status.get('riesgo', 0)}/100", risk_color)}
+  {_pill(f"{ws_status.get('alertas_total', 0)} alertas", RED if ws_status.get('alertas_criticas') else AMBER)}
+</div>
+""",
             unsafe_allow_html=True,
         )
 
-        # Canvas interactivo con pyvis o plotly network
-        try:
-            from pyvis.network import Network as PyvisNet
-            _PYVIS = True
-        except ImportError:
-            _PYVIS = False
+    if st.button("+ Nuevo cliente", key="ops_add_client", width="stretch"):
+        st.toast("Crea el cliente desde Campaña / API; el Centro lo detectará automáticamente.", icon="ℹ️")
 
-        canvas_nodes = [
-            ("Pedro Sánchez", "person", "#e94560"),
-            ("PSOE", "partido", "#e94560"),
-            ("Junts", "partido", "#f7971e"),
-            ("Carles Puigdemont", "person", "#f7971e"),
-            ("Ley de Amnistía", "evento", "#4ecdc4"),
-            ("Presupuestos 2026", "evento", "#45b7d1"),
-            ("Alberto Núñez Feijóo", "person", "#3498db"),
-            ("PP", "partido", "#3498db"),
-            (cliente_activo, "cliente", "#4ecdc4"),
-            ("BOE 342/2026", "documento", "#aaa"),
-        ]
-        canvas_edges = [
-            ("Pedro Sánchez", "PSOE", "lidera"),
-            ("PSOE", "Ley de Amnistía", "impulsa"),
-            ("PSOE", "Presupuestos 2026", "negocia"),
-            ("Junts", "Ley de Amnistía", "condición"),
-            ("Junts", "Presupuestos 2026", "bloquea"),
-            ("Carles Puigdemont", "Junts", "dirige"),
-            ("Presupuestos 2026", "BOE 342/2026", "genera"),
-            (cliente_activo, "Presupuestos 2026", "afecta"),
-            ("Alberto Núñez Feijóo", "PP", "lidera"),
-            ("PP", "Presupuestos 2026", "rechaza"),
-        ]
+    _section("Herramientas", PURPLE)
+    tools = ["Panel Vivo", "Investigation Canvas", "Draft Studio", "Intelligence Notebook", "Political Calendar"]
+    for tool in tools:
+        icon = {
+            "Panel Vivo": "📡",
+            "Investigation Canvas": "🔲",
+            "Draft Studio": "✏️",
+            "Intelligence Notebook": "📓",
+            "Political Calendar": "📅",
+        }[tool]
+        if st.button(
+            f"{icon} {tool}",
+            key=f"ops_tool_{tool}",
+            width="stretch",
+            type="primary" if st.session_state["ops_tool"] == tool else "secondary",
+        ):
+            st.session_state["ops_tool"] = tool
+            st.rerun()
 
-        if _PYVIS:
-            net = PyvisNet(
-                height="480px", width="100%",
-                bgcolor="#0d1117", font_color="#ccc",
-                directed=True,
-            )
-            net.set_options(json.dumps({
-                "physics": {"stabilization": {"iterations": 100}},
-                "edges": {"arrows": {"to": {"enabled": True, "scaleFactor": 0.8}},
-                          "color": {"color": "#555"}, "font": {"color": "#aaa", "size": 10}},
-                "nodes": {"font": {"size": 13}},
-            }))
-            color_map_type = {
-                "person": "#e94560", "partido": "#f7971e",
-                "evento": "#4ecdc4", "documento": "#aaa", "cliente": "#45b7d1",
-            }
-            for label, ntype, color in canvas_nodes:
-                shape = "dot" if ntype == "person" else "box" if ntype == "partido" else "diamond"
-                net.add_node(label, label=label, color=color, shape=shape, size=20)
-            for src, dst, rel in canvas_edges:
-                net.add_edge(src, dst, title=rel, label=rel)
+    _section("Actividad reciente", AMBER)
+    for item in global_activity(limit=8):
+        st.markdown(
+            f"""
+<div class="ops-mini">
+  <strong>{_safe_text(item.get('icono'), 10)} {_safe_text(item.get('workspace'), 80)}</strong><br>
+  {_safe_text(item.get('titulo'), 110)}<br>
+  <span class="ops-muted">{_fmt_dt(item.get('created_at'))}</span>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
+    st.markdown("</div>", unsafe_allow_html=True)
 
-            net_html = net.generate_html()
-            components.html(net_html, height=500, scrolling=False)
 
-        else:
-            # Fallback: Plotly scatter network
-            import math
-            n_nodes = len(canvas_nodes)
-            angles = [2 * math.pi * i / n_nodes for i in range(n_nodes)]
-            pos = {node[0]: (math.cos(a) * 2, math.sin(a) * 2) for node, a in zip(canvas_nodes, angles)}
+def render_timeline(items: list[dict]) -> None:
+    if not items:
+        st.info("No hay actividad viva para este workspace todavía.")
+        return
+    for item in items[:14]:
+        url = str(item.get("url") or "")
+        title = _safe_text(item.get("titulo"), 180)
+        title_html = f'<a class="ops-link" href="{html.escape(url)}" target="_blank">{title}</a>' if url else title
+        st.markdown(
+            f"""
+<div class="ops-mini">
+  <strong>{_safe_text(item.get('icono'), 10)} {title_html}</strong><br>
+  <span>{_safe_text(item.get('meta'), 90)}</span><br>
+  <span class="ops-muted">{_fmt_dt(item.get('created_at'))}</span>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
 
-            edge_x, edge_y = [], []
-            for src, dst, _ in canvas_edges:
-                x0, y0 = pos[src]
-                x1, y1 = pos[dst]
-                edge_x += [x0, x1, None]
-                edge_y += [y0, y1, None]
 
-            fig_canvas = go.Figure()
-            fig_canvas.add_trace(go.Scatter(
-                x=edge_x, y=edge_y, mode="lines",
-                line=dict(color="#333", width=1), hoverinfo="none",
-            ))
-            for label, ntype, color in canvas_nodes:
-                x, y = pos[label]
-                fig_canvas.add_trace(go.Scatter(
-                    x=[x], y=[y], mode="markers+text",
-                    marker=dict(size=20, color=color),
-                    text=[label], textposition="top center",
-                    textfont=dict(color="#ccc", size=10),
-                    hoverinfo="text", hovertext=f"{label} ({ntype})",
-                    showlegend=False,
-                ))
-            fig_canvas.update_layout(
-                height=480, paper_bgcolor="#0d1117", plot_bgcolor="#0d1117",
+def render_estado_panel(data: dict[str, object]) -> None:
+    k1, k2 = st.columns(2)
+    with k1:
+        st.markdown(_card("Alertas", str(data.get("alertas_activas", 0)), "sin leer / recientes", RED), unsafe_allow_html=True)
+        st.markdown(_card("Borradores", str(data.get("borradores_activos", 0)), "activos", CYAN), unsafe_allow_html=True)
+    with k2:
+        st.markdown(_card("Riesgo", f"{data.get('riesgo', 0)}/100", "score actual", _color_for_level(None, float(data.get("riesgo", 0) or 0))), unsafe_allow_html=True)
+        st.markdown(_card("Canvas", str(data.get("canvas_activos", 0)), "mapas activos", PURPLE), unsafe_allow_html=True)
+    _section("Próximos eventos", AMBER)
+    for ev in data.get("proximos_eventos", [])[:4]:
+        st.markdown(
+            f'<div class="ops-mini"><strong>📅 {_safe_text(ev.get("label"), 110)}</strong><br>'
+            f'<span class="ops-muted">{_safe_text(ev.get("fecha"), 20)} {_safe_text(ev.get("hora"), 8)} · {_safe_text(ev.get("fuente"), 50)}</span></div>',
+            unsafe_allow_html=True,
+        )
+    _section("Pendiente de mí", RED)
+    tasks = data.get("tareas_pendientes", [])
+    if not tasks:
+        st.success("Sin tareas críticas derivadas de señales vivas.")
+    for task in tasks:
+        st.checkbox(str(task.get("titulo")), key=f"ops_task_{task.get('id')}_{workspace_id}")
+
+
+def render_signal_card(title: str, icon: str, data: dict, color: str, lines: list[str]) -> None:
+    st.markdown(
+        f"""
+<div class="ops-card" style="border-top-color:{color}">
+  <div class="ops-signal-title">{icon} {html.escape(title)}</div>
+  {''.join(f'<div class="ops-sub">{html.escape(line)}</div>' for line in lines)}
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+def render_signal_aggregator() -> None:
+    _section("Señales en tiempo real", CYAN)
+    r, a, l = signals["riesgo"], signals["alertas"], signals["legislativo"]
+    m, e, g = signals["medios"], signals["electoral"], signals["geopolitica"]
+    cards = [
+        (
+            "Termómetro de Riesgo",
+            "🌡️",
+            r,
+            _color_for_level(r.get("nivel"), r.get("score")),
+            [
+                f"Score: {r.get('score')}/100 · {r.get('nivel')}",
+                f"Componentes activos: {len(r.get('componentes') or {})}",
+                f"Fecha: {r.get('fecha') or 'sin fecha'}",
+            ],
+        ),
+        (
+            "Alertas Activas",
+            "🔔",
+            a,
+            RED if a.get("criticas") else AMBER,
+            [
+                f"Críticas: {a.get('criticas')} · Elevadas: {a.get('elevadas')} · Moderadas: {a.get('moderadas')}",
+                f"Última: {(a.get('ultima_critica') or {}).get('titulo', 'sin crítica reciente')}",
+            ],
+        ),
+        (
+            "Monitor Legislativo",
+            "⚖️",
+            l,
+            BLUE,
+            [
+                f"Normas 24h: {l.get('nuevas_normas_24h')}",
+                f"Tramitaciones activas: {l.get('tramitaciones_activas')}",
+                f"Top: {(l.get('top3_relevantes') or [{}])[0].get('titulo', 'sin normas relevantes')}",
+            ],
+        ),
+        (
+            "Medios & Narrativa",
+            "📰",
+            m,
+            _color_for_level(m.get("nivel_amenaza_max")),
+            [
+                f"Narrativa: {(m.get('top_narrativa') or {}).get('label', 'sin datos')}",
+                f"Piezas: {(m.get('top_narrativa') or {}).get('n_piezas', 0)} · Amenaza: {m.get('nivel_amenaza_max')}",
+                f"Noticias vivas: {len(m.get('noticias') or [])}",
+            ],
+        ),
+        (
+            "Nowcasting Electoral",
+            "📊",
+            e,
+            PURPLE,
+            [
+                f"Foco: {e.get('partido_focus', '—')} {e.get('estimacion_focus', '—')}%",
+                f"Última fecha: {e.get('ultimo_nowcasting_fecha') or 'sin fecha'}",
+                "Nueva encuesta hoy" if e.get("nueva_encuesta_hoy") else "Sin encuesta nueva hoy",
+            ],
+        ),
+        (
+            "Geopolítica & RRII",
+            "🌍",
+            g,
+            GREEN if g.get("nivel_top") == "bajo" else AMBER,
+            [
+                f"Señales 24h: {g.get('señales_relevantes_24h')}",
+                f"Región top: {g.get('pais_top') or 'sin foco'}",
+                f"Nivel: {g.get('nivel_top')}",
+            ],
+        ),
+    ]
+    for row in range(0, len(cards), 3):
+        cols = st.columns(3)
+        for col, args in zip(cols, cards[row:row + 3]):
+            with col:
+                render_signal_card(*args)
+
+
+def render_canvas() -> None:
+    st.markdown("### 🔲 Investigation Canvas")
+    st.caption("Grafo derivado de señales vivas del workspace seleccionado.")
+    nodes: list[tuple[str, str, str]] = [(workspace["nombre"], "cliente", CYAN)]
+    edges: list[tuple[str, str, str]] = []
+    for n in signals["medios"].get("noticias", [])[:5]:
+        label = str(n.get("fuente") or "fuente")
+        nodes.append((label, "medio", BLUE))
+        edges.append((label, workspace["nombre"], "menciona"))
+    for item in signals["electoral"].get("snapshot", [])[:5]:
+        label = str(item.get("partido"))
+        nodes.append((label, "partido", PURPLE))
+        edges.append((label, workspace["nombre"], f"{item.get('pct')}%"))
+    for fc in signals["medios"].get("factchecks", [])[:4]:
+        label = str(fc.get("source_id") or "fact-check")
+        nodes.append((label, "verificación", RED))
+        edges.append((label, workspace["nombre"], str(fc.get("verdict") or "check")))
+
+    unique_nodes = []
+    seen = set()
+    for node in nodes:
+        if node[0] not in seen:
+            unique_nodes.append(node)
+            seen.add(node[0])
+    n_nodes = max(len(unique_nodes), 1)
+    pos = {}
+    for i, (label, _, _) in enumerate(unique_nodes):
+        angle = 2 * math.pi * i / n_nodes
+        radius = 1.2 if i else 0.0
+        pos[label] = (math.cos(angle) * radius, math.sin(angle) * radius)
+    edge_x, edge_y = [], []
+    for src, dst, _ in edges:
+        if src in pos and dst in pos:
+            edge_x.extend([pos[src][0], pos[dst][0], None])
+            edge_y.extend([pos[src][1], pos[dst][1], None])
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=edge_x, y=edge_y, mode="lines", line=dict(color=BORDER, width=1), hoverinfo="none"))
+    for label, ntype, color in unique_nodes:
+        x, y = pos[label]
+        fig.add_trace(
+            go.Scatter(
+                x=[x], y=[y], mode="markers+text",
+                marker=dict(size=28 if label == workspace["nombre"] else 18, color=color),
+                text=[label], textposition="top center",
+                textfont=dict(color=TEXT, size=11),
+                hovertemplate=f"{html.escape(label)}<br>{ntype}<extra></extra>",
                 showlegend=False,
-                xaxis=dict(visible=False), yaxis=dict(visible=False),
-                margin=dict(l=20, r=20, t=30, b=20),
-                title=dict(text=f"Canvas — {cliente_activo}", font_color="#ccc"),
             )
-            st.plotly_chart(fig_canvas, use_container_width=True)
+        )
+    fig.update_layout(
+        height=470, paper_bgcolor=BG2, plot_bgcolor=BG2, showlegend=False,
+        xaxis=dict(visible=False), yaxis=dict(visible=False),
+        margin=dict(l=10, r=10, t=10, b=10),
+    )
+    st.plotly_chart(fig, width="stretch", key=f"ops_canvas_{workspace_id}")
 
-        # Barra de acciones del canvas
-        ac1, ac2, ac3, ac4, ac5 = st.columns(5)
-        if ac1.button("➕ Nodo", use_container_width=True, key="canvas_add_node"):
-            st.toast("Añadir nodo al canvas", icon="➕")
-        if ac2.button("🔗 Relación", use_container_width=True, key="canvas_add_edge"):
-            st.toast("Conectar nodos", icon="🔗")
-        if ac3.button("📝 Nota", use_container_width=True, key="canvas_add_note"):
-            st.toast("Añadir nota al canvas", icon="📝")
-        if ac4.button("💾 Guardar", use_container_width=True, key="canvas_save"):
-            st.toast(f"Canvas guardado — {cliente_activo}", icon="✅")
-        if ac5.button("🖨️ Exportar", use_container_width=True, key="canvas_export"):
-            st.toast("Exportando PNG…", icon="🖨️")
 
-    # ── Draft Studio ────────────────────────────────────────────────────────
-    elif herramienta == "Draft Studio":
-        st.markdown("### ✏️ Draft Studio")
-
-        draft_col1, draft_col2 = st.columns([2, 1])
-
-        with draft_col1:
-            # Metadata bar
-            dm1, dm2, dm3 = st.columns(3)
-            tipo_doc = dm1.selectbox(
-                "Tipo",
-                ["Briefing ejecutivo", "Nota de prensa", "Posición política", "Análisis de riesgo", "Informe estratégico"],
-                key="draft_tipo",
+def render_draft() -> None:
+    st.markdown("### ✏️ Draft Studio")
+    template = (
+        f"# Briefing operativo — {workspace['nombre']}\n\n"
+        + "\n".join(f"- {b}" for b in briefing["bullets"])
+        + "\n\n## Próximos pasos\n- Revisar alertas y normativa relevante.\n- Preparar nota corta para stakeholders.\n"
+    )
+    if not st.session_state.get("ops_draft"):
+        st.session_state["ops_draft"] = template
+    col_a, col_b = st.columns([1.4, 1])
+    with col_a:
+        st.session_state["ops_draft"] = st.text_area(
+            "Documento activo",
+            value=st.session_state["ops_draft"],
+            height=430,
+            key=f"ops_draft_area_{workspace_id}",
+        )
+        b1, b2, b3 = st.columns(3)
+        if b1.button("Generar con IA", disabled=not _LLM_OK, width="stretch"):
+            prompt = (
+                f"Redacta un briefing ejecutivo para {workspace['nombre']} con estas señales:\n"
+                f"{api_payload(signals)}\n\nMáximo 500 palabras, operativo y accionable."
             )
-            draft_cliente = dm2.selectbox(
-                "Cliente",
-                [c["nombre"] for c in CLIENTES],
-                index=[c["nombre"] for c in CLIENTES].index(cliente_activo),
-                key="draft_cliente",
-            )
-            version_draft = dm3.selectbox("Versión", ["v1", "v2", "v3", "v4 (actual)"], index=3, key="draft_ver")
+            with st.spinner("Politeia Brain redactando..."):
+                st.session_state["ops_draft"] = llm_chat(prompt, sistema="Eres un analista senior de asuntos públicos.")
+            st.rerun()
+        if b2.button("Guardar versión", width="stretch"):
+            st.toast("Versión guardada en sesión local.", icon="✅")
+        if b3.button("Limpiar", width="stretch"):
+            st.session_state["ops_draft"] = template
+            st.rerun()
+    with col_b:
+        _section("Vista previa", CYAN)
+        st.markdown(st.session_state["ops_draft"])
 
-            titulo_doc = st.text_input(
-                "Título del documento",
-                value=f"{tipo_doc} — {draft_cliente} — {datetime.now().strftime('%d/%m/%Y')}",
-                key="draft_titulo",
-            )
 
-            # Rich text area con markdown
-            st.markdown("**Contenido:**")
-            if not st.session_state["ws_borrador"]:
-                st.session_state["ws_borrador"] = (
-                    f"# {titulo_doc}\n\n"
-                    f"**Cliente:** {draft_cliente}  \n"
-                    f"**Fecha:** {datetime.now().strftime('%d de %B de %Y')}  \n"
-                    f"**Confidencialidad:** RESTRINGIDO  \n\n"
-                    f"---\n\n"
-                    f"## Resumen ejecutivo\n\n"
-                    f"_Introduce aquí el resumen ejecutivo del documento..._\n\n"
-                    f"## Análisis\n\n"
-                    f"_Desarrolla el análisis detallado..._\n\n"
-                    f"## Conclusiones y recomendaciones\n\n"
-                    f"_Lista las recomendaciones estratégicas..._\n"
-                )
-
-            borrador = st.text_area(
-                "Editor Markdown",
-                value=st.session_state["ws_borrador"],
-                height=380,
-                key="draft_contenido",
-            )
-            st.session_state["ws_borrador"] = borrador
-
-            # Action bar
-            ba1, ba2, ba3, ba4 = st.columns(4)
-            if ba1.button("🤖 IA Asistente", use_container_width=True, key="draft_ia"):
-                if _LLM_OK:
-                    with st.spinner("Generando contenido..."):
-                        prompt_draft = (
-                            f"Completa este {tipo_doc.lower()} para {draft_cliente} "
-                            f"con contenido relevante sobre política española y análisis estratégico. "
-                            f"Título: '{titulo_doc}'. Genera el resumen ejecutivo (100 palabras) y 3 conclusiones. "
-                            "Formato Markdown."
-                        )
-                        resp_draft = llm_chat(
-                            prompt_draft,
-                            sistema="Eres un consultor político senior especializado en redacción de informes estratégicos en España.",
-                        )
-                        st.session_state["ws_borrador"] = resp_draft
-                        st.rerun()
-                else:
-                    st.info("Conecta Ollama para usar el asistente IA de redacción.")
-            if ba2.button("💾 Guardar", use_container_width=True, key="draft_save"):
-                st.toast(f"Guardado: {titulo_doc}", icon="✅")
-            if ba3.button("📤 Exportar PDF", use_container_width=True, key="draft_pdf"):
-                st.toast("Exportando a PDF…", icon="📄")
-            if ba4.button("👥 Compartir", use_container_width=True, key="draft_share"):
-                st.toast("Enlace de compartir copiado", icon="🔗")
-
-        with draft_col2:
-            st.markdown("**Vista previa:**")
-            preview_text = borrador if borrador else "_Sin contenido_"
+def render_notebook() -> None:
+    st.markdown("### 📓 Intelligence Notebook")
+    notes = st.session_state["ops_notes"].setdefault(workspace_id, [])
+    col_a, col_b = st.columns([1.2, 1])
+    with col_a:
+        query = st.text_input("Buscar en notas y señales", key=f"ops_nb_query_{workspace_id}")
+        signal_notes = [
+            {"titulo": "Riesgo", "texto": f"{signals['riesgo']['score']}/100 · {signals['riesgo']['nivel']}", "tag": "riesgo"},
+            {"titulo": "Narrativa", "texto": str(signals["medios"]["top_narrativa"]), "tag": "medios"},
+            {"titulo": "Electoral", "texto": str(signals["electoral"].get("snapshot", [])), "tag": "electoral"},
+        ]
+        all_notes = notes + signal_notes
+        if query:
+            q = query.lower()
+            all_notes = [n for n in all_notes if q in f"{n.get('titulo','')} {n.get('texto','')} {n.get('tag','')}".lower()]
+        for note in all_notes[:12]:
             st.markdown(
-                f"<div style='background:#0d1117;border:1px solid #1e2d40;border-radius:8px;"
-                f"padding:1rem;height:460px;overflow-y:auto;font-size:0.85rem;color:#ccc;"
-                f"line-height:1.6;'>{preview_text[:2000]}</div>",
+                f'<div class="ops-card"><div class="ops-signal-title">📌 {_safe_text(note.get("titulo"), 120)}</div>'
+                f'<div class="ops-sub">{_safe_text(note.get("texto"), 500)}</div>{_pill(str(note.get("tag", "nota")), CYAN)}</div>',
                 unsafe_allow_html=True,
             )
+    with col_b:
+        _section("Nueva nota", AMBER)
+        title = st.text_input("Título", key=f"ops_note_title_{workspace_id}")
+        body = st.text_area("Contenido", height=140, key=f"ops_note_body_{workspace_id}")
+        tag = st.text_input("Tag", value="seguimiento", key=f"ops_note_tag_{workspace_id}")
+        if st.button("Guardar nota", width="stretch", type="primary"):
+            if title.strip() and body.strip():
+                notes.insert(0, {"id": str(uuid.uuid4()), "titulo": title, "texto": body, "tag": tag})
+                st.toast("Nota guardada en el notebook operativo.", icon="✅")
+                st.rerun()
 
-            st.markdown("**Versiones:**")
-            for v in ["v1 (borrador inicial)", "v2 (revisión interna)", "v3 (revisado cliente)", "v4 (actual)"]:
-                st.markdown(
-                    f"<div style='font-size:0.8rem;color:#aaa;padding:2px 0;'>📄 {v}</div>",
-                    unsafe_allow_html=True,
-                )
 
-    # ── Intelligence Notebook ──────────────────────────────────────────────
-    elif herramienta == "Intelligence Notebook":
-        st.markdown("### 📓 Intelligence Notebook")
+def render_calendar() -> None:
+    st.markdown("### 📅 Political Calendar")
+    events = estado.get("proximos_eventos", [])
+    if not events:
+        st.info("No hay eventos reales vinculados en los próximos días.")
+    for ev in events:
         st.markdown(
-            "<p style='color:#aaa;font-size:0.88rem;'>Notas de inteligencia indexadas semánticamente. "
-            "Búsqueda vectorial sobre tu conocimiento acumulado.</p>",
+            f'<div class="ops-card" style="border-top-color:{AMBER}">'
+            f'<div class="ops-signal-title">📅 {_safe_text(ev.get("label"), 150)}</div>'
+            f'<div class="ops-sub">{_safe_text(ev.get("fecha"), 30)} {_safe_text(ev.get("hora"), 10)} · {_safe_text(ev.get("tipo"), 60)}</div>'
+            f'<div class="ops-sub">{_safe_text(ev.get("fuente"), 80)}</div></div>',
             unsafe_allow_html=True,
         )
 
-        nb_col1, nb_col2 = st.columns([1.5, 1])
 
-        with nb_col1:
-            # Search bar
-            query_nb = st.text_input(
-                "🔍 Búsqueda semántica en notas",
-                placeholder="Busca conceptos, actores, eventos…",
-                key="nb_search",
-            )
+with main_col:
+    st.markdown(
+        f"""
+<div class="ops-panel">
+  <div style="display:flex;justify-content:space-between;gap:1rem;align-items:flex-start">
+    <div>
+      <div style="color:{TEXT};font-size:1.35rem;font-weight:950">{_safe_text(workspace['nombre'], 120)}</div>
+      <div style="color:{TEXT2};font-size:.8rem">{_safe_text(workspace.get('sector') or workspace.get('tipo'), 120)} · {_safe_text(workspace.get('ambito'), 80)}</div>
+    </div>
+    <div style="text-align:right">
+      <div class="ops-muted">Actualización</div>
+      <div style="color:{CYAN};font-weight:900">{datetime.now().strftime('%d/%m/%Y %H:%M')}</div>
+    </div>
+  </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
 
-            if query_nb:
-                st.markdown(f"**Resultados para:** _\"{query_nb}\"_")
-                notas_filtradas = [n for n in NOTAS_DEMO if any(
-                    query_nb.lower() in (n["titulo"] + " " + n["texto"] + " " + " ".join(n["tags"])).lower()
-                    for _ in [1]
-                )]
-                if not notas_filtradas:
-                    notas_filtradas = NOTAS_DEMO[:2]
-            else:
-                notas_filtradas = NOTAS_DEMO
-
-            for nota in notas_filtradas:
-                with st.expander(f"📌 {nota['titulo']} — {nota['fecha']}", expanded=True):
-                    st.markdown(nota["texto"])
-                    tags_html = " ".join(
-                        f"<span style='background:#1e2d40;color:#4ecdc4;padding:2px 6px;"
-                        f"border-radius:4px;font-size:0.75rem;margin:2px;'>{t}</span>"
-                        for t in nota["tags"]
-                    )
-                    st.markdown(tags_html, unsafe_allow_html=True)
-                    if _LLM_OK:
-                        if st.button(f"🤖 Ampliar con IA", key=f"nb_ampliar_{nota['id']}"):
-                            with st.spinner("Ampliando nota..."):
-                                resp_nb = llm_chat(
-                                    f"Amplía este análisis de inteligencia política: '{nota['titulo']}'. "
-                                    f"Contexto: {nota['texto']}. "
-                                    "Añade 2-3 puntos adicionales relevantes para España 2026. Sé conciso.",
-                                    sistema="Eres un analista de inteligencia política.",
-                                )
-                                st.markdown(
-                                    f"<div style='background:#0d1117;border-left:3px solid #4ecdc4;"
-                                    f"padding:0.75rem;margin-top:0.5rem;color:#ccc;font-size:0.85rem;'>"
-                                    f"{resp_nb}</div>",
-                                    unsafe_allow_html=True,
-                                )
-
-            st.markdown("---")
-            st.markdown("**➕ Nueva nota de inteligencia**")
-            new_titulo = st.text_input("Título", key="nb_new_titulo")
-            new_texto = st.text_area("Contenido", height=100, key="nb_new_texto")
-            new_tags = st.text_input("Tags (separados por coma)", key="nb_new_tags")
-            if st.button("Guardar nota", type="primary", key="nb_save"):
-                if new_titulo and new_texto:
-                    tags = [t.strip() for t in new_tags.split(",") if t.strip()]
-                    nueva = {
-                        "id": str(uuid.uuid4())[:8],
-                        "titulo": new_titulo,
-                        "texto": new_texto,
-                        "tags": tags,
-                        "fecha": "ahora",
-                    }
-                    NOTAS_DEMO.insert(0, nueva)
-                    st.toast("Nota guardada e indexada", icon="✅")
-                    st.rerun()
-
-        with nb_col2:
-            st.markdown("**📊 Mapa de conocimiento**")
-            all_tags = []
-            for nota in NOTAS_DEMO:
-                all_tags.extend(nota["tags"])
-            tag_counts = pd.Series(all_tags).value_counts()
-
-            if len(tag_counts) > 0:
-                fig_tags = px.bar(
-                    x=tag_counts.values,
-                    y=tag_counts.index,
-                    orientation="h",
-                    color=tag_counts.values,
-                    color_continuous_scale="Tealgrn",
-                    title="Tags más frecuentes",
-                )
-                fig_tags.update_layout(
-                    height=280, paper_bgcolor="#0d1117", plot_bgcolor="#0d1117",
-                    font_color="#ccc", showlegend=False, coloraxis_showscale=False,
-                    margin=dict(l=80, r=20, t=40, b=30),
-                )
-                st.plotly_chart(fig_tags, use_container_width=True)
-
-            st.markdown("---")
-            st.markdown("**📈 Actividad del notebook**")
-            dias_nb = pd.date_range(end=datetime.now(), periods=14)
-            notas_dia = rng.integers(0, 5, 14)
-            fig_nb = go.Figure(go.Bar(
-                x=dias_nb, y=notas_dia,
-                marker_color="#4ecdc4",
-                opacity=0.8,
-            ))
-            fig_nb.update_layout(
-                height=160, paper_bgcolor="#0d1117", plot_bgcolor="#0d1117",
-                font_color="#ccc", margin=dict(l=30, r=10, t=20, b=40),
-                showlegend=False,
-            )
-            st.plotly_chart(fig_nb, use_container_width=True)
-
-            st.markdown("---")
-            st.markdown("**🔗 Fuentes vinculadas**")
-            fuentes = [
-                ("📰", "El País — Política"),
-                ("📄", "BOE — BOE-A-2026-342"),
-                ("📊", "CIS — Barómetro Marzo 2026"),
-                ("🌐", "Congreso — Orden del día"),
-            ]
-            for ico, fuente in fuentes:
-                st.markdown(
-                    f"<div style='font-size:0.82rem;color:#aaa;padding:2px 0;'>{ico} {fuente}</div>",
-                    unsafe_allow_html=True,
-                )
-
-    # ── Calendario Político ────────────────────────────────────────────────
-    elif herramienta == "Calendario Político":
-        st.markdown("### 📅 Calendario Político")
-
-        cal_col1, cal_col2 = st.columns([2, 1])
-
-        with cal_col1:
-            # Timeline view
-            st.markdown("**Próximos 14 días**")
-
-            today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-            for evt in sorted(EVENTOS_CALENDARIO, key=lambda e: e["fecha"]):
-                dias_para = (evt["fecha"].date() - today.date()).days
-                if dias_para < 0:
-                    continue
-
-                tipo_color = {
-                    "reunion": "#4ecdc4",
-                    "deadline": "#e94560",
-                    "institucional": "#45b7d1",
-                    "electoral": "#f7971e",
-                }.get(evt["tipo"], "#aaa")
-
-                tipo_icon = {
-                    "reunion": "🤝",
-                    "deadline": "⏰",
-                    "institucional": "🏛️",
-                    "electoral": "🗳️",
-                }.get(evt["tipo"], "📅")
-
-                if dias_para == 0:
-                    dias_txt = "HOY"
-                elif dias_para == 1:
-                    dias_txt = "MAÑANA"
-                else:
-                    dias_txt = f"En {dias_para}d"
-
-                cliente_badge = (
-                    f"<span style='background:#1e2d40;color:#4ecdc4;padding:1px 5px;"
-                    f"border-radius:3px;font-size:0.72rem;margin-left:0.5rem;'>{evt['cliente']}</span>"
-                    if evt.get("cliente") else ""
-                )
-
-                st.markdown(
-                    f"<div style='background:#0d1117;border-left:3px solid {tipo_color};"
-                    f"border-radius:0 8px 8px 0;padding:0.5rem 0.75rem;margin:4px 0;"
-                    f"display:flex;justify-content:space-between;align-items:center;'>"
-                    f"<div>"
-                    f"<span style='font-size:1rem;'>{tipo_icon}</span> "
-                    f"<span style='color:#fff;font-size:0.88rem;'>{evt['evento']}</span>"
-                    f"{cliente_badge}"
-                    f"<br><span style='color:#555;font-size:0.75rem;margin-left:1.5rem;'>"
-                    f"{evt['fecha'].strftime('%A %d/%m — %H:%M')}</span></div>"
-                    f"<span style='color:{tipo_color};font-weight:700;font-size:0.8rem;"
-                    f"white-space:nowrap;'>{dias_txt}</span></div>",
-                    unsafe_allow_html=True,
-                )
-
-        with cal_col2:
-            st.markdown("**➕ Añadir evento**")
-            evt_titulo = st.text_input("Título del evento", key="cal_evt_titulo")
-            evt_fecha = st.date_input("Fecha", key="cal_evt_fecha")
-            evt_hora = st.time_input("Hora", key="cal_evt_hora")
-            evt_tipo = st.selectbox("Tipo", ["reunion", "deadline", "institucional", "electoral"], key="cal_evt_tipo")
-            evt_cliente_sel = st.selectbox(
-                "Cliente vinculado",
-                ["(Ninguno)"] + [c["nombre"] for c in CLIENTES],
-                key="cal_evt_cliente",
-            )
-
-            if st.button("➕ Añadir al calendario", type="primary", use_container_width=True, key="btn_add_cal"):
-                if evt_titulo:
-                    nueva_fecha = datetime.combine(evt_fecha, evt_hora)
-                    EVENTOS_CALENDARIO.append({
-                        "fecha": nueva_fecha,
-                        "evento": evt_titulo,
-                        "tipo": evt_tipo,
-                        "cliente": evt_cliente_sel if evt_cliente_sel != "(Ninguno)" else None,
-                    })
-                    st.toast(f"Evento '{evt_titulo}' añadido", icon="✅")
-                    st.rerun()
-
-            st.markdown("---")
-            st.markdown("**📊 Resumen del mes**")
-            resumen_tipos = {
-                "Reuniones": sum(1 for e in EVENTOS_CALENDARIO if e["tipo"] == "reunion"),
-                "Deadlines": sum(1 for e in EVENTOS_CALENDARIO if e["tipo"] == "deadline"),
-                "Institucional": sum(1 for e in EVENTOS_CALENDARIO if e["tipo"] == "institucional"),
-                "Electoral": sum(1 for e in EVENTOS_CALENDARIO if e["tipo"] == "electoral"),
-            }
-            fig_res = go.Figure(go.Bar(
-                x=list(resumen_tipos.values()),
-                y=list(resumen_tipos.keys()),
-                orientation="h",
-                marker_color=["#4ecdc4", "#e94560", "#45b7d1", "#f7971e"],
-            ))
-            fig_res.update_layout(
-                height=200, paper_bgcolor="#0d1117", plot_bgcolor="#0d1117",
-                font_color="#ccc", margin=dict(l=80, r=20, t=20, b=30),
-                showlegend=False,
-            )
-            st.plotly_chart(fig_res, use_container_width=True)
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# PANEL DERECHO — Contextual panel
-# ══════════════════════════════════════════════════════════════════════════════
-with panel_right:
-    st.markdown("**Panel contextual**")
-
-    cliente_info = next((c for c in CLIENTES if c["nombre"] == cliente_activo), CLIENTES[0])
-
-    # Alertas del cliente
-    if cliente_info["alertas"] > 0:
+    top_a, top_b, top_c = st.columns([1.05, 1.45, 1.05], gap="medium")
+    with top_a:
+        _section("Perfil Cliente", CYAN)
         st.markdown(
-            f"<div style='background:#1a0a0a;border:1px solid #e94560;border-radius:8px;"
-            f"padding:0.6rem;margin-bottom:0.5rem;'>"
-            f"<p style='color:#e94560;font-weight:700;margin:0 0 0.3rem;font-size:0.85rem;'>"
-            f"🔴 {cliente_info['alertas']} ALERTAS ACTIVAS</p>"
-            f"<p style='color:#aaa;font-size:0.78rem;margin:0;'>{cliente_info['tipo']}</p></div>",
+            f"""
+<div class="ops-panel">
+  <div class="ops-label">Tipo</div>
+  <div style="color:{TEXT};font-weight:900">{_safe_text(workspace.get('tipo'), 120)}</div>
+  <div class="ops-label" style="margin-top:.7rem">Términos monitorizados</div>
+  {''.join(_pill(str(t), BLUE) for t in (workspace.get('terms') or [])[:8])}
+</div>
+""",
             unsafe_allow_html=True,
         )
+    with top_b:
+        _section("Timeline de actividad", AMBER)
+        st.markdown('<div class="ops-panel ops-scroll">', unsafe_allow_html=True)
+        render_timeline(timeline.get("items", []))
+        st.markdown("</div>", unsafe_allow_html=True)
+    with top_c:
+        _section("Estado Ahora", RED)
+        st.markdown('<div class="ops-panel">', unsafe_allow_html=True)
+        render_estado_panel(estado)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    if cliente_info.get("proxima"):
-        st.markdown(
-            f"<div style='background:#0a1a0a;border:1px solid #4ecdc4;border-radius:8px;"
-            f"padding:0.6rem;margin-bottom:0.5rem;'>"
-            f"<p style='color:#4ecdc4;font-weight:700;margin:0 0 0.3rem;font-size:0.8rem;'>📅 PRÓXIMO</p>"
-            f"<p style='color:#ccc;font-size:0.82rem;margin:0;'>{cliente_info['proxima']}</p></div>",
-            unsafe_allow_html=True,
-        )
+    render_signal_aggregator()
 
-    st.markdown("---")
-    st.markdown("**📡 Feed de noticias**")
-    feed_items = [
-        ("El País", "Sánchez convoca reunión de urgencia sobre presupuestos", "hace 12min"),
-        ("El Mundo", "PP rechaza condiciones de Junts para PGE 2026", "hace 34min"),
-        ("Expansión", "Iberdrola presenta nueva hoja de ruta de renovables", "hace 1h"),
-        ("La Vanguardia", "Puigdemont mantiene posición sobre amnistía fiscal", "hace 2h"),
-        ("El Confidencial", "Feijóo acusa al Gobierno de usar vía de urgencia", "hace 3h"),
-    ]
-    for medio, titular, tiempo in feed_items:
-        rel_cliente = cliente_activo.split(" ")[0].lower() in titular.lower()
-        border = "#4ecdc4" if rel_cliente else "#1e2d40"
-        st.markdown(
-            f"<div style='border-left:2px solid {border};padding:0.3rem 0.5rem;margin:3px 0;'>"
-            f"<p style='color:#aaa;font-size:0.7rem;margin:0;'>{medio} · {tiempo}</p>"
-            f"<p style='color:#ccc;font-size:0.78rem;margin:0;'>{titular}</p></div>",
-            unsafe_allow_html=True,
-        )
+    st.markdown("<br>", unsafe_allow_html=True)
+    tool = st.session_state["ops_tool"]
+    if tool == "Panel Vivo":
+        _section("Feed vivo del cliente", CYAN)
+        news = workspace_news(workspace_id, limit=12)
+        for item in news[:10]:
+            url = item.get("url") or ""
+            title = _safe_text(item.get("titulo"), 200)
+            title_html = f'<a class="ops-link" href="{html.escape(url)}" target="_blank">{title}</a>' if url else title
+            try:
+                sent = float(item.get("sentimiento") or 0.0)
+            except Exception:
+                sent = 0.0
+            st.markdown(
+                f'<div class="ops-card"><div class="ops-signal-title">📰 {title_html}</div>'
+                f'<div class="ops-sub">{_safe_text(item.get("fuente"), 80)} · {_fmt_dt(item.get("fecha"))} · sentimiento {sent:+.2f}</div>'
+                f'<div class="ops-sub">{_safe_text(item.get("resumen"), 260)}</div></div>',
+                unsafe_allow_html=True,
+            )
+    elif tool == "Investigation Canvas":
+        render_canvas()
+    elif tool == "Draft Studio":
+        render_draft()
+    elif tool == "Intelligence Notebook":
+        render_notebook()
+    elif tool == "Political Calendar":
+        render_calendar()
 
-    st.markdown("---")
-    st.markdown("**🤖 Asistente rápido**")
-    q_rapida = st.text_input(
-        "Pregunta rápida",
-        placeholder="¿Qué debo saber hoy?",
-        key="ctx_q",
+
+with right_col:
+    mode = st.radio(
+        "Panel derecho",
+        ["resumen", "alertas", "ia-chat"],
+        horizontal=True,
+        key="ops_right_mode",
         label_visibility="collapsed",
     )
-    if st.button("Preguntar", use_container_width=True, key="btn_ctx_q"):
-        if q_rapida:
-            if _LLM_OK:
-                with st.spinner("..."):
-                    resp_ctx = llm_chat(
-                        f"Analista político. Cliente activo: {cliente_activo}. "
-                        f"Pregunta: '{q_rapida}'. Respuesta concisa (2-3 frases).",
-                        sistema="Eres un asistente de inteligencia política.",
-                    )
-                    st.markdown(
-                        f"<div style='background:#0d1117;border-radius:6px;padding:0.5rem;"
-                        f"color:#ccc;font-size:0.82rem;'>{resp_ctx}</div>",
-                        unsafe_allow_html=True,
-                    )
-            else:
-                st.markdown(
-                    f"<div style='background:#0d1117;border-radius:6px;padding:0.5rem;"
-                    f"color:#aaa;font-size:0.82rem;'>"
-                    f"Conecta Ollama para respuestas IA. Consulta manual: revisa los módulos "
-                    f"D3 Termómetro, D6 Alertas y D4 Legislativo para el contexto de hoy.</div>",
-                    unsafe_allow_html=True,
+    st.markdown('<div class="ops-panel">', unsafe_allow_html=True)
+    if mode == "resumen":
+        _section("Morning Briefing", CYAN)
+        st.markdown(f"**{_safe_text(briefing['titulo'], 140)}**")
+        for bullet in briefing["bullets"]:
+            st.markdown(f'<div class="ops-mini">• {_safe_text(bullet, 220)}</div>', unsafe_allow_html=True)
+        _section("Tareas urgentes", AMBER)
+        tasks = estado.get("tareas_pendientes", [])
+        if not tasks:
+            st.success("Sin tareas urgentes.")
+        for task in tasks:
+            st.markdown(f'<div class="ops-mini">☑ {_safe_text(task.get("titulo"), 140)}</div>', unsafe_allow_html=True)
+    elif mode == "alertas":
+        _section("Alertas Contextuales", RED)
+        alert_items = signals["alertas"].get("items", [])
+        if not alert_items:
+            st.info("Sin alertas recientes para este workspace.")
+        for item in alert_items[:10]:
+            sev = str(item.get("severidad") or "INFO")
+            color = _color_for_level(sev)
+            st.markdown(
+                f'<div class="ops-card" style="border-top-color:{color}">'
+                f'<div class="ops-signal-title">🔔 {_safe_text(item.get("titulo"), 140)}</div>'
+                f'<div class="ops-sub">{_safe_text(sev, 20)} · {_fmt_dt(item.get("created_at"))}</div>'
+                f'<div class="ops-sub">{_safe_text(item.get("descripcion"), 240)}</div></div>',
+                unsafe_allow_html=True,
+            )
+    else:
+        _section("IA Contextual", PURPLE)
+        st.caption("Chat con contexto del cliente activo y señales agregadas.")
+        question = st.text_area(
+            "Pregunta",
+            placeholder="¿Qué debo priorizar hoy para este cliente?",
+            height=90,
+            key=f"ops_ai_q_{workspace_id}",
+            label_visibility="collapsed",
+        )
+        if st.button("Preguntar a Politeia Brain", width="stretch", disabled=not _LLM_OK):
+            if question.strip():
+                context = {
+                    "workspace": workspace,
+                    "signals": signals,
+                    "briefing": briefing,
+                    "timeline": timeline.get("items", [])[:8],
+                }
+                prompt = (
+                    f"Contexto operativo JSON:\n{api_payload(context)}\n\n"
+                    f"Pregunta del analista: {question}\n\n"
+                    "Responde en español, conciso y accionable. No inventes datos."
                 )
-
-    st.markdown("---")
-    st.markdown("**⚡ Acciones rápidas**")
-    if st.button("📝 Nuevo borrador", use_container_width=True, key="q_borrador"):
-        st.session_state["ws_tool"] = "Draft Studio"
-        st.session_state["ws_borrador"] = ""
-        st.rerun()
-    if st.button("🔲 Nuevo canvas", use_container_width=True, key="q_canvas"):
-        st.session_state["ws_tool"] = "Investigation Canvas"
-        st.rerun()
-    if st.button("📌 Nueva nota", use_container_width=True, key="q_nota"):
-        st.session_state["ws_tool"] = "Intelligence Notebook"
-        st.rerun()
-    if st.button("📊 Ver alertas", use_container_width=True, key="q_alertas"):
-        st.switch_page("pages/D6_Alertas.py")
+                with st.spinner("Razonando..."):
+                    answer = llm_chat(prompt, sistema="Eres Politeia Brain, jefe de operaciones de inteligencia política.")
+                st.markdown(f'<div class="ops-card">{html.escape(answer)}</div>', unsafe_allow_html=True)
+            else:
+                st.warning("Escribe una pregunta.")
+        if not _LLM_OK:
+            st.info("Ollama/Politeia Brain no está disponible para chat, pero las señales vivas siguen cargadas.")
+    st.markdown("</div>", unsafe_allow_html=True)
