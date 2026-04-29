@@ -241,8 +241,6 @@ with tab_thermo:
                     "tickfont": {"color": MUTED, "size": 11},
                 },
                 "bar": {"color": risk_color, "thickness": 0.25},
-                "bgcolor": BG3,
-                "borderwidth": 0,
                 "steps": [
                     {"range": [0,   20],  "color": "rgba(16,185,129,0.15)"},
                     {"range": [20,  40],  "color": "rgba(234,179,8,0.15)"},
@@ -418,7 +416,6 @@ with tab_crisis:
 
         fig_radar.update_layout(
             polar=dict(
-                bgcolor=BG3,
                 radialaxis=dict(
                     range=[0, 100], tickfont=dict(color=MUTED, size=9),
                     gridcolor=BORDER, linecolor=BORDER,
@@ -456,9 +453,9 @@ with tab_crisis:
             plot_bgcolor=BG2,
             height=200,
             margin=dict(l=10, r=10, t=15, b=30),
-            xaxis=dict(title="Horas tras evento", titlefont=dict(color=MUTED, size=11),
+            xaxis=dict(title=dict(text="Horas tras evento", font=dict(color=MUTED, size=11)),
                        tickfont=dict(color=MUTED, size=10), gridcolor=BORDER, color=MUTED),
-            yaxis=dict(title="Difusión (%)", titlefont=dict(color=MUTED, size=11),
+            yaxis=dict(title=dict(text="Difusión (%)", font=dict(color=MUTED, size=11)),
                        tickfont=dict(color=MUTED, size=10), gridcolor=BORDER, color=MUTED),
             showlegend=False,
             font=dict(color=TEXT),

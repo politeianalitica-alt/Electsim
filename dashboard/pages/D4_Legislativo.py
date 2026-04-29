@@ -339,13 +339,10 @@ with tab_votaciones:
         customdata=hover_text,
         showscale=True,
         colorbar=dict(
-            title="Voto",
+            title=dict(text="Voto", font=dict(color=TEXT2)),
             tickvals=[-1, 0, 1],
             ticktext=["Contra", "Abstención", "Favor"],
             tickfont=dict(color=TEXT2, size=11),
-            titlefont=dict(color=TEXT2),
-            bgcolor=BG2,
-            bordercolor=BORDER,
         ),
     ))
     fig_heat.update_layout(

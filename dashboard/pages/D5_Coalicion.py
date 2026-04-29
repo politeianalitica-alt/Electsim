@@ -470,9 +470,6 @@ with tab_coal:
                 gauge={
                     "axis": {"range": [0, 100], "tickcolor": MUTED, "tickfont": {"size": 8, "color": MUTED}},
                     "bar": {"color": c, "thickness": 0.3},
-                    "bgcolor": BG3,
-                    "borderwidth": 1,
-                    "bordercolor": BORDER,
                     "steps": [
                         {"range": [0, 33], "color": f"{GREEN}22"},
                         {"range": [33, 66], "color": f"{AMBER}22"},

@@ -514,7 +514,6 @@ with tab_amenazas:
                 radialaxis=dict(visible=True, range=[0, 100],
                                 gridcolor=BORDER, tickfont=dict(color=MUTED, size=9)),
                 angularaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2, size=10)),
-                bgcolor=BG2,
             ),
             paper_bgcolor=BG2,
             plot_bgcolor=BG2,

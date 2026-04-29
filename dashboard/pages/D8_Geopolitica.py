@@ -454,9 +454,8 @@ with tab_impacto:
             "Impacto: %{z:.0f}/10<extra></extra>"
         ),
         colorbar=dict(
-            title="Impacto",
+            title=dict(text="Impacto", font=dict(color=TEXT2, size=10)),
             tickfont=dict(color=TEXT2, size=9),
-            titlefont=dict(color=TEXT2, size=10),
         ),
     ))
     fig_matrix.update_layout(
