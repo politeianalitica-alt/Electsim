@@ -19,7 +19,11 @@ _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from dashboard.shared import apply_global_css, sidebar_nav
+from dashboard.shared import (
+    sidebar_nav,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
+    TEXT, TEXT2, MUTED,
+)
 
 # ── page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -28,7 +32,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
-apply_global_css()
 sidebar_nav()
 
 # ── LLM optional ───────────────────────────────────────────────────────────────

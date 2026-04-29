@@ -444,7 +444,7 @@ with tab_impacto:
         z=base,
         x=SECTORES_MATRIX,
         y=EVENTOS_MATRIX,
-        colorscale=[[0, "#10B98122"], [0.4, AMBER + "aa"], [1, RED]],
+        colorscale=[[0, "rgba(16,185,129,0.13)"], [0.4, "rgba(245,158,11,0.67)"], [1, RED]],
         showscale=True,
         text=base.astype(int),
         texttemplate="%{text}",

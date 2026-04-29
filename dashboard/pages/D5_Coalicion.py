@@ -471,9 +471,9 @@ with tab_coal:
                     "axis": {"range": [0, 100], "tickcolor": MUTED, "tickfont": {"size": 8, "color": MUTED}},
                     "bar": {"color": c, "thickness": 0.3},
                     "steps": [
-                        {"range": [0, 33], "color": f"{GREEN}22"},
-                        {"range": [33, 66], "color": f"{AMBER}22"},
-                        {"range": [66, 100], "color": f"{RED}22"},
+                        {"range": [0, 33],   "color": "rgba(16,185,129,0.13)"},
+                        {"range": [33, 66],  "color": "rgba(245,158,11,0.13)"},
+                        {"range": [66, 100], "color": "rgba(239,68,68,0.13)"},
                     ],
                     "threshold": {"line": {"color": RED, "width": 2}, "thickness": 0.75, "value": 70},
                 },

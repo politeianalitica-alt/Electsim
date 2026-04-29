@@ -503,7 +503,7 @@ with tab_amenazas:
             c = categories + [categories[0]]
             fig_radar.add_trace(go.Scatterpolar(
                 r=v, theta=c,
-                fill="toself", fillcolor=fill,
+                fill="toself",
                 line=dict(color=color, width=2),
                 name=name,
                 hovertemplate="%{theta}: <b>%{r}</b><extra></extra>",
@@ -684,7 +684,7 @@ with tab_correlacion:
             mode="lines+markers",
             line=dict(color=PURPLE, width=2.5),
             marker=dict(size=6, color=PURPLE),
-            fill="tozeroy", fillcolor=f"{PURPLE}22",
+            fill="tozeroy", fillcolor="rgba(139,92,246,0.13)",
             name="Correlación",
             hovertemplate="Día %{x}: r=<b>%{y:.2f}</b><extra></extra>",
         ))
@@ -719,7 +719,7 @@ with tab_correlacion:
         fig_proj.add_trace(go.Scatter(
             x=days_future + days_future[::-1],
             y=upper + lower[::-1],
-            fill="toself", fillcolor=f"{GREEN}22",
+            fill="toself", fillcolor="rgba(16,185,129,0.13)",
             line=dict(width=0), name="IC 80%", hoverinfo="skip",
         ))
         fig_proj.add_trace(go.Scatter(

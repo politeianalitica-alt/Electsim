@@ -406,7 +406,6 @@ with tab_crisis:
                 fill="toself",
                 name=name,
                 line=dict(color=color, width=2),
-                fillcolor=fc,
             )
 
         fig_radar = go.Figure()
