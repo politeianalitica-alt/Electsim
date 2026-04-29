@@ -31,7 +31,7 @@ _ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_ROOT / ".env")
 DEFAULT_CHROMA_DIR = _ROOT / "data" / "processed" / "chroma_store"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
-DEFAULT_OLLAMA_MODEL = "qwen2.5:7b"
+DEFAULT_OLLAMA_MODEL = os.environ.get("ELECTSIM_OLLAMA_MODEL", "qwen2.5:7b")
 DEFAULT_OLLAMA_EMBED_MODEL = "nomic-embed-text"
 DEFAULT_ST_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 FALLBACK_OLLAMA_MODELS = ("politeia-brain:latest", "qwen2.5:7b", "llama3.2:3b")

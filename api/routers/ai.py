@@ -152,7 +152,7 @@ def ai_engine_reindex_local(ctx: UserContext = Depends(get_user_context)) -> dic
     from agents.ai_engine import get_ai_engine
 
     store = get_local_store()
-    docs = store._read_jsonl(store.documents_path)  # noqa: SLF001 - endpoint operativo interno
+    docs = store.list_documents()
     inserted = get_ai_engine().upsert_documents(docs)
     return {"documents_seen": len(docs), "vectors_upserted": inserted, "engine": get_ai_engine().status()}
 

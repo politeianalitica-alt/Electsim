@@ -8,7 +8,7 @@ import subprocess
 from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Generator
 
 from dotenv import load_dotenv
 
@@ -34,6 +34,22 @@ class ManagerChatResult:
     model: str
     provider: str
     used_llm: bool
+    citations: list[dict[str, Any]]
+    tool_results: list[ToolResult]
+
+
+@dataclass(slots=True)
+class ManagerContext:
+    context: str
+    citations: list[dict[str, Any]]
+    tool_results: list[ToolResult]
+
+
+@dataclass(slots=True)
+class ManagerStreamResult:
+    stream: Generator[str, None, None]
+    model: str
+    provider: str
     citations: list[dict[str, Any]]
     tool_results: list[ToolResult]
 
@@ -89,33 +105,98 @@ class BackendManagerAgent:
         domain: str | None = None,
         include_project_context: bool = True,
     ) -> ManagerChatResult:
-        retrieval_query = self._retrieval_query(question)
-        inferred_domain = domain or self._infer_domain(question)
-        citations = self.gits_index.search(retrieval_query, k=k, repo=repo, domain=inferred_domain)
-        local_hits = self.local_store.search(question, k=5)
-        tool_results = self._collect_tools(question, include_project_context=include_project_context)
-        context = self._context_block(question, citations, local_hits, tool_results)
+        prepared = self.prepare_context(
+            question,
+            k=k,
+            repo=repo,
+            domain=domain,
+            include_project_context=include_project_context,
+        )
 
         if self.use_llm:
-            llm = self._call_llm(question, context)
+            llm = self._call_llm(question, prepared.context)
             if llm:
                 return ManagerChatResult(
                     answer=llm["answer"],
                     model=llm["model"],
                     provider=self.provider,
                     used_llm=True,
-                    citations=citations + [{"source": "local_ai", **hit} for hit in local_hits],
-                    tool_results=tool_results,
+                    citations=prepared.citations,
+                    tool_results=prepared.tool_results,
                 )
 
         return ManagerChatResult(
-            answer=self._heuristic_answer(question, citations, local_hits, tool_results),
+            answer=self._heuristic_answer(question, prepared.citations, prepared.tool_results),
             model="local-manager-heuristic",
             provider=self.provider,
             used_llm=False,
+            citations=prepared.citations,
+            tool_results=prepared.tool_results,
+        )
+
+    def prepare_context(
+        self,
+        question: str,
+        *,
+        k: int = 10,
+        repo: str | None = None,
+        domain: str | None = None,
+        include_project_context: bool = True,
+    ) -> ManagerContext:
+        retrieval_query = self._retrieval_query(question)
+        inferred_domain = domain or self._infer_domain(question)
+        citations = self.gits_index.search(retrieval_query, k=k, repo=repo, domain=inferred_domain)
+        local_hits = self.local_store.search(question, k=5)
+        tool_results = self._collect_tools(question, include_project_context=include_project_context)
+        context = self._context_block(question, citations, local_hits, tool_results)
+        return ManagerContext(
+            context=context,
             citations=citations + [{"source": "local_ai", **hit} for hit in local_hits],
             tool_results=tool_results,
         )
+
+    def stream_chat(
+        self,
+        question: str,
+        *,
+        k: int = 10,
+        repo: str | None = None,
+        domain: str | None = None,
+        include_project_context: bool = True,
+    ) -> ManagerStreamResult | None:
+        if not self.use_llm or self.provider != "ollama":
+            return None
+        prepared = self.prepare_context(
+            question,
+            k=k,
+            repo=repo,
+            domain=domain,
+            include_project_context=include_project_context,
+        )
+        try:
+            from agents.ai_engine import get_ai_engine
+
+            engine = get_ai_engine()
+            if not engine.is_ollama_available():
+                return None
+            model = engine.resolve_ollama_model()
+            messages = self._messages_for_context(prepared.context)
+            return ManagerStreamResult(
+                stream=engine.ollama_chat_stream(
+                    messages[0]["content"],
+                    messages[1]["content"],
+                    model=model,
+                    temperature=0.2,
+                    max_tokens=_safe_int_env("ELECTSIM_BACK_MANAGER_MAX_TOKENS", 500),
+                ),
+                model=model,
+                provider=self.provider,
+                citations=prepared.citations,
+                tool_results=prepared.tool_results,
+            )
+        except Exception as exc:
+            logger.warning("Backend manager streaming no disponible: %s", exc)
+            return None
 
     def status(self) -> dict[str, Any]:
         return {
@@ -305,32 +386,35 @@ class BackendManagerAgent:
             )
         return "\n\n".join(blocks)
 
+    def _messages_for_context(self, context: str) -> list[dict[str, str]]:
+        return [
+            {
+                "role": "system",
+                "content": (
+                    "Eres Politeia Brain, la IA gerente local del backend y cerebro del dashboard. "
+                    "Trabajas con Ollama/local por defecto y usas el contexto recuperado antes de razonar. "
+                    "Tu funcion es analizar informacion electoral, politica, economica, social e institucional; "
+                    "organizar ontologia; y decidir acciones tecnicas del backend/API/scrapers. "
+                    "Separa hechos observados, inferencias y acciones. Cita repos, archivos o endpoints cuando aparezcan. "
+                    "No inventes datos ni digas que has ejecutado cambios si solo tienes contexto. "
+                    "No generes codigo si no se pide explicitamente; si mencionas codigo, rutas o endpoints, deben salir del contexto. "
+                    "No generes enlaces, referencias finales ni URLs salvo que aparezcan literalmente en la evidencia."
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"{context}\n\n"
+                    "Produce una respuesta de gerente backend en menos de 350 palabras con estas secciones: "
+                    "Diagnóstico operativo, Evidencia usada, Decisión, Siguientes acciones y Riesgos. "
+                    "No incluyas código si no se pidió explícitamente."
+                ),
+            },
+        ]
+
     def _call_llm(self, question: str, context: str) -> dict[str, str] | None:
         try:
-            messages = [
-                {
-                    "role": "system",
-                    "content": (
-                        "Eres Politeia Brain, la IA gerente local del backend y cerebro del dashboard. "
-                        "Trabajas con Ollama/local por defecto y usas el contexto recuperado antes de razonar. "
-                        "Tu funcion es analizar informacion electoral, politica, economica, social e institucional; "
-                        "organizar ontologia; y decidir acciones tecnicas del backend/API/scrapers. "
-                        "Separa hechos observados, inferencias y acciones. Cita repos, archivos o endpoints cuando aparezcan. "
-                        "No inventes datos ni digas que has ejecutado cambios si solo tienes contexto. "
-                        "No generes codigo si no se pide explicitamente; si mencionas codigo, rutas o endpoints, deben salir del contexto. "
-                        "No generes enlaces, referencias finales ni URLs salvo que aparezcan literalmente en la evidencia."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": (
-                        f"{context}\n\n"
-                        "Produce una respuesta de gerente backend en menos de 350 palabras con estas secciones: "
-                        "Diagnóstico operativo, Evidencia usada, Decisión, Siguientes acciones y Riesgos. "
-                        "No incluyas código si no se pidió explícitamente."
-                    ),
-                },
-            ]
+            messages = self._messages_for_context(context)
             if self.provider == "ollama":
                 from agents.ai_engine import get_ai_engine
 
@@ -365,7 +449,6 @@ class BackendManagerAgent:
         self,
         question: str,
         citations: list[dict[str, Any]],
-        local_hits: list[dict[str, Any]],
         tool_results: list[ToolResult],
     ) -> str:
         lines = [
@@ -377,6 +460,7 @@ class BackendManagerAgent:
             lines.append(f"Evidencia de `gits amigos`: {len(citations)} fragmentos; repos más relevantes: {', '.join(r for r, _ in repos.most_common(6))}.")
             for i, hit in enumerate(citations[:5], start=1):
                 lines.append(f"[{i}] `{hit.get('repo')}/{hit.get('rel_path')}`: {str(hit.get('text'))[:260]}")
+        local_hits = [hit for hit in citations if hit.get("source") == "local_ai"]
         if local_hits:
             lines.append(f"Conocimiento Politeia local: {len(local_hits)} documentos relacionados.")
         status = next((t.output for t in tool_results if t.tool == "manager_status"), {})

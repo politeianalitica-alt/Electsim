@@ -15,16 +15,31 @@ from agents.local_intelligence import get_local_store
 from dashboard.shared import BG2, BG3, BORDER, CYAN, GREEN, TEXT, TEXT2, sidebar_nav
 
 
+@st.cache_resource
+def _get_engine_cached():
+    return get_ai_engine()
+
+
+@st.cache_resource
+def _get_store_cached():
+    return get_local_store()
+
+
+@st.cache_resource
+def _get_manager_cached(provider: str, use_llm: bool):
+    return get_backend_manager(provider=provider, use_llm=use_llm)
+
+
 st.set_page_config(page_title="IA Local — Politeia", layout="wide")
 sidebar_nav()
 
-store = get_local_store()
+store = _get_store_cached()
 summary = store.ontology_summary()
-manager = get_backend_manager(provider="ollama", use_llm=False)
+manager = _get_manager_cached("ollama", False)
 manager_status = manager.status()
 gits_manifest = (manager_status.get("gits_index", {}).get("manifest") or {})
 llm_status = manager_status.get("llm", {})
-engine = get_ai_engine()
+engine = _get_engine_cached()
 engine_status = engine.status()
 
 st.markdown(
@@ -77,17 +92,54 @@ Este chat usa el gerente backend: índice de <code>gits amigos</code>, memoria l
         with st.chat_message("user"):
             st.markdown(question)
         with st.chat_message("assistant"):
-            with st.spinner("Consultando Ollama, gits amigos y backend local..."):
-                result = get_backend_manager(provider=provider, use_llm=use_llm).chat(
-                    question,
-                    k=int(k),
-                    domain=None if domain == "Auto" else domain,
-                    include_project_context=True,
-                )
-            st.markdown(result.answer)
-            if result.citations:
+            mgr = _get_manager_cached(provider, use_llm)
+            citations = []
+            model = "local-manager-heuristic"
+            used_llm = False
+            response = ""
+            domain_value = None if domain == "Auto" else domain
+            if use_llm and provider == "ollama":
+                with st.spinner("Recuperando evidencias locales..."):
+                    stream_result = mgr.stream_chat(
+                        question,
+                        k=int(k),
+                        domain=domain_value,
+                        include_project_context=True,
+                    )
+                if stream_result is not None:
+                    response = st.write_stream(stream_result.stream)
+                    citations = stream_result.citations
+                    model = stream_result.model
+                    used_llm = True
+                else:
+                    with st.spinner("Ollama no streamea; usando respuesta estándar..."):
+                        result = mgr.chat(
+                            question,
+                            k=int(k),
+                            domain=domain_value,
+                            include_project_context=True,
+                        )
+                    response = result.answer
+                    citations = result.citations
+                    model = result.model
+                    used_llm = result.used_llm
+                    st.markdown(response)
+            else:
+                with st.spinner("Consultando gerente backend..."):
+                    result = mgr.chat(
+                        question,
+                        k=int(k),
+                        domain=domain_value,
+                        include_project_context=True,
+                    )
+                response = result.answer
+                citations = result.citations
+                model = result.model
+                used_llm = result.used_llm
+                st.markdown(response)
+            if citations:
                 with st.expander("Evidencias recuperadas"):
-                    for i, citation in enumerate(result.citations, start=1):
+                    for i, citation in enumerate(citations, start=1):
                         title = (
                             f"{citation.get('repo')}/{citation.get('rel_path')}"
                             if citation.get("repo")
@@ -95,8 +147,8 @@ Este chat usa el gerente backend: índice de <code>gits amigos</code>, memoria l
                         )
                         st.markdown(f"**[{i}] {title}**")
                         st.caption(citation.get("summary") or citation.get("text") or "")
-            st.caption(f"Modelo: {result.model} · Proveedor: {result.provider} · LLM activo: {result.used_llm}")
-        st.session_state.politeia_brain_messages.append({"role": "assistant", "content": result.answer})
+            st.caption(f"Modelo: {model} · Proveedor: {provider} · LLM activo: {used_llm}")
+        st.session_state.politeia_brain_messages.append({"role": "assistant", "content": response})
 
 with tab_scrapers:
     st.markdown(
@@ -138,7 +190,7 @@ Chat RAG sobre la memoria semántica de scrapers: ChromaDB, embeddings locales, 
         with st.expander("Evidencias"):
             st.json(result.citations)
     if c_reindex.button("Reindexar memoria vectorial", use_container_width=True):
-        docs = store._read_jsonl(store.documents_path)  # noqa: SLF001 - herramienta local de operación
+        docs = store.list_documents()
         inserted = engine.upsert_documents(docs)
         st.success(f"Memoria vectorial actualizada: {inserted} documentos.")
 

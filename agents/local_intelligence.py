@@ -852,6 +852,10 @@ class LocalKnowledgeStore:
         records = load_scraper_records(path, recursive=recursive, max_records=max_records)
         return self.ingest_records(records)
 
+    def list_documents(self) -> list[dict[str, Any]]:
+        """Devuelve los documentos persistidos para reindexado/API sin exponer internals."""
+        return self._read_jsonl(self.documents_path)
+
     def search(self, query: str, *, k: int = 8, domain: str | None = None, use_semantic: bool = True) -> list[dict[str, Any]]:
         if use_semantic and self._semantic_enabled():
             try:
