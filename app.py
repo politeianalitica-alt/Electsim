@@ -62,11 +62,13 @@ load_dotenv(_ROOT / ".env")
 try:
     import streamlit as st
 
-    # Nueva arquitectura: redirigir a la página de inicio N0_Inicio.py
-    # Fallback a 0_Pagina_Inicial.py si la nueva no existe aún
+    # Arquitectura Politeia: D1_Briefings → N0_Inicio → 0_Pagina_Inicial
     import os
-    _new_home = os.path.join(os.path.dirname(__file__), "pages", "N0_Inicio.py")
-    if os.path.exists(_new_home):
+    _d1 = os.path.join(os.path.dirname(__file__), "pages", "D1_Briefings.py")
+    _n0 = os.path.join(os.path.dirname(__file__), "pages", "N0_Inicio.py")
+    if os.path.exists(_d1):
+        st.switch_page("pages/D1_Briefings.py")
+    elif os.path.exists(_n0):
         st.switch_page("pages/N0_Inicio.py")
     else:
         st.switch_page("pages/0_Pagina_Inicial.py")

@@ -59,15 +59,30 @@ _PARTY_ALIASES = {
 # Las 27 páginas heredadas siguen accesibles desde cada sección.
 
 SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
+    # ── Módulos del Diseño (D-series) ────────────────────────────────────────
+    ("pages/D1_Briefings.py",       "🗞️  Briefings"),
+    ("pages/D2_Actores.py",         "🕸️  Mapa de Actores"),
+    ("pages/D3_Termometro.py",      "🌡️  Termómetro de Riesgo"),
+    ("pages/D4_Legislativo.py",     "📜  Monitor Legislativo"),
+    ("pages/D5_Coalicion.py",       "🏛️  Gobierno & Coalición"),
+    ("pages/D6_Alertas.py",         "🔔  Alertas"),
+    ("pages/D7_Medios.py",          "📰  Medios & Narrativa"),
+    ("pages/D8_Geopolitica.py",     "🌍  Geopolítica & RRII"),
+    ("pages/D9_Communication.py",   "📣  Communication Intel"),
+    ("pages/D10_Workspace.py",      "🔬  Centro de Operaciones"),
+    ("pages/N8_ChatIA.py",          "🤖  Politeia Brain"),
+]
+
+# ── Módulos N-series (arquitectura anterior, siguen activos) ─────────────
+SIDEBAR_N_LINKS: list[tuple[str, str]] = [
     ("pages/N0_Inicio.py",          "🏠  Inicio"),
-    ("pages/N1_Electoral.py",       "🗳️   Electoral"),
+    ("pages/N1_Electoral.py",       "🗳️  Electoral"),
     ("pages/N2_Inteligencia.py",    "🧠  Inteligencia"),
-    ("pages/N3_Medios.py",          "📰  Medios & Narrativa"),
-    ("pages/N4_Institucional.py",   "🏛️   Institucional"),
-    ("pages/N5_Campana.py",         "⚔️   Campaña"),
+    ("pages/N3_Medios.py",          "📰  Medios (v2)"),
+    ("pages/N4_Institucional.py",   "🏛️  Institucional"),
+    ("pages/N5_Campana.py",         "⚔️  Campaña"),
     ("pages/N6_Economia.py",        "📈  Economía"),
     ("pages/N7_Laboratorio.py",     "🔬  Laboratorio"),
-    ("pages/N8_ChatIA.py",          "🤖  Politeia Brain"),
 ]
 
 # Páginas heredadas — accesibles para compatibilidad
@@ -875,24 +890,52 @@ def sidebar_nav():
         </div>
         """, unsafe_allow_html=True)
 
+        # ── IA Brain status chip ──────────────────────────────────────────────
+        try:
+            from dashboard.services.llm_local import disponible as _llm_disp
+            _s = _llm_disp()
+            _brain_on = _s.get("brain", False)
+            _model_name = "politeia-brain" if _brain_on else ("qwen2.5" if _s.get("general") else "sin IA")
+            _brain_color = GREEN if _brain_on else (AMBER if _s.get("ollama") else MUTED)
+        except Exception:
+            _brain_on = False
+            _model_name = "sin IA"
+            _brain_color = MUTED
+
+        st.markdown(f"""
+        <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;
+                    background:{_brain_color}11;border:1px solid {_brain_color}33;
+                    border-radius:8px;margin:.4rem 0 .8rem">
+          <span style="width:7px;height:7px;border-radius:50%;background:{_brain_color};
+                       display:inline-block;box-shadow:0 0 6px {_brain_color}"></span>
+          <span style="font-size:.68rem;color:{_brain_color};font-weight:700">
+            🧠 {_model_name}
+          </span>
+        </div>
+        """, unsafe_allow_html=True)
+
         st.markdown(
             f'<div style="font-size:.55rem;color:{MUTED};font-weight:800;'
-            f'letter-spacing:.14em;text-transform:uppercase;margin:.8rem .2rem .4rem;'
-            f'padding-left:.2rem">Módulos principales</div>',
+            f'letter-spacing:.14em;text-transform:uppercase;margin:.4rem .2rem .4rem;'
+            f'padding-left:.2rem">Módulos Politeia</div>',
             unsafe_allow_html=True,
         )
 
-        # Renderizar las 8 secciones principales con estilo mejorado
+        # Módulos D-series (diseño oficial)
         _render_page_links(SIDEBAR_CORE_LINKS)
 
         st.markdown(f'<div style="height:1px;background:{BORDER};margin:.8rem 0"></div>',
                     unsafe_allow_html=True)
 
+        # Módulos N-series en expander
+        with st.expander("🔧  Módulos v2 (análisis)", expanded=False):
+            _render_page_links(SIDEBAR_N_LINKS)
+
         # Páginas heredadas en expander colapsado
-        with st.expander("📂  Módulos clásicos (v1)", expanded=False):
+        with st.expander("📂  Clásicos (v1)", expanded=False):
             st.markdown(
                 f'<div style="font-size:.7rem;color:{MUTED};margin-bottom:.5rem">'
-                f'Páginas individuales — acceso directo</div>',
+                f'Páginas individuales</div>',
                 unsafe_allow_html=True,
             )
             _render_page_links(SIDEBAR_LEGACY_LINKS)
