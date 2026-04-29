@@ -416,11 +416,19 @@ contexto_briefing = (
     f"BOE critico: {[i.get('titulo','') for i in boe_criticos[:5]]}"
 )
 
+# ── Brain widget ─────────────────────────────────────────────────────────────
+try:
+    from dashboard.components.brain_widget import brain_insight_card as _brain_card
+    _BRAIN_WIDGET_OK = True
+except Exception:
+    _BRAIN_WIDGET_OK = False
+
 # ── Tabs principales ──────────────────────────────────────────────────────────
-tab_briefing, tab_feed, tab_modulos, tab_config = st.tabs([
+tab_briefing, tab_feed, tab_modulos, tab_brain, tab_config = st.tabs([
     "📋 Briefing del Día",
     "📰 Feed de Noticias",
     "📊 Módulos Status",
+    "🧠 Brain Analysis",
     "⚙️ Configurar",
 ])
 
@@ -678,7 +686,57 @@ with tab_modulos:
     st.plotly_chart(fig_health, use_container_width=True)
 
 
-# ─── TAB 4: Configurar ────────────────────────────────────────────────────────
+# ─── TAB BRAIN: Análisis IA del día ──────────────────────────────────────────
+with tab_brain:
+    if _BRAIN_WIDGET_OK:
+        from dashboard.components.brain_widget import (
+            brain_analysis_panel, brain_inline_chat, brain_insight_card,
+        )
+        bra1, bra2 = st.columns([1, 1])
+        with bra1:
+            brain_insight_card(
+                "briefings",
+                datos_especificos={
+                    "n_noticias": len(noticias),
+                    "n_boe_critico": len(boe_criticos),
+                    "titulares": [n.get("titulo", "") for n in noticias[:6]],
+                },
+                titulo_override="🧠 Insight IA del Briefing",
+                key_suffix="d1_brief",
+                altura=200,
+            )
+        with bra2:
+            brain_insight_card(
+                "medios",
+                titulo_override="📺 Narrativa mediática hoy",
+                key_suffix="d1_medios",
+                altura=200,
+            )
+
+        st.markdown("---")
+        brain_analysis_panel(
+            foco="general",
+            titulo="🔍 Análisis autónomo del día",
+            key_prefix="d1_autonomo",
+        )
+
+        st.markdown("---")
+        from dashboard.shared import section_header as _sh
+        _sh("CHAT CON EL BRAIN SOBRE EL BRIEFING", CYAN)
+        brain_inline_chat(
+            modulo_origen="briefings",
+            placeholder="Pregunta sobre el briefing de hoy, noticias o el BOE…",
+            key_prefix="d1_chat",
+            preguntas_sugeridas=[
+                "¿Cuál es la noticia más relevante?",
+                "Análisis del BOE de hoy",
+                "¿Qué riesgos hay esta semana?",
+            ],
+        )
+    else:
+        st.warning("⚠️ Brain Widget no disponible. Verifica la instalación de Ollama.")
+
+# ─── TAB 5: Configurar ────────────────────────────────────────────────────────
 with tab_config:
     section_header("CONFIGURACION DEL CLIENTE", PURPLE)
 

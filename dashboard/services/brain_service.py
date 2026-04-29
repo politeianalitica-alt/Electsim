@@ -739,9 +739,207 @@ def insight_rapido(tema: str) -> str:
         return ""
 
     resp = llm.chat(
-        f"En máximo 2 frases concisas, ¿qué es lo más relevante sobre '{tema}' en el contexto político español ahora mismo?",
+        f"En máximo 2 frases concisas, ¿qué es lo más relevante sobre '{tema}' "
+        f"en el contexto político español ahora mismo?",
         contexto=contexto,
         sistema=_SYSTEM_BRAIN_COMPLETO,
         stream=False,
+        modo="fast",
     )
     return resp if isinstance(resp, str) else ""
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ANÁLISIS CRUZADO — Cross-module intelligence
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def analisis_cruzado(
+    modulos: list[str] | None = None,
+    stream: bool = False,
+) -> str | Generator[str, None, None]:
+    """
+    Análisis cruzado que busca correlaciones entre varios módulos del dashboard.
+    Detecta patrones que solo son visibles cuando se analizan conjuntamente.
+
+    modulos: Lista de módulos a cruzar. Por defecto: electoral + coalicion + medios + legislativo
+    """
+    modulos = modulos or ["electoral", "coalicion", "medios", "legislativo"]
+
+    estado = obtener_estado_dashboard()
+    contexto = construir_prompt_contexto(estado, "análisis cruzado")
+
+    pregunta = (
+        f"Realiza un análisis cruzado entre los módulos: {', '.join(modulos)}.\n\n"
+        "Busca específicamente:\n"
+        "1. **CORRELACIONES** — ¿Qué patrones en medios/noticias explican movimientos en encuestas?\n"
+        "2. **CAUSALIDADES** — ¿Qué decisiones legislativas están afectando a la coalición?\n"
+        "3. **ANOMALÍAS** — ¿Qué no cuadra entre los datos de distintos módulos?\n"
+        "4. **OPORTUNIDADES OCULTAS** — ¿Qué ventanas estratégicas solo son visibles "
+        "al cruzar estas fuentes de datos?\n"
+        "5. **SEÑALES DÉBILES** — ¿Qué indicadores marginales merecen vigilancia especial?"
+    )
+
+    llm = _get_llm()
+    if not llm:
+        return "⚠️ Sin LLM disponible."
+
+    return llm.chat(
+        pregunta,
+        contexto=contexto,
+        sistema=_SYSTEM_BRAIN_COMPLETO,
+        stream=stream,
+        modo="deep",
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# PERSONALIZACIÓN — El brain adapta el contenido al usuario
+# ═══════════════════════════════════════════════════════════════════════════════
+
+_PERFILES_USUARIO = {
+    "consultor": (
+        "Eres el asesor estratégico de un consultor de campaña. "
+        "Prioriza: oportunidades de campaña, vulnerabilidades del adversario, "
+        "mensajes clave, target de votantes. Sé directo y accionable."
+    ),
+    "periodista": (
+        "Eres el asistente de un periodista político. "
+        "Prioriza: noticias con mayor impacto, contradicciones políticas, "
+        "declaraciones relevantes, datos verificables. Sugiere ángulos de story."
+    ),
+    "analista": (
+        "Eres el asistente de un analista político académico. "
+        "Prioriza: tendencias estructurales, datos estadísticos, comparaciones "
+        "históricas y marcos teóricos. Sé riguroso y matizado."
+    ),
+    "ciudadano": (
+        "Eres un asistente que explica política española de forma clara. "
+        "Usa lenguaje accesible, evita jerga técnica y explica el contexto "
+        "necesario para entender cada situación."
+    ),
+    "inversor": (
+        "Eres el asistente de un inversor que monitoriza el riesgo político español. "
+        "Prioriza: estabilidad del gobierno, riesgo regulatorio, política fiscal, "
+        "impacto en sectores clave. Cuantifica el riesgo cuando sea posible."
+    ),
+}
+
+
+def chat_personalizado(
+    mensaje: str,
+    perfil_usuario: str = "analista",
+    historia: list[dict] | None = None,
+    stream: bool = False,
+) -> str | Generator[str, None, None]:
+    """
+    Chat adaptado al perfil del usuario. El brain ajusta su estilo y prioridades.
+
+    perfil_usuario: 'consultor' | 'periodista' | 'analista' | 'ciudadano' | 'inversor'
+    """
+    sistema_personalizado = _PERFILES_USUARIO.get(perfil_usuario, _SYSTEM_BRAIN_COMPLETO)
+    # Enriquecer con el contexto del brain
+    sistema_final = f"{sistema_personalizado}\n\n{_SYSTEM_BRAIN_COMPLETO}"
+
+    estado = obtener_estado_dashboard()
+    contexto = construir_prompt_contexto(estado, f"perfil:{perfil_usuario}")
+
+    llm = _get_llm()
+    if not llm:
+        return "⚠️ Sin LLM disponible."
+
+    return llm.chat(
+        mensaje,
+        historia=historia,
+        contexto=contexto,
+        sistema=sistema_final,
+        stream=stream,
+    )
+
+
+def optimizar_presentacion_datos(
+    tipo_dato: str,
+    muestra_datos: str,
+    objetivo: str = "análisis político",
+) -> dict:
+    """
+    El brain sugiere cómo presentar mejor los datos al usuario.
+    Retorna sugerencias de visualización, métricas clave y narrativa.
+
+    Returns:
+        {
+          "narrativa": str,       # Explicación del dato más importante
+          "metricas_clave": str,  # Qué métricas destacar
+          "visualizacion": str,   # Tipo de gráfico recomendado
+          "alerta": str,          # Si hay algo urgente en los datos
+        }
+    """
+    llm = _get_llm()
+    if not llm:
+        return {}
+
+    prompt = (
+        f"Analiza estos datos de tipo '{tipo_dato}' y responde en JSON:\n"
+        f"DATOS:\n{muestra_datos[:1500]}\n\n"
+        f"OBJETIVO: {objetivo}\n\n"
+        "Responde SOLO con JSON válido:\n"
+        '{"narrativa": "...", "metricas_clave": "...", "visualizacion": "...", "alerta": "..."}'
+    )
+
+    resp = llm.chat(prompt, sistema=_SYSTEM_BRAIN_COMPLETO, modo="fast")
+    if isinstance(resp, str):
+        import re
+        match = re.search(r'\{.*\}', resp, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group())
+            except Exception:
+                pass
+    return {"narrativa": str(resp)[:200] if isinstance(resp, str) else ""}
+
+
+def evaluar_impacto_noticia(
+    noticia: str,
+    medio: str = "",
+    stream: bool = False,
+) -> str | Generator[str, None, None]:
+    """
+    Evalúa el impacto político de una noticia específica con contexto total.
+    """
+    estado = obtener_estado_dashboard()
+    contexto = construir_prompt_contexto(estado, "medios")
+
+    llm = _get_llm()
+    if not llm:
+        return "⚠️ Sin LLM."
+
+    prompt = (
+        f"Evalúa el impacto político de esta noticia:\n"
+        f"{'[' + medio + '] ' if medio else ''}{noticia}\n\n"
+        "Analiza: impacto en intención de voto, qué partidos se ven afectados, "
+        "si es una noticia que beneficia o perjudica al gobierno, "
+        "y qué tipo de reacción política es probable."
+    )
+
+    return llm.chat(prompt, contexto=contexto, sistema=_SYSTEM_BRAIN_COMPLETO, stream=stream)
+
+
+def razonamiento_profundo(
+    pregunta: str,
+    foco: str = "general",
+) -> dict[str, str]:
+    """
+    Razonamiento multi-paso (chain-of-thought) sobre una pregunta compleja.
+    Retorna cada paso del razonamiento por separado.
+    """
+    estado = obtener_estado_dashboard()
+    contexto = construir_prompt_contexto(estado, foco)
+
+    llm = _get_llm()
+    if not llm:
+        return {}
+
+    return llm.razonar(
+        pregunta=pregunta,
+        contexto=contexto,
+        sistema=_SYSTEM_BRAIN_COMPLETO,
+    )

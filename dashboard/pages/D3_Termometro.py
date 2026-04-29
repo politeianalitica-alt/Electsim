@@ -210,8 +210,20 @@ with k4:
 
 st.markdown("<div style='margin:.5rem 0'></div>", unsafe_allow_html=True)
 
+# ── Brain widget import ───────────────────────────────────────────────────────
+try:
+    from dashboard.components.brain_widget import (
+        brain_insight_card as _bw_card,
+        brain_inline_chat as _bw_chat,
+    )
+    _BW_OK = True
+except Exception:
+    _BW_OK = False
+
 # ── Tabs principales ──────────────────────────────────────────────────────────
-tab_thermo, tab_crisis, tab_trend = st.tabs(["🌡️ Termómetro", "📡 Crisis Intel", "📈 Tendencia"])
+tab_thermo, tab_crisis, tab_trend, tab_brain_risk = st.tabs([
+    "🌡️ Termómetro", "📡 Crisis Intel", "📈 Tendencia", "🧠 Brain Riesgo",
+])
 
 # ════════════════════════════════════════════════════════════════════════════
 # TAB 1: TERMÓMETRO
@@ -684,3 +696,48 @@ with tab_trend:
     with m4:
         fore_14 = data["forecast_scores"][-1] if data["forecast_scores"] else risk_score
         st.metric("Previsión día +14", f"{fore_14:.1f}", delta=f"{fore_14 - risk_score:+.1f}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB BRAIN RIESGO — Análisis IA del riesgo político
+# ═══════════════════════════════════════════════════════════════════════════════
+with tab_brain_risk:
+    if _BW_OK:
+        st.markdown("### 🧠 Brain — Evaluación de riesgo con IA")
+        rk1, rk2 = st.columns(2)
+
+        with rk1:
+            _bw_card(
+                "riesgo",
+                datos_especificos={
+                    "indice_riesgo": round(risk_score, 1),
+                    "estabilidad": data.get("estabilidad", 50),
+                    "tension_parlamentaria": data.get("tension_parlamentaria", 50),
+                    "zona": risk_label,
+                },
+                titulo_override="🌡️ Evaluación de Riesgo IA",
+                key_suffix="d3_riesgo",
+                altura=220,
+            )
+
+        with rk2:
+            _bw_card(
+                "coalicion",
+                titulo_override="🏛️ Estabilidad del gobierno",
+                key_suffix="d3_coalicion",
+                altura=220,
+            )
+
+        st.markdown("---")
+        _bw_chat(
+            modulo_origen="termometro",
+            placeholder="¿Cuándo podría subir el riesgo político?",
+            key_prefix="d3",
+            preguntas_sugeridas=[
+                "¿Qué podría elevar el riesgo esta semana?",
+                "Probabilidad de moción de censura",
+                "¿Cuáles son los vectores de inestabilidad?",
+            ],
+        )
+    else:
+        st.warning("⚠️ Brain Widget no disponible. Verifica la instalación.")

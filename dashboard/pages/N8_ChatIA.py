@@ -53,6 +53,13 @@ except Exception as _e:
     brain = None
     llm = None
 
+# ── brain widget (opcional) ────────────────────────────────────────────────────
+try:
+    from dashboard.components.brain_widget import brain_sidebar_status
+    _WIDGET_OK = True
+except Exception:
+    _WIDGET_OK = False
+
 # ── session init ───────────────────────────────────────────────────────────────
 if "brain_historia" not in st.session_state:
     st.session_state["brain_historia"] = []
@@ -120,12 +127,33 @@ with col_h2:
         st.error("⚫ Sin motor IA")
         st.caption("Inicia Ollama o configura ANTHROPIC_API_KEY")
 
+# ── imports ingesta + brain avanzado ──────────────────────────────────────────
+try:
+    from dashboard.services import brain_auto_ingestion as ingestion
+    _ING_OK = True
+except Exception:
+    ingestion = None
+    _ING_OK = False
+
+# ── Auto-arrancar worker de ingesta ───────────────────────────────────────────
+if _ING_OK and ingestion and _LLM_OK:
+    if "ingestion_worker_started" not in st.session_state:
+        try:
+            iniciado = ingestion.iniciar_worker()
+            st.session_state["ingestion_worker_started"] = True
+            if iniciado:
+                st.session_state["ingestion_worker_msg"] = "Worker de ingesta iniciado automáticamente"
+        except Exception:
+            st.session_state["ingestion_worker_started"] = False
+
 # ── TABS PRINCIPALES ──────────────────────────────────────────────────────────
-tab_chat, tab_autonomo, tab_alertas, tab_modulos, tab_estado = st.tabs([
+tab_chat, tab_autonomo, tab_alertas, tab_modulos, tab_ingesta, tab_personalizar, tab_estado = st.tabs([
     "💬 Chat Inteligente",
     "🔍 Análisis Autónomo",
     "⚡ Alertas Proactivas",
     "📊 Análisis por Módulo",
+    "🔄 Ingesta Automática",
+    "🎯 Personalización IA",
     "⚙️ Sistema",
 ])
 
@@ -843,3 +871,481 @@ with tab_estado:
         for s in sugerencias:
             if st.button(f"🔍 {s}", key=f"rag_sug_{s}", use_container_width=True):
                 st.session_state["rag_query"] = s
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 6 — INGESTA AUTOMÁTICA
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_ingesta:
+    st.markdown("### 🔄 Ingesta automática continua")
+    st.markdown(
+        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain de Ollama ingiere automáticamente noticias, "
+        "BOE, sondeos y actividad institucional. Cada ingesta es procesada por el modelo para extraer "
+        "insights, generar embeddings y mantener el RAG actualizado en tiempo real.</p>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Estado del worker ──────────────────────────────────────────────────
+    ing_est = {}
+    if _ING_OK and ingestion:
+        try:
+            ing_est = ingestion.estado_worker()
+        except Exception:
+            ing_est = {}
+
+    worker_running = ing_est.get("running", False)
+
+    # Header con estado
+    st.markdown(
+        f"""<div style='background:{"linear-gradient(135deg,"+GREEN+"22,"+CYAN+"10)"
+        if worker_running else BG2};
+        border:1px solid {GREEN+"44" if worker_running else BORDER};
+        border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;
+        display:flex;align-items:center;gap:1rem;'>
+        <span style='font-size:1.4rem;'>{"🟢" if worker_running else "⚫"}</span>
+        <div>
+        <span style='color:{GREEN if worker_running else MUTED};font-weight:700;font-size:.95rem;'>
+        Worker de ingesta {"ACTIVO" if worker_running else "INACTIVO"}</span><br>
+        <span style='color:{TEXT2};font-size:.78rem;'>
+        {f"Total indexado: {ing_est.get('total_indexado', 0)} documentos" if worker_running
+        else "Activa Ollama para iniciar la ingesta automática"}</span>
+        </div></div>""",
+        unsafe_allow_html=True,
+    )
+
+    # Controles del worker
+    ctrl_col1, ctrl_col2, ctrl_col3, ctrl_col4 = st.columns(4)
+    with ctrl_col1:
+        if st.button(
+            "▶ Iniciar worker" if not worker_running else "⏸ Detener worker",
+            type="primary" if not worker_running else "secondary",
+            use_container_width=True,
+            disabled=not _ING_OK or not _LLM_OK,
+            key="btn_worker_toggle",
+        ):
+            if ingestion:
+                if not worker_running:
+                    ok = ingestion.iniciar_worker()
+                    st.toast("✅ Worker de ingesta iniciado" if ok else "Ya estaba corriendo")
+                else:
+                    ingestion.detener_worker()
+                    st.toast("⏸ Worker detenido")
+                st.rerun()
+
+    with ctrl_col2:
+        if st.button(
+            "⚡ Ingesta completa",
+            use_container_width=True,
+            disabled=not _ING_OK or not _LLM_OK,
+            key="btn_ingesta_completa",
+        ):
+            if ingestion:
+                with st.spinner("🔄 Ejecutando ingesta completa de todos los módulos…"):
+                    resultados = ingestion.ejecutar_ingesta_completa()
+                total = sum(resultados.values())
+                st.toast(f"✅ Ingesta completa: {total} documentos procesados")
+                st.rerun()
+
+    with ctrl_col3:
+        if st.button(
+            "🗑️ Limpiar log",
+            use_container_width=True,
+            key="btn_clear_ing_log",
+        ):
+            if ingestion:
+                ingestion._INGESTION_LOG.clear()
+            st.rerun()
+
+    with ctrl_col4:
+        st.markdown(
+            f"<div style='text-align:center;padding:.5rem;font-size:.78rem;color:{TEXT2};'>"
+            f"🧠 {_modelo_badge()}</div>",
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("---")
+
+    # ── Ingestas manuales por tipo ─────────────────────────────────────────
+    st.markdown("#### 🎯 Ingesta manual por fuente")
+    tipos_ingesta = {
+        "📰 RSS / Noticias": "rss",
+        "📜 BOE": "boe",
+        "📊 Sondeos electorales": "sondeos",
+        "🏛️ Agenda institucional": "agenda",
+        "⚡ Alertas proactivas": "alertas",
+        "🌍 Análisis global": "analisis_global",
+    }
+
+    ing_cols = st.columns(3)
+    for idx, (nombre, tipo) in enumerate(tipos_ingesta.items()):
+        col = ing_cols[idx % 3]
+        with col:
+            ultima = ing_est.get("ultima_ingesta", {}).get(tipo, "nunca")
+            prox_seg = ing_est.get("proximas_ingestas_seg", {}).get(tipo, 0)
+            stats_n = ing_est.get("stats", {}).get(tipo, 0)
+
+            error = ing_est.get("errores", {}).get(tipo, "")
+            borde_color = RED + "66" if error else BORDER
+
+            st.markdown(
+                f"""<div style='background:{BG2};border:1px solid {borde_color};
+                border-radius:8px;padding:.6rem .8rem;margin-bottom:.3rem;'>
+                <div style='font-size:.83rem;color:{TEXT};font-weight:600;'>{nombre}</div>
+                <div style='font-size:.73rem;color:{TEXT2};'>
+                Última: {ultima} · Docs: {stats_n}
+                {f"<br>⏱ Próxima en: {prox_seg//60}m {prox_seg%60}s" if prox_seg > 0 else ""}
+                {f"<br><span style='color:{RED};'>⚠ {error[:50]}</span>" if error else ""}
+                </div></div>""",
+                unsafe_allow_html=True,
+            )
+            if st.button(
+                f"▶ {nombre.split()[1]}",
+                key=f"ing_manual_{tipo}",
+                use_container_width=True,
+                disabled=not _ING_OK or not _LLM_OK,
+            ):
+                if ingestion:
+                    with st.spinner(f"🔄 Ingiriendo {nombre}…"):
+                        n = ingestion.ejecutar_ingesta_manual(tipo)
+                    st.toast(f"✅ {nombre}: {n} documentos procesados")
+                    st.rerun()
+
+    st.markdown("---")
+
+    # ── Log de ingesta en tiempo real ──────────────────────────────────────
+    st.markdown("#### 📋 Log de ingesta en tiempo real")
+
+    log_entries = ing_est.get("log", [])
+    if log_entries:
+        ICONOS_TIPO = {
+            "rss": "📰", "boe": "📜", "sondeos": "📊",
+            "agenda": "🏛️", "alertas": "⚡", "analisis_global": "🌍", "briefing": "📋",
+        }
+        for entry in log_entries[:25]:
+            ok = entry.get("ok", True)
+            color = GREEN if ok else RED
+            icono = ICONOS_TIPO.get(entry.get("tipo", ""), "📄")
+            ts = entry.get("timestamp", "")[:16].replace("T", " ")
+            ms = entry.get("ms", 0)
+            n_docs = entry.get("n_docs", 0)
+            error_msg = entry.get("error", "")
+
+            st.markdown(
+                f"""<div style='background:{BG2};border-left:3px solid {color};
+                border-radius:0 6px 6px 0;padding:.3rem .7rem;margin:2px 0;
+                display:flex;justify-content:space-between;align-items:center;'>
+                <span style='font-size:.78rem;color:{TEXT};'>
+                {icono} <b>{entry.get("tipo","?")}</b>
+                {f"· {error_msg[:60]}" if error_msg else f"· {n_docs} docs"}</span>
+                <span style='font-size:.72rem;color:{TEXT2};'>{ts} ({ms:.0f}ms)</span>
+                </div>""",
+                unsafe_allow_html=True,
+            )
+    else:
+        st.markdown(
+            f"<div style='color:{MUTED};font-size:.85rem;padding:1rem;text-align:center;'>"
+            "Sin entradas en el log. Ejecuta una ingesta para empezar.</div>",
+            unsafe_allow_html=True,
+        )
+
+    # ── Estadísticas de ingesta ────────────────────────────────────────────
+    if ing_est.get("stats"):
+        st.markdown("---")
+        st.markdown("#### 📈 Estadísticas de ingesta acumuladas")
+        s_cols = st.columns(len(ing_est["stats"]))
+        for i, (tipo, cnt) in enumerate(ing_est["stats"].items()):
+            with s_cols[i % len(s_cols)]:
+                st.metric(tipo.replace("_", " ").capitalize(), cnt)
+
+    # ── Configuración de intervalos ────────────────────────────────────────
+    with st.expander("⚙️ Configurar intervalos de ingesta"):
+        st.markdown(
+            f"<p style='color:{TEXT2};font-size:.82rem;'>Los intervalos se configuran vía "
+            "variables de entorno. Valores actuales:</p>",
+            unsafe_allow_html=True,
+        )
+        if _ING_OK and ingestion:
+            for tipo, intervalo in ingestion._INTERVALS.items():
+                mins = intervalo // 60
+                st.markdown(
+                    f"<div style='font-size:.8rem;color:{TEXT2};padding:1px 0;'>"
+                    f"<code>BRAIN_INTERVAL_{tipo.upper()}</code> = {mins} min</div>",
+                    unsafe_allow_html=True,
+                )
+        st.info("💡 Modifica las variables de entorno en .env o al lanzar el servidor para cambiar los intervalos.")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 7 — PERSONALIZACIÓN IA
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_personalizar:
+    st.markdown("### 🎯 Personalización del brain para tu perfil")
+    st.markdown(
+        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain adapta su estilo de análisis, "
+        "prioridades y vocabulario según tu perfil profesional. "
+        "Configura tu perfil y el brain personalizará todas las respuestas.</p>",
+        unsafe_allow_html=True,
+    )
+
+    # ── Selector de perfil ─────────────────────────────────────────────────
+    PERFILES = {
+        "🎯 Consultor de campaña": "consultor",
+        "📰 Periodista político": "periodista",
+        "🔬 Analista académico": "analista",
+        "👤 Ciudadano interesado": "ciudadano",
+        "💰 Inversor / Risk Manager": "inversor",
+    }
+
+    perfil_guardado = st.session_state.get("brain_perfil", "🔬 Analista académico")
+
+    pers_col1, pers_col2 = st.columns([1, 2])
+
+    with pers_col1:
+        st.markdown("#### 👤 Tu perfil")
+        perfil_sel = st.radio(
+            "Selecciona tu perfil",
+            list(PERFILES.keys()),
+            index=list(PERFILES.keys()).index(perfil_guardado)
+            if perfil_guardado in PERFILES else 2,
+            key="perfil_radio",
+        )
+        if perfil_sel != perfil_guardado:
+            st.session_state["brain_perfil"] = perfil_sel
+            st.toast(f"✅ Perfil actualizado: {perfil_sel}")
+
+        perfil_clave = PERFILES[perfil_sel]
+
+        DESCRIPCIONES = {
+            "consultor": "Foco en estrategia electoral, oportunidades de campaña y vulnerabilidades del adversario.",
+            "periodista": "Prioriza noticias de impacto, contradicciones y ángulos de story verificables.",
+            "analista": "Rigor estadístico, tendencias estructurales y marcos teóricos comparados.",
+            "ciudadano": "Lenguaje accesible, explicaciones del contexto y qué significa para la vida diaria.",
+            "inversor": "Riesgo político cuantificado, estabilidad regulatoria e impacto en sectores clave.",
+        }
+
+        st.markdown(
+            f"""<div style='background:linear-gradient(135deg,{PURPLE}20,{CYAN}10);
+            border:1px solid {PURPLE}44;border-radius:8px;padding:.8rem;margin-top:.5rem;'>
+            <span style='color:{CYAN};font-size:.8rem;font-weight:600;'>{perfil_sel}</span><br>
+            <span style='color:{TEXT2};font-size:.78rem;'>{DESCRIPCIONES.get(perfil_clave, "")}</span>
+            </div>""",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown("---")
+        st.markdown("#### ⚙️ Ajustes avanzados")
+
+        modo_respuesta = st.selectbox(
+            "Profundidad del análisis",
+            ["Conciso (fast)", "Normal", "Profundo (deep)"],
+            index=1,
+            key="brain_modo",
+        )
+        modo_map = {"Conciso (fast)": "fast", "Normal": "normal", "Profundo (deep)": "deep"}
+        st.session_state["brain_modo_activo"] = modo_map[modo_respuesta]
+
+        st.checkbox("🔄 Streaming en tiempo real", value=True, key="brain_stream_global")
+        st.checkbox("📚 Usar memoria RAG en respuestas", value=True, key="brain_use_rag")
+        st.checkbox("⚡ Alertas automáticas al abrir el brain", value=True, key="brain_auto_alertas")
+
+    with pers_col2:
+        st.markdown("#### 🧠 Prueba tu perfil personalizado")
+        st.markdown(
+            f"<p style='color:{TEXT2};font-size:.83rem;'>Prueba cómo responde el brain "
+            f"con tu perfil <b style='color:{CYAN};'>{perfil_sel}</b>:</p>",
+            unsafe_allow_html=True,
+        )
+
+        preguntas_por_perfil = {
+            "consultor": [
+                "¿Cuál es la principal vulnerabilidad del PP ahora mismo?",
+                "¿Qué mensaje debería usar el PSOE esta semana?",
+                "¿En qué votantes debería enfocarse Sumar?",
+            ],
+            "periodista": [
+                "¿Qué contradicción política es más noticiable hoy?",
+                "¿Qué declaración reciente merece seguimiento?",
+                "¿Qué dato electoral es más sorprendente?",
+            ],
+            "analista": [
+                "¿Qué tendencia estructural es más relevante en España 2026?",
+                "¿Cómo se compara la situación actual con 2015-16?",
+                "¿Qué marco teórico explica mejor la fragmentación parlamentaria?",
+            ],
+            "ciudadano": [
+                "¿Qué significa para mí la situación política actual?",
+                "¿El gobierno va a durar? ¿Por qué?",
+                "¿Quién manda realmente en España ahora?",
+            ],
+            "inversor": [
+                "¿Cuál es el riesgo político de invertir en España ahora?",
+                "¿Qué sectores están más expuestos a cambios regulatorios?",
+                "¿Cuánto tiempo tiene este gobierno? ¿Qué probabilidad hay de elecciones?",
+            ],
+        }
+
+        preguntas_sug = preguntas_por_perfil.get(perfil_clave, [])
+        if preguntas_sug:
+            for pregunta in preguntas_sug:
+                if st.button(
+                    f"💡 {pregunta}",
+                    key=f"pers_sug_{pregunta[:20]}",
+                    use_container_width=True,
+                ):
+                    st.session_state["pers_pregunta_pending"] = pregunta
+
+        pers_input = st.text_area(
+            "Escribe tu pregunta",
+            value=st.session_state.pop("pers_pregunta_pending", ""),
+            placeholder="Escribe cualquier pregunta para ver cómo responde el brain con tu perfil…",
+            height=80,
+            key="pers_input_area",
+        )
+
+        if st.button(
+            "🧠 Analizar con mi perfil",
+            type="primary",
+            key="btn_pers_analizar",
+            disabled=not _BRAIN_OK or not pers_input.strip(),
+        ):
+            with st.spinner(f"🧠 Razonando como {perfil_sel}…"):
+                try:
+                    modo_activo = st.session_state.get("brain_modo_activo", "normal")
+                    historia_pers = st.session_state.get("brain_historia_pers", [])
+
+                    # Usar análisis personalizado del brain
+                    resp = brain.chat_personalizado(
+                        pers_input,
+                        perfil_usuario=perfil_clave,
+                        historia=historia_pers[-6:],
+                        stream=False,
+                    )
+                    respuesta_pers = str(resp)
+
+                    # Guardar en historial personalizado
+                    if "brain_historia_pers" not in st.session_state:
+                        st.session_state["brain_historia_pers"] = []
+                    st.session_state["brain_historia_pers"].extend([
+                        {"role": "user", "content": pers_input},
+                        {"role": "assistant", "content": respuesta_pers},
+                    ])
+                    st.session_state["pers_ultima_respuesta"] = respuesta_pers
+                    st.rerun()
+                except Exception as exc:
+                    st.error(f"Error: {exc}")
+
+        if ult_resp := st.session_state.get("pers_ultima_respuesta"):
+            st.markdown(
+                f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}10);
+                border:1px solid {PURPLE}44;border-radius:10px;padding:1rem;
+                color:{TEXT};font-size:.86rem;line-height:1.7;margin-top:.5rem;'>
+                <span style='color:{CYAN};font-size:.72rem;'>
+                🧠 Respuesta · perfil: {perfil_sel}</span><br><br>
+                {ult_resp.replace(chr(10), "<br>").replace("**", "<b>")}
+                </div>""",
+                unsafe_allow_html=True,
+            )
+            if st.button("🗑️ Limpiar respuesta", key="pers_clear"):
+                del st.session_state["pers_ultima_respuesta"]
+                st.session_state.pop("brain_historia_pers", None)
+                st.rerun()
+
+    # ── Análisis cruzado de módulos ────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### 🔗 Análisis cruzado de módulos")
+    st.markdown(
+        f"<p style='color:{TEXT2};font-size:.83rem;'>El brain busca correlaciones y patrones "
+        "ocultos cruzando información de múltiples módulos simultáneamente.</p>",
+        unsafe_allow_html=True,
+    )
+
+    cruce_cols = st.columns(2)
+    with cruce_cols[0]:
+        modulos_cruce = st.multiselect(
+            "Módulos a cruzar",
+            ["electoral", "coalicion", "medios", "legislativo", "riesgo", "geopolitica"],
+            default=["electoral", "coalicion", "medios"],
+            key="modulos_cruce_sel",
+        )
+
+    with cruce_cols[1]:
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button(
+            "🔗 Análisis cruzado",
+            type="primary",
+            use_container_width=True,
+            disabled=not _BRAIN_OK or len(modulos_cruce) < 2,
+            key="btn_analisis_cruzado",
+        ):
+            with st.spinner(f"🧠 Cruzando módulos: {', '.join(modulos_cruce)}…"):
+                try:
+                    resultado_cruce = brain.analisis_cruzado(modulos=modulos_cruce, stream=False)
+                    st.session_state["brain_resultado_cruce"] = str(resultado_cruce)
+                    st.rerun()
+                except Exception as exc:
+                    st.error(f"Error: {exc}")
+
+    if cruce_res := st.session_state.get("brain_resultado_cruce"):
+        st.markdown(
+            f"""<div style='background:{BG2};border:1px solid {CYAN}44;border-radius:8px;
+            padding:1rem;color:{TEXT};font-size:.86rem;line-height:1.7;'>
+            <span style='color:{CYAN};font-size:.73rem;'>
+            🔗 Análisis cruzado: {' × '.join(modulos_cruce)}</span><br><br>
+            {cruce_res.replace(chr(10), "<br>")}
+            </div>""",
+            unsafe_allow_html=True,
+        )
+        if st.button("🗑️ Limpiar", key="cruce_clear"):
+            del st.session_state["brain_resultado_cruce"]
+            st.rerun()
+
+    # ── Razonamiento profundo ──────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("#### 🧩 Razonamiento profundo (chain-of-thought)")
+    st.markdown(
+        f"<p style='color:{TEXT2};font-size:.83rem;'>El brain razona paso a paso: "
+        "primero analiza los hechos, luego las implicaciones, luego las recomendaciones. "
+        "Cada paso construye sobre el anterior.</p>",
+        unsafe_allow_html=True,
+    )
+
+    cot_input = st.text_input(
+        "Pregunta para razonamiento profundo",
+        placeholder="¿Caerá el gobierno de Sánchez antes de fin de 2026?",
+        key="cot_input",
+    )
+
+    if st.button(
+        "🧩 Razonar paso a paso",
+        key="btn_cot",
+        disabled=not _BRAIN_OK or not cot_input.strip(),
+        type="primary",
+    ):
+        with st.spinner("🧩 Razonando paso a paso (puede tardar 30-60s)…"):
+            try:
+                pasos = brain.razonamiento_profundo(cot_input)
+                st.session_state["brain_cot_pasos"] = pasos
+                st.rerun()
+            except Exception as exc:
+                st.error(f"Error: {exc}")
+
+    if pasos_res := st.session_state.get("brain_cot_pasos"):
+        ICONOS_PASOS = {
+            "paso_1": ("🔍 Análisis de hechos", BLUE),
+            "paso_2": ("⚡ Implicaciones", AMBER),
+            "paso_3": ("🎯 Recomendaciones", GREEN),
+        }
+        for clave, texto in pasos_res.items():
+            etiqueta, color = ICONOS_PASOS.get(clave, (clave, CYAN))
+            st.markdown(
+                f"""<div style='background:{BG2};border-left:4px solid {color};
+                border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:6px 0;'>
+                <span style='color:{color};font-size:.8rem;font-weight:700;'>{etiqueta}</span><br>
+                <span style='color:{TEXT};font-size:.84rem;'>
+                {texto.replace(chr(10), "<br>")[:800]}</span>
+                </div>""",
+                unsafe_allow_html=True,
+            )
+        if st.button("🗑️ Limpiar razonamiento", key="cot_clear"):
+            del st.session_state["brain_cot_pasos"]
+            st.rerun()

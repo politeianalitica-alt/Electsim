@@ -41,6 +41,27 @@ MODELO_RAPIDO = os.environ.get("ELECTSIM_OLLAMA_FAST_MODEL", "llama3.2:3b")
 MODELO_GENERAL = os.environ.get("ELECTSIM_OLLAMA_GENERAL_MODEL", "qwen2.5:7b")
 MODELO_EMBED  = os.environ.get("ELECTSIM_OLLAMA_EMBEDDING_MODEL", "nomic-embed-text")
 
+# ── Parámetros de inferencia por modo ────────────────────────────────────────
+_PARAMS_FAST = {
+    "num_ctx":     int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "4096")),
+    "num_predict": 256,
+    "temperature": 0.2,
+    "top_p":       0.85,
+}
+_PARAMS_NORMAL = {
+    "num_ctx":     int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "8192")),
+    "num_predict": int(os.environ.get("ELECTSIM_BACK_MANAGER_MAX_TOKENS", "700")),
+    "temperature": 0.3,
+    "top_p":       0.9,
+}
+_PARAMS_DEEP = {
+    "num_ctx":     int(os.environ.get("ELECTSIM_OLLAMA_CTX_DEEP", "16384")),
+    "num_predict": int(os.environ.get("ELECTSIM_OLLAMA_DEEP_TOKENS", "2048")),
+    "temperature": 0.25,
+    "top_p":       0.92,
+    "repeat_penalty": 1.1,
+}
+
 SYSTEM_BRAIN = (
     "Eres Politeia Brain, el asistente de inteligencia electoral de ElectSim España. "
     "Eres un analista político senior especializado en: elecciones españolas, partidos políticos, "
@@ -173,6 +194,7 @@ def chat(
     modelo: str = "",
     sistema: str = "",
     stream: bool = False,
+    modo: str = "normal",  # "fast" | "normal" | "deep"
 ) -> str | Generator[str, None, None]:
     """
     Envía un mensaje al modelo y retorna la respuesta.
@@ -184,6 +206,7 @@ def chat(
         modelo: Modelo a usar (auto si vacío)
         sistema: System prompt (usa SYSTEM_BRAIN si vacío)
         stream: Si True, retorna generator de tokens
+        modo: 'fast' (256 tokens), 'normal' (700 tokens), 'deep' (2048 tokens)
 
     Returns:
         str con respuesta completa, o generator si stream=True
@@ -192,19 +215,23 @@ def chat(
     sys_prompt = sistema or SYSTEM_BRAIN
 
     if not mod:
-        # Fallback a Claude API
         return _chat_claude(mensaje, historia, contexto, sys_prompt, stream)
 
     ollama = _get_ollama()
     if not ollama:
         return _chat_claude(mensaje, historia, contexto, sys_prompt, stream)
 
+    params = {"fast": _PARAMS_FAST, "deep": _PARAMS_DEEP}.get(modo, _PARAMS_NORMAL)
+
     # Construir mensajes
     mensajes: list[dict] = [{"role": "system", "content": sys_prompt}]
     if contexto:
+        # Truncar contexto según el num_ctx disponible para no sobrepasar el límite
+        ctx_max = params["num_ctx"] - 1024
+        ctx_truncado = contexto[:ctx_max * 3]  # aprox 3 chars/token
         mensajes.append({
             "role": "user",
-            "content": f"[CONTEXTO DEL DASHBOARD]\n{contexto}\n[FIN CONTEXTO]",
+            "content": f"[CONTEXTO DEL DASHBOARD]\n{ctx_truncado}\n[FIN CONTEXTO]",
         })
         mensajes.append({
             "role": "assistant",
@@ -212,47 +239,110 @@ def chat(
         })
 
     if historia:
-        mensajes.extend(historia[-10:])  # Últimos 10 mensajes
+        # Filtrar solo roles válidos y últimos mensajes
+        hist_valida = [
+            m for m in historia
+            if isinstance(m, dict) and m.get("role") in ("user", "assistant")
+            and m.get("content", "").strip()
+        ]
+        mensajes.extend(hist_valida[-10:])
 
     mensajes.append({"role": "user", "content": mensaje})
 
     try:
         if stream:
-            return _stream_ollama(ollama, mod, mensajes, sys_prompt)
+            return _stream_ollama(ollama, mod, mensajes, params)
         else:
             resp = ollama.chat(
                 model=mod,
                 messages=mensajes,
-                options={
-                    "num_ctx": int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "8192")),
-                    "num_predict": int(os.environ.get("ELECTSIM_BACK_MANAGER_MAX_TOKENS", "700")),
-                    "temperature": 0.3,
-                },
+                options=params,
                 stream=False,
             )
-            # Handle both object and dict response
-            if hasattr(resp, 'message'):
-                return resp.message.content
-            return resp.get("message", {}).get("content", "") if isinstance(resp, dict) else str(resp)
-    except Exception as e:
-        return _chat_claude(mensaje, historia, contexto, sys_prompt, stream) or f"Error: {e}"
+            if hasattr(resp, "message"):
+                return resp.message.content or ""
+            if isinstance(resp, dict):
+                return resp.get("message", {}).get("content", "")
+            return str(resp)
+    except Exception as exc:
+        fallback = _chat_claude(mensaje, historia, contexto, sys_prompt, stream)
+        return fallback if fallback else f"Error Ollama: {exc}"
 
 
-def _stream_ollama(ollama, modelo: str, mensajes: list, sistema: str) -> Generator[str, None, None]:
+def razonar(
+    pregunta: str,
+    contexto: str = "",
+    sistema: str = "",
+    pasos: list[str] | None = None,
+) -> dict[str, str]:
+    """
+    Razonamiento profundo multi-paso con Ollama (chain-of-thought).
+    Llama al modelo N veces con preguntas progresivas y devuelve cada paso.
+
+    Args:
+        pregunta: Pregunta principal
+        contexto: Contexto del dashboard
+        sistema: System prompt
+        pasos: Lista de sub-preguntas (por defecto usa 3 pasos estándar)
+
+    Returns:
+        dict con las respuestas de cada paso: {"paso_1": "...", "paso_2": "...", ...}
+    """
+    sys_p = sistema or SYSTEM_BRAIN
+    pasos_default = [
+        f"Analiza los hechos disponibles sobre: {pregunta}",
+        f"¿Cuáles son las implicaciones y consecuencias de lo anterior?",
+        f"¿Qué recomendaciones o predicciones puedes hacer sobre: {pregunta}?",
+    ]
+    pasos_usar = pasos or pasos_default
+    resultados: dict[str, str] = {}
+    historia_interna: list[dict] = []
+
+    for i, paso in enumerate(pasos_usar, start=1):
+        resp = chat(
+            paso,
+            historia=historia_interna,
+            contexto=contexto if i == 1 else "",
+            sistema=sys_p,
+            modo="deep",
+        )
+        texto = str(resp) if resp else ""
+        resultados[f"paso_{i}"] = texto
+        if texto:
+            historia_interna.append({"role": "user", "content": paso})
+            historia_interna.append({"role": "assistant", "content": texto[:800]})
+
+    return resultados
+
+
+def optimizar_modulo(
+    modulo: str,
+    datos_resumen: str,
+    pregunta_especifica: str = "",
+) -> str:
+    """
+    El brain analiza los datos de un módulo y sugiere optimizaciones
+    o detecta anomalías que el analista debe revisar.
+    """
+    prompt = (
+        f"Analiza los datos del módulo '{modulo}' del dashboard de inteligencia política. "
+        f"{pregunta_especifica or 'Detecta anomalías, tendencias y genera recomendaciones accionables.'}\n\n"
+        f"DATOS:\n{datos_resumen[:2000]}"
+    )
+    return chat(prompt, sistema=SYSTEM_BRAIN, modo="normal")
+
+
+def _stream_ollama(ollama, modelo: str, mensajes: list, params: dict) -> Generator[str, None, None]:
     """Generator que hace streaming de tokens desde Ollama."""
     try:
         stream = ollama.chat(
             model=modelo,
             messages=mensajes,
-            options={
-                "num_ctx": int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX", "8192")),
-                "num_predict": int(os.environ.get("ELECTSIM_BACK_MANAGER_MAX_TOKENS", "700")),
-                "temperature": 0.3,
-            },
+            options=params,
             stream=True,
         )
         for chunk in stream:
-            if hasattr(chunk, 'message'):
+            if hasattr(chunk, "message"):
                 token = chunk.message.content
             elif isinstance(chunk, dict):
                 token = chunk.get("message", {}).get("content", "")
@@ -260,8 +350,8 @@ def _stream_ollama(ollama, modelo: str, mensajes: list, sistema: str) -> Generat
                 token = ""
             if token:
                 yield token
-    except Exception as e:
-        yield f"\n[Error de streaming: {e}]"
+    except Exception as exc:
+        yield f"\n[Error de streaming: {exc}]"
 
 
 def _chat_claude(

@@ -1030,29 +1030,53 @@ def sidebar_nav():
         </div>
         """, unsafe_allow_html=True)
 
-        # ── IA Brain status chip ──────────────────────────────────────────────
+        # ── IA Brain status chip — con estado de ingesta automática ─────────────
         try:
             from dashboard.services.llm_local import disponible as _llm_disp
             _s = _llm_disp()
             _brain_on = _s.get("brain", False)
             _model_name = "politeia-brain" if _brain_on else ("qwen2.5" if _s.get("general") else "sin IA")
             _brain_color = GREEN if _brain_on else (AMBER if _s.get("ollama") else MUTED)
+            _ollama_on = bool(_s.get("ollama"))
         except Exception:
             _brain_on = False
             _model_name = "sin IA"
             _brain_color = MUTED
+            _ollama_on = False
 
-        st.markdown(f"""
-        <div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;
-                    background:{_brain_color}11;border:1px solid {_brain_color}33;
-                    border-radius:8px;margin:.4rem 0 .8rem">
-          <span style="width:7px;height:7px;border-radius:50%;background:{_brain_color};
-                       display:inline-block;box-shadow:0 0 6px {_brain_color}"></span>
-          <span style="font-size:.68rem;color:{_brain_color};font-weight:700">
-            🧠 {_model_name}
-          </span>
-        </div>
-        """, unsafe_allow_html=True)
+        # Worker de ingesta automática
+        _worker_active = False
+        _total_docs = 0
+        try:
+            from dashboard.services import brain_auto_ingestion as _ing
+            _ing_est = _ing.estado_worker()
+            _worker_active = _ing_est.get("running", False)
+            _total_docs = _ing_est.get("total_indexado", 0)
+            # Auto-arrancar si Ollama está disponible y worker no corre
+            if _ollama_on and not _worker_active:
+                _ing.iniciar_worker()
+                _worker_active = True
+        except Exception:
+            pass
+
+        _worker_badge = (
+            f'<span style="font-size:.62rem;color:{GREEN};margin-left:auto;">🔄 {_total_docs}</span>'
+            if _worker_active else
+            f'<span style="font-size:.62rem;color:{MUTED};margin-left:auto;">⏸ pausado</span>'
+        )
+
+        st.markdown(
+            f'<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;'
+            f'background:{_brain_color}11;border:1px solid {_brain_color}33;'
+            f'border-radius:8px;margin:.4rem 0 .8rem">'
+            f'<span style="width:7px;height:7px;border-radius:50%;background:{_brain_color};'
+            f'display:inline-block;box-shadow:0 0 6px {_brain_color}"></span>'
+            f'<span style="font-size:.68rem;color:{_brain_color};font-weight:700">'
+            f'🧠 {_model_name}</span>'
+            f'{_worker_badge}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
         render_sidebar_ai_chatbot()
 
