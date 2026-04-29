@@ -7,12 +7,16 @@ import random
 import threading
 import asyncio
 import time
+from pathlib import Path
 from typing import Any, Callable
 
 import httpx
 import tiktoken
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(_ROOT / ".env")
 
 _RETRIABLE_STATUS = {429, 500, 502, 503, 504}
 _MAX_RETRIES = 4
@@ -185,7 +189,7 @@ class OllamaClient:
         base_url: str | None = None,
         timeout_s: float = 180.0,
     ) -> None:
-        self.model = model or os.environ.get("ELECTSIM_OLLAMA_MODEL", "llama3")
+        self.model = model or os.environ.get("ELECTSIM_OLLAMA_MODEL", "qwen2.5:7b")
         self.base_url = (base_url or os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")).rstrip("/")
         self.timeout_s = timeout_s
 
@@ -231,6 +235,39 @@ class OllamaClient:
 
     def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         return _with_retry(self._post_once, messages, **kwargs)
+
+    def stream_complete(self, messages: list[dict[str, str]], **kwargs: Any):
+        """Streaming token a token para dashboards Streamlit."""
+        max_tokens = _safe_int(kwargs.get("max_tokens"), _safe_int(os.environ.get("ELECTSIM_OLLAMA_NUM_PREDICT"), 1024))
+        options: dict[str, Any] = {
+            "temperature": _safe_float(
+                kwargs.get("temperature"),
+                _safe_float(os.environ.get("ELECTSIM_OLLAMA_TEMPERATURE"), 0.4),
+            ),
+            "num_ctx": _safe_int(kwargs.get("num_ctx"), _safe_int(os.environ.get("ELECTSIM_OLLAMA_NUM_CTX"), 8192)),
+            "num_predict": max_tokens,
+        }
+        payload: dict[str, Any] = {
+            "model": self.model,
+            "messages": messages,
+            "stream": True,
+            "options": options,
+        }
+        keep_alive = str(kwargs.get("keep_alive") or os.environ.get("ELECTSIM_OLLAMA_KEEP_ALIVE") or "").strip()
+        if keep_alive:
+            payload["keep_alive"] = keep_alive
+        with httpx.Client(timeout=self.timeout_s) as client:
+            with client.stream("POST", f"{self.base_url}/api/chat", json=payload) as response:
+                response.raise_for_status()
+                for line in response.iter_lines():
+                    if not line:
+                        continue
+                    chunk = json.loads(line)
+                    token = str((chunk.get("message") or {}).get("content") or "")
+                    if token:
+                        yield token
+                    if chunk.get("done"):
+                        break
 
 
 class StubLLMClient:
@@ -392,7 +429,7 @@ def get_llm_client(
     provider: str | None = None,
     **kwargs: Any,
 ) -> OpenAIChatClient | AnthropicChatClient | OllamaClient | StubLLMClient:
-    prov = (provider or os.environ.get("ELECTSIM_LLM_PROVIDER", "anthropic")).strip().lower()
+    prov = (provider or os.environ.get("ELECTSIM_LLM_PROVIDER", "ollama")).strip().lower()
     if prov == "openai":
         return OpenAIChatClient(**kwargs)
     if prov == "anthropic":

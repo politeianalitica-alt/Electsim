@@ -1189,10 +1189,11 @@ class LocalKnowledgeStore:
                 f"Pregunta:\n{question}\n\n"
                 "Entrega una respuesta accionable para dashboard o analista politico."
             )
-            answer = engine.ollama_chat(system_prompt, user_prompt, temperature=0.2, max_tokens=650)
+            model = engine.resolve_ollama_model()
+            answer = engine.ollama_chat(system_prompt, user_prompt, model=model, temperature=0.2, max_tokens=650)
             if not answer:
                 return None
-            return {"answer": answer, "model": engine.ollama_model}
+            return {"answer": answer, "model": model}
         except Exception as exc:
             logger.debug("AIEngine chat no disponible: %s", exc)
             return None

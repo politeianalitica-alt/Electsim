@@ -31,9 +31,10 @@ _ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_ROOT / ".env")
 DEFAULT_CHROMA_DIR = _ROOT / "data" / "processed" / "chroma_store"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
-DEFAULT_OLLAMA_MODEL = "politeia-brain:latest"
+DEFAULT_OLLAMA_MODEL = "qwen2.5:7b"
 DEFAULT_OLLAMA_EMBED_MODEL = "nomic-embed-text"
 DEFAULT_ST_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+FALLBACK_OLLAMA_MODELS = ("politeia-brain:latest", "qwen2.5:7b", "llama3.2:3b")
 
 
 def _env_bool(name: str, default: bool = True) -> bool:
@@ -70,6 +71,19 @@ def _stable_hash_embedding(text: str, *, dim: int = 768) -> list[float]:
         vector[idx] += sign
     norm = sum(x * x for x in vector) ** 0.5 or 1.0
     return [round(x / norm, 8) for x in vector]
+
+
+def _match_model_name(candidate: str, available: list[str]) -> str | None:
+    candidate = str(candidate or "").strip()
+    if not candidate:
+        return None
+    if candidate in available:
+        return candidate
+    base = candidate.split(":", 1)[0]
+    for model in available:
+        if model.split(":", 1)[0] == base:
+            return model
+    return None
 
 
 @dataclass(slots=True)
@@ -111,6 +125,7 @@ class AIEngine:
         self._chroma_client: Any | None = None
         self._collection: Any | None = None
         self._sentence_model: Any | None = None
+        self._ollama_models_cache: list[str] | None = None
 
     @property
     def embedding_model_name(self) -> str:
@@ -166,7 +181,7 @@ class AIEngine:
                 vector_count = 0
         status = AIEngineStatus(
             ollama=self.is_ollama_available(),
-            model=self.ollama_model,
+            model=self.resolve_ollama_model(),
             embedding_backend=self.embedding_backend,
             embedding_model=self.embedding_model_name,
             chroma=collection is not None,
@@ -186,11 +201,38 @@ class AIEngine:
         }
 
     def is_ollama_available(self) -> bool:
+        return bool(self._ollama_model_names())
+
+    def resolve_ollama_model(self, preferred: str | None = None) -> str:
+        """Devuelve un modelo instalado si el configurado no existe localmente."""
+        requested = str(preferred or self.ollama_model or "").strip()
+        candidates = [requested, *FALLBACK_OLLAMA_MODELS]
+        available = self._ollama_model_names()
+        if not available:
+            return requested or DEFAULT_OLLAMA_MODEL
+        for candidate in dict.fromkeys(c for c in candidates if c):
+            resolved = _match_model_name(candidate, available)
+            if resolved:
+                return resolved
+        return available[0]
+
+    def _ollama_model_names(self) -> list[str]:
+        if self._ollama_models_cache:
+            return self._ollama_models_cache
         try:
             response = httpx.get(f"{self.ollama_base_url}/api/tags", timeout=2.0)
-            return response.status_code == 200
+            response.raise_for_status()
+            data = response.json()
+            models = []
+            for item in data.get("models", []) or []:
+                if isinstance(item, dict):
+                    name = str(item.get("name") or item.get("model") or "").strip()
+                    if name:
+                        models.append(name)
+            self._ollama_models_cache = models
+            return models
         except Exception:
-            return False
+            return []
 
     def embed(self, texts: list[str]) -> list[list[float]]:
         if not texts:
@@ -300,7 +342,8 @@ class AIEngine:
         if count <= 0:
             return []
         query_embedding = self.embed([query])[0]
-        where = {"domain": domain} if domain else None
+        domain_filter = str(domain or "").strip()
+        where = {"domain": domain_filter} if domain_filter else None
         results = collection.query(
             query_embeddings=[query_embedding],
             n_results=max(1, min(int(k), count)),
@@ -341,7 +384,7 @@ class AIEngine:
         max_tokens: int | None = None,
     ) -> Generator[str, None, None]:
         payload = {
-            "model": model or self.ollama_model,
+            "model": self.resolve_ollama_model(model),
             "messages": [
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},

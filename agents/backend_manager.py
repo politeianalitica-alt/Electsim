@@ -127,13 +127,21 @@ class BackendManagerAgent:
         }
 
     def _llm_status(self) -> dict[str, Any]:
+        try:
+            from agents.ai_engine import get_ai_engine
+
+            engine_status = get_ai_engine().status()
+        except Exception:
+            engine_status = {}
         return {
             "provider": self.provider,
             "ollama_base_url": os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434"),
-            "ollama_model": os.environ.get("ELECTSIM_OLLAMA_MODEL", "llama3"),
+            "ollama_model": engine_status.get("model") or os.environ.get("ELECTSIM_OLLAMA_MODEL", "qwen2.5:7b"),
             "ollama_num_ctx": _safe_int_env("ELECTSIM_OLLAMA_NUM_CTX", 8192),
             "ollama_keep_alive": os.environ.get("ELECTSIM_OLLAMA_KEEP_ALIVE", "30m"),
-            "ollama_embedding_model": os.environ.get("ELECTSIM_OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
+            "ollama_embedding_model": engine_status.get("embedding_model")
+            or os.environ.get("ELECTSIM_OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
+            "engine": engine_status,
         }
 
     def reindex_gits(
@@ -299,7 +307,6 @@ class BackendManagerAgent:
 
     def _call_llm(self, question: str, context: str) -> dict[str, str] | None:
         try:
-            client = get_llm_client(self.provider)
             messages = [
                 {
                     "role": "system",
@@ -324,6 +331,23 @@ class BackendManagerAgent:
                     ),
                 },
             ]
+            if self.provider == "ollama":
+                from agents.ai_engine import get_ai_engine
+
+                engine = get_ai_engine()
+                if not engine.is_ollama_available():
+                    return None
+                model = engine.resolve_ollama_model()
+                answer = engine.ollama_chat(
+                    messages[0]["content"],
+                    messages[1]["content"],
+                    model=model,
+                    temperature=0.2,
+                    max_tokens=_safe_int_env("ELECTSIM_BACK_MANAGER_MAX_TOKENS", 500),
+                )
+                return {"answer": str(answer).strip(), "model": model}
+
+            client = get_llm_client(self.provider)
             answer = client.complete(
                 messages,
                 temperature=0.2,

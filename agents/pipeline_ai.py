@@ -26,7 +26,7 @@ def reason_pipeline_result(name: str, result: dict[str, Any]) -> dict[str, Any]:
         return {
             "enabled": True,
             "available": True,
-            "model": engine.ollama_model,
+            "model": engine.resolve_ollama_model(),
             "analysis": answer,
         }
     except Exception as exc:
@@ -37,4 +37,3 @@ def attach_pipeline_ai(name: str, result: dict[str, Any]) -> dict[str, Any]:
     out = dict(result)
     out["ai_analysis"] = reason_pipeline_result(name, result)
     return out
-
