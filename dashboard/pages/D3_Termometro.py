@@ -266,7 +266,7 @@ with tab_thermo:
             margin=dict(l=30, r=30, t=50, b=20),
             font={"color": TEXT},
         )
-        st.plotly_chart(fig_gauge, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig_gauge, use_container_width=True, config={"displayModeBar": False}, key="termometro_gauge")
 
         # Leyenda de zonas
         st.markdown(f"""
@@ -369,7 +369,7 @@ with tab_thermo:
         yaxis=dict(tickfont=dict(color=TEXT2, size=11), color=TEXT2),
         font=dict(color=TEXT),
     )
-    st.plotly_chart(fig_ccaa, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(fig_ccaa, use_container_width=True, config={"displayModeBar": False}, key="termometro_ccaa")
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -429,7 +429,7 @@ with tab_crisis:
                         bordercolor=BORDER, borderwidth=1),
             font=dict(color=TEXT),
         )
-        st.plotly_chart(fig_radar, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig_radar, use_container_width=True, config={"displayModeBar": False}, key="termometro_radar")
 
         # Propagation curve
         section_header("Curva de Propagación Semántica", PURPLE)
@@ -459,7 +459,7 @@ with tab_crisis:
             showlegend=False,
             font=dict(color=TEXT),
         )
-        st.plotly_chart(fig_prop, use_container_width=True, config={"displayModeBar": False})
+        st.plotly_chart(fig_prop, use_container_width=True, config={"displayModeBar": False}, key="termometro_propagacion")
 
     with col_proto:
         section_header("Protocolo de Respuesta", CYAN)
@@ -630,11 +630,29 @@ with tab_trend:
         hoverinfo="skip",
     ))
 
-    # Now line
+    # Now line. Plotly add_vline can break with string/date axes in some
+    # versions, so draw it explicitly as a shape plus annotation.
     today_str = datetime.date.today().isoformat()
-    fig_trend.add_vline(x=today_str, line=dict(color=MUTED, dash="dash", width=1),
-                        annotation_text="Hoy", annotation_font_color=MUTED,
-                        annotation_font_size=10)
+    fig_trend.add_shape(
+        type="line",
+        x0=today_str,
+        x1=today_str,
+        y0=0,
+        y1=1,
+        xref="x",
+        yref="paper",
+        line=dict(color=MUTED, dash="dash", width=1),
+    )
+    fig_trend.add_annotation(
+        x=today_str,
+        y=1,
+        xref="x",
+        yref="paper",
+        text="Hoy",
+        showarrow=False,
+        yanchor="bottom",
+        font=dict(color=MUTED, size=10),
+    )
 
     fig_trend.update_layout(
         paper_bgcolor=BG2,
@@ -649,7 +667,7 @@ with tab_trend:
         font=dict(color=TEXT),
         hovermode="x unified",
     )
-    st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
+    st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False}, key="termometro_tendencia")
 
     # Metrics de tendencia
     m1, m2, m3, m4 = st.columns(4)

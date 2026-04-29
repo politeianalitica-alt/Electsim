@@ -12,7 +12,7 @@ import streamlit as st
 from agents.ai_engine import get_ai_engine
 from agents.backend_manager import get_backend_manager
 from agents.local_intelligence import get_local_store
-from dashboard.shared import BG2, BG3, BORDER, CYAN, GREEN, TEXT, TEXT2, sidebar_nav
+from dashboard.shared import BG2, BG3, BORDER, CYAN, GREEN, TEXT, TEXT2, ai_dependency_status, sidebar_nav
 
 
 @st.cache_resource
@@ -235,6 +235,8 @@ with tab_ontology:
 with tab_status:
     st.markdown("**Motor IA local**")
     st.json(engine.status())
+    st.markdown("**Dependencias IA**")
+    st.json(ai_dependency_status())
     st.markdown("**Ollama / LLM**")
     st.json(llm_status)
     st.markdown("**Índice gits amigos**")

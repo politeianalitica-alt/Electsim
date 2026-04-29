@@ -10,8 +10,9 @@ import sys
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+if str(_ROOT) in sys.path:
+    sys.path.remove(str(_ROOT))
+sys.path.insert(0, str(_ROOT))
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -108,6 +109,26 @@ def _indice_top() -> tuple[str, float]:
     _df["valor"] = pd.to_numeric(_df["valor"], errors="coerce").fillna(0.0)
     row = _df.sort_values("valor", ascending=False).iloc[0]
     return str(row.get("indice_codigo", "—")), safe_float(row.get("valor"))
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _ai_portada_insight(lider_name: str, lider_value: float, ipc: str, prima: str, alertas: int) -> str:
+    """Insight IA de portada cacheado para no saturar Ollama en cada rerun."""
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine = get_ai_engine()
+        if not engine.is_ollama_available():
+            return ""
+        system = "Eres ATLAS, analista político de ElectSim. Responde en español en máximo dos frases."
+        user = (
+            "Lectura política clave con estos indicadores: "
+            f"partido líder={lider_name} ({lider_value:.1f}%), IPC={ipc}, prima de riesgo={prima}, "
+            f"alertas activas={alertas}. No inventes datos adicionales."
+        )
+        return engine.ollama_chat(system, user, temperature=0.2, max_tokens=140)
+    except Exception:
+        return ""
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
@@ -323,6 +344,17 @@ for i, (lbl, val, sub, color, _) in enumerate(signals):
             <div class="sub" style="color:{color}">{sub}</div>
         </div>
         """, unsafe_allow_html=True)
+
+ai_insight = _ai_portada_insight(lider, float(lider_pct or 0.0), ipc_val, prima_val, _n_alertas())
+if ai_insight:
+    st.markdown(f"""
+    <div class="g-card es-a2" style="border-left:3px solid {CYAN};padding:.78rem 1rem;margin:.8rem 0;color:{TEXT}">
+        <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:{CYAN};margin-bottom:.28rem">
+            ATLAS · Análisis IA
+        </div>
+        <div style="font-size:.76rem;line-height:1.55;color:{TEXT2}">{ai_insight}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("<div style='height:.8rem'></div>", unsafe_allow_html=True)
 

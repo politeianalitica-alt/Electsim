@@ -263,14 +263,57 @@ def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
 def ai_dashboard_insight(context_data: dict, insight_type: str = "general") -> str:
     """Genera un insight local con Politeia Brain sobre datos actuales del dashboard."""
     try:
-        from agents.ai_engine import get_ai_engine
-
-        engine = get_ai_engine()
+        engine = _get_ai_engine_resource()
         if not engine.is_ollama_available():
             return ""
         return engine.reason_dashboard(context_data, insight_type=insight_type)
     except Exception:
         return ""
+
+
+@st.cache_resource(show_spinner="Iniciando motor IA local...")
+def _get_ai_engine_resource():
+    from agents.ai_engine import AIEngine
+
+    return AIEngine()
+
+
+@st.cache_resource(show_spinner=False)
+def _get_local_store_resource():
+    from agents.local_intelligence import get_local_store
+
+    return get_local_store()
+
+
+def ai_dependency_status() -> dict[str, str]:
+    """Health check visible para diagnosticar IA local desde Streamlit."""
+    status: dict[str, str] = {}
+    try:
+        import chromadb  # noqa: F401
+
+        status["chromadb"] = "ok"
+    except Exception as exc:
+        status["chromadb"] = f"missing: {exc}"
+    try:
+        import sentence_transformers  # noqa: F401
+
+        status["sentence_transformers"] = "ok"
+    except Exception as exc:
+        status["sentence_transformers"] = f"missing: {exc}"
+    try:
+        import spacy  # type: ignore
+
+        if any(spacy.util.is_package(model) for model in ("es_core_news_lg", "es_core_news_md", "es_core_news_sm")):
+            status["spacy_es"] = "ok"
+        else:
+            status["spacy_es"] = "missing model"
+    except Exception as exc:
+        status["spacy_es"] = f"missing: {exc}"
+    try:
+        status["engine"] = str(_get_ai_engine_resource().status())
+    except Exception as exc:
+        status["engine"] = f"error: {exc}"
+    return status
 
 
 def render_ai_insight_card(context_data: dict, insight_type: str = "general", *, button_label: str = "Analizar con IA") -> None:
@@ -288,10 +331,8 @@ def render_sidebar_ai_chatbot() -> None:
     """Chat compacto en sidebar para razonar sobre el dashboard desde cualquier página."""
     with st.expander("🧠  Analista IA", expanded=False):
         try:
-            from agents.ai_engine import get_ai_engine
-            from agents.local_intelligence import get_local_store
-
-            engine = get_ai_engine()
+            engine = _get_ai_engine_resource()
+            store = _get_local_store_resource()
             status = engine.status()
             color = GREEN if status.get("ollama") else AMBER
             st.caption(
@@ -309,22 +350,54 @@ def render_sidebar_ai_chatbot() -> None:
                 if not question.strip():
                     st.warning("Escribe una pregunta.")
                 else:
-                    with st.spinner("Consultando memoria local y Ollama..."):
-                        result = get_local_store().chat(
-                            question,
-                            k=5,
-                            use_llm=True,
-                            allow_tools=True,
-                            use_semantic=use_context,
-                        )
-                    st.markdown(result.answer)
-                    st.caption(f"{result.model} · evidencias: {len(result.citations)}")
+                    if status.get("ollama"):
+                        with st.spinner("Recuperando memoria local..."):
+                            streamed = store.chat(
+                                question,
+                                k=5,
+                                use_llm=True,
+                                allow_tools=True,
+                                stream=True,
+                                use_semantic=use_context,
+                            )
+                        if hasattr(streamed, "answer"):
+                            response = streamed.answer
+                            st.markdown(response)
+                            st.caption(f"{streamed.model} · evidencias: {len(streamed.citations)}")
+                        else:
+                            response = st.write_stream(streamed)
+                            st.caption(f"{status.get('model')} · streaming Ollama")
+                    else:
+                        with st.spinner("Consultando memoria local..."):
+                            result = store.chat(
+                                question,
+                                k=5,
+                                use_llm=False,
+                                allow_tools=True,
+                                use_semantic=use_context,
+                            )
+                        response = result.answer
+                        st.markdown(response)
+                        st.caption(f"{result.model} · evidencias: {len(result.citations)}")
+                    st.session_state.setdefault("sidebar_ai_history", []).append(
+                        {"question": question, "answer": response}
+                    )
+            if st.session_state.get("sidebar_ai_history"):
+                if st.button("Limpiar chat IA", key="sidebar_ai_clear", use_container_width=True):
+                    st.session_state.sidebar_ai_history = []
+                    st.rerun()
             st.markdown(
                 f"<div style='height:2px;background:{color};border-radius:2px;margin-top:.6rem'></div>",
                 unsafe_allow_html=True,
             )
         except Exception as exc:
             st.caption(f"IA local no disponible: {exc}")
+
+
+def render_ai_chat_sidebar(store=None, page_context: dict | None = None) -> None:
+    """Alias compatible para páginas que quieran invocar explícitamente el chat IA."""
+    _ = store, page_context
+    render_sidebar_ai_chatbot()
 
 
 def _normalize_siglas(siglas: str) -> str:

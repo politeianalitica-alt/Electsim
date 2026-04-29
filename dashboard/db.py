@@ -18,8 +18,9 @@ from typing import Any
 
 # Garantiza que el raíz del proyecto esté en el path, sea cual sea el cwd
 _ROOT = Path(__file__).parent.parent
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
+if str(_ROOT) in sys.path:
+    sys.path.remove(str(_ROOT))
+sys.path.insert(0, str(_ROOT))
 
 import pandas as pd
 import psycopg

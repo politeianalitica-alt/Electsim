@@ -7,8 +7,10 @@ consultas en lenguaje natural via IA.
 """
 from __future__ import annotations
 import sys
+import html
 import json
 import random
+from collections import Counter
 from pathlib import Path
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -240,6 +242,111 @@ def _connections_for(actor_id: str) -> list[dict]:
     return conns
 
 
+def _fallback_actor_analysis(actor_id: str) -> str:
+    actor = _ACTORES_BY_ID.get(actor_id, {})
+    conns = _connections_for(actor_id)
+    rels = Counter(c["tipo"] for c in conns)
+    deg = _degree_centrality().get(actor_id, 0)
+    main_rel = rels.most_common(1)[0][0] if rels else "sin relaciones dominantes"
+    return (
+        f"**Lectura operativa:** {actor.get('nombre', 'Este actor')} tiene centralidad {deg} y "
+        f"un poder estimado de {actor.get('poder', 0)}/10. Su rol principal es "
+        f"{actor.get('rol', 'n/d')}. La relación dominante en el grafo es `{main_rel}`, "
+        "por lo que conviene vigilar cambios de narrativa, alianzas y menciones cruzadas con sus nodos conectados."
+    )
+
+
+def _network_payload() -> dict:
+    deg = _degree_centrality()
+    top = sorted(deg.items(), key=lambda x: x[1], reverse=True)[:8]
+    return {
+        "n_actores": len(ACTORES),
+        "n_relaciones": len(RELACIONES),
+        "top_centralidad": [
+            {
+                "actor": _ACTORES_BY_ID[aid]["nombre"],
+                "tipo": _ACTORES_BY_ID[aid]["tipo"],
+                "org": _ACTORES_BY_ID[aid]["org"],
+                "conexiones": val,
+            }
+            for aid, val in top
+            if aid in _ACTORES_BY_ID
+        ],
+        "tipos_relacion": dict(Counter(r["tipo"] for r in RELACIONES)),
+    }
+
+
+def _fallback_network_analysis() -> str:
+    payload = _network_payload()
+    return (
+        f"Red con {len(ACTORES)} actores y {len(RELACIONES)} relaciones. "
+        f"Los hubs principales son {', '.join(item['actor'] for item in payload['top_centralidad'][:4])}. "
+        "La lectura operativa es priorizar brokers con alta centralidad y relaciones de lobby, medios o apoyo parlamentario."
+    )
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _ai_actor_analysis(actor_id: str) -> str:
+    actor = _ACTORES_BY_ID.get(actor_id)
+    if not actor:
+        return ""
+    conns = _connections_for(actor_id)
+    context = {
+        "actor": actor,
+        "centralidad": _degree_centrality().get(actor_id, 0),
+        "betweenness_proxy": _betweenness_approx().get(actor_id, 0),
+        "conexiones": [
+            {
+                "nombre": c["actor"]["nombre"],
+                "tipo_actor": c["actor"]["tipo"],
+                "relacion": c["rel"],
+                "tipo_relacion": c["tipo"],
+                "direccion": c["direction"],
+            }
+            for c in conns
+        ],
+    }
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine = get_ai_engine()
+        if not engine.is_ollama_available():
+            return _fallback_actor_analysis(actor_id)
+        system = (
+            "Eres ATLAS, analista de redes de poder politico en España. "
+            "Responde en español, con hechos del contexto, sin inventar datos externos."
+        )
+        user = (
+            "Analiza esta ficha de actor para un dashboard ejecutivo. "
+            "Incluye: rol real en la red, riesgos, oportunidades y señales a monitorizar. "
+            f"Datos:\n{json.dumps(context, ensure_ascii=False, default=str)[:3500]}"
+        )
+        return engine.ollama_chat(system, user, temperature=0.2, max_tokens=320)
+    except Exception:
+        return _fallback_actor_analysis(actor_id)
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def _ai_network_analysis() -> str:
+    payload = _network_payload()
+    fallback = _fallback_network_analysis()
+    try:
+        from agents.ai_engine import get_ai_engine
+
+        engine = get_ai_engine()
+        if not engine.is_ollama_available():
+            return fallback
+        system = "Eres ATLAS, analista senior de redes politicas. Responde en español con criterio operativo."
+        user = (
+            "Evalúa esta red de actores. Señala hubs, dependencias, riesgos de coalición, "
+            "actores puente y prioridades de seguimiento.\n"
+            f"Datos:\n{json.dumps(payload, ensure_ascii=False, default=str)}"
+        )
+        return engine.ollama_chat(system, user, temperature=0.2, max_tokens=380)
+    except Exception:
+        return fallback
+
+
 @st.cache_data(ttl=300)
 def _build_pyvis_html(selected_tipos: tuple, selected_rels: tuple) -> str:
     try:
@@ -327,7 +434,7 @@ def _build_pyvis_html(selected_tipos: tuple, selected_rels: tuple) -> str:
         )
 
 
-def _render_actor_profile(actor_id: str):
+def _render_actor_profile(actor_id: str, *, key_prefix: str = "perfil"):
     actor = _ACTORES_BY_ID.get(actor_id)
     if not actor:
         st.warning("Actor no encontrado.")
@@ -384,6 +491,17 @@ def _render_actor_profile(actor_id: str):
             f'</div>',
             unsafe_allow_html=True,
         )
+        section_header("ANÁLISIS IA DEL ACTOR", CYAN)
+        if st.button("Generar lectura IA de esta ficha", key=f"{key_prefix}_{actor_id}_ai_profile", use_container_width=True):
+            with st.spinner("ATLAS analizando actor..."):
+                st.session_state[f"{key_prefix}_{actor_id}_ai_profile_text"] = _ai_actor_analysis(actor_id)
+        analysis_text = st.session_state.get(f"{key_prefix}_{actor_id}_ai_profile_text") or _fallback_actor_analysis(actor_id)
+        st.markdown(
+            f'<div style="background:{CYAN}0c;border:1px solid {CYAN}33;border-radius:10px;'
+            f'padding:.85rem 1rem;color:{TEXT2};font-size:.8rem;line-height:1.65;white-space:pre-wrap">'
+            f'{html.escape(analysis_text)}</div>',
+            unsafe_allow_html=True,
+        )
 
     with tp2:
         section_header("ACTIVIDAD MENSUAL (MENCIONES ESTIMADAS)", color)
@@ -406,7 +524,7 @@ def _render_actor_profile(actor_id: str):
             yaxis=dict(gridcolor=BORDER, zeroline=False),
             xaxis=dict(gridcolor="rgba(0,0,0,0)"),
         )
-        st.plotly_chart(fig_act, use_container_width=True)
+        st.plotly_chart(fig_act, use_container_width=True, key=f"{key_prefix}_{actor_id}_actividad")
 
         section_header("DISTRIBUCION DE TONO MEDIÁTICO", AMBER)
         rng2 = random.Random(hash(actor_id + "_tone"))
@@ -426,7 +544,7 @@ def _render_actor_profile(actor_id: str):
             font=dict(color=TEXT2, size=11), showlegend=True,
             legend=dict(font=dict(color=TEXT2, size=10)),
         )
-        st.plotly_chart(fig_tone, use_container_width=True)
+        st.plotly_chart(fig_tone, use_container_width=True, key=f"{key_prefix}_{actor_id}_tono")
 
     with tp3:
         conns = _connections_for(actor_id)
@@ -567,7 +685,7 @@ with tab_mapa:
         list(actores_opciones.keys()),
         key="sel_actor_mapa",
     )
-    _render_actor_profile(actores_opciones[sel_nombre])
+    _render_actor_profile(actores_opciones[sel_nombre], key_prefix="mapa")
 
 
 # ─── TAB 2: Busqueda ─────────────────────────────────────────────────────────
@@ -618,7 +736,7 @@ with tab_busqueda:
         sel_nombre_tab2 = st.selectbox("Seleccionar actor", nombres_fil, key="sel_actor_tab2")
         sel_id_tab2 = next((a["id"] for a in actores_fil if a["nombre"] == sel_nombre_tab2), None)
         if sel_id_tab2:
-            _render_actor_profile(sel_id_tab2)
+            _render_actor_profile(sel_id_tab2, key_prefix="busqueda")
     else:
         st.info("No se encontraron actores con los criterios de busqueda.")
 
@@ -665,7 +783,7 @@ with tab_analisis:
             xaxis=dict(gridcolor=BORDER, zeroline=False, title="Conexiones"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)"),
         )
-        st.plotly_chart(fig_deg, use_container_width=True)
+        st.plotly_chart(fig_deg, use_container_width=True, key="actores_centralidad_grado")
 
     with col_bet:
         section_header("BETWEENNESS CENTRALIDAD", PURPLE)
@@ -690,7 +808,7 @@ with tab_analisis:
             xaxis=dict(gridcolor=BORDER, zeroline=False, title="Betweenness (norm.)"),
             yaxis=dict(gridcolor="rgba(0,0,0,0)"),
         )
-        st.plotly_chart(fig_bet, use_container_width=True)
+        st.plotly_chart(fig_bet, use_container_width=True, key="actores_betweenness")
 
     # Distribucion por tipo
     section_header("DISTRIBUCION POR TIPO DE ACTOR Y CONEXIONES PROMEDIO", AMBER)
@@ -712,7 +830,7 @@ with tab_analisis:
             font=dict(color=TEXT2, size=11), showlegend=True,
             legend=dict(font=dict(color=TEXT2, size=10)),
         )
-        st.plotly_chart(fig_tipo, use_container_width=True)
+        st.plotly_chart(fig_tipo, use_container_width=True, key="actores_tipo_pie")
 
     with col_tipo2:
         # Conexiones promedio por tipo
@@ -736,7 +854,7 @@ with tab_analisis:
             yaxis=dict(gridcolor=BORDER, zeroline=False, title="Conexiones promedio"),
             xaxis=dict(gridcolor="rgba(0,0,0,0)"),
         )
-        st.plotly_chart(fig_avg, use_container_width=True)
+        st.plotly_chart(fig_avg, use_container_width=True, key="actores_avg_degree")
 
     # Tarjetas de estadisticas globales
     st.markdown("<br>", unsafe_allow_html=True)
@@ -755,6 +873,19 @@ with tab_analisis:
         st.markdown(kpi_card("Densidad", f"{densidad:.3f}", "0=dispersa 1=completa", AMBER), unsafe_allow_html=True)
     with sc4:
         st.markdown(kpi_card("Hub principal", actor_max_nombre.split()[-1], f"{actor_max_deg[1]} conexiones", GREEN), unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header("LECTURA IA DE LA RED", CYAN)
+    if st.button("Generar análisis IA de la red", key="actores_ai_network", use_container_width=True):
+        with st.spinner("ATLAS evaluando red de poder..."):
+            st.session_state["actores_ai_network_text"] = _ai_network_analysis()
+    network_ai = st.session_state.get("actores_ai_network_text") or _fallback_network_analysis()
+    st.markdown(
+        f'<div style="background:{CYAN}0c;border:1px solid {CYAN}33;border-radius:10px;'
+        f'padding:.9rem 1rem;color:{TEXT2};font-size:.82rem;line-height:1.7;white-space:pre-wrap">'
+        f'{html.escape(network_ai)}</div>',
+        unsafe_allow_html=True,
+    )
 
 
 # ─── TAB 4: Query IA ─────────────────────────────────────────────────────────
