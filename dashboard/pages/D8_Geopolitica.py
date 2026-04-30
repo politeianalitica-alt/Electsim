@@ -181,13 +181,13 @@ with tab_teatro:
 
     k1, k2, k3, k4 = st.columns(4)
     with k1:
-        kpi_card("Países monitorizados", len(paises_riesgo), delta=None, color=CYAN)
+        st.markdown(kpi_card("Países monitorizados", len(paises_riesgo), color=CYAN), unsafe_allow_html=True)
     with k2:
-        kpi_card("Riesgo Alto/Crítico (≥7)", len(paises_alto_riesgo), delta=None, color=RED)
+        st.markdown(kpi_card("Riesgo Alto/Crítico (≥7)", len(paises_alto_riesgo), color=RED), unsafe_allow_html=True)
     with k3:
-        kpi_card("Tendencia subiendo", len(paises_subiendo), delta=None, color=AMBER)
+        st.markdown(kpi_card("Tendencia subiendo", len(paises_subiendo), color=AMBER), unsafe_allow_html=True)
     with k4:
-        kpi_card("OSINT activo", stats_geo.get("osint_total", 0), delta=None, color=PURPLE)
+        st.markdown(kpi_card("OSINT activo", stats_geo.get("osint_total", 0), color=PURPLE), unsafe_allow_html=True)
 
     st.markdown("---")
     col_mapa, col_tabla = st.columns([3, 2])
@@ -332,13 +332,13 @@ with tab_espana:
 
             c1, c2, c3 = st.columns(3)
             with c1:
-                kpi_card("Ubicaciones", len(items_tipo), color=CYAN)
+                st.markdown(kpi_card("Ubicaciones", len(items_tipo), color=CYAN), unsafe_allow_html=True)
             with c2:
                 rel_media = sum(float(p.get("relevancia", 0)) for p in items_tipo) / len(items_tipo)
-                kpi_card("Relevancia media", f"{rel_media:.2f}", color=AMBER)
+                st.markdown(kpi_card("Relevancia media", f"{rel_media:.2f}", color=AMBER), unsafe_allow_html=True)
             with c3:
                 actores = list({p.get("actor_espanol", "") for p in items_tipo if p.get("actor_espanol")})
-                kpi_card("Actores", len(actores), color=PURPLE)
+                st.markdown(kpi_card("Actores", len(actores), color=PURPLE), unsafe_allow_html=True)
 
             # Mapa
             df_pres = pd.DataFrame(items_tipo)
@@ -439,13 +439,13 @@ with tab_osint:
 
     osint_stats = get_osint_stats()
     s1, s2, s3, s4 = st.columns(4)
-    with s1: kpi_card("Total corpus", osint_stats.get("total", 0), color=CYAN)
-    with s2: kpi_card("Últimas 24h", osint_stats.get("ultimas_24h", 0), color=BLUE)
-    with s3: kpi_card("Procesados LLM", osint_stats.get("procesados_llm", 0), color=PURPLE)
+    with s1: st.markdown(kpi_card("Total corpus", osint_stats.get("total", 0), color=CYAN), unsafe_allow_html=True)
+    with s2: st.markdown(kpi_card("Últimas 24h", osint_stats.get("ultimas_24h", 0), color=BLUE), unsafe_allow_html=True)
+    with s3: st.markdown(kpi_card("Procesados LLM", osint_stats.get("procesados_llm", 0), color=PURPLE), unsafe_allow_html=True)
     with s4:
         urg45 = (osint_stats.get("por_urgencia", {}).get(4, 0) +
                  osint_stats.get("por_urgencia", {}).get(5, 0))
-        kpi_card("Urgencia ≥4", urg45, color=RED)
+        st.markdown(kpi_card("Urgencia ≥4", urg45, color=RED), unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -622,9 +622,9 @@ with tab_impacto:
         prob_m = sum(float(i.get("probabilidad", 0.5)) for i in impactos) / len(impactos)
 
         k1, k2, k3 = st.columns(3)
-        with k1: kpi_card("Impactos activos", len(impactos), color=CYAN)
-        with k2: kpi_card("Severidad ≥4", len(sev_criticos), color=RED)
-        with k3: kpi_card("Prob. media", f"{prob_m:.0%}", color=AMBER)
+        with k1: st.markdown(kpi_card("Impactos activos", len(impactos), color=CYAN), unsafe_allow_html=True)
+        with k2: st.markdown(kpi_card("Severidad ≥4", len(sev_criticos), color=RED), unsafe_allow_html=True)
+        with k3: st.markdown(kpi_card("Prob. media", f"{prob_m:.0%}", color=AMBER), unsafe_allow_html=True)
 
         # Gráfico dimensiones
         dim_counts = Counter(i.get("dimension", "otros") for i in impactos)
@@ -689,10 +689,10 @@ with tab_alertas:
     section_header("🚨 Alertas & Señales de Alerta Temprana")
 
     c_al1, c_al2, c_al3, c_al4 = st.columns(4)
-    with c_al1: kpi_card("CRÍTICO 🚨", alertas_count.get("CRITICO", 0), color=RED)
-    with c_al2: kpi_card("ALTO ⚠️", alertas_count.get("ALTO", 0), color=AMBER)
-    with c_al3: kpi_card("MEDIO 📌", alertas_count.get("MEDIO", 0), color=BLUE)
-    with c_al4: kpi_card("BAJO ℹ️", alertas_count.get("BAJO", 0), color=GREEN)
+    with c_al1: st.markdown(kpi_card("CRÍTICO 🚨", alertas_count.get("CRITICO", 0), color=RED), unsafe_allow_html=True)
+    with c_al2: st.markdown(kpi_card("ALTO ⚠️", alertas_count.get("ALTO", 0), color=AMBER), unsafe_allow_html=True)
+    with c_al3: st.markdown(kpi_card("MEDIO 📌", alertas_count.get("MEDIO", 0), color=BLUE), unsafe_allow_html=True)
+    with c_al4: st.markdown(kpi_card("BAJO ℹ️", alertas_count.get("BAJO", 0), color=GREEN), unsafe_allow_html=True)
 
     c_af1, c_af2, c_af3 = st.columns([2, 2, 2])
     with c_af1:
@@ -905,11 +905,11 @@ with tab_ia:
 
             if p_sel:
                 c_p1, c_p2, c_p3 = st.columns(3)
-                with c_p1: kpi_card("Riesgo", f"{float(p_sel.get('score_total',0)):.1f}/10",
-                                    color=RED if float(p_sel.get('score_total',0))>=7 else AMBER)
-                with c_p2: kpi_card("Interés ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN)
-                with c_p3: kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
-                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo" else GREEN)
+                with c_p1: st.markdown(kpi_card("Riesgo", f"{float(p_sel.get('score_total',0)):.1f}/10",
+                                    color=RED if float(p_sel.get('score_total',0))>=7 else AMBER), unsafe_allow_html=True)
+                with c_p2: st.markdown(kpi_card("Interés ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN), unsafe_allow_html=True)
+                with c_p3: st.markdown(kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
+                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo" else GREEN), unsafe_allow_html=True)
 
                 empresas = p_sel.get("empresas_espanolas") or []
                 intereses = p_sel.get("tipo_interes") or []
