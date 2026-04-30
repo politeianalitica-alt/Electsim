@@ -1,39 +1,45 @@
 """
-POLITEIA — Geopolítica & RRII (Doc 8)
-Teatro Global · España en el Mundo · OSINT Intelligence · Impacto Doméstico
+POLITEIA — Geopolítica & RRII v2 (D8)
+6 tabs: Teatro Global · España en el Mundo · OSINT Intelligence
+        Impacto Doméstico · Alertas & Señales · Análisis IA
+
+Arquitectura de datos:
+  - etl/sources/geo/scraper_acled.py         → eventos_acled (DB / demo)
+  - etl/sources/geo/scraper_osint_advanced.py → osint_geo.json
+  - etl/sources/geo/scraper_gdelt.py          → merge en osint_geo.json
+  - agents/geo/enricher_ollama.py             → enriquecimiento LLM
+  - agents/geo/signal_engine_geo.py           → alertas_geo.json
+  - dashboard/utils/geo_helpers.py            → acceso cacheado
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
-_ROOT = Path(__file__).parent.parent.parent
+_ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 import json
-import numpy as np
+from collections import Counter
+from datetime import datetime, timezone
+
 import pandas as pd
-import plotly.graph_objects as go
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 
 from dashboard.shared import (
-    sidebar_nav, mostrar_alertas_pagina,
-    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
-    TEXT, TEXT2, MUTED, section_header, kpi_card, COLORES_PARTIDOS,
+    AMBER, BG, BG2, BG3, BLUE, BORDER, CYAN, GREEN, MUTED,
+    PURPLE, RED, TEXT, TEXT2, kpi_card, section_header, sidebar_nav,
+    mostrar_alertas_pagina,
 )
-import dashboard.db as _db
-
-try:
-    from dashboard.services import git_amigos_bridge as _git_amigos
-except Exception:
-    _git_amigos = None  # type: ignore
 
 st.set_page_config(page_title="Geopolítica — Politeia", page_icon="🌍", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("geopolitica")
 
+# ── LLM ───────────────────────────────────────────────────────────────────────
 try:
     from dashboard.services import llm_local as _brain
     _BRAIN_OK = _brain.esta_disponible()
@@ -41,522 +47,957 @@ except Exception:
     _brain = None  # type: ignore
     _BRAIN_OK = False
 
-# ── Header ────────────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
+try:
+    from dashboard.utils.geo_helpers import (
+        get_alertas_nivel,
+        get_analisis_pais_llm,
+        get_briefing_diario,
+        get_count_alertas,
+        get_eventos_acled,
+        get_impactos_filtered,
+        get_osint_filtered,
+        get_osint_stats,
+        get_paises_mas_mencionados,
+        get_presencia_espanola,
+        get_riesgo_pais,
+        get_stats_geo,
+        get_trending_topics_geo,
+        search_osint_semantic,
+    )
+    _GEO_OK = True
+except Exception as _e:
+    _GEO_OK = False
+    st.warning(f"⚠️ Módulo geo_helpers no disponible: {_e}")
+
+    def get_riesgo_pais(**kw): return []
+    def get_presencia_espanola(**kw): return []
+    def get_osint_filtered(**kw): return []
+    def get_alertas_nivel(**kw): return []
+    def get_count_alertas(**kw): return {"CRITICO": 0, "ALTO": 0, "MEDIO": 0, "BAJO": 0}
+    def get_impactos_filtered(**kw): return []
+    def get_eventos_acled(**kw): return []
+    def get_stats_geo(): return {}
+    def get_briefing_diario(): return None
+    def get_trending_topics_geo(**kw): return []
+    def get_paises_mas_mencionados(**kw): return []
+    def get_osint_stats(): return {}
+    def search_osint_semantic(q, **kw): return ""
+    def get_analisis_pais_llm(iso3, nombre): return ""
+
+
+# ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
+<style>
+.geo-badge {{
+    display:inline-flex;align-items:center;gap:.3rem;
+    padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;
+}}
+.nivel-critico {{ background:#7f1d1d55;color:{RED};border:1px solid {RED}66; }}
+.nivel-alto    {{ background:#451a0355;color:{AMBER};border:1px solid {AMBER}66; }}
+.nivel-medio   {{ background:#1e3a5f55;color:{BLUE};border:1px solid {BLUE}66; }}
+.nivel-bajo    {{ background:#14532d55;color:{GREEN};border:1px solid {GREEN}66; }}
+.osint-card {{
+    background:{BG2};border:1px solid {BORDER};border-radius:10px;
+    padding:.9rem 1.1rem;margin-bottom:.6rem;
+}}
+.urgencia-5 {{ border-left:4px solid {RED}; }}
+.urgencia-4 {{ border-left:4px solid {AMBER}; }}
+.urgencia-3 {{ border-left:4px solid {BLUE}; }}
+.urgencia-2 {{ border-left:4px solid {GREEN}; }}
+.pais-chip {{
+    display:inline-block;background:{BG3};border:1px solid {BORDER};
+    border-radius:4px;padding:.1rem .4rem;font-size:.68rem;color:{TEXT2};
+    margin:.1rem;
+}}
+</style>
+""", unsafe_allow_html=True)
+
+
+# ── Header ────────────────────────────────────────────────────────────────────
+stats_geo = get_stats_geo()
+alertas_count = get_count_alertas()
+
+alerta_badge = ""
+if alertas_count.get("CRITICO", 0) > 0:
+    alerta_badge = f'<span class="geo-badge nivel-critico">🚨 {alertas_count["CRITICO"]} CRÍTICO</span>'
+elif alertas_count.get("ALTO", 0) > 0:
+    alerta_badge = f'<span class="geo-badge nivel-alto">⚠️ {alertas_count["ALTO"]} ALTO</span>'
+
+st.markdown(f"""
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{BLUE},{CYAN});
               border-radius:12px;display:flex;align-items:center;justify-content:center;
               font-size:1.6rem;flex-shrink:0;box-shadow:0 0 20px {BLUE}55">🌍</div>
-  <div>
-    <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Geopolítica & RRII</h2>
-    <div style="color:{TEXT2};font-size:.8rem">
-      Teatro Global · España en el Mundo · OSINT · Impacto Doméstico
+  <div style="flex:1">
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <h2 style="margin:0;color:{TEXT};font-size:1.45rem;font-weight:900">Geopolítica & RRII</h2>
+      {alerta_badge}
     </div>
+    <div style="color:{TEXT2};font-size:.78rem">
+      OSINT · ACLED · GDELT · Análisis Ollama · Briefing Diario
+    </div>
+  </div>
+  <div style="text-align:right">
+    <div style="color:{TEXT2};font-size:.7rem">OSINT 24h</div>
+    <div style="color:{CYAN};font-weight:700;font-size:1.1rem">{stats_geo.get('osint_24h', 0)}</div>
+  </div>
+  <div style="text-align:right;margin-left:1rem">
+    <div style="color:{TEXT2};font-size:.7rem">Eventos ACLED 7d</div>
+    <div style="color:{AMBER};font-weight:700;font-size:1.1rem">{stats_geo.get('eventos_acled_7d', 0)}</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
-tab_teatro, tab_espana, tab_osint, tab_impacto = st.tabs([
+
+# ── Tabs ──────────────────────────────────────────────────────────────────────
+(
+    tab_teatro,
+    tab_espana,
+    tab_osint,
+    tab_impacto,
+    tab_alertas,
+    tab_ia,
+) = st.tabs([
     "🗺️ Teatro Global",
     "🇪🇸 España en el Mundo",
     "🔍 OSINT Intelligence",
     "📊 Impacto Doméstico",
+    "🚨 Alertas & Señales",
+    "🧠 Análisis IA",
 ])
 
-# ─── Datos demo realistas ─────────────────────────────────────────────────────
-EVENTOS_GEO = [
-    {"pais": "Ukraine",     "lat": 49.0, "lon": 32.0,  "riesgo": 95, "tipo": "Conflicto",   "desc": "Guerra Rusia-Ucrania: ofensiva en Donetsk"},
-    {"pais": "Israel",      "lat": 31.5, "lon": 35.0,  "riesgo": 88, "tipo": "Conflicto",   "desc": "Gaza: negociaciones de alto el fuego"},
-    {"pais": "Taiwan",      "lat": 25.0, "lon": 121.5, "riesgo": 72, "tipo": "Tensión",     "desc": "Maniobras militares PLA en estrecho"},
-    {"pais": "Venezuela",   "lat": 8.0,  "lon": -66.0, "riesgo": 65, "tipo": "Elecciones",  "desc": "Crisis política post-electoral"},
-    {"pais": "Turquía",     "lat": 39.0, "lon": 35.0,  "riesgo": 55, "tipo": "Tensión",     "desc": "Tensiones con Grecia en Egeo"},
-    {"pais": "Sahel",       "lat": 15.0, "lon": -5.0,  "riesgo": 78, "tipo": "Conflicto",   "desc": "Expansión grupos yihadistas en Mali/Níger"},
-    {"pais": "Marruecos",   "lat": 32.0, "lon": -5.0,  "riesgo": 48, "tipo": "Diplomacia",  "desc": "Normalización relaciones con España"},
-    {"pais": "Argelia",     "lat": 28.0, "lon": 2.0,   "riesgo": 52, "tipo": "Energía",     "desc": "Renegociación contratos gas natural"},
-    {"pais": "Moldavia",    "lat": 47.0, "lon": 28.5,  "riesgo": 60, "tipo": "Tensión",     "desc": "Presión rusa en Transnistria"},
-    {"pais": "Venezuela",   "lat": 8.0,  "lon": -66.0, "riesgo": 65, "tipo": "Migración",   "desc": "Flujos migratorios hacia Europa"},
-    {"pais": "Senegal",     "lat": 14.5, "lon": -14.5, "riesgo": 42, "tipo": "Elecciones",  "desc": "Transición democrática en curso"},
-    {"pais": "China",       "lat": 35.0, "lon": 105.0, "riesgo": 60, "tipo": "Comercio",    "desc": "Aranceles UE sobre EVs chinos"},
-]
 
-if _git_amigos is not None:
-    try:
-        _git_geo_events = _git_amigos.geopolitical_signals(limit=8)
-        EVENTOS_GEO.extend(_git_geo_events)
-    except Exception:
-        _git_geo_events = []
-else:
-    _git_geo_events = []
-
-TIPO_COLORS = {
-    "Conflicto": RED, "Tensión": AMBER, "Elecciones": CYAN,
-    "Energía": "#F97316", "Diplomacia": GREEN, "Comercio": BLUE,
-    "Migración": PURPLE, "OSINT": PURPLE, "UE": CYAN, "Riesgo": RED,
-}
-
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 1 — Teatro Global
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_teatro:
-    # Ticker geopolítico
-    ticker_items = " &nbsp;│&nbsp; ".join(
-        f"<span style='color:{TIPO_COLORS.get(e['tipo'],MUTED)}'>"
-        f"[{e['tipo'].upper()}] {e['pais']}: {e['desc']}</span>"
-        for e in EVENTOS_GEO[:8]
-    )
-    st.markdown(f"""
-    <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
-                padding:.5rem 1rem;overflow:hidden;white-space:nowrap;margin-bottom:1rem">
-      <span style="font-size:.68rem;color:{MUTED};font-weight:700;margin-right:1rem">
-        TICKER GEOPOLÍTICO
-      </span>
-      <span style="font-size:.7rem">{ticker_items}</span>
-    </div>
-    """, unsafe_allow_html=True)
+    section_header("🗺️ Teatro Geopolítico Global", "Mapa de riesgo y conflictos activos")
 
-    col_map, col_list = st.columns([3, 1])
-    with col_map:
-        section_header("MAPA DE EVENTOS GLOBALES", BLUE)
+    paises_riesgo = get_riesgo_pais(interes_min=0.5, limit=20)
+    paises_alto_riesgo = [p for p in paises_riesgo if float(p.get("score_total", 0)) >= 7]
+    paises_subiendo = [p for p in paises_riesgo if p.get("riesgo_tendencia") == "subiendo"]
 
-        # Capas activas
-        capas = st.multiselect(
-            "Capas activas",
-            ["Conflictos", "Elecciones", "Energía", "Comercio", "Tensiones", "Diplomacia", "OSINT/UE"],
-            default=["Conflictos", "Tensiones", "Elecciones", "OSINT/UE"],
-            key="geo_capas",
-        )
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        kpi_card("Países monitorizados", len(paises_riesgo), delta=None, color=CYAN)
+    with k2:
+        kpi_card("Riesgo Alto/Crítico (≥7)", len(paises_alto_riesgo), delta=None, color=RED)
+    with k3:
+        kpi_card("Tendencia subiendo", len(paises_subiendo), delta=None, color=AMBER)
+    with k4:
+        kpi_card("OSINT activo", stats_geo.get("osint_total", 0), delta=None, color=PURPLE)
 
-        tipos_activos = []
-        if "Conflictos" in capas:
-            tipos_activos.append("Conflicto")
-        if "Tensiones" in capas:
-            tipos_activos.append("Tensión")
-        if "Elecciones" in capas:
-            tipos_activos.append("Elecciones")
-        if "Energía" in capas:
-            tipos_activos.append("Energía")
-        if "Comercio" in capas:
-            tipos_activos.append("Comercio")
-        if "Diplomacia" in capas:
-            tipos_activos.append("Diplomacia")
-        if "OSINT/UE" in capas:
-            tipos_activos.extend(["OSINT", "UE", "Riesgo"])
+    st.markdown("---")
+    col_mapa, col_tabla = st.columns([3, 2])
 
-        ev_fil = [e for e in EVENTOS_GEO if e["tipo"] in tipos_activos] if tipos_activos else EVENTOS_GEO
+    with col_mapa:
+        section_header("Mapa de Riesgo", "Score ponderado por interés para España")
 
-        fig_map = go.Figure()
-        for tipo in set(e["tipo"] for e in ev_fil):
-            evs = [e for e in ev_fil if e["tipo"] == tipo]
-            fig_map.add_trace(go.Scattergeo(
-                lat=[e["lat"] for e in evs],
-                lon=[e["lon"] for e in evs],
-                mode="markers+text",
-                marker=dict(
-                    size=[8 + e["riesgo"] / 10 for e in evs],
-                    color=TIPO_COLORS.get(tipo, MUTED),
-                    opacity=0.85,
-                    line=dict(width=1, color="rgba(255,255,255,0.3)"),
+        if paises_riesgo:
+            df_mapa = pd.DataFrame(paises_riesgo)
+            for col in ["lat_capital", "lon_capital", "score_total", "interes_espana"]:
+                if col not in df_mapa.columns:
+                    df_mapa[col] = 0.0
+
+            df_mapa["score_total"] = df_mapa["score_total"].astype(float)
+            df_mapa["interes_espana"] = df_mapa["interes_espana"].astype(float)
+
+            fig_mapa = px.scatter_geo(
+                df_mapa,
+                lat="lat_capital",
+                lon="lon_capital",
+                size="score_total",
+                color="score_total",
+                color_continuous_scale=[[0, GREEN], [0.5, AMBER], [1.0, RED]],
+                range_color=[0, 10],
+                hover_name="nombre",
+                size_max=30,
+                labels={"score_total": "Riesgo"},
+            )
+            fig_mapa.update_layout(
+                paper_bgcolor=BG,
+                geo=dict(
+                    bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
+                    coastlinecolor=BORDER, countrycolor=BORDER,
+                    showland=True, showocean=True, showcoastlines=True,
+                    showframe=False, projection_type="natural earth",
                 ),
-                text=[e["pais"] for e in evs],
-                textposition="top center",
-                textfont=dict(size=9, color=TEXT2),
-                hovertemplate=(
-                    "<b>%{text}</b><br>"
-                    "Riesgo: %{customdata[0]}/100<br>"
-                    "%{customdata[1]}<extra></extra>"
+                coloraxis_colorbar=dict(
+                    bgcolor=BG2, bordercolor=BORDER,
+                    tickfont=dict(color=TEXT2),
+                    title=dict(text="Riesgo", font=dict(color=TEXT2)),
                 ),
-                customdata=[[e["riesgo"], e["desc"]] for e in evs],
-                name=tipo,
-            ))
+                margin=dict(l=0, r=0, t=0, b=0),
+                height=420,
+            )
+            st.plotly_chart(fig_mapa, use_container_width=True, config={"displayModeBar": False})
+        else:
+            st.info("Sin datos de riesgo_pais. Ejecuta la migración 0016.")
 
-        fig_map.update_geos(
-            projection_type="natural earth",
-            showland=True, landcolor="#0D1320",
-            showocean=True, oceancolor="#080C14",
-            showcoastlines=True, coastlinecolor=BORDER,
-            showframe=False,
-            bgcolor=BG2,
+    with col_tabla:
+        section_header("Top Países — Riesgo × Interés España")
+
+        if paises_riesgo:
+            sorted_paises = sorted(
+                paises_riesgo,
+                key=lambda p: float(p.get("score_total", 0)) * float(p.get("interes_espana", 0)),
+                reverse=True,
+            )[:12]
+
+            for p in sorted_paises:
+                score = float(p.get("score_total", 0))
+                interes = float(p.get("interes_espana", 0))
+                tendencia = p.get("riesgo_tendencia", "estable")
+                trend_icon = {"subiendo": "↑", "bajando": "↓", "estable": "→"}.get(tendencia, "→")
+                trend_color = {"subiendo": RED, "bajando": GREEN, "estable": TEXT2}.get(tendencia, TEXT2)
+                score_bar = int((score / 10) * 100)
+                flag = p.get("flag_emoji", "🏳️")
+                empresas = (p.get("empresas_espanolas") or [])[:2]
+
+                st.markdown(f"""
+                <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
+                            padding:.6rem .8rem;margin-bottom:.4rem">
+                  <div style="display:flex;justify-content:space-between;align-items:center">
+                    <span style="color:{TEXT};font-weight:700;font-size:.85rem">
+                      {flag} {p.get('nombre','?')}
+                    </span>
+                    <span style="color:{trend_color};font-weight:700;font-size:.85rem">
+                      {trend_icon} {score:.1f}/10
+                    </span>
+                  </div>
+                  <div style="margin:.4rem 0 .2rem;height:4px;background:{BORDER};border-radius:2px">
+                    <div style="width:{score_bar}%;height:4px;border-radius:2px;
+                                background:{'#ef4444' if score>=7 else '#f59e0b' if score>=5 else '#10b981'}"></div>
+                  </div>
+                  <div style="color:{TEXT2};font-size:.7rem">
+                    Interés: {interes*100:.0f}% · {', '.join(empresas)}
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+    # Matriz riesgo × interés
+    if paises_riesgo and len(paises_riesgo) > 3:
+        st.markdown("---")
+        section_header("Matriz Riesgo × Interés España")
+        df_bub = pd.DataFrame(paises_riesgo)
+        df_bub["score_total"] = df_bub["score_total"].astype(float)
+        df_bub["interes_espana"] = df_bub["interes_espana"].astype(float)
+        df_bub["size_val"] = (df_bub["score_total"] * df_bub["interes_espana"] * 15).clip(lower=2)
+
+        fig_bub = px.scatter(
+            df_bub, x="interes_espana", y="score_total",
+            size="size_val", color="score_total",
+            color_continuous_scale=[[0, GREEN], [0.5, AMBER], [1.0, RED]],
+            range_color=[0, 10],
+            hover_name="nombre",
+            labels={"interes_espana": "Interés para España", "score_total": "Score Riesgo"},
         )
-        fig_map.update_layout(
-            height=420, paper_bgcolor=BG2, margin=dict(t=5, b=5, l=5, r=5),
-            legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.05,
-                        font=dict(size=9, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
+        fig_bub.update_layout(
+            paper_bgcolor=BG, plot_bgcolor=BG2, height=320,
+            font=dict(color=TEXT2), coloraxis_showscale=False,
+            xaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
+            yaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
+            margin=dict(l=40, r=20, t=20, b=40),
         )
-        st.plotly_chart(fig_map, use_container_width=True, config={"displayModeBar": False})
+        fig_bub.add_hline(y=7, line_dash="dot", line_color=RED, opacity=0.4)
+        fig_bub.add_vline(x=0.65, line_dash="dot", line_color=CYAN, opacity=0.4)
+        st.plotly_chart(fig_bub, use_container_width=True, config={"displayModeBar": False})
 
-    with col_list:
-        section_header("EVENTOS ACTIVOS", RED)
-        for e in sorted(ev_fil, key=lambda x: -x["riesgo"])[:8]:
-            tc = TIPO_COLORS.get(e["tipo"], MUTED)
-            riesgo_c = RED if e["riesgo"] > 70 else AMBER if e["riesgo"] > 45 else GREEN
-            st.markdown(f"""
-            <div style="background:{BG2};border:1px solid {tc}33;border-radius:8px;
-                        padding:.5rem .7rem;margin-bottom:.4rem;border-left:3px solid {tc}">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.15rem">
-                <span style="font-size:.72rem;font-weight:700;color:{TEXT}">{e['pais']}</span>
-                <span style="font-size:.65rem;font-weight:700;color:{riesgo_c}">{e['riesgo']}</span>
-              </div>
-              <div style="font-size:.62rem;color:{TEXT2};line-height:1.3">{e['desc'][:60]}</div>
-              <span style="background:{tc}22;color:{tc};border-radius:3px;
-                           padding:.05rem .3rem;font-size:.58rem;font-weight:700">{e['tipo']}</span>
-            </div>
-            """, unsafe_allow_html=True)
 
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 2 — España en el Mundo
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_espana:
-    col_e1, col_e2 = st.columns(2)
+    section_header("🇪🇸 España en el Mundo", "Presencia global: militar, energética, empresarial y diplomática")
 
-    with col_e1:
-        section_header("POSICIONAMIENTO UE — CONSEJO EUROPEO", BLUE)
+    sub_tipos = ["militar", "energetica", "empresarial", "diplomatica", "diaspora"]
+    sub_labels = ["🪖 Misiones Militares", "⚡ Energética",
+                  "🏢 Empresarial", "🤝 Diplomática", "👥 Diáspora"]
+    sub_tabs = st.tabs(sub_labels)
 
-        EU_PAISES = [
-            ("Alemania", "conservador", 0), ("Francia", "conservador", 1),
-            ("Italia", "populista", 2), ("España", "progresista", 3),
-            ("Polonia", "conservador", 4), ("Países Bajos", "liberal", 5),
-            ("Suecia", "conservador", 6), ("Bélgica", "liberal", 7),
-            ("Austria", "conservador", 8), ("Portugal", "progresista", 9),
-            ("Grecia", "conservador", 10), ("Hungría", "populista", 11),
-            ("Rep.Checa", "conservador", 12), ("Rumanía", "conservador", 13),
-            ("Dinamarca", "liberal", 14), ("Finlandia", "conservador", 15),
-            ("Eslovaquia", "populista", 16), ("Irlanda", "progresista", 17),
-            ("Croacia", "conservador", 18), ("Bulgaria", "conservador", 19),
-            ("Lituania", "liberal", 20), ("Letonia", "liberal", 21),
-            ("Eslovenia", "conservador", 22), ("Estonia", "liberal", 23),
-            ("Chipre", "conservador", 24), ("Luxemburgo", "progresista", 25),
-            ("Malta", "progresista", 26),
-        ]
-        ALIGN_COLORS = {"progresista": RED, "conservador": BLUE, "liberal": AMBER, "populista": PURPLE}
+    presencia_all = get_presencia_espanola()
+    tipo_icons = {
+        "militar": "🪖", "energetica": "⚡", "empresarial": "🏢",
+        "diplomatica": "🤝", "diaspora": "👥",
+    }
 
-        n = len(EU_PAISES)
-        angles = np.linspace(np.pi, 2 * np.pi, n)
-        r = 1.0
-        fig_eu = go.Figure()
-        for (nombre, alineacion, idx) in EU_PAISES:
-            ang = angles[idx]
-            x, y = r * np.cos(ang), r * np.sin(ang)
-            color = ALIGN_COLORS.get(alineacion, MUTED)
-            highlight = nombre == "España"
-            fig_eu.add_trace(go.Scatter(
-                x=[x], y=[y], mode="markers+text",
-                marker=dict(size=22 if highlight else 14, color=color,
-                            line=dict(width=3 if highlight else 1,
-                                      color=TEXT if highlight else "rgba(0,0,0,0)")),
-                text=[nombre[:3].upper()],
-                textposition="middle center",
-                textfont=dict(size=7 if not highlight else 8, color="white"),
-                hovertemplate=f"<b>{nombre}</b><br>{alineacion.title()}<extra></extra>",
-                showlegend=False,
-            ))
+    for sub_tab, tipo, label in zip(sub_tabs, sub_tipos, sub_labels):
+        with sub_tab:
+            items_tipo = [p for p in presencia_all if p.get("tipo_presencia") == tipo]
+            if not items_tipo:
+                st.info(f"Sin datos de presencia '{tipo}' registrados.")
+                continue
 
-        for alin, col in ALIGN_COLORS.items():
-            fig_eu.add_trace(go.Scatter(
-                x=[None], y=[None], mode="markers",
-                marker=dict(size=10, color=col),
-                name=alin.title(), showlegend=True,
-            ))
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                kpi_card("Ubicaciones", len(items_tipo), color=CYAN)
+            with c2:
+                rel_media = sum(float(p.get("relevancia", 0)) for p in items_tipo) / len(items_tipo)
+                kpi_card("Relevancia media", f"{rel_media:.2f}", color=AMBER)
+            with c3:
+                actores = list({p.get("actor_espanol", "") for p in items_tipo if p.get("actor_espanol")})
+                kpi_card("Actores", len(actores), color=PURPLE)
 
-        fig_eu.update_layout(
-            height=320, paper_bgcolor=BG2, plot_bgcolor=BG2,
-            margin=dict(t=10, b=10, l=10, r=10),
-            xaxis=dict(showgrid=False, zeroline=False, visible=False, range=[-1.3, 1.3]),
-            yaxis=dict(showgrid=False, zeroline=False, visible=False, range=[-0.1, 1.3]),
-            legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.05,
-                        font=dict(size=9, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
-        )
-        st.plotly_chart(fig_eu, use_container_width=True, config={"displayModeBar": False})
+            # Mapa
+            df_pres = pd.DataFrame(items_tipo)
+            if "lat" in df_pres.columns and "lon" in df_pres.columns:
+                df_pres["lat"] = df_pres["lat"].astype(float)
+                df_pres["lon"] = df_pres["lon"].astype(float)
+                df_pres["rel_size"] = (df_pres["relevancia"].astype(float) * 100).clip(lower=5)
 
-        section_header("NATO — COMPROMISOS 2% PIB", AMBER)
-        nato_data = {
-            "EEUU": 3.5, "Polonia": 4.1, "Grecia": 2.9, "Estonia": 2.8,
-            "Letonia": 2.4, "Lituania": 2.5, "Alemania": 2.1, "Francia": 2.1,
-            "Reino Unido": 2.3, "España": 1.3, "Italia": 1.5, "Bélgica": 1.3,
-        }
-        df_nato = pd.DataFrame(list(nato_data.items()), columns=["país", "pct"])
-        df_nato["color"] = df_nato["pct"].apply(
-            lambda x: GREEN if x >= 2.0 else AMBER if x >= 1.5 else RED
-        )
-        df_nato = df_nato.sort_values("pct")
-        fig_nato = go.Figure()
-        for _, row in df_nato.iterrows():
-            fig_nato.add_trace(go.Bar(
-                x=[row["pct"]], y=[row["país"]], orientation="h",
-                marker_color=row["color"],
-                text=[f"{row['pct']:.1f}%"], textposition="outside",
-                textfont=dict(size=9, color=TEXT2),
-                showlegend=False,
-                hovertemplate=f"<b>{row['país']}</b>: {row['pct']:.1f}% PIB<extra></extra>",
-            ))
-        fig_nato.add_vline(x=2.0, line_dash="dash", line_color=AMBER,
-                           annotation_text="Objetivo 2%", annotation_font_color=AMBER)
-        fig_nato.update_layout(
-            height=300, paper_bgcolor=BG2, plot_bgcolor=BG2,
-            margin=dict(t=10, b=10, l=80, r=40),
-            xaxis=dict(color=TEXT2, gridcolor=BORDER, ticksuffix="%"),
-            yaxis=dict(color=TEXT, tickfont=dict(size=9)),
-            bargap=0.25,
-        )
-        st.plotly_chart(fig_nato, use_container_width=True, config={"displayModeBar": False})
+                fig_p = px.scatter_geo(
+                    df_pres, lat="lat", lon="lon", size="rel_size",
+                    hover_name="pais",
+                    hover_data={"descripcion": True, "actor_espanol": True,
+                                "lat": False, "lon": False, "rel_size": False},
+                    size_max=18,
+                    color_discrete_sequence=[CYAN],
+                )
+                fig_p.update_layout(
+                    paper_bgcolor=BG,
+                    geo=dict(bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
+                             coastlinecolor=BORDER, countrycolor=BORDER,
+                             showland=True, showocean=True, showframe=False,
+                             projection_type="natural earth"),
+                    margin=dict(l=0, r=0, t=0, b=0), height=260,
+                )
+                st.plotly_chart(fig_p, use_container_width=True, config={"displayModeBar": False})
 
-    with col_e2:
-        section_header("ACUERDOS BILATERALES CLAVE", GREEN)
-        acuerdos = [
-            ("Marruecos", "🇲🇦", "Energía, migración, Sahara", GREEN, 2024),
-            ("Francia",   "🇫🇷", "Defensa, infraestructuras, migración", BLUE, 2023),
-            ("Alemania",  "🇩🇪", "Industria, transición energética", AMBER, 2023),
-            ("EEUU",      "🇺🇸", "Defensa, comercio, tecnología", CYAN, 2022),
-            ("Portugal",  "🇵🇹", "Agua, energía, movilidad", GREEN, 2024),
-            ("Argelia",   "🇩🇿", "Gas natural, migración", RED, 2022),
-            ("México",    "🇲🇽", "Iberoamérica, comercio", PURPLE, 2023),
-            ("Brasil",    "🇧🇷", "Comercio, inversiones", AMBER, 2024),
-            ("China",     "🇨🇳", "Comercio, REITs, turismo", BLUE, 2023),
-            ("India",     "🇮🇳", "IT, farmacia, comercio", CYAN, 2024),
-        ]
-        for pais, flag, desc, color, year in acuerdos:
-            st.markdown(f"""
-            <div style="background:{BG2};border:1px solid {color}22;border-radius:8px;
-                        padding:.55rem .85rem;margin-bottom:.35rem;border-left:3px solid {color}">
-              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.2rem">
-                <span style="font-size:1rem">{flag}</span>
-                <span style="font-size:.78rem;font-weight:700;color:{TEXT}">{pais}</span>
-                <span style="margin-left:auto;font-size:.62rem;color:{MUTED}">{year}</span>
-              </div>
-              <div style="font-size:.68rem;color:{TEXT2}">{desc}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            # Lista
+            for item in sorted(items_tipo, key=lambda x: -float(x.get("relevancia", 0))):
+                rel = float(item.get("relevancia", 0))
+                rel_color = RED if rel >= 0.85 else AMBER if rel >= 0.7 else GREEN
+                st.markdown(f"""
+                <div class="osint-card">
+                  <div style="display:flex;justify-content:space-between">
+                    <span style="color:{TEXT};font-weight:700">
+                      {tipo_icons.get(tipo,'📍')} {item.get('pais','?')}
+                      <span style="color:{TEXT2};font-size:.8rem;font-weight:400;margin-left:.4rem">
+                        {item.get('actor_espanol','')}
+                      </span>
+                    </span>
+                    <span style="color:{rel_color};font-weight:700">{rel:.0%}</span>
+                  </div>
+                  <div style="color:{TEXT2};font-size:.85rem;margin-top:.3rem">
+                    {item.get('descripcion','')}
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
 
-        st.markdown("<br>", unsafe_allow_html=True)
-        section_header("EXPOSICIÓN ESPAÑOLA — ZONAS RIESGO", RED)
-        exposiciones = {
-            "Marruecos/Argelia (gas)": 85,
-            "Ucrania (exportaciones)": 42,
-            "Sahel (migración)": 78,
-            "Venezuela (diáspora)": 55,
-            "Oriente Medio (turismo)": 38,
-            "China (comercio)": 60,
-        }
-        for area, exp in exposiciones.items():
-            col_exp = RED if exp > 70 else AMBER if exp > 45 else GREEN
-            st.markdown(f"""
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
-              <span style="font-size:.72rem;color:{TEXT2};width:200px;flex-shrink:0">{area}</span>
-              <div style="flex:1;height:6px;background:{BG3};border-radius:3px;overflow:hidden">
-                <div style="width:{exp}%;height:100%;background:{col_exp};border-radius:3px"></div>
-              </div>
-              <span style="font-size:.68rem;color:{col_exp};font-weight:700;width:30px;text-align:right">{exp}</span>
-            </div>
-            """, unsafe_allow_html=True)
+    # Mapa global
+    if presencia_all:
+        st.markdown("---")
+        section_header("Mapa Global de Presencia Española")
+        df_g = pd.DataFrame(presencia_all)
+        if "lat" in df_g.columns:
+            df_g["lat"] = df_g["lat"].astype(float)
+            df_g["lon"] = df_g["lon"].astype(float)
+            color_map = {"militar": RED, "energetica": AMBER, "empresarial": BLUE,
+                         "diplomatica": CYAN, "diaspora": PURPLE}
+            fig_g = px.scatter_geo(
+                df_g, lat="lat", lon="lon", color="tipo_presencia",
+                color_discrete_map=color_map,
+                hover_name="pais",
+                hover_data={"descripcion": True, "actor_espanol": True,
+                            "lat": False, "lon": False},
+                size_max=14,
+            )
+            fig_g.update_layout(
+                paper_bgcolor=BG,
+                geo=dict(bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
+                         coastlinecolor=BORDER, countrycolor=BORDER,
+                         showland=True, showocean=True, showframe=False,
+                         projection_type="natural earth"),
+                legend=dict(bgcolor=BG2, font=dict(color=TEXT2), bordercolor=BORDER),
+                margin=dict(l=0, r=0, t=0, b=0), height=340,
+            )
+            st.plotly_chart(fig_g, use_container_width=True, config={"displayModeBar": False})
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 3 — OSINT Intelligence
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_osint:
-    section_header("SEÑALES OSINT — INTELIGENCIA DE FUENTES ABIERTAS", PURPLE)
+    section_header("🔍 OSINT Intelligence", "Noticias y señales geopolíticas en tiempo real")
 
-    TIERS = {1: ("Oficial/Gubernamental", GREEN), 2: ("Think-tank/Academia", CYAN),
-             3: ("Medios especializados", BLUE), 4: ("Social/Blogs", AMBER), 5: ("Indeterminado", MUTED)}
+    c_fil1, c_fil2, c_fil3, c_fil4 = st.columns([2, 2, 2, 2])
+    with c_fil1:
+        horas_osint = st.selectbox("Ventana temporal", [6, 12, 24, 48, 72, 168],
+                                   index=2, format_func=lambda h: f"Últimas {h}h")
+    with c_fil2:
+        urg_min = st.selectbox("Urgencia mínima", [1, 2, 3, 4, 5],
+                               index=0, format_func=lambda u: f"≥ {u}")
+    with c_fil3:
+        categorias_disp = ["todas", "conflicto_armado", "terrorismo", "diplomacia",
+                           "energia", "migracion", "ciberseguridad", "defensa"]
+        cat_sel = st.selectbox("Categoría", categorias_disp)
+        cat_filter = None if cat_sel == "todas" else cat_sel
+    with c_fil4:
+        rel_min = st.slider("Relevancia España mín.", 0.0, 1.0, 0.3, 0.05)
 
-    col_tier_legend = st.columns(5)
-    for col_t, (tier, (label, col)) in zip(col_tier_legend, TIERS.items()):
-        with col_t:
+    osint_stats = get_osint_stats()
+    s1, s2, s3, s4 = st.columns(4)
+    with s1: kpi_card("Total corpus", osint_stats.get("total", 0), color=CYAN)
+    with s2: kpi_card("Últimas 24h", osint_stats.get("ultimas_24h", 0), color=BLUE)
+    with s3: kpi_card("Procesados LLM", osint_stats.get("procesados_llm", 0), color=PURPLE)
+    with s4:
+        urg45 = (osint_stats.get("por_urgencia", {}).get(4, 0) +
+                 osint_stats.get("por_urgencia", {}).get(5, 0))
+        kpi_card("Urgencia ≥4", urg45, color=RED)
+
+    st.markdown("---")
+
+    col_feed, col_trends = st.columns([3, 1])
+
+    with col_trends:
+        section_header("🔥 Trending")
+        trending = get_trending_topics_geo(horas=horas_osint, top_n=8)
+        if trending:
+            for t in trending:
+                urg_c = RED if t["urgencia_media"] >= 4 else AMBER if t["urgencia_media"] >= 3 else TEXT2
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;align-items:center;
+                            padding:.3rem 0;border-bottom:1px solid {BORDER}">
+                  <span style="color:{TEXT2};font-size:.78rem">{t['tema']}</span>
+                  <span style="color:{urg_c};font-weight:700;font-size:.78rem">{t['count']}</span>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.caption("Sin tendencias")
+
+        st.markdown("&nbsp;", unsafe_allow_html=True)
+        section_header("🌍 Países")
+        paises_top = get_paises_mas_mencionados(horas=horas_osint, top_n=8)
+        for pm in paises_top:
             st.markdown(f"""
-            <div style="text-align:center;background:{col}11;border:1px solid {col}33;
-                        border-radius:6px;padding:.3rem">
-              <div style="font-size:.9rem;font-weight:700;color:{col}">T{tier}</div>
-              <div style="font-size:.58rem;color:{TEXT2}">{label}</div>
+            <div style="display:flex;justify-content:space-between;
+                        padding:.3rem 0;border-bottom:1px solid {BORDER}">
+              <span style="color:{TEXT2};font-size:.78rem">{pm['pais']}</span>
+              <span style="color:{CYAN};font-weight:700;font-size:.78rem">{pm['menciones']}</span>
             </div>
             """, unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    with col_feed:
+        items_osint = get_osint_filtered(
+            horas=horas_osint, urgencia_min=urg_min,
+            relevancia_min=rel_min, categoria=cat_filter, limit=40,
+        )
 
-    OSINT_SIGNALS = [
-        {"tier": 1, "fuente": "NATO HQ Brussels", "titulo": "Cumbre NATO: España aumentará presupuesto defensa a 2% PIB en 2029",
-         "confianza": 92, "fecha": "2026-04-28", "tipo": "Defensa"},
-        {"tier": 2, "fuente": "Real Instituto Elcano", "titulo": "España y el gas argelino: vulnerabilidad estratégica en el Mediterráneo sur",
-         "confianza": 88, "fecha": "2026-04-27", "tipo": "Energía"},
-        {"tier": 1, "fuente": "Eurostat", "titulo": "Inflación española cede al 2.8%, por debajo de la media UE",
-         "confianza": 99, "fecha": "2026-04-28", "tipo": "Economía"},
-        {"tier": 2, "fuente": "CIDOB Barcelona", "titulo": "Flujos migratorios Atlántico: Canarias como punto de presión geopolítica",
-         "confianza": 85, "fecha": "2026-04-26", "tipo": "Migración"},
-        {"tier": 3, "fuente": "Politico.eu", "titulo": "Spain's coalition tensions put EU cohesion vote at risk",
-         "confianza": 72, "fecha": "2026-04-28", "tipo": "UE"},
-        {"tier": 3, "fuente": "Le Monde Diplomatique", "titulo": "El giro atlántico de España: entre EEUU y la autonomía estratégica europea",
-         "confianza": 78, "fecha": "2026-04-25", "tipo": "Diplomacia"},
-        {"tier": 4, "fuente": "Blog defensa.com", "titulo": "Ejercicios navales hispano-marroquíes en el Mediterráneo occidental",
-         "confianza": 55, "fecha": "2026-04-27", "tipo": "Defensa"},
-        {"tier": 2, "fuente": "IISS London", "titulo": "Iberian Peninsula: emerging hub for transatlantic green hydrogen",
-         "confianza": 82, "fecha": "2026-04-24", "tipo": "Energía"},
-    ]
+        if not items_osint:
+            st.info("Sin items OSINT. Ejecuta: `python -m etl.pipelines.pipeline_geopolitica`")
+        else:
+            urg_vals = [int(i.get("urgencia", 1)) for i in items_osint]
+            urg_dist = Counter(urg_vals)
+            fig_urg = go.Figure([go.Bar(
+                x=[f"U{k}" for k in sorted(urg_dist.keys())],
+                y=[urg_dist[k] for k in sorted(urg_dist.keys())],
+                marker_color=[
+                    RED if k >= 4 else AMBER if k == 3 else BLUE if k == 2 else GREEN
+                    for k in sorted(urg_dist.keys())
+                ],
+            )])
+            fig_urg.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                margin=dict(l=0, r=0, t=0, b=0), height=75,
+                yaxis=dict(visible=False), xaxis=dict(tickfont=dict(color=TEXT2, size=10)),
+                showlegend=False,
+            )
+            st.plotly_chart(fig_urg, use_container_width=True, config={"displayModeBar": False})
+            st.caption(f"{len(items_osint)} items")
 
-    if _git_amigos is not None:
-        try:
-            for src in _git_amigos.osint_signals(limit=10):
-                OSINT_SIGNALS.append({
-                    "tier": 1 if "cia" in str(src.get("repo", "")).lower() else 2,
-                    "fuente": f"Git Amigos · {src.get('label', src.get('repo', 'repo local'))}",
-                    "titulo": str(src.get("title") or src.get("snippet") or "Fuente OSINT local")[:180],
-                    "confianza": min(95, 65 + int(float(src.get("score") or 0) * 8)),
-                    "fecha": "local",
-                    "tipo": "OSINT",
-                })
-        except Exception:
-            pass
+            for item in items_osint:
+                urgencia = int(item.get("urgencia", 1))
+                relevancia = float(item.get("relevancia_espana", 0))
+                titulo = item.get("titulo", "Sin título")
+                resumen = item.get("resumen_ollama", item.get("contenido", ""))[:240]
+                fuente = item.get("fuente", "")
+                fecha = str(item.get("fecha_publicacion", ""))[:16]
+                url = item.get("url", "")
+                categoria = item.get("categoria", "")
+                paises = item.get("paises_mencionados", [])[:3]
+                procesado = item.get("procesado_llm", False)
 
-    col_search, col_filter = st.columns([2, 1])
-    with col_search:
-        osint_q = st.text_input("🔍 Búsqueda semántica OSINT", placeholder="Buscar en señales OSINT...", key="osint_search")
-    with col_filter:
-        tier_fil = st.multiselect("Tier", [1, 2, 3, 4], default=[1, 2, 3], key="osint_tier")
+                urg_color = {5: RED, 4: AMBER, 3: BLUE, 2: GREEN}.get(urgencia, TEXT2)
+                paises_html = "".join(f'<span class="pais-chip">{p}</span>' for p in paises)
+                llm_html = f'<span style="color:{CYAN};font-size:.65rem">✓ LLM</span>' if procesado else ''
+                url_html = (f'<a href="{url}" target="_blank" style="color:{CYAN};font-size:.72rem">🔗</a>'
+                            if url else "")
+                cat_html = (f'<span style="color:{TEXT2};font-size:.7rem">[{categoria}]</span>'
+                            if categoria else "")
 
-    signals_fil = [s for s in OSINT_SIGNALS if s["tier"] in (tier_fil or [1,2,3,4])]
-    if osint_q:
-        signals_fil = [s for s in signals_fil
-                       if osint_q.lower() in s["titulo"].lower() or osint_q.lower() in s["tipo"].lower()]
+                st.markdown(f"""
+                <div class="osint-card urgencia-{urgencia}">
+                  <div style="display:flex;justify-content:space-between;align-items:start">
+                    <span style="color:{TEXT};font-weight:700;font-size:.87rem;flex:1;
+                                 padding-right:.4rem">{titulo[:180]}</span>
+                    <div style="text-align:right;flex-shrink:0">
+                      <div style="color:{urg_color};font-weight:800;font-size:.78rem">U{urgencia}</div>
+                      <div style="color:{TEXT2};font-size:.68rem">ESP {int(relevancia*100)}%</div>
+                    </div>
+                  </div>
+                  {f'<div style="color:{TEXT2};font-size:.81rem;margin:.35rem 0">{resumen}</div>' if resumen else ''}
+                  <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-top:.2rem">
+                    {cat_html}{paises_html}
+                    <span style="color:{MUTED};font-size:.68rem">{fuente} · {fecha}</span>
+                    {llm_html} {url_html}
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
 
-    for sig in signals_fil:
-        tier_label, tier_col = TIERS[sig["tier"]]
-        conf = sig["confianza"]
-        conf_c = GREEN if conf >= 85 else AMBER if conf >= 65 else RED
-        st.markdown(f"""
-        <div style="background:{BG2};border:1px solid {tier_col}33;border-radius:10px;
-                    padding:.85rem 1.1rem;margin-bottom:.5rem;border-left:4px solid {tier_col}">
-          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap">
-            <span style="background:{tier_col}22;color:{tier_col};border-radius:4px;
-                         padding:.1rem .5rem;font-size:.62rem;font-weight:700">T{sig['tier']} · {tier_label}</span>
-            <span style="background:{BG3};color:{TEXT2};border-radius:4px;
-                         padding:.1rem .5rem;font-size:.62rem">{sig['tipo']}</span>
-            <span style="margin-left:auto;font-size:.65rem;font-weight:700;color:{conf_c}">
-              Confianza: {conf}%
-            </span>
-            <span style="font-size:.62rem;color:{MUTED}">{sig['fecha']}</span>
-          </div>
-          <div style="font-size:.82rem;font-weight:700;color:{TEXT};line-height:1.4;margin-bottom:.3rem">
-            {sig['titulo']}
-          </div>
-          <div style="font-size:.68rem;color:{TEXT2}">📡 {sig['fuente']}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    if _BRAIN_OK and osint_q:
-        if st.button("🧠 Analizar con Politeia Brain", key="btn_osint_brain"):
-            with st.spinner("Analizando señales OSINT..."):
-                contexto = "\n".join([f"- {s['titulo']} [{s['fuente']}]" for s in signals_fil[:5]])
-                resp = _brain.chat(
-                    f"Analiza estas señales OSINT relacionadas con '{osint_q}' "
-                    f"y su impacto en España:\n{contexto}",
+    # Evolución
+    if items_osint:
+        st.markdown("---")
+        section_header("📈 Evolución temporal OSINT")
+        df_ev = pd.DataFrame(items_osint)
+        if "fecha_publicacion" in df_ev.columns:
+            df_ev["fecha_dt"] = pd.to_datetime(df_ev["fecha_publicacion"], errors="coerce", utc=True)
+            df_ev = df_ev.dropna(subset=["fecha_dt"])
+            if not df_ev.empty:
+                df_ev["slot"] = df_ev["fecha_dt"].dt.floor("6h")
+                ev_cnt = df_ev.groupby("slot").size().reset_index(name="n")
+                fig_ev = px.area(ev_cnt, x="slot", y="n",
+                                 labels={"slot": "", "n": "Items OSINT"})
+                fig_ev.update_traces(line_color=CYAN, fillcolor=f"{CYAN}22")
+                fig_ev.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                    height=180, margin=dict(l=0, r=0, t=0, b=0),
+                    xaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
+                    yaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
+                    showlegend=False,
                 )
-            st.markdown(f"""
-            <div style="background:{BG2};border:1px solid {PURPLE}33;border-radius:10px;
-                        padding:1rem;margin-top:.8rem;border-left:4px solid {PURPLE}">
-              <div style="font-size:.65rem;color:{PURPLE};font-weight:700;margin-bottom:.4rem">
-                🧠 ANÁLISIS POLITEIA BRAIN
-              </div>
-              <div style="font-size:.83rem;color:{TEXT};line-height:1.6">{resp}</div>
-            </div>
-            """, unsafe_allow_html=True)
+                st.plotly_chart(fig_ev, use_container_width=True, config={"displayModeBar": False})
+
 
 # ══════════════════════════════════════════════════════════════════════════════
+# TAB 4 — Impacto Doméstico
+# ══════════════════════════════════════════════════════════════════════════════
 with tab_impacto:
-    section_header("MATRIZ DE TRANSMISIÓN — GEOPOLÍTICA → ESPAÑA", AMBER)
+    section_header("📊 Impacto Doméstico en España", "Efectos directos sobre economía, seguridad y política")
 
-    EVENTOS_MATRIX = ["Conf. Rusia-Ucr.", "Crisis Gaza", "Tensión Taiwan", "Migración Sahel",
-                      "Gas Argelia", "Aranceles UE-China", "Crisis Venezuela", "OTAN/Defensa"]
-    SECTORES_MATRIX = ["Energía", "Defensa", "Turismo", "Agricultura", "Banca", "Exportaciones", "Migración", "Bolsa"]
+    dimensiones = ["todas", "energia", "economia", "seguridad", "migracion",
+                   "diplomacia", "comercio", "defensa", "ciberseguridad"]
+    c_d1, c_d2 = st.columns(2)
+    with c_d1:
+        dim_sel = st.selectbox("Dimensión", dimensiones)
+        dim_filter = None if dim_sel == "todas" else dim_sel
+    with c_d2:
+        sev_min = st.selectbox("Severidad mínima", [1, 2, 3, 4, 5],
+                               index=1, format_func=lambda s: f"≥ {s}")
 
-    np.random.seed(42)
-    base = np.array([
-        [2, 8, 4, 3, 9, 5, 2, 7],
-        [3, 9, 2, 2, 4, 3, 3, 6],
-        [5, 6, 3, 2, 6, 8, 1, 9],
-        [3, 5, 6, 7, 2, 2, 9, 3],
-        [9, 4, 5, 6, 8, 3, 2, 6],
-        [4, 2, 5, 7, 3, 9, 2, 7],
-        [2, 3, 7, 4, 2, 3, 8, 4],
-        [3, 9, 4, 2, 5, 4, 2, 6],
-    ], dtype=float)
+    impactos = get_impactos_filtered(dimension=dim_filter, severidad_min=sev_min, limite=30)
 
-    fig_matrix = go.Figure(go.Heatmap(
-        z=base,
-        x=SECTORES_MATRIX,
-        y=EVENTOS_MATRIX,
-        colorscale=[[0, "rgba(16,185,129,0.13)"], [0.4, "rgba(245,158,11,0.67)"], [1, RED]],
-        showscale=True,
-        text=base.astype(int),
-        texttemplate="%{text}",
-        textfont=dict(size=11, color=TEXT),
-        hovertemplate=(
-            "<b>%{y}</b> → <b>%{x}</b><br>"
-            "Impacto: %{z:.0f}/10<extra></extra>"
-        ),
-        colorbar=dict(
-            title=dict(text="Impacto", font=dict(color=TEXT2, size=10)),
-            tickfont=dict(color=TEXT2, size=9),
-        ),
-    ))
-    fig_matrix.update_layout(
-        height=380, paper_bgcolor=BG2, plot_bgcolor=BG2,
-        margin=dict(t=10, b=10, l=140, r=10),
-        xaxis=dict(color=TEXT, tickfont=dict(size=9), side="bottom"),
-        yaxis=dict(color=TEXT, tickfont=dict(size=9)),
+    if not impactos:
+        st.info("Sin impactos domésticos registrados. "
+                "Se generan automáticamente con relevancia_espana > 0.6.")
+
+        # Proxy: eventos ACLED de alta relevancia
+        section_header("Eventos ACLED de Alta Relevancia")
+        eventos_acled = get_eventos_acled(days=30, relevancia_min=0.5, limite=10)
+        for ev in eventos_acled:
+            rel = float(ev.get("relevancia_es", ev.get("relevancia_espana", 0)))
+            fat = int(ev.get("fatalities", 0))
+            st.markdown(f"""
+            <div class="osint-card">
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:{TEXT};font-weight:700">
+                  [{ev.get('pais','?')}] {ev.get('tipo_evento','')}
+                </span>
+                <span style="color:{RED if rel>=0.8 else AMBER};font-weight:700">
+                  {rel:.0%} | 💀 {fat}
+                </span>
+              </div>
+              <div style="color:{TEXT2};font-size:.82rem;margin-top:.3rem">
+                {str(ev.get('notas',''))[:300]}
+              </div>
+              <div style="color:{MUTED};font-size:.7rem;margin-top:.2rem">
+                {ev.get('fecha',ev.get('event_date',''))} · ACLED
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        sev_criticos = [i for i in impactos if int(i.get("severidad", 1)) >= 4]
+        dim_unicas = len({i.get("dimension") for i in impactos})
+        prob_m = sum(float(i.get("probabilidad", 0.5)) for i in impactos) / len(impactos)
+
+        k1, k2, k3 = st.columns(3)
+        with k1: kpi_card("Impactos activos", len(impactos), color=CYAN)
+        with k2: kpi_card("Severidad ≥4", len(sev_criticos), color=RED)
+        with k3: kpi_card("Prob. media", f"{prob_m:.0%}", color=AMBER)
+
+        # Gráfico dimensiones
+        dim_counts = Counter(i.get("dimension", "otros") for i in impactos)
+        if len(dim_counts) > 1:
+            fig_dim = px.pie(
+                values=list(dim_counts.values()),
+                names=list(dim_counts.keys()),
+                color_discrete_sequence=[CYAN, BLUE, AMBER, RED, PURPLE, GREEN, TEXT2],
+            )
+            fig_dim.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)",
+                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=TEXT2)),
+                margin=dict(l=0, r=0, t=0, b=0), height=180,
+            )
+            st.plotly_chart(fig_dim, use_container_width=True, config={"displayModeBar": False})
+
+        dim_icons = {
+            "energia": "⚡", "economia": "📈", "seguridad": "🛡️",
+            "migracion": "🚶", "diplomacia": "🤝", "comercio": "💼",
+            "defensa": "🪖", "ciberseguridad": "💻",
+        }
+        horizonte_colors = {
+            "inmediato": RED, "corto_plazo": AMBER,
+            "medio_plazo": BLUE, "largo_plazo": GREEN,
+        }
+
+        for imp in sorted(impactos, key=lambda x: -int(x.get("severidad", 1))):
+            sev = int(imp.get("severidad", 2))
+            sev_color = RED if sev >= 4 else AMBER if sev == 3 else BLUE
+            dim = imp.get("dimension", "otros")
+            horizonte = imp.get("horizonte", "medio_plazo")
+            hcolor = horizonte_colors.get(horizonte, TEXT2)
+            icon = dim_icons.get(dim, "📌")
+            sectores = (imp.get("sectores_afectados") or [])[:4]
+            empresas = (imp.get("empresas_afectadas") or [])[:3]
+
+            st.markdown(f"""
+            <div class="osint-card">
+              <div style="display:flex;justify-content:space-between;align-items:start">
+                <span style="color:{TEXT};font-weight:700;font-size:.88rem;flex:1">
+                  {icon} {imp.get('titulo','')[:180]}
+                </span>
+                <div style="text-align:right;flex-shrink:0;margin-left:.5rem">
+                  <div style="color:{sev_color};font-weight:700">SEV {sev}/5</div>
+                  <div style="color:{hcolor};font-size:.7rem">{horizonte}</div>
+                </div>
+              </div>
+              {f'<div style="color:{TEXT2};font-size:.81rem;margin:.4rem 0">{imp.get("descripcion","")[:400]}</div>'}
+              {f'<div style="color:{CYAN};font-size:.8rem">💡 {imp.get("recomendacion","")[:200]}</div>' if imp.get("recomendacion") else ''}
+              <div style="margin-top:.35rem">
+                {''.join(f'<span class="pais-chip">{s}</span>' for s in sectores)}
+                {''.join(f'<span class="pais-chip" style="color:{AMBER}">{e}</span>' for e in empresas)}
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 5 — Alertas & Señales
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_alertas:
+    section_header("🚨 Alertas & Señales de Alerta Temprana")
+
+    c_al1, c_al2, c_al3, c_al4 = st.columns(4)
+    with c_al1: kpi_card("CRÍTICO 🚨", alertas_count.get("CRITICO", 0), color=RED)
+    with c_al2: kpi_card("ALTO ⚠️", alertas_count.get("ALTO", 0), color=AMBER)
+    with c_al3: kpi_card("MEDIO 📌", alertas_count.get("MEDIO", 0), color=BLUE)
+    with c_al4: kpi_card("BAJO ℹ️", alertas_count.get("BAJO", 0), color=GREEN)
+
+    c_af1, c_af2, c_af3 = st.columns([2, 2, 2])
+    with c_af1:
+        nivel_filter = st.selectbox("Nivel", ["todos", "CRITICO", "ALTO", "MEDIO", "BAJO"])
+    with c_af2:
+        no_leidas = st.checkbox("Solo no leídas")
+    with c_af3:
+        lim_alertas = st.number_input("Límite", 5, 100, 20, 5)
+
+    alertas = get_alertas_nivel(
+        nivel=None if nivel_filter == "todos" else nivel_filter,
+        limite=int(lim_alertas),
+        solo_no_leidas=no_leidas,
     )
-    st.plotly_chart(fig_matrix, use_container_width=True, config={"displayModeBar": False})
 
+    if not alertas:
+        st.info("Sin alertas activas.")
+        section_header("📋 Reglas Críticas Configuradas")
+        try:
+            from agents.geo.signal_engine_geo import REGLAS_CRITICAS
+            for regla in REGLAS_CRITICAS:
+                bc = {"CRITICO": "nivel-critico", "ALTO": "nivel-alto",
+                      "MEDIO": "nivel-medio", "BAJO": "nivel-bajo"}.get(regla["nivel"], "nivel-bajo")
+                st.markdown(f"""
+                <div class="osint-card">
+                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
+                    <span class="geo-badge {bc}">{regla['nivel']}</span>
+                    <span style="color:{TEXT};font-weight:700">{regla['nombre']}</span>
+                  </div>
+                  <div style="color:{TEXT2};font-size:.82rem">{regla['descripcion']}</div>
+                  <div style="margin-top:.3rem">
+                    {''.join(f'<span class="pais-chip">{p}</span>' for p in regla.get('paises',[])[:5])}
+                    {''.join(f'<span class="pais-chip" style="color:{AMBER}">{k}</span>' for k in regla.get('keywords',[])[:4])}
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
+        except Exception:
+            pass
+    else:
+        nivel_map = {
+            "CRITICO": ("nivel-critico", "🚨"),
+            "ALTO":    ("nivel-alto",    "⚠️"),
+            "MEDIO":   ("nivel-medio",   "📌"),
+            "BAJO":    ("nivel-bajo",    "ℹ️"),
+        }
+        for alerta in alertas:
+            nivel = alerta.get("nivel", "BAJO")
+            bc, icon = nivel_map.get(nivel, ("nivel-bajo", "ℹ️"))
+            leida = alerta.get("leida", False)
+            opacity = "opacity:.55;" if leida else ""
+            paises_str = ", ".join(alerta.get("paises", [])[:3]) or "N/A"
+            creada = str(alerta.get("creada_en", ""))[:16]
+            regla_html = (f'<span style="color:{CYAN};font-size:.7rem">📋 {alerta.get("regla_nombre")}</span>'
+                          if alerta.get("regla_nombre") else "")
+            url_html = (f'<a href="{alerta.get("url_origen")}" target="_blank" '
+                        f'style="color:{CYAN};font-size:.72rem">🔗</a>'
+                        if alerta.get("url_origen") else "")
+            tg_html = "✈️ " if alerta.get("enviado_telegram") else ""
+
+            st.markdown(f"""
+            <div class="osint-card" style="{opacity}">
+              <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:.35rem">
+                <div style="flex:1">
+                  <span class="geo-badge {bc}">{icon} {nivel}</span>
+                  <span style="color:{TEXT};font-weight:700;font-size:.87rem;margin-left:.5rem">
+                    {alerta.get('titulo','')[:200]}
+                  </span>
+                </div>
+                <span style="color:{MUTED};font-size:.68rem;flex-shrink:0;margin-left:.5rem">
+                  {tg_html}{creada}
+                </span>
+              </div>
+              {f'<div style="color:{TEXT2};font-size:.81rem;margin-bottom:.3rem">{alerta.get("descripcion","")[:400]}</div>' if alerta.get("descripcion") else ''}
+              <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+                <span style="color:{MUTED};font-size:.68rem">🌍 {paises_str}</span>
+                {regla_html} {url_html}
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    section_header("⚡ Acciones")
+    col_a1, col_a2, col_a3 = st.columns(3)
+
+    with col_a1:
+        if st.button("🔄 Procesar Señales", use_container_width=True):
+            with st.spinner("Evaluando señales..."):
+                try:
+                    from agents.geo.signal_engine_geo import procesar_nuevos_eventos
+                    osint_r = get_osint_filtered(horas=24, urgencia_min=2, relevancia_min=0.4)
+                    acled_r = get_eventos_acled(days=7, relevancia_min=0.4)
+                    nuevas = procesar_nuevos_eventos(eventos_acled=acled_r, items_osint=osint_r)
+                    st.success(f"✓ {len(nuevas)} nuevas alertas")
+                    if nuevas:
+                        st.rerun()
+                except Exception as e:
+                    st.error(str(e))
+
+    with col_a2:
+        if st.button("🚀 Scraping OSINT", use_container_width=True):
+            with st.spinner("Scraping RSS + GDELT..."):
+                try:
+                    from etl.pipelines.pipeline_geopolitica import tarea_osint
+                    r = tarea_osint()
+                    st.success(f"✓ {r.get('osint_nuevos',0)} RSS · {r.get('gdelt_nuevos',0)} GDELT")
+                except Exception as e:
+                    st.error(str(e))
+
+    with col_a3:
+        if st.button("📡 Actualizar ACLED", use_container_width=True):
+            with st.spinner("Descargando ACLED..."):
+                try:
+                    from etl.pipelines.pipeline_geopolitica import tarea_acled
+                    r = tarea_acled()
+                    st.success(f"✓ {r.get('eventos',0)} eventos · {r.get('alertas',0)} alertas")
+                except Exception as e:
+                    st.error(str(e))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 6 — Análisis IA
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_ia:
+    section_header("🧠 Análisis IA — Politeia Brain", "Inteligencia geopolítica generada por LLM local")
+
+    llm_txt = "✅ Ollama disponible" if _BRAIN_OK else "⚠️ Ollama no disponible (modo demo)"
+    llm_c = GREEN if _BRAIN_OK else AMBER
     st.markdown(f"""
-    <div style="font-size:.75rem;color:{MUTED};margin-top:.3rem">
-      Valores 1-10: impacto sobre sector doméstico español.
-      Haz clic en una celda para análisis IA detallado.
+    <div style="background:{BG2};border:1px solid {llm_c}33;border-radius:8px;
+                padding:.5rem 1rem;margin-bottom:1rem">
+      <span style="color:{llm_c}">{llm_txt}</span>
+      {f'<span style="color:{TEXT2};font-size:.75rem;margin-left:1rem">Inicia con: ollama serve</span>'
+       if not _BRAIN_OK else ''}
     </div>
     """, unsafe_allow_html=True)
 
-    col_sel1, col_sel2, col_btn = st.columns([1, 1, 1])
-    with col_sel1:
-        ev_sel = st.selectbox("Evento geopolítico", EVENTOS_MATRIX, key="matrix_ev")
-    with col_sel2:
-        sec_sel = st.selectbox("Sector doméstico", SECTORES_MATRIX, key="matrix_sec")
-    with col_btn:
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("🧠 Analizar impacto", key="btn_matrix_brain", disabled=not _BRAIN_OK):
-            with st.spinner("Analizando impacto..."):
-                resp = _brain.chat(
-                    f"Analiza el impacto de '{ev_sel}' sobre el sector '{sec_sel}' en España. "
-                    "Incluye: mecanismo de transmisión, magnitud estimada, horizonte temporal "
-                    "y medidas de mitigación disponibles. Máximo 200 palabras."
-                )
-                st.session_state["matrix_resp"] = resp
+    ia_tab1, ia_tab2, ia_tab3 = st.tabs(["📰 Briefing Diario", "🔎 Búsqueda RAG", "🌍 Análisis País"])
 
-    if "matrix_resp" in st.session_state:
-        st.markdown(f"""
-        <div style="background:{BG2};border:1px solid {AMBER}33;border-radius:10px;
-                    padding:1rem;margin-top:.5rem;border-left:4px solid {AMBER}">
-          <div style="font-size:.65rem;color:{AMBER};font-weight:700;margin-bottom:.4rem">
-            🧠 {ev_sel.upper()} → {sec_sel.upper()}
-          </div>
-          <div style="font-size:.83rem;color:{TEXT};line-height:1.6">
-            {st.session_state['matrix_resp']}
-          </div>
-        </div>
-        """, unsafe_allow_html=True)
+    with ia_tab1:
+        section_header("Briefing Geopolítico Diario")
+        briefing = get_briefing_diario()
+        col_b1, col_b2 = st.columns([3, 1])
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("PROYECCIÓN 90 DÍAS — IMPACTO POR SECTOR", PURPLE)
+        with col_b1:
+            if briefing:
+                fecha_b = str(briefing.get("fecha", ""))[:10]
+                st.markdown(f"""
+                <div style="color:{TEXT2};font-size:.75rem;margin-bottom:.6rem">
+                  Generado: {fecha_b} · {briefing.get('items_analizados',0)} noticias · {briefing.get('alertas_incluidas',0)} alertas
+                </div>
+                """, unsafe_allow_html=True)
+                st.markdown(briefing.get("texto", ""))
+            else:
+                st.info("Briefing no disponible. Genera uno →")
 
-    np.random.seed(7)
-    fechas_90 = pd.date_range(pd.Timestamp.today(), periods=90, freq="D")
-    fig_proj = go.Figure()
-    sectores_top = ["Energía", "Turismo", "Exportaciones", "Migración"]
-    proj_colors = [RED, GREEN, CYAN, AMBER]
-    for sector, color in zip(sectores_top, proj_colors):
-        base_v = np.random.randint(40, 75)
-        trend = np.linspace(0, np.random.choice([-10, 10, 5]), 90)
-        noise = np.random.randn(90) * 4
-        vals = np.clip(base_v + trend + noise, 0, 100)
-        fig_proj.add_trace(go.Scatter(
-            x=fechas_90, y=vals, name=sector,
-            line=dict(color=color, width=2),
-            hovertemplate=f"{sector}: %{{y:.0f}}/100<extra></extra>",
-        ))
-    fig_proj.update_layout(
-        height=240, paper_bgcolor=BG2, plot_bgcolor=BG2,
-        margin=dict(t=10, b=10, l=10, r=10),
-        xaxis=dict(color=TEXT2, gridcolor=BORDER),
-        yaxis=dict(color=TEXT2, gridcolor=BORDER, title="Presión (0-100)", range=[0, 100]),
-        legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.3,
-                    font=dict(size=9, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
-        hovermode="x unified",
-    )
-    st.plotly_chart(fig_proj, use_container_width=True, config={"displayModeBar": False})
+        with col_b2:
+            if st.button("🔄 Generar Ahora", use_container_width=True, disabled=not _BRAIN_OK):
+                with st.spinner("Generando briefing (modo deep)..."):
+                    try:
+                        from etl.pipelines.pipeline_geopolitica import tarea_briefing
+                        r = tarea_briefing()
+                        if r.get("generado"):
+                            st.success("✓ Generado")
+                            st.rerun()
+                        else:
+                            st.warning("No generado")
+                    except Exception as e:
+                        st.error(str(e))
+
+    with ia_tab2:
+        section_header("Búsqueda RAG en Corpus OSINT")
+        query_rag = st.text_area(
+            "Consulta geopolítica",
+            placeholder="Ej: ¿Impacto del conflicto en Libia sobre Repsol y el suministro energético español?",
+            height=80,
+        )
+        c_rq1, c_rq2 = st.columns([3, 1])
+        with c_rq2:
+            top_k_rag = st.number_input("Fuentes", 3, 10, 5)
+        with c_rq1:
+            run_rag = st.button("🔍 Analizar", use_container_width=True,
+                                disabled=not _BRAIN_OK or not query_rag.strip())
+        if run_rag and query_rag.strip():
+            with st.spinner("Consultando corpus OSINT + Ollama..."):
+                try:
+                    resultado = search_osint_semantic(query_rag, top_k=top_k_rag)
+                    if resultado:
+                        st.markdown(f"""
+                        <div style="background:{BG2};border:1px solid {BORDER};
+                                    border-left:4px solid {CYAN};border-radius:10px;
+                                    padding:1rem 1.2rem;margin-top:.5rem">
+                        """, unsafe_allow_html=True)
+                        st.markdown(resultado)
+                        st.markdown("</div>", unsafe_allow_html=True)
+                    else:
+                        st.warning("Sin resultados. Amplía el corpus ejecutando el pipeline.")
+                except Exception as e:
+                    st.error(str(e))
+
+    with ia_tab3:
+        section_header("Análisis Estratégico por País")
+        p_lista = get_riesgo_pais(interes_min=0.5, limit=20)
+        if p_lista:
+            p_opts = {
+                f"{p.get('flag_emoji','')} {p.get('nombre','?')} ({p.get('pais','?')})": p
+                for p in sorted(p_lista, key=lambda x: -float(x.get("interes_espana", 0)))
+            }
+            p_sel_lbl = st.selectbox("País", list(p_opts.keys()))
+            p_sel = p_opts.get(p_sel_lbl, {})
+
+            if p_sel:
+                c_p1, c_p2, c_p3 = st.columns(3)
+                with c_p1: kpi_card("Riesgo", f"{float(p_sel.get('score_total',0)):.1f}/10",
+                                    color=RED if float(p_sel.get('score_total',0))>=7 else AMBER)
+                with c_p2: kpi_card("Interés ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN)
+                with c_p3: kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
+                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo" else GREEN)
+
+                empresas = p_sel.get("empresas_espanolas") or []
+                intereses = p_sel.get("tipo_interes") or []
+                if empresas or intereses:
+                    st.markdown(f"""
+                    <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
+                                padding:.5rem 1rem;margin:.5rem 0">
+                      {''.join(f'<span class="pais-chip">{i}</span>' for i in intereses)}
+                      {''.join(f'<span class="pais-chip" style="color:{AMBER}">{e}</span>' for e in empresas)}
+                    </div>
+                    """, unsafe_allow_html=True)
+
+                if st.button(f"🧠 Analizar {p_sel.get('nombre','?')}", use_container_width=True,
+                             disabled=not _BRAIN_OK):
+                    with st.spinner("Generando análisis (modo deep)..."):
+                        try:
+                            analisis = get_analisis_pais_llm(
+                                p_sel.get("pais", ""), p_sel.get("nombre", ""))
+                            if analisis:
+                                st.markdown(f"""
+                                <div style="background:{BG2};border:1px solid {BORDER};
+                                            border-left:4px solid {BLUE};border-radius:10px;
+                                            padding:1rem 1.2rem;margin-top:.5rem">
+                                """, unsafe_allow_html=True)
+                                st.markdown(analisis)
+                                st.markdown("</div>", unsafe_allow_html=True)
+                            else:
+                                st.warning("Análisis vacío")
+                        except Exception as e:
+                            st.error(str(e))
+        else:
+            st.info("Sin datos de países.")
+
+    # ── Pipeline manual ─────────────────────────────────────────────────────
+    st.markdown("---")
+    section_header("⚙️ Pipeline Manual")
+    pm1, pm2, pm3 = st.columns(3)
+
+    with pm1:
+        if st.button("🧠 Enriquecer OSINT (LLM)", use_container_width=True, disabled=not _BRAIN_OK):
+            with st.spinner("Enriqueciendo..."):
+                try:
+                    pending = get_osint_filtered(horas=48, urgencia_min=2, relevancia_min=0.3,
+                                                 solo_no_procesados=True, limit=10)
+                    from agents.geo.enricher_ollama import enriquecer_item
+                    from etl.sources.geo.scraper_osint_advanced import load_store, save_store
+                    store = load_store()
+                    ok = 0
+                    for item in pending:
+                        enr = enriquecer_item(item)
+                        for idx, s in enumerate(store):
+                            if s.get("id") == enr.get("id"):
+                                store[idx] = enr
+                                ok += 1
+                                break
+                    save_store(store)
+                    st.success(f"✓ {ok} items enriquecidos")
+                except Exception as e:
+                    st.error(str(e))
+
+    with pm2:
+        if st.button("📊 Calcular Impactos DOM", use_container_width=True, disabled=not _BRAIN_OK):
+            with st.spinner("Calculando impactos..."):
+                try:
+                    from agents.geo.enricher_ollama import analizar_impacto
+                    items_r = get_osint_filtered(horas=48, urgencia_min=3, relevancia_min=0.6, limit=5)
+                    imps = [i for i in (analizar_impacto(it) for it in items_r) if i]
+                    if imps:
+                        imp_path = _ROOT / "dashboard" / "data" / "impactos_domesticos.json"
+                        ex = []
+                        if imp_path.exists():
+                            with open(imp_path) as f:
+                                ex = json.load(f)
+                        ex.extend(imps)
+                        with open(imp_path, "w") as f:
+                            json.dump(ex[-200:], f, ensure_ascii=False, indent=2)
+                        st.success(f"✓ {len(imps)} impactos calculados")
+                    else:
+                        st.info("Sin nuevos impactos")
+                except Exception as e:
+                    st.error(str(e))
+
+    with pm3:
+        if st.button("🗂️ Indexar ChromaDB", use_container_width=True):
+            with st.spinner("Indexando..."):
+                try:
+                    from etl.pipelines.pipeline_geopolitica import tarea_indexar_chromadb
+                    r = tarea_indexar_chromadb()
+                    st.success(f"✓ {r.get('indexados',0)} documentos")
+                except Exception as e:
+                    st.warning(str(e))

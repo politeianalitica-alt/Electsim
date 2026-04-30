@@ -1,0 +1,200 @@
+[
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre EE.UU. e Irán, con Trump rechazando la propuesta de paz iraní y manteniendo el bloqueo naval. Israel atacó flotas humanitarias, lo que amenaza a los participantes en medio de un approaching storm. Putin ofreció ayuda sobre uranio enriquecido iraní.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "ISR",
+      "RUS"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T08:34:40.805831+00:00"
+  },
+  {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "",
+    "nivel": "CRITICO",
+    "paises": [],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T08:34:40.805768+00:00"
+  },
+  {
+    "id": "ff560f3c22ab3bcd17fae1609e513f6e",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Strategic developments en Morocco — 0 bajas",
+    "descripcion": "Reunión de alto nivel España-Marruecos — avance en acuerdo energía y migraciones",
+    "nivel": "CRITICO",
+    "paises": [
+      "MAR"
+    ],
+    "evento_acled_id": 10,
+    "fatalities": 0,
+    "relevancia_es": 0.99,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "ff560f3c22ab3bcd17fae1609e513f6e",
+    "creada_en": "2026-04-30T08:18:37.143954+00:00"
+  },
+  {
+    "id": "52d5e385be5d4237a969737da8e793fd",
+    "tipo": "acled",
+    "titulo": "[ALTO] Explosions/Remote violence en Iraq — 3 bajas",
+    "descripcion": "Atentado IED provincia Kirkuk — zona operaciones Repsol",
+    "nivel": "ALTO",
+    "paises": [
+      "IRQ"
+    ],
+    "evento_acled_id": 9,
+    "fatalities": 3,
+    "relevancia_es": 0.7475,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "52d5e385be5d4237a969737da8e793fd",
+    "creada_en": "2026-04-30T08:18:37.143947+00:00"
+  },
+  {
+    "id": "08871b2da6990afb73bff51ebfe7de29",
+    "tipo": "acled",
+    "titulo": "[ALTO] Battles en Colombia — 12 bajas",
+    "descripcion": "Combate en Caquetá — impacto en operaciones Telefónica Colombia",
+    "nivel": "ALTO",
+    "paises": [
+      "COL"
+    ],
+    "evento_acled_id": 8,
+    "fatalities": 12,
+    "relevancia_es": 0.84,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "08871b2da6990afb73bff51ebfe7de29",
+    "creada_en": "2026-04-30T08:18:37.143940+00:00"
+  },
+  {
+    "id": "bcba6f0a4ee085c42c78c772ba3405bc",
+    "tipo": "acled",
+    "titulo": "[ALTO] Strategic developments en Burkina Faso — 0 bajas",
+    "descripcion": "Control JNIM sobre zona minera norte — tensión en corredor Sahel-Maghreb",
+    "nivel": "ALTO",
+    "paises": [
+      "BFA"
+    ],
+    "evento_acled_id": 7,
+    "fatalities": 0,
+    "relevancia_es": 0.748,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "bcba6f0a4ee085c42c78c772ba3405bc",
+    "creada_en": "2026-04-30T08:18:37.143933+00:00"
+  },
+  {
+    "id": "ffd36f72835d143719257b3bec1f8238",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Violence against civilians en Libya — 5 bajas",
+    "descripcion": "Incidente en terminal petrolífera - posible impacto suministro Repsol",
+    "nivel": "CRITICO",
+    "paises": [
+      "LBY"
+    ],
+    "evento_acled_id": 5,
+    "fatalities": 5,
+    "relevancia_es": 0.8925,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "ffd36f72835d143719257b3bec1f8238",
+    "creada_en": "2026-04-30T08:18:37.143921+00:00"
+  },
+  {
+    "id": "7efa81563c367ae087b4ae3cdbabe1bd",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Battles en Niger — 22 bajas",
+    "descripcion": "Combate en región de Tillabéri, corredor de migración hacia Argelia",
+    "nivel": "CRITICO",
+    "paises": [
+      "NER"
+    ],
+    "evento_acled_id": 4,
+    "fatalities": 22,
+    "relevancia_es": 0.9936,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "7efa81563c367ae087b4ae3cdbabe1bd",
+    "creada_en": "2026-04-30T08:18:37.143911+00:00"
+  },
+  {
+    "id": "0662b2066203202de5f6a620db8e1162",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Strategic developments en Mali — 0 bajas",
+    "descripcion": "JNIM expande control territorial en región Ségou, amenaza rutas logísticas",
+    "nivel": "CRITICO",
+    "paises": [
+      "MLI"
+    ],
+    "evento_acled_id": 3,
+    "fatalities": 0,
+    "relevancia_es": 0.858,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "0662b2066203202de5f6a620db8e1162",
+    "creada_en": "2026-04-30T08:18:37.143904+00:00"
+  },
+  {
+    "id": "b48e89ac5b0187bd04f87a0e8033b826",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Explosions/Remote violence en Ukraine — 8 bajas",
+    "descripcion": "Ataque con misiles sobre Járkov, impactos en infraestructura energética",
+    "nivel": "CRITICO",
+    "paises": [
+      "UKR"
+    ],
+    "evento_acled_id": 2,
+    "fatalities": 8,
+    "relevancia_es": 1.0,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "b48e89ac5b0187bd04f87a0e8033b826",
+    "creada_en": "2026-04-30T08:18:37.143896+00:00"
+  },
+  {
+    "id": "bf693edbb56b85667a4d132d90260b04",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Battles en Ukraine — 45 bajas",
+    "descripcion": "Combates intensos en oblast Donetsk, línea del frente Avdiivka",
+    "nivel": "CRITICO",
+    "paises": [
+      "UKR"
+    ],
+    "evento_acled_id": 1,
+    "fatalities": 45,
+    "relevancia_es": 1.0,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "bf693edbb56b85667a4d132d90260b04",
+    "creada_en": "2026-04-30T08:18:37.143882+00:00"
+  }
+]

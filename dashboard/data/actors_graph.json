@@ -8,7 +8,17 @@
       "rol": "Presidente del Gobierno",
       "poder": 10,
       "region": "Nacional",
-      "twitter": "@sanchezcastejon"
+      "twitter": "@sanchezcastejon",
+      "wikipedia_titulo": "Pedro Sánchez",
+      "wikipedia_url": "https://es.wikipedia.org/wiki/Pedro_S%C3%A1nchez",
+      "wikipedia_extracto": "Pedro Sánchez Pérez-Castejón es un político y economista español, actual presidente del Gobierno de España desde 2018. Es secretario general del Partido Socialista Obrero Español (PSOE) desde 2017, cargo que ya había desempeñado entre 2014 y 2016.",
+      "descripcion": "presidente del Gobierno de España desde 2018",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Pedro_S%C3%A1nchez_in_2026.jpg/330px-Pedro_S%C3%A1nchez_in_2026.jpg",
+      "wikidata_id": "Q6070218",
+      "wikidata_datos": {
+        "fecha de nacimiento": "1972-02-29T00:00:00Z"
+      },
+      "fecha_enriquecido": "2026-04-30T09:09:29.113295"
     },
     "feijoo": {
       "id": "feijoo",
@@ -18,7 +28,18 @@
       "rol": "Líder de la Oposición",
       "poder": 9,
       "region": "Nacional",
-      "twitter": "@NunezFeijoo"
+      "twitter": "@NunezFeijoo",
+      "wikipedia_titulo": "Alberto Núñez Feijóo",
+      "wikipedia_url": "https://es.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o",
+      "wikipedia_extracto": "Alberto Núñez Feijóo es un político y funcionario español, actual presidente del Partido Popular desde 2022. Con anterioridad, fue presidente de la Junta de Galicia desde 2009 hasta 2022 y senador en las Cortes Generales por designación del Parlamento de Galicia, entre 2022 y 2023.",
+      "descripcion": "político español",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/ALBERTO_N%C3%9A%C3%91EZ_FEIJ%C3%93O.jpg/330px-ALBERTO_N%C3%9A%C3%91EZ_FEIJ%C3%93O.jpg",
+      "wikidata_id": "Q2457783",
+      "wikidata_datos": {
+        "lugar de nacimiento": "Peares",
+        "fecha de nacimiento": "1961-09-10T00:00:00Z"
+      },
+      "fecha_enriquecido": "2026-04-30T09:09:34.734760"
     },
     "abascal": {
       "id": "abascal",
@@ -28,7 +49,18 @@
       "rol": "Secretario General VOX",
       "poder": 7,
       "region": "Nacional",
-      "twitter": "@Santi_ABASCAL"
+      "twitter": "@Santi_ABASCAL",
+      "wikipedia_titulo": "Santiago Abascal",
+      "wikipedia_url": "https://es.wikipedia.org/wiki/Santiago_Abascal",
+      "wikipedia_extracto": "Santiago Abascal Conde es un sociólogo y político español, líder del partido político Vox desde septiembre de 2014 y presidente del partido político europeo Patriotas.eu desde noviembre de 2024. Ha sido descrito como un político ultraconservador y de extrema derecha. Es miembro del Congreso de los Diputados en representación de Madrid desde 2019. Antes de la creación de Vox, fue durante mucho tiempo miembro del Partido Popular, se desempeñó como legislador en el Parlamento Vasco y ejerció el cargo de director de entidades financiadas con fondos públicos de la Comunidad de Madrid.",
+      "descripcion": "político español",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Santiago_Abascal_%2854349274173%29_%28cropped%29.jpg/330px-Santiago_Abascal_%2854349274173%29_%28cropped%29.jpg",
+      "wikidata_id": "Q11703587",
+      "wikidata_datos": {
+        "lugar de nacimiento": "Bilbao",
+        "fecha de nacimiento": "1976-04-14T00:00:00Z"
+      },
+      "fecha_enriquecido": "2026-04-30T09:09:39.864136"
     },
     "diaz_y": {
       "id": "diaz_y",
@@ -38,7 +70,18 @@
       "rol": "Ministra Trabajo / Líder Sumar",
       "poder": 7,
       "region": "Nacional",
-      "twitter": "@Yolanda_Diaz_"
+      "twitter": "@Yolanda_Diaz_",
+      "wikipedia_titulo": "Yolanda Díaz",
+      "wikipedia_url": "https://es.wikipedia.org/wiki/Yolanda_D%C3%ADaz",
+      "wikipedia_extracto": "Yolanda Díaz Pérez es una abogada laboralista y política española, ministra de Trabajo y Economía Social desde enero de 2020 y vicepresidenta segunda del Gobierno de España desde julio de 2021.",
+      "descripcion": "abogada y política española",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/A90Q3891.jpg_%28cropped%29.jpg/330px-A90Q3891.jpg_%28cropped%29.jpg",
+      "wikidata_id": "Q3393973",
+      "wikidata_datos": {
+        "lugar de nacimiento": "Fene",
+        "fecha de nacimiento": "1971-05-06T00:00:00Z"
+      },
+      "fecha_enriquecido": "2026-04-30T09:09:45.072716"
     },
     "puigdemont": {
       "id": "puigdemont",
@@ -48,7 +91,16 @@
       "rol": "Líder Junts (exilio)",
       "poder": 8,
       "region": "Cataluña",
-      "wikipedia_titulo": "Carles Puigdemont"
+      "wikipedia_titulo": "Carles Puigdemont",
+      "wikipedia_url": "https://es.wikipedia.org/wiki/Carles_Puigdemont",
+      "wikipedia_extracto": "Carles Puigdemont i Casamajó es un político español que ejerció como presidente de la Generalidad de Cataluña entre 2016 y 2017 y como diputado no inscrito al Parlamento Europeo entre 2019 y 2024. Desde octubre de 2024 ocupa la presidencia del partido político Junts per Catalunya.",
+      "descripcion": "político español",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Carles_Puigdemont_2024.jpg/330px-Carles_Puigdemont_2024.jpg",
+      "wikidata_id": "Q4740163",
+      "wikidata_datos": {
+        "fecha de nacimiento": "1962-12-29T00:00:00Z"
+      },
+      "fecha_enriquecido": "2026-04-30T09:09:49.831478"
     },
     "junqueras": {
       "id": "junqueras",
@@ -833,6 +885,6 @@
     "creado": "2026-04-29T22:03:02.902036",
     "n_actores": 50,
     "n_relaciones": 46,
-    "ultima_actualizacion": "2026-04-29T22:03:02.902045"
+    "ultima_actualizacion": "2026-04-30T09:09:50.348849"
   }
 }
