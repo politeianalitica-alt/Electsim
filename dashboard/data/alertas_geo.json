@@ -1,5 +1,133 @@
 [
   {
+    "id": "osint_768f658e1cf23bf5e114ab8e21f033ea",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] Palestinian Authority Claims Success in Local Elections amid Spiralling Crises",
+    "descripcion": "La Autoridad Palestina declaró éxito en las elecciones locales, a pesar de las crisis que enfrenta. Este evento se produce en un contexto de tensión y desafíos para la región.",
+    "nivel": "ALTO",
+    "paises": [
+      "PALE"
+    ],
+    "osint_item_id": "768f658e1cf23bf5e114ab8e21f033ea",
+    "url_origen": "https://www.crisisgroup.org/anb/middle-east-north-africa/israelpalestine/palestinian-authority-claims-success-local-elections-amid-spiralling-crises",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_768f658e1cf23bf5e114ab8e21f033ea",
+    "creada_en": "2026-04-30T17:02:57.173942+00:00"
+  },
+  {
+    "id": "osint_2c6c56ffbca123ec3750aa5a55e50acb",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Belgium eyes nuclear takeover to keep reactors running",
+    "descripcion": "Belgium considera tomar el control nuclear para mantener las reactivos en funcionamiento, mientras los operadores privados se niegan a asumir los costos y riesgos de plantas obsoletas.",
+    "nivel": "CRITICO",
+    "paises": [
+      "BE"
+    ],
+    "osint_item_id": "2c6c56ffbca123ec3750aa5a55e50acb",
+    "url_origen": "https://www.politico.eu/article/belgium-eyes-nuclear-takeover-to-keep-reactors-running/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_2c6c56ffbca123ec3750aa5a55e50acb",
+    "creada_en": "2026-04-30T17:02:57.173935+00:00"
+  },
+  {
+    "id": "osint_2155eb44fdcc7c9ca30db1a5105597c7",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Israel y las organizaciones judías británicas acusan a Starmer de no frenar el antisemitismo",
+    "descripcion": "El Gobierno británico incrementa la seguridad policial judía en respuesta a acusaciones de antisemitismo contra el fiscal general Starmer, mientras el primer ministro enfrenta críticas durante una visita al lugar del ataque.",
+    "nivel": "CRITICO",
+    "paises": [
+      "GBR"
+    ],
+    "osint_item_id": "2155eb44fdcc7c9ca30db1a5105597c7",
+    "url_origen": "https://elpais.com/internacional/2026-04-30/israel-y-las-organizaciones-judias-britanicas-acusan-a-starmer-de-no-frenar-el-antisemitismo.html",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_2155eb44fdcc7c9ca30db1a5105597c7",
+    "creada_en": "2026-04-30T17:02:57.173406+00:00"
+  },
+  {
+    "id": "osint_768f658e1cf23bf5e114ab8e21f033ea",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] Palestinian Authority Claims Success in Local Elections amid Spiralling Crises",
+    "descripcion": "La Autoridad Palestina afirma el éxito en las elecciones locales, a pesar de las crisis crecientes. Los resultados podrían tener implicaciones políticas y diplomáticas en la región.",
+    "nivel": "ALTO",
+    "paises": [
+      "PALE",
+      "ISR"
+    ],
+    "osint_item_id": "768f658e1cf23bf5e114ab8e21f033ea",
+    "url_origen": "https://www.crisisgroup.org/anb/middle-east-north-africa/israelpalestine/palestinian-authority-claims-success-local-elections-amid-spiralling-crises",
+    "categoria": "diplomacia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_768f658e1cf23bf5e114ab8e21f033ea",
+    "creada_en": "2026-04-30T16:58:15.776920+00:00"
+  },
+  {
+    "id": "osint_2c6c56ffbca123ec3750aa5a55e50acb",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Belgium eyes nuclear takeover to keep reactors running",
+    "descripcion": "El gobierno belga considera tomar el control nuclear para mantener las reactivas en funcionamiento, mientras que los operadores privados se niegan a asumir los costos y riesgos de plantas obsoletas.",
+    "nivel": "CRITICO",
+    "paises": [
+      "BEL"
+    ],
+    "osint_item_id": "2c6c56ffbca123ec3750aa5a55e50acb",
+    "url_origen": "https://www.politico.eu/article/belgium-eyes-nuclear-takeover-to-keep-reactors-running/?utm_source=RSS_Feed&utm_medium=RSS&utm_campaign=RSS_Syndication",
+    "categoria": "energía",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_2c6c56ffbca123ec3750aa5a55e50acb",
+    "creada_en": "2026-04-30T16:58:15.776911+00:00"
+  },
+  {
+    "id": "osint_2155eb44fdcc7c9ca30db1a5105597c7",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Israel y las organizaciones judías británicas acusan a Starmer de no frenar el antisemitismo",
+    "descripcion": "El Gobierno británico incrementa la seguridad policial judía en respuesta a críticas de Israel y organizaciones judías, mientras el primer ministro es abucheador durante una visita al lugar del ataque antisemita.",
+    "nivel": "CRITICO",
+    "paises": [
+      "GBR"
+    ],
+    "osint_item_id": "2155eb44fdcc7c9ca30db1a5105597c7",
+    "url_origen": "https://elpais.com/internacional/2026-04-30/israel-y-las-organizaciones-judias-britanicas-acusan-a-starmer-de-no-frenar-el-antisemitismo.html",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_2155eb44fdcc7c9ca30db1a5105597c7",
+    "creada_en": "2026-04-30T16:58:15.776867+00:00"
+  },
+  {
+    "id": "osint_8338f0aa8a46dd0b26715c1e0208f093",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Trump tells Germany's Merz to stop interfering over Iran",
+    "descripcion": "El presidente estadounidense Donald Trump criticó al canciller alemán Friedrich Merz, indicándole que se centrase en la guerra entre Rusia y Ucrania y redujera su intervención sobre el programa nuclear iraní.",
+    "nivel": "CRITICO",
+    "paises": [
+      "US",
+      "DE"
+    ],
+    "osint_item_id": "8338f0aa8a46dd0b26715c1e0208f093",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/trump-tells-germanys-merz-stop-interfering-over-iran",
+    "categoria": "diplomacia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_8338f0aa8a46dd0b26715c1e0208f093",
+    "creada_en": "2026-04-30T16:58:15.776689+00:00"
+  },
+  {
     "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
     "tipo": "osint_urgente",
     "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",

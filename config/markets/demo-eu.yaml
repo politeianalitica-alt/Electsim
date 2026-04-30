@@ -1,0 +1,119 @@
+code: "demo-eu"
+name: "Union Europea (demo)"
+default_locale: "en-EU"
+locales:
+  - "en-EU"
+  - "fr-FR"
+  - "de-DE"
+  - "es-ES"
+timezone: "Europe/Brussels"
+currency: "EUR"
+
+political_system:
+  country_iso: "EU"
+  electoral_system:
+    type: "proportional"
+    constituencies_source: "eu_elections"
+    num_constituencies: 27
+    barrier_threshold: 0.05
+  parliament:
+    national:
+      name: "Parlamento Europeo"
+      api_base_url: "https://www.europarl.europa.eu/portal/api"
+      chambers:
+        - "europarl"
+      total_seats: 720
+
+parties:
+  - slug: "ppe"
+    name: "Partido Popular Europeo"
+    color_hex: "#3399FF"
+    ideology_axes:
+      economic: 0.40
+      social: 0.30
+    external_ids:
+      europarl: "PPE"
+  - slug: "sd"
+    name: "Socialistas y Democratas"
+    color_hex: "#FF4040"
+    ideology_axes:
+      economic: -0.30
+      social: -0.35
+    external_ids:
+      europarl: "S&D"
+  - slug: "renew"
+    name: "Renew Europe"
+    color_hex: "#FFD700"
+    ideology_axes:
+      economic: 0.20
+      social: -0.20
+    external_ids:
+      europarl: "Renew"
+  - slug: "ecr"
+    name: "Conservadores y Reformistas Europeos"
+    color_hex: "#0052A5"
+    ideology_axes:
+      economic: 0.55
+      social: 0.65
+    external_ids:
+      europarl: "ECR"
+  - slug: "id"
+    name: "Identidad y Democracia"
+    color_hex: "#003399"
+    ideology_axes:
+      economic: 0.30
+      social: 0.85
+    external_ids:
+      europarl: "ID"
+
+media_outlets:
+  - slug: "politico_eu"
+    name: "Politico Europe"
+    category: "nacional"
+    rss_url: "https://www.politico.eu/feed/"
+    bias_hint: "center"
+  - slug: "euractiv"
+    name: "Euractiv"
+    category: "nacional"
+    rss_url: "https://www.euractiv.com/feed/"
+    bias_hint: "center"
+
+regulators:
+  - slug: "ec"
+    name: "Comision Europea"
+    website: "https://ec.europa.eu"
+  - slug: "ecb"
+    name: "Banco Central Europeo"
+    website: "https://www.ecb.europa.eu"
+
+ingestion_sources:
+  - id: "europarl_agenda"
+    type: "europarl_agenda"
+    enabled: true
+    description: "Agenda del Parlamento Europeo"
+    schedule_cron: "0 */2 * * *"
+    params:
+      api_base_url: "https://www.europarl.europa.eu/portal/api"
+
+  - id: "media_rss_eu"
+    type: "media_rss"
+    enabled: true
+    description: "Medios europeos via RSS"
+    schedule_cron: "*/15 * * * *"
+    params:
+      outlets_slugs:
+        - "politico_eu"
+        - "euractiv"
+
+calendar:
+  fixed_events:
+    - code: "europarl_election"
+      name: "Elecciones Parlamento Europeo"
+      recurrence: "variable"
+    - code: "european_council"
+      name: "Consejo Europeo"
+      recurrence: "variable"
+  ics_sources: []
+
+dlcs_available:
+  - "europarl_monitor_demo"

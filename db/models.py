@@ -487,3 +487,138 @@ class MicrodatoEncuesta(Base):
     principal_problema: Mapped[Optional[str]] = mapped_column(String(200))
     embedding: Mapped[Optional[list[float]]] = mapped_column(Vector(1536))
     tenant_id: Mapped[str] = mapped_column(String(64), nullable=False, server_default=text("'default'"))
+
+
+# =============================================================================
+# MODULO: ONTOLOGIA Y GRAFO  (migration 0021_ontology_graph)
+# =============================================================================
+
+import uuid as _uuid_mod  # noqa: E402
+
+from sqlalchemy.dialects.postgresql import JSONB, UUID as PG_UUID  # noqa: E402
+
+
+class OntologyObjectType(Base):
+    __tablename__ = "ontology_object_type"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    display_name: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text)
+
+    objects: Mapped[list["OntologyObject"]] = relationship(back_populates="object_type")
+    relation_types_source: Mapped[list["OntologyRelationType"]] = relationship(
+        foreign_keys="OntologyRelationType.source_type_id",
+        back_populates="source_type",
+    )
+    relation_types_target: Mapped[list["OntologyRelationType"]] = relationship(
+        foreign_keys="OntologyRelationType.target_type_id",
+        back_populates="target_type",
+    )
+
+
+class OntologyObject(Base):
+    __tablename__ = "ontology_object"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        primary_key=True,
+        server_default=text("gen_random_uuid()"),
+    )
+    object_type_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("ontology_object_type.id"), nullable=False
+    )
+    external_table: Mapped[str] = mapped_column(Text, nullable=False)
+    external_id: Mapped[str] = mapped_column(Text, nullable=False)
+    properties: Mapped[dict] = mapped_column(JSONB, nullable=False, server_default=text("'{}'::jsonb"))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("external_table", "external_id", name="uq_ontology_object_source"),
+    )
+
+    object_type: Mapped["OntologyObjectType"] = relationship(back_populates="objects")
+    outgoing_relations: Mapped[list["OntologyRelation"]] = relationship(
+        foreign_keys="OntologyRelation.source_object_id",
+        back_populates="source_object",
+        cascade="all, delete-orphan",
+    )
+    incoming_relations: Mapped[list["OntologyRelation"]] = relationship(
+        foreign_keys="OntologyRelation.target_object_id",
+        back_populates="target_object",
+        cascade="all, delete-orphan",
+    )
+
+
+class OntologyRelationType(Base):
+    __tablename__ = "ontology_relation_type"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    display_name: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text)
+    source_type_id: Mapped[Optional[int]] = mapped_column(
+        Integer, ForeignKey("ontology_object_type.id")
+    )
+    target_type_id: Mapped[Optional[int]] = mapped_column(
+        Integer, ForeignKey("ontology_object_type.id")
+    )
+
+    source_type: Mapped[Optional["OntologyObjectType"]] = relationship(
+        foreign_keys=[source_type_id],
+        back_populates="relation_types_source",
+    )
+    target_type: Mapped[Optional["OntologyObjectType"]] = relationship(
+        foreign_keys=[target_type_id],
+        back_populates="relation_types_target",
+    )
+    relations: Mapped[list["OntologyRelation"]] = relationship(back_populates="relation_type")
+
+
+class OntologyRelation(Base):
+    __tablename__ = "ontology_relation"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    relation_type_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("ontology_relation_type.id"), nullable=False
+    )
+    source_object_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("ontology_object.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    target_object_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("ontology_object.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    weight: Mapped[Optional[float]] = mapped_column()
+    evidence_object_id: Mapped[Optional[_uuid_mod.UUID]] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("ontology_object.id", ondelete="SET NULL"),
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint(
+            "relation_type_id", "source_object_id", "target_object_id",
+            name="uq_ontology_relation",
+        ),
+    )
+
+    relation_type: Mapped["OntologyRelationType"] = relationship(back_populates="relations")
+    source_object: Mapped["OntologyObject"] = relationship(
+        foreign_keys=[source_object_id],
+        back_populates="outgoing_relations",
+    )
+    target_object: Mapped["OntologyObject"] = relationship(
+        foreign_keys=[target_object_id],
+        back_populates="incoming_relations",
+    )

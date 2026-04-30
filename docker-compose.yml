@@ -93,7 +93,306 @@ services:
     ports:
       - "5173:5173"
 
+  # ─── Redis ────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Celery workers ───────────────────────────────────────────────────────
+
+  worker-ingesta:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app worker
+        --queues ingesta
+        --concurrency 4
+        --hostname worker-ingesta@%h
+        --loglevel info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - etl_cache:/tmp/.etl_cache
+
+  worker-nlp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app worker
+        --queues nlp
+        --concurrency 2
+        --hostname worker-nlp@%h
+        --loglevel info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - etl_cache:/tmp/.etl_cache
+
+  worker-ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app worker
+        --queues ollama
+        --concurrency 1
+        --hostname worker-ollama@%h
+        --loglevel info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/app
+      - etl_cache:/tmp/.etl_cache
+
+  worker-maint:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app worker
+        --queues mantenimiento
+        --concurrency 1
+        --hostname worker-maint@%h
+        --loglevel info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+  # ─── Celery Beat ──────────────────────────────────────────────────────────
+
+  beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app beat
+        --loglevel info
+        --schedule /app/scheduler/celerybeat-schedule
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - beatdata:/app/scheduler
+
+  # ─── Flower (monitor web) ────────────────────────────────────────────────
+
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      FLOWER_BASIC_AUTH: ${FLOWER_USER:-admin}:${FLOWER_PASSWORD:-change_me}
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app flower
+        --port=5555
+        --broker=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "5555:5555"
+    restart: unless-stopped
+    volumes:
+      - .:/app
+
+  # ─── Intelligence worker ─────────────────────────────────────────────────
+  # Consume la cola 'intelligence' para briefings, riesgo, narrativas e impacto
+  # Concurrencia 1 para no saturar vLLM/Ollama (misma restriccion que ollama)
+
+  worker-intelligence:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-electsim}@postgres:5432/electsim_espana
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      LITELLM_BASE_URL: ${LITELLM_BASE_URL:-http://litellm-proxy:4000}
+      LITELLM_API_KEY: ${LITELLM_API_KEY:-no-key-needed}
+      PYTHONPATH: /app
+    command: >
+      celery -A scheduler.celery_app worker
+        --queues intelligence
+        --concurrency 1
+        --hostname worker-intelligence@%h
+        --loglevel info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/app
+
+  # ─── LiteLLM Proxy ───────────────────────────────────────────────────────
+  # Router LLM: enruta peticiones a vLLM-primary, vLLM-fast u Ollama
+  # Expone una API OpenAI-compatible en :4000
+
+  litellm-proxy:
+    image: ghcr.io/berriai/litellm:main-stable
+    command: ["--config", "/app/litellm_config.yaml", "--port", "4000", "--num_workers", "4"]
+    volumes:
+      - ./litellm_config.yaml:/app/litellm_config.yaml:ro
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_API_KEY:-no-key-needed}
+      REDIS_URL: redis://redis:6379/0
+      STORE_MODEL_IN_DB: "false"
+    ports:
+      - "4000:4000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles:
+      - llm              # solo con: docker compose --profile llm up
+
+  # ─── vLLM primary (Qwen2.5-72B, requiere GPU A100/H100) ────────────────
+  # Activa con: docker compose --profile llm --profile gpu up
+
+  vllm-primary:
+    image: vllm/vllm-openai:latest
+    command:
+      - "--model"
+      - "Qwen/Qwen2.5-72B-Instruct-128K"
+      - "--port"
+      - "8000"
+      - "--tensor-parallel-size"
+      - "${VLLM_TP_SIZE:-1}"
+      - "--gpu-memory-utilization"
+      - "0.90"
+      - "--max-model-len"
+      - "32768"
+    environment:
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN:-}
+    ports:
+      - "8010:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - hf_cache:/root/.cache/huggingface
+    restart: unless-stopped
+    profiles:
+      - llm
+      - gpu
+
+  # ─── vLLM fast (Qwen2.5-14B, requiere GPU) ──────────────────────────────
+
+  vllm-fast:
+    image: vllm/vllm-openai:latest
+    command:
+      - "--model"
+      - "Qwen/Qwen2.5-14B-Instruct"
+      - "--port"
+      - "8001"
+      - "--gpu-memory-utilization"
+      - "0.80"
+    environment:
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN:-}
+    ports:
+      - "8011:8001"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - hf_cache:/root/.cache/huggingface
+    restart: unless-stopped
+    profiles:
+      - llm
+      - gpu
+
 volumes:
   pgdata:
   miniodata:
   etl_cache:
+  redisdata:
+  beatdata:
+  hf_cache:

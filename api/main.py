@@ -15,6 +15,7 @@ from api.routers import (
     analogias,
     analytics,
     campana,
+    market,
     ontology,
     opposition,
     pipelines,
@@ -106,3 +107,4 @@ app.include_router(campana.router, prefix="/campana", tags=["campana"])
 app.include_router(voto_blando.router)
 app.include_router(analogias.router)
 app.include_router(workspace_signals.router, tags=["workspace"])
+app.include_router(market.router, prefix="/market", tags=["market"])

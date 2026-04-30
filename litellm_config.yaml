@@ -1,0 +1,130 @@
+## LiteLLM Proxy Config v2 — ElectSim Intelligence Stack
+## Todos los modelos son open-source y se sirven localmente.
+## Sin proveedores de pago. Sin telemetria.
+##
+## Tiers:
+##   T1 electsim-analysis  — Qwen2.5-72B-Instruct-128K (vLLM primario)
+##   T2 electsim-fast      — Qwen2.5-14B-Instruct      (vLLM rapido)
+##   T3 electsim-embed     — nomic-embed-text           (Ollama embed)
+##   T4 electsim-nlp       — NLP clasico (spaCy/transformers, no LLM)
+
+model_list:
+
+  # ---------------------------------------------------------------------------
+  # Tier 1: Analisis complejo, contexto largo (72B, 128K ctx)
+  # ---------------------------------------------------------------------------
+  - model_name: "electsim-analysis"
+    litellm_params:
+      model: "openai/Qwen/Qwen2.5-72B-Instruct-128K"
+      api_base: "http://vllm-primary:8000/v1"
+      api_key: "no-key-needed"        # vLLM local no requiere key real
+      timeout: 120
+      max_tokens: 4096
+      temperature: 0.2
+    model_info:
+      mode: "chat"
+      max_input_tokens: 131072
+      supports_function_calling: true
+      supports_response_schema: true
+
+  # ---------------------------------------------------------------------------
+  # Tier 2: Clasificacion y resumenes de alto volumen (14B, 32K ctx)
+  # ---------------------------------------------------------------------------
+  - model_name: "electsim-fast"
+    litellm_params:
+      model: "openai/Qwen/Qwen2.5-14B-Instruct"
+      api_base: "http://vllm-fast:8001/v1"
+      api_key: "no-key-needed"
+      timeout: 45
+      max_tokens: 1024
+    model_info:
+      mode: "chat"
+      max_input_tokens: 32768
+      supports_function_calling: true
+      supports_response_schema: true
+
+  # ---------------------------------------------------------------------------
+  # Tier 2b: Fallback via Ollama si vLLM no disponible
+  # ---------------------------------------------------------------------------
+  - model_name: "electsim-fast-fallback"
+    litellm_params:
+      model: "ollama/qwen2.5:14b"
+      api_base: "http://ollama:11434"
+      timeout: 90
+    model_info:
+      mode: "chat"
+      max_input_tokens: 32768
+
+  # ---------------------------------------------------------------------------
+  # Tier 3: Embeddings locales
+  # ---------------------------------------------------------------------------
+  - model_name: "electsim-embed"
+    litellm_params:
+      model: "ollama/nomic-embed-text"
+      api_base: "http://ollama:11434"
+      timeout: 30
+    model_info:
+      mode: "embedding"
+      max_input_tokens: 8192
+
+  # Alternativa embeddings multilingues (mayor calidad, mas lento)
+  - model_name: "electsim-embed-ml"
+    litellm_params:
+      model: "ollama/multilingual-e5-large"
+      api_base: "http://ollama:11434"
+      timeout: 45
+    model_info:
+      mode: "embedding"
+      max_input_tokens: 8192
+
+  # ---------------------------------------------------------------------------
+  # Dev/fallback: Ollama gemma3 para analisis cuando vLLM no esta disponible
+  # ---------------------------------------------------------------------------
+  - model_name: "electsim-dev"
+    litellm_params:
+      model: "ollama/gemma3:12b"
+      api_base: "http://ollama:11434"
+      timeout: 120
+      max_tokens: 2048
+    model_info:
+      mode: "chat"
+      max_input_tokens: 8192
+
+router_settings:
+  routing_strategy: "latency-based-routing"
+  num_retries: 2
+  timeout: 90
+  retry_after: 5
+  allowed_fails: 3        # max fallos antes de quitar un modelo del pool
+  cooldown_time: 60       # segundos en cooldown despues de fallos
+  redis_host: "redis"
+  redis_port: 6379
+  redis_password: ""
+  redis_db: 1             # DB separada del broker Celery (que usa DB 0)
+
+fallbacks:
+  - model: "electsim-analysis"
+    fallbacks: ["electsim-fast", "electsim-dev"]
+  - model: "electsim-fast"
+    fallbacks: ["electsim-fast-fallback", "electsim-dev"]
+
+cache:
+  type: "redis"
+  host: "redis"
+  port: 6379
+  db: 2                   # DB separada para cache LLM
+  ttl: 3600               # 1 hora por defecto
+  # Los endpoints que no deben cachearse se marcan con cache=false en el cliente
+
+general_settings:
+  max_parallel_requests: 16
+  request_timeout: 120
+  drop_params: false      # no silenciar params desconocidos
+  master_key: ""          # sin autenticacion en local
+
+litellm_settings:
+  telemetry: false
+  set_verbose: false
+  json_logs: true
+  success_callback: []
+  failure_callback: []
