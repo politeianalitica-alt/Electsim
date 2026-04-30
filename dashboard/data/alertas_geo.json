@@ -1,5 +1,198 @@
 [
   {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "El Gobierno francés renunció a presentar un proyecto de ley sobre la protección de la infancia, mientras el sector enfrenta una crisis con aumento en menores en acogida y precariedad laboral.",
+    "nivel": "CRITICO",
+    "paises": [
+      "FR"
+    ],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T09:04:15.383547+00:00"
+  },
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre Irán y EE.UU., mientras Israel ataca la flota Global Sumud Flotilla, lo que amenaza a los participantes en el mar. Trump menciona una oferta de ayuda de Putin sobre uranio iraní.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "ISR",
+      "USA"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T09:04:15.383460+00:00"
+  },
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre EE.UU. e Irán, con Trump rechazando una propuesta de paz iraní y manteniendo el bloqueo naval. Israel atacó la flota Sumud, dejando a cientos de participantes en alta mar. Putin ofreció ayudar sobre uranio enriquecido iraní.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "ISR",
+      "USA",
+      "RUS"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T09:03:26.818749+00:00"
+  },
+  {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "El Gobierno francés abandonó un proyecto de ley sobre la protección de la infancia debido a una crisis en el sector, incluyendo aumento de menores en acogida y precariedad laboral. La situación es urgente para garantizar una protección real.",
+    "nivel": "CRITICO",
+    "paises": [
+      "FR"
+    ],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T09:03:26.818056+00:00"
+  },
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre Irán y EE.UU., con Trump rechazando la propuesta iraní de paz, manteniendo el bloqueo naval. Israel atacó flotas humanitarias, mientras Putin ofrece ayuda sobre uranio enriquecido.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "USA",
+      "ISR"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T09:01:31.481028+00:00"
+  },
+  {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "El Gobierno francés abandonó un proyecto de ley sobre la protección de la infancia debido a una crisis en el sector, incluyendo aumento de menores en acogida y precariedad laboral. La situación es urgente para garantizar una protección real.",
+    "nivel": "CRITICO",
+    "paises": [
+      "FR"
+    ],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T09:01:31.480372+00:00"
+  },
+  {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "El Gobierno francés renunció a presentar un proyecto de ley sobre la protección de la infancia, mientras que el sector enfrenta una crisis con aumento en menores en acogida y precariedad laboral.",
+    "nivel": "CRITICO",
+    "paises": [
+      "FR"
+    ],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T08:58:44.480925+00:00"
+  },
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre EE.UU. e Irán, con Trump rechazando una propuesta de paz iraní y manteniendo un bloqueo naval. Israel atacó flotas humanitarias, mientras Putin ofreció ayuda a Trump sobre uranio enriquecido iraní.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "ISR",
+      "USA",
+      "RUS"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T08:58:44.476959+00:00"
+  },
+  {
+    "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Morning update",
+    "descripcion": "Tensiones persisten entre EE.UU. e Irán, con Trump rechazando la propuesta de paz iraní y manteniendo el bloqueo naval. Israel atacó flotas humanitarias, dejando a participantes en alta mar. Putin ofreció ayuda sobre uranio enriquecido a Trump.",
+    "nivel": "CRITICO",
+    "paises": [
+      "EE.UU.",
+      "Irán",
+      "Israel",
+      "Rusia"
+    ],
+    "osint_item_id": "f9fd7fa0d031f270dfc53f853ea68c61",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/morning-update-519",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_f9fd7fa0d031f270dfc53f853ea68c61",
+    "creada_en": "2026-04-30T08:51:40.972511+00:00"
+  },
+  {
+    "id": "osint_4194fc94dbe42186b763c7be53c0b80f",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Infancia en peligro, una política hecha añicos",
+    "descripcion": "El Gobierno francés abandonó un proyecto de ley sobre la protección de la infancia debido a la crisis en el sector, incluyendo el aumento de menores en acogida y la precariedad laboral. La situación plantea preocupaciones sobre la protección real de los derechos de la infancia.",
+    "nivel": "CRITICO",
+    "paises": [
+      "FR"
+    ],
+    "osint_item_id": "4194fc94dbe42186b763c7be53c0b80f",
+    "url_origen": "https://mondiplo.com/infancia-en-peligro-una-politica-hecha-anicos",
+    "categoria": "derechos_humanos",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_4194fc94dbe42186b763c7be53c0b80f",
+    "creada_en": "2026-04-30T08:51:40.972306+00:00"
+  },
+  {
     "id": "osint_f9fd7fa0d031f270dfc53f853ea68c61",
     "tipo": "osint_urgente",
     "titulo": "[CRITICO] Morning update",

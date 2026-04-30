@@ -415,11 +415,13 @@ def render_signal_aggregator() -> None:
             "Geopolítica & RRII",
             "",
             g,
-            GREEN if g.get("nivel_top") == "bajo"else AMBER,
+            RED if g.get("nivel_top") == "critico" else AMBER if g.get("nivel_top") == "alto" else GREEN if g.get("nivel_top") == "bajo" else AMBER,
             [
-                f"Señales 24h: {g.get('señales_relevantes_24h')}",
-                f"Región top: {g.get('pais_top') or 'sin foco'}",
-                f"Nivel: {g.get('nivel_top')}",
+                f"Señales 24h: {g.get('señales_relevantes_24h', 0)} · Nivel: {g.get('nivel_top', '—')}",
+                f"Alertas: 🔴 {g.get('alertas_criticas', 0)} CRÍTICO · ⚠️ {g.get('alertas_altas', 0)} ALTO",
+                f"OSINT urgentes: {g.get('osint_urgentes', 0)} · ACLED: {g.get('acled_eventos', 0)} eventos",
+                (f"País más expuesto: {g.get('riesgo_max', {}).get('flag', '')} {g.get('riesgo_max', {}).get('pais', g.get('pais_top') or 'sin foco')}"
+                 f" (score {g.get('riesgo_max', {}).get('score', '—')})"),
             ],
         ),
     ]

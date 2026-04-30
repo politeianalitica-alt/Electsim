@@ -205,16 +205,16 @@ _metricas = _load_metricas()
 
 c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
-    kpi_card("Actores", str(_estado_w.get("n_actores", 0)), "", color=CYAN)
+    st.markdown(kpi_card("Actores", str(_estado_w.get("n_actores", 0)), "", color=CYAN), unsafe_allow_html=True)
 with c2:
-    kpi_card("Relaciones", str(_estado_w.get("n_relaciones", 0)), "", color=PURPLE)
+    st.markdown(kpi_card("Relaciones", str(_estado_w.get("n_relaciones", 0)), "", color=PURPLE), unsafe_allow_html=True)
 with c3:
-    kpi_card("Menciones", str(_estado_w.get("n_menciones", 0)), "", color=AMBER)
+    st.markdown(kpi_card("Menciones", str(_estado_w.get("n_menciones", 0)), "", color=AMBER), unsafe_allow_html=True)
 with c4:
-    kpi_card("Comunidades", str(_metricas.get("n_comunidades", 0)), "", color=GREEN)
+    st.markdown(kpi_card("Comunidades", str(_metricas.get("n_comunidades", 0)), "", color=GREEN), unsafe_allow_html=True)
 with c5:
     w_on = _estado_w.get("running", False)
-    kpi_card("Worker", "● Activo"if w_on else "⏸ Parado", "!", color=GREEN if w_on else MUTED)
+    st.markdown(kpi_card("Worker", "● Activo" if w_on else "⏸ Parado", "!", color=GREEN if w_on else MUTED), unsafe_allow_html=True)
 
 st.markdown("---")
 

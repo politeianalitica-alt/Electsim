@@ -1,0 +1,3 @@
+from .gdeltclient import GDELTClient, QUERIES_ESPANA, TEMAS_INTERES_ESPANA
+
+__all__ = ["GDELTClient", "QUERIES_ESPANA", "TEMAS_INTERES_ESPANA"]

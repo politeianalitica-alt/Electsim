@@ -570,12 +570,106 @@ def signal_electoral(workspace_id: str | int | None) -> dict[str, Any]:
 
 @_ttl_cache(seconds=180, maxsize=32)
 def signal_geopolitica(workspace_id: str | int | None) -> dict[str, Any]:
+    """
+    Señales geopolíticas para el Centro de Operaciones.
+    Fuente primaria: módulo geo (alertas_geo.json + osint_geo.json + ACLED demo).
+    Fallback: keyword matching en noticias de workspace.
+    """
+    # ── Fuente primaria: módulo geo v2 ────────────────────────────────────────
+    alertas_criticas: list[dict] = []
+    osint_urgentes: list[dict] = []
+    paises_top_osint: list[dict] = []
+    acled_count = 0
+    riesgo_max: dict[str, Any] = {}
+
+    try:
+        from dashboard.utils.geo_helpers import (
+            get_alertas_nivel,
+            get_count_alertas,
+            get_osint_filtered,
+            get_paises_mas_mencionados,
+            get_riesgo_pais,
+            get_eventos_acled,
+        )
+        # Alertas activas CRITICO + ALTO
+        alertas_criticas = get_alertas_nivel(nivel="CRITICO", limite=3)
+        alertas_altas = get_alertas_nivel(nivel="ALTO", limite=3)
+        alertas_count_map = get_count_alertas()
+
+        # OSINT urgentes (urgencia >= 4)
+        osint_urgentes = get_osint_filtered(horas=24, urgencia_min=4, relevancia_min=0.6, limit=5)
+
+        # Países más mencionados
+        paises_top_osint = get_paises_mas_mencionados(horas=24, top_n=5)
+
+        # Eventos ACLED recientes
+        eventos_acled = get_eventos_acled(days=7, relevancia_min=0.5, limite=5)
+        acled_count = len(eventos_acled)
+
+        # País con mayor riesgo × interés
+        paises_riesgo = get_riesgo_pais(interes_min=0.6, limit=3)
+        if paises_riesgo:
+            top_p = max(paises_riesgo, key=lambda p: float(p.get("score_total", 0)) * float(p.get("interes_espana", 0)))
+            riesgo_max = {
+                "pais": top_p.get("nombre", top_p.get("pais", "")),
+                "score": float(top_p.get("score_total", 0)),
+                "tendencia": top_p.get("riesgo_tendencia", "estable"),
+                "flag": top_p.get("flag_emoji", "🌍"),
+            }
+
+        # Determinar nivel global basado en alertas
+        if alertas_count_map.get("CRITICO", 0) > 0:
+            nivel_global = "critico"
+        elif alertas_count_map.get("ALTO", 0) >= 2:
+            nivel_global = "alto"
+        elif alertas_count_map.get("ALTO", 0) > 0 or alertas_count_map.get("MEDIO", 0) >= 3:
+            nivel_global = "medio"
+        else:
+            nivel_global = "bajo"
+
+        total_señales = (
+            len(osint_urgentes) +
+            alertas_count_map.get("CRITICO", 0) +
+            alertas_count_map.get("ALTO", 0) +
+            acled_count
+        )
+
+        return {
+            "señales_relevantes_24h": total_señales,
+            "pais_top": riesgo_max.get("pais") or (paises_top_osint[0]["pais"] if paises_top_osint else None),
+            "nivel_top": nivel_global,
+            "alertas_criticas": len(alertas_criticas),
+            "alertas_altas": len(alertas_altas) if "alertas_altas" in dir() else alertas_count_map.get("ALTO", 0),
+            "osint_urgentes": len(osint_urgentes),
+            "acled_eventos": acled_count,
+            "riesgo_max": riesgo_max,
+            "items": [
+                {"region": p["pais"], "n": p["menciones"]}
+                for p in paises_top_osint[:5]
+            ],
+            "alertas_resumen": [
+                {
+                    "titulo": a.get("titulo", "")[:100],
+                    "nivel": a.get("nivel", ""),
+                    "creada_en": a.get("creada_en", "")[:16],
+                }
+                for a in (alertas_criticas + (alertas_altas if "alertas_altas" in dir() else []))[:4]
+            ],
+            "git_amigos": [],
+            "fuente": "geo_module_v2",
+        }
+    except Exception as exc:
+        logger.debug("geo_module_v2 no disponible, fallback a keywords: %s", exc)
+
+    # ── Fallback: keyword matching en noticias ───────────────────────────────
     keywords = {
         "UE": ["ue", "union europea", "bruselas", "europeo"],
         "EEUU": ["eeuu", "trump", "washington", "arancel"],
         "Rusia/Ucrania": ["rusia", "ucrania", "zelenski", "putin"],
         "Oriente Medio": ["gaza", "israel", "iran", "palestina"],
         "Marruecos": ["marruecos", "sahara", "rabat"],
+        "Argelia": ["argelia", "gas", "medgaz", "tlemcen"],
+        "Sahel": ["sahel", "mali", "niger", "burkina", "yihad"],
     }
     news = workspace_news(workspace_id, limit=80)
     counts: Counter[str] = Counter()
@@ -592,15 +686,22 @@ def signal_geopolitica(workspace_id: str | int | None) -> dict[str, Any]:
             git_geo = git.geopolitical_signals(query=query, limit=5)
             for item in git_geo:
                 counts[str(item.get("pais") or item.get("label") or "Git Amigos")] += 1
-        except Exception as exc:
-            logger.debug("No se pudieron agregar señales geopolíticas Git Amigos: %s", exc)
+        except Exception as exc_git:
+            logger.debug("No se pudieron agregar señales geopolíticas Git Amigos: %s", exc_git)
     top = counts.most_common(1)[0] if counts else (None, 0)
     return {
         "señales_relevantes_24h": int(sum(counts.values())),
         "pais_top": top[0],
-        "nivel_top": "alto"if top[1] >= 4 else "medio"if top[1] else "bajo",
+        "nivel_top": "alto" if top[1] >= 4 else "medio" if top[1] else "bajo",
+        "alertas_criticas": 0,
+        "alertas_altas": 0,
+        "osint_urgentes": 0,
+        "acled_eventos": 0,
+        "riesgo_max": {},
         "items": [{"region": k, "n": int(v)} for k, v in counts.most_common(5)],
+        "alertas_resumen": [],
         "git_amigos": git_geo,
+        "fuente": "keyword_fallback",
     }
 
 
