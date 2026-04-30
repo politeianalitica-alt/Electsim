@@ -77,6 +77,16 @@ REPOS: tuple[RepoSpec, ...] = (
     RepoSpec("dbt", "dbt-core-main", "dbt Core", "etl", ("datos_etl", "calidad"), ("D10", "pipelines"), ("README.md", "core/README.md", "schemas/**/*.json"), ("model", "lineage", "warehouse", "schema"), "data_lineage"),
     RepoSpec("dagster", "dagster-master", "Dagster", "etl", ("datos_etl", "orquestacion"), ("D10", "pipelines"), ("README.md", "examples/README.md", "python_modules/**/*.py"), ("asset", "orchestration", "schedule"), "asset_pipeline"),
     RepoSpec("airbyte", "airbyte-master", "Airbyte", "etl", ("datos_etl", "connectors"), ("D10", "pipelines"), ("README.md", "docusaurus/README.md", "airbyte-integrations/**/*.md"), ("connector", "sync", "source", "destination"), "data_connectors"),
+    # ── Capa 1: Pipeline de Ingesta Legislativa ──────────────────────────────
+    RepoSpec("legalize_es", "legalize-es-main", "Legalize España", "ingesta", ("legislativo", "boe", "normativa"), ("D4", "D6", "D3"), ("README.md", "normas/**/*.md", "scripts/*.py"), ("boe", "norma", "ley", "decreto", "legislacion", "españa"), "boe_search"),
+    RepoSpec("mcp_boe", "MCP-BOE-main", "MCP BOE", "tool", ("legislativo", "boe", "mcp"), ("D4", "D6"), ("README.md", "src/mcp_boe/tools/*.py", "src/mcp_boe/models/*.py"), ("boe", "legislation", "consolidada", "sumario", "borme"), "boe_search"),
+    RepoSpec("congreso_scrapper", "Congreso-Scrapper-main 3", "Congreso Scrapper", "ingesta", ("legislativo", "congreso", "votaciones"), ("D4", "D2", "D6"), ("README.md", "*.py", "*.md"), ("congreso", "votaciones", "diputados", "iniciativas", "legislatura"), "congreso_votaciones"),
+    RepoSpec("eurlex", "eurlex-master", "EUR-Lex R", "ingesta", ("legislativo", "ue", "eurlex"), ("D4", "D6"), ("README.md", "DESCRIPTION", "R/*.R", "man/*.Rd"), ("eurlex", "celex", "sparql", "directive", "regulation", "cdm"), "euparl_query"),
+    RepoSpec("euparl_monitor", "euparliamentmonitor-main", "EU Parliament Monitor", "ingesta", ("legislativo", "ue", "parlamento"), ("D4", "D2", "D8"), ("README.md", "AUTHORS.md", "ARCHITECTURE.md"), ("european parliament", "mep", "vote", "procedure", "committee"), "euparl_query"),
+    # ── Capa 2: Motor de Inteligencia Legislativa ────────────────────────────
+    RepoSpec("mcp_eu_ai_act", "mcp-eu-ai-act-main", "MCP EU AI Act", "tool", ("legislativo", "ia", "compliance", "ue"), ("D4", "D6", "D10"), ("README.md", "data/eu_ai_act_articles.json", "src/*.py"), ("ai act", "compliance", "high risk", "provider", "deployer", "prohibited"), "ai_act_compliance"),
+    RepoSpec("legalize_eu", "legalize-eu-main", "Legalize EU", "ingesta", ("legislativo", "ue", "normativa"), ("D4", "D6"), ("README.md", "normas/**/*.md"), ("ue", "normativa", "directiva", "reglamento", "comision"), "euparl_query"),
+    RepoSpec("legalize_eu2", "legalize-eu-main 2", "Legalize EU (2)", "ingesta", ("legislativo", "ue", "normativa"), ("D4", "D6"), ("README.md", "normas/**/*.md"), ("ue", "normativa", "directiva", "reglamento"), "euparl_query"),
 )
 
 

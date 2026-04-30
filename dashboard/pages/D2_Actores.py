@@ -893,11 +893,12 @@ with tab_query:
     else:
         st.success("🟢 Ollama activo")
 
-    qt1, qt2, qt3, qt4 = st.tabs([
+    qt1, qt2, qt3, qt4, qt5 = st.tabs([
         "💬 Consulta libre",
         "🔍 NER — Extraer actores",
         "📋 Ficha de actor IA",
         "🤝 Briefing de relación",
+        "⚖️ Normativa + Herramientas",
     ])
 
     # ── QT1: Consulta libre ───────────────────────────────────────────────────
@@ -960,8 +961,15 @@ Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
                 sistema = ("Eres un analista experto en política española con acceso a un grafo "
                            "de relaciones entre actores. Responde en español, conciso y preciso.")
 
-                with st.spinner("🤔 Analizando…"):
-                    respuesta = _llm.chat(pregunta, contexto=contexto, sistema=sistema, modo="normal")
+                with st.spinner("🤔 Analizando con herramientas…"):
+                    # Usar chat_legislativo para acceder a BOE/EUR-Lex/AI Act si es necesario
+                    try:
+                        respuesta = _llm.chat_legislativo(
+                            pregunta, contexto=contexto,
+                            herramientas=["actor_relaciones", "boe_search", "euparl_query", "ai_act_compliance"],
+                        )
+                    except AttributeError:
+                        respuesta = _llm.chat(pregunta, contexto=contexto, sistema=sistema, modo="normal")
 
                 st.markdown(f'<div class="chat-msg">{respuesta}</div>', unsafe_allow_html=True)
                 if "qia_historia" not in st.session_state:
@@ -1180,6 +1188,124 @@ Español. Accionable."""
                                        sistema="Eres analista de relaciones de poder en política española.",
                                        modo="normal")
                 st.markdown(f'<div class="chat-msg">{br_txt}</div>', unsafe_allow_html=True)
+
+
+    # ── QT5: Normativa + Herramientas ─────────────────────────────────────────
+    with qt5:
+        st.markdown("#### ⚖️ Consulta con Herramientas Legislativas")
+        st.caption("Accede al BOE, EUR-Lex, AI Act compliance y votaciones del Congreso")
+
+        _herr_opts = {
+            "🔍 BOE — Legislación española": "boe_search",
+            "📅 BOE — Sumario del día": "boe_sumario",
+            "🇪🇺 EUR-Lex — Normativa UE": "euparl_query",
+            "📋 EUR-Lex — Trazabilidad procedimiento": "euparl_procedimiento",
+            "🤖 AI Act — Cumplimiento IA": "ai_act_compliance",
+            "🗳️ Congreso — Votaciones recientes": "congreso_votaciones",
+            "👤 Congreso — Diputados": "congreso_diputados",
+            "🕸️ Actores — Red de relaciones": "actor_relaciones",
+        }
+
+        _herr_sel = st.multiselect(
+            "Herramientas activas",
+            options=list(_herr_opts.keys()),
+            default=list(_herr_opts.keys())[:4],
+            key="qt5_herramientas",
+        )
+        _herr_ids = [_herr_opts[h] for h in _herr_sel]
+
+        # Estado de herramientas
+        with st.expander("📊 Estado de fuentes legislativas", expanded=False):
+            try:
+                from services.llm_tools_registry import status_herramientas
+                _st_herr = status_herramientas()
+                cols_h = st.columns(4)
+                for i, (nombre, info) in enumerate(_st_herr.items()):
+                    with cols_h[i % 4]:
+                        if info.get("ok"):
+                            detalles = []
+                            if "normas_corpus" in info:
+                                detalles.append(f"{info['normas_corpus']} normas")
+                            if "articulos" in info:
+                                detalles.append(f"{info['articulos']} arts.")
+                            if "votaciones" in info:
+                                detalles.append(f"{info['votaciones']} votaciones")
+                            if "actores" in info:
+                                detalles.append(f"{info['actores']} actores")
+                            st.metric(nombre.replace("_", " "), "🟢 OK", ", ".join(detalles) or info.get("fuente", ""))
+                        else:
+                            st.metric(nombre.replace("_", " "), "🔴 KO", info.get("error", "")[:40])
+            except Exception as e:
+                st.caption(f"No disponible: {e}")
+
+        # Briefing legislativo del día
+        col_brief1, col_brief2 = st.columns([3, 1])
+        with col_brief2:
+            if st.button("📋 Briefing del día", key="btn_briefing_leg"):
+                with st.spinner("Generando briefing legislativo…"):
+                    try:
+                        from services.llm_tools_registry import briefing_legislativo_matutino
+                        st.session_state["qt5_briefing"] = briefing_legislativo_matutino()
+                    except Exception as e:
+                        st.session_state["qt5_briefing"] = f"Error: {e}"
+
+        if st.session_state.get("qt5_briefing"):
+            st.markdown(st.session_state["qt5_briefing"])
+
+        st.divider()
+
+        # Consulta libre con herramientas
+        _preguntas_leg = [
+            "¿Qué normativa española regula la inteligencia artificial?",
+            "¿Cuáles son los últimos reglamentos UE aprobados sobre datos?",
+            "¿Qué requisitos impone el AI Act a los sistemas de alto riesgo?",
+            "¿Cómo ha votado el PP las últimas leyes laborales?",
+            "¿Qué procedimientos legislativos están activos en el Parlamento Europeo?",
+            "Resume la actividad legislativa de esta semana en España y la UE",
+        ]
+        for _pq_leg in _preguntas_leg:
+            if st.button(f"💡 {_pq_leg}", key=f"pqleg_{hash(_pq_leg)}"):
+                st.session_state["qt5_pregunta"] = _pq_leg
+
+        _pregunta_leg = st.text_area(
+            "Pregunta con acceso a fuentes legislativas",
+            value=st.session_state.get("qt5_pregunta", ""),
+            height=90,
+            key="qt5_pregunta_area",
+            placeholder="Ej: ¿Qué dice la normativa española sobre IA? ¿Cómo está tramitando la UE el Data Act?",
+        )
+
+        if st.button("🔍 Consultar con herramientas", key="btn_qt5_query", disabled=not _LLM_OK):
+            if _pregunta_leg.strip():
+                with st.spinner("🤖 Consultando fuentes legislativas…"):
+                    try:
+                        respuesta_leg = _llm.chat_legislativo(
+                            _pregunta_leg,
+                            herramientas=_herr_ids if _herr_ids else None,
+                        )
+                    except AttributeError:
+                        from services.llm_tools_registry import ejecutar_herramienta
+                        ctx_leg = "\n\n".join([
+                            ejecutar_herramienta(h, {"query": _pregunta_leg, "tema": _pregunta_leg})
+                            for h in (_herr_ids or ["boe_search"])
+                            if h in ("boe_search", "euparl_query", "ai_act_compliance")
+                        ])
+                        respuesta_leg = _llm.chat(_pregunta_leg, contexto=ctx_leg[:3000])
+                st.markdown(f'<div class="chat-msg">{respuesta_leg}</div>', unsafe_allow_html=True)
+                if "qt5_historia" not in st.session_state:
+                    st.session_state["qt5_historia"] = []
+                st.session_state["qt5_historia"].append({
+                    "q": _pregunta_leg, "a": respuesta_leg, "ts": time.strftime("%H:%M")
+                })
+
+        if st.session_state.get("qt5_historia"):
+            with st.expander(f"📜 Historial ({len(st.session_state['qt5_historia'])} consultas)"):
+                for _item in reversed(st.session_state["qt5_historia"][-5:]):
+                    st.markdown(f"**[{_item['ts']}]** {_item['q']}")
+                    st.markdown(
+                        f'<div class="chat-msg">{_item["a"][:400]}{"…" if len(_item["a"])>400 else ""}</div>',
+                        unsafe_allow_html=True,
+                    )
 
 
 # ─────────────────────────────────────────────────────────────────────────────

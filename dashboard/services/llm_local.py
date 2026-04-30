@@ -731,3 +731,61 @@ def construir_contexto_dashboard(
             partes.append(f"  {k}: {v}")
 
     return "\n".join(partes)
+
+
+# ─── Tool-use con herramientas legislativas ───────────────────────────────────
+
+def chat_legislativo(
+    mensaje: str,
+    historia: list[dict] | None = None,
+    contexto: str = "",
+    modelo: str = "",
+    herramientas: list[str] | None = None,
+) -> str:
+    """
+    Chat con acceso automático a herramientas legislativas:
+    BOE, EUR-Lex, AI Act, Congreso votaciones, mapa de actores.
+
+    El modelo decide qué herramientas usar para responder la pregunta.
+    Si Ollama no soporta tool-use, cae a chat() normal con contexto enriquecido.
+
+    Args:
+        mensaje: Pregunta del usuario
+        historia: Historial de conversación
+        contexto: Contexto adicional del dashboard
+        modelo: Modelo Ollama (auto si vacío)
+        herramientas: Lista de herramientas a exponer (todas si None)
+
+    Returns:
+        Respuesta final como string
+    """
+    try:
+        from services.llm_tools_registry import chat_con_herramientas
+        return chat_con_herramientas(
+            mensaje=mensaje,
+            historia=historia,
+            contexto=contexto,
+            modelo=modelo,
+            herramientas=herramientas,
+        )
+    except ImportError:
+        return chat(mensaje, historia=historia, contexto=contexto, modelo=modelo)
+
+
+def briefing_diario() -> str:
+    """
+    Genera el briefing legislativo del día usando todas las herramientas.
+    Diseñado para ejecutarse en el scheduler matutino.
+    """
+    try:
+        from services.llm_tools_registry import briefing_legislativo_matutino
+        briefing_raw = briefing_legislativo_matutino()
+        # Enriquecer con comentario del brain
+        comentario = chat(
+            f"Analiza y comenta en 3 bullet points este briefing legislativo:\n\n{briefing_raw}",
+            sistema=SYSTEM_BRAIN,
+            modo="fast",
+        )
+        return f"{briefing_raw}\n\n---\n### 🤖 Análisis Politeia Brain\n{comentario}"
+    except Exception as e:
+        return f"Error generando briefing: {e}"
