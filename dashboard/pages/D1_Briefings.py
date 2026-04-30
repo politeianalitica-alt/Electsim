@@ -243,23 +243,25 @@ def _sent_badge(sesgo: str | None) -> str:
 
 
 def _render_noticia_card(n: dict, idx: int):
-    titulo = n.get("titulo", "Sin titulo")[:120]
-    medio = n.get("medio", "—")
-    tema = n.get("tema", "")
-    url = n.get("url", "#")
+    import html as _html
+    titulo = _html.escape(str(n.get("titulo", "Sin titulo"))[:120])
+    medio = _html.escape(str(n.get("medio", "—")))
+    tema = _html.escape(str(n.get("tema", "")))
+    url_raw = str(n.get("url", "#"))
+    url = url_raw.replace("&", "&amp;").replace('"', "%22")
     sesgo = n.get("sesgo", None)
     partidos = n.get("partidos", [])
-    partidos_str = ", ".join(partidos[:3]) if partidos else "—"
+    partidos_str = _html.escape(", ".join(str(p) for p in partidos[:3]) if partidos else "—")
     badge = _sent_badge(sesgo)
     with st.container():
         st.markdown(
             f'<div class="noticia-card">'
-            f'<div class="noticia-titulo"><a href="{url}"target="_blank" '
+            f'<div class="noticia-titulo"><a href="{url}" target="_blank" '
             f'style="color:{TEXT};text-decoration:none">{titulo}</a></div>'
             f'<div class="noticia-meta">'
             f'<span> {medio}</span>'
             f'<span> {tema}</span>'
-            f'<span>● {partidos_str}</span>'
+            f'<span>&#9679; {partidos_str}</span>'
             f'{badge}'
             f'</div>'
             f'</div>',

@@ -157,12 +157,14 @@ with tab_boe:
         """, unsafe_allow_html=True)
         st.page_link("pages/10_Prensa_Agenda.py", label="→ Prensa & Agenda (v1)")
     else:
+        import html as _html
         for _, row in df_boe.head(15).iterrows():
-            titulo = str(row.get("titulo", "—"))[:100]
-            fecha = str(row.get("fecha_publicacion", ""))[:10]
-            depto = str(row.get("departamento", "—"))
-            rango = str(row.get("rango", "—"))
-            url = str(row.get("url", "#"))
+            titulo = _html.escape(str(row.get("titulo", "—"))[:100])
+            fecha = _html.escape(str(row.get("fecha_publicacion", ""))[:10])
+            depto = _html.escape(str(row.get("departamento", "—")))
+            rango = _html.escape(str(row.get("rango", "—")))
+            url_raw = str(row.get("url", "#"))
+            url = url_raw.replace("&", "&amp;").replace('"', "%22")
 
             st.markdown(f"""
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
@@ -175,7 +177,7 @@ with tab_boe:
                 <span style="background:{AMBER}22;color:{AMBER};border-radius:4px;
                              padding:.05rem .4rem;font-size:.65rem;font-weight:600">{rango}</span>
                 <span style="font-size:.7rem;color:{TEXT2}">{depto}</span>
-                <a href="{url}"target="_blank"style="color:{CYAN};font-size:.65rem;margin-left:auto">→ Ver</a>
+                <a href="{url}" target="_blank" style="color:{CYAN};font-size:.65rem;margin-left:auto">Ver</a>
               </div>
             </div>
             """, unsafe_allow_html=True)

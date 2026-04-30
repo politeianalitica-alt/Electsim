@@ -161,23 +161,32 @@ with tab_noticias:
             st.markdown("<br>", unsafe_allow_html=True)
 
             # Lista de noticias
+            import html as _html
             for i, n in enumerate(noticias[:30]):
-                titulo = n.get("titulo", "Sin título")
-                medio = n.get("medio", "—")
-                tema = n.get("tema", "")
+                # Escapar texto para insercion segura en HTML
+                titulo_raw = str(n.get("titulo", "Sin título"))
+                titulo = _html.escape(titulo_raw)
+                medio = _html.escape(str(n.get("medio", "—")))
+                tema = _html.escape(str(n.get("tema", "")))
                 partidos = n.get("partidos", [])
-                url = n.get("url", "#")
-                resumen = n.get("resumen", "")[:200]
-                sesgo = n.get("sesgo", "")
-                fecha = n.get("fecha", "")[:10] if n.get("fecha") else "—"
+                url_raw = str(n.get("url", "#"))
+                url = url_raw.replace("&", "&amp;").replace('"', "%22")
+                resumen = _html.escape(str(n.get("resumen", ""))[:200])
+                sesgo = _html.escape(str(n.get("sesgo", "")))
+                fecha = _html.escape(str(n.get("fecha", ""))[:10] if n.get("fecha") else "—")
 
                 # Sentimiento rápido
                 sent_badge = ""
                 if _NLP_OK and resumen:
                     try:
                         from dashboard.services.nlp_service import analizar_sentimiento
-                        sent = analizar_sentimiento(f"{titulo} {resumen[:200]}")
-                        sent_badge = f'<span style="background:{sent["color"]}22;color:{sent["color"]};border-radius:4px;padding:.05rem .35rem;font-size:.6rem;font-weight:700">{sent["emoji"]}{sent["label"]}</span>'
+                        sent = analizar_sentimiento(f"{titulo_raw} {n.get('resumen','')[:200]}")
+                        sent_badge = (
+                            f'<span style="background:{sent["color"]}22;color:{sent["color"]};'
+                            f'border-radius:4px;padding:.05rem .35rem;font-size:.6rem;font-weight:700">'
+                            f'{_html.escape(str(sent.get("label","")))}'
+                            f'</span>'
+                        )
                     except Exception:
                         pass
 
@@ -185,19 +194,26 @@ with tab_noticias:
                     "Economía": AMBER, "Vivienda": GREEN, "Sanidad": RED,
                     "Cataluña": PURPLE, "Exterior": BLUE, "Corrupción": "#DC2626",
                 }
-                tema_color = tema_colors.get(tema, MUTED)
+                tema_color = tema_colors.get(n.get("tema", ""), MUTED)
+                sesgo_raw = n.get("sesgo", "")
                 sesgo_colors = {"izquierda": "#E30613", "derecha": "#009FDB", "centro": TEXT2, "liberal": AMBER}
-                sesgo_color = sesgo_colors.get(sesgo, MUTED)
+                sesgo_color = sesgo_colors.get(sesgo_raw, MUTED)
 
                 partidos_html = ""
                 if partidos:
                     chips = "".join(
-                        f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;color:{COLORES_PARTIDOS.get(p,"#aaa")};border:1px solid {COLORES_PARTIDOS.get(p,"#444")}33;border-radius:3px;padding:.05rem .35rem;font-size:.6rem;font-weight:700">{p}</span>'
+                        f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;'
+                        f'color:{COLORES_PARTIDOS.get(p,"#aaa")};'
+                        f'border:1px solid {COLORES_PARTIDOS.get(p,"#444")}33;'
+                        f'border-radius:3px;padding:.05rem .35rem;font-size:.6rem;font-weight:700">'
+                        f'{_html.escape(str(p))}</span>'
                         for p in partidos[:3]
                     )
                     partidos_html = f'<div style="display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.3rem">{chips}</div>'
 
-                with st.expander(f"**{medio}** — {titulo[:80]}", expanded=False):
+                # Expander: titulo plano sin HTML para el label
+                titulo_plano = titulo_raw[:80].replace("**", "")
+                with st.expander(f"**{n.get('medio','—')}** — {titulo_plano}", expanded=False):
                     st.markdown(f"""
                     <div style="padding:.3rem 0">
                       <div style="display:flex;justify-content:space-between;margin-bottom:.4rem;flex-wrap:wrap;gap:.3rem">
@@ -212,8 +228,8 @@ with tab_noticias:
                       <div style="font-size:.82rem;color:{TEXT2};line-height:1.5;margin-bottom:.4rem">{resumen}...</div>
                       {partidos_html}
                       <div style="margin-top:.5rem">
-                        <a href="{url}"target="_blank"style="color:{CYAN};font-size:.72rem;font-weight:600">
-                           Leer artículo completo →
+                        <a href="{url}" target="_blank" style="color:{CYAN};font-size:.72rem;font-weight:600">
+                           Leer articulo completo
                         </a>
                       </div>
                     </div>

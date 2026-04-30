@@ -283,13 +283,15 @@ with col_right:
     section_header("ÚLTIMAS NOTICIAS", AMBER)
 
     if noticias:
+        import html as _html
         for n in noticias[:8]:
-            titulo = n.get("titulo", "Sin título")[:90]
-            medio = n.get("medio", "—")
-            tema = n.get("tema", "")
+            titulo = _html.escape(str(n.get("titulo", "Sin título"))[:90])
+            medio = _html.escape(str(n.get("medio", "—")))
+            tema_raw = str(n.get("tema", ""))
+            tema = _html.escape(tema_raw)
             partidos = n.get("partidos", [])
-            url = n.get("url", "#")
-            sesgo = n.get("sesgo", "")
+            url_raw = str(n.get("url", "#"))
+            url = url_raw.replace("&", "&amp;").replace('"', "%22")
 
             # Color del tema
             tema_colors = {
@@ -297,14 +299,15 @@ with col_right:
                 "Cataluña": "#8B5CF6", "Seguridad": "#3B82F6", "Educación": "#00D4FF",
                 "Migración": "#F97316", "Exterior": "#06B6D4", "Corrupción": "#DC2626",
             }
-            tema_color = tema_colors.get(tema, MUTED)
+            tema_color = tema_colors.get(tema_raw, MUTED)
 
             partidos_html = ""
             if partidos:
                 chips = "".join(
                     f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;'
                     f'color:{COLORES_PARTIDOS.get(p,"#aaa")};border:1px solid {COLORES_PARTIDOS.get(p,"#444")}44;'
-                    f'border-radius:4px;padding:.05rem .4rem;font-size:.65rem;font-weight:700">{p}</span>'
+                    f'border-radius:4px;padding:.05rem .4rem;font-size:.65rem;font-weight:700">'
+                    f'{_html.escape(str(p))}</span>'
                     for p in partidos[:3]
                 )
                 partidos_html = f'<div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.3rem">{chips}</div>'
@@ -315,7 +318,7 @@ with col_right:
                         border-left:3px solid {tema_color};
                         transition:border-color .2s">
               <div style="font-size:.72rem;font-weight:800;color:{TEXT};line-height:1.35;margin-bottom:.25rem">
-                <a href="{url}"target="_blank"style="color:{TEXT};text-decoration:none;">{titulo}</a>
+                <a href="{url}" target="_blank" style="color:{TEXT};text-decoration:none;">{titulo}</a>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center">
                 <span style="font-size:.62rem;color:{MUTED};font-weight:600">{medio}</span>

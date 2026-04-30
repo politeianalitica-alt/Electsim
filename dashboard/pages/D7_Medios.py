@@ -373,13 +373,29 @@ with tab_feed:
 
     # ── Noticias ──────────────────────────────────────────────────────────────
     for n in noticias_f[:30]:
-        sent = n.get("sentimiento", 0)
-        dot = "●"if sent > 0.15 else ("●"if sent < -0.15 else "●")
-        medio = n.get("medio", "—")
-        tema = n.get("tema", "")
-        url = n.get("url", "#")
-        titulo = n.get("titulo", "Sin título")
-        fecha = n.get("fecha", "")
+        sent_raw = n.get("sentimiento", 0)
+        try:
+            sent = float(sent_raw)
+        except (TypeError, ValueError):
+            sent = 0.0
+
+        # Dot coloreado segun sentimiento
+        if sent > 0.15:
+            dot = f'<span style="color:#10B981">&#9679;</span>'
+        elif sent < -0.15:
+            dot = f'<span style="color:#EF4444">&#9679;</span>'
+        else:
+            dot = f'<span style="color:{MUTED}">&#9679;</span>'
+
+        # Escapar todo texto que va dentro de HTML
+        medio = html.escape(str(n.get("medio", "—")))
+        tema = html.escape(str(n.get("tema", "")))
+        titulo = html.escape(str(n.get("titulo", "Sin título")))
+        fecha = html.escape(str(n.get("fecha", ""))[:16])
+        # URL: escapar & para atributo href pero no el resto
+        url_raw = str(n.get("url", "#"))
+        url = url_raw.replace("&", "&amp;").replace('"', "%22")
+
         vel = n.get("velocidad")
         alc = n.get("alcance")
         partidos = n.get("partidos", [])
@@ -387,23 +403,24 @@ with tab_feed:
         if vel is not None:
             vel_html = (
                 f'<span style="font-size:.72rem;color:{TEXT2}">'
-                f'! <b style="color:{AMBER}">{html.escape(str(vel))}</b> art/h</span>'
+                f'&#8599; <b style="color:{AMBER}">{html.escape(str(vel))}</b> art/h</span>'
             )
         alc_html = ""
         alc_num = _safe_float(alc, -1.0)
         if alc_num >= 0:
             alc_html = (
                 f'<span style="font-size:.72rem;color:{TEXT2}">'
-                f' <b style="color:{BLUE}">{int(alc_num):,}</b> alcance</span>'
+                f'<b style="color:{BLUE}">{int(alc_num):,}</b> alcance</span>'
             )
 
+        sent_color = "#10B981" if sent > 0 else "#EF4444"
         medio_color = CYAN
         tcolor = AMBER
 
         partido_chips = "".join(
-            f'<span class="badge"style="background:{COLORES_PARTIDOS.get(p, MUTED)}33;'
+            f'<span class="badge" style="background:{COLORES_PARTIDOS.get(p, MUTED)}33;'
             f'color:{COLORES_PARTIDOS.get(p, TEXT2)};border:1px solid {COLORES_PARTIDOS.get(p, MUTED)}44">'
-            f'{p}</span>'
+            f'{html.escape(p)}</span>'
             for p in partidos
         )
 
@@ -411,11 +428,11 @@ with tab_feed:
         <div class="news-card">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem">
             <div style="flex:1">
-              <a href="{url}"target="_blank"style="color:{TEXT};text-decoration:none;
+              <a href="{url}" target="_blank" style="color:{TEXT};text-decoration:none;
                  font-size:.95rem;font-weight:700;line-height:1.4">{titulo}</a>
               <div style="margin-top:.35rem">
-                <span class="badge"style="background:{medio_color}22;color:{medio_color}">{medio}</span>
-                <span class="badge"style="background:{tcolor}22;color:{tcolor}">{tema}</span>
+                <span class="badge" style="background:{medio_color}22;color:{medio_color}">{medio}</span>
+                <span class="badge" style="background:{tcolor}22;color:{tcolor}">{tema}</span>
                 {partido_chips}
               </div>
             </div>
@@ -424,14 +441,12 @@ with tab_feed:
               <div style="font-size:.68rem;color:{MUTED}">{fecha}</div>
             </div>
           </div>
-          <div style="display:flex;gap:1.5rem;margin-top:.5rem">
-            <span style="font-size:.72rem;color:{TEXT2}">
-              Fuente RSS/crawler en vivo
-            </span>
+          <div style="display:flex;gap:1.5rem;margin-top:.5rem;flex-wrap:wrap">
+            <span style="font-size:.72rem;color:{TEXT2}">Fuente RSS/crawler en vivo</span>
             {vel_html}
             {alc_html}
             <span style="font-size:.72rem;color:{TEXT2}">
-              Sentimiento <b style="color:{'#10B981'if sent > 0 else '#EF4444'}">{sent:+.2f}</b>
+              Sentimiento <b style="color:{sent_color}">{sent:+.2f}</b>
             </span>
           </div>
         </div>
