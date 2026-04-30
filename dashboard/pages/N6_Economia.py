@@ -21,7 +21,7 @@ from dashboard.shared import (
     sidebar_nav, mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED,
-    COLORES_PARTIDOS, kpi_card, section_header, safe_float,
+    COLORES_PARTIDOS, kpi_card, section_header, safe_float, hex_to_rgba,
 )
 import dashboard.db as _db
 
@@ -100,7 +100,7 @@ with tab_macro:
             fig_macro = go.Figure()
             fig_macro.add_trace(go.Scatter(
                 x=_dates, y=_paro, name="Desempleo EPA (%)",
-                line=dict(color=RED, width=2.5), fill="tozeroy", fillcolor=f"{RED}0A",
+                line=dict(color=RED, width=2.5), fill="tozeroy", fillcolor="rgba(239,68,68,0.04)",
                 hovertemplate="Desempleo: %{y:.1f}%<extra></extra>",
             ))
             fig_macro.add_trace(go.Scatter(
@@ -149,7 +149,7 @@ with tab_openbb:
         fig_ibex.add_trace(go.Scatter(
             x=_dates, y=_ibex, name="IBEX-35",
             line=dict(color=CYAN, width=2),
-            fill="tozeroy", fillcolor=f"{CYAN}0A",
+            fill="tozeroy", fillcolor="rgba(0,212,255,0.04)",
         ))
         fig_ibex.update_layout(
             height=280, paper_bgcolor=BG2, plot_bgcolor=BG2,
@@ -197,7 +197,7 @@ with tab_openbb:
                             fig_obb = go.Figure(go.Scatter(
                                 x=df_obb.index, y=df_obb[close_col],
                                 line=dict(color=CYAN, width=2),
-                                fill="tozeroy", fillcolor=f"{CYAN}0A",
+                                fill="tozeroy", fillcolor="rgba(0,212,255,0.04)",
                             ))
                             fig_obb.update_layout(
                                 height=280, paper_bgcolor=BG2, plot_bgcolor=BG2,
@@ -243,7 +243,7 @@ with tab_esg:
             name=partido,
             line=dict(color=color, width=2),
             fill="toself",
-            fillcolor=f"{color}22",
+            fillcolor=hex_to_rgba(color, 0.13),
         ))
     fig_esg.update_layout(
         polar=dict(

@@ -559,7 +559,7 @@ with tab_osint:
                 ev_cnt = df_ev.groupby("slot").size().reset_index(name="n")
                 fig_ev = px.area(ev_cnt, x="slot", y="n",
                                  labels={"slot": "", "n": "Items OSINT"})
-                fig_ev.update_traces(line_color=CYAN, fillcolor=f"{CYAN}22")
+                fig_ev.update_traces(line_color=CYAN, fillcolor="rgba(0,212,255,0.13)")
                 fig_ev.update_layout(
                     paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                     height=180, margin=dict(l=0, r=0, t=0, b=0),
