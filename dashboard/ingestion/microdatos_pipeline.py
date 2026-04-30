@@ -303,7 +303,7 @@ def _extract_study_code(path: Path, df: pd.DataFrame) -> str:
     m = re.search(r"\b(3\d{3}|34\d{2}|35\d{2}|39\d{2})\b", path.stem)
     if m:
         return m.group(1)
-    if "ESTUDIO" in df.columns:
+    if "ESTUDIO"in df.columns:
         try:
             raw = str(df["ESTUDIO"].dropna().iloc[0])
             m2 = re.search(r"\d{4}", raw)
@@ -495,7 +495,7 @@ def _ensure_tables(engine: Engine) -> None:
 
 def _get_or_create_fuente(conn) -> int:
     row = conn.execute(
-        text("SELECT id FROM fuentes_encuesta WHERE nombre = 'Microdatos propios (CIS/cliente)' LIMIT 1")
+        text("SELECT id FROM fuentes_encuesta WHERE nombre = 'Microdatos propios (CIS/cliente)'LIMIT 1")
     ).fetchone()
     if row:
         return int(row[0])
@@ -534,7 +534,7 @@ def _get_or_create_encuesta(conn, fuente_id: int, study_code: str, path: Path, g
             "fuente_id": fuente_id,
             "numero_estudio": study_code,
             "titulo": f"Microdatos {study_code} ({grupo})",
-            "ambito": "Andalucía" if grupo == "andalucia" else "España",
+            "ambito": "Andalucía"if grupo == "andalucia"else "España",
             "url_microdatos": f"file://{path}",
         },
     ).scalar_one()
@@ -584,13 +584,13 @@ def ingest_microdatos_folder(
         return {"ok": False, "error": f"No existe la carpeta: {source_dir}"}
 
     files = [p for p in sorted(src.rglob("*")) if p.is_file() and p.suffix.lower() in {".csv", ".sav", ".dta", ".xlsx", ".xls"}]
-    files = [p for p in files if "_etiq" not in p.name.lower() and not p.name.startswith(".")]
+    files = [p for p in files if "_etiq"not in p.name.lower() and not p.name.startswith(".")]
     # Si existen CSV numéricos por estudio, priorizarlos frente a SAV para acelerar y evitar dependencia opcional.
     preferred: dict[tuple[str, str], Path] = {}
     for f in files:
         key = (str(f.parent), re.sub(r"(_num|_etiq)$", "", f.stem.lower()))
         score = 0
-        if f.suffix.lower() == ".csv" and f.stem.lower().endswith("_num"):
+        if f.suffix.lower() == ".csv"and f.stem.lower().endswith("_num"):
             score = 3
         elif f.suffix.lower() == ".csv":
             score = 2
@@ -600,7 +600,7 @@ def ingest_microdatos_folder(
         if cur is None:
             preferred[key] = f
             continue
-        cur_score = 3 if (cur.suffix.lower() == ".csv" and cur.stem.lower().endswith("_num")) else (2 if cur.suffix.lower() == ".csv" else (1 if cur.suffix.lower() == ".sav" else 0))
+        cur_score = 3 if (cur.suffix.lower() == ".csv"and cur.stem.lower().endswith("_num")) else (2 if cur.suffix.lower() == ".csv"else (1 if cur.suffix.lower() == ".sav"else 0))
         if score > cur_score:
             preferred[key] = f
     files = sorted(set(preferred.values()), key=lambda p: str(p))

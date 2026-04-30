@@ -219,7 +219,7 @@ def search_corpus(query: str = "", domain: str | None = None, module: str | None
                 continue
             rel = str(path.relative_to(base))
             path_lower = rel.lower()
-            if path_lower.startswith(("tests/", "test/", "spec/", "fixtures/")) or "/fixtures/" in path_lower:
+            if path_lower.startswith(("tests/", "test/", "spec/", "fixtures/")) or "/fixtures/"in path_lower:
                 s -= 2.0
             if rel.lower() in {"readme.md", "description", "data_model.md", "pyproject.toml"}:
                 s += 0.8
@@ -247,16 +247,16 @@ def legislative_signals(query: str = "", limit: int = 12) -> list[dict[str, Any]
     raw_docs = search_corpus(query=query or "boe senado congreso parliament voting procedure ley iniciativa", domain="legislativo", limit=max(limit * 3, limit))
     docs = [
         doc for doc in raw_docs
-        if "/fixtures/" not in str(doc.get("path", "")).lower()
+        if "/fixtures/"not in str(doc.get("path", "")).lower()
         and not str(doc.get("path", "")).lower().startswith(("tests/", "test/"))
-        and ".test." not in str(doc.get("path", "")).lower()
-        and ".spec." not in str(doc.get("path", "")).lower()
+        and ".test."not in str(doc.get("path", "")).lower()
+        and ".spec."not in str(doc.get("path", "")).lower()
     ][:limit]
     if len(docs) < limit:
         seen = {doc["id"] for doc in docs}
         docs.extend([doc for doc in raw_docs if doc["id"] not in seen][: limit - len(docs)])
     for doc in docs:
-        doc["severity"] = "ALTO" if any(k in doc["snippet"].lower() for k in ("vot", "ley", "procedure", "boe", "senado")) else "MEDIO"
+        doc["severity"] = "ALTO"if any(k in doc["snippet"].lower() for k in ("vot", "ley", "procedure", "boe", "senado")) else "MEDIO"
     return docs
 
 
@@ -282,7 +282,7 @@ def geopolitical_signals(query: str = "", limit: int = 10) -> list[dict[str, Any
     }
     for i, doc in enumerate(docs):
         text = f"{doc['title']} {doc['snippet']}".lower()
-        region = "UE" if "europe" in text or "parliament" in text or "euro" in text else "EEUU" if "world bank" in text else "Sahel" if "threat" in text else "Marruecos" if "sanction" in text else "Rusia/Ucrania"
+        region = "UE"if "europe"in text or "parliament"in text or "euro"in text else "EEUU"if "world bank"in text else "Sahel"if "threat"in text else "Marruecos"if "sanction"in text else "Rusia/Ucrania"
         lat, lon = coords.get(region, (40.4, -3.7))
         risk = min(92, 48 + int(doc["score"] * 6) + i * 3)
         events.append(
@@ -291,7 +291,7 @@ def geopolitical_signals(query: str = "", limit: int = 10) -> list[dict[str, Any
                 "lat": lat,
                 "lon": lon,
                 "riesgo": risk,
-                "tipo": "OSINT" if "osint" in doc["domains"] else "UE" if "ue" in doc["domains"] else "Riesgo",
+                "tipo": "OSINT"if "osint"in doc["domains"] else "UE"if "ue"in doc["domains"] else "Riesgo",
                 "desc": f"{doc['label']}: {doc['path']}",
                 "source": doc,
             }
@@ -303,7 +303,7 @@ def actor_intelligence(limit: int = 12) -> list[dict[str, Any]]:
     docs = search_corpus(query="mep person parliament sanctions entities diputados senadores", domain="actores", limit=limit)
     out: list[dict[str, Any]] = []
     for doc in docs:
-        tipo = "europeo" if "ue" in doc["domains"] or "legislativo" in doc["domains"] else "osint"
+        tipo = "europeo"if "ue"in doc["domains"] or "legislativo"in doc["domains"] else "osint"
         out.append(
             {
                 "id": doc["id"],
@@ -345,7 +345,7 @@ def risk_components() -> dict[str, Any]:
 def alerts(limit: int = 10) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for doc in legislative_signals(limit=4):
-        rows.append(_alert_from_doc(doc, "Legislativa", "ALTA" if doc.get("severity") == "ALTO" else "MEDIA"))
+        rows.append(_alert_from_doc(doc, "Legislativa", "ALTA"if doc.get("severity") == "ALTO"else "MEDIA"))
     for doc in compliance_signals(limit=3):
         rows.append(_alert_from_doc(doc, "Compliance", "ALTA"))
     for doc in osint_signals(limit=3):
@@ -364,7 +364,7 @@ def _alert_from_doc(doc: dict[str, Any], category: str, severity: str) -> dict[s
         "fuente": doc["repo"],
         "channels": ["Platform"],
         "leida": False,
-        "urgencia": 78 if severity == "ALTA" else 55,
+        "urgencia": 78 if severity == "ALTA"else 55,
         "novedad": 70,
         "source": doc,
     }

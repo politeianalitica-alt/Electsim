@@ -234,7 +234,7 @@ def get_eventos_acled(
     if tipo_evento:
         eventos = [e for e in eventos if e.get("tipo_evento") == tipo_evento]
 
-    relevancia_key = "relevancia_es" if "relevancia_es" in (eventos[0] if eventos else {}) else "relevancia_espana"
+    relevancia_key = "relevancia_es"if "relevancia_es"in (eventos[0] if eventos else {}) else "relevancia_espana"
     eventos = [e for e in eventos if float(e.get(relevancia_key, 0)) >= relevancia_min]
 
     return eventos[:limite]
@@ -309,8 +309,8 @@ def get_presencia_espanola(
         if ext.engine:
             query = f"SELECT * FROM espana_mundo WHERE relevancia >= {relevancia_min} AND activo = TRUE"
             if tipo:
-                query += f" AND tipo_presencia = '{tipo}'"
-            query += " ORDER BY relevancia DESC"
+                query += f"AND tipo_presencia = '{tipo}'"
+            query += "ORDER BY relevancia DESC"
             df = pd.read_sql(query, ext.engine)
             if not df.empty:
                 return df.to_dict("records")
@@ -449,71 +449,71 @@ def get_stats_geo() -> dict[str, Any]:
 _SEED_RIESGO_PAIS: list[dict] = [
     {"pais": "DZA", "nombre": "Argelia",       "interes_espana": 0.95, "score_total": 6.5,
      "riesgo_tendencia": "estable", "lat_capital": 36.7, "lon_capital": 3.0,
-     "flag_emoji": "🇩🇿", "tipo_interes": ["energia", "gas", "migracion"],
+     "flag_emoji": "", "tipo_interes": ["energia", "gas", "migracion"],
      "empresas_espanolas": ["Repsol", "Naturgy", "Enagas"]},
     {"pais": "MAR", "nombre": "Marruecos",     "interes_espana": 0.92, "score_total": 5.5,
      "riesgo_tendencia": "estable", "lat_capital": 33.9, "lon_capital": -6.9,
-     "flag_emoji": "🇲🇦", "tipo_interes": ["migracion", "energia", "comercio"],
+     "flag_emoji": "", "tipo_interes": ["migracion", "energia", "comercio"],
      "empresas_espanolas": ["IAG-Iberia", "ONCF"]},
     {"pais": "UKR", "nombre": "Ucrania",       "interes_espana": 0.88, "score_total": 9.0,
      "riesgo_tendencia": "subiendo", "lat_capital": 50.4, "lon_capital": 30.5,
-     "flag_emoji": "🇺🇦", "tipo_interes": ["seguridad", "otan", "energia"],
+     "flag_emoji": "", "tipo_interes": ["seguridad", "otan", "energia"],
      "empresas_espanolas": ["Iberdrola", "Repsol"]},
     {"pais": "LBY", "nombre": "Libia",         "interes_espana": 0.85, "score_total": 8.0,
      "riesgo_tendencia": "subiendo", "lat_capital": 32.9, "lon_capital": 13.2,
-     "flag_emoji": "🇱🇾", "tipo_interes": ["migracion", "petroleo"],
+     "flag_emoji": "", "tipo_interes": ["migracion", "petroleo"],
      "empresas_espanolas": ["Repsol"]},
     {"pais": "VEN", "nombre": "Venezuela",     "interes_espana": 0.80, "score_total": 7.5,
      "riesgo_tendencia": "estable", "lat_capital": 8.0, "lon_capital": -66.0,
-     "flag_emoji": "🇻🇪", "tipo_interes": ["diaspora", "energia"],
+     "flag_emoji": "", "tipo_interes": ["diaspora", "energia"],
      "empresas_espanolas": ["Repsol", "BBVA", "Santander"]},
     {"pais": "RUS", "nombre": "Rusia",         "interes_espana": 0.85, "score_total": 9.5,
      "riesgo_tendencia": "subiendo", "lat_capital": 55.7, "lon_capital": 37.6,
-     "flag_emoji": "🇷🇺", "tipo_interes": ["energia", "seguridad"],
+     "flag_emoji": "", "tipo_interes": ["energia", "seguridad"],
      "empresas_espanolas": ["Naturgy", "Repsol"]},
     {"pais": "MLI", "nombre": "Mali",          "interes_espana": 0.78, "score_total": 8.5,
      "riesgo_tendencia": "subiendo", "lat_capital": 12.7, "lon_capital": -8.0,
-     "flag_emoji": "🇲🇱", "tipo_interes": ["seguridad", "defensa", "sahel"],
+     "flag_emoji": "", "tipo_interes": ["seguridad", "defensa", "sahel"],
      "empresas_espanolas": ["EUTM-Mali"]},
     {"pais": "MEX", "nombre": "México",        "interes_espana": 0.78, "score_total": 4.5,
      "riesgo_tendencia": "subiendo", "lat_capital": 19.4, "lon_capital": -99.1,
-     "flag_emoji": "🇲🇽", "tipo_interes": ["comercio", "empresarial", "diaspora"],
+     "flag_emoji": "", "tipo_interes": ["comercio", "empresarial", "diaspora"],
      "empresas_espanolas": ["BBVA", "Santander", "Telefónica", "IAG"]},
     {"pais": "TUR", "nombre": "Turquía",       "interes_espana": 0.75, "score_total": 6.5,
      "riesgo_tendencia": "estable", "lat_capital": 39.9, "lon_capital": 32.9,
-     "flag_emoji": "🇹🇷", "tipo_interes": ["otan", "comercio", "energia"],
+     "flag_emoji": "", "tipo_interes": ["otan", "comercio", "energia"],
      "empresas_espanolas": ["Santander", "Inditex", "IAG"]},
     {"pais": "PSE", "nombre": "Palestina",     "interes_espana": 0.75, "score_total": 9.0,
      "riesgo_tendencia": "subiendo", "lat_capital": 31.9, "lon_capital": 35.2,
-     "flag_emoji": "🇵🇸", "tipo_interes": ["diplomacia", "derechos_humanos"],
+     "flag_emoji": "", "tipo_interes": ["diplomacia", "derechos_humanos"],
      "empresas_espanolas": []},
     {"pais": "IRN", "nombre": "Irán",          "interes_espana": 0.70, "score_total": 8.0,
      "riesgo_tendencia": "subiendo", "lat_capital": 35.7, "lon_capital": 51.4,
-     "flag_emoji": "🇮🇷", "tipo_interes": ["energia", "nuclear"],
+     "flag_emoji": "", "tipo_interes": ["energia", "nuclear"],
      "empresas_espanolas": []},
     {"pais": "COL", "nombre": "Colombia",      "interes_espana": 0.70, "score_total": 5.5,
      "riesgo_tendencia": "subiendo", "lat_capital": 4.7, "lon_capital": -74.1,
-     "flag_emoji": "🇨🇴", "tipo_interes": ["comercio", "empresarial"],
+     "flag_emoji": "", "tipo_interes": ["comercio", "empresarial"],
      "empresas_espanolas": ["Telefónica", "ISS"]},
     {"pais": "NER", "nombre": "Níger",         "interes_espana": 0.70, "score_total": 8.5,
      "riesgo_tendencia": "subiendo", "lat_capital": 13.5, "lon_capital": 2.1,
-     "flag_emoji": "🇳🇪", "tipo_interes": ["migracion", "sahel"],
+     "flag_emoji": "", "tipo_interes": ["migracion", "sahel"],
      "empresas_espanolas": []},
     {"pais": "BRA", "nombre": "Brasil",        "interes_espana": 0.72, "score_total": 4.0,
      "riesgo_tendencia": "estable", "lat_capital": -15.8, "lon_capital": -47.9,
-     "flag_emoji": "🇧🇷", "tipo_interes": ["comercio", "empresarial", "diaspora"],
+     "flag_emoji": "", "tipo_interes": ["comercio", "empresarial", "diaspora"],
      "empresas_espanolas": ["Santander", "Telefónica", "Iberdrola"]},
     {"pais": "IRQ", "nombre": "Iraq",          "interes_espana": 0.65, "score_total": 7.0,
      "riesgo_tendencia": "estable", "lat_capital": 33.3, "lon_capital": 44.4,
-     "flag_emoji": "🇮🇶", "tipo_interes": ["petroleo", "energia"],
+     "flag_emoji": "", "tipo_interes": ["petroleo", "energia"],
      "empresas_espanolas": ["Repsol", "Técnicas Reunidas"]},
     {"pais": "BFA", "nombre": "Burkina Faso",  "interes_espana": 0.65, "score_total": 8.0,
      "riesgo_tendencia": "subiendo", "lat_capital": 12.4, "lon_capital": -1.5,
-     "flag_emoji": "🇧🇫", "tipo_interes": ["sahel", "migracion"],
+     "flag_emoji": "", "tipo_interes": ["sahel", "migracion"],
      "empresas_espanolas": []},
     {"pais": "SAU", "nombre": "Arabia Saudí",  "interes_espana": 0.65, "score_total": 5.0,
      "riesgo_tendencia": "estable", "lat_capital": 24.7, "lon_capital": 46.7,
-     "flag_emoji": "🇸🇦", "tipo_interes": ["energia", "comercio", "inversion"],
+     "flag_emoji": "", "tipo_interes": ["energia", "comercio", "inversion"],
      "empresas_espanolas": ["OHL", "Indra", "Técnicas Reunidas"]},
 ]
 

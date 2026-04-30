@@ -44,7 +44,7 @@ def _fmt(v: float | int | None) -> str:
     if v is None:
         return "0"
     try:
-        return f"{float(v):,.0f}" if float(v).is_integer() else f"{float(v):,.2f}"
+        return f"{float(v):,.0f}"if float(v).is_integer() else f"{float(v):,.2f}"
     except Exception:
         return str(v)
 
@@ -54,7 +54,7 @@ if not df_alertas.empty:
     with st.sidebar:
         st.markdown("### Alertas tracker")
         for _, a in df_alertas.iterrows():
-            icon = "🔴" if str(a.get("tipo_alerta")) == "pico_menciones" else "🟠"
+            icon = "●"if str(a.get("tipo_alerta")) == "pico_menciones"else "●"
             with st.expander(f"{icon} {a.get('objeto_valor', 'objeto')}"):
                 st.caption(str(a.get("descripcion", "")))
                 if st.button("Marcar leida", key=f"track_alert_{a.get('id')}"):
@@ -75,7 +75,7 @@ with tab_monitor:
         with c1:
             obj_label = st.selectbox(
                 "Objeto",
-                [f"{r['id']} - {r['tipo']}: {r['valor']}" for _, r in df_obj.iterrows()],
+                [f"{r['id']} - {r['tipo']}: {r['valor']}"for _, r in df_obj.iterrows()],
             )
         with c2:
             dias = st.selectbox("Ventana", [7, 14, 30, 60, 90], index=2)
@@ -145,7 +145,7 @@ with tab_sov:
         cliente_id=cliente_id,
         tipo=tipo,
         dias=int(dias_sov),
-        canal=None if canal == "Todos" else canal,
+        canal=None if canal == "Todos"else canal,
     )
 
     if df_sov.empty:
@@ -183,7 +183,7 @@ with tab_menciones:
         col1, col2 = st.columns([2, 1])
         with col1:
             obj_label = st.selectbox(
-                "Objeto", [f"{r['id']} - {r['tipo']}: {r['valor']}" for _, r in df_obj.iterrows()], key="obj_mentions"
+                "Objeto", [f"{r['id']} - {r['tipo']}: {r['valor']}"for _, r in df_obj.iterrows()], key="obj_mentions"
             )
         with col2:
             dias = st.selectbox("Periodo", [3, 7, 14, 30], index=1, key="obj_mentions_days")

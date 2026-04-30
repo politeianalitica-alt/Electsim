@@ -126,11 +126,11 @@ def activity_kpis(df_activity: pd.DataFrame) -> dict:
         return {"total": 0, "partidos": 0, "tipos": 0, "mas_activo": "N/D"}
     return {
         "total": int(len(df_activity)),
-        "partidos": int(df_activity["partido_siglas"].nunique()) if "partido_siglas" in df_activity.columns else 0,
-        "tipos": int(df_activity["tipo_acto"].nunique()) if "tipo_acto" in df_activity.columns else 0,
+        "partidos": int(df_activity["partido_siglas"].nunique()) if "partido_siglas"in df_activity.columns else 0,
+        "tipos": int(df_activity["tipo_acto"].nunique()) if "tipo_acto"in df_activity.columns else 0,
         "mas_activo": (
             df_activity["partido_siglas"].value_counts().index[0]
-            if "partido_siglas" in df_activity.columns and not df_activity["partido_siglas"].isna().all()
+            if "partido_siglas"in df_activity.columns and not df_activity["partido_siglas"].isna().all()
             else "N/D"
         ),
     }
@@ -166,10 +166,10 @@ def build_legislative_laws_view(
 
     if df_votes is not None and not df_votes.empty:
         vot = df_votes.copy()
-        tipo_col = "tipo_votacion" if "tipo_votacion" in vot.columns else "vote_type"
-        titulo_col = "titulo" if "titulo" in vot.columns else "title"
-        fecha_col = "fecha" if "fecha" in vot.columns else "session_date"
-        estado_col = "resultado" if "resultado" in vot.columns else "result"
+        tipo_col = "tipo_votacion"if "tipo_votacion"in vot.columns else "vote_type"
+        titulo_col = "titulo"if "titulo"in vot.columns else "title"
+        fecha_col = "fecha"if "fecha"in vot.columns else "session_date"
+        estado_col = "resultado"if "resultado"in vot.columns else "result"
 
         vot["tipo"] = _col(vot, tipo_col).astype(str)
         vot["titulo_norma"] = _col(vot, titulo_col).astype(str)

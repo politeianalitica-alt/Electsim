@@ -35,7 +35,7 @@ from dashboard.shared import (
     mostrar_alertas_pagina,
 )
 
-st.set_page_config(page_title="Geopolítica — Politeia", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="Geopolítica — Politeia", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("geopolitica")
 
@@ -68,7 +68,7 @@ try:
     _GEO_OK = True
 except Exception as _e:
     _GEO_OK = False
-    st.warning(f"⚠️ Módulo geo_helpers no disponible: {_e}")
+    st.warning(f"⚠ Módulo geo_helpers no disponible: {_e}")
 
     def get_riesgo_pais(**kw): return []
     def get_presencia_espanola(**kw): return []
@@ -121,15 +121,15 @@ alertas_count = get_count_alertas()
 
 alerta_badge = ""
 if alertas_count.get("CRITICO", 0) > 0:
-    alerta_badge = f'<span class="geo-badge nivel-critico">🚨 {alertas_count["CRITICO"]} CRÍTICO</span>'
+    alerta_badge = f'<span class="geo-badge nivel-critico"> {alertas_count["CRITICO"]} CRÍTICO</span>'
 elif alertas_count.get("ALTO", 0) > 0:
-    alerta_badge = f'<span class="geo-badge nivel-alto">⚠️ {alertas_count["ALTO"]} ALTO</span>'
+    alerta_badge = f'<span class="geo-badge nivel-alto">⚠ {alertas_count["ALTO"]} ALTO</span>'
 
 st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{BLUE},{CYAN});
               border-radius:12px;display:flex;align-items:center;justify-content:center;
-              font-size:1.6rem;flex-shrink:0;box-shadow:0 0 20px {BLUE}55">🌍</div>
+              font-size:1.6rem;flex-shrink:0;box-shadow:0 0 20px {BLUE}55"></div>
   <div style="flex:1">
     <div style="display:flex;align-items:center;gap:.8rem">
       <h2 style="margin:0;color:{TEXT};font-size:1.45rem;font-weight:900">Geopolítica & RRII</h2>
@@ -160,12 +160,12 @@ st.markdown(f"""
     tab_alertas,
     tab_ia,
 ) = st.tabs([
-    "🗺️ Teatro Global",
-    "🇪🇸 España en el Mundo",
-    "🔍 OSINT Intelligence",
-    "📊 Impacto Doméstico",
-    "🚨 Alertas & Señales",
-    "🧠 Análisis IA",
+    "Teatro Global",
+    "España en el Mundo",
+    "OSINT Intelligence",
+    "Impacto Doméstico",
+    "Alertas & Señales",
+    "Análisis IA",
 ])
 
 
@@ -173,7 +173,7 @@ st.markdown(f"""
 # TAB 1 — Teatro Global
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_teatro:
-    section_header("🗺️ Teatro Geopolítico Global", "Mapa de riesgo y conflictos activos")
+    section_header("Teatro Geopolítico Global", "Mapa de riesgo y conflictos activos")
 
     paises_riesgo = get_riesgo_pais(interes_min=0.5, limit=20)
     paises_alto_riesgo = [p for p in paises_riesgo if float(p.get("score_total", 0)) >= 7]
@@ -253,7 +253,7 @@ with tab_teatro:
                 trend_icon = {"subiendo": "↑", "bajando": "↓", "estable": "→"}.get(tendencia, "→")
                 trend_color = {"subiendo": RED, "bajando": GREEN, "estable": TEXT2}.get(tendencia, TEXT2)
                 score_bar = int((score / 10) * 100)
-                flag = p.get("flag_emoji", "🏳️")
+                flag = p.get("flag_emoji", "")
                 empresas = (p.get("empresas_espanolas") or [])[:2]
 
                 st.markdown(f"""
@@ -269,7 +269,7 @@ with tab_teatro:
                   </div>
                   <div style="margin:.4rem 0 .2rem;height:4px;background:{BORDER};border-radius:2px">
                     <div style="width:{score_bar}%;height:4px;border-radius:2px;
-                                background:{'#ef4444' if score>=7 else '#f59e0b' if score>=5 else '#10b981'}"></div>
+                                background:{'#ef4444'if score>=7 else '#f59e0b'if score>=5 else '#10b981'}"></div>
                   </div>
                   <div style="color:{TEXT2};font-size:.7rem">
                     Interés: {interes*100:.0f}% · {', '.join(empresas)}
@@ -310,24 +310,24 @@ with tab_teatro:
 # TAB 2 — España en el Mundo
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_espana:
-    section_header("🇪🇸 España en el Mundo", "Presencia global: militar, energética, empresarial y diplomática")
+    section_header("España en el Mundo", "Presencia global: militar, energética, empresarial y diplomática")
 
     sub_tipos = ["militar", "energetica", "empresarial", "diplomatica", "diaspora"]
-    sub_labels = ["🪖 Misiones Militares", "⚡ Energética",
-                  "🏢 Empresarial", "🤝 Diplomática", "👥 Diáspora"]
+    sub_labels = ["Misiones Militares", "! Energética",
+                  "Empresarial", "Diplomática", "Diáspora"]
     sub_tabs = st.tabs(sub_labels)
 
     presencia_all = get_presencia_espanola()
     tipo_icons = {
-        "militar": "🪖", "energetica": "⚡", "empresarial": "🏢",
-        "diplomatica": "🤝", "diaspora": "👥",
+        "militar": "", "energetica": "!", "empresarial": "",
+        "diplomatica": "", "diaspora": "",
     }
 
     for sub_tab, tipo, label in zip(sub_tabs, sub_tipos, sub_labels):
         with sub_tab:
             items_tipo = [p for p in presencia_all if p.get("tipo_presencia") == tipo]
             if not items_tipo:
-                st.info(f"Sin datos de presencia '{tipo}' registrados.")
+                st.info(f"Sin datos de presencia '{tipo}'registrados.")
                 continue
 
             c1, c2, c3 = st.columns(3)
@@ -342,7 +342,7 @@ with tab_espana:
 
             # Mapa
             df_pres = pd.DataFrame(items_tipo)
-            if "lat" in df_pres.columns and "lon" in df_pres.columns:
+            if "lat"in df_pres.columns and "lon"in df_pres.columns:
                 df_pres["lat"] = df_pres["lat"].astype(float)
                 df_pres["lon"] = df_pres["lon"].astype(float)
                 df_pres["rel_size"] = (df_pres["relevancia"].astype(float) * 100).clip(lower=5)
@@ -373,7 +373,7 @@ with tab_espana:
                 <div class="osint-card">
                   <div style="display:flex;justify-content:space-between">
                     <span style="color:{TEXT};font-weight:700">
-                      {tipo_icons.get(tipo,'📍')} {item.get('pais','?')}
+                      {tipo_icons.get(tipo,'')} {item.get('pais','?')}
                       <span style="color:{TEXT2};font-size:.8rem;font-weight:400;margin-left:.4rem">
                         {item.get('actor_espanol','')}
                       </span>
@@ -391,7 +391,7 @@ with tab_espana:
         st.markdown("---")
         section_header("Mapa Global de Presencia Española")
         df_g = pd.DataFrame(presencia_all)
-        if "lat" in df_g.columns:
+        if "lat"in df_g.columns:
             df_g["lat"] = df_g["lat"].astype(float)
             df_g["lon"] = df_g["lon"].astype(float)
             color_map = {"militar": RED, "energetica": AMBER, "empresarial": BLUE,
@@ -420,7 +420,7 @@ with tab_espana:
 # TAB 3 — OSINT Intelligence
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_osint:
-    section_header("🔍 OSINT Intelligence", "Noticias y señales geopolíticas en tiempo real")
+    section_header("OSINT Intelligence", "Noticias y señales geopolíticas en tiempo real")
 
     c_fil1, c_fil2, c_fil3, c_fil4 = st.columns([2, 2, 2, 2])
     with c_fil1:
@@ -433,7 +433,7 @@ with tab_osint:
         categorias_disp = ["todas", "conflicto_armado", "terrorismo", "diplomacia",
                            "energia", "migracion", "ciberseguridad", "defensa"]
         cat_sel = st.selectbox("Categoría", categorias_disp)
-        cat_filter = None if cat_sel == "todas" else cat_sel
+        cat_filter = None if cat_sel == "todas"else cat_sel
     with c_fil4:
         rel_min = st.slider("Relevancia España mín.", 0.0, 1.0, 0.3, 0.05)
 
@@ -452,7 +452,7 @@ with tab_osint:
     col_feed, col_trends = st.columns([3, 1])
 
     with col_trends:
-        section_header("🔥 Trending")
+        section_header("Trending")
         trending = get_trending_topics_geo(horas=horas_osint, top_n=8)
         if trending:
             for t in trending:
@@ -468,7 +468,7 @@ with tab_osint:
             st.caption("Sin tendencias")
 
         st.markdown("&nbsp;", unsafe_allow_html=True)
-        section_header("🌍 Países")
+        section_header("Países")
         paises_top = get_paises_mas_mencionados(horas=horas_osint, top_n=8)
         for pm in paises_top:
             st.markdown(f"""
@@ -491,7 +491,7 @@ with tab_osint:
             urg_vals = [int(i.get("urgencia", 1)) for i in items_osint]
             urg_dist = Counter(urg_vals)
             fig_urg = go.Figure([go.Bar(
-                x=[f"U{k}" for k in sorted(urg_dist.keys())],
+                x=[f"U{k}"for k in sorted(urg_dist.keys())],
                 y=[urg_dist[k] for k in sorted(urg_dist.keys())],
                 marker_color=[
                     RED if k >= 4 else AMBER if k == 3 else BLUE if k == 2 else GREEN
@@ -520,9 +520,9 @@ with tab_osint:
                 procesado = item.get("procesado_llm", False)
 
                 urg_color = {5: RED, 4: AMBER, 3: BLUE, 2: GREEN}.get(urgencia, TEXT2)
-                paises_html = "".join(f'<span class="pais-chip">{p}</span>' for p in paises)
-                llm_html = f'<span style="color:{CYAN};font-size:.65rem">✓ LLM</span>' if procesado else ''
-                url_html = (f'<a href="{url}" target="_blank" style="color:{CYAN};font-size:.72rem">🔗</a>'
+                paises_html = "".join(f'<span class="pais-chip">{p}</span>'for p in paises)
+                llm_html = f'<span style="color:{CYAN};font-size:.65rem">✓ LLM</span>'if procesado else ''
+                url_html = (f'<a href="{url}"target="_blank"style="color:{CYAN};font-size:.72rem"></a>'
                             if url else "")
                 cat_html = (f'<span style="color:{TEXT2};font-size:.7rem">[{categoria}]</span>'
                             if categoria else "")
@@ -537,7 +537,7 @@ with tab_osint:
                       <div style="color:{TEXT2};font-size:.68rem">ESP {int(relevancia*100)}%</div>
                     </div>
                   </div>
-                  {f'<div style="color:{TEXT2};font-size:.81rem;margin:.35rem 0">{resumen}</div>' if resumen else ''}
+                  {f'<div style="color:{TEXT2};font-size:.81rem;margin:.35rem 0">{resumen}</div>'if resumen else ''}
                   <div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-top:.2rem">
                     {cat_html}{paises_html}
                     <span style="color:{MUTED};font-size:.68rem">{fuente} · {fecha}</span>
@@ -549,9 +549,9 @@ with tab_osint:
     # Evolución
     if items_osint:
         st.markdown("---")
-        section_header("📈 Evolución temporal OSINT")
+        section_header("Evolución temporal OSINT")
         df_ev = pd.DataFrame(items_osint)
-        if "fecha_publicacion" in df_ev.columns:
+        if "fecha_publicacion"in df_ev.columns:
             df_ev["fecha_dt"] = pd.to_datetime(df_ev["fecha_publicacion"], errors="coerce", utc=True)
             df_ev = df_ev.dropna(subset=["fecha_dt"])
             if not df_ev.empty:
@@ -574,14 +574,14 @@ with tab_osint:
 # TAB 4 — Impacto Doméstico
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_impacto:
-    section_header("📊 Impacto Doméstico en España", "Efectos directos sobre economía, seguridad y política")
+    section_header("Impacto Doméstico en España", "Efectos directos sobre economía, seguridad y política")
 
     dimensiones = ["todas", "energia", "economia", "seguridad", "migracion",
                    "diplomacia", "comercio", "defensa", "ciberseguridad"]
     c_d1, c_d2 = st.columns(2)
     with c_d1:
         dim_sel = st.selectbox("Dimensión", dimensiones)
-        dim_filter = None if dim_sel == "todas" else dim_sel
+        dim_filter = None if dim_sel == "todas"else dim_sel
     with c_d2:
         sev_min = st.selectbox("Severidad mínima", [1, 2, 3, 4, 5],
                                index=1, format_func=lambda s: f"≥ {s}")
@@ -605,7 +605,7 @@ with tab_impacto:
                   [{ev.get('pais','?')}] {ev.get('tipo_evento','')}
                 </span>
                 <span style="color:{RED if rel>=0.8 else AMBER};font-weight:700">
-                  {rel:.0%} | 💀 {fat}
+                  {rel:.0%} |  {fat}
                 </span>
               </div>
               <div style="color:{TEXT2};font-size:.82rem;margin-top:.3rem">
@@ -642,9 +642,9 @@ with tab_impacto:
             st.plotly_chart(fig_dim, use_container_width=True, config={"displayModeBar": False})
 
         dim_icons = {
-            "energia": "⚡", "economia": "📈", "seguridad": "🛡️",
-            "migracion": "🚶", "diplomacia": "🤝", "comercio": "💼",
-            "defensa": "🪖", "ciberseguridad": "💻",
+            "energia": "!", "economia": "", "seguridad": "",
+            "migracion": "", "diplomacia": "", "comercio": "",
+            "defensa": "", "ciberseguridad": "",
         }
         horizonte_colors = {
             "inmediato": RED, "corto_plazo": AMBER,
@@ -657,7 +657,7 @@ with tab_impacto:
             dim = imp.get("dimension", "otros")
             horizonte = imp.get("horizonte", "medio_plazo")
             hcolor = horizonte_colors.get(horizonte, TEXT2)
-            icon = dim_icons.get(dim, "📌")
+            icon = dim_icons.get(dim, "")
             sectores = (imp.get("sectores_afectados") or [])[:4]
             empresas = (imp.get("empresas_afectadas") or [])[:3]
 
@@ -673,10 +673,10 @@ with tab_impacto:
                 </div>
               </div>
               {f'<div style="color:{TEXT2};font-size:.81rem;margin:.4rem 0">{imp.get("descripcion","")[:400]}</div>'}
-              {f'<div style="color:{CYAN};font-size:.8rem">💡 {imp.get("recomendacion","")[:200]}</div>' if imp.get("recomendacion") else ''}
+              {f'<div style="color:{CYAN};font-size:.8rem"> {imp.get("recomendacion","")[:200]}</div>'if imp.get("recomendacion") else ''}
               <div style="margin-top:.35rem">
-                {''.join(f'<span class="pais-chip">{s}</span>' for s in sectores)}
-                {''.join(f'<span class="pais-chip" style="color:{AMBER}">{e}</span>' for e in empresas)}
+                {''.join(f'<span class="pais-chip">{s}</span>'for s in sectores)}
+                {''.join(f'<span class="pais-chip"style="color:{AMBER}">{e}</span>'for e in empresas)}
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -686,13 +686,13 @@ with tab_impacto:
 # TAB 5 — Alertas & Señales
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_alertas:
-    section_header("🚨 Alertas & Señales de Alerta Temprana")
+    section_header("Alertas & Señales de Alerta Temprana")
 
     c_al1, c_al2, c_al3, c_al4 = st.columns(4)
-    with c_al1: st.markdown(kpi_card("CRÍTICO 🚨", alertas_count.get("CRITICO", 0), color=RED), unsafe_allow_html=True)
-    with c_al2: st.markdown(kpi_card("ALTO ⚠️", alertas_count.get("ALTO", 0), color=AMBER), unsafe_allow_html=True)
-    with c_al3: st.markdown(kpi_card("MEDIO 📌", alertas_count.get("MEDIO", 0), color=BLUE), unsafe_allow_html=True)
-    with c_al4: st.markdown(kpi_card("BAJO ℹ️", alertas_count.get("BAJO", 0), color=GREEN), unsafe_allow_html=True)
+    with c_al1: st.markdown(kpi_card("CRÍTICO ", alertas_count.get("CRITICO", 0), color=RED), unsafe_allow_html=True)
+    with c_al2: st.markdown(kpi_card("ALTO ⚠", alertas_count.get("ALTO", 0), color=AMBER), unsafe_allow_html=True)
+    with c_al3: st.markdown(kpi_card("MEDIO ", alertas_count.get("MEDIO", 0), color=BLUE), unsafe_allow_html=True)
+    with c_al4: st.markdown(kpi_card("BAJO ℹ", alertas_count.get("BAJO", 0), color=GREEN), unsafe_allow_html=True)
 
     c_af1, c_af2, c_af3 = st.columns([2, 2, 2])
     with c_af1:
@@ -703,14 +703,14 @@ with tab_alertas:
         lim_alertas = st.number_input("Límite", 5, 100, 20, 5)
 
     alertas = get_alertas_nivel(
-        nivel=None if nivel_filter == "todos" else nivel_filter,
+        nivel=None if nivel_filter == "todos"else nivel_filter,
         limite=int(lim_alertas),
         solo_no_leidas=no_leidas,
     )
 
     if not alertas:
         st.info("Sin alertas activas.")
-        section_header("📋 Reglas Críticas Configuradas")
+        section_header("Reglas Críticas Configuradas")
         try:
             from agents.geo.signal_engine_geo import REGLAS_CRITICAS
             for regla in REGLAS_CRITICAS:
@@ -724,8 +724,8 @@ with tab_alertas:
                   </div>
                   <div style="color:{TEXT2};font-size:.82rem">{regla['descripcion']}</div>
                   <div style="margin-top:.3rem">
-                    {''.join(f'<span class="pais-chip">{p}</span>' for p in regla.get('paises',[])[:5])}
-                    {''.join(f'<span class="pais-chip" style="color:{AMBER}">{k}</span>' for k in regla.get('keywords',[])[:4])}
+                    {''.join(f'<span class="pais-chip">{p}</span>'for p in regla.get('paises',[])[:5])}
+                    {''.join(f'<span class="pais-chip"style="color:{AMBER}">{k}</span>'for k in regla.get('keywords',[])[:4])}
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -733,27 +733,27 @@ with tab_alertas:
             pass
     else:
         nivel_map = {
-            "CRITICO": ("nivel-critico", "🚨"),
-            "ALTO":    ("nivel-alto",    "⚠️"),
-            "MEDIO":   ("nivel-medio",   "📌"),
-            "BAJO":    ("nivel-bajo",    "ℹ️"),
+            "CRITICO": ("nivel-critico", ""),
+            "ALTO":    ("nivel-alto",    "⚠"),
+            "MEDIO":   ("nivel-medio",   ""),
+            "BAJO":    ("nivel-bajo",    "ℹ"),
         }
         for alerta in alertas:
             nivel = alerta.get("nivel", "BAJO")
-            bc, icon = nivel_map.get(nivel, ("nivel-bajo", "ℹ️"))
+            bc, icon = nivel_map.get(nivel, ("nivel-bajo", "ℹ"))
             leida = alerta.get("leida", False)
-            opacity = "opacity:.55;" if leida else ""
+            opacity = "opacity:.55;"if leida else ""
             paises_str = ", ".join(alerta.get("paises", [])[:3]) or "N/A"
             creada = str(alerta.get("creada_en", ""))[:16]
-            regla_html = (f'<span style="color:{CYAN};font-size:.7rem">📋 {alerta.get("regla_nombre")}</span>'
+            regla_html = (f'<span style="color:{CYAN};font-size:.7rem"> {alerta.get("regla_nombre")}</span>'
                           if alerta.get("regla_nombre") else "")
-            url_html = (f'<a href="{alerta.get("url_origen")}" target="_blank" '
-                        f'style="color:{CYAN};font-size:.72rem">🔗</a>'
+            url_html = (f'<a href="{alerta.get("url_origen")}"target="_blank" '
+                        f'style="color:{CYAN};font-size:.72rem"></a>'
                         if alerta.get("url_origen") else "")
-            tg_html = "✈️ " if alerta.get("enviado_telegram") else ""
+            tg_html = " "if alerta.get("enviado_telegram") else ""
 
             st.markdown(f"""
-            <div class="osint-card" style="{opacity}">
+            <div class="osint-card"style="{opacity}">
               <div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:.35rem">
                 <div style="flex:1">
                   <span class="geo-badge {bc}">{icon} {nivel}</span>
@@ -765,20 +765,20 @@ with tab_alertas:
                   {tg_html}{creada}
                 </span>
               </div>
-              {f'<div style="color:{TEXT2};font-size:.81rem;margin-bottom:.3rem">{alerta.get("descripcion","")[:400]}</div>' if alerta.get("descripcion") else ''}
+              {f'<div style="color:{TEXT2};font-size:.81rem;margin-bottom:.3rem">{alerta.get("descripcion","")[:400]}</div>'if alerta.get("descripcion") else ''}
               <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
-                <span style="color:{MUTED};font-size:.68rem">🌍 {paises_str}</span>
+                <span style="color:{MUTED};font-size:.68rem"> {paises_str}</span>
                 {regla_html} {url_html}
               </div>
             </div>
             """, unsafe_allow_html=True)
 
     st.markdown("---")
-    section_header("⚡ Acciones")
+    section_header("! Acciones")
     col_a1, col_a2, col_a3 = st.columns(3)
 
     with col_a1:
-        if st.button("🔄 Procesar Señales", use_container_width=True):
+        if st.button("Procesar Señales", use_container_width=True):
             with st.spinner("Evaluando señales..."):
                 try:
                     from agents.geo.signal_engine_geo import procesar_nuevos_eventos
@@ -792,7 +792,7 @@ with tab_alertas:
                     st.error(str(e))
 
     with col_a2:
-        if st.button("🚀 Scraping OSINT", use_container_width=True):
+        if st.button("Scraping OSINT", use_container_width=True):
             with st.spinner("Scraping RSS + GDELT..."):
                 try:
                     from etl.pipelines.pipeline_geopolitica import tarea_osint
@@ -802,7 +802,7 @@ with tab_alertas:
                     st.error(str(e))
 
     with col_a3:
-        if st.button("📡 Actualizar ACLED", use_container_width=True):
+        if st.button("Actualizar ACLED", use_container_width=True):
             with st.spinner("Descargando ACLED..."):
                 try:
                     from etl.pipelines.pipeline_geopolitica import tarea_acled
@@ -816,9 +816,9 @@ with tab_alertas:
 # TAB 6 — Análisis IA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab_ia:
-    section_header("🧠 Análisis IA — Politeia Brain", "Inteligencia geopolítica generada por LLM local")
+    section_header("Análisis IA — Politeia Brain", "Inteligencia geopolítica generada por LLM local")
 
-    llm_txt = "✅ Ollama disponible" if _BRAIN_OK else "⚠️ Ollama no disponible (modo demo)"
+    llm_txt = "✓ Ollama disponible"if _BRAIN_OK else "⚠ Ollama no disponible (modo demo)"
     llm_c = GREEN if _BRAIN_OK else AMBER
     st.markdown(f"""
     <div style="background:{BG2};border:1px solid {llm_c}33;border-radius:8px;
@@ -829,7 +829,7 @@ with tab_ia:
     </div>
     """, unsafe_allow_html=True)
 
-    ia_tab1, ia_tab2, ia_tab3 = st.tabs(["📰 Briefing Diario", "🔎 Búsqueda RAG", "🌍 Análisis País"])
+    ia_tab1, ia_tab2, ia_tab3 = st.tabs(["Briefing Diario", "Búsqueda RAG", "Análisis País"])
 
     with ia_tab1:
         section_header("Briefing Geopolítico Diario")
@@ -849,7 +849,7 @@ with tab_ia:
                 st.info("Briefing no disponible. Genera uno →")
 
         with col_b2:
-            if st.button("🔄 Generar Ahora", use_container_width=True, disabled=not _BRAIN_OK):
+            if st.button("Generar Ahora", use_container_width=True, disabled=not _BRAIN_OK):
                 with st.spinner("Generando briefing (modo deep)..."):
                     try:
                         from etl.pipelines.pipeline_geopolitica import tarea_briefing
@@ -873,7 +873,7 @@ with tab_ia:
         with c_rq2:
             top_k_rag = st.number_input("Fuentes", 3, 10, 5)
         with c_rq1:
-            run_rag = st.button("🔍 Analizar", use_container_width=True,
+            run_rag = st.button("Analizar", use_container_width=True,
                                 disabled=not _BRAIN_OK or not query_rag.strip())
         if run_rag and query_rag.strip():
             with st.spinner("Consultando corpus OSINT + Ollama..."):
@@ -909,7 +909,7 @@ with tab_ia:
                                     color=RED if float(p_sel.get('score_total',0))>=7 else AMBER), unsafe_allow_html=True)
                 with c_p2: st.markdown(kpi_card("Interés ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN), unsafe_allow_html=True)
                 with c_p3: st.markdown(kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
-                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo" else GREEN), unsafe_allow_html=True)
+                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo"else GREEN), unsafe_allow_html=True)
 
                 empresas = p_sel.get("empresas_espanolas") or []
                 intereses = p_sel.get("tipo_interes") or []
@@ -917,12 +917,12 @@ with tab_ia:
                     st.markdown(f"""
                     <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
                                 padding:.5rem 1rem;margin:.5rem 0">
-                      {''.join(f'<span class="pais-chip">{i}</span>' for i in intereses)}
-                      {''.join(f'<span class="pais-chip" style="color:{AMBER}">{e}</span>' for e in empresas)}
+                      {''.join(f'<span class="pais-chip">{i}</span>'for i in intereses)}
+                      {''.join(f'<span class="pais-chip"style="color:{AMBER}">{e}</span>'for e in empresas)}
                     </div>
                     """, unsafe_allow_html=True)
 
-                if st.button(f"🧠 Analizar {p_sel.get('nombre','?')}", use_container_width=True,
+                if st.button(f"Analizar {p_sel.get('nombre','?')}", use_container_width=True,
                              disabled=not _BRAIN_OK):
                     with st.spinner("Generando análisis (modo deep)..."):
                         try:
@@ -945,11 +945,11 @@ with tab_ia:
 
     # ── Pipeline manual ─────────────────────────────────────────────────────
     st.markdown("---")
-    section_header("⚙️ Pipeline Manual")
+    section_header("Pipeline Manual")
     pm1, pm2, pm3 = st.columns(3)
 
     with pm1:
-        if st.button("🧠 Enriquecer OSINT (LLM)", use_container_width=True, disabled=not _BRAIN_OK):
+        if st.button("Enriquecer OSINT (LLM)", use_container_width=True, disabled=not _BRAIN_OK):
             with st.spinner("Enriqueciendo..."):
                 try:
                     pending = get_osint_filtered(horas=48, urgencia_min=2, relevancia_min=0.3,
@@ -971,7 +971,7 @@ with tab_ia:
                     st.error(str(e))
 
     with pm2:
-        if st.button("📊 Calcular Impactos DOM", use_container_width=True, disabled=not _BRAIN_OK):
+        if st.button("Calcular Impactos DOM", use_container_width=True, disabled=not _BRAIN_OK):
             with st.spinner("Calculando impactos..."):
                 try:
                     from agents.geo.enricher_ollama import analizar_impacto
@@ -993,7 +993,7 @@ with tab_ia:
                     st.error(str(e))
 
     with pm3:
-        if st.button("🗂️ Indexar ChromaDB", use_container_width=True):
+        if st.button("Indexar ChromaDB", use_container_width=True):
             with st.spinner("Indexando..."):
                 try:
                     from etl.pipelines.pipeline_geopolitica import tarea_indexar_chromadb

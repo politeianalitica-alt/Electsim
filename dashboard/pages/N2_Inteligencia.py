@@ -30,7 +30,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Inteligencia — ElectSim",
-    page_icon="🧠",
+    page_icon="",
     layout="wide",
 )
 sidebar_nav()
@@ -59,9 +59,9 @@ except Exception:
     _OPP_OK = False
 
 # Session state
-if "sim_tema_uso" not in st.session_state:
+if "sim_tema_uso"not in st.session_state:
     st.session_state["sim_tema_uso"] = {}
-if "intel_llm_cache" not in st.session_state:
+if "intel_llm_cache"not in st.session_state:
     st.session_state["intel_llm_cache"] = {}
 
 # ── Header ────────────────────────────────────────────────────────────────────
@@ -69,24 +69,24 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{PURPLE},{BLUE});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">🧠</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Inteligencia Política</h2>
     <div style="color:{TEXT2};font-size:.82rem">Agentes IA · Perfiles · Simulador · Opposition Research</div>
   </div>
   <div style="margin-left:auto">
-    {'<span style="background:' + GREEN + '22;color:' + GREEN + ';border:1px solid ' + GREEN + '44;border-radius:20px;padding:.2rem .7rem;font-size:.7rem;font-weight:700">● Claude API activa</span>' if _LLM_OK and _llm.llm_disponible() else '<span style="background:' + AMBER + '22;color:' + AMBER + ';border:1px solid ' + AMBER + '44;border-radius:20px;padding:.2rem .7rem;font-size:.7rem;font-weight:700">⚡ Sin API key</span>'}
+    {'<span style="background:' + GREEN + '22;color:' + GREEN + ';border:1px solid ' + GREEN + '44;border-radius:20px;padding:.2rem .7rem;font-size:.7rem;font-weight:700">● Claude API activa</span>'if _LLM_OK and _llm.llm_disponible() else '<span style="background:' + AMBER + '22;color:' + AMBER + ';border:1px solid ' + AMBER + '44;border-radius:20px;padding:.2rem .7rem;font-size:.7rem;font-weight:700">! Sin API key</span>'}
   </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_perfiles, tab_simulador, tab_opp, tab_agente, tab_analisis = st.tabs([
-    "👤 Perfiles de Votante",
-    "⚡ Simulador Campaña",
-    "🔍 Opposition Research",
-    "🤖 Agente Estratégico",
-    "📊 Análisis de Discurso",
+    "Perfiles de Votante",
+    "! Simulador Campaña",
+    "Opposition Research",
+    "Agente Estratégico",
+    "Análisis de Discurso",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -112,14 +112,14 @@ with tab_perfiles:
             st.markdown(f"""
             <div style="background:{GREEN}12;border:1px solid {GREEN}33;border-radius:8px;
                         padding:.6rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">
-              ✅ Perfiles CIS — Oleada {oleada_id} | {n_reg:,} registros | {fecha_d}
+              ✓ Perfiles CIS — Oleada {oleada_id} | {n_reg:,} registros | {fecha_d}
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown(f"""
             <div style="background:{BLUE}12;border:1px solid {BLUE}33;border-radius:8px;
                         padding:.6rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{CYAN}">
-              ℹ️ Usando perfiles sintéticos calibrados.
+              ℹ Usando perfiles sintéticos calibrados.
               Para perfiles reales, sube el fichero SAV del CIS en la sección de Microdatos.
             </div>
             """, unsafe_allow_html=True)
@@ -170,7 +170,7 @@ with tab_perfiles:
                 # Botón análisis IA
                 _key_llm = f"perfil_llm_{nombre}"
                 if _LLM_OK and _llm.llm_disponible():
-                    if st.button(f"🧠 Análisis IA", key=f"btn_llm_{nombre}"):
+                    if st.button(f"Análisis IA", key=f"btn_llm_{nombre}"):
                         with st.spinner("Analizando..."):
                             cohorte = perfil.get("cohorte", "") if isinstance(perfil, dict) else ""
                             resp = _llm.narrativa_perfil(
@@ -222,11 +222,11 @@ with tab_simulador:
                 <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin:.5rem 0">
                   <span style="background:{tw_color}22;color:{tw_color};border:1px solid {tw_color}44;
                                border-radius:20px;padding:.2rem .7rem;font-size:.72rem;font-weight:700">
-                    ⏱ Timing {tw:.0%}
+                     Timing {tw:.0%}
                   </span>
                   <span style="background:{sd_color}22;color:{sd_color};border:1px solid {sd_color}44;
                                border-radius:20px;padding:.2rem .7rem;font-size:.72rem;font-weight:700">
-                    🔄 Saturación {sd:.0%} (×{veces_usado+1})
+                     Saturación {sd:.0%} (×{veces_usado+1})
                   </span>
                 </div>
                 """, unsafe_allow_html=True)
@@ -273,7 +273,7 @@ with tab_simulador:
                                 GREEN if v > 0 else RED
                                 for v in df_imp["impacto"]
                             ],
-                            text=[f"{v:+.2f}pp" for v in df_imp["impacto"]],
+                            text=[f"{v:+.2f}pp"for v in df_imp["impacto"]],
                             textposition="outside",
                             textfont=dict(color=TEXT, size=11),
                             hovertemplate="<b>%{x}</b><br>%{y:+.2f}pp<extra></extra>",
@@ -321,7 +321,7 @@ with tab_simulador:
 
                     # Análisis LLM
                     if _LLM_OK and _llm.llm_disponible():
-                        if st.button("🧠 Análisis estratégico IA", key="btn_sim_llm"):
+                        if st.button("Análisis estratégico IA", key="btn_sim_llm"):
                             with st.spinner("Generando análisis..."):
                                 _key_sim = f"sim_llm_{tema_sel}_{partido_sel}"
                                 resp = _llm.narrativa_impacto_campana(
@@ -335,13 +335,13 @@ with tab_simulador:
                             f"sim_llm_{tema_sel}_{partido_sel}"
                         )
                         if cached_sim:
-                            with st.expander("📋 Análisis estratégico", expanded=True):
+                            with st.expander("Análisis estratégico", expanded=True):
                                 st.markdown(cached_sim)
             else:
                 st.markdown(f"""
                 <div style="background:{BG3};border:1px dashed {BORDER};border-radius:12px;
                             padding:2.5rem;text-align:center;color:{MUTED}">
-                  <div style="font-size:2rem;margin-bottom:.5rem">⚡</div>
+                  <div style="font-size:2rem;margin-bottom:.5rem">!</div>
                   <div>Configura un escenario y pulsa <strong>Simular impacto</strong></div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -382,7 +382,7 @@ with tab_opp:
 
     df_decl, df_contra = _cargar_opp()
 
-    tab_opp_d, tab_opp_c = st.tabs(["📢 Declaraciones", "⚠️ Contradicciones"])
+    tab_opp_d, tab_opp_c = st.tabs(["Declaraciones", "⚠ Contradicciones"])
 
     with tab_opp_d:
         if df_decl.empty:
@@ -392,18 +392,18 @@ with tab_opp:
             # Filtros
             col_fa, col_fb, col_fc = st.columns(3)
             with col_fa:
-                partido_f = st.selectbox("Partido", ["Todos"] + sorted(df_decl["partido"].unique().tolist() if "partido" in df_decl.columns else []), key="opp_partido")
+                partido_f = st.selectbox("Partido", ["Todos"] + sorted(df_decl["partido"].unique().tolist() if "partido"in df_decl.columns else []), key="opp_partido")
             with col_fb:
-                tema_f = st.selectbox("Tema", ["Todos"] + sorted(df_decl["tema_principal"].unique().tolist() if "tema_principal" in df_decl.columns else []), key="opp_tema")
+                tema_f = st.selectbox("Tema", ["Todos"] + sorted(df_decl["tema_principal"].unique().tolist() if "tema_principal"in df_decl.columns else []), key="opp_tema")
             with col_fc:
                 persona_f = st.text_input("Buscar persona", placeholder="ej. Feijóo", key="opp_persona")
 
             df_f = df_decl.copy()
-            if partido_f != "Todos" and "partido" in df_f.columns:
+            if partido_f != "Todos"and "partido"in df_f.columns:
                 df_f = df_f[df_f["partido"] == partido_f]
-            if tema_f != "Todos" and "tema_principal" in df_f.columns:
+            if tema_f != "Todos"and "tema_principal"in df_f.columns:
                 df_f = df_f[df_f["tema_principal"] == tema_f]
-            if persona_f and "persona" in df_f.columns:
+            if persona_f and "persona"in df_f.columns:
                 df_f = df_f[df_f["persona"].str.contains(persona_f, case=False, na=False)]
 
             # Tarjetas de declaraciones
@@ -427,11 +427,11 @@ with tab_opp:
                     </div>
                     <div style="text-align:right">
                       <span style="font-size:.68rem;color:{MUTED}">{fecha}</span>
-                      {f'<span style="font-size:.65rem;color:{MUTED};margin-left:.5rem">👁 {alcance:,}</span>' if alcance else ''}
+                      {f'<span style="font-size:.65rem;color:{MUTED};margin-left:.5rem"> {alcance:,}</span>'if alcance else ''}
                     </div>
                   </div>
                   <div style="font-size:.8rem;color:{TEXT2};line-height:1.5">"{texto}..."</div>
-                  {f'<div style="margin-top:.3rem"><span style="background:{BORDER};color:{TEXT2};border-radius:4px;padding:.05rem .4rem;font-size:.62rem">{tema}</span></div>' if tema else ''}
+                  {f'<div style="margin-top:.3rem"><span style="background:{BORDER};color:{TEXT2};border-radius:4px;padding:.05rem .4rem;font-size:.62rem">{tema}</span></div>'if tema else ''}
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -450,7 +450,7 @@ with tab_opp:
 
                 color_s = GREEN if score > 0.8 else (AMBER if score > 0.5 else RED)
 
-                with st.expander(f"⚠️ {persona} — Score {score:.2f} {'✅' if verificada else ''}"):
+                with st.expander(f"⚠ {persona} — Score {score:.2f} {'✓'if verificada else ''}"):
                     col_a, col_b = st.columns(2)
                     with col_a:
                         st.markdown(f"""
@@ -479,7 +479,7 @@ with tab_agente:
         st.markdown(f"""
         <div style="background:{AMBER}12;border:1px solid {AMBER}33;border-radius:12px;padding:1.5rem">
           <div style="font-size:1rem;font-weight:700;color:{AMBER};margin-bottom:.5rem">
-            ⚡ API Key no configurada
+            ! API Key no configurada
           </div>
           <div style="font-size:.85rem;color:{TEXT2}">
             Para usar el Agente Estratégico, configura <code>ANTHROPIC_API_KEY</code>
@@ -520,7 +520,7 @@ with tab_agente:
         partido_ctx = st.selectbox("Contexto de partido", ["PP", "PSOE", "VOX", "SUMAR", "Independiente"],
                                    key="agente_partido")
 
-        if st.button("🧠 Ejecutar análisis", type="primary", key="btn_agente"):
+        if st.button("Ejecutar análisis", type="primary", key="btn_agente"):
             _cache_key = f"agente_{tipo_prompt}_{partido_ctx}"
             if _cache_key not in st.session_state["intel_llm_cache"]:
                 with st.spinner("Consultando Claude AI..."):
@@ -570,7 +570,7 @@ with tab_analisis:
     # Status NLP
     def _nlp_cap_chip(k, v):
         c = GREEN if v else RED
-        icon = "✅" if v else "❌"
+        icon = "✓"if v else "✗"
         return (f'<span style="background:{c}22;color:{c};border:1px solid {c}44;'
                 f'border-radius:20px;padding:.2rem .7rem;font-size:.68rem;font-weight:700">'
                 f'{icon} {k}</span>')
@@ -585,7 +585,7 @@ with tab_analisis:
         key="nlp_texto",
     )
 
-    if _NLP_OK and texto_analizar and st.button("🔍 Analizar texto", key="btn_nlp"):
+    if _NLP_OK and texto_analizar and st.button("Analizar texto", key="btn_nlp"):
         col_nlp1, col_nlp2, col_nlp3 = st.columns(3)
 
         sent = analizar_sentimiento(texto_analizar)
@@ -623,11 +623,11 @@ with tab_analisis:
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem">
               <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Partidos detectados</div>
               <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem">
-                {''.join(f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;color:{COLORES_PARTIDOS.get(p,"#aaa")};border:1px solid {COLORES_PARTIDOS.get(p,"#444")}44;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-weight:700">{p}</span>' for p in partidos) if partidos else '<span style="color:' + MUTED + ';font-size:.75rem">Ninguno</span>'}
+                {''.join(f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;color:{COLORES_PARTIDOS.get(p,"#aaa")};border:1px solid {COLORES_PARTIDOS.get(p,"#444")}44;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-weight:700">{p}</span>'for p in partidos) if partidos else '<span style="color:' + MUTED + ';font-size:.75rem">Ninguno</span>'}
               </div>
               <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.3rem">Keywords (YAKE)</div>
               <div style="display:flex;gap:.3rem;flex-wrap:wrap">
-                {''.join(f'<span style="background:{BORDER};color:{TEXT2};border-radius:4px;padding:.05rem .4rem;font-size:.65rem">{kw}</span>' for kw, _ in kws[:6])}
+                {''.join(f'<span style="background:{BORDER};color:{TEXT2};border-radius:4px;padding:.05rem .4rem;font-size:.65rem">{kw}</span>'for kw, _ in kws[:6])}
               </div>
             </div>
             """, unsafe_allow_html=True)

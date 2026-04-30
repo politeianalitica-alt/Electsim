@@ -69,8 +69,8 @@ with col_f3:
 
 df_hist = svc.listar_decisiones(
     int(cliente_id),
-    tipo=filtro_tipo if filtro_tipo != "todos" else None,
-    resultado=filtro_resultado if filtro_resultado != "todos" else None,
+    tipo=filtro_tipo if filtro_tipo != "todos"else None,
+    resultado=filtro_resultado if filtro_resultado != "todos"else None,
     etiqueta=filtro_etiqueta or None,
     limit=200,
 )
@@ -81,7 +81,7 @@ else:
     st.markdown(f"**{len(df_hist.index)} decisiones encontradas**")
     for _, row in df_hist.iterrows():
         resultado = str(row.get("resultado", "pendiente"))
-        icon = {"positivo": "🟢", "negativo": "🔴", "neutral": "🟡", "pendiente": "⚪"}.get(resultado, "⚪")
+        icon = {"positivo": "●", "negativo": "●", "neutral": "●", "pendiente": "○"}.get(resultado, "○")
         with st.expander(f"{icon} {row.get('fecha_decision')} — {row.get('tipo')}"):
             st.markdown(str(row.get("descripcion", "")))
             if row.get("lecciones"):

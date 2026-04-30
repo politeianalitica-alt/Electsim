@@ -94,7 +94,7 @@ def _boton_actualizar() -> None:
             with st.spinner("Descargando agendas (Moncloa, partidos, Congreso)..."):
                 resultado = _actualizar_agendas_cacheado()
             st.cache_data.clear()  # invalida cache_agenda_rango
-            if "__error__" in resultado:
+            if "__error__"in resultado:
                 st.error(f"Error al actualizar: {resultado['__error__']}")
             else:
                 total = sum(resultado.values())
@@ -121,7 +121,7 @@ def render_agenda_vista(conn) -> None:
             "Mostrar",
             options=[1, 3, 7, 14],
             index=0,
-            format_func=lambda d: "Hoy" if d == 1 else f"{d} días",
+            format_func=lambda d: "Hoy"if d == 1 else f"{d} días",
         )
     fecha_fin = fecha_sel + timedelta(days=int(dias) - 1)
 
@@ -132,13 +132,13 @@ def render_agenda_vista(conn) -> None:
         st.session_state["_agenda_autofetch_done"] = True
         with st.spinner("Primera carga: descargando agendas públicas..."):
             resultado = _actualizar_agendas_cacheado()
-        if "__error__" not in resultado and sum(resultado.values()) > 0:
+        if "__error__"not in resultado and sum(resultado.values()) > 0:
             st.cache_data.clear()
             df = cargar_agenda_rango(conn, str(fecha_sel), str(fecha_fin))
 
     with col_partido:
         filtro_partido = "Todos"
-        if not df.empty and "partido" in df.columns:
+        if not df.empty and "partido"in df.columns:
             partidos = ["Todos"] + sorted(df["partido"].dropna().astype(str).unique().tolist())
             filtro_partido = st.selectbox("Partido", partidos)
 
@@ -172,9 +172,9 @@ def render_agenda_vista(conn) -> None:
                     hora_str = str(acto.get("hora"))[:5] if pd.notna(acto.get("hora")) else "—"
                     icono = ICONOS_ACTO.get(str(acto.get("tipo_acto", "otro")), "◇")
                     lider_val = acto.get("lider")
-                    lider_str = f"**{lider_val}** · " if pd.notna(lider_val) and str(lider_val).strip() else ""
+                    lider_str = f"**{lider_val}** · "if pd.notna(lider_val) and str(lider_val).strip() else ""
                     lugar_val = acto.get("lugar")
-                    lugar_str = f" — {lugar_val}" if pd.notna(lugar_val) and str(lugar_val).strip() else ""
+                    lugar_str = f" — {lugar_val}"if pd.notna(lugar_val) and str(lugar_val).strip() else ""
                     st.markdown(
                         f"&nbsp;&nbsp;`{hora_str}` {icono} {lider_str}"
                         f"{acto.get('descripcion', 'Sin descripción')}{lugar_str}",

@@ -96,7 +96,7 @@ def cargar_agenda_oficial(limit: int = 20) -> pd.DataFrame:
     if not rows:
         return pd.DataFrame()
     df = pd.DataFrame(rows).drop_duplicates(subset=["titulo"]).head(limit)
-    if "fuente" not in df.columns:
+    if "fuente"not in df.columns:
         df["fuente"] = "Agenda oficial"
     return df
 
@@ -135,9 +135,9 @@ def _source_health_badge(df_health: pd.DataFrame) -> str:
     degraded = (df_health["status"] == "degraded").sum()
 
     if failing > 0:
-        color, label = RED, f"{failing} fuente{'s' if failing > 1 else ''} caída{'s' if failing > 1 else ''}"
+        color, label = RED, f"{failing} fuente{'s'if failing > 1 else ''} caída{'s'if failing > 1 else ''}"
     elif degraded > 0:
-        color, label = AMBER, f"{degraded} degradada{'s' if degraded > 1 else ''}"
+        color, label = AMBER, f"{degraded} degradada{'s'if degraded > 1 else ''}"
     else:
         color, label = GREEN, f"{ok}/{total} fuentes OK"
 
@@ -150,7 +150,7 @@ def _source_health_badge(df_health: pd.DataFrame) -> str:
 
 def _freshness_badge(df_health: pd.DataFrame) -> str:
     """Genera badge con lag de freshness máximo entre fuentes activas."""
-    if df_health.empty or "freshness_lag_s" not in df_health.columns:
+    if df_health.empty or "freshness_lag_s"not in df_health.columns:
         return ""
     lags = df_health["freshness_lag_s"].dropna()
     if lags.empty:
@@ -196,7 +196,7 @@ def _status_badge(status: str) -> str:
     else:
         c, txt = MUTED, "UNK"
     return (
-        f'<span class="badge" style="background:{c}20;color:{c};border:1px solid {c}44">{txt}</span>'
+        f'<span class="badge"style="background:{c}20;color:{c};border:1px solid {c}44">{txt}</span>'
     )
 
 
@@ -295,7 +295,7 @@ if not df_incidents.empty:
     critical = df_incidents[df_incidents["severity"] == "critical"]
     if not critical.empty:
         names = ", ".join(critical["source_id"].tolist()[:3])
-        st.warning(f"⚠️ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
+        st.warning(f"⚠ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
 
 # ── Sidebar controles ─────────────────────────────────────────────────────────
 with st.sidebar:
@@ -323,14 +323,14 @@ with col1:
     st.metric("Noticias analizadas", len(df_noticias) if not df_noticias.empty else 0,
               help=f"Últimos {dias_noticias} días")
 with col2:
-    if not df_noticias.empty and "sentimiento_score" in df_noticias.columns:
+    if not df_noticias.empty and "sentimiento_score"in df_noticias.columns:
         sent_medio = df_noticias["sentimiento_score"].mean()
-        label = "positivo" if sent_medio > 0.1 else "negativo" if sent_medio < -0.1 else "neutro"
+        label = "positivo"if sent_medio > 0.1 else "negativo"if sent_medio < -0.1 else "neutro"
         st.metric("Sentimiento medio", f"{sent_medio:.3f}", delta=label)
     else:
         st.metric("Sentimiento medio", "—")
 with col3:
-    if not df_noticias.empty and "sentimiento_label" in df_noticias.columns:
+    if not df_noticias.empty and "sentimiento_label"in df_noticias.columns:
         pct_neg = (df_noticias["sentimiento_label"] == "negativo").sum() / len(df_noticias) * 100
         st.metric("Noticias negativas", f"{pct_neg:.1f}%")
     else:
@@ -344,10 +344,10 @@ st.divider()
 sec_hdr("Radar Operativo de Prensa", CYAN)
 
 radar_overview, radar_narrativas, radar_medios, radar_salud = st.tabs([
-    "🧭 Overview",
-    "🧠 Narrativas",
-    "📰 Medios & Sesgo",
-    "🛠️ Salud de Ingesta",
+    "Overview",
+    "Narrativas",
+    "Medios & Sesgo",
+    "Salud de Ingesta",
 ])
 
 with radar_overview:
@@ -412,7 +412,7 @@ with radar_overview:
             st.metric("Partido más castigado", str(peor.get("entidad", "—")), f"{float(peor.get('sent_medio', 0)):.3f}")
         else:
             st.metric("Partido más castigado", "—")
-        if not df_noticias.empty and "fuente" in df_noticias.columns:
+        if not df_noticias.empty and "fuente"in df_noticias.columns:
             fuente_top = (
                 df_noticias.groupby("fuente", as_index=False)
                 .size()
@@ -450,7 +450,7 @@ with radar_overview:
             st.metric("Tema en aceleración", "—")
 
         if not df_momentum.empty:
-            sort_col = "prioridad_score" if "prioridad_score" in df_momentum.columns else "presion_score"
+            sort_col = "prioridad_score"if "prioridad_score"in df_momentum.columns else "presion_score"
             presion = df_momentum.sort_values(sort_col, ascending=False).iloc[0]
             st.metric(
                 "Presión mediática",
@@ -515,7 +515,7 @@ with radar_narrativas:
 
         st.markdown("#### Titulares clave del tema")
         df_tit = df_noticias.copy()
-        if not df_tit.empty and "categoria" in df_tit.columns:
+        if not df_tit.empty and "categoria"in df_tit.columns:
             df_tit = df_tit[df_tit["categoria"].fillna("general").astype(str) == str(tema_radar)]
         if not df_tit.empty:
             st.dataframe(
@@ -559,14 +559,14 @@ with radar_narrativas:
         st.markdown("#### Presión mediática por partido")
         if not df_momentum.empty:
             df_m = df_momentum.head(10).copy()
-            x_col = "prioridad_score" if "prioridad_score" in df_m.columns else "presion_score"
+            x_col = "prioridad_score"if "prioridad_score"in df_m.columns else "presion_score"
             color_vals = [GREEN if float(v) >= 0 else RED for v in df_m["delta_sent"]]
             fig_pressure = go.Figure(go.Bar(
                 x=df_m[x_col],
                 y=df_m["partido"],
                 orientation="h",
                 marker_color=color_vals,
-                text=[f"{float(r):.2f}x" for r in df_m["ratio_menciones"]],
+                text=[f"{float(r):.2f}x"for r in df_m["ratio_menciones"]],
                 textposition="outside",
                 hovertemplate=(
                     "<b>%{y}</b><br>Pressure: %{x:.3f}<br>"
@@ -719,7 +719,7 @@ tab_agenda_t, tab_sentimiento, tab_noticias, tab_bulos, tab_etl = st.tabs([
     "◉  Sentimiento",
     "◎  Feed Noticias",
     "⬡  Bulos & Desinformación",
-    "⚙  Estado ETL",
+    "  Estado ETL",
 ])
 
 # ── Tab 1: Agenda & Mapa ──────────────────────────────────────────────────────
@@ -799,7 +799,7 @@ with tab_agenda_t:
                     y=df_impact["partido"],
                     orientation="h",
                     marker_color=colors,
-                    text=[f"{x:+.2f} · n={_safe_int(n)}" for x, n in zip(df_impact["sent_medio"], df_impact["n"])],
+                    text=[f"{x:+.2f} · n={_safe_int(n)}"for x, n in zip(df_impact["sent_medio"], df_impact["n"])],
                     textposition="outside",
                     textfont=dict(color=TEXT2, size=10),
                 ))
@@ -826,7 +826,7 @@ with tab_agenda_t:
             if narr:
                 st.markdown(
                     "".join(
-                        f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:4px">{t}</span>'
+                        f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:4px">{t}</span>'
                         for t in narr
                     ),
                     unsafe_allow_html=True,
@@ -1014,7 +1014,7 @@ with tab_noticias:
 
         for _, row in df_feed.iterrows():
             sent       = row.get("sentimiento_label", "neutro")
-            sent_color = GREEN if sent == "positivo" else RED if sent == "negativo" else MUTED
+            sent_color = GREEN if sent == "positivo"else RED if sent == "negativo"else MUTED
             sent_score = float(row.get("sentimiento_score") or 0)
             partidos   = row.get("partidos_mencionados", "") or ""
             fuente_raw = str(row.get("fuente", "—") or "—")
@@ -1040,19 +1040,19 @@ with tab_noticias:
                 fecha_txt = str(fecha_raw or "")[:16]
 
             partidos_html = "".join(
-                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p.strip()}</span>'
+                f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p.strip()}</span>'
                 for p in partidos.split(",") if p.strip()
             )
             temas_html = "".join(
-                f'<span class="badge" style="background:rgba(0,212,255,0.08);color:{CYAN};border:1px solid rgba(0,212,255,0.2);margin-right:3px">{t}</span>'
+                f'<span class="badge"style="background:rgba(0,212,255,0.08);color:{CYAN};border:1px solid rgba(0,212,255,0.2);margin-right:3px">{t}</span>'
                 for t in temas[:3]
             )
-            css_cls = "news-pos" if sent == "positivo" else "news-neg" if sent == "negativo" else "news-neu"
+            css_cls = "news-pos"if sent == "positivo"else "news-neg"if sent == "negativo"else "news-neu"
             st.markdown(
                 f'<div class="news-card {css_cls}">'
                 f'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
                 f'<div style="flex:1">'
-                f'<a href="{row.get("url","#")}" target="_blank" style="font-weight:600;color:{TEXT};text-decoration:none;font-size:.9rem">{str(row.get("titular",""))[:100]}</a>'
+                f'<a href="{row.get("url","#")}"target="_blank"style="font-weight:600;color:{TEXT};text-decoration:none;font-size:.9rem">{str(row.get("titular",""))[:100]}</a>'
                 f'<div style="margin-top:.3rem;font-size:.75rem;color:{MUTED}">{fuente_raw} · {fecha_txt} ({recency}) &nbsp; {status_badge} &nbsp; {partidos_html} {temas_html}</div>'
                 f'</div>'
                 f'<div style="margin-left:1rem;text-align:right;min-width:4rem">'
@@ -1149,7 +1149,7 @@ with tab_bulos:
 
         sec_hdr("Línea Temporal de Bulos", AMBER)
         timeline_titulares = [
-            b["titular_bulo"][:60] + "..." if len(b["titular_bulo"]) > 60 else b["titular_bulo"]
+            b["titular_bulo"][:60] + "..."if len(b["titular_bulo"]) > 60 else b["titular_bulo"]
             for b in bulos_data
         ]
         fig_timeline = go.Figure()
@@ -1177,7 +1177,7 @@ with tab_bulos:
             xaxis=dict(title=None, showgrid=False, tickfont=dict(size=9, color=TEXT2)),
             yaxis=dict(
                 tickvals=list(range(len(bulos_data))),
-                ticktext=[t[:45] + "..." if len(t) > 45 else t for t in timeline_titulares],
+                ticktext=[t[:45] + "..."if len(t) > 45 else t for t in timeline_titulares],
                 tickfont=dict(size=9, color=TEXT2), title=None,
             ),
             margin=dict(t=10, b=10, l=280, r=20), showlegend=False,
@@ -1190,23 +1190,23 @@ with tab_bulos:
             ["Todos", "FALSO", "ENGAÑOSO", "SIN VERIFICAR", "SIN AVAL CIENTÍFICO"],
             key="filtro_veredicto",
         )
-        bulos_mostrar = bulos_data if filtro_ver == "Todos" else [b for b in bulos_data if b["veredicto"] == filtro_ver]
+        bulos_mostrar = bulos_data if filtro_ver == "Todos"else [b for b in bulos_data if b["veredicto"] == filtro_ver]
 
         for bulo in bulos_mostrar:
             ver_color = VEREDICTO_COLORS.get(bulo["veredicto"], MUTED)
             partidos_html = "".join(
-                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
+                f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
                 for p in bulo["partidos_implicados"]
             )
             st.markdown(
-                f'<div class="bulo-card" style="border-left:3px solid {ver_color}">'
+                f'<div class="bulo-card"style="border-left:3px solid {ver_color}">'
                 f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">'
                 f'<div style="flex:1">'
                 f'<div style="font-weight:700;font-size:.92rem;color:{TEXT};margin-bottom:.3rem">{bulo["titular_bulo"]}</div>'
                 f'<div style="font-size:.75rem;color:{MUTED}">{bulo["fecha"]} &nbsp;&bull;&nbsp; Origen: {bulo["fuente_origen"]} &nbsp;&bull;&nbsp; {partidos_html}</div>'
                 f'</div>'
                 f'<div style="margin-left:1rem;flex-shrink:0">'
-                f'<span class="badge" style="background:{ver_color}25;color:{ver_color};border:1px solid {ver_color}55;font-size:.75rem;padding:.25rem .7rem">{bulo["veredicto"]}</span>'
+                f'<span class="badge"style="background:{ver_color}25;color:{ver_color};border:1px solid {ver_color}55;font-size:.75rem;padding:.25rem .7rem">{bulo["veredicto"]}</span>'
                 f'</div>'
                 f'</div>'
                 f'<div style="font-size:.82rem;color:{TEXT2};background:{BG3};border-radius:6px;padding:.6rem .8rem;margin-bottom:.4rem;line-height:1.5">{bulo["explicacion"]}</div>'
@@ -1235,7 +1235,7 @@ with tab_etl:
             sc = STATUS_COLOR.get(str(row.get("status", "unknown")), MUTED)
             lag = row.get("freshness_lag_s")
             lag_i = _safe_int(lag)
-            lag_txt = f"{lag_i // 60} min" if lag_i and lag_i < 3600 else (f"{lag_i // 3600} h" if lag_i else "—")
+            lag_txt = f"{lag_i // 60} min"if lag_i and lag_i < 3600 else (f"{lag_i // 3600} h"if lag_i else "—")
             st.markdown(
                 f'<div style="display:flex;align-items:center;gap:.8rem;padding:.5rem .8rem;'
                 f'background:{BG2};border:1px solid {BORDER};border-radius:6px;margin-bottom:.3rem">'
@@ -1252,7 +1252,7 @@ with tab_etl:
     if not df_incidents.empty:
         sec_hdr("Incidencias Activas", RED)
         for _, inc in df_incidents.iterrows():
-            sev_color = RED if inc.get("severity") == "critical" else (AMBER if inc.get("severity") == "major" else MUTED)
+            sev_color = RED if inc.get("severity") == "critical"else (AMBER if inc.get("severity") == "major"else MUTED)
             st.markdown(
                 f'<div style="padding:.5rem .8rem;background:{BG2};border:1px solid {sev_color}44;'
                 f'border-left:3px solid {sev_color};border-radius:6px;margin-bottom:.3rem">'

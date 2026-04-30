@@ -30,7 +30,7 @@ except Exception:
 
 st.set_page_config(
     page_title="Monitor Legislativo — ElectSim",
-    page_icon="📜",
+    page_icon="",
     layout="wide",
 )
 aplicar_estilos()
@@ -39,11 +39,11 @@ mostrar_alertas_pagina("legislativo")
 
 # ── Paleta de impacto ─────────────────────────────────────────────────────────
 IMPACT_CFG = {
-    "CRÍTICO":     {"color": RED,    "border": "#7F1D1D", "bg": "#1A0A0A", "icon": "🔴"},
-    "ALTO":        {"color": AMBER,  "border": "#78350F", "bg": "#1A1000", "icon": "🟠"},
-    "MEDIO":       {"color": "#F59E0B", "border": "#92400E", "bg": "#171000", "icon": "🟡"},
-    "BAJO":        {"color": GREEN,  "border": "#064E3B", "bg": "#091510", "icon": "🟢"},
-    "INFORMATIVO": {"color": MUTED,  "border": BORDER,   "bg": BG2,       "icon": "⚪"},
+    "CRÍTICO":     {"color": RED,    "border": "#7F1D1D", "bg": "#1A0A0A", "icon": "●"},
+    "ALTO":        {"color": AMBER,  "border": "#78350F", "bg": "#1A1000", "icon": "●"},
+    "MEDIO":       {"color": "#F59E0B", "border": "#92400E", "bg": "#171000", "icon": "●"},
+    "BAJO":        {"color": GREEN,  "border": "#064E3B", "bg": "#091510", "icon": "●"},
+    "INFORMATIVO": {"color": MUTED,  "border": BORDER,   "bg": BG2,       "icon": "○"},
 }
 
 # ── Funciones de carga ────────────────────────────────────────────────────────
@@ -141,7 +141,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{RED},{AMBER});
               border-radius:12px;display:flex;align-items:center;
-              justify-content:center;font-size:1.5rem;flex-shrink:0">📜</div>
+              justify-content:center;font-size:1.5rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.55rem;font-weight:900">Monitor Legislativo</h2>
     <div style="color:{TEXT2};font-size:.82rem">
@@ -157,10 +157,10 @@ st.markdown(f"""
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_boe, tab_votaciones, tab_busqueda, tab_ia = st.tabs([
-    "📜 BOE Hoy",
-    "🗳️ Votaciones Congreso",
-    "🔍 Búsqueda",
-    "🤖 Análisis IA",
+    "BOE Hoy",
+    "Votaciones Congreso",
+    "Búsqueda",
+    "Análisis IA",
 ])
 
 if _git_amigos is not None:
@@ -186,7 +186,7 @@ with tab_boe:
     # Enriquecer con impacto si no lo traen
     items: list[dict] = []
     for item in items_raw:
-        if "impacto" not in item:
+        if "impacto"not in item:
             item["impacto"] = _clasificar_impacto(
                 item.get("titulo", ""),
                 item.get("seccion", ""),
@@ -265,9 +265,9 @@ with tab_boe:
             url = item.get("url_html", item.get("url", "#"))
             id_boe = item.get("id", "")
             link_html = (
-                f'<a href="{url}" target="_blank" rel="noopener noreferrer" '
+                f'<a href="{url}"target="_blank"rel="noopener noreferrer" '
                 f'style="font-size:.72rem;color:{CYAN};text-decoration:none">Ver en BOE ↗</a>'
-                if url and url != "#" else ""
+                if url and url != "#"else ""
             )
             st.markdown(
                 f'<div style="background:{cfg["bg"]};border:1px solid {cfg["border"]};'
@@ -283,8 +283,8 @@ with tab_boe:
                 f'</div>'
                 f'<div style="color:{TEXT};font-size:.88rem;font-weight:600;line-height:1.4;margin-bottom:.4rem">{titulo}</div>'
                 f'<div style="display:flex;align-items:center;gap:1rem">'
-                f'<span style="font-size:.72rem;color:{TEXT2}">🏛️ {dept}</span>'
-                + (f'<span style="font-size:.72rem;color:{TEXT2}">📂 {epi[:60]}</span>' if epi else "")
+                f'<span style="font-size:.72rem;color:{TEXT2}"> {dept}</span>'
+                + (f'<span style="font-size:.72rem;color:{TEXT2}"> {epi[:60]}</span>'if epi else "")
                 + f'<span style="margin-left:auto">{link_html}</span>'
                 f'</div>'
                 f'</div>',
@@ -312,7 +312,7 @@ with tab_boe:
                 if altos:
                     badge_extra += f' <span style="color:{AMBER};font-weight:700">● {altos} alto(s)</span>'
                 with st.expander(
-                    f"🏛️ {dept_name}  ({len(dept_items)} disposiciones){badge_extra}",
+                    f" {dept_name}  ({len(dept_items)} disposiciones){badge_extra}",
                     expanded=(criticos > 0),
                 ):
                     for item in dept_items:
@@ -373,7 +373,7 @@ with tab_votaciones:
     for v in votaciones:
         row = []
         htrow = []
-        ini_short = v["iniciativa"][:45] + ("…" if len(v["iniciativa"]) > 45 else "")
+        ini_short = v["iniciativa"][:45] + ("…"if len(v["iniciativa"]) > 45 else "")
         y_labels.append(ini_short)
         for p in partidos_voto:
             voto = v.get(p, "abstencion")
@@ -429,7 +429,7 @@ with tab_votaciones:
     # Tabla de votaciones
     section_header("Detalle por votación", BLUE)
     for v in votaciones:
-        res_color = GREEN if v["resultado"] == "APROBADA" else RED
+        res_color = GREEN if v["resultado"] == "APROBADA"else RED
         disciplina_items = []
         for p in partidos_voto:
             voto = v.get(p, "abstencion")
@@ -502,7 +502,7 @@ with tab_busqueda:
         )
     with col_s2:
         st.markdown("<div style='height:28px'></div>", unsafe_allow_html=True)
-        buscar_btn = st.button("🔍 Buscar", use_container_width=True, key="btn_buscar")
+        buscar_btn = st.button("Buscar", use_container_width=True, key="btn_buscar")
 
     col_f_a, col_f_b, col_f_c = st.columns(3)
     with col_f_a:
@@ -637,7 +637,7 @@ with tab_busqueda:
                 )
                 st.plotly_chart(fig_sec, use_container_width=True)
         else:
-            st.info("Carga primero datos del BOE en la pestaña 'BOE Hoy' para poder buscar.")
+            st.info("Carga primero datos del BOE en la pestaña 'BOE Hoy'para poder buscar.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -659,7 +659,7 @@ with tab_ia:
         )
     with col_ia2:
         st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
-        run_ia = st.button("🤖 Analizar con IA", use_container_width=True, key="btn_ia_boe")
+        run_ia = st.button("Analizar con IA", use_container_width=True, key="btn_ia_boe")
 
     if run_ia:
         # Preparar contexto
@@ -714,7 +714,7 @@ with tab_ia:
                 f'<div style="background:{BG3};border:1px solid {PURPLE}44;border-left:4px solid {PURPLE};'
                 f'border-radius:12px;padding:1.3rem 1.5rem;margin-top:.6rem">'
                 f'<div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;color:{PURPLE};'
-                f'text-transform:uppercase;margin-bottom:.7rem">🤖 Politeia Brain — Análisis Legislativo</div>',
+                f'text-transform:uppercase;margin-bottom:.7rem"> Politeia Brain — Análisis Legislativo</div>',
                 unsafe_allow_html=True,
             )
             st.markdown(respuesta_ia)
@@ -729,7 +729,7 @@ with tab_ia:
                 f'<div style="background:{BG3};border:1px solid {AMBER}44;border-left:4px solid {AMBER};'
                 f'border-radius:12px;padding:1.3rem 1.5rem">'
                 f'<div style="font-size:.7rem;font-weight:800;color:{AMBER};letter-spacing:.12em;'
-                f'text-transform:uppercase;margin-bottom:.8rem">⚠️ IA Local no disponible — Análisis automático</div>',
+                f'text-transform:uppercase;margin-bottom:.8rem">⚠ IA Local no disponible — Análisis automático</div>',
                 unsafe_allow_html=True,
             )
             if top_demo:
@@ -760,7 +760,7 @@ with tab_ia:
     with col_exp1:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem 1.2rem">'
-            f'<div style="font-size:.75rem;font-weight:700;color:{CYAN};margin-bottom:.5rem">📋 LOBBYING COMPLIANCE</div>'
+            f'<div style="font-size:.75rem;font-weight:700;color:{CYAN};margin-bottom:.5rem"> LOBBYING COMPLIANCE</div>'
             f'<div style="font-size:.82rem;color:{TEXT2}">Exporta las disposiciones relevantes filtradas por sector '
             f'(Energía, Banca, Defensa, Farmacia…) para revisión de cumplimiento normativo y reporting de lobbying.</div>'
             f'<div style="margin-top:.8rem">'
@@ -778,7 +778,7 @@ with tab_ia:
             } for i in items])
             csv_data = df_export.to_csv(index=False).encode("utf-8")
             st.download_button(
-                "⬇️ Descargar CSV compliance",
+                "⬇ Descargar CSV compliance",
                 data=csv_data,
                 file_name=f"boe_compliance_{datetime.now().strftime('%Y%m%d')}.csv",
                 mime="text/csv",
@@ -787,7 +787,7 @@ with tab_ia:
     with col_exp2:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem 1.2rem">'
-            f'<div style="font-size:.75rem;font-weight:700;color:{PURPLE};margin-bottom:.5rem">📊 SECTORES RELEVANTES</div>'
+            f'<div style="font-size:.75rem;font-weight:700;color:{PURPLE};margin-bottom:.5rem"> SECTORES RELEVANTES</div>'
             f'<div style="font-size:.82rem;color:{TEXT2}">Clasificación sectorial automática de las disposiciones '
             f'del BOE por impacto en sectores estratégicos.</div>'
             f'<div style="margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem">',

@@ -95,7 +95,7 @@ class DataSourceStatus:
 
     @property
     def icono(self) -> str:
-        return {"real": "✅", "parcial": "⚠️", "sintetico": "🔵", "fallback": "🔴"}.get(self.tipo, "🔵")
+        return {"real": "✓", "parcial": "⚠", "sintetico": "●", "fallback": "●"}.get(self.tipo, "●")
 
 
 def data_source_banner(
@@ -108,9 +108,9 @@ def data_source_banner(
     """
     ts_str = ""
     if status.timestamp:
-        ts_str = f" · Actualizado: {status.timestamp}"
-    oleada_str = f" · Oleada: {status.oleada}" if status.oleada else ""
-    n_str = f" · n={status.n_registros:,}" if status.n_registros else ""
+        ts_str = f"· Actualizado: {status.timestamp}"
+    oleada_str = f"· Oleada: {status.oleada}"if status.oleada else ""
+    n_str = f"· n={status.n_registros:,}"if status.n_registros else ""
 
     html = f"""
     <div style="
@@ -128,7 +128,7 @@ def data_source_banner(
         <span style="font-size:1rem">{status.icono}</span>
         <span>
             <strong>Fuente:</strong> {status.fuente_label}{oleada_str}{n_str}{ts_str}
-            {f'<br><span style="opacity:0.75">{status.detalle}</span>' if status.detalle else ''}
+            {f'<br><span style="opacity:0.75">{status.detalle}</span>'if status.detalle else ''}
         </span>
     </div>
     """
@@ -158,7 +158,7 @@ def fiabilidad_baja_badge(razon: str = "") -> None:
     st.markdown(
         f"""<div style="background:#FEF3C7;border-left:3px solid #F59E0B;
         border-radius:4px;padding:6px 12px;font-size:0.80rem;color:#92400E;margin:4px 0">
-        ⚠️ <strong>Fiabilidad baja:</strong> {msg}
+        ⚠ <strong>Fiabilidad baja:</strong> {msg}
         </div>""",
         unsafe_allow_html=True,
     )

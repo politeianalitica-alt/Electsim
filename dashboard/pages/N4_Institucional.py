@@ -23,7 +23,7 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
-st.set_page_config(page_title="Institucional — ElectSim", page_icon="🏛️", layout="wide")
+st.set_page_config(page_title="Institucional — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("institucional")
 
@@ -31,7 +31,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{BLUE},{PURPLE});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">🏛️</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Actividad Institucional</h2>
     <div style="color:{TEXT2};font-size:.82rem">Congreso · BOE · Agenda · Legislación</div>
@@ -40,11 +40,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_congreso, tab_boe, tab_agenda, tab_memoria, tab_eu = st.tabs([
-    "🏛️ Congreso",
-    "📋 BOE",
-    "📅 Agenda Líderes",
-    "📚 Memoria Institucional",
-    "🇪🇺 Parlamento Europeo",
+    "Congreso",
+    "BOE",
+    "Agenda Líderes",
+    "Memoria Institucional",
+    "Parlamento Europeo",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -77,11 +77,11 @@ with tab_congreso:
                 <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.5rem">
                   <div style="font-size:1.1rem;font-weight:700;color:{TEXT};margin-bottom:.8rem">Estado del hemiciclo</div>
                   <div style="font-size:.85rem;color:{TEXT2};line-height:1.8">
-                    <div>🔵 PP — 137 escaños</div>
-                    <div>🔴 PSOE — 121 escaños</div>
-                    <div>🟢 VOX — 33 escaños</div>
-                    <div>💗 SUMAR — 31 escaños</div>
-                    <div>📊 Otros — 28 escaños</div>
+                    <div>● PP — 137 escaños</div>
+                    <div>● PSOE — 121 escaños</div>
+                    <div>● VOX — 33 escaños</div>
+                    <div> SUMAR — 31 escaños</div>
+                    <div> Otros — 28 escaños</div>
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -90,9 +90,9 @@ with tab_congreso:
                 <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.5rem">
                   <div style="font-size:1.1rem;font-weight:700;color:{TEXT};margin-bottom:.8rem">Calendario legislativo</div>
                   <div style="font-size:.85rem;color:{TEXT2};line-height:1.8">
-                    <div>📅 Próximo pleno: pendiente</div>
-                    <div>📋 Proyectos en tramitación: —</div>
-                    <div>⚖️ Comisiones activas: —</div>
+                    <div> Próximo pleno: pendiente</div>
+                    <div> Proyectos en tramitación: —</div>
+                    <div> Comisiones activas: —</div>
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -102,16 +102,16 @@ with tab_congreso:
             # Filtros
             col_f1, col_f2, col_f3 = st.columns(3)
             with col_f1:
-                tipo_f = st.selectbox("Tipo", ["Todos"] + sorted(df_ini["tipo"].unique().tolist()) if "tipo" in df_ini.columns else ["Todos"])
+                tipo_f = st.selectbox("Tipo", ["Todos"] + sorted(df_ini["tipo"].unique().tolist()) if "tipo"in df_ini.columns else ["Todos"])
             with col_f2:
-                partido_f_c = st.selectbox("Partido", ["Todos"] + sorted(df_ini["partido_proponente"].dropna().unique().tolist()) if "partido_proponente" in df_ini.columns else ["Todos"])
+                partido_f_c = st.selectbox("Partido", ["Todos"] + sorted(df_ini["partido_proponente"].dropna().unique().tolist()) if "partido_proponente"in df_ini.columns else ["Todos"])
             with col_f3:
-                estado_f = st.selectbox("Estado", ["Todos"] + sorted(df_ini["estado"].dropna().unique().tolist()) if "estado" in df_ini.columns else ["Todos"])
+                estado_f = st.selectbox("Estado", ["Todos"] + sorted(df_ini["estado"].dropna().unique().tolist()) if "estado"in df_ini.columns else ["Todos"])
 
             df_f_ini = df_ini.copy()
-            if tipo_f != "Todos" and "tipo" in df_f_ini.columns:
+            if tipo_f != "Todos"and "tipo"in df_f_ini.columns:
                 df_f_ini = df_f_ini[df_f_ini["tipo"] == tipo_f]
-            if partido_f_c != "Todos" and "partido_proponente" in df_f_ini.columns:
+            if partido_f_c != "Todos"and "partido_proponente"in df_f_ini.columns:
                 df_f_ini = df_f_ini[df_f_ini["partido_proponente"] == partido_f_c]
 
             st.dataframe(df_f_ini.head(20), use_container_width=True, hide_index=True)
@@ -142,15 +142,15 @@ with tab_boe:
         st.markdown(f"""
         <div style="background:{AMBER}12;border:1px solid {AMBER}33;border-radius:12px;padding:1.5rem">
           <div style="font-size:1rem;font-weight:700;color:{AMBER};margin-bottom:.5rem">
-            📋 BOE del {hoy}
+             BOE del {hoy}
           </div>
           <div style="font-size:.85rem;color:{TEXT2}">
             El BOE publica diariamente las disposiciones del Estado: leyes, decretos,
             resoluciones, convocatorias y demás actos oficiales.
           </div>
           <div style="margin-top:.8rem">
-            <a href="https://www.boe.es" target="_blank" style="color:{CYAN};font-size:.82rem">
-              🔗 Acceder al BOE oficial →
+            <a href="https://www.boe.es"target="_blank"style="color:{CYAN};font-size:.82rem">
+               Acceder al BOE oficial →
             </a>
           </div>
         </div>
@@ -175,7 +175,7 @@ with tab_boe:
                 <span style="background:{AMBER}22;color:{AMBER};border-radius:4px;
                              padding:.05rem .4rem;font-size:.65rem;font-weight:600">{rango}</span>
                 <span style="font-size:.7rem;color:{TEXT2}">{depto}</span>
-                <a href="{url}" target="_blank" style="color:{CYAN};font-size:.65rem;margin-left:auto">→ Ver</a>
+                <a href="{url}"target="_blank"style="color:{CYAN};font-size:.65rem;margin-left:auto">→ Ver</a>
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -225,8 +225,8 @@ with tab_agenda:
                   <div style="font-size:.65rem;color:{MUTED}">{fecha}</div>
                 </div>
               </div>
-              {f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.3rem">{desc}</div>' if desc else ''}
-              {f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem">📍 {lugar}</div>' if lugar else ''}
+              {f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.3rem">{desc}</div>'if desc else ''}
+              {f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem"> {lugar}</div>'if lugar else ''}
             </div>
             """, unsafe_allow_html=True)
 
@@ -242,14 +242,14 @@ with tab_eu:
     st.markdown(f"""
     <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.5rem">
       <div style="font-size:1rem;font-weight:700;color:{TEXT};margin-bottom:.8rem">
-        🇪🇺 Representación española en el PE
+         Representación española en el PE
       </div>
       <div style="font-size:.85rem;color:{TEXT2};line-height:1.8">
-        <div>🔵 PP (PPE) — 22 eurodiputados</div>
-        <div>🔴 PSOE (S&D) — 20 eurodiputados</div>
-        <div>🟢 VOX (ECR) — 6 eurodiputados</div>
-        <div>💗 SUMAR / IU — 5 eurodiputados</div>
-        <div>🔵 Renovar — 2 eurodiputados</div>
+        <div>● PP (PPE) — 22 eurodiputados</div>
+        <div>● PSOE (S&D) — 20 eurodiputados</div>
+        <div>● VOX (ECR) — 6 eurodiputados</div>
+        <div> SUMAR / IU — 5 eurodiputados</div>
+        <div>● Renovar — 2 eurodiputados</div>
       </div>
     </div>
     """, unsafe_allow_html=True)

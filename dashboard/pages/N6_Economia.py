@@ -25,7 +25,7 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
-st.set_page_config(page_title="Economía — ElectSim", page_icon="📈", layout="wide")
+st.set_page_config(page_title="Economía — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("economia")
 
@@ -33,7 +33,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{GREEN},{CYAN});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">📈</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Economía & Finanzas</h2>
     <div style="color:{TEXT2};font-size:.82rem">Macro · OpenBB · ESG · Correlaciones</div>
@@ -42,10 +42,10 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_macro, tab_openbb, tab_esg, tab_corr = st.tabs([
-    "📊 Macro España",
-    "💹 Mercados (OpenBB)",
-    "🌿 ESG",
-    "🔗 Correlaciones",
+    "Macro España",
+    "Mercados (OpenBB)",
+    "ESG",
+    "Correlaciones",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -215,7 +215,7 @@ with tab_esg:
     st.markdown(f"""
     <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.5rem;margin-bottom:1rem">
       <div style="font-size:1rem;font-weight:700;color:{TEXT};margin-bottom:.5rem">
-        🌿 Índice ESG y Política
+         Índice ESG y Política
       </div>
       <div style="font-size:.85rem;color:{TEXT2};line-height:1.6">
         Correlación entre políticas medioambientales de los partidos (Green New Deal, carbono neutro,

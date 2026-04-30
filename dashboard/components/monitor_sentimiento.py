@@ -286,7 +286,7 @@ def _render_momentum(df_momentum: pd.DataFrame) -> None:
         "prioridad_score",
     ]
     df = safe_numeric(df, numeric_cols)
-    score_col = "prioridad_score" if "prioridad_score" in df.columns else "presion_score"
+    score_col = "prioridad_score"if "prioridad_score"in df.columns else "presion_score"
     df = df.sort_values(score_col, ascending=False).head(15)
 
     fig = px.scatter(
@@ -450,7 +450,7 @@ def _render_detalle_partido(partido: str) -> None:
     # Top noticias del partido
     section_header(f"Noticias destacadas — {partido}")
     df_news = cargar_noticias_recientes(dias=14, limit=200)
-    if df_news.empty or "partidos_mencionados" not in df_news.columns:
+    if df_news.empty or "partidos_mencionados"not in df_news.columns:
         st.caption("Sin feed de noticias disponible.")
         return
     df_news = df_news.copy()
@@ -611,7 +611,7 @@ def render_monitor_sentimiento(conn) -> None:
         "▦  Resumen general",
         "●  Detalle por partido",
         "⬡  Comparador",
-        f"△  Alertas ({n_alert})" if n_alert else "△  Alertas",
+        f"△  Alertas ({n_alert})"if n_alert else "△  Alertas",
     ])
 
     with t_resumen:

@@ -94,7 +94,7 @@ def _pull_sondeos() -> dict:
         if df.empty:
             return {}
         # Último sondeo por partido
-        last = df.sort_values("fecha_encuesta" if "fecha_encuesta" in df.columns else df.columns[0]).tail(30)
+        last = df.sort_values("fecha_encuesta"if "fecha_encuesta"in df.columns else df.columns[0]).tail(30)
         resumen = {}
         for _, row in last.iterrows():
             p = str(row.get("partido_siglas", row.get("partido_nombre", "?")))
@@ -289,7 +289,7 @@ def construir_prompt_contexto(estado: dict, modulo: str = "general") -> str:
         if criticos:
             lineas.append(f"BOE HOY — {len(criticos)} items de alto impacto:")
             for b in criticos[:4]:
-                lineas.append(f"  ⚡ [{b.get('seccion','?')}] {str(b.get('titulo',''))[:90]}")
+                lineas.append(f"  ! [{b.get('seccion','?')}] {str(b.get('titulo',''))[:90]}")
             lineas.append("")
 
     # Alertas activas
@@ -297,7 +297,7 @@ def construir_prompt_contexto(estado: dict, modulo: str = "general") -> str:
     if alertas:
         lineas.append(f"ALERTAS ACTIVAS EN SISTEMA: {len(alertas)}")
         for a in alertas[:3]:
-            lineas.append(f"  🔴 {str(a.get('titulo', a.get('mensaje', 'alerta')))[:80]}")
+            lineas.append(f"  ● {str(a.get('titulo', a.get('mensaje', 'alerta')))[:80]}")
         lineas.append("")
 
     lineas.append(f"MÓDULO ACTIVO: {modulo.upper()}")
@@ -405,7 +405,7 @@ def razonar_situacion(
 
     llm = _get_llm()
     if not llm:
-        return "⚠️ Motor LLM no disponible."
+        return "⚠ Motor LLM no disponible."
 
     if stream:
         return llm.chat(
@@ -468,7 +468,7 @@ def analizar_modulo(
 
     llm = _get_llm()
     if not llm:
-        return "⚠️ Sin LLM disponible."
+        return "⚠ Sin LLM disponible."
 
     return llm.chat(
         pregunta,
@@ -498,17 +498,17 @@ def generar_briefing_diario(force_refresh: bool = False) -> str:
         f"Genera el briefing político ejecutivo del {datetime.now().strftime('%d de %B de %Y')}. "
         "Este briefing es para un analista político senior que empieza su jornada. "
         "Estructura OBLIGATORIA:\n\n"
-        "## 🔑 TITULAR DEL DÍA\n"
+        "##  TITULAR DEL DÍA\n"
         "_Una frase que capture lo más importante_\n\n"
-        "## 📰 NOTICIAS CLAVE (top 5)\n"
+        "##  NOTICIAS CLAVE (top 5)\n"
         "Con análisis de impacto para cada una\n\n"
-        "## 📊 ESTADO DE LAS ENCUESTAS\n"
+        "##  ESTADO DE LAS ENCUESTAS\n"
         "Quién sube, quién baja, qué significa\n\n"
-        "## ⚡ ALERTAS DEL DÍA\n"
+        "## ! ALERTAS DEL DÍA\n"
         "Riesgos e incidentes a vigilar\n\n"
-        "## 🎯 AGENDA DEL ANALISTA\n"
+        "##  AGENDA DEL ANALISTA\n"
         "3 cosas concretas que hacer hoy\n\n"
-        "## 🔮 PREDICCIÓN 7 DÍAS\n"
+        "##  PREDICCIÓN 7 DÍAS\n"
         "Qué es más probable que ocurra esta semana"
     )
 
@@ -526,7 +526,7 @@ def _briefing_fallback(estado: dict) -> str:
     sondeos = estado.get("sondeos", {})
     fecha = estado.get("fecha", datetime.now().strftime("%d/%m/%Y"))
 
-    titulares = "\n".join(f"• {n.get('titulo', '')[:80]}" for n in noticias[:5])
+    titulares = "\n".join(f"• {n.get('titulo', '')[:80]}"for n in noticias[:5])
     encuestas = "\n".join(
         f"• {p}: {d.get('voto', 0):.1f}% ({d.get('escanos', 0)} esc.)"
         for p, d in sorted(sondeos.items(), key=lambda x: -x[1].get("escanos", 0))[:5]
@@ -655,7 +655,7 @@ def chat_con_contexto_total(
                     contexto += f"  — {f['documento'][:200]}\n"
 
     if not llm:
-        return "⚠️ Sin motor LLM disponible. Activa Ollama o configura ANTHROPIC_API_KEY."
+        return "⚠ Sin motor LLM disponible. Activa Ollama o configura ANTHROPIC_API_KEY."
 
     return llm.chat(
         mensaje,
@@ -781,7 +781,7 @@ def analisis_cruzado(
 
     llm = _get_llm()
     if not llm:
-        return "⚠️ Sin LLM disponible."
+        return "⚠ Sin LLM disponible."
 
     return llm.chat(
         pregunta,
@@ -845,7 +845,7 @@ def chat_personalizado(
 
     llm = _get_llm()
     if not llm:
-        return "⚠️ Sin LLM disponible."
+        return "⚠ Sin LLM disponible."
 
     return llm.chat(
         mensaje,
@@ -878,7 +878,7 @@ def optimizar_presentacion_datos(
         return {}
 
     prompt = (
-        f"Analiza estos datos de tipo '{tipo_dato}' y responde en JSON:\n"
+        f"Analiza estos datos de tipo '{tipo_dato}'y responde en JSON:\n"
         f"DATOS:\n{muestra_datos[:1500]}\n\n"
         f"OBJETIVO: {objetivo}\n\n"
         "Responde SOLO con JSON válido:\n"
@@ -910,11 +910,11 @@ def evaluar_impacto_noticia(
 
     llm = _get_llm()
     if not llm:
-        return "⚠️ Sin LLM."
+        return "⚠ Sin LLM."
 
     prompt = (
         f"Evalúa el impacto político de esta noticia:\n"
-        f"{'[' + medio + '] ' if medio else ''}{noticia}\n\n"
+        f"{'[' + medio + '] 'if medio else ''}{noticia}\n\n"
         "Analiza: impacto en intención de voto, qué partidos se ven afectados, "
         "si es una noticia que beneficia o perjudica al gobierno, "
         "y qué tipo de reacción política es probable."

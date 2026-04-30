@@ -53,7 +53,7 @@ with col_b:
 with col_c:
     st.metric("Noticias 48h", len(df_news))
 with col_d:
-    st.metric("Partidos en nowcast", df_now["partido_siglas"].nunique() if not df_now.empty and "partido_siglas" in df_now.columns else 0)
+    st.metric("Partidos en nowcast", df_now["partido_siglas"].nunique() if not df_now.empty and "partido_siglas"in df_now.columns else 0)
 
 st.subheader("Salud de datos")
 render_data_health(
@@ -127,7 +127,7 @@ else:
 
 st.subheader("Matriz territorial rápida")
 try:
-    if not df_now.empty and "eleccion_id" in df_now.columns:
+    if not df_now.empty and "eleccion_id"in df_now.columns:
         eid = int(df_now["eleccion_id"].dropna().iloc[0])
         df_prov = cargar_resultados_provinciales(eid)
         st.dataframe(df_prov.head(25), use_container_width=True, hide_index=True)

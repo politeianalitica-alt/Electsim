@@ -158,7 +158,7 @@ df_hist = safe_numeric(
     ["brier_score", "rmse_voto", "mae_escanos", "cobertura_95ci", "pct_completitud", "n_checks_ok", "n_checks_fail"],
 )
 
-if df_hist.empty or "tipo" not in df_hist.columns:
+if df_hist.empty or "tipo"not in df_hist.columns:
     st.info(
         "Sin resultados de validación. Ejecuta la Fase 5 para generar un run: "
         "`python -m pipelines.fase5_validacion`"
@@ -199,7 +199,7 @@ cards = [
     ),
     kpi_card(
         "RMSE Voto",
-        _fmt_or_dash(rmse_pp, ".2f", " pp"),
+        _fmt_or_dash(rmse_pp, ".2f", "pp"),
         "objetivo <2 pp",
         _rmse_pp_color(rmse_pp) if rmse_pp == rmse_pp else MUTED,
     ),
@@ -352,7 +352,7 @@ with tab_cal:
         c_estado = GREEN if calibrado else (AMBER if pct_u >= 80 else RED)
 
         strip = [
-            kpi_card("Estado", "Calibrado" if calibrado else "Revisar", f"último run: {ult.get('created_at','—')}", c_estado),
+            kpi_card("Estado", "Calibrado"if calibrado else "Revisar", f"último run: {ult.get('created_at','—')}", c_estado),
             kpi_card("Checks OK", f"{n_ok_u}", f"{pct_u:.1f}% del total", GREEN if n_ok_u else MUTED),
             kpi_card("Checks Fail", f"{n_fail_u}", "errores detectados", RED if n_fail_u else GREEN),
             kpi_card("Modelo", str(ult.get("modelo", "—"))[:24], "modelo LLM usado", CYAN),
@@ -398,7 +398,7 @@ with tab_cal:
             ok = n_fail == 0 and n_ok > 0
             total = n_ok + n_fail
             pct = (n_ok / total * 100) if total else 0.0
-            etiqueta = "✓ Calibrado" if ok else "△ Revisar"
+            etiqueta = "✓ Calibrado"if ok else "△ Revisar"
             with st.expander(f"{etiqueta} — {row.get('created_at','—')} · {row.get('modelo','—')}"):
                 c1, c2, c3, c4 = st.columns(4)
                 c1.metric("Checks OK", n_ok)
@@ -451,7 +451,7 @@ with tab_qc:
 
         strip_qc = [
             kpi_card("Completitud", f"{pct_last:.1f}%", f"checks {total_last}", c_pct),
-            kpi_card("Checks OK", f"{ok_last}", f"{ok_last/total_last*100:.1f}%" if total_last else "—", GREEN),
+            kpi_card("Checks OK", f"{ok_last}", f"{ok_last/total_last*100:.1f}%"if total_last else "—", GREEN),
             kpi_card("Checks Fail", f"{fail_last}", "con incidencias", RED if fail_last else GREEN),
             kpi_card("Fecha", str(ult_qc.get("created_at", "—"))[:16], "último run", CYAN),
         ]
@@ -471,10 +471,10 @@ with tab_casas:
     if df_casas.empty:
         st.info("Sin backtest disponible. Ejecuta `python -m validation.backtest_casas` para generar ratings.")
     else:
-        n_casas_activas = int(df_casas["activa"].sum()) if "activa" in df_casas.columns else len(df_casas)
-        n_con_dato_7d = int((df_casas["n_encuestas_7d"].fillna(0) > 0).sum()) if "n_encuestas_7d" in df_casas.columns else 0
-        rating_medio = safe_float(df_casas["rating"].mean(), default=0.0) if "rating" in df_casas.columns else 0.0
-        mae_medio = safe_float(df_casas["mae_ewma"].mean(), default=0.0) if "mae_ewma" in df_casas.columns else 0.0
+        n_casas_activas = int(df_casas["activa"].sum()) if "activa"in df_casas.columns else len(df_casas)
+        n_con_dato_7d = int((df_casas["n_encuestas_7d"].fillna(0) > 0).sum()) if "n_encuestas_7d"in df_casas.columns else 0
+        rating_medio = safe_float(df_casas["rating"].mean(), default=0.0) if "rating"in df_casas.columns else 0.0
+        mae_medio = safe_float(df_casas["mae_ewma"].mean(), default=0.0) if "mae_ewma"in df_casas.columns else 0.0
 
         strip_cas = [
             kpi_card("Casas activas", f"{n_casas_activas}", "en ventana vigente", CYAN),
@@ -516,9 +516,9 @@ with tab_macro:
     else:
         df_fm_num = safe_numeric(df_fm, ["latencia_dias", "peso_base"])
         n_total = len(df_fm_num)
-        n_activas = int(df_fm_num["activa"].sum()) if "activa" in df_fm_num.columns else n_total
-        n_cat = int(df_fm_num["categoria"].nunique()) if "categoria" in df_fm_num.columns else 0
-        peso_medio = safe_float(df_fm_num["peso_base"].mean(), default=0.0) if "peso_base" in df_fm_num.columns else 0.0
+        n_activas = int(df_fm_num["activa"].sum()) if "activa"in df_fm_num.columns else n_total
+        n_cat = int(df_fm_num["categoria"].nunique()) if "categoria"in df_fm_num.columns else 0
+        peso_medio = safe_float(df_fm_num["peso_base"].mean(), default=0.0) if "peso_base"in df_fm_num.columns else 0.0
 
         strip_fm = [
             kpi_card("Fuentes", f"{n_total}", f"activas: {n_activas}", CYAN),

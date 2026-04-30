@@ -28,7 +28,7 @@ from dashboard.shared import (
 # ── page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Communication Intelligence · Politeia",
-    page_icon="📣",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -116,7 +116,7 @@ st.markdown("""
 <div style='background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
      padding:1.5rem 2rem;border-radius:12px;margin-bottom:1.5rem;
      border-left:4px solid #e94560;'>
-  <h1 style='color:#fff;margin:0;font-size:1.8rem;'>📣 Communication Intelligence</h1>
+  <h1 style='color:#fff;margin:0;font-size:1.8rem;'> Communication Intelligence</h1>
   <p style='color:#aaa;margin:0.4rem 0 0;font-size:0.9rem;'>
     Radar de mensajes · Testeo de impacto · Consistencia narrativa · Estrategia
   </p>
@@ -127,27 +127,27 @@ st.markdown("""
 st.markdown("### Modo de Trabajo")
 modo_col1, modo_col2, modo_col3 = st.columns(3)
 with modo_col1:
-    if st.button("🗳️ Político / Electoral",
-                 type="primary" if st.session_state.get("modo_comm") == "Político" else "secondary",
+    if st.button("Político / Electoral",
+                 type="primary"if st.session_state.get("modo_comm") == "Político"else "secondary",
                  use_container_width=True):
         st.session_state["modo_comm"] = "Político"
         st.rerun()
 with modo_col2:
-    if st.button("🏢 Corporativo / Institucional",
-                 type="primary" if st.session_state.get("modo_comm") == "Corporativo" else "secondary",
+    if st.button("Corporativo / Institucional",
+                 type="primary"if st.session_state.get("modo_comm") == "Corporativo"else "secondary",
                  use_container_width=True):
         st.session_state["modo_comm"] = "Corporativo"
         st.rerun()
 with modo_col3:
-    if st.button("📢 Campaña de Comunicación",
-                 type="primary" if st.session_state.get("modo_comm") == "Campaña" else "secondary",
+    if st.button("Campaña de Comunicación",
+                 type="primary"if st.session_state.get("modo_comm") == "Campaña"else "secondary",
                  use_container_width=True):
         st.session_state["modo_comm"] = "Campaña"
         st.rerun()
 
 modo = st.session_state.get("modo_comm", "Político")
-audiencias = AUDIENCIAS_POLITICO if modo == "Político" else (
-    AUDIENCIAS_CORP if modo == "Corporativo" else
+audiencias = AUDIENCIAS_POLITICO if modo == "Político"else (
+    AUDIENCIAS_CORP if modo == "Corporativo"else
     ["Decisores B2B", "Influencers del sector", "Público general 35-55", "Jóvenes 18-35", "Stakeholders clave"]
 )
 
@@ -156,18 +156,18 @@ st.markdown(f"""
      margin:0.5rem 0 1.5rem;display:inline-block;'>
   <span style='color:#e94560;font-weight:700;'>Modo activo:</span>
   <span style='color:#fff;'> {modo}</span>
-  {'<span style="color:#aaa;font-size:0.85rem;"> · Clusters CIS microdatos activados</span>' if modo == "Político" else
-   '<span style="color:#aaa;font-size:0.85rem;"> · Stakeholders corporativos activos</span>' if modo == "Corporativo" else
+  {'<span style="color:#aaa;font-size:0.85rem;"> · Clusters CIS microdatos activados</span>'if modo == "Político"else
+   '<span style="color:#aaa;font-size:0.85rem;"> · Stakeholders corporativos activos</span>'if modo == "Corporativo"else
    '<span style="color:#aaa;font-size:0.85rem;"> · Segmentos de campaña activos</span>'}
 </div>
 """, unsafe_allow_html=True)
 
 # ── TABS ───────────────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📡 Radar de Mensajes",
-    "🧪 Testeo",
-    "🔗 Tracker de Consistencia",
-    "🎯 Estrategia",
+    "Radar de Mensajes",
+    "Testeo",
+    "Tracker de Consistencia",
+    "Estrategia",
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -178,7 +178,7 @@ with tab1:
 
     # ── LEFT: selector ─────────────────────────────────────────────────────────
     with col_left:
-        st.markdown("#### 🎯 Entidad a analizar")
+        st.markdown("####  Entidad a analizar")
         if modo == "Político":
             entidad = st.selectbox("Partido", PARTIDOS, key="radar_partido")
         elif modo == "Corporativo":
@@ -197,22 +197,22 @@ with tab1:
         tema = st.selectbox("Tema", ["Todos"] + TEMAS, key="radar_tema")
 
         st.markdown("---")
-        st.markdown("#### 👥 Clusters activos")
+        st.markdown("####  Clusters activos")
         for a in audiencias[:6]:
             pct = rng.integers(8, 25)
             st.markdown(
                 f"<div style='display:flex;justify-content:space-between;"
                 f"font-size:0.8rem;margin:2px 0;'>"
-                f"<span style='color:#ccc;'>{a[:28]}{'…' if len(a)>28 else ''}</span>"
+                f"<span style='color:#ccc;'>{a[:28]}{'…'if len(a)>28 else ''}</span>"
                 f"<span style='color:#e94560;font-weight:700;'>{pct}%</span></div>",
                 unsafe_allow_html=True,
             )
 
     # ── CENTER: dashboard ───────────────────────────────────────────────────────
     with col_center:
-        df_msgs = _gen_mensajes(entidad if modo == "Político" else "Demo")
+        df_msgs = _gen_mensajes(entidad if modo == "Político"else "Demo")
 
-        st.markdown("#### 📊 Efectividad de mensajes")
+        st.markdown("####  Efectividad de mensajes")
         # Bubble chart: alcance vs impacto vs engagement
         fig_bubble = px.scatter(
             df_msgs,
@@ -236,7 +236,7 @@ with tab1:
         st.plotly_chart(fig_bubble, use_container_width=True)
 
         # Heatmap: canal × audiencia
-        st.markdown("#### 🗺️ Matriz Canal × Audiencia")
+        st.markdown("####  Matriz Canal × Audiencia")
         aud_short = [a.split(" (")[0][:22] for a in audiencias[:6]]
         hm_data = rng.uniform(0, 10, (len(aud_short), len(CANALES[:5]))).round(1)
         fig_hm = go.Figure(go.Heatmap(
@@ -260,7 +260,7 @@ with tab1:
         st.plotly_chart(fig_hm, use_container_width=True)
 
         # Top 5 mensajes tabla
-        st.markdown("#### 🏆 Top mensajes por impacto")
+        st.markdown("####  Top mensajes por impacto")
         top5 = df_msgs.nlargest(5, "impacto_opinion")[
             ["mensaje", "canal", "alcance", "engagement", "impacto_opinion", "sentimiento"]
         ].reset_index(drop=True)
@@ -270,7 +270,7 @@ with tab1:
 
     # ── RIGHT: análisis causal ──────────────────────────────────────────────────
     with col_right:
-        st.markdown("#### 🔍 Análisis Causal")
+        st.markdown("####  Análisis Causal")
         msg_sel = st.selectbox(
             "Seleccionar mensaje",
             df_msgs["mensaje"].tolist(),
@@ -293,13 +293,13 @@ with tab1:
     </div>
     <div style='background:#16213e;border-radius:6px;padding:0.5rem;text-align:center;'>
       <div style='color:#aaa;font-size:0.75rem;'>IMPACTO</div>
-      <div style='color:{"#45b7d1" if row["impacto_opinion"] > 0 else "#e94560"};font-size:1.2rem;font-weight:700;'>
+      <div style='color:{"#45b7d1"if row["impacto_opinion"] > 0 else "#e94560"};font-size:1.2rem;font-weight:700;'>
         {row["impacto_opinion"]:+.1f}
       </div>
     </div>
     <div style='background:#16213e;border-radius:6px;padding:0.5rem;text-align:center;'>
       <div style='color:#aaa;font-size:0.75rem;'>SENTIMIENTO</div>
-      <div style='color:{"#4ecdc4" if row["sentimiento"] == "Positivo" else "#f39c12" if row["sentimiento"] == "Neutro" else "#e94560"};font-size:1rem;font-weight:700;'>
+      <div style='color:{"#4ecdc4"if row["sentimiento"] == "Positivo"else "#f39c12"if row["sentimiento"] == "Neutro"else "#e94560"};font-size:1rem;font-weight:700;'>
         {row["sentimiento"]}
       </div>
     </div>
@@ -308,7 +308,7 @@ with tab1:
 """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown("**📈 Evolución del impacto**")
+        st.markdown("** Evolución del impacto**")
         dias = pd.date_range(end=datetime.now(), periods=14)
         vals = rng.uniform(-1, 8, 14)
         vals = pd.Series(vals).ewm(span=3).mean().values
@@ -326,12 +326,12 @@ with tab1:
         )
         st.plotly_chart(fig_evo, use_container_width=True)
 
-        st.markdown("**🤖 Análisis IA**")
+        st.markdown("** Análisis IA**")
         if st.button("Analizar con IA", key="btn_analizar_msg", use_container_width=True):
             if _LLM_OK:
                 with st.spinner("Analizando..."):
                     prompt = (
-                        f"Analiza el mensaje político '{msg_sel}' en contexto español. "
+                        f"Analiza el mensaje político '{msg_sel}'en contexto español. "
                         f"Canal: {row['canal']}, alcance: {int(row['alcance']):,}, "
                         f"impacto: {row['impacto_opinion']:+.1f}. "
                         "Explica brevemente por qué funciona o no, y sugiere una mejora. Sé conciso (3-4 líneas)."
@@ -357,7 +357,7 @@ with tab1:
 # TAB 2 — TESTEO DE MENSAJES
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.markdown("### 🧪 Simulador de Testeo de Mensajes")
+    st.markdown("###  Simulador de Testeo de Mensajes")
     st.markdown(
         "Simula el impacto de un mensaje antes de lanzarlo. "
         "El sistema estima recepción por audiencia, riesgo y viralidad."
@@ -367,7 +367,7 @@ with tab2:
 
     with tcol1:
         msg_test = st.text_area(
-            "✍️ Introduce el mensaje a testear",
+            "Introduce el mensaje a testear",
             placeholder="Ej: 'Vamos a garantizar que ningún español pague más del 30% de su sueldo en vivienda'",
             height=100,
             key="msg_testeo",
@@ -378,7 +378,7 @@ with tab2:
         tema_test = tcols[2].selectbox("Tema", TEMAS, key="test_tema")
 
         btn_test = st.button(
-            "🚀 Ejecutar simulación", type="primary", use_container_width=True, key="btn_test"
+            "Ejecutar simulación", type="primary", use_container_width=True, key="btn_test"
         )
 
         if btn_test and msg_test:
@@ -423,7 +423,7 @@ with tab2:
                 # Score breakdown
                 st.markdown("**Puntuación por dimensión:**")
                 for dim, val in scores.items():
-                    color = "#4ecdc4" if val >= 7 else "#f39c12" if val >= 5 else "#e94560"
+                    color = "#4ecdc4"if val >= 7 else "#f39c12"if val >= 5 else "#e94560"
                     st.markdown(
                         f"<div style='display:flex;align-items:center;gap:0.5rem;margin:3px 0;'>"
                         f"<span style='color:#ccc;font-size:0.85rem;width:240px;'>{dim}</span>"
@@ -435,7 +435,7 @@ with tab2:
 
                 if _LLM_OK:
                     st.markdown("---")
-                    st.markdown("**🤖 Diagnóstico IA:**")
+                    st.markdown("** Diagnóstico IA:**")
                     resp = llm_chat(
                         f"Evalúa este mensaje político para España: '{msg_test}'. "
                         f"Canal: {canal_test}, Audiencia: {aud_test}, Tema: {tema_test}. "
@@ -449,8 +449,8 @@ with tab2:
                     )
 
     with tcol2:
-        st.markdown("#### 📋 Historial de testeos")
-        if "historial_test" not in st.session_state:
+        st.markdown("####  Historial de testeos")
+        if "historial_test"not in st.session_state:
             st.session_state["historial_test"] = [
                 {"mensaje": "La sanidad pública es sagrada para nosotros", "score": 8.2, "riesgo": 1.5},
                 {"mensaje": "Reduciremos el paro juvenil a la mitad", "score": 7.6, "riesgo": 3.1},
@@ -458,7 +458,7 @@ with tab2:
                 {"mensaje": "Europa nos protege de los riesgos globales", "score": 6.3, "riesgo": 2.8},
             ]
         for item in st.session_state["historial_test"]:
-            color = "#4ecdc4" if item["score"] >= 7 else "#f39c12"
+            color = "#4ecdc4"if item["score"] >= 7 else "#f39c12"
             st.markdown(
                 f"<div style='background:#0d1117;border:1px solid #333;border-radius:6px;"
                 f"padding:0.5rem 0.75rem;margin:4px 0;'>"
@@ -469,7 +469,7 @@ with tab2:
             )
 
         st.markdown("---")
-        st.markdown("#### 🎯 A/B Testing")
+        st.markdown("####  A/B Testing")
         st.markdown(
             "<p style='color:#aaa;font-size:0.85rem;'>Compara dos versiones del mismo mensaje</p>",
             unsafe_allow_html=True,
@@ -479,17 +479,17 @@ with tab2:
         if st.button("Comparar A/B", use_container_width=True, key="btn_ab"):
             score_a = round(rng.uniform(5, 9.5), 1)
             score_b = round(rng.uniform(5, 9.5), 1)
-            ganador = "A" if score_a > score_b else "B"
+            ganador = "A"if score_a > score_b else "B"
             gcol1, gcol2 = st.columns(2)
             gcol1.metric("Versión A", score_a, delta=f"{score_a - score_b:+.1f} vs B")
             gcol2.metric("Versión B", score_b, delta=f"{score_b - score_a:+.1f} vs A")
-            st.success(f"✅ Versión **{ganador}** más efectiva según simulación")
+            st.success(f"✓ Versión **{ganador}** más efectiva según simulación")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 3 — TRACKER DE CONSISTENCIA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab3:
-    st.markdown("### 🔗 Tracker de Consistencia Narrativa")
+    st.markdown("###  Tracker de Consistencia Narrativa")
     st.markdown(
         "Detecta contradicciones en el discurso. "
         "La distancia semántica entre mensajes del mismo eje revela incoherencias."
@@ -507,8 +507,8 @@ with tab3:
             st.markdown(f"**{eje}**")
             for _, row in sub.iterrows():
                 coh = row["coherencia"]
-                color = "#4ecdc4" if coh >= 0.7 else "#f39c12" if coh >= 0.4 else "#e94560"
-                label = "✅ Consistente" if coh >= 0.7 else "⚠️ Tensión" if coh >= 0.4 else "❌ Contradictorio"
+                color = "#4ecdc4"if coh >= 0.7 else "#f39c12"if coh >= 0.4 else "#e94560"
+                label = "✓ Consistente"if coh >= 0.7 else "⚠ Tensión"if coh >= 0.4 else "✗ Contradictorio"
                 st.markdown(
                     f"<div style='background:#0d1117;border-left:3px solid {color};"
                     f"border-radius:0 6px 6px 0;padding:0.4rem 0.75rem;margin:3px 0;'>"
@@ -524,7 +524,7 @@ with tab3:
             st.markdown("")
 
         # Timeline de coherencia
-        st.markdown("#### 📈 Evolución de consistencia global (30 días)")
+        st.markdown("####  Evolución de consistencia global (30 días)")
         dias_c = pd.date_range(end=datetime.now(), periods=30)
         coh_series = pd.Series(rng.uniform(0.5, 0.9, 30)).ewm(span=5).mean()
         fig_coh = go.Figure()
@@ -544,7 +544,7 @@ with tab3:
         st.plotly_chart(fig_coh, use_container_width=True)
 
     with cons_col2:
-        st.markdown("#### ⚠️ Alertas de Inconsistencia")
+        st.markdown("#### ⚠ Alertas de Inconsistencia")
 
         alertas_inc = [
             {"severidad": "ALTA", "eje": "Eje Económico", "msg1": "Bajar impuestos", "msg2": "Aumentar gasto social", "dias": 3},
@@ -552,12 +552,12 @@ with tab3:
             {"severidad": "BAJA", "eje": "Eje Europa", "msg1": "España líder UE", "msg2": "Soberanía nacional", "dias": 12},
         ]
         for a in alertas_inc:
-            col_a = "#e94560" if a["severidad"] == "ALTA" else "#f39c12" if a["severidad"] == "MEDIA" else "#aaa"
+            col_a = "#e94560"if a["severidad"] == "ALTA"else "#f39c12"if a["severidad"] == "MEDIA"else "#aaa"
             st.markdown(
                 f"<div style='background:#0d1117;border:1px solid {col_a};border-radius:8px;"
                 f"padding:0.75rem;margin:6px 0;'>"
                 f"<div style='display:flex;justify-content:space-between;margin-bottom:0.3rem;'>"
-                f"<span style='color:{col_a};font-weight:700;font-size:0.8rem;'>🚨 {a['severidad']}</span>"
+                f"<span style='color:{col_a};font-weight:700;font-size:0.8rem;'> {a['severidad']}</span>"
                 f"<span style='color:#555;font-size:0.75rem;'>hace {a['dias']} días</span></div>"
                 f"<p style='color:#aaa;font-size:0.8rem;margin:0;'><b>{a['eje']}</b></p>"
                 f"<p style='color:#ccc;font-size:0.8rem;margin:2px 0;'>«{a['msg1']}» ↔ «{a['msg2']}»</p>"
@@ -566,7 +566,7 @@ with tab3:
             )
 
         st.markdown("---")
-        st.markdown("#### 🔍 Buscar inconsistencias")
+        st.markdown("####  Buscar inconsistencias")
         query_inc = st.text_input(
             "Introduce un mensaje para comparar",
             placeholder="Ej: Reformar el sistema fiscal...",
@@ -576,7 +576,7 @@ with tab3:
             if query_inc:
                 scores_inc = [rng.uniform(0.1, 0.95) for _ in TEMAS]
                 for tema_i, score_i in zip(TEMAS, scores_inc):
-                    color_i = "#4ecdc4" if score_i > 0.7 else "#f39c12" if score_i > 0.4 else "#e94560"
+                    color_i = "#4ecdc4"if score_i > 0.7 else "#f39c12"if score_i > 0.4 else "#e94560"
                     st.markdown(
                         f"<div style='display:flex;justify-content:space-between;font-size:0.82rem;"
                         f"margin:2px 0;'><span style='color:#ccc;'>{tema_i}</span>"
@@ -588,12 +588,12 @@ with tab3:
 # TAB 4 — ESTRATEGIA
 # ══════════════════════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown("### 🎯 Constructor de Estrategia de Comunicación")
+    st.markdown("###  Constructor de Estrategia de Comunicación")
 
     st_col1, st_col2 = st.columns([1, 1])
 
     with st_col1:
-        st.markdown("#### 📋 Configurar estrategia")
+        st.markdown("####  Configurar estrategia")
         objetivo = st.selectbox(
             "Objetivo principal",
             [
@@ -630,7 +630,7 @@ with tab4:
             key="str_aud",
         )
 
-        if st.button("🤖 Generar estrategia IA", type="primary", use_container_width=True, key="btn_gen_str"):
+        if st.button("Generar estrategia IA", type="primary", use_container_width=True, key="btn_gen_str"):
             with st.spinner("Construyendo estrategia..."):
                 if _LLM_OK:
                     prompt_str = (
@@ -662,9 +662,9 @@ with tab4:
                     )
 
     with st_col2:
-        st.markdown("#### 📊 Plan estratégico")
+        st.markdown("####  Plan estratégico")
 
-        if "estrategia_generada" in st.session_state:
+        if "estrategia_generada"in st.session_state:
             st.markdown(
                 f"<div style='background:#0d1117;border:1px solid #4ecdc4;border-radius:8px;"
                 f"padding:1.25rem;color:#ccc;font-size:0.88rem;line-height:1.6;'>"
@@ -673,7 +673,7 @@ with tab4:
             )
 
         st.markdown("---")
-        st.markdown("#### 📅 Calendario de publicaciones")
+        st.markdown("####  Calendario de publicaciones")
         # Mini calendar: 4 weeks × 7 days
         semanas = 4
         dias_cal = []
@@ -685,7 +685,7 @@ with tab4:
             dias_cal.append(fila)
 
         dias_semana = ["L", "M", "X", "J", "V", "S", "D"]
-        df_cal = pd.DataFrame(dias_cal, columns=dias_semana, index=[f"Sem {i+1}" for i in range(semanas)])
+        df_cal = pd.DataFrame(dias_cal, columns=dias_semana, index=[f"Sem {i+1}"for i in range(semanas)])
         color_map = {
             "": "#111", "Tweet": "#1da1f2", "IG Post": "#e1306c",
             "Story": "#f56040", "Rueda prensa": "#e94560", "Video": "#ff0000",
@@ -693,7 +693,7 @@ with tab4:
 
         fig_cal = go.Figure()
         for j, dia in enumerate(dias_semana):
-            for i, sem in enumerate([f"Sem {k+1}" for k in range(semanas)]):
+            for i, sem in enumerate([f"Sem {k+1}"for k in range(semanas)]):
                 val = df_cal.loc[sem, dia]
                 bg = color_map.get(val, "#111")
                 fig_cal.add_trace(go.Scatter(
@@ -713,7 +713,7 @@ with tab4:
             paper_bgcolor="#0d1117", plot_bgcolor="#0d1117",
             font_color="#ccc",
             xaxis=dict(tickmode="array", tickvals=list(range(7)), ticktext=dias_semana, gridcolor="#222"),
-            yaxis=dict(tickmode="array", tickvals=list(range(4)), ticktext=[f"Sem {k+1}" for k in range(4)], gridcolor="#222"),
+            yaxis=dict(tickmode="array", tickvals=list(range(4)), ticktext=[f"Sem {k+1}"for k in range(4)], gridcolor="#222"),
             margin=dict(l=60, r=20, t=20, b=40),
         )
         st.plotly_chart(fig_cal, use_container_width=True)

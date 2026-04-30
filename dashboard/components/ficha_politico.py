@@ -142,7 +142,7 @@ def render_ficha(conn, politico_id: str) -> None:
         else:
             for _, row in df_not.head(15).iterrows():
                 sent = pd.to_numeric(row.get("sentimiento"), errors="coerce")
-                icono = "─" if pd.isna(sent) else ("▲" if sent > 0.2 else ("▼" if sent < -0.2 else "─"))
+                icono = "─"if pd.isna(sent) else ("▲"if sent > 0.2 else ("▼"if sent < -0.2 else "─"))
                 st.markdown(
                     f"{icono} **[{row.get('titulo','Sin titular')}]({row.get('url','')})**  "
                     f"\n<small style='color:#666'>{row.get('fuente_id','')} · {row.get('fecha_pub','')} · {row.get('tema','')}</small>",
@@ -163,7 +163,7 @@ def render_ficha(conn, politico_id: str) -> None:
             c2.metric("Pasivos totales", f"{pas:,.0f} €".replace(",", ".") if pd.notna(pas) else "–")
             c3.metric("Ingresos del cargo", f"{ing:,.0f} €".replace(",", ".") if pd.notna(ing) else "–")
 
-            if len(df_pat) > 1 and "anio_declaracion" in df_pat.columns and "total_activos" in df_pat.columns:
+            if len(df_pat) > 1 and "anio_declaracion"in df_pat.columns and "total_activos"in df_pat.columns:
                 fig = px.bar(
                     df_pat.sort_values("anio_declaracion"),
                     x="anio_declaracion",

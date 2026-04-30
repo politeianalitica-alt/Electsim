@@ -198,7 +198,7 @@ def _render_tarjetas(df_now: pd.DataFrame) -> None:
         ic_inf = _f(row.get("intervalo_inf"))
         ic_sup = _f(row.get("intervalo_sup"))
         esc = row.get("escanos_estimados")
-        esc_str = f"{int(_f(esc))} esc." if pd.notna(esc) else "— esc."
+        esc_str = f"{int(_f(esc))} esc."if pd.notna(esc) else "— esc."
         r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
         with cols[i % 4]:
             st.markdown(
@@ -228,9 +228,9 @@ def _render_tabla_detalle(df_now: pd.DataFrame) -> None:
         if c == "partido":
             continue
         df_t[c] = pd.to_numeric(df_t[c], errors="coerce")
-    if "cobertura_pct" in df_t.columns:
+    if "cobertura_pct"in df_t.columns:
         df_t["cobertura_pct"] = (df_t["cobertura_pct"].fillna(0) * 100).round(0)
-    if "confianza_modelo" in df_t.columns:
+    if "confianza_modelo"in df_t.columns:
         df_t["confianza_modelo"] = (df_t["confianza_modelo"].fillna(0) * 100).round(0)
     df_t = df_t.rename(columns={
         "partido": "Partido",
@@ -359,7 +359,7 @@ def _render_tab_evolucion(df_now: pd.DataFrame, df_serie: pd.DataFrame) -> None:
                 for col, (lbl, val) in zip([c1, c2, c3], [("1d", d1), ("7d", d7), ("30d", d30)]):
                     with col:
                         col_d = GREEN if val > 0 else (RED if val < 0 else MUTED)
-                        signo = "+" if val > 0 else ""
+                        signo = "+"if val > 0 else ""
                         st.markdown(
                             _kpi_card(f"Δ {lbl}", f"{signo}{val:.2f} pp",
                                       hint=f"{partido_detalle}", color=col_d),
@@ -378,7 +378,7 @@ def _render_tab_calidad(df_now: pd.DataFrame, df_calidad: pd.DataFrame) -> None:
         if c in df_q.columns:
             df_q[c] = pd.to_numeric(df_q[c], errors="coerce")
 
-    if "cobertura_pct" in df_q.columns and "consenso_sd" in df_q.columns:
+    if "cobertura_pct"in df_q.columns and "consenso_sd"in df_q.columns:
         fig = go.Figure()
         for _, r in df_q.iterrows():
             p = str(r["partido"])
@@ -442,7 +442,7 @@ def _render_tab_calidad(df_now: pd.DataFrame, df_calidad: pd.DataFrame) -> None:
         st.dataframe(df_vv, hide_index=True, use_container_width=True)
 
         # Si hay run reciente, mostrar validación por partido
-        if "run_id" in df_val.columns and pd.notna(df_val.iloc[0]["run_id"]):
+        if "run_id"in df_val.columns and pd.notna(df_val.iloc[0]["run_id"]):
             run_id = str(df_val.iloc[0]["run_id"])
             _section_header(f"Error de predicción por partido — {run_id[:8]}…", PURPLE)
             df_vp = cargar_validacion_por_partido(run_id)
@@ -470,7 +470,7 @@ def _render_tab_calidad(df_now: pd.DataFrame, df_calidad: pd.DataFrame) -> None:
 # ═══════════════════════════════════════════════════════════════════════════════
 def _render_tab_fuentes(df_calidad: pd.DataFrame) -> None:
     run_id = None
-    if not df_calidad.empty and "run_id" in df_calidad.columns:
+    if not df_calidad.empty and "run_id"in df_calidad.columns:
         run_id = str(df_calidad.iloc[0]["run_id"])
 
     _section_header("Contribución de fuentes al run actual", CYAN)
@@ -484,7 +484,7 @@ def _render_tab_fuentes(df_calidad: pd.DataFrame) -> None:
                 df_c[c] = pd.to_numeric(df_c[c], errors="coerce")
 
         # Agregado por tipo de fuente
-        if "fuente_tipo" in df_c.columns:
+        if "fuente_tipo"in df_c.columns:
             df_agg = (df_c.groupby("fuente_tipo")["contribucion_pct"]
                       .sum().reset_index().sort_values("contribucion_pct", ascending=False))
             fig = go.Figure(go.Bar(
@@ -535,8 +535,8 @@ def _render_tab_casas() -> None:
 
     _section_header("Ranking de casas (rating descendente)", CYAN)
     c1, c2, c3 = st.columns(3)
-    activas = int((df_c["activa"] == True).sum()) if "activa" in df_c.columns else len(df_c)  # noqa: E712
-    top_rating = _f(df_c["rating"].max()) if "rating" in df_c.columns else 0.0
+    activas = int((df_c["activa"] == True).sum()) if "activa"in df_c.columns else len(df_c)  # noqa: E712
+    top_rating = _f(df_c["rating"].max()) if "rating"in df_c.columns else 0.0
     enc_30d = int(_f(df_c.get("n_encuestas_30d", pd.Series([0])).sum()))
     c1.markdown(_kpi_card("Casas activas", str(activas), color=CYAN), unsafe_allow_html=True)
     c2.markdown(_kpi_card("Mejor rating", f"{top_rating:.2f}", color=GREEN), unsafe_allow_html=True)
@@ -604,11 +604,11 @@ def _render_tab_contexto() -> None:
             val = _f(r["valor"])
             fecha = r.get("fecha")
             fecha_str = pd.Timestamp(fecha).strftime("%d/%m/%Y") if pd.notna(fecha) else "—"
-            if "IBEX" in ind:
+            if "IBEX"in ind:
                 fmt = f"{val:,.0f}".replace(",", ".")
-            elif "(%)" in ind:
+            elif "(%)"in ind:
                 fmt = f"{val:.2f}%"
-            elif "pb" in ind:
+            elif "pb"in ind:
                 fmt = f"{val:.0f} pb"
             else:
                 fmt = f"{val:.2f}"
@@ -636,7 +636,7 @@ def _render_tab_contexto() -> None:
             valor = _f(r.get("valor"))
             sem = _semaforo_color(r.get("semaforo"))
             d7 = _f(r.get("variacion_7d"))
-            hint = f"Δ7d: {d7:+.2f}" if d7 else "sin Δ"
+            hint = f"Δ7d: {d7:+.2f}"if d7 else "sin Δ"
             cards_html.append(_kpi_card(nombre, f"{valor:.2f}", hint=hint, color=sem))
         st.markdown(
             f'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem">'
@@ -648,7 +648,7 @@ def _render_tab_contexto() -> None:
     _section_header("Fuentes macro activas", BLUE)
     df_fm = cargar_fuentes_macro()
     if not df_fm.empty:
-        df_fm_show = df_fm[df_fm.get("activa", True) == True].copy() if "activa" in df_fm.columns else df_fm  # noqa: E712
+        df_fm_show = df_fm[df_fm.get("activa", True) == True].copy() if "activa"in df_fm.columns else df_fm  # noqa: E712
         df_fm_show = df_fm_show.rename(columns={
             "codigo": "Código",
             "proveedor": "Proveedor",
@@ -715,7 +715,7 @@ def _render_tab_sistema() -> None:
             leida = bool(a.get("leida", False))
             created = a.get("created_at")
             fecha_str = pd.Timestamp(created).strftime("%d/%m %H:%M") if pd.notna(created) else ""
-            badge = "●" if not leida else "○"
+            badge = "●"if not leida else "○"
             st.markdown(
                 f'<div style="background:{BG2};border:1px solid {col}33;'
                 f'border-left:3px solid {col};border-radius:6px;'
@@ -723,7 +723,7 @@ def _render_tab_sistema() -> None:
                 f'<span style="color:{col};font-weight:700">{badge} {sev.upper()}</span> '
                 f'<span style="color:{TEXT}">· {titulo}</span> '
                 f'<span style="color:{MUTED};font-size:.7rem;float:right">{fecha_str}</span>'
-                + (f'<div style="color:{TEXT2};margin-top:.2rem">{desc}</div>' if desc else "")
+                + (f'<div style="color:{TEXT2};margin-top:.2rem">{desc}</div>'if desc else "")
                 + '</div>',
                 unsafe_allow_html=True,
             )
@@ -770,9 +770,9 @@ def render_nowcasting(conn) -> None:
         "ic_95_sup": "intervalo_sup",
     }
     df_now = df_now.rename(columns={k: v for k, v in rename_map.items() if k in df_now.columns}).copy()
-    if "escanos_estimados" not in df_now.columns:
+    if "escanos_estimados"not in df_now.columns:
         df_now["escanos_estimados"] = pd.NA
-    if "fecha_estimacion" not in df_now.columns and "fecha_calculo" in df_now.columns:
+    if "fecha_estimacion"not in df_now.columns and "fecha_calculo"in df_now.columns:
         df_now["fecha_estimacion"] = df_now["fecha_calculo"]
 
     # Cast de numéricos al principio para evitar TypeError con Decimal
@@ -786,7 +786,7 @@ def render_nowcasting(conn) -> None:
     df_calidad = cargar_nowcasting_calidad()
 
     # Encabezado con fecha
-    if "fecha_estimacion" in df_now.columns:
+    if "fecha_estimacion"in df_now.columns:
         fecha_max = pd.to_datetime(df_now["fecha_estimacion"], errors="coerce").max()
         if pd.notna(fecha_max):
             st.caption(f"Última actualización: **{fecha_max.strftime('%d/%m/%Y')}** · "

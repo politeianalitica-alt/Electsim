@@ -398,7 +398,7 @@ ESCENARIOS = [
 
 # ── Animated header ───────────────────────────────────────────────────────────
 st.markdown(f"""
-<div class="coal-animate" style="
+<div class="coal-animate"style="
     background:linear-gradient(135deg,{BG2} 0%,#0a1628 50%,{BG3} 100%);
     border:1px solid {BORDER};border-radius:16px;
     padding:2rem 2.5rem;margin-bottom:1.5rem;
@@ -439,14 +439,14 @@ with tab1:
 
     # ── KPI row ───────────────────────────────────────────────────────────────
     total_esc = len(ESCENARIOS)
-    prob_derecha  = sum(e["prob"] for e in ESCENARIOS if "PP" in e["partidos"] and "PSOE" not in e["partidos"])
-    prob_izq      = sum(e["prob"] for e in ESCENARIOS if "PSOE" in e["partidos"])
+    prob_derecha  = sum(e["prob"] for e in ESCENARIOS if "PP"in e["partidos"] and "PSOE"not in e["partidos"])
+    prob_izq      = sum(e["prob"] for e in ESCENARIOS if "PSOE"in e["partidos"])
     prob_bloqueo  = next((e["prob"] for e in ESCENARIOS if not e["partidos"]), 0)
 
     kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
     with kpi_col1:
         st.markdown(f"""
-        <div class="kpi-card coal-animate" style="border-top:3px solid {CYAN};animation-delay:.00s">
+        <div class="kpi-card coal-animate"style="border-top:3px solid {CYAN};animation-delay:.00s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.3rem">Escenarios</div>
             <div style="font-size:2.2rem;font-weight:900;color:{CYAN};
@@ -457,7 +457,7 @@ with tab1:
     with kpi_col2:
         r, g, b = _hex_to_rgb(_color("PP"))
         st.markdown(f"""
-        <div class="kpi-card coal-animate" style="border-top:3px solid {_color('PP')};animation-delay:.08s">
+        <div class="kpi-card coal-animate"style="border-top:3px solid {_color('PP')};animation-delay:.08s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.3rem">Bloque Derecha</div>
             <div style="font-size:2.2rem;font-weight:900;
@@ -469,7 +469,7 @@ with tab1:
     with kpi_col3:
         r2, g2, b2 = _hex_to_rgb(_color("PSOE"))
         st.markdown(f"""
-        <div class="kpi-card coal-animate" style="border-top:3px solid {_color('PSOE')};animation-delay:.16s">
+        <div class="kpi-card coal-animate"style="border-top:3px solid {_color('PSOE')};animation-delay:.16s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.3rem">Bloque Izquierda</div>
             <div style="font-size:2.2rem;font-weight:900;
@@ -480,7 +480,7 @@ with tab1:
         """, unsafe_allow_html=True)
     with kpi_col4:
         st.markdown(f"""
-        <div class="kpi-card coal-animate" style="border-top:3px solid {AMBER};animation-delay:.24s">
+        <div class="kpi-card coal-animate"style="border-top:3px solid {AMBER};animation-delay:.24s">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.3rem">Bloqueo</div>
             <div style="font-size:2.2rem;font-weight:900;color:{AMBER};
@@ -493,7 +493,7 @@ with tab1:
 
     # ── Nowcasting pill strip ─────────────────────────────────────────────────
     df_nc = cargar_nowcasting()
-    if not df_nc.empty and "estimacion_pct" in df_nc.columns:
+    if not df_nc.empty and "estimacion_pct"in df_nc.columns:
         _section_header("Estimación Actual de Voto", CYAN)
         pills_html = '<div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">'
         for _, row in df_nc.head(8).iterrows():
@@ -522,7 +522,7 @@ with tab1:
         party_pills = "".join(_pill(p, _color(p)) for p in esc["partidos"]) if esc["partidos"] else _pill("Sin coalición", MUTED)
 
         st.markdown(f"""
-        <div class="coal-card coal-animate" style="border-left:3px solid {col};animation-delay:{i*0.07:.2f}s">
+        <div class="coal-card coal-animate"style="border-left:3px solid {col};animation-delay:{i*0.07:.2f}s">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem">
                 <div>
                     <div style="font-size:1rem;font-weight:800;color:{TEXT};letter-spacing:-.01em">
@@ -559,7 +559,7 @@ with tab1:
     # ── Horizontal bar chart ──────────────────────────────────────────────────
     _section_header("Comparativa de probabilidades", CYAN)
 
-    nombres  = [e["nombre"][:45] + ("…" if len(e["nombre"]) > 45 else "") for e in ESCENARIOS]
+    nombres  = [e["nombre"][:45] + ("…"if len(e["nombre"]) > 45 else "") for e in ESCENARIOS]
     probs    = [e["prob"] for e in ESCENARIOS]
     colors_b = [e["color"] for e in ESCENARIOS]
 
@@ -569,7 +569,7 @@ with tab1:
             color=colors_b,
             line=dict(width=0),
         ),
-        text=[f"{p}%" for p in probs],
+        text=[f"{p}%"for p in probs],
         textposition="outside",
         textfont=dict(color=TEXT2, size=11, family="JetBrains Mono, monospace"),
         hoverlabel=dict(
@@ -617,7 +617,7 @@ with tab2:
 
     # ── Party header card ─────────────────────────────────────────────────────
     st.markdown(f"""
-    <div class="coal-card coal-animate" style="border-top:3px solid {mc};margin-bottom:1rem">
+    <div class="coal-card coal-animate"style="border-top:3px solid {mc};margin-bottom:1rem">
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.8rem">
             <div style="width:10px;height:52px;background:linear-gradient({mc},{mc}55);
                         border-radius:3px;flex-shrink:0"></div>
@@ -654,7 +654,7 @@ with tab2:
             for lr in m["lineas_rojas"]
         )
         st.markdown(f"""
-        <div class="coal-card" style="border-left:3px solid {RED}55;padding:.9rem 1rem">
+        <div class="coal-card"style="border-left:3px solid {RED}55;padding:.9rem 1rem">
             {lr_items}
         </div>
         """, unsafe_allow_html=True)
@@ -673,7 +673,7 @@ with tab2:
             for c in m["concesiones"]
         )
         st.markdown(f"""
-        <div class="coal-card" style="border-left:3px solid {GREEN}55;padding:.9rem 1rem">
+        <div class="coal-card"style="border-left:3px solid {GREEN}55;padding:.9rem 1rem">
             {con_items}
         </div>
         """, unsafe_allow_html=True)
@@ -685,7 +685,7 @@ with tab2:
     # ── Precio de coalición ───────────────────────────────────────────────────
     _section_header("Precio de coalición", AMBER)
     st.markdown(f"""
-    <div class="info-box" style="border-color:{AMBER}33;border-left-color:{AMBER};
+    <div class="info-box"style="border-color:{AMBER}33;border-left-color:{AMBER};
                 background:{AMBER}0d">
         <span style="color:{AMBER};font-weight:700;font-size:.65rem;text-transform:uppercase;
                      letter-spacing:.1em">Demandas clave &nbsp;</span><br>
@@ -712,14 +712,14 @@ with tab2:
     col_fort, col_pad = st.columns([1, 2])
     with col_fort:
         st.markdown(f"""
-        <div class="coal-card" style="border-top:3px solid {fort_color};text-align:center;padding:1.2rem">
+        <div class="coal-card"style="border-top:3px solid {fort_color};text-align:center;padding:1.2rem">
             <div style="font-size:.6rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.4rem">Fortaleza negociadora</div>
             <div style="font-size:3.2rem;font-weight:900;color:{fort_color};
                         font-family:'JetBrains Mono',monospace;line-height:1;
                         text-shadow:0 0 28px rgba({fr},{fg},{fb},0.35)">{fort}</div>
             <div style="font-size:.7rem;color:{MUTED};margin:.2rem 0 .6rem">/ 100</div>
-            <div class="progress-track" style="height:8px">
+            <div class="progress-track"style="height:8px">
                 <div style="width:{fort}%;height:100%;
                             background:linear-gradient(90deg,{fort_color},{fort_color}88);
                             border-radius:4px"></div>
@@ -868,7 +868,7 @@ with tab3:
     with col_b1:
         bc = _color("PP")
         st.markdown(f"""
-        <div class="coal-card coal-animate" style="border-top:3px solid {bc};animation-delay:.00s">
+        <div class="coal-card coal-animate"style="border-top:3px solid {bc};animation-delay:.00s">
             <div style="font-size:.62rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.5rem">Bloque de derecha</div>
             <div style="margin-bottom:.6rem">
@@ -886,7 +886,7 @@ with tab3:
     with col_b2:
         bc2 = _color("PSOE")
         st.markdown(f"""
-        <div class="coal-card coal-animate" style="border-top:3px solid {bc2};animation-delay:.08s">
+        <div class="coal-card coal-animate"style="border-top:3px solid {bc2};animation-delay:.08s">
             <div style="font-size:.62rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.5rem">Bloque progresista</div>
             <div style="margin-bottom:.6rem">
@@ -904,7 +904,7 @@ with tab3:
         """, unsafe_allow_html=True)
     with col_b3:
         st.markdown(f"""
-        <div class="coal-card coal-animate" style="border-top:3px solid {PURPLE};animation-delay:.16s">
+        <div class="coal-card coal-animate"style="border-top:3px solid {PURPLE};animation-delay:.16s">
             <div style="font-size:.62rem;font-weight:700;color:{MUTED};letter-spacing:.12em;
                         text-transform:uppercase;margin-bottom:.5rem">Actores bisagra</div>
             <div style="margin-bottom:.6rem">

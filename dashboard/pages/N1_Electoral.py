@@ -31,7 +31,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Electoral — ElectSim",
-    page_icon="🗳️",
+    page_icon="",
     layout="wide",
 )
 sidebar_nav()
@@ -76,7 +76,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{CYAN},
               {BLUE});border-radius:10px;display:flex;align-items:center;
-              justify-content:center;font-size:1.4rem;flex-shrink:0">🗳️</div>
+              justify-content:center;font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Análisis Electoral</h2>
     <div style="color:{TEXT2};font-size:.82rem">Mapa · Nowcasting · D'Hondt · Coaliciones · Proyecciones</div>
@@ -86,12 +86,12 @@ st.markdown(f"""
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_mapa, tab_nowcast, tab_dhondt, tab_coal, tab_hemi, tab_proj = st.tabs([
-    "🗺️ Mapa",
-    "📡 Nowcasting",
-    "⚖️ D'Hondt",
-    "🤝 Coaliciones",
-    "🏛️ Hemiciclo",
-    "📈 Proyecciones",
+    "Mapa",
+    "Nowcasting",
+    "D'Hondt",
+    "Coaliciones",
+    "Hemiciclo",
+    "Proyecciones",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -118,7 +118,7 @@ with tab_mapa:
                     x=df_map["partido"],
                     y=df_map["pct"],
                     marker_color=df_map["color"].tolist(),
-                    text=[f"{v:.1f}%" for v in df_map["pct"]],
+                    text=[f"{v:.1f}%"for v in df_map["pct"]],
                     textposition="outside",
                     textfont=dict(color=TEXT, size=11),
                     hovertemplate="<b>%{x}</b><br>%{y:.1f}%<extra></extra>",
@@ -158,7 +158,7 @@ with tab_mapa:
 
         # Enlace a la página clásica
         st.markdown("<br>", unsafe_allow_html=True)
-        st.info("💡 Para el mapa coroplético completo con GeoJSON provincial, accede a **Mapa Electoral (v1)** en módulos clásicos.")
+        st.info("Para el mapa coroplético completo con GeoJSON provincial, accede a **Mapa Electoral (v1)** en módulos clásicos.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -259,7 +259,7 @@ with tab_dhondt:
                 sum_escanos = sum(escanos_calc.values())
                 faltan = MAYORIA_ABSOLUTA - escanos_calc[lider]
                 kpi_c3.metric("Escaños al líder", escanos_calc[lider],
-                              f"{'✅' if faltan <= 0 else f'-{faltan}'}")
+                              f"{'✓'if faltan <= 0 else f'-{faltan}'}")
 
             # Gráfico barras
             if escanos_calc:
@@ -271,7 +271,7 @@ with tab_dhondt:
                 fig.add_trace(go.Bar(
                     name="Votos (%)",
                     x=df_esc["partido"], y=df_esc["votos"],
-                    marker_color=[COLORES_PARTIDOS.get(p, "#555") + "88" for p in df_esc["partido"]],
+                    marker_color=[COLORES_PARTIDOS.get(p, "#555") + "88"for p in df_esc["partido"]],
                     opacity=0.7,
                     hovertemplate="<b>%{x}</b><br>Votos: %{y:.1f}%<extra></extra>",
                 ))
@@ -343,7 +343,7 @@ with tab_coal:
             for coal in coaliciones[:8]:
                 tiene_may = coal.tiene_mayoria
                 color_coal = GREEN if tiene_may else RED
-                bg_coal = f"{GREEN}10" if tiene_may else f"{RED}08"
+                bg_coal = f"{GREEN}10"if tiene_may else f"{RED}08"
                 prob_bar = int(coal.probabilidad * 100)
 
                 partidos_chips = "".join(
@@ -361,7 +361,7 @@ with tab_coal:
                       <span style="font-size:.88rem;font-weight:800;color:{TEXT}">{coal.nombre}</span>
                       <span style="margin-left:.6rem;background:{color_coal}22;color:{color_coal};
                                    border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700">
-                        {'✅ MAYORÍA' if tiene_may else '❌ SIN MAYORÍA'}
+                        {'✓ MAYORÍA'if tiene_may else '✗ SIN MAYORÍA'}
                       </span>
                     </div>
                     <span style="font-family:monospace;font-size:.9rem;font-weight:900;color:{color_coal}">
@@ -409,7 +409,7 @@ with tab_coal:
                             colorscale=[[0, f"{RED}88"], [0.5, f"{AMBER}88"], [1, f"{GREEN}88"]],
                             line=dict(width=0),
                         ),
-                        text=[f"{v:.0f}%" for v in df_probs["Prob %"]],
+                        text=[f"{v:.0f}%"for v in df_probs["Prob %"]],
                         textposition="outside",
                         textfont=dict(size=10, color=TEXT),
                         hovertemplate="<b>%{y}</b><br>%{x:.1f}%<extra></extra>",
@@ -480,11 +480,11 @@ with tab_hemi:
     with col_h2:
         section_header("DISTRIBUCIÓN DE ESCAÑOS", PURPLE)
         try:
-            esc_tabla = dhondt(sondeo_hemi) if "sondeo_hemi" in dir() else dhondt(sondeo_actual)
+            esc_tabla = dhondt(sondeo_hemi) if "sondeo_hemi"in dir() else dhondt(sondeo_actual)
             if esc_tabla:
                 df_esc_t = pd.DataFrame([
                     {"Partido": p, "Escaños": e,
-                     "Mayoria": "✅" if e >= 176 else ("⚠️" if e >= 140 else "❌")}
+                     "Mayoria": "✓"if e >= 176 else ("⚠"if e >= 140 else "✗")}
                     for p, e in sorted(esc_tabla.items(), key=lambda x: x[1], reverse=True)
                     if e > 0
                 ])
@@ -592,7 +592,7 @@ with tab_proj:
                     datos_tabla = []
                     for partido, proj in proyecciones.items():
                         tend = proj["tendencia"]
-                        flecha = "↑" if tend == "sube" else ("↓" if tend == "baja" else "→")
+                        flecha = "↑"if tend == "sube"else ("↓"if tend == "baja"else "→")
                         datos_tabla.append({
                             "Partido": partido,
                             "Actual (%)": proj["ultima_encuesta"],

@@ -79,7 +79,7 @@ def _extra_cols_available(conn: Any) -> bool:
             """
             SELECT column_name
             FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = 'alertas_sistema'
+            WHERE table_schema = 'public'AND table_name = 'alertas_sistema'
             """
         )
         cols = {str(r[0]) for r in cur.fetchall()}
@@ -179,13 +179,13 @@ def detectar_alertas_macro(df_macro: pd.DataFrame) -> list[Alerta]:
         val_nuevo = float(serie.iloc[-1]["valor"])
         val_ant = float(serie.iloc[-2]["valor"])
         cambio = abs(val_nuevo - val_ant)
-        direccion = "up" if val_nuevo > val_ant else "down"
+        direccion = "up"if val_nuevo > val_ant else "down"
         for sev in ("CRITICAL", "WARNING"):
             umbral_cfg = cfg.get(sev, {})
             umbral = float(umbral_cfg.get("cambio_abs", 9999))
             dir_req = str(umbral_cfg.get("direccion", "any"))
-            if cambio >= umbral and (dir_req == "any" or dir_req == direccion):
-                signo = "↑" if direccion == "up" else "↓"
+            if cambio >= umbral and (dir_req == "any"or dir_req == direccion):
+                signo = "↑"if direccion == "up"else "↓"
                 alertas.append(
                     Alerta(
                         tipo="macro",
@@ -207,7 +207,7 @@ def detectar_alertas_macro(df_macro: pd.DataFrame) -> list[Alerta]:
 
 def detectar_alertas_encuesta(df_encuestas: pd.DataFrame) -> list[Alerta]:
     alertas: list[Alerta] = []
-    if df_encuestas.empty or "partido" not in df_encuestas.columns:
+    if df_encuestas.empty or "partido"not in df_encuestas.columns:
         return alertas
     umbral_w = UMBRALES_ENCUESTA["variacion_pp_warning"]
     umbral_c = UMBRALES_ENCUESTA["variacion_pp_critical"]
@@ -218,9 +218,9 @@ def detectar_alertas_encuesta(df_encuestas: pd.DataFrame) -> list[Alerta]:
         media_30d = float(grupo.tail(6)["intencion_voto"].mean())
         ultimo = float(grupo.iloc[-1]["intencion_voto"])
         variacion = abs(ultimo - media_30d)
-        sev = "CRITICAL" if variacion >= umbral_c else "WARNING" if variacion >= umbral_w else None
+        sev = "CRITICAL"if variacion >= umbral_c else "WARNING"if variacion >= umbral_w else None
         if sev:
-            signo = "↑" if ultimo > media_30d else "↓"
+            signo = "↑"if ultimo > media_30d else "↓"
             alertas.append(
                 Alerta(
                     tipo="encuesta",
@@ -282,7 +282,7 @@ def detectar_alertas_prensa(df_prensa: pd.DataFrame) -> list[Alerta]:
     alertas: list[Alerta] = []
     if df_prensa.empty:
         return alertas
-    if "partido" not in df_prensa.columns:
+    if "partido"not in df_prensa.columns:
         return alertas
 
     for _, row in df_prensa.iterrows():
@@ -310,7 +310,7 @@ def detectar_alertas_prensa(df_prensa: pd.DataFrame) -> list[Alerta]:
         if sev is None:
             continue
 
-        trend = "empeora" if sent_24h < sent_prev else "estable"
+        trend = "empeora"if sent_24h < sent_prev else "estable"
         alertas.append(
             Alerta(
                 tipo="prensa",
@@ -352,7 +352,7 @@ def detectar_alertas_fuentes(df_source_health: pd.DataFrame) -> list[Alerta]:
             continue
         errors = _f(row.get("errors_count"))
         lag_s = _f(row.get("freshness_lag_s"))
-        sev = "CRITICAL" if status == "failing" else "WARNING"
+        sev = "CRITICAL"if status == "failing"else "WARNING"
         alertas.append(
             Alerta(
                 tipo="ingesta_prensa",

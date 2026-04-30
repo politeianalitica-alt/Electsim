@@ -83,7 +83,7 @@ class BoeItem:
 # ── Funciones de clasificación ────────────────────────────────────────────────
 
 def score_relevance(titulo: str, tipo: str = "") -> str:
-    """Devuelve 'Alta', 'Media' o 'Baja' según el contenido del título."""
+    """Devuelve 'Alta', 'Media'o 'Baja'según el contenido del título."""
     t = titulo.lower()
     tp = tipo.lower()
 

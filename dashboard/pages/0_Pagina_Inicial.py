@@ -81,19 +81,19 @@ except Exception:
     st.warning("No se pudieron cargar todos los datos operativos. Mostrando vista degradada.")
 
 n_news = len(_df_news)
-n_alert_crit = int((_df_alertas["severidad"].astype(str).str.upper() == "CRITICAL").sum()) if not _df_alertas.empty and "severidad" in _df_alertas.columns else 0
-n_alert_warn = int((_df_alertas["severidad"].astype(str).str.upper().isin({"WARNING", "ALTA", "MEDIUM", "MEDIA"})).sum()) if not _df_alertas.empty and "severidad" in _df_alertas.columns else 0
+n_alert_crit = int((_df_alertas["severidad"].astype(str).str.upper() == "CRITICAL").sum()) if not _df_alertas.empty and "severidad"in _df_alertas.columns else 0
+n_alert_warn = int((_df_alertas["severidad"].astype(str).str.upper().isin({"WARNING", "ALTA", "MEDIUM", "MEDIA"})).sum()) if not _df_alertas.empty and "severidad"in _df_alertas.columns else 0
 
 partido_top = "—"
 presion_top = 0.0
 if not _df_mom.empty:
-    r = _df_mom.sort_values("prioridad_score" if "prioridad_score" in _df_mom.columns else "presion_score", ascending=False).iloc[0]
+    r = _df_mom.sort_values("prioridad_score"if "prioridad_score"in _df_mom.columns else "presion_score", ascending=False).iloc[0]
     partido_top = str(r.get("partido") or "—")
     presion_top = _safe_float(r.get("ratio_menciones"))
 
 fuentes_ok = 0
 fuentes_total = 0
-if not _df_health.empty and "status" in _df_health.columns:
+if not _df_health.empty and "status"in _df_health.columns:
     fuentes_total = len(_df_health)
     fuentes_ok = int((_df_health["status"].astype(str).str.lower() == "ok").sum())
 
@@ -112,8 +112,8 @@ c1, c2, c3, c4, c5 = st.columns(5)
 c1.metric("Noticias (24h)", n_news)
 c2.metric("Alertas críticas", n_alert_crit)
 c3.metric("Alertas warning", n_alert_warn)
-c4.metric("Presión mediática", partido_top, f"{presion_top:.2f}x" if presion_top else None)
-c5.metric("Nowcasting líder", lider, f"{lider_pct:.1f}%" if lider_pct is not None else None)
+c4.metric("Presión mediática", partido_top, f"{presion_top:.2f}x"if presion_top else None)
+c5.metric("Nowcasting líder", lider, f"{lider_pct:.1f}%"if lider_pct is not None else None)
 
 st.markdown("---")
 
@@ -151,10 +151,10 @@ with col_right:
         <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:.8rem .9rem">
           <div style="font-size:.65rem;color:{MUTED};font-weight:700;letter-spacing:.1em;text-transform:uppercase">Estado</div>
           <div style="font-size:.9rem;color:{GREEN if n_alert_crit == 0 else RED};font-weight:700;margin-top:.2rem">
-            {'Operativo' if n_alert_crit == 0 else 'Requiere atención'}
+            {'Operativo'if n_alert_crit == 0 else 'Requiere atención'}
           </div>
           <div style="font-size:.76rem;color:{TEXT2};margin-top:.35rem">
-            {'Sin alertas críticas activas.' if n_alert_crit == 0 else 'Hay alertas críticas pendientes en el sistema.'}
+            {'Sin alertas críticas activas.'if n_alert_crit == 0 else 'Hay alertas críticas pendientes en el sistema.'}
           </div>
         </div>
         """,

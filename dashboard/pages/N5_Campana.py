@@ -23,7 +23,7 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
-st.set_page_config(page_title="Campaña — ElectSim", page_icon="⚔️", layout="wide")
+st.set_page_config(page_title="Campaña — ElectSim", page_icon="⚔", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("campana")
 
@@ -31,7 +31,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{RED},{AMBER});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">⚔️</div>
+              font-size:1.4rem;flex-shrink:0">⚔</div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Campaña Electoral</h2>
     <div style="color:{TEXT2};font-size:.82rem">War Room · Simulador · Coordinación · Voto Blando</div>
@@ -40,11 +40,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_warroom, tab_sim, tab_voto_blando, tab_coord, tab_ops = st.tabs([
-    "⚔️ War Room",
-    "⚡ Simulador Impacto",
-    "🫧 Voto Blando",
-    "📋 Coordinación",
-    "🎯 Operaciones",
+    "⚔ War Room",
+    "! Simulador Impacto",
+    "Voto Blando",
+    "Coordinación",
+    "Operaciones",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -95,7 +95,7 @@ with tab_warroom:
         with col_act1:
             st.markdown(f"""
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.2rem;margin-bottom:.8rem">
-              <div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-bottom:.5rem">📡 Monitoreo de medios</div>
+              <div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-bottom:.5rem"> Monitoreo de medios</div>
               <div style="font-size:.8rem;color:{TEXT2}">
                 Seguimiento en tiempo real de menciones y sentimiento en 12 medios españoles.
               </div>
@@ -106,7 +106,7 @@ with tab_warroom:
         with col_act2:
             st.markdown(f"""
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;padding:1.2rem;margin-bottom:.8rem">
-              <div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-bottom:.5rem">🔍 Opposition Research</div>
+              <div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-bottom:.5rem"> Opposition Research</div>
               <div style="font-size:.8rem;color:{TEXT2}">
                 Contradicciones detectadas, declaraciones archivadas y análisis NLI.
               </div>
@@ -152,9 +152,9 @@ with tab_sim:
             st.markdown(f"""
             <div style="display:flex;gap:.5rem;margin:.5rem 0">
               <span style="background:{tw_c}22;color:{tw_c};border:1px solid {tw_c}44;border-radius:20px;
-                           padding:.2rem .6rem;font-size:.7rem;font-weight:700">⏱ {tw:.0%}</span>
+                           padding:.2rem .6rem;font-size:.7rem;font-weight:700"> {tw:.0%}</span>
               <span style="background:{sd_c}22;color:{sd_c};border:1px solid {sd_c}44;border-radius:20px;
-                           padding:.2rem .6rem;font-size:.7rem;font-weight:700">🔄 ×{veces_em+1}</span>
+                           padding:.2rem .6rem;font-size:.7rem;font-weight:700"> ×{veces_em+1}</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -168,7 +168,7 @@ with tab_sim:
                             veces_tema_usado=veces_em,
                         )
                         st.session_state["campana_sim_res"] = res
-                        if "sim_tema_uso" not in st.session_state:
+                        if "sim_tema_uso"not in st.session_state:
                             st.session_state["sim_tema_uso"] = {}
                         st.session_state["sim_tema_uso"][tema_em] = veces_em + 1
                     except Exception as exc:
@@ -186,7 +186,7 @@ with tab_sim:
                     fig = go.Figure(go.Bar(
                         x=df_imp["Partido"], y=df_imp["Impacto (pp)"],
                         marker_color=[GREEN if v > 0 else RED for v in df_imp["Impacto (pp)"]],
-                        text=[f"{v:+.2f}pp" for v in df_imp["Impacto (pp)"]],
+                        text=[f"{v:+.2f}pp"for v in df_imp["Impacto (pp)"]],
                         textposition="outside",
                         textfont=dict(color=TEXT, size=11),
                     ))
@@ -265,7 +265,7 @@ with tab_voto_blando:
                         font=dict(size=10, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
         )
         st.plotly_chart(fig_vb, use_container_width=True, config={"displayModeBar": False})
-        st.caption("📊 Datos demo")
+        st.caption("Datos demo")
         st.page_link("pages/25_Voto_Blando.py", label="→ Análisis Voto Blando (v1)")
     else:
         st.dataframe(df_vb, use_container_width=True, hide_index=True)

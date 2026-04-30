@@ -31,7 +31,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Medios & Narrativa — ElectSim",
-    page_icon="📰",
+    page_icon="",
     layout="wide",
 )
 sidebar_nav()
@@ -42,7 +42,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{AMBER},{RED});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">📰</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Medios & Narrativa</h2>
     <div style="color:{TEXT2};font-size:.82rem">
@@ -75,11 +75,11 @@ except Exception:
 
 # Tabs
 tab_noticias, tab_sent, tab_temas, tab_narrativas, tab_rrss = st.tabs([
-    "📡 Noticias en Vivo",
-    "😊 Sentimiento",
-    "🏷️ Temas",
-    "📊 Narrativas",
-    "📱 RRSS Monitor",
+    "Noticias en Vivo",
+    "Sentimiento",
+    "Temas",
+    "Narrativas",
+    "RRSS Monitor",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -93,12 +93,12 @@ with tab_noticias:
         section_header("FILTROS", CYAN)
 
         # Status del crawler
-        fuente_label = "fundus + RSS" if _crawler_caps.get("fundus") else ("RSS" if _crawler_caps.get("feedparser") else "Sin fuente")
+        fuente_label = "fundus + RSS"if _crawler_caps.get("fundus") else ("RSS"if _crawler_caps.get("feedparser") else "Sin fuente")
         st.markdown(f"""
         <div style="background:{GREEN if _CRAWLER_OK else RED}12;border:1px solid {GREEN if _CRAWLER_OK else RED}33;
                     border-radius:8px;padding:.5rem .8rem;font-size:.72rem;color:{GREEN if _CRAWLER_OK else RED};
                     margin-bottom:.8rem">
-          {'✅' if _CRAWLER_OK else '❌'} Fuente: {fuente_label}
+          {'✓'if _CRAWLER_OK else '✗'} Fuente: {fuente_label}
         </div>
         """, unsafe_allow_html=True)
 
@@ -119,7 +119,7 @@ with tab_noticias:
                 key="news_fundus",
             )
 
-            refresh = st.button("🔄 Actualizar noticias", type="primary", key="btn_refresh_news")
+            refresh = st.button("Actualizar noticias", type="primary", key="btn_refresh_news")
         else:
             st.warning("Sin crawler disponible. Instala `feedparser` o `fundus`.")
             medios_sel, tema_f, partido_f, max_news, usar_fundus, refresh = [], "Todos", "", 40, False, False
@@ -133,7 +133,7 @@ with tab_noticias:
                 medios=medios or None,
                 max_noticias=max_n,
                 partido_filtro=partido if partido else None,
-                tema_filtro=tema if tema != "Todos" else None,
+                tema_filtro=tema if tema != "Todos"else None,
                 usar_fundus=fundus,
             )
 
@@ -212,8 +212,8 @@ with tab_noticias:
                       <div style="font-size:.82rem;color:{TEXT2};line-height:1.5;margin-bottom:.4rem">{resumen}...</div>
                       {partidos_html}
                       <div style="margin-top:.5rem">
-                        <a href="{url}" target="_blank" style="color:{CYAN};font-size:.72rem;font-weight:600">
-                          🔗 Leer artículo completo →
+                        <a href="{url}"target="_blank"style="color:{CYAN};font-size:.72rem;font-weight:600">
+                           Leer artículo completo →
                         </a>
                       </div>
                     </div>
@@ -222,10 +222,10 @@ with tab_noticias:
             st.markdown(f"""
             <div style="background:{BG3};border:1px dashed {BORDER};border-radius:12px;
                         padding:2.5rem;text-align:center">
-              <div style="font-size:2rem;margin-bottom:.5rem">📰</div>
+              <div style="font-size:2rem;margin-bottom:.5rem"></div>
               <div style="color:{TEXT2}">Sin noticias cargadas</div>
               <div style="color:{MUTED};font-size:.75rem;margin-top:.3rem">
-                {'Pulsa "Actualizar noticias" para cargar' if _CRAWLER_OK else 'Instala feedparser: pip install feedparser'}
+                {'Pulsa "Actualizar noticias"para cargar'if _CRAWLER_OK else 'Instala feedparser: pip install feedparser'}
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -588,10 +588,10 @@ with tab_rrss:
                         font=dict(size=10, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
         )
         st.plotly_chart(fig_rrss_demo, use_container_width=True, config={"displayModeBar": False})
-        st.caption("📊 Datos demo — conecta fuentes de RRSS para datos reales")
+        st.caption("Datos demo — conecta fuentes de RRSS para datos reales")
     else:
         # Datos reales
-        if "partido_siglas" in df_rrss.columns and "sentimiento_promedio" in df_rrss.columns:
+        if "partido_siglas"in df_rrss.columns and "sentimiento_promedio"in df_rrss.columns:
             fig_rrss = px.line(
                 df_rrss, x="fecha", y="sentimiento_promedio", color="partido_siglas",
                 color_discrete_map={p: COLORES_PARTIDOS.get(p, "#555") for p in df_rrss["partido_siglas"].unique()},

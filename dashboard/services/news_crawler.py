@@ -109,7 +109,7 @@ class Noticia:
 # ─── Party & topic detection ─────────────────────────────────────────────────
 
 _PARTY_KWS: dict[str, list[str]] = {
-    "PP":       ["partido popular", "pp ", " pp,", "populares", "feijóo"],
+    "PP":       ["partido popular", "pp ", "pp,", "populares", "feijóo"],
     "PSOE":     ["psoe", "partido socialista", "pedro sánchez", "sánchez"],
     "VOX":      ["vox", "abascal"],
     "SUMAR":    ["sumar", "yolanda díaz"],

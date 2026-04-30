@@ -79,7 +79,7 @@ Este chat usa el gerente backend: índice de <code>gits amigos</code>, memoria l
     use_llm = st.toggle("Razonar con LLM", value=True)
     k = st.slider("Evidencias de gits amigos", min_value=3, max_value=16, value=6, step=1)
 
-    if "politeia_brain_messages" not in st.session_state:
+    if "politeia_brain_messages"not in st.session_state:
         st.session_state.politeia_brain_messages = []
 
     for message in st.session_state.politeia_brain_messages:
@@ -97,7 +97,7 @@ Este chat usa el gerente backend: índice de <code>gits amigos</code>, memoria l
             model = "local-manager-heuristic"
             used_llm = False
             response = ""
-            domain_value = None if domain == "Auto" else domain
+            domain_value = None if domain == "Auto"else domain
             if use_llm and provider == "ollama":
                 with st.spinner("Recuperando evidencias locales..."):
                     stream_result = mgr.stream_chat(
@@ -180,7 +180,7 @@ Chat RAG sobre la memoria semántica de scrapers: ChromaDB, embeddings locales, 
         with st.spinner("Buscando evidencias semánticas y razonando..."):
             result = store.chat(
                 local_question,
-                domain=None if local_domain == "Todos" else local_domain,
+                domain=None if local_domain == "Todos"else local_domain,
                 use_llm=True,
                 allow_tools=True,
                 use_semantic=True,

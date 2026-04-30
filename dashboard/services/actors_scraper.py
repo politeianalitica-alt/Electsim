@@ -119,7 +119,7 @@ def wikipedia_buscar_titulo(nombre: str) -> str | None:
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": nombre + " política España",
+        "srsearch": nombre + "política España",
         "srlimit": "3",
         "format": "json",
         "srprop": "snippet",
@@ -444,7 +444,7 @@ def extraer_relaciones_de_noticias(noticias: list[dict]) -> list[dict]:
                     entrada["fuerza"] = min(1.0, entrada["fuerza"] + 0.1)
                     entrada["ultima_mencion"] = noticia.get("fecha", "") or entrada["ultima_mencion"]
                     # Si el nuevo tipo es más específico, actualizar
-                    if tipo != "relacionado" and entrada["tipo"] == "relacionado":
+                    if tipo != "relacionado"and entrada["tipo"] == "relacionado":
                         entrada["tipo"] = tipo
                         entrada["label"] = _label_por_tipo(tipo)
 

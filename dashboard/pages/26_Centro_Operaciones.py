@@ -90,8 +90,8 @@ def _render_phase(phase: str):
     if df.empty:
         st.info("Sin datasets configurados para esta fase.")
         return
-    estado_icon = {"ok": "🟢", "warning": "🟡", "critical": "🔴"}
-    df["Estado"] = df["estado"].map(lambda s: f"{estado_icon.get(s, '⚪')} {s}")
+    estado_icon = {"ok": "●", "warning": "●", "critical": "●"}
+    df["Estado"] = df["estado"].map(lambda s: f"{estado_icon.get(s, '○')} {s}")
     show = df[
         ["Estado", "dataset", "tabla", "edad_horas", "sla_horas", "rows_24h", "rows_total", "detalle"]
     ].rename(

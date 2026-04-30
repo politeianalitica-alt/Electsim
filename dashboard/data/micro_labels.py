@@ -80,9 +80,9 @@ def party_alias(name: str) -> str:
         return alias[key]
     if key in {"PP", "PSOE", "VOX", "SUMAR", "ERC", "PNV", "JUNTS", "CS", "CIUDADANOS", "BNG"}:
         return key
-    if "ABST" in key:
+    if "ABST"in key:
         return "Abstención"
-    if "NULO" in key or "BLANCO" in key:
+    if "NULO"in key or "BLANCO"in key:
         return "Blanco/Nulo"
     return (name or "Otros").strip() or "Otros"
 

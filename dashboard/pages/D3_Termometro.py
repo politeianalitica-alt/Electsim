@@ -31,7 +31,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Termómetro de Riesgo — ElectSim",
-    page_icon="🌡️",
+    page_icon="",
     layout="wide",
 )
 
@@ -199,7 +199,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{risk_color},{BLUE});
     border-radius:12px;display:flex;align-items:center;justify-content:center;
-    font-size:1.5rem;flex-shrink:0">🌡️</div>
+    font-size:1.5rem;flex-shrink:0"></div>
   <div>
     <div style="font-size:1.3rem;font-weight:900;color:{TEXT};letter-spacing:-.01em">
       Termómetro de Riesgo Político</div>
@@ -255,7 +255,7 @@ except Exception:
 
 # ── Tabs principales ──────────────────────────────────────────────────────────
 tab_thermo, tab_crisis, tab_trend, tab_brain_risk = st.tabs([
-    "🌡️ Termómetro", "📡 Crisis Intel", "📈 Tendencia", "🧠 Brain Riesgo",
+    "Termómetro", "Crisis Intel", "Tendencia", "Brain Riesgo",
 ])
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -396,7 +396,7 @@ with tab_thermo:
         x=ccaa_df["riesgo"],
         orientation="h",
         marker=dict(color=bar_colors, line=dict(color=BG, width=.5)),
-        text=[f"{v:.0f}" for v in ccaa_df["riesgo"]],
+        text=[f"{v:.0f}"for v in ccaa_df["riesgo"]],
         textposition="outside",
         textfont=dict(color=TEXT2, size=11),
         hovertemplate="<b>%{y}</b><br>Riesgo: %{x:.1f}/100<extra></extra>",
@@ -548,11 +548,11 @@ with tab_crisis:
         ]
 
         for t in threat_levels:
-            border_op = "1" if t["active"] else "0.35"
-            bg_op = "0.18" if t["active"] else "0.07"
+            border_op = "1"if t["active"] else "0.35"
+            bg_op = "0.18"if t["active"] else "0.07"
             r, g, b = tuple(int(t["color"].lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
             actions_html = "".join(
-                f"<li style='margin:.25rem 0;color:{TEXT2}'>{a}</li>" for a in t["actions"]
+                f"<li style='margin:.25rem 0;color:{TEXT2}'>{a}</li>"for a in t["actions"]
             )
             _tc = t["color"]
             active_badge = (
@@ -736,7 +736,7 @@ with tab_trend:
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_brain_risk:
     if _BW_OK:
-        st.markdown("### 🧠 Brain — Evaluación de riesgo con IA")
+        st.markdown("###  Brain — Evaluación de riesgo con IA")
         rk1, rk2 = st.columns(2)
 
         with rk1:
@@ -748,7 +748,7 @@ with tab_brain_risk:
                     "tension_parlamentaria": data.get("tension_parlamentaria", 50),
                     "zona": risk_label,
                 },
-                titulo_override="🌡️ Evaluación de Riesgo IA",
+                titulo_override="Evaluación de Riesgo IA",
                 key_suffix="d3_riesgo",
                 altura=220,
             )
@@ -756,7 +756,7 @@ with tab_brain_risk:
         with rk2:
             _bw_card(
                 "coalicion",
-                titulo_override="🏛️ Estabilidad del gobierno",
+                titulo_override="Estabilidad del gobierno",
                 key_suffix="d3_coalicion",
                 altura=220,
             )
@@ -773,4 +773,4 @@ with tab_brain_risk:
             ],
         )
     else:
-        st.warning("⚠️ Brain Widget no disponible. Verifica la instalación.")
+        st.warning("⚠ Brain Widget no disponible. Verifica la instalación.")

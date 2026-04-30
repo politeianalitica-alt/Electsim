@@ -103,7 +103,7 @@ def brain_sidebar_status(expandido: bool = False) -> None:
             border:1px solid {CYAN}44;border-radius:8px;padding:.5rem .75rem;margin:.5rem 0;'>
             <div style='display:flex;align-items:center;gap:.4rem;'>
             <span style='color:{GREEN};font-size:.8rem;'>●</span>
-            <span style='color:{CYAN};font-size:.8rem;font-weight:600;'>🧠 Brain</span>
+            <span style='color:{CYAN};font-size:.8rem;font-weight:600;'> Brain</span>
             <span style='color:{TEXT2};font-size:.72rem;margin-left:auto;'>{modelo}</span>
             </div></div>""",
             unsafe_allow_html=True,
@@ -114,7 +114,7 @@ def brain_sidebar_status(expandido: bool = False) -> None:
             border-radius:8px;padding:.5rem .75rem;margin:.5rem 0;'>
             <div style='display:flex;align-items:center;gap:.4rem;'>
             <span style='color:{MUTED};font-size:.8rem;'>●</span>
-            <span style='color:{MUTED};font-size:.8rem;'>🧠 Brain</span>
+            <span style='color:{MUTED};font-size:.8rem;'> Brain</span>
             <span style='color:{RED};font-size:.72rem;margin-left:auto;'>offline</span>
             </div></div>""",
             unsafe_allow_html=True,
@@ -125,7 +125,7 @@ def brain_sidebar_status(expandido: bool = False) -> None:
         if ing:
             est = ing.estado_worker()
             if est.get("running"):
-                st.caption(f"🔄 Ingesta activa · {est['total_indexado']} docs")
+                st.caption(f"Ingesta activa · {est['total_indexado']} docs")
             else:
                 st.caption("⏸ Ingesta pausada")
 
@@ -152,7 +152,7 @@ def brain_insight_card(
         key_suffix: Sufijo para las keys de Streamlit (evitar colisiones)
         altura: Altura mínima del contenedor en px (0 = auto)
     """
-    titulo = titulo_override or f"🧠 Brain — {modulo.capitalize()}"
+    titulo = titulo_override or f"Brain — {modulo.capitalize()}"
     cache_key = f"brain_card_{modulo}_{key_suffix}"
 
     with st.container():
@@ -175,7 +175,7 @@ def brain_insight_card(
 
         # Comprobar si hay que generar
         if st.session_state.get(f"{cache_key}_loading"):
-            with st.spinner("🧠 Razonando…"):
+            with st.spinner("Razonando…"):
                 brain = _get_brain()
                 if brain:
                     resultado = brain.analizar_modulo(
@@ -189,7 +189,7 @@ def brain_insight_card(
 
         # Mostrar resultado
         resultado = st.session_state.get(cache_key)
-        estilo_h = f"min-height:{altura}px;" if altura > 0 else ""
+        estilo_h = f"min-height:{altura}px;"if altura > 0 else ""
         if resultado:
             st.markdown(
                 f"""<div style='background:linear-gradient(135deg,{PURPLE}15,{CYAN}08);
@@ -204,7 +204,7 @@ def brain_insight_card(
                 f"""<div style='background:{BG2};border:1px dashed {BORDER};
                 border-radius:8px;padding:.8rem;text-align:center;color:{MUTED};
                 font-size:.82rem;{estilo_h}'>
-                Pulsa "✨ Analizar" para que el brain analice este módulo
+                Pulsa "✨ Analizar"para que el brain analice este módulo
                 </div>""",
                 unsafe_allow_html=True,
             )
@@ -212,7 +212,7 @@ def brain_insight_card(
             st.markdown(
                 f"""<div style='background:{BG2};border:1px dashed {BORDER};
                 border-radius:8px;padding:.6rem;color:{MUTED};font-size:.78rem;'>
-                ⚫ Inicia Ollama para activar el análisis IA de este módulo
+                ● Inicia Ollama para activar el análisis IA de este módulo
                 </div>""",
                 unsafe_allow_html=True,
             )
@@ -233,7 +233,7 @@ def brain_analysis_panel(
     Ideal para páginas que quieren mostrar el razonamiento en tiempo real.
     """
     cache_key = f"brain_panel_{foco}_{key_prefix}"
-    t_titulo = titulo or f"🧠 Análisis IA — {foco.capitalize()}"
+    t_titulo = titulo or f"Análisis IA — {foco.capitalize()}"
 
     st.markdown(
         f"<h4 style='color:{CYAN};margin-bottom:.3rem;'>{t_titulo}</h4>",
@@ -246,7 +246,7 @@ def brain_analysis_panel(
             pass
         with c2:
             forzar = st.checkbox(
-                "🔄 Forzar", key=f"{cache_key}_force",
+                "Forzar", key=f"{cache_key}_force",
                 help="Ignorar caché y regenerar análisis",
             )
         with c3:
@@ -278,7 +278,7 @@ def brain_analysis_panel(
                             border-radius:8px;padding:1rem;color:{TEXT};
                             font-size:.86rem;line-height:1.7;'>
                             <span style='color:{CYAN};font-size:.72rem;'>
-                            🧠 Razonando en tiempo real…</span><br><br>
+                             Razonando en tiempo real…</span><br><br>
                             {texto}▌</div>""",
                             unsafe_allow_html=True,
                         )
@@ -298,15 +298,15 @@ def brain_analysis_panel(
             </div>""",
             unsafe_allow_html=True,
         )
-        if st.button("🗑️ Limpiar", key=f"{cache_key}_clear"):
+        if st.button("Limpiar", key=f"{cache_key}_clear"):
             del st.session_state[cache_key]
             st.rerun()
     else:
         st.markdown(
             f"""<div style='background:{BG2};border:1px dashed {BORDER};
             border-radius:8px;padding:2rem;text-align:center;color:{MUTED};'>
-            <div style='font-size:2rem;'>🧠</div>
-            <p style='margin:.5rem 0 0;'>Pulsa "▶ Analizar" para iniciar el razonamiento</p>
+            <div style='font-size:2rem;'></div>
+            <p style='margin:.5rem 0 0;'>Pulsa "▶ Analizar"para iniciar el razonamiento</p>
             </div>""",
             unsafe_allow_html=True,
         )
@@ -336,7 +336,7 @@ def brain_inline_chat(
         for i, pregunta in enumerate(preguntas_sugeridas):
             with cols[i]:
                 if st.button(
-                    f"💡 {pregunta[:22]}…" if len(pregunta) > 22 else f"💡 {pregunta}",
+                    f" {pregunta[:22]}…"if len(pregunta) > 22 else f" {pregunta}",
                     key=f"{chat_key}_sug_{i}",
                     use_container_width=True,
                 ):
@@ -350,14 +350,14 @@ def brain_inline_chat(
                 st.markdown(
                     f"<div style='background:{BG3};border-radius:6px;padding:.4rem .7rem;"
                     f"margin:2px 0 2px 30%;font-size:.82rem;color:{TEXT2};'>"
-                    f"👤 {msg['content']}</div>",
+                    f" {msg['content']}</div>",
                     unsafe_allow_html=True,
                 )
             else:
                 st.markdown(
                     f"<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}08);border-radius:6px;"
                     f"padding:.4rem .7rem;margin:2px 30% 2px 0;font-size:.82rem;color:{TEXT};'>"
-                    f"🧠 {msg['content']}</div>",
+                    f" {msg['content']}</div>",
                     unsafe_allow_html=True,
                 )
 
@@ -382,7 +382,7 @@ def brain_inline_chat(
 
         brain = _get_brain()
         if brain and _llm_ok():
-            with st.spinner("🧠 Razonando…"):
+            with st.spinner("Razonando…"):
                 respuesta = brain.chat_con_contexto_total(
                     texto,
                     historia=st.session_state[chat_key][-8:],
@@ -396,7 +396,7 @@ def brain_inline_chat(
         else:
             st.session_state[chat_key].append({
                 "role": "assistant",
-                "content": "⚠️ Sin motor IA disponible. Activa Ollama.",
+                "content": "⚠ Sin motor IA disponible. Activa Ollama.",
             })
         st.rerun()
 
@@ -434,7 +434,7 @@ def brain_metric_insight(
     if insight:
         st.markdown(
             f"<div style='font-size:.73rem;color:{CYAN};margin-top:-.2rem;padding:.2rem .3rem;'>"
-            f"🧠 {insight[:120]}</div>",
+            f" {insight[:120]}</div>",
             unsafe_allow_html=True,
         )
 
@@ -453,10 +453,10 @@ def brain_optimize_data(
     Para usar junto a st.dataframe() o st.table().
     """
     key = f"brain_opt_{key_prefix}"
-    if st.button(f"🧠 Analizar datos con IA", key=f"{key}_btn", disabled=not _llm_ok()):
+    if st.button(f"Analizar datos con IA", key=f"{key}_btn", disabled=not _llm_ok()):
         llm = _get_llm()
         if llm:
-            with st.spinner("🧠 Analizando datos…"):
+            with st.spinner("Analizando datos…"):
                 resultado = llm.analizar_datos(df, pregunta)
                 st.session_state[key] = str(resultado)
             st.rerun()
@@ -466,11 +466,11 @@ def brain_optimize_data(
             f"""<div style='background:linear-gradient(135deg,{PURPLE}12,{CYAN}06);
             border:1px solid {CYAN}33;border-radius:8px;padding:.8rem;
             font-size:.83rem;color:{TEXT};margin-top:.5rem;'>
-            🧠 <span style='color:{CYAN};'>Análisis IA</span><br>
+             <span style='color:{CYAN};'>Análisis IA</span><br>
             {resultado.replace(chr(10), "<br>")[:1000]}
             </div>""",
             unsafe_allow_html=True,
         )
-        if st.button("🗑️", key=f"{key}_clear", help="Limpiar análisis"):
+        if st.button("", key=f"{key}_clear", help="Limpiar análisis"):
             del st.session_state[key]
             st.rerun()

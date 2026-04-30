@@ -34,7 +34,7 @@ except Exception:
 
 st.set_page_config(
     page_title="ElectSim España",
-    page_icon="🗳️",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -111,7 +111,7 @@ st.markdown(f"""
         </span>
         <span style="background:{'#8B5CF6'}22; color:{'#8B5CF6'}; border:1px solid {'#8B5CF6'}44;
                border-radius:20px; padding:.2rem .7rem; font-size:.7rem; font-weight:700">
-          🧠 {('politeia-brain' if _BRAIN_OK else 'sin IA')}
+           {('politeia-brain'if _BRAIN_OK else 'sin IA')}
         </span>
       </div>
     </div>
@@ -166,7 +166,7 @@ with col3:
     st.markdown(kpi_card("Diferencia", f"{diff:+.1f}pp", "Líder vs. 2º partido", color=AMBER),
                 unsafe_allow_html=True)
 with col4:
-    est_str = f"{escanos_est}" if escanos_est > 0 else "—"
+    est_str = f"{escanos_est}"if escanos_est > 0 else "—"
     color_esc = GREEN if escanos_est >= 176 else AMBER if escanos_est >= 140 else RED
     st.markdown(kpi_card("Escaños Líder", est_str, "Estimación D'Hondt", color=color_esc),
                 unsafe_allow_html=True)
@@ -257,7 +257,7 @@ with col_left:
             bargap=0.3,
         )
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-        st.caption("📊 Datos demo — conecta la base de datos para datos reales")
+        st.caption("Datos demo — conecta la base de datos para datos reales")
 
     # Hemiciclo estimado
     section_header("HEMICICLO ESTIMADO", PURPLE)
@@ -315,7 +315,7 @@ with col_right:
                         border-left:3px solid {tema_color};
                         transition:border-color .2s">
               <div style="font-size:.72rem;font-weight:800;color:{TEXT};line-height:1.35;margin-bottom:.25rem">
-                <a href="{url}" target="_blank" style="color:{TEXT};text-decoration:none;">{titulo}</a>
+                <a href="{url}"target="_blank"style="color:{TEXT};text-decoration:none;">{titulo}</a>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center">
                 <span style="font-size:.62rem;color:{MUTED};font-weight:600">{medio}</span>
@@ -329,7 +329,7 @@ with col_right:
         st.markdown(f"""
         <div style="background:{BG2};border:1px dashed {BORDER};border-radius:12px;
                     padding:2rem;text-align:center">
-          <div style="font-size:2rem;margin-bottom:.5rem">📰</div>
+          <div style="font-size:2rem;margin-bottom:.5rem"></div>
           <div style="color:{TEXT2};font-size:.85rem">Sin noticias cargadas</div>
           <div style="color:{MUTED};font-size:.75rem;margin-top:.3rem">
             Activa el crawler RSS en Medios & Narrativa
@@ -403,14 +403,14 @@ st.markdown("<br>", unsafe_allow_html=True)
 section_header("ACCESOS RÁPIDOS", CYAN)
 
 _QUICK_LINKS = [
-    ("pages/N1_Electoral.py",    "🗳️",  "Electoral",     "Mapas, D'Hondt, nowcasting, coaliciones",   CYAN),
-    ("pages/N2_Inteligencia.py", "🧠",  "Inteligencia",  "Agentes IA, perfiles, opposition research",  PURPLE),
-    ("pages/N3_Medios.py",       "📰",  "Medios",        "Noticias, NLP, sentimiento, temas BERTopic", AMBER),
-    ("pages/N4_Institucional.py","🏛️",  "Institucional", "Congreso, BOE, agenda, legislación",        BLUE),
-    ("pages/N5_Campana.py",      "⚔️",  "Campaña",       "War Room, simulador, voto blando",          RED),
-    ("pages/N6_Economia.py",     "📈",  "Economía",      "Macro, indicadores, ESG, correlaciones",    GREEN),
-    ("pages/N7_Laboratorio.py",  "🔬",  "Laboratorio",   "Modelos causales, Bayesianos, validación",  "#F97316"),
-    ("pages/N8_ChatIA.py",       "🤖",  "Brain",         "Chat IA, análisis autónomo, RAG local",     PURPLE),
+    ("pages/N1_Electoral.py",    "",  "Electoral",     "Mapas, D'Hondt, nowcasting, coaliciones",   CYAN),
+    ("pages/N2_Inteligencia.py", "",  "Inteligencia",  "Agentes IA, perfiles, opposition research",  PURPLE),
+    ("pages/N3_Medios.py",       "",  "Medios",        "Noticias, NLP, sentimiento, temas BERTopic", AMBER),
+    ("pages/N4_Institucional.py","",  "Institucional", "Congreso, BOE, agenda, legislación",        BLUE),
+    ("pages/N5_Campana.py",      "⚔",  "Campaña",       "War Room, simulador, voto blando",          RED),
+    ("pages/N6_Economia.py",     "",  "Economía",      "Macro, indicadores, ESG, correlaciones",    GREEN),
+    ("pages/N7_Laboratorio.py",  "",  "Laboratorio",   "Modelos causales, Bayesianos, validación",  "#F97316"),
+    ("pages/N8_ChatIA.py",       "",  "Brain",         "Chat IA, análisis autónomo, RAG local",     PURPLE),
 ]
 
 cols_ql = st.columns(len(_QUICK_LINKS))
@@ -430,7 +430,7 @@ st.markdown(f"""
 <div style="background:linear-gradient(135deg,{PURPLE}11,{CYAN}08,{BG2});
             border:1px solid {PURPLE}33; border-radius:16px; padding:1.2rem 1.5rem;">
   <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem">
-    <span style="font-size:1.4rem">🧠</span>
+    <span style="font-size:1.4rem"></span>
     <div>
       <div style="font-size:.75rem;font-weight:900;color:{PURPLE};text-transform:uppercase;letter-spacing:.1em">
         Politeia Brain — Insight del día
@@ -450,7 +450,7 @@ st.markdown(f"""
 
 if _BRAIN_OK:
     if st.button("✨ Generar insight del panorama electoral", key="btn_brain_inicio"):
-        with st.spinner("🧠 Politeia Brain analizando..."):
+        with st.spinner("Politeia Brain analizando..."):
             contexto = _brain.construir_contexto_dashboard(
                 escanos={"PP": 132, "PSOE": 110, "VOX": 38, "SUMAR": 31, "Resto": 39}
             )
@@ -459,7 +459,7 @@ if _BRAIN_OK:
         <div style="background:{BG2};border:1px solid {PURPLE}33;border-radius:12px;
                     padding:1.2rem;margin-top:.8rem;border-left:4px solid {PURPLE}">
           <div style="font-size:.7rem;color:{PURPLE};font-weight:700;text-transform:uppercase;
-                      letter-spacing:.1em;margin-bottom:.5rem">🧠 Análisis Brain</div>
+                      letter-spacing:.1em;margin-bottom:.5rem"> Análisis Brain</div>
           <div style="font-size:.85rem;color:{TEXT};line-height:1.7">{insight}</div>
         </div>
         """, unsafe_allow_html=True)

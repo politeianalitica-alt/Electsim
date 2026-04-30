@@ -325,7 +325,7 @@ def optimizar_modulo(
     o detecta anomalías que el analista debe revisar.
     """
     prompt = (
-        f"Analiza los datos del módulo '{modulo}' del dashboard de inteligencia política. "
+        f"Analiza los datos del módulo '{modulo}'del dashboard de inteligencia política. "
         f"{pregunta_especifica or 'Detecta anomalías, tendencias y genera recomendaciones accionables.'}\n\n"
         f"DATOS:\n{datos_resumen[:2000]}"
     )
@@ -364,7 +364,7 @@ def _chat_claude(
     """Fallback a Claude API cuando Ollama no está disponible."""
     api_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not api_key:
-        return "⚠️ Sin modelo disponible. Configura ANTHROPIC_API_KEY o inicia Ollama."
+        return "⚠ Sin modelo disponible. Configura ANTHROPIC_API_KEY o inicia Ollama."
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
@@ -786,6 +786,6 @@ def briefing_diario() -> str:
             sistema=SYSTEM_BRAIN,
             modo="fast",
         )
-        return f"{briefing_raw}\n\n---\n### 🤖 Análisis Politeia Brain\n{comentario}"
+        return f"{briefing_raw}\n\n---\n###  Análisis Politeia Brain\n{comentario}"
     except Exception as e:
         return f"Error generando briefing: {e}"

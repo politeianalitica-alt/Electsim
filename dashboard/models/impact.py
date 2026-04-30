@@ -51,7 +51,7 @@ def calcular_pre_post(
     coste_evento: float | None = None,
 ) -> list[ResultadoImpacto]:
     """Compara media `pre_7d` vs `post_7d` con IC bootstrap."""
-    if df_snapshots.empty or "ventana" not in df_snapshots.columns:
+    if df_snapshots.empty or "ventana"not in df_snapshots.columns:
         return []
 
     pre_df = df_snapshots[df_snapshots["ventana"] == "pre_7d"]

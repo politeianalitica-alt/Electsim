@@ -267,7 +267,7 @@ def _table_columns(table_name: str, conn: Any | None = None) -> set[str]:
         """
         SELECT column_name
         FROM information_schema.columns
-        WHERE table_schema = 'public' AND table_name = :table_name
+        WHERE table_schema = 'public'AND table_name = :table_name
         """,
         {"table_name": table_name},
         conn=conn,
@@ -538,11 +538,11 @@ def cargar_macro_serie(columna: str = "ipc_general", anios: int = 10, _conn=None
     """Serie temporal de un indicador macroeconómico."""
     if columna not in _COLUMNAS_MACRO_PERMITIDAS:
         raise ValueError(
-            f"Columna '{columna}' no permitida. Valores válidos: {_COLUMNAS_MACRO_PERMITIDAS}"
+            f"Columna '{columna}'no permitida. Valores válidos: {_COLUMNAS_MACRO_PERMITIDAS}"
         )
     col_sql = _MACRO_SQL_MAP.get(columna)
     if not col_sql:
-        raise ValueError(f"Columna '{columna}' no mapeada a campo SQL válido.")
+        raise ValueError(f"Columna '{columna}'no mapeada a campo SQL válido.")
     days = int(max(1, anios) * 365)
     col_ident = _quote_ident(col_sql)
     sql = (
@@ -1085,7 +1085,7 @@ def cargar_agenda_tema_partido(tema: str | None = None, dias: int = 30, conn: An
     Prioriza article (modelo nuevo) y cae a noticias_prensa (legacy).
     """
     tema_norm = str(tema).strip() if tema is not None and str(tema).strip() else None
-    tema_filter = "AND tema = :tema" if tema_norm else ""
+    tema_filter = "AND tema = :tema"if tema_norm else ""
 
     if _table_exists("v_agenda_tema_partido", conn=conn):
         df = _q(
@@ -1745,7 +1745,7 @@ def cargar_alertas_prensa_dinamicas(
                 }
             )
 
-    if not df_health.empty and "status" in df_health.columns:
+    if not df_health.empty and "status"in df_health.columns:
         for _, row in df_health.iterrows():
             status = str(row.get("status") or "").lower()
             if status not in {"failing", "degraded"}:
@@ -1753,7 +1753,7 @@ def cargar_alertas_prensa_dinamicas(
             rows.append(
                 {
                     "tipo": "fuente_salud",
-                    "severidad": "CRITICAL" if status == "failing" else "WARNING",
+                    "severidad": "CRITICAL"if status == "failing"else "WARNING",
                     "objeto": str(row.get("source_id") or ""),
                     "titulo": f"Fuente {row.get('source_id')} en estado {status}",
                     "detalle": (
@@ -1768,7 +1768,7 @@ def cargar_alertas_prensa_dinamicas(
     if not df_incidents.empty:
         for _, row in df_incidents.head(8).iterrows():
             sev_raw = str(row.get("severity") or "minor").lower()
-            sev = "CRITICAL" if sev_raw == "critical" else ("WARNING" if sev_raw in {"major", "minor"} else "INFO")
+            sev = "CRITICAL"if sev_raw == "critical"else ("WARNING"if sev_raw in {"major", "minor"} else "INFO")
             rows.append(
                 {
                     "tipo": "ingesta_incidente",
@@ -2028,10 +2028,10 @@ def cargar_perfiles_votante(_conn=None, limit: int = 30) -> pd.DataFrame:
         if not cols:
             return pd.DataFrame()
 
-        nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
-        label_expr = "label" if "label" in cols else nombre_expr
-        color_expr = "color" if "color" in cols else "'#666666'::text"
-        fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
+        nombre_expr = "nombre_perfil"if "nombre_perfil"in cols else "label"
+        label_expr = "label"if "label"in cols else nombre_expr
+        color_expr = "color"if "color"in cols else "'#666666'::text"
+        fuente_expr = "fuente_datos"if "fuente_datos"in cols else "'sintetico'::text"
 
         return _q(
             f"""
@@ -2162,41 +2162,41 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
             "evolucion": pd.DataFrame(),
         }
 
-    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
-    color_expr = "color" if "color" in cols else "NULL::text"
+    nombre_expr = "nombre_perfil"if "nombre_perfil"in cols else "label"
+    color_expr = "color"if "color"in cols else "NULL::text"
     perfil_cols = [
         "cluster_id",
         f"{nombre_expr} AS nombre_perfil",
         f"{color_expr} AS color",
-        "ideologia_media" if "ideologia_media" in cols else "NULL::numeric AS ideologia_media",
-        "edad_media" if "edad_media" in cols else "NULL::numeric AS edad_media",
-        "peso_demografico_pct" if "peso_demografico_pct" in cols else "NULL::numeric AS peso_demografico_pct",
-        "n_respondentes" if "n_respondentes" in cols else "NULL::integer AS n_respondentes",
-        "cohorte_generacional" if "cohorte_generacional" in cols else "NULL::text AS cohorte_generacional",
-        "habitat_dominante" if "habitat_dominante" in cols else "NULL::text AS habitat_dominante",
-        "clase_social_modal" if "clase_social_modal" in cols else "NULL::text AS clase_social_modal",
-        "estudios_modal" if "estudios_modal" in cols else "NULL::text AS estudios_modal",
-        "situacion_laboral_modal" if "situacion_laboral_modal" in cols else "NULL::text AS situacion_laboral_modal",
-        "eje_redistribucion" if "eje_redistribucion" in cols else "NULL::numeric AS eje_redistribucion",
-        "eje_inmigracion" if "eje_inmigracion" in cols else "NULL::numeric AS eje_inmigracion",
-        "eje_territorial" if "eje_territorial" in cols else "NULL::numeric AS eje_territorial",
-        "eje_valores" if "eje_valores" in cols else "NULL::numeric AS eje_valores",
-        "satisfaccion_demo_media" if "satisfaccion_demo_media" in cols else "NULL::numeric AS satisfaccion_demo_media",
-        "confianza_partidos_media" if "confianza_partidos_media" in cols else "NULL::numeric AS confianza_partidos_media",
-        "interes_politica_media" if "interes_politica_media" in cols else "NULL::numeric AS interes_politica_media",
-        "eco_personal_media" if "eco_personal_media" in cols else "NULL::numeric AS eco_personal_media",
-        "eco_espana_media" if "eco_espana_media" in cols else "NULL::numeric AS eco_espana_media",
-        "pct_pesimistas_eco" if "pct_pesimistas_eco" in cols else "NULL::numeric AS pct_pesimistas_eco",
-        "renta_media_anual" if "renta_media_anual" in cols else "NULL::numeric AS renta_media_anual",
-        "pct_alquiler" if "pct_alquiler" in cols else "NULL::numeric AS pct_alquiler",
-        "pct_paro" if "pct_paro" in cols else "NULL::numeric AS pct_paro",
-        "distribucion_voto_json" if "distribucion_voto_json" in cols else "NULL::text AS distribucion_voto_json",
-        "descripcion_perfil_llm" if "descripcion_perfil_llm" in cols else "NULL::text AS descripcion_perfil_llm",
-        "tipo_perfil" if "tipo_perfil" in cols else "'predefinido'::text AS tipo_perfil",
-        "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text AS fuente_datos",
-        "fecha_calculo" if "fecha_calculo" in cols else "NULL::timestamptz AS fecha_calculo",
+        "ideologia_media"if "ideologia_media"in cols else "NULL::numeric AS ideologia_media",
+        "edad_media"if "edad_media"in cols else "NULL::numeric AS edad_media",
+        "peso_demografico_pct"if "peso_demografico_pct"in cols else "NULL::numeric AS peso_demografico_pct",
+        "n_respondentes"if "n_respondentes"in cols else "NULL::integer AS n_respondentes",
+        "cohorte_generacional"if "cohorte_generacional"in cols else "NULL::text AS cohorte_generacional",
+        "habitat_dominante"if "habitat_dominante"in cols else "NULL::text AS habitat_dominante",
+        "clase_social_modal"if "clase_social_modal"in cols else "NULL::text AS clase_social_modal",
+        "estudios_modal"if "estudios_modal"in cols else "NULL::text AS estudios_modal",
+        "situacion_laboral_modal"if "situacion_laboral_modal"in cols else "NULL::text AS situacion_laboral_modal",
+        "eje_redistribucion"if "eje_redistribucion"in cols else "NULL::numeric AS eje_redistribucion",
+        "eje_inmigracion"if "eje_inmigracion"in cols else "NULL::numeric AS eje_inmigracion",
+        "eje_territorial"if "eje_territorial"in cols else "NULL::numeric AS eje_territorial",
+        "eje_valores"if "eje_valores"in cols else "NULL::numeric AS eje_valores",
+        "satisfaccion_demo_media"if "satisfaccion_demo_media"in cols else "NULL::numeric AS satisfaccion_demo_media",
+        "confianza_partidos_media"if "confianza_partidos_media"in cols else "NULL::numeric AS confianza_partidos_media",
+        "interes_politica_media"if "interes_politica_media"in cols else "NULL::numeric AS interes_politica_media",
+        "eco_personal_media"if "eco_personal_media"in cols else "NULL::numeric AS eco_personal_media",
+        "eco_espana_media"if "eco_espana_media"in cols else "NULL::numeric AS eco_espana_media",
+        "pct_pesimistas_eco"if "pct_pesimistas_eco"in cols else "NULL::numeric AS pct_pesimistas_eco",
+        "renta_media_anual"if "renta_media_anual"in cols else "NULL::numeric AS renta_media_anual",
+        "pct_alquiler"if "pct_alquiler"in cols else "NULL::numeric AS pct_alquiler",
+        "pct_paro"if "pct_paro"in cols else "NULL::numeric AS pct_paro",
+        "distribucion_voto_json"if "distribucion_voto_json"in cols else "NULL::text AS distribucion_voto_json",
+        "descripcion_perfil_llm"if "descripcion_perfil_llm"in cols else "NULL::text AS descripcion_perfil_llm",
+        "tipo_perfil"if "tipo_perfil"in cols else "'predefinido'::text AS tipo_perfil",
+        "fuente_datos"if "fuente_datos"in cols else "'sintetico'::text AS fuente_datos",
+        "fecha_calculo"if "fecha_calculo"in cols else "NULL::timestamptz AS fecha_calculo",
     ]
-    perfil_sql = "SELECT " + ", ".join(perfil_cols) + " FROM perfiles_votante WHERE cluster_id = :cluster_id"
+    perfil_sql = "SELECT " + ", ".join(perfil_cols) + "FROM perfiles_votante WHERE cluster_id = :cluster_id"
     perfil = _q(perfil_sql, {"cluster_id": cluster_id}, conn=conn)
 
     problemas = cargar_problemas_perfil(conn, int(cluster_id))
@@ -2234,7 +2234,7 @@ def cargar_perfil_completo(conn, cluster_id: int) -> dict[str, Any]:
                     voto = pd.DataFrame(rows)
                 if not voto.empty:
                     voto["pct_intencion"] = pd.to_numeric(voto["pct_intencion"], errors="coerce")
-                    if "pct_recuerdo" in voto.columns:
+                    if "pct_recuerdo"in voto.columns:
                         voto["pct_recuerdo"] = pd.to_numeric(voto["pct_recuerdo"], errors="coerce")
                     voto = voto.sort_values("pct_intencion", ascending=False).reset_index(drop=True)
             except Exception:
@@ -2270,14 +2270,14 @@ def cargar_lista_perfiles(conn, tipo: str | None = None) -> pd.DataFrame:
     cols = _table_columns("perfiles_votante", conn=conn)
     if not cols:
         return pd.DataFrame()
-    nombre_expr = "nombre_perfil" if "nombre_perfil" in cols else "label"
-    color_expr = "color" if "color" in cols else "NULL::text"
-    tipo_expr = "tipo_perfil" if "tipo_perfil" in cols else "'predefinido'::text"
-    fuente_expr = "fuente_datos" if "fuente_datos" in cols else "'sintetico'::text"
-    ideologia_expr = "ideologia_media" if "ideologia_media" in cols else "NULL::numeric"
-    peso_expr = "peso_demografico_pct" if "peso_demografico_pct" in cols else "NULL::numeric"
-    cohorte_expr = "cohorte_generacional" if "cohorte_generacional" in cols else "NULL::text"
-    n_expr = "n_respondentes" if "n_respondentes" in cols else "NULL::integer"
+    nombre_expr = "nombre_perfil"if "nombre_perfil"in cols else "label"
+    color_expr = "color"if "color"in cols else "NULL::text"
+    tipo_expr = "tipo_perfil"if "tipo_perfil"in cols else "'predefinido'::text"
+    fuente_expr = "fuente_datos"if "fuente_datos"in cols else "'sintetico'::text"
+    ideologia_expr = "ideologia_media"if "ideologia_media"in cols else "NULL::numeric"
+    peso_expr = "peso_demografico_pct"if "peso_demografico_pct"in cols else "NULL::numeric"
+    cohorte_expr = "cohorte_generacional"if "cohorte_generacional"in cols else "NULL::text"
+    n_expr = "n_respondentes"if "n_respondentes"in cols else "NULL::integer"
     sql = f"""
         SELECT cluster_id,
                {nombre_expr} AS nombre_perfil,
@@ -2292,10 +2292,10 @@ def cargar_lista_perfiles(conn, tipo: str | None = None) -> pd.DataFrame:
     """
     params: dict[str, Any] = {}
     if tipo:
-        sql += " WHERE " + ("tipo_perfil = :tipo" if "tipo_perfil" in cols else "1=1")
-        if "tipo_perfil" in cols:
+        sql += "WHERE " + ("tipo_perfil = :tipo"if "tipo_perfil"in cols else "1=1")
+        if "tipo_perfil"in cols:
             params["tipo"] = tipo
-    sql += " ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id"
+    sql += "ORDER BY peso_demografico_pct DESC NULLS LAST, cluster_id"
     return _q(sql, params if params else None, conn=conn)
 
 
@@ -2320,8 +2320,8 @@ def cargar_perfil_personalizado_detalle(conn, perfil_id: int) -> dict[str, Any]:
     if not _table_exists("perfiles_personalizados", conn=conn):
         return {}
     pv_cols = _table_columns("perfiles_votante", conn=conn)
-    nombre_expr = "pv.nombre_perfil" if "nombre_perfil" in pv_cols else "pv.label"
-    color_expr = "pv.color" if "color" in pv_cols else "NULL::text"
+    nombre_expr = "pv.nombre_perfil"if "nombre_perfil"in pv_cols else "pv.label"
+    color_expr = "pv.color"if "color"in pv_cols else "NULL::text"
     row = _q(
         f"""
         SELECT pp.*,
@@ -2351,10 +2351,10 @@ def cargar_perfil_personalizado_detalle(conn, perfil_id: int) -> dict[str, Any]:
 def guardar_descripcion_llm_perfil(conn, cluster_id: int, descripcion: str) -> None:
     """Actualiza descripcion LLM de un perfil."""
     cols = _table_columns("perfiles_votante", conn=conn)
-    if "descripcion_perfil_llm" not in cols:
+    if "descripcion_perfil_llm"not in cols:
         return
     with conn.cursor() as cur:
-        if "fecha_calculo" in cols:
+        if "fecha_calculo"in cols:
             cur.execute(
                 """
                 UPDATE perfiles_votante
@@ -2550,7 +2550,7 @@ def cargar_perfiles_usuario_custom(usuario_id: str = "default") -> pd.DataFrame:
 
 
 def _build_micro_filter_where(filtros: dict[str, Any], table_alias: str = "") -> tuple[str, dict[str, Any]]:
-    pref = f"{table_alias}." if table_alias else ""
+    pref = f"{table_alias}."if table_alias else ""
     mapping = {
         "sexo": f"{pref}sexo",
         "grupo_edad": f"{pref}grupo_edad",
@@ -2615,7 +2615,7 @@ def _build_micro_filter_where(filtros: dict[str, Any], table_alias: str = "") ->
     elif esc_bin and str(esc_bin).strip().lower() not in {"todos", "all", ""}:
         params["f_escideol_bin"] = str(esc_bin)
         clauses.append(f"{case_expr} = :f_escideol_bin")
-    where = " AND ".join(clauses) if clauses else "1=1"
+    where = "AND ".join(clauses) if clauses else "1=1"
     return where, params
 
 
@@ -2645,7 +2645,7 @@ def cargar_opciones_perfil_microdatos() -> dict[str, list[str]]:
     select_chunks = ",\n               ".join(
         (
             "ARRAY(SELECT DISTINCT {expr} FROM microdatos_encuesta "
-            "WHERE {expr_base} IS NOT NULL AND TRIM({expr}) <> '' ORDER BY 1) AS {col}"
+            "WHERE {expr_base} IS NOT NULL AND TRIM({expr}) <> ''ORDER BY 1) AS {col}"
         ).format(
             expr=expr,
             expr_base=expr.replace("::text", ""),
@@ -2733,7 +2733,7 @@ def cargar_distribucion_campo_perfil_microdatos(
             df = cargar_voto_perfil(conn, cluster_id)
             if df.empty:
                 return df
-            col = "pct_recuerdo" if campo == "recuerdo_voto" else "pct_intencion"
+            col = "pct_recuerdo"if campo == "recuerdo_voto"else "pct_intencion"
             return (
                 df[["partido", col]]
                 .rename(columns={"partido": "categoria", col: "peso"})
@@ -2778,9 +2778,9 @@ def cargar_distribucion_campo_perfil_microdatos(
 
     # API legacy contra microdatos crudos.
     _ensure_microdatos_schema()
-    if campo != "ccaa_residencia" and campo not in _CAMPOS_PERFIL_PERMITIDOS:
+    if campo != "ccaa_residencia"and campo not in _CAMPOS_PERFIL_PERMITIDOS:
         raise ValueError(
-            f"Campo '{campo}' no permitido. Valores válidos: {_CAMPOS_PERFIL_PERMITIDOS}"
+            f"Campo '{campo}'no permitido. Valores válidos: {_CAMPOS_PERFIL_PERMITIDOS}"
         )
     where, params = _build_micro_filter_where(filtros, table_alias="me")
     params["limit"] = int(limit)
@@ -3033,7 +3033,7 @@ def cargar_source_health() -> pd.DataFrame:
 @st.cache_data(ttl=120)
 def cargar_scraper_incidents(solo_activos: bool = True) -> pd.DataFrame:
     """Incidencias recientes de scrapers, por defecto solo las no resueltas."""
-    extra = "AND resolved = FALSE" if solo_activos else ""
+    extra = "AND resolved = FALSE"if solo_activos else ""
     return _q(
         f"""
         SELECT source_id, error_type, severity, first_seen, last_seen,
@@ -3042,7 +3042,7 @@ def cargar_scraper_incidents(solo_activos: bool = True) -> pd.DataFrame:
         WHERE last_seen >= NOW() - INTERVAL '7 days'
           {extra}
         ORDER BY
-            CASE severity WHEN 'critical' THEN 1 WHEN 'major' THEN 2 ELSE 3 END,
+            CASE severity WHEN 'critical'THEN 1 WHEN 'major'THEN 2 ELSE 3 END,
             last_seen DESC
         LIMIT 50
         """,
@@ -3076,7 +3076,7 @@ def cargar_boe_publicaciones(dias: int = 1, limit: int = 40, solo_alta_media: bo
     Carga publicaciones BOE de la tabla boe_publication.
     Fallback: vacío (el caller llama a cargar_boe_hoy_rss() en ese caso).
     """
-    extra = "AND relevancia IN ('Alta','Media')" if solo_alta_media else ""
+    extra = "AND relevancia IN ('Alta','Media')"if solo_alta_media else ""
     return _q(
         f"""
         SELECT boe_no, fecha, seccion, departamento, tipo_norma,
@@ -3164,7 +3164,7 @@ def cargar_dm_actividad_legislativa(dias: int = 30) -> pd.DataFrame:
         """
         SELECT fecha_publicacion::date AS fecha,
                partido_siglas,
-               'congreso' AS chamber,
+               'congreso'AS chamber,
                COUNT(*) AS n_iniciativas,
                0 AS n_votaciones, 0 AS n_aprobadas, 0 AS n_rechazadas, 0 AS n_comisiones
         FROM actividad_congreso
@@ -3364,7 +3364,7 @@ def cargar_contenido_mediatico(
         conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
         params["cliente_id"] = int(cliente_id)
 
-    where = " AND ".join(conditions)
+    where = "AND ".join(conditions)
     return _q(
         f"""
         SELECT *
@@ -3455,7 +3455,7 @@ def cargar_alertas_mediaticas(
     if cliente_id is not None:
         conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
         params["cliente_id"] = int(cliente_id)
-    where = "WHERE " + " AND ".join(conditions) if conditions else ""
+    where = "WHERE " + "AND ".join(conditions) if conditions else ""
     return _q(
         f"""
         SELECT *
@@ -3526,7 +3526,7 @@ def cargar_declaraciones(
         conditions.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
         params["cliente_id"] = int(cliente_id)
 
-    where = " AND ".join(conditions)
+    where = "AND ".join(conditions)
     return _q(
         f"""
         SELECT id, persona, partido, fecha, medio, contexto, texto, tema, subtema,
@@ -3605,7 +3605,7 @@ def cargar_contradicciones(
     if solo_validadas:
         conditions.append("c.validada = true")
 
-    where = "WHERE " + " AND ".join(conditions) if conditions else ""
+    where = "WHERE " + "AND ".join(conditions) if conditions else ""
     return _q(
         f"""
         SELECT c.*, da.texto AS texto_a, da.fecha AS fecha_a,
@@ -3677,7 +3677,7 @@ def cargar_mensajes_campana(
         filters.append("tipo = %(tipo)s")
         params["tipo"] = tipo
 
-    where = "WHERE " + " AND ".join(filters) if filters else ""
+    where = "WHERE " + "AND ".join(filters) if filters else ""
     sql = f"""
         SELECT id, titulo, mensaje, tipo, estado, fecha_inicio, fecha_fin, autor, creado_en
         FROM mensajes_campana
@@ -3761,7 +3761,7 @@ def cargar_decisiones_estrategicas(
         filters.append("tipo = %(tipo)s")
         params["tipo"] = tipo
 
-    where = "WHERE " + " AND ".join(filters) if filters else ""
+    where = "WHERE " + "AND ".join(filters) if filters else ""
     sql = f"""
         SELECT id, fecha, tipo, descripcion, resultado, lecciones, etiquetas, datos_contexto, creado_en
         FROM decisiones_estrategicas
@@ -3896,7 +3896,7 @@ def cargar_scores_voto_blando(
         filtros.append("segmento_edad = :segmento_edad")
         params["segmento_edad"] = segmento_edad
 
-    where = " AND ".join(filtros)
+    where = "AND ".join(filtros)
     df = _q(
         f"""
         SELECT *
@@ -3936,7 +3936,7 @@ def cargar_matriz_transferencia(
         f"""
         SELECT *
         FROM matriz_transferencia
-        WHERE {' AND '.join(filtros)}
+        WHERE {'AND '.join(filtros)}
         ORDER BY fecha_calculo DESC
         LIMIT 500
         """,
@@ -3974,7 +3974,7 @@ def guardar_scores_voto_blando(df: pd.DataFrame) -> int:
     n = 0
     sql = f"""
         INSERT INTO voto_blando_territorial ({', '.join(cols_ok)})
-        VALUES ({', '.join([f'%({c})s' for c in cols_ok])})
+        VALUES ({', '.join([f'%({c})s'for c in cols_ok])})
         ON CONFLICT ON CONSTRAINT uq_voto_blando_segmento
         DO UPDATE SET
             pct_voto_blando = EXCLUDED.pct_voto_blando,
@@ -3988,7 +3988,7 @@ def guardar_scores_voto_blando(df: pd.DataFrame) -> int:
         with conn.cursor() as cur:
             for _, row in df[cols_ok].iterrows():
                 payload = row.to_dict()
-                if "dist_quintiles" in payload and isinstance(payload["dist_quintiles"], dict):
+                if "dist_quintiles"in payload and isinstance(payload["dist_quintiles"], dict):
                     payload["dist_quintiles"] = json.dumps(payload["dist_quintiles"])
                 cur.execute(sql, payload)
                 n += 1
@@ -4029,7 +4029,7 @@ def cargar_elecciones_historicas(
         df = _q(
             f"""
             SELECT * FROM elecciones_historicas
-            WHERE {' AND '.join(filtros)}
+            WHERE {'AND '.join(filtros)}
             ORDER BY pais, anio
             """,
             params,
@@ -4167,9 +4167,9 @@ def guardar_eleccion_historica(row: dict[str, Any]) -> bool:
     conn = get_conn()
     sql = f"""
         INSERT INTO elecciones_historicas ({', '.join(campos)})
-        VALUES ({', '.join([f'%({c})s' for c in campos])})
+        VALUES ({', '.join([f'%({c})s'for c in campos])})
         ON CONFLICT ON CONSTRAINT uq_eleccion
-        DO UPDATE SET {', '.join([f'{c}=EXCLUDED.{c}' for c in campos if c not in {'pais', 'anio', 'mes', 'tipo'}])}
+        DO UPDATE SET {', '.join([f'{c}=EXCLUDED.{c}'for c in campos if c not in {'pais', 'anio', 'mes', 'tipo'}])}
     """
     try:
         with conn.cursor() as cur:
@@ -4264,7 +4264,7 @@ def cargar_frescura_tabla(tabla: str) -> pd.DataFrame:
         if not df_chk.empty:
             df_ing = df_ing.merge(df_chk, on="tabla", how="left")
 
-    if "finished_at" in df_ing.columns:
+    if "finished_at"in df_ing.columns:
         ts = pd.to_datetime(df_ing["finished_at"], errors="coerce", utc=True)
         delay_min = (pd.Timestamp.now(tz="UTC") - ts).dt.total_seconds() / 60.0
         df_ing["delay_min"] = delay_min.round(1)
@@ -4351,7 +4351,7 @@ def cargar_data_health(tablas: list[str] | None = None) -> pd.DataFrame:
                     check_name AS ultimo_check,
                     created_at AS check_at
                 FROM data_quality_checks
-                {"WHERE tabla = ANY(:tablas)" if tablas else ""}
+                {"WHERE tabla = ANY(:tablas)"if tablas else ""}
                 ORDER BY tabla, created_at DESC
             )
             """
@@ -4395,9 +4395,9 @@ def cargar_data_health(tablas: list[str] | None = None) -> pd.DataFrame:
     def _estado(row: pd.Series) -> str:
         estado_ing = str(row.get("estado_ingesta", "")).lower()
         estado_chk = str(row.get("status_ultimo_check", "")).lower()
-        if estado_ing == "error" or estado_chk == "fail":
+        if estado_ing == "error"or estado_chk == "fail":
             return "fail"
-        if estado_ing == "warning" or estado_chk == "warn" or not bool(row.get("sla_ok", False)):
+        if estado_ing == "warning"or estado_chk == "warn"or not bool(row.get("sla_ok", False)):
             return "warn"
         return "ok"
 
@@ -4501,7 +4501,7 @@ def cargar_voto_blando(
         filtros.append("(cliente_id = :cliente_id OR cliente_id IS NULL)")
         params["cliente_id"] = int(cliente_id)
 
-    where = " AND ".join(filtros)
+    where = "AND ".join(filtros)
     return _q(
         f"""
         SELECT
@@ -4616,7 +4616,7 @@ def cargar_transferencia_voto(
             circunscripcion, prob_transferencia, votos_captables_est,
             metodo, calculado_en
         FROM transferencia_voto
-        WHERE {' AND '.join(filtros)}
+        WHERE {'AND '.join(filtros)}
         ORDER BY calculado_en DESC, partido_origen, partido_destino
         """,
         params,

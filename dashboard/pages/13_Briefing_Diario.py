@@ -35,7 +35,7 @@ st.caption("Resumen automático de situación política, institucional, mediáti
 
 def _top_party(df_nc: pd.DataFrame) -> str:
     siglas, _ = top_partido(df_nc)
-    return siglas if siglas != "—" else "N/D"
+    return siglas if siglas != "—"else "N/D"
 
 
 def _macro(df_macro: pd.DataFrame, indicador: str) -> str:
@@ -46,7 +46,7 @@ def _noticias_criticas_diversificadas(df_news: pd.DataFrame, max_total: int = 24
     if df_news.empty:
         return df_news
     df = df_news.copy()
-    if "sentimiento_score" in df.columns:
+    if "sentimiento_score"in df.columns:
         df["abs_score"] = pd.to_numeric(df["sentimiento_score"], errors="coerce").fillna(0.0).abs()
         df = df.sort_values(["abs_score", "fecha_publicacion"], ascending=[False, False])
     # Limitar antes de iterar para evitar recorrer datasets enormes.
@@ -89,7 +89,7 @@ if not df_indices.empty:
     _ind = df_indices.copy()
     _ind["valor"] = pd.to_numeric(_ind["valor"], errors="coerce").fillna(0.0)
     top_risk = _ind.sort_values("valor", ascending=False).head(3)[["indice_codigo", "valor"]]
-    riesgos_txt = ", ".join([f"{r['indice_codigo']}={r['valor']:.1f}" for _, r in top_risk.iterrows()])
+    riesgos_txt = ", ".join([f"{r['indice_codigo']}={r['valor']:.1f}"for _, r in top_risk.iterrows()])
     briefing.append(f"- **Índices Politeia:** focos prioritarios `{riesgos_txt}`.")
 if not df_alert.empty:
     alerts_txt = "; ".join(df_alert["titulo"].astype(str).head(3).tolist())
@@ -115,7 +115,7 @@ with tab1:
         st.info("No se ha podido cargar agenda oficial en tiempo real.")
     else:
         st.dataframe(
-            agenda_oficial[["fuente", "actor", "fecha", "titulo", "url"]] if "actor" in agenda_oficial.columns else agenda_oficial,
+            agenda_oficial[["fuente", "actor", "fecha", "titulo", "url"]] if "actor"in agenda_oficial.columns else agenda_oficial,
             hide_index=True,
             use_container_width=True,
         )

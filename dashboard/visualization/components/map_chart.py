@@ -27,7 +27,7 @@ def create_spain_choropleth(
         color=value_col,
         color_continuous_scale=color_scale,
         featureidkey="properties.code",
-        hover_name="label" if "label" in data.columns else None,
+        hover_name="label"if "label"in data.columns else None,
         title=title,
     )
     fig.update_geos(fitbounds="locations", visible=False)

@@ -168,7 +168,7 @@ def analizar_sentimiento(text: str) -> dict:
                 "score": probas.get(label, 0.5),
                 "probas": probas,
                 "color": _SENTIMENT_COLORS.get(label, "#94A3B8"),
-                "emoji": "😊" if label == "POS" else ("😠" if label == "NEG" else "😐"),
+                "emoji": ""if label == "POS"else (""if label == "NEG"else ""),
                 "fuente": "pysentimiento",
             }
         except Exception:
@@ -193,7 +193,7 @@ def analizar_sentimiento(text: str) -> dict:
                    "NEG": neg_score / max(pos_score + neg_score + 1, 1),
                    "NEU": 0.3},
         "color": _SENTIMENT_COLORS[label],
-        "emoji": "😊" if label == "POS" else ("😠" if label == "NEG" else "😐"),
+        "emoji": ""if label == "POS"else (""if label == "NEG"else ""),
         "fuente": "reglas",
     }
 
@@ -231,7 +231,7 @@ def detectar_odio(text: str) -> dict:
             output = result.output
             return {
                 "label": output,
-                "targeted": "targeted" in output.lower() if isinstance(output, str) else False,
+                "targeted": "targeted"in output.lower() if isinstance(output, str) else False,
                 "aggressive": result.probas.get("aggressive", 0) > 0.5,
                 "score": max(result.probas.values()) if result.probas else 0.0,
                 "fuente": "pysentimiento",
@@ -334,7 +334,7 @@ def analizar_batch(textos: list[str]) -> list[dict]:
 def resumen_sentimiento_partidos(noticias: list[dict]) -> dict[str, dict]:
     """
     Calcula sentimiento medio por partido a partir de una lista de noticias
-    (cada una con campo 'texto' y 'partidos').
+    (cada una con campo 'texto'y 'partidos').
     Returns {partido: {"positivo": float, "negativo": float, "neutral": float, "total": int}}
     """
     conteos: dict[str, dict] = {}

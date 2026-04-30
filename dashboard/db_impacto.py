@@ -41,7 +41,7 @@ def listar_eventos(cliente_id: int | None = None, solo_activos: bool = True, lim
     if solo_activos:
         clauses.append("activo = TRUE")
 
-    where = " WHERE " + " AND ".join(clauses) if clauses else ""
+    where = "WHERE " + "AND ".join(clauses) if clauses else ""
 
     sql = f"""
         SELECT
@@ -61,7 +61,7 @@ def crear_evento(datos: dict) -> int:
     conn = get_conn()
     try:
         cols = ", ".join(datos.keys())
-        vals = ", ".join([f"%({k})s" for k in datos.keys()])
+        vals = ", ".join([f"%({k})s"for k in datos.keys()])
         sql = f"INSERT INTO eventos_campana ({cols}) VALUES ({vals}) RETURNING id"
         with conn.cursor() as cur:
             cur.execute(sql, datos)
@@ -80,7 +80,7 @@ def guardar_snapshot(evento_id: int, ventana: str, datos: dict) -> None:
     try:
         payload = {"evento_id": int(evento_id), "ventana": ventana, **datos}
         cols = ", ".join(payload.keys())
-        vals = ", ".join([f"%({k})s" for k in payload.keys()])
+        vals = ", ".join([f"%({k})s"for k in payload.keys()])
         sql = f"INSERT INTO impacto_evento_snapshot ({cols}) VALUES ({vals})"
         with conn.cursor() as cur:
             cur.execute(sql, payload)

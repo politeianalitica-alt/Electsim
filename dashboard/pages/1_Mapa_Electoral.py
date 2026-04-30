@@ -149,7 +149,7 @@ st.markdown(f"""
 
 # ── Header ───────────────────────────────────────────────────────────────────
 st.markdown(f"""
-<div class="map-animate" style="
+<div class="map-animate"style="
     background:linear-gradient(135deg,{BG2} 0%,#0a1628 50%,{BG3} 100%);
     border:1px solid {BORDER};border-radius:16px;
     padding:2rem 2.5rem;margin-bottom:1.5rem;
@@ -194,7 +194,7 @@ with st.sidebar:
         sel_sidebar = st.selectbox("Eleccion", list(opciones_sidebar.keys()))
         eleccion_id = opciones_sidebar[sel_sidebar]
     else:
-        st.warning(f"No hay elecciones '{TIPOS_ELECCION[tipo_idx]}' en la BD.")
+        st.warning(f"No hay elecciones '{TIPOS_ELECCION[tipo_idx]}'en la BD.")
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -202,8 +202,8 @@ with st.sidebar:
 def _section_header(label: str, color: str):
     st.markdown(f"""
     <div class="section-hdr">
-        <div class="bar" style="background:linear-gradient({color},{BLUE})"></div>
-        <span class="label" style="color:{color}">{label}</span>
+        <div class="bar"style="background:linear-gradient({color},{BLUE})"></div>
+        <span class="label"style="color:{color}">{label}</span>
         <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
@@ -622,7 +622,7 @@ def _build_choropleth_estimado(df_est: pd.DataFrame) -> go.Figure | None:
             pct = float(rr["pct_est"])
             if esc == 0 and pct < 1.5:
                 continue
-            marker = "●" if esc > 0 else "○"
+            marker = "●"if esc > 0 else "○"
             lineas.append(
                 f"{marker} <b>{rr['siglas']}</b>  {pct:5.1f}%  →  {esc} esc."
             )
@@ -724,7 +724,7 @@ def _render_tab_analogias_historicas() -> None:
         crisis_internacional=crisis,
     )
 
-    df_hist = cargar_elecciones_historicas(pais=None if filtro_pais == "Todos" else filtro_pais)
+    df_hist = cargar_elecciones_historicas(pais=None if filtro_pais == "Todos"else filtro_pais)
     motor = MotorAnalogias(df_hist).ajustar_normalizacion()
     analogias = motor.buscar(ctx, top_n=top_n)
     proy = motor.proyeccion_resultado(analogias, partido_prop)
@@ -745,7 +745,7 @@ def _render_tab_analogias_historicas() -> None:
             "Similitud %": a.similitud_pct,
             "Distancia": a.distancia,
             "Ganador": a.ganador or "—",
-            "Vuelco": "Sí" if a.vuelco_gobierno else "No",
+            "Vuelco": "Sí"if a.vuelco_gobierno else "No",
         }
         for a in analogias
     ])
@@ -776,7 +776,7 @@ tab_pasadas, tab_futuras, tab_mapa, tab_hist, tab_analogias = st.tabs([
     "◉  Estimaciones Futuras",
     "◎  Mapa Provincial",
     "⬡  Comparativa Histórica",
-    "🕰️  Analogías históricas",
+    "  Analogías históricas",
 ])
 
 
@@ -797,12 +797,12 @@ with tab_pasadas:
             cols = st.columns(min(n_cards, 4))
             for i, (_, row) in enumerate(df_nac.head(n_cards).iterrows()):
                 escanos = int(row["escanos_totales"]) if pd.notna(row.get("escanos_totales")) else 0
-                pct = f"{row['pct_medio']:.1f}%" if pd.notna(row.get("pct_medio")) else "---"
+                pct = f"{row['pct_medio']:.1f}%"if pd.notna(row.get("pct_medio")) else "---"
                 color = _color(row["siglas"])
                 r_c, g_c, b_c = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
                 with cols[i % 4]:
                     st.markdown(f"""
-                    <div class="glass" style="text-align:center;margin-bottom:.5rem;
+                    <div class="glass"style="text-align:center;margin-bottom:.5rem;
                                 border-top:3px solid {color}">
                         <div style="font-size:.65rem;font-weight:700;color:{MUTED};
                                     letter-spacing:.08em;margin-bottom:.25rem">{row['siglas']}</div>
@@ -864,29 +864,29 @@ with tab_pasadas:
                     c1, c2 = st.columns(2)
                     with c1:
                         st.markdown(f"""
-                        <div class="glass" style="text-align:center;border-top:2px solid {RED}55">
+                        <div class="glass"style="text-align:center;border-top:2px solid {RED}55">
                             <div style="font-size:.58rem;font-weight:700;color:{MUTED};
                                         letter-spacing:.1em;text-transform:uppercase">Bloque Izquierda</div>
                             <div style="font-size:1.5rem;font-weight:900;color:{TEXT};
                                         font-family:'JetBrains Mono',monospace">{e_izq}</div>
-                            <div style="font-size:.58rem;color:{'#10B981' if e_izq>=176 else AMBER}">
-                                {'Mayoria' if e_izq>=176 else f'{176-e_izq} para mayoria'}</div>
+                            <div style="font-size:.58rem;color:{'#10B981'if e_izq>=176 else AMBER}">
+                                {'Mayoria'if e_izq>=176 else f'{176-e_izq} para mayoria'}</div>
                         </div>
                         """, unsafe_allow_html=True)
                     with c2:
                         st.markdown(f"""
-                        <div class="glass" style="text-align:center;border-top:2px solid {BLUE}55">
+                        <div class="glass"style="text-align:center;border-top:2px solid {BLUE}55">
                             <div style="font-size:.58rem;font-weight:700;color:{MUTED};
                                         letter-spacing:.1em;text-transform:uppercase">Bloque Derecha</div>
                             <div style="font-size:1.5rem;font-weight:900;color:{TEXT};
                                         font-family:'JetBrains Mono',monospace">{e_der}</div>
-                            <div style="font-size:.58rem;color:{'#10B981' if e_der>=176 else AMBER}">
-                                {'Mayoria' if e_der>=176 else f'{176-e_der} para mayoria'}</div>
+                            <div style="font-size:.58rem;color:{'#10B981'if e_der>=176 else AMBER}">
+                                {'Mayoria'if e_der>=176 else f'{176-e_der} para mayoria'}</div>
                         </div>
                         """, unsafe_allow_html=True)
 
             # ── Posicionamiento ideologico ────────────────────────────────────
-            if "eje_izda_dcha" in df_nac.columns:
+            if "eje_izda_dcha"in df_nac.columns:
                 df_ideo = df_nac.dropna(subset=["eje_izda_dcha", "pct_medio"])
                 if not df_ideo.empty:
                     st.markdown(f"<div style='height:1px;background:linear-gradient(90deg,transparent,{BORDER},transparent);margin:1.2rem 0'></div>", unsafe_allow_html=True)
@@ -963,7 +963,7 @@ with tab_futuras:
             ic_str = f"[{row['ic_95_inf']:.1f} - {row['ic_95_sup']:.1f}]"
             with cols_nc[i % 4]:
                 st.markdown(f"""
-                <div class="glass" style="text-align:center;margin-bottom:.5rem;
+                <div class="glass"style="text-align:center;margin-bottom:.5rem;
                             border-top:3px solid {color}">
                     <div style="font-size:.62rem;font-weight:700;color:{MUTED};
                                 letter-spacing:.08em">{row['partido_siglas']}</div>
@@ -1028,7 +1028,7 @@ with tab_futuras:
                                config={"displayModeBar": False})
 
                 # Clasificación por bloques — ampliada para cubrir todos los
-                # partidos con representación actual y evitar el "margen" de
+                # partidos con representación actual y evitar el "margen"de
                 # escaños sin asignar entre izq+der y el total.
                 izq_p = {
                     "PSOE", "SUMAR", "PODEMOS", "IU",
@@ -1048,12 +1048,12 @@ with tab_futuras:
                 c1, c2, c3 = st.columns(3)
                 with c1:
                     st.metric("Bloque Izquierda", esc_izq,
-                              delta="mayoria" if esc_izq >= 176 else f"{176-esc_izq} para mayoria",
-                              delta_color="normal" if esc_izq >= 176 else "inverse")
+                              delta="mayoria"if esc_izq >= 176 else f"{176-esc_izq} para mayoria",
+                              delta_color="normal"if esc_izq >= 176 else "inverse")
                 with c2:
                     st.metric("Bloque Derecha", esc_der,
-                              delta="mayoria" if esc_der >= 176 else f"{176-esc_der} para mayoria",
-                              delta_color="normal" if esc_der >= 176 else "inverse")
+                              delta="mayoria"if esc_der >= 176 else f"{176-esc_der} para mayoria",
+                              delta_color="normal"if esc_der >= 176 else "inverse")
                 with c3:
                     # Escaños bisagra = los que puede decidir el gobierno
                     st.metric("Nacionalistas/Otros", esc_otros,
@@ -1163,7 +1163,7 @@ with tab_mapa:
         )
     vista = "Partido ganador"
     partido_mapa = None
-    if modo_mapa == "Histórico" and has_hist:
+    if modo_mapa == "Histórico"and has_hist:
         with col_ctrl2:
             vista = st.radio(
                 "Vista histórica",
@@ -1206,7 +1206,7 @@ with tab_mapa:
 
     with col_rank:
         _section_header("Escaños por Provincia", CYAN)
-        if modo_mapa == "Estimación actual" and not df_est.empty:
+        if modo_mapa == "Estimación actual"and not df_est.empty:
             partidos_avail = sorted(df_est[df_est["escanos_est"] > 0]["siglas"].unique().tolist())
             if partidos_avail:
                 partido_rank = st.selectbox("Partido para ranking", partidos_avail, key="partido_rank")
@@ -1272,7 +1272,7 @@ with tab_mapa:
                         x=df_ccaa_agg["siglas"],
                         y=df_ccaa_agg["escanos_sum"],
                         marker=dict(
-                            color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)" for c in colors_ccaa],
+                            color=[f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},0.75)"for c in colors_ccaa],
                             line=dict(color=colors_ccaa, width=1.5),
                         ),
                         text=df_ccaa_agg["escanos_sum"].astype(int),
@@ -1295,11 +1295,11 @@ with tab_mapa:
                     for prov in provinces_in_ccaa:
                         df_p = df_ccaa[df_ccaa["provincia"] == prov].sort_values("escanos", ascending=False)
                         pills = "".join(
-                            f'<span class="partido-pill" style="background:{_color(rr["siglas"])}15;border:1px solid {_color(rr["siglas"])}44;color:{_color(rr["siglas"])}">{rr["siglas"]} {int(rr["escanos"])}</span> '
+                            f'<span class="partido-pill"style="background:{_color(rr["siglas"])}15;border:1px solid {_color(rr["siglas"])}44;color:{_color(rr["siglas"])}">{rr["siglas"]} {int(rr["escanos"])}</span> '
                             for _, rr in df_p.head(4).iterrows()
                         )
                         st.markdown(
-                            f'<div class="glass" style="padding:.5rem .8rem;margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center">'
+                            f'<div class="glass"style="padding:.5rem .8rem;margin-bottom:.3rem;display:flex;justify-content:space-between;align-items:center">'
                             f'<span style="font-size:.75rem;font-weight:600;color:{TEXT}">{prov}</span>'
                             f'<div>{pills}</div></div>',
                             unsafe_allow_html=True,
@@ -1341,10 +1341,10 @@ with tab_mapa:
                 (k1, "Provincias con ganancia", str(n_ganadas), "vs referencia histórica", GREEN),
                 (k2, "Provincias con pérdida",  str(n_perdidas), "vs referencia histórica", RED),
                 (k3, "Mayor ganancia",
-                 f"+{mayor_gain['delta']} {mayor_gain['siglas']}" if mayor_gain is not None else "—",
+                 f"+{mayor_gain['delta']} {mayor_gain['siglas']}"if mayor_gain is not None else "—",
                  str(mayor_gain["provincia"]) if mayor_gain is not None else "", GREEN),
                 (k4, "Mayor pérdida",
-                 f"{mayor_loss['delta']} {mayor_loss['siglas']}" if mayor_loss is not None else "—",
+                 f"{mayor_loss['delta']} {mayor_loss['siglas']}"if mayor_loss is not None else "—",
                  str(mayor_loss["provincia"]) if mayor_loss is not None else "", RED),
             ]:
                 with col_k:
@@ -1384,8 +1384,8 @@ with tab_mapa:
                     pc = _color(rp["siglas"])
                     d  = int(rp["delta"])
                     d_color = GREEN if d > 0 else RED if d < 0 else MUTED
-                    arrow = "▲" if d > 0 else "▼" if d < 0 else "—"
-                    d_str  = f"{arrow}{abs(d)}" if d != 0 else "="
+                    arrow = "▲"if d > 0 else "▼"if d < 0 else "—"
+                    d_str  = f"{arrow}{abs(d)}"if d != 0 else "="
                     pr2, pg2, pb2 = int(pc[1:3], 16), int(pc[3:5], 16), int(pc[5:7], 16)
                     pills_html += (
                         f'<div style="display:flex;align-items:center;justify-content:space-between;'
@@ -1475,7 +1475,7 @@ with tab_hist:
     tipo_hist_db = TIPOS_DB[tipo_hist_idx]
     df_trend = _historical_trend(tipo_hist_db)
     if df_trend.empty:
-        st.info(f"No hay elecciones '{TIPOS_ELECCION[tipo_hist_idx]}' registradas.")
+        st.info(f"No hay elecciones '{TIPOS_ELECCION[tipo_hist_idx]}'registradas.")
     else:
         df_trend["fecha"] = pd.to_datetime(df_trend["fecha"], errors="coerce")
         df_trend = df_trend.dropna(subset=["pct_medio", "fecha"]).sort_values("fecha")

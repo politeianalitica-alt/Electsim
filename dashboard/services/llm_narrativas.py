@@ -76,7 +76,7 @@ def narrativa_perfil(
 ) -> str:
     """Narrativa de perfil electoral en lenguaje natural.
 
-    Retorna '' cuando no hay ANTHROPIC_API_KEY (sin coste, sin error).
+    Retorna ''cuando no hay ANTHROPIC_API_KEY (sin coste, sin error).
     """
     preocc = ", ".join(preocupaciones[:5]) if preocupaciones else "no disponibles"
     prompt = (
@@ -103,10 +103,10 @@ def narrativa_impacto_campana(
 ) -> str:
     """Narrativa estratégica del impacto de una medida de campaña.
 
-    Retorna '' cuando no hay ANTHROPIC_API_KEY.
+    Retorna ''cuando no hay ANTHROPIC_API_KEY.
     """
     impactos_top = sorted(impactos.items(), key=lambda x: -abs(x[1]))[:6]
-    impactos_txt = "; ".join(f"{p}: {v:+.1f}pp" for p, v in impactos_top)
+    impactos_txt = "; ".join(f"{p}: {v:+.1f}pp"for p, v in impactos_top)
     perfiles_txt = ", ".join(perfiles_afectados[:4]) if perfiles_afectados else "general"
     prompt = (
         f"Medida de campaña: {tema}\n"
@@ -131,11 +131,11 @@ def sintesis_simulacion(
 ) -> str:
     """Informe ejecutivo de simulación de campaña.
 
-    Retorna '' cuando no hay ANTHROPIC_API_KEY.
+    Retorna ''cuando no hay ANTHROPIC_API_KEY.
     """
     temas_txt = ", ".join(temas[:5]) if temas else "sin especificar"
     resultado_txt = "; ".join(
-        f"{k}: {v:+.1f}pp" if isinstance(v, (int, float)) else f"{k}: {v}"
+        f"{k}: {v:+.1f}pp"if isinstance(v, (int, float)) else f"{k}: {v}"
         for k, v in list(resultado.items())[:8]
     )
     prompt = (

@@ -170,7 +170,7 @@ def _load_store() -> dict:
                 with open(_STORE_PATH, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 # Validate keys
-                if "actores" in data and "relaciones" in data:
+                if "actores"in data and "relaciones"in data:
                     return data
             except Exception:
                 pass

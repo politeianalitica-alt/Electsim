@@ -274,8 +274,8 @@ def get_top_topics_overview(df_boe: pd.DataFrame = None,
     }
 
     if df_boe is not None and not df_boe.empty:
-        titulo_col = "titulo" if "titulo" in df_boe.columns else df_boe.columns[0]
-        resumen_col = "resumen" if "resumen" in df_boe.columns else None
+        titulo_col = "titulo"if "titulo"in df_boe.columns else df_boe.columns[0]
+        resumen_col = "resumen"if "resumen"in df_boe.columns else None
         for _, row in df_boe.iterrows():
             titulo = str(row.get(titulo_col, ""))
             resumen = str(row.get(resumen_col, "")) if resumen_col else ""
@@ -284,7 +284,7 @@ def get_top_topics_overview(df_boe: pd.DataFrame = None,
                 topic_counts[t]["n_boe"] += 1
 
     if df_initiatives is not None and not df_initiatives.empty:
-        titulo_col = "title" if "title" in df_initiatives.columns else "titulo"
+        titulo_col = "title"if "title"in df_initiatives.columns else "titulo"
         for _, row in df_initiatives.iterrows():
             titulo = str(row.get(titulo_col, ""))
             topics = tag_initiative(titulo)

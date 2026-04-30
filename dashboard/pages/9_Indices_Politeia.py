@@ -163,7 +163,7 @@ st.markdown(f"""
 
 # ── Cargar datos ───────────────────────────────────────────────────────────────
 df = cargar_indices_politeia()
-if "metodología" not in df.columns and "metodologia" in df.columns:
+if "metodología"not in df.columns and "metodologia"in df.columns:
     df["metodología"] = df["metodologia"]
 
 if df.empty:
@@ -204,7 +204,7 @@ if df.empty:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{CYAN}"></div>
+        <div class="bar"style="background:{CYAN}"></div>
         <span class="lbl">Catálogo de Índices</span>
         <div class="line"></div>
     </div>
@@ -219,7 +219,7 @@ if df.empty:
 # ── Panel resumen 7 índices ────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:{CYAN}"></div>
+    <div class="bar"style="background:{CYAN}"></div>
     <span class="lbl">Panel de Índices — Estado Actual</span>
     <div class="line"></div>
 </div>
@@ -238,17 +238,17 @@ for i, row in enumerate(idx_list):
     color = SEMAFORO_COLOR.get(row.get("semaforo", ""), CYAN)
     valor = float(row.get("valor") or 0)
     var7  = row.get("variacion_7d")
-    arrow = "▲" if var7 and var7 > 0 else "▼" if var7 and var7 < 0 else "—"
-    var_str   = f"{arrow} {abs(var7):.1f}" if var7 else "—"
+    arrow = "▲"if var7 and var7 > 0 else "▼"if var7 and var7 < 0 else "—"
+    var_str   = f"{arrow} {abs(var7):.1f}"if var7 else "—"
     var_color = GREEN if var7 and var7 > 0 else RED if var7 and var7 < 0 else MUTED
     pct = min(100, max(0, valor))
     cr, cg, cb = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
     vc_r, vc_g, vc_b = int(var_color[1:3], 16), int(var_color[3:5], 16), int(var_color[5:7], 16)
     with col:
         st.markdown(f"""
-        <div class="idx-card" style="border-top:3px solid rgba({cr},{cg},{cb},0.7)">
+        <div class="idx-card"style="border-top:3px solid rgba({cr},{cg},{cb},0.7)">
             <div class="idx-nombre">{row['indice_codigo']}</div>
-            <div class="idx-valor" style="color:{color};margin:.4rem 0">{valor:.1f}</div>
+            <div class="idx-valor"style="color:{color};margin:.4rem 0">{valor:.1f}</div>
             <div style="display:flex;align-items:center;gap:.5rem;margin:.25rem 0 .5rem">
                 <span class="idx-badge"
                       style="background:rgba({vc_r},{vc_g},{vc_b},0.14);
@@ -259,7 +259,7 @@ for i, row in enumerate(idx_list):
                 </span>
             </div>
             <div class="progress-track">
-                <div class="progress-fill" style="background:{color};width:{pct}%"></div>
+                <div class="progress-fill"style="background:{color};width:{pct}%"></div>
             </div>
             <div class="idx-interp">{str(row.get('interpretacion',''))[:92]}…</div>
         </div>
@@ -268,7 +268,7 @@ for i, row in enumerate(idx_list):
 # ── Radar de todos los índices ─────────────────────────────────────────────────
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:{CYAN}"></div>
+    <div class="bar"style="background:{CYAN}"></div>
     <span class="lbl">Vista de Radar Comparativa</span>
     <div class="line"></div>
 </div>
@@ -356,7 +356,7 @@ components.html(_radar_html, height=460, scrolling=False)
 # ── Explorador de índice individual ───────────────────────────────────────────
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:{BLUE}"></div>
+    <div class="bar"style="background:{BLUE}"></div>
     <span class="lbl">Análisis en Profundidad</span>
     <div class="line"></div>
 </div>
@@ -377,12 +377,12 @@ with col_def:
     color_sel = SEMAFORO_COLOR.get(row_sel.get("semaforo", ""), CYAN)
     sr, sg, sb = int(color_sel[1:3], 16), int(color_sel[3:5], 16), int(color_sel[5:7], 16)
     sel_var7 = row_sel.get("variacion_7d")
-    sel_arrow = "▲" if sel_var7 and sel_var7 > 0 else "▼" if sel_var7 and sel_var7 < 0 else "—"
-    sel_var_str = f"{sel_arrow} {abs(sel_var7):.1f}" if sel_var7 else "—"
+    sel_arrow = "▲"if sel_var7 and sel_var7 > 0 else "▼"if sel_var7 and sel_var7 < 0 else "—"
+    sel_var_str = f"{sel_arrow} {abs(sel_var7):.1f}"if sel_var7 else "—"
     sel_var_color = GREEN if sel_var7 and sel_var7 > 0 else RED if sel_var7 and sel_var7 < 0 else MUTED
     svc_r, svc_g, svc_b = int(sel_var_color[1:3], 16), int(sel_var_color[3:5], 16), int(sel_var_color[5:7], 16)
     st.markdown(f"""
-    <div class="detail-card" style="border-top:3px solid {color_sel}">
+    <div class="detail-card"style="border-top:3px solid {color_sel}">
         <div style="font-size:.65rem;font-weight:700;color:{MUTED};
                     letter-spacing:.12em;text-transform:uppercase">
             {row_sel.get('indice_codigo','')}
@@ -434,7 +434,7 @@ with col_def:
                         <span style="font-weight:700;color:{c_bar}">{val_n:.1f}</span>
                     </div>
                     <div class="progress-track">
-                        <div class="progress-fill" style="background:{c_bar};width:{pct}%"></div>
+                        <div class="progress-fill"style="background:{c_bar};width:{pct}%"></div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -500,7 +500,7 @@ with col_serie:
 # ── Heatmap histórico ──────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:{PURPLE}"></div>
+    <div class="bar"style="background:{PURPLE}"></div>
     <span class="lbl">Heatmap Histórico de Todos los Índices</span>
     <div class="line"></div>
 </div>
@@ -561,7 +561,7 @@ st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:2rem 0
             unsafe_allow_html=True)
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:{AMBER}"></div>
+    <div class="bar"style="background:{AMBER}"></div>
     <span class="lbl">Metodología Completa de los Índices Politeia</span>
     <div class="line"></div>
 </div>
@@ -578,7 +578,7 @@ INDICES_DOC = {
             ("C2 · Fragmentación NEP Laakso-Taagepera (20 %)",
              "Número Efectivo de Partidos electoral: NEP = 1 / Σpᵢ². Normalizado con el rango histórico español 1989–2023 (mín. 2,1 en 1989, máx. 6,2 en 2015)."),
             ("C3 · Volatilidad Pedersen (25 %)",
-             "Pedersen = Σ|Δvᵢ| / 2, donde Δvᵢ es el cambio de voto de cada partido entre las dos últimas elecciones generales. Mide cuánto 'fluye' el voto entre partidos."),
+             "Pedersen = Σ|Δvᵢ| / 2, donde Δvᵢ es el cambio de voto de cada partido entre las dos últimas elecciones generales. Mide cuánto 'fluye'el voto entre partidos."),
             ("C4 · Temperatura mediática (25 %)",
              "Proporción de noticias políticas con sentimiento negativo en los últimos 30 días, calculada mediante NLP sobre 12 medios nacionales."),
         ],
@@ -612,7 +612,7 @@ INDICES_DOC = {
             ("C2 · Diversidad de agenda (25 %)",
              "Entropía de Shannon de los temas presentes en la agenda mediática del día. Mayor diversidad = información más equilibrada y menos centrada en la crisis."),
             ("C3 · Ratio progreso/crisis (20 %)",
-             "Proporción de noticias con 'framing' de progreso y avance frente a las enmarcadas como crisis o conflicto."),
+             "Proporción de noticias con 'framing'de progreso y avance frente a las enmarcadas como crisis o conflicto."),
             ("C4 · Equilibrio de cobertura (20 %)",
              "Desviación entre la cobertura mediática de cada partido y su peso electoral real. Penaliza la sobrerepresentación o la invisibilidad."),
         ],
@@ -625,7 +625,7 @@ INDICES_DOC = {
         "semaforo": "VERDE ≤35 · AMARILLO 36–65 · ROJO >65",
         "componentes": [
             ("C1 · Léxico confrontacional (35 %)",
-             "Frecuencia de términos como 'traición', 'golpe', 'invasión', 'dictador' o 'fascista' en prensa política. Se normaliza con el máximo observado en la muestra histórica."),
+             "Frecuencia de términos como 'traición', 'golpe', 'invasión', 'dictador'o 'fascista'en prensa política. Se normaliza con el máximo observado en la muestra histórica."),
             ("C2 · Actividad parlamentaria adversarial (30 %)",
              "Ratio entre mociones de censura, interpelaciones urgentes y preguntas sobre gestión de crisis vs. proposiciones de ley positivas. Mide si el Congreso legisla o solo confronta."),
             ("C3 · Volatilidad del sentimiento mediático (20 %)",
@@ -650,7 +650,7 @@ INDICES_DOC = {
             ("C4 · Ausencia de alertas críticas (15 %)",
              "Número y severidad de alertas sistémicas activas relacionadas con el gobierno en los últimos 14 días."),
         ],
-        "interpretacion": "ICGE bajo indica que el gobierno ha perdido soporte popular respecto a su mandato electoral. Un ICGE <35 predice con alta probabilidad un 'voto de castigo' en las próximas elecciones.",
+        "interpretacion": "ICGE bajo indica que el gobierno ha perdido soporte popular respecto a su mandato electoral. Un ICGE <35 predice con alta probabilidad un 'voto de castigo'en las próximas elecciones.",
         "referencias": "Powell (2000) · Duch & Stevenson (2008) · Barómetros CIS 2019-2025",
     },
     "IBEP": {
@@ -684,7 +684,7 @@ INDICES_DOC = {
             ("C4 · Concentración electoral HHI (20 %)",
              "Índice Herfindahl-Hirschman del sistema electoral. El óptimo de equilibrio es HHI≈0,25 (3-4 partidos equilibrados). Se penaliza tanto el bipartidismo extremo como la fragmentación extrema."),
         ],
-        "interpretacion": "IVCE alto señala condiciones propicias para un voto de castigo masivo, emergencia de nuevas fuerzas políticas o abstención significativa. Detecta 'pre-crisis electorales' 6-18 meses antes.",
+        "interpretacion": "IVCE alto señala condiciones propicias para un voto de castigo masivo, emergencia de nuevas fuerzas políticas o abstención significativa. Detecta 'pre-crisis electorales'6-18 meses antes.",
         "referencias": "Norris (2011) · Schedler (1998) · Dalton & Wattenberg (2000)",
     },
 }

@@ -32,7 +32,7 @@ except Exception:
 
 st.set_page_config(
     page_title="Medios & Narrativa — ElectSim",
-    page_icon="📰",
+    page_icon="",
     layout="wide",
 )
 sidebar_nav()
@@ -67,7 +67,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{AMBER},{RED});
               border-radius:12px;display:flex;align-items:center;justify-content:center;
-              font-size:1.6rem;flex-shrink:0">📰</div>
+              font-size:1.6rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.6rem;font-weight:900">
       Medios & Narrativa
@@ -187,8 +187,8 @@ def _get_noticias_live(max_noticias: int = 80) -> list[dict]:
 
 def _factcheck_to_threat(item: dict) -> dict:
     verdict = str(item.get("verdict") or item.get("veredicto") or item.get("verdict_label") or "SIN VERIFICAR").upper()
-    color = RED if "FALSO" in verdict else AMBER if "ENGA" in verdict or "MANIP" in verdict else PURPLE
-    tipo = "Fake news" if "FALSO" in verdict else "Manipulación" if "ENGA" in verdict or "MANIP" in verdict else "Verificación"
+    color = RED if "FALSO"in verdict else AMBER if "ENGA"in verdict or "MANIP"in verdict else PURPLE
+    tipo = "Fake news"if "FALSO"in verdict else "Manipulación"if "ENGA"in verdict or "MANIP"in verdict else "Verificación"
     titulo = str(item.get("titular") or item.get("titulo") or "Verificación sin título")
     resumen = str(item.get("resumen") or item.get("claim_text") or "Verificación publicada por fact-checker.")
     source = str(item.get("source_id") or item.get("fuente") or "fact-checker")
@@ -196,7 +196,7 @@ def _factcheck_to_threat(item: dict) -> dict:
     return {
         "titulo": titulo[:220],
         "fuente": source,
-        "confianza": 0.92 if "FALSO" in verdict else 0.78 if tipo == "Manipulación" else 0.62,
+        "confianza": 0.92 if "FALSO"in verdict else 0.78 if tipo == "Manipulación"else 0.62,
         "tipo": tipo,
         "color": color,
         "descripcion": resumen[:360],
@@ -255,10 +255,10 @@ _PARTIDOS_LISTA = list(COLORES_PARTIDOS.keys())[:8]
 # TABS
 # ═══════════════════════════════════════════════════════════════════════════════
 tab_feed, tab_palabras, tab_amenazas, tab_correlacion = st.tabs([
-    "📰 Feed",
-    "🔥 Monitor de Palabras",
-    "⚠️ Amenazas & Desinformación",
-    "📊 Correlación Prensa-Parlamento",
+    "Feed",
+    "Monitor de Palabras",
+    "⚠ Amenazas & Desinformación",
+    "Correlación Prensa-Parlamento",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -374,7 +374,7 @@ with tab_feed:
     # ── Noticias ──────────────────────────────────────────────────────────────
     for n in noticias_f[:30]:
         sent = n.get("sentimiento", 0)
-        dot = "🟢" if sent > 0.15 else ("🔴" if sent < -0.15 else "🟡")
+        dot = "●"if sent > 0.15 else ("●"if sent < -0.15 else "●")
         medio = n.get("medio", "—")
         tema = n.get("tema", "")
         url = n.get("url", "#")
@@ -387,21 +387,21 @@ with tab_feed:
         if vel is not None:
             vel_html = (
                 f'<span style="font-size:.72rem;color:{TEXT2}">'
-                f'⚡ <b style="color:{AMBER}">{html.escape(str(vel))}</b> art/h</span>'
+                f'! <b style="color:{AMBER}">{html.escape(str(vel))}</b> art/h</span>'
             )
         alc_html = ""
         alc_num = _safe_float(alc, -1.0)
         if alc_num >= 0:
             alc_html = (
                 f'<span style="font-size:.72rem;color:{TEXT2}">'
-                f'👁 <b style="color:{BLUE}">{int(alc_num):,}</b> alcance</span>'
+                f' <b style="color:{BLUE}">{int(alc_num):,}</b> alcance</span>'
             )
 
         medio_color = CYAN
         tcolor = AMBER
 
         partido_chips = "".join(
-            f'<span class="badge" style="background:{COLORES_PARTIDOS.get(p, MUTED)}33;'
+            f'<span class="badge"style="background:{COLORES_PARTIDOS.get(p, MUTED)}33;'
             f'color:{COLORES_PARTIDOS.get(p, TEXT2)};border:1px solid {COLORES_PARTIDOS.get(p, MUTED)}44">'
             f'{p}</span>'
             for p in partidos
@@ -411,11 +411,11 @@ with tab_feed:
         <div class="news-card">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem">
             <div style="flex:1">
-              <a href="{url}" target="_blank" style="color:{TEXT};text-decoration:none;
+              <a href="{url}"target="_blank"style="color:{TEXT};text-decoration:none;
                  font-size:.95rem;font-weight:700;line-height:1.4">{titulo}</a>
               <div style="margin-top:.35rem">
-                <span class="badge" style="background:{medio_color}22;color:{medio_color}">{medio}</span>
-                <span class="badge" style="background:{tcolor}22;color:{tcolor}">{tema}</span>
+                <span class="badge"style="background:{medio_color}22;color:{medio_color}">{medio}</span>
+                <span class="badge"style="background:{tcolor}22;color:{tcolor}">{tema}</span>
                 {partido_chips}
               </div>
             </div>
@@ -431,7 +431,7 @@ with tab_feed:
             {vel_html}
             {alc_html}
             <span style="font-size:.72rem;color:{TEXT2}">
-              Sentimiento <b style="color:{'#10B981' if sent > 0 else '#EF4444'}">{sent:+.2f}</b>
+              Sentimiento <b style="color:{'#10B981'if sent > 0 else '#EF4444'}">{sent:+.2f}</b>
             </span>
           </div>
         </div>
@@ -622,10 +622,10 @@ with tab_amenazas:
             desc = html.escape(str(t["descripcion"]))
             url = html.escape(str(t.get("url") or ""))
             st.markdown(f"""
-            <div class="threat-card" style="border-left-color:{t['color']}">
+            <div class="threat-card"style="border-left-color:{t['color']}">
               <div style="display:flex;justify-content:space-between;align-items:center">
                 <div style="font-weight:700;color:{TEXT};font-size:.9rem">{title}</div>
-                <span class="badge" style="background:{t['color']}33;color:{t['color']}">{t['tipo']}</span>
+                <span class="badge"style="background:{t['color']}33;color:{t['color']}">{t['tipo']}</span>
               </div>
               <div style="font-size:.75rem;color:{TEXT2};margin:.25rem 0">
                 Fuente: <span style="color:{MUTED}">{fuente}</span>
@@ -639,7 +639,7 @@ with tab_amenazas:
                   {t['confianza']:.0%} confianza
                 </span>
               </div>
-              {f'<a href="{url}" target="_blank" style="font-size:.7rem;color:{CYAN}">Abrir verificación</a>' if url else ''}
+              {f'<a href="{url}"target="_blank"style="font-size:.7rem;color:{CYAN}">Abrir verificación</a>'if url else ''}
             </div>
             """, unsafe_allow_html=True)
 
@@ -650,7 +650,7 @@ with tab_amenazas:
     with col_kit1:
         amenaza_options = [t["titulo"] for t in threats] or ["Sin amenaza real seleccionable"]
         amenaza_sel = st.selectbox("Amenaza a responder", amenaza_options)
-        if st.button("🤖 Generar Kit de Respuesta", key="btn_kit", type="primary", disabled=not threats):
+        if st.button("Generar Kit de Respuesta", key="btn_kit", type="primary", disabled=not threats):
             with st.spinner("Generando respuesta..."):
                 selected_threat = next((t for t in threats if t["titulo"] == amenaza_sel), threats[0] if threats else {})
                 threat_context = (
@@ -687,7 +687,7 @@ with tab_amenazas:
                 st.session_state["d7_kit_resp"] = respuesta
 
     with col_kit2:
-        if "d7_kit_resp" in st.session_state:
+        if "d7_kit_resp"in st.session_state:
             blocks = st.session_state["d7_kit_resp"].split("\n\n")
             block_colors = [GREEN, BLUE, PURPLE, AMBER, CYAN]
             for i, block in enumerate(blocks[:5]):

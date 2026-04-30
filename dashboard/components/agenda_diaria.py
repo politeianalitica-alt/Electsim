@@ -73,7 +73,7 @@ def render_agenda_diaria(conn: object | None = None) -> None:
                 titulo = str(ev.get("titulo_evento", ""))
                 lugar = str(ev.get("lugar", "") or "").strip()
                 url = str(ev.get("url_fuente", "") or "").strip()
-                lugar_txt = f" · ● {lugar}" if lugar else ""
+                lugar_txt = f"· ● {lugar}"if lugar else ""
                 if url:
                     st.markdown(f"{icono} **{hora}**  [{titulo}]({url}){lugar_txt}")
                 else:

@@ -31,7 +31,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Centro de Alertas — ElectSim",
-    page_icon="🔔",
+    page_icon="",
     layout="wide",
 )
 
@@ -65,29 +65,29 @@ body, .stApp {{ background:{BG}; color:{TEXT}; }}
 
 # ── Constantes de severidad ───────────────────────────────────────────────────
 SEV_CONFIG = {
-    "CRÍTICA": {"color": "#EF4444", "bg": "rgba(239,68,68,0.08)",   "icon": "🔴", "css": "sev-critica"},
-    "ALTA":    {"color": "#F97316", "bg": "rgba(249,115,22,0.08)",  "icon": "🟠", "css": "sev-alta"},
-    "MEDIA":   {"color": "#F59E0B", "bg": "rgba(245,158,11,0.08)",  "icon": "🟡", "css": "sev-media"},
-    "BAJA":    {"color": "#10B981", "bg": "rgba(16,185,129,0.08)",  "icon": "🟢", "css": "sev-baja"},
+    "CRÍTICA": {"color": "#EF4444", "bg": "rgba(239,68,68,0.08)",   "icon": "●", "css": "sev-critica"},
+    "ALTA":    {"color": "#F97316", "bg": "rgba(249,115,22,0.08)",  "icon": "●", "css": "sev-alta"},
+    "MEDIA":   {"color": "#F59E0B", "bg": "rgba(245,158,11,0.08)",  "icon": "●", "css": "sev-media"},
+    "BAJA":    {"color": "#10B981", "bg": "rgba(16,185,129,0.08)",  "icon": "●", "css": "sev-baja"},
 }
 
 CATEGORIES = ["Legislativa", "Mediática", "Electoral", "Económica", "Social", "Seguridad"]
 
 CHANNEL_BADGES = {
-    "Email":    ("#3B82F6", "📧"),
-    "Telegram": ("#06B6D4", "✈️"),
-    "Webhook":  ("#8B5CF6", "🔗"),
-    "Platform": ("#10B981", "🖥️"),
+    "Email":    ("#3B82F6", ""),
+    "Telegram": ("#06B6D4", ""),
+    "Webhook":  ("#8B5CF6", ""),
+    "Platform": ("#10B981", ""),
 }
 
 # ── Session state ─────────────────────────────────────────────────────────────
-if "alertas" not in st.session_state:
+if "alertas"not in st.session_state:
     st.session_state["alertas"] = []
-if "alertas_leidas" not in st.session_state:
+if "alertas_leidas"not in st.session_state:
     st.session_state["alertas_leidas"] = set()
-if "telegram_token" not in st.session_state:
+if "telegram_token"not in st.session_state:
     st.session_state["telegram_token"] = ""
-if "telegram_chat_id" not in st.session_state:
+if "telegram_chat_id"not in st.session_state:
     st.session_state["telegram_chat_id"] = ""
 
 # ── Generación de alertas ─────────────────────────────────────────────────────
@@ -107,7 +107,7 @@ def _generar_alertas_base() -> list[dict]:
                 for item in sumario[:6]:
                     title = str(item.get("titulo", "Disposición BOE"))[:120]
                     tipo = str(item.get("tipo_clasificacion", "")).upper()
-                    sev = "CRÍTICA" if tipo in {"LEY", "RD-LEY"} else "ALTA" if tipo == "RESOLUCIÓN" else "MEDIA"
+                    sev = "CRÍTICA"if tipo in {"LEY", "RD-LEY"} else "ALTA"if tipo == "RESOLUCIÓN"else "MEDIA"
                     h = hashlib.md5(title.encode()).hexdigest()[:8]
                     alertas.append({
                         "id": f"boe_{h}",
@@ -119,7 +119,7 @@ def _generar_alertas_base() -> list[dict]:
                         "fuente": "BOE",
                         "channels": ["Platform", "Email"],
                         "leida": False,
-                        "urgencia": 90 if sev == "CRÍTICA" else 70,
+                        "urgencia": 90 if sev == "CRÍTICA"else 70,
                         "novedad": 80,
                     })
     except Exception:
@@ -133,7 +133,7 @@ def _generar_alertas_base() -> list[dict]:
             for noticia in (noticias or []):
                 title = str(noticia.get("title", "Noticia"))[:120]
                 sent = float(noticia.get("sentiment_neg", 0) or 0)
-                sev = "CRÍTICA" if sent > 0.75 else "ALTA" if sent > 0.5 else "MEDIA" if sent > 0.25 else "BAJA"
+                sev = "CRÍTICA"if sent > 0.75 else "ALTA"if sent > 0.5 else "MEDIA"if sent > 0.25 else "BAJA"
                 h = hashlib.md5(title.encode()).hexdigest()[:8]
                 alertas.append({
                     "id": f"news_{h}",
@@ -249,7 +249,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{RED},{AMBER});
     border-radius:12px;display:flex;align-items:center;justify-content:center;
-    font-size:1.5rem;flex-shrink:0">🔔</div>
+    font-size:1.5rem;flex-shrink:0"></div>
   <div>
     <div style="font-size:1.3rem;font-weight:900;color:{TEXT};letter-spacing:-.01em">
       Centro de Alertas{badge_html}</div>
@@ -275,7 +275,7 @@ with k5:
 st.markdown("<div style='margin:.5rem 0'></div>", unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_feed, tab_config, tab_hist = st.tabs(["🔔 Alertas Activas", "⚙️ Configurar", "📊 Historial"])
+tab_feed, tab_config, tab_hist = st.tabs(["Alertas Activas", "Configurar", "Historial"])
 
 # ════════════════════════════════════════════════════════════════════════════
 # TAB 1: ALERTAS ACTIVAS
@@ -342,7 +342,7 @@ with tab_feed:
             st.markdown(f"""
             <div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;
               padding:2.5rem;text-align:center;color:{MUTED};margin:1rem 0">
-              <div style="font-size:2rem;margin-bottom:.5rem">✅</div>
+              <div style="font-size:2rem;margin-bottom:.5rem">✓</div>
               <div style="font-size:.95rem;font-weight:600">Sin alertas activas con los filtros actuales</div>
             </div>
             """, unsafe_allow_html=True)
@@ -350,7 +350,7 @@ with tab_feed:
             for alerta in visible:
                 cfg = SEV_CONFIG[alerta["severidad"]]
                 is_read = alerta["id"] in leidas
-                opacity = "0.55" if is_read else "1"
+                opacity = "0.55"if is_read else "1"
                 ts_str = alerta["ts"].strftime("%H:%M") if hasattr(alerta["ts"], "strftime") else str(alerta["ts"])
 
                 def _ch_badge(ch: str) -> str:
@@ -358,7 +358,7 @@ with tab_feed:
                     ic = CHANNEL_BADGES[ch][1]
                     r3, g3, b3 = tuple(int(c_hex.lstrip("#")[i:i+2], 16) for i in (0, 2, 4))
                     return (
-                        f'<span class="channel-badge" style="background:rgba({r3},{g3},{b3},0.25);'
+                        f'<span class="channel-badge"style="background:rgba({r3},{g3},{b3},0.25);'
                         f'color:{c_hex}">{ic} {ch}</span>'
                     )
                 channels_html = "".join(
@@ -390,8 +390,8 @@ with tab_feed:
                           </div>
                           <div style="font-size:.76rem;color:{TEXT2};margin-bottom:.4rem">{alerta['desc']}</div>
                           <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap">
-                            <span style="font-size:.68rem;color:{MUTED}">🕐 {ts_str}</span>
-                            <span style="font-size:.68rem;color:{MUTED}">📎 {alerta['fuente']}</span>
+                            <span style="font-size:.68rem;color:{MUTED}"> {ts_str}</span>
+                            <span style="font-size:.68rem;color:{MUTED}"> {alerta['fuente']}</span>
                             <span style="font-size:.68rem;color:{CYAN}">Score: {score}</span>
                             {channels_html}
                           </div>
@@ -411,7 +411,7 @@ with tab_feed:
                         <span style="font-size:.65rem;font-weight:800;color:{cfg['color']};
                           white-space:nowrap;margin-left:.4rem">{alerta['severidad']}</span>
                         <span style="font-size:.65rem;color:{MUTED};white-space:nowrap">{ts_str}</span>
-                        <span style="font-size:.65rem;color:{CYAN};white-space:nowrap">⚡{score}</span>
+                        <span style="font-size:.65rem;color:{CYAN};white-space:nowrap">!{score}</span>
                       </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -435,7 +435,7 @@ with tab_config:
         section_header("Umbrales por categoría", PURPLE)
         st.markdown(f"<div style='font-size:.78rem;color:{TEXT2};margin-bottom:.8rem'>Ajusta cuándo se genera una alerta para cada categoría</div>", unsafe_allow_html=True)
 
-        if "thresholds" not in st.session_state:
+        if "thresholds"not in st.session_state:
             st.session_state["thresholds"] = {cat: 40 for cat in CATEGORIES}
 
         for cat in CATEGORIES:
@@ -482,12 +482,12 @@ with tab_config:
         section_header("Configuración de canales", BLUE)
 
         # Email
-        with st.expander("📧 Email", expanded=False):
+        with st.expander("Email", expanded=False):
             st.text_input("Dirección de email", key="email_addr", placeholder="politeia@dominio.com")
             st.toggle("Activar notificaciones email", key="email_active", value=False)
 
         # Telegram
-        with st.expander("✈️ Telegram Bot", expanded=True):
+        with st.expander("Telegram Bot", expanded=True):
             tok = st.text_input(
                 "Bot Token", type="password",
                 value=st.session_state.get("telegram_token", ""),
@@ -516,7 +516,7 @@ with tab_config:
                         try:
                             import urllib.request
                             import json as _json
-                            payload = {"chat_id": chat_val, "text": "🔔 ElectSim — Test de alerta OK"}
+                            payload = {"chat_id": chat_val, "text": "ElectSim — Test de alerta OK"}
                             data_bytes = _json.dumps(payload).encode("utf-8")
                             req = urllib.request.Request(
                                 f"https://api.telegram.org/bot{tok_val}/sendMessage",
@@ -532,7 +532,7 @@ with tab_config:
                             st.error(f"Error al enviar: {e}")
 
         # Webhook
-        with st.expander("🔗 Webhook", expanded=False):
+        with st.expander("Webhook", expanded=False):
             st.text_input("URL del webhook", key="webhook_url", placeholder="https://mi-sistema.com/webhook")
             st.selectbox("Formato", ["JSON", "Form-encoded"], key="webhook_fmt")
             st.toggle("Activar webhook", key="webhook_active", value=False)
@@ -672,7 +672,7 @@ with tab_hist:
         for a in alertas_all[:20]:
             cfg = SEV_CONFIG[a["severidad"]]
             ts_str = a["ts"].strftime("%d/%m %H:%M") if hasattr(a["ts"], "strftime") else str(a["ts"])
-            read_str = "✓ Leída" if a["id"] in leidas else "· Pendiente"
+            read_str = "✓ Leída"if a["id"] in leidas else "· Pendiente"
             read_col = GREEN if a["id"] in leidas else MUTED
             audit_html += f"""
             <div class="audit-row">

@@ -96,7 +96,7 @@ def _table_columns(table_name: str) -> set[str]:
                 """
                 SELECT column_name
                 FROM information_schema.columns
-                WHERE table_schema = 'public' AND table_name = %s
+                WHERE table_schema = 'public'AND table_name = %s
                 """,
                 (table_name,),
             )
@@ -117,10 +117,10 @@ def cargar_declaraciones(
         return pd.DataFrame()
 
     cols = _table_columns("declaraciones_politicas")
-    tema_col = "tema_principal" if "tema_principal" in cols else ("tema" if "tema" in cols else None)
-    subtema_col = "subtema" if "subtema" in cols else "NULL"
-    alcance_col = "alcance_est" if "alcance_est" in cols else "NULL"
-    tema_select = f"{tema_col} AS tema" if tema_col else "NULL AS tema"
+    tema_col = "tema_principal"if "tema_principal"in cols else ("tema"if "tema"in cols else None)
+    subtema_col = "subtema"if "subtema"in cols else "NULL"
+    alcance_col = "alcance_est"if "alcance_est"in cols else "NULL"
+    tema_select = f"{tema_col} AS tema"if tema_col else "NULL AS tema"
 
     clauses: list[str] = []
     params: list[Any] = []
@@ -133,11 +133,11 @@ def cargar_declaraciones(
     if tema and tema_col:
         clauses.append(f"{tema_col} = %s")
         params.append(tema)
-    if cliente_id is not None and "cliente_id" in cols:
+    if cliente_id is not None and "cliente_id"in cols:
         clauses.append("(cliente_id = %s OR cliente_id IS NULL)")
         params.append(int(cliente_id))
 
-    where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
+    where = ("WHERE " + "AND ".join(clauses)) if clauses else ""
     sql = f"""
         SELECT id, persona, partido, fecha, medio, contexto, texto,
                {tema_select}, {subtema_col} AS subtema, url, {alcance_col} AS alcance_est
@@ -171,11 +171,11 @@ def cargar_contradicciones(
         return pd.DataFrame()
 
     cols = _table_columns("contradicciones")
-    score_col = "score_nli" if "score_nli" in cols else ("confianza" if "confianza" in cols else "NULL")
-    valida_col = "verificada" if "verificada" in cols else ("validada" if "validada" in cols else "false")
-    fecha_col = "creado_en" if "creado_en" in cols else ("fecha_deteccion" if "fecha_deteccion" in cols else "NOW()")
-    a_col = "declaracion_a" if "declaracion_a" in cols else "decl_a_id"
-    b_col = "declaracion_b" if "declaracion_b" in cols else "decl_b_id"
+    score_col = "score_nli"if "score_nli"in cols else ("confianza"if "confianza"in cols else "NULL")
+    valida_col = "verificada"if "verificada"in cols else ("validada"if "validada"in cols else "false")
+    fecha_col = "creado_en"if "creado_en"in cols else ("fecha_deteccion"if "fecha_deteccion"in cols else "NOW()")
+    a_col = "declaracion_a"if "declaracion_a"in cols else "decl_a_id"
+    b_col = "declaracion_b"if "declaracion_b"in cols else "decl_b_id"
     tema_col = "tema"
 
     clauses: list[str] = [f"COALESCE(c.{score_col}, 0) >= %s"]
@@ -186,11 +186,11 @@ def cargar_contradicciones(
     if tema:
         clauses.append(f"c.{tema_col} = %s")
         params.append(tema)
-    if cliente_id is not None and "cliente_id" in cols:
+    if cliente_id is not None and "cliente_id"in cols:
         clauses.append("(c.cliente_id = %s OR c.cliente_id IS NULL)")
         params.append(int(cliente_id))
 
-    where = "WHERE " + " AND ".join(clauses)
+    where = "WHERE " + "AND ".join(clauses)
     sql = f"""
         SELECT
             c.id,
@@ -280,7 +280,7 @@ def detectar_contradicciones_df(
                 if not is_contra or conf < confianza_min:
                     continue
 
-                gravedad = "alta" if conf >= 0.8 else ("media" if conf >= 0.65 else "baja")
+                gravedad = "alta"if conf >= 0.8 else ("media"if conf >= 0.65 else "baja")
                 out.append(
                     Contradiccion(
                         decl_a_id=int(da.get("id", 0) or 0),
@@ -291,7 +291,7 @@ def detectar_contradicciones_df(
                         tipo=tipo,
                         confianza=conf,
                         descripcion=(
-                            f"{persona} defendio '{str(da.get('texto', ''))[:120]}...' y luego "
+                            f"{persona} defendio '{str(da.get('texto', ''))[:120]}...'y luego "
                             f"'{str(db.get('texto', ''))[:120]}...'"
                         ),
                         gravedad=gravedad,
@@ -410,9 +410,9 @@ def calcular_posicionamiento(
     out: list[PosicionPartidoTema] = []
     for (partido, tema), g in dff.groupby(["partido", "tema"]):
         n = int(len(g))
-        if "posicion_x" in g.columns and g["posicion_x"].notna().any():
+        if "posicion_x"in g.columns and g["posicion_x"].notna().any():
             px = float(g["posicion_x"].mean())
-            py = float(g["posicion_y"].mean()) if "posicion_y" in g.columns else 0.0
+            py = float(g["posicion_y"].mean()) if "posicion_y"in g.columns else 0.0
         else:
             px, py = _POS_REF.get(str(partido), (0.0, 0.0))
         out.append(
@@ -448,7 +448,7 @@ def comparar_propuestas(
         if not pa or not pb:
             continue
         dist = abs(pa.posicion_x - pb.posicion_x)
-        afinidad = "convergente" if dist < 0.3 else ("divergente" if dist < 0.6 else "opuestos")
+        afinidad = "convergente"if dist < 0.3 else ("divergente"if dist < 0.6 else "opuestos")
         citas_a = (
             df_decl[(df_decl["partido"] == partido_a) & (df_decl["tema"] == tema)]["texto"]
             .dropna()
@@ -501,7 +501,7 @@ def cargar_posicionamiento(
             if cliente_id is not None:
                 clauses.append("(cliente_id = %s OR cliente_id IS NULL)")
                 params.append(int(cliente_id))
-            where = "WHERE " + " AND ".join(clauses)
+            where = "WHERE " + "AND ".join(clauses)
             sql = f"""
                 SELECT partido, tema, fecha_inicio, fecha_fin, posicion_texto,
                        eje_x, eje_y, confianza, n_declaraciones

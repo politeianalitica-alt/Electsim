@@ -78,7 +78,7 @@ def listar_objetos(
     if solo_activos:
         clauses.append("activo = TRUE")
 
-    where = " WHERE " + " AND ".join(clauses) if clauses else ""
+    where = "WHERE " + "AND ".join(clauses) if clauses else ""
 
     return _q(
         f"""
@@ -185,9 +185,9 @@ def cargar_serie_objeto(
             COUNT(*) AS n_menciones,
             AVG(cm.sentimiento_score) AS sentiment_medio,
             SUM(COALESCE(cm.alcance_est, 0)) AS alcance_total,
-            SUM(CASE WHEN COALESCE(cm.tono, '') = 'ataque' THEN 1 ELSE 0 END) AS tono_ataque,
-            SUM(CASE WHEN COALESCE(cm.tono, '') = 'defensa' THEN 1 ELSE 0 END) AS tono_defensa,
-            SUM(CASE WHEN COALESCE(cm.tono, '') = 'propuesta' THEN 1 ELSE 0 END) AS tono_propuesta
+            SUM(CASE WHEN COALESCE(cm.tono, '') = 'ataque'THEN 1 ELSE 0 END) AS tono_ataque,
+            SUM(CASE WHEN COALESCE(cm.tono, '') = 'defensa'THEN 1 ELSE 0 END) AS tono_defensa,
+            SUM(CASE WHEN COALESCE(cm.tono, '') = 'propuesta'THEN 1 ELSE 0 END) AS tono_propuesta
         FROM tags_contenido tc
         JOIN contenido_mediatico cm ON cm.id = tc.contenido_id
         WHERE tc.objeto_id = %s
@@ -421,7 +421,7 @@ def sugerir_objetos(
 
     existentes = set()
     df_obj = listar_objetos(cliente_id=cliente_id, solo_activos=True)
-    if not df_obj.empty and "valor" in df_obj.columns:
+    if not df_obj.empty and "valor"in df_obj.columns:
         existentes = {str(v).strip().lower() for v in df_obj["valor"].dropna().tolist()}
 
     bag: Counter[str] = Counter()

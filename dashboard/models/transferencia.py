@@ -21,8 +21,8 @@ def estimar_matriz_lp(
     if df_resultados.empty or n == 0:
         return _estimar_heuristico(partidos)
 
-    r1_cols = [f"{p}{col_t1_suffix}" for p in partidos]
-    r2_cols = [f"{p}{col_t2_suffix}" for p in partidos]
+    r1_cols = [f"{p}{col_t1_suffix}"for p in partidos]
+    r2_cols = [f"{p}{col_t2_suffix}"for p in partidos]
     if not all(c in df_resultados.columns for c in r1_cols + r2_cols):
         return _estimar_heuristico(partidos)
 
@@ -145,7 +145,7 @@ def pivot_matriz_transferencia(df_transferencia: pd.DataFrame) -> pd.DataFrame:
     """Convierte tabla larga en matriz partido_origen x partido_destino."""
     if df_transferencia.empty:
         return pd.DataFrame()
-    value_col = "prob_transferencia" if "prob_transferencia" in df_transferencia.columns else "prob_transicion"
+    value_col = "prob_transferencia"if "prob_transferencia"in df_transferencia.columns else "prob_transicion"
     if value_col not in df_transferencia.columns:
         return pd.DataFrame()
     return (
@@ -173,7 +173,7 @@ def calcular_captacion_potencial(
     if df_transferencia.empty or df_voto_blando.empty:
         return pd.DataFrame()
 
-    value_col = "prob_transferencia" if "prob_transferencia" in df_transferencia.columns else "prob_transicion"
+    value_col = "prob_transferencia"if "prob_transferencia"in df_transferencia.columns else "prob_transicion"
     if value_col not in df_transferencia.columns:
         return pd.DataFrame()
 

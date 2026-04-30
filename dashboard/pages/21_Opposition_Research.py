@@ -47,7 +47,7 @@ with tab_radar:
     cols[1].markdown(
         kpi_card(
             "Score medio",
-            f"{float(df['score_nli'].astype(float).mean()):.2f}" if not df.empty else "0.00",
+            f"{float(df['score_nli'].astype(float).mean()):.2f}"if not df.empty else "0.00",
         ),
         unsafe_allow_html=True,
     )
@@ -120,14 +120,14 @@ with tab_pos:
     if dfp.empty:
         st.info("Sin datos de posicionamiento para esos filtros.")
     else:
-        x_col = "eje_x" if "eje_x" in dfp.columns else "posicion_x"
-        y_col = "eje_y" if "eje_y" in dfp.columns else "posicion_y"
+        x_col = "eje_x"if "eje_x"in dfp.columns else "posicion_x"
+        y_col = "eje_y"if "eje_y"in dfp.columns else "posicion_y"
         fig = px.scatter(
             dfp,
             x=x_col,
             y=y_col,
             color="partido",
-            size=(dfp["n_declaraciones"] if "n_declaraciones" in dfp.columns else None),
+            size=(dfp["n_declaraciones"] if "n_declaraciones"in dfp.columns else None),
             hover_data=["tema"],
             title="Mapa de posicionamiento rival",
         )

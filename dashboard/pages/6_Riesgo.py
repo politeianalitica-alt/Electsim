@@ -216,13 +216,13 @@ with tab1:
             <div style="font-size:1.1rem;font-weight:700;color:{color_riesgo}">{nivel_str}</div>
             <div style="font-size:0.8rem;color:{MUTED};margin-top:0.3rem">{nivel_desc}</div>
             <div style="font-size:0.7rem;color:{MUTED};margin-top:0.5rem">
-                {"Fuente: BD ElectSim" if usando_bd else "Valores sintéticos de referencia"}
+                {"Fuente: BD ElectSim"if usando_bd else "Valores sintéticos de referencia"}
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     with col_info:
-        st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">DIMENSIONES DEL RIESGO</span><div class="line"></div></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">DIMENSIONES DEL RIESGO</span><div class="line"></div></div>""", unsafe_allow_html=True)
         st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>Descomposición del índice en 5 ejes estructurales ponderados por impacto sistémico.</p>", unsafe_allow_html=True)
 
         for key, info in DIMS_SINTETICAS.items():
@@ -262,7 +262,7 @@ with tab1:
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Radar chart
-    st.markdown(f"""<div class="sec-hdr" style="margin-top:1.5rem"><div class="bar" style="background:{PURPLE}"></div><span class="lbl">PERFIL DE RIESGO — VISTA RADIAL</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"style="margin-top:1.5rem"><div class="bar"style="background:{PURPLE}"></div><span class="lbl">PERFIL DE RIESGO — VISTA RADIAL</span><div class="line"></div></div>""", unsafe_allow_html=True)
 
     labels = [v["label"] for v in DIMS_SINTETICAS.values()]
     values = [v["valor"] for v in DIMS_SINTETICAS.values()]
@@ -289,7 +289,7 @@ with tab1:
     )
     st.plotly_chart(fig_radar, use_container_width=True)
 
-    st.markdown(f"""<div class="sec-hdr" style="margin-top:1rem"><div class="bar" style="background:{AMBER}"></div><span class="lbl">¿RIESGO DE QUÉ Y POR QUÉ?</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"style="margin-top:1rem"><div class="bar"style="background:{AMBER}"></div><span class="lbl">¿RIESGO DE QUÉ Y POR QUÉ?</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(
         """
         El índice mide el riesgo de **bloqueo institucional**, **inestabilidad de gobierno**, **choque económico-social**
@@ -300,7 +300,7 @@ with tab1:
         - Tensiones centro-periferia y litigios institucionales en curso.
         """
     )
-    st.markdown(f"""<div class="sec-hdr" style="margin-top:.7rem"><div class="bar" style="background:{CYAN}"></div><span class="lbl">EVIDENCIAS Y PRUEBAS USADAS POR EL MODELO</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"style="margin-top:.7rem"><div class="bar"style="background:{CYAN}"></div><span class="lbl">EVIDENCIAS Y PRUEBAS USADAS POR EL MODELO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     evidencias = pd.DataFrame(
         [
             {"Prueba": "Prima de riesgo", "Métrica": "78 pb", "Interpretación": "Estrés soberano contenido pero sensible a shocks"},
@@ -316,7 +316,7 @@ with tab1:
 # TAB 2: ANÁLISIS DE ESCENARIOS DE RIESGO
 # ==============================================================================
 with tab2:
-    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{RED}"></div><span class="lbl">ESCENARIOS DE RIESGO — ANÁLISIS PROSPECTIVO</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar"style="background:{RED}"></div><span class="lbl">ESCENARIOS DE RIESGO — ANÁLISIS PROSPECTIVO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>Cuatro escenarios principales con probabilidad estimada, condicionantes e implicaciones sistémicas.</p>", unsafe_allow_html=True)
 
     escenarios = [
@@ -471,7 +471,7 @@ with tab2:
 # TAB 3: INDICADORES DE ALERTA TEMPRANA
 # ==============================================================================
 with tab3:
-    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{GREEN}"></div><span class="lbl">PANEL DE ALERTAS TEMPRANAS</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar"style="background:{GREEN}"></div><span class="lbl">PANEL DE ALERTAS TEMPRANAS</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>"
                 f"Semáforo de 12 indicadores clave. Umbrales calibrados con datos históricos españoles 1996-2026.</p>",
                 unsafe_allow_html=True)
@@ -661,7 +661,7 @@ with tab3:
 # TAB 4: HISTÓRICO DE RIESGO
 # ==============================================================================
 with tab4:
-    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{BLUE}"></div><span class="lbl">EVOLUCIÓN HISTÓRICA DEL RIESGO POLÍTICO</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar"style="background:{BLUE}"></div><span class="lbl">EVOLUCIÓN HISTÓRICA DEL RIESGO POLÍTICO</span><div class="line"></div></div>""", unsafe_allow_html=True)
     st.markdown(f"<p style='color:{MUTED};font-size:0.9rem'>"
                 f"Serie mensual del índice compuesto de riesgo 2022-2026, con anotaciones de eventos clave.</p>",
                 unsafe_allow_html=True)
@@ -670,11 +670,11 @@ with tab4:
     usar_historico_bd = False
     if not df_riesgo.empty and len(df_riesgo) > 1:
         col_fecha = None
-        if "fecha_calculo" in df_riesgo.columns:
+        if "fecha_calculo"in df_riesgo.columns:
             col_fecha = "fecha_calculo"
-        elif "created_at" in df_riesgo.columns:
+        elif "created_at"in df_riesgo.columns:
             col_fecha = "created_at"
-        elif "fecha" in df_riesgo.columns:
+        elif "fecha"in df_riesgo.columns:
             col_fecha = "fecha"
 
         col_indice = None
@@ -803,7 +803,7 @@ with tab4:
     st.plotly_chart(fig_hist, use_container_width=True)
 
     # Estadísticas de la serie
-    st.markdown(f"""<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">ESTADÍSTICAS DE LA SERIE</span><div class="line"></div></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">ESTADÍSTICAS DE LA SERIE</span><div class="line"></div></div>""", unsafe_allow_html=True)
     # Blindar contra Decimal: convertir la serie a float antes de operar.
     _vh = pd.to_numeric(valores_hist, errors="coerce").astype(float).dropna()
     col_s1, col_s2, col_s3, col_s4, col_s5 = st.columns(5)
@@ -828,6 +828,6 @@ with tab4:
             st.metric("Tendencia (3M)", f"{_vh.iloc[-1]:.1f}", delta=delta_str)
 
     st.markdown(f"<p style='color:{MUTED};font-size:0.8rem;margin-top:1rem'>"
-                f"{'Datos históricos reales de la BD ElectSim.' if usar_historico_bd else 'Serie sintética de referencia calibrada con eventos reales.'} "
+                f"{'Datos históricos reales de la BD ElectSim.'if usar_historico_bd else 'Serie sintética de referencia calibrada con eventos reales.'} "
                 f"Metodología: índice compuesto ponderado por dimensión. Frecuencia: mensual.</p>",
                 unsafe_allow_html=True)

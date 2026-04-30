@@ -279,7 +279,7 @@ with tab1:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{CYAN}"></div>
+        <div class="bar"style="background:{CYAN}"></div>
         <span class="lbl">Estimaciones de Voto Base</span>
         <div class="line"></div>
     </div>
@@ -333,7 +333,7 @@ with tab1:
             )
         st.session_state["mc_resultados"] = resultados_mc
 
-    if "mc_resultados" in st.session_state:
+    if "mc_resultados"in st.session_state:
         resultados_mc = st.session_state["mc_resultados"]
         n_sims_total = 5000
 
@@ -365,8 +365,8 @@ with tab1:
 
         # KPI row
         st.markdown(f"""
-        <div class="sec-hdr" style="margin-top:1.4rem">
-            <div class="bar" style="background:{GREEN}"></div>
+        <div class="sec-hdr"style="margin-top:1.4rem">
+            <div class="bar"style="background:{GREEN}"></div>
             <span class="lbl">Probabilidades de Mayoría Absoluta</span>
             <div class="line"></div>
         </div>
@@ -381,16 +381,16 @@ with tab1:
         ]:
             with col:
                 st.markdown(f"""
-                <div class="kpi-pill" style="border-top-color:{accent}88">
+                <div class="kpi-pill"style="border-top-color:{accent}88">
                     <div class="lbl">{lbl}</div>
-                    <div class="val" style="color:{accent}">{val:.1f}%</div>
+                    <div class="val"style="color:{accent}">{val:.1f}%</div>
                 </div>
                 """, unsafe_allow_html=True)
 
         # Histogramas
         st.markdown(f"""
         <div class="sec-hdr">
-            <div class="bar" style="background:{BLUE}"></div>
+            <div class="bar"style="background:{BLUE}"></div>
             <span class="lbl">Distribución de Escaños por Partido</span>
             <div class="line"></div>
         </div>
@@ -452,7 +452,7 @@ with tab1:
         # Tabla IC
         st.markdown(f"""
         <div class="sec-hdr">
-            <div class="bar" style="background:{PURPLE}"></div>
+            <div class="bar"style="background:{PURPLE}"></div>
             <span class="lbl">Intervalos de Confianza (IC 80 % y IC 95 %)</span>
             <div class="line"></div>
         </div>
@@ -476,7 +476,7 @@ with tab1:
         # Tabla coaliciones
         st.markdown(f"""
         <div class="sec-hdr">
-            <div class="bar" style="background:{AMBER}"></div>
+            <div class="bar"style="background:{AMBER}"></div>
             <span class="lbl">Probabilidad de Coaliciones Principales</span>
             <div class="line"></div>
         </div>
@@ -504,7 +504,7 @@ with tab1:
                 "Coalición":             nombre_c,
                 "Escaños medios":        round(media_esc, 0),
                 "P(mayoría absoluta)":   f"{prob_may:.1f}%",
-                "Viable": ("Sí" if prob_may > 50 else ("Posible" if prob_may > 20 else "Improbable")),
+                "Viable": ("Sí"if prob_may > 50 else ("Posible"if prob_may > 20 else "Improbable")),
             })
         filas_coal_sorted = sorted(
             filas_coal,
@@ -516,8 +516,8 @@ with tab1:
     else:
         # Vista previa estática
         st.markdown(f"""
-        <div class="sec-hdr" style="margin-top:1.4rem">
-            <div class="bar" style="background:{MUTED}"></div>
+        <div class="sec-hdr"style="margin-top:1.4rem">
+            <div class="bar"style="background:{MUTED}"></div>
             <span class="lbl">Vista Previa — Estimación Proporcional de Escaños</span>
             <div class="line"></div>
         </div>
@@ -706,7 +706,7 @@ with tab2:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{CYAN}"></div>
+        <div class="bar"style="background:{CYAN}"></div>
         <span class="lbl">Escenarios de Gobierno Posibles</span>
         <div class="line"></div>
     </div>
@@ -731,23 +731,23 @@ with tab2:
 
         # Build conditions HTML
         conds_html = "".join(
-            f'<div class="cond-item"><div class="cond-dot" style="background:{blq_color}"></div>'
+            f'<div class="cond-item"><div class="cond-dot"style="background:{blq_color}"></div>'
             f'<span>{c}</span></div>'
             for c in esc["condiciones"]
         )
 
         with col_pairs[i % 2]:
             card_html = (
-                f'<div class="esc-card" style="border-top:3px solid {blq_color}">'
+                f'<div class="esc-card"style="border-top:3px solid {blq_color}">'
                 f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem;flex-wrap:wrap;gap:.4rem">'
                 f'<div style="font-size:1rem;font-weight:700;color:{TEXT}">{esc["nombre"]}</div>'
-                f'<span class="blq-badge" style="background:rgba({br},{bg},{bb},0.14);color:{blq_color};border:1px solid rgba({br},{bg},{bb},0.3)">{blq_label}</span>'
+                f'<span class="blq-badge"style="background:rgba({br},{bg},{bb},0.14);color:{blq_color};border:1px solid rgba({br},{bg},{bb},0.3)">{blq_label}</span>'
                 f'</div>'
                 f'<div style="display:flex;align-items:center;gap:.7rem;margin-bottom:.3rem">'
                 f'<div style="font-size:1.5rem;font-weight:800;font-family:\'JetBrains Mono\',monospace;color:{blq_color}">{prob_pct:.0f}%</div>'
                 f'<div style="font-size:.72rem;color:{MUTED};font-weight:600">probabilidad estimada</div>'
                 f'</div>'
-                f'<div class="prob-track"><div class="prob-fill" style="background:{blq_color};width:{prob_pct:.1f}%"></div></div>'
+                f'<div class="prob-track"><div class="prob-fill"style="background:{blq_color};width:{prob_pct:.1f}%"></div></div>'
                 f'<div style="font-size:.83rem;color:{TEXT2};margin:.75rem 0 .6rem;line-height:1.5">{esc["descripcion"]}</div>'
                 f'<div style="font-size:.65rem;font-weight:700;color:{MUTED};letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem">Condiciones</div>'
                 f'{conds_html}'
@@ -808,7 +808,7 @@ with tab3:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{CYAN}"></div>
+        <div class="bar"style="background:{CYAN}"></div>
         <span class="lbl">Variables Macroeconómicas</span>
         <div class="line"></div>
     </div>
@@ -873,7 +873,7 @@ with tab3:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{BLUE}"></div>
+        <div class="bar"style="background:{BLUE}"></div>
         <span class="lbl">Impacto Estimado en la Intención de Voto</span>
         <div class="line"></div>
     </div>
@@ -903,7 +903,7 @@ with tab3:
             x=deltas_labels,
             y=deltas_vals,
             marker_color=colores_delta,
-            text=[f"{d:+.2f}pp" for d in deltas_vals],
+            text=[f"{d:+.2f}pp"for d in deltas_vals],
             textposition="outside",
             textfont=dict(color=TEXT2, size=11),
         ))
@@ -927,7 +927,7 @@ with tab3:
 
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{AMBER}"></div>
+        <div class="bar"style="background:{AMBER}"></div>
         <span class="lbl">Reglas de Transferencia</span>
         <div class="line"></div>
     </div>
@@ -1111,31 +1111,31 @@ def _preocupaciones_sinteticas(edad, habitat, estudios, ingresos, sitlab, ideo) 
     elif edad in ("55-64", "65+"):
         p["Pensiones"] += 40; p["Sanidad pública"] += 20
         p["Inmigración"] += 20; p["Vivienda y alquiler"] -= 25
-    if "Rural" in habitat or "Pequeño" in habitat:
+    if "Rural"in habitat or "Pequeño"in habitat:
         p["Infraestructuras"] += 45; p["Inmigración"] += 15
         p["Despoblación rural"] = 60; p["Cambio climático"] -= 10
-    elif "Gran ciudad" in habitat or "Ciudad" in habitat:
+    elif "Gran ciudad"in habitat or "Ciudad"in habitat:
         p["Vivienda y alquiler"] += 30; p["Desigualdad social"] += 20
         p["Movilidad y transporte"] = 35
-    if "Universitarios" in estudios:
+    if "Universitarios"in estudios:
         p["Cambio climático"] += 30; p["Desigualdad social"] += 20
         p["Corrupción"] += 15; p["Inmigración"] -= 20
-    elif "Sin estudios" in estudios or "Primaria" in estudios:
+    elif "Sin estudios"in estudios or "Primaria"in estudios:
         p["Inmigración"] += 25; p["Seguridad ciudadana"] += 20
-    if "Menos de 900" in ingresos or "900 – 1.200" in ingresos:
+    if "Menos de 900"in ingresos or "900 – 1.200"in ingresos:
         p["Empleo y economía"] += 30; p["Vivienda y alquiler"] += 25; p["Desigualdad social"] += 20
-    elif "2.700" in ingresos or "4.500" in ingresos:
+    elif "2.700"in ingresos or "4.500"in ingresos:
         p["Impuestos y fiscalidad"] = 55; p["Seguridad ciudadana"] += 15; p["Desigualdad social"] -= 15
-    if "Parado" in sitlab:
+    if "Parado"in sitlab:
         p["Empleo y economía"] += 35; p["Desigualdad social"] += 20
-    elif "Jubilado" in sitlab:
+    elif "Jubilado"in sitlab:
         p["Pensiones"] += 35; p["Sanidad pública"] += 25
-    elif "Estudiante" in sitlab:
+    elif "Estudiante"in sitlab:
         p["Empleo y economía"] += 20; p["Educación"] += 30; p["Vivienda y alquiler"] += 25
-    if ideo and "izquierda" in ideo.lower():
+    if ideo and "izquierda"in ideo.lower():
         p["Cambio climático"] += 25; p["Desigualdad social"] += 25
         p["Igualdad de género"] = p.get("Igualdad de género", 0) + 40; p["Inmigración"] -= 25
-    elif ideo and "derecha" in ideo.lower():
+    elif ideo and "derecha"in ideo.lower():
         p["Inmigración"] += 30; p["Seguridad ciudadana"] += 25
         p["Unidad de España"] = p.get("Unidad de España", 0) + 45; p["Cambio climático"] -= 20
     total = sum(max(0, v) for v in p.values()) or 1
@@ -1148,7 +1148,7 @@ def _preocupaciones_sinteticas(edad, habitat, estudios, ingresos, sitlab, ideo) 
 def _mensajes_partido(partido: str, preoc_top: list[str]) -> list[tuple[str, str]]:
     d = _MENSAJES.get(partido, {})
     bullets = [(pr, d[pr]) for pr in preoc_top[:3] if pr in d]
-    if len(bullets) < 2 and "default" in d:
+    if len(bullets) < 2 and "default"in d:
         bullets.append(("Mensaje general", d["default"]))
     return bullets
 
@@ -1156,13 +1156,13 @@ def _mensajes_partido(partido: str, preoc_top: list[str]) -> list[tuple[str, str
 with tab4:
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{PURPLE}"></div>
+        <div class="bar"style="background:{PURPLE}"></div>
         <span class="lbl">Constructor de Perfiles · Microdatos</span>
         <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown(f"""
-    <div class="info-box" style="border-left-color:{PURPLE}">
+    <div class="info-box"style="border-left-color:{PURPLE}">
         Configura un perfil sociodemográfico y obtén la <strong style="color:{CYAN}">estimación de intención de voto</strong>,
         las <strong style="color:{AMBER}">preocupaciones dominantes</strong> y los
         <strong style="color:{GREEN}">temas clave que cada partido debe abordar</strong> para ganar ese voto.
@@ -1204,7 +1204,7 @@ with tab4:
 
         # Resumen textual del perfil
         resumen_parts = [x for x in [sel_edad, sel_habitat, sel_estudios, sel_ingresos, sel_sitlab, sel_sexo] if x != "Todos"]
-        perfil_desc = " · ".join(resumen_parts) if resumen_parts else "Electorado general"
+        perfil_desc = "· ".join(resumen_parts) if resumen_parts else "Electorado general"
         st.markdown(f"""
         <div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
                     padding:.7rem 1rem;margin-top:.4rem;font-size:.72rem;color:{TEXT2}">
@@ -1219,7 +1219,7 @@ with tab4:
         # Intentar cargar microdatos reales
         filtros_micro: dict = {}
         if sel_edad    != "Todos": filtros_micro["grupo_edad"]        = sel_edad
-        if sel_sexo    != "Todos": filtros_micro["sexo"]              = "H" if sel_sexo == "Hombre" else "M"
+        if sel_sexo    != "Todos": filtros_micro["sexo"]              = "H"if sel_sexo == "Hombre"else "M"
         if sel_sitlab  != "Todos": filtros_micro["situacion_laboral"] = sel_sitlab
 
         df_resumen_micro = pd.DataFrame()
@@ -1269,25 +1269,25 @@ with tab4:
         # ── KPI row ──────────────────────────────────────────────────────
         k1, k2, k3, k4 = st.columns(4)
         with k1:
-            src_label = f"{n_micro:,} encuestados" if usando_bd else "Modelo sintético"
+            src_label = f"{n_micro:,} encuestados"if usando_bd else "Modelo sintético"
             src_color = GREEN if usando_bd else AMBER
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{src_color}55">
+            <div class="kpi-pill"style="border-top-color:{src_color}55">
                 <div class="lbl">Fuente datos</div>
-                <div class="val" style="font-size:.9rem;color:{src_color}">{src_label}</div>
+                <div class="val"style="font-size:.9rem;color:{src_color}">{src_label}</div>
             </div>
             """, unsafe_allow_html=True)
         with k2:
             lr, lg, lb = int(color_lider[1:3],16), int(color_lider[3:5],16), int(color_lider[5:7],16)
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:rgba({lr},{lg},{lb},.55)">
+            <div class="kpi-pill"style="border-top-color:rgba({lr},{lg},{lb},.55)">
                 <div class="lbl">Partido líder</div>
-                <div class="val" style="color:{color_lider}">{partido_lider}</div>
+                <div class="val"style="color:{color_lider}">{partido_lider}</div>
             </div>
             """, unsafe_allow_html=True)
         with k3:
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{CYAN}55">
+            <div class="kpi-pill"style="border-top-color:{CYAN}55">
                 <div class="lbl">Prob. estimada</div>
                 <div class="val">{prob_lider:.1f}%</div>
             </div>
@@ -1295,9 +1295,9 @@ with tab4:
         with k4:
             preoc1 = preoc_top[0] if preoc_top else "—"
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{AMBER}55">
+            <div class="kpi-pill"style="border-top-color:{AMBER}55">
                 <div class="lbl">Preocupación #1</div>
-                <div class="val" style="font-size:.82rem;color:{AMBER}">{preoc1}</div>
+                <div class="val"style="font-size:.82rem;color:{AMBER}">{preoc1}</div>
             </div>
             """, unsafe_allow_html=True)
 
@@ -1308,8 +1308,8 @@ with tab4:
 
         with gc1:
             st.markdown(f"""
-            <div class="sec-hdr" style="margin-top:.4rem">
-                <div class="bar" style="background:{CYAN}"></div>
+            <div class="sec-hdr"style="margin-top:.4rem">
+                <div class="bar"style="background:{CYAN}"></div>
                 <span class="lbl">Intención de voto estimada</span>
                 <div class="line"></div>
             </div>
@@ -1338,8 +1338,8 @@ with tab4:
 
         with gc2:
             st.markdown(f"""
-            <div class="sec-hdr" style="margin-top:.4rem">
-                <div class="bar" style="background:{AMBER}"></div>
+            <div class="sec-hdr"style="margin-top:.4rem">
+                <div class="bar"style="background:{AMBER}"></div>
                 <span class="lbl">Preocupaciones principales</span>
                 <div class="line"></div>
             </div>
@@ -1351,7 +1351,7 @@ with tab4:
             fig_preoc = go.Figure(go.Bar(
                 y=preoc_labels, x=preoc_vals, orientation="h",
                 marker=dict(color=bar_colors, line=dict(width=0)),
-                text=[f"{v:.0f}%" for v in preoc_vals], textposition="outside",
+                text=[f"{v:.0f}%"for v in preoc_vals], textposition="outside",
                 textfont=dict(color=TEXT2, size=9),
             ))
             fig_preoc.update_layout(
@@ -1365,8 +1365,8 @@ with tab4:
 
         # ── Temas para ganar este voto ────────────────────────────────────
         st.markdown(f"""
-        <div class="sec-hdr" style="margin-top:.8rem">
-            <div class="bar" style="background:{GREEN}"></div>
+        <div class="sec-hdr"style="margin-top:.8rem">
+            <div class="bar"style="background:{GREEN}"></div>
             <span class="lbl">Temas que deben abordar los partidos para ganar este voto</span>
             <div class="line"></div>
         </div>
@@ -1425,7 +1425,7 @@ with tab4:
         if scores.get("Abstención", 0) > 20:
             abs_pct = scores["Abstención"]
             st.markdown(f"""
-            <div class="warn-box" style="margin-top:.8rem">
+            <div class="warn-box"style="margin-top:.8rem">
                 <strong style="color:{AMBER}">△  Alta probabilidad de abstención ({abs_pct:.1f}%)</strong><br>
                 <span style="font-size:.82rem">Este perfil tiene una predisposición elevada a no votar.
                 Los partidos deben priorizar mensajes de <em>utilidad directa y tangible</em>:
@@ -1441,14 +1441,14 @@ with tab4:
 with tab5:
     st.markdown(f"""
     <div class="sec-hdr">
-        <div class="bar" style="background:{PURPLE}"></div>
+        <div class="bar"style="background:{PURPLE}"></div>
         <span class="lbl">Comparador de Elecciones Históricas Equivalentes</span>
         <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div class="info-box" style="border-left-color:{PURPLE}">
+    <div class="info-box"style="border-left-color:{PURPLE}">
         Encuentra las elecciones más parecidas al contexto actual con distancia ponderada
         en 12 dimensiones estructurales y proyecta escenarios probables.
     </div>
@@ -1471,7 +1471,7 @@ with tab5:
         pass
     try:
         _df_nc_auto = cargar_nowcasting()
-        if not _df_nc_auto.empty and "estimacion_pct" in _df_nc_auto.columns:
+        if not _df_nc_auto.empty and "estimacion_pct"in _df_nc_auto.columns:
             p = (_df_nc_auto["estimacion_pct"].astype(float).clip(lower=0) / 100.0).values
             p = p[p > 0.01]
             if len(p) > 0:
@@ -1480,7 +1480,7 @@ with tab5:
     except Exception:
         pass
 
-    with st.expander("⚙️ Calibrar contexto electoral", expanded=False):
+    with st.expander("Calibrar contexto electoral", expanded=False):
         c1, c2, c3 = st.columns(3)
         with c1:
             pib = st.number_input("PIB crecimiento (%)", value=float(round(pib_auto, 2)), step=0.1, key="an_pib")
@@ -1503,7 +1503,7 @@ with tab5:
         partido_ref = st.selectbox(
             "Partido de referencia para proyección",
             list(estimaciones_base.keys()),
-            index=(list(estimaciones_base.keys()).index("PSOE") if "PSOE" in estimaciones_base else 0),
+            index=(list(estimaciones_base.keys()).index("PSOE") if "PSOE"in estimaciones_base else 0),
             key="an_partido_ref",
         )
     with filtros_col2:
@@ -1515,13 +1515,13 @@ with tab5:
 
     buscar_col, guardar_col = st.columns([1, 1])
     with buscar_col:
-        ejecutar_analogias = st.button("🔍 Buscar análogos", type="primary", use_container_width=True)
+        ejecutar_analogias = st.button("Buscar análogos", type="primary", use_container_width=True)
     with guardar_col:
         guardar_auto = st.checkbox("Guardar snapshot automáticamente", value=True, key="an_guardar")
 
-    if ejecutar_analogias or "analogias_result" not in st.session_state:
-        tipo_filtro = None if tipo_ref == "todas" else tipo_ref
-        pais_filtro = None if pais_ref == "todos" else pais_ref
+    if ejecutar_analogias or "analogias_result"not in st.session_state:
+        tipo_filtro = None if tipo_ref == "todas"else tipo_ref
+        pais_filtro = None if pais_ref == "todos"else pais_ref
         df_hist = cargar_elecciones_historicas(tipo=tipo_filtro, pais=pais_filtro)
         motor = MotorAnalogias(df_hist).ajustar_normalizacion()
 
@@ -1572,14 +1572,14 @@ with tab5:
         k1, k2, k3, k4 = st.columns(4)
         with k1:
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{PURPLE}55">
+            <div class="kpi-pill"style="border-top-color:{PURPLE}55">
                 <div class="lbl">Histórico disponible</div>
                 <div class="val">{n_hist}</div>
             </div>
             """, unsafe_allow_html=True)
         with k2:
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{CYAN}55">
+            <div class="kpi-pill"style="border-top-color:{CYAN}55">
                 <div class="lbl">Mejor similitud</div>
                 <div class="val">{analogias[0].similitud_pct:.1f}%</div>
             </div>
@@ -1587,16 +1587,16 @@ with tab5:
         with k3:
             prob_vuelco = float(proyeccion.get("prob_vuelco", 0.0) or 0.0) * 100.0
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{AMBER}55">
+            <div class="kpi-pill"style="border-top-color:{AMBER}55">
                 <div class="lbl">Prob. vuelco</div>
                 <div class="val">{prob_vuelco:.0f}%</div>
             </div>
             """, unsafe_allow_html=True)
         with k4:
             pct_est = proyeccion.get("pct_partido_est")
-            pct_lbl = f"{pct_est:.1f}%" if pct_est is not None else "N/D"
+            pct_lbl = f"{pct_est:.1f}%"if pct_est is not None else "N/D"
             st.markdown(f"""
-            <div class="kpi-pill" style="border-top-color:{GREEN}55">
+            <div class="kpi-pill"style="border-top-color:{GREEN}55">
                 <div class="lbl">Voto est. {partido_ref}</div>
                 <div class="val">{pct_lbl}</div>
             </div>
@@ -1607,7 +1607,7 @@ with tab5:
 
         st.markdown(f"""
         <div class="sec-hdr">
-            <div class="bar" style="background:{CYAN}"></div>
+            <div class="bar"style="background:{CYAN}"></div>
             <span class="lbl">Distancia por dimensión (Top 5 análogos)</span>
             <div class="line"></div>
         </div>
@@ -1648,7 +1648,7 @@ with tab5:
 
         st.markdown(f"""
         <div class="sec-hdr">
-            <div class="bar" style="background:{BLUE}"></div>
+            <div class="bar"style="background:{BLUE}"></div>
             <span class="lbl">Fichas de análogos</span>
             <div class="line"></div>
         </div>
@@ -1666,7 +1666,7 @@ with tab5:
                     "Distancia": a.distancia,
                     "Ganador": a.ganador or "—",
                     "% ganador": a.pct_ganador if a.pct_ganador is not None else "—",
-                    "Vuelco": "Sí" if a.vuelco_gobierno else "No",
+                    "Vuelco": "Sí"if a.vuelco_gobierno else "No",
                     "Participación": a.participacion if a.participacion is not None else "—",
                 }
             )
@@ -1678,12 +1678,12 @@ with tab5:
                     st.caption(a.notas)
                 if a.resultados_json:
                     if isinstance(a.resultados_json, dict):
-                        resumen = ", ".join([f"{k}: {v}%" for k, v in a.resultados_json.items()])
+                        resumen = ", ".join([f"{k}: {v}%"for k, v in a.resultados_json.items()])
                     else:
                         resumen = str(a.resultados_json)
                     st.markdown(f"**Resultados relevantes:** {resumen}")
 
-    with st.expander("📁 Historial de snapshots"):
+    with st.expander("Historial de snapshots"):
         df_snap = cargar_snapshots_analogia(limite=10)
         if df_snap.empty:
             st.caption("No hay snapshots guardados.")

@@ -265,7 +265,7 @@ if not df_incidents.empty:
     crit = df_incidents[df_incidents["severity"] == "critical"]
     if not crit.empty:
         names = ", ".join(crit["source_id"].tolist()[:3])
-        st.warning(f"⚠️ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
+        st.warning(f"⚠ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones, tab_temas, tab_etl = st.tabs([
@@ -276,7 +276,7 @@ tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones,
     "◈  Leyes & Actividad",
     "◉  Comisiones",
     "⬢  Temas TIPI",
-    "⚙  Estado ETL",
+    "  Estado ETL",
 ])
 
 # ── Tab 1: BOE ────────────────────────────────────────────────────────────────
@@ -339,18 +339,18 @@ with tab_boe:
 
     for item in boe_mostrar:
         rel       = item.get("relevancia_politica", "Baja")
-        rel_color = RED if rel == "Alta" else AMBER if rel == "Media" else MUTED
+        rel_color = RED if rel == "Alta"else AMBER if rel == "Media"else MUTED
         css_rel   = f"boe-{rel.lower()}"
         url       = item.get("url", "")
         titulo_html = (
-            f'<a href="{url}" target="_blank" style="font-weight:700;font-size:.9rem;color:{TEXT};text-decoration:none;line-height:1.4">{item["titulo"]}</a>'
+            f'<a href="{url}"target="_blank"style="font-weight:700;font-size:.9rem;color:{TEXT};text-decoration:none;line-height:1.4">{item["titulo"]}</a>'
             if url else
             f'<div style="font-weight:700;font-size:.9rem;color:{TEXT};line-height:1.4">{item["titulo"]}</div>'
         )
         # TIPI topic classification
         _tipi = classify_text(f"{item['titulo']} {item.get('resumen','')}")
         _tipi_html = "".join(
-            f'<span class="badge" style="background:{topic_color(t)}22;color:{topic_color(t)};'
+            f'<span class="badge"style="background:{topic_color(t)}22;color:{topic_color(t)};'
             f'border:1px solid {topic_color(t)}44;margin-right:3px">{topic_label(t)}</span>'
             for t in _tipi.topics[:2]
         )
@@ -358,26 +358,26 @@ with tab_boe:
             f'<div class="boe-card {css_rel}">'
             f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem">'
             f'<div style="flex:1">'
-            f'<span class="badge" style="background:{BG3};color:{CYAN};border:1px solid {BORDER};margin-right:.5rem">{item.get("numero","BOE")}</span>'
-            f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{item.get("tipo","Disposición")}</span>'
+            f'<span class="badge"style="background:{BG3};color:{CYAN};border:1px solid {BORDER};margin-right:.5rem">{item.get("numero","BOE")}</span>'
+            f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{item.get("tipo","Disposición")}</span>'
             f'</div>'
-            f'<span class="badge" style="background:{rel_color}25;color:{rel_color};border:1px solid {rel_color}55;flex-shrink:0">Relevancia {rel}</span>'
+            f'<span class="badge"style="background:{rel_color}25;color:{rel_color};border:1px solid {rel_color}55;flex-shrink:0">Relevancia {rel}</span>'
             f'</div>'
             + titulo_html +
             f'<div style="font-size:.78rem;color:{MUTED};margin:.3rem 0">{item.get("organismo","BOE")} &nbsp;&bull;&nbsp; {item.get("seccion","")}</div>'
             f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.5">{item.get("resumen","")}</div>'
-            + (f'<div style="margin-top:.4rem">{_tipi_html}</div>' if _tipi.topics[0] != "OTROS" else "")
+            + (f'<div style="margin-top:.4rem">{_tipi_html}</div>'if _tipi.topics[0] != "OTROS"else "")
             + f'</div>',
             unsafe_allow_html=True,
         )
 
-    src_label = "Tabla boe_publication" if is_boe_real else "RSS boe.es en vivo (sin persistencia)"
+    src_label = "Tabla boe_publication"if is_boe_real else "RSS boe.es en vivo (sin persistencia)"
     st.caption(f"Fuente: {src_label}. Ejecuta `python -m etl.institucional.boe_rss` para persistir en BD.")
 
 # ── Tab 2: Votaciones ─────────────────────────────────────────────────────────
 with tab_votaciones:
     df_vot = cargar_votaciones_pleno(dias=14, limit=25)
-    is_votes_real = not df_vot.empty and "titulo" in df_vot.columns
+    is_votes_real = not df_vot.empty and "titulo"in df_vot.columns
 
     sec_hdr("Votaciones del Pleno")
     st.markdown(data_badge(is_votes_real, "EJECUTAR ETL CONGRESO"), unsafe_allow_html=True)
@@ -400,7 +400,7 @@ with tab_votaciones:
         sec_hdr("Línea Temporal", BLUE)
         fig_tl = go.Figure()
         for i, row in df_vot.iterrows():
-            color = GREEN if str(row.get("resultado", "")) == "APROBADA" else RED
+            color = GREEN if str(row.get("resultado", "")) == "APROBADA"else RED
             titulo_short = str(row.get("titulo", ""))[:60]
             fig_tl.add_trace(go.Scatter(
                 x=[str(row.get("fecha", ""))[:10]],
@@ -425,7 +425,7 @@ with tab_votaciones:
             xaxis=dict(title=None, showgrid=False, tickfont=dict(size=10, color=TEXT2)),
             yaxis=dict(
                 tickvals=list(range(len(df_vot))),
-                ticktext=[str(df_vot.iloc[i].get("titulo", ""))[:50] + ("..." if len(str(df_vot.iloc[i].get("titulo", ""))) > 50 else "") for i in range(len(df_vot))],
+                ticktext=[str(df_vot.iloc[i].get("titulo", ""))[:50] + ("..."if len(str(df_vot.iloc[i].get("titulo", ""))) > 50 else "") for i in range(len(df_vot))],
                 tickfont=dict(size=9, color=TEXT2), title=None,
             ),
             margin=dict(t=10, b=10, l=340, r=80), showlegend=False,
@@ -435,7 +435,7 @@ with tab_votaciones:
         sec_hdr("Detalle por votación")
         for vote_idx, (_, row) in enumerate(df_vot.iterrows()):
             res = str(row.get("resultado", ""))
-            res_color = GREEN if res == "APROBADA" else RED
+            res_color = GREEN if res == "APROBADA"else RED
             fav = int(row.get("votos_favor", 0) or 0)
             con = int(row.get("votos_contra", 0) or 0)
             abs_ = int(row.get("abstenciones", 0) or 0)
@@ -452,11 +452,11 @@ with tab_votaciones:
                 p_contra = []
 
             favor_html = "".join(
-                f'<span class="badge" style="background:{PARTY_COLORS.get(p, BG3)};color:#fff;margin-right:3px">{p}</span>'
+                f'<span class="badge"style="background:{PARTY_COLORS.get(p, BG3)};color:#fff;margin-right:3px">{p}</span>'
                 for p in p_favor
             )
             contra_html = "".join(
-                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
+                f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER};margin-right:3px">{p}</span>'
                 for p in p_contra
             )
 
@@ -465,12 +465,12 @@ with tab_votaciones:
                 with col_i:
                     st.markdown(
                         f'<div>'
-                        f'<span class="badge" style="background:{BG3};color:{CYAN};border:1px solid {BORDER};margin-right:.4rem">{row.get("tipo_votacion","")}</span>'
-                        f'<span class="badge" style="background:{res_color}25;color:{res_color};border:1px solid {res_color}55">{res}</span>'
+                        f'<span class="badge"style="background:{BG3};color:{CYAN};border:1px solid {BORDER};margin-right:.4rem">{row.get("tipo_votacion","")}</span>'
+                        f'<span class="badge"style="background:{res_color}25;color:{res_color};border:1px solid {res_color}55">{res}</span>'
                         f'</div>'
                         f'<div style="font-weight:700;color:{TEXT};margin:.5rem 0">{row.get("titulo","")}</div>'
-                        + (f'<div style="font-size:.75rem;color:{MUTED};margin-bottom:.2rem">A favor ({fav} votos)</div>{favor_html}' if favor_html else "")
-                        + (f'<div style="font-size:.75rem;color:{MUTED};margin-top:.4rem;margin-bottom:.2rem">En contra ({con} votos)</div>{contra_html}' if contra_html else "")
+                        + (f'<div style="font-size:.75rem;color:{MUTED};margin-bottom:.2rem">A favor ({fav} votos)</div>{favor_html}'if favor_html else "")
+                        + (f'<div style="font-size:.75rem;color:{MUTED};margin-top:.4rem;margin-bottom:.2rem">En contra ({con} votos)</div>{contra_html}'if contra_html else "")
                         + f'<div style="margin-top:.6rem;border-radius:4px;overflow:hidden;height:8px;background:{BG3}">'
                         f'<div style="background:{GREEN};width:{pct_f:.1f}%;height:8px;display:inline-block;border-radius:4px 0 0 4px"></div></div>'
                         f'<div style="display:flex;justify-content:space-between;font-size:.7rem;color:{MUTED};margin-top:.2rem">'
@@ -565,7 +565,7 @@ with tab_agenda:
                     f'<div style="font-weight:700;font-size:.88rem;color:{TEXT};line-height:1.35;margin-bottom:.3rem">{ev.title[:80]}</div>'
                     f'<div style="font-size:.75rem;color:{MUTED}">{ev.actor or ev.institution} &nbsp;·&nbsp; {ev.date[:10]} {ev.time_start}</div>'
                     f'<div style="font-size:.72rem;color:{MUTED};margin-top:.2rem">{ev.location}</div>'
-                    f'<div style="margin-top:.4rem"><span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">imp. {ev.importance_score}</span></div>'
+                    f'<div style="margin-top:.4rem"><span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">imp. {ev.importance_score}</span></div>'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
@@ -627,21 +627,21 @@ with tab_agenda:
         tipo_sel   = f2.selectbox("Tipo de acto", ["Todos"] + tipos_disp, key="ag_tipo")
 
         filtered = [ev for ev in events_sorted
-                    if (fuente_sel == "Todas" or ev.institution == fuente_sel or ev.source == fuente_sel)
-                    and (tipo_sel == "Todos" or ev.event_type == tipo_sel)]
+                    if (fuente_sel == "Todas"or ev.institution == fuente_sel or ev.source == fuente_sel)
+                    and (tipo_sel == "Todos"or ev.event_type == tipo_sel)]
 
         for ev in filtered[:60]:
             enlace = ev.source_url
             st.markdown(
-                f'<div class="agenda-item" style="border-left-color:{ev.color}">'
+                f'<div class="agenda-item"style="border-left-color:{ev.color}">'
                 f'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem">'
                 f'<div style="flex:1">'
                 f'<div style="font-size:.73rem;color:{MUTED}">{ev.date[:10]} {ev.time_start} · {ev.institution}</div>'
                 f'<div style="font-size:.9rem;font-weight:700;color:{TEXT};margin-top:.12rem">{ev.title}</div>'
-                + (f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.2rem">{ev.description[:180]}</div>' if ev.description else "")
+                + (f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.2rem">{ev.description[:180]}</div>'if ev.description else "")
                 + f'</div><div style="text-align:right;flex-shrink:0">'
-                f'<span class="badge" style="background:{ev.color}20;color:{ev.color};border:1px solid {ev.color}44">{ev.event_type.replace("_"," ")}</span>'
-                + (f'<div style="margin-top:.3rem"><a href="{enlace}" target="_blank" style="font-size:.72rem;color:{CYAN};text-decoration:none">Fuente</a></div>' if enlace else "")
+                f'<span class="badge"style="background:{ev.color}20;color:{ev.color};border:1px solid {ev.color}44">{ev.event_type.replace("_"," ")}</span>'
+                + (f'<div style="margin-top:.3rem"><a href="{enlace}"target="_blank"style="font-size:.72rem;color:{CYAN};text-decoration:none">Fuente</a></div>'if enlace else "")
                 + f'</div></div></div>',
                 unsafe_allow_html=True,
             )
@@ -733,14 +733,14 @@ with tab_leyes:
             partido = str(row.get("partido_siglas", "N/A"))
             estado = str(row.get("estado", "Registro"))
             st.markdown(
-                f'<div class="data-card" style="border-left:3px solid {BLUE}">'
+                f'<div class="data-card"style="border-left:3px solid {BLUE}">'
                 f'<div style="display:flex;justify-content:space-between;gap:.8rem;align-items:flex-start">'
                 f'<div style="flex:1">'
                 f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row.get("titulo_norma","")}</div>'
                 f'<div style="font-size:.77rem;color:{MUTED};margin-top:.2rem">'
                 f'{row.get("fecha_norma_label","")} · {row.get("tipo","")} · {partido}</div>'
                 f'</div>'
-                f'<span class="badge" style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{estado}</span>'
+                f'<span class="badge"style="background:{BG3};color:{TEXT2};border:1px solid {BORDER}">{estado}</span>'
                 f'</div></div>',
                 unsafe_allow_html=True,
             )
@@ -776,7 +776,7 @@ with tab_comisiones:
             sec_hdr("Detalle por comisión")
             for _, row in por_comision.head(30).iterrows():
                 st.markdown(
-                    f'<div class="data-card" style="border-left:3px solid {PURPLE}">'
+                    f'<div class="data-card"style="border-left:3px solid {PURPLE}">'
                     f'<div style="font-weight:700;color:{TEXT};font-size:.92rem">{row["titulo"]}</div>'
                     f'<div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">Último movimiento: {str(row["ultimo_movimiento"])[:10]} · Registros: {int(row["n_registros"])}</div>'
                     f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.35rem">Partidos: {row["partidos"] or "N/D"}</div>'
@@ -869,7 +869,7 @@ with tab_temas:
         if not _df_salience.empty:
             _partidos_sal = sorted(_df_salience["partido_siglas"].unique().tolist())
             _part_sel = st.selectbox("Partido", ["Todos"] + _partidos_sal, key="tipi_partido")
-            _df_sal_show = _df_salience if _part_sel == "Todos" else \
+            _df_sal_show = _df_salience if _part_sel == "Todos"else \
                            _df_salience[_df_salience["partido_siglas"] == _part_sel]
             _df_sal_top = _df_sal_show.head(30)
             st.dataframe(
@@ -926,7 +926,7 @@ with tab_etl:
             sh = row_health.iloc[0]
             sc = {"ok": GREEN, "degraded": AMBER, "failing": RED}.get(str(sh.get("status", "unknown")), MUTED)
             lag = sh.get("freshness_lag_s")
-            lag_txt = f"{int(lag)//60} min" if lag and lag < 3600 else (f"{int(lag)//3600} h" if lag else "—")
+            lag_txt = f"{int(lag)//60} min"if lag and lag < 3600 else (f"{int(lag)//3600} h"if lag else "—")
             status_html = f'<span style="color:{sc};font-weight:700">{str(sh.get("status","")).upper()}</span> · {sh.get("articles_count",0)} items · lag: {lag_txt}'
         else:
             status_html = f'<span style="color:{MUTED}">Sin datos — ejecutar ETL</span>'
@@ -947,7 +947,7 @@ with tab_etl:
         if not inst_inc.empty:
             sec_hdr("Incidencias activas", RED)
             for _, inc in inst_inc.iterrows():
-                sc = RED if inc.get("severity") == "critical" else (AMBER if inc.get("severity") == "major" else MUTED)
+                sc = RED if inc.get("severity") == "critical"else (AMBER if inc.get("severity") == "major"else MUTED)
                 st.markdown(
                     f'<div style="padding:.5rem .8rem;background:{BG2};border:1px solid {sc}44;'
                     f'border-left:3px solid {sc};border-radius:6px;margin-bottom:.3rem">'
@@ -974,12 +974,12 @@ with tab_etl:
         _reports = run_all_validations(**_qr_dfs)
         _df_qual = reports_to_df(_reports)
         for _, _rr in _df_qual.iterrows():
-            _sc = GREEN if _rr["estado"] == "PASS" else (AMBER if _rr["estado"] == "WARN" else RED)
+            _sc = GREEN if _rr["estado"] == "PASS"else (AMBER if _rr["estado"] == "WARN"else RED)
             st.markdown(
                 f'<div style="display:flex;align-items:center;gap:.8rem;padding:.5rem .8rem;'
                 f'background:{BG2};border:1px solid {BORDER};border-radius:6px;margin-bottom:.3rem">'
                 f'<span style="font-size:.82rem;color:{TEXT};font-weight:600;flex:1">{_rr["fuente"]}</span>'
-                f'<span class="badge" style="background:{_sc}22;color:{_sc};border:1px solid {_sc}44">'
+                f'<span class="badge"style="background:{_sc}22;color:{_sc};border:1px solid {_sc}44">'
                 f'{_rr["estado"]}</span>'
                 f'<span style="font-size:.76rem;color:{MUTED}">Score: {_rr["score"]}/100</span>'
                 f'<span style="font-size:.72rem;color:{TEXT2}">'

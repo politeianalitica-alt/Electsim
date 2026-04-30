@@ -73,9 +73,9 @@ def calcular_y_guardar_impacto(
 
     if metodo == "pre_post":
         resultados = calcular_pre_post(df_snap, METRICAS_DEFAULT, coste_evento)
-    elif metodo == "diff_diff" and df_control is not None:
+    elif metodo == "diff_diff"and df_control is not None:
         resultados = calcular_diff_diff(df_snap, df_control, METRICAS_DEFAULT, coste_evento)
-    elif metodo == "bsts" and serie_intencion is not None and fecha_intervencion:
+    elif metodo == "bsts"and serie_intencion is not None and fecha_intervencion:
         r = calcular_bsts(serie_intencion, fecha_intervencion, coste_evento)
         if r is not None:
             resultados = [r]

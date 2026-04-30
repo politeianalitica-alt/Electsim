@@ -38,7 +38,7 @@ from dashboard.shared import (
 
 st.set_page_config(
     page_title="Mapa de Actores — Politeia",
-    page_icon="🕸️",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -51,7 +51,7 @@ try:
     _SVC_OK = True
 except Exception as _e:
     _SVC_OK = False
-    st.error(f"❌ actors_service no disponible: {_e}")
+    st.error(f"✗ actors_service no disponible: {_e}")
     st.stop()
 
 try:
@@ -80,10 +80,10 @@ _COLOR_TIPO = {
     "influencia":  PURPLE,
 }
 _ICON_TIPO = {
-    "politico":    "🏛️",
-    "empresarial": "🏢",
-    "mediatico":   "📰",
-    "influencia":  "🔮",
+    "politico":    "",
+    "empresarial": "",
+    "mediatico":   "",
+    "influencia":  "",
 }
 _COLOR_REL = {
     "gubernamental": "#1E40AF",
@@ -164,12 +164,12 @@ def _icon_tipo(tipo: str) -> str:
 
 def _actor_badge(tipo: str) -> str:
     c = _color_tipo(tipo)
-    return (f'<span class="tag" style="background:{c}22;color:{c};">'
+    return (f'<span class="tag"style="background:{c}22;color:{c};">'
             f'{_icon_tipo(tipo)} {tipo}</span>')
 
 def _rel_badge(tipo: str) -> str:
     c = _COLOR_REL.get(tipo, MUTED)
-    return f'<span class="tag" style="background:{c}22;color:{c};">{tipo}</span>'
+    return f'<span class="tag"style="background:{c}22;color:{c};">{tipo}</span>'
 
 def _node_color(actor: dict, comm: dict) -> str:
     cid = comm.get(actor["id"])
@@ -188,12 +188,12 @@ def _load_metricas() -> dict:
 
 st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;">
-  <div style="font-size:2.2rem;">🕸️</div>
+  <div style="font-size:2.2rem;"></div>
   <div>
     <div style="font-size:1.5rem;font-weight:900;color:{TEXT};">Mapa de Actores Políticos</div>
     <div style="font-size:.8rem;color:{MUTED};">
       Red dinámica · Scraping Wikipedia/Wikidata · NER vía Ollama · Actualización automática · {
-        "🟢 LLM activo" if _LLM_OK else "⚪ LLM no disponible"
+        "● LLM activo"if _LLM_OK else "○ LLM no disponible"
       }
     </div>
   </div>
@@ -205,16 +205,16 @@ _metricas = _load_metricas()
 
 c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
-    kpi_card("Actores", str(_estado_w.get("n_actores", 0)), "🏛️", color=CYAN)
+    kpi_card("Actores", str(_estado_w.get("n_actores", 0)), "", color=CYAN)
 with c2:
-    kpi_card("Relaciones", str(_estado_w.get("n_relaciones", 0)), "🔗", color=PURPLE)
+    kpi_card("Relaciones", str(_estado_w.get("n_relaciones", 0)), "", color=PURPLE)
 with c3:
-    kpi_card("Menciones", str(_estado_w.get("n_menciones", 0)), "📰", color=AMBER)
+    kpi_card("Menciones", str(_estado_w.get("n_menciones", 0)), "", color=AMBER)
 with c4:
-    kpi_card("Comunidades", str(_metricas.get("n_comunidades", 0)), "🫧", color=GREEN)
+    kpi_card("Comunidades", str(_metricas.get("n_comunidades", 0)), "", color=GREEN)
 with c5:
     w_on = _estado_w.get("running", False)
-    kpi_card("Worker", "🟢 Activo" if w_on else "⏸ Parado", "⚡", color=GREEN if w_on else MUTED)
+    kpi_card("Worker", "● Activo"if w_on else "⏸ Parado", "!", color=GREEN if w_on else MUTED)
 
 st.markdown("---")
 
@@ -224,12 +224,12 @@ st.markdown("---")
 # ═══════════════════════════════════════════════════════════════════════════════
 
 tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query = st.tabs([
-    "🕸️ Red Dinámica",
-    "👤 Perfiles",
-    "🔗 Relaciones",
-    "📊 Análisis networkx",
-    "🔄 Actualización",
-    "🤖 Query IA",
+    "Red Dinámica",
+    "Perfiles",
+    "Relaciones",
+    "Análisis networkx",
+    "Actualización",
+    "Query IA",
 ])
 
 
@@ -238,7 +238,7 @@ tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query = st.tabs([
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_red:
-    st.markdown("### 🕸️ Grafo Force-Directed")
+    st.markdown("###  Grafo Force-Directed")
     st.caption("Tamaño = PageRank · Color = comunidad Louvain · Arista = tipo de relación")
 
     fc1, fc2, fc3, fc4 = st.columns([2, 2, 2, 1])
@@ -261,8 +261,8 @@ with tab_red:
     with fc4:
         mostrar_labels = st.checkbox("Nombres", value=True, key="red_labels")
 
-    _t_f = None if tipo_sel == "Todos" else tipo_sel
-    _r_f = None if rel_sel  == "Todas" else rel_sel
+    _t_f = None if tipo_sel == "Todos"else tipo_sel
+    _r_f = None if rel_sel  == "Todas"else rel_sel
     _comm = _metricas.get("comunidades", {})
     _pgr  = _metricas.get("pagerank", {})
     _max_pgr = max(_pgr.values()) if _pgr else 1.0
@@ -367,7 +367,7 @@ with tab_red:
                 )
         with leg_cols[-1]:
             st.markdown(
-                f'<div style="font-size:.72rem;color:{MUTED};">🫧 {_metricas.get("n_comunidades",0)} comunidades</div>',
+                f'<div style="font-size:.72rem;color:{MUTED};"> {_metricas.get("n_comunidades",0)} comunidades</div>',
                 unsafe_allow_html=True
             )
     elif not _PYVIS_OK:
@@ -381,14 +381,14 @@ with tab_red:
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_perfil:
-    st.markdown("### 👤 Perfiles de Actores")
+    st.markdown("###  Perfiles de Actores")
 
     pc1, pc2 = st.columns([3, 1])
     with pc1:
         _todos = sorted(_svc.get_actores(), key=lambda x: -x.get("poder", 0))
         actor_nombre_p = st.selectbox("Seleccionar actor", [a["nombre"] for a in _todos], key="perfil_actor")
     with pc2:
-        if _SCRAPER_OK and st.button("🌐 Enriquecer Wikipedia", key="btn_wiki"):
+        if _SCRAPER_OK and st.button("Enriquecer Wikipedia", key="btn_wiki"):
             actor_sel = next((a for a in _todos if a["nombre"] == actor_nombre_p), None)
             if actor_sel:
                 with st.spinner(f"Scrapeando {actor_sel['nombre']}…"):
@@ -399,7 +399,7 @@ with tab_perfil:
                     if perfil_wiki:
                         actor_sel.update(perfil_wiki)
                         _svc.upsert_actor(actor_sel)
-                        st.success("✅ Perfil enriquecido")
+                        st.success("✓ Perfil enriquecido")
                         _load_metricas.clear()
                     else:
                         st.warning("No encontrado en Wikipedia")
@@ -433,7 +433,7 @@ with tab_perfil:
 
         for val, lbl in [(f"{pgr_a:.4f}","PageRank"), (str(deg_a),"Conexiones"), (f"{btw_a:.4f}","Betweenness")]:
             st.markdown(
-                f'<div class="metric-box" style="margin-top:.4rem;">'
+                f'<div class="metric-box"style="margin-top:.4rem;">'
                 f'<div class="metric-val">{val}</div>'
                 f'<div class="metric-lbl">{lbl}</div></div>',
                 unsafe_allow_html=True
@@ -441,8 +441,8 @@ with tab_perfil:
         if com_a is not None:
             cc = _COMM_COLORS[int(com_a) % len(_COMM_COLORS)]
             st.markdown(
-                f'<div class="metric-box" style="margin-top:.4rem;border-top-color:{cc};">'
-                f'<div class="metric-val" style="color:{cc};">#{com_a}</div>'
+                f'<div class="metric-box"style="margin-top:.4rem;border-top-color:{cc};">'
+                f'<div class="metric-val"style="color:{cc};">#{com_a}</div>'
                 f'<div class="metric-lbl">Comunidad</div></div>',
                 unsafe_allow_html=True
             )
@@ -455,12 +455,12 @@ with tab_perfil:
           <div class="actor-role">{actor.get("rol","")}</div>
           <div>
             {_actor_badge(actor.get("tipo",""))}
-            <span class="tag" style="background:{BORDER};color:{TEXT2};">{actor.get("org","")}</span>
-            <span class="tag" style="background:{BORDER};color:{TEXT2};">🗺️ {actor.get("region","")}</span>
-            <span class="tag" style="background:{AMBER}22;color:{AMBER};">⚡ Poder {actor.get("poder",0)}/10</span>
+            <span class="tag"style="background:{BORDER};color:{TEXT2};">{actor.get("org","")}</span>
+            <span class="tag"style="background:{BORDER};color:{TEXT2};"> {actor.get("region","")}</span>
+            <span class="tag"style="background:{AMBER}22;color:{AMBER};">! Poder {actor.get("poder",0)}/10</span>
           </div>
-          {"<div style='margin-top:.4rem;font-size:.73rem;color:"+TEXT2+";'>🐦 "+actor.get("twitter","")+"</div>" if actor.get("twitter") else ""}
-          {"<div style='margin-top:.3rem;font-size:.73rem;color:"+TEXT2+";'>"+actor.get("descripcion","")+"</div>" if actor.get("descripcion") else ""}
+          {"<div style='margin-top:.4rem;font-size:.73rem;color:"+TEXT2+";'> "+actor.get("twitter","")+"</div>"if actor.get("twitter") else ""}
+          {"<div style='margin-top:.3rem;font-size:.73rem;color:"+TEXT2+";'>"+actor.get("descripcion","")+"</div>"if actor.get("descripcion") else ""}
         </div>
         """, unsafe_allow_html=True)
 
@@ -469,30 +469,30 @@ with tab_perfil:
         if wiki_txt:
             wiki_link = ""
             if actor.get("wikipedia_url"):
-                wiki_link = f"· <a href='{actor['wikipedia_url']}' target='_blank' style='color:{CYAN};'>ver artículo ↗</a>"
+                wiki_link = f"· <a href='{actor['wikipedia_url']}'target='_blank'style='color:{CYAN};'>ver artículo ↗</a>"
             st.markdown(f"""
             <div class="wiki-box">
-              <div style="font-size:.7rem;font-weight:700;color:{CYAN};margin-bottom:.4rem;">📖 Wikipedia {wiki_link}</div>
-              {wiki_txt[:600]}{"…" if len(wiki_txt)>600 else ""}
+              <div style="font-size:.7rem;font-weight:700;color:{CYAN};margin-bottom:.4rem;"> Wikipedia {wiki_link}</div>
+              {wiki_txt[:600]}{"…"if len(wiki_txt)>600 else ""}
             </div>
             """, unsafe_allow_html=True)
         elif actor.get("tipo") == "politico":
-            st.caption("ℹ️ Sin datos Wikipedia — pulsa 'Enriquecer Wikipedia'")
+            st.caption("ℹ Sin datos Wikipedia — pulsa 'Enriquecer Wikipedia'")
 
         # Conexiones
         rels_a = _svc.get_relaciones(actor_id=actor["id"])
         if rels_a:
-            st.markdown(f"**🔗 Conexiones ({len(rels_a)})**")
+            st.markdown(f"** Conexiones ({len(rels_a)})**")
             for r in sorted(rels_a, key=lambda x: -float(x.get("fuerza",1)))[:12]:
                 otro_id = r["to"] if r["from"] == actor["id"] else r["from"]
                 otro = _svc.get_actor(otro_id)
                 if not otro:
                     continue
-                direction = "→" if r["from"] == actor["id"] else "←"
+                direction = "→"if r["from"] == actor["id"] else "←"
                 cr = _COLOR_REL.get(r.get("tipo",""), MUTED)
                 fuente_tag = ""
                 if r.get("fuente","manual") != "manual":
-                    fuente_tag = f'<span style="font-size:.6rem;color:{MUTED};">🌐 {r["fuente"]}</span>'
+                    fuente_tag = f'<span style="font-size:.6rem;color:{MUTED};"> {r["fuente"]}</span>'
                 st.markdown(f"""
                 <div class="conn-item">
                   <span>{_icon_tipo(otro.get("tipo",""))} {otro.get("nombre",otro_id)}</span>
@@ -507,7 +507,7 @@ with tab_perfil:
         # Menciones recientes
         menciones = _svc.get_menciones(actor_id=actor["id"], limit=6)
         if menciones:
-            st.markdown(f"**📰 Menciones recientes ({len(menciones)})**")
+            st.markdown(f"** Menciones recientes ({len(menciones)})**")
             for m in menciones:
                 st.markdown(f"""
                 <div style="font-size:.75rem;border-left:2px solid {CYAN};
@@ -523,7 +523,7 @@ with tab_perfil:
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_rels:
-    st.markdown("### 🔗 Explorer de Relaciones")
+    st.markdown("###  Explorer de Relaciones")
 
     rc1, rc2, rc3 = st.columns(3)
     with rc1:
@@ -533,7 +533,7 @@ with tab_rels:
     with rc3:
         min_fuerza = st.slider("Fuerza mínima", 0.0, 10.0, 0.0, 0.5, key="rel_fuerza")
 
-    _rels_all = _svc.get_relaciones(tipo=tipo_rel_f if tipo_rel_f != "Todas" else None)
+    _rels_all = _svc.get_relaciones(tipo=tipo_rel_f if tipo_rel_f != "Todas"else None)
     if fuente_f != "Todas":
         _rels_all = [r for r in _rels_all if r.get("fuente","manual") == fuente_f]
     if min_fuerza > 0:
@@ -585,7 +585,7 @@ with tab_rels:
         with ae5:
             new_fuerza = st.slider("Fuerza", 1.0, 10.0, 5.0, 0.5, key="new_rel_fuerza")
 
-        if st.button("💾 Guardar relación", key="btn_save_rel"):
+        if st.button("Guardar relación", key="btn_save_rel"):
             a_f2 = next((a for a in _todos_n if a["nombre"] == from_actor), None)
             a_t2 = next((a for a in _todos_n if a["nombre"] == to_actor), None)
             if a_f2 and a_t2 and a_f2["id"] != a_t2["id"]:
@@ -594,7 +594,7 @@ with tab_rels:
                     "tipo": new_tipo, "label": new_label,
                     "fuerza": new_fuerza, "fuente": "manual",
                 })
-                st.success(f"✅ {from_actor} → {to_actor} guardada")
+                st.success(f"✓ {from_actor} → {to_actor} guardada")
                 st.cache_data.clear()
             else:
                 st.error("Selecciona dos actores distintos")
@@ -605,7 +605,7 @@ with tab_rels:
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_analisis:
-    st.markdown("### 📊 Análisis de Red — networkx")
+    st.markdown("###  Análisis de Red — networkx")
     st.caption("Degree · Betweenness · PageRank · Closeness · Comunidades Louvain (greedy_modularity)")
 
     m = _load_metricas()
@@ -646,7 +646,7 @@ with tab_analisis:
         fig_top = go.Figure(go.Bar(
             x=list(vals), y=nombres, orientation="h",
             marker_color=colores,
-            text=[f"{v:.4f}" for v in vals], textposition="outside",
+            text=[f"{v:.4f}"for v in vals], textposition="outside",
         ))
         fig_top.update_layout(
             paper_bgcolor=BG, plot_bgcolor=BG2, font_color=TEXT,
@@ -657,7 +657,7 @@ with tab_analisis:
         st.plotly_chart(fig_top, use_container_width=True)
 
     # Brokers
-    st.markdown("#### 🌉 Actores Puente — Brokers de Información")
+    st.markdown("####  Actores Puente — Brokers de Información")
     st.caption("Betweenness > media + σ : actores que conectan comunidades distintas")
     puentes = _svc.actores_puente()
     if puentes:
@@ -667,12 +667,12 @@ with tab_analisis:
             c = _color_tipo(a.get("tipo","") if a else "")
             with p_cols[i % len(p_cols)]:
                 st.markdown(f"""
-                <div class="metric-box" style="border-top-color:{c};">
+                <div class="metric-box"style="border-top-color:{c};">
                   <div style="font-size:.9rem;font-weight:800;color:{TEXT};">
                     {_icon_tipo(a.get("tipo","") if a else "")} {p["nombre"]}
                   </div>
                   <div style="font-size:.65rem;color:{MUTED};">{a.get("org","") if a else ""}</div>
-                  <div class="metric-val" style="font-size:1rem;margin-top:.4rem;">{p["betweenness"]:.4f}</div>
+                  <div class="metric-val"style="font-size:1rem;margin-top:.4rem;">{p["betweenness"]:.4f}</div>
                   <div class="metric-lbl">Betweenness · {p["grado"]} conexiones</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -680,7 +680,7 @@ with tab_analisis:
         st.info("Networkx no disponible o sin suficientes datos")
 
     # Camino más corto
-    st.markdown("#### 🔍 Camino Más Corto entre Dos Actores")
+    st.markdown("####  Camino Más Corto entre Dos Actores")
     _todos_s = sorted(_svc.get_actores(), key=lambda x: x.get("nombre",""))
     sp1, sp2 = st.columns(2)
     with sp1:
@@ -688,7 +688,7 @@ with tab_analisis:
     with sp2:
         actor_b_n = st.selectbox("Actor B", [a["nombre"] for a in _todos_s], index=1, key="path_b")
 
-    if st.button("🔍 Calcular camino", key="btn_path"):
+    if st.button("Calcular camino", key="btn_path"):
         obj_a = next((a for a in _todos_s if a["nombre"] == actor_a_n), None)
         obj_b = next((a for a in _todos_s if a["nombre"] == actor_b_n), None)
         if obj_a and obj_b:
@@ -697,14 +697,14 @@ with tab_analisis:
                 path_n = []
                 for pid in path:
                     pa = _svc.get_actor(pid)
-                    path_n.append(f"**{pa['nombre']}**" if pa else pid)
-                st.success(f"✅ Distancia: {len(path)-1} pasos")
+                    path_n.append(f"**{pa['nombre']}**"if pa else pid)
+                st.success(f"✓ Distancia: {len(path)-1} pasos")
                 st.markdown(" → ".join(path_n))
             else:
                 st.warning("No hay camino entre estos actores")
 
     # Scatter PageRank vs Betweenness
-    st.markdown("#### 🎯 PageRank vs Betweenness")
+    st.markdown("####  PageRank vs Betweenness")
     _all_a = _svc.get_actores()
     sdata = [{
         "nombre":     a.get("nombre",a["id"]),
@@ -734,7 +734,7 @@ with tab_analisis:
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_update:
-    st.markdown("### 🔄 Motor de Actualización Dinámica")
+    st.markdown("###  Motor de Actualización Dinámica")
     st.caption("Worker background · Scraping Wikipedia/Wikidata · NER RSS · Relaciones inferidas")
 
     est = _svc.estado_worker_actores()
@@ -744,14 +744,14 @@ with tab_update:
     with uw1:
         w_running = est.get("running", False)
         if w_running:
-            st.markdown(f'<div style="color:{GREEN};font-weight:800;">🟢 Worker activo</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="color:{GREEN};font-weight:800;">● Worker activo</div>', unsafe_allow_html=True)
             if st.button("⏹ Detener worker", key="btn_stop"):
                 _svc.detener_worker_actores()
                 st.info("Worker detenido")
                 st.rerun()
         else:
             st.markdown(f'<div style="color:{MUTED};font-weight:800;">⏸ Worker parado</div>', unsafe_allow_html=True)
-            if st.button("▶️ Iniciar worker", key="btn_start"):
+            if st.button("▶ Iniciar worker", key="btn_start"):
                 _svc.iniciar_worker_actores()
                 st.success("Worker iniciado")
                 st.rerun()
@@ -767,7 +767,7 @@ with tab_update:
     # Próximas ejecuciones
     proximas = est.get("proximas", {})
     if proximas:
-        st.markdown("**⏱ Próximas ejecuciones:**")
+        st.markdown("** Próximas ejecuciones:**")
         df_prx = pd.DataFrame([
             {"Tarea": k, "En (s)": max(0,v), "En (min)": round(max(0,v)/60,1)}
             for k, v in proximas.items()
@@ -775,29 +775,29 @@ with tab_update:
         st.dataframe(df_prx, hide_index=True, use_container_width=True, height=140)
 
     # Actualizaciones manuales por módulo
-    st.markdown("#### ⚡ Actualización Manual por Módulo")
+    st.markdown("#### ! Actualización Manual por Módulo")
     mu1, mu2, mu3 = st.columns(3)
     with mu1:
-        if st.button("📰 Menciones RSS", key="btn_mencion"):
+        if st.button("Menciones RSS", key="btn_mencion"):
             with st.spinner("Scrapeando menciones…"):
                 n = _svc.ejecutar_actualizacion_manual("menciones_rss")
-            st.success(f"✅ {n} menciones nuevas")
+            st.success(f"✓ {n} menciones nuevas")
             st.cache_data.clear()
     with mu2:
-        if st.button("🔗 Inferir relaciones RSS", key="btn_rel"):
+        if st.button("Inferir relaciones RSS", key="btn_rel"):
             with st.spinner("Analizando co-menciones…"):
                 n = _svc.ejecutar_actualizacion_manual("relaciones_rss")
-            st.success(f"✅ {n} relaciones inferidas")
+            st.success(f"✓ {n} relaciones inferidas")
             st.cache_data.clear()
     with mu3:
-        if st.button("🌐 Enriquecer Wikipedia (lote)", key="btn_wiki_lote"):
+        if st.button("Enriquecer Wikipedia (lote)", key="btn_wiki_lote"):
             with st.spinner("Enriqueciendo lote de 5 actores…"):
                 n = _svc.ejecutar_actualizacion_manual("enriquecimiento")
-            st.success(f"✅ {n} actores enriquecidos")
+            st.success(f"✓ {n} actores enriquecidos")
             st.cache_data.clear()
 
     # Enriquecimiento individual
-    st.markdown("#### 🎯 Enriquecimiento Individual")
+    st.markdown("####  Enriquecimiento Individual")
     _todos_e = sorted(_svc.get_actores(), key=lambda x: x.get("nombre",""))
     enr1, enr2 = st.columns([3,1])
     with enr1:
@@ -806,7 +806,7 @@ with tab_update:
         force_r = st.checkbox("Forzar refresh", key="enr_force")
 
     if _SCRAPER_OK:
-        if st.button("🌐 Enriquecer este actor", key="btn_enr_ind"):
+        if st.button("Enriquecer este actor", key="btn_enr_ind"):
             actor_enr = next((a for a in _todos_e if a["nombre"] == actor_enr_n), None)
             if actor_enr:
                 with st.spinner(f"Enriqueciendo {actor_enr['nombre']}…"):
@@ -815,7 +815,7 @@ with tab_update:
                         _svc.upsert_actor(ae)
                     if enriquecidos:
                         res = enriquecidos[0]
-                        st.success(f"✅ {actor_enr['nombre']} actualizado")
+                        st.success(f"✓ {actor_enr['nombre']} actualizado")
                         if res.get("extracto"):
                             st.markdown(
                                 f'<div class="wiki-box"><b>Wikipedia:</b> {res["extracto"][:400]}…</div>',
@@ -826,13 +826,13 @@ with tab_update:
                 st.cache_data.clear()
 
         # Wikidata bulk
-        st.markdown("#### 🗄️ Descarga Bulk — Wikidata SPARQL")
+        st.markdown("####  Descarga Bulk — Wikidata SPARQL")
         st.caption("~150 políticos españoles estructurados desde Wikidata")
-        if st.button("⬇️ Descargar políticos de Wikidata", key="btn_wikidata"):
+        if st.button("⬇ Descargar políticos de Wikidata", key="btn_wikidata"):
             with st.spinner("Consultando Wikidata (10-20s)…"):
                 wd_pol = _scraper.wikidata_politicos_espana()
             if wd_pol:
-                st.success(f"✅ {len(wd_pol)} políticos encontrados")
+                st.success(f"✓ {len(wd_pol)} políticos encontrados")
                 df_wd = pd.DataFrame(wd_pol)
                 st.dataframe(
                     df_wd[["nombre","partido","cargo","nacimiento"]].head(30),
@@ -844,16 +844,16 @@ with tab_update:
         st.info("actors_scraper no disponible")
 
     # Log de operaciones
-    st.markdown("#### 📋 Log de Operaciones")
+    st.markdown("####  Log de Operaciones")
     log_entries = est.get("log", [])
     if log_entries:
         for entry in log_entries[:20]:
             ok = entry.get("ok", True)
-            info = (f" — {entry.get('error','')}" if not ok and entry.get("error")
+            info = (f" — {entry.get('error','')}"if not ok and entry.get("error")
                     else f" ({entry.get('n',0)} items)")
             st.markdown(f"""
             <div class="log-row">
-              <span class="{'log-ok' if ok else 'log-err'}">{'✓' if ok else '✗'}</span>
+              <span class="{'log-ok'if ok else 'log-err'}">{'✓'if ok else '✗'}</span>
               <span style="color:{MUTED};">[{entry.get("ts","")[:19]}]</span>
               <span style="color:{TEXT2};"> {entry.get("tipo","")}{info}</span>
             </div>
@@ -862,21 +862,21 @@ with tab_update:
     if _SCRAPER_OK:
         scraper_log = getattr(_scraper, "_SCRAPE_LOG", [])
         if scraper_log:
-            st.markdown("#### 🌐 Log Scraper")
+            st.markdown("####  Log Scraper")
             for entry in reversed(scraper_log[-12:]):
                 ok_s = entry.get("ok", True)
                 st.markdown(f"""
                 <div class="log-row">
-                  <span class="{'log-ok' if ok_s else 'log-err'}">{'✓' if ok_s else '✗'}</span>
+                  <span class="{'log-ok'if ok_s else 'log-err'}">{'✓'if ok_s else '✗'}</span>
                   <span style="color:{MUTED};">[{entry.get("ts","")}]</span>
                   <span style="color:{TEXT2};"> {entry.get("tipo","")} · {entry.get("actor","")} · {entry.get("info","")}</span>
                 </div>
                 """, unsafe_allow_html=True)
 
-    if st.button("🔄 Reset a datos seed", key="btn_reset", type="secondary"):
+    if st.button("Reset a datos seed", key="btn_reset", type="secondary"):
         _svc.reset_a_seed()
         st.cache_data.clear()
-        st.success("✅ Store reseteado a datos base")
+        st.success("✓ Store reseteado a datos base")
         st.rerun()
 
 
@@ -885,25 +885,25 @@ with tab_update:
 # ─────────────────────────────────────────────────────────────────────────────
 
 with tab_query:
-    st.markdown("### 🤖 Motor de Consulta IA — Ollama Local")
+    st.markdown("###  Motor de Consulta IA — Ollama Local")
     st.caption("Consulta libre · NER de noticias · Ficha ejecutiva · Briefing de relación")
 
     if not _LLM_OK:
-        st.warning("⚠️ Ollama no disponible — `ollama serve` para activarlo")
+        st.warning("⚠ Ollama no disponible — `ollama serve` para activarlo")
     else:
-        st.success("🟢 Ollama activo")
+        st.success("● Ollama activo")
 
     qt1, qt2, qt3, qt4, qt5 = st.tabs([
-        "💬 Consulta libre",
-        "🔍 NER — Extraer actores",
-        "📋 Ficha de actor IA",
-        "🤝 Briefing de relación",
-        "⚖️ Normativa + Herramientas",
+        "Consulta libre",
+        "NER — Extraer actores",
+        "Ficha de actor IA",
+        "Briefing de relación",
+        "Normativa + Herramientas",
     ])
 
     # ── QT1: Consulta libre ───────────────────────────────────────────────────
     with qt1:
-        st.markdown("#### 💬 Consulta en lenguaje natural sobre el grafo")
+        st.markdown("####  Consulta en lenguaje natural sobre el grafo")
 
         _preguntas = [
             "¿Quién tiene más influencia en el grafo político actual?",
@@ -914,7 +914,7 @@ with tab_query:
             "Explica las comunidades detectadas en el grafo",
         ]
         for pq in _preguntas:
-            if st.button(f"💡 {pq}", key=f"pq_{hash(pq)}"):
+            if st.button(f" {pq}", key=f"pq_{hash(pq)}"):
                 st.session_state["qia_input"] = pq
 
         pregunta = st.text_area(
@@ -924,7 +924,7 @@ with tab_query:
             placeholder="Ej: ¿Qué actores conectan a Puigdemont con el Gobierno?",
         )
 
-        if st.button("🔍 Consultar", key="btn_query", disabled=not _LLM_OK):
+        if st.button("Consultar", key="btn_query", disabled=not _LLM_OK):
             if pregunta.strip():
                 m_ctx = _load_metricas()
                 top_pgr = _svc.top_actores_por_metrica("pagerank",10)
@@ -961,7 +961,7 @@ Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
                 sistema = ("Eres un analista experto en política española con acceso a un grafo "
                            "de relaciones entre actores. Responde en español, conciso y preciso.")
 
-                with st.spinner("🤔 Analizando con herramientas…"):
+                with st.spinner("Analizando con herramientas…"):
                     # Usar chat_legislativo para acceder a BOE/EUR-Lex/AI Act si es necesario
                     try:
                         respuesta = _llm.chat_legislativo(
@@ -972,24 +972,24 @@ Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
                         respuesta = _llm.chat(pregunta, contexto=contexto, sistema=sistema, modo="normal")
 
                 st.markdown(f'<div class="chat-msg">{respuesta}</div>', unsafe_allow_html=True)
-                if "qia_historia" not in st.session_state:
+                if "qia_historia"not in st.session_state:
                     st.session_state["qia_historia"] = []
                 st.session_state["qia_historia"].append({
                     "q": pregunta, "a": respuesta, "ts": time.strftime("%H:%M")
                 })
 
         if st.session_state.get("qia_historia"):
-            with st.expander(f"📜 Historial ({len(st.session_state['qia_historia'])} consultas)"):
+            with st.expander(f"Historial ({len(st.session_state['qia_historia'])} consultas)"):
                 for item in reversed(st.session_state["qia_historia"][-8:]):
                     st.markdown(f"**[{item['ts']}]** {item['q']}")
                     st.markdown(
-                        f'<div class="chat-msg">{item["a"][:300]}{"…" if len(item["a"])>300 else ""}</div>',
+                        f'<div class="chat-msg">{item["a"][:300]}{"…"if len(item["a"])>300 else ""}</div>',
                         unsafe_allow_html=True
                     )
 
     # ── QT2: NER ─────────────────────────────────────────────────────────────
     with qt2:
-        st.markdown("#### 🔍 NER — Extracción de Actores y Relaciones desde Texto")
+        st.markdown("####  NER — Extracción de Actores y Relaciones desde Texto")
         st.caption("Inspirado en NER-for-News-Headlines · text2knowledge · orlandxrf/relation-extraction")
 
         _ejemplos_ner = [
@@ -998,7 +998,7 @@ Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
             "Junts per Catalunya, liderado por Puigdemont, anuncia que retirará su apoyo al gobierno si no avanza la negociación sobre Catalunya.",
         ]
         for ej in _ejemplos_ner:
-            if st.button(f"📌 {ej[:65]}…", key=f"ner_ej_{hash(ej)}"):
+            if st.button(f" {ej[:65]}…", key=f"ner_ej_{hash(ej)}"):
                 st.session_state["ner_texto"] = ej
 
         texto_ner = st.text_area(
@@ -1008,7 +1008,7 @@ Lobby/Influencia: CEOE, CCOO, UGT, FAES, Banco de España, CGPJ"""
             placeholder="Pega un titular o párrafo de noticia política española…",
         )
 
-        if st.button("🔍 Extraer entidades y relaciones", key="btn_ner", disabled=not _LLM_OK):
+        if st.button("Extraer entidades y relaciones", key="btn_ner", disabled=not _LLM_OK):
             txt = texto_ner.strip()
             if txt:
                 actores_bbdd = [a["nombre"] for a in _svc.get_actores()][:35]
@@ -1030,7 +1030,7 @@ Responde SOLO con JSON válido (sin texto adicional):
   "resumen": "una frase sobre la noticia en clave política"
 }}"""
 
-                with st.spinner("🔍 Extrayendo entidades…"):
+                with st.spinner("Extrayendo entidades…"):
                     resp_ner = _llm.chat(prompt_ner,
                                          sistema="Eres un sistema NER político. Devuelve SOLO JSON.",
                                          modo="fast")
@@ -1042,7 +1042,7 @@ Responde SOLO con JSON válido (sin texto adicional):
 
                     resumen = ner_data.get("resumen","")
                     if resumen:
-                        st.info(f"💡 {resumen}")
+                        st.info(f" {resumen}")
 
                     entidades = ner_data.get("entidades",[])
                     if entidades:
@@ -1050,7 +1050,7 @@ Responde SOLO con JSON válido (sin texto adicional):
                         chips = ""
                         for e in entidades:
                             bg = CYAN if e.get("en_bbdd") else AMBER
-                            chips += f'<span class="ner-chip" style="background:{bg}22;color:{bg};">{e["nombre"]} <small>({e.get("tipo","")})</small></span>'
+                            chips += f'<span class="ner-chip"style="background:{bg}22;color:{bg};">{e["nombre"]} <small>({e.get("tipo","")})</small></span>'
                         st.markdown(chips, unsafe_allow_html=True)
 
                     rels_ner = ner_data.get("relaciones",[])
@@ -1067,7 +1067,7 @@ Responde SOLO con JSON válido (sin texto adicional):
                             </div>
                             """, unsafe_allow_html=True)
 
-                        if st.button("💾 Añadir relaciones al grafo", key="btn_save_ner"):
+                        if st.button("Añadir relaciones al grafo", key="btn_save_ner"):
                             _ids = {a["nombre"]: a["id"] for a in _svc.get_actores()}
                             n_s = 0
                             for r_n in rels_ner:
@@ -1081,7 +1081,7 @@ Responde SOLO con JSON válido (sin texto adicional):
                                         "fuerza": 3.0, "fuente": "ner_ollama",
                                     })
                                     n_s += 1
-                            st.success(f"✅ {n_s} relaciones añadidas")
+                            st.success(f"✓ {n_s} relaciones añadidas")
                             st.cache_data.clear()
 
                 except Exception:
@@ -1089,13 +1089,13 @@ Responde SOLO con JSON válido (sin texto adicional):
 
     # ── QT3: Ficha ejecutiva ──────────────────────────────────────────────────
     with qt3:
-        st.markdown("#### 📋 Ficha Ejecutiva de Actor")
+        st.markdown("####  Ficha Ejecutiva de Actor")
         st.caption("Briefing completo generado por Ollama con datos del grafo")
 
         _todos_f = sorted(_svc.get_actores(), key=lambda x: -x.get("poder",0))
         ficha_n = st.selectbox("Actor", [a["nombre"] for a in _todos_f], key="ficha_actor")
 
-        if st.button("📋 Generar ficha ejecutiva", key="btn_ficha", disabled=not _LLM_OK):
+        if st.button("Generar ficha ejecutiva", key="btn_ficha", disabled=not _LLM_OK):
             actor_f = next((a for a in _todos_f if a["nombre"] == ficha_n), None)
             if actor_f:
                 m_f = _load_metricas()
@@ -1110,7 +1110,7 @@ Responde SOLO con JSON válido (sin texto adicional):
                     otro_id = r["to"] if r["from"] == actor_f["id"] else r["from"]
                     otro = _svc.get_actor(otro_id)
                     if otro:
-                        d = "→" if r["from"] == actor_f["id"] else "←"
+                        d = "→"if r["from"] == actor_f["id"] else "←"
                         conns_desc.append(f"{d} {otro['nombre']} ({r.get('tipo','')}): {r.get('label','')}")
 
                 wiki_e = actor_f.get("wikipedia_extracto", actor_f.get("extracto",""))
@@ -1131,7 +1131,7 @@ Estructura:
 
 Español. Analítico. Orientado a decisores."""
 
-                with st.spinner(f"📋 Generando ficha de {ficha_n}…"):
+                with st.spinner(f"Generando ficha de {ficha_n}…"):
                     ficha_txt = _llm.chat(prompt_f,
                                           sistema="Eres un analista político de alto nivel especializado en España.",
                                           modo="normal")
@@ -1139,7 +1139,7 @@ Español. Analítico. Orientado a decisores."""
 
     # ── QT4: Briefing relación ────────────────────────────────────────────────
     with qt4:
-        st.markdown("#### 🤝 Briefing de Relación entre Dos Actores")
+        st.markdown("####  Briefing de Relación entre Dos Actores")
         st.caption("Solidez · Historia · Palancas de negociación · Escenarios futuros")
 
         _todos_b = sorted(_svc.get_actores(), key=lambda x: -x.get("poder",0))
@@ -1149,7 +1149,7 @@ Español. Analítico. Orientado a decisores."""
         with br2:
             b_b_n = st.selectbox("Actor B", [a["nombre"] for a in _todos_b], index=1, key="brief_b")
 
-        if st.button("🤝 Generar briefing", key="btn_briefing", disabled=not _LLM_OK):
+        if st.button("Generar briefing", key="btn_briefing", disabled=not _LLM_OK):
             obj_a = next((a for a in _todos_b if a["nombre"] == b_a_n), None)
             obj_b = next((a for a in _todos_b if a["nombre"] == b_b_n), None)
             if obj_a and obj_b:
@@ -1183,7 +1183,7 @@ Analiza:
 
 Español. Accionable."""
 
-                with st.spinner(f"🤝 Analizando relación {b_a_n} ↔ {b_b_n}…"):
+                with st.spinner(f"Analizando relación {b_a_n} ↔ {b_b_n}…"):
                     br_txt = _llm.chat(prompt_br,
                                        sistema="Eres analista de relaciones de poder en política española.",
                                        modo="normal")
@@ -1192,18 +1192,18 @@ Español. Accionable."""
 
     # ── QT5: Normativa + Herramientas ─────────────────────────────────────────
     with qt5:
-        st.markdown("#### ⚖️ Consulta con Herramientas Legislativas")
+        st.markdown("####  Consulta con Herramientas Legislativas")
         st.caption("Accede al BOE, EUR-Lex, AI Act compliance y votaciones del Congreso")
 
         _herr_opts = {
-            "🔍 BOE — Legislación española": "boe_search",
-            "📅 BOE — Sumario del día": "boe_sumario",
-            "🇪🇺 EUR-Lex — Normativa UE": "euparl_query",
-            "📋 EUR-Lex — Trazabilidad procedimiento": "euparl_procedimiento",
-            "🤖 AI Act — Cumplimiento IA": "ai_act_compliance",
-            "🗳️ Congreso — Votaciones recientes": "congreso_votaciones",
-            "👤 Congreso — Diputados": "congreso_diputados",
-            "🕸️ Actores — Red de relaciones": "actor_relaciones",
+            "BOE — Legislación española": "boe_search",
+            "BOE — Sumario del día": "boe_sumario",
+            "EUR-Lex — Normativa UE": "euparl_query",
+            "EUR-Lex — Trazabilidad procedimiento": "euparl_procedimiento",
+            "AI Act — Cumplimiento IA": "ai_act_compliance",
+            "Congreso — Votaciones recientes": "congreso_votaciones",
+            "Congreso — Diputados": "congreso_diputados",
+            "Actores — Red de relaciones": "actor_relaciones",
         }
 
         _herr_sel = st.multiselect(
@@ -1215,7 +1215,7 @@ Español. Accionable."""
         _herr_ids = [_herr_opts[h] for h in _herr_sel]
 
         # Estado de herramientas
-        with st.expander("📊 Estado de fuentes legislativas", expanded=False):
+        with st.expander("Estado de fuentes legislativas", expanded=False):
             try:
                 from services.llm_tools_registry import status_herramientas
                 _st_herr = status_herramientas()
@@ -1224,24 +1224,24 @@ Español. Accionable."""
                     with cols_h[i % 4]:
                         if info.get("ok"):
                             detalles = []
-                            if "normas_corpus" in info:
+                            if "normas_corpus"in info:
                                 detalles.append(f"{info['normas_corpus']} normas")
-                            if "articulos" in info:
+                            if "articulos"in info:
                                 detalles.append(f"{info['articulos']} arts.")
-                            if "votaciones" in info:
+                            if "votaciones"in info:
                                 detalles.append(f"{info['votaciones']} votaciones")
-                            if "actores" in info:
+                            if "actores"in info:
                                 detalles.append(f"{info['actores']} actores")
-                            st.metric(nombre.replace("_", " "), "🟢 OK", ", ".join(detalles) or info.get("fuente", ""))
+                            st.metric(nombre.replace("_", " "), "● OK", ", ".join(detalles) or info.get("fuente", ""))
                         else:
-                            st.metric(nombre.replace("_", " "), "🔴 KO", info.get("error", "")[:40])
+                            st.metric(nombre.replace("_", " "), "● KO", info.get("error", "")[:40])
             except Exception as e:
                 st.caption(f"No disponible: {e}")
 
         # Briefing legislativo del día
         col_brief1, col_brief2 = st.columns([3, 1])
         with col_brief2:
-            if st.button("📋 Briefing del día", key="btn_briefing_leg"):
+            if st.button("Briefing del día", key="btn_briefing_leg"):
                 with st.spinner("Generando briefing legislativo…"):
                     try:
                         from services.llm_tools_registry import briefing_legislativo_matutino
@@ -1264,7 +1264,7 @@ Español. Accionable."""
             "Resume la actividad legislativa de esta semana en España y la UE",
         ]
         for _pq_leg in _preguntas_leg:
-            if st.button(f"💡 {_pq_leg}", key=f"pqleg_{hash(_pq_leg)}"):
+            if st.button(f" {_pq_leg}", key=f"pqleg_{hash(_pq_leg)}"):
                 st.session_state["qt5_pregunta"] = _pq_leg
 
         _pregunta_leg = st.text_area(
@@ -1275,9 +1275,9 @@ Español. Accionable."""
             placeholder="Ej: ¿Qué dice la normativa española sobre IA? ¿Cómo está tramitando la UE el Data Act?",
         )
 
-        if st.button("🔍 Consultar con herramientas", key="btn_qt5_query", disabled=not _LLM_OK):
+        if st.button("Consultar con herramientas", key="btn_qt5_query", disabled=not _LLM_OK):
             if _pregunta_leg.strip():
-                with st.spinner("🤖 Consultando fuentes legislativas…"):
+                with st.spinner("Consultando fuentes legislativas…"):
                     try:
                         respuesta_leg = _llm.chat_legislativo(
                             _pregunta_leg,
@@ -1292,18 +1292,18 @@ Español. Accionable."""
                         ])
                         respuesta_leg = _llm.chat(_pregunta_leg, contexto=ctx_leg[:3000])
                 st.markdown(f'<div class="chat-msg">{respuesta_leg}</div>', unsafe_allow_html=True)
-                if "qt5_historia" not in st.session_state:
+                if "qt5_historia"not in st.session_state:
                     st.session_state["qt5_historia"] = []
                 st.session_state["qt5_historia"].append({
                     "q": _pregunta_leg, "a": respuesta_leg, "ts": time.strftime("%H:%M")
                 })
 
         if st.session_state.get("qt5_historia"):
-            with st.expander(f"📜 Historial ({len(st.session_state['qt5_historia'])} consultas)"):
+            with st.expander(f"Historial ({len(st.session_state['qt5_historia'])} consultas)"):
                 for _item in reversed(st.session_state["qt5_historia"][-5:]):
                     st.markdown(f"**[{_item['ts']}]** {_item['q']}")
                     st.markdown(
-                        f'<div class="chat-msg">{_item["a"][:400]}{"…" if len(_item["a"])>400 else ""}</div>',
+                        f'<div class="chat-msg">{_item["a"][:400]}{"…"if len(_item["a"])>400 else ""}</div>',
                         unsafe_allow_html=True,
                     )
 

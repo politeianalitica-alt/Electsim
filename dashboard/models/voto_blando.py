@@ -211,12 +211,12 @@ def _normalizar_provincia(nombre: str) -> str:
 def _extraer_mapa_partido_por_provincia(df_encuestas: pd.DataFrame | None, partido_ref: str) -> dict[str, float]:
     if df_encuestas is None or df_encuestas.empty:
         return {}
-    if "provincia" not in df_encuestas.columns:
+    if "provincia"not in df_encuestas.columns:
         return {}
 
     cols_partido = ["partido", "partido_siglas", "siglas"]
     col_partido = next((c for c in cols_partido if c in df_encuestas.columns), None)
-    col_valor = "pct_est" if "pct_est" in df_encuestas.columns else ("estimacion_pct" if "estimacion_pct" in df_encuestas.columns else None)
+    col_valor = "pct_est"if "pct_est"in df_encuestas.columns else ("estimacion_pct"if "estimacion_pct"in df_encuestas.columns else None)
     if col_partido is None or col_valor is None:
         return {}
 
@@ -239,7 +239,7 @@ def _extraer_mapa_partido_por_provincia(df_encuestas: pd.DataFrame | None, parti
 def _insatisfaccion_desde_macro(df_macro: pd.DataFrame | None, provincia: str) -> float:
     if df_macro is None or df_macro.empty:
         return 0.40
-    if "provincia" not in df_macro.columns:
+    if "provincia"not in df_macro.columns:
         return 0.40
 
     cand_cols = [c for c in ["tasa_paro", "valor"] if c in df_macro.columns]
@@ -360,9 +360,9 @@ def calcular_voto_blando_segmentos(
             insatisfaccion_gobierno=ins,
             desempleo_local=des,
             fragmentacion=frag,
-            segmento_edad=(valor if tipo == "edad" else None),
-            segmento_estudios=(valor if tipo == "estudios" else None),
-            segmento_ideologia=(valor if tipo == "ideologia" else None),
+            segmento_edad=(valor if tipo == "edad"else None),
+            segmento_estudios=(valor if tipo == "estudios"else None),
+            segmento_ideologia=(valor if tipo == "ideologia"else None),
             n_electores_est=n_elec,
         )
         r = calcular_score_analitico(inp)

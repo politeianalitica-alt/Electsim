@@ -76,8 +76,8 @@ def _expect_not_empty(df: pd.DataFrame, name: str = "not_empty") -> Expectation:
     ok = not df.empty
     return Expectation(
         name=name,
-        status="pass" if ok else "fail",
-        detail="DataFrame no está vacío" if ok else "DataFrame vacío — fuente sin datos",
+        status="pass"if ok else "fail",
+        detail="DataFrame no está vacío"if ok else "DataFrame vacío — fuente sin datos",
         value=len(df),
     )
 
@@ -100,7 +100,7 @@ def _expect_no_nulls(df: pd.DataFrame, col: str, max_null_pct: float = 0.1) -> E
     if col not in df.columns:
         return Expectation(
             name=f"no_nulls_{col}", status="fail",
-            detail=f"Columna '{col}' no existe", value=None,
+            detail=f"Columna '{col}'no existe", value=None,
         )
     null_pct = df[col].isna().mean()
     if null_pct <= max_null_pct:
@@ -124,7 +124,7 @@ def _expect_recent_data(
     if date_col not in df.columns:
         return Expectation(
             name=f"recent_{date_col}", status="warn",
-            detail=f"Columna de fecha '{date_col}' no encontrada",
+            detail=f"Columna de fecha '{date_col}'no encontrada",
         )
     try:
         dates = pd.to_datetime(df[date_col], errors="coerce").dropna()
@@ -155,9 +155,9 @@ def _expect_recent_data(
 def _expect_unique(df: pd.DataFrame, col: str, max_dup_pct: float = 0.05) -> Expectation:
     if col not in df.columns:
         return Expectation(name=f"unique_{col}", status="warn",
-                           detail=f"Columna '{col}' no existe")
+                           detail=f"Columna '{col}'no existe")
     dup_pct = 1 - df[col].nunique() / max(len(df), 1)
-    status = "pass" if dup_pct <= max_dup_pct else ("warn" if dup_pct <= 0.2 else "fail")
+    status = "pass"if dup_pct <= max_dup_pct else ("warn"if dup_pct <= 0.2 else "fail")
     return Expectation(
         name=f"unique_{col}",
         status=status,
@@ -170,11 +170,11 @@ def _expect_unique(df: pd.DataFrame, col: str, max_dup_pct: float = 0.05) -> Exp
 def _expect_values_in_set(df: pd.DataFrame, col: str, valid_values: set) -> Expectation:
     if col not in df.columns:
         return Expectation(name=f"values_in_set_{col}", status="warn",
-                           detail=f"Columna '{col}' no existe")
+                           detail=f"Columna '{col}'no existe")
     invalid = ~df[col].isin(valid_values)
     invalid_pct = invalid.mean()
     bad_samples = df.loc[invalid, col].dropna().unique()[:5].tolist()
-    status = "pass" if invalid_pct == 0 else ("warn" if invalid_pct < 0.1 else "fail")
+    status = "pass"if invalid_pct == 0 else ("warn"if invalid_pct < 0.1 else "fail")
     return Expectation(
         name=f"values_in_set_{col}",
         status=status,
@@ -186,10 +186,10 @@ def _expect_values_in_set(df: pd.DataFrame, col: str, valid_values: set) -> Expe
 def _expect_str_min_length(df: pd.DataFrame, col: str, min_len: int = 5) -> Expectation:
     if col not in df.columns:
         return Expectation(name=f"str_len_{col}", status="warn",
-                           detail=f"Columna '{col}' no existe")
+                           detail=f"Columna '{col}'no existe")
     short = (df[col].str.len().fillna(0) < min_len)
     short_pct = short.mean()
-    status = "pass" if short_pct < 0.05 else ("warn" if short_pct < 0.2 else "fail")
+    status = "pass"if short_pct < 0.05 else ("warn"if short_pct < 0.2 else "fail")
     return Expectation(
         name=f"str_len_{col}",
         status=status,
@@ -212,7 +212,7 @@ def validate_boe(df: pd.DataFrame) -> QualityReport:
         _expect_unique(df, "titulo", max_dup_pct=0.05),
         _expect_str_min_length(df, "titulo", min_len=10),
         _expect_values_in_set(df,
-                               "relevancia" if "relevancia" in df.columns else "relevancia_politica",
+                               "relevancia"if "relevancia"in df.columns else "relevancia_politica",
                                {"Alta", "Media", "Baja"}),
     ]
     return report
@@ -224,11 +224,11 @@ def validate_agenda(df: pd.DataFrame) -> QualityReport:
     report.expectations += [
         _expect_not_empty(df),
         _expect_min_rows(df, min_rows=2),
-        _expect_no_nulls(df, "title" if "title" in df.columns else "titulo"),
-        _expect_recent_data(df, "event_date" if "event_date" in df.columns else "fecha",
+        _expect_no_nulls(df, "title"if "title"in df.columns else "titulo"),
+        _expect_recent_data(df, "event_date"if "event_date"in df.columns else "fecha",
                             max_lag_days=7, warn_lag_days=2),
         _expect_values_in_set(df,
-                               "event_type" if "event_type" in df.columns else "tipo",
+                               "event_type"if "event_type"in df.columns else "tipo",
                                {"GOV_COUNCIL", "PLENARY_SESSION", "COMMISSION_SESSION",
                                 "PRESS_CONFERENCE", "BILATERAL_MEETING", "INTERNATIONAL_SUMMIT",
                                 "PARTY_RALLY", "INSTITUTIONAL", "SOCIAL_EVENT", "OTHER"}),
@@ -241,13 +241,13 @@ def validate_parliamentary_votes(df: pd.DataFrame) -> QualityReport:
     report = QualityReport(source="parliamentary_vote")
     report.expectations += [
         _expect_not_empty(df),
-        _expect_no_nulls(df, "titulo" if "titulo" in df.columns else "title"),
-        _expect_recent_data(df, "fecha" if "fecha" in df.columns else "session_date",
+        _expect_no_nulls(df, "titulo"if "titulo"in df.columns else "title"),
+        _expect_recent_data(df, "fecha"if "fecha"in df.columns else "session_date",
                             max_lag_days=14, warn_lag_days=7),
         _expect_values_in_set(df,
-                               "resultado" if "resultado" in df.columns else "result",
+                               "resultado"if "resultado"in df.columns else "result",
                                {"APROBADA", "RECHAZADA", "RETIRADA", None}),
-        _expect_unique(df, "titulo" if "titulo" in df.columns else "title"),
+        _expect_unique(df, "titulo"if "titulo"in df.columns else "title"),
     ]
     return report
 

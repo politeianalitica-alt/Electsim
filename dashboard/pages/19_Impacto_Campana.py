@@ -210,7 +210,7 @@ with tab_analisis:
                         x=df_res["metrica"],
                         y=pd.to_numeric(df_res["delta_absoluto"], errors="coerce").fillna(0),
                         marker_color=[
-                            "#10B981" if float(v) >= 0 else "#EF4444"
+                            "#10B981"if float(v) >= 0 else "#EF4444"
                             for v in pd.to_numeric(df_res["delta_absoluto"], errors="coerce").fillna(0)
                         ],
                     )

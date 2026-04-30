@@ -90,7 +90,7 @@ def _safe_mean(series: pd.Series | None) -> float:
     return float(pd.to_numeric(series, errors="coerce").fillna(0.0).mean())
 
 
-if recalc or "vb_df_prov" not in st.session_state or st.session_state.get("vb_partido") != partido_propio:
+if recalc or "vb_df_prov"not in st.session_state or st.session_state.get("vb_partido") != partido_propio:
     with st.spinner("Calculando voto blando..."):
         df_now = _db.cargar_nowcasting()
         df_vb_prov = calcular_voto_blando_provincial(
@@ -160,7 +160,7 @@ mean_blando = _safe_mean(df_vb_prov.get("pct_voto_blando"))
 mean_trans = _safe_mean(df_vb_prov.get("pct_transferible"))
 mean_abst = _safe_mean(df_vb_prov.get("pct_probable_abst"))
 prov_crit = "—"
-if "pct_voto_blando" in df_vb_prov.columns and not df_vb_prov.empty:
+if "pct_voto_blando"in df_vb_prov.columns and not df_vb_prov.empty:
     idx = pd.to_numeric(df_vb_prov["pct_voto_blando"], errors="coerce").fillna(0).idxmax()
     prov_crit = str(df_vb_prov.iloc[idx].get("circunscripcion", "—"))
 
@@ -174,14 +174,14 @@ tab1, tab2, tab3, tab4 = st.tabs(["Por provincia", "Por segmento", "Matriz trans
 with tab1:
     section_header("Voto blando por circunscripción", color=CYAN)
     df_plot = df_vb_prov.copy()
-    if "circunscripcion" not in df_plot.columns:
+    if "circunscripcion"not in df_plot.columns:
         df_plot["circunscripcion"] = df_plot.get("provincia", "nacional")
 
     fig_bar = px.bar(
         df_plot.sort_values("pct_voto_blando", ascending=False).head(25),
         x="circunscripcion",
         y="pct_voto_blando",
-        color="pct_transferible" if "pct_transferible" in df_plot.columns else None,
+        color="pct_transferible"if "pct_transferible"in df_plot.columns else None,
         color_continuous_scale=["#cedcd8", "#01696f"],
         labels={"circunscripcion": "Provincia", "pct_voto_blando": "% Voto blando"},
         title=f"Top provincias de voto blando — {partido_propio}",
@@ -226,10 +226,10 @@ with tab3:
         st.info("No hay matriz de transferencia disponible.")
     else:
         df_t = df_trans.copy()
-        if "prob_transferencia" not in df_t.columns and "prob_transicion" in df_t.columns:
+        if "prob_transferencia"not in df_t.columns and "prob_transicion"in df_t.columns:
             df_t["prob_transferencia"] = df_t["prob_transicion"]
 
-        if "partido_origen" in df_t.columns and "partido_destino" in df_t.columns and "prob_transferencia" in df_t.columns:
+        if "partido_origen"in df_t.columns and "partido_destino"in df_t.columns and "prob_transferencia"in df_t.columns:
             pv = pivot_matriz_transferencia(df_t)
             if not pv.empty:
                 fig_heat = px.imshow(
@@ -249,7 +249,7 @@ with tab4:
     if df_trans.empty or df_vb_prov.empty:
         st.info("No hay datos suficientes para estimar captación.")
     else:
-        if "prob_transferencia" not in df_trans.columns and "prob_transicion" in df_trans.columns:
+        if "prob_transferencia"not in df_trans.columns and "prob_transicion"in df_trans.columns:
             df_trans = df_trans.rename(columns={"prob_transicion": "prob_transferencia"})
 
         df_cap = calcular_captacion_potencial(

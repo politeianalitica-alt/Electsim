@@ -29,7 +29,7 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
-st.set_page_config(page_title="Laboratorio — ElectSim", page_icon="🔬", layout="wide")
+st.set_page_config(page_title="Laboratorio — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("laboratorio")
 
@@ -37,7 +37,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{PURPLE},{CYAN});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">🔬</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Laboratorio Analítico</h2>
     <div style="color:{TEXT2};font-size:.82rem">Modelos avanzados · Causalidad · Briefing IA · Validación</div>
@@ -46,11 +46,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_nc, tab_indices, tab_briefing, tab_causal, tab_val = st.tabs([
-    "📡 Nowcasting Avanzado",
-    "🧮 Índices Politeia",
-    "📄 Briefing Diario IA",
-    "⚗️ Modelos Causales",
-    "✅ Validación",
+    "Nowcasting Avanzado",
+    "Índices Politeia",
+    "Briefing Diario IA",
+    "⚗ Modelos Causales",
+    "✓ Validación",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -74,7 +74,7 @@ with tab_nc:
 
         def _fc_row(k, v):
             c = GREEN if v else RED
-            txt = "✅ Disponible" if v else "❌ No instalado"
+            txt = "✓ Disponible"if v else "✗ No instalado"
             return (f'<div style="display:flex;justify-content:space-between;padding:.3rem 0;'
                     f'border-bottom:1px solid {BORDER}"><span style="font-size:.8rem;color:{TEXT2}">{k}</span>'
                     f'<span style="color:{c};font-size:.8rem">{txt}</span></div>')
@@ -90,7 +90,7 @@ with tab_nc:
             st.markdown(f"""
             <div style="background:{GREEN}12;border:1px solid {GREEN}33;border-radius:8px;
                         padding:.8rem;font-size:.82rem;color:{GREEN};margin-top:.8rem">
-              ✅ statsforecast disponible — Modelos: AutoARIMA · ETS · Theta · CES
+              ✓ statsforecast disponible — Modelos: AutoARIMA · ETS · Theta · CES
             </div>
             """, unsafe_allow_html=True)
         else:
@@ -151,7 +151,7 @@ with tab_briefing:
         st.markdown(f"""
         <div style="background:{GREEN}11;border:1px solid {GREEN}33;border-radius:8px;
                     padding:.5rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">
-          🧠 Modelo activo: <strong>{_BRAIN_MODELO}</strong> — sin coste de API
+           Modelo activo: <strong>{_BRAIN_MODELO}</strong> — sin coste de API
         </div>
         """, unsafe_allow_html=True)
 
@@ -182,9 +182,9 @@ with tab_briefing:
     else:
         col_bf1, col_bf2 = st.columns(2)
         with col_bf1:
-            if st.button("🤖 Generar briefing del día", type="primary", key="btn_briefing"):
+            if st.button("Generar briefing del día", type="primary", key="btn_briefing"):
                 _bk = f"briefing_{today_str}"
-                with st.spinner(f"🧠 {_BRAIN_MODELO} generando briefing para {today_str}..."):
+                with st.spinner(f" {_BRAIN_MODELO} generando briefing para {today_str}..."):
                     prompt = (
                         f"Genera un briefing ejecutivo del panorama político español para {today_str}. "
                         "Incluye: 1) Estado del escenario electoral, 2) Principales vectores de riesgo, "
@@ -197,7 +197,7 @@ with tab_briefing:
                         resp = _llm_narr._llamar(prompt, max_tokens=600)
                     st.session_state[_bk] = resp
         with col_bf2:
-            if st.button("📰 Briefing desde noticias reales", key="btn_briefing_news"):
+            if st.button("Briefing desde noticias reales", key="btn_briefing_news"):
                 _bk2 = f"briefing_news_{today_str}"
                 with st.spinner("Cargando noticias y generando briefing..."):
                     try:

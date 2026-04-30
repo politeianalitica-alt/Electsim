@@ -29,7 +29,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Briefings Diarios IA — Politeia",
-    page_icon="📋",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -213,7 +213,7 @@ _MODULOS = [
 def _render_risk_bar():
     dots_html = "".join(
         f'<div class="risk-module">'
-        f'<div class="risk-dot" style="background:{c};box-shadow:0 0 6px {c}88"></div>'
+        f'<div class="risk-dot"style="background:{c};box-shadow:0 0 6px {c}88"></div>'
         f'<span class="risk-label">{n}</span>'
         f'</div>'
         for n, c, _ in _MODULOS
@@ -254,12 +254,12 @@ def _render_noticia_card(n: dict, idx: int):
     with st.container():
         st.markdown(
             f'<div class="noticia-card">'
-            f'<div class="noticia-titulo"><a href="{url}" target="_blank" '
+            f'<div class="noticia-titulo"><a href="{url}"target="_blank" '
             f'style="color:{TEXT};text-decoration:none">{titulo}</a></div>'
             f'<div class="noticia-meta">'
-            f'<span>📰 {medio}</span>'
-            f'<span>🏷️ {tema}</span>'
-            f'<span>🔵 {partidos_str}</span>'
+            f'<span> {medio}</span>'
+            f'<span> {tema}</span>'
+            f'<span>● {partidos_str}</span>'
             f'{badge}'
             f'</div>'
             f'</div>',
@@ -268,9 +268,9 @@ def _render_noticia_card(n: dict, idx: int):
 
 
 def _render_narrative_card(titulo: str, desc: str, trend: str, color: str = PURPLE):
-    arrow = "↑" if trend == "up" else ("↓" if trend == "down" else "→")
+    arrow = "↑"if trend == "up"else ("↓"if trend == "down"else "→")
     st.markdown(
-        f'<div class="narrativa-card" style="border-left-color:{color}">'
+        f'<div class="narrativa-card"style="border-left-color:{color}">'
         f'<div style="font-size:.78rem;font-weight:800;color:{TEXT};margin-bottom:.2rem">'
         f'{arrow} {titulo}</div>'
         f'<div style="font-size:.72rem;color:{TEXT2}">{desc}</div>'
@@ -346,7 +346,7 @@ def _render_pdf_export(briefing_text: str, noticias: list):
             doc.build(story)
             buffer.seek(0)
             st.download_button(
-                "📄 Descargar PDF",
+                "Descargar PDF",
                 buffer.getvalue(),
                 f"briefing_{datetime.date.today().isoformat()}.pdf",
                 "application/pdf",
@@ -355,9 +355,9 @@ def _render_pdf_export(briefing_text: str, noticias: list):
         except ImportError:
             fecha = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
             txt = f"POLITEIA — BRIEFING DIARIO IA\nGenerado: {fecha}\n\n{briefing_text}\n\nNOTICIAS:\n"
-            txt += "\n".join(f"- [{n.get('medio','')}] {n.get('titulo','')}" for n in noticias[:10])
+            txt += "\n".join(f"- [{n.get('medio','')}] {n.get('titulo','')}"for n in noticias[:10])
             st.download_button(
-                "📄 Descargar TXT",
+                "Descargar TXT",
                 txt,
                 f"briefing_{datetime.date.today().isoformat()}.txt",
                 "text/plain",
@@ -366,7 +366,7 @@ def _render_pdf_export(briefing_text: str, noticias: list):
     with col_audio:
         st.markdown(
             f'<div class="audio-placeholder">'
-            f'<div style="font-size:1.6rem;margin-bottom:.4rem">🎙️</div>'
+            f'<div style="font-size:1.6rem;margin-bottom:.4rem"></div>'
             f'<div style="font-weight:800;color:{BLUE};font-size:.78rem">AUDIO BRIEFING</div>'
             f'<div style="margin-top:.3rem;font-size:.68rem">ElevenLabs TTS — proximamente</div>'
             f'<div style="font-size:.6rem;color:{MUTED};margin-top:.2rem">Narracion automatica del briefing en voz sintetizada</div>'
@@ -381,13 +381,13 @@ fecha_display = datetime.datetime.now().strftime("%A, %d de %B de %Y").capitaliz
 st.markdown(
     f'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">'
     f'<div>'
-    f'<div style="font-size:1.6rem;font-weight:900;color:{CYAN};letter-spacing:-.01em">📋 Briefing Diario IA</div>'
+    f'<div style="font-size:1.6rem;font-weight:900;color:{CYAN};letter-spacing:-.01em"> Briefing Diario IA</div>'
     f'<div style="font-size:.75rem;color:{TEXT2};margin-top:.2rem">{fecha_display} · Politeia Intelligence Platform</div>'
     f'</div>'
     f'<div style="text-align:right">'
     f'<div style="font-size:.6rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:{MUTED}">MODELO</div>'
     f'<div style="font-size:.82rem;font-weight:700;color:{"" + GREEN if _LLM_OK else RED}">'
-    f'{"🟢" if _LLM_OK else "🔴"} {_MODELO}</div>'
+    f'{"●"if _LLM_OK else "●"} {_MODELO}</div>'
     f'</div>'
     f'</div>',
     unsafe_allow_html=True,
@@ -425,11 +425,11 @@ except Exception:
 
 # ── Tabs principales ──────────────────────────────────────────────────────────
 tab_briefing, tab_feed, tab_modulos, tab_brain, tab_config = st.tabs([
-    "📋 Briefing del Día",
-    "📰 Feed de Noticias",
-    "📊 Módulos Status",
-    "🧠 Brain Analysis",
-    "⚙️ Configurar",
+    "Briefing del Día",
+    "Feed de Noticias",
+    "Módulos Status",
+    "Brain Analysis",
+    "Configurar",
 ])
 
 # ─── TAB 1: Briefing del Dia ─────────────────────────────────────────────────
@@ -439,7 +439,7 @@ with tab_briefing:
     with col_main:
         section_header("BRIEFING EJECUTIVO IA", CYAN)
 
-        if "briefing_generado" not in st.session_state:
+        if "briefing_generado"not in st.session_state:
             st.session_state["briefing_generado"] = None
 
         if st.session_state["briefing_generado"] is None:
@@ -454,7 +454,7 @@ with tab_briefing:
             unsafe_allow_html=True,
         )
 
-        if st.button("🔄 Regenerar briefing", key="regen_briefing"):
+        if st.button("Regenerar briefing", key="regen_briefing"):
             st.session_state["briefing_generado"] = None
             st.cache_data.clear()
             st.rerun()
@@ -486,7 +486,7 @@ with tab_briefing:
             n_medios = len(set(n.get("medio","") for n in noticias if n.get("medio")))
             st.markdown(kpi_card("Medios", str(n_medios), "fuentes activas", BLUE), unsafe_allow_html=True)
         with k4:
-            n_neg = sum(1 for n in noticias if "neg" in str(n.get("sesgo","")).lower() or "critic" in str(n.get("sesgo","")).lower())
+            n_neg = sum(1 for n in noticias if "neg"in str(n.get("sesgo","")).lower() or "critic"in str(n.get("sesgo","")).lower())
             pct_neg = round(100 * n_neg / max(len(noticias), 1))
             st.markdown(kpi_card("Tono negativo", f"{pct_neg}%", "de noticias hoy", RED if pct_neg > 40 else AMBER), unsafe_allow_html=True)
 
@@ -608,7 +608,7 @@ with tab_feed:
                 fig_sent = go.Figure(go.Bar(
                     x=partidos_s, y=scores,
                     marker_color=colors_s, marker_line_width=0,
-                    text=[f"{s:+.2f}" for s in scores],
+                    text=[f"{s:+.2f}"for s in scores],
                     textposition="outside",
                 ))
                 fig_sent.update_layout(
@@ -633,24 +633,24 @@ with tab_modulos:
         ("Institucional",           "BOE ETL, Congreso iniciativas, agenda gobierno",      AMBER, "~ Parcial",    "BOE actualizado; Congreso ETL en mantenimiento"),
         ("Economia & Macro",        "INE, BCE, indicadores mercados, deuda",               GREEN, "✓ Operativo",  "Datos diarios OK"),
         ("Riesgo Politico",         "Indices Politeia, alertas, monitor situacion",        RED,   "! Atencion",   "3 alertas criticas pendientes de revision"),
-        ("Agentes IA",              "Politeia Brain, Claude API, RAG politico",             GREEN if _LLM_OK else AMBER, "✓ Conectado" if _LLM_OK else "~ Sin modelo", f"Modelo: {_MODELO}"),
+        ("Agentes IA",              "Politeia Brain, Claude API, RAG politico",             GREEN if _LLM_OK else AMBER, "✓ Conectado"if _LLM_OK else "~ Sin modelo", f"Modelo: {_MODELO}"),
         ("Campana & Estrategia",    "Impacto campana, war room, coordinacion",             GREEN, "✓ Operativo",  "Herramientas disponibles"),
         ("Coalition Builder",       "Coaliciones, hemiciclo, calculo D'Hondt",             GREEN, "✓ Operativo",  "Servicio activo"),
         ("Opposition Research",     "Fichas politicos, datos contradicciones",             AMBER, "~ En desarrollo", "Datos parciales cargados"),
-        ("NLP & Analisis Texto",    "Clasificacion temas, keywords, entidades",            GREEN if _NLP_OK else AMBER, "✓ Activo" if _NLP_OK else "~ Sin servicio", "YAKE + spaCy"),
+        ("NLP & Analisis Texto",    "Clasificacion temas, keywords, entidades",            GREEN if _NLP_OK else AMBER, "✓ Activo"if _NLP_OK else "~ Sin servicio", "YAKE + spaCy"),
     ]
 
     cols_mods = st.columns(2)
     for i, (nombre, desc, color, estado, detalle) in enumerate(_ALL_MODULES):
         with cols_mods[i % 2]:
             st.markdown(
-                f'<div class="module-status-card" style="border-top:2px solid {color}">'
+                f'<div class="module-status-card"style="border-top:2px solid {color}">'
                 f'<div style="display:flex;align-items:center;justify-content:space-between">'
                 f'<div class="ms-name">{nombre}</div>'
                 f'<div style="font-size:.65rem;font-weight:800;color:{color};'
                 f'background:{color}22;border-radius:5px;padding:2px 8px">{estado}</div>'
                 f'</div>'
-                f'<div class="ms-status" style="margin-top:.3rem">{desc}</div>'
+                f'<div class="ms-status"style="margin-top:.3rem">{desc}</div>'
                 f'<div style="font-size:.6rem;color:{MUTED};margin-top:.2rem;'
                 f'border-top:1px solid {BORDER};padding-top:.3rem">{detalle}</div>'
                 f'</div>',
@@ -701,14 +701,14 @@ with tab_brain:
                     "n_boe_critico": len(boe_criticos),
                     "titulares": [n.get("titulo", "") for n in noticias[:6]],
                 },
-                titulo_override="🧠 Insight IA del Briefing",
+                titulo_override="Insight IA del Briefing",
                 key_suffix="d1_brief",
                 altura=200,
             )
         with bra2:
             brain_insight_card(
                 "medios",
-                titulo_override="📺 Narrativa mediática hoy",
+                titulo_override="Narrativa mediática hoy",
                 key_suffix="d1_medios",
                 altura=200,
             )
@@ -716,7 +716,7 @@ with tab_brain:
         st.markdown("---")
         brain_analysis_panel(
             foco="general",
-            titulo="🔍 Análisis autónomo del día",
+            titulo="Análisis autónomo del día",
             key_prefix="d1_autonomo",
         )
 
@@ -734,7 +734,7 @@ with tab_brain:
             ],
         )
     else:
-        st.warning("⚠️ Brain Widget no disponible. Verifica la instalación de Ollama.")
+        st.warning("⚠ Brain Widget no disponible. Verifica la instalación de Ollama.")
 
 # ─── TAB 5: Configurar ────────────────────────────────────────────────────────
 with tab_config:
@@ -775,5 +775,5 @@ with tab_config:
         st.checkbox("Incluir sentimiento medios", value=True, key="cfg_sent")
         st.checkbox("Incluir preguntas estrategicas IA", value=True, key="cfg_qa")
 
-    if st.button("💾 Guardar configuracion", type="primary", key="btn_save_config"):
+    if st.button("Guardar configuracion", type="primary", key="btn_save_config"):
         st.success("Configuracion guardada correctamente.")

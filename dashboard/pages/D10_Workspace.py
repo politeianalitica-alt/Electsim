@@ -41,7 +41,7 @@ from dashboard.services.workspace_signals import (
 
 st.set_page_config(
     page_title="Centro de Operaciones · Politeia",
-    page_icon="🔬",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -63,15 +63,15 @@ except Exception:
     _ENGINE_STATUS = {}
 
 
-if "ops_tool" not in st.session_state:
+if "ops_tool"not in st.session_state:
     st.session_state["ops_tool"] = "Panel Vivo"
-if "ops_workspace_id" not in st.session_state:
+if "ops_workspace_id"not in st.session_state:
     st.session_state["ops_workspace_id"] = list_workspaces()[0]["id"]
-if "ops_notes" not in st.session_state:
+if "ops_notes"not in st.session_state:
     st.session_state["ops_notes"] = {}
-if "ops_draft" not in st.session_state:
+if "ops_draft"not in st.session_state:
     st.session_state["ops_draft"] = ""
-if "ops_right_mode" not in st.session_state:
+if "ops_right_mode"not in st.session_state:
     st.session_state["ops_right_mode"] = "resumen"
 
 
@@ -104,9 +104,9 @@ def _safe_text(value: object, limit: int = 300) -> str:
 
 def _card(title: str, value: str, sub: str = "", color: str = CYAN) -> str:
     return (
-        f'<div class="ops-card ops-kpi" style="border-top-color:{color}">'
+        f'<div class="ops-card ops-kpi"style="border-top-color:{color}">'
         f'<div class="ops-label">{html.escape(title)}</div>'
-        f'<div class="ops-value" style="color:{color}">{html.escape(value)}</div>'
+        f'<div class="ops-value"style="color:{color}">{html.escape(value)}</div>'
         f'<div class="ops-sub">{html.escape(sub)}</div>'
         f"</div>"
     )
@@ -121,7 +121,7 @@ def _section(title: str, color: str = CYAN) -> None:
 
 def _pill(text: str, color: str = CYAN) -> str:
     return (
-        f'<span class="ops-pill" style="border-color:{color}55;color:{color};'
+        f'<span class="ops-pill"style="border-color:{color}55;color:{color};'
         f'background:{color}14">{html.escape(text)}</span>'
     )
 
@@ -199,7 +199,7 @@ st.markdown(
     f"""
 <div class="ops-topbar">
   <div>
-    <div class="ops-top-title">🔬 Centro de Operaciones · Sistema Nervioso Politeia</div>
+    <div class="ops-top-title"> Centro de Operaciones · Sistema Nervioso Politeia</div>
     <div class="ops-top-meta">
       ElectSim &gt; {_safe_text(workspace['nombre'], 80)} &gt; {_safe_text(st.session_state['ops_tool'], 60)}
     </div>
@@ -207,7 +207,7 @@ st.markdown(
   <div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;justify-content:flex-end">
     {_pill(f"Alertas {status['alertas_total']}", _color_for_level(None, 75 if status['alertas_criticas'] else 20))}
     {_pill(f"Riesgo {status['riesgo']}/100", _color_for_level(status['riesgo_nivel'], status['riesgo']))}
-    {_pill(f"LLM {'activo' if (_LLM_OK or _ENGINE_STATUS.get('ollama')) else 'degradado'}", llm_dot)}
+    {_pill(f"LLM {'activo'if (_LLM_OK or _ENGINE_STATUS.get('ollama')) else 'degradado'}", llm_dot)}
     {_pill(f"Vectores {vector_count}", BLUE)}
   </div>
 </div>
@@ -225,7 +225,7 @@ with left_col:
         f"""
 <div style="display:flex;gap:.55rem;align-items:center;margin-bottom:.7rem">
   <div style="width:34px;height:34px;border-radius:8px;background:{CYAN}22;
-       border:1px solid {CYAN}55;display:flex;align-items:center;justify-content:center">👤</div>
+       border:1px solid {CYAN}55;display:flex;align-items:center;justify-content:center"></div>
   <div>
     <div style="color:{TEXT};font-weight:900;font-size:.86rem">Analista</div>
     <div style="color:{TEXT2};font-size:.68rem">Sala viva · {datetime.now().strftime('%H:%M')}</div>
@@ -239,12 +239,12 @@ with left_col:
         ws_status = workspace_status(ws["id"])
         active = str(ws["id"]) == workspace_id
         risk_color = _color_for_level(ws_status.get("riesgo_nivel"), ws_status.get("riesgo"))
-        label = f"{'●' if active else '○'} {ws['nombre']}"
+        label = f"{'●'if active else '○'} {ws['nombre']}"
         if st.button(
             label,
             key=f"ops_ws_{ws['id']}",
             width="stretch",
-            type="primary" if active else "secondary",
+            type="primary"if active else "secondary",
         ):
             st.session_state["ops_workspace_id"] = ws["id"]
             st.session_state["ops_right_mode"] = "resumen"
@@ -261,23 +261,23 @@ with left_col:
         )
 
     if st.button("+ Nuevo cliente", key="ops_add_client", width="stretch"):
-        st.toast("Crea el cliente desde Campaña / API; el Centro lo detectará automáticamente.", icon="ℹ️")
+        st.toast("Crea el cliente desde Campaña / API; el Centro lo detectará automáticamente.", icon="ℹ")
 
     _section("Herramientas", PURPLE)
     tools = ["Panel Vivo", "Investigation Canvas", "Draft Studio", "Intelligence Notebook", "Political Calendar"]
     for tool in tools:
         icon = {
-            "Panel Vivo": "📡",
-            "Investigation Canvas": "🔲",
-            "Draft Studio": "✏️",
-            "Intelligence Notebook": "📓",
-            "Political Calendar": "📅",
+            "Panel Vivo": "",
+            "Investigation Canvas": "",
+            "Draft Studio": "✏",
+            "Intelligence Notebook": "",
+            "Political Calendar": "",
         }[tool]
         if st.button(
             f"{icon} {tool}",
             key=f"ops_tool_{tool}",
             width="stretch",
-            type="primary" if st.session_state["ops_tool"] == tool else "secondary",
+            type="primary"if st.session_state["ops_tool"] == tool else "secondary",
         ):
             st.session_state["ops_tool"] = tool
             st.rerun()
@@ -304,7 +304,7 @@ def render_timeline(items: list[dict]) -> None:
     for item in items[:14]:
         url = str(item.get("url") or "")
         title = _safe_text(item.get("titulo"), 180)
-        title_html = f'<a class="ops-link" href="{html.escape(url)}" target="_blank">{title}</a>' if url else title
+        title_html = f'<a class="ops-link"href="{html.escape(url)}"target="_blank">{title}</a>'if url else title
         st.markdown(
             f"""
 <div class="ops-mini">
@@ -328,7 +328,7 @@ def render_estado_panel(data: dict[str, object]) -> None:
     _section("Próximos eventos", AMBER)
     for ev in data.get("proximos_eventos", [])[:4]:
         st.markdown(
-            f'<div class="ops-mini"><strong>📅 {_safe_text(ev.get("label"), 110)}</strong><br>'
+            f'<div class="ops-mini"><strong> {_safe_text(ev.get("label"), 110)}</strong><br>'
             f'<span class="ops-muted">{_safe_text(ev.get("fecha"), 20)} {_safe_text(ev.get("hora"), 8)} · {_safe_text(ev.get("fuente"), 50)}</span></div>',
             unsafe_allow_html=True,
         )
@@ -343,9 +343,9 @@ def render_estado_panel(data: dict[str, object]) -> None:
 def render_signal_card(title: str, icon: str, data: dict, color: str, lines: list[str]) -> None:
     st.markdown(
         f"""
-<div class="ops-card" style="border-top-color:{color}">
+<div class="ops-card"style="border-top-color:{color}">
   <div class="ops-signal-title">{icon} {html.escape(title)}</div>
-  {''.join(f'<div class="ops-sub">{html.escape(line)}</div>' for line in lines)}
+  {''.join(f'<div class="ops-sub">{html.escape(line)}</div>'for line in lines)}
 </div>
 """,
         unsafe_allow_html=True,
@@ -359,7 +359,7 @@ def render_signal_aggregator() -> None:
     cards = [
         (
             "Termómetro de Riesgo",
-            "🌡️",
+            "",
             r,
             _color_for_level(r.get("nivel"), r.get("score")),
             [
@@ -370,7 +370,7 @@ def render_signal_aggregator() -> None:
         ),
         (
             "Alertas Activas",
-            "🔔",
+            "",
             a,
             RED if a.get("criticas") else AMBER,
             [
@@ -380,7 +380,7 @@ def render_signal_aggregator() -> None:
         ),
         (
             "Monitor Legislativo",
-            "⚖️",
+            "",
             l,
             BLUE,
             [
@@ -391,7 +391,7 @@ def render_signal_aggregator() -> None:
         ),
         (
             "Medios & Narrativa",
-            "📰",
+            "",
             m,
             _color_for_level(m.get("nivel_amenaza_max")),
             [
@@ -402,20 +402,20 @@ def render_signal_aggregator() -> None:
         ),
         (
             "Nowcasting Electoral",
-            "📊",
+            "",
             e,
             PURPLE,
             [
                 f"Foco: {e.get('partido_focus', '—')} {e.get('estimacion_focus', '—')}%",
                 f"Última fecha: {e.get('ultimo_nowcasting_fecha') or 'sin fecha'}",
-                "Nueva encuesta hoy" if e.get("nueva_encuesta_hoy") else "Sin encuesta nueva hoy",
+                "Nueva encuesta hoy"if e.get("nueva_encuesta_hoy") else "Sin encuesta nueva hoy",
             ],
         ),
         (
             "Geopolítica & RRII",
-            "🌍",
+            "",
             g,
-            GREEN if g.get("nivel_top") == "bajo" else AMBER,
+            GREEN if g.get("nivel_top") == "bajo"else AMBER,
             [
                 f"Señales 24h: {g.get('señales_relevantes_24h')}",
                 f"Región top: {g.get('pais_top') or 'sin foco'}",
@@ -431,7 +431,7 @@ def render_signal_aggregator() -> None:
 
 
 def render_canvas() -> None:
-    st.markdown("### 🔲 Investigation Canvas")
+    st.markdown("###  Investigation Canvas")
     st.caption("Grafo derivado de señales vivas del workspace seleccionado.")
     nodes: list[tuple[str, str, str]] = [(workspace["nombre"], "cliente", CYAN)]
     edges: list[tuple[str, str, str]] = []
@@ -488,10 +488,10 @@ def render_canvas() -> None:
 
 
 def render_draft() -> None:
-    st.markdown("### ✏️ Draft Studio")
+    st.markdown("### ✏ Draft Studio")
     template = (
         f"# Briefing operativo — {workspace['nombre']}\n\n"
-        + "\n".join(f"- {b}" for b in briefing["bullets"])
+        + "\n".join(f"- {b}"for b in briefing["bullets"])
         + "\n\n## Próximos pasos\n- Revisar alertas y normativa relevante.\n- Preparar nota corta para stakeholders.\n"
     )
     if not st.session_state.get("ops_draft"):
@@ -514,7 +514,7 @@ def render_draft() -> None:
                 st.session_state["ops_draft"] = llm_chat(prompt, sistema="Eres un analista senior de asuntos públicos.")
             st.rerun()
         if b2.button("Guardar versión", width="stretch"):
-            st.toast("Versión guardada en sesión local.", icon="✅")
+            st.toast("Versión guardada en sesión local.", icon="✓")
         if b3.button("Limpiar", width="stretch"):
             st.session_state["ops_draft"] = template
             st.rerun()
@@ -524,7 +524,7 @@ def render_draft() -> None:
 
 
 def render_notebook() -> None:
-    st.markdown("### 📓 Intelligence Notebook")
+    st.markdown("###  Intelligence Notebook")
     notes = st.session_state["ops_notes"].setdefault(workspace_id, [])
     col_a, col_b = st.columns([1.2, 1])
     with col_a:
@@ -540,7 +540,7 @@ def render_notebook() -> None:
             all_notes = [n for n in all_notes if q in f"{n.get('titulo','')} {n.get('texto','')} {n.get('tag','')}".lower()]
         for note in all_notes[:12]:
             st.markdown(
-                f'<div class="ops-card"><div class="ops-signal-title">📌 {_safe_text(note.get("titulo"), 120)}</div>'
+                f'<div class="ops-card"><div class="ops-signal-title"> {_safe_text(note.get("titulo"), 120)}</div>'
                 f'<div class="ops-sub">{_safe_text(note.get("texto"), 500)}</div>{_pill(str(note.get("tag", "nota")), CYAN)}</div>',
                 unsafe_allow_html=True,
             )
@@ -552,19 +552,19 @@ def render_notebook() -> None:
         if st.button("Guardar nota", width="stretch", type="primary"):
             if title.strip() and body.strip():
                 notes.insert(0, {"id": str(uuid.uuid4()), "titulo": title, "texto": body, "tag": tag})
-                st.toast("Nota guardada en el notebook operativo.", icon="✅")
+                st.toast("Nota guardada en el notebook operativo.", icon="✓")
                 st.rerun()
 
 
 def render_calendar() -> None:
-    st.markdown("### 📅 Political Calendar")
+    st.markdown("###  Political Calendar")
     events = estado.get("proximos_eventos", [])
     if not events:
         st.info("No hay eventos reales vinculados en los próximos días.")
     for ev in events:
         st.markdown(
-            f'<div class="ops-card" style="border-top-color:{AMBER}">'
-            f'<div class="ops-signal-title">📅 {_safe_text(ev.get("label"), 150)}</div>'
+            f'<div class="ops-card"style="border-top-color:{AMBER}">'
+            f'<div class="ops-signal-title"> {_safe_text(ev.get("label"), 150)}</div>'
             f'<div class="ops-sub">{_safe_text(ev.get("fecha"), 30)} {_safe_text(ev.get("hora"), 10)} · {_safe_text(ev.get("tipo"), 60)}</div>'
             f'<div class="ops-sub">{_safe_text(ev.get("fuente"), 80)}</div></div>',
             unsafe_allow_html=True,
@@ -598,7 +598,7 @@ with main_col:
 <div class="ops-panel">
   <div class="ops-label">Tipo</div>
   <div style="color:{TEXT};font-weight:900">{_safe_text(workspace.get('tipo'), 120)}</div>
-  <div class="ops-label" style="margin-top:.7rem">Términos monitorizados</div>
+  <div class="ops-label"style="margin-top:.7rem">Términos monitorizados</div>
   {''.join(_pill(str(t), BLUE) for t in (workspace.get('terms') or [])[:8])}
 </div>
 """,
@@ -625,13 +625,13 @@ with main_col:
         for item in news[:10]:
             url = item.get("url") or ""
             title = _safe_text(item.get("titulo"), 200)
-            title_html = f'<a class="ops-link" href="{html.escape(url)}" target="_blank">{title}</a>' if url else title
+            title_html = f'<a class="ops-link"href="{html.escape(url)}"target="_blank">{title}</a>'if url else title
             try:
                 sent = float(item.get("sentimiento") or 0.0)
             except Exception:
                 sent = 0.0
             st.markdown(
-                f'<div class="ops-card"><div class="ops-signal-title">📰 {title_html}</div>'
+                f'<div class="ops-card"><div class="ops-signal-title"> {title_html}</div>'
                 f'<div class="ops-sub">{_safe_text(item.get("fuente"), 80)} · {_fmt_dt(item.get("fecha"))} · sentimiento {sent:+.2f}</div>'
                 f'<div class="ops-sub">{_safe_text(item.get("resumen"), 260)}</div></div>',
                 unsafe_allow_html=True,
@@ -665,7 +665,7 @@ with right_col:
         if not tasks:
             st.success("Sin tareas urgentes.")
         for task in tasks:
-            st.markdown(f'<div class="ops-mini">☑ {_safe_text(task.get("titulo"), 140)}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="ops-mini">✓ {_safe_text(task.get("titulo"), 140)}</div>', unsafe_allow_html=True)
     elif mode == "alertas":
         _section("Alertas Contextuales", RED)
         alert_items = signals["alertas"].get("items", [])
@@ -675,8 +675,8 @@ with right_col:
             sev = str(item.get("severidad") or "INFO")
             color = _color_for_level(sev)
             st.markdown(
-                f'<div class="ops-card" style="border-top-color:{color}">'
-                f'<div class="ops-signal-title">🔔 {_safe_text(item.get("titulo"), 140)}</div>'
+                f'<div class="ops-card"style="border-top-color:{color}">'
+                f'<div class="ops-signal-title"> {_safe_text(item.get("titulo"), 140)}</div>'
                 f'<div class="ops-sub">{_safe_text(sev, 20)} · {_fmt_dt(item.get("created_at"))}</div>'
                 f'<div class="ops-sub">{_safe_text(item.get("descripcion"), 240)}</div></div>',
                 unsafe_allow_html=True,

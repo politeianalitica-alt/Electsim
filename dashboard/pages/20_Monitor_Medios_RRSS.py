@@ -76,7 +76,7 @@ with st.sidebar:
     canal = st.selectbox(
         "Canal",
         [None, "rss", "x", "youtube", "newsapi"],
-        format_func=lambda x: "Todos" if x is None else str(x).upper(),
+        format_func=lambda x: "Todos"if x is None else str(x).upper(),
     )
     ventana_dias = st.slider("Ventana (días)", min_value=7, max_value=90, value=30, step=1)
 
@@ -162,7 +162,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("Filtro RSS")
     medios_sel = st.multiselect("Medios", nombres_medios(), default=nombres_medios()[:5])
-    tema_sel = st.selectbox("Tema", [None] + temas_disponibles(), format_func=lambda x: "Todos" if x is None else x.capitalize())
+    tema_sel = st.selectbox("Tema", [None] + temas_disponibles(), format_func=lambda x: "Todos"if x is None else x.capitalize())
     partido_rss = st.text_input("Partido mencionado", "")
 
 with st.spinner("Cargando titulares..."):
@@ -179,9 +179,9 @@ else:
     partidos_total: dict[str, int] = {}
     temas_total: dict[str, int] = {}
     for n in noticias:
-        for p in (n["partidos"].split(", ") if n["partidos"] != "—" else []):
+        for p in (n["partidos"].split(", ") if n["partidos"] != "—"else []):
             partidos_total[p] = partidos_total.get(p, 0) + 1
-        for t in (n["temas"].split(", ") if n["temas"] != "—" else []):
+        for t in (n["temas"].split(", ") if n["temas"] != "—"else []):
             temas_total[t] = temas_total.get(t, 0) + 1
 
     c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
@@ -189,7 +189,7 @@ else:
     top_partido = max(partidos_total, key=partidos_total.get, default="—")
     c_kpi2.markdown(kpi_card("Partido más citado", top_partido, f"{partidos_total.get(top_partido, 0)} menciones"), unsafe_allow_html=True)
     top_tema = max(temas_total, key=temas_total.get, default="—")
-    c_kpi3.markdown(kpi_card("Tema dominante", top_tema.capitalize() if top_tema != "—" else "—", f"{temas_total.get(top_tema, 0)} noticias"), unsafe_allow_html=True)
+    c_kpi3.markdown(kpi_card("Tema dominante", top_tema.capitalize() if top_tema != "—"else "—", f"{temas_total.get(top_tema, 0)} noticias"), unsafe_allow_html=True)
 
     st.markdown("---")
     col_tabla, col_dist = st.columns([2, 1])
@@ -211,7 +211,7 @@ else:
     st.markdown("---")
     st.subheader("Titulares completos")
     for n in noticias[:20]:
-        with st.expander(f"[{n['medio']}] {n['titulo'][:90]}{'…' if len(n['titulo']) > 90 else ''}"):
+        with st.expander(f"[{n['medio']}] {n['titulo'][:90]}{'…'if len(n['titulo']) > 90 else ''}"):
             st.caption(f"{n['fecha']} · Partidos: {n['partidos']} · Temas: {n['temas']}")
             if n["resumen"]:
                 st.write(n["resumen"])
@@ -232,13 +232,13 @@ else:
         fecha = row.get("fecha")
         if motivo in {"spike_volumen", "aceleracion"}:
             color = RED
-            icon = "🔴"
+            icon = "●"
         elif motivo in {"caida_sentiment", "sentiment_negativo"}:
             color = AMBER
-            icon = "🟠"
+            icon = "●"
         else:
             color = GREEN
-            icon = "🟢"
+            icon = "●"
         st.markdown(
             f"<div style='border:1px solid {color};border-radius:10px;padding:.7rem .9rem;margin-bottom:.5rem'>"
             f"<div style='font-weight:700'>{icon} {motivo}</div>"

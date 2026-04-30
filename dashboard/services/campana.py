@@ -49,8 +49,8 @@ def listar_clientes(solo_activos: bool = True) -> pd.DataFrame:
         return pd.DataFrame()
     sql = "SELECT id, nombre, tipo, ambito, activo FROM clientes"
     if solo_activos:
-        sql += " WHERE COALESCE(activo, TRUE) = TRUE"
-    sql += " ORDER BY nombre"
+        sql += "WHERE COALESCE(activo, TRUE) = TRUE"
+    sql += "ORDER BY nombre"
     return _q(sql)
 
 
@@ -74,7 +74,7 @@ def crear_cliente(
     try:
         with conn.cursor() as cur:
             cols = {x.lower() for x in _q("SELECT column_name FROM information_schema.columns WHERE table_name='clientes'")["column_name"].astype(str)}
-            if "color_hex" in cols:
+            if "color_hex"in cols:
                 cur.execute(
                     """
                     INSERT INTO clientes (nombre, tipo, ambito, color_hex, config_json)
@@ -115,7 +115,7 @@ def listar_mensajes(
     if tipo:
         clauses.append("tipo = %s")
         params.append(tipo)
-    where = "WHERE " + " AND ".join(clauses)
+    where = "WHERE " + "AND ".join(clauses)
     sql = f"""
         SELECT id, cliente_id, fecha_inicio, fecha_fin, titulo, mensaje, estado, tipo, autor, creado_en
         FROM mensajes_campana
@@ -211,7 +211,7 @@ def listar_decisiones(
     if desde:
         clauses.append("fecha >= %s")
         params.append(desde)
-    where = "WHERE " + " AND ".join(clauses)
+    where = "WHERE " + "AND ".join(clauses)
     sql = f"""
         SELECT id, cliente_id, fecha AS fecha_decision, tipo, descripcion, datos_contexto,
                resultado, lecciones, etiquetas, creado_en
@@ -241,7 +241,7 @@ def registrar_decision(
     if not _table_exists("decisiones_estrategicas"):
         raise RuntimeError("Tabla decisiones_estrategicas no existe. Ejecuta migraciones Alembic.")
 
-    desc_full = f"{titulo}\n\n{descripcion}" if titulo else descripcion
+    desc_full = f"{titulo}\n\n{descripcion}"if titulo else descripcion
     conn = get_raw_conn()
     try:
         with conn.cursor() as cur:
@@ -287,8 +287,8 @@ def actualizar_resultado_decision(
                 UPDATE decisiones_estrategicas
                 SET resultado = %s,
                     lecciones = CASE
-                        WHEN COALESCE(%s, '') = '' THEN lecciones
-                        WHEN COALESCE(lecciones, '') = '' THEN %s
+                        WHEN COALESCE(%s, '') = ''THEN lecciones
+                        WHEN COALESCE(lecciones, '') = ''THEN %s
                         ELSE lecciones || E'\n\nImpacto: ' || %s
                     END
                 WHERE id = %s

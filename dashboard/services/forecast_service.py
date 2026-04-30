@@ -134,7 +134,7 @@ def _forecast_statsforecast(serie, horizonte, freq, nivel_confianza, partido, ul
         forecast = sf.predict(h=horizonte, level=niveles)
 
         # Ensemble: media de modelos
-        pred_cols = [c for c in forecast.columns if "mean" in c.lower() or c in ["AutoARIMA", "ETS", "Theta"]]
+        pred_cols = [c for c in forecast.columns if "mean"in c.lower() or c in ["AutoARIMA", "ETS", "Theta"]]
         if pred_cols:
             forecast["ensemble"] = forecast[pred_cols].mean(axis=1)
         else:
@@ -144,8 +144,8 @@ def _forecast_statsforecast(serie, horizonte, freq, nivel_confianza, partido, ul
         proj_final = max(0.1, min(60.0, proj_final))
 
         # IC columns
-        ic_cols_lo = [c for c in forecast.columns if "lo-" in c or "lo_" in c]
-        ic_cols_hi = [c for c in forecast.columns if "hi-" in c or "hi_" in c]
+        ic_cols_lo = [c for c in forecast.columns if "lo-"in c or "lo_"in c]
+        ic_cols_hi = [c for c in forecast.columns if "hi-"in c or "hi_"in c]
         ic_inf = float(forecast[ic_cols_lo].mean(axis=1).iloc[-1]) if ic_cols_lo else proj_final - 2.0
         ic_sup = float(forecast[ic_cols_hi].mean(axis=1).iloc[-1]) if ic_cols_hi else proj_final + 2.0
 

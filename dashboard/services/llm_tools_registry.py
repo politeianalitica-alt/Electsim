@@ -179,7 +179,7 @@ TOOLS_SCHEMA: list[dict] = [
                 "properties": {
                     "referencia": {
                         "type": "string",
-                        "description": "Referencia del procedimiento (ej: '2021/0106(COD)' para el Reglamento IA)",
+                        "description": "Referencia del procedimiento (ej: '2021/0106(COD)'para el Reglamento IA)",
                     },
                 },
                 "required": ["referencia"],
@@ -401,7 +401,7 @@ def _tool_boe_search(
                 "sector": n.sector,
                 "fecha": n.fecha_publicacion,
                 "norma_id": n.norma_id,
-                "extracto": n.cuerpo[:400] + "…" if len(n.cuerpo) > 400 else n.cuerpo,
+                "extracto": n.cuerpo[:400] + "…"if len(n.cuerpo) > 400 else n.cuerpo,
             }
             for n in normas
         ]
@@ -466,7 +466,7 @@ def _tool_euparl_query(
                 "fecha": n.fecha_publicacion,
                 "diario_oficial": n.diario_oficial,
                 "en_vigor": n.en_vigor,
-                "resumen": (n.resumen or "")[:300] + "…" if len(n.resumen or "") > 300 else (n.resumen or ""),
+                "resumen": (n.resumen or "")[:300] + "…"if len(n.resumen or "") > 300 else (n.resumen or ""),
             }
             for n in normas[:max_resultados]
         ]
@@ -916,7 +916,7 @@ def briefing_legislativo_matutino(dias: int = 1) -> str:
         Texto del briefing formateado en markdown
     """
     partes: list[str] = [
-        f"## 📋 Briefing Legislativo — {datetime.now().strftime('%d/%m/%Y')}",
+        f"##  Briefing Legislativo — {datetime.now().strftime('%d/%m/%Y')}",
         "",
     ]
 
@@ -925,7 +925,7 @@ def briefing_legislativo_matutino(dias: int = 1) -> str:
         boe_result = json.loads(_tool_boe_sumario())
         items = boe_result.get("muestra", [])
         if items:
-            partes.append("### 📰 BOE de Hoy")
+            partes.append("###  BOE de Hoy")
             for item in items[:5]:
                 partes.append(f"- **{item['tipo']}**: {item['titulo'][:100]}")
             partes.append("")
@@ -936,7 +936,7 @@ def briefing_legislativo_matutino(dias: int = 1) -> str:
     try:
         from services.eurlex_service import resumen_actividad_ue
         resumen_ue = resumen_actividad_ue(dias=7)
-        partes.append("### 🇪🇺 Actividad Legislativa UE (7 días)")
+        partes.append("###  Actividad Legislativa UE (7 días)")
         partes.append(f"- Directivas nuevas: {resumen_ue.get('directivas', 0)}")
         partes.append(f"- Reglamentos nuevos: {resumen_ue.get('reglamentos', 0)}")
         partes.append(f"- Procedimientos activos: {resumen_ue.get('procedimientos_activos', 0)}")
@@ -949,9 +949,9 @@ def briefing_legislativo_matutino(dias: int = 1) -> str:
         vot_result = json.loads(_tool_congreso_votaciones(dias=dias * 7, max_resultados=5))
         votaciones = vot_result.get("muestra", [])
         if votaciones:
-            partes.append("### 🗳️ Últimas Votaciones en el Congreso")
+            partes.append("###  Últimas Votaciones en el Congreso")
             for v in votaciones:
-                resultado_emoji = "✅" if v.get("resultado") == "aprobado" else "❌"
+                resultado_emoji = "✓"if v.get("resultado") == "aprobado"else "✗"
                 partes.append(f"- {resultado_emoji} {v.get('titulo','')[:100]}")
             partes.append("")
     except Exception:

@@ -52,7 +52,7 @@ try:
                            timeout=timeout, follow_redirects=True)
             r.raise_for_status()
             ct = r.headers.get("content-type","")
-            if "json" in ct:
+            if "json"in ct:
                 return r.json()
             return r.text
         except Exception as e:
@@ -165,7 +165,7 @@ def _sparql_query(query: str, timeout: float = 30.0) -> list[dict]:
     resp = _get(_SPARQL_ENDPOINT, params=params, timeout=timeout,
                 headers={"Accept":"application/sparql-results+json","User-Agent":"Politeia/2.0"})
 
-    if not resp or isinstance(resp, str) or "error" in (resp if isinstance(resp, dict) else {}):
+    if not resp or isinstance(resp, str) or "error"in (resp if isinstance(resp, dict) else {}):
         return []
 
     try:
@@ -270,7 +270,7 @@ def _row_to_norma_ue(row: dict, tipo_default: str) -> NormaUE:
     titulo = row.get("title","") or f"[{celex}]"
     fecha = row.get("date","")[:10] if row.get("date") else ""
     numero = _celex_a_numero(celex)
-    url = f"https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:{celex}" if celex else ""
+    url = f"https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:{celex}"if celex else ""
 
     return NormaUE(
         cellar_id=row.get("work",""),
@@ -434,13 +434,13 @@ def trazabilidad_procedimiento(ref: str) -> list[dict]:
 
     # Modelo de fases según tipo de procedimiento (COD = codecisión)
     fases_modelo = {
-        "propuesta_com":    {"label":"Propuesta COM",          "icono":"📋"},
-        "primera_lectura_pe": {"label":"1ª Lectura PE",        "icono":"🏛️"},
-        "posicion_consejo": {"label":"Posición Consejo",       "icono":"🤝"},
-        "segunda_lectura_pe": {"label":"2ª Lectura PE",        "icono":"🔄"},
-        "comite_conciliacion": {"label":"Comité Conciliación","icono":"⚖️"},
-        "aprobado":         {"label":"Aprobado",               "icono":"✅"},
-        "publicado_oj":     {"label":"Publicado en OJ",        "icono":"📰"},
+        "propuesta_com":    {"label":"Propuesta COM",          "icono":""},
+        "primera_lectura_pe": {"label":"1ª Lectura PE",        "icono":""},
+        "posicion_consejo": {"label":"Posición Consejo",       "icono":""},
+        "segunda_lectura_pe": {"label":"2ª Lectura PE",        "icono":""},
+        "comite_conciliacion": {"label":"Comité Conciliación","icono":""},
+        "aprobado":         {"label":"Aprobado",               "icono":"✓"},
+        "publicado_oj":     {"label":"Publicado en OJ",        "icono":""},
     }
 
     fases_orden = list(fases_modelo.keys())
@@ -449,14 +449,14 @@ def trazabilidad_procedimiento(ref: str) -> list[dict]:
     timeline = []
     for i, fase_id in enumerate(fases_orden):
         info = fases_modelo[fase_id]
-        estado = "completada" if i < fase_actual_idx else ("actual" if i == fase_actual_idx else "pendiente")
+        estado = "completada"if i < fase_actual_idx else ("actual"if i == fase_actual_idx else "pendiente")
         timeline.append({
             "fase_id":  fase_id,
             "label":    info["label"],
             "icono":    info["icono"],
             "estado":   estado,
-            "fecha":    proc.fecha_ultima if estado == "actual" else "",
-            "notas":    f"Rapporteur: {proc.rapporteur}" if estado == "actual" else "",
+            "fecha":    proc.fecha_ultima if estado == "actual"else "",
+            "notas":    f"Rapporteur: {proc.rapporteur}"if estado == "actual"else "",
         })
     return timeline
 

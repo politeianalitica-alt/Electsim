@@ -10,13 +10,13 @@ from plotly.subplots import make_subplots
 def create_economic_dashboard(macro_data: dict[str, pd.DataFrame], approval_data: pd.DataFrame | None = None) -> go.Figure:
     """Crea panel de paro, IPC, PIB y popularidad."""
     fig = make_subplots(rows=2, cols=2, subplot_titles=("Paro EPA", "IPC", "PIB", "Popularidad Gobierno"))
-    if "unemployment" in macro_data and not macro_data["unemployment"].empty:
+    if "unemployment"in macro_data and not macro_data["unemployment"].empty:
         df = macro_data["unemployment"]
         fig.add_trace(go.Scatter(x=df.iloc[:, 0], y=df.iloc[:, -1], line=dict(color="blue")), row=1, col=1)
-    if "ipc" in macro_data and not macro_data["ipc"].empty:
+    if "ipc"in macro_data and not macro_data["ipc"].empty:
         df = macro_data["ipc"]
         fig.add_trace(go.Scatter(x=df.iloc[:, 0], y=df.iloc[:, -1], line=dict(color="orange")), row=1, col=2)
-    if "gdp" in macro_data and not macro_data["gdp"].empty:
+    if "gdp"in macro_data and not macro_data["gdp"].empty:
         df = macro_data["gdp"]
         fig.add_trace(go.Bar(x=df.iloc[:, 0], y=df.iloc[:, -1], marker_color="green"), row=2, col=1)
     if approval_data is not None and not approval_data.empty:

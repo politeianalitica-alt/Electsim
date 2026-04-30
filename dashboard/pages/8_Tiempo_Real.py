@@ -97,7 +97,7 @@ st.markdown(f"""
 col_scrapers, col_alertas = st.columns([1, 1])
 
 with col_scrapers:
-    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Estado de Scrapers</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Estado de Scrapers</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_log = cargar_scraping_log(30)
 
     if df_log.empty:
@@ -122,8 +122,8 @@ with col_scrapers:
         )
 
         for _, row in df_resumen.iterrows():
-            status = "OK" if row["ultimo_estado"] == "ok" else "ERROR"
-            color = GREEN if row["ultimo_estado"] == "ok" else RED
+            status = "OK"if row["ultimo_estado"] == "ok"else "ERROR"
+            color = GREEN if row["ultimo_estado"] == "ok"else RED
             st.markdown(
                 f'<span style="color:{color};font-weight:600">[{status}]</span> '
                 f'**{row["fuente"]}** — {row["n_nuevos_total"]} registros · '
@@ -131,12 +131,12 @@ with col_scrapers:
                 unsafe_allow_html=True,
             )
 
-        st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Log detallado</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Log detallado</span><div class="line"></div></div>', unsafe_allow_html=True)
         cols_log = [c for c in ["fuente", "tipo", "estado", "n_registros_nuevos", "duracion_segundos", "created_at"] if c in df_log.columns]
         st.dataframe(df_log[cols_log].head(20), hide_index=True, use_container_width=True)
 
 with col_alertas:
-    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Alertas del Sistema</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Alertas del Sistema</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_alertas = cargar_alertas(solo_no_leidas)
 
     if df_alertas.empty:
@@ -155,14 +155,14 @@ with col_alertas:
             </div>
             """, unsafe_allow_html=True)
 
-    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{AMBER}"></div><span class="lbl">Alertas dinámicas de prensa</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{AMBER}"></div><span class="lbl">Alertas dinámicas de prensa</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_alertas_dyn = cargar_alertas_prensa_dinamicas(dias=14, ventana_reciente=3)
     if df_alertas_dyn.empty:
         st.caption("Sin alertas dinámicas relevantes en prensa.")
     else:
         st.dataframe(df_alertas_dyn.head(12), hide_index=True, use_container_width=True)
 
-    st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{PURPLE}"></div><span class="lbl">Tracking de palabras clave</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{PURPLE}"></div><span class="lbl">Tracking de palabras clave</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_kw = cargar_tracking_palabras_clave(dias=14, ventana_reciente=3, min_menciones=4, top_n=10)
     if df_kw.empty:
         st.caption("Sin keywords con señal dinámica.")
@@ -176,14 +176,14 @@ with col_alertas:
 st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Indicadores macroeconómicos ───────────────────────────────────────────────
-st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores Macroeconómicos</span><div class="line"></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Indicadores Macroeconómicos</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 df_macro_last = cargar_macro_ultimo()
 if not df_macro_last.empty:
     indicadores_config = {
         "IPC General (%)": ("IPC Inflacion", "%", "ipc_general"),
         "Tasa de Paro (%)": ("Tasa de Paro", "%", "tasa_paro"),
-        "Prima Riesgo (pb)": ("Prima de Riesgo", " pb", "prima_riesgo_bono10"),
+        "Prima Riesgo (pb)": ("Prima de Riesgo", "pb", "prima_riesgo_bono10"),
         "Crec. PIB (%)": ("PIB YoY", "%", "crecimiento_pib"),
     }
     cols_kpi = st.columns(4)
@@ -247,7 +247,7 @@ if ind_sel:
 st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Monitor CIS ───────────────────────────────────────────────────────────────
-st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Monitor CIS</span><div class="line"></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Monitor CIS</span><div class="line"></div></div>', unsafe_allow_html=True)
 st.markdown("""
 El monitor CIS detecta nuevas públicaciones de barometros y estudios preelectorales
 y los ingesta automaticamente.
@@ -269,7 +269,7 @@ else:
 st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
 
 # ── Noche electoral ───────────────────────────────────────────────────────────
-st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Monitor Noche Electoral</span><div class="line"></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="sec-hdr"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Monitor Noche Electoral</span><div class="line"></div></div>', unsafe_allow_html=True)
 st.markdown("""
 Activalo durante una noche electoral para seguir el escrutinio en tiempo real:
 ```bash

@@ -61,7 +61,7 @@ def _table_columns(conn: Any, table_name: str) -> set[str]:
             """
             SELECT column_name
             FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = %s
+            WHERE table_schema = 'public'AND table_name = %s
             """,
             (table_name,),
         )

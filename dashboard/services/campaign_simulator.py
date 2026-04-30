@@ -72,15 +72,15 @@ def narrativa_impacto(
     pos_total = sum(v for v in impactos_partido.values() if v > 0)
     neg_total = sum(v for v in impactos_partido.values() if v < 0)
     txt = (
-        f"El mensaje sobre '{tema}' para {partido_emisor} proyecta un efecto agregado de {pos_total:+.1f}pp "
+        f"El mensaje sobre '{tema}'para {partido_emisor} proyecta un efecto agregado de {pos_total:+.1f}pp "
         f"en ganadores y {neg_total:.1f}pp en perdedores."
     )
     if focus_parts:
-        txt += " Segmentos más explicativos: " + " | ".join(focus_parts) + "."
+        txt += "Segmentos más explicativos: " + " | ".join(focus_parts) + "."
     if perjudicados:
-        txt += f" Las mayores pérdidas se concentran en {', '.join(perjudicados[:3])}."
+        txt += f"Las mayores pérdidas se concentran en {', '.join(perjudicados[:3])}."
     if perfiles_beneficiados:
-        txt += f" Receptividad prioritaria en: {', '.join(perfiles_beneficiados[:3])}."
+        txt += f"Receptividad prioritaria en: {', '.join(perfiles_beneficiados[:3])}."
     return txt
 
 

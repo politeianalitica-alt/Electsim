@@ -395,7 +395,7 @@ def signal_riesgo(workspace_id: str | int | None) -> dict[str, Any]:
                 row = df_idx.iloc[0]
             score = _safe_float(row.get("valor"), 0.0)
             sem = str(row.get("semaforo") or "").upper()
-            nivel = "critico" if sem in {"ROJO", "CRITICAL"} else "alto" if sem in {"AMARILLO", "WARNING"} else "bajo"
+            nivel = "critico"if sem in {"ROJO", "CRITICAL"} else "alto"if sem in {"AMARILLO", "WARNING"} else "bajo"
             delta = _safe_float(row.get("variacion_7d"), 0.0) if row.get("variacion_7d") is not None else None
             fecha = str(row.get("fecha_calculo") or "")
             raw_comp = row.get("componentes_json")
@@ -415,7 +415,7 @@ def signal_riesgo(workspace_id: str | int | None) -> dict[str, Any]:
                 row = df_risk.iloc[0]
                 raw_score = _safe_float(row.get("indice_compuesto"), 0.0)
                 score = raw_score * 10 if raw_score <= 10 else raw_score
-                nivel = "critico" if score >= 70 else "alto" if score >= 40 else "bajo"
+                nivel = "critico"if score >= 70 else "alto"if score >= 40 else "bajo"
                 fecha = str(row.get("fecha_calculo") or "")
                 raw_comp = row.get("dimensiones_json")
                 if isinstance(raw_comp, str):
@@ -437,7 +437,7 @@ def signal_riesgo(workspace_id: str | int | None) -> dict[str, Any]:
     score = round(_safe_float(score, 0.0), 1)
     if git_risk and score <= 0:
         score = round(_safe_float(git_risk.get("score")), 1)
-        nivel = "critico" if score >= 70 else "alto" if score >= 40 else "bajo"
+        nivel = "critico"if score >= 70 else "alto"if score >= 40 else "bajo"
     return {
         "score": score,
         "delta_24h": delta,
@@ -509,7 +509,7 @@ def signal_medios(workspace_id: str | int | None) -> dict[str, Any]:
                 words[token] += 1
     top_word, top_n = words.most_common(1)[0] if words else ("sin datos", 0)
     factchecks = _factchecks(workspace_id, limit=20)
-    max_level = "critico" if any("FALSO" in str(f.get("verdict", "")).upper() for f in factchecks) else "alto" if factchecks else "bajo"
+    max_level = "critico"if any("FALSO"in str(f.get("verdict", "")).upper() for f in factchecks) else "alto"if factchecks else "bajo"
     git_osint: list[dict[str, Any]] = []
     git = _git_amigos()
     if git is not None:
@@ -598,7 +598,7 @@ def signal_geopolitica(workspace_id: str | int | None) -> dict[str, Any]:
     return {
         "señales_relevantes_24h": int(sum(counts.values())),
         "pais_top": top[0],
-        "nivel_top": "alto" if top[1] >= 4 else "medio" if top[1] else "bajo",
+        "nivel_top": "alto"if top[1] >= 4 else "medio"if top[1] else "bajo",
         "items": [{"region": k, "n": int(v)} for k, v in counts.most_common(5)],
         "git_amigos": git_geo,
     }
@@ -747,7 +747,7 @@ def workspace_timeline(workspace_id: str | int | None, limit: int = 30) -> dict[
             {
                 "id": f"alerta-{len(items)}",
                 "tipo": "alerta_disparada",
-                "icono": "🔔",
+                "icono": "",
                 "titulo": str(row.get("titulo") or "Alerta")[:180],
                 "meta": str(row.get("severidad") or "INFO"),
                 "created_at": _iso(row.get("created_at")) or datetime.now(timezone.utc).isoformat(),
@@ -759,7 +759,7 @@ def workspace_timeline(workspace_id: str | int | None, limit: int = 30) -> dict[
             {
                 "id": f"news-{row.get('id')}",
                 "tipo": "noticia_relevante",
-                "icono": "📰",
+                "icono": "",
                 "titulo": row.get("titulo"),
                 "meta": row.get("fuente"),
                 "created_at": row.get("fecha") or datetime.now(timezone.utc).isoformat(),
@@ -771,7 +771,7 @@ def workspace_timeline(workspace_id: str | int | None, limit: int = 30) -> dict[
             {
                 "id": ev.get("id"),
                 "tipo": "evento_agenda",
-                "icono": "📅",
+                "icono": "",
                 "titulo": ev.get("label"),
                 "meta": ev.get("fuente") or ev.get("tipo"),
                 "created_at": ev.get("fecha") or datetime.now(timezone.utc).isoformat(),
@@ -783,7 +783,7 @@ def workspace_timeline(workspace_id: str | int | None, limit: int = 30) -> dict[
             {
                 "id": f"fact-{len(items)}",
                 "tipo": "factcheck",
-                "icono": "⚠️",
+                "icono": "⚠",
                 "titulo": str(fc.get("titular") or fc.get("titulo") or "Verificación")[:180],
                 "meta": str(fc.get("verdict") or fc.get("source_id") or "fact-check"),
                 "created_at": _iso(fc.get("published_at")) or datetime.now(timezone.utc).isoformat(),
@@ -798,7 +798,7 @@ def workspace_timeline(workspace_id: str | int | None, limit: int = 30) -> dict[
                     {
                         "id": f"git-amigos-{idx}",
                         "tipo": "norma_relevante",
-                        "icono": "📚",
+                        "icono": "",
                         "titulo": str(doc.get("title") or doc.get("label") or "Fuente Git Amigos")[:180],
                         "meta": str(doc.get("label") or doc.get("repo") or "Git Amigos"),
                         "created_at": datetime.now(timezone.utc).isoformat(),

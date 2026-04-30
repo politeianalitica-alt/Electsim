@@ -60,29 +60,29 @@ _PARTY_ALIASES = {
 
 SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     # ── Módulos del Diseño (D-series) ────────────────────────────────────────
-    ("pages/D1_Briefings.py",       "🗞️  Briefings"),
-    ("pages/D2_Actores.py",         "🕸️  Mapa de Actores"),
-    ("pages/D3_Termometro.py",      "🌡️  Termómetro de Riesgo"),
-    ("pages/D4_Legislativo.py",     "📜  Monitor Legislativo"),
-    ("pages/D5_Coalicion.py",       "🏛️  Gobierno & Coalición"),
-    ("pages/D6_Alertas.py",         "🔔  Alertas"),
-    ("pages/D7_Medios.py",          "📰  Medios & Narrativa"),
-    ("pages/D8_Geopolitica.py",     "🌍  Geopolítica & RRII"),
-    ("pages/D9_Communication.py",   "📣  Communication Intel"),
-    ("pages/D10_Workspace.py",      "🔬  Centro de Operaciones"),
-    ("pages/N8_ChatIA.py",          "🤖  Politeia Brain"),
+    ("pages/D1_Briefings.py",       "  Briefings"),
+    ("pages/D2_Actores.py",         "  Mapa de Actores"),
+    ("pages/D3_Termometro.py",      "  Termómetro de Riesgo"),
+    ("pages/D4_Legislativo.py",     "  Monitor Legislativo"),
+    ("pages/D5_Coalicion.py",       "  Gobierno & Coalición"),
+    ("pages/D6_Alertas.py",         "  Alertas"),
+    ("pages/D7_Medios.py",          "  Medios & Narrativa"),
+    ("pages/D8_Geopolitica.py",     "  Geopolítica & RRII"),
+    ("pages/D9_Communication.py",   "  Communication Intel"),
+    ("pages/D10_Workspace.py",      "  Centro de Operaciones"),
+    ("pages/N8_ChatIA.py",          "  Politeia Brain"),
 ]
 
 # ── Módulos N-series (arquitectura anterior, siguen activos) ─────────────
 SIDEBAR_N_LINKS: list[tuple[str, str]] = [
-    ("pages/N0_Inicio.py",          "🏠  Inicio"),
-    ("pages/N1_Electoral.py",       "🗳️  Electoral"),
-    ("pages/N2_Inteligencia.py",    "🧠  Inteligencia"),
-    ("pages/N3_Medios.py",          "📰  Medios (v2)"),
-    ("pages/N4_Institucional.py",   "🏛️  Institucional"),
-    ("pages/N5_Campana.py",         "⚔️  Campaña"),
-    ("pages/N6_Economia.py",        "📈  Economía"),
-    ("pages/N7_Laboratorio.py",     "🔬  Laboratorio"),
+    ("pages/N0_Inicio.py",          "  Inicio"),
+    ("pages/N1_Electoral.py",       "  Electoral"),
+    ("pages/N2_Inteligencia.py",    "  Inteligencia"),
+    ("pages/N3_Medios.py",          "  Medios (v2)"),
+    ("pages/N4_Institucional.py",   "  Institucional"),
+    ("pages/N5_Campana.py",         "⚔  Campaña"),
+    ("pages/N6_Economia.py",        "  Economía"),
+    ("pages/N7_Laboratorio.py",     "  Laboratorio"),
 ]
 
 # Páginas heredadas — accesibles para compatibilidad
@@ -199,7 +199,7 @@ def _badge_alertas_sidebar() -> None:
     if df.empty:
         return
 
-    sev_col = "severidad" if "severidad" in df.columns else None
+    sev_col = "severidad"if "severidad"in df.columns else None
     if sev_col is None:
         return
 
@@ -210,7 +210,7 @@ def _badge_alertas_sidebar() -> None:
         st.markdown(
             f'<div style="background:#7f1d1d;border:1px solid {RED};border-radius:8px;'
             f'padding:0.5rem 0.75rem;margin:0.5rem 0;font-size:0.8rem;color:#fee2e2">'
-            f'🔴 <strong>{criticas} alerta{"s" if criticas != 1 else ""} crítica{"s" if criticas != 1 else ""}</strong>'
+            f'● <strong>{criticas} alerta{"s"if criticas != 1 else ""} crítica{"s"if criticas != 1 else ""}</strong>'
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -218,7 +218,7 @@ def _badge_alertas_sidebar() -> None:
         st.markdown(
             f'<div style="background:#451a03;border:1px solid {AMBER};border-radius:8px;'
             f'padding:0.5rem 0.75rem;margin:0.5rem 0;font-size:0.8rem;color:#fef3c7">'
-            f'🟡 <strong>{warnings} advertencia{"s" if warnings != 1 else ""}</strong>'
+            f'● <strong>{warnings} advertencia{"s"if warnings != 1 else ""}</strong>'
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -236,8 +236,8 @@ def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
     if df.empty:
         return
 
-    sev = df["severidad"].astype(str).str.upper() if "severidad" in df.columns else pd.Series(["INFO"] * len(df))
-    if "pagina_relevante" in df.columns:
+    sev = df["severidad"].astype(str).str.upper() if "severidad"in df.columns else pd.Series(["INFO"] * len(df))
+    if "pagina_relevante"in df.columns:
         rel = df["pagina_relevante"].fillna("").astype(str).str.strip()
         # No inyectamos todas las alertas CRITICAL en todas las páginas: eso
         # acababa mostrando seeds antiguos/estáticos como si fueran contexto vivo.
@@ -255,7 +255,7 @@ def mostrar_alertas_pagina(pagina_id: str, max_alertas: int = 3) -> None:
         descripcion = str(row.get("descripcion", ""))
         msg = f"**{titulo}** — {descripcion[:220]}"
         if severidad == "CRITICAL":
-            st.error(msg, icon="🚨")
+            st.error(msg, icon="")
         elif severidad in {"WARNING", "ALTA", "MEDIUM", "MEDIA"}:
             st.warning(msg)
         else:
@@ -331,7 +331,7 @@ def render_ai_insight_card(context_data: dict, insight_type: str = "general", *,
 
 def render_sidebar_ai_chatbot() -> None:
     """Chat compacto en sidebar para razonar sobre el dashboard desde cualquier página."""
-    with st.expander("🧠  Analista IA", expanded=False):
+    with st.expander("  Analista IA", expanded=False):
         try:
             engine = _get_ai_engine_resource()
             store = _get_local_store_resource()
@@ -339,7 +339,7 @@ def render_sidebar_ai_chatbot() -> None:
             color = GREEN if status.get("ollama") else AMBER
             st.caption(
                 f"Modelo: {status.get('model')} · Vectores: {status.get('vector_count')} · "
-                f"{'Ollama activo' if status.get('ollama') else 'Ollama offline'}"
+                f"{'Ollama activo'if status.get('ollama') else 'Ollama offline'}"
             )
             question = st.text_area(
                 "Pregunta al cerebro local",
@@ -501,7 +501,7 @@ def macro_value(
 
     Blinda contra Decimal, columnas ausentes y DataFrames vacíos.
     """
-    if df_macro is None or df_macro.empty or "indicador" not in df_macro.columns:
+    if df_macro is None or df_macro.empty or "indicador"not in df_macro.columns:
         return default
     fila = df_macro[df_macro["indicador"] == indicador]
     if fila.empty:
@@ -517,7 +517,7 @@ def macro_value(
 
 def top_partido(df_nc: pd.DataFrame) -> tuple[str, float]:
     """Devuelve (siglas, pct) del partido líder en nowcasting."""
-    if df_nc is None or df_nc.empty or "estimacion_pct" not in df_nc.columns:
+    if df_nc is None or df_nc.empty or "estimacion_pct"not in df_nc.columns:
         return "—", 0.0
     row = df_nc.sort_values("estimacion_pct", ascending=False).iloc[0]
     return str(row.get("partido_siglas", "—")), safe_float(row.get("estimacion_pct"))
@@ -597,16 +597,16 @@ def coming_soon_card(
     hitos: list[str] | None = None,
     eta: str = "",
 ) -> None:
-    """Muestra un banner 'Próximamente' para módulos en desarrollo.
+    """Muestra un banner 'Próximamente'para módulos en desarrollo.
 
     Usar en páginas que no tienen datos ni implementación funcional aún,
     de modo que no se muestre una pantalla en blanco desde el menú.
     """
     hitos_html = ""
     if hitos:
-        items = "".join(f"<li style='margin:.3rem 0;color:{TEXT2}'>{h}</li>" for h in hitos)
+        items = "".join(f"<li style='margin:.3rem 0;color:{TEXT2}'>{h}</li>"for h in hitos)
         hitos_html = f"<ul style='margin:.5rem 0 0 1rem;padding:0;list-style:disc'>{items}</ul>"
-    eta_html = f"<div style='margin-top:.8rem;font-size:.8rem;color:{MUTED}'>ETA estimado: {eta}</div>" if eta else ""
+    eta_html = f"<div style='margin-top:.8rem;font-size:.8rem;color:{MUTED}'>ETA estimado: {eta}</div>"if eta else ""
     st.markdown(
         f"""
         <div style="
@@ -615,9 +615,9 @@ def coming_soon_card(
             background:linear-gradient(135deg,{BG2} 0%,{BG3} 100%);
             max-width:680px;
         ">
-            <div style="font-size:1.6rem;margin-bottom:.4rem">🚧</div>
+            <div style="font-size:1.6rem;margin-bottom:.4rem"></div>
             <div style="font-size:1.35rem;font-weight:800;color:{TEXT};margin-bottom:.4rem">{titulo}</div>
-            {"" if not descripcion else f'<div style="color:{TEXT2};font-size:.95rem;margin-bottom:.6rem">{descripcion}</div>'}
+            {""if not descripcion else f'<div style="color:{TEXT2};font-size:.95rem;margin-bottom:.6rem">{descripcion}</div>'}
             {hitos_html}
             {eta_html}
         </div>
@@ -1006,21 +1006,21 @@ def sidebar_nav():
             <div style="display:flex;align-items:center;gap:.6rem">
                 <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;
                             box-shadow:0 2px 8px rgba(0,0,0,0.35)">
-                  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
-                    <rect width="100" height="100" rx="0" fill="#F0A214"/>
-                    <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                    <circle cx="22" cy="28" r="5.5" fill="#F0A214"/>
-                    <circle cx="22" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                    <circle cx="22" cy="28" r="2.2" fill="#1B3FA8"/>
-                    <circle cx="78" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                    <circle cx="78" cy="28" r="5.5" fill="#F0A214"/>
-                    <circle cx="78" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                    <circle cx="78" cy="28" r="2.2" fill="#1B3FA8"/>
-                    <rect x="21" y="24" width="58" height="8" fill="#1B3FA8"/>
-                    <rect x="8" y="37" width="84" height="10" rx="2" fill="#1B3FA8"/>
-                    <rect x="14" y="58" width="19" height="30" rx="3" fill="#1B3FA8"/>
-                    <rect x="40" y="50" width="19" height="38" rx="3" fill="#1B3FA8"/>
-                    <rect x="66" y="43" width="19" height="45" rx="3" fill="#1B3FA8"/>
+                  <svg viewBox="0 0 100 100"xmlns="http://www.w3.org/2000/svg"style="width:100%;height:100%;display:block">
+                    <rect width="100"height="100"rx="0"fill="#F0A214"/>
+                    <circle cx="22"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
+                    <circle cx="22"cy="28"r="5.5"fill="#F0A214"/>
+                    <circle cx="22"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
+                    <circle cx="22"cy="28"r="2.2"fill="#1B3FA8"/>
+                    <circle cx="78"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
+                    <circle cx="78"cy="28"r="5.5"fill="#F0A214"/>
+                    <circle cx="78"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
+                    <circle cx="78"cy="28"r="2.2"fill="#1B3FA8"/>
+                    <rect x="21"y="24"width="58"height="8"fill="#1B3FA8"/>
+                    <rect x="8"y="37"width="84"height="10"rx="2"fill="#1B3FA8"/>
+                    <rect x="14"y="58"width="19"height="30"rx="3"fill="#1B3FA8"/>
+                    <rect x="40"y="50"width="19"height="38"rx="3"fill="#1B3FA8"/>
+                    <rect x="66"y="43"width="19"height="45"rx="3"fill="#1B3FA8"/>
                   </svg>
                 </div>
                 <div>
@@ -1037,7 +1037,7 @@ def sidebar_nav():
             from dashboard.services.llm_local import disponible as _llm_disp
             _s = _llm_disp()
             _brain_on = _s.get("brain", False)
-            _model_name = "politeia-brain" if _brain_on else ("qwen2.5" if _s.get("general") else "sin IA")
+            _model_name = "politeia-brain"if _brain_on else ("qwen2.5"if _s.get("general") else "sin IA")
             _brain_color = GREEN if _brain_on else (AMBER if _s.get("ollama") else MUTED)
             _ollama_on = bool(_s.get("ollama"))
         except Exception:
@@ -1062,7 +1062,7 @@ def sidebar_nav():
             pass
 
         _worker_badge = (
-            f'<span style="font-size:.62rem;color:{GREEN};margin-left:auto;">🔄 {_total_docs}</span>'
+            f'<span style="font-size:.62rem;color:{GREEN};margin-left:auto;"> {_total_docs}</span>'
             if _worker_active else
             f'<span style="font-size:.62rem;color:{MUTED};margin-left:auto;">⏸ pausado</span>'
         )
@@ -1074,7 +1074,7 @@ def sidebar_nav():
             f'<span style="width:7px;height:7px;border-radius:50%;background:{_brain_color};'
             f'display:inline-block;box-shadow:0 0 6px {_brain_color}"></span>'
             f'<span style="font-size:.68rem;color:{_brain_color};font-weight:700">'
-            f'🧠 {_model_name}</span>'
+            f' {_model_name}</span>'
             f'{_worker_badge}'
             f'</div>',
             unsafe_allow_html=True,
@@ -1096,11 +1096,11 @@ def sidebar_nav():
                     unsafe_allow_html=True)
 
         # Módulos N-series en expander
-        with st.expander("🔧  Módulos v2 (análisis)", expanded=False):
+        with st.expander("  Módulos v2 (análisis)", expanded=False):
             _render_page_links(SIDEBAR_N_LINKS)
 
         # Páginas heredadas en expander colapsado
-        with st.expander("📂  Clásicos (v1)", expanded=False):
+        with st.expander("  Clásicos (v1)", expanded=False):
             st.markdown(
                 f'<div style="font-size:.7rem;color:{MUTED};margin-bottom:.5rem">'
                 f'Páginas individuales</div>',

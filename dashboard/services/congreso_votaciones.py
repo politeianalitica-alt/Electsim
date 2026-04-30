@@ -211,7 +211,7 @@ def scrape_diputados(legislatura: str = _LEGIS_ACTUAL) -> list[Diputado]:
     # Intentar API directa
     url = f"https://datos.congreso.es/opendata/legislaturas/{legislatura}/diputados"
     resp = _get_json(url, timeout=20.0)
-    if "error" not in resp:
+    if "error"not in resp:
         return _parsear_diputados_api(resp, legislatura)
 
     # Fallback: everypolitician local
@@ -276,7 +276,7 @@ def _cargar_diputados_everypolitician(legislatura: str) -> list[Diputado]:
             nombre = p.get("name","")
             partido = ""
             # Buscar partido en afiliaciones
-            for aff in p.get("memberships",[]) if "memberships" in p else []:
+            for aff in p.get("memberships",[]) if "memberships"in p else []:
                 o = organizations.get(aff.get("organization_id",""))
                 if o and o.get("classification") == "party":
                     partido = o.get("name","")
@@ -397,7 +397,7 @@ def _parsear_votacion_json(data: dict, legislatura: str) -> Votacion | None:
                 else:
                     aus += 1
 
-        resultado = "aprobado" if si > no else "rechazado"
+        resultado = "aprobado"if si > no else "rechazado"
         return Votacion(
             id=str(data.get("id", "")),
             fecha=data.get("fecha", ""),
@@ -452,7 +452,7 @@ def scrape_iniciativas(
         params["tipo"] = tipo
 
     resp = _get_json(_URL_INICIATIVAS, params=params, timeout=20.0)
-    if "error" in resp:
+    if "error"in resp:
         _log("iniciativas_api", False, resp["error"])
         return _generar_iniciativas_muestra()
 

@@ -52,7 +52,7 @@ def _sync_get(url: str, params: dict | None = None, timeout: float = 15.0) -> di
 def obtener_sumario(fecha: Optional[str] = None) -> list[dict]:
     """
     Obtiene el sumario del BOE para una fecha dada.
-    fecha: 'YYYYMMDD' o None para hoy
+    fecha: 'YYYYMMDD'o None para hoy
     """
     if not fecha:
         # Intentar hoy, si no hay (fin de semana) ir hacia atrás

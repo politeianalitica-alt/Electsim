@@ -184,7 +184,7 @@ def _parsear_frontmatter(texto: str) -> tuple[dict, str]:
 
     meta: dict[str, Any] = {}
     for line in m.group(1).splitlines():
-        if ":" in line:
+        if ":"in line:
             k, _, v = line.partition(":")
             k = k.strip()
             v = v.strip()
@@ -378,7 +378,7 @@ def cambios_recientes_local(dias: int = 7) -> list[CambioNormativo]:
         if fecha >= fecha_limite:
             tipo = "nueva"
             if n.get("referencias"):
-                tipo = "modificacion" if any("MODIFICA" in str(n["metadata"].get("references_previous","")) for _ in [1]) else "nueva"
+                tipo = "modificacion"if any("MODIFICA"in str(n["metadata"].get("references_previous","")) for _ in [1]) else "nueva"
             cambios.append(CambioNormativo(
                 norma_id=n["boe_id"],
                 tipo_cambio=tipo,
@@ -435,7 +435,7 @@ def buscar_legislacion_api(
         params["rangoNormativa"] = rango_cod
 
     resp = _get(_BOE_ENDPOINTS["legislacion"], params=params)
-    if "error" in resp:
+    if "error"in resp:
         return []
 
     items = resp.get("data", {}).get("items", [])
@@ -464,7 +464,7 @@ def sumario_boe(fecha: str | None = None) -> list[ItemBOE]:
 
     url = f"{_BOE_ENDPOINTS['boe_sumario']}/{fecha}"
     resp = _get(url)
-    if "error" in resp:
+    if "error"in resp:
         return []
 
     items: list[ItemBOE] = []
@@ -499,7 +499,7 @@ def sumario_boe(fecha: str | None = None) -> list[ItemBOE]:
                             seccion=sec_nombre,
                             departamento=dept_nombre,
                             fecha=f"{fecha[:4]}-{fecha[4:6]}-{fecha[6:]}",
-                            tipo="disposicion" if sec_id in ("1","2","3") else "anuncio",
+                            tipo="disposicion"if sec_id in ("1","2","3") else "anuncio",
                             url=f"https://www.boe.es/boe/dias/{fecha[:4]}/{fecha[4:6]}/{fecha[6:]}/#{it_id}",
                             impacto_estimado=impacto,
                         ))
@@ -518,7 +518,7 @@ def sumario_borme(fecha: str | None = None) -> list[ItemBORME]:
 
     url = f"{_BOE_ENDPOINTS['borme_sumario']}/{fecha}"
     resp = _get(url)
-    if "error" in resp:
+    if "error"in resp:
         return []
 
     items: list[ItemBORME] = []
@@ -590,7 +590,7 @@ def alertas_boe(
                 alertas.append(Alerta(
                     norma_id=item.identificador,
                     titulo=item.titulo,
-                    motivo=f"Keyword '{kw}' detectada en sumario BOE",
+                    motivo=f"Keyword '{kw}'detectada en sumario BOE",
                     keyword=kw,
                     impacto=item.impacto_estimado,
                     fecha=item.fecha,
@@ -613,7 +613,7 @@ def alertas_boe(
                         titulo=n.titulo,
                         motivo=f"Norma reciente en sector '{kw}' (corpus legalize-es)",
                         keyword=kw,
-                        impacto="alto" if n.rango in ("ley","ley orgánica","real decreto-ley") else "medio",
+                        impacto="alto"if n.rango in ("ley","ley orgánica","real decreto-ley") else "medio",
                         fecha=cambio.fecha,
                         url=n.url_boe,
                     ))

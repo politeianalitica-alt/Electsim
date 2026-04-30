@@ -69,7 +69,7 @@ def normalize_polls_schema(raw_df: pd.DataFrame) -> pd.DataFrame:
     df["fieldwork_end"] = pd.to_datetime(df["fieldwork_end"], errors="coerce")
     df["sample_size"] = pd.to_numeric(df["sample_size"], errors="coerce").fillna(1000).astype(int)
     df["estimate"] = pd.to_numeric(df["estimate"], errors="coerce")
-    if "margin_of_error" not in df.columns:
+    if "margin_of_error"not in df.columns:
         p = (df["estimate"].fillna(0) / 100).clip(0, 1)
         n = df["sample_size"].clip(lower=1)
         df["margin_of_error"] = 1.96 * ((p * (1 - p) / n) ** 0.5) * 100

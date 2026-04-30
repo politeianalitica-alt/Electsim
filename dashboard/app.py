@@ -103,7 +103,7 @@ def _n_alertas(sev: str | None = None) -> int:
     return len(df_alertas)
 
 def _indice_top() -> tuple[str, float]:
-    if df_indices.empty or "valor" not in df_indices.columns:
+    if df_indices.empty or "valor"not in df_indices.columns:
         return "—", 0.0
     _df = df_indices.copy()
     _df["valor"] = pd.to_numeric(_df["valor"], errors="coerce").fillna(0.0)
@@ -220,7 +220,7 @@ lider, lider_pct = _top_partido()
 indice_top, indice_val = _indice_top()
 
 st.markdown(f"""
-<div class="es-a" style="
+<div class="es-a"style="
     background:linear-gradient(135deg,{BG2} 0%,#091628 45%,{BG3} 100%);
     border:1px solid {BORDER}; border-radius:16px;
     padding:1.8rem 2.2rem; margin-bottom:1.6rem;
@@ -236,21 +236,21 @@ st.markdown(f"""
             <div style="width:52px;height:52px;border-radius:12px;overflow:hidden;flex-shrink:0;
                         box-shadow:0 6px 22px rgba(0,212,255,.2),0 2px 8px rgba(0,0,0,.4);
                         animation:logoIn .75s cubic-bezier(.34,1.56,.64,1) both,pulseGlow 4s ease 1s infinite">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
-                  <rect width="100" height="100" rx="0" fill="#F0A214"/>
-                  <circle cx="22" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                  <circle cx="22" cy="28" r="5.5" fill="#F0A214"/>
-                  <circle cx="22" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                  <circle cx="22" cy="28" r="2.2" fill="#1B3FA8"/>
-                  <circle cx="78" cy="28" r="13" stroke="#1B3FA8" stroke-width="5" fill="none"/>
-                  <circle cx="78" cy="28" r="5.5" fill="#F0A214"/>
-                  <circle cx="78" cy="28" r="5.5" stroke="#1B3FA8" stroke-width="2.5" fill="none"/>
-                  <circle cx="78" cy="28" r="2.2" fill="#1B3FA8"/>
-                  <rect x="21" y="24" width="58" height="8" fill="#1B3FA8"/>
-                  <rect x="8" y="37" width="84" height="10" rx="2" fill="#1B3FA8"/>
-                  <rect x="14" y="58" width="19" height="30" rx="3" fill="#1B3FA8"/>
-                  <rect x="40" y="50" width="19" height="38" rx="3" fill="#1B3FA8"/>
-                  <rect x="66" y="43" width="19" height="45" rx="3" fill="#1B3FA8"/>
+                <svg viewBox="0 0 100 100"xmlns="http://www.w3.org/2000/svg"style="width:100%;height:100%;display:block">
+                  <rect width="100"height="100"rx="0"fill="#F0A214"/>
+                  <circle cx="22"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
+                  <circle cx="22"cy="28"r="5.5"fill="#F0A214"/>
+                  <circle cx="22"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
+                  <circle cx="22"cy="28"r="2.2"fill="#1B3FA8"/>
+                  <circle cx="78"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
+                  <circle cx="78"cy="28"r="5.5"fill="#F0A214"/>
+                  <circle cx="78"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
+                  <circle cx="78"cy="28"r="2.2"fill="#1B3FA8"/>
+                  <rect x="21"y="24"width="58"height="8"fill="#1B3FA8"/>
+                  <rect x="8"y="37"width="84"height="10"rx="2"fill="#1B3FA8"/>
+                  <rect x="14"y="58"width="19"height="30"rx="3"fill="#1B3FA8"/>
+                  <rect x="40"y="50"width="19"height="38"rx="3"fill="#1B3FA8"/>
+                  <rect x="66"y="43"width="19"height="45"rx="3"fill="#1B3FA8"/>
                 </svg>
             </div>
             <div>
@@ -279,16 +279,16 @@ st.markdown(f"""
                 <span style="font-size:.65rem;font-weight:700;color:{GREEN};letter-spacing:.1em;text-transform:uppercase">Sistema activo</span>
             </div>
             <div style="display:flex;gap:.45rem">
-                <div style="background:{'#EF444418' if n_crit>0 else BG3};border:1px solid {'#EF444433' if n_crit>0 else BORDER};
+                <div style="background:{'#EF444418'if n_crit>0 else BG3};border:1px solid {'#EF444433'if n_crit>0 else BORDER};
                             border-radius:8px;padding:.28rem .7rem;text-align:center">
                     <div style="font-size:.55rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Críticas</div>
-                    <div style="font-size:.9rem;font-weight:900;color:{'#EF4444' if n_crit>0 else MUTED};
+                    <div style="font-size:.9rem;font-weight:900;color:{'#EF4444'if n_crit>0 else MUTED};
                                 font-family:'JetBrains Mono',monospace">{n_crit}</div>
                 </div>
-                <div style="background:{'#F59E0B18' if n_warn>0 else BG3};border:1px solid {'#F59E0B33' if n_warn>0 else BORDER};
+                <div style="background:{'#F59E0B18'if n_warn>0 else BG3};border:1px solid {'#F59E0B33'if n_warn>0 else BORDER};
                             border-radius:8px;padding:.28rem .7rem;text-align:center">
                     <div style="font-size:.55rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Avisos</div>
-                    <div style="font-size:.9rem;font-weight:900;color:{'#F59E0B' if n_warn>0 else MUTED};
+                    <div style="font-size:.9rem;font-weight:900;color:{'#F59E0B'if n_warn>0 else MUTED};
                                 font-family:'JetBrains Mono',monospace">{n_warn}</div>
                 </div>
                 <div style="background:{BG3};border:1px solid {BORDER};
@@ -311,7 +311,7 @@ st.markdown(f"""
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="sec-hdr es-a1">
-    <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+    <div class="bar"style="background:linear-gradient({CYAN},{BLUE})"></div>
     <span class="lbl">Señales del Sistema</span>
     <div class="line"></div>
     <span class="tag">Nowcasting · Macro · Riesgo · Prensa · Alertas</span>
@@ -319,7 +319,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 ipc_val   = _macro_val("IPC General (%)", suffix="%")
-prima_val = _macro_val("Prima Riesgo (pb)", fmt=".0f", suffix=" pb")
+prima_val = _macro_val("Prima Riesgo (pb)", fmt=".0f", suffix="pb")
 paro_val  = _macro_val("Tasa de Paro (%)", suffix="%")
 n_news    = len(df_news) if not df_news.empty else 0
 
@@ -338,17 +338,17 @@ for i, (lbl, val, sub, color, _) in enumerate(signals):
     with cols_sig[i]:
         st.markdown(f"""
         <div class="signal-card es-a{i+1}">
-            <div class="accent" style="background:{color}"></div>
+            <div class="accent"style="background:{color}"></div>
             <div class="lbl">{lbl}</div>
             <div class="val">{val}</div>
-            <div class="sub" style="color:{color}">{sub}</div>
+            <div class="sub"style="color:{color}">{sub}</div>
         </div>
         """, unsafe_allow_html=True)
 
 ai_insight = _ai_portada_insight(lider, float(lider_pct or 0.0), ipc_val, prima_val, _n_alertas())
 if ai_insight:
     st.markdown(f"""
-    <div class="g-card es-a2" style="border-left:3px solid {CYAN};padding:.78rem 1rem;margin:.8rem 0;color:{TEXT}">
+    <div class="g-card es-a2"style="border-left:3px solid {CYAN};padding:.78rem 1rem;margin:.8rem 0;color:{TEXT}">
         <div style="font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:{CYAN};margin-bottom:.28rem">
             ATLAS · Análisis IA
         </div>
@@ -367,7 +367,7 @@ col_nc, col_alerts = st.columns([1.75, 1], gap="large")
 with col_nc:
     st.markdown(f"""
     <div class="sec-hdr es-a2">
-        <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+        <div class="bar"style="background:linear-gradient({CYAN},{BLUE})"></div>
         <span class="lbl">Estimación Electoral · Nowcasting</span>
         <div class="line"></div>
     </div>
@@ -393,7 +393,7 @@ with col_nc:
         if c in _df.columns:
             _df[c] = pd.to_numeric(_df[c], errors="coerce")
     _df = _df.dropna(subset=["partido_siglas", "estimacion_pct"]).copy()
-    if "ic_95_inf" in _df.columns and "ic_95_sup" in _df.columns:
+    if "ic_95_inf"in _df.columns and "ic_95_sup"in _df.columns:
         _df["ic_95_inf"] = _df["ic_95_inf"].fillna(_df["estimacion_pct"])
         _df["ic_95_sup"] = _df["ic_95_sup"].fillna(_df["estimacion_pct"])
 
@@ -494,8 +494,8 @@ with col_nc:
 with col_alerts:
     st.markdown(f"""
     <div class="sec-hdr es-a3">
-        <div class="bar" style="background:linear-gradient({RED},{AMBER})"></div>
-        <span class="lbl" style="color:{RED}">Alertas</span>
+        <div class="bar"style="background:linear-gradient({RED},{AMBER})"></div>
+        <span class="lbl"style="color:{RED}">Alertas</span>
         <div class="line"></div>
         <span class="tag">{_n_alertas()} total</span>
     </div>
@@ -519,7 +519,7 @@ with col_alerts:
             tipo   = str(a.get("tipo", ""))
 
             st.markdown(f"""
-            <div class="alert-item" style="--ac:{ac}">
+            <div class="alert-item"style="--ac:{ac}">
                 <div style="display:flex;justify-content:space-between;align-items:center;gap:.3rem">
                     <div style="display:flex;align-items:center;gap:.4rem;flex:1;min-width:0">
                         <span style="font-size:.55rem;font-weight:900;color:{ac};
@@ -536,13 +536,13 @@ with col_alerts:
                 </div>
                 <div style="display:flex;gap:.5rem;margin-top:.18rem;margin-left:1.4rem">
                     <span style="font-size:.54rem;color:{MUTED};font-family:'JetBrains Mono',monospace">{fecha}</span>
-                    {f'<span style="font-size:.54rem;color:{MUTED};background:{BG3};padding:.05rem .35rem;border-radius:4px;border:1px solid {BORDER}">{tipo}</span>' if tipo else ''}
+                    {f'<span style="font-size:.54rem;color:{MUTED};background:{BG3};padding:.05rem .35rem;border-radius:4px;border:1px solid {BORDER}">{tipo}</span>'if tipo else ''}
                 </div>
             </div>
             """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
-        <div class="g-card" style="padding:2rem;text-align:center;margin-top:.5rem">
+        <div class="g-card"style="padding:2rem;text-align:center;margin-top:.5rem">
             <div style="width:34px;height:34px;background:{GREEN}14;border:2px solid {GREEN}33;
                         border-radius:9px;margin:0 auto .6rem;display:flex;align-items:center;
                         justify-content:center;font-size:.95rem;color:{GREEN}">+</div>
@@ -568,8 +568,8 @@ col_macro, col_elec_news = st.columns([1, 1], gap="large")
 with col_macro:
     st.markdown(f"""
     <div class="sec-hdr es-a4">
-        <div class="bar" style="background:linear-gradient({BLUE},{PURPLE})"></div>
-        <span class="lbl" style="color:{BLUE}">Indicadores Macro</span>
+        <div class="bar"style="background:linear-gradient({BLUE},{PURPLE})"></div>
+        <span class="lbl"style="color:{BLUE}">Indicadores Macro</span>
         <div class="line"></div>
     </div>
     """, unsafe_allow_html=True)
@@ -578,7 +578,7 @@ with col_macro:
         ("IPC General (%)",        AMBER,  ".1f", "%",    "IPC"),
         ("Crec. PIB (%)",           GREEN,  ".1f", "%",    "PIB"),
         ("Tasa de Paro (%)",        RED,    ".1f", "%",    "Paro"),
-        ("Prima Riesgo (pb)",       RED,    ".0f", " pb",  "Prima"),
+        ("Prima Riesgo (pb)",       RED,    ".0f", "pb",  "Prima"),
         ("Euribor 12m (%)",         CYAN,   ".2f", "%",    "Euribor"),
         ("Deuda Publica (% PIB)",   PURPLE, ".1f", "%",    "Deuda"),
     ]
@@ -597,7 +597,7 @@ with col_macro:
                 display = str(fila.iloc[0].get("valor", "—"))
             with cols_m[shown % 3]:
                 st.markdown(f"""
-                <div class="g-card" style="padding:.85rem 1rem;margin-bottom:.45rem;border-top:2px solid {color}44">
+                <div class="g-card"style="padding:.85rem 1rem;margin-bottom:.45rem;border-top:2px solid {color}44">
                     <div style="font-size:.55rem;font-weight:700;letter-spacing:.1em;color:{MUTED};
                                 text-transform:uppercase;margin-bottom:.28rem">{short}</div>
                     <div style="font-size:1.25rem;font-weight:900;color:{TEXT};
@@ -608,7 +608,7 @@ with col_macro:
             shown += 1
     else:
         st.markdown(f"""
-        <div class="g-card" style="padding:1.4rem;text-align:center;color:{MUTED};font-size:.75rem">
+        <div class="g-card"style="padding:1.4rem;text-align:center;color:{MUTED};font-size:.75rem">
             Sin datos macro · Ejecuta el ETL de INE/BDE
         </div>
         """, unsafe_allow_html=True)
@@ -623,9 +623,9 @@ with col_elec_news:
 
     with tab_elec:
         st.markdown(f"""
-        <div class="sec-hdr" style="margin-top:.6rem">
-            <div class="bar" style="background:linear-gradient({PURPLE},{CYAN})"></div>
-            <span class="lbl" style="color:{PURPLE}">Histórico Electoral</span>
+        <div class="sec-hdr"style="margin-top:.6rem">
+            <div class="bar"style="background:linear-gradient({PURPLE},{CYAN})"></div>
+            <span class="lbl"style="color:{PURPLE}">Histórico Electoral</span>
             <div class="line"></div>
             <span class="tag">{len(df_elec) if not df_elec.empty else 0} elecciones</span>
         </div>
@@ -636,7 +636,7 @@ with col_elec_news:
                 fecha = str(e.get("fecha", ""))[:10]
                 desc  = str(e.get("descripcion", "Elecciones Generales"))[:56]
                 st.markdown(f"""
-                <div class="g-card" style="
+                <div class="g-card"style="
                     display:flex;justify-content:space-between;align-items:center;
                     padding:.52rem .9rem;margin-bottom:.3rem;
                     border-left:3px solid {PURPLE}55;border-radius:0 9px 9px 0;
@@ -661,8 +661,8 @@ with col_elec_news:
 
     with tab_news:
         st.markdown(f"""
-        <div class="sec-hdr" style="margin-top:.6rem">
-            <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+        <div class="sec-hdr"style="margin-top:.6rem">
+            <div class="bar"style="background:linear-gradient({CYAN},{BLUE})"></div>
             <span class="lbl">Noticias (24h)</span>
             <div class="line"></div>
             <span class="tag">{n_news} noticias</span>
@@ -689,7 +689,7 @@ with col_elec_news:
                     score_badge = ""
 
                 st.markdown(f"""
-                <div class="g-card" style="padding:.5rem .85rem;margin-bottom:.28rem">
+                <div class="g-card"style="padding:.5rem .85rem;margin-bottom:.28rem">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.4rem">
                         <span style="font-size:.7rem;font-weight:600;color:{TEXT};flex:1;min-width:0;
                                      overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{titulo}</span>
@@ -722,7 +722,7 @@ except Exception:
 st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
 st.markdown(f"""
 <div class="sec-hdr">
-    <div class="bar" style="background:linear-gradient({CYAN},{BLUE})"></div>
+    <div class="bar"style="background:linear-gradient({CYAN},{BLUE})"></div>
     <span class="lbl">Módulos Avanzados</span>
     <div class="line"></div>
 </div>

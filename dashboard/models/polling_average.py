@@ -64,7 +64,7 @@ def compute_polling_average(
         .mean()
         .interpolate(method="time")
     )
-    party = str(adj["party"].mode().iloc[0]) if "party" in adj.columns and not adj["party"].empty else ""
+    party = str(adj["party"].mode().iloc[0]) if "party"in adj.columns and not adj["party"].empty else ""
     return {
         "party": party,
         "estimate": estimate,

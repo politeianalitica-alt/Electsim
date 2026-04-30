@@ -70,8 +70,8 @@ def simular_debate(
     contradicciones: list[str] | None = None,
     datos_encuestas: str = "Sin datos",
 ) -> SimulacionDebate:
-    decl = "\n".join(f"- {x}" for x in (declaraciones_adversario or [])[:5]) or "Sin declaraciones"
-    contra = "\n".join(f"- {x}" for x in (contradicciones or [])[:5]) or "Sin contradicciones"
+    decl = "\n".join(f"- {x}"for x in (declaraciones_adversario or [])[:5]) or "Sin declaraciones"
+    contra = "\n".join(f"- {x}"for x in (contradicciones or [])[:5]) or "Sin contradicciones"
     prompt = f"""
 Eres estratega politico senior.
 Partido propio: {partido_propio}
@@ -118,7 +118,7 @@ def generar_argumentario(
     declaraciones_propias: list[str] | None = None,
     contexto_datos: str = "",
 ) -> Argumentario:
-    decl = "\n".join(f"- {x}" for x in (declaraciones_propias or [])[:5]) or "Sin declaraciones"
+    decl = "\n".join(f"- {x}"for x in (declaraciones_propias or [])[:5]) or "Sin declaraciones"
     prompt = f"""
 Genera un {tipo_doc} en espanol.
 Partido: {partido_propio}

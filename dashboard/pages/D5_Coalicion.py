@@ -26,7 +26,7 @@ import dashboard.db as _db
 
 st.set_page_config(
     page_title="Gobierno & Coalición — ElectSim",
-    page_icon="🏛️",
+    page_icon="",
     layout="wide",
 )
 aplicar_estilos()
@@ -148,7 +148,7 @@ def _probabilidad_bayesiana(sondeo_tuple: tuple, sigma: float = 2.5, n_sim: int 
 
 def _normalizar_tipo_agenda(tipo: str, texto: str = "") -> str:
     raw = f"{tipo or ''} {texto or ''}".lower()
-    if "senado" in raw:
+    if "senado"in raw:
         return "senado"
     if any(k in raw for k in ["congreso", "pleno", "comisión", "comision", "parlamento"]):
         return "congreso"
@@ -257,7 +257,7 @@ def _cargar_agenda_operativa(lunes_iso: str, domingo_iso: str) -> tuple[list[dic
             continue
         seen.add(key)
         events.append(ev)
-    events.sort(key=lambda e: (e["dia"], e["hora"] if e["hora"] != "—" else "99:99", e["actor"]))
+    events.sort(key=lambda e: (e["dia"], e["hora"] if e["hora"] != "—"else "99:99", e["actor"]))
     return events[:70], source or "Sin fuente"
 
 
@@ -268,7 +268,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:44px;height:44px;background:linear-gradient(135deg,{PURPLE},{BLUE});
               border-radius:12px;display:flex;align-items:center;
-              justify-content:center;font-size:1.5rem;flex-shrink:0">🏛️</div>
+              justify-content:center;font-size:1.5rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.55rem;font-weight:900">Gobierno & Coalición</h2>
     <div style="color:{TEXT2};font-size:.82rem">
@@ -284,10 +284,10 @@ st.markdown(f"""
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_hemi, tab_coal, tab_agenda, tab_ruptura = st.tabs([
-    "🏛️ Hemiciclo",
-    "🤝 Coaliciones",
-    "📅 Agenda",
-    "⚠️ Escenarios de Ruptura",
+    "Hemiciclo",
+    "Coaliciones",
+    "Agenda",
+    "⚠ Escenarios de Ruptura",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -416,7 +416,7 @@ with tab_hemi:
             f'<span style="font-size:.72rem;color:{TEXT2}">{esc_lider} / {MAYORIA_ABS} (mayoría)</span>'
             f'</div>'
             f'<div style="background:{BORDER};border-radius:4px;height:8px;overflow:hidden">'
-            f'<div style="background:{"linear-gradient(90deg," + GREEN + "," + CYAN + ")" if esc_lider >= MAYORIA_ABS else "linear-gradient(90deg," + RED + "," + AMBER + ")"};'
+            f'<div style="background:{"linear-gradient(90deg," + GREEN + "," + CYAN + ")"if esc_lider >= MAYORIA_ABS else "linear-gradient(90deg," + RED + "," + AMBER + ")"};'
             f'width:{min(100, pct_lider / (MAYORIA_ABS / TOTAL_ESCANOS * 100) * 100):.1f}%;height:100%;border-radius:4px"></div>'
             f'</div></div>',
             unsafe_allow_html=True,
@@ -491,7 +491,7 @@ with tab_coal:
             tiene_may = coal.tiene_mayoria
             prob_pct = int(coal.probabilidad * 100)
             color_may = GREEN if tiene_may else RED
-            label_may = "MAYORÍA" if tiene_may else "SIN MAYORÍA"
+            label_may = "MAYORÍA"if tiene_may else "SIN MAYORÍA"
 
             # Colores de partidos en la coalición
             tags_coal = "".join(
@@ -547,7 +547,7 @@ with tab_coal:
             marker_color=colores_mc,
             marker_line_color=BORDER,
             marker_line_width=1,
-            text=[f"{v:.1f}%" for v in valores_mc],
+            text=[f"{v:.1f}%"for v in valores_mc],
             textposition="outside",
             textfont=dict(color=TEXT2, size=12),
         ))
@@ -606,8 +606,8 @@ with tab_coal:
     # Análisis IA de coalición
     st.markdown("<br>", unsafe_allow_html=True)
     section_header("Análisis IA — Politeia Brain", PURPLE)
-    if st.button("🤖 Analizar situación de coalición con IA", key="btn_ia_coal"):
-        escanos_str = ", ".join(f"{p}: {e}" for p, e in sorted(escanos_sondeo.items(), key=lambda x: x[1], reverse=True)[:8])
+    if st.button("Analizar situación de coalición con IA", key="btn_ia_coal"):
+        escanos_str = ", ".join(f"{p}: {e}"for p, e in sorted(escanos_sondeo.items(), key=lambda x: x[1], reverse=True)[:8])
         with st.spinner("Consultando Politeia Brain…"):
             resp_coal = ""
             try:
@@ -680,7 +680,7 @@ with tab_agenda:
         eventos_dia = [e for e in agenda_eventos if e["dia"] == di]
         es_hoy = dia_dt.date() == hoy.date()
         borde_dia = CYAN if es_hoy else BORDER
-        bg_dia = f"{CYAN}08" if es_hoy else BG2
+        bg_dia = f"{CYAN}08"if es_hoy else BG2
 
         with cols_cal[di]:
             st.markdown(
@@ -699,7 +699,7 @@ with tab_agenda:
                     f'<div style="background:{tc}15;border-left:2px solid {tc};border-radius:4px;'
                     f'padding:.25rem .4rem;margin-bottom:.3rem">'
                     f'<div style="font-size:.55rem;color:{tc};font-weight:700">{ev["hora"]} · {ev["actor"]}</div>'
-                    f'<div style="font-size:.58rem;color:{TEXT2};line-height:1.3">{ev["evento"][:45]}{"…" if len(ev["evento"])>45 else ""}</div>'
+                    f'<div style="font-size:.58rem;color:{TEXT2};line-height:1.3">{ev["evento"][:45]}{"…"if len(ev["evento"])>45 else ""}</div>'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
@@ -735,7 +735,7 @@ with tab_ruptura:
     ESCENARIOS_RUPTURA = [
         {
             "titulo": "Ruptura por presupuestos",
-            "icono": "💸",
+            "icono": "",
             "probabilidad": 42,
             "ventana": "Oct–Dic 2024",
             "color": RED,
@@ -756,7 +756,7 @@ with tab_ruptura:
         },
         {
             "titulo": "Moción de censura PP+VOX",
-            "icono": "⚔️",
+            "icono": "⚔",
             "probabilidad": 18,
             "ventana": "Ene–Mar 2025",
             "color": AMBER,
@@ -776,7 +776,7 @@ with tab_ruptura:
         },
         {
             "titulo": "Desgaste electoral",
-            "icono": "📉",
+            "icono": "",
             "probabilidad": 35,
             "ventana": "2025–2026",
             "color": PURPLE,
@@ -803,16 +803,16 @@ with tab_ruptura:
 
         # Disparadores
         disp_html = "".join(
-            f'<li style="color:{TEXT2};font-size:.78rem;margin:.25rem 0">⚡ {d}</li>'
+            f'<li style="color:{TEXT2};font-size:.78rem;margin:.25rem 0">! {d}</li>'
             for d in esc["disparadores"]
         )
 
         # Impacto seats
         impact_html = "".join(
-            f'<span style="background:{"#10B98122" if v.startswith("+") else "#EF444422"};'
-            f'color:{"#10B981" if v.startswith("+") else "#EF4444"};'
+            f'<span style="background:{"#10B98122"if v.startswith("+") else "#EF444422"};'
+            f'color:{"#10B981"if v.startswith("+") else "#EF4444"};'
             f'font-size:.65rem;font-weight:800;padding:.15rem .45rem;border-radius:5px;'
-            f'border:1px solid {"#10B98144" if v.startswith("+") else "#EF444444"}">'
+            f'border:1px solid {"#10B98144"if v.startswith("+") else "#EF444444"}">'
             f'{p} {v}</span> '
             for p, v in esc["impacto_seats"].items()
         )
@@ -835,7 +835,7 @@ with tab_ruptura:
             f'<span style="background:{c}22;color:{c};font-size:.68rem;font-weight:800;'
             f'padding:.2rem .6rem;border-radius:6px;border:1px solid {c}44">'
             f'P={prob}%</span>'
-            f'<span style="margin-left:auto;font-size:.7rem;color:{MUTED}">📅 {ventana_str}</span>'
+            f'<span style="margin-left:auto;font-size:.7rem;color:{MUTED}"> {ventana_str}</span>'
             f'</div>'
             f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.5">{esc["descripcion"]}</div>'
             f'</div></div>'

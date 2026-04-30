@@ -111,7 +111,7 @@ if not df_macro.empty:
             macro_vals[k] = float(r[k])
 
 # ── KPIs principales ──────────────────────────────────────────────────────────
-st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores clave — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
+st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Indicadores clave — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
 
 kpi_data = [
     ("PIB (crecimiento)", f"{macro_vals['crecimiento_pib']:.1f}%", "interanual T4 2025", GREEN if macro_vals['crecimiento_pib'] > 1.5 else RED),
@@ -152,7 +152,7 @@ with tab1:
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Prima de riesgo: España vs Italia vs Portugal (pb)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Prima de riesgo: España vs Italia vs Portugal (pb)</span><div class="line"></div></div>', unsafe_allow_html=True)
         # Serie histórica sintética (2020-2026)
         fechas_mes = pd.date_range("2020-01", "2026-04", freq="ME")
         rng_prima = np.random.default_rng(1)
@@ -187,7 +187,7 @@ with tab1:
         st.plotly_chart(fig_prima, use_container_width=True)
 
     with col_b:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Euríbor 12 meses — Evolución histórica (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Euríbor 12 meses — Evolución histórica (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         euribor_hist = [-0.5, -0.5, -0.5, 0.0, 0.8, 2.1, 3.8, 4.1, 3.9, 3.5, 3.2, 2.9, float(macro_vals["euribor_12m"])]
         fechas_eur = pd.date_range("2021-04", periods=len(euribor_hist), freq="4ME")
         colores_eur = [RED if v > 3.5 else (AMBER if v > 2 else GREEN) for v in euribor_hist]
@@ -213,7 +213,7 @@ with tab1:
         st.plotly_chart(fig_eur, use_container_width=True)
 
     st.markdown(f"""
-    <div class="card" style="border-left:3px solid {AMBER}">
+    <div class="card"style="border-left:3px solid {AMBER}">
         <strong>Impacto del Euríbor en los hogares españoles:</strong>
         Con el Euríbor al {macro_vals['euribor_12m']:.2f}%, una hipoteca media de 150.000€ a 25 años (variable)
         tiene una cuota de ~760€/mes, frente a los 440€ de 2021. El incremento acumulado supone
@@ -225,7 +225,7 @@ with tab1:
     col_c, col_d = st.columns(2)
 
     with col_c:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">IPC desglosado por componentes (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">IPC desglosado por componentes (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         componentes_ipc = {
             "Alimentos y bebidas": 3.8,
             "Vivienda y servicios": 4.2,
@@ -244,7 +244,7 @@ with tab1:
         fig_ipc = go.Figure(go.Bar(
             y=df_ipc["Componente"], x=df_ipc["IPC (%)"], orientation="h",
             marker_color=colors_ipc,
-            text=[f"{v:.1f}%" for v in df_ipc["IPC (%)"]],
+            text=[f"{v:.1f}%"for v in df_ipc["IPC (%)"]],
             textposition="outside",
         ))
         fig_ipc.add_vline(x=2.0, line_dash="dash", line_color=MUTED,
@@ -259,14 +259,14 @@ with tab1:
         st.plotly_chart(fig_ipc, use_container_width=True)
 
     with col_d:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Deuda pública: España en contexto europeo (%PIB)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Deuda pública: España en contexto europeo (%PIB)</span><div class="line"></div></div>', unsafe_allow_html=True)
         paises = ["Alemania", "Países Bajos", "Suecia", "Polonia", "UE media", "España", "Francia", "Bélgica", "Italia", "Grecia"]
         deudas = [63, 47, 32, 51, 82, 108, 112, 104, 141, 162]
         colors_deuda = [GREEN if d < 80 else (AMBER if d < 110 else RED) for d in deudas]
         fig_deuda = go.Figure(go.Bar(
             y=paises, x=deudas, orientation="h",
             marker_color=colors_deuda,
-            text=[f"{d}%" for d in deudas], textposition="outside",
+            text=[f"{d}%"for d in deudas], textposition="outside",
         ))
         fig_deuda.add_vline(x=60, line_dash="dash", line_color=MUTED,
                             annotation_text="Límite Maastricht 60%")
@@ -294,9 +294,9 @@ with tab2:
         }
         if u in m:
             return m[u]
-        if "ABST" in u:
+        if "ABST"in u:
             return "Abstención"
-        if "BLANCO" in u or "NULO" in u:
+        if "BLANCO"in u or "NULO"in u:
             return "Blanco/Nulo"
         return str(v or "Otros")
 
@@ -330,13 +330,13 @@ with tab2:
     def _friendly_profile_name(voto: dict[str, float], ideol: float, edad: float, idx: int) -> str:
         top = next(iter(voto.keys()), "Otros")
         if top == "PP":
-            return "Votante Popular Clásico" if edad >= 55 else "Centro Pragmático"
+            return "Votante Popular Clásico"if edad >= 55 else "Centro Pragmático"
         if top == "PSOE":
-            return "Socialista de Siempre" if edad >= 45 else "Profesional Liberal Centrista"
+            return "Socialista de Siempre"if edad >= 45 else "Profesional Liberal Centrista"
         if top == "VOX":
-            return "Votante de VOX Obrero" if edad >= 30 else "Joven VOX Urbano"
+            return "Votante de VOX Obrero"if edad >= 30 else "Joven VOX Urbano"
         if top == "SUMAR":
-            return "Joven Progresista Urbana" if edad < 36 else "Universitaria Progresista"
+            return "Joven Progresista Urbana"if edad < 36 else "Universitaria Progresista"
         if top == "PNV":
             return "Votante del PNV Vasco"
         if top in {"ERC", "Junts"}:
@@ -380,7 +380,7 @@ with tab2:
                 label = f"{label} ({idx})"
             used_names.add(label)
             top_party = next(iter(voto.keys()), "Otros")
-            preocup = "vivienda y empleo" if edad < 36 else ("pensiones y sanidad" if edad >= 60 else "inflación y fiscalidad")
+            preocup = "vivienda y empleo"if edad < 36 else ("pensiones y sanidad"if edad >= 60 else "inflación y fiscalidad")
 
             if ideol <= 3:
                 color = "#DC2626"
@@ -418,7 +418,7 @@ with tab2:
                 "ipc_sens": min(10, 6 + int(paro > 12) + int(ahorro < 120)),
                 "paro_sens": min(10, max(3, int(paro / 2))),
                 "irpf_sens": min(10, max(3, int((renta - 12000) / 4500))),
-                "activos": ["Vivienda en propiedad" if hipoteca > 0 else "Alquiler", "Cuenta de ahorro" if ahorro > 0 else "Ahorro limitado"],
+                "activos": ["Vivienda en propiedad"if hipoteca > 0 else "Alquiler", "Cuenta de ahorro"if ahorro > 0 else "Ahorro limitado"],
                 "nota": f"Partido dominante estimado: {top_party}. En este perfil pesan {preocup}.",
             }
         return out
@@ -440,7 +440,7 @@ with tab2:
     col_m1, col_m2, col_m3 = st.columns([2, 2, 1])
 
     with col_m1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Cascada de ingresos y gastos mensuales (€)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Cascada de ingresos y gastos mensuales (€)</span><div class="line"></div></div>', unsafe_allow_html=True)
         renta_mensual = float(m.get("renta_neta_mensual", (m["renta"] / 12) * 0.79))
         total_gasto = sum(m["gasto"].values())
         ahorro = float(m.get("ahorro", renta_mensual - total_gasto))
@@ -455,7 +455,7 @@ with tab2:
         fig_wf = go.Figure(go.Bar(
             x=conceptos, y=valores,
             marker_color=colores_wf,
-            text=[f"{int(v):+d}€" for v in valores],
+            text=[f"{int(v):+d}€"for v in valores],
             textposition="outside",
         ))
         fig_wf.add_hline(y=0, line_color=MUTED, line_width=1)
@@ -469,7 +469,7 @@ with tab2:
         st.plotly_chart(fig_wf, use_container_width=True)
 
     with col_m2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Sensibilidad a indicadores económicos (1-10)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Sensibilidad a indicadores económicos (1-10)</span><div class="line"></div></div>', unsafe_allow_html=True)
         categorias_radar = ["Euríbor", "IPC/inflación", "Paro", "IRPF/impuestos"]
         valores_radar = [m["euribor_sens"], m["ipc_sens"], m["paro_sens"], m["irpf_sens"]]
         fig_radar = go.Figure(go.Scatterpolar(
@@ -491,7 +491,7 @@ with tab2:
         st.plotly_chart(fig_radar, use_container_width=True)
 
     with col_m3:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Datos clave</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Datos clave</span><div class="line"></div></div>', unsafe_allow_html=True)
         datos_clave = [
             ("Renta anual", f"{m['renta']:,}€"),
             ("Tasa de paro", f"{m['paro']}%"),
@@ -507,7 +507,7 @@ with tab2:
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Activos principales</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Activos principales</span><div class="line"></div></div>', unsafe_allow_html=True)
         for a in m["activos"]:
             st.markdown(f"— {a}")
 
@@ -515,7 +515,7 @@ with tab2:
 
     # Calculadora de impacto del euríbor
     st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Calculadora: impacto de una subida del euríbor</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Calculadora: impacto de una subida del euríbor</span><div class="line"></div></div>', unsafe_allow_html=True)
     col_calc1, col_calc2, col_calc3 = st.columns(3)
     with col_calc1:
         capital_hip = st.number_input("Capital pendiente de hipoteca (€)", value=120000, step=10000)
@@ -548,7 +548,7 @@ with tab2:
 
     # Comparativa de perfiles
     st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Comparativa microeconómica entre perfiles</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Comparativa microeconómica entre perfiles</span><div class="line"></div></div>', unsafe_allow_html=True)
     df_comp = pd.DataFrame([
         {
             "Perfil": k,
@@ -585,7 +585,7 @@ with tab3:
     col_n1, col_n2 = st.columns(2)
 
     with col_n1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Curva de tipos bonos españoles (% rendimiento)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Curva de tipos bonos españoles (% rendimiento)</span><div class="line"></div></div>', unsafe_allow_html=True)
         vencimientos = ["3M", "6M", "1A", "2A", "3A", "5A", "7A", "10A", "15A", "30A"]
         rendimientos = [3.2, 3.1, 2.95, 2.88, 2.92, 3.05, 3.18, 3.35, 3.52, 3.78]
         fig_curva = go.Figure(go.Scatter(
@@ -606,7 +606,7 @@ with tab3:
         st.caption("La curva de tipos está ligeramente invertida en el tramo corto, lo que históricamente señala precaución sobre el crecimiento a corto plazo.")
 
     with col_n2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">PMI compuesto España vs Eurozona (puntos)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">PMI compuesto España vs Eurozona (puntos)</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_pmi = ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"]
         pmi_es  = [52.4, 51.8, 50.9, 51.2, 52.1, 53.0, 52.7]
         pmi_eur = [49.8, 49.2, 49.5, 50.1, 50.8, 51.2, 51.0]
@@ -629,7 +629,7 @@ with tab3:
     col_n3, col_n4 = st.columns(2)
 
     with col_n3:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Confianza del consumidor vs confianza empresarial</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Confianza del consumidor vs confianza empresarial</span><div class="line"></div></div>', unsafe_allow_html=True)
         meses_conf = pd.date_range("2024-01", "2026-04", freq="ME")
         rng_conf = np.random.default_rng(3)
         conf_cons = -8 + np.cumsum(rng_conf.normal(0.2, 1.2, len(meses_conf)))
@@ -651,14 +651,14 @@ with tab3:
         st.caption("La brecha entre confianza empresarial y del consumidor es un indicador adelantado de voto de castigo.")
 
     with col_n4:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Morosidad bancaria por sector (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Morosidad bancaria por sector (%)</span><div class="line"></div></div>', unsafe_allow_html=True)
         sectores_mor = ["Promotores/constructores", "Autónomos", "Consumo hogares",
                         "Pymes industria", "Hipotecas residenciales", "Grandes empresas"]
         morosidad_sec = [12.4, 7.8, 4.2, 3.9, 2.8, 1.2]
         fig_mor = go.Figure(go.Bar(
             y=sectores_mor, x=morosidad_sec, orientation="h",
             marker_color=[RED if v > 7 else (AMBER if v > 4 else GREEN) for v in morosidad_sec],
-            text=[f"{v}%" for v in morosidad_sec], textposition="outside",
+            text=[f"{v}%"for v in morosidad_sec], textposition="outside",
         ))
         fig_mor.add_vline(x=3.5, line_dash="dash", line_color=MUTED,
                           annotation_text="Media sistema bancario")
@@ -695,7 +695,7 @@ with tab4:
     col_e1, col_e2 = st.columns(2)
 
     with col_e1:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Tasa de paro vs % voto partido gobernante (generales 1982-2023)</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Tasa de paro vs % voto partido gobernante (generales 1982-2023)</span><div class="line"></div></div>', unsafe_allow_html=True)
         datos_historicos = [
             ("1982", 16.2, 48.1, "PSOE (González)"),
             ("1986", 21.1, 44.1, "PSOE (González)"),
@@ -715,7 +715,7 @@ with tab4:
         df_hist = pd.DataFrame(datos_historicos, columns=["Año", "Paro (%)", "Voto gobernante (%)", "Gobierno"])
         fig_scatter = go.Figure()
         for _, row in df_hist.iterrows():
-            color = RED if "PSOE" in row["Gobierno"] else BLUE
+            color = RED if "PSOE"in row["Gobierno"] else BLUE
             fig_scatter.add_trace(go.Scatter(
                 x=[row["Paro (%)"]],
                 y=[row["Voto gobernante (%)"]],
@@ -758,7 +758,7 @@ with tab4:
         st.caption(f"Correlación histórica: cada +1pp de paro → -{abs(m_coef):.2f}pp de voto al partido gobernante (R²≈0.61)")
 
     with col_e2:
-        st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Termómetro económico Politeia — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Termómetro económico Politeia — Abril 2026</span><div class="line"></div></div>', unsafe_allow_html=True)
 
         # Score compuesto de bienestar económico
         score_paro  = max(0, min(100, (15 - macro_vals["tasa_paro"]) / 10 * 100))
@@ -811,7 +811,7 @@ with tab4:
 
     # Matriz de correlaciones económicas-electorales
     st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="section-title"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Matriz de correlaciones: economía vs desgaste electoral (histórico España)</span><div class="line"></div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-title"><div class="bar"style="background:{CYAN}"></div><span class="lbl">Matriz de correlaciones: economía vs desgaste electoral (histórico España)</span><div class="line"></div></div>', unsafe_allow_html=True)
     indicadores_corr = ["Paro (+1pp)", "IPC (+1pp)", "PIB (-1pp)", "Prima (+50pb)", "Euríbor (+1pp)"]
     efectos_corr = ["Voto gobernante", "Aprobación gobierno", "Intención cambio"]
     matriz_corr = [
@@ -825,7 +825,7 @@ with tab4:
         z=matriz_corr, x=efectos_corr, y=indicadores_corr,
         colorscale=[[0, RED], [0.5, BG3], [1, GREEN]],
         zmin=-1, zmax=1,
-        text=[[f"{v:+.2f}" for v in row] for row in matriz_corr],
+        text=[[f"{v:+.2f}"for v in row] for row in matriz_corr],
         texttemplate="%{text}",
         showscale=True,
         colorbar=dict(
