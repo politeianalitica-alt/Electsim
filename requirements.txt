@@ -57,8 +57,20 @@ yake>=0.4.8                    # Keyword extraction sin modelos (YAKE)
 # Modelo recomendado: python -m spacy download es_core_news_lg
 
 # ── News crawling — medios españoles ─────────────────────────────────────────
-# fundus>=0.4.0                # Structured news crawlers: El País, El Mundo, ABC, La Vanguardia, etc.
+# fundus>=0.4.0                # Structured news crawlers: El Pais, El Mundo, ABC, La Vanguardia, etc.
                                # (descomentar si se quiere texto completo vs. RSS)
+
+# ── Bloque 4: Radar Mediatico ────────────────────────────────────────────────
+bertopic>=0.16.0               # Topic modeling dinamico (requiere torch)
+hdbscan>=0.8.33                # Clustering para BERTopic
+umap-learn>=0.5.6              # Reduccion dimensional para BERTopic
+# pysentimiento>=0.7.0         # Sentiment/hate/emotion en espanol (torch, 1.5GB)
+asyncpg>=0.29.0                # Driver async PostgreSQL para SQLAlchemy
+
+# ── Bloque 5: Ollama + Actor RAG ─────────────────────────────────────────────
+# Ollama se ejecuta como servidor local (ollama.com) — sin pip install
+# Modelos: qwen3:8b, llama3.2:3b, nomic-embed-text, gemma3:12b
+# pgvector ya incluido arriba (pgvector>=0.3.6)
 
 # ── Time series forecasting — proyecciones electorales ───────────────────────
 statsforecast>=1.7.0           # AutoARIMA, ETS, Theta, CES — muy rápido
