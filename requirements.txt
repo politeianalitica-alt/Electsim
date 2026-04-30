@@ -113,3 +113,11 @@ h3>=3.7.6                      # Indexado hexagonal H3 para GPSJam
 wbgapi>=1.0.12                 # World Bank API — WGI governance indicators
 # imf-reader>=0.5.0            # IMF WEO data (pip install imf-reader)
 # causalpy>=0.4.0              # Modelos causales bayesianos (PyMC-Labs) — opcional
+
+# ── Observabilidad — Bloque 7 ─────────────────────────────────────────────────
+opentelemetry-api>=1.24.0                         # API OTel (tracers, meters, context)
+opentelemetry-sdk>=1.24.0                         # SDK OTel con TracerProvider + MeterProvider
+opentelemetry-exporter-otlp-proto-grpc>=1.24.0    # Exportador OTLP gRPC → OTel Collector
+opentelemetry-instrumentation-fastapi>=0.45b0     # Auto-instrumentacion FastAPI (HTTP spans)
+opentelemetry-instrumentation-sqlalchemy>=0.45b0  # Auto-instrumentacion SQLAlchemy (DB spans)
+opentelemetry-instrumentation-httpx>=0.45b0       # Auto-instrumentacion httpx (LiteLLM calls)

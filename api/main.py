@@ -25,11 +25,16 @@ from api.routers import (
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
+from api.middleware import RequestLoggingMiddleware
+from observability.logging import configure_logging
 
-logging.basicConfig(level=logging.INFO)
+configure_logging()
 logger = logging.getLogger("electsim.api")
 
 app = FastAPI(title="ElectSim API", version="0.2.0")
+
+# Observabilidad: logging de requests y metricas HTTP
+app.add_middleware(RequestLoggingMiddleware)
 
 app.add_middleware(
     CORSMiddleware,

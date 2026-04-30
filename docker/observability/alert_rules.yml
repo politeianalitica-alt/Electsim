@@ -1,0 +1,133 @@
+# Reglas de alertas SLO — ElectSim Bloque 7
+groups:
+
+  # --------------------------------------------------------------------------
+  # SLO: API latencia P95 < 500ms
+  # --------------------------------------------------------------------------
+  - name: api_slo
+    interval: 30s
+    rules:
+      - alert: APILatencyP95High
+        expr: |
+          histogram_quantile(0.95,
+            rate(electsim_electsim_api_latency_ms_bucket[5m])
+          ) > 500
+        for: 5m
+        labels:
+          severity: warning
+          team: backend
+        annotations:
+          summary: "API P95 latency > 500ms"
+          description: "La latencia P95 de la API ha superado 500ms durante 5 minutos."
+
+      - alert: APILatencyP99Critical
+        expr: |
+          histogram_quantile(0.99,
+            rate(electsim_electsim_api_latency_ms_bucket[5m])
+          ) > 2000
+        for: 2m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "API P99 latency > 2s"
+          description: "La latencia P99 de la API supera 2 segundos."
+
+      - alert: APIErrorRateHigh
+        expr: |
+          rate(electsim_electsim_api_requests_total{status=~"5.."}[5m])
+          /
+          rate(electsim_electsim_api_requests_total[5m])
+          > 0.05
+        for: 3m
+        labels:
+          severity: critical
+          team: backend
+        annotations:
+          summary: "API error rate > 5%"
+          description: "Mas del 5% de requests HTTP devuelven 5xx."
+
+  # --------------------------------------------------------------------------
+  # SLO: LLM latencia P95 < 10s
+  # --------------------------------------------------------------------------
+  - name: llm_slo
+    interval: 30s
+    rules:
+      - alert: LLMLatencyP95High
+        expr: |
+          histogram_quantile(0.95,
+            rate(electsim_electsim_llm_latency_ms_bucket[10m])
+          ) > 10000
+        for: 5m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "LLM P95 latency > 10s"
+          description: "Las llamadas LLM tardan mas de 10s en el P95."
+
+      - alert: LLMErrorRateHigh
+        expr: |
+          rate(electsim_electsim_llm_errors_total[10m])
+          /
+          rate(electsim_electsim_llm_requests_total[10m])
+          > 0.10
+        for: 5m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "LLM error rate > 10%"
+          description: "El 10% de las llamadas LLM estan fallando."
+
+      - alert: LLMQualityScoreLow
+        expr: |
+          avg_over_time(
+            electsim_electsim_llm_quality_score_sum[30m]
+          )
+          /
+          avg_over_time(
+            electsim_electsim_llm_quality_score_count[30m]
+          )
+          < 0.6
+        for: 15m
+        labels:
+          severity: warning
+          team: ai
+        annotations:
+          summary: "LLM quality score < 0.6"
+          description: "El score de calidad promedio LLM ha caido por debajo de 0.6."
+
+  # --------------------------------------------------------------------------
+  # SLO: ETL tasa de errores < 5%
+  # --------------------------------------------------------------------------
+  - name: etl_slo
+    interval: 60s
+    rules:
+      - alert: ETLErrorRateHigh
+        expr: |
+          rate(electsim_electsim_etl_errors_total[15m])
+          /
+          (
+            rate(electsim_electsim_etl_items_processed_total[15m])
+            + rate(electsim_electsim_etl_errors_total[15m])
+          )
+          > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          team: data
+        annotations:
+          summary: "ETL error rate > 5%"
+          description: "La tasa de errores del pipeline ETL supera el 5% en los ultimos 15 minutos."
+
+      - alert: ETLItemsThroughputLow
+        expr: |
+          rate(electsim_electsim_etl_items_processed_total[30m]) < 0.1
+        for: 30m
+        labels:
+          severity: info
+          team: data
+        annotations:
+          summary: "ETL throughput bajo"
+          description: "El pipeline ETL no esta procesando items en los ultimos 30 minutos."

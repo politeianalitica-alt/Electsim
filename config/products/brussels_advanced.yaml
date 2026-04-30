@@ -1,0 +1,86 @@
+code: "brussels_advanced"
+name: "Brussels Advanced"
+market: "eu"
+type: "base_product"
+description: "Inteligencia legislativa y de relaciones institucionales en la Union Europea."
+
+modules:
+  - "legislative_core"
+  - "legislative_advanced"
+  - "geopolitics"
+  - "ontology_core"
+  - "alerts_core"
+  - "media_narrative"
+  - "investigation_canvas"
+  - "intelligence_notebook"
+  - "draft_studio"
+  - "comm_intel"
+
+default_workspace:
+  name: "Brussels Intelligence"
+  client_profile:
+    segment: "public_affairs"
+    sector: "eu_affairs"
+    interests:
+      - "legislacion_europea"
+      - "comision_europea"
+      - "parlamento_europeo"
+      - "lobbying"
+    geography:
+      country: "EU"
+
+alerts:
+  - code: "eu_directive_advanced"
+    name: "Directiva europea en tramitacion avanzada"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "legislative_stage"
+      params:
+        sources:
+          - "eu_parliament"
+          - "eu_council"
+        stages:
+          - "trilogos"
+          - "segunda_lectura"
+  - code: "eu_commission_proposal"
+    name: "Nueva propuesta de la Comision Europea"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        sources:
+          - "eu_commission"
+
+saved_searches:
+  - code: "eu_active_legislation"
+    name: "Legislacion europea activa"
+    type: "search"
+    semantic_query: "directiva reglamento propuesta legislativa Parlamento Europeo Comision"
+  - code: "eu_institutions_watchlist"
+    name: "Watchlist instituciones UE"
+    type: "watchlist"
+    watchlist_objects:
+      - type: "institution"
+        ref: "eu_commission"
+      - type: "institution"
+        ref: "eu_parliament"
+
+dashboards:
+  - code: "brussels_main"
+    name: "Brussels Intelligence Hub"
+    layout: "brussels_advanced_v1"
+    widgets:
+      - code: "eu_legislative_pipeline"
+        params: {}
+      - code: "geopolitics_risk"
+        params: {}
+      - code: "alerts_feed"
+        params:
+          max_items: 20

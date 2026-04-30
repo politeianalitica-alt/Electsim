@@ -1,0 +1,59 @@
+code: "dlc_defence_spain"
+name: "DLC Defensa y Seguridad Nacional Espana"
+market: "spain"
+type: "dlc"
+description: "DLC para analisis de politica de defensa, OTAN y seguridad nacional en Espana."
+
+modules:
+  - "geopolitics"
+  - "crisis_intel"
+  - "macro_econ"
+
+alerts:
+  - code: "nato_decision_alert"
+    name: "Decision relevante de la OTAN"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "geopolitical_event"
+      params:
+        organizations:
+          - "nato"
+        min_severity: "high"
+  - code: "defence_budget_bill"
+    name: "Proyecto de ley de presupuesto de defensa"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "legislative_stage"
+      params:
+        topics:
+          - "defensa"
+          - "presupuesto_defensa"
+
+saved_searches:
+  - code: "defence_policy"
+    name: "Politica de defensa y OTAN"
+    type: "search"
+    semantic_query: "politica defensa OTAN seguridad nacional Espana ejercito fuerzas armadas"
+  - code: "geopolitics_iberia"
+    name: "Geopolitica Peninsula Iberica"
+    type: "search"
+    semantic_query: "geopolitica conflicto internacional impacto Espana Peninsula Iberica"
+
+dashboards:
+  - code: "defence_dlc_panel"
+    name: "Panel Defensa"
+    layout: "dlc_defence_v1"
+    widgets:
+      - code: "geopolitics_risk"
+        params:
+          region: "iberia"
+      - code: "crisis_feed"
+        params:
+          max_items: 10

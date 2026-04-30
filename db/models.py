@@ -622,3 +622,297 @@ class OntologyRelation(Base):
         foreign_keys=[target_object_id],
         back_populates="incoming_relations",
     )
+
+
+# =============================================================================
+# MODULO: MULTI-TENANT SAAS  (migration 0025_multitenant_saas)
+# =============================================================================
+
+
+class Plan(Base):
+    __tablename__ = "plan"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text)
+    max_users: Mapped[Optional[int]] = mapped_column(Integer)
+    max_workspaces: Mapped[Optional[int]] = mapped_column(Integer)
+    max_alerts_per_day: Mapped[Optional[int]] = mapped_column(Integer)
+    is_default: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("false"))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    organisations: Mapped[list["Organisation"]] = relationship(back_populates="plan")
+    subscriptions: Mapped[list["Subscription"]] = relationship(back_populates="plan")
+
+
+class Organisation(Base):
+    __tablename__ = "organisation"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    slug: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    market_code: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'spain'"))
+    plan_id: Mapped[Optional[_uuid_mod.UUID]] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("plan.id")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
+
+    plan: Mapped[Optional["Plan"]] = relationship(back_populates="organisations")
+    subscriptions: Mapped[list["Subscription"]] = relationship(back_populates="organisation")
+    workspaces: Mapped[list["Workspace"]] = relationship(back_populates="organisation")
+    members: Mapped[list["OrganisationMember"]] = relationship(back_populates="organisation")
+
+
+class Subscription(Base):
+    __tablename__ = "subscription"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    plan_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("plan.id"), nullable=False
+    )
+    starts_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    ends_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    organisation: Mapped["Organisation"] = relationship(back_populates="subscriptions")
+    plan: Mapped["Plan"] = relationship(back_populates="subscriptions")
+
+
+class UserAccount(Base):
+    __tablename__ = "user_account"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    auth_subject: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(Text, nullable=False)
+    full_name: Mapped[Optional[str]] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    org_memberships: Mapped[list["OrganisationMember"]] = relationship(back_populates="user")
+    workspace_memberships: Mapped[list["WorkspaceMember"]] = relationship(back_populates="user")
+
+
+class Role(Base):
+    __tablename__ = "role"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    code: Mapped[str] = mapped_column(Text, nullable=False, unique=True)
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text)
+
+    org_memberships: Mapped[list["OrganisationMember"]] = relationship(
+        back_populates="role", foreign_keys="OrganisationMember.role_id"
+    )
+    workspace_memberships: Mapped[list["WorkspaceMember"]] = relationship(
+        back_populates="role", foreign_keys="WorkspaceMember.role_id"
+    )
+
+
+class Workspace(Base):
+    __tablename__ = "workspace"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    name: Mapped[str] = mapped_column(Text, nullable=False)
+    client_profile: Mapped[dict] = mapped_column(
+        JSONB, nullable=False, server_default=text("'{}'::jsonb")
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
+
+    organisation: Mapped["Organisation"] = relationship(back_populates="workspaces")
+    members: Mapped[list["WorkspaceMember"]] = relationship(back_populates="workspace")
+
+
+class OrganisationMember(Base):
+    __tablename__ = "organisation_member"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    user_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("user_account.id", ondelete="CASCADE"), nullable=False
+    )
+    role_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("role.id"), nullable=False
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (UniqueConstraint("organisation_id", "user_id"),)
+
+    organisation: Mapped["Organisation"] = relationship(back_populates="members")
+    user: Mapped["UserAccount"] = relationship(back_populates="org_memberships")
+    role: Mapped["Role"] = relationship(
+        back_populates="org_memberships", foreign_keys=[role_id]
+    )
+
+
+class WorkspaceMember(Base):
+    __tablename__ = "workspace_member"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    workspace_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("workspace.id", ondelete="CASCADE"), nullable=False
+    )
+    user_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("user_account.id", ondelete="CASCADE"), nullable=False
+    )
+    role_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("role.id"), nullable=False
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (UniqueConstraint("workspace_id", "user_id"),)
+
+    workspace: Mapped["Workspace"] = relationship(back_populates="members")
+    user: Mapped["UserAccount"] = relationship(back_populates="workspace_memberships")
+    role: Mapped["Role"] = relationship(
+        back_populates="workspace_memberships", foreign_keys=[role_id]
+    )
+
+
+# =============================================================================
+# MODULO: PRODUCTOS Y MODULOS  (migration 0026_workspace_modules)
+# =============================================================================
+
+
+class WorkspaceModule(Base):
+    """Modulo activo en un workspace. Source of truth para feature flags."""
+
+    __tablename__ = "workspace_module"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    workspace_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("workspace.id", ondelete="CASCADE"), nullable=False
+    )
+    module_code: Mapped[str] = mapped_column(Text, nullable=False)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
+    source_product: Mapped[Optional[str]] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("workspace_id", "module_code", name="uq_workspace_module"),
+    )
+
+
+class WorkspaceAlertConfig(Base):
+    """Plantilla de alerta activa en un workspace (creada al activar producto/DLC)."""
+
+    __tablename__ = "workspace_alert_config"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    workspace_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("workspace.id", ondelete="CASCADE"), nullable=False
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    alert_code: Mapped[str] = mapped_column(Text, nullable=False)
+    alert_name: Mapped[str] = mapped_column(Text, nullable=False)
+    enabled: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default=text("true"))
+    level: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'medium'"))
+    channels: Mapped[dict] = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
+    conditions: Mapped[dict] = mapped_column(
+        JSONB, nullable=False, server_default=text("'{}'::jsonb")
+    )
+    source_product: Mapped[Optional[str]] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("workspace_id", "alert_code", name="uq_workspace_alert_config"),
+    )
+
+
+class WorkspaceSavedSearch(Base):
+    """Saved search o watchlist preconfigurada en un workspace."""
+
+    __tablename__ = "workspace_saved_search"
+
+    id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
+    )
+    workspace_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("workspace.id", ondelete="CASCADE"), nullable=False
+    )
+    organisation_id: Mapped[_uuid_mod.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), ForeignKey("organisation.id", ondelete="CASCADE"), nullable=False
+    )
+    search_code: Mapped[str] = mapped_column(Text, nullable=False)
+    search_name: Mapped[str] = mapped_column(Text, nullable=False)
+    search_type: Mapped[str] = mapped_column(
+        Text, nullable=False, server_default=text("'search'")
+    )
+    semantic_query: Mapped[Optional[str]] = mapped_column(Text)
+    watchlist_config: Mapped[dict] = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
+    source_product: Mapped[Optional[str]] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    __table_args__ = (
+        UniqueConstraint("workspace_id", "search_code", name="uq_workspace_saved_search"),
+    )

@@ -23,7 +23,13 @@ from typing import Any, Dict, List, Literal, Optional, Type, TypeVar
 
 from pydantic import BaseModel, ValidationError
 
+from observability.otel import get_tracer
+from observability.metrics import LLMMetrics, measure_ms
+from observability.logging import get_logger as _get_structured_logger
+
 logger = logging.getLogger(__name__)
+_slog = _get_structured_logger("services.llm_client")
+_tracer = get_tracer(__name__)
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -128,6 +134,7 @@ class LLMClient:
         temperature: float = 0.2,
         response_json: bool = False,
         cache: bool = False,
+        _task_type: str = "unknown",
     ) -> str:
         """Llamada al LLM con fallback a OllamaClient si LiteLLM no disponible."""
         # 1. Intentar via LiteLLM (acompletion)
@@ -138,12 +145,25 @@ class LLMClient:
                 temperature=temperature,
                 response_json=response_json,
                 cache=cache,
+                _task_type=_task_type,
             )
         except Exception as exc:
             logger.info("LiteLLM no disponible (%s) — fallback a Ollama directo", exc)
 
-        # 2. Fallback: OllamaClient directo
-        return await self._complete_ollama_direct(messages, temperature)
+        # 2. Fallback: OllamaClient directo (sin metricas de tokens — Ollama no las expone)
+        with measure_ms() as t:
+            try:
+                result = await self._complete_ollama_direct(messages, temperature)
+            except Exception as exc:
+                LLMMetrics.record_call(
+                    model=model,
+                    task_type=_task_type,
+                    latency_ms=t.elapsed_ms,
+                    error=type(exc).__name__,
+                )
+                raise
+        LLMMetrics.record_call(model=model, task_type=_task_type, latency_ms=t.elapsed_ms)
+        return result
 
     async def _complete_litellm(
         self,
@@ -152,6 +172,7 @@ class LLMClient:
         temperature: float,
         response_json: bool,
         cache: bool,
+        _task_type: str = "unknown",
     ) -> str:
         """Usa el modulo litellm si esta instalado."""
         try:
@@ -172,7 +193,29 @@ class LLMClient:
         if not cache:
             kwargs["caching"] = False
 
-        response = await acompletion(**kwargs)
+        with measure_ms() as t:
+            try:
+                response = await acompletion(**kwargs)
+            except Exception as exc:
+                LLMMetrics.record_call(
+                    model=model,
+                    task_type=_task_type,
+                    latency_ms=t.elapsed_ms,
+                    error=type(exc).__name__,
+                )
+                raise
+
+        usage = getattr(response, "usage", None)
+        tokens_in = getattr(usage, "prompt_tokens", 0) or 0
+        tokens_out = getattr(usage, "completion_tokens", 0) or 0
+        LLMMetrics.record_call(
+            model=model,
+            task_type=_task_type,
+            tokens_in=tokens_in,
+            tokens_out=tokens_out,
+            latency_ms=t.elapsed_ms,
+        )
+
         content = response.choices[0].message.content
         return str(content) if content else ""
 
@@ -223,35 +266,57 @@ class LLMClient:
         model = self._select_model(task_type, context_tokens)
         messages = _build_messages(prompt, system_prompt, schema)
 
-        raw = await self._complete(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            response_json=True,
-            cache=cache,
-        )
+        with _tracer.start_as_current_span("llm.analyze_structured") as span:
+            span.set_attribute("llm.model", model)
+            span.set_attribute("llm.task_type", task_type)
+            span.set_attribute("llm.schema", schema.__name__)
+            span.set_attribute("llm.context_tokens", context_tokens)
 
-        cleaned = _clean_json_response(raw)
+            try:
+                raw = await self._complete(
+                    model=model,
+                    messages=messages,
+                    temperature=temperature,
+                    response_json=True,
+                    cache=cache,
+                    _task_type=task_type,
+                )
+            except Exception as exc:
+                span.set_attribute("llm.error", str(exc))
+                span.record_exception(exc)
+                raise
 
-        try:
-            return schema.model_validate_json(cleaned)
-        except (ValidationError, json.JSONDecodeError) as exc:
-            # Un reintento con prompt mas explicito
-            logger.warning("analyze_structured: primer parse fallido (%s) — reintentando", exc)
-            retry_prompt = (
-                f"{prompt}\n\n"
-                "IMPORTANTE: Responde SOLO con JSON valido que siga exactamente este schema:\n"
-                f"{json.dumps(schema.model_json_schema(), ensure_ascii=False, indent=2)}"
-            )
-            raw2 = await self._complete(
-                model=model,
-                messages=_build_messages(retry_prompt, system_prompt, schema),
-                temperature=0.0,
-                response_json=True,
-                cache=False,
-            )
-            cleaned2 = _clean_json_response(raw2)
-            return schema.model_validate_json(cleaned2)
+            cleaned = _clean_json_response(raw)
+
+            try:
+                result = schema.model_validate_json(cleaned)
+                span.set_attribute("llm.retried", False)
+                return result
+            except (ValidationError, json.JSONDecodeError) as exc:
+                # Un reintento con prompt mas explicito
+                _slog.warning(
+                    "llm_parse_retry",
+                    model=model,
+                    task_type=task_type,
+                    schema=schema.__name__,
+                    error=str(exc),
+                )
+                span.set_attribute("llm.retried", True)
+                retry_prompt = (
+                    f"{prompt}\n\n"
+                    "IMPORTANTE: Responde SOLO con JSON valido que siga exactamente este schema:\n"
+                    f"{json.dumps(schema.model_json_schema(), ensure_ascii=False, indent=2)}"
+                )
+                raw2 = await self._complete(
+                    model=model,
+                    messages=_build_messages(retry_prompt, system_prompt, schema),
+                    temperature=0.0,
+                    response_json=True,
+                    cache=False,
+                    _task_type=task_type,
+                )
+                cleaned2 = _clean_json_response(raw2)
+                return schema.model_validate_json(cleaned2)
 
     async def classify(
         self,
@@ -291,12 +356,17 @@ class LLMClient:
     ) -> str:
         """Chat libre (sin schema). Retorna el string de respuesta."""
         model = self._select_model(TASK_CHAT, context_tokens)
-        return await self._complete(
-            model=model,
-            messages=messages,
-            temperature=temperature,
-            response_json=False,
-        )
+        with _tracer.start_as_current_span("llm.chat") as span:
+            span.set_attribute("llm.model", model)
+            span.set_attribute("llm.task_type", TASK_CHAT)
+            span.set_attribute("llm.context_tokens", context_tokens)
+            return await self._complete(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                response_json=False,
+                _task_type=TASK_CHAT,
+            )
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
         """

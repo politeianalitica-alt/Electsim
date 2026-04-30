@@ -1,0 +1,104 @@
+{
+  "title": "ElectSim — LLM Quality",
+  "uid": "electsim-llm-quality",
+  "tags": ["electsim", "llm", "quality"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "panels": [
+    {
+      "id": 1,
+      "title": "LLM Requests / min",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_llm_requests_total[1m]) * 60",
+          "legendFormat": "{{model}} / {{task_type}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "LLM Latency P50/P95/P99 (ms)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "histogram_quantile(0.50, rate(electsim_electsim_llm_latency_ms_bucket[5m]))",
+          "legendFormat": "P50"
+        },
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "histogram_quantile(0.95, rate(electsim_electsim_llm_latency_ms_bucket[5m]))",
+          "legendFormat": "P95"
+        },
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "histogram_quantile(0.99, rate(electsim_electsim_llm_latency_ms_bucket[5m]))",
+          "legendFormat": "P99"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "LLM Quality Score (eval average)",
+      "type": "gauge",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8},
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "red", "value": 0},
+              {"color": "yellow", "value": 0.6},
+              {"color": "green", "value": 0.8}
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "avg(rate(electsim_electsim_llm_quality_score_sum[1h]) / rate(electsim_electsim_llm_quality_score_count[1h]))",
+          "legendFormat": "Avg Quality Score"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "LLM Error Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_llm_errors_total[5m]) / rate(electsim_electsim_llm_requests_total[5m])",
+          "legendFormat": "{{model}} error rate"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Tokens In/Out per minute",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 8},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_llm_tokens_in_total[1m]) * 60",
+          "legendFormat": "Tokens In"
+        },
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_llm_tokens_out_total[1m]) * 60",
+          "legendFormat": "Tokens Out"
+        }
+      ]
+    }
+  ]
+}

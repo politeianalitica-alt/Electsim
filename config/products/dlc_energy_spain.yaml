@@ -1,0 +1,73 @@
+code: "dlc_energy_spain"
+name: "DLC Sector Energia Espana"
+market: "spain"
+type: "dlc"
+description: "DLC para clientes del sector energia y utilities en Espana."
+
+modules:
+  - "regulatory_energy"
+  - "macro_energy"
+  - "geopolitics"
+
+alerts:
+  - code: "cnmc_resolution_energy"
+    name: "Resolucion CNMC relevante para energia"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        regulators:
+          - "cnmc"
+        sectors:
+          - "energy"
+  - code: "energy_price_spike"
+    name: "Pico de precio en el mercado electrico"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "market_signal"
+      params:
+        signal: "omie_price_spike"
+        threshold_pct: 30.0
+  - code: "renewables_regulation"
+    name: "Nueva regulacion de renovables"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        sources:
+          - "boe"
+        sectors:
+          - "energy"
+          - "renewables"
+
+saved_searches:
+  - code: "energy_regulation"
+    name: "Toda la regulacion energetica reciente"
+    type: "search"
+    semantic_query: "regulacion sobre generacion distribucion y mercado electrico energia renovable"
+  - code: "cnmc_watchlist"
+    name: "Watchlist CNMC"
+    type: "watchlist"
+    watchlist_objects:
+      - type: "institution"
+        ref: "cnmc"
+
+dashboards:
+  - code: "energy_dlc_panel"
+    name: "Panel Energia"
+    layout: "dlc_energy_v1"
+    widgets:
+      - code: "energy_regulatory_feed"
+        params: {}
+      - code: "cnmc_activity"
+        params: {}

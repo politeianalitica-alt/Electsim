@@ -1,0 +1,146 @@
+# docker-compose.observability.yml
+# Stack de observabilidad para ElectSim (Bloque 7).
+#
+# Servicios:
+#   otel-collector  — recibe trazas/metricas OTLP, exporta a Tempo/Prometheus
+#   tempo           — almacen de trazas distribuidas
+#   prometheus      — scrape de metricas OTLP + alertas SLO
+#   grafana         — dashboards (Command Center, LLM Quality, ETL Pipeline)
+#   loki            — agregador de logs JSON
+#   promtail        — agente que envia logs de contenedores a Loki
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.observability.yml up -d
+#
+# Variables de entorno relevantes (en .env o docker-compose.yml principal):
+#   OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+#   OTEL_SERVICE_NAME=electsim
+#   LOG_FORMAT=json
+#   LLM_EVAL_SAMPLE_RATE=0.05
+
+version: "3.9"
+
+networks:
+  electsim_net:
+    external: true   # red definida en docker-compose.yml principal
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+  tempo_data: {}
+  loki_data: {}
+
+services:
+
+  # --------------------------------------------------------------------------
+  # OpenTelemetry Collector
+  # --------------------------------------------------------------------------
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.101.0
+    container_name: electsim_otel_collector
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes:
+      - ./docker/observability/otel-collector.yaml:/etc/otel/config.yaml:ro
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+      - "8889:8889"   # Prometheus scrape endpoint (metricas OTel)
+    networks:
+      - electsim_net
+    restart: unless-stopped
+
+  # --------------------------------------------------------------------------
+  # Tempo — trazas distribuidas
+  # --------------------------------------------------------------------------
+  tempo:
+    image: grafana/tempo:2.5.0
+    container_name: electsim_tempo
+    command: ["-config.file=/etc/tempo/tempo.yaml"]
+    volumes:
+      - ./docker/observability/tempo.yaml:/etc/tempo/tempo.yaml:ro
+      - tempo_data:/var/tempo
+    ports:
+      - "3200:3200"   # Tempo HTTP API
+      - "9095:9095"   # Tempo gRPC
+    networks:
+      - electsim_net
+    restart: unless-stopped
+
+  # --------------------------------------------------------------------------
+  # Prometheus — metricas y alertas SLO
+  # --------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: electsim_prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./docker/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./docker/observability/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - electsim_net
+    restart: unless-stopped
+
+  # --------------------------------------------------------------------------
+  # Grafana — dashboards
+  # --------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: electsim_grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./docker/observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    networks:
+      - electsim_net
+    depends_on:
+      - prometheus
+      - tempo
+      - loki
+    restart: unless-stopped
+
+  # --------------------------------------------------------------------------
+  # Loki — logs
+  # --------------------------------------------------------------------------
+  loki:
+    image: grafana/loki:3.1.0
+    container_name: electsim_loki
+    command: ["-config.file=/etc/loki/loki.yaml"]
+    volumes:
+      - ./docker/observability/loki.yaml:/etc/loki/loki.yaml:ro
+      - loki_data:/loki
+    ports:
+      - "3100:3100"
+    networks:
+      - electsim_net
+    restart: unless-stopped
+
+  # --------------------------------------------------------------------------
+  # Promtail — agente de logs
+  # --------------------------------------------------------------------------
+  promtail:
+    image: grafana/promtail:3.1.0
+    container_name: electsim_promtail
+    command: ["-config.file=/etc/promtail/promtail.yaml"]
+    volumes:
+      - ./docker/observability/promtail.yaml:/etc/promtail/promtail.yaml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - electsim_net
+    depends_on:
+      - loki
+    restart: unless-stopped

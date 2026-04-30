@@ -1,0 +1,132 @@
+{
+  "title": "ElectSim — Command Center",
+  "uid": "electsim-command-center",
+  "tags": ["electsim", "overview"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "panels": [
+    {
+      "id": 1,
+      "title": "API Requests / min",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "sum(rate(electsim_electsim_api_requests_total[1m])) * 60"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "API P95 Latency (ms)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "yellow", "value": 300},
+              {"color": "red", "value": 500}
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "histogram_quantile(0.95, sum(rate(electsim_electsim_api_latency_ms_bucket[5m])) by (le))"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "API Error Rate",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {"color": "green", "value": 0},
+              {"color": "yellow", "value": 0.01},
+              {"color": "red", "value": 0.05}
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "sum(rate(electsim_electsim_api_requests_total{status=~\"5..\"}[5m])) / sum(rate(electsim_electsim_api_requests_total[5m]))"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "ETL Items Processed / min",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "sum(rate(electsim_electsim_etl_items_processed_total[1m])) * 60"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "API Latency by Route",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 4},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "histogram_quantile(0.95, sum(rate(electsim_electsim_api_latency_ms_bucket[5m])) by (le, route))",
+          "legendFormat": "{{route}} P95"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "ETL Pipeline — Items vs Errors",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_etl_items_processed_total[5m]) * 60",
+          "legendFormat": "Items {{source_id}}"
+        },
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_etl_errors_total[5m]) * 60",
+          "legendFormat": "Errors {{source_id}}"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Alertas y Briefings generados",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+      "targets": [
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_alerts_triggered_total[5m]) * 60",
+          "legendFormat": "Alertas {{level}}"
+        },
+        {
+          "datasource": {"type": "prometheus"},
+          "expr": "rate(electsim_electsim_briefings_generated_total[5m]) * 60",
+          "legendFormat": "Briefings {{product_code}}"
+        }
+      ]
+    }
+  ]
+}

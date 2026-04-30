@@ -1,0 +1,103 @@
+code: "regulatory_radar_spain"
+name: "Regulatory Radar Espana"
+market: "spain"
+type: "base_product"
+description: "Monitoreo legislativo y regulatorio para empresas e instituciones en Espana."
+
+modules:
+  - "legislative_core"
+  - "legislative_advanced"
+  - "ontology_core"
+  - "alerts_core"
+  - "media_narrative"
+  - "investigation_canvas"
+  - "intelligence_notebook"
+  - "draft_studio"
+
+default_workspace:
+  name: "Radar Regulatorio"
+  client_profile:
+    segment: "corporate"
+    sector: "regulatory"
+    interests:
+      - "legislacion"
+      - "regulacion"
+      - "boe"
+      - "congreso"
+    geography:
+      country: "ES"
+
+alerts:
+  - code: "boe_relevant_norm"
+    name: "Norma BOE relevante para el sector"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        sources:
+          - "boe"
+        min_relevance: 0.7
+  - code: "parliament_bill_advanced"
+    name: "Proyecto de ley en fase avanzada"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "legislative_stage"
+      params:
+        stages:
+          - "aprobacion_congreso"
+          - "senado"
+  - code: "regulation_consultation"
+    name: "Consulta publica relevante"
+    enabled: true
+    level: "medium"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        sources:
+          - "consultas_publicas"
+
+saved_searches:
+  - code: "active_bills"
+    name: "Proyectos de ley en tramitacion"
+    type: "search"
+    semantic_query: "proyecto ley tramitacion parlamentaria Congreso Senado Espana"
+  - code: "boe_weekly"
+    name: "BOE semanal relevante"
+    type: "search"
+    semantic_query: "normativa regulacion disposicion general BOE semana"
+  - code: "regulator_watchlist"
+    name: "Watchlist de reguladores"
+    type: "watchlist"
+    watchlist_objects:
+      - type: "institution"
+        ref: "cnmc"
+      - type: "institution"
+        ref: "bde"
+      - type: "institution"
+        ref: "cnmv"
+
+dashboards:
+  - code: "regulatory_radar_main"
+    name: "Radar Regulatorio"
+    layout: "regulatory_radar_v1"
+    widgets:
+      - code: "legislative_pipeline"
+        params:
+          max_items: 15
+      - code: "boe_feed"
+        params:
+          window_days: 7
+      - code: "alerts_feed"
+        params:
+          max_items: 20
+      - code: "risk_score_widget"
+        params: {}

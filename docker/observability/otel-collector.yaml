@@ -1,0 +1,66 @@
+# OTel Collector config — ElectSim Bloque 7
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 512
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 128
+  # Eliminar campos PII de spans antes de exportar
+  attributes:
+    actions:
+      - key: llm.prompt
+        action: delete
+      - key: llm.response
+        action: delete
+
+exporters:
+  # Trazas -> Tempo
+  otlp/tempo:
+    endpoint: tempo:9095
+    tls:
+      insecure: true
+
+  # Metricas -> Prometheus (scrape)
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: electsim
+    resource_to_telemetry_conversion:
+      enabled: true
+
+  # Logs -> Loki
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+    default_labels_enabled:
+      exporter: false
+      job: true
+
+  # Debug (solo desarrollo)
+  logging:
+    loglevel: warn
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, attributes, batch]
+      exporters: [otlp/tempo]
+
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
+
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [loki]

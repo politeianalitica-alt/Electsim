@@ -1,0 +1,63 @@
+code: "dlc_housing_spain"
+name: "DLC Vivienda y Urbanismo Espana"
+market: "spain"
+type: "dlc"
+description: "DLC para promotores, fondos inmobiliarios y administraciones sobre politica de vivienda."
+
+modules:
+  - "regulatory_housing"
+  - "macro_econ"
+
+alerts:
+  - code: "housing_law_change"
+    name: "Cambio en ley de vivienda"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "regulatory_event"
+      params:
+        sources:
+          - "boe"
+        sectors:
+          - "vivienda"
+          - "urbanismo"
+  - code: "rental_regulation"
+    name: "Nueva regulacion de alquiler"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+    conditions:
+      type: "regulatory_event"
+      params:
+        topics:
+          - "alquiler"
+          - "arrendamiento"
+
+saved_searches:
+  - code: "housing_policy"
+    name: "Politica de vivienda y urbanismo"
+    type: "search"
+    semantic_query: "politica vivienda alquiler compraventa urbanismo regulacion inmobiliaria Espana"
+  - code: "housing_regulators"
+    name: "Watchlist reguladores vivienda"
+    type: "watchlist"
+    watchlist_objects:
+      - type: "institution"
+        ref: "ministerio_vivienda"
+
+dashboards:
+  - code: "housing_dlc_panel"
+    name: "Panel Vivienda"
+    layout: "dlc_housing_v1"
+    widgets:
+      - code: "housing_regulatory_feed"
+        params: {}
+      - code: "macro_indicators"
+        params:
+          indicators:
+            - "ipc_vivienda"
+            - "euribor"

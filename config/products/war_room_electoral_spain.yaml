@@ -1,0 +1,97 @@
+code: "war_room_electoral_spain"
+name: "War Room Electoral Espana"
+market: "spain"
+type: "base_product"
+description: "Nowcasting, simulador de escanos y war room electoral para Espana."
+
+modules:
+  - "electoral_core"
+  - "electoral_nowcasting"
+  - "media_narrative"
+  - "comm_intel"
+  - "investigation_canvas"
+  - "draft_studio"
+  - "intelligence_notebook"
+  - "alerts_core"
+  - "ontology_core"
+
+default_workspace:
+  name: "War Room Electoral"
+  client_profile:
+    segment: "political_party"
+    sector: "electoral"
+    interests:
+      - "encuestas"
+      - "narrativas"
+      - "riesgo_politico"
+    geography:
+      country: "ES"
+
+alerts:
+  - code: "poll_movement_2pp"
+    name: "Movimiento encuestas mayor 2pp"
+    enabled: true
+    level: "critical"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "poll_movement"
+      params:
+        threshold_pp: 2.0
+  - code: "narrative_attack_leader"
+    name: "Ataque narrativo a lider"
+    enabled: true
+    level: "high"
+    channels:
+      - "telegram"
+    conditions:
+      type: "narrative_threat"
+      params:
+        target_entities:
+          - "party_leader"
+        min_threat_level: "emergent"
+  - code: "coalition_instability"
+    name: "Inestabilidad de coalicion"
+    enabled: true
+    level: "high"
+    channels:
+      - "email"
+      - "telegram"
+    conditions:
+      type: "coalition_risk"
+      params:
+        threshold: 0.7
+
+saved_searches:
+  - code: "all_electoral_law"
+    name: "Toda la legislacion electoral en curso"
+    type: "search"
+    semantic_query: "actividad legislativa sobre ley electoral, circunscripciones, sistema d'Hondt"
+  - code: "leader_mentions"
+    name: "Menciones al lider en prensa nacional"
+    type: "watchlist"
+    watchlist_objects:
+      - type: "actor"
+        ref: "party_leader"
+  - code: "poll_aggregation"
+    name: "Seguimiento de encuestas nacionales"
+    type: "search"
+    semantic_query: "intencion de voto estimacion sondeo encuesta electoral Espana"
+
+dashboards:
+  - code: "war_room_main"
+    name: "War Room Electoral"
+    layout: "war_room_electoral_v1"
+    widgets:
+      - code: "nowcasting_overview"
+        params: {}
+      - code: "polls_timeline"
+        params:
+          window_days: 90
+      - code: "narratives_active"
+        params:
+          max_items: 10
+      - code: "alerts_feed"
+        params:
+          max_items: 20

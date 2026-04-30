@@ -1,0 +1,41 @@
+# Tempo config — ElectSim Bloque 7
+stream_over_http_enabled: true
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 9095
+
+distributor:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:9095
+
+ingester:
+  max_block_duration: 5m
+
+compactor:
+  compaction:
+    block_retention: 72h
+
+metrics_generator:
+  registry:
+    external_labels:
+      source: tempo
+      cluster: electsim
+  storage:
+    path: /var/tempo/generator/wal
+
+storage:
+  trace:
+    backend: local
+    local:
+      path: /var/tempo/traces
+    wal:
+      path: /var/tempo/wal
+
+overrides:
+  defaults:
+    metrics_generator:
+      processors: [service-graphs, span-metrics]
+      generate_native_histograms: both

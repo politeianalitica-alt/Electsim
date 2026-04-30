@@ -1,0 +1,28 @@
+# Prometheus config — ElectSim Bloque 7
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: electsim
+
+rule_files:
+  - /etc/prometheus/alert_rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []   # Rellenar con alertmanager si se despliega
+
+scrape_configs:
+  # Metricas OTel exportadas por el collector
+  - job_name: electsim_otel
+    static_configs:
+      - targets: ["otel-collector:8889"]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+
+  # Prometheus self-monitoring
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
