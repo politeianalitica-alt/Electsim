@@ -291,3 +291,21 @@ def sidebar_nav():
             <span style="color:{CYAN}55">●</span> SISTEMA ACTIVO &nbsp;·&nbsp; DATOS EN TIEMPO REAL
         </div>
         """, unsafe_allow_html=True)
+
+
+# ── Utilidad compartida ───────────────────────────────────────────────────────
+
+def normalizar_nowcasting(df: "pd.DataFrame") -> "pd.DataFrame":
+    """Normaliza nombres de columna del nowcasting a la convención canónica."""
+    if df.empty:
+        return df
+    import pandas as pd  # noqa: F401 — tipo local
+    ren = {
+        "estimación_pct":  "estimacion_pct",
+        "estimacion":      "estimacion_pct",
+        "fecha_estimación":"fecha_estimacion",
+        "fecha_calculo":   "fecha_estimacion",
+        "ic95_inf":        "ic_95_inf",
+        "ic95_sup":        "ic_95_sup",
+    }
+    return df.rename(columns={c: ren[c] for c in df.columns if c in ren})

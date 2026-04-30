@@ -21,7 +21,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from dashboard.shared import (
-    sidebar_nav, aplicar_estilos,
+    sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
     COLORES_PARTIDOS,
@@ -32,7 +32,6 @@ from dashboard.components.data_source_indicator import (
 from dashboard.config import settings
 
 st.set_page_config(page_title="Microdatos — ElectSim", layout="wide")
-aplicar_estilos()
 sidebar_nav()
 
 # ── Header ────────────────────────────────────────────────────────────────────

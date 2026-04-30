@@ -78,7 +78,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Historial ─────────────────────────────────────────────────────────────────
-df_hist = cargar_historial_validacion()
+with st.spinner("Cargando datos..."):
+    df_hist = cargar_historial_validacion()
 
 if df_hist.empty or "tipo" not in df_hist.columns:
     st.info("""

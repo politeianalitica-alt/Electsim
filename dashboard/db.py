@@ -45,7 +45,9 @@ def _q(sql: str, params: dict | None = None) -> pd.DataFrame:
         with engine.connect() as conn:
             return pd.read_sql(text(sql), conn, params=params or {})
     except Exception as e:
-        st.warning(f"Error de BD: {e}")
+        import logging
+        logging.getLogger(__name__).error("DB query failed: %s", e)
+        st.warning("No se pudieron cargar los datos. Comprueba la conexión a la base de datos.")
         return pd.DataFrame()
 
 
@@ -324,7 +326,7 @@ def cargar_validacion_por_partido(run_id: str) -> pd.DataFrame:
 
 # ── Tiempo real ───────────────────────────────────────────────────────────────
 
-@st.cache_data(ttl=30)
+@st.cache_data(ttl=300)
 def cargar_alertas(solo_no_leidas: bool = False, limit: int = 20) -> pd.DataFrame:
     cond = "AND leida = false" if solo_no_leidas else ""
     return _q(

@@ -492,7 +492,8 @@ with tab1:
     st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
 
     # ── Nowcasting pill strip ─────────────────────────────────────────────────
-    df_nc = cargar_nowcasting()
+    with st.spinner("Cargando datos..."):
+        df_nc = cargar_nowcasting()
     if not df_nc.empty and "estimacion_pct" in df_nc.columns:
         _section_header("Estimación Actual de Voto", CYAN)
         pills_html = '<div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem">'

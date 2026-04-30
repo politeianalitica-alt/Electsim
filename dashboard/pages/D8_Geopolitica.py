@@ -217,7 +217,7 @@ with tab_teatro:
                 labels={"score_total": "Riesgo"},
             )
             fig_mapa.update_layout(
-                paper_bgcolor=BG,
+                paper_bgcolor="rgba(0,0,0,0)",
                 geo=dict(
                     bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
                     coastlinecolor=BORDER, countrycolor=BORDER,
@@ -295,7 +295,7 @@ with tab_teatro:
             labels={"interes_espana": "Interés para España", "score_total": "Score Riesgo"},
         )
         fig_bub.update_layout(
-            paper_bgcolor=BG, plot_bgcolor=BG2, height=320,
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", height=320,
             font=dict(color=TEXT2), coloraxis_showscale=False,
             xaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
             yaxis=dict(gridcolor=BORDER, tickfont=dict(color=TEXT2)),
@@ -356,7 +356,7 @@ with tab_espana:
                     color_discrete_sequence=[CYAN],
                 )
                 fig_p.update_layout(
-                    paper_bgcolor=BG,
+                    paper_bgcolor="rgba(0,0,0,0)",
                     geo=dict(bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
                              coastlinecolor=BORDER, countrycolor=BORDER,
                              showland=True, showocean=True, showframe=False,
@@ -405,7 +405,7 @@ with tab_espana:
                 size_max=14,
             )
             fig_g.update_layout(
-                paper_bgcolor=BG,
+                paper_bgcolor="rgba(0,0,0,0)",
                 geo=dict(bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
                          coastlinecolor=BORDER, countrycolor=BORDER,
                          showland=True, showocean=True, showframe=False,

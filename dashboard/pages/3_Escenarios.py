@@ -184,7 +184,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Selector de elección ───────────────────────────────────────────────────────
-df_elec = cargar_elecciones("generales")
+with st.spinner("Cargando datos..."):
+    df_elec = cargar_elecciones("generales")
 opciones_elec: dict[str, int | None] = {}
 if not df_elec.empty:
     for _, row in df_elec.iterrows():
@@ -205,7 +206,8 @@ st.markdown(f'<hr style="border:none;border-top:1px solid {BORDER};margin:1rem 0
             unsafe_allow_html=True)
 
 # ── Datos nowcasting ───────────────────────────────────────────────────────────
-df_nc = cargar_nowcasting()
+with st.spinner("Cargando estimaciones..."):
+    df_nc = cargar_nowcasting()
 
 ESTIMACIONES_SINTETICAS = {
     "PP": 33.0, "PSOE": 28.5, "VOX": 12.0, "SUMAR": 10.5,

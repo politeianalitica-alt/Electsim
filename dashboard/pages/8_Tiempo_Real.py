@@ -153,7 +153,8 @@ st.markdown(f'<div style="height:1px;background:{BORDER};margin:1.2rem 0"></div>
 # ── Indicadores macroeconómicos ───────────────────────────────────────────────
 st.markdown(f'<div class="sec-hdr"><div class="bar" style="background:{CYAN}"></div><span class="lbl">Indicadores Macroeconómicos</span><div class="line"></div></div>', unsafe_allow_html=True)
 
-df_macro_last = cargar_macro_ultimo()
+with st.spinner("Cargando datos..."):
+    df_macro_last = cargar_macro_ultimo()
 if not df_macro_last.empty:
     indicadores_config = {
         "IPC General (%)": ("IPC Inflacion", "%", "ipc_general"),

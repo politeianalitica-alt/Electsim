@@ -487,7 +487,8 @@ tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones 
 
 # ── Tab 1: BOE de Hoy ────────────────────────────────────────────────────────
 with tab_boe:
-    boe_real = cargar_boe_hoy_real()
+    with st.spinner("Cargando datos..."):
+        boe_real = cargar_boe_hoy_real()
     boe_data = boe_real if boe_real else BOE_HOY
 
     st.markdown(

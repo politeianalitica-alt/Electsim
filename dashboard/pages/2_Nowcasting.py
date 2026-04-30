@@ -18,7 +18,7 @@ import plotly.io as pio
 import streamlit as st
 import streamlit.components.v1 as components
 from dashboard.shared import (
-    sidebar_nav, COLORES_PARTIDOS,
+    sidebar_nav, normalizar_nowcasting, COLORES_PARTIDOS,
     BG, BG2, BG3, BORDER,
     CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED,
@@ -42,15 +42,7 @@ def _color(siglas: str) -> str:
     return COLORES_PARTIDOS.get(siglas, COLORES_PARTIDOS.get(siglas.upper(), CYAN))
 
 
-def _normalizar(df: pd.DataFrame) -> pd.DataFrame:
-    if df.empty:
-        return df
-    ren = {
-        "estimación_pct": "estimacion_pct", "estimacion": "estimacion_pct",
-        "fecha_estimación": "fecha_estimacion", "fecha_calculo": "fecha_estimacion",
-        "ic95_inf": "ic_95_inf", "ic95_sup": "ic_95_sup",
-    }
-    return df.rename(columns={c: ren[c] for c in df.columns if c in ren})
+_normalizar = normalizar_nowcasting
 
 
 def dhondt(votos: dict[str, float], n_escanos: int = 350, umbral: float = 3.0) -> dict[str, int]:
@@ -147,7 +139,8 @@ def _section_header(label: str, color: str):
 
 
 # ── Cargar datos ──────────────────────────────────────────────────────────────
-df_nc = _normalizar(cargar_nowcasting())
+with st.spinner("Cargando datos..."):
+    df_nc = _normalizar(cargar_nowcasting())
 
 if df_nc.empty or "estimacion_pct" not in df_nc.columns:
     st.info("Sin datos de nowcasting. Ejecuta el pipeline de modelos.")

@@ -15,7 +15,7 @@ if str(_ROOT) not in sys.path:
 import pandas as pd
 import streamlit as st
 from dashboard.shared import (
-    sidebar_nav, aplicar_estilos,
+    sidebar_nav,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE,
     TEXT, TEXT2, MUTED, GREEN, AMBER, RED,
 )
@@ -38,7 +38,6 @@ except Exception:
         return pd.DataFrame()
 
 st.set_page_config(page_title="Briefing Diario — ElectSim", layout="wide")
-aplicar_estilos()
 sidebar_nav()
 
 
@@ -216,14 +215,14 @@ def _briefing_markdown(
 
 
 # ── Datos ─────────────────────────────────────────────────────────────────────
-
-df_nc = cargar_nowcasting()
-df_macro = cargar_macro_ultimo()
-df_indices = cargar_indices_politeia()
-df_alert = cargar_alertas(solo_no_leidas=True, limit=20)
-df_news = cargar_noticias_recientes(dias=2, limit=60)
-df_agenda = cargar_agenda_hoy()
-agenda_oficial = _get_agenda_oficial(max_items=8)
+with st.spinner("Cargando datos..."):
+    df_nc = cargar_nowcasting()
+    df_macro = cargar_macro_ultimo()
+    df_indices = cargar_indices_politeia()
+    df_alert = cargar_alertas(solo_no_leidas=True, limit=20)
+    df_news = cargar_noticias_recientes(dias=2, limit=60)
+    df_agenda = cargar_agenda_hoy()
+    agenda_oficial = _get_agenda_oficial(max_items=8)
 eco_score = compute_economic_score_from_df(df_macro)
 
 # ── Header ────────────────────────────────────────────────────────────────────

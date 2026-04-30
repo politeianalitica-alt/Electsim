@@ -334,9 +334,10 @@ with st.sidebar:
     dias_sent     = st.slider("Ventana sentimiento (días)", 7, 90, 30)
 
 # ── KPIs ──────────────────────────────────────────────────────────────────────
-df_noticias  = cargar_noticias_recientes(dias=dias_noticias, limit=100)
-df_agenda    = cargar_agenda_hoy()
-df_sent_all  = cargar_sentimiento_todos_partidos(dias=dias_noticias)
+with st.spinner("Cargando datos..."):
+    df_noticias  = cargar_noticias_recientes(dias=dias_noticias, limit=100)
+    df_agenda    = cargar_agenda_hoy()
+    df_sent_all  = cargar_sentimiento_todos_partidos(dias=dias_noticias)
 
 col1, col2, col3, col4 = st.columns(4)
 with col1:

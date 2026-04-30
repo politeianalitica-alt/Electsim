@@ -162,7 +162,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Cargar datos ───────────────────────────────────────────────────────────────
-df = cargar_indices_politeia()
+with st.spinner("Cargando datos..."):
+    df = cargar_indices_politeia()
 if "metodología" not in df.columns and "metodologia" in df.columns:
     df["metodología"] = df["metodologia"]
 

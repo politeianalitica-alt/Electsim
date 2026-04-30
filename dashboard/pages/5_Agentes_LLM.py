@@ -417,7 +417,8 @@ REACCION_PERFIL: dict[str, dict[str, float]] = {
 }
 
 # ── Reconciliación: datos reales vs sintéticos (audit 4.3 + 1.1) ────────────
-_perfiles_reales = _cargar_perfiles_reales()
+with st.spinner("Cargando perfiles..."):
+    _perfiles_reales = _cargar_perfiles_reales()
 if _perfiles_reales:
     _PERFILES_ACTIVOS = _perfiles_reales
     _FUENTE_PERFILES  = DataSource(

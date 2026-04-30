@@ -128,7 +128,8 @@ with st.sidebar:
         format_func=lambda i: TIPOS_ELECCION[i].title(),
     )
     tipo_db = TIPOS_DB[tipo_idx]
-    df_elec_sidebar = cargar_elecciones(tipo_db)
+    with st.spinner("Cargando datos..."):
+        df_elec_sidebar = cargar_elecciones(tipo_db)
     eleccion_id: int | None = None
     if not df_elec_sidebar.empty:
         opciones_sidebar = {

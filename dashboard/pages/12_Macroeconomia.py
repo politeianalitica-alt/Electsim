@@ -85,7 +85,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Cargar datos reales ───────────────────────────────────────────────────────
-df_macro = cargar_macro_ultimo()
+with st.spinner("Cargando datos..."):
+    df_macro = cargar_macro_ultimo()
 
 # Valores por defecto si la BD está vacía
 macro_vals = {
