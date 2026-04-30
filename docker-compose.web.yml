@@ -1,0 +1,44 @@
+# Servicios web: backend FastAPI + (futuro) frontend Next.js
+# Uso: docker compose -f docker-compose.yml -f docker-compose.web.yml up
+#
+# Requiere un fichero .env en la raíz con al menos:
+#   POSTGRES_USER=electsim
+#   POSTGRES_PASSWORD=...
+#   SECRET_KEY=...   (openssl rand -hex 32)
+#   CORS_ORIGINS=http://localhost:3000
+
+services:
+  postgres:
+    volumes:
+      - ./db/03_usuarios.sql:/docker-entrypoint-initdb.d/03_usuarios.sql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: "postgresql+psycopg://${POSTGRES_USER:-electsim}:${POSTGRES_PASSWORD:-change_me_in_production}@postgres:5432/electsim_espana"
+      SECRET_KEY: "${SECRET_KEY:-CHANGE_ME_IN_PRODUCTION}"
+      CORS_ORIGINS: "${CORS_ORIGINS:-http://localhost:3000}"
+      DEBUG: "${DEBUG:-false}"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # frontend:          ← Next.js — se añade cuando esté listo el diseño
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: "http://localhost:8000/api/v1"
+  #   depends_on:
+  #     - backend
