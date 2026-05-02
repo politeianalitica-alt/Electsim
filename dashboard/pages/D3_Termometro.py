@@ -620,13 +620,16 @@ with tab_temporal:
     for ev_date, ev_label, ev_y in events:
         ev_str = ev_date.isoformat()
         if ev_str in dates_str:
-            fig_temporal.add_vline(
-                x=ev_str,
+            fig_temporal.add_shape(
+                type="line", x0=ev_str, x1=ev_str, y0=0, y1=1,
+                xref="x", yref="paper",
                 line=dict(color=MUTED, dash="dash", width=1),
-                annotation_text=ev_label,
-                annotation_position="top",
-                annotation_font_color=TEXT2,
-                annotation_font_size=9,
+            )
+            fig_temporal.add_annotation(
+                x=ev_str, y=1.0, xref="x", yref="paper",
+                text=ev_label, showarrow=False,
+                font=dict(color=TEXT2, size=9),
+                yanchor="bottom", textangle=-90,
             )
 
     fig_temporal.update_layout(
@@ -995,12 +998,16 @@ with tab_escenarios:
     ))
 
     # Today line
-    fig_fan.add_vline(
-        x=today.isoformat(),
+    fig_fan.add_shape(
+        type="line", x0=today.isoformat(), x1=today.isoformat(), y0=0, y1=1,
+        xref="x", yref="paper",
         line=dict(color=MUTED, dash="dash", width=1.5),
-        annotation_text="Hoy",
-        annotation_font_color=MUTED,
-        annotation_font_size=10,
+    )
+    fig_fan.add_annotation(
+        x=today.isoformat(), y=1.0, xref="x", yref="paper",
+        text="Hoy", showarrow=False,
+        font=dict(color=MUTED, size=10),
+        yanchor="bottom",
     )
 
     fig_fan.update_layout(

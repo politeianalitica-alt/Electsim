@@ -156,10 +156,17 @@ with tab_nc:
             hovertemplate=f"<b>{modelo}</b><br>%{{x|%d %b}}<br>%{{y:.1f}}%<extra></extra>",
         ))
 
-    # Vertical "today" line
-    fig_nc.add_vline(x=today, line_dash="dash", line_color=AMBER, line_width=1.5,
-                     annotation_text="Hoy", annotation_font_color=AMBER,
-                     annotation_position="top right")
+    # Vertical "today" line — add_vline with date x + annotation breaks in Plotly 6
+    fig_nc.add_shape(
+        type="line", x0=today, x1=today, y0=0, y1=1,
+        xref="x", yref="paper",
+        line=dict(color=AMBER, dash="dash", width=1.5),
+    )
+    fig_nc.add_annotation(
+        x=today, y=1.0, xref="x", yref="paper",
+        text="Hoy", showarrow=False,
+        font=dict(color=AMBER, size=9), yanchor="bottom",
+    )
 
     # Majority threshold
     fig_nc.add_hline(y=25, line_dash="dot", line_color=hex_to_rgba(MUTED, 0.50),
@@ -458,9 +465,16 @@ with tab_causal:
             annotation_text="Post-evento", annotation_position="top right",
             annotation_font_color=AMBER,
         )
-        fig_its.add_vline(x=_evento, line_dash="dash", line_color=AMBER, line_width=1.5,
-                          annotation_text="Evento", annotation_font_color=AMBER,
-                          annotation_position="top left")
+        fig_its.add_shape(
+            type="line", x0=_evento, x1=_evento, y0=0, y1=1,
+            xref="x", yref="paper",
+            line=dict(color=AMBER, dash="dash", width=1.5),
+        )
+        fig_its.add_annotation(
+            x=_evento, y=1.0, xref="x", yref="paper",
+            text="Evento", showarrow=False,
+            font=dict(color=AMBER, size=9), yanchor="bottom",
+        )
 
         # Uncertainty band post-event
         fig_its.add_trace(go.Scatter(

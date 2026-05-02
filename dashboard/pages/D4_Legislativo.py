@@ -362,12 +362,13 @@ st.markdown("---")
 # TABS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-tab_actividad, tab_leyes, tab_boe, tab_coaliciones, tab_actores_leg = st.tabs([
+tab_actividad, tab_leyes, tab_boe, tab_coaliciones, tab_actores_leg, tab_multinivel = st.tabs([
     "ACTIVIDAD PARLAMENTARIA",
     "SEGUIMIENTO DE LEYES",
     "BOE & NORMATIVA",
     "COALICIONES PARLAMENTARIAS",
     "INICIATIVAS POR ACTOR",
+    "LEGISLACION MULTINIVEL",
 ])
 
 
@@ -569,7 +570,8 @@ with tab_leyes:
     if filtro_urgencia != "Todas":
         leyes_filtradas = [l for l in leyes_filtradas if l["urgencia"] == filtro_urgencia]
 
-    leyes_filtradas = sorted(leyes_filtradas, key=lambda l: (-URGENCIA_CFG.get(l["urgencia"], {}).get("color", "") == RED, -l["prob_aprobacion"]))
+    _URGENCIA_ORDER = {"critica": 0, "alta": 1, "media": 2, "baja": 3}
+    leyes_filtradas = sorted(leyes_filtradas, key=lambda l: (_URGENCIA_ORDER.get(l["urgencia"], 99), -l["prob_aprobacion"]))
 
     st.markdown(f"<div style='color:{MUTED};font-size:.78rem;margin-bottom:.8rem'>Mostrando {len(leyes_filtradas)} de {len(DEMO_LEYES)} iniciativas</div>", unsafe_allow_html=True)
 
