@@ -1289,11 +1289,11 @@ with tab_multinivel:
         k_upd = "Demo"
 
     _kpi_cols = st.columns(5)
-    _kpi_cols[0].markdown(kpi_card("Normas UE", str(k_eu), BLUE, delta=None), unsafe_allow_html=True)
-    _kpi_cols[1].markdown(kpi_card("Nacionales", str(k_nat), PURPLE, delta=None), unsafe_allow_html=True)
-    _kpi_cols[2].markdown(kpi_card("Autonomicas", str(k_reg), CYAN, delta=None), unsafe_allow_html=True)
-    _kpi_cols[3].markdown(kpi_card("Alto impacto", str(k_hi), RED, delta=None), unsafe_allow_html=True)
-    _kpi_cols[4].markdown(kpi_card("Pendientes", str(k_pend), AMBER, delta=None), unsafe_allow_html=True)
+    _kpi_cols[0].markdown(kpi_card("Normas UE", str(k_eu), color=BLUE), unsafe_allow_html=True)
+    _kpi_cols[1].markdown(kpi_card("Nacionales", str(k_nat), color=PURPLE), unsafe_allow_html=True)
+    _kpi_cols[2].markdown(kpi_card("Autonomicas", str(k_reg), color=CYAN), unsafe_allow_html=True)
+    _kpi_cols[3].markdown(kpi_card("Alto impacto", str(k_hi), color=RED), unsafe_allow_html=True)
+    _kpi_cols[4].markdown(kpi_card("Pendientes", str(k_pend), color=AMBER), unsafe_allow_html=True)
 
     st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
 

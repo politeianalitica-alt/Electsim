@@ -18,6 +18,184 @@
     "enviado_telegram": false,
     "leida": false,
     "dedup_key": "osint_urg_d9",
+    "creada_en": "2026-05-02T19:37:13.374614+00:00"
+  },
+  {
+    "id": "4f92539af1ca7fdd026fce47fa43044d",
+    "tipo": "regla_critica",
+    "titulo": "💻 CIBERALERTA CRÍTICA: Ataque a infraestructura española — CCN-CERT: campaña de ciberataques a infraestructura crítica española atribuida a actor estatal",
+    "descripcion": "El CCN-CERT detecta campaña APT contra operadores de infraestructura crítica española (energía, telecomunicaciones). El patrón TTP coincide con actor estatal del este de Europa.",
+    "nivel": "CRITICO",
+    "paises": [
+      "ESP",
+      "RUS"
+    ],
+    "regla_id": "ciberataque_infraestructura_critica_es",
+    "regla_nombre": "Ciberataque infraestructura crítica española",
+    "osint_item_id": "d7",
+    "url_origen": "https://www.ccn-cert.cni.es/2026-apr",
+    "fuente_alerta": "regla_critica",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "4f92539af1ca7fdd026fce47fa43044d",
+    "creada_en": "2026-05-02T19:37:13.374605+00:00"
+  },
+  {
+    "id": "osint_d7",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] CCN-CERT: campaña de ciberataques a infraestructura crítica española atribuida a actor estatal",
+    "descripcion": "El CCN-CERT detecta campaña APT contra operadores de infraestructura crítica española (energía, telecomunicaciones). El patrón TTP coincide con actor estatal del este de Europa.",
+    "nivel": "CRITICO",
+    "paises": [
+      "ESP",
+      "RUS"
+    ],
+    "osint_item_id": "d7",
+    "url_origen": "https://www.ccn-cert.cni.es/2026-apr",
+    "categoria": "ciberseguridad",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d7",
+    "creada_en": "2026-05-02T19:37:13.374253+00:00"
+  },
+  {
+    "id": "osint_d6",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] JNIM expande control en Mali: misión EUTM bajo presión creciente",
+    "descripcion": "El grupo yihadista JNIM avanza en las regiones de Ségou y Mopti, acercándose a zonas de operación de EUTM Mali donde operan 60 militares españoles.",
+    "nivel": "ALTO",
+    "paises": [
+      "MLI",
+      "ESP"
+    ],
+    "osint_item_id": "d6",
+    "url_origen": "https://www.crisisgroup.org/mali-2026",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d6",
+    "creada_en": "2026-05-02T19:37:13.374246+00:00"
+  },
+  {
+    "id": "osint_d4",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] Rusia corta suministro de gas a Bulgaria y Slovakia — señal hacia Europa occidental",
+    "descripcion": "Rusia suspende flujos de gas a Bulgaria y Eslovaquia como medida de presión política. Analistas advierten riesgo de escalada hacia otros países dependientes, incluyendo posibles presiones sobre contratos GNL en el mercado europeo.",
+    "nivel": "ALTO",
+    "paises": [
+      "RUS",
+      "BGR",
+      "SVK",
+      "ESP"
+    ],
+    "osint_item_id": "d4",
+    "url_origen": "https://www.iea.org/russia-gas-2026",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d4",
+    "creada_en": "2026-05-02T19:37:13.374075+00:00"
+  },
+  {
+    "id": "osint_d3",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] UNHCR: llegadas irregulares a España por Atlántico superan récord histórico en abril",
+    "descripcion": "Las llegadas a Canarias en abril 2026 superan el récord mensual, con 8.400 personas en 18 días. Procedencia mayoritaria: Senegal, Mauritania y Mali.",
+    "nivel": "ALTO",
+    "paises": [
+      "ESP",
+      "SEN",
+      "MLI",
+      "MRT"
+    ],
+    "osint_item_id": "d3",
+    "url_origen": "https://www.unhcr.org/spain-canarias-2026",
+    "categoria": "migracion",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d3",
+    "creada_en": "2026-05-02T19:37:13.373728+00:00"
+  },
+  {
+    "id": "e35a38b4993649646da01b2cfa6b074f",
+    "tipo": "regla_critica",
+    "titulo": "⛽ ALERTA ENERGÉTICA: Riesgo para suministro gas argelino — Argelia amenaza con revisar contratos de gas si España apoya resolución Sahara ONU",
+    "descripcion": "Tensión diplomática Argelia-España por posición de Madrid sobre el Sáhara Occidental en votación ONU. Argelia señala posible revisión del contrato Medgaz.",
+    "nivel": "CRITICO",
+    "paises": [
+      "DZA",
+      "ESP"
+    ],
+    "regla_id": "corte_gas_argelia",
+    "regla_nombre": "Corte suministro gas argelino",
+    "osint_item_id": "d2",
+    "url_origen": "https://www.realinstitutoelcano.org/argelia-gas-2026",
+    "fuente_alerta": "regla_critica",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "e35a38b4993649646da01b2cfa6b074f",
+    "creada_en": "2026-05-02T19:37:13.373254+00:00"
+  },
+  {
+    "id": "osint_d2",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Argelia amenaza con revisar contratos de gas si España apoya resolución Sahara ONU",
+    "descripcion": "Tensión diplomática Argelia-España por posición de Madrid sobre el Sáhara Occidental en votación ONU. Argelia señala posible revisión del contrato Medgaz.",
+    "nivel": "CRITICO",
+    "paises": [
+      "DZA",
+      "ESP"
+    ],
+    "osint_item_id": "d2",
+    "url_origen": "https://www.realinstitutoelcano.org/argelia-gas-2026",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d2",
+    "creada_en": "2026-05-02T19:37:13.372659+00:00"
+  },
+  {
+    "id": "osint_d1",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] España aumentará presupuesto defensa al 2% PIB en 2029 (OTAN)",
+    "descripcion": "España se compromete con OTAN a alcanzar el objetivo del 2% del PIB en gasto defensa para 2029, superando el actual 1.3%.",
+    "nivel": "ALTO",
+    "paises": [
+      "ESP"
+    ],
+    "osint_item_id": "d1",
+    "url_origen": "https://www.nato.int/news/2026",
+    "categoria": "defensa",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d1",
+    "creada_en": "2026-05-02T19:37:13.371324+00:00"
+  },
+  {
+    "id": "osint_d9",
+    "tipo": "osint_urgente",
+    "titulo": "[ALTO] Crisis diplomática en Venezuela: Maduro expulsa misión diplomática europea",
+    "descripcion": "Venezuela expulsa a la misión diplomática de observación electoral de la UE y amenaza con revisar acuerdos con empresas europeas. España, con 160.000 ciudadanos en Venezuela, activa protocolo consular.",
+    "nivel": "ALTO",
+    "paises": [
+      "VEN",
+      "ESP",
+      "BRA",
+      "UE"
+    ],
+    "osint_item_id": "d9",
+    "url_origen": "https://elpais.com/venezuela-2026",
+    "categoria": "diplomacia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d9",
     "creada_en": "2026-05-02T19:25:21.679273+00:00"
   },
   {
