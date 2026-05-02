@@ -39,7 +39,7 @@ import streamlit.components.v1 as components
 
 from dashboard.shared import (
     sidebar_nav, mostrar_alertas_pagina, aplicar_estilos,
-    intel_header, apply_plotly_theme, news_card,
+    intel_header, apply_plotly_theme, news_card, hex_to_rgba,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED, section_header, kpi_card, COLORES_PARTIDOS,
 )
@@ -870,7 +870,7 @@ with tab_comparativa:
                 r=vals_closed,
                 theta=cats_closed,
                 fill="toself",
-                fillcolor=f"{c}22",
+                fillcolor=hex_to_rgba(c, 0.13),
                 line=dict(color=c, width=2),
                 name=actor["nombre"].split()[0] + " " + actor["nombre"].split()[-1],
             ))

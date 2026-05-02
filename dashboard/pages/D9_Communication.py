@@ -24,7 +24,7 @@ from dashboard.shared import (
     AMBER, RED, GREEN, TEXT, TEXT2, MUTED,
     sidebar_nav, section_header, kpi_card,
     signal_card, news_card, intel_header, confidence_badge,
-    scrolling_ticker,
+    scrolling_ticker, hex_to_rgba, apply_plotly_theme,
 )
 
 st.set_page_config(
@@ -412,7 +412,7 @@ with tab2:
         fig_scatter.add_hline(y=6.5, line_dash="dot", line_color=BORDER)
         fig_scatter.add_vline(x=7.0, line_dash="dot", line_color=BORDER)
 
-        # Quadrant labels
+        # Quadrant labels — bgcolor/bordercolor usan hex_to_rgba (Plotly no acepta hex+alpha)
         for x_pos, y_pos, label, color in [
             (5.5, 8.5, "ALTO IMPACTO\nBAJO ALCANCE", GREEN),
             (8.5, 8.5, "MENSAJES ESTRELLA", CYAN),
@@ -422,7 +422,8 @@ with tab2:
             fig_scatter.add_annotation(
                 x=x_pos, y=y_pos, text=label.replace("\n", "<br>"),
                 showarrow=False, font=dict(color=color, size=8),
-                bgcolor=f"{color}11", bordercolor=f"{color}44",
+                bgcolor=hex_to_rgba(color, 0.07),
+                bordercolor=hex_to_rgba(color, 0.27),
                 borderwidth=1, borderpad=4, align="center",
             )
 
@@ -659,7 +660,7 @@ with tab4:
         section_header("Cobertura mediática — últimas 24h", CYAN)
 
         bar_colors = [
-            CYAN if h in _PRIME_HOURS else f"{CYAN}44"
+            CYAN if h in _PRIME_HOURS else "rgba(0,212,255,0.267)"
             for h in _horas
         ]
         fig_24h = go.Figure(go.Bar(
@@ -899,7 +900,7 @@ with tab5:
             mode="lines",
             line=dict(color=p_color, width=2),
             fill="tozeroy",
-            fillcolor=f"{p_color}18",
+            fillcolor=hex_to_rgba(p_color, 0.09),
             hovertemplate="Día %{x}<br>Consistencia: %{y:.0%}<extra></extra>",
         ))
         fig_cons.add_hline(y=0.7, line_dash="dash", line_color=AMBER, line_width=1,

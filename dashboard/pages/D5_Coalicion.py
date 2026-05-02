@@ -103,9 +103,9 @@ with col_gauge:
             "axis": {"range": [0, 100], "tickcolor": MUTED, "tickfont": {"size": 9, "color": MUTED}},
             "bar": {"color": c_est, "thickness": 0.28},
             "steps": [
-                {"range": [0, 40],   "color": f"{RED}18"},
-                {"range": [40, 65],  "color": f"{AMBER}14"},
-                {"range": [65, 100], "color": f"{GREEN}12"},
+                {"range": [0, 40],   "color": "rgba(239,68,68,0.12)"},
+                {"range": [40, 65],  "color": "rgba(245,158,11,0.10)"},
+                {"range": [65, 100], "color": "rgba(16,185,129,0.10)"},
             ],
             "threshold": {"line": {"color": CYAN, "width": 2}, "thickness": 0.8, "value": 65},
         },

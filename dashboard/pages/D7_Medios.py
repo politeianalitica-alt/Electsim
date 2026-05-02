@@ -418,11 +418,10 @@ with tab_actor:
         zmid=0,
         showscale=True,
         colorbar=dict(
-            title="Sentimiento",
+            title=dict(text="Sentimiento", font=dict(color=TEXT2, size=11)),
             tickvals=[-1, -0.5, 0, 0.5, 1],
             ticktext=["-1 Neg", "-0.5", "0 Neu", "+0.5", "+1 Pos"],
             tickfont=dict(color=TEXT2, size=10),
-            titlefont=dict(color=TEXT2),
         ),
         hovertemplate="%{y} en %{x}: <b>%{z:.2f}</b><extra></extra>",
     ))
@@ -688,7 +687,7 @@ with tab_narrativa:
             r=r_vals,
             theta=theta_vals,
             fill="toself",
-            fillcolor=f"{PURPLE}25",
+            fillcolor="rgba(139,92,246,0.145)",
             line=dict(color=PURPLE, width=2),
             name="Intensidad narrativa",
             hovertemplate="%{theta}: <b>%{r}</b><extra></extra>",

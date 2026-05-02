@@ -172,7 +172,7 @@ def _hemiciclo_plotly(escanos: dict[str, int], titulo: str = "Congreso de los Di
         x=r_mid * np.cos(theta_range),
         y=r_mid * np.sin(theta_range),
         mode="lines",
-        line=dict(color=RED + "44", width=1, dash="dot"),
+        line=dict(color=hex_to_rgba(RED, 0.27), width=1, dash="dot"),
         name="Línea referencia",
         hoverinfo="skip",
         showlegend=False,
@@ -560,7 +560,7 @@ with tab_coal:
                 for coal in coaliciones[:8]:
                     tiene_may = coal.tiene_mayoria
                     color_coal = GREEN if tiene_may else RED
-                    bg_coal = f"{GREEN}10" if tiene_may else f"{RED}08"
+                    bg_coal = "rgba(16,185,129,0.063)" if tiene_may else "rgba(239,68,68,0.031)"
                     prob_bar = int(coal.probabilidad * 100)
                     partidos_chips = "".join(
                         f'<span style="background:{COLORES_PARTIDOS.get(p,"#444")}22;'
@@ -607,7 +607,7 @@ with tab_coal:
                             y=df_probs["Coalición"], x=df_probs["Prob %"],
                             orientation="h",
                             marker=dict(color=df_probs["Prob %"],
-                                        colorscale=[[0, f"{RED}88"], [0.5, f"{AMBER}88"], [1, f"{GREEN}88"]]),
+                                        colorscale=[[0, "rgba(239,68,68,0.533)"], [0.5, "rgba(245,158,11,0.533)"], [1, "rgba(16,185,129,0.533)"]]),
                             text=[f"{v:.0f}%" for v in df_probs["Prob %"]],
                             textposition="outside",
                             textfont=dict(size=10, color=TEXT),
@@ -1033,7 +1033,7 @@ with tab_proj:
                             mode="lines",
                             hovertemplate=f"<b>{partido}</b><br>%{{y:.1f}}%<extra></extra>",
                         ))
-                    fig_proj.add_hline(y=33.3, line_dash="dot", line_color=AMBER + "88",
+                    fig_proj.add_hline(y=33.3, line_dash="dot", line_color=hex_to_rgba(AMBER, 0.53),
                                        annotation_text="33%", annotation_font_color=AMBER)
                     apply_plotly_theme(fig_proj, height=380)
                     fig_proj.update_layout(yaxis=dict(ticksuffix="%", title="Intención de voto (%)"),

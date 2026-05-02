@@ -25,7 +25,7 @@ from dashboard.shared import (
     sidebar_nav, mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED,
-    COLORES_PARTIDOS, kpi_card, section_header,
+    COLORES_PARTIDOS, kpi_card, section_header, hex_to_rgba,
 )
 import dashboard.db as _db
 
@@ -281,7 +281,7 @@ with tab_sent:
             ))
             fig_sent.add_trace(go.Bar(
                 name="Neutral", x=partidos_s, y=neu_vals,
-                marker_color=MUTED + "88", hovertemplate="%{x}: %{y:.1f}% neutral<extra></extra>",
+                marker_color=hex_to_rgba(MUTED, 0.53), hovertemplate="%{x}: %{y:.1f}% neutral<extra></extra>",
             ))
             fig_sent.add_trace(go.Bar(
                 name="Negativo", x=partidos_s, y=neg_vals,
@@ -423,7 +423,7 @@ with tab_temas:
                     z=df_heat.values,
                     x=df_heat.columns.tolist(),
                     y=df_heat.index.tolist(),
-                    colorscale=[[0, BG3], [0.5, CYAN + "66"], [1, CYAN]],
+                    colorscale=[[0, BG3], [0.5, hex_to_rgba(CYAN, 0.40)], [1, CYAN]],
                     hovertemplate="<b>%{y}</b> × <b>%{x}</b><br>%{z} menciones<extra></extra>",
                     showscale=False,
                 ))

@@ -2831,7 +2831,7 @@ with tab2:
                     source=sankey_data["source"],
                     target=sankey_data["target"],
                     value=sankey_data["value"],
-                    color=[f"{CYAN}44"] * len(sankey_data["value"]),
+                    color=["rgba(0,212,255,0.267)"] * len(sankey_data["value"]),
                 ),
             ))
             fig_sankey.update_layout(

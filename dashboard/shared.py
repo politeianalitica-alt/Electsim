@@ -451,14 +451,14 @@ def hex_to_rgba(hex_color: str, alpha: float = 1.0) -> str:
     if len(h) == 3:
         h = "".join(ch * 2 for ch in h)
     if len(h) != 6:
-        return f"rgba(0,212,255,{a:.4f})"
+        return f"rgba(0,212,255,{a:.2f})"
     try:
         r = int(h[0:2], 16)
         g = int(h[2:4], 16)
         b = int(h[4:6], 16)
     except ValueError:
-        return f"rgba(0,212,255,{a:.4f})"
-    return f"rgba({r},{g},{b},{a:.4f})"
+        return f"rgba(0,212,255,{a:.2f})"
+    return f"rgba({r},{g},{b},{a:.2f})"
 
 
 # ── Helpers de datos (casting seguro Decimal/float, formato macro) ───────────

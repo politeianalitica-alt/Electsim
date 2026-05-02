@@ -675,9 +675,9 @@ with col_right:
             "bgcolor": BG3,
             "borderwidth": 0,
             "steps": [
-                {"range": [0, 33],   "color": f"{GREEN}22"},
-                {"range": [33, 66],  "color": f"{AMBER}18"},
-                {"range": [66, 100], "color": f"{RED}22"},
+                {"range": [0, 33],   "color": "rgba(16,185,129,0.14)"},
+                {"range": [33, 66],  "color": "rgba(245,158,11,0.12)"},
+                {"range": [66, 100], "color": "rgba(239,68,68,0.14)"},
             ],
             "threshold": {
                 "line": {"color": _itpe_color, "width": 3},

@@ -19,7 +19,7 @@ from dashboard.shared import (
     sidebar_nav, mostrar_alertas_pagina,
     BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED,
-    COLORES_PARTIDOS, kpi_card, section_header,
+    COLORES_PARTIDOS, kpi_card, section_header, hex_to_rgba,
 )
 import dashboard.db as _db
 
@@ -204,7 +204,7 @@ with tab_sim:
                             node=dict(pad=10, thickness=16, label=sankey["labels"],
                                       color=[COLORES_PARTIDOS.get(l, "#666") for l in sankey["labels"]]),
                             link=dict(source=sankey["source"], target=sankey["target"],
-                                      value=sankey["value"], color=[f"{CYAN}33"]*len(sankey["value"])),
+                                      value=sankey["value"], color=["rgba(0,212,255,0.200)"]*len(sankey["value"])),
                         ))
                         fig_sk.update_layout(height=180, paper_bgcolor=BG3,
                                              margin=dict(t=5, b=5, l=5, r=5),
@@ -252,7 +252,7 @@ with tab_voto_blando:
             fig_vb.add_trace(go.Bar(
                 name=partido, x=["Decidido", "Blando"],
                 y=[data["decidido"], data["blando"]],
-                marker_color=[color, f"{color}66"],
+                marker_color=[color, hex_to_rgba(color, 0.40)],
                 showlegend=True,
                 hovertemplate=f"<b>{partido}</b><br>%{{x}}: %{{y:.0f}}%<extra></extra>",
             ))

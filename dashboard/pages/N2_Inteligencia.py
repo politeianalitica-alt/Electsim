@@ -306,7 +306,7 @@ with tab_simulador:
                                     source=sankey_data["source"],
                                     target=sankey_data["target"],
                                     value=sankey_data["value"],
-                                    color=[f"{CYAN}33"] * len(sankey_data["value"]),
+                                    color=["rgba(0,212,255,0.200)"] * len(sankey_data["value"]),
                                 ),
                             ))
                             fig_sk.update_layout(

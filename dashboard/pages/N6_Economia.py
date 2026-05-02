@@ -117,7 +117,7 @@ with tab_macro:
         line=dict(color=CYAN, width=1.8, dash="longdash"),
         hovertemplate="Prima riesgo: %{y:.1f}×10 pb<extra></extra>",
     ))
-    fig_macro.add_hline(y=2.0, line_dash="dot", line_color=f"{GREEN}55",
+    fig_macro.add_hline(y=2.0, line_dash="dot", line_color="rgba(16,185,129,0.333)",
                         annotation_text="Objetivo BCE 2%", annotation_font_color=GREEN, annotation_font_size=9)
     fig_macro.update_layout(
         paper_bgcolor=BG2, plot_bgcolor=BG2, font=dict(color=TEXT),
@@ -535,7 +535,7 @@ with tab_nowcast:
         ))
         # Separador histórico/proyección
         fig_fan.add_vline(x=5, line_dash="dash", line_color=MUTED, annotation_text="→ Proyección", annotation_font_color=MUTED, annotation_font_size=9)
-        fig_fan.add_hline(y=0, line_color=f"{RED}55", line_dash="dot")
+        fig_fan.add_hline(y=0, line_color="rgba(239,68,68,0.333)", line_dash="dot")
         fig_fan.update_layout(
             paper_bgcolor=BG2, plot_bgcolor=BG2, font=dict(color=TEXT),
             height=340,
@@ -566,9 +566,9 @@ with tab_riesgo:
                 "axis": {"range": [0, 100], "tickcolor": MUTED, "tickfont": {"size": 9, "color": MUTED}},
                 "bar": {"color": c_itpe, "thickness": 0.3},
                 "steps": [
-                    {"range": [0, 35],   "color": f"{GREEN}15"},
-                    {"range": [35, 60],  "color": f"{AMBER}12"},
-                    {"range": [60, 100], "color": f"{RED}15"},
+                    {"range": [0, 35],   "color": "rgba(16,185,129,0.12)"},
+                    {"range": [35, 60],  "color": "rgba(245,158,11,0.10)"},
+                    {"range": [60, 100], "color": "rgba(239,68,68,0.12)"},
                 ],
                 "threshold": {"line": {"color": RED, "width": 2}, "thickness": 0.8, "value": 75},
             },
