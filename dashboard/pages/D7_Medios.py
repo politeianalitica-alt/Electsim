@@ -913,7 +913,7 @@ with tab_comp:
             line=dict(color=AMBER, width=2.5),
             marker=dict(size=7, color=AMBER, line=dict(width=1.5, color=BG)),
             fill="tozeroy",
-            fillcolor=f"{AMBER}15",
+            fillcolor="rgba(245,158,11,0.08)",
         ))
         fig_tend.update_layout(
             paper_bgcolor=BG2, plot_bgcolor=BG2,
