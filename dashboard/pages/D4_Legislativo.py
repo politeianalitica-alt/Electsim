@@ -1054,3 +1054,433 @@ with tab_actores_leg:
         "Score": f'{_score_prod(a):.0f}',
     } for a in actores_leg_sorted])
     st.dataframe(df_actores_leg, use_container_width=True, hide_index=True, height=280)
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 6 — LEGISLACION MULTINIVEL
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# -- Demo data ----------------------------------------------------------------
+_DEMO_MULTINIVEL = [
+    {
+        "level": "european", "region": "UE", "doc_type": "Reglamento",
+        "title": "Reglamento (UE) 2025/847 relativo a la resiliencia cibernética de las infraestructuras críticas",
+        "reference_id": "EUR-Lex 2025/847",
+        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025R0847",
+        "status": "published",
+        "published_at": "2025-03-12",
+        "ai_summary": "Establece requisitos obligatorios de ciberseguridad para operadores de infraestructuras críticas (energía, transporte, agua, banca) en toda la UE. Introduce auditorías cada 24 meses y notificación de incidentes en 24h.",
+        "ai_impact_level": "high", "ai_relevance": 9,
+        "ai_sectors": ["ciberseguridad", "energía", "transporte"],
+        "ai_obligations": "Planes de continuidad de negocio, pruebas de penetración anuales, registro de incidentes 24h.",
+        "ai_deadlines": [{"plazo": "Transposición nacional", "fecha": "2026-01-01"}, {"plazo": "Auditoría inicial", "fecha": "2026-06-30"}],
+        "ai_affected_regions": ["España", "UE-27"],
+        "ai_category": "ciberseguridad",
+        "ai_eu_relation": "Norma primaria UE — aplicación directa",
+    },
+    {
+        "level": "european", "region": "UE", "doc_type": "Directiva",
+        "title": "Directiva (UE) 2025/312 sobre transparencia algorítmica en plataformas de contenido político",
+        "reference_id": "EUR-Lex 2025/312",
+        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025L0312",
+        "status": "pending",
+        "published_at": "2025-04-01",
+        "ai_summary": "Obliga a plataformas de >10M usuarios en la UE a publicar sus algoritmos de recomendación de contenido político y permitir auditorías independientes antes de cada proceso electoral.",
+        "ai_impact_level": "high", "ai_relevance": 8,
+        "ai_sectors": ["tecnología", "medios", "electoral"],
+        "ai_obligations": "Publicación de parámetros algorítmicos, acceso a investigadores acreditados, informe anual al regulador.",
+        "ai_deadlines": [{"plazo": "Transposición", "fecha": "2026-09-01"}],
+        "ai_affected_regions": ["España", "UE-27"],
+        "ai_category": "tecnología",
+        "ai_eu_relation": "Transponer en legislación nacional",
+    },
+    {
+        "level": "european", "region": "UE", "doc_type": "Decisión",
+        "title": "Decisión del Parlamento Europeo y del Consejo sobre el mecanismo de ajuste en frontera por carbono (MACF) fase II",
+        "reference_id": "EUR-Lex 2025/501",
+        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025D0501",
+        "status": "published",
+        "published_at": "2025-02-20",
+        "ai_summary": "Amplía el MACF a nuevos sectores (polímeros, productos químicos) y acelera el calendario de eliminación de derechos de emisión gratuitos para la industria pesada. Impacto fiscal estimado: 4.200M€ anuales para industria española.",
+        "ai_impact_level": "high", "ai_relevance": 9,
+        "ai_sectors": ["industria", "clima", "fiscal"],
+        "ai_obligations": "Declaración de emisiones embebidas en importaciones, pago de certificados MACF.",
+        "ai_deadlines": [{"plazo": "Aplicación plena", "fecha": "2026-01-01"}],
+        "ai_affected_regions": ["España", "UE-27"],
+        "ai_category": "medioambiente",
+        "ai_eu_relation": "Norma primaria UE — aplicación directa",
+    },
+    {
+        "level": "national", "region": "Nacional", "doc_type": "Ley",
+        "title": "Real Decreto-ley 8/2025, por el que se adoptan medidas urgentes en materia de acceso a la vivienda",
+        "reference_id": "BOE-A-2025-4123",
+        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-4123",
+        "status": "published",
+        "published_at": "2025-04-05",
+        "ai_summary": "Medidas urgentes para contener el precio del alquiler en zonas tensionadas: ampliación del índice de referencia, extensión de la bonificación fiscal al 90% para nuevos contratos por debajo del índice, y creación del Registro Nacional de Grandes Tenedores.",
+        "ai_impact_level": "high", "ai_relevance": 9,
+        "ai_sectors": ["vivienda", "fiscal", "social"],
+        "ai_obligations": "Registro de contratos en plataforma MITMA en 30 días. Notificación de grandes tenedores en 60 días.",
+        "ai_deadlines": [{"plazo": "Entrada en vigor", "fecha": "2025-04-06"}, {"plazo": "Registro grandes tenedores", "fecha": "2025-06-05"}],
+        "ai_affected_regions": ["España"],
+        "ai_category": "vivienda",
+        "ai_eu_relation": "Ninguna relación directa",
+    },
+    {
+        "level": "national", "region": "Nacional", "doc_type": "Decreto",
+        "title": "Real Decreto 312/2025, por el que se aprueba el estatuto de la Agencia Española de Supervisión de la Inteligencia Artificial",
+        "reference_id": "BOE-A-2025-5500",
+        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-5500",
+        "status": "published",
+        "published_at": "2025-04-18",
+        "ai_summary": "Crea y estructura la AESIA como autoridad nacional competente para la aplicación del AI Act europeo. Define competencias sancionadoras (hasta 35M€ o 7% facturación), procedimientos de evaluación de conformidad y registro de sistemas de alto riesgo.",
+        "ai_impact_level": "high", "ai_relevance": 8,
+        "ai_sectors": ["tecnología", "regulación", "IA"],
+        "ai_obligations": "Registro de sistemas IA de alto riesgo, evaluación conformidad obligatoria, designación responsable IA.",
+        "ai_deadlines": [{"plazo": "Constitución AESIA", "fecha": "2025-07-01"}],
+        "ai_affected_regions": ["España"],
+        "ai_category": "tecnología",
+        "ai_eu_relation": "Implementa AI Act (Reglamento 2024/1689)",
+    },
+    {
+        "level": "national", "region": "Nacional", "doc_type": "Resolución",
+        "title": "Orden TED/721/2025 por la que se establecen las subastas de capacidad renovable para el cuatrienio 2026-2029",
+        "reference_id": "BOE-A-2025-6201",
+        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-6201",
+        "status": "pending",
+        "published_at": "2025-04-25",
+        "ai_summary": "Convoca subastas de capacidad eléctrica renovable por un total de 22 GW distribuidos en cuatro anualidades. Fija precios de referencia por tecnología (solar, eólica terrestre, eólica marina, almacenamiento). Prioridad a proyectos con contenido industrial nacional.",
+        "ai_impact_level": "medium", "ai_relevance": 7,
+        "ai_sectors": ["energía", "medioambiente", "industria"],
+        "ai_obligations": "Acreditación capacidad técnica, garantía financiera 50k€/MW, plazo construcción 48 meses.",
+        "ai_deadlines": [{"plazo": "Primera subasta", "fecha": "2025-10-15"}, {"plazo": "Segunda subasta", "fecha": "2026-03-20"}],
+        "ai_affected_regions": ["España"],
+        "ai_category": "energía",
+        "ai_eu_relation": "Alineada con Directiva Energías Renovables III",
+    },
+    {
+        "level": "regional", "region": "Cataluña", "doc_type": "Ley",
+        "title": "Llei 5/2025, del Parlament de Catalunya, de mesures fiscals, financeres i administratives",
+        "reference_id": "DOGC-2025-1847",
+        "url": "https://portaldogc.gencat.cat/",
+        "status": "published",
+        "published_at": "2025-03-28",
+        "ai_summary": "Ley ómnibus autonómica que modifica 47 normas catalanas. Destacan: nuevo gravamen sobre grandes establecimientos comerciales, extensión del tributo sobre las emisiones de CO2 de vehículos industriales, y modificación del régimen de licencias urbanísticas.",
+        "ai_impact_level": "medium", "ai_relevance": 7,
+        "ai_sectors": ["fiscal", "comercio", "urbanismo"],
+        "ai_obligations": "Declaración nuevo gravamen grandes superficies (>2500m²) antes del 30/06.",
+        "ai_deadlines": [{"plazo": "Entrada en vigor", "fecha": "2025-04-01"}],
+        "ai_affected_regions": ["Cataluña"],
+        "ai_category": "fiscal",
+        "ai_eu_relation": "Ninguna relación directa",
+    },
+    {
+        "level": "regional", "region": "Andalucía", "doc_type": "Decreto",
+        "title": "Decreto 112/2025, de la Junta de Andalucía, por el que se aprueba el Plan Energético de Andalucía 2025-2030",
+        "reference_id": "BOJA-2025-82",
+        "url": "https://www.juntadeandalucia.es/boja/",
+        "status": "published",
+        "published_at": "2025-04-10",
+        "ai_summary": "Plan estratégico para que Andalucía alcance el 85% de generación renovable en 2030. Contempla 14.000 MW nuevos de solar fotovoltaica, 3.200 MW de eólica y 2.000 MW de almacenamiento con baterías. Inversión estimada 18.000M€.",
+        "ai_impact_level": "medium", "ai_relevance": 7,
+        "ai_sectors": ["energía", "medioambiente", "inversión"],
+        "ai_obligations": "Evaluación de impacto ambiental acelerada (3 meses) para proyectos prioritarios.",
+        "ai_deadlines": [{"plazo": "Primera revisión", "fecha": "2027-06-30"}],
+        "ai_affected_regions": ["Andalucía"],
+        "ai_category": "energía",
+        "ai_eu_relation": "Alineado con objetivos REPowerEU",
+    },
+    {
+        "level": "regional", "region": "Madrid", "doc_type": "Ley",
+        "title": "Ley 3/2025, de la Comunidad de Madrid, de simplificación administrativa y reducción de cargas",
+        "reference_id": "BOCM-2025-4521",
+        "url": "https://www.bocm.es/",
+        "status": "published",
+        "published_at": "2025-04-02",
+        "ai_summary": "Elimina 230 trámites administrativos, reduce plazos de licencia de actividad a 15 días para empresas <50 empleados y digitaliza el expediente administrativo completo. Amplía el silencio administrativo positivo a nuevos supuestos.",
+        "ai_impact_level": "medium", "ai_relevance": 6,
+        "ai_sectors": ["administración", "empresas", "digitalización"],
+        "ai_obligations": "Adaptación plataformas digitales de los ayuntamientos antes del 01/01/2026.",
+        "ai_deadlines": [{"plazo": "Implementación digital", "fecha": "2026-01-01"}],
+        "ai_affected_regions": ["Madrid"],
+        "ai_category": "administración",
+        "ai_eu_relation": "Ninguna relación directa",
+    },
+    {
+        "level": "regional", "region": "País Vasco", "doc_type": "Decreto",
+        "title": "Decreto 89/2025, del Gobierno Vasco, de impulso a la industria avanzada y la IA en el sector manufacturero",
+        "reference_id": "BOPV-2025-3301",
+        "url": "https://www.euskadi.eus/bopv/",
+        "status": "pending",
+        "published_at": "2025-04-20",
+        "ai_summary": "Programa de ayudas de 450M€ para digitalización industrial y adopción de IA en pymes manufactureras vascas. Incluye formación dual, incentivos fiscales adicionales y centros de demostración tecnológica en los tres territorios históricos.",
+        "ai_impact_level": "medium", "ai_relevance": 7,
+        "ai_sectors": ["industria", "tecnología", "formación"],
+        "ai_obligations": "Cofinanciación mínima 30% por empresa beneficiaria.",
+        "ai_deadlines": [{"plazo": "Apertura convocatoria", "fecha": "2025-06-01"}, {"plazo": "Cierre solicitudes", "fecha": "2025-09-30"}],
+        "ai_affected_regions": ["País Vasco"],
+        "ai_category": "tecnología",
+        "ai_eu_relation": "Financiado parcialmente con fondos FEDER 2021-2027",
+    },
+]
+
+_LEVEL_CFG = {
+    "european": {"label": "Europeo", "color": BLUE,   "border": "#1E3A5F"},
+    "national":  {"label": "Nacional", "color": PURPLE, "border": "#3B1F6E"},
+    "regional":  {"label": "Regional", "color": CYAN,   "border": "#0E3D45"},
+}
+
+_IMPACT_CFG = {
+    "high":   {"label": "Alto impacto",  "color": RED},
+    "medium": {"label": "Impacto medio", "color": AMBER},
+    "low":    {"label": "Bajo impacto",  "color": GREEN},
+}
+
+_ALL_CCAA = sorted({
+    d["region"] for d in _DEMO_MULTINIVEL if d["level"] == "regional"
+} | {
+    "Andalucía", "Aragón", "Asturias", "Baleares", "Canarias",
+    "Cantabria", "Castilla-La Mancha", "Castilla y León", "Cataluña",
+    "Extremadura", "Galicia", "La Rioja", "Madrid", "Murcia",
+    "Navarra", "País Vasco", "Valenciana",
+})
+
+
+with tab_multinivel:
+
+    section_header("Legislacion multinivel — EU · Nacional · Autonomico", CYAN)
+
+    # ── Intento de carga desde BD ─────────────────────────────────────────────
+    _leg_from_db: list[dict] = []
+    _leg_kpis: dict = {}
+    _using_demo = True
+    try:
+        from dashboard.services.legislation_scraper import get_legislation, get_legislation_kpis
+        _leg_kpis = get_legislation_kpis()
+        if _leg_kpis.get("total_eu", 0) + _leg_kpis.get("total_national", 0) + _leg_kpis.get("total_regional", 0) > 0:
+            _leg_from_db = get_legislation(limit=200)
+            _using_demo = False
+    except Exception:
+        pass
+
+    _leg_data = _leg_from_db if not _using_demo else _DEMO_MULTINIVEL
+
+    if _using_demo:
+        st.info(
+            "Mostrando datos de demostración. Activa el scheduler de legislación "
+            "(`python -m dashboard.workers.legislation_scheduler`) para ver datos en tiempo real.",
+            icon=None,
+        )
+
+    # ── KPIs ──────────────────────────────────────────────────────────────────
+    if not _using_demo and _leg_kpis:
+        k_eu  = _leg_kpis.get("total_eu", 0)
+        k_nat = _leg_kpis.get("total_national", 0)
+        k_reg = _leg_kpis.get("total_regional", 0)
+        k_hi  = _leg_kpis.get("high_impact", 0)
+        k_pend= _leg_kpis.get("pending", 0)
+        k_upd = _leg_kpis.get("last_update", "—")
+    else:
+        k_eu  = sum(1 for d in _leg_data if d["level"] == "european")
+        k_nat = sum(1 for d in _leg_data if d["level"] == "national")
+        k_reg = sum(1 for d in _leg_data if d["level"] == "regional")
+        k_hi  = sum(1 for d in _leg_data if d.get("ai_impact_level") == "high")
+        k_pend= sum(1 for d in _leg_data if d.get("status") == "pending")
+        k_upd = "Demo"
+
+    _kpi_cols = st.columns(5)
+    _kpi_cols[0].markdown(kpi_card("Normas UE", str(k_eu), BLUE, delta=None), unsafe_allow_html=True)
+    _kpi_cols[1].markdown(kpi_card("Nacionales", str(k_nat), PURPLE, delta=None), unsafe_allow_html=True)
+    _kpi_cols[2].markdown(kpi_card("Autonomicas", str(k_reg), CYAN, delta=None), unsafe_allow_html=True)
+    _kpi_cols[3].markdown(kpi_card("Alto impacto", str(k_hi), RED, delta=None), unsafe_allow_html=True)
+    _kpi_cols[4].markdown(kpi_card("Pendientes", str(k_pend), AMBER, delta=None), unsafe_allow_html=True)
+
+    st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+
+    # ── Filtros ───────────────────────────────────────────────────────────────
+    _f_col1, _f_col2, _f_col3, _f_col4 = st.columns([2, 2, 2, 2])
+
+    with _f_col1:
+        _f_level = st.selectbox(
+            "Nivel", ["Todos", "Europeo", "Nacional", "Regional"],
+            key="ml_level",
+        )
+    with _f_col2:
+        _f_status = st.selectbox(
+            "Estado", ["Todos", "Publicada", "Pendiente"],
+            key="ml_status",
+        )
+    with _f_col3:
+        _all_cats = sorted({d.get("ai_category", "—") or "—" for d in _leg_data})
+        _f_cat = st.selectbox("Categoria IA", ["Todas"] + _all_cats, key="ml_cat")
+    with _f_col4:
+        _f_impact = st.selectbox(
+            "Impacto IA", ["Todos", "Alto", "Medio", "Bajo"],
+            key="ml_impact",
+        )
+
+    _f_ccaa_active = _f_level in ("Todos", "Regional")
+    if _f_ccaa_active:
+        _f_ccaa = st.multiselect(
+            "Comunidad Autonoma (solo nivel regional)",
+            _ALL_CCAA,
+            default=[],
+            key="ml_ccaa",
+            placeholder="Todas las CCAA",
+        )
+    else:
+        _f_ccaa = []
+
+    # ── Aplicar filtros ───────────────────────────────────────────────────────
+    _level_map = {"Europeo": "european", "Nacional": "national", "Regional": "regional"}
+    _status_map = {"Publicada": "published", "Pendiente": "pending"}
+    _impact_map = {"Alto": "high", "Medio": "medium", "Bajo": "low"}
+
+    _filtered = _leg_data
+    if _f_level != "Todos":
+        _filtered = [d for d in _filtered if d["level"] == _level_map[_f_level]]
+    if _f_status != "Todos":
+        _filtered = [d for d in _filtered if d.get("status") == _status_map[_f_status]]
+    if _f_cat != "Todas":
+        _filtered = [d for d in _filtered if (d.get("ai_category") or "—") == _f_cat]
+    if _f_impact != "Todos":
+        _filtered = [d for d in _filtered if d.get("ai_impact_level") == _impact_map[_f_impact]]
+    if _f_ccaa:
+        _filtered = [
+            d for d in _filtered
+            if d["level"] != "regional" or d.get("region") in _f_ccaa
+        ]
+
+    # Ordenar: alto impacto primero, luego relevancia IA descendente
+    _impact_ord = {"high": 0, "medium": 1, "low": 2, None: 3}
+    _filtered = sorted(
+        _filtered,
+        key=lambda d: (_impact_ord.get(d.get("ai_impact_level")), -(d.get("ai_relevance") or 0)),
+    )
+
+    st.markdown(
+        f'<div style="font-size:.75rem;color:{MUTED};margin-bottom:.5rem">'
+        f'{len(_filtered)} normas encontradas</div>',
+        unsafe_allow_html=True,
+    )
+
+    # ── Cards ─────────────────────────────────────────────────────────────────
+    for _item in _filtered:
+        _lv = _item.get("level", "national")
+        _lv_cfg = _LEVEL_CFG.get(_lv, _LEVEL_CFG["national"])
+        _imp = _item.get("ai_impact_level")
+        _imp_cfg = _IMPACT_CFG.get(_imp, {"label": "—", "color": MUTED})
+        _rel = _item.get("ai_relevance") or "—"
+        _status = _item.get("status", "pending")
+        _status_color = GREEN if _status == "published" else AMBER
+        _status_label = "Publicada" if _status == "published" else "Pendiente"
+
+        # Tags de sectores
+        _sectors = _item.get("ai_sectors") or []
+        _sector_tags = " ".join([
+            f'<span style="background:{BG3};border:1px solid {BORDER};border-radius:3px;'
+            f'padding:1px 6px;font-size:.62rem;color:{TEXT2}">{s}</span>'
+            for s in _sectors[:4]
+        ])
+
+        # Plazos
+        _deadlines = _item.get("ai_deadlines") or []
+        _deadline_html = ""
+        if _deadlines:
+            _dl_items = []
+            for _dl in _deadlines[:2]:
+                _plazo = _dl.get("plazo", "")
+                _fecha = _dl.get("fecha") or ""
+                _dl_items.append(
+                    f'<span style="color:{AMBER};font-weight:600">{_plazo}</span>'
+                    + (f' — <span style="color:{TEXT2}">{_fecha}</span>' if _fecha else "")
+                )
+            _deadline_html = (
+                f'<div style="font-size:.68rem;margin-top:.4rem;color:{MUTED}">'
+                f'Plazos: {" · ".join(_dl_items)}</div>'
+            )
+
+        # Obligaciones
+        _oblig = _item.get("ai_obligations") or ""
+        _oblig_html = ""
+        if _oblig:
+            _oblig_html = (
+                f'<div style="font-size:.68rem;color:{TEXT2};margin-top:.3rem">'
+                f'<span style="color:{MUTED}">Obligaciones:</span> {_oblig[:200]}'
+                + ("..." if len(_oblig) > 200 else "") + "</div>"
+            )
+
+        # Relación EU
+        _eu_rel = _item.get("ai_eu_relation") or ""
+        _eu_html = ""
+        if _eu_rel and _lv != "european":
+            _eu_html = (
+                f'<div style="font-size:.63rem;color:{MUTED};margin-top:.25rem">'
+                f'Relacion UE: <span style="color:{BLUE}">{_eu_rel[:100]}</span></div>'
+            )
+
+        # URL
+        _url = _item.get("url") or ""
+        _url_html = ""
+        if _url:
+            _ref = _item.get("reference_id") or _url[:40]
+            _url_html = (
+                f'<a href="{_url}" target="_blank" style="font-size:.65rem;color:{CYAN};'
+                f'text-decoration:none">{_ref}</a>'
+            )
+
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {_lv_cfg["border"]};'
+            f'border-left:4px solid {_lv_cfg["color"]};border-radius:8px;'
+            f'padding:1rem 1.2rem;margin-bottom:.7rem">'
+
+            # Cabecera
+            f'<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem">'
+            f'<span style="background:{_lv_cfg["color"]}22;border:1px solid {_lv_cfg["color"]}55;'
+            f'border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:800;'
+            f'color:{_lv_cfg["color"]};letter-spacing:.05em">{_lv_cfg["label"].upper()}</span>'
+            f'<span style="font-size:.65rem;font-weight:700;color:{_imp_cfg["color"]}">'
+            f'{_imp_cfg["label"].upper()}</span>'
+            f'<span style="font-size:.65rem;color:{MUTED}">Relevancia IA: '
+            f'<span style="color:{CYAN};font-weight:700">{_rel}/10</span></span>'
+            f'<span style="font-size:.65rem;color:{MUTED}">|</span>'
+            f'<span style="font-size:.65rem;color:{_status_color};font-weight:600">{_status_label}</span>'
+            f'<span style="font-size:.65rem;color:{MUTED}">|</span>'
+            f'<span style="font-size:.65rem;font-weight:600;color:{TEXT2}">{_item.get("region","")}</span>'
+            f'<span style="font-size:.65rem;color:{MUTED}">|</span>'
+            f'<span style="font-size:.65rem;color:{MUTED}">{_item.get("doc_type","")}</span>'
+            f'</div>'
+
+            # Título
+            f'<div style="font-size:.95rem;font-weight:800;color:{TEXT};line-height:1.35;margin-bottom:.4rem">'
+            f'{_item.get("title","")}</div>'
+
+            # Sectores
+            f'<div style="margin-bottom:.4rem">{_sector_tags}</div>'
+
+            # Resumen IA
+            f'<div style="font-size:.75rem;color:{TEXT2};line-height:1.5;margin-bottom:.3rem">'
+            f'{_item.get("ai_summary","")}</div>'
+
+            # Obligaciones
+            + _oblig_html
+
+            # Plazos
+            + _deadline_html
+
+            # Relación EU
+            + _eu_html
+
+            # Referencia / enlace
+            + (f'<div style="margin-top:.5rem">{_url_html}</div>' if _url_html else "")
+
+            + '</div>',
+            unsafe_allow_html=True,
+        )
+
+    if not _filtered:
+        st.markdown(
+            f'<div style="text-align:center;padding:3rem;color:{MUTED};'
+            f'font-size:.9rem">No hay normas que coincidan con los filtros seleccionados</div>',
+            unsafe_allow_html=True,
+        )

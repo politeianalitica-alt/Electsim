@@ -1032,6 +1032,88 @@ with tab_mapa:
                 return coords
         return fallback_lat, fallback_lon
 
+    # ── Geographic region → keyword matching ─────────────────────────────────
+    # Keys map to source_region field values and geo_location keywords
+    _GEO_REGIONS: dict[str, dict] = {
+        "Internacional": {
+            "label": "Internacional",
+            "source_regions": [],   # matches all (no filter when selected alone)
+            "geo_keywords": [],
+            "match_all": True,
+        },
+        "Europa": {
+            "label": "Europa",
+            "source_regions": ["europe"],
+            "geo_keywords": [
+                "France", "Germany", "Italy", "UK", "Poland", "Hungary",
+                "Portugal", "Belgium", "Netherlands", "Sweden", "Norway",
+                "Switzerland", "Ukraine", "Russia", "Turkey", "Spain",
+                "Greece", "Austria", "Czech", "Romania", "Bulgaria",
+            ],
+            "match_all": False,
+        },
+        "Africa": {
+            "label": "Africa",
+            "source_regions": ["africa"],
+            "geo_keywords": [
+                "Nigeria", "Kenya", "South Africa", "Egypt", "Morocco",
+                "Ethiopia", "Sudan", "Libya", "Niger", "Mali", "Senegal",
+                "Ghana", "Tanzania", "Algeria", "Tunisia", "Somalia",
+            ],
+            "match_all": False,
+        },
+        "Asia": {
+            "label": "Asia",
+            "source_regions": ["asia"],
+            "geo_keywords": [
+                "China", "Japan", "South Korea", "India", "Taiwan",
+                "Pakistan", "Afghanistan", "Iran", "Saudi Arabia",
+                "Israel", "Syria", "North Korea", "Vietnam", "Indonesia",
+                "Thailand", "Malaysia", "Philippines", "Bangladesh",
+            ],
+            "match_all": False,
+        },
+        "America del Norte": {
+            "label": "Am. Norte",
+            "source_regions": ["north_america"],
+            "geo_keywords": ["USA", "Canada", "Mexico", "Cuba"],
+            "match_all": False,
+        },
+        "America del Sur": {
+            "label": "Am. Sur",
+            "source_regions": ["latin_america"],
+            "geo_keywords": [
+                "Brazil", "Argentina", "Colombia", "Chile", "Peru",
+                "Venezuela", "Ecuador", "Bolivia", "Paraguay", "Uruguay",
+            ],
+            "match_all": False,
+        },
+        "España Nacional": {
+            "label": "Esp. Nacional",
+            "source_regions": ["local_spain"],
+            "geo_keywords": ["Spain"],
+            "match_all": False,
+        },
+        "España Regional": {
+            "label": "Esp. Regional",
+            "source_regions": ["local_spain", "regional_spain"],
+            "geo_keywords": [
+                "Cataluña", "Madrid", "Andalucía", "Valencia", "País Vasco",
+                "Galicia", "Aragón", "Murcia", "Castilla", "Extremadura",
+                "Asturias", "Navarra", "Baleares", "Canarias", "Cantabria",
+                "La Rioja",
+            ],
+            "match_all": False,
+        },
+    }
+
+    _CCAA_LIST = [
+        "Andalucía", "Aragón", "Asturias", "Baleares", "Canarias",
+        "Cantabria", "Castilla-La Mancha", "Castilla y León", "Cataluña",
+        "Extremadura", "Galicia", "La Rioja", "Madrid", "Murcia",
+        "Navarra", "País Vasco", "Valencia",
+    ]
+
     # ── Demo events dataset (high-relevance only, no emojis) ─────────────────
     _DEMO_EVENTS = [
         {
@@ -1153,12 +1235,156 @@ with tab_mapa:
             "ai_spain_impact": "critico", "ai_category": "economia",
             "ai_geo_location": "Belgium", "ai_geo_lat": 50.8503, "ai_geo_lon": 4.3517,
             "ai_topics": ["déficit público", "reglas fiscales europeas", "presupuestos"],
+            "geo_region": "Europa",
+        },
+        {
+            "title": "Sudán del Sur: crisis humanitaria en expansión tras colapso del alto el fuego",
+            "source_name": "Al Jazeera", "source_region": "africa",
+            "ai_summary": "Los enfrentamientos entre las Fuerzas de Apoyo Rápido y el ejército regular han desplazado a 1,2 millones de personas en tres semanas. El acceso humanitario queda bloqueado en cinco estados.",
+            "ai_analysis": "La crisis amplifica la presión migratoria hacia el norte de África y el Mediterráneo. Las ONG españolas con presencia en la región alertan de colapso logístico. España podría recibir peticiones adicionales de financiación en el Consejo de la UE.",
+            "ai_sentiment": "negativo", "ai_relevance": 8, "ai_urgency": "inmediata",
+            "ai_spain_impact": "medio", "ai_category": "politica_exterior",
+            "ai_geo_location": "Sudan", "ai_geo_lat": 12.8628, "ai_geo_lon": 30.2176,
+            "ai_topics": ["crisis humanitaria", "conflicto armado", "migración"],
+            "geo_region": "Africa",
+        },
+        {
+            "title": "Etiopia y Eritrea reanudan hostilidades en la región de Tigray; corte de comunicaciones",
+            "source_name": "BBC Africa", "source_region": "africa",
+            "ai_summary": "Fuentes militares confirman intercambios de artillería en la frontera norte de Tigray tras el colapso de las negociaciones de paz mediadas por la UA. La ciudad de Shire queda incomunicada.",
+            "ai_analysis": "La inestabilidad en el Cuerno de África afecta a las rutas marítimas del Mar Rojo. El estrecho de Bab el-Mandeb concentra el 12% del comercio marítimo global, incluyendo buques con destino a puertos españoles.",
+            "ai_sentiment": "negativo", "ai_relevance": 7, "ai_urgency": "24h",
+            "ai_spain_impact": "bajo", "ai_category": "seguridad_defensa",
+            "ai_geo_location": "Ethiopia", "ai_geo_lat": 9.1450, "ai_geo_lon": 40.4897,
+            "ai_topics": ["conflicto armado", "rutas marítimas", "cuerno de África"],
+            "geo_region": "Africa",
+        },
+        {
+            "title": "Brasil anuncia acuerdo bilateral de libre comercio con India; excluye sector agropecuario",
+            "source_name": "Folha de S.Paulo", "source_region": "latin_america",
+            "ai_summary": "Los presidentes de Brasil e India firman un acuerdo marco de libre comercio en Brasilia que abarca tecnología, farmacéutica y energía, pero excluye productos agrícolas por presión de lobbies rurales de ambos países.",
+            "ai_analysis": "El acuerdo reorienta el comercio sur-sur y reduce la dependencia de ambos países de los mercados europeos. Para España, supone mayor competencia en los mercados latinoamericanos donde empresas españolas tienen posiciones consolidadas.",
+            "ai_sentiment": "mixto", "ai_relevance": 7, "ai_urgency": "semana",
+            "ai_spain_impact": "medio", "ai_category": "economia",
+            "ai_geo_location": "Brazil", "ai_geo_lat": -15.8267, "ai_geo_lon": -47.9218,
+            "ai_topics": ["comercio internacional", "sur global", "competencia empresarial"],
+            "geo_region": "America del Sur",
+        },
+        {
+            "title": "Venezuela: PDVSA incumple pagos de deuda por tercer trimestre consecutivo",
+            "source_name": "Infobae", "source_region": "latin_america",
+            "ai_summary": "La estatal petrolera venezolana confirma que no puede atender los vencimientos de deuda con acreedores internacionales. La producción de crudo cae a mínimos históricos de 520.000 barriles diarios.",
+            "ai_analysis": "La crisis venezolana mantiene presión migratoria sobre Colombia y Brasil con efecto en cadena hacia España. Las empresas españolas con activos congelados en Venezuela difícilmente recuperarán posiciones en el corto plazo.",
+            "ai_sentiment": "negativo", "ai_relevance": 7, "ai_urgency": "semana",
+            "ai_spain_impact": "medio", "ai_category": "economia",
+            "ai_geo_location": "Venezuela", "ai_geo_lat": 6.4238, "ai_geo_lon": -66.5897,
+            "ai_topics": ["deuda soberana", "petróleo", "migración"],
+            "geo_region": "America del Sur",
+        },
+        {
+            "title": "Canadá activa el Acta de Emergencias ante protestas masivas contra el gobierno federal",
+            "source_name": "Globe and Mail", "source_region": "north_america",
+            "ai_summary": "El gobierno de Trudeau invoca por segunda vez en la historia el Acta de Emergencias tras bloqueos en los puentes de Ottawa y Windsor. Las protestas demandan elecciones anticipadas y reversión del impuesto al carbono.",
+            "ai_analysis": "La crisis política canadiense impacta en el comercio transfronterizo con EE.UU. en sectores clave como automóvil y energía. Para España, el riesgo es indirecto vía desestabilización de mercados de divisas del G7.",
+            "ai_sentiment": "negativo", "ai_relevance": 7, "ai_urgency": "24h",
+            "ai_spain_impact": "bajo", "ai_category": "politica_interior",
+            "ai_geo_location": "Canada", "ai_geo_lat": 45.4215, "ai_geo_lon": -75.6972,
+            "ai_topics": ["crisis política", "protestas", "comercio G7"],
+            "geo_region": "America del Norte",
+        },
+        {
+            "title": "India supera a China como mayor exportador mundial de genéricos farmacéuticos",
+            "source_name": "Economic Times", "source_region": "asia",
+            "ai_summary": "Datos de la Organización Mundial del Comercio confirman que India supera a China en valor de exportaciones farmacéuticas genéricas por primera vez. El sector indio factura 28.000 millones de dólares en exportaciones anuales.",
+            "ai_analysis": "El cambio redefine las cadenas de suministro farmacéutico globales. Para España, el sector farmacéutico es el segundo exportador industrial. La mayor competencia india en genéricos presionará márgenes de los laboratorios españoles con presencia en mercados emergentes.",
+            "ai_sentiment": "mixto", "ai_relevance": 7, "ai_urgency": "mes",
+            "ai_spain_impact": "medio", "ai_category": "economia",
+            "ai_geo_location": "India", "ai_geo_lat": 28.6139, "ai_geo_lon": 77.2090,
+            "ai_topics": ["farmacéutica", "comercio global", "cadena de suministro"],
+            "geo_region": "Asia",
+        },
+        {
+            "title": "El Parlament de Catalunya aprueba los nuevos presupuestos de la Generalitat con apoyo de los comuns",
+            "source_name": "Ara", "source_region": "regional_spain",
+            "ai_summary": "El Parlament aprueba el proyecto de ley de presupuestos 2026 de la Generalitat por 68 votos a favor y 62 en contra. El gasto social sube un 8,3% y se mantienen las inversiones en infraestructura ferroviaria pendiente del Estado.",
+            "ai_analysis": "La aprobación presupuestaria da estabilidad al gobierno de Salvador Illa hasta 2027. Refuerza la posición negociadora catalana ante el Estado en materia de financiación singular. Reduce tensión en las relaciones Generalitat-Congreso.",
+            "ai_sentiment": "positivo", "ai_relevance": 8, "ai_urgency": "semana",
+            "ai_spain_impact": "alto", "ai_category": "politica_interior",
+            "ai_geo_location": "Spain", "ai_geo_lat": 41.3851, "ai_geo_lon": 2.1734,
+            "ai_topics": ["presupuestos autonómicos", "Cataluña", "estabilidad política"],
+            "geo_region": "España Regional",
+            "ccaa": "Cataluña",
+        },
+        {
+            "title": "El gobierno de Madrid anuncia rebaja fiscal del IRPF autonómico al mínimo legal para todos los tramos",
+            "source_name": "El Mundo", "source_region": "regional_spain",
+            "ai_summary": "La presidenta Díaz Ayuso anuncia una reducción del tramo autonómico del IRPF al mínimo legal permitido por la LOFCA, efectiva desde enero 2026. La medida beneficia a 3,2 millones de declarantes y supone una merma de ingresos de 1.100 millones anuales.",
+            "ai_analysis": "La rebaja fiscal madrileña intensifica la competencia fiscal interterritorial. Comunidades como Cataluña y Valencia ven cómo el diferencial impositivo con Madrid se amplía, incentivando el traslado de residencia fiscal de rentas altas.",
+            "ai_sentiment": "mixto", "ai_relevance": 8, "ai_urgency": "mes",
+            "ai_spain_impact": "alto", "ai_category": "fiscal",
+            "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
+            "ai_topics": ["IRPF", "competencia fiscal territorial", "Madrid"],
+            "geo_region": "España Regional",
+            "ccaa": "Madrid",
+        },
+        {
+            "title": "El Pais Vasco aprueba la Ley de Industria Avanzada con inversión de 2.400 millones hasta 2030",
+            "source_name": "Deia", "source_region": "regional_spain",
+            "ai_summary": "El Parlamento Vasco aprueba por unanimidad la Ley de Industria Avanzada que movilizará 2.400 millones en ayudas y deducciones fiscales para digitalizar el tejido industrial manufacturero de los tres territorios históricos.",
+            "ai_analysis": "La ley refuerza el modelo de economía industrial vasca basado en tecnología de alto valor añadido. El Concierto Económico permite estructurar incentivos imposibles en el régimen común. Podría atraer inversión industrial alemana y japonesa.",
+            "ai_sentiment": "positivo", "ai_relevance": 7, "ai_urgency": "mes",
+            "ai_spain_impact": "medio", "ai_category": "economia",
+            "ai_geo_location": "Spain", "ai_geo_lat": 43.2630, "ai_geo_lon": -2.9350,
+            "ai_topics": ["industria", "inversión", "País Vasco"],
+            "geo_region": "España Regional",
+            "ccaa": "País Vasco",
+        },
+        {
+            "title": "Andalucia aprueba el Plan de Vivienda regional con 80.000 nuevas unidades de promocion publica",
+            "source_name": "El Correo de Andalucía", "source_region": "regional_spain",
+            "ai_summary": "La Junta de Andalucía aprueba el Plan Vive Andalucía que contempla 80.000 viviendas de protección oficial en ocho años. El 40% se destinará a alquiler asequible. Presupuesto total: 4.200 millones de euros.",
+            "ai_analysis": "El plan es la mayor apuesta de vivienda pública autonómica de la última década. Compite directamente con la política de vivienda del Estado, generando tensión competencial. El sector constructor andaluz recibirá un impulso significativo.",
+            "ai_sentiment": "positivo", "ai_relevance": 7, "ai_urgency": "mes",
+            "ai_spain_impact": "medio", "ai_category": "politica_interior",
+            "ai_geo_location": "Spain", "ai_geo_lat": 37.3891, "ai_geo_lon": -5.9845,
+            "ai_topics": ["vivienda", "política regional", "Andalucía"],
+            "geo_region": "España Regional",
+            "ccaa": "Andalucía",
         },
     ]
 
+    # ── Helpers: assign geo_region from source_region / geo_location ─────────
+    def _assign_geo_region(row: dict) -> str:
+        """Infer geo_region label for a news item if not already set."""
+        if row.get("geo_region"):
+            return row["geo_region"]
+        src = row.get("source_region", "") or ""
+        loc = row.get("ai_geo_location", "") or ""
+        for region_label, cfg in _GEO_REGIONS.items():
+            if region_label in ("Internacional",):
+                continue
+            if src in cfg["source_regions"]:
+                # Check if it's España Regional vs España Nacional
+                if region_label == "España Nacional":
+                    # Only match if none of the regional keywords match
+                    if not any(kw.lower() in loc.lower() for kw in _GEO_REGIONS["España Regional"]["geo_keywords"]):
+                        return region_label
+                else:
+                    return region_label
+            for kw in cfg["geo_keywords"]:
+                if kw.lower() in loc.lower():
+                    return region_label
+        return "Internacional"
+
     # ── Load data ─────────────────────────────────────────────────────────────
     @st.cache_data(ttl=180)
-    def _load_global_events(hours: int, min_rel: int, cat: str) -> pd.DataFrame:
+    def _load_global_events(
+        hours: int,
+        min_rel: int,
+        cat: str,
+        geo_regions: tuple[str, ...] = (),
+        ccaa_filter: tuple[str, ...] = (),
+    ) -> pd.DataFrame:
         if _news_mod:
             try:
                 rows = _news_mod.get_recent_articles(
@@ -1168,17 +1394,106 @@ with tab_mapa:
                 if rows:
                     df = pd.DataFrame(rows)
                     df = df.dropna(subset=["ai_geo_lat", "ai_geo_lon"])
+                    df["geo_region"] = df.apply(_assign_geo_region, axis=1)
+                    if geo_regions:
+                        df = _filter_by_geo(df, geo_regions, ccaa_filter)
                     return df
             except Exception:
                 pass
         df = pd.DataFrame(_DEMO_EVENTS)
+        df["geo_region"] = df.apply(_assign_geo_region, axis=1)
         if min_rel > 1:
             df = df[df["ai_relevance"] >= min_rel]
         if cat != "Todas":
             df = df[df["ai_category"] == cat]
+        if geo_regions:
+            df = _filter_by_geo(df, geo_regions, ccaa_filter)
         return df
 
-    # ── Sidebar controls ──────────────────────────────────────────────────────
+    def _filter_by_geo(
+        df: "pd.DataFrame",
+        geo_regions: "tuple[str, ...]",
+        ccaa_filter: "tuple[str, ...]",
+    ) -> "pd.DataFrame":
+        """Filter dataframe to only rows matching selected geo regions."""
+        if not geo_regions or "Internacional" in geo_regions:
+            return df  # Internacional = mostrar todo
+        masks = []
+        for region_label in geo_regions:
+            cfg = _GEO_REGIONS.get(region_label)
+            if not cfg:
+                continue
+            if cfg.get("match_all"):
+                return df
+            # Match by geo_region column (already assigned)
+            mask = df["geo_region"] == region_label
+            # Additional CCAA filter for España Regional
+            if region_label == "España Regional" and ccaa_filter:
+                ccaa_mask = df["ccaa"].isin(ccaa_filter) if "ccaa" in df.columns else mask
+                mask = mask & ccaa_mask
+            masks.append(mask)
+        if not masks:
+            return df
+        combined = masks[0]
+        for m in masks[1:]:
+            combined = combined | m
+        return df[combined]
+
+    # ── Geographic region selectors ───────────────────────────────────────────
+    _GEO_REGION_KEYS = list(_GEO_REGIONS.keys())
+
+    _geo_row1, _geo_row2, _geo_row3, _geo_row4 = st.columns(4)
+    _geo_row5, _geo_row6, _geo_row7, _geo_row8 = st.columns(4)
+
+    with _geo_row1:
+        _sel_int = st.checkbox("Internacional", value=True, key="d7geo_int")
+    with _geo_row2:
+        _sel_eu = st.checkbox("Europa", value=True, key="d7geo_eu")
+    with _geo_row3:
+        _sel_af = st.checkbox("Africa", value=False, key="d7geo_af")
+    with _geo_row4:
+        _sel_as = st.checkbox("Asia", value=True, key="d7geo_as")
+    with _geo_row5:
+        _sel_an = st.checkbox("America del Norte", value=True, key="d7geo_an")
+    with _geo_row6:
+        _sel_as2 = st.checkbox("America del Sur", value=False, key="d7geo_as2")
+    with _geo_row7:
+        _sel_esn = st.checkbox("España Nacional", value=True, key="d7geo_esn")
+    with _geo_row8:
+        _sel_esr = st.checkbox("España Regional", value=False, key="d7geo_esr")
+
+    _selected_regions: list[str] = []
+    if _sel_int:
+        _selected_regions.append("Internacional")
+    if _sel_eu:
+        _selected_regions.append("Europa")
+    if _sel_af:
+        _selected_regions.append("Africa")
+    if _sel_as:
+        _selected_regions.append("Asia")
+    if _sel_an:
+        _selected_regions.append("America del Norte")
+    if _sel_as2:
+        _selected_regions.append("America del Sur")
+    if _sel_esn:
+        _selected_regions.append("España Nacional")
+    if _sel_esr:
+        _selected_regions.append("España Regional")
+
+    # CCAA selector — visible only when España Regional is active
+    _sel_ccaa: list[str] = []
+    if _sel_esr:
+        _sel_ccaa = st.multiselect(
+            "Comunidad Autonoma",
+            _CCAA_LIST,
+            default=[],
+            key="d7geo_ccaa",
+            placeholder="Todas las comunidades autonomas",
+        )
+
+    st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
+
+    # ── Query / display controls ──────────────────────────────────────────────
     col_ctrl1, col_ctrl2, col_ctrl3, col_ctrl4 = st.columns(4)
     with col_ctrl1:
         map_hours = st.selectbox("Ventana temporal", [6, 12, 24, 48, 72], index=2,
@@ -1189,13 +1504,15 @@ with tab_mapa:
         _CATS = ["Todas", "politica_interior", "politica_exterior", "economia",
                  "seguridad_defensa", "justicia", "sociedad", "tecnologia",
                  "medioambiente", "energia", "salud"]
-        map_cat = st.selectbox("Categoría", _CATS, key="d7map_cat",
+        map_cat = st.selectbox("Categoria", _CATS, key="d7map_cat",
                                format_func=lambda x: x.replace("_", " ").title())
     with col_ctrl4:
         map_view = st.selectbox("Vista", ["Relevancia", "Sentimiento", "Impacto en España"],
                                 key="d7map_view")
 
-    df_ev = _load_global_events(map_hours, map_min_rel, map_cat)
+    _geo_tuple = tuple(_selected_regions)
+    _ccaa_tuple = tuple(_sel_ccaa)
+    df_ev = _load_global_events(map_hours, map_min_rel, map_cat, _geo_tuple, _ccaa_tuple)
 
     # ── KPI row ───────────────────────────────────────────────────────────────
     k1, k2, k3, k4, k5 = st.columns(5)
@@ -1406,5 +1723,76 @@ with tab_mapa:
             f'padding:3rem;text-align:center;color:{MUTED}">'
             f'No hay eventos con relevancia suficiente en la ventana temporal seleccionada.'
             f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    # ── Noticias por region ───────────────────────────────────────────────────
+    st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
+    section_header("NOTICIAS DESTACADAS POR REGION", CYAN)
+
+    if not df_ev.empty:
+        # Determine which regions to show based on user selection
+        _regions_to_show = (
+            [r for r in _GEO_REGION_KEYS if r != "Internacional"]
+            if ("Internacional" in _selected_regions or not _selected_regions)
+            else [r for r in _selected_regions if r != "Internacional"]
+        )
+
+        _REGION_COLORS = {
+            "Europa": BLUE, "Africa": AMBER, "Asia": PURPLE,
+            "America del Norte": CYAN, "America del Sur": GREEN,
+            "España Nacional": RED, "España Regional": "#22D3EE",
+        }
+
+        for _region_key in _regions_to_show:
+            _df_region = df_ev[df_ev["geo_region"] == _region_key]
+            if _df_region.empty:
+                continue
+
+            _df_region = _df_region.sort_values("ai_relevance", ascending=False).head(3)
+            _reg_color = _REGION_COLORS.get(_region_key, MUTED)
+
+            st.markdown(
+                f'<div style="font-size:.72rem;font-weight:800;color:{_reg_color};'
+                f'letter-spacing:.08em;text-transform:uppercase;margin:.8rem 0 .35rem">— {_region_key}</div>',
+                unsafe_allow_html=True,
+            )
+
+            _rcols = st.columns(min(len(_df_region), 3))
+            for _ci, (_, _ev) in enumerate(zip(_rcols, _df_region.iterrows())):
+                _ev = _ev[1]
+                _rel = int(_ev.get("ai_relevance", 5))
+                _rel_c = RED if _rel >= 9 else (AMBER if _rel >= 7 else MUTED)
+                _sent = str(_ev.get("ai_sentiment", "neutro") or "neutro")
+                _sent_c = {
+                    "positivo": GREEN, "negativo": RED,
+                    "mixto": AMBER, "neutro": MUTED,
+                }.get(_sent, MUTED)
+                _sum_short = str(_ev.get("ai_summary", "") or "")[:160]
+                if len(str(_ev.get("ai_summary", "") or "")) > 160:
+                    _sum_short += "..."
+
+                _rcols[_ci].markdown(
+                    f'<div style="background:{BG2};border:1px solid {BORDER};'
+                    f'border-top:3px solid {_reg_color};border-radius:6px;'
+                    f'padding:.75rem .9rem;height:100%">'
+                    f'<div style="display:flex;gap:.35rem;margin-bottom:.4rem">'
+                    f'<span style="background:{_rel_c}18;color:{_rel_c};border:1px solid {_rel_c}44;'
+                    f'border-radius:3px;padding:.1rem .4rem;font-size:.6rem;font-weight:800;'
+                    f'font-family:monospace">R{_rel}</span>'
+                    f'<span style="background:{_sent_c}18;color:{_sent_c};border:1px solid {_sent_c}33;'
+                    f'border-radius:3px;padding:.1rem .4rem;font-size:.6rem;font-weight:600">{_sent}</span>'
+                    f'<span style="color:{MUTED};font-size:.6rem">{str(_ev.get("source_name",""))}</span>'
+                    f'</div>'
+                    f'<div style="font-size:.78rem;font-weight:700;color:{TEXT};'
+                    f'line-height:1.35;margin-bottom:.4rem">{str(_ev.get("title",""))}</div>'
+                    f'<div style="font-size:.68rem;color:{TEXT2};line-height:1.5">{_sum_short}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+    else:
+        st.markdown(
+            f'<div style="color:{MUTED};font-size:.8rem;text-align:center;padding:1.5rem">'
+            f'Sin noticias disponibles para las regiones seleccionadas</div>',
             unsafe_allow_html=True,
         )
