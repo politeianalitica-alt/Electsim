@@ -71,6 +71,7 @@ SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     ("pages/D9_Communication.py",   "  Communication Intel"),
     ("pages/D10_Workspace.py",      "  Centro de Operaciones"),
     ("pages/N8_ChatIA.py",          "  Politeia Brain"),
+    ("pages/N9_CommandCenter.py",   "  Command Center"),
 ]
 
 # ── Módulos N-series (arquitectura anterior, siguen activos) ─────────────

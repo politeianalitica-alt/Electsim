@@ -15,6 +15,7 @@ from api.routers import (
     analogias,
     analytics,
     campana,
+    intelligence,
     market,
     ontology,
     opposition,
@@ -113,3 +114,4 @@ app.include_router(voto_blando.router)
 app.include_router(analogias.router)
 app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
+app.include_router(intelligence.router, tags=["intelligence"])
