@@ -1,0 +1,156 @@
+# Catalogo de sectores — ElectSim
+# Sector = eje tematico de analisis. Un workspace puede activar varios.
+#
+# Campos:
+#   sector_id           Identificador unico (SCREAMING_SNAKE_CASE)
+#   name                Nombre legible
+#   parent_sector_id    Sector padre (null para top-level)
+#   naics_nace_codes    Lista de codigos NACE/NAICS aplicables
+#   applicable_markets  Lista de market_ids, o ["*"] para todos
+#   enabled             true/false
+#   meta                JSONB libre
+
+sectors:
+  # -----------------------------------------------------------------------
+  # Sectores top-level
+  # -----------------------------------------------------------------------
+
+  - sector_id: PARTY
+    name: "Partidos Politicos"
+    parent_sector_id: null
+    naics_nace_codes: ["N91120", "N94990"]
+    applicable_markets: ["ES", "EU", "ES-CAT", "ES-AND", "ES-MAD", "ES-PV", "ES-GAL"]
+    enabled: true
+    meta:
+      description: "Analisis electoral, coaliciones, transferencias de voto"
+      primary_module: ELECTSIM
+
+  - sector_id: ENERGY
+    name: "Energia"
+    parent_sector_id: null
+    naics_nace_codes: ["D35", "B06", "B09"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["CNMC", "MITECO", "REE"]
+      primary_module: REG_INTEL
+
+  - sector_id: BANKING
+    name: "Banca y Finanzas"
+    parent_sector_id: null
+    naics_nace_codes: ["K64", "K65", "K66"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["BdE", "BCE", "CNMV", "ABE"]
+      primary_module: REG_INTEL
+
+  - sector_id: TELCO
+    name: "Telecomunicaciones"
+    parent_sector_id: null
+    naics_nace_codes: ["J61"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["CNMC", "ANCOM"]
+      primary_module: REG_INTEL
+
+  - sector_id: DEFENCE
+    name: "Defensa e Industria"
+    parent_sector_id: null
+    naics_nace_codes: ["C25401", "C30300", "M71200"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["MINISDEF", "EDA"]
+      primary_module: GEO_RISK
+
+  - sector_id: PHARMA
+    name: "Farmacia y Sanidad"
+    parent_sector_id: null
+    naics_nace_codes: ["C21", "Q86"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["AEMPS", "EMA"]
+      primary_module: REG_INTEL
+
+  - sector_id: TRANSPORT
+    name: "Transporte e Infraestructura"
+    parent_sector_id: null
+    naics_nace_codes: ["H49", "H50", "H51", "H52", "F41", "F42"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["CNMC", "MITMA"]
+      primary_module: REG_INTEL
+
+  - sector_id: MEDIA
+    name: "Medios de Comunicacion"
+    parent_sector_id: null
+    naics_nace_codes: ["J58", "J59", "J60"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      regulators: ["CNMC", "ERGA"]
+      primary_module: MEDIA_NARRATIVES
+
+  - sector_id: IBEX
+    name: "IBEX 35 Corporativo"
+    parent_sector_id: null
+    naics_nace_codes: []
+    applicable_markets: ["ES"]
+    enabled: true
+    meta:
+      description: "Seguimiento de empresas del IBEX 35: CNMV, contratacion publica, OffshoreLeaks"
+      primary_module: IBEX_MONITOR
+
+  - sector_id: GOV
+    name: "Administracion Publica"
+    parent_sector_id: null
+    naics_nace_codes: ["O84"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta:
+      description: "Entidades publicas, contratacion, geopolitica institucional"
+      primary_module: MONITOR_LEGISLATIVO
+
+  # -----------------------------------------------------------------------
+  # Sub-sectores energeticos
+  # -----------------------------------------------------------------------
+
+  - sector_id: ENERGY_RENEWABLES
+    name: "Energias Renovables"
+    parent_sector_id: ENERGY
+    naics_nace_codes: ["D35110", "D35120", "D35130"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta: {}
+
+  - sector_id: ENERGY_OIL_GAS
+    name: "Petroleo y Gas"
+    parent_sector_id: ENERGY
+    naics_nace_codes: ["B06100", "B06200", "D35210"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta: {}
+
+  # -----------------------------------------------------------------------
+  # Sub-sectores financieros
+  # -----------------------------------------------------------------------
+
+  - sector_id: BANKING_RETAIL
+    name: "Banca Minorista"
+    parent_sector_id: BANKING
+    naics_nace_codes: ["K6419"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta: {}
+
+  - sector_id: BANKING_INVESTMENT
+    name: "Banca de Inversion"
+    parent_sector_id: BANKING
+    naics_nace_codes: ["K6491", "K6612"]
+    applicable_markets: ["ES", "EU"]
+    enabled: true
+    meta: {}

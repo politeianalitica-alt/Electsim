@@ -1,0 +1,130 @@
+# Catalogo de mercados — ElectSim
+# Principio: todo es datos, nada es if pais == 'ES'.
+# Agregar un mercado = insertar una fila, no tocar Python.
+#
+# Campos:
+#   market_id        Identificador unico corto (ISO o compuesto)
+#   name             Nombre legible
+#   scope            national | regional | supranational | municipal
+#   default_currency Moneda ISO 4217
+#   default_language Codigo BCP-47
+#   default_locale   Locale completo
+#   timezone         IANA timezone
+#   country_iso      ISO 3166-1 alpha-2 (null para supranacionales)
+#   region_iso       ISO 3166-2 (solo para mercados regionales)
+#   enabled          true/false
+#   meta             JSONB libre para datos adicionales
+
+markets:
+  - market_id: ES
+    name: "Espana"
+    scope: national
+    default_currency: EUR
+    default_language: es
+    default_locale: es-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: null
+    enabled: true
+    meta:
+      capital: Madrid
+      parliament: Congreso de los Diputados
+      electoral_system: dhondt
+      total_seats: 350
+      senate_seats: 265
+
+  - market_id: EU
+    name: "Union Europea"
+    scope: supranational
+    default_currency: EUR
+    default_language: en
+    default_locale: en-EU
+    timezone: Europe/Brussels
+    country_iso: null
+    region_iso: null
+    enabled: true
+    meta:
+      parliament: Parlamento Europeo
+      total_seats: 720
+      legislative_body: EUR-Lex
+      sparql_endpoint: "https://publications.europa.eu/webapi/rdf/sparql"
+
+  - market_id: ES-CAT
+    name: "Cataluna"
+    scope: regional
+    default_currency: EUR
+    default_language: ca
+    default_locale: ca-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: ES-CT
+    enabled: true
+    meta:
+      parliament: Parlament de Catalunya
+      total_seats: 135
+      capital: Barcelona
+      boe_ref: DOGC
+
+  - market_id: ES-AND
+    name: "Andalucia"
+    scope: regional
+    default_currency: EUR
+    default_language: es
+    default_locale: es-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: ES-AN
+    enabled: true
+    meta:
+      parliament: Parlamento de Andalucia
+      total_seats: 109
+      capital: Sevilla
+      boe_ref: BOJA
+
+  - market_id: ES-MAD
+    name: "Comunidad de Madrid"
+    scope: regional
+    default_currency: EUR
+    default_language: es
+    default_locale: es-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: ES-MD
+    enabled: true
+    meta:
+      parliament: Asamblea de Madrid
+      total_seats: 136
+      capital: Madrid
+      boe_ref: BOCM
+
+  - market_id: ES-PV
+    name: "Pais Vasco"
+    scope: regional
+    default_currency: EUR
+    default_language: eu
+    default_locale: eu-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: ES-PV
+    enabled: false
+    meta:
+      parliament: Parlamento Vasco
+      total_seats: 75
+      capital: Vitoria-Gasteiz
+      boe_ref: BOPV
+
+  - market_id: ES-GAL
+    name: "Galicia"
+    scope: regional
+    default_currency: EUR
+    default_language: gl
+    default_locale: gl-ES
+    timezone: Europe/Madrid
+    country_iso: ES
+    region_iso: ES-GA
+    enabled: false
+    meta:
+      parliament: Parlamento de Galicia
+      total_seats: 75
+      capital: Santiago de Compostela
+      boe_ref: DOG

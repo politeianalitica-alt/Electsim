@@ -1,0 +1,47 @@
+# Medios de comunicación España — seed inicial
+version: "1.0"
+outlets:
+  - id: elpais
+    name: "El País"
+    type: newspaper
+    reach: national
+    ideology_lean: center_left
+    url: "https://elpais.com"
+    rss: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada"
+    market: spain
+
+  - id: elmundo
+    name: "El Mundo"
+    type: newspaper
+    reach: national
+    ideology_lean: center_right
+    url: "https://elmundo.es"
+    rss: "https://www.elmundo.es/rss/portada.xml"
+    market: spain
+
+  - id: abc
+    name: "ABC"
+    type: newspaper
+    reach: national
+    ideology_lean: right
+    url: "https://abc.es"
+    rss: "https://www.abc.es/rss/feeds/abcPortada.xml"
+    market: spain
+
+  - id: lavanguardia
+    name: "La Vanguardia"
+    type: newspaper
+    reach: national
+    ideology_lean: center
+    url: "https://lavanguardia.com"
+    rss: "https://www.lavanguardia.com/rss/home.xml"
+    market: spain
+
+  - id: elconfidencial
+    name: "El Confidencial"
+    type: digital_native
+    reach: national
+    ideology_lean: liberal
+    url: "https://elconfidencial.com"
+    rss: "https://www.elconfidencial.com/rss/"
+    market: spain

@@ -5,13 +5,132 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "electsim-espana"
 version = "0.2.0"
-description = "Digital twin de datos electorales, sociales y económicos de España (fase 1: arquitectura e ingesta)"
+description = "ElectSim — Plataforma de inteligencia política y análisis electoral para España"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 
+# ---------------------------------------------------------------------------
+# Pytest
+# ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+asyncio_mode = "auto"
 markers = [
-    "integration: tests que requieren PostgreSQL u otros servicios",
+    "integration: tests que requieren PostgreSQL u otros servicios externos",
+    "slow: tests que tardan más de 5 segundos",
+    "llm: tests que hacen llamadas a modelos LLM reales",
+]
+
+# ---------------------------------------------------------------------------
+# Ruff — linting + formato
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["apps", "packages", "observability", "config", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "N",    # pep8-naming
+    "S",    # flake8-bandit (security)
+    "T20",  # flake8-print (no print statements)
+    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    "E501",   # line-too-long (manejado por formatter)
+    "S101",   # assert (usado en tests)
+    "S106",   # hardcoded-password-func-arg (falsos positivos en tests)
+    "T201",   # print (permitido en scripts CLI y seeds)
+    "B008",   # do-not-perform-function-calls-in-default-arguments (FastAPI Depends)
+    "N806",   # variable in function should be lowercase (SQLAlchemy patterns)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "T20", "N"]   # tests: sin restricciones de seguridad ni print
+"db/seeds/**" = ["T201"]          # seeds: print permitido
+"**/scripts/**" = ["T201"]        # scripts CLI: print permitido
+"packages/migrations/**" = ["N"]  # migrations: nombres de Alembic
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "api", "apps", "packages", "observability", "config",
+    "db", "services", "etl", "agents",  # legacy paths durante migración
+]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+# ---------------------------------------------------------------------------
+# Mypy — tipado estricto (solo packages/ por ahora)
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+files = ["packages/", "observability/"]
+exclude = [
+    "tests/",
+    "db/migrations/",
+    "packages/migrations/",
+]
+
+[[tool.mypy.overrides]]
+module = ["litellm.*", "opentelemetry.*", "spacy.*", "chromadb.*"]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+# Import Linter — reglas de dependencias entre capas
+# Instalar: pip install import-linter
+# Usar:     lint-imports
+# ---------------------------------------------------------------------------
+[tool.importlinter]
+root_packages = ["apps", "packages", "observability", "config"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "packages no importan de apps"
+type = "forbidden"
+source_modules = [
+    "packages.electoral",
+    "packages.nlp",
+    "packages.ontology",
+    "packages.prompts",
+    "packages.types",
+]
+forbidden_modules = ["apps.api", "apps.workers", "apps.web"]
+
+[[tool.importlinter.contracts]]
+name = "packages no se importan mutuamente (salvo ontology->types)"
+type = "forbidden"
+source_modules = ["packages.electoral", "packages.nlp"]
+forbidden_modules = ["packages.ontology", "packages.prompts", "packages.ui"]
+
+[[tool.importlinter.contracts]]
+name = "api.routers solo llama a services"
+type = "layers"
+layers = [
+    "apps.api.routers",
+    "apps.api.services",
+    "apps.api.repositories",
+]
+exhaustive = false
+
+[[tool.importlinter.contracts]]
+name = "web no importa Python"
+type = "forbidden"
+source_modules = ["apps.web"]
+forbidden_modules = [
+    "apps.api", "apps.workers", "packages.electoral",
+    "packages.nlp", "packages.ontology",
 ]

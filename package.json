@@ -1,0 +1,54 @@
+{
+  "name": "electsim",
+  "version": "0.2.0",
+  "private": true,
+  "description": "ElectSim — Plataforma de inteligencia política y análisis electoral para España",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .prettierignore",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.5.0",
+    "prettier": "^3.3.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.2.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{md,json,yaml,yml}": ["prettier --write"],
+    "*.py": ["ruff check --fix", "ruff format"]
+  },
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"],
+    "rules": {
+      "scope-enum": [
+        2,
+        "always",
+        [
+          "api", "workers", "web", "electoral", "nlp", "ontology",
+          "prompts", "ui", "types", "migrations", "infra", "docker",
+          "observability", "config", "ci", "docs", "deps"
+        ]
+      ]
+    }
+  }
+}

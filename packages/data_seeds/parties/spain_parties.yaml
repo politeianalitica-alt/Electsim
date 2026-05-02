@@ -1,0 +1,50 @@
+# Partidos políticos España — seed inicial
+version: "1.0"
+parties:
+  - code: psoe
+    name: "Partido Socialista Obrero Español"
+    acronym: PSOE
+    ideology: social_democrat
+    color: "#E4003A"
+    market: spain
+    founded: 1879
+
+  - code: pp
+    name: "Partido Popular"
+    acronym: PP
+    ideology: conservative
+    color: "#1B6EC2"
+    market: spain
+    founded: 1989
+
+  - code: vox
+    name: "Vox"
+    acronym: VOX
+    ideology: national_conservative
+    color: "#63BE21"
+    market: spain
+    founded: 2013
+
+  - code: sumar
+    name: "Sumar"
+    acronym: Sumar
+    ideology: left
+    color: "#E91E8C"
+    market: spain
+    founded: 2022
+
+  - code: podemos
+    name: "Podemos"
+    acronym: Podemos
+    ideology: left
+    color: "#6A0DAD"
+    market: spain
+    founded: 2014
+
+  - code: ciudadanos
+    name: "Ciudadanos"
+    acronym: Cs
+    ideology: liberal
+    color: "#F26C24"
+    market: spain
+    founded: 2006

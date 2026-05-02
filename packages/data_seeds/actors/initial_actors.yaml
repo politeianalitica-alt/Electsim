@@ -1,0 +1,39 @@
+# Actores políticos iniciales — ElectSim España
+# Formato: ver packages/ontology/src/schemas/actor.py
+version: "1.0"
+actors:
+  - id: actor-pedro-sanchez
+    name: "Pedro Sánchez"
+    type: politician
+    party: psoe
+    role: "Presidente del Gobierno"
+    market: spain
+    relevance_score: 95
+    tags: [gobierno, presidente, izquierda]
+
+  - id: actor-alberto-nunez-feijoo
+    name: "Alberto Núñez Feijóo"
+    type: politician
+    party: pp
+    role: "Líder de la oposición"
+    market: spain
+    relevance_score: 90
+    tags: [oposicion, pp, derecha]
+
+  - id: actor-santiago-abascal
+    name: "Santiago Abascal"
+    type: politician
+    party: vox
+    role: "Presidente de Vox"
+    market: spain
+    relevance_score: 82
+    tags: [vox, derecha, oposicion]
+
+  - id: actor-yolanda-diaz
+    name: "Yolanda Díaz"
+    type: politician
+    party: sumar
+    role: "Vicepresidenta Segunda"
+    market: spain
+    relevance_score: 85
+    tags: [gobierno, sumar, izquierda]

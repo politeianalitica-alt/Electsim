@@ -1,0 +1,41 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "DATABASE_URL",
+    "OTEL_EXPORTER_OTLP_ENDPOINT",
+    "OTEL_SDK_DISABLED",
+    "LOG_FORMAT",
+    "LOG_LEVEL",
+    "LITELLM_BASE_URL",
+    "JWT_SECRET",
+    "DEV_MODE"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "env": ["OTEL_SDK_DISABLED=true"]
+    },
+    "test:e2e": {
+      "dependsOn": ["build"],
+      "outputs": ["playwright-report/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

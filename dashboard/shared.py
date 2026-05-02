@@ -1140,3 +1140,265 @@ def sidebar_nav():
             <span style="color:{dot_color}">●</span> {status_text} &nbsp;·&nbsp; {extra_text}
         </div>
         """, unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PREMIUM COMPONENTS — Palantir-grade visual language
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Plotly dark theme ─────────────────────────────────────────────────────────
+PLOTLY_THEME: dict = {
+    "layout": {
+        "paper_bgcolor": BG2,
+        "plot_bgcolor": BG,
+        "font": {"family": "Inter, system-ui, sans-serif", "color": TEXT2, "size": 12},
+        "xaxis": {"gridcolor": BORDER, "linecolor": BORDER, "tickfont": {"color": MUTED}},
+        "yaxis": {"gridcolor": BORDER, "linecolor": BORDER, "tickfont": {"color": MUTED}},
+        "colorway": [CYAN, BLUE, PURPLE, GREEN, AMBER, RED],
+        "hoverlabel": {"bgcolor": BG3, "bordercolor": BORDER, "font": {"color": TEXT, "size": 13}},
+        "margin": {"l": 40, "r": 20, "t": 40, "b": 40},
+        "legend": {"bgcolor": BG2, "bordercolor": BORDER, "font": {"color": TEXT2}},
+    }
+}
+
+
+def apply_plotly_theme(fig):
+    """Apply the premium dark PLOTLY_THEME to any plotly figure and return it."""
+    fig.update_layout(**PLOTLY_THEME["layout"])
+    return fig
+
+
+def metric_delta_card(label: str, value: str, delta: str, delta_pct: str, color: str, sub: str) -> str:
+    """Premium KPI card with colored delta arrow and percentage. Returns HTML string."""
+    arrow = "&#9650;" if not delta.startswith("-") else "&#9660;"
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {color};'
+        f'border-radius:8px;padding:1rem 1.2rem;min-width:140px;flex:1;">'
+        f'<div style="font-size:.65rem;color:{MUTED};letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem">{label}</div>'
+        f'<div style="font-size:1.75rem;font-weight:700;color:{TEXT};line-height:1;letter-spacing:-.02em">{value}</div>'
+        f'<div style="margin-top:.5rem;display:flex;align-items:center;gap:.4rem">'
+        f'<span style="color:{color};font-size:.85rem;font-weight:600">{arrow} {delta}</span>'
+        f'<span style="background:{color}22;color:{color};font-size:.65rem;font-weight:600;padding:.1rem .4rem;border-radius:4px">{delta_pct}</span>'
+        f'</div>'
+        f'<div style="font-size:.65rem;color:{MUTED};margin-top:.3rem">{sub}</div>'
+        f'</div>'
+    )
+
+
+def signal_card(title: str, body: str, level: str, source: str, time_ago: str) -> str:
+    """Intel signal card with severity color border. Returns HTML string."""
+    _level_map = {"critical": RED, "high": AMBER, "medium": BLUE, "low": GREEN, "info": CYAN}
+    border_color = _level_map.get(level.lower(), MUTED)
+    level_label = level.upper()
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-left:4px solid {border_color};'
+        f'border-radius:8px;padding:1rem 1.2rem;margin-bottom:.6rem;position:relative;">'
+        f'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">'
+        f'<span style="font-size:.85rem;font-weight:600;color:{TEXT};flex:1;padding-right:.5rem">{title}</span>'
+        f'<span style="background:{border_color}22;color:{border_color};font-size:.6rem;font-weight:700;'
+        f'padding:.2rem .5rem;border-radius:4px;letter-spacing:.08em;white-space:nowrap">{level_label}</span>'
+        f'</div>'
+        f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.5;margin-bottom:.6rem">{body}</div>'
+        f'<div style="display:flex;justify-content:space-between;align-items:center">'
+        f'<span style="font-size:.65rem;color:{MUTED}">{source}</span>'
+        f'<span style="font-size:.65rem;color:{MUTED}">{time_ago}</span>'
+        f'</div>'
+        f'</div>'
+    )
+
+
+def news_card(title: str, source: str, sentiment: str, time_ago: str, url: str, snippet: str) -> str:
+    """Premium news card with sentiment badge. Returns HTML string."""
+    _sent_map = {"positivo": GREEN, "negativo": RED, "neutral": MUTED, "mixto": AMBER}
+    sent_color = _sent_map.get(sentiment.lower(), MUTED)
+    href = f'href="{url}" target="_blank"' if url else ""
+    link_open = f'<a {href} style="text-decoration:none;">' if url else "<span>"
+    link_close = "</a>" if url else "</span>"
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.5rem;">'
+        f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">'
+        f'<span style="font-size:.65rem;color:{CYAN};font-weight:600;letter-spacing:.06em;text-transform:uppercase">{source}</span>'
+        f'<div style="display:flex;align-items:center;gap:.4rem">'
+        f'<span style="background:{sent_color}22;color:{sent_color};font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;letter-spacing:.06em">{sentiment.upper()}</span>'
+        f'<span style="font-size:.62rem;color:{MUTED}">{time_ago}</span>'
+        f'</div>'
+        f'</div>'
+        f'{link_open}<div style="font-size:.85rem;font-weight:600;color:{TEXT};line-height:1.35;margin-bottom:.35rem">{title}</div>{link_close}'
+        f'<div style="font-size:.75rem;color:{TEXT2};line-height:1.45;border-top:1px solid {BORDER};padding-top:.35rem">{snippet}</div>'
+        f'</div>'
+    )
+
+
+def actor_badge(name: str, party: str, score: float, trend: str) -> str:
+    """Compact actor intelligence badge. Returns HTML string."""
+    trend_color = GREEN if trend == "up" else (RED if trend == "down" else MUTED)
+    trend_icon = "&#9650;" if trend == "up" else ("&#9660;" if trend == "down" else "&#8212;"
+    )
+    score_pct = int(round(score * 100))
+    bar_color = GREEN if score >= 0.7 else (AMBER if score >= 0.4 else RED)
+    return (
+        f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.75rem 1rem;display:flex;align-items:center;gap:.9rem;margin-bottom:.4rem;">'
+        f'<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,{CYAN}33,{BLUE}33);'
+        f'border:2px solid {CYAN}55;display:flex;align-items:center;justify-content:center;'
+        f'font-size:.8rem;font-weight:700;color:{CYAN};flex-shrink:0">{name[0].upper()}</div>'
+        f'<div style="flex:1;min-width:0">'
+        f'<div style="font-size:.82rem;font-weight:600;color:{TEXT};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{name}</div>'
+        f'<div style="font-size:.65rem;color:{MUTED};margin-top:.1rem">{party}</div>'
+        f'<div style="height:3px;background:{BORDER};border-radius:2px;margin-top:.4rem">'
+        f'<div style="height:3px;width:{score_pct}%;background:{bar_color};border-radius:2px;transition:width .4s ease"></div>'
+        f'</div>'
+        f'</div>'
+        f'<div style="text-align:right;flex-shrink:0">'
+        f'<div style="font-size:1rem;font-weight:700;color:{TEXT}">{score_pct}</div>'
+        f'<div style="font-size:.7rem;color:{trend_color};font-weight:600">{trend_icon}</div>'
+        f'</div>'
+        f'</div>'
+    )
+
+
+def confidence_badge(score: float) -> str:
+    """Small pill showing confidence level (0.0-1.0). Returns HTML string."""
+    pct = int(round(score * 100))
+    color = GREEN if score >= 0.75 else (AMBER if score >= 0.5 else RED)
+    label = "ALTA" if score >= 0.75 else ("MEDIA" if score >= 0.5 else "BAJA")
+    return (
+        f'<span style="display:inline-flex;align-items:center;gap:.3rem;background:{color}18;'
+        f'border:1px solid {color}44;border-radius:20px;padding:.15rem .6rem;font-size:.62rem;font-weight:700;color:{color};letter-spacing:.06em">'
+        f'<span style="width:6px;height:6px;border-radius:50%;background:{color};display:inline-block"></span>'
+        f'CONF. {label} {pct}%'
+        f'</span>'
+    )
+
+
+def risk_matrix_html(risks: list[dict]) -> str:
+    """2x2 likelihood/impact risk matrix rendered as HTML. Returns HTML string.
+
+    Each risk dict: {label: str, likelihood: float 0-1, impact: float 0-1, color: str (optional)}
+    """
+    cells = {(0, 0): [], (0, 1): [], (1, 0): [], (1, 1): []}
+    for r in risks:
+        lk = 1 if r.get("likelihood", 0.5) >= 0.5 else 0
+        im = 1 if r.get("impact", 0.5) >= 0.5 else 0
+        cells[(lk, im)].append(r)
+
+    def _cell_bg(lk: int, im: int) -> str:
+        if lk == 1 and im == 1:
+            return f"{RED}18"
+        if lk == 1 and im == 0:
+            return f"{AMBER}14"
+        if lk == 0 and im == 1:
+            return f"{AMBER}14"
+        return f"{GREEN}10"
+
+    def _render_items(items: list[dict]) -> str:
+        if not items:
+            return f'<span style="color:{MUTED};font-size:.62rem">—</span>'
+        parts = []
+        for it in items:
+            c = it.get("color", CYAN)
+            parts.append(
+                f'<span style="background:{c}22;color:{c};font-size:.6rem;font-weight:600;'
+                f'padding:.1rem .35rem;border-radius:4px;display:inline-block;margin:.1rem .1rem 0 0">{it["label"]}</span>'
+            )
+        return "".join(parts)
+
+    grid_style = (
+        f'display:grid;grid-template-columns:1fr 1fr;gap:4px;'
+        f'background:{BORDER};border-radius:8px;overflow:hidden;'
+        f'border:1px solid {BORDER}'
+    )
+    header_row = (
+        f'<div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:4px;margin-bottom:4px">'
+        f'<div></div>'
+        f'<div style="text-align:center;font-size:.62rem;color:{MUTED};letter-spacing:.08em">IMPACTO BAJO</div>'
+        f'<div style="text-align:center;font-size:.62rem;color:{MUTED};letter-spacing:.08em">IMPACTO ALTO</div>'
+        f'</div>'
+    )
+    rows_html = ""
+    for lk_label, lk_val in [("PROB. ALTA", 1), ("PROB. BAJA", 0)]:
+        rows_html += (
+            f'<div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:4px;margin-bottom:4px">'
+            f'<div style="display:flex;align-items:center;justify-content:flex-end;padding-right:6px;'
+            f'font-size:.6rem;color:{MUTED};letter-spacing:.07em;text-align:right">{lk_label}</div>'
+        )
+        for im_val in [0, 1]:
+            bg = _cell_bg(lk_val, im_val)
+            rows_html += (
+                f'<div style="background:{bg};border-radius:6px;padding:.5rem .6rem;min-height:54px">'
+                f'{_render_items(cells[(lk_val, im_val)])}'
+                f'</div>'
+            )
+        rows_html += "</div>"
+
+    return (
+        f'<div style="font-size:.65rem;color:{MUTED};letter-spacing:.08em;margin-bottom:.4rem">MATRIZ DE RIESGOS</div>'
+        f'{header_row}'
+        f'{rows_html}'
+    )
+
+
+def scrolling_ticker(items: list[str]) -> None:
+    """Renders a CSS-animated scrolling news ticker in Streamlit."""
+    if not items:
+        return
+    separator = f'<span style="color:{CYAN};margin:0 1.2rem;font-size:.7rem">&#9679;</span>'
+    content = separator.join(
+        f'<span style="color:{TEXT2};font-size:.72rem;letter-spacing:.03em">{item}</span>'
+        for item in items
+    )
+    doubled = content + separator + content
+    html = (
+        f'<style>'
+        f'@keyframes marquee-scroll {{from {{transform:translateX(0)}} to {{transform:translateX(-50%)}}}}'
+        f'.ticker-wrap {{background:{BG2};border-top:1px solid {BORDER};border-bottom:1px solid {BORDER};'
+        f'overflow:hidden;width:100%;padding:.45rem 0;position:relative;}}'
+        f'.ticker-label {{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;'
+        f'background:linear-gradient(90deg,{BG2} 70%,{BG2}00);padding:0 1rem;z-index:2;}}'
+        f'.ticker-content {{display:inline-flex;align-items:center;white-space:nowrap;'
+        f'animation:marquee-scroll 40s linear infinite;}}'
+        f'.ticker-content:hover {{animation-play-state:paused;}}'
+        f'</style>'
+        f'<div class="ticker-wrap">'
+        f'<div class="ticker-label"><span style="font-size:.6rem;font-weight:700;color:{CYAN};letter-spacing:.12em">LIVE</span></div>'
+        f'<div style="padding-left:4rem;overflow:hidden">'
+        f'<div class="ticker-content">{doubled}</div>'
+        f'</div>'
+        f'</div>'
+    )
+    st.markdown(html, unsafe_allow_html=True)
+
+
+def intel_header(title: str, subtitle: str, status: str, time_str: str) -> None:
+    """Premium full-width page header with glassmorphism, live indicator, and gradient border."""
+    status_color = GREEN if status.lower() in {"live", "activo", "active"} else (AMBER if status.lower() in {"pending", "pendiente", "warning"} else MUTED)
+    html = (
+        f'<style>'
+        f'@keyframes pulse-dot {{0%,100%{{opacity:1;transform:scale(1)}}50%{{opacity:.4;transform:scale(1.4)}}}}'
+        f'.intel-live-dot {{animation:pulse-dot 1.8s ease-in-out infinite;display:inline-block;'
+        f'width:7px;height:7px;border-radius:50%;background:{status_color};margin-right:.4rem;vertical-align:middle;}}'
+        f'</style>'
+        f'<div style="background:linear-gradient(135deg,{BG2} 0%,{BG3} 100%);'
+        f'border:1px solid {BORDER};border-bottom:2px solid {CYAN}44;border-radius:10px;'
+        f'padding:1.2rem 1.6rem 1rem;margin-bottom:1.2rem;'
+        f'backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);'
+        f'box-shadow:0 4px 24px {BG}cc,inset 0 1px 0 {CYAN}18;">'
+        f'<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">'
+        f'<div>'
+        f'<div style="font-size:.62rem;color:{MUTED};letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem">'
+        f'ElectSim Intelligence &nbsp;/&nbsp; <span style="color:{CYAN}">{subtitle}</span>'
+        f'</div>'
+        f'<h2 style="margin:0;font-size:1.4rem;font-weight:700;color:{TEXT};letter-spacing:-.02em;line-height:1.15">{title}</h2>'
+        f'</div>'
+        f'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">'
+        f'<div style="display:flex;align-items:center;background:{status_color}18;border:1px solid {status_color}44;'
+        f'border-radius:20px;padding:.25rem .7rem;gap:.2rem">'
+        f'<span class="intel-live-dot"></span>'
+        f'<span style="font-size:.65rem;font-weight:700;color:{status_color};letter-spacing:.08em">{status.upper()}</span>'
+        f'</div>'
+        f'<span style="font-size:.62rem;color:{MUTED}">{time_str}</span>'
+        f'</div>'
+        f'</div>'
+        f'<div style="height:1px;background:linear-gradient(90deg,{CYAN}44,{BLUE}22,transparent);margin-top:.8rem"></div>'
+        f'</div>'
+    )
+    st.markdown(html, unsafe_allow_html=True)

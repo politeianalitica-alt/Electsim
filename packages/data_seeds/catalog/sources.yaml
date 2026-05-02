@@ -1,0 +1,471 @@
+# Catalogo de fuentes de datos — ElectSim
+# Principio: todo es datos, nada es if pais == 'ES'.
+# Agregar una fuente = insertar una fila, configurar el conector una vez.
+#
+# Campos:
+#   source_id             Identificador unico
+#   name                  Nombre legible
+#   description           Descripcion del contenido
+#   kind                  legislative | electoral | socioeconomic | press |
+#                         geopolitical | regulatory | archive | corporate
+#   protocol              rest_json | rss | rss_multi | sparql |
+#                         http_bulk | oai_pmh | websocket | graphql
+#   base_url              URL base (null si rss_multi con URLs en config_json)
+#   schedule_cron         Expresion cron de ingesta
+#   applicable_markets    Lista de market_ids o ["*"]
+#   applicable_sectors    Lista de sector_ids o ["*"]
+#   enabled               true/false
+#   requires_api_key      true/false
+#   api_key_env_var       Nombre de la variable de entorno con la clave
+#   config_json           Config especifica del conector (URLs, params, etc.)
+
+sources:
+
+  # =========================================================================
+  # LEGISLATIVAS
+  # =========================================================================
+
+  - source_id: BOE
+    name: "BOE — Boletin Oficial del Estado"
+    description: "API REST sumarios diarios y textos completos de disposiciones"
+    kind: legislative
+    protocol: rest_json
+    base_url: "https://boe.es/datosabiertos/api"
+    schedule_cron: "0 7 * * *"
+    applicable_markets: ["ES", "ES-CAT", "ES-AND", "ES-MAD", "ES-PV", "ES-GAL"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      sumario_endpoint: "/boe/sumario/{YYYYMMDD}"
+      texto_endpoint: "/boe/boe/{id}"
+      rate_limit_rps: 5
+      retry_on_429: true
+
+  - source_id: BOCG
+    name: "BOCG — Boletin de las Cortes Generales"
+    description: "Publicaciones del Congreso y el Senado"
+    kind: legislative
+    protocol: rss
+    base_url: "https://www.congreso.es"
+    schedule_cron: "0 8 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["PARTY", "GOV"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      rss_url: "https://www.congreso.es/es/busqueda-de-publicaciones?p_p_id=iniciativas&_iniciativas_modo=mostrarFicheros&_iniciativas_tipo=BOCG"
+
+  - source_id: CONGRESO_API
+    name: "Congreso — API datos.congreso.es"
+    description: "Iniciativas, votaciones, diputados y composicion de grupos parlamentarios"
+    kind: legislative
+    protocol: rest_json
+    base_url: "https://datos.congreso.es/api/v2"
+    schedule_cron: "30 8 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["PARTY", "GOV"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      endpoints:
+        iniciativas: "/iniciativas"
+        votaciones: "/votaciones"
+        diputados: "/diputados"
+      formats: ["json", "xml"]
+      pagination: offset_limit
+
+  - source_id: EUR_LEX
+    name: "EUR-Lex CELLAR SPARQL"
+    description: "Legislacion y jurisprudencia europea via SPARQL endpoint CELLAR"
+    kind: legislative
+    protocol: sparql
+    base_url: "https://publications.europa.eu/webapi/rdf/sparql"
+    schedule_cron: "0 9 * * *"
+    applicable_markets: ["EU", "ES"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      sparql_prefix: "http://publications.europa.eu/resource/authority/"
+      default_graph: "http://publications.europa.eu/resource/authority/corporate-body"
+      max_results: 500
+      language_filter: ["es", "en"]
+
+  # =========================================================================
+  # ELECTORALES Y SOCIOECONOMICAS
+  # =========================================================================
+
+  - source_id: CIS_MICRODATOS
+    name: "CIS Microdatos CSV"
+    description: "Encuestas sociales y series historicas del CIS en formato CSV (open desde 2025)"
+    kind: electoral
+    protocol: http_bulk
+    base_url: "https://www.cis.es/cis/export/sites/default/-Archivos/Microdatos"
+    schedule_cron: "0 10 * * 1"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["PARTY"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      catalog_url: "https://www.cis.es/cis/export/sites/default/-Archivos/Microdatos/catalogo_microdatos.csv"
+      file_format: "csv_semicolon"
+      encoding: "iso-8859-1"
+      studies_to_track: ["barometro_mensual", "postelectoral", "preelectoral"]
+
+  - source_id: INE_REST
+    name: "INE API REST"
+    description: "Estadisticas socioeconomicas y demograficas del Instituto Nacional de Estadistica"
+    kind: socioeconomic
+    protocol: rest_json
+    base_url: "https://servicios.ine.es/wstempus/js"
+    schedule_cron: "0 11 * * 1"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      series_ids:
+        pib: "IPC251856"
+        paro: "EPA_T3_E1"
+        poblacion: "PADRON_HM"
+      format: "json"
+
+  - source_id: MIR_ELECTORAL
+    name: "MIR Resultados Electorales"
+    description: "Resultados electorales historicos por circunscripcion (Ministerio del Interior)"
+    kind: electoral
+    protocol: http_bulk
+    base_url: "https://infoelectoral.interior.gob.es"
+    schedule_cron: "0 0 * * 0"
+    applicable_markets: ["ES", "ES-CAT", "ES-AND", "ES-MAD"]
+    applicable_sectors: ["PARTY"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      zip_pattern: "/minisites/mar/{tipo}/{anno}{mes}0{vuelta}.zip"
+      election_types: ["02", "03", "04", "07"]
+      parse_format: "mir_binary"
+
+  # =========================================================================
+  # PRENSA
+  # =========================================================================
+
+  - source_id: RSS_PRENSA
+    name: "RSS Prensa Nacional (top 15)"
+    description: "El Pais, El Mundo, ABC, La Vanguardia, El Confidencial, elDiario.es y otros"
+    kind: press
+    protocol: rss_multi
+    base_url: null
+    schedule_cron: "*/30 * * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      feeds:
+        - id: el_pais
+          name: "El Pais"
+          url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada"
+          bias: centro_izquierda
+        - id: el_mundo
+          name: "El Mundo"
+          url: "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml"
+          bias: centro_derecha
+        - id: abc
+          name: "ABC"
+          url: "https://www.abc.es/rss/feeds/abcPortada.xml"
+          bias: derecha
+        - id: la_vanguardia
+          name: "La Vanguardia"
+          url: "https://www.lavanguardia.com/rss/home.xml"
+          bias: liberal
+        - id: el_confidencial
+          name: "El Confidencial"
+          url: "https://www.elconfidencial.com/rss/espana/"
+          bias: liberal
+        - id: eldiario_es
+          name: "elDiario.es"
+          url: "https://www.eldiario.es/rss/"
+          bias: izquierda
+        - id: expansion
+          name: "Expansion"
+          url: "https://e00-expansion.uecdn.es/rss/portada.xml"
+          bias: economico
+        - id: cinco_dias
+          name: "Cinco Dias"
+          url: "https://cincodias.elpais.com/rss/section/economia/"
+          bias: economico
+        - id: el_espanol
+          name: "El Espanol"
+          url: "https://www.elespanol.com/rss/"
+          bias: derecha
+        - id: la_razon
+          name: "La Razon"
+          url: "https://www.larazon.es/rss.html"
+          bias: derecha
+        - id: publico_es
+          name: "Publico"
+          url: "https://www.publico.es/rss/"
+          bias: izquierda
+        - id: ok_diario
+          name: "OKDiario"
+          url: "https://okdiario.com/feed"
+          bias: extrema_derecha
+        - id: infolibre
+          name: "InfoLibre"
+          url: "https://www.infolibre.es/rss/"
+          bias: izquierda
+        - id: the_objective
+          name: "The Objective"
+          url: "https://theobjective.com/feed/"
+          bias: centro
+        - id: agenda_publica
+          name: "Agenda Publica (elDiario.es)"
+          url: "https://agendapublica.elpais.com/rss/"
+          bias: academico
+
+  - source_id: RSS_REGIONAL
+    name: "RSS Prensa Regional"
+    description: "Vocento grupo, Prensa Iberica grupo, nativos digitales regionales"
+    kind: press
+    protocol: rss_multi
+    base_url: null
+    schedule_cron: "*/45 * * * *"
+    applicable_markets: ["ES", "ES-CAT", "ES-AND", "ES-MAD"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      groups:
+        vocento:
+          - {id: el_correo, name: "El Correo", url: "https://www.elcorreo.com/rss/", market: "ES-PV"}
+          - {id: sur_malaga, name: "Sur", url: "https://www.diariosur.es/rss/", market: "ES-AND"}
+          - {id: las_provincias, name: "Las Provincias", url: "https://www.lasprovincias.es/rss/", market: "ES-VAL"}
+        prensa_iberica:
+          - {id: el_periodico, name: "El Periodico", url: "https://www.elperiodico.com/es/rss/", market: "ES-CAT"}
+          - {id: faro_vigo, name: "Faro de Vigo", url: "https://www.farodevigo.es/rss/", market: "ES-GAL"}
+          - {id: la_nueva_espana, name: "La Nueva Espana", url: "https://www.lne.es/rss/", market: "ES-AST"}
+        nativos_digitales:
+          - {id: eldiario_cat, name: "El Diario.cat", url: "https://www.eldiario.es/catalunya/rss/", market: "ES-CAT"}
+          - {id: vilaweb, name: "VilaWeb", url: "https://www.vilaweb.cat/rss.xml", market: "ES-CAT"}
+          - {id: ara, name: "Ara", url: "https://www.ara.cat/rss.xml", market: "ES-CAT"}
+
+  # =========================================================================
+  # GEOPOLITICA Y OSINT
+  # =========================================================================
+
+  - source_id: GDELT
+    name: "GDELT Doc API"
+    description: "Monitorizacion de medios internacionales en tiempo casi real (Python: pip install gdeltdoc)"
+    kind: geopolitical
+    protocol: rest_json
+    base_url: "https://api.gdeltproject.org/api/v2/doc/doc"
+    schedule_cron: "*/15 * * * *"
+    applicable_markets: ["*"]
+    applicable_sectors: ["DEFENCE", "GOV", "ENERGY"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      python_package: "gdeltdoc"
+      default_mode: "ArtList"
+      max_records: 250
+      languages: ["Spanish", "English"]
+
+  - source_id: ACLED
+    name: "ACLED — Conflicto y Estabilidad Politica"
+    description: "Datos de conflicto armado, protestas y estabilidad politica"
+    kind: geopolitical
+    protocol: rest_json
+    base_url: "https://api.acleddata.com/acled/read"
+    schedule_cron: "0 6 * * *"
+    applicable_markets: ["*"]
+    applicable_sectors: ["DEFENCE", "GOV"]
+    enabled: true
+    requires_api_key: true
+    api_key_env_var: "ACLED_API_KEY"
+    config_json:
+      auth_param: "email+key"
+      rate_limit_per_day: 5000
+      default_fields: ["event_date", "event_type", "actor1", "actor2", "country", "fatalities", "notes"]
+      regions_tracked: ["Western Europe", "Northern Africa", "Middle East"]
+
+  - source_id: OPENSANCTIONS
+    name: "OpenSanctions Bulk JSON"
+    description: "Personas y entidades en listas de sanciones internacionales (FollowTheMoney format)"
+    kind: geopolitical
+    protocol: http_bulk
+    base_url: "https://data.opensanctions.org/datasets/latest/default"
+    schedule_cron: "0 3 * * 1"
+    applicable_markets: ["*"]
+    applicable_sectors: ["BANKING", "DEFENCE", "GOV"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      entities_url: "https://data.opensanctions.org/datasets/latest/default/entities.ftm.json"
+      index_url: "https://data.opensanctions.org/datasets/latest/index.json"
+      format: "ftm_json"
+      datasets: ["eu_fsf", "us_ofac_sdn", "un_sc_sanctions", "es_dgt_gananciales"]
+
+  # =========================================================================
+  # REGULATORIAS
+  # =========================================================================
+
+  - source_id: CNMV_RSS
+    name: "CNMV — Hechos Relevantes"
+    description: "Comunicaciones regulatorias de empresas cotizadas (CNMV)"
+    kind: regulatory
+    protocol: rss
+    base_url: "https://www.cnmv.es"
+    schedule_cron: "*/20 * * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["IBEX", "BANKING"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      rss_url: "https://www.cnmv.es/portal/rss/HechosRelevantes.aspx"
+      categories: ["hechos_relevantes", "otras_comunicaciones", "participaciones_significativas"]
+
+  - source_id: BDE_RSS
+    name: "Banco de Espana — Publicaciones"
+    description: "Notas de estabilidad financiera, circulares y resoluciones del BdE"
+    kind: regulatory
+    protocol: rss
+    base_url: "https://www.bde.es"
+    schedule_cron: "0 9 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["BANKING"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      feeds:
+        - url: "https://www.bde.es/bde/es/secciones/informes/rss/"
+          category: notas_estabilidad
+        - url: "https://www.bde.es/bde/es/secciones/normativas/rss/"
+          category: circulares
+
+  - source_id: CNMC_RSS
+    name: "CNMC — Resoluciones"
+    description: "Resoluciones de competencia y regulacion sectorial (CNMC)"
+    kind: regulatory
+    protocol: rss
+    base_url: "https://www.cnmc.es"
+    schedule_cron: "0 9 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["ENERGY", "TELCO", "TRANSPORT"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      rss_url: "https://www.cnmc.es/feed"
+      areas: ["competencia", "telecomunicaciones", "energia", "transporte"]
+
+  - source_id: PLACE_CONTRATACION
+    name: "PLACE — Plataforma de Contratacion del Sector Publico"
+    description: "Licitaciones y adjudicaciones del sector publico espanol"
+    kind: regulatory
+    protocol: rest_json
+    base_url: "https://contrataciondelestado.es"
+    schedule_cron: "0 8 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["IBEX", "GOV", "DEFENCE"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      atom_feed: "https://contrataciondelestado.es/sindicacion/sindicacion_1.atom"
+      sparql_endpoint: "https://www.hacienda.gob.es/webapi/rdf/sparql"
+      categories: ["obras", "suministros", "servicios", "concesiones"]
+
+  - source_id: AEMPS_RSS
+    name: "AEMPS — Alertas de Medicamentos"
+    description: "Alertas de seguridad y autorizaciones de medicamentos (Agencia Espanola de Medicamentos)"
+    kind: regulatory
+    protocol: rss
+    base_url: "https://www.aemps.gob.es"
+    schedule_cron: "0 10 * * *"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["PHARMA"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      feeds:
+        - url: "https://www.aemps.gob.es/rss/"
+          category: alertas_medicamentos
+        - url: "https://www.aemps.gob.es/rss/autorizaciones/"
+          category: autorizaciones
+
+  # =========================================================================
+  # CORPORATIVAS
+  # =========================================================================
+
+  - source_id: ICIJ_OFFSHORE
+    name: "ICIJ OffshoreLeaks"
+    description: "Entidades offshore: Panama Papers, Pandora Papers, Paradise Papers, etc."
+    kind: corporate
+    protocol: http_bulk
+    base_url: "https://offshoreleaks.icij.org"
+    schedule_cron: "0 2 * * 0"
+    applicable_markets: ["*"]
+    applicable_sectors: ["BANKING", "IBEX"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      bulk_download_url: "https://offshoreleaks.icij.org/pages/database"
+      neo4j_format: true
+      datasets: ["panama_papers", "pandora_papers", "paradise_papers", "bahamas_leaks"]
+
+  # =========================================================================
+  # ARCHIVO HISTORICO
+  # =========================================================================
+
+  - source_id: BNE_HEMEROTECA
+    name: "BNE Hemeroteca Digital"
+    description: "Archivo historico BNElab CSV+TXT dominio publico. Dataset HF: ferjorosa/bne-hemeroteca-publications"
+    kind: archive
+    protocol: http_bulk
+    base_url: "https://datos.bne.es"
+    schedule_cron: "0 1 * * 0"
+    applicable_markets: ["ES"]
+    applicable_sectors: ["MEDIA", "PARTY"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      hf_dataset: "ferjorosa/bne-hemeroteca-publications"
+      formats: ["csv", "txt"]
+      date_range: ["1700-01-01", "1990-12-31"]
+      oai_pmh_endpoint: "https://datos.bne.es/oai"
+
+  - source_id: WAYBACK_CDX
+    name: "Wayback Machine CDX API"
+    description: "Snapshots de paginas web archivadas via Internet Archive CDX"
+    kind: archive
+    protocol: rest_json
+    base_url: "https://web.archive.org/cdx/search/cdx"
+    schedule_cron: "0 4 * * 0"
+    applicable_markets: ["*"]
+    applicable_sectors: ["*"]
+    enabled: true
+    requires_api_key: false
+    api_key_env_var: null
+    config_json:
+      output: "json"
+      limit: 1000
+      collapse: "digest"
+      filter: "statuscode:200"
