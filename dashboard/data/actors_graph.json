@@ -100,7 +100,8 @@
       "wikidata_datos": {
         "fecha de nacimiento": "1962-12-29T00:00:00Z"
       },
-      "fecha_enriquecido": "2026-04-30T09:09:49.831478"
+      "fecha_enriquecido": "2026-04-30T09:09:49.831478",
+      "extracto": "Carles Puigdemont i Casamajó es un político español que ejerció como presidente de la Generalidad de Cataluña entre 2016 y 2017 y como diputado no inscrito al Parlamento Europeo entre 2019 y 2024. Desde octubre de 2024 ocupa la presidencia del partido político Junts per Catalunya."
     },
     "junqueras": {
       "id": "junqueras",
@@ -110,7 +111,7 @@
       "rol": "Presidente ERC",
       "poder": 6,
       "region": "Cataluña",
-      "fecha_enriquecido": "2026-05-02T10:17:36.501644"
+      "fecha_enriquecido": "2026-05-02T15:08:03.784928"
     },
     "urkullu": {
       "id": "urkullu",
@@ -120,7 +121,7 @@
       "rol": "Lendakari / PNV",
       "poder": 7,
       "region": "País Vasco",
-      "fecha_enriquecido": "2026-05-02T10:17:38.488563"
+      "fecha_enriquecido": "2026-05-02T15:08:05.746898"
     },
     "otegi": {
       "id": "otegi",
@@ -130,7 +131,7 @@
       "rol": "Coordinador EH Bildu",
       "poder": 6,
       "region": "País Vasco",
-      "fecha_enriquecido": "2026-05-02T10:17:40.454532"
+      "fecha_enriquecido": "2026-05-02T15:08:07.737628"
     },
     "ayuso": {
       "id": "ayuso",
@@ -141,7 +142,7 @@
       "poder": 8,
       "region": "Madrid",
       "twitter": "@IdiazAyuso",
-      "fecha_enriquecido": "2026-05-02T10:17:42.444834"
+      "fecha_enriquecido": "2026-05-02T15:08:09.707895"
     },
     "moreno": {
       "id": "moreno",
@@ -151,7 +152,7 @@
       "rol": "Presidente Junta de Andalucía",
       "poder": 7,
       "region": "Andalucía",
-      "fecha_enriquecido": "2026-05-02T10:17:44.408406"
+      "fecha_enriquecido": "2026-05-02T15:08:11.816427"
     },
     "mazón": {
       "id": "mazón",
@@ -890,6 +891,6 @@
     "creado": "2026-04-29T22:03:02.902036",
     "n_actores": 50,
     "n_relaciones": 46,
-    "ultima_actualizacion": "2026-05-02T10:17:44.954338"
+    "ultima_actualizacion": "2026-05-02T15:08:23.741894"
   }
 }

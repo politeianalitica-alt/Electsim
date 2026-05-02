@@ -112,7 +112,7 @@ with tab_perfiles:
             st.markdown(f"""
             <div style="background:{GREEN}12;border:1px solid {GREEN}33;border-radius:8px;
                         padding:.6rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">
-              ✓ Perfiles CIS — Oleada {oleada_id} | {n_reg:,} registros | {fecha_d}
+              Perfiles CIS — Oleada {oleada_id} | {n_reg:,} registros | {fecha_d}
             </div>
             """, unsafe_allow_html=True)
         else:
@@ -382,12 +382,81 @@ with tab_opp:
 
     df_decl, df_contra = _cargar_opp()
 
-    tab_opp_d, tab_opp_c = st.tabs(["Declaraciones", "⚠ Contradicciones"])
+    tab_opp_d, tab_opp_c = st.tabs(["Declaraciones", "Contradicciones"])
 
     with tab_opp_d:
         if df_decl.empty:
-            st.info("Sin declaraciones cargadas.")
-            st.page_link("pages/21_Opposition_Research.py", label="→ Opposition Research clásico")
+            # Demo declaraciones cuando no hay BD
+            _demo_decl = [
+                {"persona": "Alberto Nunez Feijoo", "partido": "PP", "fecha": "2026-04-28",
+                 "texto": "El gobierno de Sanchez ha llevado a la ruina la economia espanola con sus politicas de gasto descontrolado. Necesitamos reducir impuestos y apostar por el empleo privado.",
+                 "tema_principal": "economia", "alcance_est": 1240000},
+                {"persona": "Pedro Sanchez", "partido": "PSOE", "fecha": "2026-04-27",
+                 "texto": "Hemos creado mas de 500.000 empleos en el ultimo ano. La derecha quiere desmantelar el estado del bienestar y privatizar la sanidad publica.",
+                 "tema_principal": "economia", "alcance_est": 980000},
+                {"persona": "Santiago Abascal", "partido": "VOX", "fecha": "2026-04-26",
+                 "texto": "La politica de inmigracion del gobierno es un fracaso absoluto. Exigimos el control de nuestras fronteras y la deportacion inmediata de ilegales.",
+                 "tema_principal": "migracion", "alcance_est": 760000},
+                {"persona": "Yolanda Diaz", "partido": "SUMAR", "fecha": "2026-04-25",
+                 "texto": "Vamos a subir el salario minimo a 1.300 euros. Las grandes empresas deben pagar su parte justa de impuestos.",
+                 "tema_principal": "laboral", "alcance_est": 540000},
+                {"persona": "Alberto Nunez Feijoo", "partido": "PP", "fecha": "2026-04-22",
+                 "texto": "Espana necesita un gobierno serio que baje el IRPF a las clases medias y facilite el acceso a la vivienda.",
+                 "tema_principal": "vivienda", "alcance_est": 890000},
+                {"persona": "Pedro Sanchez", "partido": "PSOE", "fecha": "2026-04-20",
+                 "texto": "Nuestra ley de vivienda protege a los inquilinos frente a los especuladores. Construiremos 40.000 viviendas de proteccion oficial.",
+                 "tema_principal": "vivienda", "alcance_est": 720000},
+                {"persona": "Carles Puigdemont", "partido": "JUNTS", "fecha": "2026-04-19",
+                 "texto": "Catalunya debe decidir su futuro. Seguiremos negociando con el gobierno hasta conseguir el referendum pactado.",
+                 "tema_principal": "territorial", "alcance_est": 480000},
+                {"persona": "Yolanda Diaz", "partido": "SUMAR", "fecha": "2026-04-18",
+                 "texto": "La jornada de 37.5 horas es irrenunciable. La conciliacion familiar es una cuestion de justicia social.",
+                 "tema_principal": "laboral", "alcance_est": 410000},
+            ]
+            df_decl_demo = pd.DataFrame(_demo_decl)
+            _col_fa, _col_fb, _col_fc = st.columns(3)
+            with _col_fa:
+                _partido_f2 = st.selectbox("Partido", ["Todos"] + sorted(df_decl_demo["partido"].unique().tolist()), key="opp_partido_demo")
+            with _col_fb:
+                _tema_f2 = st.selectbox("Tema", ["Todos"] + sorted(df_decl_demo["tema_principal"].unique().tolist()), key="opp_tema_demo")
+            with _col_fc:
+                _persona_f2 = st.text_input("Buscar persona", placeholder="ej. Feijoo", key="opp_persona_demo")
+
+            _df_filtered = df_decl_demo.copy()
+            if _partido_f2 != "Todos":
+                _df_filtered = _df_filtered[_df_filtered["partido"] == _partido_f2]
+            if _tema_f2 != "Todos":
+                _df_filtered = _df_filtered[_df_filtered["tema_principal"] == _tema_f2]
+            if _persona_f2:
+                _df_filtered = _df_filtered[_df_filtered["persona"].str.contains(_persona_f2, case=False, na=False)]
+
+            for _, row in _df_filtered.iterrows():
+                _partido = str(row.get("partido", ""))
+                _color_p = {"PP": "#1e7fd4", "PSOE": "#e84c4c", "VOX": "#5aba3f",
+                            "SUMAR": "#9b59b6", "JUNTS": "#f2a622"}.get(_partido, CYAN)
+                _alcance = int(row.get("alcance_est", 0) or 0)
+                st.markdown(f"""
+                <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
+                            padding:.9rem 1.1rem;margin-bottom:.5rem;border-left:3px solid {_color_p}">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+                    <div>
+                      <span style="font-size:.85rem;font-weight:800;color:{TEXT}">{row.get('persona','')}</span>
+                      <span style="margin-left:.5rem;background:{_color_p}22;color:{_color_p};
+                                   border-radius:4px;padding:.1rem .4rem;font-size:.7rem;font-weight:700">{_partido}</span>
+                    </div>
+                    <div style="text-align:right">
+                      <span style="font-size:.68rem;color:{MUTED}">{row.get('fecha','')}</span>
+                      {f'<span style="font-size:.65rem;color:{MUTED};margin-left:.5rem">{_alcance:,} impresiones</span>' if _alcance else ''}
+                    </div>
+                  </div>
+                  <div style="font-size:.8rem;color:{TEXT2};line-height:1.5">"{row.get('texto','')}"</div>
+                  <div style="margin-top:.3rem">
+                    <span style="background:{BORDER};color:{TEXT2};border-radius:4px;
+                                 padding:.05rem .4rem;font-size:.62rem">{row.get('tema_principal','')}</span>
+                  </div>
+                </div>
+                """, unsafe_allow_html=True)
+            st.caption("Datos demo — conecta la BD para datos reales")
         else:
             # Filtros
             col_fa, col_fb, col_fc = st.columns(3)
@@ -437,7 +506,59 @@ with tab_opp:
 
     with tab_opp_c:
         if df_contra.empty:
-            st.info("Sin contradicciones detectadas.")
+            # Demo contradicciones
+            _demo_contra = [
+                {
+                    "persona": "Alberto Nunez Feijoo",
+                    "texto_antes": "La subida del salario minimo es imprescindible para las clases mas vulnerables. (Galicia, 2019)",
+                    "texto_despues": "La subida del SMI destruye empleo y pone en riesgo a las pequenas empresas. (Congreso, 2024)",
+                    "score_nli": 0.87, "verificada": True, "dias_entre": 1826,
+                },
+                {
+                    "persona": "Pedro Sanchez",
+                    "texto_antes": "Nunca pactare con Bildu ni con los independentistas para llegar al poder. (2019)",
+                    "texto_despues": "Los acuerdos con todos los partidos democraticos son necesarios para la gobernabilidad. (2023)",
+                    "score_nli": 0.81, "verificada": True, "dias_entre": 1460,
+                },
+                {
+                    "persona": "Santiago Abascal",
+                    "texto_antes": "El referéndum de autodeterminación es un derecho democratico que hay que respetar. (2013)",
+                    "texto_despues": "La unidad de Espana es innegociable. No permitiremos ningun referéndum ilegal. (2024)",
+                    "score_nli": 0.94, "verificada": False, "dias_entre": 4015,
+                },
+                {
+                    "persona": "Yolanda Diaz",
+                    "texto_antes": "No subiremos el IVA en ningun caso durante esta legislatura. (2021)",
+                    "texto_despues": "Estamos analizando ajustes fiscales necesarios para financiar politicas sociales. (2023)",
+                    "score_nli": 0.62, "verificada": False, "dias_entre": 730,
+                },
+            ]
+            st.metric("Contradicciones detectadas (demo)", len(_demo_contra))
+            for _c in _demo_contra:
+                _score = float(_c.get("score_nli", 0))
+                _ver = bool(_c.get("verificada", False))
+                _dias = int(_c.get("dias_entre", 0))
+                _color_s = GREEN if _score > 0.8 else (AMBER if _score > 0.5 else RED)
+                with st.expander(
+                    f"{_c['persona']} — Score {_score:.2f} {'(verificada)' if _ver else ''}"
+                ):
+                    _ca, _cb = st.columns(2)
+                    with _ca:
+                        st.markdown(f"""
+                        <div style="background:{RED}10;border:1px solid {RED}33;border-radius:8px;padding:.8rem">
+                          <div style="font-size:.7rem;color:{RED};font-weight:700;margin-bottom:.3rem">ANTES</div>
+                          <div style="font-size:.8rem;color:{TEXT2}">{_c['texto_antes']}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    with _cb:
+                        st.markdown(f"""
+                        <div style="background:{GREEN}10;border:1px solid {GREEN}33;border-radius:8px;padding:.8rem">
+                          <div style="font-size:.7rem;color:{GREEN};font-weight:700;margin-bottom:.3rem">DESPUES ({_dias} dias)</div>
+                          <div style="font-size:.8rem;color:{TEXT2}">{_c['texto_despues']}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                    st.progress(_score, text=f"Indice de contradiccion NLI: {_score:.2%}")
+            st.caption("Datos demo — conecta la BD para contradicciones reales")
         else:
             st.metric("Contradicciones encontradas", len(df_contra))
             for _, row in df_contra.iterrows():
@@ -450,7 +571,7 @@ with tab_opp:
 
                 color_s = GREEN if score > 0.8 else (AMBER if score > 0.5 else RED)
 
-                with st.expander(f"⚠ {persona} — Score {score:.2f} {'✓'if verificada else ''}"):
+                with st.expander(f"{persona} — Score {score:.2f} {'✓'if verificada else ''}"):
                     col_a, col_b = st.columns(2)
                     with col_a:
                         st.markdown(f"""
@@ -570,7 +691,7 @@ with tab_analisis:
     # Status NLP
     def _nlp_cap_chip(k, v):
         c = GREEN if v else RED
-        icon = "✓"if v else "✗"
+        icon = "si" if v else "no"
         return (f'<span style="background:{c}22;color:{c};border:1px solid {c}44;'
                 f'border-radius:20px;padding:.2rem .7rem;font-size:.68rem;font-weight:700">'
                 f'{icon} {k}</span>')
@@ -633,7 +754,86 @@ with tab_analisis:
             """, unsafe_allow_html=True)
 
     elif not _NLP_OK:
-        st.info("Instala `pysentimiento` y `yake` para análisis NLP avanzado: `pip install pysentimiento yake`")
+        # Demo NLP cuando las librerias no estan instaladas
+        st.markdown(f"""
+        <div style="background:{AMBER}12;border:1px solid {AMBER}33;border-radius:8px;
+                    padding:.6rem 1rem;margin-bottom:1rem;font-size:.78rem;color:{AMBER}">
+          pysentimiento / yake no instalados — mostrando analisis demo
+        </div>
+        """, unsafe_allow_html=True)
+
+        _demo_texto = (
+            "Pedro Sanchez ha anunciado hoy medidas urgentes para frenar la subida del precio del alquiler "
+            "en las grandes ciudades. El presidente critico duramente al PP por bloquear la ley de vivienda "
+            "en el Senado. PSOE presentara enmiendas para reforzar la regulacion."
+        )
+        st.text_area(
+            "Texto de ejemplo analizado",
+            value=_demo_texto,
+            height=90,
+            disabled=True,
+            key="nlp_demo_txt",
+        )
+
+        _dcol1, _dcol2, _dcol3 = st.columns(3)
+        with _dcol1:
+            st.markdown(f"""
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem;text-align:center">
+              <div style="font-size:2rem">-</div>
+              <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin:.3rem 0">Sentimiento</div>
+              <div style="font-size:1.3rem;font-weight:900;color:{RED}">NEGATIVO</div>
+              <div style="font-size:.7rem;color:{MUTED}">74% confianza</div>
+              <div style="font-size:.6rem;color:{MUTED};margin-top:.2rem">pysentimiento (demo)</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with _dcol2:
+            st.markdown(f"""
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem">
+              <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.5rem">Emocion dominante</div>
+              <div style="font-size:1.1rem;font-weight:800;color:{AMBER}">Enfado</div>
+              <hr style="border-color:{BORDER};margin:.5rem 0">
+              <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.3rem">Tema detectado</div>
+              <div style="font-size:.9rem;font-weight:700;color:{CYAN}">Vivienda</div>
+              <div style="font-size:.65rem;color:{MUTED}">88% confianza</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with _dcol3:
+            _demo_partidos_det = ["PSOE", "PP"]
+            _demo_kws = ["vivienda", "alquiler", "Sanchez", "Senado", "medidas", "regulacion"]
+            st.markdown(f"""
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;padding:1rem">
+              <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.4rem">Partidos detectados</div>
+              <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem">
+                {''.join('<span style="background:#e84c4c22;color:#e84c4c;border:1px solid #e84c4c44;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-weight:700">PSOE</span>' if p == "PSOE" else '<span style="background:#1e7fd422;color:#1e7fd4;border:1px solid #1e7fd444;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-weight:700">PP</span>' for p in _demo_partidos_det)}
+              </div>
+              <div style="font-size:.65rem;color:{MUTED};font-weight:700;text-transform:uppercase;margin-bottom:.3rem">Keywords (YAKE)</div>
+              <div style="display:flex;gap:.3rem;flex-wrap:wrap">
+                {''.join(f'<span style="background:{BORDER};color:{TEXT2};border-radius:4px;padding:.05rem .4rem;font-size:.65rem">{kw}</span>' for kw in _demo_kws)}
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Mini grafico de distribucion de sentimiento en corpus demo
+        st.markdown("<br>", unsafe_allow_html=True)
+        section_header("DISTRIBUCION DE SENTIMIENTO — CORPUS DEMO", PURPLE)
+        _sent_labels = ["Positivo", "Neutro", "Negativo"]
+        _sent_vals = [28, 42, 30]
+        _sent_colors = [GREEN, TEXT2, RED]
+        fig_sent = go.Figure(go.Bar(
+            x=_sent_labels, y=_sent_vals,
+            marker_color=_sent_colors,
+            text=[f"{v}%" for v in _sent_vals],
+            textposition="outside",
+            textfont=dict(color=TEXT, size=11),
+        ))
+        fig_sent.update_layout(
+            height=200, paper_bgcolor=BG2, plot_bgcolor=BG2,
+            margin=dict(t=10, b=10, l=10, r=10),
+            xaxis=dict(color=TEXT), yaxis=dict(color=TEXT2, gridcolor=BORDER, ticksuffix="%"),
+            showlegend=False,
+        )
+        st.plotly_chart(fig_sent, use_container_width=True, config={"displayModeBar": False})
+        st.caption("Instala pysentimiento y yake para analisis en tiempo real: pip install pysentimiento yake")
     elif not texto_analizar:
         st.markdown(f"""
         <div style="background:{BG3};border:1px dashed {BORDER};border-radius:10px;

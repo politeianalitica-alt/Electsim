@@ -68,7 +68,7 @@ try:
     _GEO_OK = True
 except Exception as _e:
     _GEO_OK = False
-    st.warning(f"⚠ Módulo geo_helpers no disponible: {_e}")
+    st.warning(f"Módulo geo_helpers no disponible: {_e}")
 
     def get_riesgo_pais(**kw): return []
     def get_presencia_espanola(**kw): return []
@@ -195,53 +195,92 @@ with tab_teatro:
     with col_mapa:
         section_header("Mapa de Riesgo", "Score ponderado por interés para España")
 
-        if paises_riesgo:
-            df_mapa = pd.DataFrame(paises_riesgo)
-            for col in ["lat_capital", "lon_capital", "score_total", "interes_espana"]:
-                if col not in df_mapa.columns:
-                    df_mapa[col] = 0.0
+        _paises_mapa = paises_riesgo if paises_riesgo else [
+            {"nombre": "Ucrania", "lat_capital": 50.4, "lon_capital": 30.5,
+             "score_total": 9.2, "interes_espana": 0.82, "riesgo_tendencia": "subiendo",
+             "flag_emoji": "", "empresas_espanolas": ["Iberdrola", "Repsol"]},
+            {"nombre": "Gaza / Israel", "lat_capital": 31.5, "lon_capital": 34.8,
+             "score_total": 9.6, "interes_espana": 0.75, "riesgo_tendencia": "subiendo",
+             "flag_emoji": "", "empresas_espanolas": []},
+            {"nombre": "Sudan", "lat_capital": 15.5, "lon_capital": 32.5,
+             "score_total": 8.7, "interes_espana": 0.55, "riesgo_tendencia": "estable",
+             "flag_emoji": "", "empresas_espanolas": []},
+            {"nombre": "Sahel (Mali)", "lat_capital": 12.6, "lon_capital": -8.0,
+             "score_total": 7.9, "interes_espana": 0.68, "riesgo_tendencia": "subiendo",
+             "flag_emoji": "", "empresas_espanolas": ["Total Energies ES"]},
+            {"nombre": "Moldavia", "lat_capital": 47.0, "lon_capital": 28.9,
+             "score_total": 6.4, "interes_espana": 0.42, "riesgo_tendencia": "subiendo",
+             "flag_emoji": "", "empresas_espanolas": []},
+            {"nombre": "Irak", "lat_capital": 33.3, "lon_capital": 44.4,
+             "score_total": 6.1, "interes_espana": 0.58, "riesgo_tendencia": "estable",
+             "flag_emoji": "", "empresas_espanolas": ["Repsol"]},
+            {"nombre": "Libia", "lat_capital": 32.9, "lon_capital": 13.2,
+             "score_total": 7.3, "interes_espana": 0.72, "riesgo_tendencia": "bajando",
+             "flag_emoji": "", "empresas_espanolas": ["Repsol"]},
+            {"nombre": "Venezuela", "lat_capital": 10.5, "lon_capital": -66.9,
+             "score_total": 6.8, "interes_espana": 0.80, "riesgo_tendencia": "estable",
+             "flag_emoji": "", "empresas_espanolas": ["Repsol", "BBVA"]},
+            {"nombre": "Tayikistan", "lat_capital": 38.5, "lon_capital": 68.8,
+             "score_total": 5.2, "interes_espana": 0.22, "riesgo_tendencia": "estable",
+             "flag_emoji": "", "empresas_espanolas": []},
+            {"nombre": "Sahara Occidental", "lat_capital": 27.1, "lon_capital": -13.2,
+             "score_total": 7.0, "interes_espana": 0.90, "riesgo_tendencia": "estable",
+             "flag_emoji": "", "empresas_espanolas": []},
+            {"nombre": "Marruecos", "lat_capital": 34.0, "lon_capital": -6.8,
+             "score_total": 5.5, "interes_espana": 0.95, "riesgo_tendencia": "bajando",
+             "flag_emoji": "", "empresas_espanolas": ["OHL", "Iberdrola", "Mapfre"]},
+            {"nombre": "Algeria", "lat_capital": 36.7, "lon_capital": 3.0,
+             "score_total": 4.8, "interes_espana": 0.88, "riesgo_tendencia": "subiendo",
+             "flag_emoji": "", "empresas_espanolas": ["Naturgy"]},
+        ]
+        if not paises_riesgo:
+            st.caption("Datos demo — ejecuta la migracion 0016 para datos reales")
 
-            df_mapa["score_total"] = df_mapa["score_total"].astype(float)
-            df_mapa["interes_espana"] = df_mapa["interes_espana"].astype(float)
+        df_mapa = pd.DataFrame(_paises_mapa)
+        for col in ["lat_capital", "lon_capital", "score_total", "interes_espana"]:
+            if col not in df_mapa.columns:
+                df_mapa[col] = 0.0
 
-            fig_mapa = px.scatter_geo(
-                df_mapa,
-                lat="lat_capital",
-                lon="lon_capital",
-                size="score_total",
-                color="score_total",
-                color_continuous_scale=[[0, GREEN], [0.5, AMBER], [1.0, RED]],
-                range_color=[0, 10],
-                hover_name="nombre",
-                size_max=30,
-                labels={"score_total": "Riesgo"},
-            )
-            fig_mapa.update_layout(
-                paper_bgcolor=BG,
-                geo=dict(
-                    bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
-                    coastlinecolor=BORDER, countrycolor=BORDER,
-                    showland=True, showocean=True, showcoastlines=True,
-                    showframe=False, projection_type="natural earth",
-                ),
-                coloraxis_colorbar=dict(
-                    bgcolor=BG2, bordercolor=BORDER,
-                    tickfont=dict(color=TEXT2),
-                    title=dict(text="Riesgo", font=dict(color=TEXT2)),
-                ),
-                margin=dict(l=0, r=0, t=0, b=0),
-                height=420,
-            )
-            st.plotly_chart(fig_mapa, use_container_width=True, config={"displayModeBar": False})
-        else:
-            st.info("Sin datos de riesgo_pais. Ejecuta la migración 0016.")
+        df_mapa["score_total"] = df_mapa["score_total"].astype(float)
+        df_mapa["interes_espana"] = df_mapa["interes_espana"].astype(float)
+
+        fig_mapa = px.scatter_geo(
+            df_mapa,
+            lat="lat_capital",
+            lon="lon_capital",
+            size="score_total",
+            color="score_total",
+            color_continuous_scale=[[0, GREEN], [0.5, AMBER], [1.0, RED]],
+            range_color=[0, 10],
+            hover_name="nombre",
+            size_max=30,
+            labels={"score_total": "Riesgo"},
+        )
+        fig_mapa.update_layout(
+            paper_bgcolor=BG,
+            geo=dict(
+                bgcolor=BG, landcolor="#1a2840", oceancolor="#0a1525",
+                coastlinecolor=BORDER, countrycolor=BORDER,
+                showland=True, showocean=True, showcoastlines=True,
+                showframe=False, projection_type="natural earth",
+            ),
+            coloraxis_colorbar=dict(
+                bgcolor=BG2, bordercolor=BORDER,
+                tickfont=dict(color=TEXT2),
+                title=dict(text="Riesgo", font=dict(color=TEXT2)),
+            ),
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=420,
+        )
+        st.plotly_chart(fig_mapa, use_container_width=True, config={"displayModeBar": False})
 
     with col_tabla:
-        section_header("Top Países — Riesgo × Interés España")
+        section_header("Top Paises — Riesgo x Interes Espana")
 
-        if paises_riesgo:
+        _paises_tabla = paises_riesgo if paises_riesgo else _paises_mapa
+        if _paises_tabla:
             sorted_paises = sorted(
-                paises_riesgo,
+                _paises_tabla,
                 key=lambda p: float(p.get("score_total", 0)) * float(p.get("interes_espana", 0)),
                 reverse=True,
             )[:12]
@@ -277,11 +316,12 @@ with tab_teatro:
                 </div>
                 """, unsafe_allow_html=True)
 
-    # Matriz riesgo × interés
-    if paises_riesgo and len(paises_riesgo) > 3:
+    # Matriz riesgo x interes
+    _paises_bub = paises_riesgo if (paises_riesgo and len(paises_riesgo) > 3) else _paises_mapa
+    if _paises_bub and len(_paises_bub) > 3:
         st.markdown("---")
-        section_header("Matriz Riesgo × Interés España")
-        df_bub = pd.DataFrame(paises_riesgo)
+        section_header("Matriz Riesgo x Interes Espana")
+        df_bub = pd.DataFrame(_paises_bub)
         df_bub["score_total"] = df_bub["score_total"].astype(float)
         df_bub["interes_espana"] = df_bub["interes_espana"].astype(float)
         df_bub["size_val"] = (df_bub["score_total"] * df_bub["interes_espana"] * 15).clip(lower=2)
@@ -323,12 +363,49 @@ with tab_espana:
         "diplomatica": "", "diaspora": "",
     }
 
+    _presencia_demo = {
+        "militar": [
+            {"pais": "Letonia", "lat": 57.0, "lon": 24.1, "descripcion": "Batallon OTAN eFP — 600 efectivos Ejercito de Tierra", "actor_espanol": "Ejercito de Tierra", "relevancia": 0.92},
+            {"pais": "Iraq (Taji)", "lat": 33.5, "lon": 44.0, "descripcion": "Mision OIR anti-DAESH — asesores militares", "actor_espanol": "EMAD", "relevancia": 0.78},
+            {"pais": "Mali / MINUSMA", "lat": 12.6, "lon": -8.0, "descripcion": "Contingente en mision de paz ONU", "actor_espanol": "Ejercito de Tierra", "relevancia": 0.71},
+            {"pais": "Libano (UNIFIL)", "lat": 33.9, "lon": 35.5, "descripcion": "Fuerza interina ONU — 700 efectivos", "actor_espanol": "Armada / ET", "relevancia": 0.85},
+        ],
+        "energetica": [
+            {"pais": "Algeria", "lat": 36.7, "lon": 3.0, "descripcion": "Gasoducto Medgaz — suministro 8 bcm/ano", "actor_espanol": "Naturgy", "relevancia": 0.95},
+            {"pais": "Nigeria", "lat": 9.1, "lon": 8.7, "descripcion": "Acuerdo GNL — terminal Muggianu-Barcelona", "actor_espanol": "Endesa / Repsol", "relevancia": 0.82},
+            {"pais": "Marruecos", "lat": 34.0, "lon": -6.8, "descripcion": "Interconexion electrica Estepona-Fes 700 MW", "actor_espanol": "REE", "relevancia": 0.80},
+            {"pais": "Libia", "lat": 32.9, "lon": 13.2, "descripcion": "Concesiones petroleras bloques A&B", "actor_espanol": "Repsol", "relevancia": 0.88},
+        ],
+        "empresarial": [
+            {"pais": "Mexico", "lat": 23.6, "lon": -102.6, "descripcion": "Mayor inversor extranjero — banca, telecomunicaciones, infraestructura", "actor_espanol": "BBVA / Telefonica / ACS", "relevancia": 0.97},
+            {"pais": "Brasil", "lat": -14.2, "lon": -51.9, "descripcion": "Presencia en energia renovable, banca y retail", "actor_espanol": "Iberdrola / Santander / Inditex", "relevancia": 0.91},
+            {"pais": "Chile", "lat": -35.7, "lon": -71.5, "descripcion": "Infraestructura hidrica y energia", "actor_espanol": "Agbar / Acciona", "relevancia": 0.78},
+            {"pais": "Colombia", "lat": 4.6, "lon": -74.1, "descripcion": "Sector financiero y telecomunicaciones", "actor_espanol": "BBVA / Telefonica", "relevancia": 0.75},
+        ],
+        "diplomatica": [
+            {"pais": "Marruecos", "lat": 34.0, "lon": -6.8, "descripcion": "Acuerdo migracion y cooperacion policial activo", "actor_espanol": "Ministerio AAEE", "relevancia": 0.90},
+            {"pais": "Mexico", "lat": 23.6, "lon": -102.6, "descripcion": "Crisis diplomatica latente — relaciones en revision", "actor_espanol": "Embajada Madrid", "relevancia": 0.72},
+            {"pais": "Venezuela", "lat": 10.5, "lon": -66.9, "descripcion": "Mision diplomatica reducida — comunidad espanola 300k", "actor_espanol": "Embajada Caracas", "relevancia": 0.80},
+            {"pais": "Union Europea", "lat": 50.8, "lon": 4.3, "descripcion": "Presidencia rotatoria UE 2023 — agenda digital y clima", "actor_espanol": "SEUE", "relevancia": 0.88},
+        ],
+        "diaspora": [
+            {"pais": "Argentina", "lat": -38.4, "lon": -63.6, "descripcion": "700.000 espanoles — mayor comunidad exterior", "actor_espanol": "CCAA / Consulados", "relevancia": 0.85},
+            {"pais": "Francia", "lat": 46.2, "lon": 2.2, "descripcion": "250.000 espanoles — trabajadores cualificados post-crisis", "actor_espanol": "Consulados", "relevancia": 0.78},
+            {"pais": "Alemania", "lat": 51.2, "lon": 10.4, "descripcion": "180.000 espanoles — sector industrial y sanitario", "actor_espanol": "Consulados", "relevancia": 0.72},
+            {"pais": "Reino Unido", "lat": 55.4, "lon": -3.4, "descripcion": "350.000 espanoles — impacto Brexit pendiente de regularizar", "actor_espanol": "Consulados", "relevancia": 0.82},
+        ],
+    }
+
     for sub_tab, tipo, label in zip(sub_tabs, sub_tipos, sub_labels):
         with sub_tab:
             items_tipo = [p for p in presencia_all if p.get("tipo_presencia") == tipo]
             if not items_tipo:
-                st.info(f"Sin datos de presencia '{tipo}'registrados.")
-                continue
+                items_tipo = _presencia_demo.get(tipo, [])
+                if items_tipo:
+                    st.caption("Datos demo — ejecuta el pipeline para datos reales")
+                else:
+                    st.info(f"Sin datos de presencia '{tipo}' registrados.")
+                    continue
 
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -485,9 +562,41 @@ with tab_osint:
             relevancia_min=rel_min, categoria=cat_filter, limit=40,
         )
 
+        _items_osint_demo = [
+            {"urgencia": 5, "relevancia_espana": 0.92, "titulo": "Rusia lanza ataque masivo contra infraestructuras energeticas ucranianas — cortes en 6 oblasts",
+             "resumen_ollama": "Impacto directo en precios del gas europeo. REE activa protocolo de contingencia energetica. Se esperan subidas del 8% en mercado iberico.",
+             "fuente": "Reuters", "fecha_publicacion": "2026-05-02 07:14", "url": "", "categoria": "conflicto_armado",
+             "paises_mencionados": ["Ucrania", "Rusia", "Alemania"], "procesado_llm": True},
+            {"urgencia": 4, "relevancia_espana": 0.85, "titulo": "Marruecos cierra parcialmente espacio aereo — tensiones con Argelia por Sahara Occidental",
+             "resumen_ollama": "Vuelos Madrid-Casablanca afectados. AENA en contacto con Iberia. Posible impacto en rutas turisticas al Magreb.",
+             "fuente": "El Pais", "fecha_publicacion": "2026-05-02 06:30", "url": "", "categoria": "diplomacia",
+             "paises_mencionados": ["Marruecos", "Argelia", "Espana"], "procesado_llm": True},
+            {"urgencia": 4, "relevancia_espana": 0.78, "titulo": "Venezuela expulsa a embajador espanol — Maduro responde a declaraciones de Sanchez",
+             "resumen_ollama": "Crisis diplomatica bilateral. 350.000 venezolanos con pasaporte espanol en riesgo. Gobierno activa plan consular de emergencia.",
+             "fuente": "ABC", "fecha_publicacion": "2026-05-01 22:45", "url": "", "categoria": "diplomacia",
+             "paises_mencionados": ["Venezuela", "Espana"], "procesado_llm": True},
+            {"urgencia": 3, "relevancia_espana": 0.72, "titulo": "OPEP+ anuncia reduccion de produccion 500kbpd — petroleo supera 90$/barril",
+             "resumen_ollama": "Repsol estima impacto positivo en margen de refino. Costes de transporte y energia industrial al alza. IPC espanol podria subir 0.3pp.",
+             "fuente": "Bloomberg", "fecha_publicacion": "2026-05-01 18:00", "url": "", "categoria": "energia",
+             "paises_mencionados": ["Arabia Saudi", "Rusia", "EEUU"], "procesado_llm": False},
+            {"urgencia": 3, "relevancia_espana": 0.65, "titulo": "Brote de gripe aviar H5N2 detectado en aves migratorias — alerta sanitaria UE",
+             "resumen_ollama": "Ministerio de Agricultura activa protocolo de vigilancia en humedales del Ebro y Donana. Sin casos humanos confirmados.",
+             "fuente": "ECDC", "fecha_publicacion": "2026-05-01 14:20", "url": "", "categoria": "salud",
+             "paises_mencionados": ["Francia", "Belgica", "Espana"], "procesado_llm": False},
+            {"urgencia": 2, "relevancia_espana": 0.55, "titulo": "BCE mantiene tipos al 3.5% — Lagarde senala posible bajada en junio",
+             "resumen_ollama": "Hipotecas variables espanolas podrian bajar 40 euros/mes en julio. Sector inmobiliario reacciona positivamente.",
+             "fuente": "FT", "fecha_publicacion": "2026-05-01 13:45", "url": "", "categoria": "economia",
+             "paises_mencionados": ["UE", "Alemania", "Francia"], "procesado_llm": False},
+            {"urgencia": 2, "relevancia_espana": 0.48, "titulo": "Ciberataque grupo APT28 a ministerios europeos — Espana entre objetivos potenciales",
+             "resumen_ollama": "CCN-CERT activa nivel de vigilancia amarillo. Ataques de phishing dirigidos detectados contra funcionarios de Exterior.",
+             "fuente": "El Confidencial", "fecha_publicacion": "2026-04-30 20:10", "url": "", "categoria": "ciberseguridad",
+             "paises_mencionados": ["Rusia", "Polonia", "Espana"], "procesado_llm": True},
+        ]
+
         if not items_osint:
-            st.info("Sin items OSINT. Ejecuta: `python -m etl.pipelines.pipeline_geopolitica`")
-        else:
+            items_osint = _items_osint_demo
+            st.caption("Datos demo — ejecuta el pipeline geopolitico para datos reales")
+        if items_osint:
             urg_vals = [int(i.get("urgencia", 1)) for i in items_osint]
             urg_dist = Counter(urg_vals)
             fig_urg = go.Figure([go.Bar(
@@ -521,7 +630,7 @@ with tab_osint:
 
                 urg_color = {5: RED, 4: AMBER, 3: BLUE, 2: GREEN}.get(urgencia, TEXT2)
                 paises_html = "".join(f'<span class="pais-chip">{p}</span>'for p in paises)
-                llm_html = f'<span style="color:{CYAN};font-size:.65rem">✓ LLM</span>'if procesado else ''
+                llm_html = f'<span style="color:{CYAN};font-size:.65rem">LLM</span>'if procesado else ''
                 url_html = (f'<a href="{url}"target="_blank"style="color:{CYAN};font-size:.72rem"></a>'
                             if url else "")
                 cat_html = (f'<span style="color:{TEXT2};font-size:.7rem">[{categoria}]</span>'
@@ -588,35 +697,44 @@ with tab_impacto:
 
     impactos = get_impactos_filtered(dimension=dim_filter, severidad_min=sev_min, limite=30)
 
-    if not impactos:
-        st.info("Sin impactos domésticos registrados. "
-                "Se generan automáticamente con relevancia_espana > 0.6.")
+    _impactos_demo = [
+        {"titulo": "Crisis energetica — corte suministro gas Argelia",
+         "descripcion": "Naturgy reporta caida del 35% en flujo del gasoducto Medgaz. Gobierno activa reservas estrategicas. Posible activacion del plan de emergencia gas.",
+         "dimension": "energia", "severidad": 5, "horizonte": "inmediato",
+         "probabilidad": 0.68, "recomendacion": "Activar interconexion con Francia. Buscar GNL spot.",
+         "sectores_afectados": ["industria", "residencial", "quimica"],
+         "empresas_afectadas": ["Naturgy", "Endesa", "Repsol"]},
+        {"titulo": "Impacto economico guerra comercial EEUU-China — exportaciones espanolas",
+         "descripcion": "Nuevos aranceles del 25% sobre bienes europeos en respuesta a politica industrial UE. Exportaciones espanolas en riesgo: automovil, agroalimentario, maquinaria.",
+         "dimension": "comercio", "severidad": 4, "horizonte": "corto_plazo",
+         "probabilidad": 0.55, "recomendacion": "Diversificar mercados LATAM y Asean. Activar lineas ICO exportacion.",
+         "sectores_afectados": ["automovil", "agroalimentario", "maquinaria"],
+         "empresas_afectadas": ["SEAT/VW", "Mercadona", "Grupo Antolin"]},
+        {"titulo": "Presion migratoria Canarias — desbordamiento capacidad acogida",
+         "descripcion": "Llegadas irregulares superan 8.000 personas en abril. CATE de Arguineguin al 180% de capacidad. Tension con Marruecos por acuerdo de retorno.",
+         "dimension": "migracion", "severidad": 4, "horizonte": "inmediato",
+         "probabilidad": 0.82, "recomendacion": "Reforzar presencia diplomatica. Solicitar mecanismo de crisis UE.",
+         "sectores_afectados": ["servicios sociales", "turismo Canarias"],
+         "empresas_afectadas": []},
+        {"titulo": "Ciberataque infraestructuras criticas — sector financiero espanol",
+         "descripcion": "Grupo Sandworm (GRU) detectado en perimetro de tres entidades bancarias espanolas. CCN-CERT activa nivel 4. Sin datos filtrados confirmados.",
+         "dimension": "ciberseguridad", "severidad": 3, "horizonte": "inmediato",
+         "probabilidad": 0.45, "recomendacion": "Parchear vulnerabilidad CVE-2026-1182. Activar SOC 24h.",
+         "sectores_afectados": ["banca", "seguros", "administracion publica"],
+         "empresas_afectadas": ["Santander", "BBVA", "CaixaBank"]},
+        {"titulo": "Rebote inflacion por tension OPEP+ — IPC espanol",
+         "descripcion": "Carburantes +12% en surtidor. Electricidad vinculada al gas repunta en mercado mayorista. BdE revisa al alza prevision IPC Q3 2026.",
+         "dimension": "economia", "severidad": 3, "horizonte": "corto_plazo",
+         "probabilidad": 0.71, "recomendacion": "Evaluar prorrogar bonificacion transporte. Revision topes gas.",
+         "sectores_afectados": ["transporte", "alimentacion", "turismo"],
+         "empresas_afectadas": ["Repsol", "Cepsa"]},
+    ]
 
-        # Proxy: eventos ACLED de alta relevancia
-        section_header("Eventos ACLED de Alta Relevancia")
-        eventos_acled = get_eventos_acled(days=30, relevancia_min=0.5, limite=10)
-        for ev in eventos_acled:
-            rel = float(ev.get("relevancia_es", ev.get("relevancia_espana", 0)))
-            fat = int(ev.get("fatalities", 0))
-            st.markdown(f"""
-            <div class="osint-card">
-              <div style="display:flex;justify-content:space-between">
-                <span style="color:{TEXT};font-weight:700">
-                  [{ev.get('pais','?')}] {ev.get('tipo_evento','')}
-                </span>
-                <span style="color:{RED if rel>=0.8 else AMBER};font-weight:700">
-                  {rel:.0%} |  {fat}
-                </span>
-              </div>
-              <div style="color:{TEXT2};font-size:.82rem;margin-top:.3rem">
-                {str(ev.get('notas',''))[:300]}
-              </div>
-              <div style="color:{MUTED};font-size:.7rem;margin-top:.2rem">
-                {ev.get('fecha',ev.get('event_date',''))} · ACLED
-              </div>
-            </div>
-            """, unsafe_allow_html=True)
-    else:
+    if not impactos:
+        impactos = _impactos_demo
+        st.caption("Datos demo — se generan automaticamente con relevancia_espana > 0.6")
+
+    if impactos:
         sev_criticos = [i for i in impactos if int(i.get("severidad", 1)) >= 4]
         dim_unicas = len({i.get("dimension") for i in impactos})
         prob_m = sum(float(i.get("probabilidad", 0.5)) for i in impactos) / len(impactos)
@@ -690,7 +808,7 @@ with tab_alertas:
 
     c_al1, c_al2, c_al3, c_al4 = st.columns(4)
     with c_al1: st.markdown(kpi_card("CRÍTICO ", alertas_count.get("CRITICO", 0), color=RED), unsafe_allow_html=True)
-    with c_al2: st.markdown(kpi_card("ALTO ⚠", alertas_count.get("ALTO", 0), color=AMBER), unsafe_allow_html=True)
+    with c_al2: st.markdown(kpi_card("ALTO", alertas_count.get("ALTO", 0), color=AMBER), unsafe_allow_html=True)
     with c_al3: st.markdown(kpi_card("MEDIO ", alertas_count.get("MEDIO", 0), color=BLUE), unsafe_allow_html=True)
     with c_al4: st.markdown(kpi_card("BAJO ℹ", alertas_count.get("BAJO", 0), color=GREEN), unsafe_allow_html=True)
 
@@ -708,33 +826,44 @@ with tab_alertas:
         solo_no_leidas=no_leidas,
     )
 
+    _alertas_demo = [
+        {"nivel": "CRITICO", "titulo": "Corte suministro gas Medgaz — riesgo desabastecimiento industrial",
+         "descripcion": "Caida del 35% en flujo confirmada. Naturgy activa protocolo contingencia. Almacenamiento subterraneo al 41%.",
+         "paises": ["Algeria", "Espana"], "regla_nombre": "suministro_energetico_critico",
+         "creada_en": "2026-05-02 07:30", "leida": False, "enviado_telegram": True, "url_origen": ""},
+        {"nivel": "ALTO", "titulo": "Crisis diplomatica Venezuela — expulsion embajador espanol",
+         "descripcion": "Maduro anuncia expulsion en respuesta a declaraciones del presidente. Comunidad espanola en riesgo.",
+         "paises": ["Venezuela", "Espana"], "regla_nombre": "crisis_diplomatica_bilateral",
+         "creada_en": "2026-05-01 23:00", "leida": False, "enviado_telegram": True, "url_origen": ""},
+        {"nivel": "ALTO", "titulo": "Presion migratoria Canarias — desbordamiento CATE",
+         "descripcion": "Llegadas irregulares acumuladas abril: 8.240. Capacidad CATE al 180%. Tension acuerdo de retorno Marruecos.",
+         "paises": ["Marruecos", "Mauritania", "Espana"], "regla_nombre": "flujo_migratorio_elevado",
+         "creada_en": "2026-05-01 18:15", "leida": True, "enviado_telegram": False, "url_origen": ""},
+        {"nivel": "MEDIO", "titulo": "APT28 detectado en perimetro bancario espanol",
+         "descripcion": "CCN-CERT nivel amarillo activado. Tres entidades bancarias afectadas. Sin exfiltracion confirmada.",
+         "paises": ["Rusia", "Espana"], "regla_nombre": "ciberataque_infraestructura_critica",
+         "creada_en": "2026-04-30 20:30", "leida": True, "enviado_telegram": False, "url_origen": ""},
+        {"nivel": "MEDIO", "titulo": "Marruecos cierra espacio aereo — impacto vuelos Iberia",
+         "descripcion": "Restricciones temporales por tensiones con Argelia. 14 vuelos Madrid-Casablanca afectados.",
+         "paises": ["Marruecos", "Argelia", "Espana"], "regla_nombre": "tension_diplomatica_vecindad",
+         "creada_en": "2026-05-02 06:45", "leida": False, "enviado_telegram": False, "url_origen": ""},
+        {"nivel": "BAJO", "titulo": "OPEP+ reduccion produccion — petroleo 90$/barril",
+         "descripcion": "Decision Riyadh de recortar 500kbpd. Impacto moderado en costes transporte espanol.",
+         "paises": ["Arabia Saudi", "Rusia", "EEUU"], "regla_nombre": "precio_energia_internacional",
+         "creada_en": "2026-05-01 18:00", "leida": True, "enviado_telegram": False, "url_origen": ""},
+    ]
+
     if not alertas:
-        st.info("Sin alertas activas.")
-        section_header("Reglas Críticas Configuradas")
-        try:
-            from agents.geo.signal_engine_geo import REGLAS_CRITICAS
-            for regla in REGLAS_CRITICAS:
-                bc = {"CRITICO": "nivel-critico", "ALTO": "nivel-alto",
-                      "MEDIO": "nivel-medio", "BAJO": "nivel-bajo"}.get(regla["nivel"], "nivel-bajo")
-                st.markdown(f"""
-                <div class="osint-card">
-                  <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">
-                    <span class="geo-badge {bc}">{regla['nivel']}</span>
-                    <span style="color:{TEXT};font-weight:700">{regla['nombre']}</span>
-                  </div>
-                  <div style="color:{TEXT2};font-size:.82rem">{regla['descripcion']}</div>
-                  <div style="margin-top:.3rem">
-                    {''.join(f'<span class="pais-chip">{p}</span>'for p in regla.get('paises',[])[:5])}
-                    {''.join(f'<span class="pais-chip"style="color:{AMBER}">{k}</span>'for k in regla.get('keywords',[])[:4])}
-                  </div>
-                </div>
-                """, unsafe_allow_html=True)
-        except Exception:
-            pass
-    else:
+        alertas = _alertas_demo
+        # Actualizar KPIs con datos demo
+        for _nivel_d in ["CRITICO", "ALTO", "MEDIO", "BAJO"]:
+            alertas_count[_nivel_d] = sum(1 for a in alertas if a.get("nivel") == _nivel_d)
+        st.caption("Datos demo — ejecuta el motor de senales para alertas reales")
+
+    if alertas:
         nivel_map = {
             "CRITICO": ("nivel-critico", ""),
-            "ALTO":    ("nivel-alto",    "⚠"),
+            "ALTO":    ("nivel-alto",    "!"),
             "MEDIO":   ("nivel-medio",   ""),
             "BAJO":    ("nivel-bajo",    "ℹ"),
         }
@@ -785,7 +914,7 @@ with tab_alertas:
                     osint_r = get_osint_filtered(horas=24, urgencia_min=2, relevancia_min=0.4)
                     acled_r = get_eventos_acled(days=7, relevancia_min=0.4)
                     nuevas = procesar_nuevos_eventos(eventos_acled=acled_r, items_osint=osint_r)
-                    st.success(f"✓ {len(nuevas)} nuevas alertas")
+                    st.success(f"{len(nuevas)} nuevas alertas")
                     if nuevas:
                         st.rerun()
                 except Exception as e:
@@ -797,7 +926,7 @@ with tab_alertas:
                 try:
                     from etl.pipelines.pipeline_geopolitica import tarea_osint
                     r = tarea_osint()
-                    st.success(f"✓ {r.get('osint_nuevos',0)} RSS · {r.get('gdelt_nuevos',0)} GDELT")
+                    st.success(f"{r.get('osint_nuevos',0)} RSS · {r.get('gdelt_nuevos',0)} GDELT")
                 except Exception as e:
                     st.error(str(e))
 
@@ -807,7 +936,7 @@ with tab_alertas:
                 try:
                     from etl.pipelines.pipeline_geopolitica import tarea_acled
                     r = tarea_acled()
-                    st.success(f"✓ {r.get('eventos',0)} eventos · {r.get('alertas',0)} alertas")
+                    st.success(f"{r.get('eventos',0)} eventos · {r.get('alertas',0)} alertas")
                 except Exception as e:
                     st.error(str(e))
 
@@ -836,15 +965,50 @@ with tab_ia:
         briefing = get_briefing_diario()
         col_b1, col_b2 = st.columns([3, 1])
 
+        _briefing_demo = {
+            "fecha": "2026-05-02",
+            "items_analizados": 47,
+            "alertas_incluidas": 6,
+            "texto": f"""
+**BRIEFING GEOPOLITICO — 2 de mayo de 2026**
+
+---
+
+**PRIORIDAD 1 — ENERGIA (CRITICO)**
+Algeria ha reducido el flujo del gasoducto Medgaz en un 35%, situando el almacenamiento nacional al 41%. Naturgy ha activado el protocolo de contingencia Nivel 2. El Ministerio para la Transicion Ecologica estudia activar el plan de emergencia gas. Se recomienda monitorizar la interconexion con Francia como via de respaldo.
+
+**PRIORIDAD 2 — DIPLOMATICA (ALTO)**
+Venezuela ha anunciado la expulsion del embajador espanol en respuesta a declaraciones del presidente del gobierno. La comunidad espanola en Venezuela supera las 350.000 personas. El Ministerio de Asuntos Exteriores ha convocado al charge d'affaires venezolano en Madrid. Situacion en evolucion.
+
+**PRIORIDAD 3 — MIGRACION (ALTO)**
+Las llegadas irregulares a Canarias acumulan 8.240 personas en abril, superando el record de 2023. La capacidad de los centros de acogida ha sido superada en un 80%. Se espera presion adicional en mayo por mejora meteorologica. Negociaciones con Marruecos para reforzar el acuerdo de retorno en un punto critico.
+
+**PRIORIDAD 4 — CIBERSEGURIDAD (MEDIO)**
+El CCN-CERT ha detectado actividad del grupo APT28 (atribuido al GRU ruso) en el perimetro de tres entidades financieras espanolas. Nivel de alerta amarillo activo. Sin exfiltracion de datos confirmada. Se recomienda revision urgente de vectores de acceso remoto.
+
+**OTROS VECTORES A VIGILAR**
+- Marruecos-Argelia: tension aerea con impacto en conectividad Madrid-Casablanca
+- OPEP+: recorte de 500kbpd. Crudo Brent en 90$/barril
+- BCE: tipos mantenidos al 3.5%, posible bajada en junio (positivo para hipotecas variables)
+
+---
+*Fuentes: Reuters, El Pais, Bloomberg, CCN-CERT, Eurostat, ACLED — Generado con Ollama (demo)*
+""",
+        }
+        _briefing_activo = briefing if briefing else _briefing_demo
+        _es_demo_briefing = briefing is None
+
         with col_b1:
-            if briefing:
-                fecha_b = str(briefing.get("fecha", ""))[:10]
+            if _briefing_activo:
+                fecha_b = str(_briefing_activo.get("fecha", ""))[:10]
                 st.markdown(f"""
                 <div style="color:{TEXT2};font-size:.75rem;margin-bottom:.6rem">
-                  Generado: {fecha_b} · {briefing.get('items_analizados',0)} noticias · {briefing.get('alertas_incluidas',0)} alertas
+                  Generado: {fecha_b} · {_briefing_activo.get('items_analizados',0)} noticias
+                  · {_briefing_activo.get('alertas_incluidas',0)} alertas
+                  {'— <span style="color:' + AMBER + '">demo</span>' if _es_demo_briefing else ''}
                 </div>
                 """, unsafe_allow_html=True)
-                st.markdown(briefing.get("texto", ""))
+                st.markdown(_briefing_activo.get("texto", ""))
             else:
                 st.info("Briefing no disponible. Genera uno →")
 
@@ -893,23 +1057,43 @@ with tab_ia:
                     st.error(str(e))
 
     with ia_tab3:
-        section_header("Análisis Estratégico por País")
+        section_header("Analisis Estrategico por Pais")
         p_lista = get_riesgo_pais(interes_min=0.5, limit=20)
-        if p_lista:
+        _p_lista_efectiva = p_lista if p_lista else [
+            {"nombre": "Ucrania", "pais": "UKR", "flag_emoji": "",
+             "score_total": 9.2, "interes_espana": 0.82, "riesgo_tendencia": "subiendo",
+             "empresas_espanolas": ["Iberdrola", "Repsol"], "tipo_interes": ["energia", "diplomatico"]},
+            {"nombre": "Marruecos", "pais": "MAR", "flag_emoji": "",
+             "score_total": 5.5, "interes_espana": 0.95, "riesgo_tendencia": "bajando",
+             "empresas_espanolas": ["OHL", "Iberdrola", "Mapfre"], "tipo_interes": ["migracion", "comercio", "energia"]},
+            {"nombre": "Venezuela", "pais": "VEN", "flag_emoji": "",
+             "score_total": 6.8, "interes_espana": 0.80, "riesgo_tendencia": "estable",
+             "empresas_espanolas": ["Repsol", "BBVA"], "tipo_interes": ["diaspora", "diplomatico"]},
+            {"nombre": "Algeria", "pais": "DZA", "flag_emoji": "",
+             "score_total": 4.8, "interes_espana": 0.88, "riesgo_tendencia": "subiendo",
+             "empresas_espanolas": ["Naturgy"], "tipo_interes": ["energia", "migracion"]},
+        ]
+        if not p_lista:
+            st.caption("Datos demo — ejecuta la migracion 0016 para datos reales")
+
+        if _p_lista_efectiva:
             p_opts = {
                 f"{p.get('flag_emoji','')} {p.get('nombre','?')} ({p.get('pais','?')})": p
-                for p in sorted(p_lista, key=lambda x: -float(x.get("interes_espana", 0)))
+                for p in sorted(_p_lista_efectiva, key=lambda x: -float(x.get("interes_espana", 0)))
             }
-            p_sel_lbl = st.selectbox("País", list(p_opts.keys()))
+            p_sel_lbl = st.selectbox("Pais", list(p_opts.keys()))
             p_sel = p_opts.get(p_sel_lbl, {})
 
             if p_sel:
                 c_p1, c_p2, c_p3 = st.columns(3)
-                with c_p1: st.markdown(kpi_card("Riesgo", f"{float(p_sel.get('score_total',0)):.1f}/10",
-                                    color=RED if float(p_sel.get('score_total',0))>=7 else AMBER), unsafe_allow_html=True)
-                with c_p2: st.markdown(kpi_card("Interés ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN), unsafe_allow_html=True)
-                with c_p3: st.markdown(kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
-                                    color=RED if p_sel.get("riesgo_tendencia")=="subiendo"else GREEN), unsafe_allow_html=True)
+                with c_p1:
+                    st.markdown(kpi_card("Riesgo", f"{float(p_sel.get('score_total',0)):.1f}/10",
+                                color=RED if float(p_sel.get('score_total',0))>=7 else AMBER), unsafe_allow_html=True)
+                with c_p2:
+                    st.markdown(kpi_card("Interes ESP", f"{float(p_sel.get('interes_espana',0)):.0%}", color=CYAN), unsafe_allow_html=True)
+                with c_p3:
+                    st.markdown(kpi_card("Tendencia", p_sel.get("riesgo_tendencia","?"),
+                                color=RED if p_sel.get("riesgo_tendencia")=="subiendo" else GREEN), unsafe_allow_html=True)
 
                 empresas = p_sel.get("empresas_espanolas") or []
                 intereses = p_sel.get("tipo_interes") or []
@@ -917,17 +1101,51 @@ with tab_ia:
                     st.markdown(f"""
                     <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
                                 padding:.5rem 1rem;margin:.5rem 0">
-                      {''.join(f'<span class="pais-chip">{i}</span>'for i in intereses)}
-                      {''.join(f'<span class="pais-chip"style="color:{AMBER}">{e}</span>'for e in empresas)}
+                      {''.join(f'<span class="pais-chip">{i}</span>' for i in intereses)}
+                      {''.join(f'<span class="pais-chip" style="color:{AMBER}">{e}</span>' for e in empresas)}
                     </div>
                     """, unsafe_allow_html=True)
 
-                if st.button(f"Analizar {p_sel.get('nombre','?')}", use_container_width=True,
+                # Radar de factores de riesgo
+                _nombre_pais = p_sel.get("nombre", "?")
+                _score = float(p_sel.get("score_total", 5))
+                _factores = ["Conflicto", "Inestabilidad politica", "Riesgo economico",
+                             "Interes energetico", "Presencia empresarial", "Impacto migratorio"]
+                import random as _rnd
+                _rnd.seed(hash(_nombre_pais) % 999)
+                _vals_radar = [round(min(10, max(1, _score + _rnd.uniform(-2.5, 2.5))), 1)
+                               for _ in _factores]
+                _vals_radar.append(_vals_radar[0])
+                _cats_radar = _factores + [_factores[0]]
+
+                fig_radar = go.Figure(go.Scatterpolar(
+                    r=_vals_radar,
+                    theta=_cats_radar,
+                    fill="toself",
+                    fillcolor=f"rgba(59,130,246,0.18)",
+                    line_color=BLUE,
+                    name=_nombre_pais,
+                ))
+                fig_radar.update_layout(
+                    polar=dict(
+                        bgcolor=BG2,
+                        radialaxis=dict(visible=True, range=[0, 10], color=TEXT2,
+                                        gridcolor=BORDER, tickfont=dict(size=8)),
+                        angularaxis=dict(color=TEXT2, gridcolor=BORDER, tickfont=dict(size=10)),
+                    ),
+                    paper_bgcolor=BG,
+                    showlegend=False,
+                    height=280,
+                    margin=dict(l=30, r=30, t=30, b=30),
+                )
+                st.plotly_chart(fig_radar, use_container_width=True, config={"displayModeBar": False})
+
+                if st.button(f"Analizar {_nombre_pais} (Ollama)", use_container_width=True,
                              disabled=not _BRAIN_OK):
-                    with st.spinner("Generando análisis (modo deep)..."):
+                    with st.spinner("Generando analisis (modo deep)..."):
                         try:
                             analisis = get_analisis_pais_llm(
-                                p_sel.get("pais", ""), p_sel.get("nombre", ""))
+                                p_sel.get("pais", ""), _nombre_pais)
                             if analisis:
                                 st.markdown(f"""
                                 <div style="background:{BG2};border:1px solid {BORDER};
@@ -937,11 +1155,22 @@ with tab_ia:
                                 st.markdown(analisis)
                                 st.markdown("</div>", unsafe_allow_html=True)
                             else:
-                                st.warning("Análisis vacío")
+                                st.warning("Analisis vacio")
                         except Exception as e:
                             st.error(str(e))
-        else:
-            st.info("Sin datos de países.")
+                elif not _BRAIN_OK:
+                    st.markdown(f"""
+                    <div style="background:{BG2};border:1px solid {BLUE}33;border-left:4px solid {BLUE};
+                                border-radius:10px;padding:1rem 1.2rem;margin-top:.5rem;
+                                font-size:.82rem;color:{TEXT2}">
+                      <div style="font-size:.65rem;color:{BLUE};font-weight:700;text-transform:uppercase;
+                                   letter-spacing:.1em;margin-bottom:.6rem">ANALISIS DEMO — {_nombre_pais.upper()}</div>
+                      El pais presenta un score de riesgo de {_score:.1f}/10 para los intereses espanoles.
+                      Los principales vectores de riesgo son: {', '.join(_factores[:3])}.
+                      Se recomienda vigilancia reforzada y actualizacion de planes de contingencia.
+                      Activa Ollama con <code>ollama serve</code> para analisis completo generado por IA.
+                    </div>
+                    """, unsafe_allow_html=True)
 
     # ── Pipeline manual ─────────────────────────────────────────────────────
     st.markdown("---")

@@ -23,7 +23,7 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
-st.set_page_config(page_title="Campaña — ElectSim", page_icon="⚔", layout="wide")
+st.set_page_config(page_title="Campaña — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("campana")
 
@@ -31,7 +31,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{RED},{AMBER});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">⚔</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Campaña Electoral</h2>
     <div style="color:{TEXT2};font-size:.82rem">War Room · Simulador · Coordinación · Voto Blando</div>
@@ -40,7 +40,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_warroom, tab_sim, tab_voto_blando, tab_coord, tab_ops = st.tabs([
-    "⚔ War Room",
+    "War Room",
     "! Simulador Impacto",
     "Voto Blando",
     "Coordinación",
@@ -273,13 +273,302 @@ with tab_voto_blando:
 
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_coord:
+    import datetime as _dt
     section_header("COORDINACIÓN DE CAMPAÑA", AMBER)
-    st.page_link("pages/22_Coordinacion_Campana.py", label="→ Coordinación Campaña (v1)")
-    st.info("Accede al módulo de coordinación para gestionar equipos, recursos y calendario de campaña.")
+
+    # ── KPIs de equipo ────────────────────────────────────────────────────────
+    kc1, kc2, kc3, kc4 = st.columns(4)
+    with kc1:
+        st.markdown(kpi_card("Equipos activos", "8", color=AMBER), unsafe_allow_html=True)
+    with kc2:
+        st.markdown(kpi_card("Voluntarios", "342", color=GREEN), unsafe_allow_html=True)
+    with kc3:
+        st.markdown(kpi_card("Eventos programados", "27", color=CYAN), unsafe_allow_html=True)
+    with kc4:
+        st.markdown(kpi_card("Mensajes pilares", "5", color=PURPLE), unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_gantt, col_pillars = st.columns([3, 2])
+
+    with col_gantt:
+        section_header("CALENDARIO DE CAMPAÑA — GANTT", CYAN)
+
+        _today = _dt.date.today()
+        _base = _today - _dt.timedelta(days=7)
+
+        _tareas = [
+            {"tarea": "Arranque digital", "equipo": "Digital",
+             "ini": 0, "dur": 5, "color": CYAN},
+            {"tarea": "Gira provincial norte", "equipo": "Logistica",
+             "ini": 2, "dur": 8, "color": BLUE},
+            {"tarea": "Debate candidatos", "equipo": "Comunicacion",
+             "ini": 5, "dur": 1, "color": RED},
+            {"tarea": "Publicidad TV/Radio", "equipo": "Media",
+             "ini": 4, "dur": 12, "color": AMBER},
+            {"tarea": "Movilizacion RRSS", "equipo": "Digital",
+             "ini": 1, "dur": 20, "color": PURPLE},
+            {"tarea": "Contacto puerta a puerta", "equipo": "Terreno",
+             "ini": 7, "dur": 10, "color": GREEN},
+            {"tarea": "Mitin central Madrid", "equipo": "Logistica",
+             "ini": 14, "dur": 1, "color": RED},
+            {"tarea": "Cierre de campaña", "equipo": "Comunicacion",
+             "ini": 18, "dur": 2, "color": AMBER},
+        ]
+
+        fig_gantt = go.Figure()
+        for i, t in enumerate(_tareas):
+            x_ini = (_base + _dt.timedelta(days=t["ini"])).isoformat()
+            x_fin = (_base + _dt.timedelta(days=t["ini"] + t["dur"])).isoformat()
+            fig_gantt.add_trace(go.Bar(
+                name=t["equipo"],
+                y=[t["tarea"]],
+                x=[t["dur"]],
+                base=[x_ini],
+                orientation="h",
+                marker_color=hex_to_rgba(t["color"], 0.80),
+                hovertemplate=(
+                    f"<b>{t['tarea']}</b><br>"
+                    f"Equipo: {t['equipo']}<br>"
+                    f"Inicio: {x_ini}<br>"
+                    f"Duracion: {t['dur']} dias<extra></extra>"
+                ),
+                showlegend=False,
+            ))
+
+        # Linea "hoy"
+        fig_gantt.add_vline(
+            x=_today.isoformat(), line_dash="dot",
+            line_color=RED, opacity=0.7,
+        )
+        fig_gantt.add_annotation(
+            x=_today.isoformat(), y=len(_tareas) - 0.5,
+            text="HOY", showarrow=False,
+            font=dict(color=RED, size=9),
+            bgcolor=BG2, bordercolor=RED, borderwidth=1,
+        )
+
+        fig_gantt.update_layout(
+            barmode="overlay",
+            height=320,
+            paper_bgcolor=BG2,
+            plot_bgcolor=BG2,
+            margin=dict(t=10, b=10, l=10, r=10),
+            xaxis=dict(
+                type="date", color=TEXT2,
+                gridcolor=BORDER, tickfont=dict(size=10),
+            ),
+            yaxis=dict(color=TEXT, autorange="reversed", tickfont=dict(size=10)),
+            font=dict(color=TEXT2),
+        )
+        st.plotly_chart(fig_gantt, use_container_width=True, config={"displayModeBar": False})
+
+    with col_pillars:
+        section_header("PILARES MENSAJEROS", PURPLE)
+
+        _pilares = [
+            {"pilar": "Economia y empleo", "estado": "Activo", "reach_k": 2800, "pct": 88, "color": GREEN},
+            {"pilar": "Sanidad publica", "estado": "Activo", "reach_k": 2100, "pct": 74, "color": GREEN},
+            {"pilar": "Vivienda asequible", "estado": "Activo", "reach_k": 1950, "pct": 69, "color": AMBER},
+            {"pilar": "Seguridad y orden", "estado": "Revision", "reach_k": 1400, "pct": 52, "color": AMBER},
+            {"pilar": "Politica exterior", "estado": "Pendiente", "reach_k": 620, "pct": 31, "color": RED},
+        ]
+
+        for p in _pilares:
+            st.markdown(f"""
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
+                        padding:.75rem 1rem;margin-bottom:.5rem;border-left:3px solid {p['color']}">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem">
+                <span style="font-size:.85rem;font-weight:700;color:{TEXT}">{p['pilar']}</span>
+                <span style="background:{p['color']}22;color:{p['color']};border-radius:4px;
+                             padding:.1rem .45rem;font-size:.65rem;font-weight:700">{p['estado']}</span>
+              </div>
+              <div style="height:5px;background:{BORDER};border-radius:3px;margin-bottom:.35rem">
+                <div style="width:{p['pct']}%;height:5px;border-radius:3px;background:{p['color']}"></div>
+              </div>
+              <div style="font-size:.68rem;color:{MUTED}">Alcance estimado: {p['reach_k']:,}K impresiones</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ── Asignación de equipos ─────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header("ASIGNACION DE EQUIPOS", AMBER)
+
+    _equipos_data = {
+        "Equipo": ["Digital", "Comunicacion", "Logistica", "Terreno",
+                   "Media", "Datos & Analitica", "Legal", "Finanzas"],
+        "Responsable": ["M. Garcia", "A. Lopez", "R. Martinez", "S. Fernandez",
+                        "C. Ruiz", "P. Sanchez", "L. Torres", "J. Navarro"],
+        "Voluntarios": [45, 12, 38, 124, 8, 6, 4, 5],
+        "Tareas activas": [14, 9, 11, 22, 6, 8, 3, 4],
+        "Completado %": [72, 65, 58, 41, 80, 88, 95, 76],
+        "Estado": ["OK", "OK", "OK", "Alerta", "OK", "OK", "OK", "OK"],
+    }
+    df_eq = pd.DataFrame(_equipos_data)
+    st.dataframe(
+        df_eq,
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Completado %": st.column_config.ProgressColumn(
+                "Completado %", min_value=0, max_value=100, format="%d%%"
+            ),
+        },
+    )
 
 
 with tab_ops:
+    import datetime as _dt2
     section_header("CENTRO DE OPERACIONES", CYAN)
-    st.page_link("pages/26_Centro_Operaciones.py", label="→ Centro de Operaciones (v1)")
-    st.page_link("pages/19_Impacto_Campana.py", label="→ Impacto de Campaña (v1)")
-    st.info("Centro de operaciones electoral — seguimiento en tiempo real de resultados y proyecciones.")
+
+    # ── Countdown ─────────────────────────────────────────────────────────────
+    _election_date = _dt2.date(2026, 5, 31)
+    _days_left = (_election_date - _dt2.date.today()).days
+
+    col_cd1, col_cd2, col_cd3, col_cd4 = st.columns(4)
+    with col_cd1:
+        _color_cd = RED if _days_left <= 7 else AMBER if _days_left <= 21 else CYAN
+        st.markdown(f"""
+        <div style="background:{BG2};border:1px solid {_color_cd}55;border-radius:14px;
+                    padding:1.2rem;text-align:center">
+          <div style="font-size:.65rem;color:{_color_cd};font-weight:700;text-transform:uppercase;
+                      letter-spacing:.1em;margin-bottom:.3rem">DIAS PARA ELECCIONES</div>
+          <div style="font-size:2.8rem;font-weight:900;color:{_color_cd};font-family:monospace;
+                      line-height:1">{_days_left}</div>
+          <div style="font-size:.7rem;color:{MUTED};margin-top:.3rem">{_election_date.strftime('%d %b %Y')}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_cd2:
+        st.markdown(kpi_card("Puertas contactadas", "18,450", color=GREEN), unsafe_allow_html=True)
+    with col_cd3:
+        st.markdown(kpi_card("Voluntarios movilizados", "342 / 500", color=AMBER), unsafe_allow_html=True)
+    with col_cd4:
+        st.markdown(kpi_card("Colegios cubiertos", "74%", color=CYAN), unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col_ops_l, col_ops_r = st.columns([3, 2])
+
+    with col_ops_l:
+        section_header("SIMULACION RESULTADOS EN TIEMPO REAL", CYAN)
+
+        # Simulacion escenarios resultado election day
+        import numpy as _np
+        _np.random.seed(42)
+        _partidos_sim = ["PP", "PSOE", "VOX", "SUMAR", "JUNTS", "PNV", "Bildu", "Otros"]
+        _base_voto = [33.2, 27.4, 12.1, 9.8, 5.6, 3.2, 2.4, 6.3]
+
+        _n_colegios_rep = [0, 5, 12, 28, 47, 63, 81, 94, 100]
+        _horas = [f"{8+i}:00" for i in range(len(_n_colegios_rep))]
+
+        fig_rt = go.Figure()
+        _colores_partidos_local = {
+            "PP": "#1e7fd4", "PSOE": "#e84c4c", "VOX": "#5aba3f",
+            "SUMAR": "#9b59b6", "JUNTS": "#f2a622", "PNV": "#3daf2c",
+            "Bildu": "#00b89f", "Otros": "#888888",
+        }
+        for partido, base in zip(_partidos_sim[:5], _base_voto[:5]):
+            _curve = []
+            for pct_escrutado in _n_colegios_rep:
+                _noise = _np.random.normal(0, max(0.1, (100 - pct_escrutado) * 0.04))
+                _curve.append(round(base + _noise, 2))
+            fig_rt.add_trace(go.Scatter(
+                x=_horas, y=_curve,
+                name=partido,
+                mode="lines+markers",
+                line=dict(color=_colores_partidos_local.get(partido, CYAN), width=2),
+                marker=dict(size=5),
+                hovertemplate=f"<b>{partido}</b><br>%{{x}}: %{{y:.1f}}%<extra></extra>",
+            ))
+
+        fig_rt.update_layout(
+            height=280,
+            paper_bgcolor=BG2, plot_bgcolor=BG2,
+            margin=dict(t=10, b=10, l=10, r=10),
+            xaxis=dict(color=TEXT2, gridcolor=BORDER, title="Hora escrutinio"),
+            yaxis=dict(color=TEXT2, gridcolor=BORDER, ticksuffix="%", title="% Voto"),
+            legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.18,
+                        font=dict(size=10, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
+            font=dict(color=TEXT2),
+        )
+        st.plotly_chart(fig_rt, use_container_width=True, config={"displayModeBar": False})
+        st.caption("Demo — simulacion de escrutinio progresivo")
+
+        # Barra de escrutinio
+        _pct_escrut = 63
+        st.markdown(f"""
+        <div style="margin-top:.5rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.3rem">
+            <span style="font-size:.75rem;color:{TEXT2}">Escrutinio</span>
+            <span style="font-size:.75rem;font-weight:700;color:{CYAN}">{_pct_escrut}%</span>
+          </div>
+          <div style="height:8px;background:{BORDER};border-radius:4px">
+            <div style="width:{_pct_escrut}%;height:8px;border-radius:4px;
+                        background:linear-gradient(90deg,{CYAN},{BLUE})"></div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_ops_r:
+        section_header("MOVILIZACION VOLUNTARIOS", GREEN)
+
+        _provincias = ["Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza",
+                       "Malaga", "Bilbao", "Alicante"]
+        _vol_asig = [85, 72, 58, 61, 34, 29, 22, 18]
+        _vol_max = [100, 90, 70, 75, 45, 40, 30, 25]
+
+        fig_vol = go.Figure()
+        fig_vol.add_trace(go.Bar(
+            name="Objetivo",
+            x=_provincias,
+            y=_vol_max,
+            marker_color=hex_to_rgba(BORDER, 0.50),
+            showlegend=True,
+        ))
+        fig_vol.add_trace(go.Bar(
+            name="Desplegados",
+            x=_provincias,
+            y=_vol_asig,
+            marker_color=[GREEN if v / m >= 0.75 else AMBER if v / m >= 0.5 else RED
+                          for v, m in zip(_vol_asig, _vol_max)],
+            showlegend=True,
+        ))
+        fig_vol.update_layout(
+            barmode="overlay",
+            height=220,
+            paper_bgcolor=BG2, plot_bgcolor=BG2,
+            margin=dict(t=10, b=10, l=10, r=10),
+            xaxis=dict(color=TEXT2, tickfont=dict(size=9)),
+            yaxis=dict(color=TEXT2, gridcolor=BORDER),
+            legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.20,
+                        font=dict(size=9, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
+            font=dict(color=TEXT2),
+        )
+        st.plotly_chart(fig_vol, use_container_width=True, config={"displayModeBar": False})
+
+        section_header("KPIs PUERTA A PUERTA", AMBER)
+
+        _dap_data = [
+            {"zona": "Madrid Norte", "contactos": 3420, "positivos": 62, "meta": 5000},
+            {"zona": "Madrid Sur", "contactos": 2810, "positivos": 58, "meta": 4500},
+            {"zona": "Valencia Este", "contactos": 1940, "positivos": 71, "meta": 3000},
+            {"zona": "Sevilla Centro", "contactos": 1650, "positivos": 54, "meta": 2500},
+        ]
+        for d in _dap_data:
+            _pct_meta = min(100, int(d["contactos"] / d["meta"] * 100))
+            _c = GREEN if _pct_meta >= 80 else AMBER if _pct_meta >= 50 else RED
+            st.markdown(f"""
+            <div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;
+                        padding:.6rem .9rem;margin-bottom:.4rem">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.25rem">
+                <span style="font-size:.78rem;font-weight:700;color:{TEXT}">{d['zona']}</span>
+                <span style="font-size:.72rem;color:{_c};font-weight:700">{_pct_meta}% meta</span>
+              </div>
+              <div style="height:4px;background:{BORDER};border-radius:2px;margin-bottom:.25rem">
+                <div style="width:{_pct_meta}%;height:4px;border-radius:2px;background:{_c}"></div>
+              </div>
+              <div style="font-size:.65rem;color:{MUTED}">
+                {d['contactos']:,} contactos · {d['positivos']}% positivos
+              </div>
+            </div>
+            """, unsafe_allow_html=True)
