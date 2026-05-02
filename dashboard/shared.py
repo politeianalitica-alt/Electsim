@@ -1356,7 +1356,7 @@ def scrolling_ticker(items: list[str]) -> None:
         f'.ticker-label {{position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;'
         f'background:linear-gradient(90deg,{BG2} 70%,{BG2}00);padding:0 1rem;z-index:2;}}'
         f'.ticker-content {{display:inline-flex;align-items:center;white-space:nowrap;'
-        f'animation:marquee-scroll 40s linear infinite;}}'
+        f'animation:marquee-scroll 90s linear infinite;}}'
         f'.ticker-content:hover {{animation-play-state:paused;}}'
         f'</style>'
         f'<div class="ticker-wrap">'

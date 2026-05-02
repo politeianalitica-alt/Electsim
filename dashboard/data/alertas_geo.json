@@ -1,5 +1,26 @@
 [
   {
+    "id": "osint_320d6eccc7bccaa1aebaf2114bf3d793",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Tensiones en el Sahel. ¡Malí bajo ataque!",
+    "descripcion": "Malí enfrenta ataques en el Sahel, intensificando las tensiones regionales. Ignacio Ramonet analiza la situación en su podcast.",
+    "nivel": "CRITICO",
+    "paises": [
+      "ML",
+      "FR",
+      "NE",
+      "MR"
+    ],
+    "osint_item_id": "320d6eccc7bccaa1aebaf2114bf3d793",
+    "url_origen": "https://mondiplo.com/tensiones-en-el-sahel-mali-bajo-ataque",
+    "categoria": "conflicto_armado",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_320d6eccc7bccaa1aebaf2114bf3d793",
+    "creada_en": "2026-05-02T23:14:43.867878+00:00"
+  },
+  {
     "id": "osint_d9",
     "tipo": "osint_urgente",
     "titulo": "[ALTO] Crisis diplomática en Venezuela: Maduro expulsa misión diplomática europea",
