@@ -111,7 +111,7 @@
       "rol": "Presidente ERC",
       "poder": 6,
       "region": "Cataluña",
-      "fecha_enriquecido": "2026-05-03T01:24:16.294270"
+      "fecha_enriquecido": "2026-05-03T10:59:14.132761"
     },
     "urkullu": {
       "id": "urkullu",
@@ -121,7 +121,7 @@
       "rol": "Lendakari / PNV",
       "poder": 7,
       "region": "País Vasco",
-      "fecha_enriquecido": "2026-05-03T01:24:18.291811"
+      "fecha_enriquecido": "2026-05-03T10:59:16.156204"
     },
     "otegi": {
       "id": "otegi",
@@ -131,7 +131,7 @@
       "rol": "Coordinador EH Bildu",
       "poder": 6,
       "region": "País Vasco",
-      "fecha_enriquecido": "2026-05-03T01:24:20.788451"
+      "fecha_enriquecido": "2026-05-03T10:59:18.109774"
     },
     "ayuso": {
       "id": "ayuso",
@@ -142,7 +142,7 @@
       "poder": 8,
       "region": "Madrid",
       "twitter": "@IdiazAyuso",
-      "fecha_enriquecido": "2026-05-03T01:24:22.844458"
+      "fecha_enriquecido": "2026-05-03T10:59:20.097383"
     },
     "moreno": {
       "id": "moreno",
@@ -152,7 +152,7 @@
       "rol": "Presidente Junta de Andalucía",
       "poder": 7,
       "region": "Andalucía",
-      "fecha_enriquecido": "2026-05-03T01:24:25.449350"
+      "fecha_enriquecido": "2026-05-03T10:59:22.081450"
     },
     "mazón": {
       "id": "mazón",
@@ -891,6 +891,6 @@
     "creado": "2026-04-29T22:03:02.902036",
     "n_actores": 50,
     "n_relaciones": 46,
-    "ultima_actualizacion": "2026-05-03T01:24:25.968135"
+    "ultima_actualizacion": "2026-05-03T10:59:22.644117"
   }
 }

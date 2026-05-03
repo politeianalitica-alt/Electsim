@@ -1,0 +1,517 @@
+# ============================================================
+# ALIASES.YAML  —  Registro canonico de entidades politicas
+# ============================================================
+# Formato por entrada:
+#   QID: identificador canonico unico (Q + numero)
+#   nombre_oficial: nombre oficial completo
+#   tipo: Persona | Partido | Institucion | Medio | Lugar
+#   aliases: lista de menciones equivalentes (case-insensitive en lookup)
+#   excluir_si_contexto: lista de contextos en los que este alias NO aplica
+#   cargo_actual: cargo o rol actual (opcional)
+#   partido: QID del partido (para personas)
+#   pais: codigo ISO-2 (opcional)
+# ============================================================
+
+personas:
+  - qid: Q001
+    nombre_oficial: "Pedro Sanchez Perez-Castejon"
+    tipo: Persona
+    cargo_actual: "Presidente del Gobierno de Espana"
+    partido: Q101
+    pais: ES
+    aliases:
+      - "Pedro Sanchez"
+      - "Pedro Sanchez Perez-Castejon"
+      - "el Presidente"
+      - "el presidente del Gobierno"
+      - "el Presidente del Gobierno"
+      - "Sanchez"
+      - "el jefe del Ejecutivo"
+      - "el jefe del ejecutivo"
+      - "el lider del PSOE"
+      - "lider socialista"
+      - "Presidente Sanchez"
+    excluir_si_contexto:
+      - "Adolfo Suarez"
+      - "Felipe Gonzalez"
+      - "Jose Maria Aznar"
+      - "Jose Luis Rodriguez Zapatero"
+      - "Mariano Rajoy"
+
+  - qid: Q002
+    nombre_oficial: "Alberto Nunez Feijoo"
+    tipo: Persona
+    cargo_actual: "Lider del Partido Popular"
+    partido: Q102
+    pais: ES
+    aliases:
+      - "Feijoo"
+      - "Alberto Nunez Feijoo"
+      - "Alberto Feijoo"
+      - "el lider del PP"
+      - "lider popular"
+      - "lider de la oposicion"
+      - "Nunez Feijoo"
+
+  - qid: Q003
+    nombre_oficial: "Santiago Abascal Conde"
+    tipo: Persona
+    cargo_actual: "Lider de Vox"
+    partido: Q103
+    pais: ES
+    aliases:
+      - "Abascal"
+      - "Santiago Abascal"
+      - "el lider de Vox"
+      - "lider de Vox"
+
+  - qid: Q004
+    nombre_oficial: "Yolanda Diaz Perez"
+    tipo: Persona
+    cargo_actual: "Vicepresidenta Segunda del Gobierno"
+    partido: Q104
+    pais: ES
+    aliases:
+      - "Yolanda Diaz"
+      - "Yolanda"
+      - "Vicepresidenta Diaz"
+      - "la Vicepresidenta segunda"
+      - "la vicepresidenta de Trabajo"
+      - "ministra de Trabajo"
+      - "lider de Sumar"
+
+  - qid: Q005
+    nombre_oficial: "Teresa Ribera Rodriguez"
+    tipo: Persona
+    cargo_actual: "Vicepresidenta Ejecutiva de la Comision Europea"
+    pais: ES
+    aliases:
+      - "Teresa Ribera"
+      - "Ribera"
+      - "comisaria Ribera"
+      - "vicepresidenta europea Ribera"
+
+  - qid: Q006
+    nombre_oficial: "Maria Jesus Montero Cuadrado"
+    tipo: Persona
+    cargo_actual: "Ministra de Hacienda y Vicepresidenta Primera"
+    partido: Q101
+    pais: ES
+    aliases:
+      - "Maria Jesus Montero"
+      - "Montero"
+      - "la ministra de Hacienda"
+      - "ministra de Hacienda"
+      - "Vicepresidenta Primera"
+
+  - qid: Q007
+    nombre_oficial: "Isabel Diaz Ayuso"
+    tipo: Persona
+    cargo_actual: "Presidenta de la Comunidad de Madrid"
+    partido: Q102
+    pais: ES
+    aliases:
+      - "Ayuso"
+      - "Isabel Diaz Ayuso"
+      - "la presidenta madrilena"
+      - "la presidenta de Madrid"
+      - "presidenta de la Comunidad de Madrid"
+
+  - qid: Q008
+    nombre_oficial: "Salvador Illa Roca"
+    tipo: Persona
+    cargo_actual: "Presidente de la Generalitat de Cataluna"
+    partido: Q101
+    pais: ES
+    aliases:
+      - "Salvador Illa"
+      - "Illa"
+      - "el president catalan"
+      - "President Illa"
+      - "presidente de la Generalitat"
+
+  - qid: Q009
+    nombre_oficial: "Carles Puigdemont i Casamajo"
+    tipo: Persona
+    cargo_actual: "Lider de Junts per Catalunya"
+    partido: Q110
+    pais: ES
+    aliases:
+      - "Puigdemont"
+      - "Carles Puigdemont"
+      - "el expresident"
+      - "el lider de Junts"
+      - "lider independentista"
+
+  - qid: Q010
+    nombre_oficial: "Pere Aragones i Garcia"
+    tipo: Persona
+    pais: ES
+    aliases:
+      - "Pere Aragones"
+      - "Aragones"
+      - "expresident catalan"
+
+  - qid: Q011
+    nombre_oficial: "Oriol Junqueras i Vies"
+    tipo: Persona
+    partido: Q111
+    pais: ES
+    aliases:
+      - "Junqueras"
+      - "Oriol Junqueras"
+      - "lider de ERC"
+
+  - qid: Q012
+    nombre_oficial: "Ione Belarra Urteaga"
+    tipo: Persona
+    cargo_actual: "Secretaria General de Podemos"
+    partido: Q105
+    pais: ES
+    aliases:
+      - "Ione Belarra"
+      - "Belarra"
+      - "lider de Podemos"
+      - "secretaria general de Podemos"
+
+  - qid: Q013
+    nombre_oficial: "Maite Pagazaurtundua Ruiz"
+    tipo: Persona
+    pais: ES
+    aliases:
+      - "Pagazaurtundua"
+      - "Maite Pagazaurtundua"
+      - "eurodiputada vasca"
+
+  - qid: Q014
+    nombre_oficial: "Margarita Robles Fernandez"
+    tipo: Persona
+    cargo_actual: "Ministra de Defensa"
+    partido: Q101
+    pais: ES
+    aliases:
+      - "Margarita Robles"
+      - "Robles"
+      - "la ministra de Defensa"
+      - "ministra de Defensa"
+
+  - qid: Q015
+    nombre_oficial: "Jose Manuel Albares Bueno"
+    tipo: Persona
+    cargo_actual: "Ministro de Asuntos Exteriores"
+    partido: Q101
+    pais: ES
+    aliases:
+      - "Jose Manuel Albares"
+      - "Albares"
+      - "ministro de Exteriores"
+      - "el ministro de Exteriores"
+
+  - qid: Q016
+    nombre_oficial: "Ines Arrimadas Garcia"
+    tipo: Persona
+    pais: ES
+    aliases:
+      - "Ines Arrimadas"
+      - "Arrimadas"
+      - "exlider de Ciudadanos"
+
+  - qid: Q017
+    nombre_oficial: "Ursula von der Leyen"
+    tipo: Persona
+    cargo_actual: "Presidenta de la Comision Europea"
+    pais: DE
+    aliases:
+      - "Von der Leyen"
+      - "Ursula von der Leyen"
+      - "presidenta de la Comision Europea"
+      - "la presidenta europea"
+
+  - qid: Q018
+    nombre_oficial: "Emmanuel Macron"
+    tipo: Persona
+    cargo_actual: "Presidente de la Republica Francesa"
+    pais: FR
+    aliases:
+      - "Macron"
+      - "Emmanuel Macron"
+      - "el presidente frances"
+      - "presidente de Francia"
+
+  - qid: Q019
+    nombre_oficial: "Donald Trump"
+    tipo: Persona
+    pais: US
+    aliases:
+      - "Trump"
+      - "Donald Trump"
+      - "el presidente estadounidense"
+      - "el presidente de Estados Unidos"
+      - "presidente Trump"
+
+  - qid: Q020
+    nombre_oficial: "Elon Musk"
+    tipo: Persona
+    pais: US
+    aliases:
+      - "Elon Musk"
+      - "Musk"
+      - "el dueno de X"
+      - "CEO de Tesla"
+      - "dueno de Twitter"
+
+partidos:
+  - qid: Q101
+    nombre_oficial: "Partido Socialista Obrero Espanol"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "PSOE"
+      - "el PSOE"
+      - "los socialistas"
+      - "partido socialista"
+      - "Partido Socialista"
+      - "la formacion socialista"
+      - "federacion socialista"
+
+  - qid: Q102
+    nombre_oficial: "Partido Popular"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "PP"
+      - "el PP"
+      - "los populares"
+      - "Partido Popular"
+      - "la formacion popular"
+
+  - qid: Q103
+    nombre_oficial: "Vox"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Vox"
+      - "el partido de Abascal"
+      - "la formacion de ultraderecha"
+      - "partido ultraderechista"
+
+  - qid: Q104
+    nombre_oficial: "Sumar"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Sumar"
+      - "la coalicion de izquierdas"
+      - "plataforma Sumar"
+
+  - qid: Q105
+    nombre_oficial: "Podemos"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Podemos"
+      - "la formacion morada"
+      - "el partido morado"
+
+  - qid: Q106
+    nombre_oficial: "Esquerra Republicana de Catalunya"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "ERC"
+      - "Esquerra Republicana"
+      - "los republicanos catalanes"
+      - "Esquerra"
+
+  - qid: Q107
+    nombre_oficial: "Partido Nacionalista Vasco"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "PNV"
+      - "EAJ-PNV"
+      - "los jeltzales"
+      - "partido nacionalista vasco"
+
+  - qid: Q108
+    nombre_oficial: "EH Bildu"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Bildu"
+      - "EH Bildu"
+      - "la coalicion abertzale"
+
+  - qid: Q109
+    nombre_oficial: "Ciudadanos"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Ciudadanos"
+      - "Cs"
+      - "C's"
+      - "el partido naranja"
+
+  - qid: Q110
+    nombre_oficial: "Junts per Catalunya"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "Junts"
+      - "Junts per Catalunya"
+      - "el partido de Puigdemont"
+
+  - qid: Q111
+    nombre_oficial: "Esquerra Republicana de Catalunya"
+    tipo: Partido
+    pais: ES
+    aliases:
+      - "ERC"
+      - "Esquerra"
+      - "Esquerra Republicana de Catalunya"
+    excluir_si_contexto:
+      - "CUP"
+
+instituciones:
+  - qid: Q201
+    nombre_oficial: "Congreso de los Diputados"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "Congreso"
+      - "el Congreso"
+      - "Camara Baja"
+      - "la camara baja"
+      - "el hemiciclo"
+      - "Congreso de los Diputados"
+
+  - qid: Q202
+    nombre_oficial: "Senado de Espana"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "Senado"
+      - "el Senado"
+      - "Camara Alta"
+      - "la camara alta"
+
+  - qid: Q203
+    nombre_oficial: "Gobierno de Espana"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "el Gobierno"
+      - "Gobierno de Espana"
+      - "el Ejecutivo"
+      - "la Moncloa"
+      - "el gobierno de coalicion"
+      - "el gobierno de Pedro Sanchez"
+
+  - qid: Q204
+    nombre_oficial: "Tribunal Constitucional de Espana"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "Tribunal Constitucional"
+      - "el Constitucional"
+      - "TC"
+
+  - qid: Q205
+    nombre_oficial: "Tribunal Supremo de Espana"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "Tribunal Supremo"
+      - "el Supremo"
+      - "TS"
+
+  - qid: Q206
+    nombre_oficial: "Consejo General del Poder Judicial"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "CGPJ"
+      - "Consejo General del Poder Judicial"
+      - "el organo de gobierno de los jueces"
+
+  - qid: Q207
+    nombre_oficial: "Union Europea"
+    tipo: Institucion
+    aliases:
+      - "Union Europea"
+      - "UE"
+      - "la UE"
+      - "la Union Europea"
+      - "Europa"
+      - "Bruselas"
+      - "la UE"
+
+  - qid: Q208
+    nombre_oficial: "Comision Europea"
+    tipo: Institucion
+    aliases:
+      - "Comision Europea"
+      - "la Comision"
+      - "el ejecutivo comunitario"
+      - "el ejecutivo europeo"
+
+  - qid: Q209
+    nombre_oficial: "Banco Central Europeo"
+    tipo: Institucion
+    aliases:
+      - "BCE"
+      - "Banco Central Europeo"
+      - "el banco central europeo"
+
+  - qid: Q210
+    nombre_oficial: "Banco de Espana"
+    tipo: Institucion
+    pais: ES
+    aliases:
+      - "Banco de Espana"
+      - "el Banco de Espana"
+      - "supervisor bancario espanol"
+
+medios:
+  - qid: Q301
+    nombre_oficial: "El Pais"
+    tipo: Medio
+    pais: ES
+    aliases:
+      - "El Pais"
+      - "el diario El Pais"
+      - "Grupo Prisa"
+
+  - qid: Q302
+    nombre_oficial: "El Mundo"
+    tipo: Medio
+    pais: ES
+    aliases:
+      - "El Mundo"
+      - "el diario El Mundo"
+      - "Unidad Editorial"
+
+  - qid: Q303
+    nombre_oficial: "ABC"
+    tipo: Medio
+    pais: ES
+    aliases:
+      - "ABC"
+      - "el diario ABC"
+      - "Vocento"
+
+  - qid: Q304
+    nombre_oficial: "La Vanguardia"
+    tipo: Medio
+    pais: ES
+    aliases:
+      - "La Vanguardia"
+      - "el diario La Vanguardia"
+
+  - qid: Q305
+    nombre_oficial: "El Confidencial"
+    tipo: Medio
+    pais: ES
+    aliases:
+      - "El Confidencial"
+      - "elconfidencial.com"

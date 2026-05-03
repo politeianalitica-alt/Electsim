@@ -1520,25 +1520,35 @@ with tab_narrativa:
 def _get_zoom_preset(selected_regions: tuple | list) -> dict:
     """Devuelve parametros de zoom/centro para update_geos segun regiones."""
     regions = set(selected_regions) if selected_regions else set()
-    # Solo España
+    # Solo España (Nacional o Regional)
+    if regions <= {"España Nacional", "España Regional"} and regions:
+        return {"lat": 40.4, "lon": -3.7, "scale": 5.0,
+                "range_lat": [35.5, 44.5], "range_lon": [-9.5, 4.5]}
+    # España + Europa
     if regions and regions <= {"España Nacional", "España Regional", "Europa"}:
-        return {"lat": 40.4, "lon": -3.7, "scale": 4.5,
-                "range_lat": [36.0, 44.5], "range_lon": [-9.5, 4.5]}
+        return {"lat": 48.0, "lon": 4.0, "scale": 2.8,
+                "range_lat": [34.0, 72.0], "range_lon": [-12.0, 45.0]}
     # Solo Europa
-    if regions and regions <= {"Europa", "España Nacional", "España Regional",
-                                "Africa", "America del Norte"}:
-        if "America del Norte" not in regions and "Asia" not in regions:
-            return {"lat": 52.0, "lon": 13.0, "scale": 2.2,
-                    "range_lat": [34.0, 72.0], "range_lon": [-25.0, 45.0]}
-    # Solo LATAM
+    if regions == {"Europa"}:
+        return {"lat": 54.0, "lon": 15.0, "scale": 2.5,
+                "range_lat": [34.0, 72.0], "range_lon": [-12.0, 45.0]}
+    # Solo America del Norte
+    if regions == {"America del Norte"}:
+        return {"lat": 45.0, "lon": -95.0, "scale": 1.8,
+                "range_lat": [14.0, 72.0], "range_lon": [-170.0, -50.0]}
+    # Solo America del Sur
     if regions == {"America del Sur"}:
         return {"lat": -15.0, "lon": -60.0, "scale": 1.8,
-                "range_lat": [-55.0, 15.0], "range_lon": [-82.0, -34.0]}
-    # Solo Asia
+                "range_lat": [-57.0, 15.0], "range_lon": [-82.0, -34.0]}
+    # Solo Africa
+    if regions == {"Africa"}:
+        return {"lat": 0.0, "lon": 20.0, "scale": 1.6,
+                "range_lat": [-35.0, 37.0], "range_lon": [-18.0, 52.0]}
+    # Solo Asia / Oriente Medio
     if regions == {"Asia"}:
-        return {"lat": 30.0, "lon": 100.0, "scale": 1.8,
-                "range_lat": [-10.0, 70.0], "range_lon": [25.0, 150.0]}
-    # Vista global (default)
+        return {"lat": 25.0, "lon": 95.0, "scale": 1.6,
+                "range_lat": [-12.0, 70.0], "range_lon": [25.0, 155.0]}
+    # Vista global (default / Internacional)
     return {"lat": 20.0, "lon": 0.0, "scale": 1.0,
             "range_lat": None, "range_lon": None}
 
@@ -1583,6 +1593,24 @@ _ALL_MAP_EVENTS: list[dict] = [
     # UCRANIA/RUSIA
     {"title": "Ucrania: Rusia lanza mayor ofensiva desde 2022 en Kharkiv", "source_name": "Reuters", "source_region": "europe", "source_country": "Ukraine", "source_lat": 49.99, "source_lon": 36.23, "published_at": "2026-05-03T07:00:00Z", "ai_relevance": 10, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Kharkiv, Ukraine", "ai_geo_lat": 49.99, "ai_geo_lon": 36.23, "ai_summary": "Fuerzas rusas lanzan ataque coordinado en frente norte.", "ai_spain_impact": "alto"},
     {"title": "Putin asiste a parade de la Victoria con Xi Jinping", "source_name": "Reuters", "source_region": "europe", "source_country": "Russia", "source_lat": 55.75, "source_lon": 37.62, "published_at": "2026-05-09T09:00:00Z", "ai_relevance": 9, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Moscow, Russia", "ai_geo_lat": 55.75, "ai_geo_lon": 37.62, "ai_summary": "Exhibicion de alianza sino-rusa en el 81 aniversario de la Victoria.", "ai_spain_impact": "medio"},
+    # ESPAÑA REGIONAL (source_region=regional_spain → asignado a "España Regional")
+    {"title": "Cataluña: Govern aprueba ley de vivienda con tasas a pisos vacíos", "source_name": "La Vanguardia", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 41.38, "source_lon": 2.17, "published_at": "2026-05-03T11:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "mixto", "ai_geo_location": "Cataluña, Spain", "ai_geo_lat": 41.38, "ai_geo_lon": 2.17, "ai_summary": "El Govern catalán aprueba una ley que obliga a alquilar pisos vacíos o pagar tasas.", "ai_spain_impact": "alto"},
+    {"title": "País Vasco: ETA victims' association asks for full archive access", "source_name": "El Correo", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 43.26, "source_lon": -2.93, "published_at": "2026-05-02T15:00:00Z", "ai_relevance": 7, "ai_category": "justicia", "ai_sentiment": "negativo", "ai_geo_location": "País Vasco, Spain", "ai_geo_lat": 43.26, "ai_geo_lon": -2.93, "ai_summary": "Asociaciones de víctimas del terrorismo exigen acceso a los archivos de la memoria histórica vasca.", "ai_spain_impact": "alto"},
+    {"title": "Andalucía: Juanma Moreno presenta presupuesto récord para 2027", "source_name": "Sur.es", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 37.38, "source_lon": -5.99, "published_at": "2026-05-01T12:00:00Z", "ai_relevance": 7, "ai_category": "economia", "ai_sentiment": "positivo", "ai_geo_location": "Andalucía, Spain", "ai_geo_lat": 37.38, "ai_geo_lon": -5.99, "ai_summary": "La Junta de Andalucía presenta un presupuesto de 48.000M€ con bajada del IRPF.", "ai_spain_impact": "alto"},
+    {"title": "Valencia: reconstrucción DANA supera el 60% en zonas afectadas", "source_name": "Levante EMV", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 39.47, "source_lon": -0.37, "published_at": "2026-05-02T09:00:00Z", "ai_relevance": 8, "ai_category": "sociedad", "ai_sentiment": "mixto", "ai_geo_location": "Valencia, Spain", "ai_geo_lat": 39.47, "ai_geo_lon": -0.37, "ai_summary": "A seis meses de la DANA, la reconstrucción avanza pero los retrasos burocráticos generan tensión.", "ai_spain_impact": "critico"},
+    {"title": "Galicia: mareas vermellas afectan a la cosecha de marisco", "source_name": "La Voz de Galicia", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 42.88, "source_lon": -8.54, "published_at": "2026-05-01T08:00:00Z", "ai_relevance": 6, "ai_category": "medioambiente", "ai_sentiment": "negativo", "ai_geo_location": "Galicia, Spain", "ai_geo_lat": 42.88, "ai_geo_lon": -8.54, "ai_summary": "Marea roja cierra bateas en las rías gallegas causando pérdidas millonarias al sector marisquero.", "ai_spain_impact": "medio"},
+    {"title": "Madrid CCAA: Ayuso anuncia nueva línea de Metro hasta Alcorcón", "source_name": "20minutos", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-03T10:30:00Z", "ai_relevance": 6, "ai_category": "politica_interior", "ai_sentiment": "positivo", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "La Comunidad de Madrid aprueba la licitación de una nueva línea de Metro hasta el municipio de Alcorcón.", "ai_spain_impact": "medio"},
+    # NORTEAMERICA adicional
+    {"title": "EEUU: Congreso debate ley de deportaciones masivas", "source_name": "AP", "source_region": "north_america", "source_country": "USA", "source_lat": 38.90, "source_lon": -77.03, "published_at": "2026-05-02T17:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "negativo", "ai_geo_location": "Washington DC, USA", "ai_geo_lat": 38.90, "ai_geo_lon": -77.03, "ai_summary": "El Congreso debate ampliar los poderes ejecutivos para deportaciones aceleradas.", "ai_spain_impact": "medio"},
+    {"title": "Mexico: cartel Sinaloa infiltra municipios electorales clave", "source_name": "Reforma", "source_region": "north_america", "source_country": "Mexico", "source_lat": 24.80, "source_lon": -107.39, "published_at": "2026-05-01T14:00:00Z", "ai_relevance": 7, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Sinaloa, Mexico", "ai_geo_lat": 24.80, "ai_geo_lon": -107.39, "ai_summary": "Informes de inteligencia señalan compra de candidatos municipales en Sinaloa.", "ai_spain_impact": "bajo"},
+    # AFRICA adicional
+    {"title": "Túnez: represión de medios agrava crisis migratoria hacia Europa", "source_name": "Reuters", "source_region": "africa", "source_country": "Tunisia", "source_lat": 36.82, "source_lon": 10.16, "published_at": "2026-05-02T13:00:00Z", "ai_relevance": 8, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Tunis, Tunisia", "ai_geo_lat": 36.82, "ai_geo_lon": 10.16, "ai_summary": "Las ONG alertan del aumento de salidas irregulares desde Tunisia hacia Italia y España.", "ai_spain_impact": "alto"},
+    {"title": "Libia: milicias rivales retoman enfrentamientos en Trípoli", "source_name": "Al Jazeera", "source_region": "africa", "source_country": "Libya", "source_lat": 32.89, "source_lon": 13.18, "published_at": "2026-05-01T06:00:00Z", "ai_relevance": 7, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Tripoli, Libya", "ai_geo_lat": 32.89, "ai_geo_lon": 13.18, "ai_summary": "Nuevos combates en el sur de Trípoli amenazan la tregua de 2024.", "ai_spain_impact": "medio"},
+    # ASIA adicional
+    {"title": "Pakistan: golpe de estado fallido eleva tensión con India", "source_name": "BBC", "source_region": "asia", "source_country": "Pakistan", "source_lat": 33.72, "source_lon": 73.04, "published_at": "2026-05-02T04:00:00Z", "ai_relevance": 9, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Islamabad, Pakistan", "ai_geo_lat": 33.72, "ai_geo_lon": 73.04, "ai_summary": "Militares pakistaníes desbaratan intento de golpe mientras la tensión con India escala.", "ai_spain_impact": "bajo"},
+    {"title": "Arabia Saudí lanza megaproyecto NEOM con inversión española", "source_name": "Bloomberg", "source_region": "asia", "source_country": "Saudi Arabia", "source_lat": 24.68, "source_lon": 46.72, "published_at": "2026-04-30T08:00:00Z", "ai_relevance": 7, "ai_category": "economia", "ai_sentiment": "positivo", "ai_geo_location": "Riyadh, Saudi Arabia", "ai_geo_lat": 24.68, "ai_geo_lon": 46.72, "ai_summary": "Ferrovial y ACS firman contratos de infraestructura en la megaciudad NEOM por 2.000M€.", "ai_spain_impact": "alto"},
+    # LATAM adicional
+    {"title": "Colombia: Petro suspende diálogos de paz con ELN", "source_name": "El Tiempo", "source_region": "latin_america", "source_country": "Colombia", "source_lat": 4.71, "source_lon": -74.07, "published_at": "2026-05-01T21:00:00Z", "ai_relevance": 7, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Bogota, Colombia", "ai_geo_lat": 4.71, "ai_geo_lon": -74.07, "ai_summary": "El Gobierno colombiano suspende el proceso de paz con el ELN tras ataques a civiles.", "ai_spain_impact": "bajo"},
 ]
 
 with tab_mapa:
@@ -1681,22 +1709,49 @@ with tab_mapa:
 
     # ── Helpers: assign geo_region from source_region / geo_location ─────────
     def _assign_geo_region(row: dict) -> str:
-        """Infer geo_region label for a news item if not already set."""
+        """
+        Infer geo_region label for a news item if not already set.
+
+        Priority:
+          1. row["geo_region"] if already set
+          2. source_region field (authoritative — avoids false geo_keyword matches
+             e.g. "Spain" in Europa geo_keywords must NOT override local_spain)
+          3. ai_geo_location keyword scan (fallback for unknown source_regions)
+        """
         if row.get("geo_region"):
             return row["geo_region"]
         src = row.get("source_region", "") or ""
         loc = row.get("ai_geo_location", "") or ""
+
+        # ── Phase 1: source_region is authoritative ────────────────────────────
+        # local_spain  → España Nacional (national media covers national stories)
+        # regional_spain → España Regional (regional media covers autonomous communities)
+        if src == "local_spain":
+            return "España Nacional"
+        if src == "regional_spain":
+            return "España Regional"
+
+        # For international source_regions, do a direct lookup:
+        _SRC_TO_REGION = {
+            "europe":        "Europa",
+            "north_america": "America del Norte",
+            "latin_america": "America del Sur",
+            "africa":        "Africa",
+            "asia":          "Asia",
+        }
+        if src in _SRC_TO_REGION:
+            return _SRC_TO_REGION[src]
+
+        # ── Phase 2: geo_location keyword scan (fallback for empty source) ─────
+        # Check Spain-specific regions FIRST to avoid the Europa "Spain" trap
+        _ccaa_kws = _GEO_REGIONS["España Regional"]["geo_keywords"]
+        if any(kw.lower() in loc.lower() for kw in _ccaa_kws):
+            return "España Regional"
+        if "spain" in loc.lower() or "españa" in loc.lower():
+            return "España Nacional"
         for region_label, cfg in _GEO_REGIONS.items():
-            if region_label in ("Internacional",):
+            if cfg.get("match_all") or region_label in ("Internacional", "España Nacional", "España Regional"):
                 continue
-            if src in cfg["source_regions"]:
-                # Check if it's España Regional vs España Nacional
-                if region_label == "España Nacional":
-                    # Only match if none of the regional keywords match
-                    if not any(kw.lower() in loc.lower() for kw in _GEO_REGIONS["España Regional"]["geo_keywords"]):
-                        return region_label
-                else:
-                    return region_label
             for kw in cfg["geo_keywords"]:
                 if kw.lower() in loc.lower():
                     return region_label
@@ -1768,64 +1823,119 @@ with tab_mapa:
     # ── Geographic region selectors ───────────────────────────────────────────
     _GEO_REGION_KEYS = list(_GEO_REGIONS.keys())
 
-    _geo_row1, _geo_row2, _geo_row3, _geo_row4 = st.columns(4)
-    _geo_row5, _geo_row6, _geo_row7, _geo_row8 = st.columns(4)
+    # ── Sphere selector ───────────────────────────────────────────────────────
+    # 8 geographic scopes — one active at a time; Internacional = vista global.
+    _SPHERE_DEFS: list[dict] = [
+        {"key": "Internacional",   "label": "Internacional", "icon": "🌐", "color": CYAN,
+         "region": None,                "short": "Global"},
+        {"key": "Europeo",         "label": "Europeo",       "icon": "🇪🇺", "color": BLUE,
+         "region": "Europa",            "short": "Europa"},
+        {"key": "Norte Americano", "label": "N. América",    "icon": "🌎", "color": GREEN,
+         "region": "America del Norte", "short": "N.América"},
+        {"key": "Sudamericano",    "label": "S. América",    "icon": "🌎", "color": "#22C55E",
+         "region": "America del Sur",   "short": "S.América"},
+        {"key": "Asiatico",        "label": "Asia",          "icon": "🌏", "color": PURPLE,
+         "region": "Asia",              "short": "Asia"},
+        {"key": "Africano",        "label": "África",        "icon": "🌍", "color": AMBER,
+         "region": "Africa",           "short": "África"},
+        {"key": "Nacional Español","label": "España Nac.",   "icon": "🇪🇸", "color": RED,
+         "region": "España Nacional",   "short": "Nacional"},
+        {"key": "Regional Español","label": "España Reg.",   "icon": "🗺️", "color": "#22D3EE",
+         "region": "España Regional",   "short": "CCAA"},
+    ]
 
-    with _geo_row1:
-        _sel_int = st.checkbox("Internacional", value=True, key="d7geo_int")
-    with _geo_row2:
-        _sel_eu = st.checkbox("Europa", value=True, key="d7geo_eu")
-    with _geo_row3:
-        _sel_af = st.checkbox("Africa", value=False, key="d7geo_af")
-    with _geo_row4:
-        _sel_as = st.checkbox("Asia", value=True, key="d7geo_as")
-    with _geo_row5:
-        _sel_an = st.checkbox("America del Norte", value=True, key="d7geo_an")
-    with _geo_row6:
-        _sel_as2 = st.checkbox("America del Sur", value=False, key="d7geo_as2")
-    with _geo_row7:
-        _sel_esn = st.checkbox("España Nacional", value=True, key="d7geo_esn")
-    with _geo_row8:
-        _sel_esr = st.checkbox("España Regional", value=False, key="d7geo_esr")
+    if "d7_sphere" not in st.session_state:
+        st.session_state["d7_sphere"] = "Internacional"
 
-    _selected_regions: list[str] = []
-    if _sel_int:
-        _selected_regions.append("Internacional")
-    if _sel_eu:
-        _selected_regions.append("Europa")
-    if _sel_af:
-        _selected_regions.append("Africa")
-    if _sel_as:
-        _selected_regions.append("Asia")
-    if _sel_an:
-        _selected_regions.append("America del Norte")
-    if _sel_as2:
-        _selected_regions.append("America del Sur")
-    if _sel_esn:
-        _selected_regions.append("España Nacional")
-    if _sel_esr:
-        _selected_regions.append("España Regional")
+    # Inject CSS for active sphere button styling
+    st.markdown("""
+    <style>
+    div[data-testid="column"] .stButton > button {
+        border-radius: 8px !important;
+        font-size: .68rem !important;
+        padding: .28rem .2rem !important;
+        border: 1px solid #2A3245 !important;
+        background: #0D1320 !important;
+        color: #9CA3AF !important;
+        transition: all .12s !important;
+        line-height: 1.3 !important;
+    }
+    div[data-testid="column"] .stButton > button:hover {
+        border-color: #3B82F6 !important;
+        color: #E5E7EB !important;
+        background: #131B2E !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-    # CCAA selector — visible only when España Regional is active
+    _sphere_cols = st.columns(8)
+    for _si, _sdef in enumerate(_SPHERE_DEFS):
+        with _sphere_cols[_si]:
+            _is_active = st.session_state["d7_sphere"] == _sdef["key"]
+            _sc = _sdef["color"]
+            # Active indicator above the button
+            if _is_active:
+                st.markdown(
+                    f'<div style="height:3px;border-radius:2px;'
+                    f'background:{_sc};margin-bottom:3px"></div>',
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.markdown(
+                    '<div style="height:3px;border-radius:2px;'
+                    'background:transparent;margin-bottom:3px"></div>',
+                    unsafe_allow_html=True,
+                )
+            _btn_label = f"{_sdef['icon']} {_sdef['short']}"
+            _btn_style = (
+                f"background:{_sc}22 !important;border-color:{_sc}88 !important;"
+                f"color:{_sc} !important;font-weight:800 !important;"
+                if _is_active else ""
+            )
+            if _btn_style:
+                st.markdown(
+                    f'<style>div[data-testid="column"]:nth-child({_si+1}) '
+                    f'.stButton > button {{ {_btn_style} }}</style>',
+                    unsafe_allow_html=True,
+                )
+            if st.button(_btn_label, key=f"d7_sphere_{_si}", use_container_width=True):
+                st.session_state["d7_sphere"] = _sdef["key"]
+                st.rerun()
+
+    _active_sphere = st.session_state["d7_sphere"]
+    _active_sdef   = next(s for s in _SPHERE_DEFS if s["key"] == _active_sphere)
+    _region_filter = _active_sdef["region"]   # None → show all (Internacional)
+    _selected_regions: list[str] = [_region_filter] if _region_filter else []
+
+    # Sphere title
+    _s_color = _active_sdef["color"]
+    st.markdown(
+        f'<div style="margin:.4rem 0 .2rem;font-size:.72rem;font-weight:800;'
+        f'color:{_s_color};letter-spacing:.07em;text-transform:uppercase">'
+        f'{_active_sdef["icon"]}  ESFERA ACTIVA — {_active_sphere}</div>',
+        unsafe_allow_html=True,
+    )
+
+    # CCAA selector — visible only for España Regional sphere
     _sel_ccaa: list[str] = []
-    if _sel_esr:
+    if _active_sphere == "Regional Español":
         _sel_ccaa = st.multiselect(
-            "Comunidad Autonoma",
+            "Comunidad Autónoma",
             _CCAA_LIST,
             default=[],
             key="d7geo_ccaa",
-            placeholder="Todas las comunidades autonomas",
+            placeholder="Todas las comunidades autónomas",
         )
 
     st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
 
     # ── Query / display controls ──────────────────────────────────────────────
-    col_ctrl1, col_ctrl2, col_ctrl3, col_ctrl4 = st.columns(4)
+    col_ctrl1, col_ctrl2, col_ctrl3, col_ctrl4, col_ctrl5 = st.columns([2, 2, 2, 2, 1])
     with col_ctrl1:
-        map_hours = st.selectbox("Ventana temporal", [6, 12, 24, 48, 72], index=2,
+        map_hours = st.selectbox("Ventana temporal", [6, 12, 24, 48, 72, 168], index=2,
                                   format_func=lambda x: f"Últimas {x}h", key="d7map_hours")
     with col_ctrl2:
-        map_min_rel = st.slider("Relevancia mínima", 1, 10, 7, key="d7map_rel")
+        map_min_rel = st.slider("Relevancia mínima", 1, 10, 5, key="d7map_rel")
     with col_ctrl3:
         _CATS = ["Todas", "politica_interior", "politica_exterior", "economia",
                  "seguridad_defensa", "justicia", "sociedad", "tecnologia",
@@ -1835,8 +1945,31 @@ with tab_mapa:
     with col_ctrl4:
         map_view = st.selectbox("Vista", ["Relevancia", "Sentimiento", "Impacto en España"],
                                 key="d7map_view")
+    with col_ctrl5:
+        if st.button("↺ Ingestar", key="d7map_ingest", use_container_width=True,
+                     help="Lanzar ingesta de noticias de todas las fuentes"):
+            st.session_state["d7_run_ingest"] = True
 
-    _geo_tuple = tuple(_selected_regions)
+    # ── Manual ingestion trigger ──────────────────────────────────────────────
+    if st.session_state.get("d7_run_ingest"):
+        st.session_state["d7_run_ingest"] = False
+        if _news_mod:
+            try:
+                _news_mod.init_db()
+                with st.spinner("Ingestando noticias prioritarias (≈150 fuentes)…"):
+                    _ing_stats = _news_mod.ingest_priority(use_ollama=True)
+                st.success(
+                    f"Ingesta completada: {_ing_stats.get('inserted',0)} nuevos artículos "
+                    f"de {_ing_stats.get('fetched',0)} bajados"
+                )
+                st.cache_data.clear()
+                st.rerun()
+            except Exception as _ing_exc:
+                st.error(f"Error en ingesta: {_ing_exc}")
+        else:
+            st.warning("Módulo de ingesta no disponible")
+
+    _geo_tuple  = tuple(_selected_regions)
     _ccaa_tuple = tuple(_sel_ccaa)
     df_ev = _load_global_events(map_hours, map_min_rel, map_cat, _geo_tuple, _ccaa_tuple)
 
@@ -2292,10 +2425,10 @@ with tab_mapa:
     section_header("NOTICIAS DESTACADAS POR REGION", CYAN)
 
     if not df_ev.empty:
-        # Determine which regions to show based on user selection
+        # Determine which regions to show based on active sphere
         _regions_to_show = (
             [r for r in _GEO_REGION_KEYS if r != "Internacional"]
-            if ("Internacional" in _selected_regions or not _selected_regions)
+            if not _selected_regions   # Internacional → show all regions
             else [r for r in _selected_regions if r != "Internacional"]
         )
 
