@@ -6,6 +6,7 @@ análisis de fuentes, radar de narrativas y análisis comparativo.
 from __future__ import annotations
 
 import html
+import re
 import sys
 import time
 from collections import Counter
@@ -294,12 +295,11 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ═════════════════════════════════════════════════════════════════════════════
 # TABS
 # ═════════════════════════════════════════════════════════════════════════════
-tab_rt, tab_actor, tab_fuente, tab_narrativa, tab_comp, tab_mapa = st.tabs([
+tab_rt, tab_actor, tab_fuente, tab_narrativa, tab_mapa = st.tabs([
     "COBERTURA EN TIEMPO REAL",
     "SENTIMIENTO POR ACTOR",
     "COBERTURA POR FUENTE",
     "RADAR DE NARRATIVAS",
-    "ANÁLISIS COMPARATIVO",
     "MAPA GLOBAL DE EVENTOS",
 ])
 
@@ -783,6 +783,424 @@ with tab_narrativa:
     else:
         st.info("No se detectan narrativas en punto de inflexión en este momento.")
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # ANALISIS DINAMICO DE NARRATIVA
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("<div style='height:.6rem'></div>", unsafe_allow_html=True)
+    section_header("ANALISIS DINAMICO DE NARRATIVA", AMBER)
+
+    _narr_cols_top = st.columns([2, 3], gap="large")
+    with _narr_cols_top[0]:
+        _narr_names = [n["nombre"] for n in _NARRATIVAS_DEMO]
+        _sel_narr_idx = st.selectbox(
+            "Narrativa a analizar",
+            range(len(_narr_names)),
+            format_func=lambda i: _narr_names[i],
+            key="d7_narr_deep_sel",
+            index=0,
+        )
+        _sel_narr = _NARRATIVAS_DEMO[_sel_narr_idx]
+        _sel_narr_nombre = _sel_narr["nombre"]
+        _sel_narr_intensidad = _sel_narr.get("intensidad", 50)
+        _sel_narr_delta = _sel_narr.get("delta", 0)
+        _estructura = _NARRATIVA_ESTRUCTURA.get(_sel_narr_nombre, _NARRATIVA_DEFAULT)
+
+        _nk1, _nk2, _nk3 = st.columns(3)
+        _delta_col = GREEN if _sel_narr_delta > 0 else (RED if _sel_narr_delta < 0 else MUTED)
+        _nk1.markdown(kpi_card("Intensidad", f"{_sel_narr_intensidad}/100", color=AMBER), unsafe_allow_html=True)
+        _nk2.markdown(kpi_card("Delta 24h", f"{_sel_narr_delta:+d}", color=_delta_col), unsafe_allow_html=True)
+        _nk3.markdown(kpi_card("Velocidad", f"{_sel_narr.get('velocidad',0)}/h", color=CYAN), unsafe_allow_html=True)
+
+        # Evolucion temporal
+        _tendencia = _estructura.get("tendencia", [50]*7)
+        _dias_labels = ["D-6", "D-5", "D-4", "D-3", "D-2", "Ayer", "Hoy"]
+        _fig_tend = go.Figure(go.Scatter(
+            x=_dias_labels, y=_tendencia,
+            mode="lines+markers",
+            line=dict(color=AMBER, width=2),
+            marker=dict(size=6, color=AMBER, line=dict(width=1, color=BG)),
+            fill="tozeroy",
+            fillcolor="rgba(245,158,11,0.08)",
+        ))
+        _fig_tend.update_layout(
+            paper_bgcolor=BG2, plot_bgcolor=BG2,
+            height=120, margin=dict(l=8, r=8, t=4, b=22),
+            xaxis=dict(showgrid=False, tickfont=dict(color=MUTED, size=7)),
+            yaxis=dict(showgrid=True, gridcolor=BORDER, tickfont=dict(color=MUTED, size=7), range=[0, 100]),
+            font=dict(color=TEXT2),
+        )
+        st.plotly_chart(_fig_tend, use_container_width=True, config={"displayModeBar": False}, key="d7_narr_tend2")
+
+    with _narr_cols_top[1]:
+        # Estructura de la narrativa seleccionada
+        def _narr_block(title: str, items: list, color: str) -> str:
+            bullets = "".join(
+                f'<div style="display:flex;align-items:flex-start;gap:.4rem;margin:.2rem 0">'
+                f'<span style="color:{color};font-size:.7rem;flex-shrink:0">—</span>'
+                f'<span style="font-size:.77rem;color:{TEXT};line-height:1.4">{i}</span>'
+                f'</div>'
+                for i in items
+            )
+            return (
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {color};'
+                f'border-radius:6px;padding:.6rem .9rem;margin:.35rem 0">'
+                f'<div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;'
+                f'text-transform:uppercase;color:{color};margin-bottom:.4rem">{title}</div>'
+                f'{bullets}'
+                f'</div>'
+            )
+
+        _nc1, _nc2 = st.columns(2)
+        with _nc1:
+            st.markdown(_narr_block("Elementos", _estructura["elementos"], CYAN), unsafe_allow_html=True)
+            st.markdown(_narr_block("Potenciadores", _estructura["potenciadores"], GREEN), unsafe_allow_html=True)
+        with _nc2:
+            st.markdown(_narr_block("Difusores", _estructura["difusores"], BLUE), unsafe_allow_html=True)
+            st.markdown(_narr_block("Debilitadores", _estructura["debilitadores"], RED), unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {PURPLE};'
+            f'border-radius:6px;padding:.6rem .9rem;margin:.35rem 0">'
+            f'<div style="font-size:.58rem;font-weight:800;letter-spacing:.12em;'
+            f'text-transform:uppercase;color:{PURPLE};margin-bottom:.3rem">Audiencia objetivo</div>'
+            f'<div style="font-size:.77rem;color:{TEXT};line-height:1.4">{_estructura["target"]}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    # ── Analisis Ollama profundo ─────────────────────────────────────────────
+    st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
+    section_header("INTELIGENCIA NARRATIVA — ANALISIS IA", PURPLE)
+
+    _narr_cache_key = f"d7_narr_analysis_{_sel_narr_nombre}"
+    _col_run, _col_clear, _col_bias = st.columns([3, 1, 2])
+    with _col_run:
+        _run_narr = st.button(
+            f"Analizar narrativa: {_sel_narr_nombre}",
+            key="d7_narr_ai_btn2",
+            type="primary",
+            use_container_width=True,
+        )
+    with _col_clear:
+        if st.button("Limpiar", key="d7_narr_clear2"):
+            st.session_state.pop(_narr_cache_key, None)
+            st.session_state.pop("d7_bias_analysis", None)
+            st.rerun()
+    with _col_bias:
+        _run_bias = st.button("Comparar sesgos mediaticos", key="d7_bias_btn2", use_container_width=True)
+
+    if _run_narr:
+        _titulares_rel = [
+            n.get("titulo", "") for n in noticias_main
+            if _sel_narr_nombre.lower()[:8] in (n.get("titulo","") + n.get("resumen","")).lower()
+        ][:8]
+        _prompt_narr = (
+            f"Analiza en profundidad la narrativa politica \"{_sel_narr_nombre}\" "
+            f"en el contexto espanol actual.\n\n"
+            f"DATOS:\n"
+            f"- Intensidad: {_sel_narr_intensidad}/100 (variacion {_sel_narr_delta:+d} en 24h)\n"
+            f"- Elementos: {chr(44).join(_estructura['elementos'])}\n"
+            f"- Difusores principales: {chr(44).join(_estructura['difusores'][:2])}\n"
+            f"- Target: {_estructura['target']}\n"
+            f"- Titulares relacionados: {chr(59).join(_titulares_rel) if _titulares_rel else 'sin titulares directos'}\n\n"
+            "Proporciona analisis estructurado en CINCO secciones exactas:\n"
+            "1. MARCO COGNITIVO: que angulo de realidad construye esta narrativa y que emociones activa\n"
+            "2. ACTORES NARRATIVOS: quien es el villano, la victima y el heroe en esta narrativa\n"
+            "3. TECNICAS PERSUASIVAS: que mecanismos usa para instalarse (miedo, identidad, repeticion)\n"
+            "4. CONTRANARRATIVAS: que mensajes podrian neutralizarla eficazmente\n"
+            "5. RIESGO POLITICO: impacto estimado en intenciones de voto si se intensifica\n\n"
+            "Se concreto. Cita actores reales. Sin emojis."
+        )
+        with st.spinner("Analizando con Ollama..."):
+            if _LLM_OK:
+                try:
+                    _resp = chat(
+                        _prompt_narr,
+                        sistema=(
+                            "Eres analista senior de inteligencia narrativa especializado en politica espanola. "
+                            "Usas metodologia de analisis critico del discurso y framing theory. "
+                            "Responde en espanol. Sin emojis. Rigor analitico."
+                        ),
+                    )
+                    st.session_state[_narr_cache_key] = _resp
+                except Exception as _exc_narr:
+                    st.session_state[_narr_cache_key] = f"Error Ollama: {_exc_narr}"
+            else:
+                st.session_state[_narr_cache_key] = (
+                    f"Ollama no disponible. Datos basicos:\n\n"
+                    f"Narrativa: {_sel_narr_nombre} — intensidad {_sel_narr_intensidad}/100 "
+                    f"(delta {_sel_narr_delta:+d})\n\n"
+                    f"Difusores: {chr(44).join(_estructura['difusores'][:2])}\n\n"
+                    f"Target: {_estructura['target']}"
+                )
+
+    if _narr_cache_key in st.session_state and st.session_state[_narr_cache_key]:
+        _col_a, _col_b = st.columns(2)
+        _section_colors = [CYAN, BLUE, PURPLE, AMBER, RED]
+        _blocks = [b.strip() for b in st.session_state[_narr_cache_key].split("\n\n") if b.strip()]
+        for _bi, _block in enumerate(_blocks[:10]):
+            _bc = _section_colors[_bi % len(_section_colors)]
+            _is_header = _block[:3] in ("1. ", "2. ", "3. ", "4. ", "5. ") or _block.isupper()
+            (_col_a if _bi % 2 == 0 else _col_b).markdown(
+                f'<div style="background:{_bc}08;border-left:2px solid {_bc};'
+                f'border-radius:0 5px 5px 0;padding:.6rem .9rem;margin:.3rem 0;'
+                f'font-size:.80rem;color:{TEXT if not _is_header else _bc};'
+                f'font-weight:{"700" if _is_header else "400"};line-height:1.5">'
+                f'{html.escape(_block)}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    # ── Nube de terminos + comparativa mediatica ─────────────────────────────
+    st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
+    _cloud_col, _comp_col = st.columns([3, 2], gap="large")
+
+    with _cloud_col:
+        section_header("TERMINOS DOMINANTES EN MEDIOS", CYAN)
+        _all_top_words = _top_words(noticias_main, 24)
+        if _all_top_words:
+            _max_c = max(c for _, c in _all_top_words)
+            _tag_colors = [CYAN, BLUE, PURPLE, GREEN, AMBER, RED, "#EC4899", "#F97316"]
+            _tags_html = '<div style="line-height:2.6;padding:.3rem 0">'
+            for _wi, (_word, _count) in enumerate(_all_top_words):
+                _sz = 0.62 + (_count / _max_c) * 0.95
+                _col_t = _tag_colors[_wi % len(_tag_colors)]
+                _tags_html += (
+                    f'<span style="background:{_col_t}18;color:{_col_t};'
+                    f'border:1px solid {_col_t}44;border-radius:3px;'
+                    f'padding:.12rem .45rem;margin:.15rem .2rem;display:inline-block;'
+                    f'font-size:{_sz:.2f}rem;font-weight:600">'
+                    f'{html.escape(_word)}'
+                    f'<span style="font-size:.52rem;opacity:.65;margin-left:.25rem">{_count}</span>'
+                    f'</span>'
+                )
+            _tags_html += '</div>'
+            st.markdown(_tags_html, unsafe_allow_html=True)
+        else:
+            st.info("Sin datos suficientes para nube de terminos.")
+
+    with _comp_col:
+        section_header("COMPARATIVA IZQUIERDA / DERECHA", BLUE)
+        _left_src = {"elpais", "eldiario", "publico", "infolibre"}
+        _right_src = {"elmundo", "abc", "larazon"}
+        _left_nws  = [n for n in noticias_main if n.get("fuente") in _left_src]
+        _right_nws = [n for n in noticias_main if n.get("fuente") in _right_src]
+        _left_top  = _top_words(_left_nws, 6)
+        _right_top = _top_words(_right_nws, 6)
+        _lr_cols2  = st.columns(2)
+        for _si, (_sl, _sc, _sw) in enumerate([("Izquierda", RED, _left_top), ("Derecha", BLUE, _right_top)]):
+            with _lr_cols2[_si]:
+                st.markdown(
+                    f'<div style="font-size:.62rem;color:{_sc};font-weight:700;'
+                    f'letter-spacing:.1em;margin-bottom:.35rem">{_sl.upper()}</div>',
+                    unsafe_allow_html=True,
+                )
+                for _ww, _wc in _sw:
+                    _bw = int(_wc / max(_sw[0][1], 1) * 100) if _sw else 0
+                    st.markdown(
+                        f'<div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.24rem">'
+                        f'<span style="font-size:.68rem;color:{TEXT2};width:76px;flex-shrink:0;'
+                        f'overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{_ww}</span>'
+                        f'<div style="flex:1;height:4px;background:{BORDER};border-radius:2px">'
+                        f'<div style="width:{_bw}%;height:4px;background:{_sc};border-radius:2px"></div>'
+                        f'</div>'
+                        f'<span style="font-size:.62rem;color:{MUTED};width:18px;text-align:right">{_wc}</span>'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
+
+        if _run_bias:
+            _lh = [n.get("titulo","") for n in _left_nws[:5]]
+            _rh = [n.get("titulo","") for n in _right_nws[:5]]
+            _bias_ctx = (
+                f"Medios izquierda: {chr(59).join(_lh)}\n"
+                f"Medios derecha: {chr(59).join(_rh)}\n"
+                f"Top terminos comunes: {chr(44).join(w for w, _ in (_all_top_words if '_all_top_words' in dir() else [])[:10])}"
+            )
+            with st.spinner("Analizando sesgos con Ollama..."):
+                if _LLM_OK:
+                    try:
+                        _bias_resp = chat(
+                            f"Analiza los sesgos mediaticos comparativos de hoy:\n{_bias_ctx}\n\n"
+                            "Identifica: 1) Diferencias de encuadre, 2) Temas silenciados, "
+                            "3) Palabras diferenciadoras, 4) Narrativa dominante. Sin emojis.",
+                            sistema="Eres analista experto en medios espanoles. Objetivo y conciso.",
+                        )
+                        st.session_state["d7_bias_analysis"] = _bias_resp
+                    except Exception as _bex:
+                        st.session_state["d7_bias_analysis"] = f"Error: {_bex}"
+                else:
+                    _tl = [w for w, _ in _top_words(_left_nws, 5)]
+                    _tr = [w for w, _ in _top_words(_right_nws, 5)]
+                    st.session_state["d7_bias_analysis"] = (
+                        f"Izquierda: {chr(44).join(_tl)}\n\nDerecha: {chr(44).join(_tr)}\n\nActiva Ollama."
+                    )
+
+        if "d7_bias_analysis" in st.session_state:
+            _b_blocks = [b.strip() for b in st.session_state["d7_bias_analysis"].split("\n\n") if b.strip()]
+            for _bbi, _bb in enumerate(_b_blocks[:5]):
+                _bbc = [CYAN, BLUE, PURPLE, AMBER][_bbi % 4]
+                st.markdown(
+                    f'<div style="background:{_bbc}10;border-left:3px solid {_bbc};'
+                    f'border-radius:5px;padding:.55rem .85rem;margin-bottom:.3rem;'
+                    f'font-size:.78rem;color:{TEXT};line-height:1.5">'
+                    f'{html.escape(_bb)}'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # CRUCE: ALERTAS DE DESINFORMACION RELACIONADAS
+    # Conexion con agents.intelligence.disinfo_scraper / disinfo_analyzer
+    # ══════════════════════════════════════════════════════════════════════════
+    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+    section_header("ALERTAS DE DESINFORMACION RELACIONADAS", RED)
+    st.markdown(
+        f'<p style="font-size:.74rem;color:{MUTED};margin:-6px 0 8px">Contenido falso o enganoso vinculado '
+        f'a la narrativa seleccionada — fuentes: EUvsDisinfo, Maldita.es, Newtral, AFP Factual, Verificat, Bellingcat.</p>',
+        unsafe_allow_html=True,
+    )
+
+    @st.cache_data(ttl=1800, show_spinner=False)
+    def _load_disinfo_items(narrative_keyword: str) -> list[dict]:
+        """Intenta cargar items reales del DisinfoScraper; fallback a demo."""
+        try:
+            from agents.intelligence.disinfo_scraper import DisinfoScraper as _DS
+            _scraper = _DS()
+            _all = _scraper.fetch_all(since_hours=72)
+            kw = narrative_keyword.lower()
+            _filtered = [
+                i for i in _all
+                if kw in i.title.lower()
+                or any(kw in k for k in i.keywords)
+                or any(kw in a.lower() for a in i.actors)
+            ]
+            return [
+                {
+                    "titulo": i.title,
+                    "fuente": i.source_name,
+                    "veredicto": i.verdict,
+                    "origen": i.origin,
+                    "taxonomia": i.taxonomy,
+                    "url": i.url,
+                    "actors": i.actors[:3],
+                }
+                for i in _filtered[:6]
+            ]
+        except Exception:
+            pass
+        # Demo data — siempre relativa a la narrativa en foco
+        return [
+            {
+                "titulo": f"Afirmacion sin verificar sobre {narrative_keyword} difundida en redes",
+                "fuente": "Maldita.es",
+                "veredicto": "falso",
+                "origen": "ES",
+                "taxonomia": "DOMESTIC",
+                "url": "#",
+                "actors": [],
+            },
+            {
+                "titulo": f"Cuenta coordinada amplifica mensajes sobre {narrative_keyword}",
+                "fuente": "EUvsDisinfo",
+                "veredicto": "enganoso",
+                "origen": "RU",
+                "taxonomia": "FIMI",
+                "url": "#",
+                "actors": [],
+            },
+        ]
+
+    _narr_kw = _sel_narr_nombre.split()[0] if "_sel_narr_nombre" in dir() else "economia"
+    try:
+        _narr_kw = _sel_narr_nombre.split()[0]
+    except Exception:
+        _narr_kw = "politica"
+
+    _disinfo_items = _load_disinfo_items(_narr_kw)
+
+    _VERDICT_COLORS = {
+        "falso": RED,
+        "enganoso": AMBER,
+        "sin_contexto": BLUE,
+        "parcialmente_falso": AMBER,
+        "verdadero": GREEN,
+        "satira": MUTED,
+        "desconocido": MUTED,
+    }
+    _TAXONOMY_LABELS = {
+        "FIMI": "Operacion de influencia extranjera",
+        "DOMESTIC": "Desinformacion interna",
+        "COORDINATED": "Coordinacion detectada",
+        "ORGANIC": "Organico",
+    }
+
+    if not _disinfo_items:
+        st.info("No se detectan alertas de desinformacion vinculadas a esta narrativa en las ultimas 72h.")
+    else:
+        _dc1, _dc2 = st.columns(2, gap="medium")
+        for _di_idx, _di in enumerate(_disinfo_items):
+            _dc = _dc1 if _di_idx % 2 == 0 else _dc2
+            _vc = _VERDICT_COLORS.get(_di.get("veredicto", "desconocido"), MUTED)
+            _tax_label = _TAXONOMY_LABELS.get(_di.get("taxonomia", ""), _di.get("taxonomia", ""))
+            _verdict_label = _di.get("veredicto", "desconocido").replace("_", " ").upper()
+            with _dc:
+                st.markdown(
+                    f'<div style="background:{_vc}0d;border:1px solid {_vc}40;border-radius:8px;'
+                    f'padding:.6rem .85rem;margin-bottom:.5rem">'
+                    f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">'
+                    f'<span style="font-size:.65rem;font-weight:700;color:{_vc};letter-spacing:.06em">'
+                    f'{_verdict_label}</span>'
+                    f'<span style="font-size:.6rem;color:{MUTED}">{_di.get("fuente","")}'
+                    f' | {_di.get("origen","")}</span>'
+                    f'</div>'
+                    f'<div style="font-size:.76rem;color:{TEXT};font-weight:500;line-height:1.35;margin-bottom:.25rem">'
+                    f'{html.escape(_di.get("titulo",""))}</div>'
+                    f'<div style="font-size:.63rem;color:{MUTED}">{_tax_label}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
+    # Boton analisis FIMI con Ollama
+    if st.button("Analizar patron de desinformacion con IA", key="d7_fimi_btn"):
+        with st.spinner("Analizando patron FIMI..."):
+            try:
+                import requests as _req
+                _fimi_ctx = "\n".join(
+                    f"- [{i.get('veredicto','')}] {i.get('titulo','')} (origen: {i.get('origen','')})"
+                    for i in _disinfo_items
+                ) or "No hay items de desinformacion disponibles."
+                _fimi_prompt = (
+                    f"Eres analista de inteligencia especializado en FIMI y desinformacion.\n\n"
+                    f"Narrativa en foco: {_sel_narr_nombre}\n\n"
+                    f"Alertas de desinformacion relacionadas:\n{_fimi_ctx}\n\n"
+                    f"Analiza el patron de desinformacion:\n"
+                    f"1. Coherencia del patron (organico vs coordinado)\n"
+                    f"2. Probable objetivo politico\n"
+                    f"3. Actores beneficiados\n"
+                    f"4. Recomendacion de contranarrativa\n"
+                    f"Responde de forma concisa en espanol, sin emojis."
+                )
+                _fr = _req.post(
+                    "http://localhost:11434/api/generate",
+                    json={"model": "qwen3:8b", "prompt": _fimi_prompt,
+                          "stream": False, "options": {"temperature": 0.3, "num_predict": 900}},
+                    timeout=90,
+                )
+                _fr.raise_for_status()
+                _fimi_raw = _fr.json().get("response", "")
+                _fimi_raw = re.sub(r"<think>.*?</think>", "", _fimi_raw, flags=re.DOTALL).strip()
+                st.session_state["d7_fimi_analysis"] = _fimi_raw
+            except Exception as _fe:
+                st.session_state["d7_fimi_analysis"] = f"Ollama no disponible: {_fe}"
+
+    if "d7_fimi_analysis" in st.session_state:
+        st.markdown(
+            f'<div style="background:{RED}0d;border-left:3px solid {RED};border-radius:6px;'
+            f'padding:.7rem 1rem;margin-top:.5rem;font-size:.78rem;color:{TEXT};white-space:pre-wrap;'
+            f'line-height:1.6">{html.escape(st.session_state["d7_fimi_analysis"])}</div>',
+            unsafe_allow_html=True,
+        )
+
 
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 5: ANÁLISIS COMPARATIVO — DEEP NARRATIVE INTELLIGENCE
@@ -867,675 +1285,6 @@ _NARRATIVA_DEFAULT = {
     "debilitadores": ["Agenda setting de otras narrativas más intensas", "Falta de hechos nuevos"],
     "tendencia": [30, 35, 38, 40, 42, 45, 49],
 }
-
-with tab_comp:
-    # ── Selector de narrativa ─────────────────────────────────────────────────
-    _narr_names = [n["nombre"] for n in _NARRATIVAS_DEMO]
-    _sel_narr_idx = st.selectbox(
-        "Narrativa a analizar en profundidad",
-        range(len(_narr_names)),
-        format_func=lambda i: _narr_names[i],
-        key="d7_narr_deep_sel",
-        index=0,
-    )
-    _sel_narr = _NARRATIVAS_DEMO[_sel_narr_idx]
-    _sel_narr_nombre = _sel_narr["nombre"]
-    _sel_narr_intensidad = _sel_narr.get("intensidad", 50)
-    _sel_narr_delta = _sel_narr.get("delta", 0)
-    _estructura = _NARRATIVA_ESTRUCTURA.get(_sel_narr_nombre, _NARRATIVA_DEFAULT)
-
-    st.markdown(
-        f'<div style="height:2px;background:linear-gradient(90deg,{AMBER},{PURPLE},{CYAN});'
-        f'border-radius:1px;margin:.4rem 0 .8rem 0"></div>',
-        unsafe_allow_html=True,
-    )
-
-    col_analysis, col_cloud = st.columns([3, 2], gap="large")
-
-    with col_analysis:
-        section_header(f"ANALISIS PROFUNDO: {_sel_narr_nombre.upper()}", AMBER)
-
-        # KPIs de la narrativa seleccionada
-        nk1, nk2, nk3 = st.columns(3)
-        _delta_col = GREEN if _sel_narr_delta > 0 else (RED if _sel_narr_delta < 0 else MUTED)
-        nk1.markdown(kpi_card("Intensidad actual", f"{_sel_narr_intensidad}/100", color=AMBER), unsafe_allow_html=True)
-        nk2.markdown(kpi_card("Variacion 24h", f"{_sel_narr_delta:+d}", color=_delta_col), unsafe_allow_html=True)
-        nk3.markdown(kpi_card("Velocidad difusion", f"{_sel_narr.get('velocidad',0)}/h", color=CYAN), unsafe_allow_html=True)
-
-        st.markdown("<div style='height:.4rem'></div>", unsafe_allow_html=True)
-
-        # Evolucion temporal de intensidad
-        _tendencia = _estructura.get("tendencia", [50]*7)
-        _dias_labels = ["Hace 6d", "Hace 5d", "Hace 4d", "Hace 3d", "Hace 2d", "Ayer", "Hoy"]
-        fig_tend = go.Figure(go.Scatter(
-            x=_dias_labels, y=_tendencia,
-            mode="lines+markers",
-            line=dict(color=AMBER, width=2.5),
-            marker=dict(size=7, color=AMBER, line=dict(width=1.5, color=BG)),
-            fill="tozeroy",
-            fillcolor="rgba(245,158,11,0.08)",
-        ))
-        fig_tend.update_layout(
-            paper_bgcolor=BG2, plot_bgcolor=BG2,
-            height=140, margin=dict(l=10, r=10, t=5, b=30),
-            xaxis=dict(showgrid=False, tickfont=dict(color=MUTED, size=8)),
-            yaxis=dict(showgrid=True, gridcolor=BORDER, tickfont=dict(color=MUTED, size=8), range=[0, 100]),
-            font=dict(color=TEXT2),
-        )
-        st.plotly_chart(fig_tend, use_container_width=True, config={"displayModeBar": False}, key="d7_narr_tend")
-
-        # Secciones de analisis estructural
-        def _narr_block(title: str, items: list, color: str) -> str:
-            bullets = "".join(
-                f'<div style="display:flex;align-items:flex-start;gap:.5rem;margin:.25rem 0">'
-                f'<span style="color:{color};font-size:.75rem;flex-shrink:0;margin-top:.05rem">—</span>'
-                f'<span style="font-size:.80rem;color:{TEXT};line-height:1.45">{i}</span>'
-                f'</div>'
-                for i in items
-            )
-            return (
-                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {color};'
-                f'border-radius:6px;padding:.75rem 1rem;margin:.5rem 0">'
-                f'<div style="font-size:.6rem;font-weight:800;letter-spacing:.12em;'
-                f'text-transform:uppercase;color:{color};margin-bottom:.5rem">{title}</div>'
-                f'{bullets}'
-                f'</div>'
-            )
-
-        st.markdown(
-            _narr_block("Elementos que componen la narrativa", _estructura["elementos"], CYAN),
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            _narr_block("Quién la difunde", _estructura["difusores"], BLUE),
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {PURPLE};'
-            f'border-radius:6px;padding:.75rem 1rem;margin:.5rem 0">'
-            f'<div style="font-size:.6rem;font-weight:800;letter-spacing:.12em;'
-            f'text-transform:uppercase;color:{PURPLE};margin-bottom:.4rem">Target audience</div>'
-            f'<div style="font-size:.80rem;color:{TEXT};line-height:1.5">{_estructura["target"]}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
-        _pot_col1, _pot_col2 = st.columns(2)
-        with _pot_col1:
-            st.markdown(
-                _narr_block("Eventos que la potencian", _estructura["potenciadores"], GREEN),
-                unsafe_allow_html=True,
-            )
-        with _pot_col2:
-            st.markdown(
-                _narr_block("Eventos que la debilitan", _estructura["debilitadores"], RED),
-                unsafe_allow_html=True,
-            )
-
-        # ── Analisis profundo con Ollama ──────────────────────────────────────
-        st.markdown("<div style='height:.3rem'></div>", unsafe_allow_html=True)
-        section_header("ANALISIS OLLAMA EN PROFUNDIDAD", PURPLE)
-
-        _narr_cache_key = f"d7_narr_analysis_{_sel_narr_nombre}"
-        _col_btn1, _col_btn2 = st.columns([2, 1])
-        with _col_btn1:
-            _run_narr = st.button(
-                f"Analizar narrativa con IA: {_sel_narr_nombre}",
-                key="d7_narr_ai_btn",
-                type="primary",
-                use_container_width=True,
-            )
-        with _col_btn2:
-            if st.button("Limpiar analisis", key="d7_narr_clear"):
-                st.session_state.pop(_narr_cache_key, None)
-                st.rerun()
-
-        if _run_narr:
-            _titulares_rel = [
-                n.get("titulo", "") for n in noticias_main
-                if _sel_narr_nombre.lower()[:8] in (n.get("titulo","") + n.get("resumen","")).lower()
-            ][:8]
-            _ctx_narr = (
-                f"Narrativa: {_sel_narr_nombre}\n"
-                f"Intensidad actual: {_sel_narr_intensidad}/100 (variacion {_sel_narr_delta:+d} en 24h)\n"
-                f"Titulares relacionados hoy: {'; '.join(_titulares_rel) if _titulares_rel else 'sin datos de titulares directos'}\n"
-                f"Elementos conocidos: {', '.join(_estructura['elementos'])}\n"
-                f"Difusores: {', '.join(_estructura['difusores'])}"
-            )
-            _prompt_narr = (
-                f"Analiza en profundidad la narrativa politica '{_sel_narr_nombre}' en el contexto espanol actual.\n\n"
-                f"DATOS DISPONIBLES:\n{_ctx_narr}\n\n"
-                "Proporciona un analisis estructurado con estas secciones exactas:\n"
-                "1. ORIGEN Y CONSTRUCCION: como se construyo esta narrativa y quien la inicio\n"
-                "2. MECANISMOS DE DIFUSION: como se propaga (frames, emociones, simbolos)\n"
-                "3. VULNERABILIDADES DEL DISCURSO: donde es mas debil argumentalmente\n"
-                "4. CONTRANARRATIVAS EFECTIVAS: que mensajes pueden neutralizarla\n"
-                "5. RIESGO ELECTORAL: impacto estimado en intencion de voto si se intensifica\n\n"
-                "Sé concreto, cita actores reales y usa datos cuando los tengas."
-            )
-            with st.spinner("Analizando con Ollama..."):
-                if _LLM_OK:
-                    try:
-                        _resp = chat(
-                            _prompt_narr,
-                            sistema=(
-                                "Eres un analista senior de inteligencia mediatica especializado en "
-                                "narrativas politicas espanolas. Usas metodologia de analisis critico "
-                                "del discurso (ACD) y framing theory. Responde en espanol, sin emojis, "
-                                "con rigor academico y pragmatismo politico."
-                            ),
-                        )
-                        st.session_state[_narr_cache_key] = _resp
-                    except Exception as exc:
-                        st.session_state[_narr_cache_key] = f"Error Ollama: {exc}"
-                else:
-                    st.session_state[_narr_cache_key] = (
-                        f"Ollama no disponible. Analisis basico:\n\n"
-                        f"La narrativa '{_sel_narr_nombre}' tiene intensidad {_sel_narr_intensidad}/100 "
-                        f"y una variacion de {_sel_narr_delta:+d} puntos en las ultimas 24h. "
-                        f"Los principales difusores son: {', '.join(_estructura['difusores'][:2])}. "
-                        f"El target audience principal es: {_estructura['target']}. "
-                        f"Activa Ollama para el analisis completo."
-                    )
-
-        if _narr_cache_key in st.session_state:
-            _analysis_text = st.session_state[_narr_cache_key]
-            _section_colors = [CYAN, BLUE, PURPLE, AMBER, RED]
-            _blocks = [b.strip() for b in _analysis_text.split("\n\n") if b.strip()]
-            for _bi, _block in enumerate(_blocks[:8]):
-                _bc = _section_colors[_bi % len(_section_colors)]
-                _is_header = _block.startswith(("1.", "2.", "3.", "4.", "5.")) or _block.isupper()
-                st.markdown(
-                    f'<div style="background:{_bc}08;border-left:2px solid {_bc};'
-                    f'border-radius:0 5px 5px 0;padding:.65rem 1rem;margin:.35rem 0;'
-                    f'font-size:.82rem;color:{TEXT if not _is_header else _bc};'
-                    f'font-weight:{"700" if _is_header else "400"};line-height:1.55">'
-                    f'{html.escape(_block)}'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-
-    with col_cloud:
-        section_header("NUBE DE TERMINOS", PURPLE)
-
-        left_sources = {"elpais", "eldiario", "publico", "infolibre"}
-        right_sources = {"elmundo", "abc", "larazon"}
-        left_news = [n for n in noticias_main if n.get("fuente") in left_sources]
-        right_news = [n for n in noticias_main if n.get("fuente") in right_sources]
-
-        all_top_words = _top_words(noticias_main, 22)
-        if all_top_words:
-            max_count = max(c for _, c in all_top_words)
-            tag_colors = [CYAN, BLUE, PURPLE, GREEN, AMBER, RED, "#EC4899", "#F97316"]
-            tags_html = '<div style="line-height:2.4;padding:.3rem 0">'
-            for i, (word, count) in enumerate(all_top_words):
-                size_rem = 0.65 + (count / max_count) * 0.90
-                color = tag_colors[i % len(tag_colors)]
-                tags_html += (
-                    f'<span class="tag-cloud-item" '
-                    f'style="background:{color}18;color:{color};'
-                    f'border:1px solid {color}44;'
-                    f'font-size:{size_rem:.2f}rem">'
-                    f'{html.escape(word)}'
-                    f'<span style="font-size:.55rem;opacity:.7;margin-left:.3rem">{count}</span>'
-                    f'</span>'
-                )
-            tags_html += '</div>'
-            st.markdown(tags_html, unsafe_allow_html=True)
-        else:
-            st.info("No hay datos suficientes para la nube de terminos.")
-
-        st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
-        section_header("COMPARATIVA IZQUIERDA/DERECHA", BLUE)
-
-        # Top words per side — now HTML-cleaned
-        left_top_w = _top_words(left_news, 6)
-        right_top_w = _top_words(right_news, 6)
-        _lr_cols = st.columns(2)
-        for _side_idx, (_side_label, _side_color, _side_words) in enumerate([
-            ("Izquierda", RED, left_top_w),
-            ("Derecha", BLUE, right_top_w),
-        ]):
-            with _lr_cols[_side_idx]:
-                st.markdown(
-                    f'<div style="font-size:.66rem;color:{_side_color};font-weight:700;'
-                    f'letter-spacing:.1em;margin-bottom:.4rem">{_side_label.upper()}</div>',
-                    unsafe_allow_html=True,
-                )
-                for _word, _count in _side_words:
-                    _bar_w = int(_count / max(_side_words[0][1], 1) * 100) if _side_words else 0
-                    st.markdown(
-                        f'<div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.28rem">'
-                        f'<span style="font-size:.7rem;color:{TEXT2};width:80px;flex-shrink:0;'
-                        f'white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{_word}</span>'
-                        f'<div style="flex:1;height:4px;background:{BORDER};border-radius:2px">'
-                        f'<div style="width:{_bar_w}%;height:4px;background:{_side_color};border-radius:2px"></div>'
-                        f'</div>'
-                        f'<span style="font-size:.65rem;color:{MUTED};width:18px;text-align:right">{_count}</span>'
-                        f'</div>',
-                        unsafe_allow_html=True,
-                    )
-
-        st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
-        section_header("ANALISIS IA DE SESGOS", CYAN)
-        if st.button("Analizar sesgos mediaticos del dia", key="d7_ai_bias", type="primary"):
-            with st.spinner("Analizando con Ollama..."):
-                left_headlines = [n.get("titulo", "") for n in left_news[:5]]
-                right_headlines = [n.get("titulo", "") for n in right_news[:5]]
-                ctx = (
-                    f"Medios izquierda: {'; '.join(left_headlines)}\n"
-                    f"Medios derecha: {'; '.join(right_headlines)}\n"
-                    f"Top palabras: {', '.join(w for w, _ in all_top_words[:10])}"
-                )
-                if _LLM_OK:
-                    try:
-                        resp = chat(
-                            f"Analiza los sesgos mediaticos de hoy:\n{ctx}\n\n"
-                            "Identifica: 1) Diferencias en encuadre, 2) Temas silenciados, "
-                            "3) Palabras clave diferenciadoras, 4) Narrativa dominante.",
-                            sistema=(
-                                "Eres analista experto en medios espanoles. "
-                                "Objetivo, academico y conciso. Sin emojis."
-                            ),
-                        )
-                        st.session_state["d7_bias_analysis"] = resp
-                    except Exception as exc:
-                        st.session_state["d7_bias_analysis"] = f"Error: {exc}"
-                else:
-                    top_l = [w for w, _ in _top_words(left_news, 5)]
-                    top_r = [w for w, _ in _top_words(right_news, 5)]
-                    st.session_state["d7_bias_analysis"] = (
-                        f"Medios izquierda enfatizan: {', '.join(top_l)}\n\n"
-                        f"Medios derecha enfatizan: {', '.join(top_r)}\n\n"
-                        f"Narrativa dominante: {all_top_words[0][0] if all_top_words else 'N/A'}\n\n"
-                        f"Activa Ollama para analisis completo."
-                    )
-
-        if "d7_bias_analysis" in st.session_state:
-            block_colors = [CYAN, BLUE, PURPLE, AMBER]
-            blocks = st.session_state["d7_bias_analysis"].split("\n\n")
-            for i, block in enumerate(blocks[:5]):
-                if not block.strip():
-                    continue
-                c = block_colors[i % len(block_colors)]
-                st.markdown(
-                    f'<div style="background:{c}10;border-left:3px solid {c};'
-                    f'border-radius:6px;padding:.65rem 1rem;margin-bottom:.35rem;'
-                    f'font-size:.80rem;color:{TEXT};line-height:1.55">'
-                    f'{html.escape(block)}'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-
-
-# =============================================================================
-# TAB 6: MAPA GLOBAL DE EVENTOS — Con zoom dinamico y fichas Ollama
-# =============================================================================
-
-# ── Coordenadas pais ──────────────────────────────────────────────────────────
-_COUNTRY_COORDS_MAP: dict[str, tuple[float, float]] = {
-    "Spain": (40.4168, -3.7038), "France": (46.2276, 2.2137),
-    "Germany": (51.1657, 10.4515), "Italy": (41.8719, 12.5674),
-    "UK": (55.3781, -3.4360), "Poland": (52.2297, 21.0122),
-    "USA": (37.0902, -95.7129), "Mexico": (23.6345, -102.5528),
-    "Brazil": (14.2350, -51.9253), "Argentina": (-38.4161, -63.6167),
-    "Colombia": (4.5709, -74.2973), "Chile": (-35.6751, -71.5430),
-    "Venezuela": (6.4238, -66.5897), "Peru": (-9.1900, -75.0152),
-    "China": (35.8617, 104.1954), "Japan": (36.2048, 138.2529),
-    "Russia": (61.5240, 105.3188), "Ukraine": (48.3794, 31.1656),
-    "Israel": (31.0461, 34.8516), "Iran": (32.4279, 53.6880),
-    "Saudi Arabia": (23.8859, 45.0792), "Turkey": (38.9637, 35.2433),
-    "India": (20.5937, 78.9629), "Pakistan": (30.3753, 69.3451),
-    "Taiwan": (23.6978, 120.9605), "South Korea": (35.9078, 127.7669),
-    "North Korea": (40.3399, 127.5101), "Indonesia": (-0.7893, 113.9213),
-    "Nigeria": (9.0820, 8.6753), "South Africa": (-30.5595, 22.9375),
-    "Egypt": (26.8206, 30.8025), "Morocco": (31.7917, -7.0926),
-    "Ethiopia": (9.1450, 40.4897), "Sudan": (12.8628, 30.2176),
-    "Libya": (26.3351, 17.2283), "Niger": (17.6078, 8.0817),
-    "Cuba": (21.5218, -77.7812), "Canada": (56.1304, -106.3468),
-    "Belgium": (50.5039, 4.4699), "Netherlands": (52.1326, 5.2913),
-    "Sweden": (60.1282, 18.6435), "Portugal": (39.3999, -8.2245),
-    "Greece": (39.0742, 21.8243), "Hungary": (47.1625, 19.5033),
-    "Afghanistan": (33.9391, 67.7100), "Syria": (34.8021, 38.9968),
-    "Vietnam": (14.0583, 108.2772), "Philippines": (12.8797, 121.7740),
-    "Tunisia": (33.8869, 9.5375), "Algeria": (28.0339, 1.6596),
-    "Ghana": (7.9465, -1.0232), "Senegal": (14.4974, -14.4524),
-}
-
-# ── Presets de zoom por region ────────────────────────────────────────────────
-_ZOOM_PRESETS: dict[str, dict] = {
-    "Internacional":    {"lat": 20,  "lon": 5,    "scale": 1.1,  "range_lat": None, "range_lon": None},
-    "Europa":           {"lat": 54,  "lon": 12,   "scale": 3.8,  "range_lat": [35, 72], "range_lon": [-12, 42]},
-    "Africa":           {"lat": 2,   "lon": 20,   "scale": 2.2,  "range_lat": [-35, 37], "range_lon": [-20, 52]},
-    "Asia":             {"lat": 28,  "lon": 100,  "scale": 1.8,  "range_lat": [-10, 55], "range_lon": [25, 150]},
-    "America del Norte":{"lat": 48,  "lon": -100, "scale": 2.0,  "range_lat": [15, 72], "range_lon": [-170, -50]},
-    "America del Sur":  {"lat": -20, "lon": -60,  "scale": 2.2,  "range_lat": [-56, 13], "range_lon": [-82, -34]},
-    "España Nacional":  {"lat": 40,  "lon": -3.5, "scale": 7.0,  "range_lat": [35, 45], "range_lon": [-10, 5]},
-    "España Regional":  {"lat": 40,  "lon": -3.5, "scale": 8.5,  "range_lat": [35, 44], "range_lon": [-9, 4]},
-}
-
-# ── Colores por categoria ─────────────────────────────────────────────────────
-_CAT_COLORS_MAP: dict[str, str] = {
-    "politica_interior":  CYAN,    "politica_exterior": BLUE,
-    "economia":           AMBER,   "seguridad_defensa": RED,
-    "justicia":           PURPLE,  "sociedad":          GREEN,
-    "tecnologia":         "#22D3EE", "medioambiente":   "#10B981",
-    "energia":            "#F97316", "salud":           "#EC4899",
-    "fiscal":             "#FBBF24",
-}
-
-# ── Dataset de eventos ────────────────────────────────────────────────────────
-_ALL_MAP_EVENTS: list[dict] = [
-    # ── INTERNACIONALES / DEFENSA ─────────────────────────────────────────────
-    {"title": "ONU: sesion de emergencia por escalada Irak-Iran", "source_name": "Reuters",
-     "source_region": "international", "ai_category": "seguridad_defensa", "ai_relevance": 10,
-     "ai_urgency": "inmediata", "ai_sentiment": "negativo", "ai_spain_impact": "alto",
-     "ai_geo_location": "Iran", "ai_geo_lat": 32.4279, "ai_geo_lon": 53.6880,
-     "ai_summary": "Misiles balisticos sobre territorio israeli desde suelo irani activan el Articulo 99 de la Carta de la ONU. Los miembros permanentes no logran consenso.",
-     "ai_analysis": "Riesgo de bloqueo del Estrecho de Ormuz. Impacto directo en precio del gas importado por Espana.",
-     "ai_topics": ["conflicto armado", "diplomacia", "energia"], "geo_region": "Asia"},
-    {"title": "OTAN activa Articulo 4 tras misiles rusos en Polonia",
-     "source_name": "Politico Europe", "source_region": "europe", "ai_category": "seguridad_defensa",
-     "ai_relevance": 10, "ai_urgency": "inmediata", "ai_sentiment": "negativo", "ai_spain_impact": "alto",
-     "ai_geo_location": "Poland", "ai_geo_lat": 52.2297, "ai_geo_lon": 21.0122,
-     "ai_summary": "Misiles de crucero impactan nodo ferroviario en el este de Polonia. Espana puede verse presionada a activar compromisos defensivos adicionales.",
-     "ai_analysis": "Primera vez que infraestructura OTAN es atacada. Umbral de escalada en revision por todos los aliados.",
-     "ai_topics": ["OTAN", "escalada militar", "seguridad europea"], "geo_region": "Europa"},
-    {"title": "China: maniobras militares de gran escala en el Estrecho de Taiwan",
-     "source_name": "South China Morning Post", "source_region": "asia", "ai_category": "seguridad_defensa",
-     "ai_relevance": 9, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Taiwan", "ai_geo_lat": 23.6978, "ai_geo_lon": 120.9605,
-     "ai_summary": "EPL despliega portaaviones no anunciados. Riesgo de bloqueo naval afectaria suministro de semiconductores.",
-     "ai_analysis": "Suministro global de chips en riesgo. Industria tecnologica espanola expuesta.",
-     "ai_topics": ["tension militar", "semiconductores", "geopolitica"], "geo_region": "Asia"},
-    {"title": "Golpe de Estado en Niger: junta expulsa a Francia y pide apoyo a Wagner",
-     "source_name": "Le Monde", "source_region": "africa", "ai_category": "politica_exterior",
-     "ai_relevance": 9, "ai_urgency": "inmediata", "ai_sentiment": "negativo", "ai_spain_impact": "alto",
-     "ai_geo_location": "Niger", "ai_geo_lat": 17.6078, "ai_geo_lon": 8.0817,
-     "ai_summary": "Corredor sahelo-ruso se consolida. Amenaza directa a rutas migratorias que gestiona Espana.",
-     "ai_analysis": "Presencia militar espanola en el Sahel queda en cuestion. Flujo migratorio puede incrementarse.",
-     "ai_topics": ["golpe de Estado", "Sahel", "migracion"], "geo_region": "Africa"},
-    {"title": "Sudan: crisis humanitaria masiva tras colapso del alto el fuego",
-     "source_name": "Al Jazeera", "source_region": "africa", "ai_category": "politica_exterior",
-     "ai_relevance": 8, "ai_urgency": "inmediata", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Sudan", "ai_geo_lat": 12.8628, "ai_geo_lon": 30.2176,
-     "ai_summary": "1,2 millones de desplazados en tres semanas. ONG espanolas alertan de colapso logistico.",
-     "ai_analysis": "Presion migratoria hacia norte de Africa y Mediterraneo. Espana recibira peticiones de financiacion en el Consejo de la UE.",
-     "ai_topics": ["humanitario", "conflicto", "migracion"], "geo_region": "Africa"},
-    # ── ECONOMIA ──────────────────────────────────────────────────────────────
-    {"title": "Fed mantiene tipos al 5,5% y descarta recortes antes de septiembre",
-     "source_name": "Wall Street Journal", "source_region": "north_america", "ai_category": "economia",
-     "ai_relevance": 9, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "USA", "ai_geo_lat": 38.8977, "ai_geo_lon": -77.0365,
-     "ai_summary": "Powell descarta giro monetario. Presion al BCE para retrasar bajadas. Deuda espanola se encarece.",
-     "ai_analysis": "Euribor se mantendra alto mas tiempo del previsto. Hipotecados variables en tension.",
-     "ai_topics": ["politica monetaria", "inflacion", "mercados"], "geo_region": "America del Norte"},
-    {"title": "BCE anuncia primera bajada de tipos en cinco anos",
-     "source_name": "Financial Times", "source_region": "europe", "ai_category": "economia",
-     "ai_relevance": 8, "ai_urgency": "semana", "ai_sentiment": "positivo", "ai_spain_impact": "alto",
-     "ai_geo_location": "Germany", "ai_geo_lat": 50.1109, "ai_geo_lon": 8.6821,
-     "ai_summary": "BCE reduce tipo de deposito 25pb al 3,75%. Deuda espanola ahorra 900M anuales en nueva emision.",
-     "ai_analysis": "Euribor inicia descenso. Alivio para hipotecados variables y para el Tesoro.",
-     "ai_topics": ["tipos de interes", "deuda soberana", "hipotecas"], "geo_region": "Europa"},
-    {"title": "Argentina suspende pagos con el FMI; deuda supera 380.000M USD",
-     "source_name": "Infobae", "source_region": "latin_america", "ai_category": "economia",
-     "ai_relevance": 8, "ai_urgency": "inmediata", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Argentina", "ai_geo_lat": -34.6037, "ai_geo_lon": -58.3816,
-     "ai_summary": "Impago de 2.700M al FMI. Peso colapsa 18%. Empresas espanolas con exposicion en banca y telecomunicaciones.",
-     "ai_analysis": "Riesgo de contagio regional. Bonos de Brasil y Colombia sufren ventas preventivas.",
-     "ai_topics": ["deuda soberana", "crisis cambiaria", "FMI"], "geo_region": "America del Sur"},
-    {"title": "Tribunal Constitucional aleman bloquea presupuesto federal 2025",
-     "source_name": "FAZ", "source_region": "europe", "ai_category": "economia",
-     "ai_relevance": 9, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Germany", "ai_geo_lat": 52.5200, "ai_geo_lon": 13.4050,
-     "ai_summary": "Brecha de 60.000M en presupuesto aleman. Capacidad de liderazgo europeo de Berlin se reduce.",
-     "ai_analysis": "Fragmentacion del modelo de coalicion en Berlin puede fortalecer posiciones soberanistas en el PE.",
-     "ai_topics": ["presupuesto", "crisis fiscal", "politica europea"], "geo_region": "Europa"},
-    {"title": "UE abre procedimiento de deficit excesivo contra Espana",
-     "source_name": "Politico Europe", "source_region": "europe", "ai_category": "economia",
-     "ai_relevance": 8, "ai_urgency": "mes", "ai_sentiment": "negativo", "ai_spain_impact": "critico",
-     "ai_geo_location": "Belgium", "ai_geo_lat": 50.8503, "ai_geo_lon": 4.3517,
-     "ai_summary": "Bruselas abre PDE al constatar deficit estructural por encima del 3% por tercer ano.",
-     "ai_analysis": "Margenes para nuevas politicas de gasto muy restringidos. Gobierno debe elegir entre ajuste o conflicto con Bruselas.",
-     "ai_topics": ["deficit publico", "reglas fiscales", "presupuestos"], "geo_region": "Europa"},
-    {"title": "India supera a China como mayor exportador mundial de genericos farmaceuticos",
-     "source_name": "Economic Times", "source_region": "asia", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "medio",
-     "ai_geo_location": "India", "ai_geo_lat": 28.6139, "ai_geo_lon": 77.2090,
-     "ai_summary": "India factura 28.000M USD en exportaciones farmaceuticas. Laboratorios espanoles en mercados emergentes bajo presion.",
-     "ai_analysis": "Competencia en genericos se intensifica. Sector farmaceutico es segundo exportador industrial espanol.",
-     "ai_topics": ["farmaceutica", "comercio global", "competencia"], "geo_region": "Asia"},
-    {"title": "Venezuela: PDVSA incumple pagos por tercer trimestre",
-     "source_name": "Infobae", "source_region": "latin_america", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Venezuela", "ai_geo_lat": 6.4238, "ai_geo_lon": -66.5897,
-     "ai_summary": "Produccion de crudo cae a 520.000 bpd. Presion migratoria sobre Colombia y Brasil con efecto en Espana.",
-     "ai_analysis": "Empresas espanolas con activos congelados difícilmente recuperaran posiciones.",
-     "ai_topics": ["petroleo", "deuda", "migracion"], "geo_region": "America del Sur"},
-    {"title": "Canada activa Acta de Emergencias ante protestas masivas",
-     "source_name": "Globe and Mail", "source_region": "north_america", "ai_category": "politica_interior",
-     "ai_relevance": 7, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Canada", "ai_geo_lat": 45.4215, "ai_geo_lon": -75.6972,
-     "ai_summary": "Segunda vez historica que se invoca el Acta de Emergencias. Crisis comercial transfronteriza con EE.UU.",
-     "ai_analysis": "Impacto indirecto via desestabilizacion de mercados de divisas del G7.",
-     "ai_topics": ["crisis politica", "protestas", "comercio"], "geo_region": "America del Norte"},
-    {"title": "Brasil e India firman acuerdo comercial bilateral",
-     "source_name": "Folha de S.Paulo", "source_region": "latin_america", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "semana", "ai_sentiment": "mixto", "ai_spain_impact": "medio",
-     "ai_geo_location": "Brazil", "ai_geo_lat": -15.8267, "ai_geo_lon": -47.9218,
-     "ai_summary": "Acuerdo en tecnologia, farmaceutica y energia. Mayor competencia para empresas espanolas en Latinoamerica.",
-     "ai_analysis": "Reorientacion del comercio sur-sur. Dependencia de mercados europeos se reduce.",
-     "ai_topics": ["comercio", "sur global", "competencia"], "geo_region": "America del Sur"},
-    # ── TECNOLOGIA / LEGISLACION ──────────────────────────────────────────────
-    {"title": "Parlamento Europeo aprueba el AI Act",
-     "source_name": "EURACTIV", "source_region": "europe", "ai_category": "tecnologia",
-     "ai_relevance": 8, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "alto",
-     "ai_geo_location": "Belgium", "ai_geo_lat": 50.8503, "ai_geo_lon": 4.3517,
-     "ai_summary": "Mayor regulacion de IA del mundo. Sanciones hasta 7% facturacion global. Empresas espanolas en plazo de 24 meses.",
-     "ai_analysis": "Coste de cumplimiento significativo para pymes tecnologicas espanolas.",
-     "ai_topics": ["regulacion IA", "compliance", "mercado digital"], "geo_region": "Europa"},
-    {"title": "EEUU impone aranceles del 25% a semiconductores chinos",
-     "source_name": "Reuters", "source_region": "north_america", "ai_category": "economia",
-     "ai_relevance": 9, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "USA", "ai_geo_lat": 38.9072, "ai_geo_lon": -77.0369,
-     "ai_summary": "Nuevos aranceles a chips chinos. Cadena de suministro electronico global en reestructuracion.",
-     "ai_analysis": "Encarece fabricacion de electrodomesticos, coches electricos y telcos. Inflation importada.",
-     "ai_topics": ["aranceles", "semiconductores", "guerra comercial"], "geo_region": "America del Norte"},
-    # ── ESPANA NACIONAL ───────────────────────────────────────────────────────
-    {"title": "Congreso aprueba reforma de financiacion autonomica con apoyo de Junts",
-     "source_name": "El Pais", "source_region": "local_spain", "ai_category": "politica_interior",
-     "ai_relevance": 9, "ai_urgency": "24h", "ai_sentiment": "mixto", "ai_spain_impact": "critico",
-     "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
-     "ai_summary": "176 votos a favor. Transferencia adicional de 3.200M a Cataluna. Senado (mayoria PP) puede bloquear.",
-     "ai_analysis": "Altera equilibrio territorial. Arco mediterraneo gana, Castilla y Extremadura pierden posiciones.",
-     "ai_topics": ["financiacion autonomica", "Cataluna", "reforma fiscal"], "geo_region": "España Nacional"},
-    {"title": "Tribunal Supremo condena a 12 anos al expresidente de la Generalitat",
-     "source_name": "El Confidencial", "source_region": "local_spain", "ai_category": "justicia",
-     "ai_relevance": 8, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "critico",
-     "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
-     "ai_summary": "Condena por sedicion y malversacion. Independentistas reevaluan apoyo al gobierno central.",
-     "ai_analysis": "Mapa de alianzas parlamentarias se modifica. Tension en proximos plenos sobre agenda legislativa.",
-     "ai_topics": ["independentismo", "sentencia judicial", "crisis politica"], "geo_region": "España Nacional"},
-    {"title": "Gobierno presenta Ley de Inteligencia Artificial espanola",
-     "source_name": "El Mundo", "source_region": "local_spain", "ai_category": "tecnologia",
-     "ai_relevance": 8, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "alto",
-     "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
-     "ai_summary": "Proyecto de ley que transpone el AI Act europeo con especificidades espanolas. Agencia nacional de supervision.",
-     "ai_analysis": "Sector tecnologico espanol en fase de adaptacion. Oportunidad para posicionar a Espana como hub regulatorio de IA en hispanohablantes.",
-     "ai_topics": ["inteligencia artificial", "regulacion", "innovacion"], "geo_region": "España Nacional"},
-    {"title": "Huelga de funcionarios: 40.000 empleados publicos paralizan Madrid",
-     "source_name": "El Pais", "source_region": "local_spain", "ai_category": "sociedad",
-     "ai_relevance": 7, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
-     "ai_summary": "Jornada de huelga con alta participacion. Registros, ventanillas y servicios esenciales afectados.",
-     "ai_analysis": "Presion sindical sobre negociacion de convenio colectivo. Gobierno en posicion dificil con presupuestos pendientes.",
-     "ai_topics": ["huelga", "funcionarios", "negociacion colectiva"], "geo_region": "España Nacional"},
-    # ── ESPANA REGIONAL ───────────────────────────────────────────────────────
-    {"title": "Parlament Catalunya aprueba presupuestos 2026 con apoyo de los comuns",
-     "source_name": "Ara", "source_region": "regional_spain", "ai_category": "politica_interior",
-     "ai_relevance": 8, "ai_urgency": "semana", "ai_sentiment": "positivo", "ai_spain_impact": "alto",
-     "ai_geo_location": "Spain", "ai_geo_lat": 41.3851, "ai_geo_lon": 2.1734,
-     "ai_summary": "68 votos a favor. Gasto social sube 8,3%. Estabilidad politica para Salvador Illa hasta 2027.",
-     "ai_analysis": "Refuerza posicion negociadora catalana. Reduce tension Generalitat-Congreso.",
-     "ai_topics": ["presupuestos", "Cataluna", "estabilidad politica"], "geo_region": "España Regional", "ccaa": "Cataluña"},
-    {"title": "Madrid reduce IRPF autonomico al minimo legal para todos los tramos",
-     "source_name": "El Mundo", "source_region": "regional_spain", "ai_category": "fiscal",
-     "ai_relevance": 8, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "alto",
-     "ai_geo_location": "Spain", "ai_geo_lat": 40.4168, "ai_geo_lon": -3.7038,
-     "ai_summary": "Rebaja IRPF para 3,2M declarantes. Merma de 1.100M anuales. Intensifica competencia fiscal interterritorial.",
-     "ai_analysis": "Diferencial impositivo Madrid-Cataluna se amplia. Incentivo al traslado de residencia fiscal.",
-     "ai_topics": ["IRPF", "competencia fiscal", "Madrid"], "geo_region": "España Regional", "ccaa": "Madrid"},
-    {"title": "Pais Vasco aprueba Ley de Industria Avanzada con 2.400M hasta 2030",
-     "source_name": "Deia", "source_region": "regional_spain", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "positivo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 43.2630, "ai_geo_lon": -2.9350,
-     "ai_summary": "Aprobada por unanimidad. Deducciones fiscales para digitalizar industria manufacturera vasca.",
-     "ai_analysis": "Modelo industrial de alto valor anadido reforzado. Puede atraer inversion alemana y japonesa.",
-     "ai_topics": ["industria", "inversion", "Pais Vasco"], "geo_region": "España Regional", "ccaa": "País Vasco"},
-    {"title": "Andalucia aprueba Plan de Vivienda con 80.000 unidades de promocion publica",
-     "source_name": "El Correo de Andalucia", "source_region": "regional_spain", "ai_category": "politica_interior",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "positivo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 37.3891, "ai_geo_lon": -5.9845,
-     "ai_summary": "Plan Vive Andalucia: 4.200M, 40% alquiler asequible. Mayor apuesta autonomica de vivienda publica de la decada.",
-     "ai_analysis": "Competencia directa con politica de vivienda del Estado. Sector constructor andaluz recibe impulso significativo.",
-     "ai_topics": ["vivienda", "politica regional", "Andalucia"], "geo_region": "España Regional", "ccaa": "Andalucía"},
-    {"title": "Galicia: nueva planta de hidrogeno verde en Ferrol con inversion de 800M",
-     "source_name": "La Voz de Galicia", "source_region": "regional_spain", "ai_category": "energia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "positivo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 43.4833, "ai_geo_lon": -8.2167,
-     "ai_summary": "Planta de hidrogeno verde en reconversion industrial de Ferrol. 2.000 empleos directos en 5 anos.",
-     "ai_analysis": "Galicia se posiciona en el mapa europeo del hidrogeno verde. Acceso a fondos NextGen.",
-     "ai_topics": ["hidrogeno verde", "energia", "Galicia"], "geo_region": "España Regional", "ccaa": "Galicia"},
-    {"title": "Valencia: emergencia habitacional — alquiler promedio supera 1.400 euros",
-     "source_name": "Levante", "source_region": "regional_spain", "ai_category": "sociedad",
-     "ai_relevance": 7, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 39.4699, "ai_geo_lon": -0.3763,
-     "ai_summary": "El alquiler promedio en Valencia capital supera el 45% de renta mediana. Crisis de asequibilidad critica.",
-     "ai_analysis": "Presion sobre sindicatos de inquilinos. Posible decreto autonomico de zonas tensionadas.",
-     "ai_topics": ["vivienda", "alquiler", "Valencia"], "geo_region": "España Regional", "ccaa": "Valencia"},
-    {"title": "Navarra debate revision del Convenio Economico con el Estado",
-     "source_name": "Diario de Navarra", "source_region": "regional_spain", "ai_category": "fiscal",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 42.6954, "ai_geo_lon": -1.6761,
-     "ai_summary": "Negociacion de la cuota y metodologia del Convenio. Impacto en financiacion de servicios publicos navarros.",
-     "ai_analysis": "Revision afecta al equilibrio de solidaridad interterritorial. Sensibilidad politica alta.",
-     "ai_topics": ["Convenio Economico", "Navarra", "financiacion"], "geo_region": "España Regional", "ccaa": "Navarra"},
-    {"title": "Murcia: aprobado Plan de Gestion del Trasvase Tajo-Segura",
-     "source_name": "La Verdad", "source_region": "regional_spain", "ai_category": "medioambiente",
-     "ai_relevance": 6, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "medio",
-     "ai_geo_location": "Spain", "ai_geo_lat": 37.9922, "ai_geo_lon": -1.1307,
-     "ai_summary": "Nuevo plan regula caudales ante episodios de sequia. Sector agricola murciano y agricola en tension.",
-     "ai_analysis": "Conflicto competencial con Castilla-La Mancha sobre caudales minimos del Tajo.",
-     "ai_topics": ["agua", "trasvase", "Murcia"], "geo_region": "España Regional", "ccaa": "Murcia"},
-    {"title": "Asturias: cierre definitivo de la ultima central termica de carbon",
-     "source_name": "La Nueva Espana", "source_region": "regional_spain", "ai_category": "energia",
-     "ai_relevance": 6, "ai_urgency": "semana", "ai_sentiment": "mixto", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Spain", "ai_geo_lat": 43.3619, "ai_geo_lon": -5.8494,
-     "ai_summary": "Central de Aboño cierra sus puertas. 350 empleos directos en proceso de reindustrializacion.",
-     "ai_analysis": "Transicion energetica justa en debate. Fondos europeos para reconversion industrial.",
-     "ai_topics": ["energia", "carbon", "transicion energetica"], "geo_region": "España Regional", "ccaa": "Asturias"},
-    # ── OTROS EUROPA ─────────────────────────────────────────────────────────
-    {"title": "Francia: reforma de las pensiones — huelga general de 24 horas",
-     "source_name": "Le Monde", "source_region": "europe", "ai_category": "sociedad",
-     "ai_relevance": 8, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "France", "ai_geo_lat": 48.8566, "ai_geo_lon": 2.3522,
-     "ai_summary": "Huelga masiva contra la elevacion de la edad de jubilacion a 64 anos. Transportes y servicios esenciales afectados.",
-     "ai_analysis": "Conflicto social de referencia para otros paises europeos con sistemas de pensiones bajo presion demografica.",
-     "ai_topics": ["pensiones", "huelga general", "reforma social"], "geo_region": "Europa"},
-    {"title": "Italia: gobierno Meloni aprueba presupuesto con reduccion de gasto social",
-     "source_name": "Corriere della Sera", "source_region": "europe", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Italy", "ai_geo_lat": 41.9028, "ai_geo_lon": 12.4964,
-     "ai_summary": "Presupuesto austeridad del gobierno Meloni. Reduccion de transferencias sociales en 8.000M.",
-     "ai_analysis": "Tercer pais del euro con presupuesto bajo presion fiscal. Mercado de deuda italiana en observacion.",
-     "ai_topics": ["presupuesto", "austeridad", "Italia"], "geo_region": "Europa"},
-    {"title": "Etiopia y Eritrea reanudan hostilidades en Tigray",
-     "source_name": "BBC Africa", "source_region": "africa", "ai_category": "seguridad_defensa",
-     "ai_relevance": 7, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Ethiopia", "ai_geo_lat": 9.1450, "ai_geo_lon": 40.4897,
-     "ai_summary": "Intercambios de artilleria en frontera norte de Tigray. Estrecho de Bab el-Mandeb en riesgo.",
-     "ai_analysis": "12% del comercio maritimo global pasa por el estrecho. Buques con destino a puertos espanoles afectados.",
-     "ai_topics": ["conflicto", "rutas maritimas", "cuerno de Africa"], "geo_region": "Africa"},
-    {"title": "Hungria bloquea ayuda militar UE a Ucrania por 6a vez consecutiva",
-     "source_name": "Politico Europe", "source_region": "europe", "ai_category": "politica_exterior",
-     "ai_relevance": 8, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Hungary", "ai_geo_lat": 47.1625, "ai_geo_lon": 19.5033,
-     "ai_summary": "Orban bloquea el paquete de 50.000M para Ucrania. Mecanismo de mayoria cualificada en debate.",
-     "ai_analysis": "Cohesion europea en riesgo. Espana en mayoria favorable pero el veto hungaro bloquea el paquete.",
-     "ai_topics": ["Ucrania", "Hungria", "cohesion UE"], "geo_region": "Europa"},
-    {"title": "Turquia pide la expulsion de Israel de la OTAN tras ofensiva en Gaza",
-     "source_name": "Hurriyet", "source_region": "asia", "ai_category": "politica_exterior",
-     "ai_relevance": 8, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Turkey", "ai_geo_lat": 39.9334, "ai_geo_lon": 32.8597,
-     "ai_summary": "Erdogan escala retorica anti-israel. Propuesta sin precedentes en historia de la OTAN.",
-     "ai_analysis": "Tension entre socios OTAN. Espana mantiene posicion critica con Israel sin apoyar la propuesta turca.",
-     "ai_topics": ["OTAN", "Gaza", "Turquia"], "geo_region": "Asia"},
-    {"title": "Marruecos: llegadas irregulares a Canarias baten el record historico",
-     "source_name": "El Pais", "source_region": "africa", "ai_category": "sociedad",
-     "ai_relevance": 8, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "critico",
-     "ai_geo_location": "Morocco", "ai_geo_lat": 31.7917, "ai_geo_lon": -7.0926,
-     "ai_summary": "Mas de 4.000 llegadas en una semana a Canarias. Capacidad de acogida saturada en las islas.",
-     "ai_analysis": "Presion maxima sobre el sistema de acogida espanol. Crisis diplomatica latente con Marruecos.",
-     "ai_topics": ["migracion", "Canarias", "Marruecos"], "geo_region": "Africa"},
-    {"title": "Corea del Sur: Samsung anuncia inversion de 230.000M en chips avanzados",
-     "source_name": "Korea Herald", "source_region": "asia", "ai_category": "tecnologia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "positivo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "South Korea", "ai_geo_lat": 37.5665, "ai_geo_lon": 126.9780,
-     "ai_summary": "Mayor inversion en semiconductores de la historia de Samsung. 10 nuevas fabricas en Korea del Sur.",
-     "ai_analysis": "Reafirma liderazgo surcoreano en chips de memoria. Contrapeso estrategico a la expansion china.",
-     "ai_topics": ["semiconductores", "inversion", "tecnologia"], "geo_region": "Asia"},
-    {"title": "Colombia: Petro activa decreto de emergencia economica ante caida del peso",
-     "source_name": "El Tiempo", "source_region": "latin_america", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "24h", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Colombia", "ai_geo_lat": 4.7110, "ai_geo_lon": -74.0721,
-     "ai_summary": "Peso colombiano cae 12% en una semana. Decreto de emergencia activa controles de capital.",
-     "ai_analysis": "Inversion espanola en Colombia (banca, energia, telecomunicaciones) en observacion.",
-     "ai_topics": ["crisis economica", "Colombia", "divisas"], "geo_region": "America del Sur"},
-    {"title": "Vietnam surpasa a China como mayor exportador de electronica a la UE",
-     "source_name": "Reuters", "source_region": "asia", "ai_category": "economia",
-     "ai_relevance": 6, "ai_urgency": "mes", "ai_sentiment": "mixto", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Vietnam", "ai_geo_lat": 14.0583, "ai_geo_lon": 108.2772,
-     "ai_summary": "Redireccion de cadenas de suministro post-aranceles. Vietnam receptor de inversiones que huyen de China.",
-     "ai_analysis": "Diversificacion de cadenas de suministro beneficia la resiliencia europea.",
-     "ai_topics": ["electronica", "cadena de suministro", "China"], "geo_region": "Asia"},
-    {"title": "Reino Unido: acuerdo post-Brexit sobre comercio de servicios financieros con la UE",
-     "source_name": "The Guardian", "source_region": "europe", "ai_category": "economia",
-     "ai_relevance": 7, "ai_urgency": "mes", "ai_sentiment": "positivo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "UK", "ai_geo_lat": 51.5074, "ai_geo_lon": -0.1278,
-     "ai_summary": "Primer acuerdo sustantivo post-Brexit en servicios financieros. Acceso mutuo con condiciones.",
-     "ai_analysis": "Reduce friction comercial. Relacion bilateral UK-UE mejora marginalmente. Impacto positivo para sector financiero espanol.",
-     "ai_topics": ["Brexit", "servicios financieros", "relaciones UE-UK"], "geo_region": "Europa"},
-    {"title": "Tunez: crisis politica grave tras disolucion del parlamento",
-     "source_name": "Al Jazeera", "source_region": "africa", "ai_category": "politica_exterior",
-     "ai_relevance": 7, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "medio",
-     "ai_geo_location": "Tunisia", "ai_geo_lat": 33.8869, "ai_geo_lon": 9.5375,
-     "ai_summary": "Presidente Saied disuelve el parlamento y asume poderes ejecutivos plenos. Presion de calle en aumento.",
-     "ai_analysis": "Inestabilidad tunecina amplifica presion migratoria sobre la ruta del Mediterraneo central.",
-     "ai_topics": ["crisis politica", "democracia", "migracion"], "geo_region": "Africa"},
-    {"title": "Afghanistan: los talibanes cierran 90 ONG extranjeras de un golpe",
-     "source_name": "BBC", "source_region": "asia", "ai_category": "politica_exterior",
-     "ai_relevance": 7, "ai_urgency": "semana", "ai_sentiment": "negativo", "ai_spain_impact": "bajo",
-     "ai_geo_location": "Afghanistan", "ai_geo_lat": 33.9391, "ai_geo_lon": 67.7100,
-     "ai_summary": "Decreto talibanreprime presencia humanitaria internacional. ONG espanolas entre las afectadas.",
-     "ai_analysis": "Crisis humanitaria se agrava. Flujo de refugiados aumentara. Espana puede recibir solicitudes de acogida.",
-     "ai_topics": ["humanitario", "talibanes", "refugiados"], "geo_region": "Asia"},
-]
-
-# Presets de zoom por region (determinan el centro y escala del mapa Plotly)
-_ZOOM_REGION_PRIORITY = [
-    "España Regional", "España Nacional", "Europa", "Africa", "Asia",
-    "America del Norte", "America del Sur", "Internacional",
-]
-
-
-def _get_zoom_preset(selected_regions: list[str]) -> dict:
-    """Devuelve el preset de zoom mas local entre las regiones seleccionadas."""
-    for region in _ZOOM_REGION_PRIORITY:
-        if region in selected_regions:
-            return _ZOOM_PRESETS[region]
-    return _ZOOM_PRESETS["Internacional"]
-
-
 with tab_mapa:
     # ── Lazy import del módulo de ingesta ────────────────────────────────────
     @st.cache_resource(ttl=0)
