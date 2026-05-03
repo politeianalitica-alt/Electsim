@@ -159,20 +159,115 @@ _MEDIA_IDEOLOGIA: dict[str, tuple[float, float]] = {
     "Infolibre":        (2.5, 0.2),
 }
 
-_NARRATIVAS_DEMO: list[dict] = [
-    {"nombre": "Crisis económica", "intensidad": 82, "velocidad": 12, "delta": 5},
-    {"nombre": "Corrupción institucional", "intensidad": 74, "velocidad": 8, "delta": -2},
-    {"nombre": "Independentismo catalán", "intensidad": 68, "velocidad": 6, "delta": 3},
-    {"nombre": "Inmigración irregular", "intensidad": 61, "velocidad": 15, "delta": 9},
-    {"nombre": "Reforma fiscal", "intensidad": 55, "velocidad": 4, "delta": 1},
-    {"nombre": "Vivienda asequible", "intensidad": 52, "velocidad": 7, "delta": 4},
-    {"nombre": "Polarización política", "intensidad": 49, "velocidad": 3, "delta": -1},
-    {"nombre": "Derechos sociales", "intensidad": 43, "velocidad": 2, "delta": 0},
-    {"nombre": "Política exterior", "intensidad": 38, "velocidad": 1, "delta": -3},
-    {"nombre": "Cambio climático", "intensidad": 35, "velocidad": 5, "delta": 2},
-    {"nombre": "Sanidad pública", "intensidad": 31, "velocidad": 2, "delta": 0},
-    {"nombre": "Educación", "intensidad": 28, "velocidad": 1, "delta": -1},
+# ─── Narrativas extraidas en tiempo real de las fuentes RSS ──────────────────
+# Se intenta cargar desde NarrativeService (Ollama + TF-IDF).
+# Fallback: lista base estatica como dato de arranque.
+
+_NARRATIVAS_FALLBACK: list[dict] = [
+    {"nombre": "Crisis economica", "intensidad": 82, "velocidad": 12, "delta": 5,
+     "marco": "economico", "tension": "alta", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Prima de riesgo", "Desempleo", "Inflacion"],
+     "difusores": ["El Pais", "El Mundo", "Expansion"], "potenciadores": ["Datos de paro"],
+     "debilitadores": ["Bajada tipos BCE"], "target": "Clase media asalariada",
+     "ideologia_dominante": "transversal", "tendencia": [45, 52, 58, 67, 74, 79, 82]},
+    {"nombre": "Independentismo catalan", "intensidad": 68, "velocidad": 6, "delta": 3,
+     "marco": "conflicto", "tension": "alta", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Referendum", "Singularidad fiscal"],
+     "difusores": ["Ara", "VilaWeb", "Nacio Digital"], "potenciadores": ["Tension competencial"],
+     "debilitadores": ["Division interna soberanista"], "target": "Electorado catalan movilizado",
+     "ideologia_dominante": "izquierda", "tendencia": [55, 60, 65, 68, 64, 66, 68]},
+    {"nombre": "Inmigracion irregular", "intensidad": 61, "velocidad": 15, "delta": 9,
+     "marco": "conflicto", "tension": "alta", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Llegadas en patera", "MENAS", "Canarias"],
+     "difusores": ["VOX", "ABC", "OK Diario"], "potenciadores": ["Cifras record llegadas"],
+     "debilitadores": ["Acuerdos con paises origen"], "target": "Electores clase trabajadora",
+     "ideologia_dominante": "derecha", "tendencia": [30, 38, 45, 52, 58, 64, 61]},
+    {"nombre": "Vivienda asequible", "intensidad": 52, "velocidad": 7, "delta": 4,
+     "marco": "interes_humano", "tension": "media", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Precio alquiler", "Emancipacion joven"],
+     "difusores": ["El Diario", "Publico", "infoLibre"], "potenciadores": ["IPC alquiler al alza"],
+     "debilitadores": ["Bajada tipos hipotecas"], "target": "Jovenes 25-40 anos en ciudades",
+     "ideologia_dominante": "izquierda", "tendencia": [25, 32, 40, 46, 50, 52, 52]},
+    {"nombre": "Corrupcion institucional", "intensidad": 74, "velocidad": 8, "delta": -2,
+     "marco": "moralidad", "tension": "alta", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Contratos irregulares", "Financiacion ilegal"],
+     "difusores": ["El Confidencial", "El Pais", "Partidos oposicion"],
+     "potenciadores": ["Nuevas imputaciones"], "debilitadores": ["Absoluciones judiciales"],
+     "target": "Votantes desencantados y abstencionistas", "ideologia_dominante": "transversal",
+     "tendencia": [60, 65, 72, 70, 74, 76, 74]},
+    {"nombre": "Reforma fiscal", "intensidad": 55, "velocidad": 4, "delta": 1,
+     "marco": "economico", "tension": "media", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["IRPF", "Impuesto grandes fortunas"],
+     "difusores": ["Expansion", "El Economista", "PP"], "potenciadores": ["Deficit presupuestario"],
+     "debilitadores": ["Acuerdo europeo tipo minimo"], "target": "Empresarios y rentas altas",
+     "ideologia_dominante": "centroderecha", "tendencia": [40, 45, 48, 50, 52, 55, 55]},
+    {"nombre": "Polarizacion politica", "intensidad": 49, "velocidad": 3, "delta": -1,
+     "marco": "conflicto", "tension": "media", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Crispacion parlamentaria", "Bloqueo legislativo"],
+     "difusores": ["Todos los medios"], "potenciadores": ["Elecciones proximas"],
+     "debilitadores": ["Acuerdos interpartidarios"], "target": "Ciudadania general",
+     "ideologia_dominante": "transversal", "tendencia": [55, 52, 50, 48, 49, 50, 49]},
+    {"nombre": "Derechos sociales", "intensidad": 43, "velocidad": 2, "delta": 0,
+     "marco": "moralidad", "tension": "baja", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Reduccion jornada laboral", "SMI"],
+     "difusores": ["Sindicatos", "El Diario", "Sumar"], "potenciadores": ["Huelgas sectoriales"],
+     "debilitadores": ["Veto patronal"], "target": "Trabajadores y sindicatos",
+     "ideologia_dominante": "izquierda", "tendencia": [40, 41, 42, 42, 43, 43, 43]},
+    {"nombre": "Politica exterior", "intensidad": 38, "velocidad": 1, "delta": -3,
+     "marco": "estrategia_politica", "tension": "media", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["OTAN", "Ucrania", "Aranceles Trump"],
+     "difusores": ["El Pais", "El Mundo", "Agencias"], "potenciadores": ["Crisis geopolitica"],
+     "debilitadores": ["Acuerdos diplomaticos"], "target": "Opinion publica europeista",
+     "ideologia_dominante": "transversal", "tendencia": [45, 42, 40, 38, 37, 38, 38]},
+    {"nombre": "Cambio climatico", "intensidad": 35, "velocidad": 5, "delta": 2,
+     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Transicion energetica", "Temperatura record"],
+     "difusores": ["Climatica", "El Pais", "SUMAR"], "potenciadores": ["Fenomenos meteorologicos"],
+     "debilitadores": ["Coste transicion para industria"], "target": "Jovenes y activistas",
+     "ideologia_dominante": "izquierda", "tendencia": [28, 30, 32, 33, 34, 35, 35]},
+    {"nombre": "Sanidad publica", "intensidad": 31, "velocidad": 2, "delta": 0,
+     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["Listas de espera", "Privatizacion servicios"],
+     "difusores": ["Sindicatos medicos", "El Diario"], "potenciadores": ["Denuncias colapso UCI"],
+     "debilitadores": ["Nuevas inversiones en salud"], "target": "Pacientes y trabajadores sanitarios",
+     "ideologia_dominante": "izquierda", "tendencia": [30, 30, 31, 31, 31, 31, 31]},
+    {"nombre": "Educacion", "intensidad": 28, "velocidad": 1, "delta": -1,
+     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
+     "titulares_representativos": [], "elementos": ["LOMLOE", "Conciertada vs publica"],
+     "difusores": ["El Pais Educacion", "CCOO"], "potenciadores": ["Huelgas docentes"],
+     "debilitadores": ["Acuerdos comunidades autonomas"], "target": "Familias con hijos en edad escolar",
+     "ideologia_dominante": "transversal", "tendencia": [30, 29, 28, 28, 28, 28, 28]},
 ]
+
+
+@st.cache_data(ttl=1200, show_spinner=False)
+def _load_narrativas_live() -> list[dict]:
+    """
+    Carga narrativas en tiempo real desde NarrativeService.
+    Ingesta de todas las fuentes espanolas prioritarias (32 medios, 15 arts/fuente)
+    + fuentes de ALL_SOURCES si hay tiempo.
+    TTL: 20 minutos. Fallback a _NARRATIVAS_FALLBACK si falla la ingesta o Ollama.
+    """
+    try:
+        from dashboard.services.narrative_service import NarrativeService
+        ns = NarrativeService()
+        narrativas = ns.get_narrativas(
+            max_fuentes=32,          # 32 medios prioritarios, ~480 articulos
+            n_narrativas=12,
+            max_articles_per_source=15,
+            politica_filter=True,
+        )
+        if narrativas and len(narrativas) >= 4:
+            return narrativas
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("NarrativeService error: %s", exc)
+    return _NARRATIVAS_FALLBACK
+
+
+# Ejecutar carga al arrancar la pagina (con spinner discreto)
+with st.spinner("Ingiriendo noticias y extrayendo narrativas con Ollama..."):
+    _NARRATIVAS_DEMO = _load_narrativas_live()
 
 
 def _safe_float(v, default: float = 0.0) -> float:
@@ -265,7 +360,11 @@ cobertura_positiva = (
     int(sum(1 for s in sentimientos_all if s > 0.15) / max(len(sentimientos_all), 1) * 100)
 )
 narrativas_activas = len(_NARRATIVAS_DEMO)
-fuentes_monitorizadas = len(RSS_FEEDS)
+try:
+    from dashboard.services.media_sources import ALL_SOURCES as _ALL_SRC
+    fuentes_monitorizadas = len(_ALL_SRC)
+except Exception:
+    fuentes_monitorizadas = len(RSS_FEEDS)
 
 k1, k2, k3, k4 = st.columns(4)
 with k1:
@@ -673,6 +772,94 @@ with tab_fuente:
 # ═════════════════════════════════════════════════════════════════════════════
 # TAB 4: RADAR DE NARRATIVAS
 # ═════════════════════════════════════════════════════════════════════════════
+
+# ─── Helpers y datos de narrativas (definidos antes de los tabs) ──────────────
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# TAB 5: ANÁLISIS COMPARATIVO — DEEP NARRATIVE INTELLIGENCE
+# ═════════════════════════════════════════════════════════════════════════════
+
+# ── Helper de palabras (limpia HTML) ─────────────────────────────────────────
+def _top_words(news_list: list[dict], n: int = 15) -> list[tuple[str, int]]:
+    _STOPWORDS = {
+        "para", "pero", "con", "por", "una", "las", "los", "del", "que",
+        "sus", "mas", "como", "entre", "este", "esta", "sobre", "ante",
+        "tras", "desde", "hasta", "cuando", "donde", "aunque", "porque",
+        "tambien", "sin", "ser", "han", "son", "hay", "esta", "todo",
+        "puede", "durante", "segun", "anos", "espanol", "the", "and",
+        "that", "this", "with", "from", "width", "height", "class",
+        "style", "href", "img", "src", "div", "span", "nbsp", "amp",
+        "quot", "apos", "rel", "alt", "aria", "data", "tipo", "also",
+        "have", "been", "will", "were", "they", "their", "said", "have",
+    }
+    _HTML_RE = re.compile(r'<[^>]+>|&[a-z#0-9]+;|http\S+|www\.\S+|\d{3,}|[="\'{}\[\]<>]')
+
+    counts: dict[str, int] = {}
+    for item in news_list:
+        raw = f"{item.get('titulo','')} {item.get('resumen','')} {item.get('texto_completo','')}"
+        clean = _HTML_RE.sub(" ", raw).lower()
+        for word in clean.split():
+            word = word.strip(".,;:()[]¿?¡!\"'—«»#@_/\\|")
+            if len(word) > 5 and word not in _STOPWORDS and word.isalpha():
+                counts[word] = counts.get(word, 0) + 1
+    return sorted(counts.items(), key=lambda x: x[1], reverse=True)[:n]
+
+
+# ── Datos fijos de estructura de narrativas ───────────────────────────────────
+_NARRATIVA_ESTRUCTURA: dict[str, dict] = {
+    "Crisis económica": {
+        "elementos": ["Prima de riesgo", "Desempleo estructural", "Inflación persistente", "Déficit público", "Deuda soberana"],
+        "difusores": ["Medios económicos (Expansión, Cinco Días)", "Oposición PP y VOX", "Think tanks liberales (Funcas, FAES)"],
+        "target": "Clase media asalariada, pequeños empresarios, hipotecados variables",
+        "potenciadores": ["Datos de paro por encima del 11%", "Rebaja de rating crediticio", "Sanciones UE por déficit excesivo"],
+        "debilitadores": ["Bajada del BCE", "Crecimiento PIB por encima de media UE", "Record de exportaciones"],
+        "tendencia": [45, 52, 58, 67, 74, 79, 82],
+    },
+    "Corrupción institucional": {
+        "elementos": ["Contratos irregulares", "Financiación ilegal de partidos", "Puertas giratorias", "Nepotismo en cargos públicos"],
+        "difusores": ["Medios de investigación (El Confidencial, El País)", "Partidos en oposición", "Redes sociales"],
+        "target": "Votantes desencantados, abstencionistas potenciales, jóvenes con baja confianza institucional",
+        "potenciadores": ["Nuevas imputaciones judiciales", "Filtraciones de documentos", "Sentencias condenatorias"],
+        "debilitadores": ["Absoluciones judiciales", "Reformas de transparencia aprobadas", "Resultados electorales que penalizan al partido imputado"],
+        "tendencia": [60, 65, 72, 70, 74, 76, 74],
+    },
+    "Independentismo catalán": {
+        "elementos": ["Referéndum de autodeterminación", "Singularidad fiscal", "Lengua y cultura propias", "Agravio comparativo con el Estado"],
+        "difusores": ["Medios catalanes (Ara, VilaWeb, Nació Digital)", "Partidos soberanistas (ERC, Junts, CUP)", "Entidades civiles (ANC, Omnium)"],
+        "target": "Electorado catalán movilizado (40-48% del censo), diáspora catalana en Europa",
+        "potenciadores": ["Conflicto competencial con el Estado", "Aprobación de la amnistía", "Tensión en el Congreso con el bloque governamental"],
+        "debilitadores": ["Gestión autonómica fallida", "Divisiones internas entre soberanistas", "Acuerdos bilaterales Estado-Generalitat"],
+        "tendencia": [55, 60, 65, 68, 64, 66, 68],
+    },
+    "Inmigración irregular": {
+        "elementos": ["Llegadas en patera a Canarias", "Menores no acompañados (MENAS)", "Redes de tráfico de personas", "Capacidad de acogida"],
+        "difusores": ["VOX y sectores del PP", "Medios de derechas (ABC, La Razón, OK Diario)", "Redes sociales (X/Twitter, Telegram)"],
+        "target": "Electores de zonas con alta percepción de inseguridad, votantes de clase trabajadora en competencia laboral",
+        "potenciadores": ["Cifras récord de llegadas", "Incidentes de orden público atribuidos a migrantes", "Crisis diplomática con Marruecos"],
+        "debilitadores": ["Datos de integración laboral positivos", "Acuerdos migratorios con países de origen", "Condenas judiciales de bulos"],
+        "tendencia": [30, 38, 45, 52, 58, 64, 61],
+    },
+    "Vivienda asequible": {
+        "elementos": ["Precio del alquiler", "Emancipación juvenil", "Fondos de inversión inmobiliaria", "Ley de vivienda"],
+        "difusores": ["Sindicatos de inquilinos", "Partidos de izquierda (SUMAR, PSOE)", "Medios generalistas en zonas tensionadas"],
+        "target": "Jóvenes de 25-40 años en grandes ciudades, rentas medias-bajas en alquiler, familias monoparentales",
+        "potenciadores": ["Subida del IPC de alquiler", "Desahucios en aumento", "Compra de pisos por fondos buitre"],
+        "debilitadores": ["Aumento de visados de obra nueva", "Caída de tipos de interés", "Acuerdos autonómicos de vivienda pública"],
+        "tendencia": [25, 32, 40, 46, 50, 52, 52],
+    },
+}
+
+# Datos por defecto para narrativas sin estructura específica
+_NARRATIVA_DEFAULT = {
+    "elementos": ["Cobertura mediática intensa", "Actores políticos implicados", "Debate público activo"],
+    "difusores": ["Medios generalistas", "Redes sociales", "Partidos políticos"],
+    "target": "Ciudadanía general interesada en política",
+    "potenciadores": ["Eventos relacionados de alta relevancia", "Declaraciones de líderes políticos"],
+    "debilitadores": ["Agenda setting de otras narrativas más intensas", "Falta de hechos nuevos"],
+    "tendencia": [30, 35, 38, 40, 42, 45, 49],
+}
+
 with tab_narrativa:
     col_radar, col_velocity = st.columns([2, 3], gap="large")
 
@@ -803,7 +990,18 @@ with tab_narrativa:
         _sel_narr_nombre = _sel_narr["nombre"]
         _sel_narr_intensidad = _sel_narr.get("intensidad", 50)
         _sel_narr_delta = _sel_narr.get("delta", 0)
-        _estructura = _NARRATIVA_ESTRUCTURA.get(_sel_narr_nombre, _NARRATIVA_DEFAULT)
+        # Prioridad: datos vivos de la narrativa seleccionada
+        # si tiene estructura completa (vienen del NarrativeService).
+        # Fallback: dict estatico por nombre, luego _NARRATIVA_DEFAULT.
+        _estructura_live = {
+            k: _sel_narr[k]
+            for k in ("elementos", "difusores", "potenciadores", "debilitadores", "target", "tendencia")
+            if _sel_narr.get(k)
+        }
+        if len(_estructura_live) >= 3:
+            _estructura = {**_NARRATIVA_DEFAULT, **_estructura_live}
+        else:
+            _estructura = _NARRATIVA_ESTRUCTURA.get(_sel_narr_nombre, _NARRATIVA_DEFAULT)
 
         _nk1, _nk2, _nk3 = st.columns(3)
         _delta_col = GREEN if _sel_narr_delta > 0 else (RED if _sel_narr_delta < 0 else MUTED)
@@ -889,26 +1087,43 @@ with tab_narrativa:
         _run_bias = st.button("Comparar sesgos mediaticos", key="d7_bias_btn2", use_container_width=True)
 
     if _run_narr:
-        _titulares_rel = [
+        # Titulares relacionados: primero los representativos del NarrativeService,
+        # luego los de la ingesta general que coincidan con palabras de la narrativa
+        _rep_titulares = _sel_narr.get("titulares_representativos", [])[:4]
+        _kws_narr = _sel_narr_nombre.lower().split()[:3]
+        _titulares_rel = _rep_titulares + [
             n.get("titulo", "") for n in noticias_main
-            if _sel_narr_nombre.lower()[:8] in (n.get("titulo","") + n.get("resumen","")).lower()
-        ][:8]
+            if any(kw in (n.get("titulo","") + n.get("resumen","")).lower() for kw in _kws_narr)
+            and n.get("titulo","") not in _rep_titulares
+        ][:6]
+        _actores_live = ", ".join(_sel_narr.get("actores_principales", [])[:5]) or "no identificados aun"
+        _marco_live = _sel_narr.get("marco", "sin_clasificar")
+        _tension_live = _sel_narr.get("tension", "media")
+        _ideo_live = _sel_narr.get("ideologia_dominante", "transversal")
+
         _prompt_narr = (
             f"Analiza en profundidad la narrativa politica \"{_sel_narr_nombre}\" "
             f"en el contexto espanol actual.\n\n"
-            f"DATOS:\n"
+            f"DATOS EN TIEMPO REAL:\n"
             f"- Intensidad: {_sel_narr_intensidad}/100 (variacion {_sel_narr_delta:+d} en 24h)\n"
-            f"- Elementos: {chr(44).join(_estructura['elementos'])}\n"
-            f"- Difusores principales: {chr(44).join(_estructura['difusores'][:2])}\n"
-            f"- Target: {_estructura['target']}\n"
-            f"- Titulares relacionados: {chr(59).join(_titulares_rel) if _titulares_rel else 'sin titulares directos'}\n\n"
+            f"- Marco cognitivo detectado: {_marco_live}\n"
+            f"- Tension narrativa: {_tension_live}\n"
+            f"- Ideologia dominante: {_ideo_live}\n"
+            f"- Actores principales identificados: {_actores_live}\n"
+            f"- Elementos narrativos: {chr(44).join(_estructura.get('elementos', []))}\n"
+            f"- Difusores principales: {chr(44).join(_estructura.get('difusores', [])[:3])}\n"
+            f"- Potenciadores: {chr(44).join(_estructura.get('potenciadores', [])[:2])}\n"
+            f"- Debilitadores: {chr(44).join(_estructura.get('debilitadores', [])[:2])}\n"
+            f"- Audiencia objetivo: {_estructura.get('target', 'ciudadania general')}\n"
+            f"- Titulares representativos:\n"
+            + "\n".join(f"  * {t}" for t in _titulares_rel if t) + "\n\n"
             "Proporciona analisis estructurado en CINCO secciones exactas:\n"
             "1. MARCO COGNITIVO: que angulo de realidad construye esta narrativa y que emociones activa\n"
             "2. ACTORES NARRATIVOS: quien es el villano, la victima y el heroe en esta narrativa\n"
             "3. TECNICAS PERSUASIVAS: que mecanismos usa para instalarse (miedo, identidad, repeticion)\n"
-            "4. CONTRANARRATIVAS: que mensajes podrian neutralizarla eficazmente\n"
-            "5. RIESGO POLITICO: impacto estimado en intenciones de voto si se intensifica\n\n"
-            "Se concreto. Cita actores reales. Sin emojis."
+            "4. CONTRANARRATIVAS: que mensajes podrian neutralizarla eficazmente y en que medios\n"
+            "5. RIESGO POLITICO: impacto estimado en intenciones de voto si la narrativa se intensifica\n\n"
+            "Se concreto. Cita actores reales. Sin emojis. Responde en espanol."
         )
         with st.spinner("Analizando con Ollama..."):
             if _LLM_OK:
@@ -1200,91 +1415,48 @@ with tab_narrativa:
             f'line-height:1.6">{html.escape(st.session_state["d7_fimi_analysis"])}</div>',
             unsafe_allow_html=True,
         )
+# ─── Datos de eventos globales para el mapa (fallback sin BD) ────────────────
+_ALL_MAP_EVENTS: list[dict] = [
+    # EUROPA
+    {"title": "Cumbre UE sobre aranceles Trump", "source_name": "Reuters", "source_region": "europe", "source_country": "EU", "source_lat": 50.85, "source_lon": 4.35, "published_at": "2026-05-03T08:00:00Z", "ai_relevance": 9, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Brussels, Belgium", "ai_geo_lat": 50.85, "ai_geo_lon": 4.35, "ai_summary": "La UE debate respuesta arancelaria coordinada tras nuevas medidas de Trump.", "ai_spain_impact": "alto"},
+    {"title": "Elecciones en Rumania: giro hacia la ultraderecha", "source_name": "Politico EU", "source_region": "europe", "source_country": "Romania", "source_lat": 44.43, "source_lon": 26.10, "published_at": "2026-05-02T18:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "negativo", "ai_geo_location": "Bucharest, Romania", "ai_geo_lat": 44.43, "ai_geo_lon": 26.10, "ai_summary": "Candidato ultraderechista lidera sondeos en Rumania.", "ai_spain_impact": "medio"},
+    {"title": "Alemania activa paquete de defensa 500.000M euros", "source_name": "Der Spiegel", "source_region": "europe", "source_country": "Germany", "source_lat": 52.52, "source_lon": 13.40, "published_at": "2026-05-01T10:00:00Z", "ai_relevance": 9, "ai_category": "seguridad_defensa", "ai_sentiment": "neutro", "ai_geo_location": "Berlin, Germany", "ai_geo_lat": 52.52, "ai_geo_lon": 13.40, "ai_summary": "Bundestag aprueba historico aumento del gasto en defensa.", "ai_spain_impact": "medio"},
+    {"title": "Francia: huelga general sectores transporte y energia", "source_name": "Le Monde", "source_region": "europe", "source_country": "France", "source_lat": 48.85, "source_lon": 2.35, "published_at": "2026-05-01T07:00:00Z", "ai_relevance": 7, "ai_category": "economia", "ai_sentiment": "negativo", "ai_geo_location": "Paris, France", "ai_geo_lat": 48.85, "ai_geo_lon": 2.35, "ai_summary": "Sindicatos franceses convocan huelga general por reforma laboral.", "ai_spain_impact": "bajo"},
+    {"title": "Italia: crisis de gobierno por presupuesto 2027", "source_name": "Corriere della Sera", "source_region": "europe", "source_country": "Italy", "source_lat": 41.90, "source_lon": 12.48, "published_at": "2026-04-30T15:00:00Z", "ai_relevance": 7, "ai_category": "politica_interior", "ai_sentiment": "negativo", "ai_geo_location": "Rome, Italy", "ai_geo_lat": 41.90, "ai_geo_lon": 12.48, "ai_summary": "Coalicion de Meloni en tension por desacuerdo presupuestario.", "ai_spain_impact": "bajo"},
+    {"title": "OTAN: cumbre de ministros de defensa en La Haya", "source_name": "Reuters", "source_region": "europe", "source_country": "Netherlands", "source_lat": 52.09, "source_lon": 4.30, "published_at": "2026-05-03T09:00:00Z", "ai_relevance": 8, "ai_category": "seguridad_defensa", "ai_sentiment": "neutro", "ai_geo_location": "The Hague, Netherlands", "ai_geo_lat": 52.09, "ai_geo_lon": 4.30, "ai_summary": "Aliados OTAN debaten aumento gasto al 3% del PIB.", "ai_spain_impact": "alto"},
+    {"title": "Polonia refuerza frontera con Bielorrusia", "source_name": "Reuters", "source_region": "europe", "source_country": "Poland", "source_lat": 52.23, "source_lon": 21.01, "published_at": "2026-05-02T12:00:00Z", "ai_relevance": 7, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Warsaw, Poland", "ai_geo_lat": 52.23, "ai_geo_lon": 21.01, "ai_summary": "Varsovia despliega 10.000 soldados en frontera este.", "ai_spain_impact": "bajo"},
+    # ESPAÑA
+    {"title": "Sanchez anuncia nuevo plan de vivienda asequible", "source_name": "El Pais", "source_region": "local_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-03T10:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "mixto", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "Gobierno presenta medidas para frenar precio del alquiler en areas tensionadas.", "ai_spain_impact": "critico"},
+    {"title": "Feijoo exige elecciones anticipadas por crisis presupuestaria", "source_name": "El Mundo", "source_region": "local_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-03T09:30:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "negativo", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "PP pide convocatoria electoral tras nuevo bloqueo presupuestario.", "ai_spain_impact": "critico"},
+    {"title": "Llegadas record en Canarias: 3.200 en una semana", "source_name": "El Confidencial", "source_region": "regional_spain", "source_country": "Spain", "source_lat": 28.12, "source_lon": -15.44, "published_at": "2026-05-02T14:00:00Z", "ai_relevance": 8, "ai_category": "sociedad", "ai_sentiment": "negativo", "ai_geo_location": "Las Palmas, Spain", "ai_geo_lat": 28.12, "ai_geo_lon": -15.44, "ai_summary": "Nuevo record de llegadas de migrantes a Canarias en 2026.", "ai_spain_impact": "critico"},
+    {"title": "Tribunal Supremo: nueva sentencia sobre financiacion autonomica", "source_name": "ABC", "source_region": "local_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-02T11:00:00Z", "ai_relevance": 7, "ai_category": "justicia", "ai_sentiment": "neutro", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "El Supremo falla sobre reparto de fondos entre comunidades.", "ai_spain_impact": "alto"},
+    {"title": "CIS: intension de voto PP sube 2 puntos en mayo", "source_name": "Europa Press", "source_region": "local_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-01T16:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "neutro", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "Nueva encuesta CIS muestra subida del PP y caida de VOX.", "ai_spain_impact": "alto"},
+    {"title": "Huelga de docentes en Madrid y Cataluna", "source_name": "El Diario", "source_region": "local_spain", "source_country": "Spain", "source_lat": 40.42, "source_lon": -3.70, "published_at": "2026-05-03T07:00:00Z", "ai_relevance": 7, "ai_category": "sociedad", "ai_sentiment": "negativo", "ai_geo_location": "Madrid, Spain", "ai_geo_lat": 40.42, "ai_geo_lon": -3.70, "ai_summary": "Profesores paran por mejoras salariales y ratios en aulas.", "ai_spain_impact": "alto"},
+    # NORTEAMERICA
+    {"title": "Trump impone aranceles 25% a importaciones europeas", "source_name": "Reuters", "source_region": "north_america", "source_country": "USA", "source_lat": 38.90, "source_lon": -77.03, "published_at": "2026-05-03T12:00:00Z", "ai_relevance": 10, "ai_category": "economia", "ai_sentiment": "negativo", "ai_geo_location": "Washington DC, USA", "ai_geo_lat": 38.90, "ai_geo_lon": -77.03, "ai_summary": "Casa Blanca anuncia nuevos aranceles que afectan a exportaciones espanolas.", "ai_spain_impact": "critico"},
+    {"title": "Fed mantiene tipos ante incertidumbre inflacion", "source_name": "Wall Street Journal", "source_region": "north_america", "source_country": "USA", "source_lat": 40.71, "source_lon": -74.01, "published_at": "2026-05-01T19:00:00Z", "ai_relevance": 8, "ai_category": "economia", "ai_sentiment": "neutro", "ai_geo_location": "New York, USA", "ai_geo_lat": 40.71, "ai_geo_lon": -74.01, "ai_summary": "Reserva Federal sin cambios a la espera de datos de empleo.", "ai_spain_impact": "medio"},
+    {"title": "Canada: elecciones dan mayoria a Liberales", "source_name": "CBC", "source_region": "north_america", "source_country": "Canada", "source_lat": 45.42, "source_lon": -75.69, "published_at": "2026-04-29T22:00:00Z", "ai_relevance": 7, "ai_category": "politica_interior", "ai_sentiment": "positivo", "ai_geo_location": "Ottawa, Canada", "ai_geo_lat": 45.42, "ai_geo_lon": -75.69, "ai_summary": "Carney gana las elecciones federales con mayoria comoda.", "ai_spain_impact": "bajo"},
+    # LATINOAMERICA
+    {"title": "Venezuela: represion brutal de protestas opositoras", "source_name": "El Pais", "source_region": "latin_america", "source_country": "Venezuela", "source_lat": 10.48, "source_lon": -66.87, "published_at": "2026-05-02T16:00:00Z", "ai_relevance": 8, "ai_category": "politica_interior", "ai_sentiment": "negativo", "ai_geo_location": "Caracas, Venezuela", "ai_geo_lat": 10.48, "ai_geo_lon": -66.87, "ai_summary": "Maduro disuelve marchas con detencion de 200 activistas.", "ai_spain_impact": "medio"},
+    {"title": "Argentina: FMI aprueba nuevo tramo credito Milei", "source_name": "Reuters", "source_region": "latin_america", "source_country": "Argentina", "source_lat": -34.60, "source_lon": -58.38, "published_at": "2026-05-01T20:00:00Z", "ai_relevance": 7, "ai_category": "economia", "ai_sentiment": "positivo", "ai_geo_location": "Buenos Aires, Argentina", "ai_geo_lat": -34.60, "ai_geo_lon": -58.38, "ai_summary": "FMI libera 5.000M$ tras revision positiva ajuste argentino.", "ai_spain_impact": "bajo"},
+    {"title": "Mexico: AMLO sucesor endurece postura sobre migracion", "source_name": "Reuters", "source_region": "latin_america", "source_country": "Mexico", "source_lat": 19.43, "source_lon": -99.13, "published_at": "2026-04-30T14:00:00Z", "ai_relevance": 7, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Mexico City, Mexico", "ai_geo_lat": 19.43, "ai_geo_lon": -99.13, "ai_summary": "Sheinbaum refuerza control fronterizo bajo presion de EEUU.", "ai_spain_impact": "bajo"},
+    # AFRICA
+    {"title": "Sudan: crisis humanitaria supera 10 millones de desplazados", "source_name": "Al Jazeera", "source_region": "africa", "source_country": "Sudan", "source_lat": 15.55, "source_lon": 32.53, "published_at": "2026-05-02T08:00:00Z", "ai_relevance": 8, "ai_category": "sociedad", "ai_sentiment": "negativo", "ai_geo_location": "Khartoum, Sudan", "ai_geo_lat": 15.55, "ai_geo_lon": 32.53, "ai_summary": "ONU alerta del mayor desplazamiento humano en dos decadas.", "ai_spain_impact": "medio"},
+    {"title": "Marruecos: tension diplomatica con Espana por Ceuta y Melilla", "source_name": "ABC", "source_region": "africa", "source_country": "Morocco", "source_lat": 33.99, "source_lon": -6.85, "published_at": "2026-05-01T11:00:00Z", "ai_relevance": 8, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Rabat, Morocco", "ai_geo_lat": 33.99, "ai_geo_lon": -6.85, "ai_summary": "Nuevas fricciones diplomaticas sobre gestion de frontera sur.", "ai_spain_impact": "critico"},
+    {"title": "Sahel: Francia cierra ultima base militar en Niger", "source_name": "Le Monde", "source_region": "africa", "source_country": "Niger", "source_lat": 13.51, "source_lon": 2.12, "published_at": "2026-04-28T09:00:00Z", "ai_relevance": 7, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Niamey, Niger", "ai_geo_lat": 13.51, "ai_geo_lon": 2.12, "ai_summary": "Retirada definitiva francesa del Sahel abre vacio de seguridad.", "ai_spain_impact": "medio"},
+    # ASIA
+    {"title": "China: ejercicios militares masivos en Estrecho de Taiwan", "source_name": "Reuters", "source_region": "asia", "source_country": "China", "source_lat": 39.91, "source_lon": 116.39, "published_at": "2026-05-03T06:00:00Z", "ai_relevance": 9, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Taiwan Strait, China", "ai_geo_lat": 24.48, "ai_geo_lon": 120.96, "ai_summary": "Pekin lanza maniobras de mayor escala desde 1996.", "ai_spain_impact": "medio"},
+    {"title": "India supera a China como primera economia emergente", "source_name": "FT", "source_region": "asia", "source_country": "India", "source_lat": 28.61, "source_lon": 77.20, "published_at": "2026-05-02T10:00:00Z", "ai_relevance": 8, "ai_category": "economia", "ai_sentiment": "positivo", "ai_geo_location": "New Delhi, India", "ai_geo_lat": 28.61, "ai_geo_lon": 77.20, "ai_summary": "FMI revisa al alza PIB indio por encima del chino por primera vez.", "ai_spain_impact": "bajo"},
+    {"title": "Japon sube tipos por primera vez en 20 anos", "source_name": "Nikkei", "source_region": "asia", "source_country": "Japan", "source_lat": 35.68, "source_lon": 139.69, "published_at": "2026-05-01T04:00:00Z", "ai_relevance": 8, "ai_category": "economia", "ai_sentiment": "mixto", "ai_geo_location": "Tokyo, Japan", "ai_geo_lat": 35.68, "ai_geo_lon": 139.69, "ai_summary": "Banco de Japon eleva tipos al 0.75% impactando mercados globales.", "ai_spain_impact": "medio"},
+    {"title": "Corea del Norte lanza misil balístico sobre Mar del Japon", "source_name": "Reuters", "source_region": "asia", "source_country": "North Korea", "source_lat": 39.03, "source_lon": 125.75, "published_at": "2026-04-30T03:00:00Z", "ai_relevance": 8, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Pyongyang, North Korea", "ai_geo_lat": 39.03, "ai_geo_lon": 125.75, "ai_summary": "Pyongyang prueba nuevo misil de alcance intermedio.", "ai_spain_impact": "bajo"},
+    # ORIENTE MEDIO
+    {"title": "Israel y Hamas: negociaciones cese al fuego en El Cairo", "source_name": "Reuters", "source_region": "asia", "source_country": "Israel", "source_lat": 31.77, "source_lon": 35.21, "published_at": "2026-05-03T11:00:00Z", "ai_relevance": 9, "ai_category": "politica_exterior", "ai_sentiment": "mixto", "ai_geo_location": "Gaza, Palestine", "ai_geo_lat": 31.50, "ai_geo_lon": 34.47, "ai_summary": "Mediadores egipcios intentan nuevo acuerdo de tregua.", "ai_spain_impact": "alto"},
+    {"title": "Iran: acuerdo nuclear provisional con EEUU y UE", "source_name": "FT", "source_region": "asia", "source_country": "Iran", "source_lat": 35.69, "source_lon": 51.39, "published_at": "2026-05-02T15:00:00Z", "ai_relevance": 9, "ai_category": "politica_exterior", "ai_sentiment": "positivo", "ai_geo_location": "Tehran, Iran", "ai_geo_lat": 35.69, "ai_geo_lon": 51.39, "ai_summary": "Teheran acepta inspeccion AIEA a cambio de alivio sancionador.", "ai_spain_impact": "medio"},
+    # UCRANIA/RUSIA
+    {"title": "Ucrania: Rusia lanza mayor ofensiva desde 2022 en Kharkiv", "source_name": "Reuters", "source_region": "europe", "source_country": "Ukraine", "source_lat": 49.99, "source_lon": 36.23, "published_at": "2026-05-03T07:00:00Z", "ai_relevance": 10, "ai_category": "seguridad_defensa", "ai_sentiment": "negativo", "ai_geo_location": "Kharkiv, Ukraine", "ai_geo_lat": 49.99, "ai_geo_lon": 36.23, "ai_summary": "Fuerzas rusas lanzan ataque coordinado en frente norte.", "ai_spain_impact": "alto"},
+    {"title": "Putin asiste a parade de la Victoria con Xi Jinping", "source_name": "Reuters", "source_region": "europe", "source_country": "Russia", "source_lat": 55.75, "source_lon": 37.62, "published_at": "2026-05-09T09:00:00Z", "ai_relevance": 9, "ai_category": "politica_exterior", "ai_sentiment": "negativo", "ai_geo_location": "Moscow, Russia", "ai_geo_lat": 55.75, "ai_geo_lon": 37.62, "ai_summary": "Exhibicion de alianza sino-rusa en el 81 aniversario de la Victoria.", "ai_spain_impact": "medio"},
+]
 
-
-# ═════════════════════════════════════════════════════════════════════════════
-# TAB 5: ANÁLISIS COMPARATIVO — DEEP NARRATIVE INTELLIGENCE
-# ═════════════════════════════════════════════════════════════════════════════
-
-# ── Helper de palabras (limpia HTML) ─────────────────────────────────────────
-def _top_words(news_list: list[dict], n: int = 15) -> list[tuple[str, int]]:
-    _STOPWORDS = {
-        "para", "pero", "con", "por", "una", "las", "los", "del", "que",
-        "sus", "mas", "como", "entre", "este", "esta", "sobre", "ante",
-        "tras", "desde", "hasta", "cuando", "donde", "aunque", "porque",
-        "tambien", "sin", "ser", "han", "son", "hay", "esta", "todo",
-        "puede", "durante", "segun", "anos", "espanol", "the", "and",
-        "that", "this", "with", "from", "width", "height", "class",
-        "style", "href", "img", "src", "div", "span", "nbsp", "amp",
-        "quot", "apos", "rel", "alt", "aria", "data", "tipo", "also",
-        "have", "been", "will", "were", "they", "their", "said", "have",
-    }
-    _HTML_RE = re.compile(r'<[^>]+>|&[a-z#0-9]+;|http\S+|www\.\S+|\d{3,}|[="\'{}\[\]<>]')
-
-    counts: dict[str, int] = {}
-    for item in news_list:
-        raw = f"{item.get('titulo','')} {item.get('resumen','')} {item.get('texto_completo','')}"
-        clean = _HTML_RE.sub(" ", raw).lower()
-        for word in clean.split():
-            word = word.strip(".,;:()[]¿?¡!\"'—«»#@_/\\|")
-            if len(word) > 5 and word not in _STOPWORDS and word.isalpha():
-                counts[word] = counts.get(word, 0) + 1
-    return sorted(counts.items(), key=lambda x: x[1], reverse=True)[:n]
-
-
-# ── Datos fijos de estructura de narrativas ───────────────────────────────────
-_NARRATIVA_ESTRUCTURA: dict[str, dict] = {
-    "Crisis económica": {
-        "elementos": ["Prima de riesgo", "Desempleo estructural", "Inflación persistente", "Déficit público", "Deuda soberana"],
-        "difusores": ["Medios económicos (Expansión, Cinco Días)", "Oposición PP y VOX", "Think tanks liberales (Funcas, FAES)"],
-        "target": "Clase media asalariada, pequeños empresarios, hipotecados variables",
-        "potenciadores": ["Datos de paro por encima del 11%", "Rebaja de rating crediticio", "Sanciones UE por déficit excesivo"],
-        "debilitadores": ["Bajada del BCE", "Crecimiento PIB por encima de media UE", "Record de exportaciones"],
-        "tendencia": [45, 52, 58, 67, 74, 79, 82],
-    },
-    "Corrupción institucional": {
-        "elementos": ["Contratos irregulares", "Financiación ilegal de partidos", "Puertas giratorias", "Nepotismo en cargos públicos"],
-        "difusores": ["Medios de investigación (El Confidencial, El País)", "Partidos en oposición", "Redes sociales"],
-        "target": "Votantes desencantados, abstencionistas potenciales, jóvenes con baja confianza institucional",
-        "potenciadores": ["Nuevas imputaciones judiciales", "Filtraciones de documentos", "Sentencias condenatorias"],
-        "debilitadores": ["Absoluciones judiciales", "Reformas de transparencia aprobadas", "Resultados electorales que penalizan al partido imputado"],
-        "tendencia": [60, 65, 72, 70, 74, 76, 74],
-    },
-    "Independentismo catalán": {
-        "elementos": ["Referéndum de autodeterminación", "Singularidad fiscal", "Lengua y cultura propias", "Agravio comparativo con el Estado"],
-        "difusores": ["Medios catalanes (Ara, VilaWeb, Nació Digital)", "Partidos soberanistas (ERC, Junts, CUP)", "Entidades civiles (ANC, Omnium)"],
-        "target": "Electorado catalán movilizado (40-48% del censo), diáspora catalana en Europa",
-        "potenciadores": ["Conflicto competencial con el Estado", "Aprobación de la amnistía", "Tensión en el Congreso con el bloque governamental"],
-        "debilitadores": ["Gestión autonómica fallida", "Divisiones internas entre soberanistas", "Acuerdos bilaterales Estado-Generalitat"],
-        "tendencia": [55, 60, 65, 68, 64, 66, 68],
-    },
-    "Inmigración irregular": {
-        "elementos": ["Llegadas en patera a Canarias", "Menores no acompañados (MENAS)", "Redes de tráfico de personas", "Capacidad de acogida"],
-        "difusores": ["VOX y sectores del PP", "Medios de derechas (ABC, La Razón, OK Diario)", "Redes sociales (X/Twitter, Telegram)"],
-        "target": "Electores de zonas con alta percepción de inseguridad, votantes de clase trabajadora en competencia laboral",
-        "potenciadores": ["Cifras récord de llegadas", "Incidentes de orden público atribuidos a migrantes", "Crisis diplomática con Marruecos"],
-        "debilitadores": ["Datos de integración laboral positivos", "Acuerdos migratorios con países de origen", "Condenas judiciales de bulos"],
-        "tendencia": [30, 38, 45, 52, 58, 64, 61],
-    },
-    "Vivienda asequible": {
-        "elementos": ["Precio del alquiler", "Emancipación juvenil", "Fondos de inversión inmobiliaria", "Ley de vivienda"],
-        "difusores": ["Sindicatos de inquilinos", "Partidos de izquierda (SUMAR, PSOE)", "Medios generalistas en zonas tensionadas"],
-        "target": "Jóvenes de 25-40 años en grandes ciudades, rentas medias-bajas en alquiler, familias monoparentales",
-        "potenciadores": ["Subida del IPC de alquiler", "Desahucios en aumento", "Compra de pisos por fondos buitre"],
-        "debilitadores": ["Aumento de visados de obra nueva", "Caída de tipos de interés", "Acuerdos autonómicos de vivienda pública"],
-        "tendencia": [25, 32, 40, 46, 50, 52, 52],
-    },
-}
-
-# Datos por defecto para narrativas sin estructura específica
-_NARRATIVA_DEFAULT = {
-    "elementos": ["Cobertura mediática intensa", "Actores políticos implicados", "Debate público activo"],
-    "difusores": ["Medios generalistas", "Redes sociales", "Partidos políticos"],
-    "target": "Ciudadanía general interesada en política",
-    "potenciadores": ["Eventos relacionados de alta relevancia", "Declaraciones de líderes políticos"],
-    "debilitadores": ["Agenda setting de otras narrativas más intensas", "Falta de hechos nuevos"],
-    "tendencia": [30, 35, 38, 40, 42, 45, 49],
-}
 with tab_mapa:
     # ── Lazy import del módulo de ingesta ────────────────────────────────────
     @st.cache_resource(ttl=0)
@@ -1540,6 +1712,25 @@ with tab_mapa:
     _ccaa_tuple = tuple(_sel_ccaa)
     df_ev = _load_global_events(map_hours, map_min_rel, map_cat, _geo_tuple, _ccaa_tuple)
 
+    # ── Normalizar columnas opcionales para evitar KeyError ──────────────────
+    # El fallback _ALL_MAP_EVENTS no tiene todas las columnas que genera
+    # el pipeline de Ollama (news_ingestion). Se rellenan con defaults seguros.
+    _EV_DEFAULTS: dict = {
+        "ai_urgency":       "baja",
+        "ai_analysis":      "",
+        "ai_topics":        None,
+        "ai_entities":      None,
+        "ai_region_trend":  "",
+        "ai_language":      "es",
+        "ai_impact_areas":  None,
+        "content":          "",
+        "url":              "",
+    }
+    if not df_ev.empty:
+        for _col, _default in _EV_DEFAULTS.items():
+            if _col not in df_ev.columns:
+                df_ev[_col] = _default
+
     # ── KPI row ───────────────────────────────────────────────────────────────
     k1, k2, k3, k4, k5 = st.columns(5)
     _is_demo = _news_mod is None or df_ev.empty
@@ -1634,8 +1825,10 @@ with tab_mapa:
                     sizemode="diameter",
                 ),
                 text=df_grp["title"],
-                customdata=df_grp[["ai_summary", "ai_relevance", "ai_spain_impact",
-                                    "ai_urgency", "source_name"]].fillna(""),
+                customdata=df_grp.reindex(
+                    columns=["ai_summary", "ai_relevance", "ai_spain_impact",
+                             "ai_urgency", "source_name"]
+                ).fillna(""),
                 hovertemplate=(
                     "<b>%{text}</b><br>"
                     "Relevancia: %{customdata[1]}/10<br>"
