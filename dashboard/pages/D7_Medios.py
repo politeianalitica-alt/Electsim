@@ -781,28 +781,118 @@ with tab_fuente:
 # ═════════════════════════════════════════════════════════════════════════════
 
 # ── Helper de palabras (limpia HTML) ─────────────────────────────────────────
-def _top_words(news_list: list[dict], n: int = 15) -> list[tuple[str, int]]:
-    _STOPWORDS = {
-        "para", "pero", "con", "por", "una", "las", "los", "del", "que",
-        "sus", "mas", "como", "entre", "este", "esta", "sobre", "ante",
-        "tras", "desde", "hasta", "cuando", "donde", "aunque", "porque",
-        "tambien", "sin", "ser", "han", "son", "hay", "esta", "todo",
-        "puede", "durante", "segun", "anos", "espanol", "the", "and",
-        "that", "this", "with", "from", "width", "height", "class",
-        "style", "href", "img", "src", "div", "span", "nbsp", "amp",
-        "quot", "apos", "rel", "alt", "aria", "data", "tipo", "also",
-        "have", "been", "will", "were", "they", "their", "said", "have",
+def _top_words(
+    news_list: list[dict],
+    n: int = 15,
+    narrative_filter: str | None = None,
+) -> list[tuple[str, int]]:
+    """
+    Extrae los terminos mas relevantes de una lista de noticias.
+
+    - Elimina HTML, URLs, numeros y stopwords exhaustivas (ES + EN).
+    - Si se proporciona narrative_filter, pondera palabras que aparecen
+      junto a keywords de esa narrativa (TF-IDF simplificado).
+    - Solo devuelve palabras con contenido semantico real (minimo 5 chars,
+      alfabeticas, no en la lista de stopwords).
+    """
+    _SW = {
+        # Articulos, preposiciones, conjunciones ES
+        "para", "pero", "como", "entre", "este", "esta", "estos", "estas",
+        "sobre", "ante", "tras", "desde", "hasta", "cuando", "donde",
+        "aunque", "porque", "tambien", "ademas", "mientras", "mediante",
+        "segun", "antes", "despues", "ahora", "siempre", "nunca", "cada",
+        "todo", "toda", "todos", "todas", "otro", "otra", "otros", "otras",
+        "mismo", "misma", "mismos", "mismas", "algo", "algun", "alguno",
+        "ninguno", "ningun", "mucho", "mucha", "muchos", "muchas",
+        "poco", "poca", "pocos", "pocas", "tanto", "tanta", "tantos",
+        "tantas", "cuanto", "cuanta", "cuantos", "cuantas",
+        # Verbos auxiliares / copulativos
+        "seria", "seran", "siendo", "haber", "habia", "habra", "hubiera",
+        "tener", "tiene", "tienen", "tenia", "tendran", "tenido",
+        "hacer", "hacen", "hecho", "haciendo", "hicieron",
+        "poder", "puede", "pueden", "podia", "podran",
+        "querer", "quiere", "quieren", "queria",
+        "deber", "debe", "deben", "deberia", "deberan",
+        "estar", "estaba", "estaban", "estara", "estado",
+        "existe", "existen", "existir", "existia",
+        "decir", "dijo", "dicen", "dicho", "diciendo",
+        "llegar", "llego", "llegan", "llegado",
+        "tomar", "tomo", "toman", "tomado",
+        "hacer", "hizo", "hacen", "haciendo",
+        "volver", "volvio", "vuelven",
+        "seguir", "sigue", "siguen",
+        "conocer", "conocen", "conocido",
+        "llamar", "llaman", "llamado",
+        # Pronombres
+        "ellos", "ellas", "nosotros", "nosotras", "vosotros", "vosotras",
+        "ustedes", "quien", "quienes", "cuales", "cuyo", "cuya", "cuyos",
+        # Adverbios vacios
+        "mucho", "poco", "bastante", "demasiado", "apenas", "todavia",
+        "momento", "momento", "momentos", "veces", "veces", "manera",
+        "forma", "parte", "partes", "lugar", "lugares", "caso", "casos",
+        "tipo", "tipos", "nivel", "niveles", "punto", "puntos",
+        "numero", "numeros", "grupo", "grupos", "sector", "sectores",
+        "proceso", "procesos", "sistema", "sistemas", "modelo", "modelos",
+        "medida", "medidas", "factor", "factores", "aspecto", "aspectos",
+        "ejemplo", "ejemplos", "hecho", "hechos", "dato", "datos",
+        "semana", "semanas", "meses", "meses", "pasado", "proxima",
+        "proximo", "proximos", "anterior", "anteriores", "siguiente",
+        "siguiente", "diferentes", "mismos", "mismas", "primer", "primera",
+        "ultimas", "ultimo", "ultima", "nuevo", "nueva", "nuevos", "nuevas",
+        # EN stopwords
+        "that", "this", "with", "from", "have", "been", "will", "were",
+        "they", "their", "said", "also", "would", "could", "should",
+        "about", "which", "there", "where", "these", "those", "after",
+        "before", "other", "some", "than", "then", "when", "more",
+        "most", "such", "into", "over", "only", "very", "just", "even",
+        "much", "many", "both", "same", "each", "because", "while",
+        # HTML artifacts
+        "width", "height", "class", "style", "href", "nbsp", "quot",
+        "apos", "span", "div", "img", "src", "alt", "aria", "data",
+        # Genericos periodisticos
+        "espana", "espanol", "espanola", "espanoles", "espanolas",
+        "partido", "gobierno", "presidente", "ministro", "ministra",
+        # NOTA: 'partido', 'gobierno', 'presidente' son relevantes solo si
+        # aparecen en narrativas donde son actores — se controla con min_df
     }
-    _HTML_RE = re.compile(r'<[^>]+>|&[a-z#0-9]+;|http\S+|www\.\S+|\d{3,}|[="\'{}\[\]<>]')
+
+    _HTML_RE = re.compile(
+        r'<[^>]+>|&[a-z#0-9]+;|http\S+|www\.\S+|\d{3,}|[="\'{}\[\]<>\/\\]'
+    )
+
+    # Palabras clave de la narrativa para ponderar
+    _narr_kws: set[str] = set()
+    if narrative_filter:
+        _narr_kws = {w.lower() for w in narrative_filter.split() if len(w) > 3}
 
     counts: dict[str, int] = {}
     for item in news_list:
-        raw = f"{item.get('titulo','')} {item.get('resumen','')} {item.get('texto_completo','')}"
+        raw = (
+            f"{item.get('titulo', '')} "
+            f"{item.get('resumen', '')} "
+            f"{item.get('texto_completo', '')}"
+        )
         clean = _HTML_RE.sub(" ", raw).lower()
-        for word in clean.split():
-            word = word.strip(".,;:()[]¿?¡!\"'—«»#@_/\\|")
-            if len(word) > 5 and word not in _STOPWORDS and word.isalpha():
-                counts[word] = counts.get(word, 0) + 1
+        # Normalizar caracteres acentuados para comparacion con stopwords
+        import unicodedata
+        clean_norm = "".join(
+            c for c in unicodedata.normalize("NFD", clean)
+            if unicodedata.category(c) != "Mn"
+        )
+        words = clean_norm.split()
+        for word in words:
+            word = word.strip(".,;:()[]¿?¡!\"'—«»#@_/\\|–·•°")
+            if (
+                len(word) >= 5
+                and word not in _SW
+                and word.isalpha()
+                and not word.isnumeric()
+            ):
+                weight = 2 if any(kw in word or word in kw for kw in _narr_kws) else 1
+                counts[word] = counts.get(word, 0) + weight
+
+    # Filtrar palabras que solo aparecen 1 vez (ruido)
+    counts = {w: c for w, c in counts.items() if c >= 2}
     return sorted(counts.items(), key=lambda x: x[1], reverse=True)[:n]
 
 
@@ -1171,7 +1261,18 @@ with tab_narrativa:
 
     with _cloud_col:
         section_header("TERMINOS DOMINANTES EN MEDIOS", CYAN)
-        _all_top_words = _top_words(noticias_main, 24)
+        # Filtrar articulos relacionados con la narrativa seleccionada
+        _narr_name_filter = _sel_narr_nombre if "_sel_narr_nombre" in dir() else None
+        if _narr_name_filter:
+            _narr_kws_filter = _narr_name_filter.lower().split()[:4]
+            _nws_for_cloud = [
+                n for n in noticias_main
+                if any(kw in (n.get("titulo","") + n.get("resumen","")).lower()
+                       for kw in _narr_kws_filter)
+            ] or noticias_main
+        else:
+            _nws_for_cloud = noticias_main
+        _all_top_words = _top_words(_nws_for_cloud, 24, narrative_filter=_narr_name_filter)
         if _all_top_words:
             _max_c = max(c for _, c in _all_top_words)
             _tag_colors = [CYAN, BLUE, PURPLE, GREEN, AMBER, RED, "#EC4899", "#F97316"]
@@ -1199,8 +1300,8 @@ with tab_narrativa:
         _right_src = {"elmundo", "abc", "larazon"}
         _left_nws  = [n for n in noticias_main if n.get("fuente") in _left_src]
         _right_nws = [n for n in noticias_main if n.get("fuente") in _right_src]
-        _left_top  = _top_words(_left_nws, 6)
-        _right_top = _top_words(_right_nws, 6)
+        _left_top  = _top_words(_left_nws, 6, narrative_filter=_narr_name_filter)
+        _right_top = _top_words(_right_nws, 6, narrative_filter=_narr_name_filter)
         _lr_cols2  = st.columns(2)
         for _si, (_sl, _sc, _sw) in enumerate([("Izquierda", RED, _left_top), ("Derecha", BLUE, _right_top)]):
             with _lr_cols2[_si]:
@@ -1244,8 +1345,8 @@ with tab_narrativa:
                     except Exception as _bex:
                         st.session_state["d7_bias_analysis"] = f"Error: {_bex}"
                 else:
-                    _tl = [w for w, _ in _top_words(_left_nws, 5)]
-                    _tr = [w for w, _ in _top_words(_right_nws, 5)]
+                    _tl = [w for w, _ in _top_words(_left_nws, 5, narrative_filter=_narr_name_filter)]
+                    _tr = [w for w, _ in _top_words(_right_nws, 5, narrative_filter=_narr_name_filter)]
                     st.session_state["d7_bias_analysis"] = (
                         f"Izquierda: {chr(44).join(_tl)}\n\nDerecha: {chr(44).join(_tr)}\n\nActiva Ollama."
                     )
@@ -1415,6 +1516,33 @@ with tab_narrativa:
             f'line-height:1.6">{html.escape(st.session_state["d7_fimi_analysis"])}</div>',
             unsafe_allow_html=True,
         )
+# ─── Zoom preset para el mapa por region seleccionada ────────────────────────
+def _get_zoom_preset(selected_regions: tuple | list) -> dict:
+    """Devuelve parametros de zoom/centro para update_geos segun regiones."""
+    regions = set(selected_regions) if selected_regions else set()
+    # Solo España
+    if regions and regions <= {"España Nacional", "España Regional", "Europa"}:
+        return {"lat": 40.4, "lon": -3.7, "scale": 4.5,
+                "range_lat": [36.0, 44.5], "range_lon": [-9.5, 4.5]}
+    # Solo Europa
+    if regions and regions <= {"Europa", "España Nacional", "España Regional",
+                                "Africa", "America del Norte"}:
+        if "America del Norte" not in regions and "Asia" not in regions:
+            return {"lat": 52.0, "lon": 13.0, "scale": 2.2,
+                    "range_lat": [34.0, 72.0], "range_lon": [-25.0, 45.0]}
+    # Solo LATAM
+    if regions == {"America del Sur"}:
+        return {"lat": -15.0, "lon": -60.0, "scale": 1.8,
+                "range_lat": [-55.0, 15.0], "range_lon": [-82.0, -34.0]}
+    # Solo Asia
+    if regions == {"Asia"}:
+        return {"lat": 30.0, "lon": 100.0, "scale": 1.8,
+                "range_lat": [-10.0, 70.0], "range_lon": [25.0, 150.0]}
+    # Vista global (default)
+    return {"lat": 20.0, "lon": 0.0, "scale": 1.0,
+            "range_lat": None, "range_lon": None}
+
+
 # ─── Datos de eventos globales para el mapa (fallback sin BD) ────────────────
 _ALL_MAP_EVENTS: list[dict] = [
     # EUROPA
