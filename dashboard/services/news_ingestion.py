@@ -31,10 +31,29 @@ log = get_logger(__name__)
 # ── Config ───────────────────────────────────────────────────────────────────
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://localhost/electsim")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2")
 OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "45"))
 MAX_CONTENT_CHARS = 2500   # truncamos para no exceder contexto
-MAX_ARTICLES_PER_SOURCE = 10
+MAX_ARTICLES_PER_SOURCE = 15
+
+_OLLAMA_MODEL_PRIORITY = ["politeia-brain:latest", "qwen2.5:7b", "llama3.2:3b"]
+
+
+def _detect_ollama_model() -> str:
+    """Auto-detect best available Ollama model from priority list."""
+    import httpx as _httpx
+    try:
+        resp = _httpx.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=3)
+        if resp.is_success:
+            available = {m["name"] for m in resp.json().get("models", [])}
+            for m in _OLLAMA_MODEL_PRIORITY:
+                if m in available:
+                    return m
+    except Exception:
+        pass
+    return os.getenv("OLLAMA_MODEL", _OLLAMA_MODEL_PRIORITY[-1])
+
+
+OLLAMA_MODEL = _detect_ollama_model()
 
 # ── Esquema DB ───────────────────────────────────────────────────────────────
 _CREATE_TABLE_SQL = """

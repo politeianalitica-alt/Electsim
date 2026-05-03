@@ -1,6 +1,6 @@
 """
 Geopolitica v2 — Dashboard de Inteligencia Geopolitica
-Mapa pydeck multicapa + Espana en el exterior + Briefings LLM
+Mapa pydeck multicapa + Espana en el exterior + Eventos y Senales
 """
 from __future__ import annotations
 
@@ -279,10 +279,10 @@ st.markdown("<br>", unsafe_allow_html=True)
 # Tabs principales
 # ============================================================================
 
-tab_mapa, tab_exterior, tab_briefings = st.tabs([
+tab_mapa, tab_exterior, tab_senales = st.tabs([
     "Mapa de Riesgo Global",
     "Espana en el Exterior",
-    "Briefings y Senales",
+    "Eventos y Senales",
 ])
 
 
@@ -606,12 +606,11 @@ with tab_exterior:
 
 
 # ============================================================================
-# TAB 3: Briefings y Senales
+# TAB 3: Eventos y Senales
 # ============================================================================
-with tab_briefings:
-    tab_br_eventos, tab_br_llm, tab_br_senales = st.tabs([
+with tab_senales:
+    tab_br_eventos, tab_br_senales = st.tabs([
         "Eventos recientes",
-        "Briefings LLM",
         "Senales activas",
     ])
 
@@ -644,50 +643,6 @@ with tab_briefings:
             st.dataframe(df_filtrado[cols_mostrar], use_container_width=True, hide_index=True)
         else:
             st.info("Sin eventos recientes. Ejecuta el pipeline para cargar datos.")
-
-    with tab_br_llm:
-        section_header("BRIEFINGS GEOPOLITICOS (LLM)", CYAN)
-
-        # Cargar briefings guardados
-        briefings_cache = {}
-        briefing_file = _ROOT / "data" / "cache" / "geopolitico" / "briefings_ultimo.json"
-        if briefing_file.exists():
-            try:
-                datos_br = json.loads(briefing_file.read_text(encoding="utf-8"))
-                briefings_cache = datos_br.get("briefings", {})
-            except Exception:
-                pass
-
-        if briefings_cache:
-            st.success(f"Briefings disponibles para {len(briefings_cache)} paises.")
-            pais_sel = st.selectbox("Seleccionar pais", sorted(briefings_cache.keys()))
-            if pais_sel:
-                st.markdown(f"""
-<div style="background:{BG2};border:1px solid {CYAN}33;border-radius:12px;
-            padding:1.5rem;border-left:4px solid {CYAN}">
-""", unsafe_allow_html=True)
-                st.markdown(briefings_cache[pais_sel])
-                st.markdown("</div>", unsafe_allow_html=True)
-        else:
-            st.info("Sin briefings disponibles. Ejecuta el LLM enricher para generar briefings.")
-
-        # Boton para generar briefings
-        st.markdown("---")
-        section_header("GENERAR BRIEFINGS", PURPLE)
-        if st.button("Generar briefings (top 10 paises por riesgo)", type="primary"):
-            with st.spinner("Generando briefings..."):
-                try:
-                    from agents.geopolitico import RiskScorer, GeopoliticalEnricher
-                    scores_top = sorted(scores_data, key=lambda s: float(s.get("score_total", 0)), reverse=True)[:10]
-                    enricher = GeopoliticalEnricher()
-                    nuevos_briefings = enricher.enriquecer_lote(scores_top, batch_size=3)
-                    if nuevos_briefings:
-                        enricher.guardar_briefings(nuevos_briefings)
-                        st.success(f"Briefings generados para {len(nuevos_briefings)} paises.")
-                    else:
-                        st.warning("No se pudieron generar briefings. Verifica ANTHROPIC_API_KEY.")
-                except Exception as exc:
-                    st.error(f"Error generando briefings: {exc}")
 
     with tab_br_senales:
         section_header("SENALES DE ALERTA ACTIVAS", RED)

@@ -1,6 +1,6 @@
 """
 ELECTSIM — Laboratorio Analítico v2
-Tabs: Nowcasting Avanzado · Índices Politeia · Briefing IA · Modelos Causales · Validación
+Tabs: Nowcasting Avanzado · Índices Politeia · Modelos Causales · Validación
 Análisis cuantitativo avanzado: Bayesian inference, ITS, D-in-D, Lewis-Beck,
 proyecciones multi-modelo con bandas de incertidumbre calibradas.
 """
@@ -39,18 +39,17 @@ st.markdown(f"""
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Laboratorio Analítico</h2>
     <div style="color:{TEXT2};font-size:.82rem">
-      Nowcasting · Índices · Briefing IA · Causalidad · Validación
+      Nowcasting · Índices · Causalidad · Validación
     </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
-tab_nc, tab_indices, tab_briefing, tab_causal, tab_val = st.tabs([
-    "📈 Nowcasting Avanzado",
-    "📊 Índices Politeia",
-    "🤖 Briefing Diario IA",
-    "⚗ Modelos Causales",
-    "✓ Validación",
+tab_nc, tab_indices, tab_causal, tab_val = st.tabs([
+    "Nowcasting Avanzado",
+    "Indices Politeia",
+    "Modelos Causales",
+    "Validacion",
 ])
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
@@ -320,109 +319,6 @@ with tab_indices:
         )
         st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
         st.page_link("pages/9_Indices_Politeia.py", label="→ Índices Politeia (v1) — histórico completo")
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_briefing:
-    section_header("BRIEFING DIARIO GENERADO POR IA", CYAN)
-
-    try:
-        from dashboard.services import llm_local as _brain_lab
-        _LLM_OK = _brain_lab.esta_disponible()
-        _BRAIN_MODELO = _brain_lab.modelo_principal() if _LLM_OK else ""
-    except Exception:
-        _brain_lab = None
-        _LLM_OK = False
-        _BRAIN_MODELO = ""
-
-    if not _LLM_OK:
-        try:
-            from dashboard.services import llm_narrativas as _llm_narr
-            _LLM_OK = _llm_narr.llm_disponible()
-            _BRAIN_MODELO = "Claude API"
-        except Exception:
-            _llm_narr = None
-
-    today_str = pd.Timestamp.today().strftime("%d de %B de %Y")
-
-    if _LLM_OK:
-        st.markdown(f"""
-        <div style="background:{GREEN}11;border:1px solid {GREEN}33;border-radius:8px;
-                    padding:.5rem 1rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">
-          ✓ Modelo activo: <strong>{_BRAIN_MODELO}</strong>
-        </div>
-        """, unsafe_allow_html=True)
-
-    col_bf1, col_bf2 = st.columns([1, 1])
-    with col_bf1:
-        if st.button("🔄 Generar briefing del día", type="primary", key="btn_briefing_lab"):
-            _bk = f"briefing_lab_{today_str}"
-            with st.spinner(f"Generando con {_BRAIN_MODELO or 'demo'}..."):
-                if _LLM_OK:
-                    prompt = (
-                        f"Genera un briefing ejecutivo del panorama político español para {today_str}. "
-                        "Incluye: 1) Estado del escenario electoral, 2) Principales vectores de riesgo, "
-                        "3) Tendencias en medios, 4) Calendario clave próximo. "
-                        "Formato: estructurado con headers markdown, máximo 400 palabras."
-                    )
-                    if _brain_lab:
-                        resp = _brain_lab.chat(prompt)
-                    else:
-                        resp = _llm_narr._llamar(prompt, max_tokens=600)
-                else:
-                    resp = f"""### Briefing Político — {today_str}
-
-**Escenario electoral:** El panorama político español continúa marcado por la
-fragmentación parlamentaria. El PP lidera las encuestas (33%), pero sin mayoría
-suficiente para gobernar en solitario.
-
-**Vectores de riesgo:**
-- Cataluña: tensión por implementación de la amnistía
-- Presupuestos: bloqueo legislativo persiste
-- Económico: PIB +2.4% pero inflación subyacente resistente
-
-**Medios:** Narrativa dominante: "bloqueo institucional" (37% de cobertura política).
-Sentimiento negativo hacia coalición de gobierno en aumento (+4pp última semana).
-
-**Agenda clave próxima:**
-- Consejo de Ministros: martes
-- Pleno Congreso: miércoles-jueves
-- Cumbre bilateral España-Francia: viernes"""
-                st.session_state[_bk] = resp
-    with col_bf2:
-        if _LLM_OK and st.button("📰 Briefing desde noticias reales", key="btn_briefing_news_lab"):
-            _bk2 = f"briefing_news_lab_{today_str}"
-            with st.spinner("Cargando noticias..."):
-                try:
-                    from dashboard.services.news_crawler import cargar_noticias
-                    news = cargar_noticias(max_noticias=20)
-                    resp2 = _brain_lab.resumir_noticias(news) if _brain_lab else "Sin LLM disponible"
-                    st.session_state[_bk2] = resp2
-                except Exception as e:
-                    st.session_state[_bk2] = f"Error al cargar noticias: {e}"
-
-    briefing = (st.session_state.get(f"briefing_lab_{today_str}", "") or
-                st.session_state.get(f"briefing_news_lab_{today_str}", ""))
-    if briefing:
-        st.markdown(f"""
-        <div style="background:{BG2};border:1px solid {CYAN}33;border-radius:12px;
-                    padding:1.5rem;border-left:4px solid {CYAN};margin-top:.8rem">
-          <div style="font-size:.6rem;color:{CYAN};font-weight:700;letter-spacing:.15em;
-                       text-transform:uppercase;margin-bottom:.6rem">
-            BRIEFING — {today_str.upper()} · {_BRAIN_MODELO.upper() or 'DEMO'}
-          </div>
-        """, unsafe_allow_html=True)
-        st.markdown(briefing)
-        st.markdown("</div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"""
-        <div style="background:{BG3};border:1px dashed {BORDER};border-radius:10px;
-                    padding:2rem;text-align:center;color:{MUTED};margin-top:.8rem">
-          Pulsa "Generar briefing" para crear el análisis del día
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.page_link("pages/13_Briefing_Diario.py", label="→ Briefing Diario (v1)")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

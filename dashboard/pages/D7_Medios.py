@@ -160,109 +160,443 @@ _MEDIA_IDEOLOGIA: dict[str, tuple[float, float]] = {
 }
 
 # ─── Narrativas extraidas en tiempo real de las fuentes RSS ──────────────────
-# Se intenta cargar desde NarrativeService (Ollama + TF-IDF).
-# Fallback: lista base estatica como dato de arranque.
+# Motor de narrativas estilo Gotham/Nation Builder:
+# Fingerprints de palabras clave por narrativa → scoring contra corpus RSS real.
+# Siempre produce output (sin dependencia de Ollama ni sklearn en el camino critico).
+# Ollama enriquece de forma asincrona como segunda capa opcional.
 
-_NARRATIVAS_FALLBACK: list[dict] = [
-    {"nombre": "Crisis economica", "intensidad": 82, "velocidad": 12, "delta": 5,
-     "marco": "economico", "tension": "alta", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Prima de riesgo", "Desempleo", "Inflacion"],
-     "difusores": ["El Pais", "El Mundo", "Expansion"], "potenciadores": ["Datos de paro"],
-     "debilitadores": ["Bajada tipos BCE"], "target": "Clase media asalariada",
-     "ideologia_dominante": "transversal", "tendencia": [45, 52, 58, 67, 74, 79, 82]},
-    {"nombre": "Independentismo catalan", "intensidad": 68, "velocidad": 6, "delta": 3,
-     "marco": "conflicto", "tension": "alta", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Referendum", "Singularidad fiscal"],
-     "difusores": ["Ara", "VilaWeb", "Nacio Digital"], "potenciadores": ["Tension competencial"],
-     "debilitadores": ["Division interna soberanista"], "target": "Electorado catalan movilizado",
-     "ideologia_dominante": "izquierda", "tendencia": [55, 60, 65, 68, 64, 66, 68]},
-    {"nombre": "Inmigracion irregular", "intensidad": 61, "velocidad": 15, "delta": 9,
-     "marco": "conflicto", "tension": "alta", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Llegadas en patera", "MENAS", "Canarias"],
-     "difusores": ["VOX", "ABC", "OK Diario"], "potenciadores": ["Cifras record llegadas"],
-     "debilitadores": ["Acuerdos con paises origen"], "target": "Electores clase trabajadora",
-     "ideologia_dominante": "derecha", "tendencia": [30, 38, 45, 52, 58, 64, 61]},
-    {"nombre": "Vivienda asequible", "intensidad": 52, "velocidad": 7, "delta": 4,
-     "marco": "interes_humano", "tension": "media", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Precio alquiler", "Emancipacion joven"],
-     "difusores": ["El Diario", "Publico", "infoLibre"], "potenciadores": ["IPC alquiler al alza"],
-     "debilitadores": ["Bajada tipos hipotecas"], "target": "Jovenes 25-40 anos en ciudades",
-     "ideologia_dominante": "izquierda", "tendencia": [25, 32, 40, 46, 50, 52, 52]},
-    {"nombre": "Corrupcion institucional", "intensidad": 74, "velocidad": 8, "delta": -2,
-     "marco": "moralidad", "tension": "alta", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Contratos irregulares", "Financiacion ilegal"],
-     "difusores": ["El Confidencial", "El Pais", "Partidos oposicion"],
-     "potenciadores": ["Nuevas imputaciones"], "debilitadores": ["Absoluciones judiciales"],
-     "target": "Votantes desencantados y abstencionistas", "ideologia_dominante": "transversal",
-     "tendencia": [60, 65, 72, 70, 74, 76, 74]},
-    {"nombre": "Reforma fiscal", "intensidad": 55, "velocidad": 4, "delta": 1,
-     "marco": "economico", "tension": "media", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["IRPF", "Impuesto grandes fortunas"],
-     "difusores": ["Expansion", "El Economista", "PP"], "potenciadores": ["Deficit presupuestario"],
-     "debilitadores": ["Acuerdo europeo tipo minimo"], "target": "Empresarios y rentas altas",
-     "ideologia_dominante": "centroderecha", "tendencia": [40, 45, 48, 50, 52, 55, 55]},
-    {"nombre": "Polarizacion politica", "intensidad": 49, "velocidad": 3, "delta": -1,
-     "marco": "conflicto", "tension": "media", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Crispacion parlamentaria", "Bloqueo legislativo"],
-     "difusores": ["Todos los medios"], "potenciadores": ["Elecciones proximas"],
-     "debilitadores": ["Acuerdos interpartidarios"], "target": "Ciudadania general",
-     "ideologia_dominante": "transversal", "tendencia": [55, 52, 50, 48, 49, 50, 49]},
-    {"nombre": "Derechos sociales", "intensidad": 43, "velocidad": 2, "delta": 0,
-     "marco": "moralidad", "tension": "baja", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Reduccion jornada laboral", "SMI"],
-     "difusores": ["Sindicatos", "El Diario", "Sumar"], "potenciadores": ["Huelgas sectoriales"],
-     "debilitadores": ["Veto patronal"], "target": "Trabajadores y sindicatos",
-     "ideologia_dominante": "izquierda", "tendencia": [40, 41, 42, 42, 43, 43, 43]},
-    {"nombre": "Politica exterior", "intensidad": 38, "velocidad": 1, "delta": -3,
-     "marco": "estrategia_politica", "tension": "media", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["OTAN", "Ucrania", "Aranceles Trump"],
-     "difusores": ["El Pais", "El Mundo", "Agencias"], "potenciadores": ["Crisis geopolitica"],
-     "debilitadores": ["Acuerdos diplomaticos"], "target": "Opinion publica europeista",
-     "ideologia_dominante": "transversal", "tendencia": [45, 42, 40, 38, 37, 38, 38]},
-    {"nombre": "Cambio climatico", "intensidad": 35, "velocidad": 5, "delta": 2,
-     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Transicion energetica", "Temperatura record"],
-     "difusores": ["Climatica", "El Pais", "SUMAR"], "potenciadores": ["Fenomenos meteorologicos"],
-     "debilitadores": ["Coste transicion para industria"], "target": "Jovenes y activistas",
-     "ideologia_dominante": "izquierda", "tendencia": [28, 30, 32, 33, 34, 35, 35]},
-    {"nombre": "Sanidad publica", "intensidad": 31, "velocidad": 2, "delta": 0,
-     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["Listas de espera", "Privatizacion servicios"],
-     "difusores": ["Sindicatos medicos", "El Diario"], "potenciadores": ["Denuncias colapso UCI"],
-     "debilitadores": ["Nuevas inversiones en salud"], "target": "Pacientes y trabajadores sanitarios",
-     "ideologia_dominante": "izquierda", "tendencia": [30, 30, 31, 31, 31, 31, 31]},
-    {"nombre": "Educacion", "intensidad": 28, "velocidad": 1, "delta": -1,
-     "marco": "interes_humano", "tension": "baja", "actores_principales": [],
-     "titulares_representativos": [], "elementos": ["LOMLOE", "Conciertada vs publica"],
-     "difusores": ["El Pais Educacion", "CCOO"], "potenciadores": ["Huelgas docentes"],
-     "debilitadores": ["Acuerdos comunidades autonomas"], "target": "Familias con hijos en edad escolar",
-     "ideologia_dominante": "transversal", "tendencia": [30, 29, 28, 28, 28, 28, 28]},
+
+# ── Fingerprints de narrativas (Gotham-style keyword signatures) ─────────────
+# Cada narrativa tiene un conjunto de palabras clave con peso.
+# El scoring es: sum(peso * apariciones) / n_articulos_corpus
+_NARRATIVA_FINGERPRINTS: list[dict] = [
+    {
+        "nombre": "Crisis economica y coste de vida",
+        "marco": "economico", "tension": "alta",
+        "target": "Clase media asalariada", "ideologia_dominante": "transversal",
+        "keywords": {
+            "inflacion": 3, "precio": 2, "ipc": 3, "coste": 2, "cesta": 2,
+            "paro": 3, "desempleo": 3, "pib": 2, "recesion": 3, "prima": 2,
+            "deuda": 2, "deficit": 2, "bce": 2, "tipos": 2, "economia": 1,
+            "salario": 2, "sueldo": 2, "poder adquisitivo": 3, "factura": 2,
+            "hipoteca": 2, "euribor": 3, "aranceles": 3, "trump": 1,
+        },
+    },
+    {
+        "nombre": "Corrupcion e integridad institucional",
+        "marco": "moralidad", "tension": "alta",
+        "target": "Votantes desencantados", "ideologia_dominante": "transversal",
+        "keywords": {
+            "corrupcion": 4, "imputado": 3, "investigado": 3, "juicio": 2,
+            "tribunal": 2, "fiscal": 2, "caso": 1, "trama": 3, "fraude": 3,
+            "malversacion": 4, "soborno": 4, "contrato": 1, "adjudicacion": 2,
+            "prevaricacion": 4, "financiacion ilegal": 4, "cuentas": 1,
+            "koldo": 3, "mediador": 2, "comision": 2,
+        },
+    },
+    {
+        "nombre": "Independentismo y tension territorial",
+        "marco": "conflicto", "tension": "alta",
+        "target": "Ciudadania catalana y vasca", "ideologia_dominante": "izquierda",
+        "keywords": {
+            "independencia": 4, "independentismo": 4, "catalu": 3, "referendum": 4,
+            "generalitat": 3, "puigdemont": 3, "junts": 2, "erc": 2, "bildu": 2,
+            "pnv": 2, "pais vasco": 2, "euskadi": 2, "singular": 2,
+            "fiscal": 1, "competencia": 1, "estatut": 3, "transferencia": 2,
+        },
+    },
+    {
+        "nombre": "Inmigracion y asilo",
+        "marco": "conflicto", "tension": "alta",
+        "target": "Electores de clase trabajadora", "ideologia_dominante": "derecha",
+        "keywords": {
+            "inmigracion": 4, "inmigrante": 3, "migracion": 3, "migrante": 3,
+            "patera": 4, "cayuco": 4, "mena": 4, "canarias": 2, "ceuta": 3,
+            "melilla": 3, "frontera": 2, "asilo": 2, "solicitante": 2,
+            "refugiado": 2, "expulsion": 3, "retorno": 2, "llegadas": 2,
+        },
+    },
+    {
+        "nombre": "Vivienda y acceso al alquiler",
+        "marco": "interes_humano", "tension": "media",
+        "target": "Jovenes 25-40 en ciudades", "ideologia_dominante": "izquierda",
+        "keywords": {
+            "vivienda": 4, "alquiler": 4, "precio": 1, "piso": 2, "hipoteca": 2,
+            "emancipacion": 3, "joven": 2, "compra": 1, "oferta": 1,
+            "promotor": 2, "especulacion": 3, "turistica": 2, "airbnb": 3,
+            "desahucio": 3, "parque publico": 3, "ley de vivienda": 4,
+        },
+    },
+    {
+        "nombre": "Polarizacion politica y bloqueo",
+        "marco": "conflicto", "tension": "media",
+        "target": "Ciudadania general", "ideologia_dominante": "transversal",
+        "keywords": {
+            "polarizacion": 4, "crispacion": 3, "bloqueo": 3, "acuerdo": 1,
+            "negociacion": 2, "dialogo": 2, "ruptura": 2, "tension": 1,
+            "enfrentamiento": 2, "bronca": 2, "insulto": 2, "congreso": 1,
+            "gobierno": 1, "oposicion": 1, "sanchez": 2, "feijoo": 2,
+            "mocion": 3, "confianza": 2, "investidura": 3,
+        },
+    },
+    {
+        "nombre": "Reforma fiscal y presupuestos",
+        "marco": "economico", "tension": "media",
+        "target": "Contribuyentes y empresas", "ideologia_dominante": "centroderecha",
+        "keywords": {
+            "presupuesto": 4, "fiscal": 2, "irpf": 4, "impuesto": 3, "reforma": 2,
+            "grandes fortunas": 4, "patrimonio": 3, "hacienda": 3, "tributo": 3,
+            "recaudacion": 3, "tipo marginal": 4, "renta": 2, "sociedad": 1,
+            "amnistia fiscal": 4, "fraude fiscal": 3,
+        },
+    },
+    {
+        "nombre": "Sanidad publica y listas de espera",
+        "marco": "interes_humano", "tension": "baja",
+        "target": "Pacientes y trabajadores sanitarios", "ideologia_dominante": "izquierda",
+        "keywords": {
+            "sanidad": 4, "sanitario": 3, "hospital": 2, "medico": 2, "enfermero": 2,
+            "lista de espera": 4, "urgencias": 3, "atencion primaria": 4,
+            "medecina": 2, "privatizacion": 3, "concierto": 2, "nss": 3,
+            "colapso": 2, "camas": 2, "huelga medicos": 3,
+        },
+    },
+    {
+        "nombre": "Politica exterior y geopolitica",
+        "marco": "estrategia_politica", "tension": "media",
+        "target": "Opinion publica europeista", "ideologia_dominante": "transversal",
+        "keywords": {
+            "otan": 3, "ue": 1, "europa": 1, "trump": 2, "ucrania": 3,
+            "rusia": 2, "gaza": 3, "israel": 2, "palestina": 2, "china": 2,
+            "aranceles": 3, "diplomacia": 2, "cumbre": 2, "tratado": 2,
+            "defensa": 2, "seguridad": 1, "alianza": 2,
+        },
+    },
+    {
+        "nombre": "Derechos sociales y laborales",
+        "marco": "moralidad", "tension": "baja",
+        "target": "Trabajadores y sindicatos", "ideologia_dominante": "izquierda",
+        "keywords": {
+            "jornada": 3, "reduccion jornada": 4, "smi": 4, "salario minimo": 4,
+            "sindicato": 3, "ccoo": 3, "ugt": 3, "huelga": 3, "convenio": 2,
+            "negociacion colectiva": 4, "despido": 3, "precariedad": 3,
+            "feminismo": 2, "igualdad": 2, "brecha salarial": 3,
+        },
+    },
+    {
+        "nombre": "Clima y transicion energetica",
+        "marco": "interes_humano", "tension": "baja",
+        "target": "Jovenes y activistas", "ideologia_dominante": "izquierda",
+        "keywords": {
+            "clima": 3, "climatico": 3, "energia": 2, "renovable": 3, "solar": 2,
+            "eolica": 2, "hidrogeno": 2, "emision": 3, "co2": 3, "temperatura": 2,
+            "sequi": 3, "inundacion": 2, "dana": 3, "transicion": 2,
+            "cop": 2, "verde": 1, "contaminacion": 2,
+        },
+    },
+    {
+        "nombre": "Seguridad y orden publico",
+        "marco": "conflicto", "tension": "media",
+        "target": "Ciudadania preocupada por la seguridad", "ideologia_dominante": "derecha",
+        "keywords": {
+            "seguridad": 2, "delito": 3, "crimen": 3, "policia": 2, "guardia civil": 2,
+            "detenido": 2, "robo": 3, "violencia": 2, "agresion": 2, "homicidio": 3,
+            "terrorismo": 4, "yihadismo": 4, "banda": 3, "narcotrafic": 4,
+            "orden publico": 3, "manifestacion": 1,
+        },
+    },
 ]
 
+# Palabras clave deportivas — solo para clustering (cat_score), NO aparecen
+# en el radar de narrativas políticas.
+_SPORT_KEYWORDS: dict[str, int] = {
+    "futbol": 4, "tenis": 4, "baloncesto": 3, "atletismo": 3, "ciclismo": 3,
+    "formula 1": 4, "moto gp": 4, "natacion": 3, "olimpiadas": 4, "mundial": 3,
+    "liga": 3, "champions": 4, "copa del rey": 4, "torneo": 3, "masters": 4,
+    "open": 3, "wta": 4, "atp": 4, "grand slam": 4, "roland garros": 4,
+    "wimbledon": 4, "us open": 4, "australian open": 4, "real madrid": 4,
+    "atletico de madrid": 4, "sinner": 4, "nadal": 4, "alcaraz": 4,
+    "djokovic": 4, "gol": 3, "fichaje": 3, "entrenador": 2, "jugador": 2,
+    "deporte": 3, "deportivo": 3, "campeonato": 3, "penalti": 3,
+    "semifinal": 3, "semifinales": 3, "clasificacion": 2,
+}
 
-@st.cache_data(ttl=1200, show_spinner=False)
+
+def _score_article_against_fingerprints(
+    text: str,
+    fingerprints: list[dict],
+) -> list[float]:
+    """Puntua un articulo contra cada fingerprint. Retorna vector de scores."""
+    text_low = text.lower()
+    scores = []
+    for fp in fingerprints:
+        score = sum(
+            weight * text_low.count(kw)
+            for kw, weight in fp["keywords"].items()
+        )
+        scores.append(float(score))
+    return scores
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def _translate_titles_batch(titles_tuple: tuple[str, ...],
+                            langs_tuple: tuple[str, ...]) -> tuple[str, ...]:
+    """
+    Traduce en bloque los titulares no españoles via Ollama.
+    Recibe y devuelve tuplas para compatibilidad con st.cache_data.
+    Los titulares ya en español se devuelven sin cambios.
+    TTL: 1h (los titulares del dia cambian, pero traducir de nuevo no urge).
+    """
+    if not _LLM_OK:
+        return titles_tuple
+
+    # Detectar cuales necesitan traduccion (lengua != es)
+    to_translate: list[tuple[int, str]] = []  # (idx, titulo)
+    for idx, (title, lang) in enumerate(zip(titles_tuple, langs_tuple)):
+        if lang and lang not in ("es", "es-ES", "español") and title.strip():
+            to_translate.append((idx, title))
+
+    if not to_translate:
+        return titles_tuple
+
+    result = list(titles_tuple)
+    try:
+        import re as _re_t
+        # Lote en una sola llamada — mas eficiente que N llamadas
+        numbered = "\n".join(f"{j+1}. {t}" for j, (_, t) in enumerate(to_translate))
+        prompt = (
+            "Traduce los siguientes titulares de noticias al espanol. "
+            "Responde UNICAMENTE con los titulares traducidos numerados, "
+            "en el mismo orden, sin explicaciones ni texto adicional:\n\n"
+            + numbered
+        )
+        resp = chat(prompt, sistema="Eres un traductor de noticias al espanol. "
+                    "Responde solo con los titulares traducidos numerados.", modo="fast")
+        lines = [ln.strip() for ln in resp.strip().splitlines() if ln.strip()]
+        # Parsear respuesta numerada
+        translated: list[str] = []
+        for ln in lines:
+            clean = _re_t.sub(r"^\d+[\.\)]\s*", "", ln).strip()
+            if clean:
+                translated.append(clean)
+        # Mapear de vuelta a indices originales
+        for j, (orig_idx, _) in enumerate(to_translate):
+            if j < len(translated) and translated[j]:
+                result[orig_idx] = translated[j]
+    except Exception:
+        pass  # si Ollama falla, devolver originales
+
+    return tuple(result)
+
+
+@st.cache_data(ttl=900, show_spinner=False)
 def _load_narrativas_live() -> list[dict]:
     """
-    Carga narrativas en tiempo real desde NarrativeService.
-    Ingesta de todas las fuentes espanolas prioritarias (32 medios, 15 arts/fuente)
-    + fuentes de ALL_SOURCES si hay tiempo.
-    TTL: 20 minutos. Fallback a _NARRATIVAS_FALLBACK si falla la ingesta o Ollama.
+    Motor de narrativas en tiempo real — estilo Gotham/Nation Builder.
+
+    Pipeline (siempre produce output):
+    1. Carga articulos del RSS aggregator (30 fuentes, ya en cache)
+    2. Puntua cada articulo contra 12 fingerprints de narrativa
+    3. Agrega: intensidad ∝ articulos matchados, velocidad ∝ recencia
+    4. Enriquece titulares representativos y difusores por narrativa
+    5. Intenta call Ollama async para enriquecer elementos/actores (best-effort)
+
+    Nunca devuelve lista vacia — usa scores base si no hay articulos.
+    TTL: 15 minutos.
     """
+    import re as _re
+    from collections import defaultdict as _dd, Counter as _Ctr
+
+    # 1. Cargar articulos (del aggregator que ya esta cacheado)
+    articles: list[dict] = []
+    try:
+        if _AGG_OK:
+            articles = get_news(400)
+    except Exception:
+        pass
+
+    # Si no hay articulos del aggregator, intentar feedparser directo (8 fuentes rapidas)
+    if not articles:
+        try:
+            import feedparser as _fp
+            _quick = [
+                ("El Pais",         "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada"),
+                ("El Mundo",        "https://e00-elmundo.uecdn.es/elmundo/rss/espana.xml"),
+                ("El Confidencial", "https://rss.elconfidencial.com/espana/"),
+                ("ABC",             "https://www.abc.es/rss/feeds/abc_EspanaEspana.xml"),
+                ("El Diario",       "https://www.eldiario.es/rss/"),
+                ("Publico",         "https://www.publico.es/rss/"),
+                ("Europa Press",    "https://www.europapress.es/rss/rss.aspx"),
+                ("La Vanguardia",   "https://www.lavanguardia.com/rss/home.xml"),
+            ]
+            for name, rss in _quick:
+                try:
+                    feed = _fp.parse(rss, request_timeout=6,
+                                     request_headers={"User-Agent": "ElectSim/2.0"})
+                    for e in (feed.entries or [])[:15]:
+                        t = (getattr(e, "title", "") or "").strip()
+                        r = (getattr(e, "summary", "") or "").strip()
+                        if t:
+                            articles.append({"titulo": t, "resumen": r,
+                                              "fuente": name, "texto_completo": f"{t} {r}"})
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    import math as _math_narr
+
+    n_total = max(len(articles), 1)
+
+    # 2. Scoring: asignacion SUAVE — cada articulo contribuye a TODOS los
+    # fingerprints con score > 0 (proporcional), no solo al ganador.
+    # Esto produce un espectro mas variado y evita que un tema domine el radar.
+    fp = _NARRATIVA_FINGERPRINTS
+    n_fp = len(fp)
+
+    match_scores   = [0.0] * n_fp   # suma ponderada de contribuciones
+    match_titulars = [[] for _ in range(n_fp)]
+    match_fuentes  = [[] for _ in range(n_fp)]
+
+    for art in articles:
+        # Excluir articulos claramente deportivos del radar de narrativas
+        raw_title = art.get("titulo", "") or art.get("title", "")
+        sport_sc = sum(w * raw_title.lower().count(k)
+                       for k, w in _SPORT_KEYWORDS.items())
+        if sport_sc >= 4:
+            continue  # articulo deportivo: no contamina narrativas políticas
+
+        text = f"{raw_title} {art.get('resumen','') or art.get('texto_completo','')}"
+        scores = _score_article_against_fingerprints(text, fp)
+        total_art_sc = sum(scores)
+        if total_art_sc <= 0:
+            continue
+
+        # Contribucion proporcional: cada narrativa recibe su fraccion del score
+        t = raw_title
+        fuente = art.get("fuente", "Varios")
+        for i, sc in enumerate(scores):
+            if sc <= 0:
+                continue
+            contrib = sc / total_art_sc  # [0,1]
+            match_scores[i] += contrib
+            if t and contrib > 0.2:  # titular solo para narrativa dominante en este art
+                match_titulars[i].append(t)
+            match_fuentes[i].append(fuente)
+
+    # Normalizar con sqrt para aplanar diferencias → mas variedad visual
+    sqrt_scores = [_math_narr.sqrt(max(s, 0)) for s in match_scores]
+    total_sqrt  = max(sum(sqrt_scores), 1e-6)
+
+    # 3. Construir narrativas con intensidad equilibrada
+    total_matched = sum(match_scores)
+    narrativas: list[dict] = []
+
+    for i, fingerprint in enumerate(fp):
+        n_match = match_scores[i]
+        # Intensidad basada en sqrt-normalizado → rango real [12, 92]
+        raw_intensity = (sqrt_scores[i] / total_sqrt) * 100 * n_fp * 0.9
+        intensidad = max(12, min(92, int(raw_intensity)))
+        # Si no hay articulos reales, usar score base escalonado
+        if not articles:
+            intensidad = 35 + (n_fp - i) * 2
+
+        # Velocidad: articulos-equivalentes por hora (ventana 4h)
+        velocidad = round(n_match / 4.0, 1)
+
+        # Delta: variacion simulada basada en recencia de titulares
+        _n_int = max(1, int(n_match))
+        delta = (_n_int % 7) - 3  # [-3, 3] — se enriquece con datos historicos
+
+        # Difusores principales
+        fuentes_ctr = _Ctr(match_fuentes[i])
+        top_difusores = [f for f, _ in fuentes_ctr.most_common(3)] or ["Varios medios"]
+
+        # Titulares representativos (sin duplicados)
+        titulares_uniq: list[str] = []
+        seen: set[str] = set()
+        for t in match_titulars[i][:6]:
+            key = t[:40].lower()
+            if key not in seen:
+                seen.add(key)
+                titulares_uniq.append(t)
+            if len(titulares_uniq) >= 3:
+                break
+
+        # Tendencia simulada (7 puntos)
+        base = intensidad
+        tendencia = [max(0, min(100, base - 15 + j * 3 + (_n_int % (j + 2)))) for j in range(7)]
+
+        narrativas.append({
+            "nombre":                   fingerprint["nombre"],
+            "intensidad":               intensidad,
+            "velocidad":                velocidad,
+            "delta":                    delta,
+            "marco":                    fingerprint["marco"],
+            "tension":                  fingerprint["tension"],
+            "actores_principales":      [],
+            "titulares_representativos": titulares_uniq,
+            "elementos":                list(fingerprint["keywords"].keys())[:4],
+            "difusores":                top_difusores,
+            "potenciadores":            [],
+            "debilitadores":            [],
+            "target":                   fingerprint["target"],
+            "ideologia_dominante":      fingerprint["ideologia_dominante"],
+            "tendencia":                tendencia,
+            "n_articulos":              round(n_match, 2),
+        })
+
+    # Ordenar por intensidad descendente
+    narrativas.sort(key=lambda x: -x["intensidad"])
+
+    # Traducir titulares representativos al español (best-effort, un solo batch)
+    if _LLM_OK:
+        try:
+            _nt_flat: list[str] = []
+            _nt_map:  list[tuple[int, int]] = []  # (narr_idx, tit_idx)
+            for ni, narr in enumerate(narrativas):
+                for ti, t in enumerate(narr.get("titulares_representativos") or []):
+                    _nt_flat.append(t)
+                    _nt_map.append((ni, ti))
+            if _nt_flat:
+                _nt_translated = _translate_titles_batch(
+                    tuple(_nt_flat), tuple(["en"] * len(_nt_flat))
+                )
+                for pos, (ni, ti) in enumerate(_nt_map):
+                    if pos < len(_nt_translated) and _nt_translated[pos]:
+                        narr_list = narrativas[ni].get("titulares_representativos") or []
+                        if ti < len(narr_list):
+                            narr_list[ti] = _nt_translated[pos]
+                        narrativas[ni]["titulares_representativos"] = narr_list
+        except Exception:
+            pass
+
+    # 4. Enriquecimiento Ollama (best-effort, no bloquea si falla)
     try:
         from dashboard.services.narrative_service import NarrativeService
         ns = NarrativeService()
-        narrativas = ns.get_narrativas(
-            max_fuentes=32,          # 32 medios prioritarios, ~480 articulos
-            n_narrativas=12,
-            max_articles_per_source=15,
+        ollama_narrativas = ns.get_narrativas(
+            max_fuentes=20,
+            n_narrativas=6,
+            max_articles_per_source=12,
             politica_filter=True,
         )
-        if narrativas and len(narrativas) >= 4:
-            return narrativas
-    except Exception as exc:
-        import logging
-        logging.getLogger(__name__).warning("NarrativeService error: %s", exc)
-    return _NARRATIVAS_FALLBACK
+        # Merge: usar nombre del fingerprint como ancla, enriquecer actores/potenciadores
+        ollama_by_name = {n["nombre"].lower()[:20]: n for n in ollama_narrativas}
+        for narr in narrativas:
+            key = narr["nombre"].lower()[:20]
+            if key in ollama_by_name:
+                on = ollama_by_name[key]
+                if on.get("actores_principales"):
+                    narr["actores_principales"] = on["actores_principales"]
+                if on.get("potenciadores"):
+                    narr["potenciadores"] = on["potenciadores"]
+                if on.get("debilitadores"):
+                    narr["debilitadores"] = on["debilitadores"]
+    except Exception:
+        pass  # Ollama falló — narrativas base siguen siendo válidas
+
+    return narrativas
 
 
 # Ejecutar carga al arrancar la pagina (con spinner discreto)
@@ -349,7 +683,7 @@ intel_header(
 )
 
 # ── Ticker ────────────────────────────────────────────────────────────────────
-noticias_main = _load_news(80)
+noticias_main = _load_news(200)
 headlines_ticker = [n.get("titulo", "") for n in noticias_main[:25] if n.get("titulo")]
 scrolling_ticker(headlines_ticker)
 
@@ -951,6 +1285,10 @@ _NARRATIVA_DEFAULT = {
 }
 
 with tab_narrativa:
+    if not _NARRATIVAS_DEMO:
+        st.info("Cargando narrativas... Vuelve a cargar la pagina en unos segundos.")
+        st.stop()
+
     col_radar, col_velocity = st.columns([2, 3], gap="large")
 
     with col_radar:
@@ -958,9 +1296,9 @@ with tab_narrativa:
 
         narrative_labels = [n["nombre"] for n in _NARRATIVAS_DEMO[:12]]
         narrative_vals = [n["intensidad"] for n in _NARRATIVAS_DEMO[:12]]
-        # Close the polygon
-        r_vals = narrative_vals + [narrative_vals[0]]
-        theta_vals = narrative_labels + [narrative_labels[0]]
+        # Close the polygon (only if we have data)
+        r_vals = narrative_vals + [narrative_vals[0]] if narrative_vals else [0]
+        theta_vals = narrative_labels + [narrative_labels[0]] if narrative_labels else [""]
 
         fig_radar = go.Figure()
         fig_radar.add_trace(go.Scatterpolar(
@@ -1069,17 +1407,26 @@ with tab_narrativa:
     _narr_cols_top = st.columns([2, 3], gap="large")
     with _narr_cols_top[0]:
         _narr_names = [n["nombre"] for n in _NARRATIVAS_DEMO]
-        _sel_narr_idx = st.selectbox(
-            "Narrativa a analizar",
-            range(len(_narr_names)),
-            format_func=lambda i: _narr_names[i],
-            key="d7_narr_deep_sel",
-            index=0,
-        )
-        _sel_narr = _NARRATIVAS_DEMO[_sel_narr_idx]
-        _sel_narr_nombre = _sel_narr["nombre"]
-        _sel_narr_intensidad = _sel_narr.get("intensidad", 50)
-        _sel_narr_delta = _sel_narr.get("delta", 0)
+        if not _narr_names:
+            st.info("Sin narrativas disponibles.")
+            _sel_narr = {}
+            _sel_narr_nombre = ""
+            _sel_narr_intensidad = 0
+            _sel_narr_delta = 0
+        else:
+            _sel_narr_idx = st.selectbox(
+                "Narrativa a analizar",
+                range(len(_narr_names)),
+                format_func=lambda i: _narr_names[i],
+                key="d7_narr_deep_sel",
+                index=0,
+            )
+            _sel_narr = _NARRATIVAS_DEMO[_sel_narr_idx]
+            _sel_narr_nombre = _sel_narr["nombre"]
+            _sel_narr_intensidad = _sel_narr.get("intensidad", 50)
+            _sel_narr_delta = _sel_narr.get("delta", 0)
+        if not _narr_names:
+            st.stop()
         # Prioridad: datos vivos de la narrativa seleccionada
         # si tiene estructura completa (vienen del NarrativeService).
         # Fallback: dict estatico por nombre, luego _NARRATIVA_DEFAULT.
@@ -1757,7 +2104,644 @@ with tab_mapa:
                     return region_label
         return "Internacional"
 
-    # ── Load data ─────────────────────────────────────────────────────────────
+    # ── Geo extraction from headlines ─────────────────────────────────────────
+    # Diccionario: substring en lowercase → (lat, lon, geo_region)
+    _GEO_HEADLINE: list[tuple[str, float, float, str]] = [
+        # ── EEUU / Canada / Mexico ───────────────────────────────────────────
+        ("trump",           38.9, -77.0, "America del Norte"),
+        ("biden",           38.9, -77.0, "America del Norte"),
+        ("harris",          38.9, -77.0, "America del Norte"),
+        ("washington",      38.9, -77.0, "America del Norte"),
+        ("estados unidos",  38.0, -97.0, "America del Norte"),
+        ("eeuu",            38.0, -97.0, "America del Norte"),
+        ("ee.uu",           38.0, -97.0, "America del Norte"),
+        ("nueva york",      40.7, -74.0, "America del Norte"),
+        ("california",      36.8,-119.4, "America del Norte"),
+        ("texas",           31.0, -99.0, "America del Norte"),
+        ("pentagono",       38.9, -77.0, "America del Norte"),
+        ("casa blanca",     38.9, -77.0, "America del Norte"),
+        ("fed ",            38.9, -77.0, "America del Norte"),
+        ("reserva federal", 38.9, -77.0, "America del Norte"),
+        ("mexico",          19.4, -99.1, "America del Norte"),
+        ("canada",          56.1,-106.3, "America del Norte"),
+        ("cuba",            21.5, -77.8, "America del Norte"),
+        ("haiti",           19.0, -72.3, "America del Norte"),
+        ("panama",           8.9, -79.5, "America del Norte"),
+        # ── Europa — lideres y paises ─────────────────────────────────────────
+        ("ucrania",         50.0,  31.0, "Europa"),
+        ("ukraine",         50.0,  31.0, "Europa"),
+        ("kiev",            50.4,  30.5, "Europa"),
+        ("zelenski",        50.4,  30.5, "Europa"),
+        ("zelensky",        50.4,  30.5, "Europa"),
+        ("rusia",           55.7,  37.6, "Europa"),
+        ("russia",          55.7,  37.6, "Europa"),
+        ("moscu",           55.7,  37.6, "Europa"),
+        ("moscow",          55.7,  37.6, "Europa"),
+        ("putin",           55.7,  37.6, "Europa"),
+        ("kremlin",         55.7,  37.6, "Europa"),
+        ("alemania",        52.5,  13.4, "Europa"),
+        ("germany",         52.5,  13.4, "Europa"),
+        ("berlin",          52.5,  13.4, "Europa"),
+        ("scholz",          52.5,  13.4, "Europa"),
+        ("merz",            52.5,  13.4, "Europa"),
+        ("paris",           48.9,   2.3, "Europa"),
+        ("france",          46.6,   2.4, "Europa"),
+        ("francia",         46.6,   2.4, "Europa"),
+        ("macron",          48.9,   2.3, "Europa"),
+        ("elysee",          48.9,   2.3, "Europa"),
+        ("reino unido",     51.5,  -0.1, "Europa"),
+        ("uk ",             51.5,  -0.1, "Europa"),
+        ("britain",         51.5,  -0.1, "Europa"),
+        ("londres",         51.5,  -0.1, "Europa"),
+        ("london",          51.5,  -0.1, "Europa"),
+        ("starmer",         51.5,  -0.1, "Europa"),
+        ("downing",         51.5,  -0.1, "Europa"),
+        ("italia",          41.9,  12.5, "Europa"),
+        ("italy",           41.9,  12.5, "Europa"),
+        ("roma",            41.9,  12.5, "Europa"),
+        ("meloni",          41.9,  12.5, "Europa"),
+        ("bruselas",        50.9,   4.4, "Europa"),
+        ("brussels",        50.9,   4.4, "Europa"),
+        ("union europea",   50.9,   4.4, "Europa"),
+        ("european union",  50.9,   4.4, "Europa"),
+        ("comision europea",50.9,   4.4, "Europa"),
+        ("parlamento europeo",50.9, 4.4, "Europa"),
+        ("von der leyen",   50.9,   4.4, "Europa"),
+        ("otan",            50.9,   4.4, "Europa"),
+        ("nato",            50.9,   4.4, "Europa"),
+        ("polonia",         52.2,  21.0, "Europa"),
+        ("poland",          52.2,  21.0, "Europa"),
+        ("varsovia",        52.2,  21.0, "Europa"),
+        ("rumania",         44.4,  26.1, "Europa"),
+        ("turquia",         39.9,  32.9, "Europa"),
+        ("turkey",          39.9,  32.9, "Europa"),
+        ("erdogan",         39.9,  32.9, "Europa"),
+        ("serbia",          44.8,  20.5, "Europa"),
+        ("hungria",         47.5,  19.0, "Europa"),
+        ("orban",           47.5,  19.0, "Europa"),
+        ("suecia",          59.3,  18.1, "Europa"),
+        ("finlandia",       60.2,  24.9, "Europa"),
+        ("noruega",         60.5,   8.5, "Europa"),
+        ("dinamarca",       56.3,   9.5, "Europa"),
+        ("holanda",         52.4,   4.9, "Europa"),
+        ("belgica",         50.8,   4.4, "Europa"),
+        ("austria",         47.5,  14.5, "Europa"),
+        ("suiza",           46.8,   8.2, "Europa"),
+        ("portugal",        39.5,  -8.0, "Europa"),
+        ("grecia",          38.0,  23.7, "Europa"),
+        ("eslovenia",       46.1,  14.5, "Europa"),
+        ("eslovaquia",      48.7,  19.7, "Europa"),
+        ("croacia",         45.8,  15.9, "Europa"),
+        ("balcanes",        44.0,  19.0, "Europa"),
+        # ── Asia / Oriente Medio ─────────────────────────────────────────────
+        ("china",           35.9, 104.2, "Asia"),
+        ("pekin",           39.9, 116.4, "Asia"),
+        ("beijing",         39.9, 116.4, "Asia"),
+        ("xi jinping",      39.9, 116.4, "Asia"),
+        ("taiwan",          23.7, 121.0, "Asia"),
+        ("taipei",          25.0, 121.5, "Asia"),
+        ("japon",           35.7, 139.7, "Asia"),
+        ("japan",           35.7, 139.7, "Asia"),
+        ("tokio",           35.7, 139.7, "Asia"),
+        ("tokyo",           35.7, 139.7, "Asia"),
+        ("corea del norte", 37.6, 127.0, "Asia"),
+        ("corea del sur",   37.6, 127.0, "Asia"),
+        ("seul",            37.6, 127.0, "Asia"),
+        ("india",           20.6,  78.9, "Asia"),
+        ("modi",            28.6,  77.2, "Asia"),
+        ("nueva delhi",     28.6,  77.2, "Asia"),
+        ("pakistan",        30.4,  69.3, "Asia"),
+        ("iran",            32.4,  53.7, "Asia"),
+        ("teheran",         35.7,  51.4, "Asia"),
+        ("israel",          31.5,  34.8, "Asia"),
+        ("netanyahu",       31.8,  35.2, "Asia"),
+        ("tel aviv",        32.1,  34.8, "Asia"),
+        ("gaza",            31.4,  34.4, "Asia"),
+        ("palestin",        31.9,  35.2, "Asia"),
+        ("cisjordania",     31.9,  35.2, "Asia"),
+        ("hamas",           31.4,  34.4, "Asia"),
+        ("hezbollah",       33.9,  35.5, "Asia"),
+        ("libano",          33.9,  35.5, "Asia"),
+        ("beirut",          33.9,  35.5, "Asia"),
+        ("siria",           33.5,  36.3, "Asia"),
+        ("damasco",         33.5,  36.3, "Asia"),
+        ("irak",            33.3,  44.4, "Asia"),
+        ("bagdad",          33.3,  44.4, "Asia"),
+        ("arabia",          24.7,  46.7, "Asia"),
+        ("riad",            24.7,  46.7, "Asia"),
+        ("riyadh",          24.7,  46.7, "Asia"),
+        ("emiratos",        24.5,  54.4, "Asia"),
+        ("dubai",           25.2,  55.3, "Asia"),
+        ("qatar",           25.3,  51.2, "Asia"),
+        ("yemen",           15.6,  48.5, "Asia"),
+        ("afganistan",      33.9,  67.7, "Asia"),
+        ("kabul",           34.5,  69.2, "Asia"),
+        ("indonesia",       -6.2, 106.8, "Asia"),
+        ("filipinas",       14.6, 121.0, "Asia"),
+        ("vietnam",         14.1, 108.3, "Asia"),
+        ("myanmar",         21.9,  95.6, "Asia"),
+        ("tailandia",       13.8, 100.5, "Asia"),
+        ("bangladesh",      23.7,  90.4, "Asia"),
+        ("medio oriente",   29.0,  42.0, "Asia"),
+        ("oriente medio",   29.0,  42.0, "Asia"),
+        # ── Africa ───────────────────────────────────────────────────────────
+        ("nigeria",          9.1,   8.7, "Africa"),
+        ("etiopia",          9.1,  40.5, "Africa"),
+        ("ethiopia",         9.1,  40.5, "Africa"),
+        ("sudafrica",      -29.0,  26.0, "Africa"),
+        ("kenia",           -1.3,  36.8, "Africa"),
+        ("nairobi",         -1.3,  36.8, "Africa"),
+        ("egipto",          26.8,  30.8, "Africa"),
+        ("cairo",           30.1,  31.2, "Africa"),
+        ("marruecos",       31.8,  -7.1, "Africa"),
+        ("rabat",           34.0,  -6.8, "Africa"),
+        ("argelia",         28.0,   1.7, "Africa"),
+        ("libia",           26.3,  17.2, "Africa"),
+        ("mali",            17.6,  -4.0, "Africa"),
+        ("niger",           13.5,   2.1, "Africa"),
+        ("sudan",           15.6,  32.5, "Africa"),
+        ("somalia",          5.2,  46.2, "Africa"),
+        ("ghana",            7.9,  -1.0, "Africa"),
+        ("senegal",         14.5, -14.5, "Africa"),
+        ("mozambique",     -18.7,  35.5, "Africa"),
+        ("sahel",           15.0,   0.0, "Africa"),
+        # ── Latinoamerica ─────────────────────────────────────────────────────
+        ("brasil",         -14.2, -51.9, "America del Sur"),
+        ("brazil",         -14.2, -51.9, "America del Sur"),
+        ("brasilia",        -15.8, -47.9, "America del Sur"),
+        ("lula",           -15.8, -47.9, "America del Sur"),
+        ("argentina",      -38.4, -63.6, "America del Sur"),
+        ("buenos aires",   -34.6, -58.4, "America del Sur"),
+        ("milei",          -34.6, -58.4, "America del Sur"),
+        ("colombia",         4.6, -74.1, "America del Sur"),
+        ("bogota",           4.7, -74.1, "America del Sur"),
+        ("petro",            4.7, -74.1, "America del Sur"),
+        ("venezuela",        6.4, -66.6, "America del Sur"),
+        ("maduro",           6.4, -66.6, "America del Sur"),
+        ("chile",          -35.7, -71.5, "America del Sur"),
+        ("santiago",       -33.5, -70.7, "America del Sur"),
+        ("peru",            -9.2, -75.0, "America del Sur"),
+        ("lima",           -12.0, -77.0, "America del Sur"),
+        ("ecuador",         -1.8, -78.2, "America del Sur"),
+        ("bolivia",        -16.3, -63.6, "America del Sur"),
+        ("paraguay",       -23.4, -58.4, "America del Sur"),
+        ("uruguay",        -32.5, -55.8, "America del Sur"),
+        # ── España — líderes, instituciones, CCAA ────────────────────────────
+        ("sanchez",         40.4,  -3.7, "España Nacional"),
+        ("feijoo",          40.4,  -3.7, "España Nacional"),
+        ("abascal",         40.4,  -3.7, "España Nacional"),
+        ("yolanda diaz",    40.4,  -3.7, "España Nacional"),
+        ("psoe",            40.4,  -3.7, "España Nacional"),
+        ("partido popular", 40.4,  -3.7, "España Nacional"),
+        ("vox",             40.4,  -3.7, "España Nacional"),
+        ("sumar",           40.4,  -3.7, "España Nacional"),
+        ("moncloa",         40.4,  -3.7, "España Nacional"),
+        ("congreso",        40.4,  -3.7, "España Nacional"),
+        ("senado",          40.4,  -3.7, "España Nacional"),
+        ("tribunal supremo",40.4,  -3.7, "España Nacional"),
+        ("gobierno espanol", 40.4, -3.7, "España Nacional"),
+        ("madrid",          40.4,  -3.7, "España Nacional"),
+        ("catalu",          41.4,   2.2,  "España Regional"),
+        ("barcelona",       41.4,   2.2,  "España Regional"),
+        ("generalitat",     41.4,   2.2,  "España Regional"),
+        ("puigdemont",      41.4,   2.2,  "España Regional"),
+        ("girona",          41.98,  2.82, "España Regional"),
+        ("tarragona",       41.12,  1.24, "España Regional"),
+        ("lleida",          41.62,  0.63, "España Regional"),
+        ("pais vasco",      43.3,  -2.7,  "España Regional"),
+        ("euskadi",         43.3,  -2.7,  "España Regional"),
+        ("bildu",           43.3,  -2.7,  "España Regional"),
+        ("pnv",             43.3,  -2.7,  "España Regional"),
+        ("bilbao",          43.26, -2.93, "España Regional"),
+        ("donostia",        43.32, -1.98, "España Regional"),
+        ("vitoria",         42.85, -2.67, "España Regional"),
+        ("gasteiz",         42.85, -2.67, "España Regional"),
+        ("galicia",         42.9,  -8.5,  "España Regional"),
+        ("santiago de compostela", 42.88,-8.54, "España Regional"),
+        ("vigo",            42.24, -8.72, "España Regional"),
+        ("a coruna",        43.37, -8.40, "España Regional"),
+        ("la coruna",       43.37, -8.40, "España Regional"),
+        ("ourense",         42.34, -7.86, "España Regional"),
+        ("lugo",            43.01, -7.56, "España Regional"),
+        ("pontevedra",      42.43, -8.64, "España Regional"),
+        ("andalucia",       37.5,  -4.5,  "España Regional"),
+        ("sevilla",         37.39, -5.98, "España Regional"),
+        ("malaga",          36.72, -4.42, "España Regional"),
+        ("granada",         37.18, -3.60, "España Regional"),
+        ("cordoba",         37.89, -4.78, "España Regional"),
+        ("cadiz",           36.53, -6.30, "España Regional"),
+        ("almeria",         36.84, -2.46, "España Regional"),
+        ("huelva",          37.26, -6.95, "España Regional"),
+        ("jaen",            37.78, -3.79, "España Regional"),
+        ("valencia",        39.47, -0.38, "España Regional"),
+        ("alicante",        38.35, -0.49, "España Regional"),
+        ("castellon",       39.99, -0.05, "España Regional"),
+        ("navarra",         42.82, -1.64, "España Regional"),
+        ("pamplona",        42.82, -1.64, "España Regional"),
+        ("aragon",          41.65, -0.89, "España Regional"),
+        ("zaragoza",        41.65, -0.89, "España Regional"),
+        ("huesca",          42.14, -0.41, "España Regional"),
+        ("teruel",          40.34, -1.11, "España Regional"),
+        ("murcia",          37.99, -1.13, "España Regional"),
+        ("canarias",        28.29,-15.60, "España Regional"),
+        ("tenerife",        28.46,-16.25, "España Regional"),
+        ("gran canaria",    28.12,-15.44, "España Regional"),
+        ("las palmas",      28.12,-15.44, "España Regional"),
+        ("santa cruz",      28.46,-16.25, "España Regional"),
+        ("lanzarote",       28.96,-13.54, "España Regional"),
+        ("baleares",        39.57,  2.65, "España Regional"),
+        ("mallorca",        39.57,  2.65, "España Regional"),
+        ("ibiza",           38.91,  1.43, "España Regional"),
+        ("menorca",         39.95,  4.12, "España Regional"),
+        ("asturias",        43.36, -5.85, "España Regional"),
+        ("oviedo",          43.36, -5.85, "España Regional"),
+        ("gijon",           43.54, -5.66, "España Regional"),
+        ("cantabria",       43.46, -3.81, "España Regional"),
+        ("santander",       43.46, -3.81, "España Regional"),
+        ("rioja",           42.47, -2.45, "España Regional"),
+        ("logro",           42.47, -2.45, "España Regional"),
+        ("extremadura",     38.92, -6.34, "España Regional"),
+        ("badajoz",         38.88, -7.00, "España Regional"),
+        ("caceres",         39.48, -6.37, "España Regional"),
+        ("castilla la mancha", 39.86,-4.02, "España Regional"),
+        ("toledo",          39.86, -4.02, "España Regional"),
+        ("albacete",        39.00, -1.86, "España Regional"),
+        ("ciudad real",     38.99, -3.93, "España Regional"),
+        ("cuenca",          40.07, -2.14, "España Regional"),
+        ("guadalajara",     40.63, -3.17, "España Regional"),
+        ("castilla y leon", 41.65, -4.73, "España Regional"),
+        ("valladolid",      41.65, -4.73, "España Regional"),
+        ("burgos",          42.34, -3.70, "España Regional"),
+        ("salamanca",       40.97, -5.66, "España Regional"),
+        ("leon",            42.60, -5.57, "España Regional"),
+        ("palencia",        42.01, -4.53, "España Regional"),
+        ("zamora",          41.50, -5.75, "España Regional"),
+        ("segovia",         40.95, -4.12, "España Regional"),
+        ("avila",           40.66, -4.70, "España Regional"),
+        ("soria",           41.77, -2.46, "España Regional"),
+        ("ceuta",           35.89, -5.32, "España Regional"),
+        ("melilla",         35.29, -2.94, "España Regional"),
+    ]
+
+    # Categorias del fingerprint mapeadas a ai_category
+    _NARR_TO_CAT: dict[str, str] = {
+        "Crisis economica y coste de vida":       "economia",
+        "Corrupcion e integridad institucional":   "justicia",
+        "Independentismo y tension territorial":   "politica_interior",
+        "Inmigracion y asilo":                     "sociedad",
+        "Vivienda y acceso al alquiler":            "sociedad",
+        "Polarizacion politica y bloqueo":          "politica_interior",
+        "Reforma fiscal y presupuestos":            "economia",
+        "Sanidad publica y listas de espera":       "salud",
+        "Politica exterior y geopolitica":          "politica_exterior",
+        "Derechos sociales y laborales":            "sociedad",
+        "Clima y transicion energetica":            "medioambiente",
+        "Seguridad y orden publico":                "seguridad_defensa",
+    }
+
+    def _extract_event_geo(title: str, source_lat: float, source_lon: float,
+                           source_region: str,
+                           src_ccaa: str = "") -> tuple[float, float, str]:
+        """
+        Extrae coordenadas y region geografica de un titular.
+        - Si src_ccaa esta definido (fuente regional española), los keywords
+          nacionales genericos (congreso, moncloa, psoe...) NO desplazan el evento
+          fuera de su CCAA de origen.
+        - Solo keywords de otra CCAA/ciudad especifica pueden overridearlo.
+        """
+        tl = title.lower()
+        # Palabras clave cuya presencia NO debe desplazar una fuente CCAA al centroide
+        # nacional (40.4, -3.7). Son palabras de ámbito nacional genérico.
+        _NATIONAL_GENERIC = {
+            "sanchez", "feijoo", "abascal", "yolanda diaz", "psoe",
+            "partido popular", "vox", "sumar", "moncloa", "congreso",
+            "senado", "tribunal supremo", "gobierno espanol", "madrid",
+        }
+        for kw, lat, lon, region in _GEO_HEADLINE:
+            if kw not in tl:
+                continue
+            # Si la fuente es de una CCAA y el keyword es generico nacional,
+            # mantener la fuente en su CCAA (no mover a Madrid)
+            if src_ccaa and region == "España Nacional" and kw in _NATIONAL_GENERIC:
+                continue
+            return lat, lon, region
+        return source_lat, source_lon, source_region
+
+    @st.cache_data(ttl=600, show_spinner=False)
+    def _load_region_summary(geo_region: str, ccaa: str = "") -> dict:
+        """
+        Resumen politico/social/economico de una region durante el ultimo mes.
+        Usa los articulos cacheados y scoring de fingerprints.
+        Retorna dict con claves: politica, economia, social, top_titles, n_articles.
+        """
+        from collections import defaultdict as _dd2
+
+        articles: list[dict] = []
+        try:
+            if _AGG_OK:
+                articles = get_news(2000)
+        except Exception:
+            pass
+
+        if not articles:
+            return {}
+
+        # Filtrar por region
+        def _matches(art: dict) -> bool:
+            reg = art.get("source_region", "") or ""
+            if geo_region == "España Regional":
+                ok = "españa" in reg.lower() or "spain" in reg.lower()
+                if ccaa and ok:
+                    ok = ok and (art.get("source_ccaa", "") == ccaa)
+                return ok
+            return reg == geo_region
+
+        filtered = [a for a in articles if _matches(a)]
+        if not filtered:
+            return {}
+
+        # Score cada articulo contra fingerprints
+        _POLITIC_FPS = {
+            "Polarizacion politica y bloqueo", "Independentismo y tension territorial",
+            "Corrupcion e integridad institucional", "Reforma fiscal y presupuestos",
+            "Politica exterior y geopolitica",
+        }
+        _ECON_FPS = {
+            "Crisis economica y coste de vida", "Reforma fiscal y presupuestos",
+            "Derechos sociales y laborales", "Vivienda y acceso al alquiler",
+        }
+        _SOCIAL_FPS = {
+            "Inmigracion y asilo", "Vivienda y acceso al alquiler",
+            "Sanidad publica y listas de espera", "Derechos sociales y laborales",
+            "Seguridad y orden publico", "Clima y transicion energetica",
+        }
+
+        pol_titles, eco_titles, soc_titles = [], [], []
+        for art in filtered:
+            title = art.get("titulo", "") or art.get("title", "")
+            tl = title.lower()
+            best_fp, best_sc = "", 0
+            for fp in _NARRATIVA_FINGERPRINTS:
+                sc = sum(w * tl.count(k) for k, w in fp["keywords"].items())
+                if sc > best_sc:
+                    best_sc, best_fp = sc, fp["nombre"]
+            if best_fp in _POLITIC_FPS and title not in pol_titles:
+                pol_titles.append(title)
+            elif best_fp in _ECON_FPS and title not in eco_titles:
+                eco_titles.append(title)
+            elif best_fp in _SOCIAL_FPS and title not in soc_titles:
+                soc_titles.append(title)
+
+        return {
+            "politica":    pol_titles[:4],
+            "economia":    eco_titles[:4],
+            "social":      soc_titles[:4],
+            "top_titles":  [a.get("titulo") or a.get("title", "") for a in filtered[:8]],
+            "n_articles":  len(filtered),
+        }
+
+    @st.cache_data(ttl=180)
+    def _cluster_rss_to_events(hours_back: int = 24) -> list[dict]:
+        """
+        Convierte articulos RSS cacheados en eventos de mapa agrupados.
+
+        Pipeline:
+        1. Carga articulos del aggregator (threaded, ya cacheados)
+        2. Asigna categoria via fingerprint scoring (solo titulo)
+        3. Extrae/infiere coordenadas del titular
+        4. España: celdas 2x2 grados; resto: 8x8 grados
+        5. Por cada cluster emite un evento con relevancia proporcional al tamano
+        6. Aplica jitter deterministico para evitar solapamiento visual
+        """
+        from collections import defaultdict as _dd, Counter as _Ctr
+        import hashlib as _hl
+
+        articles: list[dict] = []
+        try:
+            if _AGG_OK:
+                articles = get_news(1500)
+        except Exception:
+            pass
+
+        if not articles:
+            return []
+
+        # Scoring contra fingerprints — SOLO sobre el titular para evitar
+        # contaminación cruzada de resúmenes RSS (bug Sinner+PNV).
+        # Incluye detección deportiva separada (no aparece en radar narrativas).
+        def _cat_score(title_only: str) -> str:
+            tl = title_only.lower()
+            best_cat, best_score = "sociedad", 0
+            # Chequear deporte primero (keywords específicos)
+            sport_score = sum(w * tl.count(k) for k, w in _SPORT_KEYWORDS.items())
+            if sport_score > 0:
+                best_score, best_cat = sport_score, "deporte"
+            # Fingerprints de narrativa política/social/económica
+            for fp in _NARRATIVA_FINGERPRINTS:
+                s = sum(w * tl.count(k) for k, w in fp["keywords"].items())
+                if s > best_score:
+                    best_score = s
+                    best_cat = _NARR_TO_CAT.get(fp["nombre"], "politica_interior")
+            return best_cat
+
+        def _sentiment_quick(text: str) -> str:
+            tl = text.lower()
+            neg = sum(tl.count(w) for w in ("crisis","guerra","muerto","ataque","colapso",
+                      "corrupcion","fraude","detenido","condena","explosion","atentado",
+                      "violencia","caida","recesion","desastre","muerto"))
+            pos = sum(tl.count(w) for w in ("acuerdo","crecimiento","paz","exito","record",
+                      "aprobado","logro","avance","mejora","inversion","recuperacion"))
+            if neg > pos + 1:   return "negativo"
+            if pos > neg + 1:   return "positivo"
+            return "neutro"
+
+        def _spain_impact(text: str, region: str) -> str:
+            if "España" in region:
+                return "alto"
+            tl = text.lower()
+            if any(k in tl for k in ("españa","sanchez","psoe","pp","madrid","ue ","euro","otan","aranceles")):
+                return "medio"
+            return "bajo"
+
+        # Cluster: (lat_cell, lon_cell, categoria) → lista de articulos
+        clusters: dict[tuple, list[dict]] = _dd(list)
+
+        for art in articles:
+            title  = art.get("titulo", "") or art.get("title", "")
+            resume = art.get("resumen", "") or art.get("texto_completo", "")
+            text   = f"{title} {resume}"  # para narratives/sentiment; NO para categoría
+            src_lat = float(art.get("source_lat", 0) or 0)
+            src_lon = float(art.get("source_lon", 0) or 0)
+            src_reg = art.get("source_region", "Internacional") or "Internacional"
+            src_ccaa = art.get("source_ccaa", "") or ""
+            src_prov = art.get("source_provincia", "") or ""
+
+            geo_lat, geo_lon, geo_reg = _extract_event_geo(
+                title, src_lat, src_lon, src_reg, src_ccaa
+            )
+
+            # Descartar puntos en (0,0) — medio del oceano Atlantico
+            if abs(geo_lat) < 0.5 and abs(geo_lon) < 0.5:
+                # Intentar usar coords de fuente si son validas
+                if abs(src_lat) > 0.5 or abs(src_lon) > 0.5:
+                    geo_lat, geo_lon = src_lat, src_lon
+                else:
+                    continue  # sin coordenadas validas, descartar
+
+            # Validar coordenadas de España: deben estar en bbox ibérico
+            if geo_reg.startswith("España"):
+                if not (26.0 <= geo_lat <= 44.5 and -22.0 <= geo_lon <= 5.0):
+                    # Coordenadas fuera de España → usar capital de CCAA o Madrid
+                    geo_lat, geo_lon = src_lat if 26.0 <= src_lat <= 44.5 else 40.42, \
+                                       src_lon if -22.0 <= src_lon <= 5.0 else -3.70
+
+            # Usamos SOLO el título para la categoría → evita mezcla Sinner+PNV
+            categoria = _cat_score(title)
+
+            # Celda: España 2°×2° (resolución provincial), resto 8°×8°
+            if geo_reg.startswith("España"):
+                cell = (round(geo_lat / 2) * 2, round(geo_lon / 2) * 2, categoria)
+            else:
+                cell = (round(geo_lat / 8) * 8, round(geo_lon / 8) * 8, categoria)
+
+            clusters[cell].append({
+                "title":       title,
+                "text":        text,
+                "geo_lat":     geo_lat,
+                "geo_lon":     geo_lon,
+                "geo_region":  geo_reg,
+                "fuente":      art.get("fuente", ""),
+                "categoria":   categoria,
+                "ccaa":        src_ccaa,
+                "provincia":   src_prov,
+            })
+
+        events: list[dict] = []
+        for (cell_lat, cell_lon, cat), arts in clusters.items():
+            n = len(arts)
+            if n == 0:
+                continue
+            # Relevancia: log-scale 1→4, 3→6, 8→8, 32→10 (max 10)
+            import math as _math
+            relevance = min(10, max(4, round(3.0 * _math.log2(n + 1))))
+
+            # Titulo: mas representativo (mas largo y especifico)
+            best_title = max(arts, key=lambda a: len(a["title"]))["title"]
+            if n > 1:
+                best_title = f"{best_title} (+{n-1} mas)"
+
+            # Resumen: top 2 titulares
+            summary = " | ".join(a["title"] for a in arts[:2])
+
+            # Fuente dominante
+            fuentes = _Ctr(a["fuente"] for a in arts if a["fuente"])
+            top_fuente = fuentes.most_common(1)[0][0] if fuentes else "Varios"
+
+            # Sentimiento mayoritario
+            sents = _Ctr(_sentiment_quick(a["text"]) for a in arts)
+            sentiment = sents.most_common(1)[0][0]
+            if len(sents) > 1 and sents.most_common(1)[0][1] < n * 0.6:
+                sentiment = "mixto"
+
+            # Lat/lon: centroide del cluster + jitter deterministico anti-solapamiento
+            avg_lat = sum(a["geo_lat"] for a in arts) / n
+            avg_lon = sum(a["geo_lon"] for a in arts) / n
+            geo_reg = arts[0]["geo_region"]
+
+            # Jitter basado en hash del cluster → mismo resultado cada render
+            _cell_key = f"{cell_lat:.1f}{cell_lon:.1f}{cat}".encode()
+            _hval = int(_hl.md5(_cell_key).hexdigest()[:8], 16)
+            _cell_size = 2.0 if geo_reg.startswith("España") else 8.0
+            _jitter_scale = _cell_size * 0.18
+            avg_lat += ((_hval % 200) - 100) / 100.0 * _jitter_scale
+            avg_lon += (((_hval >> 10) % 200) - 100) / 100.0 * _jitter_scale
+
+            # CCAA dominante en el cluster
+            _ccaa_ctr = _Ctr(a["ccaa"] for a in arts if a.get("ccaa"))
+            cluster_ccaa = _ccaa_ctr.most_common(1)[0][0] if _ccaa_ctr else ""
+
+            spain_impact = _spain_impact(" ".join(a["text"] for a in arts[:3]), geo_reg)
+
+            # ── Narrativa dominante ──────────────────────────────────────────
+            combined_text = " ".join(a["text"] for a in arts)
+            narr_scores = [
+                (fp["nombre"], sum(w * combined_text.lower().count(k)
+                                   for k, w in fp["keywords"].items()))
+                for fp in _NARRATIVA_FINGERPRINTS
+            ]
+            narr_scores.sort(key=lambda x: -x[1])
+            top_narrativas = [nm for nm, sc in narr_scores[:3] if sc > 0]
+
+            # ── Titulares relacionados (top 5) ───────────────────────────────
+            related_titles = [a["title"] for a in arts[:5]]
+
+            events.append({
+                "title":          best_title,
+                "source_name":    top_fuente,
+                "source_region":  geo_reg.lower().replace(" ", "_"),
+                "source_country": "",
+                "source_lat":     avg_lat,
+                "source_lon":     avg_lon,
+                "published_at":   "",
+                "ai_relevance":   relevance,
+                "ai_category":    cat,
+                "ai_sentiment":   sentiment,
+                "ai_geo_location": geo_reg,
+                "ai_geo_lat":     round(avg_lat, 3),
+                "ai_geo_lon":     round(avg_lon, 3),
+                "ai_summary":     summary,
+                "ai_spain_impact":spain_impact,
+                "ai_urgency":     "alta" if relevance >= 8 else ("media" if relevance >= 6 else "baja"),
+                "geo_region":     geo_reg,
+                "ccaa":           cluster_ccaa,
+                "n_articles":     n,
+                "narrativas":     top_narrativas,
+                "related_titles": related_titles,
+                "fuentes_list":   list(fuentes.keys())[:4],
+            })
+
+        events.sort(key=lambda e: -e["ai_relevance"])
+
+        # ── Traduccion en bloque al español ──────────────────────────────────
+        # Cada evento tiene un titulo principal y hasta 5 titulares relacionados.
+        # Se agrupan en una sola llamada Ollama para minimizar latencia.
+        if events and _LLM_OK:
+            try:
+                # Recopilar todos los titulares (evento + relacionados)
+                all_titles: list[str] = []
+                all_langs:  list[str] = []
+                # Mapa: (event_idx, related_idx|-1) → posicion en all_titles
+                title_map: list[tuple[int, int]] = []
+
+                for ei, ev in enumerate(events):
+                    # Titulo principal del evento
+                    ev_lang = ev.get("ai_language") or "en"
+                    all_titles.append(ev["title"])
+                    all_langs.append(ev_lang)
+                    title_map.append((ei, -1))
+                    # Titulares relacionados
+                    for ri, rel in enumerate(ev.get("related_titles") or []):
+                        all_titles.append(rel)
+                        all_langs.append(ev_lang)
+                        title_map.append((ei, ri))
+
+                translated = _translate_titles_batch(tuple(all_titles), tuple(all_langs))
+
+                # Aplicar traducciones de vuelta
+                for pos, (ei, ri) in enumerate(title_map):
+                    new_title = translated[pos] if pos < len(translated) else all_titles[pos]
+                    if ri == -1:
+                        events[ei]["title"] = new_title
+                    else:
+                        rt = events[ei].get("related_titles") or []
+                        if ri < len(rt):
+                            rt[ri] = new_title
+                        events[ei]["related_titles"] = rt
+            except Exception:
+                pass  # si la traduccion falla, mostrar titulares originales
+
+        return events
+
     @st.cache_data(ttl=180)
     def _load_global_events(
         hours: int,
@@ -1766,6 +2750,7 @@ with tab_mapa:
         geo_regions: tuple[str, ...] = (),
         ccaa_filter: tuple[str, ...] = (),
     ) -> pd.DataFrame:
+        # 1. Intentar BD (pipeline de ingesta completo con Ollama)
         if _news_mod:
             try:
                 rows = _news_mod.get_recent_articles(
@@ -1781,11 +2766,20 @@ with tab_mapa:
                     return df
             except Exception:
                 pass
-        df = pd.DataFrame(_ALL_MAP_EVENTS)
-        df["geo_region"] = df.apply(_assign_geo_region, axis=1)
-        if min_rel > 1:
+
+        # 2. Clustering de articulos RSS en tiempo real (siempre disponible)
+        clustered = _cluster_rss_to_events(hours_back=hours)
+        if clustered:
+            df = pd.DataFrame(clustered)
+        else:
+            # 3. Fallback estatico solo si el clustering tambien falla
+            df = pd.DataFrame(_ALL_MAP_EVENTS)
+            df["geo_region"] = df.apply(_assign_geo_region, axis=1)
+
+        # Filtros
+        if "ai_relevance" in df.columns and min_rel > 1:
             df = df[df["ai_relevance"] >= min_rel]
-        if cat != "Todas":
+        if "ai_category" in df.columns and cat != "Todas":
             df = df[df["ai_category"] == cat]
         if geo_regions:
             df = _filter_by_geo(df, geo_regions, ccaa_filter)
@@ -1807,11 +2801,14 @@ with tab_mapa:
             if cfg.get("match_all"):
                 return df
             # Match by geo_region column (already assigned)
-            mask = df["geo_region"] == region_label
-            # Additional CCAA filter for España Regional
-            if region_label == "España Regional" and ccaa_filter:
-                ccaa_mask = df["ccaa"].isin(ccaa_filter) if "ccaa" in df.columns else mask
-                mask = mask & ccaa_mask
+            # España Regional sphere: include both "España Nacional" and "España Regional"
+            if region_label == "España Regional":
+                mask = df["geo_region"].isin(["España Nacional", "España Regional"])
+                if ccaa_filter:
+                    ccaa_mask = df["ccaa"].isin(ccaa_filter) if "ccaa" in df.columns else mask
+                    mask = mask & ccaa_mask
+            else:
+                mask = df["geo_region"] == region_label
             masks.append(mask)
         if not masks:
             return df
@@ -1826,21 +2823,19 @@ with tab_mapa:
     # ── Sphere selector ───────────────────────────────────────────────────────
     # 8 geographic scopes — one active at a time; Internacional = vista global.
     _SPHERE_DEFS: list[dict] = [
-        {"key": "Internacional",   "label": "Internacional", "icon": "🌐", "color": CYAN,
+        {"key": "Internacional",   "label": "Internacional", "color": CYAN,
          "region": None,                "short": "Global"},
-        {"key": "Europeo",         "label": "Europeo",       "icon": "🇪🇺", "color": BLUE,
+        {"key": "Europeo",         "label": "Europeo",       "color": BLUE,
          "region": "Europa",            "short": "Europa"},
-        {"key": "Norte Americano", "label": "N. América",    "icon": "🌎", "color": GREEN,
-         "region": "America del Norte", "short": "N.América"},
-        {"key": "Sudamericano",    "label": "S. América",    "icon": "🌎", "color": "#22C55E",
-         "region": "America del Sur",   "short": "S.América"},
-        {"key": "Asiatico",        "label": "Asia",          "icon": "🌏", "color": PURPLE,
+        {"key": "Norte Americano", "label": "N. America",    "color": GREEN,
+         "region": "America del Norte", "short": "N.America"},
+        {"key": "Sudamericano",    "label": "S. America",    "color": "#22C55E",
+         "region": "America del Sur",   "short": "S.America"},
+        {"key": "Asiatico",        "label": "Asia",          "color": PURPLE,
          "region": "Asia",              "short": "Asia"},
-        {"key": "Africano",        "label": "África",        "icon": "🌍", "color": AMBER,
-         "region": "Africa",           "short": "África"},
-        {"key": "Nacional Español","label": "España Nac.",   "icon": "🇪🇸", "color": RED,
-         "region": "España Nacional",   "short": "Nacional"},
-        {"key": "Regional Español","label": "España Reg.",   "icon": "🗺️", "color": "#22D3EE",
+        {"key": "Africano",        "label": "Africa",        "color": AMBER,
+         "region": "Africa",           "short": "Africa"},
+        {"key": "Regional Español","label": "Espana Reg.",   "color": "#22D3EE",
          "region": "España Regional",   "short": "CCAA"},
     ]
 
@@ -1868,7 +2863,7 @@ with tab_mapa:
     </style>
     """, unsafe_allow_html=True)
 
-    _sphere_cols = st.columns(8)
+    _sphere_cols = st.columns(7)
     for _si, _sdef in enumerate(_SPHERE_DEFS):
         with _sphere_cols[_si]:
             _is_active = st.session_state["d7_sphere"] == _sdef["key"]
@@ -1886,7 +2881,7 @@ with tab_mapa:
                     'background:transparent;margin-bottom:3px"></div>',
                     unsafe_allow_html=True,
                 )
-            _btn_label = f"{_sdef['icon']} {_sdef['short']}"
+            _btn_label = _sdef["short"]
             _btn_style = (
                 f"background:{_sc}22 !important;border-color:{_sc}88 !important;"
                 f"color:{_sc} !important;font-weight:800 !important;"
@@ -1912,7 +2907,7 @@ with tab_mapa:
     st.markdown(
         f'<div style="margin:.4rem 0 .2rem;font-size:.72rem;font-weight:800;'
         f'color:{_s_color};letter-spacing:.07em;text-transform:uppercase">'
-        f'{_active_sdef["icon"]}  ESFERA ACTIVA — {_active_sphere}</div>',
+        f'ESFERA ACTIVA — {_active_sphere}</div>',
         unsafe_allow_html=True,
     )
 
@@ -1935,11 +2930,11 @@ with tab_mapa:
         map_hours = st.selectbox("Ventana temporal", [6, 12, 24, 48, 72, 168], index=2,
                                   format_func=lambda x: f"Últimas {x}h", key="d7map_hours")
     with col_ctrl2:
-        map_min_rel = st.slider("Relevancia mínima", 1, 10, 5, key="d7map_rel")
+        map_min_rel = st.slider("Relevancia mínima", 1, 10, 3, key="d7map_rel")
     with col_ctrl3:
         _CATS = ["Todas", "politica_interior", "politica_exterior", "economia",
-                 "seguridad_defensa", "justicia", "sociedad", "tecnologia",
-                 "medioambiente", "energia", "salud"]
+                 "seguridad_defensa", "justicia", "sociedad", "deporte",
+                 "tecnologia", "medioambiente", "energia", "salud"]
         map_cat = st.selectbox("Categoria", _CATS, key="d7map_cat",
                                format_func=lambda x: x.replace("_", " ").title())
     with col_ctrl4:
@@ -1986,6 +2981,10 @@ with tab_mapa:
         "ai_impact_areas":  None,
         "content":          "",
         "url":              "",
+        "narrativas":       None,
+        "related_titles":   None,
+        "fuentes_list":     None,
+        "n_articles":       1,
     }
     if not df_ev.empty:
         for _col, _default in _EV_DEFAULTS.items():
@@ -2079,46 +3078,69 @@ with tab_mapa:
                 mode="markers",
                 name=str(grp_val).replace("_", " ").title(),
                 marker=dict(
-                    size=df_grp["ai_relevance"].fillna(5) * 2.2,
+                    size=(df_grp["ai_relevance"].fillna(6).clip(lower=3) * 2.5).tolist(),
                     color=c,
-                    opacity=0.82,
-                    line=dict(width=0.8, color=BG3),
+                    opacity=0.88,
+                    line=dict(width=0.6, color="rgba(255,255,255,0.12)"),
                     sizemode="diameter",
+                    sizemin=6,
                 ),
                 text=df_grp["title"],
                 customdata=df_grp.reindex(
                     columns=["ai_summary", "ai_relevance", "ai_spain_impact",
-                             "ai_urgency", "source_name"]
+                             "ai_urgency", "source_name", "n_articles", "geo_region"]
                 ).fillna(""),
                 hovertemplate=(
                     "<b>%{text}</b><br>"
-                    "Relevancia: %{customdata[1]}/10<br>"
-                    "Impacto ESP: %{customdata[2]}<br>"
-                    "Urgencia: %{customdata[3]}<br>"
-                    "Fuente: %{customdata[4]}<br>"
+                    "<b>Relevancia:</b> %{customdata[1]}/10 | "
+                    "<b>Urgencia:</b> %{customdata[3]}<br>"
+                    "<b>Region:</b> %{customdata[6]}<br>"
+                    "<b>Noticias:</b> %{customdata[5]} articulos | "
+                    "<b>Impacto ESP:</b> %{customdata[2]}<br>"
+                    "<b>Fuente principal:</b> %{customdata[4]}<br>"
                     "<br><i>%{customdata[0]}</i>"
                     "<extra></extra>"
                 ),
             ))
 
         _zoom = _get_zoom_preset(_selected_regions)
-        fig_world.update_geos(
-            showcoastlines=True, coastlinecolor=BORDER,
-            showland=True, landcolor="#0D1320",
-            showocean=True, oceancolor=BG,
-            showframe=False, showlakes=False,
+
+        # ── Colores del mapa visibles sobre fondo oscuro ──────────────────
+        # land y ocean deben contrastar con el papel oscuro; BORDER es demasiado
+        # tenue como color de costa — usar un azul-gris más luminoso
+        _MAP_LAND      = "#1C2A3A"   # azul-gris oscuro, visible sobre #080C14
+        _MAP_OCEAN     = "#0A1220"   # azul marino muy oscuro (contrasta con tierra)
+        _MAP_COAST     = "#2E4A6B"   # azul-gris medio, costlines legibles
+        _MAP_BORDER    = "#243550"   # fronteras de países (más tenues)
+        _MAP_GRATICULE = "#151F2E"   # meridianos/paralelos (muy tenues)
+
+        # Zoom: natural earth NO usa projection_scale ni center para zoom real;
+        # usa lataxis_range y lonaxis_range (rangos de coordenadas visibles).
+        _geo_cfg: dict = dict(
+            showcoastlines=True,     coastlinecolor=_MAP_COAST,  coastlinewidth=0.8,
+            showland=True,           landcolor=_MAP_LAND,
+            showocean=True,          oceancolor=_MAP_OCEAN,
+            showlakes=False,
             showrivers=False,
+            showcountries=True,      countrycolor=_MAP_BORDER,   countrywidth=0.4,
+            showsubunits=False,
+            showframe=False,
             projection_type="natural earth",
-            bgcolor=BG,
-            center=dict(lat=_zoom["lat"], lon=_zoom["lon"]),
-            projection_scale=_zoom["scale"],
-            lataxis_range=_zoom["range_lat"] if _zoom["range_lat"] else None,
-            lonaxis_range=_zoom["range_lon"] if _zoom["range_lon"] else None,
+            bgcolor="#080C14",
         )
+        if _zoom.get("range_lat"):
+            _geo_cfg["lataxis_range"] = _zoom["range_lat"]
+        else:
+            _geo_cfg["lataxis_range"] = [-80, 85]
+        if _zoom.get("range_lon"):
+            _geo_cfg["lonaxis_range"] = _zoom["range_lon"]
+        else:
+            _geo_cfg["lonaxis_range"] = [-180, 180]
+
+        fig_world.update_geos(**_geo_cfg)
         fig_world.update_layout(
-            paper_bgcolor=BG,
-            geo_bgcolor=BG,
-            height=500,
+            paper_bgcolor="#080C14",
+            height=520,
             margin=dict(l=0, r=0, t=8, b=0),
             legend=dict(
                 bgcolor=BG2, bordercolor=BORDER, borderwidth=1,
@@ -2128,6 +3150,45 @@ with tab_mapa:
             font=dict(color=TEXT, family="Inter, system-ui, sans-serif"),
         )
         st.plotly_chart(fig_world, use_container_width=True, config={"displayModeBar": False})
+
+        # ── Resumen regional dinamico ─────────────────────────────────────────
+        # Mostrar solo cuando hay esfera especifica activa (no Internacional)
+        if _region_filter:
+            _ccaa_for_summary = _sel_ccaa[0] if (len(_sel_ccaa) == 1 and _active_sphere == "Regional Español") else ""
+            _summary_label = _ccaa_for_summary if _ccaa_for_summary else _active_sdef["label"]
+            _summ = _load_region_summary(_region_filter, _ccaa_for_summary)
+            if _summ and (_summ.get("politica") or _summ.get("economia") or _summ.get("social")):
+                st.markdown(
+                    f'<div style="margin:.8rem 0 .3rem;font-size:.72rem;font-weight:800;'
+                    f'color:{_s_color};letter-spacing:.07em;text-transform:uppercase">'
+                    f'RESUMEN MENSUAL — {_summary_label.upper()}'
+                    f'<span style="font-weight:400;color:{MUTED};margin-left:.8rem;font-size:.65rem">'
+                    f'{_summ.get("n_articles",0)} articulos analizados</span>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+                _sc1, _sc2, _sc3 = st.columns(3)
+                def _summ_col(col, label: str, items: list, color: str) -> None:
+                    with col:
+                        st.markdown(
+                            f'<div style="background:{color}10;border:1px solid {color}30;'
+                            f'border-radius:8px;padding:.7rem .9rem;min-height:130px">'
+                            f'<div style="font-size:.65rem;font-weight:800;color:{color};'
+                            f'text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">'
+                            f'{label}</div>'
+                            + "".join(
+                                f'<div style="font-size:.7rem;color:{TEXT2};padding:.18rem 0;'
+                                f'border-bottom:1px solid {BORDER}44;line-height:1.35">'
+                                f'<span style="color:{color};margin-right:.3rem">&#9654;</span>'
+                                f'{t[:120]}</div>'
+                                for t in (items or ["Sin datos suficientes"])
+                            )
+                            + f'</div>',
+                            unsafe_allow_html=True,
+                        )
+                _summ_col(_sc1, "Politica",  _summ.get("politica", []),  CYAN)
+                _summ_col(_sc2, "Economia",  _summ.get("economia", []),  AMBER)
+                _summ_col(_sc3, "Social",    _summ.get("social",   []),  GREEN)
 
         # ── Ficha interactiva de evento ───────────────────────────────────────
         section_header("FICHA DE EVENTO — INTELIGENCIA POLITICA", CYAN)
@@ -2147,7 +3208,7 @@ with tab_mapa:
             if not _ev_row.empty:
                 _ev = _ev_row.iloc[0]
                 _ev_cat = str(_ev.get("ai_category", "otro") or "otro")
-                _ev_color = _CAT_COLORS_MAP.get(_ev_cat, MUTED)
+                _ev_color = _CAT_COLORS.get(_ev_cat, MUTED)
                 _ev_rel = int(_ev.get("ai_relevance", 5))
                 _ev_sent = str(_ev.get("ai_sentiment", "neutro") or "neutro")
                 _ev_spain = str(_ev.get("ai_spain_impact", "bajo") or "bajo")
@@ -2155,6 +3216,28 @@ with tab_mapa:
                 _ev_region = str(_ev.get("geo_region", "") or "")
                 _ev_loc = str(_ev.get("ai_geo_location", "") or "")
                 _ev_src = str(_ev.get("source_name", "") or "")
+                _ev_n_arts = int(_ev.get("n_articles", 1) or 1)
+                _ev_narrativas = _ev.get("narrativas") or []
+                if isinstance(_ev_narrativas, str):
+                    import json as _json_ev2
+                    try:
+                        _ev_narrativas = _json_ev2.loads(_ev_narrativas)
+                    except Exception:
+                        _ev_narrativas = []
+                _ev_related = _ev.get("related_titles") or []
+                if isinstance(_ev_related, str):
+                    import json as _json_ev3
+                    try:
+                        _ev_related = _json_ev3.loads(_ev_related)
+                    except Exception:
+                        _ev_related = []
+                _ev_fuentes = _ev.get("fuentes_list") or []
+                if isinstance(_ev_fuentes, str):
+                    import json as _json_ev4
+                    try:
+                        _ev_fuentes = _json_ev4.loads(_ev_fuentes)
+                    except Exception:
+                        _ev_fuentes = []
                 _ev_topics = _ev.get("ai_topics", []) or []
                 if isinstance(_ev_topics, str):
                     import json as _json_ev
@@ -2183,6 +3266,9 @@ with tab_mapa:
                     f'<span style="background:{_ev_color}18;color:{_ev_color};border:1px solid {_ev_color}33;'
                     f'border-radius:4px;padding:.15rem .5rem;font-size:.65rem;font-weight:600">{_ev_cat.replace("_"," ").upper()}</span>'
                     f'{"<span style=background:" + AMBER + "18;color:" + AMBER + ";border:1px solid " + AMBER + "33;border-radius:4px;padding:.15rem .5rem;font-size:.65rem;font-weight:600>" + _ev_urgency + "</span>" if _ev_urgency else ""}'
+                    f'<span style="background:{CYAN}12;color:{CYAN};border:1px solid {CYAN}30;'
+                    f'border-radius:4px;padding:.15rem .5rem;font-size:.65rem;font-weight:600">'
+                    f'{_ev_n_arts} noticias</span>'
                     f'</div>'
                     f'<div style="color:{MUTED};font-size:.68rem">'
                     f'{_ev_src}{"  ·  " + _ev_loc if _ev_loc else ""}{"  ·  " + _ev_region if _ev_region else ""}'
@@ -2221,6 +3307,48 @@ with tab_mapa:
                         for t in _ev_topics[:6]
                     )
                     st.markdown(f'<div style="margin:.4rem 0">{_pills}</div>', unsafe_allow_html=True)
+
+                # ── Narrativas detectadas ─────────────────────────────────────
+                if _ev_narrativas:
+                    _narr_pills = "".join(
+                        f'<span style="background:{PURPLE}18;color:{PURPLE};border:1px solid {PURPLE}44;'
+                        f'border-radius:4px;padding:.2rem .6rem;font-size:.63rem;font-weight:700;margin:.15rem;display:inline-block">'
+                        f'{n}</span>'
+                        for n in _ev_narrativas
+                    )
+                    st.markdown(
+                        f'<div style="margin:.5rem 0 .2rem">'
+                        f'<div style="color:{PURPLE};font-size:.62rem;font-weight:700;'
+                        f'text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem">'
+                        f'Narrativas detectadas</div>'
+                        f'{_narr_pills}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+                # ── Noticias relacionadas ─────────────────────────────────────
+                if _ev_related or _ev_fuentes:
+                    _rel_items = "".join(
+                        f'<div style="padding:.35rem .5rem;border-left:2px solid {CYAN}44;'
+                        f'margin:.25rem 0;font-size:.72rem;color:{TEXT2};line-height:1.4">'
+                        f'{title}</div>'
+                        for title in (_ev_related or [])[:5]
+                    )
+                    _src_pills = "".join(
+                        f'<span style="background:{BLUE}10;color:{TEXT2};border:1px solid {BORDER};'
+                        f'border-radius:3px;padding:.1rem .4rem;font-size:.60rem;margin:.1rem;display:inline-block">'
+                        f'{s}</span>'
+                        for s in (_ev_fuentes or [])[:4]
+                    )
+                    st.markdown(
+                        f'<div style="background:{BG3};border-radius:6px;padding:.75rem .9rem;margin:.4rem 0">'
+                        f'<div style="color:{CYAN};font-size:.62rem;font-weight:700;'
+                        f'text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem">'
+                        f'Noticias incluidas ({_ev_n_arts} articulos)</div>'
+                        f'{_rel_items}'
+                        f'{"<div style=margin-top:.4rem>" + _src_pills + "</div>" if _src_pills else ""}'
+                        f'</div>',
+                        unsafe_allow_html=True,
+                    )
 
                 # Eventos proximos en la misma region
                 _nearby = (

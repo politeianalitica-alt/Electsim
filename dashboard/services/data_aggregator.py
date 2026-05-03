@@ -10,25 +10,36 @@ import asyncio
 import time
 import xml.etree.ElementTree as ET
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Optional
 import logging
 
 log = logging.getLogger(__name__)
 
-# ── RSS Feed registry ─────────────────────────────────────────────────────────
-RSS_FEEDS: dict[str, str] = {
-    "elpais": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
-    "elmundo": "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml",
-    "lavanguardia": "https://www.lavanguardia.com/rss/home.xml",
-    "abc": "https://www.abc.es/rss/feeds/abc_espana.xml",
-    "elconfidencial": "https://rss.elconfidencial.com/espana/",
-    "eldiario": "https://www.eldiario.es/rss/",
-    "larazon": "https://www.larazon.es/rss/",
-    "20minutos": "https://www.20minutos.es/rss/",
-    "publico": "https://www.publico.es/rss/",
-    "infolibre": "https://www.infolibre.es/rss/",
-}
+# ── RSS Feed registry — cargado desde el catálogo de 350 fuentes ─────────────
+try:
+    from dashboard.services.media_sources import MEDIA_FEEDS as RSS_FEEDS_GEO
+    log.info("data_aggregator: cargadas %d fuentes desde media_sources", len(RSS_FEEDS_GEO))
+except Exception:
+    try:
+        from services.media_sources import MEDIA_FEEDS as RSS_FEEDS_GEO
+        log.info("data_aggregator: cargadas %d fuentes desde services.media_sources", len(RSS_FEEDS_GEO))
+    except Exception as _e:
+        log.warning("data_aggregator: fallback a fuentes embebidas (%s)", _e)
+        RSS_FEEDS_GEO = [
+            {"name": "El Pais",        "rss": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",     "lat": 40.42, "lon": -3.70, "country": "Spain",    "region": "España Regional",   "geo_region": "España Regional",   "lang": "es"},
+            {"name": "El Mundo",       "rss": "https://e00-elmundo.uecdn.es/elmundo/rss/espana.xml",                   "lat": 40.42, "lon": -3.70, "country": "Spain",    "region": "España Regional",   "geo_region": "España Regional",   "lang": "es"},
+            {"name": "El Confidencial","rss": "https://rss.elconfidencial.com/espana/",                                "lat": 40.42, "lon": -3.70, "country": "Spain",    "region": "España Regional",   "geo_region": "España Regional",   "lang": "es"},
+            {"name": "BBC News",       "rss": "http://feeds.bbci.co.uk/news/rss.xml",                                  "lat": 51.51, "lon": -0.13, "country": "UK",       "region": "Europa",            "geo_region": "Europa",            "lang": "en"},
+            {"name": "Reuters Top",    "rss": "https://feeds.reuters.com/reuters/topNews",                             "lat": 40.71, "lon":-74.01, "country": "USA",      "region": "America del Norte", "geo_region": "America del Norte", "lang": "en"},
+            {"name": "Al Jazeera",     "rss": "https://www.aljazeera.com/xml/rss/all.xml",                             "lat": 25.29, "lon": 51.53, "country": "Qatar",    "region": "Asia",              "geo_region": "Asia",              "lang": "en"},
+            {"name": "Infobae",        "rss": "https://www.infobae.com/feeds/rss/",                                    "lat":-34.60, "lon":-58.38, "country": "Argentina","region": "America del Sur",   "geo_region": "America del Sur",   "lang": "es"},
+            {"name": "AllAfrica",      "rss": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",        "lat": -1.29, "lon": 36.82, "country": "Kenya",    "region": "Africa",            "geo_region": "Africa",            "lang": "en"},
+        ]
+
+# Shim de compatibilidad — otros módulos importan RSS_FEEDS como dict
+RSS_FEEDS: dict[str, str] = {src["name"]: src["rss"] for src in RSS_FEEDS_GEO}
 
 # ── INE series identifiers ────────────────────────────────────────────────────
 INE_BASE = "https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/{serie_id}?nult=1"
@@ -51,7 +62,7 @@ def _try_import_aiohttp() -> bool:
         return False
 
 
-def _parse_rss_xml(xml_text: str, source_name: str, max_items: int = 10) -> list[dict]:
+def _parse_rss_xml(xml_text: str, source_name: str, max_items: int = 15) -> list[dict]:
     """Parse RSS/Atom XML into a list of news dicts."""
     items: list[dict] = []
     try:
@@ -127,16 +138,59 @@ class NewsAggregator:
     def _cache_valid(self) -> bool:
         return bool(self._cache) and (time.time() - self._cache_ts) < self._ttl
 
-    def _fetch_one_sync(self, name: str, url: str, max_per_source: int) -> list[dict]:
+    def _fetch_one_sync(self, name: str, url: str, max_per_source: int,
+                        source_meta: Optional[dict] = None) -> list[dict]:
         """Fetch a single RSS feed synchronously using requests."""
         try:
             import requests
             resp = requests.get(url, timeout=8, headers={"User-Agent": "ElectSim/2.0"})
             resp.raise_for_status()
-            return _parse_rss_xml(resp.text, name, max_per_source)
+            items = _parse_rss_xml(resp.text, name, max_per_source)
+            # Enrich with source geo metadata
+            if source_meta:
+                for it in items:
+                    it["source_lat"]      = source_meta.get("lat", 0.0)
+                    it["source_lon"]      = source_meta.get("lon", 0.0)
+                    it["source_country"]  = source_meta.get("country", "")
+                    it["source_region"]   = source_meta.get("region", "Internacional")
+                    it["source_lang"]     = source_meta.get("lang", "es")
+                    it["source_ccaa"]     = source_meta.get("ccaa", "")
+                    it["source_provincia"]= source_meta.get("provincia", "")
+            return items
         except Exception as exc:
             log.debug("RSS fetch failed for %s: %s", name, exc)
             return []
+
+    def fetch_threaded(self, max_per_source: int = 20, workers: int = 30) -> list[dict]:
+        """
+        Fetch all feeds in parallel using ThreadPoolExecutor.
+        Dramatically faster than sequential fetch in Streamlit's running loop.
+        Returns geo-enriched articles.
+        """
+        if self._cache_valid():
+            return self._cache
+
+        results: list[dict] = []
+        with ThreadPoolExecutor(max_workers=min(workers, len(RSS_FEEDS_GEO))) as pool:
+            futures = {
+                pool.submit(
+                    self._fetch_one_sync,
+                    src["name"], src["rss"], max_per_source, src
+                ): src["name"]
+                for src in RSS_FEEDS_GEO
+            }
+            for fut in as_completed(futures, timeout=20):
+                try:
+                    batch = fut.result()
+                    results.extend(batch)
+                except Exception as exc:
+                    log.debug("Thread fetch error for %s: %s", futures[fut], exc)
+
+        if results:
+            self._cache = results
+            self._cache_ts = time.time()
+        log.info("fetch_threaded: %d articles from %d feeds", len(results), len(RSS_FEEDS_GEO))
+        return results
 
     async def _fetch_one_async(
         self,
@@ -176,7 +230,7 @@ class NewsAggregator:
 
     # ── public API ────────────────────────────────────────────────────────────
 
-    async def fetch_all(self, max_per_source: int = 10) -> list[dict]:
+    async def fetch_all(self, max_per_source: int = 15) -> list[dict]:
         """Fetch all RSS feeds concurrently.
 
         Returns list of news dicts with keys:
@@ -197,25 +251,29 @@ class NewsAggregator:
             self._cache_ts = time.time()
         return items
 
-    def fetch_sync(self, max_per_source: int = 10) -> list[dict]:
-        """Synchronous wrapper around fetch_all.
-
-        Uses asyncio.run() when possible, falls back to a running event loop.
+    def fetch_sync(self, max_per_source: int = 20) -> list[dict]:
+        """
+        Fetch all feeds. Prefers threaded (fastest in Streamlit).
+        Falls back to aiohttp async or sequential if needed.
         """
         if self._cache_valid():
             return self._cache
 
+        # Prefer ThreadPoolExecutor — works inside Streamlit's event loop
         try:
-            try:
-                loop = asyncio.get_running_loop()
-                # We're inside a running loop (e.g. Streamlit) — run sync fallback
-                items: list[dict] = []
-                for name, url in RSS_FEEDS.items():
-                    items.extend(self._fetch_one_sync(name, url, max_per_source))
-            except RuntimeError:
-                items = asyncio.run(self.fetch_all(max_per_source))
+            items = self.fetch_threaded(max_per_source=max_per_source)
+            if items:
+                return items
         except Exception as exc:
-            log.warning("fetch_sync failed: %s", exc)
+            log.warning("fetch_threaded failed, falling back: %s", exc)
+
+        # Fallback: sequential
+        try:
+            items = []
+            for src in RSS_FEEDS_GEO:
+                items.extend(self._fetch_one_sync(src["name"], src["rss"], max_per_source, src))
+        except Exception as exc:
+            log.warning("fetch_sync sequential failed: %s", exc)
             items = []
 
         if items:

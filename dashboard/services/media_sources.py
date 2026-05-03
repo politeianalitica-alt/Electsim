@@ -407,3 +407,166 @@ def get_sources_by_country(country: str) -> list[dict]:
 
 def get_sources_by_region(region: str) -> list[dict]:
     return MEDIA_SOURCES.get(region, [])
+
+
+# ── Catálogo CCAA España con coordenadas de capital de provincia ─────────────
+# Formato: {name, rss, lat, lon, country, ccaa, provincia, lang}
+# Coordenadas centradas en la capital de cada provincia/CCAA
+CCAA_SOURCES: list[dict] = [
+    # ── Andalucía ─────────────────────────────────────────────────────────────
+    {"name": "Diario de Sevilla",      "rss": "https://www.diariodesevilla.es/rss/noticias.xml",             "lat": 37.39, "lon": -5.98,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Sevilla",   "lang": "es"},
+    {"name": "El Correo Andalucia",    "rss": "https://elcorreoweb.es/feed/",                                "lat": 37.39, "lon": -5.98,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Sevilla",   "lang": "es"},
+    {"name": "Malaga Hoy",             "rss": "https://www.malagahoy.es/rss/noticias.xml",                   "lat": 36.72, "lon": -4.42,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Málaga",    "lang": "es"},
+    {"name": "Sur Malaga",             "rss": "https://www.diariosur.es/rss/noticias.xml",                   "lat": 36.72, "lon": -4.42,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Málaga",    "lang": "es"},
+    {"name": "Granada Hoy",            "rss": "https://www.granadahoy.com/rss/noticias.xml",                 "lat": 37.18, "lon": -3.60,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Granada",   "lang": "es"},
+    {"name": "Ideal Granada",          "rss": "https://www.ideal.es/granada/rss/noticias.xml",               "lat": 37.18, "lon": -3.60,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Granada",   "lang": "es"},
+    {"name": "Diario de Cadiz",        "rss": "https://www.diariodecadiz.es/rss/noticias.xml",               "lat": 36.53, "lon": -6.30,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Cádiz",     "lang": "es"},
+    {"name": "Diario de Almeria",      "rss": "https://www.diariodealmeria.es/rss/noticias.xml",              "lat": 36.84, "lon": -2.46,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Almería",   "lang": "es"},
+    {"name": "Huelva Informacion",     "rss": "https://www.huelvainformacion.es/rss/noticias.xml",            "lat": 37.26, "lon": -6.95,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Huelva",    "lang": "es"},
+    {"name": "Diario Cordoba",         "rss": "https://www.diariocordoba.com/rss/noticias.xml",               "lat": 37.89, "lon": -4.78,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Córdoba",   "lang": "es"},
+    {"name": "Diario Jaen",            "rss": "https://www.diariojaen.es/rss/noticias.xml",                  "lat": 37.78, "lon": -3.79,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "Jaén",      "lang": "es"},
+    {"name": "Andalucia Informacion",  "rss": "https://andaluciainformacion.es/feed/",                       "lat": 37.39, "lon": -5.98,  "country": "Spain", "ccaa": "Andalucía",  "provincia": "",          "lang": "es"},
+    # ── Aragón ────────────────────────────────────────────────────────────────
+    {"name": "Heraldo de Aragon",      "rss": "https://www.heraldo.es/rss/noticias.xml",                     "lat": 41.65, "lon": -0.89,  "country": "Spain", "ccaa": "Aragón",     "provincia": "Zaragoza",  "lang": "es"},
+    {"name": "El Periodico de Aragon", "rss": "https://www.elperiodicodearagon.com/rss/noticias.xml",         "lat": 41.65, "lon": -0.89,  "country": "Spain", "ccaa": "Aragón",     "provincia": "Zaragoza",  "lang": "es"},
+    {"name": "Aragon Digital",         "rss": "https://www.aragondigital.es/rss.xml",                        "lat": 41.65, "lon": -0.89,  "country": "Spain", "ccaa": "Aragón",     "provincia": "Zaragoza",  "lang": "es"},
+    {"name": "Diario del AltoAragon",  "rss": "https://www.diariodelaltoaragon.es/rss",                      "lat": 42.14, "lon": -0.41,  "country": "Spain", "ccaa": "Aragón",     "provincia": "Huesca",    "lang": "es"},
+    # ── Asturias ──────────────────────────────────────────────────────────────
+    {"name": "La Nueva Espana",        "rss": "https://www.lne.es/rss/noticias.xml",                         "lat": 43.36, "lon": -5.85,  "country": "Spain", "ccaa": "Asturias",   "provincia": "Asturias",  "lang": "es"},
+    {"name": "El Comercio Asturias",   "rss": "https://www.elcomercio.es/rss/noticias.xml",                  "lat": 43.54, "lon": -5.66,  "country": "Spain", "ccaa": "Asturias",   "provincia": "Asturias",  "lang": "es"},
+    {"name": "La Voz de Asturias",     "rss": "https://www.lavozdeasturias.es/rss/noticias.xml",             "lat": 43.36, "lon": -5.85,  "country": "Spain", "ccaa": "Asturias",   "provincia": "Asturias",  "lang": "es"},
+    # ── Baleares ──────────────────────────────────────────────────────────────
+    {"name": "Ultima Hora Baleares",   "rss": "https://ultimahora.es/rss/noticias.xml",                      "lat": 39.57, "lon":  2.65,  "country": "Spain", "ccaa": "Baleares",   "provincia": "Baleares",  "lang": "es"},
+    {"name": "Diario de Mallorca",     "rss": "https://www.diariodemallorca.es/rss/noticias.xml",             "lat": 39.57, "lon":  2.65,  "country": "Spain", "ccaa": "Baleares",   "provincia": "Baleares",  "lang": "es"},
+    {"name": "Menorca Info",           "rss": "https://www.menorca.info/rss.xml",                             "lat": 39.95, "lon":  4.12,  "country": "Spain", "ccaa": "Baleares",   "provincia": "Baleares",  "lang": "es"},
+    # ── Canarias ──────────────────────────────────────────────────────────────
+    {"name": "Canarias7",              "rss": "https://www.canarias7.es/rss/noticias.xml",                    "lat": 28.12, "lon": -15.44, "country": "Spain", "ccaa": "Canarias",   "provincia": "Las Palmas","lang": "es"},
+    {"name": "El Dia Tenerife",        "rss": "https://www.eldia.es/rss/noticias.xml",                        "lat": 28.46, "lon": -16.25, "country": "Spain", "ccaa": "Canarias",   "provincia": "Tenerife",  "lang": "es"},
+    {"name": "La Provincia GC",        "rss": "https://www.laprovincia.es/rss/noticias.xml",                  "lat": 28.12, "lon": -15.44, "country": "Spain", "ccaa": "Canarias",   "provincia": "Las Palmas","lang": "es"},
+    {"name": "Diario de Avisos",       "rss": "https://diariodeavisos.elespanol.com/feed/",                   "lat": 28.46, "lon": -16.25, "country": "Spain", "ccaa": "Canarias",   "provincia": "Tenerife",  "lang": "es"},
+    # ── Cantabria ─────────────────────────────────────────────────────────────
+    {"name": "El Diario Montanes",     "rss": "https://www.eldiariomontanes.es/rss/noticias.xml",             "lat": 43.46, "lon": -3.81,  "country": "Spain", "ccaa": "Cantabria",  "provincia": "Cantabria", "lang": "es"},
+    {"name": "El Faradio",             "rss": "https://elfaradio.com/feed/",                                  "lat": 43.46, "lon": -3.81,  "country": "Spain", "ccaa": "Cantabria",  "provincia": "Cantabria", "lang": "es"},
+    # ── Castilla-La Mancha ────────────────────────────────────────────────────
+    {"name": "La Tribuna de Albacete", "rss": "https://www.latribunadealbacete.es/rss/noticias.xml",          "lat": 39.00, "lon": -1.86,  "country": "Spain", "ccaa": "Castilla-La Mancha", "provincia": "Albacete",    "lang": "es"},
+    {"name": "La Tribuna Ciudad Real", "rss": "https://www.latribunadciudadreal.es/rss/noticias.xml",         "lat": 38.99, "lon": -3.93,  "country": "Spain", "ccaa": "Castilla-La Mancha", "provincia": "Ciudad Real", "lang": "es"},
+    {"name": "CLM24",                  "rss": "https://www.clm24.es/feed/",                                   "lat": 39.86, "lon": -4.02,  "country": "Spain", "ccaa": "Castilla-La Mancha", "provincia": "",            "lang": "es"},
+    # ── Castilla y León ───────────────────────────────────────────────────────
+    {"name": "El Norte de Castilla",   "rss": "https://www.elnortedecastilla.es/rss/noticias.xml",            "lat": 41.65, "lon": -4.73,  "country": "Spain", "ccaa": "Castilla y León", "provincia": "Valladolid",  "lang": "es"},
+    {"name": "Diario de Burgos",       "rss": "https://www.diariodeburgos.es/rss/noticias.xml",               "lat": 42.34, "lon": -3.70,  "country": "Spain", "ccaa": "Castilla y León", "provincia": "Burgos",      "lang": "es"},
+    {"name": "El Adelanto Salamanca",  "rss": "https://www.eladelanto.com/rss/noticias.xml",                  "lat": 40.97, "lon": -5.66,  "country": "Spain", "ccaa": "Castilla y León", "provincia": "Salamanca",   "lang": "es"},
+    {"name": "La Gaceta de Salamanca", "rss": "https://www.lagacetadesalamanca.es/rss",                       "lat": 40.97, "lon": -5.66,  "country": "Spain", "ccaa": "Castilla y León", "provincia": "Salamanca",   "lang": "es"},
+    # ── Cataluña ──────────────────────────────────────────────────────────────
+    {"name": "NacioDigital",           "rss": "https://www.naciodigital.cat/rss.xml",                         "lat": 41.38, "lon":  2.17,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Barcelona", "lang": "ca"},
+    {"name": "VilaWeb",                "rss": "https://www.vilaweb.cat/rss.xml",                              "lat": 41.38, "lon":  2.17,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Barcelona", "lang": "ca"},
+    {"name": "El Punt Avui",           "rss": "https://www.elpuntavui.cat/rss.xml",                           "lat": 41.38, "lon":  2.17,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Barcelona", "lang": "ca"},
+    {"name": "Diari de Girona",        "rss": "https://www.diaridegirona.cat/rss/noticias.xml",               "lat": 41.98, "lon":  2.82,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Girona",    "lang": "ca"},
+    {"name": "Diari de Tarragona",     "rss": "https://www.diaridetarragona.com/rss",                         "lat": 41.12, "lon":  1.24,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Tarragona", "lang": "ca"},
+    {"name": "Segre Lleida",           "rss": "https://www.segre.com/rss/noticias.xml",                       "lat": 41.62, "lon":  0.63,  "country": "Spain", "ccaa": "Cataluña",   "provincia": "Lleida",    "lang": "ca"},
+    # ── Comunitat Valenciana ──────────────────────────────────────────────────
+    {"name": "Valencia Plaza",         "rss": "https://valenciaplaza.com/feed",                               "lat": 39.47, "lon": -0.38,  "country": "Spain", "ccaa": "Valencia",   "provincia": "Valencia",  "lang": "es"},
+    {"name": "Levante EMV",            "rss": "https://www.levante-emv.com/rss/noticias.xml",                 "lat": 39.47, "lon": -0.38,  "country": "Spain", "ccaa": "Valencia",   "provincia": "Valencia",  "lang": "es"},
+    {"name": "Informacion Alicante",   "rss": "https://www.informacion.es/rss/noticias.xml",                  "lat": 38.35, "lon": -0.49,  "country": "Spain", "ccaa": "Valencia",   "provincia": "Alicante",  "lang": "es"},
+    {"name": "El Periodico Mediterr.", "rss": "https://www.elperiodicomediterraneo.com/rss/noticias.xml",     "lat": 39.99, "lon": -0.05,  "country": "Spain", "ccaa": "Valencia",   "provincia": "Castellón", "lang": "es"},
+    {"name": "Las Provincias",         "rss": "https://www.lasprovincias.es/rss/noticias.xml",                "lat": 39.47, "lon": -0.38,  "country": "Spain", "ccaa": "Valencia",   "provincia": "Valencia",  "lang": "es"},
+    # ── Extremadura ───────────────────────────────────────────────────────────
+    {"name": "Hoy Extremadura",        "rss": "https://www.hoy.es/rss/noticias.xml",                         "lat": 38.92, "lon": -6.34,  "country": "Spain", "ccaa": "Extremadura","provincia": "Badajoz",   "lang": "es"},
+    {"name": "El Periodico Extremad.", "rss": "https://www.elperiodicoextremadura.com/rss/noticias.xml",     "lat": 39.48, "lon": -6.37,  "country": "Spain", "ccaa": "Extremadura","provincia": "Cáceres",   "lang": "es"},
+    # ── Galicia ───────────────────────────────────────────────────────────────
+    {"name": "Faro de Vigo",           "rss": "https://www.farodevigo.es/rss/noticias.xml",                  "lat": 42.24, "lon": -8.72,  "country": "Spain", "ccaa": "Galicia",    "provincia": "Pontevedra","lang": "es"},
+    {"name": "El Progreso Lugo",       "rss": "https://www.elprogreso.es/rss/noticias.xml",                  "lat": 43.01, "lon": -7.56,  "country": "Spain", "ccaa": "Galicia",    "provincia": "Lugo",      "lang": "es"},
+    {"name": "La Region Ourense",      "rss": "https://www.laregion.es/rss/noticias.xml",                    "lat": 42.34, "lon": -7.86,  "country": "Spain", "ccaa": "Galicia",    "provincia": "Ourense",   "lang": "es"},
+    {"name": "Galicia Confidencial",   "rss": "https://www.galiciaconfidencial.com/rss.xml",                 "lat": 42.88, "lon": -8.54,  "country": "Spain", "ccaa": "Galicia",    "provincia": "A Coruña",  "lang": "gl"},
+    {"name": "Praza Publica",          "rss": "https://praza.gal/feed/",                                     "lat": 42.88, "lon": -8.54,  "country": "Spain", "ccaa": "Galicia",    "provincia": "A Coruña",  "lang": "gl"},
+    # ── La Rioja ──────────────────────────────────────────────────────────────
+    {"name": "La Rioja Diario",        "rss": "https://www.larioja.com/rss/noticias.xml",                    "lat": 42.47, "lon": -2.45,  "country": "Spain", "ccaa": "La Rioja",   "provincia": "La Rioja",  "lang": "es"},
+    {"name": "Rioja2",                 "rss": "https://www.rioja2.com/rss.xml",                               "lat": 42.47, "lon": -2.45,  "country": "Spain", "ccaa": "La Rioja",   "provincia": "La Rioja",  "lang": "es"},
+    # ── Madrid ────────────────────────────────────────────────────────────────
+    {"name": "Madridiario",            "rss": "https://www.madridiario.es/rss/ultimas-noticias",             "lat": 40.42, "lon": -3.70,  "country": "Spain", "ccaa": "Madrid",     "provincia": "Madrid",    "lang": "es"},
+    {"name": "El Independiente",       "rss": "https://www.elindependiente.com/feed/",                       "lat": 40.42, "lon": -3.70,  "country": "Spain", "ccaa": "Madrid",     "provincia": "Madrid",    "lang": "es"},
+    # ── Murcia ────────────────────────────────────────────────────────────────
+    {"name": "La Verdad Murcia",       "rss": "https://www.laverdad.es/murcia/rss/noticias.xml",             "lat": 37.99, "lon": -1.13,  "country": "Spain", "ccaa": "Murcia",     "provincia": "Murcia",    "lang": "es"},
+    {"name": "La Opinion de Murcia",   "rss": "https://www.laopiniondemurcia.es/rss/noticias.xml",           "lat": 37.99, "lon": -1.13,  "country": "Spain", "ccaa": "Murcia",     "provincia": "Murcia",    "lang": "es"},
+    {"name": "Murcia Plaza",           "rss": "https://murciaplaza.com/feed/",                               "lat": 37.99, "lon": -1.13,  "country": "Spain", "ccaa": "Murcia",     "provincia": "Murcia",    "lang": "es"},
+    # ── Navarra ───────────────────────────────────────────────────────────────
+    {"name": "Diario de Navarra",      "rss": "https://www.diariodenavarra.es/rss/noticias.xml",             "lat": 42.82, "lon": -1.64,  "country": "Spain", "ccaa": "Navarra",    "provincia": "Navarra",   "lang": "es"},
+    {"name": "Noticias de Navarra",    "rss": "https://www.noticiasdenavarra.com/rss/noticias.xml",          "lat": 42.82, "lon": -1.64,  "country": "Spain", "ccaa": "Navarra",    "provincia": "Navarra",   "lang": "es"},
+    # ── País Vasco ────────────────────────────────────────────────────────────
+    {"name": "Noticias de Alava",      "rss": "https://www.noticiasdealava.eus/rss/noticias.xml",            "lat": 42.85, "lon": -2.67,  "country": "Spain", "ccaa": "País Vasco", "provincia": "Álava",     "lang": "es"},
+    {"name": "Noticias de Gipuzkoa",   "rss": "https://www.noticiasdegipuzkoa.eus/rss/noticias.xml",         "lat": 43.32, "lon": -1.98,  "country": "Spain", "ccaa": "País Vasco", "provincia": "Gipuzkoa",  "lang": "es"},
+    {"name": "Deia",                   "rss": "https://www.deia.eus/rss/portada.xml",                        "lat": 43.26, "lon": -2.93,  "country": "Spain", "ccaa": "País Vasco", "provincia": "Bizkaia",   "lang": "es"},
+    {"name": "Berria",                 "rss": "https://www.berria.eus/rss/azalekoak.xml",                    "lat": 43.26, "lon": -2.93,  "country": "Spain", "ccaa": "País Vasco", "provincia": "Bizkaia",   "lang": "eu"},
+    # ── Ceuta y Melilla ───────────────────────────────────────────────────────
+    {"name": "El Faro de Ceuta",       "rss": "https://elfarodeceuta.es/feed/",                              "lat": 35.89, "lon": -5.32,  "country": "Spain", "ccaa": "Ceuta",      "provincia": "Ceuta",     "lang": "es"},
+    {"name": "El Telegrama Melilla",   "rss": "https://eltelegramademelilla.es/feed/",                       "lat": 35.29, "lon": -2.94,  "country": "Spain", "ccaa": "Melilla",    "provincia": "Melilla",   "lang": "es"},
+]
+
+# ── Mapeo source_cat → geo_region (cadenas usadas en D7_Medios) ─────────────
+_CAT_TO_GEO: dict[str, str] = {
+    "local_spain":     "España Regional",
+    "regional_spain":  "España Regional",
+    "ccaa_spain":      "España Regional",
+    "europe":          "Europa",
+    "north_america":   "America del Norte",
+    "latin_america":   "America del Sur",
+    "africa":          "Africa",
+    "asia":            "Asia",
+}
+
+
+def build_feeds_list() -> list[dict]:
+    """Devuelve todas las fuentes como lista plana con geo_region asignado.
+
+    Deduplicadas por URL de RSS. Formato compatible con RSS_FEEDS_GEO de
+    data_aggregator.py: {name, rss, lat, lon, country, region, geo_region, lang, source_cat, ccaa, provincia}.
+    """
+    seen: set[str] = set()
+    result: list[dict] = []
+
+    # 1. Catálogo general MEDIA_SOURCES
+    for source_cat, sources in MEDIA_SOURCES.items():
+        geo_region = _CAT_TO_GEO.get(source_cat, "Internacional")
+        for s in sources:
+            rss = s.get("rss", "")
+            if not rss or rss in seen:
+                continue
+            seen.add(rss)
+            result.append({
+                "name":       s.get("name", ""),
+                "rss":        rss,
+                "lat":        float(s.get("lat", 0.0)),
+                "lon":        float(s.get("lon", 0.0)),
+                "country":    s.get("country", ""),
+                "region":     geo_region,
+                "geo_region": geo_region,
+                "lang":       s.get("lang", "es"),
+                "source_cat": source_cat,
+                "ccaa":       s.get("ccaa", ""),
+                "provincia":  s.get("provincia", ""),
+            })
+
+    # 2. CCAA_SOURCES — fuentes regionales españolas con metadata de provincia
+    for s in CCAA_SOURCES:
+        rss = s.get("rss", "")
+        if not rss or rss in seen:
+            continue
+        seen.add(rss)
+        result.append({
+            "name":       s.get("name", ""),
+            "rss":        rss,
+            "lat":        float(s.get("lat", 0.0)),
+            "lon":        float(s.get("lon", 0.0)),
+            "country":    s.get("country", "Spain"),
+            "region":     "España Regional",
+            "geo_region": "España Regional",
+            "lang":       s.get("lang", "es"),
+            "source_cat": "ccaa_spain",
+            "ccaa":       s.get("ccaa", ""),
+            "provincia":  s.get("provincia", ""),
+        })
+
+    return result
+
+
+# Lista plana lista para importar desde data_aggregator
+MEDIA_FEEDS: list[dict] = build_feeds_list()

@@ -1617,7 +1617,7 @@ with tab_update:
 
 with tab_query:
     st.markdown("###  Motor de Consulta IA — Ollama Local")
-    st.caption("Consulta libre · NER de noticias · Ficha ejecutiva · Briefing de relación")
+    st.caption("Consulta libre · NER de noticias · Ficha ejecutiva · Analisis de relacion")
 
     if not _LLM_OK:
         st.warning("⚠ Ollama no disponible — `ollama serve` para activarlo")
@@ -1628,7 +1628,7 @@ with tab_query:
         "Consulta libre",
         "NER — Extraer actores",
         "Ficha de actor IA",
-        "Briefing de relación",
+        "Analisis de relacion",
         "Normativa + Herramientas",
     ])
 
@@ -1842,8 +1842,8 @@ Español. Analítico. Orientado a decisores."""
                         st.error(f"Error LLM: {e}")
 
     with qt4:
-        st.markdown("####  Briefing de Relación entre Dos Actores")
-        st.caption("Solidez · Historia · Palancas de negociación · Escenarios futuros")
+        st.markdown("####  Analisis de Relacion entre Dos Actores")
+        st.caption("Solidez · Historia · Palancas de negociacion · Escenarios futuros")
 
         _todos_b = sorted(DEMO_ACTORES_FULL, key=lambda x: -x.get("poder", 0))
         br1, br2 = st.columns(2)
@@ -1852,7 +1852,7 @@ Español. Analítico. Orientado a decisores."""
         with br2:
             b_b_n = st.selectbox("Actor B", [a["nombre"] for a in _todos_b], index=1, key="brief_b")
 
-        if st.button("Generar briefing", key="btn_briefing", disabled=not _LLM_OK):
+        if st.button("Analizar relacion", key="btn_briefing", disabled=not _LLM_OK):
             obj_a = next((a for a in _todos_b if a["nombre"] == b_a_n), None)
             obj_b = next((a for a in _todos_b if a["nombre"] == b_b_n), None)
             if obj_a and obj_b:

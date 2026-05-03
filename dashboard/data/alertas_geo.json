@@ -1,5 +1,294 @@
 [
   {
+    "id": "osint_fce2953f84c2c8a02bc8263443a0dfeb",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Iran reviewing US response to 14-point plan, says spokesperson",
+    "descripcion": "Iran está evaluando la respuesta estadounidense a su propuesta de 14 puntos, que se centra en el fin de las hostilidades y no en negociaciones nucleares. Las diplomáticas intensifican con intermediarios.",
+    "nivel": "CRITICO",
+    "paises": [
+      "IRN",
+      "USA"
+    ],
+    "osint_item_id": "fce2953f84c2c8a02bc8263443a0dfeb",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/iran-reviewing-us-response-14-point-plan-says-spokesperson",
+    "categoria": "diplomacia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_fce2953f84c2c8a02bc8263443a0dfeb",
+    "creada_en": "2026-05-03T19:16:17.668158+00:00"
+  },
+  {
+    "id": "osint_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Trump’s Renewable Energy Crackdown Hits Legal Wall",
+    "descripcion": "El presidente Trump ha intentado reducir los esfuerzos por una transición verde, favoreciendo la expansión de industrias como el petróleo y el carbón. Sin embargo, un juez federal en Massachusetts ha rechazado los esfuerzos del gobierno para frenar el desarrollo de energías renovables.",
+    "nivel": "CRITICO",
+    "paises": [
+      "US",
+      "MA"
+    ],
+    "osint_item_id": "b3d06cf0f22c4c95b96f08fac46ef15e",
+    "url_origen": "https://oilprice.com/Energy/Energy-General/Trumps-Renewable-Energy-Crackdown-Hits-Legal-Wall.html",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "creada_en": "2026-05-03T17:15:06.979731+00:00"
+  },
+  {
+    "id": "osint_d6a70573eb3901497f17c92f442c7e73",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Germany urges Iran to reopen Hormuz, says nothing about US blockade",
+    "descripcion": "El ministro alemán de Exteriores Johann Wadephul ha llamado a Irán a reabrir el Estrecho de Ormuz y desmantelar su programa nuclear, sin mencionar la bloqueada estadounidense. Las tensiones entre EE.UU. y aliados europeos se intensifican.",
+    "nivel": "CRITICO",
+    "paises": [
+      "DE",
+      "IR"
+    ],
+    "osint_item_id": "d6a70573eb3901497f17c92f442c7e73",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/germany-urges-iran-reopen-hormuz-says-nothing-about-us-blockade",
+    "categoria": "diplomacia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d6a70573eb3901497f17c92f442c7e73",
+    "creada_en": "2026-05-03T17:15:06.977242+00:00"
+  },
+  {
+    "id": "osint_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Trump’s Renewable Energy Crackdown Hits Legal Wall",
+    "descripcion": "El presidente Trump ha intentado reducir los esfuerzos por una transición verde, favoreciendo la expansión de las industrias del petróleo, gas y carbón, así como el desarrollo de la energía nuclear. Sin embargo, un juez federal en Massachusetts ha rechazado los esfuerzos del gobierno para frenar el avance de las energías renovables.",
+    "nivel": "CRITICO",
+    "paises": [
+      "US",
+      "MA"
+    ],
+    "osint_item_id": "b3d06cf0f22c4c95b96f08fac46ef15e",
+    "url_origen": "https://oilprice.com/Energy/Energy-General/Trumps-Renewable-Energy-Crackdown-Hits-Legal-Wall.html",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "creada_en": "2026-05-03T17:07:58.701470+00:00"
+  },
+  {
+    "id": "osint_d6a70573eb3901497f17c92f442c7e73",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Germany urges Iran to reopen Hormuz, says nothing about US blockade",
+    "descripcion": "",
+    "nivel": "CRITICO",
+    "paises": [],
+    "osint_item_id": "d6a70573eb3901497f17c92f442c7e73",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/germany-urges-iran-reopen-hormuz-says-nothing-about-us-blockade",
+    "categoria": "",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d6a70573eb3901497f17c92f442c7e73",
+    "creada_en": "2026-05-03T17:07:58.700542+00:00"
+  },
+  {
+    "id": "osint_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Trump’s Renewable Energy Crackdown Hits Legal Wall",
+    "descripcion": "El presidente Trump ha intentado reducir los esfuerzos por una transición verde, favoreciendo la expansión de industrias fósiles y nuclear, pero ha enfrentado resistencia legal y pública. En abril, un juez federal rechazó los esfuerzos del gobierno de Trump.",
+    "nivel": "CRITICO",
+    "paises": [
+      "US",
+      "MA"
+    ],
+    "osint_item_id": "b3d06cf0f22c4c95b96f08fac46ef15e",
+    "url_origen": "https://oilprice.com/Energy/Energy-General/Trumps-Renewable-Energy-Crackdown-Hits-Legal-Wall.html",
+    "categoria": "energia",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_b3d06cf0f22c4c95b96f08fac46ef15e",
+    "creada_en": "2026-05-03T17:02:38.189193+00:00"
+  },
+  {
+    "id": "osint_d6a70573eb3901497f17c92f442c7e73",
+    "tipo": "osint_urgente",
+    "titulo": "[CRITICO] Germany urges Iran to reopen Hormuz, says nothing about US blockade",
+    "descripcion": "",
+    "nivel": "CRITICO",
+    "paises": [],
+    "osint_item_id": "d6a70573eb3901497f17c92f442c7e73",
+    "url_origen": "https://www.middleeasteye.net/live-blog/live-blog-update/germany-urges-iran-reopen-hormuz-says-nothing-about-us-blockade",
+    "categoria": "",
+    "fuente_alerta": "osint_urgencia",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "osint_urg_d6a70573eb3901497f17c92f442c7e73",
+    "creada_en": "2026-05-03T17:02:38.185634+00:00"
+  },
+  {
+    "id": "ff560f3c22ab3bcd17fae1609e513f6e",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Strategic developments en Morocco — 0 bajas",
+    "descripcion": "Reunión de alto nivel España-Marruecos — avance en acuerdo energía y migraciones",
+    "nivel": "CRITICO",
+    "paises": [
+      "MAR"
+    ],
+    "evento_acled_id": 10,
+    "fatalities": 0,
+    "relevancia_es": 0.99,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "ff560f3c22ab3bcd17fae1609e513f6e",
+    "creada_en": "2026-05-03T16:00:27.583782+00:00"
+  },
+  {
+    "id": "52d5e385be5d4237a969737da8e793fd",
+    "tipo": "acled",
+    "titulo": "[ALTO] Explosions/Remote violence en Iraq — 3 bajas",
+    "descripcion": "Atentado IED provincia Kirkuk — zona operaciones Repsol",
+    "nivel": "ALTO",
+    "paises": [
+      "IRQ"
+    ],
+    "evento_acled_id": 9,
+    "fatalities": 3,
+    "relevancia_es": 0.7475,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "52d5e385be5d4237a969737da8e793fd",
+    "creada_en": "2026-05-03T16:00:27.583772+00:00"
+  },
+  {
+    "id": "08871b2da6990afb73bff51ebfe7de29",
+    "tipo": "acled",
+    "titulo": "[ALTO] Battles en Colombia — 12 bajas",
+    "descripcion": "Combate en Caquetá — impacto en operaciones Telefónica Colombia",
+    "nivel": "ALTO",
+    "paises": [
+      "COL"
+    ],
+    "evento_acled_id": 8,
+    "fatalities": 12,
+    "relevancia_es": 0.84,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "08871b2da6990afb73bff51ebfe7de29",
+    "creada_en": "2026-05-03T16:00:27.583763+00:00"
+  },
+  {
+    "id": "bcba6f0a4ee085c42c78c772ba3405bc",
+    "tipo": "acled",
+    "titulo": "[ALTO] Strategic developments en Burkina Faso — 0 bajas",
+    "descripcion": "Control JNIM sobre zona minera norte — tensión en corredor Sahel-Maghreb",
+    "nivel": "ALTO",
+    "paises": [
+      "BFA"
+    ],
+    "evento_acled_id": 7,
+    "fatalities": 0,
+    "relevancia_es": 0.748,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "bcba6f0a4ee085c42c78c772ba3405bc",
+    "creada_en": "2026-05-03T16:00:27.583754+00:00"
+  },
+  {
+    "id": "ffd36f72835d143719257b3bec1f8238",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Violence against civilians en Libya — 5 bajas",
+    "descripcion": "Incidente en terminal petrolífera - posible impacto suministro Repsol",
+    "nivel": "CRITICO",
+    "paises": [
+      "LBY"
+    ],
+    "evento_acled_id": 5,
+    "fatalities": 5,
+    "relevancia_es": 0.8925,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "ffd36f72835d143719257b3bec1f8238",
+    "creada_en": "2026-05-03T16:00:27.583738+00:00"
+  },
+  {
+    "id": "7efa81563c367ae087b4ae3cdbabe1bd",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Battles en Niger — 22 bajas",
+    "descripcion": "Combate en región de Tillabéri, corredor de migración hacia Argelia",
+    "nivel": "CRITICO",
+    "paises": [
+      "NER"
+    ],
+    "evento_acled_id": 4,
+    "fatalities": 22,
+    "relevancia_es": 0.9936,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "7efa81563c367ae087b4ae3cdbabe1bd",
+    "creada_en": "2026-05-03T16:00:27.583724+00:00"
+  },
+  {
+    "id": "0662b2066203202de5f6a620db8e1162",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Strategic developments en Mali — 0 bajas",
+    "descripcion": "JNIM expande control territorial en región Ségou, amenaza rutas logísticas",
+    "nivel": "CRITICO",
+    "paises": [
+      "MLI"
+    ],
+    "evento_acled_id": 3,
+    "fatalities": 0,
+    "relevancia_es": 0.858,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "0662b2066203202de5f6a620db8e1162",
+    "creada_en": "2026-05-03T16:00:27.583714+00:00"
+  },
+  {
+    "id": "b48e89ac5b0187bd04f87a0e8033b826",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Explosions/Remote violence en Ukraine — 8 bajas",
+    "descripcion": "Ataque con misiles sobre Járkov, impactos en infraestructura energética",
+    "nivel": "CRITICO",
+    "paises": [
+      "UKR"
+    ],
+    "evento_acled_id": 2,
+    "fatalities": 8,
+    "relevancia_es": 1.0,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "b48e89ac5b0187bd04f87a0e8033b826",
+    "creada_en": "2026-05-03T16:00:27.583705+00:00"
+  },
+  {
+    "id": "bf693edbb56b85667a4d132d90260b04",
+    "tipo": "acled",
+    "titulo": "[CRITICO] Battles en Ukraine — 45 bajas",
+    "descripcion": "Combates intensos en oblast Donetsk, línea del frente Avdiivka",
+    "nivel": "CRITICO",
+    "paises": [
+      "UKR"
+    ],
+    "evento_acled_id": 1,
+    "fatalities": 45,
+    "relevancia_es": 1.0,
+    "fuente_alerta": "acled_threshold",
+    "enviado_telegram": false,
+    "leida": false,
+    "dedup_key": "bf693edbb56b85667a4d132d90260b04",
+    "creada_en": "2026-05-03T16:00:27.583685+00:00"
+  },
+  {
     "id": "osint_320d6eccc7bccaa1aebaf2114bf3d793",
     "tipo": "osint_urgente",
     "titulo": "[CRITICO] Tensiones en el Sahel. ¡Malí bajo ataque!",

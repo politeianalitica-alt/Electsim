@@ -52,7 +52,6 @@ try:
     from dashboard.utils.geo_helpers import (
         get_alertas_nivel,
         get_analisis_pais_llm,
-        get_briefing_diario,
         get_count_alertas,
         get_eventos_acled,
         get_impactos_filtered,
@@ -78,7 +77,6 @@ except Exception as _e:
     def get_impactos_filtered(**kw): return []
     def get_eventos_acled(**kw): return []
     def get_stats_geo(): return {}
-    def get_briefing_diario(): return None
     def get_trending_topics_geo(**kw): return []
     def get_paises_mas_mencionados(**kw): return []
     def get_osint_stats(): return {}
@@ -958,75 +956,9 @@ with tab_ia:
     </div>
     """, unsafe_allow_html=True)
 
-    ia_tab1, ia_tab2, ia_tab3 = st.tabs(["Briefing Diario", "Búsqueda RAG", "Análisis País"])
+    ia_tab1, ia_tab2 = st.tabs(["Busqueda RAG", "Analisis Pais"])
 
     with ia_tab1:
-        section_header("Briefing Geopolítico Diario")
-        briefing = get_briefing_diario()
-        col_b1, col_b2 = st.columns([3, 1])
-
-        _briefing_demo = {
-            "fecha": "2026-05-02",
-            "items_analizados": 47,
-            "alertas_incluidas": 6,
-            "texto": f"""
-**BRIEFING GEOPOLITICO — 2 de mayo de 2026**
-
----
-
-**PRIORIDAD 1 — ENERGIA (CRITICO)**
-Algeria ha reducido el flujo del gasoducto Medgaz en un 35%, situando el almacenamiento nacional al 41%. Naturgy ha activado el protocolo de contingencia Nivel 2. El Ministerio para la Transicion Ecologica estudia activar el plan de emergencia gas. Se recomienda monitorizar la interconexion con Francia como via de respaldo.
-
-**PRIORIDAD 2 — DIPLOMATICA (ALTO)**
-Venezuela ha anunciado la expulsion del embajador espanol en respuesta a declaraciones del presidente del gobierno. La comunidad espanola en Venezuela supera las 350.000 personas. El Ministerio de Asuntos Exteriores ha convocado al charge d'affaires venezolano en Madrid. Situacion en evolucion.
-
-**PRIORIDAD 3 — MIGRACION (ALTO)**
-Las llegadas irregulares a Canarias acumulan 8.240 personas en abril, superando el record de 2023. La capacidad de los centros de acogida ha sido superada en un 80%. Se espera presion adicional en mayo por mejora meteorologica. Negociaciones con Marruecos para reforzar el acuerdo de retorno en un punto critico.
-
-**PRIORIDAD 4 — CIBERSEGURIDAD (MEDIO)**
-El CCN-CERT ha detectado actividad del grupo APT28 (atribuido al GRU ruso) en el perimetro de tres entidades financieras espanolas. Nivel de alerta amarillo activo. Sin exfiltracion de datos confirmada. Se recomienda revision urgente de vectores de acceso remoto.
-
-**OTROS VECTORES A VIGILAR**
-- Marruecos-Argelia: tension aerea con impacto en conectividad Madrid-Casablanca
-- OPEP+: recorte de 500kbpd. Crudo Brent en 90$/barril
-- BCE: tipos mantenidos al 3.5%, posible bajada en junio (positivo para hipotecas variables)
-
----
-*Fuentes: Reuters, El Pais, Bloomberg, CCN-CERT, Eurostat, ACLED — Generado con Ollama (demo)*
-""",
-        }
-        _briefing_activo = briefing if briefing else _briefing_demo
-        _es_demo_briefing = briefing is None
-
-        with col_b1:
-            if _briefing_activo:
-                fecha_b = str(_briefing_activo.get("fecha", ""))[:10]
-                st.markdown(f"""
-                <div style="color:{TEXT2};font-size:.75rem;margin-bottom:.6rem">
-                  Generado: {fecha_b} · {_briefing_activo.get('items_analizados',0)} noticias
-                  · {_briefing_activo.get('alertas_incluidas',0)} alertas
-                  {'— <span style="color:' + AMBER + '">demo</span>' if _es_demo_briefing else ''}
-                </div>
-                """, unsafe_allow_html=True)
-                st.markdown(_briefing_activo.get("texto", ""))
-            else:
-                st.info("Briefing no disponible. Genera uno →")
-
-        with col_b2:
-            if st.button("Generar Ahora", use_container_width=True, disabled=not _BRAIN_OK):
-                with st.spinner("Generando briefing (modo deep)..."):
-                    try:
-                        from etl.pipelines.pipeline_geopolitica import tarea_briefing
-                        r = tarea_briefing()
-                        if r.get("generado"):
-                            st.success("✓ Generado")
-                            st.rerun()
-                        else:
-                            st.warning("No generado")
-                    except Exception as e:
-                        st.error(str(e))
-
-    with ia_tab2:
         section_header("Búsqueda RAG en Corpus OSINT")
         query_rag = st.text_area(
             "Consulta geopolítica",
@@ -1056,7 +988,7 @@ El CCN-CERT ha detectado actividad del grupo APT28 (atribuido al GRU ruso) en el
                 except Exception as e:
                     st.error(str(e))
 
-    with ia_tab3:
+    with ia_tab2:
         section_header("Analisis Estrategico por Pais")
         p_lista = get_riesgo_pais(interes_min=0.5, limit=20)
         _p_lista_efectiva = p_lista if p_lista else [

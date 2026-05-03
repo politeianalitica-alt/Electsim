@@ -144,7 +144,7 @@ with col_right:
     _safe_page_link("pages/10_Prensa_Agenda.py", label="Ir a Prensa & Agenda")
     _safe_page_link("pages/14_Monitor_Sentimiento.py", label="Ir a Monitor de Sentimiento")
     _safe_page_link("pages/8_Tiempo_Real.py", label="Ir a Tiempo Real")
-    _safe_page_link("pages/13_Briefing_Diario.py", label="Ir a Briefing Diario")
+    _safe_page_link("pages/D1_Briefings.py", label="Ir a Briefings")
     st.markdown("<div style='height:.7rem'></div>", unsafe_allow_html=True)
     st.markdown(
         f"""

@@ -37,7 +37,24 @@ import requests
 log = logging.getLogger(__name__)
 
 OLLAMA_BASE_URL = "http://localhost:11434"
-OLLAMA_MODEL = "qwen3:8b"
+_OLLAMA_MODEL_PRIORITY = ["politeia-brain:latest", "qwen2.5:7b", "llama3.2:3b"]
+
+
+def _detect_ollama_model() -> str:
+    """Auto-detect best available Ollama model from priority list."""
+    try:
+        resp = requests.get(f"{OLLAMA_BASE_URL}/api/tags", timeout=3)
+        if resp.ok:
+            available = {m["name"] for m in resp.json().get("models", [])}
+            for m in _OLLAMA_MODEL_PRIORITY:
+                if m in available:
+                    return m
+    except Exception:
+        pass
+    return _OLLAMA_MODEL_PRIORITY[-1]
+
+
+OLLAMA_MODEL = _detect_ollama_model()
 
 # ---------------------------------------------------------------------------
 # Fuentes prioritarias: medios españoles con RSS fiable
@@ -400,6 +417,88 @@ def _tfidf_cluster_narratives(
         return []
 
 
+def _yake_cluster_narratives(
+    articles: list[dict],
+    n_clusters: int = 12,
+) -> list[dict]:
+    """
+    Fallback YAKE: extrae keywords de los titulares y agrupa por similitud lexica.
+    Mas ligero que TF-IDF+KMeans; no requiere scikit-learn.
+    """
+    try:
+        import yake
+        from collections import defaultdict as _dd
+
+        # Extraer keywords de todos los titulares combinados
+        all_text = " ".join(art["titulo"] for art in articles)
+        kw_extractor = yake.KeywordExtractor(
+            lan="es",
+            n=2,           # bigramas
+            dedupLim=0.7,
+            top=n_clusters * 4,
+        )
+        raw_kws = kw_extractor.extract_keywords(all_text)
+        # yake devuelve (kw, score); menor score = mas relevante
+        keywords = [kw for kw, _ in sorted(raw_kws, key=lambda x: x[1])][:n_clusters * 4]
+
+        # Agrupar articulos por keyword dominante
+        groups: dict[str, list[dict]] = _dd(list)
+        for art in articles:
+            text_low = art["titulo"].lower()
+            matched = False
+            for kw in keywords:
+                if kw.lower() in text_low:
+                    groups[kw].append(art)
+                    matched = True
+                    break
+            if not matched:
+                groups["otros"].append(art)
+
+        # Construir narrativas (max n_clusters)
+        narrativas = []
+        top_groups = sorted(groups.items(), key=lambda x: -len(x[1]))[:n_clusters]
+
+        for kw_label, grp_arts in top_groups:
+            if not grp_arts:
+                continue
+            medios = [a["medio"] for a in grp_arts]
+            top_medios = [m for m, _ in Counter(medios).most_common(3)]
+            intensidad = min(100, max(10, int(len(grp_arts) / max(len(articles), 1) * 100 * n_clusters)))
+            titulares = [a["titulo"] for a in grp_arts[:3]]
+
+            # Sub-keywords via YAKE del grupo
+            group_text = " ".join(a["titulo"] + " " + a.get("resumen", "") for a in grp_arts)
+            sub_kw_extractor = yake.KeywordExtractor(lan="es", n=1, dedupLim=0.6, top=5)
+            sub_kws = [kw for kw, _ in sub_kw_extractor.extract_keywords(group_text)][:4]
+
+            narrativas.append({
+                "nombre": kw_label.title(),
+                "intensidad": intensidad,
+                "velocidad": round(len(grp_arts) / max(len(articles), 1) * 20, 1),
+                "delta": 0,
+                "marco": "sin_clasificar",
+                "tension": "alta" if intensidad > 60 else "media",
+                "actores_principales": [],
+                "titulares_representativos": titulares,
+                "elementos": sub_kws or [kw_label],
+                "difusores": top_medios,
+                "potenciadores": [],
+                "debilitadores": [],
+                "target": "Ciudadania general",
+                "ideologia_dominante": "transversal",
+                "tendencia": [max(0, intensidad - 20 + i * 3) for i in range(7)],
+            })
+
+        return sorted(narrativas, key=lambda x: -x["intensidad"])
+
+    except ImportError:
+        log.warning("yake no disponible para clustering fallback")
+        return []
+    except Exception as exc:
+        log.warning("YAKE cluster error: %s", exc)
+        return []
+
+
 def _enrich_narrativa_structure(
     narrativa: dict,
     articles: list[dict],
@@ -528,7 +627,12 @@ class NarrativeService:
             log.info("Falling back to TF-IDF clustering")
             narrativas = _tfidf_cluster_narratives(political, n_clusters=n_narrativas)
 
-        # 5. Normalizar y enriquecer
+        # 5. Fallback YAKE si TF-IDF no disponible (sin scikit-learn)
+        if not narrativas:
+            log.info("Falling back to YAKE keyword clustering")
+            narrativas = _yake_cluster_narratives(political, n_clusters=n_narrativas)
+
+        # 6. Normalizar y enriquecer
         narrativas = [self._normalize(n) for n in narrativas]
 
         log.info("Extracted %d narrativas", len(narrativas))
