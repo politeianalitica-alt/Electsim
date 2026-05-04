@@ -134,4 +134,3 @@ with tab_pos:
         fig.update_layout(height=420)
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(dfp, use_container_width=True, hide_index=True)
-

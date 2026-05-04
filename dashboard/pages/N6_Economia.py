@@ -29,55 +29,96 @@ aplicar_estilos()
 sidebar_nav()
 mostrar_alertas_pagina("economia")
 
-# ── Datos demo ────────────────────────────────────────────────────────────────
-DEMO_MACRO = {
-    "pib_yoy":       2.1,
-    "ipc":           2.8,
-    "paro":          11.4,
-    "deuda_pib":     108.3,
-    "prima_riesgo":  87,
+# ── Datos demo (fallback cuando BD vacía) ─────────────────────────────────────
+_DEMO_MACRO: dict = {
+    "pib_yoy":        2.1,
+    "ipc":            2.8,
+    "paro":           11.4,
+    "paro_epa":       11.4,
+    "deuda_pib":      108.3,
+    "prima_riesgo":   87,
     "itpe_economico": 58,
 }
+
+# ── Cargar datos reales (Bloque 5) ─────────────────────────────────────────────
+try:
+    from dashboard.services.economy_core import cargar_kpis_economia, cargar_itpe_economico
+    _kpis = cargar_kpis_economia(geography="ES")
+    _HAY_DATOS_ECON = _kpis.get("hay_datos", False)
+except Exception:
+    _kpis = {"hay_datos": False}
+    _HAY_DATOS_ECON = False
+
+# Mezcla: real si hay datos, demo si no
+def _get(key_real: str, key_demo: str | None = None, default: float | None = None) -> float | None:
+    if _HAY_DATOS_ECON:
+        return _kpis.get(key_real, default)
+    return _DEMO_MACRO.get(key_demo or key_real, default)
+
+MACRO = {
+    "pib_yoy":        _get("pib_yoy",    default=_DEMO_MACRO["pib_yoy"]),
+    "ipc":            _get("ipc",         default=_DEMO_MACRO["ipc"]),
+    "paro":           _get("paro_epa",   "paro", default=_DEMO_MACRO["paro"]),
+    "deuda_pib":      _get("deuda_pib",   default=_DEMO_MACRO["deuda_pib"]),
+    "prima_riesgo":   _get("prima_riesgo", default=_DEMO_MACRO["prima_riesgo"]),
+    "itpe_economico": _get("itpe_score",  "itpe_economico", default=_DEMO_MACRO["itpe_economico"]),
+}
+# Fallback a demo si alguno es None
+for _k, _dv in _DEMO_MACRO.items():
+    if MACRO.get(_k) is None:
+        MACRO[_k] = _dv
+
+# Banner informativo
+if not _HAY_DATOS_ECON:
+    st.info(
+        "📊 **Mostrando datos demo.** Para datos reales ejecuta: "
+        "`python -m pipelines.economy_core --source all`",
+        icon=None,
+    )
 
 # ── Header ─────────────────────────────────────────────────────────────────────
 intel_header(
     title="Inteligencia Económica",
     subtitle="Economic Intelligence",
-    status="ACTIVO",
+    status="ACTIVO" if _HAY_DATOS_ECON else "DEMO",
     time_str=datetime.now().strftime("%d/%m/%Y %H:%M"),
 )
 
 # ── TOP KPI ROW ───────────────────────────────────────────────────────────────
-c_pib    = GREEN if DEMO_MACRO["pib_yoy"] >= 2.0 else (AMBER if DEMO_MACRO["pib_yoy"] >= 0 else RED)
-c_ipc    = GREEN if DEMO_MACRO["ipc"] <= 2.0 else (AMBER if DEMO_MACRO["ipc"] <= 3.5 else RED)
-c_paro   = GREEN if DEMO_MACRO["paro"] <= 10 else (AMBER if DEMO_MACRO["paro"] <= 13 else RED)
-c_deuda  = RED if DEMO_MACRO["deuda_pib"] >= 100 else (AMBER if DEMO_MACRO["deuda_pib"] >= 80 else GREEN)
-c_prima  = GREEN if DEMO_MACRO["prima_riesgo"] <= 100 else (AMBER if DEMO_MACRO["prima_riesgo"] <= 150 else RED)
-c_itpe   = GREEN if DEMO_MACRO["itpe_economico"] >= 65 else (AMBER if DEMO_MACRO["itpe_economico"] >= 45 else RED)
+c_pib    = GREEN if (MACRO["pib_yoy"] or 0) >= 2.0 else (AMBER if (MACRO["pib_yoy"] or 0) >= 0 else RED)
+c_ipc    = GREEN if (MACRO["ipc"] or 0) <= 2.0 else (AMBER if (MACRO["ipc"] or 0) <= 3.5 else RED)
+c_paro   = GREEN if (MACRO["paro"] or 0) <= 10 else (AMBER if (MACRO["paro"] or 0) <= 13 else RED)
+c_deuda  = RED if (MACRO["deuda_pib"] or 0) >= 100 else (AMBER if (MACRO["deuda_pib"] or 0) >= 80 else GREEN)
+c_prima  = GREEN if (MACRO["prima_riesgo"] or 0) <= 100 else (AMBER if (MACRO["prima_riesgo"] or 0) <= 150 else RED)
+c_itpe   = GREEN if (MACRO["itpe_economico"] or 0) <= 35 else (AMBER if (MACRO["itpe_economico"] or 0) <= 60 else RED)
+
+_suffix = "" if _HAY_DATOS_ECON else " *"
 
 kpi_row = st.columns(6)
 with kpi_row[0]:
-    st.markdown(kpi_card("PIB (var. anual)", f"{DEMO_MACRO['pib_yoy']}%", "+0.2pp vs. 2024", c_pib), unsafe_allow_html=True)
+    st.markdown(kpi_card("PIB (var. anual)", f"{MACRO['pib_yoy']:.1f}%{_suffix}", "+0.2pp vs. 2024", c_pib), unsafe_allow_html=True)
 with kpi_row[1]:
-    st.markdown(kpi_card("IPC (Inflación)", f"{DEMO_MACRO['ipc']}%", "Objetivo BCE: 2.0%", c_ipc), unsafe_allow_html=True)
+    st.markdown(kpi_card("IPC (Inflación)", f"{MACRO['ipc']:.1f}%{_suffix}", "Objetivo BCE: 2.0%", c_ipc), unsafe_allow_html=True)
 with kpi_row[2]:
-    st.markdown(kpi_card("Tasa de Paro EPA", f"{DEMO_MACRO['paro']}%", "-0.5pp trimestral", c_paro), unsafe_allow_html=True)
+    st.markdown(kpi_card("Tasa de Paro EPA", f"{MACRO['paro']:.1f}%{_suffix}", "-0.5pp trimestral", c_paro), unsafe_allow_html=True)
 with kpi_row[3]:
-    st.markdown(kpi_card("Deuda / PIB", f"{DEMO_MACRO['deuda_pib']}%", "Reducción desde 120%", c_deuda), unsafe_allow_html=True)
+    st.markdown(kpi_card("Deuda / PIB", f"{MACRO['deuda_pib']:.1f}%{_suffix}", "Reducción desde 120%", c_deuda), unsafe_allow_html=True)
 with kpi_row[4]:
-    st.markdown(kpi_card("Prima de Riesgo", f"{DEMO_MACRO['prima_riesgo']} pb", "+5pb vs. mes anterior", c_prima), unsafe_allow_html=True)
+    st.markdown(kpi_card("Prima de Riesgo", f"{MACRO['prima_riesgo']:.0f} pb{_suffix}", "+5pb vs. mes anterior", c_prima), unsafe_allow_html=True)
 with kpi_row[5]:
-    st.markdown(kpi_card("ITPE Económico", f"{DEMO_MACRO['itpe_economico']}", "Índice Tensión Político-Econ.", c_itpe), unsafe_allow_html=True)
+    _itpe_label = _kpis.get("itpe_level", "N/D") if _HAY_DATOS_ECON else "DEMO"
+    st.markdown(kpi_card("ITPE Económico", f"{MACRO['itpe_economico']:.0f}/100{_suffix}", f"Nivel: {_itpe_label}", c_itpe), unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ── TABS ──────────────────────────────────────────────────────────────────────
-tab_macro, tab_voto, tab_sectorial, tab_nowcast, tab_riesgo = st.tabs([
+tab_macro, tab_voto, tab_sectorial, tab_nowcast, tab_riesgo, tab_territorial_econ = st.tabs([
     "INDICADORES MACRO",
     "IMPACTO ELECTORAL",
     "ANÁLISIS SECTORIAL",
     "NOWCASTING",
     "RIESGO ECONÓMICO-POLÍTICO",
+    "🗺️ MAPA ECONÓMICO",
 ])
 
 
@@ -141,7 +182,7 @@ with tab_macro:
         hb = higher_better[ind]
         mejor_es = (esp > eu) if hb else (esp < eu)
         c_ind = GREEN if mejor_es else RED
-        icon = "✓" if mejor_es else "✗"
+        icon = "" if mejor_es else ""
         with cols_sem[ci]:
             st.markdown(
                 f'<div style="background:{BG2};border:1px solid {BORDER};border-top:3px solid {c_ind};'
@@ -195,13 +236,45 @@ with tab_macro:
 with tab_voto:
     section_header("MODELO DE VOTO ECONÓMICO — LEWIS-BECK", PURPLE)
 
-    # Intentar importar del módulo real
-    economic_vote_pred = None
+    # ── Cargar predicción del modelo real (Bloque 5) ──────────────────────────
+    _vote_pred = None
     try:
-        from agents.analysis.political_trends import economic_vote_model
-        economic_vote_pred = economic_vote_model(DEMO_MACRO)
+        from models.economic_vote import EconomicVoteModel
+        _vm = EconomicVoteModel()
+        _vote_pred = _vm.predict_from_macro(
+            macro_dict={
+                "pib_yoy": MACRO.get("pib_yoy", 2.1),
+                "paro_epa": MACRO.get("paro", 11.4),
+                "ipc": MACRO.get("ipc", 2.8),
+                "prima_riesgo": MACRO.get("prima_riesgo", 87),
+                "deuda_pib": MACRO.get("deuda_pib", 108.3),
+            },
+            base_vote_share=0.0,
+            geography="ES",
+            variant="baseline",
+        )
     except Exception:
-        pass
+        _vote_pred = None
+
+    # Valores para display
+    if _vote_pred is not None:
+        pred_voto_delta = _vote_pred.delta_vote
+        pred_confidence = _vote_pred.confidence
+        _contribs = _vote_pred.contributions
+        _explanation_voto = _vote_pred.explanation
+    else:
+        # Cálculo simplificado demo
+        pib_w, paro_w, ipc_w, base = 1.8, -0.9, -0.6, 28.0
+        pred_voto_delta = round(
+            pib_w * MACRO["pib_yoy"] + paro_w * (MACRO["paro"] - 10) + ipc_w * (MACRO["ipc"] - 2), 1
+        )
+        pred_confidence = 0.55
+        _contribs = {
+            "pib_yoy": round(pib_w * MACRO["pib_yoy"], 2),
+            "paro_epa": round(paro_w * (MACRO["paro"] - 10), 2),
+            "ipc": round(ipc_w * (MACRO["ipc"] - 2), 2),
+        }
+        _explanation_voto = "Modelo demo: cálculo simplificado sin datos históricos."
 
     col_model, col_pred = st.columns([1, 1])
     with col_model:
@@ -214,53 +287,66 @@ with tab_voto:
             f'negativamente con la tasa de desempleo y la inflación, y positivamente con el crecimiento del PIB. '
             f'</div>'
             f'<div style="font-size:.72rem;color:{MUTED};margin-top:.6rem;font-family:monospace;">'
-            f'Voto_gov = α + β₁·PIB - β₂·Paro - β₃·IPC + ε'
+            f'Δvoto_gov = α + β₁·PIB - β₂·Paro - β₃·IPC - β₄·Prima + ε'
             f'</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
 
-        # Cálculo simplificado del modelo
-        pib_w   = 1.8
-        paro_w  = -0.9
-        ipc_w   = -0.6
-        base    = 28.0
-        pred_voto = base + pib_w * DEMO_MACRO["pib_yoy"] + paro_w * (DEMO_MACRO["paro"] - 10) + ipc_w * (DEMO_MACRO["ipc"] - 2)
-        pred_voto = round(max(15, min(55, pred_voto)), 1)
-
-        c_pred = GREEN if pred_voto >= 32 else (AMBER if pred_voto >= 27 else RED)
+        sign_delta = "+" if pred_voto_delta >= 0 else ""
+        c_pred = GREEN if pred_voto_delta > 0 else (AMBER if pred_voto_delta > -2 else RED)
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {BORDER};border-top:3px solid {c_pred};'
             f'border-radius:10px;padding:1rem 1.2rem;text-align:center">'
-            f'<div style="font-size:.65rem;color:{MUTED};letter-spacing:.1em">PREDICCIÓN MODELO (PSOE)</div>'
-            f'<div style="font-size:3rem;font-weight:900;color:{c_pred};font-family:monospace">{pred_voto}%</div>'
-            f'<div style="font-size:.72rem;color:{TEXT2}">Intención de voto estimada partido de gobierno</div>'
-            f'<div style="margin-top:.5rem">{confidence_badge(0.62)}</div>'
+            f'<div style="font-size:.65rem;color:{MUTED};letter-spacing:.1em">VARIACIÓN ESTIMADA DE VOTO AL GOBIERNO</div>'
+            f'<div style="font-size:3rem;font-weight:900;color:{c_pred};font-family:monospace">{sign_delta}{pred_voto_delta:.1f}pp</div>'
+            f'<div style="font-size:.72rem;color:{TEXT2}">Efecto macroeconómico sobre intención de voto</div>'
+            f'<div style="margin-top:.5rem">{confidence_badge(pred_confidence)}</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
 
-    with col_pred:
-        st.markdown(f'<div style="font-size:.72rem;color:{MUTED};margin-bottom:.5rem">Contribución de cada indicador al voto del gobierno:</div>', unsafe_allow_html=True)
-        CONTRIBUCIONES = [
-            {"ind": "PIB (crecimiento)", "valor": DEMO_MACRO["pib_yoy"], "contrib": round(pib_w * DEMO_MACRO["pib_yoy"], 2), "color": GREEN},
-            {"ind": "Paro (penalización)", "valor": DEMO_MACRO["paro"], "contrib": round(paro_w * (DEMO_MACRO["paro"] - 10), 2), "color": RED},
-            {"ind": "IPC (penalización)", "valor": DEMO_MACRO["ipc"], "contrib": round(ipc_w * (DEMO_MACRO["ipc"] - 2), 2), "color": AMBER},
-            {"ind": "Constante", "valor": base, "contrib": base, "color": MUTED},
-        ]
-        for c_item in CONTRIBUCIONES:
-            contrib = c_item["contrib"]
-            contrib_pct = abs(contrib) / (abs(pib_w * DEMO_MACRO["pib_yoy"]) + abs(paro_w * (DEMO_MACRO["paro"] - 10)) + abs(ipc_w * (DEMO_MACRO["ipc"] - 2)) + base) * 100
-            sign = "+" if contrib >= 0 else ""
+        if _explanation_voto:
             st.markdown(
-                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {c_item["color"]};'
+                f'<div style="font-size:.7rem;color:{MUTED};margin-top:.6rem;padding:.5rem .8rem;'
+                f'background:{BG3};border-radius:8px;line-height:1.5">{_explanation_voto}</div>',
+                unsafe_allow_html=True,
+            )
+
+    with col_pred:
+        _LABELS = {
+            "pib_yoy": "PIB (crecimiento)",
+            "paro_epa": "Paro (penalización)",
+            "ipc": "IPC (penalización)",
+            "confianza_consumidor": "Confianza consumidor",
+            "prima_riesgo": "Prima de riesgo",
+            "deficit_pib": "Déficit público",
+        }
+        _COLORS = {
+            "pib_yoy": GREEN,
+            "paro_epa": RED,
+            "ipc": AMBER,
+            "confianza_consumidor": CYAN,
+            "prima_riesgo": PURPLE,
+            "deficit_pib": RED,
+        }
+        st.markdown(f'<div style="font-size:.72rem;color:{MUTED};margin-bottom:.5rem">Contribución de cada indicador al voto del gobierno:</div>', unsafe_allow_html=True)
+        for _key, _contrib in sorted(_contribs.items(), key=lambda x: abs(x[1]), reverse=True):
+            if abs(_contrib) < 0.01:
+                continue
+            _c_color = _COLORS.get(_key, MUTED)
+            _sign = "+" if _contrib >= 0 else ""
+            _ind_label = _LABELS.get(_key, _key)
+            _val = MACRO.get(_key.replace("paro_epa", "paro"), "—")
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {_c_color};'
                 f'border-radius:8px;padding:.6rem .9rem;margin-bottom:.4rem;'
                 f'display:flex;align-items:center;gap:.8rem">'
                 f'<div style="flex:1">'
-                f'<div style="font-size:.75rem;font-weight:700;color:{TEXT}">{c_item["ind"]}</div>'
-                f'<div style="font-size:.65rem;color:{MUTED}">Valor actual: {c_item["valor"]}</div>'
+                f'<div style="font-size:.75rem;font-weight:700;color:{TEXT}">{_ind_label}</div>'
+                f'<div style="font-size:.65rem;color:{MUTED}">Valor actual: {_val}</div>'
                 f'</div>'
-                f'<div style="font-size:1rem;font-weight:800;color:{c_item["color"]};font-family:monospace">{sign}{contrib:.1f}</div>'
+                f'<div style="font-size:1rem;font-weight:800;color:{_c_color};font-family:monospace">{_sign}{_contrib:.1f}pp</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -696,3 +782,72 @@ with tab_riesgo:
             f'</div>',
             unsafe_allow_html=True,
         )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB: MAPA ECONÓMICO TERRITORIAL (Bloque 7)
+# ═══════════════════════════════════════════════════════════════════════════════
+with tab_territorial_econ:
+    section_header("MAPA ECONÓMICO POR TERRITORIO", GREEN)
+    st.caption("Stress económico, paro y renta media por provincia · Datos INE / estimaciones demo")
+
+    try:
+        from dashboard.services.territorial_core import (
+            cargar_mapa_economico_territorial,
+            cargar_geometrias,
+        )
+        from dashboard.components.choropleth_map import render_choropleth
+
+        _econ_df = cargar_mapa_economico_territorial(territory_type="province")
+        _geojson_n6 = cargar_geometrias(territory_type="province", resolution="low")
+
+        if not _econ_df.empty:
+            _econ_layer = st.selectbox(
+                "📊 Indicador",
+                options=["economic_stress", "unemployment_rate", "income_avg"],
+                format_func=lambda x: {
+                    "economic_stress": "Stress económico (0-100)",
+                    "unemployment_rate": "Tasa de paro (%)",
+                    "income_avg": "Renta media (€)",
+                }.get(x, x),
+                key="n6_econ_indicator",
+            )
+
+            _scale = "stress" if _econ_layer == "economic_stress" else (
+                "risk" if _econ_layer == "unemployment_rate" else "opportunity"
+            )
+            _title_map = {
+                "economic_stress": "Stress económico por provincia",
+                "unemployment_rate": "Tasa de paro por provincia (%)",
+                "income_avg": "Renta media por provincia (€)",
+            }
+
+            _label_col = "territory_name" if "territory_name" in _econ_df.columns else "territory_id"
+            render_choropleth(
+                geojson=_geojson_n6,
+                data=_econ_df,
+                territory_id_col="territory_id",
+                value_col=_econ_layer,
+                label_col=_label_col,
+                title=_title_map[_econ_layer],
+                color_scale=_scale,
+                height=500,
+            )
+
+            # Tabla resumen
+            st.markdown("---")
+            section_header("RANKING PROVINCIAL — INDICADOR SELECCIONADO", CYAN)
+            _display_cols = ["territory_id"]
+            if "territory_name" in _econ_df.columns:
+                _display_cols.append("territory_name")
+            _display_cols.extend([c for c in ["unemployment_rate", "income_avg", "economic_stress"] if c in _econ_df.columns])
+            st.dataframe(
+                _econ_df[_display_cols].sort_values(_econ_layer, ascending=(_econ_layer == "income_avg")).head(20),
+                hide_index=True,
+                use_container_width=True,
+            )
+        else:
+            st.info("No hay datos económicos territoriales disponibles. Ejecutar: python -m pipelines.territorial_core --run-all")
+
+    except Exception as _e_econ:
+        st.warning(f"Módulo territorial no disponible: {_e_econ}")

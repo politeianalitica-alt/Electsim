@@ -2540,16 +2540,16 @@ def _render_constructor_perfil(conn) -> None:
 
     if aviso:
         if precision == "baja":
-            st.warning(f"⚠ {aviso}")
+            st.warning(f" {aviso}")
         elif precision == "minima":
-            st.warning(f"⚠ {aviso}")
+            st.warning(f" {aviso}")
 
     n_enc = resultado.get("n_respondentes", 0)
     pct_pob = float(resultado.get("pct_poblacion", 0) or 0)
 
     if precision == "alta":
         st.success(
-            f"✓ Perfil calculado sobre **{n_enc} encuestados** "
+            f" Perfil calculado sobre **{n_enc} encuestados** "
             f"({pct_pob:.1f}% de la población ponderada)"
         )
     else:
@@ -2752,7 +2752,7 @@ with tab2:
 
         from dashboard.models.timing_model import describe_timing, describe_saturation
         _tc = f"Timing semana {semana_campana}: {t_factor:.0%} del impacto base"
-        _sc = f"♻ Saturación: {s_factor:.0%} (uso #{st.session_state['sim_tema_uso'].get(tema_sel, 1)})"
+        _sc = f" Saturación: {s_factor:.0%} (uso #{st.session_state['sim_tema_uso'].get(tema_sel, 1)})"
         _tc_color = CYAN if t_factor >= 0.8 else (AMBER if t_factor >= 0.5 else RED)
         _sc_color = GREEN if s_factor >= 0.8 else (AMBER if s_factor >= 0.5 else RED)
         st.markdown(
@@ -3257,13 +3257,13 @@ with tab5:
 
             if precision == "baja":
                 st.warning(
-                    f"⚠ Muestra ajustada (N={n_efectivo} casos). Para ampliar la representatividad "
+                    f" Muestra ajustada (N={n_efectivo} casos). Para ampliar la representatividad "
                     f"se han omitido los filtros: **{', '.join(relajados_nombres)}**. "
                     f"El perfil es orientativo."
                 )
             elif precision == "minima":
                 st.warning(
-                    f"⚠ Muestra muy pequeña (N={n_efectivo}). Perfil basado en características "
+                    f" Muestra muy pequeña (N={n_efectivo}). Perfil basado en características "
                     f"generales. Se omitieron: **{', '.join(relajados_nombres)}**."
                 )
             elif precision == "media":

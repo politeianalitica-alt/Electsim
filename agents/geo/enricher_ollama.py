@@ -324,6 +324,135 @@ def buscar_con_rag(query: str, items_contexto: list[dict], top_k: int = 5) -> st
     return _call_llm(prompt, modo="deep")
 
 
+def enriquecer_batch(
+    items: list[dict],
+    batch_size: int = 5,
+    modelo_modo: str = "fast",
+) -> list[dict]:
+    """
+    Enriquece múltiples items OSINT con un solo prompt por lote.
+    Ratio: 1 llamada LLM por cada `batch_size` items (vs N llamadas en enriquecer_item).
+
+    El modelo debe responder con un JSON array de exactamente len(batch) objetos.
+    Si la respuesta está parcialmente corrupta, los items sin parse mantienen
+    sus valores originales (graceful degradation item a item).
+
+    Args:
+        items:       Lista de dicts con titulo, contenido, idioma_original.
+        batch_size:  Cuántos items por llamada LLM (default 5 → ratio N/5).
+        modelo_modo: 'fast' (Qwen2.5-14B) | 'normal' | 'deep'.
+
+    Returns: Lista de dicts enriquecidos (mismo orden que entrada).
+    """
+    if not items:
+        return items
+
+    results = list(items)  # copia para no mutar el original
+
+    for batch_start in range(0, len(items), batch_size):
+        batch = items[batch_start: batch_start + batch_size]
+        n = len(batch)
+
+        # Construir prompt multi-item
+        items_block = "\n\n".join([
+            f"ITEM {i + 1}:\n"
+            f"TÍTULO: {it.get('titulo', '')[:300]}\n"
+            f"CONTENIDO: {(it.get('contenido') or it.get('descripcion', ''))[:800]}\n"
+            f"IDIOMA: {it.get('idioma_original', it.get('idioma', 'en'))}"
+            for i, it in enumerate(batch)
+        ])
+
+        prompt = f"""Analiza estos {n} items de noticias geopolíticas.
+Responde EXCLUSIVAMENTE con un JSON array de exactamente {n} objetos, en el mismo orden.
+Cada objeto debe tener:
+  "resumen_es": "Resumen conciso en español (2-3 frases)",
+  "paises": ["hasta 5 ISO3 de países mencionados"],
+  "actores": ["actores clave: líderes, organizaciones, grupos"],
+  "categoria": "conflicto_armado|terrorismo|diplomacia|energia|migracion|ciberseguridad|economia_politica|derechos_humanos|defensa|crimen_organizado|otros",
+  "subcategoria": "subcategoría específica en 1-3 palabras",
+  "relevancia_espana": 0.0,
+  "urgencia": 1,
+  "temas": ["3-5 temas clave"]
+
+No incluyas texto fuera del JSON array. Empieza con [ y termina con ].
+
+ITEMS A ANALIZAR:
+{items_block}"""
+
+        try:
+            resp_str = _call_llm(prompt, modo=modelo_modo)
+            parsed_batch = _parse_json_array(resp_str, expected_len=n)
+        except Exception as exc:
+            logger.warning("enriquecer_batch LLM error (batch %d): %s", batch_start, exc)
+            parsed_batch = [{}] * n
+
+        for i, resultado in enumerate(parsed_batch):
+            orig_idx = batch_start + i
+            if not resultado:
+                continue
+            item = results[orig_idx]
+            item["resumen_ollama"] = resultado.get("resumen_es", "")
+            item["paises_mencionados"] = resultado.get("paises", [])
+            item["actores_mencionados"] = resultado.get("actores", [])
+            item["categoria"] = resultado.get("categoria", "otros")
+            item["subcategoria"] = resultado.get("subcategoria", "")
+            item["relevancia_espana"] = max(
+                float(item.get("relevancia_espana", 0)),
+                float(resultado.get("relevancia_espana", 0)),
+            )
+            item["urgencia"] = max(
+                int(item.get("urgencia", 1)),
+                int(resultado.get("urgencia", 1)),
+            )
+            item["temas"] = resultado.get("temas", [])
+            item["procesado_llm"] = True
+            results[orig_idx] = item
+
+    return results
+
+
+def _parse_json_array(texto: str, expected_len: int) -> list[dict]:
+    """
+    Extrae un JSON array del texto de respuesta LLM.
+    Intenta varios patrones de extracción; retorna lista de dicts vacíos
+    con longitud `expected_len` si el parse falla totalmente.
+    """
+    texto = texto.strip()
+
+    # Intentar extraer de ```json [...] ```
+    m = re.search(r"```json\s*(\[.*?\])\s*```", texto, re.DOTALL)
+    if m:
+        texto = m.group(1)
+    else:
+        # Buscar primer [ ... ]
+        m = re.search(r"\[.*\]", texto, re.DOTALL)
+        if m:
+            texto = m.group()
+
+    try:
+        parsed = json.loads(texto)
+        if isinstance(parsed, list):
+            # Pad o recortar a expected_len
+            while len(parsed) < expected_len:
+                parsed.append({})
+            return parsed[:expected_len]
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+    # Fallback: intentar parsear objetos individuales con regex
+    objects = re.findall(r"\{[^{}]*\}", texto, re.DOTALL)
+    results: list[dict] = []
+    for obj_str in objects:
+        try:
+            results.append(json.loads(obj_str))
+        except (json.JSONDecodeError, ValueError):
+            results.append({})
+
+    while len(results) < expected_len:
+        results.append({})
+    return results[:expected_len]
+
+
 def indexar_osint_en_chromadb(items: list[dict]) -> int:
     """
     Indexa items OSINT en ChromaDB para búsqueda semántica posterior.

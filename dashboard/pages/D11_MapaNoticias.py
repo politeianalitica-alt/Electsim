@@ -3,10 +3,10 @@
 350 fuentes internacionales → RSS → Ollama → PostgreSQL → Mapa interactivo.
 
 Pestañas:
-  🌍 Mapa Global      — scatter_geo con 3 modos de visualización
-  📊 Análisis         — sentimiento, categorías, temas trending
-  📰 Últimas Noticias — tabla filtrable con resúmenes AI
-  ⚙️ Ingesta          — estado del pipeline y control manual
+  Mapa Global      — scatter_geo con 3 modos de visualización
+  Análisis         — sentimiento, categorías, temas trending
+   Últimas Noticias — tabla filtrable con resúmenes AI
+  ️ Ingesta          — estado del pipeline y control manual
 """
 from __future__ import annotations
 
@@ -78,16 +78,16 @@ SENTIMENT_COLORS = {
 }
 
 CATEGORY_ICONS = {
-    "politica": "🏛️",
-    "economia": "📈",
-    "seguridad": "🛡️",
-    "sociedad": "👥",
-    "tecnologia": "💻",
-    "medioambiente": "🌿",
-    "salud": "🏥",
-    "cultura": "🎭",
-    "deportes": "⚽",
-    "otro": "📌",
+    "politica": "️",
+    "economia": "~",
+    "seguridad": "*",
+    "sociedad": "",
+    "tecnologia": "",
+    "medioambiente": "",
+    "salud": "",
+    "cultura": "",
+    "deportes": "",
+    "otro": "",
 }
 
 # ── Demo data (cuando DB no disponible) ──────────────────────────────────────
@@ -175,12 +175,12 @@ def load_ingestion_stats() -> dict:
 
 
 # ── Header ────────────────────────────────────────────────────────────────────
-section_header("🌍 Mapa Mundial de Noticias")
+section_header("Mapa Mundial de Noticias")
 st.caption("350 fuentes internacionales · análisis Ollama en tiempo real")
 
 # ── Sidebar filters ───────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### 🌍 Filtros")
+    st.markdown("### Filtros")
     region_filter = st.selectbox(
         "Región",
         options=["Todas"] + REGIONS,
@@ -233,7 +233,7 @@ st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_map, tab_analysis, tab_news, tab_ingest = st.tabs([
-    "🌍 Mapa Global", "📊 Análisis", "📰 Últimas Noticias", "⚙️ Ingesta"
+    "Mapa Global", "Análisis", " Últimas Noticias", "️ Ingesta"
 ])
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -376,7 +376,7 @@ with tab_analysis:
 
         # Sentimiento
         with col_sent:
-            st.markdown("#### 😊 Distribución de sentimiento")
+            st.markdown("####  Distribución de sentimiento")
             sent_counts = df["ai_sentiment"].fillna("neutro").value_counts().reset_index()
             sent_counts.columns = ["sentimiento", "count"]
             colors_sent = [SENTIMENT_COLORS.get(s, MUTED) for s in sent_counts["sentimiento"]]
@@ -398,10 +398,10 @@ with tab_analysis:
 
         # Categorías
         with col_cat:
-            st.markdown("#### 🏷️ Distribución por categoría")
+            st.markdown("#### ️ Distribución por categoría")
             cat_counts = df["ai_category"].fillna("otro").value_counts().head(10).reset_index()
             cat_counts.columns = ["categoría", "count"]
-            cat_counts["icon"] = cat_counts["categoría"].map(CATEGORY_ICONS).fillna("📌")
+            cat_counts["icon"] = cat_counts["categoría"].map(CATEGORY_ICONS).fillna("")
             cat_counts["label"] = cat_counts["icon"] + " " + cat_counts["categoría"]
 
             fig_cat = px.bar(
@@ -425,7 +425,7 @@ with tab_analysis:
             st.plotly_chart(fig_cat, use_container_width=True)
 
         # Relevancia por región
-        st.markdown("#### ⚡ Relevancia media por región y sentimiento")
+        st.markdown("#### Relevancia media por región y sentimiento")
         heat_data = df.groupby(["source_region", "ai_sentiment"]).agg(
             count=("title", "count"),
             relevancia=("ai_relevance", "mean"),
@@ -453,7 +453,7 @@ with tab_analysis:
         st.plotly_chart(fig_heat, use_container_width=True)
 
         # Top topics
-        st.markdown("#### 🔥 Temas más frecuentes")
+        st.markdown("####  Temas más frecuentes")
         if ni:
             try:
                 topics_data = ni.get_top_topics(hours_back=hours_back)
@@ -504,7 +504,7 @@ with tab_news:
         st.info("No hay noticias para los filtros seleccionados.")
     else:
         # Buscador
-        search = st.text_input("🔍 Buscar en títulos y resúmenes", placeholder="ej: elecciones, economía, Sánchez…")
+        search = st.text_input(" Buscar en títulos y resúmenes", placeholder="ej: elecciones, economía, Sánchez…")
         col_s1, col_s2 = st.columns([1, 4])
         with col_s1:
             sort_by = st.selectbox("Ordenar por", ["scraped_at", "ai_relevance"])
@@ -525,7 +525,7 @@ with tab_news:
             sentiment = row.get("ai_sentiment", "neutro") or "neutro"
             s_color = SENTIMENT_COLORS.get(sentiment, MUTED)
             cat = row.get("ai_category", "otro") or "otro"
-            icon = CATEGORY_ICONS.get(cat, "📌")
+            icon = CATEGORY_ICONS.get(cat, "")
             relevance = row.get("ai_relevance", 5) or 5
             region_label = REGION_LABELS.get(row.get("source_region", ""), row.get("source_region", ""))
 
@@ -543,16 +543,16 @@ with tab_news:
                       {row.get('title','Sin título')}
                     </a>
                     <span style="color:{CYAN};font-size:0.75rem;margin-left:12px;white-space:nowrap">
-                      ⚡{relevance}
+                      {relevance}
                     </span>
                   </div>
                   {summary_html}
                   <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
                     <span style="background:{BG3};color:{TEXT2};font-size:0.72rem;padding:2px 8px;border-radius:10px">
-                      📰 {row.get('source_name','')}
+                       {row.get('source_name','')}
                     </span>
                     <span style="background:{BG3};color:{TEXT2};font-size:0.72rem;padding:2px 8px;border-radius:10px">
-                      🌍 {region_label}
+                      {region_label}
                     </span>
                     <span style="background:{BG3};color:{s_color};font-size:0.72rem;padding:2px 8px;border-radius:10px">
                       {sentiment}
@@ -574,7 +574,7 @@ with tab_news:
 # TAB 4 — INGESTA / PIPELINE STATUS
 # ════════════════════════════════════════════════════════════════════════════════
 with tab_ingest:
-    st.markdown("#### ⚙️ Estado del pipeline de ingesta")
+    st.markdown("#### ️ Estado del pipeline de ingesta")
 
     col_i1, col_i2, col_i3 = st.columns(3)
     with col_i1:
@@ -604,7 +604,7 @@ with tab_ingest:
         )
 
     st.markdown("---")
-    st.markdown("#### 📡 Fuentes configuradas (350)")
+    st.markdown("####  Fuentes configuradas (350)")
 
     # Tabla de fuentes
     sources_df = pd.DataFrame(ALL_SOURCES)[["name", "region", "country", "url"]]
@@ -626,13 +626,13 @@ with tab_ingest:
     )
 
     st.markdown("---")
-    st.markdown("#### 🚀 Control manual de ingesta")
+    st.markdown("####  Control manual de ingesta")
 
     db_ok = ni is not None
 
     if not db_ok:
         st.warning(
-            "⚠️ Módulo de ingesta no disponible. "
+            "️ Módulo de ingesta no disponible. "
             "Asegúrate de que PostgreSQL y las dependencias están instaladas: "
             "`pip install feedparser httpx psycopg2-binary apscheduler`"
         )
@@ -640,13 +640,13 @@ with tab_ingest:
     c_init, c_prio, c_full = st.columns(3)
 
     with c_init:
-        if st.button("🗄️ Inicializar BD", disabled=not db_ok, use_container_width=True):
+        if st.button("️ Inicializar BD", disabled=not db_ok, use_container_width=True):
             with st.spinner("Creando tablas..."):
                 ni.init_db()
             st.success("Esquema news_articles creado")
 
     with c_prio:
-        if st.button("⚡ Ingestar prioritarias (ES+EU)", disabled=not db_ok, use_container_width=True):
+        if st.button("Ingestar prioritarias (ES+EU)", disabled=not db_ok, use_container_width=True):
             with st.spinner("Ingesta prioritaria en curso (~150 fuentes)..."):
                 result = ni.ingest_priority(use_ollama=True)
             st.success(
@@ -656,7 +656,7 @@ with tab_ingest:
             st.cache_data.clear()
 
     with c_full:
-        if st.button("🌍 Ingestar todas (350 fuentes)", disabled=not db_ok, use_container_width=True):
+        if st.button("Ingestar todas (350 fuentes)", disabled=not db_ok, use_container_width=True):
             with st.spinner("Ingesta completa en curso (~350 fuentes, puede tardar varios minutos)..."):
                 result = ni.ingest_all_sources(use_ollama=True)
             st.success(
@@ -666,7 +666,7 @@ with tab_ingest:
             st.cache_data.clear()
 
     st.markdown("---")
-    st.markdown("#### 📋 Comandos del scheduler")
+    st.markdown("####  Comandos del scheduler")
     st.code(
         "# Iniciar scheduler daemon (corre en segundo plano)\n"
         "python -m dashboard.workers.news_scheduler\n\n"

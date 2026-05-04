@@ -542,7 +542,7 @@ with tab3:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {CYAN}44;border-top:2px solid {CYAN};'
             f'border-radius:8px;padding:1.1rem;text-align:center">'
-            f'<div style="font-size:1.4rem;margin-bottom:.4rem">🔍</div>'
+            f'<div style="font-size:1.4rem;margin-bottom:.4rem"></div>'
             f'<div style="font-weight:700;color:{CYAN};font-size:.85rem;margin-bottom:.4rem">1. DETECTAR</div>'
             f'<div style="font-size:.75rem;color:{TEXT2};line-height:1.5">'
             f'Monitor NLP en tiempo real · Alertas automáticas por umbral · '
@@ -554,7 +554,7 @@ with tab3:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {AMBER}44;border-top:2px solid {AMBER};'
             f'border-radius:8px;padding:1.1rem;text-align:center">'
-            f'<div style="font-size:1.4rem;margin-bottom:.4rem">⚖️</div>'
+            f'<div style="font-size:1.4rem;margin-bottom:.4rem">️</div>'
             f'<div style="font-weight:700;color:{AMBER};font-size:.85rem;margin-bottom:.4rem">2. EVALUAR</div>'
             f'<div style="font-size:.75rem;color:{TEXT2};line-height:1.5">'
             f'Score de riesgo (1-10) · Tiempo estimado de viralizacion · '
@@ -566,7 +566,7 @@ with tab3:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {GREEN}44;border-top:2px solid {GREEN};'
             f'border-radius:8px;padding:1.1rem;text-align:center">'
-            f'<div style="font-size:1.4rem;margin-bottom:.4rem">📢</div>'
+            f'<div style="font-size:1.4rem;margin-bottom:.4rem"></div>'
             f'<div style="font-weight:700;color:{GREEN};font-size:.85rem;margin-bottom:.4rem">3. RESPONDER</div>'
             f'<div style="font-size:.75rem;color:{TEXT2};line-height:1.5">'
             f'Contramensaje pre-aprobado · Puntos de referencia con datos · '
@@ -863,7 +863,7 @@ with tab5:
             st.markdown(
                 f'<div style="background:{RED}11;border:1px solid {RED}44;border-radius:8px;'
                 f'padding:.7rem 1rem;margin-top:.5rem">'
-                f'<span style="color:{RED};font-weight:700;font-size:.78rem">⚠ {actor_data["desviaciones"]} desviación detectada</span>'
+                f'<span style="color:{RED};font-weight:700;font-size:.78rem"> {actor_data["desviaciones"]} desviación detectada</span>'
                 f'<div style="font-size:.72rem;color:{TEXT2};margin-top:.25rem">'
                 f'Se ha detectado un mensaje fuera del eje narrativo habitual del actor en los últimos 7 días. '
                 f'Revisar coherencia con línea editorial del partido.</div>'
@@ -956,7 +956,7 @@ with tab5:
             a_consist_color = GREEN if a_pct >= 80 else (AMBER if a_pct >= 60 else RED)
             inc_badge = (
                 f'<span style="font-size:.6rem;color:{RED};background:{RED}18;'
-                f'border-radius:4px;padding:.1rem .35rem;margin-left:.3rem">⚠ {actor["desviaciones"]} desv.</span>'
+                f'border-radius:4px;padding:.1rem .35rem;margin-left:.3rem"> {actor["desviaciones"]} desv.</span>'
                 if actor["desviaciones"] > 0 else ""
             )
             st.markdown(

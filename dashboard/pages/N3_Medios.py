@@ -98,7 +98,7 @@ with tab_noticias:
         <div style="background:{GREEN if _CRAWLER_OK else RED}12;border:1px solid {GREEN if _CRAWLER_OK else RED}33;
                     border-radius:8px;padding:.5rem .8rem;font-size:.72rem;color:{GREEN if _CRAWLER_OK else RED};
                     margin-bottom:.8rem">
-          {'✓'if _CRAWLER_OK else '✗'} Fuente: {fuente_label}
+          {''if _CRAWLER_OK else ''} Fuente: {fuente_label}
         </div>
         """, unsafe_allow_html=True)
 

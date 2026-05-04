@@ -23,6 +23,26 @@ from dashboard.shared import (
 )
 import dashboard.db as _db
 
+# ── campaign_core (Bloque 6) ──────────────────────────────────────────────────
+try:
+    from dashboard.services.campaign_core import (
+        cargar_voto_blando as _cc_voto_blando,
+        cargar_segmentos_votante as _cc_segmentos,
+        simular_mensaje_campana as _cc_simular,
+        recomendar_mensajes as _cc_recomendar,
+        cargar_oportunidades_campana as _cc_oportunidades,
+        cargar_kpis_campana as _cc_kpis,
+    )
+    _HAY_DATOS_CAMPANA = True
+except Exception:
+    _HAY_DATOS_CAMPANA = False
+    def _cc_voto_blando(*a, **kw): return __import__("pandas").DataFrame()
+    def _cc_segmentos(*a, **kw): return __import__("pandas").DataFrame()
+    def _cc_simular(*a, **kw): return {"hay_datos": False}
+    def _cc_recomendar(*a, **kw): return []
+    def _cc_oportunidades(*a, **kw): return []
+    def _cc_kpis(*a, **kw): return {"hay_datos": False}
+
 st.set_page_config(page_title="Campaña — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("campana")
@@ -39,12 +59,13 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-tab_warroom, tab_sim, tab_voto_blando, tab_coord, tab_ops = st.tabs([
+tab_warroom, tab_sim, tab_voto_blando, tab_coord, tab_ops, tab_territorial = st.tabs([
     "War Room",
     "! Simulador Impacto",
     "Voto Blando",
     "Coordinación",
     "Operaciones",
+    "🗺️ Territorial",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -235,7 +256,32 @@ with tab_voto_blando:
         except Exception:
             return pd.DataFrame()
 
-    df_vb = _cargar_voto_blando()
+    # Prioridad: campaign_core (Bloque 6) → legacy DB → demo
+    df_vb = _cc_voto_blando(geography="ES") if _HAY_DATOS_CAMPANA else pd.DataFrame()
+    if df_vb.empty:
+        df_vb = _cargar_voto_blando()
+
+    # ── Partido selector ──────────────────────────────────────────────────────
+    _vb_partidos = ["PP", "PSOE", "VOX", "SUMAR", "JUNTS"]
+    _vb_col1, _vb_col2 = st.columns([3, 1])
+    with _vb_col2:
+        _vb_partido_sel = st.selectbox(
+            "Partido objetivo", _vb_partidos, key="vb_partido_sel"
+        )
+
+    with _vb_col1:
+        # KPIs de voto blando
+        _kpis_vb = _cc_kpis(_vb_partido_sel) if _HAY_DATOS_CAMPANA else {"hay_datos": False}
+        kv1, kv2, kv3 = st.columns(3)
+        with kv1:
+            _voto_dec = _kpis_vb.get("voto_decidido_pct", 0) if _kpis_vb.get("hay_datos") else 72.0
+            st.markdown(kpi_card("Voto decidido", f"{_voto_dec:.0f}%", color=GREEN), unsafe_allow_html=True)
+        with kv2:
+            _voto_bl = _kpis_vb.get("voto_blando_pct", 0) if _kpis_vb.get("hay_datos") else 28.0
+            st.markdown(kpi_card("Voto blando", f"{_voto_bl:.0f}%", color=AMBER), unsafe_allow_html=True)
+        with kv3:
+            _n_op = _kpis_vb.get("n_oportunidades", 0) if _kpis_vb.get("hay_datos") else 0
+            st.markdown(kpi_card("Oportunidades", str(_n_op), color=CYAN), unsafe_allow_html=True)
 
     if df_vb.empty:
         # Demo voto blando
@@ -265,10 +311,33 @@ with tab_voto_blando:
                         font=dict(size=10, color=TEXT2), bgcolor="rgba(0,0,0,0)"),
         )
         st.plotly_chart(fig_vb, use_container_width=True, config={"displayModeBar": False})
-        st.caption("Datos demo")
-        st.page_link("pages/25_Voto_Blando.py", label="→ Análisis Voto Blando (v1)")
+        st.caption("Datos demo · Bloque 6 requiere polls cargadas")
     else:
-        st.dataframe(df_vb, use_container_width=True, hide_index=True)
+        # Mostrar datos reales
+        _cols_show = [c for c in ["party_id", "decided_pct", "soft_pct", "estimate_date"] if c in df_vb.columns]
+        if not _cols_show:
+            _cols_show = df_vb.columns.tolist()
+        st.dataframe(df_vb[_cols_show], use_container_width=True, hide_index=True)
+
+    # ── Oportunidades ──────────────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header(f"OPORTUNIDADES DE CAPTACIÓN — {_vb_partido_sel}", PURPLE)
+    _opps = _cc_oportunidades(_vb_partido_sel) if _HAY_DATOS_CAMPANA else []
+    if _opps:
+        _df_opps = pd.DataFrame(_opps)
+        st.dataframe(_df_opps, use_container_width=True, hide_index=True)
+    else:
+        st.caption("Oportunidades disponibles tras cargar encuestas recientes.")
+
+    # ── Recomendaciones de mensajes ────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header(f"TEMAS RECOMENDADOS — {_vb_partido_sel}", CYAN)
+    _recs = _cc_recomendar(_vb_partido_sel, top_n=5) if _HAY_DATOS_CAMPANA else []
+    if _recs:
+        _df_recs = pd.DataFrame(_recs)
+        st.dataframe(_df_recs, use_container_width=True, hide_index=True)
+    else:
+        st.caption("Recomendaciones disponibles tras cargar nowcast electoral.")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -572,3 +641,82 @@ with tab_ops:
               </div>
             </div>
             """, unsafe_allow_html=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB: TERRITORIAL (Bloque 7)
+# ═══════════════════════════════════════════════════════════════════════════════
+with tab_territorial:
+    section_header("PRIORIDAD DE CAMPAÑA POR TERRITORIO", AMBER)
+    st.caption("Ranking de provincias por score de campaña · Combina swing electoral, voto blando, stress económico e intensidad mediática")
+
+    try:
+        from dashboard.services.territorial_core import (
+            cargar_ranking_prioridad_campana,
+            cargar_geometrias,
+            cargar_senales_territoriales,
+        )
+        from dashboard.components.province_cards import render_hot_territories_cards
+        from dashboard.components.choropleth_map import render_choropleth
+
+        _ranking_df = cargar_ranking_prioridad_campana(territory_type="province", top_n=15)
+        _geojson_n5 = cargar_geometrias(territory_type="province", resolution="low")
+
+        _col_map_n5, _col_cards_n5 = st.columns([3, 2])
+
+        with _col_map_n5:
+            if not _ranking_df.empty and "campaign_priority" in _ranking_df.columns:
+                render_choropleth(
+                    geojson=_geojson_n5,
+                    data=_ranking_df,
+                    territory_id_col="territory_id",
+                    value_col="campaign_priority",
+                    label_col="name" if "name" in _ranking_df.columns else "territory_id",
+                    title="Score de prioridad de campaña por provincia",
+                    color_scale="priority",
+                    height=450,
+                )
+            else:
+                st.info("No hay datos de prioridad territorial disponibles.")
+
+        with _col_cards_n5:
+            render_hot_territories_cards(
+                df=_ranking_df.head(6) if not _ranking_df.empty else pd.DataFrame(),
+                title="Top 6 provincias prioritarias",
+                n_cols=2,
+                show_signals=False,
+            )
+
+        # Señales territoriales por tipo de campaña
+        st.markdown("---")
+        section_header("SEÑALES ACTIVAS DE CAMPAÑA", CYAN)
+        _sigs_n5 = cargar_senales_territoriales(
+            signal_type="campaign_priority",
+            min_severity="HIGH",
+            days_back=7,
+            limit=10,
+        )
+        if not _sigs_n5.empty:
+            st.dataframe(
+                _sigs_n5[["territory_id", "value", "severity", "explanation"]].head(10),
+                hide_index=True,
+                use_container_width=True,
+            )
+        else:
+            _sigs_swing = cargar_senales_territoriales(
+                signal_type="soft_vote_opportunity",
+                min_severity="MEDIUM",
+                days_back=7,
+                limit=10,
+            )
+            if not _sigs_swing.empty:
+                st.dataframe(
+                    _sigs_swing[["territory_id", "value", "severity", "explanation"]].head(10),
+                    hide_index=True,
+                    use_container_width=True,
+                )
+            else:
+                st.caption("Sin señales de campaña con severidad MEDIUM o superior en los últimos 7 días.")
+
+    except Exception as _e_terr:
+        st.info(f"Módulo territorial no disponible: {_e_terr}")
+

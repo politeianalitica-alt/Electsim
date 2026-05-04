@@ -203,6 +203,21 @@ def _hemiciclo_plotly(escanos: dict[str, int], titulo: str = "Congreso de los Di
     return fig
 
 
+# ── Carga electoral_core (Bloque 6) ───────────────────────────────────────────
+try:
+    from dashboard.services.electoral_core import (
+        cargar_nowcast_actual as _ec_nowcast,
+        cargar_coaliciones_actuales as _ec_coaliciones,
+        cargar_encuestas_recientes as _ec_encuestas,
+        cargar_escanos_actuales as _ec_escanos,
+    )
+    _nc_data = _ec_nowcast(geography="ES")
+    _HAY_DATOS_ELECTORAL = _nc_data.get("hay_datos", False)
+except Exception:
+    _nc_data = {"hay_datos": False}
+    _HAY_DATOS_ELECTORAL = False
+
+
 # ── Carga de datos reales ──────────────────────────────────────────────────────
 @st.cache_data(ttl=300)
 def _cargar():
@@ -225,16 +240,21 @@ df_nc, df_elec, df_hist = _cargar()
 
 
 def _sondeo_actual() -> dict[str, float]:
-    if df_nc is None or df_nc.empty:
-        return DEMO_ENCUESTA
-    col_pct = next((c for c in ["estimacion_pct", "voto_pct", "intencion_voto"] if c in df_nc.columns), None)
-    col_part = next((c for c in ["partido_siglas", "partido", "siglas"] if c in df_nc.columns), None)
-    if not col_pct or not col_part:
-        return DEMO_ENCUESTA
-    df_s = df_nc[[col_part, col_pct]].copy()
-    df_s[col_pct] = pd.to_numeric(df_s[col_pct], errors="coerce")
-    result = dict(zip(df_s[col_part].astype(str), df_s[col_pct].fillna(0)))
-    return result if result else DEMO_ENCUESTA
+    # Prioridad 1: nowcast de Bloque 6
+    if _HAY_DATOS_ELECTORAL and _nc_data.get("party_estimates"):
+        return _nc_data["party_estimates"]
+    # Prioridad 2: tabla legacy de nowcasting
+    if df_nc is not None and not df_nc.empty:
+        col_pct = next((c for c in ["estimacion_pct", "voto_pct", "intencion_voto"] if c in df_nc.columns), None)
+        col_part = next((c for c in ["partido_siglas", "partido", "siglas"] if c in df_nc.columns), None)
+        if col_pct and col_part:
+            df_s = df_nc[[col_part, col_pct]].copy()
+            df_s[col_pct] = pd.to_numeric(df_s[col_pct], errors="coerce")
+            result = dict(zip(df_s[col_part].astype(str), df_s[col_pct].fillna(0)))
+            if result:
+                return result
+    # Fallback: demo
+    return DEMO_ENCUESTA
 
 
 sondeo_actual = _sondeo_actual()
@@ -373,6 +393,57 @@ with tab_cuadro:
 # TAB 1: MAPA
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_mapa:
+    # ── Bloque 7: mapa territorial electoral ──────────────────────────────────
+    try:
+        from dashboard.services.territorial_core import (
+            cargar_geometrias,
+            cargar_mapa_electoral_territorial,
+        )
+        from dashboard.components.choropleth_map import render_choropleth, render_winner_map
+        from dashboard.components.territory_detail_panel import render_layer_selector
+
+        _selected_layer = render_layer_selector(
+            available_layers=["electoral"],
+            default_layer="electoral",
+            key="n1_map_layer",
+        )
+
+        _geo_data = cargar_mapa_electoral_territorial(territory_type="province")
+        _geojson = cargar_geometrias(territory_type="province", resolution="low")
+
+        _c_map, _c_detail = st.columns([3, 1])
+        with _c_map:
+            if not _geo_data.empty:
+                if "leading_party" in _geo_data.columns:
+                    render_winner_map(
+                        geojson=_geojson,
+                        data=_geo_data,
+                        territory_id_col="territory_id",
+                        party_col="leading_party",
+                        label_col="territory_name" if "territory_name" in _geo_data.columns else "territory_id",
+                        title="Partido ganador por provincia",
+                    )
+                elif "swing_index" in _geo_data.columns:
+                    render_choropleth(
+                        geojson=_geojson,
+                        data=_geo_data,
+                        territory_id_col="territory_id",
+                        value_col="swing_index",
+                        label_col="territory_name" if "territory_name" in _geo_data.columns else "territory_id",
+                        title="Swing electoral por provincia",
+                        color_scale="swing",
+                    )
+        with _c_detail:
+            _selected_tid = st.session_state.get("selected_territory_id")
+            if _selected_tid:
+                from dashboard.components.territory_detail_panel import render_territory_detail_panel
+                render_territory_detail_panel(_selected_tid)
+            else:
+                st.info("Selecciona una provincia en el mapa para ver su ficha.")
+    except ImportError:
+        pass
+
+    # ── Fallback / legacy ────────────────────────────────────────────────────
     try:
         from dashboard.components.mapa_electoral import render_mapa_electoral
         render_mapa_electoral()
@@ -507,7 +578,7 @@ with tab_dhondt:
                 k1.metric("Partido Líder", lider_d, f"{escanos_calc[lider_d]} esc.")
                 k2.metric("Mayoría Absoluta", "176 esc.", "umbral")
                 faltan_d = _MA - escanos_calc[lider_d]
-                k3.metric("Escaños líder", escanos_calc[lider_d], f"{'✓' if faltan_d <= 0 else f'-{faltan_d}'}")
+                k3.metric("Escaños líder", escanos_calc[lider_d], f"{'' if faltan_d <= 0 else f'-{faltan_d}'}")
 
                 df_esc = pd.DataFrame([
                     {"partido": p, "votos": votos_sim.get(p, 0), "escanos": e}
@@ -575,7 +646,7 @@ with tab_coal:
       <span style="font-size:.88rem;font-weight:800;color:{TEXT}">{coal.nombre}</span>
       <span style="margin-left:.6rem;background:{color_coal}22;color:{color_coal};
            border-radius:4px;padding:.1rem .5rem;font-size:.7rem;font-weight:700">
-        {'✓ MAYORÍA' if tiene_may else '✗ SIN MAYORÍA'}
+        {' MAYORÍA' if tiene_may else ' SIN MAYORÍA'}
       </span>
     </div>
     <span style="font-family:monospace;font-size:.9rem;font-weight:900;color:{color_coal}">{coal.escanos_totales}</span>
@@ -636,7 +707,7 @@ with tab_coal:
                 f'border-radius:8px;border:1px solid {col_b}33;background:{col_b}10;margin-bottom:.4rem">'
                 f'<span style="font-size:.82rem;color:{TEXT2}">{nombre}</span>'
                 f'<span style="font-size:.88rem;font-weight:900;color:{col_b};font-family:monospace">'
-                f'{esc_b} {"✓" if esc_b >= MAYORIA_ABS else "✗"}</span>'
+                f'{esc_b} {"" if esc_b >= MAYORIA_ABS else ""}</span>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
@@ -678,7 +749,7 @@ with tab_hemi:
             esc_tabla = _get_escanos(sondeo_hemi)
             if esc_tabla:
                 df_esc_t = pd.DataFrame([
-                    {"Partido": p, "Escaños": e, "May.": "✓" if e >= 176 else ("⚠" if e >= 140 else "✗")}
+                    {"Partido": p, "Escaños": e, "May.": "" if e >= 176 else ("" if e >= 140 else "")}
                     for p, e in sorted(esc_tabla.items(), key=lambda x: x[1], reverse=True) if e > 0
                 ])
                 st.dataframe(df_esc_t.set_index("Partido"), use_container_width=True)
@@ -966,7 +1037,7 @@ with tab_simulador:
                         f'<div style="background:{GREEN}10;border:1px solid {GREEN}33;border-radius:8px;'
                         f'padding:.45rem .75rem;margin-bottom:.35rem;display:flex;align-items:center;justify-content:space-between">'
                         f'<div>{chips}</div>'
-                        f'<span style="color:{GREEN};font-weight:900;font-family:monospace;font-size:.88rem">{total_c} ✓</span>'
+                        f'<span style="color:{GREEN};font-weight:900;font-family:monospace;font-size:.88rem">{total_c} </span>'
                         f'</div>',
                         unsafe_allow_html=True,
                     )

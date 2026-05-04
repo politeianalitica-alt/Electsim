@@ -77,7 +77,7 @@ def data_badge(real: bool, label: str = "") -> str:
     return (
         f'<span style="font-size:.65rem;font-weight:700;color:{AMBER};background:{AMBER}18;'
         f'border:1px solid {AMBER}44;border-radius:3px;padding:.1rem .45rem" '
-        f'title="Ejecuta ETL para poblar con datos reales">⚠ {label or "PENDIENTE ETL"}</span>'
+        f'title="Ejecuta ETL para poblar con datos reales"> {label or "PENDIENTE ETL"}</span>'
     )
 
 
@@ -265,7 +265,7 @@ if not df_incidents.empty:
     crit = df_incidents[df_incidents["severity"] == "critical"]
     if not crit.empty:
         names = ", ".join(crit["source_id"].tolist()[:3])
-        st.warning(f"⚠ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
+        st.warning(f" Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_boe, tab_votaciones, tab_agenda, tab_comunicados, tab_leyes, tab_comisiones, tab_temas, tab_etl = st.tabs([
@@ -983,7 +983,7 @@ with tab_etl:
                 f'{_rr["estado"]}</span>'
                 f'<span style="font-size:.76rem;color:{MUTED}">Score: {_rr["score"]}/100</span>'
                 f'<span style="font-size:.72rem;color:{TEXT2}">'
-                f'✓{_rr["passed"]} ⚠{_rr["warned"]} ✗{_rr["failed"]}</span>'
+                f'{_rr["passed"]} {_rr["warned"]} {_rr["failed"]}</span>'
                 f'</div>',
                 unsafe_allow_html=True,
             )

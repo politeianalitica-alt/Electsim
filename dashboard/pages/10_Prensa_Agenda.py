@@ -295,7 +295,7 @@ if not df_incidents.empty:
     critical = df_incidents[df_incidents["severity"] == "critical"]
     if not critical.empty:
         names = ", ".join(critical["source_id"].tolist()[:3])
-        st.warning(f"⚠ Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
+        st.warning(f" Fuentes con incidencias críticas: **{names}** — datos pueden estar incompletos.")
 
 # ── Sidebar controles ─────────────────────────────────────────────────────────
 with st.sidebar:

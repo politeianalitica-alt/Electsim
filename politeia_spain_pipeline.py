@@ -1215,6 +1215,8 @@ def analyze(df: Optional[pd.DataFrame] = None) -> Dict[str, pd.DataFrame]:
 
     outputs["politicians"] = explode_counts(df, "politicians", "politician_counts.csv")
     outputs["parties"] = explode_counts(df, "parties", "party_counts.csv")
+    # topic_counts.csv sigue generandose como conteo legacy de keywords regex
+    # pero ya NO se usa como "narrativas" — las narrativas reales las detecta narrative_engine
     outputs["topics"] = explode_counts(df, "topics", "topic_counts.csv")
 
     # Latest records for analyst review
@@ -1268,6 +1270,58 @@ def analyze(df: Optional[pd.DataFrame] = None) -> Dict[str, pd.DataFrame]:
     dupes = build_dedup_table(df)
     dupes.to_csv(ANALYSIS_DIR / "possible_duplicates.csv", index=False)
     outputs["possible_duplicates"] = dupes
+
+    # ---------------------------------------------------------------------------
+    # NARRATIVAS REALES — clustering semantico (reemplaza value_counts de topics)
+    # ---------------------------------------------------------------------------
+    try:
+        from analytics.narrative_engine import run_narrative_detection  # type: ignore
+        logger.info("Iniciando deteccion de narrativas semanticas...")
+        narratives_df = run_narrative_detection(df, output_dir=ANALYSIS_DIR)
+        if not narratives_df.empty:
+            outputs["narratives"] = narratives_df
+            logger.info(
+                "Narrativas detectadas: %d (ver %s/narratives.csv)",
+                len(narratives_df), ANALYSIS_DIR,
+            )
+        else:
+            logger.warning(
+                "narrative_engine no detecto narrativas validas "
+                "(corpus insuficiente o LLM no disponible)"
+            )
+    except ImportError:
+        logger.warning(
+            "analytics.narrative_engine no disponible — "
+            "instala: sentence-transformers umap-learn hdbscan"
+        )
+    except Exception as exc:
+        logger.exception("Error en narrative_engine: %s", exc)
+
+    # ---------------------------------------------------------------------------
+    # EVENTOS PARA EL MAPA — corroborados, geolocalizados, con score de relevancia
+    # ---------------------------------------------------------------------------
+    try:
+        from analytics.event_detector import detect_events  # type: ignore
+        logger.info("Iniciando deteccion de eventos para el mapa...")
+        events_df = detect_events(df, analysis_dir=ANALYSIS_DIR)
+        if not events_df.empty:
+            outputs["events"] = events_df
+            logger.info(
+                "Eventos en mapa: %d (ver %s/events_map.csv)",
+                len(events_df), ANALYSIS_DIR,
+            )
+        else:
+            logger.warning(
+                "event_detector no encontro eventos validos "
+                "(score<3 o sin geolocalizacion)"
+            )
+    except ImportError:
+        logger.warning(
+            "analytics.event_detector no disponible — "
+            "instala: langdetect sentence-transformers"
+        )
+    except Exception as exc:
+        logger.exception("Error en event_detector: %s", exc)
 
     build_markdown_report(outputs)
     logger.info("Analysis completed: %s", ANALYSIS_DIR)

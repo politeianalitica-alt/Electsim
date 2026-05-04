@@ -203,7 +203,7 @@ fig_sankey.update_layout(
     height=220,
     margin=dict(t=15, b=15, l=20, r=20),
     title=dict(
-        text=f"Escaños totales bloque: {escanos_gov}  |  Mayoría absoluta: {MAYORIA_ABS}  |  {'⚠ MINORÍA' if escanos_gov < MAYORIA_ABS else '✓ MAYORÍA'}",
+        text=f"Escaños totales bloque: {escanos_gov}  |  Mayoría absoluta: {MAYORIA_ABS}  |  {' MINORÍA' if escanos_gov < MAYORIA_ABS else ' MAYORÍA'}",
         font=dict(size=11, color=TEXT2), x=0.5,
     ),
 )
@@ -481,7 +481,7 @@ with tab_alt:
             f'<div>'
             f'<div style="font-size:.85rem;color:{TEXT}">escaños totales</div>'
             f'<div style="font-size:.72rem;color:{TEXT2}">Mayoría absoluta: {MAYORIA_ABS} · '
-            f'{"✓ MAYORÍA" if total_sel >= MAYORIA_ABS else f"Faltan {faltan_sel}"}</div>'
+            f'{" MAYORÍA" if total_sel >= MAYORIA_ABS else f"Faltan {faltan_sel}"}</div>'
             f'</div>'
             f'<div style="margin-left:auto">{confidence_badge(min(1.0, total_sel / MAYORIA_ABS * 0.8))}</div>'
             f'</div>',
@@ -744,7 +744,7 @@ with tab_mocion:
             f'<div style="background:{c_result}15;border:1px solid {c_result}44;border-radius:10px;'
             f'padding:.9rem 1.1rem;margin-top:.8rem;text-align:center">'
             f'<div style="font-size:1rem;font-weight:800;color:{c_result}">'
-            f'{"✓ MOCIÓN VIABLE" if puede_pasar else "✗ MOCIÓN NO VIABLE ACTUALMENTE"}</div>'
+            f'{" MOCIÓN VIABLE" if puede_pasar else " MOCIÓN NO VIABLE ACTUALMENTE"}</div>'
             f'<div style="font-size:.72rem;color:{TEXT2};margin-top:.3rem">'
             f'{votos_favor} votos asegurados · Necesarios: {MAYORIA_ABS} · Faltan: {max(0, faltan_mocion)}'
             f'</div>'
@@ -762,7 +762,7 @@ with tab_mocion:
             {"año": 1980, "promotor": "PSOE (Felipe González)", "contra": "UCD (Suárez)", "resultado": "Rechazada", "votos_favor": 152, "color": RED},
             {"año": 1987, "promotor": "CP (Hernández Mancha)", "contra": "PSOE (González)", "resultado": "Rechazada", "votos_favor": 67, "color": RED},
             {"año": 2017, "promotor": "PP (Mariano Rajoy)", "contra": "PSOE (Rajoy)", "resultado": "Rechazada", "votos_favor": 170, "color": RED},
-            {"año": 2018, "promotor": "PSOE (Pedro Sánchez)", "contra": "PP (Rajoy)", "resultado": "APROBADA ✓", "votos_favor": 180, "color": GREEN},
+            {"año": 2018, "promotor": "PSOE (Pedro Sánchez)", "contra": "PP (Rajoy)", "resultado": "APROBADA ", "votos_favor": 180, "color": GREEN},
             {"año": 2020, "promotor": "VOX (Abascal)", "contra": "PSOE (Sánchez)", "resultado": "Rechazada", "votos_favor": 52, "color": RED},
         ]
         for m in MOCIONES:

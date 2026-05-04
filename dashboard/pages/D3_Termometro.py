@@ -45,6 +45,32 @@ st.set_page_config(
 sidebar_nav()
 mostrar_alertas_pagina("termometro")
 
+# ── OSINT / Risk Graph (Bloque 4) ─────────────────────────────────────────────
+try:
+    from dashboard.services.actor_risk_core import (
+        cargar_kpis_riesgo as _arc_kpis,
+        cargar_top_risk_entities as _arc_top,
+    )
+    _RISK_OK = True
+except Exception:
+    _RISK_OK = False
+    def _arc_kpis() -> dict: return {"hay_datos": False}
+    def _arc_top(limit=10): import pandas as pd; return pd.DataFrame()
+
+# ── Economy / ITPE (Bloque 5) ─────────────────────────────────────────────────
+try:
+    from dashboard.services.economy_core import (
+        cargar_kpis_economia as _ec_kpis,
+        cargar_itpe_economico as _ec_itpe,
+        cargar_economic_signals as _ec_signals,
+    )
+    _ECON_OK = True
+except Exception:
+    _ECON_OK = False
+    def _ec_kpis(geography="ES") -> dict: return {"hay_datos": False}
+    def _ec_itpe(geography="ES") -> dict: return {"hay_datos": False}
+    def _ec_signals(geography="ES", limit=10): import pandas as pd; return pd.DataFrame()
+
 # ── CSS ───────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>
@@ -488,12 +514,13 @@ st.plotly_chart(fig_matrix, use_container_width=True,
                 config={"displayModeBar": False}, key="risk_matrix")
 
 # ── TABS ──────────────────────────────────────────────────────────────────────
-tab_threats, tab_temporal, tab_ccaa, tab_protocolo, tab_escenarios = st.tabs([
+tab_threats, tab_temporal, tab_ccaa, tab_protocolo, tab_escenarios, tab_senales_terr = st.tabs([
     "AMENAZAS ACTIVAS",
     "ANÁLISIS TEMPORAL",
     "MAPA CCAA",
     "PROTOCOLO DE RESPUESTA",
     "ESCENARIOS",
+    "🗺️ SEÑALES TERRITORIALES",
 ])
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -1066,3 +1093,207 @@ with tab_escenarios:
                 f'</div>',
                 unsafe_allow_html=True,
             )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OSINT RISK KPIs (Bloque 4)
+# ─────────────────────────────────────────────────────────────────────────────
+
+st.markdown("---")
+section_header("EXPOSICIÓN OSINT — Actores & Entidades de Riesgo", RED)
+
+if not _RISK_OK:
+    st.caption(
+        "Módulo OSINT no disponible. "
+        "Ejecuta `alembic upgrade head` y `python -m pipelines.osint_core --source all` para activarlo."
+    )
+else:
+    _osint_kpis = _arc_kpis()
+
+    if not _osint_kpis.get("hay_datos", False):
+        st.info(
+            "Sin datos OSINT. Carga entidades con: "
+            "`python -m pipelines.osint_core --source opensanctions --file data/raw/...`"
+        )
+    else:
+        oc1, oc2, oc3, oc4, oc5 = st.columns(5)
+        with oc1:
+            st.markdown(kpi_card(
+                "Total entidades", str(_osint_kpis.get("total_entities", 0)),
+                "grafo de riesgo", color=CYAN,
+            ), unsafe_allow_html=True)
+        with oc2:
+            st.markdown(kpi_card(
+                "Críticas (≥71)", str(_osint_kpis.get("critical_count", 0)),
+                "riesgo crítico", color=RED,
+            ), unsafe_allow_html=True)
+        with oc3:
+            st.markdown(kpi_card(
+                "PEPs", str(_osint_kpis.get("pep_count", 0)),
+                "pers. polít. expuestas", color=AMBER,
+            ), unsafe_allow_html=True)
+        with oc4:
+            st.markdown(kpi_card(
+                "Sancionadas", str(_osint_kpis.get("sanctioned_count", 0)),
+                "listas de sanciones", color=RED,
+            ), unsafe_allow_html=True)
+        with oc5:
+            st.markdown(kpi_card(
+                "Rel. alto riesgo", str(_osint_kpis.get("high_risk_relations", 0)),
+                "confianza ≥ 0.70", color=PURPLE,
+            ), unsafe_allow_html=True)
+
+        # Top 10 entities table
+        _df_osint = _arc_top(limit=10)
+        if _df_osint is not None and not _df_osint.empty:
+            with st.expander("Top 10 entidades por risk score", expanded=False):
+                _cols = [c for c in [
+                    "name", "entity_type", "risk_score",
+                    "pep_status", "sanctions_status", "countries",
+                ] if c in _df_osint.columns]
+                st.dataframe(_df_osint[_cols], use_container_width=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ITPE ECONÓMICO (Bloque 5)
+# ─────────────────────────────────────────────────────────────────────────────
+
+st.markdown("---")
+section_header("TENSIÓN ECONÓMICA — ITPE Económico (Bloque 5)", AMBER)
+
+if not _ECON_OK:
+    st.caption(
+        "Módulo económico no disponible. "
+        "Ejecuta `python -m pipelines.economy_core --source all` para activarlo."
+    )
+else:
+    _itpe_data = _ec_itpe(geography="ES")
+
+    if not _itpe_data.get("hay_datos", False):
+        st.info(
+            "Sin datos económicos. Ejecuta: "
+            "`python -m pipelines.economy_core --source all`"
+        )
+    else:
+        _itpe_score = _itpe_data.get("total_score", 0)
+        _itpe_level = _itpe_data.get("level", "N/D")
+        _itpe_color = (
+            RED if _itpe_score >= 70
+            else AMBER if _itpe_score >= 45
+            else GREEN
+        )
+
+        ec1, ec2, ec3, ec4 = st.columns(4)
+        with ec1:
+            st.markdown(kpi_card(
+                "ITPE Económico", f"{_itpe_score:.0f}/100",
+                f"Nivel: {_itpe_level}", color=_itpe_color,
+            ), unsafe_allow_html=True)
+        with ec2:
+            _infl = _itpe_data.get("inflation_risk")
+            st.markdown(kpi_card(
+                "Riesgo Inflación",
+                f"{_infl:.0f}pt" if _infl is not None else "N/D",
+                "IPC vs. umbral 3.5%",
+                color=RED if _infl and _infl > 60 else AMBER if _infl and _infl > 35 else GREEN,
+            ), unsafe_allow_html=True)
+        with ec3:
+            _unemp = _itpe_data.get("unemployment_risk")
+            st.markdown(kpi_card(
+                "Riesgo Empleo",
+                f"{_unemp:.0f}pt" if _unemp is not None else "N/D",
+                "Paro vs. umbral 13%",
+                color=RED if _unemp and _unemp > 60 else AMBER if _unemp and _unemp > 35 else GREEN,
+            ), unsafe_allow_html=True)
+        with ec4:
+            _fiscal = _itpe_data.get("fiscal_risk")
+            st.markdown(kpi_card(
+                "Riesgo Fiscal",
+                f"{_fiscal:.0f}pt" if _fiscal is not None else "N/D",
+                "Deuda + déficit",
+                color=RED if _fiscal and _fiscal > 60 else AMBER if _fiscal and _fiscal > 35 else GREEN,
+            ), unsafe_allow_html=True)
+
+        if _itpe_data.get("explanation"):
+            st.markdown(
+                f'<div style="font-size:.75rem;color:{TEXT2};margin-top:.6rem;padding:.7rem 1rem;'
+                f'background:{BG2};border:1px solid {BORDER};border-left:4px solid {_itpe_color};'
+                f'border-radius:8px;line-height:1.6">{_itpe_data["explanation"]}</div>',
+                unsafe_allow_html=True,
+            )
+
+        # Señales económicas activas (HIGH/CRITICAL)
+        _sig_df = _ec_signals(geography="ES", limit=10)
+        if _sig_df is not None and not _sig_df.empty:
+            _high_sigs = _sig_df[_sig_df.get("severity", pd.Series()).isin(["HIGH", "CRITICAL"])] if "severity" in _sig_df.columns else _sig_df
+            if not _high_sigs.empty:
+                with st.expander(f"Señales económicas activas ({len(_high_sigs)})", expanded=False):
+                    _scols = [c for c in [
+                        "signal_type", "indicator_id", "severity",
+                        "current_value", "change_pct", "explanation",
+                    ] if c in _high_sigs.columns]
+                    st.dataframe(_high_sigs[_scols], use_container_width=True)
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB: SEÑALES TERRITORIALES (Bloque 7)
+# ════════════════════════════════════════════════════════════════════════════
+with tab_senales_terr:
+    section_header("SEÑALES TERRITORIALES ACTIVAS", RED)
+    st.caption("Alertas y señales HIGH/CRITICAL por territorio · Integra datos electorales, económicos y de medios")
+
+    try:
+        from dashboard.services.territorial_core import (
+            cargar_senales_territoriales,
+            cargar_ranking_prioridad_campana,
+        )
+        from dashboard.components.province_cards import render_hot_territories_cards
+
+        _sig_type_filter = st.selectbox(
+            "Tipo de señal",
+            options=["Todas", "electoral_swing", "economic_stress", "media_intensity", "campaign_priority", "soft_vote_opportunity"],
+            key="d3_signal_type",
+        )
+        _sev_filter = st.selectbox(
+            "Severidad mínima",
+            options=["MEDIUM", "HIGH", "CRITICAL"],
+            key="d3_severity_filter",
+        )
+
+        _stype = None if _sig_type_filter == "Todas" else _sig_type_filter
+        _all_signals = cargar_senales_territoriales(
+            signal_type=_stype,
+            min_severity=_sev_filter,
+            days_back=14,
+            limit=50,
+        )
+
+        _col_sig, _col_rank = st.columns([3, 2])
+
+        with _col_sig:
+            section_header(f"SEÑALES — {len(_all_signals)} resultados", CYAN)
+            if not _all_signals.empty:
+                _display_sig_cols = [c for c in [
+                    "territory_id", "signal_type", "value", "severity", "explanation", "signal_date"
+                ] if c in _all_signals.columns]
+                st.dataframe(
+                    _all_signals[_display_sig_cols].sort_values(
+                        "value" if "value" in _all_signals.columns else _display_sig_cols[0],
+                        ascending=False,
+                    ).head(20),
+                    hide_index=True,
+                    use_container_width=True,
+                )
+            else:
+                st.info("Sin señales con los filtros aplicados.")
+
+        with _col_rank:
+            section_header("RANKING PRIORIDAD", AMBER)
+            _rank_df = cargar_ranking_prioridad_campana(territory_type="province", top_n=6)
+            render_hot_territories_cards(
+                df=_rank_df,
+                title="Top 6 provincias",
+                n_cols=2,
+                show_signals=False,
+            )
+
+    except Exception as _e_d3:
+        st.warning(f"Módulo territorial no disponible: {_e_d3}")

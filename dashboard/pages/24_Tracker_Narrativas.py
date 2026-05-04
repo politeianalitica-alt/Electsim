@@ -231,7 +231,7 @@ with tab_obj:
             for i, sug in enumerate(sugerencias):
                 col = cols[i % 2]
                 with col:
-                    if st.button(f"➕ {sug}", key=f"sug_obj_{sug}"):
+                    if st.button(f" {sug}", key=f"sug_obj_{sug}"):
                         obj_id = svc.crear_objeto(
                             cliente_id=cliente_id,
                             tipo="palabra",

@@ -299,8 +299,28 @@ def get_presencia_espanola(
 ) -> list[dict]:
     """
     Retorna puntos de presencia española en el mundo (mapa).
-    Fuente: DB espana_mundo → seed data.
+    Fuente: consolidar_presencia_espanola (5 scrapers oficiales) → DB → seed legacy.
+
+    El formato devuelto es el esquema unificado:
+      id, pais_nombre, iso3, categoria, subcategoria, titulo,
+      actor_espanol, descripcion, valor, unidad, score_relevancia,
+      lat, lon, fuente_url, updated_at
     """
+    # 1. Nuevo store consolidado (5 scrapers oficiales)
+    try:
+        from etl.sources.geo.consolidar_presencia_espanola import load_presencia
+        categoria = tipo  # 'militar'|'energetica'|'empresarial'|'diplomatica'|'diaspora'
+        items = load_presencia(
+            categoria=categoria,
+            score_min=relevancia_min,
+            max_age_hours=168,
+        )
+        if items:
+            return items
+    except Exception:
+        pass
+
+    # 2. Fallback: DB antigua (schema viejo)
     try:
         from etl.base_extractor import BaseExtractor
         import pandas as pd
@@ -309,14 +329,15 @@ def get_presencia_espanola(
         if ext.engine:
             query = f"SELECT * FROM espana_mundo WHERE relevancia >= {relevancia_min} AND activo = TRUE"
             if tipo:
-                query += f"AND tipo_presencia = '{tipo}'"
-            query += "ORDER BY relevancia DESC"
+                query += f" AND tipo_presencia = '{tipo}'"
+            query += " ORDER BY relevancia DESC"
             df = pd.read_sql(query, ext.engine)
             if not df.empty:
                 return df.to_dict("records")
     except Exception:
         pass
 
+    # 3. Seed legacy (15 entradas hardcoded — schema viejo)
     presencia = list(_SEED_ESPANA_MUNDO)
     if tipo:
         presencia = [p for p in presencia if p.get("tipo_presencia") == tipo]
@@ -516,6 +537,160 @@ _SEED_RIESGO_PAIS: list[dict] = [
      "flag_emoji": "", "tipo_interes": ["energia", "comercio", "inversion"],
      "empresas_espanolas": ["OHL", "Indra", "Técnicas Reunidas"]},
 ]
+
+# ── Nuevas funciones: datos dinámicos ─────────────────────────────────────────
+
+def get_riesgo_pais_dinamico(max_age_minutes: int = 360) -> list[dict]:
+    """
+    Lee scores de riesgo dinámicos desde riesgo_pais_dinamico (ingestor_riesgo_pais).
+    Fallback en cascada: DB dinámica → _SEED_RIESGO_PAIS enriquecido.
+
+    Returns: lista de dicts con iso3, nombre, score_total, nivel, lat, lon, …
+    """
+    # 1. Intentar DB dinámica
+    try:
+        from etl.sources.geo.ingestor_riesgo_pais import get_cached_risks
+        rows = get_cached_risks(max_age_minutes=max_age_minutes)
+        if rows:
+            return rows
+    except Exception as exc:
+        logger.debug("get_riesgo_pais_dinamico DB: %s", exc)
+
+    # 2. Fallback: seed estático enriquecido con lat/lon normalizado
+    seed = _SEED_RIESGO_PAIS
+    result = []
+    for r in seed:
+        result.append({
+            "iso3": r.get("pais", ""),
+            "nombre": r.get("nombre", r.get("pais", "")),
+            "score_total": r.get("score_total", 0.0),
+            "score_acled": r.get("score_total", 0.0) * 0.45,
+            "score_gdelt": r.get("score_total", 0.0) * 0.30,
+            "score_wb": r.get("score_total", 0.0) * 0.25,
+            "nivel": _nivel_from_score_static(r.get("score_total", 0.0)),
+            "fatalities_90d": 0,
+            "events_90d": 0,
+            "gdelt_tone": 0.0,
+            "lat": r.get("lat_capital", r.get("lat", 0.0)),
+            "lon": r.get("lon_capital", r.get("lon", 0.0)),
+            "interes_espana": r.get("interes_espana", 0.5),
+            "tipo_interes": r.get("tipo_interes", []),
+            "empresas_espanolas": r.get("empresas_espanolas", []),
+            "fuente": "seed",
+        })
+    return result
+
+
+def _nivel_from_score_static(score: float) -> str:
+    if score >= 7.5:
+        return "critico"
+    if score >= 5.5:
+        return "alto"
+    if score >= 3.0:
+        return "medio"
+    return "bajo"
+
+
+def get_impactos_con_contexto_macro(
+    dimension: str | None = None,
+    severidad_min: int = 1,
+    horizonte: str | None = None,
+    limit: int = 50,
+) -> list[dict]:
+    """
+    Retorna impactos domésticos enriquecidos con contexto macro:
+      - Correlaciones con indicadores económicos (IBEX, IPC, spread bono)
+      - Empresas españolas afectadas (cross-ref con _SEED_RIESGO_PAIS)
+      - Score de severidad compuesto (original + proxy_macro)
+
+    Fuente: DB → JSON store → demo.
+    """
+    # Cargar impactos base
+    try:
+        impactos = get_impactos_filtered(
+            dimension=dimension,
+            severidad_min=severidad_min,
+            limite=limit * 2,
+        )
+    except Exception as exc:
+        logger.debug("get_impactos_con_contexto_macro base: %s", exc)
+        impactos = []
+
+    if not impactos:
+        return []
+
+    # Filtrar por horizonte si se especifica
+    if horizonte:
+        impactos = [i for i in impactos if i.get("horizonte") == horizonte]
+
+    # Enriquecer con datos macro contextuales
+    _macro_proxies = {
+        "energia": {
+            "indicadores": ["Precio gas TTF", "Precio petróleo Brent", "Coste MWh España"],
+            "empresas_clave": ["Repsol", "Naturgy", "Iberdrola", "Endesa", "Cepsa"],
+        },
+        "economia": {
+            "indicadores": ["IBEX-35", "Spread bono 10y vs Bund", "IPC España", "PIB QoQ"],
+            "empresas_clave": ["BBVA", "Santander", "Inditex", "IAG", "Amadeus"],
+        },
+        "seguridad": {
+            "indicadores": ["Presupuesto defensa % PIB", "Nº misiones internacionales"],
+            "empresas_clave": ["Indra", "Airbus España", "Navantia", "SENER"],
+        },
+        "migracion": {
+            "indicadores": ["Llegadas irregulares canarias", "Solicitudes asilo", "Acogidos CEAR"],
+            "empresas_clave": [],
+        },
+        "diplomacia": {
+            "indicadores": ["Balanza comercial bilateral", "Acuerdos activos"],
+            "empresas_clave": [],
+        },
+        "comercio": {
+            "indicadores": ["Exportaciones Spain %", "Balanza comercial", "€/$ tipo cambio"],
+            "empresas_clave": ["Inditex", "Mercadona", "Grupo ACS"],
+        },
+        "defensa": {
+            "indicadores": ["Gasto OTAN 2% PIB gap", "Contratos FMS", "Efectivos en misiones"],
+            "empresas_clave": ["Indra", "Airbus", "Navantia", "GMV"],
+        },
+        "ciberseguridad": {
+            "indicadores": ["Incidentes CCN-CERT", "Alertas INCIBE nivel"],
+            "empresas_clave": ["Indra", "Telefónica Tech", "GMV", "S21sec"],
+        },
+    }
+
+    enriched: list[dict] = []
+    for imp in impactos[:limit]:
+        dim = imp.get("dimension", "otros")
+        macro = _macro_proxies.get(dim, {})
+
+        # Cross-reference empresas desde seed de riesgo país
+        empresas_seed: set[str] = set()
+        paises = imp.get("paises_relacionados") or []
+        for r in _SEED_RIESGO_PAIS:
+            if r.get("pais") in paises:
+                empresas_seed.update(r.get("empresas_espanolas") or [])
+
+        # Fusionar empresas afectadas (LLM + seed + macro)
+        empresas_llm = set(imp.get("empresas_afectadas") or [])
+        empresas_macro = set(macro.get("empresas_clave") or [])
+        todas_empresas = sorted(empresas_llm | empresas_seed | empresas_macro)
+
+        enriched.append({
+            **imp,
+            "indicadores_macro": macro.get("indicadores", []),
+            "empresas_contexto": todas_empresas[:8],
+            "severidad_compuesta": min(
+                10,
+                int(imp.get("severidad", 1)) + (1 if empresas_seed else 0),
+            ),
+            "tiene_exposicion_empresarial": bool(todas_empresas),
+        })
+
+    # Re-ordenar por severidad compuesta
+    enriched.sort(key=lambda x: (-x["severidad_compuesta"], -x.get("probabilidad", 0)))
+    return enriched
+
 
 _SEED_ESPANA_MUNDO: list[dict] = [
     {"pais": "MLI", "tipo_presencia": "militar",     "descripcion": "Misión EUTM Mali — entrenamiento FFAA malienses",

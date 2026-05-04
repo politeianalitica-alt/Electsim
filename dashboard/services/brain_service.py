@@ -17,7 +17,7 @@ import json
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Generator, Iterator
+from typing import Any, Generator, Iterator
 import sys
 
 _ROOT = Path(__file__).parent.parent.parent
@@ -76,6 +76,24 @@ def _get_db():
     try:
         import dashboard.db as db
         return db
+    except Exception:
+        return None
+
+
+def _get_brain_runner():
+    """Devuelve el AgentRunner del Brain Core, o None si no está disponible."""
+    try:
+        from agents.brain.agent_runner import get_runner
+        return get_runner()
+    except Exception:
+        return None
+
+
+def _get_context_builder():
+    """Devuelve el ContextBuilder del Brain Core, o None si no está disponible."""
+    try:
+        from agents.brain.context_builder import get_context_builder
+        return get_context_builder()
     except Exception:
         return None
 
@@ -482,11 +500,34 @@ def generar_briefing_diario(force_refresh: bool = False) -> str:
     """
     Genera el briefing político diario completo.
     Cachea durante 30 minutos.
+
+    Prioridad: BriefingAgent (Brain Core) → llm_local → fallback estático.
     """
     cached = _cache_get("briefing_diario")
     if cached and not force_refresh:
         return cached
 
+    # ── Intento 1: BriefingAgent del Brain Core ────────────────────────────────
+    runner = _get_brain_runner()
+    if runner:
+        try:
+            from agents.brain.schemas import AgentRunRequest
+            req = AgentRunRequest(
+                agent_name="BriefingAgent",
+                task=f"Genera el briefing ejecutivo del día {datetime.now().strftime('%d/%m/%Y')}.",
+                module="general",
+                mode="deep",
+                allow_rag=True,
+                allow_tools=True,
+            )
+            result = runner.run(req)
+            if result and result.status != "error" and result.answer and len(result.answer) > 100:
+                _cache_set("briefing_diario", result.answer)
+                return result.answer
+        except Exception:
+            pass
+
+    # ── Intento 2: llm_local legacy ────────────────────────────────────────────
     estado = obtener_estado_dashboard(force_refresh=force_refresh)
     contexto = construir_prompt_contexto(estado, "general")
 
@@ -631,6 +672,40 @@ def _alertas_fallback(estado: dict) -> list[dict]:
     return alertas
 
 
+def chat_con_brain_core(
+    mensaje: str,
+    modulo_origen: str = "general",
+    agent_name: str | None = None,
+) -> Any | None:
+    """
+    Ejecuta el mensaje a través del Brain Core y devuelve un AgentRunResult completo.
+    Retorna None si el Brain Core no está disponible.
+
+    A diferencia de chat_con_contexto_total, esta función devuelve el resultado
+    estructurado (con EvidencePack, tools_used, model_used, confidence…)
+    para que la UI pueda mostrar el panel de fuentes.
+
+    Returns:
+        AgentRunResult o None si Brain Core no disponible.
+    """
+    runner = _get_brain_runner()
+    if not runner:
+        return None
+    try:
+        from agents.brain.schemas import AgentRunRequest
+        req = AgentRunRequest(
+            agent_name=agent_name or "GeneralAgent",
+            task=mensaje,
+            module=modulo_origen,
+            mode="normal",
+            allow_rag=True,
+            allow_tools=True,
+        )
+        return runner.run(req)
+    except Exception:
+        return None
+
+
 def chat_con_contexto_total(
     mensaje: str,
     historia: list[dict] | None = None,
@@ -640,11 +715,20 @@ def chat_con_contexto_total(
     """
     Chat con contexto completo del dashboard.
     Es la función principal para el chatbot — siempre tiene todo el contexto.
+
+    Intenta usar el Brain Core (agente tipado con RAG + EvidencePack) y cae al
+    llm_local legacy si Brain Core no está disponible. La firma no cambia.
     """
+    # ── Intento 1: Brain Core (agente tipado) ──────────────────────────────────
+    if not stream:
+        result = chat_con_brain_core(mensaje, modulo_origen)
+        if result is not None and getattr(result, "status", None) != "error":
+            return result.answer or ""
+
+    # ── Intento 2: llm_local legacy ────────────────────────────────────────────
     estado = obtener_estado_dashboard()
     contexto = construir_prompt_contexto(estado, modulo_origen)
 
-    # Enriquecer con RAG si está disponible
     llm = _get_llm()
     if llm:
         fragmentos_rag = llm.buscar_contexto(mensaje, "politeia_insights", n_resultados=3)

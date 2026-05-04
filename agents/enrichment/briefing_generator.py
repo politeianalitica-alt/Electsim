@@ -49,6 +49,30 @@ _OLLAMA_TEMP     = 0.35
 # Plantilla de prompt para Ollama
 # ---------------------------------------------------------------------------
 
+def _load_active_narratives_str(limit: int = 3) -> str:
+    """Carga las top narrativas activas de Capa 4 y las formatea para el prompt."""
+    try:
+        from politeia_os.narratives.pipeline import get_active_narratives  # type: ignore
+        narratives = get_active_narratives(limit=limit, hours=24)
+        if not narratives:
+            return "  (sin narrativas activas en las ultimas 24h)"
+        lines = []
+        for narr in narratives:
+            coord = " [POSIBLE COORDINACION]" if narr.get("posible_coordinacion") else ""
+            ccaas = ", ".join(narr.get("activa_en_ccaas", [])[:3]) or "nacional"
+            lines.append(
+                f"  - **{narr['frame_label']}** "
+                f"(emocion: {narr.get('emocion_dominante','?')}, "
+                f"menciones: {narr.get('menciones_acumuladas', 0)}, "
+                f"estado: {narr.get('ciclo_vital','?')}, "
+                f"territorio: {ccaas}){coord}"
+            )
+        return "\n".join(lines)
+    except Exception as exc:
+        log.debug("No se pudieron cargar narrativas activas: %s", exc)
+        return "  (modulo de narrativas no disponible)"
+
+
 def _build_briefing_prompt(
     titulo: str,
     periodo: str,
@@ -74,7 +98,8 @@ def _build_briefing_prompt(
             f"(z={a.z_score:.1f}) — {a.hypothesis[:120]}\n"
         )
 
-    titulares_str = "\n".join(f"  - {h}" for h in top_headlines[:5])
+    titulares_str  = "\n".join(f"  - {h}" for h in top_headlines[:5])
+    narrativas_str = _load_active_narratives_str(limit=3)
 
     prompt = f"""\
 Eres un analista de inteligencia politica y mediatica de primer nivel.
@@ -93,12 +118,16 @@ ALERTAS ACTIVAS:
 TITULARES DESTACADOS:
 {titulares_str or "  (sin datos de titulares)"}
 
+NARRATIVAS MEDIATICAS ACTIVAS (ultimas 24h):
+{narrativas_str}
+
 El briefing debe tener estas secciones exactas (en markdown):
 1. ## Resumen ejecutivo (2-3 oraciones clave)
 2. ## Entidades clave (usar los perfiles proporcionados)
 3. ## Relaciones y dinamicas (inferir del contexto)
-4. ## Alertas (si las hay)
-5. ## Recomendaciones de seguimiento
+4. ## Narrativas Activas (top 3 por menciones acumuladas)
+5. ## Alertas (si las hay)
+6. ## Recomendaciones de seguimiento
 
 Estilo: directo, analitico, sin emojis, sin opiniones personales.
 Longitud total: entre 400 y 700 palabras."""

@@ -36,7 +36,7 @@ st.markdown(f"""
   <div style="width:40px;height:40px;
               background:linear-gradient(135deg,{BLUE},{PURPLE});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">🏛</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Actividad Institucional</h2>
     <div style="color:{TEXT2};font-size:.82rem">
@@ -47,11 +47,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 tab_congreso, tab_boe, tab_agenda, tab_memoria, tab_eu = st.tabs([
-    "🏛 Congreso",
-    "📋 BOE",
-    "📅 Agenda Líderes",
-    "🗄 Memoria Institucional",
-    "🇪🇺 Parlamento Europeo",
+    " Congreso",
+    " BOE",
+    " Agenda Líderes",
+    " Memoria Institucional",
+    " Parlamento Europeo",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -457,7 +457,7 @@ with tab_agenda:
                     </div>
                   </div>
                   <div style="font-size:.77rem;color:{TEXT2};margin-top:.3rem">{ev['tipo']}</div>
-                  <div style="font-size:.68rem;color:{MUTED}">📍 {ev['lugar']}</div>
+                  <div style="font-size:.68rem;color:{MUTED}"> {ev['lugar']}</div>
                 </div>
                 """, unsafe_allow_html=True)
             st.caption("Datos demo — conecta ETL agenda para datos reales")
@@ -479,7 +479,7 @@ with tab_agenda:
                   </div>
                   <div style="font-size:.75rem;color:{CYAN};font-weight:600">{tipo}</div>
                   {f'<div style="font-size:.73rem;color:{TEXT2};margin-top:.2rem">{desc}</div>' if desc else ''}
-                  {f'<div style="font-size:.65rem;color:{MUTED}">📍 {lugar}</div>' if lugar else ''}
+                  {f'<div style="font-size:.65rem;color:{MUTED}"> {lugar}</div>' if lugar else ''}
                 </div>
                 """, unsafe_allow_html=True)
 

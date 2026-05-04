@@ -53,6 +53,31 @@ except Exception as _e:
     brain = None
     llm = None
 
+# ── Brain Core (Bloque 3) ──────────────────────────────────────────────────────
+try:
+    from dashboard.services.brain_service import chat_con_brain_core as _chat_brain_core
+    _BRAIN_CORE_OK = True
+except Exception:
+    _BRAIN_CORE_OK = False
+    def _chat_brain_core(*a, **kw):  # type: ignore[misc]
+        return None
+
+try:
+    from agents.brain.rag_indexer import rag_status as _rag_status
+    _RAG_INDEXER_OK = True
+except Exception:
+    _RAG_INDEXER_OK = False
+    def _rag_status() -> dict:  # type: ignore[misc]
+        return {}
+
+try:
+    from agents.brain.run_logger import get_recent_runs as _get_recent_runs
+    _RUN_LOGGER_OK = True
+except Exception:
+    _RUN_LOGGER_OK = False
+    def _get_recent_runs(limit: int = 10) -> list:  # type: ignore[misc]
+        return []
+
 # ── brain widget (opcional) ────────────────────────────────────────────────────
 try:
     from dashboard.components.brain_widget import brain_sidebar_status
@@ -67,6 +92,9 @@ if "brain_analisis_log"not in st.session_state:
     st.session_state["brain_analisis_log"] = []
 if "brain_alertas"not in st.session_state:
     st.session_state["brain_alertas"] = []
+if "brain_last_run_result"not in st.session_state:
+    # Último AgentRunResult del Brain Core (o None si no disponible)
+    st.session_state["brain_last_run_result"] = None
 
 # ── helpers ────────────────────────────────────────────────────────────────────
 def _modelo_badge() -> str:
@@ -120,7 +148,7 @@ with col_h2:
     st.markdown("<br>", unsafe_allow_html=True)
     if _LLM_OK:
         modelos_lista = _STATUS.get("modelos", [])
-        st.success(f"✓ {_modelo_badge()}")
+        st.success(f" {_modelo_badge()}")
         if modelos_lista:
             st.caption(f"Modelos: {len(modelos_lista)} disponibles")
     else:
@@ -226,7 +254,7 @@ with tab_chat:
                 key="chat_input_main",
             )
         with send_col:
-            enviar = st.button("➤", type="primary", use_container_width=True)
+            enviar = st.button("", type="primary", use_container_width=True)
         with clear_col:
             if st.button("", use_container_width=True, help="Limpiar chat"):
                 st.session_state["brain_historia"] = []
@@ -244,38 +272,56 @@ with tab_chat:
             })
 
             if _BRAIN_OK and brain:
-                # Respuesta en streaming
-                with historial_container:
-                    _renderizar_mensaje("user", texto, ts_now)
-                    resp_placeholder = st.empty()
-                    resp_container = st.empty()
+                # ── Intento 1: Brain Core (agente tipado con EvidencePack) ──────
+                run_result = None
+                respuesta_completa = ""
 
-                with st.spinner("Razonando…"):
-                    respuesta_completa = ""
-                    try:
-                        gen = brain.chat_con_contexto_total(
-                            texto,
-                            historia=st.session_state["brain_historia"][-10:],
-                            modulo_origen="general",
-                            stream=True,
-                        )
-                        if hasattr(gen, "__iter__") and not isinstance(gen, str):
-                            for token in gen:
-                                respuesta_completa += token
-                                resp_container.markdown(
-                                    f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}12);
-                                    border:1px solid {PURPLE}44;border-radius:4px 18px 18px 18px;
-                                    padding:.75rem 1.1rem;margin:.3rem 20% .3rem 0;color:{TEXT};'>
-                                    <span style='color:{CYAN};font-size:.72rem;'> Politeia Brain {ts_now}</span><br>
-                                    {respuesta_completa}▌</div>""",
-                                    unsafe_allow_html=True,
-                                )
-                        else:
-                            respuesta_completa = str(gen)
-                    except Exception as e:
-                        respuesta_completa = f"Error en razonamiento: {e}"
+                if _BRAIN_CORE_OK:
+                    with st.spinner("Razonando con Brain Core…"):
+                        try:
+                            run_result = _chat_brain_core(texto, "general")
+                            if run_result and getattr(run_result, "status", None) != "error":
+                                respuesta_completa = run_result.answer or ""
+                                st.session_state["brain_last_run_result"] = run_result
+                        except Exception:
+                            run_result = None
 
-                resp_container.empty()
+                # ── Intento 2: streaming legacy si Brain Core falla ───────────
+                if not respuesta_completa:
+                    with historial_container:
+                        _renderizar_mensaje("user", texto, ts_now)
+                        resp_container = st.empty()
+
+                    with st.spinner("Razonando…"):
+                        try:
+                            gen = brain.chat_con_contexto_total(
+                                texto,
+                                historia=st.session_state["brain_historia"][-10:],
+                                modulo_origen="general",
+                                stream=True,
+                            )
+                            if hasattr(gen, "__iter__") and not isinstance(gen, str):
+                                for token in gen:
+                                    respuesta_completa += token
+                                    resp_container.markdown(
+                                        f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}12);
+                                        border:1px solid {PURPLE}44;border-radius:4px 18px 18px 18px;
+                                        padding:.75rem 1.1rem;margin:.3rem 20% .3rem 0;color:{TEXT};'>
+                                        <span style='color:{CYAN};font-size:.72rem;'> Politeia Brain {ts_now}</span><br>
+                                        {respuesta_completa}▌</div>""",
+                                        unsafe_allow_html=True,
+                                    )
+                            else:
+                                respuesta_completa = str(gen)
+                        except Exception as e:
+                            respuesta_completa = f"Error en razonamiento: {e}"
+                        resp_container.empty()
+
+                    st.session_state["brain_last_run_result"] = None
+
+                if not respuesta_completa:
+                    respuesta_completa = "⚠ Sin respuesta del motor IA."
+
                 st.session_state["brain_historia"].append({
                     "role": "assistant",
                     "content": respuesta_completa,
@@ -285,7 +331,7 @@ with tab_chat:
             else:
                 st.session_state["brain_historia"].append({
                     "role": "assistant",
-                    "content": "⚠ Motor IA no disponible. Activa Ollama (`ollama serve`) para usar el brain.",
+                    "content": " Motor IA no disponible. Activa Ollama (`ollama serve`) para usar el brain.",
                     "ts": ts_now,
                 })
                 st.rerun()
@@ -330,11 +376,83 @@ with tab_chat:
         st.markdown(
             f"<div style='font-size:.8rem;color:{TEXT2};'>"
             f" {_modelo_badge()}<br>"
-            f"RAG: {'✓ activo'if _STATUS.get('rag') else '● inactivo'}<br>"
-            f"Ollama: {'✓'if _STATUS.get('ollama') else '●'}<br>"
-            f"☁ Claude API: {'✓'if _STATUS.get('claude_api') else '●'}</div>",
+            f"RAG: {' activo'if _STATUS.get('rag') else '● inactivo'}<br>"
+            f"Ollama: {''if _STATUS.get('ollama') else '●'}<br>"
+            f" Claude API: {''if _STATUS.get('claude_api') else '●'}</div>",
             unsafe_allow_html=True,
         )
+
+        # ── Brain Core panels (opcionales) ─────────────────────────────────
+        last_result = st.session_state.get("brain_last_run_result")
+        if last_result is not None:
+            st.markdown("---")
+
+            # Modelo y confianza
+            model_label = getattr(last_result, "model_used", "") or ""
+            provider_label = getattr(last_result, "provider", "") or ""
+            confidence = getattr(last_result, "confidence", None)
+            latency = getattr(last_result, "latency_ms", None)
+            if model_label or confidence is not None:
+                parts = []
+                if model_label:
+                    parts.append(f" {model_label.split(':')[0]}")
+                if provider_label and provider_label != model_label:
+                    parts.append(f"·{provider_label}")
+                if confidence is not None:
+                    parts.append(f"· conf {confidence:.0%}")
+                if latency is not None:
+                    parts.append(f"· {latency}ms")
+                st.markdown(
+                    f"<div style='font-size:.75rem;color:{CYAN};padding:2px 0;'>"
+                    f"{' '.join(parts)}</div>",
+                    unsafe_allow_html=True,
+                )
+
+            # Fuentes usadas (EvidencePack)
+            ep = getattr(last_result, "evidence_pack", None)
+            evidence_items = getattr(ep, "evidence", []) if ep else []
+            if evidence_items:
+                with st.expander(f" Fuentes usadas ({len(evidence_items)})", expanded=False):
+                    for ev in evidence_items[:8]:
+                        title = getattr(ev, "title", "") or ""
+                        source = getattr(ev, "source", "") or ""
+                        score = getattr(ev, "score", None)
+                        domain = getattr(ev, "domain", "") or ""
+                        snippet = getattr(ev, "snippet", "") or ""
+                        score_str = f" {score:.2f}" if score is not None else ""
+                        st.markdown(
+                            f"<div style='font-size:.75rem;border-left:2px solid {PURPLE};"
+                            f"padding:.15rem .4rem;margin:2px 0;'>"
+                            f"<span style='color:{CYAN};'>{domain or source}</span>"
+                            f"<span style='color:{MUTED};'>{score_str}</span><br>"
+                            f"<span style='color:{TEXT2};'>{title[:55]}{'…' if len(title)>55 else ''}</span><br>"
+                            f"<span style='color:{MUTED};font-size:.7rem;'>{snippet[:80]}{'…' if len(snippet)>80 else ''}</span>"
+                            f"</div>",
+                            unsafe_allow_html=True,
+                        )
+            else:
+                st.markdown(
+                    f"<div style='font-size:.75rem;color:{MUTED};padding:.2rem 0;'>"
+                    " Sin fuentes RAG en esta respuesta</div>",
+                    unsafe_allow_html=True,
+                )
+
+            # Herramientas llamadas
+            tools_used = getattr(last_result, "tools_used", []) or []
+            if tools_used:
+                with st.expander(f" Herramientas ({len(tools_used)})", expanded=False):
+                    for t in tools_used:
+                        st.markdown(
+                            f"<div style='font-size:.75rem;color:{TEXT2};padding:1px 0;'>"
+                            f" <code>{t}</code></div>",
+                            unsafe_allow_html=True,
+                        )
+        else:
+            st.markdown(
+                f"<div style='font-size:.75rem;color:{MUTED};margin-top:.5rem;'>"
+                "Brain Core: esperando primera consulta</div>",
+                unsafe_allow_html=True,
+            )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -379,7 +497,7 @@ with tab_autonomo:
         )
 
         if not _BRAIN_OK:
-            st.warning("⚠ Sin motor IA disponible")
+            st.warning(" Sin motor IA disponible")
 
         # Log de análisis anteriores
         if st.session_state["brain_analisis_log"]:
@@ -466,11 +584,11 @@ with tab_autonomo:
                     "content": resultado_guardado,
                     "ts": datetime.now().strftime("%H:%M"),
                 })
-                st.toast("Análisis añadido al chat ✓")
+                st.toast("Análisis añadido al chat ")
             if a_col2.button("Guardar en RAG", key="save_rag"):
                 if llm and brain:
                     brain._indexar_razonamiento(foco_clave, resultado_guardado, {})
-                    st.toast("Guardado en memoria RAG ✓")
+                    st.toast("Guardado en memoria RAG ")
             if a_col3.button("Nuevo análisis", key="nuevo_analisis"):
                 del st.session_state[f"brain_resultado_{foco_clave}"]
                 st.rerun()
@@ -556,7 +674,7 @@ with tab_alertas:
                     unsafe_allow_html=True,
                 )
         elif not _BRAIN_OK:
-            st.warning("⚠ Activa Ollama para que el brain genere alertas proactivas")
+            st.warning(" Activa Ollama para que el brain genere alertas proactivas")
         else:
             st.info("Pulsa 'Actualizar alertas'para que el brain analice la situación")
 
@@ -586,7 +704,7 @@ with tab_alertas:
         )
         auto_refresh = st.checkbox("Auto-refresh cada 5 min", key="alerta_auto", value=False)
         if auto_refresh:
-            st.caption("⚠ Requiere que el brain esté activo")
+            st.caption(" Requiere que el brain esté activo")
 
         st.markdown("---")
         st.markdown("####  Módulos monitorizados")
@@ -599,7 +717,7 @@ with tab_alertas:
         ]
         for nombre, _ in modulos_monitorizados:
             st.markdown(
-                f"<div style='font-size:.8rem;color:{TEXT2};padding:2px 0;'>✓ {nombre}</div>",
+                f"<div style='font-size:.8rem;color:{TEXT2};padding:2px 0;'> {nombre}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -704,11 +822,11 @@ with tab_modulos:
             st.session_state["brain_historia"].append(
                 {"role": "assistant", "content": res_mod, "ts": datetime.now().strftime("%H:%M")}
             )
-            st.toast("Añadido al chat ✓")
+            st.toast("Añadido al chat ")
         if nav_cols[1].button("Guardar RAG", key="mod_save_rag"):
             if llm and brain:
                 brain._indexar_razonamiento(clave_modulo, res_mod, {})
-                st.toast("Guardado en memoria ✓")
+                st.toast("Guardado en memoria ")
         if nav_cols[2].button(f"Ir a {modulo_elegido.split()[1]}", key="mod_go"):
             page_map = {
                 "briefings": "pages/D1_Briefings.py",
@@ -750,7 +868,7 @@ with tab_estado:
             ("ChromaDB RAG", _STATUS.get("rag", False)),
         ]
         for nombre, activo in componentes:
-            icono = "✓"if activo else "●"
+            icono = ""if activo else "●"
             color = GREEN if activo else MUTED
             st.markdown(
                 f"<div style='font-size:.85rem;color:{color};padding:2px 0;'>{icono} {nombre}</div>",
@@ -797,7 +915,7 @@ with tab_estado:
 
             if st.button("Limpiar caché", key="btn_clear_cache"):
                 brain.invalidar_cache()
-                st.toast("Caché limpiada ✓")
+                st.toast("Caché limpiada ")
                 st.rerun()
 
     with sys_col3:
@@ -822,11 +940,85 @@ with tab_estado:
                         sistema="Responde exactamente lo que se te pide.",
                     )
                     if resp and len(resp) > 5:
-                        st.success(f"✓ Respuesta: {resp[:80]}")
+                        st.success(f" Respuesta: {resp[:80]}")
                     else:
-                        st.error("✗ Sin respuesta del modelo")
+                        st.error(" Sin respuesta del modelo")
             else:
-                st.error("✗ Sin motor IA disponible")
+                st.error(" Sin motor IA disponible")
+
+    st.markdown("---")
+
+    # ── Brain Core: RAG status + últimas ejecuciones ──────────────────────────
+    bc_col1, bc_col2 = st.columns(2)
+
+    with bc_col1:
+        st.markdown("####  Estado del RAG (Brain Core)")
+        if _RAG_INDEXER_OK:
+            try:
+                rag_st = _rag_status()
+                chroma_ok = rag_st.get("chroma_available", False)
+                chroma_cnt = rag_st.get("chroma_count", 0)
+                embed_model = rag_st.get("embedding_model", "—")
+                collections = rag_st.get("collections", [])
+                st.markdown(
+                    f"<div style='background:{BG2};border:1px solid {BORDER};"
+                    f"border-radius:8px;padding:.8rem;font-size:.82rem;'>"
+                    f"<div style='color:{GREEN if chroma_ok else MUTED};'>{'✅ ChromaDB activo' if chroma_ok else '● ChromaDB no disponible'}</div>"
+                    f"<div style='color:{TEXT2};margin-top:.3rem;'>Docs indexados: <b style='color:{CYAN};'>{chroma_cnt:,}</b></div>"
+                    f"<div style='color:{TEXT2};'>Embeddings: {embed_model}</div>"
+                    f"<div style='color:{TEXT2};margin-top:.3rem;'>Colecciones: "
+                    f"{'<br>'.join(f\"<code style='font-size:.7rem;'>{c}</code>\" for c in collections) or '—'}</div>"
+                    f"</div>",
+                    unsafe_allow_html=True,
+                )
+            except Exception as exc:
+                st.caption(f"Error al leer RAG status: {exc}")
+        else:
+            st.markdown(
+                f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;'>"
+                "RAG Indexer no disponible (instala chromadb y configura Ollama)</div>",
+                unsafe_allow_html=True,
+            )
+
+    with bc_col2:
+        st.markdown("####  Últimas ejecuciones de agentes")
+        if _RUN_LOGGER_OK:
+            try:
+                runs = _get_recent_runs(limit=8)
+                if runs:
+                    for run in runs:
+                        agent = run.get("agent_name", "?") if isinstance(run, dict) else getattr(run, "agent_name", "?")
+                        task = run.get("task", "") if isinstance(run, dict) else getattr(run, "task", "")
+                        status = run.get("status", "") if isinstance(run, dict) else getattr(run, "status", "")
+                        latency = run.get("latency_ms", None) if isinstance(run, dict) else getattr(run, "latency_ms", None)
+                        confidence = run.get("confidence", None) if isinstance(run, dict) else getattr(run, "confidence", None)
+                        s_color = GREEN if status == "completed" else (RED if status == "error" else MUTED)
+                        lat_str = f" {latency}ms" if latency else ""
+                        conf_str = f" {float(confidence):.0%}" if confidence else ""
+                        st.markdown(
+                            f"<div style='background:{BG2};border-left:3px solid {s_color};"
+                            f"border-radius:0 6px 6px 0;padding:.3rem .6rem;margin:2px 0;'>"
+                            f"<span style='color:{CYAN};font-size:.75rem;font-weight:600;'>{agent}</span>"
+                            f"<span style='color:{MUTED};font-size:.7rem;'>{lat_str}{conf_str}</span><br>"
+                            f"<span style='color:{TEXT2};font-size:.73rem;'>{str(task)[:60]}{'…' if len(str(task))>60 else ''}</span>"
+                            f"</div>",
+                            unsafe_allow_html=True,
+                        )
+                else:
+                    st.markdown(
+                        f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;text-align:center;'>"
+                        " Sin ejecuciones de agentes aún.<br>"
+                        "<span style='font-size:.75rem;'>Envía un mensaje al chat para activar el Brain Core.</span></div>",
+                        unsafe_allow_html=True,
+                    )
+            except Exception as exc:
+                st.caption(f"Error al leer ejecuciones: {exc}")
+        else:
+            st.markdown(
+                f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;'>"
+                "Run Logger no disponible</div>",
+                unsafe_allow_html=True,
+            )
 
     st.markdown("---")
     st.markdown("###  Consulta de memoria RAG")
@@ -926,7 +1118,7 @@ with tab_ingesta:
             if ingestion:
                 if not worker_running:
                     ok = ingestion.iniciar_worker()
-                    st.toast("✓ Worker de ingesta iniciado"if ok else "Ya estaba corriendo")
+                    st.toast(" Worker de ingesta iniciado"if ok else "Ya estaba corriendo")
                 else:
                     ingestion.detener_worker()
                     st.toast("⏸ Worker detenido")
@@ -943,7 +1135,7 @@ with tab_ingesta:
                 with st.spinner("Ejecutando ingesta completa de todos los módulos…"):
                     resultados = ingestion.ejecutar_ingesta_completa()
                 total = sum(resultados.values())
-                st.toast(f"✓ Ingesta completa: {total} documentos procesados")
+                st.toast(f" Ingesta completa: {total} documentos procesados")
                 st.rerun()
 
     with ctrl_col3:
@@ -994,7 +1186,7 @@ with tab_ingesta:
                 <div style='font-size:.73rem;color:{TEXT2};'>
                 Última: {ultima} · Docs: {stats_n}
                 {f"<br> Próxima en: {prox_seg//60}m {prox_seg%60}s"if prox_seg > 0 else ""}
-                {f"<br><span style='color:{RED};'>⚠ {error[:50]}</span>"if error else ""}
+                {f"<br><span style='color:{RED};'> {error[:50]}</span>"if error else ""}
                 </div></div>""",
                 unsafe_allow_html=True,
             )
@@ -1007,7 +1199,7 @@ with tab_ingesta:
                 if ingestion:
                     with st.spinner(f"Ingiriendo {nombre}…"):
                         n = ingestion.ejecutar_ingesta_manual(tipo)
-                    st.toast(f"✓ {nombre}: {n} documentos procesados")
+                    st.toast(f" {nombre}: {n} documentos procesados")
                     st.rerun()
 
     st.markdown("---")
@@ -1111,7 +1303,7 @@ with tab_personalizar:
         )
         if perfil_sel != perfil_guardado:
             st.session_state["brain_perfil"] = perfil_sel
-            st.toast(f"✓ Perfil actualizado: {perfil_sel}")
+            st.toast(f" Perfil actualizado: {perfil_sel}")
 
         perfil_clave = PERFILES[perfil_sel]
 

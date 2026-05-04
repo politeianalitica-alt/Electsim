@@ -29,7 +29,7 @@ from dashboard.shared import (
 
 st.set_page_config(
     page_title="Centro de Alertas — ElectSim",
-    page_icon="🔔",
+    page_icon="",
     layout="wide",
 )
 
@@ -354,7 +354,7 @@ with col_feed:
         st.markdown(
             f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:12px;'
             f'padding:2.5rem;text-align:center;color:{MUTED};margin:1rem 0">'
-            f'<div style="font-size:1.6rem;margin-bottom:.5rem">✓</div>'
+            f'<div style="font-size:1.6rem;margin-bottom:.5rem"></div>'
             f'<div style="font-size:.95rem;font-weight:600">Sin alertas con los filtros actuales</div>'
             f'</div>',
             unsafe_allow_html=True,
@@ -413,13 +413,13 @@ with col_feed:
             action_cols = st.columns([1, 1, 2, 2])
             with action_cols[0]:
                 if alerta["id"] not in leidas:
-                    if st.button("✓ Leída", key=f"d6_read_{alerta['id']}", use_container_width=True):
+                    if st.button(" Leída", key=f"d6_read_{alerta['id']}", use_container_width=True):
                         leidas.add(alerta["id"])
                         alerta["estado"] = "leída"
                         st.rerun()
                 else:
                     st.markdown(
-                        f'<div style="font-size:.65rem;color:{GREEN};padding:.4rem .6rem;text-align:center">✓ Leída</div>',
+                        f'<div style="font-size:.65rem;color:{GREEN};padding:.4rem .6rem;text-align:center"> Leída</div>',
                         unsafe_allow_html=True,
                     )
             with action_cols[1]:

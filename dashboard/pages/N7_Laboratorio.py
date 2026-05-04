@@ -35,7 +35,7 @@ st.markdown(f"""
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
   <div style="width:40px;height:40px;background:linear-gradient(135deg,{PURPLE},{CYAN});
               border-radius:10px;display:flex;align-items:center;justify-content:center;
-              font-size:1.4rem;flex-shrink:0">🔬</div>
+              font-size:1.4rem;flex-shrink:0"></div>
   <div>
     <h2 style="margin:0;color:{TEXT};font-size:1.5rem;font-weight:900">Laboratorio Analítico</h2>
     <div style="color:{TEXT2};font-size:.82rem">
@@ -203,7 +203,7 @@ with tab_nc:
         from dashboard.services.forecast_service import disponible as _fc_disp
         fc_caps = _fc_disp()
         if not fc_caps.get("statsforecast"):
-            with st.expander("📦 Activar modelos reales"):
+            with st.expander(" Activar modelos reales"):
                 st.code("pip install statsforecast", language="bash")
     except Exception:
         pass
@@ -474,9 +474,9 @@ with tab_causal:
 
     try:
         import causalpy  # type: ignore
-        st.success("✅ CausalPy disponible — conecta datos reales para inferencia Bayesiana completa")
+        st.success(" CausalPy disponible — conecta datos reales para inferencia Bayesiana completa")
     except ImportError:
-        with st.expander("📦 Activar inferencia Bayesiana completa (CausalPy + PyMC)"):
+        with st.expander(" Activar inferencia Bayesiana completa (CausalPy + PyMC)"):
             st.code("pip install causalpy", language="bash")
 
 
@@ -516,10 +516,10 @@ with tab_val:
     with col_v2:
         section_header("ACCURACY HISTÓRICO — ELECCIONES PASADAS", AMBER)
         _hist_acc = [
-            {"eleccion": "Generales 2023", "mae": 1.2, "rmse": 1.8, "resultado": "✅ Excelente"},
-            {"eleccion": "Autonómicas 2022", "mae": 2.1, "rmse": 2.9, "resultado": "✅ Bueno"},
-            {"eleccion": "Europeas 2024", "mae": 1.8, "rmse": 2.4, "resultado": "✅ Bueno"},
-            {"eleccion": "Municipales 2023", "mae": 2.8, "rmse": 3.6, "resultado": "⚠️ Aceptable"},
+            {"eleccion": "Generales 2023", "mae": 1.2, "rmse": 1.8, "resultado": " Excelente"},
+            {"eleccion": "Autonómicas 2022", "mae": 2.1, "rmse": 2.9, "resultado": " Bueno"},
+            {"eleccion": "Europeas 2024", "mae": 1.8, "rmse": 2.4, "resultado": " Bueno"},
+            {"eleccion": "Municipales 2023", "mae": 2.8, "rmse": 3.6, "resultado": "️ Aceptable"},
         ]
         for ev in _hist_acc:
             res_color = GREEN if "Excelente" in ev["resultado"] or "Bueno" in ev["resultado"] else AMBER

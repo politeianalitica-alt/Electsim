@@ -468,6 +468,7 @@ def run_ingestor(
     force_refresh: bool = False,
     max_paises: int | None = None,
     verbose: bool = False,
+    persist: bool = True,
 ) -> list[dict]:
     """
     Pipeline principal de ingestión de riesgo país.
@@ -478,6 +479,9 @@ def run_ingestor(
         force_refresh: Ignorar TTL y forzar actualización
         max_paises:    Limitar a N países (útil para tests)
         verbose:       Log detallado
+        persist:        Compatibilidad con llamadas antiguas. El store JSON se
+                        persiste siempre; si es False solo evita escritura DB
+                        futura.
 
     Returns:
         Lista de dicts `pais_riesgo` lista para el dashboard.
@@ -596,6 +600,24 @@ def get_paises_riesgo(
         if float(p.get("interes_espana", 0)) >= interes_min
     ]
     return filtered[:limit]
+
+
+def get_cached_risks(max_age_minutes: int = 360) -> list[dict[str, Any]]:
+    """
+    Compatibilidad con geo_helpers.py. Devuelve el store JSON si está fresco.
+    La versión actual del ingestor usa `dashboard/data/paises_riesgo.json` como
+    cache operativo; si está caducado, deja que el caller aplique su fallback.
+    """
+    max_age_seconds = max_age_minutes * 60
+    try:
+        if not _STORE_FILE.exists():
+            return []
+        if (time.time() - _STORE_FILE.stat().st_mtime) > max_age_seconds:
+            return []
+        return load_store()
+    except Exception as exc:
+        logger.debug("get_cached_risks error: %s", exc)
+        return []
 
 
 def get_presencia_espanola_base() -> list[dict]:

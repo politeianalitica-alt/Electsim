@@ -81,7 +81,7 @@ SIDEBAR_N_LINKS: list[tuple[str, str]] = [
     ("pages/N2_Inteligencia.py",    "  Inteligencia"),
     ("pages/N3_Medios.py",          "  Medios (v2)"),
     ("pages/N4_Institucional.py",   "  Institucional"),
-    ("pages/N5_Campana.py",         "⚔  Campaña"),
+    ("pages/N5_Campana.py",         "  Campaña"),
     ("pages/N6_Economia.py",        "  Economía"),
     ("pages/N7_Laboratorio.py",     "  Laboratorio"),
 ]

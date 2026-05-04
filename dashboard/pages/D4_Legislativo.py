@@ -41,6 +41,28 @@ try:
 except Exception:
     _git_amigos = None  # type: ignore
 
+# ── Bloque 1 Core Legislativo — imports defensivos ────────────────────────────
+try:
+    from dashboard.services.legislative_core import (
+        cargar_boe_reciente,
+        cargar_boe_hoy,
+        cargar_iniciativas_recientes,
+        cargar_kpis_legislativos,
+        cargar_alertas_legislativas,
+        buscar_items_legislativos,
+        enriquecer_boe_legacy,
+    )
+    _LEG_CORE_OK = True
+except Exception as _leg_err:
+    _LEG_CORE_OK = False
+    def cargar_boe_reciente(**kw): import pandas as pd; return pd.DataFrame()
+    def cargar_boe_hoy(): import pandas as pd; return pd.DataFrame()
+    def cargar_iniciativas_recientes(**kw): import pandas as pd; return pd.DataFrame()
+    def cargar_kpis_legislativos(): return {"hay_datos": False}
+    def cargar_alertas_legislativas(**kw): import pandas as pd; return pd.DataFrame()
+    def buscar_items_legislativos(q, **kw): import pandas as pd; return pd.DataFrame()
+    def enriquecer_boe_legacy(items): return items
+
 st.set_page_config(
     page_title="Monitor Legislativo — ElectSim",
     page_icon="",
@@ -186,11 +208,31 @@ IMPACT_CFG = {
 
 @st.cache_data(ttl=300)
 def _cargar_boe(fecha: str | None = None) -> list[dict]:
+    """
+    Carga ítems del BOE en este orden de prioridad:
+      1. Tabla legal_items (Bloque 1 Core — datos reales)
+      2. API BOE en tiempo real (boe_api.py)
+      3. Lista vacía (D4 mostrará demo data)
+    """
+    # 1. Tabla legal_items (ingesta real via BOEMonitor)
+    if _LEG_CORE_OK:
+        try:
+            df = cargar_boe_hoy() if fecha is None else cargar_boe_reciente(limit=200, days=1)
+            if not df.empty:
+                return df.to_dict("records")
+        except Exception:
+            pass
+
+    # 2. Fallback: API BOE tiempo real
     try:
         from dashboard.services.boe_api import obtener_sumario
-        return obtener_sumario(fecha)
+        items = obtener_sumario(fecha)
+        if items:
+            return enriquecer_boe_legacy(items)
     except Exception:
-        return []
+        pass
+
+    return []
 
 
 @st.cache_data(ttl=300)
@@ -541,6 +583,54 @@ with tab_actividad:
 with tab_leyes:
     section_header("Tracker de iniciativas legislativas", CYAN)
 
+    # ── Carga de datos reales (Bloque 1 Core) ─────────────────────────────────
+    _df_init_real = cargar_iniciativas_recientes(limit=50, days=90)
+    _modo_demo_init = _df_init_real.empty
+
+    if not _modo_demo_init and not _df_init_real.empty:
+        # Mostrar iniciativas reales + búsqueda
+        st.markdown(
+            f'<div style="background:#0a1f10;border:1px solid {GREEN}44;border-radius:8px;'
+            f'padding:.5rem .9rem;margin-bottom:.8rem;font-size:.78rem;color:{GREEN}">'
+            f'Datos reales — {len(_df_init_real)} iniciativas del Congreso (últimos 90 días) · '
+            f'Fuente: Congreso datos abiertos'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        _search_q = st.text_input("Buscar iniciativa", placeholder="ej: vivienda, pensiones, IA…", key="init_search")
+        if _search_q:
+            _df_search = buscar_items_legislativos(_search_q, limit=30)
+            if not _df_search.empty:
+                _init_cols = ["titulo", "tipo", "fecha", "impacto"]
+                _cols_show = [c for c in _init_cols if c in _df_search.columns]
+                st.dataframe(_df_search[_cols_show], use_container_width=True, hide_index=True, height=280)
+            else:
+                st.info("Sin resultados para esa búsqueda.")
+
+        # Tabla resumen de iniciativas reales
+        _rename = {
+            "source_id": "ID", "initiative_type": "Tipo", "title": "Título",
+            "presented_date": "Presentación", "status": "Estado", "impact_level": "Impacto",
+        }
+        _cols_real = [c for c in ["source_id", "initiative_type", "title", "presented_date", "status", "impact_level"]
+                      if c in _df_init_real.columns]
+        st.dataframe(
+            _df_init_real[_cols_real].rename(columns=_rename),
+            use_container_width=True, hide_index=True, height=340,
+        )
+        st.markdown("---")
+        section_header("Iniciativas clave (histórico curado)", MUTED)
+        st.caption("Datos de referencia — histórico curado para análisis de coaliciones")
+    else:
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {AMBER}33;border-radius:8px;'
+            f'padding:.45rem .9rem;margin-bottom:.7rem;font-size:.75rem;color:{AMBER}">'
+            f'Modo demo — ejecuta el monitor para datos reales: '
+            f'<code>python -m pipelines.legislative_core --source congreso</code>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
     # Filtros
     fl1, fl2, fl3 = st.columns(3)
     with fl1:
@@ -652,17 +742,38 @@ with tab_leyes:
 with tab_boe:
     section_header("BOE — Boletín Oficial del Estado", RED)
 
-    # Carga de datos
+    # ── Carga de datos — Bloque 1 Core primero, luego API legacy ─────────────
     with st.spinner("Cargando sumario BOE…"):
         items_raw = _cargar_boe()
+
+    _fuente_boe = "tabla legal_items" if (_LEG_CORE_OK and items_raw) else "API BOE tiempo real"
+    _modo_demo_boe = not bool(items_raw)
+
+    if items_raw and _LEG_CORE_OK:
+        st.markdown(
+            f'<div style="background:#0a1f10;border:1px solid {GREEN}44;border-radius:8px;'
+            f'padding:.45rem .9rem;margin-bottom:.6rem;font-size:.75rem;color:{GREEN}">'
+            f'Datos reales ({_fuente_boe}) — {len(items_raw)} disposiciones'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
     if not items_raw:
         items_raw = []
 
     items: list[dict] = []
     for item in items_raw:
+        # Normalizar campos del schema nuevo al esperado por la UI
+        if "titulo" not in item and "title" in item:
+            item["titulo"] = item["title"]
+        if "departamento" not in item and "department" in item:
+            item["departamento"] = item["department"]
+        if "seccion" not in item and "section" in item:
+            item["seccion"] = item["section"]
+        if "id" not in item and "source_id" in item:
+            item["id"] = item["source_id"]
         if "impacto" not in item:
-            item["impacto"] = _clasificar_impacto(
+            item["impacto"] = item.get("impact_level") or _clasificar_impacto(
                 item.get("titulo", ""),
                 item.get("seccion", ""),
                 item.get("departamento", ""),

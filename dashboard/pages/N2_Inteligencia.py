@@ -571,7 +571,7 @@ with tab_opp:
 
                 color_s = GREEN if score > 0.8 else (AMBER if score > 0.5 else RED)
 
-                with st.expander(f"{persona} — Score {score:.2f} {'✓'if verificada else ''}"):
+                with st.expander(f"{persona} — Score {score:.2f} {''if verificada else ''}"):
                     col_a, col_b = st.columns(2)
                     with col_a:
                         st.markdown(f"""

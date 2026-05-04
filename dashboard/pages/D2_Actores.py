@@ -165,6 +165,26 @@ try:
 except ImportError:
     _PYVIS_OK = False
 
+# ── OSINT / Risk Graph (Bloque 4) ─────────────────────────────────────────────
+try:
+    from dashboard.services.actor_risk_core import (
+        cargar_kpis_riesgo as _arc_kpis,
+        cargar_top_risk_entities as _arc_top,
+        buscar_entidades as _arc_buscar,
+        cargar_grafo_actor as _arc_grafo,
+        cargar_flags_entidad as _arc_flags,
+        cargar_identidades_pendientes as _arc_id_pendientes,
+    )
+    _RISK_OK = True
+except Exception:
+    _RISK_OK = False
+    def _arc_kpis() -> dict: return {"hay_datos": False}
+    def _arc_top(limit=20): import pandas as pd; return pd.DataFrame()
+    def _arc_buscar(q, limit=25): import pandas as pd; return pd.DataFrame()
+    def _arc_grafo(entity_id, depth=2): return {"nodes": [], "edges": [], "meta": {}}
+    def _arc_flags(entity_id): import pandas as pd; return pd.DataFrame()
+    def _arc_id_pendientes(limit=50): import pandas as pd; return pd.DataFrame()
+
 # ── Paleta por tipo ───────────────────────────────────────────────────────────
 _COLOR_TIPO = {
     "politico":    CYAN,
@@ -398,7 +418,7 @@ st.markdown("---")
 # TABS PRINCIPALES
 # ═══════════════════════════════════════════════════════════════════════════════
 
-tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query = st.tabs([
+tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query, tab_risk = st.tabs([
     "DOSSIER EJECUTIVO",
     "RED DE INFLUENCIA",
     "COMPARATIVA",
@@ -408,6 +428,7 @@ tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels,
     "Análisis networkx",
     "Actualización",
     "Query IA",
+    "⚠️ Riesgo OSINT",
 ])
 
 
@@ -573,7 +594,7 @@ with tab_dossier:
         elif not _LLM_OK:
             st.markdown(
                 f'<div class="chat-msg">'
-                f'<b style="color:{AMBER};">⚠ Ollama no disponible</b><br>'
+                f'<b style="color:{AMBER};"> Ollama no disponible</b><br>'
                 f'<span style="color:{TEXT2};font-size:.82rem;">'
                 f'Activa Ollama (`ollama serve`) para generar dossiers estratégicos con IA. '
                 f'El análisis incluye vectores de riesgo, palancas de acceso y escenarios a 6 meses.'
@@ -1111,7 +1132,7 @@ with tab_perfil:
                         if perfil_wiki:
                             actor_sel.update(perfil_wiki)
                             _svc.upsert_actor(actor_sel)
-                            st.success("✓ Perfil enriquecido")
+                            st.success(" Perfil enriquecido")
                             _load_metricas.clear()
                         else:
                             st.warning("No encontrado en Wikipedia")
@@ -1300,7 +1321,7 @@ with tab_rels:
             fig_hist.update_layout(height=220, margin=dict(l=0, r=0, t=20, b=0))
             st.plotly_chart(fig_hist, use_container_width=True)
 
-        with st.expander("➕ Añadir / editar relación manual"):
+        with st.expander(" Añadir / editar relación manual"):
             _todos_n = sorted(_svc.get_actores(), key=lambda x: x.get("nombre", ""))
             ae1, ae2 = st.columns(2)
             with ae1:
@@ -1324,7 +1345,7 @@ with tab_rels:
                         "tipo": new_tipo, "label": new_label,
                         "fuerza": new_fuerza, "fuente": "manual",
                     })
-                    st.success(f"✓ {from_actor} → {to_actor} guardada")
+                    st.success(f" {from_actor} → {to_actor} guardada")
                     st.cache_data.clear()
                 else:
                     st.error("Selecciona dos actores distintos")
@@ -1425,7 +1446,7 @@ with tab_analisis:
                     for pid in path:
                         pa = _svc.get_actor(pid)
                         path_n.append(f"**{pa['nombre']}**" if pa else pid)
-                    st.success(f"✓ Distancia: {len(path)-1} pasos")
+                    st.success(f" Distancia: {len(path)-1} pasos")
                     st.markdown(" → ".join(path_n))
                 else:
                     st.warning("No hay camino entre estos actores")
@@ -1530,19 +1551,19 @@ with tab_update:
             if st.button("Menciones RSS", key="btn_mencion"):
                 with st.spinner("Scrapeando menciones…"):
                     n = _svc.ejecutar_actualizacion_manual("menciones_rss")
-                st.success(f"✓ {n} menciones nuevas")
+                st.success(f" {n} menciones nuevas")
                 st.cache_data.clear()
         with mu2:
             if st.button("Inferir relaciones RSS", key="btn_rel"):
                 with st.spinner("Analizando co-menciones…"):
                     n = _svc.ejecutar_actualizacion_manual("relaciones_rss")
-                st.success(f"✓ {n} relaciones inferidas")
+                st.success(f" {n} relaciones inferidas")
                 st.cache_data.clear()
         with mu3:
             if st.button("Enriquecer Wikipedia (lote)", key="btn_wiki_lote"):
                 with st.spinner("Enriqueciendo lote de 5 actores…"):
                     n = _svc.ejecutar_actualizacion_manual("enriquecimiento")
-                st.success(f"✓ {n} actores enriquecidos")
+                st.success(f" {n} actores enriquecidos")
                 st.cache_data.clear()
 
         st.markdown("####  Enriquecimiento Individual")
@@ -1563,7 +1584,7 @@ with tab_update:
                             _svc.upsert_actor(ae)
                         if enriquecidos:
                             res = enriquecidos[0]
-                            st.success(f"✓ {actor_enr['nombre']} actualizado")
+                            st.success(f" {actor_enr['nombre']} actualizado")
                             if res.get("extracto"):
                                 st.markdown(
                                     f'<div class="wiki-box"><b>Wikipedia:</b> {res["extracto"][:400]}…</div>',
@@ -1578,7 +1599,7 @@ with tab_update:
                 with st.spinner("Consultando Wikidata (10-20s)…"):
                     wd_pol = _scraper.wikidata_politicos_espana()
                 if wd_pol:
-                    st.success(f"✓ {len(wd_pol)} políticos encontrados")
+                    st.success(f" {len(wd_pol)} políticos encontrados")
                     df_wd = pd.DataFrame(wd_pol)
                     st.dataframe(
                         df_wd[["nombre", "partido", "cargo", "nacimiento"]].head(30),
@@ -1598,7 +1619,7 @@ with tab_update:
                         else f" ({entry.get('n', 0)} items)")
                 st.markdown(f"""
                 <div class="log-row">
-                  <span class="{'log-ok'if ok else 'log-err'}">{'✓'if ok else '✗'}</span>
+                  <span class="{'log-ok'if ok else 'log-err'}">{''if ok else ''}</span>
                   <span style="color:{MUTED};">[{entry.get("ts","")[:19]}]</span>
                   <span style="color:{TEXT2};"> {entry.get("tipo","")}{info}</span>
                 </div>
@@ -1607,7 +1628,7 @@ with tab_update:
         if st.button("Reset a datos seed", key="btn_reset", type="secondary"):
             _svc.reset_a_seed()
             st.cache_data.clear()
-            st.success("✓ Store reseteado a datos base")
+            st.success(" Store reseteado a datos base")
             st.rerun()
 
 
@@ -1620,7 +1641,7 @@ with tab_query:
     st.caption("Consulta libre · NER de noticias · Ficha ejecutiva · Analisis de relacion")
 
     if not _LLM_OK:
-        st.warning("⚠ Ollama no disponible — `ollama serve` para activarlo")
+        st.warning(" Ollama no disponible — `ollama serve` para activarlo")
     else:
         st.success("● Ollama activo")
 
@@ -1784,7 +1805,7 @@ Responde SOLO con JSON válido (sin texto adicional):
                                         "fuerza": 3.0, "fuente": "ner_ollama",
                                     })
                                     n_s += 1
-                            st.success(f"✓ {n_s} relaciones añadidas")
+                            st.success(f" {n_s} relaciones añadidas")
                             st.cache_data.clear()
 
                 except Exception:
@@ -1967,3 +1988,129 @@ if _SVC_OK:
             _svc.iniciar_worker_actores()
     except Exception:
         pass
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 10 — RIESGO OSINT (Bloque 4)
+# ─────────────────────────────────────────────────────────────────────────────
+
+with tab_risk:
+    section_header("OSINT & RISK GRAPH", RED)
+
+    if not _RISK_OK:
+        st.info(
+            "Módulo OSINT/Risk no disponible. "
+            "Ejecuta la migración 0041 y el pipeline con:\n\n"
+            "```bash\nalembic upgrade head\npython -m pipelines.osint_core --source all\n```"
+        )
+    else:
+        # KPIs
+        _risk_kpis = _arc_kpis()
+
+        if not _risk_kpis.get("hay_datos", False):
+            st.warning(
+                "No hay datos OSINT en BD. "
+                "Carga datos con: `python -m pipelines.osint_core --source opensanctions --file data/raw/...`"
+            )
+        else:
+            kr1, kr2, kr3, kr4, kr5 = st.columns(5)
+            with kr1:
+                st.markdown(kpi_card(
+                    "Entidades", str(_risk_kpis.get("total_entities", 0)),
+                    "en grafo de riesgo", color=CYAN,
+                ), unsafe_allow_html=True)
+            with kr2:
+                st.markdown(kpi_card(
+                    "Críticas", str(_risk_kpis.get("critical_count", 0)),
+                    "score ≥ 71", color=RED,
+                ), unsafe_allow_html=True)
+            with kr3:
+                st.markdown(kpi_card(
+                    "PEPs", str(_risk_kpis.get("pep_count", 0)),
+                    "políticamente expuestas", color=AMBER,
+                ), unsafe_allow_html=True)
+            with kr4:
+                st.markdown(kpi_card(
+                    "Sancionadas", str(_risk_kpis.get("sanctioned_count", 0)),
+                    "en listas de sanciones", color=RED,
+                ), unsafe_allow_html=True)
+            with kr5:
+                st.markdown(kpi_card(
+                    "Pendientes revisión", str(_risk_kpis.get("pending_identities", 0)),
+                    "identidades sin verificar", color=PURPLE,
+                ), unsafe_allow_html=True)
+
+        st.markdown("---")
+
+        # Sub-tabs de riesgo
+        rtab_top, rtab_search, rtab_pending = st.tabs([
+            "Top Riesgo", "Búsqueda", "Revisión Manual",
+        ])
+
+        with rtab_top:
+            section_header("ENTIDADES CON MAYOR RIESGO", RED)
+            _df_top = _arc_top(limit=20)
+            if _df_top is not None and not _df_top.empty:
+                _display_cols = [c for c in [
+                    "name", "entity_type", "risk_score",
+                    "pep_status", "sanctions_status", "countries", "source",
+                ] if c in _df_top.columns]
+                st.dataframe(_df_top[_display_cols], use_container_width=True)
+            else:
+                st.info("No hay entidades de riesgo cargadas todavía.")
+
+        with rtab_search:
+            section_header("BÚSQUEDA DE ENTIDADES", CYAN)
+            _risk_query = st.text_input(
+                "Buscar entidad por nombre",
+                placeholder="Ej: Banco Santander, Pedro Sánchez…",
+                key="risk_entity_search",
+            )
+            if _risk_query and len(_risk_query) >= 3:
+                _df_search = _arc_buscar(_risk_query, limit=10)
+                if _df_search is not None and not _df_search.empty:
+                    for _, _row in _df_search.iterrows():
+                        _score = float(_row.get("risk_score", 0) or 0)
+                        _score_color = RED if _score >= 71 else (AMBER if _score >= 46 else GREEN)
+                        _pep = "PEP" if _row.get("pep_status") else ""
+                        _sanc = "SANCIONADO" if _row.get("sanctions_status") else ""
+                        _badges = " ".join(b for b in [_pep, _sanc] if b)
+                        st.markdown(
+                            f'<div style="background:{BG2};border:1px solid {BORDER};'
+                            f'border-radius:8px;padding:.8rem 1rem;margin-bottom:.5rem">'
+                            f'<div style="display:flex;justify-content:space-between;align-items:center">'
+                            f'<div>'
+                            f'<span style="font-weight:800;color:{TEXT}">{_row.get("name","")}</span>'
+                            f'&nbsp;<span style="font-size:.65rem;color:{MUTED}">{_row.get("entity_type","")}</span>'
+                            f'{"&nbsp;<span style=\'font-size:.6rem;font-weight:700;color:" + RED + "\'>" + _badges + "</span>" if _badges else ""}'
+                            f'</div>'
+                            f'<div style="font-size:1.1rem;font-weight:900;color:{_score_color};'
+                            f'font-family:\'JetBrains Mono\',monospace">{_score:.0f}</div>'
+                            f'</div>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
+                else:
+                    st.info(f"No se encontraron entidades para '{_risk_query}'.")
+            elif _risk_query:
+                st.caption("Escribe al menos 3 caracteres.")
+
+        with rtab_pending:
+            section_header("IDENTIDADES SOCIALES PENDIENTES DE VERIFICACIÓN", AMBER)
+            st.caption(
+                "Estos perfiles son candidatos generados automáticamente. "
+                "Requieren revisión manual antes de ser usados en análisis."
+            )
+            _df_pend = _arc_id_pendientes(limit=50)
+            if _df_pend is not None and not _df_pend.empty:
+                _pend_cols = [c for c in [
+                    "entity_name", "platform", "handle", "profile_url",
+                    "confidence", "discovery_method", "created_at",
+                ] if c in _df_pend.columns]
+                st.dataframe(_df_pend[_pend_cols], use_container_width=True)
+                st.caption(
+                    f"{len(_df_pend)} identidades pendientes. "
+                    "Verifica manualmente antes de dar por correctas."
+                )
+            else:
+                st.info("No hay identidades pendientes de verificación.")

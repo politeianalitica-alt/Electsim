@@ -153,4 +153,3 @@ with st.form("form_nueva_decision"):
             )
             st.success(f"Decisión registrada (ID: {new_id}).")
             st.rerun()
-

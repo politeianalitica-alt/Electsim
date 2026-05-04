@@ -384,6 +384,257 @@ Comandos:
 - **Seeds**: incluyen las 19 CCAA (INE), fuente CIS si no existe y partidos nacionales frecuentes; provincias y municipios deben cargarse vía ETL desde el INE.
 - **Prefect en Docker**: el servicio `prefect` usa la imagen oficial; monte el código en `/app` y configure `PREFECT_API_URL` según su despliegue.
 
+## Bloque 4 — OSINT & Risk Graph Core
+
+Capa de inteligencia de riesgo defensiva y auditable para D2 (Mapa de Actores),
+D3 (Termómetro de Riesgo), D8 (Geopolítica) y Politeia Brain.
+
+### Principios de diseño
+
+- **OSINT defensivo**: solo se importan datos de fuentes públicas ya procesadas. No se ejecutan scans activos.
+- **Verificación humana obligatoria**: ningún candidato de identidad social se marca como verificado automáticamente.
+- **Trazabilidad completa**: todos los scores incluyen un `breakdown` auditado.
+- **Gradación de confianza**: confianza máxima 0.60 para candidatos de identidad; SpiderFoot imports máximo 0.55.
+
+### Nuevas tablas (migración 0041)
+
+| Tabla | Descripción |
+|-------|-------------|
+| `risk_entities` | Entidades de riesgo (personas, empresas, países). FTS + GIN indexes. |
+| `risk_relations` | Relaciones entre entidades (Directorship, Ownership, etc.). |
+| `risk_flags` | Flags de riesgo por entidad (sanctioned, pep, jurisdiction_risk, etc.). |
+| `social_identity_candidates` | Candidatos de identidad social pendientes de verificación manual. |
+
+```bash
+alembic upgrade head  # aplica migración 0041
+```
+
+### Fuentes de datos soportadas
+
+| Fuente | Formato | Licencia | Comando |
+|--------|---------|----------|---------|
+| [OpenSanctions](https://www.opensanctions.org/docs/bulk/) | FtM JSONL | CC BY-NC 4.0 (no comercial) | `--source opensanctions --file` |
+| [SpiderFoot](https://github.com/smicallef/spiderfoot) | JSON / GEXF | LGPL | `--import-spiderfoot` |
+| Maigret | Candidatos URL | MIT | `--username-candidates` |
+
+### Pipeline CLI
+
+```bash
+# Cargar OpenSanctions (formato FtM)
+python -m pipelines.osint_core --source opensanctions --file data/raw/opensanctions/entities.ftm.jsonl
+
+# Resolver entidades duplicadas
+python -m pipelines.osint_core --resolve
+
+# Recalcular risk scores
+python -m pipelines.osint_core --score
+
+# Importar export de SpiderFoot
+python -m pipelines.osint_core --import-spiderfoot report.json
+
+# Generar candidatos de identidad social (requiere revisión manual)
+python -m pipelines.osint_core --username-candidates ACTOR_ID USERNAME
+
+# Pipeline completo (todas las fuentes)
+python -m pipelines.osint_core --source all
+```
+
+### Árbol `etl/sources/osint/`
+
+```
+etl/sources/osint/
+  __init__.py                  # Exporta todos los schemas
+  schemas.py                   # RiskEntity, RiskRelation, RiskFlag, SocialIdentityCandidate, ...
+  followthemoney_mapper.py     # Mapper FtM (FollowTheMoney schema → RiskEntity)
+  opensanctions_adapter.py     # Carga ficheros OpenSanctions (JSONL / JSON array)
+  entity_resolver.py           # Deduplicación por Levenshtein + Jaccard (umbral 0.90)
+  risk_scorer.py               # Cálculo de risk score con breakdown auditado
+  maigret_adapter.py           # Candidatos de identidad social (never auto-verified)
+  spiderfoot_adapter.py        # Import-only adapter (is_scan_disabled() → True siempre)
+  osint_monitor.py             # ETL orchestrator (upsert entities + flags + alerts)
+```
+
+### Herramientas para Politeia Brain
+
+7 tools registradas en `agents/tools/risk_tools.py`:
+
+- `search_risk_entities(query, k)` — búsqueda full-text
+- `get_entity_risk_profile(entity_id)` — perfil completo con flags, relaciones, identidades
+- `get_high_risk_relations(entity_id, depth)` — subgrafo filtrado por confianza ≥ 0.60
+- `get_top_risk_entities(limit)` — top por risk score
+- `get_unverified_social_identities(limit)` — cola de revisión manual
+- `explain_risk_score(entity_id)` — Markdown con breakdown del score
+- `get_geopolitical_exposure()` — exposición por país para D8
+
+### Risk Score
+
+| Nivel | Rango | Color |
+|-------|-------|-------|
+| LOW | 0–20 | 🟢 Verde |
+| MEDIUM | 21–45 | 🟡 Amarillo |
+| HIGH | 46–70 | 🟠 Ámbar |
+| CRITICAL | 71–100 | 🔴 Rojo |
+
+Factores de scoring: `sanctions_status` (+70), `pep_status` (+25),
+`jurisdiction_risk` (+10 cada uno, máx 20), `adverse_media` (+5, máx 15),
+`contracting_risk` (+10, máx 20), `conflict_of_interest` (+8), `opacity_risk` (+6),
+`regulatory_action` (+7), `high_risk_relations` (+4, máx 16).
+
+### Tests
+
+```bash
+.venv/bin/pytest tests/test_osint_core.py -v  # 71 tests
+```
+
+### Nota ética y legal
+
+- OpenSanctions: licencia CC BY-NC 4.0. Solo para uso no comercial.
+- SpiderFoot: solo se importan exports externos. No se lanzan scans desde ElectSim.
+- Maigret: solo genera candidatos URL. Requieren verificación humana antes de cualquier uso.
+- No se almacenan datos biométricos ni se cruzan con datos personales no públicos.
+
+## Bloque 5 — Economic Intelligence Core
+
+Módulo de inteligencia económica que conecta datos macro con riesgo político, voto electoral, narrativas mediáticas y análisis sectorial.
+
+### Filosofía
+
+**No es un terminal Bloomberg/OpenBB.** Es una capa de inteligencia política que explica cómo la economía afecta a la política:
+- Por qué sube o baja el voto al gobierno
+- Qué sectores están bajo presión y qué narrativas dominan
+- Cómo se comporta el mercado de deuda y qué señala para la gobernabilidad
+- Qué territorios divergen económicamente y cómo afecta eso al mapa electoral
+
+### Tablas DB (migración 0042)
+
+| Tabla | Descripción |
+|-------|-------------|
+| `economic_series` | Metadatos de series macroeconómicas |
+| `macro_indicators` | Observaciones puntuales (1 dato por serie/fecha) |
+| `economic_signals` | Señales económico-políticas detectadas |
+| `economic_forecasts` | Proyecciones generadas por el forecaster |
+| `budget_items` | Partidas de presupuesto público |
+
+### Proveedores
+
+| Proveedor | Series | Activación |
+|-----------|--------|------------|
+| INE | IPC, Paro EPA, PIB, Confianza Consumidor, Precio Vivienda | Default |
+| BdE | Prima riesgo, Euribor, Bono 10Y, Deuda, Crédito | Default |
+| Eurostat | HICP, Paro EU, PIB EU, Déficit, Deuda Maastricht | Default |
+| World Bank | WDI: PIB per cápita, paro, inflación, educación, salud | Default |
+| TradingEconomics | 100+ series (requiere `TRADINGECONOMICS_API_KEY`) | Opcional |
+| OpenBB | Hub ampliado (requiere `ELECTSIM_ECON_USE_OPENBB=true`, AGPL) | Desactivado |
+
+### CLI — Comandos
+
+```bash
+# Fetch de todos los proveedores
+python -m pipelines.economy_core --source all
+
+# Proveedor específico
+python -m pipelines.economy_core --provider ine
+python -m pipelines.economy_core --provider eurostat --geography EU27_2020
+
+# Detectar señales económico-políticas
+python -m pipelines.economy_core --signals
+
+# Forecast de un indicador
+python -m pipelines.economy_core --forecast ipc --horizon 12 --model arima
+
+# ITPE Económico
+python -m pipelines.economy_core --itpe
+
+# Importar presupuesto
+python -m pipelines.economy_core --budget data/presupuesto_2024.csv --budget-year 2024
+
+# Backtest de modelo
+python -m pipelines.economy_core --backtest paro_epa --model ols_trend
+
+# Pipeline completo
+python -m pipelines.economy_core --run-all --dry-run
+```
+
+### ITPE Económico
+
+Índice de Tensión Político-Económica (0-100):
+
+| Dimensión | Peso | Umbral crítico |
+|-----------|------|---------------|
+| Inflación (IPC) | 20% | > 5% |
+| Desempleo (Paro EPA) | 20% | > 18% |
+| Crecimiento (PIB YoY) | 15% | < -2% |
+| Fiscal (Deuda + Déficit) | 15% | Deuda > 130% |
+| Vivienda | 10% | Var. > 10% |
+| Energía | 10% | Delta > 30% |
+| Mercados (Prima riesgo) | 5% | > 400pb |
+| Confianza consumidor | 5% | ICC < -20 |
+
+Niveles: **BAJO** (0-34) · **MODERADO** (35-49) · **ALTO** (50-69) · **CRÍTICO** (70-100)
+
+### Modelo de Voto Económico (Lewis-Beck)
+
+```python
+from models.economic_vote import EconomicVoteModel
+model = EconomicVoteModel()
+pred = model.predict_from_macro({
+    "pib_yoy": 2.1, "paro_epa": 11.4, "ipc": 2.8,
+    "prima_riesgo": 87, "deficit_pib": 3.2,
+}, base_vote_share=28.0)
+print(f"Δvoto estimado: {pred.delta_vote:+.1f}pp")
+print(pred.explanation)
+```
+
+### Brain Tools (N8_ChatIA)
+
+| Herramienta | Descripción |
+|-------------|-------------|
+| `get_macro_indicators` | Indicadores macroeconómicos recientes |
+| `get_economic_signals` | Señales económico-políticas activas |
+| `get_itpe_economic` | Cálculo del ITPE Económico |
+| `forecast_macro_indicator` | Forecast de un indicador |
+| `predict_economic_vote` | Impacto económico sobre voto al gobierno |
+| `explain_economic_risk` | Narrativa de riesgo económico-político |
+
+### Estructura de archivos
+
+```
+etl/sources/economy/
+├── __init__.py
+├── schemas.py               ← MacroIndicator, EconomicSignal, EconomicRiskScore...
+├── provider_base.py         ← BaseEconomicProvider (ABC)
+├── provider_registry.py     ← EconomyProviderRegistry singleton
+├── ine_provider.py          ← INE REST API
+├── bde_provider.py          ← Banco de España
+├── eurostat_provider.py     ← Eurostat JSON-stat 2.0
+├── worldbank_provider.py    ← World Bank WDI v2
+├── tradingeconomics_provider.py  ← TradingEconomics (API key)
+├── openbb_provider.py       ← OpenBB (AGPL, desactivado por defecto)
+├── budget_provider.py       ← CSV presupuestario
+├── economic_adapter.py      ← validate, deduplicate, upsert, freshness
+├── economic_signal_detector.py  ← detect_signals, upsert_signals, create_signal_alerts
+├── economic_forecaster.py   ← forecast_indicator, backtest_indicator, compute_itpe_economic
+└── economy_monitor.py       ← EconomyMonitor ETL orchestrator
+
+dashboard/services/economy_core.py   ← Capa de servicio (8 funciones)
+models/economic_vote.py              ← EconomicVoteModel (Lewis-Beck)
+agents/tools/economy_tools.py        ← 6 Brain tools
+pipelines/economy_core.py            ← CLI principal
+db/migrations/versions/0042_economy_core.py  ← 5 tablas
+tests/test_economy_core.py           ← 86 tests
+```
+
+### Tests
+
+```bash
+.venv/bin/pytest tests/test_economy_core.py -v
+```
+
+86 tests cubriendo: schemas, providers, adapter, signal detector, ITPE, economic vote model,
+forecaster (naive/MA/OLS/ARIMA), service layer empty-DB, CLI parser, Brain tools.
+
+---
+
 ## Licencia
 
 Definir según el titular del proyecto.

@@ -31,7 +31,7 @@ tipos_conteo = df_todos["tipo"].value_counts().to_dict() if not df_todos.empty e
 
 col1, col2, col3, col4 = st.columns(4)
 col1.markdown(kpi_card("Mensajes activos", str(len(df_todos.index))), unsafe_allow_html=True)
-col2.markdown(kpi_card("Mensaje del día", "✓"if tipos_conteo.get("mensaje_dia", 0) > 0 else "—"), unsafe_allow_html=True)
+col2.markdown(kpi_card("Mensaje del día", ""if tipos_conteo.get("mensaje_dia", 0) > 0 else "—"), unsafe_allow_html=True)
 col3.markdown(kpi_card("Talking points", str(tipos_conteo.get("talking_points", 0))), unsafe_allow_html=True)
 col4.markdown(kpi_card("Líneas rojas", str(tipos_conteo.get("lineas_rojas", 0))), unsafe_allow_html=True)
 

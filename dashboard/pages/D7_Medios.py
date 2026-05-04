@@ -101,6 +101,42 @@ try:
 except Exception:
     _git_amigos = None  # type: ignore
 
+# ── media_core: datos persistidos del Bloque 2 ───────────────────────────────
+try:
+    from dashboard.services.media_core import (
+        cargar_kpis_medios as _mc_kpis,
+        cargar_media_items_recientes as _mc_items,
+        cargar_narrativas_activas as _mc_narrativas,
+        cargar_alertas_medios as _mc_alertas,
+        buscar_media_items as _mc_buscar,
+        cargar_mapa_fuentes as _mc_mapa,
+        cargar_top_actores_medios as _mc_actores,
+    )
+    _MEDIA_CORE_OK = True
+except Exception:
+    _MEDIA_CORE_OK = False
+
+    def _mc_kpis() -> dict:  # type: ignore[misc]
+        return {"hay_datos": False}
+
+    def _mc_items(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
+    def _mc_narrativas(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
+    def _mc_alertas(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
+    def _mc_buscar(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
+    def _mc_mapa(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
+    def _mc_actores(*a, **kw) -> "pd.DataFrame":  # type: ignore[misc]
+        return pd.DataFrame()
+
 
 # ═════════════════════════════════════════════════════════════════════════════
 # Data helpers
@@ -687,18 +723,33 @@ noticias_main = _load_news(200)
 headlines_ticker = [n.get("titulo", "") for n in noticias_main[:25] if n.get("titulo")]
 scrolling_ticker(headlines_ticker)
 
-# ── Top KPI row ───────────────────────────────────────────────────────────────
-total_menciones = len(noticias_main)
-sentimientos_all = [_safe_float(n.get("sentimiento", 0)) for n in noticias_main]
-cobertura_positiva = (
-    int(sum(1 for s in sentimientos_all if s > 0.15) / max(len(sentimientos_all), 1) * 100)
-)
-narrativas_activas = len(_NARRATIVAS_DEMO)
-try:
-    from dashboard.services.media_sources import ALL_SOURCES as _ALL_SRC
-    fuentes_monitorizadas = len(_ALL_SRC)
-except Exception:
-    fuentes_monitorizadas = len(RSS_FEEDS)
+# ── KPIs: real data > demo ─────────────────────────────────────────────────
+_kpis_bd = _mc_kpis()
+_using_real_media = _kpis_bd.get("hay_datos", False)
+
+if _using_real_media:
+    total_menciones = _kpis_bd.get("articulos_24h", len(noticias_main))
+    narrativas_activas = _kpis_bd.get("narrativas_activas", len(_NARRATIVAS_DEMO))
+    fuentes_monitorizadas = _kpis_bd.get("fuentes_activas", len(RSS_FEEDS))
+    _sent_medio = _kpis_bd.get("sentimiento_medio", 0.0) or 0.0
+    cobertura_positiva = int(50 + _sent_medio * 50)  # mapear [-1,1] → [0,100]
+    st.info(
+        f"📡 **Datos reales** — {total_menciones:,} artículos·24h · "
+        f"{fuentes_monitorizadas} fuentes · {narrativas_activas} narrativas",
+        icon=None,
+    )
+else:
+    total_menciones = len(noticias_main)
+    sentimientos_all = [_safe_float(n.get("sentimiento", 0)) for n in noticias_main]
+    cobertura_positiva = (
+        int(sum(1 for s in sentimientos_all if s > 0.15) / max(len(sentimientos_all), 1) * 100)
+    )
+    narrativas_activas = len(_NARRATIVAS_DEMO)
+    try:
+        from dashboard.services.media_sources import ALL_SOURCES as _ALL_SRC
+        fuentes_monitorizadas = len(_ALL_SRC)
+    except Exception:
+        fuentes_monitorizadas = len(RSS_FEEDS)
 
 k1, k2, k3, k4 = st.columns(4)
 with k1:
@@ -728,12 +779,13 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ═════════════════════════════════════════════════════════════════════════════
 # TABS
 # ═════════════════════════════════════════════════════════════════════════════
-tab_rt, tab_actor, tab_fuente, tab_narrativa, tab_mapa = st.tabs([
+tab_rt, tab_actor, tab_fuente, tab_narrativa, tab_mapa, tab_medios_territorial = st.tabs([
     "COBERTURA EN TIEMPO REAL",
     "SENTIMIENTO POR ACTOR",
     "COBERTURA POR FUENTE",
     "RADAR DE NARRATIVAS",
     "MAPA GLOBAL DE EVENTOS",
+    "🗺️ INTENSIDAD TERRITORIAL",
 ])
 
 
@@ -3618,3 +3670,91 @@ with tab_mapa:
             f'Sin noticias disponibles para las regiones seleccionadas</div>',
             unsafe_allow_html=True,
         )
+
+# ═════════════════════════════════════════════════════════════════════════════
+# TAB: INTENSIDAD MEDIÁTICA TERRITORIAL (Bloque 7)
+# ═════════════════════════════════════════════════════════════════════════════
+with tab_medios_territorial:
+    section_header("INTENSIDAD MEDIÁTICA POR TERRITORIO", CYAN)
+    st.caption("Menciones en medios por provincia en los últimos 7 días · Fuente: media_items")
+
+    try:
+        from dashboard.services.territorial_core import (
+            cargar_mapa_medios_territorial,
+            cargar_geometrias,
+            cargar_senales_territoriales,
+        )
+        from dashboard.components.choropleth_map import render_choropleth
+
+        _days_media = st.slider("Días de análisis", min_value=1, max_value=30, value=7, key="d7_days_media")
+
+        _media_df = cargar_mapa_medios_territorial(days=_days_media, territory_type="province")
+        _geojson_d7 = cargar_geometrias(territory_type="province", resolution="low")
+
+        _col_m1, _col_m2 = st.columns([3, 2])
+
+        with _col_m1:
+            if not _media_df.empty and "media_intensity" in _media_df.columns:
+                render_choropleth(
+                    geojson=_geojson_d7,
+                    data=_media_df,
+                    territory_id_col="territory_id",
+                    value_col="media_intensity",
+                    label_col="territory_id",
+                    title=f"Intensidad mediática por provincia (últimos {_days_media} días)",
+                    color_scale="intensity",
+                    height=480,
+                )
+            else:
+                st.info(
+                    "No hay datos de intensidad mediática territorial disponibles. "
+                    "Requiere tabla media_items con campo 'territorio'."
+                )
+
+        with _col_m2:
+            section_header("TOP PROVINCIAS — MENCIONES", BLUE)
+            if not _media_df.empty and "mentions_count" in _media_df.columns:
+                _top_media = _media_df.sort_values("mentions_count", ascending=False).head(10)
+                for _, _row in _top_media.iterrows():
+                    _intensity = _row.get("media_intensity", 0)
+                    _mentions = _row.get("mentions_count", 0)
+                    _tid = _row.get("territory_id", "")
+                    _pct = min(100, int(_intensity))
+                    import streamlit.components.v1 as _comps
+                    st.markdown(
+                        f"""
+                        <div style="margin-bottom:6px">
+                          <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+                            <span style="font-size:.75rem;color:{TEXT}">{_tid}</span>
+                            <span style="font-size:.72rem;color:{MUTED}">{_mentions} menciones</span>
+                          </div>
+                          <div style="height:4px;background:{BG3};border-radius:2px">
+                            <div style="width:{_pct}%;height:4px;background:{CYAN};border-radius:2px"></div>
+                          </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+            else:
+                st.caption("Sin datos disponibles.")
+
+        # Señales de intensidad mediática
+        st.markdown("---")
+        section_header("SEÑALES DE INTENSIDAD MEDIÁTICA", AMBER)
+        _media_sigs = cargar_senales_territoriales(
+            signal_type="media_intensity",
+            min_severity="HIGH",
+            days_back=7,
+            limit=10,
+        )
+        if not _media_sigs.empty:
+            st.dataframe(
+                _media_sigs[["territory_id", "value", "severity", "explanation"]].head(10),
+                hide_index=True,
+                use_container_width=True,
+            )
+        else:
+            st.caption("Sin señales de intensidad mediática HIGH/CRITICAL en los últimos 7 días.")
+
+    except Exception as _e_d7:
+        st.warning(f"Módulo territorial no disponible: {_e_d7}")

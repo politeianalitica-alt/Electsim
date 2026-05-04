@@ -398,7 +398,7 @@ with tab_cal:
             ok = n_fail == 0 and n_ok > 0
             total = n_ok + n_fail
             pct = (n_ok / total * 100) if total else 0.0
-            etiqueta = "✓ Calibrado"if ok else "△ Revisar"
+            etiqueta = " Calibrado"if ok else "△ Revisar"
             with st.expander(f"{etiqueta} — {row.get('created_at','—')} · {row.get('modelo','—')}"):
                 c1, c2, c3, c4 = st.columns(4)
                 c1.metric("Checks OK", n_ok)
