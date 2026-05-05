@@ -44,6 +44,18 @@ from dashboard.shared import (
     TEXT, TEXT2, MUTED, section_header, kpi_card, COLORES_PARTIDOS,
 )
 
+# ── CRM Core (Bloque 15) ──────────────────────────────────────────────────────
+try:
+    from dashboard.services.crm_core import cargar_contactos, cargar_stakeholders_prioritarios
+    from dashboard.components.crm_components import render_contact_card, render_stakeholder_priority_card
+    _crm_d2_available = True
+except Exception:
+    _crm_d2_available = False
+    def cargar_contactos(**kw): return []
+    def cargar_stakeholders_prioritarios(**kw): return []
+    def render_contact_card(*a, **kw): pass
+    def render_stakeholder_priority_card(*a, **kw): pass
+
 st.set_page_config(
     page_title="Mapa de Actores — ElectSim",
     page_icon="",

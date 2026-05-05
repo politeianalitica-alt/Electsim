@@ -39,6 +39,26 @@ st.set_page_config(page_title="Geopolítica — Politeia", page_icon="", layout=
 sidebar_nav()
 mostrar_alertas_pagina("geopolitica")
 
+# ── Geopolitics Core (Bloque 14) ─────────────────────────────────────────────
+try:
+    from dashboard.services.geopolitics_core import (
+        cargar_eventos_geopoliticos as _geo14_eventos,
+        cargar_perfiles_riesgo_pais as _geo14_riesgo,
+        cargar_alertas_geopoliticas as _geo14_alertas,
+        cargar_presencia_espanola as _geo14_presencia,
+        cargar_impactos_domesticos as _geo14_impactos,
+        cargar_source_health as _geo14_health,
+    )
+    _GEO14_OK = True
+except Exception:
+    _GEO14_OK = False
+    def _geo14_eventos(**kw): import pandas as pd; return pd.DataFrame()
+    def _geo14_riesgo(**kw): import pandas as pd; return pd.DataFrame()
+    def _geo14_alertas(**kw): import pandas as pd; return pd.DataFrame()
+    def _geo14_presencia(**kw): import pandas as pd; return pd.DataFrame()
+    def _geo14_impactos(**kw): import pandas as pd; return pd.DataFrame()
+    def _geo14_health(): return {}
+
 # ── OSINT Risk (Bloque 4) ─────────────────────────────────────────────────────
 try:
     from dashboard.services.actor_risk_core import (

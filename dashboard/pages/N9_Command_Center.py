@@ -1,5 +1,5 @@
 """
-N9 — Command Center · Data Operations — Bloque 8.
+N9 — Command Center · Data Operations — Bloque 8 + 10 + 13.
 
 Centro de control avanzado del sistema de datos:
   Tab 1 — Fuentes        : registro de fuentes, salud en tiempo real
@@ -10,6 +10,8 @@ Centro de control avanzado del sistema de datos:
   Tab 6 — Lineage        : árbol de linaje de objetos
   Tab 7 — Logs           : log de ejecuciones con filtros
   Tab 8 — Sistema        : KPIs globales + alertas operativas
+  Tab 9 — Open Data      : portales, datasets y planes de ingesta (Bloque 10)
+  Tab 10 — Seguridad     : RBAC, audit, deployment checks, secretos (Bloque 13)
 
 Alimentado por dashboard.services.data_ops_core y etl.operations.*.
 """
@@ -89,6 +91,8 @@ if not _SERVICE_OK:
     tab_lineage,
     tab_logs,
     tab_sistema,
+    tab_opendata,
+    tab_seguridad,
 ) = st.tabs([
     "🔌 Fuentes",
     "🔄 Pipelines",
@@ -98,6 +102,8 @@ if not _SERVICE_OK:
     "🔗 Linaje",
     "📋 Logs",
     "🩺 Sistema",
+    "🌐 Open Data",
+    "🔒 Seguridad",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -640,3 +646,237 @@ with tab_sistema:
                 )
             except Exception as exc:
                 st.error(f"Error: {exc}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 9 — OPEN DATA (Bloque 10)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+with tab_opendata:
+    section_header("Portales de Datos Abiertos Oficiales", "🌐")
+
+    try:
+        from dashboard.services.opendata_core import (
+            cargar_portales_opendata,
+            cargar_datasets_recientes,
+            buscar_datasets,
+            cargar_kpis_opendata,
+            cargar_datasets_candidatos,
+        )
+        _OD_OK = True
+    except Exception as _od_err:
+        _OD_OK = False
+        st.warning(f"Servicio opendata_core no disponible: {_od_err}")
+
+    if _OD_OK:
+        od_kpis = cargar_kpis_opendata()
+        kc1, kc2, kc3, kc4, kc5 = st.columns(5)
+        with kc1:
+            kpi_card("Portales activos", str(od_kpis.get("total_portales", 0)), color=CYAN)
+        with kc2:
+            kpi_card("Nacionales", str(od_kpis.get("portales_nacionales", 0)), color=BLUE)
+        with kc3:
+            kpi_card("Autonómicos", str(od_kpis.get("portales_autonomicos", 0)), color=PURPLE)
+        with kc4:
+            kpi_card("Municipales", str(od_kpis.get("portales_municipales", 0)), color=AMBER)
+        with kc5:
+            kpi_card("Planes candidatos", str(od_kpis.get("planes_candidatos", 0)), color=GREEN)
+
+        st.divider()
+
+        od_tab1, od_tab2, od_tab3 = st.tabs(["🏛️ Portales", "🔍 Buscar Datasets", "📋 Planes de Ingesta"])
+
+        with od_tab1:
+            admin_filter = st.selectbox(
+                "Nivel administrativo",
+                ["todos", "eu", "national", "autonomous", "municipal", "agency"],
+                key="od_admin_filter",
+            )
+            portales = cargar_portales_opendata(
+                active_only=True,
+                administration_level=None if admin_filter == "todos" else admin_filter,
+            )
+            if portales:
+                df_portales = pd.DataFrame(portales)
+                show_cols = [c for c in [
+                    "portal_id", "name", "administration_level", "portal_type",
+                    "country", "region", "base_url", "active",
+                ] if c in df_portales.columns]
+                st.dataframe(df_portales[show_cols], use_container_width=True, height=400)
+            else:
+                st.info("No hay portales registrados. Ejecuta '--seed-portals' en el pipeline.")
+
+            if st.button("Seed portales por defecto", key="od_seed_btn"):
+                try:
+                    from etl.sources.opendata.portal_registry import seed_default_portals
+                    from dashboard.shared import get_engine
+                    n = seed_default_portals(get_engine())
+                    st.success(f"Portales sembrados: {n}")
+                    st.rerun()
+                except Exception as exc2:
+                    st.error(f"Error: {exc2}")
+
+        with od_tab2:
+            od_query = st.text_input(
+                "Buscar datasets",
+                placeholder="ej: elecciones, pib, contratacion...",
+                key="od_search_query",
+            )
+            od_limit = st.slider("Maximo de resultados", 5, 100, 20, key="od_limit")
+
+            if od_query:
+                with st.spinner("Buscando..."):
+                    od_results = buscar_datasets(od_query, limit=od_limit)
+                if od_results:
+                    df_od = pd.DataFrame(od_results)
+                    show_cols = [c for c in [
+                        "dataset_id", "title", "portal_id", "publisher",
+                        "themes", "license_id", "resource_count", "modified",
+                    ] if c in df_od.columns]
+                    st.dataframe(df_od[show_cols], use_container_width=True, height=400)
+                    st.caption(f"{len(od_results)} datasets encontrados")
+                else:
+                    st.info("Sin resultados. Prueba con otros terminos.")
+            else:
+                with st.spinner("Cargando datasets recientes..."):
+                    od_recent = cargar_datasets_recientes(limit=20)
+                if od_recent:
+                    df_recent = pd.DataFrame(od_recent)
+                    show_cols = [c for c in [
+                        "title", "portal_id", "publisher", "themes",
+                        "resource_count", "update_frequency", "modified",
+                    ] if c in df_recent.columns]
+                    st.dataframe(df_recent[show_cols], use_container_width=True, height=400)
+                else:
+                    st.info("Sin datasets en cache. Ejecuta un harvest.")
+
+        with od_tab3:
+            planes = cargar_datasets_candidatos(limit=50)
+            if planes:
+                df_planes = pd.DataFrame(planes)
+                show_cols = [c for c in [
+                    "dataset_id", "portal_id", "target_domain", "applicable_modules",
+                    "priority", "review_status", "justification",
+                ] if c in df_planes.columns]
+                st.dataframe(df_planes[show_cols], use_container_width=True, height=400)
+                st.caption(
+                    "Los planes candidatos requieren aprobacion humana antes de ejecutar la ingesta."
+                )
+            else:
+                st.info(
+                    "No hay planes de ingesta candidatos. "
+                    "Ejecuta '--recommend-plans' en el pipeline opendata_core."
+                )
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 10 — SEGURIDAD (Bloque 13)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+with tab_seguridad:
+    section_header("Seguridad · Tenant · Deployment", "🔒")
+
+    try:
+        from dashboard.services.security_core import (
+            cargar_security_kpis,
+            cargar_audit_events,
+            cargar_deployment_checks,
+            cargar_secret_status,
+            cargar_usuarios,
+            cargar_roles,
+            cargar_export_jobs,
+        )
+        from dashboard.components.security_components import (
+            render_audit_event_card,
+            render_secret_status_panel,
+            render_deployment_check_panel,
+            render_user_card,
+            render_role_matrix,
+            render_export_job_panel,
+        )
+        _SEC_OK = True
+    except Exception as _sec_err:
+        _SEC_OK = False
+        st.warning(f"Módulo de seguridad no disponible: {_sec_err}")
+
+    if _SEC_OK:
+        # KPIs de seguridad
+        sec_kpis = cargar_security_kpis()
+
+        k1, k2, k3, k4, k5, k6 = st.columns(6)
+        with k1:
+            dev_mode_val = "SÍ ⚠️" if sec_kpis.get("dev_mode") else "NO ✅"
+            kpi_card("DEV MODE", dev_mode_val, color=AMBER if sec_kpis.get("dev_mode") else GREEN)
+        with k2:
+            kpi_card("Score seg.", str(sec_kpis.get("security_score", "?")), color=CYAN)
+        with k3:
+            kpi_card("Secretos OK", str(sec_kpis.get("secrets_present", 0)), color=GREEN)
+        with k4:
+            kpi_card("Secretos KO", str(sec_kpis.get("secrets_missing_required", 0)), color=RED)
+        with k5:
+            kpi_card("Eventos audit.", str(sec_kpis.get("audit_total_events", 0)), color=BLUE)
+        with k6:
+            kpi_card("Usuarios", str(sec_kpis.get("total_users", 0)), color=PURPLE)
+
+        st.divider()
+
+        # Sub-tabs de seguridad
+        (
+            sec_tab1, sec_tab2, sec_tab3,
+            sec_tab4, sec_tab5, sec_tab6,
+        ) = st.tabs([
+            "🕵️ Auditoría",
+            "🔑 Secretos",
+            "🚀 Deployment",
+            "👥 Usuarios",
+            "🛡️ Roles",
+            "📤 Exports",
+        ])
+
+        with sec_tab1:
+            section_header("Eventos de Auditoría", "🕵️")
+            col_f1, col_f2, col_f3 = st.columns(3)
+            with col_f1:
+                sec_event_type = st.selectbox(
+                    "Tipo de evento",
+                    ["todos", "login", "login_failed", "permission_denied",
+                     "data_export", "brain_tool_call", "pipeline_run"],
+                    key="sec_event_type",
+                )
+            with col_f2:
+                sec_min_risk = st.slider("Risk score mínimo", 0, 100, 0, key="sec_min_risk")
+            with col_f3:
+                sec_limit = st.slider("Límite", 10, 200, 50, key="sec_limit")
+
+            audit_events = cargar_audit_events(
+                limit=sec_limit,
+                event_type=None if sec_event_type == "todos" else sec_event_type,
+                min_risk_score=sec_min_risk,
+            )
+            if audit_events:
+                st.caption(f"{len(audit_events)} eventos")
+                for ev in audit_events:
+                    render_audit_event_card(ev, compact=True)
+            else:
+                st.info("Sin eventos de auditoría. Activa ELECTSIM_FEATURE_AUDIT=true.")
+
+        with sec_tab2:
+            secrets_data = cargar_secret_status()
+            render_secret_status_panel(secrets_data)
+
+        with sec_tab3:
+            deployment_checks = cargar_deployment_checks()
+            render_deployment_check_panel(deployment_checks)
+
+        with sec_tab4:
+            section_header("Usuarios del sistema", "👥")
+            usuarios = cargar_usuarios(limit=50)
+            for u in usuarios:
+                render_user_card(u, show_roles=True)
+
+        with sec_tab5:
+            roles_data = cargar_roles(include_system=True)
+            render_role_matrix(roles_data)
+
+        with sec_tab6:
+            export_jobs = cargar_export_jobs(limit=50)
+            render_export_job_panel(export_jobs, show_approve_button=True)

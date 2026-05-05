@@ -43,6 +43,18 @@ except Exception:
     def _cc_oportunidades(*a, **kw): return []
     def _cc_kpis(*a, **kw): return {"hay_datos": False}
 
+# ── CRM Field Ops (Bloque 15) ─────────────────────────────────────────────────
+try:
+    from dashboard.services.crm_core import cargar_tareas_pendientes, cargar_eventos_movilizacion
+    from dashboard.components.crm_components import render_outreach_task_card, render_mobilization_event_card
+    _crm_n5_available = True
+except Exception:
+    _crm_n5_available = False
+    def cargar_tareas_pendientes(**kw): return []
+    def cargar_eventos_movilizacion(**kw): return []
+    def render_outreach_task_card(*a, **kw): pass
+    def render_mobilization_event_card(*a, **kw): pass
+
 st.set_page_config(page_title="Campaña — ElectSim", page_icon="", layout="wide")
 sidebar_nav()
 mostrar_alertas_pagina("campana")

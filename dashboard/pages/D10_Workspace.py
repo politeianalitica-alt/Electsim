@@ -198,12 +198,13 @@ _intel_header()
 _system_status_row()
 
 # ── Main Tabs ─────────────────────────────────────────────────────────────────
-tab_kanban, tab_agenda, tab_equipo, tab_informes, tab_config = st.tabs([
+tab_kanban, tab_agenda, tab_equipo, tab_informes, tab_config, tab_seguridad = st.tabs([
     "MAPA DE OPERACIONES",
     "AGENDA DE CAMPAÑA",
     "EQUIPO & ROLES",
     "INFORMES & EXPORTS",
     "CONFIGURACIÓN",
+    "🔒 SEGURIDAD",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -669,3 +670,93 @@ with tab_config:
         "umbrales": {"riesgo_critico": cfg["umbral_riesgo"], "alerta_media": cfg["umbral_alerta"]},
         "notificaciones": {"email": cfg["notif_email"], "slack": cfg["notif_slack"]},
     })
+
+# ── Tab 6 — SEGURIDAD (Bloque 13) ──────────────────────────────────────────────
+with tab_seguridad:
+    section_header("POSTURA DE SEGURIDAD", "🔒")
+
+    try:
+        from dashboard.services.security_core import (
+            cargar_security_kpis,
+            cargar_deployment_checks,
+            cargar_secret_status,
+            cargar_audit_events,
+        )
+        from dashboard.components.security_components import (
+            render_deployment_check_panel,
+            render_secret_status_panel,
+            render_audit_event_card,
+        )
+
+        sec_kpis = cargar_security_kpis()
+
+        # Security posture summary
+        score = sec_kpis.get("security_score", 0)
+        health = sec_kpis.get("security_health", "unknown")
+        dev_mode = sec_kpis.get("dev_mode", True)
+
+        score_color = GREEN if score >= 75 else AMBER if score >= 50 else RED
+
+        st.markdown(
+            f"<div style='background:{BG2};border:1px solid {BORDER};"
+            f"border-radius:8px;padding:16px;margin-bottom:16px;'>"
+            f"  <div style='display:flex;align-items:center;gap:16px;'>"
+            f"    <div>"
+            f"      <p style='color:{MUTED};font-size:11px;margin:0;'>PUNTUACIÓN DE SEGURIDAD</p>"
+            f"      <span style='color:{score_color};font-size:40px;font-weight:800;'>{score}</span>"
+            f"      <span style='color:{MUTED};'>/100</span>"
+            f"    </div>"
+            f"    <div style='flex:1;'>"
+            f"      <div style='height:8px;background:{BORDER};border-radius:4px;'>"
+            f"        <div style='width:{score}%;height:100%;background:{score_color};border-radius:4px;'></div>"
+            f"      </div>"
+            f"      <p style='color:{MUTED};font-size:11px;margin:4px 0 0;'>{health.upper()}</p>"
+            f"    </div>"
+            f"  </div>"
+            f"  <div style='display:flex;gap:24px;margin-top:12px;'>"
+            f"    <span style='color:{'#f59e0b' if dev_mode else GREEN};font-size:12px;'>"
+            f"      {'⚠️ DEV MODE activo' if dev_mode else '✅ Modo producción'}</span>"
+            f"    <span style='color:{MUTED};font-size:12px;'>🔑 Secretos: "
+            f"{sec_kpis.get('secrets_present', 0)}/{sec_kpis.get('secrets_total', 0)}</span>"
+            f"    <span style='color:{MUTED};font-size:12px;'>🕵️ Eventos: "
+            f"{sec_kpis.get('audit_total_events', 0)}</span>"
+            f"    <span style='color:{RED if sec_kpis.get('audit_denied_events', 0) else MUTED};"
+            f"font-size:12px;'>🚫 Denegados: {sec_kpis.get('audit_denied_events', 0)}</span>"
+            f"  </div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+        sec_sub1, sec_sub2, sec_sub3 = st.tabs([
+            "🚀 Deployment Checks",
+            "🔑 Secretos",
+            "🕵️ Auditoría reciente",
+        ])
+
+        with sec_sub1:
+            deployment_checks = cargar_deployment_checks()
+            render_deployment_check_panel(deployment_checks)
+
+        with sec_sub2:
+            secrets_data = cargar_secret_status()
+            render_secret_status_panel(secrets_data)
+
+        with sec_sub3:
+            recent_events = cargar_audit_events(limit=30, min_risk_score=0)
+            if recent_events:
+                st.caption(f"Últimos {len(recent_events)} eventos")
+                for ev in recent_events[:20]:
+                    render_audit_event_card(ev, compact=True)
+            else:
+                st.info("Sin eventos de auditoría recientes.")
+
+        st.markdown(
+            f"<p style='color:{MUTED};font-size:11px;margin-top:8px;'>"
+            f"Para gestión completa de usuarios, roles y export jobs → "
+            f"<b>N9 Command Center → Tab Seguridad</b></p>",
+            unsafe_allow_html=True,
+        )
+
+    except Exception as _sec_err:
+        st.warning(f"Módulo de seguridad no disponible: {_sec_err}")
+        st.info("Instala el paquete security/ y ejecuta la migración 0050.")

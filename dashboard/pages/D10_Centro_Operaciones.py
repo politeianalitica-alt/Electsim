@@ -1,5 +1,5 @@
 """
-D10 — Centro de Operaciones de Datos — Bloque 8.
+D10 — Centro de Operaciones de Datos — Bloque 8 + 10.
 
 Panel de salud del sistema de datos:
   - KPIs globales del estado del sistema
@@ -7,8 +7,9 @@ Panel de salud del sistema de datos:
   - Frescura de datos por módulo
   - Errores de calidad en las últimas 24h
   - Pipelines recientes
+  - KPIs de datos abiertos (Bloque 10)
 
-Alimentado por dashboard.services.data_ops_core.
+Alimentado por dashboard.services.data_ops_core + opendata_core.
 """
 from __future__ import annotations
 
@@ -51,6 +52,19 @@ try:
     _SERVICE_OK = True
 except Exception:
     _SERVICE_OK = False
+
+# ── CRM Core (Bloque 15) ──────────────────────────────────────────────────────
+try:
+    from dashboard.services.crm_core import cargar_crm_kpis, cargar_tareas_pendientes, cargar_stakeholders_prioritarios
+    from dashboard.components.crm_components import render_crm_kpis_row, render_outreach_task_card
+    _crm_d10_available = True
+except Exception:
+    _crm_d10_available = False
+    def cargar_crm_kpis(**kw): return {}
+    def cargar_tareas_pendientes(**kw): return []
+    def cargar_stakeholders_prioritarios(**kw): return []
+    def render_crm_kpis_row(*a, **kw): pass
+    def render_outreach_task_card(*a, **kw): pass
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -335,6 +349,35 @@ else:
             st.plotly_chart(fig, use_container_width=True)
         except Exception:
             pass
+
+st.divider()
+
+# ── Footer ─────────────────────────────────────────────────────────────────────
+
+st.divider()
+
+# ── Open Data KPIs (Bloque 10) ──────────────────────────────────────────────────
+
+section_header("Datos Abiertos Oficiales", "🌐")
+
+try:
+    from dashboard.services.opendata_core import cargar_kpis_opendata
+    od_kpis = cargar_kpis_opendata()
+    od1, od2, od3, od4, od5, od6 = st.columns(6)
+    with od1:
+        kpi_card("Portales activos", str(od_kpis.get("portales_activos", 0)), color=CYAN)
+    with od2:
+        kpi_card("Nacionales", str(od_kpis.get("portales_nacionales", 0)), color=BLUE)
+    with od3:
+        kpi_card("Autonómicos", str(od_kpis.get("portales_autonomicos", 0)), color=PURPLE)
+    with od4:
+        kpi_card("Municipales", str(od_kpis.get("portales_municipales", 0)), color=AMBER)
+    with od5:
+        kpi_card("Planes candidatos", str(od_kpis.get("planes_candidatos", 0)), color=GREEN)
+    with od6:
+        kpi_card("Aprobados", str(od_kpis.get("planes_aprobados", 0)), color=CYAN)
+except Exception as _od_e:
+    st.caption(f"Open Data KPIs no disponibles: {_od_e}")
 
 st.divider()
 
