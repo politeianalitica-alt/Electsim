@@ -1,0 +1,13 @@
+# ai.txt — IA y NLP
+anthropic>=0.25.0
+litellm
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+torch>=2.2.0
+transformers>=4.40.0
+pydantic-ai>=0.0.20
+spacy>=3.7.0
+sentencepiece>=0.2.0
+yake>=0.4.8
+tiktoken>=0.8.0
+pgvector>=0.3.6

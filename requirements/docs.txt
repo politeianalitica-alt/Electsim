@@ -1,0 +1,7 @@
+# docs.txt — Documentos y extraccion
+-r base.txt
+pypdf
+python-docx
+WeasyPrint
+markdown
+jinja2

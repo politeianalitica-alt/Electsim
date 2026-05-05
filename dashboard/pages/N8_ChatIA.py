@@ -967,8 +967,9 @@ with tab_estado:
                     f"<div style='color:{TEXT2};margin-top:.3rem;'>Docs indexados: <b style='color:{CYAN};'>{chroma_cnt:,}</b></div>"
                     f"<div style='color:{TEXT2};'>Embeddings: {embed_model}</div>"
                     f"<div style='color:{TEXT2};margin-top:.3rem;'>Colecciones: "
-                    f"{'<br>'.join(f\"<code style='font-size:.7rem;'>{c}</code>\" for c in collections) or '—'}</div>"
-                    f"</div>",
+                    + ("".join(f"<code style='font-size:.7rem;'>{c}</code><br>" for c in collections) or "—")
+                    + "</div>"
+                    + "</div>",
                     unsafe_allow_html=True,
                 )
             except Exception as exc:

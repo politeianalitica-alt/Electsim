@@ -1,0 +1,7 @@
+# dev.txt — Herramientas de desarrollo
+-r base.txt
+pytest>=8.0
+pytest-asyncio
+ruff==0.4.7
+mypy
+ipython

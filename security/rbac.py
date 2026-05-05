@@ -83,6 +83,39 @@ SYSTEM_PERMISSIONS: dict[str, dict[str, str]] = {
     # Open data
     "opendata:read": {"resource": "opendata", "action": "read"},
     "opendata:write": {"resource": "opendata", "action": "write"},
+
+    # CRM
+    "crm:read": {"resource": "crm", "action": "read", "description": "Ver contactos CRM"},
+    "crm:write": {"resource": "crm", "action": "write", "description": "Crear/editar contactos CRM"},
+    "crm:import": {"resource": "crm", "action": "import", "description": "Importar contactos CRM"},
+    "crm:admin": {"resource": "crm", "action": "admin"},
+
+    # Comunicaciones
+    "comms:read": {"resource": "comms", "action": "read", "description": "Ver contenido de comunicaciones"},
+    "comms:create": {"resource": "comms", "action": "create", "description": "Crear contenido de comunicaciones"},
+    "comms:approve": {"resource": "comms", "action": "approve", "description": "Aprobar contenido"},
+    "comms:admin": {"resource": "comms", "action": "admin"},
+
+    # Geopolítica
+    "geopolitics:read": {"resource": "geopolitics", "action": "read", "description": "Ver datos geopolíticos"},
+    "geopolitics:write": {"resource": "geopolitics", "action": "write"},
+
+    # Briefings
+    "briefings:read": {"resource": "briefings", "action": "read", "description": "Ver briefings"},
+    "briefings:write": {"resource": "briefings", "action": "write", "description": "Crear briefings"},
+
+    # Campaña
+    "campaign:read": {"resource": "campaign", "action": "read", "description": "Ver datos de campaña"},
+    "campaign:write": {"resource": "campaign", "action": "write"},
+
+    # Data Ops
+    "data_ops:read": {"resource": "data_ops", "action": "read", "description": "Ver operaciones de datos"},
+    "data_ops:run_pipeline": {"resource": "data_ops", "action": "run_pipeline", "description": "Ejecutar pipelines"},
+
+    # Permisos especiales
+    "brain:use_tools": {"resource": "brain", "action": "use_tools", "description": "Usar tools de Brain"},
+    "risk:read_sensitive": {"resource": "risk", "action": "read_sensitive", "description": "Ver datos de riesgo sensibles"},
+    "security:manage_roles": {"resource": "security", "action": "manage_roles", "description": "Gestionar roles de usuario"},
 }
 
 

@@ -362,7 +362,10 @@ with tab2:
             return default
 
     def _build_micro_from_profiles() -> dict[str, dict]:
-        dfp = cargar_perfiles_votante(limit=40)
+        try:
+            dfp = cargar_perfiles_votante(limit=40)
+        except Exception:
+            return {}
         out: dict[str, dict] = {}
         used_names: set[str] = set()
         if dfp.empty:

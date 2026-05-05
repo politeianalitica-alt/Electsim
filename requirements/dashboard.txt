@@ -1,0 +1,8 @@
+# dashboard.txt — UI y visualizacion
+-r base.txt
+streamlit>=1.35.0
+plotly>=5.22.0
+pyvis>=0.3.2
+altair
+pydeck>=0.8.0
+networkx>=3.3

@@ -31,6 +31,15 @@ _RISK_PATTERNS: dict[str, list[str]] = {
         r"\b(corrupto|ladrón|criminal|delincuente)\s+(el|la|los|las|este|esta)\b",
         r"\(comprobadamente\s+(falso|mentira)\)",
     ],
+    "unverified_accusation": [
+        r"\b(es culpable|ha cometido|está implicado en|se le acusa de|presuntamente corrompido)\b",
+    ],
+    "client_confidential_leak": [
+        r"\b(confidencial|privado y reservado|no publicar|uso interno exclusivo)\b",
+    ],
+    "overconfident_absolute": [
+        r"\b(con total certeza|definitivamente|inevitablemente|siempre ocurrirá|nunca fallará)\b",
+    ],
 }
 
 _SENSITIVE_TOPICS = [

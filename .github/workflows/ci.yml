@@ -149,3 +149,56 @@ jobs:
       - name: Skip (web not scaffolded yet)
         if: steps.check.outputs.exists == 'false'
         run: echo "apps/web no existe — saltando lint frontend"
+
+  # --------------------------------------------------------------------------
+  # Integration tests con PostgreSQL real
+  # --------------------------------------------------------------------------
+  integration_db:
+    name: Integration DB
+    runs-on: ubuntu-latest
+    needs: lint_backend
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: electsim
+          POSTGRES_PASSWORD: electsim
+          POSTGRES_DB: electsim_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql+psycopg://electsim:electsim@localhost:5432/electsim_test
+      OTEL_SDK_DISABLED: "true"
+      LOG_FORMAT: "text"
+      LOG_LEVEL: "WARNING"
+      DEV_MODE: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run migrations
+        run: alembic upgrade head
+      - name: Run integration tests
+        run: |
+          python -m pytest tests/integration/ \
+            -m integration \
+            --tb=short -q \
+            --junitxml=reports/junit-integration.xml
+      - name: Upload integration test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-test-results
+          path: reports/

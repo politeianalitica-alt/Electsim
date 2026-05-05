@@ -2087,6 +2087,10 @@ with tab_risk:
                         _pep = "PEP" if _row.get("pep_status") else ""
                         _sanc = "SANCIONADO" if _row.get("sanctions_status") else ""
                         _badges = " ".join(b for b in [_pep, _sanc] if b)
+                        _badge_html = (
+                            f'&nbsp;<span style="font-size:.6rem;font-weight:700;color:{RED}">{_badges}</span>'
+                            if _badges else ""
+                        )
                         st.markdown(
                             f'<div style="background:{BG2};border:1px solid {BORDER};'
                             f'border-radius:8px;padding:.8rem 1rem;margin-bottom:.5rem">'
@@ -2094,7 +2098,7 @@ with tab_risk:
                             f'<div>'
                             f'<span style="font-weight:800;color:{TEXT}">{_row.get("name","")}</span>'
                             f'&nbsp;<span style="font-size:.65rem;color:{MUTED}">{_row.get("entity_type","")}</span>'
-                            f'{"&nbsp;<span style=\'font-size:.6rem;font-weight:700;color:" + RED + "\'>" + _badges + "</span>" if _badges else ""}'
+                            f'{_badge_html}'
                             f'</div>'
                             f'<div style="font-size:1.1rem;font-weight:900;color:{_score_color};'
                             f'font-family:\'JetBrains Mono\',monospace">{_score:.0f}</div>'

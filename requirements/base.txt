@@ -1,0 +1,15 @@
+# base.txt — Core dependencies sin IA ni UI
+python-dotenv>=1.0.1
+sqlalchemy>=2.0.36
+psycopg[binary,pool]>=3.2.6
+pandas>=2.2.2
+pydantic>=2.7.0
+pydantic-settings
+requests>=2.31.0
+beautifulsoup4>=4.12.3
+lxml>=5.2.2
+alembic>=1.13.0
+tenacity
+httpx>=0.27.0
+pyyaml>=6.0.2
+feedparser>=6.0.0

@@ -263,3 +263,87 @@ def impact_badge(level: str, inline: bool = False) -> str | None:
         return html
     _render(html)
     return None
+
+
+# ── Badges de modo real/demo/fallback (Subsanación 2) ─────────────────────────
+
+def _render_or_return(html_str: str, inline: bool) -> str | None:
+    """Helper para renderizar o devolver HTML de badge."""
+    if inline:
+        return html_str
+    try:
+        st.markdown(html_str, unsafe_allow_html=True)
+    except Exception:
+        pass
+    return None
+
+
+def data_mode_badge(mode: str, inline: bool = False) -> str | None:
+    """
+    Badge visual para indicar modo de datos (real/demo/fallback/unavailable/error).
+
+    Args:
+        mode: "real" | "demo" | "fallback" | "unavailable" | "error" | "stale"
+        inline: si True devuelve HTML, si False renderiza directamente
+
+    Returns:
+        HTML string si inline=True, None si renderiza.
+    """
+    MODE_CONFIG = {
+        "real":        ("🟢", "REAL",        "#22c55e", "#052e16"),
+        "demo":        ("🟡", "DEMO",        "#eab308", "#1c1200"),
+        "fallback":    ("🟠", "FALLBACK",    "#f97316", "#1c0a00"),
+        "unavailable": ("⚫", "UNAVAILABLE", "#6b7280", "#111827"),
+        "error":       ("🔴", "ERROR",       "#ef4444", "#1f0000"),
+        "stale":       ("🟤", "STALE",       "#a16207", "#1c1000"),
+        "low_quality": ("🔵", "LOW QUALITY", "#3b82f6", "#0c1a2e"),
+    }
+    icon, label, color, bg = MODE_CONFIG.get(mode, ("⚪", mode.upper(), "#9ca3af", "#111827"))
+    html_str = (
+        f'<span style="background:{bg};color:{color};padding:.1rem .5rem;'
+        f'border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:.05em">'
+        f'{icon} {label}</span>'
+    )
+    return _render_or_return(html_str, inline)
+
+
+def service_result_panel(result: object, title: str = "") -> None:
+    """
+    Renderiza un panel compacto con el estado de un ServiceResult.
+
+    Args:
+        result: ServiceResult object o dict con ok/mode/source/error_message
+        title: título opcional del panel
+    """
+    try:
+        if hasattr(result, "mode"):
+            mode = result.mode  # type: ignore[union-attr]
+            ok = result.ok  # type: ignore[union-attr]
+            source = result.source or ""  # type: ignore[union-attr]
+            error_msg = result.error_message or ""  # type: ignore[union-attr]
+            updated = result.updated_at or ""  # type: ignore[union-attr]
+        elif isinstance(result, dict):
+            mode = result.get("mode", "unknown")
+            ok = result.get("ok", False)
+            source = result.get("source", "")
+            error_msg = result.get("error_message", "")
+            updated = result.get("updated_at", "")
+        else:
+            st.caption(f"⚪ {title}: estado desconocido")
+            return
+
+        mode_html = data_mode_badge(mode, inline=True) or f"[{mode}]"
+        caption_parts = []
+        if source:
+            caption_parts.append(f"Fuente: `{source}`")
+        if updated:
+            caption_parts.append(f"Actualizado: {str(updated)[:19]}")
+        if error_msg and not ok:
+            caption_parts.append(f"⚠️ {error_msg[:100]}")
+
+        header = f"{title} {mode_html}" if title else mode_html
+        st.markdown(header, unsafe_allow_html=True)
+        if caption_parts:
+            st.caption(" · ".join(caption_parts))
+    except Exception:
+        pass

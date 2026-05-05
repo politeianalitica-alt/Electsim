@@ -173,3 +173,86 @@ def get_request_ip() -> str | None:
     except Exception:
         pass
     return None
+
+
+# ── Funciones adicionales de subsanación 2 ────────────────────────────────────
+
+def require_page_permission(permission: str, silent: bool = False) -> bool:
+    """
+    Verifica que el usuario actual tiene un permiso específico para ver la página.
+
+    En modo dev: siempre True.
+    En modo prod: retorna False y muestra error si no tiene permiso.
+
+    Args:
+        permission: permiso requerido (ej: "crm:read")
+        silent: si True, no muestra mensaje de error en UI
+
+    Returns:
+        True si tiene permiso, False si no.
+    """
+    try:
+        ctx = security_context()
+        if ctx.get("dev_mode"):
+            return True
+        perms = ctx.get("permissions", set())
+        if isinstance(perms, (list, set)) and permission in perms:
+            return True
+        if not silent:
+            try:
+                import streamlit as st
+                st.error(f"🔒 Acceso restringido. Permiso requerido: `{permission}`")
+            except Exception:
+                pass
+        return False
+    except Exception:
+        return True  # en caso de error, no bloquear
+
+
+def audit_page_view(module_id: str, page_name: str) -> None:
+    """
+    Registra en auditoría el acceso a una página sensible.
+    Silencioso — nunca bloquea.
+    """
+    try:
+        ctx = security_context(module_id)
+        user = ctx.get("user") or {}
+        user_id = user.get("id") or user.get("user_id") or "anonymous"
+        tenant_id = ctx.get("tenant", {}).get("id", "default") if ctx.get("tenant") else "default"
+        from security.audit import log_event
+        log_event(
+            event_type="page_view",
+            user_id=user_id,
+            tenant_id=tenant_id,
+            resource_type="page",
+            resource_id=page_name,
+            action="view",
+            result={"module_id": module_id},
+        )
+    except Exception:
+        pass
+
+
+def guard_action(permission: str, action_name: str = "") -> bool:
+    """
+    Guard para acciones dentro de una página (botones, formularios, exports).
+
+    En modo dev: True con log.
+    En modo prod: False si no tiene permiso.
+
+    Uso:
+        if guard_action("crm:write", "importar_contactos"):
+            do_import()
+    """
+    try:
+        ctx = security_context()
+        if ctx.get("dev_mode"):
+            logger.debug("guard_action: DEV_MODE — acción '%s' permitida", action_name)
+            return True
+        perms = ctx.get("permissions", set())
+        if permission in perms:
+            return True
+        logger.warning("guard_action: acción '%s' bloqueada — falta '%s'", action_name, permission)
+        return False
+    except Exception:
+        return True

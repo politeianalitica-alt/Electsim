@@ -1,0 +1,9 @@
+# geo.txt — Geopolitica y mapas
+-r base.txt
+h3>=3.7.6
+folium
+apscheduler>=3.10.0
+trafilatura>=1.12.0
+gdeltdoc>=1.4.0
+wbgapi>=1.0.12
+polars>=1.8.2
