@@ -242,6 +242,34 @@ MODULES: dict[str, dict[str, Any]] = {
         "module_group": "ops",
         "active": True,
     },
+    "actor_graph": {
+        "id": "actor_graph",
+        "read_permission": "electoral:read",
+        "active": True,
+        "description": "Grafo ontológico de actores políticos y sus relaciones",
+        "icon": "graph",
+    },
+    "notifications": {
+        "id": "notifications",
+        "read_permission": "workspace:read",
+        "active": True,
+        "description": "Sistema de notificaciones en plataforma",
+        "icon": "bell",
+    },
+    "integrations": {
+        "id": "integrations",
+        "read_permission": "workspace:read",
+        "active": True,
+        "description": "Conectores de datos externos (Drive, GitHub, Slack)",
+        "icon": "plug",
+    },
+    "teams": {
+        "id": "teams",
+        "read_permission": "workspace:read",
+        "active": True,
+        "description": "Gestión de equipos y roles de proyecto",
+        "icon": "users",
+    },
     "opendata": {
         "id": "opendata",
         "label": "Open Data",
@@ -292,6 +320,9 @@ TOOL_PERMISSIONS: dict[str, list[str]] = {
     "economy_tools": ["economic:read"],
     "system_tools": ["data_ops:read"],
     "territorial_tools": ["electoral:read"],
+    "get_actor_network": ["electoral:read"],
+    "send_notification": ["workspace:read"],
+    "sync_drive_folder": ["documents:write"],
 }
 
 # Tool name prefix → permission list

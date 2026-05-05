@@ -252,13 +252,47 @@ with k4:
 
 st.markdown("<div style='margin:.5rem 0'></div>", unsafe_allow_html=True)
 
+# ── Imports de strategy_engine ────────────────────────────────────────────────
+_SE_OK = False
+try:
+    from communications.strategy_engine import (
+        analyze_issue_for_comms,
+        build_message_triangle,
+        generate_counter_narratives,
+        generate_hostile_qna,
+        red_team_message,
+        recommend_channel_mix,
+    )
+    _SE_OK = True
+except Exception:
+    pass
+
+
+def _se_call(fn_name: str, *args, **kwargs):
+    """Llama a una función de strategy_engine con timeout. Retorna None si falla."""
+    if not _SE_OK:
+        return None
+    try:
+        import communications.strategy_engine as _se
+        fn = getattr(_se, fn_name)
+        return fn(*args, **kwargs)
+    except Exception:
+        return None
+
+
 # ── TABS ─────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tabA, tabB, tabC, tabD, tabE, tabF = st.tabs([
     "MONITOR DE NARRATIVAS",
     "ANÁLISIS DE MENSAJE",
     "ESTRATEGIA DE RESPUESTA",
     "CICLO MEDIÁTICO",
     "MENSAJES CLAVE",
+    "ESTRATEGIA",
+    "TRIANGULO",
+    "CONTRANARRATIVAS",
+    "SIMULACRO PRENSA",
+    "GUARDIAN MENSAJE",
+    "MIX DE CANALES",
 ])
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -966,6 +1000,669 @@ with tab5:
                 f'<div style="height:5px;width:{a_pct}%;background:{a_consist_color};border-radius:3px"></div>'
                 f'</div>'
                 f'<span style="font-size:.75rem;color:{a_consist_color};font-weight:700;min-width:35px;text-align:right">{a_pct}%</span>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB A — ESTRATEGIA
+# ════════════════════════════════════════════════════════════════════════════
+_AUDIENCES = ["Ciudadanos", "Militantes", "Medios", "Empresas", "Internacional"]
+
+with tabA:
+    section_header("Analisis estrategico de issue comunicacional", CYAN)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'Introduce el asunto o crisis y obtén un diagnóstico completo: marcos rival y propio, '
+        f'mensaje central, argumentos, preguntas hostiles y canal recomendado.'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    a_col1, a_col2 = st.columns([3, 1])
+    with a_col1:
+        a_issue = st.text_area(
+            "Describe el asunto o crisis a gestionar",
+            key="a_issue",
+            height=90,
+            placeholder="Ej: La oposición acusa al gobierno de no tener plan de vivienda asequible...",
+        )
+    with a_col2:
+        a_audience = st.selectbox("Audiencia principal", _AUDIENCES, key="a_audience")
+
+    a_context = st.text_area(
+        "Contexto adicional (opcional)",
+        key="a_context",
+        height=60,
+        placeholder="Fechas clave, actores involucrados, eventos recientes...",
+    )
+
+    if st.button("Analizar estrategia", key="a_run", use_container_width=True):
+        if not a_issue.strip():
+            st.warning("Introduce el asunto a analizar.")
+        else:
+            with st.spinner("Analizando estrategia de comunicacion... (max. 15s)"):
+                ctx = {"audience": a_audience, "context": a_context}
+                result = _se_call("analyze_issue_for_comms", a_issue, ctx)
+                if result is None:
+                    result = {
+                        "rival_frame": "La oposicion encuadra el asunto como un fracaso de gestion sin precedentes.",
+                        "own_frame": "Estamos tomando medidas concretas con resultados verificables.",
+                        "central_message": "Actuamos, no solo prometemos — los datos lo confirman.",
+                        "three_arguments": [
+                            "Dato: X indicadores han mejorado desde la implementacion de la medida.",
+                            "Valor: Nuestra posicion defiende a los ciudadanos frente a intereses de lobby.",
+                            "Futuro: El camino que proponemos genera estabilidad a largo plazo.",
+                        ],
+                        "hostile_questions": [
+                            "¿No llega demasiado tarde esta medida?",
+                            "¿Por que no lo hicieron antes?",
+                            "¿Cuanto va a costar esto a los contribuyentes?",
+                        ],
+                        "answers": [
+                            "Las reformas estructurales requieren tiempo — lo importante es que estan funcionando.",
+                            "Actuamos en cuanto tuvimos la mayoria parlamentaria necesaria.",
+                            "La inversion se financia con los ahorros generados por eficiencia en otras partidas.",
+                        ],
+                        "recommended_channel": "twitter_x, rueda_de_prensa",
+                        "do_not_say": ["Catastrofe", "Sin precedentes", "Culpa de los anteriores"],
+                        "mode": "MODO DEMO",
+                    }
+                st.session_state["tabA_result"] = result
+
+    if st.session_state.get("tabA_result"):
+        r = st.session_state["tabA_result"]
+        _mode = r.get("mode", "")
+        if _mode:
+            st.markdown(
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .6rem;border-radius:4px;letter-spacing:.08em">{_mode}</span>',
+                unsafe_allow_html=True,
+            )
+
+        c1, c2 = st.columns(2)
+        with c1:
+            section_header("Marco rival", RED)
+            st.markdown(
+                f'<div style="background:{RED}0D;border:1px solid {RED}33;border-radius:8px;'
+                f'padding:.8rem 1rem;font-size:.82rem;color:{TEXT2};line-height:1.5">'
+                f'{r.get("rival_frame","—")}</div>',
+                unsafe_allow_html=True,
+            )
+        with c2:
+            section_header("Nuestro marco", GREEN)
+            st.markdown(
+                f'<div style="background:{GREEN}0D;border:1px solid {GREEN}33;border-radius:8px;'
+                f'padding:.8rem 1rem;font-size:.82rem;color:{TEXT2};line-height:1.5">'
+                f'{r.get("own_frame","—")}</div>',
+                unsafe_allow_html=True,
+            )
+
+        section_header("Mensaje central", CYAN)
+        st.markdown(
+            f'<div style="background:{CYAN}0D;border:2px solid {CYAN}44;border-radius:8px;'
+            f'padding:1rem 1.2rem;font-size:1rem;font-weight:700;color:{TEXT};text-align:center">'
+            f'{r.get("central_message","—")}</div>',
+            unsafe_allow_html=True,
+        )
+
+        section_header("3 argumentos clave", BLUE)
+        for i, arg in enumerate(r.get("three_arguments", [])[:3], 1):
+            st.markdown(
+                f'<div style="background:{BG3};border-left:3px solid {BLUE};border-radius:0 8px 8px 0;'
+                f'padding:.6rem .9rem;margin:.3rem 0;font-size:.8rem;color:{TEXT2}">'
+                f'<span style="color:{BLUE};font-weight:700">{i}.</span> {arg}</div>',
+                unsafe_allow_html=True,
+            )
+
+        hqs = r.get("hostile_questions", [])
+        ans = r.get("answers", [])
+        if hqs:
+            section_header("Preguntas hostiles + respuestas sugeridas", AMBER)
+            for q, a_text in zip(hqs, ans):
+                st.markdown(
+                    f'<div style="background:{AMBER}0A;border-left:3px solid {AMBER};'
+                    f'border-radius:0 8px 8px 0;padding:.55rem .9rem;margin:.3rem 0;'
+                    f'font-size:.8rem;color:{AMBER}"><strong>P:</strong> {q}</div>'
+                    f'<div style="background:{GREEN}0A;border-left:3px solid {GREEN};'
+                    f'border-radius:0 8px 8px 0;padding:.55rem .9rem;margin:.1rem 0 .5rem;'
+                    f'font-size:.8rem;color:{TEXT2}"><strong>R:</strong> {a_text}</div>',
+                    unsafe_allow_html=True,
+                )
+
+        c3, c4 = st.columns(2)
+        with c3:
+            channel = r.get("recommended_channel", "—")
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:8px;padding:.8rem 1rem">'
+                f'<div style="font-size:.6rem;color:{MUTED};letter-spacing:.1em;margin-bottom:.3rem">CANAL RECOMENDADO</div>'
+                f'<div style="font-size:.9rem;font-weight:700;color:{CYAN}">{channel}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        with c4:
+            dont = r.get("do_not_say", [])
+            if dont:
+                dont_html = " &bull; ".join(
+                    f'<span style="color:{RED}">{d}</span>' for d in dont[:4]
+                )
+                st.markdown(
+                    f'<div style="background:{RED}0A;border:1px solid {RED}22;border-radius:8px;padding:.8rem 1rem">'
+                    f'<div style="font-size:.6rem;color:{MUTED};letter-spacing:.1em;margin-bottom:.3rem">NO DECIR NUNCA</div>'
+                    f'<div style="font-size:.78rem">{dont_html}</div>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB B — TRIANGULO DE MENSAJE
+# ════════════════════════════════════════════════════════════════════════════
+with tabB:
+    section_header("Triangulo de mensaje politico", CYAN)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'El triangulo de mensaje estructura la comunicacion en tres vertices: '
+        f'Cabeza (intelectual), Corazon (emocional) y Manos (practico/accion).'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    b_col1, b_col2 = st.columns([3, 1])
+    with b_col1:
+        b_issue = st.text_area("Issue principal", key="b_issue", height=75,
+                                placeholder="Ej: Propuesta de reforma de la ley de vivienda...")
+    with b_col2:
+        b_audience = st.selectbox("Audiencia", _AUDIENCES, key="b_audience")
+
+    if st.button("Construir triangulo", key="b_run", use_container_width=True):
+        if not b_issue.strip():
+            st.warning("Introduce el issue.")
+        else:
+            with st.spinner("Construyendo triangulo de mensaje... (max. 15s)"):
+                result = _se_call("build_message_triangle", b_issue, b_audience)
+                if result is None:
+                    result = {
+                        "central_message": "La vivienda asequible es un derecho, no un privilegio.",
+                        "argument_1": "CABEZA: Los datos del INE muestran que el 40% de los jovenes dedican mas del 50% de su renta al alquiler.",
+                        "argument_2": "CORAZON: Cada familia que no puede acceder a una vivienda digna es una promesa rota.",
+                        "argument_3": "MANOS: Nuestra ley pone 50.000 viviendas protegidas en el mercado antes de 2026.",
+                        "tone": "conciliador",
+                        "issue": b_issue,
+                        "audience": b_audience,
+                        "mode": "MODO DEMO",
+                    }
+                st.session_state["tabB_result"] = result
+
+    if st.session_state.get("tabB_result"):
+        r = st.session_state["tabB_result"]
+        if r.get("mode"):
+            st.markdown(
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .6rem;border-radius:4px">{r["mode"]}</span>',
+                unsafe_allow_html=True,
+            )
+
+        section_header("Mensaje central", CYAN)
+        st.markdown(
+            f'<div style="background:{CYAN}0D;border:2px solid {CYAN}44;border-radius:8px;'
+            f'padding:1rem 1.2rem;font-size:1rem;font-weight:700;color:{TEXT};text-align:center;margin-bottom:1rem">'
+            f'{r.get("central_message","—")}</div>',
+            unsafe_allow_html=True,
+        )
+
+        # Visual triangle layout
+        tri_html = (
+            f'<div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:1rem 0">'
+            # Vertex top (Cabeza)
+            f'<div style="background:{BLUE}18;border:1px solid {BLUE}55;border-radius:10px;'
+            f'padding:1rem 1.5rem;max-width:520px;width:100%">'
+            f'<div style="font-size:.62rem;font-weight:800;color:{BLUE};letter-spacing:.12em;margin-bottom:.4rem">CABEZA — INTELECTUAL</div>'
+            f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.5">{r.get("argument_1","—")}</div>'
+            f'</div>'
+            # Row with two lower vertices
+            f'<div style="display:flex;gap:.5rem;width:100%;max-width:520px">'
+            # Bottom-left (Corazon)
+            f'<div style="background:{RED}12;border:1px solid {RED}44;border-radius:10px;'
+            f'padding:1rem;flex:1">'
+            f'<div style="font-size:.62rem;font-weight:800;color:{RED};letter-spacing:.12em;margin-bottom:.4rem">CORAZON — EMOCIONAL</div>'
+            f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.45">{r.get("argument_2","—")}</div>'
+            f'</div>'
+            # Bottom-right (Manos)
+            f'<div style="background:{GREEN}12;border:1px solid {GREEN}44;border-radius:10px;'
+            f'padding:1rem;flex:1">'
+            f'<div style="font-size:.62rem;font-weight:800;color:{GREEN};letter-spacing:.12em;margin-bottom:.4rem">MANOS — PRACTICO</div>'
+            f'<div style="font-size:.8rem;color:{TEXT2};line-height:1.45">{r.get("argument_3","—")}</div>'
+            f'</div>'
+            f'</div>'
+            f'</div>'
+        )
+        st.markdown(tri_html, unsafe_allow_html=True)
+
+        tone = r.get("tone", "")
+        if tone:
+            tone_color = {"combativo": RED, "moderado": BLUE, "conciliador": GREEN,
+                          "tecnico": CYAN, "emocional": PURPLE}.get(tone, MUTED)
+            st.markdown(
+                f'<span style="background:{tone_color}22;color:{tone_color};font-size:.7rem;'
+                f'font-weight:700;padding:.25rem .7rem;border-radius:4px;letter-spacing:.06em">'
+                f'TONO: {tone.upper()}</span>',
+                unsafe_allow_html=True,
+            )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB C — NARRATIVAS CONTRA
+# ════════════════════════════════════════════════════════════════════════════
+with tabC:
+    section_header("Generador de contranarrativas", PURPLE)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'Introduce el marco narrativo adversarial y tu posicion propia para generar '
+        f'contranarrativas con distintos enfoques (reframing, evidencia, reduccion al absurdo, redireccion).'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    c_frame = st.text_area(
+        "Marco narrativo rival a contrarrestar",
+        key="c_frame",
+        height=80,
+        placeholder="Ej: El gobierno ha dejado a los jovenes sin futuro con sus politicas de vivienda...",
+    )
+    c_position = st.text_area(
+        "Tu posicion propia (opcional)",
+        key="c_position",
+        height=60,
+        placeholder="Ej: La ley de vivienda del gobierno ya tiene 47.000 contratos protegidos...",
+    )
+
+    if st.button("Generar contranarrativas", key="c_run", use_container_width=True):
+        if not c_frame.strip():
+            st.warning("Introduce el marco narrativo a contrarrestar.")
+        else:
+            with st.spinner("Generando contranarrativas... (max. 15s)"):
+                result = _se_call("generate_counter_narratives", c_frame, c_position)
+                if not result:
+                    result = [
+                        {
+                            "counter": "El encuadre correcto no es 'gobierno sin plan' sino 'primera ley de vivienda en 30 anos'. "
+                                       "Recuperemos la narrativa de los logros historicos.",
+                            "approach": "reframing",
+                            "channel": "Twitter, television",
+                            "risk": "bajo",
+                            "mode": "MODO DEMO",
+                        },
+                        {
+                            "counter": "Los datos lo demuestran: desde 2023 se han firmado 47.000 contratos de alquiler regulado. "
+                                       "No hay fracaso en los hechos, hay progreso constante.",
+                            "approach": "evidence",
+                            "channel": "Rueda de prensa, newsletters",
+                            "risk": "bajo",
+                            "mode": "MODO DEMO",
+                        },
+                        {
+                            "counter": "Preguntemos a la oposicion: ¿cuantas viviendas construyeron en sus 8 anos de gobierno? "
+                                       "Cero politica de alquiler asequible. La critica carece de credibilidad.",
+                            "approach": "reductio",
+                            "channel": "Debate parlamentario, redes",
+                            "risk": "medio",
+                            "mode": "MODO DEMO",
+                        },
+                    ]
+                st.session_state["tabC_result"] = result
+
+    if st.session_state.get("tabC_result"):
+        results = st.session_state["tabC_result"]
+        _approach_color = {
+            "reframing": CYAN, "evidence": GREEN, "reductio": AMBER,
+            "redirect": BLUE, "generic": MUTED,
+        }
+        for idx, cn in enumerate(results[:5], 1):
+            approach = cn.get("approach", "generic")
+            color = _approach_color.get(approach, MUTED)
+            risk = cn.get("risk", "")
+            risk_color = RED if risk == "alto" else (AMBER if risk == "medio" else GREEN)
+            channel = cn.get("channel", "")
+            mode_badge = (
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.58rem;'
+                f'font-weight:700;padding:.15rem .45rem;border-radius:4px">{cn["mode"]}</span> '
+                if cn.get("mode") else ""
+            )
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:4px solid {color};'
+                f'border-radius:0 10px 10px 0;padding:1rem 1.2rem;margin:.5rem 0">'
+                f'<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem">'
+                f'<span style="background:{color}22;color:{color};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .55rem;border-radius:4px;letter-spacing:.06em">{approach.upper()}</span>'
+                f'{mode_badge}'
+                f'{"<span style=background:"+risk_color+"22;color:"+risk_color+";font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:4px>RIESGO "+risk.upper()+"</span>" if risk else ""}'
+                f'<span style="font-size:.62rem;color:{MUTED};margin-left:auto">{channel}</span>'
+                f'</div>'
+                f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.55">{cn.get("counter","—")}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB D — SIMULACRO DE PRENSA
+# ════════════════════════════════════════════════════════════════════════════
+_ASSET_TYPES = ["rueda_de_prensa", "entrevista", "nota_de_prensa", "debate"]
+
+with tabD:
+    section_header("Simulacro de rueda de prensa — preguntas hostiles", AMBER)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'Prepara al portavoz ante preguntas de periodistas adversariales. '
+        f'El sistema genera preguntas trampa y respuestas modelo.'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    d_col1, d_col2 = st.columns([3, 1])
+    with d_col1:
+        d_issue = st.text_area("Asunto de la rueda de prensa", key="d_issue", height=75,
+                                placeholder="Ej: Presentacion del plan nacional de vivienda 2025-2030...")
+    with d_col2:
+        d_asset_type = st.selectbox("Tipo de acto", _ASSET_TYPES, key="d_asset_type")
+
+    if st.button("Generar preguntas hostiles", key="d_run", use_container_width=True):
+        if not d_issue.strip():
+            st.warning("Introduce el asunto.")
+        else:
+            with st.spinner("Generando simulacro de prensa... (max. 15s)"):
+                result = _se_call("generate_hostile_qna", d_issue, 6)
+                if not result:
+                    result = [
+                        {"question": "¿No llega demasiado tarde este plan? Los jovenes llevan anos esperando.", "answer": "Las reformas estructurales requieren tiempo de tramitacion parlamentaria. Lo relevante es que el plan esta aprobado, financiado y en marcha.", "hostility": "alta"},
+                        {"question": "¿Cuanto va a costar exactamente a los contribuyentes?", "answer": "La inversion total es de 4.200 millones de euros en 5 anos — menos que el coste de no actuar, que genera exclusion social y perdida de productividad.", "hostility": "alta"},
+                        {"question": "¿Por que no lo hicieron antes? Han tenido tres anos.", "answer": "Los primeros dos anos se dedicaron a reformas urgentes de empleo y sanidad. El orden de prioridades fue validado por los ciudadanos en las urnas.", "hostility": "media"},
+                        {"question": "¿No es verdad que la cifra real de viviendas es mucho menor?", "answer": "La cifra de 100.000 viviendas proviene del Ministerio de Vivienda con auditoria independiente del Banco de Espana. Publicamos los datos completos.", "hostility": "alta"},
+                        {"question": "¿Que garantias tienen los ciudadanos de que no sera otro fracaso como los anteriores?", "answer": "Hemos establecido un mecanismo de seguimiento trimestral publico con indicadores verificables. El fracaso no es una opcion politicamente viable para ninguno de nosotros.", "hostility": "media"},
+                        {"question": "¿Cuantos miembros de su gobierno tienen segundas residencias en alquiler?", "answer": "Esta pregunta no tiene relacion con las medidas que hemos presentado. Me centro en el plan. Si tiene una denuncia concreta, le pido que la formule con datos.", "hostility": "alta"},
+                    ]
+                st.session_state["tabD_result"] = result
+
+    if st.session_state.get("tabD_result"):
+        qa_list = st.session_state["tabD_result"]
+        is_demo = not _SE_OK or not qa_list or qa_list[0].get("mode") == "demo"
+        if is_demo or not _SE_OK:
+            st.markdown(
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .6rem;border-radius:4px">MODO DEMO</span>',
+                unsafe_allow_html=True,
+            )
+        for qa in qa_list[:6]:
+            hostility = qa.get("hostility", "media")
+            h_color = RED if hostility == "alta" else (AMBER if hostility == "media" else MUTED)
+            st.markdown(
+                f'<div style="margin:.6rem 0">'
+                f'<div style="background:{AMBER}0D;border-left:4px solid {AMBER};border-radius:0 8px 0 0;'
+                f'padding:.6rem .9rem">'
+                f'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.25rem">'
+                f'<span style="font-size:.6rem;color:{MUTED};letter-spacing:.08em">PERIODISTA</span>'
+                f'<span style="background:{h_color}22;color:{h_color};font-size:.58rem;font-weight:700;'
+                f'padding:.1rem .4rem;border-radius:4px">HOSTILIDAD {hostility.upper()}</span>'
+                f'</div>'
+                f'<div style="font-size:.85rem;font-weight:600;color:{AMBER}">{qa.get("question","—")}</div>'
+                f'</div>'
+                f'<div style="background:{GREEN}0D;border-left:4px solid {GREEN};border-radius:0 0 8px 0;'
+                f'padding:.6rem .9rem">'
+                f'<div style="font-size:.6rem;color:{MUTED};letter-spacing:.08em;margin-bottom:.25rem">RESPUESTA MODELO</div>'
+                f'<div style="font-size:.82rem;color:{TEXT2};line-height:1.5">{qa.get("answer","—")}</div>'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB E — GUARDIAN DE MENSAJE
+# ════════════════════════════════════════════════════════════════════════════
+with tabE:
+    section_header("Guardian de mensaje — analisis de riesgo comunicacional", RED)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'Pega un borrador de mensaje, discurso o nota de prensa para analizar sus riesgos '
+        f'antes de publicarlo. El sistema detecta vulnerabilidades y sugiere mejoras.'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    e_col1, e_col2 = st.columns([3, 1])
+    with e_col1:
+        e_message = st.text_area(
+            "Texto a analizar",
+            key="e_message",
+            height=140,
+            placeholder="Pega aqui el borrador del mensaje, discurso o nota de prensa...",
+        )
+    with e_col2:
+        e_asset_type = st.selectbox("Tipo de contenido", _ASSET_TYPES, key="e_asset_type")
+
+    if st.button("Analizar riesgos", key="e_run", use_container_width=True):
+        if not e_message.strip():
+            st.warning("Introduce el texto a analizar.")
+        else:
+            with st.spinner("Analizando riesgos comunicacionales... (max. 15s)"):
+                result = _se_call("red_team_message", e_message, e_asset_type)
+                if result is None:
+                    result = {
+                        "risk_level": "medio",
+                        "weaknesses": [
+                            "El mensaje usa vocabulario tecnico que puede alejar a audiencias no especializadas.",
+                            "No incluye llamada a la accion clara al final.",
+                        ],
+                        "attack_vectors": [
+                            "La oposicion puede usar el dato de costes para crear narrativa de despilfarro.",
+                        ],
+                        "suggested_improvements": [
+                            "Sustituir 'implementacion' por 'puesta en marcha'.",
+                            "Anadir una frase de cierre con beneficio concreto para el ciudadano.",
+                            "Incluir fuente oficial del dato economico citado.",
+                        ],
+                        "do_not_say": ["Implementacion", "Parametros", "Marco normativo"],
+                        "guardrail_flags": [],
+                        "mode": "MODO DEMO",
+                    }
+                st.session_state["tabE_result"] = result
+
+    if st.session_state.get("tabE_result"):
+        r = st.session_state["tabE_result"]
+        risk = r.get("risk_level", "unknown")
+        risk_color = RED if risk == "alto" else (AMBER if risk == "medio" else GREEN)
+
+        _mode = r.get("mode", "")
+        if _mode:
+            st.markdown(
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .6rem;border-radius:4px">{_mode}</span>',
+                unsafe_allow_html=True,
+            )
+
+        # Veredicto
+        if risk == "alto":
+            verdict_color = RED
+            verdict_label = "BLOQUEADO"
+            verdict_desc = "Este mensaje presenta riesgos criticos. Revisar urgentemente antes de publicar."
+        elif risk == "medio":
+            verdict_color = AMBER
+            verdict_label = "REQUIERE REVISION"
+            verdict_desc = "El mensaje tiene puntos de mejora importantes. Revisar antes de publicar."
+        else:
+            verdict_color = GREEN
+            verdict_label = "APROBADO"
+            verdict_desc = "El mensaje supera el analisis de riesgos. Puede publicarse con las mejoras sugeridas."
+
+        st.markdown(
+            f'<div style="background:{verdict_color}18;border:2px solid {verdict_color};border-radius:10px;'
+            f'padding:1rem 1.4rem;margin:1rem 0;text-align:center">'
+            f'<div style="font-size:1.2rem;font-weight:900;color:{verdict_color};letter-spacing:.05em">{verdict_label}</div>'
+            f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.3rem">{verdict_desc}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+        e_c1, e_c2 = st.columns(2)
+        with e_c1:
+            weaknesses = r.get("weaknesses", [])
+            if weaknesses:
+                section_header("Debilidades detectadas", RED)
+                for w in weaknesses[:5]:
+                    st.markdown(
+                        f'<div style="background:{RED}0A;border-left:3px solid {RED};border-radius:0 6px 6px 0;'
+                        f'padding:.5rem .8rem;margin:.3rem 0;font-size:.8rem;color:{TEXT2}">{w}</div>',
+                        unsafe_allow_html=True,
+                    )
+        with e_c2:
+            improvements = r.get("suggested_improvements", [])
+            if improvements:
+                section_header("Mejoras sugeridas", GREEN)
+                for imp in improvements[:5]:
+                    st.markdown(
+                        f'<div style="background:{GREEN}0A;border-left:3px solid {GREEN};border-radius:0 6px 6px 0;'
+                        f'padding:.5rem .8rem;margin:.3rem 0;font-size:.8rem;color:{TEXT2}">{imp}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+        flags = r.get("guardrail_flags", [])
+        if flags:
+            section_header("Alertas de guardrails de contenido", PURPLE)
+            for flag in flags[:5]:
+                if isinstance(flag, dict):
+                    sev = flag.get("severity", "info")
+                    desc = flag.get("description", str(flag))
+                    f_color = RED if sev in {"high", "block"} else (AMBER if sev == "medium" else MUTED)
+                else:
+                    desc = str(flag)
+                    f_color = AMBER
+                st.markdown(
+                    f'<div style="background:{f_color}0A;border-left:3px solid {f_color};'
+                    f'border-radius:0 6px 6px 0;padding:.5rem .8rem;margin:.3rem 0;'
+                    f'font-size:.78rem;color:{TEXT2}">{desc}</div>',
+                    unsafe_allow_html=True,
+                )
+
+
+# ════════════════════════════════════════════════════════════════════════════
+# TAB F — MIX DE CANALES
+# ════════════════════════════════════════════════════════════════════════════
+_URGENCY_OPTS = ["crisis", "alta", "normal", "baja"]
+
+with tabF:
+    section_header("Recomendador de mix de canales", CYAN)
+    st.markdown(
+        f'<div style="font-size:.78rem;color:{TEXT2};margin-bottom:1rem">'
+        f'Introduce el issue y el nivel de urgencia para obtener una recomendacion '
+        f'de canales priorizada con timing y tipo de mensaje para cada uno.'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    f_col1, f_col2 = st.columns([3, 1])
+    with f_col1:
+        f_issue = st.text_area("Asunto", key="f_issue", height=75,
+                                placeholder="Ej: Respuesta a acusacion de falta de gestion en sanidad...")
+    with f_col2:
+        f_urgency = st.selectbox("Nivel de urgencia", _URGENCY_OPTS, key="f_urgency")
+
+    if st.button("Recomendar canales", key="f_run", use_container_width=True):
+        if not f_issue.strip():
+            st.warning("Introduce el asunto.")
+        else:
+            with st.spinner("Analizando mix optimo de canales... (max. 15s)"):
+                result = _se_call("recommend_channel_mix", f_issue, f_urgency)
+                if not result:
+                    _demo_channels = {
+                        "crisis": [
+                            {"channel": "Nota de prensa urgente", "priority": 1, "reason": "Comunicado urgente para medios", "timing": "Inmediato", "message_type": "Declaracion oficial", "reach": 85},
+                            {"channel": "Twitter/X", "priority": 2, "reason": "Alcance inmediato y viralidad", "timing": "< 15 min", "message_type": "Hilo de hechos", "reach": 92},
+                            {"channel": "Email a stakeholders", "priority": 3, "reason": "Contacto directo con actores clave", "timing": "< 1h", "message_type": "Briefing interno", "reach": 40},
+                            {"channel": "Rueda de prensa", "priority": 4, "reason": "Control de la narrativa en directo", "timing": "< 4h", "message_type": "Declaracion + Q&A", "reach": 78},
+                        ],
+                        "alta": [
+                            {"channel": "LinkedIn", "priority": 1, "reason": "Audiencia profesional e institucional", "timing": "< 4h", "message_type": "Articulo de posicion", "reach": 65},
+                            {"channel": "Newsletter", "priority": 2, "reason": "Base propia con alta tasa apertura", "timing": "< 12h", "message_type": "Informe especial", "reach": 55},
+                            {"channel": "Nota de prensa", "priority": 3, "reason": "Medios tradicionales", "timing": "< 8h", "message_type": "Comunicado", "reach": 70},
+                        ],
+                        "normal": [
+                            {"channel": "LinkedIn", "priority": 1, "reason": "Engagement profesional sostenido", "timing": "Esta semana", "message_type": "Post de opinion", "reach": 60},
+                            {"channel": "Newsletter", "priority": 2, "reason": "Nurturing de base propia", "timing": "Proximo envio", "message_type": "Seccion tematica", "reach": 50},
+                            {"channel": "Interno", "priority": 3, "reason": "Alineacion del equipo primero", "timing": "Hoy", "message_type": "Briefing interno", "reach": 30},
+                        ],
+                        "baja": [
+                            {"channel": "Interno", "priority": 1, "reason": "Solo interno por ahora", "timing": "Esta semana", "message_type": "Nota informativa", "reach": 25},
+                            {"channel": "Newsletter", "priority": 2, "reason": "Educacion de base a largo plazo", "timing": "Proximo mes", "message_type": "Articulo de fondo", "reach": 45},
+                        ],
+                    }
+                    result = _demo_channels.get(f_urgency, _demo_channels["normal"])
+                    for item in result:
+                        item["mode"] = "MODO DEMO"
+                st.session_state["tabF_result"] = {"channels": result, "urgency": f_urgency}
+
+    if st.session_state.get("tabF_result"):
+        data = st.session_state["tabF_result"]
+        channels = data.get("channels", [])
+        urgency_used = data.get("urgency", "normal")
+        urgency_color = RED if urgency_used == "crisis" else (AMBER if urgency_used == "alta" else (BLUE if urgency_used == "normal" else MUTED))
+
+        is_demo = channels and channels[0].get("mode")
+        if is_demo:
+            st.markdown(
+                f'<span style="background:{AMBER}22;color:{AMBER};font-size:.62rem;font-weight:700;'
+                f'padding:.2rem .6rem;border-radius:4px">MODO DEMO</span>',
+                unsafe_allow_html=True,
+            )
+
+        # Urgency badge
+        st.markdown(
+            f'<div style="margin:.5rem 0">'
+            f'<span style="background:{urgency_color}22;color:{urgency_color};font-size:.7rem;'
+            f'font-weight:700;padding:.25rem .7rem;border-radius:4px;letter-spacing:.06em">'
+            f'URGENCIA: {urgency_used.upper()}</span>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+        # Channel distribution bar
+        if channels:
+            total_reach = sum(c.get("reach", 50) for c in channels)
+            if total_reach > 0:
+                section_header("Distribucion de alcance estimado por canal", CYAN)
+                bar_html = '<div style="display:flex;gap:2px;border-radius:6px;overflow:hidden;height:14px;margin:.4rem 0 1rem">'
+                _bar_colors = [CYAN, BLUE, PURPLE, AMBER, GREEN, RED]
+                for idx_b, c in enumerate(channels):
+                    pct = c.get("reach", 50) / total_reach * 100
+                    bc = _bar_colors[idx_b % len(_bar_colors)]
+                    bar_html += f'<div style="width:{pct:.1f}%;background:{bc};min-width:4px" title="{c.get("channel","")}"></div>'
+                bar_html += '</div>'
+                st.markdown(bar_html, unsafe_allow_html=True)
+
+        # Channel cards
+        for idx_c, ch in enumerate(channels[:6]):
+            prio = ch.get("priority", idx_c + 1)
+            ch_color = [CYAN, BLUE, PURPLE, AMBER, GREEN, MUTED][min(prio - 1, 5)]
+            timing = ch.get("timing", "—")
+            msg_type = ch.get("message_type", "—")
+            reason = ch.get("reason", "")
+            reach = ch.get("reach", "—")
+
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:4px solid {ch_color};'
+                f'border-radius:0 10px 10px 0;padding:.9rem 1.1rem;margin:.4rem 0">'
+                f'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">'
+                f'<span style="background:{ch_color}22;color:{ch_color};font-size:.72rem;font-weight:800;'
+                f'padding:.2rem .55rem;border-radius:4px;min-width:20px;text-align:center">{prio}</span>'
+                f'<span style="font-size:.9rem;font-weight:700;color:{TEXT}">{ch.get("channel","—")}</span>'
+                f'<span style="font-size:.65rem;color:{MUTED};margin-left:auto">Alcance est.: {reach}%</span>'
+                f'</div>'
+                f'<div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:.75rem">'
+                f'<span><span style="color:{MUTED}">Timing: </span><span style="color:{ch_color};font-weight:600">{timing}</span></span>'
+                f'<span><span style="color:{MUTED}">Tipo: </span><span style="color:{TEXT2}">{msg_type}</span></span>'
+                f'</div>'
+                f'{"<div style=font-size:.75rem;color:"+MUTED+";margin-top:.25rem>"+reason+"</div>" if reason else ""}'
                 f'</div>',
                 unsafe_allow_html=True,
             )

@@ -113,6 +113,11 @@ def route(
         _record_job(task_type, prompt, model, "error", latency_ms, None, str(exc))
         log.warning("llm_router %s failed (%dms): %s", task_type, latency_ms, exc)
 
+        # Intentar fallback Groq (rápido, gratuito) antes que cloud
+        groq_result = _try_groq_fallback(prompt, task_type, cfg["json"])
+        if groq_result:
+            return {**groq_result, "task_type": task_type, "from_cache": False, "ok": True}
+
         # Intentar fallback cloud si está disponible
         cloud_result = _try_cloud_fallback(task_type, prompt, cfg)
         if cloud_result:
@@ -163,6 +168,21 @@ def _call_ollama(prompt: str, model: str, timeout: int, expect_json: bool) -> An
                     pass
             return {"raw": text}
     return text
+
+
+def _try_groq_fallback(prompt: str, task_type: str, expect_json: bool) -> dict | None:
+    """Intenta usar Groq como alternativa rápida antes del cloud."""
+    try:
+        from agents.brain.groq_client import is_groq_available, call_groq
+        if not is_groq_available():
+            return None
+        tier = "fast" if _TASK_CONFIG.get(task_type, {}).get("speed") == "fast" else "normal"
+        result = call_groq(prompt, model_tier=tier, expect_json=expect_json, timeout=15)
+        if result.get("ok"):
+            return result
+        return None
+    except Exception:
+        return None
 
 
 def _try_cloud_fallback(task_type: str, prompt: str, cfg: dict) -> dict | None:

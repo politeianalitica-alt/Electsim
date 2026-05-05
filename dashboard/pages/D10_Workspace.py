@@ -1,16 +1,11 @@
-"""D10 — Centro de Operaciones · Campaign War Room.
-
-Sala central del analista: kanban de tareas, agenda de campaña,
-equipo y roles, informes y exports, configuración del cliente.
+"""
+Workspace War Room — ElectSim España.
+Centro operativo del equipo: issues, acciones, decisiones, colaboración.
 """
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timedelta
-
-import pandas as pd
-import plotly.graph_objects as go
-import streamlit as st
+from datetime import datetime, date, timedelta
 from pathlib import Path
 import sys
 
@@ -18,82 +13,72 @@ _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+import streamlit as st
+
 from dashboard.shared import (
-    sidebar_nav, aplicar_estilos,
-    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
+    sidebar_nav,
+    aplicar_estilos,
+    BG, BG2, BG3, BORDER, BORDER2, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
     TEXT, TEXT2, MUTED,
-    section_header, kpi_card,
+    section_header,
+    kpi_card,
 )
 
 # ── Config ────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Centro de Operaciones · Politeia",
-    page_icon="",
+    page_title="Workspace — ElectSim",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 sidebar_nav()
 aplicar_estilos()
 
-# ── LLM opcional ──────────────────────────────────────────────────────────────
+# ── Tenant ────────────────────────────────────────────────────────────────────
+_TENANT_ID: str = st.session_state.get("politeia_tenant_id", "demo")
+
+# ── Workspace service ─────────────────────────────────────────────────────────
 try:
-    from dashboard.services.llm_local import chat as llm_chat, disponible as llm_disponible
-    _LLM_OK = bool(llm_disponible().get("brain", False))
+    from workspace_intelligence.workspace_service import (
+        list_workspaces,
+        get_workspace_context,
+        get_workspace_kpis,
+        get_activity_feed,
+        create_workspace_issue_from_alert,
+    )
+    _WS_OK = True
+except Exception as _ws_err:
+    _WS_OK = False
+    _ws_err_msg = str(_ws_err)
+
+try:
+    from workspace_intelligence.issue_board import (
+        create_issue,
+        list_issues,
+        update_issue_status,
+    )
+    _BOARD_OK = True
 except Exception:
-    _LLM_OK = False
-    llm_chat = None
+    _BOARD_OK = False
 
-# ── Session state defaults ────────────────────────────────────────────────────
-_TASK_DEFAULTS: list[dict] = [
-    {"id": str(uuid.uuid4()), "titulo": "Preparar briefing electoral semana 18", "prioridad": "Alta", "responsable": "Dir. Estratégico", "area": "Electoral", "estado": "En Progreso", "created": "2026-05-01"},
-    {"id": str(uuid.uuid4()), "titulo": "Análisis cobertura mediática PP semana 18", "prioridad": "Alta", "responsable": "Analista de Medios", "area": "Medios", "estado": "En Progreso", "created": "2026-05-01"},
-    {"id": str(uuid.uuid4()), "titulo": "Monitorizar tramitación Ley IA", "prioridad": "Media", "responsable": "Analista Legislativo", "area": "Legislativo", "estado": "Backlog", "created": "2026-04-30"},
-    {"id": str(uuid.uuid4()), "titulo": "Dossier actor: Santiago Abascal", "prioridad": "Alta", "responsable": "Analista Electoral", "area": "Research", "estado": "Backlog", "created": "2026-04-30"},
-    {"id": str(uuid.uuid4()), "titulo": "Revisión encuesta CIS mayo", "prioridad": "Alta", "responsable": "Analista Electoral 2", "area": "Electoral", "estado": "Revisión", "created": "2026-04-29"},
-    {"id": str(uuid.uuid4()), "titulo": "Informe impacto Ley Vivienda en opinión pública", "prioridad": "Media", "responsable": "Analista Económico", "area": "Económico", "estado": "Revisión", "created": "2026-04-28"},
-    {"id": str(uuid.uuid4()), "titulo": "Briefing semanal stakeholders", "prioridad": "Alta", "responsable": "Dir. Comunicación", "area": "Comunicación", "estado": "Completado", "created": "2026-04-25"},
-    {"id": str(uuid.uuid4()), "titulo": "Migración datos sondeos Q1 2026", "prioridad": "Baja", "responsable": "Coordinador Campaña", "area": "Datos", "estado": "Completado", "created": "2026-04-22"},
-    {"id": str(uuid.uuid4()), "titulo": "Configurar alertas geopolítica Sahel", "prioridad": "Media", "responsable": "Analista Electoral", "area": "Geopolítica", "estado": "Backlog", "created": "2026-04-30"},
-]
+try:
+    from workspace_intelligence.action_queue import (
+        add_action,
+        list_pending_actions,
+        complete_action,
+    )
+    _QUEUE_OK = True
+except Exception:
+    _QUEUE_OK = False
 
-_EVENT_DEFAULTS: list[dict] = [
-    {"id": str(uuid.uuid4()), "titulo": "Debate líderes RTVE", "fecha": "2026-05-05", "hora": "21:00", "tipo": "MEDIATICO", "descripcion": "Debate organizado por RTVE con los cinco líderes principales."},
-    {"id": str(uuid.uuid4()), "titulo": "Pleno Congreso — Presupuestos", "fecha": "2026-05-06", "hora": "10:00", "tipo": "LEGISLATIVO", "descripcion": "Debate y votación enmiendas a la totalidad PGE 2026."},
-    {"id": str(uuid.uuid4()), "titulo": "Publicación encuesta Metroscopia", "fecha": "2026-05-07", "hora": "09:00", "tipo": "ELECTORAL", "descripcion": "Encuesta electoral mensual Metroscopia para El País."},
-    {"id": str(uuid.uuid4()), "titulo": "Reunión equipo estrategia campaña", "fecha": "2026-05-08", "hora": "11:00", "tipo": "REUNION", "descripcion": "Revisión estrategia semana 19 con todo el equipo."},
-    {"id": str(uuid.uuid4()), "titulo": "Consejo de Ministros ordinario", "fecha": "2026-05-12", "hora": "10:30", "tipo": "LEGISLATIVO", "descripcion": "Aprobación previsible de nuevo decreto de vivienda."},
-    {"id": str(uuid.uuid4()), "titulo": "Mitin PP — Madrid Arena", "fecha": "2026-05-10", "hora": "19:00", "tipo": "ELECTORAL", "descripcion": "Acto de campaña masivo PP en Madrid."},
-    {"id": str(uuid.uuid4()), "titulo": "Alerta crisis narrativa bulos PSOE", "fecha": "2026-05-09", "hora": "08:00", "tipo": "CRISIS", "descripcion": "Monitorización intensiva bulos virales sobre financiación PSOE."},
-]
+try:
+    from workspace_intelligence.decision_log import (
+        log_decision,
+        list_decisions,
+    )
+    _DLOG_OK = True
+except Exception:
+    _DLOG_OK = False
 
-_REPORT_HISTORY: list[dict] = [
-    {"informe": "Briefing Matutino", "fecha": "2026-05-02", "formato": "PDF", "generado_por": "IA automático"},
-    {"informe": "Briefing Matutino", "fecha": "2026-05-01", "formato": "PDF", "generado_por": "IA automático"},
-    {"informe": "Informe Semanal", "fecha": "2026-04-28", "formato": "DOCX", "generado_por": "Dir. Estratégico"},
-    {"informe": "Análisis de Cobertura", "fecha": "2026-04-25", "formato": "PDF", "generado_por": "Analista de Medios"},
-    {"informe": "Dossier Actor", "fecha": "2026-04-20", "formato": "Markdown", "generado_por": "Analista Electoral"},
-]
-
-for key, default in [
-    ("d10_tareas", _TASK_DEFAULTS),
-    ("d10_eventos", _EVENT_DEFAULTS),
-    ("d10_report_history", _REPORT_HISTORY),
-    ("d10_config", {
-        "nombre_cliente": "Partido Político Demo",
-        "tipo": "Partido político",
-        "mercado": "España",
-        "watchlist": ["PP", "PSOE", "VOX", "SUMAR"],
-        "fuentes_activas": ["BOE", "El País", "El Mundo", "ABC", "La Vanguardia", "Congreso", "Senado"],
-        "modelo_llm": "politeia-brain:latest",
-        "umbral_riesgo": 60,
-        "umbral_alerta": 40,
-        "notif_email": True,
-        "notif_slack": False,
-        "slack_webhook": "",
-    }),
-]:
-    if key not in st.session_state:
-        st.session_state[key] = default
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -106,657 +91,780 @@ def _pill(text: str, color: str = CYAN, bg_alpha: str = "22") -> str:
     )
 
 
-def _priority_color(p: str) -> str:
+def _status_color(status: str) -> str:
     return {
-        "Alta": RED,
-        "Media": AMBER,
-        "Baja": GREEN,
-        "Urgente": "#FF00FF",
-    }.get(p, MUTED)
+        "open": CYAN,
+        "abierto": CYAN,
+        "monitoring": AMBER,
+        "en progreso": AMBER,
+        "resolved": GREEN,
+        "resuelto": GREEN,
+        "closed": MUTED,
+        "cerrado": MUTED,
+    }.get(status.lower(), MUTED)
 
 
-def _event_color(t: str) -> str:
+def _priority_color(priority: str) -> str:
     return {
-        "ELECTORAL": CYAN,
-        "MEDIATICO": PURPLE,
-        "LEGISLATIVO": BLUE,
-        "REUNION": AMBER,
-        "CRISIS": RED,
-    }.get(t, MUTED)
+        "critical": RED,
+        "critica": RED,
+        "high": AMBER,
+        "alta": AMBER,
+        "medium": BLUE,
+        "media": BLUE,
+        "normal": BLUE,
+        "low": MUTED,
+        "baja": MUTED,
+    }.get(priority.lower(), MUTED)
 
 
-def _status_color(s: str) -> str:
+def _status_label(status: str) -> str:
     return {
-        "disponible": GREEN,
-        "en reunión": AMBER,
-        "fuera": RED,
-    }.get(s.lower(), MUTED)
+        "open": "Abierto",
+        "monitoring": "En seguimiento",
+        "resolved": "Resuelto",
+        "closed": "Cerrado",
+        "pending": "Pendiente",
+        "in_progress": "En progreso",
+        "done": "Completado",
+        "cancelled": "Cancelado",
+    }.get(status.lower(), status.capitalize())
 
 
-def _chip(label: str, status_color: str) -> str:
-    dot = f'<span style="width:8px;height:8px;background:{status_color};border-radius:50%;display:inline-block;margin-right:.3rem;box-shadow:0 0 6px {status_color}88"></span>'
+def _priority_label(priority: str) -> str:
+    return {
+        "critical": "Critica",
+        "high": "Alta",
+        "normal": "Normal",
+        "medium": "Media",
+        "low": "Baja",
+    }.get(priority.lower(), priority.capitalize())
+
+
+def _card_html(
+    title: str,
+    subtitle: str = "",
+    body: str = "",
+    left_color: str = CYAN,
+    extra_html: str = "",
+) -> str:
     return (
-        f'<div style="display:inline-flex;align-items:center;padding:.25rem .65rem;'
-        f'background:{status_color}18;border:1px solid {status_color}44;border-radius:999px;'
-        f'font-size:.68rem;font-weight:700;color:{status_color};gap:.1rem">'
-        f'{dot}{label}</div>'
-    )
-
-
-# ── System Status Chips ───────────────────────────────────────────────────────
-def _system_status_row() -> None:
-    services = {
-        "IA Brain": (GREEN if _LLM_OK else AMBER, "activo" if _LLM_OK else "degradado"),
-        "Ingesta Noticias": (GREEN, "operativa"),
-        "Base de Datos": (GREEN, "conectada"),
-        "APIs Externas": (AMBER, "parcial"),
-        "Workers ETL": (GREEN, "corriendo"),
-    }
-    chips_html = "".join(
-        f'<div style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;'
-        f'background:{col}12;border:1px solid {col}44;border-radius:8px;">'
-        f'<span style="width:9px;height:9px;background:{col};border-radius:50%;'
-        f'box-shadow:0 0 8px {col}88;flex-shrink:0"></span>'
-        f'<span style="font-size:.7rem;font-weight:700;color:{TEXT}">{svc}</span>'
-        f'<span style="font-size:.63rem;color:{col};font-weight:600">{lbl}</span>'
+        f'<div style="background:{BG2};border:1px solid {BORDER};'
+        f'border-left:3px solid {left_color};border-radius:8px;'
+        f'padding:.75rem 1rem;margin-bottom:.5rem">'
+        f'<div style="font-size:.85rem;font-weight:800;color:{TEXT};margin-bottom:.2rem">{title}</div>'
+        f'{"<div style=\"font-size:.75rem;color:" + TEXT2 + ";margin-bottom:.3rem\">" + subtitle + "</div>" if subtitle else ""}'
+        f'{"<div style=\"font-size:.72rem;color:" + MUTED + "\">" + body + "</div>" if body else ""}'
+        f'{extra_html}'
         f'</div>'
-        for svc, (col, lbl) in services.items()
     )
+
+
+# ── Workspace selector ────────────────────────────────────────────────────────
+_available_workspaces: list[dict] = []
+if _WS_OK:
+    try:
+        _available_workspaces = list_workspaces(_TENANT_ID)
+    except Exception:
+        _available_workspaces = []
+
+if not _available_workspaces:
+    _available_workspaces = [
+        {
+            "id": "ws_espana_2026",
+            "name": "España 2026",
+            "description": "Workspace principal — Elecciones Generales 2026",
+            "member_count": 8,
+            "issue_count": 5,
+        },
+        {
+            "id": "ws_madrid_2025",
+            "name": "Madrid 2025",
+            "description": "Workspace — Elecciones Autonómicas Madrid 2025",
+            "member_count": 4,
+            "issue_count": 2,
+        },
+    ]
+
+_ws_options: dict[str, str] = {ws["id"]: ws["name"] for ws in _available_workspaces}
+_ws_descriptions: dict[str, str] = {ws["id"]: ws.get("description", "") for ws in _available_workspaces}
+
+if "active_workspace_id" not in st.session_state:
+    st.session_state["active_workspace_id"] = list(_ws_options.keys())[0]
+
+# Selector en la parte superior de la página
+_sel_col, _hdr_col = st.columns([1, 3], gap="large")
+with _sel_col:
+    _selected_ws_id: str = st.selectbox(
+        "Workspace activo",
+        options=list(_ws_options.keys()),
+        format_func=lambda x: _ws_options.get(x, x),
+        index=list(_ws_options.keys()).index(
+            st.session_state.get("active_workspace_id", list(_ws_options.keys())[0])
+        ),
+        key="_ws_selector",
+    )
+    st.session_state["active_workspace_id"] = _selected_ws_id
+
+_active_ws_id: str = st.session_state["active_workspace_id"]
+_active_ws_name: str = _ws_options.get(_active_ws_id, _active_ws_id)
+_active_ws_desc: str = _ws_descriptions.get(_active_ws_id, "")
+
+# ── Page header ───────────────────────────────────────────────────────────────
+with _hdr_col:
     st.markdown(
-        f'<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem">{chips_html}</div>',
+        f'<div style="background:linear-gradient(135deg,{BG2} 0%,{BG3} 100%);'
+        f'border:1px solid {BORDER};border-left:4px solid {CYAN};border-radius:12px;'
+        f'padding:1rem 1.4rem;margin-bottom:.5rem">'
+        f'<div style="font-size:1.4rem;font-weight:900;color:{TEXT};line-height:1.1">'
+        f'War Room — {_active_ws_name}</div>'
+        f'<div style="font-size:.8rem;color:{TEXT2};margin-top:.25rem">{_active_ws_desc}</div>'
+        f'</div>',
         unsafe_allow_html=True,
     )
 
+# ── Cargar contexto ───────────────────────────────────────────────────────────
+_ctx = None
+if _WS_OK:
+    try:
+        _ctx = get_workspace_context(_active_ws_id, _TENANT_ID)
+    except Exception as _ctx_err:
+        st.error(f"Error al cargar el contexto del workspace: {_ctx_err}")
 
-# ── Intel Header ─────────────────────────────────────────────────────────────
-def _intel_header() -> None:
-    now = datetime.now()
-    st.markdown(f"""
-<div style="background:linear-gradient(135deg,{BG2} 0%,{BG3} 100%);
-     border:1px solid {BORDER};border-left:4px solid {CYAN};border-radius:12px;
-     padding:1.2rem 1.5rem;margin-bottom:1.2rem">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-    <div style="display:flex;align-items:center;gap:1rem">
-      <div style="width:46px;height:46px;background:linear-gradient(135deg,{CYAN},{BLUE});
-           border-radius:12px;display:flex;align-items:center;justify-content:center;
-           font-size:1.5rem;flex-shrink:0;box-shadow:0 0 20px {CYAN}44"></div>
-      <div>
-        <div style="font-size:1.5rem;font-weight:900;color:{TEXT};line-height:1.1">Centro de Operaciones</div>
-        <div style="font-size:.82rem;color:{TEXT2};margin-top:.2rem">Campaign War Room &nbsp;·&nbsp; ElectSim España</div>
-      </div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:.68rem;color:{MUTED};text-transform:uppercase;letter-spacing:.1em">Sesión activa</div>
-      <div style="font-size:1.05rem;font-weight:900;color:{CYAN};font-family:monospace">{now.strftime('%d/%m/%Y %H:%M')}</div>
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-
-_intel_header()
-_system_status_row()
-
-# ── Main Tabs ─────────────────────────────────────────────────────────────────
-tab_kanban, tab_agenda, tab_equipo, tab_informes, tab_config, tab_seguridad = st.tabs([
-    "MAPA DE OPERACIONES",
-    "AGENDA DE CAMPAÑA",
-    "EQUIPO & ROLES",
-    "INFORMES & EXPORTS",
-    "CONFIGURACIÓN",
-    "🔒 SEGURIDAD",
+# ── Tabs principales ──────────────────────────────────────────────────────────
+tab_panorama, tab_issues, tab_acciones, tab_decisiones, tab_equipo = st.tabs([
+    "Panorama",
+    "Issues",
+    "Acciones",
+    "Decisiones",
+    "Equipo",
 ])
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 1: KANBAN
+# TAB 1: PANORAMA
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_kanban:
-    section_header("TABLERO DE OPERACIONES", CYAN)
+with tab_panorama:
+    section_header("PANORAMA OPERATIVO", CYAN)
 
-    COLUMNAS = ["Backlog", "En Progreso", "Revisión", "Completado"]
-    ESTADO_MAP = {"Backlog": "Backlog", "En Progreso": "En Progreso", "Revisión": "Revisión", "Completado": "Completado"}
-    COL_COLORS = {
-        "Backlog": MUTED,
-        "En Progreso": CYAN,
-        "Revisión": AMBER,
-        "Completado": GREEN,
-    }
+    # KPI cards
+    _kpis: dict = {}
+    if _WS_OK:
+        try:
+            _kpis = get_workspace_kpis(_active_ws_id, _TENANT_ID)
+        except Exception:
+            _kpis = {}
 
-    cols_kanban = st.columns(4, gap="small")
-    for col_ui, estado_key in zip(cols_kanban, COLUMNAS):
-        with col_ui:
-            col_color = COL_COLORS[estado_key]
-            tasks_in_col = [t for t in st.session_state["d10_tareas"] if t.get("estado") == estado_key]
+    _kpi_issues = _kpis.get("issues_open", _ctx.issue_count if _ctx else 5)
+    _kpi_actions = _kpis.get("actions_pending", _ctx.pending_actions if _ctx else 5)
+    _kpi_decisions = _kpis.get("decisions_logged", _ctx.decisions_this_week if _ctx else 3)
+    _kpi_team = _kpis.get("team_active", _ctx.team_members if _ctx else 6)
+
+    kc1, kc2, kc3, kc4 = st.columns(4)
+    with kc1:
+        kpi_card("Issues abiertos", str(_kpi_issues), color=RED if _kpi_issues >= 5 else AMBER)
+    with kc2:
+        kpi_card("Acciones pendientes", str(_kpi_actions), color=AMBER)
+    with kc3:
+        kpi_card("Decisiones esta semana", str(_kpi_decisions), color=CYAN)
+    with kc4:
+        kpi_card("Miembros activos", str(_kpi_team), color=GREEN)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    pan_col1, pan_col2 = st.columns(2, gap="large")
+
+    with pan_col1:
+        section_header("ISSUES CRITICOS", RED)
+        _top_issues = _ctx.top_issues if _ctx else []
+        if not _top_issues:
+            _top_issues = [
+                {"issue_id": "demo1", "title": "Sin issues registrados aun", "status": "open", "severity": "normal"},
+            ]
+        for iss in _top_issues[:5]:
+            _sev = iss.get("severity", "normal")
+            _col = _priority_color(_sev)
+            _s_label = _status_label(iss.get("status", "open"))
             st.markdown(
-                f'<div style="background:{col_color}18;border:1px solid {col_color}44;'
-                f'border-top:3px solid {col_color};border-radius:10px;padding:.65rem .8rem;'
-                f'margin-bottom:.8rem;">'
-                f'<div style="display:flex;justify-content:space-between;align-items:center">'
-                f'<span style="font-size:.72rem;font-weight:900;color:{col_color};'
-                f'text-transform:uppercase;letter-spacing:.1em">{estado_key}</span>'
-                f'<span style="background:{col_color}33;color:{col_color};border-radius:999px;'
-                f'padding:.1rem .5rem;font-size:.68rem;font-weight:800">{len(tasks_in_col)}</span>'
-                f'</div></div>',
+                _card_html(
+                    title=iss.get("title", ""),
+                    subtitle="",
+                    extra_html=(
+                        f'<div style="margin-top:.35rem">'
+                        f'{_pill(_priority_label(_sev), _col)}'
+                        f'{_pill(_s_label, _status_color(iss.get("status", "open")))}'
+                        f'</div>'
+                    ),
+                    left_color=_col,
+                ),
                 unsafe_allow_html=True,
             )
-            for task in tasks_in_col:
-                prio_color = _priority_color(task.get("prioridad", "Media"))
-                area_color = {
-                    "Electoral": CYAN, "Medios": PURPLE, "Legislativo": BLUE,
-                    "Research": AMBER, "Económico": GREEN, "Comunicación": PURPLE,
-                    "Geopolítica": RED, "Datos": MUTED,
-                }.get(task.get("area", ""), MUTED)
-                st.markdown(f"""
-<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {prio_color};
-     border-radius:8px;padding:.65rem .75rem;margin-bottom:.5rem">
-  <div style="font-size:.78rem;font-weight:700;color:{TEXT};line-height:1.35;margin-bottom:.4rem">
-    {task['titulo']}
-  </div>
-  <div style="display:flex;flex-wrap:wrap;gap:.25rem;align-items:center">
-    {_pill(task.get('prioridad',''), prio_color)}
-    {_pill(task.get('area',''), area_color)}
-  </div>
-  <div style="font-size:.62rem;color:{MUTED};margin-top:.3rem"> {task.get('responsable','')}</div>
-</div>
-""", unsafe_allow_html=True)
 
-                # Move buttons
-                btn_c1, btn_c2 = st.columns(2)
-                if estado_key != "Backlog":
-                    prev = COLUMNAS[COLUMNAS.index(estado_key) - 1]
-                    if btn_c1.button("←", key=f"prev_{task['id']}", help=f"Mover a {prev}"):
-                        task["estado"] = prev
-                        st.rerun()
-                if estado_key != "Completado":
-                    nxt = COLUMNAS[COLUMNAS.index(estado_key) + 1]
-                    if btn_c2.button("→", key=f"next_{task['id']}", help=f"Mover a {nxt}"):
-                        task["estado"] = nxt
-                        st.rerun()
+    with pan_col2:
+        section_header("PROXIMAS ACCIONES", AMBER)
+        _next_actions = _ctx.next_best_actions if _ctx else []
+        if not _next_actions:
+            _next_actions = [
+                {"action_id": "demo1", "title": "Sin acciones pendientes", "priority": "normal", "due_date": ""},
+            ]
+        for act in _next_actions[:5]:
+            _p = act.get("priority", "normal")
+            _pc = _priority_color(_p)
+            _due = act.get("due_date", "") or act.get("due", "")
+            _resp = act.get("responsible", act.get("assigned_to", ""))
+            st.markdown(
+                _card_html(
+                    title=act.get("title", ""),
+                    subtitle=f"{_resp}  —  Vence: {_due}" if _due else _resp,
+                    extra_html=f'<div style="margin-top:.3rem">{_pill(_priority_label(_p), _pc)}</div>',
+                    left_color=_pc,
+                ),
+                unsafe_allow_html=True,
+            )
 
-    # Nueva tarea
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("NUEVA TAREA", PURPLE)
-    with st.form("form_nueva_tarea", clear_on_submit=True):
-        fc1, fc2, fc3, fc4 = st.columns(4)
-        titulo_t = fc1.text_input("Título de la tarea")
-        prio_t = fc2.selectbox("Prioridad", ["Alta", "Media", "Baja", "Urgente"])
-        resp_t = fc3.text_input("Responsable")
-        area_t = fc4.selectbox("Área", ["Electoral", "Medios", "Legislativo", "Research", "Económico", "Comunicación", "Geopolítica", "Datos"])
-        submitted = st.form_submit_button("Añadir tarea", type="primary")
-        if submitted and titulo_t.strip():
-            st.session_state["d10_tareas"].insert(0, {
-                "id": str(uuid.uuid4()),
-                "titulo": titulo_t.strip(),
-                "prioridad": prio_t,
-                "responsable": resp_t.strip() or "Sin asignar",
-                "area": area_t,
-                "estado": "Backlog",
-                "created": datetime.now().strftime("%Y-%m-%d"),
-            })
-            st.success(f"Tarea '{titulo_t}' añadida al Backlog.")
-            st.rerun()
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 2: AGENDA DE CAMPAÑA
+# TAB 2: ISSUES
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_agenda:
-    section_header("AGENDA DE CAMPAÑA — 7 DÍAS", CYAN)
+with tab_issues:
+    section_header("TABLERO DE ISSUES", CYAN)
 
-    # Build 7-day grid starting from today
-    today = datetime.now().date()
-    week_days = [today + timedelta(days=i) for i in range(7)]
-    day_labels = ["LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"]
-    # Map weekday index (Mon=0) to label
-    _wd_labels = {0: "LUN", 1: "MAR", 2: "MIÉ", 3: "JUE", 4: "VIE", 5: "SÁB", 6: "DOM"}
-
-    # Group events by date
-    eventos_by_date: dict[str, list[dict]] = {}
-    for ev in st.session_state["d10_eventos"]:
-        d = str(ev.get("fecha", ""))
-        eventos_by_date.setdefault(d, []).append(ev)
-
-    # HTML calendar table
-    header_cells = "".join(
-        f'<th style="padding:.5rem .4rem;font-size:.65rem;font-weight:900;color:{MUTED};'
-        f'text-transform:uppercase;letter-spacing:.1em;text-align:center;border-bottom:1px solid {BORDER}">'
-        f'{_wd_labels[d.weekday()]}<br>'
-        f'<span style="font-size:.85rem;font-weight:900;color:{"#FFFFFF" if d == today else TEXT2}">{d.strftime("%d")}</span>'
-        f'</th>'
-        for d in week_days
-    )
-
-    def _mini_event_html(ev: dict) -> str:
-        col = _event_color(ev.get("tipo", ""))
-        return (
-            f'<div style="background:{col}18;border-left:2px solid {col};border-radius:4px;'
-            f'padding:.2rem .4rem;margin:.2rem 0;font-size:.6rem;color:{col};font-weight:700;'
-            f'line-height:1.3;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:130px" '
-            f'title="{ev.get("titulo","")}">'
-            f'{ev.get("hora","")[:5]} {ev.get("titulo","")[:22]}…</div>'
+    # Filtros
+    f_col1, f_col2, _ = st.columns([1, 1, 2])
+    with f_col1:
+        _status_filter = st.selectbox(
+            "Estado",
+            ["Todos", "open", "monitoring", "resolved", "closed"],
+            format_func=lambda x: "Todos" if x == "Todos" else _status_label(x),
+            key="iss_status_filter",
+        )
+    with f_col2:
+        _priority_filter = st.selectbox(
+            "Prioridad",
+            ["Todos", "critical", "high", "normal", "low"],
+            format_func=lambda x: "Todos" if x == "Todos" else _priority_label(x),
+            key="iss_priority_filter",
         )
 
-    body_cells = "".join(
-        f'<td style="vertical-align:top;padding:.4rem;min-width:130px;border-right:1px solid {BORDER};'
-        f'background:{"rgba(0,212,255,0.04)" if d == today else BG2}">'
-        f'{"".join(_mini_event_html(ev) for ev in eventos_by_date.get(d.strftime("%Y-%m-%d"), []))}'
-        f'</td>'
-        for d in week_days
-    )
-
-    calendar_html = f"""
-<div style="overflow-x:auto;margin-bottom:1.5rem">
-<table style="width:100%;border-collapse:collapse;background:{BG2};border:1px solid {BORDER};border-radius:10px;overflow:hidden">
-  <thead><tr>{header_cells}</tr></thead>
-  <tbody><tr>{body_cells}</tr></tbody>
-</table>
-</div>"""
-    st.markdown(calendar_html, unsafe_allow_html=True)
-
-    # Legend
-    legend_items = [("ELECTORAL", CYAN), ("MEDIÁTICO", PURPLE), ("LEGISLATIVO", BLUE), ("REUNIÓN", AMBER), ("CRISIS", RED)]
-    legend_html = "".join(
-        f'<span style="display:inline-flex;align-items:center;gap:.3rem;margin-right:.8rem;font-size:.65rem;color:{c};font-weight:700">'
-        f'<span style="width:8px;height:8px;background:{c};border-radius:2px"></span>{lbl}</span>'
-        for lbl, c in legend_items
-    )
-    st.markdown(f'<div style="margin-bottom:1.2rem">{legend_html}</div>', unsafe_allow_html=True)
-
-    # Upcoming events list
-    section_header("PRÓXIMOS EVENTOS", AMBER)
-    sorted_events = sorted(st.session_state["d10_eventos"], key=lambda e: e.get("fecha", ""))
-    for ev in sorted_events[:10]:
-        col = _event_color(ev.get("tipo", ""))
-        st.markdown(f"""
-<div style="display:flex;gap:1rem;align-items:flex-start;background:{BG2};border:1px solid {BORDER};
-     border-left:3px solid {col};border-radius:8px;padding:.7rem 1rem;margin-bottom:.5rem">
-  <div style="text-align:center;flex-shrink:0;min-width:52px">
-    <div style="font-size:.65rem;font-weight:900;color:{MUTED};text-transform:uppercase">{ev.get('fecha','')[5:]}</div>
-    <div style="font-size:1rem;font-weight:900;color:{col};font-family:monospace">{ev.get('hora','')[:5]}</div>
-  </div>
-  <div style="flex:1">
-    <div style="font-size:.85rem;font-weight:800;color:{TEXT}">{ev['titulo']}</div>
-    <div style="font-size:.72rem;color:{TEXT2};margin-top:.2rem">{ev.get('descripcion','')[:140]}</div>
-    <div style="margin-top:.3rem">{_pill(ev.get('tipo',''), col)}</div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-        # Delete button
-        if st.button("Eliminar", key=f"del_ev_{ev['id']}", help="Eliminar evento"):
-            st.session_state["d10_eventos"] = [e for e in st.session_state["d10_eventos"] if e["id"] != ev["id"]]
-            st.rerun()
-
-    # Add event form
+    # Formulario crear issue
     st.markdown("<br>", unsafe_allow_html=True)
-    section_header("AÑADIR EVENTO", PURPLE)
-    with st.form("form_nuevo_evento", clear_on_submit=True):
-        fe1, fe2, fe3 = st.columns(3)
-        titulo_e = fe1.text_input("Título del evento")
-        fecha_e = fe2.date_input("Fecha", value=today + timedelta(days=3))
-        hora_e = fe3.text_input("Hora (HH:MM)", value="10:00")
-        fe4, fe5 = st.columns(2)
-        tipo_e = fe4.selectbox("Tipo", ["ELECTORAL", "MEDIATICO", "LEGISLATIVO", "REUNION", "CRISIS"])
-        desc_e = fe5.text_input("Descripción breve")
-        if st.form_submit_button("Añadir evento", type="primary") and titulo_e.strip():
-            st.session_state["d10_eventos"].append({
-                "id": str(uuid.uuid4()),
-                "titulo": titulo_e.strip(),
-                "fecha": str(fecha_e),
-                "hora": hora_e,
-                "tipo": tipo_e,
-                "descripcion": desc_e,
-            })
-            st.success(f"Evento '{titulo_e}' añadido.")
-            st.rerun()
+    section_header("CREAR ISSUE", PURPLE)
+    with st.form("form_crear_issue", clear_on_submit=True):
+        fi1, fi2 = st.columns(2)
+        _iss_title = fi1.text_input("Titulo del issue")
+        _iss_assigned = fi2.text_input("Responsable asignado")
+        _iss_desc = st.text_area("Descripcion", height=80)
+        fi3, fi4 = st.columns(2)
+        _iss_priority = fi3.selectbox(
+            "Prioridad",
+            ["critical", "high", "normal", "low"],
+            index=2,
+            format_func=_priority_label,
+        )
+        _iss_category = fi4.selectbox(
+            "Categoria",
+            ["electoral", "communications", "operations", "intelligence", "risk"],
+        )
+        _iss_submit = st.form_submit_button("Crear issue", type="primary")
+        if _iss_submit:
+            if not _iss_title.strip():
+                st.warning("Indica el titulo del issue.")
+            else:
+                try:
+                    if _BOARD_OK:
+                        _new_iss = create_issue(
+                            workspace_id=_active_ws_id,
+                            title=_iss_title.strip(),
+                            description=_iss_desc.strip(),
+                            severity=_iss_priority,
+                            tenant_id=_TENANT_ID,
+                        )
+                        st.success(f"Issue creado: {_new_iss.issue_id}")
+                    else:
+                        st.success(f"Issue registrado (modo demo): {_iss_title.strip()}")
+                except Exception as _iss_err:
+                    st.error(f"Error al crear el issue: {_iss_err}")
+
+    # Listado de issues
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header("ISSUES REGISTRADOS", CYAN)
+
+    _all_issues: list = []
+    if _BOARD_OK:
+        try:
+            _status_q = None if _status_filter == "Todos" else _status_filter
+            _all_issues = list_issues(_active_ws_id, _TENANT_ID, status=_status_q)
+        except Exception as _li_err:
+            st.error(f"Error al cargar issues: {_li_err}")
+
+    if not _all_issues:
+        # Demo issues cuando no hay datos reales
+        _all_issues = (_ctx.top_issues if _ctx else []) or [
+            {
+                "issue_id": "iss_001",
+                "title": "Bulos sobre financiacion del partido en redes sociales",
+                "description": "Campana de desinformacion activa. Alcance: 200.000 impresiones.",
+                "status": "open",
+                "severity": "critical",
+                "created_at": "2026-05-01T08:00:00Z",
+            },
+            {
+                "issue_id": "iss_002",
+                "title": "Caida de intencion de voto en franja 18-34",
+                "description": "Descenso de 2,3 puntos en dos semanas segun tracking interno.",
+                "status": "monitoring",
+                "severity": "high",
+                "created_at": "2026-05-02T10:30:00Z",
+            },
+        ]
+
+    for iss in _all_issues:
+        if isinstance(iss, dict):
+            _iss_dict = iss
+        else:
+            try:
+                _iss_dict = iss.model_dump()
+            except Exception:
+                _iss_dict = dict(iss)
+
+        _sev = _iss_dict.get("severity", "normal")
+        _stt = _iss_dict.get("status", "open")
+
+        if _priority_filter != "Todos" and _sev != _priority_filter:
+            continue
+
+        _sev_color = _priority_color(_sev)
+        _stt_color = _status_color(_stt)
+        _desc_snippet = (_iss_dict.get("description", "") or "")[:120]
+        _created = (_iss_dict.get("created_at", "") or "")[:10]
+        _assigned = _iss_dict.get("assigned_to", "")
+
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};'
+            f'border-left:3px solid {_sev_color};border-radius:8px;'
+            f'padding:.8rem 1rem;margin-bottom:.5rem">'
+            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">'
+            f'<div style="font-size:.88rem;font-weight:800;color:{TEXT}">{_iss_dict.get("title","")}</div>'
+            f'<div>{_pill(_priority_label(_sev), _sev_color)}{_pill(_status_label(_stt), _stt_color)}</div>'
+            f'</div>'
+            f'{"<div style=\"font-size:.74rem;color:" + TEXT2 + ";margin-top:.3rem\">" + _desc_snippet + "...</div>" if _desc_snippet else ""}'
+            f'<div style="font-size:.65rem;color:{MUTED};margin-top:.4rem">'
+            f'{"Responsable: " + _assigned + "  " if _assigned else ""}'
+            f'{"Creado: " + _created if _created else ""}'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        _upd_col1, _upd_col2, _ = st.columns([1, 1, 3])
+        _iss_id = _iss_dict.get("issue_id", str(uuid.uuid4()))
+        if _upd_col1.button("Marcar resuelto", key=f"resolve_{_iss_id}"):
+            try:
+                if _BOARD_OK:
+                    update_issue_status(_iss_id, "resolved")
+                    st.success("Issue marcado como resuelto.")
+                    st.rerun()
+                else:
+                    st.info("Estado actualizado (modo demo).")
+            except Exception as _upd_err:
+                st.error(f"Error: {_upd_err}")
+        if _upd_col2.button("Cerrar", key=f"close_{_iss_id}"):
+            try:
+                if _BOARD_OK:
+                    update_issue_status(_iss_id, "closed")
+                    st.success("Issue cerrado.")
+                    st.rerun()
+                else:
+                    st.info("Issue cerrado (modo demo).")
+            except Exception as _upd_err:
+                st.error(f"Error: {_upd_err}")
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 3: EQUIPO & ROLES
+# TAB 3: ACCIONES
+# ═══════════════════════════════════════════════════════════════════════════════
+with tab_acciones:
+    section_header("COLA DE ACCIONES", AMBER)
+
+    # Formulario nueva accion
+    section_header("NUEVA ACCION", PURPLE)
+    with st.form("form_nueva_accion", clear_on_submit=True):
+        fa1, fa2 = st.columns(2)
+        _act_title = fa1.text_input("Titulo de la accion")
+        _act_resp = fa2.text_input("Responsable")
+        _act_desc = st.text_area("Descripcion", height=70)
+        fa3, fa4, fa5 = st.columns(3)
+        _act_priority = fa3.selectbox(
+            "Prioridad",
+            ["critical", "high", "normal", "low"],
+            index=2,
+            format_func=_priority_label,
+        )
+        _act_deadline = fa4.date_input(
+            "Fecha limite",
+            value=date.today() + timedelta(days=5),
+        )
+        _act_type = fa5.selectbox(
+            "Tipo",
+            ["task", "communication", "briefing", "meeting", "analysis"],
+        )
+        _act_submit = st.form_submit_button("Crear accion", type="primary")
+        if _act_submit:
+            if not _act_title.strip():
+                st.warning("Indica el titulo de la accion.")
+            else:
+                try:
+                    if _QUEUE_OK:
+                        _new_act = add_action(
+                            workspace_id=_active_ws_id,
+                            title=_act_title.strip(),
+                            action_type=_act_type,
+                            priority=_act_priority,
+                            tenant_id=_TENANT_ID,
+                        )
+                        st.success(f"Accion creada: {_new_act.action_id}")
+                    else:
+                        st.success(f"Accion registrada (modo demo): {_act_title.strip()}")
+                except Exception as _act_err:
+                    st.error(f"Error al crear la accion: {_act_err}")
+
+    # Listado de acciones pendientes
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header("ACCIONES PENDIENTES", AMBER)
+
+    _pending_actions: list = []
+    if _QUEUE_OK:
+        try:
+            _pending_actions = list_pending_actions(_active_ws_id, _TENANT_ID)
+        except Exception as _pq_err:
+            st.error(f"Error al cargar acciones: {_pq_err}")
+
+    _demo_actions = _ctx.next_best_actions if _ctx else []
+    if not _pending_actions:
+        _pending_actions = _demo_actions or [
+            {
+                "action_id": "act_001",
+                "title": "Preparar nota de respuesta a bulos financiacion",
+                "priority": "critical",
+                "responsible": "Dir. Comunicacion",
+                "due_date": "2026-05-06",
+                "status": "pending",
+            },
+            {
+                "action_id": "act_002",
+                "title": "Analisis segmentado CIS franja joven",
+                "priority": "high",
+                "responsible": "Analista Electoral",
+                "due_date": "2026-05-07",
+                "status": "pending",
+            },
+        ]
+
+    # Ordenar por prioridad
+    _prio_order = {"critical": 0, "high": 1, "normal": 2, "low": 3}
+    _pending_sorted = sorted(
+        _pending_actions,
+        key=lambda a: _prio_order.get(
+            (a.get("priority") if isinstance(a, dict) else getattr(a, "priority", "normal") or "normal").lower(),
+            2,
+        ),
+    )
+
+    for act in _pending_sorted:
+        if isinstance(act, dict):
+            _act_dict = act
+        else:
+            try:
+                _act_dict = act.model_dump()
+            except Exception:
+                _act_dict = dict(act)
+
+        _ap = (_act_dict.get("priority") or "normal").lower()
+        _apc = _priority_color(_ap)
+        _adue = _act_dict.get("due_date", "") or _act_dict.get("due", "") or ""
+        _aresp = _act_dict.get("responsible", _act_dict.get("assigned_to", ""))
+        _aid = _act_dict.get("action_id", str(uuid.uuid4()))
+
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};'
+            f'border-left:3px solid {_apc};border-radius:8px;'
+            f'padding:.75rem 1rem;margin-bottom:.5rem">'
+            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.4rem">'
+            f'<div style="font-size:.86rem;font-weight:800;color:{TEXT}">{_act_dict.get("title","")}</div>'
+            f'{_pill(_priority_label(_ap), _apc)}'
+            f'</div>'
+            f'<div style="font-size:.7rem;color:{MUTED};margin-top:.35rem">'
+            f'{"Responsable: " + _aresp + "  " if _aresp else ""}'
+            f'{"Vence: " + _adue if _adue else ""}'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        _comp_btn, _ = st.columns([1, 4])
+        if _comp_btn.button("Completar", key=f"complete_{_aid}"):
+            try:
+                if _QUEUE_OK:
+                    complete_action(_aid)
+                    st.success("Accion marcada como completada.")
+                    st.rerun()
+                else:
+                    st.success("Accion completada (modo demo).")
+            except Exception as _ce:
+                st.error(f"Error: {_ce}")
+
+    # Acciones completadas (colapsado)
+    with st.expander("Acciones completadas"):
+        st.info("Historial de acciones completadas disponible cuando haya datos registrados en el workspace.")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 4: DECISIONES
+# ═══════════════════════════════════════════════════════════════════════════════
+with tab_decisiones:
+    section_header("REGISTRO DE DECISIONES", BLUE)
+
+    # Formulario registrar decision
+    section_header("REGISTRAR DECISION", PURPLE)
+    with st.form("form_registrar_decision", clear_on_submit=True):
+        _dec_title = st.text_input("Titulo de la decision")
+        _dec_made = st.text_area("Que se decidio?", height=80)
+        _dec_context = st.text_area("Contexto", height=70)
+        _dec_rationale = st.text_area("Justificacion", height=70)
+        _dec_by = st.text_input("Decidido por")
+        _dec_submit = st.form_submit_button("Registrar decision", type="primary")
+        if _dec_submit:
+            if not _dec_title.strip() or not _dec_made.strip():
+                st.warning("Indica el titulo y la decision tomada.")
+            else:
+                try:
+                    if _DLOG_OK:
+                        _new_dec = log_decision(
+                            workspace_id=_active_ws_id,
+                            title=_dec_title.strip(),
+                            decision_made=_dec_made.strip(),
+                            context=_dec_context.strip(),
+                            rationale=_dec_rationale.strip(),
+                            decided_by=_dec_by.strip() or "Equipo",
+                            tenant_id=_TENANT_ID,
+                        )
+                        st.success(f"Decision registrada: {_new_dec.decision_id}")
+                    else:
+                        st.success(f"Decision registrada (modo demo): {_dec_title.strip()}")
+                except Exception as _de_err:
+                    st.error(f"Error al registrar la decision: {_de_err}")
+
+    # Timeline de decisiones
+    st.markdown("<br>", unsafe_allow_html=True)
+    section_header("HISTORIAL DE DECISIONES", BLUE)
+
+    _decisions: list = []
+    if _DLOG_OK:
+        try:
+            _decisions = list_decisions(_active_ws_id, _TENANT_ID)
+        except Exception as _dlq_err:
+            st.error(f"Error al cargar decisiones: {_dlq_err}")
+
+    if not _decisions:
+        _decisions = (_ctx.recent_decisions if _ctx else []) or [
+            {
+                "decision_id": "dec_001",
+                "title": "Activar protocolo de respuesta crisis bulos",
+                "decision_made": "Se activa el protocolo de comunicacion de crisis nivel 2 con respuesta en menos de 4 horas.",
+                "decided_by": "Dir. Estrategico",
+                "decided_at": "2026-05-05T09:00:00Z",
+                "context": "Campana de desinformacion detectada en Twitter/X con alcance superior a 200.000 impresiones.",
+                "rationale": "",
+            },
+        ]
+
+    for dec in _decisions:
+        if isinstance(dec, dict):
+            _dec_dict = dec
+        else:
+            try:
+                _dec_dict = dec.model_dump()
+            except Exception:
+                _dec_dict = dict(dec)
+
+        _ddec = (_dec_dict.get("decided_at") or _dec_dict.get("created_at") or "")[:10]
+        _ddby = _dec_dict.get("decided_by", "")
+        _dec_text = _dec_dict.get("decision_made", "")
+        _dec_ctx = _dec_dict.get("context", "")
+        _dec_rat = _dec_dict.get("rationale", "")
+
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};'
+            f'border-left:3px solid {BLUE};border-radius:8px;'
+            f'padding:.85rem 1rem;margin-bottom:.6rem">'
+            f'<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.35rem">'
+            f'<span style="font-size:.65rem;font-weight:700;color:{MUTED};font-family:monospace">{_ddec}</span>'
+            f'<span style="font-size:.88rem;font-weight:900;color:{TEXT}">{_dec_dict.get("title","")}</span>'
+            f'</div>'
+            f'{"<div style=\"font-size:.78rem;color:" + TEXT2 + ";margin-bottom:.3rem;line-height:1.5\">" + _dec_text + "</div>" if _dec_text else ""}'
+            f'{"<div style=\"font-size:.68rem;color:" + MUTED + ";margin-top:.1rem\">Decidido por: " + _ddby + "</div>" if _ddby else ""}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+        if _dec_ctx or _dec_rat:
+            with st.expander("Ver contexto y justificacion"):
+                if _dec_ctx:
+                    st.markdown(
+                        f'<div style="font-size:.78rem;color:{TEXT2}"><strong>Contexto:</strong><br>{_dec_ctx}</div>',
+                        unsafe_allow_html=True,
+                    )
+                if _dec_rat:
+                    st.markdown(
+                        f'<div style="font-size:.78rem;color:{TEXT2};margin-top:.4rem"><strong>Justificacion:</strong><br>{_dec_rat}</div>',
+                        unsafe_allow_html=True,
+                    )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB 5: EQUIPO
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_equipo:
-    section_header("ESTRUCTURA DEL EQUIPO", CYAN)
+    section_header("EQUIPO DEL WORKSPACE", CYAN)
 
-    TEAM = [
-        {"nombre": "Carlos Martínez", "rol": "Director Estratégico", "area": "Estrategia", "estado": "disponible", "actividad": "Revisando briefing semanal", "carga": 85},
-        {"nombre": "Laura García", "rol": "Analista Electoral", "area": "Electoral", "estado": "en reunión", "actividad": "Reunión encuesta CIS", "carga": 70},
-        {"nombre": "Javier Romero", "rol": "Analista Electoral", "area": "Electoral", "estado": "disponible", "actividad": "Analizando sondeos regionales", "carga": 55},
-        {"nombre": "Ana Torres", "rol": "Analista de Medios", "area": "Medios", "estado": "disponible", "actividad": "Monitor narrativas VOX", "carga": 65},
-        {"nombre": "Pedro Sánchez-Leal", "rol": "Director de Comunicación", "area": "Comunicación", "estado": "en reunión", "actividad": "Prep. nota de prensa", "carga": 90},
-        {"nombre": "Isabel Ruiz", "rol": "Analista Legislativo", "area": "Legislativo", "estado": "disponible", "actividad": "Tramitación Ley IA en Congreso", "carga": 60},
-        {"nombre": "Miguel Herrera", "rol": "Analista Económico", "area": "Económico", "estado": "fuera", "actividad": "Desconectado hasta mañana", "carga": 0},
-        {"nombre": "Sofía López", "rol": "Coordinadora de Campaña", "area": "Coordinación", "estado": "disponible", "actividad": "Sincronizando agenda líderes", "carga": 75},
+    _TEAM_DEMO = [
+        {"nombre": "Carlos Martinez", "rol": "Director Estrategico", "area": "Estrategia", "estado": "disponible", "email": "carlos.martinez@demo.es"},
+        {"nombre": "Laura Garcia", "rol": "Analista Electoral", "area": "Electoral", "estado": "en reunion", "email": "laura.garcia@demo.es"},
+        {"nombre": "Javier Romero", "rol": "Analista Electoral", "area": "Electoral", "estado": "disponible", "email": "javier.romero@demo.es"},
+        {"nombre": "Ana Torres", "rol": "Analista de Medios", "area": "Medios", "estado": "disponible", "email": "ana.torres@demo.es"},
+        {"nombre": "Pedro Sanchez-Leal", "rol": "Director de Comunicacion", "area": "Comunicacion", "estado": "en reunion", "email": "pedro.sl@demo.es"},
+        {"nombre": "Isabel Ruiz", "rol": "Analista Legislativo", "area": "Legislativo", "estado": "disponible", "email": "isabel.ruiz@demo.es"},
+        {"nombre": "Miguel Herrera", "rol": "Analista Economico", "area": "Economico", "estado": "fuera", "email": "miguel.herrera@demo.es"},
+        {"nombre": "Sofia Lopez", "rol": "Coordinadora de Campana", "area": "Coordinacion", "estado": "disponible", "email": "sofia.lopez@demo.es"},
     ]
 
-    area_colors = {
-        "Estrategia": CYAN, "Electoral": BLUE, "Medios": PURPLE,
-        "Comunicación": AMBER, "Legislativo": GREEN, "Económico": RED,
-        "Coordinación": CYAN,
+    _area_colors: dict[str, str] = {
+        "Estrategia": CYAN,
+        "Electoral": BLUE,
+        "Medios": PURPLE,
+        "Comunicacion": AMBER,
+        "Legislativo": GREEN,
+        "Economico": RED,
+        "Coordinacion": CYAN,
+    }
+    _estado_colors: dict[str, str] = {
+        "disponible": GREEN,
+        "en reunion": AMBER,
+        "fuera": MUTED,
     }
 
-    col_team1, col_team2 = st.columns([2, 1], gap="large")
-    with col_team1:
-        for member in TEAM:
-            sc = _status_color(member["estado"])
-            ac = area_colors.get(member["area"], MUTED)
-            carga = member["carga"]
-            carga_color = RED if carga >= 85 else AMBER if carga >= 65 else GREEN
-            st.markdown(f"""
-<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;
-     padding:.85rem 1.1rem;margin-bottom:.5rem;display:flex;align-items:center;gap:1rem">
-  <div style="width:40px;height:40px;background:{ac}22;border:1px solid {ac}55;
-       border-radius:50%;display:flex;align-items:center;justify-content:center;
-       font-size:1rem;flex-shrink:0;font-weight:900;color:{ac}">
-    {member['nombre'][0]}{member['nombre'].split()[-1][0]}
-  </div>
-  <div style="flex:1;min-width:0">
-    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
-      <span style="font-weight:800;color:{TEXT};font-size:.88rem">{member['nombre']}</span>
-      <span style="font-size:.7rem;color:{ac};background:{ac}18;border:1px solid {ac}44;
-            border-radius:4px;padding:.1rem .4rem;font-weight:700">{member['rol']}</span>
-    </div>
-    <div style="font-size:.72rem;color:{TEXT2};margin-top:.15rem">{member['actividad']}</div>
-    <div style="margin-top:.4rem;display:flex;align-items:center;gap:.5rem">
-      {_pill(member['estado'], sc)}
-      <div style="flex:1;height:4px;background:{BORDER};border-radius:2px;max-width:120px">
-        <div style="width:{carga}%;height:100%;background:{carga_color};border-radius:2px"></div>
-      </div>
-      <span style="font-size:.62rem;color:{carga_color};font-weight:800;font-family:monospace">{carga}%</span>
-    </div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+    team_eq1, team_eq2 = st.columns([2, 1], gap="large")
 
-    with col_team2:
-        section_header("DISTRIBUCIÓN DE CARGA", PURPLE)
+    with team_eq1:
+        # Miembros del equipo
+        _members_data = _TEAM_DEMO
         try:
-            areas_data = {}
-            for m in TEAM:
-                a = m["area"]
-                areas_data[a] = areas_data.get(a, 0) + 1
+            from workspace_intelligence import team_management
+            _loaded = team_management.list_team_members(_active_ws_id, _TENANT_ID)
+            if _loaded:
+                _members_data = _loaded
+        except Exception:
+            pass
 
-            fig_donut = go.Figure(go.Pie(
-                labels=list(areas_data.keys()),
-                values=list(areas_data.values()),
-                hole=0.55,
-                marker_colors=[area_colors.get(a, MUTED) for a in areas_data],
-                textfont=dict(size=10, color=TEXT),
-                hovertemplate="<b>%{label}</b><br>%{value} persona(s)<extra></extra>",
-            ))
-            fig_donut.update_layout(
-                height=240,
-                paper_bgcolor=BG2,
-                margin=dict(t=10, b=10, l=10, r=10),
-                showlegend=False,
-                annotations=[dict(
-                    text=f"<b>{len(TEAM)}</b><br><span style='font-size:10px'>analistas</span>",
-                    x=0.5, y=0.5, showarrow=False,
-                    font=dict(size=14, color=TEXT),
-                )]
-            )
-            st.plotly_chart(fig_donut, use_container_width=True, config={"displayModeBar": False})
-        except Exception as exc:
-            st.warning(f"Error en gráfico: {exc}")
+        for mem in _members_data:
+            if isinstance(mem, dict):
+                _md = mem
+            else:
+                try:
+                    _md = mem.model_dump()
+                except Exception:
+                    _md = dict(mem)
 
-        section_header("ASIGNACIÓN DE ALERTAS", AMBER)
-        alert_assignments = [
-            {"alerta": "Bulos PSOE viralización", "asignado": "Ana Torres", "prioridad": "Alta"},
-            {"alerta": "Tramitación Ley IA", "asignado": "Isabel Ruiz", "prioridad": "Media"},
-            {"alerta": "Mitin PP monitorización", "asignado": "Laura García", "prioridad": "Alta"},
-            {"alerta": "Encuesta CIS análisis", "asignado": "Javier Romero", "prioridad": "Alta"},
-        ]
-        for aa in alert_assignments:
-            pc = _priority_color(aa["prioridad"])
+            _est = _md.get("estado", _md.get("status", "disponible")).lower()
+            _ec = _estado_colors.get(_est, MUTED)
+            _ac = _area_colors.get(_md.get("area", ""), MUTED)
+            _initials = "".join(p[0].upper() for p in _md.get("nombre", "X").split()[:2])
+
             st.markdown(
-                f'<div style="background:{BG3};border:1px solid {BORDER};border-left:2px solid {pc};'
-                f'border-radius:6px;padding:.45rem .65rem;margin-bottom:.35rem">'
-                f'<div style="font-size:.72rem;font-weight:700;color:{TEXT}">{aa["alerta"]}</div>'
-                f'<div style="font-size:.63rem;color:{MUTED};margin-top:.1rem"> {aa["asignado"]} &nbsp;'
-                f'{_pill(aa["prioridad"], pc)}</div></div>',
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+                f'padding:.8rem 1rem;margin-bottom:.45rem;display:flex;align-items:center;gap:.9rem">'
+                f'<div style="width:38px;height:38px;background:{_ac}22;border:1px solid {_ac}55;'
+                f'border-radius:50%;display:flex;align-items:center;justify-content:center;'
+                f'font-size:.75rem;font-weight:900;color:{_ac};flex-shrink:0">{_initials}</div>'
+                f'<div style="flex:1;min-width:0">'
+                f'<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">'
+                f'<span style="font-weight:800;color:{TEXT};font-size:.86rem">{_md.get("nombre","")}</span>'
+                f'<span style="font-size:.67rem;color:{_ac};background:{_ac}18;border:1px solid {_ac}44;'
+                f'border-radius:4px;padding:.1rem .35rem;font-weight:700">{_md.get("rol","")}</span>'
+                f'</div>'
+                f'<div style="font-size:.65rem;color:{MUTED};margin-top:.1rem">{_md.get("email","")}</div>'
+                f'<div style="margin-top:.25rem">'
+                f'<span style="width:7px;height:7px;background:{_ec};border-radius:50%;'
+                f'display:inline-block;margin-right:.3rem;box-shadow:0 0 5px {_ec}88"></span>'
+                f'<span style="font-size:.67rem;color:{_ec};font-weight:700">{_est.capitalize()}</span>'
+                f'</div>'
+                f'</div>'
+                f'</div>',
                 unsafe_allow_html=True,
             )
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# TAB 4: INFORMES & EXPORTS
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_informes:
-    section_header("INFORMES DISPONIBLES", CYAN)
+    with team_eq2:
+        # Feed de actividad
+        section_header("ACTIVIDAD RECIENTE", PURPLE)
+        _feed: list[dict] = []
+        if _WS_OK:
+            try:
+                _feed = get_activity_feed(_active_ws_id, _TENANT_ID, limit=10)
+            except Exception:
+                _feed = []
 
-    REPORTS = [
-        {"nombre": "Briefing Matutino", "descripcion": "Resumen ejecutivo diario de señales políticas, medios y alertas.", "frecuencia": "Diario", "ultima": "2026-05-02", "icono": ""},
-        {"nombre": "Informe Semanal", "descripcion": "Análisis semanal de tendencias electorales, legislativas y mediáticas.", "frecuencia": "Semanal", "ultima": "2026-04-28", "icono": ""},
-        {"nombre": "Análisis de Riesgo", "descripcion": "Score de riesgo político por dimensión y actores de riesgo.", "frecuencia": "A demanda", "ultima": "2026-04-25", "icono": ""},
-        {"nombre": "Dossier de Actor", "descripcion": "Perfil completo de actor político: trayectoria, redes, exposición mediática.", "frecuencia": "A demanda", "ultima": "2026-04-20", "icono": ""},
-        {"nombre": "Informe de Campaña", "descripcion": "Balance mensual de campaña: KPIs, narrativas, resultados encuestas.", "frecuencia": "Mensual", "ultima": "2026-04-01", "icono": ""},
-        {"nombre": "Análisis de Cobertura Mediática", "descripcion": "Análisis cuantitativo y cualitativo de la cobertura de medios por actor.", "frecuencia": "Semanal", "ultima": "2026-04-25", "icono": ""},
-    ]
+        if not _feed and _ctx:
+            _feed = _ctx.activity_log
 
-    for rep in REPORTS:
-        with st.expander(f"{rep['icono']}  {rep['nombre']}  ·  {rep['frecuencia']}  ·  Última: {rep['ultima']}"):
-            st.markdown(f'<div style="color:{TEXT2};font-size:.82rem;margin-bottom:.8rem">{rep["descripcion"]}</div>', unsafe_allow_html=True)
+        _act_type_colors: dict[str, str] = {
+            "created_issue": RED,
+            "completed_action": GREEN,
+            "logged_decision": BLUE,
+            "added_member": PURPLE,
+        }
 
-            # Actor selector for dossier
-            if rep["nombre"] == "Dossier de Actor":
-                actor_sel = st.selectbox(
-                    "Seleccionar actor",
-                    ["Pedro Sánchez", "Alberto Núñez Feijóo", "Santiago Abascal", "Yolanda Díaz", "Carles Puigdemont"],
-                    key=f"actor_sel_{rep['nombre']}",
-                )
+        for item in _feed[:10]:
+            _ats = item.get("timestamp", "")[:10]
+            _atype = item.get("action_type", "")
+            _adesc = item.get("description", "")
+            _aactor = item.get("actor", "")
+            _at_color = _act_type_colors.get(_atype, MUTED)
 
-            col_r1, col_r2, col_r3 = st.columns(3)
-            fmt = col_r1.selectbox("Formato", ["PDF", "DOCX", "Markdown"], key=f"fmt_{rep['nombre']}")
+            st.markdown(
+                f'<div style="background:{BG3};border-left:2px solid {_at_color};'
+                f'border-radius:4px;padding:.45rem .65rem;margin-bottom:.35rem">'
+                f'<div style="font-size:.7rem;font-weight:700;color:{TEXT};line-height:1.4">{_adesc}</div>'
+                f'<div style="font-size:.6rem;color:{MUTED};margin-top:.15rem">'
+                f'{_aactor}  ·  {_ats}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
-            if col_r2.button(f"Generar {rep['nombre']}", key=f"gen_{rep['nombre']}", type="primary"):
-                with st.spinner("Generando informe..."):
-                    if _LLM_OK and llm_chat:
-                        try:
-                            prompt = (
-                                f"Genera un {rep['nombre']} ejecutivo para una consultoría política premium española. "
-                                f"Formato {fmt}. Máximo 400 palabras. Datos actuales: {datetime.now().strftime('%Y-%m-%d')}."
-                            )
-                            result = llm_chat(prompt, sistema="Eres un analista senior de inteligencia política.")
-                            st.markdown(f"""
-<div style="background:{BG3};border:1px solid {BORDER};border-radius:8px;
-     padding:1rem 1.2rem;margin-top:.5rem;font-size:.82rem;color:{TEXT2}">
-{result}
-</div>""", unsafe_allow_html=True)
-                        except Exception as exc:
-                            st.warning(f"IA no disponible: {exc}")
-                    else:
-                        st.markdown(f"""
-<div style="background:{BG3};border:1px solid {CYAN}33;border-left:3px solid {CYAN};
-     border-radius:8px;padding:1rem 1.2rem;margin-top:.5rem">
-  <div style="font-size:.9rem;font-weight:800;color:{TEXT};margin-bottom:.5rem">{rep['nombre']} — Demo</div>
-  <div style="font-size:.8rem;color:{TEXT2};line-height:1.7">
-  <strong>Resumen ejecutivo:</strong> Situación política estable con tendencia a la fragmentación.
-  PP mantiene ventaja en intención de voto (33,2%) aunque sin mayoría suficiente para gobernar en solitario.
-  PSOE consolida base electoral (28,5%). Volatilidad media-alta en bloque progresista.<br><br>
-  <strong>Alertas destacadas:</strong> Campaña de bulos sobre financiación de partido en redes sociales.
-  Monitor de narrativas detecta 3 focos de riesgo reputacional.<br><br>
-  <strong>Acción recomendada:</strong> Activar protocolo de respuesta comunicativa y reforzar presencia en medios.
-  </div>
-</div>""", unsafe_allow_html=True)
-                    st.session_state["d10_report_history"].insert(0, {
-                        "informe": rep["nombre"],
-                        "fecha": datetime.now().strftime("%Y-%m-%d"),
-                        "formato": fmt,
-                        "generado_por": "Usuario",
-                    })
+        if not _feed:
+            st.info("Sin actividad registrada aun en este workspace.")
 
-    # Download history
+    # Formulario anadir miembro
     st.markdown("<br>", unsafe_allow_html=True)
-    section_header("HISTORIAL DE DESCARGAS", PURPLE)
-    df_hist_rep = pd.DataFrame(st.session_state["d10_report_history"])
-    if not df_hist_rep.empty:
-        st.dataframe(
-            df_hist_rep.rename(columns={
-                "informe": "Informe", "fecha": "Fecha",
-                "formato": "Formato", "generado_por": "Generado por"
-            }),
-            use_container_width=True,
-            hide_index=True,
+    section_header("ANADIR MIEMBRO", PURPLE)
+    with st.form("form_anadir_miembro", clear_on_submit=True):
+        fm1, fm2, fm3 = st.columns(3)
+        _mem_email = fm1.text_input("Email")
+        _mem_name = fm2.text_input("Nombre completo")
+        _mem_role = fm3.selectbox(
+            "Rol",
+            [
+                "Analista Electoral",
+                "Analista de Medios",
+                "Analista Legislativo",
+                "Director Estrategico",
+                "Director de Comunicacion",
+                "Analista Economico",
+                "Coordinador de Campana",
+                "Analista de Riesgo",
+                "Tecnico de Datos",
+            ],
         )
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# TAB 5: CONFIGURACIÓN
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_config:
-    section_header("CONFIGURACIÓN DEL CLIENTE", CYAN)
-
-    cfg = st.session_state["d10_config"]
-    col_c1, col_c2 = st.columns(2, gap="large")
-
-    with col_c1:
-        section_header("PERFIL DEL CLIENTE", BLUE)
-        cfg["nombre_cliente"] = st.text_input("Nombre del cliente", value=cfg["nombre_cliente"])
-        cfg["tipo"] = st.selectbox(
-            "Tipo de cliente",
-            ["Partido político", "Consultora política", "Think tank", "Fundación", "Empresa", "ONG"],
-            index=["Partido político", "Consultora política", "Think tank", "Fundación", "Empresa", "ONG"].index(cfg["tipo"]) if cfg["tipo"] in ["Partido político", "Consultora política", "Think tank", "Fundación", "Empresa", "ONG"] else 0,
-        )
-        cfg["mercado"] = st.text_input("Mercado / País", value=cfg["mercado"])
-
-        section_header("UMBRALES DE ALERTA", AMBER)
-        cfg["umbral_riesgo"] = st.slider("Umbral de riesgo crítico (0-100)", 0, 100, cfg["umbral_riesgo"])
-        cfg["umbral_alerta"] = st.slider("Umbral de alerta media (0-100)", 0, 100, cfg["umbral_alerta"])
-
-        section_header("SELECCIÓN DE MODELO LLM", PURPLE)
-        cfg["modelo_llm"] = st.selectbox(
-            "Modelo de IA",
-            ["politeia-brain:latest", "llama3.2:3b", "mistral:7b", "claude-3-haiku", "gpt-4o-mini"],
-            index=0 if cfg["modelo_llm"] not in ["politeia-brain:latest", "llama3.2:3b", "mistral:7b", "claude-3-haiku", "gpt-4o-mini"] else ["politeia-brain:latest", "llama3.2:3b", "mistral:7b", "claude-3-haiku", "gpt-4o-mini"].index(cfg["modelo_llm"]),
-        )
-
-    with col_c2:
-        section_header("WATCHLIST DE ACTORES", CYAN)
-        watchlist_str = st.text_area(
-            "Actores monitorizados (uno por línea)",
-            value="\n".join(cfg["watchlist"]),
-            height=120,
-        )
-        cfg["watchlist"] = [a.strip() for a in watchlist_str.splitlines() if a.strip()]
-
-        section_header("FUENTES DE DATOS", BLUE)
-        all_sources = ["BOE", "El País", "El Mundo", "ABC", "La Vanguardia", "RTVE", "Congreso", "Senado", "ACLED", "GDELT", "Twitter/X", "CIS"]
-        cfg["fuentes_activas"] = st.multiselect(
-            "Fuentes activas",
-            options=all_sources,
-            default=[f for f in cfg["fuentes_activas"] if f in all_sources],
-        )
-
-        section_header("NOTIFICACIONES", AMBER)
-        cfg["notif_email"] = st.toggle("Notificaciones por email", value=cfg["notif_email"])
-        cfg["notif_slack"] = st.toggle("Notificaciones por Slack", value=cfg["notif_slack"])
-        if cfg["notif_slack"]:
-            cfg["slack_webhook"] = st.text_input("Slack Webhook URL", value=cfg["slack_webhook"], type="password")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    col_save, col_reset, _ = st.columns([1, 1, 3])
-    if col_save.button("Guardar configuración", type="primary", use_container_width=True):
-        st.session_state["d10_config"] = cfg
-        st.success("Configuración guardada correctamente en sesión.")
-        st.balloons()
-    if col_reset.button("Restablecer defaults", use_container_width=True):
-        del st.session_state["d10_config"]
-        st.rerun()
-
-    # Config preview
-    st.markdown("<br>", unsafe_allow_html=True)
-    section_header("RESUMEN DE CONFIGURACIÓN ACTIVA", MUTED)
-    st.json({
-        "cliente": cfg["nombre_cliente"],
-        "tipo": cfg["tipo"],
-        "mercado": cfg["mercado"],
-        "modelo_llm": cfg["modelo_llm"],
-        "watchlist": cfg["watchlist"],
-        "fuentes_activas": cfg["fuentes_activas"],
-        "umbrales": {"riesgo_critico": cfg["umbral_riesgo"], "alerta_media": cfg["umbral_alerta"]},
-        "notificaciones": {"email": cfg["notif_email"], "slack": cfg["notif_slack"]},
-    })
-
-# ── Tab 6 — SEGURIDAD (Bloque 13) ──────────────────────────────────────────────
-with tab_seguridad:
-    section_header("POSTURA DE SEGURIDAD", "🔒")
-
-    try:
-        from dashboard.services.security_core import (
-            cargar_security_kpis,
-            cargar_deployment_checks,
-            cargar_secret_status,
-            cargar_audit_events,
-        )
-        from dashboard.components.security_components import (
-            render_deployment_check_panel,
-            render_secret_status_panel,
-            render_audit_event_card,
-        )
-
-        sec_kpis = cargar_security_kpis()
-
-        # Security posture summary
-        score = sec_kpis.get("security_score", 0)
-        health = sec_kpis.get("security_health", "unknown")
-        dev_mode = sec_kpis.get("dev_mode", True)
-
-        score_color = GREEN if score >= 75 else AMBER if score >= 50 else RED
-
-        st.markdown(
-            f"<div style='background:{BG2};border:1px solid {BORDER};"
-            f"border-radius:8px;padding:16px;margin-bottom:16px;'>"
-            f"  <div style='display:flex;align-items:center;gap:16px;'>"
-            f"    <div>"
-            f"      <p style='color:{MUTED};font-size:11px;margin:0;'>PUNTUACIÓN DE SEGURIDAD</p>"
-            f"      <span style='color:{score_color};font-size:40px;font-weight:800;'>{score}</span>"
-            f"      <span style='color:{MUTED};'>/100</span>"
-            f"    </div>"
-            f"    <div style='flex:1;'>"
-            f"      <div style='height:8px;background:{BORDER};border-radius:4px;'>"
-            f"        <div style='width:{score}%;height:100%;background:{score_color};border-radius:4px;'></div>"
-            f"      </div>"
-            f"      <p style='color:{MUTED};font-size:11px;margin:4px 0 0;'>{health.upper()}</p>"
-            f"    </div>"
-            f"  </div>"
-            f"  <div style='display:flex;gap:24px;margin-top:12px;'>"
-            f"    <span style='color:{'#f59e0b' if dev_mode else GREEN};font-size:12px;'>"
-            f"      {'⚠️ DEV MODE activo' if dev_mode else '✅ Modo producción'}</span>"
-            f"    <span style='color:{MUTED};font-size:12px;'>🔑 Secretos: "
-            f"{sec_kpis.get('secrets_present', 0)}/{sec_kpis.get('secrets_total', 0)}</span>"
-            f"    <span style='color:{MUTED};font-size:12px;'>🕵️ Eventos: "
-            f"{sec_kpis.get('audit_total_events', 0)}</span>"
-            f"    <span style='color:{RED if sec_kpis.get('audit_denied_events', 0) else MUTED};"
-            f"font-size:12px;'>🚫 Denegados: {sec_kpis.get('audit_denied_events', 0)}</span>"
-            f"  </div>"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
-
-        sec_sub1, sec_sub2, sec_sub3 = st.tabs([
-            "🚀 Deployment Checks",
-            "🔑 Secretos",
-            "🕵️ Auditoría reciente",
-        ])
-
-        with sec_sub1:
-            deployment_checks = cargar_deployment_checks()
-            render_deployment_check_panel(deployment_checks)
-
-        with sec_sub2:
-            secrets_data = cargar_secret_status()
-            render_secret_status_panel(secrets_data)
-
-        with sec_sub3:
-            recent_events = cargar_audit_events(limit=30, min_risk_score=0)
-            if recent_events:
-                st.caption(f"Últimos {len(recent_events)} eventos")
-                for ev in recent_events[:20]:
-                    render_audit_event_card(ev, compact=True)
+        _mem_submit = st.form_submit_button("Invitar al workspace", type="primary")
+        if _mem_submit:
+            if not _mem_email.strip() or not _mem_name.strip():
+                st.warning("Indica el email y nombre del nuevo miembro.")
             else:
-                st.info("Sin eventos de auditoría recientes.")
-
-        st.markdown(
-            f"<p style='color:{MUTED};font-size:11px;margin-top:8px;'>"
-            f"Para gestión completa de usuarios, roles y export jobs → "
-            f"<b>N9 Command Center → Tab Seguridad</b></p>",
-            unsafe_allow_html=True,
-        )
-
-    except Exception as _sec_err:
-        st.warning(f"Módulo de seguridad no disponible: {_sec_err}")
-        st.info("Instala el paquete security/ y ejecuta la migración 0050.")
+                st.info(
+                    f"Invitacion enviada a {_mem_email.strip()} ({_mem_name.strip()}) "
+                    f"con rol {_mem_role}. El miembro debera aceptar para acceder al workspace."
+                )

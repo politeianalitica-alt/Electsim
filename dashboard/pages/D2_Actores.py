@@ -177,6 +177,29 @@ try:
 except ImportError:
     _PYVIS_OK = False
 
+# ── Actor Graph Ontology (Bloque 17) ─────────────────────────────────────────
+try:
+    from ontology.actor_graph import (
+        get_actor_network,
+        list_all_actors as _ag_list_all,
+        get_actor as _ag_get,
+        get_actor_relationships as _ag_get_rels,
+        get_actor_events as _ag_get_events,
+        get_actor_summary as _ag_summary,
+        get_top_actors_by_influence as _ag_top,
+        ActorType as _AgActorType,
+    )
+    _AG_OK = True
+except Exception:
+    _AG_OK = False
+    def get_actor_network(actor_id, depth=2): return {"center_actor": None, "nodes": [], "edges": [], "depths": {}}
+    def _ag_list_all(tenant_id="demo"): return []
+    def _ag_get(actor_id): return None
+    def _ag_get_rels(actor_id, direction="both"): return []
+    def _ag_get_events(actor_id, limit=10): return []
+    def _ag_summary(actor_id): return {}
+    def _ag_top(n=10, actor_type=None): return []
+
 # ── OSINT / Risk Graph (Bloque 4) ─────────────────────────────────────────────
 try:
     from dashboard.services.actor_risk_core import (
@@ -430,7 +453,7 @@ st.markdown("---")
 # TABS PRINCIPALES
 # ═══════════════════════════════════════════════════════════════════════════════
 
-tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query, tab_risk = st.tabs([
+tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels, tab_analisis, tab_update, tab_query, tab_risk, tab_grafo_ontologico, tab_actor_detail = st.tabs([
     "DOSSIER EJECUTIVO",
     "RED DE INFLUENCIA",
     "COMPARATIVA",
@@ -440,7 +463,9 @@ tab_dossier, tab_red_influencia, tab_comparativa, tab_red, tab_perfil, tab_rels,
     "Análisis networkx",
     "Actualización",
     "Query IA",
-    "⚠️ Riesgo OSINT",
+    "Riesgo OSINT",
+    "Grafo de relaciones",
+    "Ficha de actor",
 ])
 
 
@@ -2130,3 +2155,376 @@ with tab_risk:
                 )
             else:
                 st.info("No hay identidades pendientes de verificación.")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 11 — GRAFO DE RELACIONES (Actor Graph Ontology)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def render_actor_network_tab() -> None:
+    """Renderiza el grafo interactivo de relaciones entre actores (Plotly)."""
+    section_header("GRAFO DE RELACIONES — ONTOLOGIA DE ACTORES", CYAN)
+
+    if not _AG_OK:
+        st.warning("Modulo de ontologia de actores no disponible.")
+        return
+
+    all_actors = _ag_list_all("demo")
+    if not all_actors:
+        st.info("No hay actores cargados.")
+        return
+
+    actor_names = {a.id: a.name for a in all_actors}
+    names_sorted = sorted(actor_names.values())
+
+    col_sel, col_depth = st.columns([3, 1])
+    with col_sel:
+        selected_name = st.selectbox(
+            "Actor central",
+            options=names_sorted,
+            index=0,
+            key="ag_center_actor",
+        )
+    with col_depth:
+        depth_val = st.selectbox("Profundidad", options=[1, 2], index=1, key="ag_depth")
+
+    selected_id = next((k for k, v in actor_names.items() if v == selected_name), None)
+    if not selected_id:
+        st.warning("Selecciona un actor valido.")
+        return
+
+    network = get_actor_network(selected_id, depth=depth_val)
+    nodes = network.get("nodes", [])
+    edges = network.get("edges", [])
+    depths_map = network.get("depths", {})
+
+    if not nodes:
+        st.info("No se encontraron conexiones para este actor.")
+        return
+
+    # ---- Color por tipo de actor ----
+    _NODE_COLORS: dict[str, str] = {
+        "politician":   "#3B82F6",
+        "party":        "#8B5CF6",
+        "institution":  "#00D4FF",
+        "media":        "#F59E0B",
+        "think_tank":   "#10B981",
+        "ngo":          "#F97316",
+        "business":     "#EC4899",
+        "union":        "#84CC16",
+        "international": "#6366F1",
+    }
+    _DEFAULT_NODE = "#94A3B8"
+
+    # ---- Color por tipo de relacion ----
+    _EDGE_COLORS: dict[str, str] = {
+        "allied_with":      "#10B981",
+        "coalition_partner": "#10B981",
+        "opposed_to":       "#EF4444",
+        "competes_with":    "#F59E0B",
+        "member_of":        "#3B82F6",
+        "leads":            "#00D4FF",
+        "part_of":          "#8B5CF6",
+        "influences":       "#F97316",
+        "influenced_by":    "#F97316",
+        "funded_by":        "#EC4899",
+        "advisor_to":       "#84CC16",
+        "former_member":    "#94A3B8",
+    }
+    _DEFAULT_EDGE = "#475569"
+
+    # ---- Layout circular por anillo ----
+    # Centro: depth 0. Anillo 1: depth 1. Anillo 2: depth 2.
+    node_positions: dict[str, tuple[float, float]] = {}
+    depth_groups: dict[int, list[str]] = {}
+    for node in nodes:
+        d = depths_map.get(node["id"], 99)
+        depth_groups.setdefault(d, []).append(node["id"])
+
+    radii = {0: 0.0, 1: 1.0, 2: 2.2}
+    for d, actor_ids_in_ring in depth_groups.items():
+        r = radii.get(d, 2.2 + d * 0.8)
+        n = len(actor_ids_in_ring)
+        for i, aid in enumerate(actor_ids_in_ring):
+            if d == 0:
+                node_positions[aid] = (0.0, 0.0)
+            else:
+                angle = 2 * math.pi * i / n
+                node_positions[aid] = (r * math.cos(angle), r * math.sin(angle))
+
+    # ---- Trazados de aristas ----
+    edge_traces: list[go.Scatter] = []
+    for edge in edges:
+        x0, y0 = node_positions.get(edge["from"], (0.0, 0.0))
+        x1, y1 = node_positions.get(edge["to"], (0.0, 0.0))
+        color = _EDGE_COLORS.get(edge.get("type", ""), _DEFAULT_EDGE)
+        weight = float(edge.get("weight", 0.5))
+        width = max(1.0, weight * 3.5)
+        edge_traces.append(
+            go.Scatter(
+                x=[x0, x1, None],
+                y=[y0, y1, None],
+                mode="lines",
+                line={"width": width, "color": color},
+                hoverinfo="text",
+                text=f"{edge.get('type', 'relacion')} (peso: {weight:.2f})",
+                showlegend=False,
+                opacity=0.75,
+            )
+        )
+
+    # ---- Nodos ----
+    node_x, node_y, node_text, node_color, node_size, node_hover = [], [], [], [], [], []
+    for node in nodes:
+        nid = node["id"]
+        x, y = node_positions.get(nid, (0.0, 0.0))
+        node_x.append(x)
+        node_y.append(y)
+        node_text.append(node["name"])
+        node_color.append(_NODE_COLORS.get(node.get("type", ""), _DEFAULT_NODE))
+        influence = float(node.get("influence", 0.5))
+        node_size.append(10 + influence * 20)
+        node_hover.append(
+            f"<b>{node['name']}</b><br>"
+            f"Tipo: {node.get('type', '-')}<br>"
+            f"Partido: {node.get('party', '-') or '-'}<br>"
+            f"Influencia: {influence:.2f}<br>"
+            f"Sentimiento: {node.get('sentiment', 0):.2f}"
+        )
+
+    node_trace = go.Scatter(
+        x=node_x,
+        y=node_y,
+        mode="markers+text",
+        text=node_text,
+        textposition="top center",
+        textfont={"size": 10, "color": "#E2E8F0"},
+        hovertext=node_hover,
+        hoverinfo="text",
+        marker={
+            "color": node_color,
+            "size": node_size,
+            "line": {"width": 1.5, "color": "#1E293B"},
+            "opacity": 0.92,
+        },
+        showlegend=False,
+    )
+
+    fig = go.Figure(
+        data=edge_traces + [node_trace],
+        layout=go.Layout(
+            title={
+                "text": f"Red de relaciones: {selected_name}",
+                "font": {"color": "#E2E8F0", "size": 15},
+            },
+            paper_bgcolor="#0D1117",
+            plot_bgcolor="#0D1117",
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            height=560,
+            margin={"l": 20, "r": 20, "t": 50, "b": 20},
+            font={"color": "#CBD5E1"},
+        ),
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ---- Leyenda de tipos ----
+    st.markdown("**Leyenda de tipos de actor:**")
+    legend_items = [
+        ("Politico", "#3B82F6"), ("Partido", "#8B5CF6"), ("Institucion", "#00D4FF"),
+        ("Media", "#F59E0B"), ("Think Tank", "#10B981"), ("Otro", "#94A3B8"),
+    ]
+    cols = st.columns(len(legend_items))
+    for col, (label, color) in zip(cols, legend_items):
+        with col:
+            st.markdown(
+                f'<span style="display:inline-block;width:14px;height:14px;'
+                f'border-radius:50%;background:{color};margin-right:5px"></span>'
+                f'<span style="font-size:.75rem;color:#CBD5E1">{label}</span>',
+                unsafe_allow_html=True,
+            )
+
+    # ---- Tabla de relaciones ----
+    if edges:
+        st.markdown("---")
+        section_header("RELACIONES EN EL GRAFO", CYAN)
+        edge_rows = []
+        for e in edges:
+            from_name = actor_names.get(e["from"], e["from"])
+            to_name = actor_names.get(e["to"], e["to"])
+            edge_rows.append({
+                "Origen": from_name,
+                "Destino": to_name,
+                "Tipo": e.get("type", "-"),
+                "Peso": f"{float(e.get('weight', 1.0)):.2f}",
+            })
+        st.dataframe(edge_rows, use_container_width=True)
+
+
+with tab_grafo_ontologico:
+    render_actor_network_tab()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TAB 12 — FICHA DE ACTOR (Actor Detail)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def render_actor_detail_tab() -> None:
+    """Ficha 360 de un actor del grafo ontologico."""
+    section_header("FICHA DE ACTOR — ONTOLOGIA", PURPLE)
+
+    if not _AG_OK:
+        st.warning("Modulo de ontologia de actores no disponible.")
+        return
+
+    all_actors = _ag_list_all("demo")
+    if not all_actors:
+        st.info("No hay actores cargados.")
+        return
+
+    actor_names = {a.id: a.name for a in all_actors}
+    names_sorted = sorted(actor_names.values())
+
+    selected_name = st.selectbox(
+        "Selecciona un actor",
+        options=names_sorted,
+        index=0,
+        key="detail_actor_select",
+    )
+    selected_id = next((k for k, v in actor_names.items() if v == selected_name), None)
+    if not selected_id:
+        return
+
+    actor = _ag_get(selected_id)
+    summary = _ag_summary(selected_id)
+
+    if actor is None or not summary:
+        st.error("No se pudo cargar la ficha del actor.")
+        return
+
+    # ---- Cabecera ----
+    col_hdr, col_scores = st.columns([2, 1])
+    with col_hdr:
+        actor_type_label = actor.actor_type.value if hasattr(actor, "actor_type") else "-"
+        status_label = actor.status.value if hasattr(actor, "status") else "active"
+        status_color = GREEN if status_label == "active" else (AMBER if status_label == "monitoring" else RED)
+        st.markdown(
+            f'<div style="background:linear-gradient(135deg,{BG2},{BG3});'
+            f'border:1px solid {BORDER};border-left:4px solid {PURPLE};'
+            f'border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:.8rem">'
+            f'<div style="font-size:1.5rem;font-weight:900;color:{TEXT}">{actor.name}</div>'
+            f'<div style="font-size:.8rem;color:{MUTED};margin-top:.3rem">'
+            f'Tipo: <span style="color:{CYAN}">{actor_type_label}</span>'
+            f'&nbsp;&nbsp;|&nbsp;&nbsp;'
+            f'Partido: <span style="color:{AMBER}">{actor.party_affiliation or "—"}</span>'
+            f'&nbsp;&nbsp;|&nbsp;&nbsp;'
+            f'Estado: <span style="color:{status_color}">{status_label}</span>'
+            f'</div>'
+            f'<div style="font-size:.82rem;color:{TEXT2};margin-top:.6rem;line-height:1.6">'
+            f'{actor.description or ""}'
+            f'</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    with col_scores:
+        st.markdown(
+            f'<div style="background:{BG2};border:1px solid {BORDER};'
+            f'border-radius:12px;padding:1rem;text-align:center">'
+            f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};'
+            f'letter-spacing:.1em;text-transform:uppercase">Influencia</div>'
+            f'<div style="font-size:2rem;font-weight:900;color:{CYAN}">'
+            f'{actor.influence_score:.2f}</div>'
+            f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};'
+            f'letter-spacing:.1em;text-transform:uppercase;margin-top:.6rem">Riesgo</div>'
+            f'<div style="font-size:2rem;font-weight:900;color:{RED}">'
+            f'{actor.risk_score:.2f}</div>'
+            f'<div style="font-size:.6rem;font-weight:700;color:{MUTED};'
+            f'letter-spacing:.1em;text-transform:uppercase;margin-top:.6rem">Sentimiento</div>'
+            f'<div style="font-size:2rem;font-weight:900;'
+            f'color:{GREEN if actor.sentiment_score > 0.1 else (RED if actor.sentiment_score < -0.1 else AMBER)}">'
+            f'{actor.sentiment_score:+.2f}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    # ---- Barras de puntuacion ----
+    st.markdown("**Influencia:**")
+    st.progress(float(actor.influence_score))
+    st.markdown("**Presencia mediatica:**")
+    st.progress(min(1.0, float(actor.media_presence)))
+
+    # ---- Tags ----
+    if actor.tags:
+        tags_html = " ".join(
+            f'<span class="tag" style="background:{CYAN}22;color:{CYAN}">{t}</span>'
+            for t in actor.tags
+        )
+        st.markdown(tags_html, unsafe_allow_html=True)
+
+    # ---- Aliases ----
+    if actor.aliases:
+        st.caption("Aliases: " + ", ".join(actor.aliases))
+
+    st.markdown("---")
+
+    # ---- Relaciones ----
+    section_header("RELACIONES", BLUE)
+    rels = _ag_get_rels(selected_id, direction="both")
+    if rels:
+        rel_rows = []
+        for rel in rels:
+            from_name = actor_names.get(rel.from_actor_id, rel.from_actor_id)
+            to_name = actor_names.get(rel.to_actor_id, rel.to_actor_id)
+            rel_rows.append({
+                "Origen": from_name,
+                "Destino": to_name,
+                "Tipo": rel.relationship_type.value,
+                "Peso": f"{rel.weight:.2f}",
+                "Activa": "Si" if rel.active else "No",
+                "Notas": rel.notes or "-",
+            })
+        st.dataframe(rel_rows, use_container_width=True)
+        st.caption(f"{len(rels)} relaciones totales.")
+    else:
+        st.info("Sin relaciones registradas para este actor.")
+
+    st.markdown("---")
+
+    # ---- Eventos recientes ----
+    section_header("EVENTOS RECIENTES", AMBER)
+    events = _ag_get_events(selected_id, limit=10)
+    if events:
+        for evt in events:
+            impact_color = GREEN if evt.impact_score > 0.3 else (RED if evt.impact_score < -0.1 else AMBER)
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};'
+                f'border-left:3px solid {impact_color};'
+                f'border-radius:8px;padding:.7rem 1rem;margin-bottom:.4rem">'
+                f'<div style="display:flex;justify-content:space-between;align-items:center">'
+                f'<span style="font-size:.7rem;font-weight:700;color:{impact_color};'
+                f'text-transform:uppercase">{evt.event_type}</span>'
+                f'<span style="font-size:.68rem;color:{MUTED}">{evt.date.strftime("%Y-%m-%d")}</span>'
+                f'</div>'
+                f'<div style="font-size:.83rem;color:{TEXT};margin-top:.3rem">{evt.description}</div>'
+                f'<div style="font-size:.68rem;color:{MUTED};margin-top:.2rem">'
+                f'Fuente: {evt.source or "—"} &nbsp;|&nbsp; Impacto: '
+                f'<span style="color:{impact_color}">{evt.impact_score:+.2f}</span>'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+    else:
+        st.info("Sin eventos registrados para este actor.")
+
+    # ---- Partidos conectados ----
+    connected = summary.get("connected_parties", [])
+    if connected:
+        st.markdown("---")
+        section_header("PARTIDOS CONECTADOS", GREEN)
+        st.write(", ".join(connected))
+
+
+with tab_actor_detail:
+    render_actor_detail_tab()

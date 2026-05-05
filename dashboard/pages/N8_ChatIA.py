@@ -1,19 +1,10 @@
 """
-POLITEIA BRAIN — Cerebro central de razonamiento IA
-====================================================
-Interfaz completa del motor de IA local (Ollama / politeia-brain).
-El brain razona sobre TODOS los procesos del dashboard en tiempo real.
-
-Modos:
-   Chat inteligente — con contexto total del dashboard
-   Análisis autónomo — el brain razona solo
-  ! Alertas proactivas — detección automática de riesgos
-   Estado del sistema — métricas y memoria del brain
+Politeia Brain — ElectSim Espana.
+Asistente de inteligencia politica con acceso al contexto de la plataforma.
 """
 from __future__ import annotations
 
 import sys
-import json
 import time
 from datetime import datetime
 from pathlib import Path
@@ -26,1519 +17,402 @@ import streamlit as st
 
 from dashboard.shared import (
     sidebar_nav,
-    BG, BG2, BG3, BORDER, CYAN, BLUE, PURPLE, AMBER, RED, GREEN,
-    TEXT, TEXT2, MUTED,
+    BG, BG2, BG3, BORDER, CYAN, BLUE, TEXT, TEXT2, MUTED, GREEN,
 )
 
-# ── page config ────────────────────────────────────────────────────────────────
+# ---------------------------------------------------------------------------
+# Page config
+# ---------------------------------------------------------------------------
 st.set_page_config(
     page_title="Politeia Brain — ElectSim",
-    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 sidebar_nav()
 
-# ── imports IA ─────────────────────────────────────────────────────────────────
+# ---------------------------------------------------------------------------
+# Import Brain service
+# ---------------------------------------------------------------------------
 try:
-    from dashboard.services import brain_service as brain
-    from dashboard.services import llm_local as llm
-    _STATUS = llm.disponible()
-    _LLM_OK = llm.esta_disponible()
+    from agents.brain.politeia_brain import (
+        ask_brain,
+        get_available_model,
+        is_brain_available,
+        BrainQuery,
+    )
     _BRAIN_OK = True
 except Exception as _e:
-    _LLM_OK = False
     _BRAIN_OK = False
-    _STATUS = {"ollama": False, "claude_api": False}
-    brain = None
-    llm = None
 
-# ── Brain Core (Bloque 3) ──────────────────────────────────────────────────────
-try:
-    from dashboard.services.brain_service import chat_con_brain_core as _chat_brain_core
-    _BRAIN_CORE_OK = True
-except Exception:
-    _BRAIN_CORE_OK = False
-    def _chat_brain_core(*a, **kw):  # type: ignore[misc]
-        return None
+    def ask_brain(query):  # type: ignore[misc]
+        from types import SimpleNamespace
+        return SimpleNamespace(
+            answer="Motor de IA no disponible.",
+            model_used="demo",
+            latency_ms=0,
+            from_cache=False,
+            ok=False,
+            error=str(_e),
+            context_used=False,
+        )
 
-try:
-    from agents.brain.rag_indexer import rag_status as _rag_status
-    _RAG_INDEXER_OK = True
-except Exception:
-    _RAG_INDEXER_OK = False
-    def _rag_status() -> dict:  # type: ignore[misc]
-        return {}
+    def get_available_model() -> str:  # type: ignore[misc]
+        return "Demo (sin modelo)"
 
-try:
-    from agents.brain.run_logger import get_recent_runs as _get_recent_runs
-    _RUN_LOGGER_OK = True
-except Exception:
-    _RUN_LOGGER_OK = False
-    def _get_recent_runs(limit: int = 10) -> list:  # type: ignore[misc]
-        return []
+    def is_brain_available() -> bool:  # type: ignore[misc]
+        return False
 
-# ── brain widget (opcional) ────────────────────────────────────────────────────
-try:
-    from dashboard.components.brain_widget import brain_sidebar_status
-    _WIDGET_OK = True
-except Exception:
-    _WIDGET_OK = False
+    class BrainQuery:  # type: ignore[misc]
+        def __init__(self, **kw):
+            for k, v in kw.items():
+                setattr(self, k, v)
 
-# ── session init ───────────────────────────────────────────────────────────────
-if "brain_historia"not in st.session_state:
-    st.session_state["brain_historia"] = []
-if "brain_analisis_log"not in st.session_state:
-    st.session_state["brain_analisis_log"] = []
-if "brain_alertas"not in st.session_state:
-    st.session_state["brain_alertas"] = []
-if "brain_last_run_result"not in st.session_state:
-    # Último AgentRunResult del Brain Core (o None si no disponible)
-    st.session_state["brain_last_run_result"] = None
+# ---------------------------------------------------------------------------
+# Session state init
+# ---------------------------------------------------------------------------
+if "brain_messages" not in st.session_state:
+    st.session_state["brain_messages"] = []
+if "brain_context" not in st.session_state:
+    st.session_state["brain_context"] = ""
+if "brain_suggested" not in st.session_state:
+    st.session_state["brain_suggested"] = ""
 
-# ── helpers ────────────────────────────────────────────────────────────────────
-def _modelo_badge() -> str:
-    modelo = _STATUS.get("modelo_activo", "")
-    if not modelo:
-        return "● sin modelo"
-    nombre = modelo.split(":")[0]
-    if "brain"in nombre.lower():
-        return f" {nombre}"
-    if "qwen"in nombre.lower():
-        return f" {nombre}"
-    return f" {nombre}"
+# ---------------------------------------------------------------------------
+# Handle suggested question (set by button clicks before page re-render)
+# ---------------------------------------------------------------------------
+_pending_question: str = ""
+if st.session_state.get("brain_suggested"):
+    _pending_question = st.session_state.pop("brain_suggested")
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+_RED = "#EF4444"
 
 
-def _renderizar_mensaje(rol: str, contenido: str, ts: str = "") -> None:
-    """Renderiza un mensaje del chat con estilo."""
-    if rol == "user":
+def _model_chip(model_name: str) -> str:
+    if model_name == "Demo (sin modelo)":
+        dot_color = _RED
+    else:
+        dot_color = GREEN
+    return (
+        f"<span style='background:{BG3};border:1px solid {BORDER};"
+        f"border-radius:20px;padding:2px 10px;font-size:.78rem;color:{TEXT2};'>"
+        f"<span style='color:{dot_color};'>&#9679;</span> {model_name}</span>"
+    )
+
+
+def _render_message(role: str, content: str, ts: str = "") -> None:
+    if role == "user":
         st.markdown(
-            f"""<div style='background:linear-gradient(135deg,{BLUE}25,{PURPLE}18);
-            border:1px solid {BLUE}44;border-radius:18px 18px 4px 18px;
-            padding:.75rem 1.1rem;margin:.3rem 0 .3rem 20%;color:{TEXT};'>
-            <span style='color:{TEXT2};font-size:.72rem;'> Tú {ts}</span><br>
-            {contenido}</div>""",
+            f"""<div style='display:flex;justify-content:flex-end;margin:.35rem 0;'>
+            <div style='background:{BG3};border:1px solid {BORDER};
+            border-radius:16px 16px 4px 16px;padding:.65rem 1rem;
+            max-width:78%;color:{TEXT};font-size:.88rem;line-height:1.6;'>
+            <span style='color:{MUTED};font-size:.72rem;display:block;margin-bottom:.25rem;'>
+            Tu {ts}</span>
+            {content.replace(chr(10), "<br>")}
+            </div></div>""",
             unsafe_allow_html=True,
         )
     else:
         st.markdown(
-            f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}12);
-            border:1px solid {PURPLE}44;border-radius:4px 18px 18px 18px;
-            padding:.75rem 1.1rem;margin:.3rem 20% .3rem 0;color:{TEXT};'>
-            <span style='color:{CYAN};font-size:.72rem;'> Politeia Brain {ts}</span><br>
-            {contenido}</div>""",
+            f"""<div style='display:flex;justify-content:flex-start;margin:.35rem 0;'>
+            <div style='background:{BG2};border:1px solid {BORDER};
+            border-left:3px solid {CYAN};
+            border-radius:4px 16px 16px 16px;padding:.65rem 1rem;
+            max-width:82%;color:{TEXT};font-size:.88rem;line-height:1.6;'>
+            <span style='color:{MUTED};font-size:.72rem;display:block;margin-bottom:.25rem;'>
+            Brain {ts}</span>
+            {content.replace(chr(10), "<br>")}
+            </div></div>""",
             unsafe_allow_html=True,
         )
 
 
-# ── HEADER ─────────────────────────────────────────────────────────────────────
-col_h1, col_h2 = st.columns([3, 1])
-with col_h1:
-    st.markdown(
-        f"""<div style='background:linear-gradient(135deg,#0a0f1a,#16213e,#0f3460);
-        padding:1.4rem 2rem;border-radius:12px;margin-bottom:1rem;
-        border-left:4px solid {CYAN};'>
-        <h1 style='color:#fff;margin:0;font-size:1.8rem;'> Politeia Brain</h1>
-        <p style='color:{TEXT2};margin:.3rem 0 0;font-size:.9rem;'>
-        Motor de inteligencia local · Razonamiento continuo · Contexto total del dashboard
-        </p></div>""",
-        unsafe_allow_html=True,
+def _process_question(question: str) -> None:
+    """Envia una pregunta al brain y actualiza el historial."""
+    ts = datetime.now().strftime("%H:%M")
+    st.session_state["brain_messages"].append(
+        {"role": "user", "content": question, "ts": ts}
     )
-with col_h2:
-    st.markdown("<br>", unsafe_allow_html=True)
-    if _LLM_OK:
-        modelos_lista = _STATUS.get("modelos", [])
-        st.success(f" {_modelo_badge()}")
-        if modelos_lista:
-            st.caption(f"Modelos: {len(modelos_lista)} disponibles")
-    else:
-        st.error("● Sin motor IA")
-        st.caption("Inicia Ollama o configura ANTHROPIC_API_KEY")
 
-# ── imports ingesta + brain avanzado ──────────────────────────────────────────
-try:
-    from dashboard.services import brain_auto_ingestion as ingestion
-    _ING_OK = True
-except Exception:
-    ingestion = None
-    _ING_OK = False
+    context = st.session_state.get("brain_context", "")
+    history = [
+        {"role": m["role"], "content": m["content"]}
+        for m in st.session_state["brain_messages"][:-1][-12:]
+    ]
 
-# ── Auto-arrancar worker de ingesta ───────────────────────────────────────────
-if _ING_OK and ingestion and _LLM_OK:
-    if "ingestion_worker_started"not in st.session_state:
-        try:
-            iniciado = ingestion.iniciar_worker()
-            st.session_state["ingestion_worker_started"] = True
-            if iniciado:
-                st.session_state["ingestion_worker_msg"] = "Worker de ingesta iniciado automáticamente"
-        except Exception:
-            st.session_state["ingestion_worker_started"] = False
-
-# ── TABS PRINCIPALES ──────────────────────────────────────────────────────────
-tab_chat, tab_autonomo, tab_alertas, tab_modulos, tab_ingesta, tab_personalizar, tab_estado = st.tabs([
-    "Chat Inteligente",
-    "Análisis Autónomo",
-    "! Alertas Proactivas",
-    "Análisis por Módulo",
-    "Ingesta Automática",
-    "Personalización IA",
-    "Sistema",
-])
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 1 — CHAT INTELIGENTE
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_chat:
-    chat_col, ctx_col = st.columns([2.2, 1])
-
-    with chat_col:
-        st.markdown("###  Chat con contexto total del dashboard")
-        st.markdown(
-            f"<p style='color:{TEXT2};font-size:.85rem;'>El brain tiene acceso completo a: "
-            "encuestas, noticias, BOE, alertas, coalición y riesgo político. "
-            "Pregúntale cualquier cosa.</p>",
-            unsafe_allow_html=True,
+    try:
+        query = BrainQuery(
+            question=question,
+            context=context,
+            user_id=st.session_state.get("user_id", ""),
+            workspace_id=st.session_state.get("workspace_id", "default"),
+            conversation_history=history,
         )
+        with st.spinner("Analizando..."):
+            response = ask_brain(query)
+        answer = response.answer if hasattr(response, "answer") else str(response)
+    except Exception as exc:
+        answer = f"Error al procesar la consulta: {exc}"
 
-        # Comandos rápidos
-        st.markdown("**Preguntas rápidas:**")
-        qcols = st.columns(4)
-        preguntas_rapidas = [
-            ("¿Qué está pasando hoy?", "general"),
-            ("Riesgo de elecciones anticipadas", "coalicion"),
-            ("Análisis de coalición", "coalicion"),
-            ("¿Quién está subiendo en encuestas?", "electoral"),
-            ("Riesgos más urgentes ahora", "riesgo"),
-            ("Qué ha publicado el BOE hoy", "legislativo"),
-            ("Narrativa mediática dominante", "medios"),
-            ("DAFO del gobierno actual", "general"),
-        ]
-        for i, (pregunta, _) in enumerate(preguntas_rapidas):
-            col = qcols[i % 4]
-            if col.button(f" {pregunta[:25]}…"if len(pregunta) > 25 else f" {pregunta}",
-                          key=f"qr_{i}", use_container_width=True):
-                st.session_state["brain_input_pendiente"] = pregunta
-
-        st.markdown("---")
-
-        # Historial de chat
-        historial_container = st.container(height=420)
-        with historial_container:
-            if not st.session_state["brain_historia"]:
-                st.markdown(
-                    f"""<div style='text-align:center;padding:3rem;color:{MUTED};'>
-                    <div style='font-size:3rem;'></div>
-                    <p>Soy Politeia Brain. Tengo acceso a todos los datos del dashboard.<br>
-                    Pregúntame sobre la situación política, encuestas, riesgos o cualquier análisis.</p>
-                    </div>""",
-                    unsafe_allow_html=True,
-                )
-            else:
-                for msg in st.session_state["brain_historia"]:
-                    _renderizar_mensaje(
-                        msg["role"],
-                        msg["content"],
-                        msg.get("ts", ""),
-                    )
-
-        # Input
-        input_col, send_col, clear_col = st.columns([5, 1, 1])
-        with input_col:
-            # Pre-fill si hay pregunta rápida pendiente
-            default_input = st.session_state.pop("brain_input_pendiente", "")
-            user_input = st.text_input(
-                "Pregunta",
-                value=default_input,
-                placeholder="Pregunta al brain sobre cualquier aspecto político…",
-                label_visibility="collapsed",
-                key="chat_input_main",
-            )
-        with send_col:
-            enviar = st.button("", type="primary", use_container_width=True)
-        with clear_col:
-            if st.button("", use_container_width=True, help="Limpiar chat"):
-                st.session_state["brain_historia"] = []
-                st.rerun()
-
-        if (enviar or default_input) and (user_input or default_input):
-            texto = user_input or default_input
-            ts_now = datetime.now().strftime("%H:%M")
-
-            # Añadir mensaje usuario
-            st.session_state["brain_historia"].append({
-                "role": "user",
-                "content": texto,
-                "ts": ts_now,
-            })
-
-            if _BRAIN_OK and brain:
-                # ── Intento 1: Brain Core (agente tipado con EvidencePack) ──────
-                run_result = None
-                respuesta_completa = ""
-
-                if _BRAIN_CORE_OK:
-                    with st.spinner("Razonando con Brain Core…"):
-                        try:
-                            run_result = _chat_brain_core(texto, "general")
-                            if run_result and getattr(run_result, "status", None) != "error":
-                                respuesta_completa = run_result.answer or ""
-                                st.session_state["brain_last_run_result"] = run_result
-                        except Exception:
-                            run_result = None
-
-                # ── Intento 2: streaming legacy si Brain Core falla ───────────
-                if not respuesta_completa:
-                    with historial_container:
-                        _renderizar_mensaje("user", texto, ts_now)
-                        resp_container = st.empty()
-
-                    with st.spinner("Razonando…"):
-                        try:
-                            gen = brain.chat_con_contexto_total(
-                                texto,
-                                historia=st.session_state["brain_historia"][-10:],
-                                modulo_origen="general",
-                                stream=True,
-                            )
-                            if hasattr(gen, "__iter__") and not isinstance(gen, str):
-                                for token in gen:
-                                    respuesta_completa += token
-                                    resp_container.markdown(
-                                        f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}12);
-                                        border:1px solid {PURPLE}44;border-radius:4px 18px 18px 18px;
-                                        padding:.75rem 1.1rem;margin:.3rem 20% .3rem 0;color:{TEXT};'>
-                                        <span style='color:{CYAN};font-size:.72rem;'> Politeia Brain {ts_now}</span><br>
-                                        {respuesta_completa}▌</div>""",
-                                        unsafe_allow_html=True,
-                                    )
-                            else:
-                                respuesta_completa = str(gen)
-                        except Exception as e:
-                            respuesta_completa = f"Error en razonamiento: {e}"
-                        resp_container.empty()
-
-                    st.session_state["brain_last_run_result"] = None
-
-                if not respuesta_completa:
-                    respuesta_completa = "⚠ Sin respuesta del motor IA."
-
-                st.session_state["brain_historia"].append({
-                    "role": "assistant",
-                    "content": respuesta_completa,
-                    "ts": ts_now,
-                })
-                st.rerun()
-            else:
-                st.session_state["brain_historia"].append({
-                    "role": "assistant",
-                    "content": " Motor IA no disponible. Activa Ollama (`ollama serve`) para usar el brain.",
-                    "ts": ts_now,
-                })
-                st.rerun()
-
-    with ctx_col:
-        st.markdown("####  Contexto activo")
-        if _BRAIN_OK and brain:
-            estado = brain.obtener_estado_dashboard()
-
-            # Sondeos rápidos
-            sondeos = estado.get("sondeos", {})
-            if sondeos:
-                st.markdown("** Encuestas actuales**")
-                for p, d in sorted(sondeos.items(), key=lambda x: -x[1].get("escanos", 0))[:5]:
-                    st.markdown(
-                        f"<div style='display:flex;justify-content:space-between;font-size:.8rem;"
-                        f"margin:1px 0;'><span style='color:{TEXT2};'>{p}</span>"
-                        f"<span style='color:{CYAN};font-weight:700;'>{d.get('escanos',0)} esc.</span></div>",
-                        unsafe_allow_html=True,
-                    )
-                st.markdown("")
-
-            # Noticias
-            noticias = estado.get("noticias", [])
-            if noticias:
-                st.markdown("** Noticias recientes**")
-                for n in noticias[:5]:
-                    st.markdown(
-                        f"<div style='font-size:.78rem;border-left:2px solid {BORDER};"
-                        f"padding:.15rem .4rem;margin:2px 0;'>"
-                        f"<span style='color:{MUTED};'>{n.get('medio','?')}</span><br>"
-                        f"<span style='color:{TEXT2};'>{n.get('titulo','')[:55]}{'…'if len(n.get('titulo',''))>55 else ''}</span>"
-                        f"</div>",
-                        unsafe_allow_html=True,
-                    )
-
-        else:
-            st.info("Activa el brain para ver el contexto del dashboard")
-
-        st.markdown("---")
-        st.markdown("** Motor**")
-        st.markdown(
-            f"<div style='font-size:.8rem;color:{TEXT2};'>"
-            f" {_modelo_badge()}<br>"
-            f"RAG: {' activo'if _STATUS.get('rag') else '● inactivo'}<br>"
-            f"Ollama: {''if _STATUS.get('ollama') else '●'}<br>"
-            f" Claude API: {''if _STATUS.get('claude_api') else '●'}</div>",
-            unsafe_allow_html=True,
-        )
-
-        # ── Brain Core panels (opcionales) ─────────────────────────────────
-        last_result = st.session_state.get("brain_last_run_result")
-        if last_result is not None:
-            st.markdown("---")
-
-            # Modelo y confianza
-            model_label = getattr(last_result, "model_used", "") or ""
-            provider_label = getattr(last_result, "provider", "") or ""
-            confidence = getattr(last_result, "confidence", None)
-            latency = getattr(last_result, "latency_ms", None)
-            if model_label or confidence is not None:
-                parts = []
-                if model_label:
-                    parts.append(f" {model_label.split(':')[0]}")
-                if provider_label and provider_label != model_label:
-                    parts.append(f"·{provider_label}")
-                if confidence is not None:
-                    parts.append(f"· conf {confidence:.0%}")
-                if latency is not None:
-                    parts.append(f"· {latency}ms")
-                st.markdown(
-                    f"<div style='font-size:.75rem;color:{CYAN};padding:2px 0;'>"
-                    f"{' '.join(parts)}</div>",
-                    unsafe_allow_html=True,
-                )
-
-            # Fuentes usadas (EvidencePack)
-            ep = getattr(last_result, "evidence_pack", None)
-            evidence_items = getattr(ep, "evidence", []) if ep else []
-            if evidence_items:
-                with st.expander(f" Fuentes usadas ({len(evidence_items)})", expanded=False):
-                    for ev in evidence_items[:8]:
-                        title = getattr(ev, "title", "") or ""
-                        source = getattr(ev, "source", "") or ""
-                        score = getattr(ev, "score", None)
-                        domain = getattr(ev, "domain", "") or ""
-                        snippet = getattr(ev, "snippet", "") or ""
-                        score_str = f" {score:.2f}" if score is not None else ""
-                        st.markdown(
-                            f"<div style='font-size:.75rem;border-left:2px solid {PURPLE};"
-                            f"padding:.15rem .4rem;margin:2px 0;'>"
-                            f"<span style='color:{CYAN};'>{domain or source}</span>"
-                            f"<span style='color:{MUTED};'>{score_str}</span><br>"
-                            f"<span style='color:{TEXT2};'>{title[:55]}{'…' if len(title)>55 else ''}</span><br>"
-                            f"<span style='color:{MUTED};font-size:.7rem;'>{snippet[:80]}{'…' if len(snippet)>80 else ''}</span>"
-                            f"</div>",
-                            unsafe_allow_html=True,
-                        )
-            else:
-                st.markdown(
-                    f"<div style='font-size:.75rem;color:{MUTED};padding:.2rem 0;'>"
-                    " Sin fuentes RAG en esta respuesta</div>",
-                    unsafe_allow_html=True,
-                )
-
-            # Herramientas llamadas
-            tools_used = getattr(last_result, "tools_used", []) or []
-            if tools_used:
-                with st.expander(f" Herramientas ({len(tools_used)})", expanded=False):
-                    for t in tools_used:
-                        st.markdown(
-                            f"<div style='font-size:.75rem;color:{TEXT2};padding:1px 0;'>"
-                            f" <code>{t}</code></div>",
-                            unsafe_allow_html=True,
-                        )
-        else:
-            st.markdown(
-                f"<div style='font-size:.75rem;color:{MUTED};margin-top:.5rem;'>"
-                "Brain Core: esperando primera consulta</div>",
-                unsafe_allow_html=True,
-            )
+    st.session_state["brain_messages"].append(
+        {"role": "assistant", "content": answer, "ts": ts}
+    )
+    st.rerun()
 
 
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — ANÁLISIS AUTÓNOMO
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_autonomo:
-    st.markdown("###  Análisis autónomo — El brain razona solo")
+# ---------------------------------------------------------------------------
+# Process any pending question from suggested-question buttons
+# ---------------------------------------------------------------------------
+if _pending_question:
+    _process_question(_pending_question)
+
+# ---------------------------------------------------------------------------
+# Layout: two columns [3, 1]
+# ---------------------------------------------------------------------------
+col_main, col_side = st.columns([3, 1])
+
+# ============================================================
+# LEFT COLUMN — chat
+# ============================================================
+with col_main:
+
+    # Header card
+    model_name = get_available_model()
     st.markdown(
-        f"<p style='color:{TEXT2};font-size:.85rem;'>Selecciona un foco de análisis y observa al brain "
-        "razonar paso a paso sobre la situación política española usando todos los datos del dashboard.</p>",
+        f"""<div style='background:{BG2};border:1px solid {BORDER};
+        border-left:4px solid {CYAN};border-radius:10px;
+        padding:1.1rem 1.5rem;margin-bottom:1rem;'>
+        <h1 style='color:{CYAN};margin:0;font-size:1.7rem;font-weight:700;'>
+        Politeia Brain</h1>
+        <p style='color:{TEXT2};margin:.3rem 0 .6rem;font-size:.88rem;'>
+        Asistente de inteligencia politica</p>
+        {_model_chip(model_name)}
+        </div>""",
         unsafe_allow_html=True,
     )
 
-    focos = {
-        "Situación general": "general",
-        "Análisis electoral": "electoral",
-        "Monitor legislativo": "legislativo",
-        "Coalición & gobierno": "coalicion",
-        "● Evaluación de riesgo": "riesgo",
-        "Narrativa mediática": "medios",
-    }
-
-    aut_col1, aut_col2 = st.columns([1, 2])
-
-    with aut_col1:
-        foco_sel = st.radio(
-            "Foco de análisis",
-            list(focos.keys()),
-            key="brain_foco",
-        )
-        foco_clave = focos[foco_sel]
-
-        forzar = st.checkbox("Forzar actualización (ignorar caché)", key="brain_force")
-        usar_streaming = st.checkbox("Ver razonamiento en tiempo real", value=True, key="brain_stream")
-
-        btn_analizar = st.button(
-            f"Analizar: {foco_sel}",
-            type="primary",
-            use_container_width=True,
-            key="btn_analizar_autonomo",
-            disabled=not _BRAIN_OK,
-        )
-
-        if not _BRAIN_OK:
-            st.warning(" Sin motor IA disponible")
-
-        # Log de análisis anteriores
-        if st.session_state["brain_analisis_log"]:
-            st.markdown("---")
-            st.markdown("** Análisis anteriores:**")
-            for entry in st.session_state["brain_analisis_log"][-5:][::-1]:
-                st.markdown(
-                    f"<div style='font-size:.78rem;color:{TEXT2};border-left:2px solid {PURPLE};"
-                    f"padding:.2rem .4rem;margin:2px 0;'>"
-                    f" {entry['ts']} — {entry['foco']}</div>",
-                    unsafe_allow_html=True,
-                )
-
-    with aut_col2:
-        resultado_container = st.empty()
-
-        if btn_analizar and _BRAIN_OK and brain:
-            ts_analisis = datetime.now().strftime("%H:%M")
-            st.session_state["brain_analisis_log"].append({
-                "ts": ts_analisis,
-                "foco": foco_sel,
-            })
-
-            if usar_streaming:
-                with st.spinner(f"Razonando sobre {foco_sel}…"):
-                    texto_streaming = ""
-                    try:
-                        gen = brain.razonar_situacion(
-                            foco=foco_clave,
-                            stream=True,
-                            force_refresh=forzar,
-                        )
-                        prog_container = st.empty()
-                        if hasattr(gen, "__iter__") and not isinstance(gen, str):
-                            for token in gen:
-                                texto_streaming += token
-                                prog_container.markdown(
-                                    f"""<div style='background:{BG2};border:1px solid {PURPLE}44;
-                                    border-radius:8px;padding:1.2rem;color:{TEXT};
-                                    font-size:.88rem;line-height:1.7;min-height:200px;'>
-                                    <span style='color:{CYAN};font-size:.75rem;'>
-                                     Analizando: {foco_sel} · {ts_analisis}</span><br><br>
-                                    {texto_streaming}▌</div>""",
-                                    unsafe_allow_html=True,
-                                )
-                        else:
-                            texto_streaming = str(gen)
-                            prog_container.markdown(texto_streaming)
-                    except Exception as e:
-                        texto_streaming = f"Error: {e}"
-
-                st.session_state[f"brain_resultado_{foco_clave}"] = texto_streaming
-            else:
-                with st.spinner(f"Analizando {foco_sel}…"):
-                    try:
-                        resultado = brain.razonar_situacion(
-                            foco=foco_clave,
-                            stream=False,
-                            force_refresh=forzar,
-                        )
-                        st.session_state[f"brain_resultado_{foco_clave}"] = str(resultado)
-                    except Exception as e:
-                        st.session_state[f"brain_resultado_{foco_clave}"] = f"Error: {e}"
-
-            st.rerun()
-
-        # Mostrar resultado guardado
-        resultado_guardado = st.session_state.get(f"brain_resultado_{foco_clave}")
-        if resultado_guardado:
+    # Context injection banner
+    if st.session_state.get("brain_context"):
+        ctx_preview = st.session_state["brain_context"][:80]
+        banner_cols = st.columns([6, 1])
+        with banner_cols[0]:
             st.markdown(
-                f"""<div style='background:{BG2};border:1px solid {PURPLE}44;
-                border-radius:8px;padding:1.2rem;color:{TEXT};
-                font-size:.88rem;line-height:1.7;'>
-                <span style='color:{CYAN};font-size:.75rem;'> Último análisis: {foco_sel}</span><br><br>
-                {resultado_guardado.replace(chr(10), '<br>').replace('##', '<h4>').replace('**', '<b>')}
+                f"""<div style='background:#451a03;border:1px solid #92400e;
+                border-radius:8px;padding:.5rem .9rem;font-size:.8rem;
+                color:#fbbf24;margin-bottom:.5rem;'>
+                Contexto de investigacion activo: {ctx_preview}...
                 </div>""",
                 unsafe_allow_html=True,
             )
-
-            a_col1, a_col2, a_col3 = st.columns(3)
-            if a_col1.button("Copiar al chat", key="analisis_to_chat"):
-                st.session_state["brain_historia"].append({
-                    "role": "assistant",
-                    "content": resultado_guardado,
-                    "ts": datetime.now().strftime("%H:%M"),
-                })
-                st.toast("Análisis añadido al chat ")
-            if a_col2.button("Guardar en RAG", key="save_rag"):
-                if llm and brain:
-                    brain._indexar_razonamiento(foco_clave, resultado_guardado, {})
-                    st.toast("Guardado en memoria RAG ")
-            if a_col3.button("Nuevo análisis", key="nuevo_analisis"):
-                del st.session_state[f"brain_resultado_{foco_clave}"]
-                st.rerun()
-        else:
-            resultado_container.markdown(
-                f"""<div style='background:{BG2};border:1px dashed {BORDER};
-                border-radius:8px;padding:3rem;text-align:center;color:{MUTED};'>
-                <div style='font-size:2.5rem;margin-bottom:.5rem;'></div>
-                <p>Selecciona un foco y pulsa "Analizar"para que el brain razone<br>
-                sobre la situación política española usando todos los datos disponibles.</p>
-                </div>""",
-                unsafe_allow_html=True,
-            )
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — ALERTAS PROACTIVAS
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_alertas:
-    st.markdown("### ! Alertas proactivas — El brain vigila sin que le pidas")
-    st.markdown(
-        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain analiza continuamente el estado del dashboard "
-        "y genera alertas cuando detecta riesgos, cambios relevantes o situaciones que requieren atención.</p>",
-        unsafe_allow_html=True,
-    )
-
-    al_col1, al_col2 = st.columns([2, 1])
-
-    with al_col1:
-        refresh_alertas = st.button(
-            "Actualizar alertas del brain",
-            type="primary",
-            key="btn_refresh_alertas",
-            disabled=not _BRAIN_OK,
-        )
-
-        if refresh_alertas and _BRAIN_OK and brain:
-            with st.spinner("Analizando situación para detectar alertas…"):
-                alertas = brain.generar_alertas_proactivas(force_refresh=True)
-                st.session_state["brain_alertas"] = alertas
-
-        # Cargar alertas si no hay
-        if not st.session_state["brain_alertas"] and _BRAIN_OK and brain:
-            with st.spinner("Cargando alertas…"):
-                alertas = brain.generar_alertas_proactivas()
-                st.session_state["brain_alertas"] = alertas
-
-        alertas_mostrar = st.session_state.get("brain_alertas", [])
-
-        if alertas_mostrar:
-            COLORES_SEV = {
-                "CRÍTICA": RED,
-                "ALTA": AMBER,
-                "MEDIA": BLUE,
-                "BAJA": MUTED,
-            }
-            ICONOS_SEV = {
-                "CRÍTICA": "●",
-                "ALTA": "●",
-                "MEDIA": "●",
-                "BAJA": "○",
-            }
-
-            for alerta in alertas_mostrar:
-                sev = alerta.get("severidad", "MEDIA")
-                color = COLORES_SEV.get(sev, BLUE)
-                icono = ICONOS_SEV.get(sev, "!")
-                modulo = alerta.get("modulo", "general")
-                accion = alerta.get("accion", "")
-
-                st.markdown(
-                    f"""<div style='background:{BG2};border-left:4px solid {color};
-                    border-radius:0 8px 8px 0;padding:.75rem 1rem;margin:6px 0;'>
-                    <div style='display:flex;justify-content:space-between;margin-bottom:.3rem;'>
-                    <span style='color:{color};font-weight:700;font-size:.85rem;'>
-                    {icono} {sev} — {alerta.get("titulo","")[:60]}</span>
-                    <span style='background:{BG3};color:{TEXT2};padding:1px 6px;
-                    border-radius:4px;font-size:.72rem;'>{modulo}</span></div>
-                    <p style='color:{TEXT};font-size:.82rem;margin:0;'>
-                    {alerta.get("descripcion","")}</p>
-                    {f"<p style='color:{MUTED};font-size:.75rem;margin:.3rem 0 0;'>→ {accion}</p>"if accion else ""}
-                    </div>""",
-                    unsafe_allow_html=True,
-                )
-        elif not _BRAIN_OK:
-            st.warning(" Activa Ollama para que el brain genere alertas proactivas")
-        else:
-            st.info("Pulsa 'Actualizar alertas'para que el brain analice la situación")
-
-    with al_col2:
-        st.markdown("####  Resumen de alertas")
-        if alertas_mostrar:
-            from collections import Counter
-            sevs = Counter(a.get("severidad", "MEDIA") for a in alertas_mostrar)
-            for sev, cnt in [("CRÍTICA", RED), ("ALTA", AMBER), ("MEDIA", BLUE), ("BAJA", MUTED)]:
-                n = sevs.get(sev, 0)
-                if n:
-                    st.markdown(
-                        f"<div style='display:flex;justify-content:space-between;"
-                        f"padding:.3rem .5rem;border-left:3px solid {cnt};margin:3px 0;'>"
-                        f"<span style='color:{TEXT2};font-size:.85rem;'>{sev}</span>"
-                        f"<span style='color:{cnt};font-weight:700;'>{n}</span></div>",
-                        unsafe_allow_html=True,
-                    )
-
-        st.markdown("---")
-        st.markdown("####  Configuración")
-        umbral = st.selectbox(
-            "Mostrar alertas desde",
-            ["BAJA", "MEDIA", "ALTA", "CRÍTICA"],
-            index=1,
-            key="alerta_umbral",
-        )
-        auto_refresh = st.checkbox("Auto-refresh cada 5 min", key="alerta_auto", value=False)
-        if auto_refresh:
-            st.caption(" Requiere que el brain esté activo")
-
-        st.markdown("---")
-        st.markdown("####  Módulos monitorizados")
-        modulos_monitorizados = [
-            ("Legislativo", "legislativo"),
-            ("Coalición", "coalicion"),
-            ("Medios", "medios"),
-            ("Geopolítica", "geopolitica"),
-            ("Encuestas", "electoral"),
-        ]
-        for nombre, _ in modulos_monitorizados:
-            st.markdown(
-                f"<div style='font-size:.8rem;color:{TEXT2};padding:2px 0;'> {nombre}</div>",
-                unsafe_allow_html=True,
-            )
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 4 — ANÁLISIS POR MÓDULO
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_modulos:
-    st.markdown("###  Análisis profundo por módulo")
-    st.markdown(
-        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain analiza en profundidad cada módulo "
-        "del dashboard con contexto cruzado de todos los demás.</p>",
-        unsafe_allow_html=True,
-    )
-
-    modulos_dashboard = {
-        "Briefings": "briefings",
-        "Mapa de Actores": "actores",
-        "Termómetro de Riesgo": "termometro",
-        "Monitor Legislativo": "legislativo",
-        "Gobierno & Coalición": "coalicion",
-        "Alertas": "alertas",
-        "Medios & Narrativa": "medios",
-        "Geopolítica & RRII": "geopolitica",
-        "Communication Intel": "communication",
-        "Centro de Operaciones": "workspace",
-    }
-
-    mod_cols = st.columns(2)
-    modulo_elegido = mod_cols[0].selectbox(
-        "Seleccionar módulo",
-        list(modulos_dashboard.keys()),
-        key="mod_selector",
-    )
-    clave_modulo = modulos_dashboard[modulo_elegido]
-
-    datos_extra_raw = mod_cols[1].text_area(
-        "Datos adicionales (opcional JSON)",
-        placeholder='{"partido": "PP", "evento": "moción de censura"}',
-        height=80,
-        key="mod_datos_extra",
-    )
-
-    btn_analizar_mod = st.button(
-        f"Analizar en profundidad: {modulo_elegido}",
-        type="primary",
-        key="btn_analizar_mod",
-        disabled=not _BRAIN_OK,
-    )
-
-    if btn_analizar_mod and _BRAIN_OK and brain:
-        datos_extra = {}
-        if datos_extra_raw.strip():
-            try:
-                datos_extra = json.loads(datos_extra_raw)
-            except Exception:
-                datos_extra = {"nota": datos_extra_raw}
-
-        with st.spinner(f"Analizando {modulo_elegido} con contexto total…"):
-            resultado_mod = ""
-            try:
-                gen_mod = brain.analizar_modulo(
-                    modulo=clave_modulo,
-                    datos_especificos=datos_extra if datos_extra else None,
-                    stream=True,
-                )
-                prog_mod = st.empty()
-                if hasattr(gen_mod, "__iter__") and not isinstance(gen_mod, str):
-                    for token in gen_mod:
-                        resultado_mod += token
-                        prog_mod.markdown(
-                            f"""<div style='background:{BG2};border:1px solid {CYAN}44;
-                            border-radius:8px;padding:1.2rem;color:{TEXT};font-size:.88rem;
-                            line-height:1.7;'><span style='color:{CYAN};font-size:.75rem;'>
-                             Analizando: {modulo_elegido}</span><br><br>
-                            {resultado_mod}▌</div>""",
-                            unsafe_allow_html=True,
-                        )
-                else:
-                    resultado_mod = str(gen_mod)
-                    st.markdown(resultado_mod)
-            except Exception as e:
-                resultado_mod = f"Error: {e}"
-                st.error(resultado_mod)
-
-        st.session_state[f"mod_resultado_{clave_modulo}"] = resultado_mod
-        st.rerun()
-
-    # Mostrar resultado
-    res_mod = st.session_state.get(f"mod_resultado_{clave_modulo}")
-    if res_mod:
-        st.markdown(
-            f"""<div style='background:{BG2};border:1px solid {CYAN}44;border-radius:8px;
-            padding:1.2rem;color:{TEXT};font-size:.88rem;line-height:1.7;'>
-            <span style='color:{CYAN};font-size:.75rem;'> Análisis: {modulo_elegido}</span><br><br>
-            {res_mod.replace(chr(10),'<br>')}</div>""",
-            unsafe_allow_html=True,
-        )
-
-        nav_cols = st.columns(4)
-        if nav_cols[0].button(" → Chat", key="mod_to_chat"):
-            st.session_state["brain_historia"].append(
-                {"role": "assistant", "content": res_mod, "ts": datetime.now().strftime("%H:%M")}
-            )
-            st.toast("Añadido al chat ")
-        if nav_cols[1].button("Guardar RAG", key="mod_save_rag"):
-            if llm and brain:
-                brain._indexar_razonamiento(clave_modulo, res_mod, {})
-                st.toast("Guardado en memoria ")
-        if nav_cols[2].button(f"Ir a {modulo_elegido.split()[1]}", key="mod_go"):
-            page_map = {
-                "briefings": "pages/D1_Briefings.py",
-                "actores": "pages/D2_Actores.py",
-                "termometro": "pages/D3_Termometro.py",
-                "legislativo": "pages/D4_Legislativo.py",
-                "coalicion": "pages/D5_Coalicion.py",
-                "alertas": "pages/D6_Alertas.py",
-                "medios": "pages/D7_Medios.py",
-                "geopolitica": "pages/D8_Geopolitica.py",
-                "communication": "pages/D9_Communication.py",
-                "workspace": "pages/D10_Workspace.py",
-            }
-            target = page_map.get(clave_modulo)
-            if target:
-                st.switch_page(target)
-        if nav_cols[3].button("Re-analizar", key="mod_reanalizar"):
-            del st.session_state[f"mod_resultado_{clave_modulo}"]
-            st.rerun()
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 5 — ESTADO DEL SISTEMA
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_estado:
-    st.markdown("###  Estado del sistema de IA")
-
-    sys_col1, sys_col2, sys_col3 = st.columns(3)
-
-    with sys_col1:
-        st.markdown("####  Motor LLM")
-        componentes = [
-            ("Ollama", _STATUS.get("ollama", False)),
-            ("politeia-brain", _STATUS.get("brain", False)),
-            ("qwen2.5:7b", _STATUS.get("general", False)),
-            ("llama3.2:3b", _STATUS.get("rapido", False)),
-            ("nomic-embed-text", _STATUS.get("embed", False)),
-            ("Claude API", _STATUS.get("claude_api", False)),
-            ("ChromaDB RAG", _STATUS.get("rag", False)),
-        ]
-        for nombre, activo in componentes:
-            icono = ""if activo else "●"
-            color = GREEN if activo else MUTED
-            st.markdown(
-                f"<div style='font-size:.85rem;color:{color};padding:2px 0;'>{icono} {nombre}</div>",
-                unsafe_allow_html=True,
-            )
-
-        if _STATUS.get("modelo_activo"):
-            st.markdown(
-                f"<div style='background:{BG2};border:1px solid {CYAN}44;border-radius:6px;"
-                f"padding:.5rem;margin-top:.5rem;'><span style='color:{CYAN};font-size:.8rem;'>"
-                f"Modelo activo: <b>{_STATUS.get('modelo_activo')}</b></span></div>",
-                unsafe_allow_html=True,
-            )
-
-    with sys_col2:
-        st.markdown("####  Memoria y caché")
-        if _BRAIN_OK and brain:
-            chip = brain.estado_brain_chip()
-            n_cache = chip.get("n_insights", 0)
-            ultimo = chip.get("ultimo_analisis", "nunca")
-
-            st.metric("Insights en caché", n_cache)
-            st.metric("Último análisis", ultimo or "ninguno")
-
-            # Colecciones RAG
-            try:
-                import chromadb
-                db_path = str(_ROOT / ".chroma_db")
-                chroma = chromadb.PersistentClient(path=db_path)
-                cols = chroma.list_collections()
-                st.markdown(f"**Colecciones RAG: {len(cols)}**")
-                for col in cols:
-                    try:
-                        cnt = col.count()
-                        st.markdown(
-                            f"<div style='font-size:.8rem;color:{TEXT2};padding:1px 0;'>"
-                            f" {col.name}: {cnt} docs</div>",
-                            unsafe_allow_html=True,
-                        )
-                    except Exception:
-                        pass
-            except Exception:
-                st.caption("ChromaDB no disponible")
-
-            if st.button("Limpiar caché", key="btn_clear_cache"):
-                brain.invalidar_cache()
-                st.toast("Caché limpiada ")
+        with banner_cols[1]:
+            if st.button("Limpiar", key="clear_context_banner", use_container_width=True):
+                st.session_state["brain_context"] = ""
                 st.rerun()
 
-    with sys_col3:
-        st.markdown("####  Estadísticas")
-        hist = st.session_state.get("brain_historia", [])
-        analisis = st.session_state.get("brain_analisis_log", [])
+    # Chat history
+    messages = st.session_state["brain_messages"]
 
-        st.metric("Mensajes en chat", len(hist))
-        st.metric("Análisis ejecutados", len(analisis))
-
-        if hist:
-            user_msgs = [m for m in hist if m["role"] == "user"]
-            st.metric("Preguntas formuladas", len(user_msgs))
-
-        st.markdown("---")
-        st.markdown("** Test de conectividad**")
-        if st.button("Probar motor IA", key="btn_test_ai"):
-            if _LLM_OK and llm:
-                with st.spinner("Probando…"):
-                    resp = llm.chat(
-                        "Di solo: 'Politeia Brain operativo'",
-                        sistema="Responde exactamente lo que se te pide.",
-                    )
-                    if resp and len(resp) > 5:
-                        st.success(f" Respuesta: {resp[:80]}")
-                    else:
-                        st.error(" Sin respuesta del modelo")
-            else:
-                st.error(" Sin motor IA disponible")
-
-    st.markdown("---")
-
-    # ── Brain Core: RAG status + últimas ejecuciones ──────────────────────────
-    bc_col1, bc_col2 = st.columns(2)
-
-    with bc_col1:
-        st.markdown("####  Estado del RAG (Brain Core)")
-        if _RAG_INDEXER_OK:
-            try:
-                rag_st = _rag_status()
-                chroma_ok = rag_st.get("chroma_available", False)
-                chroma_cnt = rag_st.get("chroma_count", 0)
-                embed_model = rag_st.get("embedding_model", "—")
-                collections = rag_st.get("collections", [])
-                st.markdown(
-                    f"<div style='background:{BG2};border:1px solid {BORDER};"
-                    f"border-radius:8px;padding:.8rem;font-size:.82rem;'>"
-                    f"<div style='color:{GREEN if chroma_ok else MUTED};'>{'✅ ChromaDB activo' if chroma_ok else '● ChromaDB no disponible'}</div>"
-                    f"<div style='color:{TEXT2};margin-top:.3rem;'>Docs indexados: <b style='color:{CYAN};'>{chroma_cnt:,}</b></div>"
-                    f"<div style='color:{TEXT2};'>Embeddings: {embed_model}</div>"
-                    f"<div style='color:{TEXT2};margin-top:.3rem;'>Colecciones: "
-                    + ("".join(f"<code style='font-size:.7rem;'>{c}</code><br>" for c in collections) or "—")
-                    + "</div>"
-                    + "</div>",
-                    unsafe_allow_html=True,
-                )
-            except Exception as exc:
-                st.caption(f"Error al leer RAG status: {exc}")
-        else:
-            st.markdown(
-                f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;'>"
-                "RAG Indexer no disponible (instala chromadb y configura Ollama)</div>",
-                unsafe_allow_html=True,
-            )
-
-    with bc_col2:
-        st.markdown("####  Últimas ejecuciones de agentes")
-        if _RUN_LOGGER_OK:
-            try:
-                runs = _get_recent_runs(limit=8)
-                if runs:
-                    for run in runs:
-                        agent = run.get("agent_name", "?") if isinstance(run, dict) else getattr(run, "agent_name", "?")
-                        task = run.get("task", "") if isinstance(run, dict) else getattr(run, "task", "")
-                        status = run.get("status", "") if isinstance(run, dict) else getattr(run, "status", "")
-                        latency = run.get("latency_ms", None) if isinstance(run, dict) else getattr(run, "latency_ms", None)
-                        confidence = run.get("confidence", None) if isinstance(run, dict) else getattr(run, "confidence", None)
-                        s_color = GREEN if status == "completed" else (RED if status == "error" else MUTED)
-                        lat_str = f" {latency}ms" if latency else ""
-                        conf_str = f" {float(confidence):.0%}" if confidence else ""
-                        st.markdown(
-                            f"<div style='background:{BG2};border-left:3px solid {s_color};"
-                            f"border-radius:0 6px 6px 0;padding:.3rem .6rem;margin:2px 0;'>"
-                            f"<span style='color:{CYAN};font-size:.75rem;font-weight:600;'>{agent}</span>"
-                            f"<span style='color:{MUTED};font-size:.7rem;'>{lat_str}{conf_str}</span><br>"
-                            f"<span style='color:{TEXT2};font-size:.73rem;'>{str(task)[:60]}{'…' if len(str(task))>60 else ''}</span>"
-                            f"</div>",
-                            unsafe_allow_html=True,
-                        )
-                else:
-                    st.markdown(
-                        f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;text-align:center;'>"
-                        " Sin ejecuciones de agentes aún.<br>"
-                        "<span style='font-size:.75rem;'>Envía un mensaje al chat para activar el Brain Core.</span></div>",
-                        unsafe_allow_html=True,
-                    )
-            except Exception as exc:
-                st.caption(f"Error al leer ejecuciones: {exc}")
-        else:
-            st.markdown(
-                f"<div style='color:{MUTED};font-size:.83rem;padding:.5rem;'>"
-                "Run Logger no disponible</div>",
-                unsafe_allow_html=True,
-            )
-
-    st.markdown("---")
-    st.markdown("###  Consulta de memoria RAG")
-    rag_col1, rag_col2 = st.columns([2, 1])
-    with rag_col1:
-        rag_query = st.text_input(
-            "Buscar en memoria del brain",
-            placeholder="Busca análisis previos: 'coalición', 'riesgo electoral', etc.",
-            key="rag_query",
-        )
-        if st.button("Buscar en memoria", key="btn_rag_search") and rag_query and _BRAIN_OK and brain:
-            with st.spinner("Buscando en RAG…"):
-                resultados = brain.recuperar_memoria(rag_query, n=5)
-            if resultados:
-                for r in resultados:
-                    dist = r.get("distancia", 1)
-                    if dist < 0.9:
-                        relevancia = 1 - dist
-                        st.markdown(
-                            f"""<div style='background:{BG2};border-left:3px solid {PURPLE};
-                            border-radius:0 6px 6px 0;padding:.6rem .8rem;margin:4px 0;'>
-                            <div style='display:flex;justify-content:space-between;'>
-                            <span style='color:{PURPLE};font-size:.75rem;'>
-                            Relevancia: {relevancia:.0%}</span>
-                            <span style='color:{MUTED};font-size:.72rem;'>
-                            {r.get('metadata',{}).get('foco','?')}</span></div>
-                            <p style='color:{TEXT};font-size:.82rem;margin:.3rem 0 0;'>
-                            {r.get('documento','')[:300]}…</p></div>""",
-                            unsafe_allow_html=True,
-                        )
-            else:
-                st.info("Sin resultados en la memoria del brain para esa consulta.")
-    with rag_col2:
-        st.markdown("** Consultas sugeridas:**")
-        sugerencias = [
-            "análisis electoral reciente",
-            "riesgo de ruptura coalición",
-            "narrativa mediática dominante",
-            "presupuestos generales",
-            "Junts negociación",
-        ]
-        for s in sugerencias:
-            if st.button(f" {s}", key=f"rag_sug_{s}", use_container_width=True):
-                st.session_state["rag_query"] = s
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — INGESTA AUTOMÁTICA
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_ingesta:
-    st.markdown("###  Ingesta automática continua")
-    st.markdown(
-        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain de Ollama ingiere automáticamente noticias, "
-        "BOE, sondeos y actividad institucional. Cada ingesta es procesada por el modelo para extraer "
-        "insights, generar embeddings y mantener el RAG actualizado en tiempo real.</p>",
-        unsafe_allow_html=True,
-    )
-
-    # ── Estado del worker ──────────────────────────────────────────────────
-    ing_est = {}
-    if _ING_OK and ingestion:
-        try:
-            ing_est = ingestion.estado_worker()
-        except Exception:
-            ing_est = {}
-
-    worker_running = ing_est.get("running", False)
-
-    # Header con estado
-    st.markdown(
-        f"""<div style='background:{"linear-gradient(135deg,"+GREEN+"22,"+CYAN+"10)"
-        if worker_running else BG2};
-        border:1px solid {GREEN+"44"if worker_running else BORDER};
-        border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;
-        display:flex;align-items:center;gap:1rem;'>
-        <span style='font-size:1.4rem;'>{"●"if worker_running else "●"}</span>
-        <div>
-        <span style='color:{GREEN if worker_running else MUTED};font-weight:700;font-size:.95rem;'>
-        Worker de ingesta {"ACTIVO"if worker_running else "INACTIVO"}</span><br>
-        <span style='color:{TEXT2};font-size:.78rem;'>
-        {f"Total indexado: {ing_est.get('total_indexado', 0)} documentos"if worker_running
-        else "Activa Ollama para iniciar la ingesta automática"}</span>
-        </div></div>""",
-        unsafe_allow_html=True,
-    )
-
-    # Controles del worker
-    ctrl_col1, ctrl_col2, ctrl_col3, ctrl_col4 = st.columns(4)
-    with ctrl_col1:
-        if st.button(
-            "▶ Iniciar worker"if not worker_running else "⏸ Detener worker",
-            type="primary"if not worker_running else "secondary",
-            use_container_width=True,
-            disabled=not _ING_OK or not _LLM_OK,
-            key="btn_worker_toggle",
-        ):
-            if ingestion:
-                if not worker_running:
-                    ok = ingestion.iniciar_worker()
-                    st.toast(" Worker de ingesta iniciado"if ok else "Ya estaba corriendo")
-                else:
-                    ingestion.detener_worker()
-                    st.toast("⏸ Worker detenido")
-                st.rerun()
-
-    with ctrl_col2:
-        if st.button(
-            "! Ingesta completa",
-            use_container_width=True,
-            disabled=not _ING_OK or not _LLM_OK,
-            key="btn_ingesta_completa",
-        ):
-            if ingestion:
-                with st.spinner("Ejecutando ingesta completa de todos los módulos…"):
-                    resultados = ingestion.ejecutar_ingesta_completa()
-                total = sum(resultados.values())
-                st.toast(f" Ingesta completa: {total} documentos procesados")
-                st.rerun()
-
-    with ctrl_col3:
-        if st.button(
-            "Limpiar log",
-            use_container_width=True,
-            key="btn_clear_ing_log",
-        ):
-            if ingestion:
-                ingestion._INGESTION_LOG.clear()
-            st.rerun()
-
-    with ctrl_col4:
+    if not messages:
         st.markdown(
-            f"<div style='text-align:center;padding:.5rem;font-size:.78rem;color:{TEXT2};'>"
-            f" {_modelo_badge()}</div>",
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("---")
-
-    # ── Ingestas manuales por tipo ─────────────────────────────────────────
-    st.markdown("####  Ingesta manual por fuente")
-    tipos_ingesta = {
-        "RSS / Noticias": "rss",
-        "BOE": "boe",
-        "Sondeos electorales": "sondeos",
-        "Agenda institucional": "agenda",
-        "! Alertas proactivas": "alertas",
-        "Análisis global": "analisis_global",
-    }
-
-    ing_cols = st.columns(3)
-    for idx, (nombre, tipo) in enumerate(tipos_ingesta.items()):
-        col = ing_cols[idx % 3]
-        with col:
-            ultima = ing_est.get("ultima_ingesta", {}).get(tipo, "nunca")
-            prox_seg = ing_est.get("proximas_ingestas_seg", {}).get(tipo, 0)
-            stats_n = ing_est.get("stats", {}).get(tipo, 0)
-
-            error = ing_est.get("errores", {}).get(tipo, "")
-            borde_color = RED + "66"if error else BORDER
-
-            st.markdown(
-                f"""<div style='background:{BG2};border:1px solid {borde_color};
-                border-radius:8px;padding:.6rem .8rem;margin-bottom:.3rem;'>
-                <div style='font-size:.83rem;color:{TEXT};font-weight:600;'>{nombre}</div>
-                <div style='font-size:.73rem;color:{TEXT2};'>
-                Última: {ultima} · Docs: {stats_n}
-                {f"<br> Próxima en: {prox_seg//60}m {prox_seg%60}s"if prox_seg > 0 else ""}
-                {f"<br><span style='color:{RED};'> {error[:50]}</span>"if error else ""}
-                </div></div>""",
-                unsafe_allow_html=True,
-            )
-            if st.button(
-                f"▶ {nombre.split()[1]}",
-                key=f"ing_manual_{tipo}",
-                use_container_width=True,
-                disabled=not _ING_OK or not _LLM_OK,
-            ):
-                if ingestion:
-                    with st.spinner(f"Ingiriendo {nombre}…"):
-                        n = ingestion.ejecutar_ingesta_manual(tipo)
-                    st.toast(f" {nombre}: {n} documentos procesados")
-                    st.rerun()
-
-    st.markdown("---")
-
-    # ── Log de ingesta en tiempo real ──────────────────────────────────────
-    st.markdown("####  Log de ingesta en tiempo real")
-
-    log_entries = ing_est.get("log", [])
-    if log_entries:
-        ICONOS_TIPO = {
-            "rss": "", "boe": "", "sondeos": "",
-            "agenda": "", "alertas": "!", "analisis_global": "", "briefing": "",
-        }
-        for entry in log_entries[:25]:
-            ok = entry.get("ok", True)
-            color = GREEN if ok else RED
-            icono = ICONOS_TIPO.get(entry.get("tipo", ""), "")
-            ts = entry.get("timestamp", "")[:16].replace("T", " ")
-            ms = entry.get("ms", 0)
-            n_docs = entry.get("n_docs", 0)
-            error_msg = entry.get("error", "")
-
-            st.markdown(
-                f"""<div style='background:{BG2};border-left:3px solid {color};
-                border-radius:0 6px 6px 0;padding:.3rem .7rem;margin:2px 0;
-                display:flex;justify-content:space-between;align-items:center;'>
-                <span style='font-size:.78rem;color:{TEXT};'>
-                {icono} <b>{entry.get("tipo","?")}</b>
-                {f"· {error_msg[:60]}"if error_msg else f"· {n_docs} docs"}</span>
-                <span style='font-size:.72rem;color:{TEXT2};'>{ts} ({ms:.0f}ms)</span>
-                </div>""",
-                unsafe_allow_html=True,
-            )
-    else:
-        st.markdown(
-            f"<div style='color:{MUTED};font-size:.85rem;padding:1rem;text-align:center;'>"
-            "Sin entradas en el log. Ejecuta una ingesta para empezar.</div>",
-            unsafe_allow_html=True,
-        )
-
-    # ── Estadísticas de ingesta ────────────────────────────────────────────
-    if ing_est.get("stats"):
-        st.markdown("---")
-        st.markdown("####  Estadísticas de ingesta acumuladas")
-        s_cols = st.columns(len(ing_est["stats"]))
-        for i, (tipo, cnt) in enumerate(ing_est["stats"].items()):
-            with s_cols[i % len(s_cols)]:
-                st.metric(tipo.replace("_", " ").capitalize(), cnt)
-
-    # ── Configuración de intervalos ────────────────────────────────────────
-    with st.expander("Configurar intervalos de ingesta"):
-        st.markdown(
-            f"<p style='color:{TEXT2};font-size:.82rem;'>Los intervalos se configuran vía "
-            "variables de entorno. Valores actuales:</p>",
-            unsafe_allow_html=True,
-        )
-        if _ING_OK and ingestion:
-            for tipo, intervalo in ingestion._INTERVALS.items():
-                mins = intervalo // 60
-                st.markdown(
-                    f"<div style='font-size:.8rem;color:{TEXT2};padding:1px 0;'>"
-                    f"<code>BRAIN_INTERVAL_{tipo.upper()}</code> = {mins} min</div>",
-                    unsafe_allow_html=True,
-                )
-        st.info("Modifica las variables de entorno en .env o al lanzar el servidor para cambiar los intervalos.")
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# TAB 7 — PERSONALIZACIÓN IA
-# ══════════════════════════════════════════════════════════════════════════════
-with tab_personalizar:
-    st.markdown("###  Personalización del brain para tu perfil")
-    st.markdown(
-        f"<p style='color:{TEXT2};font-size:.85rem;'>El brain adapta su estilo de análisis, "
-        "prioridades y vocabulario según tu perfil profesional. "
-        "Configura tu perfil y el brain personalizará todas las respuestas.</p>",
-        unsafe_allow_html=True,
-    )
-
-    # ── Selector de perfil ─────────────────────────────────────────────────
-    PERFILES = {
-        "Consultor de campaña": "consultor",
-        "Periodista político": "periodista",
-        "Analista académico": "analista",
-        "Ciudadano interesado": "ciudadano",
-        "Inversor / Risk Manager": "inversor",
-    }
-
-    perfil_guardado = st.session_state.get("brain_perfil", "Analista académico")
-
-    pers_col1, pers_col2 = st.columns([1, 2])
-
-    with pers_col1:
-        st.markdown("####  Tu perfil")
-        perfil_sel = st.radio(
-            "Selecciona tu perfil",
-            list(PERFILES.keys()),
-            index=list(PERFILES.keys()).index(perfil_guardado)
-            if perfil_guardado in PERFILES else 2,
-            key="perfil_radio",
-        )
-        if perfil_sel != perfil_guardado:
-            st.session_state["brain_perfil"] = perfil_sel
-            st.toast(f" Perfil actualizado: {perfil_sel}")
-
-        perfil_clave = PERFILES[perfil_sel]
-
-        DESCRIPCIONES = {
-            "consultor": "Foco en estrategia electoral, oportunidades de campaña y vulnerabilidades del adversario.",
-            "periodista": "Prioriza noticias de impacto, contradicciones y ángulos de story verificables.",
-            "analista": "Rigor estadístico, tendencias estructurales y marcos teóricos comparados.",
-            "ciudadano": "Lenguaje accesible, explicaciones del contexto y qué significa para la vida diaria.",
-            "inversor": "Riesgo político cuantificado, estabilidad regulatoria e impacto en sectores clave.",
-        }
-
-        st.markdown(
-            f"""<div style='background:linear-gradient(135deg,{PURPLE}20,{CYAN}10);
-            border:1px solid {PURPLE}44;border-radius:8px;padding:.8rem;margin-top:.5rem;'>
-            <span style='color:{CYAN};font-size:.8rem;font-weight:600;'>{perfil_sel}</span><br>
-            <span style='color:{TEXT2};font-size:.78rem;'>{DESCRIPCIONES.get(perfil_clave, "")}</span>
+            f"""<div style='background:{BG2};border:1px dashed {BORDER};
+            border-radius:10px;padding:2.5rem;text-align:center;
+            color:{MUTED};margin:.5rem 0 1rem;'>
+            <p style='font-size:1rem;margin:0 0 .5rem;color:{TEXT2};'>
+            Bienvenido a Politeia Brain</p>
+            <p style='font-size:.85rem;margin:0;'>
+            Haz una pregunta sobre la situacion politica espanola,<br>
+            encuestas, coalicion, legislacion o estrategia.</p>
             </div>""",
             unsafe_allow_html=True,
         )
 
-        st.markdown("---")
-        st.markdown("####  Ajustes avanzados")
-
-        modo_respuesta = st.selectbox(
-            "Profundidad del análisis",
-            ["Conciso (fast)", "Normal", "Profundo (deep)"],
-            index=1,
-            key="brain_modo",
-        )
-        modo_map = {"Conciso (fast)": "fast", "Normal": "normal", "Profundo (deep)": "deep"}
-        st.session_state["brain_modo_activo"] = modo_map[modo_respuesta]
-
-        st.checkbox("Streaming en tiempo real", value=True, key="brain_stream_global")
-        st.checkbox("Usar memoria RAG en respuestas", value=True, key="brain_use_rag")
-        st.checkbox("! Alertas automáticas al abrir el brain", value=True, key="brain_auto_alertas")
-
-    with pers_col2:
-        st.markdown("####  Prueba tu perfil personalizado")
+        # Suggested questions
         st.markdown(
-            f"<p style='color:{TEXT2};font-size:.83rem;'>Prueba cómo responde el brain "
-            f"con tu perfil <b style='color:{CYAN};'>{perfil_sel}</b>:</p>",
+            f"<p style='color:{TEXT2};font-size:.82rem;margin:.5rem 0 .3rem;'>"
+            "Preguntas sugeridas:</p>",
             unsafe_allow_html=True,
         )
-
-        preguntas_por_perfil = {
-            "consultor": [
-                "¿Cuál es la principal vulnerabilidad del PP ahora mismo?",
-                "¿Qué mensaje debería usar el PSOE esta semana?",
-                "¿En qué votantes debería enfocarse Sumar?",
-            ],
-            "periodista": [
-                "¿Qué contradicción política es más noticiable hoy?",
-                "¿Qué declaración reciente merece seguimiento?",
-                "¿Qué dato electoral es más sorprendente?",
-            ],
-            "analista": [
-                "¿Qué tendencia estructural es más relevante en España 2026?",
-                "¿Cómo se compara la situación actual con 2015-16?",
-                "¿Qué marco teórico explica mejor la fragmentación parlamentaria?",
-            ],
-            "ciudadano": [
-                "¿Qué significa para mí la situación política actual?",
-                "¿El gobierno va a durar? ¿Por qué?",
-                "¿Quién manda realmente en España ahora?",
-            ],
-            "inversor": [
-                "¿Cuál es el riesgo político de invertir en España ahora?",
-                "¿Qué sectores están más expuestos a cambios regulatorios?",
-                "¿Cuánto tiempo tiene este gobierno? ¿Qué probabilidad hay de elecciones?",
-            ],
-        }
-
-        preguntas_sug = preguntas_por_perfil.get(perfil_clave, [])
-        if preguntas_sug:
-            for pregunta in preguntas_sug:
+        suggestions = [
+            "Cual es la situacion actual de las encuestas electorales?",
+            "Explica la composicion actual del Congreso de los Diputados",
+            "Cuales son los principales riesgos politicos para el gobierno?",
+            "Analiza el estado de las negociaciones de coalicion",
+        ]
+        sug_cols = st.columns(2)
+        for idx, sug in enumerate(suggestions):
+            col = sug_cols[idx % 2]
+            with col:
                 if st.button(
-                    f" {pregunta}",
-                    key=f"pers_sug_{pregunta[:20]}",
+                    sug,
+                    key=f"sug_{idx}",
                     use_container_width=True,
                 ):
-                    st.session_state["pers_pregunta_pending"] = pregunta
-
-        pers_input = st.text_area(
-            "Escribe tu pregunta",
-            value=st.session_state.pop("pers_pregunta_pending", ""),
-            placeholder="Escribe cualquier pregunta para ver cómo responde el brain con tu perfil…",
-            height=80,
-            key="pers_input_area",
-        )
-
-        if st.button(
-            "Analizar con mi perfil",
-            type="primary",
-            key="btn_pers_analizar",
-            disabled=not _BRAIN_OK or not pers_input.strip(),
-        ):
-            with st.spinner(f"Razonando como {perfil_sel}…"):
-                try:
-                    modo_activo = st.session_state.get("brain_modo_activo", "normal")
-                    historia_pers = st.session_state.get("brain_historia_pers", [])
-
-                    # Usar análisis personalizado del brain
-                    resp = brain.chat_personalizado(
-                        pers_input,
-                        perfil_usuario=perfil_clave,
-                        historia=historia_pers[-6:],
-                        stream=False,
-                    )
-                    respuesta_pers = str(resp)
-
-                    # Guardar en historial personalizado
-                    if "brain_historia_pers"not in st.session_state:
-                        st.session_state["brain_historia_pers"] = []
-                    st.session_state["brain_historia_pers"].extend([
-                        {"role": "user", "content": pers_input},
-                        {"role": "assistant", "content": respuesta_pers},
-                    ])
-                    st.session_state["pers_ultima_respuesta"] = respuesta_pers
+                    st.session_state["brain_suggested"] = sug
                     st.rerun()
-                except Exception as exc:
-                    st.error(f"Error: {exc}")
+    else:
+        for msg in messages:
+            _render_message(msg["role"], msg["content"], msg.get("ts", ""))
 
-        if ult_resp := st.session_state.get("pers_ultima_respuesta"):
-            st.markdown(
-                f"""<div style='background:linear-gradient(135deg,{PURPLE}18,{CYAN}10);
-                border:1px solid {PURPLE}44;border-radius:10px;padding:1rem;
-                color:{TEXT};font-size:.86rem;line-height:1.7;margin-top:.5rem;'>
-                <span style='color:{CYAN};font-size:.72rem;'>
-                 Respuesta · perfil: {perfil_sel}</span><br><br>
-                {ult_resp.replace(chr(10), "<br>").replace("**", "<b>")}
-                </div>""",
-                unsafe_allow_html=True,
+    # Chat input
+    try:
+        user_question = st.chat_input("Pregunta al Brain...")
+        if user_question and user_question.strip():
+            _process_question(user_question.strip())
+    except Exception:
+        # Fallback for older Streamlit without chat_input
+        fallback_cols = st.columns([6, 1])
+        with fallback_cols[0]:
+            fb_default = st.session_state.pop("brain_fallback_input", "")
+            user_fb = st.text_input(
+                "Pregunta",
+                value=fb_default,
+                placeholder="Pregunta al Brain...",
+                label_visibility="collapsed",
+                key="brain_fallback_text",
             )
-            if st.button("Limpiar respuesta", key="pers_clear"):
-                del st.session_state["pers_ultima_respuesta"]
-                st.session_state.pop("brain_historia_pers", None)
-                st.rerun()
+        with fallback_cols[1]:
+            if st.button("Enviar", key="brain_fallback_send", use_container_width=True):
+                if user_fb and user_fb.strip():
+                    _process_question(user_fb.strip())
 
-    # ── Análisis cruzado de módulos ────────────────────────────────────────
-    st.markdown("---")
-    st.markdown("####  Análisis cruzado de módulos")
+
+# ============================================================
+# RIGHT COLUMN — context & controls
+# ============================================================
+with col_side:
+
+    # --- Contexto activo ---
     st.markdown(
-        f"<p style='color:{TEXT2};font-size:.83rem;'>El brain busca correlaciones y patrones "
-        "ocultos cruzando información de múltiples módulos simultáneamente.</p>",
+        f"<p style='color:{CYAN};font-size:.82rem;font-weight:700;"
+        f"text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;'>"
+        "Contexto activo</p>",
         unsafe_allow_html=True,
     )
 
-    cruce_cols = st.columns(2)
-    with cruce_cols[0]:
-        modulos_cruce = st.multiselect(
-            "Módulos a cruzar",
-            ["electoral", "coalicion", "medios", "legislativo", "riesgo", "geopolitica"],
-            default=["electoral", "coalicion", "medios"],
-            key="modulos_cruce_sel",
-        )
+    workspace_id = st.session_state.get("workspace_id", "default")
+    user_id = st.session_state.get("user_id", "")
 
-    with cruce_cols[1]:
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button(
-            "Análisis cruzado",
-            type="primary",
-            use_container_width=True,
-            disabled=not _BRAIN_OK or len(modulos_cruce) < 2,
-            key="btn_analisis_cruzado",
-        ):
-            with st.spinner(f"Cruzando módulos: {', '.join(modulos_cruce)}…"):
+    st.markdown(
+        f"<div style='font-size:.78rem;color:{TEXT2};margin-bottom:.5rem;'>"
+        f"Workspace: <span style='color:{TEXT};'>{workspace_id}</span>"
+        + (f"<br>Usuario: <span style='color:{TEXT};'>{user_id}</span>" if user_id else "")
+        + "</div>",
+        unsafe_allow_html=True,
+    )
+
+    with st.expander("Anadir contexto del sistema"):
+        include_briefing = st.checkbox("Incluir briefing matinal", key="ctx_briefing")
+        include_alerts = st.checkbox("Incluir alertas activas", key="ctx_alerts")
+        include_narratives = st.checkbox("Incluir narrativas activas", key="ctx_narratives")
+
+        if st.button("Aplicar contexto", key="btn_apply_context", use_container_width=True):
+            ctx_parts: list[str] = []
+
+            if include_briefing:
                 try:
-                    resultado_cruce = brain.analisis_cruzado(modulos=modulos_cruce, stream=False)
-                    st.session_state["brain_resultado_cruce"] = str(resultado_cruce)
-                    st.rerun()
-                except Exception as exc:
-                    st.error(f"Error: {exc}")
+                    from dashboard.services.brain_service import obtener_estado_dashboard  # type: ignore[import]
+                    estado = obtener_estado_dashboard()
+                    briefing = estado.get("briefing") or estado.get("resumen_ejecutivo") or ""
+                    if briefing:
+                        ctx_parts.append(f"BRIEFING MATINAL:\n{str(briefing)[:600]}")
+                except Exception:
+                    ctx_parts.append("BRIEFING MATINAL: No disponible")
 
-    if cruce_res := st.session_state.get("brain_resultado_cruce"):
+            if include_alerts:
+                try:
+                    from dashboard.services import alertas_service  # type: ignore[import]
+                    alertas = alertas_service.cargar_alertas_criticas(limit=3)
+                    if alertas:
+                        lines = []
+                        for a in alertas[:3]:
+                            titulo = a.get("titulo", "") or getattr(a, "titulo", "")
+                            lines.append(f"- {titulo}")
+                        ctx_parts.append("ALERTAS CRITICAS:\n" + "\n".join(lines))
+                except Exception:
+                    ctx_parts.append("ALERTAS: No disponibles")
+
+            if include_narratives:
+                try:
+                    from dashboard.services import media_service  # type: ignore[import]
+                    narrativas = media_service.cargar_narrativas_activas(limit=3)
+                    if narrativas:
+                        lines = []
+                        for n in narrativas[:3]:
+                            titulo = n.get("titulo", "") or getattr(n, "titulo", "")
+                            lines.append(f"- {titulo}")
+                        ctx_parts.append("NARRATIVAS ACTIVAS:\n" + "\n".join(lines))
+                except Exception:
+                    ctx_parts.append("NARRATIVAS: No disponibles")
+
+            if ctx_parts:
+                st.session_state["brain_context"] = "\n\n".join(ctx_parts)
+                st.success("Contexto aplicado")
+            else:
+                st.info("Selecciona al menos una fuente de contexto")
+            st.rerun()
+
+    st.markdown("<hr style='border-color:" + BORDER + ";margin:.7rem 0;'>", unsafe_allow_html=True)
+
+    # --- Historial ---
+    st.markdown(
+        f"<p style='color:{CYAN};font-size:.82rem;font-weight:700;"
+        f"text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;'>"
+        "Historial</p>",
+        unsafe_allow_html=True,
+    )
+
+    n_msgs = len(st.session_state["brain_messages"])
+    st.markdown(
+        f"<div style='font-size:.8rem;color:{TEXT2};margin-bottom:.4rem;'>"
+        f"Mensajes en sesion: <span style='color:{TEXT};font-weight:600;'>{n_msgs}</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    if st.button("Nueva conversacion", key="btn_new_chat", use_container_width=True):
+        st.session_state["brain_messages"] = []
+        st.rerun()
+
+    st.markdown("<hr style='border-color:" + BORDER + ";margin:.7rem 0;'>", unsafe_allow_html=True)
+
+    # --- Modelo activo ---
+    st.markdown(
+        f"<p style='color:{CYAN};font-size:.82rem;font-weight:700;"
+        f"text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;'>"
+        "Modelo activo</p>",
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        f"<div style='font-size:.82rem;margin-bottom:.5rem;'>"
+        f"{_model_chip(model_name)}</div>",
+        unsafe_allow_html=True,
+    )
+
+    if model_name == "Demo (sin modelo)":
         st.markdown(
-            f"""<div style='background:{BG2};border:1px solid {CYAN}44;border-radius:8px;
-            padding:1rem;color:{TEXT};font-size:.86rem;line-height:1.7;'>
-            <span style='color:{CYAN};font-size:.73rem;'>
-             Análisis cruzado: {' × '.join(modulos_cruce)}</span><br><br>
-            {cruce_res.replace(chr(10), "<br>")}
+            f"""<div style='background:{BG3};border:1px solid {BORDER};
+            border-radius:8px;padding:.65rem;font-size:.76rem;color:{TEXT2};
+            line-height:1.6;'>
+            Para activar respuestas en tiempo real:<br>
+            <span style='color:{TEXT};'>Groq (gratuito):</span><br>
+            <code style='font-size:.7rem;'>GROQ_API_KEY=tu_clave</code><br><br>
+            <span style='color:{TEXT};'>Ollama (local):</span><br>
+            Instala Ollama y ejecuta<br>
+            <code style='font-size:.7rem;'>ollama serve</code>
             </div>""",
             unsafe_allow_html=True,
         )
-        if st.button("Limpiar", key="cruce_clear"):
-            del st.session_state["brain_resultado_cruce"]
-            st.rerun()
-
-    # ── Razonamiento profundo ──────────────────────────────────────────────
-    st.markdown("---")
-    st.markdown("####  Razonamiento profundo (chain-of-thought)")
-    st.markdown(
-        f"<p style='color:{TEXT2};font-size:.83rem;'>El brain razona paso a paso: "
-        "primero analiza los hechos, luego las implicaciones, luego las recomendaciones. "
-        "Cada paso construye sobre el anterior.</p>",
-        unsafe_allow_html=True,
-    )
-
-    cot_input = st.text_input(
-        "Pregunta para razonamiento profundo",
-        placeholder="¿Caerá el gobierno de Sánchez antes de fin de 2026?",
-        key="cot_input",
-    )
-
-    if st.button(
-        "Razonar paso a paso",
-        key="btn_cot",
-        disabled=not _BRAIN_OK or not cot_input.strip(),
-        type="primary",
-    ):
-        with st.spinner("Razonando paso a paso (puede tardar 30-60s)…"):
-            try:
-                pasos = brain.razonamiento_profundo(cot_input)
-                st.session_state["brain_cot_pasos"] = pasos
-                st.rerun()
-            except Exception as exc:
-                st.error(f"Error: {exc}")
-
-    if pasos_res := st.session_state.get("brain_cot_pasos"):
-        ICONOS_PASOS = {
-            "paso_1": ("Análisis de hechos", BLUE),
-            "paso_2": ("! Implicaciones", AMBER),
-            "paso_3": ("Recomendaciones", GREEN),
-        }
-        for clave, texto in pasos_res.items():
-            etiqueta, color = ICONOS_PASOS.get(clave, (clave, CYAN))
-            st.markdown(
-                f"""<div style='background:{BG2};border-left:4px solid {color};
-                border-radius:0 8px 8px 0;padding:.8rem 1rem;margin:6px 0;'>
-                <span style='color:{color};font-size:.8rem;font-weight:700;'>{etiqueta}</span><br>
-                <span style='color:{TEXT};font-size:.84rem;'>
-                {texto.replace(chr(10), "<br>")[:800]}</span>
-                </div>""",
-                unsafe_allow_html=True,
-            )
-        if st.button("Limpiar razonamiento", key="cot_clear"):
-            del st.session_state["brain_cot_pasos"]
-            st.rerun()
+    else:
+        available = is_brain_available()
+        status_color = GREEN if available else _RED
+        status_text = "Operativo" if available else "No disponible"
+        st.markdown(
+            f"<div style='font-size:.8rem;color:{status_color};margin-top:.3rem;'>"
+            f"Estado: {status_text}</div>",
+            unsafe_allow_html=True,
+        )

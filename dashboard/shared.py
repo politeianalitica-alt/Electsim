@@ -60,6 +60,7 @@ _PARTY_ALIASES = {
 
 SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     # ── Módulos del Diseño (D-series) ────────────────────────────────────────
+    ("pages/N_Intelligence_Hub.py", "  Intelligence Hub"),
     ("pages/D1_Briefings.py",       "  Briefings"),
     ("pages/D2_Actores.py",         "  Mapa de Actores"),
     ("pages/D3_Termometro.py",      "  Termómetro de Riesgo"),
@@ -69,9 +70,14 @@ SIDEBAR_CORE_LINKS: list[tuple[str, str]] = [
     ("pages/D7_Medios.py",          "  Medios & Narrativa"),
     ("pages/D8_Geopolitica.py",     "  Geopolítica & RRII"),
     ("pages/D9_Communication.py",   "  Communication Intel"),
+    ("pages/N_Draft_Studio.py",     "  Draft Studio"),
     ("pages/D10_Workspace.py",      "  Centro de Operaciones"),
     ("pages/N8_ChatIA.py",          "  Politeia Brain"),
     ("pages/N9_CommandCenter.py",   "  Command Center"),
+    ("pages/N9_Equipo.py",         "  Gestión de Equipo"),
+    ("pages/N_Integraciones.py",   "  Integraciones"),
+    ("pages/N_Preferencias.py",    "  Preferencias"),
+    ("pages/N_Investigacion.py",   "  Canvas de Investigación"),
 ]
 
 # ── Módulos N-series (arquitectura anterior, siguen activos) ─────────────
@@ -627,18 +633,21 @@ def coming_soon_card(
     )
 
 
-def aplicar_estilos():
+def aplicar_estilos() -> None:
     """Inyecta el tema dark/tech global en todas las páginas.
 
     CSS custom properties en :root permiten cambiar el color primario editando
     una sola línea aquí, en lugar de editar los 20+ ficheros de páginas.
     Las constantes Python (BG, CYAN, etc.) se mantienen para código Python;
     el CSS usa var(--ep-*) para componentes HTML inline.
+    Incluye animaciones premium (fadeInUp, slideInLeft, pulse) y overrides
+    completos para todos los componentes Streamlit.
     """
     st.markdown(f"""
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
     /* ── Design tokens como CSS custom properties ─────────────────── */
-    /* Edita aquí para cambiar el tema global. Refs: var(--ep-*) en HTML inline */
     :root {{
         --ep-bg:        {BG};
         --ep-bg2:       {BG2};
@@ -656,31 +665,72 @@ def aplicar_estilos():
         --ep-red:       {RED};
     }}
 
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
-    /* ── Reset y base ─────────────────────────────────────────────── */
+    /* ── 1. Base dark theme overrides ────────────────────────────── */
     [data-testid="stSidebarNav"] {{ display: none !important; }}
 
+    .stApp, .stMain, [data-testid="stAppViewContainer"] {{
+        background: #080C14 !important;
+        color: #E2E8F0;
+    }}
     html, body, .stApp, .main {{
         background: var(--ep-bg) !important;
         color: {TEXT};
         font-family: 'Inter', system-ui, sans-serif;
     }}
+    .stSidebar, [data-testid="stSidebar"] {{
+        background: #0A0F1A !important;
+        border-right: 1px solid #1E293B !important;
+    }}
+    .block-container {{ padding-top: 1.5rem !important; max-width: 100% !important; }}
     .main .block-container {{
         background: {BG} !important;
         padding-top: 1.5rem;
     }}
 
-    /* ── Sidebar ──────────────────────────────────────────────────── */
-    [data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {BG2} 0%, #0A0F1C 100%) !important;
-        border-right: 1px solid {BORDER} !important;
-        min-width: 220px !important;
+    /* ── 2. Animaciones premium ───────────────────────────────────── */
+    @keyframes fadeInUp {{
+        from {{ opacity: 0; transform: translateY(12px); }}
+        to   {{ opacity: 1; transform: translateY(0); }}
     }}
-    [data-testid="stSidebar"] * {{
-        color: {TEXT2} !important;
+    @keyframes fadeIn {{
+        from {{ opacity: 0; }}
+        to   {{ opacity: 1; }}
     }}
-    /* Página-link principal (8 módulos) */
+    @keyframes slideInLeft {{
+        from {{ opacity: 0; transform: translateX(-16px); }}
+        to   {{ opacity: 1; transform: translateX(0); }}
+    }}
+    @keyframes pulse {{
+        0%, 100% {{ opacity: 1; }}
+        50% {{ opacity: 0.5; }}
+    }}
+    @keyframes pulse-dot {{
+        0%,100%{{ opacity:1;transform:scale(1) }}
+        50%{{ opacity:.4;transform:scale(1.4) }}
+    }}
+    @keyframes marquee-scroll {{
+        from {{transform:translateX(0)}}
+        to {{transform:translateX(-50%)}}
+    }}
+    .intel-card {{ animation: fadeInUp 0.4s ease-out both; }}
+    .intel-card:nth-child(1) {{ animation-delay: 0.05s; }}
+    .intel-card:nth-child(2) {{ animation-delay: 0.10s; }}
+    .intel-card:nth-child(3) {{ animation-delay: 0.15s; }}
+    .intel-card:nth-child(4) {{ animation-delay: 0.20s; }}
+    .kpi-metric {{ animation: fadeIn 0.5s ease-out both; }}
+    .section-header {{ animation: slideInLeft 0.3s ease-out both; }}
+    .alert-critical {{ animation: pulse 2s ease-in-out infinite; }}
+    .intel-live-dot {{
+        animation: pulse-dot 1.8s ease-in-out infinite;
+        display: inline-block;
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        margin-right: .4rem;
+        vertical-align: middle;
+    }}
+
+    /* ── 3. Sidebar links ─────────────────────────────────────────── */
+    [data-testid="stSidebar"] * {{ color: {TEXT2} !important; }}
     [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"] {{
         border-radius: 8px !important;
         padding: .55rem .75rem !important;
@@ -694,9 +744,10 @@ def aplicar_estilos():
         align-items: center !important;
         gap: .5rem !important;
     }}
-    [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {{
-        background: {CYAN}15 !important;
-        color: {CYAN} !important;
+    [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover,
+    [data-testid="stSidebarNav"] a:hover {{
+        background: #00D4FF10 !important;
+        color: #00D4FF !important;
         border-color: {CYAN}33 !important;
         box-shadow: 0 0 12px {CYAN}15 !important;
     }}
@@ -708,62 +759,41 @@ def aplicar_estilos():
         box-shadow: 0 0 16px {CYAN}20 !important;
     }}
 
-    /* ── Metrics ──────────────────────────────────────────────────── */
-    [data-testid="stMetric"] {{
-        background: {BG2} !important;
-        border: 1px solid {BORDER} !important;
-        border-top: 2px solid {CYAN}55 !important;
-        border-radius: 10px !important;
-        padding: 1rem 1.2rem !important;
-        transition: border-color .2s ease, box-shadow .2s ease;
+    /* ── 4. Premium button styling ────────────────────────────────── */
+    .stButton > button {{
+        background: #0D1320 !important;
+        color: #E2E8F0 !important;
+        border: 1px solid #1E293B !important;
+        border-radius: 6px !important;
+        font-weight: 500 !important;
+        transition: all 0.15s ease !important;
     }}
-    [data-testid="stMetric"]:hover {{
-        border-top-color: {CYAN} !important;
-        box-shadow: 0 0 16px {CYAN}22 !important;
+    .stButton > button:hover {{
+        border-color: #00D4FF !important;
+        color: #00D4FF !important;
+        background: #00D4FF12 !important;
     }}
-    [data-testid="stMetricLabel"] {{
-        color: {MUTED} !important;
-        font-size: clamp(.75rem, .72rem + .12vw, .84rem) !important;
-        font-weight: 700 !important;
-        letter-spacing: .08em !important;
-        text-transform: uppercase !important;
+    .stButton > button[kind="primary"] {{
+        background: #00D4FF18 !important;
+        border-color: #00D4FF !important;
+        color: #00D4FF !important;
     }}
-    [data-testid="stMetricValue"] {{
-        color: {TEXT} !important;
-        font-size: 1.55rem !important;
-        font-weight: 800 !important;
-        font-family: 'JetBrains Mono', monospace !important;
-    }}
-    [data-testid="stMetricDelta"] {{
-        font-size: clamp(.75rem, .72rem + .12vw, .84rem) !important;
-        font-weight: 600 !important;
-    }}
-
-    /* ── Divider ──────────────────────────────────────────────────── */
-    hr {{
-        border: none !important;
-        border-top: 1px solid {BORDER} !important;
-        margin: 1.2rem 0 !important;
-    }}
-
-    /* ── Buttons ──────────────────────────────────────────────────── */
     .stButton button {{
-        background: linear-gradient(135deg, {CYAN}22, {BLUE}33) !important;
-        color: {CYAN} !important;
-        border: 1px solid {CYAN}55 !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
         font-size: .82rem !important;
         letter-spacing: .04em !important;
-        transition: all .2s ease !important;
-    }}
-    .stButton button:hover {{
-        background: {CYAN}33 !important;
-        border-color: {CYAN} !important;
-        box-shadow: 0 0 12px {CYAN}44 !important;
     }}
 
-    /* ── Inputs / Selects ─────────────────────────────────────────── */
+    /* ── 5. Form input styling ────────────────────────────────────── */
+    .stTextInput input, .stTextArea textarea, .stSelectbox select {{
+        background: #0D1320 !important;
+        color: #E2E8F0 !important;
+        border: 1px solid #1E293B !important;
+        border-radius: 6px !important;
+    }}
+    .stTextInput input:focus, .stTextArea textarea:focus {{
+        border-color: #00D4FF !important;
+        box-shadow: 0 0 0 1px #00D4FF30 !important;
+    }}
     [data-testid="stSelectbox"] > div,
     [data-testid="stMultiSelect"] > div,
     [data-testid="stTextInput"] > div,
@@ -779,7 +809,6 @@ def aplicar_estilos():
         color: {TEXT} !important;
         border-radius: 8px !important;
     }}
-    /* Inputs internos (el <input> real) */
     [data-testid="stSelectbox"] input,
     [data-testid="stMultiSelect"] input,
     [data-testid="stTextInput"] input,
@@ -791,148 +820,28 @@ def aplicar_estilos():
         color: {TEXT} !important;
         caret-color: {CYAN} !important;
     }}
-    /* Valor seleccionado dentro del BaseWeb select */
     [data-baseweb="select"] span,
-    [data-baseweb="select"] div[title] {{
-        color: {TEXT} !important;
-    }}
-    /* Tags de MultiSelect */
+    [data-baseweb="select"] div[title] {{ color: {TEXT} !important; }}
     [data-baseweb="tag"] {{
         background: {BG3} !important;
         color: {TEXT} !important;
         border: 1px solid {BORDER} !important;
     }}
-    [data-baseweb="tag"] [role="button"] {{
-        color: {TEXT2} !important;
-    }}
+    [data-baseweb="tag"] [role="button"] {{ color: {TEXT2} !important; }}
 
-    /* ── Popovers / menús desplegables (BaseWeb) ──────────────────── */
-    [data-baseweb="popover"],
-    [data-baseweb="menu"],
-    [data-baseweb="calendar"] {{
-        background: {BG2} !important;
-        border: 1px solid {BORDER} !important;
-        color: {TEXT} !important;
-        border-radius: 8px !important;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.55) !important;
+    /* ── 6. Tab styling ───────────────────────────────────────────── */
+    [data-testid="stTabs"] [role="tab"] {{
+        color: #94A3B8 !important;
+        font-weight: 500 !important;
+        font-size: .88rem !important;
+        padding: .5rem 1rem !important;
+        border-bottom: 2px solid transparent !important;
     }}
-    [data-baseweb="popover"] [role="listbox"],
-    [data-baseweb="menu"] ul,
-    [data-baseweb="select-dropdown"] {{
-        background: {BG2} !important;
-        color: {TEXT} !important;
-    }}
-    [data-baseweb="popover"] li,
-    [data-baseweb="menu"] li,
-    [data-baseweb="popover"] [role="option"] {{
-        background: {BG2} !important;
-        color: {TEXT} !important;
-    }}
-    [data-baseweb="popover"] li:hover,
-    [data-baseweb="menu"] li:hover,
-    [data-baseweb="popover"] [role="option"]:hover,
-    [data-baseweb="popover"] [aria-selected="true"] {{
-        background: {CYAN}1A !important;
-        color: {CYAN} !important;
-    }}
-    /* Calendar (stDateInput) */
-    [data-baseweb="calendar"] * {{ color: {TEXT} !important; }}
-    [data-baseweb="calendar"] [aria-selected="true"] {{
-        background: {CYAN}33 !important;
-        color: {CYAN} !important;
-    }}
-    [data-baseweb="calendar"] button:hover {{
-        background: {CYAN}22 !important;
-    }}
-
-    /* ── Radio / Checkbox ─────────────────────────────────────────── */
-    [data-testid="stRadio"] label,
-    [data-testid="stCheckbox"] label,
-    .stRadio label, .stCheckbox label {{
-        color: {TEXT2} !important;
-    }}
-    [data-testid="stRadio"] [role="radiogroup"] {{
+    [data-testid="stTabs"] [role="tab"][aria-selected="true"] {{
+        color: #00D4FF !important;
+        border-bottom-color: #00D4FF !important;
         background: transparent !important;
     }}
-
-    /* ── Slider ───────────────────────────────────────────────────── */
-    .stSlider [data-testid="stSlider"] {{
-        color: {CYAN} !important;
-    }}
-    [data-baseweb="slider"] [role="slider"] {{
-        background: {CYAN} !important;
-        border: 2px solid {BG} !important;
-    }}
-    [data-baseweb="slider"] div[data-testid="stTickBarMin"],
-    [data-baseweb="slider"] div[data-testid="stTickBarMax"] {{
-        color: {MUTED} !important;
-    }}
-
-    /* ── Dataframe (st.dataframe / st.data_editor) ────────────────── */
-    .stDataFrame, [data-testid="stDataFrame"] {{
-        background: {BG2} !important;
-        border: 1px solid {BORDER} !important;
-        border-radius: 10px !important;
-    }}
-    /* Glide Data Grid: Streamlit expone CSS vars para el canvas.
-       Sobrescribir aquí pinta celdas, cabeceras y fondos internos. */
-    [data-testid="stDataFrame"],
-    [data-testid="stDataFrameResizable"],
-    .stDataFrame > div {{
-        --gdg-bg-cell: {BG2};
-        --gdg-bg-cell-medium: {BG3};
-        --gdg-bg-header: {BG3};
-        --gdg-bg-header-has-focus: {CYAN}22;
-        --gdg-bg-header-hovered: {BG3};
-        --gdg-bg-bubble: {BG3};
-        --gdg-bg-bubble-selected: {CYAN}33;
-        --gdg-bg-search-result: {CYAN}22;
-        --gdg-border-color: {BORDER};
-        --gdg-drilldown-border: {BORDER};
-        --gdg-horizontal-border-color: {BORDER};
-        --gdg-text-dark: {TEXT};
-        --gdg-text-medium: {TEXT2};
-        --gdg-text-light: {MUTED};
-        --gdg-text-bubble: {TEXT};
-        --gdg-text-header: {TEXT};
-        --gdg-text-header-selected: {CYAN};
-        --gdg-accent-color: {CYAN};
-        --gdg-accent-fg: {BG};
-        --gdg-accent-light: {CYAN}22;
-        --gdg-link-color: {CYAN};
-        --gdg-cell-horizontal-padding: 10px;
-        --gdg-cell-vertical-padding: 6px;
-    }}
-    /* st.table clásica */
-    .stTable, [data-testid="stTable"] table {{
-        background: {BG2} !important;
-        color: {TEXT} !important;
-        border: 1px solid {BORDER} !important;
-        border-radius: 10px !important;
-    }}
-    [data-testid="stTable"] thead tr th {{
-        background: {BG3} !important;
-        color: {TEXT} !important;
-        border-bottom: 1px solid {BORDER} !important;
-    }}
-    [data-testid="stTable"] tbody tr td {{
-        background: {BG2} !important;
-        color: {TEXT2} !important;
-        border-bottom: 1px solid {BORDER} !important;
-    }}
-    [data-testid="stTable"] tbody tr:hover td {{
-        background: {CYAN}0E !important;
-    }}
-
-    /* ── Info / warnings ──────────────────────────────────────────── */
-    .stAlert {{
-        background: {BG2} !important;
-        border-color: {BORDER} !important;
-        color: {TEXT2} !important;
-        border-radius: 8px !important;
-    }}
-
-    /* ── Tabs ─────────────────────────────────────────────────── */
     [data-testid="stTabs"] [data-baseweb="tab-list"] {{
         background: {BG2} !important;
         border-bottom: 1px solid {BORDER} !important;
@@ -964,81 +873,233 @@ def aplicar_estilos():
         border-bottom: 1px solid {BG2} !important;
     }}
 
-    /* ── Expander ─────────────────────────────────────────────────── */
-    [data-testid="stExpander"] {{
-        background: {BG2} !important;
-        border: 1px solid {BORDER} !important;
+    /* ── 7. Metric widget overrides ───────────────────────────────── */
+    [data-testid="stMetric"] {{
+        background: #0D1320 !important;
+        border: 1px solid #1E293B !important;
         border-radius: 8px !important;
+        padding: .75rem 1rem !important;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }}
+    [data-testid="stMetric"]:hover {{
+        border-top-color: {CYAN} !important;
+        box-shadow: 0 0 16px {CYAN}22 !important;
+    }}
+    [data-testid="stMetric"] label,
+    [data-testid="stMetricLabel"] {{
+        color: #94A3B8 !important;
+        font-size: .72rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: .08em !important;
+        font-weight: 700 !important;
+    }}
+    [data-testid="stMetric"] [data-testid="stMetricValue"],
+    [data-testid="stMetricValue"] {{
+        color: #E2E8F0 !important;
+        font-weight: 700 !important;
+        font-size: 1.55rem !important;
+        font-family: 'JetBrains Mono', monospace !important;
+    }}
+    [data-testid="stMetricDelta"] {{
+        font-size: clamp(.75rem, .72rem + .12vw, .84rem) !important;
+        font-weight: 600 !important;
     }}
 
-    /* ── Caption / misc text ──────────────────────────────────────── */
-    .stCaption {{ color: {MUTED} !important; }}
-    p, li {{ color: {TEXT2}; }}
-    h1, h2, h3 {{ color: {TEXT}; }}
+    /* ── 8. DataFrame / table styling ─────────────────────────────── */
+    [data-testid="stDataFrame"] {{ border-radius: 8px !important; overflow: hidden !important; }}
+    .dvn-scroller {{ background: #0D1320 !important; }}
+    .stDataFrame, [data-testid="stDataFrame"] {{
+        background: {BG2} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 10px !important;
+    }}
+    [data-testid="stDataFrame"],
+    [data-testid="stDataFrameResizable"],
+    .stDataFrame > div {{
+        --gdg-bg-cell: {BG2};
+        --gdg-bg-cell-medium: {BG3};
+        --gdg-bg-header: {BG3};
+        --gdg-bg-header-has-focus: {CYAN}22;
+        --gdg-bg-header-hovered: {BG3};
+        --gdg-bg-bubble: {BG3};
+        --gdg-bg-bubble-selected: {CYAN}33;
+        --gdg-bg-search-result: {CYAN}22;
+        --gdg-border-color: {BORDER};
+        --gdg-drilldown-border: {BORDER};
+        --gdg-horizontal-border-color: {BORDER};
+        --gdg-text-dark: {TEXT};
+        --gdg-text-medium: {TEXT2};
+        --gdg-text-light: {MUTED};
+        --gdg-text-bubble: {TEXT};
+        --gdg-text-header: {TEXT};
+        --gdg-text-header-selected: {CYAN};
+        --gdg-accent-color: {CYAN};
+        --gdg-accent-fg: {BG};
+        --gdg-accent-light: {CYAN}22;
+        --gdg-link-color: {CYAN};
+        --gdg-cell-horizontal-padding: 10px;
+        --gdg-cell-vertical-padding: 6px;
+    }}
+    .stTable, [data-testid="stTable"] table {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 10px !important;
+    }}
+    [data-testid="stTable"] thead tr th {{
+        background: {BG3} !important;
+        color: {TEXT} !important;
+        border-bottom: 1px solid {BORDER} !important;
+    }}
+    [data-testid="stTable"] tbody tr td {{
+        background: {BG2} !important;
+        color: {TEXT2} !important;
+        border-bottom: 1px solid {BORDER} !important;
+    }}
+    [data-testid="stTable"] tbody tr:hover td {{ background: {CYAN}0E !important; }}
 
-    /* ── Scrollbar ────────────────────────────────────────────────── */
+    /* ── 9. Scrollbar styling ─────────────────────────────────────── */
     * {{
         scrollbar-width: thin;
         scrollbar-color: {BORDER} {BG};
     }}
     ::-webkit-scrollbar {{ width: 6px; height: 6px; }}
-    ::-webkit-scrollbar-track {{ background: {BG}; }}
-    ::-webkit-scrollbar-thumb {{ background: {BORDER}; border-radius: 3px; }}
-    ::-webkit-scrollbar-thumb:hover {{ background: {CYAN}55; }}
+    ::-webkit-scrollbar-track {{ background: #080C14; }}
+    ::-webkit-scrollbar-thumb {{ background: #1E293B; border-radius: 3px; }}
+    ::-webkit-scrollbar-thumb:hover {{ background: #00D4FF40; }}
+
+    /* ── 10. Misc Streamlit components ───────────────────────────── */
+    [data-baseweb="popover"],
+    [data-baseweb="menu"],
+    [data-baseweb="calendar"] {{
+        background: {BG2} !important;
+        border: 1px solid {BORDER} !important;
+        color: {TEXT} !important;
+        border-radius: 8px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.55) !important;
+    }}
+    [data-baseweb="popover"] [role="listbox"],
+    [data-baseweb="menu"] ul,
+    [data-baseweb="select-dropdown"] {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+    }}
+    [data-baseweb="popover"] li,
+    [data-baseweb="menu"] li,
+    [data-baseweb="popover"] [role="option"] {{
+        background: {BG2} !important;
+        color: {TEXT} !important;
+    }}
+    [data-baseweb="popover"] li:hover,
+    [data-baseweb="menu"] li:hover,
+    [data-baseweb="popover"] [role="option"]:hover,
+    [data-baseweb="popover"] [aria-selected="true"] {{
+        background: {CYAN}1A !important;
+        color: {CYAN} !important;
+    }}
+    [data-baseweb="calendar"] * {{ color: {TEXT} !important; }}
+    [data-baseweb="calendar"] [aria-selected="true"] {{
+        background: {CYAN}33 !important;
+        color: {CYAN} !important;
+    }}
+    [data-baseweb="calendar"] button:hover {{ background: {CYAN}22 !important; }}
+    [data-testid="stRadio"] label,
+    [data-testid="stCheckbox"] label,
+    .stRadio label, .stCheckbox label {{ color: {TEXT2} !important; }}
+    [data-testid="stRadio"] [role="radiogroup"] {{ background: transparent !important; }}
+    .stSlider [data-testid="stSlider"] {{ color: {CYAN} !important; }}
+    [data-baseweb="slider"] [role="slider"] {{
+        background: {CYAN} !important;
+        border: 2px solid {BG} !important;
+    }}
+    [data-testid="stExpander"] {{
+        background: {BG2} !important;
+        border: 1px solid {BORDER} !important;
+        border-radius: 8px !important;
+    }}
+    .stAlert {{
+        background: {BG2} !important;
+        border-color: {BORDER} !important;
+        color: {TEXT2} !important;
+        border-radius: 8px !important;
+    }}
+    hr {{
+        border: none !important;
+        border-top: 1px solid {BORDER} !important;
+        margin: 1.2rem 0 !important;
+    }}
+    .stCaption {{ color: {MUTED} !important; }}
+    p, li {{ color: {TEXT2}; }}
+    h1, h2, h3 {{ color: {TEXT}; }}
+
+    /* ── 11. Ocultar branding Streamlit ──────────────────────────── */
+    #MainMenu {{ visibility: hidden !important; }}
+    footer {{ visibility: hidden !important; }}
+    [data-testid="stToolbar"] {{ visibility: hidden !important; }}
+
+    /* ── Ticker wrap ─────────────────────────────────────────────── */
+    .ticker-wrap {{
+        background:{BG2};border-top:1px solid {BORDER};border-bottom:1px solid {BORDER};
+        overflow:hidden;width:100%;padding:.45rem 0;position:relative;
+    }}
+    .ticker-label {{
+        position:absolute;left:0;top:0;height:100%;display:flex;align-items:center;
+        background:linear-gradient(90deg,{BG2} 70%,{BG2}00);padding:0 1rem;z-index:2;
+    }}
+    .ticker-content {{
+        display:inline-flex;align-items:center;white-space:nowrap;
+        animation:marquee-scroll 90s linear infinite;
+    }}
+    .ticker-content:hover {{ animation-play-state:paused; }}
     </style>
     """, unsafe_allow_html=True)
 
 
 def sidebar_nav():
-    """Renderiza la barra lateral personalizada con tema dark/tech."""
+    """Renderiza la barra lateral personalizada con tema dark/tech — v3.0.
+
+    Estructura:
+      1. Widget de usuario (render_user_sidebar_widget)
+      2. Logo POLITEIA + separador
+      3. Chip de estado IA Brain
+      4. Chat IA compacto
+      5. Tres secciones colapsables: Inteligencia / Operaciones / Laboratorio
+      6. Footer con versión y fecha
+    """
+    # Salida temprana si no estamos en sesión Streamlit activa
+    try:
+        _ = st.session_state  # lanza RuntimeError fuera de contexto de Streamlit
+    except Exception:
+        return
+
+    render_user_sidebar_widget()
     _ensure_pages_bridge()
     aplicar_estilos()
+
     with st.sidebar:
         try:
             from dashboard.services.cliente_context import selector_cliente_sidebar
-
             selector_cliente_sidebar()
         except Exception:
             pass
 
-        # Logo / header
-        st.markdown(f"""
-        <div style="padding:1.4rem 1rem 1rem;border-bottom:1px solid {BORDER};margin-bottom:.8rem">
-            <div style="display:flex;align-items:center;gap:.6rem">
-                <div style="width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0;
-                            box-shadow:0 2px 8px rgba(0,0,0,0.35)">
-                  <svg viewBox="0 0 100 100"xmlns="http://www.w3.org/2000/svg"style="width:100%;height:100%;display:block">
-                    <rect width="100"height="100"rx="0"fill="#F0A214"/>
-                    <circle cx="22"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
-                    <circle cx="22"cy="28"r="5.5"fill="#F0A214"/>
-                    <circle cx="22"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
-                    <circle cx="22"cy="28"r="2.2"fill="#1B3FA8"/>
-                    <circle cx="78"cy="28"r="13"stroke="#1B3FA8"stroke-width="5"fill="none"/>
-                    <circle cx="78"cy="28"r="5.5"fill="#F0A214"/>
-                    <circle cx="78"cy="28"r="5.5"stroke="#1B3FA8"stroke-width="2.5"fill="none"/>
-                    <circle cx="78"cy="28"r="2.2"fill="#1B3FA8"/>
-                    <rect x="21"y="24"width="58"height="8"fill="#1B3FA8"/>
-                    <rect x="8"y="37"width="84"height="10"rx="2"fill="#1B3FA8"/>
-                    <rect x="14"y="58"width="19"height="30"rx="3"fill="#1B3FA8"/>
-                    <rect x="40"y="50"width="19"height="38"rx="3"fill="#1B3FA8"/>
-                    <rect x="66"y="43"width="19"height="45"rx="3"fill="#1B3FA8"/>
-                  </svg>
-                </div>
-                <div>
-                    <div style="font-size:1rem;font-weight:800;color:{TEXT};letter-spacing:-.01em;line-height:1.1">ElectSim</div>
-                    <div style="font-size:.6rem;font-weight:600;letter-spacing:.14em;color:{MUTED};
-                                text-transform:uppercase">Politeia · v2.0</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        # ── Logo / producto ────────────────────────────────────────────────────
+        st.markdown(
+            f'<div style="padding:1.2rem 1rem .8rem;border-bottom:1px solid {BORDER};margin-bottom:.6rem">'
+            f'<div style="font-size:1.25rem;font-weight:900;color:{CYAN};'
+            f'letter-spacing:-.02em;line-height:1;font-family:Inter,system-ui,sans-serif">POLITEIA</div>'
+            f'<div style="font-size:.62rem;font-weight:600;letter-spacing:.14em;color:{TEXT2};'
+            f'text-transform:uppercase;margin-top:.2rem">Intelligence Platform</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
-        # ── IA Brain status chip — con estado de ingesta automática ─────────────
+        # ── IA Brain status chip ───────────────────────────────────────────────
         try:
             from dashboard.services.llm_local import disponible as _llm_disp
             _s = _llm_disp()
             _brain_on = _s.get("brain", False)
-            _model_name = "politeia-brain"if _brain_on else ("qwen2.5"if _s.get("general") else "sin IA")
+            _model_name = "politeia-brain" if _brain_on else ("qwen2.5" if _s.get("general") else "sin IA")
             _brain_color = GREEN if _brain_on else (AMBER if _s.get("ollama") else MUTED)
             _ollama_on = bool(_s.get("ollama"))
         except Exception:
@@ -1055,7 +1116,6 @@ def sidebar_nav():
             _ing_est = _ing.estado_worker()
             _worker_active = _ing_est.get("running", False)
             _total_docs = _ing_est.get("total_indexado", 0)
-            # Auto-arrancar si Ollama está disponible y worker no corre
             if _ollama_on and not _worker_active:
                 _ing.iniciar_worker()
                 _worker_active = True
@@ -1063,19 +1123,18 @@ def sidebar_nav():
             pass
 
         _worker_badge = (
-            f'<span style="font-size:.62rem;color:{GREEN};margin-left:auto;"> {_total_docs}</span>'
+            f'<span style="font-size:.62rem;color:{GREEN};margin-left:auto;">{_total_docs} docs</span>'
             if _worker_active else
-            f'<span style="font-size:.62rem;color:{MUTED};margin-left:auto;">⏸ pausado</span>'
+            f'<span style="font-size:.62rem;color:{MUTED};margin-left:auto;">pausado</span>'
         )
 
         st.markdown(
             f'<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;'
             f'background:{_brain_color}11;border:1px solid {_brain_color}33;'
-            f'border-radius:8px;margin:.4rem 0 .8rem">'
+            f'border-radius:8px;margin:.4rem 0 .6rem">'
             f'<span style="width:7px;height:7px;border-radius:50%;background:{_brain_color};'
             f'display:inline-block;box-shadow:0 0 6px {_brain_color}"></span>'
-            f'<span style="font-size:.68rem;color:{_brain_color};font-weight:700">'
-            f' {_model_name}</span>'
+            f'<span style="font-size:.68rem;color:{_brain_color};font-weight:700">{_model_name}</span>'
             f'{_worker_badge}'
             f'</div>',
             unsafe_allow_html=True,
@@ -1084,40 +1143,54 @@ def sidebar_nav():
         render_sidebar_ai_chatbot()
 
         st.markdown(
-            f'<div style="font-size:.55rem;color:{MUTED};font-weight:800;'
-            f'letter-spacing:.14em;text-transform:uppercase;margin:.4rem .2rem .4rem;'
-            f'padding-left:.2rem">Módulos Politeia</div>',
+            f'<div style="height:1px;background:{BORDER};margin:.6rem 0 .4rem"></div>',
             unsafe_allow_html=True,
         )
 
-        # Módulos D-series (diseño oficial)
-        _render_page_links(SIDEBAR_CORE_LINKS)
+        # ── Sección 1: Inteligencia (expandida por defecto) ────────────────────
+        _INTEL_LINKS: list[tuple[str, str]] = [
+            ("pages/D1_Briefings.py",    "  Briefings"),
+            ("pages/D2_Actores.py",      "  Mapa de Actores"),
+            ("pages/D3_Termometro.py",   "  Termometro de Riesgo"),
+            ("pages/D6_Alertas.py",      "  Alertas"),
+            ("pages/D7_Medios.py",       "  Medios y Narrativa"),
+            ("pages/D8_Geopolitica.py",  "  Geopolitica"),
+        ]
+        with st.sidebar.expander("Inteligencia", expanded=True):
+            _render_page_links(_INTEL_LINKS)
 
-        st.markdown(f'<div style="height:1px;background:{BORDER};margin:.8rem 0"></div>',
-                    unsafe_allow_html=True)
+        # ── Sección 2: Operaciones (colapsada) ────────────────────────────────
+        _OPS_LINKS: list[tuple[str, str]] = [
+            ("pages/D4_Legislativo.py",    "  Monitor Legislativo"),
+            ("pages/D5_Coalicion.py",      "  Gobierno y Coalicion"),
+            ("pages/D9_Communication.py",  "  Communication Intel"),
+            ("pages/D10_Workspace.py",     "  Centro de Operaciones"),
+            ("pages/N9_CommandCenter.py",  "  Command Center"),
+        ]
+        with st.sidebar.expander("Operaciones", expanded=False):
+            _render_page_links(_OPS_LINKS)
 
-        # Módulos N-series en expander
-        with st.expander("  Módulos v2 (análisis)", expanded=False):
-            _render_page_links(SIDEBAR_N_LINKS)
-
-        # Páginas heredadas en expander colapsado
-        with st.expander("  Clásicos (v1)", expanded=False):
-            st.markdown(
-                f'<div style="font-size:.7rem;color:{MUTED};margin-bottom:.5rem">'
-                f'Páginas individuales</div>',
-                unsafe_allow_html=True,
-            )
-            _render_page_links(SIDEBAR_LEGACY_LINKS)
+        # ── Sección 3: Laboratorio (colapsada) ────────────────────────────────
+        _LAB_LINKS: list[tuple[str, str]] = [
+            ("pages/N1_Electoral.py",      "  Electoral"),
+            ("pages/N2_Inteligencia.py",   "  Inteligencia"),
+            ("pages/N7_Laboratorio.py",    "  Laboratorio"),
+            ("pages/N8_ChatIA.py",         "  Politeia Brain"),
+            ("pages/N_Integraciones.py",   "  Integraciones"),
+        ]
+        with st.sidebar.expander("Laboratorio", expanded=False):
+            _render_page_links(_LAB_LINKS)
 
         _badge_alertas_sidebar()
 
-        # Footer
+        # ── Footer: version + fecha ────────────────────────────────────────────
+        import datetime as _dt
+        _today = _dt.date.today().strftime("%d/%m/%Y")
+
         dot_color = CYAN
         status_text = "SISTEMA ACTIVO"
-        extra_text = "DATOS EN TIEMPO REAL"
         try:
             from dashboard.db import cargar_alertas
-
             alertas = cargar_alertas(solo_no_leidas=True, limit=1)
             if alertas.empty:
                 status_text = "SIN ALERTAS ABIERTAS"
@@ -1126,21 +1199,23 @@ def sidebar_nav():
                 if sev in {"CRITICAL", "ALTA", "HIGH"}:
                     dot_color = RED
                     status_text = "ALERTA ACTIVA"
-                    extra_text = "REVISAR PANEL DE ALERTAS"
                 elif sev in {"MEDIA", "MEDIUM", "WARNING"}:
                     dot_color = AMBER
                     status_text = "SEGUIMIENTO ACTIVO"
         except Exception:
             dot_color = MUTED
             status_text = "ESTADO NO DISPONIBLE"
-            extra_text = "SINCRONIZACIÓN PENDIENTE"
 
-        st.markdown(f"""
-        <div style="border-top:1px solid {BORDER};margin-top:1.2rem;padding:1rem .5rem .5rem;
-                    font-size:.62rem;color:{MUTED};text-align:center;letter-spacing:.06em">
-            <span style="color:{dot_color}">●</span> {status_text} &nbsp;·&nbsp; {extra_text}
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div style="border-top:1px solid {BORDER};margin-top:1rem;padding:.8rem .5rem .4rem;'
+            f'font-size:.6rem;color:{MUTED};text-align:center;letter-spacing:.05em">'
+            f'<div style="margin-bottom:.25rem">'
+            f'<span style="color:{dot_color}">&#9679;</span> {status_text}'
+            f'</div>'
+            f'<div style="color:{MUTED}">v3.0 &nbsp;·&nbsp; {_today}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1403,3 +1478,28 @@ def intel_header(title: str, subtitle: str, status: str, time_str: str) -> None:
         f'</div>'
     )
     st.markdown(html, unsafe_allow_html=True)
+
+
+# ── Auth helpers (added for user profile system) ──────────────────────────────
+
+def get_current_user():
+    """Retorna el perfil del usuario actual desde session_state, o None."""
+    try:
+        from dashboard.components.user_widget import get_current_user as _get
+        return _get()
+    except Exception:
+        return st.session_state.get("politeia_user_profile")
+
+
+def get_current_tenant() -> str:
+    """Retorna el tenant_id del usuario actual."""
+    return str(st.session_state.get("politeia_tenant_id", "demo"))
+
+
+def render_user_sidebar_widget() -> None:
+    """Renderiza el widget de usuario en la barra lateral si hay sesion activa."""
+    try:
+        from dashboard.components.user_widget import render_user_widget
+        render_user_widget()
+    except Exception:
+        pass
