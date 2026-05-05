@@ -138,6 +138,20 @@ except Exception:
         return pd.DataFrame()
 
 
+# ── Comms Core (Bloque 16) ────────────────────────────────────────────────────
+try:
+    from communications.comms_recommender import recommend_content_for_narrative
+    from communications.press_note_builder import build_qna_pack
+    from communications.content_calendar import create_calendar_item
+    from dashboard.services.comms_core import cargar_content_assets
+    _comms_d7_available = True
+except Exception:
+    _comms_d7_available = False
+    def recommend_content_for_narrative(*a, **kw): return []
+    def build_qna_pack(*a, **kw): return None
+    def create_calendar_item(*a, **kw): return None
+    def cargar_content_assets(**kw): return []
+
 # ═════════════════════════════════════════════════════════════════════════════
 # Data helpers
 # ═════════════════════════════════════════════════════════════════════════════

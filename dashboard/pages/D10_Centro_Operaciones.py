@@ -66,6 +66,28 @@ except Exception:
     def render_crm_kpis_row(*a, **kw): pass
     def render_outreach_task_card(*a, **kw): pass
 
+# ── Comms Core (Bloque 16) ────────────────────────────────────────────────────
+try:
+    from dashboard.services.comms_core import (
+        cargar_comms_kpis, cargar_pending_approvals,
+        cargar_publication_queue, cargar_recommended_content,
+    )
+    from dashboard.components.comms_components import (
+        render_comms_kpis_row, render_approval_panel,
+        render_publication_queue, render_content_recommendation_card,
+    )
+    _comms_d10_available = True
+except Exception:
+    _comms_d10_available = False
+    def cargar_comms_kpis(**kw): return {}
+    def cargar_pending_approvals(**kw): return []
+    def cargar_publication_queue(**kw): return []
+    def cargar_recommended_content(**kw): return []
+    def render_comms_kpis_row(*a, **kw): pass
+    def render_approval_panel(*a, **kw): pass
+    def render_publication_queue(*a, **kw): pass
+    def render_content_recommendation_card(*a, **kw): pass
+
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 

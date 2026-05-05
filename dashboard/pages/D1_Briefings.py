@@ -82,6 +82,23 @@ except Exception:
     def _boe_impacto(*a, **kw):
         return "NORMAL"
 
+# ── Comms Core (Bloque 16) ────────────────────────────────────────────────────
+try:
+    from communications.message_studio import create_message_frame, generate_content_asset
+    from communications.social_post_builder import build_linkedin_post, build_thread
+    from communications.press_note_builder import build_qna_pack, build_press_note
+    from dashboard.services.comms_core import cargar_content_assets
+    _comms_d1_available = True
+except Exception:
+    _comms_d1_available = False
+    def create_message_frame(*a, **kw): return None
+    def generate_content_asset(*a, **kw): return None
+    def build_linkedin_post(*a, **kw): return None
+    def build_thread(*a, **kw): return []
+    def build_qna_pack(*a, **kw): return None
+    def build_press_note(*a, **kw): return None
+    def cargar_content_assets(**kw): return []
+
 # ── Global CSS ─────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <style>
