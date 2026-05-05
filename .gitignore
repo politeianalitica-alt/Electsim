@@ -74,6 +74,7 @@ tmp/
 path/
 
 # Frontend SPA (local build artifacts)
+node_modules/
 dashboard/spa/node_modules/
 dashboard/spa/dist/
 dashboard/spa/.vite/
