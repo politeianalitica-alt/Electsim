@@ -54,6 +54,44 @@ INE_SERIES = {
 # Helpers
 # ═════════════════════════════════════════════════════════════════════════════
 
+def _detect_likely_non_spanish(text: str) -> str | None:
+    """
+    Detección rápida sin librería externa.
+    Si hay indicadores claros de inglés/francés/alemán/italiano/portugués,
+    devuelve el código ISO. Si no detecta nada, devuelve None (deja el lang original).
+    """
+    if not text:
+        return None
+    text_lower = text.lower()
+    en_words = {"the ", " of ", " in ", " to ", " and ", "says ", "why ", "how ", "this ", "that "}
+    fr_words = {"le ", "la ", " les ", " un ", " une ", " des ", "dans ", " avec ", "selon "}
+    de_words = {" der ", " die ", " das ", " und ", " mit ", " für ", "nach ", " von "}
+    it_words = {" il ", " la ", " di ", " del ", " che ", " per ", " con ", " nella "}
+    pt_words = {" do ", " da ", " dos ", " das ", " para ", " com ", " que ", " por "}
+
+    scores = {"en": 0, "fr": 0, "de": 0, "it": 0, "pt": 0}
+    for w in en_words:
+        if w in text_lower:
+            scores["en"] += 1
+    for w in fr_words:
+        if w in text_lower:
+            scores["fr"] += 1
+    for w in de_words:
+        if w in text_lower:
+            scores["de"] += 1
+    for w in it_words:
+        if w in text_lower:
+            scores["it"] += 1
+    for w in pt_words:
+        if w in text_lower:
+            scores["pt"] += 1
+
+    best = max(scores, key=scores.get)  # type: ignore[arg-type]
+    if scores[best] >= 2:
+        return best
+    return None
+
+
 def _try_import_aiohttp() -> bool:
     try:
         import aiohttp  # noqa: F401
@@ -154,6 +192,12 @@ class NewsAggregator:
                     it["source_country"]  = source_meta.get("country", "")
                     it["source_region"]   = source_meta.get("region", "Internacional")
                     it["source_lang"]     = source_meta.get("lang", "es")
+                    # Corrección automática: si lang dice "es" pero el título tiene
+                    # indicadores claros de otro idioma, actualizamos source_lang
+                    if it.get("source_lang") == "es" and it.get("title"):
+                        suspected_non_es = _detect_likely_non_spanish(it["title"])
+                        if suspected_non_es:
+                            it["source_lang"] = suspected_non_es
                     it["source_ccaa"]     = source_meta.get("ccaa", "")
                     it["source_provincia"]= source_meta.get("provincia", "")
             return items
