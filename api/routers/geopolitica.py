@@ -81,7 +81,17 @@ def _severity_from_fatalities(fatalities: int) -> str:
         return "CRITICAL"
     if fatalities > 10:
         return "HIGH"
-    return "MEDIUM"
+    if fatalities > 0:
+        return "MEDIUM"
+    return "LOW"
+
+
+def _impact_from_severity(severity: str, fatalities: int) -> int:
+    """Maps severity + fatalities to a 0-100 impact score."""
+    base = {"CRITICAL": 85, "HIGH": 65, "MEDIUM": 45, "LOW": 20}.get(severity, 40)
+    # Boost for high fatality counts
+    bonus = min(fatalities, 15)
+    return min(base + bonus, 100)
 
 
 def _status_from_risk(risk: int) -> str:
@@ -216,6 +226,7 @@ def get_geopolitica_overview() -> GeoOverview:
         events = []
         for ge in raw_events:
             fat = int(ge.fatalities or 0)
+            sev = _severity_from_fatalities(fat)
             iso3 = ge.country_iso3 or ""
             events.append(GeoEventItem(
                 event_id=ge.event_id,
@@ -226,7 +237,7 @@ def get_geopolitica_overview() -> GeoOverview:
                 severity=ge.severity,
                 description=getattr(ge, "description", ge.event_type),
                 fatalities=fat,
-                impact=_severity_from_fatalities(fat) and 60,
+                impact=_impact_from_severity(sev, fat),
             ))
 
         presence = _get_presence()
