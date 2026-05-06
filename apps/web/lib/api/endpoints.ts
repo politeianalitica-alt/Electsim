@@ -28,6 +28,8 @@ import type {
 import type { BoeResponse, InitiativesResponse, LegislativeKpis } from "@/lib/types/legislative";
 import type { ActorsResponse } from "@/lib/types/actors_api";
 import type { RiskOverview } from "@/lib/types/risk_api";
+import type { GeoOverview } from "@/lib/types/geopolitica_api";
+import type { CoalitionOverview } from "@/lib/types/coalition_api";
 
 function toQuery(params?: Record<string, string | number | boolean | undefined | null>): string {
   if (!params) return "";
@@ -215,4 +217,12 @@ export const endpoints = {
   // Risk
   riskOverview: () =>
     api.get<RiskOverview>("/api/risk/overview"),
+
+  // Geopolitica
+  geopoliticaOverview: () =>
+    api.get<GeoOverview>("/api/geopolitica/overview"),
+
+  // Coalition
+  coalitionOverview: () =>
+    api.get<CoalitionOverview>("/api/coalition/overview"),
 };
