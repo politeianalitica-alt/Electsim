@@ -105,3 +105,17 @@ async def sources_run(body: IngestionRunRequest):
 async def sources_run_all_dry():
     from services.sources.ingestion_service import run_all_dry
     return run_all_dry()
+
+
+@router.post("/api/sources/health-sync")
+async def sources_health_sync():
+    """
+    Pings all registered RSS sources and writes results to media_source_health.
+    Returns sync summary.
+    """
+    try:
+        from services.sources.health_writer import sync_all_sources  # type: ignore
+        summary = sync_all_sources()
+        return {"ok": True, "summary": summary, "mode": "real"}
+    except Exception as exc:
+        return {"ok": False, "error": str(exc), "mode": "error"}
