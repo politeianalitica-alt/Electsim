@@ -33,6 +33,12 @@ import type {
 } from "@/lib/types/legislative";
 import type { ActorsResponse } from "@/lib/types/actors_api";
 import type { RiskOverview } from "@/lib/types/risk_api";
+import type {
+  RiskOverviewResponse,
+  RiskSignalsResponse,
+  RiskAnalysisRequest,
+  RiskAnalysisResponse,
+} from "@/lib/types/risk_rich";
 import type { GeoOverview } from "@/lib/types/geopolitica_api";
 import type { CoalitionOverview } from "@/lib/types/coalition_api";
 
@@ -241,6 +247,43 @@ export const endpoints = {
   // Risk
   riskOverview: () =>
     api.get<RiskOverview>("/api/risk/overview"),
+
+  // Risk v2 (rich)
+  riskOverviewV2: () =>
+    api.get<RiskOverviewResponse>("/api/risk/overview-v2"),
+
+  riskDimensions: () =>
+    api.get<{ dimensions: unknown[]; mode: string }>("/api/risk/dimensions"),
+
+  riskSignals: (params?: { domain?: string; severity?: string; limit?: number }) =>
+    api.get<RiskSignalsResponse>(`/api/risk/signals${toQuery(params)}`),
+
+  riskCrisis: () =>
+    api.get<{ crisis_signals: unknown[]; mode: string }>("/api/risk/crisis"),
+
+  riskEarlyWarnings: () =>
+    api.get<{ early_warnings: unknown[]; mode: string }>("/api/risk/early-warnings"),
+
+  riskSpark: () =>
+    api.get<{ spark: number[]; global_score: number; trend_delta: number; mode: string }>("/api/risk/spark"),
+
+  riskScenarios: () =>
+    api.get<{ scenarios: unknown[]; mode: string }>("/api/risk/scenarios"),
+
+  riskTimeline: () =>
+    api.get<{ timeline: unknown[]; mode: string }>("/api/risk/timeline"),
+
+  riskHeatmap: () =>
+    api.get<{ heatmap: unknown[]; mode: string }>("/api/risk/heatmap"),
+
+  riskKpis: () =>
+    api.get<{ kpis: unknown[]; global_score: number; mode: string }>("/api/risk/kpis"),
+
+  riskAnalyze: (payload: RiskAnalysisRequest) =>
+    api.post<RiskAnalysisResponse>("/api/risk/analyze", payload),
+
+  riskSnapshot: () =>
+    api.post<{ snapshot_id: string; timestamp: string; global_score: number; mode: string }>("/api/risk/snapshot", {}),
 
   // Geopolitica
   geopoliticaOverview: () =>
