@@ -2,14 +2,36 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { FileText, Download, Volume2, Plus, Calendar } from "lucide-react";
-import Link from "next/link";
+import { FileText, Download, Volume2, Plus, Calendar, RefreshCw } from "lucide-react";
 
 export default function BriefingsPage() {
-  const { data: briefing } = useQuery({
+  const { data: briefing, isLoading: loadingBriefing, refetch } = useQuery({
     queryKey: ["briefing", "morning"],
-    queryFn: () => endpoints.morningBriefing("default")
+    queryFn: () => endpoints.morningBriefing("default").catch(() => null),
   });
+
+  const { data: historyData } = useQuery({
+    queryKey: ["briefings", "v2", "list"],
+    queryFn: () => endpoints.briefingsListV2("default", 10).catch(() => null),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const historyItems: any[] = (historyData as any)?.briefings ?? (historyData as any)?.items ?? [];
+
+  const DEMO_HISTORY = [
+    { id: "1", date: "5 may", title: "Briefing matinal — España" },
+    { id: "2", date: "4 may", title: "Briefing matinal — España" },
+    { id: "3", date: "3 may", title: "Briefing crisis — DANA Valencia" },
+    { id: "4", date: "2 may", title: "Briefing cliente — Sector banca" },
+  ];
+
+  const displayHistory = historyItems.length > 0
+    ? historyItems.slice(0, 6).map((b: any) => ({
+        id: b.id,
+        date: b.generated_at ? new Date(b.generated_at).toLocaleDateString("es-ES", { day: "numeric", month: "short" }) : "—",
+        title: b.title ?? b.executive_summary?.slice(0, 50) ?? "Briefing",
+      }))
+    : DEMO_HISTORY;
 
   return (
     <div className="space-y-6">
@@ -19,9 +41,17 @@ export default function BriefingsPage() {
           <h1 className="text-3xl font-bold text-text1 mt-1">Briefings</h1>
           <p className="text-text2 text-sm mt-1">Generación, archivo y exportación de briefings premium con evidencia.</p>
         </div>
-        <button className="px-4 py-2 rounded-md bg-cyan1 text-bg font-semibold flex items-center gap-2 hover:bg-cyan2 transition">
-          <Plus className="w-4 h-4" /> Crear briefing
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => refetch()}
+            className="px-3 py-2 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-sm flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-4 h-4 ${loadingBriefing ? "animate-spin" : ""}`} />
+          </button>
+          <button className="px-4 py-2 rounded-md bg-cyan1 text-bg font-semibold flex items-center gap-2 hover:bg-cyan2 transition">
+            <Plus className="w-4 h-4" /> Crear briefing
+          </button>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -96,16 +126,11 @@ export default function BriefingsPage() {
           <div className="premium-card">
             <h3 className="text-sm font-bold text-text1 mb-3">Historial reciente</h3>
             <ul className="space-y-2">
-              {[
-                { d: "5 may", t: "Briefing matinal — España" },
-                { d: "4 may", t: "Briefing matinal — España" },
-                { d: "3 may", t: "Briefing crisis — DANA Valencia" },
-                { d: "2 may", t: "Briefing cliente — Sector banca" }
-              ].map((b, i) => (
-                <li key={i} className="text-xs">
+              {displayHistory.map((b, i) => (
+                <li key={b.id ?? i} className="text-xs">
                   <button className="w-full text-left p-2 rounded hover:bg-bg3 transition">
-                    <div className="text-muted">{b.d}</div>
-                    <div className="text-text1">{b.t}</div>
+                    <div className="text-muted">{b.date}</div>
+                    <div className="text-text1 truncate">{b.title}</div>
                   </button>
                 </li>
               ))}

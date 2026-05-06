@@ -342,4 +342,50 @@ export const endpoints = {
   geoRiesgoPais: () => api.get<any[]>("/v1/geopolitica/riesgo-pais"),
   geoPresenciaEspana: () => api.get<any[]>("/v1/geopolitica/presencia-espana"),
   geoKpis: () => api.get<Record<string, number>>("/v1/geopolitica/kpis"),
+
+  // Risk (proper risk endpoints at /api/risk/*)
+  riskOverview: () => api.get<any>("/risk/overview-v2"),
+  riskKpis: () => api.get<any>("/risk/kpis"),
+  riskSignals: () => api.get<any>("/risk/signals"),
+  riskCrisis: () => api.get<any>("/risk/crisis"),
+  riskEarlyWarnings: () => api.get<any>("/risk/early-warnings"),
+  riskHeatmap: () => api.get<any>("/risk/heatmap"),
+  riskTimeline: () => api.get<any>("/risk/timeline"),
+  riskScenarios: () => api.get<any>("/risk/scenarios"),
+
+  // Sources data management
+  sourcesHealth: (params?: { domain?: string; status?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.domain) qs.set("domain", params.domain);
+    if (params?.status) qs.set("status", params.status);
+    return api.get<any>(`/sources/health${qs.toString() ? "?" + qs : ""}`);
+  },
+  sourcesCatalog: () => api.get<any>("/sources/catalog"),
+  sourcesCoverage: () => api.get<any>("/sources/coverage"),
+  sourcesRuns: (limit?: number) =>
+    api.get<any>(`/sources/runs${limit ? "?limit=" + limit : ""}`),
+  sourcesRun: (params: { source_id: string; dry_run?: boolean; limit?: number }) =>
+    api.post<any>("/sources/run", params),
+
+  // Analysis hub (unified analysis endpoint)
+  analysisHub: (period = "24h") => api.get<any>(`/analysis/hub?period=${period}`),
+  analysisRefresh: () => api.post<any>("/analysis/refresh", {}),
+
+  // Electoral (proper endpoints at /api/electoral/*)
+  electoralOverview: () => api.get<any>("/electoral/overview"),
+  electoralParties: () => api.get<any>("/electoral/parties"),
+  electoralHemicycle: () => api.get<any>("/electoral/hemicycle"),
+  electoralCoalitions: () => api.get<any>("/electoral/coalitions"),
+  electoralKpis: () => api.get<any>("/electoral/kpis"),
+  electoralKingmakers: () => api.get<any>("/electoral/kingmakers"),
+  electoralVotingPatterns: () => api.get<any>("/electoral/voting-patterns"),
+
+  // Briefings v2 (saved briefings)
+  briefingsListV2: (workspace_id = "default", limit = 20) =>
+    api.get<any>(`/briefings/v2?workspace_id=${encodeURIComponent(workspace_id)}&limit=${limit}`),
+  briefingDetailV2: (id: string) => api.get<any>(`/briefings/${id}/detail`),
+  briefingMarkdown: (id: string) => api.get<any>(`/briefings/${id}/markdown`),
+  briefingPdfV2: (id: string) => api.get<any>(`/briefings/${id}/pdf-v2`),
+  briefingGenerate: (body: Record<string, any>) => api.post<any>("/briefings/generate", body),
+  briefingPreview: (body: Record<string, any>) => api.post<any>("/briefings/preview", body),
 };
