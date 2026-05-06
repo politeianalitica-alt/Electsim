@@ -25,6 +25,9 @@ import type {
   BriefingMarkdownResponse,
   BriefingPdfResponse,
 } from "@/lib/types/briefings";
+import type { BoeResponse, InitiativesResponse, LegislativeKpis } from "@/lib/types/legislative";
+import type { ActorsResponse } from "@/lib/types/actors_api";
+import type { RiskOverview } from "@/lib/types/risk_api";
 
 function toQuery(params?: Record<string, string | number | boolean | undefined | null>): string {
   if (!params) return "";
@@ -194,4 +197,22 @@ export const endpoints = {
 
   briefingPdfV2: (id: string) =>
     api.get<BriefingPdfResponse>(`/api/briefings/${id}/pdf-v2`),
+
+  // Legislative
+  legislativeBoe: (limit = 10) =>
+    api.get<BoeResponse>(`/api/legislative/boe?limit=${limit}`),
+
+  legislativeInitiatives: (limit = 20) =>
+    api.get<InitiativesResponse>(`/api/legislative/initiatives?limit=${limit}`),
+
+  legislativeKpis: () =>
+    api.get<LegislativeKpis>("/api/legislative/kpis"),
+
+  // Actors
+  actorsList: (params?: { partido?: string; search?: string; limit?: number }) =>
+    api.get<ActorsResponse>(`/api/actors${toQuery(params)}`),
+
+  // Risk
+  riskOverview: () =>
+    api.get<RiskOverview>("/api/risk/overview"),
 };
