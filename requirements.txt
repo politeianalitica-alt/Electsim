@@ -121,3 +121,6 @@ opentelemetry-exporter-otlp-proto-grpc>=1.24.0    # Exportador OTLP gRPC → OTe
 opentelemetry-instrumentation-fastapi>=0.45b0     # Auto-instrumentacion FastAPI (HTTP spans)
 opentelemetry-instrumentation-sqlalchemy>=0.45b0  # Auto-instrumentacion SQLAlchemy (DB spans)
 opentelemetry-instrumentation-httpx>=0.45b0       # Auto-instrumentacion httpx (LiteLLM calls)
+
+# ── Sprint 3 Briefings PDF export ────────────────────────────────────────────
+reportlab>=4.0

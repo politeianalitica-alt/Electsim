@@ -27,6 +27,7 @@ from api.routers import (
 )
 from api.routers import sources as sources_router
 from api.routers import analysis as analysis_router
+from api.routers import briefings as briefings_router
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -122,3 +123,4 @@ app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
 app.include_router(sources_router.router)
 app.include_router(analysis_router.router)
+app.include_router(briefings_router.router)
