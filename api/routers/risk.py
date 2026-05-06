@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import os
+from datetime import date, timedelta
+from statistics import median
 
 from fastapi import APIRouter
 
@@ -10,6 +12,49 @@ from api.schemas.risk_overview import RiskKpiItem, RiskOverview, RiskSignalItem
 router = APIRouter(prefix="/api/risk", tags=["risk"])
 
 _DEMO_SPARK = [52, 55, 51, 58, 60, 57, 63, 61, 66, 64, 62, 67, 65, 68, 70, 67, 72, 69, 74, 71, 73, 75, 72, 76, 74, 71, 68, 72, 74, 71]
+
+
+def _fetch_sparkline(dsn: str) -> list[int]:
+    """Fetch 30-day risk sparkline from signal_politeia. Falls back to _DEMO_SPARK."""
+    import psycopg2
+
+    with psycopg2.connect(dsn) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT
+                    DATE(created_at) AS day,
+                    COUNT(*) AS n,
+                    AVG(urgencia)::float AS avg_u
+                FROM signal_politeia
+                WHERE created_at >= NOW() - INTERVAL '30 days'
+                GROUP BY DATE(created_at)
+                ORDER BY DATE(created_at)
+                """
+            )
+            rows = cur.fetchall()
+
+    if not rows:
+        return _DEMO_SPARK
+
+    day_scores: dict[str, int] = {}
+    for row in rows:
+        day_str = row[0].isoformat() if hasattr(row[0], "isoformat") else str(row[0])
+        n = float(row[1])
+        avg_u = float(row[2]) if row[2] is not None else 1.0
+        score = int(min(round(n * avg_u * 2.5), 100))
+        day_scores[day_str] = score
+
+    known_values = list(day_scores.values())
+    median_val = int(median(known_values)) if known_values else 50
+
+    today = date.today()
+    result: list[int] = []
+    for offset in range(29, -1, -1):
+        day = today - timedelta(days=offset)
+        result.append(day_scores.get(day.isoformat(), median_val))
+
+    return result
 
 
 def _demo_risk() -> RiskOverview:
@@ -96,12 +141,17 @@ def get_risk_overview() -> RiskOverview:
             RiskKpiItem(label="Iniciativas pendientes", value=min(int(n_pendientes * 2), 100), color="blue"),
         ]
 
+        try:
+            real_spark = _fetch_sparkline(dsn)
+        except Exception:
+            real_spark = _DEMO_SPARK
+
         return RiskOverview(
             global_score=score_int,
             level=level,
             kpis=kpis,
             signals=signals if signals else _demo_risk().signals,
-            spark=_DEMO_SPARK,
+            spark=real_spark,
             trend_delta=0,
             mode="real",
         )

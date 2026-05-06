@@ -31,6 +31,8 @@ from api.routers import briefings as briefings_router
 from api.routers import legislative as legislative_router
 from api.routers import actors as actors_router
 from api.routers import risk as risk_router
+from api.routers import geopolitica as geopolitica_router
+from api.routers import coalition as coalition_router
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -130,3 +132,5 @@ app.include_router(briefings_router.router)
 app.include_router(legislative_router.router)
 app.include_router(actors_router.router)
 app.include_router(risk_router.router)
+app.include_router(geopolitica_router.router)
+app.include_router(coalition_router.router)
