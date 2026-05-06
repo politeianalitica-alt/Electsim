@@ -1,6 +1,7 @@
 "use client";
 
 import { Crown, Users2, AlertCircle } from "lucide-react";
+import { ModeBadge } from "@/components/status/mode-badge";
 
 type PartySeat = { code: string; seats: number; color: string };
 
@@ -100,7 +101,10 @@ export default function CoalicionPage() {
     <div className="space-y-6">
       <header>
         <span className="label-cap">Inteligencia / Gobierno & Coalición</span>
-        <h1 className="text-3xl font-bold text-text1 mt-1">Gobierno & Coalición</h1>
+        <div className="flex items-center gap-3 mt-1">
+          <h1 className="text-3xl font-bold text-text1">Gobierno & Coalición</h1>
+          <ModeBadge mode="demo" source="fixtures" message="Datos electorales de ejemplo" />
+        </div>
         <p className="text-text2 text-sm mt-1">Composición del Congreso, escenarios de coalición viables y patrones de voto.</p>
       </header>
 

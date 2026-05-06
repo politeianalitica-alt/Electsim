@@ -1,6 +1,7 @@
 "use client";
 
 import { Globe2, AlertTriangle, Flag, Anchor } from "lucide-react";
+import { ModeBadge } from "@/components/status/mode-badge";
 
 const KPIS = [
   { label: "Eventos críticos 24h", value: 18, color: "text-red1" },
@@ -68,7 +69,10 @@ export default function GeopoliticaPage() {
     <div className="space-y-6">
       <header>
         <span className="label-cap">Inteligencia / Geopolítica</span>
-        <h1 className="text-3xl font-bold text-text1 mt-1">Geopolítica & RRII</h1>
+        <div className="flex items-center gap-3 mt-1">
+          <h1 className="text-3xl font-bold text-text1">Geopolítica & RRII</h1>
+          <ModeBadge mode="demo" source="fixtures" message="Datos de ejemplo — ETL en Sprint 5" />
+        </div>
         <p className="text-text2 text-sm mt-1">Eventos internacionales, riesgo país e impacto sobre los intereses españoles.</p>
       </header>
 
