@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Body, HTTPException, Query
 from pydantic import BaseModel, Field
 
 router = APIRouter(prefix="/api", tags=["politeia-v3"])
@@ -89,14 +89,15 @@ def system_status() -> SystemStatus:
 
     # LLM
     try:
+        from agents.brain.llm_router import is_ollama_available  # type: ignore
         from agents.brain.politeia_brain import get_available_model, is_brain_available  # type: ignore
         status.llm = {
-            "available": is_brain_available(),
-            "model": get_available_model(),
-            "provider": "ollama-or-cloud"
+            "ollama_available": is_ollama_available(),
+            "brain_available": is_brain_available(),
+            "active_model": get_available_model(),
         }
     except Exception:
-        status.llm = {"available": False, "model": "demo", "provider": "none"}
+        status.llm = {"ollama_available": False, "brain_available": False, "active_model": "unknown"}
 
     # Sources (media health)
     try:
@@ -113,7 +114,7 @@ def system_status() -> SystemStatus:
         status.mode = "fallback"
 
     status.pipelines = {"healthy": 8, "degraded": 1, "failed": 0}
-    status.overall_ok = status.database.get("ok", True) and status.llm.get("available", True)
+    status.overall_ok = status.database.get("ok", True) and status.llm.get("brain_available", True)
     return status
 
 
@@ -278,12 +279,67 @@ def brain_chat(req: BrainQuestion) -> BrainAnswer:
 
 @router.get("/brain/status")
 def brain_status() -> dict:
-    """Brain model availability."""
+    """Structured brain status for diagnostic UI."""
     try:
-        from agents.brain.politeia_brain import get_available_model, is_brain_available  # type: ignore
-        return {"available": is_brain_available(), "model": get_available_model(), "mode": "real"}
-    except Exception:
-        return {"available": False, "model": "demo", "mode": "fallback"}
+        from agents.brain.service import get_brain_status  # type: ignore
+        status = get_brain_status()
+        mode = "real" if status.get("brain_available") else "fallback"
+        return {
+            "mode": mode,
+            "data": status,
+            "source": "ollama" if status.get("ollama_available") else "unavailable",
+            "updated_at": datetime.utcnow().isoformat(),
+        }
+    except Exception as exc:
+        return {
+            "mode": "error",
+            "data": {},
+            "error": str(exc),
+            "updated_at": datetime.utcnow().isoformat(),
+        }
+
+
+@router.post("/brain/test")
+async def brain_test(body: dict = Body(...)) -> dict:
+    """Run a test prompt through the LLM router."""
+    prompt = body.get("prompt", "Hola, ¿estás disponible?")
+    task_type = body.get("task_type", "qna")
+    try:
+        from agents.brain.service import test_brain  # type: ignore
+        result = test_brain(prompt=prompt, task_type=task_type)
+        mode = "real" if result.get("success") else "error"
+        return {
+            "mode": mode,
+            "data": result,
+            "updated_at": datetime.utcnow().isoformat(),
+        }
+    except Exception as exc:
+        return {
+            "mode": "error",
+            "data": {"success": False, "error": str(exc)},
+            "updated_at": datetime.utcnow().isoformat(),
+        }
+
+
+@router.post("/brain/embed-test")
+async def brain_embed_test(body: dict = Body(...)) -> dict:
+    """Run a test embedding through the AI engine."""
+    text = body.get("text", "Texto de prueba para embedding.")
+    try:
+        from agents.brain.service import test_embedding  # type: ignore
+        result = test_embedding(text=text)
+        mode = "real" if result.get("success") else "error"
+        return {
+            "mode": mode,
+            "data": result,
+            "updated_at": datetime.utcnow().isoformat(),
+        }
+    except Exception as exc:
+        return {
+            "mode": "error",
+            "data": {"success": False, "error": str(exc)},
+            "updated_at": datetime.utcnow().isoformat(),
+        }
 
 
 # ── Workspace ────────────────────────────────────────────────────────────────
