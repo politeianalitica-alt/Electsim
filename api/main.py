@@ -25,6 +25,10 @@ from api.routers import (
     voto_blando,
     workspace_signals,
 )
+from api.routers.legislation import router as legislation_router
+from api.routers.osint import router as osint_router
+from api.routers.actors import router as actors_router
+from api.routers.nowcasting import router as nowcasting_router
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -118,3 +122,7 @@ app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
+app.include_router(legislation_router)
+app.include_router(osint_router)
+app.include_router(actors_router)
+app.include_router(nowcasting_router)

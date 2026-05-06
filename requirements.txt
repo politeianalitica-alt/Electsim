@@ -104,6 +104,8 @@ pyvis>=0.3.2                   # Interactive network graphs in Streamlit
 apscheduler>=3.10.0            # Scheduler para pipeline_geopolitica.py (OSINT/ACLED/briefing)
 trafilatura>=1.12.0            # Extracción de texto limpio desde URLs OSINT
 # telegram-bot>=13.0           # Alternativa a API REST de Telegram para alertas
+telethon>=1.36.0               # MTProto Telegram client (Block 5 social ingestion)
+praw>=7.7.0                    # Reddit API wrapper (Block 5 — opcional)
 
 # ── Geopolítica v2 — nuevas dependencias ─────────────────────────────────────
 polars>=0.20.0                 # Procesado GKG GDELT (10x más rápido que pandas para CSV masivos)

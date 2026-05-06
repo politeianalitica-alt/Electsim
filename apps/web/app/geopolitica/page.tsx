@@ -1,48 +1,8 @@
 "use client";
 
-import { Globe2, AlertTriangle, Flag, Anchor } from "lucide-react";
-
-const KPIS = [
-  { label: "Eventos críticos 24h", value: 18, color: "text-red1" },
-  { label: "Países con escalada", value: 7, color: "text-amber1" },
-  { label: "Conflictos activos", value: 23, color: "text-red1" },
-  { label: "Sanctions afectan ES", value: 12, color: "text-cyan1" }
-];
-
-const COUNTRIES = [
-  { code: "UA", name: "Ucrania", risk: 92, status: "war" },
-  { code: "PS", name: "Gaza/Palestina", risk: 95, status: "war" },
-  { code: "TW", name: "Taiwán", risk: 71, status: "tense" },
-  { code: "ML", name: "Sahel (Mali)", risk: 84, status: "war" },
-  { code: "VE", name: "Venezuela", risk: 68, status: "tense" },
-  { code: "MA", name: "Marruecos", risk: 58, status: "tense" },
-  { code: "US", name: "EE.UU.", risk: 49, status: "watch" },
-  { code: "CN", name: "China", risk: 62, status: "watch" },
-  { code: "RU", name: "Rusia", risk: 88, status: "war" },
-  { code: "IR", name: "Irán", risk: 76, status: "tense" },
-  { code: "TR", name: "Turquía", risk: 51, status: "watch" },
-  { code: "MX", name: "México", risk: 44, status: "watch" }
-];
-
-const EVENTS = [
-  { date: "5 may", country: "Ucrania", type: "Conflicto", description: "Ofensiva rusa en Donbass amplía línea de frente 8km", impact: 78 },
-  { date: "5 may", country: "Israel-Gaza", type: "Conflicto", description: "Negociación rehenes se rompe; expansión operación terrestre", impact: 72 },
-  { date: "4 may", country: "EE.UU.", type: "Política", description: "Trump anuncia aranceles 25% importaciones UE selectivas", impact: 81 },
-  { date: "4 may", country: "Marruecos", type: "Diplomático", description: "Movimientos navales en aguas Sáhara generan tensión bilateral", impact: 64 },
-  { date: "3 may", country: "Venezuela", type: "Crisis", description: "Maduro acelera elecciones; oposición denuncia inhabilitaciones", impact: 52 },
-  { date: "3 may", country: "Sahel", type: "Conflicto", description: "Ataque yihadista en Burkina Faso deja 35 víctimas", impact: 48 },
-  { date: "2 may", country: "Taiwán", type: "Militar", description: "China ejecuta nuevos ejercicios navales en estrecho", impact: 67 },
-  { date: "2 may", country: "Latam", type: "Económico", description: "Argentina-Milei firma acuerdo bilateral con EE.UU.", impact: 41 }
-];
-
-const PRESENCE = [
-  { territory: "Sáhara Occidental", status: "Disputa diplomática activa", level: "high" },
-  { territory: "Gibraltar", status: "Acuerdo post-Brexit en negociación", level: "medium" },
-  { territory: "Ceuta y Melilla", status: "Presión migratoria estable", level: "medium" },
-  { territory: "Latinoamérica (cumbres)", status: "Tensión Venezuela y Argentina-España", level: "high" },
-  { territory: "OTAN flanco sur", status: "Compromiso 2% PIB defensa pendiente", level: "medium" },
-  { territory: "UE Comisión 2026", status: "Posicionamiento agenda climática y migratoria", level: "low" }
-];
+import { useQuery } from "@tanstack/react-query";
+import { endpoints } from "@/lib/api/endpoints";
+import { Globe2, AlertTriangle, Flag, Anchor, RefreshCw } from "lucide-react";
 
 function riskColor(r: number) {
   if (r >= 80) return "#EF4444";
@@ -52,33 +12,98 @@ function riskColor(r: number) {
 }
 
 function statusBadge(s: string) {
-  if (s === "war") return "badge-red";
-  if (s === "tense") return "badge-amber";
+  if (s === "war" || s === "guerra") return "badge-red";
+  if (s === "tense" || s === "tenso") return "badge-amber";
   return "badge-blue";
+}
+
+function statusLabel(s: string) {
+  if (s === "war" || s === "guerra") return "Guerra";
+  if (s === "tense" || s === "tenso") return "Tenso";
+  return "Vigilar";
 }
 
 function levelBadge(l: string) {
-  if (l === "high") return "badge-red";
-  if (l === "medium") return "badge-amber";
+  if (l === "high" || l === "alta") return "badge-red";
+  if (l === "medium" || l === "media") return "badge-amber";
   return "badge-blue";
 }
 
+function levelLabel(l: string) {
+  if (l === "high" || l === "alta") return "Alta";
+  if (l === "medium" || l === "media") return "Media";
+  return "Baja";
+}
+
+function formatDate(d: string) {
+  if (!d) return "";
+  const dt = new Date(d);
+  return dt.toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+}
+
 export default function GeopoliticaPage() {
+  const { data: kpis, refetch: refetchKpis } = useQuery({
+    queryKey: ["geo", "kpis"],
+    queryFn: () => endpoints.geoKpis().catch(() => null),
+    refetchInterval: 5 * 60 * 1000,
+    staleTime: 3 * 60 * 1000,
+  });
+
+  const { data: eventos = [], isLoading: loadingEventos, refetch } = useQuery({
+    queryKey: ["geo", "eventos"],
+    queryFn: () => endpoints.geoEventos(7).catch(() => []),
+    refetchInterval: 10 * 60 * 1000,
+    staleTime: 8 * 60 * 1000,
+  });
+
+  const { data: countries = [] } = useQuery({
+    queryKey: ["geo", "riesgo-pais"],
+    queryFn: () => endpoints.geoRiesgoPais().catch(() => []),
+    refetchInterval: 30 * 60 * 1000,
+    staleTime: 25 * 60 * 1000,
+  });
+
+  const { data: presencia = [] } = useQuery({
+    queryKey: ["geo", "presencia"],
+    queryFn: () => endpoints.geoPresenciaEspana().catch(() => []),
+    staleTime: 60 * 60 * 1000,
+  });
+
+  const kpiItems = kpis ?? { eventos_criticos_24h: "—", paises_escalada: "—", conflictos_activos: "—", sanctions_espana: "—" };
+
   return (
     <div className="space-y-6">
-      <header>
-        <span className="label-cap">Inteligencia / Geopolítica</span>
-        <h1 className="text-3xl font-bold text-text1 mt-1">Geopolítica & RRII</h1>
-        <p className="text-text2 text-sm mt-1">Eventos internacionales, riesgo país e impacto sobre los intereses españoles.</p>
+      <header className="flex items-end justify-between">
+        <div>
+          <span className="label-cap">Inteligencia / Geopolítica</span>
+          <h1 className="text-3xl font-bold text-text1 mt-1">Geopolítica & RRII</h1>
+          <p className="text-text2 text-sm mt-1">Eventos internacionales, riesgo país e impacto sobre los intereses españoles.</p>
+        </div>
+        <button
+          onClick={() => { refetch(); refetchKpis(); }}
+          className="px-3 py-2 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-sm flex items-center gap-1.5"
+        >
+          <RefreshCw className={`w-4 h-4 ${loadingEventos ? "animate-spin" : ""}`} /> Actualizar
+        </button>
       </header>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {KPIS.map(k => (
-          <div key={k.label} className="kpi-card">
-            <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">{k.label}</div>
-            <div className={`text-2xl font-bold ${k.color}`}>{k.value}</div>
-          </div>
-        ))}
+        <div className="kpi-card">
+          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Eventos críticos 24h</div>
+          <div className="text-2xl font-bold text-red1">{kpiItems.eventos_criticos_24h ?? "—"}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Países con escalada</div>
+          <div className="text-2xl font-bold text-amber1">{kpiItems.paises_escalada ?? "—"}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Conflictos activos</div>
+          <div className="text-2xl font-bold text-red1">{kpiItems.conflictos_activos ?? "—"}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Sanciones afectan ES</div>
+          <div className="text-2xl font-bold text-cyan1">{kpiItems.sanctions_espana ?? "—"}</div>
+        </div>
       </div>
 
       {/* Country grid */}
@@ -86,9 +111,10 @@ export default function GeopoliticaPage() {
         <div className="flex items-center gap-2 mb-4">
           <Globe2 className="w-4 h-4 text-cyan1" />
           <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Mapa de riesgo país</h2>
+          <span className="ml-auto badge badge-cyan">{countries.length} países</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {COUNTRIES.map(c => (
+          {countries.map((c: any) => (
             <div
               key={c.code}
               className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer"
@@ -101,7 +127,7 @@ export default function GeopoliticaPage() {
               <div className="text-sm font-bold text-text1 leading-tight mb-1.5">{c.name}</div>
               <div className="flex items-center justify-between">
                 <span className={`badge ${statusBadge(c.status)}`}>
-                  {c.status === "war" ? "Guerra" : c.status === "tense" ? "Tenso" : "Vigilar"}
+                  {statusLabel(c.status)}
                 </span>
                 <span className="font-mono text-xs" style={{ color: riskColor(c.risk) }}>{c.risk}</span>
               </div>
@@ -116,29 +142,45 @@ export default function GeopoliticaPage() {
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber1" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Eventos esta semana</h2>
+            <span className="ml-auto badge badge-amber">{eventos.length}</span>
           </div>
-          <ul className="space-y-3">
-            {EVENTS.map((e, i) => (
-              <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer group">
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-cyan1 font-mono">{e.date}</span>
-                    <span className="text-[10px] uppercase tracking-wider text-muted">{e.country}</span>
+          {eventos.length === 0 ? (
+            <p className="text-sm text-muted text-center py-8">Sin eventos registrados.</p>
+          ) : (
+            <ul className="space-y-3">
+              {eventos.map((e: any, i: number) => (
+                <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer group">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-cyan1 font-mono">{formatDate(e.date ?? e.fecha_evento)}</span>
+                      <span className="text-[10px] uppercase tracking-wider text-muted">{e.country ?? e.pais_principal}</span>
+                    </div>
+                    <span className="badge badge-cyan">{e.type ?? e.tipo_evento}</span>
                   </div>
-                  <span className="badge badge-cyan">{e.type}</span>
-                </div>
-                <p className="text-sm text-text1 group-hover:text-cyan1 transition leading-snug mb-2">{e.description}</p>
-                <div>
-                  <div className="flex justify-between text-[10px] text-muted mb-0.5">
-                    <span>Impacto sobre España</span><span className="font-mono" style={{ color: riskColor(e.impact) }}>{e.impact}</span>
+                  <p className="text-sm text-text1 group-hover:text-cyan1 transition leading-snug mb-2">
+                    {e.description ?? e.titulo}
+                  </p>
+                  <div>
+                    <div className="flex justify-between text-[10px] text-muted mb-0.5">
+                      <span>Impacto sobre España</span>
+                      <span className="font-mono" style={{ color: riskColor(e.impact ?? e.impacto_espana ?? 0) }}>
+                        {e.impact ?? e.impacto_espana ?? 0}
+                      </span>
+                    </div>
+                    <div className="h-1 bg-bg3 rounded-full overflow-hidden">
+                      <div
+                        className="h-full"
+                        style={{
+                          width: `${e.impact ?? e.impacto_espana ?? 0}%`,
+                          backgroundColor: riskColor(e.impact ?? e.impacto_espana ?? 0),
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-1 bg-bg3 rounded-full overflow-hidden">
-                    <div className="h-full" style={{ width: `${e.impact}%`, backgroundColor: riskColor(e.impact) }} />
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
 
         {/* Presence */}
@@ -147,19 +189,23 @@ export default function GeopoliticaPage() {
             <Anchor className="w-4 h-4 text-cyan1" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Presencia española en el exterior</h2>
           </div>
-          <ul className="space-y-3">
-            {PRESENCE.map((p, i) => (
-              <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition">
-                <div className="flex items-start justify-between gap-2 mb-1.5">
-                  <h3 className="text-sm font-bold text-text1">{p.territory}</h3>
-                  <span className={`badge ${levelBadge(p.level)} shrink-0`}>
-                    {p.level === "high" ? "Alta" : p.level === "medium" ? "Media" : "Baja"}
-                  </span>
-                </div>
-                <p className="text-xs text-text2 leading-relaxed">{p.status}</p>
-              </li>
-            ))}
-          </ul>
+          {presencia.length === 0 ? (
+            <p className="text-sm text-muted text-center py-8">Sin datos de presencia.</p>
+          ) : (
+            <ul className="space-y-3">
+              {presencia.map((p: any, i: number) => (
+                <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <h3 className="text-sm font-bold text-text1">{p.territory ?? p.territorio}</h3>
+                    <span className={`badge ${levelBadge(p.level ?? p.nivel_alerta)} shrink-0`}>
+                      {levelLabel(p.level ?? p.nivel_alerta)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-text2 leading-relaxed">{p.status ?? p.estado}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
       </div>
     </div>

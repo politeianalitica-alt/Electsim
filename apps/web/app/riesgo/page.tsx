@@ -1,36 +1,20 @@
 "use client";
 
-import { Activity, AlertTriangle, Camera, ChevronRight, TrendingUp } from "lucide-react";
-
-const GLOBAL_RISK = 67;
-
-const KPIS = [
-  { label: "Riesgo electoral", value: 72, color: "amber" },
-  { label: "Riesgo legislativo", value: 81, color: "red" },
-  { label: "Riesgo mediático", value: 58, color: "amber" },
-  { label: "Riesgo geopolítico", value: 49, color: "blue" }
-];
+import { useQuery } from "@tanstack/react-query";
+import { endpoints, type Signal, type OsintNarrativa } from "@/lib/api/endpoints";
+import { Activity, AlertTriangle, ChevronRight, TrendingUp } from "lucide-react";
 
 const DIMENSIONS = ["Electoral", "Comunicación", "Legislativo", "Geopolítico", "Económico"];
-const SEVERITIES = ["Alta", "Media", "Baja"];
-
-const HEATMAP: Record<string, Record<string, number>> = {
-  Electoral:    { Alta: 3, Media: 5, Baja: 8 },
-  Comunicación: { Alta: 4, Media: 7, Baja: 12 },
-  Legislativo:  { Alta: 6, Media: 4, Baja: 5 },
-  Geopolítico:  { Alta: 2, Media: 6, Baja: 9 },
-  Económico:    { Alta: 1, Media: 3, Baja: 11 }
+const TIPO_DIM: Record<string, string> = {
+  narrativa_riesgo:        "Comunicación",
+  coordinacion_inorganica: "Comunicación",
+  legislacion_urgente:     "Legislativo",
+  toxicidad_elevada:       "Comunicación",
+  erosion_actor:           "Electoral",
+  votacion_parlamentaria:  "Legislativo",
+  silencio_mediatico:      "Electoral",
+  spike_negativo:          "Comunicación",
 };
-
-const SIGNALS = [
-  { title: "Bloqueo presupuestario por Junts", probability: 78, impact: "Alto", description: "Negociación estancada en partidas autonómicas. Riesgo de no aprobación en plazo.", area: "legislativo" },
-  { title: "Erosión voto urbano joven PSOE", probability: 64, impact: "Medio", description: "Tres oleadas consecutivas muestran caída de 4pp en 18-29 años en grandes ciudades.", area: "electoral" },
-  { title: "Narrativa lawfare amplificándose", probability: 71, impact: "Alto", description: "Volumen de menciones +35% semanal con sentimiento crecientemente negativo.", area: "media" },
-  { title: "Tensión Marruecos-Sahara", probability: 52, impact: "Medio", description: "Movimientos diplomáticos sugieren posible crisis bilateral en próximas 4 semanas.", area: "geopolitico" },
-  { title: "Ruptura coalición autonómica PP-VOX", probability: 47, impact: "Medio", description: "Desacuerdos públicos en 2 CCAA podrían replicarse en otras tres comunidades.", area: "electoral" }
-];
-
-const SPARK = [62, 64, 61, 65, 68, 67, 66, 69, 71, 70, 68, 65, 64, 66, 67, 70, 72, 71, 68, 67, 65, 66, 68, 70, 71, 69, 67, 66, 67, 67];
 
 function gaugeColor(v: number) {
   if (v >= 75) return "#EF4444";
@@ -39,8 +23,20 @@ function gaugeColor(v: number) {
   return "#10B981";
 }
 
-function kpiColor(c: string) {
-  return c === "red" ? "text-red1" : c === "amber" ? "text-amber1" : c === "blue" ? "text-blue1" : "text-green1";
+function riskFromSignals(signals: Signal[], dim?: string): number {
+  const relevant = dim
+    ? signals.filter(s => TIPO_DIM[s.tipo] === dim)
+    : signals;
+  if (!relevant.length) return 0;
+  const score = relevant.reduce((acc, s) => acc + s.urgencia * 20, 0) / relevant.length;
+  return Math.min(Math.round(score), 100);
+}
+
+function dimColor(v: number): string {
+  if (v >= 75) return "text-red1";
+  if (v >= 60) return "text-amber1";
+  if (v >= 40) return "text-blue1";
+  return "text-green1";
 }
 
 function cellColor(val: number, sev: string) {
@@ -50,154 +46,225 @@ function cellColor(val: number, sev: string) {
 }
 
 export default function RiesgoPage() {
-  const max = Math.max(...SPARK);
-  const min = Math.min(...SPARK);
-  const points = SPARK.map((v, i) => {
-    const x = (i / (SPARK.length - 1)) * 300;
-    const y = 60 - ((v - min) / (max - min)) * 50;
-    return `${x},${y}`;
-  }).join(" ");
+  const { data: signals = [] } = useQuery({
+    queryKey: ["signals", "riesgo"],
+    queryFn: () =>
+      endpoints.signalsActivas().then((r: any) => {
+        const items: any[] = Array.isArray(r) ? r : r?.items ?? [];
+        const sevMap: Record<string, number> = { critical: 5, high: 4, medium: 3, low: 2 };
+        return items.map((s: any): Signal => ({
+          id: s.id ?? "",
+          tipo: s.tipo ?? s.domain ?? "general",
+          urgencia: s.urgencia ?? sevMap[s.severity] ?? 2,
+          titulo: s.titulo ?? s.title ?? "",
+          resumen: s.resumen ?? s.summary ?? "",
+          personas: s.personas ?? [],
+          orgs: s.orgs ?? [],
+          modulo_origen: s.modulo_origen ?? s.domain ?? "",
+          leida: s.leida ?? false,
+          activa: s.activa ?? true,
+          created_at: s.created_at ?? new Date().toISOString(),
+        }));
+      }).catch(() => [] as Signal[]),
+    refetchInterval: 2 * 60 * 1000,
+  });
+
+  const { data: narrativas = [] } = useQuery({
+    queryKey: ["osint", "narrativas", "riesgo"],
+    queryFn: () =>
+      endpoints.osintNarrativas({ minRiesgo: 5, horas: 48 }).then((r: any) => {
+        const items: any[] = Array.isArray(r) ? r : r?.items ?? [];
+        return items.map((n: any, i: number): OsintNarrativa => ({
+          id: n.id ?? i,
+          titulo: n.titulo ?? n.frame_label ?? "",
+          descripcion: n.descripcion ?? n.central_claim ?? "",
+          tipo: n.tipo ?? n.lifecycle ?? "narrativa",
+          tono: n.tono ?? "negativo",
+          actores_mencionados: n.actores_mencionados ?? n.affected_actors ?? [],
+          hashtags_clave: n.hashtags_clave ?? [],
+          riesgo_narrativo: n.riesgo_narrativo ?? (n.lifecycle === "peak" ? 8 : 5),
+          es_coordinada: n.es_coordinada ?? false,
+          n_posts: n.n_posts ?? n.article_count ?? 0,
+          alcance_total: n.alcance_total ?? 0,
+          velocidad_por_hora: n.velocidad_por_hora ?? (n.velocity === "up" ? 4.5 : 1.2),
+          score_coordinacion: n.score_coordinacion ?? 0,
+          plataformas: n.plataformas ?? {},
+          fecha_deteccion: n.fecha_deteccion ?? new Date().toISOString(),
+        }));
+      }).catch(() => [] as OsintNarrativa[]),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: actorsDash } = useQuery({
+    queryKey: ["actors", "dashboard"],
+    queryFn: () => endpoints.actorsDashboard().catch(() => ({})),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const globalRisk = riskFromSignals(signals as Signal[]);
+  const dimScores: Record<string, number> = Object.fromEntries(
+    DIMENSIONS.map(d => [d, riskFromSignals(signals as Signal[], d)])
+  );
+
+  const SEVERITIES = ["Alta", "Media", "Baja"];
+  const heatmap: Record<string, Record<string, number>> = {};
+  DIMENSIONS.forEach(d => {
+    const rel = (signals as Signal[]).filter(s => TIPO_DIM[s.tipo] === d);
+    heatmap[d] = {
+      Alta: rel.filter(s => s.urgencia >= 4).length,
+      Media: rel.filter(s => s.urgencia === 3).length,
+      Baja: rel.filter(s => s.urgencia <= 2).length,
+    };
+  });
+
+  const topSignals = [...(signals as Signal[])]
+    .sort((a, b) => b.urgencia - a.urgencia)
+    .slice(0, 5);
 
   return (
     <div className="space-y-6">
       <header>
-        <span className="label-cap">Inteligencia / Termómetro de Riesgo</span>
-        <h1 className="text-3xl font-bold text-text1 mt-1">Termómetro de Riesgo</h1>
-        <p className="text-text2 text-sm mt-1">Estado consolidado del riesgo en todas las dimensiones operativas.</p>
+        <span className="label-cap">Inteligencia / Monitor de Riesgo</span>
+        <h1 className="text-3xl font-bold text-text1 mt-1">Monitor de Riesgo</h1>
+        <p className="text-text2 text-sm mt-1">Señales activas, heat map por dimensión y narrativas de riesgo elevado.</p>
       </header>
 
-      {/* Hero gauge + KPIs */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <section className="premium-card lg:col-span-1 flex flex-col items-center justify-center">
-          <div className="text-[10px] uppercase tracking-widest text-muted mb-2">Riesgo global</div>
-          <div className="relative w-48 h-24">
-            <svg viewBox="0 0 200 100" className="w-full h-full">
-              <path d="M 10 100 A 90 90 0 0 1 190 100" stroke="#1E293B" strokeWidth="14" fill="none" strokeLinecap="round" />
-              <path
-                d="M 10 100 A 90 90 0 0 1 190 100"
-                stroke={gaugeColor(GLOBAL_RISK)}
-                strokeWidth="14"
-                fill="none"
+        {/* Gauge global */}
+        <div className="premium-card flex flex-col items-center justify-center py-8">
+          <div className="text-xs uppercase tracking-wider text-text2 mb-4">Índice de Riesgo Global</div>
+          <div className="relative w-36 h-36">
+            <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#1e293b" strokeWidth="12" />
+              <circle
+                cx="50" cy="50" r="40" fill="none"
+                stroke={gaugeColor(globalRisk)}
+                strokeWidth="12"
+                strokeDasharray={`${globalRisk * 2.51} 251`}
                 strokeLinecap="round"
-                strokeDasharray={`${(GLOBAL_RISK / 100) * 282} 282`}
               />
             </svg>
-          </div>
-          <div className="text-5xl font-bold mt-2" style={{ color: gaugeColor(GLOBAL_RISK) }}>{GLOBAL_RISK}</div>
-          <div className="text-xs text-text2 mt-1">Nivel: <span className="text-amber1 font-semibold">Elevado</span></div>
-          <button className="mt-4 inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded border border-cyan1/40 text-cyan1 hover:bg-cyan1/10 transition">
-            <Camera className="w-3.5 h-3.5" />
-            Capturar snapshot
-          </button>
-        </section>
-
-        <section className="lg:col-span-2 grid grid-cols-2 gap-3">
-          {KPIS.map(k => (
-            <div key={k.label} className="kpi-card">
-              <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">{k.label}</div>
-              <div className={`text-2xl font-bold ${kpiColor(k.color)}`}>{k.value}</div>
-              <div className="mt-2 h-1 bg-bg3 rounded-full overflow-hidden">
-                <div className="h-full" style={{ width: `${k.value}%`, backgroundColor: gaugeColor(k.value) }} />
-              </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-3xl font-bold" style={{ color: gaugeColor(globalRisk) }}>{globalRisk}</span>
+              <span className="text-[10px] text-muted uppercase">riesgo</span>
             </div>
-          ))}
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 w-full">
+            {DIMENSIONS.slice(0, 4).map(d => (
+              <div key={d} className="text-center">
+                <div className={`text-lg font-bold ${dimColor(dimScores[d])}`}>{dimScores[d]}</div>
+                <div className="text-[10px] text-muted">{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Heat map */}
+        <section className="premium-card lg:col-span-2">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Mapa de Calor de Riesgos</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr>
+                  <th className="text-left text-text2 font-medium pb-2 pr-4">Dimensión</th>
+                  {SEVERITIES.map(s => (
+                    <th key={s} className="text-center text-text2 font-medium pb-2 px-2">{s}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {DIMENSIONS.map(d => (
+                  <tr key={d}>
+                    <td className="py-1.5 pr-4 font-medium text-text1">{d}</td>
+                    {SEVERITIES.map(s => {
+                      const val = heatmap[d]?.[s] ?? 0;
+                      return (
+                        <td key={s} className="py-1.5 px-2 text-center">
+                          <div
+                            className="rounded px-2 py-1 font-mono"
+                            style={{ backgroundColor: cellColor(val, s) }}
+                          >
+                            {val}
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       </div>
 
-      {/* Heatmap */}
-      <section className="premium-card">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Matriz dimensión × severidad</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs">
-            <thead>
-              <tr>
-                <th className="text-left p-2 text-muted font-normal"></th>
-                {SEVERITIES.map(s => (
-                  <th key={s} className="text-center p-2 text-muted font-normal uppercase tracking-wider">{s}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {DIMENSIONS.map(d => (
-                <tr key={d}>
-                  <td className="p-2 text-text1 font-medium">{d}</td>
-                  {SEVERITIES.map(s => {
-                    const val = HEATMAP[d][s];
-                    return (
-                      <td key={s} className="p-2 text-center">
-                        <div
-                          className="rounded py-3 px-2 font-mono text-text1 cursor-pointer hover:ring-1 hover:ring-cyan1 transition"
-                          style={{ backgroundColor: cellColor(val, s) }}
-                        >
-                          {val}
-                        </div>
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top signals */}
-        <section className="lg:col-span-2 premium-card">
-          <div className="flex items-center gap-2 mb-4">
-            <AlertTriangle className="w-4 h-4 text-amber1" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Top 5 señales de riesgo</h2>
-          </div>
-          <ul className="space-y-3">
-            {SIGNALS.map((s, i) => (
-              <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer group">
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <h3 className="text-sm font-bold text-text1 group-hover:text-cyan1 transition">{s.title}</h3>
-                  <span className={`badge ${s.impact === "Alto" ? "badge-red" : "badge-amber"} shrink-0`}>{s.impact}</span>
-                </div>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex-1">
-                    <div className="flex justify-between text-[10px] text-muted mb-0.5">
-                      <span>Probabilidad</span><span className="text-cyan1 font-mono">{s.probability}%</span>
-                    </div>
-                    <div className="h-1 bg-bg3 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-amber1 to-red1" style={{ width: `${s.probability}%` }} />
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs text-text2 mb-2">{s.description}</p>
-                <a className="text-xs text-cyan1 hover:underline inline-flex items-center gap-1">
-                  Investigar <ChevronRight className="w-3 h-3" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Time series */}
         <section className="premium-card">
           <div className="flex items-center gap-2 mb-4">
             <Activity className="w-4 h-4 text-cyan1" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Evolución 30 días</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Señales activas</h2>
+            <span className="ml-auto badge badge-cyan">{signals.length}</span>
           </div>
-          <svg viewBox="0 0 300 80" className="w-full h-32">
-            <defs>
-              <linearGradient id="riskFill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <polyline points={`0,80 ${points} 300,80`} fill="url(#riskFill)" />
-            <polyline points={points} fill="none" stroke="#F59E0B" strokeWidth="1.5" />
-          </svg>
-          <div className="flex justify-between text-[10px] text-muted mt-1">
-            <span>Mín {min}</span>
-            <span>Máx {max}</span>
+          {topSignals.length === 0 ? (
+            <p className="text-sm text-muted text-center py-8">Sin señales activas en el sistema.</p>
+          ) : (
+            <ul className="space-y-3">
+              {topSignals.map((s: Signal) => (
+                <li key={s.id} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="text-sm font-semibold text-text1 leading-snug">{s.titulo}</div>
+                    <span className={`shrink-0 text-xs font-mono ${s.urgencia >= 4 ? "text-red1" : s.urgencia === 3 ? "text-amber1" : "text-blue1"}`}>
+                      {s.urgencia}★
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-text2 line-clamp-2 mb-1">{s.resumen}</div>
+                  <div className="text-[10px] text-muted">{s.modulo_origen}</div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* Narratives risk */}
+        <section className="premium-card">
+          <div className="flex items-center gap-2 mb-4">
+            <AlertTriangle className="w-4 h-4 text-amber1" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Narrativas de riesgo</h2>
+            <span className="ml-auto badge badge-amber">{narrativas.length}</span>
           </div>
-          <div className="mt-4 pt-4 border-t border-border1">
-            <div className="flex items-center gap-2 text-xs text-text2">
-              <TrendingUp className="w-3.5 h-3.5 text-amber1" />
-              <span>Tendencia: <span className="text-amber1">+5pts</span> vs hace 7 días</span>
+          {narrativas.length === 0 ? (
+            <p className="text-sm text-muted text-center py-8">Sin narrativas de riesgo elevado en 48h.</p>
+          ) : (
+            <ul className="space-y-3">
+              {(narrativas as OsintNarrativa[]).slice(0, 5).map(n => (
+                <li key={n.id} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer group">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <div className="text-sm font-semibold text-text1 group-hover:text-cyan1 transition">{n.titulo}</div>
+                    <span className="text-xs text-red1 font-mono shrink-0">{n.riesgo_narrativo?.toFixed(0)}/10</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mb-1">
+                    {n.es_coordinada && <span className="badge badge-red text-[10px]">Coordinada</span>}
+                    {n.tipo && <span className="badge badge-blue text-[10px]">{n.tipo}</span>}
+                    {n.n_posts !== undefined && (
+                      <span className="badge badge-cyan text-[10px]">{n.n_posts} posts</span>
+                    )}
+                  </div>
+                  <div className="text-[11px] text-muted flex items-center gap-1">
+                    <TrendingUp className="w-3 h-3" />
+                    <span>{n.velocidad_por_hora?.toFixed(1) ?? "0"} posts/hora</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="mt-4 pt-4 border-t border-border1 grid grid-cols-2 gap-3 text-center">
+            <div>
+              <div className="text-lg font-bold text-red1">{(actorsDash as any)?.actores_riesgo_alto ?? 0}</div>
+              <div className="text-[10px] text-muted">Actores riesgo alto</div>
+            </div>
+            <div>
+              <div className="text-lg font-bold text-amber1">{(actorsDash as any)?.con_sentimiento_negativo ?? 0}</div>
+              <div className="text-[10px] text-muted">Sentimiento negativo</div>
             </div>
           </div>
         </section>
