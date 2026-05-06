@@ -20,6 +20,7 @@ from api.routers import (
     ontology,
     opposition,
     pipelines,
+    politeia_v3,
     search,
     voto_blando,
     workspace_signals,
@@ -42,7 +43,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:8501",
-        os.getenv("FRONTEND_URL", "http://localhost:5173"),
+        "http://localhost:3000",
+        os.getenv("FRONTEND_URL", "http://localhost:3000"),
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -115,3 +117,4 @@ app.include_router(analogias.router)
 app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
+app.include_router(politeia_v3.router, tags=["politeia-v3"])
