@@ -39,6 +39,41 @@ async def briefings_preview(body: BriefingRequest):
         return JSONResponse(status_code=500, content={"mode": "error", "error": str(exc)})
 
 
+def _demo_briefing_items() -> list[dict]:
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    return [
+        {
+            "id": "demo-morning-1", "title": "Briefing Matinal — Situación política",
+            "briefing_type": "morning", "audience": "consultor_politico",
+            "workspace_id": "default", "period": "today", "mode": "demo",
+            "generated_at": (now - timedelta(hours=2)).isoformat(),
+            "summary_preview": "PP consolida ventaja +5.8pp. Bloqueo Junts activo. Narrativa 'crisis' +340%. Tres señales críticas detectadas en las últimas 6h.",
+        },
+        {
+            "id": "demo-legislative-1", "title": "Monitor Legislativo — Ley de Vivienda",
+            "briefing_type": "legislative", "audience": "consultor_politico",
+            "workspace_id": "default", "period": "week", "mode": "demo",
+            "generated_at": (now - timedelta(days=1)).isoformat(),
+            "summary_preview": "Ley de Vivienda en riesgo. Junts condiciona apoyo. Votación crítica prevista. Análisis de alternativas de coalición.",
+        },
+        {
+            "id": "demo-geo-1", "title": "Inteligencia Geopolítica — Marruecos & OTAN",
+            "briefing_type": "geopolitical", "audience": "unidad_inteligencia",
+            "workspace_id": "default", "period": "week", "mode": "demo",
+            "generated_at": (now - timedelta(days=2)).isoformat(),
+            "summary_preview": "Tensión España-Marruecos escala tras incidente en Melilla. Implicaciones para la agenda migratoria y relaciones bilaterales.",
+        },
+        {
+            "id": "demo-media-1", "title": "Análisis de Narrativas — Semana 19",
+            "briefing_type": "media", "audience": "consultor_politico",
+            "workspace_id": "default", "period": "week", "mode": "demo",
+            "generated_at": (now - timedelta(days=3)).isoformat(),
+            "summary_preview": "7 narrativas activas. Convergencia mediática en torno a 'crisis de gobierno'. Amplificación coordinada detectada en X.",
+        },
+    ]
+
+
 @router.get("/api/briefings/v2")
 async def briefings_list_v2(
     workspace_id: str = Query(default="default"),
@@ -48,14 +83,22 @@ async def briefings_list_v2(
     try:
         from services.briefings.briefing_store import list_saved_briefings
         items = list_saved_briefings(workspace_id=workspace_id, limit=limit)
-        return {
-            "mode": "real" if items else "fallback",
-            "meta": {"generated_at": datetime.now(timezone.utc).isoformat()},
-            "items": [i.model_dump(mode="json") for i in items],
-            "total": len(items),
-        }
-    except Exception as exc:
-        return {"mode": "error", "error": str(exc), "items": [], "total": 0}
+        if items:
+            return {
+                "mode": "real",
+                "meta": {"generated_at": datetime.now(timezone.utc).isoformat()},
+                "items": [i.model_dump(mode="json") for i in items],
+                "total": len(items),
+            }
+    except Exception:
+        pass
+    demo = _demo_briefing_items()
+    return {
+        "mode": "fallback",
+        "meta": {"generated_at": datetime.now(timezone.utc).isoformat()},
+        "items": demo[:limit],
+        "total": len(demo),
+    }
 
 
 @router.get("/api/briefings/{briefing_id}/detail")

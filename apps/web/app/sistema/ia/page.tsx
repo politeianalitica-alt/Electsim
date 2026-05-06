@@ -18,8 +18,7 @@ export default function IALocalPage() {
   });
 
   const testMutation = useMutation({
-    mutationFn: () =>
-      endpoints.brainTest({ prompt: testPrompt, task_type: testTaskType }),
+    mutationFn: () => endpoints.brainTest({ prompt: testPrompt, task_type: testTaskType }),
   });
 
   const embedMutation = useMutation({
@@ -57,7 +56,7 @@ export default function IALocalPage() {
               Object.entries(brain.env).map(([key, val]) => (
                 <tr key={key} className="border-b border-zinc-800">
                   <td className="py-2 pr-4 text-zinc-400 font-mono text-xs">{key}</td>
-                  <td className="py-2 font-mono text-xs text-white">{val}</td>
+                  <td className="py-2 font-mono text-xs text-white">{String(val ?? "")}</td>
                 </tr>
               ))}
           </tbody>
@@ -78,17 +77,20 @@ export default function IALocalPage() {
           </thead>
           <tbody>
             {routing?.task_types &&
-              Object.entries(routing.task_types).map(([type, cfg]) => (
-                <tr key={type} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
-                  <td className="py-2 pr-4 font-mono text-xs text-white">{type}</td>
-                  <td className="py-2 pr-4">
-                    <SpeedBadge speed={cfg.speed} />
-                  </td>
-                  <td className="py-2 pr-4 font-mono text-xs text-zinc-300">{cfg.model}</td>
-                  <td className="py-2 pr-4 text-xs text-zinc-400">{cfg.timeout}s</td>
-                  <td className="py-2 text-xs text-zinc-400">{cfg.cache_ttl_seconds}s</td>
-                </tr>
-              ))}
+              Object.entries(routing.task_types).map(([type, cfg]) => {
+                const c = cfg as any;
+                return (
+                  <tr key={type} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
+                    <td className="py-2 pr-4 font-mono text-xs text-white">{type}</td>
+                    <td className="py-2 pr-4">
+                      <SpeedBadge speed={c.speed} />
+                    </td>
+                    <td className="py-2 pr-4 font-mono text-xs text-zinc-300">{c.model}</td>
+                    <td className="py-2 pr-4 text-xs text-zinc-400">{c.timeout}s</td>
+                    <td className="py-2 text-xs text-zinc-400">{c.cache_ttl_seconds}s</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </Section>

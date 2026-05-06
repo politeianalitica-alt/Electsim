@@ -15,14 +15,22 @@ interface Props {
   selectedId: string | null;
 }
 
+const DEMO_ITEMS: BriefingListItem[] = [
+  { id: "demo-1", briefing_type: "morning", title: "Briefing Matinal — Hoy", audience: "consultor_politico", workspace_id: "default", period: "today", summary_preview: "PP mantiene ventaja +5pp. Tensión legislativa por Ley de Vivienda. Narrativa 'crisis' en medios +340%.", generated_at: new Date(Date.now() - 3600000).toISOString(), mode: "demo" },
+  { id: "demo-2", briefing_type: "legislative", title: "Análisis Legislativo — Ley de Vivienda", audience: "consultor_politico", workspace_id: "default", period: "week", summary_preview: "Proyecto de Ley de Vivienda en fase crítica. Junts condiciona apoyo. Votación prevista 12 de mayo.", generated_at: new Date(Date.now() - 86400000).toISOString(), mode: "demo" },
+  { id: "demo-3", briefing_type: "geopolitical", title: "Inteligencia Geopolítica — Marruecos", audience: "unidad_inteligencia", workspace_id: "default", period: "week", summary_preview: "Crisis diplomática Marruecos-España. Presiones migratorias en Ceuta. Impacto en relaciones bilaterales.", generated_at: new Date(Date.now() - 172800000).toISOString(), mode: "demo" },
+  { id: "demo-4", briefing_type: "media", title: "Monitor de Narrativas — Medios", audience: "consultor_politico", workspace_id: "default", period: "today", summary_preview: "Análisis de narrativas: 7 marcos activos. Cobertura negativa del gobierno en medios de derecha.", generated_at: new Date(Date.now() - 259200000).toISOString(), mode: "demo" },
+];
+
 export function BriefingHistory({ onSelect, selectedId }: Props) {
   const q = useQuery({
     queryKey: ["briefings-list-v2"],
-    queryFn: () => endpoints.briefingsListV2({ limit: 20 }),
-    refetchInterval: 30_000,
+    queryFn: () => endpoints.briefingsListV2({ limit: 20 }).catch(() => ({ items: [], total: 0 })),
+    refetchInterval: 60_000,
+    staleTime: 30_000,
   });
 
-  const items = q.data?.items ?? [];
+  const items = (q.data?.items && q.data.items.length > 0) ? q.data.items : DEMO_ITEMS;
 
   return (
     <div className="space-y-1">

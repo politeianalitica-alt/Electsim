@@ -1,29 +1,9 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { endpoints } from "@/lib/api/endpoints";
 import { AlertTriangle, Newspaper, TrendingUp, ArrowRight } from "lucide-react";
 import Link from "next/link";
-
-const ALERTS = [
-  { title: "Caída PP en sondeos territoriales", level: "high", source: "Motor nowcasting", time: "hace 40 min" },
-  { title: "Narrativa vivienda en pico mediático", level: "medium", source: "Narrative Engine", time: "hace 1 h" },
-  { title: "Bloqueo Junts en comisión Justicia", level: "high", source: "Monitor legislativo", time: "hace 2 h" },
-  { title: "Volumen positivo VOX en RRSS", level: "low", source: "Social listening", time: "hace 3 h" }
-];
-
-const STORIES = [
-  { title: "TC admite a trámite el recurso del PP contra la amnistía", source: "El País", score: 0.92 },
-  { title: "Sumar exige acelerar la reforma del IRPF", source: "elDiario.es", score: 0.81 },
-  { title: "VOX rompe gobierno en una nueva CCAA", source: "ABC", score: 0.78 },
-  { title: "BdE revisa al alza el PIB 2026", source: "Cinco Días", score: 0.74 },
-  { title: "Investigación judicial alto cargo Moncloa", source: "OK Diario", score: 0.69 }
-];
-
-const NARRATIVES = [
-  { label: "Crisis vivienda asequible", velocity: "up", action: "Mensaje de respuesta con propuestas concretas" },
-  { label: "Lawfare contra el gobierno", velocity: "up", action: "Vigilar amplificación + contra-frame" },
-  { label: "Pactos PP-VOX en CCAA", velocity: "stable", action: "Monitorizar tensiones internas" },
-  { label: "Reforma fiscal pendiente", velocity: "up", action: "Analizar movimientos de Sumar" }
-];
 
 function levelClass(level: string) {
   if (level === "critical" || level === "high") return "bg-red1";
@@ -31,13 +11,77 @@ function levelClass(level: string) {
   return "bg-blue1";
 }
 
-function velocityArrow(v: string) {
-  if (v === "up") return { symbol: "▲", color: "text-red1" };
-  if (v === "down") return { symbol: "▼", color: "text-green1" };
+function urgenciaToLevel(u: number): string {
+  if (u >= 5) return "critical";
+  if (u >= 4) return "high";
+  if (u >= 3) return "medium";
+  return "low";
+}
+
+function velocityArrow(v: string | number) {
+  const val = typeof v === "number" ? (v > 3 ? "up" : "stable") : v;
+  if (val === "up") return { symbol: "▲", color: "text-red1" };
+  if (val === "down") return { symbol: "▼", color: "text-green1" };
   return { symbol: "→", color: "text-text2" };
 }
 
+function timeAgo(ts?: string): string {
+  if (!ts) return "";
+  const diff = (Date.now() - new Date(ts).getTime()) / 1000;
+  if (diff < 60) return "ahora";
+  if (diff < 3600) return `hace ${Math.round(diff / 60)} min`;
+  if (diff < 86400) return `hace ${Math.round(diff / 3600)} h`;
+  return `hace ${Math.round(diff / 86400)} d`;
+}
+
 export function IntelGrid() {
+  const { data: signalsRaw } = useQuery({
+    queryKey: ["signals", "intel-grid"],
+    queryFn: () => endpoints.signalsActivas(3).catch(() => null),
+    refetchInterval: 2 * 60 * 1000,
+    staleTime: 90 * 1000,
+  });
+  // signalsActivas now returns { items: [...], mode, total } or legacy array
+  const signals: any[] = Array.isArray(signalsRaw)
+    ? signalsRaw
+    : (signalsRaw as any)?.items ?? [];
+
+  const { data: stories = [] } = useQuery({
+    queryKey: ["media", "intel-grid-stories"],
+    queryFn: () => endpoints.mediaTopStories(5).catch(() => []),
+    refetchInterval: 10 * 60 * 1000,
+    staleTime: 8 * 60 * 1000,
+  });
+
+  const { data: narrativas = [] } = useQuery({
+    queryKey: ["osint", "intel-grid-narrativas"],
+    queryFn: () => endpoints.osintNarrativas({ horas: 48 }).catch(() => []),
+    refetchInterval: 5 * 60 * 1000,
+    staleTime: 4 * 60 * 1000,
+  });
+
+  // Normalize signals to alert items
+  const alerts = (signals as any[]).slice(0, 4).map((s: any) => ({
+    title: s.titulo,
+    level: urgenciaToLevel(s.urgencia),
+    source: s.modulo_origen ?? "motor señales",
+    time: timeAgo(s.created_at),
+  }));
+
+  // Normalize stories
+  const topStories = (stories as any[]).slice(0, 5).map((s: any) => ({
+    title: s.title ?? s.titulo,
+    source: s.source ?? s.fuente,
+    score: s.relevance_score ?? s.relevancia_cliente ?? 0,
+  }));
+
+  // Normalize narratives
+  const topNarrativas = (narrativas as any[]).slice(0, 4).map((n: any) => ({
+    label: n.titulo ?? n.label,
+    velocity: (n.velocidad_por_hora ?? 0) > 3 ? "up" : "stable",
+    action: n.accion_recomendada ?? n.recommended_action ?? "Monitorizar evolución",
+  }));
+
   return (
     <section>
       <div className="flex items-center justify-between mb-3">
@@ -52,25 +96,29 @@ export function IntelGrid() {
               <AlertTriangle className="w-4 h-4 text-amber1" />
               <h3 className="text-sm font-bold text-text1">Alertas activas</h3>
             </div>
-            <span className="badge badge-amber">{ALERTS.length}</span>
+            <span className="badge badge-amber">{alerts.length || "—"}</span>
           </div>
-          <ul className="space-y-3">
-            {ALERTS.map((a, i) => (
-              <li key={i} className="flex gap-3 group">
-                <span className={`w-1 rounded-full self-stretch ${levelClass(a.level)}`} />
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm text-text1 font-medium leading-snug group-hover:text-cyan1 transition truncate">
-                    {a.title}
+          {alerts.length === 0 ? (
+            <p className="text-xs text-muted text-center py-4">Sin señales activas</p>
+          ) : (
+            <ul className="space-y-3">
+              {alerts.map((a, i) => (
+                <li key={i} className="flex gap-3 group">
+                  <span className={`w-1 rounded-full self-stretch ${levelClass(a.level)}`} />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm text-text1 font-medium leading-snug group-hover:text-cyan1 transition truncate">
+                      {a.title}
+                    </div>
+                    <div className="text-[11px] text-muted flex items-center gap-2 mt-0.5">
+                      <span>{a.source}</span>
+                      <span>·</span>
+                      <span>{a.time}</span>
+                    </div>
                   </div>
-                  <div className="text-[11px] text-muted flex items-center gap-2 mt-0.5">
-                    <span>{a.source}</span>
-                    <span>·</span>
-                    <span>{a.time}</span>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+          )}
           <Link href="/alertas" className="mt-4 inline-flex items-center gap-1 text-xs text-cyan1 hover:underline">
             Ver todas las alertas <ArrowRight className="w-3 h-3" />
           </Link>
@@ -85,22 +133,26 @@ export function IntelGrid() {
             </div>
             <span className="badge badge-cyan">selección editorial</span>
           </div>
-          <ul className="space-y-2.5">
-            {STORIES.map((s, i) => (
-              <li key={i} className="group cursor-pointer">
-                <div className="flex items-center justify-between mb-0.5">
-                  <span className="text-[10px] uppercase tracking-wider text-muted">{s.source}</span>
-                  <span className="text-[10px] font-mono text-cyan1">{(s.score * 100).toFixed(0)}</span>
-                </div>
-                <div className="text-sm text-text1 leading-snug group-hover:text-cyan1 transition">
-                  {s.title}
-                </div>
-                <div className="mt-1 h-0.5 bg-bg3 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${s.score * 100}%` }} />
-                </div>
-              </li>
-            ))}
-          </ul>
+          {topStories.length === 0 ? (
+            <p className="text-xs text-muted text-center py-4">Sin noticias disponibles</p>
+          ) : (
+            <ul className="space-y-2.5">
+              {topStories.map((s, i) => (
+                <li key={i} className="group cursor-pointer">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <span className="text-[10px] uppercase tracking-wider text-muted">{s.source}</span>
+                    <span className="text-[10px] font-mono text-cyan1">{(s.score * 100).toFixed(0)}</span>
+                  </div>
+                  <div className="text-sm text-text1 leading-snug group-hover:text-cyan1 transition">
+                    {s.title}
+                  </div>
+                  <div className="mt-1 h-0.5 bg-bg3 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${s.score * 100}%` }} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
           <Link href="/medios" className="mt-4 inline-flex items-center gap-1 text-xs text-cyan1 hover:underline">
             Monitor de medios <ArrowRight className="w-3 h-3" />
           </Link>
@@ -113,24 +165,30 @@ export function IntelGrid() {
               <TrendingUp className="w-4 h-4 text-purple1" />
               <h3 className="text-sm font-bold text-text1">Narrativas activas</h3>
             </div>
-            <span className="badge bg-purple1/15 text-purple1 border border-purple1/30">{NARRATIVES.length}</span>
+            <span className="badge bg-purple1/15 text-purple1 border border-purple1/30">
+              {topNarrativas.length || "—"}
+            </span>
           </div>
-          <ul className="space-y-3">
-            {NARRATIVES.map((n, i) => {
-              const v = velocityArrow(n.velocity);
-              return (
-                <li key={i} className="group">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <span className={`text-sm ${v.color} font-bold`}>{v.symbol}</span>
-                    <span className="text-sm text-text1 font-medium group-hover:text-cyan1 transition truncate">
-                      {n.label}
-                    </span>
-                  </div>
-                  <div className="text-[11px] text-text2 ml-6">{n.action}</div>
-                </li>
-              );
-            })}
-          </ul>
+          {topNarrativas.length === 0 ? (
+            <p className="text-xs text-muted text-center py-4">Sin narrativas detectadas</p>
+          ) : (
+            <ul className="space-y-3">
+              {topNarrativas.map((n, i) => {
+                const v = velocityArrow(n.velocity);
+                return (
+                  <li key={i} className="group">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className={`text-sm ${v.color} font-bold`}>{v.symbol}</span>
+                      <span className="text-sm text-text1 font-medium group-hover:text-cyan1 transition truncate">
+                        {n.label}
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-text2 ml-6">{n.action}</div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
           <Link href="/medios#narrativas" className="mt-4 inline-flex items-center gap-1 text-xs text-cyan1 hover:underline">
             Tracker de narrativas <ArrowRight className="w-3 h-3" />
           </Link>

@@ -46,8 +46,9 @@ export default function AnalisisPage() {
 
   const hubQ = useQuery({
     queryKey: ["analysis-hub", period],
-    queryFn: () => endpoints.analysisHub({ period }),
-    refetchInterval: 5 * 60_000, // 5 min
+    queryFn: () => endpoints.analysisHub({ period }).catch(() => null),
+    refetchInterval: 5 * 60_000,
+    staleTime: 4 * 60_000,
   });
 
   const refreshMutation = useMutation({
@@ -102,8 +103,9 @@ export default function AnalisisPage() {
       )}
 
       {hubQ.isError && (
-        <div className="rounded-lg border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-400">
-          Error al conectar con el backend. Asegura que el API está activo en http://localhost:8000.
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-amber-400 flex items-center gap-2">
+          <span>⚠</span>
+          <span>API no responde — los datos se actualizarán cuando la conexión se restaure.</span>
         </div>
       )}
 
@@ -133,7 +135,7 @@ export default function AnalisisPage() {
                 Señales prioritarias ({data.top_signals.length})
               </h2>
               <div className="grid gap-3 md:grid-cols-2">
-                {data.top_signals.map((signal) => (
+                {data.top_signals.map((signal: AnalysisSignal) => (
                   <SignalCard key={signal.id} signal={signal} />
                 ))}
               </div>
@@ -150,7 +152,7 @@ export default function AnalisisPage() {
                 <EmptyState message="Sin cambios detectados en el periodo seleccionado." />
               ) : (
                 <div className="space-y-2">
-                  {data.changed_24h.map((s) => (
+                  {data.changed_24h.map((s: AnalysisSignal) => (
                     <div key={s.id} className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/30 p-3">
                       <span className={`mt-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold uppercase flex-shrink-0 ${SEVERITY_BADGE[s.severity]}`}>
                         {s.severity}
@@ -179,7 +181,7 @@ export default function AnalisisPage() {
                   <p className="text-xs text-zinc-600">Sin riesgos críticos detectados.</p>
                 ) : (
                   <ul className="space-y-2">
-                    {data.risks.map((r) => (
+                    {data.risks.map((r: AnalysisSignal) => (
                       <li key={r.id} className="text-xs">
                         <span className={`inline-block px-1 py-0.5 rounded font-bold uppercase mr-1.5 ${SEVERITY_BADGE[r.severity]}`}>
                           {r.severity}
@@ -196,7 +198,7 @@ export default function AnalisisPage() {
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4">
                   <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Oportunidades</h3>
                   <ul className="space-y-2">
-                    {data.opportunities.map((o) => (
+                    {data.opportunities.map((o: AnalysisSignal) => (
                       <li key={o.id} className="text-xs text-zinc-300">{o.title}</li>
                     ))}
                   </ul>
@@ -230,7 +232,7 @@ export default function AnalisisPage() {
                 <div className="rounded-lg border border-zinc-800 bg-zinc-900/30 p-4">
                   <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Acciones recomendadas</h3>
                   <ul className="space-y-1.5">
-                    {data.recommended_next_actions.map((action, i) => (
+                    {data.recommended_next_actions.map((action: string, i: number) => (
                       <li key={i} className="flex items-start gap-1.5 text-xs text-zinc-300">
                         <span className="text-zinc-600 flex-shrink-0 mt-0.5">›</span>
                         {action}

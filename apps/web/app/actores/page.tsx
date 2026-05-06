@@ -28,12 +28,14 @@ export default function ActoresPage() {
 
   const { data: apiData } = useQuery({
     queryKey: ["actors", "list"],
-    queryFn: () => endpoints.actorsList({ limit: 50 }),
+    queryFn: () => endpoints.actorsList({ limit: 50 }).catch(() => null),
     staleTime: 5 * 60 * 1000,
+    refetchInterval: 10 * 60 * 1000,
+    retry: false,
   });
 
   // Map API shape to Actor fixture shape; fall back to DEMO_ACTORS
-  const actors: Actor[] = apiData?.actors.map(a => ({
+  const actors: Actor[] = apiData?.actors.map((a: any) => ({
     id: a.id,
     name: a.name,
     party: a.party,

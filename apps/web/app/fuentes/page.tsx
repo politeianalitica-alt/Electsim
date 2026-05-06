@@ -133,7 +133,7 @@ export default function FuentesPage() {
         <div>
           <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">Cobertura por dominio</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {coverageQ.data.domains.map((d) => (
+            {coverageQ.data.domains.map((d: any) => (
               <button
                 key={d.domain}
                 onClick={() => setDomainFilter(domainFilter === d.domain ? "" : d.domain)}
