@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="dark">
-      <body className="antialiased min-h-screen">
+    <html lang="es" className="dark" style={{ background: "#080C14", colorScheme: "dark" }}>
+      <body className="antialiased min-h-screen" style={{ background: "#080C14", color: "#E2E8F0", margin: 0 }}>
         <ReactQueryProvider>
           <AppShell>{children}</AppShell>
         </ReactQueryProvider>
