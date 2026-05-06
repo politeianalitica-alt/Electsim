@@ -1,36 +1,16 @@
 "use client";
 
 import { Activity, AlertTriangle, Camera, ChevronRight, TrendingUp } from "lucide-react";
-
-const GLOBAL_RISK = 67;
-
-const KPIS = [
-  { label: "Riesgo electoral", value: 72, color: "amber" },
-  { label: "Riesgo legislativo", value: 81, color: "red" },
-  { label: "Riesgo mediático", value: 58, color: "amber" },
-  { label: "Riesgo geopolítico", value: 49, color: "blue" }
-];
-
-const DIMENSIONS = ["Electoral", "Comunicación", "Legislativo", "Geopolítico", "Económico"];
-const SEVERITIES = ["Alta", "Media", "Baja"];
-
-const HEATMAP: Record<string, Record<string, number>> = {
-  Electoral:    { Alta: 3, Media: 5, Baja: 8 },
-  Comunicación: { Alta: 4, Media: 7, Baja: 12 },
-  Legislativo:  { Alta: 6, Media: 4, Baja: 5 },
-  Geopolítico:  { Alta: 2, Media: 6, Baja: 9 },
-  Económico:    { Alta: 1, Media: 3, Baja: 11 }
-};
-
-const SIGNALS = [
-  { title: "Bloqueo presupuestario por Junts", probability: 78, impact: "Alto", description: "Negociación estancada en partidas autonómicas. Riesgo de no aprobación en plazo.", area: "legislativo" },
-  { title: "Erosión voto urbano joven PSOE", probability: 64, impact: "Medio", description: "Tres oleadas consecutivas muestran caída de 4pp en 18-29 años en grandes ciudades.", area: "electoral" },
-  { title: "Narrativa lawfare amplificándose", probability: 71, impact: "Alto", description: "Volumen de menciones +35% semanal con sentimiento crecientemente negativo.", area: "media" },
-  { title: "Tensión Marruecos-Sahara", probability: 52, impact: "Medio", description: "Movimientos diplomáticos sugieren posible crisis bilateral en próximas 4 semanas.", area: "geopolitico" },
-  { title: "Ruptura coalición autonómica PP-VOX", probability: 47, impact: "Medio", description: "Desacuerdos públicos en 2 CCAA podrían replicarse en otras tres comunidades.", area: "electoral" }
-];
-
-const SPARK = [62, 64, 61, 65, 68, 67, 66, 69, 71, 70, 68, 65, 64, 66, 67, 70, 72, 71, 68, 67, 65, 66, 68, 70, 71, 69, 67, 66, 67, 67];
+import {
+  DEMO_GLOBAL_RISK,
+  DEMO_KPIS,
+  DEMO_DIMENSIONS,
+  DEMO_SEVERITIES,
+  DEMO_HEATMAP,
+  DEMO_SIGNALS,
+  DEMO_SPARK,
+} from "@/lib/fixtures/risk";
+import { ModeBadge } from "@/components/status/mode-badge";
 
 function gaugeColor(v: number) {
   if (v >= 75) return "#EF4444";
@@ -50,10 +30,10 @@ function cellColor(val: number, sev: string) {
 }
 
 export default function RiesgoPage() {
-  const max = Math.max(...SPARK);
-  const min = Math.min(...SPARK);
-  const points = SPARK.map((v, i) => {
-    const x = (i / (SPARK.length - 1)) * 300;
+  const max = Math.max(...DEMO_SPARK);
+  const min = Math.min(...DEMO_SPARK);
+  const points = DEMO_SPARK.map((v, i) => {
+    const x = (i / (DEMO_SPARK.length - 1)) * 300;
     const y = 60 - ((v - min) / (max - min)) * 50;
     return `${x},${y}`;
   }).join(" ");
@@ -62,7 +42,10 @@ export default function RiesgoPage() {
     <div className="space-y-6">
       <header>
         <span className="label-cap">Inteligencia / Termómetro de Riesgo</span>
-        <h1 className="text-3xl font-bold text-text1 mt-1">Termómetro de Riesgo</h1>
+        <div className="flex items-center gap-3 mt-1">
+          <h1 className="text-3xl font-bold text-text1">Termómetro de Riesgo</h1>
+          <ModeBadge mode="demo" source="fixtures" />
+        </div>
         <p className="text-text2 text-sm mt-1">Estado consolidado del riesgo en todas las dimensiones operativas.</p>
       </header>
 
@@ -75,15 +58,15 @@ export default function RiesgoPage() {
               <path d="M 10 100 A 90 90 0 0 1 190 100" stroke="#1E293B" strokeWidth="14" fill="none" strokeLinecap="round" />
               <path
                 d="M 10 100 A 90 90 0 0 1 190 100"
-                stroke={gaugeColor(GLOBAL_RISK)}
+                stroke={gaugeColor(DEMO_GLOBAL_RISK)}
                 strokeWidth="14"
                 fill="none"
                 strokeLinecap="round"
-                strokeDasharray={`${(GLOBAL_RISK / 100) * 282} 282`}
+                strokeDasharray={`${(DEMO_GLOBAL_RISK / 100) * 282} 282`}
               />
             </svg>
           </div>
-          <div className="text-5xl font-bold mt-2" style={{ color: gaugeColor(GLOBAL_RISK) }}>{GLOBAL_RISK}</div>
+          <div className="text-5xl font-bold mt-2" style={{ color: gaugeColor(DEMO_GLOBAL_RISK) }}>{DEMO_GLOBAL_RISK}</div>
           <div className="text-xs text-text2 mt-1">Nivel: <span className="text-amber1 font-semibold">Elevado</span></div>
           <button className="mt-4 inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded border border-cyan1/40 text-cyan1 hover:bg-cyan1/10 transition">
             <Camera className="w-3.5 h-3.5" />
@@ -92,7 +75,7 @@ export default function RiesgoPage() {
         </section>
 
         <section className="lg:col-span-2 grid grid-cols-2 gap-3">
-          {KPIS.map(k => (
+          {DEMO_KPIS.map(k => (
             <div key={k.label} className="kpi-card">
               <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">{k.label}</div>
               <div className={`text-2xl font-bold ${kpiColor(k.color)}`}>{k.value}</div>
@@ -112,17 +95,17 @@ export default function RiesgoPage() {
             <thead>
               <tr>
                 <th className="text-left p-2 text-muted font-normal"></th>
-                {SEVERITIES.map(s => (
+                {DEMO_SEVERITIES.map(s => (
                   <th key={s} className="text-center p-2 text-muted font-normal uppercase tracking-wider">{s}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {DIMENSIONS.map(d => (
+              {DEMO_DIMENSIONS.map(d => (
                 <tr key={d}>
                   <td className="p-2 text-text1 font-medium">{d}</td>
-                  {SEVERITIES.map(s => {
-                    const val = HEATMAP[d][s];
+                  {DEMO_SEVERITIES.map(s => {
+                    const val = DEMO_HEATMAP[d][s as keyof typeof DEMO_HEATMAP[typeof d]];
                     return (
                       <td key={s} className="p-2 text-center">
                         <div
@@ -149,7 +132,7 @@ export default function RiesgoPage() {
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Top 5 señales de riesgo</h2>
           </div>
           <ul className="space-y-3">
-            {SIGNALS.map((s, i) => (
+            {DEMO_SIGNALS.map((s, i) => (
               <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition cursor-pointer group">
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <h3 className="text-sm font-bold text-text1 group-hover:text-cyan1 transition">{s.title}</h3>
