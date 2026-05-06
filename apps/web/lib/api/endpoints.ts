@@ -6,6 +6,25 @@ import type {
   EmbedTestRequest,
   EmbedTestResponse,
 } from "@/lib/types/status";
+import type {
+  SourcesCatalogResponse,
+  SourcesHealthResponse,
+  SourcesCoverageResponse,
+  SourcesRunsResponse,
+  IngestionRunRequest,
+  IngestionRunResult,
+} from "@/lib/types/sources";
+import type {
+  AnalysisHubResponse,
+  AnalysisSignalsResponse,
+} from "@/lib/types/analysis";
+
+function toQuery(params?: Record<string, string | number | boolean | undefined | null>): string {
+  if (!params) return "";
+  const filtered = Object.entries(params).filter(([, v]) => v !== undefined && v !== null);
+  if (!filtered.length) return "";
+  return "?" + filtered.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join("&");
+}
 
 export interface MorningBriefing {
   date: string;
@@ -120,4 +139,33 @@ export const endpoints = {
 
   brainEmbedTest: (req: EmbedTestRequest) =>
     api.post<EmbedTestResponse>("/api/brain/embed-test", req),
+
+  // Sources & Ingestion
+  sourcesCatalog: (params?: { domain?: string; include_disabled?: boolean }) =>
+    api.get<SourcesCatalogResponse>(`/api/sources/catalog${toQuery(params)}`),
+
+  sourcesHealth: (params?: { domain?: string; status?: string; include_disabled?: boolean }) =>
+    api.get<SourcesHealthResponse>(`/api/sources/health${toQuery(params)}`),
+
+  sourcesCoverage: () =>
+    api.get<SourcesCoverageResponse>("/api/sources/coverage"),
+
+  sourcesRuns: (limit = 50) =>
+    api.get<SourcesRunsResponse>(`/api/sources/runs?limit=${limit}`),
+
+  sourcesRun: (payload: IngestionRunRequest) =>
+    api.post<IngestionRunResult>("/api/sources/run", payload),
+
+  sourcesRunAllDry: () =>
+    api.post<Record<string, unknown>>("/api/sources/run-all-dry", {}),
+
+  // Analysis Hub
+  analysisHub: (params?: { period?: string; workspace_id?: string }) =>
+    api.get<AnalysisHubResponse>(`/api/analysis/hub${toQuery(params)}`),
+
+  analysisSignals: (params?: { domain?: string; severity?: string; period?: string; limit?: number }) =>
+    api.get<AnalysisSignalsResponse>(`/api/analysis/signals${toQuery(params)}`),
+
+  analysisRefresh: (payload: { period?: string; workspace_id?: string; force?: boolean }) =>
+    api.post<AnalysisHubResponse>("/api/analysis/refresh", payload),
 };
