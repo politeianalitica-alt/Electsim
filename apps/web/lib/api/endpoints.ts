@@ -18,6 +18,13 @@ import type {
   AnalysisHubResponse,
   AnalysisSignalsResponse,
 } from "@/lib/types/analysis";
+import type {
+  BriefingRequest,
+  BriefingDocument,
+  BriefingsListResponse,
+  BriefingMarkdownResponse,
+  BriefingPdfResponse,
+} from "@/lib/types/briefings";
 
 function toQuery(params?: Record<string, string | number | boolean | undefined | null>): string {
   if (!params) return "";
@@ -168,4 +175,23 @@ export const endpoints = {
 
   analysisRefresh: (payload: { period?: string; workspace_id?: string; force?: boolean }) =>
     api.post<AnalysisHubResponse>("/api/analysis/refresh", payload),
+
+  // Briefings v2 (Sprint 3)
+  briefingGenerate: (payload: BriefingRequest) =>
+    api.post<BriefingDocument>("/api/briefings/generate", payload),
+
+  briefingPreview: (payload: BriefingRequest) =>
+    api.post<BriefingDocument>("/api/briefings/preview", payload),
+
+  briefingsListV2: (params?: { workspace_id?: string; limit?: number }) =>
+    api.get<BriefingsListResponse>(`/api/briefings/v2${toQuery(params)}`),
+
+  briefingDetail: (id: string) =>
+    api.get<BriefingDocument>(`/api/briefings/${id}/detail`),
+
+  briefingMarkdown: (id: string) =>
+    api.get<BriefingMarkdownResponse>(`/api/briefings/${id}/markdown`),
+
+  briefingPdfV2: (id: string) =>
+    api.get<BriefingPdfResponse>(`/api/briefings/${id}/pdf-v2`),
 };
