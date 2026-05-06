@@ -325,3 +325,25 @@ def is_ollama_available() -> bool:
         return resp.status_code == 200
     except Exception:
         return False
+
+
+def get_routing_config() -> dict:
+    """
+    Return the full routing configuration for diagnostic/UI purposes.
+    Exposes _TASK_CONFIG, _SPEED_MODELS, ollama status, and cache stats.
+    """
+    return {
+        "task_types": {
+            task: {
+                "speed": cfg["speed"],
+                "timeout": cfg["timeout"],
+                "json_output": cfg["json"],
+                "cache_ttl_seconds": cfg["cache_ttl"],
+                "model": _SPEED_MODELS.get(cfg["speed"], "unknown"),
+            }
+            for task, cfg in _TASK_CONFIG.items()
+        },
+        "speed_models": dict(_SPEED_MODELS),
+        "ollama_available": is_ollama_available(),
+        "cache_stats": get_stats(),
+    }
