@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Users, Search, TrendingUp, TrendingDown, Minus, Network, ChevronRight } from "lucide-react";
+import { endpoints } from "@/lib/api/endpoints";
 import { DEMO_ACTORS, DEMO_PARTIES } from "@/lib/fixtures/actors";
 import { ModeBadge } from "@/components/status/mode-badge";
+import type { Actor, Party } from "@/lib/types/actors";
+import type { DataMode } from "@/lib/types/status";
 
 const ROLES = ["Presidente", "Líder", "Portavoz", "Secretario", "Ministro"];
 
@@ -22,22 +26,50 @@ export default function ActoresPage() {
   const [role, setRole] = useState<string>("");
   const [search, setSearch] = useState("");
 
+  const { data: apiData } = useQuery({
+    queryKey: ["actors", "list"],
+    queryFn: () => endpoints.actorsList({ limit: 50 }),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Map API shape to Actor fixture shape; fall back to DEMO_ACTORS
+  const actors: Actor[] = apiData?.actors.map(a => ({
+    id: a.id,
+    name: a.name,
+    party: a.party,
+    partyColor: a.party_color,
+    role: a.role || "Cargo no disponible",
+    bio: a.bio || "",
+    exposure: a.exposure,
+    approval: a.approval,
+    sentiment: a.sentiment as "up" | "down" | "stable",
+  })) ?? DEMO_ACTORS;
+
+  const mode: DataMode = apiData?.mode ?? "fallback";
+
+  const allParties: Party[] = apiData
+    ? [...new Set(actors.map(a => a.party))].map(code => ({
+        code,
+        color: actors.find(a => a.party === code)?.partyColor ?? "#94A3B8",
+      }))
+    : DEMO_PARTIES;
+
   const toggleParty = (p: string) => {
     setParties(parties.includes(p) ? parties.filter(x => x !== p) : [...parties, p]);
   };
 
-  const filtered = DEMO_ACTORS.filter(a => {
+  const filtered = actors.filter(a => {
     if (parties.length && !parties.includes(a.party)) return false;
     if (role && !a.role.toLowerCase().includes(role.toLowerCase())) return false;
     if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
 
-  const topExposure = [...DEMO_ACTORS].sort((a, b) => b.exposure - a.exposure).slice(0, 5);
+  const topExposure = [...actors].sort((a, b) => b.exposure - a.exposure).slice(0, 5);
 
-  const partyCounts = DEMO_PARTIES.map(p => ({
+  const partyCounts = allParties.map(p => ({
     ...p,
-    count: DEMO_ACTORS.filter(a => a.party === p.code).length
+    count: actors.filter(a => a.party === p.code).length
   })).filter(p => p.count > 0);
 
   return (
@@ -46,7 +78,7 @@ export default function ActoresPage() {
         <span className="label-cap">Inteligencia / Mapa de Actores</span>
         <div className="flex items-center gap-3 mt-1">
           <h1 className="text-3xl font-bold text-text1">Mapa de Actores</h1>
-          <ModeBadge mode="demo" source="fixtures" message="Datos de ejemplo — API en desarrollo" />
+          <ModeBadge mode={mode} source="api/actors" />
         </div>
         <p className="text-text2 text-sm mt-1">Dirigentes, portavoces y líderes con seguimiento de exposición y aprobación pública.</p>
       </header>
@@ -72,7 +104,7 @@ export default function ActoresPage() {
           </select>
         </div>
         <div className="flex flex-wrap gap-2">
-          {DEMO_PARTIES.map(p => (
+          {allParties.map(p => (
             <button
               key={p.code}
               onClick={() => toggleParty(p.code)}
@@ -186,7 +218,7 @@ export default function ActoresPage() {
           </button>
           <div className="premium-card">
             <Users className="w-4 h-4 text-cyan1 mb-2" />
-            <div className="text-2xl font-bold text-text1">{DEMO_ACTORS.length}</div>
+            <div className="text-2xl font-bold text-text1">{actors.length}</div>
             <div className="text-[11px] text-muted">Actores monitorizados</div>
           </div>
         </aside>
