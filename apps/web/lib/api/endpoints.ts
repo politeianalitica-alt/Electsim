@@ -1,4 +1,11 @@
 import { api } from "./client";
+import type {
+  BrainStatusResponse,
+  BrainTestRequest,
+  BrainTestResponse,
+  EmbedTestRequest,
+  EmbedTestResponse,
+} from "@/lib/types/status";
 
 export interface MorningBriefing {
   date: string;
@@ -103,5 +110,14 @@ export const endpoints = {
 
   // Comms
   commsStrategy: (issue: string, context?: string, audience?: string) =>
-    api.post<any>("/comms/strategy", { issue, context, audience })
+    api.post<any>("/comms/strategy", { issue, context, audience }),
+
+  // Brain diagnostics
+  brainStatus: () => api.get<BrainStatusResponse>("/api/brain/status"),
+
+  brainTest: (req: BrainTestRequest) =>
+    api.post<BrainTestResponse>("/api/brain/test", req),
+
+  brainEmbedTest: (req: EmbedTestRequest) =>
+    api.post<EmbedTestResponse>("/api/brain/embed-test", req),
 };

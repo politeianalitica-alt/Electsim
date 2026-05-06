@@ -1,0 +1,40 @@
+import type { Actor, Party } from "@/lib/types/actors";
+
+export const DEMO_PARTIES: Party[] = [
+  { code: "PSOE", color: "#E03A3E" },
+  { code: "PP", color: "#1F77FF" },
+  { code: "VOX", color: "#5BC035" },
+  { code: "Sumar", color: "#D81E5B" },
+  { code: "Junts", color: "#00C2A8" },
+  { code: "ERC", color: "#F4B400" },
+  { code: "PNV", color: "#1D8042" },
+  { code: "Bildu", color: "#A4D65E" },
+  { code: "Podemos", color: "#6E2A78" },
+];
+
+export const DEMO_ACTORS: Actor[] = [
+  { id: "1", name: "Pedro Sánchez", party: "PSOE", partyColor: "#E03A3E", role: "Presidente del Gobierno", bio: "Secretario General del PSOE desde 2017.", exposure: 96, approval: 38, sentiment: "down" },
+  { id: "2", name: "Alberto Núñez Feijóo", party: "PP", partyColor: "#1F77FF", role: "Líder de la oposición", bio: "Presidente del PP desde 2022.", exposure: 91, approval: 42, sentiment: "up" },
+  { id: "3", name: "Santiago Abascal", party: "VOX", partyColor: "#5BC035", role: "Presidente", bio: "Líder y fundador de VOX.", exposure: 78, approval: 28, sentiment: "stable" },
+  { id: "4", name: "Yolanda Díaz", party: "Sumar", partyColor: "#D81E5B", role: "Vicepresidenta segunda", bio: "Ministra de Trabajo y líder de Sumar.", exposure: 74, approval: 36, sentiment: "down" },
+  { id: "5", name: "Isabel Díaz Ayuso", party: "PP", partyColor: "#1F77FF", role: "Presidenta CAM", bio: "Presidenta de la Comunidad de Madrid.", exposure: 88, approval: 45, sentiment: "up" },
+  { id: "6", name: "Carles Puigdemont", party: "Junts", partyColor: "#00C2A8", role: "Presidente", bio: "Expresidente de la Generalitat.", exposure: 71, approval: 22, sentiment: "stable" },
+  { id: "7", name: "Oriol Junqueras", party: "ERC", partyColor: "#F4B400", role: "Presidente", bio: "Líder histórico de ERC.", exposure: 58, approval: 27, sentiment: "down" },
+  { id: "8", name: "Ione Belarra", party: "Podemos", partyColor: "#6E2A78", role: "Secretaria General", bio: "Líder de Podemos desde 2021.", exposure: 49, approval: 19, sentiment: "down" },
+  { id: "9", name: "Andoni Ortuzar", party: "PNV", partyColor: "#1D8042", role: "Presidente EBB", bio: "Presidente del PNV desde 2013.", exposure: 41, approval: 35, sentiment: "stable" },
+  { id: "10", name: "Aitor Esteban", party: "PNV", partyColor: "#1D8042", role: "Portavoz Congreso", bio: "Portavoz del PNV en el Congreso.", exposure: 47, approval: 38, sentiment: "stable" },
+  { id: "11", name: "Gabriel Rufián", party: "ERC", partyColor: "#F4B400", role: "Portavoz Congreso", bio: "Portavoz de ERC en el Congreso.", exposure: 62, approval: 24, sentiment: "up" },
+  { id: "12", name: "Iván Espinosa de los Monteros", party: "Independiente", partyColor: "#94A3B8", role: "Empresario", bio: "Ex portavoz parlamentario de VOX.", exposure: 38, approval: 32, sentiment: "stable" },
+  { id: "13", name: "Cuca Gamarra", party: "PP", partyColor: "#1F77FF", role: "Secretaria General", bio: "Secretaria General del PP.", exposure: 55, approval: 31, sentiment: "stable" },
+  { id: "14", name: "Félix Bolaños", party: "PSOE", partyColor: "#E03A3E", role: "Ministro de Justicia", bio: "Ministro de la Presidencia y Justicia.", exposure: 67, approval: 33, sentiment: "down" },
+  { id: "15", name: "Patxi López", party: "PSOE", partyColor: "#E03A3E", role: "Portavoz Congreso", bio: "Portavoz del PSOE en el Congreso.", exposure: 53, approval: 36, sentiment: "stable" },
+  { id: "16", name: "Mertxe Aizpurua", party: "Bildu", partyColor: "#A4D65E", role: "Portavoz Congreso", bio: "Portavoz de EH Bildu en el Congreso.", exposure: 44, approval: 26, sentiment: "up" },
+  { id: "17", name: "María Jesús Montero", party: "PSOE", partyColor: "#E03A3E", role: "Vicepresidenta primera", bio: "Vicepresidenta y ministra de Hacienda.", exposure: 64, approval: 32, sentiment: "down" },
+  { id: "18", name: "Borja Sémper", party: "PP", partyColor: "#1F77FF", role: "Portavoz nacional", bio: "Vicesecretario de Cultura del PP.", exposure: 51, approval: 37, sentiment: "up" },
+  { id: "19", name: "Pablo Bustinduy", party: "Sumar", partyColor: "#D81E5B", role: "Ministro Derechos Sociales", bio: "Ministro y dirigente de Sumar.", exposure: 39, approval: 29, sentiment: "stable" },
+  { id: "20", name: "Salvador Illa", party: "PSOE", partyColor: "#E03A3E", role: "Presidente Generalitat", bio: "Presidente de la Generalitat de Cataluña.", exposure: 69, approval: 41, sentiment: "up" },
+  { id: "21", name: "Jorge Buxadé", party: "VOX", partyColor: "#5BC035", role: "Eurodiputado", bio: "Vicepresidente de Acción Política de VOX.", exposure: 35, approval: 23, sentiment: "stable" },
+  { id: "22", name: "Ernest Urtasun", party: "Sumar", partyColor: "#D81E5B", role: "Ministro de Cultura", bio: "Ministro y dirigente de Sumar.", exposure: 42, approval: 28, sentiment: "stable" },
+  { id: "23", name: "Marta Lois", party: "Sumar", partyColor: "#D81E5B", role: "Portavoz Congreso", bio: "Portavoz de Sumar en el Congreso.", exposure: 31, approval: 25, sentiment: "down" },
+  { id: "24", name: "Mariano Rajoy", party: "PP", partyColor: "#1F77FF", role: "Ex Presidente", bio: "Expresidente del Gobierno (2011-2018).", exposure: 24, approval: 30, sentiment: "stable" },
+];
