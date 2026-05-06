@@ -41,6 +41,13 @@ import type {
 } from "@/lib/types/risk_rich";
 import type { GeoOverview } from "@/lib/types/geopolitica_api";
 import type { CoalitionOverview } from "@/lib/types/coalition_api";
+import type {
+  ElectoralOverviewResponse,
+  SwingSimulateRequest,
+  SwingSimResult,
+  ElectoralBriefingRequest,
+  ElectoralBriefingResponse,
+} from "@/lib/types/electoral";
 
 function toQuery(params?: Record<string, string | number | boolean | undefined | null>): string {
   if (!params) return "";
@@ -292,4 +299,29 @@ export const endpoints = {
   // Coalition
   coalitionOverview: () =>
     api.get<CoalitionOverview>("/api/coalition/overview"),
+
+  // Electoral
+  electoralOverview: () =>
+    api.get<ElectoralOverviewResponse>("/api/electoral/overview"),
+
+  electoralParties: () =>
+    api.get<{ parties: unknown[]; total_seats: number; majority_threshold: number; mode: string }>("/api/electoral/parties"),
+
+  electoralCoalitions: () =>
+    api.get<{ coalitions: unknown[]; mode: string }>("/api/electoral/coalitions"),
+
+  electoralKingmakers: () =>
+    api.get<{ kingmakers: unknown[]; mode: string }>("/api/electoral/kingmakers"),
+
+  electoralVotingPatterns: (category?: string) =>
+    api.get<{ voting_records: unknown[]; mode: string }>(`/api/electoral/voting-patterns${category ? `?category=${encodeURIComponent(category)}` : ""}`),
+
+  electoralHemicycle: () =>
+    api.get<{ seats: unknown[]; total_seats: number; mode: string }>("/api/electoral/hemicycle"),
+
+  electoralSimulate: (payload: SwingSimulateRequest) =>
+    api.post<SwingSimResult>("/api/electoral/simulate", payload),
+
+  electoralBriefing: (payload: ElectoralBriefingRequest) =>
+    api.post<ElectoralBriefingResponse>("/api/electoral/briefing", payload),
 };
