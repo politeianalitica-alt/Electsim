@@ -25,7 +25,12 @@ import type {
   BriefingMarkdownResponse,
   BriefingPdfResponse,
 } from "@/lib/types/briefings";
-import type { BoeResponse, InitiativesResponse, LegislativeKpis } from "@/lib/types/legislative";
+import type {
+  BoeResponse, InitiativesResponse, LegislativeKpis,
+  LegislativeOverviewResponse, LegislativeItemsResponse,
+  LegislativeItemDetail, LegislativeAnalysisRequest,
+  LegislativeAnalysisResponse, CalendarItem, LegislativeHeatmapCell,
+} from "@/lib/types/legislative";
 import type { ActorsResponse } from "@/lib/types/actors_api";
 import type { RiskOverview } from "@/lib/types/risk_api";
 import type { GeoOverview } from "@/lib/types/geopolitica_api";
@@ -209,6 +214,25 @@ export const endpoints = {
 
   legislativeKpis: () =>
     api.get<LegislativeKpis>("/api/legislative/kpis"),
+
+  // Legislative — new endpoints
+  legislativeOverview: () =>
+    api.get<LegislativeOverviewResponse>("/api/legislative/overview"),
+
+  legislativeItems: (params?: { page?: number; page_size?: number; urgency?: string; sector?: string; jurisdiction?: string; search?: string }) =>
+    api.get<LegislativeItemsResponse>(`/api/legislative/items${toQuery(params)}`),
+
+  legislativeItemDetail: (itemId: string) =>
+    api.get<LegislativeItemDetail>(`/api/legislative/items/${itemId}`),
+
+  legislativeCalendar: (days?: number) =>
+    api.get<CalendarItem[]>(`/api/legislative/calendar${days ? `?days=${days}` : ""}`),
+
+  legislativeHeatmap: () =>
+    api.get<LegislativeHeatmapCell[]>("/api/legislative/heatmap"),
+
+  legislativeAnalyze: (payload: LegislativeAnalysisRequest) =>
+    api.post<LegislativeAnalysisResponse>("/api/legislative/analyze", payload),
 
   // Actors
   actorsList: (params?: { partido?: string; search?: string; limit?: number }) =>
