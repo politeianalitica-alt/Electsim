@@ -52,8 +52,19 @@ export interface DashboardMacro {
   value: string
   delta: string
   dir: 'up' | 'down'
-  good: 'up' | 'down'
+  good: 'up' | 'down' | 'es' | 'eu' | 'fx' | 'energy' | 'safehaven'
   data: number[]
+  live?: boolean
+}
+
+export interface NewsIntel {
+  by_party: Record<string, { mentions: number; pos: number; neg: number; neu: number; sent_score: number; last_24h: number }>
+  critical_count: number
+  high_impact_count: number
+  total_24h: number
+  alerts_from_news: Array<{ id: string; type: string; text: string; severidad: string; source: string; summary?: string; urgency?: string; created_at?: string; from_news: boolean }>
+  top_topics: Array<{ topic: string; cnt: number }>
+  avg_relevance?: number
 }
 
 export interface DashboardRegion {
@@ -95,7 +106,8 @@ export interface DashboardHome {
   regions: DashboardRegion[]
   coalitions: DashboardCoalition[]
   news_pulse: DashboardNewsPulse[]
-  risk: { score: number; semaforo: string; fecha: string | null; dimensiones: unknown[] }
+  risk: { score: number; semaforo: string; fecha: string | null; dimensiones: unknown[]; score_base?: number; score_news_boost?: number }
+  news_intel?: NewsIntel
   _warnings?: string[]
 }
 

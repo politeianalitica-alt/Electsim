@@ -12,6 +12,7 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import IntelligenceFeed from '@/components/IntelligenceFeed'
+import NarrativesStrip from '@/components/NarrativesStrip'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Datasets históricos para el toggle del hemiciclo ──────────────────────────
@@ -166,6 +167,9 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        {/* ── Narrativas activas (extraídas de las noticias por Ollama) ── */}
+        <NarrativesStrip/>
+
         {/* ── Vote bars + Alerts ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18, marginBottom: 20 }}>
           <section style={{ background: '#fff', borderRadius: 16, padding: '22px 26px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
@@ -178,9 +182,11 @@ export default function DashboardPage() {
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-              {isReady ? data!.parties.map((p, i) => (
+              {isReady ? data!.parties.map((p, i) => {
+                const intel = data?.news_intel?.by_party?.[p.siglas]
+                return (
                 <div key={p.partido_id} style={{
-                  display: 'grid', gridTemplateColumns: '60px 1fr 60px 64px 40px', gap: 10, alignItems: 'center',
+                  display: 'grid', gridTemplateColumns: '60px 1fr 60px 56px 36px 64px', gap: 10, alignItems: 'center',
                   animation: 'pol-fade-in 360ms ease-out', animationDelay: `${i * 50}ms`, animationFillMode: 'backwards',
                 }}>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-2)' }}>{p.siglas}</span>
@@ -202,11 +208,25 @@ export default function DashboardPage() {
                   <span style={{ fontSize: 11, color: p.delta > 0 ? '#16A34A' : p.delta < 0 ? '#DC2626' : 'var(--ink-4)', textAlign: 'right', fontWeight: 500 }}>
                     {p.delta > 0 ? '↑' : p.delta < 0 ? '↓' : '·'} {Math.abs(p.delta).toFixed(1)}
                   </span>
+                  {/* News mentions sentiment chip */}
+                  <span title={intel ? `Menciones 7d: ${intel.mentions} (${intel.pos}+ ${intel.neg}- ${intel.neu}=) · Sentiment ${intel.sent_score}` : 'Sin menciones aún'} style={{
+                    fontSize: 9.5, fontWeight: 700, textAlign: 'right',
+                    color: !intel ? '#9CA3AF' : intel.sent_score > 0.1 ? '#16A34A' : intel.sent_score < -0.1 ? '#DC2626' : '#6E6E73',
+                    letterSpacing: '0.02em',
+                  }}>
+                    {intel ? `${intel.mentions}📰` : '—'}
+                  </span>
                   <span style={{ fontSize: 11, color: 'var(--ink-4)', textAlign: 'right' }}>{p.seats}e</span>
                 </div>
-              )) : Array.from({ length: 6 }, (_, i) => (
+              )}) : Array.from({ length: 6 }, (_, i) => (
                 <Skeleton key={i} height={22} radius={5}/>
               ))}
+              {data?.news_intel?.total_24h && data.news_intel.total_24h > 0 && (
+                <div style={{ fontSize: 10, color: 'var(--ink-4)', marginTop: 4, paddingTop: 8, borderTop: '1px dashed var(--hairline)' }}>
+                  📊 {data.news_intel.total_24h} noticias analizadas en 24h
+                  {data.news_intel.high_impact_count > 0 && <> · <span style={{ color: '#D97706', fontWeight: 600 }}>{data.news_intel.high_impact_count} con alto impacto España</span></>}
+                </div>
+              )}
             </div>
           </section>
 
@@ -220,25 +240,42 @@ export default function DashboardPage() {
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 320, overflowY: 'auto' }}>
-              {isReady && (data!.alerts ?? []).slice(0, 6).map((a, i) => (
+              {isReady && (data!.alerts ?? []).slice(0, 6).map((a, i) => {
+                const fromNews = (a as any).from_news === true
+                return (
                 <div key={a.id} style={{
                   padding: '11px 13px', borderRadius: 11,
                   background: a.type === 'warning' ? '#fffbeb' : a.type === 'ok' ? '#f0fdf4' : '#f0f9ff',
                   borderLeft: `3px solid ${a.type === 'warning' ? '#D97706' : a.type === 'ok' ? '#16A34A' : '#0EA5E9'}`,
                   animation: 'pol-fade-in 360ms ease-out', animationDelay: `${i * 70}ms`, animationFillMode: 'backwards',
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: a.tipo ? 3 : 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3, flexWrap: 'wrap' }}>
                     {a.severidad && (
                       <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 4, letterSpacing: '0.05em',
                         background: a.severidad === 'CRITICAL' ? '#FEE2E2' : a.severidad === 'HIGH' ? '#FEF3C7' : '#E0F2FE',
                         color: a.severidad === 'CRITICAL' ? '#991B1B' : a.severidad === 'HIGH' ? '#92400E' : '#075985',
                       }}>{a.severidad}</span>
                     )}
-                    <p style={{ margin: 0, fontSize: 12, color: 'var(--ink-2)', lineHeight: 1.45, flex: 1 }}>{a.text}</p>
+                    {fromNews && (
+                      <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 4, letterSpacing: '0.05em',
+                        background: '#EFF6FF', color: '#1E40AF',
+                      }}>📰 NEWS</span>
+                    )}
+                    <p style={{ margin: 0, fontSize: 12, color: 'var(--ink-2)', lineHeight: 1.45, flex: 1, minWidth: 0 }}>{a.text}</p>
                   </div>
-                  {a.tipo && <span style={{ fontSize: 10, color: 'var(--ink-4)', fontWeight: 500 }}>· {a.tipo}</span>}
+                  {(a as any).summary && (
+                    <p style={{ margin: '4px 0 0', fontSize: 10.5, color: 'var(--ink-3)', lineHeight: 1.4 }}>
+                      {((a as any).summary as string).slice(0, 140)}
+                      {((a as any).summary as string).length > 140 ? '…' : ''}
+                    </p>
+                  )}
+                  <div style={{ display: 'flex', gap: 8, marginTop: 4, fontSize: 10, color: 'var(--ink-4)', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {(a as any).source && <span style={{ fontWeight: 600 }}>{(a as any).source}</span>}
+                    {a.tipo && <span>· {a.tipo}</span>}
+                    {(a as any).urgency && <span>· urgencia {(a as any).urgency}</span>}
+                  </div>
                 </div>
-              ))}
+              )})}
               {!isReady && Array.from({ length: 4 }, (_, i) => (
                 <Skeleton key={i} height={50} radius={11}/>
               ))}
@@ -287,14 +324,27 @@ export default function DashboardPage() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px 18px' }}>
               {(data?.macro ?? []).slice(0, 8).map((m, i) => {
-                const isGood = m.dir === m.good
+                // Para datos de mercado real (live=true), 'good' direction depende del tipo
+                const dirGoodMap: Record<string, 'up' | 'down'> = {
+                  es: 'up', eu: 'up', fx: 'up', up: 'up',
+                  energy: 'down', safehaven: 'up', down: 'down',
+                }
+                const goodDir = dirGoodMap[m.good] || 'up'
+                const isGood = m.dir === goodDir
                 const deltaColor = isGood ? '#16A34A' : '#DC2626'
                 return (
                   <div key={m.label} style={{
                     display: 'grid', gridTemplateColumns: '1fr 90px', gap: 12, alignItems: 'center',
                     padding: '10px 12px', borderRadius: 12, background: '#FAFAFB', border: '1px solid #ECECEF',
                     animation: 'pol-fade-in 320ms ease-out', animationDelay: `${i * 40}ms`, animationFillMode: 'backwards',
+                    position: 'relative',
                   }}>
+                    {m.live && (
+                      <span style={{
+                        position: 'absolute', top: 6, right: 8, fontSize: 8, fontWeight: 700,
+                        color: '#16A34A', letterSpacing: '0.06em',
+                      }}>● LIVE</span>
+                    )}
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontSize: 11.5, fontWeight: 600, color: '#3a3a3d', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.label}</div>
                       <div style={{ fontFamily: 'var(--font-display)', fontSize: 19, fontWeight: 600, letterSpacing: '-0.02em', color: '#1d1d1f', lineHeight: 1.15 }}>{m.value}</div>
@@ -474,6 +524,12 @@ export default function DashboardPage() {
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, color: 'var(--ink)', marginTop: 2 }}>
                   Semáforo {data.risk.semaforo}
                 </div>
+                {data.risk.score_news_boost != null && data.risk.score_news_boost > 0 && (
+                  <div style={{ fontSize: 10.5, color: '#D97706', marginTop: 4, fontWeight: 500 }}>
+                    📰 +{data.risk.score_news_boost} pts por noticias críticas en 24h
+                    {data.risk.score_base != null && <> (base {data.risk.score_base.toFixed(1)})</>}
+                  </div>
+                )}
               </div>
             </div>
             <button onClick={() => router.push('/riesgo')} style={{

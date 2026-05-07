@@ -338,7 +338,289 @@ def dashboard_home(db=Depends(get_db)) -> dict[str, Any]:
         out["news_pulse"] = []
         out["_warnings"].append(f"news_pulse: {e}")
 
+    # ── 10. News-as-object aggregations: alimentan otros paneles ──────────────
+    out["news_intel"] = _news_aggregations(db)
+
+    # Mezclar alerts_from_news en out["alerts"] (al principio, son críticas frescas)
+    news_alerts = out["news_intel"].get("alerts_from_news") or []
+    if news_alerts:
+        out["alerts"] = news_alerts + (out.get("alerts") or [])
+        out["alerts"] = out["alerts"][:10]  # cap at 10 total
+
+    # Boost del riesgo si hay muchas noticias críticas (suma 0-15 al score)
+    try:
+        crit = out["news_intel"].get("critical_count", 0)
+        high = out["news_intel"].get("high_impact_count", 0)
+        risk_boost = min(15, crit * 4 + high * 1.5)
+        if "risk" in out and out["risk"].get("score") is not None and risk_boost > 0:
+            base = float(out["risk"]["score"])
+            out["risk"]["score_base"] = base
+            out["risk"]["score_news_boost"] = round(risk_boost, 1)
+            # No exceder 100
+            out["risk"]["score"] = min(100.0, base + risk_boost)
+    except Exception:
+        pass
+
+    # ── 11. Market data (BdE / mercado) — sustituye los demos macro ──────────
+    market_data = _market_data()
+    if market_data:
+        # Markets primero (live ●), luego macro existente sin duplicar labels
+        live_labels = {m["label"].lower() for m in market_data}
+        existing_macro = [m for m in (out.get("macro") or []) if m.get("label", "").lower() not in live_labels]
+        out["macro"] = market_data + existing_macro[:4]
+
     return out
+
+
+def _news_aggregations(db) -> dict[str, Any]:
+    """Aggregations sobre news_articles que se inyectan en otros paneles.
+
+    - by_party: {PP: {mentions, sentiment_avg, last_24h, last_7d}}
+    - alerts_from_news: artículos con impacto alto/critico → alertas extras
+    - region_sentiment: por CCAA si la fuente es regional
+    - critical_count: nº de noticias críticas en 24h (alimenta riesgo)
+    - top_topics: top temas detectados (narrativas)
+    """
+    out: dict[str, Any] = {
+        "by_party": {},
+        "critical_count": 0,
+        "high_impact_count": 0,
+        "total_24h": 0,
+        "alerts_from_news": [],
+        "top_topics": [],
+        "trending_entities": [],
+    }
+    try:
+        # Volumen total 24h
+        row = db.execute(text("""
+            SELECT
+                COUNT(*) AS total,
+                COUNT(*) FILTER (WHERE ai_spain_impact = 'critico') AS critical,
+                COUNT(*) FILTER (WHERE ai_spain_impact IN ('alto','critico')) AS high_impact,
+                ROUND(AVG(ai_relevance)::numeric, 1) AS avg_relevance
+            FROM news_articles
+            WHERE scraped_at > NOW() - INTERVAL '24 hours'
+        """)).mappings().fetchone()
+        if row:
+            out["total_24h"] = int(row["total"] or 0)
+            out["critical_count"] = int(row["critical"] or 0)
+            out["high_impact_count"] = int(row["high_impact"] or 0)
+            out["avg_relevance"] = float(row["avg_relevance"]) if row["avg_relevance"] is not None else 0.0
+    except Exception as e:
+        out["_err_total"] = str(e)
+
+    try:
+        # Mentions por partido + sentiment medio (busca siglas en title o ai_entities)
+        parties_to_track = ["PP", "PSOE", "VOX", "Sumar", "Junts", "ERC", "PNV", "Podemos"]
+        for siglas in parties_to_track:
+            row = db.execute(text("""
+                SELECT
+                    COUNT(*) AS mentions,
+                    COUNT(*) FILTER (WHERE ai_sentiment = 'positivo') AS pos,
+                    COUNT(*) FILTER (WHERE ai_sentiment = 'negativo') AS neg,
+                    COUNT(*) FILTER (WHERE ai_sentiment = 'neutro') AS neu,
+                    COUNT(*) FILTER (WHERE scraped_at > NOW() - INTERVAL '24 hours') AS last_24h
+                FROM news_articles
+                WHERE scraped_at > NOW() - INTERVAL '7 days'
+                  AND (
+                    title ILIKE :pat
+                    OR ai_summary ILIKE :pat
+                    OR ai_entities::text ILIKE :pat
+                  )
+            """), {"pat": f"%{siglas}%"}).mappings().fetchone()
+            mentions = int(row["mentions"] or 0) if row else 0
+            if mentions > 0 and row:
+                pos = int(row["pos"] or 0)
+                neg = int(row["neg"] or 0)
+                neu = int(row["neu"] or 0)
+                total_classified = pos + neg + neu
+                sent_score = ((pos - neg) / total_classified) if total_classified > 0 else 0.0
+                out["by_party"][siglas] = {
+                    "mentions":     mentions,
+                    "pos":          pos,
+                    "neg":          neg,
+                    "neu":          neu,
+                    "sent_score":   round(sent_score, 2),
+                    "last_24h":     int(row["last_24h"] or 0),
+                }
+    except Exception as e:
+        out["_err_party"] = str(e)
+
+    try:
+        # Alertas derivadas de noticias críticas (no solapar con alertas_sistema)
+        rows = db.execute(text("""
+            SELECT id, title, source_name, ai_spain_impact, ai_relevance,
+                   ai_summary, ai_urgency, ai_category, scraped_at
+            FROM news_articles
+            WHERE scraped_at > NOW() - INTERVAL '48 hours'
+              AND (ai_spain_impact IN ('alto','critico') OR ai_relevance >= 8)
+              AND (ai_urgency IN ('inmediata','24h') OR ai_relevance >= 8)
+            ORDER BY
+              CASE ai_spain_impact WHEN 'critico' THEN 0 WHEN 'alto' THEN 1 ELSE 2 END,
+              ai_relevance DESC,
+              scraped_at DESC
+            LIMIT 5
+        """)).mappings().all()
+        alerts_news = []
+        for r in rows:
+            level = "critical" if r["ai_spain_impact"] == "critico" else \
+                    "high"     if r["ai_spain_impact"] == "alto"    else \
+                    "medium"
+            alerts_news.append({
+                "id":          f"news-{r['id']}",
+                "type":        "warning" if level in ("critical", "high") else "info",
+                "text":        r["title"],
+                "tipo":        r["ai_category"],
+                "severidad":   level.upper(),
+                "source":      r["source_name"],
+                "summary":     r["ai_summary"],
+                "urgency":     r["ai_urgency"],
+                "created_at":  r["scraped_at"].isoformat() if r["scraped_at"] else None,
+                "from_news":   True,
+            })
+        out["alerts_from_news"] = alerts_news
+    except Exception as e:
+        out["_err_alerts"] = str(e)
+
+    try:
+        # Top topics + entities trending
+        rows = db.execute(text("""
+            SELECT unnest(ai_topics) AS topic, COUNT(*) AS cnt
+            FROM news_articles
+            WHERE scraped_at > NOW() - INTERVAL '48 hours'
+              AND ai_topics IS NOT NULL
+            GROUP BY topic
+            ORDER BY cnt DESC
+            LIMIT 12
+        """)).mappings().all()
+        out["top_topics"] = [{"topic": r["topic"], "cnt": int(r["cnt"])} for r in rows]
+    except Exception as e:
+        out["_err_topics"] = str(e)
+
+    return out
+
+
+# Cache simple en memoria para no hacer 6 requests por cada hit del dashboard
+_MARKET_CACHE: dict[str, Any] = {"ts": 0.0, "data": []}
+_MARKET_TTL_SEC = 300  # 5 minutos
+
+
+def _market_data() -> list[dict]:
+    """Datos de mercado en vivo desde stooq.com (CSV gratuito, sin auth).
+
+    URL pattern: https://stooq.com/q/l/?s=^ibex&f=sd2t2ohlcv&h&e=csv
+    Headers: s,d,t,o,h,l,c,v → columnas: symbol, date, time, open, high, low, close, volume
+
+    Si stooq no responde, devolvemos lista vacía y los demos del macro toman el
+    relevo. 5 min de caché en memoria para evitar saturar la API.
+    """
+    import time
+    import httpx
+
+    # Cache hit (no servir cache antiguo de 0 elementos)
+    if (time.time() - _MARKET_CACHE["ts"]) < _MARKET_TTL_SEC and _MARKET_CACHE.get("data"):
+        return _MARKET_CACHE["data"]
+    # Reset si previously empty
+    if not _MARKET_CACHE.get("data"):
+        _MARKET_CACHE["ts"] = 0.0
+
+    targets = [
+        # stooq_symbol, label, format, good_dir, group, prev_url (cierre día anterior)
+        ("^ibex",     "IBEX 35",       "{:,.0f}",   "up",   "es"),
+        ("eurusd",    "EUR / USD",     "{:.4f}",    "up",   "fx"),
+        ("eurgbp",    "EUR / GBP",     "{:.4f}",    "up",   "fx"),
+        ("cb.f",      "Brent crude",   "${:.2f}",   "down", "energy"),  # crude brent futures
+        ("gc.f",      "Oro spot",      "${:,.0f}",  "up",   "safehaven"),
+        ("^stoxx50",  "Euro Stoxx 50", "{:,.0f}",   "up",   "eu"),
+        ("^dax",      "DAX",           "{:,.0f}",   "up",   "eu"),
+        ("^cac",      "CAC 40",        "{:,.0f}",   "up",   "eu"),
+    ]
+    out = []
+    try:
+        # stooq usa "+" como separador para batch (literal en la URL).
+        # httpx codifica "+" como "%2B" si pasamos params, así que construimos
+        # la URL manualmente. Solo escapamos el "^" del símbolo (caret).
+        symbols = "+".join(s.replace("^", "%5E") for s, _, _, _, _ in targets)
+        url = f"https://stooq.com/q/l/?s={symbols}&f=sd2t2ohlcvp&h&e=csv"
+        headers = {"User-Agent": "Mozilla/5.0 (compatible; politeia/1.0)"}
+        with httpx.Client(timeout=5.0, headers=headers) as cli:
+            r = cli.get(url)
+            if not r.is_success:
+                return []
+            text_csv = r.text.strip()
+
+        # Parse CSV manually
+        lines = text_csv.split("\n")
+        if len(lines) < 2:
+            return []
+        header = [h.strip().lower() for h in lines[0].split(",")]
+        def _idx(name: str, default: int) -> int:
+            return header.index(name) if name in header else default
+        sym_idx    = _idx("symbol", 0)
+        close_idx  = _idx("close", 6)
+        open_idx   = _idx("open", 3)
+        prev_idx   = _idx("prev", 8)
+
+        data_by_sym: dict[str, dict[str, float]] = {}
+        for line in lines[1:]:
+            parts = [p.strip() for p in line.split(",")]
+            if len(parts) < 7:
+                continue
+            try:
+                sym = parts[sym_idx].lower()
+                if parts[close_idx] in ("N/D", ""):
+                    continue
+                close = float(parts[close_idx])
+                open_ = float(parts[open_idx]) if parts[open_idx] not in ("N/D", "") else close
+                prev = float(parts[prev_idx]) if prev_idx < len(parts) and parts[prev_idx] not in ("N/D", "") else open_
+                data_by_sym[sym] = {"close": close, "open": open_, "prev": prev}
+            except (ValueError, IndexError):
+                continue
+
+        for symbol, label, fmt, good, group in targets:
+            q = data_by_sym.get(symbol.lower())
+            if not q or q["close"] == 0:
+                continue
+            price = q["close"]
+            ref = q.get("prev") or q.get("open") or price
+            change_pct = ((price - ref) / ref * 100) if ref > 0 else 0.0
+            try:
+                value_str = fmt.format(price)
+            except Exception:
+                value_str = str(price)
+            out.append({
+                "label":  label,
+                "value":  value_str,
+                "delta":  f"{change_pct:+.2f}%",
+                "dir":    "up" if change_pct >= 0 else "down",
+                "good":   group,
+                "data":   _fake_sparkline(price, change_pct),
+                "live":   True,
+                "source": "stooq.com",
+            })
+    except Exception:
+        return _MARKET_CACHE.get("data") or []  # fallback al último good
+
+    if out:
+        _MARKET_CACHE["ts"] = time.time()
+        _MARKET_CACHE["data"] = out
+    return out
+
+
+def _fake_sparkline(current: float, change_pct: float) -> list[float]:
+    """Genera 10 puntos de sparkline coherentes con el cambio diario.
+    Cuando dispongamos de histórico real (BdE/Yahoo /chart), se sustituye.
+    """
+    import math
+    base = current / (1 + change_pct / 100) if change_pct != 0 else current * 0.99
+    # 10 puntos interpolados con ruido determinista
+    pts = []
+    for i in range(10):
+        t = i / 9
+        # Linea + ruido senoidal pequeño
+        v = base + (current - base) * t + (math.sin(i * 1.3) * abs(current - base) * 0.15)
+        pts.append(round(v, 4))
+    return pts
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
