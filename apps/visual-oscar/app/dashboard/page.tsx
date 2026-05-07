@@ -16,6 +16,7 @@ import NarrativesGallery from '@/components/NarrativesGallery'
 import RegionalNewsMaps from '@/components/RegionalNewsMaps'
 import LawsTimeline from '@/components/LawsTimeline'
 import TopFigures from '@/components/TopFigures'
+import RiskIntelligence from '@/components/RiskIntelligence'
 import { IconNews, IconChart, IconBolt } from '@/components/Icon'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
@@ -170,6 +171,9 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
+
+        {/* ── Politeia Risk Index (vista ejecutiva de riesgo) ── */}
+        <RiskIntelligence/>
 
         {/* ── Narrativas activas (galería con framework Entman+Lakoff) ── */}
         <NarrativesGallery/>
@@ -515,42 +519,6 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* ── Risk strip ── */}
-        {data?.risk && (
-          <section style={{
-            marginTop: 16, background: '#fff', borderRadius: 16, padding: '18px 22px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{
-                width: 60, height: 60, borderRadius: '50%',
-                background: data.risk.semaforo === 'rojo' ? '#FEE2E2' : data.risk.semaforo === 'naranja' ? '#FED7AA' : data.risk.semaforo === 'amarillo' ? '#FEF3C7' : '#D1FAE5',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
-                color: data.risk.semaforo === 'rojo' ? '#991B1B' : data.risk.semaforo === 'naranja' ? '#9A3412' : data.risk.semaforo === 'amarillo' ? '#92400E' : '#065F46',
-              }}>
-                <CountUp value={data.risk.score} decimals={data.risk.score < 100 ? 1 : 0}/>
-              </div>
-              <div>
-                <div style={{ fontSize: 11, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>Termómetro de Riesgo Político</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, color: 'var(--ink)', marginTop: 2 }}>
-                  Semáforo {data.risk.semaforo}
-                </div>
-                {data.risk.score_news_boost != null && data.risk.score_news_boost > 0 && (
-                  <div style={{ fontSize: 10.5, color: '#D97706', marginTop: 4, fontWeight: 500 }}>
-                    <IconNews size={11} style={{ marginRight: 4 }}/>+{data.risk.score_news_boost} pts por noticias críticas en 24h
-                    {data.risk.score_base != null && <> (base {data.risk.score_base.toFixed(1)})</>}
-                  </div>
-                )}
-              </div>
-            </div>
-            <button onClick={() => router.push('/riesgo')} style={{
-              background: '#F5F5F7', border: 'none', padding: '8px 16px', borderRadius: 999,
-              fontSize: 12, fontWeight: 500, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
-            }}>Análisis completo →</button>
-          </section>
-        )}
       </main>
 
       <footer style={{ borderTop: '1px solid var(--hairline)', padding: '22px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>

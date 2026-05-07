@@ -26,6 +26,7 @@ from api.routers import (
     persons,
     pipelines,
     politeia_v3,
+    risk_intelligence,
     search,
     voto_blando,
     workspace_signals,
@@ -129,3 +130,4 @@ app.include_router(news_intelligence.router, tags=["news-intelligence"])
 app.include_router(narratives.router, tags=["narratives"])
 app.include_router(laws.router, tags=["laws"])
 app.include_router(persons.router, tags=["persons"])
+app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
