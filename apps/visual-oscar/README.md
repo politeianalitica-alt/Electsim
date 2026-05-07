@@ -69,6 +69,32 @@ lib/
 
 El frontend está pensado para consumir la API FastAPI ya disponible en `backend/`. La autenticación usa JWT (login en `/login` mockeado en cliente).
 
+## Deploy en Vercel · 2 minutos
+
+1. Entra en **https://vercel.com** y haz login con GitHub (autoriza `politeianalitica-alt`).
+2. **«Add New… → Project»** → busca el repo `Electsim` → **«Import»**.
+3. En el formulario de configuración:
+   - **Framework Preset:** Next.js (auto-detectado)
+   - **Root Directory:** pulsa **«Edit»** y pon `apps/visual-oscar`  ← *crítico*
+   - **Build Command, Install Command, Output:** déjalos por defecto (los lee de `vercel.json`)
+4. Pulsa **«Deploy»**. En 60–90 s tienes URL de producción.
+
+### Modo demo (sin backend)
+
+Si **no** configuras `NEXT_PUBLIC_API_URL` en Vercel, la app entra automáticamente en **modo demo**:
+- En `/login` aparece un aviso amarillo y un botón **«Entrar como demo»**.
+- Cualquier credencial funciona · los tokens son fake locales.
+- Toda la UI es navegable (los datos son mocks embebidos en cada página).
+
+### Modo producción (con backend)
+
+Cuando despliegues el backend FastAPI (Railway, Fly.io, Render…):
+1. En Vercel · **Project Settings → Environment Variables** añade:
+   ```
+   NEXT_PUBLIC_API_URL = https://tu-backend.com
+   ```
+2. Re-deploy. El login pasa a llamar al backend real (`POST /api/v1/auth/login`).
+
 ## Notas
 
 Esta app coexiste con `@politeia/web` (politeia v3, en `apps/web/`) sin sobreescribir nada. La estrategia es ofrecer dos vistas del mismo dominio para que el equipo elija o consolide.
