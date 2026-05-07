@@ -1,10 +1,15 @@
 'use client'
 import { useState, FormEvent, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+import type { MorningBriefing } from '@/lib/api-types'
 
 type Msg = { role: 'user' | 'brain'; text: string; ts: number }
 
-// Preguntas predefinidas del briefing matinal
+// Preguntas predefinidas del briefing matinal — usadas como fallback
+// si el backend no está conectado. Cuando hay backend, se reemplazan
+// por `briefing.three_questions` del shape MorningBriefing.
 const PRESET_QUESTIONS = [
   {
     n: 1,
@@ -37,8 +42,25 @@ function fakeReply(q: string): string {
   return 'No tengo una respuesta directa para esa consulta en el contexto actual. Puedo profundizar si me indicas un actor, sector o tema específico — o pulsa **"Profundizar con Politeia"** para abrir una sesión completa de análisis.'
 }
 
+type BriefingResponse = MorningBriefing & { _meta?: { source: string; ts: string } }
+
 export default function BrainBriefing() {
   const today = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+
+  // Briefing real desde el backend ElectSim · refresh cada 5 min
+  const { data: briefing, source, updatedAt, refresh } = useApi<BriefingResponse>(
+    '/api/briefings/morning?workspace_id=default',
+    { refreshInterval: 300_000 }
+  )
+
+  // Texto de bienvenida y preguntas: si hay briefing del backend lo usamos,
+  // si no caemos a las constantes locales.
+  const welcomeText = briefing?.executive_summary || WELCOME_TEXT
+  const threeQuestions = (briefing?.three_questions && briefing.three_questions.length > 0)
+    ? briefing.three_questions.map((q, i) => ({ n: i + 1, q, a: '' }))
+    : PRESET_QUESTIONS
+  const analystNote = briefing?.analyst_note
+  const briefingMode = briefing?.mode
 
   const [messages, setMessages] = useState<Msg[]>([])
   const [input, setInput] = useState('')
@@ -58,8 +80,10 @@ export default function BrainBriefing() {
     setInput('')
     setThinking(true)
 
-    // Las preguntas pre-definidas tienen respuesta curada al instante (sin red).
-    const preset = PRESET_QUESTIONS.find(p => p.q === text)
+    // Las preguntas pre-definidas LOCALES (fallback) tienen respuesta curada
+    // al instante. Las que vienen del backend (`briefing.three_questions`) NO
+    // tienen respuesta curada → van directo al LLM como cualquier texto libre.
+    const preset = PRESET_QUESTIONS.find(p => p.q === text && p.a)
     if (preset) {
       setTimeout(() => {
         setMessages(m => [...m, { role: 'brain', text: preset.a, ts: Date.now() }])
@@ -109,11 +133,13 @@ export default function BrainBriefing() {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
                 BRIEFING MATINAL · POLITEIA
               </span>
-              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>
+              {briefingMode === 'real' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#fff', background: '#10b981', padding: '2px 6px', borderRadius: 4 }}>LIVE</span>}
+              {briefingMode === 'demo' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>}
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
             </div>
             <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
               Buenos días, <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>Analista</em>
@@ -136,14 +162,14 @@ export default function BrainBriefing() {
           </Link>
         </div>
 
-        {/* Texto narrativo */}
+        {/* Texto narrativo · viene del backend si está conectado */}
         <p style={{ margin: '0 0 18px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.78)', maxWidth: 980 }}>
-          {WELCOME_TEXT}
+          {welcomeText}
         </p>
 
-        {/* Preguntas predefinidas */}
+        {/* Preguntas predefinidas · 3 del backend o las locales como fallback */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
-          {PRESET_QUESTIONS.map(p => (
+          {threeQuestions.map(p => (
             <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
               background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)',
               color: '#fff', padding: '12px 14px', borderRadius: 12,
@@ -233,7 +259,7 @@ export default function BrainBriefing() {
 
         <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
           <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
-            Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.
+            {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
           </span>
           <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
             Profundizar con Politeia →

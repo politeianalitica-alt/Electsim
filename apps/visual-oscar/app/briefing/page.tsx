@@ -3,6 +3,17 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+import type { MorningBriefing } from '@/lib/api-types'
+
+// Mapeo del nivel del backend al estilo visual
+const LEVEL_STYLE: Record<string, { label: string; color: string }> = {
+  critical: { label: 'CRÍTICA', color: '#DC2626' },
+  high:     { label: 'ALTA',    color: '#F97316' },
+  medium:   { label: 'MEDIA',   color: '#EAB308' },
+  low:      { label: 'INFO',    color: '#0EA5E9' },
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // Datos · alertas críticas
@@ -155,6 +166,17 @@ export default function BriefingPage() {
   const today = new Date().toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
   const [section, setSection] = useState<SeccionKey>('electoral')
 
+  // Briefing del backend ElectSim · refresh cada 5 min
+  const { data: briefing, source, updatedAt, refresh } = useApi<MorningBriefing>(
+    '/api/briefings/morning?workspace_id=default',
+    { refreshInterval: 300_000 }
+  )
+  const liveAlerts = briefing?.key_alerts || []
+  const liveStories = briefing?.top_stories || []
+  const liveNarratives = briefing?.active_narratives || []
+  const electoralSnapshot = briefing?.electoral_snapshot
+  const briefingMode = briefing?.mode
+
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)', color:'#1d1d1f', fontFamily:'var(--font-text)' }}>
       <AppHeader/>
@@ -162,6 +184,133 @@ export default function BriefingPage() {
 
         {/* ───── Reproductor de audio (briefing en formato podcast) ───── */}
         <AudioPlayer today={today}/>
+
+        {/* ═════════════════════════════════════════════════════════════════
+            BRIEFING EN VIVO · generado por el backend ElectSim FastAPI
+            Solo visible cuando hay datos reales (briefing.executive_summary)
+            ═════════════════════════════════════════════════════════════════ */}
+        {briefing?.executive_summary && (
+          <section style={{ marginTop:18, marginBottom:22 }}>
+            <div style={{
+              background:'linear-gradient(135deg,#0F172A 0%,#1E293B 100%)',
+              borderRadius:18, padding:'24px 28px', color:'#fff',
+              border:'1px solid rgba(99,102,241,0.30)',
+              boxShadow:'0 4px 24px -8px rgba(99,102,241,0.30)',
+            }}>
+              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14, flexWrap:'wrap' }}>
+                <span style={{ fontSize:10, fontWeight:800, letterSpacing:'0.14em', color:'#a78bfa', textTransform:'uppercase' }}>
+                  Briefing del día · backend ElectSim
+                </span>
+                {briefingMode === 'real' && <span style={{ fontSize:9, fontWeight:700, padding:'2px 7px', borderRadius:4, background:'#10b981', color:'#fff' }}>LIVE</span>}
+                {briefingMode === 'demo' && <span style={{ fontSize:9, fontWeight:700, padding:'2px 7px', borderRadius:4, background:'#fbbf24', color:'#0F172A' }}>DEMO</span>}
+                <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+              </div>
+
+              {/* Executive summary */}
+              <p style={{ margin:'0 0 18px', fontSize:14, lineHeight:1.65, color:'rgba(255,255,255,0.85)', maxWidth:1100 }}>
+                {briefing.executive_summary}
+              </p>
+
+              {/* Electoral snapshot · ITPE + top partidos */}
+              {electoralSnapshot && (electoralSnapshot.itpe !== undefined || electoralSnapshot.top_parties) && (
+                <div style={{ display:'flex', gap:16, alignItems:'center', flexWrap:'wrap', padding:'12px 16px', background:'rgba(255,255,255,0.05)', borderRadius:10, marginBottom:16, border:'1px solid rgba(255,255,255,0.08)' }}>
+                  {electoralSnapshot.itpe !== undefined && (
+                    <div>
+                      <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.1em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase' }}>ITPE</div>
+                      <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color:'#a78bfa', lineHeight:1 }}>
+                        {electoralSnapshot.itpe.toFixed(1)}<span style={{ fontSize:11, color:'rgba(255,255,255,0.4)' }}>/100</span>
+                      </div>
+                    </div>
+                  )}
+                  {electoralSnapshot.top_parties && Object.entries(electoralSnapshot.top_parties).slice(0, 5).map(([party, pct]) => (
+                    <div key={party}>
+                      <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.1em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase' }}>{party}</div>
+                      <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'#fff', lineHeight:1 }}>
+                        {pct}<span style={{ fontSize:11, color:'rgba(255,255,255,0.4)' }}>%</span>
+                      </div>
+                    </div>
+                  ))}
+                  {electoralSnapshot.trend && (
+                    <div style={{ marginLeft:'auto', fontSize:11, color:'rgba(255,255,255,0.6)' }}>
+                      Tendencia: <strong style={{ color: electoralSnapshot.trend === 'up' ? '#10b981' : electoralSnapshot.trend === 'down' ? '#ef4444' : '#a78bfa' }}>
+                        {electoralSnapshot.trend === 'up' ? '↗ alcista' : electoralSnapshot.trend === 'down' ? '↘ bajista' : '→ estable'}
+                      </strong>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Grid de 3 columnas: alertas · top stories · narrativas */}
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:14 }}>
+                {/* Key alerts */}
+                <div>
+                  <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase', marginBottom:8 }}>
+                    Alertas clave ({liveAlerts.length})
+                  </div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                    {liveAlerts.slice(0, 4).map((a, i) => {
+                      const lv = LEVEL_STYLE[a.level] || LEVEL_STYLE.medium
+                      return (
+                        <div key={i} style={{ padding:'9px 11px', background:'rgba(0,0,0,0.20)', borderRadius:8, borderLeft:`3px solid ${lv.color}` }}>
+                          <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+                            <span style={{ fontSize:8.5, fontWeight:800, letterSpacing:'0.08em', color:lv.color, padding:'1px 5px', borderRadius:3, background:`${lv.color}25` }}>{lv.label}</span>
+                          </div>
+                          <p style={{ margin:'0 0 3px', fontSize:11.5, fontWeight:600, color:'#fff', lineHeight:1.3 }}>{a.title}</p>
+                          <p style={{ margin:0, fontSize:10.5, color:'rgba(255,255,255,0.6)', lineHeight:1.4 }}>{a.body}</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Top stories */}
+                <div>
+                  <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase', marginBottom:8 }}>
+                    Top stories ({liveStories.length})
+                  </div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                    {liveStories.slice(0, 5).map((s, i) => (
+                      <div key={i} style={{ padding:'9px 11px', background:'rgba(0,0,0,0.20)', borderRadius:8 }}>
+                        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:6, marginBottom:3 }}>
+                          <span style={{ fontSize:9.5, color:'#a78bfa', fontWeight:600 }}>{s.source}</span>
+                          <span style={{ fontSize:9, fontWeight:700, color:'#fbbf24' }}>{Math.round(s.relevance * 100)}</span>
+                        </div>
+                        <p style={{ margin:0, fontSize:11.5, fontWeight:500, color:'#fff', lineHeight:1.35 }}>{s.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Active narratives */}
+                <div>
+                  <div style={{ fontSize:10, fontWeight:700, letterSpacing:'0.1em', color:'rgba(255,255,255,0.55)', textTransform:'uppercase', marginBottom:8 }}>
+                    Narrativas activas ({liveNarratives.length})
+                  </div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                    {liveNarratives.slice(0, 4).map((n, i) => (
+                      <div key={i} style={{ padding:'9px 11px', background:'rgba(0,0,0,0.20)', borderRadius:8 }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+                          <span style={{ fontSize:11, color: n.velocity === 'up' ? '#ef4444' : n.velocity === 'down' ? '#10b981' : '#a78bfa' }}>
+                            {n.velocity === 'up' ? '↗' : n.velocity === 'down' ? '↘' : '→'}
+                          </span>
+                          <span style={{ fontSize:9.5, fontWeight:700, color:'rgba(255,255,255,0.75)', textTransform:'uppercase', letterSpacing:'0.05em' }}>
+                            {n.velocity}
+                          </span>
+                        </div>
+                        <p style={{ margin:'0 0 3px', fontSize:11.5, fontWeight:500, color:'#fff', lineHeight:1.35 }}>{n.frame_label}</p>
+                        {n.recommended_action && (
+                          <p style={{ margin:0, fontSize:10, color:'rgba(255,255,255,0.5)', lineHeight:1.35, fontStyle:'italic' }}>
+                            → {n.recommended_action}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ───── Alertas críticas (visuales) ───── */}
         <section style={{ marginTop:18, marginBottom:18 }}>
