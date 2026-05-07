@@ -127,6 +127,61 @@ Una vez desplegado:
 
 `POST /api/v1/auth/login` se llama directamente desde el cliente (no por proxy). En modo demo (sin `NEXT_PUBLIC_API_URL`) el login devuelve tokens fake al instante y acepta cualquier credencial.
 
+## LLM · Politeia Brain (Ollama)
+
+El endpoint `POST /api/brain/chat` permite que las páginas `/agente-ia` y el componente `BrainBriefing` (en `/dashboard`) hagan preguntas libres a un LLM real.
+
+**Cadena de fallback** (server-side):
+
+1. Si `BACKEND_URL` está configurada → intenta `POST /api/brain/chat` del FastAPI.
+2. Si no hay backend o falla → llama a Ollama directamente en `OLLAMA_URL`.
+3. Si Ollama tampoco responde → el cliente cae a respuestas canned (palabras-clave).
+
+**Variables de entorno**:
+
+| Variable | Default | Descripción |
+|---|---|---|
+| `OLLAMA_URL` | `http://localhost:11434` | URL del servidor Ollama |
+| `OLLAMA_MODEL` | `qwen2.5:7b` | Modelo a usar |
+| `OLLAMA_TIMEOUT_MS` | `90000` | Timeout en ms (modelos 7B suelen tardar 5-30s) |
+
+**Local dev**:
+```bash
+# Asegúrate de tener Ollama corriendo y el modelo descargado:
+ollama serve &
+ollama pull qwen2.5:7b
+# Levanta el frontend:
+cd apps/visual-oscar && npm run dev
+# Test:
+curl http://localhost:3001/api/brain/chat   # → diagnóstico (modelo cargado, etc.)
+```
+
+**Vercel · producción**: localhost no es accesible desde Vercel. Tres opciones:
+
+1. **Tunelar Ollama local** (rápido, ideal para demo):
+   ```bash
+   brew install cloudflared
+   cloudflared tunnel --url http://localhost:11434
+   # Copia la URL pública (https://xxx.trycloudflare.com) y pégala en Vercel
+   # Settings → Environment Variables → OLLAMA_URL = https://xxx.trycloudflare.com
+   ```
+2. **Desplegar Ollama en un servidor** (RunPod, Hugging Face, EC2 con GPU…) y apuntar `OLLAMA_URL` allí.
+3. **Conectar el FastAPI con LLM**: si despliegas el backend (`api/`) con su lógica de IA, basta con `BACKEND_URL=https://...` y la cadena de fallback se encarga.
+
+**Diagnóstico**: `GET /api/brain/chat` (sin body) devuelve si Ollama está reachable, qué modelo está configurado, y qué modelos hay cargados.
+
+```json
+{
+  "ollama": {
+    "url": "http://localhost:11434",
+    "reachable": true,
+    "configured_model": "qwen2.5:7b",
+    "model_loaded": true,
+    "available_models": ["qwen2.5:7b", "llama3.2:3b", "nomic-embed-text:latest"]
+  }
+}
+```
+
 ## Deploy en Vercel · 2 minutos
 
 1. Entra en **https://vercel.com** y haz login con GitHub (autoriza `politeianalitica-alt`).

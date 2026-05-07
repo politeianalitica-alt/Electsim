@@ -50,18 +50,46 @@ export default function BrainBriefing() {
     scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, thinking])
 
-  function ask(q: string) {
-    if (!q.trim() || thinking) return
-    setMessages(m => [...m, { role: 'user', text: q.trim(), ts: Date.now() }])
+  async function ask(q: string) {
+    const text = q.trim()
+    if (!text || thinking) return
+    const newMessages: Msg[] = [...messages, { role: 'user', text, ts: Date.now() }]
+    setMessages(newMessages)
     setInput('')
     setThinking(true)
-    // Buscar respuesta predefinida
-    const preset = PRESET_QUESTIONS.find(p => p.q === q)
-    const reply = preset ? preset.a : fakeReply(q)
-    setTimeout(() => {
+
+    // Las preguntas pre-definidas tienen respuesta curada al instante (sin red).
+    const preset = PRESET_QUESTIONS.find(p => p.q === text)
+    if (preset) {
+      setTimeout(() => {
+        setMessages(m => [...m, { role: 'brain', text: preset.a, ts: Date.now() }])
+        setThinking(false)
+      }, 400 + Math.random() * 300)
+      return
+    }
+
+    // Texto libre → llamamos al LLM (Ollama o backend según config).
+    try {
+      const res = await fetch('/api/brain/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages.map(m => ({
+            role: m.role === 'user' ? 'user' : 'assistant',
+            content: m.text,
+          })),
+        }),
+      })
+      const data: { reply: string; source: 'ollama' | 'backend' | 'fallback' } = await res.json()
+      const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
+        ? data.reply
+        : fakeReply(text)
       setMessages(m => [...m, { role: 'brain', text: reply, ts: Date.now() }])
+    } catch {
+      setMessages(m => [...m, { role: 'brain', text: fakeReply(text), ts: Date.now() }])
+    } finally {
       setThinking(false)
-    }, 600 + Math.random() * 500)
+    }
   }
 
   function onSubmit(e: FormEvent) { e.preventDefault(); ask(input) }

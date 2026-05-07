@@ -50,17 +50,40 @@ export default function AgenteIAPage() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, thinking])
 
-  function send(text: string) {
+  const [llmSource, setLlmSource] = useState<'ollama' | 'backend' | 'fallback' | null>(null)
+
+  async function send(text: string) {
     const q = text.trim()
     if (!q || thinking) return
-    setMessages(m => [...m, { role: 'user', text: q, ts: Date.now() }])
+    const newMessages: Msg[] = [...messages, { role: 'user', text: q, ts: Date.now() }]
+    setMessages(newMessages)
     setInput('')
     setThinking(true)
-    // Latencia simulada
-    setTimeout(() => {
+
+    try {
+      const res = await fetch('/api/brain/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages.map(m => ({
+            role: m.role === 'user' ? 'user' : 'assistant',
+            content: m.text,
+          })),
+        }),
+      })
+      const data: { reply: string; source: 'ollama' | 'backend' | 'fallback' } = await res.json()
+      setLlmSource(data.source)
+      const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
+        ? data.reply
+        : fakeReply(q)
+      setMessages(m => [...m, { role: 'assistant', text: reply, ts: Date.now() }])
+    } catch {
+      // Si la red falla por completo, fallback total a la respuesta canned.
+      setLlmSource('fallback')
       setMessages(m => [...m, { role: 'assistant', text: fakeReply(q), ts: Date.now() }])
+    } finally {
       setThinking(false)
-    }, 700 + Math.random() * 600)
+    }
   }
 
   function onSubmit(e: FormEvent) {
@@ -165,7 +188,11 @@ export default function AgenteIAPage() {
         </form>
 
         <div style={{ marginTop: 8, fontSize: 10.5, color: '#86868b', textAlign: 'center' }}>
-          Respuestas generadas con datos del dashboard · El backend LLM real se conectará próximamente
+          {llmSource === 'ollama'   && <>Respuesta generada por <strong style={{color:'#10b981'}}>Ollama</strong> en local · {' '}</>}
+          {llmSource === 'backend'  && <>Respuesta del <strong style={{color:'#10b981'}}>backend Politeia</strong> · {' '}</>}
+          {llmSource === 'fallback' && <>Sin LLM disponible · usando respuesta predefinida · {' '}</>}
+          {llmSource === null       && <>Esperando primera consulta · {' '}</>}
+          modelo: <code style={{fontSize:10.5,background:'#F5F5F7',padding:'1px 5px',borderRadius:3}}>{llmSource === 'ollama' ? 'qwen2.5:7b' : llmSource === 'backend' ? 'backend' : 'canned'}</code>
         </div>
 
         <style>{`
