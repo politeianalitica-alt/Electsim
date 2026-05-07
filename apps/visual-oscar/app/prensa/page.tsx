@@ -4,8 +4,39 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
-const NOTICIAS=[
+// ─────────────────────────────────────────────────────────────────────
+// Tipos de la respuesta de /api/noticias/feed
+// ─────────────────────────────────────────────────────────────────────
+type ScoredArticle = {
+  medio_id: string
+  medio_nombre: string
+  medio_tipo: string
+  medio_ambito: string
+  medio_ccaa: string | null
+  ideologia: number
+  title: string
+  link: string
+  pub_date: string | null
+  description: string
+  importance: number
+  components: { source: number; recency: number; politics: number; crisis: number; cluster: number }
+  tags: string[]
+}
+type FeedResponse = {
+  articles: ScoredArticle[]
+  summary: {
+    total_articles: number; returned: number;
+    avg_importance: number; top_importance: number;
+    distribucion_ideologica: { izquierda: number; centro: number; derecha: number }
+    breaking_news: number; cluster_alerts: number;
+  }
+  fetch_stats: { sources_attempted: number; sources_ok: number; raw_items: number; fetch_ms: number }
+}
+
+const NOTICIAS_FALLBACK=[
   {id:1,titulo:'PP propone rebaja del IRPF para rentas medias en la próxima legislatura',fuente:'El Mundo',fecha:'30 abr',partidos:['PP'],sent:0.32,label:'Positivo'},
   {id:2,titulo:'Tensión en el Congreso tras debate sobre ley de amnistía',fuente:'El País',fecha:'30 abr',partidos:['PSOE','PP','Junts'],sent:-0.41,label:'Negativo'},
   {id:3,titulo:'VOX presenta moción de censura parcial contra gobierno de coalición',fuente:'ABC',fecha:'29 abr',partidos:['VOX','PSOE'],sent:-0.62,label:'Negativo'},
@@ -54,20 +85,34 @@ export default function PrensaPage(){
   const currentPath='/prensa'
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
-  const avgSent=(NOTICIAS.reduce((s,n)=>s+n.sent,0)/NOTICIAS.length).toFixed(2)
-  const negPct=Math.round(NOTICIAS.filter(n=>n.sent<0).length/NOTICIAS.length*100)
+
+  // Feed dinámico de RSS · auto-refresh cada 60s
+  const { data: feed, source, updatedAt, refresh, loading } = useApi<FeedResponse>(
+    '/api/noticias/feed?limit=24&sources=30&since_hours=72',
+    { refreshInterval: 60_000 }
+  )
+  const articles = feed?.articles || []
+  const totalArticles = feed?.summary.total_articles || 0
+  const breakingCount = feed?.summary.breaking_news || 0
+  const sourcesOk = feed?.fetch_stats.sources_ok || 0
+  const sourcesAttempted = feed?.fetch_stats.sources_attempted || 0
+  const avgSent=(NOTICIAS_FALLBACK.reduce((s,n)=>s+n.sent,0)/NOTICIAS_FALLBACK.length).toFixed(2)
+  const negPct=Math.round(NOTICIAS_FALLBACK.filter(n=>n.sent<0).length/NOTICIAS_FALLBACK.length*100)
   return(
     <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
       <AppHeader/>
       <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
         <section style={{background:'linear-gradient(135deg,#4c1d95 0%,#1e1b4b 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
           <div>
-            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Prensa & Agenda · Monitorización</p>
-            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>Sentimiento <em style={{fontWeight:300}}>mixto en prensa</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>8 noticias · Análisis de sentimiento · 6 bulos verificados</p>
+            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+              <span>Prensa & Agenda · Monitorización en vivo</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
+            </p>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>{totalArticles > 0 ? `${totalArticles} noticias` : 'Cargando…'} <em style={{fontWeight:300}}>de {sourcesOk}/{sourcesAttempted} medios</em></h1>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>Scoring por importancia · {breakingCount} última hora · auto-refresh 60s</p>
           </div>
           <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:16,flexShrink:0}}>
-            {[{l:'Noticias',v:'8'},{l:'Sentimiento',v:avgSent},{l:'% Negativo',v:`${negPct}%`},{l:'Temas',v:'8'}].map(k=>(
+            {[{l:'Noticias',v:totalArticles>0?String(totalArticles):'…'},{l:'Top score',v:String(feed?.summary.top_importance||0)},{l:'Última hora',v:String(breakingCount)},{l:'Medios OK',v:`${sourcesOk}/${sourcesAttempted}`}].map(k=>(
               <div key={k.l} style={{textAlign:'center'}}>
                 <div style={{fontFamily:'var(--font-display)',fontSize:32,fontWeight:700,color:'#c4b5fd',lineHeight:1}}>{k.v}</div>
                 <div style={{fontSize:11,opacity:0.6,marginTop:3}}>{k.l}</div>
@@ -117,24 +162,50 @@ export default function PrensaPage(){
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
-          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Últimas noticias monitorizadas</h2>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-            {NOTICIAS.map(n=>(
-              <div key={n.id} style={{padding:'14px 16px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',borderLeft:`3px solid ${n.sent>0.2?'#16A34A':n.sent<-0.2?'#DC2626':'#9E9E9E'}`}}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:8}}>
-                  <p style={{margin:0,fontSize:13,fontWeight:600,lineHeight:1.35,flex:1}}>{n.titulo}</p>
-                  <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,flexShrink:0,background:n.sent>0.2?'#16A34A':n.sent<-0.2?'#DC2626':'#9E9E9E',color:'#fff'}}>
-                    {n.label}
-                  </span>
-                </div>
-                <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap'}}>
-                  <span style={{fontSize:11,color:'var(--ink-4)'}}>{n.fuente} · {n.fecha}</span>
-                  <span style={{fontFamily:'var(--font-display)',fontSize:11,fontWeight:700,color:n.sent>0?'#16A34A':'#DC2626'}}>{n.sent>0?'+':''}{n.sent.toFixed(2)}</span>
-                  {n.partidos.map(p=><span key={p} style={{fontSize:10.5,padding:'1px 6px',borderRadius:999,background:'var(--hairline)',color:'var(--ink-3)'}}>{p}</span>)}
-                </div>
-              </div>
-            ))}
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16,flexWrap:'wrap',gap:8}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Últimas noticias · ranking por importancia</h2>
+            <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'4px 10px',border:'1px solid var(--hairline)'}}>
+              {loading && articles.length === 0 ? 'cargando feeds…' : `${articles.length} artículos · puntuados 0-100`}
+            </span>
           </div>
+          {articles.length === 0 && !loading ? (
+            <div style={{padding:'30px',textAlign:'center',color:'var(--ink-4)',fontSize:13}}>
+              Sin noticias disponibles · pulsa la píldora &quot;DATOS DE DEMO&quot; para reintentar.
+            </div>
+          ) : (
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              {articles.map(a=>{
+                // Color por importancia: verde alto · amarillo medio · gris bajo
+                const impColor = a.importance >= 70 ? '#DC2626' : a.importance >= 50 ? '#F59E0B' : a.importance >= 30 ? '#6366F1' : '#9CA3AF'
+                const ideoColor = a.ideologia < -20 ? '#E30613' : a.ideologia > 20 ? '#1F4E8C' : '#9E9E9E'
+                const ideoLabel = a.ideologia < -20 ? 'IZQ' : a.ideologia > 20 ? 'DER' : 'CTR'
+                const fecha = a.pub_date ? new Date(a.pub_date).toLocaleString('es-ES', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : 'sin fecha'
+                return (
+                  <a key={`${a.medio_id}-${a.link}`} href={a.link} target="_blank" rel="noopener noreferrer" style={{padding:'14px 16px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',borderLeft:`3px solid ${impColor}`,textDecoration:'none',color:'inherit',display:'block',transition:'transform 120ms,box-shadow 120ms'}}
+                     onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.transform='translateY(-1px)';(e.currentTarget as HTMLElement).style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'}}
+                     onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.transform='';(e.currentTarget as HTMLElement).style.boxShadow=''}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:8}}>
+                      <p style={{margin:0,fontSize:13,fontWeight:600,lineHeight:1.35,flex:1}}>{a.title}</p>
+                      <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:3,flexShrink:0}}>
+                        <span style={{fontFamily:'var(--font-display)',fontSize:14,fontWeight:800,padding:'2px 8px',borderRadius:999,background:impColor,color:'#fff',lineHeight:1.2}}>{a.importance}</span>
+                      </div>
+                    </div>
+                    {a.tags.length > 0 && (
+                      <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:6}}>
+                        {a.tags.map(t=><span key={t} style={{fontSize:9.5,fontWeight:700,padding:'2px 6px',borderRadius:4,background:'rgba(0,0,0,0.04)',color:'var(--ink-2)'}}>{t}</span>)}
+                      </div>
+                    )}
+                    <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap'}}>
+                      <span style={{fontSize:11,fontWeight:600,color:'var(--ink-2)'}}>{a.medio_nombre}</span>
+                      <span style={{fontSize:10,fontWeight:700,padding:'1px 5px',borderRadius:3,background:`${ideoColor}20`,color:ideoColor}}>{ideoLabel}</span>
+                      <span style={{fontSize:10.5,color:'var(--ink-4)'}}>· {fecha}</span>
+                      {a.medio_ccaa && <span style={{fontSize:10.5,padding:'1px 5px',borderRadius:3,background:'var(--hairline)',color:'var(--ink-3)'}}>{a.medio_ccaa}</span>}
+                    </div>
+                  </a>
+                )
+              })}
+            </div>
+          )}
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>

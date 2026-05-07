@@ -3,11 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
 // ─────────────────────────────────────────────────────────────────────────
-type TipoMedio = 'Prensa' | 'Digital' | 'TV' | 'Radio' | 'Agencias'
+type TipoMedio = 'Prensa' | 'Digital' | 'TV' | 'Radio' | 'Agencias' | 'Revista'
 
 type Medio = {
   id: string
@@ -19,9 +21,26 @@ type Medio = {
   tono: number      // -1 .. +1 (sentimiento medio sobre el Gobierno)
   share: number     // % de cuota en su segmento
   color?: string
+  ambito?: string
+  ccaa?: string | null
+  credibilidad?: number
 }
 
-const MEDIOS: Medio[] = [
+// Shape de la respuesta de /api/medios
+type MediosResponse = {
+  medios: Array<{
+    id: string; nombre: string; grupo: string; tipo: string; ambito: string
+    ccaa: string | null; ideologia: number; audiencia_M: number; credibilidad: number
+    rss: string | null; web: string; color?: string
+  }>
+  stats: {
+    total: number; con_rss: number; audiencia_total_M: number;
+    por_tipo: Record<string, number>; por_ambito: Record<string, number>
+  }
+}
+
+// Datos iniciales · 27 mocks usados como fallback hasta que llegue la respuesta de la API
+const INITIAL_MEDIOS: Medio[] = [
   // Prensa
   { id:'el-pais',     nombre:'El País',         grupo:'PRISA',         tipo:'Prensa',  ejeX:-25, alcance:1.6, tono:+0.08, share:18.4 },
   { id:'el-mundo',    nombre:'El Mundo',        grupo:'Unidad Edit.',  tipo:'Prensa',  ejeX: 32, alcance:1.1, tono:-0.18, share:12.6 },
@@ -66,6 +85,7 @@ const TIPO_COLOR: Record<TipoMedio, string> = {
   'TV':       '#DC2626',
   'Radio':    '#F97316',
   'Agencias': '#6e6e73',
+  'Revista':  '#0EA5E9',
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -92,7 +112,7 @@ const NARRATIVAS: Narrativa[] = [
   { tema:'Negociación PNV · transferencia ferroviaria', menciones:5.1, variacion:+12, tono:-0.04, topMedios:['El País','Onda Cero'], topPartido:'PNV', tag:'TERRITORIAL' },
 ]
 
-const TIPOS_FIL = ['Todos','Prensa','Digital','TV','Radio','Agencias'] as const
+const TIPOS_FIL = ['Todos','Prensa','Digital','TV','Radio','Agencias','Revista'] as const
 
 // ─────────────────────────────────────────────────────────────────────────
 // Page
@@ -100,6 +120,33 @@ const TIPOS_FIL = ['Todos','Prensa','Digital','TV','Radio','Agencias'] as const
 export default function MediosNarrativaPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
+
+  // Catálogo dinámico desde /api/medios (219 medios reales) · auto-refresh 5min
+  const { data, source, updatedAt, refresh } = useApi<MediosResponse>(
+    '/api/medios',
+    { refreshInterval: 300_000 }
+  )
+
+  // Adaptador: shape catálogo (ideologia/audiencia_M) → shape de la página (ejeX/alcance/tono)
+  const MEDIOS: Medio[] = useMemo(() => {
+    if (!data?.medios?.length) return INITIAL_MEDIOS
+    // Cuota dentro de su tipo · suma de audiencia del tipo = 100%
+    const sumaPorTipo: Record<string, number> = {}
+    for (const m of data.medios) sumaPorTipo[m.tipo] = (sumaPorTipo[m.tipo] || 0) + m.audiencia_M
+    return data.medios.map(m => ({
+      id: m.id,
+      nombre: m.nombre,
+      grupo: m.grupo,
+      tipo: m.tipo as TipoMedio,
+      ejeX: m.ideologia,
+      alcance: m.audiencia_M,
+      tono: 0, // TODO: derivar de sentiment del feed; placeholder neutro
+      share: sumaPorTipo[m.tipo] > 0 ? +(100 * m.audiencia_M / sumaPorTipo[m.tipo]).toFixed(1) : 0,
+      ambito: m.ambito,
+      ccaa: m.ccaa,
+      credibilidad: m.credibilidad,
+    }))
+  }, [data])
 
   const [filterTipo, setFilterTipo] = useState<typeof TIPOS_FIL[number]>('Todos')
   const [hovered, setHovered] = useState<string | null>(null)
@@ -109,15 +156,15 @@ export default function MediosNarrativaPage() {
 
   const visibles = useMemo(
     () => filterTipo === 'Todos' ? MEDIOS : MEDIOS.filter(m => m.tipo === filterTipo),
-    [filterTipo]
+    [filterTipo, MEDIOS]
   )
 
   const counts = useMemo(() => {
     const byTipo: Record<string, number> = {}
     for (const m of MEDIOS) byTipo[m.tipo] = (byTipo[m.tipo] || 0) + 1
-    const tonoMedio = +(MEDIOS.reduce((s, m) => s + m.tono, 0) / MEDIOS.length).toFixed(2)
+    const tonoMedio = MEDIOS.length > 0 ? +(MEDIOS.reduce((s, m) => s + m.tono, 0) / MEDIOS.length).toFixed(2) : 0
     return { byTipo, tonoMedio, total: MEDIOS.length }
-  }, [])
+  }, [MEDIOS])
 
   // Posicionamiento del cuadrante
   const W = 1000, H = 380
@@ -136,22 +183,24 @@ export default function MediosNarrativaPage() {
           display:'grid', gridTemplateColumns:'1.7fr 1fr', gap:32, alignItems:'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px' }}>
-              NARRATIVA PÚBLICA · MEDIOS DE COMUNICACIÓN
+            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+              <span>NARRATIVA PÚBLICA · {counts.total} MEDIOS DE COMUNICACIÓN</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {counts.total} medios analizados, <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>tono neto {counts.tonoMedio >= 0 ? '+' : ''}{counts.tonoMedio}</em>
+              {counts.total} medios <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>cubriendo prensa, TV, radio y digital</em>
             </h1>
             <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
-              Posicionamiento ideológico (eje X) · alcance estimado (eje Y) · sesgo y narrativas dominantes
+              Catálogo completo · 17 CCAA + nacional · {data?.stats.con_rss || 0} con RSS para ingestión en tiempo real · {data?.stats.audiencia_total_M ? data.stats.audiencia_total_M.toFixed(1) : '…'}M usuarios mensuales agregados
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6 }}>
             <MiniK label="PRENSA"   n={counts.byTipo['Prensa']   || 0}/>
             <MiniK label="DIGITAL"  n={counts.byTipo['Digital']  || 0}/>
             <MiniK label="TV"       n={counts.byTipo['TV']       || 0}/>
             <MiniK label="RADIO"    n={counts.byTipo['Radio']    || 0}/>
             <MiniK label="AGENC."   n={counts.byTipo['Agencias'] || 0}/>
+            <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
           </div>
         </section>
 

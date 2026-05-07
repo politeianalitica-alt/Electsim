@@ -1,0 +1,31 @@
+# Override para correr el stack de Electsim (api + postgres) en puertos
+# alternativos (5433, 8001) sin chocar con los containers de electsim-espana
+# que ya ocupan los puertos por defecto (5432, 8000).
+#
+# Uso:
+#   docker compose -f docker-compose.yml -f docker-compose.gh.yml \
+#     -p electsim-gh up -d postgres electsim-api
+
+services:
+  postgres:
+    container_name: electsim-gh-postgres
+    # !override fuerza reemplazo completo de la lista de ports en lugar de fusionarla
+    ports: !override
+      - "5433:5432"
+    volumes: !override
+      - pgdata-gh:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./db/seeds/02_seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql
+
+  electsim-api:
+    container_name: electsim-gh-api
+    ports: !override
+      - "8001:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://electsim:electsim@postgres:5432/electsim_espana
+      FRONTEND_URL: https://politeia-visual-oscar.vercel.app
+      ELECTSIM_DEV_MODE: "true"
+      PYTHONPATH: /app
+
+volumes:
+  pgdata-gh:
