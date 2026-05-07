@@ -5,6 +5,8 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 // Ticker en tiempo real · politeia_v3.py · GET /api/system/ticker
+// Backend devuelve una lista directa de TickerItem:
+//   { text, category, color, priority, timestamp }
 const SAMPLE_EVENTS = [
   { kind: 'parliament', icon: '🏛', text: 'Pleno del Congreso · convalidación decreto-ley 4/2026 · 11:00 mañana' },
   { kind: 'market',     icon: '📈', text: 'IBEX 35 sube +0,42% · banca lidera (+1,1%)' },
@@ -17,11 +19,23 @@ const SAMPLE_EVENTS = [
 ]
 
 export async function GET() {
-  const real = await fromBackend<{ events: unknown[] }>('/api/system/ticker')
-  if (real) return NextResponse.json(withMeta(real, 'backend'))
+  // Backend devuelve lista directa o { events: [...] }
+  const real = await fromBackend<unknown>('/api/system/ticker')
+  if (real !== null) {
+    let events: unknown[]
+    if (Array.isArray(real)) {
+      events = real
+    } else if (real && typeof real === 'object' && 'events' in (real as object)) {
+      events = (real as { events: unknown[] }).events
+    } else {
+      events = []
+    }
+    if (events.length > 0) {
+      return NextResponse.json(withMeta({ events }, 'backend'))
+    }
+  }
 
-  // Mock dinámico: rotamos los eventos según el minuto actual para que el feed
-  // cambie sin necesidad de DB. El cliente lo reemplazará cuando haya backend real.
+  // Mock dinámico: rotamos los eventos según el minuto actual
   const now = Date.now()
   const offset = Math.floor(now / 60000) % SAMPLE_EVENTS.length
   const events = Array.from({ length: 6 }, (_, i) => {
