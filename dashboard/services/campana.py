@@ -49,8 +49,8 @@ def listar_clientes(solo_activos: bool = True) -> pd.DataFrame:
         return pd.DataFrame()
     sql = "SELECT id, nombre, tipo, ambito, activo FROM clientes"
     if solo_activos:
-        sql += "WHERE COALESCE(activo, TRUE) = TRUE"
-    sql += "ORDER BY nombre"
+        sql += " WHERE COALESCE(activo, TRUE) = TRUE"
+    sql += " ORDER BY nombre"
     return _q(sql)
 
 
@@ -354,4 +354,3 @@ def estadisticas_memoria(cliente_id: int) -> dict[str, Any]:
         (int(cliente_id),),
     )
     return df.iloc[0].to_dict() if not df.empty else {}
-

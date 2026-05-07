@@ -229,19 +229,13 @@ def fetch_rss(source: dict) -> list[dict]:
 
 
 # ── Ollama analysis ───────────────────────────────────────────────────────────
-def analyze_with_ollama(article: dict) -> dict:
-    """Envía el artículo a Ollama y devuelve el dict de análisis AI.
-    Si falla devuelve valores por defecto para no bloquear la ingesta.
-    """
-    prompt = _ANALYSIS_PROMPT_TMPL.format(
-        source_name=article.get("source_name", ""),
-        source_country=article.get("source_country", ""),
-        title=article.get("title", "")[:300],
-        content=(article.get("content", "") or "")[:MAX_CONTENT_CHARS],
-    )
-
-    default = {
-        "ai_summary": None,
+def _default_ai_analysis(article: dict) -> dict:
+    """Valores IA mínimos para poder persistir artículos aunque Ollama esté desactivado."""
+    title = str(article.get("title") or "")
+    content = str(article.get("content") or "")
+    summary = content[:240] if content else title[:240]
+    return {
+        "ai_summary": summary,
         "ai_analysis": None,
         "ai_topics": [],
         "ai_entities": {"personas": [], "lugares": [], "organizaciones": [], "instrumentos_legales": []},
@@ -259,6 +253,20 @@ def analyze_with_ollama(article: dict) -> dict:
         "ai_category": "otro",
         "ai_raw": None,
     }
+
+
+def analyze_with_ollama(article: dict) -> dict:
+    """Envía el artículo a Ollama y devuelve el dict de análisis AI.
+    Si falla devuelve valores por defecto para no bloquear la ingesta.
+    """
+    prompt = _ANALYSIS_PROMPT_TMPL.format(
+        source_name=article.get("source_name", ""),
+        source_country=article.get("source_country", ""),
+        title=article.get("title", "")[:300],
+        content=(article.get("content", "") or "")[:MAX_CONTENT_CHARS],
+    )
+
+    default = _default_ai_analysis(article)
 
     try:
         resp = httpx.post(
@@ -367,7 +375,7 @@ def ingest_source(source: dict, use_ollama: bool = True) -> dict[str, int]:
                             stats["skipped"] += 1
                             continue
 
-                        ai = analyze_with_ollama(art) if use_ollama else {}
+                        ai = analyze_with_ollama(art) if use_ollama else _default_ai_analysis(art)
                         inserted = _insert_article(cur, art, ai)
                         if inserted:
                             stats["inserted"] += 1
