@@ -35,6 +35,8 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
 
   function fmtAge(s: number | null): string {
     if (s === null) return '—'
+    // Si los datos se refrescaron en los últimos 30 s consideramos que están al día.
+    if (s < 30) return 'actualizado'
     if (s < 60) return `hace ${s}s`
     if (s < 3600) return `hace ${Math.floor(s / 60)} min`
     return `hace ${Math.floor(s / 3600)} h`
