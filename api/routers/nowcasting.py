@@ -34,8 +34,7 @@ def nowcasting_current() -> list[dict]:
             with engine.connect() as conn:
                 rows = conn.execute(text("""
                     SELECT
-                        p.nombre_corto AS partido,
-                        p.color_hex    AS color,
+                        p.siglas        AS partido,
                         e.estimacion_pct,
                         e.ic_95_inf,
                         e.ic_95_sup,
@@ -50,7 +49,13 @@ def nowcasting_current() -> list[dict]:
                     ORDER BY e.estimacion_pct DESC NULLS LAST
                 """)).fetchall()
                 if rows:
-                    return [dict(r._mapping) for r in rows]
+                    _colors = {"PP": "#1F77FF", "PSOE": "#E03A3E", "VOX": "#5BC035", "SUMAR": "#D81E5B", "ERC": "#F4B400", "PNV": "#1D8042", "BILDU": "#A4D65E", "JUNTS": "#00C2A8"}
+                    result = []
+                    for r in rows:
+                        d = dict(r._mapping)
+                        d["color"] = _colors.get(str(d.get("partido", "")), "#94A3B8")
+                        result.append(d)
+                    return result
         except Exception:
             pass
 
@@ -82,7 +87,7 @@ def nowcasting_serie(
                     SELECT e.fecha_estimacion, e.estimacion_pct, e.ic_95_inf, e.ic_95_sup
                     FROM estimaciones_voto_agregadas e
                     JOIN partidos p ON p.id = e.partido_id
-                    WHERE LOWER(p.nombre_corto) = LOWER(:partido)
+                    WHERE LOWER(p.siglas) = LOWER(:partido)
                       AND e.fecha_estimacion >= :since
                     ORDER BY e.fecha_estimacion ASC
                 """), {"partido": partido, "since": since}).fetchall()
@@ -303,24 +308,30 @@ def macro_ultimo() -> dict:
         try:
             with engine.connect() as conn:
                 # Try kpis_operativos or similar table
-                rows = conn.execute(text("""
-                    SELECT clave, valor, variacion, fuente, fecha_dato
-                    FROM indicadores_macro
-                    ORDER BY fecha_dato DESC, clave
-                """)).fetchall()
-                if rows:
-                    indicators = {}
-                    for r in rows:
-                        m = r._mapping
-                        if m["clave"] not in indicators:
-                            indicators[m["clave"]] = {
-                                "valor": float(m["valor"] or 0),
-                                "variacion": float(m["variacion"] or 0),
-                                "fuente": m["fuente"],
-                                "fecha": str(m["fecha_dato"]),
-                            }
-                    if indicators:
-                        return {"indicadores": indicators, "updated_at": datetime.utcnow().isoformat()}
+                row = conn.execute(text("""
+                    SELECT fecha, ipc_general, ipc_subyacente, tasa_paro,
+                           pib_per_capita, crecimiento_pib,
+                           prima_riesgo_bono10, euribor_12m,
+                           deficit_publico_pib, deuda_publica_pib,
+                           ibex35_cierre, tipo_referencia_bce, fuente
+                    FROM indicadores_macroeconomicos
+                    ORDER BY fecha DESC LIMIT 1
+                """)).fetchone()
+                if row:
+                    m = row._mapping
+                    def _f(v): return float(v) if v is not None else None  # noqa: E731
+                    indicators = {
+                        "ipc_general":     {"label": "IPC interanual",  "valor": _f(m["ipc_general"]),    "unidad": "%",  "fuente": str(m["fuente"] or "INE"), "fecha": str(m["fecha"])},
+                        "ipc_subyacente":  {"label": "IPC subyacente",  "valor": _f(m["ipc_subyacente"]), "unidad": "%",  "fuente": "INE", "fecha": str(m["fecha"])},
+                        "tasa_paro":       {"label": "Tasa de paro",    "valor": _f(m["tasa_paro"]),      "unidad": "%",  "fuente": "EPA/INE", "fecha": str(m["fecha"])},
+                        "pib_per_capita":  {"label": "PIB per cápita",  "valor": _f(m["pib_per_capita"]), "unidad": "€",  "fuente": "INE", "fecha": str(m["fecha"])},
+                        "crecimiento_pib": {"label": "PIB crecimiento", "valor": _f(m["crecimiento_pib"]),"unidad": "%",  "fuente": "INE", "fecha": str(m["fecha"])},
+                        "prima_riesgo":    {"label": "Prima de riesgo", "valor": _f(m["prima_riesgo_bono10"]), "unidad": "pb", "fuente": "BdE", "fecha": str(m["fecha"])},
+                        "euribor_12m":     {"label": "Euribor 12m",     "valor": _f(m["euribor_12m"]),    "unidad": "%",  "fuente": "BCE", "fecha": str(m["fecha"])},
+                        "deficit_pib":     {"label": "Déficit/PIB",     "valor": _f(m["deficit_publico_pib"]), "unidad": "%", "fuente": "AIReF", "fecha": str(m["fecha"])},
+                        "deuda_pib":       {"label": "Deuda/PIB",       "valor": _f(m["deuda_publica_pib"]),  "unidad": "%", "fuente": "BdE", "fecha": str(m["fecha"])},
+                    }
+                    return {"indicadores": indicators, "updated_at": datetime.utcnow().isoformat()}
         except Exception:
             pass
 
@@ -352,7 +363,7 @@ def kpis_pulso_operativo() -> list[dict]:
                 rows = conn.execute(text("""
                     WITH ranked AS (
                         SELECT
-                            p.nombre_corto AS partido,
+                            p.siglas AS partido,
                             e.estimacion_pct AS valor,
                             e.fecha_estimacion,
                             ROW_NUMBER() OVER (PARTITION BY e.partido_id ORDER BY e.fecha_estimacion DESC) AS rn

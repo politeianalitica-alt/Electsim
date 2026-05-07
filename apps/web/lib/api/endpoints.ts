@@ -388,4 +388,29 @@ export const endpoints = {
   briefingPdfV2: (id: string) => api.get<any>(`/briefings/${id}/pdf-v2`),
   briefingGenerate: (body: Record<string, any>) => api.post<any>("/briefings/generate", body),
   briefingPreview: (body: Record<string, any>) => api.post<any>("/briefings/preview", body),
+
+  // Media Intelligence
+  mediaIntelKpis: () => api.get<any>("/api/media-intel/kpis"),
+  mediaIntelFeed: (params?: {
+    category?: string; bias?: string; partido?: string;
+    scope?: string; page?: number; page_size?: number;
+  }) => {
+    const q = new URLSearchParams();
+    if (params?.category)  q.set("category",  params.category);
+    if (params?.bias)      q.set("bias",       params.bias);
+    if (params?.partido)   q.set("partido",    params.partido);
+    if (params?.scope)     q.set("scope",      params.scope ?? "all");
+    if (params?.page)      q.set("page",       String(params.page));
+    if (params?.page_size) q.set("page_size",  String(params.page_size));
+    return api.get<{ items: any[]; total: number; page: number; page_size: number; mode: string }>(
+      `/api/media-intel/feed?${q.toString()}`
+    );
+  },
+  mediaIntelBiasSpectrum:    () => api.get<any[]>("/api/media-intel/bias-spectrum"),
+  mediaIntelSentimentHeatmap:() => api.get<any>("/api/media-intel/sentiment-heatmap"),
+  mediaIntelNarratives:      () => api.get<any[]>("/api/media-intel/narratives"),
+  mediaIntelMapWorld:        () => api.get<any[]>("/api/media-intel/map/world"),
+  mediaIntelMapEurope:       () => api.get<any[]>("/api/media-intel/map/europe"),
+  mediaIntelMapSpainCcaa:    () => api.get<any[]>("/api/media-intel/map/spain-ccaa"),
+  mediaIntelSourceHealth:    () => api.get<any>("/api/media-intel/source-health"),
 };
