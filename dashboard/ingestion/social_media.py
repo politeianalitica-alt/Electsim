@@ -41,7 +41,7 @@ def fetch_x_reciente(query: str, max_results: int = 50, bearer_token: str | None
     headers = {"Authorization": f"Bearer {token}"}
     params = {
         "query": query,
-        "max_results": min(max_results, 100),
+        "max_results": max(10, min(max_results, 100)),
         "tweet.fields": "created_at,public_metrics,author_id,lang",
         "expansions": "author_id",
         "user.fields": "username,public_metrics",

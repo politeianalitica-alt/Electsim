@@ -4,32 +4,48 @@ from __future__ import annotations
 
 import os
 import re
-from functools import lru_cache
+import threading
 from typing import Any
 
 POSITIVE_RE = re.compile(r"\b(acuerdo|mejora|avance|exito|éxito|logro|crece|sube|recuperacion|recuperación|estabilidad)\w*\b", re.I)
 NEGATIVE_RE = re.compile(r"\b(crisis|cae|caida|caída|escandalo|escándalo|corrupcion|corrupción|ataque|conflicto|fracaso|problema|bloqueo)\w*\b", re.I)
 
+# Thread-safe lazy init — avoids lru_cache races in multi-threaded Streamlit
+_pipeline_lock = threading.Lock()
+_pipeline_cache: dict[str, Any] = {}
 
-@lru_cache(maxsize=1)
+
 def get_sentiment_pipeline() -> Any | None:
     backend = os.environ.get("ELECTSIM_SENTIMENT_BACKEND", "auto").strip().lower()
     if backend in {"lexicon", "regex", "off"}:
         return None
     if os.environ.get("PYTEST_CURRENT_TEST"):
         return None
-    try:
-        from transformers import pipeline  # type: ignore
+    model_name = os.environ.get(
+        "ELECTSIM_SENTIMENT_MODEL",
+        "PlanTL-GOB-ES/roberta-base-bne-sentiment",  # Spanish press-trained (vs Twitter)
+    )
+    if model_name in _pipeline_cache:
+        return _pipeline_cache[model_name]
+    with _pipeline_lock:
+        # Double-check after acquiring lock
+        if model_name in _pipeline_cache:
+            return _pipeline_cache[model_name]
+        try:
+            from transformers import pipeline  # type: ignore
 
-        return pipeline(
-            "sentiment-analysis",
-            model=os.environ.get("ELECTSIM_SENTIMENT_MODEL", "cardiffnlp/twitter-xlm-roberta-base-sentiment"),
-            top_k=None,
-            truncation=True,
-            max_length=512,
-        )
-    except Exception:
-        return None
+            pipe = pipeline(
+                "sentiment-analysis",
+                model=model_name,
+                top_k=None,
+                truncation=True,
+                max_length=512,
+            )
+            _pipeline_cache[model_name] = pipe
+            return pipe
+        except Exception:
+            _pipeline_cache[model_name] = None
+            return None
 
 
 def analyze_sentiment(text: str) -> dict[str, Any]:
@@ -77,7 +93,8 @@ def _lexicon_sentiment(text: str) -> dict[str, Any]:
     neg = len(NEGATIVE_RE.findall(text))
     total = pos + neg
     if total == 0:
-        return {"positivo": 0.0, "negativo": 0.0, "neutral": 1.0, "label": "neutral", "score": 0.0, "backend": "lexicon"}
+        # score=None signals "no data" — distinct from genuinely neutral score=0.0
+        return {"positivo": 0.0, "negativo": 0.0, "neutral": 1.0, "label": "neutral", "score": None, "backend": "lexicon"}
     raw = (pos - neg) / total
     positive = max(0.0, raw)
     negative = max(0.0, -raw)

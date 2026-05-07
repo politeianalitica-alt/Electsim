@@ -16,7 +16,7 @@ class TestCommsRepositoryRoundtrip:
         asset = ContentAsset(
             asset_type="linkedin_post",
             title="Test Post Integration",
-            body="Test body for integration test",
+            body_markdown="Test body for integration test",
             tenant_id="comms_int_test",
         )
         created = repo.create_content_asset(asset)
@@ -34,7 +34,7 @@ class TestCommsRepositoryRoundtrip:
         asset = ContentAsset(
             asset_type="tweet",
             title="Draft Tweet Integration",
-            body="Draft content",
+            body_markdown="Draft content",
             status="draft",
             tenant_id="comms_list_test",
         )

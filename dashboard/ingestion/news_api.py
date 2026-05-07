@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 from datetime import datetime, timezone
 from typing import Generator
 
 import httpx
+
+_NEWSAPI_TRUNCATION = re.compile(r"\s*\[[\+\d]+ chars\]$")
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +54,7 @@ def fetch_newsapi(
         source_name = (art.get("source") or {}).get("name")
         title = str(art.get("title") or "").strip()
         desc = str(art.get("description") or "").strip()
-        body = str(art.get("content") or "").strip()
+        body = _NEWSAPI_TRUNCATION.sub("", str(art.get("content") or "")).strip()
         article_url = str(art.get("url") or "").strip()
         if not article_url:
             continue

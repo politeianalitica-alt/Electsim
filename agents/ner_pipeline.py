@@ -33,6 +33,30 @@ KNOWN_ORGS = (
     "Parlamento Europeo",
 )
 
+# Capitalized proper nouns that are NOT person names — prevents regex false positives
+EXCLUDED_NAMES: frozenset[str] = frozenset({
+    # Parties & coalitions
+    "Partido Popular", "Partido Socialista", "Partido Socialista Obrero Español",
+    "Sumar", "Podemos", "Ciudadanos", "Vox", "Junts", "Esquerra Republicana",
+    "Coalición Canaria", "Bildu", "Herri Batasuna", "PNV", "CiU", "Convergencia",
+    "Unidas Podemos", "Alianza Popular", "UCD",
+    # Institutions
+    "Tribunal Constitucional", "Tribunal Supremo", "Audiencia Nacional",
+    "Banco Central Europeo", "Banco España", "Consejo Estado",
+    "Consejo General Poder Judicial", "Defensor Pueblo",
+    "Agencia Tributaria", "Seguridad Social",
+    # CCAA & cities
+    "Comunidad Madrid", "País Vasco", "Cataluña", "Andalucía", "Valencia",
+    "Galicia", "Aragón", "Castilla León", "Castilla Mancha", "Extremadura",
+    "Murcia", "Navarra", "Asturias", "Cantabria", "Rioja", "Baleares",
+    "Canarias", "Ceuta", "Melilla",
+    "Madrid", "Barcelona", "Valencia", "Sevilla", "Zaragoza", "Bilbao",
+    "Málaga", "Palma", "Valladolid", "Alicante",
+    # Generic capitalized words
+    "España", "Europa", "Unión Europea", "Estados Unidos", "Naciones Unidas",
+    "Consejo Ministros", "Gobierno España",
+})
+
 
 @lru_cache(maxsize=1)
 def get_nlp() -> Any | None:
@@ -52,7 +76,9 @@ def get_nlp() -> Any | None:
             from spacy.cli import download  # type: ignore
 
             download("es_core_news_lg")
-            return spacy.load("es_core_news_lg")
+            nlp = spacy.load("es_core_news_lg")
+            get_nlp.cache_clear()  # invalidate so next call picks up the model
+            return nlp
         except Exception:
             return None
     return None
@@ -99,6 +125,8 @@ def extract_entities_regex(text: str) -> list[dict[str, Any]]:
     for match in re.finditer(r"\b([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){1,3})\b", text):
         name = match.group(1).strip()
         if len(name) < 5:
+            continue
+        if name in EXCLUDED_NAMES:
             continue
         entities.append(
             {
