@@ -1,12 +1,24 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
-const PARTIES = [
+type Party = {
+  siglas: string; nombre: string; pct: number;
+  ci_inf: number; ci_sup: number;
+  seats: number; seats_low: number; seats_high: number;
+  color: string; bloque: 'derecha' | 'izquierda' | 'otros';
+  delta: number; n_enc: number;
+}
+type Transfer = { partido: string; delta: number; fuente: string; dir: 'up' | 'down'; color: string }
+
+// Datos iniciales · sustituidos por la respuesta de /api/analytics/nowcast
+const INITIAL_PARTIES: Party[] = [
   { siglas:'PP',       nombre:'Partido Popular',            pct:32.1, ci_inf:30.2, ci_sup:34.0, seats:132, seats_low:126, seats_high:138, color:'#009FDB', bloque:'derecha',   delta:+1.2, n_enc:12 },
   { siglas:'PSOE',     nombre:'PSOE',                       pct:26.8, ci_inf:24.8, ci_sup:28.8, seats:110, seats_low:102, seats_high:118, color:'#E30613', bloque:'izquierda', delta:-2.1, n_enc:12 },
   { siglas:'VOX',      nombre:'VOX',                        pct:12.4, ci_inf:11.0, ci_sup:13.8, seats: 42, seats_low: 36, seats_high: 48, color:'#63BE21', bloque:'derecha',   delta:+0.4, n_enc:12 },
@@ -20,7 +32,7 @@ const PARTIES = [
   { siglas:'Otros',    nombre:'Otros partidos',             pct: 6.2, ci_inf: 5.0, ci_sup: 7.4, seats:  1, seats_low:  0, seats_high:  2, color:'#9E9E9E', bloque:'otros',     delta:-0.9, n_enc:12 },
 ]
 
-const TRANSFERS = [
+const INITIAL_TRANSFERS: Transfer[] = [
   { partido:'PP',    delta:+4, fuente:'PSOE (+2) · Sumar (+2)',  dir:'up',   color:'#009FDB' },
   { partido:'PSOE',  delta:-6, fuente:'PP (-2) · VOX (-1) · Sumar (-3)', dir:'down', color:'#E30613' },
   { partido:'VOX',   delta:+2, fuente:'PSOE (+2)',               dir:'up',   color:'#63BE21' },
@@ -37,13 +49,13 @@ const NAV=[
   {label:'Agentes',href:'/agentes'},{label:'Geopolítica',href:'/geopolitica'},
 ]
 
-function CIChart(){
+function CIChart({parties}:{parties:Party[]}){
   const W=820,rowH=34,padL=88,padR=160,maxPct=38
   const barW=W-padL-padR
-  const H=rowH*PARTIES.length+8
+  const H=rowH*parties.length+8
   return(
     <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
-      {PARTIES.map((p,i)=>{
+      {parties.map((p,i)=>{
         const y=i*rowH+rowH/2
         const bx=padL+(p.pct/maxPct)*barW
         const ci0=padL+(p.ci_inf/maxPct)*barW
@@ -65,8 +77,8 @@ function CIChart(){
   )
 }
 
-function SeatsChart(){
-  const main=PARTIES.filter(p=>p.seats>0&&p.siglas!=='Otros')
+function SeatsChart({parties}:{parties:Party[]}){
+  const main=parties.filter(p=>p.seats>0&&p.siglas!=='Otros')
   const W=820,rowH=38,padL=72,padR=80,maxSeats=160
   const barW=W-padL-padR,H=rowH*main.length+24
   const majX=padL+(176/maxSeats)*barW
@@ -92,11 +104,28 @@ function SeatsChart(){
   )
 }
 
+type NowcastResponse = {
+  parties: Party[];
+  transfers?: Transfer[];
+  n_polls?: number;
+  pedersen?: number;
+  last_update?: string;
+}
+
 export default function NowcastingPage(){
   const router=useRouter()
   const currentPath='/nowcasting'
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
+
+  // Fetch en vivo del nowcasting · auto-refresh 30s
+  const { data, source, updatedAt, refresh } = useApi<NowcastResponse>(
+    '/api/analytics/nowcast',
+    { initialData: { parties: INITIAL_PARTIES, transfers: INITIAL_TRANSFERS }, refreshInterval: 30_000 },
+  )
+  const PARTIES: Party[] = data?.parties && data.parties.length > 0 ? data.parties : INITIAL_PARTIES
+  const TRANSFERS: Transfer[] = data?.transfers && data.transfers.length > 0 ? data.transfers : INITIAL_TRANSFERS
+  const N_POLLS = data?.n_polls ?? 12
 
   const der=PARTIES.filter(p=>p.bloque==='derecha').reduce((s,p)=>s+p.seats,0)
   const izq=PARTIES.filter(p=>p.bloque==='izquierda').reduce((s,p)=>s+p.seats,0)
@@ -120,13 +149,16 @@ export default function NowcastingPage(){
       <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
         <section style={{background:'linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
           <div>
-            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Nowcasting Electoral · Tiempo real</p>
-            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>PP mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de 12 encuestas · 350 escaños · D'Hondt</p>
+            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+              <span>Nowcasting Electoral · Tiempo real</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
+            </p>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>{PARTIES[0]?.siglas || 'PP'} mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de {N_POLLS} encuestas · 350 escaños · D'Hondt</p>
           </div>
           <div style={{textAlign:'right',flexShrink:0}}>
-            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>32.1<span style={{fontSize:28}}>%</span></div>
-            <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>PP · IC 95%: [30.2 – 34.0]</div>
+            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>{(PARTIES[0]?.pct ?? 32.1).toFixed(1)}<span style={{fontSize:28}}>%</span></div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>{PARTIES[0]?.siglas || 'PP'} · IC 95%: [{PARTIES[0]?.ci_inf ?? 30.2} – {PARTIES[0]?.ci_sup ?? 34.0}]</div>
           </div>
         </section>
 
@@ -150,9 +182,9 @@ export default function NowcastingPage(){
           <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
               <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Estimación de voto con IC 95%</h2>
-              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>12 encuestas</span>
+              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>{N_POLLS} encuestas</span>
             </div>
-            <CIChart/>
+            <CIChart parties={PARTIES}/>
           </div>
           <div style={{display:'flex',flexDirection:'column',gap:14}}>
             <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',flex:1}}>
@@ -198,7 +230,7 @@ export default function NowcastingPage(){
               <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Proyección D'Hondt · 350 escaños</h2>
               <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>rango IC 95%</span>
             </div>
-            <SeatsChart/>
+            <SeatsChart parties={PARTIES}/>
           </div>
           <div style={{background:'#fff',borderRadius:20,padding:'22px 26px',boxShadow:'0 1px 3px rgba(0,0,0,0.05)',border:'1px solid #ECECEF'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:10,flexWrap:'wrap'}}>

@@ -67,7 +67,65 @@ lib/
 
 ## Backend
 
-El frontend está pensado para consumir la API FastAPI ya disponible en `backend/`. La autenticación usa JWT (login en `/login` mockeado en cliente).
+El frontend habla con el FastAPI a través de **rutas proxy en el propio Next.js** (`app/api/...`).
+Esto permite tres modos de funcionamiento sin cambiar código:
+
+| Modo | Configuración | Comportamiento |
+|------|---------------|----------------|
+| Demo | (sin env) | Las rutas `/api/*` devuelven mocks. Las páginas hacen fetch real con auto-refresh — útil para ver la UI viva sin backend. |
+| Conectado | `BACKEND_URL=https://tu-fastapi.com` | Las rutas `/api/*` reenvían al FastAPI. Si éste responde se usa su data; si falla o tarda > 4s se cae a mock. |
+| Directo | `NEXT_PUBLIC_API_URL=https://...` | El cliente llama al backend sin pasar por el proxy (útil para `/api/v1/auth/login`). |
+
+### Endpoints proxy disponibles
+
+Cada uno tiene fallback mock que respeta el shape del backend:
+
+| Ruta Next.js | Endpoint FastAPI · backend |
+|--------------|---------------------------|
+| `GET /api/health` | (interno) ping al backend, indica si está reachable |
+| `GET /api/system/status` | `GET /api/system/status` (politeia_v3) |
+| `GET /api/system/ticker` | `GET /api/system/ticker` (politeia_v3) |
+| `GET /api/intelligence/signals` | `GET /intelligence/signals` |
+| `GET /api/analytics/nowcast` | `GET /analytics/nowcast` |
+| `GET /api/briefings/morning` | `GET /api/briefings/morning` |
+| `GET /api/alerts` | `GET /api/alerts` |
+| `* /api/proxy/{path}` | `* /{path}` — pasarela genérica para cualquier endpoint del FastAPI |
+
+Cada respuesta lleva un campo `_meta = { source: 'backend'|'mock', ts }` que el cliente usa para mostrar el badge "BACKEND CONECTADO" / "DATOS DE DEMO" en la UI.
+
+### Hook de fetching · `useApi`
+
+```tsx
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+const { data, source, updatedAt, refresh } = useApi('/api/intelligence/signals', {
+  initialData: INITIAL,           // fallback síncrono para el primer paint
+  refreshInterval: 30_000,        // ms · 0 desactiva auto-refresh
+  refreshOnFocus: true,           // refresca al volver el foco a la pestaña
+})
+
+<LiveStatusBadge updatedAt={updatedAt} source={source} onRefresh={refresh}/>
+```
+
+Páginas ya cableadas: **`/alertas`**, **`/nowcasting`**. Las demás siguen usando mocks inline — para wirearlas basta crear (si hace falta) un `app/api/<path>/route.ts` con su mock fallback y reemplazar la constante en la página por `useApi(...)`.
+
+### Desplegar el backend FastAPI
+
+El FastAPI vive en `api/` y necesita Postgres + Python 3.11+. Opciones probadas:
+
+- **Railway** — `railway up` desde `api/`, añade plugin Postgres, copia `DATABASE_URL` de las variables.
+- **Fly.io** — `fly launch` con un `Dockerfile` que instale `requirements.txt`, añade `fly postgres create`.
+- **Render** — Web Service apuntando a `api/`, plan free incluye Postgres.
+
+Una vez desplegado:
+
+1. En Vercel · **Project Settings → Environment Variables** añade `BACKEND_URL = https://tu-fastapi.com` (sin slash final).
+2. Redeploy. Las rutas `/api/*` empezarán a devolver `{ _meta: { source: 'backend' } }` y el badge cambiará a verde.
+
+### Login
+
+`POST /api/v1/auth/login` se llama directamente desde el cliente (no por proxy). En modo demo (sin `NEXT_PUBLIC_API_URL`) el login devuelve tokens fake al instante y acepta cualquier credencial.
 
 ## Deploy en Vercel · 2 minutos
 

@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
 // Niveles de alerta — orden ascendente de gravedad
 type Level = 'amarillo' | 'naranja' | 'rojo' | 'rojo-parpadeante'
@@ -26,7 +28,9 @@ type Alerta = {
   ts: string
 }
 
-const ALERTAS: Alerta[] = [
+// Datos iniciales · se sustituyen por la respuesta de /api/intelligence/signals.
+// Sirven como fallback para el primer paint y si la API estuviera caída.
+const INITIAL_ALERTAS: Alerta[] = [
   { id:'a01', level:'rojo-parpadeante', category:'Riesgo',      title:'Prima de riesgo supera 110 pb',
     description:'El diferencial con el Bund alcanza 112 pb tras tercera sesión consecutiva al alza. Tesoro convoca reunión extraordinaria.',
     source:'Tesoro Público', ts:'18:42 · hoy' },
@@ -64,6 +68,8 @@ const ALERTAS: Alerta[] = [
 
 const CATS = ['Todas','Mercados','Gobierno','Parlamento','Encuestas','Geopolítica','Medios','Riesgo'] as const
 
+type SignalsResponse = { signals: Alerta[]; total?: number; _meta?: { source: string; ts: string } }
+
 export default function AlertasPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
@@ -71,18 +77,26 @@ export default function AlertasPage() {
   const [filterLevel, setFilterLevel] = useState<Level | 'todas'>('todas')
   const [filterCat, setFilterCat] = useState<typeof CATS[number]>('Todas')
 
+  // Fetch en vivo de /api/intelligence/signals (proxy a FastAPI o mock)
+  // Auto-refresh cada 30s + revalidación al volver el foco a la pestaña.
+  const { data, source, updatedAt, refresh } = useApi<SignalsResponse>(
+    '/api/intelligence/signals',
+    { initialData: { signals: INITIAL_ALERTAS }, refreshInterval: 30_000 },
+  )
+  const ALERTAS: Alerta[] = data?.signals && data.signals.length > 0 ? data.signals : INITIAL_ALERTAS
+
   const counts = useMemo(() => {
     const out: Record<Level, number> = { 'amarillo':0, 'naranja':0, 'rojo':0, 'rojo-parpadeante':0 }
     for (const a of ALERTAS) out[a.level]++
     return out
-  }, [])
+  }, [ALERTAS])
 
   const filtered = useMemo(() => {
     return ALERTAS.filter(a =>
       (filterLevel === 'todas' || a.level === filterLevel) &&
       (filterCat === 'Todas' || a.category === filterCat)
     ).sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level))
-  }, [filterLevel, filterCat])
+  }, [filterLevel, filterCat, ALERTAS])
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
@@ -96,8 +110,9 @@ export default function AlertasPage() {
           display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 32, alignItems: 'center',
         }}>
           <div>
-            <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.55, margin: '0 0 8px' }}>
-              SALA DE CONTROL · ALERTAS EN TIEMPO REAL
+            <p style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.55, margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span>SALA DE CONTROL · ALERTAS EN TIEMPO REAL</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
             </p>
             <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
               {counts['rojo-parpadeante']} alertas <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#ef4444' }}>críticas activas</em>
