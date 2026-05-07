@@ -59,18 +59,22 @@ def get_signals(
         params.append(tipo)
 
     where = " AND ".join(conditions)
-    with _conn() as conn:
-        rows = conn.execute(
-            f"""
-            SELECT id::text, tipo, urgencia, titulo, resumen,
-                   modulo_origen, created_at
-            FROM signal_politeia
-            WHERE {where}
-            ORDER BY urgencia DESC, created_at DESC
-            LIMIT %s
-            """,
-            params + [limit],
-        ).fetchall()
+    try:
+        with _conn() as conn:
+            rows = conn.execute(
+                f"""
+                SELECT id::text, tipo, urgencia, titulo, resumen,
+                       modulo_origen, created_at
+                FROM signal_politeia
+                WHERE {where}
+                ORDER BY urgencia DESC, created_at DESC
+                LIMIT %s
+                """,
+                params + [limit],
+            ).fetchall()
+    except Exception:
+        # Tabla no existe aún — devolver vacío para que el frontend use su mock
+        return []
 
     result = []
     for r in rows:
