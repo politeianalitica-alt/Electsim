@@ -69,8 +69,8 @@ export function KpiStrip() {
           <h2 className="text-xs font-bold uppercase tracking-[.14em] text-cyan1">Pulso operativo</h2>
           <span className="text-xs text-muted">Cargando...</span>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {Array.from({ length: 5 }).map((_, i) => <KpiSkeleton key={i} />)}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {Array.from({ length: 6 }).map((_, i) => <KpiSkeleton key={i} />)}
         </div>
       </section>
     );
@@ -84,17 +84,26 @@ export function KpiStrip() {
         <h2 className="text-xs font-bold uppercase tracking-[.14em] text-cyan1">Pulso operativo</h2>
         <span className="text-xs text-muted">{updatedLabel}</span>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {items.map((k, i) => {
           const positive = k.delta > 0;
-          const isNegativeGood = k.label.toLowerCase().includes("paro") || k.label.toLowerCase().includes("déficit");
+          const isRisk = k.label.toLowerCase().includes("riesgo");
+          const isNegativeGood = k.label.toLowerCase().includes("paro") || k.label.toLowerCase().includes("déficit") || isRisk;
           const deltaGood = isNegativeGood ? !positive : positive;
-          const deltaColor = k.label.toLowerCase().includes("polariz") || k.label.toLowerCase().includes("volatil")
+          const deltaColor = k.label.toLowerCase().includes("polariz") || k.label.toLowerCase().includes("volatil") || isRisk
             ? (positive ? "text-red1" : "text-green1")
             : (deltaGood ? "text-green1" : "text-red1");
 
+          // Risk score gets a coloured value
+          const riskScore = isRisk ? k.value as number : null;
+          const riskColor = riskScore !== null
+            ? riskScore >= 75 ? "#EF4444" : riskScore >= 60 ? "#F59E0B" : riskScore >= 40 ? "#3B82F6" : "#10B981"
+            : undefined;
+
+          const sparkColor = riskColor ?? "#00D4FF";
+
           return (
-            <div key={i} className="kpi-card cursor-pointer transition-transform hover:scale-[1.02]">
+            <div key={i} className={`kpi-card cursor-pointer transition-transform hover:scale-[1.02] ${isRisk ? "border-amber1/20" : ""}`}>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] font-semibold uppercase tracking-wider text-text2 truncate">
                   {k.label}
@@ -104,10 +113,10 @@ export function KpiStrip() {
                 </span>
               </div>
               <div className="flex items-end justify-between">
-                <span className="text-2xl font-bold text-text1 tracking-tight">
+                <span className="text-2xl font-bold tracking-tight" style={{ color: riskColor ?? "var(--color-text1, #F1F5F9)" }}>
                   {formatValue(k.value, k.format)}
                 </span>
-                <Sparkline values={k.spark} />
+                <Sparkline values={k.spark} color={sparkColor} />
               </div>
             </div>
           );

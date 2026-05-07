@@ -407,6 +407,7 @@ def kpis_pulso_operativo() -> list[dict]:
             {"label": "Volatilidad mediática", "value": 24.1, "format": "score", "delta": -1.2, "spark": [25.5, 25.0, 24.8, 24.5, 24.3, 24.2, 24.1]},
             {"label": "Sentimiento gobierno",  "value": -0.18,"format": "score", "delta": -0.04,"spark": [-0.12, -0.13, -0.14, -0.15, -0.16, -0.17, -0.18]},
             {"label": "Volumen mediático 24h", "value": 14820,"format": "num",   "delta": 12.3, "spark": [11200, 11800, 12400, 12900, 13500, 14100, 14820]},
+            {"label": "Riesgo político",       "value": 67,   "format": "score", "delta": 3,    "spark": [52, 55, 58, 61, 63, 65, 67]},
         ]
 
         # Try to enrich with real social/media volume
@@ -434,6 +435,28 @@ def kpis_pulso_operativo() -> list[dict]:
                             kpis[4]["spark"] = [int(r[0]) for r in spark_v]
             except Exception:
                 pass
+
+    # Enrich risk KPI with live data from informes_riesgo_politico
+    if engine and len(kpis) >= 6:
+        try:
+            with engine.connect() as conn:
+                risk_row = conn.execute(text("""
+                    SELECT score_global, created_at
+                    FROM informes_riesgo_politico
+                    ORDER BY created_at DESC LIMIT 1
+                """)).fetchone()
+                if risk_row and risk_row[0]:
+                    spark_r = conn.execute(text("""
+                        SELECT score_global FROM informes_riesgo_politico
+                        ORDER BY created_at DESC LIMIT 7
+                    """)).fetchall()
+                    spark_vals = [float(r[0]) for r in reversed(spark_r)]
+                    delta = round(spark_vals[-1] - spark_vals[0], 1) if len(spark_vals) >= 2 else 0
+                    kpis[5]["value"] = int(risk_row[0])
+                    kpis[5]["delta"] = delta
+                    kpis[5]["spark"] = spark_vals
+        except Exception:
+            pass
 
     return kpis
 
