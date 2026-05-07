@@ -27,10 +27,7 @@ def _parse_fecha(entry: feedparser.FeedParserDict) -> datetime:
         v = getattr(entry, key, None) or entry.get(key)
         if v:
             try:
-                dt = datetime(*v[:6], tzinfo=timezone.utc)
-                # TimescaleDB hypertable requires dates within [1678, 2262]
-                if dt.year >= 1678:
-                    return dt
+                return datetime(*v[:6], tzinfo=timezone.utc)
             except Exception:
                 pass
     return datetime.now(timezone.utc)
