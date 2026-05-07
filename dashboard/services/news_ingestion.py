@@ -29,7 +29,20 @@ from dashboard.services.media_sources import ALL_SOURCES, PRIORITY_SOURCES
 log = get_logger(__name__)
 
 # ── Config ───────────────────────────────────────────────────────────────────
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://localhost/electsim")
+def _resolve_database_url() -> str:
+    """Resuelve DATABASE_URL desde env var o (fallback) desde settings."""
+    raw = os.getenv("DATABASE_URL")
+    if raw:
+        # Si trae driver SQLAlchemy (postgresql+psycopg://), psycopg necesita postgresql://
+        return re.sub(r"postgresql\+\w+://", "postgresql://", raw)
+    try:
+        from config.settings import get_settings
+        s = get_settings()
+        return re.sub(r"postgresql\+\w+://", "postgresql://", s.database_url_raw)
+    except Exception:
+        return "postgresql://localhost/electsim"
+
+DATABASE_URL = _resolve_database_url()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "45"))
 MAX_CONTENT_CHARS = 2500   # truncamos para no exceder contexto
@@ -426,8 +439,8 @@ def get_recent_articles(
     hours_back: int = 24,
 ) -> list[dict]:
     """Obtiene artículos recientes con filtros para el dashboard."""
-    filters = ["scraped_at > NOW() - INTERVAL '%s hours'", "ai_relevance >= %s"]
-    params: list[Any] = [hours_back, min_relevance]
+    filters = ["scraped_at > NOW() - (%s || ' hours')::interval", "ai_relevance >= %s"]
+    params: list[Any] = [str(hours_back), min_relevance]
 
     if region:
         filters.append("source_region = %s")
@@ -470,7 +483,7 @@ def get_sentiment_by_region(hours_back: int = 24) -> list[dict]:
             ai_sentiment,
             COUNT(*) as cnt
         FROM news_articles
-        WHERE scraped_at > NOW() - INTERVAL '%s hours'
+        WHERE scraped_at > NOW() - (%s || ' hours')::interval
           AND ai_sentiment IS NOT NULL
         GROUP BY source_region, ai_sentiment
         ORDER BY source_region, cnt DESC
@@ -478,7 +491,7 @@ def get_sentiment_by_region(hours_back: int = 24) -> list[dict]:
     try:
         with _get_conn() as conn:
             with conn.cursor(row_factory=dict_row) as cur:
-                cur.execute(sql, [hours_back])
+                cur.execute(sql, [str(hours_back)])
                 rows = list(cur.fetchall())
         return rows
     except Exception as exc:
@@ -493,7 +506,7 @@ def get_top_topics(hours_back: int = 24, limit: int = 20) -> list[dict]:
             unnest(ai_topics) as topic,
             COUNT(*) as cnt
         FROM news_articles
-        WHERE scraped_at > NOW() - INTERVAL '%s hours'
+        WHERE scraped_at > NOW() - (%s || ' hours')::interval
           AND ai_topics IS NOT NULL
         GROUP BY topic
         ORDER BY cnt DESC
@@ -502,7 +515,7 @@ def get_top_topics(hours_back: int = 24, limit: int = 20) -> list[dict]:
     try:
         with _get_conn() as conn:
             with conn.cursor(row_factory=dict_row) as cur:
-                cur.execute(sql, [hours_back, limit])
+                cur.execute(sql, [str(hours_back), limit])
                 rows = list(cur.fetchall())
         return rows
     except Exception as exc:

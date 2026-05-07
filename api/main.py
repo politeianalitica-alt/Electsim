@@ -18,6 +18,7 @@ from api.routers import (
     dashboard,
     intelligence,
     market,
+    news_intelligence,
     ontology,
     opposition,
     pipelines,
@@ -121,3 +122,4 @@ app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
 app.include_router(dashboard.router, tags=["dashboard"])
+app.include_router(news_intelligence.router, tags=["news-intelligence"])

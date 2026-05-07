@@ -11,6 +11,7 @@ import Sparkline from '@/components/Sparkline'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
+import IntelligenceFeed from '@/components/IntelligenceFeed'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Datasets históricos para el toggle del hemiciclo ──────────────────────────
@@ -309,6 +310,9 @@ export default function DashboardPage() {
             </div>
           </section>
         </div>
+
+        {/* ── Intelligence Feed (414 medios → Ollama → análisis estructurado) ── */}
+        <IntelligenceFeed/>
 
         {/* ── News Pulse + Territory ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18, marginBottom: 20 }}>
