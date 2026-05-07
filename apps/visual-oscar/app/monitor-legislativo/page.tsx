@@ -314,7 +314,7 @@ export default function MonitorLegislativoPage() {
                           <div style={{ marginTop:10, padding:'10px 12px', borderRadius:8, background:'rgba(124,58,237,0.06)', border:'1px solid rgba(124,58,237,0.20)' }}>
                             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6, flexWrap:'wrap' }}>
                               <span style={{ fontSize:9.5, fontWeight:800, color:'#fff', background:an.llm_source==='ollama'?'#7C3AED':an.llm_source==='backend'?'#10b981':'#9CA3AF', padding:'2px 7px', borderRadius:4, letterSpacing:'0.04em' }}>
-                                {an.llm_source === 'ollama' ? '🤖 OLLAMA' : an.llm_source === 'backend' ? '🤖 BACKEND' : '⚠ FALLBACK'}
+                                {an.llm_source === 'ollama' ? 'OLLAMA' : an.llm_source === 'backend' ? 'BACKEND' : 'FALLBACK'}
                               </span>
                               {an.urgencia && <span style={{ fontSize:10, fontWeight:600, color:'#7C3AED' }}>Urgencia: {an.urgencia}</span>}
                               {typeof an.impacto_politico === 'number' && (
@@ -341,7 +341,7 @@ export default function MonitorLegislativoPage() {
                         fontSize:11.5, fontWeight:700, cursor: busy || an ? 'default' : 'pointer',
                         fontFamily:'inherit', whiteSpace:'nowrap', flexShrink:0, transition:'opacity 160ms',
                       }}>
-                        {an ? '✓ Analizado' : busy ? '🤖 Analizando…' : '🤖 Analizar con IA'}
+                        {an ? 'Analizado' : busy ? 'Analizando…' : 'Analizar con IA'}
                       </button>
                     </div>
                   </div>

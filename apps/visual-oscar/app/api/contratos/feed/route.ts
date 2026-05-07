@@ -75,9 +75,9 @@ export async function GET(req: NextRequest) {
     por_tipo: count(top, 'tipo'),
     por_estado: count(top, 'estado'),
     por_organismo_tipo: count(top, 'organismo_tipo'),
-    megaproyectos: top.filter(c => c.tags.includes('🚨 MEGAPROYECTO')).length,
-    gran_importe: top.filter(c => c.tags.includes('💰 GRAN IMPORTE')).length,
-    gobierno_central: top.filter(c => c.tags.includes('🏛 GOBIERNO CENTRAL')).length,
+    megaproyectos: top.filter(c => c.tags.includes('MEGAPROYECTO')).length,
+    gran_importe: top.filter(c => c.tags.includes(' GRAN IMPORTE')).length,
+    gobierno_central: top.filter(c => c.tags.includes(' GOBIERNO CENTRAL')).length,
   }
 
   return NextResponse.json(withMeta({

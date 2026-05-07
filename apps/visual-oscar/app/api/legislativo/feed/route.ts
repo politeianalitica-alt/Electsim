@@ -67,9 +67,9 @@ export async function GET(req: NextRequest) {
     por_seccion: count(top, 'seccion_codigo'),
     top_importance: top[0]?.importance || 0,
     avg_importance: top.length > 0 ? Math.round(top.reduce((s, n) => s + n.importance, 0) / top.length) : 0,
-    high_impact_count: top.filter(n => n.tags.includes('🚨 IMPACTO ALTO')).length,
-    urgent_count: top.filter(n => n.tags.includes('⚡ URGENTE')).length,
-    eu_count: top.filter(n => n.tags.includes('🇪🇺 EU')).length,
+    high_impact_count: top.filter(n => n.tags.includes('IMPACTO ALTO')).length,
+    urgent_count: top.filter(n => n.tags.includes('URGENTE')).length,
+    eu_count: top.filter(n => n.tags.includes('EU')).length,
   }
 
   return NextResponse.json(withMeta({

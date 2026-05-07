@@ -9,7 +9,7 @@
 //                  - 25% tipo (LO/Ley/RDL > Orden/Resolución)
 //                  - 15% impacto (palabras-clave de sectores grandes)
 //                  - 10% recencia
-//   tags:        🏛 LEGISLATIVA · ⚡ URGENTE · 🇪🇺 EU · 🚨 IMPACTO ALTO
+//   tags:         LEGISLATIVA ·  URGENTE ·  EU ·  IMPACTO ALTO
 
 import type { BoeItem } from './boe'
 
@@ -127,15 +127,15 @@ function impactBoost(text: string): { score: number; tags: string[] } {
   const tags: string[] = []
   let score = 0
   for (const kw of URGENCY_KEYWORDS) {
-    if (lower.includes(kw)) { score = Math.max(score, 0.9); if (!tags.includes('⚡ URGENTE')) tags.push('⚡ URGENTE'); break }
+    if (lower.includes(kw)) { score = Math.max(score, 0.9); if (!tags.includes('URGENTE')) tags.push('URGENTE'); break }
   }
   let highHits = 0
   for (const kw of HIGH_IMPACT_KEYWORDS) {
     if (lower.includes(kw)) highHits++
   }
   score = Math.max(score, Math.min(1, highHits / 3))
-  if (highHits >= 2) tags.push('🚨 IMPACTO ALTO')
-  if (lower.includes('unión europea') || lower.includes('directiva europea')) tags.push('🇪🇺 EU')
+  if (highHits >= 2) tags.push('IMPACTO ALTO')
+  if (lower.includes('unión europea') || lower.includes('directiva europea')) tags.push('EU')
   return { score, tags }
 }
 
@@ -162,9 +162,9 @@ export function scoreNorma(item: BoeItem): ScoredNorma {
     (sec * 0.50 + tw * 0.25 + imp.score * 0.15 + rec * 0.10) * 100
   )
 
-  const tags = ['🏛 LEGISLATIVA', ...imp.tags]
-  if (item.seccion_codigo === '1') tags.push('📋 DISPOSICIÓN GENERAL')
-  if (rec >= 0.85) tags.push('🕐 HOY/AYER')
+  const tags = [' LEGISLATIVA', ...imp.tags]
+  if (item.seccion_codigo === '1') tags.push(' DISPOSICIÓN GENERAL')
+  if (rec >= 0.85) tags.push(' HOY/AYER')
 
   return {
     id: item.id,

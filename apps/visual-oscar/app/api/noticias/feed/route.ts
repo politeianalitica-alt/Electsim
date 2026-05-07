@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
       centro: top.filter(a => a.ideologia >= -20 && a.ideologia <= 20).length,
       derecha: top.filter(a => a.ideologia > 20).length,
     },
-    breaking_news: top.filter(a => a.tags.includes('🚨 ÚLTIMA HORA')).length,
+    breaking_news: top.filter(a => a.tags.includes('ÚLTIMA HORA')).length,
     cluster_alerts: top.filter(a => a.tags.some(t => t.includes('medios'))).length,
   }
 

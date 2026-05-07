@@ -175,11 +175,11 @@ export function scoreArticles(
     )
 
     const tags: string[] = []
-    if (cri.score > 0) tags.push('🚨 ÚLTIMA HORA')
-    if (clusterSize >= 4) tags.push(`📢 ${clusterSize} medios`)
-    if (pol.score >= 0.6) tags.push('🏛 POLÍTICA')
-    if (rec >= 0.7) tags.push('🕐 RECIENTE')
-    if (a.medio.credibilidad >= 0.85) tags.push('✓ FIABLE')
+    if (cri.score > 0) tags.push('ÚLTIMA HORA')
+    if (clusterSize >= 4) tags.push(` ${clusterSize} medios`)
+    if (pol.score >= 0.6) tags.push(' POLÍTICA')
+    if (rec >= 0.7) tags.push('RECIENTE')
+    if (a.medio.credibilidad >= 0.85) tags.push(' FIABLE')
 
     return {
       medio_id: a.medio.id,

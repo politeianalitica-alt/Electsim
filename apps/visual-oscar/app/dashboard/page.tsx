@@ -12,7 +12,11 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import IntelligenceFeed from '@/components/IntelligenceFeed'
-import NarrativesStrip from '@/components/NarrativesStrip'
+import NarrativesGallery from '@/components/NarrativesGallery'
+import RegionalNewsMaps from '@/components/RegionalNewsMaps'
+import LawsTimeline from '@/components/LawsTimeline'
+import TopFigures from '@/components/TopFigures'
+import { IconNews, IconChart, IconBolt } from '@/components/Icon'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // ── Datasets históricos para el toggle del hemiciclo ──────────────────────────
@@ -82,7 +86,7 @@ export default function DashboardPage() {
   const router = useRouter()
   const [hemiDataset, setHemiDataset] = useState<'estimacion' | 'g2023' | 'g2019'>('estimacion')
 
-  // 🔥 Live data del backend con auto-refresh cada 60s
+  // Live data del backend con auto-refresh cada 60s
   const { data, source, updatedAt, loading, refresh } = useApi<DashboardHome>(
     '/api/dashboard/home',
     { refreshInterval: 60_000 }
@@ -167,8 +171,8 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* ── Narrativas activas (extraídas de las noticias por Ollama) ── */}
-        <NarrativesStrip/>
+        {/* ── Narrativas activas (galería con framework Entman+Lakoff) ── */}
+        <NarrativesGallery/>
 
         {/* ── Vote bars + Alerts ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18, marginBottom: 20 }}>
@@ -214,7 +218,7 @@ export default function DashboardPage() {
                     color: !intel ? '#9CA3AF' : intel.sent_score > 0.1 ? '#16A34A' : intel.sent_score < -0.1 ? '#DC2626' : '#6E6E73',
                     letterSpacing: '0.02em',
                   }}>
-                    {intel ? `${intel.mentions}📰` : '—'}
+                    {intel ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}><IconNews size={11} color={intel.sent_score > 0.1 ? '#16A34A' : intel.sent_score < -0.1 ? '#DC2626' : '#6E6E73'}/>{intel.mentions}</span> : <span style={{ color: '#9CA3AF' }}>—</span>}
                   </span>
                   <span style={{ fontSize: 11, color: 'var(--ink-4)', textAlign: 'right' }}>{p.seats}e</span>
                 </div>
@@ -223,7 +227,7 @@ export default function DashboardPage() {
               ))}
               {data?.news_intel?.total_24h && data.news_intel.total_24h > 0 && (
                 <div style={{ fontSize: 10, color: 'var(--ink-4)', marginTop: 4, paddingTop: 8, borderTop: '1px dashed var(--hairline)' }}>
-                  📊 {data.news_intel.total_24h} noticias analizadas en 24h
+                  <IconChart size={11} style={{ marginRight: 4 }}/>{data.news_intel.total_24h} noticias analizadas en 24h
                   {data.news_intel.high_impact_count > 0 && <> · <span style={{ color: '#D97706', fontWeight: 600 }}>{data.news_intel.high_impact_count} con alto impacto España</span></>}
                 </div>
               )}
@@ -259,7 +263,7 @@ export default function DashboardPage() {
                     {fromNews && (
                       <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 4, letterSpacing: '0.05em',
                         background: '#EFF6FF', color: '#1E40AF',
-                      }}>📰 NEWS</span>
+                      }}><IconNews size={9} style={{ marginRight: 3 }}/>NEWS</span>
                     )}
                     <p style={{ margin: 0, fontSize: 12, color: 'var(--ink-2)', lineHeight: 1.45, flex: 1, minWidth: 0 }}>{a.text}</p>
                   </div>
@@ -361,8 +365,17 @@ export default function DashboardPage() {
           </section>
         </div>
 
+        {/* ── Geografía: mapas Spain CCAA + Europa ── */}
+        <RegionalNewsMaps/>
+
         {/* ── Intelligence Feed (414 medios → Ollama → análisis estructurado) ── */}
         <IntelligenceFeed/>
+
+        {/* ── Top figuras públicas (perfil enriquecido) ── */}
+        <TopFigures/>
+
+        {/* ── Producción legislativa (BOE + Congreso) ── */}
+        <LawsTimeline/>
 
         {/* ── News Pulse + Territory ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 18, marginBottom: 20 }}>
@@ -526,7 +539,7 @@ export default function DashboardPage() {
                 </div>
                 {data.risk.score_news_boost != null && data.risk.score_news_boost > 0 && (
                   <div style={{ fontSize: 10.5, color: '#D97706', marginTop: 4, fontWeight: 500 }}>
-                    📰 +{data.risk.score_news_boost} pts por noticias críticas en 24h
+                    <IconNews size={11} style={{ marginRight: 4 }}/>+{data.risk.score_news_boost} pts por noticias críticas en 24h
                     {data.risk.score_base != null && <> (base {data.risk.score_base.toFixed(1)})</>}
                   </div>
                 )}

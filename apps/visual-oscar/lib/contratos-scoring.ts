@@ -7,10 +7,10 @@
 //   - 15% organismo (gobierno central + grandes ayuntamientos > pequeños)
 //
 // Tags automáticos:
-//   💰 GRAN IMPORTE (>1M€)        🚨 MEGAPROYECTO (>10M€)
-//   🏛 GOBIERNO CENTRAL            🏘 LOCAL
-//   ⚡ NUEVA / RECIENTE             ✓ ADJUDICADA
-//   🚫 ANULADA                      ⚠ DESIERTA
+//    GRAN IMPORTE (>1M€)         MEGAPROYECTO (>10M€)
+//    GOBIERNO CENTRAL             LOCAL
+//    NUEVA / RECIENTE              ADJUDICADA
+//    ANULADA                       DESIERTA
 
 import type { ContratoItem } from './placsp'
 
@@ -89,15 +89,15 @@ export function scoreContrato(item: ContratoItem): ScoredContrato {
   )
 
   const tags: string[] = []
-  if (item.importe > 10_000_000) tags.push('🚨 MEGAPROYECTO')
-  else if (item.importe > 1_000_000) tags.push('💰 GRAN IMPORTE')
-  if (orgTipo === 'central') tags.push('🏛 GOBIERNO CENTRAL')
-  else if (orgTipo === 'autonomico') tags.push('🏛 CCAA')
-  else if (orgTipo === 'local') tags.push('🏘 LOCAL')
-  if (rec >= 0.85) tags.push('⚡ RECIENTE')
-  if (item.estado === 'ADJ' || item.estado === 'FORM') tags.push('✓ ADJUDICADA')
-  if (item.estado === 'ANUL') tags.push('🚫 ANULADA')
-  if (item.estado === 'DESI') tags.push('⚠ DESIERTA')
+  if (item.importe > 10_000_000) tags.push('MEGAPROYECTO')
+  else if (item.importe > 1_000_000) tags.push(' GRAN IMPORTE')
+  if (orgTipo === 'central') tags.push(' GOBIERNO CENTRAL')
+  else if (orgTipo === 'autonomico') tags.push(' CCAA')
+  else if (orgTipo === 'local') tags.push(' LOCAL')
+  if (rec >= 0.85) tags.push('RECIENTE')
+  if (item.estado === 'ADJ' || item.estado === 'FORM') tags.push(' ADJUDICADA')
+  if (item.estado === 'ANUL') tags.push(' ANULADA')
+  if (item.estado === 'DESI') tags.push(' DESIERTA')
 
   return {
     ...item,

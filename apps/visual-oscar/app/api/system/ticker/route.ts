@@ -8,14 +8,14 @@ export const runtime = 'nodejs'
 // Backend devuelve una lista directa de TickerItem:
 //   { text, category, color, priority, timestamp }
 const SAMPLE_EVENTS = [
-  { kind: 'parliament', icon: '🏛', text: 'Pleno del Congreso · convalidación decreto-ley 4/2026 · 11:00 mañana' },
-  { kind: 'market',     icon: '📈', text: 'IBEX 35 sube +0,42% · banca lidera (+1,1%)' },
-  { kind: 'poll',       icon: '📊', text: 'Sigma Dos: PP 33,2% · PSOE 26,1% · VOX 12,8%' },
-  { kind: 'risk',       icon: '⚠',  text: 'Termómetro de Riesgo Político: 38/100 (MEDIO-ALTO)' },
-  { kind: 'media',      icon: '📰', text: '#MociónCensura trending top 1 nacional · 56k tweets' },
-  { kind: 'geo',        icon: '🌍', text: 'USTR anuncia aranceles 12% sobre aceite y vino' },
-  { kind: 'gov',        icon: '🇪🇸', text: 'Moncloa convoca reunión con presidentes autonómicos PSOE' },
-  { kind: 'parliament', icon: '🏛', text: 'PNV exige reunión bilateral antes 15 mayo' },
+  { kind: 'parliament', icon: '', text: 'Pleno del Congreso · convalidación decreto-ley 4/2026 · 11:00 mañana' },
+  { kind: 'market',     icon: '', text: 'IBEX 35 sube +0,42% · banca lidera (+1,1%)' },
+  { kind: 'poll',       icon: '', text: 'Sigma Dos: PP 33,2% · PSOE 26,1% · VOX 12,8%' },
+  { kind: 'risk',       icon: '',  text: 'Termómetro de Riesgo Político: 38/100 (MEDIO-ALTO)' },
+  { kind: 'media',      icon: '', text: '#MociónCensura trending top 1 nacional · 56k tweets' },
+  { kind: 'geo',        icon: '', text: 'USTR anuncia aranceles 12% sobre aceite y vino' },
+  { kind: 'gov',        icon: '', text: 'Moncloa convoca reunión con presidentes autonómicos PSOE' },
+  { kind: 'parliament', icon: '', text: 'PNV exige reunión bilateral antes 15 mayo' },
 ]
 
 export async function GET() {

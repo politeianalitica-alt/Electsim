@@ -17,10 +17,13 @@ from api.routers import (
     campana,
     dashboard,
     intelligence,
+    laws,
     market,
+    narratives,
     news_intelligence,
     ontology,
     opposition,
+    persons,
     pipelines,
     politeia_v3,
     search,
@@ -123,3 +126,6 @@ app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
 app.include_router(dashboard.router, tags=["dashboard"])
 app.include_router(news_intelligence.router, tags=["news-intelligence"])
+app.include_router(narratives.router, tags=["narratives"])
+app.include_router(laws.router, tags=["laws"])
+app.include_router(persons.router, tags=["persons"])

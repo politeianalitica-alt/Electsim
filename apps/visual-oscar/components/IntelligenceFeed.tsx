@@ -230,7 +230,7 @@ export default function IntelligenceFeed() {
               transition: 'all 200ms',
             }}
           >
-            {scraping ? '⏳ Analizando...' : '⚡ Scrape ahora'}
+            {scraping ? 'Analizando…' : 'Scrape ahora'}
           </button>
         </div>
       </div>

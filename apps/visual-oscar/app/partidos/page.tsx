@@ -532,7 +532,7 @@ export default function PartidosPage() {
                     <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:1 }}>
                       <span style={{ fontSize:10, color:'#6e6e73' }}>eco {p.ideology_axes.economic > 0 ? '+' : ''}{p.ideology_axes.economic.toFixed(2)}</span>
                       <span style={{ fontSize:10, color:'#6e6e73' }}>soc {p.ideology_axes.social > 0 ? '+' : ''}{p.ideology_axes.social.toFixed(2)}</span>
-                      {verified && <span style={{ fontSize:9, fontWeight:700, color:'#10b981', marginTop:2 }}>✓ MATCH</span>}
+                      {verified && <span style={{ fontSize:9, fontWeight:700, color:'#10b981', marginTop:2 }}> MATCH</span>}
                     </div>
                   </div>
                 )
