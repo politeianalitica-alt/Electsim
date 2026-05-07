@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Send, Sparkles, Database, AlertCircle, FileText } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
 
@@ -31,7 +32,49 @@ export default function BrainPage() {
     setInput("");
     setBusy(true);
     try {
-      const ctx = `Contexto activo: briefing=${contextFlags.briefing}, alertas=${contextFlags.alerts}, narrativas=${contextFlags.narratives}`;
+      // Construcción REAL de contexto: hace fetches paralelos sólo si los
+      // checkboxes correspondientes están activos. El backend Brain recibe
+      // un texto sustancial con los datos vivos, no flags booleanos.
+      const ctxParts: string[] = [];
+      const fetchOps: Promise<void>[] = [];
+
+      if (contextFlags.briefing) {
+        fetchOps.push(
+          endpoints.morningBriefing("default")
+            .then(b => {
+              const summary = b?.executive_summary?.slice(0, 600) ?? "";
+              const alerts = (b?.key_alerts ?? []).slice(0, 4).map(a => `[${a.level}] ${a.title}`).join(" | ");
+              ctxParts.push(`BRIEFING MATINAL:\n${summary}\nALERTAS DEL BRIEFING: ${alerts}`);
+            })
+            .catch(() => undefined)
+        );
+      }
+      if (contextFlags.alerts) {
+        fetchOps.push(
+          endpoints.alertsList(true)
+            .then(arr => {
+              const text = (arr ?? []).slice(0, 6).map(a => `[${a.level.toUpperCase()}] ${a.title}: ${(a.body ?? "").slice(0, 80)}`).join("\n");
+              if (text) ctxParts.push(`ALERTAS ACTIVAS NO LEÍDAS:\n${text}`);
+            })
+            .catch(() => undefined)
+        );
+      }
+      if (contextFlags.narratives) {
+        fetchOps.push(
+          endpoints.mediaNarratives()
+            .then(arr => {
+              const text = (arr ?? []).slice(0, 5).map(n => `${n.frame_label} (${n.velocity}) — ${n.article_count ?? "?"} arts, emoción: ${n.dominant_emotion ?? "—"}`).join("\n");
+              if (text) ctxParts.push(`NARRATIVAS ACTIVAS:\n${text}`);
+            })
+            .catch(() => undefined)
+        );
+      }
+
+      await Promise.all(fetchOps);
+      const ctx = ctxParts.length > 0
+        ? ctxParts.join("\n\n")
+        : "Sin contexto adicional seleccionado.";
+
       const res = await endpoints.brainAsk(question, ctx).catch(() => null);
       const answer = res?.answer || demoAnswer(question);
       setMessages(m => [...m, { role: "brain", text: answer, time: new Date().toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" }) }]);
@@ -39,6 +82,14 @@ export default function BrainPage() {
       setBusy(false);
     }
   };
+
+  // Brain status para el badge "Modelo activo"
+  const { data: brainStatus } = useQuery({
+    queryKey: ["brain", "status"],
+    queryFn: () => endpoints.brainStatus(),
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+  });
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 h-[calc(100vh-9rem)]">
@@ -51,8 +102,11 @@ export default function BrainPage() {
             </div>
             <p className="text-text2 text-xs">Asistente IA con acceso al contexto del workspace</p>
           </div>
-          <span className="badge badge-green flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green1 animate-pulse" /> Modelo activo
+          <span className={`badge ${brainStatus?.available ? "badge-green" : "badge-red"} flex items-center gap-1.5`}>
+            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${brainStatus?.available ? "bg-green1" : "bg-red1"}`} />
+            {brainStatus
+              ? `${brainStatus.available ? "Activo" : "Caído"} · ${brainStatus.model || "—"}`
+              : "Comprobando…"}
           </span>
         </header>
 

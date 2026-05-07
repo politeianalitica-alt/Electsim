@@ -1,69 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Users, Search, TrendingUp, TrendingDown, Minus, Network, ChevronRight } from "lucide-react";
+import { endpoints, type PersonaPublica } from "@/lib/api/endpoints";
 
-type Actor = {
-  id: string;
-  name: string;
-  party: string;
-  partyColor: string;
-  role: string;
-  bio: string;
-  exposure: number;
-  approval: number;
-  sentiment: "up" | "down" | "stable";
+// Mapa partido → color (el backend no siempre los devuelve)
+const PARTY_COLORS: Record<string, string> = {
+  PSOE:    "#E03A3E",
+  PP:      "#1F77FF",
+  VOX:     "#5BC035",
+  Sumar:   "#D81E5B",
+  SUMAR:   "#D81E5B",
+  Junts:   "#00C2A8",
+  JUNTS:   "#00C2A8",
+  ERC:     "#F4B400",
+  PNV:     "#1D8042",
+  Bildu:   "#A4D65E",
+  "EH Bildu": "#A4D65E",
+  Podemos: "#6E2A78",
+  Independiente: "#94A3B8",
 };
 
-const PARTIES: { code: string; color: string }[] = [
-  { code: "PSOE", color: "#E03A3E" },
-  { code: "PP", color: "#1F77FF" },
-  { code: "VOX", color: "#5BC035" },
-  { code: "Sumar", color: "#D81E5B" },
-  { code: "Junts", color: "#00C2A8" },
-  { code: "ERC", color: "#F4B400" },
-  { code: "PNV", color: "#1D8042" },
-  { code: "Bildu", color: "#A4D65E" },
-  { code: "Podemos", color: "#6E2A78" }
-];
-
+const PARTIES_FILTER = ["PSOE", "PP", "VOX", "Sumar", "Junts", "ERC", "PNV", "Bildu", "Podemos"];
 const ROLES = ["Presidente", "Líder", "Portavoz", "Secretario", "Ministro"];
 
-const ACTORS: Actor[] = [
-  { id: "1", name: "Pedro Sánchez", party: "PSOE", partyColor: "#E03A3E", role: "Presidente del Gobierno", bio: "Secretario General del PSOE desde 2017.", exposure: 96, approval: 38, sentiment: "down" },
-  { id: "2", name: "Alberto Núñez Feijóo", party: "PP", partyColor: "#1F77FF", role: "Líder de la oposición", bio: "Presidente del PP desde 2022.", exposure: 91, approval: 42, sentiment: "up" },
-  { id: "3", name: "Santiago Abascal", party: "VOX", partyColor: "#5BC035", role: "Presidente", bio: "Líder y fundador de VOX.", exposure: 78, approval: 28, sentiment: "stable" },
-  { id: "4", name: "Yolanda Díaz", party: "Sumar", partyColor: "#D81E5B", role: "Vicepresidenta segunda", bio: "Ministra de Trabajo y líder de Sumar.", exposure: 74, approval: 36, sentiment: "down" },
-  { id: "5", name: "Isabel Díaz Ayuso", party: "PP", partyColor: "#1F77FF", role: "Presidenta CAM", bio: "Presidenta de la Comunidad de Madrid.", exposure: 88, approval: 45, sentiment: "up" },
-  { id: "6", name: "Carles Puigdemont", party: "Junts", partyColor: "#00C2A8", role: "Presidente", bio: "Expresidente de la Generalitat.", exposure: 71, approval: 22, sentiment: "stable" },
-  { id: "7", name: "Oriol Junqueras", party: "ERC", partyColor: "#F4B400", role: "Presidente", bio: "Líder histórico de ERC.", exposure: 58, approval: 27, sentiment: "down" },
-  { id: "8", name: "Ione Belarra", party: "Podemos", partyColor: "#6E2A78", role: "Secretaria General", bio: "Líder de Podemos desde 2021.", exposure: 49, approval: 19, sentiment: "down" },
-  { id: "9", name: "Andoni Ortuzar", party: "PNV", partyColor: "#1D8042", role: "Presidente EBB", bio: "Presidente del PNV desde 2013.", exposure: 41, approval: 35, sentiment: "stable" },
-  { id: "10", name: "Aitor Esteban", party: "PNV", partyColor: "#1D8042", role: "Portavoz Congreso", bio: "Portavoz del PNV en el Congreso.", exposure: 47, approval: 38, sentiment: "stable" },
-  { id: "11", name: "Gabriel Rufián", party: "ERC", partyColor: "#F4B400", role: "Portavoz Congreso", bio: "Portavoz de ERC en el Congreso.", exposure: 62, approval: 24, sentiment: "up" },
-  { id: "12", name: "Iván Espinosa de los Monteros", party: "Independiente", partyColor: "#94A3B8", role: "Empresario", bio: "Ex portavoz parlamentario de VOX.", exposure: 38, approval: 32, sentiment: "stable" },
-  { id: "13", name: "Cuca Gamarra", party: "PP", partyColor: "#1F77FF", role: "Secretaria General", bio: "Secretaria General del PP.", exposure: 55, approval: 31, sentiment: "stable" },
-  { id: "14", name: "Félix Bolaños", party: "PSOE", partyColor: "#E03A3E", role: "Ministro de Justicia", bio: "Ministro de la Presidencia y Justicia.", exposure: 67, approval: 33, sentiment: "down" },
-  { id: "15", name: "Patxi López", party: "PSOE", partyColor: "#E03A3E", role: "Portavoz Congreso", bio: "Portavoz del PSOE en el Congreso.", exposure: 53, approval: 36, sentiment: "stable" },
-  { id: "16", name: "Mertxe Aizpurua", party: "Bildu", partyColor: "#A4D65E", role: "Portavoz Congreso", bio: "Portavoz de EH Bildu en el Congreso.", exposure: 44, approval: 26, sentiment: "up" },
-  { id: "17", name: "María Jesús Montero", party: "PSOE", partyColor: "#E03A3E", role: "Vicepresidenta primera", bio: "Vicepresidenta y ministra de Hacienda.", exposure: 64, approval: 32, sentiment: "down" },
-  { id: "18", name: "Borja Sémper", party: "PP", partyColor: "#1F77FF", role: "Portavoz nacional", bio: "Vicesecretario de Cultura del PP.", exposure: 51, approval: 37, sentiment: "up" },
-  { id: "19", name: "Pablo Bustinduy", party: "Sumar", partyColor: "#D81E5B", role: "Ministro Derechos Sociales", bio: "Ministro y dirigente de Sumar.", exposure: 39, approval: 29, sentiment: "stable" },
-  { id: "20", name: "Salvador Illa", party: "PSOE", partyColor: "#E03A3E", role: "Presidente Generalitat", bio: "Presidente de la Generalitat de Cataluña.", exposure: 69, approval: 41, sentiment: "up" },
-  { id: "21", name: "Jorge Buxadé", party: "VOX", partyColor: "#5BC035", role: "Eurodiputado", bio: "Vicepresidente de Acción Política de VOX.", exposure: 35, approval: 23, sentiment: "stable" },
-  { id: "22", name: "Ernest Urtasun", party: "Sumar", partyColor: "#D81E5B", role: "Ministro de Cultura", bio: "Ministro y dirigente de Sumar.", exposure: 42, approval: 28, sentiment: "stable" },
-  { id: "23", name: "Marta Lois", party: "Sumar", partyColor: "#D81E5B", role: "Portavoz Congreso", bio: "Portavoz de Sumar en el Congreso.", exposure: 31, approval: 25, sentiment: "down" },
-  { id: "24", name: "Mariano Rajoy", party: "PP", partyColor: "#1F77FF", role: "Ex Presidente", bio: "Expresidente del Gobierno (2011-2018).", exposure: 24, approval: 30, sentiment: "stable" }
-];
+function partyColor(partyCode?: string): string {
+  if (!partyCode) return "#94A3B8";
+  return PARTY_COLORS[partyCode] || PARTY_COLORS[partyCode.toUpperCase()] || "#94A3B8";
+}
 
-function SentimentIcon({ s }: { s: "up" | "down" | "stable" }) {
-  if (s === "up") return <TrendingUp className="w-3.5 h-3.5 text-green1" />;
-  if (s === "down") return <TrendingDown className="w-3.5 h-3.5 text-red1" />;
+function SentimentIcon({ s }: { s?: string }) {
+  if (s === "ascendente" || s === "up") return <TrendingUp className="w-3.5 h-3.5 text-green1" />;
+  if (s === "descendente" || s === "down") return <TrendingDown className="w-3.5 h-3.5 text-red1" />;
   return <Minus className="w-3.5 h-3.5 text-text2" />;
 }
 
-function initials(name: string) {
-  return name.split(" ").slice(0, 2).map(p => p[0]).join("").toUpperCase();
+function initials(name: string): string {
+  return name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase();
 }
 
 export default function ActoresPage() {
@@ -71,30 +45,56 @@ export default function ActoresPage() {
   const [role, setRole] = useState<string>("");
   const [search, setSearch] = useState("");
 
+  // Datos reales desde /intelligence/personas
+  const partidoFilter = parties.length === 1 ? parties[0] : undefined;
+  const { data: actors = [], isLoading } = useQuery({
+    queryKey: ["personas", partidoFilter, search],
+    queryFn: () => endpoints.intelligence.personasList({
+      partido: partidoFilter,
+      search:  search.trim() || undefined,
+      limit:   100,
+    }),
+    staleTime: 120_000,
+  });
+
   const toggleParty = (p: string) => {
     setParties(parties.includes(p) ? parties.filter(x => x !== p) : [...parties, p]);
   };
 
-  const filtered = ACTORS.filter(a => {
-    if (parties.length && !parties.includes(a.party)) return false;
-    if (role && !a.role.toLowerCase().includes(role.toLowerCase())) return false;
-    if (search && !a.name.toLowerCase().includes(search.toLowerCase())) return false;
-    return true;
-  });
+  // Filtros locales adicionales (multi-partido, role)
+  const filtered = useMemo(() => {
+    return actors.filter(a => {
+      if (parties.length > 1 && a.partido && !parties.includes(a.partido)) return false;
+      if (role && a.cargo_actual && !a.cargo_actual.toLowerCase().includes(role.toLowerCase())) return false;
+      return true;
+    });
+  }, [actors, parties, role]);
 
-  const topExposure = [...ACTORS].sort((a, b) => b.exposure - a.exposure).slice(0, 5);
+  const topExposure = useMemo(() => {
+    return [...actors]
+      .sort((a, b) => (b.score_influencia ?? 0) - (a.score_influencia ?? 0))
+      .slice(0, 5);
+  }, [actors]);
 
-  const partyCounts = PARTIES.map(p => ({
-    ...p,
-    count: ACTORS.filter(a => a.party === p.code).length
-  })).filter(p => p.count > 0);
+  const partyCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    actors.forEach(a => {
+      if (a.partido) counts[a.partido] = (counts[a.partido] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([code, count]) => ({ code, color: partyColor(code), count }))
+      .sort((a, b) => b.count - a.count);
+  }, [actors]);
 
   return (
     <div className="space-y-6">
       <header>
         <span className="label-cap">Inteligencia / Mapa de Actores</span>
         <h1 className="text-3xl font-bold text-text1 mt-1">Mapa de Actores</h1>
-        <p className="text-text2 text-sm mt-1">Dirigentes, portavoces y líderes con seguimiento de exposición y aprobación pública.</p>
+        <p className="text-text2 text-sm mt-1">
+          Dirigentes, portavoces y líderes con seguimiento de exposición y aprobación pública.
+          {!isLoading && actors.length > 0 && <span className="ml-2 text-cyan1">{actors.length} actores en BD</span>}
+        </p>
       </header>
 
       {/* Filter bar */}
@@ -118,18 +118,18 @@ export default function ActoresPage() {
           </select>
         </div>
         <div className="flex flex-wrap gap-2">
-          {PARTIES.map(p => (
+          {PARTIES_FILTER.map(code => (
             <button
-              key={p.code}
-              onClick={() => toggleParty(p.code)}
+              key={code}
+              onClick={() => toggleParty(code)}
               className={`text-xs px-3 py-1 rounded-full border transition ${
-                parties.includes(p.code)
+                parties.includes(code)
                   ? "border-cyan1 bg-cyan1/10 text-cyan1"
                   : "border-border1 text-text2 hover:border-cyan1/40"
               }`}
-              style={parties.includes(p.code) ? {} : { borderLeftColor: p.color, borderLeftWidth: 3 }}
+              style={parties.includes(code) ? {} : { borderLeftColor: partyColor(code), borderLeftWidth: 3 }}
             >
-              {p.code}
+              {code}
             </button>
           ))}
         </div>
@@ -137,25 +137,36 @@ export default function ActoresPage() {
 
       {/* Top exposure */}
       <section className="premium-card">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Actores con mayor exposición esta semana</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          {topExposure.map(a => (
-            <div key={a.id} className="p-3 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/40 transition cursor-pointer">
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold mb-2"
-                style={{ background: `linear-gradient(135deg, ${a.partyColor}, #00D4FF)` }}
-              >
-                {initials(a.name)}
-              </div>
-              <div className="text-sm font-semibold text-text1 leading-tight">{a.name}</div>
-              <div className="text-[10px] uppercase text-muted mt-0.5">{a.party}</div>
-              <div className="flex items-center gap-1.5 mt-2">
-                <span className="text-cyan1 font-mono text-xs">{a.exposure}</span>
-                <SentimentIcon s={a.sentiment} />
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Mayor influencia</h2>
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="p-3 rounded-lg animate-pulse h-32 bg-bg3/30" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            {topExposure.map(a => {
+              const color = partyColor(a.partido);
+              return (
+                <div key={a.id} className="p-3 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/40 transition cursor-pointer">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold mb-2"
+                    style={{ background: `linear-gradient(135deg, ${color}, #00D4FF)` }}
+                  >
+                    {initials(a.nombre_completo)}
+                  </div>
+                  <div className="text-sm font-semibold text-text1 leading-tight">{a.nombre_completo}</div>
+                  <div className="text-[10px] uppercase text-muted mt-0.5">{a.partido || "—"}</div>
+                  <div className="flex items-center gap-1.5 mt-2">
+                    <span className="text-cyan1 font-mono text-xs">{a.score_influencia ?? "—"}</span>
+                    <SentimentIcon s={a.tendencia_sentimiento}/>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -164,75 +175,102 @@ export default function ActoresPage() {
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Directorio ({filtered.length})</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            {filtered.map(a => (
-              <div
-                key={a.id}
-                className="premium-card hover:border-cyan1/40 transition cursor-pointer group"
-                style={{ borderLeftColor: a.partyColor, borderLeftWidth: 3 }}
-              >
-                <div className="flex items-start gap-3 mb-2">
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+              {Array.from({ length: 9 }).map((_, i) => <div key={i} className="premium-card animate-pulse h-40 bg-bg3/30" />)}
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="premium-card text-center py-10 text-muted text-sm">
+              <Users className="w-8 h-8 text-muted mx-auto mb-2" />
+              <p>Sin actores en /intelligence/personas con estos filtros.</p>
+              <p className="text-[11px] mt-2">Quita filtros o verifica que la tabla persona_publica tenga datos.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+              {filtered.map(a => {
+                const color = partyColor(a.partido);
+                const exposure = Math.round(a.score_influencia ?? 0);
+                const sentiment = a.sentimiento_actual ?? 0;
+                return (
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                    style={{ background: `linear-gradient(135deg, ${a.partyColor}, #3B82F6)` }}
+                    key={a.id}
+                    className="premium-card hover:border-cyan1/40 transition cursor-pointer group"
+                    style={{ borderLeftColor: color, borderLeftWidth: 3 }}
                   >
-                    {initials(a.name)}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-bold text-text1 group-hover:text-cyan1 transition truncate">{a.name}</div>
-                    <div className="text-[10px] uppercase text-muted">{a.party}</div>
-                  </div>
-                </div>
-                <div className="text-xs text-text2 mb-1">{a.role}</div>
-                <div className="text-[11px] text-muted mb-3 line-clamp-1">{a.bio}</div>
-                <div className="space-y-1.5">
-                  <div>
-                    <div className="flex justify-between text-[10px] text-muted mb-0.5">
-                      <span>Exposición</span><span className="text-cyan1 font-mono">{a.exposure}</span>
+                    <div className="flex items-start gap-3 mb-2">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
+                        style={{ background: `linear-gradient(135deg, ${color}, #3B82F6)` }}
+                      >
+                        {initials(a.nombre_completo)}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-bold text-text1 group-hover:text-cyan1 transition truncate">{a.nombre_completo}</div>
+                        <div className="text-[10px] uppercase text-muted">{a.partido || "—"}</div>
+                      </div>
                     </div>
-                    <div className="h-1 bg-bg3 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${a.exposure}%` }} />
+                    <div className="text-xs text-text2 mb-1">{a.cargo_actual || "—"}</div>
+                    <div className="text-[11px] text-muted mb-3 line-clamp-1">{a.ambito || a.tipo || ""}</div>
+                    <div className="space-y-1.5">
+                      <div>
+                        <div className="flex justify-between text-[10px] text-muted mb-0.5">
+                          <span>Influencia</span><span className="text-cyan1 font-mono">{exposure}</span>
+                        </div>
+                        <div className="h-1 bg-bg3 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${Math.min(100, exposure)}%`, transition: "width 600ms ease" }} />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="text-text2">
+                          Sentimiento: <span className={sentiment > 0 ? "text-green1 font-mono" : sentiment < 0 ? "text-red1 font-mono" : "text-text1 font-mono"}>
+                            {sentiment > 0 ? "+" : ""}{sentiment.toFixed(2)}
+                          </span>
+                        </span>
+                        <span className="text-cyan1 hover:underline flex items-center gap-0.5 cursor-pointer">
+                          Ver dossier <ChevronRight className="w-3 h-3" />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-text2">Aprobación: <span className="text-text1 font-mono">{a.approval}%</span></span>
-                    <a className="text-cyan1 hover:underline flex items-center gap-0.5">
-                      Ver dossier <ChevronRight className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* Sidebar */}
         <aside className="space-y-4">
           <div className="premium-card">
             <h3 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">Resumen por partido</h3>
-            <ul className="space-y-2">
-              {partyCounts.map(p => (
-                <li key={p.code} className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-                    <span className="text-text1">{p.code}</span>
-                  </div>
-                  <span className="text-muted font-mono">{p.count}</span>
-                </li>
-              ))}
-            </ul>
+            {isLoading ? (
+              <div className="space-y-2">
+                {Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-4 animate-pulse bg-bg3/30 rounded" />)}
+              </div>
+            ) : (
+              <ul className="space-y-2">
+                {partyCounts.map(p => (
+                  <li key={p.code} className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
+                      <span className="text-text1">{p.code}</span>
+                    </div>
+                    <span className="text-muted font-mono">{p.count}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <button className="w-full premium-card hover:border-cyan1/40 transition text-left flex items-center gap-3 group">
             <Network className="w-5 h-5 text-cyan1" />
             <div className="flex-1">
               <div className="text-sm font-bold text-text1 group-hover:text-cyan1 transition">Red de relaciones</div>
-              <div className="text-[11px] text-muted">Visualizar grafo de actores</div>
+              <div className="text-[11px] text-muted">/intelligence/personas/&#123;id&#125;/grafo</div>
             </div>
             <ChevronRight className="w-4 h-4 text-muted" />
           </button>
           <div className="premium-card">
             <Users className="w-4 h-4 text-cyan1 mb-2" />
-            <div className="text-2xl font-bold text-text1">{ACTORS.length}</div>
+            <div className="text-2xl font-bold text-text1">{actors.length}</div>
             <div className="text-[11px] text-muted">Actores monitorizados</div>
           </div>
         </aside>

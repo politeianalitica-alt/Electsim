@@ -16,6 +16,7 @@ from api.routers import (
     analytics,
     campana,
     dashboard,
+    geopolitica,
     intelligence,
     laws,
     market,
@@ -26,6 +27,7 @@ from api.routers import (
     persons,
     pipelines,
     politeia_v3,
+    risk,
     risk_intelligence,
     search,
     voto_blando,
@@ -53,6 +55,8 @@ app.add_middleware(
         os.getenv("FRONTEND_URL", "http://localhost:3000"),
         "https://politeia-visual-oscar.vercel.app",
     ],
+    # Regex para Vercel preview deployments (URLs dinámicas) + dominios propios
+    allow_origin_regex=r"^https://(.*\.vercel\.app|.*\.politeia-?(analitica|app)?\.com)$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -131,3 +135,8 @@ app.include_router(narratives.router, tags=["narratives"])
 app.include_router(laws.router, tags=["laws"])
 app.include_router(persons.router, tags=["persons"])
 app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
+
+# Routers para apps/web (montados bajo /api porque el rewrites de Next.js
+# proxea /api/:path* hacia FastAPI)
+app.include_router(risk.router, prefix="/api", tags=["risk"])
+app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])

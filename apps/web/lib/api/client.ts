@@ -28,7 +28,10 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
       Accept: "application/json",
       ...(init.headers || {})
     },
-    credentials: "include"
+    // Con next.config.mjs rewrites el frontend habla con same-origin /api/*,
+    // así que NO necesitamos cross-origin credentials. Eliminado para evitar
+    // CORS preflight failures en Vercel.
+    cache: "no-store"
   });
 
   if (!res.ok) {

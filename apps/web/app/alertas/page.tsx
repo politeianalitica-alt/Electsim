@@ -1,16 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Filter, Check, ArrowUpRight } from "lucide-react";
-
-const DEMO_ALERTS = [
-  { id: "1", title: "Caída PP en sondeos territoriales", body: "Tres sondeos consecutivos muestran erosión en mayores de 55 años en Cataluña y País Vasco.", level: "high", source: "Motor nowcasting v2.3", time: "hace 40 min", read: false, category: "electoral" },
-  { id: "2", title: "Narrativa de vivienda alcanza pico mediático", body: "Crecimiento sostenido +18% sin moderación visible. Volumen total 1.842 menciones en 24h.", level: "medium", source: "Narrative Engine", time: "hace 1 h", read: false, category: "media" },
-  { id: "3", title: "Bloqueo Junts en comisión de Justicia", body: "Riesgo de obstrucción legislativa en comisión esta semana. 3 votaciones críticas en juego.", level: "high", source: "Monitor legislativo", time: "hace 2 h", read: false, category: "legislativo" },
-  { id: "4", title: "Volumen positivo VOX en RRSS detectado", body: "Pico de menciones favorables en plataformas X e Instagram tras intervención de Abascal.", level: "low", source: "Social listening", time: "hace 3 h", read: true, category: "media" },
-  { id: "5", title: "Recurso amnistía admitido por TC", body: "Implicaciones legales en próximas votaciones de la coalición.", level: "critical", source: "Monitor judicial", time: "hace 5 h", read: false, category: "legal" },
-  { id: "6", title: "Datos paro abril mejor de lo esperado", body: "Variación -0.3pp respecto a marzo. Oportunidad comunicacional para gobierno.", level: "low", source: "Macro pipeline", time: "hace 8 h", read: true, category: "economico" }
-];
+import { endpoints } from "@/lib/api/endpoints";
+import type { AlertItem } from "@/lib/api/endpoints";
 
 const FILTERS = ["Todas", "Críticas", "Altas", "Medias", "Bajas", "Sin leer"];
 
@@ -21,19 +15,36 @@ function levelClasses(level: string) {
   return { bar: "bg-blue1", text: "text-blue1", badge: "badge-blue", label: "BAJA" };
 }
 
+function timeAgo(iso?: string): string {
+  if (!iso) return "—";
+  const ms = Date.now() - new Date(iso).getTime();
+  if (ms < 60_000) return "ahora";
+  if (ms < 3_600_000) return `hace ${Math.floor(ms / 60_000)} min`;
+  if (ms < 86_400_000) return `hace ${Math.floor(ms / 3_600_000)} h`;
+  return `hace ${Math.floor(ms / 86_400_000)} d`;
+}
+
 export default function AlertasPage() {
   const [filter, setFilter] = useState("Todas");
-  const filtered = DEMO_ALERTS.filter(a => {
-    if (filter === "Todas") return true;
-    if (filter === "Sin leer") return !a.read;
-    return a.level.toLowerCase() === filter.toLowerCase().slice(0, -1) ||
-      (filter === "Críticas" && a.level === "critical") ||
-      (filter === "Altas" && a.level === "high") ||
-      (filter === "Medias" && a.level === "medium") ||
-      (filter === "Bajas" && a.level === "low");
+
+  const { data: alerts = [], isLoading } = useQuery({
+    queryKey: ["alerts"],
+    queryFn: () => endpoints.alertsList(false),
+    refetchInterval: 30_000,
+    staleTime: 20_000,
   });
 
-  const unread = DEMO_ALERTS.filter(a => !a.read).length;
+  const filtered: AlertItem[] = alerts.filter(a => {
+    if (filter === "Todas") return true;
+    if (filter === "Sin leer") return !a.read;
+    if (filter === "Críticas") return a.level === "critical";
+    if (filter === "Altas") return a.level === "high";
+    if (filter === "Medias") return a.level === "medium";
+    if (filter === "Bajas") return a.level === "low";
+    return true;
+  });
+
+  const unread = alerts.filter(a => !a.read).length;
 
   return (
     <div className="space-y-6">
@@ -41,7 +52,9 @@ export default function AlertasPage() {
         <div>
           <span className="label-cap">Bandeja operativa</span>
           <h1 className="text-3xl font-bold text-text1 mt-1">Alertas</h1>
-          <p className="text-text2 text-sm mt-1">{unread} sin leer · {DEMO_ALERTS.length} totales · priorizadas por riesgo</p>
+          <p className="text-text2 text-sm mt-1">
+            {isLoading ? "Cargando…" : <>{unread} sin leer · {alerts.length} totales · priorizadas por riesgo</>}
+          </p>
         </div>
         <div className="flex gap-2">
           <button className="px-3 py-2 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-sm flex items-center gap-1.5">
@@ -68,7 +81,16 @@ export default function AlertasPage() {
 
       {/* Alert list */}
       <div className="space-y-3">
-        {filtered.map(a => {
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <article key={i} className="premium-card animate-pulse h-32 bg-bg3/30" />
+          ))
+        ) : filtered.length === 0 ? (
+          <div className="premium-card text-center py-12 text-muted text-sm">
+            <AlertTriangle className="w-8 h-8 text-muted mx-auto mb-3" />
+            <p>Sin alertas {filter !== "Todas" ? `con filtro "${filter}"` : "activas"}.</p>
+          </div>
+        ) : filtered.map(a => {
           const cls = levelClasses(a.level);
           return (
             <article key={a.id} className={`premium-card cursor-pointer hover:border-cyan1/30 ${a.read ? "opacity-70" : ""}`}>
@@ -77,12 +99,11 @@ export default function AlertasPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                     <span className={`badge ${cls.badge}`}>{cls.label}</span>
-                    <span className="badge bg-bg3 text-text2 border border-border1 text-[10px]">{a.category}</span>
                     {!a.read && <span className="w-1.5 h-1.5 rounded-full bg-cyan1 animate-pulse" />}
-                    <span className="text-[10px] text-muted ml-auto">{a.time}</span>
+                    <span className="text-[10px] text-muted ml-auto">{timeAgo(a.created_at)}</span>
                   </div>
                   <h3 className="text-base font-bold text-text1 mb-1">{a.title}</h3>
-                  <p className="text-sm text-text2 leading-relaxed">{a.body}</p>
+                  {a.body && <p className="text-sm text-text2 leading-relaxed">{a.body}</p>}
                   <div className="flex items-center justify-between mt-3 text-xs">
                     <span className="text-muted">Fuente: {a.source}</span>
                     <div className="flex gap-3">

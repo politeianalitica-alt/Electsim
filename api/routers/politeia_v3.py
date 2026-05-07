@@ -166,12 +166,19 @@ def briefing_morning(workspace_id: str = Query("default")) -> dict:
 
 @router.get("/briefings")
 def briefings_list() -> list[dict]:
-    """List of historical briefings."""
+    """List of historical briefings — IDs únicos basados en fecha real (sin colisión)."""
+    from datetime import timedelta
     today = datetime.now(timezone.utc).date()
-    return [
-        {"id": f"b_{i}", "date": (today.replace(day=max(1, today.day - i))).isoformat(), "title": "Briefing matinal — España", "type": "diario"}
-        for i in range(7)
-    ]
+    out = []
+    for i in range(7):
+        d = today - timedelta(days=i)
+        out.append({
+            "id":    f"b_{d.isoformat()}",
+            "date":  d.isoformat(),
+            "title": f"Briefing matinal — España {d.strftime('%d/%m/%Y')}",
+            "type":  "diario",
+        })
+    return out
 
 
 @router.get("/briefings/{briefing_id}/pdf")
