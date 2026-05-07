@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FileText, Send, Wand2, Copy, Download, RefreshCw, ChevronDown, AlignLeft, Mail, Megaphone, Globe } from "lucide-react";
+import { endpoints } from "@/lib/api/endpoints";
 
 const FORMATS = [
   { id: "nota",      label: "Nota de prensa",     icon: FileText },
@@ -103,9 +104,15 @@ export default function DraftPage() {
     if (!brief.trim()) return;
     setBusy(true);
     setOutput("");
-    await new Promise(r => setTimeout(r, 900));
-    setOutput(DEMO_OUTPUT[format] || DEMO_OUTPUT.nota);
-    setBusy(false);
+    try {
+      const res = await endpoints.draftGenerate({ format, tono, audiencia, brief });
+      const raw = typeof res.answer === "string" ? res.answer : JSON.stringify(res.answer, null, 2);
+      setOutput(raw || DEMO_OUTPUT[format] || DEMO_OUTPUT.nota);
+    } catch {
+      setOutput(DEMO_OUTPUT[format] || DEMO_OUTPUT.nota);
+    } finally {
+      setBusy(false);
+    }
   };
 
   const copy = () => {

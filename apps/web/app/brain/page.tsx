@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Sparkles, Database, AlertCircle, FileText } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Send, Sparkles, Database, AlertCircle, FileText, CheckCircle2, Cpu } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
 
 function MarkdownText({ text }: { text: string }) {
@@ -49,6 +50,13 @@ export default function BrainPage() {
   const [contextFlags, setContextFlags] = useState({ briefing: true, alerts: false, narratives: false });
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const { data: brainStatus } = useQuery({
+    queryKey: ["brain", "status"],
+    queryFn: () => endpoints.brainStatus().catch(() => ({ available: false, model: "desconocido", mode: "error" })),
+    staleTime: 60 * 1000,
+    refetchInterval: 60 * 1000,
+  });
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);
@@ -86,9 +94,16 @@ export default function BrainPage() {
             </div>
             <p className="text-text2 text-xs">Asistente IA con acceso al contexto del workspace</p>
           </div>
-          <span className="badge badge-green flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green1 animate-pulse" /> Modelo activo
-          </span>
+          {brainStatus?.available ? (
+            <span className="badge badge-green flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green1 animate-pulse" />
+              {brainStatus.model ?? "Modelo activo"}
+            </span>
+          ) : (
+            <span className="badge badge-amber flex items-center gap-1.5">
+              <AlertCircle className="w-3 h-3" /> Sin modelo
+            </span>
+          )}
         </header>
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-6 space-y-4">
@@ -216,11 +231,22 @@ export default function BrainPage() {
           </button>
         </div>
 
-        <div className="premium-card border-amber1/30">
-          <h3 className="text-sm font-bold text-amber1 mb-2 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4" /> Modelo
+        <div className={`premium-card ${brainStatus?.available ? "border-green1/30" : "border-amber1/30"}`}>
+          <h3 className={`text-sm font-bold mb-2 flex items-center gap-2 ${brainStatus?.available ? "text-green1" : "text-amber1"}`}>
+            {brainStatus?.available ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
+            Modelo
           </h3>
-          <p className="text-xs text-text2 mb-2">Modo demo activo. Configura GROQ_API_KEY o instala Ollama para respuestas en tiempo real.</p>
+          {brainStatus?.available ? (
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <Cpu className="w-3.5 h-3.5 text-green1 shrink-0" />
+                <span className="text-xs text-text1 font-medium">{brainStatus.model}</span>
+              </div>
+              <p className="text-[10px] text-muted">Ollama corriendo localmente. Modelo <strong>politeia-brain:latest</strong> disponible para análisis en tiempo real.</p>
+            </div>
+          ) : (
+            <p className="text-xs text-text2">Sin modelo LLM activo. Inicia Ollama con <code className="text-cyan1 bg-bg3 px-1 rounded text-[10px]">ollama serve</code> para activar el Brain.</p>
+          )}
         </div>
       </aside>
     </div>

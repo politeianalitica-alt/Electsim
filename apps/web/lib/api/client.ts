@@ -2,7 +2,7 @@
  * API Client for Politeia FastAPI backend.
  * Uses fetch with credentials and unified error handling.
  */
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 export class ApiError extends Error {
   status: number;

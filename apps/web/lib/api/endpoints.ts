@@ -268,6 +268,17 @@ export const endpoints = {
   commsStrategy: (issue: string, context?: string, audience?: string) =>
     api.post<any>("/api/comms/strategy", { issue, context, audience }),
 
+  // Draft Studio — generate via Brain
+  draftGenerate: (params: { format: string; tono: string; audiencia: string; brief: string }) => {
+    const formatLabels: Record<string, string> = {
+      nota: "nota de prensa", email: "email político", post: "post para redes sociales",
+      discurso: "fragmento de discurso político", web: "texto para página web"
+    };
+    const label = formatLabels[params.format] || params.format;
+    const question = `Genera una ${label} con tono "${params.tono}" para audiencia "${params.audiencia}". Brief: ${params.brief}. Devuelve únicamente el texto del borrador, sin explicaciones adicionales.`;
+    return api.post<{ answer: string; model_used?: string; mode?: string }>("/api/brain/chat", { question, use_llm: true });
+  },
+
   // Actors — main endpoint at /api/actors
   actorsList: (params?: { partido?: string; q?: string; search?: string; limit?: number }) => {
     const qs = new URLSearchParams();
@@ -412,4 +423,29 @@ export const endpoints = {
   brainStatus: () => api.get<any>("/api/brain/status"),
   brainTest: (params: { prompt: string; task_type: string }) => api.post<any>("/api/brain/test", params),
   brainEmbedTest: (params: { text: string }) => api.post<any>("/api/brain/embed-test", params),
+
+  // Media Intelligence (new)
+  mediaIntelKpis: () => api.get<any>("/api/media-intel/kpis"),
+  mediaIntelFeed: (params?: {
+    category?: string; bias?: string; partido?: string;
+    scope?: string; page?: number; page_size?: number;
+  }) => {
+    const qs = new URLSearchParams();
+    if (params?.category) qs.set("category", params.category);
+    if (params?.bias) qs.set("bias", params.bias);
+    if (params?.partido) qs.set("partido", params.partido);
+    if (params?.scope) qs.set("scope", params.scope);
+    if (params?.page) qs.set("page", String(params.page));
+    if (params?.page_size) qs.set("page_size", String(params.page_size));
+    return api.get<{ items: any[]; total: number; page: number; page_size: number; mode: string }>(
+      `/api/media-intel/feed${qs.toString() ? "?" + qs : ""}`
+    );
+  },
+  mediaIntelBiasSpectrum: () => api.get<any[]>("/api/media-intel/bias-spectrum"),
+  mediaIntelSentimentHeatmap: () => api.get<any>("/api/media-intel/sentiment-heatmap"),
+  mediaIntelNarratives: () => api.get<any[]>("/api/media-intel/narratives"),
+  mediaIntelMapWorld: () => api.get<any[]>("/api/media-intel/map/world"),
+  mediaIntelMapEurope: () => api.get<any[]>("/api/media-intel/map/europe"),
+  mediaIntelMapSpainCcaa: () => api.get<any[]>("/api/media-intel/map/spain-ccaa"),
+  mediaIntelSourceHealth: () => api.get<any>("/api/media-intel/source-health"),
 };

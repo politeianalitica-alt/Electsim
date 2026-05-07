@@ -48,14 +48,15 @@ export default function LegislativoPage() {
   const [sectorFilter, setSectorFilter] = useState("");
   const [jurisdictionFilter, setJurisdictionFilter] = useState("");
 
-  const { data: overview, isLoading: overviewLoading, isError: overviewError } = useQuery<LegislativeOverviewResponse>({
+  const { data: overview, isLoading: overviewLoading, isError: overviewError } = useQuery<LegislativeOverviewResponse | null>({
     queryKey: ["legislative", "overview"],
-    queryFn: () => endpoints.legislativeOverview(),
+    queryFn: () => endpoints.legislativeOverview().catch(() => null),
     staleTime: 5 * 60_000,
-    retry: 1,
+    refetchInterval: 10 * 60_000,
+    retry: false,
   });
 
-  const { data: itemsData, isLoading: itemsLoading } = useQuery<LegislativeItemsResponse>({
+  const { data: itemsData, isLoading: itemsLoading } = useQuery<LegislativeItemsResponse | null>({
     queryKey: ["legislative", "items", urgencyFilter, sectorFilter, jurisdictionFilter, search],
     queryFn: () => endpoints.legislativeItems({
       page: 1,
@@ -64,9 +65,9 @@ export default function LegislativoPage() {
       sector: sectorFilter || undefined,
       jurisdiction: jurisdictionFilter || undefined,
       search: search || undefined,
-    }),
+    }).catch(() => null),
     staleTime: 5 * 60_000,
-    retry: 1,
+    retry: false,
   });
 
   const mode = overview?.mode ?? (overviewError ? "error" : "fallback");

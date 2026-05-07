@@ -42,25 +42,26 @@ const FALLBACK_SPARK = [52,55,51,58,60,57,63,61,66,64,62,67,65,68,70,67,72,69,74
 export default function RiesgoPage() {
   const [activeTab, setActiveTab] = useState<TabId>("monitor");
 
-  const { data, isLoading, isError } = useQuery<RiskOverviewResponse>({
+  const { data, isLoading, isError } = useQuery<RiskOverviewResponse | null>({
     queryKey: ["risk", "overview-v2"],
-    queryFn: () => endpoints.riskOverviewV2(),
+    queryFn: () => endpoints.riskOverviewV2().catch(() => null),
     staleTime: 3 * 60_000,
-    retry: 1,
+    refetchInterval: 5 * 60_000,
+    retry: false,
   });
 
-  const { data: scenariosData } = useQuery<{ scenarios: RiskScenario[]; mode: string }>({
+  const { data: scenariosData } = useQuery<{ scenarios: RiskScenario[]; mode: string } | null>({
     queryKey: ["risk", "scenarios"],
-    queryFn: () => endpoints.riskScenarios() as Promise<{ scenarios: RiskScenario[]; mode: string }>,
+    queryFn: () => (endpoints.riskScenarios() as Promise<any>).catch(() => null),
     staleTime: 10 * 60_000,
-    retry: 1,
+    retry: false,
   });
 
-  const { data: timelineData } = useQuery<{ timeline: RiskTimelinePoint[]; mode: string }>({
+  const { data: timelineData } = useQuery<{ timeline: RiskTimelinePoint[]; mode: string } | null>({
     queryKey: ["risk", "timeline"],
-    queryFn: () => endpoints.riskTimeline() as Promise<{ timeline: RiskTimelinePoint[]; mode: string }>,
+    queryFn: () => (endpoints.riskTimeline() as Promise<any>).catch(() => null),
     staleTime: 10 * 60_000,
-    retry: 1,
+    retry: false,
   });
 
   const mode = data?.mode ?? (isError ? "error" : "fallback");

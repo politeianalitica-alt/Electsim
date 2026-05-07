@@ -74,12 +74,99 @@ def _demo_briefing_items() -> list[dict]:
     ]
 
 
+def _real_briefing_items(limit: int) -> list[dict]:
+    """Build real briefing list from DB history."""
+    from services.real_data import get_top_noticias, get_alertas, get_risk_overview
+    items: list[dict] = []
+    now = datetime.now(timezone.utc)
+
+    # Morning briefings from noticias_prensa grouped by day
+    try:
+        noticias = get_top_noticias(limit=60, dias=30)
+        seen_dates: set = set()
+        for n in noticias:
+            fecha = str(n.get("fecha_publicacion") or "")[:10]
+            if fecha and fecha not in seen_dates:
+                seen_dates.add(fecha)
+                titles = [x.get("title") or x.get("titular") or "" for x in noticias if str(x.get("fecha_publicacion") or "")[:10] == fecha][:3]
+                preview = " · ".join(t[:60] for t in titles if t)
+                items.append({
+                    "id": f"morning-{fecha}",
+                    "title": f"Briefing Matinal — {fecha}",
+                    "briefing_type": "morning",
+                    "audience": "consultor_politico",
+                    "workspace_id": "default",
+                    "period": "today",
+                    "mode": "real",
+                    "generated_at": f"{fecha}T08:00:00+00:00",
+                    "summary_preview": preview or f"Resumen informativo del {fecha}",
+                })
+    except Exception:
+        pass
+
+    # Risk briefings from informes_riesgo_politico
+    try:
+        risk_rows = get_risk_overview(limit=10)
+        for r in risk_rows:
+            fecha = str(r.get("fecha_calculo") or "")[:10]
+            if not fecha:
+                continue
+            idx = r.get("indice_compuesto")
+            sem = r.get("semaforo", "amarillo")
+            score_str = f"{float(idx):.1f}/10" if idx is not None else "N/D"
+            items.append({
+                "id": f"risk-{fecha}",
+                "title": f"Informe Riesgo Político — {fecha}",
+                "briefing_type": "risk",
+                "audience": "unidad_inteligencia",
+                "workspace_id": "default",
+                "period": "today",
+                "mode": "real",
+                "generated_at": f"{fecha}T09:00:00+00:00",
+                "summary_preview": f"Índice riesgo: {score_str} ({sem}). Ver dimensiones y drivers para análisis detallado.",
+            })
+    except Exception:
+        pass
+
+    # Alert briefings from alertas_sistema grouped by week
+    try:
+        alerts = get_alertas(limit=30)
+        alert_weeks: dict = {}
+        for a in alerts:
+            ts = str(a.get("created_at") or "")[:10]
+            if ts:
+                from datetime import date as _date, timedelta
+                d = _date.fromisoformat(ts)
+                week_start = (d - timedelta(days=d.weekday())).isoformat()
+                alert_weeks.setdefault(week_start, []).append(a)
+        for week, week_alerts in sorted(alert_weeks.items(), reverse=True)[:5]:
+            critical = sum(1 for a in week_alerts if a.get("level") == "critical")
+            preview = f"{len(week_alerts)} alertas ({critical} críticas). " + (week_alerts[0].get("title") or "")[:80]
+            items.append({
+                "id": f"alerts-{week}",
+                "title": f"Monitor de Alertas — Semana {week}",
+                "briefing_type": "alerts",
+                "audience": "consultor_politico",
+                "workspace_id": "default",
+                "period": "week",
+                "mode": "real",
+                "generated_at": f"{week}T07:00:00+00:00",
+                "summary_preview": preview,
+            })
+    except Exception:
+        pass
+
+    items.sort(key=lambda x: x.get("generated_at", ""), reverse=True)
+    return items[:limit]
+
+
 @router.get("/api/briefings/v2")
 async def briefings_list_v2(
     workspace_id: str = Query(default="default"),
     limit: int = Query(default=20, le=100),
 ):
-    """List saved briefings (v2 — JSON store)."""
+    """List briefings — real items from DB history, saved items if available."""
+    # Try saved briefings first
     try:
         from services.briefings.briefing_store import list_saved_briefings
         items = list_saved_briefings(workspace_id=workspace_id, limit=limit)
@@ -92,6 +179,17 @@ async def briefings_list_v2(
             }
     except Exception:
         pass
+
+    # Build real items from DB history
+    real_items = _real_briefing_items(limit)
+    if real_items:
+        return {
+            "mode": "real",
+            "meta": {"generated_at": datetime.now(timezone.utc).isoformat()},
+            "items": real_items,
+            "total": len(real_items),
+        }
+
     demo = _demo_briefing_items()
     return {
         "mode": "fallback",

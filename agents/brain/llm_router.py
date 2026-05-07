@@ -38,8 +38,8 @@ _TASK_CONFIG: dict[str, dict] = {
     "narrative_frame": {"speed": "normal", "timeout": 45,  "json": True,  "cache_ttl": 3600},
     "briefing":        {"speed": "deep",   "timeout": 120, "json": False, "cache_ttl": 900},
     "comms_strategy":  {"speed": "deep",   "timeout": 90,  "json": True,  "cache_ttl": 1800},
-    "qna":             {"speed": "normal", "timeout": 60,  "json": True,  "cache_ttl": 3600},
-    "red_team":        {"speed": "normal", "timeout": 60,  "json": True,  "cache_ttl": 1800},
+    "qna":             {"speed": "normal", "timeout": 60,  "json": False, "cache_ttl": 3600},
+    "red_team":        {"speed": "normal", "timeout": 60,  "json": False, "cache_ttl": 1800},
     "deep_analysis":   {"speed": "deep",   "timeout": 120, "json": False, "cache_ttl": 900},
     "evidence_check":  {"speed": "normal", "timeout": 30,  "json": True,  "cache_ttl": 7200},
 }

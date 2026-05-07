@@ -6,8 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   Home, Newspaper, Users, AlertTriangle, FileText, Building2,
   Globe, MessageSquare, Briefcase, Brain, Workflow, Search,
-  Settings, GitBranch, Database, Shield, Activity, BrainCircuit,
-  BarChart2, Layers
+  Settings, GitBranch, Database, Shield, Activity, TrendingUp
 } from "lucide-react";
 
 interface NavGroup {
@@ -22,12 +21,12 @@ const NAV: NavGroup[] = [
     defaultOpen: true,
     items: [
       { href: "/",            label: "Inicio",             icon: Home },
-      { href: "/analisis",    label: "Analysis Hub",       icon: BarChart2 },
       { href: "/briefings",   label: "Briefings",          icon: FileText },
       { href: "/actores",     label: "Mapa de Actores",    icon: Users },
       { href: "/medios",      label: "Medios & Narrativa", icon: Newspaper },
       { href: "/alertas",     label: "Alertas",            icon: AlertTriangle },
-      { href: "/riesgo",      label: "Termómetro Riesgo",  icon: Activity }
+      { href: "/riesgo",      label: "Termómetro Riesgo",  icon: Activity },
+      { href: "/nowcasting",  label: "Nowcasting",         icon: TrendingUp, badge: "live" }
     ]
   },
   {
@@ -49,10 +48,8 @@ const NAV: NavGroup[] = [
       { href: "/brain",       label: "Politeia Brain",     icon: Brain },
       { href: "/workflows",   label: "Workflows",          icon: Workflow },
       { href: "/buscar",      label: "Búsqueda Global",    icon: Search },
-      { href: "/fuentes",     label: "Fuentes & Ingesta",  icon: Layers },
       { href: "/memoria",     label: "Memoria del WS",     icon: Database },
       { href: "/integraciones", label: "Integraciones",    icon: Shield },
-      { href: "/sistema/ia",  label: "IA Local",           icon: BrainCircuit },
       { href: "/settings",    label: "Preferencias",       icon: Settings }
     ]
   }

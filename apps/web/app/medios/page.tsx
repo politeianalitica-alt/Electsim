@@ -1,175 +1,242 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronRight } from "lucide-react";
-import { ModeBadge } from "@/components/status/mode-badge";
-import type { DataMode } from "@/lib/types/status";
+import {
+  Newspaper, Globe2, BarChart2, Radio, MapPin,
+  Activity, AlertCircle, CheckCircle2, Database,
+  TrendingUp, TrendingDown, Minus,
+} from "lucide-react";
+import { MediaFeed }       from "@/components/media/MediaFeed";
+import { BiasSpectrum }    from "@/components/media/BiasSpectrum";
+import { SentimentHeatmap } from "@/components/media/SentimentHeatmap";
+import { NarrativePanel }  from "@/components/media/NarrativePanel";
+import { NarrativeMap }    from "@/components/media/NarrativeMap";
 
-const DEMO_SOURCES = {
-  active: 412,
-  degraded: 47,
-  down: 28,
-  sources: [
-    { name: "El País", status: "active", articles_24h: 89 },
-    { name: "El Mundo", status: "active", articles_24h: 67 },
-    { name: "ABC", status: "active", articles_24h: 54 },
-    { name: "elDiario.es", status: "active", articles_24h: 41 },
-    { name: "OK Diario", status: "active", articles_24h: 38 },
-    { name: "20 Minutos", status: "degraded", articles_24h: 12 },
-    { name: "La Razón", status: "down", articles_24h: 0 },
-    { name: "RTVE", status: "active", articles_24h: 33 },
-  ],
-};
+// ── Tab config ─────────────────────────────────────────────────────────────
+const TABS = [
+  { id: "feed",       label: "Feed de noticias",   Icon: Newspaper },
+  { id: "sesgo",      label: "Sesgo de medios",     Icon: BarChart2 },
+  { id: "sentimiento",label: "Sentimiento",         Icon: Activity  },
+  { id: "narrativas", label: "Narrativas activas",  Icon: Radio     },
+  { id: "mapa",       label: "Mapa narrativo",      Icon: MapPin    },
+] as const;
 
-const DEMO_NARRATIVES = [
-  { frame_label: "Crisis vivienda asequible", lifecycle: "peak", velocity: "up", article_count: 142, dominant_emotion: "frustración", recommended_action: "Mensaje de respuesta con propuestas concretas" },
-  { frame_label: "Lawfare contra el gobierno", lifecycle: "emergence", velocity: "up", article_count: 87, dominant_emotion: "indignación", recommended_action: "Vigilar amplificación + contra-frame" },
-  { frame_label: "Reforma fiscal pendiente", lifecycle: "emergence", velocity: "up", article_count: 64, dominant_emotion: "expectativa", recommended_action: "Analizar movimientos de Sumar" },
-  { frame_label: "Pactos PP-VOX en CCAA", lifecycle: "decline", velocity: "stable", article_count: 51, dominant_emotion: "tensión", recommended_action: "Monitorizar tensiones internas" },
-];
+type TabId = (typeof TABS)[number]["id"];
 
-type SourceStatus = "active" | "degraded" | "down";
-
-function statusConfig(s: SourceStatus) {
-  if (s === "active") return { Icon: CheckCircle2, iconClass: "text-green1" };
-  if (s === "degraded") return { Icon: Activity, iconClass: "text-amber1" };
-  return { Icon: AlertCircle, iconClass: "text-red1" };
+// ── KPI card ────────────────────────────────────────────────────────────────
+function KpiCard({
+  label, value, sub, color = "text-cyan1",
+}: { label: string; value: string | number; sub?: string; color?: string }) {
+  return (
+    <div className="kpi-card">
+      <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">{label}</div>
+      <div className={`text-2xl font-bold ${color}`}>{value}</div>
+      {sub && <div className="text-[10px] text-muted mt-0.5">{sub}</div>}
+    </div>
+  );
 }
 
+// ── Source health row ────────────────────────────────────────────────────────
+function SourceRow({ src }: { src: any }) {
+  const status = src.status ?? "active";
+  const Icon = status === "active" ? CheckCircle2 : status === "degraded" ? Activity : AlertCircle;
+  const colorCls = status === "active" ? "text-green1" : status === "degraded" ? "text-amber1" : "text-red1";
+  return (
+    <li className="flex items-center justify-between text-xs p-2 rounded hover:bg-bg3 transition">
+      <div className="flex items-center gap-2 min-w-0">
+        <Icon className={`w-3.5 h-3.5 shrink-0 ${colorCls}`} />
+        <span className="text-text1 truncate">{src.name}</span>
+      </div>
+      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+        {src.articles_24h != null && (
+          <span className="text-[9px] text-muted">{src.articles_24h} arts.</span>
+        )}
+        {src.trend === "up"   && <TrendingUp   className="w-3 h-3 text-red1"  />}
+        {src.trend === "down" && <TrendingDown className="w-3 h-3 text-green1"/>}
+        {src.trend === "flat" && <Minus        className="w-3 h-3 text-muted" />}
+      </div>
+    </li>
+  );
+}
+
+// ── Page ─────────────────────────────────────────────────────────────────────
 export default function MediosPage() {
-  const { data: sourceHealthData } = useQuery({
-    queryKey: ["media", "source-health"],
-    queryFn: () => endpoints.mediaSourceHealth(),
-    staleTime: 2 * 60 * 1000,
-  });
+  const [activeTab, setActiveTab] = useState<TabId>("feed");
 
-  const { data: narrativesData } = useQuery({
-    queryKey: ["media", "narratives"],
-    queryFn: () => endpoints.mediaNarratives().catch(() => null),
+  // KPIs
+  const { data: kpis, isLoading: kpisLoading } = useQuery({
+    queryKey: ["media-intel", "kpis"],
+    queryFn: () => endpoints.mediaIntelKpis().catch(() => null),
     staleTime: 5 * 60 * 1000,
+    refetchInterval: 10 * 60 * 1000,
   });
 
-  const { data: stories } = useQuery({
-    queryKey: ["media", "top-stories"],
-    queryFn: () => endpoints.mediaTopStories(15).catch(() => []),
-    staleTime: 2 * 60 * 1000,
+  // Source health (sidebar)
+  const { data: sourceHealth } = useQuery({
+    queryKey: ["media-intel", "source-health"],
+    queryFn: () => endpoints.mediaIntelSourceHealth().catch(() => null),
+    staleTime: 3 * 60 * 1000,
   });
 
-  const health = sourceHealthData ?? DEMO_SOURCES;
-  const narratives = narrativesData && Array.isArray(narrativesData) && narrativesData.length > 0
-    ? narrativesData
-    : DEMO_NARRATIVES;
-  const mode: DataMode = sourceHealthData ? "real" : "fallback";
-  const sources: Array<{ name: string; status: string; articles_24h: number }> = health.sources ?? [];
-  const totalArticles = sources.reduce((sum, s) => sum + (s.articles_24h ?? 0), 0) || 14820;
+  // Derived KPI values
+  const totalArticulos     = kpis?.total_articulos     ?? kpis?.total_articles     ?? "—";
+  const articulosHoy       = kpis?.articulos_hoy       ?? kpis?.articles_today     ?? "—";
+  const fuentesActivas     = kpis?.fuentes_activas     ?? kpis?.active_sources      ?? "—";
+  const articulosInt       = kpis?.articulos_internacionales ?? kpis?.international_articles ?? "—";
+  const narrativasCount    = kpis?.narrativas_detectadas ?? kpis?.narratives_count  ?? "—";
+  const modeLabel          = kpis?.mode ?? null;
 
-  const storyList = (stories && stories.length > 0 ? stories : [
-    { id: "1", title: "TC admite a trámite el recurso del PP contra la amnistía", source: "El País", relevance_score: 0.92 },
-    { id: "2", title: "Sumar exige acelerar la reforma del IRPF al PSOE", source: "elDiario.es", relevance_score: 0.81 },
-    { id: "3", title: "VOX rompe gobierno en una nueva CCAA por desacuerdo migratorio", source: "ABC", relevance_score: 0.78 },
-    { id: "4", title: "BdE revisa al alza la previsión de PIB 2026", source: "Cinco Días", relevance_score: 0.74 },
-    { id: "5", title: "Junts amenaza con bloquear comisión de Justicia esta semana", source: "La Vanguardia", relevance_score: 0.67 },
-  ]) as Array<{ id: string; title: string; source: string; relevance_score: number }>;
+  // Source health list (max 10)
+  const shownSources: any[] = (sourceHealth?.sources ?? []).slice(0, 10);
 
   return (
     <div className="space-y-6">
-      <header>
-        <span className="label-cap">Inteligencia mediática</span>
-        <div className="flex items-center gap-3 mt-1">
-          <h1 className="text-3xl font-bold text-text1">Medios & Narrativa</h1>
-          <ModeBadge mode={mode} source="api/media" />
+      {/* Header */}
+      <header className="flex items-start justify-between gap-4">
+        <div>
+          <span className="label-cap">Inteligencia mediática</span>
+          <h1 className="text-3xl font-bold text-text1 mt-1">Medios &amp; Narrativa</h1>
+          <p className="text-text2 text-sm mt-1">
+            Monitorización editorial, sesgo de fuentes, sentimiento por partido y análisis narrativo en tiempo real.
+          </p>
         </div>
-        <p className="text-text2 text-sm mt-1">Monitorización editorial, salud de fuentes y análisis narrativo en tiempo real.</p>
+        {modeLabel && (
+          <span className={`badge shrink-0 mt-2 ${modeLabel === "real" ? "badge-green" : "badge-amber"}`}>
+            <Database className="w-3 h-3 mr-1 inline-block" />
+            {modeLabel === "real" ? "Datos reales" : "Modo demo"}
+          </span>
+        )}
       </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div className="kpi-card">
-          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Fuentes activas</div>
-          <div className="text-2xl font-bold text-green1">{health.active}</div>
-        </div>
-        <div className="kpi-card">
-          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Degradadas</div>
-          <div className="text-2xl font-bold text-amber1">{health.degraded}</div>
-        </div>
-        <div className="kpi-card">
-          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Caídas</div>
-          <div className="text-2xl font-bold text-red1">{health.down}</div>
-        </div>
-        <div className="kpi-card">
-          <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Artículos 24h</div>
-          <div className="text-2xl font-bold text-cyan1">{totalArticles.toLocaleString("es-ES")}</div>
-        </div>
+      {/* KPI strip */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        {kpisLoading ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="kpi-card h-16 animate-pulse bg-bg3" />
+          ))
+        ) : (
+          <>
+            <KpiCard label="Artículos totales"       value={totalArticulos}  color="text-text1" />
+            <KpiCard label="Artículos hoy"            value={articulosHoy}    color="text-cyan1" />
+            <KpiCard label="Fuentes activas"          value={fuentesActivas}  color="text-green1" />
+            <KpiCard label="Artículos internacionales" value={articulosInt}   color="text-blue1" />
+            <KpiCard label="Narrativas detectadas"    value={narrativasCount} color="text-amber1" />
+          </>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <section className="lg:col-span-2 premium-card">
-          <div className="flex items-center gap-2 mb-4">
-            <Newspaper className="w-4 h-4 text-cyan1" />
-            <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Top stories — Selección editorial</h2>
-          </div>
-          <ul className="space-y-3">
-            {storyList.map(s => (
-              <li key={s.id} className="group cursor-pointer p-3 rounded-lg hover:bg-bg3 transition flex items-start gap-3">
-                <span className="text-cyan1 font-mono text-xs mt-0.5">{(s.relevance_score * 100).toFixed(0)}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="text-[10px] uppercase tracking-wider text-muted">{s.source}</div>
-                  <div className="text-sm text-text1 group-hover:text-cyan1 transition">{s.title}</div>
-                  <div className="mt-1.5 h-0.5 bg-bg3 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${s.relevance_score * 100}%` }} />
-                  </div>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted opacity-0 group-hover:opacity-100 transition" />
-              </li>
+      {/* Main grid: tab panel + sidebar */}
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+
+        {/* Left: tab panel (3/4 width on xl) */}
+        <div className="xl:col-span-3 space-y-4">
+
+          {/* Tab bar */}
+          <div className="flex flex-wrap gap-0.5 border-b border-border1 pb-0">
+            {TABS.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium transition border-b-2 -mb-px ${
+                  activeTab === id
+                    ? "border-cyan1 text-cyan1"
+                    : "border-transparent text-text2 hover:text-text1"
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {label}
+              </button>
             ))}
-          </ul>
-        </section>
+          </div>
 
-        <aside className="premium-card">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Salud de fuentes</h2>
-          <ul className="space-y-2">
-            {sources.map(src => {
-              const cfg = statusConfig(src.status as SourceStatus);
-              const Icon = cfg.Icon;
-              return (
-                <li key={src.name} className="flex items-center justify-between text-sm p-2 rounded hover:bg-bg3 transition">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <Icon className={`w-3.5 h-3.5 shrink-0 ${cfg.iconClass}`} />
-                    <span className="text-text1 truncate">{src.name}</span>
-                  </div>
-                  <span className="text-[10px] text-muted shrink-0 ml-2">{src.articles_24h ?? 0}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
-      </div>
+          {/* Tab content */}
+          <div className="premium-card min-h-[400px]">
+            {activeTab === "feed"        && <MediaFeed />}
+            {activeTab === "sesgo"       && <BiasSpectrum />}
+            {activeTab === "sentimiento" && <SentimentHeatmap />}
+            {activeTab === "narrativas"  && <NarrativePanel />}
+            {activeTab === "mapa"        && (
+              <div className="h-[620px]">
+                <NarrativeMap />
+              </div>
+            )}
+          </div>
+        </div>
 
-      <section className="premium-card" id="narrativas">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Narrativas activas</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {narratives.map((n: any, i: number) => (
-            <div key={i} className="p-4 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/30 transition group cursor-pointer">
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="text-sm font-bold text-text1 group-hover:text-cyan1 transition leading-tight">
-                  {n.frame_label}
-                </h3>
-                <span className={`badge ${n.lifecycle === "peak" ? "badge-red" : n.lifecycle === "emergence" ? "badge-amber" : "badge-cyan"} shrink-0`}>
-                  {n.lifecycle}
+        {/* Right sidebar: source health */}
+        <aside className="xl:col-span-1 space-y-4">
+          <div className="premium-card">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">
+              Salud de fuentes
+            </h2>
+
+            {/* Status summary pills */}
+            {sourceHealth && (
+              <div className="flex gap-2 mb-3 flex-wrap">
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-green1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  {sourceHealth.active ?? 0} activas
+                </span>
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-amber1">
+                  <Activity className="w-3 h-3" />
+                  {sourceHealth.degraded ?? 0} degradadas
+                </span>
+                <span className="flex items-center gap-1 text-[10px] font-semibold text-red1">
+                  <AlertCircle className="w-3 h-3" />
+                  {sourceHealth.down ?? 0} caídas
                 </span>
               </div>
-              <div className="flex items-center gap-3 text-xs text-text2 mb-2">
-                <span>{n.article_count} artículos</span>
-                <span>·</span>
-                <span>Velocidad: <span className={n.velocity === "up" ? "text-red1" : "text-text2"}>{n.velocity === "up" ? "▲ subiendo" : "→ estable"}</span></span>
-                <span>·</span>
-                <span>{n.dominant_emotion}</span>
-              </div>
-              <div className="text-xs text-cyan1 mt-2">→ {n.recommended_action}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+            )}
+
+            {shownSources.length > 0 ? (
+              <ul className="space-y-1">
+                {shownSources.map((src: any) => (
+                  <SourceRow key={src.name} src={src} />
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs text-muted py-4 text-center">Sin datos de fuentes.</p>
+            )}
+          </div>
+
+          {/* Quick-access shortcuts */}
+          <div className="premium-card">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">
+              Accesos rápidos
+            </h2>
+            <ul className="space-y-1">
+              {[
+                { label: "Feed España",        tab: "feed" as TabId,        note: "últimas 24h" },
+                { label: "Espectro ideológico", tab: "sesgo" as TabId,      note: "fuentes por tendencia" },
+                { label: "Sentimiento PP/PSOE", tab: "sentimiento" as TabId, note: "evolución diaria" },
+                { label: "Narrativas activas",  tab: "narrativas" as TabId,  note: "detección LLM" },
+                { label: "Mapa global",         tab: "mapa" as TabId,        note: "cobertura mundial" },
+              ].map(({ label, tab, note }) => (
+                <li key={tab}>
+                  <button
+                    onClick={() => setActiveTab(tab)}
+                    className={`w-full text-left px-2.5 py-2 rounded text-xs transition flex items-center justify-between gap-2 ${
+                      activeTab === tab
+                        ? "bg-cyan1/10 text-cyan1"
+                        : "text-text2 hover:text-text1 hover:bg-bg3"
+                    }`}
+                  >
+                    <span>{label}</span>
+                    <span className="text-[9px] text-muted">{note}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Refresh note */}
+          <p className="text-[10px] text-muted text-center px-2">
+            Los datos se actualizan cada 10 minutos. Los artículos internacionales provienen de <Globe2 className="w-3 h-3 inline-block mx-0.5" />fuentes globales vía RSS.
+          </p>
+        </aside>
+      </div>
     </div>
   );
 }

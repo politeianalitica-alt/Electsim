@@ -56,58 +56,60 @@ def _fetch_spark(dsn: str) -> list[int]:
 
 
 def get_overview() -> RiskOverviewResponse:
-    """Full risk overview with DB fallback."""
+    """Full risk overview from informes_riesgo_politico + alertas_sistema."""
+    import os
+    from sqlalchemy import create_engine, text as sqla_text
+    dsn = os.getenv("DATABASE_URL", _DSN)
     try:
-        import psycopg2
-        with psycopg2.connect(_DSN) as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    "SELECT COUNT(*) FROM signal_politeia WHERE created_at >= NOW() - INTERVAL '24 hours' AND urgencia >= 4"
-                )
-                n_criticas = (cur.fetchone() or [0])[0] or 0
+        engine = create_engine(dsn, pool_pre_ping=True, connect_args={"connect_timeout": 3})
+        with engine.connect() as conn:
+            # Latest risk report
+            risk_row = conn.execute(sqla_text("""
+                SELECT fecha_calculo, indice_compuesto, semaforo, dimensiones_json, drivers_json
+                FROM informes_riesgo_politico
+                ORDER BY fecha_calculo DESC LIMIT 1
+            """)).fetchone()
+            if not risk_row:
+                return get_demo_overview()
 
-                cur.execute(
-                    "SELECT COUNT(*) FROM legislation WHERE published_at >= NOW() - INTERVAL '7 days' AND ai_impact_level = 'high'"
-                )
-                n_leyes = (cur.fetchone() or [0])[0] or 0
+            indice = float(risk_row._mapping["indice_compuesto"] or 6.0)
+            global_score = int(round(indice * 10))  # 0–10 scale → 0–100
+            semaforo = str(risk_row._mapping["semaforo"] or "amarillo")
+            level = {"verde": "low", "amarillo": "medium", "rojo": "high"}.get(semaforo, "medium")
 
-                cur.execute(
-                    "SELECT AVG(sentimiento_actual) FROM persona_publica WHERE activo = TRUE AND tipo = 'politico'"
-                )
-                sent_row = cur.fetchone()
-                sent_medio = float((sent_row or [None])[0] or 0.0)
+            # Spark: last 6 reports for trend line
+            spark_rows = conn.execute(sqla_text("""
+                SELECT indice_compuesto FROM informes_riesgo_politico
+                ORDER BY fecha_calculo DESC LIMIT 30
+            """)).fetchall()
+            spark_vals = [int(round(float(r[0] or 6.0) * 10)) for r in reversed(spark_rows)]
+            if len(spark_vals) < 2:
+                spark_vals = DEMO_SPARK
 
-        dim_scores = {
-            "legislative": int(min(n_leyes * 8, 100)),
-            "media": int((1.0 - max(sent_medio, -1.0)) * 50),
-            "coalition": 70,
-            "actors": int(min(n_criticas * 5, 80)),
-            "economic": 45,
-            "geopolitical": 65,
-            "territorial": 60,
-            "system": 40,
-        }
-        global_score = global_score_from_dimensions(dim_scores)
-        if global_score == 0:
-            return get_demo_overview()
+            trend_delta = spark_vals[-1] - spark_vals[-2] if len(spark_vals) >= 2 else 0
 
-        spark = _fetch_spark(_DSN)
-        trend_delta = global_score - (spark[-2] if len(spark) >= 2 else global_score)
-        level = severity_from_score(global_score)
+            # Alerts count by severity
+            crit_count = conn.execute(sqla_text(
+                "SELECT COUNT(*) FROM alertas_sistema WHERE severidad='CRITICAL'"
+            )).scalar() or 0
+            warn_count = conn.execute(sqla_text(
+                "SELECT COUNT(*) FROM alertas_sistema WHERE severidad='WARNING'"
+            )).scalar() or 0
+            total_alerts = int(crit_count) + int(warn_count)
 
         from api.schemas.risk import RiskKpiItem
         kpis = [
             RiskKpiItem(label="Score global", value=global_score, color="amber" if global_score < 75 else "red", delta=trend_delta),
-            RiskKpiItem(label="Crisis activas", value=min(n_criticas, 10), color="red"),
-            RiskKpiItem(label="Señales críticas", value=min(int(n_leyes), 20), color="red"),
-            RiskKpiItem(label="Indicadores en verde", value=3, color="green"),
+            RiskKpiItem(label="Crisis activas", value=int(crit_count), color="red", delta=0),
+            RiskKpiItem(label="Señales críticas", value=int(warn_count), color="amber", delta=0),
+            RiskKpiItem(label="Indicadores en verde", value=max(0, 10 - total_alerts), color="green", delta=0),
         ]
         return RiskOverviewResponse(
             global_score=global_score, level=level,
             trend=trend_from_delta(trend_delta), trend_delta=trend_delta,
             kpis=kpis, dimensions=DEMO_DIMENSIONS,
             crisis_signals=[], top_signals=[], early_warnings=[],
-            spark=spark, mode="real",
+            spark=spark_vals, mode="real",
         )
     except Exception:
         return get_demo_overview()

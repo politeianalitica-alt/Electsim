@@ -74,9 +74,35 @@ def get_risk_scenarios() -> dict:
 
 # ── Timeline ─────────────────────────────────────────────────────
 @router.get("/timeline")
-def get_risk_timeline() -> dict:
+def get_risk_timeline(days: int = 30) -> dict:
+    """Real timeline from informes_riesgo_politico."""
+    import os
+    from sqlalchemy import create_engine, text
+    dsn = os.getenv("DATABASE_URL", "")
+    if dsn:
+        try:
+            engine = create_engine(dsn, pool_pre_ping=True, connect_args={"connect_timeout": 3})
+            with engine.connect() as conn:
+                rows = conn.execute(text(f"""
+                    SELECT fecha_calculo, indice_compuesto, semaforo
+                    FROM informes_riesgo_politico
+                    ORDER BY fecha_calculo ASC
+                """)).fetchall()
+                if rows:
+                    timeline = [
+                        {
+                            "date": str(r._mapping["fecha_calculo"])[:10],
+                            "score": int(round(float(r._mapping["indice_compuesto"] or 6.0) * 10)),
+                            "semaforo": str(r._mapping["semaforo"] or "amarillo"),
+                            "label": f"Riesgo {float(r._mapping['indice_compuesto'] or 6.0):.1f}/10",
+                        }
+                        for r in rows
+                    ]
+                    return {"timeline": timeline, "mode": "real"}
+        except Exception:
+            pass
     from services.risk.risk_fixtures import DEMO_TIMELINE
-    return {"timeline": [t.model_dump() for t in DEMO_TIMELINE], "mode": "demo"}
+    return {"timeline": [t.model_dump() for t in DEMO_TIMELINE], "mode": "fallback"}
 
 
 # ── Heatmap ──────────────────────────────────────────────────────
