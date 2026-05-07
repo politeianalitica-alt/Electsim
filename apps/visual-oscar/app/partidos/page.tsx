@@ -3,6 +3,15 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+// Tipos del proxy /api/market/parties
+type BackendParty = {
+  slug: string; name: string; color_hex: string
+  ideology_axes: { economic: number; social: number }
+}
+type BackendPartiesResponse = { parties: BackendParty[]; count: number }
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -378,6 +387,19 @@ export default function PartidosPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  // Verificación contra backend ElectSim · refresh 5min
+  const { data: backendData, source, updatedAt, refresh } = useApi<BackendPartiesResponse>(
+    '/api/market/parties',
+    { refreshInterval: 300_000 }
+  )
+  const backendParties = backendData?.parties || []
+  // Mapa slug → BackendParty para lookups rápidos
+  const backendBySlug: Record<string, BackendParty> = useMemo(() => {
+    const m: Record<string, BackendParty> = {}
+    for (const p of backendParties) m[p.slug] = p
+    return m
+  }, [backendParties])
+
   const [filterFamilia, setFilterFamilia] = useState<Familia | 'Todas'>('Todas')
   const [query, setQuery] = useState('')
   const [orderBy, setOrderBy] = useState<'congreso' | 'intencion' | 'fundacion'>('congreso')
@@ -412,14 +434,15 @@ export default function PartidosPage() {
           display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
-              INTELIGENCIA POLÍTICA · PARTIDOS Y GRUPOS
+            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+              <span>INTELIGENCIA POLÍTICA · PARTIDOS Y GRUPOS</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
               Quién es quién en el sistema español <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>de partidos</em>
             </h1>
             <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
-              {totals.partidos} partidos con representación · {GRUPOS.length} grupos parlamentarios · seguimiento de líderes, escaños, sondeos y posición ideológica.
+              {totals.partidos} partidos · {GRUPOS.length} grupos parlamentarios · {backendParties.length > 0 ? <><strong style={{ color:'#10b981' }}>{backendParties.length} verificados contra backend ElectSim</strong> · </> : null}seguimiento de líderes, escaños, sondeos y posición ideológica.
             </p>
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
@@ -429,6 +452,94 @@ export default function PartidosPage() {
             <HeroKPI label="Eurodip." value={String(totals.europa)}/>
           </div>
         </section>
+
+        {/* ═════════════════════════════════════════════════════════════════
+            CUADRANTE 2D · POSICIONAMIENTO IDEOLÓGICO VERIFICADO
+            Datos del backend ElectSim FastAPI · /market/parties
+            Eje X: política económica (-1 izq · +1 dcha)
+            Eje Y: política social    (-1 progre · +1 conserv)
+            ═════════════════════════════════════════════════════════════════ */}
+        {backendParties.length > 0 && (
+          <section style={{
+            background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
+            padding:'22px 28px', marginBottom:18, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+          }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
+              <div>
+                <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#10b981', textTransform:'uppercase', margin:'0 0 4px' }}>
+                  CUADRANTE 2D · BACKEND ELECTSIM <span style={{ color:'#6e6e73' }}>· {backendParties.length} partidos verificados</span>
+                </p>
+                <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f' }}>
+                  Posición ideológica oficial · datos del backend
+                </h2>
+                <p style={{ fontSize:11.5, color:'#6e6e73', margin:'4px 0 0', lineHeight:1.45 }}>
+                  Eje X: economía (izquierda ←→ derecha) · Eje Y: social (progresista ↑↓ conservador) ·
+                  los partidos cuyo slug coincide muestran un punto verde de verificación
+                </p>
+              </div>
+            </div>
+
+            <div style={{ position:'relative', width:'100%', maxWidth:560, height:380, margin:'0 auto', background:'#fafafa', border:'1px solid #ECECEF', borderRadius:12 }}>
+              {/* Ejes */}
+              <div style={{ position:'absolute', left:'50%', top:0, bottom:0, width:1, background:'#ECECEF' }}/>
+              <div style={{ position:'absolute', top:'50%', left:0, right:0, height:1, background:'#ECECEF' }}/>
+
+              {/* Etiquetas de cuadrantes */}
+              <span style={{ position:'absolute', top:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↑ CONSERV. — IZQ. ECON.</span>
+              <span style={{ position:'absolute', top:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↑ CONSERV. — DCHA. ECON.</span>
+              <span style={{ position:'absolute', bottom:6, left:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em' }}>↓ PROGRES. — IZQ. ECON.</span>
+              <span style={{ position:'absolute', bottom:6, right:8, fontSize:9.5, color:'#9CA3AF', fontWeight:600, letterSpacing:'0.05em', textAlign:'right' }}>↓ PROGRES. — DCHA. ECON.</span>
+
+              {/* Puntos · convertimos -1..+1 a 0..100% */}
+              {backendParties.map(p => {
+                const x = (p.ideology_axes.economic + 1) / 2 * 100  // 0-100%
+                const y = (p.ideology_axes.social + 1) / 2 * 100    // 0-100% (invertido: +1 social = arriba)
+                return (
+                  <div key={p.slug} style={{
+                    position:'absolute', left:`${x}%`, top:`${100-y}%`,
+                    transform:'translate(-50%, -50%)',
+                    display:'flex', alignItems:'center', gap:5,
+                  }}>
+                    <span style={{
+                      width:14, height:14, borderRadius:'50%', background:p.color_hex,
+                      border:'2px solid #fff', boxShadow:'0 1px 3px rgba(0,0,0,0.20)',
+                    }}/>
+                    <span style={{
+                      fontSize:11, fontWeight:700, color:p.color_hex,
+                      background:'rgba(255,255,255,0.92)', padding:'1px 5px', borderRadius:4,
+                      border:`1px solid ${p.color_hex}30`, whiteSpace:'nowrap',
+                    }}>{p.slug.toUpperCase()}</span>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Tabla resumen al lado */}
+            <div style={{ marginTop:16, display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:8 }}>
+              {backendParties.map(p => {
+                const localMatch = PARTIDOS.find(lp => lp.id === p.slug || lp.siglas.toLowerCase() === p.slug)
+                const verified = !!localMatch
+                return (
+                  <div key={p.slug} style={{
+                    padding:'10px 12px', background:'#fafafa', borderRadius:10,
+                    border:'1px solid #ECECEF', borderLeft:`3px solid ${p.color_hex}`,
+                    display:'flex', alignItems:'center', justifyContent:'space-between', gap:8,
+                  }}>
+                    <div style={{ minWidth:0 }}>
+                      <div style={{ fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{p.slug.toUpperCase()}</div>
+                      <div style={{ fontSize:10.5, color:'#6e6e73', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.name}</div>
+                    </div>
+                    <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:1 }}>
+                      <span style={{ fontSize:10, color:'#6e6e73' }}>eco {p.ideology_axes.economic > 0 ? '+' : ''}{p.ideology_axes.economic.toFixed(2)}</span>
+                      <span style={{ fontSize:10, color:'#6e6e73' }}>soc {p.ideology_axes.social > 0 ? '+' : ''}{p.ideology_axes.social.toFixed(2)}</span>
+                      {verified && <span style={{ fontSize:9, fontWeight:700, color:'#10b981', marginTop:2 }}>✓ MATCH</span>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+        )}
 
         {/* ───── Tabs ───── */}
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
