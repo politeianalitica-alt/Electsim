@@ -64,7 +64,7 @@ function SparkSeries({ data, color, width = 120, height = 40 }: {
   const lastY = toY(vals[vals.length - 1]);
 
   return (
-    <svg width={width} height={height} className="overflow-visible">
+    <svg viewBox={`0 0 ${width} ${height}`} className="w-full overflow-visible" style={{ height }}>
       <polygon points={ciPoly} fill={color} fillOpacity="0.15" />
       <polyline points={linePts} fill="none" stroke={color} strokeWidth="1.5" />
       <circle cx={width} cy={lastY} r="3" fill={color} />

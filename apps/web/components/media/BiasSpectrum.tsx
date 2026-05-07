@@ -130,26 +130,41 @@ export function BiasSpectrum() {
         })}
       </div>
 
-      {/* Polar bias scale */}
+      {/* Polar bias scale — bubbles sized by audience, contained in overflow-visible wrapper */}
       <div className="pt-2 border-t border-border1">
         <p className="text-[10px] uppercase tracking-wider text-text2 mb-2">Espectro político</p>
-        <div className="relative h-3">
-          <div className="absolute inset-0 rounded-full"
-            style={{ background: "linear-gradient(to right, #E03A3E, #F59E0B, #94A3B8, #3B82F6, #1F77FF)" }} />
+        {/* Track + bubbles: give enough vertical room so bubbles don't clip neighbours */}
+        <div className="relative" style={{ height: "36px", marginBottom: "4px" }}>
+          {/* Gradient rail — vertically centred */}
+          <div className="absolute rounded-full" style={{
+            top: "50%", transform: "translateY(-50%)",
+            left: 0, right: 0, height: "8px",
+            background: "linear-gradient(to right, #E03A3E, #F59E0B, #94A3B8, #3B82F6, #1F77FF)",
+          }} />
           {data.filter((s: any) => s.audiencia > 0).map((s: any) => {
             const pos = ((s.ideology_pos ?? 5) / 10) * 100;
+            // Cap bubble diameter to 28px so they stay within the 36px container
+            const diam = Math.min(8 + (s.audiencia || 0) * 1.5, 28);
             return (
               <div key={s.name}
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-default group"
-                style={{ left: `${pos}%` }}
+                className="absolute cursor-default group"
+                style={{
+                  left: `${pos}%`,
+                  top: "50%",
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 1,
+                }}
                 title={`${s.name} (${s.ideology_pos?.toFixed(1)})`}>
-                <div className="w-3 h-3 rounded-full border-2 border-bg"
-                  style={{ background: IDEOLOGY_COLORS[s.ideology] || "#94A3B8",
-                            width: `${8 + (s.audiencia || 0) * 1.5}px`,
-                            height: `${8 + (s.audiencia || 0) * 1.5}px` }} />
+                <div className="rounded-full border-2 border-bg"
+                  style={{
+                    background: IDEOLOGY_COLORS[s.ideology] || "#94A3B8",
+                    width: `${diam}px`,
+                    height: `${diam}px`,
+                  }} />
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1
                   bg-bg2 border border-border1 px-1.5 py-0.5 rounded text-[9px] text-text1
-                  whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
+                  whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                  style={{ zIndex: 20 }}>
                   {s.name} · {s.audiencia?.toFixed(1)}M
                 </div>
               </div>
