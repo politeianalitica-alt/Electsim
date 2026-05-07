@@ -1,0 +1,248 @@
+'use client'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import AppHeader from '../_components/AppHeader'
+import { useRouter } from 'next/navigation'
+import { clearTokens, isAuthenticated } from '@/lib/auth'
+import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
+
+const PARTIES = [
+  { siglas:'PP',       nombre:'Partido Popular',            pct:32.1, ci_inf:30.2, ci_sup:34.0, seats:132, seats_low:126, seats_high:138, color:'#009FDB', bloque:'derecha',   delta:+1.2, n_enc:12 },
+  { siglas:'PSOE',     nombre:'PSOE',                       pct:26.8, ci_inf:24.8, ci_sup:28.8, seats:110, seats_low:102, seats_high:118, color:'#E30613', bloque:'izquierda', delta:-2.1, n_enc:12 },
+  { siglas:'VOX',      nombre:'VOX',                        pct:12.4, ci_inf:11.0, ci_sup:13.8, seats: 42, seats_low: 36, seats_high: 48, color:'#63BE21', bloque:'derecha',   delta:+0.4, n_enc:12 },
+  { siglas:'Sumar',    nombre:'Sumar',                      pct:10.2, ci_inf: 8.8, ci_sup:11.6, seats: 35, seats_low: 29, seats_high: 41, color:'#E4007C', bloque:'izquierda', delta:-1.1, n_enc:11 },
+  { siglas:'ERC',      nombre:'Esquerra Republicana',       pct: 3.1, ci_inf: 2.4, ci_sup: 3.8, seats: 11, seats_low:  9, seats_high: 13, color:'#F4B20A', bloque:'izquierda', delta:+0.2, n_enc: 8 },
+  { siglas:'Junts',    nombre:'Junts per Catalunya',        pct: 2.8, ci_inf: 2.2, ci_sup: 3.4, seats:  7, seats_low:  5, seats_high:  9, color:'#00AEEF', bloque:'otros',     delta:-0.1, n_enc: 7 },
+  { siglas:'PNV',      nombre:'Partido Nacionalista Vasco', pct: 2.1, ci_inf: 1.6, ci_sup: 2.6, seats:  5, seats_low:  4, seats_high:  6, color:'#007A3D', bloque:'otros',     delta:  0,  n_enc: 6 },
+  { siglas:'EH Bildu', nombre:'EH Bildu',                   pct: 2.0, ci_inf: 1.5, ci_sup: 2.5, seats:  4, seats_low:  3, seats_high:  5, color:'#A9C55A', bloque:'izquierda', delta:+0.3, n_enc: 6 },
+  { siglas:'CC',       nombre:'Coalición Canaria',          pct: 1.4, ci_inf: 1.0, ci_sup: 1.8, seats:  2, seats_low:  1, seats_high:  3, color:'#FFC107', bloque:'derecha',   delta:  0,  n_enc: 5 },
+  { siglas:'BNG',      nombre:'Bloque Nacionalista Galego', pct: 0.9, ci_inf: 0.6, ci_sup: 1.2, seats:  1, seats_low:  0, seats_high:  2, color:'#73C6EE', bloque:'izquierda', delta:+0.1, n_enc: 4 },
+  { siglas:'Otros',    nombre:'Otros partidos',             pct: 6.2, ci_inf: 5.0, ci_sup: 7.4, seats:  1, seats_low:  0, seats_high:  2, color:'#9E9E9E', bloque:'otros',     delta:-0.9, n_enc:12 },
+]
+
+const TRANSFERS = [
+  { partido:'PP',    delta:+4, fuente:'PSOE (+2) · Sumar (+2)',  dir:'up',   color:'#009FDB' },
+  { partido:'PSOE',  delta:-6, fuente:'PP (-2) · VOX (-1) · Sumar (-3)', dir:'down', color:'#E30613' },
+  { partido:'VOX',   delta:+2, fuente:'PSOE (+2)',               dir:'up',   color:'#63BE21' },
+  { partido:'Sumar', delta:-1, fuente:'PP (-1)',                 dir:'down', color:'#E4007C' },
+]
+
+const NAV=[
+  {label:'Resumen',href:'/dashboard'},{label:'Mapa',href:'/mapa'},
+  {label:'Nowcasting',href:'/nowcasting'},{label:'Escenarios',href:'/escenarios'},
+  {label:'Coaliciones',href:'/coaliciones'},{label:'Riesgo',href:'/riesgo'},
+  {label:'Macro',href:'/macro'},{label:'Prensa',href:'/prensa'},
+  {label:'Congreso',href:'/congreso'},{label:'Briefing',href:'/briefing'},
+  {label:'Microdatos',href:'/microdatos'},{label:'Índices',href:'/indices'},
+  {label:'Agentes',href:'/agentes'},{label:'Geopolítica',href:'/geopolitica'},
+]
+
+function CIChart(){
+  const W=820,rowH=34,padL=88,padR=160,maxPct=38
+  const barW=W-padL-padR
+  const H=rowH*PARTIES.length+8
+  return(
+    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+      {PARTIES.map((p,i)=>{
+        const y=i*rowH+rowH/2
+        const bx=padL+(p.pct/maxPct)*barW
+        const ci0=padL+(p.ci_inf/maxPct)*barW
+        const ci1=padL+(p.ci_sup/maxPct)*barW
+        return(
+          <g key={p.siglas}>
+            <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+            <rect x={padL} y={y-8} width={(p.pct/maxPct)*barW} height={16} rx="4" fill={p.color} opacity="0.85"/>
+            <line x1={ci0} y1={y-10} x2={ci0} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
+            <line x1={ci1} y1={y-10} x2={ci1} y2={y+10} stroke={p.color} strokeWidth="1.5" opacity="0.5"/>
+            <line x1={ci0} y1={y} x2={ci1} y2={y} stroke={p.color} strokeWidth="1" opacity="0.4" strokeDasharray="2 2"/>
+            <text x={bx+6} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.pct}%</text>
+            <text x={W-padR+8} y={y+4} fontSize="11" fill="var(--ink-4)">[{p.ci_inf}–{p.ci_sup}]</text>
+            <text x={W-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.seats}e</text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+function SeatsChart(){
+  const main=PARTIES.filter(p=>p.seats>0&&p.siglas!=='Otros')
+  const W=820,rowH=38,padL=72,padR=80,maxSeats=160
+  const barW=W-padL-padR,H=rowH*main.length+24
+  const majX=padL+(176/maxSeats)*barW
+  return(
+    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+      <line x1={majX} y1={0} x2={majX} y2={H-10} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="4 3"/>
+      <text x={majX} y={H-2} textAnchor="middle" fontSize="10" fill="var(--ink-4)">Mayoría</text>
+      {main.map((p,i)=>{
+        const y=i*rowH+rowH/2
+        const rangW=(p.seats_high/maxSeats)*barW
+        const cenW=(p.seats/maxSeats)*barW
+        return(
+          <g key={p.siglas}>
+            <text x={padL-8} y={y+4} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+            <rect x={padL+(p.seats_low/maxSeats)*barW} y={y-9} width={((p.seats_high-p.seats_low)/maxSeats)*barW} height={18} rx="4" fill={p.color} opacity="0.18"/>
+            <rect x={padL} y={y-7} width={cenW} height={14} rx="3" fill={p.color} opacity="0.85"/>
+            <text x={padL+cenW+5} y={y+4} fontSize="12" fontWeight="700" fill={p.color}>{p.seats}</text>
+            <text x={W-padR+4} y={y+4} fontSize="10.5" fill="var(--ink-4)">{p.seats_low}–{p.seats_high}</text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+export default function NowcastingPage(){
+  const router=useRouter()
+  const currentPath='/nowcasting'
+  useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
+  function logout(){clearTokens();router.push('/login')}
+
+  const der=PARTIES.filter(p=>p.bloque==='derecha').reduce((s,p)=>s+p.seats,0)
+  const izq=PARTIES.filter(p=>p.bloque==='izquierda').reduce((s,p)=>s+p.seats,0)
+  const hemParties: HParty[] = PARTIES.filter(p=>p.seats>0).map(p=>({
+    id: p.siglas.toLowerCase().replace(/\s/g,'').replace('eh','').replace('bildu','bildu'),
+    name: p.siglas,
+    color: p.color,
+    seats: p.seats,
+  }))
+  // Mapear ids al sistema unificado del hemiciclo
+  const idMap: Record<string,string> = {pp:'pp',psoe:'psoe',vox:'vox',sumar:'sumar',erc:'erc',junts:'junts',pnv:'pnv',bildu:'bildu',cc:'cc',bng:'bng',otros:'otros'}
+  const hemPartiesNorm: HParty[] = PARTIES.filter(p=>p.seats>0).map(p=>{
+    const key = p.siglas.toLowerCase().replace(/\s/g,'').replace('ehbildu','bildu')
+    return { id: idMap[key] || 'otros', name: p.siglas, color: p.color, seats: p.seats }
+  })
+
+  return(
+    <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
+      <AppHeader/>
+
+      <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
+        <section style={{background:'linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
+          <div>
+            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Nowcasting Electoral · Tiempo real</p>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>PP mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de 12 encuestas · 350 escaños · D'Hondt</p>
+          </div>
+          <div style={{textAlign:'right',flexShrink:0}}>
+            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>32.1<span style={{fontSize:28}}>%</span></div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,0.5)',marginTop:4}}>PP · IC 95%: [30.2 – 34.0]</div>
+          </div>
+        </section>
+
+        {/* KPI cards top 6 */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:12,marginBottom:20}}>
+          {PARTIES.slice(0,6).map(p=>(
+            <div key={p.siglas} style={{background:'#fff',borderRadius:16,padding:'14px 16px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',borderTop:`3px solid ${p.color}`}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+                <span style={{fontSize:13,fontWeight:700,color:p.color}}>{p.siglas}</span>
+                <span style={{fontSize:10.5,color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'-'}</span>
+              </div>
+              <div style={{fontFamily:'var(--font-display)',fontSize:28,fontWeight:700,letterSpacing:'-0.025em',lineHeight:1}}>{p.pct}%</div>
+              <div style={{fontSize:10.5,color:'var(--ink-4)',marginTop:3}}>[{p.ci_inf}–{p.ci_sup}]</div>
+              <div style={{fontFamily:'var(--font-display)',fontSize:18,fontWeight:600,color:p.color,marginTop:4}}>{p.seats}<span style={{fontSize:11,color:'var(--ink-4)',fontWeight:400}}> esc</span></div>
+            </div>
+          ))}
+        </div>
+
+        {/* CI chart + Bloques */}
+        <div style={{display:'grid',gridTemplateColumns:'8fr 4fr',gap:18,marginBottom:20}}>
+          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Estimación de voto con IC 95%</h2>
+              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>12 encuestas</span>
+            </div>
+            <CIChart/>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:14}}>
+            <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',flex:1}}>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Bloques parlamentarios</h2>
+              {[{label:'Derecha',seats:der,color:'#009FDB',parties:'PP · VOX · CC'},{label:'Izquierda',seats:izq,color:'#E30613',parties:'PSOE · Sumar · ERC · Bildu · BNG'}].map(b=>(
+                <div key={b.label} style={{marginBottom:14}}>
+                  <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline',marginBottom:6}}>
+                    <span style={{fontSize:12,fontWeight:600,color:b.color}}>{b.label}</span>
+                    <span style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700,color:b.color,letterSpacing:'-0.02em'}}>{b.seats}<span style={{fontSize:12,color:'var(--ink-4)',fontWeight:400}}>/350</span></span>
+                  </div>
+                  <div style={{height:8,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden',marginBottom:4}}>
+                    <div style={{width:`${(b.seats/350)*100}%`,height:'100%',background:b.color,borderRadius:999}}/>
+                  </div>
+                  <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{b.parties}</div>
+                </div>
+              ))}
+              <div style={{padding:'10px 12px',background:'var(--bg-soft)',borderRadius:10,marginTop:8,textAlign:'center'}}>
+                <div style={{fontSize:10.5,color:'var(--ink-4)',marginBottom:2}}>Mayoría absoluta</div>
+                <div style={{fontFamily:'var(--font-display)',fontSize:20,fontWeight:700,letterSpacing:'-0.02em'}}>176 escaños</div>
+              </div>
+            </div>
+            <div style={{background:'#fff',borderRadius:16,padding:'20px 22px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 14px'}}>Transferencias de escaños</h2>
+              <div style={{display:'flex',flexDirection:'column',gap:8}}>
+                {TRANSFERS.map(t=>(
+                  <div key={t.partido} style={{padding:'9px 12px',borderRadius:10,background:'var(--bg-soft)',borderLeft:`3px solid ${t.color}`}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:2}}>
+                      <span style={{fontSize:12,fontWeight:700,color:t.color}}>{t.partido}</span>
+                      <span style={{fontSize:13,fontWeight:700,color:t.dir==='up'?'#16A34A':'#DC2626'}}>{t.dir==='up'?'▲':'▼'} {Math.abs(t.delta)}</span>
+                    </div>
+                    <div style={{fontSize:10.5,color:'var(--ink-4)'}}>{t.fuente}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Seat projection + hemicicle */}
+        <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
+          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Proyección D'Hondt · 350 escaños</h2>
+              <span style={{fontSize:10.5,color:'var(--ink-3)',background:'var(--bg-soft)',borderRadius:999,padding:'3px 10px',border:'1px solid var(--hairline)'}}>rango IC 95%</span>
+            </div>
+            <SeatsChart/>
+          </div>
+          <div style={{background:'#fff',borderRadius:20,padding:'22px 26px',boxShadow:'0 1px 3px rgba(0,0,0,0.05)',border:'1px solid #ECECEF'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:10,flexWrap:'wrap'}}>
+              <div>
+                <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Hemiciclo · estimación actual</h2>
+                <p style={{margin:'3px 0 0',fontSize:11.5,color:'#6e6e73'}}>350 escaños · IC 95% sobre 12 encuestas · activa <strong style={{color:'#1d1d1f'}}>Calcular coalición</strong> para sumar bloques</p>
+              </div>
+              <span style={{fontSize:11,fontWeight:600,color:'#16A34A',background:'#f0fdf4',borderRadius:999,padding:'4px 10px',border:'1px solid #bbf7d0'}}>EN VIVO</span>
+            </div>
+            <HemicycleAdvanced parties={hemPartiesNorm}/>
+          </div>
+        </div>
+
+        {/* Detail table */}
+        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 18px'}}>Tabla detallada</h2>
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:12.5}}>
+            <thead>
+              <tr style={{borderBottom:'1px solid var(--hairline)'}}>
+                {['Partido','Estimación','IC 95% Inf','IC 95% Sup','Escaños','Rango','Δ Semana','Encuestas'].map(h=>(
+                  <th key={h} style={{textAlign:'left',padding:'0 8px 10px',fontWeight:600,color:'var(--ink-3)',fontSize:10.5,letterSpacing:'0.04em',textTransform:'uppercase'}}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {PARTIES.map((p,i)=>(
+                <tr key={p.siglas} style={{borderBottom:'1px solid var(--hairline)',background:i%2===0?'transparent':'#fafafa'}}>
+                  <td style={{padding:'9px 8px',fontWeight:700,color:p.color}}>{p.siglas}</td>
+                  <td style={{padding:'9px 8px',fontWeight:600}}>{p.pct}%</td>
+                  <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_inf}%</td>
+                  <td style={{padding:'9px 8px',color:'var(--ink-3)'}}>{p.ci_sup}%</td>
+                  <td style={{padding:'9px 8px',fontWeight:600,color:p.color}}>{p.seats}</td>
+                  <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.seats_low}–{p.seats_high}</td>
+                  <td style={{padding:'9px 8px',color:p.delta>0?'#16A34A':p.delta<0?'#DC2626':'var(--ink-4)',fontWeight:600}}>{p.delta>0?'+':''}{p.delta!==0?p.delta:'–'}</td>
+                  <td style={{padding:'9px 8px',color:'var(--ink-4)'}}>{p.n_enc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+      <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
+        Datos ficticios · Nowcasting Electoral · ElectSim · {new Date().getFullYear()}
+      </footer>
+    </div>
+  )
+}

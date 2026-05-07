@@ -1,0 +1,193 @@
+'use client'
+import { useEffect } from 'react'
+import Link from 'next/link'
+import AppHeader from '../_components/AppHeader'
+import { useRouter } from 'next/navigation'
+import { clearTokens, isAuthenticated } from '@/lib/auth'
+
+const PARTIES_KEY = ['PP','PSOE','VOX','Sumar','PNV','Junts','ERC','EH Bildu']
+const COLORS: Record<string,string> = {PP:'#009FDB',PSOE:'#E30613',VOX:'#63BE21',Sumar:'#E4007C',PNV:'#007A3D',Junts:'#00AEEF',ERC:'#F4B20A','EH Bildu':'#A9C55A'}
+const COMPAT: Record<string,Record<string,number>> = {
+  PP:        {PSOE:-1,VOX:+1,Sumar:-2,PNV: 0,Junts:-1,ERC:-2,'EH Bildu':-2},
+  PSOE:      {PP:-1, VOX:-2,Sumar:+2,PNV:+1,Junts: 0,ERC:+1,'EH Bildu':+1},
+  VOX:       {PP:+1, PSOE:-2,Sumar:-2,PNV:-2,Junts:-2,ERC:-2,'EH Bildu':-2},
+  Sumar:     {PP:-2, PSOE:+2,VOX:-2, PNV: 0,Junts:-1,ERC:+1,'EH Bildu':+2},
+  PNV:       {PP: 0, PSOE:+1,VOX:-2, Sumar:0,Junts:0, ERC:0, 'EH Bildu':-1},
+  Junts:     {PP:-1, PSOE: 0,VOX:-2, Sumar:-1,PNV:0, ERC:+1,'EH Bildu': 0},
+  ERC:       {PP:-2, PSOE:+1,VOX:-2, Sumar:+1,PNV:0, Junts:+1,'EH Bildu':+1},
+  'EH Bildu':{PP:-2, PSOE:+1,VOX:-2, Sumar:+2,PNV:-1,Junts:0, ERC:+1},
+}
+const FORTALEZA=[
+  {s:'PP',v:85,c:'#009FDB'},{s:'PSOE',v:80,c:'#E30613'},{s:'PNV',v:78,c:'#007A3D'},
+  {s:'Junts',v:72,c:'#00AEEF'},{s:'ERC',v:65,c:'#F4B20A'},{s:'EH Bildu',v:62,c:'#A9C55A'},
+  {s:'VOX',v:60,c:'#63BE21'},{s:'Sumar',v:55,c:'#E4007C'},
+]
+const ESCENARIOS_COA=[
+  {nombre:'PP + VOX + CC',partidos:[{s:'PP',c:'#009FDB'},{s:'VOX',c:'#63BE21'},{s:'CC',c:'#FFC107'}],seats:176,prob:38,viable:true},
+  {nombre:'PP en minoría',partidos:[{s:'PP',c:'#009FDB'}],seats:132,prob:18,viable:false},
+  {nombre:'Bloqueo / repetición',partidos:[],seats:0,prob:22,viable:false},
+  {nombre:'PSOE + bloque izquierda',partidos:[{s:'PSOE',c:'#E30613'},{s:'Sumar',c:'#E4007C'},{s:'ERC',c:'#F4B20A'},{s:'EH Bildu',c:'#A9C55A'},{s:'BNG',c:'#73C6EE'}],seats:161,prob:13,viable:false},
+  {nombre:'Gran coalición PP + PSOE',partidos:[{s:'PP',c:'#009FDB'},{s:'PSOE',c:'#E30613'}],seats:242,prob:4,viable:true},
+]
+const PERFILES=[
+  {s:'PP',      obj:'Acceder a La Moncloa con estabilidad fiscal',    rojas:'Referéndum, políticas de género expansivas',    c:'#009FDB'},
+  {s:'PSOE',    obj:'Mantener gobierno progresista de coalición',      rojas:'Privatización sanidad, recorte de derechos',    c:'#E30613'},
+  {s:'VOX',     obj:'Implementar agenda soberanista conservadora',     rojas:'Independentistas, ley trans y de género',       c:'#63BE21'},
+  {s:'Sumar',   obj:'Transformación social y ecológica profunda',      rojas:'Pacto con derecha, privatizaciones',            c:'#E4007C'},
+  {s:'PNV',     obj:'Avanzar en autogobierno vasco',                   rojas:'Reforma federal sin concierto económico',       c:'#007A3D'},
+  {s:'Junts',   obj:'Amnistía e independencia de Cataluña',            rojas:'Gobierno sin amnistía ni referéndum',           c:'#00AEEF'},
+  {s:'ERC',     obj:'Referéndum pactado de autodeterminación',         rojas:'Centralización y supresión autogobierno',       c:'#F4B20A'},
+  {s:'EH Bildu',obj:'Soberanía vasca y justicia social avanzada',      rojas:'Agenda de derechas, militarismo y OTAN',       c:'#A9C55A'},
+]
+const NAV=[
+  {label:'Resumen',href:'/dashboard'},{label:'Mapa',href:'/mapa'},
+  {label:'Nowcasting',href:'/nowcasting'},{label:'Escenarios',href:'/escenarios'},
+  {label:'Coaliciones',href:'/coaliciones'},{label:'Riesgo',href:'/riesgo'},
+  {label:'Macro',href:'/macro'},{label:'Prensa',href:'/prensa'},
+  {label:'Congreso',href:'/congreso'},{label:'Briefing',href:'/briefing'},
+  {label:'Microdatos',href:'/microdatos'},{label:'Índices',href:'/indices'},
+  {label:'Agentes',href:'/agentes'},{label:'Geopolítica',href:'/geopolitica'},
+]
+function cColor(v:number){
+  if(v===2) return {bg:'#166534',tx:'#dcfce7'}
+  if(v===1) return {bg:'rgba(22,163,74,0.2)',tx:'#16a34a'}
+  if(v===0) return {bg:'var(--bg-soft)',tx:'var(--ink-4)'}
+  if(v===-1) return {bg:'rgba(220,38,38,0.14)',tx:'#dc2626'}
+  return {bg:'#7f1d1d',tx:'#fee2e2'}
+}
+
+export default function CoalicionesPage(){
+  const router=useRouter()
+  const currentPath='/coaliciones'
+  useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
+  function logout(){clearTokens();router.push('/login')}
+  return(
+    <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
+      <AppHeader/>
+      <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
+        <section style={{background:'linear-gradient(135deg,#134e4a 0%,#042f2e 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
+          <div>
+            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Análisis de Coaliciones · 8 partidos</p>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>Derecha lidera con <em style={{fontWeight:300}}>mayoría exacta</em></h1>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>5 escenarios · Matriz de compatibilidad · Perfiles negociadores</p>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20,flexShrink:0}}>
+            {[{l:'P(Derecha)',v:'38%',c:'#5eead4'},{l:'P(Izquierda)',v:'18%',c:'#f87171'},{l:'P(Bloqueo)',v:'22%',c:'#d1d5db'}].map(k=>(
+              <div key={k.l} style={{textAlign:'center'}}>
+                <div style={{fontFamily:'var(--font-display)',fontSize:36,fontWeight:700,color:k.c,lineHeight:1}}>{k.v}</div>
+                <div style={{fontSize:11,opacity:0.6,marginTop:3}}>{k.l}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
+          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de coalición</h2>
+          <div style={{display:'flex',flexDirection:'column',gap:10}}>
+            {ESCENARIOS_COA.map((e,i)=>(
+              <div key={i} style={{padding:'14px 18px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',display:'grid',gridTemplateColumns:'1fr 80px 150px',gap:16,alignItems:'center'}}>
+                <div>
+                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                    <span style={{fontSize:13,fontWeight:600}}>{e.nombre}</span>
+                    <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,background:e.viable?'#16A34A':'var(--hairline)',color:e.viable?'#fff':'var(--ink-4)'}}>{e.viable?'VIABLE':'INVIABLE'}</span>
+                  </div>
+                  <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+                    {e.partidos.map(p=><span key={p.s} style={{fontSize:11,fontWeight:600,padding:'2px 7px',borderRadius:999,background:`${p.c}18`,color:p.c,border:`1px solid ${p.c}3a`}}>{p.s}</span>)}
+                    {e.partidos.length===0&&<span style={{fontSize:11,color:'var(--ink-4)'}}>Sin coalición posible</span>}
+                  </div>
+                </div>
+                <div style={{textAlign:'center'}}>
+                  <div style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700}}>{e.seats||'—'}</div>
+                  <div style={{fontSize:10.5,color:'var(--ink-4)'}}>escaños</div>
+                </div>
+                <div>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                    <span style={{fontSize:10.5,color:'var(--ink-4)'}}>Probabilidad</span>
+                    <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{e.prob}%</span>
+                  </div>
+                  <div style={{height:7,background:'var(--hairline)',borderRadius:999,overflow:'hidden'}}>
+                    <div style={{width:`${e.prob}%`,height:'100%',background:e.viable?'#16A34A':'#9E9E9E',borderRadius:999}}/>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{display:'grid',gridTemplateColumns:'7fr 5fr',gap:18,marginBottom:20}}>
+          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Matriz de compatibilidad</h2>
+            <div style={{overflowX:'auto'}}>
+              <table style={{borderCollapse:'collapse',fontSize:11.5,width:'100%'}}>
+                <thead><tr>
+                  <th style={{padding:'6px 8px',width:72}}/>
+                  {PARTIES_KEY.map(p=><th key={p} style={{padding:'6px 8px',fontWeight:700,color:COLORS[p],textAlign:'center',fontSize:11}}>{p}</th>)}
+                </tr></thead>
+                <tbody>
+                  {PARTIES_KEY.map(row=>(
+                    <tr key={row}>
+                      <td style={{padding:'4px 8px',fontWeight:700,color:COLORS[row],fontSize:11}}>{row}</td>
+                      {PARTIES_KEY.map(col=>{
+                        if(row===col) return <td key={col} style={{padding:'4px',textAlign:'center'}}><div style={{width:40,height:30,borderRadius:6,background:'var(--hairline)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--ink-4)',fontSize:12}}>—</div></td>
+                        const v=COMPAT[row]?.[col]??0
+                        const {bg,tx}=cColor(v)
+                        return(
+                          <td key={col} style={{padding:'4px',textAlign:'center'}}>
+                            <div style={{width:40,height:30,borderRadius:6,background:bg,display:'flex',alignItems:'center',justifyContent:'center',color:tx,fontWeight:700,fontSize:13}}>
+                              {v>0?'+':''}{v}
+                            </div>
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{display:'flex',gap:10,marginTop:12,flexWrap:'wrap',fontSize:10.5,color:'var(--ink-3)'}}>
+              {[{v:'+2',bg:'#166534',tx:'#dcfce7',l:'Muy compatible'},{v:'+1',bg:'rgba(22,163,74,0.2)',tx:'#16a34a',l:'Compatible'},{v:'0',bg:'var(--bg-soft)',tx:'var(--ink-4)',l:'Neutral'},{v:'−1',bg:'rgba(220,38,38,0.14)',tx:'#dc2626',l:'Incompatible'},{v:'−2',bg:'#7f1d1d',tx:'#fee2e2',l:'Muy incompatible'}].map(l=>(
+                <span key={l.v} style={{display:'inline-flex',alignItems:'center',gap:5}}>
+                  <span style={{width:20,height:16,borderRadius:3,background:l.bg,color:l.tx,display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:9.5,fontWeight:700}}>{l.v}</span>
+                  {l.l}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Fuerza negociadora</h2>
+            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+              {FORTALEZA.map(p=>(
+                <div key={p.s}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                    <span style={{fontSize:12,fontWeight:600,color:p.c}}>{p.s}</span>
+                    <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{p.v}/100</span>
+                  </div>
+                  <div style={{height:10,background:'var(--bg-soft)',borderRadius:999,overflow:'hidden'}}>
+                    <div style={{width:`${p.v}%`,height:'100%',background:p.c,borderRadius:999}}/>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
+          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Perfiles negociadores</h2>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:12}}>
+            {PERFILES.map(p=>(
+              <div key={p.s} style={{padding:'14px 16px',borderRadius:14,background:'var(--bg-soft)',border:`1px solid ${p.c}28`}}>
+                <div style={{fontSize:14,fontWeight:700,color:p.c,marginBottom:8}}>{p.s}</div>
+                <div style={{fontSize:11.5,color:'var(--ink-2)',marginBottom:8,lineHeight:1.4}}><strong>Objetivo:</strong> {p.obj}</div>
+                <div style={{fontSize:11,color:'#DC2626',lineHeight:1.4}}><strong>Líneas rojas:</strong> {p.rojas}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+      <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
+        Datos ficticios · Análisis de Coaliciones · ElectSim · {new Date().getFullYear()}
+      </footer>
+    </div>
+  )
+}

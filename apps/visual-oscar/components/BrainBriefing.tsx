@@ -1,0 +1,221 @@
+'use client'
+import { useState, FormEvent, useRef, useEffect } from 'react'
+import Link from 'next/link'
+
+type Msg = { role: 'user' | 'brain'; text: string; ts: number }
+
+// Preguntas predefinidas del briefing matinal
+const PRESET_QUESTIONS = [
+  {
+    n: 1,
+    q: '¿Mantendrá el PP el liderazgo si la narrativa de vivienda erosiona su electorado urbano?',
+    a: 'Análisis de elasticidad: el PP mantiene un colchón de **+6,4 pp** sobre el PSOE. Una erosión completa del voto urbano joven (≈12% del electorado PP en grandes ciudades) reduciría su ventaja a **+1,8 pp** pero seguiría liderando.\n\n**Riesgo medio**. Madrid capital y zonas turísticas costeras son los focos a vigilar. Recomiendo cruzar con `/microdatos` para ver el voto blando por franja 25-44 años.',
+  },
+  {
+    n: 2,
+    q: '¿Activará el PSOE una iniciativa fiscal antes del cierre del semestre?',
+    a: 'Probabilidad estimada: **62%**. Indicadores: Hacienda ha movido a 3 técnicos a Presupuestos esta semana, Montero canceló agenda exterior del 14-18 mayo, y el filtrado a *El País* del lunes apunta a una rebaja en el IRPF de tramos bajos.\n\nVentana óptima política: **18-25 mayo** (antes del Consejo Europeo del 27). Detalle en `/proyectos`.',
+  },
+  {
+    n: 3,
+    q: '¿Qué impacto tiene el bloqueo de Junts en la coalición de investidura a 12 meses?',
+    a: 'Sin Junts el bloque de investidura cae a **172 escaños** (insuficiente). Tres caminos a 12 meses:\n\n• **45%** Junts vuelve con concesión fiscal (transferencia IRPF)\n• **30%** Reformulación de mayoría con CC + abstención de PNV en clave (170-175)\n• **25%** Adelanto electoral antes de Q1 2027\n\nVer escenarios completos en `/escenarios` y simular votación en `/congreso`.',
+  },
+]
+
+const WELCOME_TEXT = 'El PP consolida su liderazgo en intención de voto (+0,4 pp esta semana) mientras el PSOE mantiene posiciones tras la última intervención del presidente. La narrativa de vivienda continúa en aceleración (+18% menciones 24h) con una emoción dominante de frustración. La amnistía vuelve al primer plano tras dos decisiones judiciales que dividen al socio Junts. En lo económico, el IPC subyacente sorprende a la baja, lo que abre margen al gobierno para una intervención en política fiscal antes del cierre del semestre.'
+
+function fakeReply(q: string): string {
+  const lower = q.toLowerCase()
+  // Coincidencias por palabras clave para preguntas libres
+  if (lower.includes('vox')) return 'VOX se mantiene en **12,4%** (-0,3 vs semana pasada). El espacio entre PP y VOX se sigue estrechando: -2,1 pp en 90 días. Aragón y Murcia son las CCAA donde más capilaridad pierden.'
+  if (lower.includes('sumar') || lower.includes('podemos')) return 'Sumar oscila entre **9,8%-10,6%** (IC95). El bloque progresista total (PSOE+Sumar+Bildu+ERC+BNG+PNV) suma **174 escaños** estimados. Por debajo del umbral de mayoría absoluta.'
+  if (lower.includes('encuesta') || lower.includes('sondeo')) return 'Última encuesta consolidada: **PP 32,1% · PSOE 26,8% · VOX 12,4% · Sumar 10,2%**. La media de 14 casas encuestadoras de las últimas 2 semanas. Siguiente bloque CIS previsto para el 9 de mayo.'
+  if (lower.includes('vivienda')) return 'La narrativa de vivienda registra un pico de **+18% menciones 24h** y emoción dominante de frustración. PSOE y Sumar lideran exposición pero con tono defensivo. Detalle en `/medios-narrativa`.'
+  if (lower.includes('riesgo') || lower.includes('crisis')) return 'Termómetro de Riesgo Político actual: **38/100 (medio-alto)**. Los componentes que más han subido son Estabilidad de coalición (-12 pts en 7 días) y Polarización mediática (+8 pts). Ver `/riesgo`.'
+  if (lower.includes('pnv') || lower.includes('junts')) return 'Junts ha endurecido posiciones tras la última reunión bilateral. Probabilidad estimada de retirada formal de apoyo: **38%** (vs 22% hace un mes). PNV mantiene posición negociadora pero exige avances en transferencia ferroviaria antes del 15 de mayo.'
+  return 'No tengo una respuesta directa para esa consulta en el contexto actual. Puedo profundizar si me indicas un actor, sector o tema específico — o pulsa **"Profundizar con Politeia"** para abrir una sesión completa de análisis.'
+}
+
+export default function BrainBriefing() {
+  const today = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+
+  const [messages, setMessages] = useState<Msg[]>([])
+  const [input, setInput] = useState('')
+  const [thinking, setThinking] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!scrollRef.current) return
+    scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }, [messages, thinking])
+
+  function ask(q: string) {
+    if (!q.trim() || thinking) return
+    setMessages(m => [...m, { role: 'user', text: q.trim(), ts: Date.now() }])
+    setInput('')
+    setThinking(true)
+    // Buscar respuesta predefinida
+    const preset = PRESET_QUESTIONS.find(p => p.q === q)
+    const reply = preset ? preset.a : fakeReply(q)
+    setTimeout(() => {
+      setMessages(m => [...m, { role: 'brain', text: reply, ts: Date.now() }])
+      setThinking(false)
+    }, 600 + Math.random() * 500)
+  }
+
+  function onSubmit(e: FormEvent) { e.preventDefault(); ask(input) }
+
+  return (
+    <section style={{
+      background: 'linear-gradient(135deg,#0F1F3D 0%,#0A1428 100%)',
+      borderRadius: 22, padding: '28px 32px 24px', marginBottom: 22, color: '#e8e8ed',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      {/* Glow decorativo */}
+      <div style={{ position: 'absolute', top: -120, right: -120, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+      <div style={{ position: 'absolute', bottom: -100, left: -80, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(31,78,140,0.25) 0%, transparent 70%)', pointerEvents: 'none' }}/>
+
+      <div style={{ position: 'relative' }}>
+
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, gap: 16, flexWrap: 'wrap' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
+                BRIEFING MATINAL · POLITEIA
+              </span>
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>
+            </div>
+            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 28, letterSpacing: '-0.022em', lineHeight: 1.1, color: '#fff' }}>
+              Buenos días, <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>Analista</em>
+            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              <span style={{ textTransform: 'capitalize' }}>{today}</span>
+            </div>
+          </div>
+          <Link href="/briefing" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
+            color: '#fff', padding: '7px 14px', borderRadius: 999,
+            fontSize: 11.5, fontWeight: 600, textDecoration: 'none', flexShrink: 0,
+          }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Ver briefing completo
+          </Link>
+        </div>
+
+        {/* Texto narrativo */}
+        <p style={{ margin: '0 0 18px', fontSize: 13.5, lineHeight: 1.6, color: 'rgba(255,255,255,0.78)', maxWidth: 980 }}>
+          {WELCOME_TEXT}
+        </p>
+
+        {/* Preguntas predefinidas */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+          {PRESET_QUESTIONS.map(p => (
+            <button key={p.n} onClick={() => ask(p.q)} disabled={thinking} style={{
+              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.10)',
+              color: '#fff', padding: '12px 14px', borderRadius: 12,
+              cursor: thinking ? 'not-allowed' : 'pointer', textAlign: 'left',
+              fontFamily: 'inherit', transition: 'all 160ms',
+              display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 10, alignItems: 'flex-start',
+            }}>
+              <div style={{
+                width: 22, height: 22, borderRadius: 6,
+                background: 'rgba(91,33,182,0.4)', border: '1px solid rgba(139,92,246,0.4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0,
+              }}>{p.n}</div>
+              <span style={{ fontSize: 12, lineHeight: 1.45, color: 'rgba(255,255,255,0.85)' }}>{p.q}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Conversación inline (si hay) */}
+        {(messages.length > 0 || thinking) && (
+          <div ref={scrollRef} style={{
+            background: 'rgba(0,0,0,0.18)', border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: 12, padding: '12px 14px', marginBottom: 14,
+            maxHeight: 320, overflowY: 'auto',
+            display: 'flex', flexDirection: 'column', gap: 10,
+          }}>
+            {messages.map((m, i) => (
+              <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                <div style={{
+                  maxWidth: '88%',
+                  padding: '8px 12px', borderRadius: 12,
+                  background: m.role === 'user' ? 'rgba(91,33,182,0.5)' : 'rgba(255,255,255,0.06)',
+                  border: m.role === 'user' ? '1px solid rgba(139,92,246,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  color: '#fff', fontSize: 12.5, lineHeight: 1.55, whiteSpace: 'pre-wrap',
+                }}>
+                  {m.text.split('**').map((seg, j) => j % 2 === 1
+                    ? <strong key={j} style={{ color:'#fbbf24' }}>{seg}</strong>
+                    : <span key={j}>{seg.split('`').map((s, k) => k % 2 === 1
+                        ? <code key={k} style={{ background:'rgba(255,255,255,0.1)', padding:'1px 5px', borderRadius:4, fontSize:11.5, fontFamily:'ui-monospace,monospace' }}>{s}</code>
+                        : s)}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+            {thinking && (
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{ padding:'8px 12px', borderRadius:12, background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.08)', display:'inline-flex', gap:4, alignItems:'center' }}>
+                  {[0,1,2].map(i => <span key={i} style={{ width:5, height:5, borderRadius:'50%', background:'#a78bfa', animation:`brainDot 1.2s ${i*0.15}s infinite` }}/>)}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Input + footer */}
+        <form onSubmit={onSubmit} style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+          borderRadius: 12, padding: '6px 6px 6px 14px',
+        }}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="#a78bfa">
+            <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="Pregunta a Politeia sobre lo que ha pasado hoy…"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            style={{
+              flex: 1, border: 'none', outline: 'none', background: 'transparent',
+              color: '#fff', fontFamily: 'inherit', fontSize: 13, padding: '8px 0',
+            }}
+          />
+          <button type="submit" disabled={!input.trim() || thinking} style={{
+            background: input.trim() && !thinking ? 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)' : 'rgba(255,255,255,0.08)',
+            color: input.trim() && !thinking ? '#fff' : 'rgba(255,255,255,0.3)',
+            border: 'none', borderRadius: 8, padding: '7px 14px',
+            fontFamily: 'inherit', fontSize: 12, fontWeight: 600,
+            cursor: input.trim() && !thinking ? 'pointer' : 'not-allowed',
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            transition: 'all 160ms',
+          }}>
+            Preguntar
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2 8l12-6-3 6 3 6L2 8z"/></svg>
+          </button>
+        </form>
+
+        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>
+            Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.
+          </span>
+          <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600 }}>
+            Profundizar con Politeia →
+          </Link>
+        </div>
+
+        <style>{`
+          @keyframes brainDot { 0%, 60%, 100% { opacity: 0.3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+        `}</style>
+      </div>
+    </section>
+  )
+}
