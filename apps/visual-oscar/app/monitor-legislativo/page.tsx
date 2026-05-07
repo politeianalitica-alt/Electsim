@@ -3,6 +3,40 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+// Tipos del feed real del BOE (matchea con /api/legislativo/feed)
+type ScoredNorma = {
+  id: string; fecha: string; titulo: string; departamento: string
+  seccion_codigo: string; seccion_nombre: string; epigrafe: string | null
+  url_html: string; url_pdf: string
+  tipo: string; materia: string
+  importance: number
+  components: { section: number; tipo: number; impact: number; recency: number }
+  tags: string[]
+}
+type LegislativoFeed = {
+  items: ScoredNorma[]
+  summary: {
+    total_items: number; returned: number; fetch_ms: number
+    top_importance: number; avg_importance: number
+    high_impact_count: number; urgent_count: number; eu_count: number
+    por_tipo: Record<string, number>
+    por_materia: Record<string, number>
+  }
+}
+type LlmAnalysis = {
+  id?: string
+  resumen?: string
+  sectores_afectados?: string[]
+  actores_politicos?: string[]
+  impacto_politico?: number
+  urgencia?: string
+  pronostico?: string
+  llm_source?: 'ollama' | 'backend' | 'fallback'
+  ms?: number
+}
 import VotacionSimulator from '@/components/VotacionSimulator'
 import { HParty } from '@/components/HemicycleAdvanced'
 
@@ -116,6 +150,41 @@ export default function MonitorLegislativoPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  // Feed REAL del BOE (últimos 7 días) · auto-refresh 5min
+  const { data: feed, source, updatedAt, refresh } = useApi<LegislativoFeed>(
+    '/api/legislativo/feed?days=7&limit=15',
+    { refreshInterval: 300_000 }
+  )
+  const boeItems = feed?.items || []
+
+  // Estado de análisis IA por id de norma
+  const [analyses, setAnalyses] = useState<Record<string, LlmAnalysis>>({})
+  const [analyzing, setAnalyzing] = useState<Record<string, boolean>>({})
+
+  async function analyze(item: ScoredNorma) {
+    if (analyzing[item.id] || analyses[item.id]) return
+    setAnalyzing(a => ({ ...a, [item.id]: true }))
+    try {
+      const res = await fetch('/api/legislativo/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: item.id,
+          titulo: item.titulo,
+          departamento: item.departamento,
+          tipo: item.tipo,
+          materia: item.materia,
+        }),
+      })
+      const json: LlmAnalysis = await res.json()
+      setAnalyses(a => ({ ...a, [item.id]: json }))
+    } catch {
+      setAnalyses(a => ({ ...a, [item.id]: { id: item.id, llm_source: 'fallback', resumen: 'Error al analizar' } }))
+    } finally {
+      setAnalyzing(a => ({ ...a, [item.id]: false }))
+    }
+  }
+
   const [filterFase, setFilterFase] = useState<Fase | 'todas'>('todas')
   const [filterPron, setFilterPron] = useState<Pronostico | 'todos'>('todos')
   const [filterTipo, setFilterTipo] = useState<typeof TIPOS[number]>('Todos')
@@ -149,8 +218,9 @@ export default function MonitorLegislativoPage() {
           display:'grid', gridTemplateColumns:'1.6fr 1fr', gap:32, alignItems:'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px' }}>
-              RADAR LEGISLATIVO · MONITOR EN TIEMPO REAL
+            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+              <span>RADAR LEGISLATIVO · MONITOR EN TIEMPO REAL</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:28, letterSpacing:'-0.022em', margin:'0 0 6px', lineHeight:1.1 }}>
               {counts.tramite} normas <em style={{ fontWeight:300, fontStyle:'italic', color:'#5B21B6' }}>en tramitación</em>
@@ -164,6 +234,121 @@ export default function MonitorLegislativoPage() {
             <KPI label="APROBADAS (30D)" value={String(counts.aprobados30)} color="#16A34A"/>
             <KPI label="ESCALADAS" value={String(NORMAS.filter(n => n.pronostico === 'media').length)} color="#F97316"/>
           </div>
+        </section>
+
+        {/* ═════════════════════════════════════════════════════════════════
+            BOE EN VIVO · Disposiciones generales últimos 7 días
+            Datos REALES de la API de Datos Abiertos del BOE.
+            Botón "Analizar con IA" envía cada disposición a Ollama.
+            ═════════════════════════════════════════════════════════════════ */}
+        <section style={{
+          background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
+          padding:'22px 28px', marginBottom:18, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+        }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', gap:14, flexWrap:'wrap', marginBottom:14 }}>
+            <div>
+              <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#0F766E', textTransform:'uppercase', margin:'0 0 6px', display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+                <span>BOE · DISPOSICIONES EN VIVO · ÚLTIMOS 7 DÍAS</span>
+              </p>
+              <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.018em', margin:'0 0 4px', color:'#1d1d1f' }}>
+                {feed?.summary.total_items || 0} disposiciones · {boeItems.length} mostradas · scoring por importancia
+              </h2>
+              <p style={{ fontSize:12, color:'#6e6e73', margin:0, lineHeight:1.45 }}>
+                Datos reales del Boletín Oficial del Estado · clasificación heurística por tipo y materia ·
+                pulsa &quot;Analizar con IA&quot; para enviar la disposición a Ollama (resumen, sectores, impacto político, pronóstico).
+              </p>
+            </div>
+            <div style={{ display:'flex', gap:8 }}>
+              <KPI label="ALTO IMPACTO" value={String(feed?.summary.high_impact_count || 0)} color="#DC2626"/>
+              <KPI label="URGENTES" value={String(feed?.summary.urgent_count || 0)} color="#F97316"/>
+              <KPI label="UE" value={String(feed?.summary.eu_count || 0)} color="#0F766E"/>
+            </div>
+          </div>
+
+          {boeItems.length === 0 ? (
+            <div style={{ padding:'30px', textAlign:'center', color:'#6e6e73', fontSize:13 }}>
+              {feed ? 'Sin disposiciones recientes en BOE.' : 'Cargando feed del BOE…'}
+            </div>
+          ) : (
+            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+              {boeItems.map(it => {
+                const an = analyses[it.id]
+                const busy = analyzing[it.id]
+                const impColor = it.importance >= 70 ? '#DC2626' : it.importance >= 50 ? '#F97316' : it.importance >= 30 ? '#5B21B6' : '#9CA3AF'
+                return (
+                  <div key={it.id} style={{
+                    padding:'14px 16px', borderRadius:12,
+                    background:'#fafafa', border:'1px solid #ECECEF',
+                    borderLeft:`3px solid ${impColor}`,
+                  }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:14, alignItems:'flex-start' }}>
+                      {/* Score badge */}
+                      <div style={{
+                        background: impColor, color:'#fff', borderRadius:10, padding:'10px 14px',
+                        textAlign:'center', minWidth:54, flexShrink:0,
+                      }}>
+                        <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:800, lineHeight:1 }}>{it.importance}</div>
+                        <div style={{ fontSize:9, marginTop:2, opacity:0.85, fontWeight:700, letterSpacing:'0.08em' }}>SCORE</div>
+                      </div>
+
+                      {/* Cuerpo */}
+                      <div style={{ minWidth:0 }}>
+                        <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
+                          <span style={{ fontSize:9.5, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#1F4E8C', color:'#fff', letterSpacing:'0.05em' }}>{it.tipo}</span>
+                          <span style={{ fontSize:9.5, fontWeight:700, padding:'2px 7px', borderRadius:4, background:'#0F766E15', color:'#0F766E', border:'1px solid #0F766E40' }}>{it.materia}</span>
+                          <span style={{ fontSize:10.5, color:'#6e6e73' }}>{it.fecha}</span>
+                          <span style={{ fontSize:10.5, color:'#6e6e73' }}>· {it.id}</span>
+                        </div>
+                        <a href={it.url_html} target="_blank" rel="noopener noreferrer" style={{ textDecoration:'none', color:'#1d1d1f' }}>
+                          <p style={{ margin:'0 0 4px', fontSize:13, fontWeight:600, lineHeight:1.35 }}>{it.titulo}</p>
+                        </a>
+                        <p style={{ margin:'0 0 6px', fontSize:11, color:'#6e6e73' }}>{it.departamento}</p>
+                        {it.tags.length > 0 && (
+                          <div style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
+                            {it.tags.map(t => <span key={t} style={{ fontSize:9.5, fontWeight:700, padding:'2px 6px', borderRadius:3, background:'rgba(0,0,0,0.04)', color:'#3a3a3d' }}>{t}</span>)}
+                          </div>
+                        )}
+
+                        {/* Análisis IA cuando llegue */}
+                        {an && (
+                          <div style={{ marginTop:10, padding:'10px 12px', borderRadius:8, background:'rgba(124,58,237,0.06)', border:'1px solid rgba(124,58,237,0.20)' }}>
+                            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6, flexWrap:'wrap' }}>
+                              <span style={{ fontSize:9.5, fontWeight:800, color:'#fff', background:an.llm_source==='ollama'?'#7C3AED':an.llm_source==='backend'?'#10b981':'#9CA3AF', padding:'2px 7px', borderRadius:4, letterSpacing:'0.04em' }}>
+                                {an.llm_source === 'ollama' ? '🤖 OLLAMA' : an.llm_source === 'backend' ? '🤖 BACKEND' : '⚠ FALLBACK'}
+                              </span>
+                              {an.urgencia && <span style={{ fontSize:10, fontWeight:600, color:'#7C3AED' }}>Urgencia: {an.urgencia}</span>}
+                              {typeof an.impacto_politico === 'number' && (
+                                <span style={{ fontSize:10, fontWeight:600, color: an.impacto_politico < -10 ? '#DC2626' : an.impacto_politico > 10 ? '#16A34A' : '#6e6e73' }}>
+                                  Impacto político: {an.impacto_politico > 0 ? '+' : ''}{an.impacto_politico}
+                                </span>
+                              )}
+                              {an.pronostico && <span style={{ fontSize:10, color:'#6e6e73' }}>· Pronóstico: <strong style={{ color:'#1d1d1f' }}>{an.pronostico}</strong></span>}
+                              {an.ms && <span style={{ fontSize:9.5, color:'#9CA3AF', marginLeft:'auto' }}>{(an.ms/1000).toFixed(1)}s</span>}
+                            </div>
+                            {an.resumen && <p style={{ margin:'0 0 6px', fontSize:12, lineHeight:1.45, color:'#1d1d1f' }}>{an.resumen}</p>}
+                            <div style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
+                              {(an.sectores_afectados || []).map(s => <span key={s} style={{ fontSize:9.5, padding:'1px 6px', borderRadius:3, background:'#0F766E15', color:'#0F766E' }}>{s}</span>)}
+                              {(an.actores_politicos || []).map(s => <span key={s} style={{ fontSize:9.5, padding:'1px 6px', borderRadius:3, background:'#5B21B615', color:'#5B21B6' }}>{s}</span>)}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Botón Analizar IA */}
+                      <button onClick={() => analyze(it)} disabled={busy || !!an} style={{
+                        background: an ? '#16A34A' : busy ? '#9CA3AF' : 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
+                        color:'#fff', border:'none', borderRadius:8, padding:'8px 14px',
+                        fontSize:11.5, fontWeight:700, cursor: busy || an ? 'default' : 'pointer',
+                        fontFamily:'inherit', whiteSpace:'nowrap', flexShrink:0, transition:'opacity 160ms',
+                      }}>
+                        {an ? '✓ Analizado' : busy ? '🤖 Analizando…' : '🤖 Analizar con IA'}
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </section>
 
         {/* ───── Simulador de votación ───── */}
