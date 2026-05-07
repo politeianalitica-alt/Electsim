@@ -1,109 +1,366 @@
-# api/routers/actors.py
+"""
+Block 2 — FastAPI endpoints para Actores, Organizaciones y Señales.
+
+/api/v1/actors    — personas públicas monitorizadas
+/api/v1/actors/organizaciones — organizaciones
+/api/v1/actors/signals — señales activas del sistema
+/api/v1/actors/relaciones — grafo de relaciones
+"""
 from __future__ import annotations
 
-import os
-from typing import Optional
+from typing import Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.schemas.actors import ActorItem, ActorsResponse
+from db.database import get_db
 
-router = APIRouter(prefix="/api/actors", tags=["actors"])
-
-PARTY_COLORS: dict[str, str] = {
-    "PSOE": "#E03A3E", "PP": "#1F77FF", "VOX": "#5BC035",
-    "Sumar": "#D81E5B", "Junts": "#00C2A8", "ERC": "#F4B400",
-    "PNV": "#1D8042", "Bildu": "#A4D65E", "Podemos": "#6E2A78",
-}
+router = APIRouter(prefix="/api/v1/actors", tags=["actors"])
 
 
-def _demo_actors() -> ActorsResponse:
-    items = [
-        ActorItem(id="1", name="Pedro Sánchez", party="PSOE", party_color="#E03A3E", role="Presidente del Gobierno", bio="Secretario General del PSOE y Presidente del Gobierno desde 2018. Diputado por Ferraz.", exposure=96, approval=38, sentiment="down"),
-        ActorItem(id="2", name="Alberto Núñez Feijóo", party="PP", party_color="#1F77FF", role="Líder de la oposición", bio="Presidente del PP desde 2022. Ex Presidente de la Xunta de Galicia durante 12 años.", exposure=91, approval=42, sentiment="up"),
-        ActorItem(id="3", name="Santiago Abascal", party="VOX", party_color="#5BC035", role="Presidente de VOX", bio="Fundador y presidente de VOX desde 2013. Ex militante del PP.", exposure=78, approval=28, sentiment="stable"),
-        ActorItem(id="4", name="Yolanda Díaz", party="Sumar", party_color="#D81E5B", role="Vicepresidenta Segunda", bio="Ministra de Trabajo. Impulsora de la reforma laboral y el SMI. Candidata presidencial por Sumar.", exposure=74, approval=36, sentiment="down"),
-        ActorItem(id="5", name="Isabel Díaz Ayuso", party="PP", party_color="#1F77FF", role="Presidenta CAM", bio="Presidenta de la Comunidad de Madrid desde 2021. Figura dominante del PP territorial.", exposure=88, approval=45, sentiment="up"),
-        ActorItem(id="6", name="Carles Puigdemont", party="Junts", party_color="#00C2A8", role="Presidente de Junts", bio="Expresidente de la Generalitat. En el exilio. Rol decisivo en la investidura de Sánchez.", exposure=71, approval=22, sentiment="stable"),
-        ActorItem(id="7", name="Oriol Junqueras", party="ERC", party_color="#F4B400", role="Presidente de ERC", bio="Exvicepresidente de la Generalitat y exministro de Economía de Cataluña.", exposure=62, approval=31, sentiment="down"),
-        ActorItem(id="8", name="Andoni Ortuzar", party="PNV", party_color="#1D8042", role="Presidente del PNV", bio="Presidente del EBB del PNV desde 2013. Referente del nacionalismo vasco moderado.", exposure=58, approval=44, sentiment="stable"),
-        ActorItem(id="9", name="Arnaldo Otegi", party="Bildu", party_color="#A4D65E", role="Coordinador General", bio="Coordinador general de EH Bildu. Figura clave del independentismo vasco.", exposure=67, approval=35, sentiment="stable"),
-        ActorItem(id="10", name="Teresa Ribera", party="PSOE", party_color="#E03A3E", role="Vicepresidenta Tercera", bio="Ministra para la Transición Ecológica. Candidata al Comisariado de la UE.", exposure=69, approval=41, sentiment="up"),
-        ActorItem(id="11", name="María Jesús Montero", party="PSOE", party_color="#E03A3E", role="Ministra de Hacienda", bio="Ministra de Hacienda y portavoz del gobierno. Negociadora clave de los PGE.", exposure=65, approval=39, sentiment="stable"),
-        ActorItem(id="12", name="José María Aznar", party="PP", party_color="#1F77FF", role="Ex Presidente del Gobierno", bio="Expresidente del Gobierno (1996-2004). Fundador de la FAES. Influyente en el PP.", exposure=54, approval=33, sentiment="down"),
-        ActorItem(id="13", name="Cuca Gamarra", party="PP", party_color="#1F77FF", role="Secretaria General PP", bio="Secretaria General del PP y portavoz en el Congreso. Figura de relieve del partido.", exposure=61, approval=40, sentiment="up"),
-        ActorItem(id="14", name="Ione Belarra", party="Podemos", party_color="#6E2A78", role="Secretaria General", bio="Secretaria General de Podemos. Exministra de Derechos Sociales.", exposure=56, approval=27, sentiment="down"),
-        ActorItem(id="15", name="Ada Colau", party="Comuns", party_color="#FF6B6B", role="Exalcaldesa Barcelona", bio="Exalcaldesa de Barcelona. Cofundadora de Podemos. Figura del movimiento municipalista.", exposure=62, approval=33, sentiment="down"),
-        ActorItem(id="16", name="Salvador Illa", party="PSOE", party_color="#E03A3E", role="President de la Generalitat", bio="President de la Generalitat de Catalunya desde 2024. Exministro de Sanidad.", exposure=71, approval=43, sentiment="up"),
-        ActorItem(id="17", name="Carlos Mazón", party="PP", party_color="#1F77FF", role="President de la Generalitat Valenciana", bio="President de la Generalitat Valenciana desde 2023. Cuestionado por gestión de la DANA.", exposure=64, approval=31, sentiment="down"),
-        ActorItem(id="18", name="Juan Espadas", party="PSOE", party_color="#E03A3E", role="Exlíder PSOE-A", bio="Exsecretario general del PSOE de Andalucía. Diputado nacional.", exposure=38, approval=29, sentiment="stable"),
-        ActorItem(id="19", name="Pepe Álvarez", party="UGT", party_color="#E03A3E", role="Secretario General UGT", bio="Secretario General de UGT. Sindicato mayoritario junto a CCOO.", exposure=47, approval=42, sentiment="stable"),
-        ActorItem(id="20", name="Antonio Garamendi", party="CEOE", party_color="#1F77FF", role="Presidente CEOE", bio="Presidente de la CEOE desde 2018. Voz principal de los empresarios españoles.", exposure=52, approval=38, sentiment="up"),
-    ]
-    return ActorsResponse(actors=items, total=len(items), mode="demo")
+# ──────────────────────────────────────────────────────────────────────
+# Personas públicas
+# ──────────────────────────────────────────────────────────────────────
+@router.get("")
+async def list_actors(
+    partido:  str = Query(None),
+    tipo:     str = Query(None, description="politico | empresario | diplomatico | experto"),
+    ambito:   str = Query(None, description="nacional | autonomico | europeo | municipal"),
+    q:        str = Query(None, description="búsqueda por nombre"),
+    activo:   bool = Query(True),
+    limit:    int = Query(50, ge=1, le=200),
+    db: AsyncSession = Depends(get_db),
+) -> list[dict]:
+    """Lista actores políticos con scores de influencia y sentimiento."""
+    filters = ["activo = :activo"]
+    params: dict[str, Any] = {"activo": activo, "limit": limit}
+
+    if partido:
+        filters.append("partido ILIKE :partido")
+        params["partido"] = f"%{partido}%"
+    if tipo:
+        filters.append("tipo = :tipo")
+        params["tipo"] = tipo
+    if ambito:
+        filters.append("ambito = :ambito")
+        params["ambito"] = ambito
+    if q:
+        filters.append("nombre_norm ILIKE :q OR nombre_completo ILIKE :q")
+        params["q"] = f"%{q}%"
+
+    where = " AND ".join(filters)
+    r = await db.execute(text(f"""
+        SELECT id::text AS id, nombre_completo, tipo, activo,
+               cargo_actual, partido, circunscripcion, ambito,
+               foto_url, wikidata_id,
+               score_influencia, score_riesgo,
+               sentimiento_actual, tendencia_sentimiento,
+               ultima_mencion_media,
+               created_at, updated_at
+        FROM persona_publica
+        WHERE {where}
+        ORDER BY score_influencia DESC, nombre_completo ASC
+        LIMIT :limit
+    """), params)
+    return [dict(row) for row in r.mappings()]
 
 
-def _sentiment(tendencia: Optional[str]) -> str:
-    if tendencia in ("subiendo", "up"):
-        return "up"
-    if tendencia in ("bajando", "down"):
-        return "down"
-    return "stable"
+@router.get("/top")
+async def get_top_actors(
+    n:     int  = Query(10, ge=1, le=50),
+    campo: str  = Query("influencia", description="influencia | riesgo"),
+    db: AsyncSession = Depends(get_db),
+) -> list[dict]:
+    """Top N actores por score de influencia o riesgo."""
+    col = "score_influencia" if campo == "influencia" else "score_riesgo"
+    r = await db.execute(text(f"""
+        SELECT id::text AS id, nombre_completo, partido, cargo_actual,
+               score_influencia, score_riesgo,
+               sentimiento_actual, tendencia_sentimiento, foto_url
+        FROM persona_publica
+        WHERE activo = true
+        ORDER BY {col} DESC NULLS LAST
+        LIMIT :n
+    """), {"n": n})
+    return [dict(row) for row in r.mappings()]
 
 
-@router.get("", response_model=ActorsResponse)
-def list_actors(
-    partido: Optional[str] = None,
-    search: Optional[str] = None,
-    limit: int = Query(50, ge=1, le=200),
-) -> ActorsResponse:
-    try:
-        import psycopg2
+@router.get("/{actor_id}")
+async def get_actor_detail(
+    actor_id: str,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Detalle completo de un actor con menciones recientes y relaciones."""
+    r = await db.execute(text("""
+        SELECT id::text AS id, nombre_completo, tipo, activo,
+               cargo_actual, partido, circunscripcion, ambito,
+               pais_origen, fecha_nac, foto_url,
+               wikidata_id, congreso_id, opensanctions_id,
+               score_influencia, score_riesgo,
+               sentimiento_actual, tendencia_sentimiento,
+               ultima_mencion_media, created_at, updated_at
+        FROM persona_publica
+        WHERE id = :id
+    """), {"id": actor_id})
+    row = r.mappings().fetchone()
+    if not row:
+        return {}
 
-        dsn = os.getenv("DATABASE_URL", "postgresql://politeia:politeia@localhost/politeia")
-        conditions = ["activo = TRUE"]
-        params: list = []
-        if partido:
-            conditions.append("partido ILIKE %s")
-            params.append(f"%{partido}%")
-        if search:
-            conditions.append("nombre_completo ILIKE %s")
-            params.append(f"%{search}%")
-        where = " AND ".join(conditions)
+    result = dict(row)
 
-        with psycopg2.connect(dsn) as conn:
-            with conn.cursor() as cur:
-                cur.execute(
-                    f"""
-                    SELECT id::text, nombre_completo, tipo, partido, cargo_actual,
-                           COALESCE(score_influencia, 0) AS score_influencia,
-                           COALESCE(sentimiento_actual, 0) AS sentimiento_actual,
-                           tendencia_sentimiento
-                    FROM persona_publica
-                    WHERE {where}
-                    ORDER BY score_influencia DESC NULLS LAST
-                    LIMIT %s
-                    """,
-                    params + [limit],
-                )
-                rows = cur.fetchall()
+    # Relaciones
+    r2 = await db.execute(text("""
+        SELECT
+            rp.tipo_relacion,
+            rp.peso,
+            rp.elemento_b_id,
+            rp.elemento_b_tipo,
+            CASE rp.elemento_b_tipo
+                WHEN 'persona'
+                    THEN (SELECT nombre_completo FROM persona_publica WHERE id::text = rp.elemento_b_id)
+                WHEN 'organizacion'
+                    THEN (SELECT nombre FROM organizacion WHERE id::text = rp.elemento_b_id)
+                ELSE rp.elemento_b_id
+            END AS nombre_entidad_b
+        FROM relacion_politeia rp
+        WHERE rp.elemento_a_id = :id AND rp.activa = true
+        ORDER BY rp.peso DESC
+        LIMIT 20
+    """), {"id": actor_id})
+    result["relaciones"] = [dict(r) for r in r2.mappings()]
 
-        if not rows:
-            return _demo_actors()
+    # Posts sociales recientes con mención
+    r3 = await db.execute(text("""
+        SELECT platform, url, texto, sentiment, n_views, publicado_en
+        FROM social_post
+        WHERE texto_norm ILIKE '%' || (
+            SELECT nombre_norm FROM persona_publica WHERE id = :id
+        ) || '%'
+        ORDER BY publicado_en DESC
+        LIMIT 5
+    """), {"id": actor_id})
+    result["menciones_recientes"] = [dict(r) for r in r3.mappings()]
 
-        actors = [
-            ActorItem(
-                id=str(r[0]),
-                name=r[1] or "",
-                party=r[3] or "Independiente",
-                party_color=PARTY_COLORS.get(r[3] or "", "#94A3B8"),
-                role=r[4] or "",
-                exposure=int(min(max(float(r[5]) * 100, 0), 100)),
-                approval=int(min(max((float(r[6]) + 1) * 50, 0), 100)),
-                sentiment=_sentiment(r[7]),
-            )
-            for r in rows
-        ]
-        return ActorsResponse(actors=actors, total=len(actors), mode="real")
-    except Exception:
-        return _demo_actors()
+    # Señales activas que involucran este actor
+    r4 = await db.execute(text("""
+        SELECT id::text, tipo, urgencia, titulo, resumen, created_at
+        FROM signal_politeia
+        WHERE :id = ANY(personas)
+          AND activa = true
+        ORDER BY urgencia DESC, created_at DESC
+        LIMIT 5
+    """), {"id": actor_id})
+    result["señales_activas"] = [dict(r) for r in r4.mappings()]
+
+    return result
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Organizaciones
+# ──────────────────────────────────────────────────────────────────────
+@router.get("/organizaciones/lista")
+async def list_organizaciones(
+    tipo:    str = Query(None, description="partido | empresa | ministerio | think_tank | medio"),
+    sector:  str = Query(None),
+    ibex35:  bool = Query(None),
+    q:       str = Query(None),
+    limit:   int = Query(50, ge=1, le=200),
+    db: AsyncSession = Depends(get_db),
+) -> list[dict]:
+    """Lista organizaciones con score de influencia."""
+    filters = ["activa = true"]
+    params: dict[str, Any] = {"limit": limit}
+
+    if tipo:
+        filters.append("tipo = :tipo")
+        params["tipo"] = tipo
+    if sector:
+        filters.append("sector ILIKE :sector")
+        params["sector"] = f"%{sector}%"
+    if ibex35 is not None:
+        filters.append("ibex35 = :ibex35")
+        params["ibex35"] = ibex35
+    if q:
+        filters.append("nombre ILIKE :q")
+        params["q"] = f"%{q}%"
+
+    where = " AND ".join(filters)
+    r = await db.execute(text(f"""
+        SELECT id::text AS id, nombre, tipo, cif, pais,
+               sector, ibex35, sede_ccaa,
+               score_influencia, n_personas_clave,
+               facturacion_m, empleados,
+               created_at, updated_at
+        FROM organizacion
+        WHERE {where}
+        ORDER BY score_influencia DESC, nombre ASC
+        LIMIT :limit
+    """), params)
+    return [dict(row) for row in r.mappings()]
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Señales del sistema
+# ──────────────────────────────────────────────────────────────────────
+@router.get("/signals/activas")
+async def get_active_signals(
+    tipo:     str = Query(None),
+    urgencia: int = Query(None, ge=1, le=5, description="mínima urgencia"),
+    leida:    bool = Query(False),
+    limit:    int = Query(30, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+) -> list[dict]:
+    """Señales activas del motor de inteligencia."""
+    filters = ["activa = true"]
+    params: dict[str, Any] = {"limit": limit}
+
+    if tipo:
+        filters.append("tipo = :tipo")
+        params["tipo"] = tipo
+    if urgencia:
+        filters.append("urgencia >= :urgencia")
+        params["urgencia"] = urgencia
+    if not leida:
+        filters.append("leida = false")
+
+    where = " AND ".join(filters)
+    r = await db.execute(text(f"""
+        SELECT id::text AS id, tipo, urgencia, titulo, resumen,
+               personas, orgs, modulo_origen, url_fuente,
+               leida, activa, created_at
+        FROM signal_politeia
+        WHERE {where}
+        ORDER BY urgencia DESC, created_at DESC
+        LIMIT :limit
+    """), params)
+    return [dict(row) for row in r.mappings()]
+
+
+@router.post("/signals/{signal_id}/marcar-leida")
+async def mark_signal_read(
+    signal_id: str,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Marca una señal como leída."""
+    await db.execute(
+        text("UPDATE signal_politeia SET leida = true WHERE id = :id"),
+        {"id": signal_id},
+    )
+    await db.commit()
+    return {"ok": True}
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Grafo de relaciones
+# ──────────────────────────────────────────────────────────────────────
+@router.get("/grafo/relaciones")
+async def get_relationship_graph(
+    tipo_relacion: str = Query(None, description="coocurrencia | miembro | alianza | oposicion"),
+    min_peso:      float = Query(1.0),
+    limit:         int = Query(100, ge=1, le=500),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Retorna grafo (nodos + aristas) para visualización de red de actores."""
+    filters = ["activa = true", "peso >= :min_peso"]
+    params: dict[str, Any] = {"min_peso": min_peso, "limit": limit}
+
+    if tipo_relacion:
+        filters.append("tipo_relacion = :tipo")
+        params["tipo"] = tipo_relacion
+
+    where = " AND ".join(filters)
+    r = await db.execute(text(f"""
+        SELECT elemento_a_id, elemento_a_tipo, tipo_relacion,
+               elemento_b_id, elemento_b_tipo, peso
+        FROM relacion_politeia
+        WHERE {where}
+        ORDER BY peso DESC
+        LIMIT :limit
+    """), params)
+    edges = [dict(row) for row in r.mappings()]
+
+    # Collect unique node IDs per type
+    node_ids: dict[str, set] = {"persona": set(), "organizacion": set()}
+    for e in edges:
+        for side in ("a", "b"):
+            nid = e[f"elemento_{side}_id"]
+            ntype = e[f"elemento_{side}_tipo"]
+            if ntype in node_ids:
+                node_ids[ntype].add(nid)
+
+    nodes: list[dict] = []
+
+    if node_ids["persona"]:
+        ids_str = ", ".join(f"'{i}'" for i in node_ids["persona"])
+        r2 = await db.execute(text(f"""
+            SELECT id::text AS id, nombre_completo AS label,
+                   partido, score_influencia, 'persona' AS tipo
+            FROM persona_publica
+            WHERE id::text IN ({ids_str})
+        """))
+        nodes.extend(dict(row) for row in r2.mappings())
+
+    if node_ids["organizacion"]:
+        ids_str = ", ".join(f"'{i}'" for i in node_ids["organizacion"])
+        r3 = await db.execute(text(f"""
+            SELECT id::text AS id, nombre AS label,
+                   tipo AS subtipo, score_influencia, 'organizacion' AS tipo
+            FROM organizacion
+            WHERE id::text IN ({ids_str})
+        """))
+        nodes.extend(dict(row) for row in r3.mappings())
+
+    return {"nodes": nodes, "edges": edges}
+
+
+# ──────────────────────────────────────────────────────────────────────
+# KPIs del dashboard
+# ──────────────────────────────────────────────────────────────────────
+@router.get("/estadisticas/dashboard")
+async def get_actors_dashboard(
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """KPIs consolidados para el panel de actores."""
+    r = await db.execute(text("""
+        SELECT
+            COUNT(*) FILTER (WHERE activo = true)                    AS actores_activos,
+            COUNT(*) FILTER (WHERE score_riesgo >= 7 AND activo)     AS actores_riesgo_alto,
+            COUNT(*) FILTER (WHERE sentimiento_actual < -0.5)        AS con_sentimiento_negativo,
+            COUNT(*) FILTER (WHERE tendencia_sentimiento = 'bajando') AS tendencia_bajando,
+            AVG(score_influencia) FILTER (WHERE activo = true)        AS influencia_media,
+            COUNT(DISTINCT partido) FILTER (WHERE activo = true)      AS n_partidos
+        FROM persona_publica
+    """))
+    pp_kpis = dict(r.mappings().fetchone() or {})
+
+    r2 = await db.execute(text("""
+        SELECT
+            COUNT(*) FILTER (WHERE activa = true AND leida = false)  AS señales_sin_leer,
+            COUNT(*) FILTER (WHERE urgencia >= 4 AND activa = true)  AS señales_criticas,
+            COUNT(*) FILTER (WHERE created_at >= NOW() - INTERVAL '24 hours') AS señales_hoy
+        FROM signal_politeia
+    """))
+    sig_kpis = dict(r2.mappings().fetchone() or {})
+
+    r3 = await db.execute(text("""
+        SELECT COUNT(*) AS n_orgs,
+               COUNT(*) FILTER (WHERE ibex35 = true) AS n_ibex35
+        FROM organizacion
+        WHERE activa = true
+    """))
+    org_kpis = dict(r3.mappings().fetchone() or {})
+
+    return {**pp_kpis, **sig_kpis, **org_kpis}
+
+
+# ──────────────────────────────────────────────────────────────────────
+# Trigger manual del signal engine
+# ──────────────────────────────────────────────────────────────────────
+@router.post("/signals/run-engine")
+async def trigger_signal_engine(
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Dispara manualmente el motor de señales."""
+    from apps.workers.connectors.signal_engine import run_signal_engine
+    return await run_signal_engine(db)

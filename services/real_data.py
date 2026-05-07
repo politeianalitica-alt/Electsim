@@ -277,11 +277,8 @@ def get_alertas(limit: int = 20, solo_no_leidas: bool = False) -> list[dict]:
                 d = _row(r)
                 sev = (d.get("severidad") or "INFO").upper()
                 d["level"] = {"CRITICAL": "critical", "WARNING": "high", "INFO": "medium"}.get(sev, "low")
-                d["title"] = d.pop("titulo", "") or ""
                 d["body"] = d.pop("descripcion", "") or ""
-                d["source"] = d.pop("fuente", "") or d.get("tipo", "sistema") or "sistema"
                 d["read"] = d.pop("leida", False)
-                d.setdefault("category", d.get("tipo", "general"))
                 result.append(d)
             return result
     except Exception:

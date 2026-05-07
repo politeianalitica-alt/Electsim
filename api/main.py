@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import asyncio
 import logging
 import os
 import time
@@ -26,21 +25,12 @@ from api.routers import (
     voto_blando,
     workspace_signals,
 )
-from api.routers import sources as sources_router
-from api.routers import analysis as analysis_router
-from api.routers import briefings as briefings_router
-from api.routers import legislative as legislative_router
-from api.routers import actors as actors_router
-from api.routers import risk as risk_router
-from api.routers import geopolitica as geopolitica_router
-from api.routers import coalition as coalition_router
-from api.routers import electoral as electoral_router
-from api.routers import media_intel as media_intel_router
-try:
-    from api.routers.nowcasting import router as nowcasting_router
-    _HAS_NOWCASTING = True
-except Exception:
-    _HAS_NOWCASTING = False
+from api.routers.legislation import router as legislation_router
+from api.routers.osint import router as osint_router
+from api.routers.actors import router as actors_router
+from api.routers.nowcasting import router as nowcasting_router
+from api.routers.media_intel import router as media_intel_router
+from api.routers.risk import router as risk_router
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -49,7 +39,7 @@ from observability.logging import configure_logging
 configure_logging()
 logger = logging.getLogger("electsim.api")
 
-app = FastAPI(title="ElectSim API", version="0.3.0")
+app = FastAPI(title="ElectSim API", version="0.2.0")
 
 # Observabilidad: logging de requests y metricas HTTP
 app.add_middleware(RequestLoggingMiddleware)
@@ -68,29 +58,22 @@ app.add_middleware(
 )
 
 
-async def _bg_db_check() -> None:
-    """Background task: validate DB schema without blocking startup."""
-    max_retries = 5
+@app.on_event("startup")
+def startup_checks() -> None:
+    max_retries = 10
     for attempt in range(max_retries):
-        await asyncio.sleep(2 ** min(attempt, 3))
         try:
             with get_session_factory()() as session:
                 validate_semantic_schema(session)
-            logger.info("DB schema validation OK")
+            logger.info("startup_checks OK")
             return
         except OperationalError as e:
-            logger.warning("DB no lista (bg intento %d/%d): %s", attempt + 1, max_retries, e)
+            logger.warning("DB no lista (intento %d/%d): %s", attempt + 1, max_retries, e)
+            time.sleep(2 ** min(attempt, 4))
         except Exception as e:
-            logger.error("DB schema check no crítico: %s", e)
+            logger.error("startup_checks no crítico: %s", e)
             return
-    logger.warning("DB no disponible — API funcionando en modo demo.")
-
-
-@app.on_event("startup")
-async def startup_checks() -> None:
-    """Non-blocking startup: launch DB check in background."""
-    asyncio.create_task(_bg_db_check())
-    logger.info("ElectSim API v3.0 iniciada — modo demo activo hasta que BD esté disponible.")
+    logger.error("No se pudo validar esquema semántico tras %d intentos.", max_retries)
 
 
 @app.middleware("http")
@@ -141,15 +124,9 @@ app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
-app.include_router(sources_router.router)
-app.include_router(analysis_router.router)
-app.include_router(briefings_router.router)
-app.include_router(legislative_router.router)
-app.include_router(actors_router.router)
-app.include_router(risk_router.router)
-app.include_router(geopolitica_router.router)
-app.include_router(coalition_router.router)
-app.include_router(electoral_router.router)
-app.include_router(media_intel_router.router)
-if _HAS_NOWCASTING:
-    app.include_router(nowcasting_router)
+app.include_router(legislation_router)
+app.include_router(osint_router)
+app.include_router(actors_router)
+app.include_router(nowcasting_router)
+app.include_router(media_intel_router)
+app.include_router(risk_router)

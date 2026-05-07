@@ -35,16 +35,12 @@ function timeAgo(ts?: string): string {
 }
 
 export function IntelGrid() {
-  const { data: signalsRaw } = useQuery({
+  const { data: signals = [] } = useQuery({
     queryKey: ["signals", "intel-grid"],
-    queryFn: () => endpoints.signalsActivas(3).catch(() => null),
+    queryFn: () => endpoints.signalsActivas(3).catch(() => []),
     refetchInterval: 2 * 60 * 1000,
     staleTime: 90 * 1000,
   });
-  // signalsActivas now returns { items: [...], mode, total } or legacy array
-  const signals: any[] = Array.isArray(signalsRaw)
-    ? signalsRaw
-    : (signalsRaw as any)?.items ?? [];
 
   const { data: stories = [] } = useQuery({
     queryKey: ["media", "intel-grid-stories"],
@@ -61,10 +57,11 @@ export function IntelGrid() {
   });
 
   // Normalize signals to alert items
+  const sevMap: Record<string, string> = { critical: "critical", high: "high", medium: "medium" };
   const alerts = (signals as any[]).slice(0, 4).map((s: any) => ({
-    title: s.titulo,
-    level: urgenciaToLevel(s.urgencia),
-    source: s.modulo_origen ?? "motor señales",
+    title: s.titulo ?? s.title ?? "",
+    level: urgenciaToLevel(s.urgencia ?? 0) !== "low" ? urgenciaToLevel(s.urgencia ?? 0) : (sevMap[s.severity] ?? "low"),
+    source: s.modulo_origen ?? s.domain ?? "motor señales",
     time: timeAgo(s.created_at),
   }));
 
@@ -77,8 +74,8 @@ export function IntelGrid() {
 
   // Normalize narratives
   const topNarrativas = (narrativas as any[]).slice(0, 4).map((n: any) => ({
-    label: n.titulo ?? n.label,
-    velocity: (n.velocidad_por_hora ?? 0) > 3 ? "up" : "stable",
+    label: n.titulo ?? n.frame_label ?? n.label ?? "",
+    velocity: (n.velocidad_por_hora ?? 0) > 3 ? "up" : n.velocity === "up" ? "up" : "stable",
     action: n.accion_recomendada ?? n.recommended_action ?? "Monitorizar evolución",
   }));
 
