@@ -46,7 +46,6 @@ app.add_middleware(
         "http://localhost:3000",
         os.getenv("FRONTEND_URL", "http://localhost:3000"),
         "https://politeia-visual-oscar.vercel.app",
-        "https://*.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
