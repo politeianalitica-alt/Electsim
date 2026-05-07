@@ -33,7 +33,7 @@ function statusDot(status: string) {
 export default function RiesgoPage() {
   const { data: overview, isLoading, refetch } = useQuery({
     queryKey: ["risk", "overview"],
-    queryFn: () => endpoints.riskOverview().catch(() => null),
+    queryFn: () => endpoints.riskOverviewV2().catch(() => null),
     refetchInterval: 3 * 60 * 1000,
     staleTime: 2 * 60 * 1000,
   });

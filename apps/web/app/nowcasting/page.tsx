@@ -27,37 +27,40 @@ function MiniBar({ value, max, color }: { value: number; max: number; color: str
   );
 }
 
-function CIBadge({ inf, sup }: { inf: number; sup: number }) {
+// Guard: API may return numeric fields as strings
+function toNum(v: any): number { return Number(v) || 0; }
+
+function CIBadge({ inf, sup }: { inf: any; sup: any }) {
   return (
     <span className="text-[10px] text-muted font-mono">
-      [{inf.toFixed(1)}, {sup.toFixed(1)}]
+      [{toNum(inf).toFixed(1)}, {toNum(sup).toFixed(1)}]
     </span>
   );
 }
 
 function SparkSeries({ data, color, width = 120, height = 40 }: {
-  data: { fecha_estimacion: string; estimacion_pct: number; ic_95_inf: number; ic_95_sup: number }[];
+  data: { fecha_estimacion: string; estimacion_pct: any; ic_95_inf: any; ic_95_sup: any }[];
   color: string;
   width?: number;
   height?: number;
 }) {
   if (!data.length) return null;
-  const vals = data.map(d => d.estimacion_pct);
-  const min = Math.min(...vals, ...data.map(d => d.ic_95_inf));
-  const max = Math.max(...vals, ...data.map(d => d.ic_95_sup));
+  const vals = data.map(d => toNum(d.estimacion_pct));
+  const min = Math.min(...vals, ...data.map(d => toNum(d.ic_95_inf)));
+  const max = Math.max(...vals, ...data.map(d => toNum(d.ic_95_sup)));
   const range = max - min || 1;
-  const n = data.length;
+  const cnt = data.length;
 
-  const toX = (i: number) => (i / (n - 1)) * width;
+  const toX = (i: number) => (i / (cnt - 1)) * width;
   const toY = (v: number) => height - ((v - min) / range) * height;
 
   // CI band polygon
-  const topPts = data.map((d, i) => `${toX(i)},${toY(d.ic_95_sup)}`).join(" ");
-  const botPts = [...data].reverse().map((d, i) => `${toX(n - 1 - i)},${toY(d.ic_95_inf)}`).join(" ");
+  const topPts = data.map((d, i) => `${toX(i)},${toY(toNum(d.ic_95_sup))}`).join(" ");
+  const botPts = [...data].reverse().map((d, i) => `${toX(cnt - 1 - i)},${toY(toNum(d.ic_95_inf))}`).join(" ");
   const ciPoly = `${topPts} ${botPts}`;
 
   // Main line
-  const linePts = data.map((d, i) => `${toX(i)},${toY(d.estimacion_pct)}`).join(" ");
+  const linePts = data.map((d, i) => `${toX(i)},${toY(toNum(d.estimacion_pct))}`).join(" ");
   const lastY = toY(vals[vals.length - 1]);
 
   return (
@@ -92,7 +95,7 @@ export default function NowcastingPage() {
     staleTime: 30 * 60 * 1000,
   });
 
-  const maxPct = Math.max(...current.map((e: NowcastingEstimate) => e.estimacion_pct), 40);
+  const maxPct = Math.max(...current.map((e: NowcastingEstimate) => toNum(e.estimacion_pct)), 40);
   const updatedAt = current[0]?.fecha_estimacion
     ? new Date(current[0].fecha_estimacion).toLocaleDateString("es-ES", { day: "numeric", month: "long" })
     : "—";
@@ -150,11 +153,11 @@ export default function NowcastingPage() {
                         <div className="flex items-center gap-3">
                           <CIBadge inf={e.ic_95_inf} sup={e.ic_95_sup} />
                           <span className="text-lg font-bold tabular-nums" style={{ color }}>
-                            {e.estimacion_pct.toFixed(1)}%
+                            {toNum(e.estimacion_pct).toFixed(1)}%
                           </span>
                         </div>
                       </div>
-                      <MiniBar value={e.estimacion_pct} max={maxPct} color={color} />
+                      <MiniBar value={toNum(e.estimacion_pct)} max={maxPct} color={color} />
                     </div>
                   </div>
                 </li>
@@ -206,7 +209,7 @@ export default function NowcastingPage() {
               <div className="flex justify-between text-[10px] text-muted mt-1">
                 <span>{serie[0]?.fecha_estimacion ? new Date(serie[0].fecha_estimacion).toLocaleDateString("es-ES") : ""}</span>
                 <span className="font-bold text-text1">
-                  {serie[serie.length - 1]?.estimacion_pct.toFixed(1)}%
+                  {toNum(serie[serie.length - 1]?.estimacion_pct).toFixed(1)}%
                 </span>
                 <span>{serie[serie.length - 1]?.fecha_estimacion ? new Date(serie[serie.length - 1].fecha_estimacion).toLocaleDateString("es-ES") : ""}</span>
               </div>
@@ -225,7 +228,7 @@ export default function NowcastingPage() {
                 <div className="text-[10px] font-semibold" style={{ color: e.color || PARTY_COLORS[e.partido] }}>
                   {e.partido}
                 </div>
-                <div className="text-xs font-bold text-text1">{e.estimacion_pct.toFixed(1)}%</div>
+                <div className="text-xs font-bold text-text1">{toNum(e.estimacion_pct).toFixed(1)}%</div>
               </button>
             ))}
           </div>
@@ -286,10 +289,10 @@ export default function NowcastingPage() {
                     </div>
                   </td>
                   <td className="p-2 text-right font-bold tabular-nums" style={{ color: e.color || PARTY_COLORS[e.partido] }}>
-                    {e.estimacion_pct.toFixed(2)}%
+                    {toNum(e.estimacion_pct).toFixed(2)}%
                   </td>
-                  <td className="p-2 text-right text-muted tabular-nums">{e.ic_95_inf.toFixed(2)}%</td>
-                  <td className="p-2 text-right text-muted tabular-nums">{e.ic_95_sup.toFixed(2)}%</td>
+                  <td className="p-2 text-right text-muted tabular-nums">{toNum(e.ic_95_inf).toFixed(2)}%</td>
+                  <td className="p-2 text-right text-muted tabular-nums">{toNum(e.ic_95_sup).toFixed(2)}%</td>
                   <td className="p-2 text-right text-muted tabular-nums">{e.n_encuestas}</td>
                   <td className="p-2 text-right text-muted">
                     {new Date(e.fecha_estimacion).toLocaleDateString("es-ES")}

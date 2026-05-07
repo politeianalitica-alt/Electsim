@@ -233,32 +233,32 @@ export interface OsintKpis {
 
 export const endpoints = {
   // System
-  systemStatus: () => api.get<SystemStatus>("/system/status"),
-  systemHealth: () => api.get<{ ok: boolean }>("/system/health"),
+  systemStatus: () => api.get<SystemStatus>("/api/system/status"),
+  systemHealth: () => api.get<{ ok: boolean }>("/api/system/health"),
 
   // Briefings
   morningBriefing: (workspaceId: string = "default") =>
-    api.get<MorningBriefing>(`/briefings/morning?workspace_id=${encodeURIComponent(workspaceId)}`),
-  briefingsList: () => api.get<MorningBriefing[]>("/briefings"),
-  briefingPdf: (id: string) => api.get<{ url: string; bytes_b64?: string }>(`/briefings/${id}/pdf`),
+    api.get<MorningBriefing>(`/api/briefings/morning?workspace_id=${encodeURIComponent(workspaceId)}`),
+  briefingsList: () => api.get<MorningBriefing[]>("/api/briefings"),
+  briefingPdf: (id: string) => api.get<{ url: string; bytes_b64?: string }>(`/api/briefings/${id}/pdf`),
 
   // Media
-  mediaTopStories: (n: number = 10) => api.get<MediaStory[]>(`/media/top-stories?n=${n}`),
-  mediaSourceHealth: () => api.get<{ active: number; degraded: number; down: number; sources: any[] }>("/media/source-health"),
-  mediaNarratives: () => api.get<NarrativeCluster[]>("/media/narratives"),
+  mediaTopStories: (n: number = 10) => api.get<MediaStory[]>(`/api/media/top-stories?n=${n}`),
+  mediaSourceHealth: () => api.get<{ active: number; degraded: number; down: number; sources: any[] }>("/api/media/source-health"),
+  mediaNarratives: () => api.get<NarrativeCluster[]>("/api/media/narratives"),
 
-  // Alerts (legacy)
-  alertsList: (unreadOnly = false) => api.get<AlertItem[]>(`/alerts?unread=${unreadOnly}`),
+  // Alerts
+  alertsList: (unreadOnly = false) => api.get<AlertItem[]>(`/api/alerts?unread=${unreadOnly}`),
 
   // Ticker
-  tickerItems: () => api.get<TickerItem[]>("/system/ticker"),
+  tickerItems: () => api.get<TickerItem[]>("/api/system/ticker"),
 
   // Workspace
   workspaceOverview: (id: string) => api.get<any>(`/workspaces/${id}/overview`),
 
   // Brain
   brainAsk: (question: string, context?: string) =>
-    api.post<{ answer: string; model_used: string; latency_ms: number }>("/brain/chat", { question, context }),
+    api.post<{ answer: string; model?: string; model_used?: string; latency_ms?: number }>("/api/brain/chat", { question, context, use_llm: true }),
 
   // Workflows
   workflowsList: () => api.get<any[]>("/workflows"),
@@ -266,151 +266,186 @@ export const endpoints = {
 
   // Comms
   commsStrategy: (issue: string, context?: string, audience?: string) =>
-    api.post<any>("/comms/strategy", { issue, context, audience }),
+    api.post<any>("/api/comms/strategy", { issue, context, audience }),
 
-  // Block 2 — Actors
-  actorsList: (params?: { partido?: string; q?: string; limit?: number }) => {
+  // Draft Studio — generate via Brain
+  draftGenerate: (params: { format: string; tono: string; audiencia: string; brief: string }) => {
+    const formatLabels: Record<string, string> = {
+      nota: "nota de prensa", email: "email político", post: "post para redes sociales",
+      discurso: "fragmento de discurso político", web: "texto para página web"
+    };
+    const label = formatLabels[params.format] || params.format;
+    const question = `Genera una ${label} con tono "${params.tono}" para audiencia "${params.audiencia}". Brief: ${params.brief}. Devuelve únicamente el texto del borrador, sin explicaciones adicionales.`;
+    return api.post<{ answer: string; model_used?: string; mode?: string }>("/api/brain/chat", { question, use_llm: true });
+  },
+
+  // Actors — main endpoint at /api/actors
+  actorsList: (params?: { partido?: string; q?: string; search?: string; limit?: number }) => {
     const qs = new URLSearchParams();
     if (params?.partido) qs.set("partido", params.partido);
-    if (params?.q) qs.set("q", params.q);
+    if (params?.q) qs.set("search", params.q);
+    if (params?.search) qs.set("search", params.search);
     if (params?.limit) qs.set("limit", String(params.limit));
-    return api.get<{ actors: Actor[] }>(`/actors${qs.toString() ? "?" + qs : ""}`);
+    return api.get<any>(`/api/actors${qs.toString() ? "?" + qs : ""}`);
   },
   actorsTop: (n = 10, campo: "influencia" | "riesgo" = "influencia") =>
-    api.get<{ actors: Actor[] }>(`/actors?limit=${n}&sort=${campo}`),
-  actorDetail: (id: string) => api.get<Actor & Record<string, any>>(`/actors?q=${encodeURIComponent(id)}`),
-  actorsDashboard: () => api.get<Record<string, number>>("/actors"),
+    api.get<any>(`/api/actors?limit=${n}&campo=${campo}`),
+  actorDetail: (id: string) => api.get<Actor & Record<string, any>>(`/api/actors/${id}`),
+  actorsDashboard: () => api.get<Record<string, number>>("/api/actors/dashboard"),
 
   signalsActivas: (urgenciaMin?: number) => {
     const qs = urgenciaMin ? `?urgencia_min=${urgenciaMin}` : "";
-    return api.get<any>(`/analysis/signals${qs}`);
+    return api.get<any>(`/api/analysis/signals${qs}`);
   },
-  signalMarkRead: (id: string) => api.post<{ ok: boolean }>(`/analysis/signals`, { id, action: "mark_read" }),
-  signalRunEngine: () => api.post<Record<string, any>>("/analysis/refresh", {}),
+  signalMarkRead: (id: string) => api.post<{ ok: boolean }>(`/api/analysis/signals/${id}/mark-read`),
+  signalRunEngine: () => api.post<Record<string, any>>("/api/analysis/refresh", {}),
 
-  organizacionesList: (_tipo?: string) =>
-    api.get<{ actors: any[] }>("/actors"),
-  relacionesGrafo: () => api.get<{ nodes: any[]; edges: any[] }>("/actors"),
+  organizacionesList: (tipo?: string) =>
+    api.get<Organizacion[]>(`/api/actors${tipo ? `?tipo=${tipo}` : ""}`),
+  relacionesGrafo: () => api.get<{ nodes: any[]; edges: any[] }>("/api/actors/graph"),
 
   // Block 4 — Legislation
   legislationList: (params?: { fuente?: string; tipo?: string; estado?: string; dias?: number; limit?: number }) => {
     const qs = new URLSearchParams();
-    if (params?.tipo) qs.set("procedure_type", params.tipo);
-    if (params?.estado) qs.set("stage", params.estado);
+    if (params?.fuente) qs.set("fuente", params.fuente);
+    if (params?.tipo) qs.set("tipo", params.tipo);
+    if (params?.estado) qs.set("estado", params.estado);
+    if (params?.dias) qs.set("dias", String(params.dias));
     if (params?.limit) qs.set("limit", String(params.limit));
-    return api.get<{ items: LegislationItem[]; total: number }>(`/legislative/items${qs.toString() ? "?" + qs : ""}`);
+    return api.get<LegislationItem[]>(`/api/v1/legislation/${qs.toString() ? "?" + qs : ""}`);
   },
-  legislationDetail: (id: number) => api.get<LegislationItem & Record<string, any>>(`/legislative/items/${id}`),
-  legislationTramite: () => api.get<{ items: LegislationItem[] }>("/legislative/initiatives"),
-  legislationStats: () => api.get<LegislationStats>("/legislative/kpis"),
-  legislationSearch: (q: string, _topK = 10) =>
-    api.get<{ items: LegislationItem[] }>(`/legislative/analyze?q=${encodeURIComponent(q)}`),
-  legislationSectorImpact: (_dias = 90) =>
-    api.get<any>("/legislative/heatmap"),
+  legislationDetail: (id: number) => api.get<LegislationItem & Record<string, any>>(`/api/v1/legislation/${id}`),
+  legislationTramite: () => api.get<LegislationItem[]>("/api/v1/legislation/tramite/activas"),
+  legislationStats: () => api.get<LegislationStats>("/api/v1/legislation/estadisticas/dashboard"),
+  legislationSearch: (q: string, topK = 10) =>
+    api.get<LegislationItem[]>(`/api/v1/legislation/buscar/semantico?q=${encodeURIComponent(q)}&top_k=${topK}`),
+  legislationSectorImpact: (dias = 90) =>
+    api.get<any[]>(`/api/v1/legislation/sectores/impacto?dias=${dias}`),
 
-  // Block 5 — OSINT (mapped to media narratives + alerts)
-  osintNarrativas: (_params?: { tipo?: string; minRiesgo?: number; horas?: number }) =>
-    api.get<NarrativeCluster[]>("/media/narratives"),
-  osintKpis: () => api.get<any>("/legislative/kpis"),
-  osintAlertas: (_horas = 72) => api.get<AlertItem[]>("/alerts"),
-  osintTopActores: (_horas = 24) => api.get<{ actors: any[] }>("/actors"),
-  osintHashtag: (_tag: string, _horas = 24) => api.get<any>("/media/narratives"),
+  // Block 5 — OSINT (uses media narratives as fallback since dedicated OSINT endpoint unavailable)
+  osintNarrativas: (params?: { tipo?: string; minRiesgo?: number; horas?: number }) => {
+    void params;
+    return api.get<NarrativeCluster[]>("/api/media/narratives");
+  },
+  osintKpis: () => api.get<OsintKpis>("/api/media/source-health"),
+  osintAlertas: (horas = 72) => api.get<any[]>(`/api/alerts?horas=${horas}`),
+  osintTopActores: (horas = 24) => api.get<any[]>(`/api/actors?limit=10&horas=${horas}`),
+  osintHashtag: (tag: string, _horas = 24) =>
+    api.get<any>(`/api/analysis/hub?q=${encodeURIComponent(tag)}`),
 
-  // Nowcasting (these paths exist on backend as /api/v1/...)
-  nowcastingCurrent: () => api.get<NowcastingEstimate[]>("/v1/nowcasting/current"),
+  // Nowcasting
+  nowcastingCurrent: () => api.get<NowcastingEstimate[]>("/api/v1/nowcasting/current"),
   nowcastingSerie: (partido: string, dias = 90) =>
     api.get<{ fecha_estimacion: string; estimacion_pct: number; ic_95_inf: number; ic_95_sup: number }[]>(
-      `/v1/nowcasting/serie/${encodeURIComponent(partido)}?dias=${dias}`
+      `/api/v1/nowcasting/serie/${encodeURIComponent(partido)}?dias=${dias}`
     ),
-  nowcastingCasas: () => api.get<any[]>("/v1/nowcasting/casas/cobertura"),
+  nowcastingCasas: () => api.get<any[]>("/api/v1/nowcasting/casas/cobertura"),
 
-  // Coaliciones (these paths exist on backend as /api/v1/...)
-  coalicionesViables: () => api.get<CoalicionData>("/v1/coaliciones/viables"),
-  coalicionesVotos: () => api.get<any[]>("/v1/coaliciones/votos"),
+  // Coaliciones
+  coalicionesViables: () => api.get<CoalicionData>("/api/v1/coaliciones/viables"),
+  coalicionesVotos: () => api.get<any[]>("/api/v1/coaliciones/votos"),
 
   // Macroeconomía
-  macroUltimo: () => api.get<MacroIndicadores>("/v1/macro/ultimo"),
+  macroUltimo: () => api.get<MacroIndicadores>("/api/v1/macro/ultimo"),
 
   // KPIs operativos
-  kpisPulso: () => api.get<KpiPulso[]>("/v1/kpis/pulso-operativo"),
+  kpisPulso: () => api.get<KpiPulso[]>("/api/v1/kpis/pulso-operativo"),
 
   // Ticker (live)
-  tickerLive: () => api.get<TickerItem[]>("/system/ticker"),
+  tickerLive: () => api.get<TickerItem[]>("/api/system/ticker"),
 
-  // Geopolitica (these paths exist on backend as /api/v1/...)
-  geoEventos: (dias = 7) => api.get<any[]>(`/v1/geopolitica/eventos?dias=${dias}`),
-  geoRiesgoPais: () => api.get<any[]>("/v1/geopolitica/riesgo-pais"),
-  geoPresenciaEspana: () => api.get<any[]>("/v1/geopolitica/presencia-espana"),
-  geoKpis: () => api.get<Record<string, number>>("/v1/geopolitica/kpis"),
+  // Geopolitica
+  geoEventos: (dias = 7) => api.get<any[]>(`/api/v1/geopolitica/eventos?dias=${dias}`),
+  geoRiesgoPais: () => api.get<any[]>("/api/v1/geopolitica/riesgo-pais"),
+  geoPresenciaEspana: () => api.get<any[]>("/api/v1/geopolitica/presencia-espana"),
+  geoKpis: () => api.get<Record<string, number>>("/api/v1/geopolitica/kpis"),
 
-  // Risk (proper risk endpoints at /api/risk/*)
-  riskOverview: () => api.get<any>("/risk/overview-v2"),
-  riskKpis: () => api.get<any>("/risk/kpis"),
-  riskSignals: () => api.get<any>("/risk/signals"),
-  riskCrisis: () => api.get<any>("/risk/crisis"),
-  riskEarlyWarnings: () => api.get<any>("/risk/early-warnings"),
-  riskHeatmap: () => api.get<any>("/risk/heatmap"),
-  riskTimeline: () => api.get<any>("/risk/timeline"),
-  riskScenarios: () => api.get<any>("/risk/scenarios"),
+  // Briefings v2 (full document management)
+  briefingsListV2: (params?: { limit?: number; workspace_id?: string; briefing_type?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.limit) qs.set("limit", String(params.limit));
+    if (params?.workspace_id) qs.set("workspace_id", params.workspace_id);
+    if (params?.briefing_type) qs.set("briefing_type", params.briefing_type);
+    return api.get<{ items: any[]; total: number }>(`/api/briefings/v2${qs.toString() ? "?" + qs : ""}`);
+  },
+  briefingGenerate: (req: any) => api.post<any>("/api/briefings/generate", req),
+  briefingDetail: (id: string) => api.get<any>(`/api/briefings/${id}/detail`),
+  briefingMarkdown: (id: string) =>
+    api.get<import("@/lib/types/briefings").BriefingMarkdownResponse>(`/api/briefings/${id}/markdown`),
+  briefingPdfV2: (id: string) =>
+    api.get<import("@/lib/types/briefings").BriefingPdfResponse>(`/api/briefings/${id}/pdf-v2`),
+  electoralBriefing: (req?: any) => api.post<any>("/api/briefings/morning", req ?? {}),
 
-  // Sources data management
+  // Analysis
+  analysisHub: (params?: { period?: string; workspace_id?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.period) qs.set("period", params.period);
+    if (params?.workspace_id) qs.set("workspace_id", params.workspace_id);
+    return api.get<any>(`/api/analysis/hub${qs.toString() ? "?" + qs : ""}`);
+  },
+  analysisRefresh: (body: any) => api.post<any>("/api/analysis/refresh", body),
+
+  // Legislative (v2 — full CRUD)
+  legislativeOverview: () => api.get<any>("/api/legislative/overview"),
+  legislativeItems: (params?: { page?: number; page_size?: number; urgency?: string; sector?: string; jurisdiction?: string; search?: string }) => {
+    const qs = new URLSearchParams();
+    if (params?.page) qs.set("page", String(params.page));
+    if (params?.page_size) qs.set("page_size", String(params.page_size));
+    if (params?.urgency) qs.set("urgency", params.urgency);
+    if (params?.sector) qs.set("sector", params.sector);
+    if (params?.jurisdiction) qs.set("jurisdiction", params.jurisdiction);
+    if (params?.search) qs.set("search", params.search);
+    return api.get<any>(`/api/legislative/items${qs.toString() ? "?" + qs : ""}`);
+  },
+  legislativeItemDetail: (id: string) => api.get<any>(`/api/legislative/items/${id}`),
+
+  // Risk
+  riskOverviewV2: () => api.get<any>("/api/risk/overview-v2"),
+  riskTimeline: (days = 30) => api.get<any[]>(`/api/risk/timeline?days=${days}`),
+  riskScenarios: () => api.get<any[]>("/api/risk/scenarios"),
+  riskAnalyze: (body: any) => api.post<any>("/api/risk/analyze", body),
+
+  // Sources / Fuentes
+  sourcesCoverage: () => api.get<any>("/api/sources/coverage"),
   sourcesHealth: (params?: { domain?: string; status?: string }) => {
     const qs = new URLSearchParams();
     if (params?.domain) qs.set("domain", params.domain);
     if (params?.status) qs.set("status", params.status);
-    return api.get<any>(`/sources/health${qs.toString() ? "?" + qs : ""}`);
+    return api.get<{ items: any[]; summary: any; mode: string }>(`/api/sources/health${qs.toString() ? "?" + qs : ""}`);
   },
-  sourcesCatalog: () => api.get<any>("/sources/catalog"),
-  sourcesCoverage: () => api.get<any>("/sources/coverage"),
+  sourcesRun: (params: { source_id: string; dry_run: boolean; limit: number }) =>
+    api.post<any>(`/api/sources/run`, params),
+  sourcesRunAllDry: () => api.post<any>("/api/sources/run-all-dry"),
   sourcesRuns: (limit?: number) =>
-    api.get<any>(`/sources/runs${limit ? "?limit=" + limit : ""}`),
-  sourcesRun: (params: { source_id: string; dry_run?: boolean; limit?: number }) =>
-    api.post<any>("/sources/run", params),
+    api.get<{ items: any[] }>(`/api/sources/runs${limit ? "?limit=" + limit : ""}`),
 
-  // Analysis hub (unified analysis endpoint)
-  analysisHub: (period = "24h") => api.get<any>(`/analysis/hub?period=${period}`),
-  analysisRefresh: () => api.post<any>("/analysis/refresh", {}),
+  // Brain extended
+  brainStatus: () => api.get<any>("/api/brain/status"),
+  brainTest: (params: { prompt: string; task_type: string }) => api.post<any>("/api/brain/test", params),
+  brainEmbedTest: (params: { text: string }) => api.post<any>("/api/brain/embed-test", params),
 
-  // Electoral (proper endpoints at /api/electoral/*)
-  electoralOverview: () => api.get<any>("/electoral/overview"),
-  electoralParties: () => api.get<any>("/electoral/parties"),
-  electoralHemicycle: () => api.get<any>("/electoral/hemicycle"),
-  electoralCoalitions: () => api.get<any>("/electoral/coalitions"),
-  electoralKpis: () => api.get<any>("/electoral/kpis"),
-  electoralKingmakers: () => api.get<any>("/electoral/kingmakers"),
-  electoralVotingPatterns: () => api.get<any>("/electoral/voting-patterns"),
-
-  // Briefings v2 (saved briefings)
-  briefingsListV2: (workspace_id = "default", limit = 20) =>
-    api.get<any>(`/briefings/v2?workspace_id=${encodeURIComponent(workspace_id)}&limit=${limit}`),
-  briefingDetailV2: (id: string) => api.get<any>(`/briefings/${id}/detail`),
-  briefingMarkdown: (id: string) => api.get<any>(`/briefings/${id}/markdown`),
-  briefingPdfV2: (id: string) => api.get<any>(`/briefings/${id}/pdf-v2`),
-  briefingGenerate: (body: Record<string, any>) => api.post<any>("/briefings/generate", body),
-  briefingPreview: (body: Record<string, any>) => api.post<any>("/briefings/preview", body),
-
-  // Media Intelligence
+  // Media Intelligence (new)
   mediaIntelKpis: () => api.get<any>("/api/media-intel/kpis"),
   mediaIntelFeed: (params?: {
     category?: string; bias?: string; partido?: string;
     scope?: string; page?: number; page_size?: number;
   }) => {
-    const q = new URLSearchParams();
-    if (params?.category)  q.set("category",  params.category);
-    if (params?.bias)      q.set("bias",       params.bias);
-    if (params?.partido)   q.set("partido",    params.partido);
-    if (params?.scope)     q.set("scope",      params.scope ?? "all");
-    if (params?.page)      q.set("page",       String(params.page));
-    if (params?.page_size) q.set("page_size",  String(params.page_size));
+    const qs = new URLSearchParams();
+    if (params?.category) qs.set("category", params.category);
+    if (params?.bias) qs.set("bias", params.bias);
+    if (params?.partido) qs.set("partido", params.partido);
+    if (params?.scope) qs.set("scope", params.scope);
+    if (params?.page) qs.set("page", String(params.page));
+    if (params?.page_size) qs.set("page_size", String(params.page_size));
     return api.get<{ items: any[]; total: number; page: number; page_size: number; mode: string }>(
-      `/api/media-intel/feed?${q.toString()}`
+      `/api/media-intel/feed${qs.toString() ? "?" + qs : ""}`
     );
   },
-  mediaIntelBiasSpectrum:    () => api.get<any[]>("/api/media-intel/bias-spectrum"),
-  mediaIntelSentimentHeatmap:() => api.get<any>("/api/media-intel/sentiment-heatmap"),
-  mediaIntelNarratives:      () => api.get<any[]>("/api/media-intel/narratives"),
-  mediaIntelMapWorld:        () => api.get<any[]>("/api/media-intel/map/world"),
-  mediaIntelMapEurope:       () => api.get<any[]>("/api/media-intel/map/europe"),
-  mediaIntelMapSpainCcaa:    () => api.get<any[]>("/api/media-intel/map/spain-ccaa"),
-  mediaIntelSourceHealth:    () => api.get<any>("/api/media-intel/source-health"),
+  mediaIntelBiasSpectrum: () => api.get<any[]>("/api/media-intel/bias-spectrum"),
+  mediaIntelSentimentHeatmap: () => api.get<any>("/api/media-intel/sentiment-heatmap"),
+  mediaIntelNarratives: () => api.get<any[]>("/api/media-intel/narratives"),
+  mediaIntelMapWorld: () => api.get<any[]>("/api/media-intel/map/world"),
+  mediaIntelMapEurope: () => api.get<any[]>("/api/media-intel/map/europe"),
+  mediaIntelMapSpainCcaa: () => api.get<any[]>("/api/media-intel/map/spain-ccaa"),
+  mediaIntelSourceHealth: () => api.get<any>("/api/media-intel/source-health"),
 };

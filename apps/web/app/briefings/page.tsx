@@ -12,7 +12,7 @@ export default function BriefingsPage() {
 
   const { data: historyData } = useQuery({
     queryKey: ["briefings", "v2", "list"],
-    queryFn: () => endpoints.briefingsListV2("default", 10).catch(() => null),
+    queryFn: () => endpoints.briefingsListV2({ workspace_id: "default", limit: 10 }).catch(() => null),
     staleTime: 5 * 60 * 1000,
   });
 
