@@ -15,6 +15,7 @@ from api.routers import (
     analogias,
     analytics,
     campana,
+    dashboard,
     intelligence,
     market,
     ontology,
@@ -119,3 +120,4 @@ app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
+app.include_router(dashboard.router, tags=["dashboard"])
