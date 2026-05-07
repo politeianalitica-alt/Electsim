@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import ContratosLiveFeed from '@/components/ContratosLiveFeed'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -376,6 +377,15 @@ export default function ContratosVigentesPage() {
             <HeroKPI label="Modific."   value={String(totals.totalMod)}                  accent="#A5B4FC"/>
           </div>
         </section>
+
+        {/* ═══ PLACSP · contratos formalizados (en vigor) ═══ */}
+        <ContratosLiveFeed
+          tipo="both"
+          estado="FORM"
+          minImporte={500_000}
+          limit={10}
+          titulo="CONTRATOS FORMALIZADOS · CARTERA EN VIGOR (>500k€)"
+        />
 
         {/* ───── Snapshot · KPIs financieros ───── */}
         <section style={{ marginBottom:18 }}>

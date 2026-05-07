@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import ContratosLiveFeed from '@/components/ContratosLiveFeed'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -316,6 +317,14 @@ export default function AdjudicacionesPage() {
             <HeroKPI label="Críticos"     value={String(totals.criticos)}              accent="#FCA5A5"/>
           </div>
         </section>
+
+        {/* ═══ PLACSP · adjudicaciones reales en vivo ═══ */}
+        <ContratosLiveFeed
+          tipo="both"
+          estado="ADJ"
+          limit={12}
+          titulo="ADJUDICACIONES RECIENTES · PLACSP"
+        />
 
         {/* ───── Snapshot · 8 KPIs detallados ───── */}
         <section style={{ marginBottom:18 }}>

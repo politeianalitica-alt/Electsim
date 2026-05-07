@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import ContratosLiveFeed from '@/components/ContratosLiveFeed'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -282,6 +283,13 @@ export default function LicitacionesPage() {
             <HeroKPI label="∑ Importe"  value={`${(totals.importe/1000).toFixed(1)}B€`} accent="#7DD3FC"/>
           </div>
         </section>
+
+        {/* ═══ PLACSP en vivo · datos reales del estado ═══ */}
+        <ContratosLiveFeed
+          tipo="licitacion"
+          limit={12}
+          titulo="LICITACIONES PLACSP · ÚLTIMAS PUBLICADAS"
+        />
 
         {/* ───── Snapshot del feed ───── */}
         <section style={{ marginBottom:18 }}>
