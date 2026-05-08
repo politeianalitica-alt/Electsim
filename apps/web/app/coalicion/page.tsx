@@ -1,6 +1,22 @@
 "use client";
 
-import { Crown, Users2, AlertCircle, Check, X } from "lucide-react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Crown, Users2, AlertCircle, Check, X, Map, Target, RefreshCw, Download } from "lucide-react";
+
+const INTEL_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL ?? "";
+
+const HUB_TABS = [
+  { id: "coaliciones", label: "Coaliciones", icon: Crown },
+  { id: "propensity",  label: "Propensity",  icon: Target },
+] as const;
+type HubTab = typeof HUB_TABS[number]["id"];
+
+interface SwingDistrict { [k: string]: unknown }
+interface OportunidadesResponse { n_secciones?: number; secciones?: Array<Record<string, unknown>>; [k: string]: unknown }
+
+const PARTIDOS_PROP = ["pp", "psoe", "vox", "sumar", "junts", "erc", "pnv"];
+const CCAA_OPT = ["", "Andalucía", "Cataluña", "Madrid", "Valencia", "País Vasco", "Galicia"];
 
 type PartySeat = { code: string; seats: number; color: string };
 
@@ -92,6 +108,7 @@ function hemicycleSeats() {
 }
 
 export default function CoalicionPage() {
+  const [hubTab, setHubTab] = useState<HubTab>("coaliciones");
   const seats = hemicycleSeats();
   const totalSeats = PARTIES.reduce((a, b) => a + b.seats, 0);
   const majority = Math.ceil(totalSeats / 2) + 1;
@@ -104,6 +121,29 @@ export default function CoalicionPage() {
         <p className="text-text2 text-sm mt-1">Composición del Congreso, escenarios de coalición viables y patrones de voto.</p>
       </header>
 
+      {/* Hub tabs */}
+      <div className="border-b border-border1 flex gap-1">
+        {HUB_TABS.map(t => {
+          const Icon = t.icon;
+          const active = hubTab === t.id;
+          return (
+            <button
+              key={t.id}
+              onClick={() => setHubTab(t.id)}
+              className={`px-4 py-2 -mb-px text-sm flex items-center gap-2 border-b-2 transition ${
+                active ? "border-cyan1 text-cyan1 font-semibold" : "border-transparent text-text2 hover:text-text1"
+              }`}
+            >
+              <Icon className="w-4 h-4" /> {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {hubTab === "propensity" && <PropensityTab/>}
+
+      {hubTab === "coaliciones" && (
+      <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Hemicycle */}
         <section className="premium-card lg:col-span-2">
@@ -228,6 +268,228 @@ export default function CoalicionPage() {
           <span><span className="inline-block w-3 h-3 rounded-sm bg-amber1/20 mr-1 align-middle" />Abstención</span>
         </div>
       </section>
+      </>
+      )}
     </div>
+  );
+}
+
+// ── Propensity sub-tab ──────────────────────────────────────────────────────
+function PropensityTab() {
+  const [subTab, setSubTab] = useState<"swing" | "oportunidades">("swing");
+
+  return (
+    <div className="space-y-4">
+      <div className="flex gap-2 text-xs">
+        {[
+          { id: "swing" as const, label: "Swing Districts" },
+          { id: "oportunidades" as const, label: "Oportunidades" },
+        ].map(t => (
+          <button
+            key={t.id}
+            onClick={() => setSubTab(t.id)}
+            className={`px-3 py-1.5 rounded-full transition ${
+              subTab === t.id
+                ? "bg-cyan1 text-bg font-semibold"
+                : "bg-bg3 border border-border1 text-text2 hover:text-text1"
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {subTab === "swing" && <SwingDistrictsView/>}
+      {subTab === "oportunidades" && <OportunidadesView/>}
+    </div>
+  );
+}
+
+function SwingDistrictsView() {
+  const [partidoA, setPartidoA] = useState<string>("pp");
+  const [partidoB, setPartidoB] = useState<string>("psoe");
+  const [n, setN] = useState<number>(50);
+
+  const { data = [], isFetching, refetch } = useQuery<SwingDistrict[]>({
+    queryKey: ["propensity", "swing", partidoA, partidoB, n],
+    queryFn: () => fetch(
+      `${INTEL_BASE}/intelligence/propensity/swing-districts?partido_a=${partidoA}&partido_b=${partidoB}&n=${n}`
+    ).then(r => r.json()).catch(() => []),
+    staleTime: 5 * 60_000,
+  });
+
+  // First 6 columns from response
+  const cols = data.length > 0 ? Object.keys(data[0]).slice(0, 6) : [];
+  const [shown, setShown] = useState(20);
+
+  return (
+    <section className="premium-card">
+      <div className="flex items-center gap-3 mb-4 flex-wrap text-xs">
+        <select value={partidoA} onChange={e => setPartidoA(e.target.value)}
+          className="bg-bg3 border border-border1 rounded px-2 py-1 text-text1 focus:border-cyan1 focus:outline-none">
+          {PARTIDOS_PROP.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+        </select>
+        <span className="text-text2">vs</span>
+        <select value={partidoB} onChange={e => setPartidoB(e.target.value)}
+          className="bg-bg3 border border-border1 rounded px-2 py-1 text-text1 focus:border-cyan1 focus:outline-none">
+          {PARTIDOS_PROP.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+        </select>
+        <div className="flex items-center gap-1.5">
+          <span className="text-text2">N</span>
+          <input type="range" min="50" max="500" step="10" value={n}
+            onChange={e => setN(parseInt(e.target.value))}
+            className="w-24 accent-cyan-400"/>
+          <span className="font-mono text-text1 w-10">{n}</span>
+        </div>
+        <button
+          onClick={() => refetch()}
+          className="ml-auto px-3 py-1.5 rounded bg-bg3 border border-border1 hover:border-cyan1/40 inline-flex items-center gap-1.5"
+        >
+          <RefreshCw className={`w-3 h-3 ${isFetching ? "animate-spin" : ""}`}/> Actualizar
+        </button>
+      </div>
+
+      <div className="mb-3">
+        <span className="badge badge-amber">{data.length} secciones competitivas</span>
+      </div>
+
+      {isFetching ? (
+        <div className="space-y-1.5">
+          {Array.from({ length: 6 }).map((_, i) => <div key={i} className="h-8 bg-bg3 rounded animate-pulse"/>)}
+        </div>
+      ) : data.length === 0 ? (
+        <p className="text-sm text-muted text-center py-6">Sin datos disponibles.</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-text2 border-b border-border1">
+                <tr>{cols.map(c => <th key={c} className="text-left py-2 pr-3 font-medium">{c}</th>)}</tr>
+              </thead>
+              <tbody>
+                {data.slice(0, shown).map((row, i) => (
+                  <tr key={i} className="border-b border-border1/50 hover:bg-bg3 transition">
+                    {cols.map(c => (
+                      <td key={c} className="py-2 pr-3 font-mono text-text1">
+                        {String(row[c] ?? "—").slice(0, 50)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {shown < data.length && (
+            <button
+              onClick={() => setShown(s => s + 20)}
+              className="mt-3 px-3 py-1.5 text-xs rounded border border-border1 text-text2 hover:border-cyan1 hover:text-cyan1"
+            >
+              Mostrar más ({data.length - shown} restantes)
+            </button>
+          )}
+        </>
+      )}
+    </section>
+  );
+}
+
+function OportunidadesView() {
+  const [partido, setPartido] = useState<string>("pp");
+  const [umbral, setUmbral] = useState<number>(0.05);
+  const [ccaa, setCcaa] = useState<string>("");
+
+  const { data, isFetching, refetch } = useQuery<OportunidadesResponse>({
+    queryKey: ["propensity", "oportunidades", partido, umbral, ccaa],
+    queryFn: () => {
+      const qs = new URLSearchParams({ umbral: String(umbral) });
+      if (ccaa) qs.set("ccaa", ccaa);
+      return fetch(`${INTEL_BASE}/intelligence/propensity/oportunidades/${partido}?${qs}`)
+        .then(r => r.json())
+        .catch(() => ({ n_secciones: 0, secciones: [] }));
+    },
+    staleTime: 5 * 60_000,
+  });
+
+  const secciones = data?.secciones ?? [];
+  const cols = secciones.length > 0 ? Object.keys(secciones[0]).slice(0, 5) : [];
+
+  const downloadCSV = () => {
+    if (secciones.length === 0) return;
+    const header = cols.join(",");
+    const rows = secciones.map(s => cols.map(c => JSON.stringify(s[c] ?? "")).join(","));
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `oportunidades-${partido}-${Date.now()}.csv`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <section className="premium-card">
+      <div className="flex items-center gap-3 mb-4 flex-wrap text-xs">
+        <span className="text-text2">Partido:</span>
+        <select value={partido} onChange={e => setPartido(e.target.value)}
+          className="bg-bg3 border border-border1 rounded px-2 py-1 text-text1 focus:border-cyan1 focus:outline-none">
+          {PARTIDOS_PROP.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+        </select>
+        <span className="text-text2">Umbral</span>
+        <input type="range" min="0.01" max="0.20" step="0.01" value={umbral}
+          onChange={e => setUmbral(parseFloat(e.target.value))}
+          className="w-24 accent-cyan-400"/>
+        <span className="font-mono text-text1 w-10">{umbral.toFixed(2)}</span>
+        <select value={ccaa} onChange={e => setCcaa(e.target.value)}
+          className="bg-bg3 border border-border1 rounded px-2 py-1 text-text1 focus:border-cyan1 focus:outline-none">
+          {CCAA_OPT.map(c => <option key={c} value={c}>{c || "Todas CCAA"}</option>)}
+        </select>
+        <button
+          onClick={() => refetch()}
+          className="ml-auto px-3 py-1.5 rounded bg-bg3 border border-border1 hover:border-cyan1/40 inline-flex items-center gap-1.5"
+        >
+          <RefreshCw className={`w-3 h-3 ${isFetching ? "animate-spin" : ""}`}/> Actualizar
+        </button>
+      </div>
+
+      <div className="kpi-card mb-4">
+        <div className="text-[10px] uppercase tracking-wider text-text2 mb-1">Secciones con oportunidad</div>
+        <div className="text-3xl font-bold text-cyan1 font-mono">{data?.n_secciones ?? 0}</div>
+      </div>
+
+      {isFetching ? (
+        <div className="space-y-1.5">
+          {Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-8 bg-bg3 rounded animate-pulse"/>)}
+        </div>
+      ) : secciones.length === 0 ? (
+        <p className="text-sm text-muted text-center py-6">Sin oportunidades sobre el umbral.</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-text2 border-b border-border1">
+                <tr>{cols.map(c => <th key={c} className="text-left py-2 pr-3 font-medium">{c}</th>)}</tr>
+              </thead>
+              <tbody>
+                {secciones.slice(0, 10).map((row, i) => (
+                  <tr key={i} className="border-b border-border1/50">
+                    {cols.map(c => (
+                      <td key={c} className="py-2 pr-3 font-mono text-text1">
+                        {String(row[c] ?? "—").slice(0, 50)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <button
+            onClick={downloadCSV}
+            className="mt-3 px-3 py-1.5 text-xs rounded border border-border1 text-text2 hover:border-cyan1 hover:text-cyan1 inline-flex items-center gap-1.5"
+          >
+            <Download className="w-3 h-3"/> Descargar CSV
+          </button>
+        </>
+      )}
+    </section>
   );
 }

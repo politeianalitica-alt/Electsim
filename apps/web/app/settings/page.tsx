@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { User, Bell, Shield, Palette, Globe, Keyboard, Save, Check } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { User, Bell, Shield, Palette, Globe, Keyboard, Save, Check, Cpu, GitMerge, Activity, Database, Zap, RefreshCw } from "lucide-react";
 
 const TABS = [
   { id: "perfil",         label: "Perfil",           icon: User },
@@ -9,8 +10,27 @@ const TABS = [
   { id: "apariencia",     label: "Apariencia",       icon: Palette },
   { id: "idioma",         label: "Idioma & región",  icon: Globe },
   { id: "atajos",         label: "Atajos de teclado",icon: Keyboard },
-  { id: "seguridad",      label: "Seguridad",        icon: Shield }
+  { id: "seguridad",      label: "Seguridad",        icon: Shield },
+  { id: "sistema",        label: "Estado del sistema", icon: Cpu },
+  { id: "pipelines",      label: "Pipelines ETL",     icon: GitMerge },
+  { id: "analytics",      label: "Analytics",         icon: Activity },
 ];
+
+const INTEL_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL ?? "";
+
+interface SystemStatus {
+  database?: { ok: boolean };
+  modules?: Record<string, unknown>;
+  llm?: { available: boolean; model: string; mode?: string };
+  pipelines?: { healthy: number; degraded: number; failed: number };
+  sources?: { total: number; active: number; degraded: number; down: number };
+  overall_ok?: boolean;
+  mode?: string;
+}
+interface BrainStatus { available: boolean; model: string; mode: string }
+interface Pipeline { nombre: string; estado: string; inicio: string; duracion_s: number | null; error?: string }
+interface NowcastRow { fecha_estimacion?: string; partido_id?: number; estimacion_pct?: number; partido?: string }
+interface PedersenRow { eleccion_actual?: string; volatilidad_total?: number; volatilidad_bloques?: number; volatilidad_interna?: number }
 
 type SavedState = Record<string, boolean>;
 
@@ -390,8 +410,283 @@ export default function SettingsPage() {
               </div>
             </section>
           )}
+
+          {tab === "sistema"   && <SistemaTab/>}
+          {tab === "pipelines" && <PipelinesTab/>}
+          {tab === "analytics" && <AnalyticsTab/>}
+
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── Tab: Sistema ─────────────────────────────────────────────────────────────
+function SistemaTab() {
+  const { data: sys, refetch: refetchSys, isFetching: sysFetching } = useQuery<SystemStatus>({
+    queryKey: ["system", "status"],
+    queryFn: () => fetch(`${INTEL_BASE}/api/system/status`).then(r => r.json())
+      .catch(() => ({ database: { ok: false }, modules: {}, llm: { available: false, model: "demo" },
+        sources: { total: 0, active: 0, degraded: 0, down: 0 },
+        pipelines: { healthy: 0, degraded: 0, failed: 0 }, overall_ok: false, mode: "fallback" })),
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+  });
+  const { data: brain } = useQuery<BrainStatus>({
+    queryKey: ["brain", "status"],
+    queryFn: () => fetch(`${INTEL_BASE}/api/brain/status`).then(r => r.json())
+      .catch(() => ({ available: false, model: "demo", mode: "fallback" })),
+    staleTime: 30_000,
+  });
+
+  const ok = sys?.overall_ok ?? false;
+  const mode = sys?.mode ?? "fallback";
+  const modeBadge = mode === "real" ? "badge-green" : mode === "demo" ? "badge-amber" : "badge-red";
+  const modeLabel = mode === "real" ? "Tiempo real" : mode === "demo" ? "Modo demo" : "Fallback";
+  const modules = sys?.modules ?? {};
+  const sources = sys?.sources ?? { total: 0, active: 0, degraded: 0, down: 0 };
+  const pipelines = sys?.pipelines ?? { healthy: 0, degraded: 0, failed: 0 };
+  const totalSrc = Math.max(1, sources.total);
+
+  return (
+    <div className="space-y-6">
+      <section className="premium-card">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Estado general</h2>
+          <button
+            onClick={() => refetchSys()}
+            className="px-3 py-1.5 rounded bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${sysFetching ? "animate-spin" : ""}`}/> Actualizar
+          </button>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className={`w-3 h-3 rounded-full ${ok ? "bg-green1" : "bg-red1"} ${sysFetching ? "animate-pulse" : ""}`}/>
+          <span className="text-base font-bold text-text1">{ok ? "Sistemas operativos" : "Atención requerida"}</span>
+          <span className={`badge ${modeBadge}`}>{modeLabel}</span>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-text2">Componentes</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="premium-card">
+            <div className="flex items-center gap-2 mb-2"><Database className="w-4 h-4 text-cyan1"/><h4 className="text-sm font-bold text-text1">Base de datos</h4></div>
+            <span className={`badge ${sys?.database?.ok ? "badge-green" : "badge-red"}`}>
+              {sys?.database?.ok ? "OK" : "Error"}
+            </span>
+          </div>
+          <div className="premium-card">
+            <div className="flex items-center gap-2 mb-2"><Zap className="w-4 h-4 text-amber1"/><h4 className="text-sm font-bold text-text1">LLM / Brain</h4></div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className={`badge ${brain?.available ? "badge-green" : "badge-red"}`}>
+                {brain?.available ? "Activo" : "Inactivo"}
+              </span>
+              <span className="text-xs text-text2 font-mono">{brain?.model ?? "—"}</span>
+              <span className="text-[10px] text-muted">· {brain?.mode ?? "—"}</span>
+            </div>
+          </div>
+          <div className="premium-card">
+            <div className="flex items-center gap-2 mb-2"><Globe className="w-4 h-4 text-blue1"/><h4 className="text-sm font-bold text-text1">Fuentes de medios</h4></div>
+            <div className="flex items-center gap-2 text-xs mb-2 flex-wrap">
+              <span className="text-text1 font-mono">{sources.total}</span>
+              <span className="text-green1">{sources.active} activas</span>
+              <span className="text-amber1">{sources.degraded} degradadas</span>
+              <span className="text-red1">{sources.down} caídas</span>
+            </div>
+            <div className="flex h-1.5 rounded-full overflow-hidden bg-bg3">
+              <div className="bg-green1" style={{ width: `${(sources.active / totalSrc) * 100}%` }}/>
+              <div className="bg-amber1" style={{ width: `${(sources.degraded / totalSrc) * 100}%` }}/>
+              <div className="bg-red1" style={{ width: `${(sources.down / totalSrc) * 100}%` }}/>
+            </div>
+          </div>
+          <div className="premium-card">
+            <div className="flex items-center gap-2 mb-2"><GitMerge className="w-4 h-4 text-green1"/><h4 className="text-sm font-bold text-text1">Pipelines</h4></div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <span className="badge badge-green">{pipelines.healthy} saludables</span>
+              <span className="badge badge-amber">{pipelines.degraded} degradados</span>
+              <span className="badge badge-red">{pipelines.failed} fallidos</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="premium-card">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">Módulos activos</h3>
+        {Object.keys(modules).length === 0 ? (
+          <p className="text-xs text-muted">No se detectaron módulos registrados.</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {Object.keys(modules).map(m => (
+              <span key={m} className="badge badge-green">{m}</span>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+// ── Tab: Pipelines ───────────────────────────────────────────────────────────
+function PipelinesTab() {
+  const { data: pipelines = [], isFetching, refetch } = useQuery<Pipeline[]>({
+    queryKey: ["pipelines", "status"],
+    queryFn: () => fetch(`${INTEL_BASE}/pipelines/status?limit=20`).then(r => r.json())
+      .catch(() => ([
+        { nombre: "media-ingestion",   estado: "COMPLETED", inicio: new Date(Date.now() - 2 * 60 * 60_000).toISOString(), duracion_s: 45 },
+        { nombre: "narrative-pipeline",estado: "RUNNING",   inicio: new Date(Date.now() - 12 * 60_000).toISOString(),    duracion_s: null },
+        { nombre: "nowcast-updater",   estado: "FAILED",    inicio: new Date(Date.now() - 60 * 60_000).toISOString(),     duracion_s: 12, error: "DB connection timeout" },
+        { nombre: "persona-scorer",    estado: "COMPLETED", inicio: new Date(Date.now() - 4 * 60 * 60_000).toISOString(), duracion_s: 122 },
+      ])),
+    staleTime: 30_000,
+    refetchInterval: 60_000,
+  });
+
+  const stateBadge = (s: string) => {
+    if (s === "RUNNING")            return "badge-cyan";
+    if (s === "COMPLETED")          return "badge-green";
+    if (s === "FAILED" || s === "CRASHED") return "badge-red";
+    return "badge-amber";
+  };
+  const stateDot = (s: string) => {
+    if (s === "RUNNING")  return "bg-cyan1 animate-pulse";
+    if (s === "COMPLETED") return "bg-green1";
+    if (s === "FAILED" || s === "CRASHED") return "bg-red1";
+    return "bg-amber1";
+  };
+
+  const timeAgo = (iso: string): string => {
+    const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
+    if (diff < 60) return `hace ${diff} min`;
+    if (diff < 1440) return `hace ${Math.floor(diff / 60)} h`;
+    return `hace ${Math.floor(diff / 1440)} d`;
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Monitor de pipelines</h2>
+        <button
+          onClick={() => refetch()}
+          className="px-3 py-1.5 rounded bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? "animate-spin" : ""}`}/> Actualizar
+        </button>
+      </div>
+      <div className="space-y-2">
+        {pipelines.map((p, i) => (
+          <div key={i} className="premium-card flex items-center gap-4 flex-wrap">
+            <span className={`w-2.5 h-2.5 rounded-full ${stateDot(p.estado)} shrink-0`}/>
+            <span className="text-sm font-mono text-text1 flex-1 min-w-0 truncate">{p.nombre}</span>
+            <span className={`badge ${stateBadge(p.estado)}`}>{p.estado}</span>
+            <span className="text-[11px] text-muted">{timeAgo(p.inicio)}</span>
+            <span className="text-[11px] text-text2 font-mono">
+              {p.duracion_s != null ? `${p.duracion_s}s` : "en ejecución"}
+            </span>
+            {p.error && (
+              <div className="w-full mt-2 text-xs text-red1 truncate" title={p.error}>
+                {p.error}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Tab: Analytics ───────────────────────────────────────────────────────────
+function AnalyticsTab() {
+  const { data: nowcast = [] } = useQuery<NowcastRow[]>({
+    queryKey: ["analytics", "nowcast"],
+    queryFn: () => fetch(`${INTEL_BASE}/analytics/nowcast`).then(r => r.json()).catch(() => []),
+    staleTime: 5 * 60_000,
+  });
+  const { data: pedersen = [] } = useQuery<PedersenRow[]>({
+    queryKey: ["analytics", "pedersen"],
+    queryFn: () => fetch(`${INTEL_BASE}/analytics/pedersen`).then(r => r.json()).catch(() => []),
+    staleTime: 5 * 60_000,
+  });
+
+  // Group nowcast by partido_id (or partido), pick latest fecha_estimacion per party
+  const latestByParty: Record<string, NowcastRow> = {};
+  for (const row of nowcast) {
+    const key = String(row.partido_id ?? row.partido ?? "");
+    if (!key) continue;
+    if (!latestByParty[key] || (row.fecha_estimacion ?? "") > (latestByParty[key].fecha_estimacion ?? "")) {
+      latestByParty[key] = row;
+    }
+  }
+  const partiesSorted = Object.values(latestByParty)
+    .sort((a, b) => (b.estimacion_pct ?? 0) - (a.estimacion_pct ?? 0))
+    .slice(0, 12);
+
+  const pedersenSorted = [...pedersen]
+    .sort((a, b) => (b.eleccion_actual ?? "").localeCompare(a.eleccion_actual ?? ""))
+    .slice(0, 5);
+
+  return (
+    <div className="space-y-6">
+      <section className="premium-card">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Nowcasting electoral</h2>
+        {partiesSorted.length === 0 ? (
+          <div className="space-y-2">
+            <span className="badge badge-amber">Sin datos disponibles</span>
+            <p className="text-xs text-muted mt-2">Endpoint <code className="font-mono">/analytics/nowcast</code> sin datos calculados aún.</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {partiesSorted.map((p, i) => {
+              const pct = Math.max(0, Math.min(100, Number(p.estimacion_pct ?? 0)));
+              return (
+                <div key={i} className="flex items-center gap-3">
+                  <span className="text-xs w-20 text-text1 font-mono shrink-0 truncate">
+                    {p.partido ?? `P${p.partido_id}`}
+                  </span>
+                  <div className="flex-1 h-3 bg-cyan1/15 rounded-full overflow-hidden">
+                    <div className="h-full bg-cyan1" style={{ width: `${pct}%` }}/>
+                  </div>
+                  <span className="text-xs font-mono text-text1 w-14 text-right">{pct.toFixed(1)}%</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <section className="premium-card">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">
+          Volatilidad electoral · Índice de Pedersen
+        </h2>
+        {pedersenSorted.length === 0 ? (
+          <span className="badge badge-amber">Sin datos disponibles</span>
+        ) : (
+          <table className="w-full text-xs">
+            <thead className="text-text2">
+              <tr>
+                <th className="text-left py-2 font-medium">Elección</th>
+                <th className="text-right py-2 font-medium">Volatilidad total</th>
+                <th className="text-right py-2 font-medium">Entre bloques</th>
+                <th className="text-right py-2 font-medium">Interna</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pedersenSorted.map((p, i) => {
+                const v = Number(p.volatilidad_total ?? 0);
+                const cls = v > 15 ? "text-red1" : v > 8 ? "text-amber1" : "text-green1";
+                return (
+                  <tr key={i} className="border-t border-border1">
+                    <td className="py-2 text-text1">{p.eleccion_actual ?? "—"}</td>
+                    <td className={`py-2 text-right font-mono ${cls}`}>{v.toFixed(1)}</td>
+                    <td className="py-2 text-right font-mono text-text2">{Number(p.volatilidad_bloques ?? 0).toFixed(1)}</td>
+                    <td className="py-2 text-right font-mono text-text2">{Number(p.volatilidad_interna ?? 0).toFixed(1)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </section>
     </div>
   );
 }

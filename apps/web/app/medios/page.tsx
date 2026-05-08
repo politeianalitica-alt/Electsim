@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronRight } from "lucide-react";
+import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronRight, ChevronDown } from "lucide-react";
 
 function statusBadge(s: string) {
   if (s === "active") return { class: "badge-green", icon: CheckCircle2, label: "Activa" };
@@ -115,43 +116,137 @@ export default function MediosPage() {
       </div>
 
       {/* Narratives */}
-      <section className="premium-card" id="narrativas">
-        <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Narrativas activas</h2>
-        {loadingNarratives ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="p-4 h-28 rounded-lg animate-pulse bg-bg3/30" />
-            ))}
-          </div>
-        ) : narratives.length === 0 ? (
-          <p className="text-xs text-muted italic">Sin narrativas activas detectadas.</p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {narratives.map(n => (
-              <div key={n.id} className="p-4 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/30 transition group cursor-pointer">
+      <NarrativesSection narratives={narratives} loading={loadingNarratives}/>
+    </div>
+  );
+}
+
+// ── NarrativesSection: expandable cards + summary stats + lifecycle progress ─
+function NarrativesSection({ narratives, loading }: { narratives: any[]; loading: boolean }) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const stats = {
+    total:       narratives.length,
+    peak:        narratives.filter(n => n.lifecycle === "peak").length,
+    emergence:   narratives.filter(n => n.lifecycle === "emergence").length,
+    decline:     narratives.filter(n => n.lifecycle === "decline").length,
+  };
+
+  const lifecycleSteps: Array<"emergence" | "peak" | "decline"> = ["emergence", "peak", "decline"];
+
+  return (
+    <section className="premium-card" id="narrativas">
+      <h2 className="text-sm font-bold uppercase tracking-wider text-text1 mb-3">Narrativas activas</h2>
+
+      {/* Summary stats row */}
+      <div className="flex flex-wrap gap-3 mb-4 text-xs">
+        <div className="px-3 py-1.5 rounded-full bg-bg3 border border-border1">
+          Total: <strong className="text-text1 font-mono">{stats.total}</strong>
+        </div>
+        <div className="px-3 py-1.5 rounded-full bg-red1/10 border border-red1/30">
+          En peak: <strong className="text-red1 font-mono">{stats.peak}</strong>
+        </div>
+        <div className="px-3 py-1.5 rounded-full bg-amber1/10 border border-amber1/30">
+          Emergentes: <strong className="text-amber1 font-mono">{stats.emergence}</strong>
+        </div>
+        <div className="px-3 py-1.5 rounded-full bg-bg3 border border-border1">
+          En declive: <strong className="text-muted font-mono">{stats.decline}</strong>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="p-4 h-28 rounded-lg animate-pulse bg-bg3/30" />
+          ))}
+        </div>
+      ) : narratives.length === 0 ? (
+        <p className="text-xs text-muted italic">Sin narrativas activas detectadas.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {narratives.map(n => {
+            const isExpanded = expanded === n.id;
+            const stepIdx = lifecycleSteps.indexOf(n.lifecycle as any);
+            return (
+              <div
+                key={n.id}
+                onClick={() => setExpanded(isExpanded ? null : n.id)}
+                className="p-4 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/30 transition group cursor-pointer"
+              >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <h3 className="text-sm font-bold text-text1 group-hover:text-cyan1 transition leading-tight">
                     {n.frame_label}
                   </h3>
-                  <span className={`badge ${n.lifecycle === "peak" ? "badge-red" : n.lifecycle === "emergence" ? "badge-amber" : "badge-cyan"} shrink-0`}>
-                    {n.lifecycle}
-                  </span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className={`badge ${n.lifecycle === "peak" ? "badge-red" : n.lifecycle === "emergence" ? "badge-amber" : "badge-cyan"}`}>
+                      {n.lifecycle}
+                    </span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-text2 transition-transform ${isExpanded ? "rotate-180" : ""}`}/>
+                  </div>
                 </div>
-                {n.central_claim && <p className="text-xs text-text2 leading-relaxed mb-2">{n.central_claim}</p>}
+                {!isExpanded && n.central_claim && (
+                  <p className="text-xs text-text2 leading-relaxed mb-2 line-clamp-2">{n.central_claim}</p>
+                )}
                 <div className="flex items-center gap-3 text-xs text-text2 mb-2 flex-wrap">
                   <span>{n.article_count} artículos</span>
                   <span>·</span>
                   <span>Velocidad: <span className={n.velocity === "up" ? "text-red1" : "text-text2"}>{n.velocity === "up" ? "▲ subiendo" : "→ estable"}</span></span>
-                  {n.dominant_emotion && (<><span>·</span><span>{n.dominant_emotion}</span></>)}
+                  {n.dominant_emotion && <><span>·</span><span className="badge badge-cyan text-[10px]">{n.dominant_emotion}</span></>}
                 </div>
-                {n.recommended_action && (
-                  <div className="text-xs text-cyan1 mt-2">→ {n.recommended_action}</div>
+
+                {isExpanded && (
+                  <>
+                    {n.central_claim && (
+                      <blockquote className="border-l-2 border-cyan1 pl-3 text-xs text-text2 italic my-3">
+                        {n.central_claim}
+                      </blockquote>
+                    )}
+                    {(n.promoters?.length ?? 0) > 0 && (
+                      <div className="mb-3">
+                        <div className="text-[10px] uppercase tracking-wider text-muted mb-1">Promotores</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {n.promoters.map((p: string) => (
+                            <span key={p} className="badge badge-cyan text-[10px]">{p}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {n.recommended_action && (
+                      <div className="mt-3 p-3 rounded-lg bg-cyan1/5 border border-cyan1/20">
+                        <div className="text-[10px] uppercase tracking-wider text-cyan1 mb-1">Acción recomendada</div>
+                        <div className="text-xs text-text1">{n.recommended_action}</div>
+                      </div>
+                    )}
+                    {/* Lifecycle progress 3-step */}
+                    <div className="mt-3">
+                      <div className="text-[10px] uppercase tracking-wider text-muted mb-2">Ciclo de vida</div>
+                      <div className="flex items-center gap-1">
+                        {lifecycleSteps.map((step, i) => (
+                          <div key={step} className="flex items-center flex-1">
+                            <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                              i === stepIdx ? "bg-cyan1 text-bg" : "bg-bg3 border border-border1 text-muted"
+                            }`}>
+                              {i + 1}
+                            </div>
+                            {i < 2 && <div className={`flex-1 h-0.5 ${i < stepIdx ? "bg-cyan1" : "bg-border1"}`}/>}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="flex justify-between text-[9px] text-muted mt-1">
+                        <span>Emergencia</span><span>Pico</span><span>Declive</span>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {!isExpanded && n.recommended_action && (
+                  <div className="text-xs text-cyan1 mt-2 line-clamp-1">→ {n.recommended_action}</div>
                 )}
               </div>
-            ))}
-          </div>
-        )}
-      </section>
-    </div>
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
 }

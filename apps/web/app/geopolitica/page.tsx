@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Globe2, AlertTriangle, Flag, Anchor } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
+import { LiveTicker } from "@/components/ui/LiveTicker";
 
 function riskColor(r: number) {
   if (r >= 80) return "#EF4444";
@@ -78,6 +79,8 @@ export default function GeopoliticaPage() {
           )}
         </p>
       </header>
+
+      <LiveTicker />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {kpiList.map(k => (

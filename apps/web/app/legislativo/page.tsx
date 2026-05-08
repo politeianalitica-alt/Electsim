@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FileText, Calendar, BookOpen, ChevronRight, Vote } from "lucide-react";
 import { endpoints, type LegislationItem } from "@/lib/api/endpoints";
+import { LegislationMap } from "@/components/dashboard/LegislationMap";
 
 function typeBadge(t?: string) {
   if (!t) return "badge-blue";
@@ -68,6 +69,8 @@ export default function LegislativoPage() {
         <h1 className="text-3xl font-bold text-text1 mt-1">Monitor Legislativo</h1>
         <p className="text-text2 text-sm mt-1">Iniciativas en tramitación, calendario parlamentario y publicaciones BOE — datos en vivo.</p>
       </header>
+
+      <LegislationMap/>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {kpis.map(k => (

@@ -3,8 +3,38 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { FileText, Download, Volume2, Square, Plus, Calendar } from "lucide-react";
+import { FileText, Download, Volume2, Square, Plus, Calendar, Archive } from "lucide-react";
 import Link from "next/link";
+
+const INTEL_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL ?? "";
+
+interface BriefingArchiveItem {
+  id?: string;
+  date?: string;
+  title?: string;
+  type?: string;
+  workspace?: string;
+}
+
+async function downloadBriefingPDF(id: string): Promise<boolean> {
+  try {
+    const r = await fetch(`${INTEL_BASE}/api/briefings/${id}/pdf`);
+    if (!r.ok) return false;
+    const data: { url?: string; bytes_b64?: string } = await r.json();
+    if (data.bytes_b64) {
+      const bytes = Uint8Array.from(atob(data.bytes_b64), c => c.charCodeAt(0));
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `briefing-${id}.pdf`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      return true;
+    }
+    if (data.url) { window.open(data.url, "_blank"); return true; }
+  } catch { /* ignore */ }
+  return false;
+}
 
 export default function BriefingsPage() {
   const { data: briefing } = useQuery({
@@ -12,6 +42,21 @@ export default function BriefingsPage() {
     queryFn: () => endpoints.morningBriefing("default"),
     staleTime: 60 * 60_000,
   });
+
+  const { data: briefingsList = [] } = useQuery<BriefingArchiveItem[]>({
+    queryKey: ["briefings", "list"],
+    queryFn: () => fetch(`${INTEL_BASE}/api/briefings`).then(r => r.json()).catch(() => []),
+    staleTime: 5 * 60_000,
+  });
+
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [activeArchiveId, setActiveArchiveId] = useState<string | null>(null);
+
+  const handleDownload = async (id: string) => {
+    setDownloadingId(id);
+    await downloadBriefingPDF(id);
+    setDownloadingId(null);
+  };
 
   // ── Web Speech API · TTS sin servidor ─────────────────────────────────────
   const [speaking, setSpeaking] = useState(false);
@@ -85,8 +130,12 @@ export default function BriefingsPage() {
               </p>
             </div>
             <div className="flex gap-2">
-              <button className="px-3 py-1.5 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5">
-                <Download className="w-3.5 h-3.5" /> PDF
+              <button
+                onClick={() => handleDownload("today")}
+                disabled={downloadingId === "today"}
+                className="px-3 py-1.5 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5 disabled:opacity-50"
+              >
+                <Download className="w-3.5 h-3.5" /> {downloadingId === "today" ? "Generando…" : "PDF"}
               </button>
               <button
                 onClick={() => speakSummary(briefing?.executive_summary ?? "")}
@@ -188,6 +237,54 @@ export default function BriefingsPage() {
           </div>
         </aside>
       </div>
+
+      {/* Archive — last 7 days */}
+      <section className="premium-card">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-text1 flex items-center gap-2">
+            <Archive className="w-4 h-4 text-cyan1"/>
+            Archivo · últimos 7 días
+          </h2>
+          <span className="text-xs text-text2">{briefingsList.length} disponibles</span>
+        </div>
+        {briefingsList.length === 0 ? (
+          <p className="text-xs text-muted text-center py-6">Sin briefings archivados.</p>
+        ) : (
+          <div className="space-y-1.5">
+            {briefingsList.map(b => {
+              const id = b.id ?? "";
+              const isActive = activeArchiveId === id;
+              const dateLabel = b.date
+                ? new Date(b.date).toLocaleDateString("es-ES", { day: "numeric", month: "short" })
+                : "—";
+              return (
+                <div
+                  key={id}
+                  onClick={() => setActiveArchiveId(id)}
+                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition ${
+                    isActive
+                      ? "bg-cyan1/10 border border-cyan1/20 text-cyan1"
+                      : "bg-bg/50 border border-border1 hover:border-cyan1/30"
+                  }`}
+                >
+                  <Calendar className="w-4 h-4 text-cyan1 shrink-0"/>
+                  <span className="text-xs font-mono w-16 shrink-0">{dateLabel}</span>
+                  <span className="flex-1 text-sm text-text1 truncate">{b.title ?? "Briefing matinal"}</span>
+                  {b.type && <span className="badge badge-cyan shrink-0">{b.type}</span>}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); if (id) handleDownload(id); }}
+                    disabled={!id || downloadingId === id}
+                    className="px-2.5 py-1 text-xs rounded border border-border1 text-text2 hover:border-cyan1 hover:text-cyan1 disabled:opacity-50 inline-flex items-center gap-1 shrink-0"
+                  >
+                    <Download className="w-3 h-3"/>
+                    {downloadingId === id ? "…" : "PDF"}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
