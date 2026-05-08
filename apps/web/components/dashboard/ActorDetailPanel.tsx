@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { X, ExternalLink, RefreshCw } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
+import type { ActorDossier } from "@/lib/api/endpoints";
 
 interface Props {
   actorId: string;
@@ -34,9 +35,13 @@ function lifecycleBadge(l: string): string {
 }
 
 const TABS = [
-  { id: "menciones",  label: "Noticias" },
-  { id: "narrativas", label: "Narrativas" },
-  { id: "historial",  label: "Historial" },
+  { id: "menciones",   label: "Noticias" },
+  { id: "narrativas",  label: "Narrativas" },
+  { id: "historial",   label: "Historial" },
+  { id: "relaciones",  label: "Red" },
+  { id: "sentimiento", label: "Sentimiento" },
+  { id: "senales",     label: "Señales" },
+  { id: "keywords",    label: "Keywords" },
 ] as const;
 
 type TabId = typeof TABS[number]["id"];
@@ -50,36 +55,54 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
     staleTime: 5 * 60_000,
   });
 
+  const dossierQ = useQuery<ActorDossier>({
+    queryKey: ["actor-dossier", actorId],
+    queryFn: () => endpoints.actors.dossier(actorId),
+    staleTime: 5 * 60_000,
+    retry: false,
+  });
+
   const mentionsQ = useQuery({
     queryKey: ["actor-mentions", actorId],
     queryFn: () => endpoints.actors.mentions(actorId, 20),
-    enabled: activeTab === "menciones",
+    enabled: dossierQ.isError && activeTab === "menciones",
     staleTime: 5 * 60_000,
   });
 
   const narrativesQ = useQuery({
     queryKey: ["actor-narratives", actorId],
     queryFn: () => endpoints.actors.narratives(actorId),
-    enabled: activeTab === "narrativas",
+    enabled: dossierQ.isError && activeTab === "narrativas",
     staleTime: 5 * 60_000,
   });
 
   const historyQ = useQuery({
     queryKey: ["actor-history", actorId],
     queryFn: () => endpoints.actors.history(actorId, 30),
-    enabled: activeTab === "historial",
+    enabled: dossierQ.isError && activeTab === "historial",
     staleTime: 10 * 60_000,
   });
 
   const actor = actorQ.data;
-  const mentions = mentionsQ.data ?? [];
-  const narratives = narrativesQ.data ?? [];
-  const history = historyQ.data ?? [];
+  const mentions         = dossierQ.data?.mentions         ?? mentionsQ.data   ?? [];
+  const narratives       = dossierQ.data?.narratives        ?? narrativesQ.data ?? [];
+  const history          = dossierQ.data?.history           ?? historyQ.data    ?? [];
+  const coMentions       = dossierQ.data?.co_mentions       ?? [];
+  const sentimentSources = dossierQ.data?.sentiment_by_source ?? [];
+  const sentimentWeekly  = dossierQ.data?.sentiment_weekly  ?? [];
+  const keywords         = dossierQ.data?.top_keywords      ?? [];
+  const riskSignals      = dossierQ.data?.risk_signals      ?? [];
+
+  const hasRiskIntel = dossierQ.data?.actor?.intelligence?.score_riesgo != null;
 
   const tabLabels: Record<TabId, string> = {
-    menciones:  `Noticias (${mentions.length})`,
-    narrativas: `Narrativas (${narratives.length})`,
-    historial:  "Historial",
+    menciones:   `Noticias (${mentions.length})`,
+    narrativas:  `Narrativas (${narratives.length})`,
+    historial:   "Historial",
+    relaciones:  `Red (${coMentions.length})`,
+    sentimiento: "Sentimiento",
+    senales:     `Señales (${riskSignals.length})`,
+    keywords:    "Keywords",
   };
 
   return (
@@ -140,8 +163,15 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                 <span className="badge badge-cyan mt-2 inline-block">Auto-descubierto</span>
               )}
 
+              {/* Top narrative highlight */}
+              {(dossierQ.data?.actor as any)?.top_narrative && (
+                <div className="mt-2 px-2 py-1 rounded bg-amber1/10 border border-amber1/20 text-xs text-amber1 line-clamp-1">
+                  ↗ {(dossierQ.data?.actor as any).top_narrative}
+                </div>
+              )}
+
               {/* Metrics row */}
-              <div className="grid grid-cols-3 gap-3 mt-4">
+              <div className={`grid gap-3 mt-4 ${hasRiskIntel ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3"}`}>
                 <div className="kpi-card">
                   <div className="text-[10px] uppercase text-muted mb-0.5">Relevancia</div>
                   <div className="text-xl font-bold text-cyan1">{Math.round(actor.relevance_score)}</div>
@@ -159,16 +189,24 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                     )}
                   </div>
                 </div>
+                {dossierQ.data?.actor?.intelligence?.score_riesgo != null && (
+                  <div className="kpi-card">
+                    <div className="text-[10px] uppercase text-muted mb-0.5">Riesgo Intel</div>
+                    <div className="text-xl font-bold text-red1">
+                      {(dossierQ.data.actor.intelligence.score_riesgo * 100).toFixed(0)}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-border1 flex px-5">
+            <div className="border-b border-border1 flex px-5 overflow-x-auto">
               {TABS.map(t => (
                 <button
                   key={t.id}
                   onClick={() => setActiveTab(t.id)}
-                  className={`px-3 py-2.5 -mb-px text-xs border-b-2 transition ${
+                  className={`px-3 py-2.5 -mb-px text-xs border-b-2 transition whitespace-nowrap ${
                     activeTab === t.id ? "border-cyan1 text-cyan1 font-semibold" : "border-transparent text-text2 hover:text-text1"
                   }`}
                 >
@@ -181,7 +219,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
             <div className="flex-1 overflow-y-auto p-4">
               {activeTab === "menciones" && (
                 <div className="space-y-2">
-                  {mentionsQ.isLoading ? (
+                  {mentionsQ.isLoading && !dossierQ.data ? (
                     Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-16 bg-bg3 rounded-lg animate-pulse" />)
                   ) : mentions.length === 0 ? (
                     <p className="text-center text-text2 text-sm py-8">Sin noticias vinculadas aún.</p>
@@ -214,7 +252,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
 
               {activeTab === "narrativas" && (
                 <div className="space-y-2">
-                  {narrativesQ.isLoading ? (
+                  {narrativesQ.isLoading && !dossierQ.data ? (
                     Array.from({ length: 3 }).map((_, i) => <div key={i} className="h-20 bg-bg3 rounded-lg animate-pulse" />)
                   ) : narratives.length === 0 ? (
                     <p className="text-center text-text2 text-sm py-8">Sin narrativas asociadas aún.</p>
@@ -242,7 +280,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
 
               {activeTab === "historial" && (
                 <div>
-                  {historyQ.isLoading ? (
+                  {historyQ.isLoading && !dossierQ.data ? (
                     <div className="h-32 bg-bg3 rounded-lg animate-pulse" />
                   ) : history.length === 0 ? (
                     <p className="text-center text-text2 text-sm py-8">Sin historial registrado.</p>
@@ -276,6 +314,156 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                         <span>{history[0] && new Date(history[0].date).toLocaleDateString("es-ES")}</span>
                       </div>
                     </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "relaciones" && (
+                <div className="space-y-3">
+                  <p className="text-xs text-muted">Actores con los que más co-aparece en medios (últimas 72h).</p>
+                  {coMentions.length === 0 ? (
+                    <p className="text-center text-text2 text-sm py-8">Sin co-menciones registradas.</p>
+                  ) : (
+                    coMentions.map((cm) => (
+                      <div key={cm.actor_id}
+                        className="flex items-center gap-3 p-2.5 rounded-lg border border-border1 hover:border-cyan1/40 transition">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
+                          style={{ backgroundColor: cm.party_color || "#475569" }}>
+                          {cm.name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-text1 truncate">{cm.name}</div>
+                          <div className="text-[10px] text-muted uppercase">{cm.party ?? "—"}</div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <div className="text-cyan1 font-mono text-sm font-bold">{cm.co_count}</div>
+                          <div className="text-[9px] text-muted">co-aparic.</div>
+                        </div>
+                        <div className="w-16 h-1.5 bg-bg3 rounded-full overflow-hidden shrink-0">
+                          <div className="h-full bg-cyan1"
+                            style={{ width: `${Math.min(100, (cm.co_count / (coMentions[0]?.co_count || 1)) * 100)}%` }} />
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {activeTab === "sentimiento" && (
+                <div className="space-y-5">
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">Evolución semanal (8 semanas)</h3>
+                    {sentimentWeekly.length > 1 ? (
+                      <>
+                        <svg width="100%" height="64" viewBox="0 0 300 64">
+                          {(() => {
+                            const vals = sentimentWeekly.map(w => w.avg_sentiment);
+                            const max = Math.max(...vals, 0.1);
+                            const min = Math.min(...vals, -0.1);
+                            const range = max - min || 0.2;
+                            const pts = vals.map((v, i) => {
+                              const x = (i / Math.max(1, vals.length - 1)) * 296 + 2;
+                              const y = 60 - ((v - min) / range) * 54 + 2;
+                              return `${x},${y}`;
+                            }).join(" ");
+                            const lastVal = vals[vals.length - 1] ?? 0;
+                            const lineColor = lastVal > 0.1 ? "#10B981" : lastVal < -0.1 ? "#EF4444" : "#94A3B8";
+                            return (
+                              <>
+                                <line x1="2" y1="32" x2="298" y2="32" stroke="#1E293B" strokeWidth="0.5" strokeDasharray="2 3"/>
+                                <polyline points={pts} fill="none" stroke={lineColor} strokeWidth="2" strokeLinecap="round"/>
+                                {vals.map((v, i) => {
+                                  const x = (i / Math.max(1, vals.length - 1)) * 296 + 2;
+                                  const y = 60 - ((v - min) / range) * 54 + 2;
+                                  return <circle key={i} cx={x} cy={y} r="3" fill={lineColor}/>;
+                                })}
+                              </>
+                            );
+                          })()}
+                        </svg>
+                        <div className="flex justify-between text-[9px] text-muted mt-1">
+                          {sentimentWeekly[0] && <span>{new Date(sentimentWeekly[0].week).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}</span>}
+                          {sentimentWeekly[sentimentWeekly.length - 1] && <span>{new Date(sentimentWeekly[sentimentWeekly.length - 1].week).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}</span>}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-xs text-muted italic">Sin historial de sentimiento disponible.</p>
+                    )}
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-text1 mb-3">Sentimiento por medio</h3>
+                    {sentimentSources.length === 0 ? (
+                      <p className="text-xs text-muted italic">Sin datos por fuente aún.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {sentimentSources.map(s => {
+                          const pct = Math.max(0, Math.min(100, ((s.avg_sentiment + 1) / 2) * 100));
+                          const color = s.hostile ? "#EF4444" : s.avg_sentiment > 0.1 ? "#10B981" : "#94A3B8";
+                          return (
+                            <div key={s.source} className="flex items-center gap-2">
+                              <span className="text-xs text-text2 w-28 truncate shrink-0">{s.source}</span>
+                              <div className="flex-1 h-2 bg-bg3 rounded-full overflow-hidden">
+                                <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }}/>
+                              </div>
+                              <span className="text-[10px] font-mono w-10 text-right shrink-0" style={{ color }}>
+                                {s.avg_sentiment >= 0 ? "+" : ""}{(s.avg_sentiment * 100).toFixed(0)}
+                              </span>
+                              <span className="text-[9px] text-muted w-8 text-right shrink-0">{s.count}art</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "senales" && (
+                <div className="space-y-2">
+                  {riskSignals.length === 0 ? (
+                    <p className="text-center text-text2 text-sm py-8">Sin señales de riesgo vinculadas.</p>
+                  ) : (
+                    riskSignals.map(s => (
+                      <div key={s.id} className="p-3 rounded-lg border border-red1/20 bg-red1/5 hover:border-red1/40 transition">
+                        <div className="flex items-start gap-2">
+                          <span className={`badge shrink-0 ${s.urgencia >= 4 ? "badge-red" : s.urgencia >= 3 ? "badge-amber" : "badge-blue"}`}>
+                            U{s.urgencia}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-text1 line-clamp-2">{s.titulo}</div>
+                            <div className="text-[10px] text-muted mt-1 flex items-center gap-2">
+                              <span className="uppercase">{s.tipo}</span>
+                              <span>· {timeAgo(s.created_at)}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {activeTab === "keywords" && (
+                <div>
+                  {keywords.length === 0 ? (
+                    <p className="text-center text-text2 text-sm py-8">Sin keywords extraídos aún.</p>
+                  ) : (
+                    <>
+                      <p className="text-xs text-muted mb-4">Términos más frecuentes en medios asociados a este actor.</p>
+                      <div className="flex flex-wrap gap-2 items-baseline">
+                        {keywords.slice(0, 40).map((kw, i) => {
+                          const size = Math.max(10, 18 - i * 0.35);
+                          const opacity = Math.max(0.4, 1 - i * 0.018);
+                          return (
+                            <span key={kw}
+                              className="text-cyan1 font-mono cursor-default hover:text-text1 transition-colors"
+                              style={{ fontSize: `${size}px`, opacity }}>
+                              {kw}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </>
                   )}
                 </div>
               )}

@@ -280,19 +280,8 @@ export interface ActorRelation {
 }
 
 export interface ActorGraphData {
-  nodes: Array<{
-    id: string;
-    name: string;
-    party: string;
-    color: string;
-    role: string;
-    relevance: number;
-    exposure: number;
-    sentiment: string;
-    mentions_24h: number;
-    group: string;
-  }>;
-  edges: ActorRelation[];
+  nodes: ActorGraphNode[];
+  edges: ActorGraphEdge[];
 }
 
 export interface ActorMention {
@@ -315,6 +304,87 @@ export interface ActorNarrative {
   intensity: number;
   first_seen_at: string;
   last_seen_at: string;
+}
+
+export interface ActorGraphNode {
+  id: string;
+  name: string;
+  party: string;
+  color: string;
+  role: string;
+  relevance: number;
+  exposure: number;
+  sentiment: string;
+  mentions_24h: number;
+  group: string;
+  // New enriched fields:
+  mention_count_7d?: number;
+  approval?: number;
+  bio?: string;
+  photo_url?: string;
+  trending?: boolean;
+  risk_score?: number;
+  top_narrative?: string;
+  last_mention_at?: string;
+}
+
+export interface ActorGraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  type: string;
+  weight: number;
+  label: string;
+  // New fields:
+  co_mentions_72h?: number;
+  sentiment_delta?: number;
+  last_seen_at?: string;
+  evidence_url?: string;
+}
+
+export interface ActorDossier {
+  actor: Actor & {
+    risk_score?: number;
+    top_narrative?: string;
+    last_mention_at?: string;
+    trending?: boolean;
+    intelligence?: {
+      score_influencia?: number;
+      score_riesgo?: number;
+      cargo_actual?: string;
+      foto_url?: string;
+    } | null;
+  };
+  mentions: ActorMention[];
+  history: Array<{ score: number; date: string }>;
+  narratives: ActorNarrative[];
+  co_mentions: Array<{
+    actor_id: string;
+    name: string;
+    party?: string;
+    party_color?: string;
+    co_count: number;
+    last_seen_at?: string;
+  }>;
+  sentiment_by_source: Array<{
+    source: string;
+    avg_sentiment: number;
+    count: number;
+    hostile: boolean;
+  }>;
+  sentiment_weekly: Array<{
+    week: string;
+    avg_sentiment: number;
+    count: number;
+  }>;
+  top_keywords: string[];
+  risk_signals: Array<{
+    id: string;
+    titulo: string;
+    urgencia: number;
+    tipo: string;
+    created_at: string;
+  }>;
 }
 
 // Cliente alternativo para rutas que NO van bajo /api (intelligence está en raíz).
@@ -436,6 +506,7 @@ export const endpoints = {
       return api.get<ActorGraphData>(`/actors/graph${qs.toString() ? "?" + qs : ""}`);
     },
     get:        (id: string) => api.get<Actor>(`/actors/${encodeURIComponent(id)}`),
+    dossier:    (id: string) => api.get<ActorDossier>(`/actors/${encodeURIComponent(id)}/dossier`),
     mentions:   (id: string, limit = 20) => api.get<ActorMention[]>(`/actors/${encodeURIComponent(id)}/mentions?limit=${limit}`),
     narratives: (id: string) => api.get<ActorNarrative[]>(`/actors/${encodeURIComponent(id)}/narratives`),
     history:    (id: string, n = 30) => api.get<Array<{ score: number; date: string }>>(`/actors/${encodeURIComponent(id)}/history?n=${n}`),
