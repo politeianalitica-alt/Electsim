@@ -11,6 +11,7 @@ from sqlalchemy.exc import OperationalError
 
 from api.routers import (
     actions,
+    actors,
     ai,
     analogias,
     analytics,
@@ -140,3 +141,4 @@ app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
 # proxea /api/:path* hacia FastAPI)
 app.include_router(risk.router, prefix="/api", tags=["risk"])
 app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])
+app.include_router(actors.router, tags=["actors"])

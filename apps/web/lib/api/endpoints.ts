@@ -247,8 +247,77 @@ export interface PropensityOportunidad {
   }>;
 }
 
-// Cliente alternativo para rutas que NO van bajo /api (intelligence está en raíz)
-const INTELLIGENCE_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL || "/api"; // pasa por rewrites
+// ── ACTORS (api/routers/actors.py) ───────────────────────────────────────────
+export interface Actor {
+  id: string;
+  name: string;
+  party: string | null;
+  party_color: string;
+  role: string | null;
+  bio: string | null;
+  source: string;
+  relevance_score: number;
+  exposure: number;
+  approval: number;
+  sentiment: "up" | "down" | "stable";
+  mention_count_24h: number;
+  mention_count_7d: number;
+  is_active: boolean;
+  auto_created: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ActorRelation {
+  id: string;
+  source: string;
+  target: string;
+  type: string;
+  weight: number;
+  label: string;
+}
+
+export interface ActorGraphData {
+  nodes: Array<{
+    id: string;
+    name: string;
+    party: string;
+    color: string;
+    role: string;
+    relevance: number;
+    exposure: number;
+    sentiment: string;
+    mentions_24h: number;
+    group: string;
+  }>;
+  edges: ActorRelation[];
+}
+
+export interface ActorMention {
+  id: string;
+  title: string;
+  url?: string;
+  source?: string;
+  published_at?: string;
+  sentiment?: number;
+  relevance: number;
+  summary?: string;
+}
+
+export interface ActorNarrative {
+  id: string;
+  frame_label: string;
+  description?: string;
+  lifecycle: string;
+  velocity: string;
+  intensity: number;
+  first_seen_at: string;
+  last_seen_at: string;
+}
+
+// Cliente alternativo para rutas que NO van bajo /api (intelligence está en raíz).
+// Same-origin "" → next.config.mjs proxea /intelligence/:path* → BACKEND/intelligence/:path*
+const INTELLIGENCE_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL ?? "";
 async function intel<T>(path: string): Promise<T> {
   const url = path.startsWith("http") ? path : `${INTELLIGENCE_BASE}${path}`;
   const r = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
@@ -345,4 +414,33 @@ export const endpoints = {
 
   // ── Brain status (apps/visual-oscar style endpoint en politeia_v3) ─────
   brainStatus: () => api.get<{ available: boolean; model: string; mode: string }>("/brain/status"),
+
+  // ── Actors (api/routers/actors.py · prefix /api/actors) ─────────────────
+  actors: {
+    list: (params?: { partido?: string; search?: string; limit?: number; only_active?: boolean }) => {
+      const qs = new URLSearchParams();
+      if (params?.partido) qs.set("partido", params.partido);
+      if (params?.search)  qs.set("search", params.search);
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      if (params?.only_active === false) qs.set("only_active", "false");
+      return api.get<Actor[]>(`/actors${qs.toString() ? "?" + qs : ""}`);
+    },
+    graph: (params?: { min_weight?: number; relation_type?: string; partido?: string; limit_nodes?: number }) => {
+      const qs = new URLSearchParams();
+      if (params?.min_weight != null)    qs.set("min_weight", String(params.min_weight));
+      if (params?.relation_type)         qs.set("relation_type", params.relation_type);
+      if (params?.partido)               qs.set("partido", params.partido);
+      if (params?.limit_nodes != null)   qs.set("limit_nodes", String(params.limit_nodes));
+      return api.get<ActorGraphData>(`/actors/graph${qs.toString() ? "?" + qs : ""}`);
+    },
+    get:        (id: string) => api.get<Actor>(`/actors/${encodeURIComponent(id)}`),
+    mentions:   (id: string, limit = 20) => api.get<ActorMention[]>(`/actors/${encodeURIComponent(id)}/mentions?limit=${limit}`),
+    narratives: (id: string) => api.get<ActorNarrative[]>(`/actors/${encodeURIComponent(id)}/narratives`),
+    history:    (id: string, n = 30) => api.get<Array<{ score: number; date: string }>>(`/actors/${encodeURIComponent(id)}/history?n=${n}`),
+    create:     (body: { name: string; party: string; role: string; bio: string }) => api.post<Actor>(`/actors`, body),
+    triggerDiscovery: (lookbackHours = 48, minMentions = 3) =>
+      api.post<{ created: number; ids: string[]; ingest: any; scores: any; relations: any }>(
+        `/actors/trigger-discovery?lookback_hours=${lookbackHours}&min_mentions=${minMentions}`, {},
+      ),
+  },
 };
