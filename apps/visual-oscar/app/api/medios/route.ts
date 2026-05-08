@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import mediosData from '@/data/medios.json'
-import { fromBackend, withMeta, backendConfigured } from '@/lib/backend'
+import { withMeta } from '@/lib/backend'
 
 // GET /api/medios
 //   ?tipo=Prensa|Digital|TV|Radio|Agencias|Revista
@@ -10,8 +10,9 @@ import { fromBackend, withMeta, backendConfigured } from '@/lib/backend'
 //   ?has_rss=true (solo medios con RSS configurada)
 //   ?limit=N
 //
-// Si BACKEND_URL está configurada y responde a /api/medios, mezcla esos
-// datos con el catálogo estático (preferencia: backend para campos solapados).
+// Sirve el catálogo estático de medios con filtros opcionales.
+// El backend FastAPI no expone un endpoint /api/medios, así que la fuente
+// de datos es siempre el JSON estático (medios.json).
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -36,18 +37,6 @@ const CATALOG: Medio[] = (mediosData as { medios: Medio[] }).medios
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
   let medios: Medio[] = CATALOG
-
-  // Intenta complementar con backend (no bloqueante: si falla, seguimos con estático)
-  if (backendConfigured()) {
-    const real = await fromBackend<{ medios: Medio[] }>('/api/medios')
-    if (real?.medios && Array.isArray(real.medios)) {
-      // Mezcla: backend gana en colisión por id
-      const map = new Map<string, Medio>()
-      for (const m of CATALOG) map.set(m.id, m)
-      for (const m of real.medios) map.set(m.id, m)
-      medios = Array.from(map.values())
-    }
-  }
 
   // Filtros
   const tipo = searchParams.get('tipo')
@@ -83,7 +72,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(withMeta({
     medios,
     stats,
-  }, backendConfigured() ? 'backend' : 'mock'))
+  }, 'mock'))
 }
 
 function countBy<K extends keyof Medio>(items: Medio[], key: K): Record<string, number> {

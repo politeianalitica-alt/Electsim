@@ -57,7 +57,7 @@ app.add_middleware(
         "https://politeia-visual-oscar.vercel.app",
     ],
     # Regex para Vercel preview deployments (URLs dinámicas) + dominios propios
-    allow_origin_regex=r"^https://(.*\.vercel\.app|.*\.politeia-?(analitica|app)?\.com)$",
+    allow_origin_regex=r"^https://(.*\.vercel\.app|.*\.railway\.app|.*\.politeia-?(analitica|app)?\.com)$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
