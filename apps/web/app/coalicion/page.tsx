@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Crown, Users2, AlertCircle, Check, X, Map, Target, RefreshCw, Download } from "lucide-react";
 
@@ -19,8 +19,10 @@ const PARTIDOS_PROP = ["pp", "psoe", "vox", "sumar", "junts", "erc", "pnv"];
 const CCAA_OPT = ["", "Andalucía", "Cataluña", "Madrid", "Valencia", "País Vasco", "Galicia"];
 
 type PartySeat = { code: string; seats: number; color: string };
+type Coalition = { members: string[]; total: number; distance: number; probability: number; conflicts: string[] };
 
-const PARTIES: PartySeat[] = [
+// Static fallback data — used when API is unavailable
+const PARTIES_FALLBACK: PartySeat[] = [
   { code: "PP",     seats: 137, color: "#1F77FF" },
   { code: "PSOE",   seats: 121, color: "#E03A3E" },
   { code: "VOX",    seats: 33,  color: "#5BC035" },
@@ -33,7 +35,7 @@ const PARTIES: PartySeat[] = [
   { code: "Otros",  seats: 6,   color: "#94A3B8" }
 ];
 
-const COALITIONS = [
+const COALITIONS_FALLBACK: Coalition[] = [
   { members: ["PSOE", "Sumar", "ERC", "Bildu", "PNV", "BNG"], total: 167, distance: 28, probability: 62, conflicts: ["Memoria democrática", "Modelo financiación"] },
   { members: ["PP", "VOX"], total: 170, distance: 18, probability: 71, conflicts: ["Política UE", "Agenda climática"] },
   { members: ["PSOE", "Sumar", "Junts", "ERC", "PNV", "Bildu"], total: 173, distance: 38, probability: 48, conflicts: ["Catalunya independencia", "Reforma fiscal"] },
@@ -63,9 +65,9 @@ function voteCell(v: string) {
 }
 
 // Hemicycle generation: 350 seats arranged in semicircle rings
-function hemicycleSeats() {
+function hemicycleSeats(partiesData: PartySeat[] = PARTIES_FALLBACK) {
   const seats: { x: number; y: number; color: string; idx: number }[] = [];
-  const ordered: PartySeat[] = [...PARTIES];
+  const ordered: PartySeat[] = [...partiesData];
   // Order seats left-to-right by ideology approximation
   const ideoOrder = ["Sumar", "Bildu", "ERC", "BNG", "PSOE", "PNV", "Junts", "Otros", "PP", "VOX"];
   const sortedParties = ideoOrder
@@ -109,8 +111,40 @@ function hemicycleSeats() {
 
 export default function CoalicionPage() {
   const [hubTab, setHubTab] = useState<HubTab>("coaliciones");
-  const seats = hemicycleSeats();
-  const totalSeats = PARTIES.reduce((a, b) => a + b.seats, 0);
+
+  // Try to fetch live congress composition — silently fall back if unavailable
+  const { data: liveComposition } = useQuery<{ parties?: PartySeat[] } | null>({
+    queryKey: ["congress", "composition"],
+    queryFn: () =>
+      fetch(`${INTEL_BASE}/intelligence/congress/composition`)
+        .then(r => (r.ok ? r.json() : null))
+        .catch(() => null),
+    staleTime: 10 * 60_000,
+    retry: false,
+  });
+
+  const { data: liveCoalitions } = useQuery<Coalition[] | null>({
+    queryKey: ["congress", "coalitions"],
+    queryFn: () =>
+      fetch(`${INTEL_BASE}/intelligence/congress/coalitions`)
+        .then(r => (r.ok ? r.json() : null))
+        .catch(() => null),
+    staleTime: 10 * 60_000,
+    retry: false,
+  });
+
+  // Use live data when available, fall back to static constants
+  const parties: PartySeat[] = useMemo(
+    () => liveComposition?.parties ?? PARTIES_FALLBACK,
+    [liveComposition]
+  );
+  const coalitions: Coalition[] = useMemo(
+    () => liveCoalitions ?? COALITIONS_FALLBACK,
+    [liveCoalitions]
+  );
+
+  const seats = useMemo(() => hemicycleSeats(parties), [parties]);
+  const totalSeats = parties.reduce((a, b) => a + b.seats, 0);
   const majority = Math.ceil(totalSeats / 2) + 1;
 
   return (
@@ -155,7 +189,7 @@ export default function CoalicionPage() {
             <text x="250" y="265" textAnchor="middle" className="fill-text2 text-[10px]">Mayoría absoluta: {majority}</text>
           </svg>
           <div className="flex flex-wrap gap-3 mt-4 justify-center">
-            {PARTIES.map(p => (
+            {parties.map(p => (
               <div key={p.code} className="flex items-center gap-1.5 text-xs">
                 <span className="w-3 h-3 rounded-sm" style={{ backgroundColor: p.color }} />
                 <span className="text-text1 font-semibold">{p.code}</span>
@@ -172,7 +206,7 @@ export default function CoalicionPage() {
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Coaliciones viables</h2>
           </div>
           <ul className="space-y-3">
-            {COALITIONS.map((c, i) => (
+            {coalitions.map((c, i) => (
               <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition">
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-[10px] uppercase tracking-wider text-muted flex items-center gap-1.5">
@@ -185,7 +219,7 @@ export default function CoalicionPage() {
                 </div>
                 <div className="flex flex-wrap gap-1 mb-2">
                   {c.members.map(m => {
-                    const p = PARTIES.find(x => x.code === m);
+                    const p = parties.find(x => x.code === m);
                     return (
                       <span key={m} className="text-[10px] px-1.5 py-0.5 rounded font-semibold text-white" style={{ backgroundColor: p?.color || "#94A3B8" }}>
                         {m}
@@ -237,7 +271,7 @@ export default function CoalicionPage() {
               <tr>
                 <th className="text-left p-2 text-muted font-normal">Iniciativa</th>
                 {VOTE_PARTIES.map(p => {
-                  const party = PARTIES.find(x => x.code === p);
+                  const party = parties.find(x => x.code === p);
                   return (
                     <th key={p} className="p-2 text-center">
                       <span className="text-text1 font-semibold" style={{ color: party?.color }}>{p}</span>

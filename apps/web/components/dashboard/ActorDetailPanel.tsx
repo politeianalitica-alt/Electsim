@@ -16,6 +16,16 @@ function sentimentColor(s: number): string {
   return "text-text2";
 }
 
+function timeAgo(iso?: string): string {
+  if (!iso) return "";
+  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
+  if (diff < 1) return "ahora mismo";
+  if (diff < 60) return `hace ${diff} min`;
+  if (diff < 1440) return `hace ${Math.floor(diff / 60)} h`;
+  if (diff < 10080) return `hace ${Math.floor(diff / 1440)} d`;
+  return new Date(iso).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+}
+
 function lifecycleBadge(l: string): string {
   if (l === "pico") return "badge-red";
   if (l === "emergente") return "badge-amber";
@@ -101,12 +111,21 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                    style={{ background: `linear-gradient(135deg, ${actor.party_color ?? "#94A3B8"}, #3B82F6)` }}
-                  >
-                    {actor.name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase()}
-                  </div>
+                  {actor.photo_url ? (
+                    <img
+                      src={actor.photo_url}
+                      alt={actor.name}
+                      className="w-12 h-12 rounded-full object-cover shrink-0 border border-border1"
+                      onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    />
+                  ) : (
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
+                      style={{ background: `linear-gradient(135deg, ${actor.party_color ?? "#94A3B8"}, #3B82F6)` }}
+                    >
+                      {actor.name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase()}
+                    </div>
+                  )}
                   <div className="min-w-0">
                     <h2 className="text-lg font-bold text-text1 truncate">{actor.name}</h2>
                     <p className="text-xs text-muted truncate">{actor.party ?? "—"} · {actor.role ?? "—"}</p>
@@ -132,8 +151,13 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                   <div className="text-xl font-bold text-text1">{Math.round(actor.approval)}%</div>
                 </div>
                 <div className="kpi-card">
-                  <div className="text-[10px] uppercase text-muted mb-0.5">Menciones/24h</div>
-                  <div className="text-xl font-bold text-text1">{actor.mention_count_24h}</div>
+                  <div className="text-[10px] uppercase text-muted mb-0.5">Menciones 7d</div>
+                  <div className="text-xl font-bold text-text1">
+                    {actor.mention_count_7d}
+                    {actor.mention_count_24h > 0 && (
+                      <span className="text-[10px] text-cyan1 font-normal ml-1">+{actor.mention_count_24h} hoy</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -174,7 +198,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                         </div>
                         <div className="flex items-center gap-2 text-[10px] text-muted">
                           {m.source && <span>{m.source}</span>}
-                          {m.published_at && <span>{new Date(m.published_at).toLocaleDateString("es-ES")}</span>}
+                          {m.published_at && <span>{timeAgo(m.published_at)}</span>}
                           {m.sentiment != null && (
                             <span className={`ml-auto font-mono ${sentimentColor(m.sentiment)}`}>
                               {m.sentiment > 0 ? "+" : ""}{(m.sentiment * 100).toFixed(0)}

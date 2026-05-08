@@ -45,6 +45,7 @@ export interface NarrativeCluster {
   velocity: string;
   promoters: string[];
   affected_actors: string[];
+  opponents?: string[];
   article_count: number;
   dominant_emotion?: string;
   recommended_action?: string;
@@ -255,6 +256,7 @@ export interface Actor {
   party_color: string;
   role: string | null;
   bio: string | null;
+  photo_url?: string | null;
   source: string;
   relevance_score: number;
   exposure: number;

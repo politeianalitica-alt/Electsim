@@ -595,6 +595,27 @@ function PipelinesTab() {
   );
 }
 
+// ── Party colors for nowcast bars ────────────────────────────────────────────
+const PARTY_COLORS: Record<string, string> = {
+  PP:      "#1F77FF",
+  PSOE:    "#E03A3E",
+  VOX:     "#5BC035",
+  Sumar:   "#D81E5B",
+  Junts:   "#00C2A8",
+  ERC:     "#F4B400",
+  PNV:     "#1D8042",
+  Bildu:   "#A4D65E",
+  Podemos: "#6E2A78",
+  Cs:      "#EB6109",
+  "Más País": "#2D9D4E",
+};
+
+function partyColor(name: string | undefined): string {
+  if (!name) return "#00D4FF";
+  const key = Object.keys(PARTY_COLORS).find(k => name.toLowerCase().includes(k.toLowerCase()));
+  return key ? PARTY_COLORS[key] : "#00D4FF";
+}
+
 // ── Tab: Analytics ───────────────────────────────────────────────────────────
 function AnalyticsTab() {
   const { data: nowcast = [] } = useQuery<NowcastRow[]>({
@@ -638,15 +659,18 @@ function AnalyticsTab() {
           <div className="space-y-2">
             {partiesSorted.map((p, i) => {
               const pct = Math.max(0, Math.min(100, Number(p.estimacion_pct ?? 0)));
+              const name = p.partido ?? `P${p.partido_id}`;
+              const color = partyColor(name);
               return (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="text-xs w-20 text-text1 font-mono shrink-0 truncate">
-                    {p.partido ?? `P${p.partido_id}`}
-                  </span>
-                  <div className="flex-1 h-3 bg-cyan1/15 rounded-full overflow-hidden">
-                    <div className="h-full bg-cyan1" style={{ width: `${pct}%` }}/>
+                  <div className="flex items-center gap-1.5 w-24 shrink-0">
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }}/>
+                    <span className="text-xs text-text1 font-mono truncate">{name}</span>
                   </div>
-                  <span className="text-xs font-mono text-text1 w-14 text-right">{pct.toFixed(1)}%</span>
+                  <div className="flex-1 h-3 rounded-full overflow-hidden" style={{ backgroundColor: `${color}22` }}>
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }}/>
+                  </div>
+                  <span className="text-xs font-mono w-14 text-right" style={{ color }}>{pct.toFixed(1)}%</span>
                 </div>
               );
             })}

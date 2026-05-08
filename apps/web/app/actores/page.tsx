@@ -175,9 +175,17 @@ export default function ActoresPage() {
                 onClick={() => setSelectedActor(a.id)}
                 className="p-3 rounded-lg bg-bg/50 border border-border1 hover:border-cyan1/40 transition cursor-pointer"
               >
+                {a.photo_url ? (
+                  <img
+                    src={a.photo_url}
+                    alt={a.name}
+                    className="w-12 h-12 rounded-full object-cover mb-2 border border-border1"
+                    onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; (e.currentTarget.nextElementSibling as HTMLElement | null)?.style.setProperty("display", "flex"); }}
+                  />
+                ) : null}
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold mb-2"
-                  style={{ background: `linear-gradient(135deg, ${a.party_color}, #00D4FF)` }}
+                  className="w-12 h-12 rounded-full items-center justify-center text-white text-sm font-bold mb-2"
+                  style={{ background: `linear-gradient(135deg, ${a.party_color}, #00D4FF)`, display: a.photo_url ? "none" : "flex" }}
                 >
                   {initials(a.name)}
                 </div>
@@ -186,8 +194,8 @@ export default function ActoresPage() {
                 <div className="flex items-center gap-1.5 mt-2">
                   <span className="text-cyan1 font-mono text-xs">{Math.round(a.relevance_score)}</span>
                   <SentimentIcon s={a.sentiment}/>
-                  {a.mention_count_24h > 0 && (
-                    <span className="text-[9px] text-muted font-mono ml-auto">{a.mention_count_24h}m/24h</span>
+                  {a.mention_count_7d > 0 && (
+                    <span className="text-[9px] text-muted font-mono ml-auto">{a.mention_count_7d}m/7d</span>
                   )}
                 </div>
                 {a.auto_created && (
@@ -276,9 +284,17 @@ export default function ActoresPage() {
                     style={{ borderLeftColor: a.party_color, borderLeftWidth: 3 }}
                   >
                     <div className="flex items-start gap-3 mb-2">
+                      {a.photo_url ? (
+                        <img
+                          src={a.photo_url}
+                          alt={a.name}
+                          className="w-10 h-10 rounded-full object-cover shrink-0 border border-border1"
+                          onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; (e.currentTarget.nextElementSibling as HTMLElement | null)?.style.setProperty("display", "flex"); }}
+                        />
+                      ) : null}
                       <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                        style={{ background: `linear-gradient(135deg, ${a.party_color}, #3B82F6)` }}
+                        className="w-10 h-10 rounded-full items-center justify-center text-white text-xs font-bold shrink-0"
+                        style={{ background: `linear-gradient(135deg, ${a.party_color}, #3B82F6)`, display: a.photo_url ? "none" : "flex" }}
                       >
                         {initials(a.name)}
                       </div>
@@ -312,9 +328,10 @@ export default function ActoresPage() {
                           Dossier <ChevronRight className="w-3 h-3"/>
                         </span>
                       </div>
-                      {a.mention_count_24h > 0 && (
-                        <div className="text-[10px] text-muted">
-                          {a.mention_count_24h} menciones 24h · {a.mention_count_7d} esta semana
+                      {(a.mention_count_24h > 0 || a.mention_count_7d > 0) && (
+                        <div className="text-[10px] text-muted flex items-center gap-2">
+                          {a.mention_count_24h > 0 && <span>{a.mention_count_24h} hoy</span>}
+                          {a.mention_count_7d > 0 && <span className="text-cyan1 font-mono">{a.mention_count_7d} esta semana</span>}
                         </div>
                       )}
                     </div>
