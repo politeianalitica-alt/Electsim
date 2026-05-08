@@ -200,7 +200,7 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
     const ro = new ResizeObserver(() => renderer.refresh())
     ro.observe(containerRef.current)
 
-    // FA2 layout
+    // FA2 layout — start, then auto-freeze after 2s so the graph settles and stops moving
     const fa2 = new FA2Layout(g, {
       settings: {
         gravity: 1,
@@ -210,9 +210,17 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
       },
     })
     fa2Ref.current = fa2
-    if (playing) fa2.start()
+    fa2.start()
+    setPlaying(true)
+    const freezeTimer = setTimeout(() => {
+      if (fa2Ref.current) {
+        fa2Ref.current.stop()
+        setPlaying(false)
+      }
+    }, 2200)
 
     return () => {
+      clearTimeout(freezeTimer)
       ro.disconnect()
       fa2.kill()
       renderer.kill()
@@ -341,7 +349,7 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
               cursor: 'pointer',
             }}
           >
-            {playing ? '⏸ Pausar FA2' : '▶ Animar FA2'}
+            {playing ? 'Pausar' : 'Animar'}
           </button>
         </div>
 

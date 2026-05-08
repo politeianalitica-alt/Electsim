@@ -479,6 +479,9 @@ function Coord({ label, value, pos, color }: { label:string, value:number, pos:s
   )
 }
 
+interface NewsItem { id: string; title: string; source: string; date: string; url: string; snippet: string }
+interface NewsResp { items: NewsItem[]; source: string; actor: string }
+
 // Inline dossier view: scrollable list of actors on the left + full dossier on the right
 function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
   actors: typeof ACTORES
@@ -493,6 +496,12 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
   )
   const a = actors.find(x => x.id === selectedId) ?? actors[0]
   const live = a ? liveByName[a.nombre.toLowerCase()] : undefined
+
+  const { data: newsData, loading: loadingNews } = useApi<NewsResp>(
+    `/api/persons/${encodeURIComponent(a?.nombre ?? '')}/news`,
+    { refreshInterval: 0 }
+  )
+  const news: NewsItem[] = newsData?.items ?? []
 
   const sentimiento = live?.sentimiento_actual ?? (a?.seg.tono ?? 0) / 50
   const sentimientoTier = sentimiento > 0.1 ? 'mejorando' : sentimiento < -0.1 ? 'empeorando' : 'estable'
@@ -593,6 +602,35 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
               Posicionamiento ideológico
             </div>
             <IdeologicalScatter partido={a.partido} size={300}/>
+
+            {/* Recent news */}
+            <div style={{ marginTop: 18 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Noticias recientes</div>
+                {newsData?.source === 'google_news' && <span style={{ fontSize: 9, color: '#2d8a39', fontWeight: 700 }}>Google News</span>}
+              </div>
+              {loadingNews ? (
+                <div style={{ fontSize: 11, color: '#6e6e73' }}>Buscando noticias…</div>
+              ) : news.length === 0 ? (
+                <div style={{ fontSize: 11, color: '#6e6e73', fontStyle: 'italic' }}>Sin resultados recientes</div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {news.slice(0, 5).map(n => (
+                    <a key={n.id} href={n.url || '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                      <div style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #f0f0f3', background: '#fafafc', transition: 'background 120ms' }}
+                           onMouseEnter={e => (e.currentTarget.style.background = '#f5f5f7')}
+                           onMouseLeave={e => (e.currentTarget.style.background = '#fafafc')}>
+                        <div style={{ fontSize: 11.5, fontWeight: 500, color: '#1d1d1f', lineHeight: 1.35, marginBottom: 3 }}>{n.title}</div>
+                        <div style={{ fontSize: 10, color: '#6e6e73', display: 'flex', gap: 8 }}>
+                          <span style={{ fontWeight: 600 }}>{n.source}</span>
+                          {n.date && <span>· {new Date(n.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</span>}
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

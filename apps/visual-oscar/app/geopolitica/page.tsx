@@ -423,9 +423,8 @@ export default function GeopoliticaPage() {
         {tab === 5 && (
           <div style={{ background: '#f5f5f7', border: '1px solid #e8e8ed', borderRadius: 22, padding: '60px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 240 }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>🌐</div>
               <div style={{ fontSize: 15, fontWeight: 600, color: '#1d1d1f', marginBottom: 6 }}>Análisis geopolítico con IA</div>
-              <div style={{ fontSize: 13, color: '#6e6e73' }}>Próximamente</div>
+              <div style={{ fontSize: 13, color: '#6e6e73' }}>Próximamente — integración con Politeia Brain</div>
             </div>
           </div>
         )}
