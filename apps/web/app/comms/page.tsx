@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, Send, Target, Shield, Megaphone, AlertTriangle, ChevronDown } from "lucide-react";
+import { MessageSquare, Send, Target, Shield, Megaphone, AlertTriangle, ChevronDown, XCircle, CheckCircle, Tv, Newspaper, Mail } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
 
 const TABS = [
@@ -119,7 +119,7 @@ export default function CommsPage() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-amber1 mb-3">Lo que NO decir</h3>
             <ul className="space-y-1.5 text-sm text-text2">
               {(result.do_not_say || []).map((d: string, i: number) => (
-                <li key={i} className="flex items-start gap-2"><span className="text-red1">×</span> {d}</li>
+                <li key={i} className="flex items-start gap-2"><XCircle className="w-3.5 h-3.5 text-red1 shrink-0 mt-0.5"/> {d}</li>
               ))}
             </ul>
           </section>
@@ -143,11 +143,193 @@ export default function CommsPage() {
         </section>
       )}
 
-      {result && (tab === "triangle" || tab === "counter" || tab === "guardian" || tab === "channels") && (
-        <section className="premium-card text-center py-12">
-          <p className="text-text2">Vista detallada de "{TABS.find(t => t.id === tab)?.label}" — disponible al ejecutar el análisis correspondiente.</p>
-        </section>
+      {result && tab === "triangle" && (
+        <TriangleView result={result} audience={audience} />
       )}
+
+      {result && tab === "counter" && (
+        <CounterView result={result} />
+      )}
+
+      {result && tab === "guardian" && (
+        <GuardianView result={result} />
+      )}
+
+      {result && tab === "channels" && (
+        <ChannelsView result={result} />
+      )}
+    </div>
+  );
+}
+
+// ── Triángulo: marcos en disposición triangular ────────────────────────────
+function TriangleView({ result, audience }: { result: any; audience: string }) {
+  const audienceLabels: Record<string, string> = {
+    ciudadanos: "Ciudadanos", militantes: "Militantes", medios: "Medios",
+    empresas: "Empresas / sector", internacional: "Internacional",
+  };
+  return (
+    <section>
+      <h3 className="text-sm font-bold uppercase tracking-wider text-text1 mb-4">Triángulo del marco comunicativo</h3>
+      <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
+        <div className="premium-card border-red1/30">
+          <div className="text-xs font-bold uppercase tracking-wider text-red1 mb-2">Marco rival</div>
+          <p className="text-text1 text-sm leading-relaxed">{result.rival_frame || "—"}</p>
+        </div>
+        <div className="premium-card border-cyan1/30">
+          <div className="text-xs font-bold uppercase tracking-wider text-cyan1 mb-2">Marco propio</div>
+          <p className="text-text1 text-sm leading-relaxed">{result.own_frame || "—"}</p>
+        </div>
+      </div>
+      <div className="mt-4 max-w-md mx-auto">
+        <div className="premium-card border-amber1/30">
+          <div className="text-xs font-bold uppercase tracking-wider text-amber1 mb-2">Audiencia objetivo</div>
+          <p className="text-text1 text-sm">{audienceLabels[audience] ?? audience}</p>
+          <p className="text-text2 text-xs mt-1">El marco propio debe optimizarse para esta audiencia.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Contranarrativas: lo que NO decir + argumentos counter ────────────────
+function CounterView({ result }: { result: any }) {
+  return (
+    <div className="space-y-4">
+      <section className="premium-card border-red1/30">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-red1 mb-3 flex items-center gap-2">
+          <XCircle className="w-4 h-4"/> Lo que NO decir
+        </h3>
+        <ul className="space-y-2 text-sm text-text2">
+          {(result.do_not_say || []).map((d: string, i: number) => (
+            <li key={i} className="flex items-start gap-2">
+              <XCircle className="w-4 h-4 text-red1 shrink-0 mt-0.5"/>
+              <span>{d}</span>
+            </li>
+          ))}
+          {(result.do_not_say || []).length === 0 && <li className="text-muted text-xs italic">Sin restricciones específicas detectadas.</li>}
+        </ul>
+      </section>
+      <section className="premium-card border-green1/30">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-green1 mb-3 flex items-center gap-2">
+          <CheckCircle className="w-4 h-4"/> Contraargumentos clave
+        </h3>
+        <ul className="space-y-3">
+          {(result.three_arguments || []).map((arg: string, i: number) => (
+            <li key={i} className="flex items-start gap-3 p-3 rounded-lg bg-bg/50 border border-green1/20">
+              <CheckCircle className="w-4 h-4 text-green1 shrink-0 mt-0.5"/>
+              <span className="text-text1 text-sm">{arg}</span>
+            </li>
+          ))}
+          {(result.three_arguments || []).length === 0 && <li className="text-muted text-xs italic">Sin contraargumentos disponibles.</li>}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+// ── Guardián mensaje: mensaje central destacado + pills do_not_say ────────
+function GuardianView({ result }: { result: any }) {
+  return (
+    <div className="space-y-4">
+      <section className="premium-card bg-cyan1/10 border-cyan1/30">
+        <div className="text-xs uppercase tracking-wider text-cyan1 font-bold mb-2">Mensaje central</div>
+        <p className="text-text1 text-base leading-relaxed">{result.central_message || "—"}</p>
+      </section>
+      <section className="premium-card">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-amber1 mb-3">Bloqueos del guardián</h3>
+        <p className="text-text2 text-xs mb-3">Ninguna pieza comunicativa debe contener estos enunciados:</p>
+        <div className="flex flex-wrap gap-2">
+          {(result.do_not_say || []).map((d: string, i: number) => (
+            <span key={i} className="bg-red1/10 border border-red1/30 text-red1 text-xs rounded-full px-3 py-1">
+              {d}
+            </span>
+          ))}
+          {(result.do_not_say || []).length === 0 && <span className="text-muted text-xs italic">Sin bloqueos.</span>}
+        </div>
+      </section>
+      <section className="premium-card border-blue1/30">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-blue1 mb-3">Argumentos protegidos</h3>
+        <ol className="space-y-2 list-decimal list-inside text-sm text-text1">
+          {(result.three_arguments || []).map((arg: string, i: number) => (
+            <li key={i}>{arg}</li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  );
+}
+
+// ── Mix de canales: parsear recommended_channel + matriz de efectividad ──
+function ChannelsView({ result }: { result: any }) {
+  const channelStr = (result.recommended_channel as string) || "";
+  const lower = channelStr.toLowerCase();
+  const detected: Array<{ name: string; icon: any }> = [];
+  if (/(rueda de prensa|prime time|tv|televisión)/i.test(lower)) detected.push({ name: "TV / prime time", icon: Tv });
+  if (/(nota|prensa|press)/i.test(lower)) detected.push({ name: "Nota institucional / prensa escrita", icon: Newspaper });
+  if (/(red|social|x |twitter|instagram|tiktok)/i.test(lower)) detected.push({ name: "Redes sociales", icon: MessageSquare });
+  if (/(email|newsletter|mail)/i.test(lower)) detected.push({ name: "Email / newsletter", icon: Mail });
+  if (detected.length === 0) detected.push({ name: channelStr || "Comunicación general", icon: Megaphone });
+
+  // Matriz de efectividad por canal
+  const matrix = [
+    { canal: "TV / prime time",  alcance: "Alto",  velocidad: "Medio", credibilidad: "Alto"  },
+    { canal: "Nota institucional", alcance: "Medio", velocidad: "Lento", credibilidad: "Alto"  },
+    { canal: "Redes sociales",   alcance: "Alto",  velocidad: "Inmediato", credibilidad: "Bajo" },
+    { canal: "Email / newsletter", alcance: "Bajo",  velocidad: "Rápido", credibilidad: "Medio" },
+    { canal: "Entrevista impresa", alcance: "Medio", velocidad: "Lento", credibilidad: "Alto"  },
+  ];
+
+  const valueClass = (v: string) =>
+    v === "Alto" || v === "Inmediato" ? "text-green1" :
+    v === "Medio" || v === "Rápido" ? "text-amber1" :
+    v === "Bajo" || v === "Lento" ? "text-red1" : "text-text2";
+
+  return (
+    <div className="space-y-4">
+      <section className="premium-card">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan1 mb-3">Canales recomendados</h3>
+        <p className="text-text2 text-xs mb-4">Detectados desde el análisis: <span className="text-text1">{channelStr || "—"}</span></p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {detected.map((d, i) => {
+            const Icon = d.icon;
+            return (
+              <div key={i} className="premium-card hover:border-cyan1/40 transition flex items-center gap-3 p-3">
+                <div className="w-10 h-10 rounded-lg bg-cyan1/10 border border-cyan1/30 flex items-center justify-center shrink-0">
+                  <Icon className="w-5 h-5 text-cyan1"/>
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-text1">{d.name}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="premium-card">
+        <h3 className="text-sm font-bold uppercase tracking-wider text-text1 mb-3">Matriz de efectividad por canal</h3>
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-[10px] uppercase tracking-wider text-muted">
+              <th className="text-left pb-2">Canal</th>
+              <th className="text-center pb-2">Alcance</th>
+              <th className="text-center pb-2">Velocidad</th>
+              <th className="text-center pb-2">Credibilidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            {matrix.map((m, i) => (
+              <tr key={i} className="border-t border-border1">
+                <td className="py-2 text-text1">{m.canal}</td>
+                <td className={`py-2 text-center font-mono ${valueClass(m.alcance)}`}>{m.alcance}</td>
+                <td className={`py-2 text-center font-mono ${valueClass(m.velocidad)}`}>{m.velocidad}</td>
+                <td className={`py-2 text-center font-mono ${valueClass(m.credibilidad)}`}>{m.credibilidad}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }

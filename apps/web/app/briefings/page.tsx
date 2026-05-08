@@ -1,15 +1,65 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { FileText, Download, Volume2, Plus, Calendar } from "lucide-react";
+import { FileText, Download, Volume2, Square, Plus, Calendar } from "lucide-react";
 import Link from "next/link";
 
 export default function BriefingsPage() {
   const { data: briefing } = useQuery({
     queryKey: ["briefing", "morning"],
-    queryFn: () => endpoints.morningBriefing("default")
+    queryFn: () => endpoints.morningBriefing("default"),
+    staleTime: 60 * 60_000,
   });
+
+  // ── Web Speech API · TTS sin servidor ─────────────────────────────────────
+  const [speaking, setSpeaking] = useState(false);
+  const [voicesReady, setVoicesReady] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const onVoicesChanged = () => setVoicesReady(true);
+    window.speechSynthesis.onvoiceschanged = onVoicesChanged;
+    if (window.speechSynthesis.getVoices().length > 0) setVoicesReady(true);
+    return () => {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.onvoiceschanged = null;
+    };
+  }, []);
+
+  const speakSummary = (text: string) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      alert("Tu navegador no soporta síntesis de voz.");
+      return;
+    }
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+      return;
+    }
+    if (!text) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "es-ES";
+    u.rate = 1.05;
+    const voices = window.speechSynthesis.getVoices();
+    const spanish = voices.find(v => v.lang.startsWith("es") && v.name.includes("Google"))
+                 || voices.find(v => v.lang.startsWith("es"))
+                 || voices[0];
+    if (spanish) u.voice = spanish;
+    u.onend = () => setSpeaking(false);
+    u.onerror = () => setSpeaking(false);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+    setSpeaking(true);
+  };
+
+  const fullSummary = (b: typeof briefing) => {
+    if (!b) return "";
+    const alerts = (b.key_alerts ?? []).slice(0, 3).map(a => a.title).join(". ");
+    const stories = (b.top_stories ?? []).slice(0, 3).map(s => s.title).join(". ");
+    return `${b.executive_summary}. Señales críticas: ${alerts}. Top stories: ${stories}. ${b.analyst_note ?? ""}`;
+  };
 
   return (
     <div className="space-y-6">
@@ -38,8 +88,15 @@ export default function BriefingsPage() {
               <button className="px-3 py-1.5 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5">
                 <Download className="w-3.5 h-3.5" /> PDF
               </button>
-              <button className="px-3 py-1.5 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-xs flex items-center gap-1.5">
-                <Volume2 className="w-3.5 h-3.5" /> Audio 5min
+              <button
+                onClick={() => speakSummary(briefing?.executive_summary ?? "")}
+                disabled={!voicesReady || !briefing?.executive_summary}
+                className={`px-3 py-1.5 rounded-md border text-xs flex items-center gap-1.5 transition ${
+                  speaking ? "bg-cyan1 text-bg border-cyan1" : "bg-bg3 border-border1 hover:border-cyan1/40"
+                } disabled:opacity-50`}
+              >
+                {speaking ? <Square className="w-3.5 h-3.5"/> : <Volume2 className="w-3.5 h-3.5"/>}
+                {speaking ? "Detener" : "Audio"}
               </button>
             </div>
           </div>
@@ -113,11 +170,21 @@ export default function BriefingsPage() {
           </div>
 
           <div className="premium-card border-cyan1/30">
-            <h3 className="text-sm font-bold text-cyan1 mb-2">Audio summary 5min</h3>
-            <p className="text-xs text-text2 mb-3">Versión resumida del briefing en audio para escuchar de camino a la oficina.</p>
-            <button className="w-full px-3 py-2 rounded-md bg-cyan1/10 border border-cyan1/30 text-cyan1 text-sm hover:bg-cyan1/20 transition flex items-center justify-center gap-2">
-              <Volume2 className="w-4 h-4" /> Generar audio
+            <h3 className="text-sm font-bold text-cyan1 mb-2">Audio summary completo</h3>
+            <p className="text-xs text-text2 mb-3">Síntesis vocal local (Web Speech API) — incluye resumen, señales críticas y top stories.</p>
+            <button
+              onClick={() => speakSummary(fullSummary(briefing))}
+              disabled={!voicesReady || !briefing}
+              className={`w-full px-3 py-2 rounded-md text-sm transition flex items-center justify-center gap-2 ${
+                speaking
+                  ? "bg-cyan1 text-bg border border-cyan1 hover:bg-cyan2"
+                  : "bg-cyan1/10 border border-cyan1/30 text-cyan1 hover:bg-cyan1/20"
+              } disabled:opacity-50`}
+            >
+              {speaking ? <Square className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              {speaking ? "Detener reproducción" : "Generar audio"}
             </button>
+            {!voicesReady && <p className="text-[10px] text-muted mt-2 text-center">Cargando voces del sistema...</p>}
           </div>
         </aside>
       </div>

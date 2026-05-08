@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Filter, Check, ArrowUpRight } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { AlertTriangle, Filter, Check, ArrowUpRight, RefreshCw } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
 import type { AlertItem } from "@/lib/api/endpoints";
+import { SignalsPanel } from "@/components/dashboard/SignalsPanel";
 
 const FILTERS = ["Todas", "Críticas", "Altas", "Medias", "Bajas", "Sin leer"];
 
@@ -27,7 +28,8 @@ function timeAgo(iso?: string): string {
 export default function AlertasPage() {
   const [filter, setFilter] = useState("Todas");
 
-  const { data: alerts = [], isLoading } = useQuery({
+  const qc = useQueryClient();
+  const { data: alerts = [], isLoading, isFetching } = useQuery({
     queryKey: ["alerts"],
     queryFn: () => endpoints.alertsList(false),
     refetchInterval: 30_000,
@@ -57,6 +59,12 @@ export default function AlertasPage() {
           </p>
         </div>
         <div className="flex gap-2">
+          <button
+            onClick={() => qc.invalidateQueries({ queryKey: ["alerts"] })}
+            className="px-3 py-2 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-sm flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`} /> Actualizar
+          </button>
           <button className="px-3 py-2 rounded-md bg-bg3 border border-border1 hover:border-cyan1/40 text-sm flex items-center gap-1.5">
             <Check className="w-4 h-4" /> Marcar todas leídas
           </button>
@@ -78,6 +86,9 @@ export default function AlertasPage() {
           </button>
         ))}
       </div>
+
+      {/* 2-column layout: alerts list + signals sidebar */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
 
       {/* Alert list */}
       <div className="space-y-3">
@@ -118,6 +129,13 @@ export default function AlertasPage() {
           );
         })}
       </div>
+
+      {/* Signals sidebar */}
+      <aside className="space-y-4">
+        <SignalsPanel/>
+      </aside>
+
+      </div>{/* end grid */}
     </div>
   );
 }

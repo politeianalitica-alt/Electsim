@@ -208,6 +208,45 @@ export interface RiskIndex {
   timestamp: string;
 }
 
+export interface PersonaMencion {
+  id: string;
+  title: string;
+  url?: string;
+  source: string;
+  sentiment?: string;
+  date?: string;
+  summary?: string;
+}
+
+export interface SwingDistrict {
+  seccion_id?: string;
+  municipio?: string;
+  nombre?: string;
+  ccaa?: string;
+  provincia?: string;
+  partido_a?: string;
+  partido_b?: string;
+  pct_a?: number;
+  pct_b?: number;
+  margen?: number;
+  swing_score?: number;
+  // Legacy/alternate fields the backend may use
+  pp?: number; psoe?: number; vox?: number; sumar?: number;
+}
+
+export interface PropensityOportunidad {
+  partido: string;
+  umbral: number;
+  n_secciones: number;
+  secciones: Array<{
+    seccion_id: string;
+    municipio?: string;
+    ccaa?: string;
+    delta?: number;
+    roi?: number;
+  }>;
+}
+
 // Cliente alternativo para rutas que NO van bajo /api (intelligence está en raíz)
 const INTELLIGENCE_BASE = process.env.NEXT_PUBLIC_INTELLIGENCE_URL || "/api"; // pasa por rewrites
 async function intel<T>(path: string): Promise<T> {
@@ -274,6 +313,7 @@ export const endpoints = {
   // ── Intelligence (api/routers/intelligence.py · sin prefix /api) ───────
   intelligence: {
     riskIndex:        () => intel<RiskIndex>("/intelligence/risk-index"),
+    riskHistory:      (n = 30) => intel<Array<{ date: string; score: number }>>(`/intelligence/risk-index/history?n=${n}`),
     personasList:     (params: { partido?: string; search?: string; limit?: number } = {}) => {
       const qs = new URLSearchParams();
       if (params.partido) qs.set("partido", params.partido);
@@ -281,8 +321,11 @@ export const endpoints = {
       qs.set("limit", String(params.limit ?? 50));
       return intel<PersonaPublica[]>(`/intelligence/personas?${qs.toString()}`);
     },
+    persona:          (id: string) => intel<PersonaPublica>(`/intelligence/personas/${id}`),
     personaGrafo:     (id: string, depth = 2) => intel<PersonaGrafo>(`/intelligence/personas/${id}/grafo?depth=${depth}`),
-    signals:          (urgenciaMin = 1, limit = 50) => intel<IntelligenceSignal[]>(`/intelligence/signals?urgencia_min=${urgenciaMin}&limit=${limit}&since_minutes=4320`),
+    personaMenciones: (id: string, limit = 20) => intel<PersonaMencion[]>(`/intelligence/personas/${id}/menciones?limit=${limit}`),
+    signals:          (urgenciaMin = 1, sinceMinutes = 4320, limit = 50) =>
+      intel<IntelligenceSignal[]>(`/intelligence/signals?urgencia_min=${urgenciaMin}&limit=${limit}&since_minutes=${sinceMinutes}`),
     legislationImpact: (params: { minRelevance?: number; daysBack?: number; level?: string; category?: string } = {}) => {
       const qs = new URLSearchParams();
       if (params.minRelevance != null) qs.set("min_relevance", String(params.minRelevance));
@@ -290,6 +333,13 @@ export const endpoints = {
       if (params.level)                qs.set("level", params.level);
       if (params.category)             qs.set("category", params.category);
       return intel<LegislationItem[]>(`/intelligence/legislation/impact?${qs.toString()}`);
+    },
+    swingDistricts: (partidoA: string, partidoB: string, n = 50) =>
+      intel<SwingDistrict[]>(`/intelligence/propensity/swing-districts?partido_a=${partidoA}&partido_b=${partidoB}&n=${n}`),
+    propensityOportunidades: (partido: string, umbral = 0.05, ccaa?: string) => {
+      const qs = new URLSearchParams({ umbral: String(umbral) });
+      if (ccaa) qs.set("ccaa", ccaa);
+      return intel<PropensityOportunidad>(`/intelligence/propensity/oportunidades/${partido}?${qs.toString()}`);
     },
   },
 

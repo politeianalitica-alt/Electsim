@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   Home, Newspaper, Users, AlertTriangle, FileText, Building2,
   Globe, MessageSquare, Briefcase, Brain, Workflow, Search,
-  Settings, GitBranch, Database, Shield, Activity
+  Settings, GitBranch, Database, Shield, Activity, Map
 } from "lucide-react";
 
 interface NavGroup {
@@ -34,6 +34,7 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/legislativo", label: "Monitor Legislativo", icon: Building2 },
       { href: "/coalicion",   label: "Gobierno & Coalición", icon: GitBranch },
+      { href: "/propensity",  label: "Propensity & Swing",  icon: Map },
       { href: "/geopolitica", label: "Geopolítica & RRII",  icon: Globe },
       { href: "/comms",       label: "Communication Intel", icon: MessageSquare },
       { href: "/draft",       label: "Draft Studio",        icon: FileText },

@@ -50,7 +50,7 @@ Un cordial saludo,
 [Cargo] | [Organización]
 [Teléfono] | [Email]`,
 
-  post: `[PARTIDO / ENTIDAD] 🔵
+  post: `[PARTIDO / ENTIDAD]
 
 [Primer párrafo de gancho — máx 2 líneas]
 

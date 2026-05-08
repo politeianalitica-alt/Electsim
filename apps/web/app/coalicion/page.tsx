@@ -1,6 +1,6 @@
 "use client";
 
-import { Crown, Users2, AlertCircle } from "lucide-react";
+import { Crown, Users2, AlertCircle, Check, X } from "lucide-react";
 
 type PartySeat = { code: string; seats: number; color: string };
 
@@ -135,7 +135,12 @@ export default function CoalicionPage() {
             {COALITIONS.map((c, i) => (
               <li key={i} className="p-3 rounded-lg border border-border1 hover:border-cyan1/40 transition">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-[10px] uppercase tracking-wider text-muted">{c.total} escaños {c.total >= majority ? "✓" : "✗"}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted flex items-center gap-1.5">
+                    {c.total} escaños
+                    {c.total >= majority
+                      ? <Check className="w-3 h-3 text-green1 inline"/>
+                      : <X className="w-3 h-3 text-red1 inline"/>}
+                  </div>
                   <span className="text-cyan1 font-mono text-sm">{c.probability}%</span>
                 </div>
                 <div className="flex flex-wrap gap-1 mb-2">

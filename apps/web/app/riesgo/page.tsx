@@ -30,11 +30,20 @@ function impactBadge(impact: string): string {
 
 export default function RiesgoPage() {
   // ── Live queries ──────────────────────────────────────────────────────────
+  // /api/risk/summary  (composite + KPIs dimensionales)
   const { data: summary, isLoading: loadingSummary } = useQuery({
     queryKey: ["risk", "summary"],
     queryFn: () => endpoints.risk.summary(),
     staleTime: 60_000,
     refetchInterval: 300_000,
+  });
+
+  // /intelligence/risk-index  (componentes adicionales como senales_criticas_24h)
+  const { data: riskIndex } = useQuery({
+    queryKey: ["risk", "intelligence-index"],
+    queryFn: () => endpoints.intelligence.riskIndex(),
+    staleTime: 5 * 60_000,
+    refetchInterval: 10 * 60_000,
   });
 
   const { data: heatmap, isLoading: loadingHeatmap } = useQuery({
@@ -43,11 +52,34 @@ export default function RiesgoPage() {
     staleTime: 120_000,
   });
 
-  const { data: signals = [], isLoading: loadingSignals } = useQuery({
+  // Señales reales desde /intelligence/signals (más ricas que /api/risk/signals)
+  const { data: intelSignals } = useQuery({
+    queryKey: ["risk", "intel-signals"],
+    queryFn: () => endpoints.intelligence.signals(3, 4320, 10),
+    staleTime: 60_000,
+  });
+
+  // Fallback a /api/risk/signals si /intelligence/signals está vacío
+  const { data: riskSignalsApi = [], isLoading: loadingSignalsApi } = useQuery({
     queryKey: ["risk", "signals"],
     queryFn: () => endpoints.risk.signals(5),
     staleTime: 60_000,
   });
+  const loadingSignals = loadingSignalsApi;
+  // Mapear /intelligence/signals al shape de RiskSignal si existen, sino usar /api/risk/signals
+  const signals = (intelSignals && intelSignals.length > 0)
+    ? intelSignals.slice(0, 5).map(s => ({
+        title: s.titulo,
+        probability: Math.min(95, (s.urgencia ?? 3) * 18),
+        impact: (s.urgencia ?? 3) >= 4 ? "Alto" : (s.urgencia ?? 3) >= 3 ? "Medio" : "Bajo",
+        description: s.resumen ?? "",
+        area: (s.tipo || "").toLowerCase(),
+        url: undefined as string | undefined,
+        source: s.modulo_origen,
+        sentiment: undefined as string | undefined,
+        scraped_at: s.created_at,
+      }))
+    : riskSignalsApi;
 
   const { data: history = [] } = useQuery({
     queryKey: ["risk", "history"],

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { Users, Search, TrendingUp, TrendingDown, Minus, Network, ChevronRight } from "lucide-react";
 import { endpoints, type PersonaPublica } from "@/lib/api/endpoints";
 
@@ -192,9 +193,10 @@ export default function ActoresPage() {
                 const exposure = Math.round(a.score_influencia ?? 0);
                 const sentiment = a.sentimiento_actual ?? 0;
                 return (
-                  <div
+                  <Link
                     key={a.id}
-                    className="premium-card hover:border-cyan1/40 transition cursor-pointer group"
+                    href={`/actores/${a.id}`}
+                    className="premium-card hover:border-cyan1/40 transition cursor-pointer group block"
                     style={{ borderLeftColor: color, borderLeftWidth: 3 }}
                   >
                     <div className="flex items-start gap-3 mb-2">
@@ -231,7 +233,7 @@ export default function ActoresPage() {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
