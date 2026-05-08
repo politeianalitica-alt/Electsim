@@ -15,12 +15,34 @@ Datos:
 from __future__ import annotations
 
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
 
 from api.dependencies import get_db
+
+# ── geo_helpers opcional ──────────────────────────────────────────────────────
+try:
+    import sys
+    from pathlib import Path as _Path
+    _ROOT_GH = _Path(__file__).resolve().parents[2]
+    if str(_ROOT_GH) not in sys.path:
+        sys.path.insert(0, str(_ROOT_GH))
+    from dashboard.utils.geo_helpers import (
+        get_osint_filtered as _get_osint,
+        get_osint_stats as _get_osint_stats,
+        get_alertas_nivel as _get_alertas,
+        get_count_alertas as _get_count_alertas,
+        get_impactos_filtered as _get_impactos,
+        get_riesgo_pais as _get_riesgo_pais,
+        get_presencia_espanola as _get_presencia,
+        get_stats_geo as _get_stats_geo,
+        get_paises_mas_mencionados as _get_paises_top,
+    )
+    _GEO_HELPERS_OK = True
+except Exception:
+    _GEO_HELPERS_OK = False
 
 router = APIRouter(prefix="/geopolitica", tags=["geopolitica"])
 
@@ -315,3 +337,142 @@ def geo_kpis(db=Depends(get_db)) -> dict[str, Any]:
             "updated_at": datetime.utcnow().isoformat() + "Z",
             "error": str(e),
         }
+
+
+# ── /geo-stats ────────────────────────────────────────────────────────────────
+@router.get("/geo-stats")
+def geo_stats_combined() -> dict[str, Any]:
+    """Stats globales del módulo + conteo de alertas por nivel."""
+    stats: dict = {}
+    alertas_count: dict = {}
+    if _GEO_HELPERS_OK:
+        try:
+            stats = _get_stats_geo()
+        except Exception:
+            pass
+        try:
+            alertas_count = _get_count_alertas()
+        except Exception:
+            pass
+    return {"stats": stats, "alertas_count": alertas_count}
+
+
+# ── /riesgo-pais ──────────────────────────────────────────────────────────────
+@router.get("/riesgo-pais")
+def riesgo_pais_geo(
+    interes_min: float = 0.3,
+    limit: int = 30,
+) -> dict[str, Any]:
+    """Riesgo país desde geo_helpers (DB → JSON store → demo)."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_riesgo_pais(interes_min=interes_min, limit=limit) or []
+        except Exception:
+            pass
+    return {"data": data}
+
+
+# ── /presencia-espanola-geo ───────────────────────────────────────────────────
+@router.get("/presencia-espanola-geo")
+def presencia_espanola_geo() -> dict[str, Any]:
+    """Presencia española en el mundo desde geo_helpers."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_presencia() or []
+        except Exception:
+            pass
+    return {"data": data}
+
+
+# ── /osint-feed ───────────────────────────────────────────────────────────────
+@router.get("/osint-feed")
+def osint_feed(
+    horas: int = 24,
+    urgencia_min: int = 1,
+    relevancia_min: float = 0.3,
+    categoria: Optional[str] = None,
+    limit: int = 60,
+) -> dict[str, Any]:
+    """Feed OSINT filtrado desde geo_helpers."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_osint(
+                horas=horas,
+                urgencia_min=urgencia_min,
+                relevancia_min=relevancia_min,
+                categoria=categoria if categoria and categoria != "todas" else None,
+                limit=limit,
+            ) or []
+        except Exception:
+            pass
+    return {"data": data}
+
+
+# ── /osint-stats ──────────────────────────────────────────────────────────────
+@router.get("/osint-stats")
+def osint_stats_endpoint() -> dict[str, Any]:
+    """Estadísticas del corpus OSINT."""
+    if _GEO_HELPERS_OK:
+        try:
+            return _get_osint_stats() or {}
+        except Exception:
+            pass
+    return {}
+
+
+# ── /alertas-geo ──────────────────────────────────────────────────────────────
+@router.get("/alertas-geo")
+def alertas_geo(
+    nivel: Optional[str] = None,
+    limite: int = 50,
+    solo_no_leidas: bool = False,
+) -> dict[str, Any]:
+    """Alertas geopolíticas filtradas."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_alertas(
+                nivel=nivel if nivel and nivel != "todas" else None,
+                limite=limite,
+                solo_no_leidas=solo_no_leidas,
+            ) or []
+        except Exception:
+            pass
+    return {"data": data}
+
+
+# ── /impactos-geo ─────────────────────────────────────────────────────────────
+@router.get("/impactos-geo")
+def impactos_geo(
+    dimension: Optional[str] = None,
+    severidad_min: int = 1,
+    limit: int = 30,
+) -> dict[str, Any]:
+    """Impactos domésticos filtrados."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_impactos(
+                dimension=dimension if dimension and dimension != "todas" else None,
+                severidad_min=severidad_min,
+                limit=limit,
+            ) or []
+        except Exception:
+            pass
+    return {"data": data}
+
+
+# ── /paises-top ───────────────────────────────────────────────────────────────
+@router.get("/paises-top")
+def paises_top(horas: int = 24, top_n: int = 10) -> dict[str, Any]:
+    """Países más mencionados en OSINT."""
+    data: list = []
+    if _GEO_HELPERS_OK:
+        try:
+            data = _get_paises_top(horas=horas, top_n=top_n) or []
+        except Exception:
+            pass
+    return {"data": data}

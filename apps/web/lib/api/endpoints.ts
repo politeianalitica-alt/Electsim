@@ -109,6 +109,77 @@ export interface RiskHistoryPoint {
   score: number;
 }
 
+export interface RiesgoPaisItem {
+  nombre: string;
+  lat_capital?: number;
+  lon_capital?: number;
+  score_total: number;
+  interes_espana: number;
+  riesgo_tendencia?: string;
+  flag_emoji?: string;
+  empresas_espanolas?: string[];
+  iso3?: string;
+}
+
+export interface OsintItem {
+  urgencia: number;
+  relevancia_espana?: number;
+  titulo: string;
+  resumen_ollama?: string;
+  fuente?: string;
+  fecha_publicacion?: string;
+  url?: string;
+  categoria?: string;
+  paises_mencionados?: string[];
+  procesado_llm?: boolean;
+}
+
+export interface OsintStats {
+  total?: number;
+  ultimas_24h?: number;
+  procesados_llm?: number;
+  por_urgencia?: Record<number, number>;
+}
+
+export interface AlertaGeo {
+  nivel: string;
+  titulo: string;
+  descripcion?: string;
+  paises?: string[];
+  creada_en?: string;
+  leida?: boolean;
+  url_origen?: string;
+}
+
+export interface ImpactoGeo {
+  titulo: string;
+  descripcion?: string;
+  dimension?: string;
+  severidad: number;
+  horizonte?: string;
+  probabilidad?: number;
+  recomendacion?: string;
+  sectores_afectados?: string[];
+  empresas_afectadas?: string[];
+}
+
+export interface PresenciaItem {
+  pais?: string;
+  pais_nombre?: string;
+  lat?: number;
+  lon?: number;
+  categoria?: string;
+  tipo_presencia?: string;
+  descripcion?: string;
+}
+
+export interface PaisTop {
+  pais?: string;
+  nombre?: string;
+  n?: number;
+  count?: number;
+}
+
 // ── GEOPOLITICA (api/routers/geopolitica.py) ─────────────────────────────────
 export interface CountryRisk {
   code: string;
@@ -482,6 +553,38 @@ export const endpoints = {
     events:        (limit = 20) => api.get<GeoEvent[]>(`/geopolitica/events?limit=${limit}`),
     spainPresence: () => api.get<SpainPresence[]>("/geopolitica/spain-presence"),
     kpis:          () => api.get<GeoKPIs>("/geopolitica/kpis"),
+    geoStats:       () => api.get<{stats: Record<string,number>; alertas_count: Record<string,number>}>("/geopolitica/geo-stats"),
+    riesgoPais:     (params?: {interes_min?: number; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.interes_min != null) qs.set("interes_min", String(params.interes_min));
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: RiesgoPaisItem[]}>(`/geopolitica/riesgo-pais?${qs}`);
+    },
+    presenciaGeo:   () => api.get<{data: PresenciaItem[]}>("/geopolitica/presencia-espanola-geo"),
+    osintFeed:      (params?: {horas?: number; urgencia_min?: number; relevancia_min?: number; categoria?: string; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.horas != null) qs.set("horas", String(params.horas));
+      if (params?.urgencia_min != null) qs.set("urgencia_min", String(params.urgencia_min));
+      if (params?.relevancia_min != null) qs.set("relevancia_min", String(params.relevancia_min));
+      if (params?.categoria) qs.set("categoria", params.categoria);
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: OsintItem[]}>(`/geopolitica/osint-feed?${qs}`);
+    },
+    osintStats:     () => api.get<OsintStats>("/geopolitica/osint-stats"),
+    alertasGeo:     (params?: {nivel?: string; limite?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.nivel) qs.set("nivel", params.nivel);
+      if (params?.limite != null) qs.set("limite", String(params.limite));
+      return api.get<{data: AlertaGeo[]}>(`/geopolitica/alertas-geo?${qs}`);
+    },
+    impactosGeo:    (params?: {dimension?: string; severidad_min?: number; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.dimension) qs.set("dimension", params.dimension);
+      if (params?.severidad_min != null) qs.set("severidad_min", String(params.severidad_min));
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: ImpactoGeo[]}>(`/geopolitica/impactos-geo?${qs}`);
+    },
+    paisesTop:      (horas?: number, top_n?: number) => api.get<{data: PaisTop[]}>(`/geopolitica/paises-top?horas=${horas ?? 24}&top_n=${top_n ?? 10}`),
   },
 
   // ── Intelligence (api/routers/intelligence.py · sin prefix /api) ───────
