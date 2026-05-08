@@ -311,6 +311,7 @@ export interface ActorGraphNode {
   name: string;
   party: string;
   color: string;
+  party_color?: string;
   role: string;
   relevance: number;
   exposure: number;
@@ -342,6 +343,37 @@ export interface ActorGraphEdge {
   evidence_url?: string;
 }
 
+export interface ActorEnrichment {
+  wikipedia?: {
+    extract?: string;
+    description?: string;
+    thumbnail_url?: string;
+    url?: string;
+  } | null;
+  congreso?: {
+    group?: string;
+    comisiones?: string[];
+    votaciones?: Array<{ titulo: string; fecha: string; resultado: string }>;
+  } | null;
+  boe?: {
+    mentions_count?: number;
+  } | null;
+  twitter?: {
+    handle?: string;
+    followers?: number;
+    tweet_count_7d?: number;
+    top_tweets?: Array<{ text: string; date: string; likes: number; url?: string }>;
+  } | null;
+  recent_news?: Array<{
+    title: string;
+    url?: string;
+    source?: string;
+    published_at?: string;
+    summary?: string;
+  }>;
+  updated_at?: string;
+}
+
 export interface ActorDossier {
   actor: Actor & {
     risk_score?: number;
@@ -355,6 +387,7 @@ export interface ActorDossier {
       foto_url?: string;
     } | null;
   };
+  enrichment?: ActorEnrichment;
   mentions: ActorMention[];
   history: Array<{ score: number; date: string }>;
   narratives: ActorNarrative[];

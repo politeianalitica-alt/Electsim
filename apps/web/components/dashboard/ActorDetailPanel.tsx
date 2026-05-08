@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { X, ExternalLink, RefreshCw } from "lucide-react";
 import { endpoints } from "@/lib/api/endpoints";
-import type { ActorDossier } from "@/lib/api/endpoints";
+import type { ActorDossier, ActorEnrichment } from "@/lib/api/endpoints";
 
 interface Props {
   actorId: string;
@@ -42,6 +42,7 @@ const TABS = [
   { id: "sentimiento", label: "Sentimiento" },
   { id: "senales",     label: "Señales" },
   { id: "keywords",    label: "Keywords" },
+  { id: "fuentes",     label: "Fuentes" },
 ] as const;
 
 type TabId = typeof TABS[number]["id"];
@@ -84,6 +85,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
   });
 
   const actor = actorQ.data;
+  const enrichment: ActorEnrichment | undefined = dossierQ.data?.enrichment;
   const mentions         = dossierQ.data?.mentions         ?? mentionsQ.data   ?? [];
   const narratives       = dossierQ.data?.narratives        ?? narrativesQ.data ?? [];
   const history          = dossierQ.data?.history           ?? historyQ.data    ?? [];
@@ -103,6 +105,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
     sentimiento: "Sentimiento",
     senales:     `Señales (${riskSignals.length})`,
     keywords:    "Keywords",
+    fuentes:     "Fuentes",
   };
 
   return (
@@ -134,21 +137,24 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  {actor.photo_url ? (
-                    <img
-                      src={actor.photo_url}
-                      alt={actor.name}
-                      className="w-12 h-12 rounded-full object-cover shrink-0 border border-border1"
-                      onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                    />
-                  ) : (
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                      style={{ background: `linear-gradient(135deg, ${actor.party_color ?? "#94A3B8"}, #3B82F6)` }}
-                    >
-                      {actor.name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase()}
-                    </div>
-                  )}
+                  {(() => {
+                    const photoSrc = actor.photo_url || enrichment?.wikipedia?.thumbnail_url || null;
+                    return photoSrc ? (
+                      <img
+                        src={photoSrc}
+                        alt={actor.name}
+                        className="w-12 h-12 rounded-full object-cover shrink-0 border border-border1"
+                        onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                      />
+                    ) : (
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
+                        style={{ background: `linear-gradient(135deg, ${actor.party_color ?? "#94A3B8"}, #3B82F6)` }}
+                      >
+                        {actor.name.split(" ").slice(0, 2).map(p => p[0] || "").join("").toUpperCase()}
+                      </div>
+                    );
+                  })()}
                   <div className="min-w-0">
                     <h2 className="text-lg font-bold text-text1 truncate">{actor.name}</h2>
                     <p className="text-xs text-muted truncate">{actor.party ?? "—"} · {actor.role ?? "—"}</p>
@@ -464,6 +470,162 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
                         })}
                       </div>
                     </>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "fuentes" && (
+                <div className="space-y-5">
+                  {/* Wikipedia */}
+                  {enrichment?.wikipedia?.extract && (
+                    <div>
+                      <h3 className="label-cap mb-2">Wikipedia</h3>
+                      <p className="text-sm text-text2 leading-relaxed line-clamp-6">
+                        {enrichment.wikipedia.extract}
+                      </p>
+                      {enrichment.wikipedia.url && (
+                        <a href={enrichment.wikipedia.url} target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-cyan1 hover:underline mt-1 inline-flex items-center gap-1">
+                          Ver en Wikipedia <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Congreso */}
+                  {enrichment?.congreso?.group && (
+                    <div>
+                      <h3 className="label-cap mb-2">Congreso de los Diputados</h3>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="badge badge-blue">{enrichment.congreso.group}</span>
+                      </div>
+                      {(enrichment.congreso.comisiones?.length ?? 0) > 0 && (
+                        <div className="text-xs text-text2">
+                          <span className="text-muted">Comisiones: </span>
+                          {enrichment.congreso.comisiones!.join(", ")}
+                        </div>
+                      )}
+                      {(enrichment.congreso.votaciones?.length ?? 0) > 0 && (
+                        <div className="mt-2">
+                          <div className="text-[10px] text-muted uppercase tracking-wider mb-1">Últimas votaciones</div>
+                          <div className="space-y-1">
+                            {enrichment.congreso.votaciones!.slice(0, 5).map((v, i) => (
+                              <div key={i} className="flex items-center gap-2 text-xs">
+                                <span className={`w-2 h-2 rounded-full shrink-0 ${
+                                  v.resultado === "sí" ? "bg-green1" :
+                                  v.resultado === "no" ? "bg-red1" : "bg-muted"
+                                }`} />
+                                <span className="text-text2 line-clamp-1 flex-1">{v.titulo}</span>
+                                <span className="text-muted shrink-0">{v.fecha}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Twitter/X */}
+                  {enrichment?.twitter?.handle && (
+                    <div>
+                      <h3 className="label-cap mb-2">Twitter / X</h3>
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="kpi-card flex-1 text-center">
+                          <div className="text-[9px] text-muted uppercase">Seguidores</div>
+                          <div className="text-lg font-bold text-text1">
+                            {enrichment.twitter.followers
+                              ? enrichment.twitter.followers >= 1_000_000
+                                ? `${(enrichment.twitter.followers / 1_000_000).toFixed(1)}M`
+                                : enrichment.twitter.followers >= 1_000
+                                  ? `${(enrichment.twitter.followers / 1_000).toFixed(0)}K`
+                                  : String(enrichment.twitter.followers)
+                              : "—"}
+                          </div>
+                        </div>
+                        <div className="kpi-card flex-1 text-center">
+                          <div className="text-[9px] text-muted uppercase">Tweets 7d</div>
+                          <div className="text-lg font-bold text-cyan1">{enrichment.twitter.tweet_count_7d ?? 0}</div>
+                        </div>
+                      </div>
+                      {(enrichment.twitter.top_tweets?.length ?? 0) > 0 && (
+                        <div className="space-y-2">
+                          {enrichment.twitter.top_tweets!.slice(0, 3).map((t, i) => (
+                            <div key={i} className="p-2.5 rounded-lg border border-border1/60 bg-bg3/30">
+                              <p className="text-xs text-text2 line-clamp-3">{t.text}</p>
+                              <div className="flex items-center gap-3 mt-1.5 text-[10px] text-muted">
+                                <span>{timeAgo(t.date)}</span>
+                                {t.likes > 0 && <span>♥ {t.likes}</span>}
+                                {t.url && (
+                                  <a href={t.url} target="_blank" rel="noopener noreferrer"
+                                    className="text-cyan1 hover:underline ml-auto">ver →</a>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <a href={`https://x.com/${enrichment.twitter.handle}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="text-xs text-cyan1 hover:underline mt-2 inline-flex items-center gap-1">
+                        @{enrichment.twitter.handle} <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Recent news */}
+                  {(enrichment?.recent_news?.length ?? 0) > 0 && (
+                    <div>
+                      <h3 className="label-cap mb-2">
+                        Noticias recientes
+                        {enrichment!.updated_at && (
+                          <span className="text-muted font-normal normal-case ml-2">
+                            · actualizado {timeAgo(enrichment!.updated_at)}
+                          </span>
+                        )}
+                      </h3>
+                      <div className="space-y-2">
+                        {enrichment!.recent_news!.slice(0, 8).map((n, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <span className="text-[9px] text-muted font-mono mt-0.5 shrink-0 w-5">{i + 1}.</span>
+                            <div className="flex-1 min-w-0">
+                              <a href={n.url} target="_blank" rel="noopener noreferrer"
+                                className="text-sm text-text1 hover:text-cyan1 line-clamp-2 transition">
+                                {n.title}
+                              </a>
+                              <div className="text-[10px] text-muted mt-0.5">
+                                {n.source && <span>{n.source}</span>}
+                                {n.published_at && <span> · {timeAgo(n.published_at)}</span>}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* BOE */}
+                  {(enrichment?.boe?.mentions_count ?? 0) > 0 && (
+                    <div className="flex items-center gap-3 p-3 rounded-lg border border-border1/40 bg-bg3/20">
+                      <div>
+                        <div className="text-[10px] text-muted uppercase tracking-wider">Apariciones en el BOE</div>
+                        <div className="text-2xl font-bold text-text1 font-mono">{enrichment!.boe!.mentions_count}</div>
+                      </div>
+                      <a href={`https://www.boe.es/buscar/boe.php?campo[0]=TIT&dato[0]=${encodeURIComponent(actor.name)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="ml-auto text-xs text-cyan1 hover:underline flex items-center gap-1">
+                        Buscar en BOE <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
+
+                  {!enrichment?.wikipedia && !enrichment?.twitter && !enrichment?.congreso
+                    && (enrichment?.recent_news?.length ?? 0) === 0 && (
+                    <div className="text-center py-8">
+                      <p className="text-sm text-text2">Sin datos externos aún.</p>
+                      <p className="text-xs text-muted mt-1">
+                        El pipeline de enriquecimiento actualiza estos datos automáticamente cada 30 minutos.
+                      </p>
+                    </div>
                   )}
                 </div>
               )}
