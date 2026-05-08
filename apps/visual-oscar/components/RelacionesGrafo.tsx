@@ -1,7 +1,10 @@
 'use client'
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { useApi } from '@/lib/useApi'
+// graphology-types may not be resolvable in the local dev env — cast to any at runtime
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 import Graph from 'graphology'
+type GraphInstance = any
 import { Sigma } from 'sigma'
 import FA2Layout from 'graphology-layout-forceatlas2/worker'
 
@@ -74,7 +77,7 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const sigmaRef = useRef<Sigma | null>(null)
   const fa2Ref = useRef<FA2Layout | null>(null)
-  const graphRef = useRef<Graph | null>(null)
+  const graphRef = useRef<GraphInstance | null>(null)
 
   const { data, loading } = useApi<GraphData>(
     `/api/intelligence/personas/${rootId}/grafo?depth=2`,
@@ -107,7 +110,8 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
       sigmaRef.current = null
     }
 
-    const g = new Graph({ multi: false, type: 'undirected' })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const g: GraphInstance = new (Graph as any)({ multi: false, type: 'undirected' })
     graphRef.current = g
 
     // Add nodes
@@ -156,7 +160,7 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
       const attrs = g.getNodeAttributes(node)
       const neighbors = new Set(g.neighbors(node))
 
-      g.forEachNode((n2, a) => {
+      g.forEachNode((n2: string, a: Record<string, unknown>) => {
         if (n2 !== node && !neighbors.has(n2)) {
           g.setNodeAttribute(n2, 'color', dimColor(a._originalColor as string))
         }
@@ -178,7 +182,7 @@ export default function RelacionesGrafo({ actors = [], initialId }: Props) {
     })
 
     renderer.on('leaveNode', () => {
-      g.forEachNode((n2, a) => {
+      g.forEachNode((n2: string, a: Record<string, unknown>) => {
         g.setNodeAttribute(n2, 'color', a._originalColor)
       })
       renderer.refresh()
