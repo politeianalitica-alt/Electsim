@@ -134,11 +134,9 @@ function relativeDate(iso: string): string {
 // ─── KPI Card ─────────────────────────────────────────────────────────────
 
 function KpiCard({
-  icon,
   label,
   value,
 }: {
-  icon: string
   label: string
   value: string | number
 }) {
@@ -156,7 +154,6 @@ function KpiCard({
         fontFamily: '-apple-system, system-ui, sans-serif',
       }}
     >
-      <span style={{ fontSize: 22 }}>{icon}</span>
       <span
         style={{
           fontSize: 24,
@@ -175,10 +172,43 @@ function KpiCard({
 
 // ─── Feed Item Card ────────────────────────────────────────────────────────
 
+function sentimentLabel(score: number): string {
+  if (score > 0.3) return 'Muy positivo'
+  if (score > 0.1) return 'Positivo'
+  if (score > -0.1) return 'Neutro'
+  if (score > -0.3) return 'Negativo'
+  return 'Muy negativo'
+}
+
+function sentimentColor(score: number): string {
+  if (score > 0.1) return '#16a34a'
+  if (score > -0.1) return '#6e6e73'
+  return '#dc2626'
+}
+
 function FeedItemCard({ item }: { item: FeedItem }) {
-  const dotColor = sentimentDot(item.sentimiento_score)
   const ideologiaColor =
     IDEOLOGY_COLORS[item.ideologia] ?? '#95a5a6'
+  const sentiColor = sentimentColor(item.sentimiento_score)
+  const sentiText = sentimentLabel(item.sentimiento_score)
+  const sentiBarWidth = Math.abs(item.sentimiento_score) * 100
+
+  const categoriaDisplay = item.categoria
+    ? item.categoria.charAt(0).toUpperCase() + item.categoria.slice(1)
+    : null
+
+  const sentences = item.resumen
+    ? item.resumen
+        .split('. ')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0)
+        .slice(0, 3)
+    : []
+
+  const parties =
+    item.partidos_mencionados && item.partidos_mencionados.trim().length > 0
+      ? item.partidos_mencionados.split(',')
+      : []
 
   return (
     <div
@@ -194,32 +224,77 @@ function FeedItemCard({ item }: { item: FeedItem }) {
         fontFamily: '-apple-system, system-ui, sans-serif',
       }}
     >
-      {/* Top row: sentiment dot + title */}
+      {/* Top row: sentiment bar + title */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-        <span
+        <div
           style={{
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: dotColor,
             flexShrink: 0,
-            marginTop: 5,
-          }}
-        />
-        <span
-          style={{
-            fontSize: 13,
-            fontWeight: 600,
-            color: '#1d1d1f',
-            lineHeight: 1.35,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical' as const,
+            marginTop: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+            width: 36,
           }}
         >
-          {item.titular}
-        </span>
+          <div
+            style={{
+              width: 36,
+              height: 4,
+              borderRadius: 2,
+              background: '#f0f0f5',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                height: '100%',
+                width: `${sentiBarWidth}%`,
+                background: sentiColor,
+                borderRadius: 2,
+              }}
+            />
+          </div>
+          <span style={{ fontSize: 8.5, color: sentiColor, fontWeight: 600, whiteSpace: 'nowrap' }}>
+            {sentiText}
+          </span>
+          <span style={{ fontSize: 8, color: '#aeaeb2' }}>
+            ({item.sentimiento_score >= 0 ? '+' : ''}{item.sentimiento_score.toFixed(2)})
+          </span>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <span
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: '#1d1d1f',
+              lineHeight: 1.35,
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical' as const,
+            }}
+          >
+            {item.titular}
+          </span>
+          {/* Narrative tag */}
+          {categoriaDisplay && (
+            <div style={{ marginTop: 3 }}>
+              <span
+                style={{
+                  fontSize: 10,
+                  background: '#f0f4ff',
+                  color: '#1F4E8C',
+                  borderRadius: 5,
+                  padding: '2px 7px',
+                  fontWeight: 600,
+                }}
+              >
+                {categoriaDisplay}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Source + ideology chip */}
@@ -261,21 +336,34 @@ function FeedItemCard({ item }: { item: FeedItem }) {
         </div>
       </div>
 
-      {/* Resumen */}
-      {item.resumen && (
-        <span
-          style={{
-            fontSize: 11.5,
-            color: '#6e6e73',
-            lineHeight: 1.45,
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical' as const,
-          }}
-        >
-          {item.resumen}
-        </span>
+      {/* Key points as bullet list */}
+      {sentences.length > 0 && (
+        <ul style={{ margin: '4px 0 0', padding: '0 0 0 14px', listStyle: 'disc' }}>
+          {sentences.map((s, i) => (
+            <li key={i} style={{ fontSize: 11, color: '#424245', lineHeight: 1.45, marginBottom: 2 }}>{s}</li>
+          ))}
+        </ul>
+      )}
+
+      {/* Figures/parties row */}
+      {parties.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {parties.map((p) => (
+            <span
+              key={p}
+              style={{
+                fontSize: 9.5,
+                background: '#F0F0F5',
+                color: '#424245',
+                borderRadius: 4,
+                padding: '1px 6px',
+                fontWeight: 500,
+              }}
+            >
+              {p.trim()}
+            </span>
+          ))}
+        </div>
       )}
 
       {/* Date */}
@@ -448,22 +536,18 @@ export default function MediosNarrativaPage() {
           }}
         >
           <KpiCard
-            icon="📰"
             label="Artículos totales"
             value={kpisRaw?.articulos_totales ?? '…'}
           />
           <KpiCard
-            icon="📡"
             label="Fuentes activas"
             value={kpisRaw?.fuentes_activas ?? '…'}
           />
           <KpiCard
-            icon="💬"
             label="Narrativas activas"
             value={kpisRaw?.narrativas_detectadas ?? '…'}
           />
           <KpiCard
-            icon="🌍"
             label="Artículos internacionales"
             value={kpisRaw?.articulos_internacionales ?? '…'}
           />

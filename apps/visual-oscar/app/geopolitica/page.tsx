@@ -13,6 +13,13 @@ function nivelColor(n: string) {
   if (n === 'MEDIO') return '#1F4E8C'
   return '#6e6e73'
 }
+function osintSourceBorderColor(fuente: string): string {
+  if (/RUSI|IISS|War on the Rocks|SIPRI/i.test(fuente)) return '#c42c2c'
+  if (/Elcano|CIDOB|ECFR|EUISS|Atlantic Council/i.test(fuente)) return '#1F4E8C'
+  if (/OIES|IEA|energy/i.test(fuente)) return '#b25000'
+  if (/ICG|Mixed Migration|InSight/i.test(fuente)) return '#D97706'
+  return '#6e6e73'
+}
 function catColor(c: string) {
   if (c === 'diplomatica') return '#1F4E8C'
   if (c === 'empresarial') return '#2d8a39'
@@ -102,10 +109,10 @@ export default function GeopoliticaPage() {
   const presencia: PresenciaItem[] = presenciaRaw?.data ?? []
 
   const kpiCards = [
-    { label: 'Señales OSINT 24h', value: geoStats.osint_24h },
-    { label: 'Alertas activas', value: geoStats.alertas_activas },
-    { label: 'Países monitorizados', value: geoStats.paises_monitorizados },
-    { label: 'Presencia activa', value: geoStats.presencia_activa },
+    { label: 'Señales OSINT 24h', value: geoStats.osint_24h, accent: '#0E7490' },
+    { label: 'Alertas activas', value: geoStats.alertas_activas, accent: '#c42c2c' },
+    { label: 'Países monitorizados', value: geoStats.paises_monitorizados, accent: '#2d8a39' },
+    { label: 'Presencia activa', value: geoStats.presencia_activa, accent: '#1F4E8C' },
   ]
 
   const riesgoSorted = [...riesgo].sort((a, b) => b.score - a.score)
@@ -145,20 +152,24 @@ export default function GeopoliticaPage() {
   })
 
   const geoLayout = {
-    paper_bgcolor: 'rgba(0,0,0,0)',
-    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: '#0b1422',
+    plot_bgcolor: '#0b1422',
     geo: {
-      bgcolor: '#f0f4f8',
-      landcolor: '#e2e8f0',
-      oceancolor: '#cbd5e1',
+      bgcolor: '#0b1422',
+      landcolor: '#1e2d4a',
+      oceancolor: '#0d1a2e',
       showocean: true,
       showland: true,
+      showcoastlines: true,
+      coastlinecolor: '#2d4470',
+      showcountries: true,
+      countrycolor: '#1a2d50',
       projection: { type: 'natural earth' },
       showframe: false,
-      coastlinecolor: '#94a3b8',
     },
     margin: { t: 0, b: 0, l: 0, r: 0 },
-    height: 380,
+    height: 400,
+    font: { color: '#a0b0c0' },
   }
 
   return (
@@ -169,7 +180,7 @@ export default function GeopoliticaPage() {
         {/* KPI strip */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 28 }}>
           {kpiCards.map((k) => (
-            <div key={k.label} style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '20px 24px' }}>
+            <div key={k.label} style={{ background: '#fff', border: '1px solid #e8e8ed', borderLeft: `3px solid ${k.accent}`, borderRadius: 18, padding: '20px 24px' }}>
               <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 500, marginBottom: 6 }}>{k.label}</div>
               <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em' }}>{k.value}</div>
             </div>
@@ -265,15 +276,22 @@ export default function GeopoliticaPage() {
                   <option value="militar">Militar</option>
                   <option value="energia">Energía</option>
                   <option value="diplomatica">Diplomática</option>
+                  <option value="seguridad">Seguridad</option>
                 </select>
               </div>
               <span style={{ fontSize: 12, color: '#6e6e73' }}>
                 {loadingOsint ? 'Cargando…' : `${osintFiltered.length} señales`}
               </span>
             </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16, padding: '10px 14px', background: '#f5f5f7', borderRadius: 10 }}>
+              <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 600, alignSelf: 'center', marginRight: 4 }}>Fuentes:</span>
+              {['Real Instituto Elcano', 'CIDOB', 'ECFR', 'RUSI', 'ICG CrisisWatch', 'Atlantic Council', 'EUISS', 'OIES', 'SIPRI', 'War on the Rocks'].map(s => (
+                <span key={s} style={{ fontSize: 10, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 6, padding: '2px 8px', color: '#424245', fontWeight: 500 }}>{s}</span>
+              ))}
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {osintFiltered.map((o) => (
-                <div key={o.id} style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '16px 20px' }}>
+                <div key={o.id} style={{ background: '#fff', border: '1px solid #e8e8ed', borderLeft: `3px solid ${osintSourceBorderColor(o.fuente)}`, borderRadius: 14, padding: '16px 20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6, gap: 12 }}>
                     <div style={{ fontWeight: 600, fontSize: 14, flex: 1 }}>{o.titulo}</div>
                     <div style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
@@ -421,10 +439,10 @@ export default function GeopoliticaPage() {
 
         {/* TAB 5 — Análisis IA */}
         {tab === 5 && (
-          <div style={{ background: '#f5f5f7', border: '1px solid #e8e8ed', borderRadius: 22, padding: '60px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 240 }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 15, fontWeight: 600, color: '#1d1d1f', marginBottom: 6 }}>Análisis geopolítico con IA</div>
-              <div style={{ fontSize: 13, color: '#6e6e73' }}>Próximamente — integración con Politeia Brain</div>
+          <div style={{ background: '#f5f5f7', border: '1px solid #e8e8ed', borderRadius: 22, padding: '40px 24px' }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginBottom: 8 }}>Análisis geopolítico con IA</div>
+            <div style={{ fontSize: 13, color: '#6e6e73', lineHeight: 1.6, maxWidth: 520 }}>
+              Integración con Politeia Brain disponible próximamente. El módulo permitirá consultas en lenguaje natural sobre cualquier país o conflicto, análisis de escenarios con horizonte 90 días, y briefings geopolíticos personalizados.
             </div>
           </div>
         )}
