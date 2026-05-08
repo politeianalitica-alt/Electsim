@@ -351,7 +351,7 @@ export default function LegislationMap({ sourcePath = '/api/intelligence/legisla
                 fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999, letterSpacing: '0.06em', textTransform: 'uppercase',
                 color: dotColor(hovered.ai_impact_level), background: `${dotColor(hovered.ai_impact_level)}18`,
               }}>{hovered.ai_impact_level ?? '—'}</span>
-              {hovered.region && <span style={{ color: '#6e6e73', fontSize: 11 }}>📍 {hovered.region}</span>}
+              {hovered.region && <span style={{ color: '#6e6e73', fontSize: 11 }}>{hovered.region}</span>}
               {hovered.ai_relevance != null && <span style={{ color: '#1F4E8C', fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 11.5 }}>R{hovered.ai_relevance}</span>}
             </div>
           </div>

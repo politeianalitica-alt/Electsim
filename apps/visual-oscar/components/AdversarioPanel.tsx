@@ -301,7 +301,7 @@ function Simulador() {
                 padding: '5px 12px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
                 fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
               }}>
-                {copied ? '✓ Copiado' : 'Copiar'}
+                {copied ? 'Copiado' : 'Copiar'}
               </button>
             </div>
             <pre style={{

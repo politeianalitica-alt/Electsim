@@ -30,12 +30,6 @@ const EMOCION_COLOR: Record<EmocionDominante, string> = {
   neutra: '#95a5a6',
 }
 
-const EMOCION_EMOJI: Record<EmocionDominante, string> = {
-  positiva: '😊',
-  negativa: '😠',
-  neutra: '😐',
-}
-
 function capitalize(s: string): string {
   if (!s) return s
   return s.charAt(0).toUpperCase() + s.slice(1)
@@ -78,7 +72,6 @@ export default function NarrativePanel({ clusters }: NarrativePanelProps) {
 function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
   const velocidadBg = VELOCIDAD_BG[cluster.velocidad_label as VelocidadLabel] ?? '#95a5a6'
   const emocionColor = EMOCION_COLOR[cluster.emocion_dominante as EmocionDominante] ?? '#95a5a6'
-  const emocionEmoji = EMOCION_EMOJI[cluster.emocion_dominante as EmocionDominante] ?? '😐'
 
   return (
     <div
@@ -158,7 +151,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
             padding: '2px 7px',
           }}
         >
-          {emocionEmoji} {cluster.emocion_dominante}
+          {cluster.emocion_dominante}
         </span>
       </div>
 
@@ -202,7 +195,7 @@ function NarrativeCard({ cluster }: { cluster: NarrativeCluster }) {
           marginTop: 2,
         }}
       >
-        💡 {cluster.recomendacion}
+        {cluster.recomendacion}
       </div>
     </div>
   )
