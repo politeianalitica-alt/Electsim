@@ -114,7 +114,7 @@ export function ActorDetailPanel({ actorId, onClose }: Props) {
       <div className="absolute inset-0 bg-black/55" onClick={onClose} />
 
       {/* Panel */}
-      <div className="relative w-full max-w-lg bg-bg2 border-l border-border1 flex flex-col h-full overflow-hidden shadow-2xl animate-slide-in-right">
+      <div className="relative w-full max-w-lg bg-bg2 border-l border-border1 flex flex-col h-full overflow-hidden animate-slide-in-right">
         {actorQ.isLoading ? (
           <div className="flex items-center justify-center flex-1">
             <RefreshCw className="w-6 h-6 text-cyan1 animate-spin" />
