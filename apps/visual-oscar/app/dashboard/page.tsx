@@ -11,6 +11,15 @@ import Skeleton, { LiveDot } from '@/components/Skeleton'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
+// ── Trends types ─────────────────────────────────────────────────────────────
+
+interface TrendItem {
+  id: string; termino: string; fuente: string; rank: number
+  score_norm: number; categoria: string | null; es_evento_geo: boolean
+  paises_mencionados: string[]; url: string; resumen: string | null
+  timestamp: string
+}
+
 // ── Static CCAA metadata ──────────────────────────────────────────────────────
 
 type MapTab = 'electoral' | 'narrativa' | 'figuras'
@@ -117,6 +126,11 @@ export default function DashboardPage() {
     { refreshInterval: 60_000 }
   )
 
+  const { data: trendsData, loading: trendsLoading } = useApi<TrendItem[]>(
+    '/api/trends',
+    { refreshInterval: 120_000 }
+  )
+
   useEffect(() => {
     if (!isAuthenticated()) router.push('/login')
   }, [router])
@@ -203,6 +217,220 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
+
+        {/* Tendencias ahora */}
+        {(() => {
+          const CATEGORIA_COLOR: Record<string, string> = {
+            geopolitica: '#c42c2c',
+            politica:    '#1F4E8C',
+            economia:    '#2d8a39',
+          }
+          const trends = Array.isArray(trendsData) ? trendsData : []
+          const geoItems = trends.filter(t => t.es_evento_geo).slice(0, 3)
+          const sourcePills = Array.from(new Set(trends.map(t => t.fuente))).slice(0, 5)
+          const lastTs = trends.length > 0 ? trends[0].timestamp : null
+          const formattedTs = lastTs
+            ? new Date(lastTs).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+            : null
+
+          return (
+            <section style={{ marginBottom: 20 }}>
+              {/* Section header */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+                  Tendencias ahora
+                </h2>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {formattedTs && (
+                    <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>
+                      {formattedTs}
+                    </span>
+                  )}
+                  {sourcePills.map(src => (
+                    <span key={src} style={{
+                      fontSize: 9, fontWeight: 600, padding: '2px 7px', borderRadius: 999,
+                      background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.03em',
+                      border: '1px solid #ECECEF',
+                    }}>
+                      {src}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Horizontal scroll row */}
+              {trendsLoading ? (
+                <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
+                  {[0,1,2,3,4,5].map(i => (
+                    <div key={i} style={{
+                      minWidth: 200, maxWidth: 240, flexShrink: 0,
+                      background: '#fff', borderRadius: 10, padding: '12px 13px',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      border: '1px solid #ECECEF', borderLeft: '3px solid #e8e8ed',
+                    }}>
+                      <Skeleton width={160} height={10} radius={4} style={{ marginBottom: 7 }}/>
+                      <Skeleton width={80} height={8} radius={4} style={{ marginBottom: 8 }}/>
+                      <Skeleton width={180} height={8} radius={4} style={{ marginBottom: 4 }}/>
+                      <Skeleton width={140} height={8} radius={4} style={{ marginBottom: 12 }}/>
+                      <Skeleton width={'100%' as unknown as number} height={3} radius={3}/>
+                    </div>
+                  ))}
+                </div>
+              ) : trends.length === 0 ? (
+                <div style={{
+                  background: '#fff', borderRadius: 10, padding: '18px 20px',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
+                  textAlign: 'center', color: '#6e6e73', fontSize: 12,
+                }}>
+                  Sin tendencias disponibles
+                </div>
+              ) : (
+                <div style={{
+                  display: 'flex', gap: 8, overflowX: 'auto',
+                  paddingBottom: 4,
+                  msOverflowStyle: 'none',
+                } as React.CSSProperties}>
+                  {trends.map(t => {
+                    const accentColor = t.categoria ? (CATEGORIA_COLOR[t.categoria] ?? '#6e6e73') : '#6e6e73'
+                    const borderLeft = t.es_evento_geo ? '3px solid #c42c2c' : '3px solid #e8e8ed'
+                    return (
+                      <div key={t.id}
+                        onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
+                        style={{
+                          minWidth: 200, maxWidth: 240, flexShrink: 0,
+                          background: '#fff', borderRadius: 10, padding: '11px 13px',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                          border: '1px solid #ECECEF', borderLeft,
+                          cursor: t.url ? 'pointer' : 'default',
+                          display: 'flex', flexDirection: 'column', gap: 5,
+                          position: 'relative',
+                          transition: 'box-shadow 150ms',
+                        }}
+                        onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
+                        onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
+                      >
+                        {/* Rank + geo badge row */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                            background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.04em',
+                          }}>
+                            #{t.rank}
+                          </span>
+                          {t.es_evento_geo && (
+                            <span style={{
+                              fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                              background: '#c42c2c18', color: '#c42c2c', letterSpacing: '0.04em',
+                            }}>
+                              GEO
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Termino */}
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                          {t.termino}
+                        </div>
+
+                        {/* Fuente */}
+                        <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 500 }}>
+                          {t.fuente}
+                        </div>
+
+                        {/* Resumen */}
+                        {t.resumen && (
+                          <div style={{
+                            fontSize: 12, color: '#444', lineHeight: 1.4,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                          } as React.CSSProperties}>
+                            {t.resumen}
+                          </div>
+                        )}
+
+                        {/* Country chips */}
+                        {t.paises_mencionados && t.paises_mencionados.length > 0 && (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                            {t.paises_mencionados.slice(0, 3).map(p => (
+                              <span key={p} style={{
+                                fontSize: 9, padding: '1px 5px', borderRadius: 999,
+                                background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
+                                border: '1px solid #dce6ff',
+                              }}>
+                                {p}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Score bar + link arrow */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
+                          <div style={{ flex: 1, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
+                            <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
+                          </div>
+                          {t.url && (
+                            <span style={{ fontSize: 12, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* Geo highlights */}
+              {geoItems.length > 0 && !trendsLoading && (
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${geoItems.length}, 1fr)`, gap: 8, marginTop: 8 }}>
+                  {geoItems.map(t => (
+                    <div key={`geo-${t.id}`}
+                      onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
+                      style={{
+                        background: '#fff', borderRadius: 10, padding: '13px 15px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                        border: '1px solid #f0d0d0', borderLeft: '3px solid #c42c2c',
+                        cursor: t.url ? 'pointer' : 'default',
+                        transition: 'box-shadow 150ms',
+                      }}
+                      onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
+                      onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
+                    >
+                      <div style={{ fontWeight: 700, fontSize: 12, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
+                        {t.termino}
+                      </div>
+                      {t.resumen && (
+                        <div style={{
+                          fontSize: 11, color: '#444', lineHeight: 1.4, marginBottom: 6,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        } as React.CSSProperties}>
+                          {t.resumen}
+                        </div>
+                      )}
+                      {t.paises_mencionados && t.paises_mencionados.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
+                          {t.paises_mencionados.map(p => (
+                            <span key={p} style={{
+                              fontSize: 9, padding: '1px 5px', borderRadius: 999,
+                              background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
+                              border: '1px solid #dce6ff',
+                            }}>
+                              {p}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )
+        })()}
 
         {/* News pulse + enriched territory map */}
         <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 16 }}>
