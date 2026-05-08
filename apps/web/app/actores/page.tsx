@@ -2,14 +2,29 @@
 
 import { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 import {
   Users, Search, TrendingUp, TrendingDown, Minus, Network,
   ChevronRight, Plus, RefreshCw, Zap,
 } from "lucide-react";
 import { endpoints, type Actor } from "@/lib/api/endpoints";
-import { ActorGraph } from "@/components/dashboard/ActorGraph";
 import { ActorDetailPanel } from "@/components/dashboard/ActorDetailPanel";
 import { AddActorModal } from "@/components/dashboard/AddActorModal";
+
+// D3 force-directed graph: client-only (usa SVG manipulation y window)
+// Dynamic import con ssr:false reduce el bundle inicial y evita errores SSR
+const ActorGraph = dynamic(
+  () => import("@/components/dashboard/ActorGraph").then(m => ({ default: m.ActorGraph })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="premium-card p-0 overflow-hidden">
+        <div className="h-14 border-b border-border1 bg-bg3/30 animate-pulse"/>
+        <div className="h-[600px] bg-bg3/20 animate-pulse"/>
+      </div>
+    ),
+  }
+);
 
 // ── Mapas de partidos ────────────────────────────────────────────────────────
 const PARTIES = [
