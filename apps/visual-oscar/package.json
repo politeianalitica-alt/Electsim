@@ -11,9 +11,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/react-plotly.js": "^2.6.4",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "next": "14.2.3",
+    "plotly.js": "^2.35.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-plotly.js": "^2.6.0",
+    "sigma": "^3.0.3",
     "undici": "^8.2.0"
   },
   "devDependencies": {
