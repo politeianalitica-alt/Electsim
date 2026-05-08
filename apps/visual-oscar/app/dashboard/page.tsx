@@ -123,6 +123,49 @@ export default function DashboardPage() {
         {/* Politeia Briefing AI (BrainBriefing usa /api/briefings/morning) */}
         <BrainBriefing/>
 
+        {/* ── Centros de inteligencia · acceso rápido a los módulos nuevos ── */}
+        <section style={{ marginTop: 18, marginBottom: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+              Centros de inteligencia
+            </h2>
+            <span style={{ fontSize: 10.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+              16 módulos nuevos · click para abrir
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            {[
+              { href: '/coaliciones',         label: 'Hub electoral',       sub: '8 tabs · Adversario · Voto blando · Analogías', accent: '#5B21B6', tag: 'NUEVO' },
+              { href: '/mapa-actores',        label: 'Mapa de actores',     sub: 'Mapa · Grafo de relaciones · Dossier ideológico', accent: '#1F4E8C', tag: 'EXPANDIDO' },
+              { href: '/riesgo',              label: 'Risk Index',           sub: 'Composición + simulador por señal + escenarios', accent: '#c42c2c', tag: 'EXPANDIDO' },
+              { href: '/medios-narrativa',    label: 'Medios y narrativa',   sub: '487 fuentes · ciclo de vida narrativo', accent: '#b25000', tag: 'EXPANDIDO' },
+              { href: '/monitor-legislativo', label: 'Monitor legislativo',  sub: 'Mapa territorial · 14 normas geo', accent: '#0F766E', tag: 'NUEVO' },
+              { href: '/briefing',            label: 'Briefing diario',      sub: 'Descarga PDF · archivo histórico', accent: '#2d8a39', tag: 'EXPANDIDO' },
+              { href: '/geopolitica',         label: 'Geopolítica',          sub: 'Live ticker · factores · riesgos cuantificados', accent: '#0E7490', tag: 'NUEVO' },
+              { href: '/workspaces',          label: 'Workspaces',           sub: 'KPIs por workspace · briefings archivados', accent: '#7C3AED', tag: 'NUEVO' },
+            ].map((m, i) => (
+              <button key={m.href} onClick={() => router.push(m.href)} style={{
+                background: '#fff', border: '1px solid #ECECEF', borderLeft: `3px solid ${m.accent}`,
+                borderRadius: 14, padding: '14px 16px', textAlign: 'left', cursor: 'pointer',
+                fontFamily: 'inherit', boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                transition: 'transform 160ms ease, box-shadow 160ms ease',
+                animation: 'pol-fade-in 320ms ease-out', animationDelay: `${i * 50}ms`, animationFillMode: 'backwards',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em' }}>{m.label}</span>
+                  <span style={{
+                    fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 999, letterSpacing: '0.06em',
+                    background: `${m.accent}15`, color: m.accent,
+                  }}>{m.tag}</span>
+                </div>
+                <p style={{ margin: 0, fontSize: 11, color: '#6e6e73', lineHeight: 1.45 }}>{m.sub}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+
         {/* ── Cabecera con live status ── */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, marginTop: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
