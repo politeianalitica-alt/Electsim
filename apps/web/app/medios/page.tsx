@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronRight, ChevronDown } from "lucide-react";
+import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronDown, ExternalLink, X } from "lucide-react";
+import { NarrativeMapSpain } from "@/components/media/NarrativeMapSpain";
+import { NarrativeMapWorld } from "@/components/media/NarrativeMapWorld";
 
 function statusBadge(s: string) {
   if (s === "active") return { class: "badge-green", icon: CheckCircle2, label: "Activa" };
@@ -12,6 +14,8 @@ function statusBadge(s: string) {
 }
 
 export default function MediosPage() {
+  const [activeSrc, setActiveSrc] = useState<string | null>(null);
+
   const { data: stories = [], isLoading: loadingStories } = useQuery({
     queryKey: ["media", "top-stories"],
     queryFn: () => endpoints.mediaTopStories(15),
@@ -34,6 +38,17 @@ export default function MediosPage() {
   const sources = sourceHealth?.sources ?? [];
   const totalSources = (sourceHealth?.active ?? 0) + (sourceHealth?.degraded ?? 0) + (sourceHealth?.down ?? 0);
 
+  const uniqueSources = useMemo(() => {
+    const seen = new Set<string>();
+    stories.forEach(s => { if (s.source) seen.add(s.source); });
+    return Array.from(seen).sort();
+  }, [stories]);
+
+  const filteredStories = useMemo(() => {
+    if (!activeSrc) return stories;
+    return stories.filter(s => s.source === activeSrc);
+  }, [stories, activeSrc]);
+
   return (
     <div className="space-y-6">
       <header>
@@ -41,6 +56,15 @@ export default function MediosPage() {
         <h1 className="text-3xl font-bold text-text1 mt-1">Medios & Narrativa</h1>
         <p className="text-text2 text-sm mt-1">Monitorización editorial, salud de fuentes y análisis narrativo en tiempo real.</p>
       </header>
+
+      {/* Narratives — moved to top */}
+      <NarrativesSection narratives={narratives} loading={loadingNarratives}/>
+
+      {/* Spain CCAA narrative map */}
+      <NarrativeMapSpain />
+
+      {/* World narrative map */}
+      <NarrativeMapWorld />
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -65,26 +89,60 @@ export default function MediosPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Top stories */}
         <section className="lg:col-span-2 premium-card">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-3">
             <Newspaper className="w-4 h-4 text-cyan1" />
             <h2 className="text-sm font-bold uppercase tracking-wider text-text1">Top stories — Selección editorial</h2>
           </div>
+
+          {/* Source filter chips */}
+          {uniqueSources.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              <button
+                onClick={() => setActiveSrc(null)}
+                className={`text-[10px] px-2.5 py-1 rounded-full border transition ${!activeSrc ? "bg-cyan1 text-bg border-cyan1 font-semibold" : "border-border1 text-text2 hover:border-cyan1/40"}`}
+              >
+                Todas
+              </button>
+              {uniqueSources.map(src => (
+                <button
+                  key={src}
+                  onClick={() => setActiveSrc(activeSrc === src ? null : src)}
+                  className={`text-[10px] px-2.5 py-1 rounded-full border transition flex items-center gap-1 ${activeSrc === src ? "bg-cyan1/10 text-cyan1 border-cyan1/40" : "border-border1 text-text2 hover:border-cyan1/40"}`}
+                >
+                  {src}
+                  {activeSrc === src && <X className="w-2.5 h-2.5"/>}
+                </button>
+              ))}
+            </div>
+          )}
+
           <ul className="space-y-3">
             {loadingStories
               ? Array.from({ length: 6 }).map((_, i) => <li key={i} className="p-3 rounded-lg animate-pulse h-12 bg-bg3/30" />)
-              : stories.length === 0
+              : filteredStories.length === 0
                 ? <li className="text-xs text-muted italic">Sin top stories disponibles ahora.</li>
-                : stories.map(s => (
-                    <li key={s.id} className="group cursor-pointer p-3 rounded-lg hover:bg-bg3 transition flex items-start gap-3">
-                      <span className="text-cyan1 font-mono text-xs mt-0.5">{(s.relevance_score * 100).toFixed(0)}</span>
+                : filteredStories.map(s => (
+                    <li key={s.id} className="group p-3 rounded-lg hover:bg-bg3 transition flex items-start gap-3">
+                      <span className="text-cyan1 font-mono text-xs mt-0.5 shrink-0">{(s.relevance_score * 100).toFixed(0)}</span>
                       <div className="flex-1 min-w-0">
                         <div className="text-[10px] uppercase tracking-wider text-muted">{s.source}</div>
-                        <div className="text-sm text-text1 group-hover:text-cyan1 transition">{s.title}</div>
+                        {s.url ? (
+                          <a
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm text-text1 group-hover:text-cyan1 transition flex items-start gap-1"
+                          >
+                            {s.title}
+                            <ExternalLink className="w-3 h-3 mt-0.5 shrink-0 opacity-0 group-hover:opacity-100 transition"/>
+                          </a>
+                        ) : (
+                          <div className="text-sm text-text1 group-hover:text-cyan1 transition">{s.title}</div>
+                        )}
                         <div className="mt-1.5 h-0.5 bg-bg3 rounded-full overflow-hidden">
                           <div className="h-full bg-gradient-to-r from-cyan1 to-blue1" style={{ width: `${s.relevance_score * 100}%`, transition: "width 600ms ease" }} />
                         </div>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-muted opacity-0 group-hover:opacity-100 transition" />
                     </li>
                   ))}
           </ul>
@@ -115,8 +173,6 @@ export default function MediosPage() {
         </aside>
       </div>
 
-      {/* Narratives */}
-      <NarrativesSection narratives={narratives} loading={loadingNarratives}/>
     </div>
   );
 }
@@ -207,6 +263,16 @@ function NarrativesSection({ narratives, loading }: { narratives: any[]; loading
                         <div className="flex flex-wrap gap-1.5">
                           {n.promoters.map((p: string) => (
                             <span key={p} className="badge badge-cyan text-[10px]">{p}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {(n.opponents?.length ?? 0) > 0 && (
+                      <div className="mb-3">
+                        <div className="text-[10px] uppercase tracking-wider text-muted mb-1">Detractores</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {n.opponents.map((o: string) => (
+                            <span key={o} className="badge badge-red text-[10px]">{o}</span>
                           ))}
                         </div>
                       </div>

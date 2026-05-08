@@ -38,7 +38,7 @@ export function AddActorModal({ onClose, onCreated }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-bg2 border border-border1 rounded-xl w-full max-w-md p-6 shadow-2xl">
+      <div className="relative bg-bg2 border border-border1 rounded-xl w-full max-w-md p-6">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-bold text-text1">Añadir nuevo actor</h2>
           <button onClick={onClose} className="p-1 rounded hover:bg-bg3 transition">

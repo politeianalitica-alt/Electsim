@@ -45,6 +45,7 @@ export interface NarrativeCluster {
   velocity: string;
   promoters: string[];
   affected_actors: string[];
+  opponents?: string[];
   article_count: number;
   dominant_emotion?: string;
   recommended_action?: string;
@@ -106,6 +107,77 @@ export interface RiskSignal {
 export interface RiskHistoryPoint {
   date: string;
   score: number;
+}
+
+export interface RiesgoPaisItem {
+  nombre: string;
+  lat_capital?: number;
+  lon_capital?: number;
+  score_total: number;
+  interes_espana: number;
+  riesgo_tendencia?: string;
+  flag_emoji?: string;
+  empresas_espanolas?: string[];
+  iso3?: string;
+}
+
+export interface OsintItem {
+  urgencia: number;
+  relevancia_espana?: number;
+  titulo: string;
+  resumen_ollama?: string;
+  fuente?: string;
+  fecha_publicacion?: string;
+  url?: string;
+  categoria?: string;
+  paises_mencionados?: string[];
+  procesado_llm?: boolean;
+}
+
+export interface OsintStats {
+  total?: number;
+  ultimas_24h?: number;
+  procesados_llm?: number;
+  por_urgencia?: Record<number, number>;
+}
+
+export interface AlertaGeo {
+  nivel: string;
+  titulo: string;
+  descripcion?: string;
+  paises?: string[];
+  creada_en?: string;
+  leida?: boolean;
+  url_origen?: string;
+}
+
+export interface ImpactoGeo {
+  titulo: string;
+  descripcion?: string;
+  dimension?: string;
+  severidad: number;
+  horizonte?: string;
+  probabilidad?: number;
+  recomendacion?: string;
+  sectores_afectados?: string[];
+  empresas_afectadas?: string[];
+}
+
+export interface PresenciaItem {
+  pais?: string;
+  pais_nombre?: string;
+  lat?: number;
+  lon?: number;
+  categoria?: string;
+  tipo_presencia?: string;
+  descripcion?: string;
+}
+
+export interface PaisTop {
+  pais?: string;
+  nombre?: string;
+  n?: number;
+  count?: number;
 }
 
 // ── GEOPOLITICA (api/routers/geopolitica.py) ─────────────────────────────────
@@ -255,6 +327,7 @@ export interface Actor {
   party_color: string;
   role: string | null;
   bio: string | null;
+  photo_url?: string | null;
   source: string;
   relevance_score: number;
   exposure: number;
@@ -278,19 +351,8 @@ export interface ActorRelation {
 }
 
 export interface ActorGraphData {
-  nodes: Array<{
-    id: string;
-    name: string;
-    party: string;
-    color: string;
-    role: string;
-    relevance: number;
-    exposure: number;
-    sentiment: string;
-    mentions_24h: number;
-    group: string;
-  }>;
-  edges: ActorRelation[];
+  nodes: ActorGraphNode[];
+  edges: ActorGraphEdge[];
 }
 
 export interface ActorMention {
@@ -313,6 +375,120 @@ export interface ActorNarrative {
   intensity: number;
   first_seen_at: string;
   last_seen_at: string;
+}
+
+export interface ActorGraphNode {
+  id: string;
+  name: string;
+  party: string;
+  color: string;
+  party_color?: string;
+  role: string;
+  relevance: number;
+  exposure: number;
+  sentiment: string;
+  mentions_24h: number;
+  group: string;
+  // New enriched fields:
+  mention_count_7d?: number;
+  approval?: number;
+  bio?: string;
+  photo_url?: string;
+  trending?: boolean;
+  risk_score?: number;
+  top_narrative?: string;
+  last_mention_at?: string;
+}
+
+export interface ActorGraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  type: string;
+  weight: number;
+  label: string;
+  // New fields:
+  co_mentions_72h?: number;
+  sentiment_delta?: number;
+  last_seen_at?: string;
+  evidence_url?: string;
+}
+
+export interface ActorEnrichment {
+  wikipedia?: {
+    extract?: string;
+    description?: string;
+    thumbnail_url?: string;
+    url?: string;
+  } | null;
+  congreso?: {
+    group?: string;
+    comisiones?: string[];
+    votaciones?: Array<{ titulo: string; fecha: string; resultado: string }>;
+  } | null;
+  boe?: {
+    mentions_count?: number;
+  } | null;
+  twitter?: {
+    handle?: string;
+    followers?: number;
+    tweet_count_7d?: number;
+    top_tweets?: Array<{ text: string; date: string; likes: number; url?: string }>;
+  } | null;
+  recent_news?: Array<{
+    title: string;
+    url?: string;
+    source?: string;
+    published_at?: string;
+    summary?: string;
+  }>;
+  updated_at?: string;
+}
+
+export interface ActorDossier {
+  actor: Actor & {
+    risk_score?: number;
+    top_narrative?: string;
+    last_mention_at?: string;
+    trending?: boolean;
+    intelligence?: {
+      score_influencia?: number;
+      score_riesgo?: number;
+      cargo_actual?: string;
+      foto_url?: string;
+    } | null;
+  };
+  enrichment?: ActorEnrichment;
+  mentions: ActorMention[];
+  history: Array<{ score: number; date: string }>;
+  narratives: ActorNarrative[];
+  co_mentions: Array<{
+    actor_id: string;
+    name: string;
+    party?: string;
+    party_color?: string;
+    co_count: number;
+    last_seen_at?: string;
+  }>;
+  sentiment_by_source: Array<{
+    source: string;
+    avg_sentiment: number;
+    count: number;
+    hostile: boolean;
+  }>;
+  sentiment_weekly: Array<{
+    week: string;
+    avg_sentiment: number;
+    count: number;
+  }>;
+  top_keywords: string[];
+  risk_signals: Array<{
+    id: string;
+    titulo: string;
+    urgencia: number;
+    tipo: string;
+    created_at: string;
+  }>;
 }
 
 // Cliente alternativo para rutas que NO van bajo /api (intelligence está en raíz).
@@ -377,6 +553,38 @@ export const endpoints = {
     events:        (limit = 20) => api.get<GeoEvent[]>(`/geopolitica/events?limit=${limit}`),
     spainPresence: () => api.get<SpainPresence[]>("/geopolitica/spain-presence"),
     kpis:          () => api.get<GeoKPIs>("/geopolitica/kpis"),
+    geoStats:       () => api.get<{stats: Record<string,number>; alertas_count: Record<string,number>}>("/geopolitica/geo-stats"),
+    riesgoPais:     (params?: {interes_min?: number; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.interes_min != null) qs.set("interes_min", String(params.interes_min));
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: RiesgoPaisItem[]}>(`/geopolitica/riesgo-pais?${qs}`);
+    },
+    presenciaGeo:   () => api.get<{data: PresenciaItem[]}>("/geopolitica/presencia-espanola-geo"),
+    osintFeed:      (params?: {horas?: number; urgencia_min?: number; relevancia_min?: number; categoria?: string; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.horas != null) qs.set("horas", String(params.horas));
+      if (params?.urgencia_min != null) qs.set("urgencia_min", String(params.urgencia_min));
+      if (params?.relevancia_min != null) qs.set("relevancia_min", String(params.relevancia_min));
+      if (params?.categoria) qs.set("categoria", params.categoria);
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: OsintItem[]}>(`/geopolitica/osint-feed?${qs}`);
+    },
+    osintStats:     () => api.get<OsintStats>("/geopolitica/osint-stats"),
+    alertasGeo:     (params?: {nivel?: string; limite?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.nivel) qs.set("nivel", params.nivel);
+      if (params?.limite != null) qs.set("limite", String(params.limite));
+      return api.get<{data: AlertaGeo[]}>(`/geopolitica/alertas-geo?${qs}`);
+    },
+    impactosGeo:    (params?: {dimension?: string; severidad_min?: number; limit?: number}) => {
+      const qs = new URLSearchParams();
+      if (params?.dimension) qs.set("dimension", params.dimension);
+      if (params?.severidad_min != null) qs.set("severidad_min", String(params.severidad_min));
+      if (params?.limit != null) qs.set("limit", String(params.limit));
+      return api.get<{data: ImpactoGeo[]}>(`/geopolitica/impactos-geo?${qs}`);
+    },
+    paisesTop:      (horas?: number, top_n?: number) => api.get<{data: PaisTop[]}>(`/geopolitica/paises-top?horas=${horas ?? 24}&top_n=${top_n ?? 10}`),
   },
 
   // ── Intelligence (api/routers/intelligence.py · sin prefix /api) ───────
@@ -434,6 +642,7 @@ export const endpoints = {
       return api.get<ActorGraphData>(`/actors/graph${qs.toString() ? "?" + qs : ""}`);
     },
     get:        (id: string) => api.get<Actor>(`/actors/${encodeURIComponent(id)}`),
+    dossier:    (id: string) => api.get<ActorDossier>(`/actors/${encodeURIComponent(id)}/dossier`),
     mentions:   (id: string, limit = 20) => api.get<ActorMention[]>(`/actors/${encodeURIComponent(id)}/mentions?limit=${limit}`),
     narratives: (id: string) => api.get<ActorNarrative[]>(`/actors/${encodeURIComponent(id)}/narratives`),
     history:    (id: string, n = 30) => api.get<Array<{ score: number; date: string }>>(`/actors/${encodeURIComponent(id)}/history?n=${n}`),
