@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import RiskIntelligence from '@/components/RiskIntelligence'
+import RiskBreakdown from '@/components/RiskBreakdown'
+import ScenarioSimulator from '@/components/ScenarioSimulator'
+import SignalScenarioPanel from '@/components/SignalScenarioPanel'
 
 /**
  * Página de riesgo dedicada — muestra el Politeia Risk Index en vista
@@ -35,6 +38,9 @@ export default function RiesgoPage() {
           </p>
         </header>
         <RiskIntelligence/>
+        <RiskBreakdown/>
+        <SignalScenarioPanel/>
+        <ScenarioSimulator/>
       </main>
       <footer style={{ borderTop: '1px solid var(--hairline)', padding: '22px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Politeia Analítica · Risk Intelligence · {new Date().getFullYear()}

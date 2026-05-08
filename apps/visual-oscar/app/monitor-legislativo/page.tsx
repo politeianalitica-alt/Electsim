@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import LegislationMap from '@/components/LegislationMap'
 
 // Tipos del feed real del BOE (matchea con /api/legislativo/feed)
 type ScoredNorma = {
@@ -235,6 +236,9 @@ export default function MonitorLegislativoPage() {
             <KPI label="ESCALADAS" value={String(NORMAS.filter(n => n.pronostico === 'media').length)} color="#F97316"/>
           </div>
         </section>
+
+        {/* Mapa legislativo · Impacto territorial */}
+        <LegislationMap/>
 
         {/* ═════════════════════════════════════════════════════════════════
             BOE EN VIVO · Disposiciones generales últimos 7 días

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import BriefingArchive from '@/components/BriefingArchive'
 import type { MorningBriefing } from '@/lib/api-types'
 
 // Mapeo del nivel del backend al estilo visual
@@ -204,6 +205,43 @@ export default function BriefingPage() {
                 {briefingMode === 'real' && <span style={{ fontSize:9, fontWeight:700, padding:'2px 7px', borderRadius:4, background:'#10b981', color:'#fff' }}>LIVE</span>}
                 {briefingMode === 'demo' && <span style={{ fontSize:9, fontWeight:700, padding:'2px 7px', borderRadius:4, background:'#fbbf24', color:'#0F172A' }}>DEMO</span>}
                 <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
+                <button onClick={async () => {
+                  try {
+                    const id = (briefing as any)?.id ?? 'today'
+                    const r = await fetch(`/api/briefings/${id}/pdf`)
+                    if (r.ok) {
+                      const ct = r.headers.get('content-type') || ''
+                      if (ct.includes('application/pdf')) {
+                        const blob = await r.blob()
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a'); a.href = url; a.download = `briefing-${id}.pdf`; a.click()
+                        setTimeout(() => URL.revokeObjectURL(url), 5000)
+                        return
+                      }
+                      const j = await r.json()
+                      if (j.bytes_b64) {
+                        const bytes = Uint8Array.from(atob(j.bytes_b64), c => c.charCodeAt(0))
+                        const blob = new Blob([bytes], { type: 'application/pdf' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a'); a.href = url; a.download = `briefing-${id}.pdf`; a.click()
+                        setTimeout(() => URL.revokeObjectURL(url), 5000)
+                        return
+                      }
+                    }
+                    // demo fallback
+                    const txt = `%PDF-1.4\n%Politeia briefing demo ${id}\n%EOF`
+                    const blob = new Blob([txt], { type: 'application/pdf' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a'); a.href = url; a.download = `briefing-${id}-demo.pdf`; a.click()
+                    setTimeout(() => URL.revokeObjectURL(url), 5000)
+                  } catch (e) {
+                    console.error(e)
+                  }
+                }} style={{
+                  marginLeft: 'auto', padding: '6px 14px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.25)',
+                  background: 'rgba(255,255,255,0.10)', color: '#fff',
+                  fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+                }}>↓ Descargar PDF</button>
               </div>
 
               {/* Executive summary */}
@@ -483,6 +521,9 @@ export default function BriefingPage() {
             ))}
           </div>
         </section>
+
+        {/* Archivo de briefings con descarga PDF */}
+        <BriefingArchive/>
 
       </main>
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>

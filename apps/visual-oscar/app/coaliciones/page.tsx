@@ -1,9 +1,28 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
+import PropensityPanel from '@/components/PropensityPanel'
+import AdversarioPanel from '@/components/AdversarioPanel'
+import CampanaPanel from '@/components/CampanaPanel'
+import VotoBlandoPanel from '@/components/VotoBlandoPanel'
+import AnalogiasPanel from '@/components/AnalogiasPanel'
+import MarketPanel from '@/components/MarketPanel'
+import OntologyPanel from '@/components/OntologyPanel'
+
+type HubTab = 'resumen' | 'propensity' | 'adversario' | 'campana' | 'voto' | 'analogias' | 'mercado' | 'ontologia'
+const HUB_TABS: { v: HubTab; l: string }[] = [
+  { v: 'resumen', l: 'Resumen' },
+  { v: 'propensity', l: 'Propensity' },
+  { v: 'adversario', l: 'Adversario' },
+  { v: 'campana', l: 'Campaña' },
+  { v: 'voto', l: 'Voto blando' },
+  { v: 'analogias', l: 'Analogías' },
+  { v: 'mercado', l: 'Mercado' },
+  { v: 'ontologia', l: 'Ontología' },
+]
 
 const PARTIES_KEY = ['PP','PSOE','VOX','Sumar','PNV','Junts','ERC','EH Bildu']
 const COLORS: Record<string,string> = {PP:'#009FDB',PSOE:'#E30613',VOX:'#63BE21',Sumar:'#E4007C',PNV:'#007A3D',Junts:'#00AEEF',ERC:'#F4B20A','EH Bildu':'#A9C55A'}
@@ -59,6 +78,7 @@ function cColor(v:number){
 export default function CoalicionesPage(){
   const router=useRouter()
   const currentPath='/coaliciones'
+  const [tab, setTab] = useState<HubTab>('resumen')
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
   return(
@@ -81,6 +101,19 @@ export default function CoalicionesPage(){
           </div>
         </section>
 
+        {/* Tab bar */}
+        <div style={{ display: 'flex', gap: 4, padding: 5, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 999, marginBottom: 18, width: 'fit-content', overflowX: 'auto', maxWidth: '100%' }}>
+          {HUB_TABS.map(t => (
+            <button key={t.v} onClick={() => setTab(t.v)} style={{
+              padding: '7px 16px', borderRadius: 999, border: 'none',
+              background: tab === t.v ? '#1d1d1f' : 'transparent',
+              color: tab === t.v ? '#fff' : '#6e6e73',
+              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+            }}>{t.l}</button>
+          ))}
+        </div>
+
+        {tab === 'resumen' && (<>
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
           <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de coalición</h2>
           <div style={{display:'flex',flexDirection:'column',gap:10}}>
@@ -184,6 +217,16 @@ export default function CoalicionesPage(){
             ))}
           </div>
         </div>
+        </>)}
+
+        {tab === 'propensity' && <PropensityPanel/>}
+        {tab === 'adversario' && <AdversarioPanel/>}
+        {tab === 'campana' && <CampanaPanel/>}
+        {tab === 'voto' && <VotoBlandoPanel/>}
+        {tab === 'analogias' && <AnalogiasPanel/>}
+        {tab === 'mercado' && <MarketPanel/>}
+        {tab === 'ontologia' && <OntologyPanel/>}
+
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
         Datos ficticios · Análisis de Coaliciones · ElectSim · {new Date().getFullYear()}

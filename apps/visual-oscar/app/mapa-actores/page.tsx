@@ -4,6 +4,24 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { ACTORES, CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actores'
+import { useApi } from '@/lib/useApi'
+import RelacionesGrafo from '@/components/RelacionesGrafo'
+import IdeologicalScatter from '@/components/IdeologicalScatter'
+
+type ActorView = 'mapa' | 'grafo' | 'dossier'
+
+interface ApiPersona {
+  id: string
+  nombre_completo?: string
+  partido?: string
+  cargo_actual?: string
+  score_influencia?: number
+  score_riesgo?: number
+  sentimiento_actual?: number
+  tendencia_sentimiento?: string
+  ambito?: string
+  bio?: string
+}
 
 const TIPO_COLOR: Record<Categoria, string> = {
   gobierno: '#E1322D', oposicion: '#1F4E8C', parlamento: '#5B21B6',
@@ -21,6 +39,21 @@ export default function MapaActoresPage() {
   const [showAllRank, setShowAllRank] = useState(false)
   const [hovered, setHovered] = useState<string | null>(null)
   const [pinned, setPinned] = useState<string | null>(null)
+  const [view, setView] = useState<ActorView>('mapa')
+  const [dossierId, setDossierId] = useState<string | null>(null)
+
+  // Live API: fetch personas from Politeia Intelligence
+  const { data: apiPersonas } = useApi<ApiPersona[]>('/api/intelligence/personas?limit=100&order_by=score_influencia', { refreshInterval: 0 })
+  const personas: ApiPersona[] = Array.isArray(apiPersonas) ? apiPersonas : []
+  const isLiveData = personas.length > 0
+
+  // Build a unified list mapping API personas to existing actor IDs by name match,
+  // so live cards can display extra fields without breaking the quadrant.
+  const liveByName = useMemo(() => {
+    const m: Record<string, ApiPersona> = {}
+    for (const p of personas) if (p.nombre_completo) m[p.nombre_completo.toLowerCase()] = p
+    return m
+  }, [personas])
   const focused = pinned ?? hovered
   const focusedActor = focused ? ACTORES.find(a => a.id === focused) : null
 
@@ -77,6 +110,51 @@ export default function MapaActoresPage() {
             <MiniK label="Europa" n={counts['europa']||0}/>
           </div>
         </section>
+
+        {/* Tabs: Mapa | Grafo de relaciones | Dossier */}
+        <div style={{ display: 'flex', gap: 4, padding: 5, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 999, marginBottom: 16, width: 'fit-content' }}>
+          {([
+            { v: 'mapa' as ActorView, l: 'Mapa de actores' },
+            { v: 'grafo' as ActorView, l: 'Grafo de relaciones' },
+            { v: 'dossier' as ActorView, l: 'Dossier' },
+          ]).map(t => (
+            <button key={t.v} onClick={() => setView(t.v)} style={{
+              padding: '7px 16px', borderRadius: 999, border: 'none',
+              background: view === t.v ? '#1d1d1f' : 'transparent',
+              color: view === t.v ? '#fff' : '#6e6e73',
+              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>{t.l}</button>
+          ))}
+          {isLiveData && (
+            <span style={{ padding: '7px 14px', borderRadius: 999, background: 'rgba(45,138,57,0.10)', color: '#2d8a39', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', alignSelf: 'center' }}>
+              ● {personas.length} live
+            </span>
+          )}
+        </div>
+
+      {view === 'grafo' && (
+        <RelacionesGrafo
+          actors={(personas.length > 0 ? personas : ACTORES.slice(0, 30)).map(p => ({
+            id: 'id' in p ? p.id : (p as any).id,
+            nombre: 'nombre_completo' in p ? p.nombre_completo : (p as any).nombre,
+            partido: p.partido,
+            cargo: 'cargo_actual' in p ? p.cargo_actual : (p as any).cargo,
+            score_influencia: 'score_influencia' in p ? p.score_influencia : (p as any).inf,
+          }))}
+        />
+      )}
+
+      {view === 'dossier' && (
+        <DossierView
+          actors={ACTORES}
+          liveByName={liveByName}
+          selectedId={dossierId ?? ACTORES[0].id}
+          onSelect={setDossierId}
+          onOpenGraph={() => setView('grafo')}
+        />
+      )}
+
+      {view === 'mapa' && (<>
 
         {/* Filtros + Buscador */}
         <div style={{ display:'flex', gap:12, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
@@ -372,6 +450,7 @@ export default function MapaActoresPage() {
             </section>
           )
         })()}
+      </>)}
       </main>
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Inteligencia Política · Mapa de Actores · Politeia Analítica · {new Date().getFullYear()}
@@ -395,6 +474,141 @@ function Coord({ label, value, pos, color }: { label:string, value:number, pos:s
       <div style={{ display:'flex', alignItems:'baseline', gap:5 }}>
         <span style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color, letterSpacing:'-0.018em' }}>{value > 0 ? `+${value}` : value}</span>
         <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.04em' }}>{pos}</span>
+      </div>
+    </div>
+  )
+}
+
+// Inline dossier view: scrollable list of actors on the left + full dossier on the right
+function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
+  actors: typeof ACTORES
+  liveByName: Record<string, ApiPersona>
+  selectedId: string
+  onSelect: (id: string) => void
+  onOpenGraph: () => void
+}) {
+  const [search, setSearch] = useState('')
+  const filtered = actors.filter(a =>
+    !search || a.nombre.toLowerCase().includes(search.toLowerCase()) || a.partido.toLowerCase().includes(search.toLowerCase())
+  )
+  const a = actors.find(x => x.id === selectedId) ?? actors[0]
+  const live = a ? liveByName[a.nombre.toLowerCase()] : undefined
+
+  const sentimiento = live?.sentimiento_actual ?? (a?.seg.tono ?? 0) / 50
+  const sentimientoTier = sentimiento > 0.1 ? 'mejorando' : sentimiento < -0.1 ? 'empeorando' : 'estable'
+  const sentimientoColor = sentimiento > 0.1 ? '#2d8a39' : sentimiento < -0.1 ? '#c42c2c' : '#6e6e73'
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
+      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: 14 }}>
+        <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar actor…"
+          style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8ed', borderRadius: 10, fontSize: 12, fontFamily: 'inherit', marginBottom: 10 }} />
+        <div style={{ maxHeight: 600, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {filtered.slice(0, 80).map(x => {
+            const active = x.id === selectedId
+            return (
+              <button key={x.id} onClick={() => onSelect(x.id)} style={{
+                textAlign: 'left', padding: '8px 12px', borderRadius: 10,
+                border: '1px solid ' + (active ? x.color : '#f0f0f3'),
+                background: active ? `${x.color}10` : '#fff',
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f' }}>{x.nombre}</div>
+                <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{x.partido} · {x.cargo}</div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '20px 24px' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+          <div style={{
+            width: 64, height: 64, borderRadius: '50%', background: a.color, color: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700,
+          }}>{initials(a.nombre)}</div>
+          <div style={{ flex: 1 }}>
+            <h2 style={{ margin: '0 0 4px', fontSize: 20, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, letterSpacing: '-0.015em' }}>{a.nombre}</h2>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ padding: '3px 10px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontSize: 11, fontWeight: 700 }}>{a.partido}</span>
+              {live?.ambito && <span style={{ padding: '3px 10px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10.5, fontWeight: 600 }}>{live.ambito}</span>}
+              <span style={{ fontSize: 12, color: '#6e6e73' }}>{a.cargo}</span>
+            </div>
+          </div>
+          <button onClick={onOpenGraph} style={{
+            padding: '8px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
+            fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
+          }}>Ver grafo completo →</button>
+        </div>
+
+        {/* Scores row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 18 }}>
+          <ScoreBar label="Influencia" value={live?.score_influencia ?? a.inf} max={100} color="#1F4E8C"/>
+          <ScoreBar label="Riesgo" value={live?.score_riesgo ?? Math.round(50 + (a.ejeX ?? 0) * 0.4)} max={100} color="#b25000"/>
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>
+              <span>Sentimiento</span>
+              <span style={{ color: sentimientoColor, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13 }}>
+                {sentimiento >= 0 ? '+' : ''}{sentimiento.toFixed(2)}
+              </span>
+            </div>
+            <span style={{
+              padding: '3px 10px', borderRadius: 999, background: `${sentimientoColor}15`, color: sentimientoColor,
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+            }}>{live?.tendencia_sentimiento ?? sentimientoTier}</span>
+          </div>
+        </div>
+
+        {/* Two-column body: left bio + right scatter */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 18 }}>
+          <div>
+            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Biografía</div>
+            <p style={{ margin: '0 0 16px', fontSize: 12.5, color: '#424245', lineHeight: 1.6 }}>
+              {live?.bio ?? `${a.cargo} de ${a.partido}. Influencia ${a.inf}/100, valoración ${a.val}/10. ${a.evs?.[0] ?? ''}`}
+            </p>
+
+            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Fortalezas</div>
+            <div style={{ marginBottom: 14 }}>
+              {a.forts.map(f => (
+                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
+                  <span style={{ color: '#2d8a39', fontWeight: 700 }}>+</span> {f}
+                </div>
+              ))}
+            </div>
+
+            <div style={{ fontSize: 10, color: '#c42c2c', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Debilidades</div>
+            <div>
+              {a.debs.map(d => (
+                <div key={d} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
+                  <span style={{ color: '#c42c2c', fontWeight: 700 }}>−</span> {d}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>
+              Posicionamiento ideológico
+            </div>
+            <IdeologicalScatter partido={a.partido} size={300}/>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ScoreBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>
+        <span>{label}</span>
+        <span style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13 }}>{value}/{max}</span>
+      </div>
+      <div style={{ height: 6, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
+        <div style={{ width: `${(value / max) * 100}%`, height: '100%', background: color, borderRadius: 999 }} />
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
+import LiveTicker from '@/components/LiveTicker'
 import { useState } from 'react'
 
 
@@ -59,6 +60,8 @@ export default function GeopoliticaPage() {
     <div style={{minHeight:'100vh',background:'#fbfbfd',color:'#1d1d1f',fontFamily:'var(--font-body,system-ui)'}}>
       <AppHeader/>
       <div style={{maxWidth:1200,margin:'0 auto',padding:'20px 24px 40px'}}>
+
+        <LiveTicker/>
 
         <TabBar items={['Factores externos','Relaciones bilaterales','Riesgos cuantificados']} active={tab} onChange={setTab}/>
 

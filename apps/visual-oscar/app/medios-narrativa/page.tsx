@@ -5,6 +5,8 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import NarrativeLifecycle from '@/components/NarrativeLifecycle'
+import SourceHealthDetail from '@/components/SourceHealthDetail'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -452,6 +454,12 @@ export default function MediosNarrativaPage() {
             ))}
           </div>
         </section>
+
+        {/* Source Health detalle */}
+        <div style={{ marginTop: 18 }}><SourceHealthDetail/></div>
+
+        {/* Narrativas activas con ciclo de vida 3-step */}
+        <NarrativeLifecycle/>
       </main>
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Narrativa Pública · Medios y Narrativa · Politeia Analítica · {new Date().getFullYear()}
