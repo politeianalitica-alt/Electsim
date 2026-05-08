@@ -3,7 +3,9 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { endpoints } from "@/lib/api/endpoints";
-import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronRight, ChevronDown, ExternalLink, X } from "lucide-react";
+import { Newspaper, Activity, AlertCircle, CheckCircle2, ChevronDown, ExternalLink, X } from "lucide-react";
+import { NarrativeMapSpain } from "@/components/media/NarrativeMapSpain";
+import { NarrativeMapWorld } from "@/components/media/NarrativeMapWorld";
 
 function statusBadge(s: string) {
   if (s === "active") return { class: "badge-green", icon: CheckCircle2, label: "Activa" };
@@ -54,6 +56,15 @@ export default function MediosPage() {
         <h1 className="text-3xl font-bold text-text1 mt-1">Medios & Narrativa</h1>
         <p className="text-text2 text-sm mt-1">Monitorización editorial, salud de fuentes y análisis narrativo en tiempo real.</p>
       </header>
+
+      {/* Narratives — moved to top */}
+      <NarrativesSection narratives={narratives} loading={loadingNarratives}/>
+
+      {/* Spain CCAA narrative map */}
+      <NarrativeMapSpain />
+
+      {/* World narrative map */}
+      <NarrativeMapWorld />
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -162,8 +173,6 @@ export default function MediosPage() {
         </aside>
       </div>
 
-      {/* Narratives */}
-      <NarrativesSection narratives={narratives} loading={loadingNarratives}/>
     </div>
   );
 }
