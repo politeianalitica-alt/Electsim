@@ -257,6 +257,151 @@ def get_actor_narratives(actor_id: str, db=Depends(get_db)):
     return out
 
 
+@router.get("/{actor_id}/dossier")
+def get_actor_dossier(actor_id: str, db=Depends(get_db)):
+    """Full actor dossier: base data + mentions + narratives + history + enrichment cache."""
+    # 1. Base actor
+    actor_row = db.execute(
+        text("SELECT * FROM actors WHERE id::text = :id"), {"id": actor_id}
+    ).mappings().fetchone()
+    if not actor_row:
+        raise HTTPException(404, "Actor not found")
+    actor = _row_to_actor(dict(actor_row))
+
+    # 2. Recent mentions
+    mentions = []
+    try:
+        m_rows = db.execute(text("""
+            SELECT * FROM actor_mentions
+            WHERE actor_id::text = :id
+            ORDER BY published_at DESC NULLS LAST
+            LIMIT 20
+        """), {"id": actor_id}).mappings().all()
+        for r in m_rows:
+            mentions.append({
+                "id":           str(r["id"]),
+                "title":        r["title"],
+                "url":          r.get("url"),
+                "source":       r.get("source"),
+                "published_at": r["published_at"].isoformat() if r.get("published_at") else None,
+                "sentiment":    float(r["sentiment"]) if r.get("sentiment") is not None else None,
+                "relevance":    float(r.get("relevance") or 0.5),
+                "summary":      r.get("summary"),
+            })
+    except Exception:
+        pass
+
+    # 3. Narratives
+    narratives = []
+    try:
+        n_rows = db.execute(text("""
+            SELECT * FROM actor_narratives
+            WHERE actor_id::text = :id
+            ORDER BY last_seen_at DESC
+            LIMIT 20
+        """), {"id": actor_id}).mappings().all()
+        for r in n_rows:
+            narratives.append({
+                "id":            str(r["id"]),
+                "frame_label":   r["frame_label"],
+                "description":   r.get("description"),
+                "lifecycle":     r.get("lifecycle") or "emergente",
+                "velocity":      r.get("velocity") or "estable",
+                "intensity":     float(r.get("intensity") or 0.5),
+                "first_seen_at": r["first_seen_at"].isoformat() if r.get("first_seen_at") else "",
+                "last_seen_at":  r["last_seen_at"].isoformat() if r.get("last_seen_at") else "",
+            })
+    except Exception:
+        pass
+
+    # 4. Relevance history (last 30 points)
+    history = []
+    try:
+        h_rows = db.execute(text("""
+            SELECT score, recorded_at FROM actor_relevance_history
+            WHERE actor_id::text = :id
+            ORDER BY recorded_at DESC LIMIT 30
+        """), {"id": actor_id}).mappings().all()
+        history = [
+            {"score": float(r["score"] or 0), "date": r["recorded_at"].isoformat() if r.get("recorded_at") else None}
+            for r in h_rows
+        ]
+    except Exception:
+        pass
+
+    # 5. Relations
+    relations = []
+    try:
+        r_rows = db.execute(text("""
+            SELECT r.id, r.actor_a_id, r.actor_b_id, r.relation_type, r.weight,
+                   a.name AS actor_b_name, a.party AS actor_b_party
+            FROM actor_relations r
+            JOIN actors a ON a.id = CASE
+                WHEN r.actor_a_id::text = :id THEN r.actor_b_id
+                ELSE r.actor_a_id
+            END
+            WHERE r.actor_a_id::text = :id OR r.actor_b_id::text = :id
+            ORDER BY r.weight DESC
+            LIMIT 30
+        """), {"id": actor_id}).mappings().all()
+        for r in r_rows:
+            relations.append({
+                "id":            str(r["id"]),
+                "actor_b_id":    str(r["actor_b_id"]),
+                "actor_b_name":  r.get("actor_b_name"),
+                "actor_b_party": r.get("actor_b_party"),
+                "relation_type": r["relation_type"],
+                "weight":        float(r.get("weight") or 0),
+            })
+    except Exception:
+        pass
+
+    # 6. Enrichment cache (Wikipedia, recent news, etc.)
+    enrichment_data = None
+    try:
+        cache_result = db.execute(
+            text("SELECT * FROM actor_enrichment_cache WHERE actor_id = :id"),
+            {"id": actor_id}
+        )
+        cache_row = cache_result.mappings().first()
+        if cache_row:
+            enrichment_data = {
+                "wikipedia": {
+                    "extract": cache_row.get("wiki_extract"),
+                    "description": cache_row.get("wiki_description"),
+                    "thumbnail_url": cache_row.get("wiki_thumbnail_url"),
+                    "url": cache_row.get("wiki_url"),
+                } if cache_row.get("wiki_extract") else None,
+                "congreso": {
+                    "group": cache_row.get("congreso_group"),
+                    "comisiones": cache_row.get("congreso_comisiones") or [],
+                    "votaciones": cache_row.get("congreso_votaciones_json") or [],
+                } if cache_row.get("congreso_group") else None,
+                "boe": {
+                    "mentions_count": cache_row.get("boe_mentions_count", 0),
+                } if (cache_row.get("boe_mentions_count") or 0) > 0 else None,
+                "twitter": {
+                    "handle": cache_row.get("twitter_handle"),
+                    "followers": cache_row.get("twitter_followers"),
+                    "tweet_count_7d": cache_row.get("tweet_count_7d", 0),
+                    "top_tweets": cache_row.get("top_tweets_json") or [],
+                } if cache_row.get("twitter_handle") else None,
+                "recent_news": cache_row.get("recent_news_json") or [],
+                "updated_at": cache_row.get("updated_at").isoformat() if cache_row.get("updated_at") else None,
+            }
+    except Exception:
+        pass
+
+    return {
+        "actor": actor,
+        "mentions": mentions,
+        "narratives": narratives,
+        "history": history,
+        "relations": relations,
+        "enrichment": enrichment_data,
+    }
+
+
 @router.get("/{actor_id}/history")
 def get_actor_history(actor_id: str, n: int = Query(30, le=120), db=Depends(get_db)):
     rows = db.execute(text("""
