@@ -110,11 +110,6 @@ export const MODULES: NavModule[] = [
       {
         label: 'Geopolítica y RRII',
         href: '/geopolitica',
-        banner: {
-          eyebrow: 'CONTEXTO ESTRATÉGICO',
-          title: 'Geopolítica y relaciones internacionales',
-          colorFrom: '#0E7490', colorTo: '#134E4A',
-        },
       },
       { label: 'Macro-Political & Economic', href: '/macro' },
     ],
