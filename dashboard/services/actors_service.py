@@ -750,3 +750,54 @@ def reset_a_seed() -> None:
         _STORE_PATH.unlink()
     _load_store()  # Recrea desde seed
     _invalidar_cache_metricas()
+
+
+# ─── Productividad parlamentaria ──────────────────────────────────────────────
+
+def cargar_productividad_parlamentaria() -> "pd.DataFrame":
+    """
+    Retorna productividad parlamentaria de actores políticos como DataFrame.
+
+    Intenta cargar desde la BD (tabla parliamentary_initiatives agrupada por autor).
+    Si la BD no está disponible o la tabla está vacía devuelve DataFrame vacío.
+
+    Columnas devueltas: actor, partido, presentadas, debate, aprobadas, rechazadas, temas
+    """
+    import pandas as pd
+
+    # Intentar consulta real desde DB
+    try:
+        import dashboard.db as _db
+        from sqlalchemy import text
+        engine = _db.get_engine()
+        if engine is not None:
+            query = """
+                SELECT
+                    authors                   AS actor,
+                    '' AS partido,
+                    COUNT(*)                  AS presentadas,
+                    COUNT(*) FILTER (WHERE status IN ('en_tramite','debate')) AS debate,
+                    COUNT(*) FILTER (WHERE result = 'aprobado')               AS aprobadas,
+                    COUNT(*) FILTER (WHERE result = 'rechazado')              AS rechazadas
+                FROM parliamentary_initiatives
+                WHERE legislature = :leg
+                GROUP BY authors
+                ORDER BY COUNT(*) DESC
+                LIMIT 20
+            """
+            import os
+            from sqlalchemy import text as _text
+            with engine.connect() as conn:
+                import os as _os
+                leg = _os.environ.get("LEGISLATURA_ACTUAL", "15")
+                rows = conn.execute(_text(query), {"leg": leg}).fetchall()
+                if rows:
+                    cols = ["actor", "partido", "presentadas", "debate", "aprobadas", "rechazadas"]
+                    df = pd.DataFrame(rows, columns=cols)
+                    df["temas"] = [[] for _ in range(len(df))]
+                    return df
+    except Exception:
+        pass
+
+    # DB no disponible — retornar vacío (sin datos falsos)
+    return pd.DataFrame()

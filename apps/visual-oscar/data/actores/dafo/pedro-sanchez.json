@@ -1,0 +1,106 @@
+{
+  "actor_id": "pedro-sanchez",
+  "fortalezas": [
+    {
+      "titulo": "Control del ejecutivo",
+      "descripcion": "Máxima capacidad de iniciativa legislativa y decreto. Agenda política dominada por el Gobierno.",
+      "evidencia": "Gobierno en funciones con 176 acciones de gobierno en 12 meses"
+    },
+    {
+      "titulo": "Agenda europea activa",
+      "descripcion": "Visibilidad internacional como interlocutor clave en la UE. Liderazgo en política exterior.",
+      "evidencia": "Presidencia del Consejo UE 2023, asistencia Consejo Europeo trimestral"
+    },
+    {
+      "titulo": "Red de liderazgo territorial",
+      "descripcion": "Apoyos en presidencias autonómicas PSOE y red de barones locales.",
+      "evidencia": "PSOE gobierna en 8 CCAA directamente o en coalición"
+    },
+    {
+      "titulo": "Resiliencia política demostrada",
+      "descripcion": "Superación de mociones de censura, investiduras y crisis internas. Alta capacidad de supervivencia.",
+      "evidencia": "Dos legislaturas completadas pese a minoría parlamentaria"
+    }
+  ],
+  "debilidades": [
+    {
+      "titulo": "Dependencia de socios menores volátiles",
+      "descripcion": "Mayoría parlamentaria depende de 7+ partidos, cada uno con agenda propia. Alta fragilidad.",
+      "evidencia": "Junts: 7 escaños con poder de veto. Bildu: 6 escaños. ERC: 7 escaños"
+    },
+    {
+      "titulo": "Erosión narrativa en medios de centro-derecha",
+      "descripcion": "Cobertura sistemáticamente negativa en El Mundo, ABC, La Razón y redes afines.",
+      "evidencia": "Monitor de medios: 68% cobertura negativa en medios de centroderecha"
+    },
+    {
+      "titulo": "Fragmentación de la izquierda",
+      "descripcion": "Competencia con Sumar y tensión con Podemos divide el espacio electoral propio.",
+      "evidencia": "Sumar: 31 escaños que compiten por el mismo electorado"
+    },
+    {
+      "titulo": "Desgaste por casos judiciales del entorno",
+      "descripcion": "Casos relacionados con familiares y partido erosionan imagen de gobierno limpio.",
+      "evidencia": "Caso Begoña Gómez activo en 2025-2026"
+    }
+  ],
+  "oportunidades": [
+    {
+      "titulo": "Fondos europeos NextGen como palanca",
+      "descripcion": "Gestión de fondos EU puede convertirse en ventaja electoral tangible.",
+      "horizonte": "corto"
+    },
+    {
+      "titulo": "Desunión PP-VOX",
+      "descripcion": "Fractura visible entre PP y VOX facilita que el centroderecha no sea alternativa sólida.",
+      "horizonte": "medio"
+    },
+    {
+      "titulo": "Agenda climática y digital",
+      "descripcion": "Liderazgo en transición verde y digital como diferenciación europea.",
+      "horizonte": "medio"
+    }
+  ],
+  "amenazas": [
+    {
+      "titulo": "Recurso al TC de leyes clave",
+      "descripcion": "TC puede tumbar legislación de coalición (amnistía, vivienda) generando crisis política.",
+      "probabilidad": "alta",
+      "horizonte": "corto"
+    },
+    {
+      "titulo": "Crisis de coalición con Junts",
+      "descripcion": "Cualquier decisión judicial sobre Puigdemont puede precipitar ruptura parlamentaria.",
+      "probabilidad": "alta",
+      "horizonte": "corto"
+    },
+    {
+      "titulo": "Escalada judicial casos entorno",
+      "descripcion": "Apertura de nuevas causas judiciales relacionadas con el gobierno puede acelerar desgaste.",
+      "probabilidad": "media",
+      "horizonte": "corto"
+    }
+  ],
+  "riesgo_judicial": {
+    "nivel": "bajo",
+    "causas": [],
+    "descripcion": "No hay causas judiciales directas activas contra el actor. El riesgo proviene del entorno próximo."
+  },
+  "riesgo_interno_partido": {
+    "nivel": "medio",
+    "descripcion": "Tensión latente con corrientes críticas sobre gestión de pactos con independentistas. Los barones autonómicos mantienen perfil propio.",
+    "actores_internos_criticos": ["Emiliano García-Page", "Javier Lambán", "Luis Tudanca"]
+  },
+  "riesgo_coalicion": {
+    "nivel": "alto",
+    "descripcion": "Dependencia de Junts (7 escaños) y Bildu (6) para cualquier mayoría. Ambos tienen agenda propia incompatible con partes del programa de gobierno.",
+    "socios_en_tension": ["Junts", "EH Bildu", "ERC"]
+  },
+  "riesgo_electoral": {
+    "nivel": "medio",
+    "intencion_voto_actual": 26.0,
+    "tendencia": "estable",
+    "descripcion": "PSOE estable en torno al 26-28% en encuestas. Sin elecciones inmediatas, el riesgo electoral es bajo a corto plazo pero la erosión acumulada es una amenaza a medio."
+  },
+  "sintesis_riesgo": "Pedro Sánchez mantiene una posición de poder sólida gracias al control del ejecutivo y la fragmentación de la alternativa. El riesgo principal es exógeno: la volatilidad de los socios parlamentarios —especialmente Junts— puede precipitar una crisis de gobernabilidad en cualquier momento. El riesgo judicial es bajo para él directamente, pero el entorno genera desgaste reputacional acumulativo. A medio plazo, la fragmentación del espacio de izquierdas y la erosión narrativa en medios de centroderecha son las principales amenazas a su continuidad."
+}

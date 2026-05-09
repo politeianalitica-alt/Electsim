@@ -14,7 +14,6 @@ Tabs:
 """
 from __future__ import annotations
 
-import random
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -73,43 +72,94 @@ sidebar_nav()
 mostrar_alertas_pagina("legislativo")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# DEMO DATA
+# SERVICIOS — imports defensivos
 # ═══════════════════════════════════════════════════════════════════════════════
 
-DEMO_LEYES = [
-    {"id": "LV-001", "ley": "Ley de Vivienda 2.0", "proponente": "PSOE-SUMAR", "area": "Social",
-     "fase": 2, "urgencia": "alta", "prob_aprobacion": 0.52,
-     "descripcion": "Reforma de la ley de vivienda que amplía el parque público de alquiler y refuerza las medidas de control de precios en zonas tensionadas.",
-     "fecha_inicio": "2025-10-01", "plazo_estimado": "2026-06-30", "partidos_clave": ["PSOE", "SUMAR", "PNV"]},
-    {"id": "RF-002", "ley": "Reforma Fiscal IRPF", "proponente": "PSOE", "area": "Económico",
-     "fase": 1, "urgencia": "alta", "prob_aprobacion": 0.45,
-     "descripcion": "Subida del tipo marginal máximo del IRPF para rentas superiores a 300.000€ y creación de un nuevo tramo para grandes fortunas.",
-     "fecha_inicio": "2025-11-15", "plazo_estimado": "2026-09-30", "partidos_clave": ["PSOE", "SUMAR", "ERC"]},
-    {"id": "IA-003", "ley": "Ley de IA y Regulación Digital", "proponente": "PP", "area": "Tecnología",
-     "fase": 1, "urgencia": "media", "prob_aprobacion": 0.61,
-     "descripcion": "Marco regulatorio nacional para sistemas de inteligencia artificial de alto riesgo, complementando el AI Act europeo con medidas específicas para España.",
-     "fecha_inicio": "2025-09-20", "plazo_estimado": "2026-03-31", "partidos_clave": ["PP", "PSOE", "SUMAR"]},
-    {"id": "PJ-004", "ley": "Reforma Ley Orgánica Poder Judicial", "proponente": "PSOE", "area": "Institucional",
-     "fase": 3, "urgencia": "critica", "prob_aprobacion": 0.38,
-     "descripcion": "Renovación del CGPJ y reforma del sistema de elección de vocales para reducir la influencia partidista en el órgano de gobierno de los jueces.",
-     "fecha_inicio": "2024-06-01", "plazo_estimado": "2026-04-15", "partidos_clave": ["PSOE", "PP"]},
-    {"id": "PGE-005", "ley": "Presupuestos Generales 2026", "proponente": "Gobierno", "area": "Fiscal",
-     "fase": 0, "urgencia": "critica", "prob_aprobacion": 0.31,
-     "descripcion": "Proyecto de Ley de Presupuestos Generales del Estado para 2026. Requiere mayoría absoluta en el Congreso. La negociación con los socios del gobierno es crítica.",
-     "fecha_inicio": "2025-12-01", "plazo_estimado": "2026-10-01", "partidos_clave": ["PSOE", "SUMAR", "PNV", "ERC", "JUNTS"]},
-    {"id": "MD-006", "ley": "Ley de Memoria Democrática (reforma)", "proponente": "PSOE-ERC", "area": "Social",
-     "fase": 2, "urgencia": "media", "prob_aprobacion": 0.57,
-     "descripcion": "Ampliación de la ley de memoria democrática para incluir la represión franquista en el ámbito judicial y crear un banco de ADN de víctimas del franquismo.",
-     "fecha_inicio": "2025-08-15", "plazo_estimado": "2026-05-31", "partidos_clave": ["PSOE", "SUMAR", "ERC", "EH Bildu"]},
-    {"id": "DC-007", "ley": "Plan de Descarbonización 2030", "proponente": "SUMAR", "area": "Medioambiental",
-     "fase": 1, "urgencia": "media", "prob_aprobacion": 0.48,
-     "descripcion": "Hoja de ruta para alcanzar el 74% de energía renovable en 2030 y reducir las emisiones de CO2 un 55% respecto a 1990. Incluye fondos de transición justa.",
-     "fecha_inicio": "2025-10-20", "plazo_estimado": "2026-08-31", "partidos_clave": ["SUMAR", "PSOE", "PNV"]},
-    {"id": "CP-008", "ley": "Reforma Código Penal (sedición)", "proponente": "PSOE-JUNTS", "area": "Institucional",
-     "fase": 4, "urgencia": "alta", "prob_aprobacion": 0.71,
-     "descripcion": "Modificación del articulado del Código Penal en materia de sedición y desórdenes públicos, como parte del acuerdo de investidura con los partidos independentistas catalanes.",
-     "fecha_inicio": "2024-01-15", "plazo_estimado": "2026-03-01", "partidos_clave": ["PSOE", "JUNTS", "ERC", "EH Bildu"]},
-]
+# Composición hemiciclo
+try:
+    from dashboard.services.coalition_service import (
+        get_composicion_hemiciclo as _get_composicion_hemiciclo,
+        get_total_escanos as _get_total_escanos,
+        get_mayoria_absoluta as _get_mayoria_absoluta,
+    )
+    _COALITION_OK = True
+except Exception:
+    _COALITION_OK = False
+    def _get_composicion_hemiciclo(): return {}
+    def _get_total_escanos(): return 350
+    def _get_mayoria_absoluta(): return 176
+
+# Votaciones reales
+try:
+    from dashboard.services.congreso_votaciones import (
+        cargar_votaciones_recientes as _cargar_votaciones_recientes,
+        get_alineacion_partidos as _get_alineacion_partidos,
+    )
+    _VOTACIONES_OK = True
+except Exception:
+    _VOTACIONES_OK = False
+    def _cargar_votaciones_recientes(limit=10): return pd.DataFrame()
+    def _get_alineacion_partidos(): return {}
+
+# Productividad de actores
+try:
+    from dashboard.services.actors_service import (
+        cargar_productividad_parlamentaria as _cargar_productividad_parlamentaria,
+    )
+    _ACTORS_OK = True
+except Exception:
+    _ACTORS_OK = False
+    def _cargar_productividad_parlamentaria(): return pd.DataFrame()
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONSTANTES — SOLO CONSTITUCIONALES (no son datos, son reglas)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+TOTAL_ESCANOS = 350   # Art. 68 CE — número fijo de diputados
+MAYORIA_ABS = 176     # Math: floor(350/2) + 1
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LOADERS con caché — conectados a servicios reales
+# ═══════════════════════════════════════════════════════════════════════════════
+
+@st.cache_data(ttl=3600)
+def _cargar_composicion_hemiciclo() -> dict[str, int]:
+    """Composición actual del Congreso. Retorna {} si no hay datos en BD."""
+    return _get_composicion_hemiciclo()
+
+
+@st.cache_data(ttl=1800)
+def _cargar_votaciones_dashboard(limit: int = 10) -> pd.DataFrame:
+    """Votaciones recientes del store. DataFrame vacío si sin datos."""
+    try:
+        return _cargar_votaciones_recientes(limit=limit)
+    except Exception:
+        return pd.DataFrame()
+
+
+@st.cache_data(ttl=3600)
+def _cargar_alineacion() -> dict:
+    """Matriz de alineación entre partidos. {} si sin datos suficientes."""
+    try:
+        return _get_alineacion_partidos()
+    except Exception:
+        return {}
+
+
+@st.cache_data(ttl=3600)
+def _cargar_productividad() -> pd.DataFrame:
+    """Productividad parlamentaria por actor. DataFrame vacío si sin datos."""
+    try:
+        return _cargar_productividad_parlamentaria()
+    except Exception:
+        return pd.DataFrame()
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# UI CONFIG — solo etiquetas y colores (permitido hardcodear)
+# ═══════════════════════════════════════════════════════════════════════════════
 
 FASES_LEGISLATIVAS = [
     "Iniciativa",
@@ -134,66 +184,6 @@ AREAS_COLOR = {
     "Fiscal": BLUE,
     "Medioambiental": GREEN,
 }
-
-PARTIDOS_ESCANOS = {
-    "PSOE": 120, "PP": 137, "VOX": 33, "SUMAR": 31,
-    "JUNTS": 7, "ERC": 7, "EH Bildu": 6, "PNV": 5,
-    "PODEMOS": 5, "CC": 1, "Otros": 4,
-}
-TOTAL_ESCANOS = 350
-MAYORIA_ABS = 176
-MAYORIA_SIMPLE = 176  # in practice
-
-HISTORICO_ALINEACION = {
-    "PP": {"PP": 1.0, "VOX": 0.62, "PSOE": 0.12, "SUMAR": 0.08, "JUNTS": 0.05, "ERC": 0.06},
-    "VOX": {"PP": 0.62, "VOX": 1.0, "PSOE": 0.04, "SUMAR": 0.03, "JUNTS": 0.02, "ERC": 0.03},
-    "PSOE": {"PP": 0.12, "VOX": 0.04, "PSOE": 1.0, "SUMAR": 0.87, "JUNTS": 0.41, "ERC": 0.65},
-    "SUMAR": {"PP": 0.08, "VOX": 0.03, "PSOE": 0.87, "SUMAR": 1.0, "JUNTS": 0.32, "ERC": 0.71},
-    "JUNTS": {"PP": 0.05, "VOX": 0.02, "PSOE": 0.41, "SUMAR": 0.32, "JUNTS": 1.0, "ERC": 0.48},
-    "ERC": {"PP": 0.06, "VOX": 0.03, "PSOE": 0.65, "SUMAR": 0.71, "JUNTS": 0.48, "ERC": 1.0},
-}
-
-# Votaciones demo
-DEMO_VOTACIONES = [
-    {"id": "VOT-2026-0012", "fecha": "2026-04-28", "iniciativa": "Prórroga medidas antiinflación", "tipo": "RDL",
-     "resultado": "APROBADA", "PP": "contra", "PSOE": "favor", "VOX": "contra", "SUMAR": "favor", "JUNTS": "favor"},
-    {"id": "VOT-2026-0013", "fecha": "2026-04-29", "iniciativa": "Proposición no de Ley sobre vivienda joven", "tipo": "PNL",
-     "resultado": "APROBADA", "PP": "favor", "PSOE": "favor", "VOX": "contra", "SUMAR": "favor", "JUNTS": "abstencion"},
-    {"id": "VOT-2026-0014", "fecha": "2026-04-30", "iniciativa": "Moción de censura al gobierno regional de Murcia", "tipo": "MOCIÓN",
-     "resultado": "RECHAZADA", "PP": "contra", "PSOE": "favor", "VOX": "contra", "SUMAR": "favor", "JUNTS": "abstencion"},
-    {"id": "VOT-2026-0015", "fecha": "2026-05-02", "iniciativa": "Presupuestos CAM 2026", "tipo": "PL",
-     "resultado": "APROBADA", "PP": "favor", "PSOE": "contra", "VOX": "favor", "SUMAR": "contra", "JUNTS": "abstencion"},
-]
-
-AGENDA_HOY = [
-    {"hora": "09:00", "tipo": "Comisión", "descripcion": "Comisión de Justicia — Ponencia Reforma LOPJ", "sala": "Sala Constitucional"},
-    {"hora": "10:30", "tipo": "Comisión", "descripcion": "Comisión de Hacienda — Reforma Fiscal IRPF (fase 1)", "sala": "Sala del Senado"},
-    {"hora": "12:00", "tipo": "Pleno", "descripcion": "Pleno Congreso — Debate Ley de Vivienda 2.0 (enmiendas)", "sala": "Hemiciclo"},
-    {"hora": "16:00", "tipo": "Comparecencia", "descripcion": "Comparecencia Ministra de Hacienda sobre Presupuestos", "sala": "Comisión Mixta"},
-    {"hora": "18:00", "tipo": "Votación", "descripcion": "Votación Proposición de Ley Plan Descarbonización 2030", "sala": "Hemiciclo"},
-]
-
-PROXIMAS_VOTACIONES = [
-    {"ley": "Reforma CGPJ", "fecha": "2026-05-06", "requiere": "Mayoría absoluta", "prob": 0.38, "partidos_clave": ["PP", "PSOE"]},
-    {"ley": "Ley IA Digital", "fecha": "2026-05-08", "requiere": "Mayoría simple", "prob": 0.61, "partidos_clave": ["PP", "PSOE", "SUMAR"]},
-    {"ley": "Plan Descarbonización", "fecha": "2026-05-10", "requiere": "Mayoría simple", "prob": 0.48, "partidos_clave": ["SUMAR", "PSOE", "ERC"]},
-    {"ley": "Presupuestos 2026 (admisión)", "fecha": "2026-05-15", "requiere": "Mayoría simple", "prob": 0.31, "partidos_clave": ["PSOE", "SUMAR", "JUNTS", "ERC", "PNV"]},
-]
-
-INICIATIVAS_ACTOR = [
-    {"actor": "Pedro Sánchez", "partido": "PSOE", "presentadas": 18, "debate": 7, "aprobadas": 4, "rechazadas": 3,
-     "temas": ["Vivienda", "Social", "Fiscal", "Institucional", "Digitalización"]},
-    {"actor": "Alberto Núñez Feijóo", "partido": "PP", "presentadas": 24, "debate": 5, "aprobadas": 2, "rechazadas": 12,
-     "temas": ["Economía", "Seguridad", "Sanidad", "Tecnología", "Energía"]},
-    {"actor": "Santiago Abascal", "partido": "VOX", "presentadas": 31, "debate": 4, "aprobadas": 0, "rechazadas": 24,
-     "temas": ["Inmigración", "Seguridad", "Identidad", "Economía", "Defensa"]},
-    {"actor": "Yolanda Díaz", "partido": "SUMAR", "presentadas": 15, "debate": 9, "aprobadas": 6, "rechazadas": 2,
-     "temas": ["Laboral", "Social", "Medioambiente", "Igualdad", "Vivienda"]},
-    {"actor": "Carles Puigdemont", "partido": "JUNTS", "presentadas": 8, "debate": 3, "aprobadas": 1, "rechazadas": 2,
-     "temas": ["Cataluña", "Autodeterminación", "Fiscal", "Infraestructuras"]},
-    {"actor": "Oriol Junqueras", "partido": "ERC", "presentadas": 11, "debate": 4, "aprobadas": 2, "rechazadas": 3,
-     "temas": ["Cataluña", "Social", "Fiscal", "Laboral", "Medioambiente"]},
-]
 
 # ── Funciones de carga ────────────────────────────────────────────────────────
 
@@ -380,13 +370,27 @@ intel_header(
     datetime.now().strftime("%d/%m/%Y %H:%M"),
 )
 
-# KPIs globales
-total_activas = len(DEMO_LEYES)
-votaciones_semana = 4
+# KPIs globales — desde servicios reales
+@st.cache_data(ttl=300)
+def _cargar_kpis_header() -> dict:
+    """KPIs del encabezado: iniciativas activas, votaciones semana, días fin sesión."""
+    kpis = cargar_kpis_legislativos() if _LEG_CORE_OK else {"hay_datos": False}
+    df_votaciones_kpi = _cargar_votaciones_dashboard(limit=50)
+    # Votaciones en los últimos 7 días
+    votaciones_semana = 0
+    if not df_votaciones_kpi.empty and "fecha" in df_votaciones_kpi.columns:
+        cutoff = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        votaciones_semana = int((df_votaciones_kpi["fecha"] >= cutoff).sum())
+    return {
+        "iniciativas_activas": kpis.get("iniciativas_mes", 0),
+        "votaciones_semana": votaciones_semana,
+        "hay_datos": kpis.get("hay_datos", False),
+    }
+
+_kpis_header = _cargar_kpis_header()
+total_activas = _kpis_header["iniciativas_activas"]
+votaciones_semana = _kpis_header["votaciones_semana"]
 dias_fin_sesion = (datetime(2026, 7, 15) - datetime.now()).days
-tasa_aprobacion = round(
-    sum(1 for l in DEMO_LEYES if l.get("prob_aprobacion", 0) >= 0.5) / len(DEMO_LEYES) * 100
-)
 
 c1, c2, c3, c4 = st.columns(4)
 with c1:
@@ -394,7 +398,9 @@ with c1:
 with c2:
     st.markdown(kpi_card("Votaciones esta semana", str(votaciones_semana), "en el Congreso", color=AMBER), unsafe_allow_html=True)
 with c3:
-    st.markdown(kpi_card("Tasa aprobación esperada", f"{tasa_aprobacion}%", "de iniciativas monitorizadas", color=GREEN if tasa_aprobacion > 50 else RED), unsafe_allow_html=True)
+    _composicion = _cargar_composicion_hemiciclo()
+    _n_partidos = len(_composicion)
+    st.markdown(kpi_card("Grupos parlamentarios", str(_n_partidos) if _n_partidos else "—", "en el hemiciclo", color=BLUE), unsafe_allow_html=True)
 with c4:
     st.markdown(kpi_card("Días fin de sesión", str(max(0, dias_fin_sesion)), "hasta julio 2026", color=PURPLE), unsafe_allow_html=True)
 
@@ -420,41 +426,37 @@ tab_actividad, tab_leyes, tab_boe, tab_coaliciones, tab_actores_leg, tab_multini
 
 with tab_actividad:
 
-    # ── Gráfico actividad semanal 90 días ────────────────────────────────────
+    # ── Actividad parlamentaria — desde BD ───────────────────────────────────
     section_header("Actividad parlamentaria — últimas 13 semanas", CYAN)
 
-    rng = random.Random(42)
-    semanas = [(datetime.now() - timedelta(weeks=12 - i)).strftime("S%W") for i in range(13)]
-    proposiciones = [rng.randint(8, 28) for _ in range(13)]
-    debates = [rng.randint(3, 12) for _ in range(13)]
-    votaciones_hist = [rng.randint(1, 8) for _ in range(13)]
+    _df_init_act = cargar_iniciativas_recientes(limit=500, days=91) if _LEG_CORE_OK else pd.DataFrame()
 
-    fig_act = go.Figure()
-    fig_act.add_trace(go.Bar(
-        name="Proposiciones presentadas",
-        x=semanas, y=proposiciones,
-        marker_color=CYAN,
-    ))
-    fig_act.add_trace(go.Bar(
-        name="Debates en comisión",
-        x=semanas, y=debates,
-        marker_color=PURPLE,
-    ))
-    fig_act.add_trace(go.Bar(
-        name="Votaciones",
-        x=semanas, y=votaciones_hist,
-        marker_color=AMBER,
-    ))
-    fig_act.update_layout(
-        barmode="group",
-        height=300,
-        legend=dict(bgcolor=BG3, bordercolor=BORDER, font=dict(color=TEXT2, size=11)),
-        xaxis=dict(title="Semana"),
-        yaxis=dict(title="N.º actos"),
-        margin=dict(l=0, r=0, t=10, b=0),
-    )
-    apply_plotly_theme(fig_act)
-    st.plotly_chart(fig_act, use_container_width=True)
+    if not _df_init_act.empty and "presented_date" in _df_init_act.columns:
+        _df_init_act["presented_date"] = pd.to_datetime(_df_init_act["presented_date"], errors="coerce")
+        _df_init_act["semana"] = _df_init_act["presented_date"].dt.strftime("S%W")
+        _df_grp = _df_init_act.groupby("semana").size().reset_index(name="count")
+        semanas_act = _df_grp["semana"].tolist()
+        counts_act = _df_grp["count"].tolist()
+        fig_act = go.Figure(go.Bar(
+            name="Iniciativas presentadas",
+            x=semanas_act, y=counts_act,
+            marker_color=CYAN,
+        ))
+        fig_act.update_layout(
+            barmode="group", height=300,
+            legend=dict(bgcolor=BG3, bordercolor=BORDER, font=dict(color=TEXT2, size=11)),
+            xaxis=dict(title="Semana"),
+            yaxis=dict(title="N.º iniciativas"),
+            margin=dict(l=0, r=0, t=10, b=0),
+        )
+        apply_plotly_theme(fig_act)
+        st.plotly_chart(fig_act, use_container_width=True)
+    else:
+        st.info(
+            "No hay datos de actividad parlamentaria en la base de datos. "
+            "Para cargar datos reales, ejecuta:\n"
+            "```\npython -m pipelines.legislative_core --source congreso\n```"
+        )
 
     # ── Agenda de hoy ─────────────────────────────────────────────────────────
     section_header(f"Agenda parlamentaria — {datetime.now().strftime('%A %d de %B de %Y').capitalize()}", BLUE)
@@ -466,114 +468,149 @@ with tab_actividad:
         "Votación": RED,
     }
 
-    for item in AGENDA_HOY:
-        tipo = item.get("tipo", "")
-        c_tipo = tipo_color_agenda.get(tipo, MUTED)
-        st.markdown(
-            f'<div class="agenda-item">'
-            f'<div class="agenda-hora">{item["hora"]}</div>'
-            f'<span class="agenda-tipo" style="background:{c_tipo}22;color:{c_tipo};border:1px solid {c_tipo}33">'
-            f'{tipo}</span>'
-            f'<div style="flex:1;">'
-            f'<div style="font-size:.85rem;font-weight:600;color:{TEXT}">{item["descripcion"]}</div>'
-            f'<div style="font-size:.7rem;color:{MUTED};margin-top:.1rem"> {item["sala"]}</div>'
-            f'</div>'
-            f'</div>',
-            unsafe_allow_html=True,
+    # Obtener agenda del día desde votaciones reales del store
+    _df_vot_hoy = _cargar_votaciones_dashboard(limit=20)
+    _agenda_items_hoy: list[dict] = []
+    if not _df_vot_hoy.empty:
+        hoy_str = datetime.now().strftime("%Y-%m-%d")
+        for _, _row in _df_vot_hoy.iterrows():
+            if str(_row.get("fecha", "")).startswith(hoy_str):
+                _agenda_items_hoy.append({
+                    "hora": "—",
+                    "tipo": "Votación",
+                    "descripcion": str(_row.get("iniciativa", ""))[:120],
+                    "sala": "Hemiciclo",
+                })
+
+    if _agenda_items_hoy:
+        for item in _agenda_items_hoy:
+            tipo = item.get("tipo", "")
+            c_tipo = tipo_color_agenda.get(tipo, MUTED)
+            st.markdown(
+                f'<div class="agenda-item">'
+                f'<div class="agenda-hora">{item["hora"]}</div>'
+                f'<span class="agenda-tipo" style="background:{c_tipo}22;color:{c_tipo};border:1px solid {c_tipo}33">'
+                f'{tipo}</span>'
+                f'<div style="flex:1;">'
+                f'<div style="font-size:.85rem;font-weight:600;color:{TEXT}">{item["descripcion"]}</div>'
+                f'<div style="font-size:.7rem;color:{MUTED};margin-top:.1rem"> {item["sala"]}</div>'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+    else:
+        st.info(
+            "No hay eventos parlamentarios registrados para hoy. "
+            "Ejecuta `python -m pipelines.legislative_core --source congreso` "
+            "para cargar la agenda del Congreso."
         )
 
     # ── Próximas votaciones ────────────────────────────────────────────────────
-    section_header("Votaciones próximas clave", RED)
+    section_header("Votaciones recientes clave", RED)
 
-    for voto in PROXIMAS_VOTACIONES:
-        prob = voto["prob_aprobacion"] if "prob_aprobacion" in voto else voto.get("prob", 0)
-        prob_color = GREEN if prob >= 0.6 else (AMBER if prob >= 0.4 else RED)
-        partidos_tags = " ".join(
-            f'<span style="background:{COLORES_PARTIDOS.get(p,CYAN)}22;color:{COLORES_PARTIDOS.get(p,CYAN)};'
-            f'font-size:.6rem;font-weight:700;padding:.15rem .45rem;border-radius:4px">{p}</span>'
-            for p in voto.get("partidos_clave", [])
-        )
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
-            f'padding:.85rem 1.1rem;margin-bottom:.5rem">'
-            f'<div style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.5rem">'
-            f'<div style="flex:1">'
-            f'<div style="font-size:.88rem;font-weight:700;color:{TEXT}">{voto["ley"]}</div>'
-            f'<div style="font-size:.72rem;color:{TEXT2};margin-top:.1rem">'
-            f' {voto["fecha"]} · {voto["requiere"]}</div>'
-            f'</div>'
-            f'<div style="text-align:right">'
-            f'<div style="font-size:1.3rem;font-weight:900;color:{prob_color}">{int(prob*100)}%</div>'
-            f'<div style="font-size:.6rem;color:{MUTED}">prob. aprobación</div>'
-            f'</div>'
-            f'</div>'
-            f'{_prob_bar(prob, prob_color)}'
-            f'<div style="margin-top:.5rem">{partidos_tags}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
+    _df_proximas = _cargar_votaciones_dashboard(limit=10)
+    if not _df_proximas.empty:
+        for _, _vrow in _df_proximas.iterrows():
+            res = str(_vrow.get("resultado", ""))
+            res_color = GREEN if res == "APROBADA" else RED
+            tipo_color_v = PURPLE if str(_vrow.get("tipo", "")) in ("PL", "PLO", "RDL") else CYAN
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+                f'padding:.85rem 1.1rem;margin-bottom:.5rem">'
+                f'<div style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.5rem">'
+                f'<span style="background:{tipo_color_v}22;color:{tipo_color_v};font-size:.62rem;'
+                f'font-weight:800;padding:.18rem .55rem;border-radius:6px">{_vrow.get("tipo","")}</span>'
+                f'<div style="flex:1">'
+                f'<div style="font-size:.88rem;font-weight:700;color:{TEXT}">'
+                f'{str(_vrow.get("iniciativa",""))[:90]}</div>'
+                f'<div style="font-size:.72rem;color:{TEXT2};margin-top:.1rem">'
+                f' {_vrow.get("fecha","")}</div>'
+                f'</div>'
+                f'<span style="background:{res_color}22;color:{res_color};font-size:.65rem;'
+                f'font-weight:800;padding:.2rem .6rem;border-radius:6px">{res}</span>'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+    else:
+        st.info(
+            "No hay votaciones en el store. "
+            "Ejecuta `python -m dashboard.services.congreso_votaciones` "
+            "para descargar votaciones del Congreso."
         )
 
     # ── Calculadora de coaliciones para votar ─────────────────────────────────
     section_header("Calculadora de mayoría parlamentaria", GREEN)
 
-    partidos_calc = list(PARTIDOS_ESCANOS.keys())
-    sel_coalicion = st.multiselect(
-        "Partidos en favor",
-        options=partidos_calc,
-        default=["PSOE", "SUMAR", "ERC", "PNV", "EH Bildu"],
-        key="calc_coalicion",
-    )
+    _composicion_calc = _cargar_composicion_hemiciclo()
+    if _composicion_calc:
+        partidos_calc = sorted(_composicion_calc.keys(), key=lambda p: -_composicion_calc[p])
+    else:
+        partidos_calc = []
 
-    escanos_favor = sum(PARTIDOS_ESCANOS.get(p, 0) for p in sel_coalicion)
-    escanos_contra = TOTAL_ESCANOS - escanos_favor
-    tiene_mayoria_abs = escanos_favor >= MAYORIA_ABS
-
-    col_calc1, col_calc2, col_calc3 = st.columns(3)
-    with col_calc1:
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {GREEN};'
-            f'border-radius:10px;padding:.9rem;text-align:center">'
-            f'<div style="font-size:2rem;font-weight:900;color:{GREEN}">{escanos_favor}</div>'
-            f'<div style="font-size:.65rem;color:{MUTED}">escaños a favor</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-    with col_calc2:
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {RED};'
-            f'border-radius:10px;padding:.9rem;text-align:center">'
-            f'<div style="font-size:2rem;font-weight:900;color:{RED}">{escanos_contra}</div>'
-            f'<div style="font-size:.65rem;color:{MUTED}">escaños en contra / abstención</div>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-    with col_calc3:
-        resultado_color = GREEN if tiene_mayoria_abs else RED
-        resultado_txt = "MAYORÍA ABSOLUTA" if tiene_mayoria_abs else f"FALTAN {MAYORIA_ABS - escanos_favor}"
-        st.markdown(
-            f'<div style="background:{resultado_color}18;border:1px solid {resultado_color}44;'
-            f'border-radius:10px;padding:.9rem;text-align:center">'
-            f'<div style="font-size:1rem;font-weight:900;color:{resultado_color}">{resultado_txt}</div>'
-            f'<div style="font-size:.65rem;color:{MUTED}">umbral: {MAYORIA_ABS} escaños</div>'
-            f'</div>',
-            unsafe_allow_html=True,
+    if partidos_calc:
+        sel_coalicion = st.multiselect(
+            "Partidos en favor",
+            options=partidos_calc,
+            default=[],
+            key="calc_coalicion",
         )
 
-    # Barra visual de escaños
-    pct_favor = escanos_favor / TOTAL_ESCANOS * 100
-    pct_contra = escanos_contra / TOTAL_ESCANOS * 100
-    umbral_pct = MAYORIA_ABS / TOTAL_ESCANOS * 100
-    st.markdown(
-        f'<div style="margin:.8rem 0;height:20px;background:{RED}44;border-radius:6px;overflow:hidden;position:relative">'
-        f'<div style="height:100%;width:{pct_favor:.1f}%;background:{GREEN};border-radius:6px 0 0 6px;'
-        f'display:flex;align-items:center;padding-left:.5rem;font-size:.68rem;font-weight:700;color:{BG}">'
-        f'{escanos_favor} escaños</div>'
-        f'<div style="position:absolute;top:0;left:{umbral_pct:.1f}%;height:100%;width:2px;'
-        f'background:{CYAN};z-index:2"></div>'
-        f'</div>'
-        f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem;">Umbral mayoría absoluta: {MAYORIA_ABS} escaños ({umbral_pct:.0f}% del hemiciclo)</div>',
-        unsafe_allow_html=True,
-    )
+        escanos_favor = sum(_composicion_calc.get(p, 0) for p in sel_coalicion)
+        escanos_contra = TOTAL_ESCANOS - escanos_favor
+        tiene_mayoria_abs = escanos_favor >= MAYORIA_ABS
+
+        col_calc1, col_calc2, col_calc3 = st.columns(3)
+        with col_calc1:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {GREEN};'
+                f'border-radius:10px;padding:.9rem;text-align:center">'
+                f'<div style="font-size:2rem;font-weight:900;color:{GREEN}">{escanos_favor}</div>'
+                f'<div style="font-size:.65rem;color:{MUTED}">escaños a favor</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        with col_calc2:
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-top:2px solid {RED};'
+                f'border-radius:10px;padding:.9rem;text-align:center">'
+                f'<div style="font-size:2rem;font-weight:900;color:{RED}">{escanos_contra}</div>'
+                f'<div style="font-size:.65rem;color:{MUTED}">escaños en contra / abstención</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+        with col_calc3:
+            resultado_color = GREEN if tiene_mayoria_abs else RED
+            resultado_txt = "MAYORÍA ABSOLUTA" if tiene_mayoria_abs else f"FALTAN {MAYORIA_ABS - escanos_favor}"
+            st.markdown(
+                f'<div style="background:{resultado_color}18;border:1px solid {resultado_color}44;'
+                f'border-radius:10px;padding:.9rem;text-align:center">'
+                f'<div style="font-size:1rem;font-weight:900;color:{resultado_color}">{resultado_txt}</div>'
+                f'<div style="font-size:.65rem;color:{MUTED}">umbral: {MAYORIA_ABS} escaños</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+        # Barra visual de escaños
+        pct_favor = escanos_favor / TOTAL_ESCANOS * 100
+        umbral_pct = MAYORIA_ABS / TOTAL_ESCANOS * 100
+        st.markdown(
+            f'<div style="margin:.8rem 0;height:20px;background:{RED}44;border-radius:6px;overflow:hidden;position:relative">'
+            f'<div style="height:100%;width:{pct_favor:.1f}%;background:{GREEN};border-radius:6px 0 0 6px;'
+            f'display:flex;align-items:center;padding-left:.5rem;font-size:.68rem;font-weight:700;color:{BG}">'
+            f'{escanos_favor} escaños</div>'
+            f'<div style="position:absolute;top:0;left:{umbral_pct:.1f}%;height:100%;width:2px;'
+            f'background:{CYAN};z-index:2"></div>'
+            f'</div>'
+            f'<div style="font-size:.65rem;color:{MUTED};margin-top:.2rem;">Umbral mayoría absoluta: {MAYORIA_ABS} escaños ({umbral_pct:.0f}% del hemiciclo)</div>',
+            unsafe_allow_html=True,
+        )
+    else:
+        st.info(
+            "Datos de composición del hemiciclo no disponibles. "
+            "Ejecuta el pipeline electoral para cargar la distribución de escaños:\n"
+            "```\npython -m pipelines.electoral_core --source congreso\n```"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -652,87 +689,47 @@ with tab_leyes:
             key="leg_urgencia",
         )
 
-    leyes_filtradas = DEMO_LEYES[:]
-    if filtro_proponente != "Todos":
-        leyes_filtradas = [l for l in leyes_filtradas if l["proponente"] == filtro_proponente]
-    if filtro_area != "Todas":
-        leyes_filtradas = [l for l in leyes_filtradas if l["area"] == filtro_area]
-    if filtro_urgencia != "Todas":
-        leyes_filtradas = [l for l in leyes_filtradas if l["urgencia"] == filtro_urgencia]
+    # Tab 2 usa cargar_iniciativas_recientes() que ya devuelve datos reales
+    # Los filtros de proponente/área/urgencia se aplican sobre datos reales si disponibles
+    if not _df_init_real.empty:
+        # Filtros sobre datos reales
+        _leyes_filtradas_df = _df_init_real.copy()
+        if filtro_proponente != "Todos" and "authors" in _leyes_filtradas_df.columns:
+            _leyes_filtradas_df = _leyes_filtradas_df[
+                _leyes_filtradas_df["authors"].astype(str).str.contains(filtro_proponente, case=False, na=False)
+            ]
+        if filtro_urgencia != "Todas" and "impact_level" in _leyes_filtradas_df.columns:
+            _urgencia_to_impact = {"critica": "CRÍTICO", "alta": "ALTO", "media": "MEDIO", "baja": "BAJO"}
+            _imp_val = _urgencia_to_impact.get(filtro_urgencia, filtro_urgencia.upper())
+            _leyes_filtradas_df = _leyes_filtradas_df[
+                _leyes_filtradas_df["impact_level"].astype(str).str.upper() == _imp_val
+            ]
 
-    _URGENCIA_ORDER = {"critica": 0, "alta": 1, "media": 2, "baja": 3}
-    leyes_filtradas = sorted(leyes_filtradas, key=lambda l: (_URGENCIA_ORDER.get(l["urgencia"], 99), -l["prob_aprobacion"]))
-
-    st.markdown(f"<div style='color:{MUTED};font-size:.78rem;margin-bottom:.8rem'>Mostrando {len(leyes_filtradas)} de {len(DEMO_LEYES)} iniciativas</div>", unsafe_allow_html=True)
-
-    for ley in leyes_filtradas:
-        fase = ley["fase"]
-        prob = ley["prob_aprobacion"]
-        prob_color = GREEN if prob >= 0.6 else (AMBER if prob >= 0.4 else RED)
-        urgencia_cfg = URGENCIA_CFG.get(ley["urgencia"], URGENCIA_CFG["media"])
-        partidos_tags = " ".join(
-            f'<span style="background:{COLORES_PARTIDOS.get(p,CYAN)}22;color:{COLORES_PARTIDOS.get(p,CYAN)};'
-            f'font-size:.6rem;font-weight:700;padding:.12rem .42rem;border-radius:4px">{p}</span>'
-            for p in ley.get("partidos_clave", [])
+        st.markdown(
+            f"<div style='color:{MUTED};font-size:.78rem;margin-bottom:.8rem'>"
+            f"Mostrando {len(_leyes_filtradas_df)} de {len(_df_init_real)} iniciativas</div>",
+            unsafe_allow_html=True,
         )
 
-        with st.expander(f"{ley['ley']}  ·  Fase {fase}/4: {FASES_LEGISLATIVAS[min(fase, len(FASES_LEGISLATIVAS)-1)]}  ·  Prob. {int(prob*100)}%", expanded=False):
-            exp_col1, exp_col2 = st.columns([3, 1])
-            with exp_col1:
-                st.markdown(
-                    f'<div class="ley-card">'
-                    f'<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.6rem;flex-wrap:wrap">'
-                    f'{_urgencia_badge(ley["urgencia"])}'
-                    f'{_area_badge(ley["area"])}'
-                    f'<span style="font-size:.7rem;color:{TEXT2}"> {ley["proponente"]}</span>'
-                    f'<span style="margin-left:auto;font-size:.7rem;color:{MUTED}">ID: {ley["id"]}</span>'
-                    f'</div>'
-                    f'<div style="font-size:.83rem;color:{TEXT2};line-height:1.6;margin-bottom:.8rem">{ley["descripcion"]}</div>'
-                    f'<div style="font-size:.72rem;color:{MUTED};margin-bottom:.5rem">Inicio: {ley.get("fecha_inicio","—")} · Plazo estimado: {ley.get("plazo_estimado","—")}</div>'
-                    f'<div style="font-size:.7rem;color:{TEXT2};margin-bottom:.4rem">Partidos clave para aprobación:</div>'
-                    f'{partidos_tags}'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-            with exp_col2:
-                st.markdown(
-                    f'<div style="background:{prob_color}18;border:1px solid {prob_color}44;'
-                    f'border-radius:10px;padding:1rem;text-align:center">'
-                    f'<div style="font-size:2rem;font-weight:900;color:{prob_color}">{int(prob*100)}%</div>'
-                    f'<div style="font-size:.62rem;color:{MUTED}">prob. aprobación</div>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
-
-            # Pipeline de fases
-            st.markdown("<div style='margin-top:.6rem'>", unsafe_allow_html=True)
-            fase_labels_html = "".join(
-                f'<div style="flex:1;text-align:center;font-size:.6rem;'
-                f'color:{""+CYAN+"" if i < fase else (AMBER if i == fase else MUTED)};'
-                f'font-weight:{"700" if i <= fase else "400"}">'
-                f'{FASES_LEGISLATIVAS[i]}</div>'
-                for i in range(5)
-            )
-            st.markdown(
-                f'<div style="display:flex;gap:3px;margin-bottom:.3rem">{fase_labels_html}</div>'
-                f'{_fase_bar(fase)}'
-                f'</div>',
-                unsafe_allow_html=True,
-            )
-
-    # Vista resumen en tabla
-    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
-    section_header("Resumen tabular", MUTED)
-    df_leyes = pd.DataFrame([{
-        "ID": l["id"],
-        "Ley": l["ley"][:45] + ("…" if len(l["ley"]) > 45 else ""),
-        "Proponente": l["proponente"],
-        "Área": l["area"],
-        "Fase": f'{l["fase"]}/4: {FASES_LEGISLATIVAS[min(l["fase"], 4)]}',
-        "Urgencia": l["urgencia"].upper(),
-        "Prob. aprobación": f'{int(l["prob_aprobacion"]*100)}%',
-    } for l in DEMO_LEYES])
-    st.dataframe(df_leyes, use_container_width=True, hide_index=True, height=320)
+        # Tabla resumen
+        st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+        section_header("Resumen tabular", MUTED)
+        _rename_t2 = {
+            "source_id": "ID", "initiative_type": "Tipo", "title": "Título",
+            "presented_date": "Presentación", "status": "Estado", "impact_level": "Impacto",
+        }
+        _cols_t2 = [c for c in ["source_id", "initiative_type", "title", "presented_date", "status", "impact_level"]
+                    if c in _leyes_filtradas_df.columns]
+        st.dataframe(
+            _leyes_filtradas_df[_cols_t2].rename(columns=_rename_t2),
+            use_container_width=True, hide_index=True, height=400,
+        )
+    else:
+        st.info(
+            "No hay iniciativas parlamentarias en la base de datos. "
+            "Para cargar datos reales, ejecuta:\n"
+            "```\npython -m pipelines.legislative_core --source congreso\n```"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -853,19 +850,11 @@ with tab_boe:
                     for item in dept_items:
                         _render_boe_card(item)
     else:
-        # Demo BOE con normas ficticias de calidad
-        section_header("Normativa de referencia (demo — fuente oficial no disponible)", AMBER)
-        st.info("La API del BOE no está disponible en este momento. Mostrando normativa de referencia reciente.")
-
-        demo_boe = [
-            {"id": "BOE-A-2026-1823", "titulo": "Real Decreto-ley 4/2026 sobre medidas urgentes en materia de vivienda asequible", "departamento": "Ministerio de Vivienda", "seccion": "I", "impacto": "CRÍTICO", "url_html": "https://boe.es"},
-            {"id": "BOE-A-2026-1824", "titulo": "Orden HAC/381/2026 por la que se regulan los plazos para la presentación del IRPF 2025", "departamento": "Ministerio de Hacienda", "seccion": "I", "impacto": "ALTO", "url_html": "https://boe.es"},
-            {"id": "BOE-A-2026-1825", "titulo": "Resolución de la Secretaría de Estado Digital sobre el Registro de Sistemas de IA de Alto Riesgo", "departamento": "Ministerio para la Transformación Digital", "seccion": "II", "impacto": "ALTO", "url_html": "https://boe.es"},
-            {"id": "BOE-A-2026-1826", "titulo": "Anuncio de licitación del contrato de servicios para la digitalización de archivos del Congreso", "departamento": "Congreso de los Diputados", "seccion": "V", "impacto": "BAJO", "url_html": "https://boe.es"},
-            {"id": "BOE-A-2026-1827", "titulo": "Convocatoria de subvenciones para energías renovables en PYME industriales 2026", "departamento": "Ministerio de Transición Ecológica", "seccion": "III", "impacto": "MEDIO", "url_html": "https://boe.es"},
-        ]
-        for demo_item in demo_boe:
-            _render_boe_card(demo_item)
+        st.info(
+            "No hay datos del BOE disponibles. "
+            "Comprueba la conexión a la base de datos o ejecuta:\n"
+            "```\npython -m pipelines.legislative_core --source boe\n```"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -875,169 +864,132 @@ with tab_boe:
 with tab_coaliciones:
     section_header("Mapa de fuerzas parlamentarias", BLUE)
 
-    # Hemiciclo visual — barras de escaños por partido
-    partidos_sorted = sorted(PARTIDOS_ESCANOS.items(), key=lambda x: -x[1])
-    nombres_par = [p for p, e in partidos_sorted]
-    escanos_par = [e for p, e in partidos_sorted]
-    colores_par = [COLORES_PARTIDOS.get(p, MUTED) for p in nombres_par]
+    # Hemiciclo visual — desde BD
+    _composicion_tab4 = _cargar_composicion_hemiciclo()
 
-    fig_escanos = go.Figure(go.Bar(
-        x=nombres_par, y=escanos_par,
-        marker_color=colores_par,
-        text=escanos_par, textposition="outside",
-        textfont=dict(color=TEXT, size=11),
-    ))
-    fig_escanos.add_hline(y=MAYORIA_ABS, line_dash="dash", line_color=RED, opacity=0.7,
-                          annotation_text=f"Mayoría absoluta ({MAYORIA_ABS})",
-                          annotation_font_color=RED)
-    fig_escanos.update_layout(
-        height=300,
-        xaxis=dict(title="Partido"),
-        yaxis=dict(title="Escaños"),
-        margin=dict(l=0, r=0, t=10, b=0),
-    )
-    apply_plotly_theme(fig_escanos)
-    st.plotly_chart(fig_escanos, use_container_width=True)
+    if _composicion_tab4:
+        partidos_sorted = sorted(_composicion_tab4.items(), key=lambda x: -x[1])
+        nombres_par = [p for p, e in partidos_sorted]
+        escanos_par = [e for p, e in partidos_sorted]
+        colores_par = [COLORES_PARTIDOS.get(p, MUTED) for p in nombres_par]
 
-    # ── Probabilidades por votación ────────────────────────────────────────────
-    section_header("Probabilidades por votación clave", CYAN)
-
-    voto_col_a, voto_col_b = st.columns(2)
-    for i, voto in enumerate(PROXIMAS_VOTACIONES):
-        prob = voto.get("prob", 0)
-        prob_color = GREEN if prob >= 0.6 else (AMBER if prob >= 0.4 else RED)
-        partidos_tags = " ".join(
-            f'<span style="background:{COLORES_PARTIDOS.get(p,CYAN)}22;color:{COLORES_PARTIDOS.get(p,CYAN)};'
-            f'font-size:.6rem;font-weight:700;padding:.12rem .42rem;border-radius:4px">{p}</span>'
-            for p in voto.get("partidos_clave", [])
+        fig_escanos = go.Figure(go.Bar(
+            x=nombres_par, y=escanos_par,
+            marker_color=colores_par,
+            text=escanos_par, textposition="outside",
+            textfont=dict(color=TEXT, size=11),
+        ))
+        fig_escanos.add_hline(y=MAYORIA_ABS, line_dash="dash", line_color=RED, opacity=0.7,
+                              annotation_text=f"Mayoría absoluta ({MAYORIA_ABS})",
+                              annotation_font_color=RED)
+        fig_escanos.update_layout(
+            height=300,
+            xaxis=dict(title="Partido"),
+            yaxis=dict(title="Escaños"),
+            margin=dict(l=0, r=0, t=10, b=0),
         )
-        col = voto_col_a if i % 2 == 0 else voto_col_b
-        with col:
-            st.markdown(
-                f'<div style="background:{BG2};border:1px solid {BORDER};border-left:3px solid {prob_color};'
-                f'border-radius:10px;padding:.9rem 1rem;margin-bottom:.6rem">'
-                f'<div style="font-size:.88rem;font-weight:700;color:{TEXT};margin-bottom:.3rem">{voto["ley"]}</div>'
-                f'<div style="font-size:.7rem;color:{TEXT2};margin-bottom:.4rem">'
-                f' {voto["fecha"]} · {voto["requiere"]}</div>'
-                f'{_prob_bar(prob, prob_color)}'
-                f'<div style="margin-top:.5rem">{partidos_tags}</div>'
-                f'</div>',
-                unsafe_allow_html=True,
-            )
+        apply_plotly_theme(fig_escanos)
+        st.plotly_chart(fig_escanos, use_container_width=True)
+    else:
+        st.info(
+            "Datos de composición del hemiciclo no disponibles. "
+            "Ejecuta el pipeline electoral para cargar la distribución de escaños."
+        )
 
     # ── Heatmap histórico de alineación ───────────────────────────────────────
     section_header("Matriz histórica de alineación de voto (% votos coincidentes)", PURPLE)
 
-    partidos_hm = list(HISTORICO_ALINEACION.keys())
-    z_matrix = [[HISTORICO_ALINEACION[p1].get(p2, 0) for p2 in partidos_hm] for p1 in partidos_hm]
+    _alineacion = _cargar_alineacion()
 
-    colorscale_hm = [
-        [0.0, f"{RED}"],
-        [0.5, f"{AMBER}"],
-        [1.0, f"{GREEN}"],
-    ]
+    if _alineacion:
+        partidos_hm = list(_alineacion.keys())
+        z_matrix = [[_alineacion[p1].get(p2, 0) for p2 in partidos_hm] for p1 in partidos_hm]
 
-    hover_hm = [
-        [f"<b>{p1} ↔ {p2}</b><br>{int(HISTORICO_ALINEACION[p1].get(p2,0)*100)}% alineación histórica" for p2 in partidos_hm]
-        for p1 in partidos_hm
-    ]
+        colorscale_hm = [
+            [0.0, f"{RED}"],
+            [0.5, f"{AMBER}"],
+            [1.0, f"{GREEN}"],
+        ]
 
-    fig_hm = go.Figure(go.Heatmap(
-        z=z_matrix,
-        x=partidos_hm,
-        y=partidos_hm,
-        colorscale=colorscale_hm,
-        zmin=0, zmax=1,
-        text=[[f"{int(v*100)}%" for v in row] for row in z_matrix],
-        texttemplate="%{text}",
-        textfont=dict(color=TEXT, size=10),
-        hovertemplate="%{customdata}<extra></extra>",
-        customdata=hover_hm,
-        showscale=True,
-        colorbar=dict(
-            title=dict(text="Alineación", font=dict(color=TEXT2)),
-            tickvals=[0, 0.5, 1],
-            ticktext=["0%", "50%", "100%"],
-            tickfont=dict(color=TEXT2, size=10),
-        ),
-    ))
-    fig_hm.update_layout(
-        height=380,
-        margin=dict(l=10, r=10, t=10, b=10),
-        xaxis=dict(tickfont=dict(color=TEXT, size=11)),
-        yaxis=dict(tickfont=dict(color=TEXT, size=11)),
-    )
-    apply_plotly_theme(fig_hm)
-    st.plotly_chart(fig_hm, use_container_width=True)
+        hover_hm = [
+            [f"<b>{p1} ↔ {p2}</b><br>{int(_alineacion[p1].get(p2,0)*100)}% alineación histórica" for p2 in partidos_hm]
+            for p1 in partidos_hm
+        ]
 
-    # ── Sorpresas recientes ────────────────────────────────────────────────────
-    section_header("Sorpresas recientes en votaciones", AMBER)
-
-    sorpresas = [
-        {"fecha": "2026-04-29", "ley": "PNL sobre energía nuclear", "sorpresa": "PP vota a favor con PSOE",
-         "esperado": "PP en contra", "resultado": "APROBADA", "impacto": "alto"},
-        {"fecha": "2026-04-22", "ley": "Moción censura Valencia", "sorpresa": "JUNTS se abstiene",
-         "esperado": "JUNTS a favor oposición", "resultado": "RECHAZADA", "impacto": "medio"},
-        {"fecha": "2026-04-15", "ley": "Reforma laboral sectorial", "sorpresa": "EH Bildu vota contra PSOE",
-         "esperado": "EH Bildu a favor gobierno", "resultado": "RECHAZADA", "impacto": "alto"},
-    ]
-
-    for s in sorpresas:
-        c_imp = AMBER if s["impacto"] == "medio" else RED
-        resultado_c = GREEN if s["resultado"] == "APROBADA" else RED
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {c_imp}44;border-left:3px solid {c_imp};'
-            f'border-radius:10px;padding:.85rem 1rem;margin-bottom:.5rem">'
-            f'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.3rem">'
-            f'<span style="font-size:.8rem;font-weight:700;color:{TEXT};flex:1">{s["ley"]}</span>'
-            f'<span style="background:{resultado_c}22;color:{resultado_c};font-size:.62rem;font-weight:700;'
-            f'padding:.15rem .5rem;border-radius:4px">{s["resultado"]}</span>'
-            f'<span style="font-size:.65rem;color:{MUTED}">{s["fecha"]}</span>'
-            f'</div>'
-            f'<div style="font-size:.78rem;color:{c_imp};font-weight:600;margin-bottom:.15rem">'
-            f'Sorpresa: {s["sorpresa"]}</div>'
-            f'<div style="font-size:.72rem;color:{MUTED}">Esperado: {s["esperado"]}</div>'
-            f'</div>',
-            unsafe_allow_html=True,
+        fig_hm = go.Figure(go.Heatmap(
+            z=z_matrix,
+            x=partidos_hm,
+            y=partidos_hm,
+            colorscale=colorscale_hm,
+            zmin=0, zmax=1,
+            text=[[f"{int(v*100)}%" for v in row] for row in z_matrix],
+            texttemplate="%{text}",
+            textfont=dict(color=TEXT, size=10),
+            hovertemplate="%{customdata}<extra></extra>",
+            customdata=hover_hm,
+            showscale=True,
+            colorbar=dict(
+                title=dict(text="Alineación", font=dict(color=TEXT2)),
+                tickvals=[0, 0.5, 1],
+                ticktext=["0%", "50%", "100%"],
+                tickfont=dict(color=TEXT2, size=10),
+            ),
+        ))
+        fig_hm.update_layout(
+            height=380,
+            margin=dict(l=10, r=10, t=10, b=10),
+            xaxis=dict(tickfont=dict(color=TEXT, size=11)),
+            yaxis=dict(tickfont=dict(color=TEXT, size=11)),
+        )
+        apply_plotly_theme(fig_hm)
+        st.plotly_chart(fig_hm, use_container_width=True)
+    else:
+        st.info(
+            "Datos de alineación de voto no disponibles. "
+            "Se requiere histórico de votaciones detalladas por diputado. "
+            "Ejecuta el scraper completo del Congreso para obtener esta información:\n"
+            "```\npython -m dashboard.services.congreso_votaciones\n```"
         )
 
     # ── Votaciones recientes detalladas ────────────────────────────────────────
-    section_header("Votaciones recientes — detalle por partido", BLUE)
+    section_header("Votaciones recientes", BLUE)
 
-    partidos_voto = ["PP", "PSOE", "VOX", "SUMAR", "JUNTS"]
-    voto_val = {"favor": 1, "abstencion": 0, "contra": -1}
-    voto_label = {"favor": "A FAVOR", "abstencion": "ABSTENCIÓN", "contra": "EN CONTRA"}
-    voto_color_map = {"favor": GREEN, "abstencion": AMBER, "contra": RED}
-
-    for v in DEMO_VOTACIONES:
-        res_color = GREEN if v["resultado"] == "APROBADA" else RED
-        disciplina_items = []
-        for p in partidos_voto:
-            voto = v.get(p, "abstencion")
-            c = voto_color_map.get(voto, MUTED)
-            disciplina_items.append(
-                f'<span style="background:{c}22;color:{c};font-size:.65rem;font-weight:700;'
-                f'padding:.15rem .45rem;border-radius:6px;border:1px solid {c}44">{p}: {voto_label[voto][:1]}</span>'
+    _df_vot_tab4 = _cargar_votaciones_dashboard(limit=20)
+    if not _df_vot_tab4.empty:
+        for _, _vrow4 in _df_vot_tab4.iterrows():
+            res_color = GREEN if str(_vrow4.get("resultado", "")) == "APROBADA" else RED
+            tipo_color = PURPLE if str(_vrow4.get("tipo", "")) in ("PL", "PLO", "RDL") else CYAN
+            _si = int(_vrow4.get("si", 0) or 0)
+            _no = int(_vrow4.get("no", 0) or 0)
+            _abs = int(_vrow4.get("abstenciones", 0) or 0)
+            st.markdown(
+                f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
+                f'padding:.85rem 1.1rem;margin-bottom:.5rem">'
+                f'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">'
+                f'<span style="background:{tipo_color}22;color:{tipo_color};font-size:.62rem;font-weight:800;'
+                f'padding:.18rem .55rem;border-radius:6px;border:1px solid {tipo_color}44">'
+                f'{_vrow4.get("tipo","")}</span>'
+                f'<span style="font-size:.8rem;font-weight:700;color:{TEXT}">'
+                f'{str(_vrow4.get("iniciativa",""))[:90]}</span>'
+                f'<span style="margin-left:auto;background:{res_color}22;color:{res_color};font-size:.65rem;'
+                f'font-weight:800;padding:.2rem .6rem;border-radius:6px;border:1px solid {res_color}44">'
+                f'{_vrow4.get("resultado","")}</span>'
+                f'</div>'
+                f'<div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">'
+                f'<span style="color:{GREEN};font-size:.65rem;font-weight:700">Sí: {_si}</span>'
+                f'<span style="color:{RED};font-size:.65rem;font-weight:700">No: {_no}</span>'
+                f'<span style="color:{AMBER};font-size:.65rem;font-weight:700">Abs: {_abs}</span>'
+                f'<span style="margin-left:auto;font-size:.65rem;color:{MUTED}">'
+                f'{_vrow4.get("fecha","")} · {_vrow4.get("id","")}</span>'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
             )
-        disciplina_html = " ".join(disciplina_items)
-        tipo_color = PURPLE if v["tipo"] in ("PL", "PLO", "RDL") else CYAN
-        st.markdown(
-            f'<div style="background:{BG2};border:1px solid {BORDER};border-radius:10px;'
-            f'padding:.85rem 1.1rem;margin-bottom:.5rem">'
-            f'<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem">'
-            f'<span style="background:{tipo_color}22;color:{tipo_color};font-size:.62rem;font-weight:800;'
-            f'padding:.18rem .55rem;border-radius:6px;border:1px solid {tipo_color}44">{v["tipo"]}</span>'
-            f'<span style="font-size:.8rem;font-weight:700;color:{TEXT}">{v["iniciativa"][:90]}</span>'
-            f'<span style="margin-left:auto;background:{res_color}22;color:{res_color};font-size:.65rem;'
-            f'font-weight:800;padding:.2rem .6rem;border-radius:6px;border:1px solid {res_color}44">'
-            f'{v["resultado"]}</span>'
-            f'</div>'
-            f'<div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap">'
-            f'{disciplina_html}'
-            f'<span style="margin-left:auto;font-size:.65rem;color:{MUTED}">{v["fecha"]} · {v["id"]}</span>'
-            f'</div>'
-            f'</div>',
-            unsafe_allow_html=True,
+    else:
+        st.info(
+            "No hay votaciones en el store. "
+            "Ejecuta `python -m dashboard.services.congreso_votaciones` "
+            "para descargar votaciones del Congreso."
         )
 
 
@@ -1048,292 +1000,100 @@ with tab_coaliciones:
 with tab_actores_leg:
     section_header("Productividad legislativa por actor", PURPLE)
 
-    # Score de productividad = iniciativas presentadas * 0.3 + (aprobadas * 10) - (rechazadas * 2)
-    def _score_prod(actor: dict) -> float:
-        return (
-            actor["presentadas"] * 0.3
-            + actor["aprobadas"] * 10
-            - actor["rechazadas"] * 2
-            + actor["debate"] * 1.5
+    _df_prod = _cargar_productividad()
+
+    if not _df_prod.empty:
+        # Score de productividad = iniciativas presentadas * 0.3 + (aprobadas * 10) - (rechazadas * 2)
+        def _score_prod_row(row) -> float:
+            return (
+                float(row.get("presentadas", 0)) * 0.3
+                + float(row.get("aprobadas", 0)) * 10.0
+                - float(row.get("rechazadas", 0)) * 2.0
+                + float(row.get("debate", 0)) * 1.5
+            )
+
+        _df_prod = _df_prod.copy()
+        _df_prod["score"] = _df_prod.apply(_score_prod_row, axis=1)
+        _df_prod = _df_prod.sort_values("score", ascending=False).reset_index(drop=True)
+
+        nombres_leg = _df_prod["actor"].astype(str).str.split().str[-1].tolist()
+        scores_leg = _df_prod["score"].round(1).tolist()
+        colores_leg = [COLORES_PARTIDOS.get(str(p), CYAN) for p in _df_prod["partido"].tolist()]
+
+        fig_prod = go.Figure(go.Bar(
+            x=nombres_leg, y=scores_leg,
+            marker_color=colores_leg,
+            text=[f"{s:.0f}" for s in scores_leg],
+            textposition="outside",
+            textfont=dict(color=TEXT, size=11),
+        ))
+        fig_prod.update_layout(
+            height=280,
+            xaxis=dict(title="Actor"),
+            yaxis=dict(title="Score productividad"),
+            margin=dict(l=0, r=0, t=10, b=0),
         )
+        apply_plotly_theme(fig_prod)
+        st.plotly_chart(fig_prod, use_container_width=True)
 
-    actores_leg_sorted = sorted(INICIATIVAS_ACTOR, key=lambda a: -_score_prod(a))
+        # Métricas comparativas en gráfico apilado
+        section_header("Iniciativas: presentadas / aprobadas / rechazadas", CYAN)
 
-    # Gráfico de barras comparativo
-    nombres_leg = [a["actor"].split()[-1] for a in actores_leg_sorted]
-    scores_leg = [round(_score_prod(a), 1) for a in actores_leg_sorted]
-    colores_leg = [COLORES_PARTIDOS.get(a["partido"], CYAN) for a in actores_leg_sorted]
-
-    fig_prod = go.Figure(go.Bar(
-        x=nombres_leg, y=scores_leg,
-        marker_color=colores_leg,
-        text=[f"{s:.0f}" for s in scores_leg],
-        textposition="outside",
-        textfont=dict(color=TEXT, size=11),
-    ))
-    fig_prod.update_layout(
-        height=280,
-        xaxis=dict(title="Actor"),
-        yaxis=dict(title="Score productividad"),
-        margin=dict(l=0, r=0, t=10, b=0),
-    )
-    apply_plotly_theme(fig_prod)
-    st.plotly_chart(fig_prod, use_container_width=True)
-
-    # Métricas comparativas en gráfico apilado
-    section_header("Iniciativas: presentadas / aprobadas / rechazadas", CYAN)
-
-    fig_stack = go.Figure()
-    fig_stack.add_trace(go.Bar(
-        name="Presentadas",
-        x=nombres_leg,
-        y=[a["presentadas"] for a in actores_leg_sorted],
-        marker_color=BLUE,
-    ))
-    fig_stack.add_trace(go.Bar(
-        name="En debate",
-        x=nombres_leg,
-        y=[a["debate"] for a in actores_leg_sorted],
-        marker_color=AMBER,
-    ))
-    fig_stack.add_trace(go.Bar(
-        name="Aprobadas",
-        x=nombres_leg,
-        y=[a["aprobadas"] for a in actores_leg_sorted],
-        marker_color=GREEN,
-    ))
-    fig_stack.add_trace(go.Bar(
-        name="Rechazadas",
-        x=nombres_leg,
-        y=[a["rechazadas"] for a in actores_leg_sorted],
-        marker_color=RED,
-    ))
-    fig_stack.update_layout(
-        barmode="group",
-        height=300,
-        legend=dict(bgcolor=BG3, bordercolor=BORDER, font=dict(color=TEXT2, size=10)),
-        margin=dict(l=0, r=0, t=10, b=0),
-    )
-    apply_plotly_theme(fig_stack)
-    st.plotly_chart(fig_stack, use_container_width=True)
-
-    # Tarjetas por actor con temas
-    section_header("Detalle por actor — temas y productividad", AMBER)
-
-    for actor in actores_leg_sorted:
-        score = _score_prod(actor)
-        c_partido = COLORES_PARTIDOS.get(actor["partido"], CYAN)
-        tasa_exit = actor["aprobadas"] / max(actor["presentadas"], 1) * 100
-        temas_tags = "".join(
-            f'<span class="tema-tag">{tema}</span>'
-            for tema in actor["temas"]
+        fig_stack = go.Figure()
+        fig_stack.add_trace(go.Bar(
+            name="Presentadas", x=nombres_leg,
+            y=_df_prod["presentadas"].tolist(), marker_color=BLUE,
+        ))
+        if "debate" in _df_prod.columns:
+            fig_stack.add_trace(go.Bar(
+                name="En debate", x=nombres_leg,
+                y=_df_prod["debate"].tolist(), marker_color=AMBER,
+            ))
+        fig_stack.add_trace(go.Bar(
+            name="Aprobadas", x=nombres_leg,
+            y=_df_prod["aprobadas"].tolist(), marker_color=GREEN,
+        ))
+        fig_stack.add_trace(go.Bar(
+            name="Rechazadas", x=nombres_leg,
+            y=_df_prod["rechazadas"].tolist(), marker_color=RED,
+        ))
+        fig_stack.update_layout(
+            barmode="group", height=300,
+            legend=dict(bgcolor=BG3, bordercolor=BORDER, font=dict(color=TEXT2, size=10)),
+            margin=dict(l=0, r=0, t=10, b=0),
         )
-        st.markdown(
-            f'<div class="actor-prod-card">'
-            f'<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem">'
-            f'<div style="width:42px;height:42px;border-radius:50%;background:{c_partido}22;border:2px solid {c_partido};'
-            f'display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;color:{c_partido}">'
-            f'{actor["actor"][0]}</div>'
-            f'<div style="flex:1">'
-            f'<div style="font-size:.95rem;font-weight:800;color:{TEXT}">{actor["actor"]}</div>'
-            f'<div style="font-size:.7rem;color:{MUTED}">{actor["partido"]} · Score: <span style="color:{CYAN};font-weight:700">{score:.0f}</span></div>'
-            f'</div>'
-            f'<div style="display:flex;gap:1rem;text-align:center">'
-            f'<div><div style="font-size:1.1rem;font-weight:900;color:{BLUE}">{actor["presentadas"]}</div><div style="font-size:.58rem;color:{MUTED}">presentadas</div></div>'
-            f'<div><div style="font-size:1.1rem;font-weight:900;color:{GREEN}">{actor["aprobadas"]}</div><div style="font-size:.58rem;color:{MUTED}">aprobadas</div></div>'
-            f'<div><div style="font-size:1.1rem;font-weight:900;color:{RED}">{actor["rechazadas"]}</div><div style="font-size:.58rem;color:{MUTED}">rechazadas</div></div>'
-            f'<div><div style="font-size:1.1rem;font-weight:900;color:{AMBER}">{tasa_exit:.0f}%</div><div style="font-size:.58rem;color:{MUTED}">éxito</div></div>'
-            f'</div>'
-            f'</div>'
-            f'<div style="font-size:.68rem;color:{MUTED};margin-bottom:.35rem">Temas principales:</div>'
-            f'{temas_tags}'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
+        apply_plotly_theme(fig_stack)
+        st.plotly_chart(fig_stack, use_container_width=True)
 
-    # Tabla comparativa final
-    st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
-    section_header("Tabla comparativa completa", MUTED)
-    df_actores_leg = pd.DataFrame([{
-        "Actor": a["actor"],
-        "Partido": a["partido"],
-        "Presentadas": a["presentadas"],
-        "En debate": a["debate"],
-        "Aprobadas": a["aprobadas"],
-        "Rechazadas": a["rechazadas"],
-        "Tasa éxito": f'{a["aprobadas"]/max(a["presentadas"],1)*100:.0f}%',
-        "Score": f'{_score_prod(a):.0f}',
-    } for a in actores_leg_sorted])
-    st.dataframe(df_actores_leg, use_container_width=True, hide_index=True, height=280)
+        # Tabla comparativa final
+        st.markdown("<div style='height:.5rem'></div>", unsafe_allow_html=True)
+        section_header("Tabla comparativa completa", MUTED)
+        _df_tabla = _df_prod.copy()
+        _df_tabla["Tasa éxito"] = (_df_tabla["aprobadas"] / _df_tabla["presentadas"].clip(lower=1) * 100).round(0).astype(int).astype(str) + "%"
+        _df_tabla["Score"] = _df_tabla["score"].round(0).astype(int).astype(str)
+        _rename_prod = {
+            "actor": "Actor", "partido": "Partido",
+            "presentadas": "Presentadas", "debate": "En debate",
+            "aprobadas": "Aprobadas", "rechazadas": "Rechazadas",
+        }
+        _cols_prod = [c for c in ["actor", "partido", "presentadas", "debate", "aprobadas", "rechazadas", "Tasa éxito", "Score"]
+                      if c in _df_tabla.columns or c in ("Tasa éxito", "Score")]
+        st.dataframe(
+            _df_tabla[[c for c in _cols_prod if c in _df_tabla.columns]].rename(columns=_rename_prod),
+            use_container_width=True, hide_index=True, height=280,
+        )
+    else:
+        st.info(
+            "No hay datos de productividad parlamentaria en la base de datos. "
+            "Para cargar datos reales, ejecuta:\n"
+            "```\npython -m pipelines.legislative_core --source congreso\n```"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 6 — LEGISLACION MULTINIVEL
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# -- Demo data ----------------------------------------------------------------
-_DEMO_MULTINIVEL = [
-    {
-        "level": "european", "region": "UE", "doc_type": "Reglamento",
-        "title": "Reglamento (UE) 2025/847 relativo a la resiliencia cibernética de las infraestructuras críticas",
-        "reference_id": "EUR-Lex 2025/847",
-        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025R0847",
-        "status": "published",
-        "published_at": "2025-03-12",
-        "ai_summary": "Establece requisitos obligatorios de ciberseguridad para operadores de infraestructuras críticas (energía, transporte, agua, banca) en toda la UE. Introduce auditorías cada 24 meses y notificación de incidentes en 24h.",
-        "ai_impact_level": "high", "ai_relevance": 9,
-        "ai_sectors": ["ciberseguridad", "energía", "transporte"],
-        "ai_obligations": "Planes de continuidad de negocio, pruebas de penetración anuales, registro de incidentes 24h.",
-        "ai_deadlines": [{"plazo": "Transposición nacional", "fecha": "2026-01-01"}, {"plazo": "Auditoría inicial", "fecha": "2026-06-30"}],
-        "ai_affected_regions": ["España", "UE-27"],
-        "ai_category": "ciberseguridad",
-        "ai_eu_relation": "Norma primaria UE — aplicación directa",
-    },
-    {
-        "level": "european", "region": "UE", "doc_type": "Directiva",
-        "title": "Directiva (UE) 2025/312 sobre transparencia algorítmica en plataformas de contenido político",
-        "reference_id": "EUR-Lex 2025/312",
-        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025L0312",
-        "status": "pending",
-        "published_at": "2025-04-01",
-        "ai_summary": "Obliga a plataformas de >10M usuarios en la UE a publicar sus algoritmos de recomendación de contenido político y permitir auditorías independientes antes de cada proceso electoral.",
-        "ai_impact_level": "high", "ai_relevance": 8,
-        "ai_sectors": ["tecnología", "medios", "electoral"],
-        "ai_obligations": "Publicación de parámetros algorítmicos, acceso a investigadores acreditados, informe anual al regulador.",
-        "ai_deadlines": [{"plazo": "Transposición", "fecha": "2026-09-01"}],
-        "ai_affected_regions": ["España", "UE-27"],
-        "ai_category": "tecnología",
-        "ai_eu_relation": "Transponer en legislación nacional",
-    },
-    {
-        "level": "european", "region": "UE", "doc_type": "Decisión",
-        "title": "Decisión del Parlamento Europeo y del Consejo sobre el mecanismo de ajuste en frontera por carbono (MACF) fase II",
-        "reference_id": "EUR-Lex 2025/501",
-        "url": "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32025D0501",
-        "status": "published",
-        "published_at": "2025-02-20",
-        "ai_summary": "Amplía el MACF a nuevos sectores (polímeros, productos químicos) y acelera el calendario de eliminación de derechos de emisión gratuitos para la industria pesada. Impacto fiscal estimado: 4.200M€ anuales para industria española.",
-        "ai_impact_level": "high", "ai_relevance": 9,
-        "ai_sectors": ["industria", "clima", "fiscal"],
-        "ai_obligations": "Declaración de emisiones embebidas en importaciones, pago de certificados MACF.",
-        "ai_deadlines": [{"plazo": "Aplicación plena", "fecha": "2026-01-01"}],
-        "ai_affected_regions": ["España", "UE-27"],
-        "ai_category": "medioambiente",
-        "ai_eu_relation": "Norma primaria UE — aplicación directa",
-    },
-    {
-        "level": "national", "region": "Nacional", "doc_type": "Ley",
-        "title": "Real Decreto-ley 8/2025, por el que se adoptan medidas urgentes en materia de acceso a la vivienda",
-        "reference_id": "BOE-A-2025-4123",
-        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-4123",
-        "status": "published",
-        "published_at": "2025-04-05",
-        "ai_summary": "Medidas urgentes para contener el precio del alquiler en zonas tensionadas: ampliación del índice de referencia, extensión de la bonificación fiscal al 90% para nuevos contratos por debajo del índice, y creación del Registro Nacional de Grandes Tenedores.",
-        "ai_impact_level": "high", "ai_relevance": 9,
-        "ai_sectors": ["vivienda", "fiscal", "social"],
-        "ai_obligations": "Registro de contratos en plataforma MITMA en 30 días. Notificación de grandes tenedores en 60 días.",
-        "ai_deadlines": [{"plazo": "Entrada en vigor", "fecha": "2025-04-06"}, {"plazo": "Registro grandes tenedores", "fecha": "2025-06-05"}],
-        "ai_affected_regions": ["España"],
-        "ai_category": "vivienda",
-        "ai_eu_relation": "Ninguna relación directa",
-    },
-    {
-        "level": "national", "region": "Nacional", "doc_type": "Decreto",
-        "title": "Real Decreto 312/2025, por el que se aprueba el estatuto de la Agencia Española de Supervisión de la Inteligencia Artificial",
-        "reference_id": "BOE-A-2025-5500",
-        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-5500",
-        "status": "published",
-        "published_at": "2025-04-18",
-        "ai_summary": "Crea y estructura la AESIA como autoridad nacional competente para la aplicación del AI Act europeo. Define competencias sancionadoras (hasta 35M€ o 7% facturación), procedimientos de evaluación de conformidad y registro de sistemas de alto riesgo.",
-        "ai_impact_level": "high", "ai_relevance": 8,
-        "ai_sectors": ["tecnología", "regulación", "IA"],
-        "ai_obligations": "Registro de sistemas IA de alto riesgo, evaluación conformidad obligatoria, designación responsable IA.",
-        "ai_deadlines": [{"plazo": "Constitución AESIA", "fecha": "2025-07-01"}],
-        "ai_affected_regions": ["España"],
-        "ai_category": "tecnología",
-        "ai_eu_relation": "Implementa AI Act (Reglamento 2024/1689)",
-    },
-    {
-        "level": "national", "region": "Nacional", "doc_type": "Resolución",
-        "title": "Orden TED/721/2025 por la que se establecen las subastas de capacidad renovable para el cuatrienio 2026-2029",
-        "reference_id": "BOE-A-2025-6201",
-        "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-6201",
-        "status": "pending",
-        "published_at": "2025-04-25",
-        "ai_summary": "Convoca subastas de capacidad eléctrica renovable por un total de 22 GW distribuidos en cuatro anualidades. Fija precios de referencia por tecnología (solar, eólica terrestre, eólica marina, almacenamiento). Prioridad a proyectos con contenido industrial nacional.",
-        "ai_impact_level": "medium", "ai_relevance": 7,
-        "ai_sectors": ["energía", "medioambiente", "industria"],
-        "ai_obligations": "Acreditación capacidad técnica, garantía financiera 50k€/MW, plazo construcción 48 meses.",
-        "ai_deadlines": [{"plazo": "Primera subasta", "fecha": "2025-10-15"}, {"plazo": "Segunda subasta", "fecha": "2026-03-20"}],
-        "ai_affected_regions": ["España"],
-        "ai_category": "energía",
-        "ai_eu_relation": "Alineada con Directiva Energías Renovables III",
-    },
-    {
-        "level": "regional", "region": "Cataluña", "doc_type": "Ley",
-        "title": "Llei 5/2025, del Parlament de Catalunya, de mesures fiscals, financeres i administratives",
-        "reference_id": "DOGC-2025-1847",
-        "url": "https://portaldogc.gencat.cat/",
-        "status": "published",
-        "published_at": "2025-03-28",
-        "ai_summary": "Ley ómnibus autonómica que modifica 47 normas catalanas. Destacan: nuevo gravamen sobre grandes establecimientos comerciales, extensión del tributo sobre las emisiones de CO2 de vehículos industriales, y modificación del régimen de licencias urbanísticas.",
-        "ai_impact_level": "medium", "ai_relevance": 7,
-        "ai_sectors": ["fiscal", "comercio", "urbanismo"],
-        "ai_obligations": "Declaración nuevo gravamen grandes superficies (>2500m²) antes del 30/06.",
-        "ai_deadlines": [{"plazo": "Entrada en vigor", "fecha": "2025-04-01"}],
-        "ai_affected_regions": ["Cataluña"],
-        "ai_category": "fiscal",
-        "ai_eu_relation": "Ninguna relación directa",
-    },
-    {
-        "level": "regional", "region": "Andalucía", "doc_type": "Decreto",
-        "title": "Decreto 112/2025, de la Junta de Andalucía, por el que se aprueba el Plan Energético de Andalucía 2025-2030",
-        "reference_id": "BOJA-2025-82",
-        "url": "https://www.juntadeandalucia.es/boja/",
-        "status": "published",
-        "published_at": "2025-04-10",
-        "ai_summary": "Plan estratégico para que Andalucía alcance el 85% de generación renovable en 2030. Contempla 14.000 MW nuevos de solar fotovoltaica, 3.200 MW de eólica y 2.000 MW de almacenamiento con baterías. Inversión estimada 18.000M€.",
-        "ai_impact_level": "medium", "ai_relevance": 7,
-        "ai_sectors": ["energía", "medioambiente", "inversión"],
-        "ai_obligations": "Evaluación de impacto ambiental acelerada (3 meses) para proyectos prioritarios.",
-        "ai_deadlines": [{"plazo": "Primera revisión", "fecha": "2027-06-30"}],
-        "ai_affected_regions": ["Andalucía"],
-        "ai_category": "energía",
-        "ai_eu_relation": "Alineado con objetivos REPowerEU",
-    },
-    {
-        "level": "regional", "region": "Madrid", "doc_type": "Ley",
-        "title": "Ley 3/2025, de la Comunidad de Madrid, de simplificación administrativa y reducción de cargas",
-        "reference_id": "BOCM-2025-4521",
-        "url": "https://www.bocm.es/",
-        "status": "published",
-        "published_at": "2025-04-02",
-        "ai_summary": "Elimina 230 trámites administrativos, reduce plazos de licencia de actividad a 15 días para empresas <50 empleados y digitaliza el expediente administrativo completo. Amplía el silencio administrativo positivo a nuevos supuestos.",
-        "ai_impact_level": "medium", "ai_relevance": 6,
-        "ai_sectors": ["administración", "empresas", "digitalización"],
-        "ai_obligations": "Adaptación plataformas digitales de los ayuntamientos antes del 01/01/2026.",
-        "ai_deadlines": [{"plazo": "Implementación digital", "fecha": "2026-01-01"}],
-        "ai_affected_regions": ["Madrid"],
-        "ai_category": "administración",
-        "ai_eu_relation": "Ninguna relación directa",
-    },
-    {
-        "level": "regional", "region": "País Vasco", "doc_type": "Decreto",
-        "title": "Decreto 89/2025, del Gobierno Vasco, de impulso a la industria avanzada y la IA en el sector manufacturero",
-        "reference_id": "BOPV-2025-3301",
-        "url": "https://www.euskadi.eus/bopv/",
-        "status": "pending",
-        "published_at": "2025-04-20",
-        "ai_summary": "Programa de ayudas de 450M€ para digitalización industrial y adopción de IA en pymes manufactureras vascas. Incluye formación dual, incentivos fiscales adicionales y centros de demostración tecnológica en los tres territorios históricos.",
-        "ai_impact_level": "medium", "ai_relevance": 7,
-        "ai_sectors": ["industria", "tecnología", "formación"],
-        "ai_obligations": "Cofinanciación mínima 30% por empresa beneficiaria.",
-        "ai_deadlines": [{"plazo": "Apertura convocatoria", "fecha": "2025-06-01"}, {"plazo": "Cierre solicitudes", "fecha": "2025-09-30"}],
-        "ai_affected_regions": ["País Vasco"],
-        "ai_category": "tecnología",
-        "ai_eu_relation": "Financiado parcialmente con fondos FEDER 2021-2027",
-    },
-]
 
 _LEVEL_CFG = {
     "european": {"label": "Europeo", "color": BLUE,   "border": "#1E3A5F"},
@@ -1348,8 +1108,6 @@ _IMPACT_CFG = {
 }
 
 _ALL_CCAA = sorted({
-    d["region"] for d in _DEMO_MULTINIVEL if d["level"] == "regional"
-} | {
     "Andalucía", "Aragón", "Asturias", "Baleares", "Canarias",
     "Cantabria", "Castilla-La Mancha", "Castilla y León", "Cataluña",
     "Extremadura", "Galicia", "La Rioja", "Madrid", "Murcia",
@@ -1374,13 +1132,13 @@ with tab_multinivel:
     except Exception:
         pass
 
-    _leg_data = _leg_from_db if not _using_demo else _DEMO_MULTINIVEL
+    _leg_data = _leg_from_db  # empty list when DB unavailable — no demo fallback
 
     if _using_demo:
         st.info(
-            "Mostrando datos de demostración. Activa el scheduler de legislación "
-            "(`python -m dashboard.workers.legislation_scheduler`) para ver datos en tiempo real.",
-            icon=None,
+            "No hay datos de legislación multinivel en la base de datos. "
+            "Activa el scheduler para obtener datos en tiempo real:\n"
+            "```\npython -m dashboard.workers.legislation_scheduler\n```"
         )
 
     # ── KPIs ──────────────────────────────────────────────────────────────────
@@ -1397,7 +1155,7 @@ with tab_multinivel:
         k_reg = sum(1 for d in _leg_data if d["level"] == "regional")
         k_hi  = sum(1 for d in _leg_data if d.get("ai_impact_level") == "high")
         k_pend= sum(1 for d in _leg_data if d.get("status") == "pending")
-        k_upd = "Demo"
+        k_upd = "—"
 
     _kpi_cols = st.columns(5)
     _kpi_cols[0].markdown(kpi_card("Normas UE", str(k_eu), color=BLUE), unsafe_allow_html=True)

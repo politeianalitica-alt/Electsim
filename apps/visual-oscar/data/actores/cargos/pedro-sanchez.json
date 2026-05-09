@@ -1,0 +1,50 @@
+{
+  "actor_id": "pedro-sanchez",
+  "cargos": [
+    {
+      "cargo": "Presidente del Gobierno de España",
+      "organismo": "Gobierno de España",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "2018-06",
+      "fecha_fin": null,
+      "descripcion": "Jefe del Gobierno español tras ganar moción de censura a Rajoy. Reelegido en 2020 y 2023.",
+      "relevancia": 5
+    },
+    {
+      "cargo": "Secretario General del PSOE",
+      "organismo": "PSOE",
+      "tipo": "partido",
+      "fecha_inicio": "2017-05",
+      "fecha_fin": null,
+      "descripcion": "Vuelve a la secretaría general tras primarias en 2017 tras la dimisión forzada de 2016. Refuerza su liderazgo interno.",
+      "relevancia": 5
+    },
+    {
+      "cargo": "Secretario General del PSOE (1ª etapa)",
+      "organismo": "PSOE",
+      "tipo": "partido",
+      "fecha_inicio": "2014-07",
+      "fecha_fin": "2016-10",
+      "descripcion": "Primera etapa como líder del PSOE. Dimite bajo presión de los barones tras derrota electoral.",
+      "relevancia": 4
+    },
+    {
+      "cargo": "Diputado por Madrid",
+      "organismo": "Congreso de los Diputados",
+      "tipo": "legislativo",
+      "fecha_inicio": "2004-03",
+      "fecha_fin": "2018-06",
+      "descripcion": "Parlamentario durante cuatro legislaturas. Base de su carrera política nacional.",
+      "relevancia": 3
+    },
+    {
+      "cargo": "Concejal del Ayuntamiento de Madrid",
+      "organismo": "Ayuntamiento de Madrid",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "2003-05",
+      "fecha_fin": "2004-03",
+      "descripcion": "Primer cargo electo. Inicio de su carrera política institucional.",
+      "relevancia": 2
+    }
+  ]
+}

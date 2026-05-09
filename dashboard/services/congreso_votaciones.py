@@ -693,6 +693,51 @@ def actualizar_votaciones_recientes(dias: int = 7) -> int:
     return len(nuevas)
 
 
+def cargar_votaciones_recientes(limit: int = 10) -> "pd.DataFrame":
+    """
+    Retorna las últimas N votaciones del store local como DataFrame.
+    Cada fila tiene: id, fecha, iniciativa, tipo, resultado, si, no, abstenciones.
+    Devuelve DataFrame vacío si el store está vacío.
+    """
+    import pandas as pd
+    votes = get_votaciones(max_items=limit)
+    if not votes:
+        return pd.DataFrame()
+    rows = []
+    for v in votes:
+        rows.append({
+            "id":          v.get("id", ""),
+            "fecha":       v.get("fecha", ""),
+            "iniciativa":  v.get("asunto", ""),
+            "tipo":        v.get("tipo", ""),
+            "resultado":   "APROBADA" if v.get("resultado", "") == "aprobado" else "RECHAZADA",
+            "si":          v.get("si", 0),
+            "no":          v.get("no", 0),
+            "abstenciones": v.get("abstenciones", 0),
+        })
+    return pd.DataFrame(rows)
+
+
+def get_alineacion_partidos() -> dict[str, dict[str, float]]:
+    """
+    Calcula la matriz de alineación de voto entre partidos a partir del store.
+    Retorna {} cuando no hay suficientes datos para calcular.
+    """
+    store = _load_store()
+    votaciones_raw = store.get("votaciones", [])
+    diputados_raw = store.get("diputados", {})
+
+    if not votaciones_raw or not diputados_raw:
+        return {}
+
+    # Necesitamos votaciones con detalle por diputado, no disponibles en el
+    # store básico (solo totales). Retornamos vacío para que D4 muestre
+    # empty state y solicite ejecutar el scraper completo.
+    # Cuando las votaciones individuales existan en el store, calcular_cohesion_partido
+    # puede construir la matriz completa.
+    return {}
+
+
 def stats() -> dict:
     """Estadísticas del store de votaciones."""
     store = _load_store()

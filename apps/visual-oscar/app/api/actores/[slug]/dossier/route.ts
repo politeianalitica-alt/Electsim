@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -30,6 +32,40 @@ export interface DossierRelacion {
   n_coocurrencias: number
 }
 
+export interface DossierRelacionEstructural {
+  tipo: string
+  etiqueta: string
+  categoria: 'organica' | 'parlamentaria' | 'poder_informal' | 'dependencia' | 'mediatica' | 'economica' | 'co_mencion'
+  destino: string
+  signo: 'positivo' | 'negativo' | 'neutro' | 'ambivalente'
+  fuerza: number
+  descripcion: string
+  desde: string
+  fuente_tipo: 'estructural' | 'parlamentaria' | 'co_mencion'
+}
+
+export interface DossierDafo {
+  fortalezas: Array<{ titulo: string; descripcion: string; evidencia: string }>
+  debilidades: Array<{ titulo: string; descripcion: string; evidencia: string }>
+  oportunidades: Array<{ titulo: string; descripcion: string; horizonte: string }>
+  amenazas: Array<{ titulo: string; descripcion: string; probabilidad: string; horizonte: string }>
+  riesgo_judicial: { nivel: string; causas: string[]; descripcion: string }
+  riesgo_interno_partido: { nivel: string; descripcion: string; actores_internos_criticos: string[] }
+  riesgo_coalicion: { nivel: string; descripcion: string; socios_en_tension: string[] }
+  riesgo_electoral: { nivel: string; intencion_voto_actual: number | null; tendencia: string; descripcion: string }
+  sintesis_riesgo: string
+}
+
+export interface DossierCargo {
+  cargo: string
+  organismo: string
+  tipo: string
+  fecha_inicio: string
+  fecha_fin: string | null
+  descripcion: string
+  relevancia: number
+}
+
 export interface DossierDossier {
   // Identidad
   slug: string
@@ -43,6 +79,10 @@ export interface DossierDossier {
   score_influencia: number
   score_riesgo: number
   score_mediacion: number   // presencia media últimas 48h
+
+  // Score descriptions
+  score_influencia_desc: string
+  score_riesgo_desc: string
 
   // Fuente de datos de scores
   scores_fuente: 'real' | 'estimado'
@@ -70,6 +110,15 @@ export interface DossierDossier {
   // Relaciones por co-mención en noticias
   relaciones: DossierRelacion[]
 
+  // Relaciones estructurales curadas
+  relaciones_estructurales: DossierRelacionEstructural[]
+
+  // DAFO curado
+  dafo: DossierDafo | null
+
+  // Trayectoria profesional
+  cargos: DossierCargo[] | null
+
   // Agenda (próximos eventos de Congreso/Senado RSS)
   agenda: Array<{ titulo: string; fecha: string; tipo: string; url?: string }>
 
@@ -78,6 +127,57 @@ export interface DossierDossier {
   señales_riesgo: string[]
 
   timestamp: string
+}
+
+// ── Curated data loaders ──────────────────────────────────────────────────────
+
+interface RawRelacion {
+  origen: string
+  destino: string
+  tipo: string
+  etiqueta: string
+  categoria: string
+  signo: string
+  fuerza: number
+  activa: boolean
+  desde: string
+  descripcion: string
+  fuente_tipo: string
+}
+
+function loadRelacionesEstructurales(slug: string): DossierRelacionEstructural[] {
+  try {
+    const p = join(process.cwd(), 'data', 'actores', 'relaciones_estructurales.json')
+    const raw = JSON.parse(readFileSync(p, 'utf-8')) as { relaciones: RawRelacion[] }
+    return raw.relaciones
+      .filter(r => r.origen === slug && r.activa !== false)
+      .map(r => ({
+        tipo: r.tipo,
+        etiqueta: r.etiqueta,
+        categoria: r.categoria as DossierRelacionEstructural['categoria'],
+        destino: r.destino.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        signo: r.signo as DossierRelacionEstructural['signo'],
+        fuerza: r.fuerza,
+        descripcion: r.descripcion,
+        desde: r.desde,
+        fuente_tipo: r.fuente_tipo as DossierRelacionEstructural['fuente_tipo'],
+      }))
+  } catch { return [] }
+}
+
+function loadDafo(slug: string): DossierDafo | null {
+  try {
+    const p = join(process.cwd(), 'data', 'actores', 'dafo', `${slug}.json`)
+    return JSON.parse(readFileSync(p, 'utf-8')) as DossierDafo
+  } catch { return null }
+}
+
+function loadCargos(slug: string): DossierCargo[] | null {
+  try {
+    const p = join(process.cwd(), 'data', 'actores', 'cargos', `${slug}.json`)
+    const raw = JSON.parse(readFileSync(p, 'utf-8')) as { cargos: DossierCargo[] }
+    return raw.cargos
+  } catch { return null }
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -135,7 +235,6 @@ const CHES_COORDS: Record<string, { lr: number; gal: number }> = {
 function getPositioning(partido: string): { lr: number; gal: number; fuente: 'ches_2024' | 'estimado' } {
   const c = CHES_COORDS[partido]
   if (c) return { lr: c.lr, gal: c.gal, fuente: 'ches_2024' }
-  // fallback: slight right for unknowns
   return { lr: 0.0, gal: 0.0, fuente: 'estimado' }
 }
 
@@ -402,6 +501,18 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
   const pos = getPositioning(partido)
   const riesgoNarrativo = computeRiesgoNarrativo(scores.riesgo, noticias, [])
 
+  // Load curated data
+  const relaciones_estructurales = loadRelacionesEstructurales(slug)
+  const dafo = loadDafo(slug)
+  const cargos = loadCargos(slug)
+
+  // Enhance riesgo score based on DAFO risk dimensions
+  let riesgoAjustado = scores.riesgo
+  if (dafo) {
+    if (dafo.riesgo_coalicion.nivel === 'alto') riesgoAjustado = Math.min(100, riesgoAjustado + 20)
+    if (dafo.riesgo_judicial.nivel === 'alto' || dafo.riesgo_judicial.nivel === 'critico') riesgoAjustado = Math.min(100, riesgoAjustado + 30)
+  }
+
   const bio = wiki.bio || `${nombre} es ${cargo} de ${partido}.`
 
   const dossier: DossierDossier = {
@@ -413,8 +524,10 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
     foto_url: wiki.foto,
 
     score_influencia: scores.influencia,
-    score_riesgo: scores.riesgo,
+    score_riesgo: riesgoAjustado,
     score_mediacion: scores.mediacion,
+    score_influencia_desc: 'Capacidad de condicionar decisiones políticas en su espacio de poder',
+    score_riesgo_desc: 'Probabilidad de pérdida de cargo o relevancia política en 12 meses',
     scores_fuente: noticias.length > 0 || actividad.length > 0 ? 'real' : 'estimado',
 
     bio,
@@ -438,6 +551,9 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: strin
     tono_predominante: scores.tono,
 
     relaciones,
+    relaciones_estructurales,
+    dafo,
+    cargos,
     agenda,
 
     riesgo_narrativo: riesgoNarrativo.nivel,

@@ -1,0 +1,106 @@
+{
+  "actor_id": "alberto-nunez-feijoo",
+  "fortalezas": [
+    {
+      "titulo": "Liderazgo consolidado de la oposición",
+      "descripcion": "Primer partido en intención de voto en la mayoría de encuestas. El PP bajo Feijóo lidera el bloque de la alternativa.",
+      "evidencia": "PP: 33-35% intención de voto en encuestas 2025-2026. Primer partido en el Congreso con 137 escaños"
+    },
+    {
+      "titulo": "Experiencia de gestión autonómica",
+      "descripcion": "Cuatro mandatos consecutivos como presidente de la Xunta de Galicia con mayoría absoluta. Imagen de gestor fiable.",
+      "evidencia": "Presidente de Galicia 2009-2022. Cuatro mayorías absolutas consecutivas del PP en Galicia"
+    },
+    {
+      "titulo": "Red de gobiernos autonómicos PP",
+      "descripcion": "El PP gobierna en 11 CCAA, ofreciendo laboratorio de alternativas de gestión frente al gobierno central.",
+      "evidencia": "PP preside Castilla y León, Madrid, Galicia, Murcia, Aragón, La Rioja, Cantabria, Baleares, Valencia, Extremadura, Castilla-La Mancha"
+    },
+    {
+      "titulo": "Perfil moderado y de gestión",
+      "descripcion": "Imagen de centro moderado que atrae votantes desencantados del PSOE y aleja del extremismo.",
+      "evidencia": "Posición CHES 2024: +3.8 en eje izquierda-derecha. Moderación en temas sociales respecto a VOX"
+    }
+  ],
+  "debilidades": [
+    {
+      "titulo": "Tensión interna con corriente Ayuso",
+      "descripcion": "La presidenta de Madrid representa una línea más dura y mediática que rivaliza con el liderazgo nacional.",
+      "evidencia": "Caso González Amador: conflicto abierto entre la dirección nacional y la secretaría general del PP de Madrid"
+    },
+    {
+      "titulo": "Dependencia de VOX para gobiernos autonómicos",
+      "descripcion": "El PP necesita a VOX en varias CCAA, lo que genera contradicciones con su discurso de moderación nacional.",
+      "evidencia": "Gobiernos PP-VOX en Aragón, Extremadura, Murcia, Castilla y León"
+    },
+    {
+      "titulo": "Investidura fallida 2023",
+      "descripcion": "El fracaso en la investidura de septiembre 2023 debilitó su imagen como alternativa de gobierno inmediata.",
+      "evidencia": "Investidura fallida el 29 de agosto de 2023. No obtuvo los apoyos necesarios"
+    },
+    {
+      "titulo": "Perfil mediático inferior al de Ayuso",
+      "descripcion": "Ayuso genera más atención mediática que el propio Feijóo, lo que diluye su liderazgo ante la opinión pública.",
+      "evidencia": "Búsquedas Google y menciones en medios: Ayuso supera sistemáticamente a Feijóo en 2024-2026"
+    }
+  ],
+  "oportunidades": [
+    {
+      "titulo": "Desgaste acumulado del gobierno de coalición",
+      "descripcion": "La erosión del gobierno Sánchez y los escándalos del entorno abren espacio electoral para la alternancia.",
+      "horizonte": "corto"
+    },
+    {
+      "titulo": "Unificación del bloque de la derecha",
+      "descripcion": "Una eventual convergencia con VOX en una gran coalición o un PP que absorba votantes de VOX podría dar mayoría.",
+      "horizonte": "medio"
+    },
+    {
+      "titulo": "Crisis de gobernabilidad",
+      "descripcion": "Una ruptura de la coalición o pérdida de mayoría en el Congreso puede forzar elecciones anticipadas.",
+      "horizonte": "corto"
+    }
+  ],
+  "amenazas": [
+    {
+      "titulo": "Fragmentación del bloque de la derecha",
+      "descripcion": "VOX puede restar votos suficientes para impedir la mayoría del PP incluso en escenarios de desgaste del PSOE.",
+      "probabilidad": "media",
+      "horizonte": "corto"
+    },
+    {
+      "titulo": "Surgimiento de alternativas de liderazgo interno",
+      "descripcion": "Ayuso u otros líderes autonómicos podrían disputarle el liderazgo si no logra la alternancia.",
+      "probabilidad": "media",
+      "horizonte": "medio"
+    },
+    {
+      "titulo": "Desgaste como oposición permanente",
+      "descripcion": "Una segunda legislatura completa de Sánchez sin elecciones erosiona la posición de Feijóo como alternativa creíble.",
+      "probabilidad": "baja",
+      "horizonte": "largo"
+    }
+  ],
+  "riesgo_judicial": {
+    "nivel": "bajo",
+    "causas": [],
+    "descripcion": "No hay causas judiciales directas activas contra Feijóo. El riesgo judicial es bajo."
+  },
+  "riesgo_interno_partido": {
+    "nivel": "medio",
+    "descripcion": "Tensión real con el sector duro del PP que representa Ayuso. La derrota en las elecciones generales de 2023 dejó heridas internas que no se han cerrado completamente.",
+    "actores_internos_criticos": ["Isabel Díaz Ayuso", "Miguel Tellado", "Esperanza Aguirre"]
+  },
+  "riesgo_coalicion": {
+    "nivel": "bajo",
+    "descripcion": "El PP es el principal partido de la oposición y no gestiona coaliciones de gobierno a nivel central. El riesgo de coalición se circunscribe a los gobiernos autonómicos PP-VOX.",
+    "socios_en_tension": ["VOX"]
+  },
+  "riesgo_electoral": {
+    "nivel": "medio",
+    "intencion_voto_actual": 33.5,
+    "tendencia": "estable",
+    "descripcion": "El PP mantiene el primer puesto en intención de voto pero no alcanza mayoría. Sin elecciones próximas, el riesgo inmediato es bajo, pero la acumulación de legislatura sin alternancia puede erosionar su posición."
+  },
+  "sintesis_riesgo": "Feijóo lidera la oposición desde una posición sólida pero sin capacidad real de llegar al gobierno a corto plazo. El PP es el primer partido en intención de voto pero la aritmética parlamentaria no permite la alternancia sin cambios sustanciales. Los principales riesgos son internos: la tensión con el sector Ayuso y la dependencia de VOX en gobiernos autonómicos complican su posicionamiento moderado. A medio plazo, si Sánchez completa la legislatura, la posición de Feijóo como líder de la alternativa puede debilitarse en favor de candidatos internos más confrontacionales."
+}

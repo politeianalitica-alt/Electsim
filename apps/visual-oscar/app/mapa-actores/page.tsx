@@ -47,8 +47,7 @@ export default function MapaActoresPage() {
   const personas: ApiPersona[] = Array.isArray(apiPersonas) ? apiPersonas : []
   const isLiveData = personas.length > 0
 
-  // Build a unified list mapping API personas to existing actor IDs by name match,
-  // so live cards can display extra fields without breaking the quadrant.
+  // Build a unified list mapping API personas to existing actor IDs by name match
   const liveByName = useMemo(() => {
     const m: Record<string, ApiPersona> = {}
     for (const p of personas) if (p.nombre_completo) m[p.nombre_completo.toLowerCase()] = p
@@ -127,7 +126,7 @@ export default function MapaActoresPage() {
           ))}
           {isLiveData && (
             <span style={{ padding: '7px 14px', borderRadius: 999, background: 'rgba(45,138,57,0.10)', color: '#2d8a39', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', alignSelf: 'center' }}>
-              ● {personas.length} live
+              {personas.length} live
             </span>
           )}
         </div>
@@ -135,11 +134,11 @@ export default function MapaActoresPage() {
       {view === 'grafo' && (
         <RelacionesGrafo
           actors={(personas.length > 0 ? personas : ACTORES.slice(0, 30)).map(p => ({
-            id: 'id' in p ? p.id : (p as any).id,
-            nombre: 'nombre_completo' in p ? p.nombre_completo : (p as any).nombre,
+            id: 'id' in p ? p.id : (p as {id: string}).id,
+            nombre: 'nombre_completo' in p ? p.nombre_completo : (p as {nombre: string}).nombre,
             partido: p.partido,
-            cargo: 'cargo_actual' in p ? p.cargo_actual : (p as any).cargo,
-            score_influencia: 'score_influencia' in p ? p.score_influencia : (p as any).inf,
+            cargo: 'cargo_actual' in p ? p.cargo_actual : (p as {cargo: string}).cargo,
+            score_influencia: 'score_influencia' in p ? p.score_influencia : (p as {inf: number}).inf,
           }))}
         />
       )}
@@ -262,7 +261,6 @@ export default function MapaActoresPage() {
 
                 <p style={{ fontSize:12, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 12px' }}>{focusedActor.cargo}</p>
 
-                {/* Valoración + influencia */}
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 }}>
                   <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
                     <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>Valoración</div>
@@ -286,13 +284,11 @@ export default function MapaActoresPage() {
                   </div>
                 </div>
 
-                {/* Coordenadas ideológicas */}
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:14 }}>
                   <Coord label="Eje H" value={focusedActor.ejeX} pos={focusedActor.ejeX < 0 ? 'IZQ' : focusedActor.ejeX > 0 ? 'DCHA' : '—'} color={focusedActor.color}/>
                   <Coord label="Eje V" value={focusedActor.ejeY} pos={focusedActor.ejeY < 0 ? 'DESCENT.' : focusedActor.ejeY > 0 ? 'CENT.' : '—'} color={focusedActor.color}/>
                 </div>
 
-                {/* Fortalezas */}
                 <div style={{ marginBottom:10 }}>
                   <div style={{ fontSize:10, color:'#16A34A', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Fortalezas</div>
                   {focusedActor.forts.map(f => (
@@ -302,7 +298,6 @@ export default function MapaActoresPage() {
                   ))}
                 </div>
 
-                {/* Debilidades */}
                 <div style={{ marginBottom:10 }}>
                   <div style={{ fontSize:10, color:'#DC2626', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Debilidades</div>
                   {focusedActor.debs.map(d => (
@@ -312,7 +307,6 @@ export default function MapaActoresPage() {
                   ))}
                 </div>
 
-                {/* Eventos */}
                 <div style={{ marginBottom:10 }}>
                   <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Eventos recientes</div>
                   {focusedActor.evs.map(e => (
@@ -322,7 +316,6 @@ export default function MapaActoresPage() {
                   ))}
                 </div>
 
-                {/* Redes */}
                 <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px', marginBottom:6 }}>
                   <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Redes sociales</div>
                   {[
@@ -362,7 +355,7 @@ export default function MapaActoresPage() {
           </aside>
         </section>
 
-        {/* Ranking de los visibles · con buscador dedicado */}
+        {/* Ranking */}
         {(() => {
           const sorted = [...visible].sort((a,b) => b.inf - a.inf)
           const rq = rankQuery.trim().toLowerCase()
@@ -493,10 +486,35 @@ interface DossierRelacion {
   nombre: string; tipo: 'aliado' | 'rival' | 'neutral'
   partido?: string; n_coocurrencias: number
 }
+interface DossierRelacionEstructural {
+  tipo: string; etiqueta: string
+  categoria: 'organica' | 'parlamentaria' | 'poder_informal' | 'dependencia' | 'mediatica' | 'economica' | 'co_mencion'
+  destino: string
+  signo: 'positivo' | 'negativo' | 'neutro' | 'ambivalente'
+  fuerza: number; descripcion: string; desde: string
+  fuente_tipo: 'estructural' | 'parlamentaria' | 'co_mencion'
+}
+interface DossierDafo {
+  fortalezas: Array<{ titulo: string; descripcion: string; evidencia: string }>
+  debilidades: Array<{ titulo: string; descripcion: string; evidencia: string }>
+  oportunidades: Array<{ titulo: string; descripcion: string; horizonte: string }>
+  amenazas: Array<{ titulo: string; descripcion: string; probabilidad: string; horizonte: string }>
+  riesgo_judicial: { nivel: string; causas: string[]; descripcion: string }
+  riesgo_interno_partido: { nivel: string; descripcion: string; actores_internos_criticos: string[] }
+  riesgo_coalicion: { nivel: string; descripcion: string; socios_en_tension: string[] }
+  riesgo_electoral: { nivel: string; intencion_voto_actual: number | null; tendencia: string; descripcion: string }
+  sintesis_riesgo: string
+}
+interface DossierCargo {
+  cargo: string; organismo: string; tipo: string
+  fecha_inicio: string; fecha_fin: string | null
+  descripcion: string; relevancia: number
+}
 interface DossierData {
   slug: string; nombre: string; cargo: string; partido: string; partido_color: string
   foto_url: string | null
   score_influencia: number; score_riesgo: number; score_mediacion: number
+  score_influencia_desc: string; score_riesgo_desc: string
   scores_fuente: 'real' | 'estimado'
   bio: string; bio_fuente: string; bio_url: string
   eje_izq_dcha: number; eje_autoritario: number
@@ -505,6 +523,9 @@ interface DossierData {
   noticias: DossierNewsItem[]; n_noticias_24h: number
   sentimiento_media: number; tono_predominante: 'positivo' | 'negativo' | 'neutro'
   relaciones: DossierRelacion[]
+  relaciones_estructurales: DossierRelacionEstructural[]
+  dafo: DossierDafo | null
+  cargos: DossierCargo[] | null
   agenda: Array<{ titulo: string; fecha: string; tipo: string; url?: string }>
   riesgo_narrativo: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
   señales_riesgo: string[]
@@ -525,8 +546,23 @@ const DOSSIER_TABS: Array<{ id: DossierTab; label: string }> = [
 
 const RIESGO_COLOR = { BAJO: '#16A34A', MEDIO: '#D97706', ALTO: '#EA580C', CRITICO: '#DC2626' } as const
 const TONO_COLOR = { positivo: '#16A34A', negativo: '#DC2626', neutro: '#6e6e73' } as const
+const NIVEL_COLOR: Record<string, string> = { bajo: '#16A34A', medio: '#D97706', alto: '#EA580C', critico: '#DC2626' }
+const SIGNO_COLOR: Record<string, string> = {
+  positivo: 'rgba(34,197,94,0.85)',
+  negativo: 'rgba(239,68,68,0.85)',
+  ambivalente: 'rgba(245,158,11,0.85)',
+  neutro: 'rgba(100,116,139,0.5)',
+}
+const CAT_FILTER_LABEL: Record<string, string> = {
+  todas: 'Todas',
+  organica: 'Poder',
+  parlamentaria: 'Parlamentarias',
+  poder_informal: 'Rivalidad',
+  mediatica: 'Mediáticas',
+  dependencia: 'Dependencias',
+  economica: 'Económicas',
+}
 
-// Inline dossier view: scrollable list of actors on the left + full dossier on the right
 function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
   actors: typeof ACTORES
   liveByName: Record<string, ApiPersona>
@@ -554,7 +590,6 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
     { refreshInterval: 0 }
   )
 
-  // Reset tab when actor changes
   useEffect(() => { setActiveTab('resumen') }, [selectedId])
 
   void live
@@ -620,8 +655,18 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
           <div style={{ height: 56, background: '#f5f5f7', borderRadius: 10, marginBottom: 14 }}/>
         ) : dossier ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
-            <ScoreBar label="Influencia" value={dossier.score_influencia} max={100} color="#1F4E8C"/>
-            <ScoreBar label="Riesgo" value={dossier.score_riesgo} max={100} color="#b25000"/>
+            <div>
+              <ScoreBar label="Influencia" value={dossier.score_influencia} max={100} color="#1F4E8C"/>
+              {dossier.score_influencia_desc && (
+                <div style={{ fontSize: 9.5, color: '#86868b', marginTop: 3, lineHeight: 1.3 }}>{dossier.score_influencia_desc}</div>
+              )}
+            </div>
+            <div>
+              <ScoreBar label="Riesgo" value={dossier.score_riesgo} max={100} color="#b25000"/>
+              {dossier.score_riesgo_desc && (
+                <div style={{ fontSize: 9.5, color: '#86868b', marginTop: 3, lineHeight: 1.3 }}>{dossier.score_riesgo_desc}</div>
+              )}
+            </div>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 6 }}>
                 <span>Tono media</span>
@@ -671,6 +716,27 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
                     </a>
                   </div>
                 )}
+                {/* Last activity snippet */}
+                {dossier.actividad.length > 0 && (
+                  <div style={{ marginBottom: 14, padding: '10px 14px', background: '#f5f5f7', borderRadius: 10, borderLeft: '3px solid #1F4E8C' }}>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Ultima actividad</div>
+                    <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{dossier.actividad[0].titulo}</div>
+                  </div>
+                )}
+                {/* Relations summary */}
+                {(dossier.relaciones_estructurales.length > 0 || dossier.relaciones.length > 0) && (
+                  <div style={{ marginBottom: 14, padding: '10px 14px', background: '#f5f5f7', borderRadius: 10, display: 'flex', gap: 16, alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Red política</div>
+                      <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: '#DC2626', lineHeight: 1 }}>
+                        {dossier.relaciones_estructurales.length + dossier.relaciones.length}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 12, color: '#6e6e73', lineHeight: 1.4 }}>
+                      {dossier.relaciones_estructurales.length} relaciones estructurales · {dossier.relaciones.length} co-menciones recientes
+                    </div>
+                  </div>
+                )}
                 {/* Ideology quick view */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 4 }}>
                   <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
@@ -694,32 +760,43 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
             {/* ACTIVIDAD PARLAMENTARIA */}
             {activeTab === 'actividad' && (
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                   <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
-                    {dossier.actividad.length} iniciativas · Score de actividad {dossier.actividad_score}/100
+                    {dossier.actividad.length} iniciativas
                   </span>
-                  <ScoreBar label="" value={dossier.actividad_score} max={100} color="#0F766E"/>
+                  <ScoreBar label="Score de actividad" value={dossier.actividad_score} max={100} color="#0F766E"/>
+                </div>
+                <div style={{ fontSize: 11, color: '#86868b', marginBottom: 12 }}>
+                  Intensidad de actividad parlamentaria registrada · 0-100
                 </div>
                 {dossier.actividad.length === 0 ? (
-                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin datos de actividad parlamentaria disponibles</div>
+                  <div style={{ padding: '20px 16px', background: '#f5f5f7', borderRadius: 12, borderLeft: '3px solid #D97706' }}>
+                    <div style={{ fontSize: 12.5, color: '#1d1d1f', fontWeight: 600, marginBottom: 6 }}>Sin iniciativas parlamentarias recientes</div>
+                    <div style={{ fontSize: 12, color: '#6e6e73', lineHeight: 1.6 }}>
+                      Sin iniciativas parlamentarias registradas en los últimos 30 días. Para {dossier.cargo}, la actividad se mide por comparecencias, decretos y declaraciones oficiales.
+                    </div>
+                  </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {dossier.actividad.map((act, i) => (
-                      <a key={i} href={act.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <div style={{ padding: '9px 12px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', transition: 'background 120ms' }}
-                             onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
-                             onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
-                          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#1F4E8C15', color: '#1F4E8C', flexShrink: 0, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{act.tipo}</span>
-                            <span style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{act.titulo}</span>
+                    {dossier.actividad.map((act, i) => {
+                      const leftColor = act.tipo === 'intervencion' ? '#7C3AED' : act.tipo === 'comparecencia' ? '#0E7490' : act.tipo === 'votacion' ? '#D97706' : '#1F4E8C'
+                      return (
+                        <a key={i} href={act.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                          <div style={{ padding: '9px 12px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', borderLeft: `3px solid ${leftColor}`, transition: 'background 120ms' }}
+                               onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
+                               onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
+                            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                              <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: `${leftColor}15`, color: leftColor, flexShrink: 0, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{act.tipo}</span>
+                              <span style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{act.titulo}</span>
+                            </div>
+                            <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
+                              {new Date(act.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                              {act.organo && ` · ${act.organo}`}
+                            </div>
                           </div>
-                          <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
-                            {new Date(act.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
-                            {act.organo && ` · ${act.organo}`}
-                          </div>
-                        </div>
-                      </a>
-                    ))}
+                        </a>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -775,129 +852,87 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
               </div>
             )}
 
-            {/* RED DE RELACIONES */}
+            {/* RED DE RELACIONES — redesigned */}
             {activeTab === 'relaciones' && (
-              <div>
-                <p style={{ fontSize: 12, color: '#6e6e73', marginBottom: 14 }}>
-                  Co-menciones en noticias de los ultimos 3 dias. Mayor frecuencia = relacion mas activa.
-                </p>
-                {dossier.relaciones.length === 0 ? (
-                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin co-menciones detectadas en el periodo</div>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {dossier.relaciones.map((r, i) => (
-                      <div key={i} style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #e8e8ed', display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center' }}>
-                        <div>
-                          <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f' }}>{r.nombre}</div>
-                          {r.partido && <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{r.partido}</div>}
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                          <div style={{ fontSize: 10.5, fontWeight: 700, color: r.tipo === 'aliado' ? '#16A34A' : r.tipo === 'rival' ? '#DC2626' : '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{r.tipo}</div>
-                          <div style={{ fontSize: 10, color: '#6e6e73' }}>{r.n_coocurrencias} co-menciones</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <RedTab dossier={dossier} actorColor={a.color} />
             )}
 
             {/* AGENDA */}
             {activeTab === 'agenda' && (
               <div>
-                {dossier.agenda.length === 0 ? (
-                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin eventos proximos detectados</div>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    {dossier.agenda.map((ev, i) => (
-                      <a key={i} href={ev.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <div style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', transition: 'background 120ms' }}
-                             onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
-                             onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
-                          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#0F766E15', color: '#0F766E', flexShrink: 0, marginTop: 1, textTransform: 'uppercase' }}>{ev.tipo}</span>
-                            <span style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{ev.titulo}</span>
-                          </div>
-                          <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
-                            {new Date(ev.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
-                          </div>
+                {/* Future events */}
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>Proximos eventos</div>
+                  {(() => {
+                    const futureEvents = dossier.agenda.filter(ev => ev.tipo === 'agenda_futura')
+                    const newsEvents = dossier.agenda.filter(ev => ev.tipo !== 'agenda_futura')
+                    if (dossier.agenda.length === 0) {
+                      return (
+                        <div style={{ padding: '16px', background: '#f5f5f7', borderRadius: 10, fontSize: 12, color: '#6e6e73', lineHeight: 1.6 }}>
+                          Sin eventos futuros confirmados — conectar agenda oficial para datos en tiempo real
                         </div>
-                      </a>
-                    ))}
-                  </div>
-                )}
+                      )
+                    }
+                    return (
+                      <>
+                        {futureEvents.length > 0 ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
+                            {futureEvents.map((ev, i) => (
+                              <a key={i} href={ev.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                <div style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #16A34A40', background: '#16A34A08', transition: 'background 120ms' }}
+                                     onMouseEnter={e => (e.currentTarget.style.background = '#16A34A15')}
+                                     onMouseLeave={e => (e.currentTarget.style.background = '#16A34A08')}>
+                                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
+                                    <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#16A34A20', color: '#16A34A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>CONFIRMADO</span>
+                                    <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#0F766E15', color: '#0F766E', textTransform: 'uppercase' }}>{ev.tipo}</span>
+                                  </div>
+                                  <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{ev.titulo}</div>
+                                  <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
+                                    {new Date(ev.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                  </div>
+                                </div>
+                              </a>
+                            ))}
+                          </div>
+                        ) : null}
+                        {newsEvents.length > 0 && (
+                          <>
+                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8, marginTop: futureEvents.length > 0 ? 16 : 0 }}>Ultimas apariciones</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                              {newsEvents.map((ev, i) => (
+                                <a key={i} href={ev.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                  <div style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', transition: 'background 120ms' }}
+                                       onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
+                                       onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
+                                    <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
+                                      <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#D9770620', color: '#D97706', textTransform: 'uppercase', letterSpacing: '0.06em' }}>PROBABLE ~70%</span>
+                                      <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#0F766E15', color: '#0F766E', textTransform: 'uppercase' }}>{ev.tipo}</span>
+                                    </div>
+                                    <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{ev.titulo}</div>
+                                    <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
+                                      {new Date(ev.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                    </div>
+                                  </div>
+                                </a>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )
+                  })()}
+                </div>
               </div>
             )}
 
-            {/* POSICIONAMIENTO */}
+            {/* POSICIONAMIENTO — redesigned */}
             {activeTab === 'posicion' && (
-              <div>
-                <div style={{ marginBottom: 14 }}>
-                  <IdeologicalScatter partido={a.partido} size={320}/>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
-                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Izquierda — Derecha</div>
-                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_izq_dcha < 0 ? '#C53030' : '#2D4A8A' }}>
-                      {dossier.eje_izq_dcha > 0 ? `+${dossier.eje_izq_dcha.toFixed(1)}` : dossier.eje_izq_dcha.toFixed(1)}
-                    </div>
-                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
-                      {dossier.eje_izq_dcha < -3 ? 'Izquierda' : dossier.eje_izq_dcha < 0 ? 'Centroizquierda' : dossier.eje_izq_dcha < 3 ? 'Centro' : dossier.eje_izq_dcha < 6 ? 'Centroderecha' : 'Derecha'}
-                    </div>
-                  </div>
-                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
-                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Libertario — Autoritario</div>
-                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_autoritario > 2 ? '#7C3AED' : '#0F766E' }}>
-                      {dossier.eje_autoritario > 0 ? `+${dossier.eje_autoritario.toFixed(1)}` : dossier.eje_autoritario.toFixed(1)}
-                    </div>
-                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
-                      {dossier.eje_autoritario > 2 ? 'Tendencia autoritaria' : dossier.eje_autoritario < -2 ? 'Tendencia libertaria' : 'Posicion moderada'}
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginTop: 12, fontSize: 10.5, color: '#6e6e73' }}>
-                  Fuente: {dossier.posicionamiento_fuente === 'ches_2024' ? 'Chapel Hill Expert Survey 2024 (CHES)' : 'Estimacion algorítmica'}
-                </div>
-              </div>
+              <PosicionTab dossier={dossier} actorColor={a.color} partido={a.partido} />
             )}
 
-            {/* RIESGO */}
+            {/* RIESGO — redesigned */}
             {activeTab === 'riesgo' && (
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
-                  <div style={{
-                    width: 80, height: 80, borderRadius: '50%', border: `4px solid ${RIESGO_COLOR[dossier.riesgo_narrativo]}`,
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                    background: `${RIESGO_COLOR[dossier.riesgo_narrativo]}10`,
-                  }}>
-                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 11, fontWeight: 700, color: RIESGO_COLOR[dossier.riesgo_narrativo], letterSpacing: '0.06em' }}>{dossier.riesgo_narrativo}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>Riesgo narrativo: {dossier.riesgo_narrativo}</div>
-                    <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de riesgo algoritmico: {dossier.score_riesgo}/100</div>
-                    <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de mediacion: {dossier.score_mediacion}/100 (presencia en medios)</div>
-                  </div>
-                </div>
-                <div>
-                  <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Señales detectadas</div>
-                  {dossier.señales_riesgo.length === 0 ? (
-                    <div style={{ fontSize: 12, color: '#16A34A', fontWeight: 500 }}>Sin señales de riesgo narrativo activas en las ultimas 72h</div>
-                  ) : (
-                    dossier.señales_riesgo.map((s, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, fontSize: 12.5, color: '#1d1d1f', alignItems: 'flex-start' }}>
-                        <span style={{ color: RIESGO_COLOR[dossier.riesgo_narrativo], fontWeight: 700, flexShrink: 0, marginTop: 1 }}>!</span>
-                        {s}
-                      </div>
-                    ))
-                  )}
-                </div>
-                <div style={{ marginTop: 14, padding: '12px 14px', background: '#f5f5f7', borderRadius: 10, fontSize: 11.5, color: '#6e6e73', lineHeight: 1.6 }}>
-                  <strong style={{ color: '#1d1d1f', display: 'block', marginBottom: 4 }}>Metodologia</strong>
-                  El riesgo narrativo se calcula a partir del volumen de noticias negativas en las ultimas 72h,
-                  la velocidad de aparicion de nuevas menciones, y la deteccion de patrones de escalada
-                  (corrupcion, crisis de liderazgo, dimision) en los titulares. Fuente: Google News ES.
-                </div>
-              </div>
+              <RiesgoTab dossier={dossier} />
             )}
           </>
         )}
@@ -907,6 +942,478 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
             No se pudieron cargar los datos del dossier para {a.nombre}
           </div>
         )}
+      </div>
+    </div>
+  )
+}
+
+// ── Red Tab ───────────────────────────────────────────────────────────────────
+
+function RedTab({ dossier, actorColor }: { dossier: DossierData; actorColor: string }) {
+  const [viewMode, setViewMode] = useState<'grafo' | 'tabla'>('grafo')
+  const [catFilter, setCatFilter] = useState('todas')
+  const [tooltip, setTooltip] = useState<{ rel: DossierRelacionEstructural; x: number; y: number } | null>(null)
+
+  // Merge structural + co-mention relations
+  const coMentionRels: DossierRelacionEstructural[] = dossier.relaciones.map(r => ({
+    tipo: r.tipo === 'aliado' ? 'aliado' : r.tipo === 'rival' ? 'rival_directo' : 'neutral',
+    etiqueta: r.tipo === 'aliado' ? 'Aliado' : r.tipo === 'rival' ? 'Rival' : 'Neutral',
+    categoria: 'co_mencion' as const,
+    destino: r.nombre,
+    signo: r.tipo === 'aliado' ? 'positivo' : r.tipo === 'rival' ? 'negativo' : 'neutro',
+    fuerza: Math.min(1, r.n_coocurrencias / 10),
+    descripcion: `${r.n_coocurrencias} co-menciones en noticias recientes`,
+    desde: '',
+    fuente_tipo: 'co_mencion' as const,
+  }))
+
+  const allRels = [...dossier.relaciones_estructurales, ...coMentionRels]
+
+  const catOptions = ['todas', ...Array.from(new Set(allRels.map(r => r.categoria)))]
+
+  const filteredRels = catFilter === 'todas'
+    ? allRels
+    : allRels.filter(r => r.categoria === catFilter)
+
+  // SVG layout
+  const CX = 260, CY = 180, R = 140
+  const visible = filteredRels.slice(0, 8)
+
+  return (
+    <div>
+      {/* Controls */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 2, background: '#f5f5f7', borderRadius: 8, padding: 3 }}>
+          <button onClick={() => setViewMode('grafo')} style={{
+            padding: '5px 12px', borderRadius: 6, border: 'none', fontFamily: 'inherit',
+            background: viewMode === 'grafo' ? '#fff' : 'transparent',
+            color: viewMode === 'grafo' ? '#1d1d1f' : '#6e6e73',
+            fontSize: 11, fontWeight: 600, cursor: 'pointer',
+            boxShadow: viewMode === 'grafo' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+          }}>Red</button>
+          <button onClick={() => setViewMode('tabla')} style={{
+            padding: '5px 12px', borderRadius: 6, border: 'none', fontFamily: 'inherit',
+            background: viewMode === 'tabla' ? '#fff' : 'transparent',
+            color: viewMode === 'tabla' ? '#1d1d1f' : '#6e6e73',
+            fontSize: 11, fontWeight: 600, cursor: 'pointer',
+            boxShadow: viewMode === 'tabla' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+          }}>Tabla</button>
+        </div>
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          {catOptions.map(cat => (
+            <button key={cat} onClick={() => setCatFilter(cat)} style={{
+              padding: '4px 10px', borderRadius: 999, border: '1px solid',
+              borderColor: catFilter === cat ? '#1d1d1f' : '#e8e8ed',
+              background: catFilter === cat ? '#1d1d1f' : 'transparent',
+              color: catFilter === cat ? '#fff' : '#6e6e73',
+              fontSize: 10.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>{CAT_FILTER_LABEL[cat] ?? cat}</button>
+          ))}
+        </div>
+        <span style={{ marginLeft: 'auto', fontSize: 10.5, color: '#86868b' }}>
+          {allRels.length} relaciones · {dossier.relaciones_estructurales.length} estructurales
+        </span>
+      </div>
+
+      {filteredRels.length === 0 && (
+        <div style={{ padding: '30px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>
+          Sin relaciones en esta categoría
+        </div>
+      )}
+
+      {filteredRels.length > 0 && viewMode === 'grafo' && (
+        <div style={{ position: 'relative' }}>
+          <svg viewBox="0 0 520 360" style={{ width: '100%', height: 'auto', display: 'block', background: '#fafafa', borderRadius: 12, border: '1px solid #e8e8ed' }}>
+            {/* Edges */}
+            {visible.map((rel, i) => {
+              const angle = (2 * Math.PI * i) / visible.length - Math.PI / 2
+              const nx = CX + R * Math.cos(angle)
+              const ny = CY + R * Math.sin(angle)
+              const strokeColor = SIGNO_COLOR[rel.signo] ?? 'rgba(100,116,139,0.5)'
+              const strokeW = rel.fuerza * 4 + 1
+              const midX = (CX + nx) / 2
+              const midY = (CY + ny) / 2
+              return (
+                <g key={i}>
+                  <line x1={CX} y1={CY} x2={nx} y2={ny}
+                    stroke={strokeColor} strokeWidth={strokeW} strokeLinecap="round" opacity="0.75"/>
+                  <text x={midX} y={midY - 4} textAnchor="middle" fontSize="8" fill="#6e6e73" fontWeight="600">
+                    {rel.etiqueta.length > 16 ? rel.etiqueta.slice(0, 14) + '…' : rel.etiqueta}
+                  </text>
+                </g>
+              )
+            })}
+            {/* Surrounding nodes */}
+            {visible.map((rel, i) => {
+              const angle = (2 * Math.PI * i) / visible.length - Math.PI / 2
+              const nx = CX + R * Math.cos(angle)
+              const ny = CY + R * Math.sin(angle)
+              const nodeColor = SIGNO_COLOR[rel.signo] ?? '#6e6e73'
+              return (
+                <g key={i} style={{ cursor: 'pointer' }}
+                  onMouseEnter={e => setTooltip({ rel, x: e.clientX, y: e.clientY })}
+                  onMouseLeave={() => setTooltip(null)}>
+                  <circle cx={nx} cy={ny} r={22} fill={nodeColor} opacity="0.15" stroke={nodeColor} strokeWidth="1.5"/>
+                  <text x={nx} y={ny + 1} textAnchor="middle" dominantBaseline="middle" fontSize="8.5" fontWeight="700" fill="#1d1d1f">
+                    {rel.destino.split(' ').slice(0, 2).map((w: string) => w[0]).join('')}
+                  </text>
+                  <text x={nx} y={ny + 30} textAnchor="middle" fontSize="7.5" fill="#6e6e73" fontWeight="600">
+                    {rel.destino.split(' ')[0]}
+                  </text>
+                  {/* Categoria badge */}
+                  <text x={nx} y={ny + 40} textAnchor="middle" fontSize="6.5" fill={nodeColor.replace('0.85', '1').replace('0.5', '0.8')}>
+                    {rel.categoria === 'organica' ? 'ORG' : rel.categoria === 'parlamentaria' ? 'PARL' : rel.categoria === 'poder_informal' ? 'POD' : rel.categoria === 'co_mencion' ? 'MED' : rel.categoria.slice(0, 4).toUpperCase()}
+                  </text>
+                </g>
+              )
+            })}
+            {/* Central node */}
+            <circle cx={CX} cy={CY} r={32} fill={actorColor} opacity="0.9"/>
+            <text x={CX} y={CY + 1} textAnchor="middle" dominantBaseline="middle" fontSize="9" fontWeight="700" fill="#fff">
+              ACTOR
+            </text>
+          </svg>
+          {/* Tooltip */}
+          {tooltip && (
+            <div style={{
+              position: 'fixed', top: tooltip.y + 12, left: tooltip.x + 8,
+              background: '#1d1d1f', color: '#fff', padding: '10px 14px', borderRadius: 10,
+              fontSize: 11.5, maxWidth: 260, zIndex: 9999, lineHeight: 1.5,
+              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+              pointerEvents: 'none',
+            }}>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>{tooltip.rel.destino}</div>
+              <div style={{ color: 'rgba(255,255,255,0.7)', marginBottom: 4 }}>{tooltip.rel.etiqueta} · {tooltip.rel.categoria}</div>
+              <div>{tooltip.rel.descripcion}</div>
+              {tooltip.rel.desde && <div style={{ marginTop: 4, fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>Desde {tooltip.rel.desde}</div>}
+            </div>
+          )}
+          <div style={{ marginTop: 10, display: 'flex', gap: 12, fontSize: 10, color: '#6e6e73', flexWrap: 'wrap' }}>
+            {Object.entries(SIGNO_COLOR).map(([signo, color]) => (
+              <span key={signo} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <span style={{ width: 16, height: 3, background: color, display: 'inline-block', borderRadius: 2 }}/>
+                {signo}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {filteredRels.length > 0 && viewMode === 'tabla' && (
+        <div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 3fr 60px 80px', gap: 8, padding: '6px 12px', background: '#f5f5f7', borderRadius: '8px 8px 0 0', fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <span>Actor</span><span>Tipo</span><span>Descripcion</span><span>Fuerza</span><span>Desde</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {filteredRels.map((rel, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 3fr 60px 80px', gap: 8, padding: '8px 12px', borderBottom: '1px solid #f0f0f3', alignItems: 'start' }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f' }}>{rel.destino}</div>
+                  <div style={{ fontSize: 9.5, color: '#86868b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{rel.categoria}</div>
+                </div>
+                <div>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: `${SIGNO_COLOR[rel.signo]}20`, color: SIGNO_COLOR[rel.signo].replace('0.85', '1').replace('0.5', '0.7'), textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    {rel.etiqueta}
+                  </span>
+                </div>
+                <div style={{ fontSize: 11, color: '#6e6e73', lineHeight: 1.4 }}>{rel.descripcion}</div>
+                <div>
+                  <div style={{ height: 4, background: '#f0f0f3', borderRadius: 2, overflow: 'hidden' }}>
+                    <div style={{ width: `${rel.fuerza * 100}%`, height: '100%', background: SIGNO_COLOR[rel.signo] }}/>
+                  </div>
+                  <div style={{ fontSize: 9, color: '#86868b', marginTop: 2 }}>{(rel.fuerza * 100).toFixed(0)}%</div>
+                </div>
+                <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{rel.desde || '—'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Posicion Tab ──────────────────────────────────────────────────────────────
+
+function PosicionTab({ dossier, actorColor, partido }: { dossier: DossierData; actorColor: string; partido: string }) {
+  const dependencias = dossier.relaciones_estructurales.filter(r =>
+    ['depende_electoralmente_de', 'depende_presupuestariamente_de', 'controla_a', 'patron_de', 'cliente_de'].includes(r.tipo)
+  )
+
+  return (
+    <div>
+      {/* SECTION A: Career trajectory */}
+      {dossier.cargos && dossier.cargos.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Trayectoria profesional</div>
+          <div style={{ position: 'relative', paddingLeft: 20 }}>
+            {/* Vertical line */}
+            <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: '#e8e8ed' }}/>
+            {dossier.cargos.map((c, i) => {
+              const isCurrent = c.fecha_fin === null
+              const tipColor = isCurrent ? actorColor : '#9ca3af'
+              const tipoLabel: Record<string, string> = { ejecutivo: 'EJE', partido: 'PAR', legislativo: 'LEG' }
+              return (
+                <div key={i} style={{ position: 'relative', marginBottom: 16, paddingLeft: 22 }}>
+                  {/* Dot */}
+                  <div style={{
+                    position: 'absolute', left: -1, top: 4, width: 16, height: 16, borderRadius: '50%',
+                    background: isCurrent ? actorColor : '#e8e8ed',
+                    border: `2px solid ${tipColor}`,
+                    boxShadow: isCurrent ? `0 0 0 3px ${actorColor}25` : 'none',
+                  }}/>
+                  <div style={{ padding: '10px 14px', background: isCurrent ? `${actorColor}08` : '#fafafa', borderRadius: 10, border: `1px solid ${isCurrent ? actorColor + '30' : '#e8e8ed'}` }}>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginBottom: 4 }}>
+                      {isCurrent && (
+                        <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4, background: `${actorColor}20`, color: actorColor, textTransform: 'uppercase', letterSpacing: '0.06em' }}>ACTUAL</span>
+                      )}
+                      <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4, background: '#f0f0f3', color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        {tipoLabel[c.tipo] ?? c.tipo.slice(0, 3).toUpperCase()}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', marginBottom: 2 }}>{c.cargo}</div>
+                    <div style={{ fontSize: 11, color: actorColor, fontWeight: 600, marginBottom: 4 }}>{c.organismo}</div>
+                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginBottom: 6 }}>
+                      {c.fecha_inicio} — {c.fecha_fin ?? 'Actualidad'}
+                    </div>
+                    <div style={{ fontSize: 11.5, color: '#424245', lineHeight: 1.5 }}>{c.descripcion}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* SECTION B: Ideological position */}
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Posicion ideologica</div>
+        <div style={{ marginBottom: 14 }}>
+          <IdeologicalScatter partido={partido} size={320}/>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#86868b', marginTop: 6, paddingTop: 4, borderTop: '1px solid #f0f0f3' }}>
+            <span>Izquierda ←</span>
+            <span style={{ color: '#6e6e73', fontWeight: 600 }}>{dossier.posicionamiento_fuente === 'ches_2024' ? 'CHES 2024' : 'Estimado'}</span>
+            <span>→ Derecha</span>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Izquierda — Derecha</div>
+            <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_izq_dcha < 0 ? '#C53030' : '#2D4A8A' }}>
+              {dossier.eje_izq_dcha > 0 ? `+${dossier.eje_izq_dcha.toFixed(1)}` : dossier.eje_izq_dcha.toFixed(1)}
+            </div>
+            <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
+              {dossier.eje_izq_dcha < -3 ? 'Izquierda' : dossier.eje_izq_dcha < 0 ? 'Centroizquierda' : dossier.eje_izq_dcha < 3 ? 'Centro' : dossier.eje_izq_dcha < 6 ? 'Centroderecha' : 'Derecha'}
+            </div>
+          </div>
+          <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Libertario — Autoritario</div>
+            <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_autoritario > 2 ? '#7C3AED' : '#0F766E' }}>
+              {dossier.eje_autoritario > 0 ? `+${dossier.eje_autoritario.toFixed(1)}` : dossier.eje_autoritario.toFixed(1)}
+            </div>
+            <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
+              {dossier.eje_autoritario > 2 ? 'Tendencia autoritaria' : dossier.eje_autoritario < -2 ? 'Tendencia libertaria' : 'Posicion moderada'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SECTION C: Dependencies */}
+      {dependencias.length > 0 && (
+        <div>
+          <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 14 }}>Dependencias clave</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <div style={{ fontSize: 10, color: '#DC2626', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>De quien depende</div>
+              {dependencias.filter(r => ['depende_electoralmente_de', 'depende_presupuestariamente_de', 'cliente_de'].includes(r.tipo)).map((r, i) => (
+                <div key={i} style={{ padding: '8px 12px', background: '#fef2f2', borderRadius: 8, border: '1px solid #fecaca', marginBottom: 6 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>{r.destino}</div>
+                  <div style={{ fontSize: 10, color: '#DC2626', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{r.etiqueta}</div>
+                  <div style={{ fontSize: 11, color: '#6e6e73', lineHeight: 1.4 }}>{r.descripcion}</div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div style={{ fontSize: 10, color: '#16A34A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>A quien necesita</div>
+              {dependencias.filter(r => ['controla_a', 'patron_de'].includes(r.tipo)).map((r, i) => (
+                <div key={i} style={{ padding: '8px 12px', background: '#f0fdf4', borderRadius: 8, border: '1px solid #bbf7d0', marginBottom: 6 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>{r.destino}</div>
+                  <div style={{ fontSize: 10, color: '#16A34A', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{r.etiqueta}</div>
+                  <div style={{ fontSize: 11, color: '#6e6e73', lineHeight: 1.4 }}>{r.descripcion}</div>
+                </div>
+              ))}
+              {dependencias.filter(r => ['controla_a', 'patron_de'].includes(r.tipo)).length === 0 && (
+                <div style={{ fontSize: 11.5, color: '#86868b', padding: '8px 0' }}>Sin dependencias activas registradas</div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Riesgo Tab ────────────────────────────────────────────────────────────────
+
+function RiesgoTab({ dossier }: { dossier: DossierData }) {
+  const [expandedDafo, setExpandedDafo] = useState<string | null>(null)
+
+  const dafoColor = { fortalezas: '#16A34A', debilidades: '#DC2626', oportunidades: '#1F4E8C', amenazas: '#D97706' }
+
+  return (
+    <div>
+      {/* SECTION A: Risk dimensions */}
+      {dossier.dafo ? (
+        <>
+          <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Dimensiones de riesgo</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 22 }}>
+            {([
+              { key: 'riesgo_judicial', label: 'Judicial', data: dossier.dafo.riesgo_judicial },
+              { key: 'riesgo_interno_partido', label: 'Interno partido', data: dossier.dafo.riesgo_interno_partido },
+              { key: 'riesgo_coalicion', label: 'Coalicion', data: dossier.dafo.riesgo_coalicion },
+              { key: 'riesgo_electoral', label: 'Electoral', data: dossier.dafo.riesgo_electoral },
+            ] as const).map(({ key, label, data }) => {
+              const nivel = data.nivel.toLowerCase()
+              const nivelColor = NIVEL_COLOR[nivel] ?? '#6e6e73'
+              const nivelPct = nivel === 'critico' ? 95 : nivel === 'alto' ? 75 : nivel === 'medio' ? 45 : 15
+              return (
+                <div key={key} style={{ padding: '12px 14px', background: `${nivelColor}08`, borderRadius: 10, border: `1px solid ${nivelColor}25` }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                    <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: `${nivelColor}20`, color: nivelColor, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                      {data.nivel}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: '#1d1d1f' }}>{label}</span>
+                    <div style={{ flex: 1, height: 4, background: '#e8e8ed', borderRadius: 2, overflow: 'hidden' }}>
+                      <div style={{ width: `${nivelPct}%`, height: '100%', background: nivelColor, borderRadius: 2 }}/>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>{data.descripcion}</div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* SECTION B: DAFO 2x2 grid */}
+          <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>Analisis DAFO</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 22 }}>
+            {([
+              { key: 'fortalezas', label: 'Fortalezas', items: dossier.dafo.fortalezas, color: dafoColor.fortalezas },
+              { key: 'debilidades', label: 'Debilidades', items: dossier.dafo.debilidades, color: dafoColor.debilidades },
+              { key: 'oportunidades', label: 'Oportunidades', items: dossier.dafo.oportunidades, color: dafoColor.oportunidades },
+              { key: 'amenazas', label: 'Amenazas', items: dossier.dafo.amenazas, color: dafoColor.amenazas },
+            ] as const).map(({ key, label, items, color }) => (
+              <div key={key} style={{ background: `${color}06`, border: `1px solid ${color}25`, borderRadius: 10, padding: '12px 14px' }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>{label}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {items.map((item: { titulo: string; descripcion: string; evidencia?: string; horizonte?: string; probabilidad?: string }, ii: number) => {
+                    const itemKey = `${key}-${ii}`
+                    const isExpanded = expandedDafo === itemKey
+                    return (
+                      <div key={ii} style={{ cursor: 'pointer' }} onClick={() => setExpandedDafo(isExpanded ? null : itemKey)}>
+                        <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                          <span style={{ color, fontWeight: 700, fontSize: 10, flexShrink: 0, marginTop: 2 }}>
+                            {key === 'fortalezas' ? '+' : key === 'debilidades' ? '-' : key === 'oportunidades' ? '→' : '!'}
+                          </span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.3 }}>{item.titulo}</div>
+                            {'horizonte' in item && (item as {horizonte: string}).horizonte && (
+                              <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4, background: `${color}15`, color, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2, display: 'inline-block' }}>
+                                {(item as {horizonte: string}).horizonte}
+                              </span>
+                            )}
+                            {'probabilidad' in item && (item as {probabilidad: string}).probabilidad && (
+                              <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 4, background: `${color}15`, color, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2, display: 'inline-block' }}>
+                                Prob. {(item as {probabilidad: string}).probabilidad}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        {isExpanded && (
+                          <div style={{ marginTop: 6, marginLeft: 14, padding: '8px 10px', background: '#fff', borderRadius: 7, border: '1px solid #f0f0f3' }}>
+                            <div style={{ fontSize: 11, color: '#6e6e73', lineHeight: 1.5, marginBottom: item.evidencia ? 6 : 0 }}>{item.descripcion}</div>
+                            {item.evidencia && (
+                              <div style={{ fontSize: 10, color: '#86868b', fontStyle: 'italic', lineHeight: 1.4 }}>Evidencia: {item.evidencia}</div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* SECTION C: Strategic synthesis */}
+          {dossier.dafo.sintesis_riesgo && (() => {
+            const overallRiesgo = dossier.score_riesgo
+            const synthColor = overallRiesgo >= 75 ? '#DC2626' : overallRiesgo >= 55 ? '#EA580C' : overallRiesgo >= 35 ? '#D97706' : '#16A34A'
+            return (
+              <div style={{ marginBottom: 22, padding: '16px 18px', background: `${synthColor}08`, borderRadius: 12, borderLeft: `4px solid ${synthColor}` }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: synthColor, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Sintesis estrategica de riesgo</div>
+                <p style={{ fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.7, margin: 0 }}>{dossier.dafo.sintesis_riesgo}</p>
+              </div>
+            )
+          })()}
+        </>
+      ) : (
+        /* No DAFO: show narrative risk */
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+          <div style={{
+            width: 80, height: 80, borderRadius: '50%', border: `4px solid ${RIESGO_COLOR[dossier.riesgo_narrativo]}`,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            background: `${RIESGO_COLOR[dossier.riesgo_narrativo]}10`,
+          }}>
+            <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 11, fontWeight: 700, color: RIESGO_COLOR[dossier.riesgo_narrativo], letterSpacing: '0.06em' }}>{dossier.riesgo_narrativo}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>Riesgo narrativo: {dossier.riesgo_narrativo}</div>
+            <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de riesgo algoritmico: {dossier.score_riesgo}/100</div>
+            <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de mediacion: {dossier.score_mediacion}/100 (presencia en medios)</div>
+          </div>
+        </div>
+      )}
+
+      {/* SECTION D: Risk signals (always shown) */}
+      <div>
+        <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>
+          Señales de riesgo detectadas
+          {!dossier.dafo && ` · ${dossier.riesgo_narrativo}`}
+        </div>
+        {dossier.señales_riesgo.length === 0 ? (
+          <div style={{ fontSize: 12, color: '#16A34A', fontWeight: 500 }}>Sin señales de riesgo narrativo activas en las ultimas 72h</div>
+        ) : (
+          dossier.señales_riesgo.map((s, i) => (
+            <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, fontSize: 12.5, color: '#1d1d1f', alignItems: 'flex-start' }}>
+              <span style={{ color: RIESGO_COLOR[dossier.riesgo_narrativo], fontWeight: 700, flexShrink: 0, marginTop: 1 }}>!</span>
+              {s}
+            </div>
+          ))
+        )}
+        {/* Negative news as signals */}
+        {dossier.noticias.filter(n => n.sentimiento < -0.2).length > 0 && (
+          <div style={{ marginTop: 12 }}>
+            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Noticias con señal negativa</div>
+            {dossier.noticias.filter(n => n.sentimiento < -0.2).slice(0, 5).map(n => (
+              <a key={n.id} href={n.url || '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: 6 }}>
+                <div style={{ padding: '8px 12px', borderRadius: 8, border: '1px solid #fee2e2', background: '#fef2f2', display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: '#DC2626' }}>{n.sentimiento.toFixed(2)}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.3 }}>{n.titulo}</div>
+                    <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 2 }}>{n.fuente} · {new Date(n.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+        <div style={{ marginTop: 14, padding: '12px 14px', background: '#f5f5f7', borderRadius: 10, fontSize: 11.5, color: '#6e6e73', lineHeight: 1.6 }}>
+          <strong style={{ color: '#1d1d1f', display: 'block', marginBottom: 4 }}>Metodologia</strong>
+          El riesgo narrativo se calcula a partir del volumen de noticias negativas en las ultimas 72h,
+          la velocidad de aparicion de nuevas menciones, y la deteccion de patrones de escalada
+          (corrupcion, crisis de liderazgo, dimision) en los titulares. Fuente: Google News ES.
+          {dossier.dafo && ' El score se enriquece con analisis DAFO estructural curado.'}
+        </div>
       </div>
     </div>
   )

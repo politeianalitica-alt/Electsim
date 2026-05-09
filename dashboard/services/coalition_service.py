@@ -490,3 +490,47 @@ def probabilidad_bayesiana_mayoria(
 
 def disponible() -> dict[str, bool]:
     return {"poli_sci_kit": _PSK_OK, "abcvoting": _ABCVOTING_OK}
+
+
+# ─── Composición del hemiciclo ────────────────────────────────────────────────
+
+def get_composicion_hemiciclo() -> dict[str, int]:
+    """
+    Retorna la distribución actual de escaños del Congreso desde la BD.
+    Si la BD no tiene datos devuelve dict vacío — el caller decide qué mostrar.
+
+    Returns
+    -------
+    {partido: escanos} ordenado por escaños descendente, o {} si sin datos.
+    """
+    import os
+    try:
+        from sqlalchemy import text
+        import dashboard.db as _db
+        engine = _db.get_engine()
+        if engine is None:
+            return {}
+        legislatura = os.environ.get("LEGISLATURA_ACTUAL", "15")
+        with engine.connect() as conn:
+            result = conn.execute(
+                text(
+                    "SELECT partido, escanos FROM composicion_congreso "
+                    "WHERE legislatura = :leg ORDER BY escanos DESC"
+                ),
+                {"leg": legislatura},
+            ).fetchall()
+            if result:
+                return {row[0]: row[1] for row in result}
+    except Exception:
+        pass
+    return {}
+
+
+def get_total_escanos() -> int:
+    """Constante constitucional — número total de diputados del Congreso."""
+    return TOTAL_ESCANOS
+
+
+def get_mayoria_absoluta() -> int:
+    """Constante constitucional — umbral de mayoría absoluta."""
+    return MAYORIA_ABSOLUTA

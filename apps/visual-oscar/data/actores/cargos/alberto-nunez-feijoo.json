@@ -1,0 +1,68 @@
+{
+  "actor_id": "alberto-nunez-feijoo",
+  "cargos": [
+    {
+      "cargo": "Presidente del Partido Popular",
+      "organismo": "Partido Popular",
+      "tipo": "partido",
+      "fecha_inicio": "2022-04",
+      "fecha_fin": null,
+      "descripcion": "Elegido presidente del PP en el XIX Congreso extraordinario. Sucede a Pablo Casado tras la crisis interna provocada por el enfrentamiento con Ayuso.",
+      "relevancia": 5
+    },
+    {
+      "cargo": "Candidato a la Presidencia del Gobierno",
+      "organismo": "Gobierno de España",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "2023-07",
+      "fecha_fin": "2023-09",
+      "descripcion": "Candidato del PP tras las elecciones generales del 23-J. No logró los apoyos suficientes para ser investido presidente. Obtuvo el mayor número de votos en primera vuelta.",
+      "relevancia": 4
+    },
+    {
+      "cargo": "Senador por designación autonómica",
+      "organismo": "Senado de España",
+      "tipo": "legislativo",
+      "fecha_inicio": "2022-05",
+      "fecha_fin": "2023-07",
+      "descripcion": "Senador designado por el Parlamento de Galicia. Periodo de transición entre la presidencia gallega y el liderazgo nacional del PP.",
+      "relevancia": 3
+    },
+    {
+      "cargo": "Presidente de la Xunta de Galicia",
+      "organismo": "Xunta de Galicia",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "2009-03",
+      "fecha_fin": "2022-05",
+      "descripcion": "Presidente de Galicia durante cuatro mandatos consecutivos con mayoría absoluta. Logró la primera mayoría absoluta del PP en Galicia en 2009 y la revalidó en 2012, 2016 y 2020.",
+      "relevancia": 5
+    },
+    {
+      "cargo": "Conselleiro de Política Territorial",
+      "organismo": "Xunta de Galicia",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "2003-10",
+      "fecha_fin": "2005-08",
+      "descripcion": "Primer cargo en el gobierno gallego bajo la presidencia de Manuel Fraga.",
+      "relevancia": 2
+    },
+    {
+      "cargo": "Director General de Sanidade e Consumo",
+      "organismo": "Xunta de Galicia",
+      "tipo": "ejecutivo",
+      "fecha_inicio": "1996-01",
+      "fecha_fin": "2003-10",
+      "descripcion": "Alto cargo en la administración gallega. Inicio de su carrera en el gobierno autonómico.",
+      "relevancia": 1
+    },
+    {
+      "cargo": "Diputado al Parlamento de Galicia",
+      "organismo": "Parlamento de Galicia",
+      "tipo": "legislativo",
+      "fecha_inicio": "1990-10",
+      "fecha_fin": "1996-01",
+      "descripcion": "Parlamentario gallego. Primera etapa como cargo electo antes de acceder a la administración ejecutiva.",
+      "relevancia": 2
+    }
+  ]
+}
