@@ -125,6 +125,25 @@ const MODULES = [
   { href: '/alertas',             label: 'Alertas activas',        sub: 'Señales críticas · detección escaladas',accent: '#D97706', tag: ''         },
 ]
 
+/** Converts whatever the backend sends in news_pulse.parties to a display string.
+ *  Backend can return a string "PP, PSOE", an array of strings ["PP","PSOE"],
+ *  or an array of objects [{partido:'PP',pct:0.5},...] — all are safe here. */
+function sanitizeParties(raw: unknown): string {
+  if (!raw) return ''
+  if (typeof raw === 'string') return raw
+  if (Array.isArray(raw)) {
+    return raw.map(item => {
+      if (typeof item === 'string') return item
+      if (item && typeof item === 'object') {
+        const o = item as Record<string, unknown>
+        return String(o.partido ?? o.siglas ?? o.nombre ?? o.id ?? '')
+      }
+      return String(item)
+    }).filter(Boolean).join(', ')
+  }
+  return ''
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
@@ -134,7 +153,7 @@ export default function DashboardPage() {
     { refreshInterval: 60_000 }
   )
 
-  const { data: trendsData, loading: trendsLoading } = useApi<TrendItem[]>(
+  const { data: trendsRaw, loading: trendsLoading } = useApi<{ items?: TrendItem[]; source?: string; timestamp?: string } | TrendItem[]>(
     '/api/trends',
     { refreshInterval: 120_000 }
   )
@@ -233,7 +252,10 @@ export default function DashboardPage() {
             politica:    '#1F4E8C',
             economia:    '#2d8a39',
           }
-          const trends = Array.isArray(trendsData) ? trendsData : []
+          // API returns { items: TrendItem[] } OR a plain TrendItem[] — normalise both
+          const trends: TrendItem[] = Array.isArray(trendsRaw)
+            ? (trendsRaw as TrendItem[])
+            : ((trendsRaw as { items?: TrendItem[] })?.items ?? [])
           const geoItems = trends.filter(t => t.es_evento_geo).slice(0, 3)
           const sourcePills = Array.from(new Set(trends.map(t => t.fuente))).slice(0, 5)
           const lastTs = trends.length > 0 ? trends[0].timestamp : null
@@ -466,7 +488,7 @@ export default function DashboardPage() {
                         <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
                         <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
                           <span style={{ fontWeight: 600 }}>{n.source}</span>
-                          {n.parties && <span>· {n.parties}</span>}
+                          {sanitizeParties(n.parties) && <span>· {sanitizeParties(n.parties)}</span>}
                         </div>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: 3 }}>

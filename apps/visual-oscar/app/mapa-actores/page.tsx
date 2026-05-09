@@ -479,8 +479,52 @@ function Coord({ label, value, pos, color }: { label:string, value:number, pos:s
   )
 }
 
-interface NewsItem { id: string; title: string; source: string; date: string; url: string; snippet: string }
-interface NewsResp { items: NewsItem[]; source: string; actor: string }
+// ── Dossier types (mirror the API response) ───────────────────────────────────
+
+interface DossierNewsItem {
+  id: string; titulo: string; fuente: string; url: string
+  fecha: string; sentimiento: number; resumen: string | null
+}
+interface DossierActividad {
+  tipo: 'intervencion' | 'iniciativa' | 'votacion' | 'comparecencia'
+  titulo: string; fecha: string; url?: string; organo?: string
+}
+interface DossierRelacion {
+  nombre: string; tipo: 'aliado' | 'rival' | 'neutral'
+  partido?: string; n_coocurrencias: number
+}
+interface DossierData {
+  slug: string; nombre: string; cargo: string; partido: string; partido_color: string
+  foto_url: string | null
+  score_influencia: number; score_riesgo: number; score_mediacion: number
+  scores_fuente: 'real' | 'estimado'
+  bio: string; bio_fuente: string; bio_url: string
+  eje_izq_dcha: number; eje_autoritario: number
+  posicionamiento_fuente: 'ches_2024' | 'estimado'
+  actividad: DossierActividad[]; actividad_score: number
+  noticias: DossierNewsItem[]; n_noticias_24h: number
+  sentimiento_media: number; tono_predominante: 'positivo' | 'negativo' | 'neutro'
+  relaciones: DossierRelacion[]
+  agenda: Array<{ titulo: string; fecha: string; tipo: string; url?: string }>
+  riesgo_narrativo: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
+  señales_riesgo: string[]
+  timestamp: string
+}
+
+type DossierTab = 'resumen' | 'actividad' | 'medios' | 'relaciones' | 'agenda' | 'posicion' | 'riesgo'
+
+const DOSSIER_TABS: Array<{ id: DossierTab; label: string }> = [
+  { id: 'resumen',   label: 'Resumen' },
+  { id: 'actividad', label: 'Actividad' },
+  { id: 'medios',    label: 'Medios' },
+  { id: 'relaciones',label: 'Red' },
+  { id: 'agenda',    label: 'Agenda' },
+  { id: 'posicion',  label: 'Posicion' },
+  { id: 'riesgo',    label: 'Riesgo' },
+]
+
+const RIESGO_COLOR = { BAJO: '#16A34A', MEDIO: '#D97706', ALTO: '#EA580C', CRITICO: '#DC2626' } as const
+const TONO_COLOR = { positivo: '#16A34A', negativo: '#DC2626', neutro: '#6e6e73' } as const
 
 // Inline dossier view: scrollable list of actors on the left + full dossier on the right
 function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
@@ -491,27 +535,36 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
   onOpenGraph: () => void
 }) {
   const [search, setSearch] = useState('')
+  const [activeTab, setActiveTab] = useState<DossierTab>('resumen')
+
   const filtered = actors.filter(a =>
     !search || a.nombre.toLowerCase().includes(search.toLowerCase()) || a.partido.toLowerCase().includes(search.toLowerCase())
   )
   const a = actors.find(x => x.id === selectedId) ?? actors[0]
   const live = a ? liveByName[a.nombre.toLowerCase()] : undefined
 
-  const { data: newsData, loading: loadingNews } = useApi<NewsResp>(
-    `/api/persons/${encodeURIComponent(a?.nombre ?? '')}/news`,
+  const slug = encodeURIComponent(
+    (a?.nombre ?? '').toLowerCase().replace(/[áàä]/g,'a').replace(/[éèë]/g,'e')
+      .replace(/[íìï]/g,'i').replace(/[óòö]/g,'o').replace(/[úùü]/g,'u')
+      .replace(/ñ/g,'n').replace(/ç/g,'c').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')
+  )
+
+  const { data: dossier, loading: loadingDossier } = useApi<DossierData>(
+    a ? `/api/actores/${slug}/dossier?partido=${encodeURIComponent(a.partido)}&cargo=${encodeURIComponent(a.cargo)}&color=${encodeURIComponent(a.color)}` : '',
     { refreshInterval: 0 }
   )
-  const news: NewsItem[] = newsData?.items ?? []
 
-  const sentimiento = live?.sentimiento_actual ?? (a?.seg.tono ?? 0) / 50
-  const sentimientoTier = sentimiento > 0.1 ? 'mejorando' : sentimiento < -0.1 ? 'empeorando' : 'estable'
-  const sentimientoColor = sentimiento > 0.1 ? '#2d8a39' : sentimiento < -0.1 ? '#c42c2c' : '#6e6e73'
+  // Reset tab when actor changes
+  useEffect(() => { setActiveTab('resumen') }, [selectedId])
+
+  void live
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: 16 }}>
+      {/* Actor list sidebar */}
       <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: 14 }}>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar actor…"
-          style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8ed', borderRadius: 10, fontSize: 12, fontFamily: 'inherit', marginBottom: 10 }} />
+          style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8ed', borderRadius: 10, fontSize: 12, fontFamily: 'inherit', marginBottom: 10, boxSizing: 'border-box' }} />
         <div style={{ maxHeight: 600, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
           {filtered.slice(0, 80).map(x => {
             const active = x.id === selectedId
@@ -530,109 +583,330 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '20px 24px' }}>
+      {/* Dossier panel */}
+      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '20px 24px', minWidth: 0 }}>
+
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-          <div style={{
-            width: 64, height: 64, borderRadius: '50%', background: a.color, color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700,
-          }}>{initials(a.nombre)}</div>
-          <div style={{ flex: 1 }}>
+          {dossier?.foto_url ? (
+            <img src={dossier.foto_url} alt={a.nombre} style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${a.color}` }}/>
+          ) : (
+            <div style={{
+              width: 64, height: 64, borderRadius: '50%', background: a.color, color: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, flexShrink: 0,
+            }}>{initials(a.nombre)}</div>
+          )}
+          <div style={{ flex: 1, minWidth: 0 }}>
             <h2 style={{ margin: '0 0 4px', fontSize: 20, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, letterSpacing: '-0.015em' }}>{a.nombre}</h2>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ padding: '3px 10px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontSize: 11, fontWeight: 700 }}>{a.partido}</span>
-              {live?.ambito && <span style={{ padding: '3px 10px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10.5, fontWeight: 600 }}>{live.ambito}</span>}
-              <span style={{ fontSize: 12, color: '#6e6e73' }}>{a.cargo}</span>
-            </div>
-          </div>
-          <button onClick={onOpenGraph} style={{
-            padding: '8px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
-            fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
-          }}>Ver grafo completo →</button>
-        </div>
-
-        {/* Scores row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 18 }}>
-          <ScoreBar label="Influencia" value={live?.score_influencia ?? a.inf} max={100} color="#1F4E8C"/>
-          <ScoreBar label="Riesgo" value={live?.score_riesgo ?? Math.round(50 + (a.ejeX ?? 0) * 0.4)} max={100} color="#b25000"/>
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>
-              <span>Sentimiento</span>
-              <span style={{ color: sentimientoColor, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13 }}>
-                {sentimiento >= 0 ? '+' : ''}{sentimiento.toFixed(2)}
-              </span>
-            </div>
-            <span style={{
-              padding: '3px 10px', borderRadius: 999, background: `${sentimientoColor}15`, color: sentimientoColor,
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-            }}>{live?.tendencia_sentimiento ?? sentimientoTier}</span>
-          </div>
-        </div>
-
-        {/* Two-column body: left bio + right scatter */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 18 }}>
-          <div>
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Biografía</div>
-            <p style={{ margin: '0 0 16px', fontSize: 12.5, color: '#424245', lineHeight: 1.6 }}>
-              {live?.bio ?? `${a.cargo} de ${a.partido}. Influencia ${a.inf}/100, valoración ${a.val}/10. ${a.evs?.[0] ?? ''}`}
-            </p>
-
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Fortalezas</div>
-            <div style={{ marginBottom: 14 }}>
-              {a.forts.map(f => (
-                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
-                  <span style={{ color: '#2d8a39', fontWeight: 700 }}>+</span> {f}
-                </div>
-              ))}
-            </div>
-
-            <div style={{ fontSize: 10, color: '#c42c2c', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Debilidades</div>
-            <div>
-              {a.debs.map(d => (
-                <div key={d} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
-                  <span style={{ color: '#c42c2c', fontWeight: 700 }}>−</span> {d}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>
-              Posicionamiento ideológico
-            </div>
-            <IdeologicalScatter partido={a.partido} size={300}/>
-
-            {/* Recent news */}
-            <div style={{ marginTop: 18 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Noticias recientes</div>
-                {newsData?.source === 'google_news' && <span style={{ fontSize: 9, color: '#2d8a39', fontWeight: 700 }}>Google News</span>}
-              </div>
-              {loadingNews ? (
-                <div style={{ fontSize: 11, color: '#6e6e73' }}>Buscando noticias…</div>
-              ) : news.length === 0 ? (
-                <div style={{ fontSize: 11, color: '#6e6e73', fontStyle: 'italic' }}>Sin resultados recientes</div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                  {news.slice(0, 5).map(n => (
-                    <a key={n.id} href={n.url || '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                      <div style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #f0f0f3', background: '#fafafc', transition: 'background 120ms' }}
-                           onMouseEnter={e => (e.currentTarget.style.background = '#f5f5f7')}
-                           onMouseLeave={e => (e.currentTarget.style.background = '#fafafc')}>
-                        <div style={{ fontSize: 11.5, fontWeight: 500, color: '#1d1d1f', lineHeight: 1.35, marginBottom: 3 }}>{n.title}</div>
-                        <div style={{ fontSize: 10, color: '#6e6e73', display: 'flex', gap: 8 }}>
-                          <span style={{ fontWeight: 600 }}>{n.source}</span>
-                          {n.date && <span>· {new Date(n.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</span>}
-                        </div>
-                      </div>
-                    </a>
-                  ))}
-                </div>
+            <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ padding: '2px 8px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontSize: 11, fontWeight: 700 }}>{a.partido}</span>
+              <span style={{ fontSize: 11.5, color: '#6e6e73' }}>{a.cargo}</span>
+              {dossier && (
+                <span style={{ fontSize: 9, color: dossier.scores_fuente === 'real' ? '#16A34A' : '#D97706', fontWeight: 700, letterSpacing: '0.06em', padding: '1px 5px', borderRadius: 999, background: dossier.scores_fuente === 'real' ? '#16A34A15' : '#D9770615' }}>
+                  {dossier.scores_fuente === 'real' ? 'DATOS REALES' : 'ESTIMADO'}
+                </span>
               )}
             </div>
           </div>
+          <button onClick={onOpenGraph} style={{
+            padding: '7px 13px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
+            fontSize: 11, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+          }}>Grafo →</button>
         </div>
+
+        {/* Score strip */}
+        {loadingDossier ? (
+          <div style={{ height: 56, background: '#f5f5f7', borderRadius: 10, marginBottom: 14 }}/>
+        ) : dossier ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
+            <ScoreBar label="Influencia" value={dossier.score_influencia} max={100} color="#1F4E8C"/>
+            <ScoreBar label="Riesgo" value={dossier.score_riesgo} max={100} color="#b25000"/>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 6 }}>
+                <span>Tono media</span>
+                <span style={{ color: TONO_COLOR[dossier.tono_predominante], fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 11 }}>
+                  {dossier.tono_predominante.toUpperCase()}
+                </span>
+              </div>
+              <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: `${TONO_COLOR[dossier.tono_predominante]}15`, color: TONO_COLOR[dossier.tono_predominante] }}>
+                {dossier.sentimiento_media >= 0 ? '+' : ''}{dossier.sentimiento_media.toFixed(2)} · {dossier.n_noticias_24h} noticias 24h
+              </span>
+            </div>
+          </div>
+        ) : null}
+
+        {/* Tab bar */}
+        <div style={{ display: 'flex', gap: 2, borderBottom: '1px solid #e8e8ed', marginBottom: 18 }}>
+          {DOSSIER_TABS.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{
+              background: 'none', border: 'none', padding: '7px 12px', cursor: 'pointer',
+              fontFamily: 'inherit', fontSize: 12, fontWeight: activeTab === tab.id ? 700 : 500,
+              color: activeTab === tab.id ? '#1d1d1f' : '#6e6e73',
+              borderBottom: activeTab === tab.id ? '2px solid #1d1d1f' : '2px solid transparent',
+              transition: 'all 120ms', marginBottom: -1,
+            }}>{tab.label}</button>
+          ))}
+        </div>
+
+        {/* Tab content */}
+        {loadingDossier && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[0,1,2,3].map(i => <div key={i} style={{ height: 36, background: '#f5f5f7', borderRadius: 8 }}/>)}
+          </div>
+        )}
+
+        {!loadingDossier && dossier && (
+          <>
+            {/* RESUMEN */}
+            {activeTab === 'resumen' && (
+              <div>
+                <p style={{ fontSize: 13, color: '#424245', lineHeight: 1.7, margin: '0 0 18px' }}>
+                  {dossier.bio}
+                </p>
+                {dossier.bio_url && (
+                  <div style={{ marginBottom: 16 }}>
+                    <a href={dossier.bio_url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}>
+                      Fuente: {dossier.bio_fuente} →
+                    </a>
+                  </div>
+                )}
+                {/* Ideology quick view */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 4 }}>
+                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 6 }}>Eje Izq-Dcha</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: dossier.eje_izq_dcha < 0 ? '#C53030' : '#2D4A8A' }}>
+                      {dossier.eje_izq_dcha > 0 ? `+${dossier.eje_izq_dcha.toFixed(1)}` : dossier.eje_izq_dcha.toFixed(1)}
+                    </div>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', marginTop: 3 }}>{dossier.posicionamiento_fuente === 'ches_2024' ? 'CHES 2024' : 'Estimado'}</div>
+                  </div>
+                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 6 }}>Eje Libertario</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700, color: dossier.eje_autoritario > 0 ? '#7C3AED' : '#0F766E' }}>
+                      {dossier.eje_autoritario > 0 ? `+${dossier.eje_autoritario.toFixed(1)}` : dossier.eje_autoritario.toFixed(1)}
+                    </div>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', marginTop: 3 }}>{dossier.eje_autoritario > 0 ? 'Tendencia autoritaria' : 'Tendencia libertaria'}</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ACTIVIDAD PARLAMENTARIA */}
+            {activeTab === 'actividad' && (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
+                    {dossier.actividad.length} iniciativas · Score de actividad {dossier.actividad_score}/100
+                  </span>
+                  <ScoreBar label="" value={dossier.actividad_score} max={100} color="#0F766E"/>
+                </div>
+                {dossier.actividad.length === 0 ? (
+                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin datos de actividad parlamentaria disponibles</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {dossier.actividad.map((act, i) => (
+                      <a key={i} href={act.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <div style={{ padding: '9px 12px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', transition: 'background 120ms' }}
+                             onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
+                             onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#1F4E8C15', color: '#1F4E8C', flexShrink: 0, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{act.tipo}</span>
+                            <span style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{act.titulo}</span>
+                          </div>
+                          <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
+                            {new Date(act.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                            {act.organo && ` · ${act.organo}`}
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* MEDIOS */}
+            {activeTab === 'medios' && (
+              <div>
+                <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
+                  <div style={{ background: '#f5f5f7', borderRadius: 9, padding: '8px 14px' }}>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Noticias 72h</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 20, fontWeight: 700, color: '#1d1d1f' }}>{dossier.noticias.length}</div>
+                  </div>
+                  <div style={{ background: '#f5f5f7', borderRadius: 9, padding: '8px 14px' }}>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Ultimas 24h</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 20, fontWeight: 700, color: '#1d1d1f' }}>{dossier.n_noticias_24h}</div>
+                  </div>
+                  <div style={{ background: `${TONO_COLOR[dossier.tono_predominante]}12`, borderRadius: 9, padding: '8px 14px' }}>
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Tono</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 20, fontWeight: 700, color: TONO_COLOR[dossier.tono_predominante] }}>
+                      {dossier.sentimiento_media >= 0 ? '+' : ''}{dossier.sentimiento_media.toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+                {dossier.noticias.length === 0 ? (
+                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin noticias recientes encontradas</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {dossier.noticias.map(n => {
+                      const sc = n.sentimiento
+                      const sc_color = sc > 0.1 ? '#16A34A' : sc < -0.1 ? '#DC2626' : '#6e6e73'
+                      return (
+                        <a key={n.id} href={n.url || '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                          <div style={{ padding: '9px 12px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', display: 'grid', gridTemplateColumns: '1fr 40px', gap: 10, alignItems: 'center', transition: 'background 120ms' }}
+                               onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
+                               onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
+                            <div>
+                              <div style={{ fontSize: 12, fontWeight: 500, color: '#1d1d1f', lineHeight: 1.35, marginBottom: 3 }}>{n.titulo}</div>
+                              <div style={{ fontSize: 10, color: '#6e6e73', display: 'flex', gap: 6 }}>
+                                <span style={{ fontWeight: 600 }}>{n.fuente}</span>
+                                <span>· {new Date(n.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</span>
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <span style={{ fontSize: 10, fontWeight: 700, color: sc_color }}>{sc >= 0 ? '+' : ''}{sc.toFixed(2)}</span>
+                            </div>
+                          </div>
+                        </a>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* RED DE RELACIONES */}
+            {activeTab === 'relaciones' && (
+              <div>
+                <p style={{ fontSize: 12, color: '#6e6e73', marginBottom: 14 }}>
+                  Co-menciones en noticias de los ultimos 3 dias. Mayor frecuencia = relacion mas activa.
+                </p>
+                {dossier.relaciones.length === 0 ? (
+                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin co-menciones detectadas en el periodo</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {dossier.relaciones.map((r, i) => (
+                      <div key={i} style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #e8e8ed', display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center' }}>
+                        <div>
+                          <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f' }}>{r.nombre}</div>
+                          {r.partido && <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{r.partido}</div>}
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ fontSize: 10.5, fontWeight: 700, color: r.tipo === 'aliado' ? '#16A34A' : r.tipo === 'rival' ? '#DC2626' : '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{r.tipo}</div>
+                          <div style={{ fontSize: 10, color: '#6e6e73' }}>{r.n_coocurrencias} co-menciones</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* AGENDA */}
+            {activeTab === 'agenda' && (
+              <div>
+                {dossier.agenda.length === 0 ? (
+                  <div style={{ padding: '20px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>Sin eventos proximos detectados</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {dossier.agenda.map((ev, i) => (
+                      <a key={i} href={ev.url ?? '#'} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <div style={{ padding: '10px 14px', borderRadius: 9, border: '1px solid #e8e8ed', background: '#fafafa', transition: 'background 120ms' }}
+                             onMouseEnter={e => (e.currentTarget.style.background = '#f0f0f5')}
+                             onMouseLeave={e => (e.currentTarget.style.background = '#fafafa')}>
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: '#0F766E15', color: '#0F766E', flexShrink: 0, marginTop: 1, textTransform: 'uppercase' }}>{ev.tipo}</span>
+                            <span style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.4 }}>{ev.titulo}</span>
+                          </div>
+                          <div style={{ fontSize: 10, color: '#6e6e73', marginTop: 4 }}>
+                            {new Date(ev.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* POSICIONAMIENTO */}
+            {activeTab === 'posicion' && (
+              <div>
+                <div style={{ marginBottom: 14 }}>
+                  <IdeologicalScatter partido={a.partido} size={320}/>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Izquierda — Derecha</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_izq_dcha < 0 ? '#C53030' : '#2D4A8A' }}>
+                      {dossier.eje_izq_dcha > 0 ? `+${dossier.eje_izq_dcha.toFixed(1)}` : dossier.eje_izq_dcha.toFixed(1)}
+                    </div>
+                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
+                      {dossier.eje_izq_dcha < -3 ? 'Izquierda' : dossier.eje_izq_dcha < 0 ? 'Centroizquierda' : dossier.eje_izq_dcha < 3 ? 'Centro' : dossier.eje_izq_dcha < 6 ? 'Centroderecha' : 'Derecha'}
+                    </div>
+                  </div>
+                  <div style={{ background: '#f5f5f7', borderRadius: 10, padding: '12px 14px' }}>
+                    <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>Libertario — Autoritario</div>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 24, fontWeight: 700, color: dossier.eje_autoritario > 2 ? '#7C3AED' : '#0F766E' }}>
+                      {dossier.eje_autoritario > 0 ? `+${dossier.eje_autoritario.toFixed(1)}` : dossier.eje_autoritario.toFixed(1)}
+                    </div>
+                    <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3 }}>
+                      {dossier.eje_autoritario > 2 ? 'Tendencia autoritaria' : dossier.eje_autoritario < -2 ? 'Tendencia libertaria' : 'Posicion moderada'}
+                    </div>
+                  </div>
+                </div>
+                <div style={{ marginTop: 12, fontSize: 10.5, color: '#6e6e73' }}>
+                  Fuente: {dossier.posicionamiento_fuente === 'ches_2024' ? 'Chapel Hill Expert Survey 2024 (CHES)' : 'Estimacion algorítmica'}
+                </div>
+              </div>
+            )}
+
+            {/* RIESGO */}
+            {activeTab === 'riesgo' && (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+                  <div style={{
+                    width: 80, height: 80, borderRadius: '50%', border: `4px solid ${RIESGO_COLOR[dossier.riesgo_narrativo]}`,
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    background: `${RIESGO_COLOR[dossier.riesgo_narrativo]}10`,
+                  }}>
+                    <div style={{ fontFamily: 'var(--font-display,system-ui)', fontSize: 11, fontWeight: 700, color: RIESGO_COLOR[dossier.riesgo_narrativo], letterSpacing: '0.06em' }}>{dossier.riesgo_narrativo}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>Riesgo narrativo: {dossier.riesgo_narrativo}</div>
+                    <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de riesgo algoritmico: {dossier.score_riesgo}/100</div>
+                    <div style={{ fontSize: 11.5, color: '#6e6e73' }}>Score de mediacion: {dossier.score_mediacion}/100 (presencia en medios)</div>
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Señales detectadas</div>
+                  {dossier.señales_riesgo.length === 0 ? (
+                    <div style={{ fontSize: 12, color: '#16A34A', fontWeight: 500 }}>Sin señales de riesgo narrativo activas en las ultimas 72h</div>
+                  ) : (
+                    dossier.señales_riesgo.map((s, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 8, fontSize: 12.5, color: '#1d1d1f', alignItems: 'flex-start' }}>
+                        <span style={{ color: RIESGO_COLOR[dossier.riesgo_narrativo], fontWeight: 700, flexShrink: 0, marginTop: 1 }}>!</span>
+                        {s}
+                      </div>
+                    ))
+                  )}
+                </div>
+                <div style={{ marginTop: 14, padding: '12px 14px', background: '#f5f5f7', borderRadius: 10, fontSize: 11.5, color: '#6e6e73', lineHeight: 1.6 }}>
+                  <strong style={{ color: '#1d1d1f', display: 'block', marginBottom: 4 }}>Metodologia</strong>
+                  El riesgo narrativo se calcula a partir del volumen de noticias negativas en las ultimas 72h,
+                  la velocidad de aparicion de nuevas menciones, y la deteccion de patrones de escalada
+                  (corrupcion, crisis de liderazgo, dimision) en los titulares. Fuente: Google News ES.
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {!loadingDossier && !dossier && (
+          <div style={{ padding: '30px 0', textAlign: 'center', color: '#6e6e73', fontSize: 13 }}>
+            No se pudieron cargar los datos del dossier para {a.nombre}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -92,7 +92,8 @@ export interface DashboardNewsPulse {
   sentiment: number
   relevance: number
   date: string | null
-  parties: string
+  /** Backend may return a plain string "PP, PSOE" or an array of objects [{partido,pct},...] */
+  parties: unknown
 }
 
 export interface DashboardHome {
