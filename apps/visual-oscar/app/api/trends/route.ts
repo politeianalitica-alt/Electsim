@@ -118,12 +118,12 @@ async function fetchRSSPortada(nombre: string, url: string): Promise<TrendItem[]
   } catch { return [] }
 }
 
+// Google News RSS — more reliable from Vercel IPs than direct media scraping
 const RSS_FEEDS: Record<string, string> = {
-  'El País': 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada',
-  'El Confidencial': 'https://rss.elconfidencial.com/espana/',
-  'El Mundo': 'https://www.elmundo.es/rss/portada.xml',
-  'La Vanguardia': 'https://www.lavanguardia.com/rss/home.xml',
-  'elDiario.es': 'https://www.eldiario.es/rss/',
+  'Google Noticias ES':    'https://news.google.com/rss?hl=es&gl=ES&ceid=ES:es',
+  'Google Política ES':    'https://news.google.com/rss/search?q=pol%C3%ADtica+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
+  'Google Economía ES':    'https://news.google.com/rss/search?q=econom%C3%ADa+espa%C3%B1a&hl=es&gl=ES&ceid=ES:es',
+  'Google Internacional':  'https://news.google.com/rss/search?q=geopolítica&hl=es&gl=ES&ceid=ES:es',
 }
 
 export async function GET() {
@@ -150,18 +150,18 @@ export async function GET() {
     return b.score_norm - a.score_norm
   })
 
-  if (all.length > 0) return NextResponse.json({ data: all.slice(0, 40), source: 'real', timestamp: new Date().toISOString() })
+  if (all.length > 0) return NextResponse.json({ items: all.slice(0, 40), source: 'real', timestamp: new Date().toISOString() })
 
   // Fallback mock
   return NextResponse.json({
     source: 'mock',
     timestamp: new Date().toISOString(),
-    data: [
-      { id: 'm1', termino: 'Crisis energética Argelia', fuente: 'El País', rank: 1, score_norm: 0.95, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Argelia'], url: '', resumen: 'El suministro de gas argelino a España enfrenta nuevas tensiones diplomáticas.', timestamp: new Date().toISOString() },
-      { id: 'm2', termino: 'Canarias inmigración récord', fuente: 'El Confidencial', rank: 2, score_norm: 0.88, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Marruecos'], url: '', resumen: 'Las llegadas a Canarias superan el récord histórico en lo que va de año.', timestamp: new Date().toISOString() },
+    items: [
+      { id: 'm1', termino: 'Crisis energética Argelia', fuente: 'Google Noticias ES', rank: 1, score_norm: 0.95, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Argelia'], url: '', resumen: 'El suministro de gas argelino a España enfrenta nuevas tensiones diplomáticas.', timestamp: new Date().toISOString() },
+      { id: 'm2', termino: 'Canarias inmigración récord', fuente: 'Google Noticias ES', rank: 2, score_norm: 0.88, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Marruecos'], url: '', resumen: 'Las llegadas a Canarias superan el récord histórico en lo que va de año.', timestamp: new Date().toISOString() },
       { id: 'm3', termino: 'IBEX35 apertura', fuente: 'Wikipedia ES', rank: 3, score_norm: 0.72, categoria: 'economia', es_evento_geo: false, paises_mencionados: [], url: '', resumen: null, timestamp: new Date().toISOString() },
-      { id: 'm4', termino: 'Ucrania ofensiva rusa', fuente: 'El Mundo', rank: 4, score_norm: 0.68, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Ucrania'], url: '', resumen: 'Nuevos ataques rusos sobre infraestructura energética ucraniana.', timestamp: new Date().toISOString() },
-      { id: 'm5', termino: 'Elecciones autonómicas', fuente: 'La Vanguardia', rank: 5, score_norm: 0.61, categoria: 'politica', es_evento_geo: false, paises_mencionados: [], url: '', resumen: 'Sondeos previos a las próximas elecciones autonómicas.', timestamp: new Date().toISOString() },
+      { id: 'm4', termino: 'Ucrania ofensiva rusa', fuente: 'Google Internacional', rank: 4, score_norm: 0.68, categoria: 'geopolitica', es_evento_geo: true, paises_mencionados: ['Ucrania'], url: '', resumen: 'Nuevos ataques rusos sobre infraestructura energética ucraniana.', timestamp: new Date().toISOString() },
+      { id: 'm5', termino: 'Elecciones autonómicas', fuente: 'Google Política ES', rank: 5, score_norm: 0.61, categoria: 'politica', es_evento_geo: false, paises_mencionados: [], url: '', resumen: 'Sondeos previos a las próximas elecciones autonómicas.', timestamp: new Date().toISOString() },
     ]
   })
 }

@@ -638,8 +638,20 @@ export default function DashboardPage() {
                               </div>
                             )}
                           </div>
+                        ) : region ? (
+                          // Small cell with real data: label + proportional bar
+                          <div>
+                            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
+                              {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MX'}
+                            </div>
+                            <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
+                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
+                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
+                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+                            </div>
+                          </div>
                         ) : (
-                          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                             {REGION_LABEL[lean]}
                           </div>
                         )}
