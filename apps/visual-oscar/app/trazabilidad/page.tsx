@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import type { Iniciativa } from '../api/legislativo/iniciativas/route'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo de trazabilidad
@@ -292,9 +294,44 @@ const EXPEDIENTES: Expediente[] = [
   },
 ]
 
+// ─────────────────────────────────────────────────────────────────────────
+// Canonical legislative phases for the horizontal timeline
+// ─────────────────────────────────────────────────────────────────────────
+const LEGISLATIVE_PHASES = [
+  { id: 'presentacion',     label: 'Presentación',       color: '#6e6e73' },
+  { id: 'comision_ponencia',label: 'Comisión Ponencia',  color: '#0E7490' },
+  { id: 'comision_dictamen',label: 'Comisión Dictamen',  color: '#F97316' },
+  { id: 'pleno_congreso',   label: 'Pleno Congreso',     color: '#1F4E8C' },
+  { id: 'senado',           label: 'Senado',             color: '#5B21B6' },
+  { id: 'promulgacion',     label: 'Promulgación',       color: '#16A34A' },
+  { id: 'boe',              label: 'BOE',                color: '#0F766E' },
+]
+
+function guessCurrentPhaseIndex(fase: string): number {
+  const f = (fase || '').toLowerCase()
+  if (f.includes('boe') || f.includes('publicac')) return 6
+  if (f.includes('promulg') || f.includes('aprobad')) return 5
+  if (f.includes('senado')) return 4
+  if (f.includes('pleno')) return 3
+  if (f.includes('dictamen')) return 2
+  if (f.includes('ponencia') || f.includes('comis')) return 1
+  return 0
+}
+
 export default function TrazabilidadPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
+
+  // Real data from /api/legislativo/iniciativas
+  const { data: iniciativasData } = useApi<{ items: Iniciativa[] }>('/api/legislativo/iniciativas', { refreshInterval: 600_000 })
+  const iniciativas = iniciativasData?.items || []
+
+  // Which real iniciativa is selected for the horizontal timeline
+  const [selectedInicId, setSelectedInicId] = useState<string | null>(null)
+  const selectedInic = useMemo(() => {
+    if (!selectedInicId) return iniciativas[0] || null
+    return iniciativas.find(i => i.id === selectedInicId) || iniciativas[0] || null
+  }, [selectedInicId, iniciativas])
 
   const [selectedId, setSelectedId] = useState(EXPEDIENTES[0].id)
   const [tab, setTab] = useState<'timeline' | 'enmiendas' | 'versiones' | 'actores'>('timeline')
@@ -339,6 +376,116 @@ export default function TrazabilidadPage() {
             <HeroKPI label="Días medios" value={String(totalKPIs.diasMedio)}/>
           </div>
         </section>
+
+        {/* ───── Timeline legislativa · datos reales ───── */}
+        {iniciativas.length > 0 && (
+          <section style={{
+            background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
+            padding:'18px 22px', marginBottom:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+          }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', gap:10, flexWrap:'wrap', marginBottom:12 }}>
+              <div>
+                <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#0F766E', textTransform:'uppercase', margin:'0 0 4px' }}>
+                  TIMELINE LEGISLATIVA · DATOS EN TIEMPO REAL
+                </p>
+                <h2 style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.016em', margin:0, color:'#1d1d1f' }}>
+                  {selectedInic ? selectedInic.titulo_corto : 'Selecciona una iniciativa'}
+                </h2>
+              </div>
+              <select
+                value={selectedInic?.id || ''}
+                onChange={e => setSelectedInicId(e.target.value)}
+                style={{
+                  fontSize:12, padding:'6px 10px', borderRadius:8,
+                  border:'1px solid #ECECEF', background:'#fff', color:'#1d1d1f',
+                  fontFamily:'inherit', cursor:'pointer', maxWidth:320,
+                }}
+              >
+                {iniciativas.map(i => (
+                  <option key={i.id} value={i.id}>{i.titulo_corto} ({i.numero_expediente})</option>
+                ))}
+              </select>
+            </div>
+
+            {selectedInic && (() => {
+              const phaseIdx = guessCurrentPhaseIndex(selectedInic.fase_actual)
+              return (
+                <div>
+                  {/* Horizontal phase timeline */}
+                  <div style={{ display:'flex', alignItems:'flex-start', position:'relative', marginBottom:10, overflowX:'auto', paddingBottom:6 }}>
+                    {LEGISLATIVE_PHASES.map((phase, i) => {
+                      const done = i < phaseIdx
+                      const current = i === phaseIdx
+                      const color = done || current ? phase.color : '#D1D1D6'
+                      return (
+                        <div key={phase.id} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', minWidth:80, position:'relative' }}>
+                          {/* Connector line */}
+                          {i > 0 && (
+                            <div style={{
+                              position:'absolute', left:0, top:14, right:'50%', height:2,
+                              background: done ? LEGISLATIVE_PHASES[i-1].color : '#ECECEF',
+                              zIndex:0,
+                            }}/>
+                          )}
+                          {i < LEGISLATIVE_PHASES.length - 1 && (
+                            <div style={{
+                              position:'absolute', left:'50%', top:14, right:0, height:2,
+                              background: done ? phase.color : '#ECECEF',
+                              zIndex:0,
+                            }}/>
+                          )}
+                          {/* Dot */}
+                          <div style={{
+                            width:28, height:28, borderRadius:'50%', zIndex:1,
+                            background: current ? phase.color : done ? phase.color : '#fff',
+                            border:`2.5px solid ${color}`,
+                            display:'flex', alignItems:'center', justifyContent:'center',
+                            boxShadow: current ? `0 0 0 4px ${phase.color}30` : 'none',
+                          }}>
+                            {done && (
+                              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                                <path d="M2 6.5L5.5 10L11 3" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                            )}
+                            {current && <div style={{ width:10, height:10, borderRadius:'50%', background:'#fff' }}/>}
+                          </div>
+                          {/* Label */}
+                          <div style={{
+                            fontSize:9.5, fontWeight: current ? 800 : done ? 700 : 500,
+                            color: current ? phase.color : done ? phase.color : '#a0a0a5',
+                            marginTop:6, textAlign:'center', lineHeight:1.2,
+                            letterSpacing:'0.03em',
+                          }}>{phase.label}</div>
+                          {current && (
+                            <div style={{
+                              fontSize:8.5, fontWeight:700, color:'#fff',
+                              background: phase.color, padding:'1px 5px',
+                              borderRadius:3, marginTop:3,
+                            }}>ACTUAL</div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Iniciativa metadata */}
+                  <div style={{ display:'flex', gap:16, flexWrap:'wrap', padding:'10px 12px', background:'#FAFAFB', borderRadius:10, border:'1px solid #ECECEF', fontSize:11 }}>
+                    <span><strong style={{ color:'#1d1d1f' }}>Exp.</strong> <span style={{ color:'#6e6e73' }}>{selectedInic.numero_expediente}</span></span>
+                    {selectedInic.grupo_proponente && <span><strong style={{ color:'#1d1d1f' }}>Promotor</strong> <span style={{ color:'#6e6e73' }}>{selectedInic.grupo_proponente}</span></span>}
+                    {selectedInic.comision && <span><strong style={{ color:'#1d1d1f' }}>Comisión</strong> <span style={{ color:'#6e6e73' }}>{selectedInic.comision}</span></span>}
+                    {selectedInic.fecha_presentacion && <span><strong style={{ color:'#1d1d1f' }}>Presentación</strong> <span style={{ color:'#6e6e73' }}>{selectedInic.fecha_presentacion}</span></span>}
+                    <span><strong style={{ color:'#1d1d1f' }}>Score</strong> <span style={{ color:'#5B21B6', fontWeight:700 }}>{selectedInic.score_importancia}</span></span>
+                    {selectedInic.url_congreso && (
+                      <a href={selectedInic.url_congreso} target="_blank" rel="noopener noreferrer" style={{ color:'#5B21B6', fontWeight:700, textDecoration:'none', marginLeft:'auto' }}>
+                        Ver en Congreso →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
+          </section>
+        )}
 
         {/* ───── Selector de expediente ───── */}
         <section style={{

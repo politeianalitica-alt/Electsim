@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server'
-import https from 'https'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-function fetchUrl(url: string, timeoutMs = 8000): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const req = https.get(url, {
-      headers: { 'User-Agent': 'Politeia/1.0 (intelligence platform)' }
-    }, (res) => {
-      const chunks: Buffer[] = []
-      res.on('data', (c: Buffer) => chunks.push(c))
-      res.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
-      res.on('error', reject)
+async function fetchUrl(url: string, timeoutMs = 8000): Promise<string> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'Politeia/1.0' },
+      cache: 'no-store',
     })
-    req.setTimeout(timeoutMs, () => { req.destroy(); reject(new Error('timeout')) })
-    req.on('error', reject)
-  })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.text()
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 interface TrendItem {

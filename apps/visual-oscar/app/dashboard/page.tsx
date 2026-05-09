@@ -24,6 +24,14 @@ interface TrendItem {
 
 type MapTab = 'electoral' | 'narrativa' | 'figuras'
 
+const BACKEND_NAME_MAP: Record<string, string> = {
+  'C. Valenciana':   'Comunidad Valenciana',
+  'C-La Mancha':     'Castilla-La Mancha',
+  'Castilla y León': 'Castilla y León',
+  'País Vasco':      'País Vasco',
+  'La Rioja':        'La Rioja',
+}
+
 const REGION_GRID: Array<Array<{ name: string; display: string; flex: number; height: number }>> = [
   [
     { name: 'Andalucía',          display: 'Andalucía',   flex: 2.0, height: 64 },
@@ -462,12 +470,44 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: 3 }}>
-                        <div style={{ width: 60, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
-                          <div style={{ width: `${Math.min(100, n.relevance * 100)}%`, height: '100%', background: sentColor }}/>
-                        </div>
-                        <span style={{ fontSize: 9, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
-                          {n.sentiment > 0.1 ? '+' : ''}{n.sentiment.toFixed(2)}
+                        {/* Source badge */}
+                        <span style={{
+                          fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                          background: `${sentColor}18`, color: sentColor, letterSpacing: '0.03em',
+                          maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        }}>
+                          {n.source}
                         </span>
+                        {/* Bi-directional sentiment bar */}
+                        <div style={{ width: 64, height: 14, background: '#F5F5F7', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                          {/* Center divider */}
+                          <div style={{ position: 'absolute', left: '50%', width: 1, height: '100%', background: 'rgba(0,0,0,0.1)', zIndex: 1 }}/>
+                          {/* Negative fill (left of center) */}
+                          {n.sentiment < 0 && (
+                            <div style={{
+                              position: 'absolute', right: '50%', height: '100%',
+                              width: `${Math.min(50, Math.abs(n.sentiment) * 50)}%`,
+                              background: '#DC2626',
+                            }}/>
+                          )}
+                          {/* Positive fill (right of center) */}
+                          {n.sentiment > 0 && (
+                            <div style={{
+                              position: 'absolute', left: '50%', height: '100%',
+                              width: `${Math.min(50, n.sentiment * 50)}%`,
+                              background: '#16A34A',
+                            }}/>
+                          )}
+                        </div>
+                        {/* Relevance + sentiment label */}
+                        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                          <span style={{ fontSize: 8.5, color: '#6E6E73', fontWeight: 500 }}>
+                            rel {(n.relevance * 100).toFixed(0)}%
+                          </span>
+                          <span style={{ fontSize: 9, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
+                            {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   )
@@ -511,7 +551,7 @@ export default function DashboardPage() {
               {REGION_GRID.map((row, ri) => (
                 <div key={ri} style={{ display: 'flex', gap: 3 }}>
                   {row.map(cell => {
-                    const region = data?.regions?.find(r => r.name === cell.name)
+                    const region = data?.regions?.find(r => r.name === cell.name || r.name === BACKEND_NAME_MAP[cell.name])
 
                     if (mapTab === 'narrativa') {
                       const nv = CCAA_NARRATIVA[cell.name]
@@ -562,7 +602,6 @@ export default function DashboardPage() {
                     // Electoral (default)
                     const lean = (region?.lean ?? 'mixed') as 'pp' | 'psoe' | 'mixed'
                     const diff = region?.diff ?? 0
-                    const diffColor = diff > 5 ? '#16A34A' : diff > 0 ? '#4ade80' : '#f87171'
                     return (
                       <div key={cell.name} onClick={() => router.push(`/nowcasting?ccaa=${encodeURIComponent(cell.name)}`)}
                         title={region ? `${cell.name} · PP ${region.pp_pct}% · PSOE ${region.psoe_pct}% · dif ${region.diff > 0 ? '+' : ''}${region.diff}` : cell.name}
@@ -574,12 +613,26 @@ export default function DashboardPage() {
                           cursor: 'pointer', transition: 'background 600ms ease',
                         }}>
                         <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
-                        {cell.height >= 52 ? (
+                        {region && cell.height >= 52 ? (
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
+                              {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MIXTO'}
+                            </div>
+                            <div style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
+                              PP {region.pp_pct.toFixed(1)}% · PSOE {region.psoe_pct.toFixed(1)}%
+                            </div>
+                            <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
+                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
+                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
+                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+                            </div>
+                          </div>
+                        ) : cell.height >= 52 ? (
                           <div>
                             <div style={{ fontSize: cell.height >= 64 ? 14 : 12, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                               {REGION_LABEL[lean]}
                             </div>
-                            {region && (
+                            {diff !== 0 && (
                               <div style={{ fontSize: 8.5, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
                                 {diff > 0 ? '+' : ''}{Math.round(diff)} esc.
                               </div>
