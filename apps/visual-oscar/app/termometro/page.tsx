@@ -142,7 +142,7 @@ function Thermometer({ score, semaforo }: { score: number; semaforo: Semaforo })
 
 function DimBar({ dim, k, buckets }: { dim: RiskDimension; k: string; buckets: RiskBucket[] }) {
   const color = DIM_COLORS[k] ?? '#94a3b8'
-  const sparkValues = buckets.slice(-14).map(b => (b as Record<string, number>)[k] ?? 0)
+  const sparkValues = buckets.slice(-14).map(b => (b as unknown as Record<string, number>)[k] ?? 0)
   const deltaColor = dim.delta_24h > 0 ? '#f59e0b' : dim.delta_24h < 0 ? '#22c55e' : '#64748b'
   return (
     <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 8, border: `1px solid ${color}25`, padding: '12px 14px', display: 'grid', gridTemplateColumns: '1fr auto', gap: 10, alignItems: 'center' }}>
@@ -435,7 +435,7 @@ export default function TermometroPage() {
             {buckets.length < 2 ? (
               <div style={{ color: '#475569', textAlign: 'center', padding: 48 }}>Sin datos historicos — backend no conectado</div>
             ) : (() => {
-              const vals = buckets.map(b => histDim === 'composite' ? b.composite : ((b as Record<string, number>)[histDim] ?? 0))
+              const vals = buckets.map(b => histDim === 'composite' ? b.composite : ((b as unknown as Record<string, number>)[histDim] ?? 0))
               const W = 800, H = 200
               const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * W},${H - (v / 100) * H}`)
               const color = DIM_COLORS[histDim] ?? '#3b82f6'

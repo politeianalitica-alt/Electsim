@@ -236,7 +236,7 @@ export default function SenalesCriticasPage() {
   // Crisis signals: refresh every 5 minutes — external APIs (GDELT, INCIBE) don't update more often
   const signalsData = useApi<{ signals: CrisisSignal[]; stats: Record<string, unknown>; timestamp: string }>('/api/crisis/signals', { refreshInterval: 300_000 })
   const clustersData = useApi<{ clusters: CrisisCluster[]; criticos: number }>('/api/crisis/clusters', { refreshInterval: 300_000 })
-  const attackData  = useApi<{ vectors: AttackVector[]; global_score: number; global_level: AttackLevel }>('/api/crisis/attack-detection', { refreshInterval: 300_000 })
+  const attackData  = useApi<{ vectors: AttackVector[]; global_score: number; global_level: AttackLevel; details?: { cyber?: unknown[]; informacional?: unknown[]; fisico?: unknown[] } }>('/api/crisis/attack-detection', { refreshInterval: 300_000 })
 
   const signals  = signalsData.data?.signals ?? []
   const stats    = signalsData.data?.stats as Record<string, number> | undefined
