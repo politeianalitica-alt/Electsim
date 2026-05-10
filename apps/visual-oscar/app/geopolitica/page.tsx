@@ -178,15 +178,13 @@ function relTime(iso: string) {
 
 // ── CSS constants ─────────────────────────────────────────────────────────────
 const CARD = {
-  background: 'rgba(255,255,255,0.04)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  border: '1px solid rgba(255,255,255,0.07)',
+  background: 'white',
+  border: '1px solid rgba(0,0,0,0.08)',
   borderRadius: 16,
 } as const
-const TEXT_PRIMARY   = 'rgba(226,232,240,0.95)'
-const TEXT_SECONDARY = 'rgba(148,163,184,0.7)'
-const SHADOW         = '0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04)'
+const TEXT_PRIMARY   = '#0f172a'
+const TEXT_SECONDARY = '#64748b'
+const SHADOW         = '0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06)'
 
 // ── types ─────────────────────────────────────────────────────────────────────
 interface GeoStats {
@@ -296,7 +294,7 @@ function ArcGauge({ score }: { score: number | null }) {
       </defs>
       {/* Track */}
       <path d="M 20 110 A 90 90 0 0 1 200 110"
-        fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={10} strokeLinecap="round" />
+        fill="none" stroke="rgba(0,0,0,0.09)" strokeWidth={10} strokeLinecap="round" />
       {/* Progress */}
       {score !== null && (
         <path d={`M 20 110 A 90 90 0 0 1 ${endX} ${endY}`}
@@ -306,7 +304,7 @@ function ArcGauge({ score }: { score: number | null }) {
       {/* Tick marks */}
       {ticks.map((t, i) => (
         <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-          stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
+          stroke="rgba(0,0,0,0.18)" strokeWidth={1.5} />
       ))}
       {/* Score label */}
       <text x={110} y={100} textAnchor="middle" fill={color}
@@ -322,8 +320,8 @@ function ArcGauge({ score }: { score: number | null }) {
         </text>
       )}
       {/* Zone labels */}
-      <text x={18}  y={125} fill="rgba(148,163,184,0.5)" fontSize={7.5} textAnchor="middle">BAJO</text>
-      <text x={202} y={125} fill="rgba(148,163,184,0.5)" fontSize={7.5} textAnchor="middle">CRITICO</text>
+      <text x={18}  y={125} fill="#94a3b8" fontSize={7.5} textAnchor="middle">BAJO</text>
+      <text x={202} y={125} fill="#94a3b8" fontSize={7.5} textAnchor="middle">CRITICO</text>
     </svg>
   )
 }
@@ -333,8 +331,8 @@ function TabBar({ items, active, onChange }: { items: string[]; active: number; 
   return (
     <div style={{
       display: 'flex', gap: 4, padding: 6,
-      background: 'rgba(255,255,255,0.02)',
-      borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)',
+      background: 'rgba(0,0,0,0.04)',
+      borderRadius: 12, border: '1px solid rgba(0,0,0,0.08)',
       marginBottom: 24, overflowX: 'auto', scrollbarWidth: 'none',
     }}>
       {items.map((t, i) => (
@@ -615,7 +613,7 @@ export default function GeopoliticaPage() {
     },
     {
       label: 'Alertas activas',
-      value: Math.min(1, alertas.length / 20),
+      value: Math.min(1, alertas.length / 50),
       display: String(alertas.length),
       color: '#dc2626',
     },
@@ -693,14 +691,14 @@ export default function GeopoliticaPage() {
   const maxSectorCount = Math.max(1, ...SECTORS.map(s => impactos.filter(i => i.dimension === s.key).length))
 
   return (
-    <div style={{ minHeight: '100vh', background: '#050d1a', color: TEXT_PRIMARY, fontFamily: '-apple-system, "SF Pro Display", Inter, system-ui, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#f5f5f7', color: TEXT_PRIMARY, fontFamily: '-apple-system, "SF Pro Display", Inter, system-ui, sans-serif' }}>
       <AppHeader />
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px 64px' }}>
 
         {/* ── IRGE ARC GAUGE HEADER ── */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(2,12,27,0.98) 0%, rgba(10,25,50,0.95) 50%, rgba(2,12,27,0.98) 100%)',
-          border: '1px solid rgba(99,102,241,0.15)',
+          background: 'white',
+          border: '1px solid rgba(0,0,0,0.08)',
           borderRadius: 16, padding: '24px 28px',
           marginBottom: 20,
           display: 'grid',
@@ -757,7 +755,7 @@ export default function GeopoliticaPage() {
                     <span style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{c.label}</span>
                     <span style={{ fontSize: 12, fontWeight: 700, color: c.color }}>{c.display}</span>
                   </div>
-                  <div style={{ height: 4, background: 'rgba(255,255,255,0.07)', borderRadius: 2, overflow: 'hidden' }}>
+                  <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, overflow: 'hidden' }}>
                     <div style={{
                       width: `${clamp(c.value * 100, 0, 100)}%`, height: 4,
                       background: c.color, borderRadius: 2,
@@ -774,8 +772,8 @@ export default function GeopoliticaPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, minWidth: 260 }}>
             {kpiCards.map(k => (
               <div key={k.label} style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: '#f8fafc',
+                border: '1px solid rgba(0,0,0,0.07)',
                 borderLeft: `3px solid ${k.accent}`,
                 borderRadius: 10, padding: '10px 14px',
               }}>
@@ -807,13 +805,13 @@ export default function GeopoliticaPage() {
                 <svg
                   ref={mapRef}
                   viewBox="0 0 900 460"
-                  style={{ width: '100%', background: 'linear-gradient(180deg, #020b18 0%, #030f22 60%, #020b18 100%)', display: 'block' }}
+                  style={{ width: '100%', background: '#e8f0fb', display: 'block' }}
                   onMouseLeave={() => setTooltip(null)}
                 >
                   <defs>
                     <radialGradient id="oceanGrad" cx="50%" cy="50%" r="60%">
-                      <stop offset="0%" stopColor="rgba(14,40,80,0.3)" />
-                      <stop offset="100%" stopColor="rgba(2,10,22,0)" />
+                      <stop offset="0%" stopColor="rgba(186,210,250,0.45)" />
+                      <stop offset="100%" stopColor="rgba(186,210,250,0)" />
                     </radialGradient>
                   </defs>
                   <rect x={0} y={0} width={900} height={460} fill="url(#oceanGrad)" />
@@ -821,20 +819,20 @@ export default function GeopoliticaPage() {
                   {/* Graticule — subtle grid */}
                   {[-60, -30, 0, 30, 60].map(lat => (
                     <line key={`h${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
-                      stroke={lat === 0 ? 'rgba(56,96,160,0.22)' : 'rgba(40,70,130,0.08)'}
+                      stroke={lat === 0 ? 'rgba(37,99,235,0.18)' : 'rgba(37,99,235,0.07)'}
                       strokeWidth={lat === 0 ? 0.9 : 0.5}
                       strokeDasharray={lat === 0 ? '8 5' : undefined} />
                   ))}
                   {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map(lon => (
                     <line key={`v${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
-                      stroke="rgba(40,70,130,0.07)" strokeWidth={0.5} />
+                      stroke="rgba(37,99,235,0.05)" strokeWidth={0.5} />
                   ))}
 
                   {/* Continents */}
                   {CONTINENTS.map(c => (
                     <path key={c.id} d={c.d}
-                      fill="rgba(22,52,100,0.58)"
-                      stroke="rgba(48,90,160,0.35)"
+                      fill="rgba(148,163,184,0.55)"
+                      stroke="rgba(100,116,139,0.30)"
                       strokeWidth={0.8}
                       strokeLinejoin="round"
                     />
@@ -928,7 +926,7 @@ export default function GeopoliticaPage() {
                           stroke="rgba(255,255,255,0.7)" strokeWidth={0.8}
                           style={{ filter: 'drop-shadow(0 0 8px rgba(14,165,233,0.95))' }} />
                         <text x={cx + 16} y={cy + 4}
-                          fill="#7dd3fc" fontSize={9.5} fontWeight={700}
+                          fill="#0369a1" fontSize={9.5} fontWeight={700}
                           style={{ pointerEvents: 'none', userSelect: 'none', letterSpacing: '0.04em' }}>
                           ESP
                         </text>
@@ -939,9 +937,9 @@ export default function GeopoliticaPage() {
 
                 {/* Legend strip */}
                 <div style={{
-                  padding: '9px 18px', borderTop: '1px solid rgba(255,255,255,0.05)',
+                  padding: '9px 18px', borderTop: '1px solid rgba(0,0,0,0.07)',
                   display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
-                  background: 'rgba(0,0,0,0.2)',
+                  background: '#f8fafc',
                 }}>
                   <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em' }}>Riesgo:</span>
                   {[
@@ -972,7 +970,7 @@ export default function GeopoliticaPage() {
                     : top5Risk.map((r, i) => (
                       <div key={r.iso} style={{
                         display: 'flex', alignItems: 'center', gap: 10,
-                        padding: '8px 0', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                        padding: '8px 0', borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
                       }}>
                         <span style={{ fontSize: 10, color: TEXT_SECONDARY, minWidth: 14, fontWeight: 700 }}>{i + 1}</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
@@ -993,7 +991,7 @@ export default function GeopoliticaPage() {
                     : alertasSorted.slice(0, 4).map((a, i) => (
                       <div key={a.id} style={{
                         display: 'flex', gap: 8, alignItems: 'flex-start',
-                        padding: '7px 0', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                        padding: '7px 0', borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
                       }}>
                         <div style={{
                           width: 6, height: 6, borderRadius: '50%', flexShrink: 0, marginTop: 4,
@@ -1040,13 +1038,13 @@ export default function GeopoliticaPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {events.slice(0, 4).map((ev, i) => (
                     <div key={i} style={{
-                      borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
                       paddingTop: i > 0 ? 10 : 0,
                     }}>
                       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 4 }}>
                         <span style={{
                           fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4,
-                          background: ev.spain_impact === 'critico' ? '#dc262620' : ev.spain_impact === 'alto' ? '#f59e0b20' : 'rgba(255,255,255,0.06)',
+                          background: ev.spain_impact === 'critico' ? '#dc262618' : ev.spain_impact === 'alto' ? '#f59e0b18' : 'rgba(0,0,0,0.05)',
                           color: ev.spain_impact === 'critico' ? '#f87171' : ev.spain_impact === 'alto' ? '#fbbf24' : TEXT_SECONDARY,
                           letterSpacing: '0.04em', flexShrink: 0,
                         }}>{ev.type}</span>
@@ -1061,7 +1059,7 @@ export default function GeopoliticaPage() {
                         {ev.source && (
                           <span style={{ fontSize: 9.5, color: TEXT_SECONDARY }}>{ev.source}</span>
                         )}
-                        <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 1 }}>
+                        <div style={{ flex: 1, height: 2, background: 'rgba(0,0,0,0.08)', borderRadius: 1 }}>
                           <div style={{
                             width: `${ev.impact}%`, height: 2,
                             background: ev.impact >= 75 ? '#dc2626' : ev.impact >= 55 ? '#f59e0b' : '#3b82f6',
@@ -1091,7 +1089,7 @@ export default function GeopoliticaPage() {
                         borderRadius: 4, textAlign: 'center',
                         background: `${scoreColor(r.score)}20`, color: scoreColor(r.score),
                       }}>{r.iso}</span>
-                      <div style={{ flex: 1, height: 5, background: 'rgba(255,255,255,0.07)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ flex: 1, height: 5, background: 'rgba(0,0,0,0.08)', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{
                           width: `${(r.score / 10) * 100}%`, height: 5,
                           background: scoreColor(r.score), borderRadius: 3,
@@ -1125,7 +1123,7 @@ export default function GeopoliticaPage() {
                         {toArray(a.paises).slice(0, 2).map(p => (
                           <span key={p} style={{
                             fontSize: 9, padding: '1px 6px', borderRadius: 4,
-                            background: 'rgba(255,255,255,0.06)', color: TEXT_SECONDARY,
+                            background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY,
                           }}>{p}</span>
                         ))}
                         <span style={{ marginLeft: 'auto', fontSize: 9, color: TEXT_SECONDARY }}>{relTime(a.fecha)}</span>
@@ -1149,10 +1147,10 @@ export default function GeopoliticaPage() {
         {tooltip && (
           <div style={{
             position: 'fixed', left: tooltip.x, top: tooltip.y,
-            background: '#0a1929', border: '1px solid rgba(14,165,233,0.35)',
+            background: 'white', border: '1px solid rgba(14,165,233,0.3)',
             borderRadius: 8, padding: '8px 14px', fontSize: 12, color: TEXT_PRIMARY,
             pointerEvents: 'none', zIndex: 9999, whiteSpace: 'nowrap',
-            boxShadow: '0 6px 24px rgba(0,0,0,0.7)', transform: 'translateX(-50%)',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.12)', transform: 'translateX(-50%)',
           }}>
             {tooltip.text}
           </div>
@@ -1234,7 +1232,7 @@ export default function GeopoliticaPage() {
                     const isActive = presenciaLayer === lyr.key
                     return (
                       <button key={lyr.key} onClick={() => setPresenciaLayer(lyr.key)} style={{
-                        border: `1px solid ${isActive ? lyr.color : 'rgba(255,255,255,0.1)'}`,
+                        border: `1px solid ${isActive ? lyr.color : 'rgba(0,0,0,0.12)'}`,
                         background: isActive ? `${lyr.color}18` : 'transparent',
                         color: isActive ? lyr.color : TEXT_SECONDARY,
                         borderRadius: 999, padding: '4px 14px', fontSize: 10, fontWeight: 600,
@@ -1248,26 +1246,26 @@ export default function GeopoliticaPage() {
                 {/* SVG world map */}
                 <svg
                   viewBox="0 0 900 460"
-                  style={{ width: '100%', background: '#020c1b', display: 'block', marginTop: 8 }}
+                  style={{ width: '100%', background: '#e8f0fb', display: 'block', marginTop: 8 }}
                   onMouseLeave={() => setPresenciaTooltip(null)}
                 >
                   {/* Graticule */}
                   {[-60, -30, 0, 30, 60].map(lat => (
                     <line key={`ph${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
-                      stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                      stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
                   ))}
                   {[-120, -60, 0, 60, 120].map(lon => (
                     <line key={`pv${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
-                      stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                      stroke="rgba(37,99,235,0.05)" strokeWidth={0.6} />
                   ))}
                   <line x1={0} y1={projY(0)} x2={900} y2={projY(0)}
-                    stroke="rgba(64,96,160,0.22)" strokeWidth={0.8} strokeDasharray="6 4" />
+                    stroke="rgba(37,99,235,0.16)" strokeWidth={0.8} strokeDasharray="6 4" />
 
                   {/* Continents */}
                   {CONTINENTS.map(c => (
                     <path key={c.id} d={c.d}
-                      fill="rgba(30,58,95,0.52)"
-                      stroke="rgba(56,100,160,0.32)"
+                      fill="rgba(148,163,184,0.52)"
+                      stroke="rgba(100,116,139,0.28)"
                       strokeWidth={0.7}
                     />
                   ))}
@@ -1321,7 +1319,7 @@ export default function GeopoliticaPage() {
                           stroke="rgba(255,255,255,0.6)" strokeWidth={1}
                           style={{ filter: 'drop-shadow(0 0 7px rgba(14,165,233,0.9))' }} />
                         <text x={cx + 13} y={cy + 4}
-                          fill="#7dd3fc" fontSize={9} fontWeight={700}
+                          fill="#0369a1" fontSize={9} fontWeight={700}
                           style={{ pointerEvents: 'none', userSelect: 'none' }}>
                           ESP
                         </text>
@@ -1331,7 +1329,7 @@ export default function GeopoliticaPage() {
                 </svg>
 
                 {/* Legend strip */}
-                <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+                <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(0,0,0,0.07)', background: '#f8fafc', display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
                   <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Capas:</span>
                   {(['militar', 'energetica', 'empresarial', 'diplomatica', 'diaspora'] as const).map(lyr => (
                     <div key={lyr} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
@@ -1368,8 +1366,8 @@ export default function GeopoliticaPage() {
                             }}>{p.categoria}</span>
                             <span style={{
                               padding: '2px 9px', borderRadius: 999, fontSize: 9, fontWeight: 600,
-                              background: 'rgba(255,255,255,0.06)', color: TEXT_SECONDARY,
-                              border: '1px solid rgba(255,255,255,0.1)',
+                              background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY,
+                              border: '1px solid rgba(0,0,0,0.10)',
                             }}>{p.actor}</span>
                             <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
                               <div style={{ width: 6, height: 6, borderRadius: '50%', background: scoreC }} />
@@ -1415,10 +1413,10 @@ export default function GeopoliticaPage() {
                   position: 'fixed',
                   left: presenciaTooltip.x,
                   top: presenciaTooltip.y - 44,
-                  background: '#0d1f3a', border: `1px solid ${LAYER_COLORS[presenciaTooltip.content.categoria] ?? 'rgba(14,165,233,0.3)'}50`,
+                  background: 'white', border: `1px solid ${LAYER_COLORS[presenciaTooltip.content.categoria] ?? 'rgba(14,165,233,0.3)'}60`,
                   borderRadius: 10, padding: '10px 14px', fontSize: 12, color: TEXT_PRIMARY,
                   pointerEvents: 'none', zIndex: 9999,
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.7)', transform: 'translateX(-50%)',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.12)', transform: 'translateX(-50%)',
                   maxWidth: 280,
                 }}>
                   <div style={{ fontWeight: 700, marginBottom: 3 }}>{presenciaTooltip.content.titulo}</div>
@@ -1448,7 +1446,7 @@ export default function GeopoliticaPage() {
             <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
               {(['total', 'energia', 'migracion', 'seguridad'] as const).map(d => (
                 <button key={d} onClick={() => setCcaaDim(d)} style={{
-                  border: `1px solid ${ccaaDim === d ? '#0ea5e9' : 'rgba(255,255,255,0.1)'}`,
+                  border: `1px solid ${ccaaDim === d ? '#0ea5e9' : 'rgba(0,0,0,0.12)'}`,
                   background: ccaaDim === d ? 'rgba(14,165,233,0.15)' : 'transparent',
                   color: ccaaDim === d ? '#0ea5e9' : TEXT_SECONDARY,
                   borderRadius: 999, padding: '5px 16px', fontSize: 11, fontWeight: 600,
@@ -1471,15 +1469,15 @@ export default function GeopoliticaPage() {
                     </div>
                   </div>
                 ) : (
-                  <svg viewBox="0 0 560 380" style={{ width: '100%', background: '#020c1b', display: 'block' }}>
+                  <svg viewBox="0 0 560 380" style={{ width: '100%', background: '#e8f0fb', display: 'block' }}>
                     {/* Grid */}
                     {[36, 38, 40, 42, 44].map(lat => (
                       <line key={`el${lat}`} x1={0} y1={esProjY(lat)} x2={560} y2={esProjY(lat)}
-                        stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                        stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
                     ))}
                     {[-8, -4, 0, 4].map(lon => (
                       <line key={`ev${lon}`} x1={esProjX(lon)} y1={0} x2={esProjX(lon)} y2={380}
-                        stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                        stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
                     ))}
 
                     {ccaa.map(c => {
@@ -1500,7 +1498,7 @@ export default function GeopoliticaPage() {
                           )}
                           <circle cx={cx} cy={cy} r={r}
                             fill={fill} fillOpacity={isSelected ? 0.88 : 0.58}
-                            stroke={isSelected ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.12)'}
+                            stroke={isSelected ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)'}
                             strokeWidth={isSelected ? 1.5 : 0.8}
                             style={{ filter: isSelected ? `drop-shadow(0 0 6px ${fill}60)` : 'none' }}
                           />
@@ -1551,7 +1549,7 @@ export default function GeopoliticaPage() {
                           <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>{label}</span>
                           <span style={{ fontSize: 10, fontWeight: 700, color }}>{value?.toFixed(1)}</span>
                         </div>
-                        <div style={{ height: 4, background: 'rgba(255,255,255,0.07)', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, overflow: 'hidden' }}>
                           <div style={{
                             width: `${clamp((value / 10) * 100, 0, 100)}%`,
                             height: 4, borderRadius: 2, background: color,
@@ -1589,7 +1587,7 @@ export default function GeopoliticaPage() {
                       return (
                         <div key={tema} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <div style={{ width: 120, fontSize: 10, color: TEXT_SECONDARY, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexShrink: 0 }}>{tema}</div>
-                          <div style={{ flex: 1, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                          <div style={{ flex: 1, height: 6, background: 'rgba(0,0,0,0.07)', borderRadius: 3, overflow: 'hidden' }}>
                             <div style={{ width: `${pct * 100}%`, height: 6, background: color, borderRadius: 3, transition: 'width 0.4s ease' }} />
                           </div>
                           <span style={{ fontSize: 10, fontWeight: 700, color, minWidth: 22, textAlign: 'right' }}>{count}</span>
@@ -1608,14 +1606,14 @@ export default function GeopoliticaPage() {
                         <div style={{
                           width: '100%',
                           height: `${Math.max(4, (b.count / maxBucket) * 52)}px`,
-                          background: b.count > 0 ? 'linear-gradient(180deg, #0ea5e9, #6366f1)' : 'rgba(255,255,255,0.06)',
+                          background: b.count > 0 ? 'linear-gradient(180deg, #0ea5e9, #6366f1)' : 'rgba(0,0,0,0.07)',
                           borderRadius: 3,
                         }} />
                         <span style={{ fontSize: 7.5, color: TEXT_SECONDARY, whiteSpace: 'nowrap' }}>{b.date.slice(5)}</span>
                       </div>
                     ))}
                   </div>
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 10 }}>
+                  <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 10 }}>
                     <div style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 3 }}>Fuentes activas</div>
                     <div style={{ fontSize: 22, fontWeight: 800, color: '#0ea5e9' }}>{Object.keys(sourceMap).length}</div>
                   </div>
@@ -1644,7 +1642,7 @@ export default function GeopoliticaPage() {
                           <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>{relTime(info.latest)}</span>
                         </div>
                       </div>
-                      <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 2, overflow: 'hidden' }}>
+                      <div style={{ height: 3, background: 'rgba(0,0,0,0.07)', borderRadius: 2, overflow: 'hidden' }}>
                         <div style={{
                           width: `${(info.items.length / maxSourceItems) * 100}%`,
                           height: 3, borderRadius: 2, background: urgencyColor(info.maxUrgencia),
@@ -1659,22 +1657,22 @@ export default function GeopoliticaPage() {
               <div>
                 <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
                   <select value={ttUrgMin} onChange={e => setTtUrgMin(Number(e.target.value))} style={{
-                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'white', border: '1px solid rgba(0,0,0,0.10)',
                     color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 10px', fontSize: 11, fontFamily: 'inherit', cursor: 'pointer',
                   }}>
-                    {[1, 2, 3, 4, 5].map(v => <option key={v} value={v} style={{ background: '#0d1b2e' }}>Urgencia min {v}</option>)}
+                    {[1, 2, 3, 4, 5].map(v => <option key={v} value={v} style={{ background: 'white' }}>Urgencia min {v}</option>)}
                   </select>
                   <select value={ttNicho} onChange={e => setTtNicho(e.target.value)} style={{
-                    background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                    background: 'white', border: '1px solid rgba(0,0,0,0.10)',
                     color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 10px', fontSize: 11, fontFamily: 'inherit', cursor: 'pointer', maxWidth: 180,
                   }}>
-                    <option value="all" style={{ background: '#0d1b2e' }}>Todos los temas</option>
-                    {ttNichos.map(n => <option key={n} value={n} style={{ background: '#0d1b2e' }}>{n}</option>)}
+                    <option value="all" style={{ background: 'white' }}>Todos los temas</option>
+                    {ttNichos.map(n => <option key={n} value={n} style={{ background: 'white' }}>{n}</option>)}
                   </select>
                   <input type="text" placeholder="Buscar..." value={ttQuery}
                     onChange={e => setTtQuery(e.target.value)}
                     style={{
-                      background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                      background: 'white', border: '1px solid rgba(0,0,0,0.10)',
                       color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 12px', fontSize: 11,
                       fontFamily: 'inherit', outline: 'none', minWidth: 160,
                     }}
@@ -1686,10 +1684,10 @@ export default function GeopoliticaPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {loadingOsint && thinkTanks.length === 0 && [0, 1, 2].map(i => (
-                    <div key={i} style={{ ...CARD, padding: '18px', height: 96, background: 'rgba(255,255,255,0.02)' }}>
-                      <div style={{ height: 10, width: '60%', background: 'rgba(255,255,255,0.05)', borderRadius: 4, marginBottom: 8 }} />
-                      <div style={{ height: 8, width: '90%', background: 'rgba(255,255,255,0.04)', borderRadius: 4, marginBottom: 6 }} />
-                      <div style={{ height: 8, width: '75%', background: 'rgba(255,255,255,0.04)', borderRadius: 4 }} />
+                    <div key={i} style={{ ...CARD, padding: '18px', height: 96 }}>
+                      <div style={{ height: 10, width: '60%', background: 'rgba(0,0,0,0.06)', borderRadius: 4, marginBottom: 8 }} />
+                      <div style={{ height: 8, width: '90%', background: 'rgba(0,0,0,0.05)', borderRadius: 4, marginBottom: 6 }} />
+                      <div style={{ height: 8, width: '75%', background: 'rgba(0,0,0,0.04)', borderRadius: 4 }} />
                     </div>
                   ))}
                   {!loadingOsint && ttFiltered.length === 0 && (
@@ -1710,7 +1708,7 @@ export default function GeopoliticaPage() {
                             background: `${borderColor}20`, color: borderColor, border: `1px solid ${borderColor}40`,
                           }}>U{t.urgencia}</span>
                           {t.fuente_tipo && (
-                            <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.25)' }}>
+                            <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.10)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>
                               {t.fuente_tipo}
                             </span>
                           )}
@@ -1737,10 +1735,10 @@ export default function GeopoliticaPage() {
                         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
                           <span style={{ fontSize: 10, color: TEXT_SECONDARY, fontWeight: 500 }}>{t.fuente}</span>
                           {toArray(t.paises_detectados).slice(0, 3).map(p => (
-                            <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.12)', color: '#7dd3fc', border: '1px solid rgba(14,165,233,0.18)' }}>{p}</span>
+                            <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.12)', color: '#0369a1', border: '1px solid rgba(14,165,233,0.25)' }}>{p}</span>
                           ))}
                           {toArray(t.temas_detectados).slice(0, 2).map(tm => (
-                            <span key={tm} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.18)' }}>{tm}</span>
+                            <span key={tm} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>{tm}</span>
                           ))}
                         </div>
                       </div>
@@ -1789,7 +1787,7 @@ export default function GeopoliticaPage() {
             <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
               {(['TODOS', 'CRITICO', 'ALTO', 'MEDIO'] as const).map(f => (
                 <button key={f} onClick={() => setAlertFilter(f)} style={{
-                  border: `1px solid ${alertFilter === f ? (f === 'TODOS' ? 'rgba(14,165,233,0.3)' : `${levelColor(f)}40`) : 'rgba(255,255,255,0.08)'}`,
+                  border: `1px solid ${alertFilter === f ? (f === 'TODOS' ? 'rgba(14,165,233,0.35)' : `${levelColor(f)}45`) : 'rgba(0,0,0,0.12)'}`,
                   background: alertFilter === f ? (f === 'TODOS' ? 'rgba(14,165,233,0.1)' : `${levelColor(f)}15`) : 'transparent',
                   color: alertFilter === f ? (f === 'TODOS' ? '#0ea5e9' : levelColor(f)) : TEXT_SECONDARY,
                   borderRadius: 999, padding: '5px 14px', fontSize: 10, fontWeight: 600,
@@ -1812,7 +1810,7 @@ export default function GeopoliticaPage() {
                     ...CARD,
                     borderLeft: `4px solid ${lc}`,
                     padding: '16px 18px',
-                    background: hovered ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)',
+                    background: hovered ? '#f8fafc' : 'white',
                     transition: 'background 150ms',
                   }}
                     onMouseEnter={() => setHoverAlerts(prev => new Set(prev).add(a.id))}
@@ -1838,9 +1836,9 @@ export default function GeopoliticaPage() {
                             <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                               <span style={{
                                 fontSize: 10, padding: '3px 10px', borderRadius: 8, fontWeight: 500,
-                                background: isLast ? 'rgba(220,38,38,0.1)' : 'rgba(255,255,255,0.05)',
+                                background: isLast ? 'rgba(220,38,38,0.08)' : 'rgba(0,0,0,0.04)',
                                 border: `1px solid ${nodeColor}30`,
-                                color: isLast ? '#fca5a5' : TEXT_SECONDARY,
+                                color: isLast ? '#dc2626' : TEXT_SECONDARY,
                               }}>{node}</span>
                               {!isLast && <span style={{ color: 'rgba(148,163,184,0.35)', fontSize: 11 }}>→</span>}
                             </div>
@@ -1851,12 +1849,12 @@ export default function GeopoliticaPage() {
 
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                       {a.probabilidad !== undefined && (
-                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)' }}>
+                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>
                           P {(a.probabilidad * 100).toFixed(0)}%
                         </span>
                       )}
                       {a.horizonte && (
-                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', color: TEXT_SECONDARY, border: '1px solid rgba(255,255,255,0.08)' }}>
+                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY, border: '1px solid rgba(0,0,0,0.10)' }}>
                           {a.horizonte}
                         </span>
                       )}
@@ -1867,8 +1865,8 @@ export default function GeopoliticaPage() {
                         <button
                           onClick={() => toggleSet(a.id, setExpandAlerts)}
                           style={{
-                            marginLeft: 'auto', background: 'rgba(255,255,255,0.04)',
-                            border: '1px solid rgba(255,255,255,0.1)',
+                            marginLeft: 'auto', background: '#f8fafc',
+                            border: '1px solid rgba(0,0,0,0.10)',
                             color: TEXT_SECONDARY, borderRadius: 7, padding: '3px 12px', fontSize: 10,
                             cursor: 'pointer', fontFamily: 'inherit', transition: 'all 150ms',
                           }}
@@ -1880,15 +1878,15 @@ export default function GeopoliticaPage() {
 
                     {expanded && a.fuentes_detalle && (
                       <div style={{
-                        marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12,
-                        background: 'rgba(255,255,255,0.02)', borderRadius: 8, padding: '10px 14px',
+                        marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12,
+                        background: '#f8fafc', borderRadius: 8, padding: '10px 14px',
                       }}>
                         {a.fuentes_detalle.map((fd, idx) => (
                           <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 7, gap: 10 }}>
                             <div>
                               {fd.url ? (
                                 <a href={fd.url} target="_blank" rel="noopener noreferrer"
-                                  style={{ fontSize: 11, color: '#7dd3fc', textDecoration: 'none' }}>
+                                  style={{ fontSize: 11, color: '#0369a1', textDecoration: 'none' }}>
                                   {fd.titulo}
                                 </a>
                               ) : (
@@ -1957,20 +1955,20 @@ export default function GeopoliticaPage() {
                     ))}
 
                     {/* Axes */}
-                    <line x1={52} y1={290} x2={552} y2={290} stroke="rgba(255,255,255,0.14)" strokeWidth={1} />
-                    <line x1={52} y1={10}  x2={52}  y2={290} stroke="rgba(255,255,255,0.14)" strokeWidth={1} />
-                    <line x1={280} y1={10} x2={280} y2={290} stroke="rgba(255,255,255,0.07)" strokeWidth={1} strokeDasharray="4 3" />
-                    <line x1={52} y1={152} x2={552} y2={152} stroke="rgba(255,255,255,0.07)" strokeWidth={1} strokeDasharray="4 3" />
+                    <line x1={52} y1={290} x2={552} y2={290} stroke="rgba(0,0,0,0.15)" strokeWidth={1} />
+                    <line x1={52} y1={10}  x2={52}  y2={290} stroke="rgba(0,0,0,0.15)" strokeWidth={1} />
+                    <line x1={280} y1={10} x2={280} y2={290} stroke="rgba(0,0,0,0.07)" strokeWidth={1} strokeDasharray="4 3" />
+                    <line x1={52} y1={152} x2={552} y2={152} stroke="rgba(0,0,0,0.07)" strokeWidth={1} strokeDasharray="4 3" />
 
-                    <text x={302} y={286} fill="rgba(148,163,184,0.6)" fontSize={8} textAnchor="middle">PROBABILIDAD</text>
-                    <text x={14}  y={152} fill="rgba(148,163,184,0.6)" fontSize={8} textAnchor="middle" transform="rotate(-90, 14, 152)">IMPACTO</text>
+                    <text x={302} y={286} fill="#94a3b8" fontSize={8} textAnchor="middle">PROBABILIDAD</text>
+                    <text x={14}  y={152} fill="#94a3b8" fontSize={8} textAnchor="middle" transform="rotate(-90, 14, 152)">IMPACTO</text>
 
                     {[0, 25, 50, 75, 100].map(v => {
                       const x = 52 + (v / 100) * 500
                       return (
                         <g key={v}>
-                          <line x1={x} y1={290} x2={x} y2={293} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
-                          <text x={x} y={300} fill="rgba(148,163,184,0.45)" fontSize={7} textAnchor="middle">{v}%</text>
+                          <line x1={x} y1={290} x2={x} y2={293} stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
+                          <text x={x} y={300} fill="#94a3b8" fontSize={7} textAnchor="middle">{v}%</text>
                         </g>
                       )
                     })}
@@ -1978,8 +1976,8 @@ export default function GeopoliticaPage() {
                       const y = 290 - (v / 5) * 280
                       return (
                         <g key={v}>
-                          <line x1={49} y1={y} x2={52} y2={y} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
-                          <text x={44} y={y + 3} fill="rgba(148,163,184,0.45)" fontSize={7} textAnchor="end">{v}</text>
+                          <line x1={49} y1={y} x2={52} y2={y} stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
+                          <text x={44} y={y + 3} fill="#94a3b8" fontSize={7} textAnchor="end">{v}</text>
                         </g>
                       )
                     })}
@@ -1990,8 +1988,8 @@ export default function GeopoliticaPage() {
                       const c  = levelColor(s.nivel)
                       return (
                         <g key={idx}>
-                          <circle cx={cx} cy={cy} r={8} fill={c} fillOpacity={0.65}
-                            stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
+                          <circle cx={cx} cy={cy} r={8} fill={c} fillOpacity={0.75}
+                            stroke="rgba(255,255,255,0.4)" strokeWidth={1} />
                           {scenarioPoints.length <= 6 && (
                             <text x={cx + 11} y={cy + 3} fill={TEXT_PRIMARY} fontSize={7} fontWeight={500}
                               style={{ pointerEvents: 'none', userSelect: 'none' }}>
@@ -2021,7 +2019,7 @@ export default function GeopoliticaPage() {
                   return (
                     <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                       <div style={{ width: 90, fontSize: 11, color: TEXT_SECONDARY, fontWeight: 500, flexShrink: 0 }}>{s.label}</div>
-                      <div style={{ flex: 1, height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
+                      <div style={{ flex: 1, height: 8, background: 'rgba(0,0,0,0.07)', borderRadius: 4, overflow: 'hidden' }}>
                         <div style={{
                           width: `${(count / maxSectorCount) * 100}%`,
                           height: 8, borderRadius: 4, background: s.color,
@@ -2064,7 +2062,7 @@ export default function GeopoliticaPage() {
                       )}
                     </div>
                     <div style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 7 }}>{imp.titulo}</div>
-                    <div style={{ height: 4, background: 'rgba(255,255,255,0.07)', borderRadius: 2, marginBottom: 8, overflow: 'hidden' }}>
+                    <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, marginBottom: 8, overflow: 'hidden' }}>
                       <div style={{
                         width: `${(imp.severidad / 5) * 100}%`, height: 4, borderRadius: 2,
                         background: scoreColor(imp.severidad * 2), transition: 'width 0.4s ease',
@@ -2073,14 +2071,14 @@ export default function GeopoliticaPage() {
                     <p style={{ fontSize: 12, color: TEXT_SECONDARY, margin: '0 0 8px', lineHeight: 1.65 }}>{imp.descripcion}</p>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
                       {toArray(imp.paises_origen).map(p => (
-                        <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.1)', color: '#7dd3fc', border: '1px solid rgba(14,165,233,0.18)' }}>{p}</span>
+                        <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.1)', color: '#0369a1', border: '1px solid rgba(14,165,233,0.22)' }}>{p}</span>
                       ))}
                       {(imp.escenario_base || imp.escenario_adverso) && (
                         <button
                           onClick={() => toggleSet(imp.id, setExpandImpactos)}
                           style={{
-                            marginLeft: 'auto', background: 'rgba(255,255,255,0.03)',
-                            border: '1px solid rgba(255,255,255,0.08)',
+                            marginLeft: 'auto', background: '#f8fafc',
+                            border: '1px solid rgba(0,0,0,0.10)',
                             color: TEXT_SECONDARY, borderRadius: 7, padding: '3px 12px', fontSize: 10,
                             cursor: 'pointer', fontFamily: 'inherit',
                           }}
@@ -2090,7 +2088,7 @@ export default function GeopoliticaPage() {
                       )}
                     </div>
                     {expanded && (
-                      <div style={{ marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                      <div style={{ marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                         {imp.escenario_base && (
                           <div>
                             <div style={{ fontSize: 10, fontWeight: 700, color: '#22c55e', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Escenario base</div>
@@ -2196,7 +2194,7 @@ export default function GeopoliticaPage() {
                     </div>
 
                     {/* Alert bar chart */}
-                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: 12 }}>
+                    <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12 }}>
                       <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Alertas por nivel</div>
                       {totalAlerts === 0 ? (
                         <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas registradas para este teatro</div>
@@ -2208,7 +2206,7 @@ export default function GeopoliticaPage() {
                             const c   = levelColor(n)
                             return (
                               <div key={n} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flex: 1 }}>
-                                <div style={{ width: '100%', height: barH, background: cnt > 0 ? c : 'rgba(255,255,255,0.05)', borderRadius: 3 }} />
+                                <div style={{ width: '100%', height: barH, background: cnt > 0 ? c : 'rgba(0,0,0,0.07)', borderRadius: 3 }} />
                                 <span style={{ fontSize: 8, color: cnt > 0 ? c : TEXT_SECONDARY, fontWeight: cnt > 0 ? 700 : 400 }}>{cnt > 0 ? cnt : ''}</span>
                               </div>
                             )

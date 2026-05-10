@@ -14,8 +14,13 @@ Datos:
 """
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timedelta
 from typing import Any, Optional
+
+import requests
+
+_log = logging.getLogger(__name__)
 
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
@@ -476,3 +481,102 @@ def paises_top(horas: int = 24, top_n: int = 10) -> dict[str, Any]:
         except Exception:
             pass
     return {"data": data}
+
+
+# ── /gdelt-events ─────────────────────────────────────────────────────────────
+_GDELT_BASE = "https://api.gdeltproject.org/api/v2/doc/doc"
+_GDELT_QUERIES = [
+    "Spain geopolitics",
+    "España política exterior",
+    "Marruecos España",
+    "OTAN España",
+]
+
+
+@router.get("/gdelt-events")
+def gdelt_events(
+    keyword: str = "Spain geopolitics OR España geopolítica",
+    hours: int = 24,
+    maxrecords: int = 15,
+) -> dict[str, Any]:
+    """
+    Eventos en tiempo real desde la API gratuita de GDELT Project.
+    No requiere API key. Devuelve artículos de noticias relevantes para España.
+    """
+    params = {
+        "query": keyword,
+        "mode": "artlist",
+        "maxrecords": maxrecords,
+        "format": "json",
+        "timespan": f"{hours}H",
+        "sort": "DateDesc",
+        "sourcelang": "Spanish OR English",
+    }
+    try:
+        resp = requests.get(_GDELT_BASE, params=params, timeout=8)
+        resp.raise_for_status()
+        payload = resp.json()
+        articles = payload.get("articles") or []
+        # Normalise to the GeoEvent shape the frontend expects
+        events = []
+        for art in articles[:maxrecords]:
+            events.append({
+                "title":        art.get("title", "")[:160],
+                "description":  art.get("title", ""),
+                "url":          art.get("url"),
+                "source":       art.get("domain", "GDELT"),
+                "country":      art.get("sourcecountry", "Internacional"),
+                "type":         "Internacional",
+                "date":         art.get("seendate", ""),
+                "impact":       60,
+                "spain_impact": "medio",
+            })
+        return {"data": events, "source": "gdelt"}
+    except Exception as exc:
+        _log.warning("GDELT fetch failed: %s", exc)
+        return {"data": [], "source": "gdelt", "error": str(exc)}
+
+
+# ── /events ───────────────────────────────────────────────────────────────────
+@router.get("/events")
+def events_feed(limit: int = 12, db: Any = Depends(get_db)) -> dict[str, Any]:
+    """
+    Feed de eventos geopolíticos recientes.
+    Intenta news_articles primero, cae a GDELT si no hay datos.
+    """
+    data: list = []
+
+    # 1. Try news_articles table
+    try:
+        rows = db.execute(
+            text("""
+                SELECT
+                    na.title,
+                    na.summary        AS description,
+                    na.url,
+                    na.source_name    AS source,
+                    na.source_country AS country,
+                    na.published_at   AS date,
+                    COALESCE(na.ai_spain_impact::text, 'medio') AS spain_impact,
+                    COALESCE(na.ai_relevance, 60)::int           AS impact,
+                    COALESCE(na.category, 'Internacional')        AS type
+                FROM news_articles na
+                WHERE na.published_at >= NOW() - INTERVAL '48 hours'
+                  AND (
+                      na.ai_spain_impact IN ('critico','alto','medio')
+                      OR na.source_country IN ('MA','DZ','RU','UA','IR','TR','VE','CN')
+                  )
+                ORDER BY na.published_at DESC
+                LIMIT :limit
+            """),
+            {"limit": limit},
+        ).fetchall()
+        data = [dict(r._mapping) for r in rows]
+    except Exception as exc:
+        _log.warning("news_articles query failed: %s", exc)
+
+    if data:
+        return {"data": data}
+
+    # 2. Fall back to GDELT
+    return gdelt_events(hours=48, maxrecords=limit)
