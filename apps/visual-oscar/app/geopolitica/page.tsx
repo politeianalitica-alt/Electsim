@@ -185,6 +185,17 @@ interface CcaaItem {
 interface ScenarioPoint {
   titulo: string; probabilidad: number; impacto: number; nivel: string
 }
+interface PuntoPresencia {
+  id: string; pais: string; iso3: string; lat: number; lon: number
+  categoria: 'militar' | 'energetica' | 'empresarial' | 'diplomatica' | 'diaspora'
+  titulo: string; actor: string; descripcion: string
+  valor: number; unidad: 'efectivos' | 'residentes' | 'mill_eur' | 'embajada' | 'MW' | 'unidad'
+  score_relevancia: number
+}
+interface PresenciaKpis {
+  efectivos: number; diaspora: number; inversion_mill_eur: number
+  embajadas: number; fuentes_energia: number
+}
 
 // ── IRGE computation ──────────────────────────────────────────────────────────
 function computeIrge(riesgo: RiesgoItem[], alertas: AlertaItem[], thinkTanks: ThinkTankItem[]): number | null {
@@ -346,6 +357,8 @@ export default function GeopoliticaPage() {
   const [ttUrgMin, setTtUrgMin] = useState(1)
   const [ttNicho, setTtNicho] = useState('all')
   const [alertFilter, setAlertFilter] = useState<'TODOS' | 'CRITICO' | 'ALTO' | 'MEDIO'>('TODOS')
+  const [presenciaLayer, setPresenciaLayer] = useState<'todas' | 'militar' | 'energetica' | 'empresarial' | 'diplomatica' | 'diaspora'>('todas')
+  const [presenciaTooltip, setPresenciaTooltip] = useState<{ x: number; y: number; content: PuntoPresencia } | null>(null)
   const mapRef = useRef<SVGSVGElement>(null)
 
   const { data: geoStatsRaw }                      = useApi<GeoStats & { data?: GeoStats }>('/api/geopolitica/stats', { refreshInterval: 60_000 })
@@ -355,6 +368,7 @@ export default function GeopoliticaPage() {
   const { data: impactosRaw }                      = useApi<{ data: ImpactoItem[] }>('/api/geopolitica/impactos', { refreshInterval: 120_000 })
   const { data: thinkTanksRaw }                    = useApi<{ data: ThinkTankItem[] }>('/api/geopolitica/think-tanks', { refreshInterval: 120_000 })
   const { data: ccaaRaw }                          = useApi<{ data: CcaaItem[] }>('/api/geopolitica/ccaa', { refreshInterval: 300_000 })
+  const { data: presenciaRaw }                     = useApi<{ data: PuntoPresencia[]; kpis: PresenciaKpis }>('/api/geopolitica/presencia', { refreshInterval: 300_000 })
 
   const geoStats: GeoStats  = (geoStatsRaw as GeoStats) ?? { osint_24h: 0, alertas_activas: 0, paises_monitorizados: 0, presencia_activa: 0, alertas_count: { CRITICO: 0, ALTO: 0, MEDIO: 0 } }
   const riesgo: RiesgoItem[]       = riesgoRaw?.data ?? []
@@ -363,6 +377,9 @@ export default function GeopoliticaPage() {
   const impactosReal: ImpactoItem[]= impactosRaw?.data ?? []
   const thinkTanks: ThinkTankItem[]= thinkTanksRaw?.data ?? []
   const ccaa: CcaaItem[]           = ccaaRaw?.data ?? []
+  const presencia: PuntoPresencia[] = presenciaRaw?.data ?? []
+  const presenciaKpis: PresenciaKpis = presenciaRaw?.kpis ?? { efectivos: 0, diaspora: 0, inversion_mill_eur: 0, embajadas: 0, fuentes_energia: 0 }
+  const presenciaFiltered = presenciaLayer === 'todas' ? presencia : presencia.filter(p => p.categoria === presenciaLayer)
   void osint
 
   const impactos: ImpactoItem[] = useMemo(() => {
@@ -680,7 +697,7 @@ export default function GeopoliticaPage() {
 
         {/* ── TAB BAR ── */}
         <TabBar
-          items={['MAPA GLOBAL', 'ESPANA CCAA', 'OSINT', 'ALERTAS', 'IMPACTO', 'TEATRO']}
+          items={['MAPA GLOBAL', 'PRESENCIA EXTERIOR', 'ESPANA CCAA', 'OSINT', 'ALERTAS', 'IMPACTO', 'TEATRO']}
           active={tab}
           onChange={setTab}
         />
@@ -878,9 +895,290 @@ export default function GeopoliticaPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 1 — ESPANA CCAA
+            TAB 1 — PRESENCIA EXTERIOR
         ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 1 && (
+        {tab === 1 && (() => {
+          const LAYER_COLORS: Record<string, string> = {
+            militar:     '#dc2626',
+            energetica:  '#f59e0b',
+            empresarial: '#3b82f6',
+            diplomatica: '#06b6d4',
+            diaspora:    '#8b5cf6',
+          }
+          const LAYER_LABELS: Record<string, string> = {
+            militar:     'Misiones Militares',
+            energetica:  'Energetica',
+            empresarial: 'Empresarial',
+            diplomatica: 'Diplomatica',
+            diaspora:    'Diaspora',
+          }
+
+          function presenciaRadius(p: PuntoPresencia): number {
+            if (p.unidad === 'efectivos')  return clamp(p.valor / 80, 8, 28)
+            if (p.unidad === 'residentes') return clamp(p.valor / 20000, 8, 32)
+            if (p.unidad === 'mill_eur')   return clamp(p.valor / 2000, 8, 30)
+            return 12
+          }
+
+          function formatValor(p: PuntoPresencia): string {
+            if (p.unidad === 'efectivos')  return `${p.valor.toLocaleString()} efectivos`
+            if (p.unidad === 'residentes') return p.valor >= 1e6 ? `${(p.valor / 1e6).toFixed(2)}M residentes` : `${(p.valor / 1000).toFixed(0)}K residentes`
+            if (p.unidad === 'mill_eur')   return `${p.valor.toLocaleString()} M EUR invertidos`
+            if (p.unidad === 'embajada')   return 'Sede diplomatica'
+            if (p.unidad === 'MW')         return `${p.valor.toLocaleString()} MW`
+            return String(p.valor)
+          }
+
+          const layerCounts: Record<string, number> = { militar: 0, energetica: 0, empresarial: 0, diplomatica: 0, diaspora: 0 }
+          for (const p of presencia) {
+            if (layerCounts[p.categoria] !== undefined) layerCounts[p.categoria]++
+          }
+
+          return (
+            <div>
+              {/* Section A — KPI strip */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 20 }}>
+                {[
+                  { label: 'Efectivos desplegados', value: presenciaKpis.efectivos.toLocaleString(), accent: '#dc2626', border: '600/1200' },
+                  { label: 'Diaspora',               value: `${(presenciaKpis.diaspora / 1e6).toFixed(2)}M`,           accent: '#8b5cf6' },
+                  { label: 'Inversion exterior',     value: `${(presenciaKpis.inversion_mill_eur / 1000).toFixed(0)} B EUR`, accent: '#3b82f6' },
+                  { label: 'Embajadas y Consuls.',   value: String(presenciaKpis.embajadas),                            accent: '#06b6d4' },
+                  { label: 'Fuentes de energia',     value: String(presenciaKpis.fuentes_energia),                      accent: '#f59e0b' },
+                ].map(k => (
+                  <div key={k.label} style={{
+                    ...CARD, padding: '14px 16px', boxShadow: SHADOW,
+                    borderLeft: `3px solid ${k.accent}`,
+                  }}>
+                    <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 6 }}>{k.label}</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, color: k.accent, lineHeight: 1 }}>{k.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Section B — Layer filter + world map */}
+              <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden', marginBottom: 20 }}>
+                {/* Layer filter pills */}
+                <div style={{ padding: '12px 16px 0', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  {([
+                    { key: 'todas',      label: 'TODAS',           color: '#0ea5e9' },
+                    { key: 'militar',    label: 'MISIONES MILITARES', color: '#dc2626' },
+                    { key: 'energetica', label: 'ENERGETICA',      color: '#f59e0b' },
+                    { key: 'empresarial',label: 'EMPRESARIAL',     color: '#3b82f6' },
+                    { key: 'diplomatica',label: 'DIPLOMATICA',     color: '#06b6d4' },
+                    { key: 'diaspora',   label: 'DIASPORA',        color: '#8b5cf6' },
+                  ] as const).map(lyr => {
+                    const isActive = presenciaLayer === lyr.key
+                    return (
+                      <button key={lyr.key} onClick={() => setPresenciaLayer(lyr.key)} style={{
+                        border: `1px solid ${isActive ? lyr.color : 'rgba(255,255,255,0.1)'}`,
+                        background: isActive ? `${lyr.color}18` : 'transparent',
+                        color: isActive ? lyr.color : TEXT_SECONDARY,
+                        borderRadius: 999, padding: '4px 14px', fontSize: 10, fontWeight: 600,
+                        cursor: 'pointer', fontFamily: 'inherit', textTransform: 'uppercase',
+                        letterSpacing: '0.06em', transition: 'all 150ms',
+                      }}>{lyr.label}</button>
+                    )
+                  })}
+                </div>
+
+                {/* SVG world map */}
+                <svg
+                  viewBox="0 0 900 460"
+                  style={{ width: '100%', background: '#020c1b', display: 'block', marginTop: 8 }}
+                  onMouseLeave={() => setPresenciaTooltip(null)}
+                >
+                  {/* Graticule */}
+                  {[-60, -30, 0, 30, 60].map(lat => (
+                    <line key={`ph${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
+                      stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                  ))}
+                  {[-120, -60, 0, 60, 120].map(lon => (
+                    <line key={`pv${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
+                      stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
+                  ))}
+                  <line x1={0} y1={projY(0)} x2={900} y2={projY(0)}
+                    stroke="rgba(64,96,160,0.22)" strokeWidth={0.8} strokeDasharray="6 4" />
+
+                  {/* Continents */}
+                  {CONTINENTS.map(c => (
+                    <path key={c.id} d={c.d}
+                      fill="rgba(30,58,95,0.52)"
+                      stroke="rgba(56,100,160,0.32)"
+                      strokeWidth={0.7}
+                    />
+                  ))}
+
+                  {/* Presence bubbles */}
+                  {presenciaFiltered.map(p => {
+                    const cx = projX(p.lon)
+                    const cy = projY(p.lat)
+                    const r  = presenciaRadius(p)
+                    const color = LAYER_COLORS[p.categoria] ?? '#6366f1'
+                    return (
+                      <g key={p.id}
+                        onMouseEnter={(e) => {
+                          const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect()
+                          setPresenciaTooltip({
+                            x: (cx / 900) * rect.width + rect.left,
+                            y: (cy / 460) * rect.height + rect.top - 8,
+                            content: p,
+                          })
+                        }}
+                        onMouseLeave={() => setPresenciaTooltip(null)}
+                        style={{ cursor: 'default' }}
+                      >
+                        <circle cx={cx} cy={cy} r={r}
+                          fill={color} fillOpacity={0.75}
+                          stroke="rgba(255,255,255,0.15)" strokeWidth={0.8}
+                          style={{ filter: `drop-shadow(0 0 6px ${color}80)` }}
+                        />
+                        {r >= 14 && (
+                          <text x={cx} y={cy + 3.5} textAnchor="middle"
+                            fill="white" fontSize={8} fontWeight={700}
+                            style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                            {p.iso3.slice(0, 2)}
+                          </text>
+                        )}
+                      </g>
+                    )
+                  })}
+
+                  {/* Spain marker */}
+                  {(() => {
+                    const cx = projX(-3.7), cy = projY(40.4)
+                    const pts = Array.from({ length: 5 }, (_, k) => {
+                      const a  = (k * 72 - 90) * Math.PI / 180
+                      const a2 = (k * 72 - 90 + 36) * Math.PI / 180
+                      return `${cx + 9 * Math.cos(a)},${cy + 9 * Math.sin(a)} ${cx + 4 * Math.cos(a2)},${cy + 4 * Math.sin(a2)}`
+                    }).join(' ')
+                    return (
+                      <g>
+                        <polygon points={pts} fill="#0ea5e9"
+                          stroke="rgba(255,255,255,0.6)" strokeWidth={1}
+                          style={{ filter: 'drop-shadow(0 0 7px rgba(14,165,233,0.9))' }} />
+                        <text x={cx + 13} y={cy + 4}
+                          fill="#7dd3fc" fontSize={9} fontWeight={700}
+                          style={{ pointerEvents: 'none', userSelect: 'none' }}>
+                          ESP
+                        </text>
+                      </g>
+                    )
+                  })()}
+                </svg>
+
+                {/* Legend strip */}
+                <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Capas:</span>
+                  {(['militar', 'energetica', 'empresarial', 'diplomatica', 'diaspora'] as const).map(lyr => (
+                    <div key={lyr} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: LAYER_COLORS[lyr] }} />
+                      <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>
+                        {LAYER_LABELS[lyr]} <span style={{ color: 'rgba(148,163,184,0.45)' }}>({layerCounts[lyr]})</span>
+                      </span>
+                    </div>
+                  ))}
+                  <span style={{ marginLeft: 'auto', fontSize: 10, color: TEXT_SECONDARY }}>{presenciaFiltered.length} puntos visibles</span>
+                </div>
+              </div>
+
+              {/* Section C — Detail cards 2-column grid */}
+              {presenciaFiltered.length > 0 && (
+                <div>
+                  <SectionLabel>Detalle de presencia — {presenciaLayer === 'todas' ? 'todas las capas' : LAYER_LABELS[presenciaLayer]}</SectionLabel>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12 }}>
+                    {presenciaFiltered.map(p => {
+                      const color = LAYER_COLORS[p.categoria] ?? '#6366f1'
+                      const scoreC = p.score_relevancia >= 8 ? '#dc2626' : p.score_relevancia >= 6 ? '#f59e0b' : p.score_relevancia >= 4 ? '#3b82f6' : '#22c55e'
+                      return (
+                        <div key={p.id} style={{
+                          ...CARD,
+                          borderLeft: `3px solid ${color}`,
+                          padding: '14px 16px',
+                        }}>
+                          {/* Top row: category badge + actor + score */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
+                            <span style={{
+                              padding: '2px 9px', borderRadius: 999, fontSize: 9, fontWeight: 700,
+                              background: `${color}20`, color, border: `1px solid ${color}35`,
+                              textTransform: 'uppercase', letterSpacing: '0.05em',
+                            }}>{p.categoria}</span>
+                            <span style={{
+                              padding: '2px 9px', borderRadius: 999, fontSize: 9, fontWeight: 600,
+                              background: 'rgba(255,255,255,0.06)', color: TEXT_SECONDARY,
+                              border: '1px solid rgba(255,255,255,0.1)',
+                            }}>{p.actor}</span>
+                            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <div style={{ width: 6, height: 6, borderRadius: '50%', background: scoreC }} />
+                              <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>{p.score_relevancia.toFixed(1)}</span>
+                            </div>
+                          </div>
+
+                          {/* Title */}
+                          <div style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 3, lineHeight: 1.4 }}>{p.titulo}</div>
+
+                          {/* Country subtitle */}
+                          <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6 }}>
+                            {p.pais} <span style={{ color: 'rgba(148,163,184,0.4)', fontSize: 10 }}>({p.iso3})</span>
+                          </div>
+
+                          {/* Description */}
+                          <p style={{
+                            fontSize: 11, color: TEXT_SECONDARY, margin: '0 0 10px', lineHeight: 1.6,
+                            overflow: 'hidden', display: '-webkit-box',
+                            WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                          }}>{p.descripcion}</p>
+
+                          {/* Bottom: valor formatted */}
+                          <div style={{ fontSize: 11, fontWeight: 700, color }}>
+                            {formatValor(p)}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {presenciaFiltered.length === 0 && (
+                <div style={{ ...CARD, padding: '48px 20px', textAlign: 'center', fontSize: 13, color: TEXT_SECONDARY }}>
+                  Sin datos de presencia exterior disponibles — pipeline no conectado
+                </div>
+              )}
+
+              {/* Presencia tooltip */}
+              {presenciaTooltip && (
+                <div style={{
+                  position: 'fixed',
+                  left: presenciaTooltip.x,
+                  top: presenciaTooltip.y - 44,
+                  background: '#0d1f3a', border: `1px solid ${LAYER_COLORS[presenciaTooltip.content.categoria] ?? 'rgba(14,165,233,0.3)'}50`,
+                  borderRadius: 10, padding: '10px 14px', fontSize: 12, color: TEXT_PRIMARY,
+                  pointerEvents: 'none', zIndex: 9999,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.7)', transform: 'translateX(-50%)',
+                  maxWidth: 280,
+                }}>
+                  <div style={{ fontWeight: 700, marginBottom: 3 }}>{presenciaTooltip.content.titulo}</div>
+                  <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 2 }}>
+                    {presenciaTooltip.content.pais} · {presenciaTooltip.content.actor}
+                  </div>
+                  <div style={{
+                    fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6,
+                    overflow: 'hidden', display: '-webkit-box',
+                    WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                  }}>{presenciaTooltip.content.descripcion}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: LAYER_COLORS[presenciaTooltip.content.categoria] ?? '#0ea5e9' }}>
+                    {formatValor(presenciaTooltip.content)}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })()}
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            TAB 2 — ESPANA CCAA
+        ══════════════════════════════════════════════════════════════════════ */}
+        {tab === 2 && (
           <div>
             {/* Dimension filter pills */}
             <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
@@ -1010,9 +1308,9 @@ export default function GeopoliticaPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 2 — OSINT
+            TAB 3 — OSINT
         ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 2 && (
+        {tab === 3 && (
           <div>
             {/* Top row: timeline + theme bars */}
             {thinkTanks.length > 0 && (
@@ -1191,9 +1489,9 @@ export default function GeopoliticaPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 3 — ALERTAS
+            TAB 4 — ALERTAS
         ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 3 && (
+        {tab === 4 && (
           <div>
             {/* Status strip */}
             <div style={{
@@ -1354,9 +1652,9 @@ export default function GeopoliticaPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 4 — IMPACTO
+            TAB 5 — IMPACTO
         ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 4 && (
+        {tab === 5 && (
           <div>
             {/* KPI strip */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 20 }}>
@@ -1556,9 +1854,9 @@ export default function GeopoliticaPage() {
         )}
 
         {/* ══════════════════════════════════════════════════════════════════════
-            TAB 5 — TEATRO (Teatros Estrategicos)
+            TAB 6 — TEATRO (Teatros Estrategicos)
         ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 5 && (
+        {tab === 6 && (
           <div>
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.6, maxWidth: 720 }}>

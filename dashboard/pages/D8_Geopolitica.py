@@ -1051,7 +1051,7 @@ with tab_impacto:
         dimension=dim_filter, severidad_min=sev_min, horizonte=hor_filter, limit=40
     )
     if not impactos:
-        impactos = get_impactos_filtered(dimension=dim_filter, severidad_min=sev_min, limit=30)
+        impactos = get_impactos_filtered(dimension=dim_filter, severidad_min=sev_min, limite=30)
 
     _impactos_demo = [
         {"titulo": "Crisis energética — corte suministro gas Argelia",
