@@ -3,6 +3,7 @@ import '../styles/globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import BottomAgenteBar from './_components/BottomAgenteBar';
+import { AlertsProvider } from '@/context/AlertsContext';
 
 export const metadata: Metadata = {
   title: 'Politeia Analítica',
@@ -15,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body>
         <ThemeProvider>
-          {children}
-          <BottomAgenteBar />
+          <AlertsProvider>
+            {children}
+            <BottomAgenteBar />
+          </AlertsProvider>
         </ThemeProvider>
       </body>
     </html>
