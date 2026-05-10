@@ -3,58 +3,31 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useLitigios } from '@/hooks/contratacion/useLitigios'
+import type {
+  TipoLitigio, TribunalLitigio, EstadoLitigio, SeveridadLitigio, FaseLitigio,
+} from '@/types/contratacion'
 
-// ─────────────────────────────────────────────────────────────────────────
-// Modelo
-// ─────────────────────────────────────────────────────────────────────────
-type Tipo = 'Recurso especial' | 'Recurso CA' | 'Sanción' | 'Reclamación' | 'Resolución contrato' | 'Litigio civil' | 'Penal' | 'Arbitraje'
-type Tribunal = 'TACRC' | 'TACP Madrid' | 'OARC Andalucía' | 'TCCSP Catalunya' | 'TS · Supremo' | 'AN · Audiencia Nacional' | 'TSJ' | 'Audiencia Provincial' | 'Tribunal Cuentas' | 'JEC' | 'Comisión Europea'
-type Estado = 'Admitido' | 'En instrucción' | 'Sentencia 1ª inst.' | 'Recurrido' | 'Firme · estimado' | 'Firme · desestimado' | 'Cautelar' | 'Archivado'
-type Severidad = 'CRÍTICO' | 'ALTO' | 'MEDIO' | 'BAJO'
-type Fase = 'Activa' | 'En recurso' | 'Resuelta · favorable' | 'Resuelta · adversa' | 'Suspendida'
-
-type Caso = {
-  id: string
-  expCaso: string
-  expContrato: string
-  titulo: string
-  tipo: Tipo
-  tribunal: Tribunal
-  estado: Estado
-  fase: Fase
-  severidad: Severidad
-  importeImpacto: number       // €
-  fechaInicio: string
-  fechaUltima: string
-  proxAccion: string
-  fechaProx: string
-  recurrente: string            // empresa que recurre
-  recurrido: string             // organismo recurrido
-  resumen: string
-  alegaciones: string[]
-  hitos: { fecha: string; tipo: string; nota: string }[]
-}
-
-const TIPO_COLOR: Record<Tipo, string> = {
+const TIPO_COLOR: Record<TipoLitigio, string> = {
   'Recurso especial':'#5B21B6', 'Recurso CA':'#1F4E8C', 'Sanción':'#DC2626',
   'Reclamación':'#F97316', 'Resolución contrato':'#525258', 'Litigio civil':'#7C3AED',
   'Penal':'#B91C1C', 'Arbitraje':'#0F766E',
 }
-const TRIB_COLOR: Record<Tribunal, string> = {
+const TRIB_COLOR: Record<TribunalLitigio, string> = {
   'TACRC':'#1F4E8C', 'TACP Madrid':'#DC2626', 'OARC Andalucía':'#16A34A',
   'TCCSP Catalunya':'#F97316', 'TS · Supremo':'#5B21B6', 'AN · Audiencia Nacional':'#525258',
   'TSJ':'#7C3AED', 'Audiencia Provincial':'#0EA5E9',
   'Tribunal Cuentas':'#0F766E', 'JEC':'#9333EA', 'Comisión Europea':'#003399',
 }
-const ESTADO_COLOR: Record<Estado, string> = {
+const ESTADO_COLOR: Record<EstadoLitigio, string> = {
   'Admitido':'#0EA5E9', 'En instrucción':'#F97316', 'Sentencia 1ª inst.':'#5B21B6',
   'Recurrido':'#DC2626', 'Firme · estimado':'#16A34A', 'Firme · desestimado':'#DC2626',
   'Cautelar':'#EAB308', 'Archivado':'#525258',
 }
-const SEV_COLOR: Record<Severidad, string> = {
+const SEV_COLOR: Record<SeveridadLitigio, string> = {
   'CRÍTICO':'#DC2626', 'ALTO':'#F97316', 'MEDIO':'#EAB308', 'BAJO':'#0EA5E9',
 }
-const FASE_META: Record<Fase, { color: string; pct: number }> = {
+const FASE_META: Record<FaseLitigio, { color: string; pct: number }> = {
   'Activa':              { color:'#DC2626', pct:25 },
   'En recurso':          { color:'#F97316', pct:50 },
   'Resuelta · favorable':{ color:'#16A34A', pct:100 },
@@ -62,198 +35,7 @@ const FASE_META: Record<Fase, { color: string; pct: number }> = {
   'Suspendida':          { color:'#EAB308', pct:30 },
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · 12 casos
-// ─────────────────────────────────────────────────────────────────────────
-const CASOS: Caso[] = [
-  {
-    id:'l01', expCaso:'TACRC 2026/142', expContrato:'2026/MIN-DEF-RAD',
-    titulo:'Recurso contra adjudicación · Sistema radar costero · pliegos a medida',
-    tipo:'Recurso especial', tribunal:'TACRC', estado:'En instrucción', fase:'Activa', severidad:'CRÍTICO',
-    importeImpacto:266_400_000, fechaInicio:'15/03/2025', fechaUltima:'02/05/2026', proxAccion:'Vista oral', fechaProx:'12/06/2026',
-    recurrente:'Coalición de pymes electrónica defensa', recurrido:'Ministerio de Defensa',
-    resumen:'Recurso especial contra los pliegos del sistema radar costero alegando criterios técnicos diseñados para favorecer a Indra. 3 licitadores · concentración 100% en un único proveedor.',
-    alegaciones:['Pliego restrictivo · requisito de homologación previa OTAN','Plazo de respuesta inferior al mínimo razonable','Discriminación contra pymes y consorcios mixtos'],
-    hitos:[
-      { fecha:'15/03/2025', tipo:'Admisión',     nota:'TACRC admite a trámite el recurso · suspensión cautelar denegada' },
-      { fecha:'18/06/2025', tipo:'Alegaciones',  nota:'Alegaciones presentadas por las partes · MoD aporta documentación técnica' },
-      { fecha:'04/02/2026', tipo:'Resolución 1', nota:'Resolución parcialmente favorable · revisión de 2 cláusulas · adjudicación se mantiene' },
-      { fecha:'15/03/2026', tipo:'Recurso',      nota:'Recurso contencioso-administrativo ante AN · pendiente vista' },
-      { fecha:'02/05/2026', tipo:'Audiencia',    nota:'Audiencia preliminar · apertura de prueba documental' },
-    ],
-  },
-  {
-    id:'l02', expCaso:'AN 78/2026', expContrato:'2025/VAL-DANA-EMG',
-    titulo:'Investigación procedimiento de emergencia DANA · presunto fraccionamiento',
-    tipo:'Penal', tribunal:'AN · Audiencia Nacional', estado:'En instrucción', fase:'Activa', severidad:'CRÍTICO',
-    importeImpacto:142_000_000, fechaInicio:'30/09/2025', fechaUltima:'05/05/2026', proxAccion:'Comparecencia testigos', fechaProx:'18/05/2026',
-    recurrente:'Sindicatura de Comptes', recurrido:'Generalitat Valenciana · Sacyr Construcción',
-    resumen:'Investigación abierta por presunto fraccionamiento ilegal de contratos de emergencia post-DANA · 3 modificados que superan el 40% del importe inicial · indicios de adjudicación dirigida.',
-    alegaciones:['Fraccionamiento de contratos para evitar concurso público','Modificados sin justificación técnica suficiente','Falta de transparencia en la selección de UTE locales'],
-    hitos:[
-      { fecha:'30/09/2025', tipo:'Denuncia',       nota:'Sindicatura de Comptes denuncia ante Fiscalía Anticorrupción' },
-      { fecha:'18/12/2025', tipo:'Apertura',       nota:'AN abre diligencias previas · juez Pedraz' },
-      { fecha:'14/02/2026', tipo:'Auto',           nota:'Auto de imputación contra ex-conseller y 3 directivos Sacyr' },
-      { fecha:'05/05/2026', tipo:'Comparecencia',  nota:'Comparecencia de Pérez Llorca como testigo · próxima audiencia' },
-    ],
-  },
-  {
-    id:'l03', expCaso:'TACRC 2026/098', expContrato:'2026/MUR-AGUA-005',
-    titulo:'Recurso especial · Desaladoras Costa Cálida · suspensión cautelar',
-    tipo:'Recurso especial', tribunal:'TACRC', estado:'Cautelar', fase:'Suspendida', severidad:'ALTO',
-    importeImpacto:184_500_000, fechaInicio:'14/04/2025', fechaUltima:'30/04/2026', proxAccion:'Resolución fondo', fechaProx:'30/06/2026',
-    recurrente:'Veolia España', recurrido:'Mancomunidad Canales del Taibilla',
-    resumen:'Veolia recurre la adjudicación a FCC Aqualia alegando que la oferta no cumple los requisitos técnicos de salinidad. TACRC otorga suspensión cautelar el 02/05/2025 · contrato paralizado.',
-    alegaciones:['Oferta técnica de FCC no cumple requisitos de salinidad mínima','Procedimiento negociado sin justificación adecuada','Solo 2 licitadores admitidos'],
-    hitos:[
-      { fecha:'14/04/2025', tipo:'Recurso',       nota:'Veolia presenta recurso especial · solicita suspensión' },
-      { fecha:'02/05/2025', tipo:'Cautelar',      nota:'TACRC concede suspensión cautelar · contrato paralizado' },
-      { fecha:'15/12/2025', tipo:'Alegaciones',   nota:'FCC y Mancomunidad presentan alegaciones técnicas' },
-      { fecha:'30/04/2026', tipo:'Estado actual', nota:'Pendiente de resolución sobre el fondo · evaluación técnica externa' },
-    ],
-  },
-  {
-    id:'l04', expCaso:'TS 4892/2025', expContrato:'2024/MIN-CONST-ITV',
-    titulo:'Sentencia firme · Reversión concesiones ITV Madrid',
-    tipo:'Litigio civil', tribunal:'TS · Supremo', estado:'Firme · estimado', fase:'Resuelta · favorable', severidad:'MEDIO',
-    importeImpacto:124_000_000, fechaInicio:'15/03/2024', fechaUltima:'12/02/2026', proxAccion:'Cumplimiento sentencia', fechaProx:'30/06/2026',
-    recurrente:'Asoc. Concesionarios ITV', recurrido:'Comunidad de Madrid',
-    resumen:'TS confirma sentencia favorable a los concesionarios históricos en el caso de la reversión de concesiones de ITV en Madrid. Multa de 18M€ a la Comunidad por extralimitación de la potestad reversional.',
-    alegaciones:['Reversión sin causa de utilidad pública demostrada','Indemnización inferior al valor de mercado','Vulneración del principio de proporcionalidad'],
-    hitos:[
-      { fecha:'15/03/2024', tipo:'Demanda',     nota:'Demanda civil contra la CM por reversión irregular' },
-      { fecha:'18/09/2024', tipo:'Sentencia',   nota:'TSJ Madrid sentencia favorable a los concesionarios · 12M€' },
-      { fecha:'08/02/2025', tipo:'Recurso',     nota:'CM recurre ante TS · suspensión de pago' },
-      { fecha:'12/02/2026', tipo:'TS confirma', nota:'TS confirma sentencia y eleva a 18M€ la indemnización · firme' },
-    ],
-  },
-  {
-    id:'l05', expCaso:'TCu 1234/2025', expContrato:'2023/MISAN-COVID',
-    titulo:'Tribunal de Cuentas · Auditoría adjudicaciones COVID 2020-2021',
-    tipo:'Sanción', tribunal:'Tribunal Cuentas', estado:'Sentencia 1ª inst.', fase:'En recurso', severidad:'ALTO',
-    importeImpacto:53_700_000, fechaInicio:'12/05/2024', fechaUltima:'18/03/2026', proxAccion:'Vista 2ª instancia', fechaProx:'25/05/2026',
-    recurrente:'Tribunal Cuentas (de oficio)', recurrido:'Min. Sanidad y 4 ex-cargos',
-    resumen:'Tribunal de Cuentas declara responsabilidad contable por sobreprecio en mascarillas y EPIs adquiridos en 2020-2021. Sentencia condena a 4 ex-cargos a reintegrar 12.4M€ · recurrida ante la Sala de Justicia.',
-    alegaciones:['Sobreprecio injustificado en mascarillas KN95 y FFP2','Falta de pliego técnico mínimo','Pagos por adelantado sin garantías'],
-    hitos:[
-      { fecha:'12/05/2024', tipo:'Inicio',         nota:'TCu inicia procedimiento de fiscalización ex officio' },
-      { fecha:'30/01/2025', tipo:'Pliego',         nota:'Pliego de cargos · presunta responsabilidad contable' },
-      { fecha:'15/06/2025', tipo:'Alegaciones',    nota:'Alegaciones de los implicados · documentación complementaria' },
-      { fecha:'18/03/2026', tipo:'Sentencia 1ªInst', nota:'Sentencia condenatoria · 12.4M€ a reintegrar' },
-    ],
-  },
-  {
-    id:'l06', expCaso:'TACP 2026/058', expContrato:'2026/MAD-HOS-015',
-    titulo:'Recurso · Hospital Vallecas Sur · solvencia técnica',
-    tipo:'Recurso especial', tribunal:'TACP Madrid', estado:'En instrucción', fase:'Activa', severidad:'MEDIO',
-    importeImpacto:319_200_000, fechaInicio:'02/05/2026', fechaUltima:'02/05/2026', proxAccion:'Alegaciones SERMAS', fechaProx:'30/05/2026',
-    recurrente:'Ferrovial Construcción', recurrido:'SERMAS · C. Madrid',
-    resumen:'Ferrovial recurre la adjudicación del Hospital Vallecas Sur a Acciona+Sacyr alegando interpretación errónea de los criterios de solvencia técnica. La obra continúa pero con retraso administrativo de 30 días.',
-    alegaciones:['Acciona no cumplía requisito de obras hospitalarias previas en últimos 5 años','Criterios técnicos puntuados de forma desigual','Falta de transparencia en la valoración'],
-    hitos:[
-      { fecha:'02/05/2026', tipo:'Recurso',     nota:'Ferrovial presenta recurso especial ante TACP Madrid' },
-      { fecha:'02/05/2026', tipo:'Admisión',    nota:'TACP admite a trámite · sin suspensión cautelar' },
-    ],
-  },
-  {
-    id:'l07', expCaso:'TS 2026/0214', expContrato:'2024/COBI-FIS',
-    titulo:'Caso Koldo · responsabilidad penal · mascarillas y EPIs',
-    tipo:'Penal', tribunal:'TS · Supremo', estado:'En instrucción', fase:'Activa', severidad:'CRÍTICO',
-    importeImpacto:53_700_000, fechaInicio:'15/02/2024', fechaUltima:'04/05/2026', proxAccion:'Citación testigos', fechaProx:'22/05/2026',
-    recurrente:'Fiscalía Anticorrupción', recurrido:'Ex-asesor Min. Transportes y red',
-    resumen:'Sumario sobre presuntas comisiones por adjudicaciones de mascarillas y EPIs entre 2020-2021. Investigado el ex-asesor Koldo García y una red de empresarios. 4 detenciones · juez del TS instruye al ser aforado uno de los implicados.',
-    alegaciones:['Comisiones por adjudicaciones a empresas vinculadas','Tráfico de influencias','Cohecho · blanqueo de capitales'],
-    hitos:[
-      { fecha:'15/02/2024', tipo:'Detención',      nota:'Operación Delorme · 4 detenciones por la UCO' },
-      { fecha:'18/06/2024', tipo:'Imputación',     nota:'Imputación formal a ex-ministro Ábalos · TS asume al ser aforado' },
-      { fecha:'14/01/2025', tipo:'Comparecencias', nota:'Comparecencias en sede judicial · varios cargos del PSOE' },
-      { fecha:'04/05/2026', tipo:'Avance',         nota:'Citación a nuevos testigos · sumario sigue abierto' },
-    ],
-  },
-  {
-    id:'l08', expCaso:'TACRC 2025/482', expContrato:'2025/AYT-MAD-LIM',
-    titulo:'Recurso · Limpieza viaria zona centro Madrid',
-    tipo:'Recurso especial', tribunal:'TACRC', estado:'Recurrido', fase:'En recurso', severidad:'MEDIO',
-    importeImpacto:478_400_000, fechaInicio:'12/02/2025', fechaUltima:'02/04/2026', proxAccion:'Recurso TS', fechaProx:'30/06/2026',
-    recurrente:'OHLA', recurrido:'Ayuntamiento de Madrid',
-    resumen:'OHLA recurre la exclusión técnica del concurso de limpieza viaria del Distrito Centro y Salamanca. TACRC desestima el recurso · OHLA prepara recurso contencioso ante el TS.',
-    alegaciones:['Exclusión técnica improcedente · cumplía requisitos','Errores en la valoración de la oferta','Trato discriminatorio frente a otros licitadores'],
-    hitos:[
-      { fecha:'12/02/2025', tipo:'Recurso',           nota:'OHLA presenta recurso ante TACRC' },
-      { fecha:'18/05/2025', tipo:'Resolución',        nota:'TACRC desestima el recurso · adjudicación a FCC se mantiene' },
-      { fecha:'02/04/2026', tipo:'Recurso adicional', nota:'OHLA prepara recurso contencioso ante el TS · pdte. admisión' },
-    ],
-  },
-  {
-    id:'l09', expCaso:'AN 156/2026', expContrato:'2024/IND-PERTE-ALD',
-    titulo:'Caso Aldesa · pliegos a medida y blanqueo',
-    tipo:'Penal', tribunal:'AN · Audiencia Nacional', estado:'En instrucción', fase:'Activa', severidad:'ALTO',
-    importeImpacto:38_400_000, fechaInicio:'10/12/2025', fechaUltima:'25/04/2026', proxAccion:'Registro sede empresa', fechaProx:'17/05/2026',
-    recurrente:'Fiscalía Anticorrupción', recurrido:'Aldesa Construcciones · varios cargos públicos',
-    resumen:'Investigación abierta sobre presunto diseño de pliegos a medida en concursos de obra pública en Aragón y CLM · indicios de blanqueo de capitales y comisiones a través de proveedores intermediarios.',
-    alegaciones:['Pliegos diseñados con criterios técnicos específicos para Aldesa','Comisiones encubiertas a funcionarios autonómicos','Esquema de blanqueo a través de proveedores'],
-    hitos:[
-      { fecha:'10/12/2025', tipo:'Apertura',     nota:'AN abre diligencias previas tras informe UCO' },
-      { fecha:'18/02/2026', tipo:'Comparecencias',nota:'Imputación formal a 2 ex-altos cargos · 3 directivos Aldesa' },
-      { fecha:'25/04/2026', tipo:'Avance',       nota:'Próximo registro sede Aldesa · solicitud de medidas cautelares' },
-    ],
-  },
-  {
-    id:'l10', expCaso:'CE 2026-INF-12', expContrato:'2024/IDAE-H2V-02',
-    titulo:'Procedimiento de infracción CE · ayudas hidrógeno verde',
-    tipo:'Reclamación', tribunal:'Comisión Europea', estado:'En instrucción', fase:'Activa', severidad:'ALTO',
-    importeImpacto:215_200_000, fechaInicio:'05/04/2026', fechaUltima:'05/04/2026', proxAccion:'Respuesta España', fechaProx:'05/06/2026',
-    recurrente:'Comisión Europea (DG COMP)', recurrido:'IDAE · Ministerio Transición Ecológica',
-    resumen:'Comisión Europea abre procedimiento por presuntas ayudas estatales no compatibles en la 2ª subasta de hidrógeno verde. Posible incumplimiento de las normas de competencia y subsidios.',
-    alegaciones:['Ayudas estatales no notificadas adecuadamente','Criterios de selección no proporcionales al objetivo','Posible distorsión de competencia europea'],
-    hitos:[
-      { fecha:'05/04/2026', tipo:'Carta CE', nota:'Carta de emplazamiento de la CE · solicita respuesta en 2 meses' },
-    ],
-  },
-  {
-    id:'l11', expCaso:'JEC 2026/14', expContrato:'2024/RTVE-COB',
-    titulo:'JEC · Vigilancia adjudicación cobertura electoral RTVE',
-    tipo:'Reclamación', tribunal:'JEC', estado:'En instrucción', fase:'Activa', severidad:'BAJO',
-    importeImpacto:17_800_000, fechaInicio:'12/04/2026', fechaUltima:'12/04/2026', proxAccion:'Informe RTVE', fechaProx:'30/05/2026',
-    recurrente:'Junta Electoral Central', recurrido:'Corporación RTVE',
-    resumen:'JEC notifica vigilancia especial sobre la adjudicación a Mediapro+Atresmedia para la cobertura informativa de las elecciones generales 2026 · proximidad a período preelectoral.',
-    alegaciones:['Adjudicación durante período de vigilancia electoral','Posible afectación a la igualdad de los partidos','Composición política de los adjudicatarios'],
-    hitos:[
-      { fecha:'12/04/2026', tipo:'Notificación', nota:'JEC notifica vigilancia · solicita informe RTVE' },
-    ],
-  },
-  {
-    id:'l12', expCaso:'CCI 2026/0034', expContrato:'2025/SACYR-PED',
-    titulo:'Arbitraje internacional · Pedemontana Lombarda',
-    tipo:'Arbitraje', tribunal:'Audiencia Provincial', estado:'Sentencia 1ª inst.', fase:'En recurso', severidad:'CRÍTICO',
-    importeImpacto:480_000_000, fechaInicio:'18/06/2024', fechaUltima:'12/03/2026', proxAccion:'Recurso Sacyr', fechaProx:'30/05/2026',
-    recurrente:'Concesionaria italiana', recurrido:'Sacyr Construcción',
-    resumen:'Arbitraje CCI internacional por sobrecostes en el proyecto Pedemontana Lombarda (Italia). Laudo parcialmente favorable a la concesionaria · Sacyr deberá pagar 240M€ · pendiente de recurso.',
-    alegaciones:['Sobrecostes de obra no justificados','Retrasos atribuibles a Sacyr','Incumplimiento de KPIs contractuales'],
-    hitos:[
-      { fecha:'18/06/2024', tipo:'Inicio',     nota:'Inicio de arbitraje CCI · árbitro único en París' },
-      { fecha:'14/11/2025', tipo:'Audiencia',  nota:'Audiencias técnicas en sede del CCI · pruebas documentales' },
-      { fecha:'12/03/2026', tipo:'Laudo',      nota:'Laudo parcial · Sacyr condena a 240M€ · recurso pdte.' },
-    ],
-  },
-]
-
-// Series temporales
-const TIMELINE_DATA = [
-  { mes:'Jul 25', activos:14, resueltos: 8 },
-  { mes:'Ago',    activos:12, resueltos: 6 },
-  { mes:'Sep',    activos:18, resueltos:12 },
-  { mes:'Oct',    activos:21, resueltos:14 },
-  { mes:'Nov',    activos:24, resueltos:18 },
-  { mes:'Dic',    activos:28, resueltos:22 },
-  { mes:'Ene 26', activos:32, resueltos:24 },
-  { mes:'Feb',    activos:34, resueltos:28 },
-  { mes:'Mar',    activos:38, resueltos:32 },
-  { mes:'Abr',    activos:42, resueltos:38 },
-  { mes:'May',    activos:42, resueltos:14 },
-]
-
-// Tribunal · datos agregados
+// Static analytics data
 const TRIBUNALES_AGG = [
   { trib:'TACRC',                  casos:38, ratio:34, tiempoMedio:142 },
   { trib:'TACP Madrid',             casos:18, ratio:42, tiempoMedio: 98 },
@@ -266,7 +48,6 @@ const TRIBUNALES_AGG = [
   { trib:'Comisión Europea',         casos: 4, ratio:30, tiempoMedio:540 },
 ]
 
-// Jurisprudencia clave
 const JURISPRUDENCIA = [
   {
     referencia:'STS 2024/4892',
@@ -315,45 +96,60 @@ const JURISPRUDENCIA = [
   },
 ]
 
-const FUENTE_COLOR = { 'CRÍTICO':'#DC2626', 'ALTO':'#F97316', 'MEDIO':'#EAB308', 'BAJO':'#0EA5E9' } as Record<string, string>
+const IMPACTO_COLOR: Record<string, string> = {
+  'CRÍTICO':'#DC2626', 'ALTO':'#F97316', 'MEDIO':'#EAB308', 'BAJO':'#0EA5E9',
+}
 
-// ─────────────────────────────────────────────────────────────────────────
-// Componente
-// ─────────────────────────────────────────────────────────────────────────
 export default function LitigiosPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  const { data, loading } = useLitigios()
+  const casos = data?.casos ?? []
+
   const [tab, setTab] = useState<'casos' | 'tribunales' | 'jurisprudencia' | 'mapa'>('casos')
-  const [selectedId, setSelectedId] = useState<string>(CASOS[0].id)
-  const [filterSev, setFilterSev] = useState<Severidad | 'Todos'>('Todos')
-  const [filterFase, setFilterFase] = useState<Fase | 'Todos'>('Todos')
+  const [selectedId, setSelectedId] = useState<string>('')
+  const [filterSev, setFilterSev] = useState<SeveridadLitigio | 'Todos'>('Todos')
+  const [filterFase, setFilterFase] = useState<FaseLitigio | 'Todos'>('Todos')
   const [query, setQuery] = useState('')
 
-  const selected = useMemo(() => CASOS.find(c => c.id === selectedId)!, [selectedId])
+  useEffect(() => {
+    if (casos.length > 0 && !selectedId) setSelectedId(casos[0].id)
+  }, [casos, selectedId])
+
+  const selected = useMemo(() => casos.find(c => c.id === selectedId) ?? casos[0], [casos, selectedId])
 
   const totals = useMemo(() => {
-    const importeTotal = CASOS.reduce((s, c) => s + c.importeImpacto, 0)
-    const activos = CASOS.filter(c => c.fase === 'Activa' || c.fase === 'En recurso').length
-    const criticos = CASOS.filter(c => c.severidad === 'CRÍTICO').length
-    const penales = CASOS.filter(c => c.tipo === 'Penal').length
-    const favorables = CASOS.filter(c => c.fase === 'Resuelta · favorable').length
-    const adversos = CASOS.filter(c => c.fase === 'Resuelta · adversa').length
+    const importeTotal = casos.reduce((s, c) => s + c.importeImpacto, 0)
+    const activos = casos.filter(c => c.fase === 'Activa' || c.fase === 'En recurso').length
+    const criticos = casos.filter(c => c.severidad === 'CRÍTICO').length
+    const penales = casos.filter(c => c.tipo === 'Penal').length
+    const favorables = casos.filter(c => c.fase === 'Resuelta · favorable').length
+    const adversos = casos.filter(c => c.fase === 'Resuelta · adversa').length
     const ratio = (favorables + adversos) > 0 ? Math.round((favorables / (favorables + adversos)) * 100) : 0
-    return { total: CASOS.length, importeTotal, activos, criticos, penales, ratio }
-  }, [])
+    return { total: casos.length, importeTotal, activos, criticos, penales, ratio }
+  }, [casos])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return CASOS
+    return casos
       .filter(c => filterSev  === 'Todos' || c.severidad === filterSev)
       .filter(c => filterFase === 'Todos' || c.fase === filterFase)
       .filter(c => !q || c.titulo.toLowerCase().includes(q) || c.recurrente.toLowerCase().includes(q) || c.recurrido.toLowerCase().includes(q) || c.expCaso.toLowerCase().includes(q))
       .sort((a,b) => {
-        const order: Record<Severidad, number> = { 'CRÍTICO':0, 'ALTO':1, 'MEDIO':2, 'BAJO':3 }
+        const order: Record<SeveridadLitigio, number> = { 'CRÍTICO':0, 'ALTO':1, 'MEDIO':2, 'BAJO':3 }
         return order[a.severidad] - order[b.severidad]
       })
-  }, [filterSev, filterFase, query])
+  }, [casos, filterSev, filterFase, query])
+
+  if (loading) return (
+    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+      <AppHeader/>
+      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px', textAlign:'center', paddingTop:80 }}>
+        <div style={{ fontSize:13, color:'#6e6e73' }}>Cargando litigios…</div>
+      </main>
+    </div>
+  )
 
   return (
     <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
@@ -378,10 +174,10 @@ export default function LitigiosPage() {
             </p>
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
-            <HeroKPI label="Casos vivos"  value={String(totals.total)}                accent="#FCA5A5"/>
-            <HeroKPI label="Críticos"      value={String(totals.criticos)}              accent="#DC2626"/>
-            <HeroKPI label="Penales"       value={String(totals.penales)}                accent="#FCD34D"/>
-            <HeroKPI label="Win rate"      value={`${totals.ratio}%`}                    accent="#86EFAC"/>
+            <HeroKPI label="Casos vivos"  value={String(totals.total)}        accent="#FCA5A5"/>
+            <HeroKPI label="Críticos"      value={String(totals.criticos)}     accent="#DC2626"/>
+            <HeroKPI label="Penales"       value={String(totals.penales)}       accent="#FCD34D"/>
+            <HeroKPI label="Win rate"      value={`${totals.ratio}%`}           accent="#86EFAC"/>
           </div>
         </section>
 
@@ -403,7 +199,7 @@ export default function LitigiosPage() {
         {/* ───── Tabs ───── */}
         <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
           {([
-            { k:'casos',         label:'Casos abiertos',         count: CASOS.length },
+            { k:'casos',         label:'Casos abiertos',         count: casos.length },
             { k:'tribunales',    label:'Tribunales y órganos',   count: TRIBUNALES_AGG.length },
             { k:'jurisprudencia',label:'Jurisprudencia clave',   count: JURISPRUDENCIA.length },
             { k:'mapa',          label:'Mapa de riesgos',         count: 6 },
@@ -430,8 +226,8 @@ export default function LitigiosPage() {
               <input type="text" value={query} onChange={e => setQuery(e.target.value)}
                 placeholder="Buscar caso · expediente · empresa · organismo…"
                 style={{ flex:'1 1 260px', maxWidth:380, padding:'9px 14px', borderRadius:10, border:'1px solid #ECECEF', background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f' }}/>
-              <Selector label="Severidad" value={filterSev} options={['Todos','CRÍTICO','ALTO','MEDIO','BAJO']} onChange={v => setFilterSev(v as Severidad | 'Todos')}/>
-              <Selector label="Fase"      value={filterFase} options={['Todos','Activa','En recurso','Resuelta · favorable','Resuelta · adversa','Suspendida']} onChange={v => setFilterFase(v as Fase | 'Todos')}/>
+              <Selector label="Severidad" value={filterSev} options={['Todos','CRÍTICO','ALTO','MEDIO','BAJO']} onChange={v => setFilterSev(v as SeveridadLitigio | 'Todos')}/>
+              <Selector label="Fase"      value={filterFase} options={['Todos','Activa','En recurso','Resuelta · favorable','Resuelta · adversa','Suspendida']} onChange={v => setFilterFase(v as FaseLitigio | 'Todos')}/>
               <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} casos · ordenados por severidad</span>
             </div>
 
@@ -466,51 +262,53 @@ export default function LitigiosPage() {
               </div>
 
               {/* Detalle */}
-              <div style={{ position:'sticky', top:60, alignSelf:'flex-start', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 20px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', borderLeft:`4px solid ${SEV_COLOR[selected.severidad]}` }}>
-                <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:8, flexWrap:'wrap' }}>
-                  <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:SEV_COLOR[selected.severidad], color:'#fff' }}>{selected.severidad}</span>
-                  <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:TIPO_COLOR[selected.tipo], color:'#fff' }}>{selected.tipo.toUpperCase()}</span>
-                  <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${ESTADO_COLOR[selected.estado]}15`, color:ESTADO_COLOR[selected.estado], border:`1px solid ${ESTADO_COLOR[selected.estado]}40` }}>{selected.estado.toUpperCase()}</span>
-                </div>
-                <h2 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.014em', lineHeight:1.25 }}>{selected.titulo}</h2>
-                <p style={{ margin:'0 0 8px', fontSize:11, color:'#6e6e73' }}>{selected.expCaso} · {selected.tribunal}</p>
-                <p style={{ margin:'0 0 12px', fontSize:12.5, color:'#3a3a3d', lineHeight:1.5 }}>{selected.resumen}</p>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 }}>
-                  <Mini label="Recurrente"   value={selected.recurrente} sub="parte" color={SEV_COLOR[selected.severidad]}/>
-                  <Mini label="Recurrido"    value={selected.recurrido}  sub="parte" color="#525258"/>
-                  <Mini label="Importe"      value={`${(selected.importeImpacto/1_000_000).toFixed(1)}M€`} sub="impacto" color="#7F1D1D"/>
-                  <Mini label="Próx. acción" value={selected.proxAccion}  sub={selected.fechaProx} color="#5B21B6"/>
-                </div>
-                <div style={{ marginBottom:12 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4, fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>
-                    <span>Fase: <span style={{ color:FASE_META[selected.fase].color }}>{selected.fase}</span></span>
-                    <span>{FASE_META[selected.fase].pct}% del ciclo</span>
+              {selected && (
+                <div style={{ position:'sticky', top:60, alignSelf:'flex-start', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 20px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', borderLeft:`4px solid ${SEV_COLOR[selected.severidad]}` }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:8, flexWrap:'wrap' }}>
+                    <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:SEV_COLOR[selected.severidad], color:'#fff' }}>{selected.severidad}</span>
+                    <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:TIPO_COLOR[selected.tipo], color:'#fff' }}>{selected.tipo.toUpperCase()}</span>
+                    <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${ESTADO_COLOR[selected.estado]}15`, color:ESTADO_COLOR[selected.estado], border:`1px solid ${ESTADO_COLOR[selected.estado]}40` }}>{selected.estado.toUpperCase()}</span>
                   </div>
-                  <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                    <div style={{ width:`${FASE_META[selected.fase].pct}%`, height:'100%', background:FASE_META[selected.fase].color }}/>
+                  <h2 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.014em', lineHeight:1.25 }}>{selected.titulo}</h2>
+                  <p style={{ margin:'0 0 8px', fontSize:11, color:'#6e6e73' }}>{selected.expCaso} · {selected.tribunal}</p>
+                  <p style={{ margin:'0 0 12px', fontSize:12.5, color:'#3a3a3d', lineHeight:1.5 }}>{selected.resumen}</p>
+                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 }}>
+                    <Mini label="Recurrente"   value={selected.recurrente} sub="parte" color={SEV_COLOR[selected.severidad]}/>
+                    <Mini label="Recurrido"    value={selected.recurrido}  sub="parte" color="#525258"/>
+                    <Mini label="Importe"      value={`${(selected.importeImpacto/1_000_000).toFixed(1)}M€`} sub="impacto" color="#7F1D1D"/>
+                    <Mini label="Próx. acción" value={selected.proxAccion}  sub={selected.fechaProx} color="#5B21B6"/>
                   </div>
-                </div>
-                <h4 style={{ margin:'0 0 5px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Alegaciones principales</h4>
-                <ul style={{ margin:'0 0 12px', paddingLeft:16, fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
-                  {selected.alegaciones.map((a, i) => <li key={i}>{a}</li>)}
-                </ul>
-                <h4 style={{ margin:'0 0 6px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Hitos del caso</h4>
-                <div style={{ position:'relative' }}>
-                  <div style={{ position:'absolute', left:6, top:6, bottom:6, width:2, background:'#ECECEF' }}/>
-                  {selected.hitos.map((h, i) => (
-                    <div key={i} style={{ display:'grid', gridTemplateColumns:'14px 1fr auto', gap:10, alignItems:'flex-start', paddingLeft:0, paddingBottom: i === selected.hitos.length - 1 ? 0 : 8 }}>
-                      <div style={{ position:'relative', width:14, height:14, marginTop:2 }}>
-                        <div style={{ width:10, height:10, borderRadius:'50%', background:'#fff', border:`2px solid ${SEV_COLOR[selected.severidad]}`, position:'absolute', top:1, left:2, zIndex:1 }}/>
-                      </div>
-                      <div>
-                        <div style={{ fontSize:10.5, fontWeight:700, color:'#1d1d1f' }}>{h.tipo}</div>
-                        <div style={{ fontSize:10.5, color:'#3a3a3d', marginTop:2, lineHeight:1.4 }}>{h.nota}</div>
-                      </div>
-                      <span style={{ fontSize:10, fontWeight:600, color:'#6e6e73', whiteSpace:'nowrap' }}>{h.fecha}</span>
+                  <div style={{ marginBottom:12 }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4, fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                      <span>Fase: <span style={{ color:FASE_META[selected.fase].color }}>{selected.fase}</span></span>
+                      <span>{FASE_META[selected.fase].pct}% del ciclo</span>
                     </div>
-                  ))}
+                    <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
+                      <div style={{ width:`${FASE_META[selected.fase].pct}%`, height:'100%', background:FASE_META[selected.fase].color }}/>
+                    </div>
+                  </div>
+                  <h4 style={{ margin:'0 0 5px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Alegaciones principales</h4>
+                  <ul style={{ margin:'0 0 12px', paddingLeft:16, fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
+                    {selected.alegaciones.map((a, i) => <li key={i}>{a}</li>)}
+                  </ul>
+                  <h4 style={{ margin:'0 0 6px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Hitos del caso</h4>
+                  <div style={{ position:'relative' }}>
+                    <div style={{ position:'absolute', left:6, top:6, bottom:6, width:2, background:'#ECECEF' }}/>
+                    {selected.hitos.map((h, i) => (
+                      <div key={i} style={{ display:'grid', gridTemplateColumns:'14px 1fr auto', gap:10, alignItems:'flex-start', paddingLeft:0, paddingBottom: i === selected.hitos.length - 1 ? 0 : 8 }}>
+                        <div style={{ position:'relative', width:14, height:14, marginTop:2 }}>
+                          <div style={{ width:10, height:10, borderRadius:'50%', background:'#fff', border:`2px solid ${SEV_COLOR[selected.severidad]}`, position:'absolute', top:1, left:2, zIndex:1 }}/>
+                        </div>
+                        <div>
+                          <div style={{ fontSize:10.5, fontWeight:700, color:'#1d1d1f' }}>{h.tipo}</div>
+                          <div style={{ fontSize:10.5, color:'#3a3a3d', marginTop:2, lineHeight:1.4 }}>{h.nota}</div>
+                        </div>
+                        <span style={{ fontSize:10, fontWeight:600, color:'#6e6e73', whiteSpace:'nowrap' }}>{h.fecha}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </section>
           </>
         )}
@@ -542,7 +340,7 @@ export default function LitigiosPage() {
                           <span style={{
                             fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
                             padding:'3px 8px', borderRadius:4,
-                            background:TRIB_COLOR[t.trib as Tribunal] || '#6e6e73', color:'#fff',
+                            background:TRIB_COLOR[t.trib as TribunalLitigio] || '#6e6e73', color:'#fff',
                           }}>{t.trib}</span>
                         </td>
                         <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{t.casos}</td>
@@ -585,20 +383,20 @@ export default function LitigiosPage() {
               <article key={i} style={{
                 background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
                 padding:'16px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-                borderLeft:`3px solid ${FUENTE_COLOR[j.impacto]}`,
+                borderLeft:`3px solid ${IMPACTO_COLOR[j.impacto]}`,
               }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6, flexWrap:'wrap', gap:6 }}>
                   <div>
                     <span style={{
                       fontSize:9, fontWeight:800, letterSpacing:'0.08em',
                       padding:'2px 7px', borderRadius:4,
-                      background:FUENTE_COLOR[j.impacto], color:'#fff',
+                      background:IMPACTO_COLOR[j.impacto], color:'#fff',
                     }}>IMPACTO {j.impacto}</span>
                     <span style={{ marginLeft:8, fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· {j.sala}</span>
                   </div>
                   <span style={{ fontFamily:'var(--font-display)', fontSize:10.5, color:'#1d1d1f', fontWeight:700 }}>{j.fecha}</span>
                 </div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:11, color:FUENTE_COLOR[j.impacto], fontWeight:800, letterSpacing:'0.04em', marginBottom:3 }}>{j.referencia}</div>
+                <div style={{ fontFamily:'var(--font-display)', fontSize:11, color:IMPACTO_COLOR[j.impacto], fontWeight:800, letterSpacing:'0.04em', marginBottom:3 }}>{j.referencia}</div>
                 <h3 style={{ margin:'0 0 5px', fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, color:'#1d1d1f', letterSpacing:'-0.012em', lineHeight:1.3 }}>{j.titulo}</h3>
                 <div style={{ fontSize:10.5, color:'#6e6e73', marginBottom:8, fontWeight:600 }}>{j.materia}</div>
                 <p style={{ margin:0, fontSize:11.5, color:'#3a3a3d', lineHeight:1.5 }}>{j.resumen}</p>
@@ -631,7 +429,7 @@ export default function LitigiosPage() {
                   </div>
                 </div>
                 {/* Bubbles */}
-                {CASOS.slice(0, 12).map((c, i) => {
+                {casos.slice(0, 12).map((c, i) => {
                   const prob = (i * 7 + 23) % 100
                   const imp = Math.min(100, (c.importeImpacto / 5_000_000_000) * 100 + 30)
                   return (
@@ -660,8 +458,8 @@ export default function LitigiosPage() {
               <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600 }}>Distribución por tipo · 12 meses</h3>
               <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Casos vivos por tipo de procedimiento</p>
               <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                {(Object.keys(TIPO_COLOR) as Tipo[]).map(tipo => {
-                  const num = CASOS.filter(c => c.tipo === tipo).length + Math.floor(Math.random() * 8) + 2
+                {(Object.keys(TIPO_COLOR) as TipoLitigio[]).map(tipo => {
+                  const num = casos.filter(c => c.tipo === tipo).length + Math.floor(Math.random() * 8) + 2
                   const max = 16
                   const w = (num / max) * 100
                   return (

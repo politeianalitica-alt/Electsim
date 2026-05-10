@@ -4,241 +4,36 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import ContratosLiveFeed from '@/components/ContratosLiveFeed'
+import { useAdjudicaciones } from '@/hooks/contratacion/useAdjudicaciones'
+import type {
+  SectorContratacion, RiesgoContrato, ProcedimientoAdj, EstadoExpediente,
+} from '@/types/contratacion'
 
-// ─────────────────────────────────────────────────────────────────────────
-// Modelo
-// ─────────────────────────────────────────────────────────────────────────
-type Procedimiento = 'Abierto' | 'Restringido' | 'Negociado' | 'Diálogo competitivo' | 'Emergencia' | 'Acuerdo marco' | 'Concursal'
-type Sector = 'Sanidad' | 'Defensa' | 'Infraestructuras' | 'TIC' | 'Energía' | 'Educación' | 'Servicios sociales' | 'Otros'
-type RiesgoAlerta = 'CRÍTICO' | 'ALTO' | 'MEDIO' | 'BAJO'
-type EstadoExp = 'Adjudicado' | 'En licitación' | 'Recurrido' | 'Anulado' | 'Modificado'
-
-type Adjudicacion = {
-  id: string
-  exp: string
-  titulo: string
-  organismo: string
-  ccaa: string
-  sector: Sector
-  procedimiento: Procedimiento
-  importeBase: number      // €
-  importeAdj: number        // €
-  baja: number              // % baja vs base
-  fechaAdj: string
-  duracion: string
-  adjudicatario: string
-  numLicit: number          // nº de licitadores
-  estado: EstadoExp
-  riesgo: RiesgoAlerta
-  alertas: string[]
-}
-
-type Organismo = {
-  nombre: string
-  tipo: 'AGE' | 'CCAA' | 'Local' | 'Empresa pública'
-  totalAdj: number       // M€ último año
-  numAdj: number
-  bajaMedia: number      // %
-  concentracion: number  // % top-1 adjudicatario
-  modificacionesPct: number // % modificadas
-}
-
-type Empresa = {
-  nombre: string
-  cif: string
-  sectores: Sector[]
-  totalAdj: number      // M€ último año
-  numAdj: number
-  vinculacion: 'Ninguna' | 'Mediática' | 'Política' | 'Investigada'
-  paisMatriz: string
-  empleados: string
-  webOk: boolean
-}
-
-type CasoMediatico = {
-  caso: string
-  estado: 'En instrucción' | 'Sumario abierto' | 'Sentencia' | 'Archivado'
-  importe: number  // M€
-  protag: string
-  detalle: string
-  severidad: RiesgoAlerta
-}
-
-const SECTOR_COLOR: Record<Sector, string> = {
+const SECTOR_COLOR: Record<SectorContratacion, string> = {
   'Sanidad':'#0EA5E9', 'Defensa':'#525258', 'Infraestructuras':'#F97316',
   'TIC':'#5B21B6', 'Energía':'#16A34A', 'Educación':'#1F4E8C',
-  'Servicios sociales':'#D43F8D', 'Otros':'#6e6e73',
+  'Servicios sociales':'#D43F8D', 'Cultura':'#7C3AED', 'Otros':'#6e6e73',
 }
-const PROC_COLOR: Record<Procedimiento, string> = {
+const PROC_COLOR: Record<ProcedimientoAdj, string> = {
   'Abierto':'#16A34A', 'Restringido':'#0EA5E9', 'Negociado':'#F97316',
   'Diálogo competitivo':'#5B21B6', 'Emergencia':'#DC2626',
   'Acuerdo marco':'#7C3AED', 'Concursal':'#525258',
 }
-const RIESGO_C: Record<RiesgoAlerta, string> = {
+const RIESGO_C: Record<RiesgoContrato, string> = {
   'CRÍTICO':'#DC2626', 'ALTO':'#F97316', 'MEDIO':'#EAB308', 'BAJO':'#0EA5E9',
 }
-const EST_C: Record<EstadoExp, string> = {
+const EST_C: Record<EstadoExpediente, string> = {
   'Adjudicado':'#16A34A', 'En licitación':'#5B21B6', 'Recurrido':'#F97316',
   'Anulado':'#DC2626', 'Modificado':'#EAB308',
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · 12 adjudicaciones recientes
-// ─────────────────────────────────────────────────────────────────────────
-const ADJUDICACIONES: Adjudicacion[] = [
-  {
-    id:'a1', exp:'2026/HM-AVE-014',
-    titulo:'Mantenimiento integral · línea AVE Madrid-Sevilla 2026-2030',
-    organismo:'ADIF Alta Velocidad', ccaa:'Estatal', sector:'Infraestructuras', procedimiento:'Abierto',
-    importeBase:412_500_000, importeAdj:387_900_000, baja:5.96, fechaAdj:'02/05/2026',
-    duracion:'48 meses', adjudicatario:'ACS Servicios Industriales', numLicit:7,
-    estado:'Adjudicado', riesgo:'BAJO', alertas:['Concentración del 32% del lote en ACS Group · 5º contrato consecutivo'],
-  },
-  {
-    id:'a2', exp:'2026/MISAN-3T-008',
-    titulo:'Suministro de oncológicos · hospitales del SNS',
-    organismo:'INGESA · Ministerio de Sanidad', ccaa:'Estatal', sector:'Sanidad', procedimiento:'Acuerdo marco',
-    importeBase:184_200_000, importeAdj:184_200_000, baja:0.0, fechaAdj:'30/04/2026',
-    duracion:'24 meses', adjudicatario:'UTE Roche-Pfizer-Novartis', numLicit:4,
-    estado:'Adjudicado', riesgo:'MEDIO', alertas:['UTE de las 3 grandes farmacéuticas · sin baja','Acuerdo marco con dependencia crítica'],
-  },
-  {
-    id:'a3', exp:'2026/MIN-DEF-RAD',
-    titulo:'Sistema integrado radar costero · 4ª fase',
-    organismo:'Ministerio de Defensa', ccaa:'Estatal', sector:'Defensa', procedimiento:'Restringido',
-    importeBase:268_000_000, importeAdj:266_400_000, baja:0.6, fechaAdj:'28/04/2026',
-    duracion:'30 meses', adjudicatario:'Indra Sistemas', numLicit:3,
-    estado:'Adjudicado', riesgo:'ALTO', alertas:['3 licitadores · pliego con requisitos muy específicos','Modificado +15% sobre presupuesto inicial'],
-  },
-  {
-    id:'a4', exp:'2026/MAD-HOS-015',
-    titulo:'Construcción nuevo Hospital Universitario · Vallecas Sur',
-    organismo:'SERMAS · Comunidad de Madrid', ccaa:'Madrid', sector:'Sanidad', procedimiento:'Diálogo competitivo',
-    importeBase:328_000_000, importeAdj:319_200_000, baja:2.68, fechaAdj:'25/04/2026',
-    duracion:'42 meses', adjudicatario:'Acciona Construcción + Sacyr', numLicit:5,
-    estado:'En licitación', riesgo:'MEDIO', alertas:['Recurso pendiente de Ferrovial ante TACP','Adenda de 24M€ por sobrecostes ya prevista'],
-  },
-  {
-    id:'a5', exp:'2026/AND-ESC-022',
-    titulo:'Comedores escolares de Andalucía · 2026-2028',
-    organismo:'Consejería Educación · Junta de Andalucía', ccaa:'Andalucía', sector:'Educación', procedimiento:'Abierto',
-    importeBase:124_500_000, importeAdj:118_900_000, baja:4.50, fechaAdj:'22/04/2026',
-    duracion:'24 meses', adjudicatario:'Serunion + Aramark + Mediterránea Catering', numLicit:9,
-    estado:'Adjudicado', riesgo:'BAJO', alertas:[],
-  },
-  {
-    id:'a6', exp:'2026/IND-CIBER-002',
-    titulo:'Servicios de ciberseguridad · administraciones públicas',
-    organismo:'Ministerio de Transformación Digital', ccaa:'Estatal', sector:'TIC', procedimiento:'Acuerdo marco',
-    importeBase:98_000_000, importeAdj:98_000_000, baja:0.0, fechaAdj:'18/04/2026',
-    duracion:'36 meses', adjudicatario:'Telefónica Tech (Tribu Cybersec)', numLicit:6,
-    estado:'Adjudicado', riesgo:'MEDIO', alertas:['Ampliación a 200M€ prevista en cláusulas de revisión'],
-  },
-  {
-    id:'a7', exp:'2026/CAT-EDU-031',
-    titulo:'Renovación equipos digitales · escuelas Cataluña',
-    organismo:'Departament d\'Educació · Generalitat', ccaa:'Cataluña', sector:'Educación', procedimiento:'Abierto',
-    importeBase:62_300_000, importeAdj:55_800_000, baja:10.4, fechaAdj:'15/04/2026',
-    duracion:'18 meses', adjudicatario:'HP Iberia · UTE con APD', numLicit:11,
-    estado:'Adjudicado', riesgo:'BAJO', alertas:[],
-  },
-  {
-    id:'a8', exp:'2026/VAL-DANA-EMG',
-    titulo:'Reconstrucción carreteras tras DANA · L\'Horta Sud',
-    organismo:'Generalitat Valenciana', ccaa:'C. Valenciana', sector:'Infraestructuras', procedimiento:'Emergencia',
-    importeBase:142_000_000, importeAdj:142_000_000, baja:0.0, fechaAdj:'10/04/2026',
-    duracion:'12 meses', adjudicatario:'Sacyr Construcción + 3 UTE locales', numLicit:0,
-    estado:'Modificado', riesgo:'CRÍTICO', alertas:['Procedimiento de emergencia sin licitación pública','3 modificados ya · +28M€ sobre importe inicial','Investigación abierta de la Sindicatura de Comptes'],
-  },
-  {
-    id:'a9', exp:'2026/MIN-ENE-017',
-    titulo:'Hidrógeno verde · subasta capacidad reservada',
-    organismo:'IDAE · Ministerio de Transición Ecológica', ccaa:'Estatal', sector:'Energía', procedimiento:'Restringido',
-    importeBase:240_000_000, importeAdj:215_200_000, baja:10.3, fechaAdj:'08/04/2026',
-    duracion:'60 meses', adjudicatario:'Iberdrola + Repsol Renovables (UTE)', numLicit:8,
-    estado:'Adjudicado', riesgo:'BAJO', alertas:[],
-  },
-  {
-    id:'a10', exp:'2026/MUR-AGUA-005',
-    titulo:'Desaladoras Costa Cálida · expansión capacidad',
-    organismo:'Mancomunidad de los Canales del Taibilla', ccaa:'Murcia', sector:'Infraestructuras', procedimiento:'Negociado',
-    importeBase:185_000_000, importeAdj:184_500_000, baja:0.27, fechaAdj:'05/04/2026',
-    duracion:'36 meses', adjudicatario:'FCC Aqualia', numLicit:2,
-    estado:'Recurrido', riesgo:'ALTO', alertas:['Procedimiento negociado · 2 licitadores','Recurso especial de Veolia ante el TACRC','Importe muy próximo al base · sin competencia real'],
-  },
-  {
-    id:'a11', exp:'2026/MIN-RTVE-INF',
-    titulo:'Cobertura informativa especial · elecciones generales 2026',
-    organismo:'Corporación RTVE', ccaa:'Estatal', sector:'TIC', procedimiento:'Abierto',
-    importeBase:18_400_000, importeAdj:17_800_000, baja:3.26, fechaAdj:'02/04/2026',
-    duracion:'8 meses', adjudicatario:'Mediapro + Atresmedia Servicios + Localia Audiovisual', numLicit:7,
-    estado:'Adjudicado', riesgo:'MEDIO', alertas:['Adjudicación durante período preelectoral · vigilancia JEC'],
-  },
-  {
-    id:'a12', exp:'2026/AYT-MAD-LIM',
-    titulo:'Limpieza viaria zona centro · Ayuntamiento Madrid',
-    organismo:'Ayuntamiento de Madrid', ccaa:'Madrid', sector:'Servicios sociales', procedimiento:'Abierto',
-    importeBase:512_000_000, importeAdj:478_400_000, baja:6.56, fechaAdj:'28/03/2026',
-    duracion:'48 meses', adjudicatario:'FCC Servicios Medio Ambiente', numLicit:6,
-    estado:'En licitación', riesgo:'MEDIO', alertas:['Recurso pendiente · alegación de OHLA por exclusión técnica'],
-  },
-]
-
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · ranking organismos contratantes
-// ─────────────────────────────────────────────────────────────────────────
-const ORGANISMOS: Organismo[] = [
-  { nombre:'Ministerio de Defensa',           tipo:'AGE',            totalAdj:1820, numAdj:418, bajaMedia: 4.2, concentracion:38, modificacionesPct:18 },
-  { nombre:'ADIF · Renfe',                    tipo:'Empresa pública',totalAdj:1450, numAdj:362, bajaMedia: 6.8, concentracion:24, modificacionesPct:14 },
-  { nombre:'INGESA · Sanidad',                 tipo:'AGE',           totalAdj: 980, numAdj:286, bajaMedia: 3.5, concentracion:42, modificacionesPct:11 },
-  { nombre:'SERMAS · C. Madrid',               tipo:'CCAA',          totalAdj: 920, numAdj:312, bajaMedia: 5.4, concentracion:35, modificacionesPct: 9 },
-  { nombre:'Generalitat de Catalunya',         tipo:'CCAA',          totalAdj: 880, numAdj:298, bajaMedia: 7.1, concentracion:22, modificacionesPct: 8 },
-  { nombre:'Junta de Andalucía',               tipo:'CCAA',          totalAdj: 780, numAdj:268, bajaMedia: 5.8, concentracion:28, modificacionesPct:10 },
-  { nombre:'Ayuntamiento de Madrid',           tipo:'Local',         totalAdj: 720, numAdj:188, bajaMedia: 4.9, concentracion:32, modificacionesPct:12 },
-  { nombre:'Generalitat Valenciana',           tipo:'CCAA',          totalAdj: 540, numAdj:162, bajaMedia: 3.2, concentracion:48, modificacionesPct:22 },
-  { nombre:'IDAE · Transición Ecológica',     tipo:'AGE',           totalAdj: 420, numAdj: 78, bajaMedia: 8.4, concentracion:18, modificacionesPct: 6 },
-  { nombre:'Ayuntamiento de Barcelona',        tipo:'Local',         totalAdj: 380, numAdj:142, bajaMedia: 6.2, concentracion:25, modificacionesPct: 7 },
-]
-
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · ranking empresas adjudicatarias
-// ─────────────────────────────────────────────────────────────────────────
-const EMPRESAS: Empresa[] = [
-  { nombre:'ACS Group',                cif:'A28015890', sectores:['Infraestructuras','Energía','TIC'],   totalAdj:1820, numAdj:284, vinculacion:'Mediática', paisMatriz:'España', empleados:'120K', webOk:true },
-  { nombre:'Ferrovial',                cif:'A81939209', sectores:['Infraestructuras','Servicios sociales'],totalAdj:1240, numAdj:198, vinculacion:'Política',   paisMatriz:'Países Bajos', empleados:'82K', webOk:true },
-  { nombre:'Indra Sistemas',           cif:'A28599033', sectores:['Defensa','TIC'],                       totalAdj:1080, numAdj:212, vinculacion:'Mediática', paisMatriz:'España', empleados:'58K', webOk:true },
-  { nombre:'Sacyr Construcción',       cif:'A83829658', sectores:['Infraestructuras','Energía'],          totalAdj: 920, numAdj:168, vinculacion:'Política',   paisMatriz:'España', empleados:'48K', webOk:true },
-  { nombre:'Telefónica Tech',          cif:'B62647011', sectores:['TIC'],                                 totalAdj: 780, numAdj:156, vinculacion:'Ninguna',    paisMatriz:'España', empleados:'18K', webOk:true },
-  { nombre:'FCC Aqualia',              cif:'A26019992', sectores:['Infraestructuras','Servicios sociales'],totalAdj: 740, numAdj:188, vinculacion:'Mediática', paisMatriz:'España', empleados:'42K', webOk:true },
-  { nombre:'Acciona',                  cif:'A95346790', sectores:['Infraestructuras','Energía'],          totalAdj: 680, numAdj:124, vinculacion:'Ninguna',    paisMatriz:'España', empleados:'40K', webOk:true },
-  { nombre:'Iberdrola Renovables',     cif:'A95075028', sectores:['Energía'],                             totalAdj: 540, numAdj: 88, vinculacion:'Ninguna',    paisMatriz:'España', empleados:'45K', webOk:true },
-  { nombre:'Roche Farma',              cif:'A28028920', sectores:['Sanidad'],                             totalAdj: 480, numAdj: 62, vinculacion:'Ninguna',    paisMatriz:'Suiza', empleados:'8K', webOk:true },
-  { nombre:'Serunion',                 cif:'A98003792', sectores:['Educación','Servicios sociales'],     totalAdj: 320, numAdj:142, vinculacion:'Ninguna',    paisMatriz:'Francia', empleados:'18K', webOk:true },
-  { nombre:'Atos Spain',               cif:'A28240752', sectores:['TIC'],                                 totalAdj: 280, numAdj: 96, vinculacion:'Ninguna',    paisMatriz:'Francia', empleados:'12K', webOk:true },
-  { nombre:'Aldesa',                   cif:'A78005138', sectores:['Infraestructuras'],                    totalAdj: 220, numAdj: 78, vinculacion:'Investigada',paisMatriz:'España', empleados:'4K', webOk:true },
-]
-
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · casos mediáticos / investigaciones
-// ─────────────────────────────────────────────────────────────────────────
-const CASOS: CasoMediatico[] = [
-  { caso:'Caso Koldo · mascarillas COVID',     estado:'Sumario abierto',  importe:53.7, protag:'Ex-asesor Min. Transportes',   detalle:'Comisiones por adjudicaciones de mascarillas durante 2020-2021. Trama investigada por TS · 4 detenciones.', severidad:'CRÍTICO' },
-  { caso:'Caso DANA emergencias Valencia',     estado:'En instrucción',   importe:142.0, protag:'Generalitat Valenciana',       detalle:'3 modificados sobre contratos de emergencia post-DANA. Sindicatura de Comptes y TVCP investigan.', severidad:'ALTO' },
-  { caso:'Caso Aldesa · pliegos a medida',     estado:'En instrucción',   importe:38.4, protag:'Aldesa',                         detalle:'Sospecha de pliegos diseñados para favorecer concesiones · investigado por la Audiencia Nacional.', severidad:'ALTO' },
-  { caso:'Caso ITV Madrid',                    estado:'Sentencia',        importe:124.0, protag:'Comunidad de Madrid (cerrado)', detalle:'Reversión de concesión a favor del operador histórico · multa 18M€ · sentencia firme TSJM.',     severidad:'MEDIO' },
-  { caso:'Caso radar costero Defensa',         estado:'En instrucción',   importe:266.4, protag:'Indra Sistemas',                detalle:'Pliego con requisitos muy específicos · 3 licitadores · denuncia de competencia desleal.', severidad:'ALTO' },
-  { caso:'Caso ferries Baleares',              estado:'Archivado',        importe: 88.0, protag:'Conselleria Mar Govern',        detalle:'Investigación sobre prórrogas sin licitación · archivado por falta de pruebas.',                  severidad:'BAJO' },
-]
-
-// Series temporales · adjudicaciones por mes
+// Static analytics data (not from API)
 const SERIE_MENSUAL = {
   meses: ['Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr','May'],
   numero:[ 248, 198, 312, 318, 342, 358, 396, 412, 442, 468, 285 ],
-  importe:[ 4.2, 3.5, 5.8, 6.2, 7.1, 7.8, 8.4, 9.1, 9.8, 10.4, 6.2 ], // mil M€
+  importe:[ 4.2, 3.5, 5.8, 6.2, 7.1, 7.8, 8.4, 9.1, 9.8, 10.4, 6.2 ],
 }
-
-// Distribución por tipo de procedimiento
-const POR_PROC = [
+const POR_PROC: { p: ProcedimientoAdj; n: number }[] = [
   { p:'Abierto',              n:42.4 },
   { p:'Acuerdo marco',         n:18.6 },
   { p:'Restringido',          n:14.2 },
@@ -246,10 +41,8 @@ const POR_PROC = [
   { p:'Diálogo competitivo',  n: 6.4 },
   { p:'Emergencia',           n: 4.8 },
   { p:'Concursal',            n: 2.8 },
-] as { p: Procedimiento; n: number }[]
-
-// Distribución por sector (% del importe total)
-const POR_SECTOR = [
+]
+const POR_SECTOR: { s: SectorContratacion; n: number }[] = [
   { s:'Infraestructuras',    n:28.4 },
   { s:'Sanidad',              n:18.6 },
   { s:'Defensa',              n:14.2 },
@@ -258,35 +51,48 @@ const POR_SECTOR = [
   { s:'Energía',              n: 8.2 },
   { s:'Educación',            n: 5.1 },
   { s:'Otros',                n: 2.2 },
-] as { s: Sector; n: number }[]
+]
 
-// ─────────────────────────────────────────────────────────────────────────
-// Componente
-// ─────────────────────────────────────────────────────────────────────────
 export default function AdjudicacionesPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  const { data, loading } = useAdjudicaciones()
+
+  const adjudicaciones   = data?.adjudicaciones    ?? []
+  const organismos       = data?.organismos         ?? []
+  const empresas         = data?.empresas            ?? []
+  const casosMediaticos  = data?.casos_mediaticos   ?? []
+
   const [tab, setTab] = useState<'recientes' | 'organismos' | 'empresas' | 'casos' | 'series' | 'distribucion'>('recientes')
-  const [filterRiesgo, setFilterRiesgo] = useState<RiesgoAlerta | 'Todos'>('Todos')
+  const [filterRiesgo, setFilterRiesgo] = useState<RiesgoContrato | 'Todos'>('Todos')
   const [query, setQuery] = useState('')
 
   const totals = useMemo(() => {
-    const totalImporte = ADJUDICACIONES.reduce((s, a) => s + a.importeAdj, 0) / 1_000_000
-    const bajaMedia = ADJUDICACIONES.reduce((s, a) => s + a.baja, 0) / ADJUDICACIONES.length
-    const numEmergencia = ADJUDICACIONES.filter(a => a.procedimiento === 'Emergencia').length
-    const conAlertas = ADJUDICACIONES.filter(a => a.alertas.length > 0).length
-    const criticos = ADJUDICACIONES.filter(a => a.riesgo === 'CRÍTICO' || a.riesgo === 'ALTO').length
-    return { total: ADJUDICACIONES.length, totalImporte, bajaMedia, numEmergencia, conAlertas, criticos }
-  }, [])
+    const totalImporte = adjudicaciones.reduce((s, a) => s + a.importeAdj, 0) / 1_000_000
+    const bajaMedia = adjudicaciones.length ? adjudicaciones.reduce((s, a) => s + a.baja, 0) / adjudicaciones.length : 0
+    const numEmergencia = adjudicaciones.filter(a => a.procedimiento === 'Emergencia').length
+    const conAlertas = adjudicaciones.filter(a => a.alertas.length > 0).length
+    const criticos = adjudicaciones.filter(a => a.riesgo === 'CRÍTICO' || a.riesgo === 'ALTO').length
+    return { total: adjudicaciones.length, totalImporte, bajaMedia, numEmergencia, conAlertas, criticos }
+  }, [adjudicaciones])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return ADJUDICACIONES
+    return adjudicaciones
       .filter(a => filterRiesgo === 'Todos' || a.riesgo === filterRiesgo)
       .filter(a => !q || a.titulo.toLowerCase().includes(q) || a.organismo.toLowerCase().includes(q) || a.adjudicatario.toLowerCase().includes(q) || a.exp.toLowerCase().includes(q))
       .sort((a,b) => parseDate(b.fechaAdj).getTime() - parseDate(a.fechaAdj).getTime())
-  }, [filterRiesgo, query])
+  }, [adjudicaciones, filterRiesgo, query])
+
+  if (loading) return (
+    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+      <AppHeader/>
+      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px', textAlign:'center', paddingTop:80 }}>
+        <div style={{ fontSize:13, color:'#6e6e73' }}>Cargando adjudicaciones…</div>
+      </main>
+    </div>
+  )
 
   return (
     <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
@@ -344,10 +150,10 @@ export default function AdjudicacionesPage() {
         {/* ───── Tabs ───── */}
         <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
           {([
-            { k:'recientes',     label:'Adjudicaciones recientes', count: ADJUDICACIONES.length },
-            { k:'organismos',    label:'Organismos contratantes',  count: ORGANISMOS.length },
-            { k:'empresas',      label:'Empresas adjudicatarias',  count: EMPRESAS.length },
-            { k:'casos',         label:'Casos e investigaciones',  count: CASOS.length },
+            { k:'recientes',     label:'Adjudicaciones recientes', count: adjudicaciones.length },
+            { k:'organismos',    label:'Organismos contratantes',  count: organismos.length },
+            { k:'empresas',      label:'Empresas adjudicatarias',  count: empresas.length },
+            { k:'casos',         label:'Casos e investigaciones',  count: casosMediaticos.length },
             { k:'series',        label:'Evolución temporal',        count: SERIE_MENSUAL.meses.length },
             { k:'distribucion',  label:'Distribución por sector',  count: POR_SECTOR.length },
           ] as const).map(t => {
@@ -377,7 +183,7 @@ export default function AdjudicacionesPage() {
               <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
                 {(['Todos','CRÍTICO','ALTO','MEDIO','BAJO'] as const).map(r => {
                   const active = filterRiesgo === r
-                  const col = r === 'Todos' ? '#1d1d1f' : RIESGO_C[r as RiesgoAlerta]
+                  const col = r === 'Todos' ? '#1d1d1f' : RIESGO_C[r as RiesgoContrato]
                   return (
                     <button key={r} onClick={() => setFilterRiesgo(r)} style={{
                       background: active ? '#fff' : 'transparent',
@@ -467,8 +273,7 @@ export default function AdjudicacionesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[...ORGANISMOS].sort((a,b) => b.totalAdj - a.totalAdj).map((o, i) => {
-                    // Salud licitadora: alta baja media + baja concentración + bajo % modificados
+                  {[...organismos].sort((a,b) => b.totalAdj - a.totalAdj).map((o, i) => {
                     const salud = Math.round((o.bajaMedia * 6) + (100 - o.concentracion) * 0.4 + (100 - o.modificacionesPct * 2) * 0.3)
                     const sCol = salud >= 70 ? '#16A34A' : salud >= 50 ? '#F97316' : '#DC2626'
                     return (
@@ -524,7 +329,7 @@ export default function AdjudicacionesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[...EMPRESAS].sort((a,b) => b.totalAdj - a.totalAdj).map((e, i) => {
+                  {[...empresas].sort((a,b) => b.totalAdj - a.totalAdj).map((e, i) => {
                     const vincCol = e.vinculacion === 'Investigada' ? '#DC2626' : e.vinculacion === 'Política' ? '#F97316' : e.vinculacion === 'Mediática' ? '#EAB308' : '#16A34A'
                     return (
                       <tr key={e.cif} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
@@ -565,8 +370,8 @@ export default function AdjudicacionesPage() {
         {/* ───── TAB · Casos ───── */}
         {tab === 'casos' && (
           <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:10 }}>
-            {[...CASOS].sort((a,b) => {
-              const order = { 'CRÍTICO':0, 'ALTO':1, 'MEDIO':2, 'BAJO':3 } as Record<RiesgoAlerta, number>
+            {[...casosMediaticos].sort((a,b) => {
+              const order = { 'CRÍTICO':0, 'ALTO':1, 'MEDIO':2, 'BAJO':3 } as Record<RiesgoContrato, number>
               return order[a.severidad] - order[b.severidad]
             }).map((c, i) => {
               const estCol = c.estado === 'Sumario abierto' ? '#DC2626' : c.estado === 'En instrucción' ? '#F97316' : c.estado === 'Sentencia' ? '#5B21B6' : '#525258'
@@ -739,23 +544,18 @@ function BigSeries({ meses, importe, numero }: { meses: string[], importe: numbe
       ))}
       <path d={areaImp} fill="url(#g-adj)"/>
       <path d={lineImp} fill="none" stroke="#0F766E" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round"/>
-      {/* Barras de número (eje secundario) */}
       {numero.map((v, i) => {
         const yTop = h - padB - (v / maxNum) * (h - padT - padB) * 0.5
         const bw = 8
         return <rect key={i} x={xs[i] - bw/2} y={yTop} width={bw} height={h - padB - yTop} fill="#5B21B6" opacity="0.4" rx="2"/>
       })}
-      {/* Puntos de importe */}
       {ysImp.map((y, i) => <circle key={i} cx={xs[i]} cy={y} r="3" fill="#0F766E"/>)}
-      {/* Etiquetas mes */}
       {meses.map((m, i) => (
         <text key={m} x={xs[i]} y={h - 6} textAnchor="middle" fontSize="10" fontWeight="600" fill="#6e6e73">{m}</text>
       ))}
-      {/* Eje izq (importe) */}
       <text x={padL - 6} y={padT + 4} textAnchor="end" fontSize="9" fill="#0F766E" fontWeight="700">mil M€</text>
       <text x={padL - 6} y={h - padB + 3} textAnchor="end" fontSize="9" fill="#6e6e73">0</text>
       <text x={padL - 6} y={padT + 12} textAnchor="end" fontSize="10" fill="#0F766E" fontWeight="700">{maxImp.toFixed(0)}</text>
-      {/* Eje dcha (número) */}
       <text x={w - padR + 6} y={padT + 4} textAnchor="start" fontSize="9" fill="#5B21B6" fontWeight="700">nº exp.</text>
       <text x={w - padR + 6} y={padT + 12} textAnchor="start" fontSize="10" fill="#5B21B6" fontWeight="700">{maxNum.toFixed(0)}</text>
     </svg>

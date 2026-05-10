@@ -1,23 +1,40 @@
 'use client'
-
-import { useQuery } from '@tanstack/react-query'
+import { useState, useEffect, useCallback } from 'react'
 import { legislativoApi } from '@/lib/api/legislativo'
-import type { GrupoParlamentario } from '@/types/legislativo'
+import type { GrupoParlamentario, EstadoLegislativo } from '@/types/legislativo'
 
 export function useGrupos() {
-  return useQuery({
-    queryKey: ['legislativo', 'grupos'],
-    queryFn: () => legislativoApi.getGrupos(),
-    staleTime: 5 * 60 * 1000, // 5 minutes — grupos don't change often
-    select: (res) => res.data as GrupoParlamentario[],
-  })
+  const [data, setData] = useState<GrupoParlamentario[] | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
+  const refetch = useCallback(() => {
+    setIsLoading(true)
+    legislativoApi.getGrupos()
+      .then(res => { setData(res.data as GrupoParlamentario[]); setIsError(false) })
+      .catch(() => setIsError(true))
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  useEffect(() => { refetch() }, [refetch])
+
+  return { data, isLoading, isError, refetch }
 }
 
 export function useEstadoLegislativo() {
-  return useQuery({
-    queryKey: ['legislativo', 'estado'],
-    queryFn: () => legislativoApi.getEstado(),
-    staleTime: 5 * 60 * 1000,
-    select: (res) => res.data,
-  })
+  const [data, setData] = useState<EstadoLegislativo | undefined>(undefined)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState(false)
+
+  const refetch = useCallback(() => {
+    setIsLoading(true)
+    legislativoApi.getEstado()
+      .then(res => { setData(res.data); setIsError(false) })
+      .catch(() => setIsError(true))
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  useEffect(() => { refetch() }, [refetch])
+
+  return { data, isLoading, isError, refetch }
 }

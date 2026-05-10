@@ -4,255 +4,77 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import ContratosLiveFeed from '@/components/ContratosLiveFeed'
+import { useLicitaciones } from '@/hooks/contratacion/useLicitaciones'
+import type {
+  SectorContratacion, EstadoLicitacion, MatchContrato,
+  TipoContrato, ProcedimientoLic, FuenteContratacion,
+} from '@/types/contratacion'
 
-// ─────────────────────────────────────────────────────────────────────────
-// Modelo
-// ─────────────────────────────────────────────────────────────────────────
-type Sector = 'Sanidad' | 'Defensa' | 'Infraestructuras' | 'TIC' | 'Energía' | 'Educación' | 'Servicios sociales' | 'Cultura' | 'Otros'
-type Tipo = 'Servicios' | 'Suministro' | 'Obras' | 'Concesión' | 'Mixto'
-type Procedimiento = 'Abierto' | 'Restringido' | 'Negociado' | 'Diálogo competitivo' | 'Acuerdo marco' | 'Simplificado'
-type Estado = 'Anuncio previo' | 'En plazo' | 'En estudio' | 'Adjudicación' | 'Cerrado'
-type Fuente = 'PLACSP' | 'BOE' | 'TED (UE)' | 'BOCG' | 'Generalitat' | 'Junta Andalucía' | 'C. Madrid' | 'Ayto. Madrid' | 'Ayto. Barcelona' | 'Otros'
-type Match = 'CRÍTICO' | 'ALTO' | 'MEDIO' | 'BAJO'
-
-type Licitacion = {
-  id: string
-  exp: string
-  titulo: string
-  organismo: string
-  ccaa: string
-  sector: Sector
-  tipo: Tipo
-  procedimiento: Procedimiento
-  estado: Estado
-  fuente: Fuente
-  importeBase: number     // €
-  cpv: string             // código CPV
-  publicacion: string     // dd/mm/yyyy
-  fechaLimite: string
-  diasRestantes: number   // negativo si ya cerrada
-  pliegos: number         // nº de documentos
-  match: Match
-  matchScore: number      // 0-100
-  keywords: string[]
-  region: string
-  duracion: string
-}
-
-const SECTOR_COLOR: Record<Sector, string> = {
+const SECTOR_COLOR: Record<SectorContratacion, string> = {
   'Sanidad':'#0EA5E9', 'Defensa':'#525258', 'Infraestructuras':'#F97316',
   'TIC':'#5B21B6', 'Energía':'#16A34A', 'Educación':'#1F4E8C',
   'Servicios sociales':'#D43F8D', 'Cultura':'#7C3AED', 'Otros':'#6e6e73',
 }
-const TIPO_COLOR: Record<Tipo, string> = {
+const TIPO_COLOR: Record<TipoContrato, string> = {
   'Servicios':'#1F4E8C', 'Suministro':'#16A34A', 'Obras':'#F97316',
   'Concesión':'#7C3AED', 'Mixto':'#525258',
 }
-const ESTADO_COLOR: Record<Estado, string> = {
+const ESTADO_COLOR: Record<EstadoLicitacion, string> = {
   'Anuncio previo':'#0EA5E9', 'En plazo':'#16A34A', 'En estudio':'#F97316',
   'Adjudicación':'#5B21B6', 'Cerrado':'#525258',
 }
-const MATCH_COLOR: Record<Match, string> = {
+const MATCH_COLOR: Record<MatchContrato, string> = {
   'CRÍTICO':'#DC2626', 'ALTO':'#F97316', 'MEDIO':'#EAB308', 'BAJO':'#0EA5E9',
 }
-const FUENTE_COLOR: Record<Fuente, string> = {
+const FUENTE_COLOR: Record<FuenteContratacion, string> = {
   'PLACSP':'#1F4E8C', 'BOE':'#5B21B6', 'TED (UE)':'#0EA5E9', 'BOCG':'#7C3AED',
   'Generalitat':'#F97316', 'Junta Andalucía':'#16A34A', 'C. Madrid':'#DC2626',
   'Ayto. Madrid':'#0F766E', 'Ayto. Barcelona':'#525258', 'Otros':'#6e6e73',
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Datos · 18 licitaciones agregadas (mock)
-// ─────────────────────────────────────────────────────────────────────────
-const LICITACIONES: Licitacion[] = [
-  { id:'l01', exp:'2026/HM-AVE-LOTE-3', titulo:'Mantenimiento integral · línea AVE Madrid-Levante (lote 3)',
-    organismo:'ADIF Alta Velocidad', ccaa:'Estatal', region:'Madrid · Cuenca · Valencia',
-    sector:'Infraestructuras', tipo:'Servicios', procedimiento:'Abierto', estado:'En plazo', fuente:'PLACSP',
-    importeBase:218_400_000, cpv:'50225000-8', publicacion:'02/05/2026', fechaLimite:'12/06/2026', diasRestantes:36,
-    pliegos:14, match:'CRÍTICO', matchScore:94, duracion:'48 meses',
-    keywords:['AVE','mantenimiento','infraestructura ferroviaria','catenaria'] },
-
-  { id:'l02', exp:'2026/MISAN-RT-022', titulo:'Suministro de equipos de radioterapia · 12 hospitales SNS',
-    organismo:'INGESA · Ministerio de Sanidad', ccaa:'Estatal', region:'Multi-CCAA',
-    sector:'Sanidad', tipo:'Suministro', procedimiento:'Acuerdo marco', estado:'En plazo', fuente:'PLACSP',
-    importeBase:148_200_000, cpv:'33150000-6', publicacion:'29/04/2026', fechaLimite:'09/06/2026', diasRestantes:33,
-    pliegos:11, match:'ALTO', matchScore:82, duracion:'36 meses',
-    keywords:['oncología','radioterapia','equipos médicos','hospitales'] },
-
-  { id:'l03', exp:'2026/MIN-DEF-CIBER', titulo:'Plataforma integral de ciberdefensa · operaciones',
-    organismo:'Ministerio de Defensa · INTA', ccaa:'Estatal', region:'Madrid',
-    sector:'Defensa', tipo:'Servicios', procedimiento:'Restringido', estado:'En plazo', fuente:'PLACSP',
-    importeBase:84_500_000, cpv:'72222300-0', publicacion:'25/04/2026', fechaLimite:'18/06/2026', diasRestantes:42,
-    pliegos:18, match:'CRÍTICO', matchScore:91, duracion:'24 meses',
-    keywords:['ciberdefensa','SIEM','SOC','operaciones militares'] },
-
-  { id:'l04', exp:'2026/CAT-SAL-ATEN', titulo:'Externalización servicios de atención primaria · Generalitat',
-    organismo:'CatSalut · Generalitat de Catalunya', ccaa:'Cataluña', region:'Barcelona · Lleida · Girona · Tarragona',
-    sector:'Sanidad', tipo:'Servicios', procedimiento:'Abierto', estado:'En plazo', fuente:'Generalitat',
-    importeBase:312_000_000, cpv:'85100000-0', publicacion:'22/04/2026', fechaLimite:'05/06/2026', diasRestantes:29,
-    pliegos:22, match:'ALTO', matchScore:78, duracion:'48 meses',
-    keywords:['atención primaria','salud','externalización','centros médicos'] },
-
-  { id:'l05', exp:'2026/MAD-EDU-DIG', titulo:'Renovación digital aulas · 412 centros públicos',
-    organismo:'Consejería Educación · Comunidad de Madrid', ccaa:'Madrid', region:'Madrid',
-    sector:'Educación', tipo:'Suministro', procedimiento:'Abierto', estado:'En plazo', fuente:'C. Madrid',
-    importeBase:62_800_000, cpv:'30236000-2', publicacion:'18/04/2026', fechaLimite:'02/06/2026', diasRestantes:26,
-    pliegos:9, match:'MEDIO', matchScore:64, duracion:'18 meses',
-    keywords:['educación','digitalización','equipos','aulas'] },
-
-  { id:'l06', exp:'2026/IDAE-H2V-04', titulo:'Subvención capacidad hidrógeno verde · 4ª subasta',
-    organismo:'IDAE · Ministerio de Transición Ecológica', ccaa:'Estatal', region:'Multi-CCAA',
-    sector:'Energía', tipo:'Concesión', procedimiento:'Restringido', estado:'En plazo', fuente:'BOE',
-    importeBase:480_000_000, cpv:'09134000-7', publicacion:'15/04/2026', fechaLimite:'15/06/2026', diasRestantes:39,
-    pliegos:24, match:'ALTO', matchScore:74, duracion:'120 meses',
-    keywords:['hidrógeno verde','renovables','subasta','capacidad'] },
-
-  { id:'l07', exp:'2026/AND-ATG-INF', titulo:'Conservación carreteras autonómicas Andalucía · 2026-2030',
-    organismo:'Junta de Andalucía · Consejería Fomento', ccaa:'Andalucía', region:'8 provincias',
-    sector:'Infraestructuras', tipo:'Obras', procedimiento:'Abierto', estado:'En plazo', fuente:'Junta Andalucía',
-    importeBase:182_000_000, cpv:'45233140-2', publicacion:'12/04/2026', fechaLimite:'30/05/2026', diasRestantes:23,
-    pliegos:16, match:'ALTO', matchScore:80, duracion:'48 meses',
-    keywords:['carreteras','conservación','obras','Andalucía'] },
-
-  { id:'l08', exp:'2026/AYT-MAD-LIM', titulo:'Recogida residuos · Distrito Centro y Salamanca',
-    organismo:'Ayuntamiento de Madrid', ccaa:'Madrid', region:'Madrid · Distrito Centro y Salamanca',
-    sector:'Servicios sociales', tipo:'Servicios', procedimiento:'Abierto', estado:'En estudio', fuente:'Ayto. Madrid',
-    importeBase:142_400_000, cpv:'90511000-2', publicacion:'08/04/2026', fechaLimite:'27/05/2026', diasRestantes:20,
-    pliegos:13, match:'MEDIO', matchScore:58, duracion:'48 meses',
-    keywords:['residuos','limpieza','servicios urbanos'] },
-
-  { id:'l09', exp:'2026/UE-DIGI-CLOUD', titulo:'Cloud sovereign · servicios infraestructura crítica',
-    organismo:'Comisión Europea · DG DIGIT', ccaa:'UE', region:'EU-27',
-    sector:'TIC', tipo:'Servicios', procedimiento:'Abierto', estado:'En plazo', fuente:'TED (UE)',
-    importeBase:1_240_000_000, cpv:'72611000-6', publicacion:'05/04/2026', fechaLimite:'20/06/2026', diasRestantes:44,
-    pliegos:32, match:'ALTO', matchScore:72, duracion:'60 meses',
-    keywords:['cloud soberano','infraestructura crítica','UE','GAIA-X'] },
-
-  { id:'l10', exp:'2026/MIN-VIV-ASEQ', titulo:'Construcción 4.500 viviendas asequibles · plan estatal',
-    organismo:'Ministerio de Vivienda y Agenda Urbana', ccaa:'Estatal', region:'Multi-CCAA',
-    sector:'Servicios sociales', tipo:'Obras', procedimiento:'Diálogo competitivo', estado:'Anuncio previo', fuente:'BOE',
-    importeBase:680_000_000, cpv:'45211000-9', publicacion:'02/04/2026', fechaLimite:'25/06/2026', diasRestantes:49,
-    pliegos:8, match:'CRÍTICO', matchScore:88, duracion:'42 meses',
-    keywords:['vivienda asequible','construcción','plan estatal','SEPES'] },
-
-  { id:'l11', exp:'2026/MIN-CULT-MUS', titulo:'Reforma integral del Museo del Prado · Edificio Villanueva',
-    organismo:'Ministerio de Cultura · Patrimonio Nacional', ccaa:'Estatal', region:'Madrid',
-    sector:'Cultura', tipo:'Obras', procedimiento:'Restringido', estado:'En plazo', fuente:'BOE',
-    importeBase:32_000_000, cpv:'45454100-5', publicacion:'30/03/2026', fechaLimite:'22/05/2026', diasRestantes:15,
-    pliegos:18, match:'BAJO', matchScore:42, duracion:'30 meses',
-    keywords:['museo','patrimonio','restauración','Madrid'] },
-
-  { id:'l12', exp:'2026/SERMAS-ONCO', titulo:'Suministro fármacos oncológicos · 24 hospitales Madrid',
-    organismo:'SERMAS · Comunidad de Madrid', ccaa:'Madrid', region:'Madrid',
-    sector:'Sanidad', tipo:'Suministro', procedimiento:'Acuerdo marco', estado:'En plazo', fuente:'C. Madrid',
-    importeBase:124_500_000, cpv:'33652000-5', publicacion:'28/03/2026', fechaLimite:'19/05/2026', diasRestantes:12,
-    pliegos:7, match:'ALTO', matchScore:76, duracion:'24 meses',
-    keywords:['fármacos','oncología','hospitales','SERMAS'] },
-
-  { id:'l13', exp:'2026/AYT-BCN-T1', titulo:'Operación tranvía conexión T1-T2 · Diagonal Mar',
-    organismo:'Ayuntamiento de Barcelona · TMB', ccaa:'Cataluña', region:'Barcelona',
-    sector:'Infraestructuras', tipo:'Concesión', procedimiento:'Diálogo competitivo', estado:'En plazo', fuente:'Ayto. Barcelona',
-    importeBase:340_000_000, cpv:'60112000-6', publicacion:'25/03/2026', fechaLimite:'10/06/2026', diasRestantes:34,
-    pliegos:21, match:'MEDIO', matchScore:62, duracion:'180 meses',
-    keywords:['tranvía','transporte','concesión','Barcelona'] },
-
-  { id:'l14', exp:'2026/MIN-DEF-FCH', titulo:'Modernización flota de helicópteros · 28 unidades',
-    organismo:'Ministerio de Defensa · DGAM', ccaa:'Estatal', region:'Múltiples bases',
-    sector:'Defensa', tipo:'Suministro', procedimiento:'Restringido', estado:'En plazo', fuente:'PLACSP',
-    importeBase:540_000_000, cpv:'34711200-6', publicacion:'22/03/2026', fechaLimite:'08/06/2026', diasRestantes:32,
-    pliegos:28, match:'ALTO', matchScore:78, duracion:'60 meses',
-    keywords:['helicópteros','defensa','flota','modernización'] },
-
-  { id:'l15', exp:'2026/RTVE-ESTU', titulo:'Renovación equipos estudios · servicios audiovisuales',
-    organismo:'Corporación RTVE', ccaa:'Estatal', region:'Madrid · Barcelona · Sevilla',
-    sector:'TIC', tipo:'Suministro', procedimiento:'Abierto', estado:'En plazo', fuente:'PLACSP',
-    importeBase:18_400_000, cpv:'32320000-2', publicacion:'18/03/2026', fechaLimite:'14/05/2026', diasRestantes:7,
-    pliegos:9, match:'BAJO', matchScore:38, duracion:'24 meses',
-    keywords:['audiovisual','equipos','TV','radio'] },
-
-  { id:'l16', exp:'2026/CCAA-DEP-AGU', titulo:'Saneamiento integral · río Llobregat (depuradoras)',
-    organismo:'ACA · Generalitat de Catalunya', ccaa:'Cataluña', region:'Cuenca Llobregat',
-    sector:'Infraestructuras', tipo:'Obras', procedimiento:'Abierto', estado:'En plazo', fuente:'Generalitat',
-    importeBase:268_000_000, cpv:'45252100-9', publicacion:'14/03/2026', fechaLimite:'02/06/2026', diasRestantes:26,
-    pliegos:24, match:'MEDIO', matchScore:64, duracion:'42 meses',
-    keywords:['agua','depuradoras','saneamiento','Llobregat'] },
-
-  { id:'l17', exp:'2026/MISAN-VAC-26', titulo:'Suministro vacunas calendario sistemático 2026-2027',
-    organismo:'INGESA · Ministerio de Sanidad', ccaa:'Estatal', region:'Multi-CCAA',
-    sector:'Sanidad', tipo:'Suministro', procedimiento:'Acuerdo marco', estado:'Adjudicación', fuente:'PLACSP',
-    importeBase:248_000_000, cpv:'33651600-4', publicacion:'10/03/2026', fechaLimite:'12/04/2026', diasRestantes:-25,
-    pliegos:6, match:'BAJO', matchScore:48, duracion:'24 meses',
-    keywords:['vacunas','sanidad','suministro'] },
-
-  { id:'l18', exp:'2026/UE-EOR-IBE', titulo:'Conexión eólica marina · Atlántico ibérico (offshore)',
-    organismo:'Comisión Europea · BEI · MITECO', ccaa:'UE', region:'Galicia · Asturias · Portugal',
-    sector:'Energía', tipo:'Mixto', procedimiento:'Diálogo competitivo', estado:'Anuncio previo', fuente:'TED (UE)',
-    importeBase:2_400_000_000, cpv:'09320000-8', publicacion:'05/03/2026', fechaLimite:'30/06/2026', diasRestantes:54,
-    pliegos:38, match:'CRÍTICO', matchScore:96, duracion:'180 meses',
-    keywords:['eólica marina','offshore','Atlántico','renovables','BEI'] },
-]
-
-// Próximos plazos (ordenados por urgencia)
-const ALERTAS_PLAZOS = [
-  { exp:'2026/RTVE-ESTU',       dias: 7, importe: 18.4, titulo:'Equipos estudios RTVE' },
-  { exp:'2026/SERMAS-ONCO',     dias:12, importe:124.5, titulo:'Fármacos oncológicos Madrid' },
-  { exp:'2026/MIN-CULT-MUS',    dias:15, importe: 32.0, titulo:'Reforma Museo del Prado' },
-  { exp:'2026/AYT-MAD-LIM',     dias:20, importe:142.4, titulo:'Recogida residuos Madrid Centro' },
-  { exp:'2026/AND-ATG-INF',     dias:23, importe:182.0, titulo:'Carreteras Andalucía' },
-  { exp:'2026/MAD-EDU-DIG',     dias:26, importe: 62.8, titulo:'Aulas digitales Madrid' },
-]
-
-// Watchlist · sectores y palabras clave del cliente
-const WATCHLIST = [
-  { sector:'Infraestructuras', activos: 5, importe: 850, color:SECTOR_COLOR['Infraestructuras'] },
-  { sector:'Sanidad',           activos: 4, importe: 832, color:SECTOR_COLOR['Sanidad'] },
-  { sector:'Defensa',           activos: 2, importe: 624, color:SECTOR_COLOR['Defensa'] },
-  { sector:'Energía',           activos: 2, importe:2880, color:SECTOR_COLOR['Energía'] },
-  { sector:'TIC',               activos: 2, importe:1258, color:SECTOR_COLOR['TIC'] },
-  { sector:'Servicios sociales',activos: 2, importe: 822, color:SECTOR_COLOR['Servicios sociales'] },
-  { sector:'Educación',         activos: 1, importe:  62, color:SECTOR_COLOR['Educación'] },
-  { sector:'Cultura',           activos: 1, importe:  32, color:SECTOR_COLOR['Cultura'] },
-]
-
-// Top organismos por número de licitaciones publicadas
-const TOP_ORG = [
-  { org:'PLACSP (AGE)',          n: 6, importe:1129 },
-  { org:'TED · Comisión Europea', n: 2, importe:3640 },
-  { org:'INGESA',                  n: 2, importe: 396 },
-  { org:'Generalitat Catalunya', n: 2, importe: 580 },
-  { org:'Comunidad de Madrid',    n: 2, importe: 187 },
-]
-
-// ─────────────────────────────────────────────────────────────────────────
-// Componente
-// ─────────────────────────────────────────────────────────────────────────
 export default function LicitacionesPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  const { data, loading } = useLicitaciones()
+
+  const licitaciones  = data?.licitaciones   ?? []
+  const alertasPlazos = data?.alertas_plazos ?? []
+  const watchlist     = data?.watchlist       ?? []
+  const topOrg        = data?.top_org         ?? []
+
   const [tab, setTab] = useState<'feed' | 'watchlist' | 'alertas' | 'fuentes'>('feed')
-  const [filterSector, setFilterSector] = useState<Sector | 'Todos'>('Todos')
-  const [filterEstado, setFilterEstado] = useState<Estado | 'Todos'>('Todos')
-  const [filterMatch,  setFilterMatch]  = useState<Match | 'Todos'>('Todos')
+  const [filterSector, setFilterSector] = useState<SectorContratacion | 'Todos'>('Todos')
+  const [filterEstado, setFilterEstado] = useState<EstadoLicitacion | 'Todos'>('Todos')
+  const [filterMatch,  setFilterMatch]  = useState<MatchContrato | 'Todos'>('Todos')
   const [query, setQuery] = useState('')
 
   const totals = useMemo(() => {
-    const importe = LICITACIONES.reduce((s, l) => s + l.importeBase, 0) / 1_000_000
-    const enPlazo = LICITACIONES.filter(l => l.estado === 'En plazo' || l.estado === 'Anuncio previo').length
-    const criticos = LICITACIONES.filter(l => l.match === 'CRÍTICO').length
-    const cerrandoSemana = LICITACIONES.filter(l => l.diasRestantes >= 0 && l.diasRestantes <= 7).length
-    return { total: LICITACIONES.length, importe, enPlazo, criticos, cerrandoSemana }
-  }, [])
+    const importe = licitaciones.reduce((s, l) => s + l.importeBase, 0) / 1_000_000
+    const enPlazo = licitaciones.filter(l => l.estado === 'En plazo' || l.estado === 'Anuncio previo').length
+    const criticos = licitaciones.filter(l => l.match === 'CRÍTICO').length
+    const cerrandoSemana = licitaciones.filter(l => l.diasRestantes >= 0 && l.diasRestantes <= 7).length
+    return { total: licitaciones.length, importe, enPlazo, criticos, cerrandoSemana }
+  }, [licitaciones])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return LICITACIONES
+    return licitaciones
       .filter(l => filterSector === 'Todos' || l.sector === filterSector)
       .filter(l => filterEstado === 'Todos' || l.estado === filterEstado)
       .filter(l => filterMatch  === 'Todos' || l.match  === filterMatch)
       .filter(l => !q || l.titulo.toLowerCase().includes(q) || l.organismo.toLowerCase().includes(q) || l.exp.toLowerCase().includes(q) || l.keywords.some(k => k.toLowerCase().includes(q)))
       .sort((a,b) => b.matchScore - a.matchScore)
-  }, [filterSector, filterEstado, filterMatch, query])
+  }, [licitaciones, filterSector, filterEstado, filterMatch, query])
+
+  if (loading) return (
+    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+      <AppHeader/>
+      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px', textAlign:'center', paddingTop:80 }}>
+        <div style={{ fontSize:13, color:'#6e6e73' }}>Cargando licitaciones…</div>
+      </main>
+    </div>
+  )
 
   return (
     <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
@@ -305,9 +127,9 @@ export default function LicitacionesPage() {
         {/* ───── Tabs ───── */}
         <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
           {([
-            { k:'feed',      label:'Feed unificado',      count: LICITACIONES.length },
-            { k:'watchlist', label:'Watchlist por sector', count: WATCHLIST.length },
-            { k:'alertas',   label:'Próximos cierres',     count: ALERTAS_PLAZOS.length },
+            { k:'feed',      label:'Feed unificado',      count: licitaciones.length },
+            { k:'watchlist', label:'Watchlist por sector', count: watchlist.length },
+            { k:'alertas',   label:'Próximos cierres',     count: alertasPlazos.length },
             { k:'fuentes',   label:'Fuentes y orígenes',   count: 17 },
           ] as const).map(t => {
             const active = tab === t.k
@@ -332,9 +154,9 @@ export default function LicitacionesPage() {
               <input type="text" value={query} onChange={e => setQuery(e.target.value)}
                 placeholder="Buscar por título, organismo, expediente o palabra clave…"
                 style={{ flex:'1 1 260px', maxWidth:360, padding:'9px 14px', borderRadius:10, border:'1px solid #ECECEF', background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f' }}/>
-              <Selector label="Sector" value={filterSector} options={['Todos','Sanidad','Defensa','Infraestructuras','TIC','Energía','Educación','Servicios sociales','Cultura','Otros']} onChange={v => setFilterSector(v as Sector | 'Todos')}/>
-              <Selector label="Estado" value={filterEstado} options={['Todos','Anuncio previo','En plazo','En estudio','Adjudicación','Cerrado']} onChange={v => setFilterEstado(v as Estado | 'Todos')}/>
-              <Selector label="Match"  value={filterMatch}  options={['Todos','CRÍTICO','ALTO','MEDIO','BAJO']} onChange={v => setFilterMatch(v as Match | 'Todos')}/>
+              <Selector label="Sector" value={filterSector} options={['Todos','Sanidad','Defensa','Infraestructuras','TIC','Energía','Educación','Servicios sociales','Cultura','Otros']} onChange={v => setFilterSector(v as SectorContratacion | 'Todos')}/>
+              <Selector label="Estado" value={filterEstado} options={['Todos','Anuncio previo','En plazo','En estudio','Adjudicación','Cerrado']} onChange={v => setFilterEstado(v as EstadoLicitacion | 'Todos')}/>
+              <Selector label="Match"  value={filterMatch}  options={['Todos','CRÍTICO','ALTO','MEDIO','BAJO']} onChange={v => setFilterMatch(v as MatchContrato | 'Todos')}/>
               <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} licitaciones · ordenadas por match</span>
             </div>
 
@@ -409,7 +231,7 @@ export default function LicitacionesPage() {
         {tab === 'watchlist' && (
           <>
             <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:10, marginBottom:14 }}>
-              {WATCHLIST.map(w => (
+              {watchlist.map(w => (
                 <article key={w.sector} style={{
                   background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
                   padding:'14px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
@@ -461,9 +283,9 @@ export default function LicitacionesPage() {
         {tab === 'alertas' && (
           <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
             <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Calendario de cierre · próximos 30 días</h3>
-            <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Licitaciones con mayor urgencia · 6 expedientes ordenados por días restantes</p>
+            <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Licitaciones con mayor urgencia · {alertasPlazos.length} expedientes ordenados por días restantes</p>
             <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-              {ALERTAS_PLAZOS.map((a, i) => {
+              {alertasPlazos.map((a) => {
                 const c = a.dias <= 7 ? '#DC2626' : a.dias <= 14 ? '#F97316' : '#EAB308'
                 return (
                   <div key={a.exp} style={{
@@ -501,7 +323,7 @@ export default function LicitacionesPage() {
               <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Top 5 organismos por volumen</h3>
               <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Importe total publicado en últimas 6 semanas</p>
               <div style={{ display:'flex', flexDirection:'column', gap:9 }}>
-                {TOP_ORG.map((o, i) => (
+                {topOrg.map((o, i) => (
                   <div key={o.org} style={{ display:'grid', gridTemplateColumns:'24px 1fr 70px', gap:10, alignItems:'center' }}>
                     <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:800, color:'#1d1d1f' }}>{i+1}</span>
                     <div>

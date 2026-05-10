@@ -1,0 +1,5 @@
+export { useLicitaciones } from './useLicitaciones'
+export { useAdjudicaciones } from './useAdjudicaciones'
+export { useContratosVigentes } from './useContratosVigentes'
+export { useLitigios } from './useLitigios'
+export { useTrazabilidad } from './useTrazabilidad'
