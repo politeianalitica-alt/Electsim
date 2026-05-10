@@ -1,2 +1,4 @@
-import PlaceholderPage from '../_components/PlaceholderPage'
-export default function Page(){return <PlaceholderPage/>}
+import { redirect } from 'next/navigation';
+export default function SectorTelecomPage() {
+  redirect('/sector/telecom');
+}

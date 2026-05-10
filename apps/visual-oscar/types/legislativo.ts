@@ -2,6 +2,8 @@
 // Tipos de dominio — Legislative Stack
 // ============================================================
 
+export type NivelImpacto = 'critico' | 'alto' | 'medio' | 'bajo'
+
 export type EstadoIniciativa =
   | 'en_tramite'
   | 'aprobada'
