@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 export async function GET() {
   // Use the real events endpoint (queries news_articles with spain impact filter)
-  const real = await fromBackend<Array<Record<string, unknown>>>('/geopolitica/events?limit=20')
+  const real = await fromBackend<Array<Record<string, unknown>>>('/api/geopolitica/events?limit=20')
   if (Array.isArray(real) && real.length > 0) {
     const data = real.map((e, i) => ({
       id: String(i + 1),

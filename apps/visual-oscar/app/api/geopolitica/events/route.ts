@@ -70,7 +70,7 @@ const MOCK_EVENTS: GeoEvent[] = [
 ]
 
 export async function GET() {
-  const real = await fromBackend<GeoEvent[]>('/geopolitica/events?limit=12')
+  const real = await fromBackend<GeoEvent[]>('/api/geopolitica/events?limit=12')
   if (Array.isArray(real) && real.length > 0) {
     return NextResponse.json(withMeta({ data: real }, 'backend'))
   }

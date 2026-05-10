@@ -217,7 +217,7 @@ function normalizePresencia(raw: unknown[]): PuntoPresencia[] {
 }
 
 export async function GET() {
-  const real = await fromBackend<{ data: unknown[] }>('/geopolitica/presencia-espanola-geo')
+  const real = await fromBackend<{ data: unknown[] }>('/api/geopolitica/presencia-espanola-geo')
   if (real?.data && Array.isArray(real.data) && real.data.length > 0) {
     const data = normalizePresencia(real.data)
     if (data.length > 0) {

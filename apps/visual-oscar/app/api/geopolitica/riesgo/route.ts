@@ -31,7 +31,7 @@ const NAME_TO_ISO: Record<string, string> = {
 
 export async function GET() {
   // Use the real country-risk endpoint which queries news_articles
-  const real = await fromBackend<Array<Record<string, unknown>>>('/geopolitica/country-risk')
+  const real = await fromBackend<Array<Record<string, unknown>>>('/api/geopolitica/country-risk')
   if (Array.isArray(real) && real.length > 0) {
     const seen = new Set<string>()
     const data = real

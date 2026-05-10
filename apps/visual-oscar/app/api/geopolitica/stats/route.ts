@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 export async function GET() {
   // Try the real KPI endpoint first (returns real DB aggregates)
-  const kpis = await fromBackend<Record<string, unknown>>('/geopolitica/kpis')
+  const kpis = await fromBackend<Record<string, unknown>>('/api/geopolitica/kpis')
   if (kpis && typeof kpis === 'object' && 'eventos_criticos_24h' in kpis) {
     const flat = {
       osint_24h: Number((kpis as any).eventos_criticos_24h ?? 0) + Number((kpis as any).impacto_espana_alto_7d ?? 0),
