@@ -13,46 +13,89 @@ function esProjY(lat: number, H = 380) { return ((ES_LAT_MAX - lat) / (ES_LAT_MA
 
 function clamp(v: number, min: number, max: number) { return Math.max(min, Math.min(max, v)) }
 
-// ── continent SVG paths (equirectangular 900×460) ─────────────────────────────
+// ── continent SVG paths (equirectangular 900×460, 40-50 pts each) ─────────────
+// projX(lon)=(lon+180)/360*900  projY(lat)=(90-lat)/180*460
 const AFRICA_D =
-  'M 432 125 L 455 122 L 478 127 L 513 135 L 527 138 L 535 145 L 555 168 L 563 200 L 577 202 ' +
-  'L 572 210 L 555 228 L 548 250 L 540 270 L 530 288 L 495 318 L 482 296 L 473 263 L 465 240 ' +
-  'L 460 228 L 458 220 L 448 215 L 442 220 L 438 218 L 430 215 L 415 200 L 408 195 L 408 174 ' +
-  'L 414 160 L 425 145 Z'
+  'M 435 138 L 450 135 L 458 135 L 470 135 L 476 133 L 483 133 L 488 138 ' +
+  'L 500 141 L 513 141 L 525 146 L 533 146 L 538 153 L 541 163 L 545 172 ' +
+  'L 550 192 L 558 199 L 575 204 L 580 211 L 573 224 L 563 236 ' +
+  'L 555 243 L 548 258 L 543 265 L 540 273 L 538 281 L 533 293 ' +
+  'L 530 301 L 524 311 L 518 319 L 507 321 L 500 320 L 493 319 ' +
+  'L 490 317 L 483 308 L 478 300 L 473 290 L 468 281 L 465 268 ' +
+  'L 463 256 L 463 243 L 463 235 L 461 228 L 460 222 L 455 220 ' +
+  'L 450 222 L 445 220 L 443 218 L 435 217 L 428 216 L 420 212 ' +
+  'L 415 207 L 408 196 L 408 187 L 408 179 L 410 170 L 413 164 ' +
+  'L 416 158 L 420 155 L 424 150 L 428 148 L 432 143 L 435 138 Z'
 
 const EUROPE_D =
-  'M 428 137 L 428 118 L 432 107 L 443 97 L 448 87 L 443 79 L 450 68 L 462 62 L 477 56 ' +
-  'L 495 51 L 510 48 L 522 49 L 527 60 L 522 67 L 510 72 L 498 82 L 497 95 L 503 110 ' +
-  'L 513 118 L 513 125 L 505 122 L 495 117 L 487 120 L 483 115 L 475 122 L 468 128 ' +
-  'L 457 125 L 453 122 L 440 122 L 435 130 Z'
+  'M 428 134 L 428 124 L 430 119 L 436 116 L 440 117 L 445 116 L 450 117 ' +
+  'L 455 118 L 458 119 L 462 116 L 465 115 L 470 117 L 476 117 ' +
+  'L 480 114 L 483 113 L 486 109 L 488 108 L 492 108 L 495 108 ' +
+  'L 498 103 L 500 99 L 502 93 L 505 87 L 508 81 L 510 78 ' +
+  'L 512 71 L 513 68 L 511 61 L 510 57 L 500 52 L 498 51 ' +
+  'L 492 52 L 490 56 L 486 57 L 480 56 L 475 57 L 470 63 ' +
+  'L 465 71 L 463 80 L 464 86 L 465 90 L 467 90 L 468 90 ' +
+  'L 471 88 L 473 87 L 470 91 L 466 93 L 461 95 L 460 96 ' +
+  'L 458 98 L 455 99 L 452 102 L 448 105 L 445 106 L 441 109 ' +
+  'L 440 110 L 439 111 L 438 112 L 440 114 L 442 116 L 443 117 ' +
+  'L 436 123 L 431 129 L 428 134 Z'
+
+const ITALY_D =
+  'M 471 117 L 477 118 L 481 122 L 484 129 L 487 135 L 486 139 ' +
+  'L 483 140 L 481 135 L 479 128 L 476 122 L 471 117 Z'
 
 const NAMERICA_D =
-  'M 25 90 L 48 57 L 75 45 L 95 42 L 143 42 L 175 45 L 222 56 L 265 62 L 292 72 L 318 105 ' +
-  'L 310 115 L 290 117 L 268 135 L 252 162 L 240 170 L 248 180 L 235 185 L 222 185 L 215 175 ' +
-  'L 208 165 L 195 162 L 175 168 L 162 145 L 155 138 L 143 108 L 128 88 L 75 77 L 48 65 Z'
+  'M 188 166 L 165 170 L 150 168 L 140 158 L 138 148 L 135 138 ' +
+  'L 133 128 L 135 119 L 131 108 L 128 102 L 125 89 L 115 80 ' +
+  'L 100 75 L 88 69 L 68 63 L 48 58 L 38 56 L 30 46 L 33 42 ' +
+  'L 38 40 L 50 40 L 63 42 L 88 51 L 113 51 L 150 46 L 175 43 ' +
+  'L 200 43 L 213 46 L 225 48 L 238 51 L 250 58 L 263 64 ' +
+  'L 273 75 L 280 87 L 283 96 L 285 108 L 290 119 L 288 122 ' +
+  'L 283 124 L 278 128 L 273 133 L 268 141 L 263 148 L 258 158 ' +
+  'L 255 163 L 250 166 L 240 169 L 233 168 L 228 168 L 220 166 ' +
+  'L 213 165 L 205 168 L 200 174 L 196 171 L 192 168 L 188 166 Z'
 
 const SAMERICA_D =
-  'M 245 195 L 272 190 L 310 195 L 358 222 L 365 240 L 345 270 L 330 295 L 308 325 ' +
-  'L 290 355 L 282 371 L 277 360 L 268 335 L 263 302 L 255 268 L 248 230 L 243 210 Z'
+  'M 253 210 L 263 207 L 273 205 L 285 203 L 295 202 L 308 202 ' +
+  'L 318 206 L 325 210 L 330 217 L 335 224 L 343 232 L 350 242 ' +
+  'L 358 255 L 362 265 L 360 278 L 355 290 L 348 305 L 338 320 ' +
+  'L 328 338 L 318 355 L 310 371 L 305 381 L 300 384 L 293 378 ' +
+  'L 288 370 L 283 356 L 278 340 L 273 320 L 268 300 L 265 280 ' +
+  'L 263 265 L 261 248 L 258 235 L 255 224 L 253 214 L 253 210 Z'
 
 const ASIA_D =
-  'M 515 125 L 535 118 L 558 118 L 575 122 L 595 115 L 622 108 L 653 95 L 692 88 L 720 75 ' +
-  'L 755 68 L 778 68 L 803 80 L 810 92 L 797 102 L 775 110 L 752 118 L 740 135 L 750 148 ' +
-  'L 765 162 L 770 182 L 750 202 L 730 218 L 715 218 L 700 228 L 685 222 L 668 215 ' +
-  'L 650 218 L 637 215 L 625 205 L 617 212 L 603 212 L 592 205 L 582 200 L 575 195 ' +
-  'L 560 197 L 548 192 L 540 175 L 538 158 L 527 148 Z'
+  'M 515 125 L 520 122 L 527 120 L 535 118 L 545 117 L 558 118 ' +
+  'L 568 118 L 575 122 L 583 119 L 590 116 L 602 112 L 615 107 ' +
+  'L 628 103 L 640 98 L 653 95 L 665 91 L 678 88 L 692 85 L 706 80 ' +
+  'L 720 75 L 733 70 L 745 67 L 755 65 L 765 64 L 778 65 L 790 68 ' +
+  'L 800 73 L 808 80 L 812 88 L 808 95 L 800 100 L 790 105 ' +
+  'L 778 110 L 765 113 L 752 118 L 745 125 L 743 132 L 745 140 ' +
+  'L 750 148 L 758 156 L 763 163 L 768 172 L 770 182 L 765 192 ' +
+  'L 758 200 L 750 206 L 740 212 L 730 218 L 720 220 L 713 218 ' +
+  'L 705 215 L 700 225 L 695 230 L 688 228 L 680 222 L 670 216 ' +
+  'L 660 215 L 650 218 L 643 216 L 638 213 L 645 228 L 648 242 ' +
+  'L 645 258 L 638 270 L 630 262 L 623 248 L 618 232 L 610 220 ' +
+  'L 600 215 L 588 212 L 578 207 L 572 215 L 563 220 L 553 215 ' +
+  'L 548 202 L 545 188 L 543 175 L 540 165 L 538 158 L 533 150 ' +
+  'L 527 148 L 522 140 L 518 132 L 515 125 Z'
 
 const AUSTRALIA_D =
-  'M 735 235 L 750 228 L 768 222 L 790 218 L 815 218 L 833 225 L 838 238 L 830 255 ' +
-  'L 820 268 L 808 278 L 797 275 L 782 272 L 762 280 L 748 272 L 738 258 L 735 245 Z'
+  'M 730 232 L 743 225 L 755 220 L 770 218 L 783 216 L 796 216 ' +
+  'L 810 218 L 820 220 L 830 222 L 838 228 L 840 238 L 838 248 ' +
+  'L 833 258 L 825 268 L 815 276 L 805 280 L 795 278 L 784 275 ' +
+  'L 773 278 L 763 282 L 753 280 L 744 274 L 738 263 L 733 250 ' +
+  'L 730 240 L 730 232 Z'
 
 const GREENLAND_D =
-  'M 332 72 L 355 55 L 388 42 L 408 35 L 415 22 L 400 15 L 375 15 L 342 22 L 318 38 L 310 55 Z'
+  'M 313 60 L 325 48 L 342 38 L 358 30 L 375 22 L 390 18 L 403 16 ' +
+  'L 412 18 L 415 26 L 408 34 L 395 42 L 380 48 L 363 55 L 345 63 ' +
+  'L 330 68 L 318 68 L 313 60 Z'
 
 const CONTINENTS = [
   { id: 'namerica',  d: NAMERICA_D },
   { id: 'samerica',  d: SAMERICA_D },
   { id: 'europe',    d: EUROPE_D },
+  { id: 'italy',     d: ITALY_D },
   { id: 'africa',    d: AFRICA_D },
   { id: 'asia',      d: ASIA_D },
   { id: 'australia', d: AUSTRALIA_D },
@@ -184,6 +227,12 @@ interface CcaaItem {
 }
 interface ScenarioPoint {
   titulo: string; probabilidad: number; impacto: number; nivel: string
+}
+interface EventItem {
+  date: string | null; country: string; type: string
+  description: string; impact: number
+  url?: string | null; source?: string | null
+  spain_impact?: string | null; title: string
 }
 interface PuntoPresencia {
   id: string; pais: string; iso3: string; lat: number; lon: number
@@ -369,6 +418,7 @@ export default function GeopoliticaPage() {
   const { data: thinkTanksRaw }                    = useApi<{ data: ThinkTankItem[] }>('/api/geopolitica/think-tanks', { refreshInterval: 120_000 })
   const { data: ccaaRaw }                          = useApi<{ data: CcaaItem[] }>('/api/geopolitica/ccaa', { refreshInterval: 300_000 })
   const { data: presenciaRaw }                     = useApi<{ data: PuntoPresencia[]; kpis: PresenciaKpis }>('/api/geopolitica/presencia', { refreshInterval: 300_000 })
+  const { data: eventsRaw }                        = useApi<{ data: EventItem[] }>('/api/geopolitica/events', { refreshInterval: 120_000 })
 
   const geoStats: GeoStats  = (geoStatsRaw as GeoStats) ?? { osint_24h: 0, alertas_activas: 0, paises_monitorizados: 0, presencia_activa: 0, alertas_count: { CRITICO: 0, ALTO: 0, MEDIO: 0 } }
   const riesgo: RiesgoItem[]       = riesgoRaw?.data ?? []
@@ -380,6 +430,7 @@ export default function GeopoliticaPage() {
   const presencia: PuntoPresencia[] = presenciaRaw?.data ?? []
   const presenciaKpis: PresenciaKpis = presenciaRaw?.kpis ?? { efectivos: 0, diaspora: 0, inversion_mill_eur: 0, embajadas: 0, fuentes_energia: 0 }
   const presenciaFiltered = presenciaLayer === 'todas' ? presencia : presencia.filter(p => p.categoria === presenciaLayer)
+  const events: EventItem[] = eventsRaw?.data ?? []
   void osint
 
   const impactos: ImpactoItem[] = useMemo(() => {
@@ -509,6 +560,46 @@ export default function GeopoliticaPage() {
   const top5Risk = [...riesgo]
     .sort((a, b) => (b.score * b.interes_espana) - (a.score * a.interes_espana))
     .slice(0, 5)
+
+  // ── Collision avoidance for map bubbles ───────────────────────────────────────
+  type LayoutItem = RiesgoItem & { cx: number; cy: number; radius: number; vcx: number; vcy: number }
+  const riesgoLayout = useMemo<LayoutItem[]>(() => {
+    if (!riesgoSorted.length) return []
+    const W = 900, H = 460
+    const items: LayoutItem[] = riesgoSorted.map(r => {
+      const cx = projX(r.lon, W)
+      const cy = projY(r.lat, H)
+      const radius = clamp(r.score * 3.4, 7, 28)
+      return { ...r, cx, cy, radius, vcx: cx, vcy: cy }
+    })
+    for (let iter = 0; iter < 120; iter++) {
+      let moved = false
+      for (let i = 0; i < items.length; i++) {
+        for (let j = i + 1; j < items.length; j++) {
+          const dx = items[j].vcx - items[i].vcx
+          const dy = items[j].vcy - items[i].vcy
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          const minDist = items[i].radius + items[j].radius + 5
+          if (dist < minDist && dist > 0.01) {
+            const shift = (minDist - dist) / 2 + 0.5
+            const nx = dx / dist, ny = dy / dist
+            items[i].vcx -= nx * shift * 0.55
+            items[i].vcy -= ny * shift * 0.55
+            items[j].vcx += nx * shift * 0.55
+            items[j].vcy += ny * shift * 0.55
+            // clamp inside map
+            items[i].vcx = clamp(items[i].vcx, items[i].radius + 2, W - items[i].radius - 2)
+            items[i].vcy = clamp(items[i].vcy, items[i].radius + 2, H - items[i].radius - 2)
+            items[j].vcx = clamp(items[j].vcx, items[j].radius + 2, W - items[j].radius - 2)
+            items[j].vcy = clamp(items[j].vcy, items[j].radius + 2, H - items[j].radius - 2)
+            moved = true
+          }
+        }
+      }
+      if (!moved) break
+    }
+    return items
+  }, [riesgoSorted])
 
   function toggleSet(id: string, set: React.Dispatch<React.SetStateAction<Set<string>>>) {
     set(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next })
@@ -706,189 +797,362 @@ export default function GeopoliticaPage() {
             TAB 0 — MAPA GLOBAL
         ══════════════════════════════════════════════════════════════════════ */}
         {tab === 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16, alignItems: 'start' }}>
-            {/* Map */}
-            <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden' }}>
-              <svg
-                ref={mapRef}
-                viewBox="0 0 900 460"
-                style={{ width: '100%', background: '#020c1b', display: 'block' }}
-                onMouseLeave={() => setTooltip(null)}
-              >
-                {/* Graticule */}
-                {[-60, -30, 0, 30, 60].map(lat => (
-                  <line key={`h${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
-                    stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
-                ))}
-                {[-120, -60, 0, 60, 120].map(lon => (
-                  <line key={`v${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
-                    stroke="rgba(64,96,160,0.09)" strokeWidth={0.6} />
-                ))}
-                {/* Equator */}
-                <line x1={0} y1={projY(0)} x2={900} y2={projY(0)}
-                  stroke="rgba(64,96,160,0.22)" strokeWidth={0.8} strokeDasharray="6 4" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
-                {/* Continents */}
-                {CONTINENTS.map(c => (
-                  <path key={c.id} d={c.d}
-                    fill="rgba(30,58,95,0.52)"
-                    stroke="rgba(56,100,160,0.32)"
-                    strokeWidth={0.7}
-                  />
-                ))}
+            {/* ── Row 1: map + right panel ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 16, alignItems: 'start' }}>
 
-                {/* Animated connection lines: Spain to top 5 */}
-                {top5Risk.map((r, idx) => {
-                  const x1 = projX(-3.7), y1 = projY(40.4)
-                  const x2 = projX(r.lon), y2 = projY(r.lat)
-                  const offset = idx * 3
-                  return (
-                    <line key={`line-${r.iso}`}
-                      x1={x1} y1={y1} x2={x2} y2={y2}
-                      stroke="rgba(14,165,233,0.22)" strokeWidth={1.2}
-                      strokeDasharray="5 4"
-                      style={{ animation: `dashMove ${2 + idx * 0.3}s linear infinite`, animationDelay: `${offset * 0.1}s` }}
+              {/* ── MAP ── */}
+              <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden' }}>
+                <svg
+                  ref={mapRef}
+                  viewBox="0 0 900 460"
+                  style={{ width: '100%', background: 'linear-gradient(180deg, #020b18 0%, #030f22 60%, #020b18 100%)', display: 'block' }}
+                  onMouseLeave={() => setTooltip(null)}
+                >
+                  <defs>
+                    <radialGradient id="oceanGrad" cx="50%" cy="50%" r="60%">
+                      <stop offset="0%" stopColor="rgba(14,40,80,0.3)" />
+                      <stop offset="100%" stopColor="rgba(2,10,22,0)" />
+                    </radialGradient>
+                  </defs>
+                  <rect x={0} y={0} width={900} height={460} fill="url(#oceanGrad)" />
+
+                  {/* Graticule — subtle grid */}
+                  {[-60, -30, 0, 30, 60].map(lat => (
+                    <line key={`h${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
+                      stroke={lat === 0 ? 'rgba(56,96,160,0.22)' : 'rgba(40,70,130,0.08)'}
+                      strokeWidth={lat === 0 ? 0.9 : 0.5}
+                      strokeDasharray={lat === 0 ? '8 5' : undefined} />
+                  ))}
+                  {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map(lon => (
+                    <line key={`v${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
+                      stroke="rgba(40,70,130,0.07)" strokeWidth={0.5} />
+                  ))}
+
+                  {/* Continents */}
+                  {CONTINENTS.map(c => (
+                    <path key={c.id} d={c.d}
+                      fill="rgba(22,52,100,0.58)"
+                      stroke="rgba(48,90,160,0.35)"
+                      strokeWidth={0.8}
+                      strokeLinejoin="round"
                     />
-                  )
-                })}
+                  ))}
 
-                {/* Risk bubbles */}
-                {riesgoSorted.map(r => {
-                  const cx = projX(r.lon)
-                  const cy = projY(r.lat)
-                  const radius = clamp(r.score * 3.5, 5, 30)
-                  const fill = scoreColor(r.score)
-                  const isCritico = r.score >= 8
-                  return (
-                    <g key={r.iso}
-                      onMouseEnter={(e) => {
-                        const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect()
-                        setTooltip({
-                          x: (cx / 900) * rect.width + rect.left,
-                          y: (cy / 460) * rect.height + rect.top - 52,
-                          text: `${r.pais}  |  Riesgo: ${r.score.toFixed(1)}  |  Interes ES: ${r.interes_espana.toFixed(1)}`,
-                        })
-                      }}
-                      onMouseLeave={() => setTooltip(null)}
-                      style={{ cursor: 'default' }}
-                    >
-                      {isCritico && (
-                        <circle cx={cx} cy={cy} r={radius + 6}
-                          fill="none" stroke={fill} strokeWidth={1.2} strokeOpacity={0.3}
-                          style={{ animation: 'pulseRing 2s ease-in-out infinite' }}
-                        />
-                      )}
-                      <circle cx={cx} cy={cy} r={radius}
-                        fill={fill} fillOpacity={0.72}
-                        stroke="rgba(255,255,255,0.18)" strokeWidth={0.8}
-                        style={{ filter: `drop-shadow(0 0 4px ${fill}50)` }}
-                      />
-                      {radius >= 14 && (
+                  {/* Connector lines: Spain → resolved bubble position */}
+                  {riesgoLayout.slice(0, 8).map((r, idx) => {
+                    const spX = projX(-3.7), spY = projY(40.4)
+                    const distMoved = Math.sqrt((r.vcx - r.cx) ** 2 + (r.vcy - r.cy) ** 2)
+                    return (
+                      <g key={`conn-${r.iso}`}>
+                        {/* Spain → actual country geo position */}
+                        <line x1={spX} y1={spY} x2={r.cx} y2={r.cy}
+                          stroke={`${scoreColor(r.score)}30`} strokeWidth={1}
+                          strokeDasharray="6 4"
+                          style={{ animation: `dashMove ${2.2 + idx * 0.25}s linear infinite` }} />
+                        {/* Displaced bubble → actual geo (if moved significantly) */}
+                        {distMoved > 8 && (
+                          <line x1={r.vcx} y1={r.vcy} x2={r.cx} y2={r.cy}
+                            stroke={`${scoreColor(r.score)}50`} strokeWidth={0.8} strokeDasharray="2 3" />
+                        )}
+                      </g>
+                    )
+                  })}
+
+                  {/* Actual geo-position dots for displaced bubbles */}
+                  {riesgoLayout.map(r => {
+                    const distMoved = Math.sqrt((r.vcx - r.cx) ** 2 + (r.vcy - r.cy) ** 2)
+                    if (distMoved < 8) return null
+                    return (
+                      <circle key={`geo-${r.iso}`}
+                        cx={r.cx} cy={r.cy} r={3}
+                        fill={scoreColor(r.score)} fillOpacity={0.5}
+                        stroke="rgba(255,255,255,0.1)" strokeWidth={0.5} />
+                    )
+                  })}
+
+                  {/* Risk bubbles — at collision-resolved positions */}
+                  {riesgoLayout.map((r, idx) => {
+                    const { vcx: cx, vcy: cy, radius } = r
+                    const fill = scoreColor(r.score)
+                    const isCritico = r.score >= 8
+                    return (
+                      <g key={r.iso}
+                        onMouseEnter={(e) => {
+                          const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect()
+                          setTooltip({
+                            x: (cx / 900) * rect.width + rect.left,
+                            y: (cy / 460) * rect.height + rect.top - 56,
+                            text: `${r.pais}  ·  ${r.score.toFixed(1)}/10  ·  ${r.categoria.toUpperCase()}`,
+                          })
+                        }}
+                        onMouseLeave={() => setTooltip(null)}
+                        style={{ cursor: 'default' }}
+                      >
+                        {/* Pulse ring for critical */}
+                        {isCritico && (
+                          <circle cx={cx} cy={cy} r={radius + 7}
+                            fill="none" stroke={fill} strokeWidth={1}
+                            strokeOpacity={0.25}
+                            style={{ animation: `pulseRing ${1.8 + idx * 0.15}s ease-in-out infinite` }} />
+                        )}
+                        {/* Main bubble */}
+                        <circle cx={cx} cy={cy} r={radius}
+                          fill={fill} fillOpacity={0.78}
+                          stroke="rgba(255,255,255,0.22)" strokeWidth={0.8}
+                          style={{ filter: `drop-shadow(0 0 ${isCritico ? 8 : 4}px ${fill}60)` }} />
+                        {/* ISO label */}
                         <text x={cx} y={cy + 3.5} textAnchor="middle"
-                          fill="white" fontSize={8.5} fontWeight={700}
-                          style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                          {r.iso.slice(0, 2)}
+                          fill="rgba(255,255,255,0.95)" fontSize={radius >= 16 ? 9 : 7.5} fontWeight={700}
+                          style={{ pointerEvents: 'none', userSelect: 'none', letterSpacing: '0.02em' }}>
+                          {r.iso}
                         </text>
-                      )}
-                    </g>
-                  )
-                })}
+                      </g>
+                    )
+                  })}
 
-                {/* Spain marker */}
-                {(() => {
-                  const cx = projX(-3.7), cy = projY(40.4)
-                  const pts = Array.from({ length: 5 }, (_, k) => {
-                    const a  = (k * 72 - 90) * Math.PI / 180
-                    const a2 = (k * 72 - 90 + 36) * Math.PI / 180
-                    return `${cx + 9 * Math.cos(a)},${cy + 9 * Math.sin(a)} ${cx + 4 * Math.cos(a2)},${cy + 4 * Math.sin(a2)}`
-                  }).join(' ')
-                  return (
-                    <g>
-                      <polygon points={pts} fill="#0ea5e9"
-                        stroke="rgba(255,255,255,0.6)" strokeWidth={1}
-                        style={{ filter: 'drop-shadow(0 0 7px rgba(14,165,233,0.9))' }} />
-                      <text x={cx + 13} y={cy + 4}
-                        fill="#7dd3fc" fontSize={9} fontWeight={700}
-                        style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                        ESP
-                      </text>
-                    </g>
-                  )
-                })()}
-              </svg>
+                  {/* Spain star */}
+                  {(() => {
+                    const cx = projX(-3.7), cy = projY(40.4)
+                    const pts = Array.from({ length: 5 }, (_, k) => {
+                      const a  = (k * 72 - 90) * Math.PI / 180
+                      const a2 = (k * 72 - 90 + 36) * Math.PI / 180
+                      return `${cx + 10 * Math.cos(a)},${cy + 10 * Math.sin(a)} ${cx + 4.5 * Math.cos(a2)},${cy + 4.5 * Math.sin(a2)}`
+                    }).join(' ')
+                    return (
+                      <g>
+                        <circle cx={cx} cy={cy} r={14} fill="rgba(14,165,233,0.08)"
+                          stroke="rgba(14,165,233,0.2)" strokeWidth={1} />
+                        <polygon points={pts} fill="#0ea5e9"
+                          stroke="rgba(255,255,255,0.7)" strokeWidth={0.8}
+                          style={{ filter: 'drop-shadow(0 0 8px rgba(14,165,233,0.95))' }} />
+                        <text x={cx + 16} y={cy + 4}
+                          fill="#7dd3fc" fontSize={9.5} fontWeight={700}
+                          style={{ pointerEvents: 'none', userSelect: 'none', letterSpacing: '0.04em' }}>
+                          ESP
+                        </text>
+                      </g>
+                    )
+                  })()}
+                </svg>
 
-              {/* Legend */}
-              <div style={{ padding: '10px 18px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Riesgo:</span>
-                {[
-                  { label: 'Critico >=8', color: '#dc2626' },
-                  { label: 'Alto >=6',    color: '#f59e0b' },
-                  { label: 'Medio >=4',   color: '#3b82f6' },
-                  { label: 'Bajo',        color: '#22c55e' },
-                  { label: 'Espana',      color: '#0ea5e9' },
-                ].map(l => (
-                  <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: l.color }} />
-                    <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>{l.label}</span>
-                  </div>
-                ))}
-                <span style={{ marginLeft: 'auto', fontSize: 10, color: TEXT_SECONDARY }}>{riesgoSorted.length} paises monitorizados</span>
-              </div>
-            </div>
-
-            {/* Right sidebar */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {/* Top 5 risk */}
-              <div style={{ ...CARD, padding: '16px 18px', boxShadow: SHADOW }}>
-                <SectionLabel>Maxima exposicion</SectionLabel>
-                {top5Risk.length === 0 ? (
-                  <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin datos disponibles</div>
-                ) : (
-                  top5Risk.map((r, i) => (
-                    <div key={r.iso} style={{
-                      display: 'flex', alignItems: 'center', gap: 10,
-                      padding: '8px 0',
-                      borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-                    }}>
-                      <span style={{ fontSize: 10, color: TEXT_SECONDARY, minWidth: 14, fontWeight: 700 }}>{i + 1}</span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.pais}</div>
-                        <div style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{r.categoria}</div>
-                      </div>
-                      <ScorePill score={r.score} />
+                {/* Legend strip */}
+                <div style={{
+                  padding: '9px 18px', borderTop: '1px solid rgba(255,255,255,0.05)',
+                  display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
+                  background: 'rgba(0,0,0,0.2)',
+                }}>
+                  <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em' }}>Riesgo:</span>
+                  {[
+                    { label: 'Critico ≥8', color: '#dc2626' },
+                    { label: 'Alto ≥6',    color: '#f59e0b' },
+                    { label: 'Medio ≥4',   color: '#3b82f6' },
+                    { label: 'Bajo',       color: '#22c55e' },
+                    { label: 'Espana',     color: '#0ea5e9' },
+                  ].map(l => (
+                    <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: l.color }} />
+                      <span style={{ fontSize: 9.5, color: TEXT_SECONDARY }}>{l.label}</span>
                     </div>
-                  ))
-                )}
+                  ))}
+                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: TEXT_SECONDARY }}>
+                    {riesgoLayout.length} paises monitorizados
+                  </span>
+                </div>
               </div>
 
-              {/* Legend card */}
-              <div style={{ ...CARD, padding: '14px 16px' }}>
-                <SectionLabel>Dimensiones de riesgo</SectionLabel>
-                {[
-                  { label: 'Seguridad',    color: '#dc2626' },
-                  { label: 'Energia',      color: '#f59e0b' },
-                  { label: 'Migracion',    color: '#ef4444' },
-                  { label: 'Comercio',     color: '#3b82f6' },
-                  { label: 'Diplomatica',  color: '#6366f1' },
-                ].map(f => (
-                  <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: 2, background: f.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: 11, color: TEXT_SECONDARY }}>{f.label}</span>
-                  </div>
-                ))}
+              {/* ── RIGHT PANEL ── */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {/* Top exposure */}
+                <div style={{ ...CARD, padding: '16px 18px', boxShadow: SHADOW }}>
+                  <SectionLabel>Maxima exposicion</SectionLabel>
+                  {top5Risk.length === 0
+                    ? <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin datos</div>
+                    : top5Risk.map((r, i) => (
+                      <div key={r.iso} style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        padding: '8px 0', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      }}>
+                        <span style={{ fontSize: 10, color: TEXT_SECONDARY, minWidth: 14, fontWeight: 700 }}>{i + 1}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.pais}</div>
+                          <div style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{r.categoria}</div>
+                        </div>
+                        <ScorePill score={r.score} />
+                      </div>
+                    ))
+                  }
+                </div>
+
+                {/* Active alerts summary */}
+                <div style={{ ...CARD, padding: '14px 16px' }}>
+                  <SectionLabel>Alertas activas</SectionLabel>
+                  {alertasSorted.length === 0
+                    ? <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas</div>
+                    : alertasSorted.slice(0, 4).map((a, i) => (
+                      <div key={a.id} style={{
+                        display: 'flex', gap: 8, alignItems: 'flex-start',
+                        padding: '7px 0', borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      }}>
+                        <div style={{
+                          width: 6, height: 6, borderRadius: '50%', flexShrink: 0, marginTop: 4,
+                          background: levelColor(a.nivel),
+                          boxShadow: `0 0 5px ${levelColor(a.nivel)}80`,
+                        }} />
+                        <div style={{ fontSize: 11, color: TEXT_PRIMARY, lineHeight: 1.45, flex: 1 }}>{a.titulo}</div>
+                      </div>
+                    ))
+                  }
+                </div>
+
+                {/* Risk dimensions */}
+                <div style={{ ...CARD, padding: '14px 16px' }}>
+                  <SectionLabel>Dimensiones de riesgo</SectionLabel>
+                  {[
+                    { key: 'seguridad',   label: 'Seguridad',   color: '#dc2626' },
+                    { key: 'energia',     label: 'Energia',     color: '#f59e0b' },
+                    { key: 'migracion',   label: 'Migracion',   color: '#ef4444' },
+                    { key: 'comercio',    label: 'Comercio',    color: '#3b82f6' },
+                    { key: 'diplomatica', label: 'Diplomatica', color: '#6366f1' },
+                  ].map(f => {
+                    const cnt = impactos.filter(i => i.dimension === f.key).length
+                    return (
+                      <div key={f.key} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                        <div style={{ width: 7, height: 7, borderRadius: 2, background: f.color, flexShrink: 0 }} />
+                        <span style={{ fontSize: 11, color: TEXT_SECONDARY, flex: 1 }}>{f.label}</span>
+                        {cnt > 0 && (
+                          <span style={{ fontSize: 10, fontWeight: 700, color: f.color }}>{cnt}</span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
+
+            {/* ── Row 2: Events + Risk activity + Alertas detail ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+
+              {/* Latest events */}
+              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
+                <SectionLabel>Ultimos eventos internacionales</SectionLabel>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {events.slice(0, 4).map((ev, i) => (
+                    <div key={i} style={{
+                      borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      paddingTop: i > 0 ? 10 : 0,
+                    }}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 4 }}>
+                        <span style={{
+                          fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4,
+                          background: ev.spain_impact === 'critico' ? '#dc262620' : ev.spain_impact === 'alto' ? '#f59e0b20' : 'rgba(255,255,255,0.06)',
+                          color: ev.spain_impact === 'critico' ? '#f87171' : ev.spain_impact === 'alto' ? '#fbbf24' : TEXT_SECONDARY,
+                          letterSpacing: '0.04em', flexShrink: 0,
+                        }}>{ev.type}</span>
+                        <span style={{ fontSize: 9, color: TEXT_SECONDARY, marginLeft: 'auto', flexShrink: 0 }}>
+                          {ev.country}
+                        </span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: TEXT_PRIMARY, lineHeight: 1.5, marginBottom: 3, fontWeight: 500 }}>
+                        {ev.title}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        {ev.source && (
+                          <span style={{ fontSize: 9.5, color: TEXT_SECONDARY }}>{ev.source}</span>
+                        )}
+                        <div style={{ flex: 1, height: 2, background: 'rgba(255,255,255,0.05)', borderRadius: 1 }}>
+                          <div style={{
+                            width: `${ev.impact}%`, height: 2,
+                            background: ev.impact >= 75 ? '#dc2626' : ev.impact >= 55 ? '#f59e0b' : '#3b82f6',
+                            borderRadius: 1,
+                          }} />
+                        </div>
+                        <span style={{ fontSize: 9, fontWeight: 700, color: TEXT_SECONDARY }}>{ev.impact}</span>
+                      </div>
+                    </div>
+                  ))}
+                  {events.length === 0 && (
+                    <div style={{ fontSize: 11, color: TEXT_SECONDARY, padding: '8px 0' }}>
+                      Conectando con fuentes...
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Risk breakdown by country */}
+              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
+                <SectionLabel>Indice de riesgo por pais</SectionLabel>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {riesgoLayout.slice(0, 8).map((r, i) => (
+                    <div key={r.iso} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{
+                        fontSize: 9, fontWeight: 700, minWidth: 22, padding: '2px 5px',
+                        borderRadius: 4, textAlign: 'center',
+                        background: `${scoreColor(r.score)}20`, color: scoreColor(r.score),
+                      }}>{r.iso}</span>
+                      <div style={{ flex: 1, height: 5, background: 'rgba(255,255,255,0.07)', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{
+                          width: `${(r.score / 10) * 100}%`, height: 5,
+                          background: scoreColor(r.score), borderRadius: 3,
+                          boxShadow: `0 0 6px ${scoreColor(r.score)}50`,
+                          transition: 'width 0.8s cubic-bezier(0.16,1,0.3,1)',
+                        }} />
+                      </div>
+                      <span style={{ fontSize: 10, fontWeight: 700, color: scoreColor(r.score), minWidth: 24, textAlign: 'right' }}>
+                        {r.score.toFixed(1)}
+                      </span>
+                    </div>
+                  ))}
+                  {riesgoLayout.length === 0 && (
+                    <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin datos de riesgo</div>
+                  )}
+                </div>
+              </div>
+
+              {/* Alerts with full detail */}
+              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
+                <SectionLabel>Alertas geopoliticas activas</SectionLabel>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {alertasSorted.slice(0, 5).map((a, i) => (
+                    <div key={a.id} style={{
+                      padding: '10px 12px', borderRadius: 10,
+                      background: `${levelColor(a.nivel)}10`,
+                      border: `1px solid ${levelColor(a.nivel)}22`,
+                    }}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 5 }}>
+                        <LevelBadge nivel={a.nivel} />
+                        {toArray(a.paises).slice(0, 2).map(p => (
+                          <span key={p} style={{
+                            fontSize: 9, padding: '1px 6px', borderRadius: 4,
+                            background: 'rgba(255,255,255,0.06)', color: TEXT_SECONDARY,
+                          }}>{p}</span>
+                        ))}
+                        <span style={{ marginLeft: 'auto', fontSize: 9, color: TEXT_SECONDARY }}>{relTime(a.fecha)}</span>
+                      </div>
+                      <div style={{ fontSize: 11.5, color: TEXT_PRIMARY, lineHeight: 1.45, fontWeight: 500 }}>
+                        {a.titulo}
+                      </div>
+                    </div>
+                  ))}
+                  {alertasSorted.length === 0 && (
+                    <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas activas</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
           </div>
         )}
 
-        {/* Tooltip */}
+        {/* Global tooltip */}
         {tooltip && (
           <div style={{
             position: 'fixed', left: tooltip.x, top: tooltip.y,
-            background: '#0d1f3a', border: '1px solid rgba(14,165,233,0.3)',
+            background: '#0a1929', border: '1px solid rgba(14,165,233,0.35)',
             borderRadius: 8, padding: '8px 14px', fontSize: 12, color: TEXT_PRIMARY,
             pointerEvents: 'none', zIndex: 9999, whiteSpace: 'nowrap',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.6)', transform: 'translateX(-50%)',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.7)', transform: 'translateX(-50%)',
           }}>
             {tooltip.text}
           </div>

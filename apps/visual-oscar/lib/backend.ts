@@ -6,7 +6,7 @@
 //   BACKEND_URL = https://tu-fastapi.com  (sin slash final)
 //   BACKEND_TIMEOUT_MS = 8000             (opcional, default 8s)
 
-const BACKEND = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || ''
+const BACKEND = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || process.env.POLITEIA_API_URL || ''
 const TIMEOUT_MS = Number(process.env.BACKEND_TIMEOUT_MS || 8000)
 
 export const backendConfigured = (): boolean => Boolean(BACKEND)
