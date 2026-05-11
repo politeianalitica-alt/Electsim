@@ -489,8 +489,12 @@ def risk_timeseries(days: int = Query(14, ge=3, le=60)):
 
 # ── Escalations: bursts + cross-source amplification ──────────────────────────
 @router.get("/escalations")
-def escalations(hours_back: int = Query(48, ge=12, le=168)):
-    """Detección de escaladas: burst topics + amplificación cross-medio + polarización dual."""
+def escalations(hours_back: int = Query(48, ge=12, le=720)):
+    """Detección de escaladas: burst topics + amplificación cross-medio + polarización dual.
+
+    Usa noticias_prensa (25 fuentes, 1800+ rows) como fuente principal para amplification
+    y dual polarization, ya que news_articles solo tiene 7 fuentes.
+    """
     out: dict[str, Any] = {
         "burst_topics": [],
         "amplification": [],
@@ -498,113 +502,199 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
         "fetched_at": datetime.utcnow().isoformat() + "Z",
     }
     try:
-        # Auto-widen: determine effective window — use actual data recency
         with _conn() as conn:
             with conn.cursor() as cur:
-                cur.execute("SELECT EXTRACT(EPOCH FROM (NOW() - MAX(scraped_at)))/3600 FROM news_articles")
-                age_hours_row = cur.fetchone()
-                age_hours = float(age_hours_row[0]) if age_hours_row and age_hours_row[0] else 0
-                # If data is older than the requested window, widen to cover the data
-                effective_hours = max(hours_back, int(age_hours) + hours_back)
-
-        with _conn() as conn:
-            with conn.cursor() as cur:
-                # 1. Burst topics (Kleinberg-inspired): rate(window) / rate(baseline)
+                # ── 1. Burst topics ─────────────────────────────────────────────
+                # Usa noticias_prensa.temas_json (array) comparando últimos N días vs baseline
+                # "recent" = última semana, "baseline" = semana anterior
                 cur.execute("""
                     SELECT topic, recent_n, baseline_n,
-                           CASE WHEN baseline_n > 0 THEN ROUND(recent_n::numeric / baseline_n, 2)
-                                ELSE recent_n::numeric END AS ratio
+                           CASE WHEN baseline_n > 0
+                                THEN ROUND(recent_n::numeric / NULLIF(baseline_n, 0), 2)
+                                ELSE recent_n::numeric
+                           END AS ratio
                     FROM (
                         SELECT
                             topic,
-                            SUM(CASE WHEN scraped_at > NOW() - (%s || ' hours')::interval THEN 1 ELSE 0 END) AS recent_n,
-                            SUM(CASE WHEN scraped_at <= NOW() - (%s || ' hours')::interval
-                                      AND scraped_at > NOW() - INTERVAL '60 days'
-                                     THEN 1 ELSE 0 END) AS baseline_n
+                            COUNT(*) FILTER (WHERE fecha_publicacion >= CURRENT_DATE - 7) AS recent_n,
+                            COUNT(*) FILTER (WHERE fecha_publicacion >= CURRENT_DATE - 14
+                                              AND fecha_publicacion < CURRENT_DATE - 7) AS baseline_n
                         FROM (
-                            SELECT unnest(ai_topics) AS topic, scraped_at
-                            FROM news_articles
-                            WHERE scraped_at > NOW() - INTERVAL '60 days'
-                              AND ai_topics IS NOT NULL
+                            SELECT jsonb_array_elements_text(temas_json::jsonb) AS topic,
+                                   fecha_publicacion
+                            FROM noticias_prensa
+                            WHERE fecha_publicacion >= CURRENT_DATE - 14
+                              AND temas_json IS NOT NULL
+                              AND temas_json != '[]'
+                              AND temas_json != 'null'
                         ) sub
                         GROUP BY topic
                     ) sums
-                    WHERE recent_n >= 2
-                      AND (baseline_n = 0 OR (recent_n::float / baseline_n) > 1.5)
-                    ORDER BY ratio DESC
+                    WHERE recent_n >= 3
+                      AND (baseline_n = 0 OR recent_n::float / NULLIF(baseline_n, 0) >= 1.4)
+                    ORDER BY ratio DESC, recent_n DESC
                     LIMIT 12
-                """, [str(effective_hours), str(effective_hours)])
+                """)
                 for r in cur.fetchall():
                     out["burst_topics"].append({
-                        "topic":    r[0],
-                        "recent_n": int(r[1]),
+                        "topic":      r[0],
+                        "recent_n":   int(r[1]),
                         "baseline_n": int(r[2]),
-                        "ratio":    float(r[3]),
-                        "is_new":   int(r[2]) == 0,
+                        "ratio":      float(r[3]),
+                        "is_new":     int(r[2]) == 0,
                     })
 
-                # 2. Amplification: same topic across ≥3 source_names + ≥2 source_countries
-                cur.execute("""
-                    SELECT topic, n_sources, n_countries, n_articles, COALESCE(top_examples, '{}')
-                    FROM (
-                        SELECT
-                            topic,
-                            COUNT(DISTINCT source_name) AS n_sources,
-                            COUNT(DISTINCT source_country) AS n_countries,
-                            COUNT(*) AS n_articles,
-                            ARRAY_AGG(DISTINCT source_name) AS top_examples
+                # Fallback: si temas_json no da señal, usar categoria de noticias_prensa
+                if not out["burst_topics"]:
+                    cur.execute("""
+                        SELECT categoria, recent_n, baseline_n,
+                               CASE WHEN baseline_n > 0
+                                    THEN ROUND(recent_n::numeric / NULLIF(baseline_n,0), 2)
+                                    ELSE recent_n::numeric END AS ratio
                         FROM (
-                            SELECT unnest(ai_topics) AS topic, source_name, source_country
-                            FROM news_articles
-                            WHERE scraped_at > NOW() - (%s || ' hours')::interval
-                              AND ai_topics IS NOT NULL
-                        ) sub
-                        GROUP BY topic
-                    ) agg
-                    WHERE n_sources >= 3
-                    ORDER BY n_articles DESC
+                            SELECT categoria,
+                                   COUNT(*) FILTER (WHERE fecha_publicacion >= CURRENT_DATE - 7) AS recent_n,
+                                   COUNT(*) FILTER (WHERE fecha_publicacion >= CURRENT_DATE - 14
+                                                     AND fecha_publicacion < CURRENT_DATE - 7) AS baseline_n
+                            FROM noticias_prensa
+                            WHERE fecha_publicacion >= CURRENT_DATE - 14
+                              AND categoria IS NOT NULL
+                            GROUP BY categoria
+                        ) sums
+                        WHERE recent_n >= 5
+                        ORDER BY ratio DESC, recent_n DESC
+                        LIMIT 12
+                    """)
+                    for r in cur.fetchall():
+                        out["burst_topics"].append({
+                            "topic":      r[0],
+                            "recent_n":   int(r[1]),
+                            "baseline_n": int(r[2]),
+                            "ratio":      float(r[3]),
+                            "is_new":     int(r[2]) == 0,
+                        })
+
+                # ── 2. Amplificación cross-medio (noticias_prensa, 25 fuentes) ──
+                cur.execute("""
+                    SELECT topic,
+                           COUNT(DISTINCT fuente) AS n_fuentes,
+                           COUNT(*) AS n_articles,
+                           ARRAY_AGG(DISTINCT fuente ORDER BY fuente) AS fuentes_list
+                    FROM (
+                        SELECT jsonb_array_elements_text(temas_json::jsonb) AS topic,
+                               fuente
+                        FROM noticias_prensa
+                        WHERE fecha_publicacion >= CURRENT_DATE - 14
+                          AND temas_json IS NOT NULL
+                          AND temas_json != '[]'
+                          AND temas_json != 'null'
+                    ) sub
+                    GROUP BY topic
+                    HAVING COUNT(DISTINCT fuente) >= 3
+                    ORDER BY COUNT(*) DESC
                     LIMIT 8
-                """, [str(effective_hours)])
-                for r in cur.fetchall():
+                """)
+                rows_amp = cur.fetchall()
+
+                for r in rows_amp:
                     out["amplification"].append({
                         "topic":       r[0],
                         "n_sources":   int(r[1]),
-                        "n_countries": int(r[2]),
-                        "n_articles":  int(r[3]),
-                        "examples":    list(r[4] or [])[:5],
+                        "n_countries": 1,
+                        "n_articles":  int(r[2]),
+                        "examples":    list(r[3] or [])[:5],
                     })
 
-                # 3. Dual polarization: topics with both pos and neg ≥30%
+                # Fallback: use categoria if temas_json is mostly empty
+                if not out["amplification"]:
+                    cur.execute("""
+                        SELECT categoria,
+                               COUNT(DISTINCT fuente) AS n_fuentes,
+                               COUNT(*) AS n_articles,
+                               ARRAY_AGG(DISTINCT fuente ORDER BY fuente) AS fuentes_list
+                        FROM noticias_prensa
+                        WHERE fecha_publicacion >= CURRENT_DATE - 14
+                          AND categoria IS NOT NULL
+                        GROUP BY categoria
+                        HAVING COUNT(DISTINCT fuente) >= 3
+                        ORDER BY n_articles DESC
+                        LIMIT 8
+                    """)
+                    for r in cur.fetchall():
+                        out["amplification"].append({
+                            "topic":       r[0],
+                            "n_sources":   int(r[1]),
+                            "n_countries": 1,
+                            "n_articles":  int(r[2]),
+                            "examples":    list(r[3] or [])[:5],
+                        })
+
+                # ── 3. Polarización dual (noticias_prensa, sentimiento_label) ───
                 cur.execute("""
                     SELECT topic, total, pos, neg, neu
                     FROM (
                         SELECT
                             topic,
                             COUNT(*) AS total,
-                            COUNT(*) FILTER (WHERE ai_sentiment='positivo') AS pos,
-                            COUNT(*) FILTER (WHERE ai_sentiment='negativo') AS neg,
-                            COUNT(*) FILTER (WHERE ai_sentiment='neutro') AS neu
+                            COUNT(*) FILTER (WHERE sentimiento_label = 'positivo') AS pos,
+                            COUNT(*) FILTER (WHERE sentimiento_label = 'negativo') AS neg,
+                            COUNT(*) FILTER (WHERE sentimiento_label = 'neutro')   AS neu
                         FROM (
-                            SELECT unnest(ai_topics) AS topic, ai_sentiment
-                            FROM news_articles
-                            WHERE scraped_at > NOW() - (%s || ' hours')::interval
-                              AND ai_topics IS NOT NULL
+                            SELECT jsonb_array_elements_text(temas_json::jsonb) AS topic,
+                                   sentimiento_label
+                            FROM noticias_prensa
+                            WHERE fecha_publicacion >= CURRENT_DATE - 14
+                              AND temas_json IS NOT NULL
+                              AND temas_json != '[]'
+                              AND temas_json != 'null'
+                              AND sentimiento_label IS NOT NULL
                         ) sub
                         GROUP BY topic
-                        HAVING COUNT(*) >= 4
+                        HAVING COUNT(*) >= 5
                     ) agg
-                    WHERE pos::float / total >= 0.25 AND neg::float / total >= 0.25
-                    ORDER BY total DESC
+                    WHERE pos::float / total >= 0.20 AND neg::float / total >= 0.20
+                    ORDER BY (pos + neg) DESC
                     LIMIT 6
-                """, [str(effective_hours)])
+                """)
                 for r in cur.fetchall():
                     out["dual_polarization"].append({
-                        "topic":  r[0],
-                        "total":  int(r[1]),
+                        "topic":   r[0],
+                        "total":   int(r[1]),
                         "pos_pct": round(int(r[2]) / int(r[1]) * 100, 1),
                         "neg_pct": round(int(r[3]) / int(r[1]) * 100, 1),
                         "neu_pct": round(int(r[4]) / int(r[1]) * 100, 1),
                     })
+
+                # Fallback: use categoria for dual polarization
+                if not out["dual_polarization"]:
+                    cur.execute("""
+                        SELECT categoria, total, pos, neg, neu
+                        FROM (
+                            SELECT categoria,
+                                   COUNT(*) AS total,
+                                   COUNT(*) FILTER (WHERE sentimiento_label = 'positivo') AS pos,
+                                   COUNT(*) FILTER (WHERE sentimiento_label = 'negativo') AS neg,
+                                   COUNT(*) FILTER (WHERE sentimiento_label = 'neutro')   AS neu
+                            FROM noticias_prensa
+                            WHERE fecha_publicacion >= CURRENT_DATE - 30
+                              AND categoria IS NOT NULL
+                              AND sentimiento_label IS NOT NULL
+                            GROUP BY categoria
+                            HAVING COUNT(*) >= 10
+                        ) agg
+                        WHERE pos::float / total >= 0.15 AND neg::float / total >= 0.15
+                        ORDER BY (pos + neg) DESC
+                        LIMIT 6
+                    """)
+                    for r in cur.fetchall():
+                        out["dual_polarization"].append({
+                            "topic":   r[0],
+                            "total":   int(r[1]),
+                            "pos_pct": round(int(r[2]) / int(r[1]) * 100, 1),
+                            "neg_pct": round(int(r[3]) / int(r[1]) * 100, 1),
+                            "neu_pct": round(int(r[4]) / int(r[1]) * 100, 1),
+                        })
+
         return out
     except Exception as e:
         return {**out, "error": str(e)}
