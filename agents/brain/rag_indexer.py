@@ -299,9 +299,73 @@ def index_briefings(limit: int = 100) -> int:
     return 0
 
 
+def index_eurlex_items(limit: int = 200) -> int:
+    """
+    Indexa normativa EUR-Lex (directivas, reglamentos, decisiones de la UE)
+    en el vector store.
+    """
+    ai = _get_ai_engine()
+    if ai is None:
+        return 0
+
+    items: list[dict[str, Any]] = []
+
+    # Intento 1: connector SPARQL nuevo
+    try:
+        from etl.sources.opendata.eurlex_sparql_connector import buscar_recientes  # type: ignore
+        items = buscar_recientes(limit=limit) or []
+    except Exception as exc:
+        logger.debug("index_eurlex_items: eurlex_sparql_connector no disponible: %s", exc)
+
+    # Intento 2: servicio legacy
+    if not items:
+        try:
+            from dashboard.services import eurlex_service  # type: ignore
+            if hasattr(eurlex_service, "buscar_normas_recientes"):
+                items = eurlex_service.buscar_normas_recientes(limit=limit) or []
+        except Exception as exc:
+            logger.debug("index_eurlex_items: eurlex_service no disponible: %s", exc)
+
+    if not items:
+        return 0
+
+    docs: list[dict[str, Any]] = []
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        title = str(it.get("title") or it.get("titulo") or "")
+        summary = str(it.get("summary") or it.get("resumen") or it.get("text", ""))[:1200]
+        celex = str(it.get("celex_id") or it.get("celex") or "")
+        text = f"{title}. {summary}".strip()
+        if not text or not celex:
+            continue
+        docs.append({
+            "id": f"eurlex:{celex}",
+            "text": text,
+            "domain": "legislativo_ue",
+            "metadata": {
+                "object_type": "eurlex_norm",
+                "object_id": celex,
+                "source": "eur-lex",
+                "domain": "legislativo_ue",
+                "title": title[:300],
+                "url": str(it.get("url") or f"https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:{celex}"),
+                "norm_type": str(it.get("type") or ""),
+                "published_at": str(it.get("date") or it.get("published_at") or ""),
+            },
+        })
+
+    if not docs:
+        return 0
+    n = ai.upsert_documents(docs)
+    logger.info("index_eurlex_items: %d documentos indexados", n)
+    return n
+
+
 def index_all(
     legal: bool = True,
     parliament: bool = True,
+    eurlex: bool = True,
     media: bool = True,
     narratives: bool = True,
 ) -> dict[str, int]:
@@ -311,6 +375,8 @@ def index_all(
         result["legal"] = index_legal_items()
     if parliament:
         result["parliament"] = index_parliamentary_initiatives()
+    if eurlex:
+        result["eurlex"] = index_eurlex_items()
     if media:
         result["media"] = index_media_items()
     if narratives:

@@ -38,11 +38,15 @@ from api.routers import (
 )
 from api.routers import (
     brain,
+    contratacion,
     crm_comms,
     economy,
+    fondos_eu,
     intelligence_workspace,
     legislative_core_api,
     opendata,
+    rag,
+    sectors,
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
@@ -82,14 +86,33 @@ def startup_checks() -> None:
             with get_session_factory()() as session:
                 validate_semantic_schema(session)
             logger.info("startup_checks OK")
-            return
+            break
         except OperationalError as e:
             logger.warning("DB no lista (intento %d/%d): %s", attempt + 1, max_retries, e)
             time.sleep(2 ** min(attempt, 4))
         except Exception as e:
             logger.error("startup_checks no crítico: %s", e)
-            return
-    logger.error("No se pudo validar esquema semántico tras %d intentos.", max_retries)
+            break
+    else:
+        logger.error("No se pudo validar esquema semántico tras %d intentos.", max_retries)
+
+    # Arranque opt-in del RAG scheduler (RAG_SCHEDULER_ENABLED=1)
+    try:
+        from agents.brain.rag_scheduler import start_scheduler
+        started = start_scheduler()
+        if started:
+            logger.info("rag_scheduler arrancado correctamente")
+    except Exception as e:
+        logger.warning("rag_scheduler.start_scheduler falló: %s", e)
+
+
+@app.on_event("shutdown")
+def shutdown_checks() -> None:
+    try:
+        from agents.brain.rag_scheduler import stop_scheduler
+        stop_scheduler()
+    except Exception as e:
+        logger.debug("rag_scheduler.stop_scheduler: %s", e)
 
 
 @app.middleware("http")
@@ -146,6 +169,12 @@ app.include_router(opendata.router, tags=["opendata-simulation"])
 app.include_router(crm_comms.router, tags=["crm-comms"])
 # Bloque P3 — IA unificada con tool-use real:
 app.include_router(brain.router, tags=["brain"])
+# Bloque P2.2 — Routers de dominio que el frontend visual-oscar requería:
+app.include_router(sectors.router, tags=["sectors"])
+app.include_router(contratacion.router, tags=["contratacion"])
+app.include_router(fondos_eu.router, tags=["fondos-europeos"])
+# Bloque P3.2 — RAG: indexado BOE/Congreso/EUR-Lex/media + scheduler:
+app.include_router(rag.router, tags=["rag"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
