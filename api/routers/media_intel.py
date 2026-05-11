@@ -541,3 +541,501 @@ def media_intel_mapa_ccaa(db: Session = Depends(get_db)) -> dict[str, Any]:
                 {"ccaa_id": 5, "nombre_ccaa": "Comunitat Valenciana", "narrativa_dominante": "economia", "n_articulos": 74, "ideologia_media": 0.1},
             ]
         }
+
+
+# ═════════════════════════════════════════════════════════════════════════
+# MEDIA INTELLIGENCE V2 — new endpoints powered by `etl/media/`
+# Endpoints feed the new components/medios/* React components.
+# All return defensive {payload, _meta} shapes; never raise to caller.
+# ═════════════════════════════════════════════════════════════════════════
+
+from datetime import timedelta as _v2_timedelta  # noqa: E402
+from typing import Optional as _v2_Optional      # noqa: E402
+
+
+def _v2_safe(query: str, params: dict | None = None) -> list[dict]:
+    """Read-only safe query helper for v2 endpoints. Returns [] on any error."""
+    try:
+        from db.session import get_engine
+        from sqlalchemy import text as _v2_text
+        eng = get_engine()
+        with eng.connect() as c:
+            r = c.execute(_v2_text(query), params or {})
+            rows = r.mappings().fetchall()
+            return [dict(x) for x in rows]
+    except Exception as exc:  # noqa: BLE001
+        return []
+
+
+# ── GET /api/media-intel/stats ────────────────────────────────────────────
+@router.get("/stats")
+def v2_stats():
+    rows = _v2_safe("""
+        SELECT
+            COUNT(*) AS total,
+            COUNT(*) FILTER (WHERE fecha_scraping >= NOW() - INTERVAL '24 hours') AS ultimas_24h,
+            COUNT(*) FILTER (WHERE fecha_scraping >= NOW() - INTERVAL '1 hour')   AS ultima_hora,
+            COUNT(DISTINCT fuente_id) FILTER (WHERE fuente_id IS NOT NULL)        AS fuentes_activas,
+            COUNT(*) FILTER (WHERE duplicado_de IS NOT NULL)                      AS duplicados,
+            COUNT(*) FILTER (WHERE spike_score > 2)                               AS spikes_activos
+        FROM noticias_prensa
+    """)
+    if not rows:
+        return {"total": 0, "ultimas_24h": 0, "ultima_hora": 0,
+                "fuentes_activas": 0, "duplicados": 0, "spikes_activos": 0}
+    return rows[0]
+
+
+# ── GET /api/media-intel/medios ──────────────────────────────────────────
+@router.get("/medios")
+def v2_medios(
+    horas: int = Query(24, ge=1, le=720),
+    tier:  _v2_Optional[str] = None,
+):
+    tier_f = "AND tier = :tier" if tier else ""
+    rows = _v2_safe(f"""
+        SELECT
+            fuente_id, fuente_nombre, tier, ideologia, pais, ccaa, tags,
+            COUNT(*) AS articulos,
+            COUNT(*) FILTER (WHERE fecha_scraping >= NOW() - INTERVAL '1 hour') AS ultima_hora,
+            MAX(fecha_scraping) AS ultimo_articulo,
+            AVG(word_count) FILTER (WHERE word_count > 0) AS avg_word_count,
+            MAX(spike_score) AS max_spike
+        FROM noticias_prensa
+        WHERE fuente_id IS NOT NULL
+          AND (duplicado_de IS NULL)
+          AND fecha_scraping >= NOW() - (:horas || ' hours')::interval
+          {tier_f}
+        GROUP BY fuente_id, fuente_nombre, tier, ideologia, pais, ccaa, tags
+        ORDER BY articulos DESC
+        LIMIT 80
+    """, {"horas": str(horas), **({"tier": tier} if tier else {})})
+    return rows
+
+
+# ── GET /api/media-intel/espectro ────────────────────────────────────────
+@router.get("/espectro")
+def v2_espectro(horas: int = Query(24, ge=1, le=720)):
+    rows = _v2_safe("""
+        SELECT
+            ideologia,
+            COUNT(*) AS articulos,
+            COUNT(DISTINCT fuente_id) AS fuentes,
+            AVG(word_count) AS avg_words
+        FROM noticias_prensa
+        WHERE ideologia IS NOT NULL
+          AND (duplicado_de IS NULL)
+          AND fecha_scraping >= NOW() - (:horas || ' hours')::interval
+        GROUP BY ideologia
+        ORDER BY articulos DESC
+    """, {"horas": str(horas)})
+    order = ["izquierda", "centroizquierda", "centro",
+             "centroderecha", "derecha", "institucional", "internacional"]
+    by_id = {r["ideologia"]: r for r in rows}
+    return [by_id[k] for k in order if k in by_id]
+
+
+# ── GET /api/media-intel/articulos ───────────────────────────────────────
+@router.get("/articulos")
+def v2_articulos(
+    q:         _v2_Optional[str] = None,
+    fuente_id: _v2_Optional[str] = None,
+    tier:      _v2_Optional[str] = None,
+    ideologia: _v2_Optional[str] = None,
+    ccaa:      _v2_Optional[str] = None,
+    idioma:    _v2_Optional[str] = None,
+    solo_spikes: bool = False,
+    horas:     int = Query(24, ge=1, le=720),
+    limit:     int = Query(50, ge=1, le=200),
+    offset:    int = Query(0, ge=0),
+):
+    conds = ["(duplicado_de IS NULL)",
+             "fecha_scraping >= NOW() - (:horas || ' hours')::interval",
+             "(titulo_clean IS NOT NULL OR titular IS NOT NULL)"]
+    params: dict = {"horas": str(horas), "limit": limit, "offset": offset}
+    if q:
+        conds.append("(COALESCE(titulo_clean,titular) ILIKE :q OR COALESCE(resumen_clean,subtitular) ILIKE :q)")
+        params["q"] = f"%{q}%"
+    if fuente_id: conds.append("fuente_id = :fuente_id"); params["fuente_id"] = fuente_id
+    if tier:      conds.append("tier = :tier");          params["tier"] = tier
+    if ideologia: conds.append("ideologia = :ideologia"); params["ideologia"] = ideologia
+    if ccaa:      conds.append("ccaa = :ccaa");          params["ccaa"] = ccaa
+    if idioma:    conds.append("idioma = :idioma");      params["idioma"] = idioma
+    if solo_spikes: conds.append("spike_score > 2.0")
+    where = " AND ".join(conds)
+    rows = _v2_safe(f"""
+        SELECT id,
+               COALESCE(titulo_clean, titular) AS titulo,
+               COALESCE(resumen_clean, subtitular) AS resumen,
+               url, slug, fuente_id, fuente_nombre, fuente, tier, ideologia,
+               pais, ccaa, idioma, tags, fecha_publicacion, fecha_scraping,
+               imagen_url, autor, word_count, spike_score,
+               sentiment_score, sentiment_label
+        FROM noticias_prensa
+        WHERE {where}
+        ORDER BY CASE WHEN spike_score > 2 THEN 0 ELSE 1 END,
+                 fecha_scraping DESC
+        LIMIT :limit OFFSET :offset
+    """, params)
+    # Stringify dates for JSON
+    for r in rows:
+        for k in ("fecha_publicacion", "fecha_scraping"):
+            if r.get(k) is not None:
+                try:
+                    r[k] = r[k].isoformat()
+                except Exception:
+                    r[k] = str(r[k])
+    return rows
+
+
+# ── GET /api/media-intel/terminos-calientes ──────────────────────────────
+@router.get("/terminos-calientes")
+def v2_terminos_calientes(
+    horas: int = Query(6, ge=1, le=48),
+    limit: int = Query(30, ge=5, le=100),
+):
+    rows = _v2_safe("""
+        WITH palabras AS (
+            SELECT lower(unnest(
+                regexp_split_to_array(
+                    -- Lower-case FIRST so the split keeps every leading letter,
+                    -- then decode the most frequent HTML entities so they don't pollute
+                    regexp_replace(
+                      regexp_replace(
+                        regexp_replace(
+                          regexp_replace(
+                            regexp_replace(
+                              regexp_replace(
+                                lower(COALESCE(titulo_clean, titular, '') || ' '
+                                      || COALESCE(resumen_clean, subtitular, '')),
+                                '&aacute;', 'á', 'gi'),
+                              '&eacute;', 'é', 'gi'),
+                            '&iacute;', 'í', 'gi'),
+                          '&oacute;', 'ó', 'gi'),
+                        '&uacute;', 'ú', 'gi'),
+                      '&ntilde;', 'ñ', 'gi'),
+                    '[^a-záéíóúüñ]+'
+                )
+            )) AS palabra
+            FROM noticias_prensa
+            WHERE (duplicado_de IS NULL)
+              AND fecha_scraping >= NOW() - (:horas || ' hours')::interval
+        ),
+        stopwords AS (
+            SELECT unnest(ARRAY[
+                'que','de','en','el','la','los','las','un','una','con','por','para','del','sus',
+                'como','más','este','esta','pero','son','han','fue','hay','año','años','muy',
+                'también','sobre','entre','cuando','sin','todo','todos','desde','hasta','ser',
+                'tiene','cada','tras','ante','bajo','según','donde','siendo','dicho','dichos',
+                'tanto','tan','había','han','haber','sido','estar','parte','vez','dijo','ayer',
+                'aacute','eacute','iacute','oacute','uacute','ntilde','acute','tilde'
+            ]) AS palabra
+        )
+        SELECT p.palabra, COUNT(*) AS frecuencia
+        FROM palabras p
+        LEFT JOIN stopwords s USING (palabra)
+        WHERE s.palabra IS NULL AND length(p.palabra) > 4
+              AND p.palabra ~ '^[a-záéíóúüñ]+$'
+        GROUP BY p.palabra
+        ORDER BY frecuencia DESC
+        LIMIT :limit
+    """, {"horas": str(horas), "limit": limit})
+    return [{"termino": r["palabra"], "frecuencia": int(r["frecuencia"])} for r in rows]
+
+
+# ── GET /api/media-intel/cobertura-ccaa ──────────────────────────────────
+@router.get("/cobertura-ccaa")
+def v2_cobertura_ccaa(horas: int = Query(24, ge=1, le=720)):
+    rows = _v2_safe("""
+        SELECT
+            ccaa,
+            COUNT(*) AS articulos,
+            COUNT(DISTINCT fuente_id) AS fuentes,
+            array_agg(DISTINCT fuente_nombre) FILTER (WHERE fuente_nombre IS NOT NULL) AS lista_fuentes
+        FROM noticias_prensa
+        WHERE (duplicado_de IS NULL)
+          AND ccaa IS NOT NULL
+          AND fecha_scraping >= NOW() - (:horas || ' hours')::interval
+        GROUP BY ccaa
+        ORDER BY articulos DESC
+    """, {"horas": str(horas)})
+    return rows
+
+
+# ── GET /api/media-intel/spikes ──────────────────────────────────────────
+@router.get("/spikes")
+def v2_spikes(
+    umbral_sigma: float = Query(1.5, ge=0.5, le=5.0),
+    horas: int = Query(6, ge=1, le=24),
+):
+    rows = _v2_safe(f"""
+        WITH reciente AS (
+            SELECT fuente_id, fuente_nombre, ideologia, tier,
+                   COUNT(*) AS cnt_reciente
+            FROM noticias_prensa
+            WHERE fuente_id IS NOT NULL
+              AND (duplicado_de IS NULL)
+              AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+            GROUP BY fuente_id, fuente_nombre, ideologia, tier
+        ),
+        historico AS (
+            SELECT fuente_id,
+                   AVG(cnt_h) AS mu, STDDEV(cnt_h) AS sigma
+            FROM (
+                SELECT fuente_id, DATE_TRUNC('hour', fecha_scraping) AS h,
+                       COUNT(*) AS cnt_h
+                FROM noticias_prensa
+                WHERE fuente_id IS NOT NULL
+                  AND fecha_scraping >= NOW() - INTERVAL '30 days'
+                GROUP BY fuente_id, h
+            ) g
+            GROUP BY fuente_id
+        )
+        SELECT r.fuente_id, r.fuente_nombre, r.ideologia, r.tier,
+               r.cnt_reciente,
+               h.mu  AS avg_hora,
+               h.sigma AS std_hora,
+               CASE WHEN COALESCE(h.sigma, 0) > 0
+                    THEN (r.cnt_reciente - h.mu) / h.sigma
+                    ELSE 0 END AS z_score
+        FROM reciente r
+        LEFT JOIN historico h USING (fuente_id)
+        WHERE COALESCE(h.sigma, 0) > 0
+          AND (r.cnt_reciente - h.mu) / h.sigma >= {umbral_sigma}
+        ORDER BY z_score DESC
+        LIMIT 25
+    """)
+    for r in rows:
+        for k in ("z_score", "avg_hora", "std_hora"):
+            if r.get(k) is not None:
+                r[k] = float(r[k])
+    return rows
+
+
+# ── GET /api/media-intel/timeline ────────────────────────────────────────
+@router.get("/timeline")
+def v2_timeline(
+    horas: int = Query(48, ge=6, le=720),
+    granularidad: str = Query("hour", regex="^(hour|day|week)$"),
+    ideologia: _v2_Optional[str] = None,
+    fuente_id: _v2_Optional[str] = None,
+):
+    conds = ["(duplicado_de IS NULL)",
+             f"fecha_scraping >= NOW() - INTERVAL '{horas} hours'"]
+    params: dict = {}
+    if ideologia: conds.append("ideologia = :ideologia"); params["ideologia"] = ideologia
+    if fuente_id: conds.append("fuente_id = :fuente_id"); params["fuente_id"] = fuente_id
+    where = " AND ".join(conds)
+    rows = _v2_safe(f"""
+        SELECT DATE_TRUNC('{granularidad}', fecha_scraping) AS bucket,
+               COUNT(*) AS articulos,
+               COUNT(DISTINCT fuente_id) AS fuentes_activas,
+               AVG(COALESCE(spike_score, 0)) AS spike_medio
+        FROM noticias_prensa
+        WHERE {where}
+        GROUP BY bucket
+        ORDER BY bucket ASC
+    """, params)
+    out = []
+    for r in rows:
+        b = r["bucket"]
+        out.append({
+            "bucket": b.isoformat() if hasattr(b, "isoformat") else str(b),
+            "articulos": int(r["articulos"]),
+            "fuentes_activas": int(r["fuentes_activas"]),
+            "spike_medio": float(r["spike_medio"] or 0),
+        })
+    return out
+
+
+# ── GET /api/media-intel/sentimiento ─────────────────────────────────────
+@router.get("/sentimiento")
+def v2_sentimiento(
+    horas: int = Query(48, ge=6, le=720),
+    granularidad: str = Query("hour", regex="^(hour|day)$"),
+    ideologia: _v2_Optional[str] = None,
+    fuente_id: _v2_Optional[str] = None,
+):
+    conds = ["(duplicado_de IS NULL)",
+             "sentiment_label IS NOT NULL",
+             f"fecha_scraping >= NOW() - INTERVAL '{horas} hours'"]
+    params: dict = {}
+    if ideologia: conds.append("ideologia = :ideologia"); params["ideologia"] = ideologia
+    if fuente_id: conds.append("fuente_id = :fuente_id"); params["fuente_id"] = fuente_id
+    where = " AND ".join(conds)
+    rows = _v2_safe(f"""
+        SELECT DATE_TRUNC('{granularidad}', fecha_scraping) AS bucket,
+               sentiment_label,
+               COUNT(*) AS articulos,
+               AVG(sentiment_score) AS score_medio,
+               ideologia
+        FROM noticias_prensa
+        WHERE {where}
+        GROUP BY bucket, sentiment_label, ideologia
+        ORDER BY bucket ASC
+    """, params)
+    for r in rows:
+        b = r["bucket"]
+        r["bucket"] = b.isoformat() if hasattr(b, "isoformat") else str(b)
+        r["score_medio"] = float(r["score_medio"] or 0)
+        r["articulos"] = int(r["articulos"])
+    return rows
+
+
+# ── GET /api/media-intel/entidades ───────────────────────────────────────
+@router.get("/entidades")
+def v2_entidades(
+    tipo:  str = Query("PER", regex="^(PER|ORG|LOC|MISC)$"),
+    horas: int = Query(24, ge=1, le=720),
+    limit: int = Query(30, ge=5, le=100),
+):
+    rows = _v2_safe(f"""
+        WITH ent AS (
+            SELECT jsonb_array_elements(entidades->'{tipo}')->>'texto' AS entidad,
+                   (jsonb_array_elements(entidades->'{tipo}')->>'score')::float AS score,
+                   ideologia, fuente_id
+            FROM noticias_prensa
+            WHERE (duplicado_de IS NULL)
+              AND entidades ? '{tipo}'
+              AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+        )
+        SELECT entidad,
+               COUNT(*) AS menciones,
+               AVG(score) AS score_medio,
+               array_agg(DISTINCT ideologia) FILTER (WHERE ideologia IS NOT NULL) AS ideologias,
+               array_agg(DISTINCT fuente_id)  FILTER (WHERE fuente_id IS NOT NULL) AS fuentes
+        FROM ent
+        WHERE entidad IS NOT NULL AND length(entidad) > 2
+        GROUP BY entidad
+        ORDER BY menciones DESC
+        LIMIT {limit}
+    """)
+    for r in rows:
+        r["score_medio"] = float(r["score_medio"] or 0)
+        r["menciones"]   = int(r["menciones"])
+    return rows
+
+
+# ── GET /api/media-intel/topicos ─────────────────────────────────────────
+@router.get("/topicos")
+def v2_topicos(
+    horas: int = Query(48, ge=6, le=720),
+    limit: int = Query(20, ge=3, le=50),
+):
+    rows = _v2_safe(f"""
+        WITH t AS (
+            SELECT unnest(topicos) AS topico, ideologia, fuente_id, sentiment_score
+            FROM noticias_prensa
+            WHERE (duplicado_de IS NULL)
+              AND topicos IS NOT NULL AND array_length(topicos, 1) > 0
+              AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+        )
+        SELECT topico,
+               COUNT(*) AS articulos,
+               array_agg(DISTINCT ideologia) FILTER (WHERE ideologia IS NOT NULL) AS ideologias,
+               AVG(sentiment_score) AS sentiment_medio,
+               COUNT(DISTINCT fuente_id) AS fuentes_distintas
+        FROM t
+        GROUP BY topico
+        ORDER BY articulos DESC
+        LIMIT {limit}
+    """)
+    for r in rows:
+        r["articulos"] = int(r["articulos"])
+        r["sentiment_medio"] = float(r["sentiment_medio"] or 0)
+        r["fuentes_distintas"] = int(r["fuentes_distintas"])
+    return rows
+
+
+# ── GET /api/media-intel/alertas-narrativas ──────────────────────────────
+@router.get("/alertas-narrativas")
+def v2_alertas_narrativas(
+    horas: int = Query(6, ge=1, le=48),
+    spike_umbral: float = Query(1.5, ge=0.5, le=5.0),
+    sent_umbral:  float = Query(-0.3, le=0.0),
+):
+    rows = _v2_safe(f"""
+        SELECT
+            fuente_id, fuente_nombre, ideologia, tier,
+            COUNT(*) AS articulos_afectados,
+            AVG(sentiment_score) AS sentiment_medio,
+            MAX(spike_score)     AS max_spike,
+            (array_agg(COALESCE(titulo_clean, titular)
+                ORDER BY COALESCE(sentiment_score, 0) ASC NULLS LAST))[1:3] AS titulos_muestra
+        FROM noticias_prensa
+        WHERE (duplicado_de IS NULL)
+          AND fuente_id IS NOT NULL
+          AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+          AND (spike_score > {spike_umbral} OR sentiment_score < {sent_umbral})
+        GROUP BY fuente_id, fuente_nombre, ideologia, tier
+        HAVING COUNT(*) >= 1
+        ORDER BY max_spike DESC NULLS LAST, sentiment_medio ASC
+        LIMIT 15
+    """)
+    for r in rows:
+        r["sentiment_medio"] = float(r["sentiment_medio"] or 0)
+        r["max_spike"]       = float(r["max_spike"] or 0)
+        r["articulos_afectados"] = int(r["articulos_afectados"])
+    return rows
+
+
+# ── GET /api/media-intel/buscar ──────────────────────────────────────────
+@router.get("/buscar")
+def v2_buscar(
+    q:     str = Query(..., min_length=3),
+    horas: int = Query(168, ge=1, le=8760),
+    limit: int = Query(20, ge=1, le=100),
+):
+    rows = _v2_safe(f"""
+        SELECT id,
+               COALESCE(titulo_clean, titular) AS titulo,
+               COALESCE(resumen_clean, subtitular) AS resumen,
+               url, fuente_nombre, fuente, ideologia, fecha_publicacion, fecha_scraping,
+               imagen_url,
+               ts_rank(
+                 to_tsvector('spanish', COALESCE(titulo_clean, titular, '') || ' ' || COALESCE(resumen_clean, subtitular, '')),
+                 plainto_tsquery('spanish', :q)
+               ) AS rank
+        FROM noticias_prensa
+        WHERE (duplicado_de IS NULL)
+          AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+          AND to_tsvector('spanish',
+                COALESCE(titulo_clean, titular, '') || ' ' || COALESCE(resumen_clean, subtitular, '')
+              ) @@ plainto_tsquery('spanish', :q)
+        ORDER BY rank DESC, fecha_scraping DESC
+        LIMIT {limit}
+    """, {"q": q})
+    for r in rows:
+        for k in ("fecha_publicacion", "fecha_scraping"):
+            if r.get(k) is not None:
+                try: r[k] = r[k].isoformat()
+                except Exception: r[k] = str(r[k])
+        if r.get("rank") is not None:
+            r["rank"] = float(r["rank"])
+    return rows
+
+
+# ── POST /api/media-intel/ingest ─────────────────────────────────────────
+@router.post("/ingest")
+def v2_ingest():
+    """Triggers the RSS ingestion + processor pipeline. Used by daily cron."""
+    try:
+        from etl.media.connector_rss import run_sync as _run_ingestion_sync
+        from etl.media.processor    import run_processing_pipeline, compute_spike_scores
+        from etl.media.nlp_processor import run_nlp_pipeline
+    except Exception as exc:
+        return {"ok": False, "error": f"import_failed:{exc}"}
+    try:
+        ingestion  = _run_ingestion_sync()
+        processing = run_processing_pipeline(batch_size=1000)
+        spikes_n   = compute_spike_scores(window_hours=24)
+        nlp        = run_nlp_pipeline(batch_size=200)
+        return {
+            "ok": True,
+            "ingestion":  ingestion,
+            "processing": processing,
+            "spikes_updated": spikes_n,
+            "nlp": nlp,
+        }
+    except Exception as exc:
+        return {"ok": False, "error": str(exc)}

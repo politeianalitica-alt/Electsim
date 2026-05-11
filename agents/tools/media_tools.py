@@ -270,3 +270,120 @@ def fetch_rss_now(
     except Exception as exc:
         logger.warning("fetch_rss_now: %s", exc)
         return []
+
+
+# ═════════════════════════════════════════════════════════════════════════
+# Media Intelligence v2 — herramientas Brain conectadas a `etl/media/`
+# ═════════════════════════════════════════════════════════════════════════
+
+def _v2_safe_query(query: str, params: dict | None = None):
+    """Read-only helper for media v2 tools. Returns [] on any error."""
+    try:
+        from db.session import get_engine
+        from sqlalchemy import text as _t
+        eng = get_engine()
+        with eng.connect() as c:
+            rows = c.execute(_t(query), params or {}).mappings().fetchall()
+            return [dict(r) for r in rows]
+    except Exception:
+        return []
+
+
+def consultar_espectro_ideologico_v2(horas: int = 24) -> list[dict]:
+    """Distribución ideológica de la cobertura mediática catalogada
+    en una ventana temporal. Devuelve lista ordenada izq→der con conteos."""
+    return _v2_safe_query(
+        """
+        SELECT ideologia,
+               COUNT(*) AS articulos,
+               COUNT(DISTINCT fuente_id) AS fuentes
+        FROM noticias_prensa
+        WHERE ideologia IS NOT NULL
+          AND (duplicado_de IS NULL)
+          AND fecha_scraping >= NOW() - (:h || ' hours')::interval
+        GROUP BY ideologia
+        ORDER BY articulos DESC
+        """,
+        {"h": str(horas)},
+    )
+
+
+def consultar_alertas_narrativas_v2(horas: int = 24) -> list[dict]:
+    """Lista las alertas narrativas combinadas: fuentes con spike z-score elevado
+    o sentimiento muy negativo. Útil para el panel ejecutivo."""
+    return _v2_safe_query(
+        f"""
+        SELECT fuente_nombre, ideologia, tier,
+               COUNT(*) AS articulos_afectados,
+               AVG(sentiment_score) AS sentiment_medio,
+               MAX(spike_score)     AS max_spike,
+               (array_agg(COALESCE(titulo_clean, titular)
+                 ORDER BY COALESCE(sentiment_score, 0) ASC NULLS LAST))[1:2] AS titulos_muestra
+        FROM noticias_prensa
+        WHERE (duplicado_de IS NULL)
+          AND fuente_id IS NOT NULL
+          AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+          AND (spike_score > 1.5 OR sentiment_score < -0.3)
+        GROUP BY fuente_nombre, ideologia, tier
+        ORDER BY max_spike DESC NULLS LAST
+        LIMIT 12
+        """
+    )
+
+
+def consultar_entidades_top_v2(tipo: str = "PER", horas: int = 24, limit: int = 20) -> list[dict]:
+    """Top entidades nombradas (personas / organizaciones / lugares) en la cobertura."""
+    safe_tipo = tipo if tipo in ("PER", "ORG", "LOC", "MISC") else "PER"
+    return _v2_safe_query(
+        f"""
+        WITH ent AS (
+            SELECT jsonb_array_elements(entidades->'{safe_tipo}')->>'texto' AS entidad,
+                   ideologia
+            FROM noticias_prensa
+            WHERE (duplicado_de IS NULL)
+              AND entidades ? '{safe_tipo}'
+              AND fecha_scraping >= NOW() - INTERVAL '{horas} hours'
+        )
+        SELECT entidad,
+               COUNT(*) AS menciones,
+               array_agg(DISTINCT ideologia) FILTER (WHERE ideologia IS NOT NULL) AS ideologias
+        FROM ent
+        WHERE entidad IS NOT NULL AND length(entidad) > 2
+        GROUP BY entidad
+        ORDER BY menciones DESC
+        LIMIT {limit}
+        """
+    )
+
+
+def consultar_terminos_calientes_v2(horas: int = 24, limit: int = 25) -> list[dict]:
+    """Top términos calientes (keywords) sin NLP — vía PostgreSQL FTS."""
+    return _v2_safe_query(
+        """
+        WITH base AS (
+            SELECT lower(COALESCE(titulo_clean, titular, '') || ' '
+                       || COALESCE(resumen_clean, subtitular, '')) AS texto
+            FROM noticias_prensa
+            WHERE (duplicado_de IS NULL)
+              AND fecha_scraping >= NOW() - (:h || ' hours')::interval
+        ),
+        palabras AS (
+            SELECT (unnest(regexp_split_to_array(texto, '[^a-záéíóúüñ]+'))) AS palabra
+            FROM base
+        ),
+        stop AS (
+            SELECT unnest(ARRAY['que','de','en','el','la','los','las','un','una','con','por',
+                'para','del','sus','como','más','este','esta','pero','son','han','fue','hay',
+                'año','años','muy','también','sobre','entre','cuando','sin','todo','desde',
+                'aacute','eacute','iacute','oacute','uacute','ntilde']) AS palabra
+        )
+        SELECT p.palabra AS termino, COUNT(*) AS frecuencia
+        FROM palabras p
+        LEFT JOIN stop s USING (palabra)
+        WHERE s.palabra IS NULL AND length(p.palabra) > 4
+        GROUP BY p.palabra
+        ORDER BY frecuencia DESC
+        LIMIT :n
+        """,
+        {"h": str(horas), "n": limit},
+    )

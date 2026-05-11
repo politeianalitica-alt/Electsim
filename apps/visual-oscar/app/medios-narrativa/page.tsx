@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useMediosNarrativa } from '@/hooks/narrativa/useMediosNarrativa'
 import type { NarrativaMedio, FrameNarrativo } from '@/types/narrativa'
+import MediaIntelV2Dashboard from '@/components/MediaIntelV2Dashboard'
 
 // ── tokens ──────────────────────────────────────────────────────────────────
 const CARD: React.CSSProperties = {
@@ -310,6 +311,9 @@ export default function MediosNarrativaPage() {
             ))}
           </div>
         </section>
+
+        {/* ── Media Intelligence v2 ── */}
+        <MediaIntelV2Dashboard/>
 
       </main>
     </div>

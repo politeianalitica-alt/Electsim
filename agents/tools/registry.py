@@ -353,6 +353,24 @@ def _load_module_tools() -> tuple[list[dict], dict[str, Callable]]:
              "Descarga feeds RSS directamente sin pasar por BD (tiempo real).",
              {"max_per_source": {"type": "integer", "default": 5},
               "region": {"type": "string", "description": "Ej: 'local_spain'"}}, []),
+            # ── Media Intelligence v2 ───────────────────────────────────────
+            ("consultar_espectro_ideologico_v2", mt.consultar_espectro_ideologico_v2,
+             "Distribución ideológica de la cobertura mediática catalogada "
+             "(izquierda → derecha + institucional + internacional).",
+             {"horas": {"type": "integer", "default": 24}}, []),
+            ("consultar_alertas_narrativas_v2", mt.consultar_alertas_narrativas_v2,
+             "Alertas narrativas combinadas: fuentes con spike z-score elevado "
+             "o sentimiento muy negativo.",
+             {"horas": {"type": "integer", "default": 24}}, []),
+            ("consultar_entidades_top_v2", mt.consultar_entidades_top_v2,
+             "Top entidades nombradas (PER / ORG / LOC / MISC) en la cobertura mediática.",
+             {"tipo":  {"type": "string", "enum": ["PER", "ORG", "LOC", "MISC"], "default": "PER"},
+              "horas": {"type": "integer", "default": 24},
+              "limit": {"type": "integer", "default": 20}}, []),
+            ("consultar_terminos_calientes_v2", mt.consultar_terminos_calientes_v2,
+             "Top términos calientes (keywords más frecuentes) en la cobertura mediática.",
+             {"horas": {"type": "integer", "default": 24},
+              "limit": {"type": "integer", "default": 25}}, []),
         ]
         for name, fn, desc, props, req in _media_specs:
             _add(name, desc, {"type": "object", "properties": props, "required": req}, fn)
