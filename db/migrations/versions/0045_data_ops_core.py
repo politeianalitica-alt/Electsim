@@ -42,7 +42,7 @@ def upgrade() -> None:
         sa.Column("requires_credentials", sa.Boolean, server_default="false"),
         sa.Column("active", sa.Boolean, server_default="true"),
         sa.Column("risk_level", sa.Text, server_default="low"),
-        sa.Column("metadata", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("metadata", JSONB, server_default=sa.text("'{}'::jsonb")),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True),
                   server_default=sa.text("NOW()")),
         sa.Column("updated_at", sa.TIMESTAMP(timezone=True),
@@ -66,12 +66,12 @@ def upgrade() -> None:
         sa.Column("domain", sa.Text, nullable=False),
         sa.Column("entrypoint", sa.Text, nullable=False),
         sa.Column("schedule", sa.Text),
-        sa.Column("sources", JSONB, server_default="'[]'::jsonb"),
-        sa.Column("output_tables", JSONB, server_default="'[]'::jsonb"),
-        sa.Column("owner", sa.Text, server_default="'system'"),
+        sa.Column("sources", JSONB, server_default=sa.text("'[]'::jsonb")),
+        sa.Column("output_tables", JSONB, server_default=sa.text("'[]'::jsonb")),
+        sa.Column("owner", sa.Text, server_default=sa.text("'system'")),
         sa.Column("active", sa.Boolean, server_default="true"),
-        sa.Column("retry_policy", JSONB, server_default="'{}'::jsonb"),
-        sa.Column("metadata", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("retry_policy", JSONB, server_default=sa.text("'{}'::jsonb")),
+        sa.Column("metadata", JSONB, server_default=sa.text("'{}'::jsonb")),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True),
                   server_default=sa.text("NOW()")),
         sa.Column("updated_at", sa.TIMESTAMP(timezone=True),
@@ -104,7 +104,7 @@ def upgrade() -> None:
         sa.Column("records_failed", sa.Integer, server_default="0"),
         sa.Column("error_message", sa.Text),
         sa.Column("error_type", sa.Text),
-        sa.Column("metadata", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("metadata", JSONB, server_default=sa.text("'{}'::jsonb")),
     )
     op.create_index("ix_pipeline_runs_pipeline_id", "pipeline_runs", ["pipeline_id"])
     op.create_index("ix_pipeline_runs_started_at", "pipeline_runs", ["started_at"])
@@ -128,7 +128,7 @@ def upgrade() -> None:
         sa.Column("check_type", sa.Text, nullable=False),
         sa.Column("severity", sa.Text, nullable=False, server_default="warning"),
         sa.Column("query", sa.Text),
-        sa.Column("rule", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("rule", JSONB, server_default=sa.text("'{}'::jsonb")),
         sa.Column("active", sa.Boolean, server_default="true"),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True),
                   server_default=sa.text("NOW()")),
@@ -157,7 +157,7 @@ def upgrade() -> None:
         sa.Column("records_failed", sa.Integer),
         sa.Column("metric_value", sa.Float),
         sa.Column("threshold", sa.Float),
-        sa.Column("details", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("details", JSONB, server_default=sa.text("'{}'::jsonb")),
     )
     op.create_index("ix_dq_results_check_id", "data_quality_results", ["check_id"])
     op.create_index("ix_dq_results_checked_at", "data_quality_results", ["checked_at"])
@@ -211,7 +211,7 @@ def upgrade() -> None:
         sa.Column("extracted_at", sa.TIMESTAMP(timezone=True),
                   server_default=sa.text("NOW()")),
         sa.Column("immutable", sa.Boolean, server_default="true"),
-        sa.Column("metadata", JSONB, server_default="'{}'::jsonb"),
+        sa.Column("metadata", JSONB, server_default=sa.text("'{}'::jsonb")),
     )
     op.create_index("ix_raw_manifest_source_id", "raw_data_manifest", ["source_id"])
     op.create_index("ix_raw_manifest_extracted_at", "raw_data_manifest", ["extracted_at"])

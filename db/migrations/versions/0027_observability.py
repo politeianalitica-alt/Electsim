@@ -14,7 +14,7 @@ from sqlalchemy.dialects.postgresql import UUID, JSONB
 
 # Alembic metadata
 revision = "0027"
-down_revision = "0026"
+down_revision = "0026_workspace_modules"
 branch_labels = None
 depends_on = None
 

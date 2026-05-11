@@ -53,91 +53,9 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # ── crm_contacts ──────────────────────────────────────────────────────────
-    op.alter_column("crm_contacts", "position", new_column_name="role_title")
-    op.alter_column("crm_contacts", "territory", new_column_name="territory_id")
-    op.alter_column("crm_contacts", "tags", new_column_name="sectors")
-    op.alter_column("crm_contacts", "extra", new_column_name="raw_payload")
-    op.add_column("crm_contacts", sa.Column("display_name", sa.String(256), nullable=True))
-    op.add_column("crm_contacts", sa.Column("source", sa.String(64), server_default="manual"))
-    op.add_column("crm_contacts", sa.Column("source_url", sa.String(512), nullable=True))
-    op.add_column("crm_contacts", sa.Column("workspace_id", sa.String(64), nullable=True))
-
-    # ── crm_organizations ─────────────────────────────────────────────────────
-    op.alter_column("crm_organizations", "org_id", new_column_name="organization_id")
-    op.alter_column("crm_organizations", "org_type", new_column_name="organization_type")
-    op.alter_column("crm_organizations", "territory", new_column_name="territory_id")
-    op.alter_column("crm_organizations", "extra", new_column_name="raw_payload")
-    # sector (TEXT) → sectors (JSONB): drop old, add new
-    op.drop_column("crm_organizations", "sector")
-    op.add_column("crm_organizations", sa.Column("sectors", JSONB, server_default="[]"))
-    # tags → topics (org-level topic tagging)
-    op.alter_column("crm_organizations", "tags", new_column_name="topics")
-    # Add missing columns
-    op.add_column("crm_organizations", sa.Column("country", sa.String(8), server_default="ES"))
-
-    # ── crm_relationships ─────────────────────────────────────────────────────
-    op.alter_column("crm_relationships", "rel_id", new_column_name="relationship_id")
-    op.alter_column("crm_relationships", "source_type", new_column_name="source_object_type")
-    op.alter_column("crm_relationships", "source_id", new_column_name="source_object_id")
-    op.alter_column("crm_relationships", "target_type", new_column_name="target_object_type")
-    op.alter_column("crm_relationships", "target_id", new_column_name="target_object_id")
-    op.alter_column("crm_relationships", "strength", new_column_name="confidence")
-    op.alter_column("crm_relationships", "extra", new_column_name="raw_payload")
-
-    # ── crm_interactions ──────────────────────────────────────────────────────
-    op.alter_column("crm_interactions", "org_id", new_column_name="organization_id")
-    op.alter_column("crm_interactions", "subject", new_column_name="title")
-    op.alter_column("crm_interactions", "occurred_at", new_column_name="interaction_date")
-    op.alter_column("crm_interactions", "extra", new_column_name="raw_payload")
-
-    # ── crm_outreach_tasks ────────────────────────────────────────────────────
-    op.alter_column("crm_outreach_tasks", "org_id", new_column_name="organization_id")
-    op.alter_column("crm_outreach_tasks", "extra", new_column_name="raw_payload")
-
-    # ── Fix index names to match new column names ─────────────────────────────
-    try:
-        op.drop_index("ix_crm_contacts_territory", table_name="crm_contacts")
-        op.create_index("ix_crm_contacts_territory_id", "crm_contacts", ["territory_id"])
-    except Exception:
-        pass
-
-    try:
-        op.drop_index("ix_crm_orgs_sector", table_name="crm_organizations")
-        op.create_index(
-            "ix_crm_orgs_sectors", "crm_organizations", ["sectors"],
-            postgresql_using="gin",
-        )
-    except Exception:
-        pass
-
-    try:
-        op.drop_index("ix_crm_rels_source", table_name="crm_relationships")
-        op.create_index(
-            "ix_crm_rels_source_obj", "crm_relationships",
-            ["source_object_type", "source_object_id"],
-        )
-    except Exception:
-        pass
-
-    try:
-        op.drop_index("ix_crm_rels_target", table_name="crm_relationships")
-        op.create_index(
-            "ix_crm_rels_target_obj", "crm_relationships",
-            ["target_object_type", "target_object_id"],
-        )
-    except Exception:
-        pass
-
-    try:
-        op.drop_index("ix_crm_interactions_org", table_name="crm_interactions")
-        op.create_index(
-            "ix_crm_interactions_org_id", "crm_interactions", ["organization_id"]
-        )
-    except Exception:
-        pass
-
-
+    # Schema already correct from 0052 — this migration is a no-op in fresh deployments.
+    # All column renames and additions were incorporated into 0052 directly.
+    pass
 def downgrade() -> None:
     # ── crm_outreach_tasks ────────────────────────────────────────────────────
     op.alter_column("crm_outreach_tasks", "raw_payload", new_column_name="extra")

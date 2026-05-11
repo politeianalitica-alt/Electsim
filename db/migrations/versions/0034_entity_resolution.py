@@ -23,7 +23,8 @@ from __future__ import annotations
 
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMPTZ, ARRAY
+from sqlalchemy.dialects.postgresql import JSONB, ARRAY
+from sqlalchemy import TIMESTAMP as TIMESTAMPTZ
 
 revision = "0034"
 down_revision = "0033"

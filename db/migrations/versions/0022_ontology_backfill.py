@@ -15,11 +15,10 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def _table_exists(connection, name: str) -> bool:
+    from sqlalchemy import text
     row = connection.execute(
-        f"""
-        SELECT 1 FROM information_schema.tables
-        WHERE table_schema = 'public' AND table_name = '{name}'
-        """
+        text(f"SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = :name"),
+        {"name": name}
     ).fetchone()
     return row is not None
 

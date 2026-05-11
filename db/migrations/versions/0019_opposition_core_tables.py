@@ -31,6 +31,11 @@ def upgrade() -> None:
             creado_en       TIMESTAMPTZ DEFAULT NOW()
         );
     """)
+    # Add columns idempotently in case table was created by an earlier migration without them
+    op.execute("ALTER TABLE declaraciones_politicas ADD COLUMN IF NOT EXISTS tema_principal TEXT;")
+    op.execute("ALTER TABLE declaraciones_politicas ADD COLUMN IF NOT EXISTS subtema TEXT;")
+    op.execute("ALTER TABLE declaraciones_politicas ADD COLUMN IF NOT EXISTS alcance_est INTEGER;")
+    op.execute("ALTER TABLE declaraciones_politicas ADD COLUMN IF NOT EXISTS cliente_id INTEGER;")
     op.execute("""
         CREATE INDEX IF NOT EXISTS idx_decl_partido_tema
             ON declaraciones_politicas (partido, tema_principal, fecha DESC);
@@ -58,6 +63,15 @@ def upgrade() -> None:
             creado_en   TIMESTAMPTZ DEFAULT NOW()
         );
     """)
+    # Add columns idempotently for tables created by earlier migrations with different schema
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS score_nli FLOAT DEFAULT 0.75;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS dias_entre INTEGER;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS decl_a_id BIGINT;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS decl_b_id BIGINT;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS verificada BOOLEAN DEFAULT FALSE;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS cliente_id INTEGER;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS descripcion TEXT;")
+    op.execute("ALTER TABLE contradicciones ADD COLUMN IF NOT EXISTS gravedad TEXT DEFAULT 'media';")
     op.execute("""
         CREATE INDEX IF NOT EXISTS idx_cont_persona_tema
             ON contradicciones (persona, tema, score_nli DESC);
@@ -110,8 +124,8 @@ def upgrade() -> None:
             'Alberto Núñez Feijóo', 'PP', 'economia', 'semantica',
             'En campaña prometió bajar el IRPF; meses después afirmó que no es el momento.',
             'alta', 450, 0.87,
-            (SELECT id FROM declaraciones_politicas WHERE persona = ''Alberto Núñez Feijóo'' AND fecha = ''2023-07-23'' LIMIT 1),
-            (SELECT id FROM declaraciones_politicas WHERE persona = ''Alberto Núñez Feijóo'' AND fecha = ''2024-10-15'' LIMIT 1),
+            (SELECT id FROM declaraciones_politicas WHERE persona = 'Alberto Núñez Feijóo' AND fecha = '2023-07-23' LIMIT 1),
+            (SELECT id FROM declaraciones_politicas WHERE persona = 'Alberto Núñez Feijóo' AND fecha = '2024-10-15' LIMIT 1),
             TRUE
         WHERE EXISTS (SELECT 1 FROM declaraciones_politicas WHERE persona = 'Alberto Núñez Feijóo' AND fecha = '2023-07-23')
           AND EXISTS (SELECT 1 FROM declaraciones_politicas WHERE persona = 'Alberto Núñez Feijóo' AND fecha = '2024-10-15');
