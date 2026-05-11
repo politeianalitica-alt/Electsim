@@ -1,6 +1,6 @@
 'use client';
 import { notFound } from 'next/navigation';
-import { getSectorMeta, SECTORES } from '@/config/sectores';
+import { getSectorMeta } from '@/config/sectores';
 import { useSector } from '@/hooks/sectores/useSector';
 import { useKPIs } from '@/hooks/sectores/useKPIs';
 import { SectorHeader } from './_components/SectorHeader';
@@ -11,9 +11,8 @@ import { EventosTimeline } from './_components/EventosTimeline';
 import { SectorIniciativas } from './_components/SectorIniciativas';
 import { SectorSkeleton } from './_components/SectorSkeleton';
 
-export function generateStaticParams() {
-  return SECTORES.filter(s => s.activo).map(s => ({ id: s.id }));
-}
+// NOTE: generateStaticParams cannot coexist with 'use client'. Routes are
+// rendered dynamically at request time; SECTORES filter happens client-side.
 
 export default function SectorPage({ params }: { params: { id: string } }) {
   const meta = getSectorMeta(params.id);
