@@ -41,7 +41,12 @@ export interface RiskComposite {
 }
 
 export async function GET(req: NextRequest) {
-  const params = req.nextUrl.searchParams.toString()
+  const searchParams = req.nextUrl.searchParams
+  // Default to 720h (30 days) so stale data gaps are handled gracefully
+  if (!searchParams.has('hours_back')) {
+    searchParams.set('hours_back', '720')
+  }
+  const params = searchParams.toString()
   const path = `/api/risk/composite${params ? '?' + params : ''}`
   const real = await fromBackend<RiskComposite>(path)
   if (real && real.dimensions) {
@@ -49,7 +54,7 @@ export async function GET(req: NextRequest) {
   }
   return NextResponse.json(withMeta({
     fetched_at: new Date().toISOString(),
-    hours_back: 72,
+    hours_back: 720,
     composite: 0, composite_level: 'BAJO', composite_semaforo: 'verde',
     framework: 'unavailable',
     dimensions: {}, top_risks: [],

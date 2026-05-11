@@ -146,7 +146,7 @@ def _score_text(text: str, dim: str) -> float:
 
 # ── Composite risk index ──────────────────────────────────────────────────────
 @router.get("/composite")
-def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
+def composite_risk(hours_back: int = Query(48, ge=12, le=2160)):
     """Politeia Risk Index — composite + 6 dimensiones + drivers + radar.
 
     Para cada dimensión:
@@ -166,16 +166,77 @@ def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
     try:
         with _conn() as conn:
             with conn.cursor() as cur:
-                # Pull articles for the window + baseline
+                # Pull articles for the window
                 cur.execute("""
                     SELECT id, title, ai_summary, ai_relevance, ai_sentiment, ai_spain_impact,
                            ai_topics, ai_category, source_name, source_country, scraped_at
                     FROM news_articles
                     WHERE scraped_at > NOW() - (%s || ' hours')::interval
                 """, [str(hours_back)])
-                recent = cur.fetchall()
+                recent = list(cur.fetchall())
 
-                # Baseline: artículos de hace 7d a 30d para z-score
+                # Auto-widen: if not enough signal, use last 150 articles by date
+                if len(recent) < 10:
+                    cur.execute("""
+                        SELECT id, title, ai_summary, ai_relevance, ai_sentiment, ai_spain_impact,
+                               ai_topics, ai_category, source_name, source_country, scraped_at
+                        FROM news_articles
+                        ORDER BY scraped_at DESC
+                        LIMIT 150
+                    """)
+                    recent = list(cur.fetchall())
+
+                # Supplement with noticias_prensa (map columns to same shape)
+                cur.execute("""
+                    SELECT id, titular, resumen, relevancia_score, sentimiento_label,
+                           sentimiento_score, temas_json, categoria, fuente, NULL, fecha_publicacion
+                    FROM noticias_prensa
+                    WHERE fecha_publicacion IS NOT NULL
+                    ORDER BY fecha_publicacion DESC
+                    LIMIT 150
+                """)
+                prensa_rows = cur.fetchall()
+                # Normalise noticias_prensa rows to match news_articles column semantics:
+                # col[3] relevance: noticias stores 0-1 float → scale to 0-10
+                # col[4] sentiment label: use as-is (positivo/negativo/neutro)
+                # col[5] spain_impact: use sentimiento_score magnitude (high |score|→ alto)
+                def _prensa_to_article(r):
+                    relevance_raw = r[3] or 0.5
+                    relevance_10 = round(float(relevance_raw) * 10, 1)
+                    sent_score = r[5] or 0.0
+                    abs_sent = abs(float(sent_score))
+                    if abs_sent > 0.6:
+                        spain_imp = "alto"
+                    elif abs_sent > 0.3:
+                        spain_imp = "medio"
+                    else:
+                        spain_imp = "ninguno"
+                    # Derive topic list from temas_json if possible
+                    topics = None
+                    if r[6]:
+                        try:
+                            t = json.loads(r[6]) if isinstance(r[6], str) else r[6]
+                            if isinstance(t, list):
+                                topics = t
+                            elif isinstance(t, dict):
+                                topics = list(t.keys())
+                        except Exception:
+                            pass
+                    # Normalise fecha_publicacion to datetime if it's a string/date
+                    pub_date = r[10]
+                    if pub_date is not None and not isinstance(pub_date, datetime):
+                        try:
+                            pub_date = datetime.fromisoformat(str(pub_date))
+                        except Exception:
+                            pub_date = None
+                    return (r[0], r[1], r[2], relevance_10,
+                            r[4] or "neutro", spain_imp,
+                            topics, r[7], r[8], r[9], pub_date)
+
+                prensa_articles = [_prensa_to_article(r) for r in prensa_rows]
+                recent = recent + prensa_articles
+
+                # Baseline: artículos de hace 7d a 30d para z-score (use news_articles only)
                 cur.execute("""
                     SELECT ai_topics, ai_relevance, ai_sentiment, ai_spain_impact, title, ai_summary
                     FROM news_articles
@@ -184,13 +245,8 @@ def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
                 """, [str(hours_back)])
                 baseline = cur.fetchall()
 
-                # Para drivers per dim: necesitamos asociar artículo → dim → score
-                cur.execute("""
-                    SELECT id, title, ai_summary, ai_relevance, ai_sentiment, ai_spain_impact, source_name, scraped_at
-                    FROM news_articles
-                    WHERE scraped_at > NOW() - (%s || ' hours')::interval
-                """, [str(hours_back)])
-                full_recent = cur.fetchall()
+                # Para drivers per dim: same as recent (already widened)
+                full_recent = recent
 
         # Compute scores per dim
         dim_scores: dict[str, list[float]] = {d: [] for d in DIM_LABELS}
@@ -199,7 +255,7 @@ def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
         # Build dim_scores from recent
         for r in recent:
             text = f"{r[1] or ''} {r[2] or ''}"
-            relevance = r[3] or 5
+            relevance = float(r[3] or 5)
             sentiment = r[4] or "neutro"
             spain_imp = r[5] or "ninguno"
 
@@ -268,7 +324,7 @@ def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
                 text = f"{art[1] or ''} {art[2] or ''}"
                 base = _score_text(text, dim)
                 if base > 0:
-                    relevance = art[3] or 5
+                    relevance = float(art[3] or 5)
                     spain_imp = art[5] or "ninguno"
                     mult = 0.5 + (relevance / 10) * 0.6
                     impact_m = {"critico": 1.5, "alto": 1.25, "medio": 1.0, "bajo": 0.85, "ninguno": 0.7}.get(spain_imp, 1.0)
@@ -276,15 +332,27 @@ def composite_risk(hours_back: int = Query(48, ge=12, le=168)):
                     scored_articles.append((final, art))
             scored_articles.sort(key=lambda x: -x[0])
             for s, art in scored_articles[:3]:
+                # recent rows: [0]=id,[1]=title,[2]=ai_summary,[3]=ai_relevance,
+                #              [4]=ai_sentiment,[5]=ai_spain_impact,[6]=ai_topics,
+                #              [7]=ai_category,[8]=source_name,[9]=source_country,[10]=scraped_at
+                scraped_raw = art[10] if len(art) > 10 else (art[7] if len(art) > 7 else None)
+                if scraped_raw is not None and not isinstance(scraped_raw, str):
+                    try:
+                        scraped_iso = scraped_raw.isoformat()
+                    except Exception:
+                        scraped_iso = str(scraped_raw)
+                else:
+                    scraped_iso = scraped_raw
+                source = art[8] if len(art) > 8 else (art[6] if len(art) > 6 else None)
                 drivers.append({
                     "id":        art[0],
                     "title":     art[1],
-                    "source":    art[6],
+                    "source":    source,
                     "relevance": art[3],
                     "sentiment": art[4],
                     "spain_impact": art[5],
                     "contribution": round(s, 1),
-                    "scraped_at": art[7].isoformat() if art[7] else None,
+                    "scraped_at": scraped_iso,
                 })
 
             out["dimensions"][dim] = {
@@ -347,7 +415,34 @@ def risk_timeseries(days: int = Query(14, ge=3, le=60)):
                     FROM news_articles
                     WHERE scraped_at > NOW() - (%s || ' days')::interval
                 """, [str(days)])
-                rows = cur.fetchall()
+                rows = list(cur.fetchall())
+
+                # Auto-widen: if very few rows, use most recent 150 articles regardless of age
+                if len(rows) < 10:
+                    cur.execute("""
+                        SELECT date_trunc('day', scraped_at)::date AS day, title, ai_summary,
+                               ai_relevance, ai_spain_impact, ai_sentiment
+                        FROM news_articles
+                        ORDER BY scraped_at DESC
+                        LIMIT 150
+                    """)
+                    rows = list(cur.fetchall())
+
+                # Supplement with noticias_prensa
+                cur.execute("""
+                    SELECT date_trunc('day', fecha_publicacion)::date AS day,
+                           titular, resumen,
+                           ROUND((COALESCE(relevancia_score, 0.5) * 10)::numeric, 1),
+                           CASE WHEN ABS(COALESCE(sentimiento_score, 0)) > 0.6 THEN 'alto'
+                                WHEN ABS(COALESCE(sentimiento_score, 0)) > 0.3 THEN 'medio'
+                                ELSE 'ninguno' END,
+                           COALESCE(sentimiento_label, 'neutro')
+                    FROM noticias_prensa
+                    WHERE fecha_publicacion IS NOT NULL
+                    ORDER BY fecha_publicacion DESC
+                    LIMIT 150
+                """)
+                rows = rows + list(cur.fetchall())
 
         # Bucket por día
         buckets: dict[str, dict[str, list[float]]] = {}
@@ -357,7 +452,7 @@ def risk_timeseries(days: int = Query(14, ge=3, le=60)):
                 continue
             buckets.setdefault(day, {d: [] for d in DIM_LABELS})
             text = f"{r[1] or ''} {r[2] or ''}"
-            relevance = r[3] or 5
+            relevance = float(r[3] or 5)
             spain_imp = r[4] or "ninguno"
             sentiment = r[5] or "neutro"
             mult = (0.5 + (relevance / 10) * 0.6) * \
@@ -403,6 +498,15 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
         "fetched_at": datetime.utcnow().isoformat() + "Z",
     }
     try:
+        # Auto-widen: determine effective window — use actual data recency
+        with _conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT EXTRACT(EPOCH FROM (NOW() - MAX(scraped_at)))/3600 FROM news_articles")
+                age_hours_row = cur.fetchone()
+                age_hours = float(age_hours_row[0]) if age_hours_row and age_hours_row[0] else 0
+                # If data is older than the requested window, widen to cover the data
+                effective_hours = max(hours_back, int(age_hours) + hours_back)
+
         with _conn() as conn:
             with conn.cursor() as cur:
                 # 1. Burst topics (Kleinberg-inspired): rate(window) / rate(baseline)
@@ -415,12 +519,12 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
                             topic,
                             SUM(CASE WHEN scraped_at > NOW() - (%s || ' hours')::interval THEN 1 ELSE 0 END) AS recent_n,
                             SUM(CASE WHEN scraped_at <= NOW() - (%s || ' hours')::interval
-                                      AND scraped_at > NOW() - INTERVAL '14 days'
+                                      AND scraped_at > NOW() - INTERVAL '60 days'
                                      THEN 1 ELSE 0 END) AS baseline_n
                         FROM (
                             SELECT unnest(ai_topics) AS topic, scraped_at
                             FROM news_articles
-                            WHERE scraped_at > NOW() - INTERVAL '14 days'
+                            WHERE scraped_at > NOW() - INTERVAL '60 days'
                               AND ai_topics IS NOT NULL
                         ) sub
                         GROUP BY topic
@@ -429,7 +533,7 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
                       AND (baseline_n = 0 OR (recent_n::float / baseline_n) > 1.5)
                     ORDER BY ratio DESC
                     LIMIT 12
-                """, [str(hours_back), str(hours_back)])
+                """, [str(effective_hours), str(effective_hours)])
                 for r in cur.fetchall():
                     out["burst_topics"].append({
                         "topic":    r[0],
@@ -460,7 +564,7 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
                     WHERE n_sources >= 3
                     ORDER BY n_articles DESC
                     LIMIT 8
-                """, [str(hours_back)])
+                """, [str(effective_hours)])
                 for r in cur.fetchall():
                     out["amplification"].append({
                         "topic":       r[0],
@@ -492,7 +596,7 @@ def escalations(hours_back: int = Query(48, ge=12, le=168)):
                     WHERE pos::float / total >= 0.25 AND neg::float / total >= 0.25
                     ORDER BY total DESC
                     LIMIT 6
-                """, [str(hours_back)])
+                """, [str(effective_hours)])
                 for r in cur.fetchall():
                     out["dual_polarization"].append({
                         "topic":  r[0],
