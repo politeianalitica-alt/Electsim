@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
+import WorldGeoMap from '@/components/maps/WorldGeoMap'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 function relTime(iso: string | null | undefined) {
@@ -55,33 +56,7 @@ const INK1 = '#0f172a'
 const INK3 = '#64748b'
 const INK4 = '#94a3b8'
 
-// ── world map constants (equirectangular 900×440) ─────────────────────────────
-const COUNTRY_COORDS: Record<string, [number, number]> = {
-  RU: [98, 62], UA: [55, 72], IL: [51, 110], PS: [51, 112],
-  IR: [60, 108], CN: [102, 95], US: [220, 95], MA: [30, 108],
-  DZ: [32, 105], TR: [52, 95], VE: [260, 143], KP: [118, 78],
-  SY: [53, 100], LB: [52, 103], ML: [27, 118], IQ: [55, 103],
-  AF: [70, 98],  SA: [56, 112], TW: [115, 103], FR: [34, 78],
-  DE: [36, 72],  GB: [30, 72],  MX: [200, 113], MM: [100, 107],
-}
-function projX(lon: number) { return ((lon + 180) / 360) * 900 }
-function projY(lat: number) { return ((90 - lat) / 180) * 440 }
-
-// Simple continent fills (outline only for performance)
-const CONTINENT_PATHS = [
-  // North America
-  'M188 166 L165 170 L150 168 L140 158 L138 148 L135 138 L133 128 L135 119 L131 108 L128 102 L125 89 L115 80 L100 75 L88 69 L68 63 L48 58 L38 56 L30 46 L33 42 L50 40 L63 42 L88 51 L113 51 L150 46 L175 43 L200 43 L213 46 L225 48 L238 51 L250 58 L263 64 L273 75 L280 87 L283 96 L285 108 L288 119 L283 124 L278 128 L268 141 L258 158 L250 166 L233 168 L213 165 L200 174 L192 168 L188 166 Z',
-  // South America
-  'M253 210 L263 207 L273 205 L285 203 L295 202 L308 202 L318 206 L325 210 L330 217 L335 224 L343 232 L350 242 L358 255 L362 265 L360 278 L355 290 L348 305 L338 320 L328 338 L318 355 L310 371 L305 381 L300 384 L293 378 L288 370 L278 340 L268 300 L263 265 L258 235 L253 214 L253 210 Z',
-  // Europe
-  'M428 134 L428 124 L430 119 L436 116 L440 117 L450 117 L458 119 L462 116 L465 115 L470 117 L476 117 L480 114 L483 113 L486 109 L488 108 L492 108 L495 108 L498 103 L500 99 L502 93 L505 87 L508 81 L510 78 L512 71 L513 68 L511 61 L510 57 L500 52 L498 51 L492 52 L490 56 L486 57 L480 56 L475 57 L470 63 L465 71 L463 80 L464 86 L465 90 L470 91 L466 93 L461 95 L458 98 L455 99 L452 102 L448 105 L445 106 L441 109 L440 110 L438 112 L440 114 L442 116 L436 123 L431 129 L428 134 Z',
-  // Africa
-  'M435 138 L450 135 L458 135 L470 135 L476 133 L483 133 L488 138 L500 141 L513 141 L525 146 L533 146 L538 153 L541 163 L545 172 L550 192 L558 199 L575 204 L580 211 L573 224 L563 236 L555 243 L548 258 L543 265 L540 273 L538 281 L533 293 L530 301 L524 311 L518 319 L507 321 L500 320 L493 319 L483 308 L473 290 L468 281 L463 256 L463 235 L461 228 L455 220 L443 218 L428 216 L420 212 L408 196 L408 179 L413 164 L416 158 L424 150 L428 148 L432 143 L435 138 Z',
-  // Asia
-  'M515 125 L520 122 L527 120 L535 118 L545 117 L558 118 L568 118 L575 122 L583 119 L590 116 L602 112 L615 107 L628 103 L640 98 L653 95 L665 91 L678 88 L692 85 L706 80 L720 75 L733 70 L745 67 L755 65 L765 64 L778 65 L790 68 L800 73 L808 80 L812 88 L808 95 L800 100 L790 105 L778 110 L765 113 L752 118 L745 125 L743 132 L745 140 L750 148 L758 156 L763 163 L765 182 L758 200 L750 206 L730 218 L720 220 L700 225 L695 230 L688 228 L670 216 L650 218 L643 216 L638 213 L645 228 L638 270 L618 232 L600 215 L578 207 L563 220 L553 215 L548 202 L545 188 L543 175 L538 158 L527 148 L522 140 L515 125 Z',
-  // Australia
-  'M730 232 L743 225 L755 220 L770 218 L783 216 L796 216 L810 218 L820 220 L830 222 L838 228 L840 238 L838 248 L833 258 L825 268 L815 276 L795 278 L773 278 L744 274 L733 250 L730 240 L730 232 Z',
-]
+// World map now uses real GeoJSON via @/components/maps/WorldGeoMap
 
 // ── types ─────────────────────────────────────────────────────────────────────
 interface RiesgoItem {
@@ -170,108 +145,28 @@ function KpiStrip({ kpis }: { kpis: KpiData | null }) {
   )
 }
 
-// ── World Map with risk bubbles ────────────────────────────────────────────────
+// ── World Map with risk bubbles (uses real GeoJSON + d3-geo) ───────────────────
 function WorldMap({ riesgo }: { riesgo: RiesgoItem[] }) {
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; item: RiesgoItem } | null>(null)
-  const riesgoByCode = useMemo(() => {
-    const m: Record<string, RiesgoItem> = {}
-    riesgo.forEach(r => { m[r.code] = r })
-    return m
-  }, [riesgo])
-
   return (
     <div style={{ ...CARD, overflow: 'hidden', position: 'relative' }}>
       <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
         <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Mapa de riesgo global</span>
-        <span style={{ marginLeft: 12, fontSize: 11, color: INK3 }}>Intensidad desde noticias_prensa últimos 30 días</span>
+        <span style={{ marginLeft: 12, fontSize: 11, color: INK3 }}>Intensidad desde noticias_prensa últimos 30 días · {riesgo.length} países</span>
       </div>
-      <svg
-        viewBox="0 0 900 440"
-        style={{ width: '100%', background: '#f0f4f8', display: 'block' }}
-        onMouseLeave={() => setTooltip(null)}
-      >
-        {/* Ocean gradient */}
-        <defs>
-          <radialGradient id="oceanG" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#dbeafe" />
-            <stop offset="100%" stopColor="#bfdbfe" />
-          </radialGradient>
-        </defs>
-        <rect x={0} y={0} width={900} height={440} fill="url(#oceanG)" />
-
-        {/* Continent fills */}
-        {CONTINENT_PATHS.map((d, i) => (
-          <path key={i} d={d} fill="#e2e8f0" stroke="#cbd5e1" strokeWidth={0.8} />
-        ))}
-
-        {/* Spain marker */}
-        <circle cx={projX(-3.7)} cy={projY(40.4)} r={6}
-          fill="#1F4E8C" stroke="white" strokeWidth={1.5}
-          style={{ filter: 'drop-shadow(0 1px 3px rgba(31,78,140,0.5))' }} />
-        <text x={projX(-3.7)} y={projY(40.4) - 10}
-          textAnchor="middle" fill="#1F4E8C" fontSize={8} fontWeight={700}>ESP</text>
-
-        {/* Country risk bubbles */}
-        {Object.entries(COUNTRY_COORDS).map(([code, [x, y]]) => {
-          const item = riesgoByCode[code]
-          if (!item) return null
-          const r = Math.max(5, Math.min(22, item.risk / 5))
-          const col = riskColor(item.risk)
-          return (
-            <g key={code}
-              onMouseEnter={(e) => setTooltip({ x: e.clientX, y: e.clientY, item })}
-              onMouseLeave={() => setTooltip(null)}
-              style={{ cursor: 'pointer' }}>
-              <circle cx={x} cy={y} r={r + 4}
-                fill={col} opacity={0.12} />
-              <circle cx={x} cy={y} r={r}
-                fill={col} stroke="white" strokeWidth={1}
-                opacity={item.has_data ? 0.85 : 0.45}
-                style={{ filter: `drop-shadow(0 1px 2px ${col}60)` }} />
-              {r >= 10 && (
-                <text x={x} y={y + 3.5} textAnchor="middle"
-                  fill="white" fontSize={7} fontWeight={800}>{code}</text>
-              )}
-            </g>
-          )
-        })}
-      </svg>
-
-      {/* Legend */}
-      <div style={{ padding: '10px 20px', background: 'rgba(0,0,0,0.02)', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: 20, alignItems: 'center' }}>
-        {[['#dc2626','CRITICO ≥70'],['#f59e0b','ELEVADO 50-69'],['#3b82f6','MODERADO 30-49'],['#22c55e','BAJO <30']].map(([c, l]) => (
+      <WorldGeoMap riesgo={riesgo} highlightISO="ES" />
+      <div style={{ padding: '10px 20px', background: 'rgba(0,0,0,0.02)', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        {[['#dc2626','CRITICO ≥70'],['#f59e0b','ELEVADO 50-69'],['#3b82f6','MODERADO 30-49'],['#86efac','BAJO <30']].map(([c, l]) => (
           <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 10, height: 10, borderRadius: '50%', background: c as string }} />
             <span style={{ fontSize: 10, color: INK3 }}>{l}</span>
           </div>
         ))}
-        <span style={{ fontSize: 10, color: INK4, marginLeft: 'auto' }}>Tamaño ∝ riesgo compuesto · Opacidad ∝ cobertura</span>
+        <span style={{ fontSize: 10, color: INK4, marginLeft: 'auto' }}>Coloración → riesgo · Burbuja → cobertura</span>
       </div>
-
-      {/* Tooltip */}
-      {tooltip && (
-        <div style={{
-          position: 'fixed', left: tooltip.x + 14, top: tooltip.y - 10, zIndex: 9999,
-          background: 'white', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 10,
-          padding: '12px 16px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-          pointerEvents: 'none', minWidth: 200,
-        }}>
-          <div style={{ fontWeight: 700, fontSize: 13, color: INK1, marginBottom: 4 }}>{tooltip.item.name}</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <div style={{ fontSize: 22, fontWeight: 900, color: riskColor(tooltip.item.risk) }}>{tooltip.item.risk}</div>
-            <div>
-              <div style={{ fontSize: 9, fontWeight: 700, color: riskColor(tooltip.item.risk), textTransform: 'uppercase', letterSpacing: '0.08em' }}>{riskLabel(tooltip.item.risk)}</div>
-              <div style={{ fontSize: 10, color: INK3 }}>{tooltip.item.status}</div>
-            </div>
-          </div>
-          <div style={{ fontSize: 10, color: INK3 }}>{tooltip.item.n_articles_30d} artículos · 30d</div>
-          <div style={{ fontSize: 10, color: INK3 }}>Sent: <span style={{ color: sentColor(tooltip.item.avg_sentiment) }}>{tooltip.item.avg_sentiment.toFixed(2)}</span></div>
-          {!tooltip.item.has_data && <div style={{ fontSize: 9, color: INK4, marginTop: 4 }}>Sin datos recientes · riesgo estructural</div>}
-        </div>
-      )}
     </div>
   )
 }
+
 
 // ── Country Risk Table ─────────────────────────────────────────────────────────
 function RiesgoTable({ riesgo }: { riesgo: RiesgoItem[] }) {

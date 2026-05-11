@@ -8,6 +8,7 @@ import { useActores } from '@/hooks/useActores'
 import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
+import WikipediaBio from '@/components/WikipediaBio'
 
 type ActorView = 'mapa' | 'grafo' | 'dossier'
 
@@ -711,6 +712,9 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
             {/* RESUMEN */}
             {activeTab === 'resumen' && (
               <div>
+                {/* Wikipedia-enriched bio panel — fetched dynamically per actor */}
+                <WikipediaBio name={dossier.nombre} party={dossier.partido} />
+
                 <p style={{ fontSize: 13, color: '#424245', lineHeight: 1.7, margin: '0 0 18px' }}>
                   {dossier.bio}
                 </p>
