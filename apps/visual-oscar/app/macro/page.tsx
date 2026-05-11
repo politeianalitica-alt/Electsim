@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useMacroDataset } from '@/hooks/useMacroDataset'
 import type { Indic } from '@/data/macro-fixture'
+import MacroFinanceDashboard from '@/components/MacroFinanceDashboard'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Termómetro macro-político · score 0-100
@@ -460,6 +461,9 @@ export default function MacroPage() {
             </table>
           </section>
         )}
+
+        {/* ── Macro & Financial dashboard (live international data) ── */}
+        <MacroFinanceDashboard/>
 
       </main>
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>

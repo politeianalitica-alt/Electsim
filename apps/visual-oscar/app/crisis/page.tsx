@@ -116,7 +116,7 @@ export default function CrisisPage() {
               <span style={{ color:'#FCA5A5', marginRight:6 }}>●</span> RIESGO · CRISIS INTELLIGENCE EN TIEMPO REAL
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {totals.activas} crisis activas <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>requieren atención</em>
+           {totals.activas} crisis activas <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>requieren atención</em>
             </h1>
             <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
               {totals.cri} {totals.cri === 1 ? 'crítica' : 'críticas'} · {totals.alt} {totals.alt === 1 ? 'alta' : 'altas'} · {totals.accionesAbiertas} acciones abiertas pendientes de ejecución.
@@ -551,7 +551,7 @@ function RiskContextStrip() {
       gap:14, flexWrap:'wrap', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
     }}>
       <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
-        🛡️ Contexto · Riesgo estructural
+         Contexto · Riesgo estructural
       </div>
       <div style={{ display:'flex', gap:6, flex:1, flexWrap:'wrap' }}>
         {indices.map(idx => (
@@ -568,7 +568,7 @@ function RiskContextStrip() {
           fontSize:11, fontWeight:700, color:'#DC2626',
           padding:'3px 9px', background:'#FEE2E2', border:'1px solid #FECACA', borderRadius:6,
         }}>
-          🚨 {alerts} alertas estructurales activas
+           {alerts} alertas estructurales activas
         </span>
       )}
       <a href="/riesgo" style={{

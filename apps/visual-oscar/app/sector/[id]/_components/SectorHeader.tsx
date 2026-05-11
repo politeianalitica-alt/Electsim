@@ -41,7 +41,7 @@ export function SectorHeader({ meta, score, alertas }: Props) {
         <div className="mt-4 flex flex-col gap-1">
           {alertas.map((a, i) => (
             <div key={i} className="text-xs text-amber-300 flex items-center gap-2">
-              <span>⚠</span>
+              <span></span>
               <span>{a}</span>
             </div>
           ))}

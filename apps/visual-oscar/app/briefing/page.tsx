@@ -152,7 +152,7 @@ function ItemCard({ item, onRead }: { item: BriefingItem; onRead?: (id: string) 
       {(item.fuentes.length > 0 || item.tags.length > 0) && (
         <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           {item.fuentes.map((f, i) => (
-            <span key={i} style={{ fontSize: 10, color: INK3, fontWeight: 600 }}>📰 {f}</span>
+            <span key={i} style={{ fontSize: 10, color: INK3, fontWeight: 600 }}> {f}</span>
           ))}
           {item.tags.slice(0, 6).map((t, i) => (
             <span key={i} style={{
@@ -204,7 +204,7 @@ export default function BriefingPage() {
             </h1>
           </header>
           <div style={{ ...CARD, padding: '40px 32px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 12 }}>📰</div>
+            <div style={{ fontSize: 32, marginBottom: 12 }}></div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px' }}>El briefing matinal aún no está disponible</h3>
             <p style={{ fontSize: 13, color: INK3, lineHeight: 1.6, margin: 0 }}>
               El sistema genera el briefing automáticamente cada mañana a las 7:00 CET con datos de BOE, prensa, indicadores macroeconómicos y señales OSINT.

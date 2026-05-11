@@ -29,6 +29,7 @@ from api.routers import (
     persons,
     pipelines,
     politeia_v3,
+    macro_finance,
     risk,
     risk_intelligence,
     risk_v2,
@@ -191,5 +192,6 @@ app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
 # proxea /api/:path* hacia FastAPI)
 app.include_router(risk.router, prefix="/api", tags=["risk"])
 app.include_router(risk_v2.router, tags=["risk-v2"])
+app.include_router(macro_finance.router, tags=["macro-finance"])
 app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])
 app.include_router(actors.router, tags=["actors"])

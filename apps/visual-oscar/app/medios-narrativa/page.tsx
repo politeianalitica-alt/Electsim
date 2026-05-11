@@ -172,7 +172,7 @@ export default function MediosNarrativaPage() {
         <AppHeader />
         <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
           <div style={{ ...CARD, padding: '40px 32px', textAlign: 'center' }}>
-            <div style={{ fontSize: 32, marginBottom: 12 }}>📰</div>
+            <div style={{ fontSize: 32, marginBottom: 12 }}></div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: INK1, margin: '0 0 8px' }}>Sin datos en este momento</h3>
             <p style={{ fontSize: 13, color: INK3 }}>Los conectores de prensa están sincronizando. Vuelve en unos minutos.</p>
           </div>

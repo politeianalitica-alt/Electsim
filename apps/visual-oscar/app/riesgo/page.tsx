@@ -45,7 +45,7 @@ export default function RiesgoPage() {
             fontFamily: 'inherit',
             boxShadow: view === 'estructural' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
           }}>
-            🧱 Motor estructural (DB-driven · 6 índices · ML)
+          Motor estructural (DB-driven · 6 índices · ML)
           </button>
           <button onClick={() => setView('live')} style={{
             background: view === 'live' ? '#fff' : 'transparent',
@@ -55,7 +55,7 @@ export default function RiesgoPage() {
             fontFamily: 'inherit',
             boxShadow: view === 'live' ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
           }}>
-            ⚡ Motor live (composite ICRG + Ollama)
+          Motor live (composite ICRG + Ollama)
           </button>
         </div>
 

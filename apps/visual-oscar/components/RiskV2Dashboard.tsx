@@ -23,12 +23,12 @@ import type { RiskAlert } from '@/app/api/risk-v2/alerts/route'
 type Tab = 'overview' | 'evolution' | 'breakdown' | 'scenarios' | 'alerts' | 'config'
 
 const TAB_LABELS: Record<Tab, string> = {
-  overview:   '📊 Análisis ejecutivo',
-  evolution:  '📈 Evolución temporal',
-  breakdown:  '🔬 Descomposición',
-  scenarios:  '🔮 Escenarios',
-  alerts:     '🚨 Alertas',
-  config:     '⚙️ Configuración',
+  overview:   'Análisis ejecutivo',
+  evolution:  'Evolución temporal',
+  breakdown:  'Descomposición',
+  scenarios:  'Escenarios',
+  alerts:     'Alertas',
+  config:     'Configuración',
 }
 
 function colorForLabel(label: string, colors: RiskIndexCard['colors']): string {
@@ -116,7 +116,7 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
         borderRadius: 14, marginTop: 12,
       }}>
         <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
-          🛠️ Motor sin datos
+          Motor sin datos
         </div>
         <p style={{ fontSize: 13.5, color: '#1d1d1f', margin: '0 0 8px', lineHeight: 1.55 }}>
           El módulo de Riesgo v2 está instalado pero no tiene datos cargados todavía. Esto es lo que ocurre:
@@ -161,7 +161,7 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
             cursor: refreshing ? 'wait' : 'pointer', fontFamily: 'inherit',
             letterSpacing: '0.04em', textTransform: 'uppercase',
           }}>
-            {refreshing ? 'Recalculando…' : '🔄 Recalcular ahora'}
+            {refreshing ? 'Recalculando…' : 'Recalcular ahora'}
           </button>
         </div>
       </div>
@@ -202,7 +202,7 @@ function KPIStrip({ indices, aggregate }: { indices: RiskIndexCard[]; aggregate:
         background: 'linear-gradient(180deg, #1d1d1f 0%, #2d2d31 100%)', color: '#fff',
       }}>
         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.7 }}>
-          ⚖️ Riesgo agregado
+           Riesgo agregado
         </div>
         <div style={{ fontSize: 30, fontWeight: 800, marginTop: 4, lineHeight: 1 }}>
           {aggregate}<span style={{ fontSize: 13, opacity: 0.6 }}>/100</span>
@@ -651,7 +651,7 @@ function Scenarios({
           background: '#1d1d1f', color: '#fff', border: 'none', borderRadius: 6,
           padding: '6px 12px', fontSize: 11, fontWeight: 700, cursor: running ? 'wait' : 'pointer',
         }}>
-          {running ? 'Calculando…' : '🔮 Recalcular predicciones'}
+          {running ? 'Calculando…' : 'Recalcular predicciones'}
         </button>
       </div>
 
@@ -742,7 +742,7 @@ function Alerts({ alerts, onAck }: { alerts: RiskAlert[]; onAck: (id: number) =>
           padding: '32px 0', textAlign: 'center',
           color: '#16A34A', fontSize: 13, fontWeight: 600,
         }}>
-          ✅ Sin alertas en los últimos 30 días.
+           Sin alertas en los últimos 30 días.
         </div>
       ) : (
         <>
@@ -780,7 +780,7 @@ function Alerts({ alerts, onAck }: { alerts: RiskAlert[]; onAck: (id: number) =>
                       padding: '5px 11px', fontSize: 11, fontWeight: 600,
                       cursor: 'pointer', color: '#1d1d1f',
                     }}>
-                      ✅ Marcar revisada
+                       Marcar revisada
                     </button>
                   )}
                 </div>
@@ -921,7 +921,7 @@ function Configuration({ country, onReload }: { country: string; onReload: () =>
             borderRadius: 7, padding: '8px 14px', fontSize: 12, fontWeight: 700,
             cursor: ingesting ? 'wait' : 'pointer',
           }}>
-            {ingesting ? 'Ingestando…' : '🚀 Lanzar ingesta ahora'}
+            {ingesting ? 'Ingestando…' : 'Lanzar ingesta ahora'}
           </button>
           {lastIngest && (
             <span style={{ fontSize: 11.5, color: '#3a3a3d' }}>
@@ -953,7 +953,7 @@ function Configuration({ country, onReload }: { country: string; onReload: () =>
                   <td style={{ padding: '6px 10px' }}>
                     {s.last_error ? (
                       <span style={{ color: '#DC2626', fontSize: 10.5 }} title={s.last_error}>
-                        ⚠ {s.last_error.slice(0, 60)}{s.last_error.length > 60 ? '…' : ''}
+                         {s.last_error.slice(0, 60)}{s.last_error.length > 60 ? '…' : ''}
                       </span>
                     ) : s.last_fetch ? (
                       <span style={{ color: '#16A34A', fontSize: 10.5, fontWeight: 700 }}>OK</span>
@@ -997,7 +997,7 @@ function Configuration({ country, onReload }: { country: string; onReload: () =>
               borderRadius: 6, padding: '7px 14px', fontSize: 11, fontWeight: 700,
               cursor: 'pointer', height: 'fit-content',
             }}>
-              {savingThr === idx.index_id ? 'Guardando…' : '💾 Guardar umbrales'}
+              {savingThr === idx.index_id ? 'Guardando…' : 'Guardar umbrales'}
             </button>
           </div>
 

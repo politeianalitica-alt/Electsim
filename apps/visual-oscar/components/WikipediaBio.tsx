@@ -47,7 +47,7 @@ export default function WikipediaBio({ name, party }: Props) {
         border: '1px solid rgba(0,0,0,0.05)', marginBottom: 14,
       }}>
         <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          📖 Wikipedia
+        Wikipedia
         </div>
         <div style={{ fontSize: 12, color: '#64748b', marginTop: 6 }}>Buscando entrada para «{name}»…</div>
       </div>
@@ -82,11 +82,11 @@ export default function WikipediaBio({ name, party }: Props) {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
           <span style={{ fontSize: 10, color: '#854d0e', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            📖 Wikipedia
+          Wikipedia
           </span>
           {bio.birth_date && (
             <span style={{ fontSize: 10, color: '#a16207' }}>
-              n. {bio.birth_date}
+           n. {bio.birth_date}
             </span>
           )}
           {bio.url && (

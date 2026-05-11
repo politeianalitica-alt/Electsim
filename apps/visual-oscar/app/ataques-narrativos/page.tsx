@@ -463,7 +463,7 @@ function AttackRiskContext() {
       gap:14, flexWrap:'wrap', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
     }}>
       <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
-        📰 Contexto · Riesgo mediático estructural
+      Contexto · Riesgo mediático estructural
       </div>
       {media && (
         <span style={{

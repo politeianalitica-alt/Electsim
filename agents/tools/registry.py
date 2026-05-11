@@ -443,6 +443,43 @@ def _load_module_tools() -> tuple[list[dict], dict[str, Callable]]:
     except Exception as exc:
         logger.debug("Loading risk_tools failed: %s", exc)
 
+    # ── macro_finance_tools ─────────────────────────────────────────────────
+    try:
+        from agents.tools import macro_finance_tools as mft
+        _mf_specs = [
+            ("consultar_panorama_macro", mft.consultar_panorama_macro,
+             "Panorama macroeconómico de un país: yield bono 10Y, spread vs Bund, "
+             "inflación HICP, tasa de paro, precio de vivienda, EURUSD, tipo BCE. "
+             "Incluye variación reciente.",
+             {"country": {"type": "string", "default": "ES"}},
+             []),
+            ("consultar_mercados_es", mft.consultar_mercados_es,
+             "Serie temporal de mercados: yields 10Y, spreads, EURUSD, tipo BCE (ECB SDMX).",
+             {"days": {"type": "integer", "default": 365}},
+             []),
+            ("consultar_inflacion_paises", mft.consultar_inflacion_paises,
+             "HICP interanual mensual (Eurostat) para varios países.",
+             {"countries": {"type": "array", "items": {"type": "string"}},
+              "days":      {"type": "integer", "default": 730}},
+             []),
+            ("consultar_paro_paises", mft.consultar_paro_paises,
+             "Tasa de paro armonizada y paro juvenil para varios países (Eurostat).",
+             {"countries": {"type": "array", "items": {"type": "string"}},
+              "days":      {"type": "integer", "default": 730}},
+             []),
+            ("consultar_reservas_cofer", mft.consultar_reservas_cofer,
+             "Composición de reservas oficiales globales (IMF COFER): cuota USD/EUR/CNY/GBP/JPY.",
+             {"days": {"type": "integer", "default": 2190}},
+             []),
+            ("consultar_salud_fuentes_macro", mft.consultar_salud_fuentes_macro,
+             "Estado de cada fuente macro (ECB, Eurostat, IMF, World Bank, BIS, BdE).",
+             {}, []),
+        ]
+        for name, fn, desc, props, req in _mf_specs:
+            _add(name, desc, {"type": "object", "properties": props, "required": req}, fn)
+    except Exception as exc:
+        logger.debug("Loading macro_finance_tools failed: %s", exc)
+
     # ── security_tools (SECURITY_TOOLS: parameters loose dict) ─────────────
     try:
         from agents.tools.security_tools import SECURITY_TOOLS
