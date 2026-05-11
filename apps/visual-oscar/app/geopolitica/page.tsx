@@ -1,169 +1,11 @@
 'use client'
-import { useState, useMemo, useRef } from 'react'
+import { useState, useMemo } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 
-// ── projection helpers ────────────────────────────────────────────────────────
-function projX(lon: number, W = 900) { return ((lon + 180) / 360) * W }
-function projY(lat: number, H = 460) { return ((90 - lat) / 180) * H }
-
-const ES_LAT_MIN = 35.9, ES_LAT_MAX = 43.8, ES_LON_MIN = -9.3, ES_LON_MAX = 4.3
-function esProjX(lon: number, W = 560) { return ((lon - ES_LON_MIN) / (ES_LON_MAX - ES_LON_MIN)) * W }
-function esProjY(lat: number, H = 380) { return ((ES_LAT_MAX - lat) / (ES_LAT_MAX - ES_LAT_MIN)) * H }
-
-function clamp(v: number, min: number, max: number) { return Math.max(min, Math.min(max, v)) }
-
-// ── continent SVG paths (equirectangular 900×460, 40-50 pts each) ─────────────
-// projX(lon)=(lon+180)/360*900  projY(lat)=(90-lat)/180*460
-const AFRICA_D =
-  'M 435 138 L 450 135 L 458 135 L 470 135 L 476 133 L 483 133 L 488 138 ' +
-  'L 500 141 L 513 141 L 525 146 L 533 146 L 538 153 L 541 163 L 545 172 ' +
-  'L 550 192 L 558 199 L 575 204 L 580 211 L 573 224 L 563 236 ' +
-  'L 555 243 L 548 258 L 543 265 L 540 273 L 538 281 L 533 293 ' +
-  'L 530 301 L 524 311 L 518 319 L 507 321 L 500 320 L 493 319 ' +
-  'L 490 317 L 483 308 L 478 300 L 473 290 L 468 281 L 465 268 ' +
-  'L 463 256 L 463 243 L 463 235 L 461 228 L 460 222 L 455 220 ' +
-  'L 450 222 L 445 220 L 443 218 L 435 217 L 428 216 L 420 212 ' +
-  'L 415 207 L 408 196 L 408 187 L 408 179 L 410 170 L 413 164 ' +
-  'L 416 158 L 420 155 L 424 150 L 428 148 L 432 143 L 435 138 Z'
-
-const EUROPE_D =
-  'M 428 134 L 428 124 L 430 119 L 436 116 L 440 117 L 445 116 L 450 117 ' +
-  'L 455 118 L 458 119 L 462 116 L 465 115 L 470 117 L 476 117 ' +
-  'L 480 114 L 483 113 L 486 109 L 488 108 L 492 108 L 495 108 ' +
-  'L 498 103 L 500 99 L 502 93 L 505 87 L 508 81 L 510 78 ' +
-  'L 512 71 L 513 68 L 511 61 L 510 57 L 500 52 L 498 51 ' +
-  'L 492 52 L 490 56 L 486 57 L 480 56 L 475 57 L 470 63 ' +
-  'L 465 71 L 463 80 L 464 86 L 465 90 L 467 90 L 468 90 ' +
-  'L 471 88 L 473 87 L 470 91 L 466 93 L 461 95 L 460 96 ' +
-  'L 458 98 L 455 99 L 452 102 L 448 105 L 445 106 L 441 109 ' +
-  'L 440 110 L 439 111 L 438 112 L 440 114 L 442 116 L 443 117 ' +
-  'L 436 123 L 431 129 L 428 134 Z'
-
-const ITALY_D =
-  'M 471 117 L 477 118 L 481 122 L 484 129 L 487 135 L 486 139 ' +
-  'L 483 140 L 481 135 L 479 128 L 476 122 L 471 117 Z'
-
-const NAMERICA_D =
-  'M 188 166 L 165 170 L 150 168 L 140 158 L 138 148 L 135 138 ' +
-  'L 133 128 L 135 119 L 131 108 L 128 102 L 125 89 L 115 80 ' +
-  'L 100 75 L 88 69 L 68 63 L 48 58 L 38 56 L 30 46 L 33 42 ' +
-  'L 38 40 L 50 40 L 63 42 L 88 51 L 113 51 L 150 46 L 175 43 ' +
-  'L 200 43 L 213 46 L 225 48 L 238 51 L 250 58 L 263 64 ' +
-  'L 273 75 L 280 87 L 283 96 L 285 108 L 290 119 L 288 122 ' +
-  'L 283 124 L 278 128 L 273 133 L 268 141 L 263 148 L 258 158 ' +
-  'L 255 163 L 250 166 L 240 169 L 233 168 L 228 168 L 220 166 ' +
-  'L 213 165 L 205 168 L 200 174 L 196 171 L 192 168 L 188 166 Z'
-
-const SAMERICA_D =
-  'M 253 210 L 263 207 L 273 205 L 285 203 L 295 202 L 308 202 ' +
-  'L 318 206 L 325 210 L 330 217 L 335 224 L 343 232 L 350 242 ' +
-  'L 358 255 L 362 265 L 360 278 L 355 290 L 348 305 L 338 320 ' +
-  'L 328 338 L 318 355 L 310 371 L 305 381 L 300 384 L 293 378 ' +
-  'L 288 370 L 283 356 L 278 340 L 273 320 L 268 300 L 265 280 ' +
-  'L 263 265 L 261 248 L 258 235 L 255 224 L 253 214 L 253 210 Z'
-
-const ASIA_D =
-  'M 515 125 L 520 122 L 527 120 L 535 118 L 545 117 L 558 118 ' +
-  'L 568 118 L 575 122 L 583 119 L 590 116 L 602 112 L 615 107 ' +
-  'L 628 103 L 640 98 L 653 95 L 665 91 L 678 88 L 692 85 L 706 80 ' +
-  'L 720 75 L 733 70 L 745 67 L 755 65 L 765 64 L 778 65 L 790 68 ' +
-  'L 800 73 L 808 80 L 812 88 L 808 95 L 800 100 L 790 105 ' +
-  'L 778 110 L 765 113 L 752 118 L 745 125 L 743 132 L 745 140 ' +
-  'L 750 148 L 758 156 L 763 163 L 768 172 L 770 182 L 765 192 ' +
-  'L 758 200 L 750 206 L 740 212 L 730 218 L 720 220 L 713 218 ' +
-  'L 705 215 L 700 225 L 695 230 L 688 228 L 680 222 L 670 216 ' +
-  'L 660 215 L 650 218 L 643 216 L 638 213 L 645 228 L 648 242 ' +
-  'L 645 258 L 638 270 L 630 262 L 623 248 L 618 232 L 610 220 ' +
-  'L 600 215 L 588 212 L 578 207 L 572 215 L 563 220 L 553 215 ' +
-  'L 548 202 L 545 188 L 543 175 L 540 165 L 538 158 L 533 150 ' +
-  'L 527 148 L 522 140 L 518 132 L 515 125 Z'
-
-const AUSTRALIA_D =
-  'M 730 232 L 743 225 L 755 220 L 770 218 L 783 216 L 796 216 ' +
-  'L 810 218 L 820 220 L 830 222 L 838 228 L 840 238 L 838 248 ' +
-  'L 833 258 L 825 268 L 815 276 L 805 280 L 795 278 L 784 275 ' +
-  'L 773 278 L 763 282 L 753 280 L 744 274 L 738 263 L 733 250 ' +
-  'L 730 240 L 730 232 Z'
-
-const GREENLAND_D =
-  'M 313 60 L 325 48 L 342 38 L 358 30 L 375 22 L 390 18 L 403 16 ' +
-  'L 412 18 L 415 26 L 408 34 L 395 42 L 380 48 L 363 55 L 345 63 ' +
-  'L 330 68 L 318 68 L 313 60 Z'
-
-const CONTINENTS = [
-  { id: 'namerica',  d: NAMERICA_D },
-  { id: 'samerica',  d: SAMERICA_D },
-  { id: 'europe',    d: EUROPE_D },
-  { id: 'italy',     d: ITALY_D },
-  { id: 'africa',    d: AFRICA_D },
-  { id: 'asia',      d: ASIA_D },
-  { id: 'australia', d: AUSTRALIA_D },
-  { id: 'greenland', d: GREENLAND_D },
-]
-
-// ── CCAA abbreviations ────────────────────────────────────────────────────────
-const CCAA_ABBR: Record<string, string> = {
-  'ES-AN': 'AND', 'ES-AR': 'ARA', 'ES-AS': 'AST', 'ES-CN': 'CAN',
-  'ES-CB': 'CAB', 'ES-CM': 'CLM', 'ES-CL': 'CYL', 'ES-CT': 'CAT',
-  'ES-EX': 'EXT', 'ES-GA': 'GAL', 'ES-IB': 'BAL', 'ES-RI': 'RIO',
-  'ES-MD': 'MAD', 'ES-MC': 'MUR', 'ES-NC': 'NAV', 'ES-PV': 'PVA',
-  'ES-VC': 'VAL',
-}
-
-// ── color helpers ─────────────────────────────────────────────────────────────
-const LEVEL_COLORS: Record<string, string> = {
-  CRITICO: '#dc2626', ALTO: '#f59e0b', MEDIO: '#3b82f6', BAJO: '#22c55e',
-}
-function levelColor(nivel: string) { return LEVEL_COLORS[nivel] ?? '#22c55e' }
-function scoreColor(score: number) {
-  if (score >= 8) return '#dc2626'
-  if (score >= 6) return '#f59e0b'
-  if (score >= 4) return '#3b82f6'
-  return '#22c55e'
-}
-function factorColor(factor: string) {
-  if (factor === 'energia')    return '#f59e0b'
-  if (factor === 'migracion')  return '#ef4444'
-  if (factor === 'seguridad')  return '#dc2626'
-  if (factor === 'comercio')   return '#3b82f6'
-  return '#6366f1'
-}
-function urgencyColor(u: number) {
-  if (u >= 5) return '#dc2626'
-  if (u >= 4) return '#f59e0b'
-  if (u >= 3) return '#3b82f6'
-  return 'rgba(148,163,184,0.5)'
-}
-function dimColor(dim: string) {
-  if (dim === 'energia')     return '#f59e0b'
-  if (dim === 'comercio')    return '#3b82f6'
-  if (dim === 'seguridad')   return '#dc2626'
-  if (dim === 'diplomatica') return '#6366f1'
-  return '#0ea5e9'
-}
-function irgeColor(score: number) {
-  if (score >= 70) return '#dc2626'
-  if (score >= 50) return '#f59e0b'
-  if (score >= 30) return '#3b82f6'
-  return '#22c55e'
-}
-function irgeSemaforo(score: number) {
-  if (score >= 70) return 'CRITICO'
-  if (score >= 50) return 'ELEVADO'
-  if (score >= 30) return 'MODERADO'
-  return 'BAJO'
-}
-
-// ── safe array helper (backend may return comma-string instead of array) ──────
-function toArray(val: unknown): string[] {
-  if (Array.isArray(val)) return val as string[]
-  if (typeof val === 'string' && val.trim().length > 0) return [val]
-  return []
-}
-
-// ── time formatting ───────────────────────────────────────────────────────────
-function relTime(iso: string) {
+// ── helpers ───────────────────────────────────────────────────────────────────
+function relTime(iso: string | null | undefined) {
+  if (!iso) return '—'
   try {
     const diff = Date.now() - new Date(iso).getTime()
     const m = Math.floor(diff / 60_000)
@@ -176,2076 +18,609 @@ function relTime(iso: string) {
   } catch { return iso?.slice(0, 10) ?? '—' }
 }
 
-// ── CSS constants ─────────────────────────────────────────────────────────────
-const CARD = {
+function riskColor(r: number) {
+  if (r >= 70) return '#dc2626'
+  if (r >= 50) return '#f59e0b'
+  if (r >= 30) return '#3b82f6'
+  return '#22c55e'
+}
+function riskLabel(r: number) {
+  if (r >= 70) return 'CRITICO'
+  if (r >= 50) return 'ELEVADO'
+  if (r >= 30) return 'MODERADO'
+  return 'BAJO'
+}
+function sentColor(s: number) {
+  if (s < -0.4) return '#dc2626'
+  if (s < -0.1) return '#f59e0b'
+  if (s > 0.1)  return '#22c55e'
+  return '#64748b'
+}
+function nivelColor(n: string) {
+  if (n === 'CRITICO') return '#dc2626'
+  if (n === 'ALTO')    return '#f59e0b'
+  if (n === 'MEDIO')   return '#3b82f6'
+  return '#22c55e'
+}
+
+// ── design tokens ─────────────────────────────────────────────────────────────
+const CARD: React.CSSProperties = {
   background: 'white',
-  border: '1px solid rgba(0,0,0,0.08)',
+  border: '1px solid rgba(0,0,0,0.07)',
   borderRadius: 16,
-} as const
-const TEXT_PRIMARY   = '#0f172a'
-const TEXT_SECONDARY = '#64748b'
-const SHADOW         = '0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06)'
+  boxShadow: '0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.05)',
+}
+const CARD_INNER: React.CSSProperties = { padding: '20px 24px' }
+const INK1 = '#0f172a'
+const INK3 = '#64748b'
+const INK4 = '#94a3b8'
+
+// ── world map constants (equirectangular 900×440) ─────────────────────────────
+const COUNTRY_COORDS: Record<string, [number, number]> = {
+  RU: [98, 62], UA: [55, 72], IL: [51, 110], PS: [51, 112],
+  IR: [60, 108], CN: [102, 95], US: [220, 95], MA: [30, 108],
+  DZ: [32, 105], TR: [52, 95], VE: [260, 143], KP: [118, 78],
+  SY: [53, 100], LB: [52, 103], ML: [27, 118], IQ: [55, 103],
+  AF: [70, 98],  SA: [56, 112], TW: [115, 103], FR: [34, 78],
+  DE: [36, 72],  GB: [30, 72],  MX: [200, 113], MM: [100, 107],
+}
+function projX(lon: number) { return ((lon + 180) / 360) * 900 }
+function projY(lat: number) { return ((90 - lat) / 180) * 440 }
+
+// Simple continent fills (outline only for performance)
+const CONTINENT_PATHS = [
+  // North America
+  'M188 166 L165 170 L150 168 L140 158 L138 148 L135 138 L133 128 L135 119 L131 108 L128 102 L125 89 L115 80 L100 75 L88 69 L68 63 L48 58 L38 56 L30 46 L33 42 L50 40 L63 42 L88 51 L113 51 L150 46 L175 43 L200 43 L213 46 L225 48 L238 51 L250 58 L263 64 L273 75 L280 87 L283 96 L285 108 L288 119 L283 124 L278 128 L268 141 L258 158 L250 166 L233 168 L213 165 L200 174 L192 168 L188 166 Z',
+  // South America
+  'M253 210 L263 207 L273 205 L285 203 L295 202 L308 202 L318 206 L325 210 L330 217 L335 224 L343 232 L350 242 L358 255 L362 265 L360 278 L355 290 L348 305 L338 320 L328 338 L318 355 L310 371 L305 381 L300 384 L293 378 L288 370 L278 340 L268 300 L263 265 L258 235 L253 214 L253 210 Z',
+  // Europe
+  'M428 134 L428 124 L430 119 L436 116 L440 117 L450 117 L458 119 L462 116 L465 115 L470 117 L476 117 L480 114 L483 113 L486 109 L488 108 L492 108 L495 108 L498 103 L500 99 L502 93 L505 87 L508 81 L510 78 L512 71 L513 68 L511 61 L510 57 L500 52 L498 51 L492 52 L490 56 L486 57 L480 56 L475 57 L470 63 L465 71 L463 80 L464 86 L465 90 L470 91 L466 93 L461 95 L458 98 L455 99 L452 102 L448 105 L445 106 L441 109 L440 110 L438 112 L440 114 L442 116 L436 123 L431 129 L428 134 Z',
+  // Africa
+  'M435 138 L450 135 L458 135 L470 135 L476 133 L483 133 L488 138 L500 141 L513 141 L525 146 L533 146 L538 153 L541 163 L545 172 L550 192 L558 199 L575 204 L580 211 L573 224 L563 236 L555 243 L548 258 L543 265 L540 273 L538 281 L533 293 L530 301 L524 311 L518 319 L507 321 L500 320 L493 319 L483 308 L473 290 L468 281 L463 256 L463 235 L461 228 L455 220 L443 218 L428 216 L420 212 L408 196 L408 179 L413 164 L416 158 L424 150 L428 148 L432 143 L435 138 Z',
+  // Asia
+  'M515 125 L520 122 L527 120 L535 118 L545 117 L558 118 L568 118 L575 122 L583 119 L590 116 L602 112 L615 107 L628 103 L640 98 L653 95 L665 91 L678 88 L692 85 L706 80 L720 75 L733 70 L745 67 L755 65 L765 64 L778 65 L790 68 L800 73 L808 80 L812 88 L808 95 L800 100 L790 105 L778 110 L765 113 L752 118 L745 125 L743 132 L745 140 L750 148 L758 156 L763 163 L765 182 L758 200 L750 206 L730 218 L720 220 L700 225 L695 230 L688 228 L670 216 L650 218 L643 216 L638 213 L645 228 L638 270 L618 232 L600 215 L578 207 L563 220 L553 215 L548 202 L545 188 L543 175 L538 158 L527 148 L522 140 L515 125 Z',
+  // Australia
+  'M730 232 L743 225 L755 220 L770 218 L783 216 L796 216 L810 218 L820 220 L830 222 L838 228 L840 238 L838 248 L833 258 L825 268 L815 276 L795 278 L773 278 L744 274 L733 250 L730 240 L730 232 Z',
+]
 
 // ── types ─────────────────────────────────────────────────────────────────────
-interface GeoStats {
-  osint_24h: number; alertas_activas: number
-  paises_monitorizados: number; presencia_activa: number
-  alertas_count: { CRITICO: number; ALTO: number; MEDIO: number }
-}
 interface RiesgoItem {
-  pais: string; iso: string; score: number; interes_espana: number
-  lat: number; lon: number; categoria: string
+  code: string; name: string; risk: number; status: string
+  delta_7d: number; n_articles_30d: number; avg_sentiment: number
+  n_negative: number; structural_risk: number; has_data: boolean
+}
+interface EventItem {
+  date: string | null; country: string; type: string
+  title: string; description: string; source?: string | null
+  impact: number; spain_impact?: string | null; url?: string | null
+}
+interface KpiData {
+  eventos_criticos_hoy: number
+  articulos_internacionales_7d: number
+  paises_escalada_7d: number
+  conflictos_activos: number
+  fuentes_internacionales: number
+  impacto_espana_alto_7d: number
+  alertas_activas: number
+  paises_monitorizados: number
+  presencia_activa: number
+  alertas_count: { CRITICO: number; ALTO: number; MEDIO: number }
+  trend_delta: number
+  updated_at: string
+}
+interface AlertaItem {
+  id: string; titulo: string; nivel: string; fecha: string
+  paises: string[]; descripcion_corta: string; fuente: string
+  confianza_sistema?: number
 }
 interface OsintItem {
   id: string; titulo: string; fuente: string; fecha: string
   urgencia: number; categoria: string; resumen: string
+  relevancia_espana: number
 }
-interface AlertaItem {
-  id: string; titulo: string; nivel: string; fecha: string; paises: unknown
-  descripcion_corta?: string; descripcion: string; fuente: string
-  cadena_causal?: unknown
-  fuentes_detalle?: Array<{ titulo: string; fuente: string; url?: string; fecha: string; confianza: number }>
-  probabilidad?: number; horizonte?: string; confianza_sistema?: number
-}
-interface ImpactoItem {
-  id: string; titulo: string; dimension: string; severidad: number
-  horizonte: string; descripcion: string; paises_origen: unknown
-  escenario_base?: string; escenario_adverso?: string
-}
-interface ThinkTankItem {
-  id: string; titulo: string; fuente: string; fuente_tipo: string; fecha: string
-  url: string; resumen: string; urgencia: number; relevancia_espana: number
-  paises_detectados: unknown; temas_detectados: unknown
-}
-interface CcaaItem {
-  ccaa: string; ccaa_iso: string; lat: number; lon: number
-  score_total: number; score_energia: number; score_migracion: number
-  score_seguridad: number; score_comercio: number
-  factor_dominante: string; explicacion: string
-}
-interface ScenarioPoint {
-  titulo: string; probabilidad: number; impacto: number; nivel: string
-}
-interface EventItem {
-  date: string | null; country: string; type: string
-  description: string; impact: number
-  url?: string | null; source?: string | null
-  spain_impact?: string | null; title: string
-}
-interface PuntoPresencia {
+interface PresenciaItem {
   id: string; pais: string; iso3: string; lat: number; lon: number
-  categoria: 'militar' | 'energetica' | 'empresarial' | 'diplomatica' | 'diaspora'
-  titulo: string; actor: string; descripcion: string
-  valor: number; unidad: 'efectivos' | 'residentes' | 'mill_eur' | 'embajada' | 'MW' | 'unidad'
-  score_relevancia: number
+  categoria: string; titulo: string; descripcion: string
+  valor: number; unidad: string; score_relevancia: number
+  n_articulos_30d: number; last_updated: string
 }
 interface PresenciaKpis {
   efectivos: number; diaspora: number; inversion_mill_eur: number
   embajadas: number; fuentes_energia: number
 }
 
-// ── IRGE computation ──────────────────────────────────────────────────────────
-function computeIrge(riesgo: RiesgoItem[], alertas: AlertaItem[], thinkTanks: ThinkTankItem[]): number | null {
-  if (!riesgo.length && !alertas.length && !thinkTanks.length) return null
-  const totalInterest = riesgo.reduce((s, r) => s + r.interes_espana, 0)
-  const riskScore = totalInterest > 0
-    ? riesgo.reduce((s, r) => s + r.score * r.interes_espana, 0) / totalInterest
-    : 0
-  const critico = alertas.filter(a => a.nivel === 'CRITICO').length
-  const alto    = alertas.filter(a => a.nivel === 'ALTO').length
-  const medio   = alertas.filter(a => a.nivel === 'MEDIO').length
-  const alertScore = alertas.length > 0
-    ? (critico * 10 + alto * 6 + medio * 3) / Math.max(1, alertas.length)
-    : 0
-  const osintScore = thinkTanks.length > 0
-    ? (thinkTanks.reduce((s, t) => s + t.urgencia, 0) / thinkTanks.length) * 2
-    : 0
-  const raw = riskScore * 0.4 + alertScore * 0.35 + osintScore * 0.25
-  return Math.round(Math.min(100, raw * 10))
-}
-
-// ── Arc Gauge SVG ─────────────────────────────────────────────────────────────
-function ArcGauge({ score }: { score: number | null }) {
-  const s = score ?? 0
-  const angle = Math.PI - (s / 100) * Math.PI
-  const endX  = 110 + 90 * Math.cos(angle)
-  const endY  = 110 - 90 * Math.sin(angle)
-  const gaugeId = 'irge-gauge-grad'
-  const color = score !== null ? irgeColor(score) : 'rgba(148,163,184,0.3)'
-
-  // tick marks at 30%, 50%, 70%
-  const ticks = [30, 50, 70].map(pct => {
-    const a = Math.PI - (pct / 100) * Math.PI
-    const x1 = 110 + 82 * Math.cos(a)
-    const y1 = 110 - 82 * Math.sin(a)
-    const x2 = 110 + 96 * Math.cos(a)
-    const y2 = 110 - 96 * Math.sin(a)
-    return { x1, y1, x2, y2 }
-  })
-
-  return (
-    <svg viewBox="0 0 220 130" style={{ width: 220, height: 130, flexShrink: 0 }}>
-      <defs>
-        <linearGradient id={gaugeId} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stopColor="#22c55e" />
-          <stop offset="50%"  stopColor="#f59e0b" />
-          <stop offset="100%" stopColor="#dc2626" />
-        </linearGradient>
-      </defs>
-      {/* Track */}
-      <path d="M 20 110 A 90 90 0 0 1 200 110"
-        fill="none" stroke="rgba(0,0,0,0.09)" strokeWidth={10} strokeLinecap="round" />
-      {/* Progress */}
-      {score !== null && (
-        <path d={`M 20 110 A 90 90 0 0 1 ${endX} ${endY}`}
-          fill="none" stroke={`url(#${gaugeId})`} strokeWidth={10} strokeLinecap="round"
-          style={{ filter: `drop-shadow(0 0 6px ${color}80)` }} />
-      )}
-      {/* Tick marks */}
-      {ticks.map((t, i) => (
-        <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-          stroke="rgba(0,0,0,0.18)" strokeWidth={1.5} />
-      ))}
-      {/* Score label */}
-      <text x={110} y={100} textAnchor="middle" fill={color}
-        fontSize={36} fontWeight={900} fontFamily="-apple-system, SF Pro Display, Inter, system-ui, sans-serif"
-        style={{ letterSpacing: '-0.04em' }}>
-        {score ?? '—'}
-      </text>
-      {score !== null && (
-        <text x={110} y={116} textAnchor="middle" fill={color}
-          fontSize={9} fontWeight={700} fontFamily="-apple-system, SF Pro Display, Inter, system-ui, sans-serif"
-          style={{ letterSpacing: '0.08em' }}>
-          {irgeSemaforo(score)}
-        </text>
-      )}
-      {/* Zone labels */}
-      <text x={18}  y={125} fill="#94a3b8" fontSize={7.5} textAnchor="middle">BAJO</text>
-      <text x={202} y={125} fill="#94a3b8" fontSize={7.5} textAnchor="middle">CRITICO</text>
-    </svg>
-  )
-}
-
-// ── Sub-components ────────────────────────────────────────────────────────────
+// ── Tab bar ───────────────────────────────────────────────────────────────────
 function TabBar({ items, active, onChange }: { items: string[]; active: number; onChange: (i: number) => void }) {
   return (
-    <div style={{
-      display: 'flex', gap: 4, padding: 6,
-      background: 'rgba(0,0,0,0.04)',
-      borderRadius: 12, border: '1px solid rgba(0,0,0,0.08)',
-      marginBottom: 24, overflowX: 'auto', scrollbarWidth: 'none',
-    }}>
+    <div style={{ display: 'flex', gap: 4, padding: 5, background: 'rgba(0,0,0,0.04)', borderRadius: 12, border: '1px solid rgba(0,0,0,0.07)', marginBottom: 24, overflowX: 'auto' }}>
       {items.map((t, i) => (
         <button key={t} onClick={() => onChange(i)} style={{
-          border: active === i ? '1px solid rgba(14,165,233,0.25)' : '1px solid transparent',
-          background: active === i ? 'rgba(14,165,233,0.12)' : 'transparent',
-          color: active === i ? TEXT_PRIMARY : TEXT_SECONDARY,
-          borderRadius: 8, padding: '8px 18px',
+          border: active === i ? '1px solid rgba(14,165,233,0.22)' : '1px solid transparent',
+          background: active === i ? 'rgba(14,165,233,0.10)' : 'transparent',
+          color: active === i ? INK1 : INK3,
+          borderRadius: 8, padding: '7px 16px',
           fontSize: 11, fontWeight: active === i ? 700 : 500,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
+          letterSpacing: '0.07em', textTransform: 'uppercase',
           cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
-          transition: 'all 150ms',
         }}>{t}</button>
       ))}
     </div>
   )
 }
 
-function LevelBadge({ nivel }: { nivel: string }) {
-  const c = levelColor(nivel)
+// ── KPI Strip ────────────────────────────────────────────────────────────────
+function KpiStrip({ kpis }: { kpis: KpiData | null }) {
+  const items = [
+    { label: 'Noticias int. 7d',    value: kpis?.articulos_internacionales_7d ?? '—', accent: '#0ea5e9' },
+    { label: 'Alertas activas',     value: kpis?.alertas_activas ?? '—', accent: '#dc2626' },
+    { label: 'Países monitorizados',value: kpis?.paises_monitorizados ?? '—', accent: '#6366f1' },
+    { label: 'Conflictos activos',  value: kpis?.conflictos_activos ?? '—', accent: '#f59e0b' },
+    { label: 'Impacto alto 7d',     value: kpis?.impacto_espana_alto_7d ?? '—', accent: '#ef4444' },
+    { label: 'Presencia exterior',  value: kpis?.presencia_activa ?? '—', accent: '#22c55e' },
+  ]
   return (
-    <span style={{
-      padding: '2px 9px', borderRadius: 999, fontSize: 10, fontWeight: 700,
-      background: `${c}20`, color: c, letterSpacing: '0.05em',
-      border: `1px solid ${c}40`,
-    }}>{nivel}</span>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12, marginBottom: 24 }}>
+      {items.map(({ label, value, accent }) => (
+        <div key={label} style={{ ...CARD, ...CARD_INNER, padding: '14px 18px' }}>
+          <div style={{ fontSize: 9, color: INK4, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 4 }}>{label}</div>
+          <div style={{ fontSize: 26, fontWeight: 800, color: accent, letterSpacing: '-0.03em', fontFamily: 'var(--font-display, inherit)' }}>{value}</div>
+        </div>
+      ))}
+    </div>
   )
 }
 
-function ScorePill({ score }: { score: number }) {
-  const c = scoreColor(score)
-  return (
-    <span style={{
-      padding: '2px 9px', borderRadius: 999, fontSize: 11, fontWeight: 700,
-      background: `${c}20`, color: c,
-    }}>{score.toFixed(1)}</span>
-  )
-}
-
-function DimBadge({ dim }: { dim: string }) {
-  const c = dimColor(dim)
-  return (
-    <span style={{
-      padding: '2px 9px', borderRadius: 999, fontSize: 10, fontWeight: 600,
-      background: `${c}20`, color: c, border: `1px solid ${c}30`,
-    }}>{dim}</span>
-  )
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      fontSize: 10, color: TEXT_SECONDARY, fontWeight: 700,
-      textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14,
-    }}>{children}</div>
-  )
-}
-
-// ── MAIN COMPONENT ────────────────────────────────────────────────────────────
-export default function GeopoliticaPage() {
-  const [tab, setTab] = useState(0)
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; text: string } | null>(null)
-  const [hoverAlerts, setHoverAlerts] = useState<Set<string>>(new Set())
-  const [expandAlerts, setExpandAlerts] = useState<Set<string>>(new Set())
-  const [expandImpactos, setExpandImpactos] = useState<Set<string>>(new Set())
-  const [selectedCcaa, setSelectedCcaa] = useState<string | null>(null)
-  const [ccaaDim, setCcaaDim] = useState<'total' | 'energia' | 'migracion' | 'seguridad'>('total')
-  const [ttQuery, setTtQuery] = useState('')
-  const [ttUrgMin, setTtUrgMin] = useState(1)
-  const [ttNicho, setTtNicho] = useState('all')
-  const [alertFilter, setAlertFilter] = useState<'TODOS' | 'CRITICO' | 'ALTO' | 'MEDIO'>('TODOS')
-  const [presenciaLayer, setPresenciaLayer] = useState<'todas' | 'militar' | 'energetica' | 'empresarial' | 'diplomatica' | 'diaspora'>('todas')
-  const [presenciaTooltip, setPresenciaTooltip] = useState<{ x: number; y: number; content: PuntoPresencia } | null>(null)
-  const mapRef = useRef<SVGSVGElement>(null)
-
-  const { data: geoStatsRaw }                      = useApi<GeoStats & { data?: GeoStats }>('/api/geopolitica/stats', { refreshInterval: 60_000 })
-  const { data: riesgoRaw }                        = useApi<{ data: RiesgoItem[] }>('/api/geopolitica/riesgo', { refreshInterval: 120_000 })
-  const { data: osintRaw, loading: loadingOsint }  = useApi<{ data: OsintItem[] }>('/api/geopolitica/osint', { refreshInterval: 60_000 })
-  const { data: alertasRaw }                       = useApi<{ data: AlertaItem[] }>('/api/geopolitica/alertas', { refreshInterval: 30_000 })
-  const { data: impactosRaw }                      = useApi<{ data: ImpactoItem[] }>('/api/geopolitica/impactos', { refreshInterval: 120_000 })
-  const { data: thinkTanksRaw }                    = useApi<{ data: ThinkTankItem[] }>('/api/geopolitica/think-tanks', { refreshInterval: 120_000 })
-  const { data: ccaaRaw }                          = useApi<{ data: CcaaItem[] }>('/api/geopolitica/ccaa', { refreshInterval: 300_000 })
-  const { data: presenciaRaw }                     = useApi<{ data: PuntoPresencia[]; kpis: PresenciaKpis }>('/api/geopolitica/presencia', { refreshInterval: 300_000 })
-  const { data: eventsRaw }                        = useApi<{ data: EventItem[] }>('/api/geopolitica/events', { refreshInterval: 120_000 })
-
-  const geoStats: GeoStats  = (geoStatsRaw as GeoStats) ?? { osint_24h: 0, alertas_activas: 0, paises_monitorizados: 0, presencia_activa: 0, alertas_count: { CRITICO: 0, ALTO: 0, MEDIO: 0 } }
-  const riesgo: RiesgoItem[]       = riesgoRaw?.data ?? []
-  const osint: OsintItem[]         = osintRaw?.data ?? []
-  const alertas: AlertaItem[]      = alertasRaw?.data ?? []
-  const impactosReal: ImpactoItem[]= impactosRaw?.data ?? []
-  const thinkTanks: ThinkTankItem[]= thinkTanksRaw?.data ?? []
-  const ccaa: CcaaItem[]           = ccaaRaw?.data ?? []
-  const presencia: PuntoPresencia[] = presenciaRaw?.data ?? []
-  const presenciaKpis: PresenciaKpis = presenciaRaw?.kpis ?? { efectivos: 0, diaspora: 0, inversion_mill_eur: 0, embajadas: 0, fuentes_energia: 0 }
-  const presenciaFiltered = presenciaLayer === 'todas' ? presencia : presencia.filter(p => p.categoria === presenciaLayer)
-  const events: EventItem[] = eventsRaw?.data ?? []
-  void osint
-
-  const impactos: ImpactoItem[] = useMemo(() => {
-    if (impactosReal.length > 0) return impactosReal
-    return alertas.map(a => ({
-      id: `synth-${a.id}`,
-      titulo: a.titulo,
-      dimension:
-        a.titulo.toLowerCase().includes('energ') ? 'energia' :
-        a.titulo.toLowerCase().includes('migr')  ? 'diplomatica' :
-        a.nivel === 'CRITICO'                     ? 'seguridad' : 'comercio',
-      severidad:
-        a.nivel === 'CRITICO' ? 5 : a.nivel === 'ALTO' ? 4 : a.nivel === 'MEDIO' ? 3 : 2,
-      horizonte:
-        a.horizonte ?? (a.nivel === 'CRITICO' ? 'inmediato' : a.nivel === 'ALTO' ? 'corto' : 'medio'),
-      descripcion: a.descripcion_corta ?? a.descripcion,
-      paises_origen: toArray(a.paises),
-    }))
-  }, [impactosReal, alertas])
-
-  const riesgoSorted   = [...riesgo].sort((a, b) => b.score - a.score)
-  const impactosSorted = [...impactos].sort((a, b) => b.severidad - a.severidad)
-  const alertasSorted  = [...alertas].sort((a, b) => {
-    const order = ['CRITICO', 'ALTO', 'MEDIO', 'BAJO']
-    return (order.indexOf(a.nivel) - order.indexOf(b.nivel)) ||
-           (new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
-  })
-
-  const irge = useMemo(() => computeIrge(riesgo, alertas, thinkTanks), [riesgo, alertas, thinkTanks])
-
-  const kpiCards = [
-    { label: 'Senales OSINT 24h',     value: geoStats.osint_24h,           accent: '#0ea5e9' },
-    { label: 'Alertas activas',        value: geoStats.alertas_activas,      accent: '#dc2626' },
-    { label: 'Paises monitorizados',   value: geoStats.paises_monitorizados, accent: '#22c55e' },
-    { label: 'Presencia activa',       value: geoStats.presencia_activa,     accent: '#6366f1' },
-  ]
-
-  const ttFiltered = thinkTanks
-    .filter(t => t.urgencia >= ttUrgMin && (ttNicho === 'all' || toArray(t.temas_detectados).includes(ttNicho)))
-    .filter(t => !ttQuery || t.titulo.toLowerCase().includes(ttQuery.toLowerCase()) || t.resumen.toLowerCase().includes(ttQuery.toLowerCase()))
-    .sort((a, b) => b.urgencia - a.urgencia || b.relevancia_espana - a.relevancia_espana)
-
-  const ttNichos = Array.from(new Set(thinkTanks.flatMap(t => toArray(t.temas_detectados))))
-
-  const sourceMap: Record<string, { items: ThinkTankItem[]; maxUrgencia: number; latest: string }> = {}
-  for (const t of thinkTanks) {
-    if (!sourceMap[t.fuente]) sourceMap[t.fuente] = { items: [], maxUrgencia: 0, latest: t.fecha }
-    sourceMap[t.fuente].items.push(t)
-    if (t.urgencia > sourceMap[t.fuente].maxUrgencia) sourceMap[t.fuente].maxUrgencia = t.urgencia
-    if (t.fecha > sourceMap[t.fuente].latest) sourceMap[t.fuente].latest = t.fecha
-  }
-  const maxSourceItems = Math.max(1, ...Object.values(sourceMap).map(s => s.items.length))
-
-  const temasCount: Record<string, number> = {}
-  for (const t of thinkTanks) {
-    for (const tema of toArray(t.temas_detectados)) {
-      temasCount[tema] = (temasCount[tema] ?? 0) + 1
-    }
-  }
-  const topTemas = Object.entries(temasCount).sort((a, b) => b[1] - a[1]).slice(0, 10)
-  const maxTemas = Math.max(1, topTemas[0]?.[1] ?? 1)
-
-  const timelineBuckets = useMemo(() => {
-    const buckets: Record<string, number> = {}
-    const now = Date.now()
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(now - i * 86_400_000)
-      buckets[d.toISOString().slice(0, 10)] = 0
-    }
-    for (const t of thinkTanks) {
-      const day = t.fecha?.slice(0, 10)
-      if (day && buckets[day] !== undefined) buckets[day]++
-    }
-    return Object.entries(buckets).map(([date, count]) => ({ date, count }))
-  }, [thinkTanks])
-  const maxBucket = Math.max(1, ...timelineBuckets.map(b => b.count))
-
-  const hasCritico = alertas.some(a => a.nivel === 'CRITICO')
-  const hasAlto    = alertas.some(a => a.nivel === 'ALTO')
-  const alertasCount = { CRITICO: 0, ALTO: 0, MEDIO: 0, BAJO: 0 }
-  for (const a of alertas) {
-    const k = (['CRITICO', 'ALTO', 'MEDIO', 'BAJO'].includes(a.nivel) ? a.nivel : 'BAJO') as keyof typeof alertasCount
-    alertasCount[k]++
-  }
-
-  const HORIZONTES  = ['inmediato', 'corto', 'medio', 'largo']
-  const DIMENSIONES = ['energia', 'comercio', 'seguridad', 'diplomatica']
-  type HeatCell = { count: number; avgSeveridad: number }
-  const heatmap: Record<string, Record<string, HeatCell>> = {}
-  for (const h of HORIZONTES) {
-    heatmap[h] = {}
-    for (const d of DIMENSIONES) {
-      const bucket = impactos.filter(i => i.horizonte === h && i.dimension === d)
-      heatmap[h][d] = { count: bucket.length, avgSeveridad: bucket.length ? bucket.reduce((s, i) => s + i.severidad, 0) / bucket.length : 0 }
-    }
-  }
-
-  const scenarioPoints: ScenarioPoint[] = useMemo(() => {
-    const pts: ScenarioPoint[] = alertas.map(a => ({
-      titulo: a.titulo,
-      probabilidad: a.probabilidad ?? (a.nivel === 'CRITICO' ? 0.78 : a.nivel === 'ALTO' ? 0.55 : a.nivel === 'MEDIO' ? 0.35 : 0.15),
-      impacto: a.nivel === 'CRITICO' ? 4.8 : a.nivel === 'ALTO' ? 3.5 : a.nivel === 'MEDIO' ? 2.4 : 1.3,
-      nivel: a.nivel,
-    }))
-    for (const imp of impactosReal) {
-      if (!pts.find(p => p.titulo === imp.titulo)) {
-        pts.push({
-          titulo: imp.titulo,
-          probabilidad: 0.5,
-          impacto: imp.severidad,
-          nivel: imp.severidad >= 4 ? 'ALTO' : imp.severidad >= 3 ? 'MEDIO' : 'BAJO',
-        })
-      }
-    }
-    return pts
-  }, [alertas, impactosReal])
-
-  const selectedCcaaData = ccaa.find(c => c.ccaa === selectedCcaa)
-  const getCcaaScore = (c: CcaaItem) => {
-    if (ccaaDim === 'energia')   return c.score_energia
-    if (ccaaDim === 'migracion') return c.score_migracion
-    if (ccaaDim === 'seguridad') return c.score_seguridad
-    return c.score_total
-  }
-  const maxCcaaScore = Math.max(1, ...ccaa.map(c => getCcaaScore(c)))
-
-  const top5Risk = [...riesgo]
-    .sort((a, b) => (b.score * b.interes_espana) - (a.score * a.interes_espana))
-    .slice(0, 5)
-
-  // ── Collision avoidance for map bubbles ───────────────────────────────────────
-  type LayoutItem = RiesgoItem & { cx: number; cy: number; radius: number; vcx: number; vcy: number }
-  const riesgoLayout = useMemo<LayoutItem[]>(() => {
-    if (!riesgoSorted.length) return []
-    const W = 900, H = 460
-    const items: LayoutItem[] = riesgoSorted.map(r => {
-      const cx = projX(r.lon, W)
-      const cy = projY(r.lat, H)
-      const radius = clamp(r.score * 3.4, 7, 28)
-      return { ...r, cx, cy, radius, vcx: cx, vcy: cy }
-    })
-    for (let iter = 0; iter < 120; iter++) {
-      let moved = false
-      for (let i = 0; i < items.length; i++) {
-        for (let j = i + 1; j < items.length; j++) {
-          const dx = items[j].vcx - items[i].vcx
-          const dy = items[j].vcy - items[i].vcy
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          const minDist = items[i].radius + items[j].radius + 5
-          if (dist < minDist && dist > 0.01) {
-            const shift = (minDist - dist) / 2 + 0.5
-            const nx = dx / dist, ny = dy / dist
-            items[i].vcx -= nx * shift * 0.55
-            items[i].vcy -= ny * shift * 0.55
-            items[j].vcx += nx * shift * 0.55
-            items[j].vcy += ny * shift * 0.55
-            // clamp inside map
-            items[i].vcx = clamp(items[i].vcx, items[i].radius + 2, W - items[i].radius - 2)
-            items[i].vcy = clamp(items[i].vcy, items[i].radius + 2, H - items[i].radius - 2)
-            items[j].vcx = clamp(items[j].vcx, items[j].radius + 2, W - items[j].radius - 2)
-            items[j].vcy = clamp(items[j].vcy, items[j].radius + 2, H - items[j].radius - 2)
-            moved = true
-          }
-        }
-      }
-      if (!moved) break
-    }
-    return items
-  }, [riesgoSorted])
-
-  function toggleSet(id: string, set: React.Dispatch<React.SetStateAction<Set<string>>>) {
-    set(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next })
-  }
-
-  // IRGE component bars
-  const irgeComponents = [
-    {
-      label: 'Riesgo pais',
-      value: riesgo.length > 0 ? (riesgo.slice(0, 3).reduce((s, r) => s + r.score, 0) / 3) / 10 : 0,
-      display: riesgo.length > 0 ? (riesgo.slice(0, 3).reduce((s, r) => s + r.score, 0) / 3).toFixed(1) : '—',
-      color: '#0ea5e9',
-    },
-    {
-      label: 'Alertas activas',
-      value: Math.min(1, alertas.length / 50),
-      display: String(alertas.length),
-      color: '#dc2626',
-    },
-    {
-      label: 'Senales OSINT',
-      value: Math.min(1, thinkTanks.length / 50),
-      display: String(thinkTanks.length),
-      color: '#6366f1',
-    },
-  ]
-
-  // Theater definitions for Tab 5
-  const THEATERS = [
-    {
-      id: 'med-occ',
-      nombre: 'Mediterraneo Occidental',
-      paises: ['Marruecos', 'Argelia', 'Libia', 'Tunez'],
-      riesgos: ['Migracion', 'Energia', 'Terrorismo'],
-      intereses: ['Estrecho de Gibraltar', 'Gas ENDESA / Argelia', 'Ceuta y Melilla', 'Pesca Atlantico'],
-      color: '#0ea5e9',
-    },
-    {
-      id: 'sahel',
-      nombre: 'Sahel y Africa Subsahariana',
-      paises: ['Mali', 'Niger', 'Sudan', 'Burkina Faso'],
-      riesgos: ['Golpes de Estado', 'Terrorismo', 'Flujos migratorios'],
-      intereses: ['Operaciones Repsol', 'Contencion migratoria', 'Presencia diplomatica'],
-      color: '#f59e0b',
-    },
-    {
-      id: 'atlantico',
-      nombre: 'Atlantico Norte y Europa',
-      paises: ['Ucrania', 'Rusia', 'Polonia', 'Alemania'],
-      riesgos: ['Escalada militar', 'Cadenas de suministro', 'Precios energia'],
-      intereses: ['Gasto en defensa NATO', 'Rutas de gas', 'Exportaciones UE'],
-      color: '#22c55e',
-    },
-    {
-      id: 'mena',
-      nombre: 'MENA y Golfo Persico',
-      paises: ['Iran', 'Israel', 'Arabia Saudi', 'Turquia'],
-      riesgos: ['Precio petroleo', 'Proliferacion armament', 'Tension confes.'],
-      intereses: ['Importaciones energia', 'Banco Sabadell / Gulf', 'Telefonica MENA'],
-      color: '#6366f1',
-    },
-  ]
-
-  // Inject dynamic alert data into theaters
-  const theatersWithData = THEATERS.map(th => {
-    const relatedAlerts = alertas.filter(a =>
-      th.paises.some(p => toArray(a.paises).some(ap => ap.toLowerCase().includes(p.toLowerCase())) ||
-        a.titulo.toLowerCase().includes(p.toLowerCase()))
-    )
-    const maxLevel = relatedAlerts.some(a => a.nivel === 'CRITICO') ? 'CRITICO' :
-                     relatedAlerts.some(a => a.nivel === 'ALTO')    ? 'ALTO'    :
-                     relatedAlerts.some(a => a.nivel === 'MEDIO')   ? 'MEDIO'   : 'BAJO'
-    const levelCounts = { CRITICO: 0, ALTO: 0, MEDIO: 0, BAJO: 0 }
-    for (const a of relatedAlerts) {
-      const k = (['CRITICO','ALTO','MEDIO','BAJO'].includes(a.nivel) ? a.nivel : 'BAJO') as keyof typeof levelCounts
-      levelCounts[k]++
-    }
-    return { ...th, relatedAlerts, maxLevel, levelCounts }
-  })
-
-  const alertasFiltered = alertFilter === 'TODOS' ? alertasSorted : alertasSorted.filter(a => a.nivel === alertFilter)
-
-  // Sector exposure from impactos
-  const SECTORS = [
-    { key: 'energia',    label: 'Energia', color: '#f59e0b' },
-    { key: 'comercio',   label: 'Comercio', color: '#3b82f6' },
-    { key: 'seguridad',  label: 'Seguridad', color: '#dc2626' },
-    { key: 'diplomatica',label: 'Diplomatica', color: '#6366f1' },
-    { key: 'migracion',  label: 'Migracion', color: '#ef4444' },
-  ]
-  const maxSectorCount = Math.max(1, ...SECTORS.map(s => impactos.filter(i => i.dimension === s.key).length))
+// ── World Map with risk bubbles ────────────────────────────────────────────────
+function WorldMap({ riesgo }: { riesgo: RiesgoItem[] }) {
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; item: RiesgoItem } | null>(null)
+  const riesgoByCode = useMemo(() => {
+    const m: Record<string, RiesgoItem> = {}
+    riesgo.forEach(r => { m[r.code] = r })
+    return m
+  }, [riesgo])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f5f5f7', color: TEXT_PRIMARY, fontFamily: '-apple-system, "SF Pro Display", Inter, system-ui, sans-serif' }}>
-      <AppHeader />
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 24px 64px' }}>
+    <div style={{ ...CARD, overflow: 'hidden', position: 'relative' }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+        <span style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Mapa de riesgo global</span>
+        <span style={{ marginLeft: 12, fontSize: 11, color: INK3 }}>Intensidad desde noticias_prensa últimos 30 días</span>
+      </div>
+      <svg
+        viewBox="0 0 900 440"
+        style={{ width: '100%', background: '#f0f4f8', display: 'block' }}
+        onMouseLeave={() => setTooltip(null)}
+      >
+        {/* Ocean gradient */}
+        <defs>
+          <radialGradient id="oceanG" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#dbeafe" />
+            <stop offset="100%" stopColor="#bfdbfe" />
+          </radialGradient>
+        </defs>
+        <rect x={0} y={0} width={900} height={440} fill="url(#oceanG)" />
 
-        {/* ── IRGE ARC GAUGE HEADER ── */}
+        {/* Continent fills */}
+        {CONTINENT_PATHS.map((d, i) => (
+          <path key={i} d={d} fill="#e2e8f0" stroke="#cbd5e1" strokeWidth={0.8} />
+        ))}
+
+        {/* Spain marker */}
+        <circle cx={projX(-3.7)} cy={projY(40.4)} r={6}
+          fill="#1F4E8C" stroke="white" strokeWidth={1.5}
+          style={{ filter: 'drop-shadow(0 1px 3px rgba(31,78,140,0.5))' }} />
+        <text x={projX(-3.7)} y={projY(40.4) - 10}
+          textAnchor="middle" fill="#1F4E8C" fontSize={8} fontWeight={700}>ESP</text>
+
+        {/* Country risk bubbles */}
+        {Object.entries(COUNTRY_COORDS).map(([code, [x, y]]) => {
+          const item = riesgoByCode[code]
+          if (!item) return null
+          const r = Math.max(5, Math.min(22, item.risk / 5))
+          const col = riskColor(item.risk)
+          return (
+            <g key={code}
+              onMouseEnter={(e) => setTooltip({ x: e.clientX, y: e.clientY, item })}
+              onMouseLeave={() => setTooltip(null)}
+              style={{ cursor: 'pointer' }}>
+              <circle cx={x} cy={y} r={r + 4}
+                fill={col} opacity={0.12} />
+              <circle cx={x} cy={y} r={r}
+                fill={col} stroke="white" strokeWidth={1}
+                opacity={item.has_data ? 0.85 : 0.45}
+                style={{ filter: `drop-shadow(0 1px 2px ${col}60)` }} />
+              {r >= 10 && (
+                <text x={x} y={y + 3.5} textAnchor="middle"
+                  fill="white" fontSize={7} fontWeight={800}>{code}</text>
+              )}
+            </g>
+          )
+        })}
+      </svg>
+
+      {/* Legend */}
+      <div style={{ padding: '10px 20px', background: 'rgba(0,0,0,0.02)', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', gap: 20, alignItems: 'center' }}>
+        {[['#dc2626','CRITICO ≥70'],['#f59e0b','ELEVADO 50-69'],['#3b82f6','MODERADO 30-49'],['#22c55e','BAJO <30']].map(([c, l]) => (
+          <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ width: 10, height: 10, borderRadius: '50%', background: c as string }} />
+            <span style={{ fontSize: 10, color: INK3 }}>{l}</span>
+          </div>
+        ))}
+        <span style={{ fontSize: 10, color: INK4, marginLeft: 'auto' }}>Tamaño ∝ riesgo compuesto · Opacidad ∝ cobertura</span>
+      </div>
+
+      {/* Tooltip */}
+      {tooltip && (
         <div style={{
-          background: 'white',
-          border: '1px solid rgba(0,0,0,0.08)',
-          borderRadius: 16, padding: '24px 28px',
-          marginBottom: 20,
-          display: 'grid',
-          gridTemplateColumns: '220px 1fr auto',
-          gap: 32,
-          alignItems: 'center',
-          boxShadow: SHADOW,
+          position: 'fixed', left: tooltip.x + 14, top: tooltip.y - 10, zIndex: 9999,
+          background: 'white', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 10,
+          padding: '12px 16px', boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          pointerEvents: 'none', minWidth: 200,
         }}>
-          {/* LEFT — arc gauge */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <ArcGauge score={irge} />
-            <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', textAlign: 'center' }}>
-              IRGE — Indice de Riesgo Geopolitico
+          <div style={{ fontWeight: 700, fontSize: 13, color: INK1, marginBottom: 4 }}>{tooltip.item.name}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+            <div style={{ fontSize: 22, fontWeight: 900, color: riskColor(tooltip.item.risk) }}>{tooltip.item.risk}</div>
+            <div>
+              <div style={{ fontSize: 9, fontWeight: 700, color: riskColor(tooltip.item.risk), textTransform: 'uppercase', letterSpacing: '0.08em' }}>{riskLabel(tooltip.item.risk)}</div>
+              <div style={{ fontSize: 10, color: INK3 }}>{tooltip.item.status}</div>
             </div>
           </div>
+          <div style={{ fontSize: 10, color: INK3 }}>{tooltip.item.n_articles_30d} artículos · 30d</div>
+          <div style={{ fontSize: 10, color: INK3 }}>Sent: <span style={{ color: sentColor(tooltip.item.avg_sentiment) }}>{tooltip.item.avg_sentiment.toFixed(2)}</span></div>
+          {!tooltip.item.has_data && <div style={{ fontSize: 9, color: INK4, marginTop: 4 }}>Sin datos recientes · riesgo estructural</div>}
+        </div>
+      )}
+    </div>
+  )
+}
 
-          {/* CENTER — label + component bars */}
-          <div>
-            <div style={{ marginBottom: 18 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 22, fontWeight: 800, color: irge !== null ? irgeColor(irge) : TEXT_SECONDARY, letterSpacing: '-0.02em' }}>
-                  {irge ?? '—'}<span style={{ fontSize: 13, fontWeight: 400, color: TEXT_SECONDARY }}>/100</span>
-                </span>
-                {irge !== null && (
-                  <span style={{
-                    fontSize: 11, fontWeight: 700, letterSpacing: '0.07em',
-                    color: irgeColor(irge), textTransform: 'uppercase',
-                    padding: '2px 10px', borderRadius: 999,
-                    background: `${irgeColor(irge)}18`,
-                    border: `1px solid ${irgeColor(irge)}35`,
-                  }}>{irgeSemaforo(irge)}</span>
+// ── Country Risk Table ─────────────────────────────────────────────────────────
+function RiesgoTable({ riesgo }: { riesgo: RiesgoItem[] }) {
+  return (
+    <div style={{ ...CARD, ...CARD_INNER }}>
+      <div style={{ fontSize: 10, color: INK4, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 14 }}>Índice de riesgo por país</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {riesgo.map((item, i) => (
+          <div key={item.code} style={{
+            display: 'grid', gridTemplateColumns: '24px 1fr 80px 60px 60px',
+            gap: 8, alignItems: 'center',
+            padding: '9px 0',
+            borderBottom: i < riesgo.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none',
+          }}>
+            <span style={{ fontSize: 10, color: INK4, fontWeight: 600 }}>{i + 1}</span>
+            <div>
+              <span style={{ fontWeight: 600, fontSize: 12, color: INK1 }}>{item.name}</span>
+              {!item.has_data && <span style={{ marginLeft: 6, fontSize: 9, color: INK4 }}>est.</span>}
+            </div>
+            {/* Risk bar */}
+            <div style={{ position: 'relative', height: 6, background: 'rgba(0,0,0,0.07)', borderRadius: 3, overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${item.risk}%`, background: riskColor(item.risk), borderRadius: 3 }} />
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 700, color: riskColor(item.risk), textAlign: 'right' }}>{item.risk}</span>
+            <span style={{ fontSize: 9, fontWeight: 700, color: riskColor(item.risk), textTransform: 'uppercase', letterSpacing: '0.07em', textAlign: 'right' }}>
+              {riskLabel(item.risk)}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Events Feed ───────────────────────────────────────────────────────────────
+function EventsFeed({ events, loading }: { events: EventItem[]; loading: boolean }) {
+  if (loading) return <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Cargando eventos…</div>
+  if (!events.length) return <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Sin eventos recientes.</div>
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {events.map((ev, i) => {
+        const impact = ev.spain_impact || ''
+        const impactColor = impact === 'critico' || impact === 'alto' ? '#dc2626' : impact === 'medio' ? '#f59e0b' : '#22c55e'
+        return (
+          <div key={i} style={{ ...CARD, padding: '14px 18px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+            {/* Impact dot */}
+            <div style={{ flexShrink: 0, marginTop: 3 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: impactColor }} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: INK1, lineHeight: 1.4, marginBottom: 4 }}>
+                {ev.url ? (
+                  <a href={ev.url} target="_blank" rel="noopener noreferrer" style={{ color: INK1, textDecoration: 'none' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#1F4E8C')}
+                    onMouseLeave={e => (e.currentTarget.style.color = INK1)}>
+                    {ev.title}
+                  </a>
+                ) : ev.title}
+              </div>
+              {ev.description !== ev.title && (
+                <div style={{ fontSize: 11.5, color: INK3, lineHeight: 1.5, marginBottom: 6 }}>{ev.description?.slice(0, 180)}{(ev.description?.length ?? 0) > 180 ? '…' : ''}</div>
+              )}
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 10, color: INK4 }}>{relTime(ev.date)}</span>
+                {ev.country && <span style={{ fontSize: 10, color: INK3, fontWeight: 600 }}>{ev.country}</span>}
+                {ev.source && <span style={{ fontSize: 10, color: INK4 }}>{ev.source}</span>}
+                {ev.type && (
+                  <span style={{ fontSize: 9, background: 'rgba(0,0,0,0.05)', borderRadius: 4, padding: '2px 6px', color: INK3, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    {ev.type}
+                  </span>
                 )}
               </div>
-              <div style={{ display: 'flex', gap: 16 }}>
-                {[
-                  { label: 'Bajo', pct: '0–30', color: '#22c55e' },
-                  { label: 'Moderado', pct: '30–50', color: '#3b82f6' },
-                  { label: 'Elevado', pct: '50–70', color: '#f59e0b' },
-                  { label: 'Critico', pct: '70+', color: '#dc2626' },
-                ].map(z => (
-                  <div key={z.label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: z.color }} />
-                    <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>{z.label} <span style={{ color: 'rgba(148,163,184,0.4)' }}>{z.pct}</span></span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Component breakdown bars */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {irgeComponents.map(c => (
-                <div key={c.label}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3, alignItems: 'center' }}>
-                    <span style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{c.label}</span>
-                    <span style={{ fontSize: 12, fontWeight: 700, color: c.color }}>{c.display}</span>
-                  </div>
-                  <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-                    <div style={{
-                      width: `${clamp(c.value * 100, 0, 100)}%`, height: 4,
-                      background: c.color, borderRadius: 2,
-                      transition: 'width 0.8s cubic-bezier(0.16,1,0.3,1)',
-                      boxShadow: `0 0 8px ${c.color}60`,
-                    }} />
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
+        )
+      })}
+    </div>
+  )
+}
 
-          {/* RIGHT — KPI chips 2x2 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, minWidth: 260 }}>
-            {kpiCards.map(k => (
-              <div key={k.label} style={{
-                background: '#f8fafc',
-                border: '1px solid rgba(0,0,0,0.07)',
-                borderLeft: `3px solid ${k.accent}`,
-                borderRadius: 10, padding: '10px 14px',
-              }}>
-                <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 600, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 4 }}>{k.label}</div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: k.accent, lineHeight: 1 }}>{k.value}</div>
-              </div>
+// ── Alertas Panel ─────────────────────────────────────────────────────────────
+function AlertasPanel({ alertas, loading }: { alertas: AlertaItem[]; loading: boolean }) {
+  const [filter, setFilter] = useState<string | null>(null)
+  const filtered = filter ? alertas.filter(a => a.nivel === filter) : alertas
+
+  if (loading) return <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Cargando alertas…</div>
+
+  const counts = { CRITICO: alertas.filter(a => a.nivel === 'CRITICO').length, ALTO: alertas.filter(a => a.nivel === 'ALTO').length, MEDIO: alertas.filter(a => a.nivel === 'MEDIO').length }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {/* Filter buttons */}
+      <div style={{ display: 'flex', gap: 8 }}>
+        {[null, 'CRITICO', 'ALTO', 'MEDIO'].map(nivel => (
+          <button key={nivel ?? 'all'} onClick={() => setFilter(nivel)} style={{
+            border: '1px solid', borderColor: nivel ? nivelColor(nivel) : 'rgba(0,0,0,0.15)',
+            background: filter === nivel ? (nivel ? nivelColor(nivel) : '#f1f5f9') : 'white',
+            color: filter === nivel && nivel ? 'white' : nivel ? nivelColor(nivel) : INK3,
+            borderRadius: 8, padding: '5px 12px', fontSize: 10, fontWeight: 700,
+            cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.07em',
+            transition: 'all 150ms',
+          }}>
+            {nivel ?? 'Todas'} {nivel ? `(${counts[nivel as keyof typeof counts] ?? 0})` : `(${alertas.length})`}
+          </button>
+        ))}
+      </div>
+
+      {!filtered.length && (
+        <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>
+          Sin alertas{filter ? ` de nivel ${filter}` : ''} en los últimos 14 días.
+        </div>
+      )}
+
+      {filtered.map((a, i) => (
+        <div key={a.id} style={{ ...CARD, padding: '16px 20px', borderLeft: `3px solid ${nivelColor(a.nivel)}` }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
+            <div style={{ flex: 1 }}>
+              <span style={{ fontSize: 9, fontWeight: 800, color: nivelColor(a.nivel), textTransform: 'uppercase', letterSpacing: '0.09em' }}>{a.nivel}</span>
+              <div style={{ fontSize: 13, fontWeight: 600, color: INK1, marginTop: 2, lineHeight: 1.4 }}>{a.titulo}</div>
+            </div>
+            <span style={{ fontSize: 10, color: INK4, flexShrink: 0 }}>{relTime(a.fecha)}</span>
+          </div>
+          <div style={{ fontSize: 12, color: INK3, lineHeight: 1.5, marginBottom: 8 }}>{a.descripcion_corta}</div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+            {a.paises?.map((p: string) => (
+              <span key={p} style={{ fontSize: 10, background: 'rgba(0,0,0,0.05)', borderRadius: 4, padding: '2px 7px', color: INK3, fontWeight: 600 }}>{p}</span>
+            ))}
+            {a.fuente && <span style={{ fontSize: 10, color: INK4 }}>{a.fuente}</span>}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ── Presencia Exterior ─────────────────────────────────────────────────────────
+function PresenciaExterior({ presencia, kpis, loading }: { presencia: PresenciaItem[]; kpis: PresenciaKpis | null; loading: boolean }) {
+  const CAT_COLORS: Record<string, string> = {
+    militar: '#dc2626', energetica: '#f59e0b', empresarial: '#3b82f6',
+    diplomatica: '#6366f1', diaspora: '#22c55e',
+  }
+
+  if (loading) return <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Cargando presencia…</div>
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* KPI bar */}
+      {kpis && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+          {[
+            { label: 'Efectivos', value: kpis.efectivos.toLocaleString(), accent: '#dc2626' },
+            { label: 'Diaspora', value: kpis.diaspora.toLocaleString(), accent: '#22c55e' },
+            { label: 'Inversión M€', value: kpis.inversion_mill_eur.toLocaleString(), accent: '#3b82f6' },
+            { label: 'Embajadas', value: kpis.embajadas, accent: '#6366f1' },
+            { label: 'Fuentes energía', value: kpis.fuentes_energia, accent: '#f59e0b' },
+          ].map(({ label, value, accent }) => (
+            <div key={label} style={{ ...CARD, padding: '12px 16px' }}>
+              <div style={{ fontSize: 9, color: INK4, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 3 }}>{label}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: accent, letterSpacing: '-0.02em' }}>{value}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Presence cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
+        {presencia.map(p => (
+          <div key={p.id} style={{ ...CARD, padding: '16px 20px', borderTop: `3px solid ${CAT_COLORS[p.categoria] ?? '#6366f1'}` }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <span style={{ fontSize: 9, fontWeight: 800, color: CAT_COLORS[p.categoria] ?? '#6366f1', textTransform: 'uppercase', letterSpacing: '0.09em' }}>
+                {p.categoria}
+              </span>
+              <span style={{ fontSize: 10, color: INK4 }}>{p.n_articulos_30d} art.</span>
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: INK1, marginBottom: 4 }}>{p.pais}</div>
+            <div style={{ fontSize: 11.5, color: INK3, marginBottom: 10, lineHeight: 1.4 }}>{p.titulo}</div>
+            <div style={{ fontSize: 10, color: INK4, lineHeight: 1.5 }}>{p.descripcion}</div>
+            {/* Relevance bar */}
+            <div style={{ marginTop: 10, position: 'relative', height: 3, background: 'rgba(0,0,0,0.07)', borderRadius: 2 }}>
+              <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${p.score_relevancia * 100}%`, background: CAT_COLORS[p.categoria] ?? '#6366f1', borderRadius: 2 }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── OSINT Feed ────────────────────────────────────────────────────────────────
+function OsintFeed({ osint, loading }: { osint: OsintItem[]; loading: boolean }) {
+  const [filter, setFilter] = useState<string | null>(null)
+  const countries = useMemo(() => {
+    const seen = new Set<string>()
+    osint.forEach(o => { if (o.categoria && o.categoria !== 'Internacional') seen.add(o.categoria) })
+    return Array.from(seen).sort()
+  }, [osint])
+  const filtered = filter ? osint.filter(o => o.categoria === filter) : osint
+
+  if (loading) return <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Cargando OSINT…</div>
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {/* Country filter */}
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <button onClick={() => setFilter(null)} style={{ border: `1px solid ${filter === null ? '#1F4E8C' : 'rgba(0,0,0,0.15)'}`, background: filter === null ? '#1F4E8C' : 'white', color: filter === null ? 'white' : INK3, borderRadius: 8, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>
+          Todos ({osint.length})
+        </button>
+        {countries.slice(0, 12).map(c => (
+          <button key={c} onClick={() => setFilter(c)} style={{ border: `1px solid ${filter === c ? '#1F4E8C' : 'rgba(0,0,0,0.12)'}`, background: filter === c ? '#1F4E8C' : 'white', color: filter === c ? 'white' : INK3, borderRadius: 8, padding: '4px 10px', fontSize: 10, fontWeight: 600, cursor: 'pointer' }}>
+            {c}
+          </button>
+        ))}
+      </div>
+
+      {!filtered.length && (
+        <div style={{ ...CARD, ...CARD_INNER, color: INK3, fontSize: 13 }}>Sin señales OSINT{filter ? ` para ${filter}` : ''}.</div>
+      )}
+
+      {filtered.slice(0, 40).map((item, i) => (
+        <div key={item.id} style={{ ...CARD, padding: '12px 18px', display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'start' }}>
+          <div>
+            <div style={{ fontSize: 12.5, fontWeight: 600, color: INK1, lineHeight: 1.4, marginBottom: 4 }}>{item.titulo}</div>
+            {item.resumen && item.resumen !== item.titulo && (
+              <div style={{ fontSize: 11, color: INK3, lineHeight: 1.5, marginBottom: 6 }}>{item.resumen.slice(0, 160)}…</div>
+            )}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <span style={{ fontSize: 10, color: INK4 }}>{relTime(item.fecha)}</span>
+              {item.fuente && <span style={{ fontSize: 10, color: INK3, fontWeight: 600 }}>{item.fuente}</span>}
+              {item.categoria && item.categoria !== 'Internacional' && (
+                <span style={{ fontSize: 9, background: 'rgba(14,165,233,0.1)', borderRadius: 4, padding: '2px 6px', color: '#0284c7', fontWeight: 700 }}>{item.categoria}</span>
+              )}
+            </div>
+          </div>
+          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+            {[1, 2, 3, 4, 5].map(n => (
+              <span key={n} style={{ color: n <= item.urgencia ? '#f59e0b' : 'rgba(0,0,0,0.1)', fontSize: 10 }}>●</span>
             ))}
           </div>
         </div>
+      ))}
+    </div>
+  )
+}
 
-        {/* ── TAB BAR ── */}
+// ── Main page ─────────────────────────────────────────────────────────────────
+export default function GeopoliticaPage() {
+  const [tab, setTab] = useState(0)
+
+  const { data: kpisRaw, loading: kpisLoading }    = useApi<KpiData>('/api/geopolitica/stats',    { refreshInterval: 120_000 })
+  const { data: riesgoRaw, loading: riesgoLoading } = useApi<RiesgoItem[]>('/api/geopolitica/riesgo', { refreshInterval: 180_000 })
+  const { data: eventsRaw, loading: eventsLoading } = useApi<{ data: EventItem[] }>('/api/geopolitica/events', { refreshInterval: 60_000 })
+  const { data: alertasRaw, loading: alertasLoad }  = useApi<{ data: AlertaItem[] }>('/api/geopolitica/alertas', { refreshInterval: 60_000 })
+  const { data: osintRaw, loading: osintLoading }   = useApi<{ data: OsintItem[] }>('/api/geopolitica/osint',   { refreshInterval: 90_000 })
+  const { data: presenciaRaw, loading: presLoad }   = useApi<{ data: PresenciaItem[]; kpis: PresenciaKpis }>('/api/geopolitica/presencia', { refreshInterval: 300_000 })
+
+  const kpis     = kpisRaw ?? null
+  const riesgo   = Array.isArray(riesgoRaw) ? riesgoRaw : []
+  const events   = eventsRaw?.data ?? []
+  const alertas  = alertasRaw?.data ?? []
+  const osint    = osintRaw?.data ?? []
+  const presencia = presenciaRaw?.data ?? []
+  const presenciaKpis = presenciaRaw?.kpis ?? null
+
+  return (
+    <div style={{ background: 'var(--bg, #f9fafb)', minHeight: '100vh', fontFamily: 'var(--font-body, -apple-system, system-ui, sans-serif)' }}>
+      <AppHeader />
+      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '24px 28px 80px' }}>
+
+        {/* Page header */}
+        <header style={{ marginBottom: 22 }}>
+          <span style={{ fontSize: 10, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+            Inteligencia · Geopolítica
+          </span>
+          <h1 style={{ fontFamily: 'var(--font-display, inherit)', fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em', margin: '4px 0 4px', color: '#1d1d1f' }}>
+            Monitor Geopolítico
+          </h1>
+          <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>
+            Riesgo país · Eventos internacionales · Presencia exterior española.
+            Datos en tiempo real desde <strong>noticias_prensa</strong> (hoy: {new Date().toLocaleDateString('es-ES')}).
+          </p>
+        </header>
+
+        {/* KPI strip */}
+        <KpiStrip kpis={kpis} />
+
+        {/* Tab bar */}
         <TabBar
-          items={['MAPA GLOBAL', 'PRESENCIA EXTERIOR', 'ESPANA CCAA', 'OSINT', 'ALERTAS', 'IMPACTO', 'TEATRO']}
+          items={['MAPA DE RIESGO', 'EVENTOS', 'ALERTAS', 'SEÑALES OSINT', 'PRESENCIA EXTERIOR']}
           active={tab}
           onChange={setTab}
         />
 
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 0 — MAPA GLOBAL
-        ══════════════════════════════════════════════════════════════════════ */}
+        {/* Tab 0 — Mapa de riesgo */}
         {tab === 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-
-            {/* ── Row 1: map + right panel ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 16, alignItems: 'start' }}>
-
-              {/* ── MAP ── */}
-              <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden' }}>
-                <svg
-                  ref={mapRef}
-                  viewBox="0 0 900 460"
-                  style={{ width: '100%', background: '#e8f0fb', display: 'block' }}
-                  onMouseLeave={() => setTooltip(null)}
-                >
-                  <defs>
-                    <radialGradient id="oceanGrad" cx="50%" cy="50%" r="60%">
-                      <stop offset="0%" stopColor="rgba(186,210,250,0.45)" />
-                      <stop offset="100%" stopColor="rgba(186,210,250,0)" />
-                    </radialGradient>
-                  </defs>
-                  <rect x={0} y={0} width={900} height={460} fill="url(#oceanGrad)" />
-
-                  {/* Graticule — subtle grid */}
-                  {[-60, -30, 0, 30, 60].map(lat => (
-                    <line key={`h${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
-                      stroke={lat === 0 ? 'rgba(37,99,235,0.18)' : 'rgba(37,99,235,0.07)'}
-                      strokeWidth={lat === 0 ? 0.9 : 0.5}
-                      strokeDasharray={lat === 0 ? '8 5' : undefined} />
-                  ))}
-                  {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map(lon => (
-                    <line key={`v${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
-                      stroke="rgba(37,99,235,0.05)" strokeWidth={0.5} />
-                  ))}
-
-                  {/* Continents */}
-                  {CONTINENTS.map(c => (
-                    <path key={c.id} d={c.d}
-                      fill="rgba(148,163,184,0.55)"
-                      stroke="rgba(100,116,139,0.30)"
-                      strokeWidth={0.8}
-                      strokeLinejoin="round"
-                    />
-                  ))}
-
-                  {/* Connector lines: Spain → resolved bubble position */}
-                  {riesgoLayout.slice(0, 8).map((r, idx) => {
-                    const spX = projX(-3.7), spY = projY(40.4)
-                    const distMoved = Math.sqrt((r.vcx - r.cx) ** 2 + (r.vcy - r.cy) ** 2)
-                    return (
-                      <g key={`conn-${r.iso}`}>
-                        {/* Spain → actual country geo position */}
-                        <line x1={spX} y1={spY} x2={r.cx} y2={r.cy}
-                          stroke={`${scoreColor(r.score)}30`} strokeWidth={1}
-                          strokeDasharray="6 4"
-                          style={{ animation: `dashMove ${2.2 + idx * 0.25}s linear infinite` }} />
-                        {/* Displaced bubble → actual geo (if moved significantly) */}
-                        {distMoved > 8 && (
-                          <line x1={r.vcx} y1={r.vcy} x2={r.cx} y2={r.cy}
-                            stroke={`${scoreColor(r.score)}50`} strokeWidth={0.8} strokeDasharray="2 3" />
-                        )}
-                      </g>
-                    )
-                  })}
-
-                  {/* Actual geo-position dots for displaced bubbles */}
-                  {riesgoLayout.map(r => {
-                    const distMoved = Math.sqrt((r.vcx - r.cx) ** 2 + (r.vcy - r.cy) ** 2)
-                    if (distMoved < 8) return null
-                    return (
-                      <circle key={`geo-${r.iso}`}
-                        cx={r.cx} cy={r.cy} r={3}
-                        fill={scoreColor(r.score)} fillOpacity={0.5}
-                        stroke="rgba(255,255,255,0.1)" strokeWidth={0.5} />
-                    )
-                  })}
-
-                  {/* Risk bubbles — at collision-resolved positions */}
-                  {riesgoLayout.map((r, idx) => {
-                    const { vcx: cx, vcy: cy, radius } = r
-                    const fill = scoreColor(r.score)
-                    const isCritico = r.score >= 8
-                    return (
-                      <g key={r.iso}
-                        onMouseEnter={(e) => {
-                          const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect()
-                          setTooltip({
-                            x: (cx / 900) * rect.width + rect.left,
-                            y: (cy / 460) * rect.height + rect.top - 56,
-                            text: `${r.pais}  ·  ${r.score.toFixed(1)}/10  ·  ${r.categoria.toUpperCase()}`,
-                          })
-                        }}
-                        onMouseLeave={() => setTooltip(null)}
-                        style={{ cursor: 'default' }}
-                      >
-                        {/* Pulse ring for critical */}
-                        {isCritico && (
-                          <circle cx={cx} cy={cy} r={radius + 7}
-                            fill="none" stroke={fill} strokeWidth={1}
-                            strokeOpacity={0.25}
-                            style={{ animation: `pulseRing ${1.8 + idx * 0.15}s ease-in-out infinite` }} />
-                        )}
-                        {/* Main bubble */}
-                        <circle cx={cx} cy={cy} r={radius}
-                          fill={fill} fillOpacity={0.78}
-                          stroke="rgba(255,255,255,0.22)" strokeWidth={0.8}
-                          style={{ filter: `drop-shadow(0 0 ${isCritico ? 8 : 4}px ${fill}60)` }} />
-                        {/* ISO label */}
-                        <text x={cx} y={cy + 3.5} textAnchor="middle"
-                          fill="rgba(255,255,255,0.95)" fontSize={radius >= 16 ? 9 : 7.5} fontWeight={700}
-                          style={{ pointerEvents: 'none', userSelect: 'none', letterSpacing: '0.02em' }}>
-                          {r.iso}
-                        </text>
-                      </g>
-                    )
-                  })}
-
-                  {/* Spain star */}
-                  {(() => {
-                    const cx = projX(-3.7), cy = projY(40.4)
-                    const pts = Array.from({ length: 5 }, (_, k) => {
-                      const a  = (k * 72 - 90) * Math.PI / 180
-                      const a2 = (k * 72 - 90 + 36) * Math.PI / 180
-                      return `${cx + 10 * Math.cos(a)},${cy + 10 * Math.sin(a)} ${cx + 4.5 * Math.cos(a2)},${cy + 4.5 * Math.sin(a2)}`
-                    }).join(' ')
-                    return (
-                      <g>
-                        <circle cx={cx} cy={cy} r={14} fill="rgba(14,165,233,0.08)"
-                          stroke="rgba(14,165,233,0.2)" strokeWidth={1} />
-                        <polygon points={pts} fill="#0ea5e9"
-                          stroke="rgba(255,255,255,0.7)" strokeWidth={0.8}
-                          style={{ filter: 'drop-shadow(0 0 8px rgba(14,165,233,0.95))' }} />
-                        <text x={cx + 16} y={cy + 4}
-                          fill="#0369a1" fontSize={9.5} fontWeight={700}
-                          style={{ pointerEvents: 'none', userSelect: 'none', letterSpacing: '0.04em' }}>
-                          ESP
-                        </text>
-                      </g>
-                    )
-                  })()}
-                </svg>
-
-                {/* Legend strip */}
-                <div style={{
-                  padding: '9px 18px', borderTop: '1px solid rgba(0,0,0,0.07)',
-                  display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center',
-                  background: '#f8fafc',
-                }}>
-                  <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.09em' }}>Riesgo:</span>
-                  {[
-                    { label: 'Critico ≥8', color: '#dc2626' },
-                    { label: 'Alto ≥6',    color: '#f59e0b' },
-                    { label: 'Medio ≥4',   color: '#3b82f6' },
-                    { label: 'Bajo',       color: '#22c55e' },
-                    { label: 'Espana',     color: '#0ea5e9' },
-                  ].map(l => (
-                    <div key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: l.color }} />
-                      <span style={{ fontSize: 9.5, color: TEXT_SECONDARY }}>{l.label}</span>
-                    </div>
-                  ))}
-                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: TEXT_SECONDARY }}>
-                    {riesgoLayout.length} paises monitorizados
-                  </span>
-                </div>
-              </div>
-
-              {/* ── RIGHT PANEL ── */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {/* Top exposure */}
-                <div style={{ ...CARD, padding: '16px 18px', boxShadow: SHADOW }}>
-                  <SectionLabel>Maxima exposicion</SectionLabel>
-                  {top5Risk.length === 0
-                    ? <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin datos</div>
-                    : top5Risk.map((r, i) => (
-                      <div key={r.iso} style={{
-                        display: 'flex', alignItems: 'center', gap: 10,
-                        padding: '8px 0', borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
-                      }}>
-                        <span style={{ fontSize: 10, color: TEXT_SECONDARY, minWidth: 14, fontWeight: 700 }}>{i + 1}</span>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 12, fontWeight: 600, color: TEXT_PRIMARY, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.pais}</div>
-                          <div style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{r.categoria}</div>
-                        </div>
-                        <ScorePill score={r.score} />
-                      </div>
-                    ))
-                  }
-                </div>
-
-                {/* Active alerts summary */}
-                <div style={{ ...CARD, padding: '14px 16px' }}>
-                  <SectionLabel>Alertas activas</SectionLabel>
-                  {alertasSorted.length === 0
-                    ? <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas</div>
-                    : alertasSorted.slice(0, 4).map((a, i) => (
-                      <div key={a.id} style={{
-                        display: 'flex', gap: 8, alignItems: 'flex-start',
-                        padding: '7px 0', borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
-                      }}>
-                        <div style={{
-                          width: 6, height: 6, borderRadius: '50%', flexShrink: 0, marginTop: 4,
-                          background: levelColor(a.nivel),
-                          boxShadow: `0 0 5px ${levelColor(a.nivel)}80`,
-                        }} />
-                        <div style={{ fontSize: 11, color: TEXT_PRIMARY, lineHeight: 1.45, flex: 1 }}>{a.titulo}</div>
-                      </div>
-                    ))
-                  }
-                </div>
-
-                {/* Risk dimensions */}
-                <div style={{ ...CARD, padding: '14px 16px' }}>
-                  <SectionLabel>Dimensiones de riesgo</SectionLabel>
-                  {[
-                    { key: 'seguridad',   label: 'Seguridad',   color: '#dc2626' },
-                    { key: 'energia',     label: 'Energia',     color: '#f59e0b' },
-                    { key: 'migracion',   label: 'Migracion',   color: '#ef4444' },
-                    { key: 'comercio',    label: 'Comercio',    color: '#3b82f6' },
-                    { key: 'diplomatica', label: 'Diplomatica', color: '#6366f1' },
-                  ].map(f => {
-                    const cnt = impactos.filter(i => i.dimension === f.key).length
-                    return (
-                      <div key={f.key} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                        <div style={{ width: 7, height: 7, borderRadius: 2, background: f.color, flexShrink: 0 }} />
-                        <span style={{ fontSize: 11, color: TEXT_SECONDARY, flex: 1 }}>{f.label}</span>
-                        {cnt > 0 && (
-                          <span style={{ fontSize: 10, fontWeight: 700, color: f.color }}>{cnt}</span>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* ── Row 2: Events + Risk activity + Alertas detail ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
-
-              {/* Latest events */}
-              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
-                <SectionLabel>Ultimos eventos internacionales</SectionLabel>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {events.slice(0, 4).map((ev, i) => (
-                    <div key={i} style={{
-                      borderTop: i > 0 ? '1px solid rgba(0,0,0,0.06)' : 'none',
-                      paddingTop: i > 0 ? 10 : 0,
-                    }}>
-                      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 4 }}>
-                        <span style={{
-                          fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 4,
-                          background: ev.spain_impact === 'critico' ? '#dc262618' : ev.spain_impact === 'alto' ? '#f59e0b18' : 'rgba(0,0,0,0.05)',
-                          color: ev.spain_impact === 'critico' ? '#f87171' : ev.spain_impact === 'alto' ? '#fbbf24' : TEXT_SECONDARY,
-                          letterSpacing: '0.04em', flexShrink: 0,
-                        }}>{ev.type}</span>
-                        <span style={{ fontSize: 9, color: TEXT_SECONDARY, marginLeft: 'auto', flexShrink: 0 }}>
-                          {ev.country}
-                        </span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: TEXT_PRIMARY, lineHeight: 1.5, marginBottom: 3, fontWeight: 500 }}>
-                        {ev.title}
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        {ev.source && (
-                          <span style={{ fontSize: 9.5, color: TEXT_SECONDARY }}>{ev.source}</span>
-                        )}
-                        <div style={{ flex: 1, height: 2, background: 'rgba(0,0,0,0.08)', borderRadius: 1 }}>
-                          <div style={{
-                            width: `${ev.impact}%`, height: 2,
-                            background: ev.impact >= 75 ? '#dc2626' : ev.impact >= 55 ? '#f59e0b' : '#3b82f6',
-                            borderRadius: 1,
-                          }} />
-                        </div>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: TEXT_SECONDARY }}>{ev.impact}</span>
-                      </div>
-                    </div>
-                  ))}
-                  {events.length === 0 && (
-                    <div style={{ fontSize: 11, color: TEXT_SECONDARY, padding: '8px 0' }}>
-                      Conectando con fuentes...
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Risk breakdown by country */}
-              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
-                <SectionLabel>Indice de riesgo por pais</SectionLabel>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {riesgoLayout.slice(0, 8).map((r, i) => (
-                    <div key={r.iso} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{
-                        fontSize: 9, fontWeight: 700, minWidth: 22, padding: '2px 5px',
-                        borderRadius: 4, textAlign: 'center',
-                        background: `${scoreColor(r.score)}20`, color: scoreColor(r.score),
-                      }}>{r.iso}</span>
-                      <div style={{ flex: 1, height: 5, background: 'rgba(0,0,0,0.08)', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${(r.score / 10) * 100}%`, height: 5,
-                          background: scoreColor(r.score), borderRadius: 3,
-                          boxShadow: `0 0 6px ${scoreColor(r.score)}50`,
-                          transition: 'width 0.8s cubic-bezier(0.16,1,0.3,1)',
-                        }} />
-                      </div>
-                      <span style={{ fontSize: 10, fontWeight: 700, color: scoreColor(r.score), minWidth: 24, textAlign: 'right' }}>
-                        {r.score.toFixed(1)}
-                      </span>
-                    </div>
-                  ))}
-                  {riesgoLayout.length === 0 && (
-                    <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin datos de riesgo</div>
-                  )}
-                </div>
-              </div>
-
-              {/* Alerts with full detail */}
-              <div style={{ ...CARD, padding: '18px 20px', boxShadow: SHADOW }}>
-                <SectionLabel>Alertas geopoliticas activas</SectionLabel>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {alertasSorted.slice(0, 5).map((a, i) => (
-                    <div key={a.id} style={{
-                      padding: '10px 12px', borderRadius: 10,
-                      background: `${levelColor(a.nivel)}10`,
-                      border: `1px solid ${levelColor(a.nivel)}22`,
-                    }}>
-                      <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 5 }}>
-                        <LevelBadge nivel={a.nivel} />
-                        {toArray(a.paises).slice(0, 2).map(p => (
-                          <span key={p} style={{
-                            fontSize: 9, padding: '1px 6px', borderRadius: 4,
-                            background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY,
-                          }}>{p}</span>
-                        ))}
-                        <span style={{ marginLeft: 'auto', fontSize: 9, color: TEXT_SECONDARY }}>{relTime(a.fecha)}</span>
-                      </div>
-                      <div style={{ fontSize: 11.5, color: TEXT_PRIMARY, lineHeight: 1.45, fontWeight: 500 }}>
-                        {a.titulo}
-                      </div>
-                    </div>
-                  ))}
-                  {alertasSorted.length === 0 && (
-                    <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas activas</div>
-                  )}
-                </div>
-              </div>
-            </div>
-
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 16, alignItems: 'start' }}>
+            <WorldMap riesgo={riesgo} />
+            {riesgoLoading
+              ? <div style={{ ...CARD, ...CARD_INNER, color: INK3 }}>Calculando riesgo…</div>
+              : <RiesgoTable riesgo={riesgo.slice(0, 15)} />
+            }
           </div>
         )}
 
-        {/* Global tooltip */}
-        {tooltip && (
-          <div style={{
-            position: 'fixed', left: tooltip.x, top: tooltip.y,
-            background: 'white', border: '1px solid rgba(14,165,233,0.3)',
-            borderRadius: 8, padding: '8px 14px', fontSize: 12, color: TEXT_PRIMARY,
-            pointerEvents: 'none', zIndex: 9999, whiteSpace: 'nowrap',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.12)', transform: 'translateX(-50%)',
-          }}>
-            {tooltip.text}
+        {/* Tab 1 — Eventos */}
+        {tab === 1 && (
+          <div style={{ maxWidth: 860 }}>
+            <div style={{ marginBottom: 12, fontSize: 12, color: INK3 }}>
+              {events.length} eventos internacionales recientes · ordenados por fecha
+            </div>
+            <EventsFeed events={events} loading={eventsLoading} />
           </div>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 1 — PRESENCIA EXTERIOR
-        ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 1 && (() => {
-          const LAYER_COLORS: Record<string, string> = {
-            militar:     '#dc2626',
-            energetica:  '#f59e0b',
-            empresarial: '#3b82f6',
-            diplomatica: '#06b6d4',
-            diaspora:    '#8b5cf6',
-          }
-          const LAYER_LABELS: Record<string, string> = {
-            militar:     'Misiones Militares',
-            energetica:  'Energetica',
-            empresarial: 'Empresarial',
-            diplomatica: 'Diplomatica',
-            diaspora:    'Diaspora',
-          }
-
-          function presenciaRadius(p: PuntoPresencia): number {
-            if (p.unidad === 'efectivos')  return clamp(p.valor / 80, 8, 28)
-            if (p.unidad === 'residentes') return clamp(p.valor / 20000, 8, 32)
-            if (p.unidad === 'mill_eur')   return clamp(p.valor / 2000, 8, 30)
-            return 12
-          }
-
-          function formatValor(p: PuntoPresencia): string {
-            if (p.unidad === 'efectivos')  return `${p.valor.toLocaleString()} efectivos`
-            if (p.unidad === 'residentes') return p.valor >= 1e6 ? `${(p.valor / 1e6).toFixed(2)}M residentes` : `${(p.valor / 1000).toFixed(0)}K residentes`
-            if (p.unidad === 'mill_eur')   return `${p.valor.toLocaleString()} M EUR invertidos`
-            if (p.unidad === 'embajada')   return 'Sede diplomatica'
-            if (p.unidad === 'MW')         return `${p.valor.toLocaleString()} MW`
-            return String(p.valor)
-          }
-
-          const layerCounts: Record<string, number> = { militar: 0, energetica: 0, empresarial: 0, diplomatica: 0, diaspora: 0 }
-          for (const p of presencia) {
-            if (layerCounts[p.categoria] !== undefined) layerCounts[p.categoria]++
-          }
-
-          return (
-            <div>
-              {/* Section A — KPI strip */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 20 }}>
-                {[
-                  { label: 'Efectivos desplegados', value: presenciaKpis.efectivos.toLocaleString(), accent: '#dc2626', border: '600/1200' },
-                  { label: 'Diaspora',               value: `${(presenciaKpis.diaspora / 1e6).toFixed(2)}M`,           accent: '#8b5cf6' },
-                  { label: 'Inversion exterior',     value: `${(presenciaKpis.inversion_mill_eur / 1000).toFixed(0)} B EUR`, accent: '#3b82f6' },
-                  { label: 'Embajadas y Consuls.',   value: String(presenciaKpis.embajadas),                            accent: '#06b6d4' },
-                  { label: 'Fuentes de energia',     value: String(presenciaKpis.fuentes_energia),                      accent: '#f59e0b' },
-                ].map(k => (
-                  <div key={k.label} style={{
-                    ...CARD, padding: '14px 16px', boxShadow: SHADOW,
-                    borderLeft: `3px solid ${k.accent}`,
-                  }}>
-                    <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 6 }}>{k.label}</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: k.accent, lineHeight: 1 }}>{k.value}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Section B — Layer filter + world map */}
-              <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden', marginBottom: 20 }}>
-                {/* Layer filter pills */}
-                <div style={{ padding: '12px 16px 0', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {([
-                    { key: 'todas',      label: 'TODAS',           color: '#0ea5e9' },
-                    { key: 'militar',    label: 'MISIONES MILITARES', color: '#dc2626' },
-                    { key: 'energetica', label: 'ENERGETICA',      color: '#f59e0b' },
-                    { key: 'empresarial',label: 'EMPRESARIAL',     color: '#3b82f6' },
-                    { key: 'diplomatica',label: 'DIPLOMATICA',     color: '#06b6d4' },
-                    { key: 'diaspora',   label: 'DIASPORA',        color: '#8b5cf6' },
-                  ] as const).map(lyr => {
-                    const isActive = presenciaLayer === lyr.key
-                    return (
-                      <button key={lyr.key} onClick={() => setPresenciaLayer(lyr.key)} style={{
-                        border: `1px solid ${isActive ? lyr.color : 'rgba(0,0,0,0.12)'}`,
-                        background: isActive ? `${lyr.color}18` : 'transparent',
-                        color: isActive ? lyr.color : TEXT_SECONDARY,
-                        borderRadius: 999, padding: '4px 14px', fontSize: 10, fontWeight: 600,
-                        cursor: 'pointer', fontFamily: 'inherit', textTransform: 'uppercase',
-                        letterSpacing: '0.06em', transition: 'all 150ms',
-                      }}>{lyr.label}</button>
-                    )
-                  })}
-                </div>
-
-                {/* SVG world map */}
-                <svg
-                  viewBox="0 0 900 460"
-                  style={{ width: '100%', background: '#e8f0fb', display: 'block', marginTop: 8 }}
-                  onMouseLeave={() => setPresenciaTooltip(null)}
-                >
-                  {/* Graticule */}
-                  {[-60, -30, 0, 30, 60].map(lat => (
-                    <line key={`ph${lat}`} x1={0} y1={projY(lat)} x2={900} y2={projY(lat)}
-                      stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
-                  ))}
-                  {[-120, -60, 0, 60, 120].map(lon => (
-                    <line key={`pv${lon}`} x1={projX(lon)} y1={0} x2={projX(lon)} y2={460}
-                      stroke="rgba(37,99,235,0.05)" strokeWidth={0.6} />
-                  ))}
-                  <line x1={0} y1={projY(0)} x2={900} y2={projY(0)}
-                    stroke="rgba(37,99,235,0.16)" strokeWidth={0.8} strokeDasharray="6 4" />
-
-                  {/* Continents */}
-                  {CONTINENTS.map(c => (
-                    <path key={c.id} d={c.d}
-                      fill="rgba(148,163,184,0.52)"
-                      stroke="rgba(100,116,139,0.28)"
-                      strokeWidth={0.7}
-                    />
-                  ))}
-
-                  {/* Presence bubbles */}
-                  {presenciaFiltered.map(p => {
-                    const cx = projX(p.lon)
-                    const cy = projY(p.lat)
-                    const r  = presenciaRadius(p)
-                    const color = LAYER_COLORS[p.categoria] ?? '#6366f1'
-                    return (
-                      <g key={p.id}
-                        onMouseEnter={(e) => {
-                          const rect = (e.currentTarget.ownerSVGElement as SVGSVGElement).getBoundingClientRect()
-                          setPresenciaTooltip({
-                            x: (cx / 900) * rect.width + rect.left,
-                            y: (cy / 460) * rect.height + rect.top - 8,
-                            content: p,
-                          })
-                        }}
-                        onMouseLeave={() => setPresenciaTooltip(null)}
-                        style={{ cursor: 'default' }}
-                      >
-                        <circle cx={cx} cy={cy} r={r}
-                          fill={color} fillOpacity={0.75}
-                          stroke="rgba(255,255,255,0.15)" strokeWidth={0.8}
-                          style={{ filter: `drop-shadow(0 0 6px ${color}80)` }}
-                        />
-                        {r >= 14 && (
-                          <text x={cx} y={cy + 3.5} textAnchor="middle"
-                            fill="white" fontSize={8} fontWeight={700}
-                            style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                            {p.iso3.slice(0, 2)}
-                          </text>
-                        )}
-                      </g>
-                    )
-                  })}
-
-                  {/* Spain marker */}
-                  {(() => {
-                    const cx = projX(-3.7), cy = projY(40.4)
-                    const pts = Array.from({ length: 5 }, (_, k) => {
-                      const a  = (k * 72 - 90) * Math.PI / 180
-                      const a2 = (k * 72 - 90 + 36) * Math.PI / 180
-                      return `${cx + 9 * Math.cos(a)},${cy + 9 * Math.sin(a)} ${cx + 4 * Math.cos(a2)},${cy + 4 * Math.sin(a2)}`
-                    }).join(' ')
-                    return (
-                      <g>
-                        <polygon points={pts} fill="#0ea5e9"
-                          stroke="rgba(255,255,255,0.6)" strokeWidth={1}
-                          style={{ filter: 'drop-shadow(0 0 7px rgba(14,165,233,0.9))' }} />
-                        <text x={cx + 13} y={cy + 4}
-                          fill="#0369a1" fontSize={9} fontWeight={700}
-                          style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                          ESP
-                        </text>
-                      </g>
-                    )
-                  })()}
-                </svg>
-
-                {/* Legend strip */}
-                <div style={{ padding: '10px 16px', borderTop: '1px solid rgba(0,0,0,0.07)', background: '#f8fafc', display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-                  <span style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Capas:</span>
-                  {(['militar', 'energetica', 'empresarial', 'diplomatica', 'diaspora'] as const).map(lyr => (
-                    <div key={lyr} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                      <div style={{ width: 7, height: 7, borderRadius: '50%', background: LAYER_COLORS[lyr] }} />
-                      <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>
-                        {LAYER_LABELS[lyr]} <span style={{ color: 'rgba(148,163,184,0.45)' }}>({layerCounts[lyr]})</span>
-                      </span>
-                    </div>
-                  ))}
-                  <span style={{ marginLeft: 'auto', fontSize: 10, color: TEXT_SECONDARY }}>{presenciaFiltered.length} puntos visibles</span>
-                </div>
-              </div>
-
-              {/* Section C — Detail cards 2-column grid */}
-              {presenciaFiltered.length > 0 && (
-                <div>
-                  <SectionLabel>Detalle de presencia — {presenciaLayer === 'todas' ? 'todas las capas' : LAYER_LABELS[presenciaLayer]}</SectionLabel>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12 }}>
-                    {presenciaFiltered.map(p => {
-                      const color = LAYER_COLORS[p.categoria] ?? '#6366f1'
-                      const scoreC = p.score_relevancia >= 8 ? '#dc2626' : p.score_relevancia >= 6 ? '#f59e0b' : p.score_relevancia >= 4 ? '#3b82f6' : '#22c55e'
-                      return (
-                        <div key={p.id} style={{
-                          ...CARD,
-                          borderLeft: `3px solid ${color}`,
-                          padding: '14px 16px',
-                        }}>
-                          {/* Top row: category badge + actor + score */}
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-                            <span style={{
-                              padding: '2px 9px', borderRadius: 999, fontSize: 9, fontWeight: 700,
-                              background: `${color}20`, color, border: `1px solid ${color}35`,
-                              textTransform: 'uppercase', letterSpacing: '0.05em',
-                            }}>{p.categoria}</span>
-                            <span style={{
-                              padding: '2px 9px', borderRadius: 999, fontSize: 9, fontWeight: 600,
-                              background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY,
-                              border: '1px solid rgba(0,0,0,0.10)',
-                            }}>{p.actor}</span>
-                            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
-                              <div style={{ width: 6, height: 6, borderRadius: '50%', background: scoreC }} />
-                              <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>{p.score_relevancia.toFixed(1)}</span>
-                            </div>
-                          </div>
-
-                          {/* Title */}
-                          <div style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 3, lineHeight: 1.4 }}>{p.titulo}</div>
-
-                          {/* Country subtitle */}
-                          <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6 }}>
-                            {p.pais} <span style={{ color: 'rgba(148,163,184,0.4)', fontSize: 10 }}>({p.iso3})</span>
-                          </div>
-
-                          {/* Description */}
-                          <p style={{
-                            fontSize: 11, color: TEXT_SECONDARY, margin: '0 0 10px', lineHeight: 1.6,
-                            overflow: 'hidden', display: '-webkit-box',
-                            WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-                          }}>{p.descripcion}</p>
-
-                          {/* Bottom: valor formatted */}
-                          <div style={{ fontSize: 11, fontWeight: 700, color }}>
-                            {formatValor(p)}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {presenciaFiltered.length === 0 && (
-                <div style={{ ...CARD, padding: '48px 20px', textAlign: 'center', fontSize: 13, color: TEXT_SECONDARY }}>
-                  Sin datos de presencia exterior disponibles — pipeline no conectado
-                </div>
-              )}
-
-              {/* Presencia tooltip */}
-              {presenciaTooltip && (
-                <div style={{
-                  position: 'fixed',
-                  left: presenciaTooltip.x,
-                  top: presenciaTooltip.y - 44,
-                  background: 'white', border: `1px solid ${LAYER_COLORS[presenciaTooltip.content.categoria] ?? 'rgba(14,165,233,0.3)'}60`,
-                  borderRadius: 10, padding: '10px 14px', fontSize: 12, color: TEXT_PRIMARY,
-                  pointerEvents: 'none', zIndex: 9999,
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.12)', transform: 'translateX(-50%)',
-                  maxWidth: 280,
-                }}>
-                  <div style={{ fontWeight: 700, marginBottom: 3 }}>{presenciaTooltip.content.titulo}</div>
-                  <div style={{ fontSize: 11, color: TEXT_SECONDARY, marginBottom: 2 }}>
-                    {presenciaTooltip.content.pais} · {presenciaTooltip.content.actor}
-                  </div>
-                  <div style={{
-                    fontSize: 11, color: TEXT_SECONDARY, marginBottom: 6,
-                    overflow: 'hidden', display: '-webkit-box',
-                    WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-                  }}>{presenciaTooltip.content.descripcion}</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: LAYER_COLORS[presenciaTooltip.content.categoria] ?? '#0ea5e9' }}>
-                    {formatValor(presenciaTooltip.content)}
-                  </div>
-                </div>
-              )}
-            </div>
-          )
-        })()}
-
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 2 — ESPANA CCAA
-        ══════════════════════════════════════════════════════════════════════ */}
+        {/* Tab 2 — Alertas */}
         {tab === 2 && (
-          <div>
-            {/* Dimension filter pills */}
-            <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
-              {(['total', 'energia', 'migracion', 'seguridad'] as const).map(d => (
-                <button key={d} onClick={() => setCcaaDim(d)} style={{
-                  border: `1px solid ${ccaaDim === d ? '#0ea5e9' : 'rgba(0,0,0,0.12)'}`,
-                  background: ccaaDim === d ? 'rgba(14,165,233,0.15)' : 'transparent',
-                  color: ccaaDim === d ? '#0ea5e9' : TEXT_SECONDARY,
-                  borderRadius: 999, padding: '5px 16px', fontSize: 11, fontWeight: 600,
-                  cursor: 'pointer', fontFamily: 'inherit', textTransform: 'uppercase',
-                  letterSpacing: '0.06em', transition: 'all 150ms',
-                }}>{d === 'total' ? 'Total' : d}</button>
-              ))}
+          <div style={{ maxWidth: 860 }}>
+            <div style={{ marginBottom: 12, fontSize: 12, color: INK3 }}>
+              Alertas basadas en negatividad de cobertura noticiosa (sentimiento &lt; -0.1)
             </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16 }}>
-              {/* CCAA bubble map */}
-              <div style={{ ...CARD, boxShadow: SHADOW, overflow: 'hidden', minHeight: 400 }}>
-                {ccaa.length === 0 ? (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 420, flexDirection: 'column', gap: 16 }}>
-                    <div style={{
-                      background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.2)',
-                      borderRadius: 12, padding: '18px 28px', fontSize: 13, color: '#f59e0b', textAlign: 'center', maxWidth: 360,
-                    }}>
-                      Datos de riesgo CCAA no disponibles. El pipeline de territorio no ha sido ejecutado.
-                    </div>
-                  </div>
-                ) : (
-                  <svg viewBox="0 0 560 380" style={{ width: '100%', background: '#e8f0fb', display: 'block' }}>
-                    {/* Grid */}
-                    {[36, 38, 40, 42, 44].map(lat => (
-                      <line key={`el${lat}`} x1={0} y1={esProjY(lat)} x2={560} y2={esProjY(lat)}
-                        stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
-                    ))}
-                    {[-8, -4, 0, 4].map(lon => (
-                      <line key={`ev${lon}`} x1={esProjX(lon)} y1={0} x2={esProjX(lon)} y2={380}
-                        stroke="rgba(37,99,235,0.07)" strokeWidth={0.6} />
-                    ))}
-
-                    {ccaa.map(c => {
-                      const cx = esProjX(c.lon)
-                      const cy = esProjY(c.lat)
-                      const sc = getCcaaScore(c)
-                      const r  = clamp(14 + (sc / maxCcaaScore) * 16, 14, 30)
-                      const fill = factorColor(c.factor_dominante)
-                      const isSelected = selectedCcaa === c.ccaa
-                      const label = CCAA_ABBR[c.ccaa_iso] ?? c.ccaa.slice(0, 3).toUpperCase()
-                      return (
-                        <g key={c.ccaa} onClick={() => setSelectedCcaa(isSelected ? null : c.ccaa)} style={{ cursor: 'pointer' }}>
-                          {isSelected && (
-                            <circle cx={cx} cy={cy} r={r + 8}
-                              fill="none" stroke={fill} strokeWidth={1.5} strokeOpacity={0.5}
-                              style={{ filter: `drop-shadow(0 0 6px ${fill}60)` }}
-                            />
-                          )}
-                          <circle cx={cx} cy={cy} r={r}
-                            fill={fill} fillOpacity={isSelected ? 0.88 : 0.58}
-                            stroke={isSelected ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.25)'}
-                            strokeWidth={isSelected ? 1.5 : 0.8}
-                            style={{ filter: isSelected ? `drop-shadow(0 0 6px ${fill}60)` : 'none' }}
-                          />
-                          <text x={cx} y={cy + 3.5} textAnchor="middle"
-                            fill="white" fontSize={8} fontWeight={700}
-                            style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                            {label}
-                          </text>
-                        </g>
-                      )
-                    })}
-                  </svg>
-                )}
-              </div>
-
-              {/* Detail panel */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{ ...CARD, padding: '16px 18px' }}>
-                  <SectionLabel>Factor dominante</SectionLabel>
-                  {[
-                    { factor: 'energia',    color: '#f59e0b' },
-                    { factor: 'migracion',  color: '#ef4444' },
-                    { factor: 'seguridad',  color: '#dc2626' },
-                    { factor: 'comercio',   color: '#3b82f6' },
-                    { factor: 'diplomatica',color: '#6366f1' },
-                  ].map(f => (
-                    <div key={f.factor} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 7 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: 2, background: f.color, flexShrink: 0 }} />
-                      <span style={{ fontSize: 11, color: TEXT_SECONDARY, textTransform: 'capitalize' }}>{f.factor}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {selectedCcaaData ? (
-                  <div style={{ ...CARD, padding: '16px 18px' }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: TEXT_PRIMARY, marginBottom: 2 }}>{selectedCcaaData.ccaa}</div>
-                    <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>{selectedCcaaData.ccaa_iso}</div>
-                    <p style={{ fontSize: 11, color: TEXT_SECONDARY, margin: '0 0 14px', lineHeight: 1.6 }}>{selectedCcaaData.explicacion}</p>
-                    {[
-                      { label: 'Total',     value: selectedCcaaData.score_total,     color: '#6366f1' },
-                      { label: 'Energia',   value: selectedCcaaData.score_energia,   color: '#f59e0b' },
-                      { label: 'Migracion', value: selectedCcaaData.score_migracion, color: '#ef4444' },
-                      { label: 'Seguridad', value: selectedCcaaData.score_seguridad, color: '#dc2626' },
-                      { label: 'Comercio',  value: selectedCcaaData.score_comercio,  color: '#3b82f6' },
-                    ].map(({ label, value, color }) => (
-                      <div key={label} style={{ marginBottom: 9 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                          <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>{label}</span>
-                          <span style={{ fontSize: 10, fontWeight: 700, color }}>{value?.toFixed(1)}</span>
-                        </div>
-                        <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, overflow: 'hidden' }}>
-                          <div style={{
-                            width: `${clamp((value / 10) * 100, 0, 100)}%`,
-                            height: 4, borderRadius: 2, background: color,
-                            transition: 'width 0.5s ease',
-                          }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div style={{ ...CARD, padding: '20px 18px', fontSize: 12, color: TEXT_SECONDARY, textAlign: 'center', lineHeight: 1.6 }}>
-                    Selecciona una comunidad autonoma para ver el desglose dimensional
-                  </div>
-                )}
-              </div>
-            </div>
+            <AlertasPanel alertas={alertas} loading={alertasLoad} />
           </div>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 3 — OSINT
-        ══════════════════════════════════════════════════════════════════════ */}
+        {/* Tab 3 — OSINT */}
         {tab === 3 && (
-          <div>
-            {/* Top row: timeline + theme bars */}
-            {thinkTanks.length > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: 16, marginBottom: 20 }}>
-                {/* Theme horizontal bars */}
-                <div style={{ ...CARD, padding: '18px 20px' }}>
-                  <SectionLabel>Temas — distribucion de cobertura</SectionLabel>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                    {topTemas.map(([tema, count]) => {
-                      const pct = count / maxTemas
-                      const color = pct > 0.7 ? '#dc2626' : pct > 0.5 ? '#f59e0b' : pct > 0.3 ? '#3b82f6' : '#6366f1'
-                      return (
-                        <div key={tema} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 120, fontSize: 10, color: TEXT_SECONDARY, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexShrink: 0 }}>{tema}</div>
-                          <div style={{ flex: 1, height: 6, background: 'rgba(0,0,0,0.07)', borderRadius: 3, overflow: 'hidden' }}>
-                            <div style={{ width: `${pct * 100}%`, height: 6, background: color, borderRadius: 3, transition: 'width 0.4s ease' }} />
-                          </div>
-                          <span style={{ fontSize: 10, fontWeight: 700, color, minWidth: 22, textAlign: 'right' }}>{count}</span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                {/* Publication velocity */}
-                <div style={{ ...CARD, padding: '18px 20px' }}>
-                  <SectionLabel>Velocidad publicacion — 7 dias</SectionLabel>
-                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, height: 64, marginBottom: 10 }}>
-                    {timelineBuckets.map(b => (
-                      <div key={b.date} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, height: '100%', justifyContent: 'flex-end' }}>
-                        <div style={{
-                          width: '100%',
-                          height: `${Math.max(4, (b.count / maxBucket) * 52)}px`,
-                          background: b.count > 0 ? 'linear-gradient(180deg, #0ea5e9, #6366f1)' : 'rgba(0,0,0,0.07)',
-                          borderRadius: 3,
-                        }} />
-                        <span style={{ fontSize: 7.5, color: TEXT_SECONDARY, whiteSpace: 'nowrap' }}>{b.date.slice(5)}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 10 }}>
-                    <div style={{ fontSize: 9, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 3 }}>Fuentes activas</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: '#0ea5e9' }}>{Object.keys(sourceMap).length}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 16 }}>
-              {/* Source list */}
-              <div style={{ ...CARD, padding: '16px 18px' }}>
-                <SectionLabel>Fuentes activas</SectionLabel>
-                {Object.entries(sourceMap).length === 0 ? (
-                  <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin fuentes disponibles</div>
-                ) : (
-                  Object.entries(sourceMap).map(([fuente, info]) => (
-                    <div key={fuente} style={{ marginBottom: 12 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                        <span style={{ fontSize: 11, color: TEXT_PRIMARY, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 140 }}>
-                          {fuente.length > 22 ? fuente.slice(0, 22) + '…' : fuente}
-                        </span>
-                        <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexShrink: 0 }}>
-                          <span style={{
-                            fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                            background: `${urgencyColor(info.maxUrgencia)}25`, color: urgencyColor(info.maxUrgencia),
-                          }}>U{info.maxUrgencia}</span>
-                          <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>{relTime(info.latest)}</span>
-                        </div>
-                      </div>
-                      <div style={{ height: 3, background: 'rgba(0,0,0,0.07)', borderRadius: 2, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${(info.items.length / maxSourceItems) * 100}%`,
-                          height: 3, borderRadius: 2, background: urgencyColor(info.maxUrgencia),
-                        }} />
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* Feed */}
-              <div>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
-                  <select value={ttUrgMin} onChange={e => setTtUrgMin(Number(e.target.value))} style={{
-                    background: 'white', border: '1px solid rgba(0,0,0,0.10)',
-                    color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 10px', fontSize: 11, fontFamily: 'inherit', cursor: 'pointer',
-                  }}>
-                    {[1, 2, 3, 4, 5].map(v => <option key={v} value={v} style={{ background: 'white' }}>Urgencia min {v}</option>)}
-                  </select>
-                  <select value={ttNicho} onChange={e => setTtNicho(e.target.value)} style={{
-                    background: 'white', border: '1px solid rgba(0,0,0,0.10)',
-                    color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 10px', fontSize: 11, fontFamily: 'inherit', cursor: 'pointer', maxWidth: 180,
-                  }}>
-                    <option value="all" style={{ background: 'white' }}>Todos los temas</option>
-                    {ttNichos.map(n => <option key={n} value={n} style={{ background: 'white' }}>{n}</option>)}
-                  </select>
-                  <input type="text" placeholder="Buscar..." value={ttQuery}
-                    onChange={e => setTtQuery(e.target.value)}
-                    style={{
-                      background: 'white', border: '1px solid rgba(0,0,0,0.10)',
-                      color: TEXT_PRIMARY, borderRadius: 8, padding: '6px 12px', fontSize: 11,
-                      fontFamily: 'inherit', outline: 'none', minWidth: 160,
-                    }}
-                  />
-                  <span style={{ fontSize: 10, color: TEXT_SECONDARY, marginLeft: 'auto' }}>
-                    {loadingOsint ? 'Cargando...' : `${ttFiltered.length} resultados`}
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {loadingOsint && thinkTanks.length === 0 && [0, 1, 2].map(i => (
-                    <div key={i} style={{ ...CARD, padding: '18px', height: 96 }}>
-                      <div style={{ height: 10, width: '60%', background: 'rgba(0,0,0,0.06)', borderRadius: 4, marginBottom: 8 }} />
-                      <div style={{ height: 8, width: '90%', background: 'rgba(0,0,0,0.05)', borderRadius: 4, marginBottom: 6 }} />
-                      <div style={{ height: 8, width: '75%', background: 'rgba(0,0,0,0.04)', borderRadius: 4 }} />
-                    </div>
-                  ))}
-                  {!loadingOsint && ttFiltered.length === 0 && (
-                    <div style={{ ...CARD, padding: '36px 20px', textAlign: 'center', fontSize: 13, color: TEXT_SECONDARY }}>
-                      Sin senales OSINT que coincidan con los filtros seleccionados
-                    </div>
-                  )}
-                  {ttFiltered.map(t => {
-                    const borderColor = urgencyColor(t.urgencia)
-                    const relES = t.relevancia_espana >= 7 ? '#22c55e' : t.relevancia_espana >= 4 ? '#f59e0b' : '#dc2626'
-                    return (
-                      <div key={t.id} style={{
-                        ...CARD, borderLeft: `4px solid ${borderColor}`, padding: '14px 16px',
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
-                          <span style={{
-                            padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700,
-                            background: `${borderColor}20`, color: borderColor, border: `1px solid ${borderColor}40`,
-                          }}>U{t.urgencia}</span>
-                          {t.fuente_tipo && (
-                            <span style={{ padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.10)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>
-                              {t.fuente_tipo}
-                            </span>
-                          )}
-                          {/* Relevancia dot */}
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <div style={{ width: 6, height: 6, borderRadius: '50%', background: relES }} />
-                            <span style={{ fontSize: 9, color: TEXT_SECONDARY }}>ES {t.relevancia_espana?.toFixed(1)}</span>
-                          </div>
-                          <span style={{ fontSize: 10, color: TEXT_SECONDARY, marginLeft: 'auto' }}>{relTime(t.fecha)}</span>
-                        </div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 6, lineHeight: 1.4 }}>
-                          {t.url ? (
-                            <a href={t.url} target="_blank" rel="noopener noreferrer"
-                              style={{ color: TEXT_PRIMARY, textDecoration: 'none' }}
-                              onMouseEnter={e => (e.currentTarget.style.color = '#0ea5e9')}
-                              onMouseLeave={e => (e.currentTarget.style.color = TEXT_PRIMARY)}>
-                              {t.titulo}
-                            </a>
-                          ) : t.titulo}
-                        </div>
-                        <p style={{ fontSize: 12, color: TEXT_SECONDARY, margin: '0 0 10px', lineHeight: 1.6, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
-                          {t.resumen}
-                        </p>
-                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                          <span style={{ fontSize: 10, color: TEXT_SECONDARY, fontWeight: 500 }}>{t.fuente}</span>
-                          {toArray(t.paises_detectados).slice(0, 3).map(p => (
-                            <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.12)', color: '#0369a1', border: '1px solid rgba(14,165,233,0.25)' }}>{p}</span>
-                          ))}
-                          {toArray(t.temas_detectados).slice(0, 2).map(tm => (
-                            <span key={tm} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>{tm}</span>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
+          <div style={{ maxWidth: 900 }}>
+            <div style={{ marginBottom: 12, fontSize: 12, color: INK3 }}>
+              {osint.length} señales OSINT · noticias_prensa con keywords geopolíticos · últimos 7 días
             </div>
+            <OsintFeed osint={osint} loading={osintLoading} />
           </div>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 4 — ALERTAS
-        ══════════════════════════════════════════════════════════════════════ */}
+        {/* Tab 4 — Presencia exterior */}
         {tab === 4 && (
           <div>
-            {/* Status strip */}
-            <div style={{
-              ...CARD,
-              background: hasCritico ? 'rgba(220,38,38,0.07)' : hasAlto ? 'rgba(245,158,11,0.05)' : 'rgba(34,197,94,0.04)',
-              border: hasCritico ? '1px solid rgba(220,38,38,0.18)' : hasAlto ? '1px solid rgba(245,158,11,0.18)' : '1px solid rgba(34,197,94,0.13)',
-              padding: '14px 20px', marginBottom: 16,
-              display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                {hasCritico && (
-                  <div style={{ position: 'relative', width: 8, height: 8 }}>
-                    <div style={{
-                      width: 8, height: 8, borderRadius: '50%', background: '#dc2626',
-                      animation: 'criticalPulse 1.4s ease-in-out infinite',
-                    }} />
-                  </div>
-                )}
-                <span style={{ fontSize: 10, fontWeight: 700, color: TEXT_SECONDARY, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Estado del sistema</span>
-              </div>
-              {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as const).map(n => (
-                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: levelColor(n), flexShrink: 0, display: 'block' }} />
-                  <span style={{ fontSize: 10, color: levelColor(n), fontWeight: 700, letterSpacing: '0.04em' }}>{n}</span>
-                  <span style={{ fontSize: 15, fontWeight: 800, color: TEXT_PRIMARY, lineHeight: 1 }}>{alertasCount[n]}</span>
-                </div>
-              ))}
+            <div style={{ marginBottom: 12, fontSize: 12, color: INK3 }}>
+              Presencia española en el exterior calculada desde artículos recientes · cobertura noticiosa como proxy de relevancia
             </div>
-
-            {/* Filter pills */}
-            <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
-              {(['TODOS', 'CRITICO', 'ALTO', 'MEDIO'] as const).map(f => (
-                <button key={f} onClick={() => setAlertFilter(f)} style={{
-                  border: `1px solid ${alertFilter === f ? (f === 'TODOS' ? 'rgba(14,165,233,0.35)' : `${levelColor(f)}45`) : 'rgba(0,0,0,0.12)'}`,
-                  background: alertFilter === f ? (f === 'TODOS' ? 'rgba(14,165,233,0.1)' : `${levelColor(f)}15`) : 'transparent',
-                  color: alertFilter === f ? (f === 'TODOS' ? '#0ea5e9' : levelColor(f)) : TEXT_SECONDARY,
-                  borderRadius: 999, padding: '5px 14px', fontSize: 10, fontWeight: 600,
-                  cursor: 'pointer', fontFamily: 'inherit', textTransform: 'uppercase', letterSpacing: '0.06em',
-                  transition: 'all 150ms',
-                }}>{f}</button>
-              ))}
-              <span style={{ fontSize: 10, color: TEXT_SECONDARY, alignSelf: 'center', marginLeft: 4 }}>
-                {alertasFiltered.length} alertas
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {alertasFiltered.map(a => {
-                const lc       = levelColor(a.nivel)
-                const expanded = expandAlerts.has(a.id)
-                const hovered  = hoverAlerts.has(a.id)
-                return (
-                  <div key={a.id} style={{
-                    ...CARD,
-                    borderLeft: `4px solid ${lc}`,
-                    padding: '16px 18px',
-                    background: hovered ? '#f8fafc' : 'white',
-                    transition: 'background 150ms',
-                  }}
-                    onMouseEnter={() => setHoverAlerts(prev => new Set(prev).add(a.id))}
-                    onMouseLeave={() => setHoverAlerts(prev => { const s = new Set(prev); s.delete(a.id); return s })}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 8 }}>
-                      <LevelBadge nivel={a.nivel} />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, flex: 1, lineHeight: 1.4 }}>{a.titulo}</span>
-                      <span style={{ fontSize: 10, color: TEXT_SECONDARY, flexShrink: 0 }}>{relTime(a.fecha)}</span>
-                    </div>
-                    <p style={{ fontSize: 12, color: TEXT_SECONDARY, margin: '0 0 10px', lineHeight: 1.65 }}>
-                      {a.descripcion_corta ?? a.descripcion}
-                    </p>
-
-                    {/* Causal chain */}
-                    {(() => { const cadena = toArray(a.cadena_causal); return cadena.length > 0 && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap', marginBottom: 10 }}>
-                        {cadena.map((node, idx) => {
-                          const isLast = idx === cadena.length - 1
-                          const progress = idx / Math.max(1, cadena.length - 1)
-                          const nodeColor = isLast ? '#dc2626' : progress > 0.5 ? '#f59e0b' : 'rgba(148,163,184,0.5)'
-                          return (
-                            <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                              <span style={{
-                                fontSize: 10, padding: '3px 10px', borderRadius: 8, fontWeight: 500,
-                                background: isLast ? 'rgba(220,38,38,0.08)' : 'rgba(0,0,0,0.04)',
-                                border: `1px solid ${nodeColor}30`,
-                                color: isLast ? '#dc2626' : TEXT_SECONDARY,
-                              }}>{node}</span>
-                              {!isLast && <span style={{ color: 'rgba(148,163,184,0.35)', fontSize: 11 }}>→</span>}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    ); })()}
-
-                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-                      {a.probabilidad !== undefined && (
-                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', color: '#4f46e5', border: '1px solid rgba(99,102,241,0.25)' }}>
-                          P {(a.probabilidad * 100).toFixed(0)}%
-                        </span>
-                      )}
-                      {a.horizonte && (
-                        <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.05)', color: TEXT_SECONDARY, border: '1px solid rgba(0,0,0,0.10)' }}>
-                          {a.horizonte}
-                        </span>
-                      )}
-                      {a.confianza_sistema !== undefined && (
-                        <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>Confianza: {(a.confianza_sistema * 100).toFixed(0)}%</span>
-                      )}
-                      {a.fuentes_detalle && a.fuentes_detalle.length > 0 && (
-                        <button
-                          onClick={() => toggleSet(a.id, setExpandAlerts)}
-                          style={{
-                            marginLeft: 'auto', background: '#f8fafc',
-                            border: '1px solid rgba(0,0,0,0.10)',
-                            color: TEXT_SECONDARY, borderRadius: 7, padding: '3px 12px', fontSize: 10,
-                            cursor: 'pointer', fontFamily: 'inherit', transition: 'all 150ms',
-                          }}
-                        >
-                          {expanded ? 'Ocultar fuentes' : `${a.fuentes_detalle.length} fuentes`}
-                        </button>
-                      )}
-                    </div>
-
-                    {expanded && a.fuentes_detalle && (
-                      <div style={{
-                        marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12,
-                        background: '#f8fafc', borderRadius: 8, padding: '10px 14px',
-                      }}>
-                        {a.fuentes_detalle.map((fd, idx) => (
-                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 7, gap: 10 }}>
-                            <div>
-                              {fd.url ? (
-                                <a href={fd.url} target="_blank" rel="noopener noreferrer"
-                                  style={{ fontSize: 11, color: '#0369a1', textDecoration: 'none' }}>
-                                  {fd.titulo}
-                                </a>
-                              ) : (
-                                <span style={{ fontSize: 11, color: TEXT_PRIMARY }}>{fd.titulo}</span>
-                              )}
-                              <span style={{ fontSize: 10, color: TEXT_SECONDARY, marginLeft: 8 }}>{fd.fuente} · {fd.fecha?.slice(0, 10)}</span>
-                            </div>
-                            <span style={{ fontSize: 10, color: '#22c55e', flexShrink: 0, fontWeight: 600 }}>
-                              {(fd.confianza * 100).toFixed(0)}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-              {alertas.length === 0 && (
-                <div style={{ ...CARD, padding: '48px 20px', textAlign: 'center', fontSize: 13, color: TEXT_SECONDARY }}>
-                  Sin alertas activas en este momento
-                </div>
-              )}
-            </div>
+            <PresenciaExterior presencia={presencia} kpis={presenciaKpis} loading={presLoad} />
           </div>
         )}
 
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 5 — IMPACTO
-        ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 5 && (
-          <div>
-            {/* KPI strip */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12, marginBottom: 20 }}>
-              {[
-                { label: 'Impactos activos',       value: impactos.length, color: '#0ea5e9' },
-                { label: 'Dimensiones afectadas',  value: new Set(impactos.map(i => i.dimension)).size, color: '#6366f1' },
-                { label: 'Severidad media',        value: impactos.length ? (impactos.reduce((s, i) => s + i.severidad, 0) / impactos.length).toFixed(1) : '—', color: '#f59e0b' },
-              ].map(k => (
-                <div key={k.label} style={{ ...CARD, padding: '16px 20px', borderLeft: `3px solid ${k.color}`, boxShadow: SHADOW }}>
-                  <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>{k.label}</div>
-                  <div style={{ fontSize: 28, fontWeight: 800, color: k.color, lineHeight: 1 }}>{k.value}</div>
-                </div>
-              ))}
-            </div>
+      </main>
 
-            {/* P×I Matrix */}
-            {scenarioPoints.length > 0 && (
-              <div style={{ ...CARD, padding: '22px 26px', marginBottom: 20, boxShadow: SHADOW }}>
-                <SectionLabel>Matriz Probabilidad x Impacto — RANE Key Forecast Questions</SectionLabel>
-                <div style={{ position: 'relative' }}>
-                  <svg viewBox="0 0 560 300" style={{ width: '100%', maxHeight: 300 }}>
-                    {/* Quadrant backgrounds */}
-                    <rect x={52} y={10} width={228} height={142} fill="rgba(34,197,94,0.04)" rx={4} />
-                    <rect x={280} y={10} width={272} height={142} fill="rgba(245,158,11,0.06)" rx={4} />
-                    <rect x={52} y={152} width={228} height={138} fill="rgba(59,130,246,0.06)" rx={4} />
-                    <rect x={280} y={152} width={272} height={138} fill="rgba(220,38,38,0.08)" rx={4} />
-
-                    {/* Quadrant labels */}
-                    {[
-                      { x: 76, y: 28, text: 'VIGILANCIA',    color: '#22c55e' },
-                      { x: 304, y: 28, text: 'PREPARACION',  color: '#f59e0b' },
-                      { x: 76, y: 170, text: 'PLANIFICACION',color: '#3b82f6' },
-                      { x: 304, y: 170, text: 'CRITICO',      color: '#dc2626' },
-                    ].map(q => (
-                      <text key={q.text} x={q.x} y={q.y} fill={q.color} fontSize={7.5} fontWeight={700} opacity={0.6} letterSpacing="0.06em">{q.text}</text>
-                    ))}
-
-                    {/* Axes */}
-                    <line x1={52} y1={290} x2={552} y2={290} stroke="rgba(0,0,0,0.15)" strokeWidth={1} />
-                    <line x1={52} y1={10}  x2={52}  y2={290} stroke="rgba(0,0,0,0.15)" strokeWidth={1} />
-                    <line x1={280} y1={10} x2={280} y2={290} stroke="rgba(0,0,0,0.07)" strokeWidth={1} strokeDasharray="4 3" />
-                    <line x1={52} y1={152} x2={552} y2={152} stroke="rgba(0,0,0,0.07)" strokeWidth={1} strokeDasharray="4 3" />
-
-                    <text x={302} y={286} fill="#94a3b8" fontSize={8} textAnchor="middle">PROBABILIDAD</text>
-                    <text x={14}  y={152} fill="#94a3b8" fontSize={8} textAnchor="middle" transform="rotate(-90, 14, 152)">IMPACTO</text>
-
-                    {[0, 25, 50, 75, 100].map(v => {
-                      const x = 52 + (v / 100) * 500
-                      return (
-                        <g key={v}>
-                          <line x1={x} y1={290} x2={x} y2={293} stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
-                          <text x={x} y={300} fill="#94a3b8" fontSize={7} textAnchor="middle">{v}%</text>
-                        </g>
-                      )
-                    })}
-                    {[0, 1, 2, 3, 4, 5].map(v => {
-                      const y = 290 - (v / 5) * 280
-                      return (
-                        <g key={v}>
-                          <line x1={49} y1={y} x2={52} y2={y} stroke="rgba(0,0,0,0.18)" strokeWidth={1} />
-                          <text x={44} y={y + 3} fill="#94a3b8" fontSize={7} textAnchor="end">{v}</text>
-                        </g>
-                      )
-                    })}
-
-                    {scenarioPoints.map((s, idx) => {
-                      const cx = 52 + s.probabilidad * 500
-                      const cy = 290 - (s.impacto / 5) * 280
-                      const c  = levelColor(s.nivel)
-                      return (
-                        <g key={idx}>
-                          <circle cx={cx} cy={cy} r={8} fill={c} fillOpacity={0.75}
-                            stroke="rgba(255,255,255,0.4)" strokeWidth={1} />
-                          {scenarioPoints.length <= 6 && (
-                            <text x={cx + 11} y={cy + 3} fill={TEXT_PRIMARY} fontSize={7} fontWeight={500}
-                              style={{ pointerEvents: 'none', userSelect: 'none' }}>
-                              {s.titulo.slice(0, 30)}
-                            </text>
-                          )}
-                        </g>
-                      )
-                    })}
-                  </svg>
-                </div>
-                {impactosReal.length === 0 && alertas.length > 0 && (
-                  <div style={{ fontSize: 10, color: TEXT_SECONDARY, marginTop: 8 }}>
-                    Escenarios inferidos de alertas activas — pipeline de impactos no conectado
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Sector exposure bars */}
-            <div style={{ ...CARD, padding: '18px 22px', marginBottom: 20 }}>
-              <SectionLabel>Exposicion por sector estrategico</SectionLabel>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {SECTORS.map(s => {
-                  const count = impactos.filter(i => i.dimension === s.key).length
-                  const avgSev = count > 0 ? impactos.filter(i => i.dimension === s.key).reduce((sum, i) => sum + i.severidad, 0) / count : 0
-                  return (
-                    <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <div style={{ width: 90, fontSize: 11, color: TEXT_SECONDARY, fontWeight: 500, flexShrink: 0 }}>{s.label}</div>
-                      <div style={{ flex: 1, height: 8, background: 'rgba(0,0,0,0.07)', borderRadius: 4, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${(count / maxSectorCount) * 100}%`,
-                          height: 8, borderRadius: 4, background: s.color,
-                          boxShadow: count > 0 ? `0 0 8px ${s.color}50` : 'none',
-                          transition: 'width 0.5s ease',
-                        }} />
-                      </div>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: s.color, minWidth: 18, textAlign: 'right' }}>{count}</span>
-                      {count > 0 && (
-                        <span style={{ fontSize: 10, color: TEXT_SECONDARY, minWidth: 60 }}>sev {avgSev.toFixed(1)}/5</span>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Impact cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {impactosSorted.map(imp => {
-                const hColor  = imp.horizonte === 'inmediato' || imp.horizonte === 'corto' ? '#dc2626' : imp.horizonte === 'medio' ? '#f59e0b' : '#22c55e'
-                const expanded = expandImpactos.has(imp.id)
-                return (
-                  <div key={imp.id} style={{ ...CARD, padding: '16px 18px' }}>
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 8, flexWrap: 'wrap' }}>
-                      <span style={{
-                        padding: '2px 9px', borderRadius: 999, fontSize: 10, fontWeight: 700,
-                        background: `${scoreColor(imp.severidad * 2)}20`, color: scoreColor(imp.severidad * 2),
-                        border: `1px solid ${scoreColor(imp.severidad * 2)}30`,
-                      }}>Severidad {imp.severidad}/5</span>
-                      <DimBadge dim={imp.dimension} />
-                      <span style={{
-                        padding: '2px 9px', borderRadius: 999, fontSize: 10, fontWeight: 600,
-                        background: `${hColor}12`, color: hColor, border: `1px solid ${hColor}22`,
-                      }}>{imp.horizonte}</span>
-                      {imp.id.startsWith('synth-') && (
-                        <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 999, background: 'rgba(245,158,11,0.08)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.18)' }}>
-                          inferido
-                        </span>
-                      )}
-                    </div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY, marginBottom: 7 }}>{imp.titulo}</div>
-                    <div style={{ height: 4, background: 'rgba(0,0,0,0.08)', borderRadius: 2, marginBottom: 8, overflow: 'hidden' }}>
-                      <div style={{
-                        width: `${(imp.severidad / 5) * 100}%`, height: 4, borderRadius: 2,
-                        background: scoreColor(imp.severidad * 2), transition: 'width 0.4s ease',
-                      }} />
-                    </div>
-                    <p style={{ fontSize: 12, color: TEXT_SECONDARY, margin: '0 0 8px', lineHeight: 1.65 }}>{imp.descripcion}</p>
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                      {toArray(imp.paises_origen).map(p => (
-                        <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: 'rgba(14,165,233,0.1)', color: '#0369a1', border: '1px solid rgba(14,165,233,0.22)' }}>{p}</span>
-                      ))}
-                      {(imp.escenario_base || imp.escenario_adverso) && (
-                        <button
-                          onClick={() => toggleSet(imp.id, setExpandImpactos)}
-                          style={{
-                            marginLeft: 'auto', background: '#f8fafc',
-                            border: '1px solid rgba(0,0,0,0.10)',
-                            color: TEXT_SECONDARY, borderRadius: 7, padding: '3px 12px', fontSize: 10,
-                            cursor: 'pointer', fontFamily: 'inherit',
-                          }}
-                        >
-                          {expanded ? 'Ocultar escenarios' : 'Ver escenarios'}
-                        </button>
-                      )}
-                    </div>
-                    {expanded && (
-                      <div style={{ marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                        {imp.escenario_base && (
-                          <div>
-                            <div style={{ fontSize: 10, fontWeight: 700, color: '#22c55e', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Escenario base</div>
-                            <p style={{ fontSize: 11, color: TEXT_SECONDARY, margin: 0, lineHeight: 1.6 }}>{imp.escenario_base}</p>
-                          </div>
-                        )}
-                        {imp.escenario_adverso && (
-                          <div>
-                            <div style={{ fontSize: 10, fontWeight: 700, color: '#dc2626', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Escenario adverso</div>
-                            <p style={{ fontSize: 11, color: TEXT_SECONDARY, margin: 0, lineHeight: 1.6 }}>{imp.escenario_adverso}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-              {impactos.length === 0 && alertas.length === 0 && (
-                <div style={{ ...CARD, padding: '48px 20px', textAlign: 'center', fontSize: 13, color: TEXT_SECONDARY }}>
-                  Sin datos de impacto disponibles — pipeline no ejecutado
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ══════════════════════════════════════════════════════════════════════
-            TAB 6 — TEATRO (Teatros Estrategicos)
-        ══════════════════════════════════════════════════════════════════════ */}
-        {tab === 6 && (
-          <div>
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 13, color: TEXT_SECONDARY, lineHeight: 1.6, maxWidth: 720 }}>
-                Vision por teatros de operacion estrategica. Cada teatro agrupa paises con vectores de riesgo compartidos
-                y proyecta el impacto sobre intereses nacionales de alta prioridad.
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 16 }}>
-              {theatersWithData.map(th => {
-                const levelC = levelColor(th.maxLevel)
-                const totalAlerts = th.relatedAlerts.length
-                const maxLC = Math.max(1, totalAlerts)
-                return (
-                  <div key={th.id} style={{
-                    ...CARD,
-                    borderLeft: `4px solid ${th.color}`,
-                    padding: '20px 22px',
-                    boxShadow: SHADOW,
-                    position: 'relative',
-                    overflow: 'hidden',
-                  }}>
-                    {/* Subtle glow overlay */}
-                    <div style={{
-                      position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-                      background: `linear-gradient(90deg, ${th.color}60, transparent)`,
-                    }} />
-
-                    {/* Header */}
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14, gap: 10 }}>
-                      <div>
-                        <div style={{ fontSize: 16, fontWeight: 800, color: TEXT_PRIMARY, marginBottom: 4, letterSpacing: '-0.01em' }}>
-                          {th.nombre}
-                        </div>
-                        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                          {th.paises.map(p => (
-                            <span key={p} style={{ fontSize: 9, padding: '1px 7px', borderRadius: 999, background: `${th.color}12`, color: th.color, border: `1px solid ${th.color}25` }}>{p}</span>
-                          ))}
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
-                        <LevelBadge nivel={th.maxLevel} />
-                        {totalAlerts > 0 && (
-                          <span style={{ fontSize: 10, color: TEXT_SECONDARY }}>{totalAlerts} alerta{totalAlerts !== 1 ? 's' : ''}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Risk vectors */}
-                    <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 7 }}>Vectores de riesgo</div>
-                      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                        {th.riesgos.map((r, i) => {
-                          const rColor = i === 0 ? '#dc2626' : i === 1 ? '#f59e0b' : '#3b82f6'
-                          return (
-                            <span key={r} style={{ fontSize: 10, padding: '3px 10px', borderRadius: 999, background: `${rColor}12`, color: rColor, border: `1px solid ${rColor}22` }}>{r}</span>
-                          )
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Key interests */}
-                    <div style={{ marginBottom: 16 }}>
-                      <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 7 }}>Intereses nacionales</div>
-                      <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
-                        {th.intereses.map(int => (
-                          <li key={int} style={{ display: 'flex', alignItems: 'flex-start', gap: 7, fontSize: 11, color: TEXT_SECONDARY, lineHeight: 1.4 }}>
-                            <span style={{ width: 4, height: 4, borderRadius: '50%', background: th.color, marginTop: 5, flexShrink: 0 }} />
-                            {int}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Alert bar chart */}
-                    <div style={{ borderTop: '1px solid rgba(0,0,0,0.07)', paddingTop: 12 }}>
-                      <div style={{ fontSize: 9, color: TEXT_SECONDARY, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Alertas por nivel</div>
-                      {totalAlerts === 0 ? (
-                        <div style={{ fontSize: 11, color: TEXT_SECONDARY }}>Sin alertas registradas para este teatro</div>
-                      ) : (
-                        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end', height: 36 }}>
-                          {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as const).map(n => {
-                            const cnt = th.levelCounts[n]
-                            const barH = Math.max(4, (cnt / maxLC) * 32)
-                            const c   = levelColor(n)
-                            return (
-                              <div key={n} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3, flex: 1 }}>
-                                <div style={{ width: '100%', height: barH, background: cnt > 0 ? c : 'rgba(0,0,0,0.07)', borderRadius: 3 }} />
-                                <span style={{ fontSize: 8, color: cnt > 0 ? c : TEXT_SECONDARY, fontWeight: cnt > 0 ? 700 : 400 }}>{cnt > 0 ? cnt : ''}</span>
-                              </div>
-                            )
-                          })}
-                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-end', height: '100%' }}>
-                            {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as const).map(n => (
-                              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                                <div style={{ width: 5, height: 5, borderRadius: 1, background: levelColor(n) }} />
-                                <span style={{ fontSize: 7.5, color: TEXT_SECONDARY }}>{n}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
-
-      </div>
-
-      {/* Global keyframe animations */}
-      <style>{`
-        @keyframes pulseRing {
-          0%, 100% { opacity: 0.3; r: 0; transform: scale(1); }
-          50%       { opacity: 0.12; }
-        }
-        @keyframes criticalPulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.4; transform: scale(1.3); }
-        }
-        @keyframes dashMove {
-          0%   { stroke-dashoffset: 0; }
-          100% { stroke-dashoffset: -18; }
-        }
-      `}</style>
+      <footer style={{ borderTop: '1px solid var(--hairline, rgba(0,0,0,0.07))', padding: '20px 28px', textAlign: 'center', color: '#94a3b8', fontSize: 11.5 }}>
+        Politeia Analítica · Monitor Geopolítico · {new Date().getFullYear()}
+      </footer>
     </div>
   )
 }
