@@ -1,0 +1,31 @@
+/gits amigos
+/gits amigos.zip
+/.venv
+/.git1
+/path
+/.worktrees
+/Microdatos
+/Microdatos-*.zip
+/data
+/node_modules
+/.git
+/dashboard
+/etl
+/agents
+/api
+/db
+/services
+/models
+/analytics
+/pipelines
+/tests
+/.etl_cache
+/.claude
+/.claire
+/.superpowers
+/.DS_Store
+
+/apps/web
+/apps/*/node_modules
+/apps/*/.next/cache
+/apps/*/tsconfig.tsbuildinfo
