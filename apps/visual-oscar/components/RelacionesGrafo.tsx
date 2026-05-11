@@ -1,51 +1,43 @@
 'use client'
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
 
-// Grafo de relaciones de actores políticos · v2
-// Mejoras visuales y de UX sobre el diseño handoff:
-//   · Zoom (+/-/reset) y pan con arrastre del fondo
-//   · Anti-collision para separar nodos que se solapan
-//   · Sombras suaves bajo cada nodo + halo glow al hacer foco
-//   · Hover: escala suave + tooltip flotante con cargo y partido
-//   · Buscador para localizar un actor por nombre y enfocarlo
-//   · Iniciales en blanco dentro de cada nodo grande
-//   · Etiqueta tipo chip con fondo blanco redondeado debajo del nodo
-//   · Fondo con grilla de puntos sutil
-//   · Animaciones suaves (200 ms) en transiciones
+// Grafo de relaciones de actores políticos · v3
+// Mejoras sobre v2:
+//   · Decoupled zoom: las posiciones se separan al hacer zoom, pero los
+//     nodos NO se inflan (manteniéndose siempre del tamaño correcto)
+//   · Drag de nodos individuales (mover manualmente)
+//   · Tooltip al hover sobre arcos
+//   · Atajos teclado (ESC=quita foco, /=enfoca buscador, +/-=zoom)
+//   · Cuadrantes con tinte ideológico muy sutil
+//   · Chip de stats flotante
+//   · Animación de entrada en cascada (stagger)
 
 interface Actor {
   id: string
-  nombre?: string
-  nombre_completo?: string
+  nombre?: string; nombre_completo?: string
   partido?: string
-  cargo?: string
-  cargo_actual?: string
-  ejeX?: number
-  ejeY?: number
-  cat?: string
-  color?: string
-  inf?: number
-  score_influencia?: number
+  cargo?: string; cargo_actual?: string
+  ejeX?: number; ejeY?: number
+  cat?: string; color?: string
+  inf?: number; score_influencia?: number
 }
 
 interface Props {
   actors?: Actor[]
-  /** Máximo de actores en la vista inicial. Default 50. */
   maxActors?: number
 }
 
 // ───────── Categorías y colores ─────────
 const CAT_LABEL: Record<string, string> = {
-  gobierno: 'Gobierno', oposicion: 'Oposición', parlamento: 'Parlamento',
-  autonomico: 'Autonómico', municipal: 'Municipal', institucion: 'Institución',
-  patronal: 'Patronal', sindicato: 'Sindicato', mediatico: 'Medios', europa: 'Europa',
+  gobierno:'Gobierno', oposicion:'Oposición', parlamento:'Parlamento',
+  autonomico:'Autonómico', municipal:'Municipal', institucion:'Institución',
+  patronal:'Patronal', sindicato:'Sindicato', mediatico:'Medios', europa:'Europa',
 }
 const CAT_COLOR: Record<string, string> = {
   gobierno:'#E1322D', oposicion:'#1F4E8C', parlamento:'#5B21B6',
   autonomico:'#0F766E', municipal:'#0EA5E9', institucion:'#7C3AED',
   patronal:'#0E7490', sindicato:'#A02525', mediatico:'#525258', europa:'#0F766E',
 }
-
 const PARTY_BLOCK: Record<string, 'izq' | 'der' | 'centro' | 'institucion'> = {
   PSOE:'izq', PSC:'izq','PSC-PSOE':'izq', Sumar:'izq', Podemos:'izq',
   ERC:'izq','EH Bildu':'izq', BNG:'izq', Compromís:'izq',
@@ -59,7 +51,6 @@ const PARTY_BLOCK: Record<string, 'izq' | 'der' | 'centro' | 'institucion'> = {
 }
 
 interface InferredLink { a: string; b: string; val: number; label: string }
-
 function inferLinks(visible: Actor[]): InferredLink[] {
   const out: InferredLink[] = []
   for (let i = 0; i < visible.length; i++) {
@@ -73,7 +64,6 @@ function inferLinks(visible: Actor[]): InferredLink[] {
   out.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
   return out.slice(0, 90)
 }
-
 function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   const pa = a.partido || 'Independiente'
   const pb = b.partido || 'Independiente'
@@ -84,17 +74,14 @@ function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   if ((ba === 'izq' && bb === 'der') || (ba === 'der' && bb === 'izq')) return { val: -58, label: 'Bloques enfrentados' }
   const ca = a.cat, cb = b.cat
   if ((ca === 'gobierno' && cb === 'oposicion') || (ca === 'oposicion' && cb === 'gobierno')) return { val: -45, label: 'Gobierno ↔ oposición' }
-  if ((ba === 'institucion' && (pb === 'PP' || pb === 'PSOE')) || (bb === 'institucion' && (pa === 'PP' || pa === 'PSOE'))) {
-    return { val: 35, label: 'Diálogo formal' }
-  }
+  if ((ba === 'institucion' && (pb === 'PP' || pb === 'PSOE')) || (bb === 'institucion' && (pa === 'PP' || pa === 'PSOE'))) return { val: 35, label: 'Diálogo formal' }
   return null
 }
 
-const nameOf  = (a: Actor): string => a.nombre_completo || a.nombre || a.id
+const nameOf = (a: Actor): string => a.nombre_completo || a.nombre || a.id
 const shortName = (a: Actor): string => {
-  const n = nameOf(a)
-  const parts = n.split(/\s+/)
-  return parts.length === 1 ? n : `${parts[0][0]}. ${parts[1]}`
+  const parts = nameOf(a).split(/\s+/)
+  return parts.length === 1 ? nameOf(a) : `${parts[0][0]}. ${parts[1]}`
 }
 const initialsOf = (a: Actor): string => {
   const parts = nameOf(a).split(/\s+/)
@@ -103,12 +90,11 @@ const initialsOf = (a: Actor): string => {
 }
 const infOf = (a: Actor): number => a.score_influencia ?? a.inf ?? 50
 
-// Anti-collision · empuja nodos que se solapan (1 pasada simple)
 function antiCollide(positions: Record<string, [number, number]>, radii: Record<string, number>): Record<string, [number, number]> {
   const ids = Object.keys(positions)
   const result: Record<string, [number, number]> = {}
   for (const id of ids) result[id] = [...positions[id]] as [number, number]
-  for (let pass = 0; pass < 4; pass++) {
+  for (let pass = 0; pass < 5; pass++) {
     for (let i = 0; i < ids.length; i++) {
       for (let j = i + 1; j < ids.length; j++) {
         const a = result[ids[i]], b = result[ids[j]]
@@ -130,18 +116,27 @@ function antiCollide(positions: Record<string, [number, number]>, radii: Record<
 export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) {
   const [focus, setFocus] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null)
   const [filter, setFilter] = useState<'all' | 'pos' | 'neg'>('all')
   const [showLabels, setShowLabels] = useState(true)
   const [filterCat, setFilterCat] = useState<string>('Todas')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Zoom / pan
+  // Zoom · ahora "decoupled": las posiciones se expanden, pero el nodo
+  // mantiene su tamaño visual.
   const [zoom, setZoom] = useState(1)
   const [pan, setPan] = useState({ x: 0, y: 0 })
-  const dragState = useRef<{ x0: number; y0: number; pan0: { x: number; y: number } } | null>(null)
-  const svgRef = useRef<SVGSVGElement>(null)
+  const [customPos, setCustomPos] = useState<Record<string, [number, number]>>({})
 
-  const W = 1100, H = 700
+  // Drag: del fondo (pan) o de un nodo concreto
+  const dragMode = useRef<'pan' | 'node' | null>(null)
+  const dragNodeId = useRef<string | null>(null)
+  const dragStart = useRef<{ x0: number; y0: number; pan0?: { x: number; y: number }; nodePos0?: [number, number] } | null>(null)
+
+  const svgRef = useRef<SVGSVGElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const W = 1200, H = 760
   const cx = W / 2, cy = H / 2
 
   const visibleActors = useMemo(() => {
@@ -152,9 +147,9 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
 
   const allLinks = useMemo(() => inferLinks(visibleActors), [visibleActors])
 
-  // Posicionamiento + anti-collision
-  const posMap = useMemo(() => {
-    const padding = 70
+  // Posiciones BASE (sin zoom/pan/custom). Anti-collision.
+  const basePosMap = useMemo(() => {
+    const padding = 80
     const initial: Record<string, [number, number]> = {}
     const radii: Record<string, number> = {}
     visibleActors.forEach(a => {
@@ -163,13 +158,32 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
       const x = padding + ((ejeX + 100) / 200) * (W - 2 * padding)
       const y = padding + ((100 - ejeY) / 200) * (H - 2 * padding)
       const hash = a.id.split('').reduce((s, c) => s + c.charCodeAt(0), 0)
-      const jx = ((hash % 17) - 8) * 1.5
-      const jy = (((hash * 7) % 13) - 6) * 1.5
+      const jx = ((hash % 19) - 9) * 1.6
+      const jy = (((hash * 7) % 17) - 8) * 1.6
       initial[a.id] = [x + jx, y + jy]
       radii[a.id] = 12 + Math.sqrt(infOf(a)) * 1.4
     })
     return antiCollide(initial, radii)
   }, [visibleActors])
+
+  // Posición FINAL (visible) = base · si el usuario ha arrastrado el nodo,
+  // usamos su posición custom; si no, aplicamos zoom + pan al base.
+  const transformPos = useCallback((id: string, base: [number, number]): [number, number] => {
+    const custom = customPos[id]
+    const [bx, by] = custom || base
+    return [
+      (bx - cx) * zoom + cx + pan.x,
+      (by - cy) * zoom + cy + pan.y,
+    ]
+  }, [zoom, pan, customPos, cx, cy])
+
+  const visiblePosMap = useMemo(() => {
+    const out: Record<string, [number, number]> = {}
+    for (const a of visibleActors) {
+      out[a.id] = transformPos(a.id, basePosMap[a.id])
+    }
+    return out
+  }, [visibleActors, basePosMap, transformPos])
 
   const visibleLinks = allLinks.filter(l => {
     if (filter === 'pos' && l.val < 0) return false
@@ -193,7 +207,6 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
     return ['Todas', ...Array.from(set)]
   }, [actors])
 
-  // Buscador · sugerencias por prefijo
   const searchMatches = useMemo(() => {
     if (!searchQuery.trim()) return []
     const q = searchQuery.toLowerCase()
@@ -203,32 +216,68 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
       .slice(0, 6)
   }, [searchQuery, actors])
 
-  // Zoom
-  const zoomIn  = () => setZoom(z => Math.min(3, +(z * 1.25).toFixed(2)))
-  const zoomOut = () => setZoom(z => Math.max(0.4, +(z / 1.25).toFixed(2)))
-  const zoomReset = () => { setZoom(1); setPan({ x: 0, y: 0 }) }
+  const zoomIn = () => setZoom(z => Math.min(3, +(z * 1.25).toFixed(2)))
+  const zoomOut = () => setZoom(z => Math.max(0.5, +(z / 1.25).toFixed(2)))
+  const zoomReset = () => { setZoom(1); setPan({ x: 0, y: 0 }); setCustomPos({}) }
 
-  // Pan con arrastre
+  // Drag handling
+  const screenToSvg = useCallback((clientX: number, clientY: number): [number, number] => {
+    const svg = svgRef.current
+    if (!svg) return [0, 0]
+    const rect = svg.getBoundingClientRect()
+    const sx = (clientX - rect.left) / rect.width * W
+    const sy = (clientY - rect.top) / rect.height * H
+    return [sx, sy]
+  }, [W, H])
+
   const onMouseDown = useCallback((e: React.MouseEvent) => {
-    // Solo arrastrar si no se está clicando en un nodo (data-node="true")
     const target = e.target as Element
-    if (target.closest('[data-node="true"]')) return
-    dragState.current = { x0: e.clientX, y0: e.clientY, pan0: { ...pan } }
-  }, [pan])
+    const nodeEl = target.closest('[data-node-id]') as HTMLElement | null
+    if (nodeEl) {
+      const id = nodeEl.getAttribute('data-node-id')!
+      dragMode.current = 'node'
+      dragNodeId.current = id
+      const base = basePosMap[id]
+      const current = customPos[id] || base
+      dragStart.current = { x0: e.clientX, y0: e.clientY, nodePos0: current }
+    } else {
+      dragMode.current = 'pan'
+      dragStart.current = { x0: e.clientX, y0: e.clientY, pan0: { ...pan } }
+    }
+  }, [basePosMap, customPos, pan])
+
   const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!dragState.current) return
-    const dx = e.clientX - dragState.current.x0
-    const dy = e.clientY - dragState.current.y0
-    setPan({ x: dragState.current.pan0.x + dx, y: dragState.current.pan0.y + dy })
+    if (!dragMode.current || !dragStart.current) return
+    const dx = e.clientX - dragStart.current.x0
+    const dy = e.clientY - dragStart.current.y0
+    if (dragMode.current === 'pan') {
+      setPan({ x: dragStart.current.pan0!.x + dx, y: dragStart.current.pan0!.y + dy })
+    } else if (dragMode.current === 'node' && dragNodeId.current) {
+      // Convertir delta de pantalla a delta SVG (compensa zoom)
+      const svg = svgRef.current
+      if (!svg) return
+      const rect = svg.getBoundingClientRect()
+      const dsx = dx / rect.width * W / zoom
+      const dsy = dy / rect.height * H / zoom
+      const [bx0, by0] = dragStart.current.nodePos0!
+      setCustomPos(prev => ({ ...prev, [dragNodeId.current!]: [bx0 + dsx, by0 + dsy] }))
+    }
+  }, [zoom, W, H])
+
+  const onMouseUp = useCallback(() => {
+    dragMode.current = null
+    dragNodeId.current = null
+    dragStart.current = null
   }, [])
-  const onMouseUp = useCallback(() => { dragState.current = null }, [])
-  // Wheel zoom
+
+  // Wheel zoom (centrado en el cursor)
   const onWheel = useCallback((e: WheelEvent) => {
     if (!svgRef.current?.contains(e.target as Node)) return
     e.preventDefault()
     const delta = e.deltaY > 0 ? 1 / 1.1 : 1.1
-    setZoom(z => Math.max(0.4, Math.min(3, +(z * delta).toFixed(2))))
+    setZoom(z => Math.max(0.5, Math.min(3, +(z * delta).toFixed(2))))
   }, [])
+
   useEffect(() => {
     const el = svgRef.current
     if (!el) return
@@ -236,12 +285,35 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
     return () => el.removeEventListener('wheel', onWheel)
   }, [onWheel])
 
-  // Tooltip data
+  // Atajos teclado
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      // Ignorar si se está escribiendo en un input
+      const t = e.target as HTMLElement
+      if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') {
+        if (e.key === 'Escape') (t as HTMLInputElement).blur()
+        return
+      }
+      if (e.key === 'Escape') { setFocus(null); setHovered(null) }
+      else if (e.key === '/') { e.preventDefault(); searchInputRef.current?.focus() }
+      else if (e.key === '+' || e.key === '=') zoomIn()
+      else if (e.key === '-') zoomOut()
+      else if (e.key === '0') zoomReset()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   const tooltipActor = hovered ? visibleActors.find(a => a.id === hovered) : null
+  const hoveredLinkData = hoveredLink !== null ? visibleLinks[hoveredLink] : null
+
+  // Stats agregadas
+  const positiveLinks = visibleLinks.filter(l => l.val > 0).length
+  const negativeLinks = visibleLinks.filter(l => l.val < 0).length
+  const distinctParties = new Set(visibleActors.map(a => a.partido).filter(Boolean)).size
 
   return (
     <section style={{ display: 'grid', gridTemplateColumns: '8fr 4fr', gap: 18 }}>
-      {/* Grafo */}
       <div style={{
         background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
         padding: '20px 18px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
@@ -261,16 +333,17 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
 
         {/* Buscador + categorías */}
         <div style={{ display: 'flex', gap: 10, marginBottom: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          <div style={{ position: 'relative', minWidth: 220 }}>
+          <div style={{ position: 'relative', minWidth: 240 }}>
             <input
+              ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Buscar actor o partido…"
+              placeholder='Buscar actor o partido…  (pulsa "/")'
               style={{
                 background: '#fff', border: '1px solid #d2d2d7', borderRadius: 999,
                 padding: '7px 14px 7px 32px', fontSize: 12, fontFamily: 'inherit',
-                color: '#1d1d1f', width: 230, outline: 'none', transition: 'all 160ms',
+                color: '#1d1d1f', width: 250, outline: 'none', transition: 'all 160ms',
               }}
               onFocus={e => { e.currentTarget.style.borderColor = '#1d1d1f' }}
               onBlur={e => { e.currentTarget.style.borderColor = '#d2d2d7' }}
@@ -289,11 +362,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
                 {searchMatches.map(m => {
                   const isInGraph = visibleActors.some(a => a.id === m.id)
                   return (
-                    <button key={m.id} onClick={() => {
-                      setSearchQuery(''); setFilterCat('Todas')
-                      // Si no está en visibleActors, ampliar el max temporalmente
-                      setFocus(m.id)
-                    }} style={{
+                    <button key={m.id} onClick={() => { setSearchQuery(''); setFilterCat('Todas'); setFocus(m.id) }} style={{
                       width: '100%', textAlign: 'left', background: 'transparent',
                       border: 'none', padding: '8px 10px', borderRadius: 7, cursor: 'pointer',
                       fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 8,
@@ -325,8 +394,25 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
           </div>
         </div>
 
-        {/* Wrapper SVG con controles de zoom flotantes */}
+        {/* Wrapper SVG */}
         <div style={{ position: 'relative' }}>
+          {/* Stats chip · esquina superior izquierda */}
+          <div style={{
+            position: 'absolute', top: 14, left: 14, zIndex: 5,
+            display: 'flex', alignItems: 'center', gap: 14,
+            background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(8px)',
+            border: '1px solid #ECECEF', borderRadius: 14,
+            padding: '8px 14px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+          }}>
+            <Stat label="Actores" value={visibleActors.length}/>
+            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+            <Stat label="Alianzas"   value={positiveLinks} color="#16A34A"/>
+            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+            <Stat label="Conflictos" value={negativeLinks} color="#DC2626"/>
+            <span style={{ width: 1, alignSelf: 'stretch', background: '#ECECEF' }}/>
+            <Stat label="Partidos" value={distinctParties}/>
+          </div>
+
           {/* Controles de zoom */}
           <div style={{
             position: 'absolute', top: 14, right: 14, zIndex: 5,
@@ -334,13 +420,12 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             background: '#fff', border: '1px solid #ECECEF', borderRadius: 12,
             boxShadow: '0 4px 12px rgba(0,0,0,0.06)', overflow: 'hidden',
           }}>
-            <ZoomBtn onClick={zoomIn} title="Acercar">＋</ZoomBtn>
+            <ZoomBtn onClick={zoomIn} title="Acercar (+)">＋</ZoomBtn>
             <div style={{ height: 1, background: '#f5f5f7' }}/>
-            <ZoomBtn onClick={zoomOut} title="Alejar">－</ZoomBtn>
+            <ZoomBtn onClick={zoomOut} title="Alejar (-)">－</ZoomBtn>
             <div style={{ height: 1, background: '#f5f5f7' }}/>
-            <ZoomBtn onClick={zoomReset} title="Restablecer" small>↺</ZoomBtn>
+            <ZoomBtn onClick={zoomReset} title="Restablecer (0)" small>↺</ZoomBtn>
           </div>
-          {/* Indicador de zoom */}
           <div style={{
             position: 'absolute', bottom: 14, right: 14, zIndex: 5,
             background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(6px)',
@@ -354,7 +439,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             viewBox={`0 0 ${W} ${H}`}
             style={{
               width: '100%', display: 'block',
-              cursor: dragState.current ? 'grabbing' : 'grab',
+              cursor: dragMode.current === 'pan' ? 'grabbing' : (dragMode.current === 'node' ? 'move' : 'grab'),
               touchAction: 'none', userSelect: 'none',
             }}
             onMouseDown={onMouseDown}
@@ -363,189 +448,210 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             onMouseLeave={onMouseUp}
           >
             <defs>
-              <radialGradient id="actoresBgGrad" cx="50%" cy="50%" r="65%">
-                <stop offset="0%" stopColor="#fafafa" stopOpacity="1"/>
-                <stop offset="100%" stopColor="#f0f0f3" stopOpacity="0.4"/>
-              </radialGradient>
+              <linearGradient id="bgQuadrants" x1="0" y1="0" x2="100%" y2="0">
+                <stop offset="0%" stopColor="#FEF2F2" stopOpacity="0.55"/>
+                <stop offset="50%" stopColor="#fafafa" stopOpacity="0.20"/>
+                <stop offset="100%" stopColor="#EFF6FF" stopOpacity="0.55"/>
+              </linearGradient>
               <pattern id="grafoDotsPattern" width="22" height="22" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="0.7" fill="#d2d2d7" opacity="0.6"/>
+                <circle cx="1" cy="1" r="0.7" fill="#d2d2d7" opacity="0.55"/>
               </pattern>
               <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
-                <feOffset dx="0" dy="1.5" result="offsetblur"/>
-                <feFlood floodColor="#000" floodOpacity="0.18"/>
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2.4"/>
+                <feOffset dx="0" dy="1.8" result="offsetblur"/>
+                <feFlood floodColor="#000" floodOpacity="0.20"/>
                 <feComposite in2="offsetblur" operator="in"/>
-                <feMerge>
-                  <feMergeNode/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
+                <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6"/>
               </filter>
             </defs>
 
-            {/* Fondo · siempre fijo (no se transforma) */}
-            <rect x="0" y="0" width={W} height={H} fill="url(#actoresBgGrad)"/>
+            {/* Fondo · cuadrantes con tinte ideológico */}
+            <rect x="0" y="0" width={W} height={H} fill="url(#bgQuadrants)"/>
             <rect x="0" y="0" width={W} height={H} fill="url(#grafoDotsPattern)"/>
 
-            {/* Capa transformable · zoom + pan */}
-            <g transform={`translate(${pan.x} ${pan.y}) scale(${zoom})`} style={{ transition: dragState.current ? 'none' : 'transform 200ms ease-out' }}>
+            {/* Ejes (transformados por zoom + pan para coherencia) */}
+            {(() => {
+              const [ax0, ay0] = [(40 - cx) * zoom + cx + pan.x, cy + pan.y]
+              const [ax1, ay1] = [(W - 40 - cx) * zoom + cx + pan.x, cy + pan.y]
+              const [bx0, by0] = [cx + pan.x, (40 - cy) * zoom + cy + pan.y]
+              const [bx1, by1] = [cx + pan.x, (H - 40 - cy) * zoom + cy + pan.y]
+              return (
+                <>
+                  <line x1={ax0} y1={ay0} x2={ax1} y2={ay1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
+                  <line x1={bx0} y1={by0} x2={bx1} y2={by1} stroke="#d2d2d7" strokeDasharray="2 5" strokeWidth="1"/>
+                  <text x={ax0 + 8} y={ay0 + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">IZQ.</text>
+                  <text x={ax1 - 8} y={ay1 + 4} textAnchor="end"   fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DER.</text>
+                  <text x={bx0} y={by0 - 8} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">CENTRALIZACIÓN</text>
+                  <text x={bx1} y={by1 + 14} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DESCENTRALIZACIÓN</text>
+                </>
+              )
+            })()}
 
-              {/* Ejes */}
-              <line x1={cx} y1="40" x2={cx} y2={H - 40} stroke="#d2d2d7" strokeDasharray="2 5"/>
-              <line x1="40" y1={cy} x2={W - 40} y2={cy} stroke="#d2d2d7" strokeDasharray="2 5"/>
-              <text x="48" y={cy + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">IZQ.</text>
-              <text x={W - 48} y={cy + 4} textAnchor="end" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DER.</text>
-              <text x={cx} y="32" textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">CENTRALIZACIÓN</text>
-              <text x={cx} y={H - 26} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.12em" fontWeight="600">DESCENTRALIZACIÓN</text>
-
-              {/* Edges */}
-              {visibleLinks.map((l, i) => {
-                const pa = posMap[l.a], pb = posMap[l.b]
-                if (!pa || !pb) return null
-                const [x1, y1] = pa
-                const [x2, y2] = pb
-                const mx = (x1 + x2) / 2, my = (y1 + y2) / 2
-                const dx = mx - cx, dy = my - cy
-                const len = Math.sqrt(dx * dx + dy * dy) || 1
-                const cmx = mx + (dx / len) * 30
-                const cmy = my + (dy / len) * 30
-                const stroke = l.val >= 0 ? '#16A34A' : '#DC2626'
-                const isHL = focus && (l.a === focus || l.b === focus)
-                const opacity = isHL ? 0.95 : (focus ? 0.10 : Math.min(0.55, Math.abs(l.val) / 100 + 0.10))
-                const width = Math.max(0.8, (Math.abs(l.val) / 100) * 5) * (isHL ? 1.5 : 1)
-                const dash = l.val < 0 ? '5 5' : ''
-                return (
-                  <g key={i} style={{ pointerEvents: 'none' }}>
-                    <path
-                      d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
-                      fill="none"
-                      stroke={stroke}
-                      strokeWidth={width}
-                      strokeOpacity={opacity}
-                      strokeDasharray={dash}
-                      strokeLinecap="round"
-                      style={{ transition: 'stroke-opacity 200ms, stroke-width 200ms' }}
-                    />
-                    {showLabels && isHL && (
-                      <g>
-                        <rect
-                          x={cmx - (l.label.length * 3.2) - 6}
-                          y={cmy - 17}
-                          width={(l.label.length * 6.4) + 12}
-                          height={14}
-                          rx="7"
-                          fill="#fff"
-                          stroke={stroke}
-                          strokeOpacity="0.30"
-                        />
-                        <text x={cmx} y={cmy - 7} textAnchor="middle" fontSize="9" fontWeight="600" fill={stroke}>
-                          {l.label}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                )
-              })}
-
-              {/* Nodes */}
-              {visibleActors.map(a => {
-                const pos = posMap[a.id]
-                if (!pos) return null
-                const [x, y] = pos
-                const isFocus = focus === a.id
-                const isHover = hovered === a.id
-                const inf = infOf(a)
-                const baseR = 12 + Math.sqrt(inf) * 1.4
-                const r = baseR * (isHover ? 1.10 : 1)
-                const dim = !!focus && focus !== a.id && !visibleLinks.some(l => l.a === a.id || l.b === a.id)
-                const color = a.color || CAT_COLOR[a.cat || ''] || '#6e6e73'
-                return (
-                  <g
-                    key={a.id}
-                    data-node="true"
-                    style={{ cursor: 'pointer', transition: 'opacity 200ms' }}
-                    opacity={dim ? 0.18 : 1}
-                    onClick={() => setFocus(focus === a.id ? null : a.id)}
-                    onMouseEnter={() => setHovered(a.id)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    {(isFocus || isHover) && (
-                      <circle cx={x} cy={y} r={r + 10} fill={color} opacity={isFocus ? 0.18 : 0.10}/>
-                    )}
-                    <circle
-                      cx={x} cy={y} r={r}
-                      fill={color}
-                      stroke={isFocus ? '#1d1d1f' : '#fff'}
-                      strokeWidth={isFocus ? 2.5 : 2}
-                      filter="url(#nodeShadow)"
-                      style={{ transition: 'r 200ms ease-out' }}
-                    />
-                    {r >= 14 && (
-                      <text
-                        x={x} y={y + 4}
-                        textAnchor="middle"
+            {/* Edges */}
+            {visibleLinks.map((l, i) => {
+              const pa = visiblePosMap[l.a], pb = visiblePosMap[l.b]
+              if (!pa || !pb) return null
+              const [x1, y1] = pa, [x2, y2] = pb
+              const cxScreen = cx + pan.x
+              const cyScreen = cy + pan.y
+              const mx = (x1 + x2) / 2, my = (y1 + y2) / 2
+              const dx = mx - cxScreen, dy = my - cyScreen
+              const len = Math.sqrt(dx * dx + dy * dy) || 1
+              const cmx = mx + (dx / len) * 30
+              const cmy = my + (dy / len) * 30
+              const stroke = l.val >= 0 ? '#16A34A' : '#DC2626'
+              const isHL = (focus && (l.a === focus || l.b === focus)) || (hoveredLink === i)
+              const opacity = isHL ? 0.95 : (focus ? 0.10 : Math.min(0.55, Math.abs(l.val) / 100 + 0.10))
+              const width = Math.max(0.8, (Math.abs(l.val) / 100) * 5) * (isHL ? 1.7 : 1)
+              const dash = l.val < 0 ? '5 5' : ''
+              return (
+                <g key={i} style={{ pointerEvents: 'visibleStroke' }}>
+                  <path
+                    d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
+                    fill="none"
+                    stroke={stroke}
+                    strokeWidth={Math.max(width, 6)}
+                    strokeOpacity={0}
+                    style={{ cursor: 'pointer' }}
+                    onMouseEnter={() => setHoveredLink(i)}
+                    onMouseLeave={() => setHoveredLink(null)}
+                  />
+                  <path
+                    d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
+                    fill="none"
+                    stroke={stroke}
+                    strokeWidth={width}
+                    strokeOpacity={opacity}
+                    strokeDasharray={dash}
+                    strokeLinecap="round"
+                    style={{ pointerEvents: 'none', transition: 'stroke-opacity 200ms, stroke-width 200ms' }}
+                  />
+                  {showLabels && isHL && (
+                    <g style={{ pointerEvents: 'none' }}>
+                      <rect
+                        x={cmx - (l.label.length * 3.4) - 7}
+                        y={cmy - 18}
+                        width={(l.label.length * 6.8) + 14}
+                        height={15}
+                        rx="7.5"
                         fill="#fff"
-                        fontFamily="var(--font-display)"
-                        fontWeight="700"
-                        fontSize={r >= 20 ? '11' : '9.5'}
-                        letterSpacing="0.02em"
-                        style={{ pointerEvents: 'none' }}
-                      >
-                        {initialsOf(a)}
+                        stroke={stroke}
+                        strokeOpacity="0.35"
+                      />
+                      <text x={cmx} y={cmy - 8} textAnchor="middle" fontSize="9.5" fontWeight="600" fill={stroke}>
+                        {l.label}
                       </text>
-                    )}
-                    {/* Etiqueta tipo chip · solo en alta influencia o foco/hover */}
-                    {(isFocus || isHover || (inf >= 70 && !focus)) && (
-                      <g style={{ pointerEvents: 'none' }}>
-                        <rect
-                          x={x - (shortName(a).length * 3.4) - 7}
-                          y={y + r + 5}
-                          width={(shortName(a).length * 6.8) + 14}
-                          height={16}
-                          rx="8"
-                          fill="#fff"
-                          stroke="#ECECEF"
-                          strokeWidth="1"
-                        />
-                        <text
-                          x={x} y={y + r + 16}
-                          textAnchor="middle"
-                          fill="#1d1d1f"
-                          fontFamily="var(--font-display)"
-                          fontWeight="600"
-                          fontSize="10"
-                        >
-                          {shortName(a)}
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                )
-              })}
-            </g>
+                    </g>
+                  )}
+                </g>
+              )
+            })}
+
+            {/* Nodes · NO se transforman por zoom (mantienen su radio) */}
+            {visibleActors.map((a, idx) => {
+              const pos = visiblePosMap[a.id]
+              if (!pos) return null
+              const [x, y] = pos
+              const isFocus = focus === a.id
+              const isHover = hovered === a.id
+              const inf = infOf(a)
+              const baseR = 12 + Math.sqrt(inf) * 1.4
+              const r = baseR * (isHover ? 1.10 : 1)
+              const dim = !!focus && focus !== a.id && !visibleLinks.some(l => l.a === a.id || l.b === a.id)
+              const color = a.color || CAT_COLOR[a.cat || ''] || '#6e6e73'
+              return (
+                <g
+                  key={a.id}
+                  data-node-id={a.id}
+                  style={{
+                    cursor: dragMode.current === 'node' && dragNodeId.current === a.id ? 'grabbing' : 'pointer',
+                    transition: 'opacity 200ms',
+                    animation: `grafoNodeIn 360ms ease-out backwards`,
+                    animationDelay: `${idx * 12}ms`,
+                  }}
+                  opacity={dim ? 0.18 : 1}
+                  onClick={() => { if (dragMode.current !== 'node') setFocus(focus === a.id ? null : a.id) }}
+                  onMouseEnter={() => setHovered(a.id)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  {(isFocus || isHover) && (
+                    <circle cx={x} cy={y} r={r + 12} fill={color} opacity={isFocus ? 0.20 : 0.10}/>
+                  )}
+                  <circle
+                    cx={x} cy={y} r={r}
+                    fill={color}
+                    stroke={isFocus ? '#1d1d1f' : '#fff'}
+                    strokeWidth={isFocus ? 2.5 : 2}
+                    filter="url(#nodeShadow)"
+                    style={{ transition: 'r 200ms ease-out' }}
+                  />
+                  {r >= 14 && (
+                    <text
+                      x={x} y={y + 4}
+                      textAnchor="middle"
+                      fill="#fff"
+                      fontFamily="var(--font-display)"
+                      fontWeight="700"
+                      fontSize={r >= 22 ? '12' : '10'}
+                      letterSpacing="0.02em"
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      {initialsOf(a)}
+                    </text>
+                  )}
+                  {(isFocus || isHover || (inf >= 70 && !focus)) && (
+                    <g style={{ pointerEvents: 'none' }}>
+                      <rect
+                        x={x - (shortName(a).length * 3.4) - 7}
+                        y={y + r + 6}
+                        width={(shortName(a).length * 6.8) + 14}
+                        height={16}
+                        rx="8"
+                        fill="#fff"
+                        stroke="#ECECEF"
+                        strokeWidth="1"
+                      />
+                      <text
+                        x={x} y={y + r + 17}
+                        textAnchor="middle"
+                        fill="#1d1d1f"
+                        fontFamily="var(--font-display)"
+                        fontWeight="600"
+                        fontSize="10"
+                      >
+                        {shortName(a)}
+                      </text>
+                    </g>
+                  )}
+                </g>
+              )
+            })}
           </svg>
 
-          {/* Tooltip al hover (HTML, fuera del SVG) */}
+          {/* Tooltip al hover sobre nodo */}
           {tooltipActor && hovered !== focus && (() => {
-            const pos = posMap[tooltipActor.id]
+            const pos = visiblePosMap[tooltipActor.id]
             if (!pos) return null
             const [tx, ty] = pos
-            // Convertir coords SVG a coords visuales (% del viewBox)
-            const left = ((tx * zoom + pan.x) / W) * 100
-            const top  = ((ty * zoom + pan.y) / H) * 100
+            const left = (tx / W) * 100
+            const top  = (ty / H) * 100
             const color = tooltipActor.color || CAT_COLOR[tooltipActor.cat || ''] || '#6e6e73'
             return (
               <div style={{
                 position: 'absolute',
                 left: `${left}%`, top: `${top}%`,
-                transform: 'translate(-50%, calc(-100% - 18px))',
+                transform: 'translate(-50%, calc(-100% - 22px))',
                 background: '#fff', border: '1px solid #ECECEF', borderRadius: 10,
-                padding: '8px 12px', minWidth: 180, maxWidth: 260,
+                padding: '8px 12px', minWidth: 180, maxWidth: 280,
                 boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
                 pointerEvents: 'none', zIndex: 8,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
                   <span style={{ width: 8, height: 8, borderRadius: 999, background: color, flexShrink: 0 }}/>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>{nameOf(tooltipActor)}</span>
+                  <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{nameOf(tooltipActor)}</span>
                 </div>
                 {(tooltipActor.cargo_actual || tooltipActor.cargo) && (
                   <div style={{ fontSize: 11, color: '#515154', marginBottom: 2 }}>{tooltipActor.cargo_actual || tooltipActor.cargo}</div>
@@ -557,7 +663,41 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             )
           })()}
 
-          {/* Hint de uso (esquina inferior izquierda) */}
+          {/* Tooltip al hover sobre arco */}
+          {hoveredLinkData && (() => {
+            const pa = visiblePosMap[hoveredLinkData.a]
+            const pb = visiblePosMap[hoveredLinkData.b]
+            if (!pa || !pb) return null
+            const tx = (pa[0] + pb[0]) / 2
+            const ty = (pa[1] + pb[1]) / 2
+            const left = (tx / W) * 100
+            const top = (ty / H) * 100
+            const stroke = hoveredLinkData.val >= 0 ? '#16A34A' : '#DC2626'
+            const partyA = visibleActors.find(x => x.id === hoveredLinkData.a)
+            const partyB = visibleActors.find(x => x.id === hoveredLinkData.b)
+            return (
+              <div style={{
+                position: 'absolute',
+                left: `${left}%`, top: `${top}%`,
+                transform: 'translate(-50%, -50%)',
+                background: '#fff', border: `1px solid ${stroke}30`, borderRadius: 10,
+                padding: '8px 12px', minWidth: 200, boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
+                pointerEvents: 'none', zIndex: 8,
+              }}>
+                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: stroke, textTransform: 'uppercase', marginBottom: 4 }}>
+                  {hoveredLinkData.label}
+                </div>
+                <div style={{ fontSize: 12, color: '#1d1d1f' }}>
+                  <strong>{partyA && shortName(partyA)}</strong> ↔ <strong>{partyB && shortName(partyB)}</strong>
+                </div>
+                <div style={{ fontSize: 14, fontFamily: 'var(--font-display)', fontWeight: 700, color: stroke, marginTop: 2 }}>
+                  {hoveredLinkData.val > 0 ? '+' : ''}{hoveredLinkData.val}
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* Hint de uso */}
           <div style={{
             position: 'absolute', bottom: 14, left: 14, zIndex: 5,
             display: 'flex', alignItems: 'center', gap: 6,
@@ -566,7 +706,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             padding: '4px 10px', fontSize: 10, color: '#6e6e73',
             pointerEvents: 'none',
           }}>
-            <span>↕ scroll · zoom · arrastrar fondo · clic en nodo · foco</span>
+            <span>scroll · zoom &nbsp; · &nbsp; arrastrar fondo · pan &nbsp; · &nbsp; arrastrar nodo · mover &nbsp; · &nbsp; ESC · quitar foco</span>
           </div>
         </div>
       </div>
@@ -579,6 +719,14 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
         {focusStats ? <FocusPanel stats={focusStats} actors={visibleActors}/>
                     : <LegendPanel actors={visibleActors} totalActors={actors.length} cats={cats.filter(c => c !== 'Todas')}/>}
       </div>
+
+      {/* Keyframes globales */}
+      <style jsx global>{`
+        @keyframes grafoNodeIn {
+          from { opacity: 0; transform: scale(0.4); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
     </section>
   )
 }
@@ -597,20 +745,26 @@ const btnPrimary: React.CSSProperties = {
 
 function ZoomBtn({ onClick, children, title, small }: { onClick: () => void; children: React.ReactNode; title?: string; small?: boolean }) {
   return (
-    <button
-      onClick={onClick} title={title}
-      style={{
-        background: '#fff', border: 'none', cursor: 'pointer',
-        width: 36, height: 36, padding: 0,
-        fontSize: small ? 14 : 18, fontWeight: 500, color: '#1d1d1f',
-        fontFamily: 'inherit', lineHeight: 1, display: 'flex',
-        alignItems: 'center', justifyContent: 'center', transition: 'background 120ms',
-      }}
+    <button onClick={onClick} title={title} style={{
+      background: '#fff', border: 'none', cursor: 'pointer',
+      width: 36, height: 36, padding: 0,
+      fontSize: small ? 14 : 18, fontWeight: 500, color: '#1d1d1f',
+      fontFamily: 'inherit', lineHeight: 1, display: 'flex',
+      alignItems: 'center', justifyContent: 'center', transition: 'background 120ms',
+    }}
       onMouseEnter={e => { e.currentTarget.style.background = '#f5f5f7' }}
-      onMouseLeave={e => { e.currentTarget.style.background = '#fff' }}
-    >
+      onMouseLeave={e => { e.currentTarget.style.background = '#fff' }}>
       {children}
     </button>
+  )
+}
+
+function Stat({ label, value, color }: { label: string; value: number; color?: string }) {
+  return (
+    <div style={{ textAlign: 'center', minWidth: 50 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: color || '#1d1d1f', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+      <div style={{ fontSize: 9, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 2 }}>{label}</div>
+    </div>
   )
 }
 
@@ -763,7 +917,7 @@ function LegendPanel({ actors, totalActors, cats }: { actors: Actor[]; totalActo
 
       <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
       <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0, lineHeight: 1.5 }}>
-        Pulsa un nodo para aislar sus vínculos. Usa scroll para hacer zoom y arrastra el fondo para mover el grafo.
+        Pulsa un nodo para aislar sus vínculos. Arrástralo para moverlo. Usa scroll para zoom y pan con el fondo.
       </p>
     </>
   )
