@@ -16,14 +16,41 @@ Endpoints:
 """
 from __future__ import annotations
 
+import json
 import logging
+from datetime import datetime
 from typing import Any, Optional
 
 from fastapi import APIRouter
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/brain", tags=["brain"])
+
+
+def _load_system_prompt(workspace_id: Optional[str] = None, tools: Optional[list[str]] = None) -> str:
+    """
+    Carga el system prompt versionado desde `packages/prompts/src/system/politeia_brain.md`.
+    Si el loader no está disponible, usa un fallback minimalista.
+    """
+    try:
+        from packages.prompts import load_prompt, render_prompt
+        tpl = load_prompt("system.politeia_brain")
+        return render_prompt(
+            tpl,
+            workspace_name=workspace_id or "default",
+            workspace_focus="mixto",
+            today_date=datetime.now().strftime("%A %d de %B de %Y"),
+            tools_available=tools or [],
+        )
+    except Exception as e:
+        logger.debug("_load_system_prompt: fallback porque %s", e)
+        return (
+            "Eres Politeia, asistente de inteligencia política de Politeia Analítica. "
+            "Responde en castellano, conciso (3-4 párrafos), usa negrita para cifras clave. "
+            "No inventes datos. Si no tienes una cifra, di 'no tengo el dato exacto'."
+        )
 
 
 class ChatMessage(BaseModel):
@@ -126,6 +153,10 @@ def chat(req: ChatRequest):
     if req.use_tools:
         return chat_with_tools(req)
 
+    # System prompt versionado (packages/prompts/src/system/politeia_brain.md)
+    system_prompt = _load_system_prompt(req.workspace_id, req.tools)
+    contexto_completo = (system_prompt + "\n\n" + (req.context or "")) if req.context else system_prompt
+
     # Intento 2: services.llm_local.chat
     try:
         from services.llm_local import chat as llm_chat
@@ -133,7 +164,7 @@ def chat(req: ChatRequest):
         answer = llm_chat(
             req.question,
             historia=historia,
-            contexto=req.context or "",
+            contexto=contexto_completo,
         )
         model_used = "politeia-brain"
         mode = "ollama"
@@ -142,7 +173,7 @@ def chat(req: ChatRequest):
         try:
             from agents.brain.politeia_brain import ask_brain
             historia = [{"role": m.role, "content": m.content} for m in req.history]
-            result = ask_brain(req.question, history=historia, context=req.context)
+            result = ask_brain(req.question, history=historia, context=contexto_completo)
             answer = result.get("answer", "") if isinstance(result, dict) else str(result)
             model_used = result.get("model", "qwen2.5:7b") if isinstance(result, dict) else "qwen2.5:7b"
             mode = "ollama"
@@ -201,12 +232,15 @@ def chat_with_tools(req: ChatRequest):
         )
 
     historia = [{"role": m.role, "content": m.content} for m in req.history]
+    # System prompt versionado, incluyendo tools disponibles
+    system_prompt = _load_system_prompt(req.workspace_id, req.tools or list(tools_disponibles()))
+    contexto_completo = (system_prompt + "\n\n" + (req.context or "")) if req.context else system_prompt
     try:
         # `chat_con_herramientas` devuelve string final tras tool-use loop
         answer = chat_con_herramientas(
             mensaje=req.question,
             historia=historia,
-            contexto=req.context or "",
+            contexto=contexto_completo,
             modelo=req.model or "",
             herramientas=req.tools,
             max_iteraciones=req.max_iterations,
@@ -227,6 +261,77 @@ def chat_with_tools(req: ChatRequest):
             latency_ms=int((time.perf_counter() - t0) * 1000),
             mode="error",
         )
+
+
+# ─── Streaming SSE (chunks token-a-token) ────────────────────────────────────
+
+
+@router.post("/chat-stream")
+def chat_stream(req: ChatRequest):
+    """
+    Chat con streaming Server-Sent Events. Cada token llega como un evento
+    `data: {"chunk":"...", "done":false}\\n\\n`. Al terminar:
+    `data: {"chunk":"", "done":true, "latency_ms":N, "model_used":"...", "tools_used":[]}\\n\\n`.
+
+    Compatible con `EventSource` del navegador o `fetch + ReadableStream`.
+    """
+    import time
+    t0 = time.perf_counter()
+
+    def event_stream():
+        try:
+            from agents.brain.llm_gateway import LLMGateway
+            gateway = LLMGateway()
+        except Exception as e:
+            yield f"data: {json.dumps({'chunk': '', 'done': True, 'error': f'gateway_unavailable:{e}'})}\n\n"
+            return
+
+        # Construir mensajes con system prompt versionado
+        tools_for_prompt = req.tools or (["boe_search", "congreso_votaciones"] if req.use_tools else [])
+        system = _load_system_prompt(req.workspace_id, tools_for_prompt)
+        history = [{"role": m.role, "content": m.content} for m in req.history]
+        messages = [{"role": "system", "content": system}, *history, {"role": "user", "content": req.question}]
+
+        # Notificar comienzo
+        yield f"data: {json.dumps({'chunk': '', 'done': False, 'event': 'start', 'model': req.model or 'auto'})}\n\n"
+
+        n_chunks = 0
+        full_answer_chars = 0
+        try:
+            for chunk in gateway.stream_complete(messages, task_type="chat"):
+                if not chunk:
+                    continue
+                n_chunks += 1
+                full_answer_chars += len(chunk)
+                yield f"data: {json.dumps({'chunk': chunk, 'done': False})}\n\n"
+        except Exception as e:
+            logger.warning("chat_stream loop failed: %s", e)
+            yield f"data: {json.dumps({'chunk': '', 'done': True, 'error': str(e)})}\n\n"
+            return
+
+        # Cierre
+        latency_ms = int((time.perf_counter() - t0) * 1000)
+        end_payload = {
+            "chunk": "",
+            "done": True,
+            "latency_ms": latency_ms,
+            "model_used": req.model or "auto",
+            "n_chunks": n_chunks,
+            "answer_chars": full_answer_chars,
+            "tools_used": [],
+            "mode": "ollama+stream",
+        }
+        yield f"data: {json.dumps(end_payload)}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
+        },
+    )
 
 
 # ─── Briefing legislativo (tool-use orquestado) ──────────────────────────────

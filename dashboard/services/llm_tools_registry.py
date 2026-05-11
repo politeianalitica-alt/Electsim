@@ -320,6 +320,26 @@ TOOLS_SCHEMA: list[dict] = [
     },
 ]
 
+# ─── Tools del agente (agents/tools/*) ──────────────────────────────────────
+# Extiende el catálogo del Brain con TODAS las herramientas registradas en
+# `agents/tools/registry.py` (electoral, media, legislative, risk, …).
+try:
+    from agents.tools.registry import (
+        TOOLS_AGENTE,
+        TOOLS_AGENTE_INDEX as _AGENT_TOOLS_INDEX,
+        ejecutar_tool_agente,
+    )
+    TOOLS_SCHEMA.extend(TOOLS_AGENTE)
+    _AGENT_TOOLS_AVAILABLE = True
+except ImportError as _exc:  # pragma: no cover - defensivo
+    logger.debug("agents.tools.registry no disponible: %s", _exc)
+    _AGENT_TOOLS_AVAILABLE = False
+    _AGENT_TOOLS_INDEX: dict = {}
+
+    def ejecutar_tool_agente(nombre: str, args: dict) -> str:  # type: ignore[misc]
+        return json.dumps({"error": "agents.tools.registry no disponible"})
+
+
 # ─── Dispatcher de herramientas ──────────────────────────────────────────────
 
 
@@ -353,8 +373,12 @@ def ejecutar_herramienta(nombre: str, args: dict) -> str:
             return _tool_congreso_diputados(**args)
         elif nombre == "actor_relaciones":
             return _tool_actor_relaciones(**args)
-        else:
-            return json.dumps({"error": f"Herramienta desconocida: {nombre}"})
+
+        # Delegar en las tools del agente (agents/tools/*) si están disponibles
+        if _AGENT_TOOLS_AVAILABLE and nombre in _AGENT_TOOLS_INDEX:
+            return ejecutar_tool_agente(nombre, args)
+
+        return json.dumps({"error": f"Herramienta desconocida: {nombre}"})
     except Exception as exc:
         logger.error("Error ejecutando herramienta %s: %s", nombre, exc)
         return json.dumps({"error": str(exc), "herramienta": nombre})
