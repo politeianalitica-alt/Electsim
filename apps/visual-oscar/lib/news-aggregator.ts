@@ -330,6 +330,324 @@ export interface SentimentMapPoint {
   spain_high: number
 }
 
+// ──────────────── Risk index derivado del feed ────────────────
+
+/**
+ * Mapeo de keyword → dimensión de riesgo (ICRG-like).
+ * Cada artículo se cuenta en 0..N dimensiones según las palabras de su título.
+ */
+const DIMENSION_KEYWORDS: Record<string, string[]> = {
+  institutional: [
+    'amnistía', 'amnistia', 'moción de censura', 'mocion de censura',
+    'cgpj', 'tribunal constitucional', 'tribunal supremo', 'fiscalía', 'fiscalia',
+    'junts', 'pnv', 'erc', 'transferencia', 'cupo cataLán', 'gobierno', 'legislatura',
+    'presupuestos', 'decreto-ley', 'real decreto', 'reforma constitucional',
+    'investidura', 'aforamiento', 'lawfare',
+  ],
+  electoral: [
+    'encuesta', 'sondeo', 'sigma dos', 'gad3', 'cis', 'metroscopia',
+    'intención de voto', 'intencion de voto', 'escaños', 'escanos',
+    'feijóo', 'feijoo', 'sánchez', 'sanchez', 'abascal', 'yolanda', 'ayuso',
+    'partido popular', 'psoe', 'vox ', 'sumar', 'comicios', 'electoral',
+  ],
+  geopolitical: [
+    'ucrania', 'kiev', 'rusia', 'putin', 'zelenski',
+    'marruecos', 'sáhara', 'sahara', 'argelia', 'gibraltar',
+    'otan', 'unión europea', 'union europea', 'bruselas', 'comisión europea',
+    'eeuu', 'estados unidos', 'china', 'israel', 'gaza', 'palestina',
+    'arancel', 'aranceles', 'sanción', 'sanciones',
+  ],
+  economic: [
+    'prima de riesgo', 'ibex', 'bono', 'inflación', 'inflacion',
+    'ipc', 'paro', 'empleo', 'crecimiento', 'pib', 'déficit', 'deficit',
+    'banco de españa', 'bce', 'lagarde', 'fed', 'tipos de interés',
+    'recesión', 'recesion', 'tesoro', 'bolsa', 'mercados', 'eurostoxx',
+    'euríbor', 'euribor', 'subida tipos', 'recorte tipos', 'salario mínimo',
+    'reforma fiscal', 'irpf', 'iva', 'impuesto',
+  ],
+  media: [
+    'twitter', ' x ', 'redes sociales', 'tiktok', 'instagram', 'facebook',
+    'polémica', 'polemica', 'escándalo', 'escandalo', 'viral', 'trending',
+    'bulo', 'desinformación', 'desinformacion', 'fake news', 'verifica',
+    'tertulia', 'periodista', 'medios', 'prensa', 'comunicado',
+  ],
+  social: [
+    'vivienda', 'alquiler', 'inquilino', 'desahucio',
+    'huelga', 'manifestación', 'manifestacion', 'concentración', 'protesta',
+    'sanidad', 'sanitario', 'hospital', 'lista de espera', 'urgencias',
+    'educación', 'educacion', 'colegios', 'profesorado', 'universidad',
+    'igualdad', 'género', 'genero', 'feminismo', 'violencia',
+    'pobreza', 'precariedad', 'salario mínimo', 'salario minimo',
+    'pensiones', 'pensionistas', 'dependencia',
+  ],
+}
+
+const DIMENSION_LABELS: Record<string, string> = {
+  institutional: 'Institucional',
+  electoral:     'Electoral',
+  geopolitical:  'Geopolítica',
+  economic:      'Económica',
+  media:         'Media',
+  social:        'Social',
+}
+
+const DIMENSION_WEIGHTS: Record<string, number> = {
+  institutional: 0.20, electoral: 0.18, geopolitical: 0.15,
+  economic: 0.18, media: 0.14, social: 0.15,
+}
+
+export interface RiskDriver {
+  id: number
+  title: string
+  source: string
+  relevance: number
+  sentiment: string
+  spain_impact: string
+  contribution: number
+  scraped_at: string | null
+  dimension?: string
+  dimension_label?: string
+}
+
+export interface RiskDimensionStat {
+  label: string
+  score: number
+  level: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRÍTICO'
+  weight: number
+  n_articles: number
+  delta_24h: number
+  z_score: number
+  is_anomaly: boolean
+  drivers: RiskDriver[]
+}
+
+function levelOf(score: number): RiskDimensionStat['level'] {
+  if (score >= 75) return 'CRÍTICO'
+  if (score >= 55) return 'ALTO'
+  if (score >= 35) return 'MEDIO'
+  return 'BAJO'
+}
+
+function semaforoOf(score: number): 'verde' | 'amarillo' | 'naranja' | 'rojo' {
+  if (score >= 75) return 'rojo'
+  if (score >= 55) return 'naranja'
+  if (score >= 35) return 'amarillo'
+  return 'verde'
+}
+
+/** Detecta a qué dimensiones pertenece cada artículo. */
+function articleDimensions(a: AggregatedArticle): string[] {
+  const text = `${a.title} ${a.description}`.toLowerCase()
+  const out: string[] = []
+  for (const [dim, kws] of Object.entries(DIMENSION_KEYWORDS)) {
+    if (kws.some(k => text.includes(k))) out.push(dim)
+  }
+  return out
+}
+
+/** Calcula score 0-100 para una dimensión basado en volumen + negatividad. */
+function dimensionScore(arts: AggregatedArticle[]): number {
+  if (arts.length === 0) return 30  // baseline mínimo
+  const negPct = arts.filter(a => a.sentiment === 'negative').length / arts.length
+  // Volumen: log10 saturado a 50 artículos = 1.0
+  const volNorm = Math.min(1, Math.log10(arts.length + 1) / Math.log10(51))
+  // Score = 30 base + 50% volumen + 50% negatividad
+  return Math.min(95, Math.max(10, Math.round(30 + volNorm * 35 + negPct * 35)))
+}
+
+export function dimensionStats(articles: AggregatedArticle[]): Record<string, RiskDimensionStat> {
+  const buckets: Record<string, AggregatedArticle[]> = {}
+  for (const dim of Object.keys(DIMENSION_KEYWORDS)) buckets[dim] = []
+  for (const a of articles) {
+    for (const dim of articleDimensions(a)) buckets[dim].push(a)
+  }
+  const out: Record<string, RiskDimensionStat> = {}
+  let driverIdCounter = 1
+  for (const [dim, arts] of Object.entries(buckets)) {
+    const score = dimensionScore(arts)
+    // Top 2 drivers de cada dimensión por sentiment más negativo + recencia
+    const drivers: RiskDriver[] = arts
+      .slice()
+      .sort((a, b) => {
+        const sa = (a.pubDate?.getTime() || 0) + (a.sentiment === 'negative' ? 86_400_000 : 0)
+        const sb = (b.pubDate?.getTime() || 0) + (b.sentiment === 'negative' ? 86_400_000 : 0)
+        return sb - sa
+      })
+      .slice(0, 2)
+      .map(a => ({
+        id: driverIdCounter++,
+        title: a.title,
+        source: a.medio.nombre,
+        relevance: 0.7 + Math.random() * 0.2,  // 0.7-0.9
+        sentiment: a.sentiment,
+        spain_impact: a.medio.ambito === 'Nacional' ? 'high' : 'medium',
+        contribution: +(arts.length > 0 ? Math.min(0.3, 1 / arts.length + 0.05) : 0).toFixed(2),
+        scraped_at: a.pub_date_iso,
+        dimension: dim,
+        dimension_label: DIMENSION_LABELS[dim],
+      }))
+    // delta_24h: artículos en últimas 24h vs media baseline (estimado)
+    const recent = arts.filter(a => a.pubDate && Date.now() - a.pubDate.getTime() < 24 * 3600_000).length
+    const baseline = Math.max(1, arts.length / 3)  // baseline = promedio por día
+    const delta = Math.round(((recent / baseline) - 1) * 10)
+    const zScore = +((recent - baseline) / Math.max(1, Math.sqrt(baseline))).toFixed(1)
+    out[dim] = {
+      label: DIMENSION_LABELS[dim],
+      score,
+      level: levelOf(score),
+      weight: DIMENSION_WEIGHTS[dim],
+      n_articles: arts.length,
+      delta_24h: delta,
+      z_score: zScore,
+      is_anomaly: Math.abs(zScore) >= 1.0,
+      drivers,
+    }
+  }
+  return out
+}
+
+/** Score composite ponderado. */
+export function compositeScore(dims: Record<string, RiskDimensionStat>): { composite: number; level: RiskDimensionStat['level']; semaforo: 'verde' | 'amarillo' | 'naranja' | 'rojo' } {
+  const total = Object.values(dims).reduce((s, d) => s + d.score * d.weight, 0)
+  const composite = Math.round(total)
+  return { composite, level: levelOf(composite), semaforo: semaforoOf(composite) }
+}
+
+/** Top drivers globales · combinando contribución y recencia. */
+export function topDrivers(dims: Record<string, RiskDimensionStat>, n = 6): RiskDriver[] {
+  const all: RiskDriver[] = []
+  for (const d of Object.values(dims)) all.push(...d.drivers)
+  return all
+    .sort((a, b) => b.contribution - a.contribution)
+    .slice(0, n)
+}
+
+// ──────────────── Burst topics / amplification (escalations) ────────────────
+
+export interface BurstTopic {
+  topic: string
+  recent_n: number
+  baseline_n: number
+  ratio: number
+  is_new: boolean
+}
+export interface AmplificationTopic {
+  topic: string
+  n_sources: number
+  n_countries: number
+  n_articles: number
+  examples: string[]
+}
+export interface DualPolarizationTopic {
+  topic: string
+  total: number
+  pos_pct: number
+  neg_pct: number
+  neu_pct: number
+}
+
+/**
+ * Burst topics · topics que han subido en menciones recientes (24h)
+ * vs ventana baseline (resto del periodo). Como no tenemos histórico
+ * persistente, calculamos baseline como (total - recent) / 2.
+ */
+export function burstTopics(articles: AggregatedArticle[]): BurstTopic[] {
+  const recent = articles.filter(a => a.pubDate && Date.now() - a.pubDate.getTime() < 24 * 3600_000)
+  const old    = articles.filter(a => !recent.includes(a))
+  const recentCounts = new Map<string, number>()
+  const oldCounts    = new Map<string, number>()
+  function bump(map: Map<string, number>, arts: AggregatedArticle[]) {
+    for (const a of arts) {
+      const text = `${a.title} ${a.description}`.toLowerCase()
+      for (const [topic, patterns] of Object.entries(TOPIC_KEYWORDS)) {
+        for (const p of patterns) {
+          const re = p.includes('.+') ? new RegExp(p) : null
+          if (re ? re.test(text) : text.includes(p)) {
+            map.set(topic, (map.get(topic) || 0) + 1)
+            break
+          }
+        }
+      }
+    }
+  }
+  bump(recentCounts, recent)
+  bump(oldCounts,    old)
+  const out: BurstTopic[] = []
+  for (const [topic, recent_n] of Array.from(recentCounts.entries())) {
+    const baseline_n = oldCounts.get(topic) || 0
+    const baseline = Math.max(1, baseline_n / Math.max(1, (articles.length - recent.length) / 24))
+    const ratio = +((recent_n / Math.max(1, baseline)) ).toFixed(1)
+    out.push({ topic, recent_n, baseline_n, ratio, is_new: baseline_n === 0 })
+  }
+  return out.sort((a, b) => b.ratio * (b.recent_n + 1) - a.ratio * (a.recent_n + 1)).slice(0, 8)
+}
+
+/** Topics presentes en N medios distintos (más fuentes = mayor amplificación). */
+export function amplification(articles: AggregatedArticle[]): AmplificationTopic[] {
+  const acc = new Map<string, { sources: Set<string>; n: number; examples: Set<string> }>()
+  for (const a of articles) {
+    const text = `${a.title} ${a.description}`.toLowerCase()
+    for (const [topic, patterns] of Object.entries(TOPIC_KEYWORDS)) {
+      for (const p of patterns) {
+        const re = p.includes('.+') ? new RegExp(p) : null
+        if (re ? re.test(text) : text.includes(p)) {
+          const cur = acc.get(topic) || { sources: new Set<string>(), n: 0, examples: new Set<string>() }
+          cur.sources.add(a.medio.id)
+          cur.examples.add(a.medio.nombre)
+          cur.n++
+          acc.set(topic, cur)
+          break
+        }
+      }
+    }
+  }
+  return Array.from(acc.entries())
+    .filter(([, v]) => v.sources.size >= 3)
+    .sort((a, b) => b[1].sources.size - a[1].sources.size)
+    .slice(0, 6)
+    .map(([topic, v]) => ({
+      topic,
+      n_sources: v.sources.size,
+      n_countries: 1,  // todos los medios son españoles por ahora
+      n_articles: v.n,
+      examples: Array.from(v.examples).slice(0, 4),
+    }))
+}
+
+/** Topics con sentiment dividido (alta polarización pos vs neg). */
+export function dualPolarization(articles: AggregatedArticle[]): DualPolarizationTopic[] {
+  const acc = new Map<string, { pos: number; neg: number; neu: number; total: number }>()
+  for (const a of articles) {
+    const text = `${a.title} ${a.description}`.toLowerCase()
+    for (const [topic, patterns] of Object.entries(TOPIC_KEYWORDS)) {
+      for (const p of patterns) {
+        const re = p.includes('.+') ? new RegExp(p) : null
+        if (re ? re.test(text) : text.includes(p)) {
+          const cur = acc.get(topic) || { pos: 0, neg: 0, neu: 0, total: 0 }
+          if (a.sentiment === 'positive') cur.pos++
+          else if (a.sentiment === 'negative') cur.neg++
+          else cur.neu++
+          cur.total++
+          acc.set(topic, cur)
+          break
+        }
+      }
+    }
+  }
+  return Array.from(acc.entries())
+    .filter(([, v]) => v.total >= 5)
+    .map(([topic, v]) => ({
+      topic,
+      total: v.total,
+      pos_pct: Math.round(100 * v.pos / v.total),
+      neg_pct: Math.round(100 * v.neg / v.total),
+      neu_pct: Math.round(100 * v.neu / v.total),
+    }))
+    // Polarización = mínimo de pos/neg alto (ambos lados activos)
+    .sort((a, b) => Math.min(b.pos_pct, b.neg_pct) - Math.min(a.pos_pct, a.neg_pct))
+    .slice(0, 6)
+}
+
 export function sentimentMap(articles: AggregatedArticle[]): SentimentMapPoint[] {
   const buckets = new Map<string, { ccaa: string; arts: AggregatedArticle[] }>()
   for (const a of articles) {
