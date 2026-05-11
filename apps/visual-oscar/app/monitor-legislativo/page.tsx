@@ -6,6 +6,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import LegislationMap from '@/components/LegislationMap'
+import RegionalNewsMaps from '@/components/RegionalNewsMaps'
 
 // Tipos del feed real del BOE (matchea con /api/legislativo/feed)
 type ScoredNorma = {
@@ -239,6 +240,36 @@ export default function MonitorLegislativoPage() {
 
         {/* Mapa legislativo · Impacto territorial */}
         <LegislationMap/>
+
+        {/* ═════════════════════════════════════════════════════════════════
+            MAPAS DE NOTICIAS EN TIEMPO REAL · CCAA y Europa
+            Calor de sentiment por región · alimentado por /api/noticias/feed
+            y los 219 medios con RSS configurada.
+            ═════════════════════════════════════════════════════════════════ */}
+        <section style={{ marginBottom: 18 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#0F766E', textTransform: 'uppercase', margin: 0 }}>
+              MAPAS DE COBERTURA · TIEMPO REAL
+            </p>
+            <span style={{
+              fontSize: 9.5, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+              background: 'rgba(15,118,110,0.10)', color: '#0F766E',
+              border: '1px solid rgba(15,118,110,0.30)', letterSpacing: '0.06em',
+            }}>RSS · 219 medios</span>
+          </div>
+          <h2 style={{
+            fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600,
+            letterSpacing: '-0.020em', margin: '0 0 4px', color: '#1d1d1f',
+          }}>
+            Sentiment regional <span style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', color: '#515154', fontWeight: 500 }}>en vivo.</span>
+          </h2>
+          <p style={{ fontSize: 12, color: '#6e6e73', margin: '0 0 14px', maxWidth: 720 }}>
+            Mapa de calor por Comunidad Autónoma y por país europeo basado en el volumen
+            y tono de las noticias publicadas en las últimas horas. Datos derivados del
+            agregador RSS y scoring de importancia.
+          </p>
+          <RegionalNewsMaps/>
+        </section>
 
         {/* ═════════════════════════════════════════════════════════════════
             BOE EN VIVO · Disposiciones generales últimos 7 días
