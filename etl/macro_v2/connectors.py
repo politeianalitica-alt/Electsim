@@ -242,118 +242,34 @@ class EurostatHPIConnector(MacroConnector):
         return out, []
 
 
-# ── IMF DOTS ──────────────────────────────────────────────────────────────────
+# ── IMF DOTS (aggregates via datamapper; old SDMX dead) ──────────────────────
 
 class IMFDOTSConnector(MacroConnector):
+    """
+    External-sector indicators via IMF datamapper.
+
+    The old DOTS SDMX endpoint was retired in 2025 and the bilateral granularity
+    is no longer exposed publicly. The datamapper does expose macro flows that
+    are highly correlated with trade openness, which is what the dashboard needs:
+
+      - BCA       — Current Account Balance (USD billion)
+      - BCA_NGDPD — Current Account Balance (% of GDP)
+      - NGDPDPC   — Nominal GDP per capita (USD)
+
+    For true bilateral granularity, future iteration could wire UN COMTRADE
+    (free, public, but heavy: 500-row pages and a Spain↔partner permutation
+    explosion).
+    """
     source_id = "imf_dots"
-    COUNTRIES = ["ES", "DE", "FR", "IT", "PT", "GB"]
-
-    def fetch(self):
-        try:
-            import httpx
-        except ImportError:
-            return [], []
-        out: list[RawValue] = []
-        for iso2 in self.COUNTRIES:
-            # exports + imports to/from world (W00)
-            key = f"M.{iso2}.TXG_FOB_USD+TMG_CIF_USD.W00"
-            url = f"https://data.imf.org/api/SDMX_JSON/data/DOT/{key}?startPeriod=2015-01"
-            try:
-                r = httpx.get(url, timeout=25)
-                if not r.is_success:
-                    continue
-                j = r.json()
-                series = j.get("CompactData", {}).get("DataSet", {}).get("Series", [])
-                if isinstance(series, dict):
-                    series = [series]
-                for s in series:
-                    indicator = s.get("@INDICATOR", "")
-                    metric = "dots_exports_usd" if "TXG" in indicator else "dots_imports_usd"
-                    obs = s.get("Obs", [])
-                    if isinstance(obs, dict):
-                        obs = [obs]
-                    for o in obs:
-                        t = o.get("@TIME_PERIOD")
-                        v = o.get("@OBS_VALUE")
-                        if not t or v is None:
-                            continue
-                        try:
-                            ref = date.fromisoformat(t + "-01") if len(t) == 7 else date.fromisoformat(t)
-                            out.append(RawValue(self.source_id, iso2, metric, float(v), ref, "USD_BN"))
-                        except Exception:
-                            continue
-            except Exception:
-                continue
-        return out, []
-
-
-# ── IMF COFER ─────────────────────────────────────────────────────────────────
-
-class IMFCOFERConnector(MacroConnector):
-    source_id = "imf_cofer"
-
-    SHARES = {
-        "SH_USD": "cofer_usd_share",
-        "SH_EUR": "cofer_eur_share",
-        "SH_CNY": "cofer_cny_share",
-        "SH_GBP": "cofer_gbp_share",
-        "SH_JPY": "cofer_jpy_share",
-        "SH_OTH": "cofer_other_share",
-    }
-
-    def fetch(self):
-        try:
-            import httpx
-        except ImportError:
-            return [], []
-        out: list[RawValue] = []
-        ind_keys = "+".join(self.SHARES.keys())
-        url = f"https://data.imf.org/api/SDMX_JSON/data/COFER/Q..{ind_keys}/?startPeriod=2010-Q1"
-        try:
-            r = httpx.get(url, timeout=25)
-            if not r.is_success:
-                return out, []
-            j = r.json()
-            series = j.get("CompactData", {}).get("DataSet", {}).get("Series", [])
-            if isinstance(series, dict):
-                series = [series]
-            for s in series:
-                indicator = s.get("@INDICATOR", "")
-                metric = self.SHARES.get(indicator)
-                if not metric:
-                    continue
-                obs = s.get("Obs", [])
-                if isinstance(obs, dict):
-                    obs = [obs]
-                for o in obs:
-                    t = o.get("@TIME_PERIOD")
-                    v = o.get("@OBS_VALUE")
-                    if not t or v is None:
-                        continue
-                    try:
-                        year, q = t.split("-Q")
-                        month = (int(q) - 1) * 3 + 1
-                        ref = date(int(year), month, 1)
-                        out.append(RawValue(self.source_id, "WO", metric, float(v), ref, "PCT"))
-                    except Exception:
-                        continue
-        except Exception:
-            pass
-        return out, []
-
-
-# ── IMF WEO ───────────────────────────────────────────────────────────────────
-
-class IMFWEOConnector(MacroConnector):
-    source_id = "imf_weo"
-    COUNTRIES = ["ES", "DE", "FR", "IT", "PT", "GB", "US"]
-    # WEO indicator: NGDP_RPCH = Real GDP growth
     INDICATORS = {
-        "NGDP_RPCH": "weo_gdp_growth",
-        "PCPIPCH":   "weo_inflation",
-        "LUR":       "weo_unemployment",
-        "GGXCNL_NGDP": "weo_govt_balance_gdp",
-        "GGXWDG_NGDP": "weo_govt_debt_gdp",
+        "BCA":        ("ca_balance_usd",     "USD"),
+        "BCA_NGDPD":  ("ca_balance_pct_gdp", "PCT"),
+        "NGDPDPC":    ("gdp_pc_nominal_usd", "USD"),
+    }
+    COUNTRIES = {
+        "ESP": "ES", "DEU": "DE", "FRA": "FR", "ITA": "IT", "PRT": "PT",
+        "GBR": "GB", "USA": "US", "CHN": "CN", "JPN": "JP",
+        "BRA": "BR", "MEX": "MX",
     }
 
     def fetch(self):
@@ -362,31 +278,105 @@ class IMFWEOConnector(MacroConnector):
         except ImportError:
             return [], []
         out: list[RawValue] = []
-        for code, metric in self.INDICATORS.items():
-            for iso2 in self.COUNTRIES:
-                url = f"https://data.imf.org/api/SDMX_JSON/data/WEO/A.{iso2}.{code}/?startPeriod=2010"
+        for code, (metric, unit) in self.INDICATORS.items():
+            for iso3, iso2 in self.COUNTRIES.items():
+                url = f"https://www.imf.org/external/datamapper/api/v1/{code}/{iso3}"
                 try:
-                    r = httpx.get(url, timeout=20)
+                    r = httpx.get(url, timeout=15)
                     if not r.is_success:
                         continue
                     j = r.json()
-                    series = j.get("CompactData", {}).get("DataSet", {}).get("Series", [])
-                    if isinstance(series, dict):
-                        series = [series]
-                    for s in series:
-                        obs = s.get("Obs", [])
-                        if isinstance(obs, dict):
-                            obs = [obs]
-                        for o in obs:
-                            t = o.get("@TIME_PERIOD")
-                            v = o.get("@OBS_VALUE")
-                            if not t or v is None:
-                                continue
-                            try:
-                                ref = date(int(t), 6, 30)
-                                out.append(RawValue(self.source_id, iso2, metric, float(v), ref, "PCT"))
-                            except Exception:
-                                continue
+                    series = (j.get("values") or {}).get(code, {}).get(iso3, {})
+                    for year_str, val in series.items():
+                        if val is None:
+                            continue
+                        try:
+                            year = int(year_str)
+                            ref = date(year, 6, 30)
+                            out.append(RawValue(self.source_id, iso2, metric, float(val), ref, unit))
+                        except Exception:
+                            continue
+                except Exception:
+                    continue
+        return out, []
+
+
+# ── IMF COFER (stub: no stable public endpoint as of 2025-Q4) ────────────────
+
+class IMFCOFERConnector(MacroConnector):
+    """
+    COFER (Currency Composition of Official Foreign Exchange Reserves).
+
+    The IMF retired the old SDMX endpoint in 2025 and has not yet republished
+    COFER through the new data hub or the datamapper API. The dataset is
+    available only as a quarterly press release with PDF + xlsx, manually.
+
+    This connector is therefore a stub until either:
+      (a) IMF restores a programmatic COFER endpoint, or
+      (b) we wire scraping of the press-release xlsx.
+
+    The dashboard tab handles this gracefully: empty series → friendly message.
+    """
+    source_id = "imf_cofer"
+    is_stub   = True
+
+    def fetch(self):
+        raise RuntimeError("not_implemented: IMF COFER public API retired; awaiting new endpoint")
+
+
+# ── IMF WEO (rewritten with datamapper API; old SDMX dead) ───────────────────
+
+class IMFWEOConnector(MacroConnector):
+    """
+    IMF World Economic Outlook via the public datamapper API.
+
+    Old endpoint (data.imf.org/api/SDMX_JSON/data/WEO) was retired in 2025.
+    The datamapper exposes most WEO indicators as JSON keyed by ISO3 → year → value.
+
+    Coverage: real GDP growth, inflation, unemployment, current account balance %GDP,
+    government balance %GDP, government debt %GDP (the latter two were the most
+    requested for the /macro panorama).
+    """
+    source_id = "imf_weo"
+    INDICATORS = {
+        "NGDP_RPCH":     ("weo_gdp_growth",     "PCT"),
+        "PCPIPCH":       ("weo_inflation",      "PCT"),
+        "LUR":           ("weo_unemployment",   "PCT"),
+        "BCA_NGDPD":     ("weo_current_account","PCT"),
+        "GGXWDG_NGDP":   ("weo_govt_debt_gdp",  "PCT"),
+        "GGXCNL_NGDP":   ("weo_govt_balance_gdp","PCT"),
+        "NGDPDPC":       ("weo_gdp_pc_usd",     "USD"),
+        "PPPPC":         ("weo_gdp_pc_ppp",     "USD"),
+    }
+    COUNTRIES = {
+        "ESP": "ES", "DEU": "DE", "FRA": "FR", "ITA": "IT", "PRT": "PT",
+        "GBR": "GB", "USA": "US", "CHN": "CN", "JPN": "JP",
+    }
+
+    def fetch(self):
+        try:
+            import httpx
+        except ImportError:
+            return [], []
+        out: list[RawValue] = []
+        for code, (metric, unit) in self.INDICATORS.items():
+            for iso3, iso2 in self.COUNTRIES.items():
+                url = f"https://www.imf.org/external/datamapper/api/v1/{code}/{iso3}"
+                try:
+                    r = httpx.get(url, timeout=15)
+                    if not r.is_success:
+                        continue
+                    j = r.json()
+                    series = (j.get("values") or {}).get(code, {}).get(iso3, {})
+                    for year_str, val in series.items():
+                        if val is None:
+                            continue
+                        try:
+                            year = int(year_str)
+                            ref = date(year, 6, 30)
+                            out.append(RawValue(self.source_id, iso2, metric, float(val), ref, unit))
+                        except Exception:
+                            continue
                 except Exception:
                     continue
         return out, []

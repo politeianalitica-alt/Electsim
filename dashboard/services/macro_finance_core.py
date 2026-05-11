@@ -119,21 +119,25 @@ def _delta(source_id: str, metric: str, country: str, days_ago: int) -> Optional
 
 def panorama(country: str = "ES") -> dict:
     """Returns top-line KPIs with deltas for the country."""
+    # Each entry: (label_id, source_id, metric, country_for_lookup, lookback_days)
+    cl = country.lower()
     indicators = [
-        # (label_id, source_id, metric, lookback_days)
-        ("yield_10y",          "ecb_sdw",      f"yield_{country.lower()}_10y", 30),
-        ("spread_vs_de",       "ecb_sdw",      f"spread_{country.lower()}_de_10y", 30),
-        ("hicp_yoy",           "eurostat_hicp","hicp_yoy", 90),
-        ("unemployment",       "eurostat_lfs", "unemployment_rate", 60),
-        ("hpi_yoy",            "eurostat_hpi", "hpi_yoy", 120),
-        ("eurusd",             "ecb_sdw",      "eurusd", 7),
-        ("ecb_rate",           "ecb_sdw",      "ecb_main_rate", 90),
-        ("epu",                "epu",          "epu_country", 30),
+        ("yield_10y",          "ecb_sdw",       f"yield_{cl}_10y",       country, 30),
+        ("spread_vs_de",       "ecb_sdw",       f"spread_{cl}_de_10y",   country, 30),
+        ("hicp_yoy",           "eurostat_hicp", "hicp_yoy",              country, 90),
+        ("unemployment",       "eurostat_lfs",  "unemployment_rate",     country, 60),
+        ("youth_unemp",        "eurostat_lfs",  "youth_unemployment",    country, 60),
+        ("hpi_yoy",            "eurostat_hpi",  "hpi_yoy",               country, 120),
+        ("gdp_growth",         "imf_weo",       "weo_gdp_growth",        country, 365),
+        ("govt_debt",          "imf_weo",       "weo_govt_debt_gdp",     country, 365),
+        ("ca_balance",         "imf_dots",      "ca_balance_pct_gdp",    country, 365),
+        ("eurusd",             "ecb_sdw",       "eurusd",                "EU",    7),
+        ("ecb_rate",           "ecb_sdw",       "ecb_main_rate",         "EU",    90),
     ]
     out: list[dict] = []
     cfg = indicator_config()
-    for label_id, src, metric, lb in indicators:
-        d = _delta(src, metric, country, lb)
+    for label_id, src, metric, lookup_country, lb in indicators:
+        d = _delta(src, metric, lookup_country, lb)
         cfg_match = cfg.get(label_id) or {}
         entry = {
             "label_id":     label_id,
@@ -309,6 +313,34 @@ def hicp(countries: Optional[list[str]] = None, days: int = 365 * 3) -> dict:
         SELECT country_iso2, reference_date, metric_name, metric_value
         FROM macro_raw_values
         WHERE source_id = 'eurostat_hicp' AND reference_date >= :d
+          AND country_iso2 = ANY(:c)
+        ORDER BY country_iso2, reference_date
+        """,
+        {"d": since, "c": countries},
+    )
+    out: dict[str, list[dict]] = {}
+    if not df.empty:
+        for c, group in df.groupby("country_iso2"):
+            out[str(c)] = [
+                {
+                    "date":   r["reference_date"].isoformat(),
+                    "metric": r["metric_name"],
+                    "value":  float(r["metric_value"]),
+                }
+                for _, r in group.iterrows()
+            ]
+    return {"countries": countries, "days": days, "series": out}
+
+
+def housing(countries: Optional[list[str]] = None, days: int = 365 * 6) -> dict:
+    """Eurostat HPI quarterly year-on-year change for selected countries."""
+    countries = countries or ["ES", "FR", "IT", "DE", "PT", "EU"]
+    since = date.today() - timedelta(days=days)
+    df = _read_sql(
+        """
+        SELECT country_iso2, reference_date, metric_name, metric_value
+        FROM macro_raw_values
+        WHERE source_id = 'eurostat_hpi' AND reference_date >= :d
           AND country_iso2 = ANY(:c)
         ORDER BY country_iso2, reference_date
         """,

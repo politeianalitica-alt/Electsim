@@ -85,6 +85,15 @@ def get_labor(
     return _core().labor(countries=cs, days=days)
 
 
+@router.get("/housing")
+def get_housing(
+    countries: str = Query("ES,FR,IT,DE,PT,EU"),
+    days:      int = Query(365 * 6, ge=180, le=3650),
+) -> dict:
+    cs = [c.strip().upper() for c in countries.split(",") if c.strip()]
+    return _core().housing(countries=cs, days=days)
+
+
 @router.get("/ntl")
 def get_ntl(countries: Optional[str] = Query(None)) -> dict:
     cs = [c.strip().upper() for c in countries.split(",") if c.strip()] if countries else None

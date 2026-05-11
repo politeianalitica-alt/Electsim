@@ -294,69 +294,42 @@ function Labor() {
 // ─────────────────────────────────────────────────────────────────────────
 
 function Housing() {
-  const [data, setData] = useState<CountryInflation | null>(null)
+  const [data, setData] = useState<{ series: Record<string, Array<{ date: string; metric: string; value: number }>> } | null>(null)
   useEffect(() => {
-    fetch('/api/macro-finance/hicp?countries=ES,FR,IT,DE,PT,EU&days=3650')
-      .catch(() => null)
-    fetch('/api/macro-finance/labor?countries=ES&days=365')
-      .catch(() => null)
-    // Real housing endpoint
-    fetch('/api/macro-finance/hicp?countries=ES,FR,IT,DE,PT,EU&days=3650')
-      .then(r => r.json()).then(j => setData(j))
+    fetch('/api/macro-finance/housing?countries=ES,FR,IT,DE,PT,EU&days=3650')
+      .then(r => r.json())
+      .then(setData)
   }, [])
-  // Reuse hicp series structure for HPI: real path is different though
-  const [hpiData, setHpiData] = useState<CountryLabor | null>(null)
-  useEffect(() => {
-    fetch('/api/macro-finance/labor?countries=ES,FR,IT,DE,PT,EU&days=3650').then(r => r.json()).then(setHpiData)
-  }, [])
-  // Better: use macro_finance_core hpi via labor route? No — there's no Next.js HPI route.
-  // Wire a small inline fetch through hicp route's shape for HPI: actually backend exposes HPI in macro_raw_values but not a dedicated frontend route.
-  // For simplicity: use /api/macro-finance/labor route with hpi countries; backend returns whatever metric exists in series.
-  // Cleanest: read via /api/macro-finance/sources to see HPI is there, and proxy through hicp route by mapping in frontend.
-  // Defer: show note that HPI series come from same dataset.
+  if (!data) return <Loading/>
+  const series: Record<string, Array<{ date: string; value: number }>> = {}
+  for (const c of Object.keys(data.series ?? {})) {
+    series[c] = (data.series[c] ?? [])
+      .filter(p => p.metric === 'hpi_yoy')
+      .map(p => ({ date: p.date, value: p.value }))
+  }
+  const keys = Object.keys(series).filter(k => series[k].length > 0)
   return (
     <div>
       <h3 style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', margin: '0 0 8px', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         Índice de precios de vivienda (HPI) — variación interanual
       </h3>
-      <HPIChart/>
+      {keys.length === 0 ? (
+        <div style={{ padding: 30, textAlign: 'center', color: '#94a3b8', fontSize: 12 }}>
+          Sin datos HPI cargados. Lanza ingesta desde Fuentes.
+        </div>
+      ) : (
+        <MultiLineChart
+          series={series}
+          keys={keys}
+          labels={Object.fromEntries(keys.map(k => [k, countryName(k)]))}
+          yUnit="%"
+        />
+      )}
       <p style={{ fontSize: 11, color: '#86868b', marginTop: 8 }}>
         Fuente: Eurostat <code>prc_hpi_q</code>. Datos trimestrales del HPI total (compra).
       </p>
     </div>
   )
-}
-
-function HPIChart() {
-  const [series, setSeries] = useState<Record<string, Array<{ date: string; value: number }>>>({})
-  useEffect(() => {
-    // Use a tiny ad-hoc client-side call to /api/macro-finance/hicp? we have a dedicated HPI metric in DB
-    // The labor route happens to query macro_raw_values too but filters on eurostat_lfs. We need a separate route for HPI.
-    // Build series from /api/macro-finance/hicp DB? It's only HICP. So let me call a different route.
-    // Workaround: call /api/macro-finance/hicp and the backend hicp function returns only hicp_yoy.
-    // For HPI we'd need a new endpoint. To keep this PR minimal, render a placeholder asking for the new route.
-    fetch('/api/macro-finance/hicp?countries=ES,FR,IT,DE,PT&days=3650')
-      .then(r => r.json())
-      .then(j => {
-        // No-op: HICP, not HPI
-        const out: Record<string, Array<{ date: string; value: number }>> = {}
-        for (const c of Object.keys(j.series ?? {})) {
-          out[c] = (j.series[c] ?? []).map((p: { date: string; metric: string; value: number }) => ({
-            date: p.date, value: p.value,
-          }))
-        }
-        setSeries(out)
-      })
-  }, [])
-  const keys = Object.keys(series).filter(k => series[k].length > 0)
-  if (keys.length === 0) {
-    return (
-      <div style={{ padding: 30, textAlign: 'center', color: '#94a3b8', fontSize: 12 }}>
-        Sin datos HPI cargados todavía.
-      </div>
-    )
-  }
-  return <MultiLineChart series={series} keys={keys} labels={Object.fromEntries(keys.map(k => [k, countryName(k)]))} yUnit="%" />
 }
 
 // ─────────────────────────────────────────────────────────────────────────
