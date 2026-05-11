@@ -1,39 +1,36 @@
-import type { Watchlist, WatchlistSnapshot } from '@/types/intelligence'
-import { MOCK_WATCHLISTS, nowIso } from '../_mock'
+import type { Watchlist } from '@/types/intelligence'
+import { listDomain, createInDomain, MOCK_WATCHLISTS, nowIso } from '../_proxy'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const BACKEND = process.env.BACKEND_URL ?? ''
-
 export async function GET() {
-  try {
-    if (BACKEND) {
-      const res = await fetch(`${BACKEND}/api/v1/intelligence/watchlists`, {
-        headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' },
-        next: { revalidate: 60 },
-      })
-      if (res.ok) return Response.json(await res.json())
-    }
-  } catch {}
-  const snap: WatchlistSnapshot = { items: MOCK_WATCHLISTS, total: MOCK_WATCHLISTS.length, generado_en: nowIso() }
-  return Response.json(snap)
+  return listDomain<Watchlist>('/api/intelligence/watchlists', MOCK_WATCHLISTS)
 }
 
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as { nombre: string; terminos: string[]; descripcion?: string }
-    const item: Watchlist = {
-      id: `wl-${Date.now()}`,
-      nombre: body.nombre,
-      descripcion: body.descripcion,
-      terminos: body.terminos ?? [],
-      activa: true,
-      alertas_count: 0,
-      created_at: nowIso(),
-      updated_at: nowIso(),
-    }
-    return Response.json(item)
+    return createInDomain(
+      '/api/intelligence/watchlists',
+      {
+        name: body.nombre,
+        description: body.descripcion,
+        members: body.terminos.map(t => ({ type: 'term', label: t })),
+        severity: 'medium',
+        active: true,
+      },
+      (): Watchlist => ({
+        id: `wl-${Date.now()}`,
+        nombre: body.nombre,
+        descripcion: body.descripcion,
+        terminos: body.terminos ?? [],
+        activa: true,
+        alertas_count: 0,
+        created_at: nowIso(),
+        updated_at: nowIso(),
+      }),
+    )
   } catch {
     return Response.json({ error: 'invalid_payload' }, { status: 400 })
   }

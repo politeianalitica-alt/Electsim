@@ -1,15 +1,18 @@
 'use client'
 import { useEffect, useState } from 'react'
+import type { DataSource } from '@/lib/api/types'
 
 interface Props {
   /** ISO timestamp del último fetch */
   updatedAt: string | null
-  /** 'backend' = datos reales · 'mock' = fallback · null = aún cargando */
-  source: 'backend' | 'mock' | null
+  /** 'backend' = datos reales · 'mock' = fallback · 'fallback' = caché · 'error' = fallo · null = cargando */
+  source: DataSource | null
   /** Intervalo de auto-refresh en segundos (solo display) */
   refreshIntervalSec?: number
   /** Callback opcional para forzar refresh */
   onRefresh?: () => void
+  /** Avisos no fatales — se muestran en tooltip */
+  warnings?: string[] | null
 }
 
 /**
@@ -17,7 +20,7 @@ interface Props {
  * o equivalente en modo mock. Se actualiza automáticamente cada segundo
  * para que el contador "hace Xs" avance.
  */
-export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec = 30, onRefresh }: Props) {
+export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec = 30, onRefresh, warnings }: Props) {
   const [, setTick] = useState(0)
   useEffect(() => {
     const t = setInterval(() => setTick(x => x + 1), 1000)
@@ -29,9 +32,14 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
   const fresh = ageS !== null && ageS < refreshIntervalSec + 5
 
   const isBackend = source === 'backend'
-  const isMock = source === 'mock'
-  const dotColor = isBackend ? '#10b981' : (isMock ? '#f59e0b' : '#9ca3af')
-  const labelText = isBackend ? 'BACKEND CONECTADO' : (isMock ? 'DATOS DE DEMO' : 'CONECTANDO…')
+  const isMock = source === 'mock' || source === 'fallback'
+  const isError = source === 'error'
+  const dotColor = isBackend ? '#10b981' : isError ? '#ef4444' : (isMock ? '#f59e0b' : '#9ca3af')
+  const labelText = isBackend
+    ? 'BACKEND CONECTADO'
+    : isError
+      ? 'ERROR DE CONEXIÓN'
+      : (isMock ? 'DATOS DE DEMO' : 'CONECTANDO…')
 
   function fmtAge(s: number | null): string {
     if (s === null) return '—'
@@ -42,15 +50,28 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
     return `hace ${Math.floor(s / 3600)} h`
   }
 
+  const warningsTooltip = warnings && warnings.length > 0
+    ? `Avisos: ${warnings.join(' · ')}`
+    : onRefresh ? 'Click para refrescar manualmente' : undefined
+  const bg = isBackend
+    ? 'rgba(16,185,129,0.10)'
+    : isError ? 'rgba(239,68,68,0.10)'
+    : isMock ? 'rgba(245,158,11,0.10)'
+    : 'rgba(156,163,175,0.10)'
+  const borderCol = isBackend
+    ? 'rgba(16,185,129,0.30)'
+    : isError ? 'rgba(239,68,68,0.30)'
+    : isMock ? 'rgba(245,158,11,0.30)'
+    : 'rgba(156,163,175,0.30)'
   return (
     <span
       onClick={onRefresh}
-      title={onRefresh ? 'Click para refrescar manualmente' : undefined}
+      title={warningsTooltip}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
         padding: '4px 10px', borderRadius: 999,
-        background: isBackend ? 'rgba(16,185,129,0.10)' : (isMock ? 'rgba(245,158,11,0.10)' : 'rgba(156,163,175,0.10)'),
-        border: `1px solid ${isBackend ? 'rgba(16,185,129,0.30)' : (isMock ? 'rgba(245,158,11,0.30)' : 'rgba(156,163,175,0.30)')}`,
+        background: bg,
+        border: `1px solid ${borderCol}`,
         fontSize: 10.5, fontFamily: 'inherit', fontWeight: 600,
         letterSpacing: '0.04em', color: dotColor,
         cursor: onRefresh ? 'pointer' : 'default',

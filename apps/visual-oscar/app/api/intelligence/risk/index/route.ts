@@ -1,29 +1,50 @@
+import { NextResponse } from 'next/server'
+import { callBackend, withMeta } from '@/lib/backend'
 import { MOCK_RISK } from '../../_mock'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const BACKEND = process.env.BACKEND_URL ?? ''
-
 export async function GET(req: Request) {
   const url = new URL(req.url)
   const wantHistory = url.searchParams.has('history')
-  try {
-    if (BACKEND) {
-      const res = await fetch(`${BACKEND}/api/v1/intelligence/risk/index${url.search}`, {
-        headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' },
-        next: { revalidate: 60 },
-      })
-      if (res.ok) return Response.json(await res.json())
-    }
-  } catch {}
+
   if (wantHistory) {
+    // Historia: usa el endpoint backend si está disponible.
+    const result = await callBackend<{ history?: Array<{ date: string; score: number }> } | Array<{ date: string; score: number }>>(
+      '/intelligence/risk-index/history?n=30',
+    )
+    if (result.data) {
+      const arr = Array.isArray(result.data) ? result.data : (result.data.history ?? [])
+      if (arr.length > 0) {
+        const historia = arr.map(p => ({ ts: new Date(p.date).toISOString(), valor: p.score }))
+        return NextResponse.json(withMeta({ historia }, 'backend', { latency_ms: result.latency_ms }))
+      }
+    }
     const start = new Date('2026-04-27T00:00:00Z').getTime()
     const historia = MOCK_RISK.sparkline.map((v, i) => ({
       ts: new Date(start + i * 86400_000).toISOString(),
       valor: v,
     }))
-    return Response.json({ historia })
+    return NextResponse.json(
+      withMeta({ historia }, 'mock', {
+        warnings: result.error ? [`backend_unreachable:${result.error}`] : ['empty_history'],
+        latency_ms: result.latency_ms,
+      }),
+    )
   }
-  return Response.json(MOCK_RISK)
+
+  // Risk Index actual
+  const result = await callBackend<{ score: number; nivel: string; componentes: Record<string, number>; timestamp: string }>(
+    '/intelligence/risk-index',
+  )
+  if (result.data) {
+    return NextResponse.json(withMeta(result.data, 'backend', { latency_ms: result.latency_ms }))
+  }
+  return NextResponse.json(
+    withMeta(MOCK_RISK, 'mock', {
+      warnings: result.error ? [`backend_unreachable:${result.error}`] : ['empty_dataset'],
+      latency_ms: result.latency_ms,
+    }),
+  )
 }

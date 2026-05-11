@@ -33,8 +33,10 @@ from api.routers import (
     risk_intelligence,
     search,
     voto_blando,
+    workspace_config,
     workspace_signals,
 )
+from api.routers import intelligence_workspace
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -128,6 +130,8 @@ app.include_router(campana.router, prefix="/campana", tags=["campana"])
 app.include_router(voto_blando.router)
 app.include_router(analogias.router)
 app.include_router(workspace_signals.router, tags=["workspace"])
+app.include_router(workspace_config.router, tags=["workspace-config"])
+app.include_router(intelligence_workspace.router, tags=["intelligence-workspace"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])

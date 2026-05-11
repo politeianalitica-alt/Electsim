@@ -1,49 +1,146 @@
-// Server-side helper para hablar con el backend FastAPI.
-// Si la env `BACKEND_URL` no está configurada o la llamada falla / timeout,
-// devuelve `null` y el route handler que llama cae a su mock embebido.
-//
-// Configuración en Vercel:
-//   BACKEND_URL = https://tu-fastapi.com  (sin slash final)
-//   BACKEND_TIMEOUT_MS = 8000             (opcional, default 8s)
+/**
+ * Helper server-side para hablar con el backend FastAPI desde Next.js route
+ * handlers.
+ *
+ * Devuelve { data, error } separados — los callers deciden si caer a mock o
+ * propagar el fallo. Antes devolvía `null` y se enmascaraban errores.
+ *
+ * Configuración en Vercel:
+ *   BACKEND_URL = https://tu-fastapi.com   (sin slash final)
+ *   BACKEND_TIMEOUT_MS = 8000              (opcional, default 8s)
+ *   BACKEND_API_KEY = sk-xxx               (opcional, header X-API-Key)
+ */
 
-const BACKEND = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || process.env.POLITEIA_API_URL || ''
+const BACKEND =
+  process.env.BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.POLITEIA_API_URL ||
+  ''
 const TIMEOUT_MS = Number(process.env.BACKEND_TIMEOUT_MS || 8000)
+const API_KEY = process.env.BACKEND_API_KEY || ''
 
 export const backendConfigured = (): boolean => Boolean(BACKEND)
+export const backendUrl = (): string => BACKEND
 
-export async function fromBackend<T = unknown>(
+type BackendResult<T> = {
+  data: T | null
+  error: string | null
+  status: number | null
+  latency_ms: number
+}
+
+/**
+ * Llama al backend. Devuelve `{ data, error, status, latency_ms }`.
+ *  - `data === null` significa fallo (revisar `error` y `status`)
+ *  - `error === null` cuando llegó respuesta válida (incluso 200 con `data` válido)
+ */
+export async function callBackend<T = unknown>(
   path: string,
-  init: RequestInit = {}
-): Promise<T | null> {
-  if (!BACKEND) return null
+  init: RequestInit = {},
+): Promise<BackendResult<T>> {
+  const t0 = Date.now()
+  if (!BACKEND) {
+    return { data: null, error: 'backend_url_not_configured', status: null, latency_ms: 0 }
+  }
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS)
+  const headers: Record<string, string> = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    ...(init.headers as Record<string, string> | undefined),
+  }
+  if (API_KEY) headers['X-API-Key'] = API_KEY
   try {
     const res = await fetch(`${BACKEND}${path}`, {
       ...init,
       signal: controller.signal,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        ...(init.headers as Record<string, string> | undefined),
-      },
-      // No cachear: queremos datos en tiempo real.
+      headers,
       cache: 'no-store',
     })
-    if (!res.ok) return null
-    if (res.status === 204) return null
-    return (await res.json()) as T
-  } catch {
-    return null
+    const latency_ms = Date.now() - t0
+    if (!res.ok) {
+      return {
+        data: null,
+        error: `backend_status_${res.status}`,
+        status: res.status,
+        latency_ms,
+      }
+    }
+    if (res.status === 204) {
+      return { data: null, error: null, status: 204, latency_ms }
+    }
+    const json = (await res.json()) as T
+    return { data: json, error: null, status: res.status, latency_ms }
+  } catch (e: unknown) {
+    const latency_ms = Date.now() - t0
+    const msg = e instanceof Error ? e.message : String(e)
+    const isAbort = msg.includes('abort') || (e instanceof DOMException && e.name === 'AbortError')
+    return {
+      data: null,
+      error: isAbort ? 'backend_timeout' : `backend_unreachable:${msg.slice(0, 80)}`,
+      status: null,
+      latency_ms,
+    }
   } finally {
     clearTimeout(timer)
   }
 }
 
-// Helper para componer la respuesta del proxy con metadata estándar.
-export function withMeta<T>(data: T, source: 'backend' | 'mock'): T & { _meta: { source: string; ts: string } } {
+/**
+ * Wrapper retrocompatible: devuelve sólo `data` o `null`. Mantenido para no
+ * romper las 100+ route handlers existentes que ya lo usan.
+ *
+ * Nuevas rutas: usar `callBackend()` para tener warnings/status.
+ */
+export async function fromBackend<T = unknown>(
+  path: string,
+  init: RequestInit = {},
+): Promise<T | null> {
+  const result = await callBackend<T>(path, init)
+  return result.data
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  withMeta — añade `_meta` estándar a la respuesta del proxy
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type ProxySource = 'backend' | 'mock' | 'fallback' | 'error'
+
+export interface ProxyMeta {
+  source: ProxySource
+  ts: string
+  warnings?: string[]
+  latency_ms?: number
+}
+
+export function withMeta<T extends object>(
+  data: T,
+  source: ProxySource,
+  extra: Partial<Omit<ProxyMeta, 'source' | 'ts'>> = {},
+): T & { _meta: ProxyMeta } {
   return {
-    ...(data as object),
-    _meta: { source, ts: new Date().toISOString() },
-  } as T & { _meta: { source: string; ts: string } }
+    ...data,
+    _meta: {
+      source,
+      ts: new Date().toISOString(),
+      ...extra,
+    },
+  }
+}
+
+/**
+ * Atajo para construir respuesta consistente desde un BackendResult.
+ * Si data llegó, devuelve source=backend. Si no, usa el fallback con warnings.
+ */
+export function proxyResponse<T extends object>(
+  result: BackendResult<T>,
+  fallback: T,
+  options: { source?: ProxySource } = {},
+): T & { _meta: ProxyMeta } {
+  if (result.data) {
+    return withMeta(result.data, 'backend', { latency_ms: result.latency_ms })
+  }
+  const warnings: string[] = []
+  if (result.error) warnings.push(result.error)
+  return withMeta(fallback, options.source ?? 'mock', { warnings, latency_ms: result.latency_ms })
 }
