@@ -394,6 +394,49 @@ def _load_module_tools() -> tuple[list[dict], dict[str, Callable]]:
             ("get_geopolitical_exposure", rt.get_geopolitical_exposure,
              "Exposición geopolítica por país para el módulo de Geopolítica.",
              {}, []),
+            # ── Risk Module v2 ──────────────────────────────────────────────
+            ("consultar_indices_riesgo", rt.consultar_indices_riesgo,
+             "Panel completo de índices de riesgo (institucional, electoral, "
+             "geopolítico, económico, mediático, social) para un país.",
+             {"country": {"type": "string", "default": "ES", "description": "ISO2"}},
+             []),
+            ("explicar_componentes_indice", rt.explicar_componentes_indice,
+             "Descompone un índice de riesgo en sus componentes con pesos, "
+             "valores raw y contribuciones.",
+             {"index_id": {"type": "string",
+                           "enum": ["riesgo_institucional","riesgo_electoral",
+                                    "riesgo_geopolitico","riesgo_economico",
+                                    "riesgo_mediatico","riesgo_social"]},
+              "country": {"type": "string", "default": "ES"}},
+             ["index_id"]),
+            ("predecir_escenario_riesgo", rt.predecir_escenario_riesgo,
+             "Predice la probabilidad de un escenario de riesgo (elecciones "
+             "anticipadas, crisis de gobierno, recesión técnica, escalada "
+             "geopolítica, ola de protestas, crisis mediática) con intervalo "
+             "de confianza y key drivers.",
+             {"scenario_id": {"type": "string",
+                              "enum": ["elecciones_anticipadas","crisis_gobierno",
+                                       "escalada_geopolitica","recesion_tecnica",
+                                       "ola_protestas","crisis_mediatica"]},
+              "country": {"type": "string", "default": "ES"}},
+             ["scenario_id"]),
+            ("listar_alertas_riesgo", rt.listar_alertas_riesgo,
+             "Lista alertas de riesgo disparadas en los últimos N días.",
+             {"country": {"type": "string", "default": "ES"},
+              "days":    {"type": "integer", "default": 30}},
+             []),
+            ("comparar_indices_paises", rt.comparar_indices_paises,
+             "Compara un índice de riesgo entre varios países (España, Francia, "
+             "Italia, Portugal, Alemania, Reino Unido por defecto).",
+             {"index_id":  {"type": "string"},
+              "countries": {"type": "array", "items": {"type": "string"}}},
+             ["index_id"]),
+            ("ack_alerta_riesgo", rt.ack_alerta_riesgo,
+             "Marca una alerta de riesgo como revisada. Usar solo si el usuario "
+             "lo pide explícitamente.",
+             {"alert_row_id": {"type": "integer"},
+              "user":         {"type": "string", "default": "brain"}},
+             ["alert_row_id"]),
         ]
         for name, fn, desc, props, req in _risk_specs:
             _add(name, desc, {"type": "object", "properties": props, "required": req}, fn)

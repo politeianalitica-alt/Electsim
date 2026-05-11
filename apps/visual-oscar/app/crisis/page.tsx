@@ -95,6 +95,9 @@ export default function CrisisPage() {
       <AppHeader/>
       <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
 
+        {/* Cross-reference to the structural risk engine */}
+        <RiskContextStrip/>
+
         {/* ───── Hero ───── */}
         <section style={{
           background:'linear-gradient(135deg,#7F1D1D 0%,#1A0202 100%)',
@@ -519,6 +522,59 @@ function Mini({ label, value, sub, color }: { label:string, value:string, sub:st
       <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color, lineHeight:1 }}>{value}{sub && <span style={{ fontSize:9, color:'#86868b', marginLeft:1, fontWeight:600 }}>{sub}</span>}</div>
       <div style={{ fontSize:8.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', marginTop:3 }}>{label}</div>
     </div>
+  )
+}
+
+function RiskContextStrip() {
+  const [indices, setIndices] = useState<Array<{ index_id: string; display_name: string; icon: string; score: number; label: string; colors: { low: string; medium: string; high: string; critical: string } }>>([])
+  const [alerts, setAlerts] = useState<number>(0)
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/risk-v2/indices?country=ES').then(r => r.json()).catch(() => null),
+      fetch('/api/risk-v2/alerts?country=ES&days=7').then(r => r.json()).catch(() => null),
+    ]).then(([iR, aR]) => {
+      if (iR?.indices) setIndices(iR.indices)
+      if (aR?.n_active != null) setAlerts(aR.n_active)
+    })
+  }, [])
+  if (indices.length === 0) return null
+  const colorFor = (label: string, c: { low: string; medium: string; high: string; critical: string }) => {
+    if (label === 'BAJO') return c.low
+    if (label === 'MEDIO') return c.medium
+    if (label === 'ALTO') return c.high
+    return c.critical
+  }
+  return (
+    <section style={{
+      background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
+      padding:'12px 16px', marginBottom:14, display:'flex', alignItems:'center',
+      gap:14, flexWrap:'wrap', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+    }}>
+      <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+        🛡️ Contexto · Riesgo estructural
+      </div>
+      <div style={{ display:'flex', gap:6, flex:1, flexWrap:'wrap' }}>
+        {indices.map(idx => (
+          <span key={idx.index_id} style={{
+            fontSize:10.5, fontWeight:700, color:'#fff',
+            background: colorFor(idx.label, idx.colors), padding:'3px 8px', borderRadius:5,
+          }}>
+            {idx.icon} {idx.display_name.replace('Riesgo ','').replace('Estabilidad ','Est. ')} {idx.score}
+          </span>
+        ))}
+      </div>
+      {alerts > 0 && (
+        <span style={{
+          fontSize:11, fontWeight:700, color:'#DC2626',
+          padding:'3px 9px', background:'#FEE2E2', border:'1px solid #FECACA', borderRadius:6,
+        }}>
+          🚨 {alerts} alertas estructurales activas
+        </span>
+      )}
+      <a href="/riesgo" style={{
+        fontSize:11, fontWeight:600, color:'#0c4a6e', textDecoration:'none',
+      }}>Ver termómetro completo →</a>
+    </section>
   )
 }
 

@@ -91,6 +91,8 @@ export default function AtaquesNarrativosPage() {
       <AppHeader />
       <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
+        <AttackRiskContext/>
+
         {/* ───── Hero ───── */}
         <section style={{
           background: 'linear-gradient(135deg,#0f172a 0%,#0a0f1f 100%)',
@@ -425,6 +427,65 @@ export default function AtaquesNarrativosPage() {
         Detección de Ataques Narrativos · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
+  )
+}
+
+function AttackRiskContext() {
+  const [media, setMedia] = useState<{ score: number; label: string; colors: { low: string; medium: string; high: string; critical: string } } | null>(null)
+  const [scenario, setScenario] = useState<{ name: string; probability: number | null; horizon_days: number } | null>(null)
+  useEffect(() => {
+    fetch('/api/risk-v2/indices?country=ES')
+      .then(r => r.json())
+      .then(j => {
+        const m = (j.indices ?? []).find((i: { index_id: string }) => i.index_id === 'riesgo_mediatico')
+        if (m) setMedia({ score: m.score, label: m.label, colors: m.colors })
+      })
+      .catch(() => {})
+    fetch('/api/risk-v2/scenarios?country=ES')
+      .then(r => r.json())
+      .then(j => {
+        const s = (j.scenarios ?? []).find((x: { scenario_id: string }) => x.scenario_id === 'crisis_mediatica')
+        if (s) setScenario({ name: s.name, probability: s.probability, horizon_days: s.horizon_days })
+      })
+      .catch(() => {})
+  }, [])
+  if (!media && !scenario) return null
+  const colorFor = (label: string, c: { low: string; medium: string; high: string; critical: string }) => {
+    if (label === 'BAJO') return c.low
+    if (label === 'MEDIO') return c.medium
+    if (label === 'ALTO') return c.high
+    return c.critical
+  }
+  return (
+    <section style={{
+      background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
+      padding:'12px 16px', marginBottom:14, display:'flex', alignItems:'center',
+      gap:14, flexWrap:'wrap', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
+    }}>
+      <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+        📰 Contexto · Riesgo mediático estructural
+      </div>
+      {media && (
+        <span style={{
+          fontSize:11, fontWeight:700, color:'#fff',
+          background: colorFor(media.label, media.colors),
+          padding:'4px 10px', borderRadius:5,
+        }}>
+          Riesgo mediático {media.score}/100 · {media.label}
+        </span>
+      )}
+      {scenario?.probability != null && (
+        <span style={{
+          fontSize:11, fontWeight:700, color:'#7C3AED',
+          padding:'4px 10px', background:'#F3E8FF', border:'1px solid #DDD6FE', borderRadius:5,
+        }}>
+          P(crisis mediática {scenario.horizon_days}d): {scenario.probability.toFixed(0)}%
+        </span>
+      )}
+      <a href="/riesgo" style={{
+        fontSize:11, fontWeight:600, color:'#0c4a6e', textDecoration:'none', marginLeft:'auto',
+      }}>Ver termómetro completo →</a>
+    </section>
   )
 }
 

@@ -31,6 +31,7 @@ from api.routers import (
     politeia_v3,
     risk,
     risk_intelligence,
+    risk_v2,
     search,
     voto_blando,
     workspace_config,
@@ -189,5 +190,6 @@ app.include_router(risk_intelligence.router, tags=["risk-intelligence"])
 # Routers para apps/web (montados bajo /api porque el rewrites de Next.js
 # proxea /api/:path* hacia FastAPI)
 app.include_router(risk.router, prefix="/api", tags=["risk"])
+app.include_router(risk_v2.router, tags=["risk-v2"])
 app.include_router(geopolitica.router, prefix="/api", tags=["geopolitica"])
 app.include_router(actors.router, tags=["actors"])
