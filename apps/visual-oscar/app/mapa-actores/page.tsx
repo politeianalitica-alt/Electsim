@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { ACTORES, CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actores'
+import { CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actor-utils'
+import { useActores } from '@/hooks/useActores'
 import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
@@ -42,6 +43,10 @@ export default function MapaActoresPage() {
   const [view, setView] = useState<ActorView>('mapa')
   const [dossierId, setDossierId] = useState<string | null>(null)
 
+  // Fuente única para actores: route handler /api/actores que prefiere
+  // el backend FastAPI /api/actors. Si no responde, sirve el fixture local.
+  const { actores: ACTORES } = useActores({ limit: 500 })
+
   // Live API: fetch personas from Politeia Intelligence
   const { data: apiPersonas } = useApi<ApiPersona[]>('/api/intelligence/personas?limit=100&order_by=score_influencia', { refreshInterval: 0 })
   const personas: ApiPersona[] = Array.isArray(apiPersonas) ? apiPersonas : []
@@ -61,13 +66,13 @@ export default function MapaActoresPage() {
     return ACTORES
       .filter(a => filterCat === 'Todos' || a.cat === filterCat)
       .filter(a => !q || a.nombre.toLowerCase().includes(q) || a.partido.toLowerCase().includes(q) || a.cargo.toLowerCase().includes(q))
-  }, [filterCat, query])
+  }, [ACTORES, filterCat, query])
 
   const counts = useMemo(() => {
     const out: Record<string, number> = {}
     for (const a of ACTORES) out[a.cat] = (out[a.cat] || 0) + 1
     return out
-  }, [])
+  }, [ACTORES])
 
   // Cuadrante
   const W = 1100, H = 620
@@ -143,7 +148,7 @@ export default function MapaActoresPage() {
         />
       )}
 
-      {view === 'dossier' && (
+      {view === 'dossier' && ACTORES.length > 0 && (
         <DossierView
           actors={ACTORES}
           liveByName={liveByName}
@@ -564,7 +569,7 @@ const CAT_FILTER_LABEL: Record<string, string> = {
 }
 
 function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: {
-  actors: typeof ACTORES
+  actors: import('@/lib/actor-utils').ActorVO[]
   liveByName: Record<string, ApiPersona>
   selectedId: string
   onSelect: (id: string) => void

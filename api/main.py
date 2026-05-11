@@ -36,7 +36,14 @@ from api.routers import (
     workspace_config,
     workspace_signals,
 )
-from api.routers import intelligence_workspace
+from api.routers import (
+    brain,
+    crm_comms,
+    economy,
+    intelligence_workspace,
+    legislative_core_api,
+    opendata,
+)
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
 from api.middleware import RequestLoggingMiddleware
@@ -132,6 +139,13 @@ app.include_router(analogias.router)
 app.include_router(workspace_signals.router, tags=["workspace"])
 app.include_router(workspace_config.router, tags=["workspace-config"])
 app.include_router(intelligence_workspace.router, tags=["intelligence-workspace"])
+# Bloque P2 — *_core.py expuestos como REST para visual-oscar:
+app.include_router(economy.router, tags=["economy-macro"])
+app.include_router(legislative_core_api.router, tags=["legislative-core"])
+app.include_router(opendata.router, tags=["opendata-simulation"])
+app.include_router(crm_comms.router, tags=["crm-comms"])
+# Bloque P3 — IA unificada con tool-use real:
+app.include_router(brain.router, tags=["brain"])
 app.include_router(market.router, prefix="/market", tags=["market"])
 app.include_router(intelligence.router, tags=["intelligence"])
 app.include_router(politeia_v3.router, tags=["politeia-v3"])
