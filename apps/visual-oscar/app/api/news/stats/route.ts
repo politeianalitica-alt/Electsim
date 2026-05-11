@@ -10,9 +10,12 @@ export async function GET() {
     return NextResponse.json(withMeta(real, 'backend'))
   }
   return NextResponse.json(withMeta({
-    total_articles: 0,
-    last_24h: 0,
-    sources_active: 0,
-    catalog: { total_sources: 414, by_region: {} },
+    total_articles: 1247,
+    last_24h: 87,
+    sources_active: 98,
+    catalog: {
+      total_sources: 219,
+      by_region: { nacional: 83, autonomico: 82, provincial: 45, local: 9 },
+    },
   }, 'mock'))
 }
