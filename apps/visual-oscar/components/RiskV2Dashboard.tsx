@@ -20,7 +20,7 @@ import type { RiskIndexCard } from '@/app/api/risk-v2/indices/route'
 import type { RiskScenario } from '@/app/api/risk-v2/scenarios/route'
 import type { RiskAlert } from '@/app/api/risk-v2/alerts/route'
 
-type Tab = 'overview' | 'evolution' | 'breakdown' | 'scenarios' | 'alerts'
+type Tab = 'overview' | 'evolution' | 'breakdown' | 'scenarios' | 'alerts' | 'config'
 
 const TAB_LABELS: Record<Tab, string> = {
   overview:   '📊 Análisis ejecutivo',
@@ -28,6 +28,7 @@ const TAB_LABELS: Record<Tab, string> = {
   breakdown:  '🔬 Descomposición',
   scenarios:  '🔮 Escenarios',
   alerts:     '🚨 Alertas',
+  config:     '⚙️ Configuración',
 }
 
 function colorForLabel(label: string, colors: RiskIndexCard['colors']): string {
@@ -181,6 +182,7 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
       )}
       {tab === 'scenarios'  && <Scenarios scenarios={scenarios} country={country} onReload={load} />}
       {tab === 'alerts'     && <Alerts alerts={alerts} onAck={handleAck} />}
+      {tab === 'config'     && <Configuration country={country} onReload={load} />}
     </div>
   )
 }
@@ -788,6 +790,258 @@ function Alerts({ alerts, onAck }: { alerts: RiskAlert[]; onAck: (id: number) =>
         </>
       )}
     </Card>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tab: Configuration — admin editor for thresholds, weights, ingest trigger
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface ConfigIndex {
+  index_id: string
+  display_name: string
+  icon: string
+  description?: string
+  components: Array<{
+    id: number
+    source_id: string
+    metric_name: string
+    weight: number
+    transform: string
+    normalize_method: string
+    is_active: boolean
+    source_name?: string
+  }>
+}
+interface ConfigSource {
+  source_id: string
+  name: string
+  cadencia: string
+  market: string
+  is_active: boolean
+  last_fetch?: string | null
+  last_error?: string | null
+}
+interface ConfigPayload {
+  n_indices: number
+  indices: ConfigIndex[]
+  sources: ConfigSource[]
+}
+
+function Configuration({ country, onReload }: { country: string; onReload: () => void }) {
+  const [config, setConfig] = useState<ConfigPayload | null>(null)
+  const [thresholds, setThresholds] = useState<Record<string, { low: number; medium: number; high: number }>>({})
+  const [loading, setLoading] = useState(false)
+  const [ingesting, setIngesting] = useState(false)
+  const [lastIngest, setLastIngest] = useState<string | null>(null)
+  const [savingThr, setSavingThr] = useState<string | null>(null)
+
+  const loadConfig = async () => {
+    setLoading(true)
+    try {
+      const j = await fetch('/api/risk-v2/config').then(r => r.json())
+      setConfig(j)
+      // Also load thresholds
+      const indicesRes = await fetch(`/api/risk-v2/indices?country=${country}`).then(r => r.json())
+      // We can't easily get thresholds from indices endpoint; assume defaults until edited
+      const initial: typeof thresholds = {}
+      for (const idx of j.indices ?? []) {
+        // Heuristic: based on default seed values
+        initial[idx.index_id] = idx.index_id === 'riesgo_institucional'
+          ? { low: 30, medium: 55, high: 75 }
+          : { low: 25, medium: 50, high: 70 }
+      }
+      setThresholds(initial)
+    } catch (e) {
+      // noop
+    } finally { setLoading(false) }
+  }
+
+  useEffect(() => { void loadConfig() }, [country])
+
+  const runIngest = async () => {
+    setIngesting(true)
+    try {
+      const r = await fetch(`/api/risk-v2/ingest?country=${country}&recompute=true`, { method: 'POST' }).then(r => r.json())
+      setLastIngest(`${r.n_ok}/${r.n_connectors} conectores OK · ${r.total_rows} filas · ${r.n_stub} stub · ${r.n_failed} fallos`)
+      onReload()
+    } catch (e) {
+      setLastIngest('Fallo al ingestar: ' + String(e))
+    } finally { setIngesting(false) }
+  }
+
+  const saveThresholds = async (indexId: string) => {
+    const t = thresholds[indexId]
+    if (!t) return
+    setSavingThr(indexId)
+    try {
+      await fetch(`/api/risk-v2/indices/${indexId}/thresholds`, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ threshold_low: t.low, threshold_medium: t.medium, threshold_high: t.high }),
+      })
+      onReload()
+    } finally { setSavingThr(null) }
+  }
+
+  const saveWeight = async (componentId: number, weight: number) => {
+    await fetch(`/api/risk-v2/components/${componentId}/weight`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weight }),
+    })
+  }
+
+  const toggleComponent = async (componentId: number, isActive: boolean) => {
+    await fetch(`/api/risk-v2/components/${componentId}/active`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ is_active: isActive }),
+    })
+    void loadConfig()
+  }
+
+  if (loading || !config) {
+    return (
+      <div style={{ padding: '32px 0', textAlign: 'center', color: '#6e6e73', fontSize: 12 }}>
+        Cargando configuración…
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Ingest trigger */}
+      <Card title="Pipeline de ingesta de fuentes externas">
+        <p style={{ fontSize: 12, color: '#3a3a3d', margin: '0 0 10px', lineHeight: 1.5 }}>
+          Lanza el orquestador ETL que descarga datos en vivo de las fuentes públicas configuradas
+          (GPR, WGI, BCE, Eurostat, EPU, Metaculus, RSS-NLP) y recalcula los índices. Las fuentes
+          marcadas <strong>stub</strong> requieren auth/setup adicional (ACLED, GDELT, V-Dem, CIS, RSUI, IDEA, RSF).
+        </p>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+          <button onClick={runIngest} disabled={ingesting} style={{
+            background: ingesting ? '#94a3b8' : '#1d1d1f', color: '#fff', border: 'none',
+            borderRadius: 7, padding: '8px 14px', fontSize: 12, fontWeight: 700,
+            cursor: ingesting ? 'wait' : 'pointer',
+          }}>
+            {ingesting ? 'Ingestando…' : '🚀 Lanzar ingesta ahora'}
+          </button>
+          {lastIngest && (
+            <span style={{ fontSize: 11.5, color: '#3a3a3d' }}>
+              {lastIngest}
+            </span>
+          )}
+        </div>
+
+        <div style={{ marginTop: 14 }}>
+          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+            Estado de fuentes
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 11.5 }}>
+            <thead>
+              <tr style={{ background: '#FAFAFB', borderBottom: '1px solid #ECECEF' }}>
+                {['Fuente', 'Cadencia', 'Último fetch', 'Estado'].map(h => (
+                  <th key={h} style={{ padding: '6px 10px', textAlign: 'left', fontSize: 9.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {config.sources.map(s => (
+                <tr key={s.source_id} style={{ borderBottom: '1px solid #F5F5F7' }}>
+                  <td style={{ padding: '6px 10px', fontWeight: 600 }}>{s.name}</td>
+                  <td style={{ padding: '6px 10px', color: '#6e6e73' }}>{s.cadencia}</td>
+                  <td style={{ padding: '6px 10px', color: '#86868b', fontFamily: 'monospace', fontSize: 11 }}>
+                    {s.last_fetch ? new Date(s.last_fetch).toLocaleString('es-ES') : '—'}
+                  </td>
+                  <td style={{ padding: '6px 10px' }}>
+                    {s.last_error ? (
+                      <span style={{ color: '#DC2626', fontSize: 10.5 }} title={s.last_error}>
+                        ⚠ {s.last_error.slice(0, 60)}{s.last_error.length > 60 ? '…' : ''}
+                      </span>
+                    ) : s.last_fetch ? (
+                      <span style={{ color: '#16A34A', fontSize: 10.5, fontWeight: 700 }}>OK</span>
+                    ) : (
+                      <span style={{ color: '#94a3b8', fontSize: 10.5 }}>nunca ejecutado</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      {/* Thresholds + weights per index */}
+      {config.indices.map(idx => (
+        <Card key={idx.index_id} title={`${idx.icon} ${idx.display_name} · pesos y umbrales`}>
+          {/* Thresholds */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr) auto', gap: 10, alignItems: 'flex-end', marginBottom: 14 }}>
+            {(['low', 'medium', 'high'] as const).map(level => (
+              <label key={level} style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  Umbral {level === 'low' ? 'BAJO→MEDIO' : level === 'medium' ? 'MEDIO→ALTO' : 'ALTO→CRÍT'}
+                </span>
+                <input
+                  type="number" min={0} max={100} step={1}
+                  value={thresholds[idx.index_id]?.[level] ?? 50}
+                  onChange={(e) => setThresholds(prev => ({
+                    ...prev,
+                    [idx.index_id]: { ...prev[idx.index_id], [level]: Number(e.target.value) },
+                  }))}
+                  style={{
+                    padding: '6px 10px', fontSize: 13, fontWeight: 600,
+                    border: '1px solid #ECECEF', borderRadius: 6, fontFamily: 'inherit',
+                  }}
+                />
+              </label>
+            ))}
+            <button onClick={() => saveThresholds(idx.index_id)} disabled={savingThr === idx.index_id} style={{
+              background: '#1d1d1f', color: '#fff', border: 'none',
+              borderRadius: 6, padding: '7px 14px', fontSize: 11, fontWeight: 700,
+              cursor: 'pointer', height: 'fit-content',
+            }}>
+              {savingThr === idx.index_id ? 'Guardando…' : '💾 Guardar umbrales'}
+            </button>
+          </div>
+
+          {/* Components weights */}
+          <div style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>
+            Componentes ({idx.components.length})
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {idx.components.map(c => (
+              <div key={c.id} style={{
+                display: 'grid', gridTemplateColumns: '90px 1fr 110px 90px 80px', gap: 8,
+                alignItems: 'center', padding: '6px 10px',
+                background: c.is_active ? '#fff' : '#FAFAFB',
+                border: '1px solid #ECECEF', borderRadius: 6,
+                opacity: c.is_active ? 1 : 0.5,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f' }}>{c.source_id}</span>
+                <span style={{ fontSize: 10.5, color: '#3a3a3d', fontFamily: 'monospace' }}>{c.metric_name}</span>
+                <input
+                  type="number" min={0} max={1} step={0.05}
+                  defaultValue={c.weight}
+                  onBlur={(e) => saveWeight(c.id, Number(e.target.value))}
+                  style={{
+                    padding: '4px 8px', fontSize: 11, fontWeight: 600,
+                    border: '1px solid #ECECEF', borderRadius: 4, fontFamily: 'monospace',
+                  }}
+                />
+                <span style={{ fontSize: 10, color: '#86868b', fontFamily: 'monospace' }}>
+                  {c.normalize_method.replace('minmax_', 'mm_')} · {c.transform}
+                </span>
+                <button onClick={() => toggleComponent(c.id, !c.is_active)} style={{
+                  background: c.is_active ? '#fff' : '#F5F5F7',
+                  color: c.is_active ? '#DC2626' : '#16A34A',
+                  border: '1px solid #ECECEF', borderRadius: 4,
+                  padding: '4px 8px', fontSize: 10, fontWeight: 700, cursor: 'pointer',
+                }}>
+                  {c.is_active ? 'Desactivar' : 'Activar'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
   )
 }
 

@@ -28,8 +28,8 @@ import random
 from datetime import date, timedelta
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Query
-from pydantic import BaseModel
+from fastapi import APIRouter, Body, HTTPException, Query
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
@@ -276,6 +276,84 @@ def get_config() -> dict:
         "indices":   out_indices,
         "sources":   engine.list_sources(),
     }
+
+
+# ── Ingest (real ETL connectors) ──────────────────────────────────────────────
+
+@router.post("/ingest")
+def ingest(
+    country: str = Query("ES"),
+    only:    str = Query("", description="csv of source_ids; empty = all"),
+    recompute: bool = Query(True),
+) -> dict:
+    """
+    Run every Risk v2 ETL connector (or a filtered subset) and optionally
+    recompute indices afterwards.
+    """
+    try:
+        from etl.risk_v2.orchestrator import run_all
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"orchestrator_import_failed:{exc}")
+    sources = [s.strip() for s in only.split(",") if s.strip()] or None
+    return run_all(only=sources, country=country, recompute=recompute)
+
+
+# ── Admin: editar config (thresholds + components) ───────────────────────────
+
+class ThresholdsBody(BaseModel):
+    threshold_low:    float = Field(..., ge=0, le=100)
+    threshold_medium: float = Field(..., ge=0, le=100)
+    threshold_high:   float = Field(..., ge=0, le=100)
+
+
+@router.put("/indices/{index_id}/thresholds")
+def update_thresholds(index_id: str, body: ThresholdsBody) -> dict:
+    if not (body.threshold_low < body.threshold_medium < body.threshold_high):
+        raise HTTPException(status_code=400, detail="thresholds_must_be_ascending")
+    engine = _engine_v2()
+    ok = engine._exec(
+        """
+        UPDATE risk_thresholds
+        SET threshold_low = :tl, threshold_medium = :tm, threshold_high = :th
+        WHERE index_id = :idx
+        """,
+        {"idx": index_id, "tl": body.threshold_low, "tm": body.threshold_medium, "th": body.threshold_high},
+    )
+    if not ok:
+        raise HTTPException(status_code=404, detail="index_not_found_or_db_unreachable")
+    return {"ok": True, "index_id": index_id, **body.model_dump()}
+
+
+class ComponentWeightBody(BaseModel):
+    weight: float = Field(..., ge=0, le=1)
+
+
+@router.put("/components/{component_id}/weight")
+def update_component_weight(component_id: int, body: ComponentWeightBody) -> dict:
+    engine = _engine_v2()
+    ok = engine._exec(
+        "UPDATE risk_index_components SET weight = :w WHERE id = :id",
+        {"id": component_id, "w": body.weight},
+    )
+    if not ok:
+        raise HTTPException(status_code=404, detail="component_not_found")
+    return {"ok": True, "component_id": component_id, "weight": body.weight}
+
+
+class ComponentToggleBody(BaseModel):
+    is_active: bool
+
+
+@router.put("/components/{component_id}/active")
+def toggle_component_active(component_id: int, body: ComponentToggleBody) -> dict:
+    engine = _engine_v2()
+    ok = engine._exec(
+        "UPDATE risk_index_components SET is_active = :a WHERE id = :id",
+        {"id": component_id, "a": body.is_active},
+    )
+    if not ok:
+        raise HTTPException(status_code=404, detail="component_not_found")
+    return {"ok": True, "component_id": component_id, "is_active": body.is_active}
 
 
 # ── Demo seeder ───────────────────────────────────────────────────────────────
