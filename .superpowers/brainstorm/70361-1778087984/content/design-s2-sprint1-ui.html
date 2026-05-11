@@ -1,0 +1,358 @@
+<h2>Diseño — Sección 2: Sprint 1 — UI del slide-over y dossier de actor</h2>
+<p class="subtitle">Así quedan exactamente los dos componentes centrales del Sprint 1: el <strong>SlideOver contextual</strong> (se activa al hacer click en cualquier objeto) y la <strong>página de Actor</strong> con dossier completo y grafo de relaciones.</p>
+
+<style>
+* { box-sizing: border-box; }
+.section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: #475569; margin: 22px 0 12px; }
+
+/* =================== SLIDE-OVER MOCKUP =================== */
+.so-demo { background: #080C14; border: 1px solid #1E3A5F; border-radius: 12px; overflow: hidden; }
+.so-demo-bar { height: 28px; background: #060A12; border-bottom: 1px solid #0F1929; display: flex; align-items: center; padding: 0 12px; gap: 6px; }
+.wdot { width: 8px; height: 8px; border-radius: 50%; }
+.so-demo-body { display: flex; height: 340px; }
+
+/* Main panel */
+.main-panel { flex: 1; overflow: hidden; padding: 14px; border-right: 1px solid #0F1929; }
+.mp-header { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 10px; font-weight: 600; }
+.alert-item { display: flex; gap: 8px; padding: 8px; border: 1px solid #0F1929; border-radius: 7px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s; }
+.alert-item:hover { border-color: rgba(0,212,255,0.3); }
+.alert-item.active { border-color: #00D4FF; background: rgba(0,212,255,0.04); }
+.ai-bar { width: 3px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+.ai-body { flex: 1; min-width: 0; }
+.ai-badge { display: inline-block; font-size: 8.5px; font-weight: 700; padding: 1px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.badge-crit { background: rgba(239,68,68,0.15); color: #EF4444; }
+.badge-high { background: rgba(239,68,68,0.1); color: #EF4444; }
+.badge-med { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.badge-low { background: rgba(59,130,246,0.1); color: #3B82F6; }
+.ai-title { font-size: 11px; font-weight: 600; color: #CBD5E1; line-height: 1.4; margin-bottom: 2px; }
+.ai-meta { font-size: 9.5px; color: #475569; }
+
+/* Slide-over panel */
+.so-panel { width: 220px; background: #0A0F1A; overflow: hidden; display: flex; flex-direction: column; }
+.sop-header { padding: 12px 14px 10px; border-bottom: 1px solid #0F1929; }
+.sop-close { float: right; font-size: 10px; color: #334155; cursor: pointer; }
+.sop-type { font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: #475569; font-weight: 700; margin-bottom: 6px; }
+.sop-name { font-size: 13px; font-weight: 800; color: #E2E8F0; line-height: 1.3; margin-bottom: 8px; }
+.sop-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.sop-tag { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 600; }
+.tag-r { background: rgba(239,68,68,0.12); color: #EF4444; }
+.tag-c { background: rgba(0,212,255,0.12); color: #00D4FF; }
+.tag-a { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.tag-g { background: rgba(16,185,129,0.12); color: #10B981; }
+.sop-body { flex: 1; overflow-y: auto; padding: 12px 14px; }
+.sop-section { margin-bottom: 14px; }
+.sop-section-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #334155; font-weight: 700; margin-bottom: 7px; }
+.obj-link { display: flex; align-items: center; gap: 7px; padding: 5px 7px; border: 1px solid #0F1929; border-radius: 5px; margin-bottom: 4px; cursor: pointer; transition: all 0.15s; }
+.obj-link:hover { border-color: rgba(0,212,255,0.3); background: rgba(0,212,255,0.03); }
+.obj-icon { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.obj-text { flex: 1; min-width: 0; }
+.obj-text-name { font-size: 10.5px; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.obj-text-sub { font-size: 9px; color: #475569; }
+.risk-bar-wrap { margin-bottom: 8px; }
+.risk-label { display: flex; justify-content: space-between; font-size: 9.5px; color: #475569; margin-bottom: 3px; }
+.risk-track { height: 4px; background: #0F1929; border-radius: 2px; overflow: hidden; }
+.risk-fill { height: 100%; border-radius: 2px; }
+.sop-action { width: 100%; padding: 7px 10px; border-radius: 6px; font-size: 10.5px; font-weight: 700; text-align: center; cursor: pointer; margin-bottom: 5px; border: none; }
+.act-primary { background: rgba(0,212,255,0.15); color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); }
+.act-secondary { background: rgba(255,255,255,0.04); color: #64748B; border: 1px solid #1E293B; }
+.sse-indicator { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #10B981; padding: 4px 12px; }
+.sse-dot { width: 5px; height: 5px; border-radius: 50%; background: #10B981; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+/* =================== ACTOR DOSSIER MOCKUP =================== */
+.actor-demo { background: #080C14; border: 1px solid #1E3A5F; border-radius: 12px; overflow: hidden; margin-top: 6px; }
+.actor-bar { height: 28px; background: #060A12; border-bottom: 1px solid #0F1929; display: flex; align-items: center; padding: 0 12px; gap: 6px; font-size: 9px; color: #334155; }
+.breadcrumb { font-size: 9.5px; color: #475569; }
+.breadcrumb span { color: #00D4FF; }
+.actor-body { display: grid; grid-template-columns: 240px 1fr 180px; height: 320px; }
+
+/* Left col: profile */
+.actor-profile { padding: 16px; border-right: 1px solid #0F1929; }
+.ap-avatar { width: 52px; height: 52px; border-radius: 12px; background: linear-gradient(135deg, #1F77FF, #00D4FF); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: white; margin-bottom: 10px; }
+.ap-name { font-size: 14px; font-weight: 800; color: #E2E8F0; margin-bottom: 2px; }
+.ap-role { font-size: 11px; color: #64748B; margin-bottom: 10px; }
+.ap-party { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background: rgba(31,119,255,0.1); border: 1px solid rgba(31,119,255,0.25); margin-bottom: 12px; }
+.ap-party-dot { width: 7px; height: 7px; border-radius: 50%; background: #1F77FF; }
+.ap-party-name { font-size: 10px; font-weight: 700; color: #1F77FF; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #0F1929; }
+.stat-row:last-child { border-bottom: none; }
+.stat-label { font-size: 10px; color: #475569; }
+.stat-val { font-size: 11px; font-weight: 700; }
+.val-up { color: #10B981; }
+.val-down { color: #EF4444; }
+.val-neutral { color: #94A3B8; }
+.val-amber { color: #F59E0B; }
+.ap-timeline-mini { margin-top: 12px; }
+.mini-event { font-size: 9.5px; color: #475569; padding: 3px 0 3px 10px; border-left: 2px solid #1E3A5F; margin-bottom: 4px; }
+.mini-event.hot { border-left-color: #EF4444; color: #94A3B8; }
+
+/* Center col: tabs + content */
+.actor-center { overflow: hidden; display: flex; flex-direction: column; }
+.ac-tabs { display: flex; border-bottom: 1px solid #0F1929; padding: 0 14px; }
+.ac-tab { padding: 9px 12px; font-size: 10.5px; font-weight: 600; color: #475569; cursor: pointer; border-bottom: 2px solid transparent; }
+.ac-tab.active { color: #00D4FF; border-bottom-color: #00D4FF; }
+.ac-content { flex: 1; overflow: hidden; padding: 12px 14px; }
+.narrative-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid #0F1929; border-radius: 6px; margin-bottom: 5px; }
+.nr-icon { font-size: 12px; flex-shrink: 0; }
+.nr-name { font-size: 10.5px; color: #CBD5E1; flex: 1; }
+.nr-vel { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 3px; }
+.vel-up { background: rgba(239,68,68,0.1); color: #EF4444; }
+.vel-st { background: rgba(100,116,139,0.1); color: #64748B; }
+.alert-mini { display: flex; gap: 7px; padding: 5px 7px; border: 1px solid #0F1929; border-radius: 5px; margin-bottom: 4px; }
+.am-bar { width: 2px; border-radius: 1px; }
+.am-text { font-size: 10px; color: #94A3B8; line-height: 1.4; }
+.am-meta { font-size: 9px; color: #475569; }
+.leg-item { padding: 5px 8px; border: 1px solid #0F1929; border-radius: 5px; margin-bottom: 4px; }
+.li-title { font-size: 10.5px; color: #CBD5E1; margin-bottom: 2px; }
+.li-meta { font-size: 9px; color: #475569; }
+
+/* Right col: relation graph placeholder */
+.actor-right { padding: 12px; border-left: 1px solid #0F1929; display: flex; flex-direction: column; }
+.ar-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; font-weight: 700; margin-bottom: 10px; }
+.graph-placeholder { flex: 1; background: #060A12; border-radius: 8px; border: 1px solid #0F1929; position: relative; overflow: hidden; }
+.gp-node { position: absolute; border-radius: 6px; padding: 4px 8px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.gp-center { background: rgba(31,119,255,0.2); color: #3B82F6; border: 1px solid rgba(31,119,255,0.4); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.gp-n1 { background: rgba(0,212,255,0.1); color: #00D4FF; border: 1px solid rgba(0,212,255,0.25); top: 18%; left: 10%; }
+.gp-n2 { background: rgba(16,185,129,0.1); color: #10B981; border: 1px solid rgba(16,185,129,0.25); top: 18%; right: 10%; }
+.gp-n3 { background: rgba(245,158,11,0.1); color: #F59E0B; border: 1px solid rgba(245,158,11,0.25); bottom: 20%; left: 8%; }
+.gp-n4 { background: rgba(139,92,246,0.1); color: #8B5CF6; border: 1px solid rgba(139,92,246,0.25); bottom: 20%; right: 8%; }
+.gp-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.ar-actions { margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+.ar-btn { padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: 600; text-align: center; cursor: pointer; }
+.ar-btn-p { background: rgba(0,212,255,0.1); color: #00D4FF; border: 1px solid rgba(0,212,255,0.25); }
+.ar-btn-s { background: rgba(255,255,255,0.03); color: #64748B; border: 1px solid #1E293B; }
+</style>
+
+<!-- Mockup 1: Slide-over -->
+<div class="section-title">SlideOver — activado al hacer click en cualquier objeto (alerta, actor, narrativa)</div>
+<div class="so-demo">
+  <div class="so-demo-bar">
+    <div class="wdot" style="background:#EF4444"></div>
+    <div class="wdot" style="background:#F59E0B"></div>
+    <div class="wdot" style="background:#10B981"></div>
+    <span style="font-size:9px;color:#334155;margin-left:4px">Politeia — Alertas</span>
+    <div class="sse-indicator" style="margin-left:auto"><div class="sse-dot"></div>En vivo · SSE</div>
+  </div>
+  <div class="so-demo-body">
+
+    <!-- Main content -->
+    <div class="main-panel">
+      <div class="mp-header">Bandeja operativa · 4 sin leer</div>
+
+      <div class="alert-item active">
+        <div class="ai-bar" style="background:#EF4444"></div>
+        <div class="ai-body">
+          <div><span class="ai-badge badge-crit">Crítica</span></div>
+          <div class="ai-title">TC admite recurso del PP contra amnistía</div>
+          <div class="ai-meta">Monitor judicial · hace 3 min</div>
+        </div>
+      </div>
+
+      <div class="alert-item" style="opacity:0.7">
+        <div class="ai-bar" style="background:#EF4444;opacity:0.6"></div>
+        <div class="ai-body">
+          <div><span class="ai-badge badge-high">Alta</span></div>
+          <div class="ai-title">Bloqueo Junts en comisión Justicia</div>
+          <div class="ai-meta">Monitor legislativo · hace 1 h</div>
+        </div>
+      </div>
+
+      <div class="alert-item" style="opacity:0.7">
+        <div class="ai-bar" style="background:#F59E0B;opacity:0.6"></div>
+        <div class="ai-body">
+          <div><span class="ai-badge badge-med">Media</span></div>
+          <div class="ai-title">Narrativa vivienda alcanza pico mediático</div>
+          <div class="ai-meta">Narrative Engine · hace 2 h</div>
+        </div>
+      </div>
+
+      <div class="alert-item" style="opacity:0.5">
+        <div class="ai-bar" style="background:#3B82F6;opacity:0.5"></div>
+        <div class="ai-body">
+          <div><span class="ai-badge badge-low">Baja</span></div>
+          <div class="ai-title">IPC abril sorprende a la baja</div>
+          <div class="ai-meta">Macro pipeline · hace 6 h</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide-over panel -->
+    <div class="so-panel">
+      <div class="sop-header">
+        <span class="sop-close">✕</span>
+        <div class="sop-type">Alerta</div>
+        <div class="sop-name">TC admite recurso del PP contra amnistía</div>
+        <div class="sop-tags">
+          <span class="sop-tag tag-r">Crítica</span>
+          <span class="sop-tag tag-a">Legal</span>
+        </div>
+      </div>
+      <div class="sop-body">
+
+        <div class="sop-section">
+          <div class="sop-section-title">Actores implicados</div>
+          <div class="obj-link">
+            <div class="obj-icon" style="background:rgba(31,119,255,0.15)">👤</div>
+            <div class="obj-text">
+              <div class="obj-text-name">PP · Feijóo</div>
+              <div class="obj-text-sub">Promotor del recurso</div>
+            </div>
+          </div>
+          <div class="obj-link">
+            <div class="obj-icon" style="background:rgba(232,58,62,0.15)">👤</div>
+            <div class="obj-text">
+              <div class="obj-text-name">PSOE · Bolaños</div>
+              <div class="obj-text-sub">Afectado · respuesta pendiente</div>
+            </div>
+          </div>
+          <div class="obj-link">
+            <div class="obj-icon" style="background:rgba(0,194,168,0.15)">👤</div>
+            <div class="obj-text">
+              <div class="obj-text-name">Junts · Puigdemont</div>
+              <div class="obj-text-sub">Riesgo coalición +12pp</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sop-section">
+          <div class="sop-section-title">Riesgo asociado</div>
+          <div class="risk-bar-wrap">
+            <div class="risk-label"><span>Coalición</span><span style="color:#EF4444">88</span></div>
+            <div class="risk-track"><div class="risk-fill" style="width:88%;background:linear-gradient(90deg,#EF4444,#DC2626)"></div></div>
+          </div>
+          <div class="risk-bar-wrap">
+            <div class="risk-label"><span>Narrativo</span><span style="color:#F59E0B">74</span></div>
+            <div class="risk-track"><div class="risk-fill" style="width:74%;background:linear-gradient(90deg,#F59E0B,#D97706)"></div></div>
+          </div>
+        </div>
+
+        <div class="sop-section">
+          <div class="sop-section-title">Narrativas activas</div>
+          <div class="obj-link">
+            <div class="obj-icon" style="background:rgba(139,92,246,0.15)">📰</div>
+            <div class="obj-text">
+              <div class="obj-text-name">Lawfare contra el gobierno</div>
+              <div class="obj-text-sub">↑ subiendo · 87 arts/24h</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:4px">
+          <button class="sop-action act-primary">🔍 Investigar en canvas</button>
+          <button class="sop-action act-secondary">📄 Generar nota</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mockup 2: Actor dossier page -->
+<div class="section-title">actores/[actorId] — Página completa de dossier de actor</div>
+<div class="actor-demo">
+  <div class="actor-bar">
+    <div class="wdot" style="background:#EF4444"></div>
+    <div class="wdot" style="background:#F59E0B"></div>
+    <div class="wdot" style="background:#10B981"></div>
+    <span class="breadcrumb" style="margin-left:8px">Actores / <span>Alberto Núñez Feijóo</span></span>
+  </div>
+  <div class="actor-body">
+
+    <!-- Profile -->
+    <div class="actor-profile">
+      <div class="ap-avatar">ANF</div>
+      <div class="ap-name">Alberto Núñez Feijóo</div>
+      <div class="ap-role">Líder de la oposición · PP</div>
+      <div class="ap-party"><div class="ap-party-dot"></div><div class="ap-party-name">Partido Popular</div></div>
+      <div class="stat-row"><span class="stat-label">Exposición</span><span class="stat-val val-up">91 ↑</span></div>
+      <div class="stat-row"><span class="stat-label">Aprobación</span><span class="stat-val val-neutral">42%</span></div>
+      <div class="stat-row"><span class="stat-label">Riesgo global</span><span class="stat-val val-amber">67</span></div>
+      <div class="stat-row"><span class="stat-label">Alertas activas</span><span class="stat-val val-down">3</span></div>
+      <div class="stat-row"><span class="stat-label">Narrativas</span><span class="stat-val val-neutral">5</span></div>
+      <div class="ap-timeline-mini" style="margin-top:10px">
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#334155;font-weight:700;margin-bottom:6px">Actividad reciente</div>
+        <div class="mini-event hot">Hoy — Recurso TC amnistía admitido</div>
+        <div class="mini-event">Ayer — Pleno: reforma fiscal</div>
+        <div class="mini-event">3 may — Rueda de prensa en Génova</div>
+      </div>
+    </div>
+
+    <!-- Tabs + content -->
+    <div class="actor-center">
+      <div class="ac-tabs">
+        <div class="ac-tab active">Narrativas</div>
+        <div class="ac-tab">Alertas (3)</div>
+        <div class="ac-tab">Legislativo</div>
+        <div class="ac-tab">Posiciones</div>
+      </div>
+      <div class="ac-content">
+        <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#334155;margin-bottom:8px;font-weight:600">Narrativas en que aparece</div>
+        <div class="narrative-row">
+          <span class="nr-icon">📢</span>
+          <span class="nr-name">Impulsando: "gestión seria y moderada"</span>
+          <span class="nr-vel vel-st">estable</span>
+        </div>
+        <div class="narrative-row">
+          <span class="nr-icon">⚡</span>
+          <span class="nr-name">Recibe: "derechización por VOX"</span>
+          <span class="nr-vel vel-up">↑ sube</span>
+        </div>
+        <div class="narrative-row">
+          <span class="nr-icon">⚖️</span>
+          <span class="nr-name">Impulsa: "ilegalidad amnistía"</span>
+          <span class="nr-vel vel-up">↑ sube</span>
+        </div>
+        <div class="narrative-row">
+          <span class="nr-icon">🏛️</span>
+          <span class="nr-name">Recibe: "oposición obstruccionista"</span>
+          <span class="nr-vel vel-st">estable</span>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#334155;margin-bottom:8px;font-weight:600">Alertas relacionadas</div>
+          <div class="alert-mini">
+            <div class="am-bar" style="background:#EF4444"></div>
+            <div>
+              <div class="am-text">TC admite recurso contra amnistía</div>
+              <div class="am-meta">hace 3 min · Crítica</div>
+            </div>
+          </div>
+          <div class="alert-mini">
+            <div class="am-bar" style="background:#F59E0B"></div>
+            <div>
+              <div class="am-text">Caída PP en sondeos territoriales</div>
+              <div class="am-meta">hace 40 min · Alta</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Relation graph -->
+    <div class="actor-right">
+      <div class="ar-title">Red de relaciones</div>
+      <div class="graph-placeholder">
+        <svg class="gp-svg" xmlns="http://www.w3.org/2000/svg">
+          <line x1="90" y1="50" x2="50%" y2="50%" stroke="#1E3A5F" stroke-width="1"/>
+          <line x1="130" y1="50" x2="50%" y2="50%" stroke="#1E3A5F" stroke-width="1"/>
+          <line x1="30" y1="75%" x2="50%" y2="50%" stroke="#1E3A5F" stroke-width="1"/>
+          <line x1="140" y1="75%" x2="50%" y2="50%" stroke="#1E3A5F" stroke-width="1"/>
+        </svg>
+        <div class="gp-node gp-n1">Ayuso</div>
+        <div class="gp-node gp-n2">Gamarra</div>
+        <div class="gp-node gp-center">Feijóo</div>
+        <div class="gp-node gp-n3">Abascal ✗</div>
+        <div class="gp-node gp-n4">PNV →</div>
+      </div>
+      <div class="ar-actions">
+        <div class="ar-btn ar-btn-p">🔍 Ver en canvas</div>
+        <div class="ar-btn ar-btn-s">📄 Generar dossier</div>
+        <div class="ar-btn ar-btn-s">🔔 Seguir actor</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="margin-top:18px;padding:14px 20px;background:#080C14;border:1px solid rgba(0,212,255,0.15);border-radius:10px;font-size:12.5px;color:#64748B;line-height:1.7;">
+  <strong style="color:#E2E8F0;">¿Este diseño de Sprint 1 te convence?</strong> Si apruebas, paso a la sección 3: el diseño del Canvas de investigación (Sprint 4) y cómo se conecta el ciclo completo detect → investigate → produce.
+</div>

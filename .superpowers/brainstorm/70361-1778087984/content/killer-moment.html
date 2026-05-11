@@ -1,0 +1,101 @@
+<h2>Pregunta 3 de 5 — ¿Cuál es el momento donde Politeia es insustituible?</h2>
+<p class="subtitle">Para el consultor político, hay un momento concreto donde la plataforma tiene que ser obligatoria — el momento que hace que abra Politeia en vez de Google, el BOE, Twitter o un clipping. Diseñar A+B significa diseñar ese momento primero. ¿Cuál es?</p>
+
+<style>
+.moment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+.moment-card { background: #0F1929; border: 1.5px solid #1E3A5F; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.moment-card:hover { border-color: #00D4FF; transform: translateY(-2px); }
+.moment-card.selected { border-color: #00D4FF; background: #0A1F3A; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+.moment-header { padding: 16px 18px 12px; }
+.moment-time { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #475569; font-weight: 600; margin-bottom: 6px; }
+.moment-title { font-size: 14px; font-weight: 800; color: #E2E8F0; margin-bottom: 4px; }
+.moment-sub { font-size: 11.5px; color: #64748B; line-height: 1.5; }
+.moment-screen { margin: 0 12px 12px; border: 1px solid #1E293B; border-radius: 8px; background: #080C14; padding: 10px; font-size: 11px; }
+.ms-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid #0F1929; color: #64748B; line-height: 1.4; }
+.ms-row:last-child { border-bottom: none; }
+.ms-label { flex-shrink: 0; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-top: 1px; }
+.ms-red { background: rgba(239,68,68,0.15); color: #EF4444; }
+.ms-cyan { background: rgba(0,212,255,0.15); color: #00D4FF; }
+.ms-amber { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.ms-green { background: rgba(16,185,129,0.15); color: #10B981; }
+.ms-purple { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+.ms-text { color: #94A3B8; }
+.moment-why { padding: 10px 18px 14px; font-size: 11.5px; color: #475569; line-height: 1.6; border-top: 1px solid #0F1929; }
+.moment-why strong { color: #64748B; }
+</style>
+
+<div class="moment-grid">
+
+  <!-- A: Briefing matinal -->
+  <div class="moment-card option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="moment-header">
+      <div class="moment-time">08:00 · Cada mañana</div>
+      <div class="moment-title">A — El briefing que sustituye a todo</div>
+      <div class="moment-sub">El consultor abre Politeia antes que el correo. En 5 minutos sabe qué cambió, qué vigilar y qué recomienda al cliente hoy.</div>
+    </div>
+    <div class="moment-screen">
+      <div class="ms-row"><span class="ms-label ms-cyan">Hoy</span><span class="ms-text">PP consolida +0.4pp · narrativa vivienda en pico · riesgo legislativo 81</span></div>
+      <div class="ms-row"><span class="ms-label ms-red">Alta</span><span class="ms-text">Bloqueo Junts en comisión — 3 votaciones en juego esta semana</span></div>
+      <div class="ms-row"><span class="ms-label ms-amber">Vigila</span><span class="ms-text">Lawfare +35% menciones · sentimiento negativo acelerando</span></div>
+      <div class="ms-row"><span class="ms-label ms-green">Oprt.</span><span class="ms-text">IPC baja → margen para mensaje fiscal antes del semestre</span></div>
+      <div class="ms-row" style="color:#00D4FF; font-size:10.5px;">→ Tres preguntas estratégicas generadas · Exportar PDF</div>
+    </div>
+    <div class="moment-why"><strong>Lo que hace insustituible:</strong> integra señales electorales, mediáticas, legislativas y de riesgo en un solo texto accionable generado con LLM y datos reales. El consultor no tiene que abrir 8 fuentes distintas.</div>
+  </div>
+
+  <!-- B: Alerta antes que la prensa -->
+  <div class="moment-card option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="moment-header">
+      <div class="moment-time">Cualquier momento · Tiempo real</div>
+      <div class="moment-title">B — La alerta que llega antes que la prensa</div>
+      <div class="moment-sub">Politeia detecta una señal importante (judicial, legislativa, mediática) y se lo notifica al consultor antes de que aparezca en los medios.</div>
+    </div>
+    <div class="moment-screen">
+      <div class="ms-row"><span class="ms-label ms-red">Crítica</span><span class="ms-text">TC admite recurso amnistía — hace 3 min [fuente: CENDOJ scraper]</span></div>
+      <div class="ms-row" style="color:#64748B; padding-left:8px; font-size:10.5px;">→ Actores afectados: Junts, PSOE, Sumar · Riesgo coalición +12pp</div>
+      <div class="ms-row" style="color:#64748B; padding-left:8px; font-size:10.5px;">→ Narrativas relacionadas: lawfare, amnistía, coalición</div>
+      <div class="ms-row" style="color:#64748B; padding-left:8px; font-size:10.5px;">→ Acción sugerida: preparar Q&A para portavoz</div>
+      <div class="ms-row"><span class="ms-label ms-purple">Push</span><span class="ms-text">Notificación enviada a móvil · Email a cliente</span></div>
+    </div>
+    <div class="moment-why"><strong>Lo que hace insustituible:</strong> el consultor llama a su cliente con información que éste aún no tiene. Eso es el valor más alto posible — ser más rápido que la prensa y más contextualizado que una app de noticias.</div>
+  </div>
+
+  <!-- C: Investigar un actor -->
+  <div class="moment-card option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="moment-header">
+      <div class="moment-time">Antes de una reunión o entregable</div>
+      <div class="moment-title">C — Todo sobre un actor en 2 minutos</div>
+      <div class="moment-sub">El consultor tiene reunión en una hora. Busca a Feijóo, Puigdemont o cualquier actor clave y Politeia le muestra el dossier completo: posiciones, movimientos, relaciones, narrativas.</div>
+    </div>
+    <div class="moment-screen">
+      <div class="ms-row"><span class="ms-label ms-cyan">Actor</span><span class="ms-text" style="color:#00D4FF; font-weight:600;">Alberto Núñez Feijóo</span></div>
+      <div class="ms-row" style="padding-left:8px; color:#64748B; font-size:10.5px;">Posición esta semana · Votos · Agenda · Declaraciones</div>
+      <div class="ms-row"><span class="ms-label ms-amber">Relac.</span><span class="ms-text">Alianzas: Ayuso, Gamarra, Rajoy · Tensión: Abascal · Neutral: PNV</span></div>
+      <div class="ms-row"><span class="ms-label ms-green">Narrat.</span><span class="ms-text">Impulsa: "gestión seria" · Recibe: "derechización"</span></div>
+      <div class="ms-row"><span class="ms-label ms-red">Alert.</span><span class="ms-text">2 alertas activas relacionadas con este actor</span></div>
+    </div>
+    <div class="moment-why"><strong>Lo que hace insustituible:</strong> en cualquier app de medios o Wikipedia encuentras datos. Aquí encuentras posición, relaciones, narrativas activas, movimientos recientes y señales de riesgo — todo en una sola vista conectada.</div>
+  </div>
+
+  <!-- D: Producir el entregable -->
+  <div class="moment-card option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="moment-header">
+      <div class="moment-time">Final del flujo analítico</div>
+      <div class="moment-title">D — Del análisis al entregable sin salir</div>
+      <div class="moment-sub">El consultor termina su investigación en el canvas y desde ahí genera el informe, la nota ejecutiva o el briefing para el cliente — sin copiar y pegar, sin perder la trazabilidad.</div>
+    </div>
+    <div class="moment-screen">
+      <div class="ms-row"><span class="ms-label ms-purple">Canvas</span><span class="ms-text">Investigación: "Bloqueo Junts — escenarios mayo 2026"</span></div>
+      <div class="ms-row" style="padding-left:8px; color:#64748B; font-size:10.5px;">5 objetos · 3 hipótesis · 8 evidencias · 2 simulaciones</div>
+      <div class="ms-row"><span class="ms-label ms-cyan">Draft</span><span class="ms-text">Generar nota ejecutiva → PDF · DOCX · Presentación</span></div>
+      <div class="ms-row" style="padding-left:8px; color:#64748B; font-size:10.5px;">Trazabilidad: cada afirmación → fuente vinculada</span></div>
+      <div class="ms-row"><span class="ms-label ms-green">Envia</span><span class="ms-text">Compartir con cliente · Archivar en workspace</span></div>
+    </div>
+    <div class="moment-why"><strong>Lo que hace insustituible:</strong> el ciclo completo vive en Politeia — la plataforma no es solo donde se consume la inteligencia sino donde se produce el entregable final con evidencia trazada. Eso crea lock-in real.</div>
+  </div>
+
+</div>
+
+<div style="margin-top:18px; padding:14px 18px; background:#080C14; border:1px solid #1E3A5F; border-radius:10px; font-size:12px; color:#64748B; line-height:1.7;">
+  <strong style="color:#94A3B8;">¿Por qué importa esta respuesta?</strong> Determina cuál de los dos componentes de A+B construimos primero y con qué nivel de completitud. Si la respuesta es A o B → priorizamos el Intelligence Feed con datos reales y SSE. Si es C → priorizamos el grafo de objetos y el dossier de actor. Si es D → priorizamos el canvas + draft studio. Puedes seleccionar más de uno.
+</div>

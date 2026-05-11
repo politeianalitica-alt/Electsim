@@ -1,0 +1,207 @@
+<h2>Pregunta 4 de 5 — ¿Cómo navegas del objeto A al objeto B?</h2>
+<p class="subtitle">El consultor recibe la alerta (B) y quiere investigar al actor implicado (C). Este es el momento donde A+B se convierte en un sistema de objetos conectados o se queda como un dashboard de páginas sueltas. ¿Cuál es el modelo de navegación correcto?</p>
+
+<style>
+.nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+.nav-card { background: #0F1929; border: 1.5px solid #1E3A5F; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.nav-card:hover { border-color: #00D4FF; }
+.nav-card.selected { border-color: #00D4FF; background: #0A1F3A; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+.nav-label { padding: 14px 16px 10px; }
+.nav-letter { display: inline-block; width: 26px; height: 26px; border-radius: 6px; background: rgba(0,212,255,0.12); color: #00D4FF; font-weight: 900; font-size: 13px; text-align:center; line-height:26px; margin-bottom:8px; }
+.nav-title { font-size: 13.5px; font-weight: 800; color: #E2E8F0; margin-bottom: 3px; }
+.nav-sub { font-size: 11px; color: #64748B; line-height: 1.5; margin-bottom: 8px; }
+/* Mockup styles */
+.mock-shell { margin: 0 12px 0; background: #060A12; border: 1px solid #0F1929; border-radius: 8px; overflow: hidden; }
+.mock-bar { height: 26px; background: #0A0F1A; border-bottom: 1px solid #0F1929; display: flex; align-items: center; padding: 0 10px; gap: 6px; }
+.mock-dot { width: 6px; height: 6px; border-radius: 50%; }
+.mock-content { padding: 10px; }
+/* Layout A: slide-over */
+.so-layout { display: flex; gap: 6px; height: 140px; }
+.so-main { flex: 1; background: #0C1220; border-radius: 5px; padding: 8px; }
+.so-panel { width: 120px; background: #0F1929; border-radius: 5px; border: 1px solid #1E3A5F; padding: 8px; }
+.mock-row { font-size: 9.5px; color: #475569; padding: 3px 0; border-bottom: 1px solid #0A0F1A; display: flex; align-items: center; gap: 5px; }
+.mock-row:last-child { border-bottom: none; }
+.mock-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 700; flex-shrink: 0; }
+.tag-r { background: rgba(239,68,68,0.15); color: #EF4444; }
+.tag-c { background: rgba(0,212,255,0.15); color: #00D4FF; }
+.tag-a { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.tag-g { background: rgba(16,185,129,0.15); color: #10B981; }
+.tag-p { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+.mock-hl { color: #00D4FF !important; }
+.panel-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 6px; font-weight: 700; }
+/* Layout B: full page */
+.fp-layout { height: 140px; }
+.fp-header { background: #0C1220; border-radius: 5px 5px 0 0; padding: 7px 8px; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+.fp-body { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; height: calc(140px - 34px); }
+.fp-col { background: #0C1220; border-radius: 0 0 5px 5px; padding: 7px; overflow: hidden; }
+/* Layout C: canvas */
+.cv-layout { height: 140px; position: relative; background: #060A12; border-radius: 5px; overflow: hidden; }
+.cv-node { position: absolute; background: #0C1220; border: 1px solid #1E3A5F; border-radius: 6px; padding: 5px 8px; font-size: 9px; color: #94A3B8; white-space: nowrap; }
+.cv-node-active { border-color: #00D4FF; color: #00D4FF; }
+.cv-line { position: absolute; background: #1E3A5F; height: 1px; transform-origin: left center; }
+/* Layout D: sidebar -->
+.sb-layout { display: flex; height: 140px; }
+.sb-left { width: 70px; background: #0C1220; border-right: 1px solid #0F1929; padding: 6px 4px; display: flex; flex-direction: column; gap: 3px; }
+.sb-icon { width: 32px; height: 28px; background: #0A0F1A; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; margin: 0 auto; }
+.sb-icon.active { background: rgba(0,212,255,0.15); }
+.sb-right { flex: 1; display: grid; grid-template-rows: 1fr 1fr; gap: 3px; padding: 6px; }
+.sb-pane { background: #0C1220; border-radius: 4px; padding: 6px; }
+/* Pros/cons */
+.nav-verdict { padding: 10px 16px 14px; border-top: 1px solid #0F1929; }
+.vd-row { display: flex; gap: 6px; margin-bottom: 3px; align-items: flex-start; }
+.vd-icon { font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+.vd-text { font-size: 11px; color: #64748B; line-height: 1.4; }
+.vd-text.good { color: #94A3B8; }
+</style>
+
+<div class="nav-grid">
+
+  <!-- A: Slide-over panel -->
+  <div class="nav-card option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="nav-label">
+      <div class="nav-letter">A</div>
+      <div class="nav-title">Slide-over contextual</div>
+      <div class="nav-sub">Click en cualquier objeto → panel deslizante con todos los objetos relacionados. La página de origen queda visible a la izquierda.</div>
+    </div>
+    <div class="mock-shell">
+      <div class="mock-bar"><div class="mock-dot" style="background:#EF4444"></div><div class="mock-dot" style="background:#F59E0B"></div><div class="mock-dot" style="background:#10B981"></div><span style="font-size:9px;color:#475569;margin-left:4px">Alertas</span></div>
+      <div class="mock-content">
+        <div class="so-layout">
+          <div class="so-main">
+            <div class="mock-row"><span class="mock-tag tag-r">Crítica</span><span>TC admite recurso amnistía</span></div>
+            <div class="mock-row"><span class="mock-tag tag-a">Alta</span><span>Bloqueo Junts comisión</span></div>
+            <div class="mock-row" style="color:#00D4FF; font-weight:600; background:rgba(0,212,255,0.05); border-radius:3px;"><span class="mock-tag tag-r">Alta</span><span>Caída PP sondeos territoriales ▶</span></div>
+            <div class="mock-row"><span class="mock-tag tag-g">Baja</span><span>IPC mejor esperado</span></div>
+          </div>
+          <div class="so-panel">
+            <div class="panel-title">Contexto</div>
+            <div class="mock-row mock-hl">PP · Feijóo</div>
+            <div class="mock-row">3 narrativas</div>
+            <div class="mock-row">2 iniciativas</div>
+            <div class="mock-row">Riesgo 72↑</div>
+            <div class="mock-row" style="color:#00D4FF; margin-top:4px;">→ Abrir dossier</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-verdict">
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Rápido, no interrumpe el flujo de trabajo</span></div>
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Familiar: funciona como Notion o Linear</span></div>
+      <div class="vd-row"><span class="vd-icon">×</span><span class="vd-text">Espacio limitado para grafos complejos</span></div>
+    </div>
+  </div>
+
+  <!-- B: Full object page -->
+  <div class="nav-card option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="nav-label">
+      <div class="nav-letter">B</div>
+      <div class="nav-title">Página de objeto completa</div>
+      <div class="nav-sub">Cada entidad tiene su propia página. Click en alerta → página de alerta con todo su contexto, actores, evidencias y acciones.</div>
+    </div>
+    <div class="mock-shell">
+      <div class="mock-bar"><div class="mock-dot" style="background:#EF4444"></div><div class="mock-dot" style="background:#F59E0B"></div><div class="mock-dot" style="background:#10B981"></div><span style="font-size:9px;color:#475569;margin-left:4px">Alerta / Caída PP territoriales</span></div>
+      <div class="mock-content">
+        <div class="fp-layout">
+          <div class="fp-header">
+            <span class="mock-tag tag-r">Alta</span>
+            <span style="font-size:10px; color:#00D4FF; font-weight:700;">Caída PP en sondeos territoriales</span>
+            <span style="font-size:9px; color:#475569; margin-left:auto;">hace 40 min</span>
+          </div>
+          <div class="fp-body">
+            <div class="fp-col">
+              <div class="mock-row mock-hl">Actores: PP, Feijóo, Ayuso</div>
+              <div class="mock-row">Narrativas: 3 activas</div>
+              <div class="mock-row">Iniciativas: 2 en riesgo</div>
+              <div class="mock-row">Simulación: -2pp</div>
+            </div>
+            <div class="fp-col">
+              <div class="mock-row">Acciones sugeridas</div>
+              <div class="mock-row" style="color:#00D4FF;">→ Abrir en canvas</div>
+              <div class="mock-row" style="color:#00D4FF;">→ Generar nota</div>
+              <div class="mock-row" style="color:#00D4FF;">→ Alerta a cliente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-verdict">
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Máximo espacio para mostrar relaciones</span></div>
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">URL compartible por objeto</span></div>
+      <div class="vd-row"><span class="vd-icon">×</span><span class="vd-text">Más navegación → más clicks para llegar al fondo</span></div>
+    </div>
+  </div>
+
+  <!-- C: Canvas drop -->
+  <div class="nav-card option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="nav-label">
+      <div class="nav-letter">C</div>
+      <div class="nav-title">Canvas de investigación</div>
+      <div class="nav-sub">Click en "Investigar" → la alerta se convierte en nodo en el canvas. El analista arrastra actores, evidencias y narrativas para construir el mapa.</div>
+    </div>
+    <div class="mock-shell">
+      <div class="mock-bar"><div class="mock-dot" style="background:#EF4444"></div><div class="mock-dot" style="background:#F59E0B"></div><div class="mock-dot" style="background:#10B981"></div><span style="font-size:9px;color:#475569;margin-left:4px">Canvas — "PP territorial mayo"</span></div>
+      <div class="mock-content">
+        <div class="cv-layout">
+          <!-- Nodes -->
+          <div class="cv-node cv-node-active" style="top:10px;left:55px;">⚡ Alerta: caída PP</div>
+          <div class="cv-node" style="top:55px;left:10px;">👤 Feijóo</div>
+          <div class="cv-node" style="top:55px;left:130px;">👤 Ayuso</div>
+          <div class="cv-node" style="top:95px;left:60px;">📰 Narrativa lawfare</div>
+          <div class="cv-node" style="top:10px;left:185px;">📊 Sondeo CIS</div>
+          <!-- Lines (approximate) -->
+          <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="100" y1="30" x2="40" y2="55" stroke="#1E3A5F" stroke-width="1"/>
+            <line x1="140" y1="30" x2="170" y2="55" stroke="#1E3A5F" stroke-width="1"/>
+            <line x1="100" y1="30" x2="100" y2="95" stroke="#1E3A5F" stroke-width="1"/>
+            <line x1="155" y1="25" x2="215" y2="25" stroke="#1E3A5F" stroke-width="1"/>
+          </svg>
+          <div style="position:absolute;bottom:8px;right:8px;font-size:9px;color:#00D4FF;">→ Generar informe</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-verdict">
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Máxima diferenciación — modo Palantir</span></div>
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Crea dependencia: el analista vive aquí</span></div>
+      <div class="vd-row"><span class="vd-icon">×</span><span class="vd-text">Más complejo de construir (react-flow/excalidraw)</span></div>
+    </div>
+  </div>
+
+  <!-- D: Combo A+C -->
+  <div class="nav-card option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="nav-label">
+      <div class="nav-letter">D</div>
+      <div class="nav-title">Slide-over → Canvas (modelo híbrido)</div>
+      <div class="nav-sub">Slide-over como primera capa de contexto rápido. Botón "Investigar en canvas" para profundizar. Los dos modos coexisten.</div>
+    </div>
+    <div class="mock-shell">
+      <div class="mock-bar"><div class="mock-dot" style="background:#EF4444"></div><div class="mock-dot" style="background:#F59E0B"></div><div class="mock-dot" style="background:#10B981"></div><span style="font-size:9px;color:#475569;margin-left:4px">Alertas + contexto</span></div>
+      <div class="mock-content">
+        <div class="so-layout">
+          <div class="so-main">
+            <div class="mock-row"><span class="mock-tag tag-r">Alta</span><span>Caída PP sondeos → click</span></div>
+            <div class="mock-row"><span class="mock-tag tag-a">Media</span><span>Narrativa vivienda pico</span></div>
+            <div class="mock-row"><span class="mock-tag tag-g">Baja</span><span>IPC dato positivo</span></div>
+            <div style="margin-top:6px; font-size:9px; color:#475569; border-top:1px solid #0A0F1A; padding-top:6px;">← slide-over activo</div>
+          </div>
+          <div class="so-panel">
+            <div class="panel-title">Contexto rápido</div>
+            <div class="mock-row mock-hl">PP · 3 actores</div>
+            <div class="mock-row">2 narrativas</div>
+            <div class="mock-row">Riesgo 72↑</div>
+            <div style="margin-top:6px; padding:4px 6px; background:rgba(0,212,255,0.1); border-radius:4px; font-size:9px; color:#00D4FF; text-align:center; cursor:pointer;">🔍 Canvas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-verdict">
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Velocidad para usuario casual + profundidad para analista</span></div>
+      <div class="vd-row"><span class="vd-icon">→</span><span class="vd-text good">Se construye en dos fases: slide-over primero</span></div>
+      <div class="vd-row"><span class="vd-icon">×</span><span class="vd-text">Más superficie de UI que mantener</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:18px;padding:14px 18px;background:#080C14;border:1px solid #1E3A5F;border-radius:10px;font-size:12px;color:#64748B;line-height:1.7;">
+  <strong style="color:#94A3B8;">Mi recomendación:</strong> D — Slide-over primero (rápido de construir, útil desde el día 1) con botón "Investigar en canvas" que en fase 2 activa el canvas real. Permite entregar valor al consultor inmediatamente sin bloquear la visión Palantir.
+</div>

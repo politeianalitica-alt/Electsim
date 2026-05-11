@@ -1,0 +1,121 @@
+<h2>Pregunta 2 de 5 — ¿Quién es el usuario primario de la próxima versión?</h2>
+<p class="subtitle">A+B se implementa diferente según el perfil dominante. El feed de inteligencia y el grafo de objetos tienen pesos distintos según el trabajo real del usuario. Elige el perfil que mejor describe al cliente o equipo que va a usar esto primero.</p>
+
+<style>
+.user-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 22px; }
+.user-card { background: #0F1929; border: 1.5px solid #1E3A5F; border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.2s; }
+.user-card:hover { border-color: #00D4FF; transform: translateY(-2px); }
+.user-card.selected { border-color: #00D4FF; background: #0A1F3A; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+.user-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.user-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.user-name { font-size: 14px; font-weight: 800; color: #E2E8F0; }
+.user-sub { font-size: 11px; color: #64748B; margin-top: 1px; }
+.user-question { font-size: 13px; color: #00D4FF; font-style: italic; margin-bottom: 10px; line-height: 1.5; border-left: 2px solid #00D4FF33; padding-left: 10px; }
+.user-needs { margin: 0; padding: 0; list-style: none; }
+.user-needs li { font-size: 11.5px; color: #94A3B8; padding: 2px 0 2px 14px; position: relative; }
+.user-needs li::before { content: "•"; position: absolute; left: 4px; color: #475569; }
+.user-emphasis { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-top: 10px; margin-bottom: 4px; color: #475569; }
+.emphasis-tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-right: 4px; margin-top: 3px; }
+.tag-feed { background: rgba(0,212,255,0.12); color: #00D4FF; }
+.tag-graph { background: rgba(139,92,246,0.12); color: #8B5CF6; }
+.tag-canvas { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.tag-comms { background: rgba(236,72,153,0.12); color: #EC4899; }
+.tag-risk { background: rgba(239,68,68,0.12); color: #EF4444; }
+.tag-sim { background: rgba(16,185,129,0.12); color: #10B981; }
+</style>
+
+<div class="user-grid">
+
+  <div class="user-card option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="user-header">
+      <div class="user-icon" style="background: rgba(0,212,255,0.1);">🎯</div>
+      <div>
+        <div class="user-name">Consultor / Analista político</div>
+        <div class="user-sub">Consultora de public affairs · Think tank · Partido</div>
+      </div>
+    </div>
+    <div class="user-question">"¿Qué está cambiando en la correlación de fuerzas esta semana y qué recomiendo a mi cliente?"</div>
+    <ul class="user-needs">
+      <li>Briefing matinal personalizado por cliente/mandato</li>
+      <li>Seguimiento de actores y sus posiciones cambiantes</li>
+      <li>Narrativas emergentes + framing de respuesta</li>
+      <li>Simulación de escenarios electorales</li>
+      <li>Entregables: informes, notas, presentaciones</li>
+    </ul>
+    <div class="user-emphasis">Usa más</div>
+    <span class="emphasis-tag tag-feed">Feed</span>
+    <span class="emphasis-tag tag-graph">Actor graph</span>
+    <span class="emphasis-tag tag-canvas">Canvas</span>
+  </div>
+
+  <div class="user-card option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="user-header">
+      <div class="user-icon" style="background: rgba(245,158,11,0.1);">🏛️</div>
+      <div>
+        <div class="user-name">Gabinete / War room de partido</div>
+        <div class="user-sub">Dirección de comunicación · Equipo de campaña</div>
+      </div>
+    </div>
+    <div class="user-question">"¿Qué narrativa nos ataca hoy, cómo respondemos y qué mensajes desplegamos en cada canal?"</div>
+    <ul class="user-needs">
+      <li>Monitor narrativo en tiempo real con alertas</li>
+      <li>Strategy Room: framing, contranarrativa, red team</li>
+      <li>Agenda del día: intervenciones, medios, impactos</li>
+      <li>Coordinación interna del equipo en workspace</li>
+      <li>Draft studio: mensajes, Q&A, tweets, notas prensa</li>
+    </ul>
+    <div class="user-emphasis">Usa más</div>
+    <span class="emphasis-tag tag-feed">Alertas RT</span>
+    <span class="emphasis-tag tag-comms">Comms</span>
+    <span class="emphasis-tag tag-canvas">Workspace</span>
+  </div>
+
+  <div class="user-card option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="user-header">
+      <div class="user-icon" style="background: rgba(239,68,68,0.1);">🏢</div>
+      <div>
+        <div class="user-name">Empresa IBEX / Sector regulado</div>
+        <div class="user-sub">Public affairs corporativo · Legal · Compliance</div>
+      </div>
+    </div>
+    <div class="user-question">"¿Qué normativa, regulador o campaña política nos puede afectar en los próximos 90 días?"</div>
+    <ul class="user-needs">
+      <li>Monitor BOE/BOCG/reguladores por sector</li>
+      <li>Alertas de riesgo regulatorio y reputacional</li>
+      <li>Seguimiento de actores clave en su sector</li>
+      <li>Trazabilidad para public affairs (evidencia)</li>
+      <li>Informe ejecutivo semanal para Comité de Dirección</li>
+    </ul>
+    <div class="user-emphasis">Usa más</div>
+    <span class="emphasis-tag tag-risk">Riesgo</span>
+    <span class="emphasis-tag tag-feed">Legislativo</span>
+    <span class="emphasis-tag tag-graph">Actor graph</span>
+  </div>
+
+  <div class="user-card option" data-choice="d" onclick="toggleSelect(this)">
+    <div class="user-header">
+      <div class="user-icon" style="background: rgba(16,185,129,0.1);">🔍</div>
+      <div>
+        <div class="user-name">Periodista / Unidad OSINT</div>
+        <div class="user-sub">Redacción de élite · Investigación · Inteligencia</div>
+      </div>
+    </div>
+    <div class="user-question">"¿Qué contradicción, conexión oculta o señal débil me da la historia que nadie ha publicado todavía?"</div>
+    <ul class="user-needs">
+      <li>Búsqueda semántica sobre toda la ingesta</li>
+      <li>Grafo de relaciones entre actores, fondos, organizaciones</li>
+      <li>Timeline de eventos + contradicciones detectadas</li>
+      <li>Investigation canvas con hipótesis y evidencias</li>
+      <li>Alertas de anomalías estadísticas en discursos/votos</li>
+    </ul>
+    <div class="user-emphasis">Usa más</div>
+    <span class="emphasis-tag tag-graph">Grafo</span>
+    <span class="emphasis-tag tag-canvas">Canvas</span>
+    <span class="emphasis-tag tag-sim">Semántica</span>
+  </div>
+
+</div>
+
+<div style="margin-top:20px; padding:16px; background:#080C14; border:1px solid #1E3A5F; border-radius:10px; font-size:12px; color:#64748B; line-height:1.7;">
+  <strong style="color:#94A3B8;">Nota:</strong> La elección no excluye a los demás — define qué módulos construimos primero y qué flujos hacemos reales antes del resto. Puedes seleccionar más de uno si hay dos perfiles que comparten la misma urgencia. Esta respuesta determina la hoja de ruta del Bloque 9 completo.
+</div>

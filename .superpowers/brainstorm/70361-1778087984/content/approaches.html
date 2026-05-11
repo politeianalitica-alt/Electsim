@@ -1,0 +1,125 @@
+<h2>3 enfoques para ejecutar el Bloque 9 — Elige el tuyo</h2>
+<p class="subtitle">El objetivo es idéntico en los tres: <strong>[workspaceId] routing · SSE · Slide-over · pgvector · Canvas</strong>. Lo que cambia es el orden y la forma de entregar valor mientras se construye.</p>
+
+<style>
+.ap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+.ap-card { background: #0F1929; border: 1.5px solid #1E3A5F; border-radius: 13px; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.ap-card:hover { border-color: #00D4FF; transform: translateY(-2px); }
+.ap-card.selected { border-color: #00D4FF; background: #0A1F3A; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+.ap-head { padding: 16px 18px 12px; }
+.ap-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 7px; font-weight: 900; font-size: 13px; margin-bottom: 10px; }
+.ap-a .ap-num { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.ap-b .ap-num { background: rgba(0,212,255,0.15); color: #00D4FF; }
+.ap-c .ap-num { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+.ap-name { font-size: 14px; font-weight: 800; color: #E2E8F0; margin-bottom: 4px; }
+.ap-tagline { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 10px; }
+.ap-a .ap-tagline { color: #F59E0B; }
+.ap-b .ap-tagline { color: #00D4FF; }
+.ap-c .ap-tagline { color: #8B5CF6; }
+.ap-desc { font-size: 12px; color: #94A3B8; line-height: 1.6; }
+/* Timeline */
+.ap-timeline { margin: 0 14px 14px; }
+.sprint { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
+.sprint-label { flex-shrink: 0; font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; color: #475569; width: 42px; padding-top: 2px; }
+.sprint-bar { flex: 1; }
+.sprint-name { font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; }
+.sprint-track { height: 6px; border-radius: 3px; }
+.track-amber { background: linear-gradient(90deg, #F59E0B, #D97706); }
+.track-cyan { background: linear-gradient(90deg, #00D4FF, #0EA5E9); }
+.track-purple { background: linear-gradient(90deg, #8B5CF6, #7C3AED); }
+.track-green { background: linear-gradient(90deg, #10B981, #059669); }
+.track-red { background: linear-gradient(90deg, #EF4444, #DC2626); }
+.track-dim { background: #1E3A5F; }
+.delivery-tag { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+.del-amber { background: rgba(245,158,11,0.12); color: #F59E0B; border: 1px solid rgba(245,158,11,0.3); }
+.del-cyan { background: rgba(0,212,255,0.12); color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); }
+.del-purple { background: rgba(139,92,246,0.12); color: #8B5CF6; border: 1px solid rgba(139,92,246,0.3); }
+/* Verdict */
+.ap-verdict { padding: 12px 18px 14px; border-top: 1px solid #0F1929; }
+.vd { font-size: 11px; color: #64748B; padding: 2px 0 2px 14px; position: relative; line-height: 1.4; }
+.vd::before { position: absolute; left: 2px; }
+.vd.good::before { content: "→"; color: #00D4FF; }
+.vd.bad::before { content: "×"; color: #EF4444; }
+.vd.good { color: #94A3B8; }
+/* Recommended */
+.rec-badge { position: absolute; top: 14px; right: 14px; background: rgba(0,212,255,0.15); color: #00D4FF; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0,212,255,0.3); }
+.ap-card { position: relative; }
+</style>
+
+<div class="ap-grid">
+
+  <!-- Enfoque 1: Foundation First -->
+  <div class="ap-card ap-a option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="ap-head">
+      <div class="ap-num">1</div>
+      <div class="ap-name">Foundation First</div>
+      <div class="ap-tagline">Arquitectura limpia antes de valor</div>
+      <div class="ap-desc">Primero migramos todo a [workspaceId] routing y la arquitectura correcta. Luego conectamos datos reales. Luego añadimos SSE y slide-over. El canvas llega al final.</div>
+    </div>
+    <div class="ap-timeline">
+      <div class="sprint"><span class="sprint-label">Sem 1-2</span><div class="sprint-bar"><div class="sprint-name">[workspaceId] routing + auth layer</div><div class="sprint-track track-amber" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 3-4</span><div class="sprint-bar"><div class="sprint-name">Conectar todas las APIs reales</div><div class="sprint-track track-amber" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 5-6</span><div class="sprint-bar"><div class="sprint-name">SSE + slide-over contextual</div><div class="sprint-track track-amber" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 7-8</span><div class="sprint-bar"><div class="sprint-name">Canvas + pgvector search</div><div class="sprint-track track-amber" style="width:100%"></div></div></div>
+      <div class="delivery-tag del-amber">Valor visible: semana 5</div>
+    </div>
+    <div class="ap-verdict">
+      <div class="vd good">Arquitectura más limpia desde el inicio</div>
+      <div class="vd good">Sin deuda técnica acumulada</div>
+      <div class="vd bad">El consultor no ve nada real hasta semana 5</div>
+      <div class="vd bad">Alto riesgo de bloqueo si el routing tarda</div>
+    </div>
+  </div>
+
+  <!-- Enfoque 2: Value Sprints — RECOMMENDED -->
+  <div class="ap-card ap-b option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="rec-badge">✦ Recomendado</div>
+    <div class="ap-head">
+      <div class="ap-num">2</div>
+      <div class="ap-name">Value Sprints</div>
+      <div class="ap-tagline">Valor desde el día 1, arquitectura correcta</div>
+      <div class="ap-desc">Cada sprint entrega algo real y usable. Empezamos por las dos cosas más urgentes (B+C), luego ampliamos a toda la plataforma, y cerramos con el canvas y la migración de routing.</div>
+    </div>
+    <div class="ap-timeline">
+      <div class="sprint"><span class="sprint-label">Sem 1</span><div class="sprint-bar"><div class="sprint-name">SSE alertas reales + dossier actor + slide-over</div><div class="sprint-track track-cyan" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 2</span><div class="sprint-bar"><div class="sprint-name">Briefing real + pgvector search + media live</div><div class="sprint-track track-cyan" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 3</span><div class="sprint-bar"><div class="sprint-name">[workspaceId] routing + workspace multi-tenant</div><div class="sprint-track track-cyan" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 4</span><div class="sprint-bar"><div class="sprint-name">Canvas investigación + draft studio conectado</div><div class="sprint-track track-cyan" style="width:100%"></div></div></div>
+      <div class="delivery-tag del-cyan">Valor visible: día 5</div>
+    </div>
+    <div class="ap-verdict">
+      <div class="vd good">El consultor usa algo real en la primera semana</div>
+      <div class="vd good">Feedback real antes de construir el canvas</div>
+      <div class="vd good">Arquitectura correcta para el final igualmente</div>
+      <div class="vd bad">Routing migration en semana 3 puede tener fricción</div>
+    </div>
+  </div>
+
+  <!-- Enfoque 3: Parallel Build -->
+  <div class="ap-card ap-c option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="ap-head">
+      <div class="ap-num">3</div>
+      <div class="ap-name">Parallel Build</div>
+      <div class="ap-tagline">Nueva app limpia en paralelo</div>
+      <div class="ap-desc">Construimos el apps/web v3 completo con arquitectura correcta desde cero en rama separada. Las páginas actuales siguen vivas. Cut-over cuando esté completo.</div>
+    </div>
+    <div class="ap-timeline">
+      <div class="sprint"><span class="sprint-label">Sem 1-2</span><div class="sprint-bar"><div class="sprint-name">Scaffold v3: routing, auth, workspace layer</div><div class="sprint-track track-purple" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 3-4</span><div class="sprint-bar"><div class="sprint-name">Migrar páginas core con datos reales</div><div class="sprint-track track-purple" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 5</span><div class="sprint-bar"><div class="sprint-name">SSE + slide-over + canvas</div><div class="sprint-track track-purple" style="width:100%"></div></div></div>
+      <div class="sprint"><span class="sprint-label">Sem 6</span><div class="sprint-bar"><div class="sprint-name">Cut-over: apagar v2, activar v3</div><div class="sprint-track track-dim" style="width:60%"></div></div></div>
+      <div class="delivery-tag del-purple">Valor visible: semana 6</div>
+    </div>
+    <div class="ap-verdict">
+      <div class="vd good">Arquitectura perfecta sin deuda heredada</div>
+      <div class="vd good">Sin riesgo de romper lo que ya funciona</div>
+      <div class="vd bad">Nada usable hasta semana 6</div>
+      <div class="vd bad">Duplicación de esfuerzo en páginas existentes</div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;padding:16px 20px;background:#080C14;border:1px solid rgba(0,212,255,0.2);border-radius:10px;font-size:12.5px;color:#64748B;line-height:1.8;">
+  <strong style="color:#00D4FF;">Por qué recomiendo el Enfoque 2:</strong> Con C como objetivo y ASAP como constraint, el único enfoque que no te obliga a esperar semanas para ver algo real es el de sprints de valor. La migración de routing en semana 3 tiene fricción controlable porque para entonces ya tienes 2 semanas de experiencia con la arquitectura. El canvas llega cuando ya sabes qué necesita el consultor real. Y si en semana 1 el consultor ya recibe alertas en tiempo real con slide-over contextual, eso ya vale la pena.
+</div>

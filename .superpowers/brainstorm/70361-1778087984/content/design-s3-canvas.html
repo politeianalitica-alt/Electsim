@@ -1,0 +1,281 @@
+<h2>Diseño — Sección 3: Canvas de investigación + ciclo completo</h2>
+<p class="subtitle">Sprint 4. El espacio donde el analista convierte inteligencia en entregable. Cada nodo es un objeto real del sistema. El flujo completo: <strong>Alerta → SlideOver → Canvas → Draft → Export</strong>.</p>
+
+<style>
+* { box-sizing: border-box; }
+.section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: #475569; margin: 20px 0 10px; }
+
+/* FLOW DIAGRAM */
+.cycle { display: flex; align-items: center; gap: 0; margin: 16px 0 24px; background: #0A0F1A; border: 1px solid #1E3A5F; border-radius: 10px; padding: 14px 20px; overflow: hidden; }
+.cycle-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; text-align: center; }
+.cs-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.cs-label { font-size: 10px; font-weight: 700; }
+.cs-sub { font-size: 9px; color: #475569; }
+.cycle-arrow { color: #1E3A5F; font-size: 20px; flex-shrink: 0; margin: 0 4px; padding-bottom: 10px; }
+
+/* CANVAS MOCKUP */
+.canvas-demo { background: #060A12; border: 1px solid #1E3A5F; border-radius: 12px; overflow: hidden; }
+.canvas-bar { height: 32px; background: #080C14; border-bottom: 1px solid #0F1929; display: flex; align-items: center; padding: 0 14px; gap: 8px; }
+.wdot { width: 7px; height: 7px; border-radius: 50%; }
+.canvas-title { font-size: 10px; color: #64748B; margin-left: 6px; }
+.canvas-title span { color: #CBD5E1; font-weight: 600; }
+.canvas-toolbar { height: 36px; background: #0A0F1A; border-bottom: 1px solid #0F1929; display: flex; align-items: center; padding: 0 14px; gap: 6px; }
+.tb-btn { padding: 4px 10px; border-radius: 5px; font-size: 9.5px; font-weight: 600; border: 1px solid #1E3A5F; color: #64748B; background: transparent; cursor: pointer; }
+.tb-btn.active { border-color: rgba(0,212,255,0.4); color: #00D4FF; background: rgba(0,212,255,0.08); }
+.tb-sep { width: 1px; height: 16px; background: #1E293B; margin: 0 4px; }
+.tb-right { margin-left: auto; display: flex; gap: 5px; }
+.tb-export { padding: 4px 12px; border-radius: 5px; font-size: 9.5px; font-weight: 700; background: rgba(0,212,255,0.15); color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); }
+
+.canvas-body { display: flex; height: 360px; }
+
+/* Canvas area */
+.canvas-area { flex: 1; position: relative; background: radial-gradient(ellipse at 40% 40%, rgba(0,212,255,0.02) 0%, transparent 70%), #060A12; overflow: hidden; }
+/* Grid dots */
+.canvas-area::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, #1E293B 1px, transparent 1px); background-size: 24px 24px; opacity: 0.4; }
+
+/* Nodes */
+.cn { position: absolute; border-radius: 9px; padding: 8px 11px; cursor: pointer; min-width: 100px; }
+.cn-alert { background: rgba(239,68,68,0.12); border: 1.5px solid rgba(239,68,68,0.4); }
+.cn-actor { background: rgba(31,119,255,0.12); border: 1.5px solid rgba(31,119,255,0.35); }
+.cn-actor2 { background: rgba(0,194,168,0.1); border: 1.5px solid rgba(0,194,168,0.3); }
+.cn-narrative { background: rgba(139,92,246,0.12); border: 1.5px solid rgba(139,92,246,0.35); }
+.cn-narrative2 { background: rgba(139,92,246,0.08); border: 1.5px solid rgba(139,92,246,0.25); }
+.cn-doc { background: rgba(245,158,11,0.1); border: 1.5px solid rgba(245,158,11,0.3); }
+.cn-sim { background: rgba(16,185,129,0.1); border: 1.5px solid rgba(16,185,129,0.3); }
+.cn-active { box-shadow: 0 0 0 2px rgba(0,212,255,0.4); }
+.cn-type { font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 4px; opacity: 0.7; }
+.cn-name { font-size: 10.5px; font-weight: 700; line-height: 1.3; }
+.cn-meta { font-size: 9px; opacity: 0.6; margin-top: 2px; }
+
+/* SVG lines */
+.canvas-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Mini toolbar on node hover */
+.cn-actions { position: absolute; top: -22px; right: 0; display: flex; gap: 3px; }
+.cna { padding: 2px 6px; border-radius: 3px; font-size: 8.5px; background: #0A0F1A; border: 1px solid #1E3A5F; color: #64748B; }
+
+/* Annotation */
+.cn-note { position: absolute; background: rgba(245,158,11,0.08); border: 1px dashed rgba(245,158,11,0.3); border-radius: 6px; padding: 6px 10px; font-size: 9.5px; color: #F59E0B; font-style: italic; max-width: 140px; line-height: 1.4; }
+
+/* Right panel: draft studio */
+.canvas-draft { width: 220px; border-left: 1px solid #0F1929; background: #080C14; display: flex; flex-direction: column; }
+.cd-header { padding: 12px 14px 10px; border-bottom: 1px solid #0F1929; }
+.cd-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; font-weight: 700; margin-bottom: 6px; }
+.cd-type-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.cd-type { padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: 600; cursor: pointer; border: 1px solid #1E293B; color: #475569; }
+.cd-type.active { background: rgba(0,212,255,0.1); color: #00D4FF; border-color: rgba(0,212,255,0.3); }
+.cd-body { flex: 1; padding: 12px 14px; overflow-y: auto; }
+.cd-section { margin-bottom: 14px; }
+.cd-section-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #334155; font-weight: 700; margin-bottom: 6px; }
+.cd-text { font-size: 10.5px; color: #64748B; line-height: 1.6; }
+.cd-text strong { color: #94A3B8; }
+.evidence-item { display: flex; gap: 6px; margin-bottom: 5px; align-items: flex-start; }
+.ev-dot { width: 5px; height: 5px; border-radius: 50%; background: #00D4FF; margin-top: 4px; flex-shrink: 0; }
+.ev-text { font-size: 9.5px; color: #64748B; line-height: 1.4; }
+.ev-source { font-size: 8.5px; color: #334155; }
+.cd-footer { padding: 10px 14px; border-top: 1px solid #0F1929; display: flex; flex-direction: column; gap: 5px; }
+.cd-btn { padding: 7px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; text-align: center; cursor: pointer; }
+.cd-btn-p { background: rgba(0,212,255,0.12); color: #00D4FF; border: 1px solid rgba(0,212,255,0.3); }
+.cd-btn-s { background: rgba(255,255,255,0.03); color: #64748B; border: 1px solid #1E293B; }
+
+/* Bottom: decisions panel */
+.canvas-bottom { height: 28px; background: #080C14; border-top: 1px solid #0F1929; display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+.cb-stat { font-size: 9.5px; color: #475569; }
+.cb-stat span { color: #94A3B8; font-weight: 600; }
+</style>
+
+<!-- Cycle diagram -->
+<div class="cycle">
+  <div class="cycle-step">
+    <div class="cs-icon" style="background:rgba(239,68,68,0.12)">⚡</div>
+    <div class="cs-label" style="color:#EF4444">Detectar</div>
+    <div class="cs-sub">Alerta SSE en vivo</div>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-step">
+    <div class="cs-icon" style="background:rgba(0,212,255,0.1)">⬜</div>
+    <div class="cs-label" style="color:#00D4FF">Contextualizar</div>
+    <div class="cs-sub">Slide-over + dossier</div>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-step">
+    <div class="cs-icon" style="background:rgba(139,92,246,0.12)">🗺</div>
+    <div class="cs-label" style="color:#8B5CF6">Investigar</div>
+    <div class="cs-sub">Canvas de objetos</div>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-step">
+    <div class="cs-icon" style="background:rgba(245,158,11,0.1)">✍️</div>
+    <div class="cs-label" style="color:#F59E0B">Redactar</div>
+    <div class="cs-sub">Draft studio</div>
+  </div>
+  <div class="cycle-arrow">→</div>
+  <div class="cycle-step">
+    <div class="cs-icon" style="background:rgba(16,185,129,0.1)">📤</div>
+    <div class="cs-label" style="color:#10B981">Entregar</div>
+    <div class="cs-sub">PDF · DOCX · Share</div>
+  </div>
+</div>
+
+<!-- Canvas mockup -->
+<div class="section-title">Canvas — workspace/[workspaceId]/canvas?id=bloqueo-junts-mayo</div>
+<div class="canvas-demo">
+  <div class="canvas-bar">
+    <div class="wdot" style="background:#EF4444"></div>
+    <div class="wdot" style="background:#F59E0B"></div>
+    <div class="wdot" style="background:#10B981"></div>
+    <div class="canvas-title">Canvas / <span>Bloqueo Junts — Mayo 2026</span></div>
+    <div style="margin-left:auto;font-size:9px;color:#334155">6 nodos · 3 hipótesis · guardado hace 2 min</div>
+  </div>
+  <div class="canvas-toolbar">
+    <div class="tb-btn active">↖ Selección</div>
+    <div class="tb-btn">✚ Añadir nodo</div>
+    <div class="tb-btn">✎ Anotar</div>
+    <div class="tb-btn">⟲ Hipótesis</div>
+    <div class="tb-sep"></div>
+    <div class="tb-btn">Actor</div>
+    <div class="tb-btn">Alerta</div>
+    <div class="tb-btn">Narrativa</div>
+    <div class="tb-btn">Simulación</div>
+    <div class="tb-right">
+      <div class="tb-btn">Compartir</div>
+      <div class="tb-export">→ Draft</div>
+    </div>
+  </div>
+  <div class="canvas-body">
+
+    <div class="canvas-area">
+      <svg class="canvas-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- Alert → Actor Puigdemont -->
+        <line x1="200" y1="115" x2="310" y2="85" stroke="#EF4444" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="4,3"/>
+        <!-- Alert → Narrative lawfare -->
+        <line x1="200" y1="130" x2="155" y2="210" stroke="#EF4444" stroke-width="1" stroke-opacity="0.35" stroke-dasharray="4,3"/>
+        <!-- Actor Feijoo → Alert -->
+        <line x1="105" y1="80" x2="175" y2="110" stroke="#3B82F6" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4,3"/>
+        <!-- Puigdemont → Narrative coalition -->
+        <line x1="360" y1="100" x2="370" y2="195" stroke="#00C2A8" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4,3"/>
+        <!-- Sim → Alert -->
+        <line x1="280" y1="255" x2="220" y2="155" stroke="#10B981" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4,3"/>
+        <!-- Doc → Narrative -->
+        <line x1="90" y1="255" x2="140" y2="225" stroke="#F59E0B" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="4,3"/>
+      </svg>
+
+      <!-- Alert node (central, active) -->
+      <div class="cn cn-alert cn-active" style="top:95px;left:155px;">
+        <div class="cn-type" style="color:#EF4444">Alerta crítica</div>
+        <div class="cn-name" style="color:#FECACA">TC admite recurso<br>amnistía</div>
+        <div class="cn-meta" style="color:#EF4444">hace 3 min · Riesgo 88</div>
+      </div>
+
+      <!-- Actor Feijóo -->
+      <div class="cn cn-actor" style="top:50px;left:20px;">
+        <div class="cn-type" style="color:#3B82F6">Actor · PP</div>
+        <div class="cn-name" style="color:#BFDBFE">Feijóo</div>
+        <div class="cn-meta">Exposición 91 ↑</div>
+      </div>
+
+      <!-- Actor Puigdemont -->
+      <div class="cn cn-actor2" style="top:55px;left:300px;">
+        <div class="cn-type" style="color:#00C2A8">Actor · Junts</div>
+        <div class="cn-name" style="color:#99F6E4">Puigdemont</div>
+        <div class="cn-meta">Riesgo coalición +12</div>
+      </div>
+
+      <!-- Narrative lawfare -->
+      <div class="cn cn-narrative" style="top:200px;left:70px;">
+        <div class="cn-type" style="color:#8B5CF6">Narrativa</div>
+        <div class="cn-name" style="color:#DDD6FE">Lawfare ↑</div>
+        <div class="cn-meta">87 arts · acelerando</div>
+      </div>
+
+      <!-- Narrative coalición -->
+      <div class="cn cn-narrative2" style="top:190px;left:318px;">
+        <div class="cn-type" style="color:#7C3AED">Narrativa</div>
+        <div class="cn-name" style="color:#C4B5FD">Riesgo coalición</div>
+        <div class="cn-meta">4 actores afectados</div>
+      </div>
+
+      <!-- Simulation -->
+      <div class="cn cn-sim" style="top:250px;left:225px;">
+        <div class="cn-type" style="color:#10B981">Simulación</div>
+        <div class="cn-name" style="color:#A7F3D0">Sin amnistía</div>
+        <div class="cn-meta">PSOE −4pp · PP +2pp</div>
+      </div>
+
+      <!-- Doc node -->
+      <div class="cn cn-doc" style="top:245px;left:35px;">
+        <div class="cn-type" style="color:#F59E0B">Documento</div>
+        <div class="cn-name" style="color:#FDE68A">Recurso PP al TC</div>
+        <div class="cn-meta">PDF · 42 págs</div>
+      </div>
+
+      <!-- Annotation -->
+      <div class="cn-note" style="top:158px;left:200px;">
+        Hipótesis: si TC suspende → Junts activa cláusula escape → riesgo investidura
+      </div>
+    </div>
+
+    <!-- Draft panel -->
+    <div class="canvas-draft">
+      <div class="cd-header">
+        <div class="cd-title">Draft studio</div>
+        <div class="cd-type-row">
+          <div class="cd-type active">Nota ejecutiva</div>
+          <div class="cd-type">Briefing</div>
+          <div class="cd-type">Q&A</div>
+        </div>
+      </div>
+      <div class="cd-body">
+        <div class="cd-section">
+          <div class="cd-section-title">Resumen generado</div>
+          <div class="cd-text">El TC ha admitido a trámite el recurso del <strong>PP contra la Ley de Amnistía</strong>. El impacto inmediato es un incremento del riesgo de coalición de <strong>+12pp</strong>, con Junts como principal variable de inestabilidad...</div>
+        </div>
+        <div class="cd-section">
+          <div class="cd-section-title">Evidencias vinculadas</div>
+          <div class="evidence-item">
+            <div class="ev-dot"></div>
+            <div>
+              <div class="ev-text">Resolución TC — admisión recurso</div>
+              <div class="ev-source">CENDOJ · hace 3 min</div>
+            </div>
+          </div>
+          <div class="evidence-item">
+            <div class="ev-dot" style="background:#8B5CF6"></div>
+            <div>
+              <div class="ev-text">Narrativa lawfare +35% semanal</div>
+              <div class="ev-source">Narrative Engine</div>
+            </div>
+          </div>
+          <div class="evidence-item">
+            <div class="ev-dot" style="background:#10B981"></div>
+            <div>
+              <div class="ev-text">Simulación: PSOE −4pp sin amnistía</div>
+              <div class="ev-source">Motor simulación v2</div>
+            </div>
+          </div>
+        </div>
+        <div class="cd-section">
+          <div class="cd-section-title">Recomendación estratégica</div>
+          <div class="cd-text">Activar canal directo con interlocutores de <strong>Junts</strong> en las próximas 48h. Preparar mensaje público sobre "respeto al TC" para reducir la presión narrativa...</div>
+        </div>
+      </div>
+      <div class="cd-footer">
+        <div class="cd-btn cd-btn-p">Generar con LLM ✦</div>
+        <div class="cd-btn cd-btn-s">Exportar PDF · DOCX</div>
+        <div class="cd-btn cd-btn-s">Compartir con cliente</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="canvas-bottom">
+    <div class="cb-stat">Nodos: <span>6</span></div>
+    <div class="cb-stat">Conexiones: <span>6</span></div>
+    <div class="cb-stat">Hipótesis: <span>1</span></div>
+    <div class="cb-stat">Evidencias: <span>3 vinculadas</span></div>
+    <div style="margin-left:auto;font-size:9px;color:#334155">React Flow · persistido en DB por workspace</div>
+  </div>
+</div>
+
+<div style="margin-top:18px;padding:14px 20px;background:#080C14;border:1px solid rgba(0,212,255,0.15);border-radius:10px;font-size:12.5px;color:#64748B;line-height:1.7;">
+  <strong style="color:#E2E8F0;">¿Este diseño te convence?</strong> Si das el OK escribo el spec completo en <code style="font-size:11px;color:#00D4FF">docs/superpowers/specs/</code> con toda la arquitectura, los 4 sprints, los componentes, el modelo de datos y los contratos de API — y arrancamos la implementación.
+</div>

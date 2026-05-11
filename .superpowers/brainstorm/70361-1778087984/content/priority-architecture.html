@@ -1,0 +1,131 @@
+<h2>Pregunta 1 de 5 — Arquitectura de producto: ¿cuál es la capa primaria?</h2>
+<p class="subtitle">El diagnóstico muestra que el frontend es una maqueta de alta fidelidad con backend sólido. El siguiente bloque de trabajo debe definir <strong>qué capa construimos primero</strong>. Hay tres filosofías distintas — cada una implica una hoja de ruta diferente.</p>
+
+<style>
+.arch-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
+.arch-card { background: #0F1929; border: 1.5px solid #1E3A5F; border-radius: 14px; padding: 22px; cursor: pointer; transition: all 0.2s; position: relative; }
+.arch-card:hover { border-color: #00D4FF; transform: translateY(-2px); }
+.arch-card.selected { border-color: #00D4FF; background: #0A1F3A; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+.arch-letter { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; font-size: 18px; font-weight: 900; margin-bottom: 14px; }
+.arch-card-a .arch-letter { background: rgba(0,212,255,0.15); color: #00D4FF; }
+.arch-card-b .arch-letter { background: rgba(245,158,11,0.15); color: #F59E0B; }
+.arch-card-c .arch-letter { background: rgba(139,92,246,0.15); color: #8B5CF6; }
+.arch-title { font-size: 15px; font-weight: 800; color: #E2E8F0; margin-bottom: 6px; letter-spacing: -0.3px; }
+.arch-tagline { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 14px; }
+.arch-card-a .arch-tagline { color: #00D4FF; }
+.arch-card-b .arch-tagline { color: #F59E0B; }
+.arch-card-c .arch-tagline { color: #8B5CF6; }
+.arch-desc { font-size: 12.5px; color: #94A3B8; line-height: 1.6; margin-bottom: 16px; }
+.arch-mockup { border: 1px solid #1E3A5F; border-radius: 8px; background: #080C14; padding: 12px; margin-bottom: 14px; font-size: 11px; }
+.arch-mockup-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid #0F1929; color: #64748B; }
+.arch-mockup-row:last-child { border-bottom: none; }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.dot-cyan { background: #00D4FF; }
+.dot-amber { background: #F59E0B; }
+.dot-red { background: #EF4444; }
+.dot-green { background: #10B981; }
+.dot-purple { background: #8B5CF6; }
+.arch-pros { margin: 0; padding: 0; list-style: none; }
+.arch-pros li { font-size: 11.5px; color: #94A3B8; padding: 3px 0; padding-left: 14px; position: relative; }
+.arch-pros li::before { content: "→"; position: absolute; left: 0; color: #00D4FF; font-size: 10px; }
+.arch-cons { margin: 0; padding: 0; list-style: none; }
+.arch-cons li { font-size: 11.5px; color: #64748B; padding: 3px 0; padding-left: 14px; position: relative; }
+.arch-cons li::before { content: "×"; position: absolute; left: 0; color: #EF4444; font-size: 10px; }
+.section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #475569; margin-bottom: 5px; margin-top: 10px; font-weight: 600; }
+.recommended-badge { position: absolute; top: 14px; right: 14px; background: rgba(0,212,255,0.15); color: #00D4FF; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0,212,255,0.3); }
+</style>
+
+<div class="arch-cards">
+
+  <!-- Opción A: Object Graph -->
+  <div class="arch-card arch-card-a option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="arch-letter">A</div>
+    <div class="recommended-badge">Recomendada</div>
+    <div class="arch-title">Object Graph + Canvas</div>
+    <div class="arch-tagline">El modo Palantir Gotham</div>
+    <div class="arch-desc">
+      Cada entidad es un objeto: actor, norma, narrativa, alerta, evento, documento. Navegar la plataforma es navegar el grafo. El canvas es el espacio donde el analista conecta objetos, crea hipótesis y produce entregables.
+    </div>
+    <div class="arch-mockup">
+      <div class="arch-mockup-row"><span class="dot dot-cyan"></span> <span style="color:#00D4FF">Pedro Sánchez</span> → 3 iniciativas · 2 alertas · 7 narrativas</div>
+      <div class="arch-mockup-row"><span class="dot dot-amber"></span> Ley Vivienda → 12 actores · 4 alertas · riesgo 81</div>
+      <div class="arch-mockup-row"><span class="dot dot-red"></span> Narrativa "lawfare" → 87 arts · 5 actores · subiendo</div>
+      <div class="arch-mockup-row"><span class="dot dot-green"></span> Canvas abierto: "Bloqueo Junts May 2026"</div>
+    </div>
+    <div class="section-label">Valor diferencial</div>
+    <ul class="arch-pros">
+      <li>Máxima diferenciación vs clipping y dashboards</li>
+      <li>Flujo natural: detectar → investigar → producir</li>
+      <li>Crea dependencia: el usuario vive en el canvas</li>
+      <li>Surfacing real del backend semántico (pgvector)</li>
+    </ul>
+    <div class="section-label">Complejidad / riesgo</div>
+    <ul class="arch-cons">
+      <li>Más complejo de implementar (grafo + canvas)</li>
+      <li>Curva de adopción mayor para nuevos usuarios</li>
+    </ul>
+  </div>
+
+  <!-- Opción B: Intelligence Feed -->
+  <div class="arch-card arch-card-b option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="arch-letter">B</div>
+    <div class="arch-title">Intelligence Feed + Tiempo Real</div>
+    <div class="arch-tagline">El modo Newsroom de élite</div>
+    <div class="arch-desc">
+      La pantalla principal es un feed semántico inteligente: briefing matinal, alertas en vivo, narrativas emergentes, pulso electoral. Todo llega en tiempo real. El usuario consume, prioriza y actúa desde el feed.
+    </div>
+    <div class="arch-mockup">
+      <div class="arch-mockup-row"><span class="dot dot-red"></span> <span style="color:#EF4444">CRÍTICA</span> TC admite recurso — hace 12 min</div>
+      <div class="arch-mockup-row"><span class="dot dot-amber"></span> Narrativa vivienda +18% — acelerando</div>
+      <div class="arch-mockup-row"><span class="dot dot-cyan"></span> Briefing matinal actualizado — 08:02</div>
+      <div class="arch-mockup-row"><span class="dot dot-green"></span> IPC mejor de lo esperado — oportunidad</div>
+    </div>
+    <div class="section-label">Valor diferencial</div>
+    <ul class="arch-pros">
+      <li>Primera pantalla del día → hábito inmediato</li>
+      <li>SSE/WebSocket: alerta en tiempo real</li>
+      <li>Más rápido de implementar (conectar APIs reales)</li>
+      <li>Familiar para usuarios de medios y clipping</li>
+    </ul>
+    <div class="section-label">Complejidad / riesgo</div>
+    <ul class="arch-cons">
+      <li>Menor diferenciación (parecido a Feedly avanzado)</li>
+      <li>Sin canvas, falta capa de producción de entregables</li>
+    </ul>
+  </div>
+
+  <!-- Opción C: Workspace First -->
+  <div class="arch-card arch-card-c option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="arch-letter">C</div>
+    <div class="arch-title">Workspace Operativo + Multi-tenant</div>
+    <div class="arch-tagline">El modo War Room de campaña</div>
+    <div class="arch-desc">
+      El workspace es el centro de gravedad: cada cliente tiene su sala de guerra con su agenda, sus issues, su equipo, sus decisiones y sus entregables. La inteligencia llega al workspace contextualizada para ese cliente.
+    </div>
+    <div class="arch-mockup">
+      <div class="arch-mockup-row"><span class="dot dot-purple"></span> <span style="color:#8B5CF6">Workspace: PP Campaña 2027</span></div>
+      <div class="arch-mockup-row"><span class="dot dot-red"></span> Issues críticos: 3 · Acciones pendientes: 12</div>
+      <div class="arch-mockup-row"><span class="dot dot-amber"></span> Equipo activo: 4 analistas</div>
+      <div class="arch-mockup-row"><span class="dot dot-cyan"></span> Briefing personalizado para este cliente</div>
+    </div>
+    <div class="section-label">Valor diferencial</div>
+    <ul class="arch-pros">
+      <li>Multi-tenant real: cada cliente en su sala</li>
+      <li>Colaboración en equipo nativa</li>
+      <li>Monetización clara: workspace = suscripción</li>
+      <li>Alineado con NationBuilder para campaña</li>
+    </ul>
+    <div class="section-label">Complejidad / riesgo</div>
+    <ul class="arch-cons">
+      <li>Requiere routing [workspaceId] completo</li>
+      <li>Sin object graph, falta profundidad analítica</li>
+    </ul>
+  </div>
+
+</div>
+
+<div style="margin-top:28px; padding: 18px; background: #080C14; border: 1px solid #1E3A5F; border-radius: 10px; font-size: 12.5px; color: #64748B; line-height: 1.7;">
+  <strong style="color:#00D4FF;">Mi recomendación:</strong> A + B combinados — Object Graph como arquitectura de fondo, Intelligence Feed como punto de entrada diario. C se construye encima. Pero quiero saber cuál es el caso de uso que tienes más urgente de resolver antes de decidir el orden exacto de construcción.
+  <br><br>
+  Puedes hacer click en una o varias opciones y comentar en el terminal.
+</div>
