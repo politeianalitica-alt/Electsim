@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,51 @@ import VotoBlandoPanel from '@/components/VotoBlandoPanel'
 import AnalogiasPanel from '@/components/AnalogiasPanel'
 import MarketPanel from '@/components/MarketPanel'
 import OntologyPanel from '@/components/OntologyPanel'
+import GrafoRelacionesPartidos, { type GrafoParty, type GrafoLink } from '@/components/GrafoRelacionesPartidos'
+
+// ─────────────────────────────────────────────────────────────────────────
+// Datos del grafo de relaciones · alineados con el diseño Apple-Newsroom
+// (Grafo Relaciones.html del design-system)
+// ─────────────────────────────────────────────────────────────────────────
+const GRAFO_PARTIES: GrafoParty[] = [
+  { id:'psoe',  name:'PSOE',     color:'#E1322D', seats:124, block:'izq' },
+  { id:'pp',    name:'PP',       color:'#1F4E8C', seats:137, block:'der' },
+  { id:'vox',   name:'VOX',      color:'#5BA02E', seats: 35, block:'der' },
+  { id:'sumar', name:'Sumar',    color:'#D43F8D', seats: 22, block:'izq' },
+  { id:'erc',   name:'ERC',      color:'#E8A030', seats:  8, block:'izq' },
+  { id:'junts', name:'Junts',    color:'#1FA89B', seats:  7, block:'centro' },
+  { id:'bildu', name:'EH Bildu', color:'#3F7A3A', seats:  6, block:'izq' },
+  { id:'pnv',   name:'PNV',      color:'#7DB94B', seats:  5, block:'centro' },
+  { id:'bng',   name:'BNG',      color:'#5BB3D9', seats:  2, block:'izq' },
+  { id:'cc',    name:'CC',       color:'#F2C43A', seats:  2, block:'centro' },
+  { id:'upn',   name:'UPN',      color:'#0E7D8C', seats:  1, block:'der' },
+]
+const GRAFO_LINKS: GrafoLink[] = [
+  { a:'psoe',  b:'sumar', val:+88, label:'Coalición de gobierno' },
+  { a:'psoe',  b:'erc',   val:+62, label:'Apoyo parlamentario' },
+  { a:'psoe',  b:'bildu', val:+54, label:'Apoyo puntual' },
+  { a:'psoe',  b:'pnv',   val:+58, label:'Pactos territoriales' },
+  { a:'psoe',  b:'bng',   val:+52, label:'Apoyo puntual' },
+  { a:'psoe',  b:'junts', val:+22, label:'Negociación condicionada' },
+  { a:'psoe',  b:'cc',    val:+30, label:'Acuerdos sectoriales' },
+  { a:'sumar', b:'erc',   val:+60, label:'Eje progresista' },
+  { a:'sumar', b:'bildu', val:+58, label:'Eje progresista' },
+  { a:'sumar', b:'bng',   val:+55, label:'Eje progresista' },
+  { a:'pp',    b:'vox',   val:+72, label:'Coalición autonómica' },
+  { a:'pp',    b:'upn',   val:+68, label:'Alianza estable' },
+  { a:'pp',    b:'cc',    val:+38, label:'Acuerdos puntuales' },
+  { a:'pp',    b:'junts', val:-18, label:'Distancia' },
+  { a:'pp',    b:'pnv',   val:+10, label:'Diálogo formal' },
+  { a:'pp',    b:'psoe',  val:-65, label:'Bloque opuesto' },
+  { a:'vox',   b:'psoe',  val:-92, label:'Confrontación' },
+  { a:'vox',   b:'sumar', val:-95, label:'Confrontación' },
+  { a:'vox',   b:'erc',   val:-90, label:'Veto mutuo' },
+  { a:'vox',   b:'bildu', val:-94, label:'Veto mutuo' },
+  { a:'vox',   b:'pnv',   val:-70, label:'Veto' },
+  { a:'vox',   b:'upn',   val:+40, label:'Afinidad parcial' },
+  { a:'junts', b:'erc',   val:-25, label:'Rivalidad catalana' },
+  { a:'pnv',   b:'bildu', val:-30, label:'Rivalidad vasca' },
+]
 
 type HubTab = 'resumen' | 'propensity' | 'adversario' | 'campana' | 'voto' | 'analogias' | 'mercado' | 'ontologia'
 const HUB_TABS: { v: HubTab; l: string }[] = [
@@ -114,6 +159,20 @@ export default function CoalicionesPage(){
         </div>
 
         {tab === 'resumen' && (<>
+        {/* ═══ Grafo de relaciones · diseño Apple-Newsroom ═══ */}
+        <div style={{ marginBottom: 22 }}>
+          <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px' }}>
+            Grafo de relaciones · Afinidad parlamentaria
+          </p>
+          <h2 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:600, letterSpacing:'-0.028em', margin:'4px 0 6px', lineHeight:1.05, color:'#1d1d1f' }}>
+            Quién pacta con <span style={{ fontFamily:'var(--font-serif)', fontStyle:'italic', color:'#515154', fontWeight:500 }}>quién.</span>
+          </h2>
+          <p style={{ fontSize:13, color:'#515154', margin:'0 0 18px', maxWidth:640 }}>
+            Cada arco representa una relación bilateral. Grosor proporcional a la afinidad. Pulsa un partido para aislar sus vínculos.
+          </p>
+          <GrafoRelacionesPartidos parties={GRAFO_PARTIES} links={GRAFO_LINKS}/>
+        </div>
+
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
           <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de coalición</h2>
           <div style={{display:'flex',flexDirection:'column',gap:10}}>
