@@ -134,13 +134,23 @@ export default function MapaActoresPage() {
 
       {view === 'grafo' && (
         <RelacionesGrafo
-          actors={(personas.length > 0 ? personas : ACTORES.slice(0, 30)).map(p => ({
-            id: 'id' in p ? p.id : (p as any).id,
-            nombre: 'nombre_completo' in p ? p.nombre_completo : (p as any).nombre,
-            partido: p.partido,
-            cargo: 'cargo_actual' in p ? p.cargo_actual : (p as any).cargo,
-            score_influencia: 'score_influencia' in p ? p.score_influencia : (p as any).inf,
-          }))}
+          actors={(personas.length > 0 ? personas : ACTORES).map(p => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const any = p as any
+            return {
+              id: 'id' in p ? p.id : any.id,
+              nombre: 'nombre_completo' in p ? p.nombre_completo : any.nombre,
+              partido: p.partido,
+              cargo: 'cargo_actual' in p ? p.cargo_actual : any.cargo,
+              cat: any.cat,
+              color: any.color,
+              ejeX: any.ejeX,
+              ejeY: any.ejeY,
+              inf: any.inf,
+              score_influencia: 'score_influencia' in p ? p.score_influencia : any.inf,
+            }
+          })}
+          maxActors={60}
         />
       )}
 

@@ -1,458 +1,538 @@
 'use client'
-import { useEffect, useRef, useState, useMemo } from 'react'
-import { useApi } from '@/lib/useApi'
-import Graph from 'graphology'
-import { Sigma } from 'sigma'
-import FA2Layout from 'graphology-layout-forceatlas2/worker'
+import { useMemo, useState } from 'react'
 
-interface GraphNode { id: string; type: string; label?: string }
-interface GraphEdge { id: string; source: string; target: string; label?: string; weight?: number }
-interface GraphData { nodes: GraphNode[]; edges: GraphEdge[]; root: string }
+// Grafo de relaciones de actores políticos · diseño Apple-Newsroom
+// Inspirado en "Grafo Relaciones.html" del design system, adaptado a personas:
+//
+// - Vista inicial: TODOS los actores filtrados (max 60 por densidad visual),
+//   posicionados por su eje ideológico (X) y eje territorial (Y).
+// - Click en un actor → aísla sus vínculos (correligionarios, gobierno↔oposición,
+//   instituciones independientes…) y muestra panel de afinidad con cada otro.
+// - Filtros pill por categoría · toggle alianzas/conflictos · ocultar etiquetas.
+//
+// Las relaciones bilaterales se infieren del dataset:
+//   · mismo partido          → +75 (compañeros)
+//   · partidos del mismo bloque (izq/der) → +35 (afinidad ideológica)
+//   · partidos opuestos (izq vs der)      → -55 (rivalidad)
+//   · institución vs partido grande       → +10 (diálogo formal)
+//   · gobierno vs oposición               → -30 (oposición)
+//
+// Solo se dibujan relaciones con |val| ≥ 30 para evitar saturación visual.
 
-const TYPE_COLOR: Record<string, string> = {
-  politico: '#1F4E8C',
-  partido: '#5B21B6',
-  medio: '#b25000',
-  empresa: '#2d8a39',
-  institucion: '#0F766E',
-  other: '#6e6e73',
+interface Actor {
+  id: string
+  nombre?: string
+  nombre_completo?: string
+  partido?: string
+  cargo?: string
+  cargo_actual?: string
+  // Posicionamiento ideológico (-100..+100). Si no, se calcula por partido.
+  ejeX?: number
+  ejeY?: number
+  // Categoría · gobierno | oposicion | parlamento | autonomico | municipal |
+  //              institucion | patronal | sindicato | mediatico | europa
+  cat?: string
+  // Color del partido (si no, gris)
+  color?: string
+  // Influencia 0-100 (radio del nodo)
+  inf?: number
+  score_influencia?: number
 }
-
-const FALLBACK_GRAPH: GraphData = {
-  root: 'pedro-sanchez',
-  nodes: [
-    { id: 'pedro-sanchez', type: 'politico', label: 'Pedro Sánchez' },
-    { id: 'psoe', type: 'partido', label: 'PSOE' },
-    { id: 'sumar', type: 'partido', label: 'Sumar' },
-    { id: 'yolanda-diaz', type: 'politico', label: 'Yolanda Díaz' },
-    { id: 'el-pais', type: 'medio', label: 'El País' },
-    { id: 'rtve', type: 'medio', label: 'RTVE' },
-    { id: 'moncloa', type: 'institucion', label: 'Moncloa' },
-    { id: 'felix-bolanos', type: 'politico', label: 'Félix Bolaños' },
-    { id: 'cnmc', type: 'institucion', label: 'CNMC' },
-  ],
-  edges: [
-    { id: 'e1', source: 'pedro-sanchez', target: 'psoe', label: 'lidera', weight: 1.0 },
-    { id: 'e2', source: 'pedro-sanchez', target: 'sumar', label: 'coalición', weight: 0.7 },
-    { id: 'e3', source: 'pedro-sanchez', target: 'yolanda-diaz', label: 'aliada', weight: 0.65 },
-    { id: 'e4', source: 'pedro-sanchez', target: 'el-pais', label: 'cobertura', weight: 0.55 },
-    { id: 'e5', source: 'pedro-sanchez', target: 'rtve', label: 'cobertura', weight: 0.45 },
-    { id: 'e6', source: 'pedro-sanchez', target: 'moncloa', label: 'preside', weight: 1.0 },
-    { id: 'e7', source: 'pedro-sanchez', target: 'felix-bolanos', label: 'gabinete', weight: 0.85 },
-    { id: 'e8', source: 'pedro-sanchez', target: 'cnmc', label: 'nombra', weight: 0.30 },
-  ],
-}
-
-interface Actor { id: string; nombre?: string; partido?: string; cargo?: string; score_influencia?: number }
 
 interface Props {
   actors?: Actor[]
-  initialId?: string
+  /** Máximo de actores en la vista inicial. Default 50. */
+  maxActors?: number
 }
 
-interface TooltipState {
-  x: number
-  y: number
+// Categorías y colores
+const CAT_LABEL: Record<string, string> = {
+  gobierno: 'Gobierno',
+  oposicion: 'Oposición',
+  parlamento: 'Parlamento',
+  autonomico: 'Autonómico',
+  municipal: 'Municipal',
+  institucion: 'Institución',
+  patronal: 'Patronal',
+  sindicato: 'Sindicato',
+  mediatico: 'Medios',
+  europa: 'Europa',
+}
+const CAT_COLOR: Record<string, string> = {
+  gobierno:    '#E1322D',
+  oposicion:   '#1F4E8C',
+  parlamento:  '#5B21B6',
+  autonomico:  '#0F766E',
+  municipal:   '#0EA5E9',
+  institucion: '#7C3AED',
+  patronal:    '#0E7490',
+  sindicato:   '#A02525',
+  mediatico:   '#525258',
+  europa:      '#0F766E',
+}
+
+// Bloque ideológico de cada partido (para inferir relaciones bilaterales)
+const PARTY_BLOCK: Record<string, 'izq' | 'der' | 'centro' | 'institucion'> = {
+  PSOE:'izq', PSC:'izq','PSC-PSOE':'izq', Sumar:'izq', Podemos:'izq',
+  ERC:'izq','EH Bildu':'izq', BNG:'izq', Compromís:'izq',
+  PP:'der', VOX:'der', UPN:'der',
+  PNV:'centro','EAJ-PNV':'centro', Junts:'centro', JxCat:'centro', CC:'centro',
+  'Casa Real':'institucion', CGPJ:'institucion', TC:'institucion', TS:'institucion', Fiscalía:'institucion',
+  BdE:'institucion', BEI:'institucion',
+  CEOE:'der', CEPYME:'der', ATA:'der',
+  CCOO:'izq', UGT:'izq',
+  Medios:'institucion', Independiente:'institucion',
+}
+
+interface InferredLink {
+  a: string  // actor id
+  b: string  // actor id
+  val: number  // -100..+100
   label: string
-  type: string
 }
 
-// Append "20" (hex for ~12% opacity) to a 6-digit hex color
-function dimColor(hex: string): string {
-  const clean = hex.replace('#', '')
-  if (clean.length === 6) return '#' + clean + '20'
-  return hex
-}
-
-export default function RelacionesGrafo({ actors = [], initialId }: Props) {
-  const [search, setSearch] = useState('')
-  const [rootId, setRootId] = useState<string>(initialId ?? actors[0]?.id ?? FALLBACK_GRAPH.root)
-  const [playing, setPlaying] = useState(true)
-  const [legendOpen, setLegendOpen] = useState(true)
-  const [tooltip, setTooltip] = useState<TooltipState | null>(null)
-
-  const containerRef = useRef<HTMLDivElement>(null)
-  const sigmaRef = useRef<Sigma | null>(null)
-  const fa2Ref = useRef<FA2Layout | null>(null)
-  const graphRef = useRef<Graph | null>(null)
-
-  const { data, loading } = useApi<GraphData>(
-    `/api/intelligence/personas/${rootId}/grafo?depth=2`,
-    { refreshInterval: 0 }
-  )
-
-  const graphData: GraphData = useMemo(() => {
-    if (data && data.nodes && data.nodes.length > 0) return data
-    return { ...FALLBACK_GRAPH, root: rootId }
-  }, [data, rootId])
-
-  const filteredActors = useMemo(
-    () => actors.filter(a =>
-      !search || (a.nombre ?? a.id).toLowerCase().includes(search.toLowerCase())
-    ),
-    [actors, search]
-  )
-
-  // Build or rebuild the Sigma graph whenever graphData changes
-  useEffect(() => {
-    if (!containerRef.current) return
-
-    // Kill previous instances
-    if (fa2Ref.current) {
-      fa2Ref.current.kill()
-      fa2Ref.current = null
-    }
-    if (sigmaRef.current) {
-      sigmaRef.current.kill()
-      sigmaRef.current = null
-    }
-
-    const g = new Graph({ multi: false, type: 'undirected' })
-    graphRef.current = g
-
-    // Add nodes
-    graphData.nodes.forEach((n, i) => {
-      const isRoot = n.id === graphData.root
-      const color = TYPE_COLOR[n.type] ?? TYPE_COLOR.other
-      // Spread nodes in a circle for initial positions before FA2
-      const angle = (i / Math.max(graphData.nodes.length, 1)) * 2 * Math.PI
-      g.addNode(n.id, {
-        label: n.label ?? n.id,
-        x: isRoot ? 0 : Math.cos(angle),
-        y: isRoot ? 0 : Math.sin(angle),
-        size: isRoot ? 20 : 10,
-        color,
-        _originalColor: color,
-        nodeType: n.type,
-      })
-    })
-
-    // Add edges (guard against missing nodes)
-    graphData.edges.forEach(e => {
-      if (g.hasNode(e.source) && g.hasNode(e.target) && !g.hasEdge(e.source, e.target)) {
-        g.addEdge(e.source, e.target, {
-          label: e.label ?? '',
-          size: 1 + (e.weight ?? 0.5) * 2,
-          color: '#d1d1d6',
-        })
+// Genera relaciones bilaterales entre actores visible · simétrica, dedup
+function inferLinks(visible: Actor[]): InferredLink[] {
+  const out: InferredLink[] = []
+  for (let i = 0; i < visible.length; i++) {
+    for (let j = i + 1; j < visible.length; j++) {
+      const a = visible[i], b = visible[j]
+      const link = pairScore(a, b)
+      if (link && Math.abs(link.val) >= 30) {
+        out.push({ a: a.id, b: b.id, val: link.val, label: link.label })
       }
-    })
-
-    // Create Sigma renderer
-    const renderer = new Sigma(g, containerRef.current, {
-      labelFont: 'system-ui',
-      labelColor: { color: '#1d1d1f' },
-      labelSize: 11,
-      defaultEdgeColor: '#d1d1d6',
-      renderEdgeLabels: true,
-      edgeLabelFont: 'system-ui',
-      edgeLabelSize: 9,
-      edgeLabelColor: { color: '#86868b' },
-    })
-    sigmaRef.current = renderer
-
-    // Node hover: dim non-adjacent, show tooltip
-    renderer.on('enterNode', ({ node, event }) => {
-      const attrs = g.getNodeAttributes(node)
-      const neighbors = new Set(g.neighbors(node))
-
-      g.forEachNode((n2, a) => {
-        if (n2 !== node && !neighbors.has(n2)) {
-          g.setNodeAttribute(n2, 'color', dimColor(a._originalColor as string))
-        }
-      })
-
-      renderer.refresh()
-
-      // Use the sigma-internal event coordinates (viewport pixels relative to container)
-      const container = containerRef.current
-      if (container) {
-        const sigmaEvent = event as { x?: number; y?: number }
-        setTooltip({
-          x: sigmaEvent.x ?? 0,
-          y: sigmaEvent.y ?? 0,
-          label: attrs.label as string,
-          type: attrs.nodeType as string,
-        })
-      }
-    })
-
-    renderer.on('leaveNode', () => {
-      g.forEachNode((n2, a) => {
-        g.setNodeAttribute(n2, 'color', a._originalColor)
-      })
-      renderer.refresh()
-      setTooltip(null)
-    })
-
-    // Click node to set as root
-    renderer.on('clickNode', ({ node }) => {
-      if (node !== graphData.root) {
-        setRootId(node)
-      }
-    })
-
-    // ResizeObserver
-    const ro = new ResizeObserver(() => renderer.refresh())
-    ro.observe(containerRef.current)
-
-    // FA2 layout
-    const fa2 = new FA2Layout(g, {
-      settings: {
-        gravity: 1,
-        scalingRatio: 10,
-        slowDown: 3,
-        barnesHutOptimize: true,
-      },
-    })
-    fa2Ref.current = fa2
-    if (playing) fa2.start()
-
-    return () => {
-      ro.disconnect()
-      fa2.kill()
-      renderer.kill()
-      fa2Ref.current = null
-      sigmaRef.current = null
-      graphRef.current = null
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [graphData])
-
-  // Play/pause FA2 separately
-  const handlePlayPause = () => {
-    if (!fa2Ref.current) return
-    if (playing) {
-      fa2Ref.current.stop()
-    } else {
-      fa2Ref.current.start()
-    }
-    setPlaying(p => !p)
   }
+  // Limitar para no saturar el SVG · top 80 por |val|
+  out.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
+  return out.slice(0, 80)
+}
 
-  const rootNode = graphData.nodes.find(n => n.id === graphData.root)
+function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
+  const pa = a.partido || 'Independiente'
+  const pb = b.partido || 'Independiente'
+  // Mismo partido
+  if (pa === pb && pa !== 'Independiente' && pa !== 'Medios') {
+    return { val: 78, label: 'Compañeros de partido' }
+  }
+  const ba = PARTY_BLOCK[pa]
+  const bb = PARTY_BLOCK[pb]
+  if (!ba || !bb) return null
+  // Mismo bloque ideológico
+  if (ba === bb && (ba === 'izq' || ba === 'der')) {
+    return { val: 42, label: 'Bloque ideológico afín' }
+  }
+  // Bloques opuestos
+  if ((ba === 'izq' && bb === 'der') || (ba === 'der' && bb === 'izq')) {
+    return { val: -58, label: 'Bloques enfrentados' }
+  }
+  // Gobierno vs oposición (cat)
+  const ca = a.cat, cb = b.cat
+  if ((ca === 'gobierno' && cb === 'oposicion') || (ca === 'oposicion' && cb === 'gobierno')) {
+    return { val: -45, label: 'Gobierno ↔ oposición' }
+  }
+  // Institución vs partido grande
+  if ((ba === 'institucion' && (pb === 'PP' || pb === 'PSOE')) ||
+      (bb === 'institucion' && (pa === 'PP' || pa === 'PSOE'))) {
+    return { val: 35, label: 'Diálogo formal' }
+  }
+  return null
+}
+
+function nameOf(a: Actor): string {
+  return a.nombre_completo || a.nombre || a.id
+}
+function shortName(a: Actor): string {
+  // "Pedro Sánchez Pérez-Castejón" → "P. Sánchez"
+  const n = nameOf(a)
+  const parts = n.split(/\s+/)
+  if (parts.length === 1) return n
+  return `${parts[0][0]}. ${parts[1]}`
+}
+function infOf(a: Actor): number {
+  return a.score_influencia ?? a.inf ?? 50
+}
+
+export default function RelacionesGrafo({ actors = [], maxActors = 50 }: Props) {
+  const [focus, setFocus] = useState<string | null>(null)
+  const [filter, setFilter] = useState<'all' | 'pos' | 'neg'>('all')
+  const [showLabels, setShowLabels] = useState(true)
+  const [filterCat, setFilterCat] = useState<string>('Todas')
+
+  const W = 1100, H = 680
+  const cx = W / 2, cy = H / 2
+
+  // Filtrar por categoría y limitar a maxActors por influencia
+  const visibleActors = useMemo(() => {
+    let pool = actors
+    if (filterCat !== 'Todas') pool = pool.filter(a => CAT_LABEL[a.cat || ''] === filterCat)
+    // Ordena por influencia descendente y corta
+    pool = [...pool].sort((x, y) => infOf(y) - infOf(x)).slice(0, maxActors)
+    return pool
+  }, [actors, filterCat, maxActors])
+
+  // Inferir relaciones entre los actores visibles
+  const allLinks = useMemo(() => inferLinks(visibleActors), [visibleActors])
+
+  // Posicionar cada actor por ejeX/ejeY (con leve jitter para no superponer)
+  const posMap = useMemo(() => {
+    const map: Record<string, [number, number]> = {}
+    const padding = 60
+    visibleActors.forEach((a, idx) => {
+      const ejeX = a.ejeX ?? 0
+      const ejeY = a.ejeY ?? 0
+      // Mapear -100..+100 a coords del SVG
+      const x = padding + ((ejeX + 100) / 200) * (W - 2 * padding)
+      const y = padding + ((100 - ejeY) / 200) * (H - 2 * padding)  // y invertido
+      // Jitter determinista por id (evita superposición exacta)
+      const hash = a.id.split('').reduce((s, c) => s + c.charCodeAt(0), 0)
+      const jx = ((hash % 13) - 6) * 1.5
+      const jy = (((hash * 7) % 11) - 5) * 1.5
+      map[a.id] = [x + jx, y + jy]
+    })
+    return map
+  }, [visibleActors])
+
+  const visibleLinks = allLinks.filter(l => {
+    if (filter === 'pos' && l.val < 0) return false
+    if (filter === 'neg' && l.val >= 0) return false
+    if (focus && l.a !== focus && l.b !== focus) return false
+    return true
+  })
+
+  const focusActor = focus ? visibleActors.find(a => a.id === focus) : null
+  const focusStats = focusActor ? (() => {
+    const links = allLinks
+      .filter(l => l.a === focusActor.id || l.b === focusActor.id)
+      .map(l => ({
+        otherId: l.a === focusActor.id ? l.b : l.a,
+        val: l.val,
+        label: l.label,
+      }))
+      .sort((a, b) => b.val - a.val)
+    return { actor: focusActor, links }
+  })() : null
+
+  const cats = useMemo(() => {
+    const set = new Set<string>()
+    actors.forEach(a => { if (a.cat && CAT_LABEL[a.cat]) set.add(CAT_LABEL[a.cat]) })
+    return ['Todas', ...Array.from(set)]
+  }, [actors])
 
   return (
-    <section style={{
-      background: '#fff',
-      border: '1px solid #e8e8ed',
-      borderRadius: 22,
-      padding: '20px 24px',
-      display: 'grid',
-      gridTemplateColumns: '260px 1fr',
-      gap: 18,
-    }}>
-      {/* Left sidebar: actor selector */}
+    <section style={{ display: 'grid', gridTemplateColumns: '8fr 4fr', gap: 18 }}>
+      {/* Grafo */}
       <div style={{
-        borderRight: '1px solid #e8e8ed',
-        padding: '16px 12px',
-        overflowY: 'auto',
-        maxHeight: 480,
+        background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
+        padding: '24px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        position: 'relative', overflow: 'hidden',
       }}>
-        <input
-          type="text"
-          placeholder={`Buscar entre ${actors.length || '—'} actores…`}
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '8px 12px',
-            borderRadius: 10,
-            border: '1px solid #e8e8ed',
-            background: '#fff',
-            fontSize: 12,
-            fontFamily: 'inherit',
-            outline: 'none',
-            color: '#1d1d1f',
-            marginBottom: 10,
-            boxSizing: 'border-box',
-          }}
-        />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {filteredActors.length === 0 && actors.length === 0 && (
-            <p style={{ fontSize: 11, color: '#6e6e73', fontStyle: 'italic', padding: '8px 0' }}>
-              Sin actores cargados.
-            </p>
+        {/* Filtros */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>Todas las relaciones</FilterBtn>
+          <FilterBtn active={filter === 'pos'} onClick={() => setFilter('pos')} accent="#16A34A">Solo alianzas</FilterBtn>
+          <FilterBtn active={filter === 'neg'} onClick={() => setFilter('neg')} accent="#DC2626">Solo conflictos</FilterBtn>
+          <span style={{ flex: 1 }}/>
+          <button onClick={() => setShowLabels(s => !s)} style={btnGhost}>
+            {showLabels ? 'Ocultar etiquetas' : 'Mostrar etiquetas'}
+          </button>
+          {focus && (
+            <button onClick={() => setFocus(null)} style={btnPrimary}>✕ Quitar foco</button>
           )}
-          {filteredActors.slice(0, 50).map(a => {
-            const isActive = a.id === rootId
+        </div>
+
+        {/* Filtros por categoría */}
+        <div style={{ display: 'flex', gap: 5, marginBottom: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
+          {cats.map(c => (
+            <button key={c} onClick={() => { setFilterCat(c); setFocus(null) }} style={{
+              background: filterCat === c ? '#1d1d1f' : '#fff',
+              color: filterCat === c ? '#fff' : '#3a3a3d',
+              border: '1px solid ' + (filterCat === c ? '#1d1d1f' : '#ECECEF'),
+              borderRadius: 999, padding: '4px 10px',
+              fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
+            }}>{c}</button>
+          ))}
+        </div>
+
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+          <defs>
+            <radialGradient id="actoresBgGrad" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stopColor="#f5f5f7" stopOpacity="0.5"/>
+              <stop offset="100%" stopColor="#f5f5f7" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect x="0" y="0" width={W} height={H} fill="url(#actoresBgGrad)"/>
+
+          {/* Eje IZQ/DER (X) y CENTR/DESCEN (Y) */}
+          <line x1={cx} y1="40" x2={cx} y2={H - 40} stroke="#e8e8ed" strokeDasharray="2 4"/>
+          <line x1="40" y1={cy} x2={W - 40} y2={cy} stroke="#e8e8ed" strokeDasharray="2 4"/>
+          <text x="50" y={cy + 4} textAnchor="start" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">IZQ.</text>
+          <text x={W - 50} y={cy + 4} textAnchor="end" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DER.</text>
+          <text x={cx} y="32" textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">CENTR.</text>
+          <text x={cx} y={H - 26} textAnchor="middle" fontSize="10" fill="#6e6e73" letterSpacing="0.1em" fontWeight="600">DESCENTR.</text>
+
+          {/* Edges (arcos) */}
+          {visibleLinks.map((l, i) => {
+            const pa = posMap[l.a], pb = posMap[l.b]
+            if (!pa || !pb) return null
+            const [x1, y1] = pa
+            const [x2, y2] = pb
+            const mx = (x1 + x2) / 2
+            const my = (y1 + y2) / 2
+            const dx = mx - cx, dy = my - cy
+            const len = Math.sqrt(dx * dx + dy * dy) || 1
+            const cmx = mx + (dx / len) * 25
+            const cmy = my + (dy / len) * 25
+            const stroke = l.val >= 0 ? '#16A34A' : '#DC2626'
+            const opacity = focus ? 0.85 : Math.min(0.6, Math.abs(l.val) / 100 + 0.10)
+            const width = Math.max(0.8, (Math.abs(l.val) / 100) * 4)
+            const dash = l.val < 0 ? '4 4' : ''
             return (
-              <button
-                key={a.id}
-                onClick={() => setRootId(a.id)}
-                style={{
-                  textAlign: 'left',
-                  padding: '8px 12px',
-                  borderRadius: 10,
-                  border: '1px solid ' + (isActive ? '#1F4E8C' : '#f0f0f3'),
-                  background: isActive ? '#f5f5f7' : '#fff',
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                }}
-              >
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f' }}>
-                  {a.nombre ?? a.id}
-                </div>
-                {a.partido && (
-                  <div style={{ fontSize: 10.5, color: '#6e6e73' }}>
-                    {a.partido}{a.cargo ? ` · ${a.cargo}` : ''}
-                  </div>
+              <g key={i}>
+                <path
+                  d={`M ${x1} ${y1} Q ${cmx} ${cmy} ${x2} ${y2}`}
+                  fill="none"
+                  stroke={stroke}
+                  strokeWidth={width}
+                  strokeOpacity={opacity}
+                  strokeDasharray={dash}
+                  strokeLinecap="round"
+                />
+                {showLabels && focus && (l.a === focus || l.b === focus) && (
+                  <text
+                    x={cmx} y={cmy - 4}
+                    textAnchor="middle"
+                    fontSize="9"
+                    fill="#515154"
+                    fontWeight="500"
+                    style={{ paintOrder: 'stroke', stroke: '#fff', strokeWidth: 3 }}
+                  >
+                    {l.label}
+                  </text>
                 )}
-              </button>
+              </g>
             )
           })}
-        </div>
+
+          {/* Nodes */}
+          {visibleActors.map(a => {
+            const pos = posMap[a.id]
+            if (!pos) return null
+            const [x, y] = pos
+            const isFocus = focus === a.id
+            const inf = infOf(a)
+            const r = 10 + Math.sqrt(inf) * 1.4  // 10..24 px aprox
+            const dim = !!focus && focus !== a.id && !visibleLinks.some(l => l.a === a.id || l.b === a.id)
+            const color = a.color || CAT_COLOR[a.cat || ''] || '#6e6e73'
+            return (
+              <g
+                key={a.id}
+                style={{ cursor: 'pointer' }}
+                onClick={() => setFocus(focus === a.id ? null : a.id)}
+              >
+                {isFocus && <circle cx={x} cy={y} r={r + 8} fill={color} opacity="0.18"/>}
+                <circle
+                  cx={x} cy={y} r={r}
+                  fill={color}
+                  opacity={dim ? 0.20 : 1}
+                  stroke={isFocus ? '#1d1d1f' : '#fff'}
+                  strokeWidth={isFocus ? 2.5 : 2}
+                />
+                {(isFocus || inf >= 65 || focus === null) && r >= 12 && (
+                  <text
+                    x={x} y={y + r + 11}
+                    textAnchor="middle"
+                    fill="#1d1d1f"
+                    fontFamily="var(--font-display)"
+                    fontWeight="600"
+                    fontSize="9.5"
+                    opacity={dim ? 0.30 : 0.85}
+                    style={{ paintOrder: 'stroke', stroke: '#fff', strokeWidth: 3 }}
+                  >
+                    {shortName(a)}
+                  </text>
+                )}
+              </g>
+            )
+          })}
+        </svg>
       </div>
 
-      {/* Right: graph */}
-      <div>
-        {/* Header row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
-          <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#1d1d1f' }}>
-            {rootNode?.label ?? rootId}
-          </h3>
-          <span style={{ padding: '2px 10px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10.5, fontWeight: 600 }}>
-            {graphData.nodes.length} nodos
-          </span>
-          <span style={{ padding: '2px 10px', borderRadius: 999, background: 'rgba(91,33,182,0.10)', color: '#5B21B6', fontSize: 10.5, fontWeight: 600 }}>
-            {graphData.edges.length} relaciones
-          </span>
-          {loading && (
-            <span style={{ fontSize: 10.5, color: '#6e6e73' }}>cargando…</span>
-          )}
-
-          {/* Play/pause */}
-          <button
-            onClick={handlePlayPause}
-            style={{
-              marginLeft: 'auto',
-              padding: '5px 14px',
-              borderRadius: 8,
-              border: '1px solid #e8e8ed',
-              background: playing ? '#1d1d1f' : '#f5f5f7',
-              color: playing ? '#fff' : '#1d1d1f',
-              fontSize: 11,
-              fontWeight: 600,
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-            }}
-          >
-            {playing ? '⏸ Pausar FA2' : '▶ Animar FA2'}
-          </button>
-        </div>
-
-        {/* Sigma container */}
-        <div style={{ position: 'relative' }}>
-          <div
-            ref={containerRef}
-            style={{
-              width: '100%',
-              height: 480,
-              position: 'relative',
-              background: '#f5f5f7',
-              borderRadius: 14,
-              overflow: 'hidden',
-            }}
-          />
-
-          {/* Tooltip */}
-          {tooltip && (
-            <div style={{
-              position: 'absolute',
-              left: tooltip.x + 12,
-              top: tooltip.y - 8,
-              background: 'rgba(255,255,255,0.97)',
-              border: '1px solid #e8e8ed',
-              borderRadius: 10,
-              padding: '8px 12px',
-              pointerEvents: 'none',
-              zIndex: 10,
-              boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
-            }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>{tooltip.label}</div>
-              <div style={{ fontSize: 10.5, color: TYPE_COLOR[tooltip.type] ?? TYPE_COLOR.other, fontWeight: 600, marginTop: 2 }}>
-                {tooltip.type}
-              </div>
-            </div>
-          )}
-
-          {/* Collapsible legend */}
-          <div style={{
-            position: 'absolute',
-            top: 12,
-            right: 12,
-            background: 'rgba(255,255,255,0.97)',
-            border: '1px solid #e8e8ed',
-            borderRadius: 12,
-            overflow: 'hidden',
-            zIndex: 5,
-          }}>
-            <button
-              onClick={() => setLegendOpen(o => !o)}
-              style={{
-                width: '100%',
-                padding: '7px 12px',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 12,
-                fontFamily: 'inherit',
-                fontSize: 11,
-                fontWeight: 600,
-                color: '#1d1d1f',
-              }}
-            >
-              Leyenda
-              <span style={{ fontSize: 9, color: '#6e6e73' }}>{legendOpen ? '▲' : '▼'}</span>
-            </button>
-            {legendOpen && (
-              <div style={{ padding: '4px 12px 10px', display: 'flex', flexDirection: 'column', gap: 5 }}>
-                {Object.entries(TYPE_COLOR).filter(([k]) => k !== 'other').map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                    <span style={{ width: 10, height: 10, borderRadius: 999, background: v, flexShrink: 0 }} />
-                    <span style={{ fontSize: 10.5, color: '#1d1d1f' }}>{k}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Edges table */}
-        <div style={{ marginTop: 14 }}>
-          <h4 style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 8px' }}>
-            Relaciones detectadas ({graphData.edges.length})
-          </h4>
-          <div style={{ maxHeight: 180, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {graphData.edges.map(e => {
-              const sn = graphData.nodes.find(n => n.id === e.source)
-              const tn = graphData.nodes.find(n => n.id === e.target)
-              return (
-                <div key={e.id} style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 100px 1fr 50px',
-                  gap: 10,
-                  padding: '6px 10px',
-                  background: '#fafafc',
-                  border: '1px solid #f0f0f3',
-                  borderRadius: 8,
-                  fontSize: 11.5,
-                }}>
-                  <span style={{ color: '#1d1d1f', fontWeight: 500 }}>{sn?.label ?? e.source}</span>
-                  <span style={{ color: '#6e6e73', textAlign: 'center', fontStyle: 'italic' }}>{e.label ?? '—'}</span>
-                  <span style={{ color: '#1d1d1f' }}>{tn?.label ?? e.target}</span>
-                  <span style={{ color: '#1F4E8C', fontFamily: 'system-ui', fontWeight: 700, textAlign: 'right' }}>
-                    {((e.weight ?? 0) * 100).toFixed(0)}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
+      {/* Panel lateral */}
+      <div style={{
+        background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
+        padding: '22px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      }}>
+        {focusStats ? (
+          <FocusPanel stats={focusStats} actors={visibleActors}/>
+        ) : (
+          <LegendPanel actors={visibleActors} totalActors={actors.length} cats={cats.filter(c => c !== 'Todas')}/>
+        )}
       </div>
     </section>
   )
+}
+
+// ───────────── helpers UI ─────────────
+
+const btnGhost: React.CSSProperties = {
+  background: '#fff', border: '1px solid #d2d2d7', borderRadius: 999,
+  padding: '7px 14px', cursor: 'pointer', fontFamily: 'inherit',
+  fontSize: 12, color: '#3a3a3d',
+}
+const btnPrimary: React.CSSProperties = {
+  background: '#1d1d1f', color: '#fff', border: 'none', borderRadius: 999,
+  padding: '7px 14px', cursor: 'pointer', fontFamily: 'inherit', fontSize: 12,
+}
+
+function FilterBtn({ active, onClick, accent, children }: { active: boolean; onClick: () => void; accent?: string; children: React.ReactNode }) {
+  return (
+    <button onClick={onClick} style={{
+      background: active ? '#1d1d1f' : '#fff',
+      color: active ? '#fff' : (accent || '#3a3a3d'),
+      border: active ? '1px solid #1d1d1f' : '1px solid #d2d2d7',
+      borderRadius: 999, padding: '7px 14px', cursor: 'pointer',
+      fontFamily: 'inherit', fontSize: 12, fontWeight: 500,
+      display: 'inline-flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap',
+    }}>
+      {accent && !active && <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }}/>}
+      {children}
+    </button>
+  )
+}
+
+function FocusPanel({ stats, actors }: { stats: { actor: Actor; links: { otherId: string; val: number; label: string }[] }; actors: Actor[] }) {
+  const actorOf = (id: string) => actors.find(a => a.id === id)
+  const cargo = stats.actor.cargo_actual || stats.actor.cargo || ''
+  const partido = stats.actor.partido || ''
+  const color = stats.actor.color || CAT_COLOR[stats.actor.cat || ''] || '#6e6e73'
+  return (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+        <span style={{ width: 12, height: 12, borderRadius: 999, background: color, flexShrink: 0 }}/>
+        <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: 0 }}>Foco</p>
+      </div>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 600, letterSpacing: '-0.022em', margin: '4px 0 4px', lineHeight: 1.15 }}>
+        {nameOf(stats.actor)}
+      </h2>
+      <p style={{ fontSize: 12, color: '#515154', margin: '0 0 4px' }}>{cargo}</p>
+      <p style={{ fontSize: 11, color: '#6e6e73', margin: '0 0 16px' }}>
+        {partido}{partido && stats.actor.cat ? ' · ' : ''}{CAT_LABEL[stats.actor.cat || ''] || ''} · {stats.links.length} relaciones · influencia {infOf(stats.actor)}
+      </p>
+      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 10px' }}>
+        Afinidad bilateral
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 460, overflowY: 'auto' }}>
+        {stats.links.length === 0 && (
+          <div style={{ padding: '20px 6px', textAlign: 'center', color: '#9CA3AF', fontSize: 11.5 }}>
+            Sin relaciones detectadas con los actores visibles.
+          </div>
+        )}
+        {stats.links.map(l => {
+          const other = actorOf(l.otherId)
+          if (!other) return null
+          const pct = (Math.abs(l.val) / 100) * 50
+          const pos = l.val >= 0
+          const otherColor = other.color || CAT_COLOR[other.cat || ''] || '#6e6e73'
+          return (
+            <div key={l.otherId}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', marginBottom: 3, gap: 8 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, minWidth: 0 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
+                  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
+                </span>
+                <span style={{
+                  fontFamily: 'var(--font-display)', fontSize: 12.5, fontWeight: 600,
+                  letterSpacing: '-0.012em', color: pos ? '#16A34A' : '#DC2626', whiteSpace: 'nowrap',
+                }}>
+                  {pos ? '+' : ''}{l.val}
+                </span>
+              </div>
+              <div style={{ position: 'relative', height: 4, background: '#f5f5f7', borderRadius: 999 }}>
+                <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 1, background: '#6e6e73', opacity: 0.4 }}/>
+                <div style={{
+                  position: 'absolute', top: 0, bottom: 0,
+                  left: pos ? '50%' : `${50 - pct}%`,
+                  width: `${pct}%`,
+                  background: pos ? '#16A34A' : '#DC2626',
+                  borderRadius: 999,
+                }}/>
+              </div>
+              <div style={{ fontSize: 9.5, color: '#9CA3AF', marginTop: 1 }}>{l.label}</div>
+            </div>
+          )
+        })}
+      </div>
+    </>
+  )
+}
+
+function LegendPanel({ actors, totalActors, cats }: { actors: Actor[]; totalActors: number; cats: string[] }) {
+  // Conteo por categoría
+  const byCat: Record<string, number> = {}
+  for (const a of actors) {
+    const lbl = CAT_LABEL[a.cat || '']
+    if (lbl) byCat[lbl] = (byCat[lbl] || 0) + 1
+  }
+  return (
+    <>
+      <p style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 6px' }}>Leyenda</p>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 6px' }}>
+        Cómo leer el grafo
+      </h2>
+      <p style={{ fontSize: 12, color: '#515154', margin: '0 0 16px', lineHeight: 1.5 }}>
+        {actors.length} actores en pantalla · de {totalActors} totales · ordenados por influencia.
+        Posición: <strong>X</strong> ideología (izq/dcha) · <strong>Y</strong> centralización.
+      </p>
+
+      <LegendRow>
+        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="3.5" strokeLinecap="round"/></svg>
+        <div>
+          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Alianza</div>
+          <div style={{ fontSize: 11, color: '#6e6e73' }}>Compañeros · bloque ideológico</div>
+        </div>
+      </LegendRow>
+      <LegendRow>
+        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#DC2626" strokeWidth="2.5" strokeDasharray="4 4" strokeLinecap="round"/></svg>
+        <div>
+          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Conflicto</div>
+          <div style={{ fontSize: 11, color: '#6e6e73' }}>Bloques opuestos · gobierno↔oposición</div>
+        </div>
+      </LegendRow>
+
+      <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
+
+      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+        Por categoría
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {cats.map(c => {
+          const code = Object.keys(CAT_LABEL).find(k => CAT_LABEL[k] === c) || ''
+          const color = CAT_COLOR[code] || '#6e6e73'
+          return (
+            <div key={c} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ width: 10, height: 10, borderRadius: 999, background: color, flexShrink: 0 }}/>
+                <span style={{ fontSize: 12, color: '#1d1d1f' }}>{c}</span>
+              </span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, color: '#1d1d1f' }}>
+                {byCat[c] || 0}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+
+      <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
+      <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0, lineHeight: 1.5 }}>
+        Pulsa un nodo para aislar sus vínculos. Las relaciones bilaterales se infieren del partido,
+        bloque ideológico y rol institucional.
+      </p>
+    </>
+  )
+}
+
+function LegendRow({ children }: { children: React.ReactNode }) {
+  return <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12 }}>{children}</div>
 }
