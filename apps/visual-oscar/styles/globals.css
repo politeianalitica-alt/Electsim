@@ -1,6 +1,12 @@
-:root{--bg:#fbfbfd;--bg-elev:#ffffff;--bg-soft:#f5f5f7;--ink:#1d1d1f;--ink-2:#3a3a3d;--ink-3:#515154;--ink-4:#6e6e73;--hairline:#d2d2d7;--hairline-2:#e8e8ed;--accent:#0071e3;--success:#2d8a39;--danger:#c42c2c;--warn:#d97706;--font-display:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",system-ui,sans-serif;--font-text:"SF Pro Text",-apple-system,BlinkMacSystemFont,"Helvetica Neue",system-ui,sans-serif;--font-serif:"New York","Charter","Georgia",serif;}
+/* Forzar modo claro siempre · ignora preferencia del SO + desactiva el "force dark mode" del navegador */
+:root{color-scheme:light;--bg:#fbfbfd;--bg-elev:#ffffff;--bg-soft:#f5f5f7;--ink:#1d1d1f;--ink-2:#3a3a3d;--ink-3:#515154;--ink-4:#6e6e73;--hairline:#d2d2d7;--hairline-2:#e8e8ed;--accent:#0071e3;--success:#2d8a39;--danger:#c42c2c;--warn:#d97706;--font-display:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Helvetica Neue",system-ui,sans-serif;--font-text:"SF Pro Text",-apple-system,BlinkMacSystemFont,"Helvetica Neue",system-ui,sans-serif;--font-serif:"New York","Charter","Georgia",serif;}
+html{color-scheme:light;}
 *{box-sizing:border-box;}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-text);font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-variant-numeric:tabular-nums;}
+/* Cualquier @media prefers-color-scheme: dark queda anulado por la regla anterior · doble cinturón */
+@media (prefers-color-scheme: dark){:root{color-scheme:light;background:#fbfbfd;color:#1d1d1f;}}
+/* Inputs y formularios nativos en modo claro siempre */
+input,textarea,select,button{color-scheme:light;}
 a{color:inherit;text-decoration:none;}
 .nav{position:sticky;top:0;z-index:100;height:44px;background:rgba(251,251,253,0.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06);}
 .nav-inner{height:100%;max-width:1280px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:28px;font-size:12px;color:var(--ink-2);}
