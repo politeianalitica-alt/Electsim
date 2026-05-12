@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -29,30 +30,66 @@ function fmtDate(iso: string) {
 }
 
 // ── sub-components ────────────────────────────────────────────────────────────
+// TabBar estilo pill (consistente con Panel Ejecutivo)
 function TabBar({ items, active, onChange }: { items: string[]; active: number; onChange: (i: number) => void }) {
   return (
-    <div style={{ display: 'flex', borderBottom: '1px solid #e8e8ed', marginBottom: 28, overflowX: 'auto' }}>
+    <div style={{
+      display: 'inline-flex', background: '#F5F5F7', borderRadius: 999,
+      padding: 4, marginBottom: 18, overflowX: 'auto', maxWidth: '100%',
+    }}>
       {items.map((t, i) => (
         <button
           key={t}
           onClick={() => onChange(i)}
           style={{
             border: 'none',
-            borderBottom: active === i ? '2px solid #1d1d1f' : '2px solid transparent',
-            background: 'transparent',
-            padding: '12px 20px',
-            marginBottom: -1,
-            fontSize: 13,
-            fontWeight: active === i ? 600 : 400,
+            background: active === i ? '#fff' : 'transparent',
             color: active === i ? '#1d1d1f' : '#6e6e73',
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            whiteSpace: 'nowrap',
+            padding: '7px 16px', borderRadius: 999,
+            fontSize: 12.5, fontWeight: active === i ? 700 : 500,
+            cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+            boxShadow: active === i ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+            transition: 'all 160ms',
           }}
         >
           {t}
         </button>
       ))}
+    </div>
+  )
+}
+
+// KPI card Apple-Newsroom · acent color en valor + sub
+function KPICard({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
+  return (
+    <div style={{
+      background: '#fff', border: '1px solid #ECECEF', borderRadius: 16,
+      padding: '16px 18px 14px', position: 'relative', overflow: 'hidden',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+    }}>
+      <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: accent }}/>
+      <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.10em',
+                     color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700,
+                     letterSpacing: '-0.024em', lineHeight: 1, color: '#1d1d1f',
+                     fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+      {sub && <div style={{ fontSize: 11.5, color: '#6e6e73', marginTop: 6 }}>{sub}</div>}
+    </div>
+  )
+}
+
+// HeroKPI · pequeño KPI translúcido para encajar sobre gradients del hero
+function HeroKPI({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{
+      textAlign: 'center', padding: '10px 8px', borderRadius: 12,
+      background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)',
+    }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
+                     lineHeight: 1, color: '#fff', letterSpacing: '-0.018em',
+                     fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+      <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
+                     opacity: 0.75, marginTop: 5, textTransform: 'uppercase', color: '#fff' }}>{label}</div>
     </div>
   )
 }
@@ -87,7 +124,7 @@ export default function GeopoliticaPage() {
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
 
-  const { data: geoStatsRaw } = useApi<GeoStats & { data?: GeoStats }>('/api/geopolitica/stats', { refreshInterval: 60_000 })
+  const { data: geoStatsRaw, source, updatedAt, refresh } = useApi<GeoStats & { data?: GeoStats }>('/api/geopolitica/stats', { refreshInterval: 60_000 })
   const { data: riesgoRaw } = useApi<{ data: RiesgoItem[] }>('/api/geopolitica/riesgo', { refreshInterval: 120_000 })
   const { data: osintRaw, loading: loadingOsint } = useApi<{ data: OsintItem[] }>('/api/geopolitica/osint', { refreshInterval: 60_000 })
   const { data: alertasRaw } = useApi<{ data: AlertaItem[] }>('/api/geopolitica/alertas', { refreshInterval: 30_000 })
@@ -102,10 +139,10 @@ export default function GeopoliticaPage() {
   const presencia: PresenciaItem[] = presenciaRaw?.data ?? []
 
   const kpiCards = [
-    { label: 'Señales OSINT 24h', value: geoStats.osint_24h },
-    { label: 'Alertas activas', value: geoStats.alertas_activas },
-    { label: 'Países monitorizados', value: geoStats.paises_monitorizados },
-    { label: 'Presencia activa', value: geoStats.presencia_activa },
+    { label: 'Señales OSINT 24h',     value: geoStats.osint_24h,            accent: '#1F4E8C', sub: 'noticias internacionales con relevancia ES' },
+    { label: 'Alertas activas',       value: geoStats.alertas_activas,      accent: '#DC2626', sub: `${geoStats.alertas_count?.CRITICO || 0} críticas · ${geoStats.alertas_count?.ALTO || 0} altas` },
+    { label: 'Países monitorizados',  value: geoStats.paises_monitorizados, accent: '#0F766E', sub: 'cobertura geopolítica' },
+    { label: 'Presencia España',      value: geoStats.presencia_activa,     accent: '#7C3AED', sub: 'iniciativas activas exterior' },
   ]
 
   const riesgoSorted = [...riesgo].sort((a, b) => b.score - a.score)
@@ -162,17 +199,45 @@ export default function GeopoliticaPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fbfbfd', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', color: '#1d1d1f', fontFamily: 'var(--font-body,system-ui)' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '20px 24px 40px' }}>
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
-        {/* KPI strip */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 28 }}>
+        {/* ───── Hero ───── */}
+        <section style={{
+          background: 'linear-gradient(135deg,#0E7490 0%,#134E4A 100%)',
+          borderRadius: 18, padding: '28px 36px', marginBottom: 18, color: '#fff',
+          display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 32, alignItems: 'center',
+        }}>
+          <div>
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
+                        textTransform: 'uppercase', margin: '0 0 8px',
+                        display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <span>CONTEXTO ESTRATÉGICO · GEOPOLÍTICA Y RRII</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
+            </p>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700,
+                          letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
+              España en el <em style={{ fontWeight: 300, fontStyle: 'italic',
+                                          color: 'rgba(255,255,255,0.75)' }}>tablero global.</em>
+            </h1>
+            <p style={{ fontSize: 13, opacity: 0.75, margin: 0, lineHeight: 1.5 }}>
+              Riesgo geopolítico, OSINT, alertas internacionales, impactos sobre la agenda doméstica
+              y presencia española en el exterior. Datos derivados de medios internacionales y feeds
+              oficiales en tiempo real.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
+            <HeroKPI label="OSINT 24h"   value={String(geoStats.osint_24h)}/>
+            <HeroKPI label="Alertas"     value={String(geoStats.alertas_activas)}/>
+            <HeroKPI label="Países"      value={String(geoStats.paises_monitorizados)}/>
+          </div>
+        </section>
+
+        {/* ───── KPI strip ───── */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 18 }}>
           {kpiCards.map((k) => (
-            <div key={k.label} style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '20px 24px' }}>
-              <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 500, marginBottom: 6 }}>{k.label}</div>
-              <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.02em' }}>{k.value}</div>
-            </div>
+            <KPICard key={k.label} label={k.label} value={k.value} accent={k.accent} sub={k.sub}/>
           ))}
         </div>
 
@@ -420,17 +485,127 @@ export default function GeopoliticaPage() {
         )}
 
         {/* TAB 5 — Análisis IA */}
-        {tab === 5 && (
-          <div style={{ background: '#f5f5f7', border: '1px solid #e8e8ed', borderRadius: 22, padding: '60px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 240 }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>🌐</div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: '#1d1d1f', marginBottom: 6 }}>Análisis geopolítico con IA</div>
-              <div style={{ fontSize: 13, color: '#6e6e73' }}>Próximamente</div>
-            </div>
-          </div>
-        )}
+        {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
 
-      </div>
+      </main>
     </div>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// TAB 5 · Análisis geopolítico con Ollama
+// ──────────────────────────────────────────────────────────────────────────
+function AnalisisIATab({ alertas, riesgo, osint }: { alertas: AlertaItem[]; riesgo: RiesgoItem[]; osint: OsintItem[] }) {
+  const [analyzing, setAnalyzing] = useState(false)
+  const [analysis, setAnalysis] = useState<string | null>(null)
+  const [llmSource, setLlmSource] = useState<string | null>(null)
+  const [llmMs, setLlmMs] = useState<number | null>(null)
+
+  async function runAnalysis() {
+    setAnalyzing(true)
+    setAnalysis(null)
+    const top3Riesgo = riesgo.slice(0, 3).map(r => `${r.pais} (score ${r.score}, interés España ${r.interes_espana}, ${r.categoria})`).join(' · ')
+    const top3Alertas = alertas.slice(0, 3).map(a => `[${a.nivel}] ${a.titulo}: ${a.descripcion}`).join(' || ')
+    const top3Osint = osint.slice(0, 3).map(o => `${o.titulo} (${o.categoria}, urg ${o.urgencia})`).join(' · ')
+    const prompt = `Eres analista de inteligencia geopolítica de Politeia Analítica. Analiza la situación internacional actual respecto a España y produce un informe estratégico breve.
+
+CONTEXTO ACTUAL:
+
+Top riesgos geopolíticos: ${top3Riesgo}
+
+Alertas activas críticas: ${top3Alertas}
+
+Señales OSINT recientes: ${top3Osint}
+
+INSTRUCCIONES:
+- Estructura el análisis en 3 secciones cortas:
+  1. SITUACIÓN ESTRATÉGICA (3 frases) — diagnóstico ejecutivo
+  2. RIESGOS PRINCIPALES (3 bullets) — qué hay que vigilar
+  3. RECOMENDACIONES (3 bullets) — qué debe hacer España
+- Lenguaje conciso, profesional, castellano de España
+- Sin preámbulos. Empieza directamente con "## Situación estratégica"
+- Sin inventar cifras concretas que no estén en el contexto`
+    const t0 = Date.now()
+    try {
+      const res = await fetch('/api/brain/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      })
+      const data = await res.json() as { reply: string; source: string }
+      setAnalysis(data.reply || 'Sin respuesta')
+      setLlmSource(data.source)
+      setLlmMs(Date.now() - t0)
+    } catch (e) {
+      setAnalysis(`Error al generar análisis: ${e instanceof Error ? e.message : String(e)}`)
+    } finally {
+      setAnalyzing(false)
+    }
+  }
+
+  return (
+    <section style={{
+      background: '#fff', border: '1px solid #ECECEF', borderRadius: 22,
+      padding: '24px 28px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
+        <div>
+          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#7C3AED', textTransform: 'uppercase', margin: '0 0 4px' }}>
+            ANÁLISIS GEOPOLÍTICO · IA
+          </p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.018em', margin: '0 0 6px', color: '#1d1d1f' }}>
+            Briefing estratégico generado por IA
+          </h2>
+          <p style={{ fontSize: 12.5, color: '#515154', margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
+            Síntesis ejecutiva sobre el contexto geopolítico actual usando los datos en vivo
+            de los tabs anteriores (riesgos, alertas críticas, señales OSINT). Pulsa el botón
+            para generar un informe nuevo con Ollama.
+          </p>
+        </div>
+        <button onClick={runAnalysis} disabled={analyzing} style={{
+          background: analyzing ? '#9CA3AF' : 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
+          color: '#fff', border: 'none', borderRadius: 10, padding: '10px 18px',
+          fontSize: 12.5, fontWeight: 700, cursor: analyzing ? 'wait' : 'pointer',
+          fontFamily: 'inherit', whiteSpace: 'nowrap', flexShrink: 0,
+          boxShadow: '0 4px 14px rgba(124,58,237,0.30)',
+        }}>
+          {analyzing ? '🤖 Generando…' : '🤖 Generar análisis'}
+        </button>
+      </div>
+
+      {!analysis && !analyzing && (
+        <div style={{ padding: '40px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 13,
+                       background: '#fafafa', borderRadius: 14, border: '1px dashed #ECECEF' }}>
+          Pulsa &quot;Generar análisis&quot; para producir un briefing geopolítico con IA basado en
+          los datos cargados en los tabs anteriores.
+        </div>
+      )}
+
+      {analyzing && (
+        <div style={{ padding: '40px 20px', textAlign: 'center', color: '#7C3AED', fontSize: 13,
+                       background: 'rgba(124,58,237,0.04)', borderRadius: 14,
+                       border: '1px solid rgba(124,58,237,0.15)' }}>
+          🤖 Ollama está generando el análisis…  <span style={{ color:'#9CA3AF' }}>(suele tardar 15-40 s)</span>
+        </div>
+      )}
+
+      {analysis && (
+        <div style={{ padding: '20px 24px', background: 'rgba(124,58,237,0.04)', border: '1px solid rgba(124,58,237,0.20)',
+                       borderRadius: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff',
+                            background: llmSource === 'ollama' ? '#7C3AED' : llmSource === 'backend' ? '#10b981' : '#9CA3AF',
+                            padding: '3px 8px', borderRadius: 5, letterSpacing: '0.06em' }}>
+              {llmSource === 'ollama' ? '🤖 OLLAMA' : llmSource === 'backend' ? '🤖 BACKEND' : '⚠ FALLBACK'}
+            </span>
+            {llmMs && <span style={{ fontSize: 11, color: '#6e6e73' }}>{(llmMs/1000).toFixed(1)} s</span>}
+          </div>
+          <pre style={{
+            margin: 0, fontFamily: 'inherit', fontSize: 13.5, lineHeight: 1.7, color: '#1d1d1f',
+            whiteSpace: 'pre-wrap', wordWrap: 'break-word',
+          }}>{analysis}</pre>
+        </div>
+      )}
+    </section>
   )
 }

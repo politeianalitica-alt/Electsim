@@ -648,6 +648,196 @@ export function dualPolarization(articles: AggregatedArticle[]): DualPolarizatio
     .slice(0, 6)
 }
 
+// ──────────────── Geopolítica ────────────────
+
+/** Categoría geopolítica detectada del titular. */
+const GEO_CAT_KEYWORDS: Record<string, string[]> = {
+  migracion:    ['migración', 'migracion', 'migrante', 'migratoria', 'frontera', 'sahara', 'canarias', 'patera', 'ceuta', 'melilla'],
+  militar:      ['otan', 'militar', 'fuerzas armadas', 'guerra', 'invasión', 'invasion', 'ataque', 'ejército', 'ejercito', 'armada', 'aviación militar'],
+  energia:      ['gas', 'gasoil', 'petróleo', 'petroleo', 'energético', 'energetico', 'argelia', 'opep', 'argelino', 'eólica internacional'],
+  diplomatica:  ['embajador', 'embajada', 'reunión bilateral', 'cumbre', 'visita oficial', 'asuntos exteriores', 'diplomacia', 'ministerio de exteriores'],
+  comercio:     ['arancel', 'aranceles', 'omc', 'tlc', 'tratado comercial', 'exportación', 'exportacion', 'importación', 'importacion'],
+  union_europea:['unión europea', 'union europea', 'bruselas', 'comisión europea', 'parlamento europeo', 'consejo europeo', 'eurogrupo'],
+}
+
+const COUNTRY_KEYWORDS: Record<string, { lat: number; lon: number; iso: string; categoria: string }> = {
+  'Marruecos':       { lat: 31.8, lon: -7.1,  iso: 'MAR', categoria: 'migracion'   },
+  'Argelia':         { lat: 28.0, lon:  3.0,  iso: 'DZA', categoria: 'energia'     },
+  'Francia':         { lat: 46.2, lon:  2.2,  iso: 'FRA', categoria: 'diplomatica' },
+  'Alemania':        { lat: 51.2, lon: 10.5,  iso: 'DEU', categoria: 'diplomatica' },
+  'Italia':          { lat: 42.5, lon: 12.6,  iso: 'ITA', categoria: 'diplomatica' },
+  'Portugal':        { lat: 39.4, lon: -8.2,  iso: 'PRT', categoria: 'diplomatica' },
+  'Reino Unido':     { lat: 55.4, lon: -3.4,  iso: 'GBR', categoria: 'diplomatica' },
+  'Estados Unidos':  { lat: 38.0, lon: -97.0, iso: 'USA', categoria: 'militar'     },
+  'Rusia':           { lat: 60.0, lon: 100.0, iso: 'RUS', categoria: 'militar'     },
+  'Ucrania':         { lat: 49.0, lon: 32.0,  iso: 'UKR', categoria: 'militar'     },
+  'China':           { lat: 35.0, lon: 105.0, iso: 'CHN', categoria: 'comercio'    },
+  'Israel':          { lat: 31.0, lon: 35.0,  iso: 'ISR', categoria: 'militar'     },
+  'Palestina':       { lat: 31.9, lon: 35.2,  iso: 'PSE', categoria: 'militar'     },
+  'Gaza':            { lat: 31.5, lon: 34.4,  iso: 'GAZ', categoria: 'militar'     },
+  'México':          { lat: 23.6, lon: -102.5, iso: 'MEX', categoria: 'diplomatica' },
+  'Brasil':          { lat: -14.0, lon: -51.9, iso: 'BRA', categoria: 'comercio'    },
+  'Argentina':       { lat: -38.4, lon: -63.6, iso: 'ARG', categoria: 'diplomatica' },
+  'Cuba':            { lat: 21.5, lon: -77.8, iso: 'CUB', categoria: 'diplomatica' },
+  'Venezuela':       { lat: 6.4,  lon: -66.6, iso: 'VEN', categoria: 'diplomatica' },
+  'Turquía':         { lat: 39.0, lon: 35.0,  iso: 'TUR', categoria: 'militar'     },
+  'Irán':            { lat: 32.4, lon: 53.7,  iso: 'IRN', categoria: 'militar'     },
+  'Arabia Saudí':    { lat: 23.9, lon: 45.1,  iso: 'SAU', categoria: 'energia'     },
+  'Mauritania':      { lat: 21.0, lon: -10.9, iso: 'MRT', categoria: 'migracion'   },
+  'Senegal':         { lat: 14.5, lon: -14.5, iso: 'SEN', categoria: 'migracion'   },
+}
+
+function detectGeoCategory(text: string): string | null {
+  const lower = text.toLowerCase()
+  for (const [cat, kws] of Object.entries(GEO_CAT_KEYWORDS)) {
+    if (kws.some(k => lower.includes(k))) return cat
+  }
+  return null
+}
+
+function detectCountries(text: string): string[] {
+  const lower = text.toLowerCase()
+  const found: string[] = []
+  for (const country of Object.keys(COUNTRY_KEYWORDS)) {
+    if (lower.includes(country.toLowerCase())) found.push(country)
+  }
+  return found
+}
+
+export interface GeoOsintItem {
+  id: string
+  titulo: string
+  fuente: string
+  fecha: string
+  urgencia: number  // 1-5
+  categoria: string
+  resumen: string
+  url?: string
+  paises?: string[]
+}
+
+export function geoOsintFromArticles(articles: AggregatedArticle[]): GeoOsintItem[] {
+  const out: GeoOsintItem[] = []
+  for (const a of articles) {
+    const text = `${a.title} ${a.description}`
+    const cat = detectGeoCategory(text)
+    const paises = detectCountries(text)
+    if (!cat && paises.length === 0) continue
+    // Urgencia: combinación de sentiment negativo + recencia
+    const isRecent = a.pubDate && (Date.now() - a.pubDate.getTime() < 6 * 3600_000)
+    let urgencia = 2
+    if (a.sentiment === 'negative') urgencia += 1
+    if (isRecent) urgencia += 1
+    if (paises.some(p => ['Marruecos', 'Rusia', 'Israel', 'Palestina', 'Gaza', 'Ucrania'].includes(p))) urgencia += 1
+    out.push({
+      id: a.link || `${a.medio.id}-${a.title.slice(0, 40)}`,
+      titulo: a.title,
+      fuente: a.medio.nombre,
+      fecha: a.pub_date_iso || new Date().toISOString(),
+      urgencia: Math.min(5, urgencia),
+      categoria: cat || 'diplomatica',
+      resumen: a.description.slice(0, 240),
+      url: a.link,
+      paises,
+    })
+  }
+  return out
+    .sort((a, b) => {
+      if (b.urgencia !== a.urgencia) return b.urgencia - a.urgencia
+      return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+    })
+}
+
+export interface GeoAlertaItem {
+  id: string
+  titulo: string
+  nivel: 'CRITICO' | 'ALTO' | 'MEDIO' | 'BAJO'
+  fecha: string
+  paises: string[]
+  descripcion: string
+  url?: string
+}
+
+export function geoAlertasFromArticles(articles: AggregatedArticle[]): GeoAlertaItem[] {
+  const out: GeoAlertaItem[] = []
+  for (const a of articles) {
+    const text = `${a.title} ${a.description}`
+    const paises = detectCountries(text)
+    if (paises.length === 0) continue
+    const lower = text.toLowerCase()
+    let nivel: GeoAlertaItem['nivel'] = 'BAJO'
+    const criticalKw = ['guerra', 'invasión', 'invasion', 'ataque', 'crisis', 'emergencia', 'colapso', 'evacua']
+    const highKw     = ['tensión', 'tension', 'conflicto', 'amenaza', 'sanción', 'sancion', 'expulsión', 'expulsion']
+    const medKw      = ['desacuerdo', 'controversia', 'protesta', 'manifestación', 'manifestacion']
+    if (criticalKw.some(k => lower.includes(k))) nivel = 'CRITICO'
+    else if (highKw.some(k => lower.includes(k))) nivel = 'ALTO'
+    else if (medKw.some(k => lower.includes(k))) nivel = 'MEDIO'
+    if (nivel === 'BAJO') continue  // solo subimos las realmente notables
+    out.push({
+      id: a.link || `${a.medio.id}-${a.title.slice(0, 40)}`,
+      titulo: a.title,
+      nivel,
+      fecha: a.pub_date_iso || new Date().toISOString(),
+      paises,
+      descripcion: a.description.slice(0, 280),
+      url: a.link,
+    })
+  }
+  // Ordenar por nivel + fecha
+  const order: Record<string, number> = { CRITICO: 0, ALTO: 1, MEDIO: 2, BAJO: 3 }
+  return out.sort((a, b) => {
+    if (order[a.nivel] !== order[b.nivel]) return order[a.nivel] - order[b.nivel]
+    return new Date(b.fecha).getTime() - new Date(a.fecha).getTime()
+  })
+}
+
+export interface GeoRiesgoItem {
+  pais: string
+  iso: string
+  score: number  // 0-10
+  interes_espana: number  // 0-10
+  lat: number
+  lon: number
+  categoria: string
+}
+
+export function geoRiesgoFromArticles(articles: AggregatedArticle[]): GeoRiesgoItem[] {
+  const counts = new Map<string, { n: number; neg: number }>()
+  for (const a of articles) {
+    const paises = detectCountries(`${a.title} ${a.description}`)
+    for (const p of paises) {
+      const cur = counts.get(p) || { n: 0, neg: 0 }
+      cur.n++
+      if (a.sentiment === 'negative') cur.neg++
+      counts.set(p, cur)
+    }
+  }
+  const out: GeoRiesgoItem[] = []
+  for (const [pais, v] of Array.from(counts.entries())) {
+    const meta = COUNTRY_KEYWORDS[pais]
+    if (!meta) continue
+    // Score 0-10: 50% volumen log + 50% % negatividad
+    const volScore = Math.min(10, Math.log10(v.n + 1) * 4)
+    const negScore = (v.neg / v.n) * 10
+    const score = +((volScore * 0.5 + negScore * 0.5)).toFixed(1)
+    // Interés España: simulado por inverso de la distancia + cercanía geopolítica
+    // Más simple: se mantiene constante por país (ya curado en el dataset)
+    const interesPorPais: Record<string, number> = {
+      Marruecos: 9.5, Argelia: 8.2, Francia: 8.0, Alemania: 7.0, Portugal: 9.0,
+      Italia: 6.5, 'Reino Unido': 6.8, 'Estados Unidos': 7.5, Rusia: 7.2,
+      Ucrania: 6.5, China: 6.0, Israel: 6.8, Palestina: 6.5, Gaza: 6.8,
+      México: 5.8, Brasil: 5.5, Argentina: 5.2, Cuba: 4.5, Venezuela: 6.2,
+      Turquía: 5.5, Irán: 5.8, 'Arabia Saudí': 6.0, Mauritania: 7.0, Senegal: 7.2,
+    }
+    const interesEspana = interesPorPais[pais] ?? 5.0
+    out.push({
+      pais, iso: meta.iso, score, interes_espana: interesEspana,
+      lat: meta.lat, lon: meta.lon, categoria: meta.categoria,
+    })
+  }
+  return out.sort((a, b) => b.score - a.score)
+}
+
 export function sentimentMap(articles: AggregatedArticle[]): SentimentMapPoint[] {
   const buckets = new Map<string, { ccaa: string; arts: AggregatedArticle[] }>()
   for (const a of articles) {
