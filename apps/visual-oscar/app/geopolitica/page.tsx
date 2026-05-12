@@ -1046,15 +1046,19 @@ export default function GeopoliticaPage() {
                     display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
                     gap: 14, alignItems: 'center',
                     padding: '14px 18px 14px 0', borderRadius: 14,
-                    // Fondo y borde del color del SECTOR (más subtle), no de la urgencia
-                    background: `${cc}14`, border: `1px solid ${cc}55`,
+                    // CRÍTICA → fondo rojizo intenso para que se vea claramente que parpadea.
+                    // Resto → fondo del color del SECTOR.
+                    background: m.pulse ? m.bg : `${cc}14`,
+                    border: `1px solid ${m.pulse ? m.ring : `${cc}55`}`,
                     position: 'relative', overflow: 'hidden',
-                    animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
+                    animation: m.pulse ? 'alertCard 1.4s ease-in-out infinite' : undefined,
                   }}>
-                    {/* Barra lateral conserva el color de la URGENCIA (señal primaria) */}
+                    {/* Barra lateral conserva el color de la URGENCIA (señal primaria).
+                        En CRÍTICA, además parpadea (alterna entre granate y rojo). */}
                     <div style={{
                       background: m.color, height: '100%',
-                      boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
+                      animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
+                      boxShadow: m.pulse ? `0 0 14px ${m.color}` : undefined,
                     }}/>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
                       {/* Badge urgencia: CRÍTICA / ALTA / MEDIA / BAJA / INFO */}
@@ -1599,6 +1603,12 @@ export default function GeopoliticaPage() {
       <style>{`
         @keyframes dafoOverlayIn { from { opacity: 0 } to { opacity: 1 } }
         @keyframes dafoBoxIn     { from { opacity: 0; transform: scale(0.94) translateY(12px) } to { opacity: 1; transform: scale(1) translateY(0) } }
+        /* Animaciones de parpadeo CRÍTICA — globales para TAB 1 OSINT y TAB 2 Alertas */
+        @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
+        @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(127,29,29,0); }       50% { box-shadow: 0 0 22px -2px rgba(127,29,29,0.55); } }
+        /* Glow lateral más intenso específico OSINT crítica */
+        @keyframes alertCardOsint { 0%, 100% { box-shadow: 0 0 0 0 rgba(127,29,29,0), inset 6px 0 0 0 rgba(127,29,29,1); } 50% { box-shadow: 0 0 26px -4px rgba(127,29,29,0.65), inset 6px 0 0 0 rgba(220,38,38,1); } }
       `}</style>
     </div>
   )
