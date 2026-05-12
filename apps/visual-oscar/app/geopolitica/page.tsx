@@ -1040,25 +1040,27 @@ export default function GeopoliticaPage() {
               )}
               {osintFiltered.map((o) => {
                 const m = urgMeta(o.urgencia)            // urgencia → barra lateral + badge CRÍTICA/ALTA…
-                const cc = catColor(o.categoria)         // sector → fondo + chip de categoría
+                const cc = catColor(o.categoria)         // sector → fondo + chip + halo del parpadeo
+                // Cuando es CRÍTICA, el fondo y el halo del parpadeo se intensifican
+                // pero MANTIENEN el tono del sector (no del color de urgencia).
                 return (
                   <article key={o.id} style={{
                     display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
                     gap: 14, alignItems: 'center',
                     padding: '14px 18px 14px 0', borderRadius: 14,
-                    // CRÍTICA → fondo rojizo intenso para que se vea claramente que parpadea.
-                    // Resto → fondo del color del SECTOR.
-                    background: m.pulse ? m.bg : `${cc}14`,
-                    border: `1px solid ${m.pulse ? m.ring : `${cc}55`}`,
+                    background: m.pulse ? `${cc}26` : `${cc}14`,
+                    border: `1px solid ${m.pulse ? `${cc}88` : `${cc}55`}`,
                     position: 'relative', overflow: 'hidden',
-                    animation: m.pulse ? 'alertCard 1.4s ease-in-out infinite' : undefined,
-                  }}>
+                    animation: m.pulse ? 'alertCardSector 1.4s ease-in-out infinite' : undefined,
+                    // CSS var consumida por el keyframes alertCardSector → halo del color del sector
+                    ...(m.pulse ? { ['--pulse-color' as string]: `${cc}cc` } : {}),
+                  } as React.CSSProperties}>
                     {/* Barra lateral conserva el color de la URGENCIA (señal primaria).
-                        En CRÍTICA, además parpadea (alterna entre granate y rojo). */}
+                        El parpadeo (escala + opacidad) se mantiene en CRÍTICA. */}
                     <div style={{
                       background: m.color, height: '100%',
                       animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
-                      boxShadow: m.pulse ? `0 0 14px ${m.color}` : undefined,
+                      boxShadow: m.pulse ? `0 0 14px ${cc}` : undefined,
                     }}/>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
                       {/* Badge urgencia: CRÍTICA / ALTA / MEDIA / BAJA / INFO */}
@@ -1606,9 +1608,10 @@ export default function GeopoliticaPage() {
         /* Animaciones de parpadeo CRÍTICA — globales para TAB 1 OSINT y TAB 2 Alertas */
         @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
         @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        /* alertCard usa color granate (TAB 2 Alertas Prioritarias) */
         @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(127,29,29,0); }       50% { box-shadow: 0 0 22px -2px rgba(127,29,29,0.55); } }
-        /* Glow lateral más intenso específico OSINT crítica */
-        @keyframes alertCardOsint { 0%, 100% { box-shadow: 0 0 0 0 rgba(127,29,29,0), inset 6px 0 0 0 rgba(127,29,29,1); } 50% { box-shadow: 0 0 26px -4px rgba(127,29,29,0.65), inset 6px 0 0 0 rgba(220,38,38,1); } }
+        /* alertCardSector usa el color del sector vía CSS var --pulse-color (OSINT) */
+        @keyframes alertCardSector { 0%, 100% { box-shadow: 0 0 0 0 transparent; }        50% { box-shadow: 0 0 26px -2px var(--pulse-color, rgba(127,29,29,0.55)); } }
       `}</style>
     </div>
   )
