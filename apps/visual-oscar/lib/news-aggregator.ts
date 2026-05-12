@@ -661,6 +661,7 @@ const GEO_CAT_KEYWORDS: Record<string, string[]> = {
 }
 
 const COUNTRY_KEYWORDS: Record<string, { lat: number; lon: number; iso: string; categoria: string }> = {
+  // ── Vecindad y socios UE/Mediterráneo (24 originales) ──
   'Marruecos':       { lat: 31.8, lon: -7.1,  iso: 'MAR', categoria: 'migracion'   },
   'Argelia':         { lat: 28.0, lon:  3.0,  iso: 'DZA', categoria: 'energia'     },
   'Francia':         { lat: 46.2, lon:  2.2,  iso: 'FRA', categoria: 'diplomatica' },
@@ -685,6 +686,35 @@ const COUNTRY_KEYWORDS: Record<string, { lat: number; lon: number; iso: string; 
   'Arabia Saudí':    { lat: 23.9, lon: 45.1,  iso: 'SAU', categoria: 'energia'     },
   'Mauritania':      { lat: 21.0, lon: -10.9, iso: 'MRT', categoria: 'migracion'   },
   'Senegal':         { lat: 14.5, lon: -14.5, iso: 'SEN', categoria: 'migracion'   },
+
+  // ── 20 países nuevos ────────────────────────────────────────────
+  // América
+  'Chile':           { lat: -35.7, lon: -71.5, iso: 'CHL', categoria: 'comercio'    },
+  'Colombia':        { lat:   4.6, lon: -74.1, iso: 'COL', categoria: 'comercio'    },
+  'Perú':            { lat: -10.0, lon: -76.0, iso: 'PER', categoria: 'comercio'    },
+  'Ecuador':         { lat:  -1.8, lon: -78.2, iso: 'ECU', categoria: 'migracion'   },
+  'Uruguay':         { lat: -32.5, lon: -55.8, iso: 'URY', categoria: 'diplomatica' },
+  'Bolivia':         { lat: -16.3, lon: -63.6, iso: 'BOL', categoria: 'energia'     },
+  'Canadá':          { lat:  56.1, lon: -106.3, iso: 'CAN', categoria: 'comercio'    },
+  // Europa norte/centro
+  'Países Bajos':    { lat:  52.1, lon:   5.3, iso: 'NLD', categoria: 'comercio'    },
+  'Bélgica':         { lat:  50.5, lon:   4.5, iso: 'BEL', categoria: 'union_europea' },
+  'Polonia':         { lat:  51.9, lon:  19.1, iso: 'POL', categoria: 'militar'     },
+  'Suecia':          { lat:  60.1, lon:  18.6, iso: 'SWE', categoria: 'diplomatica' },
+  'Suiza':           { lat:  46.8, lon:   8.2, iso: 'CHE', categoria: 'comercio'    },
+  'Grecia':          { lat:  39.0, lon:  21.8, iso: 'GRC', categoria: 'union_europea' },
+  // África subsahariana / Magreb
+  'Egipto':          { lat:  26.8, lon:  30.8, iso: 'EGY', categoria: 'diplomatica' },
+  'Túnez':           { lat:  33.9, lon:   9.6, iso: 'TUN', categoria: 'migracion'   },
+  'Libia':           { lat:  26.3, lon:  17.2, iso: 'LBY', categoria: 'migracion'   },
+  'Sudáfrica':       { lat: -30.6, lon:  22.9, iso: 'ZAF', categoria: 'comercio'    },
+  'Nigeria':         { lat:   9.1, lon:   8.7, iso: 'NGA', categoria: 'energia'     },
+  'Mali':            { lat:  17.6, lon:  -4.0, iso: 'MLI', categoria: 'militar'     },
+  // Asia-Pacífico
+  'Japón':           { lat:  36.2, lon: 138.3, iso: 'JPN', categoria: 'comercio'    },
+  'Corea del Sur':   { lat:  35.9, lon: 127.8, iso: 'KOR', categoria: 'comercio'    },
+  'India':           { lat:  20.6, lon:  78.9, iso: 'IND', categoria: 'comercio'    },
+  'Australia':       { lat: -25.3, lon: 133.8, iso: 'AUS', categoria: 'diplomatica' },
 }
 
 function detectGeoCategory(text: string): string | null {
@@ -823,11 +853,18 @@ export function geoRiesgoFromArticles(articles: AggregatedArticle[]): GeoRiesgoI
     // Interés España: simulado por inverso de la distancia + cercanía geopolítica
     // Más simple: se mantiene constante por país (ya curado en el dataset)
     const interesPorPais: Record<string, number> = {
+      // Vecindad
       Marruecos: 9.5, Argelia: 8.2, Francia: 8.0, Alemania: 7.0, Portugal: 9.0,
       Italia: 6.5, 'Reino Unido': 6.8, 'Estados Unidos': 7.5, Rusia: 7.2,
       Ucrania: 6.5, China: 6.0, Israel: 6.8, Palestina: 6.5, Gaza: 6.8,
       México: 5.8, Brasil: 5.5, Argentina: 5.2, Cuba: 4.5, Venezuela: 6.2,
       Turquía: 5.5, Irán: 5.8, 'Arabia Saudí': 6.0, Mauritania: 7.0, Senegal: 7.2,
+      // 20 nuevos
+      Chile: 5.5, Colombia: 5.8, Perú: 5.0, Ecuador: 5.5, Uruguay: 4.5, Bolivia: 4.8,
+      Canadá: 5.0,
+      'Países Bajos': 6.5, Bélgica: 6.2, Polonia: 5.5, Suecia: 5.0, Suiza: 5.5, Grecia: 5.8,
+      Egipto: 6.0, Túnez: 6.5, Libia: 6.8, Sudáfrica: 4.5, Nigeria: 5.5, Mali: 6.0,
+      Japón: 5.2, 'Corea del Sur': 5.5, India: 5.0, Australia: 4.5,
     }
     const interesEspana = interesPorPais[pais] ?? 5.0
     out.push({

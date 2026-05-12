@@ -4,6 +4,7 @@ import { useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -35,16 +36,61 @@ function fmtDate(iso: string) {
   }
 }
 
-// Map ISO → emoji bandera (lo necesitamos para las tarjetas de país)
+// Map ISO → emoji bandera (44+ países curados)
 const ISO_TO_FLAG: Record<string, string> = {
-  MAR: '🇲🇦', DZA: '🇩🇿', FRA: '🇫🇷', DEU: '🇩🇪', RUS: '🇷🇺', UKR: '🇺🇦',
-  CHN: '🇨🇳', ISR: '🇮🇱', IRN: '🇮🇷', USA: '🇺🇸', PRT: '🇵🇹', ITA: '🇮🇹',
-  GBR: '🇬🇧', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷', CUB: '🇨🇺', VEN: '🇻🇪',
-  TUR: '🇹🇷', SAU: '🇸🇦', GAZ: '🇵🇸', PSE: '🇵🇸', MRT: '🇲🇷', SEN: '🇸🇳',
-  CHL: '🇨🇱', COL: '🇨🇴',
+  // Vecindad y Magreb
+  MAR: '🇲🇦', DZA: '🇩🇿', PRT: '🇵🇹', MRT: '🇲🇷', SEN: '🇸🇳',
+  TUN: '🇹🇳', LBY: '🇱🇾', EGY: '🇪🇬', MLI: '🇲🇱',
+  // Europa
+  FRA: '🇫🇷', DEU: '🇩🇪', ITA: '🇮🇹', GBR: '🇬🇧', NLD: '🇳🇱',
+  BEL: '🇧🇪', POL: '🇵🇱', SWE: '🇸🇪', CHE: '🇨🇭', GRC: '🇬🇷',
+  // América
+  USA: '🇺🇸', CAN: '🇨🇦', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷',
+  CHL: '🇨🇱', COL: '🇨🇴', PER: '🇵🇪', ECU: '🇪🇨', URY: '🇺🇾',
+  BOL: '🇧🇴', CUB: '🇨🇺', VEN: '🇻🇪',
+  // Asia-Pacífico
+  CHN: '🇨🇳', JPN: '🇯🇵', KOR: '🇰🇷', IND: '🇮🇳', AUS: '🇦🇺',
+  // Oriente Medio
+  ISR: '🇮🇱', IRN: '🇮🇷', TUR: '🇹🇷', SAU: '🇸🇦',
+  GAZ: '🇵🇸', PSE: '🇵🇸',
+  // Conflicto
+  RUS: '🇷🇺', UKR: '🇺🇦',
+  // África subsahariana
+  ZAF: '🇿🇦', NGA: '🇳🇬',
 }
 function flagFromIso(iso: string): string {
   return ISO_TO_FLAG[iso] || '🌍'
+}
+
+// Tabla inversa: nombre país → ISO. Usada cuando la API de presencia no envía iso.
+const PAIS_TO_ISO: Record<string, string> = {
+  Marruecos: 'MAR', Argelia: 'DZA', Portugal: 'PRT', Mauritania: 'MRT', Senegal: 'SEN',
+  Túnez: 'TUN', Libia: 'LBY', Egipto: 'EGY', Mali: 'MLI',
+  Francia: 'FRA', Alemania: 'DEU', Italia: 'ITA', 'Reino Unido': 'GBR', 'Países Bajos': 'NLD',
+  Bélgica: 'BEL', Polonia: 'POL', Suecia: 'SWE', Suiza: 'CHE', Grecia: 'GRC',
+  'Estados Unidos': 'USA', Canadá: 'CAN', México: 'MEX', Brasil: 'BRA', Argentina: 'ARG',
+  Chile: 'CHL', Colombia: 'COL', Perú: 'PER', Ecuador: 'ECU', Uruguay: 'URY',
+  Bolivia: 'BOL', Cuba: 'CUB', Venezuela: 'VEN',
+  China: 'CHN', Japón: 'JPN', 'Corea del Sur': 'KOR', India: 'IND', Australia: 'AUS',
+  Israel: 'ISR', Irán: 'IRN', Turquía: 'TUR', 'Arabia Saudí': 'SAU',
+  Gaza: 'GAZ', Palestina: 'PSE',
+  Rusia: 'RUS', Ucrania: 'UKR',
+  Sudáfrica: 'ZAF', Nigeria: 'NGA',
+}
+function isoFromPais(pais: string): string {
+  return PAIS_TO_ISO[pais] || ''
+}
+
+// Mapeo de dimension/sector → meta visual (para Impacto España, estilo Alertas)
+const DIM_META: Record<string, { label: string; color: string; bg: string; ring: string; icon: string }> = {
+  seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)',  icon: '🛡️' },
+  economica:    { label: 'ECONÓMICA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)', icon: '📊' },
+  energetica:   { label: 'ENERGÉTICA',  color: '#EAB308', bg: 'rgba(234,179,8,0.12)',  ring: 'rgba(234,179,8,0.55)',  icon: '⚡' },
+  diplomatica:  { label: 'DIPLOMÁTICA', color: '#1F4E8C', bg: 'rgba(31,78,140,0.08)',  ring: 'rgba(31,78,140,0.45)',  icon: '🤝' },
+  social:       { label: 'SOCIAL',      color: '#0F766E', bg: 'rgba(15,118,110,0.08)', ring: 'rgba(15,118,110,0.45)', icon: '👥' },
+}
+function dimMeta(dim: string) {
+  return DIM_META[dim] || { label: dim.toUpperCase(), color: '#6e6e73', bg: 'rgba(0,0,0,0.04)', ring: 'rgba(0,0,0,0.18)', icon: '🌐' }
 }
 
 // ── sub-components ────────────────────────────────────────────────────────────
@@ -112,6 +158,116 @@ function HeroKPI({ label, value }: { label: string; value: string }) {
   )
 }
 
+// ─── DAFO Modal ───────────────────────────────────────────────────────────────
+// Aparece al clicar una tarjeta de país. Muestra Debilidades / Amenazas /
+// Fortalezas / Oportunidades sobre la relación con España.
+function DafoModal({ pais, iso, onClose, extra }: {
+  pais: string; iso: string; onClose: () => void;
+  extra?: { score?: number; categoria?: string; intensidad?: number }
+}) {
+  const dafo: CountryDafo | null = COUNTRY_DAFO[pais] || null
+  if (!dafo) return (
+    <div onClick={onClose} style={modalOverlay}>
+      <div onClick={(e) => e.stopPropagation()} style={{ ...modalBox, maxWidth: 480, padding: 32 }}>
+        <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 8px' }}>{flagFromIso(iso)} {pais}</p>
+        <p style={{ fontSize: 14, color: '#1d1d1f', margin: 0 }}>
+          DAFO no disponible todavía para este país. Estamos trabajando en ampliar la cobertura.
+        </p>
+        <button onClick={onClose} style={modalCloseBtn}>Cerrar</button>
+      </div>
+    </div>
+  )
+  const sections: Array<{ key: keyof Pick<CountryDafo, 'debilidades' | 'amenazas' | 'fortalezas' | 'oportunidades'>; label: string; color: string; bg: string; icon: string }> = [
+    { key: 'debilidades',   label: 'Debilidades',   color: '#DC2626', bg: 'rgba(220,38,38,0.06)',  icon: '🔻' },
+    { key: 'amenazas',      label: 'Amenazas',      color: '#EA580C', bg: 'rgba(234,88,12,0.06)',  icon: '⚠️' },
+    { key: 'fortalezas',    label: 'Fortalezas',    color: '#0F766E', bg: 'rgba(15,118,110,0.06)', icon: '💪' },
+    { key: 'oportunidades', label: 'Oportunidades', color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)',  icon: '🚀' },
+  ]
+  return (
+    <div onClick={onClose} style={modalOverlay}>
+      <div onClick={(e) => e.stopPropagation()} style={modalBox}>
+        {/* Header */}
+        <div style={{
+          padding: '24px 28px 18px', borderBottom: '1px solid #ECECEF',
+          background: 'linear-gradient(135deg,#0E7490 0%,#134E4A 100%)', color: '#fff',
+          borderRadius: '20px 20px 0 0',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
+            <span style={{ fontSize: 48, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+            <div>
+              <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75, textTransform: 'uppercase', margin: '0 0 4px' }}>DAFO · Relación bilateral con España</p>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', margin: 0, lineHeight: 1.1 }}>{dafo.pais}</h3>
+            </div>
+            <button onClick={onClose} aria-label="Cerrar" style={{
+              marginLeft: 'auto', background: 'rgba(255,255,255,0.16)', border: '1px solid rgba(255,255,255,0.25)',
+              color: '#fff', borderRadius: '50%', width: 32, height: 32, fontSize: 16, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}>×</button>
+          </div>
+          <p style={{ fontSize: 13, opacity: 0.85, margin: '6px 0 0', lineHeight: 1.5, maxWidth: 720 }}>{dafo.resumen}</p>
+          {(extra?.score !== undefined || extra?.intensidad !== undefined) && (
+            <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
+              {extra?.score !== undefined && (
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
+                  Riesgo: <strong style={{ fontFamily: 'var(--font-display)', fontSize: 14 }}>{extra.score.toFixed(1)}/10</strong>
+                </span>
+              )}
+              {extra?.intensidad !== undefined && (
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: 0.85 }}>
+                  Presencia ES: <strong style={{ fontFamily: 'var(--font-display)', fontSize: 14 }}>{extra.intensidad}/100</strong>
+                </span>
+              )}
+              {extra?.categoria && (
+                <span style={{ fontSize: 10.5, fontWeight: 700, padding: '3px 10px', borderRadius: 999,
+                                background: 'rgba(255,255,255,0.18)', color: '#fff', textTransform: 'capitalize' }}>{extra.categoria}</span>
+              )}
+            </div>
+          )}
+        </div>
+        {/* Body — DAFO grid 2×2 */}
+        <div style={{
+          padding: 24, display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14,
+          maxHeight: '60vh', overflowY: 'auto',
+        }}>
+          {sections.map((s) => (
+            <div key={s.key} style={{
+              border: `1px solid ${s.color}30`, borderRadius: 14,
+              padding: '14px 16px', background: s.bg,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                <span style={{ fontSize: 16 }}>{s.icon}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: s.color, letterSpacing: '-0.012em' }}>{s.label}</span>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, lineHeight: 1.55, color: '#1d1d1f' }}>
+                {dafo[s.key].map((item, i) => (
+                  <li key={i} style={{ marginBottom: 5 }}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const modalOverlay: React.CSSProperties = {
+  position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  padding: 16, zIndex: 1000, backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
+  animation: 'dafoOverlayIn 180ms ease-out',
+}
+const modalBox: React.CSSProperties = {
+  background: '#fff', borderRadius: 20, maxWidth: 880, width: '100%',
+  maxHeight: '90vh', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.30)',
+  animation: 'dafoBoxIn 220ms cubic-bezier(0.18,0.89,0.32,1.28)',
+  display: 'flex', flexDirection: 'column',
+}
+const modalCloseBtn: React.CSSProperties = {
+  marginTop: 16, background: '#1d1d1f', color: '#fff', border: 'none',
+  borderRadius: 8, padding: '8px 16px', fontSize: 12.5, fontWeight: 600, cursor: 'pointer',
+}
+
 // ── types ─────────────────────────────────────────────────────────────────────
 interface GeoStats {
   osint_24h: number
@@ -124,16 +280,16 @@ interface RiesgoItem {
   pais: string; iso: string; score: number; interes_espana: number; lat: number; lon: number; categoria: string
 }
 interface OsintItem {
-  id: string; titulo: string; fuente: string; fecha: string; urgencia: number; categoria: string; resumen: string
+  id: string; titulo: string; fuente: string; fecha: string; urgencia: number; categoria: string; resumen: string; url?: string
 }
 interface AlertaItem {
-  id: string; titulo: string; nivel: string; fecha: string; paises: string[]; descripcion: string; fuente: string
+  id: string; titulo: string; nivel: string; fecha: string; paises: string[]; descripcion: string; fuente: string; url?: string
 }
 interface ImpactoItem {
-  id: string; titulo: string; dimension: string; severidad: number; horizonte: string; descripcion: string; paises_origen: string[]
+  id: string; titulo: string; dimension: string; severidad: number; horizonte: string; descripcion: string; paises_origen: string[]; url?: string
 }
 interface PresenciaItem {
-  pais: string; lat: number; lon: number; categoria: string; intensidad: number
+  pais: string; iso?: string; lat: number; lon: number; categoria: string; intensidad: number
 }
 
 // ── main component ────────────────────────────────────────────────────────────
@@ -141,6 +297,8 @@ export default function GeopoliticaPage() {
   const [tab, setTab] = useState(0)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
+  // Modal DAFO compartido entre Teatro Global y Presencia Española
+  const [dafoOpen, setDafoOpen] = useState<{ pais: string; iso: string; extra?: { score?: number; categoria?: string; intensidad?: number } } | null>(null)
 
   const { data: geoStatsRaw, source, updatedAt, refresh } = useApi<GeoStats & { data?: GeoStats }>('/api/geopolitica/stats', { refreshInterval: 60_000 })
   const { data: riesgoRaw } = useApi<{ data: RiesgoItem[] }>('/api/geopolitica/riesgo', { refreshInterval: 120_000 })
@@ -302,14 +460,31 @@ export default function GeopoliticaPage() {
                 const sevColor = r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : r.score >= 4 ? '#EAB308' : '#2d8a39'
                 const sevLabel = r.score >= 8 ? 'ALTO' : r.score >= 6 ? 'MEDIO-ALTO' : r.score >= 4 ? 'MEDIO' : 'BAJO'
                 const catC = catColor(r.categoria)
+                const hasDafo = !!COUNTRY_DAFO[r.pais]
                 return (
-                  <div key={r.iso} style={{
-                    background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
-                    padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                  }}>
+                  <button
+                    key={r.iso}
+                    onClick={() => setDafoOpen({ pais: r.pais, iso: r.iso, extra: { score: r.score, categoria: r.categoria } })}
+                    title={hasDafo ? `Ver DAFO de ${r.pais} sobre la relación con España` : 'Más detalles'}
+                    style={{
+                      background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
+                      padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
+                      fontFamily: 'inherit', cursor: 'pointer', width: '100%',
+                      transition: 'all 160ms',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
+                  >
                     {/* Barra lateral con color de categoría */}
                     <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+                    {hasDafo && (
+                      <span style={{
+                        position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
+                        letterSpacing: '0.08em', color: catC, background: `${catC}14`,
+                        padding: '2px 6px', borderRadius: 4,
+                      }}>DAFO →</span>
+                    )}
 
                     {/* Header: bandera + país + categoría */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
@@ -372,7 +547,7 @@ export default function GeopoliticaPage() {
                         }}/>
                       </div>
                     </div>
-                  </div>
+                  </button>
                 )
               })}
             </div>
@@ -529,11 +704,23 @@ export default function GeopoliticaPage() {
                           ))}
                         </div>
                       </div>
-                      <button style={{
-                        background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
-                        padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
-                        cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
-                      }}>Detalle →</button>
+                      {a.url ? (
+                        <a href={a.url} target="_blank" rel="noopener noreferrer" style={{
+                          background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
+                          padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
+                          cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+                          textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4,
+                          marginRight: 18,
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = m.bg; e.currentTarget.style.borderColor = m.ring }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#ECECEF' }}
+                        >Leer noticia ↗</a>
+                      ) : (
+                        <span style={{
+                          padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
+                          fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
+                        }}>Sin enlace</span>
+                      )}
                     </article>
                   )
                 })
@@ -548,44 +735,117 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 3 — Impacto España */}
+        {/* TAB 3 — Impacto España (visual Alertas con colores por sector) */}
         {tab === 3 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {impactosSorted.map((imp) => {
-              const hColor = imp.horizonte === 'corto' ? '#c42c2c' : imp.horizonte === 'medio' ? '#b25000' : '#2d8a39'
-              return (
-                <div key={imp.id} style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 18, padding: '20px 24px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                    <span style={{ fontWeight: 600, fontSize: 14, flex: 1 }}>{imp.titulo}</span>
-                    <div style={{ display: 'flex', gap: 8, flexShrink: 0, marginLeft: 12 }}>
-                      <span style={{ padding: '3px 10px', borderRadius: 999, background: `${catColor(imp.dimension)}14`, color: catColor(imp.dimension), fontSize: 11, fontWeight: 600 }}>{imp.dimension}</span>
-                      <span style={{ padding: '3px 10px', borderRadius: 999, background: `${hColor}14`, color: hColor, fontSize: 11, fontWeight: 600 }}>{imp.horizonte}</span>
-                    </div>
+          <div>
+            {/* Resumen contadores por dimensión */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 18,
+            }}>
+              {(['seguridad', 'economica', 'energetica', 'diplomatica', 'social'] as const).map((dim) => {
+                const m = dimMeta(dim)
+                const cnt = impactosSorted.filter((i) => i.dimension === dim).length
+                return (
+                  <div key={dim} style={{
+                    textAlign: 'center', padding: '14px 8px', borderRadius: 12,
+                    background: m.bg, border: `1px solid ${m.ring}`,
+                  }}>
+                    <div style={{ fontSize: 18, marginBottom: 4 }}>{m.icon}</div>
+                    <div style={{
+                      fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
+                      lineHeight: 1, color: m.color, fontVariantNumeric: 'tabular-nums',
+                    }}>{cnt}</div>
+                    <div style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
+                      opacity: 0.7, marginTop: 4, textTransform: 'uppercase',
+                    }}>{m.label}</div>
                   </div>
-                  <div style={{ marginBottom: 10 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <span style={{ fontSize: 11, color: '#6e6e73' }}>Severidad</span>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: imp.severidad >= 4 ? '#c42c2c' : imp.severidad >= 3 ? '#b25000' : '#6e6e73' }}>{imp.severidad}/5</span>
-                    </div>
-                    <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3 }}>
-                      <div style={{ width: `${(imp.severidad / 5) * 100}%`, height: 5, borderRadius: 3, background: imp.severidad >= 4 ? '#c42c2c' : imp.severidad >= 3 ? '#b25000' : '#6e6e73' }} />
-                    </div>
-                  </div>
-                  <p style={{ fontSize: 13, color: '#424245', margin: '0 0 10px', lineHeight: 1.6 }}>{imp.descripcion}</p>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {imp.paises_origen.map((p) => (
-                      <span key={p} style={{ padding: '3px 9px', borderRadius: 999, background: 'rgba(0,0,0,0.045)', fontSize: 11, fontWeight: 500, color: '#424245' }}>{p}</span>
-                    ))}
-                  </div>
+                )
+              })}
+            </div>
+
+            {/* Lista de impactos: estilo Alertas con barra lateral por dimensión */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {impactosSorted.length === 0 && (
+                <div style={{
+                  padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
+                  background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
+                }}>
+                  Sin impactos registrados
                 </div>
-              )
-            })}
+              )}
+              {impactosSorted.map((imp) => {
+                const m = dimMeta(imp.dimension)
+                const hLabel = imp.horizonte === 'corto' ? 'CORTO PLAZO' : imp.horizonte === 'medio' ? 'MEDIO PLAZO' : 'LARGO PLAZO'
+                return (
+                  <article key={imp.id} style={{
+                    display: 'grid', gridTemplateColumns: '6px 130px 1fr auto',
+                    gap: 14, alignItems: 'center',
+                    padding: '14px 18px 14px 0', borderRadius: 14,
+                    background: m.bg, border: `1px solid ${m.ring}`,
+                    position: 'relative', overflow: 'hidden',
+                  }}>
+                    <div style={{ background: m.color, height: '100%' }}/>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
+                        color: '#fff', background: m.color,
+                        padding: '3px 8px', borderRadius: 999,
+                        display: 'inline-flex', alignItems: 'center', gap: 5,
+                      }}>
+                        <span>{m.icon}</span>{m.label}
+                      </span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.06em' }}>{hLabel}</span>
+                      {/* Severidad como barras horizontales (5 niveles) */}
+                      <div style={{ display: 'flex', gap: 2, marginTop: 2 }}>
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <span key={n} style={{
+                            width: 10, height: 4, borderRadius: 1,
+                            background: n <= imp.severidad ? m.color : 'rgba(0,0,0,0.10)',
+                          }}/>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <h3 style={{
+                        margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
+                        fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
+                      }}>{imp.titulo}</h3>
+                      <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{imp.descripcion}</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>Severidad {imp.severidad}/5 · Origen:</span>
+                        {imp.paises_origen.slice(0, 4).map((p) => (
+                          <span key={p} style={{
+                            padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.06)',
+                            fontSize: 10.5, fontWeight: 600, color: '#3a3a3d',
+                          }}>{p}</span>
+                        ))}
+                      </div>
+                    </div>
+                    {imp.url ? (
+                      <a href={imp.url} target="_blank" rel="noopener noreferrer" style={{
+                        background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
+                        padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
+                        fontFamily: 'inherit', flexShrink: 0, textDecoration: 'none',
+                        marginRight: 18,
+                      }}>Leer noticia ↗</a>
+                    ) : (
+                      <span style={{
+                        padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
+                        fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
+                      }}>—</span>
+                    )}
+                  </article>
+                )
+              })}
+            </div>
           </div>
         )}
 
-        {/* TAB 4 — Presencia Española */}
+        {/* TAB 4 — Presencia Española (cards estilo Teatro Global + DAFO breve) */}
         {tab === 4 && (
           <div>
+            {/* Mapa arriba (mantiene contexto visual) */}
             <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
               <Plot
                 data={presenciaTraces as object[]}
@@ -594,34 +854,93 @@ export default function GeopoliticaPage() {
                 style={{ width: '100%' }}
               />
             </div>
-            <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #e8e8ed', background: '#f5f5f7' }}>
-                    <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>País</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Categoría</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', width: 200 }}>Intensidad</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...presencia].sort((a, b) => b.intensidad - a.intensidad).map((p, i) => (
-                    <tr key={p.pais} style={{ borderTop: i > 0 ? '1px solid #f5f5f7' : 'none' }}>
-                      <td style={{ padding: '12px 20px', fontWeight: 600 }}>{p.pais}</td>
-                      <td style={{ padding: '12px 20px' }}>
-                        <span style={{ padding: '3px 10px', borderRadius: 999, background: `${catColor(p.categoria)}14`, color: catColor(p.categoria), fontSize: 11, fontWeight: 600 }}>{p.categoria}</span>
-                      </td>
-                      <td style={{ padding: '12px 20px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ height: 5, flex: 1, background: '#f5f5f7', borderRadius: 3 }}>
-                            <div style={{ width: `${p.intensidad}%`, height: 5, borderRadius: 3, background: catColor(p.categoria) }} />
-                          </div>
-                          <span style={{ fontSize: 12, fontWeight: 600, width: 32, textAlign: 'right', flexShrink: 0 }}>{p.intensidad}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+            {/* Tarjetas de país con bandera + barra intensidad + DAFO breve */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+            }}>
+              {[...presencia].sort((a, b) => b.intensidad - a.intensidad).map((p) => {
+                // Si la API no envía iso, lo derivamos por nombre desde nuestra mapa local
+                const iso = p.iso || isoFromPais(p.pais)
+                const catC = catColor(p.categoria)
+                const dafo = COUNTRY_DAFO[p.pais]
+                const hasDafo = !!dafo
+                return (
+                  <button
+                    key={p.pais}
+                    onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
+                    title={hasDafo ? `Ver DAFO completo de ${p.pais}` : 'Más detalles'}
+                    style={{
+                      background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
+                      padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
+                      fontFamily: 'inherit', cursor: 'pointer', width: '100%',
+                      transition: 'all 160ms',
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
+                  >
+                    <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+                    {hasDafo && (
+                      <span style={{
+                        position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
+                        letterSpacing: '0.08em', color: catC, background: `${catC}14`,
+                        padding: '2px 6px', borderRadius: 4,
+                      }}>DAFO →</span>
+                    )}
+
+                    {/* Header bandera + país + categoría */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                      <span style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{flagFromIso(iso)}</span>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{
+                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
+                          letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
+                        }}>{p.pais}</div>
+                        <span style={{
+                          display: 'inline-block', marginTop: 4,
+                          padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
+                          color: catC, fontSize: 10.5, fontWeight: 600,
+                          letterSpacing: '0.04em', textTransform: 'capitalize',
+                        }}>{p.categoria}</span>
+                      </div>
+                    </div>
+
+                    {/* Resumen DAFO breve (1 línea de cada cuadrante) */}
+                    {dafo ? (
+                      <div style={{
+                        marginBottom: 10, padding: '8px 10px', borderRadius: 10,
+                        background: '#fafafa', border: '1px solid #f0f0f3',
+                        fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.45,
+                      }}>
+                        <span style={{ fontStyle: 'italic' }}>{dafo.resumen}</span>
+                      </div>
+                    ) : (
+                      <div style={{
+                        marginBottom: 10, padding: '8px 10px', borderRadius: 10,
+                        background: '#fafafa', border: '1px dashed #e8e8ed',
+                        fontSize: 11.5, color: '#9CA3AF',
+                      }}>
+                        DAFO no disponible aún para este país
+                      </div>
+                    )}
+
+                    {/* Barra intensidad presencia España */}
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Presencia España</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: catC, fontVariantNumeric: 'tabular-nums' }}>{p.intensidad}/100</span>
+                      </div>
+                      <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{
+                          width: `${p.intensidad}%`, height: 5,
+                          background: catC,
+                        }}/>
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
           </div>
         )}
@@ -630,6 +949,21 @@ export default function GeopoliticaPage() {
         {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
 
       </main>
+
+      {/* Modal DAFO global (compartido por Teatro Global y Presencia Española) */}
+      {dafoOpen && (
+        <DafoModal
+          pais={dafoOpen.pais}
+          iso={dafoOpen.iso}
+          extra={dafoOpen.extra}
+          onClose={() => setDafoOpen(null)}
+        />
+      )}
+
+      <style>{`
+        @keyframes dafoOverlayIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes dafoBoxIn     { from { opacity: 0; transform: scale(0.94) translateY(12px) } to { opacity: 1; transform: scale(1) translateY(0) } }
+      `}</style>
     </div>
   )
 }
