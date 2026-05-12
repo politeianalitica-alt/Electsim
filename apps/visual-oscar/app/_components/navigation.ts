@@ -66,15 +66,6 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Termómetro de Riesgo',         href: '/riesgo' },
       { label: 'Crisis Intelligence',          href: '/crisis' },
-      {
-        label: 'Monitor de Medios',
-        href: '/medios-narrativa',
-        banner: {
-          eyebrow: 'NARRATIVA PÚBLICA · MEDIOS',
-          title: '27 medios analizados',
-          colorFrom: '#7C2D92', colorTo: '#3B0764',
-        },
-      },
       { label: 'Detección de Ataques',         href: '/ataques-narrativos' },
     ],
   },
@@ -120,11 +111,30 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 7. Módulos Sectoriales ───────────────────────────────────────────
+  // ─── 7. Medios y Narrativa Pública ────────────────────────────────────
+  {
+    id: 'medios',
+    label: 'Medios',
+    full: 'Medios y Narrativa Pública',
+    items: [
+      {
+        label: 'Mapa de Medios',
+        href: '/medios-narrativa',
+        banner: {
+          eyebrow: 'NARRATIVA PÚBLICA · MEDIOS',
+          title: '219 medios analizados',
+          colorFrom: '#7C2D92', colorTo: '#3B0764',
+        },
+      },
+      { label: 'Pulso de Prensa',          href: '/prensa' },
+    ],
+  },
+
+  // ─── 8. Módulos Sectoriales (incluye Licitaciones y Contratación) ─────
   {
     id: 'sectoriales',
     label: 'Sectoriales',
-    full: 'Módulos Sectoriales',
+    full: 'Sectoriales y Contratación Pública',
     items: [
       { label: 'Energía & Utilities',          href: '/sector-energia' },
       { label: 'Farma & Salud',                href: '/sector-farma' },
@@ -135,21 +145,13 @@ export const MODULES: NavModule[] = [
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
       { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
       { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
-    ],
-  },
-
-  // ─── 8. Licitaciones y Contratación Pública ───────────────────────────
-  {
-    id: 'licitaciones',
-    label: 'Licitaciones',
-    full: 'Licitaciones y Contratación Pública',
-    items: [
-      { label: 'Agregador de Licitaciones',  href: '/licitaciones' },
-      { label: 'Inteligencia Adjudicaciones',href: '/adjudicaciones' },
-      { label: 'Monitor Contratos Vigentes', href: '/contratos-vigentes' },
-      { label: 'Inteligencia Competitiva',   href: '/competidores' },
-      { label: 'Fondos Europeos y PRTR',     href: '/fondos-europeos' },
-      { label: 'Riesgo y Litigios',          href: '/litigios-contratacion' },
+      // ─── Licitaciones y Contratación Pública (movido aquí) ───
+      { label: 'Agregador de Licitaciones',    href: '/licitaciones' },
+      { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
+      { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
+      { label: 'Inteligencia Competitiva',     href: '/competidores' },
+      { label: 'Fondos Europeos y PRTR',       href: '/fondos-europeos' },
+      { label: 'Riesgo y Litigios',            href: '/litigios-contratacion' },
     ],
   },
 
