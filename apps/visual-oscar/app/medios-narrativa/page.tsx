@@ -26,6 +26,7 @@ type Medio = {
   ambito?: string
   ccaa?: string | null
   credibilidad?: number
+  web?: string      // URL pública del medio (para enlace directo)
 }
 
 // Shape de la respuesta de /api/medios
@@ -147,6 +148,7 @@ export default function MediosNarrativaPage() {
       ambito: m.ambito,
       ccaa: m.ccaa,
       credibilidad: m.credibilidad,
+      web: m.web,
     }))
   }, [data])
 
@@ -432,26 +434,37 @@ export default function MediosNarrativaPage() {
         <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
           <h2 style={{ margin:'0 0 14px', fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Listado completo · {visibles.length} medios</h2>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:8 }}>
-            {[...visibles].sort((a,b)=>b.alcance-a.alcance).map(m => (
-              <div key={m.id}
+            {[...visibles].sort((a,b)=>b.alcance-a.alcance).map(m => {
+              // URL pública del medio: 1) campo web, 2) heurística por id como fallback
+              const href = m.web || `https://www.${m.id.replace(/-/g, '')}.com`
+              return (
+                <a key={m.id}
+                   href={href}
+                   target="_blank"
+                   rel="noopener noreferrer"
                    onMouseEnter={()=>setHovered(m.id)} onMouseLeave={()=>setHovered(null)}
-                   onClick={()=>setPinned(pinned === m.id ? null : m.id)}
+                   title={`Abrir ${m.nombre} en una pestaña nueva`}
                    style={{
                      display:'grid', gridTemplateColumns:'14px 1fr auto', gap:10, alignItems:'center',
                      padding:'9px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                     cursor:'pointer',
-                   }}>
-                <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[m.tipo] }}/>
-                <div style={{ minWidth:0 }}>
-                  <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre}</div>
-                  <div style={{ fontSize:10.5, color:'#6e6e73' }}>{m.tipo} · {m.grupo}</div>
-                </div>
-                <div style={{ textAlign:'right' }}>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{m.alcance.toFixed(1)}M</div>
-                  <div style={{ fontSize:10, color: m.tono >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:2 }}>tono {m.tono > 0 ? '+' : ''}{m.tono.toFixed(2)}</div>
-                </div>
-              </div>
-            ))}
+                     cursor:'pointer', textDecoration:'none', color:'inherit',
+                     transition:'all 140ms',
+                   }}
+                   onMouseOver={(e)=>{ e.currentTarget.style.background='#fff'; e.currentTarget.style.borderColor=TIPO_COLOR[m.tipo]+'55'; e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)' }}
+                   onMouseOut={(e)=>{ e.currentTarget.style.background='#FAFAFB'; e.currentTarget.style.borderColor='#ECECEF'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
+                >
+                  <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[m.tipo] }}/>
+                  <div style={{ minWidth:0 }}>
+                    <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre} <span style={{ fontSize:10, color:'#9CA3AF', fontWeight:400 }}>↗</span></div>
+                    <div style={{ fontSize:10.5, color:'#6e6e73' }}>{m.tipo} · {m.grupo}</div>
+                  </div>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{m.alcance.toFixed(1)}M</div>
+                    <div style={{ fontSize:10, color: m.tono >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:2 }}>tono {m.tono > 0 ? '+' : ''}{m.tono.toFixed(2)}</div>
+                  </div>
+                </a>
+              )
+            })}
           </div>
         </section>
 

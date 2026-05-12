@@ -109,15 +109,7 @@ export const MODULES: NavModule[] = [
     label: 'Medios',
     full: 'Medios y Narrativa Pública',
     items: [
-      {
-        label: 'Mapa de Medios',
-        href: '/medios-narrativa',
-        banner: {
-          eyebrow: 'NARRATIVA PÚBLICA · MEDIOS',
-          title: '219 medios analizados',
-          colorFrom: '#7C2D92', colorTo: '#3B0764',
-        },
-      },
+      { label: 'Mapa de Medios', href: '/medios-narrativa' },
       { label: 'Pulso de Prensa',          href: '/prensa' },
     ],
   },
