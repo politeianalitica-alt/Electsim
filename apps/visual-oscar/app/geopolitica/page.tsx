@@ -381,6 +381,8 @@ export default function GeopoliticaPage() {
   const [osintCat, setOsintCat] = useState('all')
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
+  // Orden de TAB 0 Teatro Global
+  const [teatroOrden, setTeatroOrden] = useState<'importancia' | 'continente' | 'riesgo'>('importancia')
   // Orden de TAB 4 Presencia Española
   const [presenciaOrden, setPresenciaOrden] = useState<'importancia' | 'continente' | 'presencia'>('importancia')
   // Modal DAFO compartido entre Teatro Global y Presencia Española
@@ -527,7 +529,119 @@ export default function GeopoliticaPage() {
         />
 
         {/* TAB 0 — Teatro Global */}
-        {tab === 0 && (
+        {tab === 0 && (() => {
+          // 3 modos de orden:
+          //  - importancia: por interes_espana DESC (default, ya en riesgoSorted)
+          //  - riesgo:      por score DESC (urgencia geopolítica pura)
+          //  - continente:  agrupado por continente, dentro por interes_espana DESC
+          const teatroImportancia = riesgoSorted
+          const teatroRiesgo = [...riesgo].sort((a, b) => b.score - a.score)
+          const teatroBuckets = new Map<string, RiesgoItem[]>()
+          for (const r of riesgo) {
+            const cont = continentFromIso(r.iso)
+            const cur = teatroBuckets.get(cont) || []
+            cur.push(r)
+            teatroBuckets.set(cont, cur)
+          }
+          for (const [k, arr] of Array.from(teatroBuckets.entries())) {
+            arr.sort((a, b) => b.interes_espana - a.interes_espana || b.score - a.score)
+            teatroBuckets.set(k, arr)
+          }
+          const teatroContinents = CONTINENT_ORDER.filter((c) => teatroBuckets.has(c))
+
+          // Render reutilizable de tarjeta de país (riesgo)
+          const renderRiesgoCard = (r: RiesgoItem) => {
+            const sevColor = r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : r.score >= 4 ? '#EAB308' : '#2d8a39'
+            const sevLabel = r.score >= 8 ? 'ALTO' : r.score >= 6 ? 'MEDIO-ALTO' : r.score >= 4 ? 'MEDIO' : 'BAJO'
+            const catC = catColor(r.categoria)
+            const hasDafo = !!COUNTRY_DAFO[r.pais]
+            return (
+              <button
+                key={r.iso}
+                onClick={() => setDafoOpen({ pais: r.pais, iso: r.iso, extra: { score: r.score, categoria: r.categoria } })}
+                title={hasDafo ? `Ver DAFO de ${r.pais} sobre la relación con España` : 'Más detalles'}
+                style={{
+                  background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
+                  padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
+                  fontFamily: 'inherit', cursor: 'pointer', width: '100%',
+                  transition: 'all 160ms',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
+              >
+                <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+                {hasDafo && (
+                  <span style={{
+                    position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
+                    letterSpacing: '0.08em', color: catC, background: `${catC}14`,
+                    padding: '2px 6px', borderRadius: 4,
+                  }}>DAFO →</span>
+                )}
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                  <CountryBadge iso={r.iso} size={44} color={catC}/>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{
+                      fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
+                      letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
+                    }}>{r.pais}</div>
+                    <span style={{
+                      display: 'inline-block', marginTop: 4,
+                      padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
+                      color: catC, fontSize: 10.5, fontWeight: 600,
+                      letterSpacing: '0.04em', textTransform: 'capitalize',
+                    }}>{r.categoria}</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
+                  <div style={{
+                    width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+                    background: `conic-gradient(${sevColor} ${r.score * 36}deg, #f5f5f7 0)`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    position: 'relative',
+                  }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: '50%', background: '#fff',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
+                      justifyContent: 'center', position: 'relative',
+                    }}>
+                      <span style={{
+                        fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+                        color: sevColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+                      }}>{r.score.toFixed(1)}</span>
+                      <span style={{ fontSize: 8, color: '#9CA3AF', letterSpacing: '0.06em' }}>/10</span>
+                    </div>
+                  </div>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{
+                      fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
+                      color: '#6e6e73', textTransform: 'uppercase', marginBottom: 2,
+                    }}>Riesgo geopolítico</div>
+                    <div style={{
+                      fontSize: 12, fontWeight: 600, color: sevColor, marginBottom: 4,
+                    }}>{sevLabel}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Interés España</span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{r.interes_espana.toFixed(1)}</span>
+                  </div>
+                  <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{
+                      width: `${(r.interes_espana / 10) * 100}%`, height: 5,
+                      background: 'linear-gradient(90deg,#1F4E8C,#0F766E)',
+                    }}/>
+                  </div>
+                </div>
+              </button>
+            )
+          }
+
+          return (
           <div>
             <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
               <Plot
@@ -555,107 +669,74 @@ export default function GeopoliticaPage() {
                 style={{ width: '100%' }}
               />
             </div>
-            {/* Países como tarjetas visuales (3 cols), no tabla */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
-            }}>
-              {riesgoSorted.map((r) => {
-                const sevColor = r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : r.score >= 4 ? '#EAB308' : '#2d8a39'
-                const sevLabel = r.score >= 8 ? 'ALTO' : r.score >= 6 ? 'MEDIO-ALTO' : r.score >= 4 ? 'MEDIO' : 'BAJO'
-                const catC = catColor(r.categoria)
-                const hasDafo = !!COUNTRY_DAFO[r.pais]
-                return (
-                  <button
-                    key={r.iso}
-                    onClick={() => setDafoOpen({ pais: r.pais, iso: r.iso, extra: { score: r.score, categoria: r.categoria } })}
-                    title={hasDafo ? `Ver DAFO de ${r.pais} sobre la relación con España` : 'Más detalles'}
-                    style={{
-                      background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
-                      padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
-                      fontFamily: 'inherit', cursor: 'pointer', width: '100%',
-                      transition: 'all 160ms',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
-                  >
-                    {/* Barra lateral con color de categoría */}
-                    <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
-                    {hasDafo && (
-                      <span style={{
-                        position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
-                        letterSpacing: '0.08em', color: catC, background: `${catC}14`,
-                        padding: '2px 6px', borderRadius: 4,
-                      }}>DAFO →</span>
-                    )}
 
-                    {/* Header: ISO badge + país + categoría */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                      <CountryBadge iso={r.iso} size={44} color={catC}/>
-                      <div style={{ minWidth: 0, flex: 1 }}>
-                        <div style={{
-                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
-                          letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
-                        }}>{r.pais}</div>
-                        <span style={{
-                          display: 'inline-block', marginTop: 4,
-                          padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
-                          color: catC, fontSize: 10.5, fontWeight: 600,
-                          letterSpacing: '0.04em', textTransform: 'capitalize',
-                        }}>{r.categoria}</span>
-                      </div>
-                    </div>
-
-                    {/* Score riesgo · circular gauge */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
-                      <div style={{
-                        width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
-                        background: `conic-gradient(${sevColor} ${r.score * 36}deg, #f5f5f7 0)`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        position: 'relative',
-                      }}>
-                        <div style={{
-                          width: 44, height: 44, borderRadius: '50%', background: '#fff',
-                          display: 'flex', flexDirection: 'column', alignItems: 'center',
-                          justifyContent: 'center', position: 'relative',
-                        }}>
-                          <span style={{
-                            fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
-                            color: sevColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
-                          }}>{r.score.toFixed(1)}</span>
-                          <span style={{ fontSize: 8, color: '#9CA3AF', letterSpacing: '0.06em' }}>/10</span>
-                        </div>
-                      </div>
-                      <div style={{ minWidth: 0, flex: 1 }}>
-                        <div style={{
-                          fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
-                          color: '#6e6e73', textTransform: 'uppercase', marginBottom: 2,
-                        }}>Riesgo geopolítico</div>
-                        <div style={{
-                          fontSize: 12, fontWeight: 600, color: sevColor, marginBottom: 4,
-                        }}>{sevLabel}</div>
-                      </div>
-                    </div>
-
-                    {/* Interés España · barra horizontal */}
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Interés España</span>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{r.interes_espana.toFixed(1)}</span>
-                      </div>
-                      <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${(r.interes_espana / 10) * 100}%`, height: 5,
-                          background: 'linear-gradient(90deg,#1F4E8C,#0F766E)',
-                        }}/>
-                      </div>
-                    </div>
-                  </button>
-                )
-              })}
+            {/* Selector de orden */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
+              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                {[
+                  { v: 'importancia', l: 'Importancia para España' },
+                  { v: 'continente',  l: 'Por continente' },
+                  { v: 'riesgo',      l: 'Riesgo geopolítico' },
+                ].map((o) => {
+                  const active = teatroOrden === o.v
+                  return (
+                    <button key={o.v} onClick={() => setTeatroOrden(o.v as typeof teatroOrden)} style={{
+                      background: active ? '#fff' : 'transparent',
+                      color: active ? '#1d1d1f' : '#6e6e73',
+                      border: 'none', borderRadius: 999, padding: '6px 14px',
+                      fontSize: 12, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                      fontFamily: 'inherit',
+                      boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      transition: 'all 140ms',
+                    }}>{o.l}</button>
+                  )
+                })}
+              </div>
+              <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {riesgo.length} países en seguimiento</span>
             </div>
+
+            {/* Vista 1: lista plana (importancia o riesgo) */}
+            {teatroOrden !== 'continente' && (
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+              }}>
+                {(teatroOrden === 'riesgo' ? teatroRiesgo : teatroImportancia).map(renderRiesgoCard)}
+              </div>
+            )}
+
+            {/* Vista 2: agrupado por continente */}
+            {teatroOrden === 'continente' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+                {teatroContinents.map((cont) => {
+                  const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
+                  const items = teatroBuckets.get(cont) || []
+                  return (
+                    <section key={cont}>
+                      <div style={{
+                        display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12,
+                        padding: '8px 14px', borderRadius: 10,
+                        background: `${cc}10`, borderLeft: `3px solid ${cc}`,
+                      }}>
+                        <span style={{
+                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+                          color: cc, letterSpacing: '-0.012em',
+                        }}>{cont}</span>
+                        <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
+                      </div>
+                      <div style={{
+                        display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+                      }}>
+                        {items.map(renderRiesgoCard)}
+                      </div>
+                    </section>
+                  )
+                })}
+              </div>
+            )}
           </div>
-        )}
+          )
+        })()}
 
         {/* TAB 1 — OSINT (visual estilo Alertas Prioritarias + enlace a noticia) */}
         {tab === 1 && (
