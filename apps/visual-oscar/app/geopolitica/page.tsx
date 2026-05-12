@@ -174,18 +174,21 @@ const resumenLink = (color: string): React.CSSProperties => ({
   fontFamily: 'inherit', padding: 0,
 })
 const resumenItem = (_first: boolean): React.CSSProperties => ({
-  display: 'flex', alignItems: 'center', gap: 10,
-  padding: '7px 4px', textDecoration: 'none', color: '#1d1d1f',
+  display: 'flex', alignItems: 'center', gap: 12,
+  padding: '8px 6px', textDecoration: 'none', color: '#1d1d1f',
   borderBottom: '1px solid #f9fafb',
+  minWidth: 0,
 })
 const resumenChip = (color: string): React.CSSProperties => ({
   fontSize: 9, fontWeight: 800, letterSpacing: '0.06em',
   color: '#fff', background: color,
-  padding: '2px 6px', borderRadius: 4,
+  padding: '2px 7px', borderRadius: 4,
   whiteSpace: 'nowrap' as const, flexShrink: 0,
+  minWidth: 64, textAlign: 'center' as const,
 })
 const resumenItemTitle: React.CSSProperties = {
-  flex: 1, fontSize: 12, fontWeight: 500, color: '#1d1d1f',
+  flex: 1, minWidth: 0,
+  fontSize: 12.5, fontWeight: 500, color: '#1d1d1f',
   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const,
 }
 const resumenArrow: React.CSSProperties = {
@@ -734,7 +737,7 @@ export default function GeopoliticaPage() {
               </div>
 
               <div style={{
-                display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14, marginBottom: 14,
+                display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 14,
               }}>
                 {/* MÓDULO 1 — Alertas críticas (TAB 2) */}
                 <article style={resumenBox('#DC2626')}>
