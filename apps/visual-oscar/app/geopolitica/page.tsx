@@ -36,30 +36,21 @@ function fmtDate(iso: string) {
   }
 }
 
-// Map ISO → emoji bandera (44+ países curados)
-const ISO_TO_FLAG: Record<string, string> = {
-  // Vecindad y Magreb
-  MAR: '🇲🇦', DZA: '🇩🇿', PRT: '🇵🇹', MRT: '🇲🇷', SEN: '🇸🇳',
-  TUN: '🇹🇳', LBY: '🇱🇾', EGY: '🇪🇬', MLI: '🇲🇱',
-  // Europa
-  FRA: '🇫🇷', DEU: '🇩🇪', ITA: '🇮🇹', GBR: '🇬🇧', NLD: '🇳🇱',
-  BEL: '🇧🇪', POL: '🇵🇱', SWE: '🇸🇪', CHE: '🇨🇭', GRC: '🇬🇷',
-  // América
-  USA: '🇺🇸', CAN: '🇨🇦', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷',
-  CHL: '🇨🇱', COL: '🇨🇴', PER: '🇵🇪', ECU: '🇪🇨', URY: '🇺🇾',
-  BOL: '🇧🇴', CUB: '🇨🇺', VEN: '🇻🇪',
-  // Asia-Pacífico
-  CHN: '🇨🇳', JPN: '🇯🇵', KOR: '🇰🇷', IND: '🇮🇳', AUS: '🇦🇺',
-  // Oriente Medio
-  ISR: '🇮🇱', IRN: '🇮🇷', TUR: '🇹🇷', SAU: '🇸🇦',
-  GAZ: '🇵🇸', PSE: '🇵🇸',
-  // Conflicto
-  RUS: '🇷🇺', UKR: '🇺🇦',
-  // África subsahariana
-  ZAF: '🇿🇦', NGA: '🇳🇬',
-}
-function flagFromIso(iso: string): string {
-  return ISO_TO_FLAG[iso] || '🌍'
+// IsoBadge — círculo tipográfico con código ISO en color de la categoría
+// (sustituye a las banderas emoji para mantener un look austero y consistente)
+function IsoBadge({ iso, size = 40, color = '#1F4E8C' }: { iso: string; size?: number; color?: string }) {
+  const code = (iso || '?').slice(0, 3).toUpperCase()
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      width: size, height: size, borderRadius: '50%',
+      background: color, color: '#fff',
+      fontFamily: 'var(--font-display)', fontWeight: 700,
+      fontSize: size * 0.32, letterSpacing: '0.02em',
+      flexShrink: 0, lineHeight: 1,
+      boxShadow: `0 1px 3px ${color}30`,
+    }}>{code}</span>
+  )
 }
 
 // Tabla inversa: nombre país → ISO. Usada cuando la API de presencia no envía iso.
@@ -82,15 +73,15 @@ function isoFromPais(pais: string): string {
 }
 
 // Mapeo de dimension/sector → meta visual (para Impacto España, estilo Alertas)
-const DIM_META: Record<string, { label: string; color: string; bg: string; ring: string; icon: string }> = {
-  seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)',  icon: '🛡️' },
-  economica:    { label: 'ECONÓMICA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)', icon: '📊' },
-  energetica:   { label: 'ENERGÉTICA',  color: '#EAB308', bg: 'rgba(234,179,8,0.12)',  ring: 'rgba(234,179,8,0.55)',  icon: '⚡' },
-  diplomatica:  { label: 'DIPLOMÁTICA', color: '#1F4E8C', bg: 'rgba(31,78,140,0.08)',  ring: 'rgba(31,78,140,0.45)',  icon: '🤝' },
-  social:       { label: 'SOCIAL',      color: '#0F766E', bg: 'rgba(15,118,110,0.08)', ring: 'rgba(15,118,110,0.45)', icon: '👥' },
+const DIM_META: Record<string, { label: string; color: string; bg: string; ring: string }> = {
+  seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)'  },
+  economica:    { label: 'ECONÓMICA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
+  energetica:   { label: 'ENERGÉTICA',  color: '#EAB308', bg: 'rgba(234,179,8,0.12)',  ring: 'rgba(234,179,8,0.55)'  },
+  diplomatica:  { label: 'DIPLOMÁTICA', color: '#1F4E8C', bg: 'rgba(31,78,140,0.08)',  ring: 'rgba(31,78,140,0.45)'  },
+  social:       { label: 'SOCIAL',      color: '#0F766E', bg: 'rgba(15,118,110,0.08)', ring: 'rgba(15,118,110,0.45)' },
 }
 function dimMeta(dim: string) {
-  return DIM_META[dim] || { label: dim.toUpperCase(), color: '#6e6e73', bg: 'rgba(0,0,0,0.04)', ring: 'rgba(0,0,0,0.18)', icon: '🌐' }
+  return DIM_META[dim] || { label: dim.toUpperCase(), color: '#6e6e73', bg: 'rgba(0,0,0,0.04)', ring: 'rgba(0,0,0,0.18)' }
 }
 
 // ── sub-components ────────────────────────────────────────────────────────────
@@ -169,7 +160,10 @@ function DafoModal({ pais, iso, onClose, extra }: {
   if (!dafo) return (
     <div onClick={onClose} style={modalOverlay}>
       <div onClick={(e) => e.stopPropagation()} style={{ ...modalBox, maxWidth: 480, padding: 32 }}>
-        <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 8px' }}>{flagFromIso(iso)} {pais}</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <IsoBadge iso={iso} size={36} color="#1F4E8C"/>
+          <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>{pais}</p>
+        </div>
         <p style={{ fontSize: 14, color: '#1d1d1f', margin: 0 }}>
           DAFO no disponible todavía para este país. Estamos trabajando en ampliar la cobertura.
         </p>
@@ -177,11 +171,11 @@ function DafoModal({ pais, iso, onClose, extra }: {
       </div>
     </div>
   )
-  const sections: Array<{ key: keyof Pick<CountryDafo, 'debilidades' | 'amenazas' | 'fortalezas' | 'oportunidades'>; label: string; color: string; bg: string; icon: string }> = [
-    { key: 'debilidades',   label: 'Debilidades',   color: '#DC2626', bg: 'rgba(220,38,38,0.06)',  icon: '🔻' },
-    { key: 'amenazas',      label: 'Amenazas',      color: '#EA580C', bg: 'rgba(234,88,12,0.06)',  icon: '⚠️' },
-    { key: 'fortalezas',    label: 'Fortalezas',    color: '#0F766E', bg: 'rgba(15,118,110,0.06)', icon: '💪' },
-    { key: 'oportunidades', label: 'Oportunidades', color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)',  icon: '🚀' },
+  const sections: Array<{ key: keyof Pick<CountryDafo, 'debilidades' | 'amenazas' | 'fortalezas' | 'oportunidades'>; label: string; short: string; color: string; bg: string }> = [
+    { key: 'debilidades',   label: 'Debilidades',   short: 'D', color: '#DC2626', bg: 'rgba(220,38,38,0.06)'  },
+    { key: 'amenazas',      label: 'Amenazas',      short: 'A', color: '#EA580C', bg: 'rgba(234,88,12,0.06)'  },
+    { key: 'fortalezas',    label: 'Fortalezas',    short: 'F', color: '#0F766E', bg: 'rgba(15,118,110,0.06)' },
+    { key: 'oportunidades', label: 'Oportunidades', short: 'O', color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)'  },
   ]
   return (
     <div onClick={onClose} style={modalOverlay}>
@@ -193,7 +187,14 @@ function DafoModal({ pais, iso, onClose, extra }: {
           borderRadius: '20px 20px 0 0',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
-            <span style={{ fontSize: 48, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 56, height: 56, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.18)', color: '#fff',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18,
+              letterSpacing: '0.02em', flexShrink: 0, lineHeight: 1,
+              border: '1px solid rgba(255,255,255,0.30)',
+            }}>{(iso || '?').slice(0, 3).toUpperCase()}</span>
             <div>
               <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75, textTransform: 'uppercase', margin: '0 0 4px' }}>DAFO · Relación bilateral con España</p>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', margin: 0, lineHeight: 1.1 }}>{dafo.pais}</h3>
@@ -234,8 +235,14 @@ function DafoModal({ pais, iso, onClose, extra }: {
               border: `1px solid ${s.color}30`, borderRadius: 14,
               padding: '14px 16px', background: s.bg,
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                <span style={{ fontSize: 16 }}>{s.icon}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: 22, height: 22, borderRadius: 6,
+                  background: s.color, color: '#fff',
+                  fontFamily: 'var(--font-display)', fontWeight: 700,
+                  fontSize: 12, lineHeight: 1, flexShrink: 0,
+                }}>{s.short}</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: s.color, letterSpacing: '-0.012em' }}>{s.label}</span>
               </div>
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12.5, lineHeight: 1.55, color: '#1d1d1f' }}>
@@ -486,9 +493,9 @@ export default function GeopoliticaPage() {
                       }}>DAFO →</span>
                     )}
 
-                    {/* Header: bandera + país + categoría */}
+                    {/* Header: ISO badge + país + categoría */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                      <span style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{flagFromIso(r.iso)}</span>
+                      <IsoBadge iso={r.iso} size={42} color={catC}/>
                       <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
@@ -747,10 +754,13 @@ export default function GeopoliticaPage() {
                 const cnt = impactosSorted.filter((i) => i.dimension === dim).length
                 return (
                   <div key={dim} style={{
-                    textAlign: 'center', padding: '14px 8px', borderRadius: 12,
+                    textAlign: 'center', padding: '16px 8px 14px', borderRadius: 12,
                     background: m.bg, border: `1px solid ${m.ring}`,
                   }}>
-                    <div style={{ fontSize: 18, marginBottom: 4 }}>{m.icon}</div>
+                    <span style={{
+                      display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
+                      background: m.color, marginBottom: 8,
+                    }}/>
                     <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
                       lineHeight: 1, color: m.color, fontVariantNumeric: 'tabular-nums',
@@ -793,7 +803,7 @@ export default function GeopoliticaPage() {
                         padding: '3px 8px', borderRadius: 999,
                         display: 'inline-flex', alignItems: 'center', gap: 5,
                       }}>
-                        <span>{m.icon}</span>{m.label}
+                        {m.label}
                       </span>
                       <span style={{ fontSize: 10, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.06em' }}>{hLabel}</span>
                       {/* Severidad como barras horizontales (5 niveles) */}
@@ -889,9 +899,9 @@ export default function GeopoliticaPage() {
                       }}>DAFO →</span>
                     )}
 
-                    {/* Header bandera + país + categoría */}
+                    {/* Header ISO badge + país + categoría */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                      <span style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{flagFromIso(iso)}</span>
+                      <IsoBadge iso={iso} size={42} color={catC}/>
                       <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
