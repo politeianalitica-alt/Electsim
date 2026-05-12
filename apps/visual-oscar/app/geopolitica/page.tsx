@@ -748,22 +748,25 @@ export default function GeopoliticaPage() {
                 </div>
               )}
               {osintFiltered.map((o) => {
-                const m = urgMeta(o.urgencia)
-                const cc = catColor(o.categoria)
+                const m = urgMeta(o.urgencia)            // urgencia → barra lateral + badge CRÍTICA/ALTA…
+                const cc = catColor(o.categoria)         // sector → fondo + chip de categoría
                 return (
                   <article key={o.id} style={{
                     display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
                     gap: 14, alignItems: 'center',
                     padding: '14px 18px 14px 0', borderRadius: 14,
-                    background: m.bg, border: `1px solid ${m.ring}`,
+                    // Fondo y borde del color del SECTOR (más subtle), no de la urgencia
+                    background: `${cc}14`, border: `1px solid ${cc}55`,
                     position: 'relative', overflow: 'hidden',
                     animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
                   }}>
+                    {/* Barra lateral conserva el color de la URGENCIA (señal primaria) */}
                     <div style={{
                       background: m.color, height: '100%',
                       boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
                     }}/>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+                      {/* Badge urgencia: CRÍTICA / ALTA / MEDIA / BAJA / INFO */}
                       <span style={{
                         fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
                         color: '#fff', background: m.color,
@@ -775,7 +778,13 @@ export default function GeopoliticaPage() {
                         {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
                         {m.label}
                       </span>
-                      <span style={{ fontSize: 10.5, fontWeight: 600, color: cc, letterSpacing: '0.04em', textTransform: 'capitalize' }}>{o.categoria}</span>
+                      {/* Chip de sector con el color del sector (refuerzo visual del fondo) */}
+                      <span style={{
+                        fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
+                        color: '#fff', background: cc,
+                        padding: '2px 8px', borderRadius: 999,
+                        textTransform: 'uppercase',
+                      }}>{o.categoria.replace('_', ' ')}</span>
                       <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>Urgencia {o.urgencia}/5</span>
                     </div>
                     <div style={{ minWidth: 0 }}>
