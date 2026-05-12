@@ -110,6 +110,18 @@ function dimMeta(dim: string) {
   return DIM_META[dim] || { label: dim.toUpperCase(), color: '#6e6e73', bg: 'rgba(0,0,0,0.04)', ring: 'rgba(0,0,0,0.18)' }
 }
 
+// Mapeo urgencia OSINT (1-5) → meta visual igual estilo Alertas Prioritarias
+const URG_META: Record<number, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
+  5: { label: 'CRÍTICA', color: '#7F1D1D', bg: 'rgba(127,29,29,0.16)',  ring: 'rgba(127,29,29,0.7)',  pulse: true },
+  4: { label: 'ALTA',    color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)' },
+  3: { label: 'MEDIA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
+  2: { label: 'BAJA',    color: '#EAB308', bg: 'rgba(234,179,8,0.10)',  ring: 'rgba(234,179,8,0.45)' },
+  1: { label: 'INFO',    color: '#1F4E8C', bg: 'rgba(31,78,140,0.06)',  ring: 'rgba(31,78,140,0.35)' },
+}
+function urgMeta(u: number) {
+  return URG_META[u] || URG_META[1]
+}
+
 // ── sub-components ────────────────────────────────────────────────────────────
 // TabBar estilo pill (consistente con Panel Ejecutivo)
 function TabBar({ items, active, onChange }: { items: string[]; active: number; onChange: (i: number) => void }) {
@@ -607,62 +619,157 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 1 — OSINT */}
+        {/* TAB 1 — OSINT (visual estilo Alertas Prioritarias + enlace a noticia) */}
         {tab === 1 && (
           <div>
-            <div style={{ display: 'flex', gap: 16, marginBottom: 20, alignItems: 'center', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <label style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>Urgencia mín.</label>
-                <input
-                  type="number"
-                  min={1}
-                  max={5}
-                  value={osintUrgMin}
-                  onChange={(e) => setOsintUrgMin(Number(e.target.value))}
-                  style={{ width: 52, padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none' }}
-                />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <label style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>Categoría</label>
-                <select
-                  value={osintCat}
-                  onChange={(e) => setOsintCat(e.target.value)}
-                  style={{ padding: '6px 10px', border: '1px solid #e8e8ed', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff' }}
-                >
-                  <option value="all">Todas</option>
-                  <option value="migracion">Migración</option>
-                  <option value="militar">Militar</option>
-                  <option value="energia">Energía</option>
-                  <option value="diplomatica">Diplomática</option>
-                </select>
-              </div>
+            {/* Resumen contadores por urgencia (clicable: minimo) */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 14,
+            }}>
+              {[5, 4, 3, 2, 1].map((u) => {
+                const m = urgMeta(u)
+                const cnt = osint.filter((o) => o.urgencia === u && (osintCat === 'all' || o.categoria === osintCat)).length
+                const active = osintUrgMin === u
+                return (
+                  <button
+                    key={u}
+                    onClick={() => setOsintUrgMin(active ? 1 : u)}
+                    title={`Filtrar por urgencia ≥ ${u}`}
+                    style={{
+                      textAlign: 'center', padding: '14px 8px', borderRadius: 12,
+                      background: active ? m.color : m.bg,
+                      border: `1px solid ${active ? m.color : m.ring}`,
+                      fontFamily: 'inherit', cursor: 'pointer', transition: 'all 140ms',
+                    }}
+                  >
+                    <span style={{
+                      display: 'inline-block', width: 12, height: 12, borderRadius: '50%',
+                      background: active ? '#fff' : m.color, marginBottom: 6,
+                      animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
+                      boxShadow: m.pulse && !active ? `0 0 12px ${m.color}` : undefined,
+                    }}/>
+                    <div style={{
+                      fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
+                      lineHeight: 1, color: active ? '#fff' : m.color, fontVariantNumeric: 'tabular-nums',
+                    }}>{cnt}</div>
+                    <div style={{
+                      fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em',
+                      color: active ? '#fff' : 'inherit',
+                      opacity: active ? 0.95 : 0.7, marginTop: 4, textTransform: 'uppercase',
+                    }}>{m.label}</div>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Selector de categoría + estado del filtro */}
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 }}>
+              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría:</span>
+              {[
+                { v: 'all', l: 'Todas' },
+                { v: 'migracion', l: 'Migración' },
+                { v: 'militar', l: 'Militar' },
+                { v: 'energia', l: 'Energía' },
+                { v: 'diplomatica', l: 'Diplomática' },
+                { v: 'comercio', l: 'Comercio' },
+                { v: 'union_europea', l: 'UE' },
+              ].map((c) => {
+                const active = osintCat === c.v
+                const cc = c.v === 'all' ? '#1d1d1f' : catColor(c.v)
+                return (
+                  <button key={c.v} onClick={() => setOsintCat(c.v)} style={{
+                    background: active ? cc : '#fff',
+                    color: active ? '#fff' : '#3a3a3d',
+                    border: `1px solid ${active ? cc : '#ECECEF'}`,
+                    borderRadius: 8, padding: '4px 10px',
+                    fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                    fontFamily: 'inherit', transition: 'all 140ms',
+                  }}>{c.l}</button>
+                )
+              })}
+              <span style={{ width: 1, height: 22, background: '#ECECEF', margin: '0 4px' }}/>
               <span style={{ fontSize: 12, color: '#6e6e73' }}>
                 {loadingOsint ? 'Cargando…' : `${osintFiltered.length} señales`}
+                {(osintUrgMin > 1 || osintCat !== 'all') && (
+                  <button onClick={() => { setOsintUrgMin(1); setOsintCat('all') }} style={{
+                    background: 'transparent', border: 'none', color: '#1F4E8C', marginLeft: 8,
+                    fontSize: 11.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: 'inherit',
+                  }}>Quitar filtros ×</button>
+                )}
               </span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {osintFiltered.map((o) => (
-                <div key={o.id} style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '16px 20px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6, gap: 12 }}>
-                    <div style={{ fontWeight: 600, fontSize: 14, flex: 1 }}>{o.titulo}</div>
-                    <div style={{ display: 'flex', gap: 8, flexShrink: 0, alignItems: 'center' }}>
-                      <span style={{ padding: '3px 9px', borderRadius: 999, background: '#f5f5f7', fontSize: 11, fontWeight: 500, color: '#424245' }}>{o.fuente}</span>
-                      <span style={{
-                        width: 20, height: 20, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 10, fontWeight: 700, color: '#fff',
-                        background: o.urgencia >= 4 ? '#c42c2c' : o.urgencia === 3 ? '#b25000' : '#6e6e73',
-                      }}>{o.urgencia}</span>
-                    </div>
-                  </div>
-                  <div style={{ fontSize: 11, color: '#8e8e93', marginBottom: 8 }}>{fmtDate(o.fecha)} · <span style={{ color: catColor(o.categoria) }}>{o.categoria}</span></div>
-                  <p style={{ fontSize: 13, color: '#424245', margin: 0, lineHeight: 1.6 }}>{o.resumen}</p>
-                </div>
-              ))}
+
+            {/* Lista de señales OSINT estilo Alertas Prioritarias */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {osintFiltered.length === 0 && !loadingOsint && (
-                <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '32px 20px', textAlign: 'center', color: '#6e6e73', fontSize: 13 }}>
+                <div style={{
+                  padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
+                  background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
+                }}>
                   No hay señales con los filtros seleccionados
                 </div>
               )}
+              {osintFiltered.map((o) => {
+                const m = urgMeta(o.urgencia)
+                const cc = catColor(o.categoria)
+                return (
+                  <article key={o.id} style={{
+                    display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
+                    gap: 14, alignItems: 'center',
+                    padding: '14px 18px 14px 0', borderRadius: 14,
+                    background: m.bg, border: `1px solid ${m.ring}`,
+                    position: 'relative', overflow: 'hidden',
+                    animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
+                  }}>
+                    <div style={{
+                      background: m.color, height: '100%',
+                      boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
+                    }}/>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
+                        color: '#fff', background: m.color,
+                        padding: '3px 8px', borderRadius: 999,
+                        display: 'inline-flex', alignItems: 'center', gap: 5,
+                        animation: m.pulse ? 'alertPulse 1.2s ease-in-out infinite' : undefined,
+                        boxShadow: m.pulse ? `0 0 10px ${m.color}` : undefined,
+                      }}>
+                        {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
+                        {m.label}
+                      </span>
+                      <span style={{ fontSize: 10.5, fontWeight: 600, color: cc, letterSpacing: '0.04em', textTransform: 'capitalize' }}>{o.categoria}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#9CA3AF' }}>Urgencia {o.urgencia}/5</span>
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <h3 style={{
+                        margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
+                        fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
+                      }}>{o.titulo}</h3>
+                      <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{o.resumen}</p>
+                      <span style={{ fontSize: 11, color: '#6e6e73' }}>
+                        {o.fuente} · <span style={{ fontWeight: 600 }}>{fmtDate(o.fecha)}</span>
+                      </span>
+                    </div>
+                    {o.url ? (
+                      <a href={o.url} target="_blank" rel="noopener noreferrer" style={{
+                        background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
+                        padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: m.color,
+                        cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+                        textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4,
+                        marginRight: 18,
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = m.bg; e.currentTarget.style.borderColor = m.ring }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#ECECEF' }}
+                      >Leer noticia ↗</a>
+                    ) : (
+                      <span style={{
+                        padding: '6px 12px', fontSize: 11.5, fontWeight: 500, color: '#9CA3AF',
+                        fontFamily: 'inherit', flexShrink: 0, marginRight: 18,
+                      }}>Sin enlace</span>
+                    )}
+                  </article>
+                )
+              })}
             </div>
           </div>
         )}
