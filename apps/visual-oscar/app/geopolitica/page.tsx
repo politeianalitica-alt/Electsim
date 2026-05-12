@@ -146,6 +146,55 @@ function dimMeta(dim: string) {
   return DIM_META[dim] || { label: dim.toUpperCase(), color: '#6e6e73', bg: 'rgba(0,0,0,0.04)', ring: 'rgba(0,0,0,0.18)' }
 }
 
+// ── Estilos del Resumen Ejecutivo (TAB 0 Teatro Global) ─────────────────────
+// Pequeño sistema de estilos compartido para los 4 módulos del resumen.
+const resumenBox = (accent: string): React.CSSProperties => ({
+  background: '#fff', border: `1px solid #ECECEF`,
+  borderTop: `3px solid ${accent}`, borderRadius: 14,
+  padding: '14px 16px 12px',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+  display: 'flex', flexDirection: 'column',
+})
+const resumenHeader = (_accent: string): React.CSSProperties => ({
+  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+  marginBottom: 10, paddingBottom: 8, borderBottom: '1px solid #f5f5f7',
+})
+const resumenTitulo = (color: string): React.CSSProperties => ({
+  fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700,
+  letterSpacing: '-0.012em', color, textTransform: 'uppercase' as const,
+})
+const resumenBadge = (color: string): React.CSSProperties => ({
+  fontSize: 10.5, fontWeight: 700, color: '#fff', background: color,
+  padding: '1px 7px', borderRadius: 999,
+  fontVariantNumeric: 'tabular-nums' as const,
+})
+const resumenLink = (color: string): React.CSSProperties => ({
+  background: 'transparent', border: 'none', color,
+  fontSize: 11, fontWeight: 700, cursor: 'pointer',
+  fontFamily: 'inherit', padding: 0,
+})
+const resumenItem = (_first: boolean): React.CSSProperties => ({
+  display: 'flex', alignItems: 'center', gap: 10,
+  padding: '7px 4px', textDecoration: 'none', color: '#1d1d1f',
+  borderBottom: '1px solid #f9fafb',
+})
+const resumenChip = (color: string): React.CSSProperties => ({
+  fontSize: 9, fontWeight: 800, letterSpacing: '0.06em',
+  color: '#fff', background: color,
+  padding: '2px 6px', borderRadius: 4,
+  whiteSpace: 'nowrap' as const, flexShrink: 0,
+})
+const resumenItemTitle: React.CSSProperties = {
+  flex: 1, fontSize: 12, fontWeight: 500, color: '#1d1d1f',
+  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const,
+}
+const resumenArrow: React.CSSProperties = {
+  fontSize: 11, color: '#9CA3AF', flexShrink: 0,
+}
+const resumenEmpty: React.CSSProperties = {
+  padding: '14px 4px', fontSize: 12, color: '#9CA3AF', textAlign: 'center' as const,
+}
+
 // Mapeo urgencia OSINT (1-5) → meta visual igual estilo Alertas Prioritarias
 const URG_META: Record<number, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
   5: { label: 'CRÍTICA', color: '#7F1D1D', bg: 'rgba(127,29,29,0.16)',  ring: 'rgba(127,29,29,0.7)',  pulse: true },
@@ -669,6 +718,164 @@ export default function GeopoliticaPage() {
                 style={{ width: '100%' }}
               />
             </div>
+
+            {/* ───── RESUMEN EJECUTIVO ─────
+                4 módulos compactos que asoman información de las
+                otras pestañas (Alertas, OSINT, Impacto, Presencia)
+                + CTA para Análisis Politeia. Cada item enlaza a la
+                noticia o salta al tab correspondiente. */}
+            <section style={{ marginBottom: 22 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12 }}>
+                <h2 style={{
+                  fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700,
+                  letterSpacing: '-0.018em', margin: 0, color: '#1d1d1f',
+                }}>Resumen ejecutivo</h2>
+                <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· lo más relevante de cada módulo</span>
+              </div>
+
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14, marginBottom: 14,
+              }}>
+                {/* MÓDULO 1 — Alertas críticas (TAB 2) */}
+                <article style={resumenBox('#DC2626')}>
+                  <header style={resumenHeader('#DC2626')}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={resumenTitulo('#DC2626')}>Alertas activas</span>
+                      <span style={resumenBadge('#DC2626')}>{alertas.length}</span>
+                    </div>
+                    <button onClick={() => setTab(2)} style={resumenLink('#DC2626')}>Ver todas →</button>
+                  </header>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {alertas.length === 0 && <div style={resumenEmpty}>Sin alertas activas en este momento</div>}
+                    {alertas.slice(0, 3).map((a, i) => {
+                      const m = NIVEL_META[(['CRITICO', 'ALTO', 'MEDIO'].includes(a.nivel) ? a.nivel : 'BAJO') as NivelGeo]
+                      return (
+                        <a key={a.id} href={a.url || '#'}
+                          target={a.url ? '_blank' : undefined}
+                          rel="noopener noreferrer"
+                          onClick={a.url ? undefined : (e) => { e.preventDefault(); setTab(2) }}
+                          style={resumenItem(i === 0)}>
+                          <span style={resumenChip(m.color)}>{m.label}</span>
+                          <span style={resumenItemTitle}>{a.titulo}</span>
+                          {a.url && <span style={resumenArrow}>↗</span>}
+                        </a>
+                      )
+                    })}
+                  </div>
+                </article>
+
+                {/* MÓDULO 2 — OSINT recientes (TAB 1) */}
+                <article style={resumenBox('#1F4E8C')}>
+                  <header style={resumenHeader('#1F4E8C')}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={resumenTitulo('#1F4E8C')}>OSINT recientes</span>
+                      <span style={resumenBadge('#1F4E8C')}>{osint.length}</span>
+                    </div>
+                    <button onClick={() => setTab(1)} style={resumenLink('#1F4E8C')}>Ver todas →</button>
+                  </header>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {osint.length === 0 && <div style={resumenEmpty}>Sin señales recientes</div>}
+                    {[...osint].sort((a, b) => b.urgencia - a.urgencia).slice(0, 3).map((o, i) => {
+                      const cc = catColor(o.categoria)
+                      return (
+                        <a key={o.id} href={o.url || '#'}
+                          target={o.url ? '_blank' : undefined}
+                          rel="noopener noreferrer"
+                          onClick={o.url ? undefined : (e) => { e.preventDefault(); setTab(1) }}
+                          style={resumenItem(i === 0)}>
+                          <span style={resumenChip(cc)}>{o.categoria.replace('_', ' ').toUpperCase()}</span>
+                          <span style={resumenItemTitle}>{o.titulo}</span>
+                          {o.url && <span style={resumenArrow}>↗</span>}
+                        </a>
+                      )
+                    })}
+                  </div>
+                </article>
+
+                {/* MÓDULO 3 — Impacto España (TAB 3) */}
+                <article style={resumenBox('#F97316')}>
+                  <header style={resumenHeader('#F97316')}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={resumenTitulo('#F97316')}>Impacto en España</span>
+                      <span style={resumenBadge('#F97316')}>{impactos.length}</span>
+                    </div>
+                    <button onClick={() => setTab(3)} style={resumenLink('#F97316')}>Ver todos →</button>
+                  </header>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {impactos.length === 0 && <div style={resumenEmpty}>Sin impactos detectados</div>}
+                    {impactosSorted.slice(0, 3).map((imp, i) => {
+                      const m = dimMeta(imp.dimension)
+                      return (
+                        <a key={imp.id} href={imp.url || '#'}
+                          target={imp.url ? '_blank' : undefined}
+                          rel="noopener noreferrer"
+                          onClick={imp.url ? undefined : (e) => { e.preventDefault(); setTab(3) }}
+                          style={resumenItem(i === 0)}>
+                          <span style={resumenChip(m.color)}>{m.label}</span>
+                          <span style={resumenItemTitle}>{imp.titulo}</span>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: m.color, marginLeft: 'auto' }}>{imp.severidad}/5</span>
+                        </a>
+                      )
+                    })}
+                  </div>
+                </article>
+
+                {/* MÓDULO 4 — Top Presencia España (TAB 4) */}
+                <article style={resumenBox('#0F766E')}>
+                  <header style={resumenHeader('#0F766E')}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                      <span style={resumenTitulo('#0F766E')}>Top presencia española</span>
+                      <span style={resumenBadge('#0F766E')}>{presencia.length} países</span>
+                    </div>
+                    <button onClick={() => setTab(4)} style={resumenLink('#0F766E')}>Ver todos →</button>
+                  </header>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {presencia.length === 0 && <div style={resumenEmpty}>Sin datos de presencia</div>}
+                    {[...presencia].sort((x, y) => y.intensidad - x.intensidad).slice(0, 4).map((p, i) => {
+                      const iso = p.iso || isoFromPais(p.pais)
+                      const cc = catColor(p.categoria)
+                      return (
+                        <button key={p.pais}
+                          onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
+                          style={{ ...resumenItem(i === 0), background: 'transparent', border: 'none', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit' }}>
+                          <CountryBadge iso={iso} size={22} color={cc}/>
+                          <span style={{ ...resumenItemTitle, fontWeight: 600 }}>{p.pais}</span>
+                          <div style={{ flex: 1, height: 4, background: '#f5f5f7', borderRadius: 2, overflow: 'hidden', maxWidth: 80 }}>
+                            <div style={{ width: `${p.intensidad}%`, height: 4, background: cc }}/>
+                          </div>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: cc, fontVariantNumeric: 'tabular-nums', minWidth: 26, textAlign: 'right' }}>{p.intensidad}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </article>
+              </div>
+
+              {/* Banner Análisis Politeia (TAB 5) */}
+              <button onClick={() => setTab(5)} style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                gap: 16, padding: '14px 22px', borderRadius: 14,
+                background: 'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
+                border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                boxShadow: '0 4px 14px rgba(124,58,237,0.20)',
+                transition: 'transform 140ms',
+              }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
+              >
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.85)', textTransform: 'uppercase', marginBottom: 3 }}>Análisis Politeia · Geopolítico</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, color: '#fff', letterSpacing: '-0.012em' }}>
+                    Genera un briefing estratégico con los datos en vivo de todos los módulos
+                  </div>
+                </div>
+                <span style={{
+                  background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.30)',
+                  color: '#fff', borderRadius: 10, padding: '8px 16px',
+                  fontSize: 12.5, fontWeight: 700, whiteSpace: 'nowrap',
+                }}>Generar análisis →</span>
+              </button>
+            </section>
 
             {/* Selector de orden */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
