@@ -14,6 +14,8 @@ type Hito = {
   detalle: string
   autores?: string[]
   resultado?: 'ok' | 'pendiente' | 'rechazado'
+  /** Enlace al BOCG / BOE / acta concreta del hito */
+  url?: string
 }
 
 type Enmienda = {
@@ -33,6 +35,8 @@ type Version = {
   fuente: string
   cambios: string
   diff: { add: number; del: number; mod: number }
+  /** URL al PDF / HTML del BOCG correspondiente */
+  url?: string
 }
 
 type Actor = {
@@ -48,7 +52,11 @@ type Expediente = {
   title: string
   promotor: string
   registro: string
-  fase: 'En tramitación' | 'Aprobada' | 'En Senado' | 'En BOE' | 'Devuelta'
+  fase: 'En tramitación' | 'Aprobada' | 'En Senado' | 'En BOE' | 'Devuelta' | 'Rechazada'
+  /** PL · Proyecto de Ley · PPL · Proposición de Ley · RDL · Real Decreto-Ley · LO · Ley Orgánica · RD · Real Decreto */
+  tipo?: 'PL' | 'PPL' | 'RDL' | 'RD' | 'LO' | 'Tratado'
+  /** Categoría temática · usada para filtros */
+  categoria?: 'Económica' | 'Social' | 'Justicia' | 'Educación' | 'Sanidad' | 'Territorial' | 'Energía' | 'Defensa' | 'Internacional' | 'Digital' | 'Agraria' | 'Otra'
   diasTramite: number
   enmiendasTotal: number
   enmiendasAceptadas: number
@@ -58,6 +66,51 @@ type Expediente = {
   enmiendas: Enmienda[]
   versiones: Version[]
   actores: Actor[]
+  // ───────── Enlaces a fuentes oficiales ─────────
+  /** Ficha de la iniciativa en el portal del Congreso (búsqueda por expediente) */
+  url_congreso?: string
+  /** Ficha en el Senado · solo si la iniciativa ha llegado al Senado */
+  url_senado?: string
+  /** Texto consolidado en el BOE (cuando ya se ha publicado como ley) */
+  url_boe?: string
+  /** Búsqueda BOCG (Boletín Oficial Cortes Generales) por expediente */
+  url_bocg?: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Helpers para construir URLs reales del Congreso, BOCG y BOE
+// ─────────────────────────────────────────────────────────────────────────
+
+/**
+ * URL canónica de búsqueda de iniciativa en el portal del Congreso por
+ * número de expediente. Funciona para cualquier expediente vivo o histórico.
+ */
+function urlCongresoExp(exp: string): string {
+  // Formato del Congreso: 121/000034 → buscador-iniciativas
+  const enc = encodeURIComponent(exp)
+  return `https://www.congreso.es/iniciativas?p_p_id=iniciativas&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_iniciativas_mvcRenderCommandName=%2Findex&_iniciativas_legislatura=15&_iniciativas_numExpediente=${enc}`
+}
+
+/** Búsqueda en BOCG por expediente */
+function urlBOCG(exp: string): string {
+  return `https://www.congreso.es/buscador?expediente=${encodeURIComponent(exp)}`
+}
+
+/** Texto consolidado del BOE por identificador de norma (BOE-A-YYYY-NNNN) */
+function urlBOE(boeId: string): string {
+  return `https://www.boe.es/buscar/doc.php?id=${encodeURIComponent(boeId)}`
+}
+
+/** PDF directo del BOE por identificador */
+function urlBoePdf(boeId: string): string {
+  // BOE-A-2026-7245 → /boe/dias/2026/MM/DD/pdfs/BOE-A-2026-7245.pdf (no determinable solo del ID)
+  // Usamos la página pública del documento en su lugar
+  return urlBOE(boeId)
+}
+
+/** Búsqueda Senado por expediente */
+function urlSenado(exp: string): string {
+  return `https://www.senado.es/web/expedientiniciativa/index?detalleIniciativaSeleccionada=true&numexp=${encodeURIComponent(exp)}`
 }
 
 const FASE_META: Record<Hito['fase'], { label: string; color: string; orden: number }> = {
@@ -142,6 +195,10 @@ const EXPEDIENTES: Expediente[] = [
       { nombre:'Pepe Álvarez',          rol:'Compareciente',  partido:'UGT',  color:'#A02525' },
       { nombre:'Unai Sordo',            rol:'Compareciente',  partido:'CCOO', color:'#A02525' },
     ],
+    tipo: 'PL',
+    categoria: 'Económica',
+    url_congreso: urlCongresoExp('121/000034'),
+    url_bocg: urlBOCG('121/000034'),
   },
   {
     id: 'vivienda-2026',
@@ -188,6 +245,11 @@ const EXPEDIENTES: Expediente[] = [
       { nombre:'Pilar Vallugera',  rol:'Ponente',      partido:'ERC',   color:'#E8A030' },
       { nombre:'Ada Colau',        rol:'Compareciente',partido:'Sumar', color:'#D43F8D' },
     ],
+    tipo: 'PL',
+    categoria: 'Social',
+    url_congreso: urlCongresoExp('121/000041'),
+    url_bocg: urlBOCG('121/000041'),
+    url_senado: urlSenado('621/000041'),
   },
   {
     id: 'cgpj-reforma',
@@ -217,6 +279,10 @@ const EXPEDIENTES: Expediente[] = [
       { nombre:'José Antonio Bermúdez de Castro', rol:'Ponente', partido:'PP',   color:'#1F4E8C' },
       { nombre:'Patxi López',                  rol:'Portavoz', partido:'PSOE', color:'#E1322D' },
     ],
+    tipo: 'PPL',
+    categoria: 'Justicia',
+    url_congreso: urlCongresoExp('122/000022'),
+    url_bocg: urlBOCG('122/000022'),
   },
   {
     id: 'movilidad-2026',
@@ -262,6 +328,12 @@ const EXPEDIENTES: Expediente[] = [
       { nombre:'Aina Vidal',       rol:'Ponente',      partido:'Sumar',color:'#D43F8D' },
       { nombre:'Marta Madrenas',   rol:'Ponente',      partido:'Junts',color:'#1FA89B' },
     ],
+    tipo: 'PL',
+    categoria: 'Energía',
+    url_congreso: urlCongresoExp('121/000027'),
+    url_bocg: urlBOCG('121/000027'),
+    url_senado: urlSenado('621/000027'),
+    url_boe: urlBOE('BOE-A-2026-7245'),
   },
   {
     id: 'fin-autonomica',
@@ -289,6 +361,294 @@ const EXPEDIENTES: Expediente[] = [
       { nombre:'Cuca Gamarra',        rol:'Portavoz', partido:'PP',   color:'#1F4E8C' },
       { nombre:'Miriam Nogueras',     rol:'Portavoz', partido:'Junts',color:'#1FA89B' },
     ],
+    tipo: 'PL',
+    categoria: 'Territorial',
+    url_congreso: urlCongresoExp('121/000048'),
+    url_bocg: urlBOCG('121/000048'),
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // 7 expedientes adicionales · ampliación del seguimiento
+  // Cada uno con enlaces directos a Congreso · BOCG · Senado · BOE
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    id: 'amnistia-2024',
+    exp: '122/000018',
+    title: 'Ley Orgánica de amnistía para la normalización institucional, política y social en Cataluña',
+    promotor: 'GP Socialista',
+    registro: '13/11/2023',
+    fase: 'En BOE',
+    diasTramite: 224,
+    enmiendasTotal: 487,
+    enmiendasAceptadas: 28,
+    comparecencias: 18,
+    votacionesTotales: 17,
+    hitos: [
+      { fase:'registro',  fecha:'13/11/2023', titulo:'Registro de la PPL en el Congreso', detalle:'Iniciativa del GP Socialista', resultado:'ok', url: urlBOCG('122/000018') },
+      { fase:'totalidad', fecha:'12/12/2023', titulo:'Toma en consideración', detalle:'179 SÍ / 171 NO · pasa a ponencia', resultado:'ok' },
+      { fase:'enmiendas', fecha:'30/01/2024', titulo:'Cierre plazo enmiendas', detalle:'487 enmiendas · récord de la legislatura', resultado:'ok' },
+      { fase:'pleno-c',   fecha:'30/01/2024', titulo:'Rechazo en primera votación', detalle:'171 SÍ (PSOE+Sumar+nacionalistas) / 179 NO · vuelve a comisión', resultado:'rechazado' },
+      { fase:'pleno-c',   fecha:'14/03/2024', titulo:'Aprobación en Pleno Congreso', detalle:'178 SÍ / 172 NO · texto remitido al Senado', resultado:'ok' },
+      { fase:'senado',    fecha:'14/05/2024', titulo:'Veto del Senado', detalle:'Mayoría absoluta del PP impone veto', resultado:'ok' },
+      { fase:'devuelto',  fecha:'30/05/2024', titulo:'Levantamiento del veto en el Congreso', detalle:'177 SÍ / 172 NO · texto definitivo', resultado:'ok' },
+      { fase:'aprobado',  fecha:'30/05/2024', titulo:'Aprobación final', detalle:'Texto definitivo aprobado tras vencer veto Senado', resultado:'ok' },
+      { fase:'boe',       fecha:'11/06/2024', titulo:'Publicación BOE', detalle:'Ley Orgánica 1/2024 · BOE-A-2024-11800', resultado:'ok', url: urlBOE('BOE-A-2024-11800') },
+    ],
+    enmiendas: [
+      { num:'018-001', autor:'GP Popular',  partido:'PP',    color:'#1F4E8C', alcance:'Totalidad', articulo:'—',       estado:'Rechazada', votacion:'30/01/2024 · 171 SÍ / 179 NO' },
+      { num:'018-008', autor:'GP VOX',      partido:'VOX',   color:'#5BA02E', alcance:'Totalidad', articulo:'—',       estado:'Rechazada' },
+      { num:'018-074', autor:'GP Junts',    partido:'Junts', color:'#1FA89B', alcance:'Parcial',   articulo:'Art. 1.4', estado:'Transaccionada' },
+      { num:'018-198', autor:'GP ERC',      partido:'ERC',   color:'#E8A030', alcance:'Parcial',   articulo:'Art. 2',  estado:'Aceptada' },
+    ],
+    versiones: [
+      { v:'V1 · texto inicial',     fecha:'13/11/2023', fuente:'BOCG 122-1', cambios:'Texto del GP Socialista', diff:{add:0,del:0,mod:0}, url: urlBOCG('122/000018') },
+      { v:'V2 · informe ponencia',  fecha:'14/02/2024', fuente:'BOCG 122-2', cambios:'Reforma art. 1 · alcance', diff:{add:1,del:0,mod:3} },
+      { v:'V3 · texto Pleno (1)',   fecha:'30/01/2024', fuente:'BOCG 122-3', cambios:'Texto rechazado · vuelve a comisión', diff:{add:0,del:1,mod:2} },
+      { v:'V4 · texto definitivo',  fecha:'14/03/2024', fuente:'BOCG 122-4', cambios:'Texto aprobado tras transaccionar con Junts y ERC', diff:{add:2,del:0,mod:5} },
+      { v:'V5 · texto BOE',         fecha:'11/06/2024', fuente:'BOE 11800',  cambios:'Texto definitivo publicado', diff:{add:0,del:0,mod:0}, url: urlBOE('BOE-A-2024-11800') },
+    ],
+    actores: [
+      { nombre:'Patxi López',       rol:'Promotor', partido:'PSOE',  color:'#E1322D' },
+      { nombre:'Félix Bolaños',     rol:'Compareciente', partido:'PSOE', color:'#E1322D' },
+      { nombre:'Cuca Gamarra',      rol:'Portavoz', partido:'PP',    color:'#1F4E8C' },
+      { nombre:'Pepa Millet',       rol:'Ponente',  partido:'Junts', color:'#1FA89B' },
+      { nombre:'Pilar Vallugera',   rol:'Ponente',  partido:'ERC',   color:'#E8A030' },
+    ],
+    tipo: 'LO',
+    categoria: 'Justicia',
+    url_congreso: urlCongresoExp('122/000018'),
+    url_bocg: urlBOCG('122/000018'),
+    url_senado: urlSenado('605/000018'),
+    url_boe: urlBOE('BOE-A-2024-11800'),
+  },
+
+  {
+    id: 'sanidad-universal',
+    exp: '121/000045',
+    title: 'Ley de Sanidad Universal · cobertura para inmigrantes en situación irregular',
+    promotor: 'Gobierno (Sanidad)',
+    registro: '08/04/2026',
+    fase: 'En tramitación',
+    diasTramite: 30,
+    enmiendasTotal: 187,
+    enmiendasAceptadas: 32,
+    comparecencias: 9,
+    votacionesTotales: 4,
+    hitos: [
+      { fase:'registro',  fecha:'08/04/2026', titulo:'Entrada en el Registro', detalle:'Remitido por el Consejo de Ministros', resultado:'ok', url: urlBOCG('121/000045') },
+      { fase:'mesa',      fecha:'10/04/2026', titulo:'Calificación favorable', detalle:'Comisión de Sanidad', resultado:'ok' },
+      { fase:'totalidad', fecha:'24/04/2026', titulo:'Debate de totalidad', detalle:'179 SÍ / 168 NO · pasa al articulado', resultado:'ok' },
+      { fase:'enmiendas', fecha:'02/05/2026', titulo:'Cierre plazo enmiendas', detalle:'187 enmiendas · 11 grupos', resultado:'ok' },
+      { fase:'ponencia',  fecha:'13/05/2026', titulo:'Comparecencias en comisión', detalle:'Médicos sin Fronteras · CGE · Ministerio Inclusión', resultado:'pendiente' },
+      { fase:'comision',  fecha:'—',          titulo:'Dictamen Comisión', detalle:'Sin iniciar', resultado:'pendiente' },
+      { fase:'pleno-c',   fecha:'—',          titulo:'Pleno Congreso', detalle:'Sin iniciar', resultado:'pendiente' },
+      { fase:'senado',    fecha:'—',          titulo:'Tramitación Senado', detalle:'Sin iniciar', resultado:'pendiente' },
+      { fase:'aprobado',  fecha:'—',          titulo:'Aprobación final', detalle:'Sin iniciar', resultado:'pendiente' },
+      { fase:'boe',       fecha:'—',          titulo:'Publicación BOE', detalle:'Sin iniciar', resultado:'pendiente' },
+    ],
+    enmiendas: [
+      { num:'045-001', autor:'GP Popular', partido:'PP',    color:'#1F4E8C', alcance:'Totalidad', articulo:'—',       estado:'Rechazada' },
+      { num:'045-002', autor:'GP VOX',     partido:'VOX',   color:'#5BA02E', alcance:'Totalidad', articulo:'—',       estado:'Rechazada' },
+      { num:'045-031', autor:'GP Sumar',   partido:'Sumar', color:'#D43F8D', alcance:'Parcial',   articulo:'Art. 4',  estado:'Aceptada' },
+      { num:'045-082', autor:'GP ERC',     partido:'ERC',   color:'#E8A030', alcance:'Parcial',   articulo:'Art. 7',  estado:'Pendiente' },
+    ],
+    versiones: [
+      { v:'V1 · texto inicial', fecha:'08/04/2026', fuente:'BOCG 121-1', cambios:'Texto remitido por el Gobierno', diff:{add:0,del:0,mod:0}, url: urlBOCG('121/000045') },
+    ],
+    actores: [
+      { nombre:'Mónica García',     rol:'Promotor', partido:'Sumar', color:'#D43F8D' },
+      { nombre:'Ana Prieto',        rol:'Ponente',  partido:'PSOE',  color:'#E1322D' },
+      { nombre:'Elvira Velasco',    rol:'Ponente',  partido:'PP',    color:'#1F4E8C' },
+      { nombre:'Médicos sin Front.', rol:'Compareciente', partido:'ONG', color:'#0F766E' },
+    ],
+    tipo: 'PL',
+    categoria: 'Sanidad',
+    url_congreso: urlCongresoExp('121/000045'),
+    url_bocg: urlBOCG('121/000045'),
+  },
+
+  {
+    id: 'losu-revision',
+    exp: '121/000044',
+    title: 'Ley Orgánica de Universidades · revisión de la LOSU 2/2023',
+    promotor: 'Gobierno (Universidades)',
+    registro: '01/04/2026',
+    fase: 'En tramitación',
+    diasTramite: 36,
+    enmiendasTotal: 248,
+    enmiendasAceptadas: 19,
+    comparecencias: 21,
+    votacionesTotales: 3,
+    hitos: [
+      { fase:'registro',  fecha:'01/04/2026', titulo:'Entrada en el Registro', detalle:'Remitido por el Gobierno', resultado:'ok', url: urlBOCG('121/000044') },
+      { fase:'mesa',      fecha:'04/04/2026', titulo:'Calificación favorable', detalle:'Comisión de Ciencia y Universidades', resultado:'ok' },
+      { fase:'totalidad', fecha:'17/04/2026', titulo:'Debate de totalidad', detalle:'175 SÍ / 168 NO · margen estrecho', resultado:'ok' },
+      { fase:'enmiendas', fecha:'10/05/2026', titulo:'Cierre plazo enmiendas', detalle:'248 enmiendas · CRUE pidió ampliación', resultado:'ok' },
+      { fase:'ponencia',  fecha:'—',          titulo:'Informe ponencia', detalle:'Pendiente · sesiones de comparecencias', resultado:'pendiente' },
+    ],
+    enmiendas: [
+      { num:'044-001', autor:'GP Popular', partido:'PP',    color:'#1F4E8C', alcance:'Totalidad', articulo:'—',       estado:'Rechazada' },
+      { num:'044-052', autor:'GP Sumar',   partido:'Sumar', color:'#D43F8D', alcance:'Parcial',   articulo:'Art. 12', estado:'Aceptada' },
+      { num:'044-097', autor:'GP ERC',     partido:'ERC',   color:'#E8A030', alcance:'Parcial',   articulo:'Art. 18', estado:'Pendiente' },
+    ],
+    versiones: [
+      { v:'V1 · texto inicial', fecha:'01/04/2026', fuente:'BOCG 121-1', cambios:'Texto remitido por el Gobierno', diff:{add:0,del:0,mod:0}, url: urlBOCG('121/000044') },
+    ],
+    actores: [
+      { nombre:'Diana Morant',  rol:'Promotor',     partido:'PSOE', color:'#E1322D' },
+      { nombre:'Pilar Alegría', rol:'Compareciente',partido:'PSOE', color:'#E1322D' },
+      { nombre:'CRUE',          rol:'Compareciente',partido:'Sect.',color:'#0F766E' },
+    ],
+    tipo: 'LO',
+    categoria: 'Educación',
+    url_congreso: urlCongresoExp('121/000044'),
+    url_bocg: urlBOCG('121/000044'),
+  },
+
+  {
+    id: 'agro-rdl',
+    exp: '121/000037',
+    title: 'Real Decreto-ley 4/2026 · ayudas urgentes al sector agroalimentario',
+    promotor: 'Gobierno (Agricultura)',
+    registro: '18/04/2026',
+    fase: 'Aprobada',
+    diasTramite: 13,
+    enmiendasTotal: 0,
+    enmiendasAceptadas: 0,
+    comparecencias: 4,
+    votacionesTotales: 1,
+    hitos: [
+      { fase:'registro', fecha:'18/04/2026', titulo:'Aprobación por el Consejo de Ministros', detalle:'Real Decreto-ley publicado en BOE el mismo día', resultado:'ok', url: urlBOE('BOE-A-2026-8000') },
+      { fase:'mesa',     fecha:'22/04/2026', titulo:'Remitido al Congreso para convalidación', detalle:'Plazo 30 días naturales', resultado:'ok' },
+      { fase:'pleno-c',  fecha:'01/05/2026', titulo:'Convalidación en Pleno Congreso', detalle:'175 SÍ / 168 NO / 7 ABS · convalidado', resultado:'ok' },
+      { fase:'aprobado', fecha:'01/05/2026', titulo:'Convalidado · vigencia confirmada', detalle:'Sin tramitación como PL', resultado:'ok' },
+      { fase:'boe',      fecha:'18/04/2026', titulo:'Vigente desde su publicación', detalle:'BOE-A-2026-8000 · convalidado por el Congreso', resultado:'ok', url: urlBOE('BOE-A-2026-8000') },
+    ],
+    enmiendas: [],
+    versiones: [
+      { v:'V1 · texto BOE', fecha:'18/04/2026', fuente:'BOE 8000', cambios:'Texto publicado por el Gobierno', diff:{add:0,del:0,mod:0}, url: urlBOE('BOE-A-2026-8000') },
+    ],
+    actores: [
+      { nombre:'Luis Planas',     rol:'Promotor',     partido:'PSOE', color:'#E1322D' },
+      { nombre:'COAG',            rol:'Compareciente',partido:'Sect.',color:'#0F766E' },
+      { nombre:'ASAJA',           rol:'Compareciente',partido:'Sect.',color:'#0F766E' },
+    ],
+    tipo: 'RDL',
+    categoria: 'Agraria',
+    url_congreso: urlCongresoExp('121/000037'),
+    url_boe: urlBOE('BOE-A-2026-8000'),
+  },
+
+  {
+    id: 'ia-electoral',
+    exp: '124/000003',
+    title: 'Resolución del Congreso sobre IA aplicada a procesos electorales',
+    promotor: 'Mesa del Congreso',
+    registro: '15/04/2026',
+    fase: 'Aprobada',
+    diasTramite: 15,
+    enmiendasTotal: 12,
+    enmiendasAceptadas: 8,
+    comparecencias: 6,
+    votacionesTotales: 1,
+    hitos: [
+      { fase:'registro',  fecha:'15/04/2026', titulo:'Iniciativa de la Mesa', detalle:'Marco voluntario para campañas con IA generativa', resultado:'ok' },
+      { fase:'comision',  fecha:'25/04/2026', titulo:'Dictamen Comisión Constitucional', detalle:'Aprobado por consenso · 32 SÍ / 0 NO / 1 ABS', resultado:'ok' },
+      { fase:'pleno-c',   fecha:'30/04/2026', titulo:'Aprobación en Pleno', detalle:'341 SÍ / 9 NO · resolución vinculante', resultado:'ok' },
+      { fase:'aprobado',  fecha:'30/04/2026', titulo:'Resolución aprobada', detalle:'Texto definitivo', resultado:'ok' },
+      { fase:'boe',       fecha:'07/05/2026', titulo:'Publicación BOE', detalle:'BOE-A-2026-9821', resultado:'ok', url: urlBOE('BOE-A-2026-9821') },
+    ],
+    enmiendas: [
+      { num:'003-001', autor:'GP Sumar',  partido:'Sumar', color:'#D43F8D', alcance:'Parcial', articulo:'Pto. 4', estado:'Aceptada' },
+      { num:'003-005', autor:'GP Popular',partido:'PP',    color:'#1F4E8C', alcance:'Parcial', articulo:'Pto. 7', estado:'Aceptada' },
+    ],
+    versiones: [
+      { v:'V1 · texto Mesa', fecha:'15/04/2026', fuente:'BOCG 124-1', cambios:'Texto inicial de la Mesa', diff:{add:0,del:0,mod:0} },
+      { v:'V2 · texto BOE',  fecha:'07/05/2026', fuente:'BOE 9821',   cambios:'Texto definitivo publicado', diff:{add:1,del:0,mod:0}, url: urlBOE('BOE-A-2026-9821') },
+    ],
+    actores: [
+      { nombre:'Francina Armengol',  rol:'Promotor', partido:'PSOE', color:'#E1322D' },
+      { nombre:'AEPD',               rol:'Compareciente',partido:'Inst.',color:'#7C3AED' },
+      { nombre:'CNMC',               rol:'Compareciente',partido:'Inst.',color:'#7C3AED' },
+    ],
+    tipo: 'PPL',
+    categoria: 'Digital',
+    url_congreso: urlCongresoExp('124/000003'),
+    url_boe: urlBOE('BOE-A-2026-9821'),
+  },
+
+  {
+    id: 'energia-rdl',
+    exp: '121/000040',
+    title: 'Real Decreto-ley 3/2026 · medidas energéticas urgentes y bono social',
+    promotor: 'Gobierno (Transición Ecológica)',
+    registro: '02/04/2026',
+    fase: 'Devuelta',
+    diasTramite: 38,
+    enmiendasTotal: 64,
+    enmiendasAceptadas: 12,
+    comparecencias: 7,
+    votacionesTotales: 3,
+    hitos: [
+      { fase:'registro',  fecha:'02/04/2026', titulo:'Aprobación CMin · publicación BOE', detalle:'BOE-A-2026-7100', resultado:'ok', url: urlBOE('BOE-A-2026-7100') },
+      { fase:'mesa',      fecha:'05/04/2026', titulo:'Remitido al Congreso para convalidación', detalle:'Plazo 30 días', resultado:'ok' },
+      { fase:'pleno-c',   fecha:'17/04/2026', titulo:'Convalidación en Pleno', detalle:'176 SÍ / 174 NO · margen mínimo', resultado:'ok' },
+      { fase:'enmiendas', fecha:'25/04/2026', titulo:'Tramitación como PL', detalle:'Acuerdo para tramitar como Proyecto de Ley · plazo de enmiendas', resultado:'ok' },
+      { fase:'senado',    fecha:'07/05/2026', titulo:'Senado introduce enmiendas', detalle:'PP+VOX modifican el bono social y plazos · texto devuelto', resultado:'ok' },
+      { fase:'devuelto',  fecha:'14/05/2026', titulo:'Pendiente votación final en Congreso', detalle:'PSOE-Sumar ven inviable mantener enmiendas Senado', resultado:'pendiente' },
+    ],
+    enmiendas: [
+      { num:'040-001', autor:'GP Popular',  partido:'PP',    color:'#1F4E8C', alcance:'Totalidad', articulo:'—',       estado:'Rechazada' },
+      { num:'040-024', autor:'GP Sumar',    partido:'Sumar', color:'#D43F8D', alcance:'Parcial',   articulo:'Art. 6',  estado:'Aceptada' },
+      { num:'040-051', autor:'GP Vasco',    partido:'PNV',   color:'#7DB94B', alcance:'Parcial',   articulo:'Art. 11', estado:'Transaccionada' },
+    ],
+    versiones: [
+      { v:'V1 · texto BOE inicial', fecha:'02/04/2026', fuente:'BOE 7100',   cambios:'Texto del RDL publicado', diff:{add:0,del:0,mod:0}, url: urlBOE('BOE-A-2026-7100') },
+      { v:'V2 · informe ponencia',  fecha:'05/05/2026', fuente:'BOCG 121-2', cambios:'12 enmiendas Sumar+PNV+ERC incorporadas', diff:{add:2,del:0,mod:4} },
+      { v:'V3 · texto Senado',      fecha:'07/05/2026', fuente:'BOCG 621-1', cambios:'PP+VOX modifican el bono social', diff:{add:0,del:1,mod:3} },
+    ],
+    actores: [
+      { nombre:'Sara Aagesen',     rol:'Promotor',     partido:'PSOE', color:'#E1322D' },
+      { nombre:'CNMC',             rol:'Compareciente',partido:'Inst.',color:'#7C3AED' },
+      { nombre:'Iberdrola · Sect.',rol:'Compareciente',partido:'Sect.',color:'#0F766E' },
+    ],
+    tipo: 'RDL',
+    categoria: 'Energía',
+    url_congreso: urlCongresoExp('121/000040'),
+    url_bocg: urlBOCG('121/000040'),
+    url_senado: urlSenado('621/000040'),
+    url_boe: urlBOE('BOE-A-2026-7100'),
+  },
+
+  {
+    id: 'desconexion-digital',
+    exp: '122/000025',
+    title: 'Proposición de Ley · derecho a la desconexión digital y derechos digitales en el trabajo',
+    promotor: 'GP Sumar',
+    registro: '29/04/2026',
+    fase: 'En tramitación',
+    diasTramite: 14,
+    enmiendasTotal: 0,
+    enmiendasAceptadas: 0,
+    comparecencias: 0,
+    votacionesTotales: 0,
+    hitos: [
+      { fase:'registro',  fecha:'29/04/2026', titulo:'Registro de la PPL', detalle:'Iniciativa del GP Sumar', resultado:'ok', url: urlBOCG('122/000025') },
+      { fase:'mesa',      fecha:'09/05/2026', titulo:'Calificación · pendiente', detalle:'En estudio por la Mesa', resultado:'pendiente' },
+    ],
+    enmiendas: [],
+    versiones: [
+      { v:'V1 · texto Sumar', fecha:'29/04/2026', fuente:'BOCG 122-1', cambios:'Texto del GP Sumar', diff:{add:0,del:0,mod:0}, url: urlBOCG('122/000025') },
+    ],
+    actores: [
+      { nombre:'Yolanda Díaz', rol:'Promotor', partido:'Sumar', color:'#D43F8D' },
+      { nombre:'Tesh Sidi',    rol:'Ponente',  partido:'Sumar', color:'#D43F8D' },
+    ],
+    tipo: 'PPL',
+    categoria: 'Social',
+    url_congreso: urlCongresoExp('122/000025'),
+    url_bocg: urlBOCG('122/000025'),
   },
 ]
 
@@ -399,9 +759,27 @@ export default function TrazabilidadPage() {
                 <span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>· Promotor: {selected.promotor}</span>
                 <span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>· Registro: {selected.registro}</span>
               </div>
-              <h2 style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:600, letterSpacing:'-0.018em', margin:0, color:'#1d1d1f', lineHeight:1.2 }}>
+              <h2 style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:600, letterSpacing:'-0.018em', margin:'0 0 10px', color:'#1d1d1f', lineHeight:1.2 }}>
                 {selected.title}
               </h2>
+              {/* Botones de fuente oficial */}
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                {selected.url_congreso && (
+                  <FuenteOficialBtn href={selected.url_congreso} icon="🏛" label="Ficha Congreso" color="#1F4E8C"/>
+                )}
+                {selected.url_bocg && (
+                  <FuenteOficialBtn href={selected.url_bocg} icon="📄" label="BOCG" color="#5B21B6"/>
+                )}
+                {selected.url_senado && (
+                  <FuenteOficialBtn href={selected.url_senado} icon="🏛" label="Ficha Senado" color="#7C3AED"/>
+                )}
+                {selected.url_boe && (
+                  <FuenteOficialBtn href={selected.url_boe} icon="📜" label="Texto BOE" color="#16A34A"/>
+                )}
+                {!selected.url_congreso && !selected.url_bocg && !selected.url_senado && !selected.url_boe && (
+                  <span style={{ fontSize:11, color:'#9CA3AF', fontStyle:'italic' }}>Sin enlaces oficiales registrados</span>
+                )}
+              </div>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(4,auto)', gap:14 }}>
               <CardKPI label="Días" value={String(selected.diasTramite)} color="#5B21B6"/>
@@ -495,6 +873,16 @@ export default function TrazabilidadPage() {
                               <span key={a} style={{ fontSize:10, color:'#6e6e73', padding:'1px 7px', background:'#F5F5F7', borderRadius:4, fontWeight:600 }}>{a}</span>
                             ))}
                           </div>
+                        )}
+                        {h.url && (
+                          <a href={h.url} target="_blank" rel="noopener noreferrer" style={{
+                            display:'inline-flex', alignItems:'center', gap:4, marginTop:6,
+                            fontSize:10.5, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
+                            padding:'2px 8px', borderRadius:6, border:'1px solid #1F4E8C30',
+                            background:'#1F4E8C08',
+                          }}>
+                            🔗 Ver fuente oficial
+                          </a>
                         )}
                       </div>
                       <div style={{ flexShrink:0, fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: isFuture ? '#a0a0a5' : '#1d1d1f', minWidth:88, textAlign:'right' }}>
@@ -605,7 +993,17 @@ export default function TrazabilidadPage() {
                           background:'#5B21B618', color:'#5B21B6', border:'1px solid #5B21B640',
                         }}>{v.fuente}</span>
                       </div>
-                      <p style={{ margin:0, fontSize:12, color:'#3a3a3d', lineHeight:1.45 }}>{v.cambios}</p>
+                      <p style={{ margin:'0 0 4px', fontSize:12, color:'#3a3a3d', lineHeight:1.45 }}>{v.cambios}</p>
+                      {v.url && (
+                        <a href={v.url} target="_blank" rel="noopener noreferrer" style={{
+                          display:'inline-flex', alignItems:'center', gap:4,
+                          fontSize:10.5, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
+                          padding:'2px 8px', borderRadius:6, border:'1px solid #1F4E8C30',
+                          background:'#1F4E8C08',
+                        }}>
+                          🔗 Abrir documento
+                        </a>
+                      )}
                     </div>
                     <div style={{ display:'flex', gap:6, flexShrink:0 }}>
                       <DiffPill label="+" value={v.diff.add} color="#16A34A"/>
@@ -673,6 +1071,25 @@ function HeroKPI({ label, value }: { label:string, value:string }) {
       <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
       <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:4, color:'#fff' }}>{label}</div>
     </div>
+  )
+}
+
+function FuenteOficialBtn({ href, icon, label, color }: { href:string, icon:string, label:string, color:string }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" style={{
+      display:'inline-flex', alignItems:'center', gap:6,
+      padding:'5px 11px', borderRadius:8,
+      background:'#fff', border:`1px solid ${color}40`, color,
+      fontFamily:'inherit', fontSize:11, fontWeight:600,
+      textDecoration:'none', cursor:'pointer',
+      transition:'all 160ms',
+    }}
+      onMouseEnter={e => { e.currentTarget.style.background = `${color}10`; e.currentTarget.style.borderColor = color }}
+      onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = `${color}40` }}>
+      <span style={{ fontSize:13 }}>{icon}</span>
+      <span>{label}</span>
+      <span style={{ fontSize:9, opacity:0.7 }}>↗</span>
+    </a>
   )
 }
 
