@@ -1,9 +1,9 @@
 'use client'
 import { useMemo, useState } from 'react'
 
-type PartyId = 'pp' | 'psoe' | 'vox' | 'sumar' | 'erc' | 'junts' | 'bildu' | 'pnv' | 'bng' | 'cc' | 'upn' | 'ucd' | 'ciu' | 'otros'
+export type PartyId = 'pp' | 'psoe' | 'vox' | 'sumar' | 'erc' | 'junts' | 'bildu' | 'pnv' | 'bng' | 'cc' | 'upn' | 'ucd' | 'ciu' | 'otros'
 
-const PARTIES: Record<PartyId, { name: string; color: string }> = {
+export const PARTIES: Record<PartyId, { name: string; color: string }> = {
   pp:    { name: 'PP',       color: '#1F4E8C' },
   psoe:  { name: 'PSOE',     color: '#E1322D' },
   vox:   { name: 'VOX',      color: '#5BA02E' },
@@ -21,8 +21,8 @@ const PARTIES: Record<PartyId, { name: string; color: string }> = {
 }
 
 // 52 provincias en grid cartográfico (col, row) — geografía aproximada de España
-type Province = { id: string; name: string; col: number; row: number; seats: number }
-const PROVINCES: Province[] = [
+export type Province = { id: string; name: string; col: number; row: number; seats: number }
+export const PROVINCES: Province[] = [
   { id:'c',   name:'A Coruña',     col:1, row:0, seats:8  },
   { id:'lu',  name:'Lugo',         col:2, row:0, seats:4  },
   { id:'or',  name:'Ourense',      col:2, row:1, seats:4  },
@@ -79,7 +79,7 @@ const PROVINCES: Province[] = [
 
 // Winners por dataset — solo el partido ganador en cada provincia.
 // (Datos sintéticos plausibles para demo; en producción vendrían de API.)
-const WINNERS: Record<string, Record<string, PartyId>> = {
+export const WINNERS: Record<string, Record<string, PartyId>> = {
   estimacion: {
     c:'pp', lu:'pp', or:'pp', po:'psoe', o:'psoe', s:'pp', bi:'pnv', ss:'bildu', vi:'pnv', na:'psoe',
     le:'pp', p:'pp', bu:'pp', lo:'pp', hu:'psoe', z:'pp', za:'pp', sa:'pp', av:'pp', sg:'pp',
@@ -141,12 +141,12 @@ const W_2004 = mkW('psoe', { lu:'pp', or:'pp', le:'pp', p:'pp', bu:'pp', lo:'pp'
 const W_2008 = mkW('psoe', { lu:'pp', or:'pp', le:'pp', p:'pp', bu:'pp', lo:'pp', sa:'pp', av:'pp', sg:'pp', so:'pp', za:'pp', m:'pp', mu:'pp', a:'pp', cs:'pp', s:'pp', bi:'pnv', ss:'pnv', vi:'pnv', na:'psoe', ge:'ciu', l:'ciu', t:'psoe', b:'psoe' })
 const W_2011 = mkW('pp', { se:'psoe', ca:'psoe', h:'psoe', ba:'psoe', cc:'psoe', bi:'pnv', ss:'bildu', vi:'pp', na:'upn', ge:'ciu', l:'ciu', t:'pp', b:'ciu' })
 
-const WINNERS_HIST: Record<string, Record<string, PartyId>> = {
+export const WINNERS_HIST: Record<string, Record<string, PartyId>> = {
   g2011: W_2011, g2008: W_2008, g2004: W_2004, g2000: W_2000, g1996: W_1996,
   g1993: W_1993, g1989: W_1989, g1986: W_1986, g1982: W_1982, g1979: W_1979, g1977: W_1977,
 }
 
-const HISTORIC_OPTIONS = [
+export const HISTORIC_OPTIONS = [
   { k:'g2019', label:'Generales 2019' }, { k:'g2016', label:'Generales 2016' }, { k:'g2015', label:'Generales 2015' },
   { k:'g2011', label:'Generales 2011' }, { k:'g2008', label:'Generales 2008' }, { k:'g2004', label:'Generales 2004' },
   { k:'g2000', label:'Generales 2000' }, { k:'g1996', label:'Generales 1996' }, { k:'g1993', label:'Generales 1993' },
@@ -272,8 +272,21 @@ const BREAKDOWN_2026: Record<string, Partial<Record<PartyId, number>>> = {
   ce:{pp:1}, ml:{pp:1}, te:{pp:1,psoe:1,otros:1},
 }
 
-export default function MapaProvincias({ compact = false }: { compact?: boolean }) {
-  const [dataset, setDataset] = useState<string>('estimacion')
+export default function MapaProvincias({
+  compact = false,
+  dataset: datasetProp,
+  onDatasetChange,
+}: {
+  compact?: boolean
+  dataset?: string                    // Modo controlado: parent lleva el estado
+  onDatasetChange?: (d: string) => void
+}) {
+  const [internalDataset, setInternalDataset] = useState<string>('estimacion')
+  const dataset = datasetProp ?? internalDataset
+  const setDataset = (d: string) => {
+    if (onDatasetChange) onDatasetChange(d)
+    else setInternalDataset(d)
+  }
   const [view, setView] = useState<View>('winner')
   const [hover, setHover] = useState<string | null>(null)
   const [pinned, setPinned] = useState<string | null>(null)

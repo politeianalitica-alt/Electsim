@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
 import MapaProvincias from '@/components/MapaProvincias'
+import MapaProvinciasBubbles from '@/components/MapaProvinciasBubbles'
 
 // Paleta unificada con /mapa (incluye históricos UCD/CiU)
 const PC = {
@@ -281,6 +282,8 @@ export default function EscenariosPage(){
   const router=useRouter()
   const currentPath='/escenarios'
   const [hemiDataset, setHemiDataset] = useState<keyof typeof HEMI_DATASETS>('estimacion')
+  // Dataset compartido entre Mapa provincial (cuadrícula) y Mapa burbujas v2
+  const [provDataset, setProvDataset] = useState<string>('estimacion')
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
   return(
@@ -358,16 +361,32 @@ export default function EscenariosPage(){
             </div>
           </div>
 
-          {/* Mapa provincial compacto con histórico interno */}
+          {/* Mapa provincial compacto con histórico interno (cuadrícula) */}
           <div style={{background:'#fff',borderRadius:16,padding:'16px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',display:'flex',flexDirection:'column'}}>
             <div style={{marginBottom:10}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa provincial · series históricas</h2>
-              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>52 provincias · alterna <strong>Ganador / Tamaño</strong>. Click para desglose.</p>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa provincial · cuadrícula</h2>
+              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>52 provincias en grid cartográfico · alterna <strong>Ganador / Tamaño</strong>.</p>
             </div>
             <div style={{flex:1,minHeight:0}}>
-              <MapaProvincias compact/>
+              <MapaProvincias compact dataset={provDataset} onDatasetChange={setProvDataset}/>
             </div>
           </div>
+        </div>
+
+        {/* ───── Mapa de burbujas v2 (vista geográfica alternativa) ─────
+            Comparte el dataset con el mapa de cuadrícula de arriba: si el
+            usuario cambia 2026 → 2019 en uno, ambos se actualizan. */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:10,marginBottom:10,flexWrap:'wrap'}}>
+            <div>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:'0 0 3px'}}>Mapa provincial · burbujas geográficas</h2>
+              <p style={{fontSize:11.5,color:'var(--ink-4)',margin:0}}>
+                Vista alternativa centroides · cada provincia es un círculo (tamaño = escaños, color = ganador). Sincronizado con el mapa de cuadrícula.
+              </p>
+            </div>
+            <span style={{fontSize:10.5,fontWeight:700,color:'#7C3AED',letterSpacing:'0.08em',textTransform:'uppercase'}}>v2</span>
+          </div>
+          <MapaProvinciasBubbles dataset={provDataset} onDatasetChange={setProvDataset}/>
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
