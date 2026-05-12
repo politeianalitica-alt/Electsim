@@ -36,20 +36,46 @@ function fmtDate(iso: string) {
   }
 }
 
-// IsoBadge — círculo tipográfico con código ISO en color de la categoría
-// (sustituye a las banderas emoji para mantener un look austero y consistente)
-function IsoBadge({ iso, size = 40, color = '#1F4E8C' }: { iso: string; size?: number; color?: string }) {
-  const code = (iso || '?').slice(0, 3).toUpperCase()
+// Banderas emoji por código ISO-3 (44+ países curados)
+const ISO_TO_FLAG: Record<string, string> = {
+  // Vecindad y Magreb
+  MAR: '🇲🇦', DZA: '🇩🇿', PRT: '🇵🇹', MRT: '🇲🇷', SEN: '🇸🇳',
+  TUN: '🇹🇳', LBY: '🇱🇾', EGY: '🇪🇬', MLI: '🇲🇱',
+  // Europa
+  FRA: '🇫🇷', DEU: '🇩🇪', ITA: '🇮🇹', GBR: '🇬🇧', NLD: '🇳🇱',
+  BEL: '🇧🇪', POL: '🇵🇱', SWE: '🇸🇪', CHE: '🇨🇭', GRC: '🇬🇷',
+  // América
+  USA: '🇺🇸', CAN: '🇨🇦', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷',
+  CHL: '🇨🇱', COL: '🇨🇴', PER: '🇵🇪', ECU: '🇪🇨', URY: '🇺🇾',
+  BOL: '🇧🇴', CUB: '🇨🇺', VEN: '🇻🇪',
+  // Asia-Pacífico
+  CHN: '🇨🇳', JPN: '🇯🇵', KOR: '🇰🇷', IND: '🇮🇳', AUS: '🇦🇺',
+  // Oriente Medio
+  ISR: '🇮🇱', IRN: '🇮🇷', TUR: '🇹🇷', SAU: '🇸🇦',
+  GAZ: '🇵🇸', PSE: '🇵🇸',
+  // Conflicto
+  RUS: '🇷🇺', UKR: '🇺🇦',
+  // África subsahariana
+  ZAF: '🇿🇦', NGA: '🇳🇬',
+}
+function flagFromIso(iso: string): string {
+  return ISO_TO_FLAG[iso] || '🌐'
+}
+
+// CountryBadge — bandera + código ISO en círculo coloreado por categoría
+// Combina la identificación visual rápida (bandera) con un look pulido
+function CountryBadge({ iso, size = 44, color = '#1F4E8C' }: { iso: string; size?: number; color?: string }) {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       width: size, height: size, borderRadius: '50%',
-      background: color, color: '#fff',
-      fontFamily: 'var(--font-display)', fontWeight: 700,
-      fontSize: size * 0.32, letterSpacing: '0.02em',
-      flexShrink: 0, lineHeight: 1,
-      boxShadow: `0 1px 3px ${color}30`,
-    }}>{code}</span>
+      background: `linear-gradient(135deg,${color} 0%,${color}dd 100%)`,
+      flexShrink: 0, lineHeight: 1, position: 'relative',
+      boxShadow: `0 1px 3px ${color}40`,
+      border: '2px solid #fff',
+    }}>
+      <span style={{ fontSize: size * 0.62, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+    </span>
   )
 }
 
@@ -161,7 +187,7 @@ function DafoModal({ pais, iso, onClose, extra }: {
     <div onClick={onClose} style={modalOverlay}>
       <div onClick={(e) => e.stopPropagation()} style={{ ...modalBox, maxWidth: 480, padding: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-          <IsoBadge iso={iso} size={36} color="#1F4E8C"/>
+          <CountryBadge iso={iso} size={36} color="#1F4E8C"/>
           <p style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>{pais}</p>
         </div>
         <p style={{ fontSize: 14, color: '#1d1d1f', margin: 0 }}>
@@ -189,12 +215,13 @@ function DafoModal({ pais, iso, onClose, extra }: {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 8 }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.18)', color: '#fff',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18,
-              letterSpacing: '0.02em', flexShrink: 0, lineHeight: 1,
-              border: '1px solid rgba(255,255,255,0.30)',
-            }}>{(iso || '?').slice(0, 3).toUpperCase()}</span>
+              width: 60, height: 60, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.18)',
+              border: '2px solid rgba(255,255,255,0.30)',
+              flexShrink: 0, lineHeight: 1,
+            }}>
+              <span style={{ fontSize: 36, lineHeight: 1 }}>{flagFromIso(iso)}</span>
+            </span>
             <div>
               <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75, textTransform: 'uppercase', margin: '0 0 4px' }}>DAFO · Relación bilateral con España</p>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', margin: 0, lineHeight: 1.1 }}>{dafo.pais}</h3>
@@ -304,6 +331,8 @@ export default function GeopoliticaPage() {
   const [tab, setTab] = useState(0)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
+  // Filtro de dimensión/sector para TAB 3 Impacto España
+  const [impactoDim, setImpactoDim] = useState<string>('all')
   // Modal DAFO compartido entre Teatro Global y Presencia Española
   const [dafoOpen, setDafoOpen] = useState<{ pais: string; iso: string; extra?: { score?: number; categoria?: string; intensidad?: number } } | null>(null)
 
@@ -328,8 +357,25 @@ export default function GeopoliticaPage() {
     { label: 'Presencia España',      value: geoStats.presencia_activa,     accent: '#7C3AED', sub: 'iniciativas activas exterior' },
   ]
 
-  const riesgoSorted = [...riesgo].sort((a, b) => b.score - a.score)
+  // Ordenamos por interes_espana DESC (importancia para España).
+  // Empate: el más relevante por riesgo geopolítico va primero.
+  const riesgoSorted = [...riesgo].sort((a, b) => {
+    if (b.interes_espana !== a.interes_espana) return b.interes_espana - a.interes_espana
+    return b.score - a.score
+  })
   const impactosSorted = [...impactos].sort((a, b) => b.severidad - a.severidad)
+
+  // Mapeo país → interes_espana (derivado del dataset de riesgo). Lo usamos
+  // para ordenar Presencia Española por importancia para España; si un país
+  // no aparece en el dataset, caemos a la intensidad estructural curada.
+  const interesByPais = new Map<string, number>()
+  for (const r of riesgo) interesByPais.set(r.pais, r.interes_espana)
+  const presenciaSorted = [...presencia].sort((a, b) => {
+    const ai = interesByPais.get(a.pais) ?? a.intensidad / 10
+    const bi = interesByPais.get(b.pais) ?? b.intensidad / 10
+    if (bi !== ai) return bi - ai
+    return b.intensidad - a.intensidad
+  })
 
   const osintFiltered = osint.filter(
     (o) => o.urgencia >= osintUrgMin && (osintCat === 'all' || o.categoria === osintCat)
@@ -495,7 +541,7 @@ export default function GeopoliticaPage() {
 
                     {/* Header: ISO badge + país + categoría */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-                      <IsoBadge iso={r.iso} size={42} color={catC}/>
+                      <CountryBadge iso={r.iso} size={44} color={catC}/>
                       <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
@@ -743,48 +789,102 @@ export default function GeopoliticaPage() {
         )}
 
         {/* TAB 3 — Impacto España (visual Alertas con colores por sector) */}
-        {tab === 3 && (
+        {tab === 3 && (() => {
+          const dimsList = ['seguridad', 'economica', 'energetica', 'diplomatica', 'social'] as const
+          const impactosFiltered = impactoDim === 'all'
+            ? impactosSorted
+            : impactosSorted.filter((i) => i.dimension === impactoDim)
+          return (
           <div>
-            {/* Resumen contadores por dimensión */}
+            {/* Contadores clicables por dimensión = selector de tipos de noticia */}
             <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 18,
+              display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 10, marginBottom: 14,
             }}>
-              {(['seguridad', 'economica', 'energetica', 'diplomatica', 'social'] as const).map((dim) => {
+              {/* Pill "Todos" */}
+              <button
+                onClick={() => setImpactoDim('all')}
+                style={{
+                  textAlign: 'center', padding: '16px 8px 14px', borderRadius: 12,
+                  background: impactoDim === 'all' ? '#1d1d1f' : '#fff',
+                  border: `1px solid ${impactoDim === 'all' ? '#1d1d1f' : '#ECECEF'}`,
+                  fontFamily: 'inherit', cursor: 'pointer',
+                  color: impactoDim === 'all' ? '#fff' : '#1d1d1f',
+                  transition: 'all 140ms',
+                }}
+              >
+                <span style={{
+                  display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
+                  background: impactoDim === 'all' ? '#fff' : '#1d1d1f', marginBottom: 8,
+                }}/>
+                <div style={{
+                  fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
+                  lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+                }}>{impactosSorted.length}</div>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.85, marginTop: 4, textTransform: 'uppercase' }}>Todos</div>
+              </button>
+              {/* Pills por dimensión */}
+              {dimsList.map((dim) => {
                 const m = dimMeta(dim)
                 const cnt = impactosSorted.filter((i) => i.dimension === dim).length
+                const active = impactoDim === dim
                 return (
-                  <div key={dim} style={{
-                    textAlign: 'center', padding: '16px 8px 14px', borderRadius: 12,
-                    background: m.bg, border: `1px solid ${m.ring}`,
-                  }}>
+                  <button
+                    key={dim}
+                    onClick={() => setImpactoDim(active ? 'all' : dim)}
+                    style={{
+                      textAlign: 'center', padding: '16px 8px 14px', borderRadius: 12,
+                      background: active ? m.color : m.bg,
+                      border: `1px solid ${active ? m.color : m.ring}`,
+                      fontFamily: 'inherit', cursor: cnt > 0 ? 'pointer' : 'not-allowed',
+                      opacity: cnt === 0 ? 0.4 : 1,
+                      transition: 'all 140ms',
+                    }}
+                    disabled={cnt === 0}
+                  >
                     <span style={{
                       display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
-                      background: m.color, marginBottom: 8,
+                      background: active ? '#fff' : m.color, marginBottom: 8,
                     }}/>
                     <div style={{
                       fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700,
-                      lineHeight: 1, color: m.color, fontVariantNumeric: 'tabular-nums',
+                      lineHeight: 1, color: active ? '#fff' : m.color, fontVariantNumeric: 'tabular-nums',
                     }}>{cnt}</div>
                     <div style={{
                       fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
-                      opacity: 0.7, marginTop: 4, textTransform: 'uppercase',
+                      color: active ? '#fff' : 'inherit',
+                      opacity: active ? 0.95 : 0.7, marginTop: 4, textTransform: 'uppercase',
                     }}>{m.label}</div>
-                  </div>
+                  </button>
                 )
               })}
             </div>
 
+            {/* Indicador de filtro activo */}
+            {impactoDim !== 'all' && (
+              <div style={{
+                fontSize: 11.5, color: '#6e6e73', marginBottom: 12, display: 'flex',
+                alignItems: 'center', gap: 8,
+              }}>
+                <span>Filtrando por <strong style={{ color: dimMeta(impactoDim).color }}>{dimMeta(impactoDim).label}</strong></span>
+                <span style={{ color: '#9CA3AF' }}>· {impactosFiltered.length} de {impactosSorted.length}</span>
+                <button onClick={() => setImpactoDim('all')} style={{
+                  background: 'transparent', border: 'none', color: '#1F4E8C',
+                  fontSize: 11.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: 'inherit',
+                }}>Quitar filtro ×</button>
+              </div>
+            )}
+
             {/* Lista de impactos: estilo Alertas con barra lateral por dimensión */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {impactosSorted.length === 0 && (
+              {impactosFiltered.length === 0 && (
                 <div style={{
                   padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
                   background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
                 }}>
-                  Sin impactos registrados
+                  {impactoDim === 'all' ? 'Sin impactos registrados' : `Sin impactos registrados en sector ${dimMeta(impactoDim).label}`}
                 </div>
               )}
-              {impactosSorted.map((imp) => {
+              {impactosFiltered.map((imp) => {
                 const m = dimMeta(imp.dimension)
                 const hLabel = imp.horizonte === 'corto' ? 'CORTO PLAZO' : imp.horizonte === 'medio' ? 'MEDIO PLAZO' : 'LARGO PLAZO'
                 return (
@@ -850,7 +950,7 @@ export default function GeopoliticaPage() {
               })}
             </div>
           </div>
-        )}
+        )})()}
 
         {/* TAB 4 — Presencia Española (cards estilo Teatro Global + DAFO breve) */}
         {tab === 4 && (
@@ -869,7 +969,7 @@ export default function GeopoliticaPage() {
             <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
             }}>
-              {[...presencia].sort((a, b) => b.intensidad - a.intensidad).map((p) => {
+              {presenciaSorted.map((p) => {
                 // Si la API no envía iso, lo derivamos por nombre desde nuestra mapa local
                 const iso = p.iso || isoFromPais(p.pais)
                 const catC = catColor(p.categoria)
@@ -901,7 +1001,7 @@ export default function GeopoliticaPage() {
 
                     {/* Header ISO badge + país + categoría */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                      <IsoBadge iso={iso} size={42} color={catC}/>
+                      <CountryBadge iso={iso} size={44} color={catC}/>
                       <div style={{ minWidth: 0, flex: 1 }}>
                         <div style={{
                           fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
