@@ -98,6 +98,42 @@ function isoFromPais(pais: string): string {
   return PAIS_TO_ISO[pais] || ''
 }
 
+// Mapeo ISO → continente (para agrupar Presencia Española)
+const ISO_TO_CONTINENT: Record<string, string> = {
+  // Europa (incluye Reino Unido y Suiza, no UE pero geográficamente europeos)
+  PRT: 'Europa', FRA: 'Europa', DEU: 'Europa', ITA: 'Europa', GBR: 'Europa',
+  NLD: 'Europa', BEL: 'Europa', POL: 'Europa', SWE: 'Europa', CHE: 'Europa', GRC: 'Europa',
+  // África (incluye Magreb)
+  MAR: 'África', DZA: 'África', MRT: 'África', SEN: 'África', TUN: 'África',
+  LBY: 'África', EGY: 'África', MLI: 'África', ZAF: 'África', NGA: 'África',
+  // América
+  USA: 'América', CAN: 'América', MEX: 'América', BRA: 'América', ARG: 'América',
+  CHL: 'América', COL: 'América', PER: 'América', ECU: 'América', URY: 'América',
+  BOL: 'América', CUB: 'América', VEN: 'América',
+  // Asia-Pacífico
+  CHN: 'Asia-Pacífico', JPN: 'Asia-Pacífico', KOR: 'Asia-Pacífico',
+  IND: 'Asia-Pacífico', AUS: 'Asia-Pacífico',
+  // Oriente Medio
+  ISR: 'Oriente Medio', IRN: 'Oriente Medio', TUR: 'Oriente Medio',
+  SAU: 'Oriente Medio', GAZ: 'Oriente Medio', PSE: 'Oriente Medio',
+  // Eurasia
+  RUS: 'Eurasia', UKR: 'Eurasia',
+}
+function continentFromIso(iso: string): string {
+  return ISO_TO_CONTINENT[iso] || 'Otros'
+}
+// Orden de los continentes en el selector (más relevante para España primero)
+const CONTINENT_ORDER = ['Europa', 'África', 'América', 'Oriente Medio', 'Eurasia', 'Asia-Pacífico', 'Otros']
+const CONTINENT_COLOR: Record<string, string> = {
+  'Europa':         '#1F4E8C',
+  'África':         '#7C3AED',
+  'América':        '#0F766E',
+  'Oriente Medio':  '#DC2626',
+  'Eurasia':        '#6e6e73',
+  'Asia-Pacífico':  '#F97316',
+  'Otros':          '#9CA3AF',
+}
+
 // Mapeo de dimension/sector → meta visual (para Impacto España, estilo Alertas)
 const DIM_META: Record<string, { label: string; color: string; bg: string; ring: string }> = {
   seguridad:    { label: 'SEGURIDAD',   color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)'  },
@@ -345,6 +381,8 @@ export default function GeopoliticaPage() {
   const [osintCat, setOsintCat] = useState('all')
   // Filtro de dimensión/sector para TAB 3 Impacto España
   const [impactoDim, setImpactoDim] = useState<string>('all')
+  // Orden de TAB 4 Presencia Española
+  const [presenciaOrden, setPresenciaOrden] = useState<'importancia' | 'continente' | 'presencia'>('importancia')
   // Modal DAFO compartido entre Teatro Global y Presencia Española
   const [dafoOpen, setDafoOpen] = useState<{ pais: string; iso: string; extra?: { score?: number; categoria?: string; intensidad?: number } } | null>(null)
 
@@ -1060,7 +1098,110 @@ export default function GeopoliticaPage() {
         )})()}
 
         {/* TAB 4 — Presencia Española (cards estilo Teatro Global + DAFO breve) */}
-        {tab === 4 && (
+        {tab === 4 && (() => {
+          // Tres modos de orden:
+          //  - importancia: por interes_espana (dataset riesgo) — el por defecto
+          //  - presencia:   por intensidad (huella diplomática/empresarial)
+          //  - continente:  agrupado por continente, dentro alfabético
+          const presenciaPresencia = [...presencia].sort((a, b) => b.intensidad - a.intensidad)
+          const presenciaImportancia = presenciaSorted
+          // Construir grupos por continente
+          const continentBuckets = new Map<string, PresenciaItem[]>()
+          for (const p of presencia) {
+            const iso = p.iso || isoFromPais(p.pais)
+            const cont = continentFromIso(iso)
+            const cur = continentBuckets.get(cont) || []
+            cur.push(p)
+            continentBuckets.set(cont, cur)
+          }
+          // Ordenar países dentro de cada continente por intensidad desc
+          for (const [k, arr] of Array.from(continentBuckets.entries())) {
+            arr.sort((a, b) => b.intensidad - a.intensidad)
+            continentBuckets.set(k, arr)
+          }
+          const continentList = CONTINENT_ORDER.filter((c) => continentBuckets.has(c))
+
+          // Componente reutilizable de tarjeta de país (inline para acceder a setDafoOpen)
+          const renderCard = (p: PresenciaItem) => {
+            const iso = p.iso || isoFromPais(p.pais)
+            const catC = catColor(p.categoria)
+            const dafo = COUNTRY_DAFO[p.pais]
+            const hasDafo = !!dafo
+            return (
+              <button
+                key={p.pais}
+                onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
+                title={hasDafo ? `Ver DAFO completo de ${p.pais}` : 'Más detalles'}
+                style={{
+                  background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
+                  padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
+                  fontFamily: 'inherit', cursor: 'pointer', width: '100%',
+                  transition: 'all 160ms',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
+              >
+                <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+                {hasDafo && (
+                  <span style={{
+                    position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
+                    letterSpacing: '0.08em', color: catC, background: `${catC}14`,
+                    padding: '2px 6px', borderRadius: 4,
+                  }}>DAFO →</span>
+                )}
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                  <CountryBadge iso={iso} size={44} color={catC}/>
+                  <div style={{ minWidth: 0, flex: 1 }}>
+                    <div style={{
+                      fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
+                      letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
+                    }}>{p.pais}</div>
+                    <span style={{
+                      display: 'inline-block', marginTop: 4,
+                      padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
+                      color: catC, fontSize: 10.5, fontWeight: 600,
+                      letterSpacing: '0.04em', textTransform: 'capitalize',
+                    }}>{p.categoria}</span>
+                  </div>
+                </div>
+
+                {dafo ? (
+                  <div style={{
+                    marginBottom: 10, padding: '8px 10px', borderRadius: 10,
+                    background: '#fafafa', border: '1px solid #f0f0f3',
+                    fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.45,
+                  }}>
+                    <span style={{ fontStyle: 'italic' }}>{dafo.resumen}</span>
+                  </div>
+                ) : (
+                  <div style={{
+                    marginBottom: 10, padding: '8px 10px', borderRadius: 10,
+                    background: '#fafafa', border: '1px dashed #e8e8ed',
+                    fontSize: 11.5, color: '#9CA3AF',
+                  }}>
+                    DAFO no disponible aún para este país
+                  </div>
+                )}
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Presencia España</span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: catC, fontVariantNumeric: 'tabular-nums' }}>{p.intensidad}/100</span>
+                  </div>
+                  <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{
+                      width: `${p.intensidad}%`, height: 5,
+                      background: catC,
+                    }}/>
+                  </div>
+                </div>
+              </button>
+            )
+          }
+
+          return (
           <div>
             {/* Mapa arriba (mantiene contexto visual) */}
             <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, padding: '20px 24px', marginBottom: 20 }}>
@@ -1072,95 +1213,73 @@ export default function GeopoliticaPage() {
               />
             </div>
 
-            {/* Tarjetas de país con bandera + barra intensidad + DAFO breve */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
-            }}>
-              {presenciaSorted.map((p) => {
-                // Si la API no envía iso, lo derivamos por nombre desde nuestra mapa local
-                const iso = p.iso || isoFromPais(p.pais)
-                const catC = catColor(p.categoria)
-                const dafo = COUNTRY_DAFO[p.pais]
-                const hasDafo = !!dafo
-                return (
-                  <button
-                    key={p.pais}
-                    onClick={() => setDafoOpen({ pais: p.pais, iso, extra: { intensidad: p.intensidad, categoria: p.categoria } })}
-                    title={hasDafo ? `Ver DAFO completo de ${p.pais}` : 'Más detalles'}
-                    style={{
-                      background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
-                      padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)', textAlign: 'left',
-                      fontFamily: 'inherit', cursor: 'pointer', width: '100%',
-                      transition: 'all 160ms',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)';     e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)' }}
-                  >
-                    <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
-                    {hasDafo && (
-                      <span style={{
-                        position: 'absolute', top: 10, right: 10, fontSize: 9.5, fontWeight: 700,
-                        letterSpacing: '0.08em', color: catC, background: `${catC}14`,
-                        padding: '2px 6px', borderRadius: 4,
-                      }}>DAFO →</span>
-                    )}
-
-                    {/* Header ISO badge + país + categoría */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                      <CountryBadge iso={iso} size={44} color={catC}/>
-                      <div style={{ minWidth: 0, flex: 1 }}>
-                        <div style={{
-                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
-                          letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
-                        }}>{p.pais}</div>
-                        <span style={{
-                          display: 'inline-block', marginTop: 4,
-                          padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
-                          color: catC, fontSize: 10.5, fontWeight: 600,
-                          letterSpacing: '0.04em', textTransform: 'capitalize',
-                        }}>{p.categoria}</span>
-                      </div>
-                    </div>
-
-                    {/* Resumen DAFO breve (1 línea de cada cuadrante) */}
-                    {dafo ? (
-                      <div style={{
-                        marginBottom: 10, padding: '8px 10px', borderRadius: 10,
-                        background: '#fafafa', border: '1px solid #f0f0f3',
-                        fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.45,
-                      }}>
-                        <span style={{ fontStyle: 'italic' }}>{dafo.resumen}</span>
-                      </div>
-                    ) : (
-                      <div style={{
-                        marginBottom: 10, padding: '8px 10px', borderRadius: 10,
-                        background: '#fafafa', border: '1px dashed #e8e8ed',
-                        fontSize: 11.5, color: '#9CA3AF',
-                      }}>
-                        DAFO no disponible aún para este país
-                      </div>
-                    )}
-
-                    {/* Barra intensidad presencia España */}
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Presencia España</span>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: catC, fontVariantNumeric: 'tabular-nums' }}>{p.intensidad}/100</span>
-                      </div>
-                      <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{
-                          width: `${p.intensidad}%`, height: 5,
-                          background: catC,
-                        }}/>
-                      </div>
-                    </div>
-                  </button>
-                )
-              })}
+            {/* Selector de orden */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ordenar por:</span>
+              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                {[
+                  { v: 'importancia', l: 'Importancia para España' },
+                  { v: 'continente',  l: 'Por continente' },
+                  { v: 'presencia',   l: 'Presencia España' },
+                ].map((o) => {
+                  const active = presenciaOrden === o.v
+                  return (
+                    <button key={o.v} onClick={() => setPresenciaOrden(o.v as typeof presenciaOrden)} style={{
+                      background: active ? '#fff' : 'transparent',
+                      color: active ? '#1d1d1f' : '#6e6e73',
+                      border: 'none', borderRadius: 999, padding: '6px 14px',
+                      fontSize: 12, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                      fontFamily: 'inherit',
+                      boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      transition: 'all 140ms',
+                    }}>{o.l}</button>
+                  )
+                })}
+              </div>
+              <span style={{ fontSize: 11.5, color: '#9CA3AF' }}>· {presencia.length} países en seguimiento</span>
             </div>
+
+            {/* Vista 1: lista plana (importancia o presencia) */}
+            {presenciaOrden !== 'continente' && (
+              <div style={{
+                display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+              }}>
+                {(presenciaOrden === 'presencia' ? presenciaPresencia : presenciaImportancia).map(renderCard)}
+              </div>
+            )}
+
+            {/* Vista 2: agrupado por continente con headers */}
+            {presenciaOrden === 'continente' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+                {continentList.map((cont) => {
+                  const cc = CONTINENT_COLOR[cont] || '#9CA3AF'
+                  const items = continentBuckets.get(cont) || []
+                  return (
+                    <section key={cont}>
+                      <div style={{
+                        display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12,
+                        padding: '8px 14px', borderRadius: 10,
+                        background: `${cc}10`, borderLeft: `3px solid ${cc}`,
+                      }}>
+                        <span style={{
+                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+                          color: cc, letterSpacing: '-0.012em',
+                        }}>{cont}</span>
+                        <span style={{ fontSize: 12, color: '#6e6e73', fontWeight: 600 }}>{items.length} países</span>
+                      </div>
+                      <div style={{
+                        display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+                      }}>
+                        {items.map(renderCard)}
+                      </div>
+                    </section>
+                  )
+                })}
+              </div>
+            )}
           </div>
-        )}
+          )
+        })()}
 
         {/* TAB 5 — Análisis IA */}
         {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
