@@ -98,15 +98,7 @@ export const MODULES: NavModule[] = [
     label: 'Macro & Geo',
     full: 'Inteligencia Geopolítica y Macroeconómica',
     items: [
-      {
-        label: 'Geopolítica y RRII',
-        href: '/geopolitica',
-        banner: {
-          eyebrow: 'CONTEXTO ESTRATÉGICO',
-          title: 'Geopolítica y relaciones internacionales',
-          colorFrom: '#0E7490', colorTo: '#134E4A',
-        },
-      },
+      { label: 'Geopolítica y RRII', href: '/geopolitica' },
       { label: 'Macro-Political & Economic', href: '/macro' },
     ],
   },

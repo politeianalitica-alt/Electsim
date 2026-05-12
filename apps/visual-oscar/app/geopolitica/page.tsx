@@ -8,17 +8,23 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
 // ── helpers ──────────────────────────────────────────────────────────────────
-function nivelColor(n: string) {
-  if (n === 'CRITICO') return '#c42c2c'
-  if (n === 'ALTO') return '#b25000'
-  if (n === 'MEDIO') return '#1F4E8C'
-  return '#6e6e73'
+// Mapeo nivel geopolítico → meta visual (igual estilo que /alertas)
+type NivelGeo = 'CRITICO' | 'ALTO' | 'MEDIO' | 'BAJO'
+const NIVEL_META: Record<NivelGeo, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
+  'CRITICO': { label: 'CRÍTICA', color: '#7F1D1D', bg: 'rgba(127,29,29,0.16)',  ring: 'rgba(127,29,29,0.7)',  pulse: true },
+  'ALTO':    { label: 'ALTA',    color: '#DC2626', bg: 'rgba(220,38,38,0.10)',  ring: 'rgba(220,38,38,0.50)' },
+  'MEDIO':   { label: 'MEDIA',   color: '#F97316', bg: 'rgba(249,115,22,0.10)', ring: 'rgba(249,115,22,0.50)' },
+  'BAJO':    { label: 'BAJA',    color: '#EAB308', bg: 'rgba(234,179,8,0.10)',  ring: 'rgba(234,179,8,0.45)' },
 }
 function catColor(c: string) {
   if (c === 'diplomatica') return '#1F4E8C'
   if (c === 'empresarial') return '#2d8a39'
   if (c === 'militar') return '#c42c2c'
   if (c === 'energetica') return '#b25000'
+  if (c === 'energia') return '#b25000'
+  if (c === 'migracion') return '#7C3AED'
+  if (c === 'comercio') return '#0F766E'
+  if (c === 'union_europea') return '#1F4E8C'
   return '#6e6e73'
 }
 function fmtDate(iso: string) {
@@ -27,6 +33,18 @@ function fmtDate(iso: string) {
   } catch {
     return iso?.slice(0, 16) ?? '—'
   }
+}
+
+// Map ISO → emoji bandera (lo necesitamos para las tarjetas de país)
+const ISO_TO_FLAG: Record<string, string> = {
+  MAR: '🇲🇦', DZA: '🇩🇿', FRA: '🇫🇷', DEU: '🇩🇪', RUS: '🇷🇺', UKR: '🇺🇦',
+  CHN: '🇨🇳', ISR: '🇮🇱', IRN: '🇮🇷', USA: '🇺🇸', PRT: '🇵🇹', ITA: '🇮🇹',
+  GBR: '🇬🇧', MEX: '🇲🇽', BRA: '🇧🇷', ARG: '🇦🇷', CUB: '🇨🇺', VEN: '🇻🇪',
+  TUR: '🇹🇷', SAU: '🇸🇦', GAZ: '🇵🇸', PSE: '🇵🇸', MRT: '🇲🇷', SEN: '🇸🇳',
+  CHL: '🇨🇱', COL: '🇨🇴',
+}
+function flagFromIso(iso: string): string {
+  return ISO_TO_FLAG[iso] || '🌍'
 }
 
 // ── sub-components ────────────────────────────────────────────────────────────
@@ -242,7 +260,7 @@ export default function GeopoliticaPage() {
         </div>
 
         <TabBar
-          items={['Teatro Global', 'OSINT', 'Alertas', 'Impacto España', 'Presencia Española', 'Análisis IA']}
+          items={['Teatro Global', 'OSINT', 'Alertas', 'Impacto España', 'Presencia Española', 'Análisis Politeia']}
           active={tab}
           onChange={setTab}
         />
@@ -276,29 +294,87 @@ export default function GeopoliticaPage() {
                 style={{ width: '100%' }}
               />
             </div>
-            <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 22, overflow: 'hidden' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-                <thead>
-                  <tr style={{ borderBottom: '1px solid #e8e8ed', background: '#f5f5f7' }}>
-                    <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>País</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Score riesgo</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'right', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Interés España</th>
-                    <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 600, fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Categoría</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {riesgoSorted.map((r, i) => (
-                    <tr key={r.iso} style={{ borderTop: i > 0 ? '1px solid #f5f5f7' : 'none' }}>
-                      <td style={{ padding: '12px 20px', fontWeight: 600 }}>{r.pais}</td>
-                      <td style={{ padding: '12px 20px', textAlign: 'right', fontWeight: 700, color: r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : '#2d8a39' }}>{r.score.toFixed(1)}</td>
-                      <td style={{ padding: '12px 20px', textAlign: 'right', color: '#424245' }}>{r.interes_espana.toFixed(1)}</td>
-                      <td style={{ padding: '12px 20px' }}>
-                        <span style={{ padding: '3px 10px', borderRadius: 999, background: `${catColor(r.categoria)}14`, color: catColor(r.categoria), fontSize: 11, fontWeight: 600 }}>{r.categoria}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {/* Países como tarjetas visuales (3 cols), no tabla */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))', gap: 14,
+            }}>
+              {riesgoSorted.map((r) => {
+                const sevColor = r.score >= 8 ? '#c42c2c' : r.score >= 6 ? '#b25000' : r.score >= 4 ? '#EAB308' : '#2d8a39'
+                const sevLabel = r.score >= 8 ? 'ALTO' : r.score >= 6 ? 'MEDIO-ALTO' : r.score >= 4 ? 'MEDIO' : 'BAJO'
+                const catC = catColor(r.categoria)
+                return (
+                  <div key={r.iso} style={{
+                    background: '#fff', border: '1px solid #e8e8ed', borderRadius: 16,
+                    padding: '18px 20px 16px', position: 'relative', overflow: 'hidden',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                  }}>
+                    {/* Barra lateral con color de categoría */}
+                    <span style={{ position: 'absolute', inset: '0 auto 0 0', width: 3, background: catC }}/>
+
+                    {/* Header: bandera + país + categoría */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+                      <span style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{flagFromIso(r.iso)}</span>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{
+                          fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600,
+                          letterSpacing: '-0.012em', color: '#1d1d1f', lineHeight: 1.15,
+                        }}>{r.pais}</div>
+                        <span style={{
+                          display: 'inline-block', marginTop: 4,
+                          padding: '2px 8px', borderRadius: 999, background: `${catC}14`,
+                          color: catC, fontSize: 10.5, fontWeight: 600,
+                          letterSpacing: '0.04em', textTransform: 'capitalize',
+                        }}>{r.categoria}</span>
+                      </div>
+                    </div>
+
+                    {/* Score riesgo · circular gauge */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
+                      <div style={{
+                        width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+                        background: `conic-gradient(${sevColor} ${r.score * 36}deg, #f5f5f7 0)`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        position: 'relative',
+                      }}>
+                        <div style={{
+                          width: 44, height: 44, borderRadius: '50%', background: '#fff',
+                          display: 'flex', flexDirection: 'column', alignItems: 'center',
+                          justifyContent: 'center', position: 'relative',
+                        }}>
+                          <span style={{
+                            fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+                            color: sevColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
+                          }}>{r.score.toFixed(1)}</span>
+                          <span style={{ fontSize: 8, color: '#9CA3AF', letterSpacing: '0.06em' }}>/10</span>
+                        </div>
+                      </div>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{
+                          fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
+                          color: '#6e6e73', textTransform: 'uppercase', marginBottom: 2,
+                        }}>Riesgo geopolítico</div>
+                        <div style={{
+                          fontSize: 12, fontWeight: 600, color: sevColor, marginBottom: 4,
+                        }}>{sevLabel}</div>
+                      </div>
+                    </div>
+
+                    {/* Interés España · barra horizontal */}
+                    <div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Interés España</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: '#1F4E8C', fontVariantNumeric: 'tabular-nums' }}>{r.interes_espana.toFixed(1)}</span>
+                      </div>
+                      <div style={{ height: 5, background: '#f5f5f7', borderRadius: 3, overflow: 'hidden' }}>
+                        <div style={{
+                          width: `${(r.interes_espana / 10) * 100}%`, height: 5,
+                          background: 'linear-gradient(90deg,#1F4E8C,#0F766E)',
+                        }}/>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         )}
@@ -363,46 +439,112 @@ export default function GeopoliticaPage() {
           </div>
         )}
 
-        {/* TAB 2 — Alertas */}
+        {/* TAB 2 — Alertas (visual igual a Alertas Prioritarias) */}
         {tab === 2 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {NIVEL_ORDER.filter((n) => alertasByNivel[n]?.length > 0).map((nivel) => (
-              <div key={nivel}>
+          <div>
+            {/* Resumen contadores por nivel */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10, marginBottom: 18,
+            }}>
+              {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).map((lv) => {
+                const m = NIVEL_META[lv]
+                const cnt = alertasByNivel[lv]?.length || 0
+                return (
+                  <div key={lv} style={{
+                    textAlign: 'center', padding: '14px 8px', borderRadius: 12,
+                    background: m.bg, border: `1px solid ${m.ring}`,
+                  }}>
+                    <span style={{
+                      display: 'inline-block', width: 12, height: 12, borderRadius: '50%',
+                      background: m.color, marginBottom: 6,
+                      animation: m.pulse ? 'alertPulse 1.4s ease-in-out infinite' : undefined,
+                      boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
+                    }}/>
+                    <div style={{
+                      fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700,
+                      lineHeight: 1, color: m.color, fontVariantNumeric: 'tabular-nums',
+                    }}>{cnt}</div>
+                    <div style={{
+                      fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em',
+                      opacity: 0.7, marginTop: 4, textTransform: 'uppercase',
+                    }}>{m.label}</div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Lista de alertas estilo Alertas Prioritarias */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {alertas.length === 0 && (
                 <div style={{
-                  display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
-                  padding: '8px 16px', borderRadius: 10,
-                  background: `${nivelColor(nivel)}12`,
+                  padding: 30, textAlign: 'center', color: '#6e6e73', fontSize: 13,
+                  background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
                 }}>
-                  <span style={{ width: 10, height: 10, borderRadius: '50%', background: nivelColor(nivel), flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, fontWeight: 700, color: nivelColor(nivel), textTransform: 'uppercase', letterSpacing: '0.06em' }}>{nivel}</span>
-                  <span style={{ fontSize: 12, color: '#6e6e73' }}>({alertasByNivel[nivel].length})</span>
+                  Sin alertas activas
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingLeft: 8 }}>
-                  {alertasByNivel[nivel].map((a) => (
-                    <div key={a.id} style={{ background: '#fff', border: `1px solid ${nivelColor(a.nivel)}30`, borderLeft: `3px solid ${nivelColor(a.nivel)}`, borderRadius: 14, padding: '16px 20px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                        <span style={{ fontWeight: 600, fontSize: 14, flex: 1 }}>{a.titulo}</span>
-                        <span style={{ fontSize: 11, color: '#8e8e93', flexShrink: 0, marginLeft: 12 }}>{fmtDate(a.fecha)}</span>
+              )}
+              {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as NivelGeo[]).flatMap((lv) =>
+                (alertasByNivel[lv] || []).map((a) => {
+                  const m = NIVEL_META[lv]
+                  return (
+                    <article key={a.id} style={{
+                      display: 'grid', gridTemplateColumns: '6px 110px 1fr auto',
+                      gap: 14, alignItems: 'center',
+                      padding: '14px 18px 14px 0', borderRadius: 14,
+                      background: m.bg, border: `1px solid ${m.ring}`,
+                      position: 'relative', overflow: 'hidden',
+                      animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
+                    }}>
+                      <div style={{
+                        background: m.color, height: '100%',
+                        boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
+                      }}/>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
+                        <span style={{
+                          fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
+                          color: '#fff', background: m.color,
+                          padding: '3px 8px', borderRadius: 999,
+                          display: 'inline-flex', alignItems: 'center', gap: 5,
+                          animation: m.pulse ? 'alertPulse 1.2s ease-in-out infinite' : undefined,
+                          boxShadow: m.pulse ? `0 0 10px ${m.color}` : undefined,
+                        }}>
+                          {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
+                          {m.label}
+                        </span>
+                        <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>GEOPOLÍTICA</span>
                       </div>
-                      <p style={{ fontSize: 13, color: '#424245', margin: '0 0 10px', lineHeight: 1.6 }}>{a.descripcion}</p>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
-                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                          {a.paises.map((p) => (
-                            <span key={p} style={{ padding: '3px 9px', borderRadius: 999, background: 'rgba(0,0,0,0.045)', fontSize: 11, fontWeight: 500, color: '#424245' }}>{p}</span>
+                      <div style={{ minWidth: 0 }}>
+                        <h3 style={{
+                          margin: 0, fontFamily: 'var(--font-display)', fontSize: 15,
+                          fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f',
+                        }}>{a.titulo}</h3>
+                        <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{a.descripcion}</p>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+                          <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.fuente} · <span style={{ fontWeight: 600 }}>{fmtDate(a.fecha)}</span></span>
+                          {a.paises.slice(0, 3).map((p) => (
+                            <span key={p} style={{
+                              padding: '2px 8px', borderRadius: 999, background: 'rgba(0,0,0,0.06)',
+                              fontSize: 10.5, fontWeight: 600, color: '#3a3a3d',
+                            }}>{p}</span>
                           ))}
                         </div>
-                        <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.fuente}</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-            {alertas.length === 0 && (
-              <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '32px 20px', textAlign: 'center', color: '#6e6e73', fontSize: 13 }}>
-                Sin alertas activas
-              </div>
-            )}
+                      <button style={{
+                        background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
+                        padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
+                        cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
+                      }}>Detalle →</button>
+                    </article>
+                  )
+                })
+              )}
+            </div>
+
+            <style>{`
+              @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
+              @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+              @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); } 50% { box-shadow: 0 0 22px -2px rgba(185,28,28,0.45); } }
+            `}</style>
           </div>
         )}
 
@@ -551,15 +693,15 @@ INSTRUCCIONES:
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 14, marginBottom: 16 }}>
         <div>
           <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#7C3AED', textTransform: 'uppercase', margin: '0 0 4px' }}>
-            ANÁLISIS GEOPOLÍTICO · IA
+            ANÁLISIS POLITEIA · GEOPOLÍTICO
           </p>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.018em', margin: '0 0 6px', color: '#1d1d1f' }}>
-            Briefing estratégico generado por IA
+            Briefing estratégico Politeia
           </h2>
           <p style={{ fontSize: 12.5, color: '#515154', margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
             Síntesis ejecutiva sobre el contexto geopolítico actual usando los datos en vivo
             de los tabs anteriores (riesgos, alertas críticas, señales OSINT). Pulsa el botón
-            para generar un informe nuevo con Ollama.
+            para generar un informe nuevo.
           </p>
         </div>
         <button onClick={runAnalysis} disabled={analyzing} style={{
@@ -569,15 +711,15 @@ INSTRUCCIONES:
           fontFamily: 'inherit', whiteSpace: 'nowrap', flexShrink: 0,
           boxShadow: '0 4px 14px rgba(124,58,237,0.30)',
         }}>
-          {analyzing ? '🤖 Generando…' : '🤖 Generar análisis'}
+          {analyzing ? 'Generando…' : 'Generar análisis Politeia'}
         </button>
       </div>
 
       {!analysis && !analyzing && (
         <div style={{ padding: '40px 20px', textAlign: 'center', color: '#9CA3AF', fontSize: 13,
                        background: '#fafafa', borderRadius: 14, border: '1px dashed #ECECEF' }}>
-          Pulsa &quot;Generar análisis&quot; para producir un briefing geopolítico con IA basado en
-          los datos cargados en los tabs anteriores.
+          Pulsa &quot;Generar análisis Politeia&quot; para producir un briefing geopolítico
+          basado en los datos cargados en los tabs anteriores.
         </div>
       )}
 
@@ -585,7 +727,7 @@ INSTRUCCIONES:
         <div style={{ padding: '40px 20px', textAlign: 'center', color: '#7C3AED', fontSize: 13,
                        background: 'rgba(124,58,237,0.04)', borderRadius: 14,
                        border: '1px solid rgba(124,58,237,0.15)' }}>
-          🤖 Ollama está generando el análisis…  <span style={{ color:'#9CA3AF' }}>(suele tardar 15-40 s)</span>
+          Generando el análisis Politeia…  <span style={{ color:'#9CA3AF' }}>(suele tardar 15-40 s)</span>
         </div>
       )}
 
@@ -594,9 +736,9 @@ INSTRUCCIONES:
                        borderRadius: 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
             <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff',
-                            background: llmSource === 'ollama' ? '#7C3AED' : llmSource === 'backend' ? '#10b981' : '#9CA3AF',
+                            background: '#7C3AED',
                             padding: '3px 8px', borderRadius: 5, letterSpacing: '0.06em' }}>
-              {llmSource === 'ollama' ? '🤖 OLLAMA' : llmSource === 'backend' ? '🤖 BACKEND' : '⚠ FALLBACK'}
+              POLITEIA · {llmSource === 'ollama' ? 'LOCAL' : llmSource === 'backend' ? 'CLOUD' : 'FALLBACK'}
             </span>
             {llmMs && <span style={{ fontSize: 11, color: '#6e6e73' }}>{(llmMs/1000).toFixed(1)} s</span>}
           </div>
