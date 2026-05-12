@@ -153,7 +153,7 @@ export const HISTORIC_OPTIONS = [
   { k:'g1989', label:'Generales 1989' }, { k:'g1986', label:'Generales 1986' }, { k:'g1982', label:'Generales 1982' },
   { k:'g1979', label:'Generales 1979' }, { k:'g1977', label:'Generales 1977' },
 ] as const
-const HISTORIC_KEYS = HISTORIC_OPTIONS.map(o => o.k) as readonly string[]
+export const HISTORIC_KEYS = HISTORIC_OPTIONS.map(o => o.k) as readonly string[]
 
 // Bloque ideológico por partido
 // Vista del mapa

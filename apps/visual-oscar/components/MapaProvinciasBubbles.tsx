@@ -8,9 +8,28 @@
    generales 2023, 2019, 2016, 2015 + históricos 1977-2011). */
 import { useMemo, useState } from 'react'
 import {
-  PARTIES, PROVINCES, WINNERS, WINNERS_HIST, HISTORIC_OPTIONS,
+  PARTIES, PROVINCES, WINNERS, WINNERS_HIST, HISTORIC_OPTIONS, HISTORIC_KEYS,
   type PartyId,
 } from './MapaProvincias'
+
+// Vista (igual que en MapaProvincias cuadrícula)
+type View = 'winner' | 'tamano'
+const VIEWS: { k: View; label: string }[] = [
+  { k: 'winner', label: 'Ganador' },
+  { k: 'tamano', label: 'Tamaño' },
+]
+// Color de la burbuja según vista. En modo "tamano" usamos escala
+// monocroma (consistente con la cuadrícula), pero el radio sigue
+// codificando el número de escaños.
+function colorForBubble(view: View, winner: PartyId | undefined, seats: number): string {
+  if (view === 'tamano') {
+    if (seats >= 20) return '#1d1d1f'
+    if (seats >= 10) return '#515154'
+    if (seats >= 5)  return '#86868b'
+    return '#C0C0C5'
+  }
+  return winner ? PARTIES[winner].color : '#C0C0C5'
+}
 
 // Centroides aproximados en viewBox 1000×720 (proyección simple Iberia
 // + Baleares + Canarias inset). Tomados del diseño v2.
@@ -126,16 +145,8 @@ export default function MapaProvinciasBubbles({
   const [hover, setHover] = useState<string | null>(null)
   const [pinned, setPinned] = useState<string | null>(null)
   const [partyFilter, setPartyFilter] = useState<PartyId | null>(null)
+  const [view, setView] = useState<View>('winner')
   const focused = pinned ?? hover
-
-  // Selector de dataset (mismas opciones que MapaProvincias)
-  const DATASET_OPTIONS: { k: string; label: string }[] = [
-    { k: 'estimacion', label: 'Estimación 2026' },
-    { k: 'g2023',      label: 'Generales 2023' },
-    { k: 'g2019',      label: 'Generales 2019' },
-    { k: 'g2016',      label: 'Generales 2016' },
-    { k: 'g2015',      label: 'Generales 2015' },
-  ]
 
   const winners = WINNERS[dataset] || WINNERS_HIST[dataset] || WINNERS.estimacion
   const totalSeats = PROVINCES.reduce((s, p) => s + p.seats, 0)
@@ -161,30 +172,67 @@ export default function MapaProvinciasBubbles({
     <div style={{ display: 'grid', gridTemplateColumns: compact ? '1fr' : '2.2fr 1fr', gap: 14 }}>
       {/* Mapa SVG */}
       <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 16, padding: '14px 16px 12px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-        {/* Header con selector de dataset */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
+        {/* Header con selectores idénticos a MapaProvincias cuadrícula */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
           <div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.013em', margin: '0 0 2px' }}>
               Mapa de burbujas · {labelForDataset(dataset)}
             </h3>
-            <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0 }}>Tamaño = escaños · Color = partido más votado</p>
+            <p style={{ fontSize: 10.5, color: '#6e6e73', margin: 0 }}>
+              52 circunscripciones · {view === 'winner' ? 'color = partido más votado' : 'color = tamaño en escaños'}
+            </p>
           </div>
-          <select
-            value={dataset}
-            onChange={(e) => setDataset(e.target.value)}
-            style={{
-              padding: '5px 10px', borderRadius: 8, border: '1px solid #ECECEF',
-              fontFamily: 'inherit', fontSize: 11.5, fontWeight: 500, color: '#1d1d1f',
-              background: '#fff', cursor: 'pointer',
-            }}
-          >
-            <optgroup label="Recientes">
-              {DATASET_OPTIONS.map((o) => <option key={o.k} value={o.k}>{o.label}</option>)}
-            </optgroup>
-            <optgroup label="Históricos">
-              {HISTORIC_OPTIONS.map((o) => <option key={o.k} value={o.k}>{o.label}</option>)}
-            </optgroup>
-          </select>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+            {/* Fila 1: Est. 2026 / Generales 2023 + dropdown históricas */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                {([{ k: 'estimacion', label: 'Est. 2026' }, { k: 'g2023', label: 'Generales 2023' }] as const).map(o => {
+                  const active = dataset === o.k
+                  return (
+                    <button key={o.k} onClick={() => { setDataset(o.k); setPinned(null); setHover(null) }} style={{
+                      background: active ? '#fff' : 'transparent',
+                      color: active ? '#1d1d1f' : '#6e6e73',
+                      border: 'none', borderRadius: 999, padding: '5px 11px',
+                      fontSize: 11.5, fontWeight: active ? 600 : 500, cursor: 'pointer',
+                      fontFamily: 'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      transition: 'all 160ms',
+                    }}>{o.label}</button>
+                  )
+                })}
+              </div>
+              <select
+                value={HISTORIC_KEYS.includes(dataset) ? dataset : ''}
+                onChange={e => { if (e.target.value) { setDataset(e.target.value); setPinned(null); setHover(null) } }}
+                style={{
+                  fontFamily: 'inherit', fontSize: 11.5, fontWeight: HISTORIC_KEYS.includes(dataset) ? 600 : 500,
+                  padding: '5px 26px 5px 11px', borderRadius: 999,
+                  border: '1px solid ' + (HISTORIC_KEYS.includes(dataset) ? '#1d1d1f' : '#ECECEF'),
+                  background: '#fff', color: HISTORIC_KEYS.includes(dataset) ? '#1d1d1f' : '#6e6e73',
+                  cursor: 'pointer', appearance: 'none' as const,
+                  backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 10 10\'%3E%3Cpath d=\'M2 4l3 3 3-3\' stroke=\'%236e6e73\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
+                  backgroundRepeat: 'no-repeat', backgroundPosition: 'right 9px center',
+                }}>
+                <option value="">Históricas…</option>
+                {HISTORIC_OPTIONS.map(o => <option key={o.k} value={o.k}>{o.label}</option>)}
+              </select>
+            </div>
+            {/* Fila 2: Ganador / Tamaño */}
+            <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+              {VIEWS.map(o => {
+                const active = view === o.k
+                return (
+                  <button key={o.k} onClick={() => setView(o.k)} style={{
+                    background: active ? '#fff' : 'transparent',
+                    color: active ? '#1d1d1f' : '#6e6e73',
+                    border: 'none', borderRadius: 999, padding: '5px 11px',
+                    fontSize: 11.5, fontWeight: active ? 600 : 500, cursor: 'pointer',
+                    fontFamily: 'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                    transition: 'all 160ms',
+                  }}>{o.label}</button>
+                )
+              })}
+            </div>
+          </div>
         </div>
 
         <svg viewBox="0 0 1000 720" style={{ width: '100%', display: 'block' }}>
@@ -214,8 +262,9 @@ export default function MapaProvinciasBubbles({
             const r = radius(p.seats)
             const isFocus = focused === p.id
             const winner = winners[p.id]
-            const dim = (focused !== null && !isFocus) || (partyFilter && winner !== partyFilter)
-            const color = winner ? PARTIES[winner].color : '#C0C0C5'
+            // En modo "tamano" desactivamos el filtro por partido (no aplica)
+            const dim = (focused !== null && !isFocus) || (view === 'winner' && partyFilter && winner !== partyFilter)
+            const color = colorForBubble(view, winner, p.seats)
             return (
               <g key={p.id}
                 onMouseEnter={() => setHover(p.id)}
@@ -251,35 +300,53 @@ export default function MapaProvinciasBubbles({
           })}
         </svg>
 
-        {/* Leyenda / filtros por partido */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8, paddingTop: 10, borderTop: '1px solid #f5f5f7' }}>
-          {winnersByParty.map(([id, count]) => {
-            const active = partyFilter === id
-            const meta = PARTIES[id]
-            return (
-              <button key={id}
-                onClick={() => setPartyFilter(active ? null : id)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 6,
-                  padding: '4px 10px', borderRadius: 999, cursor: 'pointer',
-                  border: active ? `1.5px solid ${meta.color}` : '1px solid #ECECEF',
-                  background: '#fff',
-                  fontFamily: 'inherit', fontSize: 11, fontWeight: 500,
-                  color: '#1d1d1f', whiteSpace: 'nowrap',
-                }}>
-                <span style={{ width: 8, height: 8, borderRadius: 999, background: meta.color }}></span>
-                {meta.name}
-                <span style={{ color: '#9CA3AF', fontWeight: 500 }}>{count}</span>
-              </button>
-            )
-          })}
-          {partyFilter && (
-            <button onClick={() => setPartyFilter(null)} style={{
-              marginLeft: 'auto', border: 'none', background: 'transparent',
-              color: '#6e6e73', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
-            }}>Quitar filtro ×</button>
-          )}
-        </div>
+        {/* Leyenda inferior — cambia según la vista activa */}
+        {view === 'winner' ? (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8, paddingTop: 10, borderTop: '1px solid #f5f5f7' }}>
+            {winnersByParty.map(([id, count]) => {
+              const active = partyFilter === id
+              const meta = PARTIES[id]
+              return (
+                <button key={id}
+                  onClick={() => setPartyFilter(active ? null : id)}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    padding: '4px 10px', borderRadius: 999, cursor: 'pointer',
+                    border: active ? `1.5px solid ${meta.color}` : '1px solid #ECECEF',
+                    background: '#fff',
+                    fontFamily: 'inherit', fontSize: 11, fontWeight: 500,
+                    color: '#1d1d1f', whiteSpace: 'nowrap',
+                  }}>
+                  <span style={{ width: 8, height: 8, borderRadius: 999, background: meta.color }}></span>
+                  {meta.name}
+                  <span style={{ color: '#9CA3AF', fontWeight: 500 }}>{count}</span>
+                </button>
+              )
+            })}
+            {partyFilter && (
+              <button onClick={() => setPartyFilter(null)} style={{
+                marginLeft: 'auto', border: 'none', background: 'transparent',
+                color: '#6e6e73', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
+              }}>Quitar filtro ×</button>
+            )}
+          </div>
+        ) : (
+          // Vista Tamaño: leyenda de la escala monocroma por escaños
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 8, paddingTop: 10, borderTop: '1px solid #f5f5f7', fontSize: 11, color: '#6e6e73' }}>
+            <span style={{ fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Escaños</span>
+            {[
+              { c: '#C0C0C5', l: '< 5'  },
+              { c: '#86868b', l: '5–9'  },
+              { c: '#515154', l: '10–19' },
+              { c: '#1d1d1f', l: '≥ 20' },
+            ].map((s) => (
+              <span key={s.l} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 10, height: 10, borderRadius: 999, background: s.c }}></span>
+                <span>{s.l}</span>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Panel de detalle */}
