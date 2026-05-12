@@ -249,26 +249,27 @@ const NAV=[
 ]
 
 function MCChart(){
-  const W=820,rowH=36,padL=80,padR=100,barW=W-padL-padR,maxS=160
-  const H=rowH*MC_SIMS.length+16
+  // Compactado · rowH 36→22, padding ajustado y tipografía/marcadores más pequeños
+  const W=820,rowH=22,padL=64,padR=92,barW=W-padL-padR,maxS=160
+  const H=rowH*MC_SIMS.length+14
   const majX=padL+(176/maxS)*barW
   return(
-    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',maxWidth:680,display:'block',margin:'0 auto'}}>
       <line x1={majX} y1={0} x2={majX} y2={H-8} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="3 4"/>
-      <text x={majX} y={H-1} textAnchor="middle" fontSize="9.5" fill="var(--ink-4)">Mayoría 176</text>
+      <text x={majX} y={H-1} textAnchor="middle" fontSize="8.5" fill="var(--ink-4)">Mayoría 176</text>
       {MC_SIMS.map((p,i)=>{
-        const y=i*rowH+rowH/2+4
+        const y=i*rowH+rowH/2+3
         const x95l=padL+(p.ic95l/maxS)*barW,x95h=padL+(p.ic95h/maxS)*barW
         const x80l=padL+(p.ic80l/maxS)*barW,x80h=padL+(p.ic80h/maxS)*barW
         const xm=padL+(p.mean/maxS)*barW
         return(
           <g key={p.siglas}>
-            <text x={padL-8} y={y+3} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
-            <rect x={x95l} y={y-8} width={x95h-x95l} height={16} rx="3" fill={p.color} opacity="0.14"/>
-            <rect x={x80l} y={y-6} width={x80h-x80l} height={12} rx="2" fill={p.color} opacity="0.30"/>
-            <rect x={xm-4} y={y-8} width={8} height={16} rx="2" fill={p.color}/>
-            <text x={x95h+4} y={y+3} fontSize="10" fill="var(--ink-4)">[{p.ic95l}–{p.ic95h}]</text>
-            <text x={W-padR+8} y={y+3} fontSize="12" fontWeight="700" fill={p.color}>{p.mean}</text>
+            <text x={padL-6} y={y+3} textAnchor="end" fontSize="10" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+            <rect x={x95l} y={y-5} width={x95h-x95l} height={11} rx="2.5" fill={p.color} opacity="0.14"/>
+            <rect x={x80l} y={y-4} width={x80h-x80l} height={9}  rx="2"   fill={p.color} opacity="0.30"/>
+            <rect x={xm-3}  y={y-5} width={6}        height={11} rx="1.5" fill={p.color}/>
+            <text x={x95h+4} y={y+3} fontSize="8.5" fill="var(--ink-4)">[{p.ic95l}–{p.ic95h}]</text>
+            <text x={W-padR+8} y={y+3} fontSize="10" fontWeight="700" fill={p.color}>{p.mean}</text>
           </g>
         )
       })}
@@ -402,13 +403,13 @@ export default function EscenariosPage(){
           </div>
         </div>
 
-        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
-            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Distribución Monte Carlo · 5.000 simulaciones</h2>
-            <div style={{display:'flex',gap:12,fontSize:11,color:'var(--ink-3)'}}>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.14,display:'inline-block'}}/>IC 95%</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:2,background:'#666',display:'inline-block'}}/>Media</span>
+        <div style={{background:'#fff',borderRadius:14,padding:'14px 18px 12px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20,maxWidth:760,margin:'0 auto 20px'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8,gap:12,flexWrap:'wrap'}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:600,letterSpacing:'-0.012em',margin:0}}>Distribución Monte Carlo · 5.000 simulaciones</h2>
+            <div style={{display:'flex',gap:10,fontSize:10,color:'var(--ink-3)'}}>
+              <span style={{display:'inline-flex',alignItems:'center',gap:4}}><span style={{width:14,height:6,borderRadius:2,background:'#888',opacity:0.14,display:'inline-block'}}/>IC 95%</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:4}}><span style={{width:14,height:6,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:4}}><span style={{width:6,height:9,borderRadius:1.5,background:'#666',display:'inline-block'}}/>Media</span>
             </div>
           </div>
           <MCChart/>
