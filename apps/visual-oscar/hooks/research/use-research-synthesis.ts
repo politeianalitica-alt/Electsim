@@ -57,7 +57,7 @@ export function useResearchSynthesis() {
         content: full,
         entities: [],
         generatedAt: new Date().toISOString(),
-        model: process.env.NEXT_PUBLIC_AI_MODEL ?? "mock",
+        model: process.env.NEXT_PUBLIC_AI_MODEL ?? "ollama:llama3.2",
       };
       setSyntheses(prev => [synthesis, ...prev]);
       setIsLoading(false);

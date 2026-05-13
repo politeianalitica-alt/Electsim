@@ -1,153 +1,263 @@
 "use client";
 
-import { useState } from "react";
-import { WS, priorityColor } from "@/lib/workspace/workspace-utils";
-import { useWorkspaceTerminal } from "@/hooks/workspace/use-workspace-terminal";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { WS } from "@/lib/workspace/workspace-utils";
 import { workspaceRepository } from "@/lib/workspace/workspace-repository";
-import { getActivitySorted } from "@/lib/workspace/workspace-selectors";
 import { WorkspaceViewHeader } from "@/app/_components/workspace/workspace-view-header";
+import {
+  TERMINAL_PANELS,
+  TERMINAL_HOTKEYS,
+  DEFAULT_LAYOUT,
+  FOCUS_LAYOUT,
+  WARROOM_LAYOUT,
+  layoutForMode,
+  type TerminalLayout,
+  type TerminalMode,
+  type TerminalPanelKind,
+} from "@/lib/terminal/terminal-config";
+import { useHotkeys } from "@/lib/terminal/use-hotkeys";
+import {
+  AlertsPanel,
+  IssuesPanel,
+  InboxPanel,
+  AgendaPanel,
+  ResearchPanel,
+  ActivityPanel,
+  RadarMiniPanel,
+  ConsolePanel,
+} from "@/components/terminal/terminal-panels";
+import { useWorkspaceRadar } from "@/hooks/workspace/use-workspace-radar";
+import { buildExecutiveContext } from "@/lib/workspace/analytics-builder";
 
-const TYPE_COLORS: Record<string, string> = {
-  alert:      WS.danger,
-  automation: WS.success,
-  doc:        WS.accent,
-  research:   "#a78bfa",
-  issue:      WS.warn,
-  decision:   WS.accent,
-  action:     WS.ink2,
-};
+const STORAGE_KEY = (workspaceId: string) => `politeia:terminal:layout:${workspaceId}`;
 
 export default function TerminalPage({ params }: { params: { workspaceId: string } }) {
-  const { data } = useWorkspaceTerminal(params.workspaceId);
   const workspace = workspaceRepository.getWorkspaceById(params.workspaceId);
-  const [cmd, setCmd] = useState("");
-  const [history, setHistory] = useState<string[]>([]);
+  const workspaceName = workspace?.name ?? "Politeia";
 
-  function handleCmd(e: React.KeyboardEvent) {
-    if (e.key !== "Enter" || !cmd.trim()) return;
-    setHistory(h => [...h, `> ${cmd}`, `[sistema] Comando en simulación: '${cmd}'`]);
-    setCmd("");
+  const [layout, setLayout] = useState<TerminalLayout>(DEFAULT_LAYOUT);
+  const [history, setHistory] = useState<string[]>([]);
+  const [showHelp, setShowHelp] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Persistencia del modo en localStorage
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY(params.workspaceId));
+      if (raw) setLayout(JSON.parse(raw) as TerminalLayout);
+    } catch { /* ignore */ }
+  }, [params.workspaceId]);
+
+  function applyMode(mode: TerminalMode) {
+    const next = layoutForMode(mode);
+    setLayout(next);
+    try { window.localStorage.setItem(STORAGE_KEY(params.workspaceId), JSON.stringify(next)); } catch { /* ignore */ }
   }
 
-  const activity = getActivitySorted(data?.activity ?? []);
-  const alerts = data?.alerts ?? [];
+  const context = useMemo(
+    () =>
+      buildExecutiveContext({
+        issues:        workspaceRepository.getIssues(params.workspaceId),
+        actions:       workspaceRepository.getActions(params.workspaceId),
+        alerts:        workspaceRepository.getAlerts(params.workspaceId),
+        decisions:     workspaceRepository.getDecisions(params.workspaceId),
+        documents:     workspaceRepository.getDocuments(params.workspaceId),
+        research:      workspaceRepository.getResearchThreads(params.workspaceId),
+        projects:      workspaceRepository.getProjects(params.workspaceId),
+        opportunities: workspaceRepository.getOpportunities(params.workspaceId),
+      }),
+    [params.workspaceId]
+  );
+
+  const { batch: radarBatch } = useWorkspaceRadar({
+    workspaceId: params.workspaceId,
+    workspaceName,
+    context,
+    autoLoad: false,
+  });
+
+  // Hotkeys ------------------------------------------------------------
+  useHotkeys([
+    { combo: "g 1", ignoreInInputs: true, handler: () => applyMode("focus") },
+    { combo: "g 2", ignoreInInputs: true, handler: () => applyMode("warroom") },
+    { combo: "g 3", ignoreInInputs: true, handler: () => applyMode("compact") },
+    { combo: "?",   ignoreInInputs: true, handler: () => setShowHelp(h => !h) },
+    { combo: "/",   ignoreInInputs: true, handler: () => inputRef.current?.focus() },
+    { combo: "esc",                       handler: () => { setShowHelp(false); inputRef.current?.blur(); } },
+  ]);
+
+  function runCommand(cmd: string) {
+    const norm = cmd.toLowerCase();
+    setHistory(h => [...h, `> ${cmd}`]);
+    if (norm === "help") {
+      setHistory(h => [...h, "comandos: help · clear · focus · warroom · compact · radar · briefing"]);
+    } else if (norm === "clear") {
+      setHistory([]);
+    } else if (norm === "focus")   { applyMode("focus");   setHistory(h => [...h, "modo Focus activado"]); }
+    else if   (norm === "warroom") { applyMode("warroom"); setHistory(h => [...h, "modo War Room activado"]); }
+    else if   (norm === "compact") { applyMode("compact"); setHistory(h => [...h, "modo Compact activado"]); }
+    else if   (norm === "radar")   { setHistory(h => [...h, "ir a /workspaces/" + params.workspaceId + "/radar"]); }
+    else if   (norm === "briefing"){ setHistory(h => [...h, "ir a /briefing"]); }
+    else {
+      setHistory(h => [...h, `comando desconocido: '${cmd}' (usa 'help')`]);
+    }
+  }
+
+  const visibleSet = useMemo(() => new Set(layout.visible), [layout.visible]);
 
   return (
     <div>
       <WorkspaceViewHeader
         view="terminal"
         title="Terminal"
-        description={`Vista operativa intensiva · ${workspace?.name ?? params.workspaceId}`}
-      />
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 360px", gap: 16 }}>
-        {/* Feed de actividad */}
-        <div style={{
-          background: WS.surface2, border: `1px solid ${WS.border}`,
-          borderRadius: 14, padding: "16px",
-          fontFamily: "'SF Mono','Fira Code','Consolas',monospace",
-          fontSize: 12,
-        }}>
-          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", color: WS.ink3, textTransform: "uppercase", marginBottom: 12 }}>
-            ▸ Feed de actividad
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 5, maxHeight: 360, overflowY: "auto" }}>
-            {activity.slice(0, 14).map((entry) => (
-              <div key={entry.id} style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
-                <span style={{ color: WS.ink3, flexShrink: 0, fontSize: 11, minWidth: 60 }}>
-                  {new Date(entry.createdAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}
-                </span>
-                <span style={{ color: TYPE_COLORS[entry.type] ?? WS.ink3, flexShrink: 0, fontWeight: 700, fontSize: 10.5, textTransform: "uppercase", minWidth: 84 }}>
-                  [{entry.type}]
-                </span>
-                <span style={{ color: WS.ink2, lineHeight: 1.5, flex: 1 }}>{entry.title}</span>
-              </div>
-            ))}
-            {activity.length === 0 && (
-              <div style={{ color: WS.ink3, padding: 12 }}>Sin actividad reciente</div>
-            )}
-          </div>
-        </div>
-
-        {/* Alertas activas */}
-        <div style={{
-          background: WS.surface2, border: `1px solid ${WS.border}`,
-          borderRadius: 14, padding: "16px",
-        }}>
-          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", color: WS.ink3, textTransform: "uppercase", marginBottom: 12 }}>
-            ▸ Alertas activas
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {alerts.map(a => (
-              <div key={a.id} style={{
-                padding: "10px 12px",
-                background: WS.bg, border: `1px solid ${WS.border}`,
-                borderRadius: 9, borderLeft: `3px solid ${priorityColor(a.severity)}`,
-              }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: WS.ink, marginBottom: 4, lineHeight: 1.3 }}>
-                  {a.title}
-                </div>
-                <div style={{ fontSize: 10.5, color: WS.ink3 }}>
-                  {a.source} · {new Date(a.createdAt).toLocaleString("es-ES", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                </div>
-              </div>
-            ))}
-            {alerts.length === 0 && (
-              <div style={{ color: WS.ink3, padding: 12, fontSize: 12 }}>Sin alertas activas</div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Consola */}
-      <div style={{ marginTop: 16 }}>
-        <div style={{
-          background: WS.surface2, border: `1px solid ${WS.border}`,
-          borderRadius: 14, padding: "14px 16px",
-          fontFamily: "'SF Mono','Fira Code','Consolas',monospace",
-          fontSize: 12,
-        }}>
-          <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.12em", color: WS.ink3, textTransform: "uppercase", marginBottom: 12 }}>
-            ▸ Consola de comandos
-          </div>
-          {history.length > 0 && (
-            <div style={{ marginBottom: 12, display: "flex", flexDirection: "column", gap: 4 }}>
-              {history.map((line, i) => (
-                <div key={i} style={{ color: line.startsWith(">") ? WS.accent : WS.ink3 }}>{line}</div>
-              ))}
-            </div>
-          )}
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ color: WS.accent, fontWeight: 700 }}>{params.workspaceId}&gt;</span>
-            <input
-              value={cmd}
-              onChange={e => setCmd(e.target.value)}
-              onKeyDown={handleCmd}
-              placeholder="help, risk-status, briefing, agent-run …"
-              style={{
-                flex: 1, background: "transparent", border: "none", outline: "none",
-                color: WS.ink, fontFamily: "'SF Mono','Fira Code',monospace", fontSize: 12,
-              }}
-            />
-          </div>
-        </div>
-
-        <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 6 }}>
-          {["risk-status", "briefing", "agent-run", "index-boe", "list-issues", "team-status"].map(c => (
+        description={`Vista operativa intensiva · ${workspaceName} · modo ${labelFor(layout.mode)}`}
+        actions={
+          <div style={{ display: "flex", gap: 6 }}>
+            <ModeBtn active={layout.mode === "focus"}   onClick={() => applyMode("focus")}  >Focus</ModeBtn>
+            <ModeBtn active={layout.mode === "warroom"} onClick={() => applyMode("warroom")}>War Room</ModeBtn>
+            <ModeBtn active={layout.mode === "compact"} onClick={() => applyMode("compact")}>Compact</ModeBtn>
             <button
-              key={c}
-              onClick={() => setCmd(c)}
+              onClick={() => setShowHelp(true)}
               style={{
-                padding: "4px 10px", background: WS.surface, border: `1px solid ${WS.border}`,
-                borderRadius: 6, color: WS.ink3, fontSize: 11,
-                cursor: "pointer", fontFamily: "'SF Mono',monospace",
+                padding: "4px 10px",
+                background: "transparent",
+                border: `1px solid ${WS.border}`,
+                borderRadius: 8,
+                color: WS.ink2,
+                fontSize: 11,
+                cursor: "pointer",
+                fontFamily: WS.font,
               }}
             >
-              {c}
+              ? atajos
             </button>
-          ))}
-        </div>
+          </div>
+        }
+      />
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+          gap: 12,
+          gridAutoRows: layout.mode === "compact" ? 200 : 240,
+        }}
+      >
+        {TERMINAL_PANELS.filter(p => visibleSet.has(p.id)).map(p => (
+          <div
+            key={p.id}
+            style={{
+              gridColumn: `span ${p.span}`,
+              gridRow:    `span ${p.rows}`,
+              minHeight: 0,
+            }}
+          >
+            <PanelByKind kind={p.id} workspaceId={params.workspaceId} radarTop={radarBatch?.opportunities ?? []} onCommand={runCommand} history={history} inputRef={inputRef} />
+          </div>
+        ))}
       </div>
+
+      {showHelp && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setShowHelp(false)}
+          style={{
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center", zIndex: 200,
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: WS.surface,
+              border: `1px solid ${WS.borderStrong}`,
+              borderRadius: 14,
+              padding: 22,
+              minWidth: 340,
+              fontFamily: WS.font,
+              color: WS.ink,
+            }}
+          >
+            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12 }}>Atajos del Terminal</div>
+            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", rowGap: 6, columnGap: 14, fontSize: 12 }}>
+              {Object.entries(TERMINAL_HOTKEYS).map(([combo, label]) => (
+                <div key={combo} style={{ display: "contents" }}>
+                  <kbd style={{
+                    background: WS.surface2, border: `1px solid ${WS.border}`,
+                    borderRadius: 6, padding: "2px 8px", color: WS.ink2,
+                    fontFamily: "ui-monospace, monospace", fontSize: 11,
+                  }}>{combo}</kbd>
+                  <span style={{ color: WS.ink2 }}>{label}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowHelp(false)}
+              style={{
+                marginTop: 14, padding: "6px 14px", background: WS.accent,
+                color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", fontSize: 12, fontWeight: 600,
+              }}
+            >
+              Cerrar (esc)
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
+}
+
+function PanelByKind({
+  kind,
+  workspaceId,
+  radarTop,
+  onCommand,
+  history,
+  inputRef,
+}: {
+  kind: TerminalPanelKind;
+  workspaceId: string;
+  radarTop: any[];
+  onCommand: (cmd: string) => void;
+  history: string[];
+  inputRef: React.RefObject<HTMLInputElement>;
+}) {
+  switch (kind) {
+    case "alerts":   return <AlertsPanel workspaceId={workspaceId} />;
+    case "issues":   return <IssuesPanel workspaceId={workspaceId} />;
+    case "inbox":    return <InboxPanel workspaceId={workspaceId} />;
+    case "agenda":   return <AgendaPanel workspaceId={workspaceId} />;
+    case "research": return <ResearchPanel workspaceId={workspaceId} />;
+    case "activity": return <ActivityPanel workspaceId={workspaceId} />;
+    case "radar":    return <RadarMiniPanel workspaceId={workspaceId} topOpportunities={radarTop} />;
+    case "console":  return <ConsolePanel  workspaceId={workspaceId} onCommand={onCommand} history={history} inputRef={inputRef} />;
+  }
+}
+
+function ModeBtn({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "4px 12px",
+        background: active ? WS.accent : "transparent",
+        color: active ? "#fff" : WS.ink2,
+        border: `1px solid ${active ? WS.accent : WS.border}`,
+        borderRadius: 8,
+        fontSize: 11,
+        fontWeight: 600,
+        cursor: "pointer",
+        fontFamily: WS.font,
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function labelFor(mode: TerminalMode): string {
+  if (mode === "focus") return "Focus";
+  if (mode === "warroom") return "War Room";
+  return "Compact";
 }

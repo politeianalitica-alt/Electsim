@@ -162,6 +162,8 @@ export const MODULES: NavModule[] = [
       { label: 'Research',              href: '/workspaces/ws_espana_2026/research' },
       { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
       { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
+      { label: 'Radar Oportunidades',   href: '/workspaces/ws_espana_2026/radar' },
+      { label: 'Reporting',             href: '/workspaces/ws_espana_2026/reporting' },
       { label: 'Terminal',              href: '/workspaces/ws_espana_2026/terminal' },
     ],
   },

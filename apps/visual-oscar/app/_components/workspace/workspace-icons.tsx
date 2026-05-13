@@ -71,6 +71,10 @@ export const IconTerminal = iconStroke(
   "M2 2h12a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3a1 1 0 011-1z|M4 6l3 2-3 2|M9 10h3"
 );
 
+export const IconRadar = iconStroke(
+  "M8 1a7 7 0 100 14 7 7 0 000-14z|M8 4a4 4 0 100 8 4 4 0 000-8z|M8 8l5-3"
+);
+
 export const IconChevronRight = iconStroke("M6 3l5 5-5 5");
 export const IconChevronLeft  = iconStroke("M10 3L5 8l5 5");
 export const IconChevronDown  = iconStroke("M3 6l5 5 5-5");
@@ -103,6 +107,7 @@ export function ViewIcon({ view, size = 14, color }: { view: string; size?: numb
     case "projects":    return <IconProjects {...props} />;
     case "automations": return <IconAutomations {...props} />;
     case "knowledge":   return <IconKnowledge {...props} />;
+    case "radar":       return <IconRadar {...props} />;
     case "reporting":   return <IconReporting {...props} />;
     case "terminal":    return <IconTerminal {...props} />;
     default:            return <IconOverview {...props} />;

@@ -8,6 +8,7 @@ import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { useCommandPalette } from "@/hooks/use-command-palette";
 import { ViewIcon, IconClose, IconPlus, IconAgent, IconCalendar, IconZap } from "./workspace-icons";
 import type { CommandAction } from "@/types/workspace";
+import { SHORTCUTS } from "@/lib/shortcuts/shortcut-registry";
 
 interface WorkspaceCommandPaletteProps {
   workspaceId: string;
@@ -35,7 +36,19 @@ function buildCommands(workspaceId: string): CommandAction[] {
     { id: "agent_risk",      label: "Análisis de riesgos",   description: "Analizar riesgos del workspace",          group: "agent" },
   ];
 
-  return [...navActions, ...createActions, ...agentActions];
+  // Inyectamos los atajos registrados como acciones del palette (sin duplicar las de navegación que ya existen arriba).
+  const shortcutActions: CommandAction[] = SHORTCUTS
+    .filter(s => s.group !== "navigation")
+    .map(s => ({
+      id: `sc_${s.id}`,
+      label: s.label,
+      description: s.hint || `Atajo: ${s.combo}`,
+      group: "workspace",
+      shortcut: s.combo.split(/[\s+]/).map(t => t.toUpperCase()),
+      href: s.href,
+    }));
+
+  return [...navActions, ...createActions, ...agentActions, ...shortcutActions];
 }
 
 const GROUP_LABELS: Record<string, string> = {

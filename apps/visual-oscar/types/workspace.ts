@@ -239,6 +239,7 @@ export type WorkspaceView =
   | "projects"
   | "automations"
   | "knowledge"
+  | "radar"
   | "reporting"
   | "terminal";
 

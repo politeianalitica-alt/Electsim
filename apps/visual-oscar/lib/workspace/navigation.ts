@@ -16,6 +16,7 @@ export const WORKSPACE_VIEWS: WorkspaceNavItem[] = [
   { key: "projects",    label: "Projects",     segment: "projects",    description: "Gestión del trabajo" },
   { key: "automations", label: "Automations",  segment: "automations", description: "Reglas y automatización" },
   { key: "knowledge",   label: "Knowledge",    segment: "knowledge",   description: "Memoria institucional" },
+  { key: "radar",       label: "Radar",        segment: "radar",       description: "Oportunidades en tiempo real (Ollama)" },
   { key: "reporting",   label: "Reporting",    segment: "reporting",   description: "Entregables y cliente" },
   { key: "terminal",    label: "Terminal",     segment: "terminal",    description: "Vista operativa intensiva" },
 ];
