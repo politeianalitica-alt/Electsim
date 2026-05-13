@@ -78,7 +78,7 @@ export async function checkBackendHealth(): Promise<HealthStatus> {
       timestamp: new Date().toISOString(),
     };
   }
-  const res = await callBackend<{ ok: boolean; subsystems?: Record<string, string> }>("/health");
+  const res = await callBackend<{ ok: boolean; subsystems?: Record<string, string> }>("/api/system/health");
   const latency = Date.now() - now;
   if (!res.data) {
     return {

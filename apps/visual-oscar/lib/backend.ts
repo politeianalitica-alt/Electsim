@@ -11,16 +11,16 @@
  *   BACKEND_API_KEY = sk-xxx               (opcional, header X-API-Key)
  */
 
-const BACKEND =
+const getBackend = () =>
   process.env.BACKEND_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   process.env.POLITEIA_API_URL ||
   ''
-const TIMEOUT_MS = Number(process.env.BACKEND_TIMEOUT_MS || 8000)
-const API_KEY = process.env.BACKEND_API_KEY || ''
+const getTimeout = () => Number(process.env.BACKEND_TIMEOUT_MS || 8000)
+const getApiKey = () => process.env.BACKEND_API_KEY || ''
 
-export const backendConfigured = (): boolean => Boolean(BACKEND)
-export const backendUrl = (): string => BACKEND
+export const backendConfigured = (): boolean => Boolean(getBackend())
+export const backendUrl = (): string => getBackend()
 
 type BackendResult<T> = {
   data: T | null
@@ -38,6 +38,9 @@ export async function callBackend<T = unknown>(
   path: string,
   init: RequestInit = {},
 ): Promise<BackendResult<T>> {
+  const BACKEND = getBackend()
+  const TIMEOUT_MS = getTimeout()
+  const API_KEY = getApiKey()
   const t0 = Date.now()
   if (!BACKEND) {
     return { data: null, error: 'backend_url_not_configured', status: null, latency_ms: 0 }
