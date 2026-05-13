@@ -9,6 +9,7 @@
 import { useMemo, useState } from 'react'
 import {
   PARTIES, PROVINCES, WINNERS, WINNERS_HIST, HISTORIC_OPTIONS, HISTORIC_KEYS,
+  getBreakdown, partyName,
   type PartyId,
 } from './MapaProvincias'
 
@@ -349,36 +350,82 @@ export default function MapaProvinciasBubbles({
         )}
       </div>
 
-      {/* Panel de detalle */}
+      {/* Panel de detalle — integrado del MapaProvincias cuadrícula
+          (mismo desglose por partido + barras + meta de población) */}
       <aside>
         <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 16, padding: 18, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-          {focusedProv && focusedWinner ? (
-            <>
-              <p style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 6px' }}>Provincia</p>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 600, letterSpacing: '-0.022em', margin: '0 0 4px' }}>{focusedProv.name}</h2>
-              <p style={{ fontSize: 11, color: '#86868b', margin: '0 0 14px' }}>
-                {focusedCentroid ? `Población ${focusedCentroid.pop}` : ''}
-              </p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                <div style={{ padding: '12px 14px', background: '#FAFAFB', borderRadius: 10 }}>
-                  <div style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Escaños</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 600, letterSpacing: '-0.026em', marginTop: 4, lineHeight: 1 }}>{focusedProv.seats}</div>
+          {focusedProv ? (() => {
+            const w = focusedWinner
+            const wParty = w ? PARTIES[w] : null
+            const breakdown = getBreakdown(dataset, focusedProv, w)
+            const breakdownEntries = Object.keys(breakdown).length
+              ? (Object.entries(breakdown) as Array<[PartyId, number]>).sort((a, b) => b[1] - a[1])
+              : null
+            return (
+              <>
+                {/* Header: provincia + escaños grande */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: breakdownEntries ? 10 : 0 }}>
+                  <div>
+                    <p style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 4px' }}>Provincia</p>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', margin: '0 0 4px', color: '#1d1d1f' }}>{focusedProv.name}</h3>
+                    {focusedCentroid && (
+                      <p style={{ fontSize: 10.5, color: '#86868b', margin: 0 }}>Población {focusedCentroid.pop}</p>
+                    )}
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.024em', color: '#1d1d1f', lineHeight: 1 }}>{focusedProv.seats}</div>
+                    <div style={{ fontSize: 9.5, color: '#86868b', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600, marginTop: 4 }}>escaños</div>
+                  </div>
                 </div>
-                <div style={{ padding: '12px 14px', background: PARTIES[focusedWinner].color, color: '#fff', borderRadius: 10 }}>
-                  <div style={{ fontSize: 9.5, opacity: 0.85, textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Líder</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.018em', marginTop: 4, lineHeight: 1.1 }}>{PARTIES[focusedWinner].name}</div>
-                  {dataset === 'estimacion' && WINNER_PCT_2026[focusedProv.id] && (
-                    <div style={{ fontSize: 10.5, opacity: 0.85, marginTop: 2 }}>{PARTIES[focusedWinner].name} {WINNER_PCT_2026[focusedProv.id]}</div>
-                  )}
-                </div>
-              </div>
 
-              <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #f5f5f7', fontSize: 11.5, color: '#6e6e73' }}>
-                Representa <strong style={{ color: '#1d1d1f' }}>{((focusedProv.seats / totalSeats) * 100).toFixed(1)}%</strong> de los 350 escaños.
-              </div>
-            </>
-          ) : (
+                {/* Líder con chip y % aproximado */}
+                {wParty && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: `${wParty.color}10`, border: `1px solid ${wParty.color}30`, borderRadius: 10, marginBottom: 12 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: 999, background: wParty.color, flexShrink: 0 }}/>
+                    <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Líder</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: wParty.color }}>{partyName(dataset, w!)}</span>
+                    {dataset === 'estimacion' && WINNER_PCT_2026[focusedProv.id] && (
+                      <span style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 700, color: wParty.color }}>{WINNER_PCT_2026[focusedProv.id]}</span>
+                    )}
+                  </div>
+                )}
+
+                {/* Desglose por partido (mismo dataset que la cuadrícula) */}
+                {breakdownEntries ? (
+                  <div>
+                    <p style={{ fontSize: 9.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700, margin: '0 0 8px' }}>Desglose por partido</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {breakdownEntries.map(([pid, n]) => {
+                        const meta = PARTIES[pid]
+                        const pct = (n / focusedProv.seats) * 100
+                        return (
+                          <div key={pid}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3, fontSize: 11.5 }}>
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+                                <span style={{ width: 8, height: 8, borderRadius: 999, background: meta.color, flexShrink: 0 }}/>
+                                <span style={{ fontWeight: 600, color: '#3a3a3d', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{partyName(dataset, pid)}</span>
+                              </span>
+                              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: '#1d1d1f', fontVariantNumeric: 'tabular-nums', flexShrink: 0 }}>{n}</span>
+                            </div>
+                            <div style={{ height: 4, background: '#f5f5f7', borderRadius: 2, overflow: 'hidden' }}>
+                              <div style={{ width: `${pct}%`, height: 4, background: meta.color, borderRadius: 2 }}/>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <p style={{ fontSize: 11.5, color: '#9CA3AF' }}>Sin desglose disponible para este dataset.</p>
+                )}
+
+                {/* Pie con aporte al total */}
+                <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #f5f5f7', fontSize: 11.5, color: '#6e6e73' }}>
+                  Representa <strong style={{ color: '#1d1d1f' }}>{((focusedProv.seats / totalSeats) * 100).toFixed(1)}%</strong> de los 350 escaños.
+                </div>
+              </>
+            )
+          })() : (
             <>
               <p style={{ fontSize: 9.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, margin: '0 0 6px' }}>Resumen</p>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em', margin: '0 0 12px' }}>

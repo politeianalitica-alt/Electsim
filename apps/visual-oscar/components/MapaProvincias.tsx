@@ -194,12 +194,12 @@ const HISTORIC_NAMES: Record<string, Partial<Record<PartyId, string>>> = {
   estimacion: {},
 }
 
-function partyName(dataset: string, pid: PartyId): string {
+export function partyName(dataset: string, pid: PartyId): string {
   return HISTORIC_NAMES[dataset]?.[pid] || PARTIES[pid].name
 }
 
 // Top partidos por elección (en orden de fuerza nacional aproximada)
-const TOP_BY_YEAR: Record<string, PartyId[]> = {
+export const TOP_BY_YEAR: Record<string, PartyId[]> = {
   estimacion: ['pp','psoe','vox','sumar','erc','junts','pnv','bildu'],
   g2023: ['pp','psoe','vox','sumar','erc','junts','bildu','pnv'],
   g2019: ['psoe','pp','vox','sumar','erc','junts','pnv','bildu'],
@@ -218,7 +218,7 @@ const TOP_BY_YEAR: Record<string, PartyId[]> = {
   g1977: ['ucd','psoe','sumar','pp','ciu','pnv'],
 }
 
-function getBreakdown(dataset: string, prov: Province, winner: PartyId | undefined): Partial<Record<PartyId, number>> {
+export function getBreakdown(dataset: string, prov: Province, winner: PartyId | undefined): Partial<Record<PartyId, number>> {
   if (dataset === 'estimacion' && BREAKDOWN_2026[prov.id]) return BREAKDOWN_2026[prov.id]
   if (!winner) return {}
   const seats = prov.seats
