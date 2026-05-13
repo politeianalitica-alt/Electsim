@@ -10,7 +10,17 @@ const nextConfig = {
   // Tree-shaking + externals server-side (sintaxis Next 14.2).
   experimental: {
     optimizePackageImports: ['lucide-react', '@xyflow/react'],
-    serverComponentsExternalPackages: ['@react-pdf/renderer', 'rss-parser'],
+    serverComponentsExternalPackages: [
+      '@react-pdf/renderer',
+      'rss-parser',
+      // Deps opcionales — cargadas via dynamic import condicional. Si no están
+      // instaladas, los wrappers en lib/* devuelven fallbacks deterministas.
+      '@clerk/nextjs',
+      '@sentry/nextjs',
+      '@upstash/qstash',
+      'drizzle-orm',
+      'postgres',
+    ],
   },
 
   // Imágenes externas.
@@ -18,6 +28,33 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: '**' },
     ],
+  },
+
+  // Webpack: marca como externals los módulos opcionales en server bundles
+  // para que el build no intente resolverlos cuando no están instalados.
+  webpack: (config, { isServer }) => {
+    const optionalDeps = [
+      '@clerk/nextjs',
+      '@clerk/nextjs/server',
+      '@sentry/nextjs',
+      '@upstash/qstash',
+      'drizzle-orm',
+      'drizzle-orm/postgres-js',
+      'postgres',
+    ];
+    if (isServer) {
+      const externals = Array.isArray(config.externals) ? config.externals : [config.externals];
+      config.externals = [
+        ...externals.filter(Boolean),
+        function ({ request }, callback) {
+          if (request && optionalDeps.includes(request)) {
+            return callback(null, 'commonjs ' + request);
+          }
+          callback();
+        },
+      ];
+    }
+    return config;
   },
 
   async headers() {
