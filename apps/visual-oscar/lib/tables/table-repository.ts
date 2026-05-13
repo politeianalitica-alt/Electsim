@@ -1,0 +1,21 @@
+import type { PoliteiTable } from "@/types/tables";
+import { tablesMockData } from "./tables-mock-data";
+
+export const tableRepository = {
+  list(workspaceId: string): PoliteiTable[] {
+    return tablesMockData.filter(t => t.workspaceId === workspaceId);
+  },
+  getTableById(tableId: string, workspaceId: string): PoliteiTable | null {
+    return tablesMockData.find(t => t.id === tableId && t.workspaceId === workspaceId) ?? null;
+  },
+  saveTable(tableId: string, patch: Partial<PoliteiTable>) {
+    const idx = tablesMockData.findIndex(t => t.id === tableId);
+    if (idx !== -1) {
+      tablesMockData[idx] = {
+        ...tablesMockData[idx],
+        ...patch,
+        updatedAt: new Date().toISOString(),
+      };
+    }
+  },
+};

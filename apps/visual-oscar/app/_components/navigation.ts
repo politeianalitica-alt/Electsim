@@ -148,20 +148,21 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 9. Centro de Operaciones del Analista ───────────────────────────
+  // ─── 9. Workspace · Centro de operaciones del analista ───────────────
   {
-    id: 'operaciones',
-    label: 'Operaciones',
-    full: 'Centro de Operaciones del Analista',
+    id: 'workspace',
+    label: 'Workspace',
+    full: 'Workspace · Centro de operaciones del analista',
     items: [
-      { label: 'Client Workspaces',     href: '/workspaces' },
-      { label: 'Investigation Canvas',  href: '/canvas' },
-      { label: 'Evidence Linker',       href: '/evidence' },
-      { label: 'Draft Studio',          href: '/draft-studio' },
-      { label: 'Intelligence Notebook', href: '/notebook' },
-      { label: 'Political Calendar',    href: '/calendario' },
-      { label: 'Watchlists',            href: '/watchlists' },
-      { label: 'Team Collaboration',    href: '/team' },
+      { label: 'Workspaces',            href: '/workspaces' },
+      { label: 'España 2026',           href: '/workspaces/ws_espana_2026/overview' },
+      { label: 'Investigation Canvas',  href: '/workspaces/ws_espana_2026/canvas' },
+      { label: 'Docs',                  href: '/workspaces/ws_espana_2026/docs' },
+      { label: 'Tables',                href: '/workspaces/ws_espana_2026/tables' },
+      { label: 'Research',              href: '/workspaces/ws_espana_2026/research' },
+      { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
+      { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
+      { label: 'Terminal',              href: '/workspaces/ws_espana_2026/terminal' },
     ],
   },
 

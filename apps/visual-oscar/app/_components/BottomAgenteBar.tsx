@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 const HIDE_ON = ['/login', '/agente-ia']
+const HIDE_PREFIX = ['/workspaces/']
 
 export default function BottomAgenteBar() {
   const path = usePathname() || ''
@@ -13,7 +14,7 @@ export default function BottomAgenteBar() {
   // Crea/posiciona un slot vacío justo antes del <footer> de la página.
   // El portal renderiza el botón ahí, así React lo gestiona sin tocar el DOM directamente.
   useEffect(() => {
-    if (HIDE_ON.includes(path)) {
+    if (HIDE_ON.includes(path) || HIDE_PREFIX.some(p => path.startsWith(p))) {
       setContainer(null)
       return
     }
@@ -33,7 +34,8 @@ export default function BottomAgenteBar() {
     setContainer(slot)
   }, [path])
 
-  if (HIDE_ON.includes(path) || !container) return null
+  const hiddenByPrefix = HIDE_PREFIX.some(p => path.startsWith(p))
+  if (HIDE_ON.includes(path) || hiddenByPrefix || !container) return null
 
   return createPortal(
     <Link href="/agente-ia" style={{
