@@ -75,6 +75,18 @@ export const IconRadar = iconStroke(
   "M8 1a7 7 0 100 14 7 7 0 000-14z|M8 4a4 4 0 100 8 4 4 0 000-8z|M8 8l5-3"
 );
 
+export const IconInbox = iconStroke(
+  "M2 9l2-6h8l2 6|M2 9h4l1 2h2l1-2h4|M2 9v5a1 1 0 001 1h10a1 1 0 001-1V9"
+);
+
+export const IconSlides = iconStroke(
+  "M2 3h12a1 1 0 011 1v7a1 1 0 01-1 1H2a1 1 0 01-1-1V4a1 1 0 011-1z|M5 14l3-2 3 2"
+);
+
+export const IconSimulator = iconStroke(
+  "M3 2v12h10|M5 11l3-4 2 2 3-5|M3 14l3-3 2 2 4-5"
+);
+
 export const IconChevronRight = iconStroke("M6 3l5 5-5 5");
 export const IconChevronLeft  = iconStroke("M10 3L5 8l5 5");
 export const IconChevronDown  = iconStroke("M3 6l5 5 5-5");
@@ -108,6 +120,9 @@ export function ViewIcon({ view, size = 14, color }: { view: string; size?: numb
     case "automations": return <IconAutomations {...props} />;
     case "knowledge":   return <IconKnowledge {...props} />;
     case "radar":       return <IconRadar {...props} />;
+    case "inbox":       return <IconInbox {...props} />;
+    case "slides":      return <IconSlides {...props} />;
+    case "simulator":   return <IconSimulator {...props} />;
     case "reporting":   return <IconReporting {...props} />;
     case "terminal":    return <IconTerminal {...props} />;
     default:            return <IconOverview {...props} />;

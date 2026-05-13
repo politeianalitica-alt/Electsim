@@ -232,6 +232,7 @@ export interface WorkspaceCanvasSummary {
 // ─── Shell (heredado de Sprint 0) ────────────────────────────────────
 export type WorkspaceView =
   | "overview"
+  | "inbox"
   | "docs"
   | "tables"
   | "canvas"
@@ -240,6 +241,8 @@ export type WorkspaceView =
   | "automations"
   | "knowledge"
   | "radar"
+  | "simulator"
+  | "slides"
   | "reporting"
   | "terminal";
 

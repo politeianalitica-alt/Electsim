@@ -1,24 +1,36 @@
 import type { WorkspaceView } from "@/types/workspace";
 
 export interface WorkspaceNavItem {
-  key: WorkspaceView;
-  label: string;
-  segment: string;
+  key:         WorkspaceView;
+  label:       string;
+  segment:     string;
   description: string;
+  /** Si la vista pertenece a un grupo de navegación (visual en sidebar). */
+  group:       "operativo" | "contenido" | "inteligencia" | "sistema";
 }
 
 export const WORKSPACE_VIEWS: WorkspaceNavItem[] = [
-  { key: "overview",    label: "Overview",     segment: "overview",    description: "Centro diario de trabajo" },
-  { key: "docs",        label: "Docs",         segment: "docs",        description: "Documentos inteligentes" },
-  { key: "tables",      label: "Tables",       segment: "tables",      description: "Datos y análisis tabular" },
-  { key: "canvas",      label: "Canvas",       segment: "canvas",      description: "Investigación visual" },
-  { key: "research",    label: "Research",     segment: "research",    description: "Búsqueda y síntesis" },
-  { key: "projects",    label: "Projects",     segment: "projects",    description: "Gestión del trabajo" },
-  { key: "automations", label: "Automations",  segment: "automations", description: "Reglas y automatización" },
-  { key: "knowledge",   label: "Knowledge",    segment: "knowledge",   description: "Memoria institucional" },
-  { key: "radar",       label: "Radar",        segment: "radar",       description: "Oportunidades en tiempo real (Ollama)" },
-  { key: "reporting",   label: "Reporting",    segment: "reporting",   description: "Entregables y cliente" },
-  { key: "terminal",    label: "Terminal",     segment: "terminal",    description: "Vista operativa intensiva" },
+  // Operativo · vista diaria
+  { key: "overview",    label: "Command Center", segment: "overview",    description: "Vista de las 8:55 — Morning Brief + KPIs + equipo",          group: "operativo" },
+  { key: "inbox",       label: "Inbox",          segment: "inbox",       description: "Señal sin ruido · RSS · BOE · Alerts · X",                    group: "operativo" },
+  { key: "terminal",    label: "Terminal",       segment: "terminal",    description: "Vista operativa intensiva · Focus · War Room",                group: "operativo" },
+
+  // Contenido · entregables
+  { key: "docs",        label: "Docs",           segment: "docs",        description: "Documentos inteligentes con contexto político del día",       group: "contenido" },
+  { key: "tables",      label: "Tables",         segment: "tables",      description: "Tablas vivas · fórmulas en lenguaje natural · D'Hondt",       group: "contenido" },
+  { key: "slides",      label: "Slides",         segment: "slides",      description: "Presentaciones generadas por Ollama · modo presentación",      group: "contenido" },
+  { key: "reporting",   label: "Reporting",      segment: "reporting",   description: "Dashboard analytics + síntesis ejecutiva + export PDF",       group: "contenido" },
+
+  // Inteligencia · análisis y decisión
+  { key: "canvas",      label: "Canvas",         segment: "canvas",      description: "Investigation Canvas visual + ontología",                     group: "inteligencia" },
+  { key: "research",    label: "Research",       segment: "research",    description: "Search + síntesis con citas",                                  group: "inteligencia" },
+  { key: "radar",       label: "Radar",          segment: "radar",       description: "Oportunidades en tiempo real (Ollama)",                       group: "inteligencia" },
+  { key: "simulator",   label: "Simulador",      segment: "simulator",   description: "Antes de actuar · 3 outcomes + war gaming",                   group: "inteligencia" },
+  { key: "knowledge",   label: "Knowledge",      segment: "knowledge",   description: "Memoria institucional · wiki actores/leyes",                   group: "inteligencia" },
+
+  // Sistema · gestión
+  { key: "projects",    label: "Projects",       segment: "projects",    description: "Gantt · Kanban · Lista · Resumen",                            group: "sistema" },
+  { key: "automations", label: "Automations",    segment: "automations", description: "Reglas en lenguaje natural · interfaz Zapier-like",          group: "sistema" },
 ];
 
 export function buildWorkspaceHref(workspaceId: string, segment: string): string {
@@ -33,3 +45,10 @@ export function getViewByPath(pathname: string): WorkspaceNavItem | undefined {
   const seg = pathname.split("/").at(-1) ?? "";
   return getViewBySegment(seg);
 }
+
+export const NAV_GROUP_LABELS: Record<WorkspaceNavItem["group"], string> = {
+  operativo:    "Operativo",
+  contenido:    "Contenido",
+  inteligencia: "Inteligencia",
+  sistema:      "Sistema",
+};

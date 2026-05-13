@@ -118,3 +118,44 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
 .btn-login:hover{opacity:0.88;}.btn-login:disabled{opacity:0.5;}
 .lock-note{margin-top:18px;font-size:12px;color:var(--color-ink-4);display:inline-flex;align-items:center;gap:6px;}
 .error-msg{background:var(--color-danger-subtle);color:var(--color-danger);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:16px;text-align:left;}
+
+/* ============================================================
+   WORKSPACE · Apple-clear theme override
+   Aplica cuando el shell tiene `data-workspace-light`. Mapea las
+   clases Tailwind dark heredadas (slate-100..950, indigo-500) a
+   los tokens claros del workspace, sin tocar el resto del sitio.
+   ============================================================ */
+[data-workspace-light] .bg-slate-50    { background-color: var(--color-bg) !important; }
+[data-workspace-light] .bg-slate-100   { background-color: var(--color-surface-raised) !important; }
+[data-workspace-light] .bg-slate-700,
+[data-workspace-light] .bg-slate-800,
+[data-workspace-light] .bg-slate-900,
+[data-workspace-light] .bg-slate-950   { background-color: var(--color-surface) !important; }
+[data-workspace-light] .bg-slate-800\/40,
+[data-workspace-light] .bg-slate-800\/60,
+[data-workspace-light] .bg-slate-900\/60 { background-color: var(--color-surface-raised) !important; }
+
+[data-workspace-light] .text-slate-50,
+[data-workspace-light] .text-slate-100,
+[data-workspace-light] .text-slate-200 { color: var(--color-ink) !important; }
+[data-workspace-light] .text-slate-300,
+[data-workspace-light] .text-slate-400 { color: var(--color-ink-2) !important; }
+[data-workspace-light] .text-slate-500,
+[data-workspace-light] .text-slate-600 { color: var(--color-ink-3) !important; }
+
+[data-workspace-light] .border-slate-700,
+[data-workspace-light] .border-slate-800,
+[data-workspace-light] .border-slate-900 { border-color: var(--color-hairline) !important; }
+
+[data-workspace-light] .hover\:bg-slate-800:hover,
+[data-workspace-light] .hover\:bg-slate-900:hover { background-color: var(--color-surface-raised) !important; }
+[data-workspace-light] .hover\:text-slate-100:hover,
+[data-workspace-light] .hover\:text-slate-200:hover,
+[data-workspace-light] .hover\:text-slate-300:hover { color: var(--color-ink) !important; }
+
+[data-workspace-light] .text-indigo-400,
+[data-workspace-light] .text-indigo-500 { color: var(--color-accent) !important; }
+[data-workspace-light] .bg-indigo-500,
+[data-workspace-light] .bg-indigo-600   { background-color: var(--color-accent) !important; }
+[data-workspace-light] .border-indigo-500,
+[data-workspace-light] .border-l-indigo-500 { border-color: var(--color-accent) !important; }

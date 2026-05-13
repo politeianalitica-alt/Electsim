@@ -20,7 +20,7 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
   const workspace = demoWorkspace;
 
   return (
-    <div style={{
+    <div data-workspace-light style={{
       position: "fixed",
       inset: 0,
       zIndex: 100,

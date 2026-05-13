@@ -16,6 +16,8 @@ import { TeamWidget } from "@/app/_components/workspace/widgets/team-widget";
 import { DecisionsWidget } from "@/app/_components/workspace/widgets/decisions-widget";
 import { CanvasSummaryWidget } from "@/app/_components/workspace/widgets/canvas-summary-widget";
 import { RadarTopWidget } from "@/app/_components/workspace/widgets/radar-top-widget";
+import { CrmAlertsPanel } from "@/components/crm/crm-alerts-panel";
+import { InboxMiniWidget } from "@/app/_components/workspace/widgets/inbox-mini-widget";
 
 export default function WorkspaceOverviewPage({ params }: { params: { workspaceId: string } }) {
   const { workspaceId } = params;
@@ -81,6 +83,14 @@ export default function WorkspaceOverviewPage({ params }: { params: { workspaceI
       </div>
       <div className="col-span-4">
         <RadarTopWidget opportunities={topOpportunities} workspaceId={workspaceId} />
+      </div>
+
+      {/* Fila adicional: Inbox mini + CRM alerts */}
+      <div className="col-span-8">
+        <InboxMiniWidget workspaceId={workspaceId} />
+      </div>
+      <div className="col-span-4">
+        <CrmAlertsPanel workspaceId={workspaceId} />
       </div>
     </div>
   );
