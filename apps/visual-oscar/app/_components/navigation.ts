@@ -140,22 +140,22 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 9. Workspace · Centro de operaciones del analista ───────────────
+  // ─── 9. Estudio · Centro de operaciones del analista ────────────────
+  // Antes 'Workspace'. Renombrado a 'Estudio' como punto de entrada principal.
+  // Workspaces y Command Center quitados del subnav — el Command Center
+  // sigue accesible desde el botón azul 'Workspace' del header (que apunta
+  // a /workspaces/ws_espana_2026/overview).
   {
-    id: 'workspace',
-    label: 'Workspace',
-    full: 'Workspace · Centro de operaciones del analista',
+    id: 'workspace',           // id interno se mantiene para no romper lookups
+    label: 'Estudio',
+    full: 'Estudio · Centro de operaciones del analista',
     items: [
-      // — Entrada al Workspace —
-      { label: 'Workspaces',            href: '/workspaces' },
-      { label: 'Command Center',        href: '/workspaces/ws_espana_2026/overview' },
-
-      // — Espacio de análisis del analista (dentro del Workspace) —
+      // — Espacio de análisis del analista (entrada principal) —
       {
         label: 'Estudio',
         href: '/estudio',
         banner: {
-          eyebrow: 'WORKSPACE · ESTUDIO DEL ANALISTA',
+          eyebrow: 'ESTUDIO DEL ANALISTA',
           title: 'Tu espacio de inteligencia',
           subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
           colorFrom: '#0F766E', colorTo: '#042F2E',
