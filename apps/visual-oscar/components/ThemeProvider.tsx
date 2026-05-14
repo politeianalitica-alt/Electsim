@@ -1,6 +1,18 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+/**
+ * ThemeProvider — bloqueado en modo claro.
+ *
+ * Decisión de producto: la app sólo se sirve en versión clara, sin importar
+ * la preferencia del sistema operativo (`prefers-color-scheme`).
+ *
+ * Mantenemos la API pública (theme, toggleTheme, setTheme) por
+ * compatibilidad con el código existente (ej. `useTheme()` desde otros
+ * componentes) pero todas las llamadas devuelven 'light' y los setters son
+ * no-ops. Si en el futuro se quiere reactivar el toggle, restaurar la
+ * versión anterior desde git history.
+ */
+import { createContext, useContext, useEffect } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -10,45 +22,29 @@ interface ThemeContextValue {
   setTheme: (t: Theme) => void;
 }
 
-const ThemeContext = createContext<ThemeContextValue>({
+const NOOP_CONTEXT: ThemeContextValue = {
   theme: 'light',
   toggleTheme: () => {},
   setTheme: () => {},
-});
+};
+
+const ThemeContext = createContext<ThemeContextValue>(NOOP_CONTEXT);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light');
-
+  // Garantizamos que el atributo data-theme="light" esté siempre puesto en
+  // <html>, incluso si algún script externo lo cambia.
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    let initial: Theme = prefersDark ? 'dark' : 'light';
-    try {
-      const stored = sessionStorage.getItem('oscar-theme') as Theme | null;
-      if (stored === 'light' || stored === 'dark') initial = stored;
-    } catch {}
-    setThemeState(initial);
-    document.documentElement.setAttribute('data-theme', initial);
-
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => {
-      const next: Theme = e.matches ? 'dark' : 'light';
-      setThemeState(next);
-      document.documentElement.setAttribute('data-theme', next);
-    };
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    const html = document.documentElement;
+    if (html.getAttribute('data-theme') !== 'light') {
+      html.setAttribute('data-theme', 'light');
+    }
+    // Limpiamos cualquier preferencia previa guardada en sessionStorage que
+    // pudiera dejar el provider antiguo.
+    try { sessionStorage.removeItem('oscar-theme'); } catch {}
   }, []);
 
-  const setTheme = (t: Theme) => {
-    setThemeState(t);
-    document.documentElement.setAttribute('data-theme', t);
-    try { sessionStorage.setItem('oscar-theme', t); } catch {}
-  };
-
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={NOOP_CONTEXT}>
       {children}
     </ThemeContext.Provider>
   );

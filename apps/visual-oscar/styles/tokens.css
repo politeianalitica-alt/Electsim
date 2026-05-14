@@ -132,25 +132,9 @@
   --shadow-xl: 0 24px 72px rgba(0,0,0,0.65);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --color-bg: #0b0b0d; --color-surface: #111113;
-    --color-surface-raised: #1a1a1c; --color-surface-overlay: #222226;
-    --color-surface-sunken: #08080a;
-    --color-hairline: rgba(255,255,255,0.10); --color-hairline-soft: rgba(255,255,255,0.06);
-    --color-border-focus: rgba(255,255,255,0.80);
-    --color-ink: #f5f5f7; --color-ink-2: #d1d1d6; --color-ink-3: #aeaeb2;
-    --color-ink-4: #8e8e93; --color-ink-5: #636366; --color-ink-inverse: #0b0b0d;
-    --color-accent: #2997ff; --color-accent-hover: #3aa0ff; --color-accent-active: #1a8de8;
-    --color-accent-subtle: rgba(41,151,255,0.12); --color-accent-text: #2997ff;
-    --color-success: #3dba4c; --color-success-subtle: rgba(61,186,76,0.12);
-    --color-danger: #ff453a; --color-danger-subtle: rgba(255,69,58,0.12);
-    --color-warn: #ffd60a; --color-warn-subtle: rgba(255,214,10,0.12);
-    --color-info: #2997ff; --color-info-subtle: rgba(41,151,255,0.12);
-    --severity-critical: #ff453a; --severity-high: #ffd60a;
-    --severity-medium: #2997ff; --severity-low: #3dba4c; --severity-info: #8e8e93;
-    --shadow-xs: 0 1px 3px rgba(0,0,0,0.4); --shadow-sm: 0 2px 8px rgba(0,0,0,0.5);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.55); --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
-    --shadow-xl: 0 24px 72px rgba(0,0,0,0.65);
-  }
-}
+/* Bloque @media (prefers-color-scheme: dark) ELIMINADO intencionadamente.
+   Decisión de producto: la app es siempre modo claro. El layout del root
+   añade `data-theme="light"` en SSR y el ThemeProvider lo refuerza al
+   hidratar — esta regla nunca debería disparar pero la quitamos del todo
+   para que ningún navegador con "force dark mode" pueda renombrar las
+   variables de color. */
