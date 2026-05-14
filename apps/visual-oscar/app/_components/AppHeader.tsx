@@ -70,18 +70,25 @@ export default function AppHeader() {
               Actualizado hace 2 min
             </span>
             <style>{`@keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
-            <Link href="/agente-ia" style={{
+            {/* Botón Workspace — punto de entrada al Centro de Operaciones
+                del Analista (8 herramientas: Workspaces, Canvas, Evidence,
+                Draft Studio, Notebook, Calendar, Watchlists, Team). */}
+            <Link href="/operaciones" style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
-              color:'#fff',background:path==='/agente-ia'?'#0F2A4F':'#1F4E8C',
+              color:'#fff',background:['/operaciones','/workspaces','/canvas','/evidence','/draft-studio','/notebook','/calendario','/watchlists','/team'].includes(path)?'#0F2A4F':'#1F4E8C',
               padding:'5px 12px',borderRadius:999,textDecoration:'none',
               boxShadow:'0 1px 2px rgba(31,78,140,0.25)',
               transition:'all 160ms',
             }}>
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                {/* Icono grid 2x2 = workspace */}
+                <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1"/>
+                <rect x="9"   y="1.5" width="5.5" height="5.5" rx="1"/>
+                <rect x="1.5" y="9"   width="5.5" height="5.5" rx="1"/>
+                <rect x="9"   y="9"   width="5.5" height="5.5" rx="1"/>
               </svg>
-              Agente IA
+              Workspace
             </Link>
             <Link href="/login" style={{fontSize:12,color:'#6e6e73',textDecoration:'none'}}>Salir</Link>
           </div>

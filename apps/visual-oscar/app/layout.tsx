@@ -1,7 +1,6 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import '../styles/globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import BottomAgenteBar from './_components/BottomAgenteBar';
 import { AlertsProvider } from '@/context/AlertsContext';
 import { QueryProvider } from '@/lib/api/query-provider';
@@ -14,9 +13,15 @@ export const metadata: Metadata = {
   icons: { icon: '/politeia-logo.svg' },
 };
 
+// Forzar modo claro a nivel de navegador · ignora prefers-color-scheme del SO
+export const viewport: Viewport = {
+  colorScheme: 'light',
+  themeColor: '#fbfbfd',
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" style={{ colorScheme: 'light' }}>
       <body>
         <QueryProvider>
           <ThemeProvider>

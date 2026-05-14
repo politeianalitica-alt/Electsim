@@ -19,6 +19,9 @@
     "d3": "^7.9.0",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.3.0",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-types": "^0.24.8",
     "lucide-react": "^0.408.0",
     "maplibre-gl": "^4.5.0",
     "next": "^14.2.5",
@@ -29,6 +32,7 @@
     "react-hook-form": "^7.52.1",
     "react-plotly.js": "^2.6.0",
     "recharts": "^2.12.7",
+    "sigma": "^3.0.3",
     "tailwind-merge": "^2.4.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.4"

@@ -4,6 +4,14 @@
 
 @import './tokens.css';
 
+/* Forzar modo claro siempre · ignora preferencia del SO + desactiva el "force dark mode" del navegador */
+:root { color-scheme: light; }
+html  { color-scheme: light; }
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: light; background: var(--color-bg); color: var(--color-ink); }
+}
+input, textarea, select, button { color-scheme: light; }
+
 /* Compatibility aliases — keep existing pages working without changes */
 :root, [data-theme="light"], [data-theme="dark"] {
   --bg:         var(--color-bg);
