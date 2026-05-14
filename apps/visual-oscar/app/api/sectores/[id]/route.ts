@@ -17,7 +17,10 @@ export async function GET(
         next: { revalidate: 300 },
       });
       if (res.ok) return Response.json(await res.json());
-      if (res.status === 404) return Response.json({ error: 'not found' }, { status: 404 });
+      // NO propagamos el 404 del backend al cliente: el cliente sí tiene
+      // el sector definido en config (ya validamos meta arriba), y queremos
+      // que la página renderice con datos vacíos en vez de mostrar error.
+      // Caemos al `empty` SectorReport más abajo.
     }
 
     const empty: SectorReport = {
