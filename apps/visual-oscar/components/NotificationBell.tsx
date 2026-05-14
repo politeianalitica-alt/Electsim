@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useNotifications } from '@/context/NotificationsContext'
-import { timeAgo } from '@/lib/domo/utils'
+import { timeAgo } from '@/lib/estudio/utils'
 import type { DomoNotification, AlertSeverity, NotificationType } from '@/types/domo'
 import styles from './NotificationBell.module.css'
 
@@ -63,7 +63,7 @@ export default function NotificationBell() {
                   Marcar todas leídas
                 </button>
               )}
-              <Link href="/domo/notificaciones" onClick={() => setOpen(false)} className={styles.seeAllLink}>
+              <Link href="/estudio/notificaciones" onClick={() => setOpen(false)} className={styles.seeAllLink}>
                 Ver todas
               </Link>
             </div>

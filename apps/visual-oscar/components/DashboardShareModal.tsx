@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { sharingApi } from '@/lib/domo/api-client'
-import { timeAgo } from '@/lib/domo/utils'
+import { sharingApi } from '@/lib/estudio/api-client'
+import { timeAgo } from '@/lib/estudio/utils'
 import type { DashboardShare, ShareRole, ShareSubjectType } from '@/types/domo'
 import styles from './DashboardShareModal.module.css'
 
@@ -73,7 +73,7 @@ export default function DashboardShareModal({ dashboardId, dashboardName, onClos
   })
 
   const copyLink = async (token: string) => {
-    const url = `${window.location.origin}/domo/dashboard/public/${token}`
+    const url = `${window.location.origin}/estudio/dashboard/public/${token}`
     await navigator.clipboard.writeText(url)
     setCopiedLink(true)
     setTimeout(() => setCopiedLink(false), 2000)
@@ -190,7 +190,7 @@ export default function DashboardShareModal({ dashboardId, dashboardName, onClos
                   </div>
                   <div className={styles.linkRow}>
                     <code className={styles.linkCode}>
-                      {typeof window !== 'undefined' ? window.location.origin : ''}/domo/dashboard/public/{publicLink.token}
+                      {typeof window !== 'undefined' ? window.location.origin : ''}/estudio/dashboard/public/{publicLink.token}
                     </code>
                     <button onClick={() => copyLink(publicLink.token!)} className={styles.copyBtn}>
                       {copiedLink ? '✓ Copiado' : '⎘ Copiar'}

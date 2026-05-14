@@ -75,7 +75,7 @@ export const MODULES: NavModule[] = [
           colorFrom: '#7C2D92', colorTo: '#3B0764',
         },
       },
-      { label: 'Business Intelligence',        href: '/domo' },
+      { label: 'Detección de Ataques',         href: '/ataques-narrativos' },
     ],
   },
 
@@ -168,6 +168,16 @@ export const MODULES: NavModule[] = [
       { label: 'Simulador Decisión',    href: '/workspaces/ws_espana_2026/simulator' },
       { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
       { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
+      {
+        label: 'Estudio',
+        href: '/estudio',
+        banner: {
+          eyebrow: 'WORKSPACE · ESTUDIO DEL ANALISTA',
+          title: 'Tu espacio de inteligencia',
+          subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
+          colorFrom: '#0F766E', colorTo: '#042F2E',
+        },
+      },
     ],
   },
 

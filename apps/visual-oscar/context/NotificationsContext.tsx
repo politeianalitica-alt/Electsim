@@ -2,7 +2,7 @@
 
 import { createContext, useContext, type ReactNode } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { notificationsApi } from '@/lib/domo/api-client'
+import { notificationsApi } from '@/lib/estudio/api-client'
 import type { DomoNotification } from '@/types/domo'
 
 interface NotificationsCtx {

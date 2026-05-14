@@ -4,7 +4,7 @@
  * Command Palette ⌘K — buscador universal del módulo Domo.
  *
  * Inspirado en Linear / Domo / Looker / Notion: pulsa ⌘K (o Ctrl+K) en
- * cualquier página /domo/* y busca rápidamente:
+ * cualquier página /estudio/* y busca rápidamente:
  *   - Fuentes / Pipelines / Datasets / Dashboards / Alertas
  *   - Acciones rápidas (Nueva fuente, AI Query…)
  *   - Navegación directa a módulos
@@ -18,7 +18,7 @@ import { useQuery } from '@tanstack/react-query'
 import Fuse from 'fuse.js'
 import {
   sourcesApi, pipelinesApi, datasetsApi, dashboardsApi, alertsApi,
-} from '@/lib/domo/api-client'
+} from '@/lib/estudio/api-client'
 import styles from './DomoCommandPalette.module.css'
 
 type ItemKind = 'source' | 'pipeline' | 'dataset' | 'dashboard' | 'alert' | 'action' | 'nav'
@@ -65,25 +65,25 @@ const KIND_GLYPH: Record<ItemKind, string> = {
 
 // Acciones rápidas siempre disponibles
 const STATIC_ACTIONS: CmdItem[] = [
-  { kind: 'action', id: 'new-source',    title: 'Nueva fuente de datos',    href: '/domo/fuentes?new=1',    glyph: '+', keywords: 'añadir conectar postgres mysql api csv json rss' },
-  { kind: 'action', id: 'new-pipeline',  title: 'Nuevo pipeline ETL',       href: '/domo/pipeline/nuevo',   glyph: '+', keywords: 'transformar etl join filter' },
-  { kind: 'action', id: 'new-dataset',   title: 'Nuevo dataset',            href: '/domo/dataset/nuevo',    glyph: '+', keywords: 'tabla columnas schema' },
-  { kind: 'action', id: 'new-dashboard', title: 'Nuevo dashboard',          href: '/domo/dashboard/nuevo', glyph: '+', keywords: 'panel widget kpi grafico' },
-  { kind: 'action', id: 'new-alert',     title: 'Nueva alerta',             href: '/domo/alertas?new=1',   glyph: '+', keywords: 'monitor umbral anomalia' },
-  { kind: 'action', id: 'ai-query',      title: 'Abrir AI Query (chat)',    href: '/domo/query',           glyph: '✦', keywords: 'pregunta lenguaje natural sql chatbot' },
+  { kind: 'action', id: 'new-source',    title: 'Conectar una nueva fuente',  href: '/estudio/fuentes?new=1',    glyph: '+', keywords: 'añadir conectar prensa boe encuesta csv excel api rss' },
+  { kind: 'action', id: 'new-pipeline',  title: 'Nuevo flujo de limpieza',    href: '/estudio/pipeline/nuevo',   glyph: '+', keywords: 'limpiar cruzar enriquecer transformar' },
+  { kind: 'action', id: 'new-dataset',   title: 'Crear nueva tabla',          href: '/estudio/dataset/nuevo',    glyph: '+', keywords: 'tabla columnas dataset' },
+  { kind: 'action', id: 'new-dashboard', title: 'Crear nuevo panel',          href: '/estudio/dashboard/nuevo',  glyph: '+', keywords: 'panel dashboard widget kpi grafico' },
+  { kind: 'action', id: 'new-alert',     title: 'Nuevo vigilante',            href: '/estudio/alertas?new=1',    glyph: '+', keywords: 'alerta umbral anomalia aviso' },
+  { kind: 'action', id: 'ai-query',      title: 'Pregúntale a tus datos',     href: '/estudio/query',            glyph: '✦', keywords: 'pregunta lenguaje natural ia ai chat' },
 ]
 
 const STATIC_NAV: CmdItem[] = [
-  { kind: 'nav', id: 'nav-home',       title: 'Centro de Datos',       href: '/domo',              glyph: '⬡' },
-  { kind: 'nav', id: 'nav-fuentes',    title: 'Fuentes',               href: '/domo/fuentes',      glyph: '⇡' },
-  { kind: 'nav', id: 'nav-pipeline',   title: 'Pipelines',             href: '/domo/pipeline',     glyph: '⟶' },
-  { kind: 'nav', id: 'nav-dataset',    title: 'Datasets',              href: '/domo/dataset',      glyph: '⊞' },
-  { kind: 'nav', id: 'nav-dashboard',  title: 'Dashboards',            href: '/domo/dashboard',    glyph: '⊟' },
-  { kind: 'nav', id: 'nav-alertas',    title: 'Alertas',               href: '/domo/alertas',      glyph: '!' },
-  { kind: 'nav', id: 'nav-notif',      title: 'Notificaciones',        href: '/domo/notificaciones', glyph: '◐' },
-  { kind: 'nav', id: 'nav-gobernanza', title: 'Gobernanza',            href: '/domo/gobernanza',   glyph: '✓' },
-  { kind: 'nav', id: 'nav-query',      title: 'AI Query',              href: '/domo/query',        glyph: '✦' },
-  { kind: 'nav', id: 'nav-health',     title: 'System Health',         href: '/domo/health',       glyph: '◉' },
+  { kind: 'nav', id: 'nav-home',       title: 'Inicio del Estudio',      href: '/estudio',                glyph: '⬡' },
+  { kind: 'nav', id: 'nav-fuentes',    title: 'Mis fuentes',             href: '/estudio/fuentes',        glyph: '⇡' },
+  { kind: 'nav', id: 'nav-pipeline',   title: 'Limpieza y cruces',       href: '/estudio/pipeline',       glyph: '⟶' },
+  { kind: 'nav', id: 'nav-dataset',    title: 'Mis tablas',              href: '/estudio/dataset',        glyph: '⊞' },
+  { kind: 'nav', id: 'nav-dashboard',  title: 'Mis paneles',             href: '/estudio/dashboard',      glyph: '⊟' },
+  { kind: 'nav', id: 'nav-alertas',    title: 'Vigilantes',              href: '/estudio/alertas',        glyph: '!' },
+  { kind: 'nav', id: 'nav-notif',      title: 'Mis avisos',              href: '/estudio/notificaciones', glyph: '◐' },
+  { kind: 'nav', id: 'nav-gobernanza', title: 'Equipo y permisos',       href: '/estudio/gobernanza',     glyph: '✓' },
+  { kind: 'nav', id: 'nav-query',      title: 'Pregúntale a los datos',  href: '/estudio/query',          glyph: '✦' },
+  { kind: 'nav', id: 'nav-health',     title: 'Estado del sistema',      href: '/estudio/health',         glyph: '◉' },
 ]
 
 interface Props {
@@ -121,23 +121,23 @@ export default function DomoCommandPalette({ open, onClose }: Props) {
     const items: CmdItem[] = [...STATIC_ACTIONS]
     sources.forEach(s => items.push({
       kind: 'source', id: s.id, title: s.name, subtitle: s.type,
-      href: `/domo/fuentes/${s.id}`, glyph: KIND_GLYPH.source,
+      href: `/estudio/fuentes/${s.id}`, glyph: KIND_GLYPH.source,
     }))
     pipelines.forEach(p => items.push({
       kind: 'pipeline', id: p.id, title: p.name, subtitle: p.description ?? p.status,
-      href: `/domo/pipeline/${p.id}`, glyph: KIND_GLYPH.pipeline,
+      href: `/estudio/pipeline/${p.id}`, glyph: KIND_GLYPH.pipeline,
     }))
     datasets.forEach(d => items.push({
       kind: 'dataset', id: d.id, title: d.name, subtitle: `${d.rowCount?.toLocaleString('es') ?? '?'} filas`,
-      href: `/domo/dataset/${d.id}`, glyph: KIND_GLYPH.dataset,
+      href: `/estudio/dataset/${d.id}`, glyph: KIND_GLYPH.dataset,
     }))
     dashboards.forEach(d => items.push({
       kind: 'dashboard', id: d.id, title: d.name, subtitle: `${d.widgets?.length ?? 0} widgets`,
-      href: `/domo/dashboard/${d.id}`, glyph: KIND_GLYPH.dashboard,
+      href: `/estudio/dashboard/${d.id}`, glyph: KIND_GLYPH.dashboard,
     }))
     alerts.forEach(a => items.push({
       kind: 'alert', id: a.id, title: a.name, subtitle: a.severity,
-      href: `/domo/alertas`, glyph: KIND_GLYPH.alert,
+      href: `/estudio/alertas`, glyph: KIND_GLYPH.alert,
     }))
     items.push(...STATIC_NAV)
     return items
