@@ -145,7 +145,7 @@ export const MODULES: NavModule[] = [
     label: 'Operaciones',
     full: 'Centro de Operaciones del Analista',
     items: [
-      // Client Workspaces movido al botón azul del header (acceso global)
+      { label: 'Client Workspaces',     href: '/workspaces' },
       { label: 'Investigation Canvas',  href: '/canvas' },
       { label: 'Evidence Linker',       href: '/evidence' },
       { label: 'Draft Studio',          href: '/draft-studio' },

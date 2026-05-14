@@ -70,13 +70,13 @@ export default function AppHeader() {
               Actualizado hace 2 min
             </span>
             <style>{`@keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
-            {/* Botón Workspace — acceso directo a la página /workspaces
-                (Client Workspaces). Movido aquí desde el subnav de Operaciones
-                para tener un punto de entrada constante en cualquier página. */}
-            <Link href="/workspaces" style={{
+            {/* Botón Workspace — punto de entrada al Centro de Operaciones
+                del Analista (8 herramientas: Workspaces, Canvas, Evidence,
+                Draft Studio, Notebook, Calendar, Watchlists, Team). */}
+            <Link href="/operaciones" style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
-              color:'#fff',background:path==='/workspaces'?'#0F2A4F':'#1F4E8C',
+              color:'#fff',background:['/operaciones','/workspaces','/canvas','/evidence','/draft-studio','/notebook','/calendario','/watchlists','/team'].includes(path)?'#0F2A4F':'#1F4E8C',
               padding:'5px 12px',borderRadius:999,textDecoration:'none',
               boxShadow:'0 1px 2px rgba(31,78,140,0.25)',
               transition:'all 160ms',
