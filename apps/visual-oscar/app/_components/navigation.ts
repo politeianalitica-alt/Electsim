@@ -75,7 +75,7 @@ export const MODULES: NavModule[] = [
           colorFrom: '#7C2D92', colorTo: '#3B0764',
         },
       },
-      { label: 'Detección de Ataques',         href: '/ataques-narrativos' },
+      { label: 'Business Intelligence',        href: '/domo' },
     ],
   },
 
