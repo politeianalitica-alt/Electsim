@@ -4,10 +4,6 @@
  *
  * Endpoint público sin auth, paginación libre, devuelve JSON.
  * Soporta SoQL completo: $q, $where, $select, $group, $order, $limit, $offset.
- *
- * Inspirado en BquantFinance/licitaciones-espana y buscalicitaciones.com,
- * que usan los parquets agregados de las 10 fuentes públicas. Aquí
- * usamos el endpoint Socrata en vivo para no descargar 1.5 GB.
  */
 
 const ENDPOINT = 'https://analisi.transparenciacatalunya.cat/resource/ybgg-dgi6.json'
@@ -137,7 +133,7 @@ export function normalizeCatalunya(c: CatalunyaContrato): NormalizedContrato {
   }
 }
 
-// ─── Filter set canónico (compatible con UI tipo buscalicitaciones) ───
+// ─── Filter set canónico ─────────────────────────────────────
 export interface SocrataFilters {
   q?: string
   type?: 'texto' | 'adjudicatario' | 'organo' | 'cpv'

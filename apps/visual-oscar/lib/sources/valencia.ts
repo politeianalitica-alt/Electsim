@@ -5,8 +5,6 @@
  * Cada año tiene su propio resource_id en el "Registro Oficial de Contratos".
  * Se accede vía /api/3/action/datastore_search con full text search (q=) +
  * filtros (filters JSON) + paginación (limit/offset).
- *
- * Fuente original: BquantFinance/licitaciones-espana · scripts/ccaa_valencia_parquet.py
  */
 
 import type { NormalizedContrato } from '@/lib/socrata-catalunya'

@@ -1,6 +1,6 @@
 'use client'
 /**
- * Buscador estilo buscalicitaciones.com — sidebar de filtros completa,
+ * Buscador principal de licitaciones — sidebar con filtros completos,
  * resultados con todas las columnas, ordenación, paginación.
  *
  * Backend: Catalunya Socrata + Valencia CKAN + TED + PLACSP atom.

@@ -7,7 +7,8 @@
  *   - VALENCIA_CKAN     · ~24k/año × 13 años (Generalitat Valenciana CKAN)
  *   - TED               · diario UE (notices con buyer-country=ESP)
  *
- * Filtros canónicos compatibles con buscalicitaciones.com.
+ * Filtros canónicos: q, type, ccaa, anio, cpv_div, tipo_contrato,
+ * procedimiento, source, es_pyme, importe_min/max, sort.
  */
 import { NextRequest, NextResponse } from 'next/server'
 import {

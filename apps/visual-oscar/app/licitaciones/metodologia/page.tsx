@@ -19,9 +19,9 @@ export default function MetodologiaPage() {
             Metodología
           </h1>
           <p style={{ fontSize:14, lineHeight:1.6, color:'#3a3a3d', margin:'0 0 18px' }}>
-            Replicamos el modelo de <a href="https://buscalicitaciones.com" target="_blank" rel="noreferrer" style={{ color:'#1F4E8C' }}>buscalicitaciones.com</a>{' '}
-            (FastAPI + DuckDB sobre los parquets de <a href="https://github.com/BquantFinance/licitaciones-espana" target="_blank" rel="noreferrer" style={{ color:'#1F4E8C' }}>BquantFinance/licitaciones-espana</a>),
-            pero atacando las APIs públicas de cada fuente <strong>en tiempo real</strong> para no depender de descargas batch de 1.5&nbsp;GB.
+            Agregamos en tiempo real las APIs públicas oficiales de contratación pública española y europea.
+            Cada fuente se consulta directamente desde su endpoint open-data sin descargas batch ni caché propio,
+            con fan-out paralelo y normalización a un schema canónico común.
           </p>
 
           <h2 style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, margin:'24px 0 10px' }}>Fuentes oficiales</h2>

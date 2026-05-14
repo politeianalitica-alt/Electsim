@@ -5,8 +5,6 @@
  * API v3: https://api.ted.europa.eu/v3/notices/search (POST)
  * Filtramos a buyer-country=ESP para licitaciones publicadas por organismos
  * españoles en TED.
- *
- * Fuente original: BquantFinance/licitaciones-espana · ted/ted_module.py
  */
 
 import type { NormalizedContrato } from '@/lib/socrata-catalunya'

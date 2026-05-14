@@ -1,9 +1,9 @@
 'use client'
 /**
- * /licitaciones · Buscador clon de buscalicitaciones.com
+ * /licitaciones · Buscador de licitaciones y contratación pública.
  *
- * Backend: Catalunya Open Data (1M+ contratos, Socrata SoQL) + PLACSP atom.
- * Filtros idénticos a buscalicitaciones.com.
+ * Backend: Catalunya Open Data (1M+ contratos, Socrata SoQL) + PLACSP atom +
+ * Generalitat Valenciana (CKAN) + TED (Diario UE).
  */
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -32,9 +32,8 @@ export default function LicitacionesPage() {
             Buscar licitaciones, adjudicaciones y contratos públicos <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>en tiempo real</em>
           </h1>
           <p style={{ fontSize:13, opacity:0.75, margin:0, lineHeight:1.5, maxWidth:900 }}>
-            Datos abiertos de la Generalitat de Catalunya (1M+ contratos · Socrata) + Plataforma Nacional (PLACSP atom).
-            Mismo modelo que <a href="https://buscalicitaciones.com" target="_blank" rel="noreferrer" style={{ color:'#fcd34d', textDecoration:'underline' }}>buscalicitaciones.com</a> e
-            inspirado en los parquets de <a href="https://github.com/BquantFinance/licitaciones-espana" target="_blank" rel="noreferrer" style={{ color:'#fcd34d', textDecoration:'underline' }}>BquantFinance/licitaciones-espana</a>.
+            Agregador de datos abiertos: Catalunya · Generalitat Valenciana · Plataforma Nacional (PLACSP) · Diario UE (TED).
+            Búsqueda full-text, filtros por CCAA, año, importe, CPV y procedimiento, con fichas de adjudicatarios y órganos contratantes.
           </p>
         </section>
 
