@@ -42,9 +42,10 @@ export default function AppHeader() {
             POLITEIA <span style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
           </Link>
           <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center'}}>
-            {MODULES.map(m=>{
+            {MODULES.filter(m => !m.hideFromTopBar).map(m=>{
               const active = activeModule?.id === m.id
-              const dest = m.items[0].href
+              // Tomamos el primer item NO oculto como destino del tab
+              const dest = (m.items.find(it => !it.hidden) ?? m.items[0]).href
               return (
                 <Link key={m.id} href={dest} style={{
                   display:'flex',alignItems:'center',padding:'0 10px',
@@ -113,7 +114,7 @@ export default function AppHeader() {
               {activeModule.label}
             </span>
             <div style={{display:'flex',gap:2,overflowX:'auto',scrollbarWidth:'none'}}>
-              {activeModule.items.map(it=>{
+              {activeModule.items.filter(it => !it.hidden).map(it=>{
                 const active = path === it.href
                 return (
                   <Link key={it.href} href={it.href} style={{

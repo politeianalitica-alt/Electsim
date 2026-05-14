@@ -9,18 +9,35 @@ export type Banner = {
   colorFrom?: string
   colorTo?: string
 }
-export type NavItem = { label: string; href: string; banner?: Banner }
-export type NavModule = { id: string; label: string; full?: string; items: NavItem[] }
+export type NavItem = {
+  label: string
+  href: string
+  banner?: Banner
+  hidden?: boolean        // true = no aparece como pill en el subnav, pero el path sigue resolviendo el módulo
+}
+export type NavModule = {
+  id: string
+  label: string
+  full?: string
+  items: NavItem[]
+  hideFromTopBar?: boolean // true = no aparece como tab en la barra superior
+}
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
+  // Módulo OCULTO de la barra superior: no se renderiza como tab. Su
+  // contenido (Morning Briefing · Panel Ejecutivo · Alertas Prioritarias)
+  // aparece en el subnav cuando el usuario llega a /inicio (vía logo
+  // POLITEIA ANALÍTICA), /briefing, /dashboard o /alertas.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
+    hideFromTopBar: true,
     items: [
-      // 'Inicio' (href:/inicio) quitado del subnav — sólo se accede a la
-      // home clicando el logo POLITEIA ANALÍTICA arriba a la izquierda.
+      // /inicio se mantiene como item HIDDEN para que moduleOfPath('/inicio')
+      // resuelva al módulo y el subnav aparezca, pero no se renderiza pill.
+      { label: 'Inicio',              href: '/inicio',   hidden: true },
       { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
       { label: 'Alertas Prioritarias',href: '/alertas'   },
