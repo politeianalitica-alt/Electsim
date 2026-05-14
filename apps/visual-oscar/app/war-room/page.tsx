@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useWarRoom, useWarRoomCrisis, useWarRoomTareas, useCountdown } from '@/hooks/war-room'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { CDNum } from './_components/CDNum'
 import { HeroKPI } from './_components/HeroKPI'
 import { SKpi } from './_components/SKpi'
@@ -38,6 +40,11 @@ export default function WarRoomPage() {
   const { data, loading } = useWarRoom()
   const { crisis, updateEstado: updateCrisisEstado } = useWarRoomCrisis()
   const { tareas, cycleEstado: cycleTareaEstado } = useWarRoomTareas()
+
+  // Probe ligero al snapshot solo para alimentar el badge de freshness
+  // (los datos reales ya los maneja useWarRoom internamente).
+  const { source: snapSource, updatedAt: snapUpdated, refresh: snapRefresh } =
+    useApi<unknown>('/api/war-room/snapshot', { refreshInterval: 60_000 })
 
   const eleccionesFecha = useMemo(() => {
     if (data?.elecciones_fecha) return new Date(data.elecciones_fecha)
@@ -84,8 +91,9 @@ export default function WarRoomPage() {
                 boxShadow:`0 4px 16px ${candidato.color}80`,
               }}>{candidato.iniciales}</div>
               <div>
-                <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 3px' }}>
-                  WAR ROOM · CAMPAÑA EN CURSO
+                <p style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 3px', display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+                  <span>WAR ROOM · CAMPAÑA EN CURSO</span>
+                  <LiveStatusBadge updatedAt={snapUpdated} source={snapSource} refreshIntervalSec={60} onRefresh={snapRefresh}/>
                 </p>
                 <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, letterSpacing:'-0.014em' }}>{candidato.nombre}</div>
                 <div style={{ fontSize:11.5, opacity:0.7, marginTop:1 }}>{candidato.partido} · {candidato.cargo}</div>

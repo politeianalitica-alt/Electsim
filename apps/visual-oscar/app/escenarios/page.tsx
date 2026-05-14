@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
@@ -7,6 +7,15 @@ import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
 import MapaProvincias from '@/components/MapaProvincias'
 import MapaProvinciasBubbles from '@/components/MapaProvinciasBubbles'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+// Shape del nowcast en vivo (igual al que usa /nowcasting)
+interface NowcastParty {
+  siglas: string; nombre: string; pct: number; seats: number;
+  color: string; bloque: 'izquierda' | 'derecha' | 'otros'; delta: number;
+}
+interface NowcastResponse { parties?: NowcastParty[]; n_polls?: number }
 
 // Paleta unificada con /mapa (incluye históricos UCD/CiU)
 const PC = {
@@ -286,6 +295,33 @@ export default function EscenariosPage(){
   const [provDataset, setProvDataset] = useState<string>('estimacion')
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
+
+  // Datos LIVE del nowcasting (auto-refresh 30s) — sustituyen al hardcodeado
+  // HEMI_DATASETS.estimacion cuando el dataset activo es 'estimacion'.
+  const { data: nowcast, source: nowcastSource, updatedAt: nowcastUpdated, refresh: refreshNowcast } =
+    useApi<NowcastResponse>('/api/analytics/nowcast', { refreshInterval: 30_000 })
+
+  // Convertimos NowcastParty[] → HParty[] (siglas → id estable, mismos colores)
+  const liveEstimacion: HParty[] | null = useMemo(() => {
+    if (!nowcast?.parties || nowcast.parties.length === 0) return null
+    const idMap: Record<string, string> = {
+      pp:'pp', psoe:'psoe', vox:'vox', sumar:'sumar',
+      erc:'erc', junts:'junts', pnv:'pnv', bildu:'bildu',
+      cc:'cc', bng:'bng', upn:'upn', otros:'otros',
+    }
+    return nowcast.parties
+      .filter(p => p.seats > 0)
+      .map(p => {
+        const key = (p.siglas || '').toLowerCase().replace(/\s/g, '').replace('ehbildu', 'bildu')
+        return { id: idMap[key] || 'otros', name: p.siglas, color: p.color, seats: p.seats }
+      })
+  }, [nowcast])
+
+  // Si pidieron 'estimacion' y hay datos vivos, usamos los vivos. Si no,
+  // caemos al dataset hardcodeado (que actúa como fallback).
+  const activeHemi: HParty[] = (hemiDataset === 'estimacion' && liveEstimacion)
+    ? liveEstimacion
+    : HEMI_DATASETS[hemiDataset]
   return(
     <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
       <AppHeader/>
@@ -316,7 +352,12 @@ export default function EscenariosPage(){
           {/* Hemiciclo (con cálculo de coalición + selector con históricas) */}
           <div style={{background:'#fff',borderRadius:16,padding:'16px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',display:'flex',flexDirection:'column'}}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,flexWrap:'wrap',marginBottom:10}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:0}}>Hemiciclo · coaliciones</h2>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:0}}>Hemiciclo · coaliciones</h2>
+                {hemiDataset === 'estimacion' && (
+                  <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
+                )}
+              </div>
               <div style={{display:'inline-flex',alignItems:'center',gap:5}}>
                 <div style={{display:'inline-flex',background:'#F5F5F7',borderRadius:999,padding:2}}>
                   {([{k:'estimacion',label:'Est. 2026'},{k:'g2023',label:'2023'}] as const).map(o=>{
@@ -355,8 +396,8 @@ export default function EscenariosPage(){
             <p style={{fontSize:11,color:'var(--ink-4)',margin:'0 0 8px'}}>Pulsa partidos para sumar escaños y comprobar viabilidad.</p>
             <div style={{flex:1,minHeight:0}}>
               <HemicycleAdvanced
-                parties={HEMI_DATASETS[hemiDataset]}
-                belowLegend={<HemiTable parties={HEMI_DATASETS[hemiDataset]}/>}
+                parties={activeHemi}
+                belowLegend={<HemiTable parties={activeHemi}/>}
               />
             </div>
           </div>

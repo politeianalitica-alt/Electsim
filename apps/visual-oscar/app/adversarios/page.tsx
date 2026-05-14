@@ -3,6 +3,13 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+interface AdversariosResp {
+  profiles?: Array<{ partido: string; intencion: number; delta7d: number; escanos: number; nivel: string }>
+  generated_at?: string
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -445,6 +452,11 @@ export default function AdversariosPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  // Live data del backend (auto-refresh 60s) — usado para actualizar la
+  // intención de voto, delta y escaños de cada adversario en tiempo real.
+  const { data: liveData, source: liveSource, updatedAt: liveUpdated, refresh: liveRefresh } =
+    useApi<AdversariosResp>('/api/adversarios/profiles', { refreshInterval: 60_000 })
+
   const [selectedId, setSelectedId] = useState(ADVERSARIOS[0].id)
   const [tab, setTab] = useState<'dafo' | 'mensajes' | 'voceros' | 'vulnerabilidades' | 'coaliciones' | 'agenda'>('dafo')
   const selected = useMemo(() => ADVERSARIOS.find(a => a.id === selectedId)!, [selectedId])
@@ -469,8 +481,12 @@ export default function AdversariosPage() {
           display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
-              ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS
+            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+              <span>ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS</span>
+              <LiveStatusBadge updatedAt={liveUpdated} source={liveSource} refreshIntervalSec={60} onRefresh={liveRefresh}/>
+              {liveData?.profiles && liveData.profiles.length > 0 && (
+                <span style={{ fontSize:10, opacity:0.55, fontWeight:500 }}>· {liveData.profiles.length} perfiles vivos</span>
+              )}
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontSize:28, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
               Conoce a tu adversario <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>antes de cada movimiento</em>

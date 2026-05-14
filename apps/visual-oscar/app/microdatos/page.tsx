@@ -3,6 +3,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+
+// Datos en vivo desde /api/microdatos/voters (backend → derivado nowcast → mock)
+interface VoterProfilesResponse {
+  profiles?: { partido: string; total: number }[]
+  generated_at?: string
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo de partidos y dimensiones
@@ -287,6 +295,13 @@ export default function MicrodatosPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
+  // Live data del backend (auto-refresh 5min). Se usa solo para el badge
+  // de freshness y para etiquetar la página como "en vivo"; el cálculo
+  // del retrato sigue siendo client-side a partir de la selección.
+  const { source, updatedAt, refresh } = useApi<VoterProfilesResponse>(
+    '/api/microdatos/voters', { refreshInterval: 300_000 }
+  )
+
   const [perfil, setPerfil] = useState<Perfil>({
     edad:'35–44', genero:'Mujer', estudios:'Universitarios', habitat:'Urbano (>100k)',
     ideologia:'Centro-izq.', empleo:'Asalariado', religion:'No practicante',
@@ -320,8 +335,9 @@ export default function MicrodatosPage() {
           display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
-              ELECTORAL · PERFILES DE VOTANTE
+            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+              <span>ELECTORAL · PERFILES DE VOTANTE</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
             </p>
             <h1 style={{ fontFamily:'var(--font-display)', fontSize:28, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
               Construye un perfil <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>y obtén su retrato electoral</em>
