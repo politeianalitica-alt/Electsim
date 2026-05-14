@@ -11,17 +11,19 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const qs = searchParams.toString();
 
-  try {
-    if (BACKEND) {
+  if (BACKEND) {
+    try {
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 5000);
       const res = await fetch(`${BACKEND}/api/v1/sectores/${params.id}/eventos?${qs}`, {
         headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' },
         next: { revalidate: 600 },
+        signal: controller.signal,
       });
+      clearTimeout(t);
       if (res.ok) return Response.json(await res.json());
-    }
-    const empty: { eventos: EventoSectorial[] } = { eventos: [] };
-    return Response.json(empty);
-  } catch (e) {
-    return Response.json({ error: String(e) }, { status: 502 });
+    } catch { /* timeout, DNS, tunnel down → fallback abajo */ }
   }
+  const empty: { eventos: EventoSectorial[] } = { eventos: [] };
+  return Response.json(empty);
 }
