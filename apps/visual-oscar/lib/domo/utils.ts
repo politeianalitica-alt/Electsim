@@ -129,7 +129,22 @@ export function qualityScoreLabel(score: number): string {
 
 // ─── Alert helpers ───────────────────────────────────────────────────────────
 export function isAlertActive(alert: AlertRule): boolean {
-  return alert.isActive && alert.status !== 'silenced'
+  return alert.status === 'active' || alert.status === 'triggered'
+}
+
+// ─── Query string builder ────────────────────────────────────────────────────
+export function buildQueryString(params: Record<string, unknown>): string {
+  const q = new URLSearchParams()
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== null && v !== undefined) q.set(k, String(v))
+  }
+  return q.toString()
+}
+
+// ─── Truncate ────────────────────────────────────────────────────────────────
+export function truncate(text: string, max: number): string {
+  if (!text || text.length <= max) return text
+  return text.slice(0, max) + '...'
 }
 
 // ─── Schedule humanizado ─────────────────────────────────────────────────────

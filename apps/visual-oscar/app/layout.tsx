@@ -6,6 +6,7 @@ import BottomAgenteBar from './_components/BottomAgenteBar';
 import { AlertsProvider } from '@/context/AlertsContext';
 import { QueryProvider } from '@/lib/api/query-provider';
 import { DomoProvider } from '@/context/DomoContext';
+import { NotificationsProvider } from '@/context/NotificationsContext';
 
 export const metadata: Metadata = {
   title: 'Politeia Analítica',
@@ -21,8 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider>
             <AlertsProvider>
               <DomoProvider>
-                {children}
-                <BottomAgenteBar />
+                <NotificationsProvider>
+                  {children}
+                  <BottomAgenteBar />
+                </NotificationsProvider>
               </DomoProvider>
             </AlertsProvider>
           </ThemeProvider>

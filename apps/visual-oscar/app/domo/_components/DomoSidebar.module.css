@@ -36,14 +36,25 @@
 }
 
 .navList {
-  list-style: none;
   padding: 0 0.5rem;
   margin: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: .25rem;
+  overflow-y: auto;
 }
+
+.navGroup { display: flex; flex-direction: column; gap: 1px; }
+.navGroupLabel {
+  font-size: .6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-muted, #9ca3af);
+  padding: .5rem .75rem .25rem;
+}
+.navUl { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1px; }
 
 .navItem {
   display: flex;

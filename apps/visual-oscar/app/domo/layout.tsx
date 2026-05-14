@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import DomoSidebar from './_components/DomoSidebar'
+import DomoChrome from './_components/DomoChrome'
 import styles from './domo.module.css'
 
 export const metadata: Metadata = {
@@ -13,7 +14,10 @@ export default function DomoLayout({ children }: { children: ReactNode }) {
     <div className={styles.domoShell}>
       <DomoSidebar />
       <div className={styles.domoContent}>
-        {children}
+        <DomoChrome />
+        <div className={styles.domoMain}>
+          {children}
+        </div>
       </div>
     </div>
   )

@@ -2,14 +2,18 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useQuery } from '@tanstack/react-query'
 import { dashboardsApi } from '@/lib/domo/api-client'
 import Skeleton from '@/components/Skeleton'
 import WidgetRenderer from './WidgetRenderer'
 import styles from './DashboardViewer.module.css'
 
+const DashboardShareModal = dynamic(() => import('@/components/DashboardShareModal'), { ssr: false })
+
 export default function DashboardViewerClient({ id }: { id: string }) {
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showShare, setShowShare] = useState(false)
 
   const { data: dashboard, isLoading, isError } = useQuery({
     queryKey:        ['domo', 'dashboards', id],
@@ -53,6 +57,9 @@ export default function DashboardViewerClient({ id }: { id: string }) {
           <span className={styles.title}>{dashboard.name}</span>
         </div>
         <div className={styles.headerRight}>
+          <button onClick={() => setShowShare(true)} className={styles.btnEdit}>
+            ⊡ Compartir
+          </button>
           <Link href={`/domo/dashboard/${id}/editar`} className={styles.btnEdit}>Editar</Link>
           <button onClick={() => setIsFullscreen(f => !f)} className={styles.btnIcon}>
             {isFullscreen ? '⊡' : '⤢'}
@@ -101,6 +108,14 @@ export default function DashboardViewerClient({ id }: { id: string }) {
           </div>
         )}
       </div>
+
+      {showShare && dashboard && (
+        <DashboardShareModal
+          dashboardId={id}
+          dashboardName={dashboard.name}
+          onClose={() => setShowShare(false)}
+        />
+      )}
     </div>
   )
 }

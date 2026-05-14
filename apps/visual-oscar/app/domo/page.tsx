@@ -9,16 +9,27 @@ interface ModuleCard {
 }
 
 const MODULES: ModuleCard[] = [
-  { href: '/domo/fuentes',    title: 'Fuentes de Datos', description: 'Conecta bases, APIs, ficheros y feeds en streaming',         glyph: '⇡', status: 'ready' },
-  { href: '/domo/pipeline',   title: 'Pipelines ETL',    description: 'Editor visual para transformar y enrutar datos',             glyph: '⟶', status: 'ready' },
-  { href: '/domo/dataset',    title: 'Datasets',         description: 'Catálogo de datos procesados con SQL y schema inspector',    glyph: '⊞', status: 'ready' },
-  { href: '/domo/dashboard',  title: 'Dashboards',       description: 'Constructor visual de paneles tipo Domo (drag & drop)',      glyph: '⊟', status: 'ready' },
-  { href: '/domo/warehouse',  title: 'Warehouse',        description: 'Capa unificada de almacenamiento (PG/Parquet/Object Store)', glyph: '◫', status: 'wip' },
-  { href: '/domo/charts',     title: 'Biblioteca Charts',description: 'Charts reutilizables guardados como recursos',               glyph: '▋', status: 'wip' },
-  { href: '/domo/alertas',    title: 'Alertas de Datos', description: 'Reglas sobre datasets (umbrales, anomalías, nuevos valores)',glyph: '◇', status: 'wip' },
-  { href: '/domo/jobs',       title: 'Monitor de Jobs',  description: 'Estado y reintentos de sync, pipelines y exports',           glyph: '⚙', status: 'wip' },
-  { href: '/domo/governance', title: 'Gobernanza',       description: 'Calidad de datos, linaje y políticas de acceso',             glyph: '✓', status: 'wip' },
-  { href: '/domo/ai-query',   title: 'AI Query',         description: 'Consulta tus datasets en lenguaje natural',                  glyph: '✦', status: 'wip' },
+  // Datos
+  { href: '/domo/fuentes',         title: 'Fuentes de Datos',  description: 'Conecta bases, APIs, ficheros y feeds en streaming',           glyph: '⇡', status: 'ready' },
+  { href: '/domo/pipeline',        title: 'Pipelines ETL',     description: 'Editor visual para transformar y enrutar datos',               glyph: '⟶', status: 'ready' },
+  { href: '/domo/dataset',         title: 'Datasets',          description: 'Catálogo de datos con SQL Editor y Schema Inspector',          glyph: '⊞', status: 'ready' },
+
+  // Análisis
+  { href: '/domo/dashboard',       title: 'Dashboards',        description: 'Constructor visual de paneles tipo Domo (drag & drop)',        glyph: '⊟', status: 'ready' },
+  { href: '/domo/query',           title: 'AI Query',          description: 'Pregunta en lenguaje natural, recibe SQL + visualización',     glyph: '✦', status: 'ready' },
+
+  // Operación
+  { href: '/domo/alertas',         title: 'Alertas',           description: 'Monitoriza umbrales, anomalías y cambios porcentuales',        glyph: '!', status: 'ready' },
+  { href: '/domo/notificaciones',  title: 'Notificaciones',    description: 'Centro unificado de eventos y mensajes del sistema',           glyph: '◐', status: 'ready' },
+  { href: '/domo/health',          title: 'System Health',     description: 'Estado de servicios, latencias y uptime en tiempo real',       glyph: '◉', status: 'ready' },
+
+  // Admin
+  { href: '/domo/gobernanza',      title: 'Gobernanza',        description: 'Miembros, roles, auditoría completa y gestión de API Keys',    glyph: '✓', status: 'ready' },
+
+  // Coming
+  { href: '/domo/warehouse',       title: 'Warehouse',         description: 'Capa unificada de almacenamiento (PG / Parquet / Object Store)', glyph: '◫', status: 'wip' },
+  { href: '/domo/charts',          title: 'Biblioteca Charts', description: 'Charts reutilizables embebibles en cualquier dashboard',       glyph: '▋', status: 'wip' },
+  { href: '/domo/jobs',            title: 'Monitor de Jobs',   description: 'Estado, reintentos y logs de syncs / pipelines / exports',     glyph: '⚙', status: 'wip' },
 ]
 
 export default function DomoHomePage() {
@@ -32,7 +43,11 @@ export default function DomoHomePage() {
           Centro de Datos
         </h1>
         <p style={{ color: 'var(--color-muted,#6b7280)', fontSize: '0.95rem', margin: 0, maxWidth: 720 }}>
-          Toda la inteligencia de negocio de Politeia desde un único punto: conecta fuentes, construye pipelines, gobierna los datos y publica dashboards.
+          Toda la inteligencia de negocio de Politeia desde un único punto: conecta fuentes,
+          construye pipelines, gobierna los datos, publica dashboards y dispara alertas inteligentes.
+        </p>
+        <p style={{ color: 'var(--color-muted,#9ca3af)', fontSize: '.8rem', margin: '12px 0 0' }}>
+          Atajo: pulsa <kbd style={{ padding: '1px 6px', background: 'var(--bg-secondary,#f3f4f6)', border: '1px solid var(--color-border,#e5e7eb)', borderRadius: 4, fontSize: '.7rem' }}>⌘K</kbd> en cualquier página para buscar globalmente.
         </p>
       </header>
 

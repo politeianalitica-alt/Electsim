@@ -1,11 +1,8 @@
-import ComingSoon from '../_components/ComingSoon'
+import type { Metadata } from 'next'
+import AlertsClient from './_components/AlertsClient'
 
-export default function DomoAlertasPage() {
-  return (
-    <ComingSoon
-      title="Alertas de Datos"
-      subtitle="Reglas sobre datasets: umbrales, cambios porcentuales, anomalías, valores nuevos"
-      sprint="Sprint 6+"
-    />
-  )
+export const metadata: Metadata = { title: 'Alertas · Domo | Politeia' }
+
+export default function AlertasPage() {
+  return <AlertsClient />
 }

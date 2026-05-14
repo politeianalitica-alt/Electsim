@@ -359,43 +359,53 @@ export interface ChartConfig {
   updatedAt: ISOString
 }
 
-// ─── Alertas ─────────────────────────────────────────────────────────────────
-export type AlertConditionType =
-  | 'threshold'
-  | 'pct_change'
+// ─── Alertas (Sprint 6) ──────────────────────────────────────────────────────
+export type AlertConditionOp =
+  | 'gt' | 'gte' | 'lt' | 'lte' | 'eq' | 'neq'
+  | 'pct_change_gt' | 'pct_change_lt'
   | 'anomaly'
-  | 'null_rate'
-  | 'new_value'
-  | 'row_count'
 
 export type AlertSeverity = 'info' | 'warning' | 'critical'
 
-export type AlertAction = 'notification' | 'email' | 'webhook'
+export type AlertChannel = 'in_app' | 'email' | 'webhook'
 
-export interface AlertRule {
+export type AlertStatus = 'active' | 'paused' | 'triggered' | 'resolved'
+
+export interface AlertCondition {
+  field: string
+  op: AlertConditionOp
+  threshold?: number
+  windowMinutes?: number
+  aggregation?: 'sum' | 'avg' | 'count' | 'min' | 'max' | 'last'
+}
+
+export interface AlertAction {
+  channel: AlertChannel
+  webhookUrl?: string
+  emailTo?: string[]
+  message?: string
+}
+
+export interface DomoAlert {
   id: string
   name: string
   description?: string
   datasetId: string
-  column?: string
-  conditionType: AlertConditionType
-  conditionParams: Record<string, unknown>
+  condition: AlertCondition
   severity: AlertSeverity
   actions: AlertAction[]
-  actionConfig: {
-    emails?: string[]
-    webhookUrl?: string
-    webhookSecret?: string
-  }
-  evaluationFrequency: ScheduleFrequency
-  silencePeriodMinutes?: number
-  isActive: boolean
+  status: AlertStatus
+  cooldownMinutes?: number
   lastTriggeredAt?: ISOString
-  lastEvaluatedAt?: ISOString
-  status: 'ok' | 'triggered' | 'silenced' | 'error'
+  lastCheckedAt?: ISOString
+  triggerCount?: number
+  createdBy?: string
   createdAt: ISOString
   updatedAt: ISOString
 }
+
+// Legacy alias mantenido para retrocompatibilidad con sprints 1-5
+export type AlertRule = DomoAlert
 
 export interface AlertTrigger {
   id: string
@@ -533,4 +543,214 @@ export type DomoStatus =
   | SyncStatus
   | JobStatus
   | CheckStatus
-  | AlertRule['status']
+  | AlertStatus
+
+// ─── Notificaciones (Sprint 6) ───────────────────────────────────────────────
+export type NotificationType =
+  | 'alert_triggered'
+  | 'alert_resolved'
+  | 'dashboard_shared'
+  | 'dataset_updated'
+  | 'pipeline_failed'
+  | 'pipeline_success'
+  | 'mention'
+  | 'system'
+
+export interface DomoNotification {
+  id: string
+  type: NotificationType
+  title: string
+  body: string
+  severity?: AlertSeverity
+  read: boolean
+  actionUrl?: string
+  metadata?: Record<string, unknown>
+  createdAt: ISOString
+}
+
+// ─── Sharing / Permisos (Sprint 6) ───────────────────────────────────────────
+export type ShareRole = 'viewer' | 'editor' | 'admin'
+
+export type ShareSubjectType = 'user' | 'team' | 'org' | 'public_link'
+
+export interface DashboardShare {
+  id: string
+  dashboardId: string
+  subjectType: ShareSubjectType
+  subjectId?: string
+  subjectName?: string
+  subjectAvatarUrl?: string
+  role: ShareRole
+  token?: string
+  expiresAt?: ISOString
+  createdBy?: string
+  createdAt: ISOString
+}
+
+export interface ShareLinkMeta {
+  token: string
+  url: string
+  expiresAt?: ISOString
+  role: ShareRole
+  viewCount: number
+}
+
+// ─── Gobernanza (Sprint 7) ───────────────────────────────────────────────────
+export type OrgRole = 'owner' | 'admin' | 'analyst' | 'viewer' | 'api_only'
+
+export interface OrgMember {
+  id: string
+  userId: string
+  email: string
+  name: string
+  avatarUrl?: string
+  role: OrgRole
+  teams?: string[]
+  lastActiveAt?: ISOString
+  createdAt: ISOString
+}
+
+export interface OrgTeam {
+  id: string
+  name: string
+  description?: string
+  memberCount: number
+  datasetAccess: string[]
+  dashboardAccess: string[]
+  createdAt: ISOString
+}
+
+export type AuditAction =
+  | 'dashboard.view' | 'dashboard.create' | 'dashboard.edit'
+  | 'dashboard.delete' | 'dashboard.share'
+  | 'dataset.view'   | 'dataset.create'   | 'dataset.edit'
+  | 'dataset.delete' | 'dataset.export'
+  | 'pipeline.run'   | 'pipeline.create'  | 'pipeline.delete'
+  | 'alert.create'   | 'alert.trigger'    | 'alert.delete'
+  | 'query.run'
+  | 'member.invite'  | 'member.remove'    | 'member.role_change'
+  | 'api_key.create' | 'api_key.revoke'
+
+export interface AuditLog {
+  id: string
+  action: AuditAction
+  actorId: string
+  actorEmail: string
+  actorName: string
+  resourceType: 'dashboard' | 'dataset' | 'pipeline' | 'alert' | 'query' | 'member' | 'api_key'
+  resourceId?: string
+  resourceName?: string
+  metadata?: Record<string, unknown>
+  ipAddress?: string
+  userAgent?: string
+  createdAt: ISOString
+}
+
+export interface ApiKey {
+  id: string
+  name: string
+  prefix: string
+  secret?: string
+  scopes: string[]
+  createdBy: string
+  lastUsedAt?: ISOString
+  expiresAt?: ISOString
+  isActive: boolean
+  createdAt: ISOString
+}
+
+// ─── AI Query (Sprint 7) ─────────────────────────────────────────────────────
+export type QueryMessageRole = 'user' | 'assistant' | 'system'
+
+export interface QueryMessage {
+  id: string
+  role: QueryMessageRole
+  content: string
+  sql?: string
+  queryResult?: {
+    columns: string[]
+    rows: Record<string, unknown>[]
+    rowCount: number
+    executionMs: number
+  }
+  chartSuggestion?: {
+    type: 'bar' | 'line' | 'pie' | 'scatter' | 'table'
+    xField?: string
+    yField?: string
+    title?: string
+  }
+  error?: string
+  createdAt: ISOString
+}
+
+export interface QuerySession {
+  id: string
+  title: string
+  datasetIds: string[]
+  messages: QueryMessage[]
+  createdBy: string
+  createdAt: ISOString
+  updatedAt: ISOString
+}
+
+// ─── Health (Sprint 8) ───────────────────────────────────────────────────────
+export type ServiceStatus = 'up' | 'degraded' | 'down' | 'unknown'
+
+export interface ServiceHealth {
+  status: ServiceStatus
+  latencyMs?: number
+  message?: string
+  lastCheckedAt?: ISOString
+}
+
+export interface SystemHealth {
+  status: 'healthy' | 'degraded' | 'unhealthy'
+  services: Record<string, ServiceHealth>
+  version: string
+  uptimeSeconds: number
+  checkedAt: ISOString
+}
+
+// ─── Annotations (Killer feature) ────────────────────────────────────────────
+// Eventos marcados sobre líneas temporales en widgets (Domo "Story",
+// Tableau "Annotations"). Diferencial para inteligencia política:
+// permite marcar elecciones, leyes aprobadas, debates clave, etc.
+export type AnnotationKind = 'event' | 'milestone' | 'note' | 'alert'
+
+export interface DomoAnnotation {
+  id: string
+  scope: 'dataset' | 'dashboard' | 'widget'
+  scopeId: string
+  kind: AnnotationKind
+  title: string
+  description?: string
+  date: ISOString
+  color?: string
+  createdBy?: string
+  createdAt: ISOString
+}
+
+// ─── Export programable (Killer feature) ─────────────────────────────────────
+// Inspirado en Domo "Scheduled Reports" + Looker "Scheduled Plans".
+// Genera PDF/CSV/PNG de un dashboard o dataset en horarios definidos
+// y los envía por email o webhook.
+export type ExportFormat = 'pdf' | 'png' | 'csv' | 'json' | 'parquet' | 'xlsx'
+export type ExportStatus = 'pending' | 'running' | 'success' | 'failed'
+
+export interface ExportJob {
+  id: string
+  name: string
+  scope: 'dashboard' | 'dataset'
+  scopeId: string
+  format: ExportFormat
+  schedule?: ScheduleFrequency
+  recipients?: string[]
+  lastRunAt?: ISOString
+  lastRunStatus?: ExportStatus
+  lastFileUrl?: string
+  fileSizeBytes?: number
+  isActive: boolean
+  createdBy?: string
+  createdAt: ISOString
+  updatedAt: ISOString
+}
