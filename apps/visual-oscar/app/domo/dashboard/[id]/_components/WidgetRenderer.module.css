@@ -1,0 +1,59 @@
+.widget { display: flex; flex-direction: column; background: var(--bg-primary, #fff); border: 1px solid var(--color-border, #e5e7eb); border-radius: 12px; overflow: hidden; height: 100%; transition: box-shadow .2s; }
+.editable { cursor: default; }
+.editable:hover { box-shadow: 0 0 0 2px var(--color-accent, #3b82f6); }
+.widgetHeader { display: flex; align-items: flex-start; justify-content: space-between; padding: .5rem .75rem .25rem; gap: .5rem; flex-shrink: 0; border-bottom: 1px solid var(--color-border, #e5e7eb); }
+.widgetTitleGroup { display: flex; flex-direction: column; gap: 1px; }
+.widgetTitle { font-size: .78rem; font-weight: 700; color: var(--color-text, #111827); }
+.widgetSubtitle { font-size: .68rem; color: var(--color-muted, #9ca3af); }
+.widgetActions { display: flex; gap: 3px; flex-shrink: 0; }
+.widgetActionBtn { padding: 2px 6px; border: none; background: transparent; cursor: pointer; font-size: .85rem; color: var(--color-muted, #9ca3af); border-radius: 4px; line-height: 1; }
+.widgetActionBtn:hover { background: var(--bg-secondary, #f3f4f6); color: var(--color-text, #111827); }
+.widgetBody { flex: 1; overflow: hidden; display: flex; padding: .5rem; min-height: 0; }
+.errorState { flex: 1; display: flex; align-items: center; justify-content: center; font-size: .75rem; color: var(--color-muted, #9ca3af); }
+
+.kpiWidget { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 4px; padding: .25rem; }
+.kpiValue { display: flex; align-items: baseline; gap: 3px; font-size: 2rem; font-weight: 800; letter-spacing: -.03em; color: var(--color-text, #111827); }
+.kpiPrefix { font-size: 1rem; font-weight: 600; opacity: .7; }
+.kpiUnit { font-size: .9rem; font-weight: 500; opacity: .7; margin-left: 2px; }
+.kpiChange { font-size: .75rem; font-weight: 700; }
+.kpiSparkline { width: 100%; height: 32px; opacity: .7; }
+
+.barChart { display: flex; align-items: flex-end; gap: 4px; flex: 1; padding-bottom: 18px; position: relative; min-width: 0; }
+.barChartH { flex-direction: column; align-items: stretch; padding-bottom: 0; }
+.barVCol { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; }
+.barVTrack { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.barVFill { width: 100%; border-radius: 3px 3px 0 0; transition: height .4s ease; min-height: 2px; }
+.barLabel { font-size: .55rem; color: var(--color-muted, #9ca3af); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
+.barValue { font-size: .65rem; color: var(--color-muted, #6b7280); }
+.barHRow { display: flex; align-items: center; gap: .375rem; width: 100%; padding: 2px 0; }
+.barHTrack { flex: 1; height: 14px; background: var(--bg-secondary, #f3f4f6); border-radius: 3px; overflow: hidden; }
+.barHFill { height: 100%; border-radius: 3px; transition: width .4s ease; }
+
+.lineChart { flex: 1; display: flex; align-items: stretch; min-height: 0; }
+
+.pieChart { display: flex; align-items: center; gap: .625rem; flex: 1; min-width: 0; }
+.pieLegend { display: flex; flex-direction: column; gap: 3px; font-size: .65rem; overflow: hidden; min-width: 60px; }
+.legendItem { display: flex; align-items: center; gap: 4px; }
+.legendDot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.legendLabel { color: var(--color-text, #374151); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.legendPct { color: var(--color-muted, #9ca3af); font-weight: 600; flex-shrink: 0; }
+
+.tableWidget { flex: 1; overflow: auto; font-size: .7rem; }
+.miniTable { width: 100%; border-collapse: collapse; }
+.miniTh { padding: 4px 6px; background: var(--bg-secondary, #f9fafb); border-bottom: 1px solid var(--color-border, #e5e7eb); text-align: left; font-weight: 700; font-size: .65rem; color: var(--color-text, #111827); white-space: nowrap; }
+.miniTr { border-bottom: 1px solid var(--color-border, #f3f4f6); }
+.miniTr:hover { background: var(--bg-secondary, #f9fafb); }
+.miniTd { padding: 3px 6px; color: var(--color-text, #374151); white-space: nowrap; font-size: .68rem; }
+
+.gaugeWidget { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 2px; }
+.gaugeValue { font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; }
+.gaugeLimits { display: flex; justify-content: space-between; width: 80%; font-size: .6rem; color: var(--color-muted, #9ca3af); }
+
+.textWidget { flex: 1; padding: .25rem; font-size: .82rem; color: var(--color-text, #374151); overflow: auto; line-height: 1.5; }
+
+.scatterChart { flex: 1; display: flex; }
+
+.heatmapChart { flex: 1; overflow: auto; }
+.heatmapGrid { display: grid; gap: 2px; align-items: center; }
+.heatmapLabel { font-size: .55rem; color: var(--color-muted, #9ca3af); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.heatmapCell { height: 18px; border-radius: 3px; }

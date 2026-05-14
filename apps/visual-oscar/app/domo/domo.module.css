@@ -1,0 +1,17 @@
+.domoShell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary, #ffffff);
+}
+
+.domoContent {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .domoShell {
+    flex-direction: column;
+  }
+}
