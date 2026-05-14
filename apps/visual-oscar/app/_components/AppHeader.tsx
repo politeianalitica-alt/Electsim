@@ -75,7 +75,7 @@ export default function AppHeader() {
                 Morning Brief, Issues críticos, Acciones, Equipo y Foco).
                 /operaciones (Centro de Operaciones del Analista) sigue
                 accesible desde el módulo 'Operaciones' del nav. */}
-            <Link href="/workspaces/ws_espana_2026" style={{
+            <Link href="/workspaces/ws_espana_2026/overview" style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
               color:'#fff',background:(path.startsWith('/workspaces')||path==='/workspace'||path==='/operaciones')?'#0F2A4F':'#1F4E8C',
