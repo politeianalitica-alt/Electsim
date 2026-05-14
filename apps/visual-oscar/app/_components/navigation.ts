@@ -168,26 +168,13 @@ export const MODULES: NavModule[] = [
     label: 'Estudio',
     full: 'Estudio · Centro de operaciones del analista',
     items: [
-      // — Espacio de análisis del analista (entrada principal) —
-      // Banner quitado: el hero gradient ya vive dentro de /estudio/page.tsx,
-      // no necesitamos también la franja superior de AppHeader.
+      // Subnav simplificado a 3 items principales. Las 7 herramientas
+      // secundarias (Investigation Canvas, Evidence Linker, Draft Studio,
+      // Intelligence Notebook, Political Calendar, Watchlists, Team
+      // Collaboration) se agrupan en /extras como hub-page.
       { label: 'Estudio Politeia', href: '/estudio' },
-
-      // — Pestañas del workspace activo (Inbox, Terminal, Docs, Tables,
-      //   Slides, Reporting, Canvas, Research, Radar, Simulador, CRM,
-      //   Projects) NO van en este subnav: ya aparecen como sidebar
-      //   columna izquierda dentro del propio workspace cuando entras al
-      //   Command Center. Las quitamos de aquí para no duplicar.
-
-      // — Herramientas de analista (portadas desde Visual_Oscar) —
-      { label: 'War Room',              href: '/workspace' },
-      { label: 'Investigation Canvas',  href: '/canvas' },
-      { label: 'Evidence Linker',       href: '/evidence' },
-      { label: 'Draft Studio',          href: '/draft-studio' },
-      { label: 'Intelligence Notebook', href: '/notebook' },
-      { label: 'Political Calendar',    href: '/calendario' },
-      { label: 'Watchlists',            href: '/watchlists' },
-      { label: 'Team Collaboration',    href: '/team' },
+      { label: 'War Room',         href: '/workspace' },
+      { label: 'Extras',           href: '/extras' },
     ],
   },
 
