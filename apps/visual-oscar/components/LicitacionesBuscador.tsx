@@ -1,13 +1,13 @@
 'use client'
 /**
- * Buscador en vivo de licitaciones · agrega Catalunya Socrata + PLACSP nacional
+ * Buscador estilo buscalicitaciones.com — sidebar de filtros completa,
+ * resultados con todas las columnas, ordenación, paginación.
  *
- * Inspirado en BquantFinance/licitaciones-espana v2026.02 pero atacando
- * los endpoints públicos en tiempo real (sin descarga de parquet).
- *
- * GET /api/licitaciones/buscar?q=&desde=&hasta=&cpv=&tipo=&min_importe=&fuente=&limit=
+ * Backend: Catalunya Socrata + PLACSP atom (escalable a 10 fuentes).
  */
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import { CPV_DIVISIONS, TIPOS_CONTRATO, PROCEDIMIENTOS, CCAA_CODES, SOURCES, cpvDivLabel } from '@/lib/socrata-catalunya'
 
 interface NormalizedContrato {
   id: string
@@ -15,19 +15,25 @@ interface NormalizedContrato {
   fuente_label: string
   expediente: string
   organo: string
+  organo_dir3?: string
   ambito?: string
   objeto: string
   tipo_contrato?: string
   procedimiento?: string
   cpv?: string
+  cpv_div?: string
   lugar_ejecucion?: string
   importe_licitacion?: number
   importe_adjudicacion?: number
   importe_adjudicacion_iva?: number
   adjudicatario?: string
+  adjudicatario_nif?: string
   ofertas_recibidas?: number
   estado?: string
   fecha_publicacion?: string
+  fecha_adjudicacion?: string
+  anio?: number
+  es_pyme?: boolean
   url?: string
 }
 
@@ -41,68 +47,75 @@ interface SearchResponse {
     fetch_ms: number
     sources: Array<{ fuente: string; ok: boolean; items: number; ms: number; error?: string }>
   }
-  pagination: { limit: number; offset: number; total_estimado: number | null }
+  pagination: { page: number; page_size: number; offset: number; total_estimado: number | null }
   filters: Record<string, unknown>
 }
 
-const TIPO_OPTIONS = ['', 'Serveis', 'Obres', 'Subministrament', 'Mixt', 'Concessió'] as const
-const FUENTE_LABEL: Record<string, string> = {
-  all: 'Todas las fuentes',
-  catalunya: 'Generalitat de Catalunya',
-  placsp: 'PLACSP nacional',
-}
 const FUENTE_COLOR: Record<string, string> = {
   CATALUNYA_SOCRATA: '#F97316',
   PLACSP: '#1F4E8C',
 }
 
-const CPV_PRESETS = [
-  { code: '',     label: 'Cualquier CPV' },
-  { code: '33',   label: '33 · Sanitario' },
-  { code: '45',   label: '45 · Construcción' },
-  { code: '48',   label: '48 · Software' },
-  { code: '72',   label: '72 · Servicios TI' },
-  { code: '79',   label: '79 · Servicios empresariales' },
-  { code: '85',   label: '85 · Servicios sociales' },
-  { code: '60',   label: '60 · Transporte' },
-  { code: '09',   label: '09 · Energía' },
-  { code: '50',   label: '50 · Mantenimiento' },
-]
+const TYPE_OPTIONS = [
+  { v: 'texto',         label: 'Texto del contrato' },
+  { v: 'adjudicatario', label: 'Empresa adjudicataria' },
+  { v: 'organo',        label: 'Órgano contratante' },
+  { v: 'cpv',           label: 'Sector (CPV)' },
+] as const
+
+const SORT_OPTIONS = [
+  { v: 'date_desc',  label: 'Fecha (más reciente)' },
+  { v: 'date_asc',   label: 'Fecha (más antigua)' },
+  { v: 'imp_desc',   label: 'Importe (mayor)' },
+  { v: 'imp_asc',    label: 'Importe (menor)' },
+  { v: 'relevance',  label: 'Relevancia' },
+] as const
+
+const ANIO_OPTIONS = Array.from({ length: 25 }, (_, i) => 2026 - i)
 
 export default function LicitacionesBuscador() {
   const [q, setQ] = useState('')
-  const [tipo, setTipo] = useState<string>('')
-  const [cpv, setCpv] = useState<string>('')
-  const [organo, setOrgano] = useState<string>('')
-  const [desde, setDesde] = useState<string>(defaultDesde())
-  const [hasta, setHasta] = useState<string>('')
-  const [minImporte, setMinImporte] = useState<string>('')
-  const [fuente, setFuente] = useState<'all' | 'catalunya' | 'placsp'>('all')
-  const [order, setOrder] = useState<'fecha_desc' | 'fecha_asc' | 'importe_desc' | 'importe_asc'>('fecha_desc')
-  const [limit, setLimit] = useState<number>(50)
-  const [offset, setOffset] = useState<number>(0)
+  const [type, setType] = useState<typeof TYPE_OPTIONS[number]['v']>('texto')
+  const [anio, setAnio] = useState<string>('')
+  const [ccaa, setCcaa] = useState<string>('')
+  const [cpvDiv, setCpvDiv] = useState<string>('')
+  const [tipoContrato, setTipoContrato] = useState<string>('')
+  const [procedimiento, setProcedimiento] = useState<string>('')
+  const [source, setSource] = useState<string>('')
+  const [esPyme, setEsPyme] = useState<boolean>(false)
+  const [soloMenores, setSoloMenores] = useState<boolean>(false)
+  const [soloConImporte, setSoloConImporte] = useState<boolean>(false)
+  const [importeMin, setImporteMin] = useState<string>('')
+  const [importeMax, setImporteMax] = useState<string>('')
+  const [sort, setSort] = useState<typeof SORT_OPTIONS[number]['v']>('date_desc')
+  const [page, setPage] = useState<number>(1)
+  const [pageSize] = useState<number>(50)
 
   const [data, setData] = useState<SearchResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const queryUrl = useMemo(() => {
-    const params = new URLSearchParams()
-    if (q)          params.set('q', q)
-    if (tipo)       params.set('tipo', tipo)
-    if (cpv)        params.set('cpv', cpv)
-    if (organo)     params.set('organo', organo)
-    if (desde)      params.set('desde', desde)
-    if (hasta)      params.set('hasta', hasta)
-    if (minImporte) params.set('min_importe', minImporte)
-    params.set('fuente', fuente)
-    params.set('order', order)
-    params.set('limit', String(limit))
-    params.set('offset', String(offset))
-    return `/api/licitaciones/buscar?${params.toString()}`
-  }, [q, tipo, cpv, organo, desde, hasta, minImporte, fuente, order, limit, offset])
+    const sp = new URLSearchParams()
+    if (q) sp.set('q', q)
+    if (type !== 'texto') sp.set('type', type)
+    if (anio) sp.set('anio', anio)
+    if (ccaa) sp.set('ccaa', ccaa)
+    if (cpvDiv) sp.set('cpv_div', cpvDiv)
+    if (tipoContrato) sp.set('tipo_contrato', tipoContrato)
+    if (procedimiento) sp.set('procedimiento', procedimiento)
+    if (source) sp.set('source', source)
+    if (esPyme) sp.set('es_pyme', '1')
+    if (soloMenores) sp.set('procedimiento', 'Contracte menor')
+    if (importeMin) sp.set('importe_min', importeMin)
+    if (importeMax) sp.set('importe_max', importeMax)
+    if (soloConImporte) sp.set('importe_min', importeMin || '0.01')
+    sp.set('sort', sort)
+    sp.set('page', String(page))
+    sp.set('page_size', String(pageSize))
+    return `/api/licitaciones/buscar?${sp.toString()}`
+  }, [q, type, anio, ccaa, cpvDiv, tipoContrato, procedimiento, source, esPyme, soloMenores, soloConImporte, importeMin, importeMax, sort, page, pageSize])
 
-  // Fetch (manual via runSearch + auto al cargar 1 vez)
   const runSearch = async () => {
     setLoading(true); setError(null)
     try {
@@ -111,325 +124,323 @@ export default function LicitacionesBuscador() {
       const json = (await res.json()) as SearchResponse
       setData(json)
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'unknown')
-      setData(null)
-    } finally {
-      setLoading(false)
-    }
+      setError(e instanceof Error ? e.message : 'unknown'); setData(null)
+    } finally { setLoading(false) }
   }
 
-  // Búsqueda automática al cargar
-  useEffect(() => {
-    runSearch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  useEffect(() => { runSearch() /* eslint-disable-next-line */ }, [])
+  useEffect(() => { if (data) runSearch() /* eslint-disable-next-line */ }, [page, sort])
 
-  // Re-buscar al cambiar paginación
-  useEffect(() => {
-    if (data) runSearch()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset, limit, order])
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setOffset(0)
-    runSearch()
+  const onSubmit = (e: React.FormEvent) => { e.preventDefault(); setPage(1); runSearch() }
+  const reset = () => {
+    setQ(''); setType('texto'); setAnio(''); setCcaa(''); setCpvDiv(''); setTipoContrato('')
+    setProcedimiento(''); setSource(''); setEsPyme(false); setSoloMenores(false); setSoloConImporte(false)
+    setImporteMin(''); setImporteMax(''); setSort('date_desc'); setPage(1)
+    setTimeout(runSearch, 0)
   }
+
+  const totalPages = data?.pagination.total_estimado
+    ? Math.min(40, Math.ceil(data.pagination.total_estimado / pageSize))
+    : 1
 
   return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
-      boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden', marginBottom:18,
-    }}>
-      {/* Header */}
-      <header style={{
-        background:'linear-gradient(135deg,#0d1b2e 0%,#1F4E8C 100%)',
-        color:'#fff', padding:'16px 22px',
+    <section style={{ display:'grid', gridTemplateColumns:'280px 1fr', gap:18 }}>
+      {/* ─── Sidebar de filtros (estilo buscalicitaciones) ─── */}
+      <aside style={{
+        background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 16px',
+        position:'sticky', top:80, alignSelf:'start', maxHeight:'calc(100vh - 100px)', overflowY:'auto',
       }}>
-        <p style={{ fontSize:10, fontWeight:800, letterSpacing:'0.16em', opacity:0.7, textTransform:'uppercase', margin:'0 0 4px' }}>
-          BUSCADOR EN VIVO · DATOS REALES DE CONTRATACIÓN PÚBLICA
-        </p>
-        <h2 style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, letterSpacing:'-0.02em', margin:'0 0 4px' }}>
-          Buscar licitaciones <em style={{ fontWeight:300, fontStyle:'italic', opacity:0.7 }}>en tiempo real</em>
-        </h2>
-        <p style={{ fontSize:12, opacity:0.7, margin:0 }}>
-          Agrega Generalitat de Catalunya (1M+ contratos) + PLACSP nacional · Sin auth, datos abiertos · Inspirado en{' '}
-          <a href="https://github.com/BquantFinance/licitaciones-espana" target="_blank" rel="noreferrer"
-            style={{ color:'#fcd34d', textDecoration:'underline' }}>
-            BquantFinance/licitaciones-espana
-          </a>
-        </p>
-      </header>
+        <form onSubmit={onSubmit}>
+          <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, letterSpacing:'-0.01em', color:'#1d1d1f' }}>
+            Filtros
+          </h3>
 
-      {/* Form */}
-      <form onSubmit={onSubmit} style={{ padding:'18px 22px', borderBottom:'1px solid #F5F5F7', background:'#FAFAFA' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr', gap:10, marginBottom:10 }}>
-          <input
-            type="text" value={q} onChange={e => setQ(e.target.value)}
-            placeholder="Buscar texto libre · objeto, organismo o adjudicatario…"
-            style={{
-              padding:'10px 14px', borderRadius:10, border:'1px solid #DCDCE0',
-              background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-            }}
-          />
-          <input
-            type="text" value={organo} onChange={e => setOrgano(e.target.value)}
-            placeholder="Organismo contratante…"
-            style={{
-              padding:'10px 14px', borderRadius:10, border:'1px solid #DCDCE0',
-              background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-            }}
-          />
-          <select value={cpv} onChange={e => setCpv(e.target.value)} style={selectStyle}>
-            {CPV_PRESETS.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
-          </select>
-        </div>
+          <FilterGroup label="Buscar por">
+            <select value={type} onChange={e => setType(e.target.value as typeof type)} style={selStyle}>
+              {TYPE_OPTIONS.map(o => <option key={o.v} value={o.v}>{o.label}</option>)}
+            </select>
+            <input
+              type="text" value={q} onChange={e => setQ(e.target.value)}
+              placeholder="Texto…" style={{ ...selStyle, marginTop:6 }}
+            />
+          </FilterGroup>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr 1fr', gap:10, marginBottom:10 }}>
-          <select value={tipo} onChange={e => setTipo(e.target.value)} style={selectStyle}>
-            <option value="">Cualquier tipo</option>
-            {TIPO_OPTIONS.filter(t => t).map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-          <select value={fuente} onChange={e => setFuente(e.target.value as typeof fuente)} style={selectStyle}>
-            {Object.entries(FUENTE_LABEL).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-          </select>
-          <input
-            type="date" value={desde} onChange={e => setDesde(e.target.value)}
-            style={selectStyle}
-          />
-          <input
-            type="date" value={hasta} onChange={e => setHasta(e.target.value)}
-            style={selectStyle}
-          />
-          <input
-            type="number" value={minImporte} onChange={e => setMinImporte(e.target.value)}
-            placeholder="Importe mín (€)" min={0} step={1000}
-            style={selectStyle}
-          />
-        </div>
+          <FilterGroup label="Fuente oficial">
+            <select value={source} onChange={e => setSource(e.target.value)} style={selStyle}>
+              <option value="">— todas —</option>
+              {SOURCES.map(s => (
+                <option key={s.code} value={s.code} disabled={!s.activa}>
+                  {s.label}{!s.activa ? ' (próximamente)' : ''}
+                </option>
+              ))}
+            </select>
+          </FilterGroup>
 
-        <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap' }}>
-          <button
-            type="submit" disabled={loading}
-            style={{
-              padding:'10px 22px', borderRadius:10, border:'none',
-              background: loading ? '#9CA3AF' : '#1F4E8C', color:'#fff',
-              fontSize:13, fontWeight:700, cursor: loading ? 'wait' : 'pointer',
-              fontFamily:'inherit', letterSpacing:'0.02em',
-            }}
-          >
-            {loading ? 'Buscando…' : 'Buscar'}
-          </button>
-          <button
-            type="button" onClick={() => {
-              setQ(''); setTipo(''); setCpv(''); setOrgano(''); setMinImporte('')
-              setDesde(defaultDesde()); setHasta(''); setFuente('all'); setOrder('fecha_desc'); setOffset(0)
-            }}
-            style={{
-              padding:'10px 16px', borderRadius:10, border:'1px solid #DCDCE0',
-              background:'#fff', color:'#3a3a3d', fontSize:12.5, fontWeight:600,
-              cursor:'pointer', fontFamily:'inherit',
-            }}
-          >
-            Limpiar filtros
-          </button>
-          <select value={order} onChange={e => { setOrder(e.target.value as typeof order); setOffset(0) }} style={{ ...selectStyle, marginLeft:'auto', minWidth:160 }}>
-            <option value="fecha_desc">Más recientes</option>
-            <option value="fecha_asc">Más antiguas</option>
-            <option value="importe_desc">Mayor importe</option>
-            <option value="importe_asc">Menor importe</option>
-          </select>
-          <select value={limit} onChange={e => { setLimit(Number(e.target.value)); setOffset(0) }} style={{ ...selectStyle, minWidth:130 }}>
-            <option value={25}>25 / página</option>
-            <option value={50}>50 / página</option>
-            <option value={100}>100 / página</option>
-            <option value={200}>200 / página</option>
-          </select>
-        </div>
-      </form>
+          <FilterGroup label="Comunidad autónoma">
+            <select value={ccaa} onChange={e => setCcaa(e.target.value)} style={selStyle}>
+              <option value="">— todas —</option>
+              {CCAA_CODES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+            </select>
+          </FilterGroup>
 
-      {/* Stats banner */}
-      {data && (
-        <div style={{ padding:'12px 22px', background:'#F5F5F7', display:'flex', gap:18, flexWrap:'wrap', fontSize:12 }}>
-          <Stat label="Resultados" value={String(data.stats.total)} accent="#1F4E8C"/>
-          <Stat label="Estimado total" value={data.pagination.total_estimado != null ? data.pagination.total_estimado.toLocaleString('es-ES') : '—'} accent="#5B21B6"/>
-          <Stat label="∑ Importe" value={`${data.stats.importe_total_M.toLocaleString('es-ES')} M€`} accent="#16A34A"/>
-          <Stat label="Latencia" value={`${data.stats.fetch_ms} ms`} accent="#F97316"/>
-          <Stat label="Fuentes activas" value={`${data.stats.sources.filter(s => s.ok).length}/${data.stats.sources.length}`} accent="#0F766E"/>
-          {data.stats.sources.map(s => (
-            <span key={s.fuente} style={{
-              fontSize:10, padding:'4px 9px', borderRadius:999,
-              background: s.ok ? `${FUENTE_COLOR[s.fuente] || '#525258'}15` : '#FEE2E2',
-              color: s.ok ? (FUENTE_COLOR[s.fuente] || '#525258') : '#DC2626',
-              border: `1px solid ${s.ok ? (FUENTE_COLOR[s.fuente] || '#525258') + '40' : '#FECACA'}`,
-              fontWeight:700, letterSpacing:'0.02em',
-            }}>
-              {s.fuente.split('_')[0]} · {s.items} · {s.ms}ms{s.error ? ` · ${s.error}` : ''}
-            </span>
-          ))}
-        </div>
-      )}
+          <FilterGroup label="Año de adjudicación">
+            <select value={anio} onChange={e => setAnio(e.target.value)} style={selStyle}>
+              <option value="">— todos —</option>
+              {ANIO_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </FilterGroup>
 
-      {/* Resultados */}
-      <div style={{ padding:'14px 22px 18px' }}>
-        {loading && <div style={{ fontSize:12, color:'#6e6e73', padding:'20px 0' }}>Cargando resultados…</div>}
-        {error && <div style={{ fontSize:12, color:'#DC2626', padding:'20px 0' }}>Error: {error}</div>}
-        {!loading && !error && data && data.items.length === 0 && (
-          <div style={{ fontSize:13, color:'#6e6e73', textAlign:'center', padding:'40px 0' }}>
-            Sin resultados para los filtros aplicados. Prueba ampliando el rango de fechas o quitando filtros.
+          <FilterGroup label="Importe adjudicado (€)">
+            <div style={{ display:'flex', gap:6 }}>
+              <input type="number" min={0} value={importeMin} onChange={e => setImporteMin(e.target.value)}
+                placeholder="Min" style={{ ...selStyle, flex:1 }}/>
+              <input type="number" min={0} value={importeMax} onChange={e => setImporteMax(e.target.value)}
+                placeholder="Max" style={{ ...selStyle, flex:1 }}/>
+            </div>
+          </FilterGroup>
+
+          <FilterGroup label="Sector (CPV)">
+            <select value={cpvDiv} onChange={e => setCpvDiv(e.target.value)} style={selStyle}>
+              <option value="">— todos —</option>
+              {CPV_DIVISIONS.map(c => (
+                <option key={c.code} value={c.code}>{c.code} · {c.label}</option>
+              ))}
+            </select>
+          </FilterGroup>
+
+          <FilterGroup label="Tipo de contrato">
+            <select value={tipoContrato} onChange={e => setTipoContrato(e.target.value)} style={selStyle}>
+              <option value="">— todos —</option>
+              {TIPOS_CONTRATO.map(t => <option key={t} value={t}>{t}</option>)}
+            </select>
+          </FilterGroup>
+
+          <FilterGroup label="Procedimiento">
+            <select value={procedimiento} onChange={e => setProcedimiento(e.target.value)} style={selStyle}>
+              <option value="">— todos —</option>
+              {PROCEDIMIENTOS.map(p => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </FilterGroup>
+
+          <FilterGroup label="Otros">
+            <CheckBox label="Solo PYME adjudicataria" checked={esPyme} onChange={setEsPyme}/>
+            <CheckBox label="Solo contratos menores" checked={soloMenores} onChange={setSoloMenores}/>
+            <CheckBox label="Solo con importe declarado" checked={soloConImporte} onChange={setSoloConImporte}/>
+          </FilterGroup>
+
+          <div style={{ display:'flex', gap:8, marginTop:14 }}>
+            <button type="submit" disabled={loading} style={primaryBtn(loading)}>
+              {loading ? 'Buscando…' : 'Aplicar filtros'}
+            </button>
+            <button type="button" onClick={reset} style={secondaryBtn}>Limpiar</button>
+          </div>
+        </form>
+      </aside>
+
+      {/* ─── Resultados ─── */}
+      <div>
+        {/* Header con stats */}
+        <header style={{
+          background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
+          padding:'14px 18px', marginBottom:12,
+          display:'flex', justifyContent:'space-between', alignItems:'center', gap:14, flexWrap:'wrap',
+        }}>
+          <div>
+            {data ? (
+              <>
+                <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1d1d1f' }}>
+                  {data.pagination.total_estimado != null
+                    ? data.pagination.total_estimado.toLocaleString('es-ES')
+                    : data.stats.total} contratos encontrados
+                </div>
+                <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:3 }}>
+                  Búsqueda: <strong>“{q || '—'}”</strong> · {data.stats.fetch_ms} ms · {data.stats.sources.filter(s => s.ok).length}/{data.stats.sources.length} fuentes activas
+                </div>
+              </>
+            ) : (
+              <div style={{ fontSize:12, color:'#6e6e73' }}>Cargando…</div>
+            )}
+          </div>
+          <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+            <span style={{ fontSize:11, color:'#6e6e73' }}>Ordenar:</span>
+            <select value={sort} onChange={e => { setSort(e.target.value as typeof sort); setPage(1) }} style={{ ...selStyle, width:'auto', minWidth:170 }}>
+              {SORT_OPTIONS.map(o => <option key={o.v} value={o.v}>{o.label}</option>)}
+            </select>
+          </div>
+        </header>
+
+        {/* Lista de resultados */}
+        {error && (
+          <div style={{ padding:'30px', background:'#FEE2E2', border:'1px solid #FECACA', color:'#DC2626', borderRadius:10, fontSize:13, textAlign:'center' }}>
+            Error: {error}
           </div>
         )}
-        {!loading && !error && data && data.items.length > 0 && (
-          <>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
-              <thead>
-                <tr style={{ background:'#FAFAFA', borderBottom:'1px solid #ECECEF' }}>
-                  <Th>Fuente</Th>
-                  <Th>Fecha</Th>
-                  <Th>Organismo</Th>
-                  <Th>Objeto</Th>
-                  <Th>Tipo</Th>
-                  <Th>CPV</Th>
-                  <Th>Adjudicatario</Th>
-                  <Th align="right">Importe</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.items.map(it => (
-                  <tr key={it.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                    <Td>
-                      <span style={{
-                        fontSize:9, fontWeight:800, letterSpacing:'0.04em',
-                        padding:'2px 7px', borderRadius:4,
-                        background: `${FUENTE_COLOR[it.fuente] || '#525258'}15`,
-                        color: FUENTE_COLOR[it.fuente] || '#525258',
-                        border: `1px solid ${(FUENTE_COLOR[it.fuente] || '#525258')}40`,
-                      }}>
-                        {it.fuente_label}
-                      </span>
-                    </Td>
-                    <Td>
-                      <div style={{ fontWeight:600, color:'#1d1d1f' }}>{it.fecha_publicacion || '—'}</div>
-                      {it.expediente && <div style={{ fontSize:10, color:'#86868b' }}>EXP {it.expediente}</div>}
-                    </Td>
-                    <Td>
-                      <div style={{ fontWeight:600, color:'#1d1d1f', maxWidth:200, lineHeight:1.3 }}>{it.organo}</div>
-                      {it.ambito && <div style={{ fontSize:10, color:'#86868b' }}>{it.ambito}</div>}
-                    </Td>
-                    <Td>
-                      <div style={{ color:'#3a3a3d', maxWidth:380, lineHeight:1.4 }}>
-                        {it.url ? (
-                          <a href={it.url} target="_blank" rel="noreferrer" style={{ color:'#1F4E8C', textDecoration:'none' }}>
-                            {truncate(it.objeto, 140)} ↗
-                          </a>
-                        ) : truncate(it.objeto, 140)}
-                      </div>
-                      {it.lugar_ejecucion && <div style={{ fontSize:10, color:'#86868b', marginTop:2 }}>{it.lugar_ejecucion}</div>}
-                    </Td>
-                    <Td>
-                      {it.tipo_contrato && (
-                        <span style={{ fontSize:10, padding:'2px 7px', borderRadius:999, background:'#F5F5F7', color:'#3a3a3d', fontWeight:600 }}>
-                          {it.tipo_contrato}
-                        </span>
-                      )}
-                    </Td>
-                    <Td>
-                      {it.cpv && <span style={{ fontFamily:'monospace', fontSize:11, color:'#5B21B6' }}>{it.cpv}</span>}
-                    </Td>
-                    <Td>
-                      <div style={{ color:'#1d1d1f', maxWidth:160, lineHeight:1.3 }}>{truncate(it.adjudicatario || '—', 60)}</div>
-                    </Td>
-                    <Td align="right">
-                      {(() => {
-                        const v = it.importe_adjudicacion ?? it.importe_licitacion
-                        if (!v) return <span style={{ color:'#86868b' }}>—</span>
-                        const isAdj = it.importe_adjudicacion != null
-                        const fmt = v >= 1_000_000
-                          ? `${(v / 1_000_000).toFixed(2)}M€`
-                          : v >= 1_000
-                            ? `${(v / 1_000).toFixed(0)}k€`
-                            : `${v.toFixed(0)}€`
-                        return (
-                          <div>
-                            <div style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#1F4E8C' }}>{fmt}</div>
-                            <div style={{ fontSize:9, color:'#86868b' }}>{isAdj ? 'adjudicado' : 'licitación'}</div>
-                          </div>
-                        )
-                      })()}
-                    </Td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
 
-            {/* Paginación */}
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:14, fontSize:12 }}>
-              <span style={{ color:'#6e6e73' }}>
-                Mostrando {offset + 1}–{offset + data.items.length}
-                {data.pagination.total_estimado != null && ` de ${data.pagination.total_estimado.toLocaleString('es-ES')} estimados`}
+        {!error && data && data.items.length === 0 && (
+          <div style={{ padding:'40px', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, textAlign:'center', fontSize:13, color:'#6e6e73' }}>
+            <strong>Sin resultados.</strong> Prueba con otra palabra o quita algún filtro.
+          </div>
+        )}
+
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {data?.items.map(it => <ContratoCard key={it.id} c={it}/>)}
+        </div>
+
+        {/* Paginación */}
+        {data && data.items.length > 0 && (
+          <nav style={{
+            display:'flex', justifyContent:'space-between', alignItems:'center',
+            marginTop:14, fontSize:12, color:'#6e6e73',
+          }}>
+            <span>
+              Página {data.pagination.page} · Mostrando {((data.pagination.page - 1) * data.pagination.page_size) + 1}–{((data.pagination.page - 1) * data.pagination.page_size) + data.items.length}
+              {data.pagination.total_estimado != null && ` de ${data.pagination.total_estimado.toLocaleString('es-ES')}`}
+            </span>
+            <div style={{ display:'flex', gap:6 }}>
+              <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1 || loading} style={pagBtn(page === 1)}>‹ Anterior</button>
+              <span style={{ padding:'7px 12px', fontSize:12, color:'#3a3a3d' }}>
+                {page} / {totalPages}+
               </span>
-              <div style={{ display:'flex', gap:8 }}>
-                <button
-                  onClick={() => setOffset(Math.max(0, offset - limit))}
-                  disabled={offset === 0 || loading}
-                  style={pagBtn(offset === 0)}
-                >‹ Anteriores</button>
-                <button
-                  onClick={() => setOffset(offset + limit)}
-                  disabled={data.items.length < limit || loading}
-                  style={pagBtn(data.items.length < limit)}
-                >Siguientes ›</button>
-              </div>
+              <button onClick={() => setPage(page + 1)} disabled={data.items.length < pageSize || loading} style={pagBtn(data.items.length < pageSize)}>Siguiente ›</button>
             </div>
-          </>
+          </nav>
         )}
       </div>
     </section>
   )
 }
 
-function Th({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
+// ─── Subcomponentes ──────────────────────────────────────────
+
+function ContratoCard({ c }: { c: NormalizedContrato }) {
+  const importe = c.importe_adjudicacion ?? c.importe_licitacion
   return (
-    <th style={{
-      textAlign: align, padding:'8px 8px', fontSize:9.5, fontWeight:800,
-      letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase',
-    }}>{children}</th>
+    <article style={{
+      background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
+      padding:'14px 18px', display:'grid', gridTemplateColumns:'1fr auto', gap:14,
+      borderLeft:`3px solid ${FUENTE_COLOR[c.fuente] || '#525258'}`,
+    }}>
+      <div style={{ minWidth:0 }}>
+        <div style={{ display:'flex', gap:6, alignItems:'center', flexWrap:'wrap', marginBottom:5 }}>
+          <Badge label={c.fuente_label} color={FUENTE_COLOR[c.fuente]}/>
+          {c.tipo_contrato && <Badge label={c.tipo_contrato} color="#525258" outline/>}
+          {c.procedimiento && <Badge label={c.procedimiento} color="#7C3AED" outline/>}
+          {c.cpv_div && (
+            <Badge label={`CPV ${c.cpv_div} · ${cpvDivLabel(c.cpv_div).slice(0, 22)}`} color="#5B21B6" outline/>
+          )}
+          {c.es_pyme && <Badge label="PYME" color="#16A34A"/>}
+          {c.fecha_publicacion && (
+            <span style={{ fontSize:10, color:'#6e6e73', marginLeft:4 }}>{c.fecha_publicacion}</span>
+          )}
+        </div>
+        <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.01em', color:'#1d1d1f', lineHeight:1.4 }}>
+          {c.url ? (
+            <a href={c.url} target="_blank" rel="noreferrer" style={{ color:'inherit', textDecoration:'none' }}>
+              {c.objeto} <span style={{ fontSize:11, color:'#6e6e73' }}>↗</span>
+            </a>
+          ) : c.objeto}
+        </h3>
+        <div style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, flexWrap:'wrap' }}>
+          {c.organo && (
+            <Link href={`/licitaciones/organo/${encodeURIComponent(c.organo_dir3 || c.organo)}`} style={{ color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>
+              {c.organo}
+            </Link>
+          )}
+          {c.adjudicatario && (
+            <>
+              <span style={{ color:'#86868b' }}>· adj.</span>
+              <Link href={`/licitaciones/adjudicatario/${c.adjudicatario_nif}`} style={{ color:'#0F766E', textDecoration:'none', fontWeight:600 }}>
+                {c.adjudicatario}
+              </Link>
+            </>
+          )}
+          {c.expediente && <span style={{ color:'#86868b' }}>· EXP {c.expediente}</span>}
+          {c.lugar_ejecucion && <span style={{ color:'#86868b' }}>· {c.lugar_ejecucion}</span>}
+        </div>
+      </div>
+      <div style={{ textAlign:'right', minWidth:120 }}>
+        {importe ? (
+          <>
+            <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1F4E8C', letterSpacing:'-0.01em' }}>
+              {fmtImporte(importe)}
+            </div>
+            <div style={{ fontSize:9.5, color:'#86868b' }}>
+              {c.importe_adjudicacion != null ? 'adjudicado' : 'licitación'}
+            </div>
+          </>
+        ) : (
+          <span style={{ fontSize:11, color:'#86868b' }}>sin importe</span>
+        )}
+        {c.ofertas_recibidas != null && (
+          <div style={{ fontSize:10, color:'#6e6e73', marginTop:4 }}>{c.ofertas_recibidas} ofertas</div>
+        )}
+      </div>
+    </article>
   )
 }
-function Td({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
+
+function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <td style={{ textAlign: align, padding:'10px 8px', verticalAlign:'top', fontSize:12 }}>
+    <div style={{ marginBottom:14 }}>
+      <label style={{
+        display:'block', fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
+        color:'#6e6e73', textTransform:'uppercase', marginBottom:5,
+      }}>{label}</label>
       {children}
-    </td>
-  )
-}
-function Stat({ label, value, accent }: { label: string; value: string; accent: string }) {
-  return (
-    <div style={{ display:'flex', gap:6, alignItems:'baseline' }}>
-      <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase' }}>{label}</span>
-      <span style={{ fontSize:13, fontWeight:700, color: accent }}>{value}</span>
     </div>
   )
 }
 
-const selectStyle: React.CSSProperties = {
-  padding:'10px 12px', borderRadius:10, border:'1px solid #DCDCE0',
-  background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
+function CheckBox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label style={{ display:'flex', gap:6, alignItems:'center', fontSize:12, color:'#3a3a3d', marginBottom:5, cursor:'pointer' }}>
+      <input type="checkbox" checked={checked} onChange={e => onChange(e.target.checked)}/>
+      {label}
+    </label>
+  )
 }
-function pagBtn(disabled: boolean): React.CSSProperties {
+
+function Badge({ label, color, outline = false }: { label: string; color: string; outline?: boolean }) {
+  return (
+    <span style={{
+      fontSize:9.5, fontWeight:800, letterSpacing:'0.04em',
+      padding:'2px 7px', borderRadius:4,
+      background: outline ? `${color}10` : color,
+      color: outline ? color : '#fff',
+      border: `1px solid ${color}${outline ? '40' : '00'}`,
+    }}>{label}</span>
+  )
+}
+
+const selStyle: React.CSSProperties = {
+  padding:'7px 10px', borderRadius:8, border:'1px solid #DCDCE0',
+  background:'#fff', fontSize:12, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
+  width:'100%',
+}
+function primaryBtn(loading: boolean): React.CSSProperties {
   return {
-    padding:'7px 14px', borderRadius:8, border:'1px solid #DCDCE0',
-    background: disabled ? '#F5F5F7' : '#fff', color: disabled ? '#9CA3AF' : '#1d1d1f',
-    fontSize:12, fontWeight:600, cursor: disabled ? 'not-allowed' : 'pointer',
+    flex:1, padding:'9px 14px', borderRadius:8, border:'none',
+    background: loading ? '#9CA3AF' : '#1F4E8C', color:'#fff',
+    fontSize:12, fontWeight:700, cursor: loading ? 'wait' : 'pointer',
     fontFamily:'inherit',
   }
 }
-function truncate(s: string, n: number): string {
-  if (!s) return ''
-  return s.length <= n ? s : s.slice(0, n - 1) + '…'
+const secondaryBtn: React.CSSProperties = {
+  padding:'9px 12px', borderRadius:8, border:'1px solid #DCDCE0',
+  background:'#fff', color:'#3a3a3d', fontSize:12, fontWeight:600,
+  cursor:'pointer', fontFamily:'inherit',
 }
-function defaultDesde(): string {
-  const d = new Date()
-  d.setMonth(d.getMonth() - 6)
-  return d.toISOString().slice(0, 10)
+function pagBtn(disabled: boolean): React.CSSProperties {
+  return {
+    padding:'7px 12px', borderRadius:7, border:'1px solid #DCDCE0',
+    background: disabled ? '#F5F5F7' : '#fff',
+    color: disabled ? '#9CA3AF' : '#1d1d1f',
+    fontSize:11.5, fontWeight:600, cursor: disabled ? 'not-allowed' : 'pointer',
+    fontFamily:'inherit',
+  }
+}
+function fmtImporte(v: number): string {
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(2)}M €`
+  if (v >= 1_000) return `${(v / 1_000).toFixed(0)}k €`
+  return `${v.toFixed(0)} €`
 }
