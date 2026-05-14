@@ -15,7 +15,7 @@ import {
   searchCatalunya, countCatalunya,
   type NormalizedContrato, type SocrataFilters, type FuenteCode,
 } from '@/lib/socrata-catalunya'
-import { fetchPlacspFeed } from '@/lib/placsp'
+import { fetchPlacspMultiPage } from '@/lib/placsp'
 import { searchValencia } from '@/lib/sources/valencia'
 import { searchTed } from '@/lib/sources/ted'
 import { searchAndalucia } from '@/lib/sources/andalucia'
@@ -132,9 +132,12 @@ export async function GET(req: NextRequest) {
   }
 
   if (wantPlacsp && offset === 0) {
-    // PLACSP atom solo entrega últimas N publicadas; añadir solo en página 1.
+    // PLACSP atom multipage · sigue <link rel="next"> hasta 3 páginas
+    // → ~1050 licitaciones recientes de TODAS las CCAA (cobertura nacional
+    // por Ley Contratos del Sector Público 9/2017).
+    const placspT0 = Date.now()
     promises.push(
-      fetchPlacspFeed('licitacion', 8000).then(r => {
+      fetchPlacspMultiPage('licitacion', 3, 12000).then(r => {
         const items: NormalizedContrato[] = (r.items || []).map(it => ({
           id: `PL-${it.id}`,
           fuente: 'PLACSP',
@@ -151,7 +154,7 @@ export async function GET(req: NextRequest) {
           url: it.url_detalle,
           lugar_ejecucion: it.ciudad ?? undefined,
         }))
-        return { fuente: 'PLACSP' as FuenteCode, ok: r.ok, items, ms: 0, error: r.error }
+        return { fuente: 'PLACSP' as FuenteCode, ok: r.ok, items, ms: Date.now() - placspT0, error: r.error }
       }),
     )
   }
