@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import ContratosLiveFeed from '@/components/ContratosLiveFeed'
+import LicitacionesBuscador from '@/components/LicitacionesBuscador'
 import { useLicitaciones } from '@/hooks/contratacion/useLicitaciones'
 import type {
   SectorContratacion, EstadoLicitacion, MatchContrato,
@@ -105,6 +106,9 @@ export default function LicitacionesPage() {
             <HeroKPI label="∑ Importe"  value={`${(totals.importe/1000).toFixed(1)}B€`} accent="#7DD3FC"/>
           </div>
         </section>
+
+        {/* ═══ Buscador en vivo · Catalunya Socrata + PLACSP ═══ */}
+        <LicitacionesBuscador/>
 
         {/* ═══ PLACSP en vivo · datos reales del estado ═══ */}
         <ContratosLiveFeed
