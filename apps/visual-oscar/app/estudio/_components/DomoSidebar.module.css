@@ -1,15 +1,16 @@
 .sidebar {
   width: 220px;
   flex-shrink: 0;
-  min-height: 100vh;
+  /* AppHeader ocupa ~60px arriba — el sidebar queda pegado debajo */
+  min-height: calc(100vh - 60px);
   background: var(--bg-secondary, #f9fafb);
   border-right: 1px solid var(--color-border, #e5e7eb);
   display: flex;
   flex-direction: column;
   padding: 1rem 0;
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 60px;
+  height: calc(100vh - 60px);
   overflow-y: auto;
 }
 

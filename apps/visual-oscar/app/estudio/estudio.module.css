@@ -1,6 +1,7 @@
 .domoShell {
   display: flex;
-  min-height: 100vh;
+  /* AppHeader del dashboard ya ocupa ~44-60px arriba */
+  min-height: calc(100vh - 60px);
   background: var(--bg-primary, #ffffff);
 }
 

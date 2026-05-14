@@ -21,9 +21,9 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
 
   return (
     <div data-workspace-light style={{
-      position: "fixed",
-      inset: 0,
-      zIndex: 100,
+      // Render inline within the dashboard chrome (AppHeader is shown
+      // above by the workspace layout). Do NOT cover the dashboard.
+      minHeight: "calc(100vh - 60px)", // leave room for AppHeader
       background: WS.bg,
       display: "flex",
       flexDirection: "column",
