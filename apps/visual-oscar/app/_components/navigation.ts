@@ -19,7 +19,8 @@ export const MODULES: NavModule[] = [
     label: 'Inicio',
     full: 'Inicio / Overview',
     items: [
-      { label: 'Inicio',              href: '/inicio'    },
+      // 'Inicio' (href:/inicio) quitado del subnav — sólo se accede a la
+      // home clicando el logo POLITEIA ANALÍTICA arriba a la izquierda.
       { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
       { label: 'Alertas Prioritarias',href: '/alertas'   },
