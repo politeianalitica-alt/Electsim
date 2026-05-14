@@ -145,8 +145,23 @@ export const MODULES: NavModule[] = [
     label: 'Workspace',
     full: 'Workspace · Centro de operaciones del analista',
     items: [
+      // — Entrada al Workspace —
       { label: 'Workspaces',            href: '/workspaces' },
       { label: 'Command Center',        href: '/workspaces/ws_espana_2026/overview' },
+
+      // — Espacio de análisis del analista (dentro del Workspace) —
+      {
+        label: 'Estudio',
+        href: '/estudio',
+        banner: {
+          eyebrow: 'WORKSPACE · ESTUDIO DEL ANALISTA',
+          title: 'Tu espacio de inteligencia',
+          subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
+          colorFrom: '#0F766E', colorTo: '#042F2E',
+        },
+      },
+
+      // — Pestañas del workspace activo —
       { label: 'Inbox',                 href: '/workspaces/ws_espana_2026/inbox' },
       { label: 'Terminal',              href: '/workspaces/ws_espana_2026/terminal' },
       { label: 'Docs',                  href: '/workspaces/ws_espana_2026/docs' },
@@ -159,16 +174,16 @@ export const MODULES: NavModule[] = [
       { label: 'Simulador Decisión',    href: '/workspaces/ws_espana_2026/simulator' },
       { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
       { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
-      {
-        label: 'Estudio',
-        href: '/estudio',
-        banner: {
-          eyebrow: 'WORKSPACE · ESTUDIO DEL ANALISTA',
-          title: 'Tu espacio de inteligencia',
-          subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
-          colorFrom: '#0F766E', colorTo: '#042F2E',
-        },
-      },
+
+      // — Herramientas de analista (portadas desde Visual_Oscar) —
+      { label: 'War Room',              href: '/workspace' },
+      { label: 'Investigation Canvas',  href: '/canvas' },
+      { label: 'Evidence Linker',       href: '/evidence' },
+      { label: 'Draft Studio',          href: '/draft-studio' },
+      { label: 'Intelligence Notebook', href: '/notebook' },
+      { label: 'Political Calendar',    href: '/calendario' },
+      { label: 'Watchlists',            href: '/watchlists' },
+      { label: 'Team Collaboration',    href: '/team' },
     ],
   },
 
