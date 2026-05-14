@@ -139,6 +139,9 @@ export const MODULES: NavModule[] = [
     label: 'Sectoriales',
     full: 'Sectoriales y Contratación Pública',
     items: [
+      // — Página base · primer item del subnav (hub de contratación) —
+      { label: 'Licitaciones',                 href: '/licitaciones' },
+      // — 9 industrias verticales (con diseño Apple-Newsroom uniforme) —
       { label: 'Energía & Utilities',          href: '/sector-energia' },
       { label: 'Farma & Salud',                href: '/sector-farma' },
       { label: 'Defensa & Industria',          href: '/sector-defensa' },
@@ -148,8 +151,7 @@ export const MODULES: NavModule[] = [
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
       { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
       { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
-      // ─── Licitaciones y Contratación Pública (movido aquí) ───
-      { label: 'Agregador de Licitaciones',    href: '/licitaciones' },
+      // — Resto de contratación (más abajo, agrupado) —
       { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
       { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
       { label: 'Inteligencia Competitiva',     href: '/competidores' },

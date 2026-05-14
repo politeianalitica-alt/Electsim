@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import IndustryPage from '@/components/sector-industry/IndustryPage'
 export default function SectorDefensaPage() {
-  redirect('/sector/defensa');
+  return <IndustryPage sectorId="defensa" />
 }
