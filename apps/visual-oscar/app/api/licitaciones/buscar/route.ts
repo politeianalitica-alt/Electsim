@@ -18,6 +18,7 @@ import {
 import { fetchPlacspFeed } from '@/lib/placsp'
 import { searchValencia } from '@/lib/sources/valencia'
 import { searchTed } from '@/lib/sources/ted'
+import { searchAndalucia } from '@/lib/sources/andalucia'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -49,9 +50,10 @@ export async function GET(req: NextRequest) {
 
   // ¿Qué fuentes activar?  Si filtran por CCAA o por source, restringimos.
   const wantCatalunya = (sourceParam === 'all' || sourceParam === 'CATALUNYA_SOCRATA') && (ccaa === '' || ccaa === 'CT')
-  const wantValencia  = (sourceParam === 'all' || sourceParam === 'VALENCIA_CKAN')    && (ccaa === '' || ccaa === 'VC')
-  const wantPlacsp    = (sourceParam === 'all' || sourceParam === 'PLACSP')           && ccaa === ''
-  const wantTed       = (sourceParam === 'all' || sourceParam === 'TED')              && ccaa === ''
+  const wantAndalucia = (sourceParam === 'all' || sourceParam === 'ANDALUCIA')         && (ccaa === '' || ccaa === 'AN')
+  const wantValencia  = (sourceParam === 'all' || sourceParam === 'VALENCIA_CKAN')     && (ccaa === '' || ccaa === 'VC')
+  const wantPlacsp    = (sourceParam === 'all' || sourceParam === 'PLACSP')            && ccaa === ''
+  const wantTed       = (sourceParam === 'all' || sourceParam === 'TED')               && ccaa === ''
 
   const limit = clamp(numOrUndef(sp.get('page_size')) ?? numOrUndef(sp.get('limit')) ?? 50, 1, 200)
   const page = Math.max(1, numOrUndef(sp.get('page')) ?? 1)
@@ -70,6 +72,29 @@ export async function GET(req: NextRequest) {
     promises.push(
       searchCatalunya({ ...filters, limit, offset, order: orderSocrata }, 8000)
         .then(r => ({ fuente: 'CATALUNYA_SOCRATA' as FuenteCode, ...r })),
+    )
+  }
+
+  if (wantAndalucia) {
+    promises.push(
+      searchAndalucia({
+        q: filters.q,
+        desde: filters.desde,
+        hasta: filters.hasta,
+        cpv_div: filters.cpv_div,
+        cpv: filters.cpv,
+        tipo_contrato: filters.tipo_contrato,
+        organo: filters.organo,
+        adjudicatario_nif: filters.adjudicatario_nif,
+        importe_min: filters.importe_min,
+        importe_max: filters.importe_max,
+        limit: Math.min(80, Math.ceil(limit / 2)),
+        offset: 0,
+        order: sort === 'date_asc' ? 'date_asc'
+          : sort === 'imp_desc' ? 'imp_desc'
+          : sort === 'imp_asc' ? 'imp_asc'
+          : 'date_desc',
+      }, 8000).then(r => ({ fuente: 'ANDALUCIA' as FuenteCode, ok: r.ok, items: r.items, ms: r.ms, error: r.error })),
     )
   }
 

@@ -15,7 +15,7 @@ import PillSelect, { PillInput } from '@/components/PillSelect'
 
 interface NormalizedContrato {
   id: string
-  fuente: 'CATALUNYA_SOCRATA' | 'PLACSP' | 'VALENCIA_CKAN' | 'TED'
+  fuente: 'CATALUNYA_SOCRATA' | 'PLACSP' | 'VALENCIA_CKAN' | 'TED' | 'ANDALUCIA'
   fuente_label: string
   expediente: string
   organo: string
@@ -60,6 +60,7 @@ const FUENTE_COLOR: Record<string, string> = {
   PLACSP: '#1F4E8C',
   VALENCIA_CKAN: '#DC2626',
   TED: '#0EA5E9',
+  ANDALUCIA: '#16A34A',
 }
 
 const TYPE_OPTIONS = [
