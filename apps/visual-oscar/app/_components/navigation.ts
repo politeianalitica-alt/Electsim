@@ -128,8 +128,8 @@ export const MODULES: NavModule[] = [
     label: 'Medios',
     full: 'Medios y Narrativa Pública',
     items: [
-      { label: 'Mapa de Medios', href: '/medios-narrativa' },
-      { label: 'Pulso de Prensa',          href: '/prensa' },
+      { label: 'Pulso de Prensa', href: '/prensa' },
+      { label: 'Mapa de Medios',  href: '/medios-narrativa' },
     ],
   },
 
