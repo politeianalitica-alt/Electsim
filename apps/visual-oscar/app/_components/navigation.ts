@@ -169,16 +169,9 @@ export const MODULES: NavModule[] = [
     full: 'Estudio · Centro de operaciones del analista',
     items: [
       // — Espacio de análisis del analista (entrada principal) —
-      {
-        label: 'Estudio',
-        href: '/estudio',
-        banner: {
-          eyebrow: 'ESTUDIO DEL ANALISTA',
-          title: 'Tu espacio de inteligencia',
-          subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
-          colorFrom: '#0F766E', colorTo: '#042F2E',
-        },
-      },
+      // Banner quitado: el hero gradient ya vive dentro de /estudio/page.tsx,
+      // no necesitamos también la franja superior de AppHeader.
+      { label: 'Estudio Politeia', href: '/estudio' },
 
       // — Pestañas del workspace activo (Inbox, Terminal, Docs, Tables,
       //   Slides, Reporting, Canvas, Research, Radar, Simulador, CRM,

@@ -6,7 +6,7 @@ import DomoChrome from './_components/DomoChrome'
 import styles from './estudio.module.css'
 
 export const metadata: Metadata = {
-  title:       'Estudio del Analista | Politeia Analítica',
+  title:       'Estudio Politeia | Politeia Analítica',
   description: 'Tu espacio personal para conectar fuentes, crear paneles y explorar tus datos.',
 }
 

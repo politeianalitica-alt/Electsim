@@ -50,8 +50,9 @@ export default function DomoSidebar() {
   return (
     <nav className={styles.sidebar} aria-label="Navegación Estudio">
       <div className={styles.sidebarHeader}>
-        <span className={styles.logo}>⬡</span>
-        <span className={styles.logoText}>Estudio</span>
+        <span className={styles.logo}>P</span>
+        <span className={styles.logoText}>Estudio Politeia</span>
+        <span className={styles.logoSubtext}>Workspace del analista</span>
       </div>
 
       <div className={styles.navList}>

@@ -101,12 +101,12 @@ export default function EstudioHomePage() {
           <p style={{
             fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
             textTransform: 'uppercase', margin: '0 0 8px',
-          }}>WORKSPACE · ESTUDIO DEL ANALISTA</p>
+          }}>ESTUDIO POLITEIA · WORKSPACE DEL ANALISTA</p>
           <h1 style={{
             fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700,
             letterSpacing: '-0.026em', margin: '0 0 8px', lineHeight: 1.05,
           }}>
-            Tu espacio <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.78)' }}>de inteligencia.</em>
+            Estudio <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.78)' }}>Politeia.</em>
           </h1>
           <p style={{ fontSize: 13.5, opacity: 0.82, margin: 0, lineHeight: 1.55, maxWidth: 620 }}>
             Decide qué datos quieres seguir, construye tus propios paneles y deja que la IA te
