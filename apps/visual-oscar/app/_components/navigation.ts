@@ -145,6 +145,7 @@ export const MODULES: NavModule[] = [
     label: 'Operaciones',
     full: 'Centro de Operaciones del Analista',
     items: [
+      { label: 'Workspace',             href: '/workspace' },     // War Room operativo (portado)
       { label: 'Client Workspaces',     href: '/workspaces' },
       { label: 'Investigation Canvas',  href: '/canvas' },
       { label: 'Evidence Linker',       href: '/evidence' },
