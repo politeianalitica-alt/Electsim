@@ -162,19 +162,11 @@ export const MODULES: NavModule[] = [
         },
       },
 
-      // — Pestañas del workspace activo —
-      { label: 'Inbox',                 href: '/workspaces/ws_espana_2026/inbox' },
-      { label: 'Terminal',              href: '/workspaces/ws_espana_2026/terminal' },
-      { label: 'Docs',                  href: '/workspaces/ws_espana_2026/docs' },
-      { label: 'Tables',                href: '/workspaces/ws_espana_2026/tables' },
-      { label: 'Slides',                href: '/workspaces/ws_espana_2026/slides' },
-      { label: 'Reporting',             href: '/workspaces/ws_espana_2026/reporting' },
-      { label: 'Canvas',                href: '/workspaces/ws_espana_2026/canvas' },
-      { label: 'Research',              href: '/workspaces/ws_espana_2026/research' },
-      { label: 'Radar Oportunidades',   href: '/workspaces/ws_espana_2026/radar' },
-      { label: 'Simulador Decisión',    href: '/workspaces/ws_espana_2026/simulator' },
-      { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
-      { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
+      // — Pestañas del workspace activo (Inbox, Terminal, Docs, Tables,
+      //   Slides, Reporting, Canvas, Research, Radar, Simulador, CRM,
+      //   Projects) NO van en este subnav: ya aparecen como sidebar
+      //   columna izquierda dentro del propio workspace cuando entras al
+      //   Command Center. Las quitamos de aquí para no duplicar.
 
       // — Herramientas de analista (portadas desde Visual_Oscar) —
       { label: 'War Room',              href: '/workspace' },
