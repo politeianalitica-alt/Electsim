@@ -1,15 +1,22 @@
 /**
  * GET /api/licitaciones/buscar
  *
- * Búsqueda en vivo en Catalunya Open Data + PLACSP nacional.
- * Filtros canónicos compatibles con el UX de buscalicitaciones.com.
+ * Búsqueda agregada en vivo sobre 4 fuentes públicas:
+ *   - CATALUNYA_SOCRATA · 1M+ contratos (Open Data Generalitat)
+ *   - PLACSP            · feed atom nacional (últimas publicaciones del Estado)
+ *   - VALENCIA_CKAN     · ~24k/año × 13 años (Generalitat Valenciana CKAN)
+ *   - TED               · diario UE (notices con buyer-country=ESP)
+ *
+ * Filtros canónicos compatibles con buscalicitaciones.com.
  */
 import { NextRequest, NextResponse } from 'next/server'
 import {
   searchCatalunya, countCatalunya,
-  type NormalizedContrato, type SocrataFilters,
+  type NormalizedContrato, type SocrataFilters, type FuenteCode,
 } from '@/lib/socrata-catalunya'
 import { fetchPlacspFeed } from '@/lib/placsp'
+import { searchValencia } from '@/lib/sources/valencia'
+import { searchTed } from '@/lib/sources/ted'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -39,10 +46,11 @@ export async function GET(req: NextRequest) {
   const sourceParam = sp.get('source') || 'all'
   const ccaa = sp.get('ccaa') || ''
 
-  // Si pidieron explícitamente una CCAA != Cataluña → solo PLACSP
-  // (Cataluña vía Socrata; el resto sólo está cubierto por PLACSP de momento)
-  const useCatalunya = sourceParam !== 'PLACSP' && (ccaa === '' || ccaa === 'CT')
-  const usePlacsp    = sourceParam !== 'CATALUNYA_SOCRATA'
+  // ¿Qué fuentes activar?  Si filtran por CCAA o por source, restringimos.
+  const wantCatalunya = (sourceParam === 'all' || sourceParam === 'CATALUNYA_SOCRATA') && (ccaa === '' || ccaa === 'CT')
+  const wantValencia  = (sourceParam === 'all' || sourceParam === 'VALENCIA_CKAN')    && (ccaa === '' || ccaa === 'VC')
+  const wantPlacsp    = (sourceParam === 'all' || sourceParam === 'PLACSP')           && ccaa === ''
+  const wantTed       = (sourceParam === 'all' || sourceParam === 'TED')              && ccaa === ''
 
   const limit = clamp(numOrUndef(sp.get('page_size')) ?? numOrUndef(sp.get('limit')) ?? 50, 1, 200)
   const page = Math.max(1, numOrUndef(sp.get('page')) ?? 1)
@@ -52,20 +60,53 @@ export async function GET(req: NextRequest) {
 
   const orderSocrata = mapOrderSocrata(sort)
 
+  // ─── Fan-out paralelo ─────────────────────────────────────
   const promises: Array<Promise<{
-    fuente: string; ok: boolean; items: NormalizedContrato[]; ms: number; error?: string
+    fuente: FuenteCode; ok: boolean; items: NormalizedContrato[]; ms: number; error?: string
   }>> = []
 
-  if (useCatalunya) {
+  if (wantCatalunya) {
     promises.push(
       searchCatalunya({ ...filters, limit, offset, order: orderSocrata }, 8000)
-        .then(r => ({ fuente: 'CATALUNYA_SOCRATA', ...r })),
+        .then(r => ({ fuente: 'CATALUNYA_SOCRATA' as FuenteCode, ...r })),
     )
   }
 
-  if (usePlacsp && offset === 0) {
-    // PLACSP atom solo entrega últimas N publicadas. Lo añadimos a la
-    // primera página para no contaminar la paginación de Socrata.
+  if (wantValencia) {
+    promises.push(
+      searchValencia({
+        q: filters.q,
+        anio: filters.anio,
+        desde: filters.desde,
+        hasta: filters.hasta,
+        cpv_div: filters.cpv_div,
+        tipo_contrato: filters.tipo_contrato,
+        procedimiento: filters.procedimiento,
+        organo: filters.organo,
+        adjudicatario_nif: filters.adjudicatario_nif,
+        importe_min: filters.importe_min,
+        importe_max: filters.importe_max,
+        es_pyme: filters.es_pyme,
+        limit: Math.min(50, Math.ceil(limit / 2)),
+      }, 8000).then(r => ({ fuente: 'VALENCIA_CKAN' as FuenteCode, ...r })),
+    )
+  }
+
+  if (wantTed) {
+    promises.push(
+      searchTed({
+        q: filters.q,
+        desde: filters.desde,
+        hasta: filters.hasta,
+        cpv_div: filters.cpv_div,
+        organo: filters.organo,
+        limit: Math.min(30, Math.ceil(limit / 3)),
+      }, 8000).then(r => ({ fuente: 'TED' as FuenteCode, ...r })),
+    )
+  }
+
+  if (wantPlacsp && offset === 0) {
+    // PLACSP atom solo entrega últimas N publicadas; añadir solo en página 1.
     promises.push(
       fetchPlacspFeed('licitacion', 8000).then(r => {
         const items: NormalizedContrato[] = (r.items || []).map(it => ({
@@ -84,7 +125,7 @@ export async function GET(req: NextRequest) {
           url: it.url_detalle,
           lugar_ejecucion: it.ciudad ?? undefined,
         }))
-        return { fuente: 'PLACSP', ok: r.ok, items, ms: 0, error: r.error }
+        return { fuente: 'PLACSP' as FuenteCode, ok: r.ok, items, ms: 0, error: r.error }
       }),
     )
   }
@@ -92,11 +133,12 @@ export async function GET(req: NextRequest) {
   const results = await Promise.all(promises)
   let merged: NormalizedContrato[] = results.flatMap(r => r.items)
 
-  // Re-aplicar filtros que PLACSP no entiende
+  // ─── Re-aplicar filtros que no soportan PLACSP/TED ────────
   if (filters.q) {
     const ql = filters.q.toLowerCase()
     merged = merged.filter(it => {
-      if (it.fuente === 'CATALUNYA_SOCRATA') return true
+      // Catalunya, Valencia y TED ya filtraron en query · solo refiltrar PLACSP
+      if (it.fuente !== 'PLACSP') return true
       const haystack = `${it.objeto} ${it.organo} ${it.adjudicatario || ''} ${it.expediente}`.toLowerCase()
       return haystack.includes(ql)
     })
@@ -104,7 +146,8 @@ export async function GET(req: NextRequest) {
   if (filters.cpv_div || filters.cpv) {
     const prefix = filters.cpv_div || filters.cpv!
     merged = merged.filter(it => {
-      if (it.fuente === 'CATALUNYA_SOCRATA') return true
+      // Cataluña, Valencia y TED ya filtran por cpv en query
+      if (it.fuente !== 'PLACSP') return true
       return it.cpv?.startsWith(prefix) ?? false
     })
   }
@@ -120,10 +163,14 @@ export async function GET(req: NextRequest) {
 
   merged = sortMerged(merged, sort)
 
-  // Cuenta total (solo Catalunya soporta count exacto)
+  // Cuenta total (Catalunya soporta count exacto · Valencia/TED son aproximados)
   let total_estimado: number | null = null
-  if (useCatalunya) {
+  if (wantCatalunya && !wantValencia && !wantTed) {
     total_estimado = await countCatalunya(filters, 4000)
+  } else if (wantCatalunya) {
+    // suma estimada
+    const cnt = await countCatalunya(filters, 4000)
+    total_estimado = cnt != null ? cnt : null
   }
 
   const stats = {
@@ -163,7 +210,7 @@ function mapOrderSocrata(s: string): string {
     case 'date_asc':  return 'data_publicacio_contracte ASC NULL LAST'
     case 'imp_desc':  return 'import_adjudicacio_amb_iva DESC NULL LAST'
     case 'imp_asc':   return 'import_adjudicacio_amb_iva ASC NULL LAST'
-    case 'relevance': return ':id ASC'   // Socrata pseudo-orden
+    case 'relevance': return ':id ASC'
     case 'date_desc':
     default:          return 'data_publicacio_contracte DESC NULL LAST'
   }
@@ -180,7 +227,6 @@ function sortMerged(items: NormalizedContrato[], s: string): NormalizedContrato[
   if (s === 'date_asc') {
     return items.sort((a, b) => (a.fecha_publicacion || '').localeCompare(b.fecha_publicacion || ''))
   }
-  // date_desc / relevance default
   return items.sort((a, b) => (b.fecha_publicacion || '').localeCompare(a.fecha_publicacion || ''))
 }
 function countBy<T>(items: T[], key: keyof T): Record<string, number> {

@@ -52,9 +52,11 @@ export interface CatalunyaContrato {
 }
 
 // ─── Schema canónico (compatible con UI agnóstica de fuente) ───────
+export type FuenteCode = 'CATALUNYA_SOCRATA' | 'PLACSP' | 'VALENCIA_CKAN' | 'TED'
+
 export interface NormalizedContrato {
   id: string
-  fuente: 'CATALUNYA_SOCRATA' | 'PLACSP'
+  fuente: FuenteCode
   fuente_label: string
   expediente: string
   organo: string
@@ -477,14 +479,14 @@ export const CCAA_CODES = [
 ] as const
 
 export const SOURCES = [
-  { code: 'CATALUNYA_SOCRATA', label: 'Catalunya · Open Data', activa: true },
-  { code: 'PLACSP',            label: 'Plataforma Nacional',    activa: true },
-  { code: 'MADRID_AYTO',       label: 'Madrid · Ayuntamiento',  activa: false },
-  { code: 'MADRID_CAM',        label: 'Comunidad de Madrid',    activa: false },
-  { code: 'GALICIA',           label: 'Galicia',                activa: false },
-  { code: 'ANDALUCIA',         label: 'Andalucía',              activa: false },
-  { code: 'EUSKADI',           label: 'País Vasco',             activa: false },
-  { code: 'VALENCIA',          label: 'Comunidad Valenciana',   activa: false },
-  { code: 'ASTURIAS',          label: 'Asturias',               activa: false },
-  { code: 'TED',               label: 'DOUE (TED)',             activa: false },
+  { code: 'CATALUNYA_SOCRATA', label: 'Catalunya · Open Data',   activa: true  },
+  { code: 'PLACSP',            label: 'Plataforma Nacional',     activa: true  },
+  { code: 'VALENCIA_CKAN',     label: 'Comunidad Valenciana',    activa: true  },
+  { code: 'TED',               label: 'DOUE (TED · Diario UE)',  activa: true  },
+  { code: 'MADRID_AYTO',       label: 'Madrid · Ayuntamiento',   activa: false },
+  { code: 'MADRID_CAM',        label: 'Comunidad de Madrid',     activa: false },
+  { code: 'GALICIA',           label: 'Galicia',                 activa: false },
+  { code: 'ANDALUCIA',         label: 'Andalucía',               activa: false },
+  { code: 'EUSKADI',           label: 'País Vasco',              activa: false },
+  { code: 'ASTURIAS',          label: 'Asturias',                activa: false },
 ] as const

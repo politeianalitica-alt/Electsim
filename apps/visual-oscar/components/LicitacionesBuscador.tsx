@@ -11,7 +11,7 @@ import { CPV_DIVISIONS, TIPOS_CONTRATO, PROCEDIMIENTOS, CCAA_CODES, SOURCES, cpv
 
 interface NormalizedContrato {
   id: string
-  fuente: 'CATALUNYA_SOCRATA' | 'PLACSP'
+  fuente: 'CATALUNYA_SOCRATA' | 'PLACSP' | 'VALENCIA_CKAN' | 'TED'
   fuente_label: string
   expediente: string
   organo: string
@@ -54,6 +54,8 @@ interface SearchResponse {
 const FUENTE_COLOR: Record<string, string> = {
   CATALUNYA_SOCRATA: '#F97316',
   PLACSP: '#1F4E8C',
+  VALENCIA_CKAN: '#DC2626',
+  TED: '#0EA5E9',
 }
 
 const TYPE_OPTIONS = [
