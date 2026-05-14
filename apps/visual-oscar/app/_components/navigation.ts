@@ -19,9 +19,10 @@ export const MODULES: NavModule[] = [
     label: 'Inicio',
     full: 'Inicio / Overview',
     items: [
-      { label: 'Morning Briefing',    href: '/briefing' },
+      { label: 'Inicio',              href: '/inicio'    },
+      { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
-      { label: 'Alertas Prioritarias',href: '/alertas' },
+      { label: 'Alertas Prioritarias',href: '/alertas'   },
     ],
   },
 
