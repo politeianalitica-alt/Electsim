@@ -2,18 +2,18 @@
 /**
  * Screener genérico (empresas / órganos / CPV).
  * Tabla rankeada por nº de contratos, con filtros año/CPV/tipo/procedimiento.
+ * Selectores con visual del hemiciclo (PillSelect).
  */
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { CPV_DIVISIONS, TIPOS_CONTRATO, PROCEDIMIENTOS } from '@/lib/socrata-catalunya'
+import PillSelect, { PillInput } from '@/components/PillSelect'
 
 interface AggRow { key: string; label: string; n_contratos: number }
 
 type Modo = 'empresas' | 'organos' | 'cpv'
 
-interface Props {
-  modo: Modo
-}
+interface Props { modo: Modo }
 
 const TITULOS: Record<Modo, { titulo: string; sub: string; col: string; linkBase?: string }> = {
   empresas: {
@@ -35,7 +35,7 @@ const TITULOS: Record<Modo, { titulo: string; sub: string; col: string; linkBase
   },
 }
 
-const ANIO_OPTIONS = Array.from({ length: 25 }, (_, i) => 2026 - i)
+const ANIO_OPTIONS = Array.from({ length: 25 }, (_, i) => 2026 - i).map(y => ({ value: String(y), label: String(y) }))
 
 export default function LicitacionesScreener({ modo }: Props) {
   const [q, setQ] = useState('')
@@ -84,50 +84,65 @@ export default function LicitacionesScreener({ modo }: Props) {
   const T = TITULOS[modo]
   const maxN = Math.max(1, ...items.map(it => it.n_contratos))
 
+  const cpvOptions = CPV_DIVISIONS.map(c => ({ value: c.code, label: `${c.code} · ${c.label.slice(0, 28)}` }))
+  const tipoOptions = TIPOS_CONTRATO.map(t => ({ value: t, label: t }))
+  const procOptions = PROCEDIMIENTOS.map(p => ({ value: p, label: p }))
+
   return (
     <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, overflow:'hidden' }}>
-      {/* Header con filtros */}
       <header style={{ padding:'18px 22px 14px', borderBottom:'1px solid #F5F5F7' }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8, marginBottom:10 }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8, marginBottom:12 }}>
           <div>
-            <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, letterSpacing:'-0.02em', color:'#1d1d1f' }}>
+            <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:20, fontWeight:600, letterSpacing:'-0.02em', color:'#1d1d1f' }}>
               {T.titulo}
             </h2>
             <p style={{ margin:'4px 0 0', fontSize:12, color:'#6e6e73' }}>{T.sub}</p>
           </div>
           {fetchMs != null && <span style={{ fontSize:11, color:'#86868b' }}>{items.length} resultados · {fetchMs} ms</span>}
         </div>
-        <form onSubmit={onSubmit} style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr 1fr auto', gap:8 }}>
-          <input type="text" value={q} onChange={e => setQ(e.target.value)} placeholder="Filtrar por palabra clave…" style={selStyle}/>
-          <select value={anio} onChange={e => setAnio(e.target.value)} style={selStyle}>
-            <option value="">Año: todos</option>
-            {ANIO_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
-          </select>
+        <form onSubmit={onSubmit} style={{ display:'grid', gridTemplateColumns: modo === 'cpv' ? '2fr 1fr 1fr 1fr auto' : '2fr 1fr 1fr 1fr 1fr auto', gap:8, alignItems:'center' }}>
+          <PillInput
+            value={q} onChange={setQ}
+            placeholder="Filtrar por palabra clave…"
+            ariaLabel="Filtrar"
+          />
+          <PillSelect
+            value={anio} onChange={setAnio}
+            options={ANIO_OPTIONS}
+            placeholder="Año: todos"
+            ariaLabel="Año"
+          />
           {modo !== 'cpv' && (
-            <select value={cpvDiv} onChange={e => setCpvDiv(e.target.value)} style={selStyle}>
-              <option value="">CPV: todos</option>
-              {CPV_DIVISIONS.map(c => <option key={c.code} value={c.code}>{c.code} · {c.label.slice(0, 22)}</option>)}
-            </select>
+            <PillSelect
+              value={cpvDiv} onChange={setCpvDiv}
+              options={cpvOptions}
+              placeholder="CPV: todos"
+              ariaLabel="CPV"
+            />
           )}
-          <select value={tipoContrato} onChange={e => setTipoContrato(e.target.value)} style={selStyle}>
-            <option value="">Tipo: todos</option>
-            {TIPOS_CONTRATO.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-          <select value={procedimiento} onChange={e => setProcedimiento(e.target.value)} style={selStyle}>
-            <option value="">Procedimiento: todos</option>
-            {PROCEDIMIENTOS.map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
+          <PillSelect
+            value={tipoContrato} onChange={setTipoContrato}
+            options={tipoOptions}
+            placeholder="Tipo: todos"
+            ariaLabel="Tipo"
+          />
+          <PillSelect
+            value={procedimiento} onChange={setProcedimiento}
+            options={procOptions}
+            placeholder="Procedimiento: todos"
+            ariaLabel="Procedimiento"
+          />
           <button type="submit" disabled={loading} style={{
-            padding:'8px 16px', borderRadius:8, border:'none',
-            background: loading ? '#9CA3AF' : '#1F4E8C', color:'#fff',
-            fontSize:12, fontWeight:700, cursor: loading ? 'wait' : 'pointer', fontFamily:'inherit',
+            padding:'9px 18px', borderRadius:999, border:'none',
+            background: loading ? '#9CA3AF' : '#1d1d1f', color:'#fff',
+            fontSize:12, fontWeight:600, cursor: loading ? 'wait' : 'pointer', fontFamily:'inherit',
+            transition:'all 160ms',
           }}>
             {loading ? '…' : 'Aplicar'}
           </button>
         </form>
       </header>
 
-      {/* Tabla */}
       <div style={{ padding:'0 22px 22px' }}>
         {error && <div style={{ padding:'30px', color:'#DC2626', fontSize:13 }}>Error: {error}</div>}
         {!error && (
@@ -180,7 +195,6 @@ export default function LicitacionesScreener({ modo }: Props) {
           <div style={{ padding:'40px', textAlign:'center', color:'#86868b', fontSize:13 }}>Sin resultados</div>
         )}
 
-        {/* Paginación */}
         {items.length > 0 && (
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:14 }}>
             <span style={{ fontSize:11, color:'#86868b' }}>Página {page}</span>
@@ -207,15 +221,12 @@ function Th({ children, align = 'left', width }: { children: React.ReactNode; al
 function Td({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return <td style={{ textAlign: align, padding:'10px 8px', verticalAlign:'middle', fontSize:12 }}>{children}</td>
 }
-const selStyle: React.CSSProperties = {
-  padding:'8px 10px', borderRadius:8, border:'1px solid #DCDCE0',
-  background:'#fff', fontSize:12, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-}
 function pagBtn(disabled: boolean): React.CSSProperties {
   return {
-    padding:'7px 12px', borderRadius:7, border:'1px solid #DCDCE0',
+    padding:'7px 14px', borderRadius:999, border:'1px solid '+(disabled ? '#ECECEF' : '#1d1d1f'),
     background: disabled ? '#F5F5F7' : '#fff',
     color: disabled ? '#9CA3AF' : '#1d1d1f',
-    fontSize:11.5, fontWeight:600, cursor: disabled ? 'not-allowed' : 'pointer', fontFamily:'inherit',
+    fontSize:11.5, fontWeight: disabled ? 500 : 600, cursor: disabled ? 'not-allowed' : 'pointer',
+    fontFamily:'inherit', transition:'all 160ms',
   }
 }

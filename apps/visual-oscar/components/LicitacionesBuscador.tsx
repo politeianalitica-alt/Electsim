@@ -3,11 +3,15 @@
  * Buscador estilo buscalicitaciones.com — sidebar de filtros completa,
  * resultados con todas las columnas, ordenación, paginación.
  *
- * Backend: Catalunya Socrata + PLACSP atom (escalable a 10 fuentes).
+ * Backend: Catalunya Socrata + Valencia CKAN + TED + PLACSP atom.
+ * Selectores con visual del hemiciclo (PillSelect/PillInput).
  */
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { CPV_DIVISIONS, TIPOS_CONTRATO, PROCEDIMIENTOS, CCAA_CODES, SOURCES, cpvDivLabel } from '@/lib/socrata-catalunya'
+import {
+  CPV_DIVISIONS, TIPOS_CONTRATO, PROCEDIMIENTOS, CCAA_CODES, SOURCES, cpvDivLabel,
+} from '@/lib/socrata-catalunya'
+import PillSelect, { PillInput } from '@/components/PillSelect'
 
 interface NormalizedContrato {
   id: string
@@ -59,25 +63,25 @@ const FUENTE_COLOR: Record<string, string> = {
 }
 
 const TYPE_OPTIONS = [
-  { v: 'texto',         label: 'Texto del contrato' },
-  { v: 'adjudicatario', label: 'Empresa adjudicataria' },
-  { v: 'organo',        label: 'Órgano contratante' },
-  { v: 'cpv',           label: 'Sector (CPV)' },
-] as const
+  { value: 'texto',         label: 'Texto del contrato' },
+  { value: 'adjudicatario', label: 'Empresa adjudicataria' },
+  { value: 'organo',        label: 'Órgano contratante' },
+  { value: 'cpv',           label: 'Sector (CPV)' },
+]
 
 const SORT_OPTIONS = [
-  { v: 'date_desc',  label: 'Fecha (más reciente)' },
-  { v: 'date_asc',   label: 'Fecha (más antigua)' },
-  { v: 'imp_desc',   label: 'Importe (mayor)' },
-  { v: 'imp_asc',    label: 'Importe (menor)' },
-  { v: 'relevance',  label: 'Relevancia' },
-] as const
+  { value: 'date_desc',  label: 'Fecha (más reciente)' },
+  { value: 'date_asc',   label: 'Fecha (más antigua)' },
+  { value: 'imp_desc',   label: 'Importe (mayor)' },
+  { value: 'imp_asc',    label: 'Importe (menor)' },
+  { value: 'relevance',  label: 'Relevancia' },
+]
 
-const ANIO_OPTIONS = Array.from({ length: 25 }, (_, i) => 2026 - i)
+const ANIO_OPTIONS = Array.from({ length: 25 }, (_, i) => 2026 - i).map(y => ({ value: String(y), label: String(y) }))
 
 export default function LicitacionesBuscador() {
   const [q, setQ] = useState('')
-  const [type, setType] = useState<typeof TYPE_OPTIONS[number]['v']>('texto')
+  const [type, setType] = useState<string>('texto')
   const [anio, setAnio] = useState<string>('')
   const [ccaa, setCcaa] = useState<string>('')
   const [cpvDiv, setCpvDiv] = useState<string>('')
@@ -89,7 +93,7 @@ export default function LicitacionesBuscador() {
   const [soloConImporte, setSoloConImporte] = useState<boolean>(false)
   const [importeMin, setImporteMin] = useState<string>('')
   const [importeMax, setImporteMax] = useState<string>('')
-  const [sort, setSort] = useState<typeof SORT_OPTIONS[number]['v']>('date_desc')
+  const [sort, setSort] = useState<string>('date_desc')
   const [page, setPage] = useState<number>(1)
   const [pageSize] = useState<number>(50)
 
@@ -145,83 +149,111 @@ export default function LicitacionesBuscador() {
     ? Math.min(40, Math.ceil(data.pagination.total_estimado / pageSize))
     : 1
 
+  // Catálogos en formato PillSelectOption[]
+  const sourceOptions = SOURCES.map(s => ({
+    value: s.code,
+    label: s.label + (!s.activa ? ' (próximamente)' : ''),
+    disabled: !s.activa,
+  }))
+  const ccaaOptions = CCAA_CODES.map(c => ({ value: c.code, label: c.label }))
+  const cpvOptions = CPV_DIVISIONS.map(c => ({ value: c.code, label: `${c.code} · ${c.label}` }))
+  const tipoOptions = TIPOS_CONTRATO.map(t => ({ value: t, label: t }))
+  const procOptions = PROCEDIMIENTOS.map(p => ({ value: p, label: p }))
+
   return (
     <section style={{ display:'grid', gridTemplateColumns:'280px 1fr', gap:18 }}>
-      {/* ─── Sidebar de filtros (estilo buscalicitaciones) ─── */}
+      {/* ─── Sidebar de filtros ─── */}
       <aside style={{
         background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 16px',
         position:'sticky', top:80, alignSelf:'start', maxHeight:'calc(100vh - 100px)', overflowY:'auto',
       }}>
         <form onSubmit={onSubmit}>
-          <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, letterSpacing:'-0.01em', color:'#1d1d1f' }}>
+          <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
             Filtros
           </h3>
 
           <FilterGroup label="Buscar por">
-            <select value={type} onChange={e => setType(e.target.value as typeof type)} style={selStyle}>
-              {TYPE_OPTIONS.map(o => <option key={o.v} value={o.v}>{o.label}</option>)}
-            </select>
-            <input
-              type="text" value={q} onChange={e => setQ(e.target.value)}
-              placeholder="Texto…" style={{ ...selStyle, marginTop:6 }}
+            <PillSelect
+              value={type} onChange={setType}
+              options={TYPE_OPTIONS}
+              ariaLabel="Tipo de búsqueda"
             />
+            <div style={{ marginTop:6 }}>
+              <PillInput
+                value={q} onChange={setQ}
+                placeholder="Texto…"
+                ariaLabel="Texto de búsqueda"
+              />
+            </div>
           </FilterGroup>
 
           <FilterGroup label="Fuente oficial">
-            <select value={source} onChange={e => setSource(e.target.value)} style={selStyle}>
-              <option value="">— todas —</option>
-              {SOURCES.map(s => (
-                <option key={s.code} value={s.code} disabled={!s.activa}>
-                  {s.label}{!s.activa ? ' (próximamente)' : ''}
-                </option>
-              ))}
-            </select>
+            <PillSelect
+              value={source} onChange={setSource}
+              options={sourceOptions}
+              placeholder="— todas —"
+              ariaLabel="Fuente oficial"
+            />
           </FilterGroup>
 
           <FilterGroup label="Comunidad autónoma">
-            <select value={ccaa} onChange={e => setCcaa(e.target.value)} style={selStyle}>
-              <option value="">— todas —</option>
-              {CCAA_CODES.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
-            </select>
+            <PillSelect
+              value={ccaa} onChange={setCcaa}
+              options={ccaaOptions}
+              placeholder="— todas —"
+              ariaLabel="Comunidad autónoma"
+            />
           </FilterGroup>
 
           <FilterGroup label="Año de adjudicación">
-            <select value={anio} onChange={e => setAnio(e.target.value)} style={selStyle}>
-              <option value="">— todos —</option>
-              {ANIO_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
-            </select>
+            <PillSelect
+              value={anio} onChange={setAnio}
+              options={ANIO_OPTIONS}
+              placeholder="— todos —"
+              ariaLabel="Año"
+            />
           </FilterGroup>
 
           <FilterGroup label="Importe adjudicado (€)">
             <div style={{ display:'flex', gap:6 }}>
-              <input type="number" min={0} value={importeMin} onChange={e => setImporteMin(e.target.value)}
-                placeholder="Min" style={{ ...selStyle, flex:1 }}/>
-              <input type="number" min={0} value={importeMax} onChange={e => setImporteMax(e.target.value)}
-                placeholder="Max" style={{ ...selStyle, flex:1 }}/>
+              <PillInput
+                value={importeMin} onChange={setImporteMin}
+                type="number" min={0} placeholder="Min"
+                ariaLabel="Importe mínimo"
+              />
+              <PillInput
+                value={importeMax} onChange={setImporteMax}
+                type="number" min={0} placeholder="Max"
+                ariaLabel="Importe máximo"
+              />
             </div>
           </FilterGroup>
 
           <FilterGroup label="Sector (CPV)">
-            <select value={cpvDiv} onChange={e => setCpvDiv(e.target.value)} style={selStyle}>
-              <option value="">— todos —</option>
-              {CPV_DIVISIONS.map(c => (
-                <option key={c.code} value={c.code}>{c.code} · {c.label}</option>
-              ))}
-            </select>
+            <PillSelect
+              value={cpvDiv} onChange={setCpvDiv}
+              options={cpvOptions}
+              placeholder="— todos —"
+              ariaLabel="Sector CPV"
+            />
           </FilterGroup>
 
           <FilterGroup label="Tipo de contrato">
-            <select value={tipoContrato} onChange={e => setTipoContrato(e.target.value)} style={selStyle}>
-              <option value="">— todos —</option>
-              {TIPOS_CONTRATO.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
+            <PillSelect
+              value={tipoContrato} onChange={setTipoContrato}
+              options={tipoOptions}
+              placeholder="— todos —"
+              ariaLabel="Tipo de contrato"
+            />
           </FilterGroup>
 
           <FilterGroup label="Procedimiento">
-            <select value={procedimiento} onChange={e => setProcedimiento(e.target.value)} style={selStyle}>
-              <option value="">— todos —</option>
-              {PROCEDIMIENTOS.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
+            <PillSelect
+              value={procedimiento} onChange={setProcedimiento}
+              options={procOptions}
+              placeholder="— todos —"
+              ariaLabel="Procedimiento"
+            />
           </FilterGroup>
 
           <FilterGroup label="Otros">
@@ -250,7 +282,7 @@ export default function LicitacionesBuscador() {
           <div>
             {data ? (
               <>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1d1d1f' }}>
+                <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>
                   {data.pagination.total_estimado != null
                     ? data.pagination.total_estimado.toLocaleString('es-ES')
                     : data.stats.total} contratos encontrados
@@ -265,13 +297,16 @@ export default function LicitacionesBuscador() {
           </div>
           <div style={{ display:'flex', gap:8, alignItems:'center' }}>
             <span style={{ fontSize:11, color:'#6e6e73' }}>Ordenar:</span>
-            <select value={sort} onChange={e => { setSort(e.target.value as typeof sort); setPage(1) }} style={{ ...selStyle, width:'auto', minWidth:170 }}>
-              {SORT_OPTIONS.map(o => <option key={o.v} value={o.v}>{o.label}</option>)}
-            </select>
+            <PillSelect
+              value={sort} onChange={v => { setSort(v); setPage(1) }}
+              options={SORT_OPTIONS}
+              size="sm"
+              fullWidth={false}
+              ariaLabel="Ordenar por"
+            />
           </div>
         </header>
 
-        {/* Lista de resultados */}
         {error && (
           <div style={{ padding:'30px', background:'#FEE2E2', border:'1px solid #FECACA', color:'#DC2626', borderRadius:10, fontSize:13, textAlign:'center' }}>
             Error: {error}
@@ -414,31 +449,26 @@ function Badge({ label, color, outline = false }: { label: string; color: string
   )
 }
 
-const selStyle: React.CSSProperties = {
-  padding:'7px 10px', borderRadius:8, border:'1px solid #DCDCE0',
-  background:'#fff', fontSize:12, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-  width:'100%',
-}
 function primaryBtn(loading: boolean): React.CSSProperties {
   return {
-    flex:1, padding:'9px 14px', borderRadius:8, border:'none',
-    background: loading ? '#9CA3AF' : '#1F4E8C', color:'#fff',
-    fontSize:12, fontWeight:700, cursor: loading ? 'wait' : 'pointer',
-    fontFamily:'inherit',
+    flex:1, padding:'9px 14px', borderRadius:999, border:'none',
+    background: loading ? '#9CA3AF' : '#1d1d1f', color:'#fff',
+    fontSize:12, fontWeight:600, cursor: loading ? 'wait' : 'pointer',
+    fontFamily:'inherit', transition:'all 160ms',
   }
 }
 const secondaryBtn: React.CSSProperties = {
-  padding:'9px 12px', borderRadius:8, border:'1px solid #DCDCE0',
-  background:'#fff', color:'#3a3a3d', fontSize:12, fontWeight:600,
-  cursor:'pointer', fontFamily:'inherit',
+  padding:'9px 14px', borderRadius:999, border:'1px solid #ECECEF',
+  background:'#fff', color:'#6e6e73', fontSize:12, fontWeight:500,
+  cursor:'pointer', fontFamily:'inherit', transition:'all 160ms',
 }
 function pagBtn(disabled: boolean): React.CSSProperties {
   return {
-    padding:'7px 12px', borderRadius:7, border:'1px solid #DCDCE0',
+    padding:'7px 14px', borderRadius:999, border:'1px solid '+(disabled ? '#ECECEF' : '#1d1d1f'),
     background: disabled ? '#F5F5F7' : '#fff',
     color: disabled ? '#9CA3AF' : '#1d1d1f',
-    fontSize:11.5, fontWeight:600, cursor: disabled ? 'not-allowed' : 'pointer',
-    fontFamily:'inherit',
+    fontSize:11.5, fontWeight: disabled ? 500 : 600, cursor: disabled ? 'not-allowed' : 'pointer',
+    fontFamily:'inherit', transition:'all 160ms',
   }
 }
 function fmtImporte(v: number): string {
