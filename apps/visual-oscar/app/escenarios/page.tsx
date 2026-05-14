@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
 import MapaProvincias from '@/components/MapaProvincias'
+import MapaProvinciasBubbles from '@/components/MapaProvinciasBubbles'
 
 // Paleta unificada con /mapa (incluye históricos UCD/CiU)
 const PC = {
@@ -249,26 +250,27 @@ const NAV=[
 ]
 
 function MCChart(){
-  const W=820,rowH=36,padL=80,padR=100,barW=W-padL-padR,maxS=160
+  // rowH 32 · ~80% del original (36), aún algo más pequeño que el inicial
+  const W=820,rowH=32,padL=76,padR=98,barW=W-padL-padR,maxS=160
   const H=rowH*MC_SIMS.length+16
   const majX=padL+(176/maxS)*barW
   return(
-    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',display:'block'}}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',maxWidth:1040,display:'block',margin:'0 auto'}}>
       <line x1={majX} y1={0} x2={majX} y2={H-8} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="3 4"/>
       <text x={majX} y={H-1} textAnchor="middle" fontSize="9.5" fill="var(--ink-4)">Mayoría 176</text>
       {MC_SIMS.map((p,i)=>{
-        const y=i*rowH+rowH/2+4
+        const y=i*rowH+rowH/2+3
         const x95l=padL+(p.ic95l/maxS)*barW,x95h=padL+(p.ic95h/maxS)*barW
         const x80l=padL+(p.ic80l/maxS)*barW,x80h=padL+(p.ic80h/maxS)*barW
         const xm=padL+(p.mean/maxS)*barW
         return(
           <g key={p.siglas}>
-            <text x={padL-8} y={y+3} textAnchor="end" fontSize="12" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
-            <rect x={x95l} y={y-8} width={x95h-x95l} height={16} rx="3" fill={p.color} opacity="0.14"/>
-            <rect x={x80l} y={y-6} width={x80h-x80l} height={12} rx="2" fill={p.color} opacity="0.30"/>
-            <rect x={xm-4} y={y-8} width={8} height={16} rx="2" fill={p.color}/>
+            <text x={padL-7} y={y+3} textAnchor="end" fontSize="11.5" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+            <rect x={x95l} y={y-7.5} width={x95h-x95l} height={15} rx="3"   fill={p.color} opacity="0.14"/>
+            <rect x={x80l} y={y-5.5} width={x80h-x80l} height={11.5} rx="2" fill={p.color} opacity="0.30"/>
+            <rect x={xm-3.5} y={y-7.5} width={7}      height={15} rx="2"   fill={p.color}/>
             <text x={x95h+4} y={y+3} fontSize="10" fill="var(--ink-4)">[{p.ic95l}–{p.ic95h}]</text>
-            <text x={W-padR+8} y={y+3} fontSize="12" fontWeight="700" fill={p.color}>{p.mean}</text>
+            <text x={W-padR+8} y={y+3} fontSize="11.5" fontWeight="700" fill={p.color}>{p.mean}</text>
           </g>
         )
       })}
@@ -280,6 +282,8 @@ export default function EscenariosPage(){
   const router=useRouter()
   const currentPath='/escenarios'
   const [hemiDataset, setHemiDataset] = useState<keyof typeof HEMI_DATASETS>('estimacion')
+  // Dataset compartido entre Mapa provincial (cuadrícula) y Mapa burbujas v2
+  const [provDataset, setProvDataset] = useState<string>('estimacion')
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
   return(
@@ -357,16 +361,32 @@ export default function EscenariosPage(){
             </div>
           </div>
 
-          {/* Mapa provincial compacto con histórico interno */}
+          {/* Mapa provincial compacto con histórico interno (cuadrícula) */}
           <div style={{background:'#fff',borderRadius:16,padding:'16px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',display:'flex',flexDirection:'column'}}>
             <div style={{marginBottom:10}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa provincial · series históricas</h2>
-              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>52 provincias · alterna <strong>Ganador / Tamaño</strong>. Click para desglose.</p>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa provincial · cuadrícula</h2>
+              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>52 provincias en grid cartográfico · alterna <strong>Ganador / Tamaño</strong>.</p>
             </div>
             <div style={{flex:1,minHeight:0}}>
-              <MapaProvincias compact/>
+              <MapaProvincias compact dataset={provDataset} onDatasetChange={setProvDataset}/>
             </div>
           </div>
+        </div>
+
+        {/* ───── Mapa de burbujas v2 (vista geográfica alternativa) ─────
+            Comparte el dataset con el mapa de cuadrícula de arriba: si el
+            usuario cambia 2026 → 2019 en uno, ambos se actualizan. */}
+        <div style={{marginBottom:20}}>
+          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:10,marginBottom:10,flexWrap:'wrap'}}>
+            <div>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:'0 0 3px'}}>Mapa provincial · burbujas geográficas</h2>
+              <p style={{fontSize:11.5,color:'var(--ink-4)',margin:0}}>
+                Vista alternativa centroides · cada provincia es un círculo (tamaño = escaños, color = ganador). Sincronizado con el mapa de cuadrícula.
+              </p>
+            </div>
+            <span style={{fontSize:10.5,fontWeight:700,color:'#7C3AED',letterSpacing:'0.08em',textTransform:'uppercase'}}>v2</span>
+          </div>
+          <MapaProvinciasBubbles dataset={provDataset} onDatasetChange={setProvDataset}/>
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
@@ -402,13 +422,13 @@ export default function EscenariosPage(){
           </div>
         </div>
 
-        <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14}}>
-            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Distribución Monte Carlo · 5.000 simulaciones</h2>
+        <div style={{background:'#fff',borderRadius:16,padding:'20px 24px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20,maxWidth:1120,margin:'0 auto 20px'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14,gap:12,flexWrap:'wrap'}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:0}}>Distribución Monte Carlo · 5.000 simulaciones</h2>
             <div style={{display:'flex',gap:12,fontSize:11,color:'var(--ink-3)'}}>
               <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.14,display:'inline-block'}}/>IC 95%</span>
               <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:2,background:'#666',display:'inline-block'}}/>Media</span>
+              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:1.5,background:'#666',display:'inline-block'}}/>Media</span>
             </div>
           </div>
           <MCChart/>

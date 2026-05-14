@@ -83,7 +83,7 @@ dashboard/spa/dist/
 dashboard/spa/.vite/
 
 # Carpetas locales auxiliares (no versionables)
-Microdatos/
+/Microdatos/
 data1/
 gits amigos/
 .worktrees/

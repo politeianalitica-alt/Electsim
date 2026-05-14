@@ -1,33 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fromBackend, withMeta } from '@/lib/backend'
+import { getAggregatedNews, dimensionStats, compositeScore, topDrivers, type RiskDriver as AggDriver, type RiskDimensionStat } from '@/lib/news-aggregator'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
+export const maxDuration = 30
 
-export interface RiskDriver {
-  id: number
-  title: string
-  source: string
-  relevance: number
-  sentiment: string
-  spain_impact: string
-  contribution: number
-  scraped_at: string | null
-  dimension?: string
-  dimension_label?: string
-}
-
-export interface RiskDimension {
-  label: string
-  score: number
-  level: 'BAJO' | 'MEDIO' | 'ALTO' | 'CRÍTICO'
-  weight: number
-  n_articles: number
-  delta_24h: number
-  z_score: number
-  is_anomaly: boolean
-  drivers: RiskDriver[]
-}
+export type RiskDriver = AggDriver
+export type RiskDimension = RiskDimensionStat
 
 export interface RiskComposite {
   fetched_at: string
@@ -41,22 +21,33 @@ export interface RiskComposite {
 }
 
 export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams
-  // Default to 720h (30 days) so stale data gaps are handled gracefully
-  if (!searchParams.has('hours_back')) {
-    searchParams.set('hours_back', '720')
-  }
-  const params = searchParams.toString()
+  const params = req.nextUrl.searchParams.toString()
   const path = `/api/risk/composite${params ? '?' + params : ''}`
   const real = await fromBackend<RiskComposite>(path)
-  if (real && real.dimensions) {
+  if (real && real.dimensions && Object.keys(real.dimensions).length > 0) {
     return NextResponse.json(withMeta(real, 'backend'))
   }
-  return NextResponse.json(withMeta({
-    fetched_at: new Date().toISOString(),
-    hours_back: 720,
-    composite: 0, composite_level: 'BAJO', composite_semaforo: 'verde',
-    framework: 'unavailable',
-    dimensions: {}, top_risks: [],
-  }, 'mock'))
+
+  const hours = Math.min(168, Number(req.nextUrl.searchParams.get('hours_back') || 72))
+  try {
+    const articles = await getAggregatedNews({ maxSources: 40, hoursBack: hours })
+    const dimensions = dimensionStats(articles)
+    const { composite, level, semaforo } = compositeScore(dimensions)
+    return NextResponse.json(withMeta({
+      fetched_at: new Date().toISOString(),
+      hours_back: hours,
+      composite,
+      composite_level: level,
+      composite_semaforo: semaforo,
+      framework: 'EWMA · 6 dimensiones · derivado de feed RSS en vivo',
+      dimensions,
+      top_risks: topDrivers(dimensions, 6),
+    }, 'mock'))
+  } catch {
+    return NextResponse.json(withMeta({
+      fetched_at: new Date().toISOString(), hours_back: hours,
+      composite: 0, composite_level: 'BAJO', composite_semaforo: 'verde',
+      framework: 'unavailable', dimensions: {}, top_risks: [],
+    }, 'mock'))
+  }
 }
