@@ -207,5 +207,5 @@ export async function GET() {
       source: 'electocracia',
       ts: new Date().toISOString(),
     },
-  }, { headers: { 'Cache-Control': 's-maxage=900, stale-while-revalidate=1800' } })
+  }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
 }

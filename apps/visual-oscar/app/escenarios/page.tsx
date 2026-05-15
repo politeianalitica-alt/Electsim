@@ -26,18 +26,20 @@ const PC = {
 
 // Datasets de hemiciclo: estimación + 14 elecciones históricas (1977-2023)
 const HEMI_DATASETS: Record<string, HParty[]> = {
+  // Datos sincronizados con el sistema D'Hondt provincial calibrado
+  // (lib/sources/dhondt-provincial.ts). Si /api/analytics/nowcast cae,
+  // el hemiciclo muestra estos números (no los antiguos PP132/PSOE110).
   estimacion: [
-    { id:'pp',    name:'PP',       color:PC.pp,    seats:132 },
-    { id:'psoe',  name:'PSOE',     color:PC.psoe,  seats:110 },
-    { id:'vox',   name:'VOX',      color:PC.vox,   seats: 42 },
-    { id:'sumar', name:'Sumar',    color:PC.sumar, seats: 35 },
-    { id:'erc',   name:'ERC',      color:PC.erc,   seats: 11 },
-    { id:'junts', name:'Junts',    color:PC.junts, seats:  7 },
-    { id:'pnv',   name:'PNV',      color:PC.pnv,   seats:  5 },
-    { id:'bildu', name:'EH Bildu', color:PC.bildu, seats:  4 },
-    { id:'cc',    name:'CC',       color:PC.cc,    seats:  2 },
+    { id:'pp',    name:'PP',       color:PC.pp,    seats:136 },
+    { id:'psoe',  name:'PSOE',     color:PC.psoe,  seats:101 },
+    { id:'vox',   name:'VOX',      color:PC.vox,   seats: 46 },
+    { id:'sumar', name:'Sumar',    color:PC.sumar, seats: 28 },
+    { id:'junts', name:'Junts',    color:PC.junts, seats: 11 },
+    { id:'erc',   name:'ERC',      color:PC.erc,   seats: 10 },
+    { id:'bildu', name:'EH Bildu', color:PC.bildu, seats:  8 },
+    { id:'pnv',   name:'PNV',      color:PC.pnv,   seats:  6 },
+    { id:'cc',    name:'CC',       color:PC.cc,    seats:  3 },
     { id:'bng',   name:'BNG',      color:PC.bng,   seats:  1 },
-    { id:'otros', name:'Otros',    color:PC.otros, seats:  1 },
   ],
   g2023: [
     { id:'pp',    name:'PP',       color:PC.pp,    seats:137 },

@@ -96,5 +96,5 @@ export async function GET() {
     fetch_ms: Date.now() - t0,
     metodologia: 'D\'Hondt provincial · 52 circunscripciones · umbral 3% · swing nacional uniforme',
     fuente: 'electocracia.com (sondeos) + matriz votos provinciales 23-J 2023',
-  }, { headers: { 'Cache-Control': 's-maxage=900, stale-while-revalidate=1800' } })
+  }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
 }

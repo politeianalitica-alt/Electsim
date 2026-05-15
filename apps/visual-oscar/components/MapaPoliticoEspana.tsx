@@ -204,19 +204,50 @@ export default function MapaPoliticoEspana({
   // y resto con punto + escaños del ganador en gris claro.
   const bigProvs = new Set(['m', 'b', 'v', 'se', 'mu', 'ma', 'gc', 'tf', 'pm', 'a', 'co', 'gr', 'va', 'z'])
 
-  // Totales agregados ganador
-  const partyWinTotals = useMemo(() => {
+  // ESCAÑOS TOTALES por partido (suma de TODOS los escaños provinciales,
+  // no solo de las provincias donde es ganador). Si tenemos datos en
+  // vivo, los usamos directamente. Si no, fallback al BREAKDOWN de
+  // MapaProvincias (estimación 2026 hardcoded).
+  const partyTotalSeats = useMemo(() => {
     const out: Record<string, number> = {}
-    PROVINCES.forEach(p => {
+    if (liveData && dataset === 'estimacion' && liveProvincias) {
+      for (const p of liveProvincias) {
+        for (const [partido, esc] of Object.entries(p.breakdown)) {
+          const id = partido.toLowerCase()
+          out[id] = (out[id] || 0) + (esc || 0)
+        }
+      }
+    } else {
+      // Fallback: usar getBreakdown sobre cada provincia (datos hardcoded)
+      PROVINCES.forEach(prov => {
+        const w = winners[prov.id]
+        const breakdown = getBreakdown(dataset, prov, w)
+        for (const [partido, esc] of Object.entries(breakdown)) {
+          out[partido] = (out[partido] || 0) + (esc || 0)
+        }
+      })
+    }
+    return out
+  }, [winners, liveData, dataset, liveProvincias])
+
+  // Provincias donde cada partido es ganador
+  const partyWinCount = useMemo(() => {
+    const out: Record<string, number> = {}
+    for (const p of PROVINCES) {
       const w = winners[p.id]
-      if (!w) return
-      out[w] = (out[w] || 0) + p.seats
-    })
+      if (!w) continue
+      out[w] = (out[w] || 0) + 1
+    }
     return out
   }, [winners])
-  const winnersOrdered = Object.entries(partyWinTotals)
+
+  const partidosOrdenados = Object.entries(partyTotalSeats)
+    .filter(([, n]) => n > 0)
     .sort((a, b) => b[1] - a[1])
-    .map(([id, n]) => ({ id: id as PartyId, n, ...PARTIES[id as PartyId] }))
+    .map(([id, n]) => ({ id: id as PartyId, seats: n, prov_ganadas: partyWinCount[id] || 0, ...PARTIES[id as PartyId] }))
+
+  // Total verificado
+  const totalSeatsVerif = partidosOrdenados.reduce((s, p) => s + p.seats, 0)
 
   const focusedProv = focusedId ? PROVINCES.find(p => p.id === focusedId) : null
   const focusedWinner = focusedProv && winners[focusedProv.id]
@@ -403,7 +434,8 @@ export default function MapaPoliticoEspana({
       </div>
 
       {/* Breakdown de la provincia activa · barra apilada + lista por partido.
-          Si no hay provincia focada, mostramos la leyenda agregada nacional. */}
+          Si no hay provincia focada, mostramos el AGREGADO NACIONAL con
+          escaños totales por partido (no solo donde gana). */}
       {focusedProv ? (
         <FocusedBreakdown
           prov={focusedProv}
@@ -411,20 +443,107 @@ export default function MapaPoliticoEspana({
           breakdown={breakdownFor(focusedProv.id)}
         />
       ) : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', paddingTop: 4 }}>
-          {winnersOrdered.map(p => (
-            <span key={p.id} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              fontSize: 10.5, padding: '3px 8px', borderRadius: 999,
-              background: `${p.color}14`, color: p.color, border: `1px solid ${p.color}33`,
-              fontWeight: 600,
-            }}>
-              <span style={{ width: 8, height: 8, borderRadius: 2, background: p.color }}/>
-              {p.name} · {p.n}
-            </span>
-          ))}
-        </div>
+        <AgregadoNacional partidos={partidosOrdenados} total={totalSeatsVerif}/>
       )}
+    </div>
+  )
+}
+
+// ─── Subcomponente: agregado nacional con escaños totales ───────────────
+function AgregadoNacional({ partidos, total }: {
+  partidos: Array<{ id: PartyId; name: string; color: string; seats: number; prov_ganadas: number }>
+  total: number
+}) {
+  if (partidos.length === 0) return null
+  const max = Math.max(...partidos.map(p => p.seats))
+  return (
+    <div style={{
+      background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10,
+      padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 8,
+    }}>
+      {/* Header con título + total */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', letterSpacing: '-0.01em' }}>
+          Estimación de escaños · Generales 2026
+        </span>
+        <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 600 }}>
+          Total <strong style={{ color: '#1d1d1f' }}>{total}</strong> / 350 escaños
+        </span>
+      </div>
+
+      {/* Barra apilada nacional */}
+      <div style={{ display: 'flex', height: 12, borderRadius: 4, overflow: 'hidden', border: '1px solid #ECECEF' }}>
+        {partidos.map(p => (
+          <div key={p.id} title={`${p.name} · ${p.seats} escaños`} style={{
+            flex: p.seats, background: p.color,
+          }}/>
+        ))}
+      </div>
+
+      {/* Lista compacta de partidos · escaños + provincias ganadas + barra */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 6 }}>
+        {partidos.map(p => (
+          <div key={p.id} style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '7px 10px', borderRadius: 8,
+            background: '#fff', border: '1px solid #ECECEF',
+            borderLeft: `3px solid ${p.color}`,
+          }}>
+            <span style={{ width: 10, height: 10, borderRadius: 2, background: p.color, flexShrink: 0 }}/>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {p.name}
+            </span>
+            <span style={{
+              fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 800,
+              color: p.color, lineHeight: 1, flexShrink: 0,
+            }}>{p.seats}</span>
+            <span style={{ fontSize: 9, color: '#86868b', flexShrink: 0, minWidth: 36, textAlign: 'right' }}>
+              {p.prov_ganadas > 0 ? `${p.prov_ganadas} prov` : ''}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Barras de coalición · mayoría 176 */}
+      {(() => {
+        const seats = (id: string) => partidos.find(p => p.id === id)?.seats || 0
+        const ppvox = seats('pp') + seats('vox')
+        const izq   = seats('psoe') + seats('sumar') + seats('erc') + seats('pnv') + seats('bildu') + seats('bng')
+        const MAY = 176
+        return (
+          <div style={{ display: 'flex', gap: 12, marginTop: 4, flexWrap: 'wrap', fontSize: 10.5 }}>
+            <CoalitionBar label="PP+VOX"     seats={ppvox} colors={['#1F4E8C', '#5BA02E']}/>
+            <CoalitionBar label="PSOE+Sumar+ERC+PNV+Bildu+BNG" seats={izq} colors={['#E1322D', '#D43F8D']}/>
+            <span style={{ fontSize: 10, color: '#6e6e73', alignSelf: 'center' }}>
+              Mayoría absoluta: <strong style={{ color: '#1d1d1f' }}>{MAY}</strong>
+            </span>
+          </div>
+        )
+      })()}
+    </div>
+  )
+}
+
+function CoalitionBar({ label, seats, colors }: { label: string; seats: number; colors: string[] }) {
+  const MAY = 176
+  const viable = seats >= MAY
+  const pct = Math.min(100, (seats / MAY) * 100)
+  const bgColor = viable ? '#16A34A' : '#DC2626'
+  return (
+    <div style={{ flex: 1, minWidth: 200 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, marginBottom: 2 }}>
+        <span style={{ color: '#3a3a3d', fontWeight: 600 }}>{label}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: bgColor }}>
+          {seats} {viable ? '✓ MAYORÍA' : `· faltan ${MAY - seats}`}
+        </span>
+      </div>
+      <div style={{ height: 5, background: '#ECECEF', borderRadius: 3, overflow: 'hidden', position: 'relative' }}>
+        <div style={{ width: `${pct}%`, height: '100%',
+          background: `linear-gradient(90deg, ${colors[0]}, ${colors[colors.length - 1]})`,
+        }}/>
+        {/* Línea mayoría */}
+        <div style={{ position: 'absolute', top: 0, left: '100%', height: '100%', width: 1, background: '#1d1d1f', transform: 'translateX(-1px)' }}/>
+      </div>
     </div>
   )
 }

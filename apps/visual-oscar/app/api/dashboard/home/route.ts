@@ -116,18 +116,18 @@ export interface DashboardHome {
 const MOCK_DASHBOARD: DashboardHome = {
   last_updated: new Date().toISOString(),
   parties: [
-    { partido_id: 2, siglas: 'PP',    nombre: 'Partido Popular', pct: 32.1, ci_inf: 30.6, ci_sup: 33.6, seats: 132, seats_low: 126, seats_high: 138, color: '#0070D1', bloque: 'derecha',   delta: +1.2 },
-    { partido_id: 1, siglas: 'PSOE',  nombre: 'PSOE',            pct: 26.8, ci_inf: 25.3, ci_sup: 28.3, seats: 110, seats_low: 105, seats_high: 115, color: '#C01818', bloque: 'izquierda', delta: -2.1 },
-    { partido_id: 3, siglas: 'VOX',   nombre: 'VOX',             pct: 12.4, ci_inf: 10.9, ci_sup: 13.9, seats:  42, seats_low:  38, seats_high:  46, color: '#63BE21', bloque: 'derecha',   delta: +0.4 },
-    { partido_id: 4, siglas: 'SUMAR', nombre: 'Sumar',           pct: 10.2, ci_inf:  8.7, ci_sup: 11.7, seats:  35, seats_low:  31, seats_high:  39, color: '#BF3F7E', bloque: 'izquierda', delta: -1.1 },
-    { partido_id: 6, siglas: 'ERC',   nombre: 'ERC',             pct:  3.1, ci_inf:  1.6, ci_sup:  4.6, seats:  11, seats_low:   9, seats_high:  13, color: '#FFAB00', bloque: 'izquierda', delta: +0.2 },
-    { partido_id: 7, siglas: 'JUNTS', nombre: 'Junts',           pct:  2.8, ci_inf:  1.3, ci_sup:  4.3, seats:   7, seats_low:   5, seats_high:   9, color: '#00C4D4', bloque: 'otros',     delta: -0.1 },
+    { partido_id: 2, siglas: 'PP',    nombre: 'Partido Popular', pct: 32.47, ci_inf: 30.5, ci_sup: 34.4, seats: 136, seats_low: 130, seats_high: 142, color: '#0070D1', bloque: 'derecha',   delta: -0.6 },
+    { partido_id: 1, siglas: 'PSOE',  nombre: 'PSOE',            pct: 26.90, ci_inf: 25.1, ci_sup: 28.7, seats: 101, seats_low:  95, seats_high: 107, color: '#C01818', bloque: 'izquierda', delta: -4.8 },
+    { partido_id: 3, siglas: 'VOX',   nombre: 'VOX',             pct: 12.79, ci_inf: 11.4, ci_sup: 14.2, seats:  46, seats_low:  41, seats_high:  51, color: '#63BE21', bloque: 'derecha',   delta: +0.4 },
+    { partido_id: 4, siglas: 'SUMAR', nombre: 'Sumar',           pct: 10.03, ci_inf:  8.7, ci_sup: 11.4, seats:  28, seats_low:  23, seats_high:  33, color: '#BF3F7E', bloque: 'izquierda', delta: -2.3 },
+    { partido_id: 6, siglas: 'ERC',   nombre: 'ERC',             pct:  3.05, ci_inf:  2.4, ci_sup:  3.7, seats:  10, seats_low:   8, seats_high:  12, color: '#FFAB00', bloque: 'izquierda', delta: +1.1 },
+    { partido_id: 7, siglas: 'JUNTS', nombre: 'Junts',           pct:  2.65, ci_inf:  2.1, ci_sup:  3.2, seats:  11, seats_low:   9, seats_high:  13, color: '#00C4D4', bloque: 'otros',     delta: +1.0 },
   ],
   kpis: [
-    { label: 'Escaños PP',        value: 132, sub: 'de 350 · +1.2 pp', accent: '#0070D1' },
-    { label: 'Escaños PSOE',      value: 110, sub: 'de 350 · -2.1 pp', accent: '#C01818' },
-    { label: 'Distancia PP–PSOE', value: 22,  sub: 'escaños · margen sólido', accent: '#8B5CF6' },
-    { label: 'P(PP gobierna)',    value: '78%', sub: 'probabilidad simulada', accent: '#16A34A' },
+    { label: 'Escaños PP',        value: 136, sub: 'de 350 · -0.6 pp', accent: '#0070D1' },
+    { label: 'Escaños PSOE',      value: 101, sub: 'de 350 · -4.8 pp', accent: '#C01818' },
+    { label: 'Distancia PP–PSOE', value: 35,  sub: 'escaños · margen sólido', accent: '#8B5CF6' },
+    { label: 'P(PP gobierna)',    value: '92%', sub: 'PP+VOX mayoría absoluta', accent: '#16A34A' },
   ],
   alerts: [
     { id: '1', type: 'warning', text: 'PP supera el 33% en la última encuesta de Sigma Dos' },
