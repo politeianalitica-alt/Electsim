@@ -16,6 +16,8 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_VIVIENDA, REGULADORES_VIVIENDA, PROGRAMAS_VIVIENDA } from '@/lib/sources/ine'
 import { Panel } from '@/components/SectorPanel'
+import MapaProvinciasPrecios from '@/components/MapaProvinciasPrecios'
+import BuscadorBarrios from '@/components/BuscadorBarrios'
 
 interface ResumenResp {
   kpis: {
@@ -44,6 +46,10 @@ interface MercadoResp {
   visados: { serie: Array<{ t: string; v: number }>; ult: number; var_anual: number }
   resumen: { precio_m2_medio: number; var_anual_media: number; esfuerzo_financiero: number }
 }
+interface ProvinciasResp {
+  provincias: Array<{ cod_prov: string; id: string; nombre: string; precio_m2: number; var_anual: number; ccaa: string }>
+  stats: { max: number; min: number; media: number; max_provincia: { nombre: string; precio_m2: number }; min_provincia: { nombre: string; precio_m2: number } }
+}
 
 const ACCENT = '#DB2777'        // Pink-600
 const ACCENT_DARK = '#831843'   // Pink-900
@@ -58,19 +64,21 @@ export default function SectorViviendaPage() {
   const [compras, setCompras] = useState<CompraventasResp | null>(null)
   const [alquiler, setAlquiler] = useState<AlquilerResp | null>(null)
   const [mercado, setMercado] = useState<MercadoResp | null>(null)
+  const [provinciasResp, setProvinciasResp] = useState<ProvinciasResp | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
 
   const refresh = async () => {
     setLoading(true)
-    const [r, p, c, a, m] = await Promise.all([
+    const [r, p, c, a, m, pr] = await Promise.all([
       fetch('/api/sectores/vivienda/resumen').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/precios?nult=24').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/compraventas?nult=18').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/alquiler?nult=10').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/mercado').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/api/sectores/vivienda/provincias').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
-    setResumen(r); setPrecios(p); setCompras(c); setAlquiler(a); setMercado(m)
+    setResumen(r); setPrecios(p); setCompras(c); setAlquiler(a); setMercado(m); setProvinciasResp(pr)
     setUpdatedAt(new Date()); setLoading(false)
   }
 
@@ -185,6 +193,36 @@ export default function SectorViviendaPage() {
             {alquiler && <AlquilerLineChart points={alquiler.points}/>}
           </Panel>
         </div>
+
+        {/* ROW 2.5: MAPA POLÍTICO de España con precio €/m² por provincia */}
+        <Panel
+          title="Mapa de precios · España por provincia"
+          subtitle={provinciasResp ? `52 provincias · €/m² medio · rango ${provinciasResp.stats.min.toLocaleString('es-ES')} – ${provinciasResp.stats.max.toLocaleString('es-ES')} € · media nacional ${provinciasResp.stats.media.toLocaleString('es-ES')} €` : 'Cargando…'}
+          marginBottom
+          sourceUrl="https://www.tinsa.es/imie/"
+          sourceLabel="Tinsa Vivienda Habitada"
+          sourceTooltip="Tinsa Vivienda Habitada · provincial · Q4 2025"
+        >
+          {provinciasResp ? (
+            <MapaProvinciasPrecios provincias={provinciasResp.provincias} compact={false}/>
+          ) : (
+            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
+              Cargando mapa…
+            </div>
+          )}
+        </Panel>
+
+        {/* ROW 2.6: BUSCADOR de barrios con precio €/m² */}
+        <Panel
+          title="Buscador de barrios · €/m²"
+          subtitle="100+ barrios de las principales ciudades · busca por nombre, ciudad o distrito"
+          marginBottom
+          sourceUrl="https://www.idealista.com/sala-de-prensa/informes-precio-vivienda/"
+          sourceLabel="Idealista · Tinsa"
+          sourceTooltip="Catálogo curado · referencia Idealista + Tinsa Q4 2025"
+        >
+          <BuscadorBarrios/>
+        </Panel>
 
         {/* ROW 3: Ranking precios CCAA + Top ciudades */}
         <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
