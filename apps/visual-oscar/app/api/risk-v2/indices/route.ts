@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, withMeta } from '@/lib/backend'
+import { mockIndices } from '../_mocks'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -44,9 +45,11 @@ export async function GET(req: NextRequest) {
   if (r.data && Array.isArray(r.data.indices) && r.data.indices.length > 0) {
     return NextResponse.json(withMeta(r.data, 'backend', { latency_ms: r.latency_ms }))
   }
-  const empty: RiskIndicesPayload = { country, n_indices: 0, indices: [] }
-  return NextResponse.json(withMeta(empty, 'mock', {
-    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_indices_configured'],
+  // Backend caído o sin datos · devolvemos los 6 índices DEMO calibrados
+  // para España (institucional · electoral · geopolítico · económico ·
+  // mediático · social) para que el dashboard se vea operativo.
+  return NextResponse.json(withMeta(mockIndices(country), 'mock', {
+    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['demo_data'],
     latency_ms: r.latency_ms,
   }))
 }

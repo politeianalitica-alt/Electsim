@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, withMeta } from '@/lib/backend'
+import { mockAlerts } from '../_mocks'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -32,12 +33,13 @@ export async function GET(req: NextRequest) {
     `/api/risk-v2/alerts?country=${encodeURIComponent(country)}&days=${days}`,
     { cache: 'no-store' },
   )
-  if (r.data && Array.isArray(r.data.alerts)) {
+  if (r.data && Array.isArray(r.data.alerts) && r.data.alerts.length > 0) {
     return NextResponse.json(withMeta(r.data, 'backend', { latency_ms: r.latency_ms }))
   }
-  const empty: AlertsPayload = { country, n_active: 0, n_total: 0, by_severity: {}, alerts: [] }
-  return NextResponse.json(withMeta(empty, 'mock', {
-    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_alerts_in_range'],
+  // Backend caído · devolvemos 6 alertas DEMO (1 critical, 3 warning, 2 info)
+  // distribuidas en los 6 índices · una ya viene acknowledged.
+  return NextResponse.json(withMeta(mockAlerts(country), 'mock', {
+    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['demo_data'],
     latency_ms: r.latency_ms,
   }))
 }

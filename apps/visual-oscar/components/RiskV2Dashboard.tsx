@@ -110,24 +110,25 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
   }
 
   if (!indices.length) {
+    // Caso defensivo · normalmente el endpoint siempre devuelve datos
+    // (mock fallback). Si llegamos aquí es porque hubo un error JS o el
+    // fetch falló completamente.
     return (
       <div style={{
         padding: '32px 28px', background: '#fff', border: '1px solid #ECECEF',
-        borderRadius: 14, marginTop: 12,
+        borderRadius: 14, marginTop: 12, textAlign: 'center',
       }}>
-        <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
-          Motor sin datos
+        <div style={{ fontSize: 28, opacity: 0.4, marginBottom: 10 }}>⚡</div>
+        <div style={{ fontSize: 13.5, color: '#1d1d1f', fontWeight: 600, marginBottom: 6 }}>
+          No se pudieron cargar los índices de riesgo
         </div>
-        <p style={{ fontSize: 13.5, color: '#1d1d1f', margin: '0 0 8px', lineHeight: 1.55 }}>
-          El módulo de Riesgo v2 está instalado pero no tiene datos cargados todavía. Esto es lo que ocurre:
+        <p style={{ fontSize: 12, color: '#86868b', margin: '0 0 14px', maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
+          Hubo un problema al conectar con el motor de riesgo. Pulsa el botón para reintentar.
         </p>
-        <ul style={{ fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.6, paddingLeft: 18, margin: 0 }}>
-          <li>Migración Alembic <code>0060_risk_module_v2.py</code> aún no aplicada, o</li>
-          <li>Las tablas <code>risk_raw_values</code> están vacías (las ETL aún no han poblado las series).</li>
-        </ul>
-        <p style={{ fontSize: 12, color: '#86868b', margin: '12px 0 0' }}>
-          Origen del meta: <strong>{meta.source}</strong>{meta.warnings?.length ? ` · ${meta.warnings.join(', ')}` : ''}
-        </p>
+        <button onClick={() => void load()} style={{
+          background: '#1d1d1f', color: '#fff', border: 'none', borderRadius: 999,
+          padding: '7px 16px', fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+        }}>↻ Reintentar</button>
       </div>
     )
   }
@@ -1070,10 +1071,13 @@ function Card({
 }
 
 function SourceBadge({ source, warnings }: { source: string; warnings?: string[] }) {
-  const color = source === 'backend' ? '#16A34A' : source === 'mock' ? '#F59E0B' : '#94A3B8'
-  const label = source === 'backend' ? 'Datos en vivo' : source === 'mock' ? 'Sin datos backend' : source
+  const color = source === 'backend' ? '#16A34A' : source === 'mock' ? '#0EA5E9' : '#94A3B8'
+  const label = source === 'backend' ? 'Datos en vivo' : source === 'mock' ? 'Modo demo' : source
+  const tooltip = source === 'mock'
+    ? 'Datos de demostración calibrados para España. Conecta el backend FastAPI para ver índices en vivo.'
+    : (warnings?.join(', ') ?? '')
   return (
-    <span title={warnings?.join(', ') ?? ''} style={{
+    <span title={tooltip} style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
       fontSize: 10.5, fontWeight: 700, color, letterSpacing: '0.04em',
     }}>

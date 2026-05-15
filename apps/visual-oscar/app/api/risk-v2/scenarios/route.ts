@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, withMeta } from '@/lib/backend'
+import { mockScenarios } from '../_mocks'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -33,12 +34,14 @@ export async function GET(req: NextRequest) {
     `/api/risk-v2/scenarios?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
-  if (r.data && Array.isArray(r.data.scenarios)) {
+  if (r.data && Array.isArray(r.data.scenarios) && r.data.scenarios.length > 0) {
     return NextResponse.json(withMeta(r.data, 'backend', { latency_ms: r.latency_ms }))
   }
-  const empty: Payload = { country, n_scenarios: 0, scenarios: [] }
-  return NextResponse.json(withMeta(empty, 'mock', {
-    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['no_scenarios_configured'],
+  // Backend caído · devolvemos 5 escenarios predictivos DEMO (elecciones
+  // anticipadas, crisis institucional, recesión técnica, escalada
+  // geopolítica, movilización social) con probabilidades plausibles.
+  return NextResponse.json(withMeta(mockScenarios(country), 'mock', {
+    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['demo_data'],
     latency_ms: r.latency_ms,
   }))
 }
