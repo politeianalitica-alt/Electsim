@@ -128,7 +128,6 @@ export default function SectorViviendaPage() {
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=4960"
             sourceLabel="INE"
             sourceTooltip="IPV · INE · Índice Precios Vivienda trimestral"
-            apiUrl="/api/sectores/vivienda/precios?nult=24"
           >
             {precios && <PreciosLineChart points={precios.points}/>}
           </Panel>
@@ -138,7 +137,6 @@ export default function SectorViviendaPage() {
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
             sourceLabel="INE"
             sourceTooltip="Estadística Transmisiones Derechos Propiedad · INE"
-            apiUrl="/api/sectores/vivienda/compraventas?nult=18"
           >
             {compras && <CompraventasStacked points={compras.points}/>}
           </Panel>
@@ -152,7 +150,6 @@ export default function SectorViviendaPage() {
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
             sourceLabel="INE"
             sourceTooltip="Compraventas por tipología · INE ETDP"
-            apiUrl="/api/sectores/vivienda/compraventas?nult=18"
           >
             {compras && <CompraventasDonut totales={compras.totales}/>}
           </Panel>
@@ -162,7 +159,6 @@ export default function SectorViviendaPage() {
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10309"
             sourceLabel="INE"
             sourceTooltip="IPVA · INE · variación anual del alquiler"
-            apiUrl="/api/sectores/vivienda/alquiler?nult=10"
           >
             {alquiler && <AlquilerLineChart points={alquiler.points}/>}
           </Panel>

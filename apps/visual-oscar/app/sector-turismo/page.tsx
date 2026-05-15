@@ -72,8 +72,7 @@ export default function SectorTurismoPage() {
             subtitle="INE FRONTUR · Total Nacional dato base"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10256"
             sourceLabel="INE"
-            sourceTooltip="FRONTUR · Estadística de Movimientos Turísticos · INE"
-            apiUrl="/api/sectores/turismo/resumen">
+            sourceTooltip="FRONTUR · Estadística de Movimientos Turísticos · INE">
             {data && <SerieLineChart
               points={data.serie_turistas.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
@@ -83,8 +82,7 @@ export default function SectorTurismoPage() {
             subtitle="INE EOH · Total Nacional"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10257"
             sourceLabel="INE"
-            sourceTooltip="EOH · Encuesta Ocupación Hotelera · INE"
-            apiUrl="/api/sectores/turismo/resumen">
+            sourceTooltip="EOH · Encuesta Ocupación Hotelera · INE">
             {data && <SerieLineChart
               points={data.serie_pernoctaciones.map(p => ({ t: p.t, v: p.v != null ? p.v / 1000 : null }))}
               color="#7C3AED"

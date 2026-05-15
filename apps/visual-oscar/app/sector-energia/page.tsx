@@ -184,7 +184,6 @@ export default function SectorEnergiaPage() {
             }
             sourceUrl={reeUrl('generacion/estructura-generacion', 7, 'day')}
             sourceTooltip="Abrir visor REE · Estructura de generación · últimos 7 días"
-            apiUrl="/api/sectores/energia/mix?days=7"
           >
             {mix && <MixDonut items={mix.items} renovablePct={mix.renovable_pct} totalTwh={mix.total_mwh / 1_000_000}/>}
           </Panel>
@@ -193,7 +192,6 @@ export default function SectorEnergiaPage() {
             subtitle="PVPC vs Mercado SPOT"
             sourceUrl={reeUrl('mercados/precios-mercados-tiempo-real', 1, 'hour', { endToday: true })}
             sourceTooltip="Abrir visor REE · Precios mercados tiempo real · últimas 48 h"
-            apiUrl="/api/sectores/energia/precio"
           >
             {precio && <PriceLineChart series={precio.series}/>}
           </Panel>
@@ -206,7 +204,6 @@ export default function SectorEnergiaPage() {
             subtitle={demanda?.series[0]?.last_value ? `${demanda.series[0].last_value.toLocaleString('es-ES')} MW ahora · pico ${demanda.series[0].max.toLocaleString('es-ES')} MW` : 'Cargando…'}
             sourceUrl={reeUrl('demanda/demanda-tiempo-real', 1, 'hour', { endToday: true })}
             sourceTooltip="Abrir visor REE · Demanda peninsular tiempo real · últimas 24 h"
-            apiUrl="/api/sectores/energia/demanda"
           >
             {demanda && <DemandLineChart series={demanda.series}/>}
           </Panel>
@@ -215,7 +212,6 @@ export default function SectorEnergiaPage() {
             subtitle="Saldo (importación + / exportación −)"
             sourceUrl={reeUrl('intercambios/todas-fronteras-programados', 14, 'day')}
             sourceTooltip="Abrir visor REE · Intercambios programados todas las fronteras · 14 días"
-            apiUrl="/api/sectores/energia/intercambios?days=14"
           >
             {intercambios && <IntercambiosBar series={intercambios.series}/>}
           </Panel>
@@ -228,7 +224,6 @@ export default function SectorEnergiaPage() {
           marginBottom
           sourceUrl={reeUrl('balance/balance-electrico', 12, 'month', { months: true })}
           sourceTooltip="Abrir visor REE · Balance eléctrico · últimos 12 meses"
-          apiUrl="/api/sectores/energia/balance?months=12"
         >
           {balance && <BalanceStacked balance={balance.balance}/>}
         </Panel>
@@ -240,7 +235,6 @@ export default function SectorEnergiaPage() {
             subtitle="g CO2 / kWh por tecnología no renovable"
             sourceUrl={reeUrl('generacion/no-renovables-detalle-emisiones-CO2', 14, 'day')}
             sourceTooltip="Abrir visor REE · No renovables detalle emisiones CO2 · 14 días"
-            apiUrl="/api/sectores/energia/emisiones?days=14"
           >
             {emisiones && <EmisionesList series={emisiones.series}/>}
           </Panel>

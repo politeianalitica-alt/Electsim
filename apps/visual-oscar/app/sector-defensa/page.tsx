@@ -144,7 +144,6 @@ export default function SectorDefensaPage() {
             sourceUrl="https://datos.bancomundial.org/indicador/MS.MIL.XPND.GD.ZS?locations=ES"
             sourceLabel="Banco Mundial"
             sourceTooltip="Gasto militar · % PIB · serie España"
-            apiUrl="/api/sectores/defensa/gasto-militar?from=2000"
           >
             {gasto && <GastoLineChart data={gasto.points}/>}
           </Panel>
@@ -154,7 +153,6 @@ export default function SectorDefensaPage() {
             sourceUrl="https://www.nato.int/cps/en/natohq/topics_49198.htm"
             sourceLabel="OTAN"
             sourceTooltip="Defence Expenditure · NATO Annual Report"
-            apiUrl="/api/sectores/defensa/comparativa-otan"
           >
             {otan && <OtanComparativa items={otan.items}/>}
           </Panel>
@@ -168,7 +166,6 @@ export default function SectorDefensaPage() {
           sourceUrl="https://www.contrataciondelestado.gob.es/"
           sourceLabel="PLACSP"
           sourceTooltip="Plataforma de Contratación del Sector Público · CPV 35"
-          apiUrl="/api/sectores/defensa/contratos?days=180&limit=15"
         >
           {contratos && <ContratosList items={contratos.items}/>}
         </Panel>

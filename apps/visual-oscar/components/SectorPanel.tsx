@@ -24,12 +24,14 @@ interface PanelProps {
   sourceUrl?: string
   sourceLabel?: string       // texto del badge primary, default: "Fuente"
   sourceTooltip?: string     // tooltip al hover
-  apiUrl?: string            // segundo badge ghost que enlaza al endpoint JSON local
+  /** @deprecated · ya no se renderiza el badge JSON, prop aceptado para
+   *  no romper firmas existentes durante la transición. */
+  apiUrl?: string
 }
 
 export function Panel({
   title, subtitle, children, marginBottom,
-  sourceUrl, sourceLabel, sourceTooltip, apiUrl,
+  sourceUrl, sourceLabel, sourceTooltip,
 }: PanelProps) {
   return (
     <section style={{
@@ -48,14 +50,6 @@ export function Panel({
         </h2>
         <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
           {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-          {apiUrl && (
-            <SourceBadge
-              href={apiUrl}
-              label="JSON"
-              tooltip="Endpoint API local · respuesta JSON"
-              variant="ghost"
-            />
-          )}
           {sourceUrl && (
             <SourceBadge
               href={sourceUrl}

@@ -124,16 +124,14 @@ export default function SectorBancaPage() {
             subtitle={tipos ? `DFR ${tipos.last.dfr}% · MRO ${tipos.last.mro}% (último valor)` : 'Cargando…'}
             sourceUrl="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
             sourceLabel="ECB"
-            sourceTooltip="Tipos oficiales del Banco Central Europeo"
-            apiUrl="/api/sectores/banca/tipos-ecb?days=730">
+            sourceTooltip="Tipos oficiales del Banco Central Europeo">
             {tipos && <TiposECBChart points={tipos.points}/>}
           </Panel>
           <Panel title="EURIBOR 12M y 6M · 4 años"
             subtitle="Comparado con bono 10Y España · BCE SDW"
             sourceUrl="https://data.ecb.europa.eu/data/datasets/FM"
             sourceLabel="ECB SDW"
-            sourceTooltip="EURIBOR · Financial Markets dataset (BCE)"
-            apiUrl="/api/sectores/banca/euribor?nult=48">
+            sourceTooltip="EURIBOR · Financial Markets dataset (BCE)">
             {euribor && <EuriborChart points={euribor.points}/>}
           </Panel>
         </div>
@@ -144,16 +142,14 @@ export default function SectorBancaPage() {
             subtitle="Banco Mundial · serie histórica 25 años"
             sourceUrl="https://datos.bancomundial.org/indicador/FS.AST.PRVT.GD.ZS?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Crédito al sector privado · % PIB · serie España"
-            apiUrl="/api/sectores/banca/credito">
+            sourceTooltip="Crédito al sector privado · % PIB · serie España">
             {credito && <CreditoChart series={credito}/>}
           </Panel>
           <Panel title="Comparativa europea"
             subtitle={comparativa ? `Año ${comparativa.year} · crédito %PIB y NPL` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/FS.AST.PRVT.GD.ZS"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Comparativa europea · crédito y morosidad"
-            apiUrl="/api/sectores/banca/comparativa-europa">
+            sourceTooltip="Comparativa europea · crédito y morosidad">
             {comparativa && <ComparativaTable items={comparativa.items}/>}
           </Panel>
         </div>
@@ -164,16 +160,14 @@ export default function SectorBancaPage() {
             subtitle="Banco Mundial · serie post-crisis 2010-2024"
             sourceUrl="https://datos.bancomundial.org/indicador/FB.AST.NPER.ZS?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="NPL · préstamos morosos % sobre total · España"
-            apiUrl="/api/sectores/banca/credito">
+            sourceTooltip="NPL · préstamos morosos % sobre total · España">
             {credito && <NplChart points={credito.serie_npl}/>}
           </Panel>
           <Panel title="Capital bancario · % activos"
             subtitle="Banco Mundial · ratio solvencia agregado"
             sourceUrl="https://datos.bancomundial.org/indicador/FB.BNK.CAPA.ZS?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Capital bancario · ratio % activos · España"
-            apiUrl="/api/sectores/banca/credito">
+            sourceTooltip="Capital bancario · ratio % activos · España">
             {credito && <CapitalChart points={credito.serie_capital}/>}
           </Panel>
         </div>

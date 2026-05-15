@@ -68,8 +68,7 @@ export default function SectorInfraestructurasPage() {
             subtitle="Banco Mundial · IS.AIR.PSGR (anual)"
             sourceUrl="https://datos.bancomundial.org/indicador/IS.AIR.PSGR?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Air transport · passengers carried · serie España"
-            apiUrl="/api/sectores/infraestructuras/resumen">
+            sourceTooltip="Air transport · passengers carried · serie España">
             {data && <SerieLineChart
               points={data.serie_pasajeros.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
@@ -79,8 +78,7 @@ export default function SectorInfraestructurasPage() {
             subtitle="INE · ingeniería civil mensual base 2021=100"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=5803"
             sourceLabel="INE"
-            sourceTooltip="Índice Producción Construcción · INE · mensual"
-            apiUrl="/api/sectores/infraestructuras/resumen">
+            sourceTooltip="Índice Producción Construcción · INE · mensual">
             {data && <SerieLineChart points={data.serie_ipco} color="#7C3AED" formatY={n => n.toFixed(1)}/>}
           </Panel>
         </div>

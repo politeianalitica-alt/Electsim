@@ -134,7 +134,6 @@ export default function SectorFarmaPage() {
             sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
             sourceLabel="AEMPS CIMA"
             sourceTooltip="Listado oficial de problemas de suministro · AEMPS"
-            apiUrl="/api/sectores/farma/desabastecimientos?days=120&page=1&page_size=100"
           >
             {desabast && <DesabastTimeline data={desabast.por_mes}/>}
           </Panel>
@@ -142,8 +141,7 @@ export default function SectorFarmaPage() {
             subtitle="Distribución por clasificación AEMPS"
             sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
             sourceLabel="AEMPS CIMA"
-            sourceTooltip="Clasificación de problemas de suministro · AEMPS"
-            apiUrl="/api/sectores/farma/desabastecimientos?days=120">
+            sourceTooltip="Clasificación de problemas de suministro · AEMPS">
             {desabast && <TipoBreakdown items={desabast.por_tipo}/>}
           </Panel>
         </div>
@@ -154,16 +152,14 @@ export default function SectorFarmaPage() {
             subtitle={labs ? `${labs.total_unique_labs.toLocaleString('es-ES')} únicos · sample ${labs.sample_size}` : 'Cargando…'}
             sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
             sourceLabel="AEMPS CIMA"
-            sourceTooltip="Buscador de medicamentos · titulares · AEMPS"
-            apiUrl="/api/sectores/farma/laboratorios?limit=20">
+            sourceTooltip="Buscador de medicamentos · titulares · AEMPS">
             {labs && <LabsRanking items={labs.items}/>}
           </Panel>
           <Panel title="Distribución por clase terapéutica"
             subtitle="Sistema de Clasificación ATC nivel 1"
             sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
             sourceLabel="AEMPS CIMA"
-            sourceTooltip="Clasificación ATC · nivel 1 · medicamentos"
-            apiUrl="/api/sectores/farma/atc">
+            sourceTooltip="Clasificación ATC · nivel 1 · medicamentos">
             {atc && <AtcDonut items={atc.items}/>}
           </Panel>
         </div>
@@ -176,7 +172,6 @@ export default function SectorFarmaPage() {
           sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
           sourceLabel="AEMPS CIMA"
           sourceTooltip="Problemas de suministro · listado completo · AEMPS"
-          apiUrl="/api/sectores/farma/desabastecimientos?days=120"
         >
           {desabast && <DesabastList items={desabast.items.slice(0, 25)}/>}
         </Panel>

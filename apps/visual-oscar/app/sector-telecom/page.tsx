@@ -65,16 +65,14 @@ export default function SectorTelecomPage() {
             subtitle="Banco Mundial · serie histórica desde 2005"
             sourceUrl="https://datos.bancomundial.org/indicador/IT.NET.BBND.P2?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Fixed broadband subscriptions per 100 people · España"
-            apiUrl="/api/sectores/telecom/resumen">
+            sourceTooltip="Fixed broadband subscriptions per 100 people · España">
             {data && <SerieLineChart points={data.serie_broadband} color={ACCENT} formatY={n => `${n.toFixed(1)}`}/>}
           </Panel>
           <Panel title="Usuarios de internet · % población"
             subtitle="Banco Mundial · % de individuos"
             sourceUrl="https://datos.bancomundial.org/indicador/IT.NET.USER.ZS?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Individuals using the internet · % población · España"
-            apiUrl="/api/sectores/telecom/resumen">
+            sourceTooltip="Individuals using the internet · % población · España">
             {data && <SerieLineChart points={data.serie_internet} color="#0EA5E9" formatY={n => `${n.toFixed(1)}%`}/>}
           </Panel>
         </div>

@@ -125,16 +125,14 @@ export default function SectorAgroPage() {
             subtitle={produccion ? `Alimentos · Ganadería · Cultivos (base 2014-2016 = 100)` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/AG.PRD.FOOD.XD?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Índice producción alimentos · serie España"
-            apiUrl="/api/sectores/agro/produccion">
+            sourceTooltip="Índice producción alimentos · serie España">
             {produccion && <ProduccionTripleChart points={produccion.points}/>}
           </Panel>
           <Panel title="Rendimiento cereales · kg/ha"
             subtitle={rendimiento ? `Tendencia productividad · 25 años de serie` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/AG.YLD.CREL.KG?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Cereal yield (kg/ha) · serie España"
-            apiUrl="/api/sectores/agro/rendimiento">
+            sourceTooltip="Cereal yield (kg/ha) · serie España">
             {rendimiento && <CerealChart points={rendimiento.serie_cereal_yield}/>}
           </Panel>
         </div>
@@ -145,16 +143,14 @@ export default function SectorAgroPage() {
             subtitle={comparativa ? `Año ${comparativa.year} · 10 economías UE+` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/NV.AGR.TOTL.ZS"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Agricultura % PIB · comparativa multi-país"
-            apiUrl="/api/sectores/agro/comparativa">
+            sourceTooltip="Agricultura % PIB · comparativa multi-país">
             {comparativa && <ComparativaTable items={comparativa.items}/>}
           </Panel>
           <Panel title="Tierra regada · % superficie agraria"
             subtitle={rendimiento ? `Indicador clave gestión hídrica` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/AG.LND.IRIG.AG.ZS?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Tierra regada · % superficie agraria · España"
-            apiUrl="/api/sectores/agro/rendimiento">
+            sourceTooltip="Tierra regada · % superficie agraria · España">
             {rendimiento && <TierraRegadaChart points={rendimiento.serie_tierra_regada}/>}
           </Panel>
         </div>
@@ -165,16 +161,14 @@ export default function SectorAgroPage() {
             subtitle="Banco Mundial · TX.VAL.AGRI.ZS.UN España"
             sourceUrl="https://datos.bancomundial.org/indicador/TX.VAL.AGRI.ZS.UN?locations=ES"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Exportaciones agrícolas · % total · España"
-            apiUrl="/api/sectores/agro/exportacion">
+            sourceTooltip="Exportaciones agrícolas · % total · España">
             {exportacion && <ExportLineChart points={exportacion.serie_exp_esp}/>}
           </Panel>
           <Panel title="Comparativa exportaciones agro · % total"
             subtitle={exportacion ? `Año ${exportacion.comparativa[0]?.value ? '2024' : '—'} · ranking 10 países` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/TX.VAL.AGRI.ZS.UN"
             sourceLabel="Banco Mundial"
-            sourceTooltip="Exportaciones agro · ranking comparativo"
-            apiUrl="/api/sectores/agro/exportacion">
+            sourceTooltip="Exportaciones agro · ranking comparativo">
             {exportacion && <ExportComparativa items={exportacion.comparativa}/>}
           </Panel>
         </div>
