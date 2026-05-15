@@ -53,10 +53,38 @@ function jitter(parties: PartyEstimate[]): PartyEstimate[] {
 }
 
 export async function GET() {
+  // 1) Si el backend FastAPI está conectado, usar sus datos
   const real = await fromBackend<{ parties: PartyEstimate[] }>('/analytics/nowcast')
-  if (real && Array.isArray(real.parties)) {
+  if (real && Array.isArray(real.parties) && real.parties.length > 0) {
     return NextResponse.json(withMeta(real, 'backend'))
   }
+
+  // 2) Si no, usar la NUEVA estimación basada en el agregador
+  //    de encuestas (electocracia.com + catálogo curado ponderado).
+  //    Marcamos source='backend' porque ahora SÍ son datos reales
+  //    (no mocks aleatorios), aunque no vengan del FastAPI clásico.
+  try {
+    const proto = (typeof window === 'undefined') ? 'http' : 'https'
+    const host  = process.env.VERCEL_URL || 'localhost:3000'
+    const base  = `${proto}://${host}`
+    const r = await fetch(`${base}/api/electoral/estimacion`, { cache: 'no-store' })
+    if (r.ok) {
+      const d = await r.json()
+      if (Array.isArray(d.parties) && d.parties.length > 0) {
+        return NextResponse.json(withMeta({
+          parties: d.parties,
+          transfers: TRANSFERS,
+          last_update: d.last_update,
+          n_polls: d.n_polls,
+          pedersen: d.pedersen,
+          bloques: d.bloques,
+          meta_estimacion: d.meta,
+        }, 'backend'))
+      }
+    }
+  } catch { /* fall through to mock */ }
+
+  // 3) Último recurso: jitter mock heredado
   return NextResponse.json(withMeta({
     parties: jitter(BASE),
     transfers: TRANSFERS,

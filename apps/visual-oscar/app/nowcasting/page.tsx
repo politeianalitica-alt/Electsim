@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
@@ -244,6 +244,9 @@ export default function NowcastingPage(){
           </div>
         </div>
 
+        {/* Encuestas que alimentan la estimación */}
+        <EncuestasPanel/>
+
         {/* Detail table */}
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
           <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 18px'}}>Tabla detallada</h2>
@@ -273,8 +276,156 @@ export default function NowcastingPage(){
         </div>
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
-        Datos ficticios · Nowcasting Electoral · ElectSim · {new Date().getFullYear()}
+        Estimación basada en encuestas reales · Politeia Analítica · {new Date().getFullYear()}
       </footer>
+    </div>
+  )
+}
+
+// ─── Panel de encuestas que alimentan la estimación ──────────────────────
+interface EncuestaApi {
+  id: string
+  casa: string
+  cliente: string
+  fecha: string
+  fecha_publicacion: string
+  muestra: number
+  metodo: string
+  ambito: string
+  partidos: Record<string, number>
+  peso: number
+  peso_breakdown: { calidad: number; recencia: number; muestra_factor: number }
+  source: 'curado' | 'electocracia'
+}
+interface ReferenciaApi {
+  id: string
+  casa: string
+  cliente?: string
+  fecha?: string
+  fecha_publicacion: string
+  tipo: string
+  ambito?: string
+  link: string
+  title: string
+}
+interface EncuestasResp {
+  encuestas: EncuestaApi[]
+  referencias_sin_cifras: ReferenciaApi[]
+  meta: { n_curadas: number; n_referencias: number; ambito: string; fuente_principal: string; ponderacion: string }
+}
+function EncuestasPanel() {
+  const [data, setData] = useState<EncuestasResp | null>(null)
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch('/api/electoral/encuestas?ambito=general&limit=30')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { setData(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return (
+      <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16, fontSize:12, color:'#86868b' }}>
+        Cargando catálogo de encuestas…
+      </div>
+    )
+  }
+  if (!data) return null
+
+  const partyOrder = ['PP', 'PSOE', 'VOX', 'SUMAR', 'ERC', 'JUNTS', 'PNV', 'BILDU', 'CC', 'BNG', 'OTROS']
+  const partyColors: Record<string, string> = {
+    PP:'#1F4E8C', PSOE:'#E1322D', VOX:'#5BA02E', SUMAR:'#D43F8D',
+    ERC:'#E8A030', JUNTS:'#1FA89B', PNV:'#7DB94B', BILDU:'#3F7A3A',
+    CC:'#F2C43A', BNG:'#5BB3D9', OTROS:'#9E9E9E',
+  }
+
+  const maxPeso = Math.max(...data.encuestas.map(e => e.peso))
+
+  return (
+    <div style={{ background:'#fff', borderRadius:16, padding:'22px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.06)', marginBottom:16 }}>
+      <header style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:14, flexWrap:'wrap', gap:10 }}>
+        <div>
+          <h2 style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.015em', margin:0 }}>
+            Encuestas que alimentan la estimación
+          </h2>
+          <p style={{ fontSize:11.5, color:'#6e6e73', margin:'3px 0 0' }}>
+            {data.meta.n_curadas} sondeos con cifras · {data.meta.n_referencias} referencias adicionales en electocracia.com · ponderación: {data.meta.ponderacion}
+          </p>
+        </div>
+        <a href="https://electocracia.com" target="_blank" rel="noreferrer" style={{
+          fontSize:11, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
+          padding:'4px 10px', borderRadius:999, border:'1px solid #D8E5F4', background:'#F5F8FC',
+        }}>Fuente · electocracia.com ↗</a>
+      </header>
+
+      <div style={{ overflowX:'auto', maxHeight: 480, overflowY:'auto', border:'1px solid #ECECEF', borderRadius:10 }}>
+        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11 }}>
+          <thead style={{ position:'sticky', top:0, background:'#FAFAFA', zIndex:1 }}>
+            <tr style={{ borderBottom:'1px solid #ECECEF' }}>
+              <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Casa · cliente</th>
+              <th style={{ padding:'8px 10px', textAlign:'left', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Fecha</th>
+              <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Muestra</th>
+              {partyOrder.slice(0, 6).map(p => (
+                <th key={p} style={{ padding:'8px 6px', textAlign:'right', fontSize:9.5, fontWeight:800, color: partyColors[p], letterSpacing:'0.04em' }}>{p}</th>
+              ))}
+              <th style={{ padding:'8px 10px', textAlign:'right', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>Peso</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.encuestas.map(e => (
+              <tr key={e.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
+                <td style={{ padding:'7px 10px' }}>
+                  <div style={{ fontWeight:700, color:'#1d1d1f' }}>{e.casa}</div>
+                  <div style={{ fontSize:9.5, color:'#86868b' }}>{e.cliente}</div>
+                </td>
+                <td style={{ padding:'7px 10px', color:'#3a3a3d', fontSize:10.5 }}>
+                  {new Date(e.fecha).toLocaleDateString('es-ES', { day:'2-digit', month:'short' })}
+                </td>
+                <td style={{ padding:'7px 10px', textAlign:'right', color:'#3a3a3d', fontSize:10.5 }}>
+                  {e.muestra.toLocaleString('es-ES')}
+                </td>
+                {partyOrder.slice(0, 6).map(p => (
+                  <td key={p} style={{ padding:'7px 6px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>
+                    {e.partidos[p]?.toFixed(1) || '—'}
+                  </td>
+                ))}
+                <td style={{ padding:'7px 10px', textAlign:'right', minWidth:90 }}>
+                  <div title={`Calidad ${e.peso_breakdown.calidad} × Recencia ${e.peso_breakdown.recencia} × Muestra ${e.peso_breakdown.muestra_factor}`} style={{
+                    display:'inline-flex', alignItems:'center', gap:5,
+                  }}>
+                    <div style={{ width:50, height:6, background:'#ECECEF', borderRadius:3, overflow:'hidden' }}>
+                      <div style={{ width:`${(e.peso/maxPeso)*100}%`, height:'100%', background:'#16A34A' }}/>
+                    </div>
+                    <span style={{ fontSize:10, fontWeight:700, color:'#1d1d1f', fontFamily:'var(--font-display)' }}>
+                      {e.peso.toFixed(2)}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {data.referencias_sin_cifras.length > 0 && (
+        <details style={{ marginTop:14, fontSize:11.5 }}>
+          <summary style={{ cursor:'pointer', color:'#1F4E8C', fontWeight:600 }}>
+            + {data.referencias_sin_cifras.length} encuestas adicionales detectadas en electocracia.com (ver enlaces)
+          </summary>
+          <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:6 }}>
+            {data.referencias_sin_cifras.map(r => (
+              <li key={r.id} style={{ padding:'6px 10px', background:'#FAFAFA', borderRadius:6, border:'1px solid #ECECEF' }}>
+                <a href={r.link} target="_blank" rel="noreferrer" style={{ color:'#1d1d1f', textDecoration:'none', fontSize:11 }}>
+                  <strong>{r.casa}</strong>
+                  {r.cliente && <span style={{ color:'#6e6e73' }}> · {r.cliente}</span>}
+                  {r.fecha && <span style={{ color:'#6e6e73', fontSize:10 }}> · {new Date(r.fecha).toLocaleDateString('es-ES')}</span>}
+                  {r.ambito && r.ambito !== 'España' && <span style={{ marginLeft:4, fontSize:9, padding:'1px 5px', background:'#F5F5F7', borderRadius:4, color:'#3a3a3d' }}>{r.ambito}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
     </div>
   )
 }
