@@ -97,6 +97,146 @@ function hoursAgo(h: number): string {
   return new Date(Date.now() - h * 3600 * 1000).toISOString()
 }
 
+/**
+ * Genera URL pública de un perfil/canal según su naturaleza.
+ *   @cuenta  · X      → https://x.com/cuenta
+ *   @cuenta  · TikTok → https://tiktok.com/@cuenta
+ *   Canal X  · Telegram → https://t.me/s/canal-slug
+ *   Cadenas  · WhatsApp/Mail → null (no tienen URL pública)
+ *   Medio    · Prensa/TV/Radio/YouTube → home conocida o búsqueda
+ *
+ * Si el nombre empieza por '@' es una cuenta (handle limpio).
+ * Si no, asumimos canal/medio y lo slugifimos.
+ */
+function urlForCuenta(nombre: string, canal: CanalBulo | string): string | null {
+  if (!nombre) return null
+  const handle = nombre.startsWith('@') ? nombre.slice(1) : nombre
+  const slug = handle.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9_]+/g, '-').replace(/^-+|-+$/g, '')
+
+  switch (canal) {
+    case 'X':         return `https://x.com/${nombre.startsWith('@') ? handle : slug}`
+    case 'TikTok':    return `https://www.tiktok.com/@${slug}`
+    case 'Telegram':  return `https://t.me/s/${slug}`
+    case 'Facebook':  return `https://www.facebook.com/${slug}`
+    case 'Instagram': return `https://www.instagram.com/${slug}/`
+    case 'YouTube':   return `https://www.youtube.com/@${slug}`
+    case 'Foros':     return `https://www.google.com/search?q=${encodeURIComponent(nombre)}+forocoches`
+    case 'WhatsApp':  return null
+    case 'Mail':      return null
+    case 'Prensa':    return urlMedio(nombre)
+    case 'TV':        return urlMedio(nombre)
+    case 'Radio':     return urlMedio(nombre)
+    default:          return `https://www.google.com/search?q=${encodeURIComponent(nombre)}`
+  }
+}
+
+/** URL home de medios conocidos (fallback Google si no listado) */
+function urlMedio(nombre: string): string {
+  const map: Record<string, string> = {
+    'OkDiario':           'https://okdiario.com/',
+    'El Confidencial':    'https://www.elconfidencial.com/',
+    'El País':            'https://elpais.com/',
+    'El Mundo':           'https://www.elmundo.es/',
+    'ABC':                'https://www.abc.es/',
+    'La Razón':           'https://www.larazon.es/',
+    'El Debate':          'https://www.eldebate.com/',
+    'Cadena SER':         'https://cadenaser.com/',
+    'eldiario.es':        'https://www.eldiario.es/',
+    '13TV Tertulia':      'https://www.trecetv.es/',
+    'La Sexta':           'https://www.lasexta.com/',
+    'Caso Aislado':       'https://casoaislado.com/',
+    'EFE':                'https://www.efe.com/',
+    'Europa Press':       'https://www.europapress.es/',
+    'Política Hoy':       'https://www.youtube.com/results?search_query=' + encodeURIComponent('Política Hoy YouTube'),
+  }
+  // Buscar por inclusión (ej. "OkDiario" matchea "OkDiario.com")
+  for (const k of Object.keys(map)) {
+    if (nombre.toLowerCase().includes(k.toLowerCase())) return map[k]
+  }
+  return `https://www.google.com/search?q=${encodeURIComponent(nombre)}`
+}
+
+/** URL de búsqueda en el canal con el texto del bulo · permite verificar */
+function busquedaCanal(canal: CanalBulo, query: string): string | null {
+  const q = encodeURIComponent(query)
+  switch (canal) {
+    case 'X':         return `https://x.com/search?q=${q}&src=typed_query`
+    case 'TikTok':    return `https://www.tiktok.com/search?q=${q}`
+    case 'Telegram':  return `https://www.google.com/search?q=site:t.me+${q}`
+    case 'Facebook':  return `https://www.facebook.com/search/posts/?q=${q}`
+    case 'Instagram': return `https://www.instagram.com/explore/tags/${encodeURIComponent(query.replace(/[^a-z0-9]+/gi, ''))}/`
+    case 'YouTube':   return `https://www.youtube.com/results?search_query=${q}`
+    case 'Foros':     return `https://www.google.com/search?q=site:forocoches.com+${q}`
+    case 'WhatsApp':  return null
+    case 'Mail':      return null
+    case 'Prensa':    return `https://www.google.com/search?q=${q}&tbm=nws`
+    case 'TV':        return `https://www.youtube.com/results?search_query=${q}`
+    case 'Radio':     return `https://www.google.com/search?q=${q}+radio+podcast`
+    default:          return `https://www.google.com/search?q=${q}`
+  }
+}
+
+/** URLs públicas de los principales fact-checkers españoles · con
+ *  buscador integrado para localizar el desmentido específico */
+function urlFactchecker(nombre: string, query?: string): { home: string; search?: string } {
+  const q = query ? encodeURIComponent(query) : ''
+  const map: Record<string, { home: string; searchTpl?: string }> = {
+    'Maldita.es':         { home: 'https://maldita.es/',           searchTpl: 'https://maldita.es/buscador/?q={q}' },
+    'Maldita Migración':  { home: 'https://maldita.es/migracion/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+    'Maldita Ciencia':    { home: 'https://maldita.es/malditaciencia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+    'Maldita IA':         { home: 'https://maldita.es/malditatecnologia/', searchTpl: 'https://maldita.es/buscador/?q={q}' },
+    'Newtral':            { home: 'https://www.newtral.es/',       searchTpl: 'https://www.newtral.es/?s={q}' },
+    'EFE Verifica':       { home: 'https://verifica.efe.com/',     searchTpl: 'https://verifica.efe.com/?s={q}' },
+    'AFP Verifica':       { home: 'https://factual.afp.com/factuel-es', searchTpl: 'https://factual.afp.com/search?keys={q}' },
+    'Verifica RTVE':      { home: 'https://www.rtve.es/verifica/', searchTpl: 'https://www.rtve.es/buscador/?q={q}' },
+  }
+  const entry = map[nombre] || { home: `https://www.google.com/search?q=${encodeURIComponent(nombre + ' fact check')}` }
+  return {
+    home: entry.home,
+    search: q && entry.searchTpl ? entry.searchTpl.replace('{q}', q) : undefined,
+  }
+}
+
+/** URL externa de búsqueda del bulo en Google · permite ver evidencia */
+function urlBusquedaBulo(titulo: string): string {
+  return `https://www.google.com/search?q=${encodeURIComponent(`"${titulo}" bulo OR desmentido`)}&tbm=nws`
+}
+
+/** URL de Maldita filtrando categoría · útil para "ver todos los bulos" */
+function urlMalditaCategoria(categoria: string): string {
+  const map: Record<string, string> = {
+    'Política':       'https://maldita.es/politica/',
+    'Migración':      'https://maldita.es/migracion/',
+    'Sanidad':        'https://maldita.es/malditaciencia/',
+    'Económica':      'https://maldita.es/economia/',
+    'Electoral':      'https://maldita.es/elecciones/',
+    'Climática':      'https://maldita.es/medioambiente/',
+    'Internacional':  'https://maldita.es/internacional/',
+    'Justicia':       'https://maldita.es/justicia/',
+  }
+  return map[categoria] || 'https://maldita.es/'
+}
+
+/** URL del partido en su web oficial (para beneficiarios) */
+function urlPartido(nombre: string): string | null {
+  const map: Record<string, string> = {
+    'PP':   'https://www.pp.es/',
+    'PSOE': 'https://www.psoe.es/',
+    'VOX':  'https://www.voxespana.es/',
+    'Sumar': 'https://movimientosumar.es/',
+    'Junts': 'https://www.junts.cat/',
+    'ERC':  'https://www.esquerra.cat/',
+    'PNV':  'https://www.eaj-pnv.eus/',
+    'Bildu': 'https://www.ehbildu.eus/',
+  }
+  for (const k of Object.keys(map)) {
+    if (nombre.toLowerCase().includes(k.toLowerCase())) return map[k]
+  }
+  return null
+}
+
 // ─── Catálogo de bulos · escenario Q2 2026 ──────────────────────────────
 const BULOS: Bulo[] = [
   {
@@ -563,6 +703,55 @@ export async function GET() {
   const alcance_total = BULOS.reduce((s, b) => s + b.alcance_estimado, 0)
   const viralidad_max = BULOS.reduce((max, b) => Math.max(max, b.viralidad), 0)
 
+  // Enriquecimiento: añadir URLs auto-generadas a TODOS los elementos
+  const bulosConLinks = BULOS.map(b => ({
+    ...b,
+    busqueda_url: urlBusquedaBulo(b.titulo),
+    categoria_url: urlMalditaCategoria(b.categoria),
+    paciente_cero: {
+      ...b.paciente_cero,
+      url: urlForCuenta(b.paciente_cero.cuenta, b.paciente_cero.canal),
+    },
+    amplificadores: b.amplificadores.map(a => ({
+      ...a,
+      url: urlForCuenta(a.nombre, a.canal),
+    })),
+    canales_activos: b.canales_activos.map(c => ({
+      ...c,
+      url: busquedaCanal(c.canal, b.titulo),
+    })),
+    factcheckers: b.factcheckers.map(f => {
+      const provided = f.url
+      const auto = urlFactchecker(f.nombre, b.titulo)
+      return { ...f, url: provided || auto.search || auto.home }
+    }),
+    beneficiarios: b.beneficiarios.map(name => ({
+      nombre: name,
+      url: urlPartido(name),
+    })),
+    timeline: b.timeline.map(ev => ({
+      ...ev,
+      // Para eventos de tipo 'replica/viral/pico' en un canal, link a búsqueda en el canal
+      url: ev.canal in COLOR_CANAL
+        ? busquedaCanal(ev.canal as CanalBulo, b.titulo)
+        : null,
+    })),
+  }))
+
+  // Top fuentes con URL
+  const topFuentesConLinks = TOP_FUENTES.map(f => {
+    // Detectar canal por tipo
+    let canal: CanalBulo | string = 'X'
+    if (f.tipo.includes('Telegram')) canal = 'Telegram'
+    else if (f.tipo.includes('TikTok')) canal = 'TikTok'
+    else if (f.tipo.includes('Medio')) canal = 'Prensa'
+    else if (f.tipo.includes('WhatsApp')) canal = 'WhatsApp'
+    return {
+      ...f,
+      url: urlForCuenta(f.fuente, canal),
+    }
+  })
+
   return NextResponse.json({
     kpis: {
       bulos_activos: total,
@@ -572,13 +761,17 @@ export async function GET() {
       viralidad_max,
       delta_24h: 2,                              // mock: +2 nuevos bulos
     },
-    bulos: BULOS,
-    top_fuentes: TOP_FUENTES,
+    bulos: bulosConLinks,
+    top_fuentes: topFuentesConLinks,
     canales_heatmap: buildCanalesHeatmap(),
     color_estado: COLOR_ESTADO,
     color_canal: COLOR_CANAL,
     color_categoria: COLOR_CATEGORIA,
-    fact_checkers: ['Maldita.es', 'Newtral', 'EFE Verifica', 'AFP Verifica', 'Verifica RTVE', 'Maldita Migración', 'Maldita Ciencia'],
+    fact_checkers: ['Maldita.es', 'Newtral', 'EFE Verifica', 'AFP Verifica', 'Verifica RTVE', 'Maldita Migración', 'Maldita Ciencia'].map(n => ({
+      nombre: n,
+      url: urlFactchecker(n).home,
+      twitter: `https://x.com/${n.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
+    })),
     fetched_at: new Date().toISOString(),
     fetch_ms: Date.now() - t0,
     fuentes: 'Brain · OSINT · Politeia News Aggregator · Maldita open data',

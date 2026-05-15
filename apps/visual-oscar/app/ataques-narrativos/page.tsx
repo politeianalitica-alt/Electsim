@@ -50,17 +50,19 @@ const TIPO_EVENTO_META: Record<TipoEvento, { color: string; label: string; icon:
 
 interface EventoTimeline {
   t: string; tipo: TipoEvento; canal: CanalBulo | string
-  desc: string; reach?: number
+  desc: string; reach?: number; url?: string | null
 }
 interface Amplificador {
   nombre: string; canal: CanalBulo; seguidores: number; reach_aportado: number
   perfil: string; posicion: 'Origen' | 'Amplificador' | 'Replicador'
+  url?: string | null
 }
 interface FactChecker {
   nombre: string; fecha: string
   veredicto: 'FALSO' | 'ENGAÑOSO' | 'PARCIAL' | 'EN ANÁLISIS'
   url?: string
 }
+interface Beneficiario { nombre: string; url?: string | null }
 interface Bulo {
   id: string; titulo: string
   categoria: CategoriaBulo; estado: EstadoBulo
@@ -70,22 +72,27 @@ interface Bulo {
   paciente_cero: {
     cuenta: string; canal: CanalBulo; perfil: string
     seguidores: number; fecha_primer_post: string; pais_origen: string
+    url?: string | null
   }
   origen_tipo: string
   similar_a?: string
   pais_aparicion_previa?: string
+  busqueda_url?: string
+  categoria_url?: string
   timeline: EventoTimeline[]
   amplificadores: Amplificador[]
-  canales_activos: Array<{ canal: CanalBulo; menciones: number; pico_h: string }>
+  canales_activos: Array<{ canal: CanalBulo; menciones: number; pico_h: string; url?: string | null }>
   factcheckers: FactChecker[]
-  beneficiarios: string[]
+  beneficiarios: Array<string | Beneficiario>
   daño_estimado: number
   viralidad: number
 }
 interface TopFuente {
   fuente: string; tipo: string
   n_bulos_origen: number; n_bulos_amplif: number; score_riesgo: number
+  url?: string | null
 }
+interface FactCheckerOpt { nombre: string; url: string; twitter?: string }
 interface DataResp {
   kpis: {
     bulos_activos: number; desmentidos: number; en_investigacion: number
@@ -94,7 +101,7 @@ interface DataResp {
   bulos: Bulo[]
   top_fuentes: TopFuente[]
   canales_heatmap: { days: string[]; canales: CanalBulo[]; matrix: number[][] }
-  fact_checkers: string[]
+  fact_checkers: FactCheckerOpt[]
   fetch_ms: number
 }
 
@@ -292,6 +299,7 @@ function Loading() {
   return <div style={{ padding: 30, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Cargando…</div>
 }
 
+
 // ─── Filtros ────────────────────────────────────────────────────────────
 function Filtros({ catFilter, setCatFilter, estFilter, setEstFilter }: {
   catFilter: CategoriaBulo | 'all'; setCatFilter: (c: CategoriaBulo | 'all') => void
@@ -422,13 +430,36 @@ function DetalleBulo({ bulo }: { bulo: Bulo }) {
         {bulo.titulo}
       </h3>
 
-      {/* Meta tags */}
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+      {/* Meta tags · categoría enlazable a Maldita */}
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
         <Tag color={eMeta.color}>{eMeta.label}</Tag>
-        <Tag color={COLOR_CATEGORIA[bulo.categoria]}>{bulo.categoria}</Tag>
+        {bulo.categoria_url ? (
+          <a href={bulo.categoria_url} target="_blank" rel="noreferrer" title={`Ver bulos de ${bulo.categoria} en Maldita.es`} style={{ textDecoration:'none' }}>
+            <Tag color={COLOR_CATEGORIA[bulo.categoria]}>{bulo.categoria} ↗</Tag>
+          </a>
+        ) : <Tag color={COLOR_CATEGORIA[bulo.categoria]}>{bulo.categoria}</Tag>}
         <Tag color="#6e6e73">Viralidad {bulo.viralidad}</Tag>
         <Tag color={eMeta.color}>Daño {bulo.daño_estimado}</Tag>
       </div>
+
+      {/* Botones de acción · búsqueda + categoría */}
+      {bulo.busqueda_url && (
+        <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginBottom:12 }}>
+          <a href={bulo.busqueda_url} target="_blank" rel="noreferrer" style={{
+            display:'inline-flex', alignItems:'center', gap:5,
+            fontSize:10.5, fontWeight:600, padding:'5px 10px', borderRadius:999,
+            background:'#1d1d1f', color:'#fff', textDecoration:'none',
+          }}>🔍 Verificar en Google News</a>
+          {bulo.canales_activos[0] && (
+            <a href={bulo.canales_activos[0].url || '#'} target="_blank" rel="noreferrer" style={{
+              display:'inline-flex', alignItems:'center', gap:5,
+              fontSize:10.5, fontWeight:600, padding:'5px 10px', borderRadius:999,
+              background:'#fff', color:'#1d1d1f', textDecoration:'none',
+              border:`1px solid ${COLOR_CANAL[bulo.canales_activos[0].canal]}33`,
+            }}>Buscar en {bulo.canales_activos[0].canal} ↗</a>
+          )}
+        </div>
+      )}
 
       {/* Texto principal */}
       <Section label="Contenido del bulo">
@@ -447,20 +478,30 @@ function DetalleBulo({ bulo }: { bulo: Bulo }) {
         </ul>
       </Section>
 
-      {/* PACIENTE CERO · destacado */}
+      {/* PACIENTE CERO · destacado · cuenta clickable al perfil */}
       <Section label="Paciente cero (origen)">
         <div style={{
           padding: '12px 14px',
           background: 'linear-gradient(135deg, #FEF2F2 0%, #FED7AA 100%)',
           border: '1px solid #FCA5A5', borderRadius: 8,
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-            <span style={{ fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>
-              {bulo.paciente_cero.cuenta}
-            </span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6, gap: 6 }}>
+            {bulo.paciente_cero.url ? (
+              <a href={bulo.paciente_cero.url} target="_blank" rel="noreferrer"
+                 title={`Abrir perfil en ${bulo.paciente_cero.canal}`}
+                 style={{ fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1d1d1f', textDecoration: 'none' }}
+                 onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline' }}
+                 onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none' }}>
+                {bulo.paciente_cero.cuenta} <span style={{ fontSize: 10, opacity: 0.7 }}>↗</span>
+              </a>
+            ) : (
+              <span style={{ fontFamily: 'monospace', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>
+                {bulo.paciente_cero.cuenta}
+              </span>
+            )}
             <span style={{
               fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4,
-              background: COLOR_CANAL[bulo.paciente_cero.canal], color: '#fff',
+              background: COLOR_CANAL[bulo.paciente_cero.canal], color: '#fff', whiteSpace: 'nowrap',
             }}>{bulo.paciente_cero.canal.toUpperCase()}</span>
           </div>
           <div style={{ fontSize: 10.5, color: '#3a3a3d', lineHeight: 1.4, marginBottom: 4 }}>
@@ -481,76 +522,139 @@ function DetalleBulo({ bulo }: { bulo: Bulo }) {
       {bulo.similar_a && <Field label="Similar a">{bulo.similar_a}</Field>}
       {bulo.pais_aparicion_previa && <Field label="Apareció previamente en">{bulo.pais_aparicion_previa}</Field>}
 
-      {/* Top amplificadores */}
+      {/* Top amplificadores · cada uno enlaza a su perfil/canal */}
       <Section label={`Red de amplificadores · ${bulo.amplificadores.length}`}>
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {bulo.amplificadores.slice(0, 6).map((a, i) => (
-            <li key={i} style={{
+          {bulo.amplificadores.slice(0, 6).map((a, i) => {
+            const ContentBody = (
+              <>
+                <span style={{
+                  width: 4, height: 22, borderRadius: 1,
+                  background: a.posicion === 'Origen' ? '#DC2626' : a.posicion === 'Amplificador' ? '#F97316' : '#86868b',
+                }}/>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#1d1d1f' }}>
+                    {a.nombre}{a.url && <span style={{ fontSize: 9, marginLeft: 4, opacity: 0.6 }}>↗</span>}
+                  </div>
+                  <div style={{ fontSize: 9.5, color: '#86868b' }}>
+                    {a.canal} · {a.perfil} · {(a.reach_aportado / 1000).toFixed(0)}k reach
+                  </div>
+                </div>
+                <span style={{
+                  fontSize: 9, padding: '2px 6px', borderRadius: 999, fontWeight: 700,
+                  background: `${COLOR_CANAL[a.canal]}14`, color: COLOR_CANAL[a.canal],
+                }}>{a.posicion.toUpperCase()}</span>
+              </>
+            )
+            const baseStyle: React.CSSProperties = {
               display: 'flex', alignItems: 'center', gap: 8,
               padding: '6px 8px', background: '#FAFAFA', borderRadius: 6,
               border: '1px solid #ECECEF',
-            }}>
-              <span style={{
-                width: 4, height: 22, borderRadius: 1,
-                background: a.posicion === 'Origen' ? '#DC2626' : a.posicion === 'Amplificador' ? '#F97316' : '#86868b',
-              }}/>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#1d1d1f' }}>{a.nombre}</div>
-                <div style={{ fontSize: 9.5, color: '#86868b' }}>
-                  {a.canal} · {a.perfil} · {(a.reach_aportado / 1000).toFixed(0)}k reach
-                </div>
-              </div>
-              <span style={{
-                fontSize: 9, padding: '2px 6px', borderRadius: 999, fontWeight: 700,
-                background: `${COLOR_CANAL[a.canal]}14`, color: COLOR_CANAL[a.canal],
-              }}>{a.posicion.toUpperCase()}</span>
-            </li>
-          ))}
+              textDecoration: 'none', color: 'inherit',
+              cursor: a.url ? 'pointer' : 'default',
+              transition: 'background 120ms, border-color 120ms',
+            }
+            return a.url ? (
+              <li key={i}>
+                <a href={a.url} target="_blank" rel="noreferrer"
+                   title={`Abrir ${a.nombre} en ${a.canal}`}
+                   style={baseStyle}
+                   onMouseEnter={e => { e.currentTarget.style.background = '#F5F5F7'; e.currentTarget.style.borderColor = '#D6D6DA' }}
+                   onMouseLeave={e => { e.currentTarget.style.background = '#FAFAFA'; e.currentTarget.style.borderColor = '#ECECEF' }}>
+                  {ContentBody}
+                </a>
+              </li>
+            ) : (
+              <li key={i} style={baseStyle}>{ContentBody}</li>
+            )
+          })}
         </ul>
       </Section>
 
-      {/* Canales activos */}
-      <Section label="Canales con menciones activas">
+      {/* Canales activos · cada chip enlaza a búsqueda del bulo en ese canal */}
+      <Section label="Canales con menciones activas · click para buscar el bulo">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-          {bulo.canales_activos.map(c => (
-            <span key={c.canal} style={{
+          {bulo.canales_activos.map(c => {
+            const chipStyle: React.CSSProperties = {
               fontSize: 10.5, padding: '4px 9px', borderRadius: 999,
               background: `${COLOR_CANAL[c.canal]}14`, color: COLOR_CANAL[c.canal],
               fontWeight: 600, border: `1px solid ${COLOR_CANAL[c.canal]}33`,
-            }}>
-              {c.canal} · {c.menciones.toLocaleString('es-ES')}
-            </span>
-          ))}
+              textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4,
+              cursor: c.url ? 'pointer' : 'default',
+            }
+            return c.url ? (
+              <a key={c.canal} href={c.url} target="_blank" rel="noreferrer"
+                 title={`Buscar este bulo en ${c.canal}`} style={chipStyle}>
+                {c.canal} · {c.menciones.toLocaleString('es-ES')}
+                <span style={{ fontSize: 9, opacity: 0.7 }}>↗</span>
+              </a>
+            ) : (
+              <span key={c.canal} style={chipStyle}>{c.canal} · {c.menciones.toLocaleString('es-ES')}</span>
+            )
+          })}
         </div>
       </Section>
 
-      {/* Fact-checkers */}
-      <Section label="Fact-checkers que han actuado">
+      {/* Fact-checkers · click para abrir el desmentido específico */}
+      <Section label="Fact-checkers que han actuado · click para ver desmentido">
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {bulo.factcheckers.map((f, i) => (
-            <li key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, padding: '4px 0' }}>
-              <span style={{ color: '#1d1d1f', fontWeight: 600 }}>{f.nombre}</span>
-              <span style={{
-                fontSize: 9.5, padding: '2px 7px', borderRadius: 999, fontWeight: 700,
-                background: f.veredicto === 'FALSO' ? '#FEE2E2' : f.veredicto === 'EN ANÁLISIS' ? '#FEF3C7' : '#E0F2FE',
-                color: f.veredicto === 'FALSO' ? '#DC2626' : f.veredicto === 'EN ANÁLISIS' ? '#92400E' : '#0EA5E9',
-                letterSpacing: '0.04em',
-              }}>{f.veredicto}</span>
-            </li>
-          ))}
+          {bulo.factcheckers.map((f, i) => {
+            const inner = (
+              <>
+                <span style={{ color: '#1d1d1f', fontWeight: 600 }}>
+                  {f.nombre}{f.url && <span style={{ fontSize: 9, marginLeft: 4, opacity: 0.6 }}>↗</span>}
+                </span>
+                <span style={{
+                  fontSize: 9.5, padding: '2px 7px', borderRadius: 999, fontWeight: 700,
+                  background: f.veredicto === 'FALSO' ? '#FEE2E2' : f.veredicto === 'EN ANÁLISIS' ? '#FEF3C7' : '#E0F2FE',
+                  color: f.veredicto === 'FALSO' ? '#DC2626' : f.veredicto === 'EN ANÁLISIS' ? '#92400E' : '#0EA5E9',
+                  letterSpacing: '0.04em',
+                }}>{f.veredicto}</span>
+              </>
+            )
+            const baseStyle: React.CSSProperties = {
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              fontSize: 11, padding: '5px 8px', borderRadius: 6,
+              textDecoration: 'none', color: 'inherit',
+              transition: 'background 120ms',
+            }
+            return f.url ? (
+              <li key={i}>
+                <a href={f.url} target="_blank" rel="noreferrer"
+                   title={`Abrir desmentido en ${f.nombre}`} style={baseStyle}
+                   onMouseEnter={e => { e.currentTarget.style.background = '#FAFAFA' }}
+                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}>
+                  {inner}
+                </a>
+              </li>
+            ) : (
+              <li key={i} style={baseStyle}>{inner}</li>
+            )
+          })}
         </ul>
       </Section>
 
-      {/* Beneficiarios */}
+      {/* Beneficiarios · partidos enlazan a su web oficial */}
       <Section label="Beneficiarios potenciales">
         <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-          {bulo.beneficiarios.map(b => (
-            <span key={b} style={{
+          {bulo.beneficiarios.map((b, i) => {
+            const item = typeof b === 'string' ? { nombre: b, url: null as string | null } : b
+            const chipStyle: React.CSSProperties = {
               fontSize: 10.5, padding: '3px 8px', borderRadius: 999,
               background: '#FEF3C7', color: '#92400E', fontWeight: 600,
               border: '1px solid #FCD34D',
-            }}>{b}</span>
-          ))}
+              textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4,
+              cursor: item.url ? 'pointer' : 'default',
+            }
+            return item.url ? (
+              <a key={i} href={item.url} target="_blank" rel="noreferrer"
+                 title={`Web oficial de ${item.nombre}`} style={chipStyle}>
+                {item.nombre}<span style={{ fontSize: 9, opacity: 0.6 }}>↗</span>
+              </a>
+            ) : (
+              <span key={i} style={chipStyle}>{item.nombre}</span>
+            )
+          })}
         </div>
       </Section>
     </div>
@@ -625,26 +729,42 @@ function TimelineBulo({ bulo }: { bulo: Bulo }) {
           )
         })}
       </svg>
-      {/* Lista textual de eventos */}
+      {/* Lista textual de eventos · cada evento enlaza al canal cuando aplica */}
       <ul style={{ listStyle: 'none', margin: '14px 0 0', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6 }}>
         {events.map((ev, i) => {
           const meta = TIPO_EVENTO_META[ev.tipo]
-          return (
-            <li key={i} style={{
-              display: 'flex', gap: 10, padding: '8px 10px',
-              background: '#FAFAFA', borderRadius: 8, border: '1px solid #ECECEF',
-              borderLeft: `3px solid ${meta.color}`,
-            }}>
+          const inner = (
+            <>
               <span style={{ fontSize: 14, lineHeight: 1, marginTop: 1, color: meta.color }}>{meta.icon}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: '#1d1d1f' }}>
-                  {ev.desc}
+                  {ev.desc}{ev.url && <span style={{ fontSize: 9, marginLeft: 4, opacity: 0.6 }}>↗</span>}
                 </div>
                 <div style={{ fontSize: 10, color: '#86868b', marginTop: 2 }}>
                   {ev.canal} · {relTime(ev.t)}{ev.reach != null && ` · ${(ev.reach / 1000).toFixed(0)}k reach`}
                 </div>
               </div>
+            </>
+          )
+          const baseStyle: React.CSSProperties = {
+            display: 'flex', gap: 10, padding: '8px 10px',
+            background: '#FAFAFA', borderRadius: 8, border: '1px solid #ECECEF',
+            borderLeft: `3px solid ${meta.color}`,
+            textDecoration: 'none', color: 'inherit',
+            cursor: ev.url ? 'pointer' : 'default',
+            transition: 'background 120ms',
+          }
+          return ev.url ? (
+            <li key={i}>
+              <a href={ev.url} target="_blank" rel="noreferrer"
+                 title={`Buscar este evento en ${ev.canal}`} style={baseStyle}
+                 onMouseEnter={e => { e.currentTarget.style.background = '#F5F5F7' }}
+                 onMouseLeave={e => { e.currentTarget.style.background = '#FAFAFA' }}>
+                {inner}
+              </a>
             </li>
+          ) : (
+            <li key={i} style={baseStyle}>{inner}</li>
           )
         })}
       </ul>
@@ -712,20 +832,19 @@ function CanalesHeatmap({ data }: { data: DataResp['canales_heatmap'] }) {
   )
 }
 
-// ─── Top fuentes ────────────────────────────────────────────────────────
+// ─── Top fuentes · cada item enlaza a su perfil ─────────────────────────
 function TopFuentesList({ items }: { items: TopFuente[] }) {
   const max = Math.max(...items.map(i => i.score_riesgo))
   return (
     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
       {items.map((f, i) => {
         const color = f.score_riesgo >= 85 ? '#7C2D12' : f.score_riesgo >= 75 ? '#DC2626' : '#F59E0B'
-        return (
-          <li key={i} style={{
-            padding: '8px 10px', background: '#FAFAFA', borderRadius: 8, border: '1px solid #ECECEF',
-            borderLeft: `3px solid ${color}`,
-          }}>
+        const inner = (
+          <>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
-              <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f' }}>{f.fuente}</span>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f' }}>
+                {f.fuente}{f.url && <span style={{ fontSize: 9, marginLeft: 4, opacity: 0.6 }}>↗</span>}
+              </span>
               <span style={{
                 fontSize: 10, fontWeight: 800, padding: '2px 7px', borderRadius: 999,
                 background: `${color}14`, color, border: `1px solid ${color}33`,
@@ -737,27 +856,51 @@ function TopFuentesList({ items }: { items: TopFuente[] }) {
             <div style={{ height: 4, background: '#ECECEF', borderRadius: 2, overflow: 'hidden' }}>
               <div style={{ width: `${(f.score_riesgo / max) * 100}%`, height: '100%', background: color }}/>
             </div>
+          </>
+        )
+        const baseStyle: React.CSSProperties = {
+          padding: '8px 10px', background: '#FAFAFA', borderRadius: 8, border: '1px solid #ECECEF',
+          borderLeft: `3px solid ${color}`,
+          display: 'block', textDecoration: 'none', color: 'inherit',
+          cursor: f.url ? 'pointer' : 'default',
+          transition: 'background 120ms, border-color 120ms',
+        }
+        return f.url ? (
+          <li key={i}>
+            <a href={f.url} target="_blank" rel="noreferrer"
+               title={`Abrir ${f.fuente}`} style={baseStyle}
+               onMouseEnter={e => { e.currentTarget.style.background = '#F5F5F7' }}
+               onMouseLeave={e => { e.currentTarget.style.background = '#FAFAFA' }}>
+              {inner}
+            </a>
           </li>
+        ) : (
+          <li key={i} style={baseStyle}>{inner}</li>
         )
       })}
     </ul>
   )
 }
 
-// ─── Fact-checkers strip ────────────────────────────────────────────────
-function FactCheckersStrip({ items }: { items: string[] }) {
+// ─── Fact-checkers strip · clicks abren la web del verificador ──────────
+function FactCheckersStrip({ items }: { items: FactCheckerOpt[] }) {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-      {items.map(name => (
-        <span key={name} style={{
+      {items.map(fc => (
+        <a key={fc.nombre} href={fc.url} target="_blank" rel="noreferrer"
+           title={`Abrir ${fc.nombre}`} style={{
           display: 'inline-flex', alignItems: 'center', gap: 5,
           padding: '6px 12px', borderRadius: 999,
           background: '#fff', border: '1px solid #7C3AED33', color: '#7C3AED',
-          fontSize: 11.5, fontWeight: 600,
-        }}>
+          fontSize: 11.5, fontWeight: 600, textDecoration: 'none',
+          transition: 'background 120ms, border-color 120ms',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#F5F0FF'; e.currentTarget.style.borderColor = '#7C3AED' }}
+        onMouseLeave={e => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#7C3AED33' }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#7C3AED' }}/>
-          {name}
-        </span>
+          {fc.nombre}
+          <span style={{ fontSize: 9, opacity: 0.6 }}>↗</span>
+        </a>
       ))}
     </div>
   )
