@@ -19,6 +19,21 @@ import { useEffect, useMemo, useState } from 'react'
 import type { RiskIndexCard } from '@/app/api/risk-v2/indices/route'
 import type { RiskScenario } from '@/app/api/risk-v2/scenarios/route'
 import type { RiskAlert } from '@/app/api/risk-v2/alerts/route'
+import {
+  RiesgoGauge, RiesgoRadar, RiesgoTrendChart,
+  RiesgoRadarLegend, RiesgoTrendLegend,
+  type RiesgoTrendData,
+} from './RiskVisuals'
+
+interface TrendKpi {
+  label: string
+  value: string
+  delta?: number
+  dir?: 'up' | 'down'
+}
+interface TrendPayload extends RiesgoTrendData {
+  kpis: TrendKpi[]
+}
 
 type Tab = 'overview' | 'evolution' | 'breakdown' | 'scenarios' | 'alerts' | 'config'
 
@@ -45,6 +60,7 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
   const [indices, setIndices]     = useState<RiskIndexCard[]>([])
   const [scenarios, setScenarios] = useState<RiskScenario[]>([])
   const [alerts, setAlerts]       = useState<RiskAlert[]>([])
+  const [trend, setTrend]         = useState<TrendPayload | null>(null)
   const [loading, setLoading]     = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [meta, setMeta]           = useState<{ source: string; warnings?: string[] }>({ source: 'loading' })
@@ -54,14 +70,16 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
   const load = async () => {
     setLoading(true)
     try {
-      const [iR, sR, aR] = await Promise.all([
+      const [iR, sR, aR, tR] = await Promise.all([
         fetch(`/api/risk-v2/indices?country=${country}`).then(r => r.json()),
         fetch(`/api/risk-v2/scenarios?country=${country}`).then(r => r.json()),
         fetch(`/api/risk-v2/alerts?country=${country}&days=30`).then(r => r.json()),
+        fetch(`/api/risk-v2/trend?country=${country}`).then(r => r.json()).catch(() => null),
       ])
       setIndices(iR.indices ?? [])
       setScenarios(sR.scenarios ?? [])
       setAlerts(aR.alerts ?? [])
+      setTrend(tR && Array.isArray(tR.history) ? tR : null)
       setMeta({ source: iR._meta?.source ?? 'unknown', warnings: iR._meta?.warnings })
       if (!selectedIdx && iR.indices?.length) setSelectedIdx(iR.indices[0].index_id)
     } catch (e) {
@@ -169,7 +187,7 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
       {/* ── KPI strip siempre visible ── */}
       <KPIStrip indices={indices} aggregate={aggregate} />
 
-      {tab === 'overview'   && <Overview indices={indices} aggregate={aggregate} />}
+      {tab === 'overview'   && <Overview indices={indices} aggregate={aggregate} trend={trend} />}
       {tab === 'evolution'  && <Evolution indices={indices} country={country} />}
       {tab === 'breakdown'  && (
         <Breakdown
@@ -256,18 +274,101 @@ function KPIStrip({ indices, aggregate }: { indices: RiskIndexCard[]; aggregate:
 // Tab: Overview — radar + gauge + correlation
 // ─────────────────────────────────────────────────────────────────────────────
 
-function Overview({ indices, aggregate }: { indices: RiskIndexCard[]; aggregate: number }) {
+function Overview({ indices, aggregate, trend }: {
+  indices: RiskIndexCard[]
+  aggregate: number
+  trend: TrendPayload | null
+}) {
+  // Construye el dataset del radar a partir de los 6 índices estructurales.
+  // 3 niveles definen umbrales (Vigilancia ≤ 30, Alerta 30-60, Crítico ≥ 60).
+  // El polígono "Crítico" usa los scores actuales para mostrar dónde están los
+  // riesgos hoy; los otros dos son referencia visual.
+  const radarData = useMemo(() => {
+    const axes = indices.map(i => i.display_name)
+    const current = indices.map(i => i.score)
+    return {
+      axes,
+      levels: [
+        { label: 'Nivel 3 · Vigilancia', color: '#22C55E', values: axes.map(() => 30) },
+        { label: 'Nivel 2 · Alerta',     color: '#F59E0B', values: axes.map(() => 60) },
+        { label: 'Nivel 1 · Crítico',    color: '#EF4444', values: current },
+      ],
+    }
+  }, [indices])
+
+  // Delta agregado: cambio 7d del primer índice (proxy razonable)
+  const aggDelta = indices.length > 0
+    ? +(indices.reduce((s, i) => s + (i.delta_7d || 0), 0) / indices.length).toFixed(1)
+    : undefined
+
   return (
-    <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-      <Card title="Radar de riesgo">
-        <RadarChart indices={indices} />
+    <section style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* Fila 1: Gauge (1fr) + Radar (2fr) */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14 }}>
+        <Card title="Principio de calibración">
+          <RiesgoGauge value={aggregate} delta={aggDelta} showTicks/>
+        </Card>
+        <Card
+          title="Radar de amenazas"
+          subtitle="3 niveles · vigilancia / alerta / crítico"
+          extra={<RiesgoRadarLegend levels={radarData.levels}/>}
+        >
+          {indices.length > 0 ? (
+            <RiesgoRadar data={radarData} size="small"/>
+          ) : (
+            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
+              Sin datos
+            </div>
+          )}
+        </Card>
+      </div>
+
+      {/* Fila 2: Serie histórica + previsión 14d a todo el ancho */}
+      <Card
+        title="Serie histórica"
+        subtitle="30 días + previsión 14 días"
+        extra={<RiesgoTrendLegend/>}
+      >
+        {trend ? (
+          <RiesgoTrendChart trend={trend} height={300}/>
+        ) : (
+          <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
+            Cargando serie histórica…
+          </div>
+        )}
       </Card>
-      <Card title="Distribución por dimensión">
-        <DimensionBars indices={indices} />
-      </Card>
-      <Card title="Riesgo agregado" style={{ gridColumn: '1 / -1' }}>
-        <GaugeRow indices={indices} aggregate={aggregate} />
-      </Card>
+
+      {/* Fila 3: KPIs del trend (cambio 7d, máx, mín, previsión +14d) */}
+      {trend && trend.kpis && trend.kpis.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+          {trend.kpis.map(k => {
+            const dirColor = k.dir === 'up' ? '#DC2626' : '#16A34A'
+            const arrow = k.dir === 'up' ? '↑' : '↓'
+            return (
+              <div key={k.label} style={{
+                background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 20px',
+              }}>
+                <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0, fontWeight: 500 }}>
+                  {k.label}
+                </p>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 32, letterSpacing: '-0.028em', marginTop: 8, lineHeight: 1, color: '#1d1d1f' }}>
+                  {k.value}
+                </div>
+                {k.delta !== undefined && (
+                  <div style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 10,
+                    fontSize: 11, fontWeight: 600,
+                    padding: '3px 8px', borderRadius: 999,
+                    background: `${dirColor}14`, color: dirColor, border: `1px solid ${dirColor}33`,
+                  }}>
+                    {arrow} {k.delta > 0 ? '+' : ''}{k.delta}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      )}
     </section>
   )
 }
@@ -1050,20 +1151,39 @@ function Configuration({ country, onReload }: { country: string; onReload: () =>
 // ─────────────────────────────────────────────────────────────────────────────
 
 function Card({
-  title, children, style,
-}: { title: string; children: React.ReactNode; style?: React.CSSProperties }) {
+  title, subtitle, extra, children, style,
+}: {
+  title: string
+  subtitle?: string
+  extra?: React.ReactNode
+  children: React.ReactNode
+  style?: React.CSSProperties
+}) {
   return (
     <section style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 12,
       padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       ...style,
     }}>
-      <h3 style={{
-        margin: '0 0 10px', fontSize: 11.5, fontWeight: 700,
-        color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase',
+      <header style={{
+        margin: '0 0 10px', display: 'flex', justifyContent: 'space-between',
+        alignItems: 'baseline', gap: 12, flexWrap: 'wrap',
       }}>
-        {title}
-      </h3>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+          <h3 style={{
+            margin: 0, fontSize: 11.5, fontWeight: 700,
+            color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase',
+          }}>
+            {title}
+          </h3>
+          {subtitle && (
+            <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 400 }}>
+              · {subtitle}
+            </span>
+          )}
+        </div>
+        {extra}
+      </header>
       {children}
     </section>
   )
