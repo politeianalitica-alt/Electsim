@@ -266,7 +266,10 @@ function MixDonut({ items }: { items: Array<{ tecnologia: string; color?: string
                 strokeWidth={stroke}
                 strokeDasharray={`${len} ${circ - len}`}
                 strokeDashoffset={offset}
-              />
+                style={{ cursor:'pointer' }}
+              >
+                <title>{it.tecnologia}: {it.pct.toFixed(1)}% · {it.total_mwh.toLocaleString('es-ES')} MWh</title>
+              </circle>
             )
           })}
         </g>
@@ -309,6 +312,15 @@ function PriceLineChart({ series }: { series: Array<{ title: string; color?: str
           }).join(' ')
           return <path key={s.title} d={path} fill="none" stroke={s.color || '#1F4E8C'} strokeWidth={2}/>
         })}
+        {series.slice(0, 3).map(s => s.points.map((p, i) => {
+          const x = P + (i / (s.points.length - 1)) * (W - 2 * P)
+          const y = P + (1 - (p.v - min) / range) * (H - 2 * P)
+          return (
+            <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+              <title>{s.title} · {p.t}: {p.v.toFixed(2)} €/MWh</title>
+            </circle>
+          )
+        }))}
       </svg>
       <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
         {series.slice(0, 3).map(s => (
@@ -348,6 +360,15 @@ function DemandLineChart({ series }: { series: Array<{ title: string; color?: st
           const dasharray = /prog|prev/i.test(s.title) ? '4 3' : 'none'
           return <path key={s.title} d={path} fill="none" stroke={s.color || '#1F4E8C'} strokeWidth={2} strokeDasharray={dasharray}/>
         })}
+        {series.slice(0, 3).map(s => s.points.map((p, i) => {
+          const x = P + (i / (s.points.length - 1)) * (W - 2 * P)
+          const y = P + (1 - (p.v - min) / range) * (H - 2 * P)
+          return (
+            <circle key={`${s.title}-${i}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+              <title>{s.title} · {p.t}: {p.v.toLocaleString('es-ES')} MW</title>
+            </circle>
+          )
+        }))}
       </svg>
       <ul style={{ listStyle:'none', margin:'10px 0 0', padding:0, display:'flex', gap:14, flexWrap:'wrap' }}>
         {series.slice(0, 3).map(s => (
@@ -371,7 +392,7 @@ function IntercambiosBar({ series }: { series: Array<{ title: string; color?: st
       {series.map(s => {
         const positive = s.saldo_total_mwh >= 0
         return (
-          <li key={s.title}>
+          <li key={s.title} title={`${s.title}: ${(s.saldo_total_mwh / 1000).toFixed(2)} GWh ${positive ? '(importación)' : '(exportación)'}`} style={{ cursor:'help' }}>
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
               <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
               <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color: positive ? '#16A34A' : '#DC2626' }}>
@@ -458,7 +479,7 @@ function EmisionesList({ series }: { series: Array<{ title: string; color?: stri
   return (
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:9 }}>
       {series.slice(0, 8).map(s => (
-        <li key={s.title}>
+        <li key={s.title} title={`${s.title}: ${s.avg.toFixed(1)} g CO2/kWh emisiones medias · último ${s.last_value?.toFixed(1) ?? '—'} g/kWh`} style={{ cursor:'help' }}>
           <div style={{ display:'flex', justifyContent:'space-between', fontSize:11.5, marginBottom:3 }}>
             <span style={{ color:'#3a3a3d', fontWeight:600 }}>{s.title}</span>
             <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#DC2626' }}>{s.avg.toFixed(0)} g/kWh</span>

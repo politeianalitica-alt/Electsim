@@ -8,11 +8,12 @@
  *   - ProgramasGrid · grid de programas
  *   - AreasTematicas · 4-col grid de áreas
  *   - LicitacionesShortcut · top 5 contratos por CPV
- *   - SerieLineChart · gráfica de línea simple
+ *   - SerieLineChart · gráfica de línea con tooltip hover interactivo
  */
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { SectorEmpresa, SectorRegulador, SectorPrograma, SectorArea } from '@/lib/sources/sectorial-data'
+import { ChartTooltip, useChartTooltip } from '@/components/ChartTooltip'
 
 export function HeroKPI({ label, value, unit, accent, sub, decimals = 0 }: {
   label: string; value: number | null | undefined; unit: string; accent: string; sub?: string; decimals?: number
@@ -183,15 +184,20 @@ export function LicitacionesShortcut({ cpv_div, label }: { cpv_div: string; labe
 }
 
 /**
- * Línea simple SVG sin libs externas. Acepta puntos {t, v} y muestra un
- * line chart con grid + etiquetas X cada N puntos.
+ * Línea SVG con tooltip hover interactivo (HTML overlay). Cada punto
+ * tiene una hover-zone amplia (rect transparente) + circle highlight
+ * al pasar el ratón. El tooltip muestra etiqueta + valor + extra.
  */
-export function SerieLineChart({ points, color = '#1F4E8C', height = 180, formatY }: {
+export function SerieLineChart({ points, color = '#1F4E8C', height = 180, formatY, unit, label }: {
   points: Array<{ t: string; v: number | null }>
   color?: string
   height?: number
   formatY?: (n: number) => string
+  unit?: string
+  label?: string
 }) {
+  const { tooltip, show, hide } = useChartTooltip()
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null)
   const valid = points.filter(p => p.v != null)
   if (!valid.length) return <div style={{ color:'#86868b', fontSize:12, padding:20, textAlign:'center' }}>Sin datos disponibles</div>
 
@@ -211,26 +217,68 @@ export function SerieLineChart({ points, color = '#1F4E8C', height = 180, format
 
   const fmt = formatY || ((n: number) => n.toLocaleString('es-ES', { maximumFractionDigits: 1 }))
   const step = Math.max(1, Math.ceil(valid.length / 6))
+  const hoverWidth = (W - 2 * P) / Math.max(1, valid.length - 1)
 
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H + 22}`} style={{ display:'block' }}>
-      {[0, 0.5, 1].map(g => (
-        <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
-      ))}
-      <path d={path} fill="none" stroke={color} strokeWidth={2.5}/>
-      {valid.map((p, i) => {
-        const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
-        const y = P + (1 - ((p.v as number) - minY) / range) * (H - 2 * P)
-        return <circle key={p.t} cx={x} cy={y} r={2.5} fill={color}><title>{p.t}: {fmt(p.v as number)}</title></circle>
-      })}
-      {valid.filter((_, i) => i % step === 0).map(p => {
-        const i = valid.findIndex(v => v.t === p.t)
-        const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
-        return <text key={p.t} x={x} y={H + 12} textAnchor="middle" style={{ fontSize:9, fill:'#86868b' }}>{p.t}</text>
-      })}
-      <text x={4} y={P + 4} style={{ fontSize:9, fill:'#86868b' }}>{fmt(maxY)}</text>
-      <text x={4} y={H - P + 4} style={{ fontSize:9, fill:'#86868b' }}>{fmt(minY)}</text>
-    </svg>
+    <div style={{ position:'relative' }}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H + 22}`} style={{ display:'block', overflow:'visible' }}>
+        {[0, 0.5, 1].map(g => (
+          <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
+        ))}
+        <path d={path} fill="none" stroke={color} strokeWidth={2.5}/>
+        {/* Línea vertical de hover */}
+        {hoverIdx != null && (() => {
+          const x = P + (hoverIdx / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return <line x1={x} x2={x} y1={P} y2={H - P} stroke={color} strokeWidth={1} strokeDasharray="3 3" opacity={0.4}/>
+        })()}
+        {/* Puntos · highlight si hover */}
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          const y = P + (1 - ((p.v as number) - minY) / range) * (H - 2 * P)
+          const active = hoverIdx === i
+          return (
+            <g key={p.t}>
+              <circle cx={x} cy={y} r={active ? 5 : 2.5} fill={color} stroke="#fff" strokeWidth={active ? 2 : 0}/>
+              <title>{p.t}: {fmt(p.v as number)}{unit ? ` ${unit}` : ''}</title>
+            </g>
+          )
+        })}
+        {/* Hover zones invisibles · una por punto */}
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return (
+            <rect
+              key={`h-${p.t}`}
+              x={x - hoverWidth / 2} y={P}
+              width={hoverWidth} height={H - 2 * P}
+              fill="transparent"
+              style={{ cursor: 'crosshair' }}
+              onMouseEnter={() => {
+                setHoverIdx(i)
+                const xPct = (x / W) * 100
+                const yVal = (p.v as number)
+                const yPct = (P + (1 - (yVal - minY) / range) * (H - 2 * P)) / (H + 22) * 100
+                show({
+                  x: xPct, y: yPct,
+                  label: label ? `${label} · ${p.t}` : p.t,
+                  value: fmt(yVal),
+                  unit, color,
+                })
+              }}
+              onMouseLeave={() => { setHoverIdx(null); hide() }}
+            />
+          )
+        })}
+        {valid.filter((_, i) => i % step === 0).map(p => {
+          const i = valid.findIndex(v => v.t === p.t)
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return <text key={p.t} x={x} y={H + 12} textAnchor="middle" style={{ fontSize:9, fill:'#86868b' }}>{p.t}</text>
+        })}
+        <text x={4} y={P + 4} style={{ fontSize:9, fill:'#86868b' }}>{fmt(maxY)}</text>
+        <text x={4} y={H - P + 4} style={{ fontSize:9, fill:'#86868b' }}>{fmt(minY)}</text>
+      </svg>
+      <ChartTooltip tooltip={tooltip}/>
+    </div>
   )
 }
 

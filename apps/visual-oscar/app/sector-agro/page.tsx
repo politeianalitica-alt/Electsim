@@ -219,6 +219,28 @@ function ProduccionTripleChart({ points }: { points: Array<{ t: string; food: nu
         <path d={path('crop')} fill="none" stroke="#FCD34D" strokeWidth={2.2}/>
         <path d={path('food')} fill="none" stroke="#16A34A" strokeWidth={2.5}/>
         <path d={path('livestock')} fill="none" stroke="#7C3AED" strokeWidth={2.2}/>
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return (
+            <g key={`hover-${p.t}`}>
+              {p.food != null && (
+                <circle cx={x} cy={P + (1 - (p.food - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>Alimentos · {p.t}: {p.food.toFixed(1)} (base 2014-16=100)</title>
+                </circle>
+              )}
+              {p.livestock != null && (
+                <circle cx={x} cy={P + (1 - (p.livestock - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>Ganadería · {p.t}: {p.livestock.toFixed(1)}</title>
+                </circle>
+              )}
+              {p.crop != null && (
+                <circle cx={x} cy={P + (1 - (p.crop - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>Cultivos · {p.t}: {p.crop.toFixed(1)}</title>
+                </circle>
+              )}
+            </g>
+          )
+        })}
         {valid.filter((_, i) => i % Math.max(1, Math.ceil(valid.length / 6)) === 0).map(p => {
           const i = valid.findIndex(v => v.t === p.t)
           const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
@@ -393,6 +415,15 @@ function ExportLineChart({ points }: { points: Array<{ t: string; v: number | nu
         ))}
         <path d={area} fill="#16A34A20" />
         <path d={path} fill="none" stroke={ACCENT} strokeWidth={2.5}/>
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          const y = P + (1 - ((p.v as number) - minY) / (maxY - minY)) * (H - 2 * P)
+          return (
+            <circle key={`hover-${p.t}`} cx={x} cy={y} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+              <title>{p.t}: {(p.v as number).toFixed(2)}% sobre total exportaciones</title>
+            </circle>
+          )
+        })}
         {valid.filter((_, i) => i % Math.max(1, Math.ceil(valid.length / 6)) === 0).map(p => {
           const i = valid.findIndex(v => v.t === p.t)
           const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)

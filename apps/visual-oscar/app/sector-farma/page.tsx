@@ -255,7 +255,7 @@ function TipoBreakdown({ items }: { items: Array<{ label: string; n: number; col
       {items.slice(0, 8).map(it => {
         const pct = total > 0 ? (it.n / total) * 100 : 0
         return (
-          <li key={it.label}>
+          <li key={it.label} title={`${it.label}: ${it.n} desabastecimientos (${pct.toFixed(1)}%)`} style={{ cursor:'help' }}>
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:11, marginBottom:3 }}>
               <span style={{ color:'#3a3a3d', fontWeight:600 }}>{it.label}</span>
               <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color: it.color }}>
@@ -277,7 +277,7 @@ function LabsRanking({ items }: { items: Array<{ label: string; n: number }> }) 
   return (
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:6 }}>
       {items.slice(0, 15).map((it, i) => (
-        <li key={it.label} style={{ display:'flex', alignItems:'center', gap:10, fontSize:11.5 }}>
+        <li key={it.label} title={`#${i+1} ${it.label}: ${it.n} medicamentos en CIMA`} style={{ display:'flex', alignItems:'center', gap:10, fontSize:11.5, cursor:'help' }}>
           <span style={{ width:18, fontFamily:'var(--font-display)', fontWeight:700, color:'#86868b', textAlign:'right' }}>{i + 1}</span>
           <Link href={`/licitaciones?q=${encodeURIComponent(it.label)}`} style={{
             flex:1, color:'#1d1d1f', fontWeight:600, textDecoration:'none',
@@ -308,7 +308,10 @@ function AtcDonut({ items }: { items: Array<{ code: string; label: string; color
             acum += len
             return (
               <circle key={it.code} r={radius} fill="none" stroke={it.color} strokeWidth={stroke}
-                strokeDasharray={`${len} ${circ - len}`} strokeDashoffset={offset}/>
+                strokeDasharray={`${len} ${circ - len}`} strokeDashoffset={offset}
+                style={{ cursor:'pointer' }}>
+                <title>ATC {it.code} · {it.label}: {it.pct.toFixed(1)}% ({it.n.toLocaleString('es-ES')} medicamentos)</title>
+              </circle>
             )
           })}
         </g>

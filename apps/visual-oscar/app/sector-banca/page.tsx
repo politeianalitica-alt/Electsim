@@ -207,6 +207,23 @@ function TiposECBChart({ points }: { points: Array<{ t: string; dfr: number | nu
         ))}
         <path d={path('mro')} fill="none" stroke="#1F4E8C" strokeWidth={2.5}/>
         <path d={path('dfr')} fill="none" stroke="#7C3AED" strokeWidth={2.5}/>
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return (
+            <g key={`hover-${p.t}`}>
+              {p.dfr != null && (
+                <circle cx={x} cy={P + (1 - (p.dfr - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>DFR · {p.t.slice(0,10)}: {p.dfr.toFixed(2)}%</title>
+                </circle>
+              )}
+              {p.mro != null && (
+                <circle cx={x} cy={P + (1 - (p.mro - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>MRO · {p.t.slice(0,10)}: {p.mro.toFixed(2)}%</title>
+                </circle>
+              )}
+            </g>
+          )
+        })}
         {valid.filter((_, i) => i % Math.max(1, Math.ceil(valid.length / 6)) === 0).map(p => {
           const i = valid.findIndex(v => v.t === p.t)
           const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
@@ -258,6 +275,28 @@ function EuriborChart({ points }: { points: Array<{ t: string; euribor_12m: numb
         <path d={path('bond_10y')} fill="none" stroke="#DC2626" strokeWidth={2}/>
         <path d={path('euribor_12m')} fill="none" stroke="#FCD34D" strokeWidth={2.5}/>
         <path d={path('euribor_6m')} fill="none" stroke="#0EA5E9" strokeWidth={2}/>
+        {valid.map((p, i) => {
+          const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)
+          return (
+            <g key={`hover-${p.t}`}>
+              {p.euribor_12m != null && (
+                <circle cx={x} cy={P + (1 - (p.euribor_12m - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>EURIBOR 12M · {p.t.slice(0,7)}: {p.euribor_12m.toFixed(3)}%</title>
+                </circle>
+              )}
+              {p.euribor_6m != null && (
+                <circle cx={x} cy={P + (1 - (p.euribor_6m - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>EURIBOR 6M · {p.t.slice(0,7)}: {p.euribor_6m.toFixed(3)}%</title>
+                </circle>
+              )}
+              {p.bond_10y != null && (
+                <circle cx={x} cy={P + (1 - (p.bond_10y - minY) / range) * (H - 2 * P)} r={6} fill="transparent" style={{ cursor:'crosshair' }}>
+                  <title>Bono 10Y ESP · {p.t.slice(0,7)}: {p.bond_10y.toFixed(3)}%</title>
+                </circle>
+              )}
+            </g>
+          )
+        })}
         {valid.filter((_, i) => i % Math.max(1, Math.ceil(valid.length / 6)) === 0).map(p => {
           const i = valid.findIndex(v => v.t === p.t)
           const x = P + (i / Math.max(1, valid.length - 1)) * (W - 2 * P)

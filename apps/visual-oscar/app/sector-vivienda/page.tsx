@@ -342,7 +342,10 @@ function CompraventasDonut({ totales }: { totales: { libre: number; protegida: n
             acum += len
             return (
               <circle key={s.label} r={radius} fill="none" stroke={s.color} strokeWidth={stroke}
-                strokeDasharray={`${len} ${circ - len}`} strokeDashoffset={offset}/>
+                strokeDasharray={`${len} ${circ - len}`} strokeDashoffset={offset}
+                style={{ cursor:'pointer' }}>
+                <title>{s.label}: {s.value.toLocaleString('es-ES')} compraventas ({((s.value/total1)*100).toFixed(1)}%)</title>
+              </circle>
             )
           })}
         </g>
