@@ -157,20 +157,33 @@ export default function SectorEnergiaPage() {
               ? `${(mix.total_mwh / 1_000_000).toFixed(2)} TWh · ${mix.renovable_pct ?? 0}% renovable · ${mix.items.length} tecnologías`
               : 'Cargando…'
             }
+            sourceUrl="https://www.ree.es/es/datos/generacion/estructura-generacion"
           >
             {mix && <MixDonut items={mix.items} renovablePct={mix.renovable_pct} totalTwh={mix.total_mwh / 1_000_000}/>}
           </Panel>
-          <Panel title="Precio del mercado eléctrico · últimas 24-48 h" subtitle="PVPC vs Mercado SPOT">
+          <Panel
+            title="Precio del mercado eléctrico · últimas 24-48 h"
+            subtitle="PVPC vs Mercado SPOT"
+            sourceUrl="https://www.ree.es/es/datos/mercados/precios-mercados-tiempo-real"
+          >
             {precio && <PriceLineChart series={precio.series}/>}
           </Panel>
         </div>
 
         {/* ───── ROW 2: Demanda peninsular + Intercambios internacionales ───── */}
         <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Demanda peninsular · real vs prevista" subtitle={demanda?.series[0]?.last_value ? `${demanda.series[0].last_value.toLocaleString('es-ES')} MW ahora · pico ${demanda.series[0].max.toLocaleString('es-ES')} MW` : 'Cargando…'}>
+          <Panel
+            title="Demanda peninsular · real vs prevista"
+            subtitle={demanda?.series[0]?.last_value ? `${demanda.series[0].last_value.toLocaleString('es-ES')} MW ahora · pico ${demanda.series[0].max.toLocaleString('es-ES')} MW` : 'Cargando…'}
+            sourceUrl="https://www.ree.es/es/datos/demanda/demanda-tiempo-real"
+          >
             {demanda && <DemandLineChart series={demanda.series}/>}
           </Panel>
-          <Panel title="Intercambios internacionales · 14 días" subtitle="Saldo (importación + / exportación −)">
+          <Panel
+            title="Intercambios internacionales · 14 días"
+            subtitle="Saldo (importación + / exportación −)"
+            sourceUrl="https://www.ree.es/es/datos/intercambios/todas-fronteras-programados"
+          >
             {intercambios && <IntercambiosBar series={intercambios.series}/>}
           </Panel>
         </div>
@@ -180,13 +193,18 @@ export default function SectorEnergiaPage() {
           title="Balance eléctrico mensual · últimos 12 meses"
           subtitle="Generación renovable vs no renovable · GWh"
           marginBottom
+          sourceUrl="https://www.ree.es/es/datos/balance/balance-electrico"
         >
           {balance && <BalanceStacked balance={balance.balance}/>}
         </Panel>
 
         {/* ───── ROW 4: Emisiones CO2 + Top empresas ───── */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
-          <Panel title="Emisiones CO2 · últimos 14 días" subtitle="g CO2 / kWh por tecnología no renovable">
+          <Panel
+            title="Emisiones CO2 · últimos 14 días"
+            subtitle="g CO2 / kWh por tecnología no renovable"
+            sourceUrl="https://www.ree.es/es/datos/generacion/no-renovables-detalle-emisiones-CO2"
+          >
             {emisiones && <EmisionesList series={emisiones.series}/>}
           </Panel>
           <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_ENERGIA.length} compañías · IBEX 35 + selectivos`}>
@@ -239,7 +257,14 @@ function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: nu
   )
 }
 
-function Panel({ title, subtitle, children, marginBottom }: { title: string; subtitle?: string; children: React.ReactNode; marginBottom?: boolean }) {
+function Panel({ title, subtitle, children, marginBottom, sourceUrl, sourceLabel }: {
+  title: string
+  subtitle?: string
+  children: React.ReactNode
+  marginBottom?: boolean
+  sourceUrl?: string
+  sourceLabel?: string
+}) {
   return (
     <section style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
@@ -247,7 +272,26 @@ function Panel({ title, subtitle, children, marginBottom }: { title: string; sub
     }}>
       <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
         <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
+        <div style={{ display:'flex', alignItems:'baseline', gap:10, flexWrap:'wrap' }}>
+          {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                fontSize:10.5, fontWeight:600, letterSpacing:'0.02em',
+                color:'#1F4E8C', textDecoration:'none',
+                padding:'2px 8px', borderRadius:999,
+                background:'#F5F8FC', border:'1px solid #E2EAF5',
+                whiteSpace:'nowrap',
+              }}
+              title={`Abrir página oficial · ${sourceLabel || 'REE'}`}
+            >
+              {sourceLabel || 'Fuente REE'} ↗
+            </a>
+          )}
+        </div>
       </header>
       {children}
     </section>
