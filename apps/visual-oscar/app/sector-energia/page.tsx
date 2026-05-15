@@ -70,6 +70,30 @@ const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
 const REFRESH_MS = 5 * 60 * 1000
 
+// ─── Helpers REE: URLs públicas con rango temporal ────────
+// La web pública de REE acepta los mismos params (`start_date`, `end_date`,
+// `time_trunc`) que el API. Generamos enlaces que abren el visor oficial
+// con EXACTAMENTE el mismo intervalo que mostramos en cada gráfica.
+const REE_PUBLIC = 'https://www.ree.es/es/datos'
+type ReeTrunc = 'hour' | 'day' | 'month'
+function isoREE(d: Date): string {
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`
+}
+function reeUrl(seccion: string, daysBack: number, trunc: ReeTrunc, opts: { endToday?: boolean; months?: boolean } = {}): string {
+  const end = new Date()
+  const start = new Date()
+  if (opts.months) start.setMonth(start.getMonth() - daysBack)
+  else start.setDate(start.getDate() - daysBack)
+  if (!opts.endToday) end.setDate(end.getDate() - 1)
+  const qs = new URLSearchParams({
+    start_date: `${isoREE(start)}T00:00`,
+    end_date:   `${isoREE(end)}T23:59`,
+    time_trunc: trunc,
+  })
+  return `${REE_PUBLIC}/${seccion}?${qs.toString()}`
+}
+
 export default function SectorEnergiaPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
@@ -157,14 +181,18 @@ export default function SectorEnergiaPage() {
               ? `${(mix.total_mwh / 1_000_000).toFixed(2)} TWh · ${mix.renovable_pct ?? 0}% renovable · ${mix.items.length} tecnologías`
               : 'Cargando…'
             }
-            sourceUrl="https://www.ree.es/es/datos/generacion/estructura-generacion"
+            sourceUrl={reeUrl('generacion/estructura-generacion', 7, 'day')}
+            sourceTooltip="Abrir visor REE · Estructura de generación · últimos 7 días"
+            apiUrl="/api/sectores/energia/mix?days=7"
           >
             {mix && <MixDonut items={mix.items} renovablePct={mix.renovable_pct} totalTwh={mix.total_mwh / 1_000_000}/>}
           </Panel>
           <Panel
             title="Precio del mercado eléctrico · últimas 24-48 h"
             subtitle="PVPC vs Mercado SPOT"
-            sourceUrl="https://www.ree.es/es/datos/mercados/precios-mercados-tiempo-real"
+            sourceUrl={reeUrl('mercados/precios-mercados-tiempo-real', 1, 'hour', { endToday: true })}
+            sourceTooltip="Abrir visor REE · Precios mercados tiempo real · últimas 48 h"
+            apiUrl="/api/sectores/energia/precio"
           >
             {precio && <PriceLineChart series={precio.series}/>}
           </Panel>
@@ -175,14 +203,18 @@ export default function SectorEnergiaPage() {
           <Panel
             title="Demanda peninsular · real vs prevista"
             subtitle={demanda?.series[0]?.last_value ? `${demanda.series[0].last_value.toLocaleString('es-ES')} MW ahora · pico ${demanda.series[0].max.toLocaleString('es-ES')} MW` : 'Cargando…'}
-            sourceUrl="https://www.ree.es/es/datos/demanda/demanda-tiempo-real"
+            sourceUrl={reeUrl('demanda/demanda-tiempo-real', 1, 'hour', { endToday: true })}
+            sourceTooltip="Abrir visor REE · Demanda peninsular tiempo real · últimas 24 h"
+            apiUrl="/api/sectores/energia/demanda"
           >
             {demanda && <DemandLineChart series={demanda.series}/>}
           </Panel>
           <Panel
             title="Intercambios internacionales · 14 días"
             subtitle="Saldo (importación + / exportación −)"
-            sourceUrl="https://www.ree.es/es/datos/intercambios/todas-fronteras-programados"
+            sourceUrl={reeUrl('intercambios/todas-fronteras-programados', 14, 'day')}
+            sourceTooltip="Abrir visor REE · Intercambios programados todas las fronteras · 14 días"
+            apiUrl="/api/sectores/energia/intercambios?days=14"
           >
             {intercambios && <IntercambiosBar series={intercambios.series}/>}
           </Panel>
@@ -193,7 +225,9 @@ export default function SectorEnergiaPage() {
           title="Balance eléctrico mensual · últimos 12 meses"
           subtitle="Generación renovable vs no renovable · GWh"
           marginBottom
-          sourceUrl="https://www.ree.es/es/datos/balance/balance-electrico"
+          sourceUrl={reeUrl('balance/balance-electrico', 12, 'month', { months: true })}
+          sourceTooltip="Abrir visor REE · Balance eléctrico · últimos 12 meses"
+          apiUrl="/api/sectores/energia/balance?months=12"
         >
           {balance && <BalanceStacked balance={balance.balance}/>}
         </Panel>
@@ -203,7 +237,9 @@ export default function SectorEnergiaPage() {
           <Panel
             title="Emisiones CO2 · últimos 14 días"
             subtitle="g CO2 / kWh por tecnología no renovable"
-            sourceUrl="https://www.ree.es/es/datos/generacion/no-renovables-detalle-emisiones-CO2"
+            sourceUrl={reeUrl('generacion/no-renovables-detalle-emisiones-CO2', 14, 'day')}
+            sourceTooltip="Abrir visor REE · No renovables detalle emisiones CO2 · 14 días"
+            apiUrl="/api/sectores/energia/emisiones?days=14"
           >
             {emisiones && <EmisionesList series={emisiones.series}/>}
           </Panel>
@@ -257,13 +293,15 @@ function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: nu
   )
 }
 
-function Panel({ title, subtitle, children, marginBottom, sourceUrl, sourceLabel }: {
+function Panel({ title, subtitle, children, marginBottom, sourceUrl, sourceLabel, sourceTooltip, apiUrl }: {
   title: string
   subtitle?: string
   children: React.ReactNode
   marginBottom?: boolean
   sourceUrl?: string
   sourceLabel?: string
+  sourceTooltip?: string
+  apiUrl?: string
 }) {
   return (
     <section style={{
@@ -272,29 +310,51 @@ function Panel({ title, subtitle, children, marginBottom, sourceUrl, sourceLabel
     }}>
       <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
         <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        <div style={{ display:'flex', alignItems:'baseline', gap:10, flexWrap:'wrap' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
           {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-          {sourceUrl && (
-            <a
-              href={sourceUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                fontSize:10.5, fontWeight:600, letterSpacing:'0.02em',
-                color:'#1F4E8C', textDecoration:'none',
-                padding:'2px 8px', borderRadius:999,
-                background:'#F5F8FC', border:'1px solid #E2EAF5',
-                whiteSpace:'nowrap',
-              }}
-              title={`Abrir página oficial · ${sourceLabel || 'REE'}`}
-            >
-              {sourceLabel || 'Fuente REE'} ↗
-            </a>
-          )}
+          {apiUrl && <SourceBadge href={apiUrl} label="JSON" tooltip="Endpoint REE apidatos · respuesta JSON-API" variant="ghost" />}
+          {sourceUrl && <SourceBadge href={sourceUrl} label={sourceLabel || 'Fuente REE'} tooltip={sourceTooltip || `Abrir visor oficial en ree.es con el mismo rango temporal`} variant="primary" />}
         </div>
       </header>
       {children}
     </section>
+  )
+}
+
+// Badge "Fuente REE ↗" con hover state (reusable)
+function SourceBadge({ href, label, tooltip, variant }: {
+  href: string
+  label: string
+  tooltip: string
+  variant: 'primary' | 'ghost'
+}) {
+  const [hover, setHover] = useState(false)
+  const palette = variant === 'primary'
+    ? { bg:'#F5F8FC', bgHover:'#E8F0FA', border:'#D8E5F4', borderHover:'#B6CFEA', color:'#1F4E8C' }
+    : { bg:'#FAFAFA', bgHover:'#F0F0F1', border:'#ECECEF', borderHover:'#D6D6DA', color:'#6e6e73' }
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      title={tooltip}
+      style={{
+        display:'inline-flex', alignItems:'center', gap:4,
+        fontSize:10.5, fontWeight:600, letterSpacing:'0.02em',
+        color: palette.color, textDecoration:'none',
+        padding:'3px 9px', borderRadius:999,
+        background: hover ? palette.bgHover : palette.bg,
+        border: `1px solid ${hover ? palette.borderHover : palette.border}`,
+        whiteSpace:'nowrap',
+        transition:'background 150ms ease, border-color 150ms ease, transform 150ms ease',
+        transform: hover ? 'translateY(-0.5px)' : 'none',
+      }}
+    >
+      {label}
+      <span aria-hidden="true" style={{ fontSize:9, opacity:0.85 }}>↗</span>
+    </a>
   )
 }
 
