@@ -278,7 +278,7 @@ export default function NowcastingPage(){
         </div>
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
-        Estimación basada en encuestas reales · Politeia Analítica · {new Date().getFullYear()}
+        Estimación en vivo · Wikipedia (sondeos publicados) + D'Hondt provincial · refresco diario · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
   )
@@ -351,13 +351,19 @@ function EncuestasPanel() {
             Encuestas que alimentan la estimación
           </h2>
           <p style={{ fontSize:11.5, color:'#6e6e73', margin:'3px 0 0' }}>
-            {data.meta.n_curadas} sondeos con cifras · {data.meta.n_referencias} referencias adicionales en electocracia.com · ponderación: {data.meta.ponderacion}
+            <strong style={{ color:'#16A34A' }}>● LIVE</strong> · {data.meta.n_curadas} sondeos publicados (Wikipedia · refresco diario) · ponderación: {data.meta.ponderacion}
           </p>
         </div>
-        <a href="https://electocracia.com" target="_blank" rel="noreferrer" style={{
-          fontSize:11, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
-          padding:'4px 10px', borderRadius:999, border:'1px solid #D8E5F4', background:'#F5F8FC',
-        }}>Fuente · electocracia.com ↗</a>
+        <div style={{ display:'flex', gap:6 }}>
+          <a href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_Spanish_general_election" target="_blank" rel="noreferrer" style={{
+            fontSize:11, fontWeight:600, color:'#16A34A', textDecoration:'none',
+            padding:'4px 10px', borderRadius:999, border:'1px solid #BBF7D0', background:'#F0FDF4',
+          }}>Wikipedia ↗</a>
+          <a href="https://electocracia.com" target="_blank" rel="noreferrer" style={{
+            fontSize:11, fontWeight:600, color:'#1F4E8C', textDecoration:'none',
+            padding:'4px 10px', borderRadius:999, border:'1px solid #D8E5F4', background:'#F5F8FC',
+          }}>electocracia.com ↗</a>
+        </div>
       </header>
 
       <div style={{ overflowX:'auto', maxHeight: 480, overflowY:'auto', border:'1px solid #ECECEF', borderRadius:10 }}>

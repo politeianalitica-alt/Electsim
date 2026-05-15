@@ -229,7 +229,7 @@ export default function CoalicionesPage(){
 
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
-        Datos ficticios · Análisis de Coaliciones · ElectSim · {new Date().getFullYear()}
+        Estimación en vivo · sondeos publicados + D'Hondt provincial · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
   )

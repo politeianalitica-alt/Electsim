@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
       n_curadas: curados.length,
       n_referencias: sinCifras.length,
       ambito,
-      fuente_principal: 'Electocracia.com (metadata) + catálogo curado (cifras)',
+      fuente_principal: 'Wikipedia (cifras live) + electocracia.com (metadata) + catálogo curado (fallback)',
       ponderacion: 'peso_final = peso_calidad × exp(-días/30) × √(N/1000)',
     },
     fetch_ms: Date.now() - t0,

@@ -31,15 +31,21 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
   const ageS = ageMs !== null ? Math.max(0, Math.floor(ageMs / 1000)) : null
   const fresh = ageS !== null && ageS < refreshIntervalSec + 5
 
-  const isBackend = source === 'backend'
+  // Reconocer fuentes "en vivo" de alta calidad: backend FastAPI propio,
+  // electocracia.com, agregador Wikipedia. Solo 'mock' real (BASE jitter
+  // o stub vacío) cuenta como demo.
+  const sourceStr = String(source || '')
+  const isBackend = source === 'backend' || sourceStr === 'electocracia' || sourceStr === 'wikipedia' || sourceStr === 'aggregator'
   const isMock = source === 'mock' || source === 'fallback'
   const isError = source === 'error'
   const dotColor = isBackend ? '#10b981' : isError ? '#ef4444' : (isMock ? '#f59e0b' : '#9ca3af')
   const labelText = isBackend
-    ? 'BACKEND CONECTADO'
-    : isError
-      ? 'ERROR DE CONEXIÓN'
-      : (isMock ? 'DATOS DE DEMO' : 'CONECTANDO…')
+    ? sourceStr === 'electocracia' || sourceStr === 'wikipedia' ? 'LIVE · WIKIPEDIA'
+      : sourceStr === 'aggregator' ? 'LIVE · AGREGADOR'
+      : 'BACKEND CONECTADO'
+    : isError ? 'ERROR DE CONEXIÓN'
+    : isMock ? 'CACHÉ · DATOS PREVIOS'
+    : 'CONECTANDO…'
 
   function fmtAge(s: number | null): string {
     if (s === null) return '—'

@@ -13,8 +13,18 @@
 //  Meta · cabecera estándar que añade el proxy `withMeta()` a toda respuesta
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Origen real de los datos. El operador debe distinguir backend vs. mock. */
-export type DataSource = 'backend' | 'mock' | 'fallback' | 'error'
+/** Origen real de los datos. El operador debe distinguir backend vs. mock.
+ *  - 'backend'     · FastAPI propio
+ *  - 'wikipedia'   · agregador Wikipedia (datos electorales en vivo)
+ *  - 'electocracia'· catálogo curado + electocracia.com
+ *  - 'aggregator'  · cualquier otro agregador externo en vivo
+ *  - 'mock'        · stub/jitter (no datos reales)
+ *  - 'fallback'    · caché stale-while-revalidate
+ *  - 'error'       · fallo de fetch
+ */
+export type DataSource =
+  | 'backend' | 'wikipedia' | 'electocracia' | 'aggregator'
+  | 'mock' | 'fallback' | 'error'
 
 /** Bloque `_meta` que el proxy server-side añade a cada respuesta JSON. */
 export interface ResponseMeta {

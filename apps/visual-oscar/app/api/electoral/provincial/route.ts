@@ -94,7 +94,7 @@ export async function GET() {
     n_sondeos: sondeos.length,
     last_update: new Date().toISOString(),
     fetch_ms: Date.now() - t0,
-    metodologia: 'D\'Hondt provincial · 52 circunscripciones · umbral 3% · swing nacional uniforme',
-    fuente: 'electocracia.com (sondeos) + matriz votos provinciales 23-J 2023',
+    metodologia: 'D\'Hondt provincial · 52 circunscripciones · umbral 3% · swing nacional uniforme · matriz calibrada a resultados 23-J 2023',
+    fuente: 'Wikipedia (sondeos publicados, agregador automático) + matriz votos provinciales 23-J 2023',
   }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
 }

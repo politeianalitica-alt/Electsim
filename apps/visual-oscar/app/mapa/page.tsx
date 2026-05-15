@@ -320,7 +320,7 @@ export default function MapaPage(){
         </div>
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
-        Datos ficticios · Mapa Electoral · ElectSim · {new Date().getFullYear()}
+        Estimación en vivo · sondeos publicados (Wikipedia · electocracia.com) + D'Hondt provincial · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
   )

@@ -84,6 +84,8 @@ export async function GET() {
   // Sondeos generales · Wikipedia live + fallback al catálogo curado
   const sondeos = await getSondeosVivos(30)
   const est = estimacionPonderada(sondeos)
+  // Detectar si los datos vienen del agregador Wikipedia (id 'wiki-…') o del fallback curado
+  const fromWikipedia = sondeos.some(s => s.id?.startsWith('wiki-'))
 
   // 1. Map de % por partido para el asignador
   const pctMap: Record<string, number> = {}
@@ -195,8 +197,10 @@ export async function GET() {
     transfers: [],   // futuro · matriz de transferencia entre partidos
     meta: {
       ...est.meta,
-      fuente_principal: 'Catálogo curado · alimentado por electocracia.com',
-      metodologia: 'Media ponderada (calidad × recencia × √muestra) · D\'Hondt calibrado 2023 con normalización a 350',
+      fuente_principal: fromWikipedia
+        ? 'Wikipedia · "Opinion polling for the next Spanish general election" (live, sondeos publicados)'
+        : 'Catálogo curado · fallback cuando Wikipedia no responde',
+      metodologia: 'Media ponderada (calidad × recencia × √muestra) · D\'Hondt provincial 52 circunscripciones · umbral 3% · calibrado a resultados oficiales 23-J 2023',
       casas_incluidas: Array.from(new Set(sondeos.map(s => s.casa))),
       total_seats: totalSeats,        // debe ser 350
       mayoria_absoluta: MAYORIA,
@@ -204,7 +208,7 @@ export async function GET() {
     },
     fetch_ms: Date.now() - t0,
     _meta: {
-      source: 'electocracia',
+      source: fromWikipedia ? 'wikipedia' : 'electocracia',
       ts: new Date().toISOString(),
     },
   }, { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } })
