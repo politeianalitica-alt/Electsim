@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, withMeta } from '@/lib/backend'
 import { mockIndices } from '../_mocks'
-import { fetchAllRiskFeeds, computeRiskScores } from '@/lib/sources/risk-feeds'
+import { fetchAllRiskFeeds, computeRiskScores, type ComponentScore } from '@/lib/sources/risk-feeds'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -37,14 +37,22 @@ export interface RiskIndicesPayload {
   indices: RiskIndexCard[]
 }
 
+function labelFor(score: number): RiskIndexCard['label'] {
+  return score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRÍTICO'
+}
+
 export async function GET(req: NextRequest) {
+  const t0 = Date.now()
   const country = req.nextUrl.searchParams.get('country') || 'ES'
   const r = await callBackend<RiskIndicesPayload>(
     `/api/risk-v2/indices?country=${encodeURIComponent(country)}`,
     { cache: 'no-store' },
   )
   if (r.data && Array.isArray(r.data.indices) && r.data.indices.length > 0) {
-    return NextResponse.json(withMeta(r.data, 'backend', { latency_ms: r.latency_ms }))
+    return NextResponse.json(
+      withMeta(r.data, 'backend', { latency_ms: r.latency_ms }),
+      { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
+    )
   }
 
   // ── Backend FastAPI no responde · usar AGREGADOR LIVE de fuentes públicas
@@ -64,43 +72,44 @@ export async function GET(req: NextRequest) {
         media: scores.media,
         social: scores.social,
       }
-      const mapaComp: Record<string, string[]> = scores.components_used
       base.indices = base.indices.map(idx => {
         const score = mapaScore[idx.index_id] ?? idx.score
-        const label: RiskIndexCard['label'] =
-          score < 30 ? 'BAJO' : score < 55 ? 'MEDIO' : score < 75 ? 'ALTO' : 'CRÍTICO'
-        const usados = mapaComp[idx.index_id] || []
+        const liveComponents: ComponentScore[] = scores.components[idx.index_id] || []
+        const hasLive = liveComponents.length > 0
         return {
           ...idx,
           score: Math.round(score * 10) / 10,
-          label,
-          source: usados.length > 0 ? 'live' : 'demo',
-          warnings: usados.length === 0 ? ['fallback_data'] : [],
-          n_components_used: usados.length || idx.n_components_used,
-          components: usados.length > 0
-            ? usados.map(metric => ({
-                source_id: metric.split(' ')[0],
-                metric_name: metric,
-                weight: 1 / usados.length,
-                raw_value: null,
-                score_0_100: score,
-                contribution: 1 / usados.length,
+          label: labelFor(score),
+          source: hasLive ? 'live' : 'demo',
+          warnings: hasLive ? [] : ['fallback_data'],
+          n_components_used: hasLive ? liveComponents.length : idx.n_components_used,
+          components: hasLive
+            ? liveComponents.map(c => ({
+                source_id: c.source_id,
+                metric_name: c.metric_name,
+                weight: c.weight,
+                raw_value: c.raw_value,
+                score_0_100: c.score_0_100,
+                contribution: Math.round(c.score_0_100 * c.weight * 10) / 10,
               }))
             : idx.components,
         }
       })
-      return NextResponse.json(withMeta(base, 'aggregator', {
-        warnings: [`live_feeds_ok:${snap.sources_ok}/${snap.sources_total}`],
-        latency_ms: r.latency_ms,
-      }))
+      return NextResponse.json(
+        withMeta(base, 'aggregator', {
+          warnings: [`live_feeds_ok:${snap.sources_ok}/${snap.sources_total}`],
+          latency_ms: Date.now() - t0,
+        }),
+        { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
+      )
     }
   } catch (e) {
-    /* fall through to demo mock */
+    console.warn('[risk-v2/indices] aggregator error:', e instanceof Error ? e.message : e)
   }
 
   // ── Último recurso · datos demo (mostrar dashboard operativo)
   return NextResponse.json(withMeta(mockIndices(country), 'mock', {
     warnings: r.error ? [`backend_unreachable:${r.error}`] : ['fallback_demo_data'],
-    latency_ms: r.latency_ms,
+    latency_ms: Date.now() - t0,
   }))
 }

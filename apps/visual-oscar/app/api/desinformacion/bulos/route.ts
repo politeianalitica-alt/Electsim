@@ -17,7 +17,9 @@
 import { NextResponse } from 'next/server'
 import { fetchAllBulosLive, type BuloDetectado } from '@/lib/sources/maldita'
 
-export const dynamic = 'force-dynamic'
+// Endpoint idempotente · cacheamos en CDN 5 min para no martillear los RSS de origen.
+// Si quieres siempre fresco vuelve a 'force-dynamic' y Cache-Control: no-store.
+export const revalidate = 300
 export const runtime = 'nodejs'
 
 export type EstadoBulo = 'CONFIRMADO_FALSO' | 'DESMENTIDO' | 'EN_INVESTIGACION' | 'PARCIAL'
@@ -113,7 +115,7 @@ function urlForCuenta(nombre: string, canal: CanalBulo | string): string | null 
   if (!nombre) return null
   const handle = nombre.startsWith('@') ? nombre.slice(1) : nombre
   const slug = handle.toLowerCase()
-    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')   // diacríticos combining
     .replace(/[^a-z0-9_]+/g, '-').replace(/^-+|-+$/g, '')
 
   switch (canal) {
@@ -759,7 +761,15 @@ export async function GET() {
   let bulosLive: BuloDetectado[] = []
   try {
     bulosLive = await fetchAllBulosLive(15)
-  } catch { /* ignore · seguimos solo con mock */ }
+  } catch (e) {
+    console.warn('[desinformacion/bulos] live feeds error:', e instanceof Error ? e.message : e)
+  }
+
+  // delta_24h · combina detecciones recientes de live + curados
+  const ahora = Date.now()
+  const cutoff24h = ahora - 86400000
+  const live24h = bulosLive.filter(b => new Date(b.fecha).getTime() > cutoff24h).length
+  const curated24h = BULOS.filter(b => new Date(b.primera_deteccion).getTime() > cutoff24h).length
 
   return NextResponse.json({
     kpis: {
@@ -768,7 +778,7 @@ export async function GET() {
       en_investigacion: en_invest + bulosLive.filter(b => b.veredicto === 'EN ANÁLISIS').length,
       alcance_total,
       viralidad_max,
-      delta_24h: bulosLive.filter(b => Date.now() - new Date(b.fecha).getTime() < 86400000).length,
+      delta_24h: live24h + curated24h,
     },
     bulos: bulosConLinks,
     bulos_live: bulosLive,                       // NUEVOS · feeds Maldita+Newtral en vivo
