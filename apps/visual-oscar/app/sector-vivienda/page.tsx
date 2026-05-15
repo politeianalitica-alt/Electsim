@@ -32,6 +32,18 @@ interface CompraventasResp {
   totales: { libre: number; protegida: number; nueva: number; usada: number; total: number }
 }
 interface AlquilerResp { points: Array<{ t: string; indice: number | null; var_anual: number | null }> }
+interface MercadoResp {
+  ccaa: Array<{ id: string; nombre: string; precio_m2: number; var_anual: number; cod_ine: string }>
+  ciudades: Array<{ ciudad: string; ccaa: string; precio_m2: number; var_anual: number }>
+  hipotecas: {
+    volumen: Array<{ t: string; v: number }>
+    tipo_medio: Array<{ t: string; v: number }>
+    importe_medio: Array<{ t: string; v: number }>
+    ult_volumen: number; ult_tipo: number; ult_importe: number
+  }
+  visados: { serie: Array<{ t: string; v: number }>; ult: number; var_anual: number }
+  resumen: { precio_m2_medio: number; var_anual_media: number; esfuerzo_financiero: number }
+}
 
 const ACCENT = '#DB2777'        // Pink-600
 const ACCENT_DARK = '#831843'   // Pink-900
@@ -45,18 +57,20 @@ export default function SectorViviendaPage() {
   const [precios, setPrecios] = useState<PreciosResp | null>(null)
   const [compras, setCompras] = useState<CompraventasResp | null>(null)
   const [alquiler, setAlquiler] = useState<AlquilerResp | null>(null)
+  const [mercado, setMercado] = useState<MercadoResp | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
 
   const refresh = async () => {
     setLoading(true)
-    const [r, p, c, a] = await Promise.all([
+    const [r, p, c, a, m] = await Promise.all([
       fetch('/api/sectores/vivienda/resumen').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/precios?nult=24').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/compraventas?nult=18').then(r => r.ok ? r.json() : null).catch(() => null),
       fetch('/api/sectores/vivienda/alquiler?nult=10').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/api/sectores/vivienda/mercado').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
-    setResumen(r); setPrecios(p); setCompras(c); setAlquiler(a)
+    setResumen(r); setPrecios(p); setCompras(c); setAlquiler(a); setMercado(m)
     setUpdatedAt(new Date()); setLoading(false)
   }
 
@@ -101,18 +115,26 @@ export default function SectorViviendaPage() {
               </div>
             )}
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8 }}>
             <HeroKPI
-              label={`IPV ${resumen?.kpis.ipv_indice_periodo || ''}`}
-              value={resumen?.kpis.ipv_indice} unit="" decimals={2} accent="#FCD34D"
-              sub="Base 2015 = 100"/>
+              label="Precio medio €/m²"
+              value={mercado?.resumen.precio_m2_medio} unit="€" accent="#FCD34D"
+              sub="Tinsa IMIE Q4 2025"/>
             <HeroKPI
-              label={`Variación anual (${resumen?.kpis.ipv_var_anual_periodo || ''})`}
+              label={`Variación IPV (${resumen?.kpis.ipv_var_anual_periodo || ''})`}
               value={resumen?.kpis.ipv_var_anual} unit="%" decimals={1} accent="#FCA5A5"/>
+            <HeroKPI
+              label="Esfuerzo financiero"
+              value={mercado?.resumen.esfuerzo_financiero} unit="%" decimals={1} accent="#FB7185"
+              sub="% renta hipoteca · BdE"/>
             <HeroKPI
               label={`Compraventas ${resumen?.kpis.compraventas_mes_periodo || ''}`}
               value={resumen?.kpis.compraventas_mes} unit="" accent="#86EFAC"
               sub="Libre + protegida"/>
+            <HeroKPI
+              label="Hipotecas/mes"
+              value={mercado?.hipotecas.ult_volumen} unit="" accent="#A5F3FC"
+              sub={mercado ? `tipo ${mercado.hipotecas.ult_tipo}% · INE H910` : ''}/>
             <HeroKPI
               label={`Alquiler ${resumen?.kpis.alquiler_var_anual_periodo || ''}`}
               value={resumen?.kpis.alquiler_var_anual} unit="%" decimals={1} accent="#7DD3FC"
@@ -164,7 +186,51 @@ export default function SectorViviendaPage() {
           </Panel>
         </div>
 
-        {/* ROW 3: Programas + Empresas */}
+        {/* ROW 3: Ranking precios CCAA + Top ciudades */}
+        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
+          <Panel
+            title="Precio €/m² por Comunidad Autónoma"
+            subtitle={mercado ? `19 territorios · variación anual entre +2.8% y +9.4%` : 'Cargando…'}
+            sourceUrl="https://www.tinsa.es/imie/"
+            sourceLabel="Tinsa IMIE"
+            sourceTooltip="Índice Mercado Inmobiliario Español · Tinsa Q4 2025"
+          >
+            {mercado && <RankingCCAA items={mercado.ccaa}/>}
+          </Panel>
+          <Panel
+            title="Top 10 ciudades · €/m²"
+            subtitle="Ranking grandes capitales"
+            sourceUrl="https://www.tinsa.es/imie/"
+            sourceLabel="Tinsa IMIE"
+            sourceTooltip="Precios mercado libre vivienda · capital de provincia"
+          >
+            {mercado && <RankingCiudades items={mercado.ciudades}/>}
+          </Panel>
+        </div>
+
+        {/* ROW 4: Hipotecas constituidas + Visados obra nueva */}
+        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
+          <Panel
+            title="Hipotecas constituidas · 24 meses"
+            subtitle={mercado ? `Volumen mensual + tipo medio (último: ${mercado.hipotecas.ult_volumen.toLocaleString('es-ES')} hipotecas · tipo ${mercado.hipotecas.ult_tipo}%)` : 'Cargando…'}
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=2999"
+            sourceLabel="INE H910"
+            sourceTooltip="Estadística de Hipotecas · INE · serie mensual"
+          >
+            {mercado && <HipotecasChart volumen={mercado.hipotecas.volumen} tipo={mercado.hipotecas.tipo_medio}/>}
+          </Panel>
+          <Panel
+            title="Visados obra nueva · oferta futura"
+            subtitle={mercado ? `${mercado.visados.ult.toLocaleString('es-ES')} visados/mes · ${mercado.visados.var_anual >= 0 ? '+' : ''}${mercado.visados.var_anual}% interanual` : 'Cargando…'}
+            sourceUrl="https://www.mitma.gob.es/informacion-para-el-ciudadano/informacion-estadistica/vivienda-y-actuaciones-urbanas/estadisticas/edificacion/licencias-municipales-de-obra-mayor"
+            sourceLabel="MITMA"
+            sourceTooltip="Visados de dirección de obra nueva · Ministerio de Transportes"
+          >
+            {mercado && <VisadosChart serie={mercado.visados.serie}/>}
+          </Panel>
+        </div>
+
+        {/* ROW 5: Programas + Empresas */}
         <Panel title="Programas y políticas activas" subtitle="Plan Estatal · Bono Joven · Ley Vivienda · SAREB · NextGen · BTR" marginBottom>
           <ProgramasGrid/>
         </Panel>
@@ -272,49 +338,90 @@ function PreciosLineChart({ points }: { points: Array<{ t: string; indice: numbe
   )
 }
 
-function CompraventasStacked({ points }: { points: Array<{ t: string; libre: number; protegida: number }> }) {
+function CompraventasStacked({ points }: { points: Array<{ t: string; libre: number; protegida: number; nueva: number; usada: number }> }) {
   if (!points.length) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
   const W = 500, H = 200, P = 14
   const colW = (W - 2 * P) / points.length
   const maxTotal = Math.max(...points.map(p => p.libre + p.protegida)) * 1.05
+
+  // Color scheme · 4 segmentos: nueva-libre, nueva-prot, usada-libre, usada-prot
+  // Usamos saturación para distinguir nueva vs usada y tono para libre vs prot.
+  const COLORS = {
+    nuevaLibre:   '#DB2777',  // rosa fuerte
+    nuevaProt:    '#9D174D',  // burgundy oscuro
+    usadaLibre:   '#FCA5A5',  // rosa claro
+    usadaProt:    '#FECACA',  // rosa muy claro
+  }
+
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${H + 25}`} style={{ display:'block' }}>
-      {[0, 0.5, 1].map(g => (
-        <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
-      ))}
-      {points.map((p, i) => {
-        const totalH = ((p.libre + p.protegida) / maxTotal) * (H - 2 * P)
-        const libreH = (p.libre / (p.libre + p.protegida || 1)) * totalH
-        const protH = totalH - libreH
-        const x = P + i * colW + 2
-        const w = colW - 4
-        return (
-          <g key={p.t}>
-            <rect x={x} y={H - P - totalH} width={w} height={libreH} fill="#DB2777">
-              <title>{p.t} · libre {p.libre.toLocaleString('es-ES')}</title>
-            </rect>
-            <rect x={x} y={H - P - protH} width={w} height={protH} fill="#FCA5A5">
-              <title>{p.t} · protegida {p.protegida.toLocaleString('es-ES')}</title>
-            </rect>
-            {i % 2 === 0 && (
-              <text x={x + w / 2} y={H + 12} textAnchor="middle" style={{ fontSize:8.5, fill:'#86868b' }}>{p.t.slice(2)}</text>
-            )}
-          </g>
-        )
-      })}
-      <text x={4} y={P + 4} style={{ fontSize:9, fill:'#86868b' }}>{Math.round(maxTotal).toLocaleString('es-ES')}</text>
-      {(() => {
-        const last = points[points.length - 1]
-        const x = P + (points.length - 0.5) * colW
-        return (
-          <g>
-            <text x={x} y={H - P - 4} textAnchor="middle" style={{ fontSize:10, fontWeight:700, fill:'#1d1d1f', fontFamily:'var(--font-display)' }}>
+    <div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H + 25}`} style={{ display:'block' }}>
+        {[0, 0.5, 1].map(g => (
+          <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
+        ))}
+        {points.map((p, i) => {
+          const total = p.libre + p.protegida
+          // Estimamos los 4 segmentos manteniendo proporciones nueva/usada
+          // y libre/protegida sobre los totales del periodo.
+          const totalH = (total / maxTotal) * (H - 2 * P)
+          const ratioProt = total > 0 ? p.protegida / total : 0
+          // Asumimos misma proporción nueva/usada en libre y protegida
+          const totalNueva = p.nueva || 0
+          const totalUsada = p.usada || total - totalNueva
+          const ratioNueva = (totalNueva + totalUsada) > 0 ? totalNueva / (totalNueva + totalUsada) : 0.18
+          const segNuevaLibre  = total * (1 - ratioProt) * ratioNueva
+          const segUsadaLibre  = total * (1 - ratioProt) * (1 - ratioNueva)
+          const segNuevaProt   = total * ratioProt * ratioNueva
+          const segUsadaProt   = total * ratioProt * (1 - ratioNueva)
+          const x = P + i * colW + 2
+          const w = colW - 4
+          // Apilamos de abajo arriba: usadaLibre, nuevaLibre, usadaProt, nuevaProt
+          let y = H - P
+          const draw = (val: number, color: string, label: string) => {
+            const h = (val / maxTotal) * (H - 2 * P)
+            y -= h
+            return <rect x={x} y={y} width={w} height={h} fill={color}><title>{p.t} · {label}: {Math.round(val).toLocaleString('es-ES')}</title></rect>
+          }
+          return (
+            <g key={p.t}>
+              {draw(segUsadaLibre, COLORS.usadaLibre, 'libre · usada')}
+              {draw(segNuevaLibre, COLORS.nuevaLibre, 'libre · nueva')}
+              {draw(segUsadaProt,  COLORS.usadaProt,  'protegida · usada')}
+              {draw(segNuevaProt,  COLORS.nuevaProt,  'protegida · nueva')}
+              {i % 2 === 0 && (
+                <text x={x + w / 2} y={H + 12} textAnchor="middle" style={{ fontSize:8.5, fill:'#86868b' }}>{p.t.slice(2)}</text>
+              )}
+            </g>
+          )
+        })}
+        <text x={4} y={P + 4} style={{ fontSize:9, fill:'#86868b' }}>{Math.round(maxTotal).toLocaleString('es-ES')}</text>
+        {(() => {
+          const last = points[points.length - 1]
+          const x = P + (points.length - 0.5) * colW
+          return (
+            <text x={x} y={H - P - (((last.libre + last.protegida) / maxTotal) * (H - 2 * P)) - 4}
+              textAnchor="middle" style={{ fontSize:10, fontWeight:700, fill:'#1d1d1f', fontFamily:'var(--font-display)' }}>
               {(last.libre + last.protegida).toLocaleString('es-ES')}
             </text>
-          </g>
-        )
-      })()}
-    </svg>
+          )
+        })()}
+      </svg>
+      {/* Leyenda · 4 segmentos */}
+      <div style={{ display:'flex', gap:10, fontSize:10, marginTop:6, flexWrap:'wrap', color:'#3a3a3d' }}>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:10, height:10, background: COLORS.nuevaLibre, borderRadius:2 }}/>Libre · nueva
+        </span>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:10, height:10, background: COLORS.usadaLibre, borderRadius:2 }}/>Libre · usada
+        </span>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:10, height:10, background: COLORS.nuevaProt, borderRadius:2 }}/>Protegida · nueva
+        </span>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:10, height:10, background: COLORS.usadaProt, borderRadius:2 }}/>Protegida · usada
+        </span>
+      </div>
+    </div>
   )
 }
 
@@ -380,6 +487,179 @@ function CompraventasDonut({ totales }: { totales: { libre: number; protegida: n
         </li>
       </ul>
     </div>
+  )
+}
+
+// ─── RankingCCAA · barras horizontales con precio €/m² + var anual ──────
+function RankingCCAA({ items }: { items: Array<{ id: string; nombre: string; precio_m2: number; var_anual: number }> }) {
+  const max = Math.max(...items.map(i => i.precio_m2))
+  return (
+    <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:4 }}>
+      {items.map(c => {
+        const pct = (c.precio_m2 / max) * 100
+        const varColor = c.var_anual > 7 ? '#DC2626' : c.var_anual > 4 ? '#D97706' : '#16A34A'
+        return (
+          <li key={c.id} style={{
+            display:'grid', gridTemplateColumns:'120px 1fr 70px 50px', gap:8, alignItems:'center',
+            padding:'4px 6px', borderRadius:6, fontSize:11,
+          }}>
+            <span style={{ color:'#1d1d1f', fontWeight:600, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{c.nombre}</span>
+            <div style={{ background:'#F5F5F7', borderRadius:4, height:8, overflow:'hidden', position:'relative' }}>
+              <div style={{ width:`${pct}%`, height:'100%', background:'linear-gradient(90deg, #DB2777, #831843)', borderRadius:4 }}/>
+            </div>
+            <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f', textAlign:'right' }}>
+              {c.precio_m2.toLocaleString('es-ES')}€
+            </span>
+            <span style={{
+              fontSize:10, fontWeight:700, padding:'2px 6px', borderRadius:999,
+              background:`${varColor}14`, color: varColor, border:`1px solid ${varColor}33`,
+              textAlign:'center',
+            }}>
+              {c.var_anual >= 0 ? '+' : ''}{c.var_anual.toFixed(1)}%
+            </span>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+// ─── RankingCiudades · cards verticales con €/m² ─────────────────────────
+function RankingCiudades({ items }: { items: Array<{ ciudad: string; ccaa: string; precio_m2: number; var_anual: number }> }) {
+  return (
+    <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:5 }}>
+      {items.map((c, i) => {
+        const varColor = c.var_anual > 7 ? '#DC2626' : c.var_anual > 4 ? '#D97706' : '#16A34A'
+        return (
+          <li key={c.ciudad} style={{
+            display:'flex', alignItems:'center', gap:8,
+            padding:'7px 10px', background:'#FAFAFA', borderRadius:8, border:'1px solid #ECECEF',
+          }}>
+            <span style={{
+              width:22, height:22, borderRadius:'50%', background:'#fff',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              border:'1px solid #ECECEF', fontSize:10, fontWeight:800, color:'#6e6e73', flexShrink:0,
+            }}>{i + 1}</span>
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ fontSize:11.5, fontWeight:700, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{c.ciudad}</div>
+              <div style={{ fontSize:9.5, color:'#86868b' }}>{c.ccaa}</div>
+            </div>
+            <div style={{ textAlign:'right' }}>
+              <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>
+                {c.precio_m2.toLocaleString('es-ES')}<span style={{ fontSize:9, color:'#86868b', fontWeight:500 }}> €/m²</span>
+              </div>
+              <div style={{ fontSize:9.5, fontWeight:700, color: varColor, marginTop:2 }}>
+                {c.var_anual >= 0 ? '+' : ''}{c.var_anual.toFixed(1)}%
+              </div>
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+// ─── HipotecasChart · barras volumen + línea tipo medio (eje doble) ─────
+function HipotecasChart({ volumen, tipo }: { volumen: Array<{ t: string; v: number }>; tipo: Array<{ t: string; v: number }> }) {
+  if (!volumen.length) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
+  const W = 500, H = 200, P = 28
+  const colW = (W - 2 * P) / volumen.length
+  const maxVol = Math.max(...volumen.map(p => p.v)) * 1.1
+  const tipoMin = Math.min(...tipo.map(p => p.v)) * 0.9
+  const tipoMax = Math.max(...tipo.map(p => p.v)) * 1.1
+  const tipoPath = tipo.map((p, i) => {
+    const x = P + i * colW + colW / 2
+    const y = P + (1 - (p.v - tipoMin) / (tipoMax - tipoMin)) * (H - 2 * P)
+    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`
+  }).join(' ')
+  return (
+    <div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H + 25}`} style={{ display:'block' }}>
+        {[0, 0.5, 1].map(g => (
+          <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
+        ))}
+        {/* Barras volumen */}
+        {volumen.map((p, i) => {
+          const h = (p.v / maxVol) * (H - 2 * P)
+          const x = P + i * colW + 1
+          const w = colW - 2
+          return (
+            <rect key={p.t} x={x} y={H - P - h} width={w} height={h} fill="#DB2777" fillOpacity={0.85}>
+              <title>{p.t} · {p.v.toLocaleString('es-ES')} hipotecas</title>
+            </rect>
+          )
+        })}
+        {/* Línea tipo medio */}
+        <path d={tipoPath} fill="none" stroke="#1F4E8C" strokeWidth={2}/>
+        {tipo.map((p, i) => {
+          const x = P + i * colW + colW / 2
+          const y = P + (1 - (p.v - tipoMin) / (tipoMax - tipoMin)) * (H - 2 * P)
+          return <circle key={p.t} cx={x} cy={y} r={2} fill="#1F4E8C"><title>{p.t} · tipo medio {p.v.toFixed(2)}%</title></circle>
+        })}
+        {/* Etiquetas X */}
+        {volumen.filter((_, i) => i % 4 === 0).map((p) => {
+          const i = volumen.findIndex(v => v.t === p.t)
+          const x = P + i * colW + colW / 2
+          return <text key={p.t} x={x} y={H + 12} textAnchor="middle" style={{ fontSize:8.5, fill:'#86868b' }}>{p.t.slice(2)}</text>
+        })}
+        {/* Eje izq · volumen */}
+        <text x={4} y={P + 4} style={{ fontSize:9, fill:'#DB2777', fontWeight:700 }}>{Math.round(maxVol / 1000)}k</text>
+        <text x={4} y={H - P + 4} style={{ fontSize:9, fill:'#86868b' }}>0</text>
+        {/* Eje der · tipo */}
+        <text x={W - 4} y={P + 4} textAnchor="end" style={{ fontSize:9, fill:'#1F4E8C', fontWeight:700 }}>{tipoMax.toFixed(1)}%</text>
+        <text x={W - 4} y={H - P + 4} textAnchor="end" style={{ fontSize:9, fill:'#86868b' }}>{tipoMin.toFixed(1)}%</text>
+      </svg>
+      <div style={{ display:'flex', gap:14, fontSize:10.5, marginTop:6, flexWrap:'wrap', color:'#3a3a3d' }}>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:10, height:10, background:'#DB2777', borderRadius:2 }}/>Hipotecas mensuales
+        </span>
+        <span style={{ display:'flex', alignItems:'center', gap:5 }}>
+          <span style={{ width:14, height:2, background:'#1F4E8C' }}/>Tipo medio %
+        </span>
+      </div>
+    </div>
+  )
+}
+
+// ─── VisadosChart · línea simple obra nueva ─────────────────────────────
+function VisadosChart({ serie }: { serie: Array<{ t: string; v: number }> }) {
+  if (!serie.length) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
+  const W = 400, H = 200, P = 22
+  const max = Math.max(...serie.map(p => p.v)) * 1.1
+  const min = Math.min(...serie.map(p => p.v)) * 0.9
+  const path = serie.map((p, i) => {
+    const x = P + (i / (serie.length - 1)) * (W - 2 * P)
+    const y = P + (1 - (p.v - min) / (max - min)) * (H - 2 * P)
+    return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`
+  }).join(' ')
+  // Area para énfasis
+  const areaPath = `${path} L ${(P + (W - 2 * P)).toFixed(1)},${(H - P).toFixed(1)} L ${P},${(H - P).toFixed(1)} Z`
+  return (
+    <svg width="100%" viewBox={`0 0 ${W} ${H + 22}`} style={{ display:'block' }}>
+      <defs>
+        <linearGradient id="visadosGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0EA5E9" stopOpacity={0.3}/>
+          <stop offset="100%" stopColor="#0EA5E9" stopOpacity={0}/>
+        </linearGradient>
+      </defs>
+      {[0, 0.5, 1].map(g => (
+        <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
+      ))}
+      <path d={areaPath} fill="url(#visadosGrad)"/>
+      <path d={path} fill="none" stroke="#0EA5E9" strokeWidth={2.5}/>
+      {serie.map((p, i) => {
+        const x = P + (i / (serie.length - 1)) * (W - 2 * P)
+        const y = P + (1 - (p.v - min) / (max - min)) * (H - 2 * P)
+        return <circle key={p.t} cx={x} cy={y} r={2} fill="#0EA5E9"><title>{p.t} · {p.v.toLocaleString('es-ES')} visados</title></circle>
+      })}
+      {serie.filter((_, i) => i % 4 === 0).map((p) => {
+        const i = serie.findIndex(v => v.t === p.t)
+        const x = P + (i / (serie.length - 1)) * (W - 2 * P)
+        return <text key={p.t} x={x} y={H + 10} textAnchor="middle" style={{ fontSize:8.5, fill:'#86868b' }}>{p.t.slice(2)}</text>
+      })}
+      <text x={4} y={P + 4} style={{ fontSize:9, fill:'#86868b' }}>{Math.round(max / 1000)}k</text>
+      <text x={4} y={H - P + 4} style={{ fontSize:9, fill:'#86868b' }}>{Math.round(min / 1000)}k</text>
+    </svg>
   )
 }
 
