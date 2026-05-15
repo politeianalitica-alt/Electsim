@@ -14,6 +14,7 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_DEFENSA, REGULADORES_DEFENSA, PROGRAMAS_DEFENSA } from '@/lib/sources/worldbank'
+import { Panel } from '@/components/SectorPanel'
 
 interface ResumenResp {
   kpis: {
@@ -140,12 +141,20 @@ export default function SectorDefensaPage() {
           <Panel
             title="Evolución del gasto militar · 25 años"
             subtitle="% PIB y absoluto en miles de millones USD · Banco Mundial"
+            sourceUrl="https://datos.bancomundial.org/indicador/MS.MIL.XPND.GD.ZS?locations=ES"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="Gasto militar · % PIB · serie España"
+            apiUrl="/api/sectores/defensa/gasto-militar?from=2000"
           >
             {gasto && <GastoLineChart data={gasto.points}/>}
           </Panel>
           <Panel
             title="Comparativa OTAN"
             subtitle={otan ? `Año ${otan.year} · ${otan.cumplen_pct} de ${otan.items.length} cumplen 2 % PIB · media ${otan.media_otan?.toFixed(2)} %` : 'Cargando…'}
+            sourceUrl="https://www.nato.int/cps/en/natohq/topics_49198.htm"
+            sourceLabel="OTAN"
+            sourceTooltip="Defence Expenditure · NATO Annual Report"
+            apiUrl="/api/sectores/defensa/comparativa-otan"
           >
             {otan && <OtanComparativa items={otan.items}/>}
           </Panel>
@@ -156,6 +165,10 @@ export default function SectorDefensaPage() {
           title="Últimos contratos del sector defensa"
           subtitle={contratos ? `${contratos.items.length} contratos · ${contratos.stats.importe_total_M} M€ · ${contratos.stats.sources.filter(s => s.ok).length}/${contratos.stats.sources.length} fuentes activas` : 'Cargando…'}
           marginBottom
+          sourceUrl="https://www.contrataciondelestado.gob.es/"
+          sourceLabel="PLACSP"
+          sourceTooltip="Plataforma de Contratación del Sector Público · CPV 35"
+          apiUrl="/api/sectores/defensa/contratos?days=180&limit=15"
         >
           {contratos && <ContratosList items={contratos.items}/>}
         </Panel>
@@ -198,21 +211,6 @@ function HeroKPI({ label, value, unit, accent, sub, decimals = 0 }: { label: str
       </div>
       {sub && <div style={{ fontSize:10, opacity:0.6, marginTop:2 }}>{sub}</div>}
     </div>
-  )
-}
-
-function Panel({ title, subtitle, children, marginBottom }: { title: string; subtitle?: string; children: React.ReactNode; marginBottom?: boolean }) {
-  return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
-      marginBottom: marginBottom ? 14 : 0,
-    }}>
-      <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
-        <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-      </header>
-      {children}
-    </section>
   )
 }
 

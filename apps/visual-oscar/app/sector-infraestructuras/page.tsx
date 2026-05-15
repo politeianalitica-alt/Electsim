@@ -64,13 +64,23 @@ export default function SectorInfraestructurasPage() {
         />
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Pasajeros aéreos transportados · serie histórica" subtitle="Banco Mundial · IS.AIR.PSGR (anual)">
+          <Panel title="Pasajeros aéreos transportados · serie histórica"
+            subtitle="Banco Mundial · IS.AIR.PSGR (anual)"
+            sourceUrl="https://datos.bancomundial.org/indicador/IS.AIR.PSGR?locations=ES"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="Air transport · passengers carried · serie España"
+            apiUrl="/api/sectores/infraestructuras/resumen">
             {data && <SerieLineChart
               points={data.serie_pasajeros.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
               formatY={n => `${n.toFixed(0)}M`}/>}
           </Panel>
-          <Panel title="IPCO · Índice Producción Construcción" subtitle="INE · ingeniería civil mensual base 2021=100">
+          <Panel title="IPCO · Índice Producción Construcción"
+            subtitle="INE · ingeniería civil mensual base 2021=100"
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=5803"
+            sourceLabel="INE"
+            sourceTooltip="Índice Producción Construcción · INE · mensual"
+            apiUrl="/api/sectores/infraestructuras/resumen">
             {data && <SerieLineChart points={data.serie_ipco} color="#7C3AED" formatY={n => n.toFixed(1)}/>}
           </Panel>
         </div>

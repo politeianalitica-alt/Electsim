@@ -18,6 +18,7 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_ENERGIA, REGULADORES_ENERGIA } from '@/lib/sources/ree'
+import { Panel } from '@/components/SectorPanel'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -290,71 +291,6 @@ function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: nu
       </div>
       {sub && <div style={{ fontSize:10, opacity:0.6, marginTop:2 }}>{sub}</div>}
     </div>
-  )
-}
-
-function Panel({ title, subtitle, children, marginBottom, sourceUrl, sourceLabel, sourceTooltip, apiUrl }: {
-  title: string
-  subtitle?: string
-  children: React.ReactNode
-  marginBottom?: boolean
-  sourceUrl?: string
-  sourceLabel?: string
-  sourceTooltip?: string
-  apiUrl?: string
-}) {
-  return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
-      marginBottom: marginBottom ? 14 : 0,
-    }}>
-      <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
-        <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
-          {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-          {apiUrl && <SourceBadge href={apiUrl} label="JSON" tooltip="Endpoint REE apidatos · respuesta JSON-API" variant="ghost" />}
-          {sourceUrl && <SourceBadge href={sourceUrl} label={sourceLabel || 'Fuente REE'} tooltip={sourceTooltip || `Abrir visor oficial en ree.es con el mismo rango temporal`} variant="primary" />}
-        </div>
-      </header>
-      {children}
-    </section>
-  )
-}
-
-// Badge "Fuente REE ↗" con hover state (reusable)
-function SourceBadge({ href, label, tooltip, variant }: {
-  href: string
-  label: string
-  tooltip: string
-  variant: 'primary' | 'ghost'
-}) {
-  const [hover, setHover] = useState(false)
-  const palette = variant === 'primary'
-    ? { bg:'#F5F8FC', bgHover:'#E8F0FA', border:'#D8E5F4', borderHover:'#B6CFEA', color:'#1F4E8C' }
-    : { bg:'#FAFAFA', bgHover:'#F0F0F1', border:'#ECECEF', borderHover:'#D6D6DA', color:'#6e6e73' }
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      title={tooltip}
-      style={{
-        display:'inline-flex', alignItems:'center', gap:4,
-        fontSize:10.5, fontWeight:600, letterSpacing:'0.02em',
-        color: palette.color, textDecoration:'none',
-        padding:'3px 9px', borderRadius:999,
-        background: hover ? palette.bgHover : palette.bg,
-        border: `1px solid ${hover ? palette.borderHover : palette.border}`,
-        whiteSpace:'nowrap',
-        transition:'background 150ms ease, border-color 150ms ease, transform 150ms ease',
-        transform: hover ? 'translateY(-0.5px)' : 'none',
-      }}
-    >
-      {label}
-      <span aria-hidden="true" style={{ fontSize:9, opacity:0.85 }}>↗</span>
-    </a>
   )
 }
 

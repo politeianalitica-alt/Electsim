@@ -18,6 +18,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_FARMA, REGULADORES_FARMA } from '@/lib/sources/aemps'
 import PillSelect, { PillInput } from '@/components/PillSelect'
+import { Panel } from '@/components/SectorPanel'
 
 interface ResumenResp {
   kpis: {
@@ -130,20 +131,39 @@ export default function SectorFarmaPage() {
           <Panel
             title="Desabastecimientos · evolución últimos 4 meses"
             subtitle={desabast ? `${desabast.total.toLocaleString('es-ES')} problemas en el periodo` : 'Cargando…'}
+            sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
+            sourceLabel="AEMPS CIMA"
+            sourceTooltip="Listado oficial de problemas de suministro · AEMPS"
+            apiUrl="/api/sectores/farma/desabastecimientos?days=120&page=1&page_size=100"
           >
             {desabast && <DesabastTimeline data={desabast.por_mes}/>}
           </Panel>
-          <Panel title="Tipo de problema de suministro" subtitle="Distribución por clasificación AEMPS">
+          <Panel title="Tipo de problema de suministro"
+            subtitle="Distribución por clasificación AEMPS"
+            sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
+            sourceLabel="AEMPS CIMA"
+            sourceTooltip="Clasificación de problemas de suministro · AEMPS"
+            apiUrl="/api/sectores/farma/desabastecimientos?days=120">
             {desabast && <TipoBreakdown items={desabast.por_tipo}/>}
           </Panel>
         </div>
 
         {/* ROW 2: Top laboratorios + Distribución ATC */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Top laboratorios titulares" subtitle={labs ? `${labs.total_unique_labs.toLocaleString('es-ES')} únicos · sample ${labs.sample_size}` : 'Cargando…'}>
+          <Panel title="Top laboratorios titulares"
+            subtitle={labs ? `${labs.total_unique_labs.toLocaleString('es-ES')} únicos · sample ${labs.sample_size}` : 'Cargando…'}
+            sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
+            sourceLabel="AEMPS CIMA"
+            sourceTooltip="Buscador de medicamentos · titulares · AEMPS"
+            apiUrl="/api/sectores/farma/laboratorios?limit=20">
             {labs && <LabsRanking items={labs.items}/>}
           </Panel>
-          <Panel title="Distribución por clase terapéutica" subtitle="Sistema de Clasificación ATC nivel 1">
+          <Panel title="Distribución por clase terapéutica"
+            subtitle="Sistema de Clasificación ATC nivel 1"
+            sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
+            sourceLabel="AEMPS CIMA"
+            sourceTooltip="Clasificación ATC · nivel 1 · medicamentos"
+            apiUrl="/api/sectores/farma/atc">
             {atc && <AtcDonut items={atc.items}/>}
           </Panel>
         </div>
@@ -153,12 +173,21 @@ export default function SectorFarmaPage() {
           title="Problemas de suministro recientes"
           subtitle="Listado oficial AEMPS · ordenado por fecha de inicio"
           marginBottom
+          sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
+          sourceLabel="AEMPS CIMA"
+          sourceTooltip="Problemas de suministro · listado completo · AEMPS"
+          apiUrl="/api/sectores/farma/desabastecimientos?days=120"
         >
           {desabast && <DesabastList items={desabast.items.slice(0, 25)}/>}
         </Panel>
 
         {/* ROW 4: Buscador de medicamentos */}
-        <Panel title="Buscador de medicamentos" subtitle="CIMA · 28k+ fichas · filtros por laboratorio, ATC y receta" marginBottom>
+        <Panel title="Buscador de medicamentos"
+          subtitle="CIMA · 28k+ fichas · filtros por laboratorio, ATC y receta"
+          marginBottom
+          sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
+          sourceLabel="AEMPS CIMA"
+          sourceTooltip="Buscador oficial CIMA · ficha técnica de medicamentos">
           <BuscadorMedicamentos/>
         </Panel>
 
@@ -200,21 +229,6 @@ function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: nu
       </div>
       {sub && <div style={{ fontSize:10, opacity:0.6, marginTop:2 }}>{sub}</div>}
     </div>
-  )
-}
-
-function Panel({ title, subtitle, children, marginBottom }: { title: string; subtitle?: string; children: React.ReactNode; marginBottom?: boolean }) {
-  return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
-      marginBottom: marginBottom ? 14 : 0,
-    }}>
-      <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
-        <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-      </header>
-      {children}
-    </section>
   )
 }
 

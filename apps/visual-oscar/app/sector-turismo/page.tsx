@@ -68,13 +68,23 @@ export default function SectorTurismoPage() {
         />
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Turistas internacionales · serie mensual" subtitle="INE FRONTUR · Total Nacional dato base">
+          <Panel title="Turistas internacionales · serie mensual"
+            subtitle="INE FRONTUR · Total Nacional dato base"
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10256"
+            sourceLabel="INE"
+            sourceTooltip="FRONTUR · Estadística de Movimientos Turísticos · INE"
+            apiUrl="/api/sectores/turismo/resumen">
             {data && <SerieLineChart
               points={data.serie_turistas.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
               formatY={n => `${n.toFixed(1)}M`}/>}
           </Panel>
-          <Panel title="Pernoctaciones hoteleras · serie mensual" subtitle="INE EOH · Total Nacional">
+          <Panel title="Pernoctaciones hoteleras · serie mensual"
+            subtitle="INE EOH · Total Nacional"
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10257"
+            sourceLabel="INE"
+            sourceTooltip="EOH · Encuesta Ocupación Hotelera · INE"
+            apiUrl="/api/sectores/turismo/resumen">
             {data && <SerieLineChart
               points={data.serie_pernoctaciones.map(p => ({ t: p.t, v: p.v != null ? p.v / 1000 : null }))}
               color="#7C3AED"

@@ -30,22 +30,11 @@ export function HeroKPI({ label, value, unit, accent, sub, decimals = 0 }: {
   )
 }
 
-export function Panel({ title, subtitle, children, marginBottom }: {
-  title: string; subtitle?: string; children: React.ReactNode; marginBottom?: boolean
-}) {
-  return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
-      marginBottom: marginBottom ? 14 : 0,
-    }}>
-      <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
-        <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-      </header>
-      {children}
-    </section>
-  )
-}
+// Panel y SourceBadge se han movido a `components/SectorPanel.tsx` para
+// reutilizarse desde TODAS las páginas /sector-* con badges de fuente
+// oficial (REE, ECB, INE, AEMPS, Banco Mundial, OTAN, etc.). Se re-exportan
+// aquí para no romper los imports existentes.
+export { Panel, SourceBadge } from './SectorPanel'
 
 export function EmpresasGrid({ empresas, accent }: { empresas: readonly SectorEmpresa[]; accent: string }) {
   return (

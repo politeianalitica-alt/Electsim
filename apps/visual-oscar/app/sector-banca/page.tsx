@@ -120,30 +120,60 @@ export default function SectorBancaPage() {
 
         {/* ROW 1: Tipos ECB + EURIBOR */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Tipos oficiales del BCE · 24 meses" subtitle={tipos ? `DFR ${tipos.last.dfr}% · MRO ${tipos.last.mro}% (último valor)` : 'Cargando…'}>
+          <Panel title="Tipos oficiales del BCE · 24 meses"
+            subtitle={tipos ? `DFR ${tipos.last.dfr}% · MRO ${tipos.last.mro}% (último valor)` : 'Cargando…'}
+            sourceUrl="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html"
+            sourceLabel="ECB"
+            sourceTooltip="Tipos oficiales del Banco Central Europeo"
+            apiUrl="/api/sectores/banca/tipos-ecb?days=730">
             {tipos && <TiposECBChart points={tipos.points}/>}
           </Panel>
-          <Panel title="EURIBOR 12M y 6M · 4 años" subtitle="Comparado con bono 10Y España · BCE SDW">
+          <Panel title="EURIBOR 12M y 6M · 4 años"
+            subtitle="Comparado con bono 10Y España · BCE SDW"
+            sourceUrl="https://data.ecb.europa.eu/data/datasets/FM"
+            sourceLabel="ECB SDW"
+            sourceTooltip="EURIBOR · Financial Markets dataset (BCE)"
+            apiUrl="/api/sectores/banca/euribor?nult=48">
             {euribor && <EuriborChart points={euribor.points}/>}
           </Panel>
         </div>
 
         {/* ROW 2: Crédito + Comparativa europea */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1.3fr', gap:14, marginBottom:14 }}>
-          <Panel title="Crédito al sector privado · % PIB" subtitle="Banco Mundial · serie histórica 25 años">
+          <Panel title="Crédito al sector privado · % PIB"
+            subtitle="Banco Mundial · serie histórica 25 años"
+            sourceUrl="https://datos.bancomundial.org/indicador/FS.AST.PRVT.GD.ZS?locations=ES"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="Crédito al sector privado · % PIB · serie España"
+            apiUrl="/api/sectores/banca/credito">
             {credito && <CreditoChart series={credito}/>}
           </Panel>
-          <Panel title="Comparativa europea" subtitle={comparativa ? `Año ${comparativa.year} · crédito %PIB y NPL` : 'Cargando…'}>
+          <Panel title="Comparativa europea"
+            subtitle={comparativa ? `Año ${comparativa.year} · crédito %PIB y NPL` : 'Cargando…'}
+            sourceUrl="https://datos.bancomundial.org/indicador/FS.AST.PRVT.GD.ZS"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="Comparativa europea · crédito y morosidad"
+            apiUrl="/api/sectores/banca/comparativa-europa">
             {comparativa && <ComparativaTable items={comparativa.items}/>}
           </Panel>
         </div>
 
         {/* ROW 3: NPL + Capital bancario */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Préstamos morosos (NPL) · % sobre total" subtitle="Banco Mundial · serie post-crisis 2010-2024">
+          <Panel title="Préstamos morosos (NPL) · % sobre total"
+            subtitle="Banco Mundial · serie post-crisis 2010-2024"
+            sourceUrl="https://datos.bancomundial.org/indicador/FB.AST.NPER.ZS?locations=ES"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="NPL · préstamos morosos % sobre total · España"
+            apiUrl="/api/sectores/banca/credito">
             {credito && <NplChart points={credito.serie_npl}/>}
           </Panel>
-          <Panel title="Capital bancario · % activos" subtitle="Banco Mundial · ratio solvencia agregado">
+          <Panel title="Capital bancario · % activos"
+            subtitle="Banco Mundial · ratio solvencia agregado"
+            sourceUrl="https://datos.bancomundial.org/indicador/FB.BNK.CAPA.ZS?locations=ES"
+            sourceLabel="Banco Mundial"
+            sourceTooltip="Capital bancario · ratio % activos · España"
+            apiUrl="/api/sectores/banca/credito">
             {credito && <CapitalChart points={credito.serie_capital}/>}
           </Panel>
         </div>

@@ -15,6 +15,7 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_VIVIENDA, REGULADORES_VIVIENDA, PROGRAMAS_VIVIENDA } from '@/lib/sources/ine'
+import { Panel } from '@/components/SectorPanel'
 
 interface ResumenResp {
   kpis: {
@@ -124,12 +125,20 @@ export default function SectorViviendaPage() {
           <Panel
             title="IPV · Índice de Precios de Vivienda"
             subtitle={precios ? `Trimestral · ${precios.points.length} observaciones · base 2015 = 100` : 'Cargando…'}
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=4960"
+            sourceLabel="INE"
+            sourceTooltip="IPV · INE · Índice Precios Vivienda trimestral"
+            apiUrl="/api/sectores/vivienda/precios?nult=24"
           >
             {precios && <PreciosLineChart points={precios.points}/>}
           </Panel>
           <Panel
             title="Compraventas mensuales · Total nacional"
             subtitle={compras ? `Suma 18 meses: ${compras.totales.total.toLocaleString('es-ES')} viviendas` : 'Cargando…'}
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
+            sourceLabel="INE"
+            sourceTooltip="Estadística Transmisiones Derechos Propiedad · INE"
+            apiUrl="/api/sectores/vivienda/compraventas?nult=18"
           >
             {compras && <CompraventasStacked points={compras.points}/>}
           </Panel>
@@ -140,12 +149,20 @@ export default function SectorViviendaPage() {
           <Panel
             title="Distribución de compraventas · 18 meses"
             subtitle="Por tipología de vivienda"
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
+            sourceLabel="INE"
+            sourceTooltip="Compraventas por tipología · INE ETDP"
+            apiUrl="/api/sectores/vivienda/compraventas?nult=18"
           >
             {compras && <CompraventasDonut totales={compras.totales}/>}
           </Panel>
           <Panel
             title="IPVA · Índice Precios Vivienda Alquiler"
             subtitle={alquiler ? `${alquiler.points.length} años · variación anual` : 'Cargando…'}
+            sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=10309"
+            sourceLabel="INE"
+            sourceTooltip="IPVA · INE · variación anual del alquiler"
+            apiUrl="/api/sectores/vivienda/alquiler?nult=10"
           >
             {alquiler && <AlquilerLineChart points={alquiler.points}/>}
           </Panel>
@@ -194,21 +211,6 @@ function HeroKPI({ label, value, unit, accent, sub, decimals = 0 }: { label: str
       </div>
       {sub && <div style={{ fontSize:10, opacity:0.6, marginTop:2 }}>{sub}</div>}
     </div>
-  )
-}
-
-function Panel({ title, subtitle, children, marginBottom }: { title: string; subtitle?: string; children: React.ReactNode; marginBottom?: boolean }) {
-  return (
-    <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px',
-      marginBottom: marginBottom ? 14 : 0,
-    }}>
-      <header style={{ marginBottom:14, display:'flex', justifyContent:'space-between', alignItems:'baseline', flexWrap:'wrap', gap:8 }}>
-        <h2 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.013em', color:'#1d1d1f' }}>{title}</h2>
-        {subtitle && <p style={{ margin:0, fontSize:11, color:'#6e6e73' }}>{subtitle}</p>}
-      </header>
-      {children}
-    </section>
   )
 }
 
