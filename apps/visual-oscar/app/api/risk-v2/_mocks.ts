@@ -34,12 +34,12 @@ function dayJitter(seed: number, range = 4): number {
 
 export function mockIndices(country = 'ES'): RiskIndicesPayload {
   const baseIndices: Array<Pick<RiskIndexCard, 'index_id' | 'display_name' | 'display_order' | 'icon' | 'description'> & { base: number; n_used: number; n_total: number }> = [
-    { index_id: 'institutional', display_name: 'Institucional',  display_order: 1, icon: '⚖',  description: 'Calidad democrática · WGI · V-Dem · independencia judicial', base: 38, n_used: 7, n_total: 8 },
-    { index_id: 'electoral',     display_name: 'Electoral',      display_order: 2, icon: '🗳',  description: 'Volatilidad CIS · Pedersen · margen entre bloques', base: 64, n_used: 5, n_total: 6 },
-    { index_id: 'geopolitical',  display_name: 'Geopolítico',    display_order: 3, icon: '🌐', description: 'GPR Caldara · ACLED proximidad · tensión OTAN', base: 71, n_used: 6, n_total: 7 },
-    { index_id: 'economic',      display_name: 'Económico',      display_order: 4, icon: '💰', description: 'EPU España · prima de riesgo · BCE rates · inflación', base: 52, n_used: 8, n_total: 9 },
-    { index_id: 'media',         display_name: 'Mediático',      display_order: 5, icon: '📰', description: 'RSUI · sentiment 487 fuentes · polarización tweets', base: 58, n_used: 6, n_total: 6 },
-    { index_id: 'social',        display_name: 'Social',         display_order: 6, icon: '👥', description: 'CIS confianza · protestas ACLED · paro juvenil INE', base: 47, n_used: 5, n_total: 6 },
+    { index_id: 'institutional', display_name: 'Institucional',  display_order: 1, icon: '', description: 'Calidad democrática · WGI · V-Dem · independencia judicial', base: 38, n_used: 7, n_total: 8 },
+    { index_id: 'electoral',     display_name: 'Electoral',      display_order: 2, icon: '', description: 'Volatilidad CIS · Pedersen · margen entre bloques', base: 64, n_used: 5, n_total: 6 },
+    { index_id: 'geopolitical',  display_name: 'Geopolítico',    display_order: 3, icon: '', description: 'GPR Caldara · ACLED proximidad · tensión OTAN', base: 71, n_used: 6, n_total: 7 },
+    { index_id: 'economic',      display_name: 'Económico',      display_order: 4, icon: '', description: 'EPU España · prima de riesgo · BCE rates · inflación', base: 52, n_used: 8, n_total: 9 },
+    { index_id: 'media',         display_name: 'Mediático',      display_order: 5, icon: '', description: 'RSUI · sentiment 487 fuentes · polarización tweets', base: 58, n_used: 6, n_total: 6 },
+    { index_id: 'social',        display_name: 'Social',         display_order: 6, icon: '', description: 'CIS confianza · protestas ACLED · paro juvenil INE', base: 47, n_used: 5, n_total: 6 },
   ]
 
   const indices: RiskIndexCard[] = baseIndices.map((b, i) => {

@@ -118,7 +118,6 @@ export default function RiskV2Dashboard({ country = 'ES' }: { country?: string }
         padding: '32px 28px', background: '#fff', border: '1px solid #ECECEF',
         borderRadius: 14, marginTop: 12, textAlign: 'center',
       }}>
-        <div style={{ fontSize: 28, opacity: 0.4, marginBottom: 10 }}>⚡</div>
         <div style={{ fontSize: 13.5, color: '#1d1d1f', fontWeight: 600, marginBottom: 6 }}>
           No se pudieron cargar los índices de riesgo
         </div>
@@ -222,7 +221,7 @@ function KPIStrip({ indices, aggregate }: { indices: RiskIndexCard[]; aggregate:
             background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
           }}>
             <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              {idx.icon} {idx.display_name}
+              {idx.display_name}
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginTop: 4 }}>
               <div style={{ fontSize: 26, fontWeight: 800, color: '#1d1d1f', lineHeight: 1 }}>
@@ -341,7 +340,7 @@ function DimensionBars({ indices }: { indices: RiskIndexCard[] }) {
           <div key={idx.index_id}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, marginBottom: 3 }}>
               <span style={{ color: '#1d1d1f', fontWeight: 600 }}>
-                {idx.icon} {idx.display_name}
+                {idx.display_name}
               </span>
               <span style={{ fontWeight: 700, color, fontFamily: 'var(--font-display, monospace)' }}>
                 {idx.score.toFixed(1)}<span style={{ fontSize: 9, color: '#94a3b8', marginLeft: 2 }}>/100</span>
@@ -569,7 +568,7 @@ function Breakdown({
               padding: '5px 11px', fontSize: 11, fontWeight: 600,
               cursor: 'pointer', fontFamily: 'inherit',
             }}>
-              {idx.icon} {idx.display_name}
+              {idx.display_name}
             </button>
           )
         })}
@@ -971,7 +970,7 @@ function Configuration({ country, onReload }: { country: string; onReload: () =>
 
       {/* Thresholds + weights per index */}
       {config.indices.map(idx => (
-        <Card key={idx.index_id} title={`${idx.icon} ${idx.display_name} · pesos y umbrales`}>
+        <Card key={idx.index_id} title={`${idx.display_name} · pesos y umbrales`}>
           {/* Thresholds */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr) auto', gap: 10, alignItems: 'flex-end', marginBottom: 14 }}>
             {(['low', 'medium', 'high'] as const).map(level => (
