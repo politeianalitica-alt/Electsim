@@ -5,8 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
 import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
-import MapaProvincias from '@/components/MapaProvincias'
-import MapaProvinciasBubbles from '@/components/MapaProvinciasBubbles'
+import MapaPoliticoEspana from '@/components/MapaPoliticoEspana'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 
@@ -317,11 +316,15 @@ export default function EscenariosPage(){
       })
   }, [nowcast])
 
-  // Si pidieron 'estimacion' y hay datos vivos, usamos los vivos. Si no,
-  // caemos al dataset hardcodeado (que actúa como fallback).
-  const activeHemi: HParty[] = (hemiDataset === 'estimacion' && liveEstimacion)
-    ? liveEstimacion
-    : HEMI_DATASETS[hemiDataset]
+  // 'estimacion' SIEMPRE viene del back real (/api/analytics/nowcast).
+  // Solo aceptamos los datos si _meta.source === 'backend' (no mock).
+  // Si el back todavía no respondió o devolvió mock, mostramos un
+  // placeholder de carga — NO hay fallback a datos demo hardcoded.
+  // Las claves históricas (g2023, g2019, …) sí salen del dataset local.
+  const liveIsReal = nowcastSource === 'backend'
+  const activeHemi: HParty[] | null = hemiDataset === 'estimacion'
+    ? (liveIsReal ? liveEstimacion : null)
+    : (HEMI_DATASETS[hemiDataset] || null)
   return(
     <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
       <AppHeader/>
@@ -349,16 +352,18 @@ export default function EscenariosPage(){
 
         {/* ───── Hemiciclo + Mapa provincial · grid 2 columnas compactas ───── */}
         <div style={{display:'grid',gridTemplateColumns:'5fr 7fr',gap:14,marginBottom:20,alignItems:'stretch'}}>
-          {/* Hemiciclo (con cálculo de coalición + selector con históricas) */}
+          {/* Hemiciclo (con cálculo de coalición + selector con históricas)
+              · Header con título a la izquierda y selector SIEMPRE pegado
+              a la derecha (sin flex-wrap, sin que se baje a otra línea). */}
           <div style={{background:'#fff',borderRadius:16,padding:'16px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',display:'flex',flexDirection:'column'}}>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:8,flexWrap:'wrap',marginBottom:10}}>
-              <div style={{display:'flex',alignItems:'center',gap:8}}>
-                <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:0}}>Hemiciclo · coaliciones</h2>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12,marginBottom:10}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,minWidth:0,flex:'1 1 auto'}}>
+                <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:0,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Hemiciclo · coaliciones</h2>
                 {hemiDataset === 'estimacion' && (
                   <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
                 )}
               </div>
-              <div style={{display:'inline-flex',alignItems:'center',gap:5}}>
+              <div style={{display:'inline-flex',alignItems:'center',gap:5,flex:'0 0 auto',marginLeft:'auto'}}>
                 <div style={{display:'inline-flex',background:'#F5F5F7',borderRadius:999,padding:2}}>
                   {([{k:'estimacion',label:'Est. 2026'},{k:'g2023',label:'2023'}] as const).map(o=>{
                     const active = hemiDataset === o.k
@@ -395,39 +400,50 @@ export default function EscenariosPage(){
             </div>
             <p style={{fontSize:11,color:'var(--ink-4)',margin:'0 0 8px'}}>Pulsa partidos para sumar escaños y comprobar viabilidad.</p>
             <div style={{flex:1,minHeight:0}}>
-              <HemicycleAdvanced
-                parties={activeHemi}
-                belowLegend={<HemiTable parties={activeHemi}/>}
-              />
+              {activeHemi ? (
+                <HemicycleAdvanced
+                  parties={activeHemi}
+                  belowLegend={<HemiTable parties={activeHemi}/>}
+                />
+              ) : hemiDataset === 'estimacion' && nowcast && !liveIsReal ? (
+                /* El back respondió pero con mock · estimación no disponible */
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',padding:'40px 20px',color:'#86868b',fontSize:12,gap:10,textAlign:'center'}}>
+                  <div style={{fontSize:28,opacity:0.4}}>⚡</div>
+                  <div>
+                    <div style={{fontWeight:600,color:'#1d1d1f',marginBottom:4}}>Estimación no disponible</div>
+                    <div style={{maxWidth:300}}>El backend de nowcast electoral está desconectado. Pulsa una elección histórica para seguir explorando.</div>
+                  </div>
+                  <button onClick={refreshNowcast} style={{
+                    background:'#1d1d1f',color:'#fff',border:'none',borderRadius:999,
+                    padding:'6px 14px',fontSize:11,fontWeight:600,cursor:'pointer',fontFamily:'inherit',
+                  }}>↻ Reintentar</button>
+                </div>
+              ) : (
+                /* Cargando · primera petición todavía en vuelo */
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',padding:'40px 20px',color:'#86868b',fontSize:12,gap:8}}>
+                  <div style={{width:18,height:18,borderRadius:'50%',border:'2px solid #ECECEF',borderTopColor:'#1d1d1f',animation:'spin 0.8s linear infinite'}}/>
+                  <div style={{textAlign:'center'}}>
+                    <div style={{fontWeight:600,color:'#1d1d1f',marginBottom:2}}>Cargando estimación en vivo…</div>
+                    <div>Conectando con el back de nowcast electoral</div>
+                  </div>
+                  <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Mapa provincial compacto con histórico interno (cuadrícula) */}
+          {/* Mapa político REALISTA de España con geografía de provincias
+              (sustituye al mapa de cuadrícula y al mapa de burbujas que
+              estaban antes en una sección separada). */}
           <div style={{background:'#fff',borderRadius:16,padding:'16px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',display:'flex',flexDirection:'column'}}>
             <div style={{marginBottom:10}}>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa provincial · cuadrícula</h2>
-              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>52 provincias en grid cartográfico · alterna <strong>Ganador / Tamaño</strong>.</p>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:'0 0 3px'}}>Mapa político · provincias de España</h2>
+              <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>50 provincias + Ceuta y Melilla · cada provincia coloreada según el partido ganador.</p>
             </div>
             <div style={{flex:1,minHeight:0}}>
-              <MapaProvincias compact dataset={provDataset} onDatasetChange={setProvDataset}/>
+              <MapaPoliticoEspana compact dataset={provDataset} onDatasetChange={setProvDataset}/>
             </div>
           </div>
-        </div>
-
-        {/* ───── Mapa de burbujas v2 (vista geográfica alternativa) ─────
-            Comparte el dataset con el mapa de cuadrícula de arriba: si el
-            usuario cambia 2026 → 2019 en uno, ambos se actualizan. */}
-        <div style={{marginBottom:20}}>
-          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',gap:10,marginBottom:10,flexWrap:'wrap'}}>
-            <div>
-              <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:'0 0 3px'}}>Mapa provincial · burbujas geográficas</h2>
-              <p style={{fontSize:11.5,color:'var(--ink-4)',margin:0}}>
-                Vista alternativa centroides · cada provincia es un círculo (tamaño = escaños, color = ganador). Sincronizado con el mapa de cuadrícula.
-              </p>
-            </div>
-            <span style={{fontSize:10.5,fontWeight:700,color:'#7C3AED',letterSpacing:'0.08em',textTransform:'uppercase'}}>v2</span>
-          </div>
-          <MapaProvinciasBubbles dataset={provDataset} onDatasetChange={setProvDataset}/>
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
