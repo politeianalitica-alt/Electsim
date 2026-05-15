@@ -20,6 +20,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { geoMercator, geoPath } from 'd3-geo'
 import {
   PARTIES, PROVINCES, WINNERS, WINNERS_HIST, HISTORIC_OPTIONS,
+  getBreakdown,
   type PartyId,
 } from './MapaProvincias'
 
@@ -116,13 +117,14 @@ export default function MapaPoliticoEspana({
   }, [peninsulaFCs, compact, W, H])
 
   // Proyección canarias separada, encajonada abajo a la izquierda
+  // (más pequeña para que no domine visualmente la península).
   const canariasProjection = useMemo(() => {
     if (canariasFCs.length === 0) return null
-    const boxW = compact ? 130 : 190
-    const boxH = compact ? 70 : 100
+    const boxW = compact ? 90 : 130
+    const boxH = compact ? 50 : 72
     return geoMercator()
       .center([-15.6, 28.2])
-      .scale(compact ? 2400 : 3700)
+      .scale(compact ? 1500 : 2300)
       .translate([boxW * 0.5 + 10, H - boxH * 0.5 - 10])
   }, [canariasFCs, compact, H])
 
@@ -135,8 +137,9 @@ export default function MapaPoliticoEspana({
     [canariasProjection]
   )
 
-  // Centroides para etiquetas grandes (Madrid, Barcelona, Valencia, …)
-  const labelProvs = new Set(['m', 'b', 'v', 'se', 'mu', 'ma', 'gc', 'tf', 'pm', 'a', 'co', 'gr', 'va', 'z'])
+  // Centroides para etiquetas: provincias grandes (texto blanco completo)
+  // y resto con punto + escaños del ganador en gris claro.
+  const bigProvs = new Set(['m', 'b', 'v', 'se', 'mu', 'ma', 'gc', 'tf', 'pm', 'a', 'co', 'gr', 'va', 'z'])
 
   // Totales agregados ganador
   const partyWinTotals = useMemo(() => {
@@ -217,10 +220,10 @@ export default function MapaPoliticoEspana({
           <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" style={{ display: 'block' }}
                onClick={() => setPinId(null)}
           >
-            {/* Caja Canarias (decorativa) */}
-            <rect x={5} y={H - (compact ? 80 : 110)} width={compact ? 140 : 200} height={compact ? 75 : 105}
+            {/* Caja Canarias (decorativa) · más compacta */}
+            <rect x={5} y={H - (compact ? 60 : 82)} width={compact ? 100 : 140} height={compact ? 55 : 77}
                   fill="none" stroke="#ECECEF" strokeWidth={1} strokeDasharray="3 3" rx={6}/>
-            <text x={10} y={H - (compact ? 65 : 92)} fontSize={9} fill="#86868b" fontWeight={600} letterSpacing="0.05em">
+            <text x={10} y={H - (compact ? 48 : 68)} fontSize={8} fill="#86868b" fontWeight={600} letterSpacing="0.05em">
               CANARIAS
             </text>
 
@@ -266,23 +269,49 @@ export default function MapaPoliticoEspana({
               )
             })}
 
-            {/* Etiquetas para provincias grandes (Madrid, Barcelona, …) */}
+            {/* Etiquetas en cada provincia: nº escaños del PARTIDO GANADOR
+                + sigla en provincias grandes. Para no saturar, en
+                provincias pequeñas solo se muestra el número de escaños
+                del ganador. */}
             {peninsulaPath && peninsulaFCs.map(f => {
               const codProv = f.properties.cod_prov || ''
               const id = COD_PROV_TO_ID[codProv]
-              if (!id || !labelProvs.has(id)) return null
+              if (!id) return null
               const prov = PROVINCES.find(p => p.id === id)
               if (!prov) return null
               const c = peninsulaPath.centroid(f as never)
               if (!c || isNaN(c[0]) || isNaN(c[1])) return null
+              const winner = winners[id]
+              const breakdown = getBreakdown(dataset, prov, winner)
+              const winnerSeats = winner ? (breakdown[winner] || 0) : 0
+              const isBig = bigProvs.has(id)
+              const fz = isBig ? (compact ? 9 : 11) : (compact ? 7 : 8.5)
               return (
-                <text key={`lbl-${codProv}`} x={c[0]} y={c[1]}
-                  textAnchor="middle" dominantBaseline="middle"
-                  fontSize={compact ? 8 : 9.5} fontWeight={700} fill="#fff"
-                  style={{ pointerEvents: 'none', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
-                >
-                  {prov.seats}
-                </text>
+                <g key={`lbl-${codProv}`} style={{ pointerEvents: 'none' }}>
+                  {isBig && winner ? (
+                    <>
+                      <text x={c[0]} y={c[1] - fz * 0.5} textAnchor="middle" dominantBaseline="middle"
+                        fontSize={fz * 0.75} fontWeight={700} fill="#fff" letterSpacing="0.04em"
+                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.55)' }}
+                      >
+                        {PARTIES[winner].name.toUpperCase()}
+                      </text>
+                      <text x={c[0]} y={c[1] + fz * 0.55} textAnchor="middle" dominantBaseline="middle"
+                        fontSize={fz} fontWeight={800} fill="#fff"
+                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.55)' }}
+                      >
+                        {winnerSeats}
+                      </text>
+                    </>
+                  ) : (
+                    <text x={c[0]} y={c[1]} textAnchor="middle" dominantBaseline="middle"
+                      fontSize={fz} fontWeight={700} fill="#fff"
+                      style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+                    >
+                      {winnerSeats > 0 ? winnerSeats : prov.seats}
+                    </text>
+                  )}
+                </g>
               )
             })}
             {canariasPath && canariasFCs.map(f => {
@@ -293,13 +322,16 @@ export default function MapaPoliticoEspana({
               if (!prov) return null
               const c = canariasPath.centroid(f as never)
               if (!c || isNaN(c[0]) || isNaN(c[1])) return null
+              const winner = winners[id]
+              const breakdown = getBreakdown(dataset, prov, winner)
+              const winnerSeats = winner ? (breakdown[winner] || 0) : prov.seats
               return (
                 <text key={`canlbl-${codProv}`} x={c[0]} y={c[1]}
                   textAnchor="middle" dominantBaseline="middle"
-                  fontSize={compact ? 7 : 8.5} fontWeight={700} fill="#fff"
-                  style={{ pointerEvents: 'none', textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}
+                  fontSize={compact ? 6.5 : 8} fontWeight={700} fill="#fff"
+                  style={{ pointerEvents: 'none', textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
                 >
-                  {prov.seats}
+                  {winnerSeats}
                 </text>
               )
             })}
@@ -307,19 +339,99 @@ export default function MapaPoliticoEspana({
         )}
       </div>
 
-      {/* Leyenda compacta · partidos ganadores ordenados por escaños totales */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', paddingTop: 4 }}>
-        {winnersOrdered.map(p => (
-          <span key={p.id} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            fontSize: 10.5, padding: '3px 8px', borderRadius: 999,
-            background: `${p.color}14`, color: p.color, border: `1px solid ${p.color}33`,
-            fontWeight: 600,
-          }}>
-            <span style={{ width: 8, height: 8, borderRadius: 2, background: p.color }}/>
-            {p.name} · {p.n}
-          </span>
+      {/* Breakdown de la provincia activa · barra apilada + lista por partido.
+          Si no hay provincia focada, mostramos la leyenda agregada nacional. */}
+      {focusedProv ? (
+        <FocusedBreakdown
+          prov={focusedProv}
+          winner={focusedWinner || undefined}
+          breakdown={getBreakdown(dataset, focusedProv, focusedWinner || undefined)}
+        />
+      ) : (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', paddingTop: 4 }}>
+          {winnersOrdered.map(p => (
+            <span key={p.id} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              fontSize: 10.5, padding: '3px 8px', borderRadius: 999,
+              background: `${p.color}14`, color: p.color, border: `1px solid ${p.color}33`,
+              fontWeight: 600,
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: p.color }}/>
+              {p.name} · {p.n}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Subcomponente: breakdown por partido en provincia focada ───────────
+function FocusedBreakdown({
+  prov, winner, breakdown,
+}: {
+  prov: { id: string; name: string; seats: number }
+  winner?: PartyId
+  breakdown: Partial<Record<PartyId, number>>
+}) {
+  const items = (Object.entries(breakdown) as Array<[PartyId, number]>)
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1])
+  const total = items.reduce((s, [, n]) => s + n, 0) || prov.seats
+
+  return (
+    <div style={{
+      background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10,
+      padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 8,
+    }}>
+      {/* Header de la provincia */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <div>
+          <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f', letterSpacing: '-0.01em' }}>{prov.name}</span>
+          {winner && (
+            <span style={{
+              marginLeft: 8, fontSize: 9.5, fontWeight: 700, padding: '2px 6px', borderRadius: 999,
+              background: `${PARTIES[winner].color}18`, color: PARTIES[winner].color, letterSpacing: '0.04em',
+              border: `1px solid ${PARTIES[winner].color}33`,
+            }}>
+              GANADOR · {PARTIES[winner].name}
+            </span>
+          )}
+        </div>
+        <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 600 }}>
+          {prov.seats} escaños
+        </span>
+      </div>
+
+      {/* Barra apilada · proporciones por partido */}
+      <div style={{ display: 'flex', height: 10, borderRadius: 4, overflow: 'hidden', border: '1px solid #ECECEF' }}>
+        {items.map(([pid, n]) => (
+          <div key={pid} title={`${PARTIES[pid].name} · ${n} escaños`} style={{
+            flex: n,
+            background: PARTIES[pid].color,
+          }}/>
         ))}
+      </div>
+
+      {/* Lista detallada · partido + escaños + % */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 4 }}>
+        {items.map(([pid, n]) => {
+          const pct = total ? (n / total) * 100 : 0
+          return (
+            <div key={pid} style={{
+              display: 'flex', alignItems: 'center', gap: 5,
+              padding: '3px 6px', borderRadius: 6,
+              background: '#fff', border: '1px solid #ECECEF',
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: PARTIES[pid].color, flexShrink: 0 }}/>
+              <span style={{ fontSize: 10.5, fontWeight: 600, color: '#1d1d1f', flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {PARTIES[pid].name}
+              </span>
+              <span style={{ fontSize: 10.5, fontWeight: 700, color: PARTIES[pid].color }}>{n}</span>
+              <span style={{ fontSize: 9, color: '#86868b' }}>{pct.toFixed(0)}%</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

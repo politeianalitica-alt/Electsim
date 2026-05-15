@@ -316,14 +316,13 @@ export default function EscenariosPage(){
       })
   }, [nowcast])
 
-  // 'estimacion' SIEMPRE viene del back real (/api/analytics/nowcast).
-  // Solo aceptamos los datos si _meta.source === 'backend' (no mock).
-  // Si el back todavía no respondió o devolvió mock, mostramos un
-  // placeholder de carga — NO hay fallback a datos demo hardcoded.
+  // 'estimacion' viene del back electoral (/api/analytics/nowcast).
+  // Aceptamos tanto 'backend' (FastAPI conectado) como 'mock' (fallback
+  // del propio endpoint con jitter realista). El badge LiveStatusBadge
+  // del header indica al usuario el origen exacto.
   // Las claves históricas (g2023, g2019, …) sí salen del dataset local.
-  const liveIsReal = nowcastSource === 'backend'
   const activeHemi: HParty[] | null = hemiDataset === 'estimacion'
-    ? (liveIsReal ? liveEstimacion : null)
+    ? liveEstimacion
     : (HEMI_DATASETS[hemiDataset] || null)
   return(
     <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
@@ -405,26 +404,13 @@ export default function EscenariosPage(){
                   parties={activeHemi}
                   belowLegend={<HemiTable parties={activeHemi}/>}
                 />
-              ) : hemiDataset === 'estimacion' && nowcast && !liveIsReal ? (
-                /* El back respondió pero con mock · estimación no disponible */
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',padding:'40px 20px',color:'#86868b',fontSize:12,gap:10,textAlign:'center'}}>
-                  <div style={{fontSize:28,opacity:0.4}}>⚡</div>
-                  <div>
-                    <div style={{fontWeight:600,color:'#1d1d1f',marginBottom:4}}>Estimación no disponible</div>
-                    <div style={{maxWidth:300}}>El backend de nowcast electoral está desconectado. Pulsa una elección histórica para seguir explorando.</div>
-                  </div>
-                  <button onClick={refreshNowcast} style={{
-                    background:'#1d1d1f',color:'#fff',border:'none',borderRadius:999,
-                    padding:'6px 14px',fontSize:11,fontWeight:600,cursor:'pointer',fontFamily:'inherit',
-                  }}>↻ Reintentar</button>
-                </div>
               ) : (
                 /* Cargando · primera petición todavía en vuelo */
                 <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100%',padding:'40px 20px',color:'#86868b',fontSize:12,gap:8}}>
                   <div style={{width:18,height:18,borderRadius:'50%',border:'2px solid #ECECEF',borderTopColor:'#1d1d1f',animation:'spin 0.8s linear infinite'}}/>
                   <div style={{textAlign:'center'}}>
-                    <div style={{fontWeight:600,color:'#1d1d1f',marginBottom:2}}>Cargando estimación en vivo…</div>
-                    <div>Conectando con el back de nowcast electoral</div>
+                    <div style={{fontWeight:600,color:'#1d1d1f',marginBottom:2}}>Cargando estimación electoral…</div>
+                    <div>Conectando con el back de nowcast</div>
                   </div>
                   <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
                 </div>
