@@ -33,8 +33,13 @@ interface ResumenResp {
   fetch_ms: number
 }
 interface MixResp {
-  items: Array<{ tecnologia: string; color?: string; total_mwh: number; pct: number }>
+  items: Array<{ tecnologia: string; color?: string; bucket?: 'Renovable' | 'No-Renovable'; total_mwh: number; pct: number }>
   total_mwh: number
+  total_oficial_mwh?: number
+  renovable_mwh?: number
+  no_renovable_mwh?: number
+  renovable_pct?: number
+  no_renovable_pct?: number
 }
 interface PrecioResp {
   series: Array<{
@@ -146,8 +151,14 @@ export default function SectorEnergiaPage() {
 
         {/* ───── ROW 1: Mix de generación + Precio mercado ───── */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Mix de generación · últimos 7 días" subtitle={mix ? `${(mix.total_mwh / 1_000_000).toFixed(1)} TWh totales generados` : 'Cargando…'}>
-            {mix && <MixDonut items={mix.items}/>}
+          <Panel
+            title="Mix de generación · últimos 7 días"
+            subtitle={mix
+              ? `${(mix.total_mwh / 1_000_000).toFixed(2)} TWh · ${mix.renovable_pct ?? 0}% renovable · ${mix.items.length} tecnologías`
+              : 'Cargando…'
+            }
+          >
+            {mix && <MixDonut items={mix.items} renovablePct={mix.renovable_pct} totalTwh={mix.total_mwh / 1_000_000}/>}
           </Panel>
           <Panel title="Precio del mercado eléctrico · últimas 24-48 h" subtitle="PVPC vs Mercado SPOT">
             {precio && <PriceLineChart series={precio.series}/>}
@@ -243,18 +254,28 @@ function Panel({ title, subtitle, children, marginBottom }: { title: string; sub
   )
 }
 
-// Donut chart simple (SVG sin libs) para mix de generación
-function MixDonut({ items }: { items: Array<{ tecnologia: string; color?: string; total_mwh: number; pct: number }> }) {
+// Donut chart con bucket Renovable / No-Renovable y orden por bucket
+function MixDonut({ items, renovablePct, totalTwh }: {
+  items: Array<{ tecnologia: string; color?: string; bucket?: 'Renovable' | 'No-Renovable'; total_mwh: number; pct: number }>
+  renovablePct?: number
+  totalTwh?: number
+}) {
   const radius = 70
-  const stroke = 18
+  const stroke = 20
   const circ = 2 * Math.PI * radius
+  // Ordenar Renovable primero · luego por % desc dentro de cada bucket
+  const sorted = [...items].sort((a, b) => {
+    if (a.bucket !== b.bucket) return (a.bucket === 'Renovable' ? -1 : 1)
+    return b.pct - a.pct
+  })
   let acum = 0
-  const top = items.slice(0, 12)
+  const renovItems = sorted.filter(i => i.bucket === 'Renovable')
+  const noRenovItems = sorted.filter(i => i.bucket === 'No-Renovable')
   return (
     <div style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:18, alignItems:'center' }}>
       <svg width={radius * 2 + stroke} height={radius * 2 + stroke} viewBox={`0 0 ${radius * 2 + stroke} ${radius * 2 + stroke}`}>
         <g transform={`translate(${radius + stroke / 2},${radius + stroke / 2}) rotate(-90)`}>
-          {top.map((it) => {
+          {sorted.map((it) => {
             const len = (it.pct / 100) * circ
             const offset = -acum
             acum += len
@@ -268,22 +289,54 @@ function MixDonut({ items }: { items: Array<{ tecnologia: string; color?: string
                 strokeDashoffset={offset}
                 style={{ cursor:'pointer' }}
               >
-                <title>{it.tecnologia}: {it.pct.toFixed(1)}% · {it.total_mwh.toLocaleString('es-ES')} MWh</title>
+                <title>{it.tecnologia} ({it.bucket || 'Otro'}): {it.pct.toFixed(2)}% · {it.total_mwh.toLocaleString('es-ES')} MWh</title>
               </circle>
             )
           })}
         </g>
-        <text x="50%" y="48%" textAnchor="middle" style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, fill:'#1d1d1f' }}>{Math.round(items.reduce((a, i) => a + i.total_mwh, 0) / 1_000_000 * 10) / 10} TWh</text>
-        <text x="50%" y="58%" textAnchor="middle" style={{ fontSize:9, fill:'#86868b' }}>7 días</text>
+        <text x="50%" y="44%" textAnchor="middle" style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, fill:'#1d1d1f' }}>
+          {(totalTwh ?? items.reduce((a, i) => a + i.total_mwh, 0) / 1_000_000).toFixed(2)}
+        </text>
+        <text x="50%" y="52%" textAnchor="middle" style={{ fontSize:10, fill:'#6e6e73', fontWeight:600 }}>TWh · 7 días</text>
+        {renovablePct != null && (
+          <text x="50%" y="64%" textAnchor="middle" style={{ fontSize:11, fill:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>
+            {renovablePct.toFixed(1)}% renovable
+          </text>
+        )}
       </svg>
-      <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:11, columns:2, columnGap:14 }}>
-        {top.map(it => (
-          <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:4, breakInside:'avoid' }}>
-            <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
-            <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
-            <span style={{ color:'#1F4E8C', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
-          </li>
-        ))}
+      <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:10.5 }}>
+        {renovItems.length > 0 && (
+          <>
+            <li style={{ marginBottom:4 }}>
+              <strong style={{ color:'#16A34A', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
+                Renovables · {renovItems.reduce((s, i) => s + i.pct, 0).toFixed(1)}%
+              </strong>
+            </li>
+            {renovItems.map(it => (
+              <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+                <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
+                <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
+                <span style={{ color:'#16A34A', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
+              </li>
+            ))}
+          </>
+        )}
+        {noRenovItems.length > 0 && (
+          <>
+            <li style={{ margin:'8px 0 4px' }}>
+              <strong style={{ color:'#DC2626', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', fontWeight:800 }}>
+                No renovables · {noRenovItems.reduce((s, i) => s + i.pct, 0).toFixed(1)}%
+              </strong>
+            </li>
+            {noRenovItems.map(it => (
+              <li key={it.tecnologia} style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
+                <span style={{ width:8, height:8, borderRadius:2, background: it.color || '#9CA3AF', flexShrink:0 }}/>
+                <span style={{ flex:1, color:'#3a3a3d', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{it.tecnologia}</span>
+                <span style={{ color:'#525258', fontWeight:700, fontFamily:'var(--font-display)' }}>{it.pct.toFixed(1)}%</span>
+              </li>
+            ))}
+          </>
+        )}
       </ul>
     </div>
   )

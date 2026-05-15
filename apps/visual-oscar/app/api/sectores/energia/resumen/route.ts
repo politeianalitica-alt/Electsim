@@ -18,11 +18,6 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
-const RENOVABLES_KEYS = [
-  'Hidráulica', 'Eólica', 'Solar fotovoltaica', 'Solar térmica',
-  'Hidroeólica', 'Otras renovables', 'Residuos renovables',
-]
-
 export async function GET() {
   const t0 = Date.now()
   const [dem, mix, prc, em] = await Promise.all([
@@ -32,18 +27,20 @@ export async function GET() {
     emisionesCO2(2),
   ])
 
-  // Demanda actual
-  const demSerie = dem.series.find(s => /Real|tiempo/i.test(s.title)) || dem.series[0]
+  // Demanda actual · serie "Real" (no programada/prevista)
+  const demSerie = dem.series.find(s => /^Real$/i.test(s.title) || /^Real time/i.test(s.title))
+                || dem.series.find(s => /Real|tiempo/i.test(s.title))
+                || dem.series[0]
   const demanda_actual_mw = demSerie?.last_value ?? null
   const demanda_datetime = demSerie?.last_datetime ?? null
 
-  // Mix renovable
+  // Mix renovable · usa el campo `type` oficial REE para clasificar
+  // y EXCLUYE el composite "Generación total" para no duplicar.
   let mix_renovable_pct: number | null = null
   if (mix.ok && mix.series.length) {
-    const total = mix.series.reduce((acc, s) => acc + (s.total || 0), 0)
-    const renov = mix.series
-      .filter(s => RENOVABLES_KEYS.some(k => s.title.includes(k)))
-      .reduce((acc, s) => acc + (s.total || 0), 0)
+    const tecnologias = mix.series.filter(s => !s.composite && (s.type === 'Renovable' || s.type === 'No-Renovable'))
+    const total = tecnologias.reduce((acc, s) => acc + (s.total || 0), 0)
+    const renov = tecnologias.filter(s => s.type === 'Renovable').reduce((acc, s) => acc + (s.total || 0), 0)
     mix_renovable_pct = total > 0 ? Math.round((renov / total) * 1000) / 10 : null
   }
 

@@ -40,6 +40,8 @@ export interface ReeSerie {
   title: string
   color?: string
   magnitude?: string
+  type?: string             // 'Renovable' | 'No-Renovable' | 'Generación total' | etc.
+  composite?: boolean       // true para series agregadas (no contar como tecnología)
   values: ReeValue[]
   last_value?: number
   last_datetime?: string
@@ -80,6 +82,8 @@ function pick(r: ReeResponse): ReeSerie[] {
       title: s.attributes?.title || '',
       color: s.attributes?.color,
       magnitude: s.attributes?.magnitude,
+      type: s.attributes?.type,
+      composite: s.attributes?.composite,
       values: vals,
       last_value: last?.value,
       last_datetime: last?.datetime,
