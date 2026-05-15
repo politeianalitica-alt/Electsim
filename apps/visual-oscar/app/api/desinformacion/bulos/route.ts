@@ -15,6 +15,7 @@
  * Calibrado para escenario plausible España Q2 2026.
  */
 import { NextResponse } from 'next/server'
+import { fetchAllBulosLive, type BuloDetectado } from '@/lib/sources/maldita'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -752,16 +753,25 @@ export async function GET() {
     }
   })
 
+  // ── BULOS LIVE de Maldita.es + Newtral RSS ────────────────────────
+  // Combinamos los bulos detallados (mock con timeline completa) con
+  // los bulos en vivo de los feeds reales para tener cobertura actualizada.
+  let bulosLive: BuloDetectado[] = []
+  try {
+    bulosLive = await fetchAllBulosLive(15)
+  } catch { /* ignore · seguimos solo con mock */ }
+
   return NextResponse.json({
     kpis: {
-      bulos_activos: total,
-      desmentidos,
-      en_investigacion: en_invest,
+      bulos_activos: total + bulosLive.length,
+      desmentidos: desmentidos + bulosLive.filter(b => b.veredicto === 'FALSO' || b.veredicto === 'ENGAÑOSO').length,
+      en_investigacion: en_invest + bulosLive.filter(b => b.veredicto === 'EN ANÁLISIS').length,
       alcance_total,
       viralidad_max,
-      delta_24h: 2,                              // mock: +2 nuevos bulos
+      delta_24h: bulosLive.filter(b => Date.now() - new Date(b.fecha).getTime() < 86400000).length,
     },
     bulos: bulosConLinks,
+    bulos_live: bulosLive,                       // NUEVOS · feeds Maldita+Newtral en vivo
     top_fuentes: topFuentesConLinks,
     canales_heatmap: buildCanalesHeatmap(),
     color_estado: COLOR_ESTADO,
@@ -774,6 +784,11 @@ export async function GET() {
     })),
     fetched_at: new Date().toISOString(),
     fetch_ms: Date.now() - t0,
-    fuentes: 'Brain · OSINT · Politeia News Aggregator · Maldita open data',
+    fuentes: 'Maldita.es RSS + Newtral RSS (live) + catálogo curado (timeline trazabilidad)',
+    _meta: {
+      source: bulosLive.length > 0 ? 'aggregator' : 'mock',
+      ts: new Date().toISOString(),
+      live_feeds_ok: bulosLive.length,
+    },
   }, { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } })
 }
