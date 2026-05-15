@@ -173,7 +173,7 @@ export default function SectorFarmaPage() {
           sourceLabel="AEMPS CIMA"
           sourceTooltip="Problemas de suministro · listado completo · AEMPS"
         >
-          {desabast && <DesabastList items={desabast.items.slice(0, 25)}/>}
+          {desabast && <DesabastList items={desabast.items}/>}
         </Panel>
 
         {/* ROW 4: Buscador de medicamentos */}
@@ -343,45 +343,69 @@ function AtcDonut({ items }: { items: Array<{ code: string; label: string; color
 }
 
 function DesabastList({ items }: { items: Desabastecimiento[] }) {
+  // Por defecto mostramos 5 filas para no inundar el panel; el usuario
+  // puede expandir a la lista completa con el botón "Ver más".
+  const [expanded, setExpanded] = useState(false)
+  const PREVIEW = 5
+  const visible = expanded ? items : items.slice(0, PREVIEW)
+  const hidden = items.length - PREVIEW
+
   return (
-    <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11.5 }}>
-      <thead>
-        <tr style={{ borderBottom:'1px solid #ECECEF' }}>
-          <Th>Inicio</Th><Th>Medicamento</Th><Th>Tipo</Th><Th>Estado</Th><Th>Motivo</Th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((it, i) => (
-          <tr key={`${it.cn}-${i}`} style={{ borderBottom:'1px solid #F5F5F7' }}>
-            <Td><span style={{ fontWeight:600 }}>{it.fini || '—'}</span></Td>
-            <Td>
-              <div style={{ fontWeight:600, color:'#1d1d1f', maxWidth:340 }}>{(it.nombre || '—').slice(0, 100)}</div>
-              {it.cn && <div style={{ fontSize:9.5, color:'#86868b', fontFamily:'monospace' }}>CN {it.cn}</div>}
-            </Td>
-            <Td>
-              <span style={{
-                fontSize:9.5, fontWeight:800, padding:'2px 7px', borderRadius:4,
-                background:`${it.tipo_color}15`, color: it.tipo_color, border:`1px solid ${it.tipo_color}40`,
-                letterSpacing:'0.04em',
-              }}>{it.tipo_label}</span>
-            </Td>
-            <Td>
-              {it.activo ? (
-                <span style={{ fontSize:10, color:'#DC2626', fontWeight:700, padding:'2px 6px', borderRadius:4, background:'#FEE2E2' }}>
-                  ACTIVO {it.permanente ? '· PERMANENTE' : ''}
-                </span>
-              ) : (
-                <span style={{ fontSize:10, color:'#16A34A', fontWeight:700, padding:'2px 6px', borderRadius:4, background:'#DCFCE7' }}>
-                  RESUELTO
-                </span>
-              )}
-              {it.ffin && !it.permanente && <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>fin: {it.ffin}</div>}
-            </Td>
-            <Td><span style={{ color:'#3a3a3d', fontSize:11, lineHeight:1.4 }}>{(it.motivo || '—').slice(0, 90)}</span></Td>
+    <div>
+      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11.5 }}>
+        <thead>
+          <tr style={{ borderBottom:'1px solid #ECECEF' }}>
+            <Th>Inicio</Th><Th>Medicamento</Th><Th>Tipo</Th><Th>Estado</Th><Th>Motivo</Th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {visible.map((it, i) => (
+            <tr key={`${it.cn}-${i}`} style={{ borderBottom:'1px solid #F5F5F7' }}>
+              <Td><span style={{ fontWeight:600 }}>{it.fini || '—'}</span></Td>
+              <Td>
+                <div style={{ fontWeight:600, color:'#1d1d1f', maxWidth:340 }}>{(it.nombre || '—').slice(0, 100)}</div>
+                {it.cn && <div style={{ fontSize:9.5, color:'#86868b', fontFamily:'monospace' }}>CN {it.cn}</div>}
+              </Td>
+              <Td>
+                <span style={{
+                  fontSize:9.5, fontWeight:800, padding:'2px 7px', borderRadius:4,
+                  background:`${it.tipo_color}15`, color: it.tipo_color, border:`1px solid ${it.tipo_color}40`,
+                  letterSpacing:'0.04em',
+                }}>{it.tipo_label}</span>
+              </Td>
+              <Td>
+                {it.activo ? (
+                  <span style={{ fontSize:10, color:'#DC2626', fontWeight:700, padding:'2px 6px', borderRadius:4, background:'#FEE2E2' }}>
+                    ACTIVO {it.permanente ? '· PERMANENTE' : ''}
+                  </span>
+                ) : (
+                  <span style={{ fontSize:10, color:'#16A34A', fontWeight:700, padding:'2px 6px', borderRadius:4, background:'#DCFCE7' }}>
+                    RESUELTO
+                  </span>
+                )}
+                {it.ffin && !it.permanente && <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>fin: {it.ffin}</div>}
+              </Td>
+              <Td><span style={{ color:'#3a3a3d', fontSize:11, lineHeight:1.4 }}>{(it.motivo || '—').slice(0, 90)}</span></Td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {hidden > 0 && (
+        <div style={{ marginTop:10, textAlign:'center' }}>
+          <button onClick={() => setExpanded(v => !v)} style={{
+            background:'#FAFAFA', border:'1px solid #ECECEF', borderRadius:999,
+            padding:'7px 18px', fontSize:11.5, fontWeight:600, color:'#1d1d1f',
+            cursor:'pointer', fontFamily:'inherit',
+            transition:'background 150ms, border-color 150ms',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F1'; e.currentTarget.style.borderColor = '#D6D6DA' }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#FAFAFA'; e.currentTarget.style.borderColor = '#ECECEF' }}
+          >
+            {expanded ? `Ver menos · mostrar solo ${PREVIEW}` : `Ver más · ${hidden} filas adicionales ↓`}
+          </button>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -393,6 +417,10 @@ function BuscadorMedicamentos() {
   const [receta, setReceta] = useState<string>('')
   const [data, setData] = useState<BuscarResp | null>(null)
   const [loading, setLoading] = useState(false)
+  // Vista compacta · mostrar 5 resultados; el botón "Ver más" expande a
+  // todos los devueltos por la API (page_size=25).
+  const [expanded, setExpanded] = useState(false)
+  const PREVIEW = 5
 
   const queryUrl = useMemo(() => {
     const sp = new URLSearchParams()
@@ -401,12 +429,13 @@ function BuscadorMedicamentos() {
     if (atc) sp.set('atc', atc)
     if (comerc) sp.set('comerc', comerc)
     if (receta) sp.set('receta', receta)
-    sp.set('page_size', '15')
+    sp.set('page_size', '25')
     return `/api/sectores/farma/buscar?${sp.toString()}`
   }, [q, lab, atc, comerc, receta])
 
   const run = async () => {
     setLoading(true)
+    setExpanded(false)  // al lanzar nueva búsqueda, vuelve a vista compacta
     try {
       const res = await fetch(queryUrl)
       if (res.ok) setData(await res.json())
@@ -433,42 +462,61 @@ function BuscadorMedicamentos() {
           fontSize:12, fontWeight:600, cursor: loading ? 'wait' : 'pointer', fontFamily:'inherit', transition:'all 160ms',
         }}>{loading ? '…' : 'Buscar'}</button>
       </form>
-      {data && (
-        <>
-          <div style={{ fontSize:11.5, color:'#6e6e73', marginBottom:8 }}>
-            <strong>{data.total.toLocaleString('es-ES')}</strong> medicamentos encontrados · {data.fetch_ms} ms
-          </div>
-          <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:6 }}>
-            {data.items.map(m => (
-              <li key={m.nregistro} style={{
-                padding:'10px 12px', background:'#FAFAFA', borderRadius:10, border:'1px solid #ECECEF',
-                display:'grid', gridTemplateColumns:'1fr auto', gap:10, alignItems:'center',
-              }}>
-                <div style={{ minWidth:0 }}>
-                  <div style={{ display:'flex', gap:5, alignItems:'center', flexWrap:'wrap', marginBottom:3 }}>
-                    {m.flags.comercializado && <Tag label="COMERC" color="#16A34A"/>}
-                    {m.flags.requiere_receta && <Tag label="RECETA" color="#1F4E8C"/>}
-                    {m.flags.huerfano && <Tag label="HUÉRFANO" color="#7C3AED"/>}
-                    {m.flags.biosimilar && <Tag label="BIOSIM" color="#F97316"/>}
-                    {m.flags.generico && <Tag label="EFG" color="#0EA5E9"/>}
-                    {m.flags.triangulo_seguimiento && <Tag label="▼ SEG" color="#DC2626"/>}
-                    {m.atc && <Tag label={`ATC ${m.atc.slice(0,4)}`} color="#5B21B6" outline/>}
+      {data && (() => {
+        const visible = expanded ? data.items : data.items.slice(0, PREVIEW)
+        const hidden = data.items.length - PREVIEW
+        return (
+          <>
+            <div style={{ fontSize:11.5, color:'#6e6e73', marginBottom:8 }}>
+              <strong>{data.total.toLocaleString('es-ES')}</strong> medicamentos encontrados · mostrando {visible.length} · {data.fetch_ms} ms
+            </div>
+            <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:6 }}>
+              {visible.map(m => (
+                <li key={m.nregistro} style={{
+                  padding:'10px 12px', background:'#FAFAFA', borderRadius:10, border:'1px solid #ECECEF',
+                  display:'grid', gridTemplateColumns:'1fr auto', gap:10, alignItems:'center',
+                }}>
+                  <div style={{ minWidth:0 }}>
+                    <div style={{ display:'flex', gap:5, alignItems:'center', flexWrap:'wrap', marginBottom:3 }}>
+                      {m.flags.comercializado && <Tag label="COMERC" color="#16A34A"/>}
+                      {m.flags.requiere_receta && <Tag label="RECETA" color="#1F4E8C"/>}
+                      {m.flags.huerfano && <Tag label="HUÉRFANO" color="#7C3AED"/>}
+                      {m.flags.biosimilar && <Tag label="BIOSIM" color="#F97316"/>}
+                      {m.flags.generico && <Tag label="EFG" color="#0EA5E9"/>}
+                      {m.flags.triangulo_seguimiento && <Tag label="▼ SEG" color="#DC2626"/>}
+                      {m.atc && <Tag label={`ATC ${m.atc.slice(0,4)}`} color="#5B21B6" outline/>}
+                    </div>
+                    <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.4 }}>{m.nombre}</div>
+                    <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>
+                      {m.laboratorio} · {m.forma} · {(m.vias || []).join(', ')}
+                    </div>
                   </div>
-                  <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.4 }}>{m.nombre}</div>
-                  <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>
-                    {m.laboratorio} · {m.forma} · {(m.vias || []).join(', ')}
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontSize:9.5, color:'#86868b' }}>nº reg.</div>
+                    <div style={{ fontFamily:'monospace', fontSize:11, color:'#1d1d1f', fontWeight:700 }}>{m.nregistro}</div>
+                    {m.aut_date && <div style={{ fontSize:9, color:'#86868b' }}>aut. {m.aut_date.slice(0, 4)}</div>}
                   </div>
-                </div>
-                <div style={{ textAlign:'right' }}>
-                  <div style={{ fontSize:9.5, color:'#86868b' }}>nº reg.</div>
-                  <div style={{ fontFamily:'monospace', fontSize:11, color:'#1d1d1f', fontWeight:700 }}>{m.nregistro}</div>
-                  {m.aut_date && <div style={{ fontSize:9, color:'#86868b' }}>aut. {m.aut_date.slice(0, 4)}</div>}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+                </li>
+              ))}
+            </ul>
+            {hidden > 0 && (
+              <div style={{ marginTop:10, textAlign:'center' }}>
+                <button onClick={() => setExpanded(v => !v)} style={{
+                  background:'#FAFAFA', border:'1px solid #ECECEF', borderRadius:999,
+                  padding:'7px 18px', fontSize:11.5, fontWeight:600, color:'#1d1d1f',
+                  cursor:'pointer', fontFamily:'inherit',
+                  transition:'background 150ms, border-color 150ms',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F1'; e.currentTarget.style.borderColor = '#D6D6DA' }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#FAFAFA'; e.currentTarget.style.borderColor = '#ECECEF' }}
+                >
+                  {expanded ? `Ver menos · mostrar solo ${PREVIEW}` : `Ver más · ${hidden} resultados adicionales ↓`}
+                </button>
+              </div>
+            )}
+          </>
+        )
+      })()}
     </div>
   )
 }
