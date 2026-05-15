@@ -173,77 +173,195 @@ export default function DashboardPage() {
         {/* Morning briefing */}
         <BrainBriefing/>
 
-        {/* Intelligence centres — single unified section */}
-        <section style={{ marginTop: 18, marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
-              Centros de inteligencia
-            </h2>
-            <span style={{ fontSize: 10.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-              {MODULES.length} módulos · click para abrir
-            </span>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-            {MODULES.map(m => (
-              <button key={m.href} onClick={() => router.push(m.href)} style={{
-                background: '#fff',
-                border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
-                borderLeft: `3px solid ${m.accent}`,
-                borderRadius: 10, padding: '11px 13px', textAlign: 'left', cursor: 'pointer',
-                fontFamily: 'inherit', boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
-                transition: 'transform 160ms ease, box-shadow 160ms ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
-                  {m.tag && (
-                    <span style={{ fontSize: 8.5, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
-                      {m.tag}
-                    </span>
-                  )}
-                </div>
-                <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* KPI strip */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, marginTop: 4 }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
-            Panel ejecutivo
-          </h2>
-          <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 20 }}>
-          {(data?.kpis ?? []).map(k => {
-            const numeric = typeof k.value === 'number' ? k.value : Number(String(k.value).replace(/[^0-9.-]/g, ''))
-            const suffix = typeof k.value === 'string' && k.value.includes('%') ? '%' : ''
-            return (
-              <div key={k.label} style={{
-                background: '#fff', borderRadius: 14, padding: '18px 20px',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.06)', borderLeft: `3px solid ${k.accent}`,
-              }}>
-                <p style={{ fontSize: 10, color: 'var(--ink-4)', fontWeight: 500, letterSpacing: '0.04em', textTransform: 'uppercase', margin: '0 0 6px' }}>{k.label}</p>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 600, letterSpacing: '-0.03em', color: k.accent, lineHeight: 1 }}>
-                  {isReady && !Number.isNaN(numeric)
-                    ? <><CountUp value={numeric}/>{suffix}</>
-                    : <Skeleton width={60} height={32} radius={6}/>
-                  }
-                </div>
-                <p style={{ fontSize: 10.5, color: 'var(--ink-3)', margin: '5px 0 0' }}>{k.sub}</p>
-              </div>
-            )
-          })}
-          {!data?.kpis && !isReady && [0,1,2,3].map(i => (
-            <div key={i} style={{ background: '#fff', borderRadius: 14, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-              <Skeleton width={80} height={10} radius={4} style={{ marginBottom: 10 }}/>
-              <Skeleton width={100} height={32} radius={6}/>
+        {/* ═══════════════ PANEL EJECUTIVO ═══════════════
+           Bloque destacado · KPIs principales + risk + macro + alertas.
+           Layout interno:
+             [ Risk Hero (1.2fr) | KPIs 2x2 (1fr × 2) ]
+             [ Macro strip (4 cols con sparklines) ]
+             [ Alertas críticas (chips inline) ]
+        */}
+        <section style={{
+          background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)',
+          borderRadius: 16, padding: '20px 22px', marginTop: 18, marginBottom: 18,
+          border: '1px solid #ECECEF',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+        }}>
+          {/* Section header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
+                Panel ejecutivo
+              </h2>
+              <span style={{ fontSize: 10, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+                Estado del sistema · vista consolidada
+              </span>
             </div>
-          ))}
-        </div>
+            <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
+          </div>
+
+          {/* Row 1: Risk hero (left) + KPIs grid 2x2 (right) */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
+
+            {/* Risk hero card */}
+            {(() => {
+              const risk = data?.risk
+              const score = risk?.score ?? 0
+              const semaforo = (risk?.semaforo ?? 'verde').toLowerCase()
+              const semColor = semaforo === 'rojo' ? '#DC2626' : semaforo === 'ambar' || semaforo === 'amarillo' ? '#D97706' : '#16A34A'
+              const semLabel = semaforo === 'rojo' ? 'Rojo' : semaforo === 'ambar' || semaforo === 'amarillo' ? 'Ámbar' : 'Verde'
+              return (
+                <div onClick={() => router.push('/riesgo')} style={{
+                  background: '#fff', borderRadius: 12, padding: '16px 18px',
+                  border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
+                  cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  minHeight: 132,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
+                >
+                  <div>
+                    <p style={{ fontSize: 10, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
+                      Risk Index
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
+                        {isReady ? <CountUp value={score}/> : <Skeleton width={70} height={40} radius={6}/>}
+                      </span>
+                      <span style={{ fontSize: 11, color: '#86868b', fontWeight: 500 }}>/100</span>
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 999, background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
+                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: semColor }}/>
+                      <span style={{ fontSize: 10.5, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
+                    </div>
+                    <p style={{ fontSize: 10, color: '#6e6e73', margin: '6px 0 0' }}>
+                      Tensión política y económica · click para detalle
+                    </p>
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* KPIs grid 2x2 */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: 10 }}>
+              {(data?.kpis ?? []).slice(0, 4).map(k => {
+                const numeric = typeof k.value === 'number' ? k.value : Number(String(k.value).replace(/[^0-9.-]/g, ''))
+                const suffix = typeof k.value === 'string' && k.value.includes('%') ? '%' : ''
+                return (
+                  <div key={k.label} style={{
+                    background: '#fff', borderRadius: 10, padding: '12px 14px',
+                    border: '1px solid #ECECEF', borderLeft: `3px solid ${k.accent}`,
+                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  }}>
+                    <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
+                      {isReady && !Number.isNaN(numeric)
+                        ? <><CountUp value={numeric}/>{suffix}</>
+                        : <Skeleton width={50} height={26} radius={4}/>
+                      }
+                    </div>
+                    <p style={{ fontSize: 10, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+                  </div>
+                )
+              })}
+              {!data?.kpis && !isReady && [0,1,2,3].map(i => (
+                <div key={i} style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', border: '1px solid #ECECEF' }}>
+                  <Skeleton width={70} height={9} radius={3} style={{ marginBottom: 8 }}/>
+                  <Skeleton width={70} height={26} radius={4}/>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Row 2: Macro strip (4 cols con sparklines) */}
+          {data?.macro && data.macro.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(4, data.macro.length)}, 1fr)`, gap: 8, marginBottom: 12 }}>
+              {data.macro.slice(0, 4).map(m => {
+                const goodIsUp = m.good === 'up'
+                const isPositiveDir = m.dir === 'up'
+                const isGood = goodIsUp ? isPositiveDir : !isPositiveDir
+                const trendColor = isGood ? '#16A34A' : '#DC2626'
+                const data_arr = Array.isArray(m.data) && m.data.length > 1 ? m.data : []
+                const min = data_arr.length ? Math.min(...data_arr) : 0
+                const max = data_arr.length ? Math.max(...data_arr) : 1
+                const range = max - min || 1
+                const w = 80, h = 22
+                const points = data_arr.map((v, i) => {
+                  const x = (i / (data_arr.length - 1)) * w
+                  const y = h - ((v - min) / range) * h
+                  return `${x},${y}`
+                }).join(' ')
+                return (
+                  <div key={m.label} onClick={() => router.push('/macro')} style={{
+                    background: '#fff', borderRadius: 10, padding: '10px 12px',
+                    border: '1px solid #ECECEF', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                    transition: 'border-color 150ms',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#D6D6DA' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF' }}
+                  >
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: trendColor }}>
+                          {isPositiveDir ? '↑' : '↓'} {m.delta}
+                        </span>
+                      </div>
+                    </div>
+                    {data_arr.length > 1 && (
+                      <svg width={w} height={h} style={{ flexShrink: 0 }}>
+                        <polyline points={points} fill="none" stroke={trendColor} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round"/>
+                      </svg>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Row 3: Alertas críticas (chips inline) */}
+          {data?.alerts && data.alerts.length > 0 && (
+            <div style={{
+              background: '#fff', borderRadius: 10, padding: '10px 14px',
+              border: '1px solid #ECECEF',
+              display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+            }}>
+              <span style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}>
+                Alertas
+              </span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', flex: 1 }}>
+                {data.alerts.slice(0, 4).map(a => {
+                  const aColor = a.type === 'warning' ? '#D97706' : a.type === 'ok' ? '#16A34A' : '#1F4E8C'
+                  const aIcon = a.type === 'warning' ? '⚠' : a.type === 'ok' ? '✓' : 'ℹ'
+                  return (
+                    <span key={a.id} onClick={() => router.push('/alertas')} style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      fontSize: 10.5, padding: '3px 9px', borderRadius: 999,
+                      background: `${aColor}10`, color: aColor, border: `1px solid ${aColor}33`,
+                      cursor: 'pointer', fontWeight: 500,
+                      maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }} title={a.text}>
+                      <span style={{ fontWeight: 700 }}>{aIcon}</span>
+                      {a.text}
+                    </span>
+                  )
+                })}
+                <button onClick={() => router.push('/alertas')} style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: 10.5, color: '#6e6e73', fontFamily: 'inherit', fontWeight: 600,
+                  marginLeft: 'auto',
+                }}>
+                  Ver todas →
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
 
         {/* Tendencias ahora */}
         {(() => {
@@ -716,6 +834,45 @@ export default function DashboardPage() {
           </section>
 
         </div>
+
+        {/* ═══════════════ CENTROS DE INTELIGENCIA ═══════════════
+           Navegación principal · 12 módulos. Va al final porque es navegación,
+           no contenido en vivo (los KPIs y tendencias se ven antes).
+        */}
+        <section style={{ marginTop: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+              Centros de inteligencia
+            </h2>
+            <span style={{ fontSize: 10.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+              {MODULES.length} módulos · click para abrir
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+            {MODULES.map(m => (
+              <button key={m.href} onClick={() => router.push(m.href)} style={{
+                background: '#fff',
+                border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
+                borderLeft: `3px solid ${m.accent}`,
+                borderRadius: 10, padding: '11px 13px', textAlign: 'left', cursor: 'pointer',
+                fontFamily: 'inherit', boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+                transition: 'transform 160ms ease, box-shadow 160ms ease',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+                  {m.tag && (
+                    <span style={{ fontSize: 8.5, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+                      {m.tag}
+                    </span>
+                  )}
+                </div>
+                <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
+              </button>
+            ))}
+          </div>
+        </section>
 
       </main>
 
