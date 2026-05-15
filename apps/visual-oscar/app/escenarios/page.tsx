@@ -427,7 +427,7 @@ export default function EscenariosPage(){
               <p style={{fontSize:11,color:'var(--ink-4)',margin:0}}>50 provincias + Ceuta y Melilla · cada provincia coloreada según el partido ganador.</p>
             </div>
             <div style={{flex:1,minHeight:0}}>
-              <MapaPoliticoEspana compact dataset={provDataset} onDatasetChange={setProvDataset}/>
+              <MapaPoliticoEspana compact dataset={provDataset} onDatasetChange={setProvDataset} liveData/>
             </div>
           </div>
         </div>

@@ -55,16 +55,31 @@ interface ProvFC {
   features: ProvFeature[]
 }
 
+/** Estructura provincial en vivo desde /api/electoral/provincial */
+interface ProvinciaLive {
+  id: string
+  cod_ine: string
+  nombre: string
+  ccaa: string
+  escanos: number
+  winner: string | null
+  breakdown: Record<string, number>   // siglas → escaños
+}
+
 interface MapaPoliticoEspanaProps {
   compact?: boolean
   dataset?: string
   onDatasetChange?: (d: string) => void
+  /** Si true (y dataset === 'estimacion') consume /api/electoral/provincial
+   *  con D'Hondt provincial real en lugar de los datos hardcoded. */
+  liveData?: boolean
 }
 
 export default function MapaPoliticoEspana({
   compact = false,
   dataset: datasetProp,
   onDatasetChange,
+  liveData = false,
 }: MapaPoliticoEspanaProps) {
   const [internalDataset, setInternalDataset] = useState<string>('estimacion')
   const dataset = datasetProp ?? internalDataset
@@ -79,6 +94,10 @@ export default function MapaPoliticoEspana({
   const [pinId, setPinId] = useState<string | null>(null)
   const focusedId = pinId || hoverId
 
+  // Datos en vivo (D'Hondt provincial) · solo cuando liveData=true y
+  // dataset='estimacion' (las históricas siguen siendo hardcoded)
+  const [liveProvincias, setLiveProvincias] = useState<ProvinciaLive[] | null>(null)
+
   // Carga del GeoJSON una sola vez
   useEffect(() => {
     let alive = true
@@ -89,7 +108,51 @@ export default function MapaPoliticoEspana({
     return () => { alive = false }
   }, [])
 
-  const winners = (WINNERS[dataset] || WINNERS_HIST[dataset] || {}) as Record<string, PartyId>
+  // Carga de datos provinciales en vivo (D'Hondt real)
+  useEffect(() => {
+    if (!liveData || dataset !== 'estimacion') return
+    let alive = true
+    fetch('/api/electoral/provincial')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (alive && d?.provincias) setLiveProvincias(d.provincias) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [liveData, dataset])
+
+  // Indexar provincias live por id corto · fallback a WINNERS hardcoded
+  const liveById: Record<string, ProvinciaLive> = useMemo(() => {
+    const m: Record<string, ProvinciaLive> = {}
+    if (liveProvincias) for (const p of liveProvincias) m[p.id] = p
+    return m
+  }, [liveProvincias])
+
+  // Winners: si tenemos datos en vivo y estamos en estimación, los usamos.
+  // En cualquier otro caso (históricas o sin live) se usan los hardcoded.
+  const winners: Record<string, PartyId> = useMemo(() => {
+    if (liveData && dataset === 'estimacion' && liveProvincias) {
+      const w: Record<string, PartyId> = {}
+      for (const p of liveProvincias) {
+        if (p.winner) w[p.id] = p.winner.toLowerCase() as PartyId
+      }
+      return w
+    }
+    return (WINNERS[dataset] || WINNERS_HIST[dataset] || {}) as Record<string, PartyId>
+  }, [liveData, dataset, liveProvincias])
+
+  /** Breakdown por partido para una provincia: usa datos live si están,
+   *  fallback a getBreakdown() hardcoded en otro caso. */
+  function breakdownFor(provId: string): Partial<Record<PartyId, number>> {
+    if (liveData && dataset === 'estimacion' && liveById[provId]) {
+      const out: Partial<Record<PartyId, number>> = {}
+      for (const [k, v] of Object.entries(liveById[provId].breakdown)) {
+        out[k.toLowerCase() as PartyId] = v
+      }
+      return out
+    }
+    const prov = PROVINCES.find(p => p.id === provId)
+    if (!prov) return {}
+    return getBreakdown(dataset, prov, winners[provId])
+  }
 
   // Separar península/Baleares vs Canarias para reposicionar
   const { peninsulaFCs, canariasFCs } = useMemo(() => {
@@ -282,7 +345,7 @@ export default function MapaPoliticoEspana({
               const c = peninsulaPath.centroid(f as never)
               if (!c || isNaN(c[0]) || isNaN(c[1])) return null
               const winner = winners[id]
-              const breakdown = getBreakdown(dataset, prov, winner)
+              const breakdown = breakdownFor(id)
               const winnerSeats = winner ? (breakdown[winner] || 0) : 0
               const isBig = bigProvs.has(id)
               const fz = isBig ? (compact ? 9 : 11) : (compact ? 7 : 8.5)
@@ -323,7 +386,7 @@ export default function MapaPoliticoEspana({
               const c = canariasPath.centroid(f as never)
               if (!c || isNaN(c[0]) || isNaN(c[1])) return null
               const winner = winners[id]
-              const breakdown = getBreakdown(dataset, prov, winner)
+              const breakdown = breakdownFor(id)
               const winnerSeats = winner ? (breakdown[winner] || 0) : prov.seats
               return (
                 <text key={`canlbl-${codProv}`} x={c[0]} y={c[1]}
@@ -345,7 +408,7 @@ export default function MapaPoliticoEspana({
         <FocusedBreakdown
           prov={focusedProv}
           winner={focusedWinner || undefined}
-          breakdown={getBreakdown(dataset, focusedProv, focusedWinner || undefined)}
+          breakdown={breakdownFor(focusedProv.id)}
         />
       ) : (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', paddingTop: 4 }}>

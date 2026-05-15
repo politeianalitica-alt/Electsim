@@ -229,11 +229,20 @@ export function calcularEscanosProvinciales(
   for (const prov of PROVINCIAS) {
     const votosProv: Record<string, number> = {}
     for (const [partido, v23] of Object.entries(prov.resultados_2023)) {
+      if (partido === 'OTROS') continue   // OTROS no compite en D'Hondt
       const s = swing[partido as Partido] || 0
       const v = (v23 || 0) * s
       if (v > 0) votosProv[partido] = v
     }
-    out[prov.id] = dhondt(votosProv, prov.escanos, umbralPct) as Record<Partido, number>
+    // Total con OTROS para % umbral correcto
+    const otrosVotos = (prov.resultados_2023.OTROS || 0) * (swing.OTROS || 0)
+    const totalValidos = Object.values(votosProv).reduce((s, v) => s + v, 0) + otrosVotos
+    const minVotos = totalValidos * umbralPct / 100
+    const elegibles: Record<string, number> = {}
+    for (const [k, v] of Object.entries(votosProv)) {
+      if (v >= minVotos) elegibles[k] = v
+    }
+    out[prov.id] = dhondt(elegibles, prov.escanos, 0) as Record<Partido, number>
   }
   return out
 }
