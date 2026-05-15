@@ -203,16 +203,56 @@ function extractPartiesMentioned(text: string): string {
   return found.join(' · ')
 }
 
+/**
+ * Pide la estimación electoral agregada (sondeos electocracia.com +
+ * cifras curadas + ponderación + D'Hondt 350) y devuelve `parties` +
+ * `kpis` actualizados con datos REALES.
+ */
+async function fromElectoralEstimacion(): Promise<{ parties: DashboardParty[]; kpis: DashboardKPI[] } | null> {
+  try {
+    const proto = (typeof window === 'undefined') ? 'http' : 'https'
+    const host  = process.env.VERCEL_URL || 'localhost:3000'
+    const r = await fetch(`${proto}://${host}/api/electoral/estimacion`, { cache: 'no-store' })
+    if (!r.ok) return null
+    const d = await r.json()
+    if (!Array.isArray(d.parties) || d.parties.length === 0) return null
+    // Convertir parties al shape DashboardParty (necesita ci_inf/sup en fracción y bloque)
+    const parties: DashboardParty[] = d.parties.map((p: PartyEstimateLike) => ({
+      partido_id: p.partido_id || 0,
+      siglas: p.siglas,
+      nombre: p.nombre,
+      pct: p.pct,
+      ci_inf: p.ci_inf,
+      ci_sup: p.ci_sup,
+      seats: p.seats,
+      seats_low: p.seats_low,
+      seats_high: p.seats_high,
+      color: p.color,
+      bloque: p.bloque,
+      delta: p.delta || 0,
+    }))
+    return { parties, kpis: d.kpis_derivados || [] }
+  } catch { return null }
+}
+
+interface PartyEstimateLike {
+  partido_id?: number; siglas: string; nombre: string
+  pct: number; ci_inf: number; ci_sup: number
+  seats: number; seats_low: number; seats_high: number
+  color: string; bloque: 'izquierda' | 'derecha' | 'centro' | 'otros'
+  delta?: number
+}
+
 export async function GET() {
   const real = await fromBackend<DashboardHome>('/api/dashboard/home')
 
-  // Si backend respondió completo Y con news_pulse poblado, lo usamos tal cual
+  // 1. Backend completo · usar tal cual
   if (real && Array.isArray(real.parties) && real.parties.length > 0
       && Array.isArray(real.news_pulse) && real.news_pulse.length > 0) {
     return NextResponse.json(withMeta(real, 'backend'))
   }
 
-  // Si el backend respondió pero le faltan secciones, completamos
+  // 2. Backend parcial · completar
   if (real && Array.isArray(real.parties) && real.parties.length > 0) {
     const news_pulse = await deriveNewsPulse()
     return NextResponse.json(withMeta({
@@ -223,8 +263,20 @@ export async function GET() {
     }, 'backend'))
   }
 
-  // Sin backend: mock + news_pulse derivado en vivo
-  const news_pulse = await deriveNewsPulse()
+  // 3. Sin backend: usar AGREGADOR ELECTORAL real (electocracia.com) +
+  //    news_pulse derivado en vivo. Solo si falla todo, caemos al mock.
+  const [news_pulse, electoral] = await Promise.all([
+    deriveNewsPulse(),
+    fromElectoralEstimacion(),
+  ])
+  if (electoral) {
+    return NextResponse.json(withMeta({
+      ...MOCK_DASHBOARD,
+      parties: electoral.parties,
+      kpis: electoral.kpis.length > 0 ? electoral.kpis : MOCK_DASHBOARD.kpis,
+      news_pulse,
+    }, 'backend'))   // marca backend porque ahora SÍ son datos reales
+  }
   return NextResponse.json(withMeta({
     ...MOCK_DASHBOARD,
     news_pulse,
