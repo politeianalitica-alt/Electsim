@@ -98,7 +98,6 @@ export const MODULES: NavModule[] = [
       { label: 'Módulo Electoral',           href: '/nowcasting' },
       { label: 'Simulador Estratégico',      href: '/escenarios' },
       { label: 'Perfiles de Votante',        href: '/microdatos' },
-      { label: 'War Room de Campaña',        href: '/war-room' },
       {
         label: 'Inteligencia Adversarios',
         href: '/adversarios',
@@ -175,7 +174,7 @@ export const MODULES: NavModule[] = [
       // Intelligence Notebook, Political Calendar, Watchlists, Team
       // Collaboration) se agrupan en /extras como hub-page.
       { label: 'Estudio Politeia', href: '/estudio' },
-      { label: 'War Room',         href: '/workspace' },
+      { label: 'War Room',         href: '/war-room' },
       { label: 'Extras',           href: '/extras' },
     ],
   },
