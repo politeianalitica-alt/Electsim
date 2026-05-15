@@ -20,6 +20,7 @@ import {
   SONDEOS_CURADOS_GENERALES,
   estimacionPonderada,
 } from '@/lib/sources/encuestas-pesos'
+import { calcularEscanosNacional, type Partido } from '@/lib/sources/dhondt-provincial'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -55,99 +56,26 @@ const PARTY_META: Record<string, { nombre: string; color: string; bloque: 'izqui
 }
 
 /**
- * D'Hondt simplificado para 350 escaños totales con calibración histórica.
+ * Punto base 2023 (% real Generales 23-J) · solo para calcular el delta
+ * que se muestra al usuario. La asignación de escaños se hace ahora con
+ * D'Hondt PROVINCIAL real (52 circunscripciones, umbral 3%, swing
+ * nacional uniforme aplicado a la matriz de votos provinciales 2023).
  *
- * Algoritmo:
- *   1. Para cada partido, calcular escaños "raw" = base_2023 + delta × elasticidad
- *   2. Aplicar mínimos para regionalistas pequeños (CC, BNG, OTROS no bajan de 1
- *      si tienen >0.3% de voto)
- *   3. NORMALIZAR para que la suma = exactamente 350 (ajustar PP/PSOE
- *      proporcionalmente al residual con redondeo Sainte-Laguë)
+ * Ver: lib/sources/dhondt-provincial.ts
  */
-const ELASTICIDAD: Record<string, number> = {
-  PP:    3.9,
-  PSOE:  3.8,
-  VOX:   3.4,
-  SUMAR: 3.3,
-  ERC:   3.0,
-  JUNTS: 2.7,
-  PNV:   2.5,
-  BILDU: 2.2,
-  CC:    1.4,
-  BNG:   1.2,
-  OTROS: 0.4,
-}
-
-// Punto base 2023 (% real Generales 23-J + escaños obtenidos)
-const BASE_2023: Record<string, { pct: number; seats: number }> = {
-  PP:    { pct: 33.05, seats: 137 },
-  PSOE:  { pct: 31.70, seats: 121 },
-  VOX:   { pct: 12.39, seats:  33 },
-  SUMAR: { pct: 12.31, seats:  31 },
-  ERC:   { pct:  1.94, seats:   7 },
-  JUNTS: { pct:  1.62, seats:   7 },
-  BILDU: { pct:  1.36, seats:   6 },
-  PNV:   { pct:  1.13, seats:   5 },
-  CC:    { pct:  0.31, seats:   1 },
-  BNG:   { pct:  0.65, seats:   1 },
-  OTROS: { pct:  3.54, seats:   1 },
-}
-
-/** Escaños raw para un partido a partir de su % */
-function pctToSeatsRaw(siglas: string, pct: number): number {
-  const base = BASE_2023[siglas]
-  const elast = ELASTICIDAD[siglas] ?? 1.0
-  if (!base) return Math.max(0, (pct - 3) * 0.5)
-  const delta = pct - base.pct
-  return Math.max(0, base.seats + delta * elast)
+const BASE_2023_PCT: Record<string, number> = {
+  PP: 33.05, PSOE: 31.70, VOX: 12.39, SUMAR: 12.31,
+  ERC: 1.94, JUNTS: 1.62, BILDU: 1.36, PNV: 1.13,
+  CC: 0.31, BNG: 0.65, OTROS: 3.54,
 }
 
 /**
- * Asignación de escaños normalizada a 350.
- * Devuelve un map {siglas: escaños_enteros} cuya suma == 350 exactos.
+ * Wrapper sobre calcularEscanosNacional() de dhondt-provincial.ts:
+ * convierte el shape interno (Record<string,number>) al esperado por
+ * el resto del endpoint.
  */
-function asignarEscanos(estimaciones: Record<string, number>, total = 350): Record<string, number> {
-  // 1. Calcular raw
-  const raw: Record<string, number> = {}
-  for (const [siglas, pct] of Object.entries(estimaciones)) {
-    raw[siglas] = pctToSeatsRaw(siglas, pct)
-  }
-  // 2. Mínimos para regionalistas con voto significativo
-  const minimos: Record<string, number> = { CC: 1, BNG: 1, OTROS: 1, PNV: 4, BILDU: 5 }
-  for (const [siglas, min] of Object.entries(minimos)) {
-    if (estimaciones[siglas] != null && raw[siglas] < min) raw[siglas] = min
-  }
-  // 3. Round preliminar
-  const rounded: Record<string, number> = {}
-  let sumRounded = 0
-  for (const [siglas, r] of Object.entries(raw)) {
-    rounded[siglas] = Math.max(0, Math.round(r))
-    sumRounded += rounded[siglas]
-  }
-  // 4. Normalizar: ajustar diff repartiendo entre los grandes proporcionalmente
-  let diff = total - sumRounded
-  if (diff !== 0) {
-    // Lista ordenada por residuo (resto de Hare) para asignar/quitar 1 escaño
-    const residuos = Object.entries(raw)
-      .map(([siglas, r]) => ({ siglas, residuo: r - Math.floor(r) }))
-      .sort((a, b) => b.residuo - a.residuo)
-    let idx = 0
-    while (diff !== 0 && residuos.length > 0) {
-      const target = residuos[idx % residuos.length].siglas
-      if (diff > 0) {
-        rounded[target] = (rounded[target] || 0) + 1
-        diff--
-      } else {
-        if ((rounded[target] || 0) > (minimos[target] || 0)) {
-          rounded[target]--
-          diff++
-        }
-      }
-      idx++
-      if (idx > residuos.length * 5) break  // safety
-    }
-  }
-  return rounded
+function asignarEscanos(estimaciones: Record<string, number>): Record<string, number> {
+  return calcularEscanosNacional(estimaciones as Partial<Record<Partido, number>>) as Record<string, number>
 }
 
 export async function GET() {
@@ -168,9 +96,9 @@ export async function GET() {
   }
 
   // 2. Asignar escaños con normalización a 350
-  const seatsCentral = asignarEscanos(pctMap, 350)
-  const seatsLow = asignarEscanos(pctMapLow, 350)
-  const seatsHigh = asignarEscanos(pctMapHigh, 350)
+  const seatsCentral = asignarEscanos(pctMap)
+  const seatsLow = asignarEscanos(pctMapLow)
+  const seatsHigh = asignarEscanos(pctMapHigh)
 
   // 3. Construir array PartyEstimate
   const parties: PartyEstimate[] = []
@@ -183,8 +111,8 @@ export async function GET() {
     const sCent = seatsCentral[siglas] || 0
     const sLow = seatsLow[siglas] || 0
     const sHigh = seatsHigh[siglas] || 0
-    const base = BASE_2023[siglas]
-    const delta = base ? +(e.pct - base.pct).toFixed(2) : 0
+    const base_pct = BASE_2023_PCT[siglas]
+    const delta = base_pct != null ? +(e.pct - base_pct).toFixed(2) : 0
     parties.push({
       partido_id: meta.partido_id,
       siglas,
