@@ -85,7 +85,8 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Termómetro de Riesgo',         href: '/riesgo' },
       { label: 'Crisis Intelligence',          href: '/crisis' },
-      { label: 'Detección de Ataques',         href: '/ataques-narrativos' },
+      { label: 'Detección de Ataques',         href: '/deteccion-ataques' },
+      { label: 'Narrativa hostil',             href: '/ataques-narrativos' },
     ],
   },
 
