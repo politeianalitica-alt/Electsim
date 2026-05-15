@@ -26,41 +26,51 @@ interface Barrio {
 interface BarriosResp {
   items: Barrio[]
   total: number
+  page: number
+  page_size: number
+  n_pages: number
   n_total_catalogo: number
   ciudades: string[]
 }
 
-type Sort = 'precio_desc' | 'precio_asc' | 'var_desc'
+type Sort = 'precio_desc' | 'precio_asc' | 'var_desc' | 'alfabetico'
 
 export default function BuscadorBarrios() {
   const [q, setQ] = useState('')
   const [ciudad, setCiudad] = useState('')
   const [sort, setSort] = useState<Sort>('precio_desc')
+  const [page, setPage] = useState(1)
   const [data, setData] = useState<BarriosResp | null>(null)
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
 
-  const fetchData = async (qVal: string, ciudadVal: string, sortVal: Sort) => {
+  const PAGE_SIZE = 30
+
+  const fetchData = async (qVal: string, ciudadVal: string, sortVal: Sort, pageVal: number) => {
     setLoading(true)
     try {
       const sp = new URLSearchParams()
       if (qVal) sp.set('q', qVal)
       if (ciudadVal) sp.set('ciudad', ciudadVal)
       sp.set('sort', sortVal)
-      sp.set('limit', '60')
+      sp.set('page', String(pageVal))
+      sp.set('page_size', String(PAGE_SIZE))
       const res = await fetch(`/api/sectores/vivienda/barrios?${sp.toString()}`)
       if (res.ok) setData(await res.json())
     } finally { setLoading(false) }
   }
 
-  // Carga inicial · top 60
-  useEffect(() => { void fetchData('', '', 'precio_desc') }, [])
+  // Reset de página al cambiar filtros (q/ciudad/sort)
+  useEffect(() => { setPage(1) }, [q, ciudad, sort])
 
-  // Debounce búsqueda · 200ms
+  // Carga inicial
+  useEffect(() => { void fetchData('', '', 'precio_desc', 1) }, [])
+
+  // Debounce búsqueda · 200ms · refetch cuando cambia q/ciudad/sort/page
   useEffect(() => {
-    const t = setTimeout(() => fetchData(q, ciudad, sort), 200)
+    const t = setTimeout(() => fetchData(q, ciudad, sort, page), 200)
     return () => clearTimeout(t)
-  }, [q, ciudad, sort])
+  }, [q, ciudad, sort, page])
 
   const selectedBarrio = useMemo(
     () => data?.items.find(b => b.id === selected) || null,
@@ -102,6 +112,7 @@ export default function BuscadorBarrios() {
           <option value="precio_desc">Precio · más caro</option>
           <option value="precio_asc">Precio · más barato</option>
           <option value="var_desc">Mayor subida anual</option>
+          <option value="alfabetico">Alfabético A-Z</option>
         </select>
       </div>
 
@@ -147,18 +158,27 @@ export default function BuscadorBarrios() {
         </div>
       )}
 
-      {/* Stats strip */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+      {/* Stats strip + paginación */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
         <span style={{ fontSize: 11, color: '#6e6e73' }}>
           {loading ? 'Buscando…' : data ? (
             <>
-              <strong style={{ color: '#1d1d1f' }}>{data.total}</strong> barrios encontrados
-              {data.total > data.items.length && ` · mostrando ${data.items.length}`}
+              <strong style={{ color: '#1d1d1f' }}>{data.total.toLocaleString('es-ES')}</strong> barrios encontrados
+              {data.n_pages > 1 && ` · página ${data.page} de ${data.n_pages}`}
               {' · '}
-              <span style={{ color: '#86868b' }}>catálogo {data.n_total_catalogo}</span>
+              <span style={{ color: '#86868b' }}>catálogo {data.n_total_catalogo.toLocaleString('es-ES')} barrios · {data.ciudades.length} ciudades</span>
             </>
           ) : 'Cargando…'}
         </span>
+        {data && data.n_pages > 1 && (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <PageBtn disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))}>← Anterior</PageBtn>
+            <span style={{ fontSize: 11, padding: '0 8px', color: '#1d1d1f', fontWeight: 600 }}>
+              {data.page} / {data.n_pages}
+            </span>
+            <PageBtn disabled={page >= data.n_pages} onClick={() => setPage(p => Math.min(data.n_pages, p + 1))}>Siguiente →</PageBtn>
+          </div>
+        )}
       </div>
 
       {/* Tabla compacta de resultados */}
@@ -241,6 +261,21 @@ function Th({ children, align = 'left' }: { children: React.ReactNode; align?: '
 }
 function Td({ children, align = 'left' }: { children: React.ReactNode; align?: 'left' | 'right' }) {
   return <td style={{ padding: '8px 12px', textAlign: align, verticalAlign: 'middle' }}>{children}</td>
+}
+function PageBtn({ disabled, onClick, children }: { disabled?: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button onClick={onClick} disabled={disabled} style={{
+      padding: '4px 10px', borderRadius: 999,
+      border: '1px solid #ECECEF', background: disabled ? '#F5F5F7' : '#fff',
+      fontSize: 11, fontWeight: 600, cursor: disabled ? 'not-allowed' : 'pointer',
+      color: disabled ? '#C7C7CC' : '#1d1d1f', fontFamily: 'inherit',
+      transition: 'background 120ms, border-color 120ms',
+    }}
+    onMouseEnter={e => { if (!disabled) { e.currentTarget.style.background = '#FAFAFA'; e.currentTarget.style.borderColor = '#D6D6DA' } }}
+    onMouseLeave={e => { if (!disabled) { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#ECECEF' } }}>
+      {children}
+    </button>
+  )
 }
 function KpiBig({ label, value, unit, color }: { label: string; value: string; unit: string; color: string }) {
   return (
