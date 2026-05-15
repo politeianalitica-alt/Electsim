@@ -17,7 +17,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchEncuestasElectocracia } from '@/lib/sources/electocracia'
-import { SONDEOS_CURADOS_GENERALES, pesoEncuesta, type SondeoCifras } from '@/lib/sources/encuestas-pesos'
+import { getSondeosVivos, pesoEncuesta, type SondeoCifras } from '@/lib/sources/encuestas-pesos'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -27,7 +27,7 @@ interface EncuestaConPeso extends SondeoCifras {
   peso: number
   peso_breakdown: { calidad: number; recencia: number; muestra_factor: number }
   link?: string
-  source: 'curado' | 'electocracia'
+  source: 'wikipedia' | 'curado' | 'electocracia'
 }
 
 export async function GET(req: NextRequest) {
@@ -35,8 +35,9 @@ export async function GET(req: NextRequest) {
   const limit = Math.min(60, Math.max(5, Number(req.nextUrl.searchParams.get('limit') || 30)))
   const t0 = Date.now()
 
-  // Catálogo curado (siempre con cifras)
-  const curados: EncuestaConPeso[] = SONDEOS_CURADOS_GENERALES.map(s => {
+  // Sondeos en vivo (Wikipedia) o catálogo curado fallback
+  const vivos = await getSondeosVivos(limit)
+  const curados: EncuestaConPeso[] = vivos.map(s => {
     const wb = pesoEncuesta({ casa: s.casa, fecha: s.fecha, muestra: s.muestra })
     return {
       ...s,
@@ -46,7 +47,7 @@ export async function GET(req: NextRequest) {
         recencia: Math.round(wb.recencia * 100) / 100,
         muestra_factor: Math.round(wb.muestra_factor * 100) / 100,
       },
-      source: 'curado',
+      source: s.id.startsWith('wiki-') ? 'wikipedia' as const : 'curado' as const,
     }
   })
 

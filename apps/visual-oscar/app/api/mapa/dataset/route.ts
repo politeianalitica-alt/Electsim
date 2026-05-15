@@ -10,7 +10,7 @@ import {
   SERIES,
 } from '@/data/mapa-fixture'
 import {
-  SONDEOS_CURADOS_GENERALES,
+  getSondeosVivos,
   estimacionPonderada,
 } from '@/lib/sources/encuestas-pesos'
 import {
@@ -88,7 +88,8 @@ export async function GET() {
   let liveOk = false
 
   try {
-    const est = estimacionPonderada(SONDEOS_CURADOS_GENERALES.filter(s => s.tipo === 'general'))
+    const sondeosVivos = await getSondeosVivos(30)
+    const est = estimacionPonderada(sondeosVivos)
     const pctMap: Partial<Record<Partido, number>> = {}
     for (const [s, e] of Object.entries(est.partidos)) pctMap[s as Partido] = e.pct
     const seats = calcularEscanosNacional(pctMap)

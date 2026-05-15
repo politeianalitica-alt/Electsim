@@ -77,6 +77,57 @@ export function pesoEncuesta(opts: {
   return { peso, calidad: meta.peso_calidad, recencia, muestra_factor }
 }
 
+// ─── Sondeos LIVE de Wikipedia ──────────────────────────────────────────
+// Cuando se llama, intenta obtener los sondeos más recientes de Wikipedia.
+// Si falla (offline, parser, rate-limit), cae al catálogo curado SONDEOS_CURADOS_GENERALES.
+// Resultado: sistema 100% automático que se actualiza sin tocar código.
+
+import type { SondeoWiki } from './wikipedia-encuestas'
+
+/**
+ * Convierte un SondeoWiki al formato SondeoCifras que usa el resto del
+ * sistema. Si el campo `partidos` no incluye OTROS, lo calcula como
+ * residuo (100 - suma).
+ */
+function wikiToCifras(w: SondeoWiki): SondeoCifras {
+  const partidos = { ...w.partidos }
+  if (partidos.OTROS == null) {
+    const sum = Object.values(partidos).reduce((s, v) => s + v, 0)
+    if (sum > 0 && sum < 99) partidos.OTROS = +(100 - sum).toFixed(1)
+  }
+  return {
+    id: w.id,
+    casa: w.casa,
+    cliente: w.cliente || 'Wikipedia',
+    fecha: w.fecha,
+    fecha_publicacion: w.fecha_publicacion,
+    muestra: w.muestra,
+    metodo: w.metodo,
+    tipo: 'general',
+    ambito: 'España',
+    partidos,
+    link: w.link,
+  }
+}
+
+/**
+ * Devuelve los sondeos a usar para la estimación.
+ * Prioridad: Wikipedia (live) > catálogo curado (fallback).
+ *
+ * Cuando se conecta a Wikipedia y obtiene >= 5 sondeos válidos los usa
+ * como fuente principal. Si falla, usa el catálogo curado.
+ */
+export async function getSondeosVivos(maxN = 30): Promise<SondeoCifras[]> {
+  try {
+    const { fetchWikipediaPolls } = await import('./wikipedia-encuestas')
+    const wiki = await fetchWikipediaPolls(maxN)
+    if (wiki && wiki.length >= 5) {
+      return wiki.map(wikiToCifras)
+    }
+  } catch { /* fall through */ }
+  return SONDEOS_CURADOS_GENERALES.filter(s => s.tipo === 'general')
+}
+
 /**
  * Catálogo curado de cifras de los últimos sondeos generales españoles.
  * Calibrado con datos públicos de la prensa (mayo 2026).

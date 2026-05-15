@@ -17,7 +17,7 @@
  */
 import { NextResponse } from 'next/server'
 import {
-  SONDEOS_CURADOS_GENERALES,
+  getSondeosVivos,
   estimacionPonderada,
 } from '@/lib/sources/encuestas-pesos'
 import { calcularEscanosNacional, type Partido } from '@/lib/sources/dhondt-provincial'
@@ -81,8 +81,8 @@ function asignarEscanos(estimaciones: Record<string, number>): Record<string, nu
 export async function GET() {
   const t0 = Date.now()
 
-  // Sondeos generales (España, últimos 30 días)
-  const sondeos = SONDEOS_CURADOS_GENERALES.filter(s => s.tipo === 'general')
+  // Sondeos generales · Wikipedia live + fallback al catálogo curado
+  const sondeos = await getSondeosVivos(30)
   const est = estimacionPonderada(sondeos)
 
   // 1. Map de % por partido para el asignador

@@ -18,7 +18,7 @@
  */
 import { NextResponse } from 'next/server'
 import {
-  SONDEOS_CURADOS_GENERALES,
+  getSondeosVivos,
   estimacionPonderada,
 } from '@/lib/sources/encuestas-pesos'
 import {
@@ -34,7 +34,7 @@ export async function GET() {
   const t0 = Date.now()
 
   // 1) Estimación agregada ponderada
-  const sondeos = SONDEOS_CURADOS_GENERALES.filter(s => s.tipo === 'general')
+  const sondeos = await getSondeosVivos(30)
   const est = estimacionPonderada(sondeos)
   const pctMap: Partial<Record<Partido, number>> = {}
   for (const [siglas, e] of Object.entries(est.partidos)) {
