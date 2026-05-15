@@ -19,6 +19,8 @@ import { fetchPlacspMultiPage } from '@/lib/placsp'
 import { searchValencia } from '@/lib/sources/valencia'
 import { searchTed } from '@/lib/sources/ted'
 import { searchAndalucia } from '@/lib/sources/andalucia'
+import { evaluarCalidad, detectarOutliersImporte } from '@/lib/sources/quality'
+import { describirCPV } from '@/lib/sources/cpv-decoder'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -190,7 +192,47 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  merged = sortMerged(merged, sort)
+  // ─── Enriquecimiento: quality scoring + CPV decoding ─────
+  // Cada contrato recibe quality_score, quality_level (A/B/C), flags,
+  // is_outlier, cpv_descripcion (vocabulario UE oficial).
+  const minQuality = numOrUndef(sp.get('min_quality'))     // p.ej. 60
+  const excluirOutliers = sp.get('excluir_outliers') === '1'
+  const soloAdjudicados = sp.get('solo_adjudicados') === '1'
+
+  type EnrichedContrato = NormalizedContrato & {
+    quality_score: number; quality_level: 'A' | 'B' | 'C'
+    flags: string[]; is_outlier: boolean
+    nif_valido?: boolean; cpv_valido?: boolean
+    cpv_descripcion?: string
+  }
+
+  const outliersIds = new Set(detectarOutliersImporte(merged, 3).map(c => c.id))
+  let enriched: EnrichedContrato[] = merged.map(c => {
+    const q = evaluarCalidad(c)
+    const cpvInfo = describirCPV(c.cpv)
+    return {
+      ...c,
+      quality_score: q.quality_score,
+      quality_level: q.quality_level,
+      flags: q.flags,
+      is_outlier: q.is_outlier || outliersIds.has(c.id),
+      nif_valido: q.nif_valido,
+      cpv_valido: q.cpv_valido,
+      cpv_descripcion: cpvInfo ? `${cpvInfo.div} · ${cpvInfo.divlabel}` : undefined,
+    }
+  })
+
+  if (typeof minQuality === 'number') {
+    enriched = enriched.filter(c => c.quality_score >= minQuality)
+  }
+  if (excluirOutliers) {
+    enriched = enriched.filter(c => !c.is_outlier)
+  }
+  if (soloAdjudicados) {
+    enriched = enriched.filter(c => !!c.adjudicatario)
+  }
+
+  merged = sortMerged(enriched as NormalizedContrato[], sort)
 
   // Cuenta total (Catalunya soporta count exacto · Valencia/TED son aproximados)
   let total_estimado: number | null = null
@@ -202,6 +244,21 @@ export async function GET(req: NextRequest) {
     total_estimado = cnt != null ? cnt : null
   }
 
+  // Stats de calidad agregada
+  const qualityList = (merged as Array<NormalizedContrato & { quality_score?: number; quality_level?: string; is_outlier?: boolean }>).map(c => ({
+    score: c.quality_score, level: c.quality_level, outlier: c.is_outlier,
+  }))
+  const avgQuality = qualityList.length > 0
+    ? Math.round(qualityList.reduce((s, q) => s + (q.score || 0), 0) / qualityList.length)
+    : 0
+  const calidad = {
+    avg_score: avgQuality,
+    nivel_a: qualityList.filter(q => q.level === 'A').length,
+    nivel_b: qualityList.filter(q => q.level === 'B').length,
+    nivel_c: qualityList.filter(q => q.level === 'C').length,
+    outliers: qualityList.filter(q => q.outlier).length,
+  }
+
   const stats = {
     total: merged.length,
     importe_total_M: Math.round(
@@ -209,6 +266,7 @@ export async function GET(req: NextRequest) {
     ) / 10,
     por_fuente: countBy(merged, 'fuente'),
     por_tipo: countBy(merged, 'tipo_contrato'),
+    calidad,
     fetch_ms: Date.now() - t0,
     sources: results.map(r => ({
       fuente: r.fuente, ok: r.ok, items: r.items.length, ms: r.ms, error: r.error,

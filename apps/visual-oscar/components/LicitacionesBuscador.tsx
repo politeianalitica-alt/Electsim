@@ -26,6 +26,7 @@ interface NormalizedContrato {
   procedimiento?: string
   cpv?: string
   cpv_div?: string
+  cpv_descripcion?: string
   lugar_ejecucion?: string
   importe_licitacion?: number
   importe_adjudicacion?: number
@@ -39,6 +40,13 @@ interface NormalizedContrato {
   anio?: number
   es_pyme?: boolean
   url?: string
+  // Enriquecimientos (pipeline calidad BquantFinance)
+  quality_score?: number
+  quality_level?: 'A' | 'B' | 'C'
+  flags?: string[]
+  is_outlier?: boolean
+  nif_valido?: boolean
+  cpv_valido?: boolean
 }
 
 interface SearchResponse {
@@ -48,6 +56,11 @@ interface SearchResponse {
     importe_total_M: number
     por_fuente: Record<string, number>
     por_tipo: Record<string, number>
+    calidad?: {
+      avg_score: number
+      nivel_a: number; nivel_b: number; nivel_c: number
+      outliers: number
+    }
     fetch_ms: number
     sources: Array<{ fuente: string; ok: boolean; items: number; ms: number; error?: string }>
   }
@@ -92,6 +105,9 @@ export default function LicitacionesBuscador() {
   const [esPyme, setEsPyme] = useState<boolean>(false)
   const [soloMenores, setSoloMenores] = useState<boolean>(false)
   const [soloConImporte, setSoloConImporte] = useState<boolean>(false)
+  const [soloAdjudicados, setSoloAdjudicados] = useState<boolean>(false)
+  const [excluirOutliers, setExcluirOutliers] = useState<boolean>(false)
+  const [minQuality, setMinQuality] = useState<string>('')   // '60' = solo nivel B+
   const [importeMin, setImporteMin] = useState<string>('')
   const [importeMax, setImporteMax] = useState<string>('')
   const [sort, setSort] = useState<string>('date_desc')
@@ -117,11 +133,14 @@ export default function LicitacionesBuscador() {
     if (importeMin) sp.set('importe_min', importeMin)
     if (importeMax) sp.set('importe_max', importeMax)
     if (soloConImporte) sp.set('importe_min', importeMin || '0.01')
+    if (soloAdjudicados) sp.set('solo_adjudicados', '1')
+    if (excluirOutliers) sp.set('excluir_outliers', '1')
+    if (minQuality) sp.set('min_quality', minQuality)
     sp.set('sort', sort)
     sp.set('page', String(page))
     sp.set('page_size', String(pageSize))
     return `/api/licitaciones/buscar?${sp.toString()}`
-  }, [q, type, anio, ccaa, cpvDiv, tipoContrato, procedimiento, source, esPyme, soloMenores, soloConImporte, importeMin, importeMax, sort, page, pageSize])
+  }, [q, type, anio, ccaa, cpvDiv, tipoContrato, procedimiento, source, esPyme, soloMenores, soloConImporte, soloAdjudicados, excluirOutliers, minQuality, importeMin, importeMax, sort, page, pageSize])
 
   const runSearch = async () => {
     setLoading(true); setError(null)
@@ -142,6 +161,7 @@ export default function LicitacionesBuscador() {
   const reset = () => {
     setQ(''); setType('texto'); setAnio(''); setCcaa(''); setCpvDiv(''); setTipoContrato('')
     setProcedimiento(''); setSource(''); setEsPyme(false); setSoloMenores(false); setSoloConImporte(false)
+    setSoloAdjudicados(false); setExcluirOutliers(false); setMinQuality('')
     setImporteMin(''); setImporteMax(''); setSort('date_desc'); setPage(1)
     setTimeout(runSearch, 0)
   }
@@ -261,6 +281,22 @@ export default function LicitacionesBuscador() {
             <CheckBox label="Solo PYME adjudicataria" checked={esPyme} onChange={setEsPyme}/>
             <CheckBox label="Solo contratos menores" checked={soloMenores} onChange={setSoloMenores}/>
             <CheckBox label="Solo con importe declarado" checked={soloConImporte} onChange={setSoloConImporte}/>
+            <CheckBox label="Solo adjudicados" checked={soloAdjudicados} onChange={setSoloAdjudicados}/>
+          </FilterGroup>
+
+          <FilterGroup label="Calidad de datos">
+            <PillSelect
+              value={minQuality} onChange={setMinQuality}
+              options={[
+                { value: '85', label: 'Solo nivel A · score ≥ 85' },
+                { value: '60', label: 'Nivel A o B · score ≥ 60' },
+              ]}
+              placeholder="Cualquier calidad"
+              ariaLabel="Calidad mínima"
+            />
+            <div style={{ marginTop:6 }}>
+              <CheckBox label="Excluir outliers de importe" checked={excluirOutliers} onChange={setExcluirOutliers}/>
+            </div>
           </FilterGroup>
 
           <div style={{ display:'flex', gap:8, marginTop:14 }}>
@@ -308,6 +344,33 @@ export default function LicitacionesBuscador() {
           </div>
         </header>
 
+        {/* Strip de stats de calidad · score medio + nivel A/B/C + outliers */}
+        {data && data.stats.calidad && (
+          <div style={{
+            background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
+            padding:'10px 14px', marginBottom:12, display:'flex', gap:14, alignItems:'center', flexWrap:'wrap',
+          }}>
+            <div title="Quality score medio · pipeline INT-VAL/CONS/FIA" style={{ display:'flex', alignItems:'baseline', gap:6 }}>
+              <span style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase' }}>Calidad media</span>
+              <span style={{
+                fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, letterSpacing:'-0.02em',
+                color: data.stats.calidad.avg_score >= 85 ? '#16A34A' : data.stats.calidad.avg_score >= 60 ? '#F97316' : '#DC2626',
+              }}>{data.stats.calidad.avg_score}<span style={{ fontSize:11, color:'#86868b', marginLeft:3, fontWeight:500 }}>/100</span></span>
+            </div>
+            <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+              <span title="Nivel A · score ≥ 85 · alta calidad de datos" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#16A34A', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>A · {data.stats.calidad.nivel_a}</span>
+              <span title="Nivel B · score 60-84 · calidad media" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#F97316', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>B · {data.stats.calidad.nivel_b}</span>
+              <span title="Nivel C · score < 60 · calidad baja" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#DC2626', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>C · {data.stats.calidad.nivel_c}</span>
+              {data.stats.calidad.outliers > 0 && (
+                <span title="Importes anómalos detectados (z-score > 3 o > 50M€)" style={{ fontSize:10, fontWeight:800, padding:'2px 7px', borderRadius:4, background:'#7C3AED', color:'#fff', letterSpacing:'0.04em', cursor:'help' }}>⚠ {data.stats.calidad.outliers} outliers</span>
+              )}
+            </div>
+            <span style={{ marginLeft:'auto', fontSize:10.5, color:'#86868b' }}>
+              Pipeline INT-VAL/CONS/FIA · 14 indicadores · validación NIF/CIF/CPV/fechas/coherencia
+            </span>
+          </div>
+        )}
+
         {error && (
           <div style={{ padding:'30px', background:'#FEE2E2', border:'1px solid #FECACA', color:'#DC2626', borderRadius:10, fontSize:13, textAlign:'center' }}>
             Error: {error}
@@ -352,6 +415,9 @@ export default function LicitacionesBuscador() {
 
 function ContratoCard({ c }: { c: NormalizedContrato }) {
   const importe = c.importe_adjudicacion ?? c.importe_licitacion
+  const qColor = c.quality_level === 'A' ? '#16A34A' : c.quality_level === 'B' ? '#F97316' : '#DC2626'
+  // Tooltip con flags · si hay
+  const flagsLabel = c.flags && c.flags.length > 0 ? `Issues detectados: ${c.flags.join(', ')}` : 'Sin issues detectados · pasa todos los validadores'
   return (
     <article style={{
       background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
@@ -364,9 +430,26 @@ function ContratoCard({ c }: { c: NormalizedContrato }) {
           {c.tipo_contrato && <Badge label={c.tipo_contrato} color="#525258" outline/>}
           {c.procedimiento && <Badge label={c.procedimiento} color="#7C3AED" outline/>}
           {c.cpv_div && (
-            <Badge label={`CPV ${c.cpv_div} · ${cpvDivLabel(c.cpv_div).slice(0, 22)}`} color="#5B21B6" outline/>
+            <span title={c.cpv_descripcion || `CPV código ${c.cpv}`} style={{ cursor:'help', display:'inline-block' }}>
+              <Badge label={`CPV ${c.cpv_div} · ${cpvDivLabel(c.cpv_div).slice(0, 22)}`} color="#5B21B6" outline/>
+            </span>
           )}
           {c.es_pyme && <Badge label="PYME" color="#16A34A"/>}
+          {c.quality_level && (
+            <span title={`Quality score ${c.quality_score}/100 · Nivel ${c.quality_level} · ${flagsLabel}`} style={{ cursor:'help', display:'inline-block' }}>
+              <Badge label={`Q ${c.quality_level} · ${c.quality_score}`} color={qColor}/>
+            </span>
+          )}
+          {c.is_outlier && (
+            <span title="Outlier · importe atípico (z-score > 3 o > 50M€)" style={{ cursor:'help', display:'inline-block' }}>
+              <Badge label="⚠ outlier" color="#7C3AED"/>
+            </span>
+          )}
+          {c.adjudicatario_nif && c.nif_valido === false && (
+            <span title="NIF/CIF con checksum inválido · INT-VAL-12 fallido" style={{ cursor:'help', display:'inline-block' }}>
+              <Badge label="NIF inválido" color="#DC2626" outline/>
+            </span>
+          )}
           {c.fecha_publicacion && (
             <span style={{ fontSize:10, color:'#6e6e73', marginLeft:4 }}>{c.fecha_publicacion}</span>
           )}
