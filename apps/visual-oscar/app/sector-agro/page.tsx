@@ -25,6 +25,7 @@ import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
 } from '@/components/SectorialWidgets'
+import PreciosCultivos from '@/components/PreciosCultivos'
 
 const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
@@ -172,6 +173,18 @@ export default function SectorAgroPage() {
             {exportacion && <ExportComparativa items={exportacion.comparativa}/>}
           </Panel>
         </div>
+
+        {/* ROW 3.5: PRECIOS DE CULTIVOS POR LONJA · explorador interactivo */}
+        <Panel
+          title="Precios de cultivos · explorador por lonja"
+          subtitle="12 cultivos · 30+ variedades · 12 lonjas oficiales españolas · serie mensual 12 meses"
+          marginBottom
+          sourceUrl="https://www.mapa.gob.es/es/estadistica/temas/estadisticas-agrarias/economia/precios-medios-nacionales/"
+          sourceLabel="MAPA · Lonjas"
+          sourceTooltip="Ministerio de Agricultura · Precios Medios Nacionales · Lonjas oficiales"
+        >
+          <PreciosCultivos/>
+        </Panel>
 
         {/* ROW 4: Programas */}
         <Panel title="Programas y políticas activas" subtitle="PERTE Agro · PAC ecoesquemas · Plan Sequía · Ley Cadena" marginBottom>
