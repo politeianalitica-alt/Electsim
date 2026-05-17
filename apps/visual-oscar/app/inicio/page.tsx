@@ -45,7 +45,7 @@ export default function InicioPage() {
     setReady(true)
   }, [router])
 
-  const { data, source, loading } = useApi<DashboardHome>('/api/dashboard/home', { staleTimeMs: 30_000 })
+  const { data, source, loading } = useApi<DashboardHome>('/api/dashboard/home')
 
   if (!ready) return null
 
@@ -101,7 +101,7 @@ export default function InicioPage() {
                   letterSpacing: '-0.02em',
                   lineHeight: 1,
                 }}>
-                  {isNum ? <CountUp to={numeric} suffix={suffix} /> : String(k.value)}
+                  {isNum ? <><CountUp value={numeric} />{suffix}</> : String(k.value)}
                 </div>
                 {k.sub && (
                   <div style={{ fontSize: 12, color: 'var(--ink-3,#515154)', marginTop: 6 }}>
