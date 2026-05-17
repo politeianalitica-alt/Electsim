@@ -74,6 +74,7 @@ export const MODULES: NavModule[] = [
       },
       { label: 'Trazabilidad Legislativa',  href: '/trazabilidad' },
       { label: 'Huella Legislativa',        href: '/huella-legislativa' },
+      { label: 'Comisiones',                href: '/comisiones' },
     ],
   },
 

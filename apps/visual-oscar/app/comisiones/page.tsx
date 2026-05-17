@@ -1,339 +1,401 @@
 'use client'
+
+/**
+ * /comisiones — Comisiones parlamentarias.
+ *
+ * Pestaña 4 del módulo Legislativo (NUEVA).
+ *
+ * 4 subpestañas:
+ *   1. Inicio        — comisiones finalizadas (no de investigación)
+ *   2. Nacionales    — comisiones activas Congreso + Senado
+ *   3. CCAA          — comisiones autonómicas filtradas por CCAA
+ *   4. Investigación — comisiones de investigación con comparecientes y conclusiones
+ */
+
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
 
-type Estado = 'activa' | 'extraordinaria' | 'inactiva'
-type Tipo = 'Permanente legislativa' | 'Permanente no legislativa' | 'No permanente' | 'Investigación'
-
-const ESTADO_META: Record<Estado, { label: string; color: string }> = {
-  'activa':         { label:'Activa',         color:'#16A34A' },
-  'extraordinaria': { label:'Extraordinaria', color:'#F97316' },
-  'inactiva':       { label:'Inactiva',       color:'#6e6e73' },
-}
-
-type Comision = {
+interface Commission {
   id: string
-  name: string
-  tipo: Tipo
-  estado: Estado
-  presidencia: { nombre: string; partido: string; partidoColor: string }
-  composicion: { partido: string; color: string; n: number }[]
-  expedientesActivos: number
-  proximaReunion: string
-  proximaTema: string
-  ultimaReunion: string
-  totalReuniones: number
+  codigo: string
+  nombre: string
+  nombreCorto?: string
+  camara: 'congreso' | 'senado' | 'mixta' | 'autonomico'
+  ccaa?: string | null
+  kind: 'permanente' | 'no-permanente' | 'investigacion' | 'mixta' | 'subcomision' | 'ponencia'
+  active: boolean
+  isInvestigation: boolean
+  url: string | null
+  composicion?: Array<{ grupo: string; n: number; color?: string }>
+  proxConvocatoria?: { fecha: string; tema: string; url?: string } | null
+  nSesiones?: number
+  topMaterias?: string[]
+  conclusiones?: string | null
 }
 
-const COMISIONES: Comision[] = [
-  { id:'c01', name:'Constitucional', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Patxi López', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:14},{partido:'PP',color:'#1F4E8C',n:14},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:4},{partido:'Otros',color:'#9E9E9E',n:5}],
-    expedientesActivos:6, proximaReunion:'06/05/2026 · 10:00', proximaTema:'Reforma del CGPJ · enmiendas',
-    ultimaReunion:'29/04/2026', totalReuniones:48 },
+interface CommissionsResponse {
+  items: Commission[]
+  stats: {
+    total: number
+    porCamara: Record<string, number>
+    porKind: Record<string, number>
+    investigacion: number
+    fetchedAt: string
+  }
+}
 
-  { id:'c02', name:'Hacienda y Función Pública', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'María Jesús Montero', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:14},{partido:'PP',color:'#1F4E8C',n:14},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:4},{partido:'Otros',color:'#9E9E9E',n:5}],
-    expedientesActivos:9, proximaReunion:'06/05/2026 · 16:00', proximaTema:'Dictamen IRPF · cierre enmiendas',
-    ultimaReunion:'30/04/2026', totalReuniones:62 },
+type SubTab = 'inicio' | 'nacionales' | 'ccaa' | 'investigacion'
 
-  { id:'c03', name:'Justicia', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Francisco Lucas', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:5, proximaReunion:'08/05/2026 · 09:30', proximaTema:'Comparecencia Fiscal General',
-    ultimaReunion:'25/04/2026', totalReuniones:39 },
-
-  { id:'c04', name:'Defensa', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'José Manuel García-Margallo', partido:'PP', partidoColor:'#1F4E8C' },
-    composicion:[{partido:'PP',color:'#1F4E8C',n:13},{partido:'PSOE',color:'#E1322D',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:3, proximaReunion:'14/05/2026 · 11:00', proximaTema:'Ley de Defensa · ponencia',
-    ultimaReunion:'22/04/2026', totalReuniones:27 },
-
-  { id:'c05', name:'Asuntos Exteriores', tipo:'Permanente legislativa', estado:'extraordinaria',
-    presidencia:{ nombre:'Borja Sémper', partido:'PP', partidoColor:'#1F4E8C' },
-    composicion:[{partido:'PP',color:'#1F4E8C',n:13},{partido:'PSOE',color:'#E1322D',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:2, proximaReunion:'05/05/2026 · 15:00', proximaTema:'Aranceles EE.UU. · comparecencia urgente Albares',
-    ultimaReunion:'02/05/2026', totalReuniones:34 },
-
-  { id:'c06', name:'Sanidad y Consumo', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Carolina Darias', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:4, proximaReunion:'13/05/2026 · 10:00', proximaTema:'Ley Sanidad Universal · comparecencias',
-    ultimaReunion:'24/04/2026', totalReuniones:41 },
-
-  { id:'c07', name:'Educación, Formación Profesional y Deportes', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Pilar Alegría', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:3, proximaReunion:'10/05/2026 · 09:00', proximaTema:'LOSU · cierre plazo enmiendas',
-    ultimaReunion:'27/04/2026', totalReuniones:35 },
-
-  { id:'c08', name:'Trabajo, Economía Social y Empleo', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Yolanda Díaz', partido:'Sumar', partidoColor:'#D43F8D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:4, proximaReunion:'11/05/2026 · 10:30', proximaTema:'Reducción jornada · ponencia',
-    ultimaReunion:'28/04/2026', totalReuniones:43 },
-
-  { id:'c09', name:'Industria y Turismo', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Jordi Hereu', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:2, proximaReunion:'12/05/2026 · 12:00', proximaTema:'PERTE VEC · seguimiento',
-    ultimaReunion:'18/04/2026', totalReuniones:24 },
-
-  { id:'c10', name:'Transición Ecológica y Reto Demográfico', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Sara Aagesen', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:5, proximaReunion:'07/05/2026 · 16:30', proximaTema:'Decreto energético · enmiendas',
-    ultimaReunion:'30/04/2026', totalReuniones:38 },
-
-  { id:'c11', name:'Vivienda y Agenda Urbana', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Isabel Rodríguez', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:3, proximaReunion:'15/05/2026 · 10:00', proximaTema:'Plan Vivienda 2026-2030',
-    ultimaReunion:'22/04/2026', totalReuniones:18 },
-
-  { id:'c12', name:'Igualdad', tipo:'Permanente legislativa', estado:'activa',
-    presidencia:{ nombre:'Ana Redondo', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:13},{partido:'PP',color:'#1F4E8C',n:13},{partido:'VOX',color:'#5BA02E',n:4},{partido:'Sumar',color:'#D43F8D',n:3},{partido:'Otros',color:'#9E9E9E',n:4}],
-    expedientesActivos:3, proximaReunion:'14/05/2026 · 16:00', proximaTema:'Ley LGTBI · enmiendas',
-    ultimaReunion:'25/04/2026', totalReuniones:31 },
-
-  { id:'c13', name:'Investigación · "Caso Koldo"', tipo:'Investigación', estado:'extraordinaria',
-    presidencia:{ nombre:'José Mª Espejo-Saavedra', partido:'PP', partidoColor:'#1F4E8C' },
-    composicion:[{partido:'PP',color:'#1F4E8C',n:9},{partido:'PSOE',color:'#E1322D',n:8},{partido:'VOX',color:'#5BA02E',n:3},{partido:'Sumar',color:'#D43F8D',n:2},{partido:'Otros',color:'#9E9E9E',n:3}],
-    expedientesActivos:1, proximaReunion:'09/05/2026 · 09:00', proximaTema:'Comparecencia ex-asesor',
-    ultimaReunion:'02/05/2026', totalReuniones:14 },
-
-  { id:'c14', name:'Estatuto del Diputado', tipo:'Permanente no legislativa', estado:'inactiva',
-    presidencia:{ nombre:'Alfonso Rodríguez', partido:'PSOE', partidoColor:'#E1322D' },
-    composicion:[{partido:'PSOE',color:'#E1322D',n:7},{partido:'PP',color:'#1F4E8C',n:7},{partido:'VOX',color:'#5BA02E',n:2},{partido:'Sumar',color:'#D43F8D',n:2},{partido:'Otros',color:'#9E9E9E',n:3}],
-    expedientesActivos:0, proximaReunion:'pendiente convocatoria', proximaTema:'—',
-    ultimaReunion:'15/03/2026', totalReuniones:8 },
+const SUB_TABS: Array<{ id: SubTab; label: string; glyph: string; color: string }> = [
+  { id: 'inicio',        label: 'Inicio · finalizadas',           glyph: '✓', color: '#16A34A' },
+  { id: 'nacionales',    label: 'Nacionales · Congreso + Senado', glyph: '⊞', color: '#1F4E8C' },
+  { id: 'ccaa',          label: 'CCAA',                            glyph: '◉', color: '#0F766E' },
+  { id: 'investigacion', label: 'Comisiones de Investigación',     glyph: '!', color: '#DC2626' },
 ]
 
-const TIPOS_FIL = ['Todas','Permanente legislativa','Permanente no legislativa','No permanente','Investigación'] as const
+const CAMARA_LABEL: Record<string, { label: string; color: string }> = {
+  'congreso':    { label: 'Congreso',  color: '#1F4E8C' },
+  'senado':      { label: 'Senado',    color: '#5B21B6' },
+  'mixta':       { label: 'Mixta',     color: '#7C3AED' },
+  'autonomico':  { label: 'CCAA',      color: '#0F766E' },
+}
+
+const KIND_LABEL: Record<string, { label: string; color: string }> = {
+  'permanente':     { label: 'Permanente',     color: '#1F4E8C' },
+  'no-permanente':  { label: 'No permanente',  color: '#5B21B6' },
+  'investigacion':  { label: 'Investigación',  color: '#DC2626' },
+  'mixta':          { label: 'Mixta',          color: '#7C3AED' },
+  'subcomision':    { label: 'Subcomisión',    color: '#0891B2' },
+  'ponencia':       { label: 'Ponencia',       color: '#0F766E' },
+}
+
+function SubNav({ active }: { active: string }) {
+  const tabs = [
+    { id: 'monitor', label: 'Monitor en Tiempo Real', href: '/monitor-legislativo' },
+    { id: 'trazabilidad', label: 'Trazabilidad Legislativa', href: '/trazabilidad' },
+    { id: 'huella', label: 'Huella Legislativa', href: '/huella-legislativa' },
+    { id: 'comisiones', label: 'Comisiones', href: '/comisiones' },
+  ]
+  return (
+    <div style={{ background: '#fff', borderBottom: '1px solid #ECECEF', padding: '0 28px' }}>
+      <div style={{ maxWidth: 1500, margin: '0 auto', display: 'flex', gap: 4, alignItems: 'center' }}>
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: '#6e6e73', textTransform: 'uppercase', marginRight: 16, padding: '14px 0' }}>LEGISLATIVO</span>
+        {tabs.map(t => (
+          <Link key={t.id} href={t.href} style={{
+            textDecoration: 'none', padding: '14px 16px', fontSize: 13,
+            fontWeight: active === t.id ? 700 : 500,
+            color: active === t.id ? '#1F4E8C' : '#6e6e73',
+            borderBottom: active === t.id ? '2px solid #1F4E8C' : '2px solid transparent',
+            background: active === t.id ? 'rgba(31,78,140,0.04)' : 'transparent',
+            marginBottom: -1,
+          }}>{t.label}</Link>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export default function ComisionesPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const [filterEstado, setFilterEstado] = useState<Estado | 'todas'>('todas')
-  const [filterTipo, setFilterTipo]     = useState<typeof TIPOS_FIL[number]>('Todas')
+  const [subtab, setSubtab] = useState<SubTab>('nacionales')
+  const [camara, setCamara] = useState<'todos' | 'congreso' | 'senado'>('todos')
+  const [ccaa, setCcaa] = useState<string>('todas')
+  const [q, setQ] = useState('')
 
-  const counts = useMemo(() => {
-    return {
-      total: COMISIONES.length,
-      activas: COMISIONES.filter(c => c.estado === 'activa').length,
-      extraord: COMISIONES.filter(c => c.estado === 'extraordinaria').length,
-      expedientes: COMISIONES.reduce((s, c) => s + c.expedientesActivos, 0),
-    }
-  }, [])
+  const { data, source, updatedAt, refresh, loading } = useApi<CommissionsResponse>(
+    '/api/legislativo/commissions?active=true',
+    { refreshInterval: 1_200_000 }
+  )
+
+  const all = data?.items || []
+  const stats = data?.stats
 
   const filtered = useMemo(() => {
-    return COMISIONES.filter(c =>
-      (filterEstado === 'todas' || c.estado === filterEstado) &&
-      (filterTipo   === 'Todas' || c.tipo === filterTipo)
-    ).sort((a, b) => {
-      const order: Record<Estado, number> = { 'extraordinaria':0,'activa':1,'inactiva':2 }
-      if (order[a.estado] !== order[b.estado]) return order[a.estado] - order[b.estado]
-      return b.expedientesActivos - a.expedientesActivos
-    })
-  }, [filterEstado, filterTipo])
+    let items = all
+    if (subtab === 'inicio') {
+      items = items.filter(c => !c.isInvestigation)
+        .filter(c => c.kind === 'permanente' || c.kind === 'no-permanente' || c.kind === 'mixta')
+    } else if (subtab === 'nacionales') {
+      items = items.filter(c => c.camara === 'congreso' || c.camara === 'senado' || c.camara === 'mixta')
+        .filter(c => !c.isInvestigation)
+      if (camara !== 'todos') items = items.filter(c => c.camara === camara || (camara === 'congreso' && c.camara === 'mixta'))
+    } else if (subtab === 'ccaa') {
+      items = items.filter(c => c.camara === 'autonomico')
+      if (ccaa !== 'todas') items = items.filter(c => c.ccaa === ccaa)
+    } else if (subtab === 'investigacion') {
+      items = items.filter(c => c.isInvestigation)
+    }
+    if (q) items = items.filter(c => c.nombre.toLowerCase().includes(q.toLowerCase()) || c.codigo.includes(q))
+    return items
+  }, [all, subtab, camara, ccaa, q])
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color:'#1d1d1f' }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader/>
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+      <SubNav active="comisiones"/>
 
-        {/* Hero */}
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '8px 28px 80px' }}>
         <section style={{
-          background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
-          padding:'24px 32px', marginBottom:18, boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-          display:'grid', gridTemplateColumns:'1.6fr 1fr', gap:32, alignItems:'center',
+          background: '#fff', border: '1px solid #ECECEF', borderRadius: 18,
+          padding: '24px 32px', marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 24, alignItems: 'center',
         }}>
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', color:'#6e6e73', textTransform:'uppercase', margin:'0 0 8px' }}>
-              RADAR LEGISLATIVO · COMISIONES PARLAMENTARIAS
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', color: '#6e6e73', textTransform: 'uppercase', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <span>COMISIONES PARLAMENTARIAS</span>
+              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={1200} onRefresh={refresh}/>
             </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:28, letterSpacing:'-0.022em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {counts.activas} comisiones <em style={{ fontWeight:300, fontStyle:'italic', color:'#5B21B6' }}>activas</em>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 28, letterSpacing: '-0.022em', margin: '0 0 6px', lineHeight: 1.1 }}>
+              {stats?.total ?? '…'} comisiones <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#1F4E8C' }}>activas.</em>
             </h1>
-            <p style={{ fontSize:13, color:'#6e6e73', margin:0 }}>
-              {counts.total} comisiones · {counts.extraord} convocatorias extraordinarias · {counts.expedientes} expedientes activos
+            <p style={{ fontSize: 13, color: '#6e6e73', margin: 0, lineHeight: 1.45 }}>
+              Permanentes, no permanentes, mixtas y de investigación · Congreso + Senado + CCAA
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
-            <KPI label="ACTIVAS" value={String(counts.activas)} color="#16A34A"/>
-            <KPI label="EXTRAORDINARIAS" value={String(counts.extraord)} color="#F97316"/>
-            <KPI label="EXPEDIENTES" value={String(counts.expedientes)} color="#5B21B6"/>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+            <KPI label="CONGRESO"  value={String(stats?.porCamara['congreso'] ?? 0)} color="#1F4E8C"/>
+            <KPI label="SENADO"    value={String(stats?.porCamara['senado']   ?? 0)} color="#5B21B6"/>
+            <KPI label="INVESTIG." value={String(stats?.investigacion        ?? 0)} color="#DC2626"/>
           </div>
         </section>
 
-        {/* Filtros */}
-        <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:18 }}>
-          <FilterGroup label="Estado">
-            {(['todas','extraordinaria','activa','inactiva'] as const).map(e => {
-              const active = filterEstado === e
-              const m = e !== 'todas' ? ESTADO_META[e as Estado] : null
-              return (
-                <Pill key={e} active={active} onClick={()=>setFilterEstado(e)} color={m?.color}>
-                  {m && <span style={{ width:7, height:7, borderRadius:'50%', background:m.color, display:'inline-block', marginRight:5 }}/>}
-                  {e === 'todas' ? 'Todas' : m?.label}
-                </Pill>
-              )
-            })}
-          </FilterGroup>
-          <Sep/>
-          <FilterGroup label="Tipo">
-            {TIPOS_FIL.map(t => (
-              <BoxBtn key={t} active={filterTipo === t} onClick={()=>setFilterTipo(t)}>{t}</BoxBtn>
-            ))}
-          </FilterGroup>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} comisiones</span>
-        </div>
-
-        {/* Grid de comisiones */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:14 }}>
-          {filtered.length === 0 && (
-            <div style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF', gridColumn:'1/-1' }}>
-              Sin comisiones que coincidan con el filtro.
-            </div>
-          )}
-          {filtered.map(c => {
-            const m = ESTADO_META[c.estado]
-            const totalMiembros = c.composicion.reduce((s, x) => s + x.n, 0)
+        <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 16, overflowX: 'auto' }}>
+          {SUB_TABS.map(t => {
+            const active = subtab === t.id
             return (
-              <article key={c.id} style={{
-                background:'#fff', border:'1px solid #ECECEF', borderRadius:16, padding:'18px 20px',
-                boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-                display:'flex', flexDirection:'column', gap:12, position:'relative', overflow:'hidden',
+              <button key={t.id} onClick={() => setSubtab(t.id)} style={{
+                background: 'transparent',
+                color: active ? t.color : '#6e6e73',
+                border: 0,
+                borderBottom: active ? `2px solid ${t.color}` : '2px solid transparent',
+                padding: '10px 16px',
+                fontSize: 13,
+                fontWeight: active ? 700 : 500,
+                cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+                display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: -1,
               }}>
-                <div style={{ position:'absolute', left:0, top:0, bottom:0, width:4, background:m.color }}/>
-
-                {/* Header */}
-                <div>
-                  <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
-                    <span style={{
-                      fontSize:9.5, fontWeight:800, letterSpacing:'0.08em',
-                      padding:'3px 8px', borderRadius:999,
-                      background:`${m.color}15`, color:m.color, border:`1px solid ${m.color}40`,
-                    }}>{m.label.toUpperCase()}</span>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600, marginLeft:'auto' }}>{c.tipo}</span>
-                  </div>
-                  <h3 style={{ margin:0, fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.25 }}>{c.name}</h3>
-                </div>
-
-                {/* Presidencia */}
-                <div style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
-                  <div style={{
-                    width:36, height:36, borderRadius:'50%', background:c.presidencia.partidoColor, color:'#fff',
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    fontWeight:700, fontSize:14, fontFamily:'var(--font-display)', flexShrink:0,
-                  }}>{c.presidencia.nombre.split(' ').map(n => n[0]).slice(0,2).join('')}</div>
-                  <div style={{ minWidth:0, flex:1 }}>
-                    <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Presidencia</div>
-                    <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{c.presidencia.nombre}</div>
-                    <div style={{ fontSize:11, color:c.presidencia.partidoColor, fontWeight:600 }}>{c.presidencia.partido}</div>
-                  </div>
-                </div>
-
-                {/* Composición */}
-                <div>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Composición</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f' }}>{totalMiembros} miembros</span>
-                  </div>
-                  <div style={{ display:'flex', height:10, borderRadius:5, overflow:'hidden' }}>
-                    {c.composicion.map((g, i) => (
-                      <div key={i} title={`${g.partido} ${g.n}`} style={{ width:`${(g.n/totalMiembros)*100}%`, background:g.color }}/>
-                    ))}
-                  </div>
-                  <div style={{ display:'flex', flexWrap:'wrap', gap:'4px 10px', marginTop:6 }}>
-                    {c.composicion.map(g => (
-                      <span key={g.partido} style={{ display:'inline-flex', alignItems:'center', gap:4, fontSize:11 }}>
-                        <span style={{ width:8, height:8, borderRadius:2, background:g.color }}/>
-                        <span style={{ color:'#3a3a3d' }}>{g.partido}</span>
-                        <strong style={{ color:'#1d1d1f' }}>{g.n}</strong>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Próxima reunión */}
-                <div style={{ padding:'10px 12px', background:`${m.color}08`, border:`1px solid ${m.color}30`, borderRadius:10 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-                    <span style={{ fontSize:9.5, color:m.color, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Próxima reunión</span>
-                    <span style={{ fontSize:10.5, color:'#6e6e73' }}>Última: {c.ultimaReunion}</span>
-                  </div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:m.color }}>{c.proximaReunion}</div>
-                  <div style={{ fontSize:11.5, color:'#3a3a3d', marginTop:2 }}>{c.proximaTema}</div>
-                </div>
-
-                {/* Métricas + CTA */}
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto' }}>
-                  <div style={{ fontSize:11, color:'#6e6e73' }}>
-                    <strong style={{ color:'#1d1d1f' }}>{c.expedientesActivos}</strong> expedientes activos · <strong style={{ color:'#1d1d1f' }}>{c.totalReuniones}</strong> reuniones celebradas
-                  </div>
-                  <button style={{
-                    background:'#5B21B6', color:'#fff', border:'none', borderRadius:8, padding:'6px 11px',
-                    fontSize:11.5, fontWeight:600, cursor:'pointer', fontFamily:'inherit',
-                  }}>Abrir →</button>
-                </div>
-              </article>
+                <span style={{ fontSize: 14, color: active ? t.color : '#9ca3af' }}>{t.glyph}</span>
+                {t.label}
+              </button>
             )
           })}
+        </nav>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 14, alignItems: 'center' }}>
+          {subtab === 'nacionales' && (
+            <Chips label="Cámara" value={camara} onChange={v => setCamara(v as typeof camara)} options={[
+              { v: 'todos', l: 'Ambas' },
+              { v: 'congreso', l: 'Congreso' },
+              { v: 'senado', l: 'Senado' },
+            ]}/>
+          )}
+          {subtab === 'ccaa' && (
+            <select value={ccaa} onChange={e => setCcaa(e.target.value)} style={{
+              padding: '6px 28px 6px 10px', fontSize: 12, borderRadius: 8,
+              border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit',
+            }}>
+              <option value="todas">Todas las CCAA</option>
+              {['andalucia','aragon','asturias','baleares','canarias','cantabria','castilla-leon','castilla-mancha','cataluna','extremadura','galicia','madrid','murcia','navarra','pais-vasco','rioja','valenciana'].map(c => (
+                <option key={c} value={c}>{c.replace('-', ' ')}</option>
+              ))}
+            </select>
+          )}
+          <input
+            type="text" value={q} onChange={e => setQ(e.target.value)}
+            placeholder="Buscar comisión…"
+            style={{
+              flex: 1, minWidth: 240,
+              padding: '7px 12px', fontSize: 12.5, borderRadius: 8,
+              border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit',
+            }}
+          />
+          <span style={{ fontSize: 11.5, color: '#6e6e73', marginLeft: 'auto' }}>{filtered.length} resultados</span>
         </div>
+
+        {loading && all.length === 0 ? (
+          <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af', background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+            Cargando comisiones del Congreso y Senado…
+          </div>
+        ) : subtab === 'inicio' ? (
+          <InicioView commissions={filtered}/>
+        ) : subtab === 'investigacion' ? (
+          <InvestigacionView commissions={filtered}/>
+        ) : subtab === 'ccaa' ? (
+          <CCAAView commissions={filtered}/>
+        ) : (
+          <NacionalesView commissions={filtered}/>
+        )}
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
-        Radar Legislativo · Comisiones · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
     </div>
   )
 }
 
-// Helpers UI
-function KPI({ label, value, color }: { label:string, value:string, color:string }) {
+function InicioView({ commissions }: { commissions: Commission[] }) {
+  if (commissions.length === 0) return <EmptyState text="No hay comisiones permanentes registradas."/>
   return (
-    <div style={{ textAlign:'center', padding:'12px 8px', borderRadius:12, background:'#FAFAFB', border:`1px solid ${color}33` }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, lineHeight:1, color }}>{value}</div>
-      <div style={{ fontSize:9.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#6e6e73', marginTop:4 }}>{label}</div>
+    <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '20px 28px' }}>
+      <p style={{ fontSize: 12, color: '#6e6e73', marginBottom: 14, lineHeight: 1.5 }}>
+        Comisiones permanentes con actividad consolidada en la legislatura XV.
+        Información de composición, temas tratados, comparecientes y conclusiones cuando estén disponibles.
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
+        {commissions.map(c => <CommissionCard key={c.id} c={c} variant="historial"/>)}
+      </div>
     </div>
   )
 }
-function FilterGroup({ label, children }: { label:string, children:React.ReactNode }) {
+
+function NacionalesView({ commissions }: { commissions: Commission[] }) {
+  const congreso = commissions.filter(c => c.camara === 'congreso' || c.camara === 'mixta')
+  const senado = commissions.filter(c => c.camara === 'senado')
+
   return (
-    <div style={{ display:'inline-flex', alignItems:'center', gap:6 }}>
-      <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}:</span>
-      <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>{children}</div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {congreso.length > 0 && (
+        <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '18px 24px' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#1F4E8C', textTransform: 'uppercase', margin: '0 0 12px' }}>
+            ⊞ CONGRESO DE LOS DIPUTADOS · {congreso.length} comisiones
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
+            {congreso.map(c => <CommissionCard key={c.id} c={c} variant="activa"/>)}
+          </div>
+        </section>
+      )}
+      {senado.length > 0 && (
+        <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '18px 24px' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#5B21B6', textTransform: 'uppercase', margin: '0 0 12px' }}>
+            ⊞ SENADO · {senado.length} comisiones
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
+            {senado.map(c => <CommissionCard key={c.id} c={c} variant="activa"/>)}
+          </div>
+        </section>
+      )}
+      {commissions.length === 0 && <EmptyState text="Sin comisiones para los filtros actuales."/>}
     </div>
   )
 }
-function Pill({ active, onClick, color, children }: { active:boolean, onClick:()=>void, color?:string, children:React.ReactNode }) {
+
+function CCAAView({ commissions }: { commissions: Commission[] }) {
+  if (commissions.length === 0) {
+    return <EmptyState text="Comisiones autonómicas: las APIs de los parlamentos autonómicos no exponen el listado de comisiones de forma estructurada. Trabajamos en scraping HTML por CCAA. Mientras tanto, consulta las web de cada parlamento autonómico."/>
+  }
   return (
-    <button onClick={onClick} style={{
-      background: active ? '#fff' : 'transparent',
-      color: active ? (color || '#1d1d1f') : '#6e6e73',
-      border:'none', borderRadius:999, padding:'5px 11px',
-      fontSize:11.5, fontWeight: active ? 700 : 500, cursor:'pointer',
-      fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-      whiteSpace:'nowrap',
-    }}>{children}</button>
+    <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '20px 28px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
+        {commissions.map(c => <CommissionCard key={c.id} c={c} variant="activa"/>)}
+      </div>
+    </div>
   )
 }
-function BoxBtn({ active, onClick, children }: { active:boolean, onClick:()=>void, children:React.ReactNode }) {
+
+function InvestigacionView({ commissions }: { commissions: Commission[] }) {
+  if (commissions.length === 0) return <EmptyState text="Sin comisiones de investigación activas."/>
   return (
-    <button onClick={onClick} style={{
-      background: active ? '#1F4E8C' : '#fff',
-      color: active ? '#fff' : '#3a3a3d',
-      border:'1px solid '+(active ? '#1F4E8C' : '#ECECEF'),
-      borderRadius:8, padding:'4px 10px',
-      fontSize:11.5, fontWeight: active ? 600 : 500, cursor:'pointer',
-      fontFamily:'inherit',
-    }}>{children}</button>
+    <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '20px 28px' }}>
+      <p style={{ fontSize: 12, color: '#6e6e73', marginBottom: 16, lineHeight: 1.5, padding: '10px 14px', background: 'rgba(220,38,38,0.05)', borderRadius: 10, border: '1px solid rgba(220,38,38,0.20)' }}>
+        Las comisiones de investigación son uno de los instrumentos más potentes del análisis político.
+        Aquí se agrupan comparecientes, declaraciones clave y conclusiones según se vayan publicando.
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {commissions.map(c => <CommissionCard key={c.id} c={c} variant="investigacion" expand/>)}
+      </div>
+    </div>
   )
 }
-function Sep() {
-  return <span style={{ width:1, height:22, background:'#ECECEF', margin:'0 4px' }}/>
+
+function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activa' | 'historial' | 'investigacion'; expand?: boolean }) {
+  const camara = CAMARA_LABEL[c.camara] || { label: c.camara, color: '#6E6E73' }
+  const kind = KIND_LABEL[c.kind] || { label: c.kind, color: '#6E6E73' }
+  const borderColor = variant === 'investigacion' ? '#DC2626' : camara.color
+
+  return (
+    <div style={{
+      padding: '14px 16px', borderRadius: 12,
+      background: '#fafafa', border: '1px solid #ECECEF',
+      borderLeft: `3px solid ${borderColor}`,
+    }}>
+      <div style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 7px', borderRadius: 4, background: camara.color, color: '#fff', letterSpacing: '0.05em' }}>{camara.label.toUpperCase()}</span>
+        <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: `${kind.color}15`, color: kind.color, border: `1px solid ${kind.color}40`, letterSpacing: '0.04em' }}>{kind.label}</span>
+        <span style={{ fontSize: 10, color: '#6e6e73', marginLeft: 'auto' }}>cód. {c.codigo}</span>
+      </div>
+      <h3 style={{ margin: '0 0 6px', fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.3, letterSpacing: '-0.008em' }}>
+        {c.nombre}
+      </h3>
+      {c.nombreCorto && <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', fontStyle: 'italic' }}>{c.nombreCorto}</p>}
+
+      {expand && variant === 'investigacion' && (
+        <div style={{ marginTop: 10, padding: '10px 12px', background: 'rgba(220,38,38,0.06)', borderRadius: 8, border: '1px solid rgba(220,38,38,0.20)' }}>
+          <p style={{ margin: '0 0 6px', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: '#DC2626', textTransform: 'uppercase' }}>
+            COMPARECIENTES Y SESIONES
+          </p>
+          <p style={{ margin: 0, fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.45 }}>
+            Datos de sesiones, comparecientes y conclusiones requieren acceso al detalle de la comisión.
+            Próximamente: agregación de actas y video-comparecencias desde el archivo oficial.
+          </p>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+        {c.url && (
+          <a href={c.url} target="_blank" rel="noopener noreferrer" style={{
+            fontSize: 11, color: camara.color, textDecoration: 'none', fontWeight: 600,
+            padding: '4px 10px', borderRadius: 6, border: `1px solid ${camara.color}40`, background: `${camara.color}08`,
+          }}>Ficha oficial ↗</a>
+        )}
+        {c.proxConvocatoria && (
+          <span style={{ fontSize: 10.5, color: '#6e6e73', padding: '4px 10px', borderRadius: 6, background: '#fff', border: '1px solid #ECECEF' }}>
+            Próxima: {c.proxConvocatoria.fecha}
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function KPI({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '10px 12px', borderRadius: 10, background: '#FAFAFB', border: `1px solid ${color}33` }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1, color, fontVariantNumeric: 'tabular-nums' }}>{value}</div>
+      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', marginTop: 4 }}>{label}</div>
+    </div>
+  )
+}
+
+function Chips({ label, options, value, onChange }: { label: string; options: Array<{ v: string; l: string }>; value: string; onChange: (v: string) => void }) {
+  return (
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+      <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', color: '#6e6e73', textTransform: 'uppercase' }}>{label}</span>
+      <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+        {options.map(o => {
+          const active = value === o.v
+          return (
+            <button key={o.v} onClick={() => onChange(o.v)} style={{
+              background: active ? '#fff' : 'transparent',
+              color: active ? '#1F4E8C' : '#6e6e73',
+              border: 'none', borderRadius: 999, padding: '4px 11px',
+              fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
+              fontFamily: 'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+            }}>{o.l}</button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function EmptyState({ text }: { text: string }) {
+  return (
+    <div style={{ padding: 40, textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', lineHeight: 1.5 }}>
+      {text}
+    </div>
+  )
 }

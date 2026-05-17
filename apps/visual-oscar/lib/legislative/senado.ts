@@ -1,0 +1,257 @@
+/**
+ * Cliente Senado — Open Data XML
+ * Endpoint único: https://www.senado.es/web/ficopendataservlet?tipoFich=N&legis=15
+ *
+ * tipoFich:
+ *   4  → GruposYpartidos
+ *   6  → senadores
+ *   7  → listaComisiones
+ *   9  → listaIniciativasLegislativas (la más usada)
+ *   13 → sesionPlenaria (última)
+ *   14 → listaSesionesPlenarias (todas)
+ *   15 → listaInterpelaciones
+ *   16 → listaMociones
+ *   18 → leyesAprobadas
+ *   19 → agendas
+ *
+ * Devuelve XML UTF-8. Sin auth.
+ */
+
+import type { LegislativeInitiative, Commission, CommissionSession } from './types'
+
+const BASE = 'https://www.senado.es/web/ficopendataservlet'
+const LEGIS = '15'
+const UA = 'Mozilla/5.0 (compatible; PoliteiaAnalitica/1.0; +https://politeia-visual-oscar.vercel.app)'
+
+async function fetchXml(tipoFich: number, timeoutMs = 10_000): Promise<string | null> {
+  const url = `${BASE}?tipoFich=${tipoFich}&legis=${LEGIS}`
+  const controller = new AbortController()
+  const t = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': UA, Accept: 'text/xml, application/xml' },
+      signal: controller.signal,
+      next: { revalidate: 1800 }, // 30 min cache
+    })
+    if (!res.ok) return null
+    return await res.text()
+  } catch {
+    return null
+  } finally {
+    clearTimeout(t)
+  }
+}
+
+/** Extrae bloques <tagName>...</tagName> del XML */
+function extractBlocks(xml: string, tagName: string): string[] {
+  const blocks: string[] = []
+  const re = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)</${tagName}>`, 'g')
+  let m
+  while ((m = re.exec(xml)) !== null) blocks.push(m[1])
+  return blocks
+}
+
+/** Extrae el contenido textual de un único tag dentro de un bloque */
+function tagText(block: string, tagName: string): string | null {
+  const re = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)</${tagName}>`)
+  const m = re.exec(block)
+  if (!m) return null
+  return (m[1] || '').replace(/<!\[CDATA\[(.*?)\]\]>/gs, '$1').replace(/\s+/g, ' ').trim() || null
+}
+
+// ─── Iniciativas ───────────────────────────────────────────────────────────
+
+/** Mapeo tipoExpediente Senado → kind interno */
+function mapTipoExp(tipo: string): 'PL' | 'PPL' | 'RDL' | 'LO' | 'PROP' | 'OTHER' {
+  // 600s = reformas, 621s = proyectos, 622s = proposiciones, 624s = orgánicas
+  const t = tipo.trim()
+  if (t.startsWith('621')) return 'PL'
+  if (t.startsWith('622')) return 'PPL'
+  if (t.startsWith('624')) return 'LO'
+  if (t.startsWith('625')) return 'RDL'
+  if (t.startsWith('600')) return 'PROP'
+  return 'OTHER'
+}
+
+function inferMateria(titulo: string): import('./types').Materia {
+  const t = titulo.toLowerCase()
+  if (/vivienda|alquiler|hipoteca/.test(t)) return 'Vivienda'
+  if (/sanidad|sanitar|salud/.test(t)) return 'Sanidad'
+  if (/educa|universi|escuela/.test(t)) return 'Educación'
+  if (/justicia|judicial|cgpj|fiscal|penal/.test(t)) return 'Justicia'
+  if (/defensa|militar|fuerzas armadas/.test(t)) return 'Defensa'
+  if (/migra|extranj|asilo|refugia/.test(t)) return 'Migración'
+  if (/energ|electric|renovable|combustible/.test(t)) return 'Energía'
+  if (/digital|telecom|datos|inteligencia artificial|ciber/.test(t)) return 'Digital'
+  if (/agra|agricul|ganader|pesca/.test(t)) return 'Agraria'
+  if (/cultura|patrimonio|memoria/.test(t)) return 'Cultura'
+  if (/intern|exter|tratado/.test(t)) return 'Internacional'
+  if (/autonom|territori|financiación|comunidades/.test(t)) return 'Territorial'
+  if (/social|pensión|empleo|trabajo|salario/.test(t)) return 'Social'
+  if (/fisca|tribut|impuest|presupuest|económic/.test(t)) return 'Económica'
+  return 'Otro'
+}
+
+/** Tags extraídos del título (palabras de >5 chars no genéricas) */
+function inferTags(titulo: string): string[] {
+  const STOP = new Set(['proyecto','proposicion','proposición','ley','orgánica','organica','reforma',
+    'normas','normativa','ámbito','medidas','sobre','desde','hasta','entre','según','según',
+    'general','generales','público','públicas'])
+  const words = titulo.toLowerCase().split(/\W+/).filter(w => w.length >= 6 && !STOP.has(w))
+  return Array.from(new Set(words)).slice(0, 6)
+}
+
+export async function fetchSenadoInitiatives(): Promise<LegislativeInitiative[]> {
+  const xml = await fetchXml(9)
+  if (!xml) return []
+  const blocks = extractBlocks(xml, 'iniciativa')
+  const out: LegislativeInitiative[] = []
+  for (const b of blocks) {
+    const tipo = tagText(b, 'tipoExpediente') || ''
+    const numero = tagText(b, 'numeroExpediente') || ''
+    const titulo = tagText(b, 'titulo') || ''
+    const urlPag = tagText(b, 'urlPagina') || ''
+    if (!titulo || !numero) continue
+
+    const id = `sen-${tipo}-${numero}`
+    const expediente = `${tipo}/${numero}`
+    const url = urlPag.startsWith('http') ? urlPag : `https://www.senado.es${urlPag}`
+
+    out.push({
+      id,
+      ambito: 'nacional-senado',
+      ccaa: null,
+      expediente,
+      titulo,
+      kind: mapTipoExp(tipo),
+      materia: inferMateria(titulo),
+      promotor: 'Senado',
+      stage: 'comision', // estado por defecto - el Senado actúa como revisor
+      fechaRegistro: null,
+      fechaActualizacion: new Date().toISOString(),
+      urlOficial: url,
+      fuente: 'senado.es/opendata',
+      tags: inferTags(titulo),
+    })
+  }
+  return out
+}
+
+// ─── Leyes aprobadas (tipoFich=18) ─────────────────────────────────────────
+
+export interface SenadoApprovedLaw {
+  numero: string
+  titulo: string
+  fechaSesion: string | null
+  url: string | null
+}
+
+export async function fetchSenadoApprovedLaws(): Promise<SenadoApprovedLaw[]> {
+  const xml = await fetchXml(18)
+  if (!xml) return []
+  const blocks = extractBlocks(xml, 'ley')
+  const out: SenadoApprovedLaw[] = []
+  for (const b of blocks) {
+    const numero = tagText(b, 'numero') || tagText(b, 'numeroLey') || ''
+    const titulo = tagText(b, 'titulo') || ''
+    const fecha = tagText(b, 'fechaAprobacion') || tagText(b, 'fecha') || null
+    const url = tagText(b, 'url') || tagText(b, 'urlPagina') || null
+    if (!titulo) continue
+    out.push({
+      numero,
+      titulo,
+      fechaSesion: fecha,
+      url: url && !url.startsWith('http') ? `https://www.senado.es${url}` : url,
+    })
+  }
+  return out
+}
+
+// ─── Comisiones ────────────────────────────────────────────────────────────
+
+export async function fetchSenadoComisiones(): Promise<Commission[]> {
+  const xml = await fetchXml(7)
+  if (!xml) return []
+  const blocks = extractBlocks(xml, 'comision')
+  const out: Commission[] = []
+  for (const b of blocks) {
+    const codigo = tagText(b, 'codigo') || tagText(b, 'codComision') || ''
+    const nombre = tagText(b, 'nombre') || tagText(b, 'titulo') || ''
+    const nombreCorto = tagText(b, 'nombreBreve') || tagText(b, 'nombreCorto') || undefined
+    const tipoRaw = (tagText(b, 'tipo') || '').toLowerCase()
+    if (!codigo || !nombre) continue
+
+    const isInvestigation = /investigaci/.test(nombre.toLowerCase()) || /investigaci/.test(tipoRaw)
+    const isMixta = /mixt/.test(nombre.toLowerCase()) || /mixt/.test(tipoRaw)
+    const kind: import('./types').CommissionKind =
+      isInvestigation ? 'investigacion'
+      : isMixta ? 'mixta'
+      : /no permanente|noperm/.test(tipoRaw) ? 'no-permanente'
+      : /sub/.test(tipoRaw) ? 'subcomision'
+      : /ponencia/.test(tipoRaw) ? 'ponencia'
+      : 'permanente'
+
+    out.push({
+      id: `sen-${codigo}`,
+      codigo,
+      nombre,
+      nombreCorto,
+      camara: isMixta ? 'mixta' : 'senado',
+      ccaa: null,
+      kind,
+      active: true,
+      isInvestigation,
+      url: `https://www.senado.es/web/composicionorganizacion/comisiones/composicion/index.html?legis=${LEGIS}&id1=${codigo}`,
+    })
+  }
+  return out
+}
+
+// ─── Sesiones plenarias ────────────────────────────────────────────────────
+
+export async function fetchSenadoSesiones(): Promise<CommissionSession[]> {
+  const xml = await fetchXml(14)
+  if (!xml) return []
+  const blocks = extractBlocks(xml, 'sesion')
+  const out: CommissionSession[] = []
+  for (const b of blocks) {
+    const numero = tagText(b, 'numero') || tagText(b, 'numeroSesion') || ''
+    const fecha = tagText(b, 'fecha') || tagText(b, 'fechaSesion') || ''
+    const titulo = tagText(b, 'titulo') || tagText(b, 'denominacion') || `Sesión ${numero}`
+    const url = tagText(b, 'urlPagina') || null
+    if (!fecha) continue
+    out.push({
+      id: `sen-pleno-${numero}`,
+      commissionId: 'sen-pleno',
+      fecha,
+      titulo,
+      comparecientes: [],
+      resumen: null,
+      url: url && !url.startsWith('http') ? `https://www.senado.es${url}` : url,
+    })
+  }
+  return out
+}
+
+// ─── Mociones e interpelaciones ────────────────────────────────────────────
+
+export async function fetchSenadoMociones(): Promise<Array<{ titulo: string; autor: string; fecha: string | null; url: string | null }>> {
+  const xml = await fetchXml(16)
+  if (!xml) return []
+  const blocks = extractBlocks(xml, 'mocion')
+  const out = []
+  for (const b of blocks) {
+    const titulo = tagText(b, 'titulo') || tagText(b, 'objeto') || ''
+    const autor = tagText(b, 'autor') || tagText(b, 'grupoAutor') || ''
+    const fecha = tagText(b, 'fecha') || tagText(b, 'fechaPresentacion') || null
+    const url = tagText(b, 'urlPagina') || null
+    if (!titulo) continue
+    out.push({
+      titulo,
+      autor,
+      fecha,
+      url: url && !url.startsWith('http') ? `https://www.senado.es${url}` : url,
+    })
+  }
+  return out
+}
