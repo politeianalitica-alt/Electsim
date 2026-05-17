@@ -69,6 +69,30 @@ interface ResultadoEleccion {
 }
 interface EnlacesElectorales { consultaMir: string; wikipedia: string; junta: string; cpro: string }
 
+interface TejidoEmpresarial {
+  totalEmpresas: number; año: number; densidad: number
+  sectores: Array<{ sector: string; empresas: number; pct: number; color: string }>
+  comparativa: { vsMediaNacional: number; ranking: string }
+  fuente: string
+}
+
+interface BienCultural {
+  qid: string; nombre: string; tipo: string
+  imagen: string | null; esUnesco: boolean; wikipediaUrl: string | null
+}
+interface PatrimonioCultural {
+  total: number; bienes: BienCultural[]; unesco: BienCultural[]
+  estadisticas: { porTipo: Record<string, number>; conImagen: number }
+  fuente: string
+}
+
+interface EventoAgenda {
+  tipo: 'eleccion' | 'pleno' | 'boletín' | 'fiesta' | 'iniciativa' | 'celebración'
+  titulo: string; fecha: string; diasRestantes: number | null
+  descripcion: string; url?: string | null
+  importancia: 'alta' | 'media' | 'baja'
+}
+
 interface AnalisisIntegral {
   scoreRiesgoPolitico: number
   bandaRiesgo: 'baja' | 'media' | 'alta' | 'crítica'
@@ -109,6 +133,8 @@ interface CCAAProfile {
   resumenIA: string
   historicoElectoral: ResultadoEleccion[]
   parlamento: ComposicionParlamento | null
+  patrimonio: PatrimonioCultural | null
+  agenda: EventoAgenda[]
   analisisIntegral: AnalisisIntegral
   metrics: { nNoticias7d: number; nIniciativas: number; pibMillonesEuros: number; densidadHabKm2: number }
   updatedAt: string
@@ -142,6 +168,9 @@ interface MunicipioProfile {
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
   extranjeros: INEExtranjeros | null
+  empresas: TejidoEmpresarial | null
+  patrimonio: PatrimonioCultural | null
+  agenda: EventoAgenda[]
   metrics: { nNoticias7d: number; densidadHabKm2: number }
   updatedAt: string
   error?: string
@@ -436,6 +465,18 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
               ))}
             </div>
           </Card>
+
+          {profile.patrimonio && profile.patrimonio.total > 0 && (
+            <Card titulo={`◊ PATRIMONIO CULTURAL · ${profile.patrimonio.total} bienes`} color="#5D4037">
+              <PatrimonioCard patrimonio={profile.patrimonio}/>
+            </Card>
+          )}
+
+          {profile.agenda.length > 0 && (
+            <Card titulo={`📅 AGENDA · ${profile.agenda.length} próximas citas`} color="#7C3AED">
+              <AgendaCard agenda={profile.agenda}/>
+            </Card>
+          )}
         </div>
       </div>
     </>
@@ -675,6 +716,24 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
             </Card>
           )}
 
+          {profile.empresas && (
+            <Card titulo={`🏢 TEJIDO EMPRESARIAL · ${profile.empresas.totalEmpresas.toLocaleString('es-ES')} empresas`} color="#0F766E">
+              <EmpresasCard empresas={profile.empresas}/>
+            </Card>
+          )}
+
+          {profile.patrimonio && profile.patrimonio.total > 0 && (
+            <Card titulo={`◊ PATRIMONIO Y CULTURA · ${profile.patrimonio.total} bienes`} color="#5D4037">
+              <PatrimonioCard patrimonio={profile.patrimonio}/>
+            </Card>
+          )}
+
+          {profile.agenda.length > 0 && (
+            <Card titulo={`📅 AGENDA · ${profile.agenda.length} citas`} color="#7C3AED">
+              <AgendaCard agenda={profile.agenda}/>
+            </Card>
+          )}
+
           <Card titulo="🗳 RESULTADOS ELECTORALES OFICIALES" color="#9333EA">
             <p style={{ margin: 0, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
               Resultados desagregados por mesa, sección y municipio en el portal oficial del Ministerio del Interior
@@ -819,6 +878,136 @@ function SentimientoCard({ sentimiento, color }: { sentimiento: SentimientoAgreg
         <strong>{sentimiento.tendencia === 'up' ? '↑ mejora' : sentimiento.tendencia === 'down' ? '↓ empeora' : '→ estable'}</strong>
       </p>
     </Card>
+  )
+}
+
+function EmpresasCard({ empresas }: { empresas: TejidoEmpresarial }) {
+  const top = empresas.sectores.slice(0, 6)
+  const restoPct = empresas.sectores.slice(6).reduce((s, x) => s + x.pct, 0)
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>
+            {empresas.totalEmpresas.toLocaleString('es-ES')}
+          </p>
+          <p style={{ margin: 0, fontSize: 11, color: '#6e6e73' }}>empresas registradas · {empresas.año}</p>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#0F766E', fontFamily: 'var(--font-display)' }}>
+            {empresas.densidad}
+          </p>
+          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>empresas / 1.000 hab</p>
+        </div>
+      </div>
+
+      {/* Barra stacked sectores */}
+      <div style={{ display: 'flex', height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7', marginBottom: 10 }}>
+        {top.map((r, i) => <div key={i} style={{ flex: r.pct, background: r.color }} title={`${r.sector}: ${r.pct}%`}/>)}
+        {restoPct > 0 && <div style={{ flex: restoPct, background: '#E0E0E0' }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
+      </div>
+
+      {/* Lista sectores top */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        {top.map(r => (
+          <div key={r.sector} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
+            <span style={{ width: 10, height: 10, background: r.color, borderRadius: 2, flexShrink: 0 }}/>
+            <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.sector}</span>
+            <span style={{ color: '#6e6e73', fontSize: 10 }}>{r.empresas.toLocaleString('es-ES')}</span>
+            <span style={{ fontWeight: 700, color: '#1d1d1f', minWidth: 36, textAlign: 'right' }}>{r.pct.toFixed(1)}%</span>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ margin: '10px 0 0', padding: 8, background: 'rgba(15,118,110,0.05)', borderRadius: 6, fontSize: 11, color: '#0F766E', fontWeight: 600 }}>
+        {empresas.comparativa.ranking} · ratio {empresas.comparativa.vsMediaNacional}× la media nacional
+      </p>
+      <p style={{ margin: '6px 0 0', fontSize: 9.5, color: '#9ca3af' }}>{empresas.fuente}</p>
+    </div>
+  )
+}
+
+function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
+  const conImagen = patrimonio.bienes.filter(b => b.imagen).slice(0, 6)
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
+        <span style={{ fontSize: 28, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{patrimonio.total}</span>
+        <span style={{ fontSize: 11, color: '#6e6e73' }}>BIC + monumentos catalogados</span>
+        {patrimonio.unesco.length > 0 && (
+          <span style={{ padding: '3px 9px', background: '#FFE082', color: '#5D4037', borderRadius: 999, fontSize: 10, fontWeight: 700 }}>
+            ★ {patrimonio.unesco.length} UNESCO
+          </span>
+        )}
+      </div>
+
+      {/* Galería miniaturas */}
+      {conImagen.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 12 }}>
+          {conImagen.map(b => (
+            <a key={b.qid} href={b.wikipediaUrl || `https://www.wikidata.org/wiki/${b.qid}`} target="_blank" rel="noopener noreferrer"
+               style={{ textDecoration: 'none', display: 'block' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={b.imagen!} alt={b.nombre} style={{ width: '100%', height: 70, objectFit: 'cover', borderRadius: 6, border: '1px solid #ECECEF' }}/>
+              <p style={{ margin: '3px 0 0', fontSize: 10, color: '#1d1d1f', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.nombre}</p>
+            </a>
+          ))}
+        </div>
+      )}
+
+      {/* Distribución por tipo */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+        {Object.entries(patrimonio.estadisticas.porTipo).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([tipo, n]) => (
+          <span key={tipo} style={{ padding: '3px 8px', borderRadius: 999, fontSize: 10.5, background: '#FFF3E0', color: '#5D4037', fontWeight: 600 }}>
+            {tipo} · {n}
+          </span>
+        ))}
+      </div>
+
+      {/* Lista compacta */}
+      {patrimonio.bienes.length > 0 && (
+        <ul style={{ margin: '10px 0 0', paddingLeft: 16, fontSize: 11, color: '#1d1d1f', lineHeight: 1.5 }}>
+          {patrimonio.bienes.slice(0, 6).map(b => (
+            <li key={b.qid}>
+              {b.wikipediaUrl ? (
+                <a href={b.wikipediaUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#5D4037', textDecoration: 'none' }}>{b.nombre}</a>
+              ) : b.nombre}
+              {b.esUnesco && <span style={{ marginLeft: 4, color: '#FF6F00' }}>★</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+      <p style={{ margin: '8px 0 0', fontSize: 9.5, color: '#9ca3af' }}>{patrimonio.fuente}</p>
+    </div>
+  )
+}
+
+function AgendaCard({ agenda }: { agenda: EventoAgenda[] }) {
+  const TIPO_GLYPH: Record<string, string> = { eleccion: '🗳', pleno: '🏛', 'boletín': '📑', fiesta: '✦', iniciativa: '⚖', celebración: '◉' }
+  return (
+    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {agenda.map((e, i) => {
+        const dias = e.diasRestantes
+        const color = e.importancia === 'alta' ? '#DC2626' : e.importancia === 'media' ? '#F97316' : '#9CA3AF'
+        const proxima = dias !== null && dias >= 0 && dias < 365
+        return (
+          <li key={i} style={{ padding: 8, background: proxima ? `${color}08` : '#FAFAFB', borderRadius: 8, borderLeft: `3px solid ${color}` }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>
+                <span style={{ marginRight: 4 }}>{TIPO_GLYPH[e.tipo] || '·'}</span>{e.titulo}
+              </p>
+              {dias !== null && (
+                <span style={{ fontSize: 10, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
+                  {dias > 0 ? `en ${dias}d` : 'hoy'}
+                </span>
+              )}
+            </div>
+            <p style={{ margin: '3px 0 0', fontSize: 10.5, color: '#6e6e73', lineHeight: 1.4 }}>{e.descripcion}</p>
+            {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color, fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: 4 }}>Acceder ↗</a>}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

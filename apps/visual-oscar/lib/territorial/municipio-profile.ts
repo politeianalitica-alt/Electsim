@@ -19,6 +19,9 @@ import { fetchWikipediaSummary } from '@/lib/figures/wikipedia'
 import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator'
 import { fetchAlcaldePorIne, fetchFotoPersona, fetchCoordenadasMunicipio, type WikidataGobernante } from './sources/wikidata'
 import { fetchTiempo, type CondicionMeteo } from './sources/weather'
+import { fetchTejidoEmpresarial, type TejidoEmpresarial } from './sources/empresas'
+import { fetchPatrimonioMunicipio, type PatrimonioCultural } from './sources/cultura'
+import { getAgendaMunicipio, type EventoAgenda } from './sources/agenda'
 import { fetchPiramide, fetchRentaMedia, fetchExtranjeros, type INEPiramide, type INERentaMedia, type INEExtranjeros } from './sources/ine'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
 import { analizarIntegral, type AnalisisIntegral } from './ai/analisis-integral'
@@ -58,6 +61,12 @@ export interface MunicipioProfile {
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
   extranjeros: INEExtranjeros | null
+  /** Tejido empresarial (INE DIRCE) */
+  empresas: TejidoEmpresarial | null
+  /** Patrimonio cultural y BIC (Wikidata) */
+  patrimonio: PatrimonioCultural | null
+  /** Agenda y próximas citas */
+  agenda: EventoAgenda[]
   metrics: {
     nNoticias7d: number
     densidadHabKm2: number
@@ -70,7 +79,7 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
   if (!meta) return null
   const ccaa = getCCAABySlug(meta.ccaa)
 
-  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros, coords] = await Promise.all([
+  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros, coords, empresas, patrimonio] = await Promise.all([
     fetchBio(meta),
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
     fetchAlcaldePorIne(meta.ine).catch(() => null),
@@ -78,7 +87,10 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     fetchRentaMedia(meta.ine).catch(() => null),
     fetchExtranjeros(meta.ine).catch(() => null),
     fetchCoordenadasMunicipio(meta.ine).catch(() => null),
+    fetchTejidoEmpresarial(meta.ine, meta.poblacion).catch(() => null),
+    fetchPatrimonioMunicipio(meta.ine).catch(() => null),
   ])
+  const agenda = getAgendaMunicipio(meta.webAyuntamiento || undefined)
 
   const [alcaldeFoto, tiempo] = await Promise.all([
     alcalde?.qid ? fetchFotoPersona(alcalde.qid).catch(() => null) : Promise.resolve(null),
@@ -140,6 +152,9 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     piramide,
     rentaMedia,
     extranjeros,
+    empresas,
+    patrimonio,
+    agenda,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       densidadHabKm2: meta.superficie && meta.superficie > 0 ? Math.round(meta.poblacion / meta.superficie) : 0,

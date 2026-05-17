@@ -21,6 +21,8 @@ import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narra
 import { analizarIntegral, type AnalisisIntegral } from './ai/analisis-integral'
 import { getHistoricoElectoralCCAA, indiceCompetitividad, type ResultadoEleccion } from './sources/electoral'
 import { getComposicionParlamento, type ComposicionParlamento } from './sources/parlamentos'
+import { fetchPatrimonioCCAA, type PatrimonioCultural } from './sources/cultura'
+import { getAgendaCCAA, type EventoAgenda } from './sources/agenda'
 
 export interface CCAAProfile {
   meta: CCAA
@@ -52,6 +54,10 @@ export interface CCAAProfile {
   historicoElectoral: Array<ResultadoEleccion & { competitividad: number }>
   /** Composición del parlamento autonómico (escaños por partido vía D'Hondt) */
   parlamento: ComposicionParlamento | null
+  /** Patrimonio cultural y BIC (Wikidata) */
+  patrimonio: PatrimonioCultural | null
+  /** Agenda y próximas citas */
+  agenda: EventoAgenda[]
   metrics: {
     nNoticias7d: number
     nIniciativas: number
@@ -65,12 +71,14 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
   const meta = getCCAABySlug(slug)
   if (!meta) return null
 
-  const [bio, articles, { initiatives }, presidente] = await Promise.all([
+  const [bio, articles, { initiatives }, presidente, patrimonio] = await Promise.all([
     fetchBio(meta),
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
     getAllInitiatives().catch(() => ({ initiatives: [] })),
     fetchPresidenteCcaa(meta.nombre).catch(() => null),
+    fetchPatrimonioCCAA(meta.nombre).catch(() => null),
   ])
+  const agenda = getAgendaCCAA(slug, meta.boletinUrl, meta.parlamentoUrl)
 
   // Foto del presidente
   const presidenteFoto = presidente?.qid ? await fetchFotoPersona(presidente.qid).catch(() => null) : null
@@ -133,6 +141,8 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
     analisisIntegral,
     historicoElectoral,
     parlamento,
+    patrimonio,
+    agenda,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       nIniciativas: iniciativasMatched.length,
