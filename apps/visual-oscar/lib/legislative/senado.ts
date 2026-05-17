@@ -18,6 +18,7 @@
  */
 
 import type { LegislativeInitiative, Commission, CommissionSession } from './types'
+import senadoComisionesXV from '@/data/senado-comisiones-xv.json'
 
 const BASE = 'https://www.senado.es/web/ficopendataservlet'
 const LEGIS = '15'
@@ -204,42 +205,70 @@ export async function fetchSenadoApprovedLaws(): Promise<SenadoApprovedLaw[]> {
 
 // ─── Comisiones ────────────────────────────────────────────────────────────
 
-export async function fetchSenadoComisiones(): Promise<Commission[]> {
-  const xml = await fetchXml(7)
-  if (!xml) return []
-  const blocks = extractBlocks(xml, 'comision')
-  const out: Commission[] = []
-  for (const b of blocks) {
-    const codigo = tagText(b, 'codigo') || tagText(b, 'codComision') || ''
-    const nombre = tagText(b, 'nombre') || tagText(b, 'titulo') || ''
-    const nombreCorto = tagText(b, 'nombreBreve') || tagText(b, 'nombreCorto') || undefined
-    const tipoRaw = (tagText(b, 'tipo') || '').toLowerCase()
-    if (!codigo || !nombre) continue
-
-    const isInvestigation = /investigaci/.test(nombre.toLowerCase()) || /investigaci/.test(tipoRaw)
-    const isMixta = /mixt/.test(nombre.toLowerCase()) || /mixt/.test(tipoRaw)
-    const kind: import('./types').CommissionKind =
-      isInvestigation ? 'investigacion'
-      : isMixta ? 'mixta'
-      : /no permanente|noperm/.test(tipoRaw) ? 'no-permanente'
-      : /sub/.test(tipoRaw) ? 'subcomision'
-      : /ponencia/.test(tipoRaw) ? 'ponencia'
-      : 'permanente'
-
-    out.push({
-      id: `sen-${codigo}`,
-      codigo,
-      nombre,
-      nombreCorto,
-      camara: isMixta ? 'mixta' : 'senado',
-      ccaa: null,
-      kind,
-      active: true,
-      isInvestigation,
-      url: `https://www.senado.es/web/composicionorganizacion/comisiones/composicion/index.html?legis=${LEGIS}&id1=${codigo}`,
-    })
+/** Convierte una entrada del catálogo enumerado a Commission */
+function entryToCommission(entry: { codigo: string; nombre: string; clase: string }): Commission {
+  const lower = entry.nombre.toLowerCase()
+  const isInvestigation = /investigaci/.test(lower)
+  const isMixta = /mixt|conjunta/.test(lower)
+  const isPonencia = /ponencia/.test(lower) || entry.clase === '02'
+  const kind: import('./types').CommissionKind =
+    isInvestigation ? 'investigacion'
+    : isMixta ? 'mixta'
+    : isPonencia ? 'ponencia'
+    : 'permanente'
+  return {
+    id: `sen-${entry.codigo}`,
+    codigo: entry.codigo,
+    nombre: entry.nombre,
+    camara: isMixta ? 'mixta' : 'senado',
+    ccaa: null,
+    kind,
+    active: true,
+    isInvestigation,
+    url: `https://www.senado.es/web/actividadparlamentaria/sesionescomision/detallecomisiones/composicion/index.html?id=${entry.codigo}&legis=${LEGIS}&esMixta=${isMixta ? 'S' : 'N'}`,
   }
-  return out
+}
+
+/**
+ * Devuelve las comisiones del Senado XV.
+ *
+ * Estrategia: el WAF del Senado bloquea las IPs de cloud (Vercel, AWS, etc.)
+ * con HTTP 403 sobre el endpoint XML público. Por eso:
+ *   1) Catálogo enumerado en data/senado-comisiones-xv.json como source primario
+ *      (datos REALES extraídos del XML oficial, actualizados periódicamente).
+ *   2) Fetch dinámico como complemento opcional: si funciona (cambio de
+ *      bloqueo), se mezcla y dedup. Si no, sólo se usa el catálogo.
+ */
+export async function fetchSenadoComisiones(): Promise<Commission[]> {
+  // 1) Catálogo enumerado (primary - siempre funciona)
+  const catalogo: Commission[] = (senadoComisionesXV as Array<{ codigo: string; nombre: string; clase: string }>)
+    .map(entryToCommission)
+
+  // 2) Intento adicional: fetch dinámico (puede fallar por WAF)
+  try {
+    const xml = await fetchXml(7, 8000)
+    if (xml && !isAccessDenied(xml)) {
+      const blocks = extractBlocks(xml, 'comision')
+      const fromXml: Commission[] = []
+      for (const b of blocks) {
+        const codigo = tagText(b, 'codigo') || ''
+        const nombre = tagText(b, 'nombre') || ''
+        if (!codigo || !nombre) continue
+        const clase = tagText(b, 'clase') || ''
+        fromXml.push(entryToCommission({ codigo, nombre, clase }))
+      }
+      // Merge: si el XML aporta comisiones nuevas, las añadimos
+      const seen = new Set(catalogo.map(c => c.codigo))
+      for (const c of fromXml) {
+        if (!seen.has(c.codigo)) {
+          catalogo.push(c)
+          seen.add(c.codigo)
+        }
+      }
+    }
+  } catch {/* catálogo enumerado basta */}
+
+  return catalogo
 }
 
 // ─── Sesiones plenarias ────────────────────────────────────────────────────

@@ -51,6 +51,7 @@ export const MODULES: NavModule[] = [
     full: 'Inteligencia Política',
     items: [
       { label: 'Mapa de Actores',                href: '/mapa-actores' },
+      { label: 'Figuras Públicas',               href: '/figuras' },
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },

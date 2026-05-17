@@ -1,0 +1,227 @@
+[
+  {
+    "codigo": "S011000",
+    "nombre": "Comisión de Agricultura, Ganadería y Alimentación",
+    "clase": ""
+  },
+  {
+    "codigo": "S011001",
+    "nombre": "Comisión de Asuntos Exteriores",
+    "clase": ""
+  },
+  {
+    "codigo": "S012001",
+    "nombre": "Comisión de Asuntos Iberoamericanos",
+    "clase": ""
+  },
+  {
+    "codigo": "S011022",
+    "nombre": "Comisión de Ciencia, Innovación y Universidades",
+    "clase": ""
+  },
+  {
+    "codigo": "S011031",
+    "nombre": "Comisión Conjunta de las Comisiones Constitucional y de Justicia",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011003",
+    "nombre": "Comisión Constitucional",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011019",
+    "nombre": "Comisión de Cooperación Internacional al Desarrollo",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011007",
+    "nombre": "Comisión de Cultura",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011004",
+    "nombre": "Comisión de Defensa",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011029",
+    "nombre": "Comisión de Derechos de las Familias",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011024",
+    "nombre": "Comisión de Derechos Sociales, Consumo y Agenda 2030",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011023",
+    "nombre": "Comisión de Despoblación y Reto Demográfico",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011005",
+    "nombre": "Comisión de Economía, Comercio y Empresa",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011006",
+    "nombre": "Comisión de Educación, Formación Profesional y Deportes",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011017",
+    "nombre": "Comisión de Entidades Locales",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011021",
+    "nombre": "Comisión de Función Pública",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011014",
+    "nombre": "Comisión General de las Comunidades Autónomas",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011032",
+    "nombre": "Comisión General de las Entidades Locales",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011016",
+    "nombre": "Comisión de Hacienda",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011015",
+    "nombre": "Comisión de Igualdad",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011013",
+    "nombre": "Comisión de Inclusión, Seguridad Social y Migraciones",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012006",
+    "nombre": "Comisión de Incompatibilidades",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011002",
+    "nombre": "Comisión de Industria y Turismo",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011010",
+    "nombre": "Comisión de Interior",
+    "clase": "02"
+  },
+  {
+    "codigo": "S015002",
+    "nombre": "Comisión de Investigación sobre la gestión del Presidente del Centro de Investigaciones Sociológicas (CIS)",
+    "clase": "02"
+  },
+  {
+    "codigo": "S015004",
+    "nombre": "Comisión de Investigación sobre la interrupción del suministro eléctrico y de las comunicaciones el 28 de abril de 2025",
+    "clase": "02"
+  },
+  {
+    "codigo": "S015003",
+    "nombre": "Comisión de Investigación sobre las circunstancias que influyeron en la catástrofe sufrida como consecuencia de la DANA del pasado 29 de octubre de 2024, así como de la gestión llevada a cabo por las distintas administraciones implicadas y posibles actuaciones para la recuperación y prevención de futuras DANA",
+    "clase": "02"
+  },
+  {
+    "codigo": "S015001",
+    "nombre": "Comisión de Investigación sobre los contratos, licencias, concesiones, ayudas y otras operaciones del Gobierno y del sector público, relacionadas con la intermediación de Koldo García Izaguirre y con las demás personas vinculadas a la trama investigada en la Operación Delorme, y respecto a los presuntos delitos relativos a la corrupción que tengan una relación, directa o indirecta, o conexión con las mismas",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011008",
+    "nombre": "Comisión de Justicia",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011030",
+    "nombre": "Comisión de Juventud e Infancia",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012007",
+    "nombre": "Comisión de Nombramientos",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011025",
+    "nombre": "Comisión de Pesca",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012003",
+    "nombre": "Comisión de Peticiones",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011020",
+    "nombre": "Comisión de Políticas Integrales de Discapacidad",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011011",
+    "nombre": "Comisión de Presupuestos",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012004",
+    "nombre": "Comisión de Reglamento",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011012",
+    "nombre": "Comisión de Sanidad",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012002",
+    "nombre": "Comisión de Seguimiento y Evaluación de las Estrategias acordadas por el Senado dentro del Pacto de Estado contra la Violencia de Género",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012005",
+    "nombre": "Comisión de Suplicatorios",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011026",
+    "nombre": "Comisión de Trabajo y Economía Social",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011027",
+    "nombre": "Comisión de Transformación Digital",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011018",
+    "nombre": "Comisión de Transición Ecológica",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011009",
+    "nombre": "Comisión de Transportes y Movilidad Sostenible",
+    "clase": "02"
+  },
+  {
+    "codigo": "S012008",
+    "nombre": "Comisión de Vigilancia de las contrataciones de la Administración General del Estado y del sector público institucional estatal",
+    "clase": "02"
+  },
+  {
+    "codigo": "S011028",
+    "nombre": "Comisión de Vivienda y Agenda Urbana",
+    "clase": "02"
+  }
+]
