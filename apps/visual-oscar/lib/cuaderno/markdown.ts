@@ -119,8 +119,20 @@ export function renderMarkdown(md: string): string {
         out.push(`<${want} class="cuad-${want}">`)
         inList = want
       }
-      const item = (ul ? ul[1] : ol![1])
-      out.push(`<li>${renderInline(item)}</li>`)
+      const itemRaw = (ul ? ul[1] : ol![1])
+      // Task: - [ ] xxx ó - [x] xxx
+      const task = /^\[( |x|X)\]\s+(.*)$/.exec(itemRaw)
+      if (task) {
+        const done = task[1].toLowerCase() === 'x'
+        out.push(
+          `<li class="cuad-task ${done ? 'cuad-task-done' : ''}">` +
+          `<span class="cuad-task-checkbox" data-line="${i}" data-done="${done ? '1' : '0'}">${done ? '☑' : '☐'}</span> ` +
+          renderInline(task[2]) +
+          `</li>`
+        )
+      } else {
+        out.push(`<li>${renderInline(itemRaw)}</li>`)
+      }
       continue
     } else if (inList) { out.push(`</${inList}>`); inList = null }
 

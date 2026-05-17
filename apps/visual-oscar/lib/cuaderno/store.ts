@@ -248,6 +248,38 @@ const ICONS: Record<string, string> = {
   note:   '✎',
 }
 
+// ── Daily Notes / Plantillas ────────────────────────────────────────────────
+
+/**
+ * Devuelve la nota Bitácora de hoy creándola si no existe.
+ * La instancia desde la plantilla `daily` para que tenga estructura útil.
+ */
+export function getOrCreateDailyNote(): CuadernoNote | null {
+  if (!isBrowser()) return null
+  const today = new Date().toISOString().slice(0,10)
+  const slug = slugify(`Bitácora · ${today}`)
+  const existing = findBySlug(slug)
+  if (existing) return existing
+  // Lazy require para evitar dependencia circular
+  const { instantiate, getTemplate } = require('./templates') as typeof import('./templates')
+  const tpl = getTemplate('daily')
+  if (!tpl) return null
+  const data = instantiate(tpl)
+  return createNote({ ...data, source: 'auto' })
+}
+
+/**
+ * Crea una nota nueva desde una plantilla.
+ */
+export function createFromTemplate(templateId: string, title?: string): CuadernoNote | null {
+  if (!isBrowser()) return null
+  const { instantiate, getTemplate } = require('./templates') as typeof import('./templates')
+  const tpl = getTemplate(templateId)
+  if (!tpl) return null
+  const data = instantiate(tpl, title)
+  return createNote(data)
+}
+
 // ── Seed: notas iniciales si el cuaderno está vacío ──────────────────────────
 
 const SEED_NOTES: Array<Partial<CuadernoNote> & { title: string }> = [
@@ -257,35 +289,52 @@ const SEED_NOTES: Array<Partial<CuadernoNote> & { title: string }> = [
     pinned: true,
     content: `# Bienvenida al Cuaderno
 
-Este es tu **segundo cerebro** dentro de Politeia. Funciona como Obsidian
-pero está integrado con tu trabajo en la plataforma:
+Este es tu **segundo cerebro** dentro de Politeia — un PKM completo inspirado
+en Obsidian, pero **integrado con tu trabajo de analista**.
 
-- Escribes en **Markdown**.
-- Enlazas ideas con \`[[doble corchete]]\` — se crean automáticamente las
-  conexiones bidireccionales.
-- El **grafo** muestra cómo se relacionan tus ideas visualmente.
-- Tus **acciones diarias** en Politeia se registran solas en \`Bitácora/\`.
-- Todo se guarda **en tu navegador**: tus notas no salen de tu equipo.
+## El método del analista, en un cuaderno
 
-Empieza creando una nota desde el botón [[+ Nueva nota]] o enlaza desde
-aquí a [[Tema seguimiento elecciones 2026]] para ver cómo funcionan los
-backlinks.
+Toda investigación seria tiene estructura. Aquí la estandarizas con
+**plantillas**:
 
-> Tip: pulsa \`Cmd+K\` para buscar y saltar entre notas al instante.
-`,
-  },
-  {
-    title:  'Tema seguimiento elecciones 2026',
-    folder: 'Investigación',
-    content: `# Tema — Elecciones 2026
+- [[Análisis · ejemplo bloqueo Junts|Análisis]] — pregunta, hipótesis,
+  evidencia a favor / en contra, sesgos, conclusión con confianza explícita.
+- [[Decisión · ejemplo apoyo a presupuestos|Decisión]] — opciones,
+  criterios, reversibilidad, cuándo revisar.
+- [[Reunión · ejemplo coordinación gabinete|Reunión]] — acta con acciones,
+  responsables y fechas.
+- [[Actor · Pedro Sánchez|Actor político]] — ficha viva con posición,
+  intereses reales, red, leverage.
+- **Fuente** — registro con fiabilidad y citas literales.
+- **Briefing** — BLUF, situación, análisis, recomendación.
+- **Hipótesis** — afirmación falsable que evalúas con evidencia entrante.
 
-Investigación viva. Voy enlazando notas relacionadas:
+Crea con \`Cmd+N\` y elige plantilla. Si solo quieres un papel en blanco,
+también vale.
 
-- [[Mapa de actores PP]]
-- [[Coaliciones probables]]
-- [[Encuestas CIS Marzo 2026]]
+## Cómo funciona
 
-Tags: #elecciones #2026 #españa
+- **Markdown** — escribes natural, sin distracciones.
+- **Wikilinks** \`[[doble corchete]]\` — enlaces bidireccionales; en cada
+  nota ves quién te apunta (backlinks).
+- **Tags** \`#etiqueta\` — clasificación transversal a las carpetas.
+- **Frontmatter YAML** \`---\` al inicio — metadatos que las consultas leen.
+- **Tareas** \`- [ ] hacer X\` — se agregan en el panel **Tareas**, con
+  responsable \`**[Nombre]**\` y fecha \`\`\`YYYY-MM-DD\`\`\`.
+- **Bitácora diaria** — un \`Cmd+D\` te lleva al diario del día; se rellena
+  solo con tu actividad en Politeia.
+- **Grafo** — el mapa visual de tu pensamiento.
+- **Local-first** — todo vive en tu navegador. Tu cuaderno es tuyo.
+
+## Tu cerebro, externalizado
+
+Cuanto más uses Politeia, más se enriquece el cuaderno solo: cada visita
+a un módulo, cada alerta crítica, cada query a la IA, se registra como un
+bullet en tu [[Bitácora]] del día. El grafo crece sin que hagas nada.
+
+> Pulsa \`Cmd+K\` para buscar. \`Cmd+G\` para el grafo. \`Cmd+D\` para hoy.
+
+#método #pkm
 `,
   },
   {
@@ -293,14 +342,243 @@ Tags: #elecciones #2026 #españa
     folder: 'Inicio',
     content: `# Atajos
 
-| Acción              | Atajo            |
-|---------------------|------------------|
-| Buscar nota         | Cmd+K            |
-| Nueva nota          | Cmd+N            |
-| Guardar             | Cmd+S (auto)     |
-| Crear wikilink      | [[Nombre nota]]  |
-| Etiqueta            | #etiqueta        |
-| Volver al grafo     | Cmd+G            |
+| Acción                       | Atajo            |
+|------------------------------|------------------|
+| Buscar nota                  | Cmd+K            |
+| Nueva nota (con plantilla)   | Cmd+N            |
+| Ir al diario de hoy          | Cmd+D            |
+| Alternar grafo               | Cmd+G            |
+| Vista de tareas              | Cmd+T            |
+| Calendario                   | Cmd+1            |
+| Volver a notas               | Esc              |
+| Marcar tarea                 | Click en \`[ ]\`   |
+| Crear wikilink               | [[Nombre nota]]  |
+| Etiqueta                     | #etiqueta        |
+| Frontmatter                  | --- al inicio    |
+
+#método
+`,
+  },
+  {
+    title:  'Análisis · ejemplo bloqueo Junts',
+    folder: 'Análisis',
+    content: `---
+tipo: analisis
+fecha: 2026-05-15
+estado: en-curso
+confianza: media-alta
+---
+
+# Análisis — ¿Junts bloquea los presupuestos?
+
+## Pregunta clave
+
+¿Va Junts a tumbar los presupuestos generales en la votación de la
+próxima semana, o es ruido para forzar nueva negociación?
+
+## Hipótesis principal
+
+> **Junts presiona pero acaba apoyando** una vez consiga concesiones
+> visibles sobre competencias autonómicas en migración.
+
+## Hipótesis alternativas
+
+1. **Tumba** — busca elecciones anticipadas favorables a su narrativa.
+2. **Abstención** — fórmula intermedia que no rompe ni apoya.
+
+## Evidencia a favor
+
+| Fuente | Fuerza | Nota |
+|--------|--------|------|
+| [[Reunión · ejemplo coordinación gabinete]] | media | Lectura de Bolaños |
+| Tracking medios catalanes ([[Pulso de Prensa]]) | alta | Tono cede vs. semana pasada |
+
+## Evidencia en contra
+
+| Fuente | Fuerza | Nota |
+|--------|--------|------|
+| Declaración Turull martes | alta | Línea roja explícita |
+
+## Sesgos a vigilar
+
+- [ ] Confirmación: ya esperaba que apoyara, ¿busco solo señales que lo confirmen?
+- [x] Recencia: la declaración de Turull es muy reciente, no sobreponderar.
+
+## Conclusión provisional
+
+> Apoyo con concesiones, confianza 65%. Revisar tras Pleno del martes.
+
+## Lo que falta saber
+
+- [ ] **[Ana Gómez]** · Sondear gabinete Vox sobre enmiendas conjuntas · vence \`2026-05-19\`
+- [ ] Confirmar agenda Turull para fin de semana · vence \`2026-05-17\`
+
+## Conexiones
+
+- Actores: [[Actor · Pedro Sánchez]]
+- Temas: [[Decisión · ejemplo apoyo a presupuestos]]
+
+#analisis #junts #presupuestos
+`,
+  },
+  {
+    title:  'Decisión · ejemplo apoyo a presupuestos',
+    folder: 'Decisiones',
+    content: `---
+tipo: decision
+fecha: 2026-05-15
+estado: tomada
+reversibilidad: dos-vias
+revisar: 2026-05-22
+---
+
+# Decisión — Postura pública del cliente sobre los PGE
+
+## Contexto
+
+El cliente pregunta qué postura comunicar antes del Pleno. Si no decidimos,
+cada portavoz improvisa y se rompe el mensaje.
+
+## Opciones consideradas
+
+### Opción A · Apoyo condicionado público
+- Pros: marca posición, presiona a Junts.
+- Contras: si Junts tumba, queda como apoyo a un fracaso.
+
+### Opción B · Silencio estratégico hasta el martes
+- Pros: máxima flexibilidad.
+- Contras: huecos en la conversación los rellena el rival.
+
+### Opción C · Crítica técnica sin pronunciarse sobre voto
+- Pros: visibilidad sin compromiso.
+- Contras: percibido como ambiguo.
+
+## Decisión tomada
+
+> **Opción C**. Marca presencia experta sin atarse al desenlace.
+
+## Reversibilidad
+
+- [x] Dos vías — el martes podemos pivotar a apoyo o rechazo según señal.
+
+## Riesgos asumidos
+
+- Si Junts apoya y nosotros no celebramos, perdemos la ola.
+
+## Cuándo revisar
+
+\`2026-05-22\` (post-Pleno). Señales para cambiar:
+- Junts publica enmiendas pactadas → pivotar a apoyo.
+- Pleno se aplaza → mantener crítica técnica.
+
+## Conexiones
+
+- [[Análisis · ejemplo bloqueo Junts]]
+
+#decision #presupuestos
+`,
+  },
+  {
+    title:  'Reunión · ejemplo coordinación gabinete',
+    folder: 'Reuniones',
+    content: `---
+tipo: reunion
+fecha: 2026-05-14
+hora: 09:30
+participantes: [Cliente, Ana Gómez, Luis Martín]
+estado: completada
+---
+
+# Reunión — Coordinación semanal gabinete
+
+## Contexto
+
+Punto de situación semanal antes de comunicados.
+
+## Participantes
+
+- [[Cliente]] — decisor
+- [[Ana Gómez]] — política
+- [[Luis Martín]] — comunicación
+
+## Agenda
+
+1. Lectura situación PGE
+2. Calendario medios
+3. Riesgos próximos 7 días
+
+## Decisiones
+
+- Posición pública = [[Decisión · ejemplo apoyo a presupuestos|Opción C]].
+- Sondeos territoriales para revisar el viernes.
+
+## Acciones
+
+- [ ] **[Ana Gómez]** · Sondear gabinete Vox · vence \`2026-05-19\` !alto
+- [x] **[Luis Martín]** · Preparar tarjetas mensaje · vence \`2026-05-15\`
+- [ ] **[Clara Ruiz]** · Crisis bulos financiación — nota fact-check · vence \`2026-05-16\` !critico
+
+## Riesgos / Disensos
+
+- Vox publica antes que nosotros y nos roba el frame.
+
+#reunion
+`,
+  },
+  {
+    title:  'Actor · Pedro Sánchez',
+    folder: 'Actores',
+    content: `---
+tipo: actor
+nivel: estatal
+partido: PSOE
+cargo: Presidente del Gobierno
+actualizado: 2026-05-15
+---
+
+# Pedro Sánchez
+
+## Identidad
+
+- **Cargo**: Presidente del Gobierno
+- **Partido**: [[PSOE]]
+- **Trayectoria**: SecGen PSOE 2014-2016, 2017-, Presidente desde 2018.
+
+## Posición pública
+
+Defensa del bloque de investidura, agenda social, integración europea.
+
+## Intereses reales
+
+Aguantar la legislatura completa para consolidar legado. Evitar elecciones
+en escenario adverso. Mantener cohesión interna PSOE post-Ferraz.
+
+## Red de relaciones
+
+- **Aliados**: [[María Jesús Montero]], [[Félix Bolaños]]
+- **Equilibrios**: bloque investidura (Sumar, ERC, Junts, EH Bildu, PNV)
+- **Rivales**: Feijóo, Abascal
+
+## Historial relevante
+
+- \`2026-05-12\` · Intervención en pleno sobre vivienda
+- \`2026-04-29\` · Reunión bilateral con Turull (Junts)
+
+## Patrones observados
+
+- Suele anunciar concesiones tácticas el día anterior a votaciones difíciles.
+- Las amnistías y la financiación catalana son los dos ejes que no toca a la ligera.
+
+## Leverage
+
+- Calendario europeo (presidencia rotatoria, fondos): condiciona los movimientos.
+- Tiempos parlamentarios: usa el reglamento del Congreso para ganar tiempo.
+
+## Notas en curso
+
+- [[Análisis · ejemplo bloqueo Junts]]
+
+#actor #psoe
 `,
   },
 ]

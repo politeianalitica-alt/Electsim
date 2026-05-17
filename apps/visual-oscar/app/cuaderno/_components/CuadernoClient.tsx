@@ -1,15 +1,25 @@
 'use client'
 
 /**
- * CuadernoClient — el editor + sidebar + grafo del Cuaderno.
+ * CuadernoClient — el cerebro operativo del analista.
  *
- * Inspirado en Obsidian:
- *   - Notas Markdown locales en localStorage del navegador
- *   - Wikilinks [[…]] con backlinks auto
- *   - Tags #foo
- *   - Vista grafo (canvas con simulación de fuerzas)
- *   - Búsqueda full-text + atajos
- *   - Acciones del analista se loguean en "Bitácora/"
+ * Vistas (left-rail):
+ *   - Hoy        — daily note autogenerada
+ *   - Notas      — explorador de carpetas
+ *   - Tareas     — agregador de `- [ ]` con responsable, prioridad, fecha
+ *   - Calendario — mes con actividad: notas, tareas, daily
+ *   - Tags       — browser de etiquetas
+ *   - Plantillas — método del analista
+ *   - Grafo      — red de conexiones
+ *
+ * Editor:
+ *   - Título · Plantilla · Modo (edit/split/read) · Pin · Borrar
+ *   - Outline panel a la derecha
+ *   - Backlinks
+ *   - Tareas inline editables (click en [ ] alterna)
+ *
+ * Persistencia: 100% localStorage. Wikilinks bidireccionales, frontmatter
+ * YAML, tags, tareas con metadata.
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -17,60 +27,75 @@ import dynamic from 'next/dynamic'
 import styles from './Cuaderno.module.css'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
-  seedIfEmpty, slugify, logAction,
+  seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
   type CuadernoNote,
 } from '@/lib/cuaderno/store'
+import {
+  parseFrontmatter, allTasks, summarizeTasks, toggleTask,
+  allTags, dailyMap, activityFor, outlineOf, isDailyNote,
+} from '@/lib/cuaderno/queries'
+import { TEMPLATES } from '@/lib/cuaderno/templates'
 import { renderMarkdown } from '@/lib/cuaderno/markdown'
 
 const GraphView = dynamic(() => import('./GraphView'), { ssr: false })
 
 type Mode = 'edit' | 'read' | 'split'
-type View = 'notes' | 'graph'
+type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph'
 
 export default function CuadernoClient() {
-  const [notes, setNotes] = useState<CuadernoNote[]>([])
+  const [notes, setNotes]       = useState<CuadernoNote[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [query, setQuery]       = useState('')
   const [mode, setMode]         = useState<Mode>('split')
-  const [view, setView]         = useState<View>('notes')
+  const [view, setView]         = useState<View>('today')
+  const [tplOpen, setTplOpen]   = useState(false)
+  const [switcher, setSwitcher] = useState(false)
+  const [outlineOpen, setOutlineOpen] = useState(true)
 
-  // ── Inicialización: seed + carga ──────────────────────────────────────────
+  // ── Inicialización ────────────────────────────────────────────────────────
   useEffect(() => {
     seedIfEmpty()
     refresh()
-    // Registra que el analista abrió el cuaderno
+    // Garantiza que existe la nota de hoy
+    const daily = getOrCreateDailyNote()
+    if (daily) setActiveId(daily.id)
     logAction({ kind: 'visit', title: 'Abriste el Cuaderno', href: '/cuaderno' })
   }, [])
 
-  // Re-render si otro tab del navegador o el resto de la app actualiza notas
   useEffect(() => {
     function handler() { refresh() }
     window.addEventListener('cuaderno:change', handler)
     return () => window.removeEventListener('cuaderno:change', handler)
   }, [])
 
-  function refresh() {
-    setNotes(loadAll())
-  }
+  function refresh() { setNotes(loadAll()) }
 
-  // ── Selección / acciones de notas ─────────────────────────────────────────
   const active = useMemo(() => notes.find(n => n.id === activeId) ?? null, [notes, activeId])
 
-  // Si no hay nota seleccionada, escoge la primera
-  useEffect(() => {
-    if (!activeId && notes.length > 0) setActiveId(notes[0].id)
-  }, [activeId, notes])
+  // ── Acciones de notas ─────────────────────────────────────────────────────
+  const openTemplateMenu = useCallback(() => setTplOpen(true), [])
 
-  const handleNew = useCallback(() => {
+  const handleNewBlank = useCallback(() => {
     const note = createNote({
       title:  'Nueva nota',
       folder: 'Notas',
-      content: '# Nueva nota\n\nEscribe aquí. Usa `[[doble corchete]]` para enlazar otras notas.\n',
+      content: '# Nueva nota\n\nEscribe aquí. Usa `[[doble corchete]]` para enlazar y `#tags` para clasificar.\n',
     })
     refresh()
     setActiveId(note.id)
     setMode('edit')
     setView('notes')
+    setTplOpen(false)
+  }, [])
+
+  const handleNewFromTemplate = useCallback((templateId: string) => {
+    const note = createFromTemplate(templateId)
+    if (!note) return
+    refresh()
+    setActiveId(note.id)
+    setMode('split')
+    setView('notes')
+    setTplOpen(false)
   }, [])
 
   const handleSelectSlug = useCallback((slug: string) => {
@@ -79,7 +104,6 @@ export default function CuadernoClient() {
       setActiveId(note.id)
       setView('notes')
     } else {
-      // Crear stub de nota nueva en el destino — comportamiento Obsidian
       const created = createNote({
         title:  slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
         folder: 'Notas',
@@ -111,18 +135,38 @@ export default function CuadernoClient() {
     refresh()
   }, [active])
 
+  const handleOpenToday = useCallback(() => {
+    const daily = getOrCreateDailyNote()
+    if (daily) {
+      refresh()
+      setActiveId(daily.id)
+      setView('notes')
+      setMode('split')
+    }
+  }, [])
+
   // ── Keyboard shortcuts ────────────────────────────────────────────────────
   useEffect(() => {
     function handler(e: KeyboardEvent) {
       const k = e.key.toLowerCase()
-      if ((e.metaKey || e.ctrlKey) && k === 'n') { e.preventDefault(); handleNew() }
-      if ((e.metaKey || e.ctrlKey) && k === 'g') { e.preventDefault(); setView(v => v === 'graph' ? 'notes' : 'graph') }
+      const mod = e.metaKey || e.ctrlKey
+      if (mod && k === 'n')   { e.preventDefault(); openTemplateMenu() }
+      if (mod && k === 'g')   { e.preventDefault(); setView(v => v === 'graph' ? 'notes' : 'graph') }
+      if (mod && k === 'd')   { e.preventDefault(); handleOpenToday() }
+      if (mod && k === 't')   { e.preventDefault(); setView('tasks') }
+      if (mod && k === '1')   { e.preventDefault(); setView('calendar') }
+      if (mod && k === 'k')   { e.preventDefault(); setSwitcher(true) }
+      if (mod && k === 'o')   { e.preventDefault(); setSwitcher(true) }
+      if (e.key === 'Escape') {
+        if (switcher) setSwitcher(false)
+        else if (tplOpen) setTplOpen(false)
+      }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [handleNew])
+  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen])
 
-  // ── Filtrado ──────────────────────────────────────────────────────────────
+  // ── Filtrado / Agrupado ───────────────────────────────────────────────────
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return notes
@@ -133,7 +177,6 @@ export default function CuadernoClient() {
     )
   }, [notes, query])
 
-  // Pinned + Folders
   const grouped = useMemo(() => {
     const pinned = filtered.filter(n => n.pinned)
     const folders = new Map<string, CuadernoNote[]>()
@@ -141,7 +184,6 @@ export default function CuadernoClient() {
       if (!folders.has(n.folder)) folders.set(n.folder, [])
       folders.get(n.folder)!.push(n)
     }
-    // Sort folders: 'Inicio' first, 'Bitácora' last
     const folderArr = Array.from(folders.entries()).sort((a, b) => {
       if (a[0] === 'Inicio') return -1
       if (b[0] === 'Inicio') return 1
@@ -149,10 +191,14 @@ export default function CuadernoClient() {
       if (b[0] === 'Bitácora') return -1
       return a[0].localeCompare(b[0])
     })
+    // Notas dentro de cada folder: pinned primero, luego por updatedAt desc
+    for (const [, list] of folderArr) {
+      list.sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.updatedAt - a.updatedAt)
+    }
     return { pinned, folderArr }
   }, [filtered])
 
-  // ── Wikilink click handler en preview ─────────────────────────────────────
+  // ── Wikilinks click + Tasks click ─────────────────────────────────────────
   useEffect(() => {
     function onClick(e: MouseEvent) {
       const t = e.target as HTMLElement
@@ -161,179 +207,308 @@ export default function CuadernoClient() {
         const slug = t.getAttribute('data-slug')
         if (slug) handleSelectSlug(slug)
       }
+      if (t.classList.contains('cuad-task-checkbox') && active) {
+        e.preventDefault()
+        const line = Number(t.getAttribute('data-line'))
+        if (!Number.isNaN(line)) {
+          toggleTask(active.id, line)
+          refresh()
+        }
+      }
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
-  }, [handleSelectSlug])
+  }, [handleSelectSlug, active])
 
-  // ── Backlinks of active ───────────────────────────────────────────────────
-  const back = useMemo(() => active ? backlinks(active.slug) : [], [active, notes])
-
+  const back     = useMemo(() => active ? backlinks(active.slug) : [], [active, notes])
   const graphData = useMemo(() => buildGraph(), [notes])
+  const fm        = useMemo(() => active ? parseFrontmatter(active.content) : null, [active])
+  const outline   = useMemo(() => active ? outlineOf(fm?.body ?? active.content) : [], [active, fm])
+
+  // ── Tasks data ───────────────────────────────────────────────────────────
+  const tasks       = useMemo(() => allTasks(), [notes])
+  const taskSummary = useMemo(() => summarizeTasks(tasks), [tasks])
+
+  // ── Tags data ────────────────────────────────────────────────────────────
+  const tags = useMemo(() => allTags(), [notes])
 
   // ── Render ────────────────────────────────────────────────────────────────
+  const hasSidebar = view === 'notes' || view === 'today' || view === 'graph'
   return (
-    <div className={styles.shell}>
-      {/* ── Sidebar ─────────────────────────────────────────────── */}
-      <aside className={styles.sidebar}>
-        <div className={styles.sidebarHead}>
-          <h2 className={styles.title}>
-            <span style={{ color: 'var(--accent,#0071e3)' }}>⬡</span>
-            Cuaderno
-            <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--ink-4,#9ca3af)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              {notes.length} notas
-            </span>
-          </h2>
-          <input
-            className={styles.search}
-            type="search"
-            placeholder="Buscar en tus notas…"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-          <button className={styles.newBtn} onClick={handleNew}>
-            <span>+</span> Nueva nota
-          </button>
-        </div>
+    <div className={`${styles.shell} ${!hasSidebar ? styles.shellNoSidebar : ''}`}>
+      {/* ── Rail izquierdo: vistas ────────────────────────────────────── */}
+      <nav className={styles.viewRail}>
+        <RailBtn label="Hoy"        glyph="◷"  v="today"     view={view} set={setView} subtitle="Cmd+D" onClick={handleOpenToday} />
+        <RailBtn label="Notas"      glyph="⊞"  v="notes"     view={view} set={setView} subtitle={`${notes.length}`} />
+        <RailBtn label="Tareas"     glyph="✓"  v="tasks"     view={view} set={setView} subtitle={`${taskSummary.pending}`} badge={taskSummary.overdue} />
+        <RailBtn label="Calendario" glyph="▣"  v="calendar"  view={view} set={setView} subtitle="Cmd+1" />
+        <RailBtn label="Tags"       glyph="#"  v="tags"      view={view} set={setView} subtitle={`${tags.length}`} />
+        <RailBtn label="Grafo"      glyph="◉"  v="graph"     view={view} set={setView} subtitle="Cmd+G" />
+        <RailBtn label="Plantillas" glyph="✎"  v="templates" view={view} set={setView} subtitle={`${TEMPLATES.length}`} />
+        <div style={{ flex: 1 }} />
+        <button className={styles.railSwitcher} onClick={() => setSwitcher(true)} title="Cmd+K">
+          <span>⌕</span><span>Buscar</span>
+        </button>
+      </nav>
 
-        <div className={styles.viewSwitch}>
-          <button
-            className={`${styles.viewBtn} ${view === 'notes' ? styles.active : ''}`}
-            onClick={() => setView('notes')}
-          >Notas</button>
-          <button
-            className={`${styles.viewBtn} ${view === 'graph' ? styles.active : ''}`}
-            onClick={() => setView('graph')}
-            title="Cmd+G"
-          >Grafo</button>
-        </div>
-
-        <div className={styles.noteList}>
-          {grouped.pinned.length > 0 && (
-            <div className={styles.folder}>
-              <div className={styles.folderHead}>⌃ Fijadas</div>
-              {grouped.pinned.map(n => (
-                <NoteListItem key={n.id} note={n} active={n.id === activeId} onClick={() => { setActiveId(n.id); setView('notes') }} />
-              ))}
+      {/* ── Sidebar de listado (cuando aplica) ────────────────────────── */}
+      {(view === 'notes' || view === 'today' || view === 'graph') && (
+        <aside className={styles.sidebar}>
+          <div className={styles.sidebarHead}>
+            <h2 className={styles.title}>
+              <span style={{ color: 'var(--accent,#0071e3)' }}>⬡</span>
+              Cuaderno
+              <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--ink-4,#9ca3af)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                {notes.length} notas
+              </span>
+            </h2>
+            <input
+              className={styles.search}
+              type="search"
+              placeholder="Buscar en tus notas…"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+            />
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button className={styles.newBtn} onClick={openTemplateMenu} title="Cmd+N">
+                <span>+</span> Nueva nota
+              </button>
+              <button className={styles.iconBtn} onClick={handleNewBlank} title="Nota en blanco">
+                ⊕
+              </button>
             </div>
-          )}
+          </div>
 
-          {grouped.folderArr.map(([folder, list]) => (
-            <div key={folder} className={styles.folder}>
-              <div className={styles.folderHead}>{folder}</div>
-              {list.map(n => (
-                <NoteListItem key={n.id} note={n} active={n.id === activeId} onClick={() => { setActiveId(n.id); setView('notes') }} />
-              ))}
-            </div>
-          ))}
+          <div className={styles.noteList}>
+            {grouped.pinned.length > 0 && (
+              <div className={styles.folder}>
+                <div className={styles.folderHead}>⌃ Fijadas</div>
+                {grouped.pinned.map(n => (
+                  <NoteListItem key={n.id} note={n} active={n.id === activeId} onClick={() => { setActiveId(n.id); setView('notes') }} />
+                ))}
+              </div>
+            )}
 
-          {notes.length === 0 && (
-            <div style={{ padding: 16, fontSize: 12, color: 'var(--ink-4,#6e6e73)' }}>
-              No tienes ninguna nota aún. Pulsa "+ Nueva nota" para empezar.
-            </div>
-          )}
-        </div>
-      </aside>
+            {grouped.folderArr.map(([folder, list]) => (
+              <div key={folder} className={styles.folder}>
+                <div className={styles.folderHead}>{folder} <span className={styles.folderCount}>{list.length}</span></div>
+                {list.map(n => (
+                  <NoteListItem key={n.id} note={n} active={n.id === activeId} onClick={() => { setActiveId(n.id); setView('notes') }} />
+                ))}
+              </div>
+            ))}
 
-      {/* ── Editor / Grafo ─────────────────────────────────────── */}
-      {view === 'graph' ? (
+            {notes.length === 0 && (
+              <div style={{ padding: 16, fontSize: 12, color: 'var(--ink-4,#6e6e73)' }}>
+                Tu cuaderno está vacío. Pulsa "+ Nueva nota" para empezar.
+              </div>
+            )}
+          </div>
+        </aside>
+      )}
+
+      {/* ── Área principal ────────────────────────────────────────────── */}
+      {view === 'graph' && (
         <div className={styles.graphWrap}>
           <GraphView data={graphData} onSelect={handleSelectSlug} activeSlug={active?.slug} />
           <div className={styles.graphLegend}>
             <div style={{ fontWeight: 700, marginBottom: 6 }}>Grafo de notas</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#0071e3' }} /> Inicio</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#7C3AED' }} /> Investigación</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#2d8a39' }} /> Bitácora</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#7C3AED' }} /> Análisis · Investigación</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#B45309' }} /> Actores · Fuentes</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#2d8a39' }} /> Bitácora · Reuniones</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#525258' }} /> Notas</div>
           </div>
-          <div className={styles.graphHelp}>
-            Click en un nodo para abrir · arrastra para mover · Cmd+G para volver
-          </div>
+          <div className={styles.graphHelp}>Click nodo · arrastra para mover · Cmd+G volver</div>
         </div>
-      ) : active ? (
-        <div className={styles.editor}>
-          <div className={styles.editorBar}>
-            <input
-              className={styles.titleInput}
-              value={active.title}
-              onChange={e => handleEdit({ title: e.target.value, slug: slugify(e.target.value) })}
-              placeholder="Título de la nota"
-            />
-            <div className={styles.modeSwitch}>
-              <button className={`${styles.modeBtn} ${mode === 'edit' ? styles.active : ''}`} onClick={() => setMode('edit')}>Editar</button>
-              <button className={`${styles.modeBtn} ${mode === 'split' ? styles.active : ''}`} onClick={() => setMode('split')}>Split</button>
-              <button className={`${styles.modeBtn} ${mode === 'read' ? styles.active : ''}`} onClick={() => setMode('read')}>Leer</button>
+      )}
+
+      {view === 'tasks' && <TasksView tasks={tasks} summary={taskSummary} onOpen={id => { setActiveId(id); setView('notes') }} onToggle={(id,line) => { toggleTask(id,line); refresh() }} />}
+      {view === 'calendar' && <CalendarView onOpen={id => { setActiveId(id); setView('notes') }} onCreateDaily={handleOpenToday} />}
+      {view === 'tags' && <TagsView tags={tags} onOpen={id => { setActiveId(id); setView('notes') }} />}
+      {view === 'templates' && <TemplatesView onPick={handleNewFromTemplate} />}
+
+      {(view === 'notes' || view === 'today') && (
+        active ? (
+          <div className={styles.editor}>
+            <div className={styles.editorBar}>
+              <input
+                className={styles.titleInput}
+                value={active.title}
+                onChange={e => handleEdit({ title: e.target.value, slug: slugify(e.target.value) })}
+                placeholder="Título de la nota"
+              />
+              <div className={styles.modeSwitch}>
+                <button className={`${styles.modeBtn} ${mode === 'edit' ? styles.active : ''}`} onClick={() => setMode('edit')}>Editar</button>
+                <button className={`${styles.modeBtn} ${mode === 'split' ? styles.active : ''}`} onClick={() => setMode('split')}>Split</button>
+                <button className={`${styles.modeBtn} ${mode === 'read' ? styles.active : ''}`} onClick={() => setMode('read')}>Leer</button>
+              </div>
+              <button className={styles.toolbarBtn} onClick={() => setOutlineOpen(o => !o)} title="Mostrar/ocultar índice">
+                {outlineOpen ? '▣ Índice' : '□ Índice'}
+              </button>
+              <button className={styles.toolbarBtn} onClick={handlePin}>
+                {active.pinned ? '★ Fijada' : '☆ Fijar'}
+              </button>
+              <button className={`${styles.toolbarBtn} ${styles.danger}`} onClick={handleDelete}>Borrar</button>
             </div>
-            <button className={styles.toolbarBtn} onClick={handlePin}>
-              {active.pinned ? '★ Fijada' : '☆ Fijar'}
-            </button>
-            <button className={`${styles.toolbarBtn} ${styles.danger}`} onClick={handleDelete}>
-              Borrar
-            </button>
-          </div>
 
-          <div className={styles.meta}>
-            <span className={styles.pill}>📁 {active.folder}</span>
-            <span className={styles.pill}>↻ {new Date(active.updatedAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
-            {active.tags.length > 0 && (
-              <span className={styles.pill}>{active.tags.join(' ')}</span>
-            )}
-            {active.links.length > 0 && (
-              <span className={styles.pill}>⇢ {active.links.length} enlaces</span>
-            )}
-            {active.source === 'auto' && (
-              <span className={styles.pill} style={{ background: 'rgba(45,138,57,0.10)', color: '#2d8a39' }}>AUTO</span>
-            )}
-          </div>
+            <div className={styles.meta}>
+              <span className={styles.pill}>⊟ {active.folder}</span>
+              <span className={styles.pill}>↻ {new Date(active.updatedAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+              {fm?.frontmatter.tipo && (
+                <span className={styles.pill} style={{ background: 'rgba(124,58,237,0.10)', color: '#7C3AED' }}>
+                  tipo: {String(fm.frontmatter.tipo)}
+                </span>
+              )}
+              {fm?.frontmatter.estado && (
+                <span className={styles.pill} style={{ background: 'rgba(217,119,6,0.10)', color: '#B45309' }}>
+                  {String(fm.frontmatter.estado)}
+                </span>
+              )}
+              {active.tags.length > 0 && (
+                <span className={styles.pill}>{active.tags.slice(0, 4).join(' ')}</span>
+              )}
+              {active.links.length > 0 && (
+                <span className={styles.pill}>⇢ {active.links.length} enlaces</span>
+              )}
+              {isDailyNote(active) && (
+                <span className={styles.pill} style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3' }}>DIARIO</span>
+              )}
+              {active.source === 'auto' && (
+                <span className={styles.pill} style={{ background: 'rgba(45,138,57,0.10)', color: '#2d8a39' }}>AUTO</span>
+              )}
+            </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: mode === 'split' ? '1fr 1fr' : '1fr', flex: 1 }}>
-            {(mode === 'edit' || mode === 'split') && (
-              <textarea
-                className={styles.editArea}
-                value={active.content}
-                onChange={e => handleEdit({ content: e.target.value })}
-                placeholder="Escribe en Markdown. Usa [[wikilinks]] y #tags."
-                spellCheck={false}
-              />
-            )}
-            {(mode === 'read' || mode === 'split') && (
-              <div
-                className={styles.preview}
-                dangerouslySetInnerHTML={{ __html: renderMarkdown(active.content) }}
-              />
-            )}
-          </div>
-
-          {back.length > 0 && (
-            <div className={styles.backlinksBox}>
-              <h3 className={styles.backlinksTitle}>← Backlinks · {back.length} nota{back.length === 1 ? '' : 's'} apuntan aquí</h3>
-              {back.map(b => (
-                <div key={b.id} className={styles.backlinkItem} onClick={() => setActiveId(b.id)}>
-                  <strong>{b.title}</strong>
-                  <span style={{ color: 'var(--ink-4,#9ca3af)', marginLeft: 8, fontSize: 11.5 }}>{b.folder}</span>
+            <div style={{ display: 'grid', gridTemplateColumns: `${mode === 'split' ? '1fr 1fr' : '1fr'} ${outlineOpen ? '220px' : '0px'}`, flex: 1, overflow: 'hidden' }}>
+              {(mode === 'edit' || mode === 'split') && (
+                <textarea
+                  className={styles.editArea}
+                  value={active.content}
+                  onChange={e => handleEdit({ content: e.target.value })}
+                  placeholder="Escribe en Markdown. Usa [[wikilinks]], #tags, - [ ] tareas y --- frontmatter."
+                  spellCheck={false}
+                />
+              )}
+              {(mode === 'read' || mode === 'split') && (
+                <div
+                  className={styles.preview}
+                  dangerouslySetInnerHTML={{ __html: renderMarkdown(fm?.body ?? active.content) }}
+                />
+              )}
+              {outlineOpen && (
+                <div className={styles.outline}>
+                  <div className={styles.outlineHead}>Índice</div>
+                  {outline.length === 0 ? (
+                    <div className={styles.outlineEmpty}>Sin encabezados</div>
+                  ) : outline.map((o, i) => (
+                    <div key={i} className={styles.outlineItem} style={{ paddingLeft: 8 + (o.level - 1) * 10 }}>
+                      {o.text}
+                    </div>
+                  ))}
                 </div>
+              )}
+            </div>
+
+            {back.length > 0 && (
+              <div className={styles.backlinksBox}>
+                <h3 className={styles.backlinksTitle}>← {back.length} nota{back.length === 1 ? '' : 's'} apunta{back.length === 1 ? '' : 'n'} aquí</h3>
+                <div className={styles.backlinkRow}>
+                  {back.map(b => (
+                    <div key={b.id} className={styles.backlinkItem} onClick={() => setActiveId(b.id)}>
+                      <strong>{b.title}</strong>
+                      <span style={{ color: 'var(--ink-4,#9ca3af)', marginLeft: 8, fontSize: 11.5 }}>{b.folder}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={styles.empty}>
+            <h2>Tu Cuaderno está vacío</h2>
+            <p>
+              Crea tu primera nota para empezar a construir tu segundo cerebro. Todo se
+              guarda <strong>en tu navegador</strong> — tus notas nunca salen de tu equipo.
+            </p>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
+              <button className={styles.newBtn} style={{ width: 'auto', padding: '10px 20px' }} onClick={openTemplateMenu}>
+                + Nueva nota con plantilla
+              </button>
+              <button className={styles.iconBtn} style={{ width: 'auto', padding: '10px 16px' }} onClick={handleNewBlank}>
+                Nota en blanco
+              </button>
+            </div>
+          </div>
+        )
+      )}
+
+      {/* ── Modal: selector de plantilla ──────────────────────────────── */}
+      {tplOpen && (
+        <div className={styles.modalBack} onClick={() => setTplOpen(false)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalHead}>
+              <strong>Nueva nota — elige plantilla</strong>
+              <button className={styles.iconBtn} onClick={() => setTplOpen(false)}>×</button>
+            </div>
+            <div className={styles.tplGrid}>
+              <button className={styles.tplCard} onClick={handleNewBlank}>
+                <span className={styles.tplGlyph} style={{ color: '#525258' }}>+</span>
+                <strong>En blanco</strong>
+                <span>Empieza de cero, sin estructura.</span>
+              </button>
+              {TEMPLATES.map(t => (
+                <button key={t.id} className={styles.tplCard} onClick={() => handleNewFromTemplate(t.id)}>
+                  <span className={styles.tplGlyph} style={{ color: '#0071e3' }}>{t.glyph}</span>
+                  <strong>{t.name}</strong>
+                  <span>{t.description}</span>
+                  <span className={styles.tplFolder}>→ {t.folder}/</span>
+                </button>
               ))}
             </div>
-          )}
+            <div className={styles.modalFoot}>
+              <span>El método del analista es la suma de sus plantillas.</span>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className={styles.empty}>
-          <h2>Tu Cuaderno está vacío</h2>
-          <p>
-            Crea tu primera nota para empezar a construir tu segundo cerebro. Todo se
-            guarda <strong>en tu navegador</strong> — tus notas nunca salen de tu equipo.
-          </p>
-          <button className={styles.newBtn} style={{ width: 'auto', padding: '10px 20px' }} onClick={handleNew}>
-            + Crear primera nota
-          </button>
-        </div>
+      )}
+
+      {/* ── Quick Switcher (Cmd+K / Cmd+O) ────────────────────────────── */}
+      {switcher && (
+        <QuickSwitcher
+          notes={notes}
+          onSelect={id => { setActiveId(id); setSwitcher(false); setView('notes') }}
+          onClose={() => setSwitcher(false)}
+          onCreateNew={(title) => {
+            const n = createNote({ title, folder: 'Notas', content: `# ${title}\n\n` })
+            refresh(); setActiveId(n.id); setSwitcher(false); setView('notes')
+          }}
+        />
       )}
     </div>
   )
 }
 
+// ── Subcomponentes ────────────────────────────────────────────────────────
+
+function RailBtn({ label, glyph, v, view, set, subtitle, badge, onClick }: {
+  label: string; glyph: string; v: View; view: View;
+  set: (v: View) => void; subtitle?: string; badge?: number; onClick?: () => void
+}) {
+  return (
+    <button
+      className={`${styles.railBtn} ${view === v ? styles.railActive : ''}`}
+      onClick={() => { onClick?.(); set(v) }}
+    >
+      <span className={styles.railGlyph}>{glyph}</span>
+      <span className={styles.railLabel}>{label}</span>
+      {subtitle && <span className={styles.railSub}>{subtitle}</span>}
+      {!!badge && badge > 0 && <span className={styles.railBadge}>{badge}</span>}
+    </button>
+  )
+}
+
 function NoteListItem({ note, active, onClick }: { note: CuadernoNote; active: boolean; onClick: () => void }) {
-  const preview = note.content.replace(/^#+\s*.*\n?/, '').replace(/[\[\]#`*>]/g, '').trim().slice(0, 64)
+  const preview = note.content.replace(/^---[\s\S]*?---\n/, '').replace(/^#+\s*.*\n?/, '').replace(/[\[\]#`*>]/g, '').trim().slice(0, 64)
   return (
     <div
       className={`${styles.noteItem} ${active ? styles.active : ''}`}
@@ -346,6 +521,334 @@ function NoteListItem({ note, active, onClick }: { note: CuadernoNote; active: b
         {note.source === 'auto' && <span className={styles.autoBadge}>AUTO</span>}
       </div>
       {preview && <span className={styles.noteSub}>{preview}</span>}
+    </div>
+  )
+}
+
+// ── Vista TAREAS ───────────────────────────────────────────────────────────
+
+function TasksView({ tasks, summary, onOpen, onToggle }: {
+  tasks: ReturnType<typeof allTasks>
+  summary: ReturnType<typeof summarizeTasks>
+  onOpen: (noteId: string) => void
+  onToggle: (noteId: string, line: number) => void
+}) {
+  const [filter, setFilter] = useState<'pendientes' | 'todas' | 'vencidas' | 'hoy' | 'hechas'>('pendientes')
+  const today = new Date().toISOString().slice(0, 10)
+
+  const visible = useMemo(() => {
+    let list = tasks
+    if (filter === 'pendientes') list = list.filter(t => !t.done)
+    if (filter === 'vencidas')   list = list.filter(t => !t.done && t.dueDate && t.dueDate < today)
+    if (filter === 'hoy')        list = list.filter(t => !t.done && t.dueDate === today)
+    if (filter === 'hechas')     list = list.filter(t => t.done)
+    // Sort: vencidas primero, luego por fecha, luego por prioridad
+    const prio: Record<string, number> = { critico: 0, alto: 1, medio: 2, bajo: 3, sin: 4 }
+    return [...list].sort((a, b) => {
+      const aOver = !a.done && a.dueDate && a.dueDate < today ? 1 : 0
+      const bOver = !b.done && b.dueDate && b.dueDate < today ? 1 : 0
+      if (aOver !== bOver) return bOver - aOver
+      if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate)
+      if (a.dueDate) return -1
+      if (b.dueDate) return 1
+      return prio[a.priority ?? 'sin'] - prio[b.priority ?? 'sin']
+    })
+  }, [tasks, filter, today])
+
+  return (
+    <div className={styles.workArea}>
+      <header className={styles.workHead}>
+        <h2>Tareas</h2>
+        <div className={styles.kpiRow}>
+          <Kpi label="Pendientes"  value={summary.pending}  accent="#0071e3" />
+          <Kpi label="Vencidas"    value={summary.overdue}  accent="#DC2626" />
+          <Kpi label="Hoy"         value={summary.dueToday} accent="#D97706" />
+          <Kpi label="Críticas"    value={summary.byPriority.critico} accent="#7C3AED" />
+          <Kpi label="Completadas" value={summary.done}     accent="#2d8a39" />
+        </div>
+        <div className={styles.filterChips}>
+          {(['pendientes','vencidas','hoy','hechas','todas'] as const).map(f => (
+            <button
+              key={f}
+              className={`${styles.chip} ${filter === f ? styles.chipActive : ''}`}
+              onClick={() => setFilter(f)}
+            >{f}</button>
+          ))}
+        </div>
+      </header>
+      <div className={styles.workBody}>
+        {visible.length === 0 && (
+          <div className={styles.empty}>
+            <h2>Sin tareas en este filtro</h2>
+            <p>Crea tareas con <code>- [ ] descripción</code> dentro de cualquier nota.<br/>Añade responsable con <code>**[Nombre]**</code> y fecha con <code>`YYYY-MM-DD`</code>.</p>
+          </div>
+        )}
+        {visible.map((t, i) => {
+          const overdue = !t.done && t.dueDate && t.dueDate < today
+          const dueToday = t.dueDate === today
+          return (
+            <div key={`${t.noteId}-${t.lineIdx}-${i}`} className={styles.taskRow}>
+              <input
+                type="checkbox"
+                checked={t.done}
+                onChange={() => onToggle(t.noteId, t.lineIdx)}
+                className={styles.taskCheck}
+              />
+              <div className={styles.taskMain}>
+                <div className={`${styles.taskText} ${t.done ? styles.taskDone : ''}`}>
+                  {t.text.replace(/\*\*\[[^\]]+\]\*\*/g, '').replace(/`\d{4}-\d{2}-\d{2}`/g, '').replace(/!critico|!alto|!medio|!bajo/gi, '').trim()}
+                </div>
+                <div className={styles.taskMeta}>
+                  {t.responsible && <span className={styles.taskPill}>{t.responsible}</span>}
+                  {t.dueDate && (
+                    <span className={styles.taskPill} style={{
+                      background: overdue ? 'rgba(220,38,38,0.12)' : dueToday ? 'rgba(217,119,6,0.12)' : undefined,
+                      color: overdue ? '#DC2626' : dueToday ? '#D97706' : undefined,
+                    }}>
+                      {overdue ? 'vencida · ' : dueToday ? 'hoy · ' : ''}{t.dueDate}
+                    </span>
+                  )}
+                  {t.priority && (
+                    <span className={styles.taskPill} style={{
+                      background: t.priority === 'critico' ? 'rgba(124,58,237,0.12)' : 'rgba(0,113,227,0.10)',
+                      color: t.priority === 'critico' ? '#7C3AED' : '#0071e3',
+                    }}>!{t.priority}</span>
+                  )}
+                  <button className={styles.taskLink} onClick={() => onOpen(t.noteId)}>
+                    en {t.noteTitle}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// ── Vista CALENDARIO ───────────────────────────────────────────────────────
+
+function CalendarView({ onOpen, onCreateDaily }: { onOpen: (id: string) => void; onCreateDaily: () => void }) {
+  const [cursor, setCursor] = useState(() => {
+    const d = new Date()
+    return new Date(d.getFullYear(), d.getMonth(), 1)
+  })
+  const dailies = useMemo(() => dailyMap(), [])
+
+  const monthDays = useMemo(() => {
+    const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1)
+    const last  = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 0)
+    const startDow = (first.getDay() + 6) % 7  // lunes=0
+    const cells: Array<{ date: string; day: number; inMonth: boolean; activity: ReturnType<typeof activityFor> } | null> = []
+    // Días del mes anterior para rellenar
+    for (let i = 0; i < startDow; i++) cells.push(null)
+    for (let d = 1; d <= last.getDate(); d++) {
+      const date = new Date(cursor.getFullYear(), cursor.getMonth(), d).toISOString().slice(0,10)
+      cells.push({ date, day: d, inMonth: true, activity: activityFor(date) })
+    }
+    return cells
+  }, [cursor])
+
+  const today = new Date().toISOString().slice(0,10)
+  const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+
+  return (
+    <div className={styles.workArea}>
+      <header className={styles.workHead}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button className={styles.iconBtn} onClick={() => setCursor(c => new Date(c.getFullYear(), c.getMonth() - 1, 1))}>‹</button>
+          <h2 style={{ margin: 0 }}>{months[cursor.getMonth()]} {cursor.getFullYear()}</h2>
+          <button className={styles.iconBtn} onClick={() => setCursor(c => new Date(c.getFullYear(), c.getMonth() + 1, 1))}>›</button>
+          <button className={styles.chip} onClick={() => setCursor(new Date(new Date().getFullYear(), new Date().getMonth(), 1))}>Hoy</button>
+          <div style={{ flex: 1 }} />
+          <button className={styles.newBtn} style={{ width: 'auto', padding: '8px 14px' }} onClick={onCreateDaily}>
+            + Diario de hoy
+          </button>
+        </div>
+      </header>
+      <div className={styles.workBody}>
+        <div className={styles.calGrid}>
+          {['L','M','X','J','V','S','D'].map(d => (
+            <div key={d} className={styles.calHead}>{d}</div>
+          ))}
+          {monthDays.map((cell, i) => {
+            if (!cell) return <div key={i} className={`${styles.calCell} ${styles.calBlank}`} />
+            const { activity } = cell
+            const isToday = cell.date === today
+            const hasDaily = !!activity.daily
+            const total = activity.created.length + (activity.daily ? 0 : 0)
+            return (
+              <div
+                key={i}
+                className={`${styles.calCell} ${isToday ? styles.calToday : ''} ${hasDaily ? styles.calHasDaily : ''}`}
+                onClick={() => activity.daily ? onOpen(activity.daily.id) : null}
+                title={activity.daily ? 'Abrir diario' : 'Sin diario'}
+              >
+                <div className={styles.calDay}>{cell.day}</div>
+                {hasDaily && <div className={styles.calBar} style={{ background: '#0071e3' }} />}
+                {total > 0 && <div className={styles.calCount}>{total} nota{total === 1 ? '' : 's'}</div>}
+                {activity.tasks.length > 0 && <div className={styles.calCount} style={{ color: '#D97706' }}>{activity.tasks.length} tarea{activity.tasks.length === 1 ? '' : 's'}</div>}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Vista TAGS ─────────────────────────────────────────────────────────────
+
+function TagsView({ tags, onOpen }: { tags: ReturnType<typeof allTags>; onOpen: (id: string) => void }) {
+  const [picked, setPicked] = useState<string | null>(null)
+  const sel = tags.find(t => t.tag === picked)
+  return (
+    <div className={styles.workArea}>
+      <header className={styles.workHead}>
+        <h2>Tags · {tags.length}</h2>
+        <p className={styles.workSub}>Clasificación transversal. Cada nota puede tener tantos tags como quieras.</p>
+      </header>
+      <div className={styles.workBody} style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 18, padding: 18 }}>
+        <div className={styles.tagList}>
+          {tags.length === 0 && (
+            <div className={styles.empty} style={{ padding: 18 }}>
+              <p>Aún no hay tags. Añade <code>#etiqueta</code> en cualquier nota.</p>
+            </div>
+          )}
+          {tags.map(t => (
+            <button
+              key={t.tag}
+              className={`${styles.tagItem} ${picked === t.tag ? styles.tagActive : ''}`}
+              onClick={() => setPicked(t.tag)}
+            >
+              <span>{t.tag}</span>
+              <span className={styles.tagCount}>{t.count}</span>
+            </button>
+          ))}
+        </div>
+        <div>
+          {sel ? (
+            <div>
+              <h3 style={{ marginTop: 0 }}>{sel.tag} <span style={{ fontWeight: 400, color: '#6e6e73', fontSize: 13 }}>· {sel.count} notas</span></h3>
+              {sel.notes.map(n => (
+                <div key={n.id} className={styles.tagNote} onClick={() => onOpen(n.id)}>
+                  <strong>{n.title}</strong>
+                  <span style={{ color: '#6e6e73', fontSize: 12 }}>{n.folder}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p style={{ color: '#6e6e73' }}>Selecciona un tag a la izquierda para ver las notas.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Vista PLANTILLAS ───────────────────────────────────────────────────────
+
+function TemplatesView({ onPick }: { onPick: (id: string) => void }) {
+  return (
+    <div className={styles.workArea}>
+      <header className={styles.workHead}>
+        <h2>Plantillas — el método del analista</h2>
+        <p className={styles.workSub}>
+          Toda investigación seria tiene estructura. Estandariza la tuya: cada análisis se enuncia con
+          pregunta, hipótesis, evidencia y conclusión con confianza. Cada actor tiene posición, intereses,
+          red y leverage. Cada decisión deja rastro reversible.
+        </p>
+      </header>
+      <div className={styles.workBody}>
+        <div className={styles.tplGrid} style={{ padding: 18 }}>
+          {TEMPLATES.map(t => (
+            <button key={t.id} className={styles.tplCard} onClick={() => onPick(t.id)}>
+              <span className={styles.tplGlyph} style={{ color: '#0071e3' }}>{t.glyph}</span>
+              <strong>{t.name}</strong>
+              <span>{t.description}</span>
+              <span className={styles.tplFolder}>→ {t.folder}/</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Kpi({ label, value, accent }: { label: string; value: number; accent: string }) {
+  return (
+    <div className={styles.kpi} style={{ borderLeftColor: accent }}>
+      <span className={styles.kpiLabel}>{label}</span>
+      <span className={styles.kpiValue}>{value}</span>
+    </div>
+  )
+}
+
+// ── Quick Switcher ─────────────────────────────────────────────────────────
+
+function QuickSwitcher({ notes, onSelect, onClose, onCreateNew }: {
+  notes: CuadernoNote[]
+  onSelect: (id: string) => void
+  onClose: () => void
+  onCreateNew: (title: string) => void
+}) {
+  const [q, setQ] = useState('')
+  const [idx, setIdx] = useState(0)
+  const results = useMemo(() => {
+    if (!q.trim()) return notes.slice(0, 12)
+    const lo = q.toLowerCase()
+    return notes
+      .filter(n => n.title.toLowerCase().includes(lo) || n.content.toLowerCase().includes(lo) || n.tags.some(t => t.includes(lo)))
+      .slice(0, 12)
+  }, [q, notes])
+
+  useEffect(() => { setIdx(0) }, [q])
+
+  return (
+    <div className={styles.modalBack} onClick={onClose}>
+      <div className={styles.switcher} onClick={e => e.stopPropagation()}>
+        <input
+          autoFocus
+          value={q}
+          onChange={e => setQ(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'ArrowDown') { e.preventDefault(); setIdx(i => Math.min(i + 1, results.length)) }
+            if (e.key === 'ArrowUp')   { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)) }
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              if (idx < results.length) onSelect(results[idx].id)
+              else if (q.trim()) onCreateNew(q.trim())
+            }
+          }}
+          placeholder="Buscar nota o escribir nombre para crear…"
+          className={styles.switcherInput}
+        />
+        <div className={styles.switcherList}>
+          {results.map((n, i) => (
+            <div
+              key={n.id}
+              className={`${styles.switcherItem} ${i === idx ? styles.switcherActive : ''}`}
+              onClick={() => onSelect(n.id)}
+            >
+              <strong>{n.title}</strong>
+              <span>{n.folder}</span>
+            </div>
+          ))}
+          {q.trim() && results.length === 0 && (
+            <div
+              className={`${styles.switcherItem} ${idx === 0 ? styles.switcherActive : ''}`}
+              onClick={() => onCreateNew(q.trim())}
+            >
+              <strong>+ Crear "{q.trim()}"</strong>
+              <span>nueva nota</span>
+            </div>
+          )}
+        </div>
+        <div className={styles.switcherFoot}>
+          <span>↑↓ navegar · ⏎ abrir · esc cerrar</span>
+        </div>
+      </div>
     </div>
   )
 }
