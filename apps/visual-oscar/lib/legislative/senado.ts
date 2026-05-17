@@ -21,17 +21,47 @@ import type { LegislativeInitiative, Commission, CommissionSession } from './typ
 
 const BASE = 'https://www.senado.es/web/ficopendataservlet'
 const LEGIS = '15'
-const UA = 'Mozilla/5.0 (compatible; PoliteiaAnalitica/1.0; +https://politeia-visual-oscar.vercel.app)'
 
-async function fetchXml(tipoFich: number, timeoutMs = 10_000): Promise<string | null> {
+// Browser-like headers - el Senado bloquea UAs identificables como bots
+const BROWSER_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
+  'Accept': 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'Referer': 'https://www.senado.es/web/relacionesciudadanos/datosabiertos/catalogodatos/index.html',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'same-origin',
+}
+
+// Wayback Machine como fallback cuando senado.es nos bloquea (403 desde cloud IPs)
+const WAYBACK_BASE = 'https://web.archive.org/web/2026/'
+
+async function fetchXml(tipoFich: number, timeoutMs = 12_000): Promise<string | null> {
   const url = `${BASE}?tipoFich=${tipoFich}&legis=${LEGIS}`
+  // 1) Intento directo con headers de browser
+  const direct = await tryFetch(url, BROWSER_HEADERS, timeoutMs)
+  if (direct && !isAccessDenied(direct)) return direct
+
+  // 2) Fallback: Wayback Machine
+  const waybackUrl = `${WAYBACK_BASE}${url}`
+  const wayback = await tryFetch(waybackUrl, BROWSER_HEADERS, timeoutMs + 5000)
+  if (wayback && !isAccessDenied(wayback)) return wayback
+
+  // 3) Probar timestamp específico Wayback (más fiable que /2026/)
+  const fallbackUrl = `https://web.archive.org/web/2026if_/${url}`
+  return tryFetch(fallbackUrl, BROWSER_HEADERS, timeoutMs + 5000)
+}
+
+async function tryFetch(url: string, headers: Record<string, string>, timeoutMs: number): Promise<string | null> {
   const controller = new AbortController()
   const t = setTimeout(() => controller.abort(), timeoutMs)
   try {
     const res = await fetch(url, {
-      headers: { 'User-Agent': UA, Accept: 'text/xml, application/xml' },
+      headers,
       signal: controller.signal,
       next: { revalidate: 1800 }, // 30 min cache
+      redirect: 'follow',
     })
     if (!res.ok) return null
     return await res.text()
@@ -40,6 +70,10 @@ async function fetchXml(tipoFich: number, timeoutMs = 10_000): Promise<string | 
   } finally {
     clearTimeout(t)
   }
+}
+
+function isAccessDenied(html: string): boolean {
+  return html.includes('Access Denied') || html.includes('Forbidden') || html.length < 500
 }
 
 /** Extrae bloques <tagName>...</tagName> del XML.
