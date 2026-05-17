@@ -114,6 +114,29 @@ export async function fetchPresidenteCcaa(nombreCcaa: string): Promise<WikidataG
 }
 
 /**
+ * Devuelve coordenadas (lat, lon) de un municipio por código INE.
+ * Usa P625 (coordinate location) en Wikidata.
+ */
+export async function fetchCoordenadasMunicipio(codigoIne: string): Promise<{ lat: number; lon: number } | null> {
+  const codigos = [codigoIne, codigoIne.replace(/^0+/, '')]
+  for (const cod of codigos) {
+    const q = `
+      SELECT ?coord WHERE {
+        ?municipio wdt:P772 "${cod}" .
+        ?municipio wdt:P625 ?coord .
+      } LIMIT 1`
+    const data = await sparqlJson<SPARQLResults>(q)
+    const v = data?.results?.bindings?.[0]?.coord?.value
+    if (v) {
+      // Format: "Point(lon lat)"
+      const m = v.match(/Point\(([-\d.]+)\s+([-\d.]+)\)/)
+      if (m) return { lat: parseFloat(m[2]), lon: parseFloat(m[1]) }
+    }
+  }
+  return null
+}
+
+/**
  * Devuelve foto de la persona por su QID de Wikidata.
  */
 export async function fetchFotoPersona(qid: string): Promise<string | null> {

@@ -69,6 +69,23 @@ interface ResultadoEleccion {
 }
 interface EnlacesElectorales { consultaMir: string; wikipedia: string; junta: string; cpro: string }
 
+interface AnalisisIntegral {
+  scoreRiesgoPolitico: number
+  bandaRiesgo: 'baja' | 'media' | 'alta' | 'crítica'
+  oportunidades: string[]
+  amenazas: string[]
+  prioridadesEstrategicas: string[]
+  contextoMacro: string
+  alertasSituacionales: string[]
+}
+
+interface CondicionMeteo {
+  temperatura: number; sensacionTermica: number
+  weatherCode: number; weatherLabel: string
+  precip: number; viento: number
+  hora: string; alertaCalor: boolean; alertaFrio: boolean
+}
+
 interface EscañoPartido { partido: string; escaños: number; pct: number; color: string }
 interface ComposicionParlamento {
   totalEscaños: number; fecha: string
@@ -92,6 +109,7 @@ interface CCAAProfile {
   resumenIA: string
   historicoElectoral: ResultadoEleccion[]
   parlamento: ComposicionParlamento | null
+  analisisIntegral: AnalisisIntegral
   metrics: { nNoticias7d: number; nIniciativas: number; pibMillonesEuros: number; densidadHabKm2: number }
   updatedAt: string
   error?: string
@@ -117,7 +135,10 @@ interface MunicipioProfile {
   tagsCobertura: string[]
   preocupaciones: string[]
   resumenIA: string
+  analisisIntegral: AnalisisIntegral
   enlacesElectorales: EnlacesElectorales
+  coords: { lat: number; lon: number } | null
+  tiempo: CondicionMeteo | null
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
   extranjeros: INEExtranjeros | null
@@ -267,6 +288,11 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           ))}
         </div>
       </Card>
+
+      {/* ANÁLISIS IA INTEGRAL */}
+      <div style={{ marginTop: 14 }}>
+        <AnalisisIntegralCard analisis={profile.analisisIntegral}/>
+      </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginTop: 14 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -529,12 +555,23 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
         </div>
       </Card>
 
+      <div style={{ marginTop: 14 }}>
+        <AnalisisIntegralCard analisis={profile.analisisIntegral}/>
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginTop: 14 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {profile.bio.extract && (
             <Card titulo="WIKIPEDIA" color="#525258">
               <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.55 }}>{profile.bio.extract}</p>
               {profile.bio.sourceUrl && <SmallLink href={profile.bio.sourceUrl} color={partidoColor}>Wikipedia completa ↗</SmallLink>}
+            </Card>
+          )}
+
+          {profile.coords && (
+            <Card titulo={`📍 UBICACIÓN · ${profile.coords.lat.toFixed(3)}, ${profile.coords.lon.toFixed(3)}`} color="#0F766E">
+              <MapaEmbed lat={profile.coords.lat} lon={profile.coords.lon} nombre={profile.meta.nombre}/>
+              {profile.tiempo && <TiempoCard tiempo={profile.tiempo} color={partidoColor}/>}
             </Card>
           )}
 
@@ -782,6 +819,107 @@ function SentimientoCard({ sentimiento, color }: { sentimiento: SentimientoAgreg
         <strong>{sentimiento.tendencia === 'up' ? '↑ mejora' : sentimiento.tendencia === 'down' ? '↓ empeora' : '→ estable'}</strong>
       </p>
     </Card>
+  )
+}
+
+function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
+  const colorRiesgo = analisis.bandaRiesgo === 'crítica' ? '#7F1D1D'
+                    : analisis.bandaRiesgo === 'alta'    ? '#DC2626'
+                    : analisis.bandaRiesgo === 'media'   ? '#F97316'
+                    :                                      '#16A34A'
+
+  return (
+    <div style={{ background: '#fff', borderRadius: 14, padding: 18, border: '1px solid #ECECEF' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <p style={{ margin: 0, fontSize: 11, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          ✦ ANÁLISIS IA INTEGRAL
+        </p>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+          <span style={{ fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Riesgo político</span>
+          <span style={{ fontSize: 28, fontWeight: 700, color: colorRiesgo, fontFamily: 'var(--font-display)' }}>{analisis.scoreRiesgoPolitico}</span>
+          <span style={{ fontSize: 11, color: colorRiesgo, fontWeight: 700, textTransform: 'uppercase' }}>{analisis.bandaRiesgo}</span>
+        </div>
+      </div>
+
+      {analisis.alertasSituacionales.length > 0 && (
+        <div style={{ marginBottom: 12, padding: 10, background: 'rgba(127,29,29,0.06)', borderRadius: 8, borderLeft: '3px solid #7F1D1D' }}>
+          {analisis.alertasSituacionales.map((a, i) => (
+            <p key={i} style={{ margin: i === 0 ? 0 : '3px 0 0', fontSize: 11.5, color: '#7F1D1D', fontWeight: 600 }}>{a}</p>
+          ))}
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>★ OPORTUNIDADES</p>
+          <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+            {analisis.oportunidades.map((o, i) => <li key={i}>{o}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p style={{ margin: 0, fontSize: 10, color: '#DC2626', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ AMENAZAS</p>
+          <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+            {analisis.amenazas.map((a, i) => <li key={i}>{a}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 12, padding: 10, background: 'rgba(124,58,237,0.05)', borderRadius: 8, borderLeft: '3px solid #7C3AED' }}>
+        <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>◉ TOP 3 PRIORIDADES ESTRATÉGICAS</p>
+        <ol style={{ margin: '5px 0 0', paddingLeft: 18, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+          {analisis.prioridadesEstrategicas.map((p, i) => <li key={i}>{p}</li>)}
+        </ol>
+      </div>
+
+      <p style={{ margin: '10px 0 0', fontSize: 10.5, color: '#9ca3af', fontStyle: 'italic' }}>
+        Contexto: {analisis.contextoMacro}
+      </p>
+    </div>
+  )
+}
+
+function MapaEmbed({ lat, lon, nombre }: { lat: number; lon: number; nombre: string }) {
+  const delta = 0.025
+  const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`
+  return (
+    <div style={{ position: 'relative', width: '100%', height: 280, borderRadius: 10, overflow: 'hidden', border: '1px solid #ECECEF' }}>
+      <iframe
+        title={`Mapa OSM ${nombre}`}
+        src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`}
+        style={{ width: '100%', height: '100%', border: 0 }}
+        loading="lazy"
+      />
+      <a href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=14/${lat}/${lon}`}
+         target="_blank" rel="noopener noreferrer"
+         style={{ position: 'absolute', bottom: 8, right: 8, padding: '4px 8px', background: 'rgba(255,255,255,0.92)', borderRadius: 6, fontSize: 10.5, color: '#0F766E', textDecoration: 'none', fontWeight: 600 }}>
+        Ampliar mapa ↗
+      </a>
+    </div>
+  )
+}
+
+function TiempoCard({ tiempo, color }: { tiempo: CondicionMeteo; color: string }) {
+  return (
+    <div style={{ background: tiempo.alertaCalor ? 'rgba(220,38,38,0.06)' : tiempo.alertaFrio ? 'rgba(31,78,140,0.06)' : '#FAFAFB', borderRadius: 8, padding: 10, marginTop: 6, borderLeft: `3px solid ${tiempo.alertaCalor ? '#DC2626' : tiempo.alertaFrio ? '#1F4E8C' : color}` }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>
+            {tiempo.temperatura.toFixed(0)}°
+          </p>
+          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>{tiempo.weatherLabel}</p>
+        </div>
+        <div style={{ textAlign: 'right', fontSize: 11, color: '#6e6e73' }}>
+          <p style={{ margin: 0 }}>Sensación <strong style={{ color: '#1d1d1f' }}>{tiempo.sensacionTermica.toFixed(0)}°</strong></p>
+          {tiempo.viento > 0 && <p style={{ margin: '2px 0 0' }}>💨 {tiempo.viento.toFixed(0)} km/h</p>}
+          {tiempo.precip > 0 && <p style={{ margin: '2px 0 0' }}>💧 {tiempo.precip.toFixed(1)} mm</p>}
+        </div>
+      </div>
+      {(tiempo.alertaCalor || tiempo.alertaFrio) && (
+        <p style={{ margin: '6px 0 0', fontSize: 11, color: tiempo.alertaCalor ? '#DC2626' : '#1F4E8C', fontWeight: 700 }}>
+          ⚠ Alerta {tiempo.alertaCalor ? 'calor extremo' : 'frío severo'}
+        </p>
+      )}
+    </div>
   )
 }
 

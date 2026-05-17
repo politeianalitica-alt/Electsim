@@ -18,6 +18,7 @@ import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator
 import { getAllInitiatives } from '@/lib/legislative/aggregator'
 import { fetchPresidenteCcaa, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
+import { analizarIntegral, type AnalisisIntegral } from './ai/analisis-integral'
 import { getHistoricoElectoralCCAA, indiceCompetitividad, type ResultadoEleccion } from './sources/electoral'
 import { getComposicionParlamento, type ComposicionParlamento } from './sources/parlamentos'
 
@@ -45,6 +46,8 @@ export interface CCAAProfile {
   preocupaciones: string[]
   /** Resumen IA del estado actual */
   resumenIA: string
+  /** Análisis integral IA (riesgo político, oportunidades, amenazas) */
+  analisisIntegral: AnalisisIntegral
   /** Histórico electoral (generales + autonómicas) */
   historicoElectoral: Array<ResultadoEleccion & { competitividad: number }>
   /** Composición del parlamento autonómico (escaños por partido vía D'Hondt) */
@@ -97,6 +100,14 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
   const historicoBase = getHistoricoElectoralCCAA(slug)
   const historicoElectoral = historicoBase.map(e => ({ ...e, competitividad: indiceCompetitividad(e) }))
   const parlamento = getComposicionParlamento(slug)
+  const analisisIntegral = analizarIntegral({
+    noticiasTotal: noticiasMatched.length,
+    sentimientoScore: sentimientoAgregado.score,
+    sentimientoNegativo: sentimientoAgregado.negativo,
+    preocupaciones, narrativas, estabilidadScore: estabilidad.score,
+    historicoElectoral, tendenciaSentimiento: sentimientoAgregado.tendencia,
+    nIniciativas: iniciativasMatched.length, poblacion: meta.poblacion * 1000,
+  })
 
   return {
     meta,
@@ -119,6 +130,7 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
     tagsCobertura,
     preocupaciones,
     resumenIA,
+    analisisIntegral,
     historicoElectoral,
     parlamento,
     metrics: {

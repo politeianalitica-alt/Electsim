@@ -17,9 +17,11 @@ import { getMunicipioBySlug, type Municipio } from './municipios-catalog'
 import { getCCAABySlug } from './ccaa-catalog'
 import { fetchWikipediaSummary } from '@/lib/figures/wikipedia'
 import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator'
-import { fetchAlcaldePorIne, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
+import { fetchAlcaldePorIne, fetchFotoPersona, fetchCoordenadasMunicipio, type WikidataGobernante } from './sources/wikidata'
+import { fetchTiempo, type CondicionMeteo } from './sources/weather'
 import { fetchPiramide, fetchRentaMedia, fetchExtranjeros, type INEPiramide, type INERentaMedia, type INEExtranjeros } from './sources/ine'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
+import { analizarIntegral, type AnalisisIntegral } from './ai/analisis-integral'
 import { getMunicipioElectoralLinks } from './sources/electoral'
 
 export interface MunicipioProfile {
@@ -42,10 +44,16 @@ export interface MunicipioProfile {
   tagsCobertura: string[]
   preocupaciones: string[]
   resumenIA: string
+  /** Análisis integral IA (riesgo, oportunidades, amenazas, prioridades) */
+  analisisIntegral: AnalisisIntegral
   /** Enlaces oficiales a resultados electorales municipales */
   enlacesElectorales: {
     consultaMir: string; wikipedia: string; junta: string; cpro: string
   }
+  /** Coordenadas geográficas (Wikidata P625) */
+  coords: { lat: number; lon: number } | null
+  /** Condiciones meteorológicas actuales (Open-Meteo) */
+  tiempo: CondicionMeteo | null
   // INE
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
@@ -62,16 +70,20 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
   if (!meta) return null
   const ccaa = getCCAABySlug(meta.ccaa)
 
-  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros] = await Promise.all([
+  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros, coords] = await Promise.all([
     fetchBio(meta),
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
     fetchAlcaldePorIne(meta.ine).catch(() => null),
     fetchPiramide(meta.ine).catch(() => null),
     fetchRentaMedia(meta.ine).catch(() => null),
     fetchExtranjeros(meta.ine).catch(() => null),
+    fetchCoordenadasMunicipio(meta.ine).catch(() => null),
   ])
 
-  const alcaldeFoto = alcalde?.qid ? await fetchFotoPersona(alcalde.qid).catch(() => null) : null
+  const [alcaldeFoto, tiempo] = await Promise.all([
+    alcalde?.qid ? fetchFotoPersona(alcalde.qid).catch(() => null) : Promise.resolve(null),
+    coords ? fetchTiempo(coords.lat, coords.lon).catch(() => null) : Promise.resolve(null),
+  ])
 
   // Tokens con word-boundary para evitar falsos positivos
   const tokens = meta.tokens || [meta.nombre.toLowerCase()]
@@ -94,6 +106,14 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     narrativas,
   })
   const resumenIA = sintesisMunicipio(meta, alcalde, sentimientoAgregado, preocupaciones, narrativas, rentaMedia)
+  const analisisIntegral = analizarIntegral({
+    noticiasTotal: noticiasMatched.length,
+    sentimientoScore: sentimientoAgregado.score,
+    sentimientoNegativo: sentimientoAgregado.negativo,
+    preocupaciones, narrativas, estabilidadScore: estabilidad.score,
+    rentaMedia, extranjeros, tendenciaSentimiento: sentimientoAgregado.tendencia,
+    poblacion: meta.poblacion,
+  })
 
   return {
     meta,
@@ -113,7 +133,10 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     tagsCobertura,
     preocupaciones,
     resumenIA,
+    analisisIntegral,
     enlacesElectorales: getMunicipioElectoralLinks(meta.ine, meta.nombre),
+    coords,
+    tiempo,
     piramide,
     rentaMedia,
     extranjeros,
