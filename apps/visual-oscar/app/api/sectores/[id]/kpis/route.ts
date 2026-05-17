@@ -11,20 +11,22 @@ export async function GET(
   const meta = getSectorMeta(params.id);
   if (!meta) return Response.json({ error: 'sector not found' }, { status: 404 });
 
-  try {
-    if (BACKEND) {
+  if (BACKEND) {
+    try {
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 5000);
       const res = await fetch(`${BACKEND}/api/v1/sectores/${params.id}/kpis`, {
         headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' },
         next: { revalidate: meta.fuentes_datos[0]?.revalidate_s ?? 3600 },
+        signal: controller.signal,
       });
+      clearTimeout(t);
       if (res.ok) return Response.json(await res.json());
-    }
-
-    const kpis = await fetchKPIsFromSources(params.id, meta.fuentes_datos);
-    return Response.json({ kpis });
-  } catch (e) {
-    return Response.json({ error: String(e) }, { status: 502 });
+    } catch { /* timeout, DNS, tunnel down → fallback abajo */ }
   }
+  // Fallback: KPIs sin_datos generados a partir de las fuentes configuradas
+  const kpis = await fetchKPIsFromSources(params.id, meta.fuentes_datos);
+  return Response.json({ kpis });
 }
 
 async function fetchKPIsFromSources(

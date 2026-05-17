@@ -9,17 +9,19 @@ export async function GET(
 ) {
   if (!getSectorMeta(params.id)) return Response.json({ error: 'not found' }, { status: 404 });
 
-  try {
-    if (BACKEND) {
+  if (BACKEND) {
+    try {
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 5000);
       const res = await fetch(`${BACKEND}/api/v1/sectores/${params.id}/actores`, {
         headers: { 'X-API-Key': process.env.BACKEND_API_KEY ?? '' },
         next: { revalidate: 86400 },
+        signal: controller.signal,
       });
+      clearTimeout(t);
       if (res.ok) return Response.json(await res.json());
-    }
-    const empty: { actores: ActorSectorial[] } = { actores: [] };
-    return Response.json(empty);
-  } catch (e) {
-    return Response.json({ error: String(e) }, { status: 502 });
+    } catch { /* timeout, DNS, tunnel down → fallback abajo */ }
   }
+  const empty: { actores: ActorSectorial[] } = { actores: [] };
+  return Response.json(empty);
 }

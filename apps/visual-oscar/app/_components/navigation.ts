@@ -9,17 +9,35 @@ export type Banner = {
   colorFrom?: string
   colorTo?: string
 }
-export type NavItem = { label: string; href: string; banner?: Banner }
-export type NavModule = { id: string; label: string; full?: string; items: NavItem[] }
+export type NavItem = {
+  label: string
+  href: string
+  banner?: Banner
+  hidden?: boolean        // true = no aparece como pill en el subnav, pero el path sigue resolviendo el módulo
+}
+export type NavModule = {
+  id: string
+  label: string
+  full?: string
+  items: NavItem[]
+  hideFromTopBar?: boolean // true = no aparece como tab en la barra superior
+}
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
+  // Módulo OCULTO de la barra superior: no se renderiza como tab. Su
+  // contenido (Morning Briefing · Panel Ejecutivo · Alertas Prioritarias)
+  // aparece en el subnav cuando el usuario llega a /inicio (vía logo
+  // POLITEIA ANALÍTICA), /briefing, /dashboard o /alertas.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
+    hideFromTopBar: true,
     items: [
-      { label: 'Inicio',              href: '/inicio'    },
+      // /inicio se mantiene como item HIDDEN para que moduleOfPath('/inicio')
+      // resuelva al módulo y el subnav aparezca, pero no se renderiza pill.
+      { label: 'Inicio',              href: '/inicio',   hidden: true },
       { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
       { label: 'Alertas Prioritarias',href: '/alertas'   },
@@ -80,7 +98,6 @@ export const MODULES: NavModule[] = [
       { label: 'Módulo Electoral',           href: '/nowcasting' },
       { label: 'Simulador Estratégico',      href: '/escenarios' },
       { label: 'Perfiles de Votante',        href: '/microdatos' },
-      { label: 'War Room de Campaña',        href: '/war-room' },
       {
         label: 'Inteligencia Adversarios',
         href: '/adversarios',
@@ -110,8 +127,8 @@ export const MODULES: NavModule[] = [
     label: 'Medios',
     full: 'Medios y Narrativa Pública',
     items: [
-      { label: 'Mapa de Medios', href: '/medios-narrativa' },
-      { label: 'Pulso de Prensa',          href: '/prensa' },
+      { label: 'Pulso de Prensa', href: '/prensa' },
+      { label: 'Mapa de Medios',  href: '/medios-narrativa' },
     ],
   },
 
@@ -121,6 +138,9 @@ export const MODULES: NavModule[] = [
     label: 'Sectoriales',
     full: 'Sectoriales y Contratación Pública',
     items: [
+      // — Página base · primer item del subnav (hub de contratación) —
+      { label: 'Licitaciones',                 href: '/licitaciones' },
+      // — 9 industrias verticales (con diseño Apple-Newsroom uniforme) —
       { label: 'Energía & Utilities',          href: '/sector-energia' },
       { label: 'Farma & Salud',                href: '/sector-farma' },
       { label: 'Defensa & Industria',          href: '/sector-defensa' },
@@ -130,8 +150,7 @@ export const MODULES: NavModule[] = [
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
       { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
       { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
-      // ─── Licitaciones y Contratación Pública (movido aquí) ───
-      { label: 'Agregador de Licitaciones',    href: '/licitaciones' },
+      // — Resto de contratación (más abajo, agrupado) —
       { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
       { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
       { label: 'Inteligencia Competitiva',     href: '/competidores' },
@@ -140,51 +159,23 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 9. Workspace · Centro de operaciones del analista ───────────────
+  // ─── 9. Estudio · Centro de operaciones del analista ────────────────
+  // Antes 'Workspace'. Renombrado a 'Estudio' como punto de entrada principal.
+  // Workspaces y Command Center quitados del subnav — el Command Center
+  // sigue accesible desde el botón azul 'Workspace' del header (que apunta
+  // a /workspaces/ws_espana_2026/overview).
   {
-    id: 'workspace',
-    label: 'Workspace',
-    full: 'Workspace · Centro de operaciones del analista',
+    id: 'workspace',           // id interno se mantiene para no romper lookups
+    label: 'Estudio',
+    full: 'Estudio · Centro de operaciones del analista',
     items: [
-      // — Entrada al Workspace —
-      { label: 'Workspaces',            href: '/workspaces' },
-      { label: 'Command Center',        href: '/workspaces/ws_espana_2026/overview' },
-
-      // — Espacio de análisis del analista (dentro del Workspace) —
-      {
-        label: 'Estudio',
-        href: '/estudio',
-        banner: {
-          eyebrow: 'WORKSPACE · ESTUDIO DEL ANALISTA',
-          title: 'Tu espacio de inteligencia',
-          subtitle: 'Conecta fuentes, crea tus paneles y deja que la IA te ayude',
-          colorFrom: '#0F766E', colorTo: '#042F2E',
-        },
-      },
-
-      // — Pestañas del workspace activo —
-      { label: 'Inbox',                 href: '/workspaces/ws_espana_2026/inbox' },
-      { label: 'Terminal',              href: '/workspaces/ws_espana_2026/terminal' },
-      { label: 'Docs',                  href: '/workspaces/ws_espana_2026/docs' },
-      { label: 'Tables',                href: '/workspaces/ws_espana_2026/tables' },
-      { label: 'Slides',                href: '/workspaces/ws_espana_2026/slides' },
-      { label: 'Reporting',             href: '/workspaces/ws_espana_2026/reporting' },
-      { label: 'Canvas',                href: '/workspaces/ws_espana_2026/canvas' },
-      { label: 'Research',              href: '/workspaces/ws_espana_2026/research' },
-      { label: 'Radar Oportunidades',   href: '/workspaces/ws_espana_2026/radar' },
-      { label: 'Simulador Decisión',    href: '/workspaces/ws_espana_2026/simulator' },
-      { label: 'CRM Político',          href: '/workspaces/ws_espana_2026/crm' },
-      { label: 'Projects',              href: '/workspaces/ws_espana_2026/projects' },
-
-      // — Herramientas de analista (portadas desde Visual_Oscar) —
-      { label: 'War Room',              href: '/workspace' },
-      { label: 'Investigation Canvas',  href: '/canvas' },
-      { label: 'Evidence Linker',       href: '/evidence' },
-      { label: 'Draft Studio',          href: '/draft-studio' },
-      { label: 'Intelligence Notebook', href: '/notebook' },
-      { label: 'Political Calendar',    href: '/calendario' },
-      { label: 'Watchlists',            href: '/watchlists' },
-      { label: 'Team Collaboration',    href: '/team' },
+      // Subnav simplificado a 3 items principales. Las 7 herramientas
+      // secundarias (Investigation Canvas, Evidence Linker, Draft Studio,
+      // Intelligence Notebook, Political Calendar, Watchlists, Team
+      // Collaboration) se agrupan en /extras como hub-page.
+      { label: 'Estudio Politeia', href: '/estudio' },
+      { label: 'War Room',         href: '/war-room' },
+      { label: 'Extras',           href: '/extras' },
     ],
   },
 

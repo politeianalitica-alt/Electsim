@@ -25,7 +25,7 @@ export default function AppHeader() {
           fontFamily:'var(--font-body,-apple-system,system-ui)',
           fontSize:12,
         }}>
-          <Link href="/dashboard" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
+          <Link href="/inicio" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
             {/* Icono Politeia Analítica — capitel jónico + barras */}
             <svg width="20" height="18" viewBox="0 0 120 110" fill="currentColor">
               <rect x="8" y="6" width="104" height="6" rx="1"/>
@@ -42,9 +42,10 @@ export default function AppHeader() {
             POLITEIA <span style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
           </Link>
           <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center'}}>
-            {MODULES.map(m=>{
+            {MODULES.filter(m => !m.hideFromTopBar).map(m=>{
               const active = activeModule?.id === m.id
-              const dest = m.items[0].href
+              // Tomamos el primer item NO oculto como destino del tab
+              const dest = (m.items.find(it => !it.hidden) ?? m.items[0]).href
               return (
                 <Link key={m.id} href={dest} style={{
                   display:'flex',alignItems:'center',padding:'0 10px',
@@ -75,7 +76,7 @@ export default function AppHeader() {
                 Morning Brief, Issues críticos, Acciones, Equipo y Foco).
                 /operaciones (Centro de Operaciones del Analista) sigue
                 accesible desde el módulo 'Operaciones' del nav. */}
-            <Link href="/workspaces/ws_espana_2026" style={{
+            <Link href="/workspaces/ws_espana_2026/overview" style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
               color:'#fff',background:(path.startsWith('/workspaces')||path==='/workspace'||path==='/operaciones')?'#0F2A4F':'#1F4E8C',
@@ -113,7 +114,7 @@ export default function AppHeader() {
               {activeModule.label}
             </span>
             <div style={{display:'flex',gap:2,overflowX:'auto',scrollbarWidth:'none'}}>
-              {activeModule.items.map(it=>{
+              {activeModule.items.filter(it => !it.hidden).map(it=>{
                 const active = path === it.href
                 return (
                   <Link key={it.href} href={it.href} style={{

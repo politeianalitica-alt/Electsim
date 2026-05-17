@@ -21,7 +21,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" style={{ colorScheme: 'light' }}>
+    // data-theme="light" en SSR → evita el flash de modo oscuro antes de que
+    // el ThemeProvider hidrate. Combinado con tokens.css :root,[data-theme=light]
+    // garantiza que las variables --color-* sean siempre las claras.
+    <html lang="es" data-theme="light" style={{ colorScheme: 'light' }}>
       <body>
         <QueryProvider>
           <ThemeProvider>

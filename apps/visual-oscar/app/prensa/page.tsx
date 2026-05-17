@@ -4,6 +4,7 @@ import { MOCK_FEED } from './_data/mock';
 import type { SignalItem, RelevanciaSignal, SentimientoTono } from '@/types/intelligence-feed';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Card } from '@/components/ui/Card';
+import AppHeader from '../_components/AppHeader';
 
 const TONO_COLOR: Record<SentimientoTono, string> = {
   negativo: 'var(--color-danger)',
@@ -33,7 +34,11 @@ export default function PrensaPage() {
     .sort((a: SignalItem, b: SignalItem) => RELEVANCIA_ORDER[a.relevancia] - RELEVANCIA_ORDER[b.relevancia] || b.score_relevancia - a.score_relevancia);
 
   return (
-    <div className="shell" style={{ background: 'var(--color-bg)', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--color-bg, var(--bg))', minHeight: '100vh' }}>
+      {/* Top-bar global del dashboard — antes faltaba y se cortaba la
+          parte superior de la página. */}
+      <AppHeader />
+      <div className="shell" style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <SectionHeader
@@ -154,6 +159,7 @@ export default function PrensaPage() {
       </div>
 
       <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
+      </div>
     </div>
   );
 }

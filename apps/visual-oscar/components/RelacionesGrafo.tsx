@@ -94,11 +94,12 @@ function antiCollide(positions: Record<string, [number, number]>, radii: Record<
   const ids = Object.keys(positions)
   const result: Record<string, [number, number]> = {}
   for (const id of ids) result[id] = [...positions[id]] as [number, number]
-  for (let pass = 0; pass < 5; pass++) {
+  // 25 pases (antes 5) + padding 18px (antes 6) → reparto mucho más respirable
+  for (let pass = 0; pass < 25; pass++) {
     for (let i = 0; i < ids.length; i++) {
       for (let j = i + 1; j < ids.length; j++) {
         const a = result[ids[i]], b = result[ids[j]]
-        const minDist = (radii[ids[i]] + radii[ids[j]]) + 6
+        const minDist = (radii[ids[i]] + radii[ids[j]]) + 18
         const dx = b[0] - a[0], dy = b[1] - a[1]
         const dist = Math.sqrt(dx * dx + dy * dy) || 0.01
         if (dist < minDist) {
@@ -448,28 +449,43 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
             onMouseLeave={onMouseUp}
           >
             <defs>
+              {/* Cuadrantes ideológicos · más sutil que antes */}
               <linearGradient id="bgQuadrants" x1="0" y1="0" x2="100%" y2="0">
-                <stop offset="0%" stopColor="#FEF2F2" stopOpacity="0.55"/>
-                <stop offset="50%" stopColor="#fafafa" stopOpacity="0.20"/>
-                <stop offset="100%" stopColor="#EFF6FF" stopOpacity="0.55"/>
+                <stop offset="0%"   stopColor="#FEF2F2" stopOpacity="0.32"/>
+                <stop offset="50%"  stopColor="#fafafa" stopOpacity="0.10"/>
+                <stop offset="100%" stopColor="#EFF6FF" stopOpacity="0.32"/>
               </linearGradient>
-              <pattern id="grafoDotsPattern" width="22" height="22" patternUnits="userSpaceOnUse">
-                <circle cx="1" cy="1" r="0.7" fill="#d2d2d7" opacity="0.55"/>
+              {/* Viñeta radial sutil para enfocar la mirada al centro */}
+              <radialGradient id="bgVignette" cx="50%" cy="50%" r="62%">
+                <stop offset="60%" stopColor="#fff" stopOpacity="0"/>
+                <stop offset="100%" stopColor="#1d1d1f" stopOpacity="0.06"/>
+              </radialGradient>
+              {/* Patrón de puntos · más fino y discreto */}
+              <pattern id="grafoDotsPattern" width="26" height="26" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.6" fill="#d2d2d7" opacity="0.35"/>
               </pattern>
+              {/* Sombra suave para nodos · da profundidad */}
               <filter id="nodeShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="2.4"/>
-                <feOffset dx="0" dy="1.8" result="offsetblur"/>
-                <feFlood floodColor="#000" floodOpacity="0.20"/>
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2.6"/>
+                <feOffset dx="0" dy="2" result="offsetblur"/>
+                <feFlood floodColor="#000" floodOpacity="0.18"/>
                 <feComposite in2="offsetblur" operator="in"/>
                 <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
               </filter>
-              <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="6"/>
+              {/* Glow para nodos enfocados */}
+              <filter id="nodeGlowFocus" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="8"/>
               </filter>
+              {/* Gradiente radial reutilizable por color (definido inline en cada nodo via fill) */}
+              {/* Marker de flecha sutil para arcos enfocados (sólo en focus) */}
+              <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f" opacity="0.4"/>
+              </marker>
             </defs>
 
-            {/* Fondo · cuadrantes con tinte ideológico */}
+            {/* Fondo · capas: gradiente cuadrantes + viñeta radial + dots */}
             <rect x="0" y="0" width={W} height={H} fill="url(#bgQuadrants)"/>
+            <rect x="0" y="0" width={W} height={H} fill="url(#bgVignette)"/>
             <rect x="0" y="0" width={W} height={H} fill="url(#grafoDotsPattern)"/>
 
             {/* Ejes (transformados por zoom + pan para coherencia) */}
@@ -527,7 +543,12 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
                     strokeOpacity={opacity}
                     strokeDasharray={dash}
                     strokeLinecap="round"
-                    style={{ pointerEvents: 'none', transition: 'stroke-opacity 200ms, stroke-width 200ms' }}
+                    style={{
+                      pointerEvents: 'none',
+                      transition: 'stroke-opacity 200ms, stroke-width 200ms',
+                      // Animación de flujo · sólo en conflictos (dash) y cuando están enfocados
+                      animation: (l.val < 0 && isHL) ? 'grafoEdgeFlow 1.4s linear infinite' : undefined,
+                    }}
                   />
                   {showLabels && isHL && (
                     <g style={{ pointerEvents: 'none' }}>
@@ -577,9 +598,14 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
                   onMouseEnter={() => setHovered(a.id)}
                   onMouseLeave={() => setHovered(null)}
                 >
+                  {/* Halo expandido (focus o hover) — más grande y suave */}
                   {(isFocus || isHover) && (
-                    <circle cx={x} cy={y} r={r + 12} fill={color} opacity={isFocus ? 0.20 : 0.10}/>
+                    <>
+                      <circle cx={x} cy={y} r={r + 18} fill={color} opacity={isFocus ? 0.16 : 0.08}/>
+                      <circle cx={x} cy={y} r={r + 9}  fill={color} opacity={isFocus ? 0.24 : 0.14}/>
+                    </>
                   )}
+                  {/* Nodo principal con sombra */}
                   <circle
                     cx={x} cy={y} r={r}
                     fill={color}
@@ -587,6 +613,14 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
                     strokeWidth={isFocus ? 2.5 : 2}
                     filter="url(#nodeShadow)"
                     style={{ transition: 'r 200ms ease-out' }}
+                  />
+                  {/* Highlight superior · simula iluminación 3D */}
+                  <ellipse
+                    cx={x} cy={y - r * 0.42}
+                    rx={r * 0.55} ry={r * 0.28}
+                    fill="#fff"
+                    opacity={isFocus ? 0.30 : isHover ? 0.25 : 0.18}
+                    style={{ pointerEvents: 'none', transition: 'opacity 200ms' }}
                   />
                   {r >= 14 && (
                     <text
@@ -725,6 +759,15 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
         @keyframes grafoNodeIn {
           from { opacity: 0; transform: scale(0.4); }
           to   { opacity: 1; transform: scale(1); }
+        }
+        /* Animación de flujo en arcos de conflicto · da sensación de tensión */
+        @keyframes grafoEdgeFlow {
+          to { stroke-dashoffset: -20; }
+        }
+        /* Halo lentamente respirante en nodos enfocados */
+        @keyframes grafoFocusBreath {
+          0%, 100% { opacity: 0.20; transform: scale(1); }
+          50%      { opacity: 0.35; transform: scale(1.06); }
         }
       `}</style>
     </section>

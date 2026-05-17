@@ -14,26 +14,53 @@
   overflow-y: auto;
 }
 
+/* Header del sidebar — centrado horizontalmente, logo + texto en columna
+   para que quede limpio y simétrico con el resto del panel. */
 .sidebarHeader {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0 1.25rem 1.25rem;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem 1.1rem;
   border-bottom: 1px solid var(--color-border, #e5e7eb);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .logo {
-  font-size: 1.4rem;
-  color: var(--color-accent, #3b82f6);
-  font-weight: 700;
+  /* Logo de POLITEIA en circulo accent */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0F766E 0%, #042F2E 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
 }
 
 .logoText {
-  font-size: 1.1rem;
+  font-family: var(--font-display, -apple-system, system-ui);
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.018em;
   color: var(--color-text, #111827);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.logoSubtext {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-muted, #9ca3af);
+  text-align: center;
+  margin-top: -2px;
 }
 
 .navList {

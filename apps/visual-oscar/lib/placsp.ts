@@ -183,35 +183,78 @@ function parseEntry(block: string, tipo: PlacspTipo): ContratoItem | null {
 }
 
 export async function fetchPlacspFeed(tipo: PlacspTipo, timeoutMs = 20000): Promise<FetchResult> {
-  const url = PLACSP_FEEDS[tipo === 'licitacion' ? 'licitaciones' : 'adjudicaciones']
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), timeoutMs)
-  try {
-    // Usamos undici.fetch directamente para poder pasar el dispatcher con SSL bypass
-    // (el fetch global de Node no respeta el dispatcher por compatibilidad).
-    const res = await undiciFetch(url, {
-      signal: controller.signal,
-      dispatcher: placspAgent,
-      headers: {
-        'Accept': 'application/atom+xml, application/xml, */*',
-        'User-Agent': 'PoliteiaAnalitica/1.0',
-      },
-    })
-    if (!res.ok) return { ok: false, items: [], error: `HTTP ${res.status}`, total_in_feed: 0 }
-    const xml = await res.text()
-    const blocks = xml.split(/<entry[\s>]/).slice(1)
-    const items: ContratoItem[] = []
-    for (const raw of blocks) {
-      const closeIdx = raw.search(/<\/entry>/i)
-      const block = closeIdx > 0 ? raw.slice(0, closeIdx) : raw
-      const item = parseEntry(block, tipo)
-      if (item) items.push(item)
+  return fetchPlacspMultiPage(tipo, 1, timeoutMs)
+}
+
+/**
+ * Fetch multipage del feed PLACSP siguiendo los <link rel="next">.
+ * Cada página atom trae ~350 entries. Con 5 páginas obtienes ~1750
+ * licitaciones recientes de TODAS las CCAA y entidades del sector
+ * público (cobertura nacional según Ley 9/2017).
+ *
+ * Las CCAA con plataforma propia no integrada (CyL, CLM, La Rioja,
+ * Asturias, Aragón, Cantabria, Canarias, Murcia, Navarra, Baleares,
+ * Extremadura) se cubren mayoritariamente vía PLACSP.
+ */
+export async function fetchPlacspMultiPage(
+  tipo: PlacspTipo,
+  maxPages = 1,
+  timeoutMs = 20000,
+): Promise<FetchResult> {
+  const startUrl = PLACSP_FEEDS[tipo === 'licitacion' ? 'licitaciones' : 'adjudicaciones']
+  const items: ContratoItem[] = []
+  const seen = new Set<string>()
+  let nextUrl: string | null = startUrl
+  let pagesFetched = 0
+  let totalInFeed = 0
+  let error: string | undefined
+
+  while (nextUrl && pagesFetched < maxPages) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), timeoutMs)
+    try {
+      const res = await undiciFetch(nextUrl, {
+        signal: controller.signal,
+        dispatcher: placspAgent,
+        headers: {
+          'Accept': 'application/atom+xml, application/xml, */*',
+          'User-Agent': 'PoliteiaAnalitica/1.0',
+        },
+      })
+      if (!res.ok) {
+        error = `HTTP ${res.status}`
+        break
+      }
+      const xml = await res.text()
+      // Parse next link
+      const nextMatch = xml.match(/<link[^>]+href="([^"]+)"[^>]+rel="next"|<link[^>]+rel="next"[^>]+href="([^"]+)"/i)
+      const nextHref = nextMatch?.[1] || nextMatch?.[2] || null
+
+      const blocks = xml.split(/<entry[\s>]/).slice(1)
+      totalInFeed += blocks.length
+      for (const raw of blocks) {
+        const closeIdx = raw.search(/<\/entry>/i)
+        const block = closeIdx > 0 ? raw.slice(0, closeIdx) : raw
+        const item = parseEntry(block, tipo)
+        if (item && !seen.has(item.id)) {
+          seen.add(item.id)
+          items.push(item)
+        }
+      }
+      pagesFetched += 1
+      nextUrl = nextHref
+    } catch (e: unknown) {
+      error = e instanceof Error ? `${e.name}: ${e.message}` : String(e)
+      break
+    } finally {
+      clearTimeout(timer)
     }
-    return { ok: true, items, total_in_feed: blocks.length }
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e)
-    return { ok: false, items: [], error: msg, total_in_feed: 0 }
-  } finally {
-    clearTimeout(timer)
+  }
+
+  return {
+    ok: items.length > 0 || (!error && pagesFetched > 0),
+    items,
+    total_in_feed: totalInFeed,
+    error,
   }
 }
