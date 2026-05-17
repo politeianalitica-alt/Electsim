@@ -42,18 +42,19 @@ async function fetchXml(tipoFich: number, timeoutMs = 10_000): Promise<string | 
   }
 }
 
-/** Extrae bloques <tagName>...</tagName> del XML */
+/** Extrae bloques <tagName>...</tagName> del XML.
+ * Usa boundary `(?:\s|>)` para evitar que `<nombre>` matchee `<nombreBreve>` etc. */
 function extractBlocks(xml: string, tagName: string): string[] {
   const blocks: string[] = []
-  const re = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)</${tagName}>`, 'g')
+  const re = new RegExp(`<${tagName}(?:\\s[^>]*)?>([\\s\\S]*?)</${tagName}>`, 'g')
   let m
   while ((m = re.exec(xml)) !== null) blocks.push(m[1])
   return blocks
 }
 
-/** Extrae el contenido textual de un único tag dentro de un bloque */
+/** Extrae el contenido textual de un único tag (con boundary correcto). */
 function tagText(block: string, tagName: string): string | null {
-  const re = new RegExp(`<${tagName}[^>]*>([\\s\\S]*?)</${tagName}>`)
+  const re = new RegExp(`<${tagName}(?:\\s[^>]*)?>([\\s\\S]*?)</${tagName}>`)
   const m = re.exec(block)
   if (!m) return null
   return (m[1] || '').replace(/<!\[CDATA\[(.*?)\]\]>/gs, '$1').replace(/\s+/g, ' ').trim() || null
