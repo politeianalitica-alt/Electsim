@@ -1,165 +1,187 @@
-'use client';
-import { useState } from 'react';
-import { MOCK_FEED } from './_data/mock';
-import type { SignalItem, RelevanciaSignal, SentimientoTono } from '@/types/intelligence-feed';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Card } from '@/components/ui/Card';
-import AppHeader from '../_components/AppHeader';
+'use client'
 
-const TONO_COLOR: Record<SentimientoTono, string> = {
-  negativo: 'var(--color-danger)',
-  positivo: 'var(--color-success)',
-  neutro:   'var(--color-ink-4)',
-  mixto:    'var(--color-warn)',
-};
-const RELEVANCIA_ORDER: Record<RelevanciaSignal, number> = { breaking: 0, alta: 1, media: 2, baja: 3 };
+/**
+ * /prensa — Pulso de Prensa · Hub completo de análisis de medios.
+ *
+ * 6 pestañas estructuradas:
+ *   1. Feed inteligente · multi-tier (nacional/europeo/regional/local)
+ *   2. Mapa · sentimiento regional clickable con drill por CCAA
+ *   3. Narrativas · anatomía profunda (audiencia, canales, mensajes, objetivos)
+ *   4. Sentimiento · topic × party heatmap + impacto en figuras
+ *   5. Figuras · análisis sentiment por persona pública con tendencia
+ *   6. Cobertura · story clusters comparando el mismo evento por medios
+ *
+ * Todo conectado a /api/medios/intel (consolidado) + /api/medios/ccaa (drill).
+ */
 
-function timeSince(iso: string): string {
-  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
-  if (mins < 60) return `hace ${mins}m`;
-  if (mins < 1440) return `hace ${Math.floor(mins / 60)}h`;
-  return `hace ${Math.floor(mins / 1440)}d`;
+import { useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import AppHeader from '../_components/AppHeader'
+import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import { LiveDot } from '@/components/Skeleton'
+import FeedTiered from './_components/FeedTiered'
+import SentimentMapInteractive from './_components/SentimentMapInteractive'
+import NarrativesDeepView from './_components/NarrativesDeepView'
+import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
+import FiguresView from './_components/FiguresView'
+import StoryClustersView from './_components/StoryClustersView'
+import type { TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep, StoryCluster, CoverageGap } from '@/lib/news-intel'
+import type { CCAARegionStat } from '@/lib/news-aggregator'
+
+interface IntelResponse {
+  meta:       { updatedAt: string; total: number; hours: number; sources: number }
+  feed?:      TieredFeed
+  narratives?: NarrativeAnatomy[]
+  topicparty?: TopicPartyCell[]
+  figures?:    FigureSentimentDeep[]
+  clusters?:   StoryCluster[]
+  gaps?:       CoverageGap[]
+  ccaa?:       Record<string, CCAARegionStat>
 }
 
-export default function PrensaPage() {
-  const data = MOCK_FEED;
-  const [filterRel, setFilterRel] = useState<RelevanciaSignal | 'all'>('all');
-  const [filterTono, setFilterTono] = useState<SentimientoTono | 'all'>('all');
-  const [searchTerm, setSearchTerm] = useState('');
+type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'figuras' | 'cobertura'
 
-  const filtered = data.signals
-    .filter((s: SignalItem) => filterRel === 'all' || s.relevancia === filterRel)
-    .filter((s: SignalItem) => filterTono === 'all' || s.tono === filterTono)
-    .filter((s: SignalItem) => !searchTerm || s.titulo.toLowerCase().includes(searchTerm.toLowerCase()) || s.resumen.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a: SignalItem, b: SignalItem) => RELEVANCIA_ORDER[a.relevancia] - RELEVANCIA_ORDER[b.relevancia] || b.score_relevancia - a.score_relevancia);
+const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }> = [
+  { id: 'feed',         label: 'Feed inteligente', glyph: '⊞', description: 'Multi-tier · nacional, europeo, regional, local' },
+  { id: 'mapa',         label: 'Mapa',             glyph: '◉', description: 'Sentimiento regional + drill por CCAA' },
+  { id: 'narrativas',   label: 'Narrativas',       glyph: '✦', description: 'Anatomía: audiencia, canales, mensajes, objetivos' },
+  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '◐', description: 'Heatmap temas × partidos · impacto político' },
+  { id: 'figuras',      label: 'Figuras',          glyph: '◈', description: 'Polaridad por figura pública con tendencia' },
+  { id: 'cobertura',    label: 'Cobertura',        glyph: '◫', description: 'Misma historia, distintos medios' },
+]
+
+export default function PrensaPage() {
+  const router = useRouter()
+  useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
+
+  const [tab, setTab] = useState<Tab>('feed')
+  const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
+  const { data, source, loading, refresh, updatedAt } = useApi<IntelResponse>(
+    `/api/medios/intel?hours=${hours}&sources=50`,
+    { refreshInterval: 300_000 },
+  )
+
+  const meta = data?.meta
+  const totalArticles = meta?.total ?? 0
+  const isFresh = !!updatedAt && Date.now() - new Date(updatedAt).getTime() < 600_000
 
   return (
-    <div style={{ background: 'var(--color-bg, var(--bg))', minHeight: '100vh' }}>
-      {/* Top-bar global del dashboard — antes faltaba y se cortaba la
-          parte superior de la página. */}
+    <div style={{ background: 'var(--bg, #fbfbfd)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader />
-      <div className="shell" style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-        <SectionHeader
-          eyebrow="Inteligencia de Prensa"
-          title="Intelligence Feed"
-          subtitle={`${data.total_monitorizados_24h.toLocaleString('es-ES')} fuentes monitorizadas · Sync: ${timeSince(data.ultima_sync)}`}
-          size="lg"
-          style={{ marginBottom: 0 }}
-        />
-        {data.breaking_activos > 0 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', background: 'var(--color-danger-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid rgba(196,44,44,0.2)' }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-danger)', animation: 'pulse 1.6s ease-out infinite' }} />
-            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--color-danger)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{data.breaking_activos} Breaking</span>
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+
+        {/* ── Hero ─────────────────────────────────────────────────── */}
+        <section style={{
+          background: 'linear-gradient(135deg,#1F4E8C 0%,#0B2447 100%)',
+          borderRadius: 22, padding: '28px 36px', marginBottom: 18, color: '#fff',
+          display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 32, alignItems: 'center',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute', top: -80, right: -80, width: 280, height: 280, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 65%)',
+            pointerEvents: 'none',
+          }} />
+          <div style={{ position: 'relative' }}>
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.78, margin: '0 0 6px', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+              <LiveDot color={isFresh ? '#10b981' : '#f59e0b'} />
+              <span>PULSO DE PRENSA · INTELIGENCIA DE MEDIOS</span>
+              {source === 'mock' && <span style={{ background: 'rgba(245,158,11,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
+            </p>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
+              {totalArticles > 0 ? totalArticles : '…'} noticias · {meta?.sources ?? '…'} medios
+              {' '}
+              <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>analizadas en las últimas {hours}h</em>
+            </h1>
+            <p style={{ fontSize: 13, opacity: 0.72, margin: 0, lineHeight: 1.5, maxWidth: 580 }}>
+              Feed multi-tier, mapa interactivo, anatomía de narrativas, sentimiento por partido y figura, cobertura comparada. Todo derivado del agregador RSS en tiempo real.
+            </p>
           </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, position: 'relative' }}>
+            {(data?.feed?.counts ? Object.entries(data.feed.counts) : []).map(([tier, n]) => (
+              <div key={tier} style={{
+                textAlign: 'center', padding: '12px 8px 10px', borderRadius: 12,
+                background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.16)',
+              }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1, color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{n}</div>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.74, marginTop: 5, textTransform: 'uppercase' }}>{tier}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Controles globales ───────────────────────────────────── */}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
+          <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Ventana:</span>
+          <div style={{ display: 'inline-flex', background: '#fff', borderRadius: 999, padding: 3, border: '1px solid #ECECEF' }}>
+            {([24, 48, 72, 168] as const).map(h => (
+              <button key={h} onClick={() => setHours(h)} style={{
+                background: hours === h ? '#1F4E8C' : 'transparent',
+                color:      hours === h ? '#fff'    : '#3a3a3d',
+                border: 'none', borderRadius: 999, padding: '5px 12px',
+                fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}>
+                {h < 168 ? `${h}h` : '7d'}
+              </button>
+            ))}
+          </div>
+
+          <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, color: '#6e6e73' }}>
+            {loading ? 'Cargando…' :
+              updatedAt ? `Actualizado hace ${Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min` : '—'}
+            <button onClick={refresh} style={{
+              background: '#fff', border: '1px solid #ECECEF', borderRadius: 8, padding: '5px 10px',
+              fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', color: '#3a3a3d',
+            }}>↻ Refrescar</button>
+          </span>
+        </div>
+
+        {/* ── Tabs ─────────────────────────────────────────────────── */}
+        <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 18, overflowX: 'auto' }}>
+          {TABS.map(t => {
+            const active = tab === t.id
+            return (
+              <button key={t.id} onClick={() => setTab(t.id)} title={t.description} style={{
+                background: 'transparent',
+                color: active ? '#1F4E8C' : '#6e6e73',
+                border: 0,
+                borderBottom: active ? '2px solid #1F4E8C' : '2px solid transparent',
+                padding: '10px 14px',
+                fontSize: 13,
+                fontWeight: active ? 700 : 500,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                marginBottom: -1,
+              }}>
+                <span style={{ fontSize: 14, color: active ? '#1F4E8C' : '#9ca3af' }}>{t.glyph}</span>
+                {t.label}
+              </button>
+            )
+          })}
+        </nav>
+
+        {/* ── Contenido por pestaña ────────────────────────────────── */}
+        {loading && !data ? (
+          <div style={{ padding: 80, textAlign: 'center', color: '#9ca3af' }}>
+            <div style={{ fontSize: 14, marginBottom: 8 }}>Agregando feed RSS de 50 medios…</div>
+            <div style={{ fontSize: 12 }}>Primera carga puede tardar 8-15 segundos</div>
+          </div>
+        ) : (
+          <>
+            {tab === 'feed'        && <FeedTiered feed={data?.feed} />}
+            {tab === 'mapa'        && <SentimentMapInteractive ccaaData={data?.ccaa} />}
+            {tab === 'narrativas'  && <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />}
+            {tab === 'sentimiento' && <TopicPartyHeatmap cells={data?.topicparty ?? []} figures={data?.figures ?? []} />}
+            {tab === 'figuras'     && <FiguresView figures={data?.figures ?? []} />}
+            {tab === 'cobertura'   && <StoryClustersView clusters={data?.clusters ?? []} />}
+          </>
         )}
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 16, alignItems: 'start' }}>
-        {/* Main feed */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {/* Filters */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', padding: '12px 16px', background: 'var(--color-surface)', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-hairline-soft)' }}>
-            <input
-              placeholder="Buscar señal…"
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              style={{ flex: '0 0 200px', padding: '6px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-hairline)', background: 'var(--color-surface-raised)', color: 'var(--color-ink)', fontSize: 'var(--text-xs)', outline: 'none', fontFamily: 'var(--font-text)' }}
-            />
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-4)', fontWeight: 500 }}>Relevancia:</span>
-            {(['all', 'breaking', 'alta', 'media', 'baja'] as Array<RelevanciaSignal | 'all'>).map(r => (
-              <button key={r} onClick={() => setFilterRel(r)} style={{ fontSize: 'var(--text-xs)', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid', cursor: 'pointer', fontWeight: r === 'breaking' ? 700 : 500, transition: 'all var(--transition-fast)', borderColor: filterRel === r ? (r === 'breaking' ? 'var(--color-danger)' : 'var(--color-accent)') : 'var(--color-hairline)', background: filterRel === r ? (r === 'breaking' ? 'var(--color-danger-subtle)' : 'var(--color-accent-subtle)') : 'transparent', color: filterRel === r ? (r === 'breaking' ? 'var(--color-danger)' : 'var(--color-accent-text)') : 'var(--color-ink-3)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                {r === 'all' ? 'Todas' : r}
-              </button>
-            ))}
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-4)', fontWeight: 500, marginLeft: 4 }}>Tono:</span>
-            {(['all', 'negativo', 'positivo', 'neutro', 'mixto'] as Array<SentimientoTono | 'all'>).map(t => (
-              <button key={t} onClick={() => setFilterTono(t)} style={{ fontSize: 'var(--text-xs)', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid', cursor: 'pointer', fontWeight: 500, transition: 'all var(--transition-fast)', borderColor: filterTono === t ? 'var(--color-accent)' : 'var(--color-hairline)', background: filterTono === t ? 'var(--color-accent-subtle)' : 'transparent', color: filterTono === t ? 'var(--color-accent-text)' : 'var(--color-ink-3)' }}>
-                {t === 'all' ? 'Todos' : t.charAt(0).toUpperCase() + t.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          {/* Signal cards */}
-          {filtered.map((signal: SignalItem) => (
-            <div key={signal.id} style={{ background: 'var(--color-surface)', borderRadius: 'var(--radius-lg)', padding: '16px 20px', border: signal.es_breaking ? '1px solid rgba(196,44,44,0.35)' : '1px solid var(--color-hairline-soft)', boxShadow: signal.es_breaking ? '0 0 0 1px rgba(196,44,44,0.1)' : 'var(--shadow-xs)', position: 'relative', overflow: 'hidden' }}>
-              {signal.es_breaking && <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 3, background: 'var(--color-danger)' }} />}
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                  {signal.es_breaking && (
-                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 800, color: 'var(--color-danger)', textTransform: 'uppercase', letterSpacing: '0.1em', display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-danger)', animation: 'pulse 1.6s ease-out infinite' }} />
-                      BREAKING
-                    </span>
-                  )}
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-3)', fontWeight: 500 }}>{signal.fuente}</span>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-5)' }}>·</span>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-4)' }}>{timeSince(signal.publicado_en)}</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: TONO_COLOR[signal.tono] }}>{signal.tono.toUpperCase()}</span>
-                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--color-ink-4)', background: 'var(--color-surface-raised)', padding: '2px 6px', borderRadius: 4 }}>{signal.score_relevancia}</span>
-                </div>
-              </div>
-              <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', margin: '0 0 6px', lineHeight: 1.3 }}>{signal.titulo}</h3>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-ink-3)', lineHeight: 1.6, margin: '0 0 10px' }}>{signal.resumen}</p>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {signal.temas.map(t => <span key={t} style={{ fontSize: 'var(--text-xs)', padding: '2px 8px', background: 'var(--color-accent-subtle)', color: 'var(--color-accent-text)', borderRadius: 'var(--radius-full)' }}>{t}</span>)}
-                {signal.actores.slice(0, 3).map(a => <span key={a} style={{ fontSize: 'var(--text-xs)', padding: '2px 8px', background: 'var(--color-surface-raised)', color: 'var(--color-ink-3)', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-hairline)' }}>{a}</span>)}
-              </div>
-            </div>
-          ))}
-
-          {filtered.length === 0 && (
-            <div style={{ padding: '48px', textAlign: 'center', color: 'var(--color-ink-4)', background: 'var(--color-surface)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-hairline-soft)' }}>
-              No hay señales con los filtros seleccionados
-            </div>
-          )}
-        </div>
-
-        {/* Sidebar: clusters */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'sticky', top: 60 }}>
-          <Card variant="default" padding="md">
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--color-ink)', marginBottom: 16, fontFamily: 'var(--font-display)' }}>Narrativas Activas</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {data.clusters.map(cl => (
-                <div key={cl.id}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
-                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--color-ink-2)', flex: 1, marginRight: 8 }}>{cl.nombre}</span>
-                    <span style={{ fontSize: 'var(--text-xs)', color: cl.tendencia === 'creciendo' ? 'var(--color-danger)' : cl.tendencia === 'decayendo' ? 'var(--color-success)' : 'var(--color-ink-4)', fontWeight: 600 }}>
-                      {cl.tendencia === 'creciendo' ? '↑' : cl.tendencia === 'decayendo' ? '↓' : '→'} {cl.items_count}
-                    </span>
-                  </div>
-                  <div style={{ height: 4, background: 'var(--color-surface-raised)', borderRadius: 2, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${cl.intensidad}%`, background: cl.intensidad > 80 ? 'var(--color-danger)' : cl.intensidad > 60 ? 'var(--color-warn)' : 'var(--color-accent)', borderRadius: 2 }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          <Card variant="default" padding="md">
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--color-ink)', marginBottom: 12, fontFamily: 'var(--font-display)' }}>Estadísticas 24h</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                { label: 'Fuentes monitorizadas', value: data.total_monitorizados_24h.toLocaleString('es-ES') },
-                { label: 'Breaking activos', value: String(data.breaking_activos), color: 'var(--color-danger)' },
-                { label: 'Señales procesadas', value: String(data.signals.length) },
-                { label: 'Narrativas detectadas', value: String(data.clusters.length) },
-              ].map(({ label, value, color }) => (
-                <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-ink-4)' }}>{label}</span>
-                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: color ?? 'var(--color-ink)', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-      </div>
-
-      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
-      </div>
+      </main>
     </div>
-  );
+  )
 }
