@@ -6,7 +6,7 @@ const FUENTE_CONFIG: Record<string, { label: string; bg: string; color: string }
   VALENCIA_CKAN:     { label: 'Valencia',   bg: '#7C3AED', color: '#fff' },
 }
 
-export function ContractSourceBadge({ fuente }: { fuente: string }) {
+export function ContractSourceBadge({ fuente, label }: { fuente: string; label?: string }) {
   const cfg = FUENTE_CONFIG[fuente] ?? { label: fuente, bg: '#525258', color: '#fff' }
   return (
     <span style={{
@@ -14,7 +14,7 @@ export function ContractSourceBadge({ fuente }: { fuente: string }) {
       background: cfg.bg, color: cfg.color, letterSpacing: '0.04em',
       textTransform: 'uppercase' as const, whiteSpace: 'nowrap' as const,
     }}>
-      {cfg.label}
+      {label ?? cfg.label}
     </span>
   )
 }

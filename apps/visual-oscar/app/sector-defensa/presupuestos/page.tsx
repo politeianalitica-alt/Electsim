@@ -8,6 +8,8 @@ import { BudgetTimeseriesChart } from './_components/BudgetTimeseriesChart'
 import { BudgetWaterfall } from './_components/BudgetWaterfall'
 import { NatoComplianceTable } from './_components/NatoComplianceTable'
 import { BudgetChoropleth } from './_components/BudgetChoropleth'
+import { BudgetProjectionChart } from './_components/BudgetProjection'
+import { proyectarPresupuesto } from '@/lib/defense/analisis-defensa'
 
 interface MultiSeries {
   series: Array<{ iso3: string; label: string; color: string; data: Array<{ year: number; value: number | null }> }>
@@ -131,6 +133,29 @@ export default function PresupuestosPage() {
           )}
         </Panel>
       </div>
+
+      {/* ROW 2.5: Proyecciones presupuestarias 2026-2030 */}
+      {multi && (() => {
+        const serieEspana = multi.series.find(s => s.iso3 === 'ESP')
+        if (!serieEspana) return null
+        const proy = proyectarPresupuesto(
+          serieEspana.data.map(p => ({ year: p.year, pct_pib: p.value })),
+          2030,
+        )
+        return (
+          <Panel
+            title="Proyecciones presupuestarias España · 2026-2030"
+            subtitle={`CAGR observado ${proy.cagr > 0 ? '+' : ''}${proy.cagr}% · ${proy.serieHistorica.length} años de histórico · 3 escenarios`}
+            sourceUrl="https://data.worldbank.org/indicator/MS.MIL.XPND.GD.ZS?locations=ES"
+            sourceLabel="World Bank + modelo CAGR"
+            sourceTooltip="Modelo: CAGR últimos 5 años · trayectorias lineales al 2% y 5%"
+            apiUrl="/api/sectores/defensa/sipri-multipais"
+            marginBottom
+          >
+            <BudgetProjectionChart proy={proy}/>
+          </Panel>
+        )
+      })()}
 
       {/* ROW 3: Choropleth mapa mundial */}
       <Panel

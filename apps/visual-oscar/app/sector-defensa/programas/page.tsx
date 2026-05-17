@@ -8,6 +8,7 @@ import { ProgramCard } from './_components/ProgramCard'
 import { ProgramGantt } from './_components/ProgramGantt'
 import { ProgramDetail } from './_components/ProgramDetail'
 import { CapabilityMatrix } from './_components/CapabilityMatrix'
+import { SupplyChainGraph } from './_components/SupplyChainGraph'
 
 interface Programa {
   id: string; nombre: string; nombre_corto: string; descripcion: string
@@ -26,7 +27,7 @@ interface ProgramasResp {
   resumen: { total: number; por_estado: Record<string,number>; coste_total_M: number; coste_espana_M: number }
 }
 
-type Subtab = 'programas' | 'gantt' | 'matriz'
+type Subtab = 'programas' | 'gantt' | 'supplychain' | 'matriz'
 
 const TIPO_FILTROS = ['todos', 'aeronautico', 'naval', 'industrial']
 
@@ -102,9 +103,10 @@ export default function ProgramasPage() {
       {/* SUB-TABS */}
       <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid #ECECEF', marginBottom: 16 }}>
         {([
-          { id: 'programas', label: 'Fichas de programa' },
-          { id: 'gantt',     label: 'Gantt interactivo' },
-          { id: 'matriz',    label: 'Matriz capacidades' },
+          { id: 'programas',   label: 'Fichas de programa' },
+          { id: 'gantt',       label: 'Gantt interactivo' },
+          { id: 'supplychain', label: 'Red de suministro' },
+          { id: 'matriz',      label: 'Matriz capacidades' },
         ] as const).map(t => (
           <button key={t.id} onClick={() => setSubtab(t.id)}
             style={{
@@ -158,6 +160,17 @@ export default function ProgramasPage() {
             </Panel>
           ))}
         </div>
+      )}
+
+      {/* SUPPLY CHAIN TAB */}
+      {subtab === 'supplychain' && (
+        <Panel
+          title="Red industrial de suministro · empresas ↔ programas"
+          subtitle={`${filtrados.length} programas · grafo de relaciones contractuales · agrupado por país`}
+          sourceLabel="OCCAR + DGAM + datos públicos"
+        >
+          <SupplyChainGraph programas={filtrados}/>
+        </Panel>
       )}
 
       {/* MATRIZ TAB */}

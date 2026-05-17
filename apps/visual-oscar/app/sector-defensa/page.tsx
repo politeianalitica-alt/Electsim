@@ -14,6 +14,10 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_DEFENSA, REGULADORES_DEFENSA, PROGRAMAS_DEFENSA } from '@/lib/sources/worldbank'
 import { Panel } from '@/components/SectorPanel'
+import { analizarPosicionamientoDefensa, calcularThreatRadar, generarBriefingDiario } from '@/lib/defense/analisis-defensa'
+import { ThreatRadarChart } from './_components/ThreatRadar'
+import { DailyBriefingCard } from './_components/DailyBriefing'
+import { PosicionamientoCard } from './_components/PosicionamientoCard'
 
 interface ResumenResp {
   kpis: {
@@ -132,6 +136,54 @@ export default function SectorDefensaPage() {
             accent="#86EFAC" sub="últimos 90 días"/>
         </div>
       </section>
+
+      {/* ANÁLISIS IA + THREAT RADAR + BRIEFING */}
+      {(() => {
+        if (!resumen || !contratos) return null
+        const pos = analizarPosicionamientoDefensa({
+          gastoPctPib: resumen.kpis.gasto_pct_pib,
+          gastoUsdB: resumen.kpis.gasto_usd_b,
+          gapOtanPp: resumen.kpis.gap_otan_pp,
+          compromisoOtanPct: resumen.kpis.compromiso_otan_pct,
+          nContratosUltimos90d: resumen.kpis.contratos_defensa_90d,
+          importeContratos90dM: contratos.stats.importe_total_M,
+          nSancionesRelevantes: 0,
+          nProgramasActivos: PROGRAMAS_DEFENSA.filter(p => p.estado === 'activo').length,
+          nProgramasEnRiesgo: PROGRAMAS_DEFENSA.filter(p => p.estado !== 'activo').length,
+          cumplenOtanPct: otan?.cumplen_pct || 0,
+          mediaOtan: otan?.media_otan || 0,
+        })
+        const radar = calcularThreatRadar({
+          nSancionesRusia: 25,
+          programasCiber: 3,
+          contratosCiber90d: contratos.items.filter(c => /ciber|cyber|TIC|telecom/i.test(c.objeto)).length,
+          paisesAltoRiesgo: 6,
+        })
+        const topContrato = contratos.items.filter(c => c.importe_adjudicacion || c.importe_licitacion)
+          .sort((a, b) => (b.importe_adjudicacion || b.importe_licitacion || 0) - (a.importe_adjudicacion || a.importe_licitacion || 0))[0]
+        const programaCritico = PROGRAMAS_DEFENSA.find(p => p.estado !== 'activo')
+        const briefing = generarBriefingDiario({
+          posicionamiento: pos,
+          threatRadar: radar,
+          topContrato: topContrato ? { objeto: topContrato.objeto, importe: topContrato.importe_adjudicacion || topContrato.importe_licitacion, adjudicatario: topContrato.adjudicatario, fuente_label: topContrato.fuente_label } : undefined,
+          programaCritico: programaCritico ? { nombre: programaCritico.programa, estado: programaCritico.estado } : undefined,
+        })
+        return (
+          <>
+            <Panel title="Análisis estratégico IA · Posicionamiento España" subtitle="Score multifactor sobre 5 dimensiones · OTAN + contratación + programas" marginBottom>
+              <PosicionamientoCard pos={pos}/>
+            </Panel>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginBottom: 14 }}>
+              <Panel title="Threat Radar · 6 dominios operacionales OTAN" subtitle={`Nivel global ${radar.nivelGlobal}/100 · doctrina multi-dominio`}>
+                <ThreatRadarChart radar={radar}/>
+              </Panel>
+              <Panel title="Briefing diario IA · Defensa España" subtitle="Síntesis ejecutiva automática">
+                <DailyBriefingCard briefing={briefing}/>
+              </Panel>
+            </div>
+          </>
+        )
+      })()}
 
       {/* ROW 1: Evolución gasto militar + Comparativa OTAN */}
       <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>

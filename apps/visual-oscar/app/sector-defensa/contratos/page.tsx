@@ -8,6 +8,8 @@ import { ContractsTable } from './_components/ContractsTable'
 import { ContractDetail } from './_components/ContractDetail'
 import { ContractAlerts } from './_components/ContractAlerts'
 import { ContractSourceBadge } from './_components/ContractSourceBadge'
+import { MarketConcentrationCard } from './_components/MarketConcentration'
+import { calcularConcentracion } from '@/lib/defense/analisis-defensa'
 
 interface Contrato {
   id: string
@@ -144,6 +146,20 @@ export default function ContratosPage() {
           </button>
         ))}
       </div>
+
+      {/* ANÁLISIS DE CONCENTRACIÓN — visible siempre antes de los tabs */}
+      {subtab === 'monitor' && data && data.items.length > 0 && (() => {
+        const concentracion = calcularConcentracion(data.items)
+        return (
+          <Panel
+            title="Análisis de concentración de mercado"
+            subtitle={`HHI ${concentracion.hhi.toLocaleString('es-ES')} · ${concentracion.bandaHHI} · ${concentracion.topAdjudicatarios.length} adjudicatarios identificados`}
+            marginBottom
+          >
+            <MarketConcentrationCard contratos={data.items} concentracion={concentracion}/>
+          </Panel>
+        )
+      })()}
 
       {/* MONITOR TAB */}
       {subtab === 'monitor' && (

@@ -8,8 +8,9 @@ import { SanctionsSearch } from './_components/SanctionsSearch'
 import { ExportControlHeatmap } from './_components/ExportControlHeatmap'
 import { RegulatoryTimeline } from './_components/RegulatoryTimeline'
 import { ComplianceChecker } from './_components/ComplianceChecker'
+import { ExposureScoringCard } from './_components/ExposureScoring'
 
-type Subtab = 'heatmap' | 'timeline' | 'sanciones' | 'compliance'
+type Subtab = 'heatmap' | 'timeline' | 'sanciones' | 'compliance' | 'exposicion'
 
 export default function RegulatorioPage() {
   const router = useRouter()
@@ -42,6 +43,7 @@ export default function RegulatorioPage() {
       <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid #ECECEF', marginBottom: 16 }}>
         {([
           { id: 'heatmap',    label: 'Heatmap ITAR/EAR' },
+          { id: 'exposicion', label: 'Exposición empresas ES' },
           { id: 'timeline',   label: 'Normativa' },
           { id: 'sanciones',  label: 'Sanciones' },
           { id: 'compliance', label: 'Compliance Checker' },
@@ -68,6 +70,18 @@ export default function RegulatorioPage() {
           sourceTooltip="ITAR + EAR + EU 2021/821 + OFAC SDN"
         >
           <ExportControlHeatmap />
+        </Panel>
+      )}
+
+      {/* EXPOSICIÓN TAB */}
+      {subtab === 'exposicion' && (
+        <Panel
+          title="Scoring de exposición regulatoria · empresas españolas"
+          subtitle="Evaluación multifactor de las 11 empresas tractoras del sector · ITAR + EAR + EU 2021/821 + Sanciones + Exportación"
+          sourceLabel="Análisis Politeia"
+          sourceTooltip="Heurística sobre perfil sectorial público — orientativo"
+        >
+          <ExposureScoringCard/>
         </Panel>
       )}
 
