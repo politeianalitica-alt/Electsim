@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "fuente": "Ministerio del Interior — Junta Electoral Central / Wikipedia oficial",
+    "actualizado": "2024-07",
+    "generales": "Resultados Generales del Estado · Congreso de los Diputados 23-J 2023",
+    "autonomicas": "Última elección autonómica disponible (varía por CCAA)"
+  },
+  "generales_2023": {
+    "andalucia":          { "ppt": "23J 2023", "PP": 42.8, "PSOE": 31.2, "VOX":  9.6, "SUMAR":  9.2, "OTROS": 7.2 },
+    "aragon":             { "ppt": "23J 2023", "PP": 37.5, "PSOE": 30.4, "VOX": 10.7, "SUMAR":  8.5, "OTROS": 12.9 },
+    "asturias":           { "ppt": "23J 2023", "PSOE": 33.4, "PP": 31.7, "VOX":  9.2, "SUMAR": 11.3, "OTROS": 14.4 },
+    "baleares":           { "ppt": "23J 2023", "PP": 37.0, "PSOE": 28.6, "VOX": 10.0, "SUMAR":  9.0, "OTROS": 15.4 },
+    "canarias":           { "ppt": "23J 2023", "PSOE": 30.8, "PP": 28.2, "CCa":  9.9, "VOX":  9.3, "SUMAR":  8.6, "OTROS": 13.2 },
+    "cantabria":          { "ppt": "23J 2023", "PP": 41.6, "PSOE": 32.7, "VOX":  9.6, "SUMAR":  7.6, "OTROS":  8.5 },
+    "castilla-la-mancha": { "ppt": "23J 2023", "PSOE": 41.5, "PP": 37.4, "VOX": 11.4, "SUMAR":  5.0, "OTROS":  4.7 },
+    "castilla-y-leon":    { "ppt": "23J 2023", "PP": 44.2, "PSOE": 31.7, "VOX": 11.5, "SUMAR":  5.8, "OTROS":  6.8 },
+    "cataluna":           { "ppt": "23J 2023", "PSC": 34.5, "ERC": 15.7, "Junts": 11.4, "SUMAR":  9.0, "PP":  7.2, "VOX":  5.4, "OTROS": 16.8 },
+    "comunidad-valenciana": { "ppt": "23J 2023", "PP": 35.8, "PSOE": 31.5, "VOX": 12.3, "Compromis-Sumar": 11.0, "OTROS":  9.4 },
+    "extremadura":        { "ppt": "23J 2023", "PSOE": 42.7, "PP": 34.8, "VOX": 12.0, "SUMAR":  5.6, "OTROS":  4.9 },
+    "galicia":            { "ppt": "23J 2023", "PP": 38.8, "PSOE": 25.6, "BNG": 14.0, "SUMAR":  6.6, "VOX":  5.7, "OTROS":  9.3 },
+    "madrid":             { "ppt": "23J 2023", "PP": 44.8, "PSOE": 24.3, "VOX": 10.0, "SUMAR": 12.5, "OTROS":  8.4 },
+    "murcia":             { "ppt": "23J 2023", "PP": 43.2, "PSOE": 26.7, "VOX": 16.1, "SUMAR":  7.2, "OTROS":  6.8 },
+    "navarra":            { "ppt": "23J 2023", "EH-Bildu": 22.1, "PSN-PSOE": 24.7, "UPN": 21.6, "PP":  4.1, "Geroa-Bai":  8.4, "VOX":  6.0, "SUMAR":  7.2, "OTROS":  5.9 },
+    "pais-vasco":         { "ppt": "23J 2023", "PNV": 25.0, "EH-Bildu": 24.3, "PSOE": 19.5, "PP":  9.8, "SUMAR": 14.6, "VOX":  4.2, "OTROS":  2.6 },
+    "rioja":              { "ppt": "23J 2023", "PP": 41.2, "PSOE": 33.7, "VOX":  9.7, "SUMAR":  6.8, "OTROS":  8.6 }
+  },
+  "autonomicas_ultima": {
+    "andalucia":          { "fecha": "2022-06-19", "PP": 43.2, "PSOE-A": 24.1, "VOX": 13.5, "Por-Andalucia":  7.7, "Adelante-A":  4.5, "CS":  3.3, "OTROS":  3.7 },
+    "aragon":             { "fecha": "2023-05-28", "PSOE": 25.4, "PP": 33.5, "VOX": 13.8, "CHA":  3.1, "PAR":  2.5, "TERUEL-Existe":  3.0, "OTROS": 18.7 },
+    "asturias":           { "fecha": "2023-05-28", "PSOE": 31.0, "PP": 26.8, "Foro": 11.7, "VOX":  8.4, "IU":  4.8, "Podemos":  3.6, "OTROS": 13.7 },
+    "baleares":           { "fecha": "2023-05-28", "PP": 25.3, "PSIB": 22.4, "VOX":  13.9, "MES":  8.5, "El-Pi":  6.0, "OTROS": 23.9 },
+    "canarias":           { "fecha": "2023-05-28", "PSOE": 28.5, "CCa": 21.6, "PP": 17.2, "VOX":  8.5, "NC-bc":  6.1, "ASG":  2.3, "OTROS": 15.8 },
+    "cantabria":          { "fecha": "2023-05-28", "PP": 36.0, "PRC": 19.1, "PSOE": 18.2, "VOX":  9.0, "OTROS": 17.7 },
+    "castilla-la-mancha": { "fecha": "2023-05-28", "PSOE": 44.6, "PP": 35.7, "VOX": 11.6, "OTROS":  8.1 },
+    "castilla-y-leon":    { "fecha": "2022-02-13", "PP": 31.4, "PSOE": 30.0, "VOX": 17.6, "UPL":  4.8, "Soria-Ya":  4.0, "OTROS": 12.2 },
+    "cataluna":           { "fecha": "2024-05-12", "PSC": 27.8, "Junts": 21.7, "ERC": 13.7, "PP": 11.0, "VOX":  7.9, "Comuns-Sumar":  5.8, "CUP":  4.1, "AC":  3.8, "OTROS":  4.2 },
+    "comunidad-valenciana": { "fecha": "2023-05-28", "PP": 34.7, "PSPV-PSOE": 28.5, "VOX": 12.0, "Compromis": 10.7, "OTROS": 14.1 },
+    "extremadura":        { "fecha": "2023-05-28", "PSOE": 38.6, "PP": 39.0, "VOX":  8.0, "UE":  3.6, "OTROS": 10.8 },
+    "galicia":            { "fecha": "2024-02-18", "PP": 47.4, "BNG": 31.4, "PSdeG-PSOE":  14.3, "DO":  2.0, "OTROS":  4.9 },
+    "madrid":             { "fecha": "2023-05-28", "PP": 47.3, "Mas-Madrid": 18.5, "PSOE": 18.5, "VOX":  7.2, "OTROS":  8.5 },
+    "murcia":             { "fecha": "2023-05-28", "PP": 43.3, "PSOE": 26.0, "VOX": 17.7, "Podemos":  3.4, "OTROS":  9.6 },
+    "navarra":            { "fecha": "2023-05-28", "EH-Bildu": 19.8, "PSN": 21.7, "UPN": 22.0, "Geroa-Bai": 11.7, "PP":  4.5, "VOX":  4.6, "Contigo-N":  6.0, "OTROS":  9.7 },
+    "pais-vasco":         { "fecha": "2024-04-21", "PNV": 35.2, "EH-Bildu": 32.5, "PSE-EE": 14.0, "PP":  8.4, "Sumar":  3.4, "VOX":  1.9, "OTROS":  4.6 },
+    "rioja":              { "fecha": "2023-05-28", "PP": 41.0, "PSOE": 36.0, "VOX":  8.4, "CSpor":  4.4, "OTROS": 10.2 }
+  }
+}

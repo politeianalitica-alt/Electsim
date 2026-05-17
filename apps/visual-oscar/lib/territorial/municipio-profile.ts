@@ -20,6 +20,7 @@ import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator
 import { fetchAlcaldePorIne, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
 import { fetchPiramide, fetchRentaMedia, fetchExtranjeros, type INEPiramide, type INERentaMedia, type INEExtranjeros } from './sources/ine'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
+import { getMunicipioElectoralLinks } from './sources/electoral'
 
 export interface MunicipioProfile {
   meta: Municipio
@@ -41,6 +42,10 @@ export interface MunicipioProfile {
   tagsCobertura: string[]
   preocupaciones: string[]
   resumenIA: string
+  /** Enlaces oficiales a resultados electorales municipales */
+  enlacesElectorales: {
+    consultaMir: string; wikipedia: string; junta: string; cpro: string
+  }
   // INE
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
@@ -108,6 +113,7 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     tagsCobertura,
     preocupaciones,
     resumenIA,
+    enlacesElectorales: getMunicipioElectoralLinks(meta.ine, meta.nombre),
     piramide,
     rentaMedia,
     extranjeros,

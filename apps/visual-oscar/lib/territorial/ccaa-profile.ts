@@ -18,6 +18,7 @@ import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator
 import { getAllInitiatives } from '@/lib/legislative/aggregator'
 import { fetchPresidenteCcaa, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
+import { getHistoricoElectoralCCAA, indiceCompetitividad, type ResultadoEleccion } from './sources/electoral'
 
 export interface CCAAProfile {
   meta: CCAA
@@ -43,6 +44,8 @@ export interface CCAAProfile {
   preocupaciones: string[]
   /** Resumen IA del estado actual */
   resumenIA: string
+  /** Histórico electoral (generales + autonómicas) */
+  historicoElectoral: Array<ResultadoEleccion & { competitividad: number }>
   metrics: {
     nNoticias7d: number
     nIniciativas: number
@@ -88,6 +91,9 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
   })
   const resumenIA = sintesisCCAA(meta, sentimientoAgregado, preocupaciones, narrativas, iniciativasMatched.length)
 
+  const historicoBase = getHistoricoElectoralCCAA(slug)
+  const historicoElectoral = historicoBase.map(e => ({ ...e, competitividad: indiceCompetitividad(e) }))
+
   return {
     meta,
     bio,
@@ -109,6 +115,7 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
     tagsCobertura,
     preocupaciones,
     resumenIA,
+    historicoElectoral,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       nIniciativas: iniciativasMatched.length,

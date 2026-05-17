@@ -58,6 +58,17 @@ interface SentimientoAgregado {
 
 interface Estabilidad { score: number; banda: 'baja' | 'media' | 'alta'; razones: string[] }
 
+interface ResultadoPartido { partido: string; pct: number; color: string }
+interface ResultadoEleccion {
+  tipo: 'generales' | 'autonomica'
+  etiqueta: string; fecha: string
+  resultados: ResultadoPartido[]
+  ganador: ResultadoPartido
+  fuente: string
+  competitividad: number
+}
+interface EnlacesElectorales { consultaMir: string; wikipedia: string; junta: string; cpro: string }
+
 interface CCAAProfile {
   meta: CCAA
   bio: { extract: string; sourceUrl: string | null }
@@ -71,6 +82,7 @@ interface CCAAProfile {
   tagsCobertura: string[]
   preocupaciones: string[]
   resumenIA: string
+  historicoElectoral: ResultadoEleccion[]
   metrics: { nNoticias7d: number; nIniciativas: number; pibMillonesEuros: number; densidadHabKm2: number }
   updatedAt: string
   error?: string
@@ -96,6 +108,7 @@ interface MunicipioProfile {
   tagsCobertura: string[]
   preocupaciones: string[]
   resumenIA: string
+  enlacesElectorales: EnlacesElectorales
   piramide: INEPiramide | null
   rentaMedia: INERentaMedia | null
   extranjeros: INEExtranjeros | null
@@ -262,6 +275,15 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
                   <NarrativaCard key={i} narrativa={n}/>
                 ))}
               </div>
+            </Card>
+          )}
+
+          {profile.historicoElectoral.length > 0 && (
+            <Card titulo={`🗳 HISTÓRICO ELECTORAL · ${profile.historicoElectoral.length} elecciones`} color="#9333EA">
+              {profile.historicoElectoral.map((e, i) => <ResultadosCard key={i} eleccion={e}/>)}
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6e6e73' }}>
+                Fuente: Junta Electoral Central + Ministerio del Interior. Última actualización del snapshot: jul 2024.
+              </p>
             </Card>
           )}
 
@@ -585,6 +607,27 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
             </Card>
           )}
 
+          <Card titulo="🗳 RESULTADOS ELECTORALES OFICIALES" color="#9333EA">
+            <p style={{ margin: 0, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+              Resultados desagregados por mesa, sección y municipio en el portal oficial del Ministerio del Interior
+              (todas las convocatorias desde 1977).
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5, marginTop: 10 }}>
+              <a href={profile.enlacesElectorales.consultaMir} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+                🗳 InfoElectoral · Ministerio del Interior ↗
+              </a>
+              <a href={profile.enlacesElectorales.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+                📖 Elecciones municipales · Wikipedia ↗
+              </a>
+              <a href={profile.enlacesElectorales.junta} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+                ⚖ Junta Electoral Central ↗
+              </a>
+            </div>
+            <p style={{ margin: '10px 0 0', fontSize: 10, color: '#9ca3af' }}>
+              INE {profile.meta.ine} · provincia {profile.enlacesElectorales.cpro}
+            </p>
+          </Card>
+
           <Card titulo="ENLACES OFICIALES" color={partidoColor}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5 }}>
               {m.webAyuntamiento && <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>🏛 Ayuntamiento ↗</a>}
@@ -738,6 +781,45 @@ function PiramideMini({ piramide, color }: { piramide: INEPiramide; color: strin
       <p style={{ margin: '5px 0 0', fontSize: 9.5, color: '#6e6e73', textAlign: 'center' }}>
         ♂ {piramide.totalHombres.toLocaleString('es-ES')} · ♀ {piramide.totalMujeres.toLocaleString('es-ES')}
       </p>
+    </div>
+  )
+}
+
+function ResultadosCard({ eleccion }: { eleccion: ResultadoEleccion }) {
+  // Barra horizontal stacked + tabla de top 6 partidos
+  const top = eleccion.resultados.slice(0, 6)
+  const restoPct = eleccion.resultados.slice(6).reduce((s, r) => s + r.pct, 0)
+  const competLabel = eleccion.competitividad < 25 ? '⚖ Muy competido' : eleccion.competitividad < 50 ? '◐ Competido' : eleccion.competitividad < 75 ? '◉ Cómodo' : '★ Hegemónico'
+  return (
+    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: 14, marginBottom: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{eleccion.tipo === 'generales' ? '🗳 GENERALES' : '🏛 AUTONÓMICAS'}</p>
+          <p style={{ margin: '2px 0 0', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{eleccion.etiqueta}</p>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>{competLabel}</p>
+          <p style={{ margin: '2px 0 0', fontSize: 11, fontWeight: 700, color: eleccion.ganador.color }}>{eleccion.ganador.partido} {eleccion.ganador.pct.toFixed(1)}%</p>
+        </div>
+      </div>
+
+      {/* Barra horizontal */}
+      <div style={{ display: 'flex', height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7', marginBottom: 10 }}>
+        {top.map((r, i) => <div key={i} style={{ flex: r.pct, background: r.color }} title={`${r.partido}: ${r.pct}%`}/>)}
+        {restoPct > 0 && <div style={{ flex: restoPct, background: '#E0E0E0' }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
+      </div>
+
+      {/* Tabla compacta */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px 12px' }}>
+        {top.map(r => (
+          <div key={r.partido} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
+            <span style={{ width: 10, height: 10, background: r.color, borderRadius: 2, flexShrink: 0 }}/>
+            <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.partido}</span>
+            <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{r.pct.toFixed(1)}%</span>
+          </div>
+        ))}
+      </div>
+      <p style={{ margin: '8px 0 0', fontSize: 9, color: '#9ca3af' }}>{eleccion.fuente}</p>
     </div>
   )
 }
