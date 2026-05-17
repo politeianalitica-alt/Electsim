@@ -7,6 +7,7 @@ import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import NarrativeLifecycle from '@/components/NarrativeLifecycle'
 import SourceHealthDetail from '@/components/SourceHealthDetail'
+import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -158,6 +159,20 @@ export default function MediosNarrativaPage() {
   const focused = pinned ?? hovered
   const focusedM = focused ? MEDIOS.find(m => m.id === focused) : null
 
+  // ── Preferencias del usuario sobre peso de cada medio ─────────────────────
+  const [prefs, setPrefs] = useState<Record<string, WeightLevel>>({})
+  useEffect(() => {
+    setPrefs(loadPrefs().weights)
+    const refresh = () => setPrefs(loadPrefs().weights)
+    window.addEventListener('media-prefs:change', refresh)
+    return () => window.removeEventListener('media-prefs:change', refresh)
+  }, [])
+  function handleSetWeight(medioId: string, level: WeightLevel) {
+    setWeight(medioId, level)
+    setPrefs(loadPrefs().weights)
+  }
+  const focusedWeight: WeightLevel = focusedM ? (prefs[focusedM.id] ?? 0) : 0
+
   const visibles = useMemo(
     () => filterTipo === 'Todos' ? MEDIOS : MEDIOS.filter(m => m.tipo === filterTipo),
     [filterTipo, MEDIOS]
@@ -258,19 +273,29 @@ export default function MediosNarrativaPage() {
               {visibles.map(m => {
                 const isFocus = focused === m.id
                 const dim = focused && focused !== m.id
-                const r = 8 + Math.min(m.alcance, 10) * 2.5  // 8..33
+                const weight = prefs[m.id] ?? 0
+                const mult = weightMultiplier(weight)
+                const baseR = 8 + Math.min(m.alcance, 10) * 2.5  // 8..33
+                const r = Math.max(4, baseR * mult)
                 const c = TIPO_COLOR[m.tipo]
+                // Si el usuario marca como "ignorar" (peso -2), se atenúa
+                const opacity = weight === -2 ? 0.15 : (dim ? 0.18 : 0.82)
                 return (
                   <g key={m.id} style={{ cursor:'pointer' }}
                      onMouseEnter={()=>setHovered(m.id)}
                      onMouseLeave={()=>setHovered(null)}
                      onClick={()=>setPinned(pinned === m.id ? null : m.id)}>
                     <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r}
-                            fill={c} opacity={dim ? 0.18 : 0.82}
-                            stroke={isFocus ? '#1d1d1f' : 'rgba(255,255,255,0.5)'}
-                            strokeWidth={isFocus ? 2 : 1.5}
-                            style={{ transition:'opacity 200ms' }}/>
-                    {(r >= 16 || isFocus) && (
+                            fill={c} opacity={opacity}
+                            stroke={isFocus ? '#1d1d1f' : weight > 0 ? '#7C3AED' : 'rgba(255,255,255,0.5)'}
+                            strokeWidth={isFocus ? 2 : weight > 0 ? 2 : 1.5}
+                            strokeDasharray={weight === -1 ? '3 3' : undefined}
+                            style={{ transition:'r 200ms, opacity 200ms' }}/>
+                    {weight === 2 && (
+                      <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r + 4}
+                              fill="none" stroke="#7C3AED" strokeWidth={1} strokeDasharray="2 2" opacity={0.7}/>
+                    )}
+                    {(r >= 16 || isFocus || weight > 0) && (
                       <text x={xToPx(m.ejeX)} y={yToPx(m.alcance) - r - 4} textAnchor="middle"
                             fontSize="10.5" fontWeight="700" fill="#1d1d1f"
                             opacity={dim ? 0.5 : 1} style={{ pointerEvents:'none' }}>
@@ -351,7 +376,50 @@ export default function MediosNarrativaPage() {
                   </div>
                 </div>
 
-                <div style={{ marginTop:12, fontSize:11, color:'#86868b', textAlign:'right' }}>
+                {/* ── Sistema de peso por usuario ─────────────────── */}
+                <div style={{ marginTop:14, padding:'10px 12px', background:'#fff', border:'1px solid #ECECEF', borderRadius:9 }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
+                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                      Importancia para mí
+                    </span>
+                    <span style={{ fontSize:11, fontWeight:700, color: levelColor(focusedWeight) }}>
+                      {levelLabel(focusedWeight)}
+                    </span>
+                  </div>
+                  <div style={{ display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:3 }}>
+                    {([-2, -1, 0, 1, 2] as WeightLevel[]).map(lv => (
+                      <button
+                        key={lv}
+                        onClick={() => handleSetWeight(focusedM.id, lv)}
+                        title={levelLabel(lv)}
+                        style={{
+                          background: focusedWeight === lv ? levelColor(lv) : '#FAFAFB',
+                          color: focusedWeight === lv ? '#fff' : '#1d1d1f',
+                          border: `1px solid ${focusedWeight === lv ? levelColor(lv) : '#ECECEF'}`,
+                          borderRadius: 6,
+                          padding: '6px 0',
+                          fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                        }}>
+                        {lv === -2 ? '−−' : lv === -1 ? '−' : lv === 0 ? '·' : lv === 1 ? '+' : '++'}
+                      </button>
+                    ))}
+                  </div>
+                  <div style={{ fontSize:10, color:'#9ca3af', marginTop:6, textAlign:'center', fontStyle:'italic' }}>
+                    Ajusta cuánto pesa este medio en el cuadrante (×{weightMultiplier(focusedWeight)})
+                  </div>
+                </div>
+
+                {focusedM.web && (
+                  <a href={focusedM.web} target="_blank" rel="noopener" style={{
+                    marginTop:8, display:'block', textAlign:'center',
+                    fontSize:11.5, color:'#1F4E8C', fontWeight:600, textDecoration:'none',
+                    padding:'6px 0', borderTop:'1px solid #ECECEF',
+                  }}>
+                    Ir al medio ↗
+                  </a>
+                )}
+
+                <div style={{ marginTop:8, fontSize:11, color:'#86868b', textAlign:'right' }}>
                   {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar'}
                 </div>
               </>

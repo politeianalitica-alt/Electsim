@@ -23,10 +23,9 @@ import { LiveDot } from '@/components/Skeleton'
 import FeedTiered from './_components/FeedTiered'
 import SentimentMapInteractive from './_components/SentimentMapInteractive'
 import NarrativesDeepView from './_components/NarrativesDeepView'
-import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
-import FiguresView from './_components/FiguresView'
+import SentimentDualView from './_components/SentimentDualView'
 import StoryClustersView from './_components/StoryClustersView'
-import type { TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep, StoryCluster, CoverageGap } from '@/lib/news-intel'
+import type { TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep, StoryCluster, CoverageGap, CompanySentiment, SectorSentiment } from '@/lib/news-intel'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 
 interface IntelResponse {
@@ -35,20 +34,21 @@ interface IntelResponse {
   narratives?: NarrativeAnatomy[]
   topicparty?: TopicPartyCell[]
   figures?:    FigureSentimentDeep[]
+  companies?:  CompanySentiment[]
+  sectors?:    SectorSentiment[]
   clusters?:   StoryCluster[]
   gaps?:       CoverageGap[]
   ccaa?:       Record<string, CCAARegionStat>
 }
 
-type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'figuras' | 'cobertura'
+type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'cobertura'
 
 const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }> = [
-  { id: 'feed',         label: 'Feed inteligente', glyph: '⊞', description: 'Multi-tier · nacional, europeo, regional, local' },
-  { id: 'mapa',         label: 'Mapa',             glyph: '◉', description: 'Sentimiento regional + drill por CCAA' },
-  { id: 'narrativas',   label: 'Narrativas',       glyph: '✦', description: 'Anatomía: audiencia, canales, mensajes, objetivos' },
-  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '◐', description: 'Heatmap temas × partidos · impacto político' },
-  { id: 'figuras',      label: 'Figuras',          glyph: '◈', description: 'Polaridad por figura pública con tendencia' },
-  { id: 'cobertura',    label: 'Cobertura',        glyph: '◫', description: 'Misma historia, distintos medios' },
+  { id: 'feed',         label: 'Feed inteligente', glyph: '⊞', description: 'Multi-tier + categorías temáticas dinámicas' },
+  { id: 'mapa',         label: 'Mapa',             glyph: '◉', description: 'Sentimiento regional con drill provincial + figuras y empresas por CCAA' },
+  { id: 'narrativas',   label: 'Narrativas',       glyph: '✦', description: 'Anatomía: audiencia, canales, mensajes, objetivos, figuras, empresas' },
+  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '◐', description: 'Vista política (partidos × temas) y vista empresarial (IBEX/sectores)' },
+  { id: 'cobertura',    label: 'Cobertura',        glyph: '◫', description: 'Misma historia, distintos framings ideológicos' },
 ]
 
 export default function PrensaPage() {
@@ -176,8 +176,11 @@ export default function PrensaPage() {
             {tab === 'feed'        && <FeedTiered feed={data?.feed} />}
             {tab === 'mapa'        && <SentimentMapInteractive ccaaData={data?.ccaa} />}
             {tab === 'narrativas'  && <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />}
-            {tab === 'sentimiento' && <TopicPartyHeatmap cells={data?.topicparty ?? []} figures={data?.figures ?? []} />}
-            {tab === 'figuras'     && <FiguresView figures={data?.figures ?? []} />}
+            {tab === 'sentimiento' && <SentimentDualView
+                                        cells={data?.topicparty ?? []}
+                                        figures={data?.figures ?? []}
+                                        companies={data?.companies ?? []}
+                                        sectors={data?.sectors ?? []} />}
             {tab === 'cobertura'   && <StoryClustersView clusters={data?.clusters ?? []} />}
           </>
         )}

@@ -1,21 +1,27 @@
 'use client'
 
 /**
- * FeedTiered — feed multi-tier de noticias (nacional/europeo/regional/local).
+ * FeedTiered — feed multi-tier con filtros dinámicos.
  *
- * Permite ver lo que pasa en 4 escalas distintas con un solo vistazo.
- * Cada tarjeta muestra título, medio, ideología del medio, sentimiento,
- * topics detectados y antigüedad. Click → abre el medio.
+ * Filtros disponibles:
+ *   - Tier (nacional / europeo / regional / local)
+ *   - Categoría temática (Política/Economía/Empresas/Internacional/etc.) — DINÁMICA
+ *   - Tono (positivo / neutro / negativo)
+ *   - Búsqueda full-text
+ *   - CCAA (cuando aplica)
+ *
+ * Cada tarjeta muestra: medio + ideología + categoría + tono + figuras
+ * y empresas detectadas + antigüedad.
  */
 
 import { useMemo, useState } from 'react'
-import type { TieredFeed, Tier, TieredArticle } from '@/lib/news-intel'
+import type { TieredFeed, Tier, TieredArticle, DynamicCategory } from '@/lib/news-intel'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
-  nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',           glyph: '◉' },
-  europeo:  { label: 'Europeo',   color: '#7C3AED', description: 'Bruselas, Estrasburgo y prensa europea',          glyph: '◈' },
-  regional: { label: 'Regional',  color: '#0F766E', description: 'CCAA y medios autonómicos',                       glyph: '◐' },
-  local:    { label: 'Local',     color: '#B45309', description: 'Ayuntamientos, comarcas, prensa local',           glyph: '◑' },
+  nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '◉' },
+  europeo:  { label: 'Europeo',   color: '#7C3AED', description: 'Bruselas, Estrasburgo y prensa europea', glyph: '◈' },
+  regional: { label: 'Regional',  color: '#0F766E', description: 'CCAA y medios autonómicos',              glyph: '◐' },
+  local:    { label: 'Local',     color: '#B45309', description: 'Ayuntamientos, comarcas, prensa local',  glyph: '◑' },
 }
 
 const SENTIMENT_COLOR = {
@@ -44,15 +50,11 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
   const [activeTier, setActiveTier] = useState<Tier | 'todos'>('todos')
   const [search, setSearch] = useState('')
   const [sentFilter, setSentFilter] = useState<'all'|'positive'|'negative'|'neutral'>('all')
+  const [catFilter, setCatFilter] = useState<string>('all')
 
   const allArticles: TieredArticle[] = useMemo(() => {
     if (!feed) return []
-    return [
-      ...feed.tiers.nacional,
-      ...feed.tiers.europeo,
-      ...feed.tiers.regional,
-      ...feed.tiers.local,
-    ]
+    return [...feed.tiers.nacional, ...feed.tiers.europeo, ...feed.tiers.regional, ...feed.tiers.local]
   }, [feed])
 
   const visible = useMemo(() => {
@@ -62,17 +64,20 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
       list = list.filter(a => a.title.toLowerCase().includes(q) || a.description.toLowerCase().includes(q) || a.medio.nombre.toLowerCase().includes(q))
     }
     if (sentFilter !== 'all') list = list.filter(a => a.sentiment === sentFilter)
+    if (catFilter !== 'all')  list = list.filter(a => a.category === catFilter)
     return list
-  }, [activeTier, search, sentFilter, allArticles, feed])
+  }, [activeTier, search, sentFilter, catFilter, allArticles, feed])
 
   if (!feed) {
     return <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af', fontSize: 13 }}>Cargando feed…</div>
   }
 
+  const categories = feed.categories
+
   return (
     <div>
-      {/* ─ Tier chips ─────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 16 }}>
+      {/* ── Tier chips ─────────────────────────────────────────── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8, marginBottom: 12 }}>
         <TierChip tier="todos" label="Todos" count={allArticles.length} active={activeTier === 'todos'}
                   onClick={() => setActiveTier('todos')} accent="#1d1d1f" />
         {(Object.keys(TIER_META) as Tier[]).map(t => (
@@ -87,14 +92,34 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
         ))}
       </div>
 
-      {/* ─ Filtros ────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 16 }}>
+      {/* ── Categorías temáticas (DINÁMICAS) ────────────────── */}
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginBottom: 12, background: '#FAFAFB', padding: '10px 14px', borderRadius: 12, border: '1px solid #ECECEF' }}>
+        <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginRight: 4 }}>
+          Categoría temática:
+        </span>
+        <button onClick={() => setCatFilter('all')} style={chipStyle(catFilter === 'all', '#1d1d1f')}>
+          Todas <ChipNum n={allArticles.length} active={catFilter === 'all'} />
+        </button>
+        {categories.map(c => (
+          <button key={c.id} onClick={() => setCatFilter(c.id)} style={chipStyle(catFilter === c.id, categoryColor(c.label))}>
+            {c.label}
+            <ChipNum n={c.count} active={catFilter === c.id} />
+            <span style={{ marginLeft: 4, fontSize: 9, fontWeight: 700,
+              color: catFilter === c.id ? 'rgba(255,255,255,0.85)' : (c.polarity > 0.10 ? '#16A34A' : c.polarity < -0.10 ? '#DC2626' : '#9ca3af') }}>
+              {c.polarity > 0 ? '+' : ''}{c.polarity.toFixed(2)}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* ── Filtros (búsqueda + tono) ────────────────────────── */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 14 }}>
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Buscar en títulos…"
+          placeholder="Buscar en títulos, descripción, medio…"
           style={{
-            flex: '0 0 240px', padding: '7px 12px', borderRadius: 8,
+            flex: '0 0 280px', padding: '7px 12px', borderRadius: 8,
             border: '1px solid #ECECEF', background: '#fff', fontSize: 12.5,
             outline: 'none', fontFamily: 'inherit', color: '#1d1d1f',
           }}
@@ -114,8 +139,8 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
         </span>
       </div>
 
-      {/* ─ Lista ───────────────────────────────────────────────── */}
-      {activeTier === 'todos' ? (
+      {/* ── Lista ───────────────────────────────────────────────── */}
+      {activeTier === 'todos' && catFilter === 'all' && sentFilter === 'all' && !search ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {(Object.keys(TIER_META) as Tier[]).map(t => {
             const items = feed.tiers[t].slice(0, 8)
@@ -137,14 +162,9 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
                   </span>
                 </header>
                 <div style={{ padding: '8px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {items.length === 0 && (
-                    <div style={{ padding: 16, fontSize: 12, color: '#9ca3af', textAlign: 'center' }}>
-                      Sin noticias en este tier.
-                    </div>
-                  )}
-                  {items.map((a, i) => (
-                    <ArticleRow key={i} article={a} compact />
-                  ))}
+                  {items.length === 0 ? (
+                    <div style={{ padding: 16, fontSize: 12, color: '#9ca3af', textAlign: 'center' }}>Sin noticias en este tier.</div>
+                  ) : items.map((a, i) => <ArticleRow key={i} article={a} compact />)}
                 </div>
                 {items.length > 0 && (
                   <button onClick={() => setActiveTier(t)} style={{
@@ -164,13 +184,51 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
               Sin noticias que coincidan con los filtros.
             </div>
           )}
-          {visible.map((a, i) => (
-            <ArticleRow key={i} article={a} />
-          ))}
+          {visible.map((a, i) => <ArticleRow key={i} article={a} />)}
         </div>
       )}
     </div>
   )
+}
+
+function chipStyle(active: boolean, color: string): React.CSSProperties {
+  return {
+    background: active ? color : '#fff',
+    color: active ? '#fff' : '#1d1d1f',
+    border: `1px solid ${active ? color : '#ECECEF'}`,
+    borderRadius: 999, padding: '5px 12px',
+    fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+    display: 'inline-flex', alignItems: 'center', gap: 5,
+  }
+}
+
+function ChipNum({ n, active }: { n: number; active: boolean }) {
+  return (
+    <span style={{
+      fontSize: 10, fontWeight: 700,
+      background: active ? 'rgba(255,255,255,0.20)' : 'rgba(0,0,0,0.06)',
+      padding: '1px 6px', borderRadius: 999,
+    }}>{n}</span>
+  )
+}
+
+function categoryColor(label: string): string {
+  const colors: Record<string, string> = {
+    'Política': '#1F4E8C',
+    'Economía': '#0F766E',
+    'Empresas': '#7C3AED',
+    'Internacional': '#B45309',
+    'Sociedad': '#DC2626',
+    'Justicia': '#525258',
+    'Tecnología': '#0EA5E9',
+    'Cultura': '#EC4899',
+    'Deportes': '#16A34A',
+    'Sucesos': '#71717A',
+    'Clima': '#0891B2',
+    'Medio Ambiente': '#16A34A',
+    'Otros': '#6e6e73',
+  }
+  return colors[label] || '#6e6e73'
 }
 
 function TierChip({ tier, label, count, active, onClick, accent, description, glyph }: {
@@ -210,6 +268,11 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
           fontSize: 9.5, fontWeight: 700, color: ideo.color, background: `${ideo.color}15`,
           padding: '1px 6px', borderRadius: 999, letterSpacing: '0.04em', textTransform: 'uppercase',
         }}>{ideo.label}</span>
+        <span style={{
+          fontSize: 9.5, fontWeight: 700, color: categoryColor(article.category),
+          background: `${categoryColor(article.category)}15`,
+          padding: '1px 6px', borderRadius: 999, letterSpacing: '0.04em',
+        }}>{article.category}</span>
         <span style={{ fontSize: 9.5, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>
           {article.medio.tipo}
         </span>
@@ -220,13 +283,11 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
       <div style={{ fontSize: compact ? 12.5 : 14, color: '#1d1d1f', lineHeight: 1.35, fontWeight: 500 }}>
         {article.title}
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
         <span style={{
           fontSize: 9.5, fontWeight: 700, color: sColor, background: `${sColor}15`,
           padding: '1px 7px', borderRadius: 999,
         }}>
-          {article.sentiment === 'positive' ? '+' : article.sentiment === 'negative' ? '–' : '·'}
-          {' '}
           {article.sentiment_score > 0 ? '+' : ''}{article.sentiment_score.toFixed(2)}
         </span>
         {article.medio.ccaa && (
@@ -234,6 +295,16 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
             {article.medio.ccaa}
           </span>
         )}
+        {article.figures.slice(0, 2).map(f => (
+          <span key={f} style={{ fontSize: 10, color: '#0F766E', background: 'rgba(15,118,110,0.08)', padding: '1px 6px', borderRadius: 4 }}>
+            {f}
+          </span>
+        ))}
+        {article.companies.slice(0, 2).map(c => (
+          <span key={c} style={{ fontSize: 10, color: '#7C3AED', background: 'rgba(124,58,237,0.08)', padding: '1px 6px', borderRadius: 4 }}>
+            {c}
+          </span>
+        ))}
       </div>
     </a>
   )
