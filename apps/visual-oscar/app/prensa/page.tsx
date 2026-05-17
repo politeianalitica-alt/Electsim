@@ -46,9 +46,15 @@ type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'cobertura'
 const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }> = [
   { id: 'feed',         label: 'Feed inteligente', glyph: '', description: 'Multi-tier + categorías temáticas dinámicas' },
   { id: 'mapa',         label: 'Mapa',             glyph: '', description: 'Sentimiento regional con drill provincial + figuras y empresas por CCAA' },
-  { id: 'narrativas',   label: 'Narrativas',       glyph: '✦', description: 'Anatomía: audiencia, canales, mensajes, objetivos, figuras, empresas' },
-  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '◐', description: 'Vista política (partidos × temas) y vista empresarial (IBEX/sectores)' },
-  { id: 'cobertura',    label: 'Cobertura',        glyph: '◫', description: 'Misma historia, distintos framings ideológicos' },
+  { id: 'narrativas',   label: 'Narrativas',       glyph: '·', description: 'Anatomía: audiencia, canales, mensajes, objetivos, figuras, empresas' },
+  { id: 'sentimiento',  label: 'Sentimiento',      glyph: '·', description: 'Vista política (partidos × temas) y vista empresarial (IBEX/sectores)' },
+  { id: 'cobertura',    label: 'Cobertura',        glyph: '·', description: 'Misma historia, distintos framings ideológicos' },
+]
+
+// Links directos a sub-páginas mejoradas
+const SUBPAGES: Array<{ href: string; label: string; descripcion: string; color: string }> = [
+  { href: '/prensa/narrativas-v2',  label: 'Narrativas v2',     descripcion: 'Framework multidimensional (6 ejes: tema + actores + frame + emoción + evidencia + persistencia)', color: '#7C3AED' },
+  { href: '/prensa/desinformacion', label: 'Desinformación',    descripcion: 'Observatorio fact-checkers en vivo (EFE Verifica + Newtral + Maldita) + actores afectados',         color: '#DC2626' },
 ]
 
 export default function PrensaPage() {
@@ -135,6 +141,22 @@ export default function PrensaPage() {
               fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', color: '#3a3a3d',
             }}>↻ Refrescar</button>
           </span>
+        </div>
+
+        {/* ── Sub-páginas mejoradas ────────────────────────────────── */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 14 }}>
+          {SUBPAGES.map(s => (
+            <a key={s.href} href={s.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ padding: 14, background: `linear-gradient(135deg, ${s.color}10, ${s.color}03)`, borderRadius: 12, borderLeft: `4px solid ${s.color}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                <div>
+                  <p style={{ margin: 0, fontSize: 11, color: s.color, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>NOVEDAD · ANÁLISIS PROFUNDO</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 16, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{s.label}</p>
+                  <p style={{ margin: '4px 0 0', fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.4 }}>{s.descripcion}</p>
+                </div>
+                <span style={{ fontSize: 20, color: s.color, fontWeight: 700 }}>→</span>
+              </div>
+            </a>
+          ))}
         </div>
 
         {/* ── Tabs ─────────────────────────────────────────────────── */}
