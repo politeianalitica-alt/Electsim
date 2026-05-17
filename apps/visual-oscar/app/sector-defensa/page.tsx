@@ -1,17 +1,16 @@
 'use client'
 /**
- * Dashboard Sector Defensa & Industria
+ * Dashboard Sector Defensa & Industria — Pestaña: Situación
  *
  * Datos en vivo desde:
  *   - World Bank (gasto militar % PIB y absoluto USD · serie histórica + comparativa OTAN)
  *   - TED v3 + PLACSP + Catalunya Socrata (contratos defensa CPV 35)
  *
  * Auto-refresh cada 60 min (datos anuales mayoritariamente).
+ * Layout y AppHeader provistos por layout.tsx — no duplicar aquí.
  */
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_DEFENSA, REGULADORES_DEFENSA, PROGRAMAS_DEFENSA } from '@/lib/sources/worldbank'
 import { Panel } from '@/components/SectorPanel'
@@ -90,116 +89,113 @@ export default function SectorDefensaPage() {
   }, [])
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
-        {/* HERO */}
-        <section style={{
-          background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
-          borderRadius:18, padding:'28px 36px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:32, alignItems:'center',
-        }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', opacity:0.8, textTransform:'uppercase', margin:'0 0 8px' }}>
-              SECTORIAL · DEFENSA & INDUSTRIA · GASTO MILITAR + CONTRATACIÓN
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 10px', lineHeight:1.05 }}>
-              Industria de defensa española <em style={{ fontWeight:300, fontStyle:'italic', opacity:0.75 }}>en datos abiertos</em>
-            </h1>
-            <p style={{ fontSize:13.5, opacity:0.8, margin:0, lineHeight:1.5 }}>
-              Gasto militar % PIB · comparativa OTAN · contratos públicos defensa (CPV 35) ·
-              programas estratégicos en curso · empresas tractoras del sector. Series del Banco Mundial
-              y feeds en vivo TED + PLACSP + Catalunya.
-            </p>
-            {updatedAt && (
-              <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
-                <span style={{ width:6, height:6, borderRadius:'50%', background:'#86EFAC', boxShadow:'0 0 8px #86EFAC' }}/>
-                Última actualización · {updatedAt.toLocaleTimeString('es-ES')}
-                {resumen?.fetch_ms ? ` · ${resumen.fetch_ms} ms` : ''}
-                <button onClick={refresh} style={{
-                  marginLeft:8, fontSize:10.5, padding:'4px 12px', borderRadius:999,
-                  border:'1px solid rgba(255,255,255,0.35)', background:'transparent', color:'#fff',
-                  cursor:'pointer', fontFamily:'inherit',
-                }}>↻ Actualizar</button>
-              </div>
-            )}
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>
-            <HeroKPI label={`Gasto militar (${resumen?.kpis.gasto_pct_pib_year || ''})`}
-              value={resumen?.kpis.gasto_pct_pib} unit="% PIB" accent="#FCD34D" decimals={2}/>
-            <HeroKPI label={`Gasto absoluto (${resumen?.kpis.gasto_usd_b_year || ''})`}
-              value={resumen?.kpis.gasto_usd_b} unit="b USD" accent="#7DD3FC" decimals={1}/>
-            <HeroKPI label="Brecha objetivo OTAN" value={resumen?.kpis.gap_otan_pp} unit="pp" accent="#FCA5A5" decimals={2}
-              sub={`vs ${resumen?.kpis.compromiso_otan_pct || 2}% comprometido`}/>
-            <HeroKPI label="Contratos CPV 35" value={resumen?.kpis.contratos_defensa_90d} unit=""
-              accent="#86EFAC" sub="últimos 90 días"/>
-          </div>
-        </section>
-
-        {/* ROW 1: Evolución gasto militar + Comparativa OTAN */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel
-            title="Evolución del gasto militar · 25 años"
-            subtitle="% PIB y absoluto en miles de millones USD · Banco Mundial"
-            sourceUrl="https://datos.bancomundial.org/indicador/MS.MIL.XPND.GD.ZS?locations=ES"
-            sourceLabel="Banco Mundial"
-            sourceTooltip="Gasto militar · % PIB · serie España"
-            apiUrl="/api/sectores/defensa/gasto-militar?from=2000"
-          >
-            {gasto && <GastoLineChart data={gasto.points}/>}
-          </Panel>
-          <Panel
-            title="Comparativa OTAN"
-            subtitle={otan ? `Año ${otan.year} · ${otan.cumplen_pct} de ${otan.items.length} cumplen 2 % PIB · media ${otan.media_otan?.toFixed(2)} %` : 'Cargando…'}
-            sourceUrl="https://www.nato.int/cps/en/natohq/topics_49198.htm"
-            sourceLabel="OTAN"
-            sourceTooltip="Defence Expenditure · NATO Annual Report"
-            apiUrl="/api/sectores/defensa/comparativa-otan"
-          >
-            {otan && <OtanComparativa items={otan.items}/>}
-          </Panel>
+    <div style={{ paddingTop: 24 }}>
+      {/* HERO */}
+      <section style={{
+        background: `linear-gradient(135deg, ${ACCENT} 0%, ${ACCENT_DARK} 100%)`,
+        borderRadius:18, padding:'28px 36px', marginBottom:18, color:'#fff',
+        display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:32, alignItems:'center',
+      }}>
+        <div>
+          <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', opacity:0.8, textTransform:'uppercase', margin:'0 0 8px' }}>
+            SECTORIAL · DEFENSA & INDUSTRIA · GASTO MILITAR + CONTRATACIÓN
+          </p>
+          <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 10px', lineHeight:1.05 }}>
+            Industria de defensa española <em style={{ fontWeight:300, fontStyle:'italic', opacity:0.75 }}>en datos abiertos</em>
+          </h1>
+          <p style={{ fontSize:13.5, opacity:0.8, margin:0, lineHeight:1.5 }}>
+            Gasto militar % PIB · comparativa OTAN · contratos públicos defensa (CPV 35) ·
+            programas estratégicos en curso · empresas tractoras del sector. Series del Banco Mundial
+            y feeds en vivo TED + PLACSP + Catalunya.
+          </p>
+          {updatedAt && (
+            <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
+              <span style={{ width:6, height:6, borderRadius:'50%', background:'#86EFAC', boxShadow:'0 0 8px #86EFAC' }}/>
+              Última actualización · {updatedAt.toLocaleTimeString('es-ES')}
+              {resumen?.fetch_ms ? ` · ${resumen.fetch_ms} ms` : ''}
+              <button onClick={refresh} style={{
+                marginLeft:8, fontSize:10.5, padding:'4px 12px', borderRadius:999,
+                border:'1px solid rgba(255,255,255,0.35)', background:'transparent', color:'#fff',
+                cursor:'pointer', fontFamily:'inherit',
+              }}>↻ Actualizar</button>
+            </div>
+          )}
         </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>
+          <HeroKPI label={`Gasto militar (${resumen?.kpis.gasto_pct_pib_year || ''})`}
+            value={resumen?.kpis.gasto_pct_pib} unit="% PIB" accent="#FCD34D" decimals={2}/>
+          <HeroKPI label={`Gasto absoluto (${resumen?.kpis.gasto_usd_b_year || ''})`}
+            value={resumen?.kpis.gasto_usd_b} unit="b USD" accent="#7DD3FC" decimals={1}/>
+          <HeroKPI label="Brecha objetivo OTAN" value={resumen?.kpis.gap_otan_pp} unit="pp" accent="#FCA5A5" decimals={2}
+            sub={`vs ${resumen?.kpis.compromiso_otan_pct || 2}% comprometido`}/>
+          <HeroKPI label="Contratos CPV 35" value={resumen?.kpis.contratos_defensa_90d} unit=""
+            accent="#86EFAC" sub="últimos 90 días"/>
+        </div>
+      </section>
 
-        {/* ROW 2: Contratos recientes defensa */}
+      {/* ROW 1: Evolución gasto militar + Comparativa OTAN */}
+      <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
         <Panel
-          title="Últimos contratos del sector defensa"
-          subtitle={contratos ? `${contratos.items.length} contratos · ${contratos.stats.importe_total_M} M€ · ${contratos.stats.sources.filter(s => s.ok).length}/${contratos.stats.sources.length} fuentes activas` : 'Cargando…'}
-          marginBottom
-          sourceUrl="https://www.contrataciondelestado.gob.es/"
-          sourceLabel="PLACSP"
-          sourceTooltip="Plataforma de Contratación del Sector Público · CPV 35"
-          apiUrl="/api/sectores/defensa/contratos?days=180&limit=15"
+          title="Evolución del gasto militar · 25 años"
+          subtitle="% PIB y absoluto en miles de millones USD · Banco Mundial"
+          sourceUrl="https://datos.bancomundial.org/indicador/MS.MIL.XPND.GD.ZS?locations=ES"
+          sourceLabel="Banco Mundial"
+          sourceTooltip="Gasto militar · % PIB · serie España"
+          apiUrl="/api/sectores/defensa/gasto-militar?from=2000"
         >
-          {contratos && <ContratosList items={contratos.items}/>}
+          {gasto && <GastoLineChart data={gasto.points}/>}
         </Panel>
-
-        {/* ROW 3: Programas estratégicos */}
-        <Panel title="Programas estratégicos en curso" subtitle="FCAS, S-80, F-110, Eurofighter, NH-90, Spainsat, A400M, VCR Dragón" marginBottom>
-          <ProgramasGrid/>
+        <Panel
+          title="Comparativa OTAN"
+          subtitle={otan ? `Año ${otan.year} · ${otan.cumplen_pct} de ${otan.items.length} cumplen 2 % PIB · media ${otan.media_otan?.toFixed(2)} %` : 'Cargando…'}
+          sourceUrl="https://www.nato.int/cps/en/natohq/topics_49198.htm"
+          sourceLabel="OTAN"
+          sourceTooltip="Defence Expenditure · NATO Annual Report"
+          apiUrl="/api/sectores/defensa/comparativa-otan"
+        >
+          {otan && <OtanComparativa items={otan.items}/>}
         </Panel>
+      </div>
 
-        {/* ROW 4: Empresas + Reguladores */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
-          <Panel title="Empresas tractoras del sector" subtitle={`${EMPRESAS_DEFENSA.length} compañías · IBEX y públicas + privadas tier 1`}>
-            <EmpresasGrid/>
-          </Panel>
-          <Panel title="Reguladores y operadores" subtitle="Marco institucional defensa">
-            <RegLista/>
-          </Panel>
-        </div>
+      {/* ROW 2: Contratos recientes defensa */}
+      <Panel
+        title="Últimos contratos del sector defensa"
+        subtitle={contratos ? `${contratos.items.length} contratos · ${contratos.stats.importe_total_M} M€ · ${contratos.stats.sources.filter(s => s.ok).length}/${contratos.stats.sources.length} fuentes activas` : 'Cargando…'}
+        marginBottom
+        sourceUrl="https://www.contrataciondelestado.gob.es/"
+        sourceLabel="PLACSP"
+        sourceTooltip="Plataforma de Contratación del Sector Público · CPV 35"
+        apiUrl="/api/sectores/defensa/contratos?days=180&limit=15"
+      >
+        {contratos && <ContratosList items={contratos.items}/>}
+      </Panel>
 
-        {/* ROW 5: Áreas estratégicas */}
-        <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
-          <AreasTematicas/>
+      {/* ROW 3: Programas estratégicos */}
+      <Panel title="Programas estratégicos en curso" subtitle="FCAS, S-80, F-110, Eurofighter, NH-90, Spainsat, A400M, VCR Dragón" marginBottom>
+        <ProgramasGrid/>
+      </Panel>
+
+      {/* ROW 4: Empresas + Reguladores */}
+      <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
+        <Panel title="Empresas tractoras del sector" subtitle={`${EMPRESAS_DEFENSA.length} compañías · IBEX y públicas + privadas tier 1`}>
+          <EmpresasGrid/>
         </Panel>
+        <Panel title="Reguladores y operadores" subtitle="Marco institucional defensa">
+          <RegLista/>
+        </Panel>
+      </div>
 
-        {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos…</div>}
-      </main>
+      {/* ROW 5: Áreas estratégicas */}
+      <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">
+        <AreasTematicas/>
+      </Panel>
+
+      {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos…</div>}
     </div>
   )
 }
 
-// ─── Componentes ─────────────────────────────────────────
+// ─── Componentes internos ─────────────────────────────────────────
 
 function HeroKPI({ label, value, unit, accent, sub, decimals = 0 }: { label: string; value: number | null | undefined; unit: string; accent: string; sub?: string; decimals?: number }) {
   const display = value == null ? '—' : value.toLocaleString('es-ES', { maximumFractionDigits: decimals, minimumFractionDigits: decimals })
@@ -224,20 +220,17 @@ function GastoLineChart({ data }: { data: Array<{ year: number; pct_pib: number 
   const minX = valid[0].year
   const maxX = valid[valid.length - 1].year
 
-  // Área para % PIB
   const path = valid.map((d, i) => {
     const x = P + ((d.year - minX) / (maxX - minX)) * (W - 2 * P)
     const y = P + (1 - ((d.pct_pib || 0) - minY) / (maxY - minY)) * (H - 2 * P)
     return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`
   }).join(' ')
 
-  // Barras para USD absoluto
   const maxUsd = Math.max(1, ...valid.map(d => d.usd_b || 0))
 
   return (
     <div>
       <svg width="100%" viewBox={`0 0 ${W} ${H + 40}`} style={{ display:'block' }}>
-        {/* Línea OTAN 2% */}
         {(() => {
           const y2 = P + (1 - (2.0 - minY) / (maxY - minY)) * (H - 2 * P)
           return <>
@@ -245,12 +238,10 @@ function GastoLineChart({ data }: { data: Array<{ year: number; pct_pib: number 
             <text x={W - P - 4} y={y2 - 4} textAnchor="end" style={{ fontSize:9, fill:'#DC2626', fontWeight:700 }}>2 % OTAN</text>
           </>
         })()}
-        {/* Grid */}
         {[0, 0.25, 0.5, 0.75, 1].map(g => (
           <line key={g} x1={P} x2={W - P} y1={P + g * (H - 2 * P)} y2={P + g * (H - 2 * P)} stroke="#F5F5F7"/>
         ))}
-        {/* Barras USD */}
-        {valid.map((d, i) => {
+        {valid.map((d) => {
           if (!d.usd_b) return null
           const cw = (W - 2 * P) / valid.length - 2
           const x = P + ((d.year - minX) / (maxX - minX)) * (W - 2 * P) - cw / 2
@@ -261,19 +252,16 @@ function GastoLineChart({ data }: { data: Array<{ year: number; pct_pib: number 
             </rect>
           )
         })}
-        {/* Línea % PIB */}
         <path d={path} fill="none" stroke="#525258" strokeWidth={2}/>
-        {valid.map((d, i) => {
+        {valid.map((d) => {
           const x = P + ((d.year - minX) / (maxX - minX)) * (W - 2 * P)
           const y = P + (1 - ((d.pct_pib || 0) - minY) / (maxY - minY)) * (H - 2 * P)
           return <circle key={d.year} cx={x} cy={y} r={3} fill="#525258"><title>{d.year}: {d.pct_pib?.toFixed(2)}% PIB</title></circle>
         })}
-        {/* Etiquetas X */}
         {valid.filter((_, i) => i % 4 === 0).map(d => {
           const x = P + ((d.year - minX) / (maxX - minX)) * (W - 2 * P)
           return <text key={d.year} x={x} y={H + 14} textAnchor="middle" style={{ fontSize:9.5, fill:'#86868b' }}>{d.year}</text>
         })}
-        {/* Etiquetas Y */}
         {[1.0, 1.5, 2.0, 2.5].filter(v => v <= maxY).map(v => {
           const y = P + (1 - (v - minY) / (maxY - minY)) * (H - 2 * P)
           return <text key={v} x={4} y={y + 3} style={{ fontSize:9, fill:'#86868b' }}>{v.toFixed(1)}%</text>
