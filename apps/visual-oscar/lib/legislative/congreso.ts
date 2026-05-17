@@ -366,7 +366,16 @@ export async function fetchCongresoComisiones(): Promise<Commission[]> {
     let m
     while ((m = re.exec(html)) !== null) {
       const codigo = m[1]
-      const nombre = m[2].replace(/\s+/g, ' ').trim()
+      // Decodificar entidades + expandir abreviaturas
+      let nombre = m[2].replace(/&nbsp;/gi, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim()
+      nombre = nombre.replace(/^Com\.Investiga?\.?\s+/i, 'Comisión de Investigación sobre ')
+                     .replace(/^Comi\.Investig?\.?\s+/i, 'Comisión de Investigación sobre ')
+                     .replace(/^Comi?\.Invest\.?\s+/i, 'Comisión de Investigación sobre ')
+                     .replace(/\bsuminis(?:tro|\.)/gi, 'suministro')
+                     .replace(/\binterrup\.?\b/g, 'interrupción')
+                     .replace(/\beléctric\b/g, 'eléctrico')
+                     .replace(/\bregul\.\s+/g, 'regulación de ')
+                     .replace(/\binfor\.\s+/g, 'información ')
       if (nombre.length < 5) continue
       if (!seen.has(codigo)) seen.set(codigo, nombre)
     }

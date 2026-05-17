@@ -39,6 +39,39 @@ async function fetchHtml(url: string, encoding: string = 'utf-8', timeoutMs = 10
   }
 }
 
+/** Limpia nombre de comisión: decodifica entidades HTML, normaliza espacios, expande abreviaturas */
+export function cleanCommissionName(raw: string): string {
+  let s = raw
+  // 1. Decodificar entidades HTML comunes
+  s = s.replace(/&nbsp;/gi, ' ')
+       .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+       .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+       .replace(/&aacute;/gi, 'á').replace(/&eacute;/gi, 'é').replace(/&iacute;/gi, 'í')
+       .replace(/&oacute;/gi, 'ó').replace(/&uacute;/gi, 'ú').replace(/&ntilde;/gi, 'ñ')
+       .replace(/&Aacute;/g, 'Á').replace(/&Eacute;/g, 'É').replace(/&Iacute;/g, 'Í')
+       .replace(/&Oacute;/g, 'Ó').replace(/&Uacute;/g, 'Ú').replace(/&Ntilde;/g, 'Ñ')
+       .replace(/&uuml;/gi, 'ü').replace(/&Uuml;/g, 'Ü')
+       .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+       .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+  // 2. Normalizar espacios y trim
+  s = s.replace(/\s+/g, ' ').trim()
+  // 3. Expandir abreviaturas comunes del Congreso
+  s = s.replace(/^Com\.Investiga?\./i, 'Comisión de Investigación sobre')
+       .replace(/^Com\.Investig?\./i, 'Comisión de Investigación sobre')
+       .replace(/^Comi\.Investig?\./i, 'Comisión de Investigación sobre')
+       .replace(/^Comi?\.Invest\./i, 'Comisión de Investigación sobre')
+       .replace(/\bsuminis(?:tro|\.)/gi, 'suministro')
+       .replace(/\beléctric\b/g, 'eléctrico')
+       .replace(/\binterrup\.?\b/g, 'interrupción')
+       .replace(/\bregul\.\b/g, 'regulación de')
+       .replace(/\binfor\.\b/g, 'información')
+  // 4. Capitalizar primera letra si todo va en minúsculas
+  if (s.length > 0 && s === s.toLowerCase()) {
+    s = s[0].toUpperCase() + s.slice(1)
+  }
+  return s
+}
+
 // ─── 1. Parlament de Catalunya ──────────────────────────────────────────────
 // HTML ISO-8859-1. Listado en /web/composicio/comissions/index.html
 // Detalle en /web/composicio/comissions/informacio-comissio/index.html?p_codi=NNN
@@ -53,7 +86,7 @@ export async function listCatalunyaCommissions(): Promise<Commission[]> {
   let m
   while ((m = re.exec(html)) !== null) {
     const codigo = m[1]
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     if (nombre.length < 5) continue
     if (!seen.has(codigo) || seen.get(codigo)!.length < nombre.length) seen.set(codigo, nombre)
   }
@@ -93,7 +126,7 @@ export async function fetchCatalunyaComposition(codigo: string): Promise<Commiss
   let m
   while ((m = memberRe.exec(html)) !== null) {
     const id = Number(m[1])
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     // Buscar cargo/grupo en los siguientes 800 chars
     const slice = html.slice(m.index, m.index + 1500)
     const cargoMatch = slice.match(/<p class="marg-0">\s*([^<]+?)\s*<\/p>/)
@@ -148,7 +181,7 @@ export async function listPaisVascoCommissions(): Promise<Commission[]> {
   let m
   while ((m = re.exec(html)) !== null) {
     const codigo = m[1]
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     if (nombre.length < 5) continue
     if (!seen.has(codigo)) seen.set(codigo, nombre)
   }
@@ -200,7 +233,7 @@ export async function fetchPaisVascoComposition(codigo: string): Promise<Commiss
   const cargoRoleRe = /<th class="nivel\d+"[^>]*>([^<]+)<\/th>([\s\S]*?)<td class="miembro_persona"[^>]*>\s*<a[^>]+>([^<]+)<\/a>/g
   while ((m = cargoRoleRe.exec(html)) !== null) {
     const rol = m[1].trim()
-    const nombre = m[3].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[3])
     const member = members.find(mb => mb.nombre === nombre)
     if (member && rol.length > 0 && rol !== 'Vocal') member.cargo = rol
   }
@@ -245,7 +278,7 @@ export async function listAndaluciaCommissions(): Promise<Commission[]> {
   let m
   while ((m = re.exec(html)) !== null) {
     const codigo = m[1]
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     if (nombre.length < 5 || /vacante|—/.test(nombre.toLowerCase())) continue
     if (!seen.has(codigo) || seen.get(codigo)!.length < nombre.length) seen.set(codigo, nombre)
   }
@@ -280,7 +313,7 @@ export async function fetchAndaluciaComposition(codigo: string): Promise<Commiss
   let m
   while ((m = memberRe.exec(html)) !== null) {
     const id = Number(m[1])
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     // Cargo en card-text cercano
     const slice = html.slice(m.index, m.index + 1500)
     const cargoMatch = slice.match(/<p class="card-text"[^>]*>\s*([^<]+?)\s*</)
@@ -312,7 +345,7 @@ export async function listValencianasCommissions(): Promise<Commission[]> {
   let m
   while ((m = re.exec(html)) !== null) {
     const slug = m[2]
-    const nombre = m[3].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[3])
     if (slug === 'diputados' || nombre.length < 5) continue
     if (!seen.has(slug)) seen.set(slug, { nombre, slug })
   }
@@ -346,7 +379,7 @@ export async function fetchValencianasComposition(slug: string): Promise<Commiss
   let i = 1
   while ((m = memberRe.exec(html)) !== null) {
     const cargo = m[1].replace(/\s+/g, ' ').trim()
-    const nombre = m[2].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[2])
     // Grupo en gp=CODIGO próximo
     const slice = html.slice(m.index, m.index + 2000)
     const grupoMatch = slice.match(/gp=([0-9A-Z]+)/)
@@ -394,7 +427,7 @@ export async function listGaliciaCommissions(): Promise<Commission[]> {
   while ((m = re.exec(html)) !== null) {
     const codigo = m[1]
     const slug = m[2]
-    const nombre = m[3].replace(/\s+/g, ' ').trim()
+    const nombre = cleanCommissionName(m[3])
     if (nombre.length < 5) continue
     if (!seen.has(codigo)) seen.set(codigo, { nombre, slug })
   }

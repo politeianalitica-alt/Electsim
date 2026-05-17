@@ -173,8 +173,9 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Estudio',  href: '/estudio'  },  // 1ª — workspace de datos y paneles
       { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
-      { label: 'Toolbox',  href: '/extras'   },  // 3ª — herramientas auxiliares
-      { label: 'Cuaderno', href: '/cuaderno' },  // 4ª — Obsidian del analista (notas + grafo + bitácora)
+      { label: 'Toolbox',   href: '/extras'     },  // 3ª — herramientas auxiliares
+      { label: 'Cuaderno',  href: '/cuaderno'   },  // 4ª — Obsidian del analista
+      { label: 'Documentos', href: '/documentos' }, // 5ª — extractor universal de PDF/DOCX/XLSX/CSV/...
     ],
   },
 

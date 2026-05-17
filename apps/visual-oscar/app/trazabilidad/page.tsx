@@ -291,13 +291,202 @@ function TraceDetail({ trace }: { trace: Traceability }) {
         </div>
       )}
 
-      <div style={{ marginTop: 14, display: 'flex', gap: 8 }}>
+      <div style={{ marginTop: 14, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <Link href={`/huella-legislativa?id=${encodeURIComponent(init.id)}`} style={{
           background: '#7C3AED', color: '#fff', borderRadius: 8, padding: '8px 14px',
           fontSize: 12, fontWeight: 700, textDecoration: 'none', fontFamily: 'inherit',
         }}>Ver huella legislativa →</Link>
       </div>
+
+      {/* PDFs y minería de documentos */}
+      {trace.steps.some(s => s.url?.includes('.pdf')) && (
+        <section style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid #ECECEF' }}>
+          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', color: '#0F766E', textTransform: 'uppercase', margin: '0 0 8px' }}>
+            DOCUMENTOS OFICIALES DETECTADOS
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {trace.steps.filter(s => s.url?.includes('.pdf')).slice(0, 8).map((s, i) => (
+              <PdfMineRow key={i} url={s.url!} label={s.label} forum={s.forum}/>
+            ))}
+          </div>
+        </section>
+      )}
     </>
+  )
+}
+
+interface PdfMineResult {
+  type: 'diario_sesiones' | 'bocg' | 'ley'
+  fecha?: string | null
+  numero?: string | null
+  titulo?: string | null
+  comparecientes?: Array<{ nombre: string; cargo?: string; pagina: number }>
+  acuerdos?: string[]
+  resumen?: string
+  iniciativas?: Array<{ expediente: string; titulo: string; pagina: number }>
+  enmiendas?: Array<{ numero: string; grupo: string; titulo: string; pagina: number }>
+  preambulo?: string
+  numArticulos?: number
+  numDisposiciones?: number
+  totalPaginas?: number
+  error?: string
+}
+
+function PdfMineRow({ url, label, forum }: { url: string; label: string; forum: string }) {
+  const [open, setOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [mined, setMined] = useState<PdfMineResult | null>(null)
+
+  async function mine() {
+    if (mined || loading) return
+    setLoading(true)
+    try {
+      // Detectar tipo por URL
+      const isDS = /\/DSCD-|\/DSCS-|\/DS\//i.test(url)
+      const isBocg = /\/BOCG-|\/BOCG\//i.test(url)
+      const param = isDS ? `ds=${encodeURIComponent(url)}`
+                  : isBocg ? `bocg=${encodeURIComponent(url)}`
+                  : `ley=${encodeURIComponent(url)}`
+      const res = await fetch(`/api/legislativo/document-mine?${param}`)
+      const json: PdfMineResult = await res.json()
+      setMined(json)
+    } catch (e) {
+      setMined({ type: 'ley', error: String(e) })
+    } finally { setLoading(false) }
+  }
+
+  function toggle() {
+    const will = !open
+    setOpen(will)
+    if (will) mine()
+  }
+
+  return (
+    <div style={{ padding: '8px 10px', borderRadius: 8, background: '#FAFAFB', border: '1px solid #ECECEF' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontSize: 11, color: '#0F766E', fontWeight: 700 }}>📄</span>
+        <span style={{ flex: 1, fontSize: 11.5, color: '#1d1d1f' }}>{label}</span>
+        <span style={{ fontSize: 10, color: '#6e6e73' }}>{forum}</span>
+        <a href={url} target="_blank" rel="noopener noreferrer" style={{
+          fontSize: 10.5, color: '#0F766E', textDecoration: 'none', fontWeight: 600,
+          padding: '3px 8px', borderRadius: 5, background: 'rgba(15,118,110,0.08)',
+        }}>Abrir ↗</a>
+        <button onClick={toggle} style={{
+          fontSize: 10.5, color: '#fff', background: open ? '#94A3B8' : '#0F766E',
+          border: 'none', fontWeight: 700, fontFamily: 'inherit',
+          padding: '3px 10px', borderRadius: 5, cursor: 'pointer',
+        }}>{open ? 'Ocultar' : 'Analizar PDF'}</button>
+      </div>
+
+      {open && (
+        <div style={{ marginTop: 8, padding: '8px 10px', background: '#fff', borderRadius: 6, border: '1px solid #ECECEF' }}>
+          {loading ? (
+            <p style={{ margin: 0, fontSize: 10.5, color: '#9ca3af', textAlign: 'center', padding: 8 }}>
+              Descargando y analizando PDF…
+            </p>
+          ) : mined?.error ? (
+            <p style={{ margin: 0, fontSize: 10.5, color: '#DC2626' }}>Error: {mined.error.slice(0, 200)}</p>
+          ) : mined ? (
+            <PdfMineDetail mined={mined}/>
+          ) : null}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function PdfMineDetail({ mined }: { mined: PdfMineResult }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 7px', borderRadius: 4, background: '#0F766E', color: '#fff', letterSpacing: '0.05em' }}>
+          {mined.type === 'diario_sesiones' ? 'DIARIO DE SESIONES' : mined.type === 'bocg' ? 'BOCG' : 'LEY'}
+        </span>
+        {mined.fecha && <span style={{ fontSize: 10, color: '#6e6e73' }}>{mined.fecha}</span>}
+        {mined.numero && <span style={{ fontSize: 10, color: '#6e6e73' }}>· nº {mined.numero}</span>}
+        {mined.totalPaginas != null && <span style={{ fontSize: 10, color: '#6e6e73', marginLeft: 'auto' }}>{mined.totalPaginas} págs.</span>}
+      </div>
+      {mined.titulo && <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#1d1d1f', lineHeight: 1.3 }}>{mined.titulo}</p>}
+      {mined.resumen && (
+        <p style={{ margin: 0, fontSize: 11, color: '#3a3a3d', lineHeight: 1.45, padding: '6px 8px', background: '#FAFAFB', borderRadius: 4 }}>
+          {mined.resumen}
+        </p>
+      )}
+
+      {mined.comparecientes && mined.comparecientes.length > 0 && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#7C3AED', textTransform: 'uppercase' }}>
+            COMPARECIENTES · {mined.comparecientes.length}
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            {mined.comparecientes.slice(0, 12).map((c, i) => (
+              <span key={i} title={c.cargo} style={{ fontSize: 10, padding: '2px 7px', borderRadius: 3, background: 'rgba(124,58,237,0.08)', color: '#7C3AED' }}>
+                {c.nombre} {c.cargo && <em style={{ opacity: 0.65 }}>· {c.cargo.slice(0, 40)}</em>}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {mined.acuerdos && mined.acuerdos.length > 0 && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#16A34A', textTransform: 'uppercase' }}>
+            ACUERDOS DETECTADOS · {mined.acuerdos.length}
+          </p>
+          <ul style={{ margin: 0, paddingLeft: 16, fontSize: 10.5, color: '#3a3a3d', lineHeight: 1.4 }}>
+            {mined.acuerdos.slice(0, 6).map((a, i) => <li key={i}>{a}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {mined.iniciativas && mined.iniciativas.length > 0 && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#1F4E8C', textTransform: 'uppercase' }}>
+            INICIATIVAS REFERENCIADAS · {mined.iniciativas.length}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3, maxHeight: 200, overflowY: 'auto' }}>
+            {mined.iniciativas.slice(0, 20).map((it, i) => (
+              <div key={i} style={{ fontSize: 10, color: '#3a3a3d' }}>
+                <strong>{it.expediente}</strong> · {it.titulo.slice(0, 120)} <span style={{ color: '#6e6e73' }}>pág. {it.pagina}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {mined.enmiendas && mined.enmiendas.length > 0 && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#EAB308', textTransform: 'uppercase' }}>
+            ENMIENDAS · {mined.enmiendas.length}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3, maxHeight: 200, overflowY: 'auto' }}>
+            {mined.enmiendas.slice(0, 20).map((e, i) => (
+              <div key={i} style={{ fontSize: 10, color: '#3a3a3d' }}>
+                <strong>Nº {e.numero}</strong> · <em>{e.grupo}</em> · {e.titulo.slice(0, 100)}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {mined.preambulo && (
+        <div>
+          <p style={{ margin: '0 0 4px', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#1F4E8C', textTransform: 'uppercase' }}>
+            PREÁMBULO
+          </p>
+          <p style={{ margin: 0, fontSize: 10.5, color: '#3a3a3d', lineHeight: 1.5, fontStyle: 'italic' }}>
+            {mined.preambulo.slice(0, 600)}{mined.preambulo.length > 600 ? '…' : ''}
+          </p>
+        </div>
+      )}
+
+      {(mined.numArticulos != null || mined.numDisposiciones != null) && (
+        <div style={{ display: 'flex', gap: 8, fontSize: 10, color: '#6e6e73' }}>
+          {mined.numArticulos != null && <span>{mined.numArticulos} artículos detectados</span>}
+          {mined.numDisposiciones != null && <span>· {mined.numDisposiciones} disposiciones</span>}
+        </div>
+      )}
+    </div>
   )
 }
 

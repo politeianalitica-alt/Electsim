@@ -14,6 +14,7 @@ import type {
   Stage,
 } from './types'
 import { fetchCongresoInitiativeDetail } from './congreso'
+import { summarizeDocument } from '@/lib/documents'
 
 const STAGE_ORDER: Stage[] = [
   'registrado',
@@ -129,16 +130,55 @@ async function buildCongresoTraceability(init: LegislativeInitiative): Promise<I
     } satisfies TraceStep
   })
 
-  // Añadir enlaces a BOCG y DS si existen
-  if (detail.enlacesBOCG.length > 0) {
+  // Añadir enlaces a BOCG con metadata real extraída del PDF si es posible
+  const enlacesUrls = detail.enlacesBOCG
+    .map(s => s.match(/https?:\/\/\S+/)?.[0])
+    .filter((u): u is string => !!u)
+    .slice(0, 5)
+
+  for (const bocgUrl of enlacesUrls) {
+    let label = 'Publicación BOCG'
+    // Intentar enriquecer con metadata real del PDF
+    try {
+      const summary = await summarizeDocument({ url: bocgUrl, format: 'pdf' })
+      if (summary.metadata.title) {
+        label = `BOCG · ${summary.metadata.title.slice(0, 80)}`
+      } else if (summary.units > 0) {
+        label = `BOCG · ${summary.units} páginas`
+      }
+    } catch {/* fallback */}
     steps.push({
       order: steps.length + 1,
       kind: 'otro',
-      label: `Publicaciones BOCG · ${detail.enlacesBOCG.length} documento(s)`,
+      label,
       date: null,
       forum: 'Boletín Oficial de las Cortes Generales',
       outcome: 'Disponible',
-      url: detail.enlacesBOCG[0]?.match(/https?:\/\/\S+/)?.[0] || null,
+      url: bocgUrl,
+    })
+  }
+
+  // Lo mismo para Diarios de Sesiones
+  const dsUrls = detail.enlacesDS
+    .map(s => s.match(/https?:\/\/\S+/)?.[0])
+    .filter((u): u is string => !!u)
+    .slice(0, 3)
+  for (const dsUrl of dsUrls) {
+    let label = 'Diario de Sesiones'
+    try {
+      const summary = await summarizeDocument({ url: dsUrl, format: 'pdf' })
+      if (summary.units > 0) {
+        label = `DS · ${summary.units} páginas` + (summary.metadata.title ? ` · ${summary.metadata.title.slice(0, 60)}` : '')
+      }
+    } catch {/* fallback */}
+    steps.push({
+      order: steps.length + 1,
+      kind: 'pleno-debate',
+      label,
+      date: null,
+      forum: 'Diario de Sesiones',
+      outcome: 'Disponible',
+      url: dsUrl,
     })
   }
 
