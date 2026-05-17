@@ -295,8 +295,27 @@ interface CommissionDetail {
     total: number
     active: boolean
   } | null
-  schedule: { hasSession: boolean; message: string; url: string } | null
   groupSummary: Array<{ siglas: string; label: string; color: string; n: number }>
+  scheduledSessions: Array<{
+    numSesion: number
+    fechaSesion: string
+    fechaFormateada: string
+    descOrgano: string
+  }>
+  comparecientes: Array<{
+    nombre: string
+    cargo: string
+    intervenciones: number
+    ultimaSesion: string | null
+    sesiones: string[]
+  }>
+  recentSessions: Array<{
+    fecha: string
+    totalIntervenciones: number
+    comparecientes: Array<{ nombre: string; cargo: string; intervenciones: number; videoUrl?: string; actaPdfUrl?: string }>
+    iniciativas: string[]
+  }>
+  sessionsCount: number
 }
 
 function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activa' | 'historial' | 'investigacion'; expand?: boolean }) {
@@ -307,12 +326,10 @@ function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activ
   const [open, setOpen] = useState(!!expand)
   const [detail, setDetail] = useState<CommissionDetail | null>(null)
   const [loading, setLoading] = useState(false)
-
-  // Solo cargar detalle si es Congreso/mixta (Senado no tiene endpoint AJAX)
-  const canFetchDetail = c.camara === 'congreso' || c.camara === 'mixta'
+  const [section, setSection] = useState<'composicion' | 'comparecientes' | 'sesiones' | 'agenda'>('composicion')
 
   async function loadDetail() {
-    if (detail || loading || !canFetchDetail) return
+    if (detail || loading) return
     setLoading(true)
     try {
       const res = await fetch(`/api/legislativo/commission/${encodeURIComponent(c.id)}`)
@@ -344,8 +361,8 @@ function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activ
       </h3>
       {c.nombreCorto && <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', fontStyle: 'italic' }}>{c.nombreCorto}</p>}
 
-      {/* Mini-distribución por grupos (cuando ya cargó) */}
-      {detail?.groupSummary && detail.groupSummary.length > 0 && (
+      {/* Mini-distribución por grupos */}
+      {detail?.groupSummary && detail.groupSummary.length > 0 && detail.composition && detail.composition.total > 0 && (
         <div style={{ marginTop: 8 }}>
           <div style={{ display: 'flex', height: 6, borderRadius: 3, overflow: 'hidden', background: '#F5F5F7' }}>
             {detail.groupSummary.map(g => {
@@ -354,76 +371,193 @@ function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activ
             })}
           </div>
           <p style={{ margin: '4px 0 0', fontSize: 10, color: '#6e6e73' }}>
-            {detail.composition!.total} miembros · {detail.groupSummary.length} grupos
+            {detail.composition.total} miembros · {detail.groupSummary.length} grupos
+            {detail.sessionsCount > 0 && ` · ${detail.sessionsCount} sesiones registradas`}
           </p>
         </div>
       )}
 
-      {/* Detalle expandido */}
-      {open && detail?.composition && (
+      {/* Detalle expandido con tabs internos */}
+      {open && detail && (
         <div style={{ marginTop: 10, padding: '10px 12px', background: '#fff', borderRadius: 8, border: '1px solid #ECECEF' }}>
-          <p style={{ margin: '0 0 8px', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: camara.color, textTransform: 'uppercase' }}>
-            COMPOSICIÓN · {detail.composition.total} miembros
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 240, overflowY: 'auto' }}>
-            {detail.composition.members.map(m => {
-              const g = detail.groupSummary.find(gs => gs.siglas === m.grupo) || { label: m.grupo, color: '#6E6E73' }
-              const isOfficer = m.cargo !== 'Vocal'
+          {/* Tabs internos */}
+          <div style={{ display: 'flex', gap: 4, marginBottom: 10, borderBottom: '1px solid #ECECEF', overflowX: 'auto' }}>
+            {([
+              ['composicion', 'Composición', detail.composition?.total || 0],
+              ['comparecientes', 'Comparecientes', detail.comparecientes.length],
+              ['sesiones', 'Sesiones', detail.recentSessions.length],
+              ['agenda', 'Agenda', detail.scheduledSessions.length],
+            ] as const).map(([id, label, count]) => {
+              const isActive = section === id
               return (
-                <div key={m.id || m.nombre} style={{
-                  display: 'flex', gap: 8, alignItems: 'center',
-                  padding: '4px 8px', borderRadius: 6,
-                  background: isOfficer ? `${g.color}08` : 'transparent',
-                  borderLeft: `2px solid ${g.color}`,
-                }}>
-                  <span style={{ fontSize: 11, fontWeight: isOfficer ? 700 : 500, color: '#1d1d1f', flex: 1 }}>
-                    {m.nombre}
-                  </span>
-                  {isOfficer && (
-                    <span style={{ fontSize: 9, fontWeight: 700, color: g.color, padding: '1px 6px', borderRadius: 3, background: `${g.color}15`, letterSpacing: '0.04em' }}>
-                      {m.cargo.toUpperCase()}
-                    </span>
-                  )}
-                  <span style={{ fontSize: 9, color: g.color, fontWeight: 600 }}>{g.label}</span>
-                </div>
+                <button key={id} onClick={() => setSection(id)} style={{
+                  padding: '5px 10px', fontSize: 10.5, fontWeight: isActive ? 700 : 500,
+                  background: 'transparent', border: 'none',
+                  color: isActive ? camara.color : '#6e6e73',
+                  borderBottom: isActive ? `2px solid ${camara.color}` : '2px solid transparent',
+                  marginBottom: -1, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap',
+                }}>{label} {count > 0 && <span style={{ opacity: 0.6 }}>· {count}</span>}</button>
               )
             })}
           </div>
-          {detail.composition.fechaConstitucion && (
-            <p style={{ margin: '8px 0 0', fontSize: 10, color: '#6e6e73' }}>
-              Constituida el {detail.composition.fechaConstitucion}
-            </p>
-          )}
-          {detail.schedule && (
-            <div style={{ marginTop: 8, padding: '8px 10px', borderRadius: 6, background: detail.schedule.hasSession ? 'rgba(22,163,74,0.08)' : 'rgba(148,163,184,0.08)' }}>
-              <p style={{ margin: 0, fontSize: 11, color: detail.schedule.hasSession ? '#16A34A' : '#6e6e73' }}>
-                <strong>Próxima sesión:</strong> {detail.schedule.message}
+
+          {/* Sección: Composición */}
+          {section === 'composicion' && (
+            detail.composition && detail.composition.members.length > 0 ? (
+              <>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 3, maxHeight: 280, overflowY: 'auto' }}>
+                  {detail.composition.members.map(m => {
+                    const g = detail.groupSummary.find(gs => gs.siglas === m.grupo) || { label: m.grupo || '—', color: '#6E6E73' }
+                    const isOfficer = m.cargo && m.cargo !== 'Vocal'
+                    return (
+                      <div key={m.id || m.nombre} style={{
+                        display: 'flex', gap: 8, alignItems: 'center',
+                        padding: '4px 8px', borderRadius: 6,
+                        background: isOfficer ? `${g.color}08` : 'transparent',
+                        borderLeft: `2px solid ${g.color}`,
+                      }}>
+                        <span style={{ fontSize: 11, fontWeight: isOfficer ? 700 : 500, color: '#1d1d1f', flex: 1, lineHeight: 1.3 }}>
+                          {m.nombre}
+                        </span>
+                        {isOfficer && (
+                          <span style={{ fontSize: 9, fontWeight: 700, color: g.color, padding: '1px 6px', borderRadius: 3, background: `${g.color}15`, letterSpacing: '0.04em' }}>
+                            {m.cargo.toUpperCase()}
+                          </span>
+                        )}
+                        <span style={{ fontSize: 9, color: g.color, fontWeight: 600 }}>{g.label}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+                {detail.composition.fechaConstitucion && (
+                  <p style={{ margin: '8px 0 0', fontSize: 10, color: '#6e6e73' }}>
+                    Constituida el {detail.composition.fechaConstitucion}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', padding: 10, textAlign: 'center' }}>
+                Sin composición disponible en el endpoint oficial.
               </p>
-            </div>
+            )
+          )}
+
+          {/* Sección: Comparecientes */}
+          {section === 'comparecientes' && (
+            detail.comparecientes.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 280, overflowY: 'auto' }}>
+                {detail.comparecientes.slice(0, 30).map(co => (
+                  <div key={co.nombre} style={{
+                    padding: '6px 10px', borderRadius: 6,
+                    background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.20)',
+                  }}>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', flex: 1 }}>{co.nombre}</span>
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#7C3AED', padding: '1px 6px', borderRadius: 3, background: 'rgba(124,58,237,0.10)' }}>
+                        {co.intervenciones} intervenc.
+                      </span>
+                    </div>
+                    <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73', lineHeight: 1.4 }}>
+                      {co.cargo}
+                      {co.ultimaSesion && <> · última: {co.ultimaSesion}</>}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', padding: 10, textAlign: 'center', lineHeight: 1.5 }}>
+                Sin comparecientes externos registrados aún en el dataset de intervenciones del Congreso.
+                {c.camara === 'senado' && ' (El Senado no expone dataset equivalente.)'}
+              </p>
+            )
+          )}
+
+          {/* Sección: Sesiones pasadas */}
+          {section === 'sesiones' && (
+            detail.recentSessions.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxHeight: 320, overflowY: 'auto' }}>
+                {detail.recentSessions.slice(0, 15).map(s => (
+                  <div key={s.fecha} style={{
+                    padding: '8px 10px', borderRadius: 6,
+                    background: '#FAFAFB', border: '1px solid #ECECEF',
+                  }}>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', marginBottom: 4 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: camara.color, fontFamily: 'var(--font-display)' }}>
+                        {s.fecha}
+                      </span>
+                      <span style={{ fontSize: 10, color: '#6e6e73' }}>· {s.totalIntervenciones} intervenciones</span>
+                    </div>
+                    {s.comparecientes.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
+                        {s.comparecientes.slice(0, 6).map(co => (
+                          <span key={co.nombre} title={co.cargo} style={{ fontSize: 9.5, padding: '2px 6px', borderRadius: 3, background: 'rgba(124,58,237,0.08)', color: '#7C3AED' }}>
+                            {co.nombre}
+                          </span>
+                        ))}
+                        {s.comparecientes.length > 6 && (
+                          <span style={{ fontSize: 9.5, color: '#6e6e73' }}>+{s.comparecientes.length - 6} más</span>
+                        )}
+                      </div>
+                    )}
+                    {s.iniciativas.length > 0 && (
+                      <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', lineHeight: 1.4 }}>
+                        {s.iniciativas[0].slice(0, 120)}{s.iniciativas[0].length > 120 ? '…' : ''}
+                      </p>
+                    )}
+                    {s.comparecientes.some(co => co.videoUrl) && (
+                      <a href={s.comparecientes.find(co => co.videoUrl)?.videoUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color: camara.color, textDecoration: 'none', marginTop: 4, display: 'inline-block' }}>
+                        Vídeo sesión ↗
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', padding: 10, textAlign: 'center' }}>
+                Sin sesiones registradas en el dataset.
+              </p>
+            )
+          )}
+
+          {/* Sección: Agenda futura */}
+          {section === 'agenda' && (
+            detail.scheduledSessions.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {detail.scheduledSessions.map((s, i) => (
+                  <div key={i} style={{
+                    padding: '8px 10px', borderRadius: 6,
+                    background: 'rgba(22,163,74,0.08)', border: '1px solid rgba(22,163,74,0.20)',
+                  }}>
+                    <p style={{ margin: 0, fontSize: 11.5, fontWeight: 700, color: '#16A34A' }}>
+                      Sesión #{s.numSesion}
+                    </p>
+                    <p style={{ margin: '3px 0 0', fontSize: 10.5, color: '#3a3a3d' }}>
+                      {s.fechaFormateada}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', padding: 10, textAlign: 'center' }}>
+                Sin sesiones convocadas actualmente.
+              </p>
+            )
           )}
         </div>
       )}
 
       {open && !detail && loading && (
         <div style={{ marginTop: 10, padding: '10px 12px', fontSize: 11, color: '#9ca3af', textAlign: 'center', background: '#fff', borderRadius: 8, border: '1px solid #ECECEF' }}>
-          Descargando composición real…
-        </div>
-      )}
-
-      {open && !detail && !loading && !canFetchDetail && (
-        <div style={{ marginTop: 10, padding: '8px 10px', fontSize: 10.5, color: '#6e6e73', background: '#fff', borderRadius: 6, border: '1px solid #ECECEF' }}>
-          Composición del Senado requiere acceso al detalle XML específico de la comisión.
+          Descargando composición + comparecientes + sesiones (puede tardar 5-15s la primera vez)…
         </div>
       )}
 
       <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
-        {canFetchDetail && (
-          <button onClick={toggleOpen} style={{
-            fontSize: 11, color: '#fff', background: camara.color,
-            border: 'none', fontWeight: 700, fontFamily: 'inherit',
-            padding: '4px 12px', borderRadius: 6, cursor: 'pointer',
-          }}>{open ? 'Ocultar' : 'Ver composición real'}</button>
-        )}
+        <button onClick={toggleOpen} style={{
+          fontSize: 11, color: '#fff', background: camara.color,
+          border: 'none', fontWeight: 700, fontFamily: 'inherit',
+          padding: '4px 12px', borderRadius: 6, cursor: 'pointer',
+        }}>{open ? 'Ocultar detalle' : 'Ver detalle completo'}</button>
         {c.url && (
           <a href={c.url} target="_blank" rel="noopener noreferrer" style={{
             fontSize: 11, color: camara.color, textDecoration: 'none', fontWeight: 600,

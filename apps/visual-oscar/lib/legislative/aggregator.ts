@@ -7,6 +7,7 @@ import type { LegislativeInitiative, Commission } from './types'
 import { fetchCongresoInitiatives, fetchCongresoComisiones } from './congreso'
 import { fetchSenadoInitiatives, fetchSenadoComisiones, fetchSenadoApprovedLaws } from './senado'
 import { fetchCCAAInitiatives } from './ccaa-parliaments'
+import { fetchAllCCAACommissions } from './ccaa-commissions'
 
 interface Cache<T> { ts: number; data: T }
 const TTL_MS = 30 * 60 * 1000
@@ -104,6 +105,7 @@ export async function getAllCommissions(): Promise<{
   const settled = await Promise.allSettled([
     fetchCongresoComisiones(),
     fetchSenadoComisiones(),
+    fetchAllCCAACommissions(),
   ])
 
   const all: Commission[] = []
