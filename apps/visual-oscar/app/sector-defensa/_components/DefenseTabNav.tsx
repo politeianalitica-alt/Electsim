@@ -5,7 +5,9 @@ import { usePathname } from 'next/navigation'
 
 const TABS = [
   { href: '/sector-defensa',                label: 'Situación',     description: 'Sala de mando macro',                                   exact: true  },
-  { href: '/sector-defensa/paises',         label: 'Países',        description: 'Catálogo militar mundial (40+ ejércitos)',              exact: false },
+  { href: '/sector-defensa/paises',         label: 'Países',        description: 'Catálogo militar mundial (36 ejércitos)',               exact: false },
+  { href: '/sector-defensa/ministerios',    label: 'Ministerios',   description: 'Estructura ministerios de defensa + agencias',          exact: false },
+  { href: '/sector-defensa/teatros',        label: 'Teatros',       description: 'Balance de poder por área operacional',                 exact: false },
   { href: '/sector-defensa/oportunidades',  label: 'Oportunidades', description: 'Programas activos · ventanas competitivas globales',    exact: false },
   { href: '/sector-defensa/contratos',      label: 'Contratos',     description: 'Monitor de licitaciones y adjudicaciones',              exact: false },
   { href: '/sector-defensa/presupuestos',   label: 'Presupuestos',  description: 'Gasto militar por país y tendencias',                   exact: false },

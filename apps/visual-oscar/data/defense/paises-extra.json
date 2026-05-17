@@ -1,0 +1,563 @@
+{
+  "_meta": {
+    "version": "2024.10",
+    "actualizado": "2024-10",
+    "descripcion": "Ampliación del catálogo paises.json con 35 países adicionales",
+    "fuentes": ["SIPRI 2024", "IISS Military Balance 2024", "CIA World Factbook 2024", "Wikipedia 'Armed Forces of X'"]
+  },
+  "paises": [
+    { "iso3": "NLD", "pais": "Países Bajos", "pais_en": "Netherlands", "region": "Europa Occidental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Ámsterdam",
+      "poblacion_M": 17.9, "pib_USD_b": 1118, "gasto_militar_USD_b": 22.3, "gasto_militar_pct_pib": 2.05, "ranking_global": 20, "variacion_yoy_pct": 21,
+      "efectivos_activos": 41500, "efectivos_reserva": 6000, "efectivos_paramilitares": 5500,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 19000, "equipoClave": [{ "tipo": "Leopard 2A6/A7+", "cantidad": 18, "nota": "Cofinanciación con Alemania" }, { "tipo": "CV90 IFV", "cantidad": 192 }] },
+        { "rama": "Armada", "efectivos": 8500, "equipoClave": [{ "tipo": "Fragatas LCF", "cantidad": 4 }, { "tipo": "Submarinos Walrus", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 6500, "equipoClave": [{ "tipo": "F-35A", "cantidad": 32, "nota": "Total 52 pedidos" }, { "tipo": "F-16AM", "cantidad": 24, "nota": "En retirada" }] }
+      ],
+      "inventario": { "carros_combate": 18, "vehiculos_combate": 432, "aeronaves_combate": 56, "buques_superficie": 12, "submarinos": 4, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "avanzada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A flota completa", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 5500, "horizonte": "2027", "estado": "producción", "descripcion": "52 unidades sustituyen F-16" },
+        { "nombre": "Submarinos Orka (sustitución Walrus)", "tipo": "naval", "socios": ["Naval Group (FRA)"], "cuantia_estimada_M": 5600, "horizonte": "2034+", "estado": "desarrollo", "descripcion": "4 submarinos Barracuda Blackshark" }
+      ],
+      "doctrina": { "documento_clave": "Defence Vision 2035", "año": 2020, "enfoque": "OTAN colectiva · ciber líder · cooperación belga-alemana" },
+      "ministerio": { "nombre": "Ministerie van Defensie", "ministro": "Ruben Brekelmans", "url_oficial": "https://english.defensie.nl", "presupuesto_anual_M": 22300, "agencias_clave": ["DOSCO", "JIVC", "MIVD", "DMO"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 1.7, "empresas_top": ["Damen Shipyards", "Thales Nederland", "VDL Defence", "Airbus DS NL"] },
+      "despliegues": [{ "pais": "Lituania", "tipo": "OTAN", "efectivos": 350 }, { "pais": "Iraq", "tipo": "OTAN", "efectivos": 150 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Apoyo Ucrania", "Cumple 2% PIB", "Coalición F-16 a Ucrania"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "Defensie NL"], "actualizado": "2024-10" },
+
+    { "iso3": "BEL", "pais": "Bélgica", "pais_en": "Belgium", "region": "Europa Occidental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Bruselas",
+      "poblacion_M": 11.7, "pib_USD_b": 614, "gasto_militar_USD_b": 7.5, "gasto_militar_pct_pib": 1.21, "ranking_global": 30, "variacion_yoy_pct": 8,
+      "efectivos_activos": 25500, "efectivos_reserva": 5500, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 11000, "equipoClave": [{ "tipo": "Piranha 5", "cantidad": 67 }, { "tipo": "Jaguar / Griffon (programa CaMo)", "cantidad": 442, "nota": "Cooperación con Francia" }] },
+        { "rama": "Armada", "efectivos": 1500, "equipoClave": [{ "tipo": "Fragatas Karel Doorman", "cantidad": 2 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 6500, "equipoClave": [{ "tipo": "F-16AM", "cantidad": 45, "nota": "En transición a F-35" }, { "tipo": "F-35A", "cantidad": 4, "nota": "34 pedidos" }] }
+      ],
+      "inventario": { "carros_combate": 0, "vehiculos_combate": 580, "aeronaves_combate": 49, "buques_superficie": 5, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 4000, "horizonte": "2026-2030", "estado": "producción", "descripcion": "34 unidades · nuclear sharing B61" },
+        { "nombre": "Capacidad Motorizada (CaMo)", "tipo": "terrestre", "socios": ["Francia"], "cuantia_estimada_M": 1500, "horizonte": "2030", "estado": "producción", "descripcion": "Adopción Scorpion francés" }
+      ],
+      "doctrina": { "documento_clave": "Strategic Vision 2030", "año": 2022, "enfoque": "OTAN · cooperación NL/FRA · 2% PIB para 2035" },
+      "ministerio": { "nombre": "FOD Defensie / SPF Défense", "ministro": "Theo Francken", "url_oficial": "https://www.mil.be", "presupuesto_anual_M": 7500, "agencias_clave": ["DGMR", "ACOS Strat", "ADIV (SGRS)"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.4, "empresas_top": ["FN Herstal", "John Cockerill Defense", "Sabca"] },
+      "despliegues": [{ "pais": "Rumanía", "tipo": "OTAN", "efectivos": 200 }, { "pais": "Líbano", "tipo": "misión ONU", "efectivos": 100 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Bajo gasto militar histórico", "Plan recuperación 2030", "Sede OTAN/EU"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "PRT", "pais": "Portugal", "pais_en": "Portugal", "region": "Europa Occidental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Lisboa",
+      "poblacion_M": 10.4, "pib_USD_b": 290, "gasto_militar_USD_b": 4.8, "gasto_militar_pct_pib": 1.55, "ranking_global": 41, "variacion_yoy_pct": 14,
+      "efectivos_activos": 27500, "efectivos_reserva": 211000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 15000, "equipoClave": [{ "tipo": "Leopard 2A6", "cantidad": 37 }, { "tipo": "Pandur II", "cantidad": 188 }] },
+        { "rama": "Armada", "efectivos": 7500, "equipoClave": [{ "tipo": "Fragatas Vasco da Gama", "cantidad": 3 }, { "tipo": "Submarinos U209PN (Tridente)", "cantidad": 2 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 5000, "equipoClave": [{ "tipo": "F-16AM", "cantidad": 25 }] }
+      ],
+      "inventario": { "carros_combate": 37, "vehiculos_combate": 226, "aeronaves_combate": 25, "buques_superficie": 11, "submarinos": 2 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Sustitución F-16 (F-35 o KC-390 base)", "tipo": "aeronaves", "socios": ["Por definir"], "cuantia_estimada_M": 3500, "horizonte": "2030+", "estado": "planificación", "descripcion": "Decisión post-2025" },
+        { "nombre": "Programa Submarinos Sucesor", "tipo": "naval", "socios": ["Naval Group / TKMS"], "cuantia_estimada_M": 2200, "horizonte": "2035", "estado": "planificación", "descripcion": "Sustitución Tridente clase" }
+      ],
+      "doctrina": { "documento_clave": "Conceito Estratégico Defesa Nacional", "año": 2013, "enfoque": "OTAN · Atlántico · CPLP cooperación lusófona" },
+      "ministerio": { "nombre": "Ministério da Defesa Nacional", "ministro": "Nuno Melo", "url_oficial": "https://www.defesa.gov.pt", "presupuesto_anual_M": 4800, "agencias_clave": ["DGRDN", "EMGFA", "SIED", "SIM"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.1, "empresas_top": ["OGMA", "Edisoft", "Tekever", "Embraer Portugal"] },
+      "despliegues": [{ "pais": "Letonia", "tipo": "OTAN", "efectivos": 150 }, { "pais": "RD Congo", "tipo": "misión ONU", "efectivos": 100 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Brecha 2% PIB", "Atlántico Norte", "Cooperación CPLP"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "GRC", "pais": "Grecia", "pais_en": "Greece", "region": "Europa Occidental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Atenas",
+      "poblacion_M": 10.4, "pib_USD_b": 244, "gasto_militar_USD_b": 7.3, "gasto_militar_pct_pib": 3.04, "ranking_global": 31, "variacion_yoy_pct": 1,
+      "efectivos_activos": 142700, "efectivos_reserva": 220500, "efectivos_paramilitares": 4000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 86000, "equipoClave": [{ "tipo": "Leopard 2A4/2A6", "cantidad": 353 }, { "tipo": "M48A5/M60A3", "cantidad": 520 }] },
+        { "rama": "Armada", "efectivos": 19000, "equipoClave": [{ "tipo": "Fragatas Hydra (MEKO)", "cantidad": 4 }, { "tipo": "Submarinos U214 Papanikolis", "cantidad": 4 }, { "tipo": "Fragatas FDI HN (Belharra)", "cantidad": 3, "nota": "Pedido FRA" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 27500, "equipoClave": [{ "tipo": "F-16C/D Viper", "cantidad": 154 }, { "tipo": "Rafale", "cantidad": 24 }, { "tipo": "Mirage 2000", "cantidad": 24 }, { "tipo": "F-35A", "cantidad": 0, "nota": "20 pedidos" }] }
+      ],
+      "inventario": { "carros_combate": 873, "vehiculos_combate": 2100, "aeronaves_combate": 200, "buques_superficie": 13, "submarinos": 4, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "FDI HN (Belharra) fragatas", "tipo": "naval", "socios": ["Naval Group"], "cuantia_estimada_M": 3500, "horizonte": "2026-2030", "estado": "producción", "descripcion": "3 fragatas + 1 opción · contrato 2021" },
+        { "nombre": "F-35A", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 8600, "horizonte": "2028+", "estado": "producción", "descripcion": "20 unidades + 20 opción" }
+      ],
+      "doctrina": { "documento_clave": "White Paper of the Armed Forces", "año": 2014, "enfoque": "Disuasión vs Turquía · Egeo + Chipre · 3% PIB sostenido" },
+      "ministerio": { "nombre": "Υπουργείο Εθνικής Άμυνας", "ministro": "Nikos Dendias", "url_oficial": "https://www.mod.mil.gr", "presupuesto_anual_M": 7300, "agencias_clave": ["GES", "GEN", "GEA", "GDGEA"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.05, "empresas_top": ["EAB (Hellenic Aerospace)", "EAS Hellenic Defense", "Intracom Defense"] },
+      "despliegues": [{ "pais": "Chipre", "tipo": "permanente", "efectivos": 950 }, { "pais": "Líbano", "tipo": "misión ONU", "efectivos": 50 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Tensión histórica con Turquía", "Egeo + Chipre", "Modernización masiva con FRA/USA"], "conflictos_activos": ["Disputas Egeo con Turquía"] },
+      "fuentes": ["SIPRI 2024", "NATO 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "NOR", "pais": "Noruega", "pais_en": "Norway", "region": "Europa Occidental", "alianzas": ["OTAN"], "capital": "Oslo",
+      "poblacion_M": 5.5, "pib_USD_b": 510, "gasto_militar_USD_b": 9.0, "gasto_militar_pct_pib": 1.76, "ranking_global": 27, "variacion_yoy_pct": 14,
+      "efectivos_activos": 23250, "efectivos_reserva": 40000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 8000, "equipoClave": [{ "tipo": "Leopard 2A4 NO", "cantidad": 40, "nota": "Pedido 54 Leopard 2A8" }, { "tipo": "CV90", "cantidad": 144 }] },
+        { "rama": "Armada", "efectivos": 4500, "equipoClave": [{ "tipo": "Fragatas Fridtjof Nansen", "cantidad": 4 }, { "tipo": "Submarinos Ula", "cantidad": 6 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 2500, "equipoClave": [{ "tipo": "F-35A", "cantidad": 52 }, { "tipo": "F-16AM", "cantidad": 0, "nota": "Retirados, donados a Ucrania" }] }
+      ],
+      "inventario": { "carros_combate": 40, "vehiculos_combate": 268, "aeronaves_combate": 52, "buques_superficie": 6, "submarinos": 6, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "avanzada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Leopard 2A8", "tipo": "terrestre", "socios": ["KMW"], "cuantia_estimada_M": 1700, "horizonte": "2026", "estado": "producción", "descripcion": "54 MBT, primer cliente A8" },
+        { "nombre": "Sustitución Ula (submarinos)", "tipo": "naval", "socios": ["TKMS", "Alemania (joint)"], "cuantia_estimada_M": 5400, "horizonte": "2029+", "estado": "producción", "descripcion": "4 submarinos U212CD comunes con Alemania" }
+      ],
+      "doctrina": { "documento_clave": "Defence Pledge 2024-2036", "año": 2024, "enfoque": "Defensa Ártico · cooperación OTAN nórdica · 2% PIB 2025" },
+      "ministerio": { "nombre": "Forsvarsdepartementet", "ministro": "Bjørn Arild Gram", "url_oficial": "https://www.regjeringen.no/no/dep/fd/", "presupuesto_anual_M": 9000, "agencias_clave": ["FFI", "Etterretningstjenesten", "FOH"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 1.1, "cuota_global_pct": 0.7, "empresas_top": ["Kongsberg", "Nammo", "Thales Norway"] },
+      "despliegues": [{ "pais": "Lituania", "tipo": "OTAN", "efectivos": 130 }, { "pais": "Irak", "tipo": "OTAN", "efectivos": 100 }],
+      "postura": { "nivel_riesgo": "elevado", "factores": ["Frontera con Rusia (Ártico)", "Suecia/Finlandia en OTAN", "Producción Kongsberg para Ucrania"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "Forsvaret"], "actualizado": "2024-10" },
+
+    { "iso3": "SWE", "pais": "Suecia", "pais_en": "Sweden", "region": "Europa Occidental", "alianzas": ["OTAN","EU"], "capital": "Estocolmo",
+      "poblacion_M": 10.6, "pib_USD_b": 600, "gasto_militar_USD_b": 12.0, "gasto_militar_pct_pib": 2.0, "ranking_global": 24, "variacion_yoy_pct": 30,
+      "efectivos_activos": 25000, "efectivos_reserva": 32000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 7500, "equipoClave": [{ "tipo": "Leopard 2A5 (Strv 122)", "cantidad": 110 }, { "tipo": "CV90 (Strf 9040)", "cantidad": 354 }, { "tipo": "Archer 155mm SPH", "cantidad": 24 }] },
+        { "rama": "Armada", "efectivos": 4000, "equipoClave": [{ "tipo": "Corbetas Visby", "cantidad": 5 }, { "tipo": "Submarinos Gotland/A26", "cantidad": 5 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 3500, "equipoClave": [{ "tipo": "JAS 39 Gripen C/D", "cantidad": 96 }, { "tipo": "JAS 39E (en entrega)", "cantidad": 6 }] }
+      ],
+      "inventario": { "carros_combate": 110, "vehiculos_combate": 632, "aeronaves_combate": 102, "buques_superficie": 12, "submarinos": 5, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "avanzada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "JAS 39E Gripen", "tipo": "aeronaves", "socios": ["Saab"], "cuantia_estimada_M": 5200, "horizonte": "2026", "estado": "producción", "descripcion": "60 unidades + exportación Brasil/Tailandia" },
+        { "nombre": "Submarinos A26", "tipo": "naval", "socios": ["Saab Kockums"], "cuantia_estimada_M": 3200, "horizonte": "2027-2029", "estado": "producción", "descripcion": "2 submarinos AIP de nueva generación" }
+      ],
+      "doctrina": { "documento_clave": "Total Defence 2025-2030", "año": 2024, "enfoque": "Defensa total · OTAN (mayo 2024) · 2.6% PIB para 2028" },
+      "ministerio": { "nombre": "Försvarsdepartementet", "ministro": "Pål Jonson", "url_oficial": "https://www.government.se/government-of-sweden/ministry-of-defence/", "presupuesto_anual_M": 12000, "agencias_clave": ["FMV (procurement)", "FOI (research)", "MUST (intel mil)"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 1.6, "cuota_global_pct": 1.5, "empresas_top": ["Saab", "BAE Systems Bofors", "FMV", "Volvo Defence"] },
+      "despliegues": [{ "pais": "Mali", "tipo": "misión ONU", "efectivos": 220, "nota": "Concluido 2023" }, { "pais": "Iraq", "tipo": "OTAN", "efectivos": 60 }],
+      "postura": { "nivel_riesgo": "elevado", "factores": ["OTAN nuevo miembro 2024", "Báltico/Ártico", "Industria fuerte"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "Försvarsmakten"], "actualizado": "2024-10" },
+
+    { "iso3": "FIN", "pais": "Finlandia", "pais_en": "Finland", "region": "Europa Occidental", "alianzas": ["OTAN","EU"], "capital": "Helsinki",
+      "poblacion_M": 5.6, "pib_USD_b": 297, "gasto_militar_USD_b": 7.3, "gasto_militar_pct_pib": 2.41, "ranking_global": 32, "variacion_yoy_pct": 14,
+      "efectivos_activos": 23800, "efectivos_reserva": 238000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 16000, "equipoClave": [{ "tipo": "Leopard 2A4/A6", "cantidad": 200 }, { "tipo": "CV9030 Mk II", "cantidad": 102 }, { "tipo": "K9 Moukari", "cantidad": 96 }] },
+        { "rama": "Armada", "efectivos": 3500, "equipoClave": [{ "tipo": "Corbetas Pohjanmaa", "cantidad": 0, "nota": "4 corbetas Squadron 2020 en construcción" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 2700, "equipoClave": [{ "tipo": "F/A-18C Hornet", "cantidad": 62, "nota": "Retiro 2025-2030" }, { "tipo": "F-35A", "cantidad": 4, "nota": "Total 64 pedidos" }] }
+      ],
+      "inventario": { "carros_combate": 200, "vehiculos_combate": 645, "aeronaves_combate": 64, "buques_superficie": 4, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "avanzada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 11000, "horizonte": "2026-2030", "estado": "producción", "descripcion": "64 unidades · sustituye F-18" },
+        { "nombre": "Squadron 2020", "tipo": "naval", "socios": ["RMC + Saab CMS"], "cuantia_estimada_M": 1300, "horizonte": "2027+", "estado": "producción", "descripcion": "4 corbetas Pohjanmaa multipropósito" }
+      ],
+      "doctrina": { "documento_clave": "Government Defence Report", "año": 2024, "enfoque": "Defensa territorial total · OTAN (abril 2023) · 1.300 km frontera Rusia" },
+      "ministerio": { "nombre": "Puolustusministeriö", "ministro": "Antti Häkkänen", "url_oficial": "https://www.defmin.fi", "presupuesto_anual_M": 7300, "agencias_clave": ["PVL Logistics", "Force Command", "Pääesikunta"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.4, "empresas_top": ["Patria", "Nammo Finland", "Insta Defsec"] },
+      "despliegues": [{ "pais": "Líbano", "tipo": "misión ONU", "efectivos": 200 }, { "pais": "Iraq", "tipo": "OTAN", "efectivos": 80 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["1.300 km frontera Rusia", "OTAN nuevo miembro", "Movilización 800.000 reservistas"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "Defence Forces Finland"], "actualizado": "2024-10" },
+
+    { "iso3": "DNK", "pais": "Dinamarca", "pais_en": "Denmark", "region": "Europa Occidental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Copenhague",
+      "poblacion_M": 5.9, "pib_USD_b": 405, "gasto_militar_USD_b": 8.8, "gasto_militar_pct_pib": 2.17, "ranking_global": 29, "variacion_yoy_pct": 21,
+      "efectivos_activos": 16500, "efectivos_reserva": 4700, "efectivos_paramilitares": 56000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 7500, "equipoClave": [{ "tipo": "Leopard 2A7", "cantidad": 44 }, { "tipo": "CV9035 IFV", "cantidad": 44 }, { "tipo": "Caesar 8x8 SPH", "cantidad": 19 }] },
+        { "rama": "Armada", "efectivos": 2300, "equipoClave": [{ "tipo": "Fragatas Iver Huitfeldt", "cantidad": 3 }, { "tipo": "Patrulleros Thetis", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 2500, "equipoClave": [{ "tipo": "F-35A", "cantidad": 6, "nota": "Total 27 pedidos" }, { "tipo": "F-16AM", "cantidad": 33, "nota": "Donados a Ucrania" }] }
+      ],
+      "inventario": { "carros_combate": 44, "vehiculos_combate": 200, "aeronaves_combate": 33, "buques_superficie": 7, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "global", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 4800, "horizonte": "2027", "estado": "producción", "descripcion": "27 unidades sustituye F-16" },
+        { "nombre": "Coalición F-16 a Ucrania", "tipo": "aeronaves", "socios": ["NLD", "NOR", "BEL", "Ucrania"], "cuantia_estimada_M": 0, "horizonte": "2025", "estado": "despliegue", "descripcion": "Liderazgo en entregas a Ucrania" }
+      ],
+      "doctrina": { "documento_clave": "Forsvarsforliget 2024-2033", "año": 2024, "enfoque": "Refuerzo Ártico/Groenlandia · 2.4% PIB · cooperación nórdica" },
+      "ministerio": { "nombre": "Forsvarsministeriet", "ministro": "Troels Lund Poulsen", "url_oficial": "https://www.fmn.dk", "presupuesto_anual_M": 8800, "agencias_clave": ["DALO (procurement)", "FE (intel)", "Hjemmeværnet"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.3, "empresas_top": ["Terma", "Saab Danish Defence", "Weibel Scientific"] },
+      "despliegues": [{ "pais": "Letonia", "tipo": "OTAN", "efectivos": 350 }, { "pais": "Iraq", "tipo": "OTAN", "efectivos": 220 }],
+      "postura": { "nivel_riesgo": "elevado", "factores": ["Ártico/Groenlandia (disputas RUS/USA)", "Apoyo Ucrania", "Coalición F-16"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "ROU", "pais": "Rumanía", "pais_en": "Romania", "region": "Europa Oriental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Bucarest",
+      "poblacion_M": 19, "pib_USD_b": 350, "gasto_militar_USD_b": 9.0, "gasto_militar_pct_pib": 2.57, "ranking_global": 25, "variacion_yoy_pct": 31,
+      "efectivos_activos": 75000, "efectivos_reserva": 50000, "efectivos_paramilitares": 57000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 40000, "equipoClave": [{ "tipo": "M1A2 Abrams SEPv3", "cantidad": 0, "nota": "54 pedidos" }, { "tipo": "TR-85M1", "cantidad": 250 }, { "tipo": "HIMARS", "cantidad": 54 }] },
+        { "rama": "Armada", "efectivos": 7000, "equipoClave": [{ "tipo": "Fragatas Marășești/Regele Ferdinand", "cantidad": 3 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 11500, "equipoClave": [{ "tipo": "F-16AM Block 15 (Portugal/Noruega)", "cantidad": 17 }, { "tipo": "F-35A", "cantidad": 0, "nota": "32 pedidos" }, { "tipo": "MiG-21 LanceR", "cantidad": 25 }] }
+      ],
+      "inventario": { "carros_combate": 250, "vehiculos_combate": 1200, "aeronaves_combate": 47, "buques_superficie": 7, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 7000, "horizonte": "2030+", "estado": "producción", "descripcion": "32 unidades · sustitución MiG-21" },
+        { "nombre": "Patriot + HIMARS", "tipo": "misiles", "socios": ["Raytheon", "Lockheed"], "cuantia_estimada_M": 4400, "horizonte": "2026-2028", "estado": "producción", "descripcion": "Defensa aérea/misilística" },
+        { "nombre": "M1A2 SEPv3 Abrams", "tipo": "terrestre", "socios": ["General Dynamics"], "cuantia_estimada_M": 1100, "horizonte": "2026", "estado": "producción", "descripcion": "54 MBT · sustitución TR-85" }
+      ],
+      "doctrina": { "documento_clave": "Military Strategy 2021-2025", "año": 2021, "enfoque": "Defensa colectiva OTAN · Mar Negro · proximidad guerra Ucrania" },
+      "ministerio": { "nombre": "Ministerul Apărării Naționale", "ministro": "Angel Tîlvăr", "url_oficial": "https://www.mapn.ro", "presupuesto_anual_M": 9000, "agencias_clave": ["DGIA (intel mil)", "ROMARM (procurement)"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.4, "empresas_top": ["ROMARM", "Aerostar", "IAR Brașov"] },
+      "despliegues": [{ "pais": "Polonia", "tipo": "OTAN", "efectivos": 0 }, { "pais": "Líbano", "tipo": "misión ONU", "efectivos": 150 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Frontera con Ucrania", "Mar Negro tensión Rusia", "Inversión masiva F-35/Patriot"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "MAPN"], "actualizado": "2024-10" },
+
+    { "iso3": "CZE", "pais": "República Checa", "pais_en": "Czechia", "region": "Europa Oriental", "alianzas": ["OTAN","EU","UE-PESCO"], "capital": "Praga",
+      "poblacion_M": 10.7, "pib_USD_b": 350, "gasto_militar_USD_b": 7.0, "gasto_militar_pct_pib": 2.0, "ranking_global": 33, "variacion_yoy_pct": 49,
+      "efectivos_activos": 24000, "efectivos_reserva": 4000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 13500, "equipoClave": [{ "tipo": "T-72M4 CZ", "cantidad": 30 }, { "tipo": "Leopard 2A4", "cantidad": 14, "nota": "Donado por Alemania + 70 Leopard 2A8 pedidos" }, { "tipo": "Pandur II", "cantidad": 107 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 5500, "equipoClave": [{ "tipo": "JAS 39C/D Gripen", "cantidad": 14 }, { "tipo": "F-35A", "cantidad": 0, "nota": "24 pedidos" }, { "tipo": "L-159 ALCA", "cantidad": 24 }] }
+      ],
+      "inventario": { "carros_combate": 44, "vehiculos_combate": 350, "aeronaves_combate": 38, "buques_superficie": 0, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 6600, "horizonte": "2031+", "estado": "producción", "descripcion": "24 unidades · sustitución Gripen" },
+        { "nombre": "Leopard 2A8", "tipo": "terrestre", "socios": ["KMW"], "cuantia_estimada_M": 2200, "horizonte": "2027", "estado": "producción", "descripcion": "70 MBT" },
+        { "nombre": "CV90 MkIV IFV", "tipo": "terrestre", "socios": ["BAE Hägglunds"], "cuantia_estimada_M": 2000, "horizonte": "2026-2030", "estado": "producción", "descripcion": "246 IFV · ensamblaje local" }
+      ],
+      "doctrina": { "documento_clave": "Defence Strategy 2023", "año": 2023, "enfoque": "Defensa colectiva OTAN · 2% PIB · iniciativa munición Ucrania" },
+      "ministerio": { "nombre": "Ministerstvo obrany ČR", "ministro": "Jana Černochová", "url_oficial": "https://www.army.cz", "presupuesto_anual_M": 7000, "agencias_clave": ["NABO (procurement)", "VOZP", "BIS (intel)"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.8, "empresas_top": ["CSG (Czechoslovak Group)", "VOP CZ", "STV Group", "Tatra Defence", "Aero Vodochody"] },
+      "despliegues": [{ "pais": "Letonia", "tipo": "OTAN", "efectivos": 150 }, { "pais": "Líbano", "tipo": "misión ONU", "efectivos": 50 }],
+      "postura": { "nivel_riesgo": "elevado", "factores": ["Iniciativa Munición para Ucrania", "Cumple 2% OTAN 2024", "Industria CSG en auge"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "CAN", "pais": "Canadá", "pais_en": "Canada", "region": "Norteamérica", "alianzas": ["OTAN","ANZUS"], "capital": "Ottawa",
+      "poblacion_M": 39.7, "pib_USD_b": 2117, "gasto_militar_USD_b": 30.6, "gasto_militar_pct_pib": 1.44, "ranking_global": 17, "variacion_yoy_pct": 14,
+      "efectivos_activos": 71500, "efectivos_reserva": 30000, "efectivos_paramilitares": 4500,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 23000, "equipoClave": [{ "tipo": "Leopard 2A4/A6", "cantidad": 82 }, { "tipo": "LAV 6.0", "cantidad": 616 }] },
+        { "rama": "Armada", "efectivos": 8500, "equipoClave": [{ "tipo": "Fragatas Halifax", "cantidad": 12 }, { "tipo": "Submarinos Victoria", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 12500, "equipoClave": [{ "tipo": "CF-18 Hornet", "cantidad": 76, "nota": "En sustitución" }, { "tipo": "F-35A", "cantidad": 0, "nota": "88 pedidos" }, { "tipo": "P-8A Poseidon", "cantidad": 0, "nota": "16 pedidos" }] }
+      ],
+      "inventario": { "carros_combate": 82, "vehiculos_combate": 1000, "aeronaves_combate": 76, "buques_superficie": 16, "submarinos": 4, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "avanzada", "expedicionaria": "global", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35A Lightning II", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 19000, "horizonte": "2026-2032", "estado": "producción", "descripcion": "88 unidades sustituye CF-18" },
+        { "nombre": "Canadian Surface Combatant", "tipo": "naval", "socios": ["Lockheed/BAE"], "cuantia_estimada_M": 60000, "horizonte": "2030-2050", "estado": "desarrollo", "descripcion": "15 destructores tipo Type 26" },
+        { "nombre": "Patrol Submarine Project", "tipo": "naval", "socios": ["Por definir"], "cuantia_estimada_M": 60000, "horizonte": "2037+", "estado": "planificación", "descripcion": "Hasta 12 submarinos sustitutivos Victoria" }
+      ],
+      "doctrina": { "documento_clave": "Our North, Strong and Free", "año": 2024, "enfoque": "Defensa Ártico · OTAN · Indo-Pacífico · 1.76% PIB para 2030" },
+      "ministerio": { "nombre": "Department of National Defence", "ministro": "Bill Blair", "url_oficial": "https://www.canada.ca/en/department-national-defence.html", "presupuesto_anual_M": 30600, "agencias_clave": ["CAF", "ADM Mat (procurement)", "CSE (cyber)", "CSIS"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.9, "empresas_top": ["CAE", "Bombardier Defense", "General Dynamics Canada", "Lockheed Martin Canada", "L3Harris MAPPS"] },
+      "despliegues": [{ "pais": "Letonia", "tipo": "OTAN", "efectivos": 2200, "nota": "Lidera Brigade Group" }, { "pais": "Rumanía", "tipo": "OTAN", "efectivos": 100 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Ártico (disputas RUS)", "Brecha 2% PIB", "Apoyo Ucrania"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "NATO 2024", "DND"], "actualizado": "2024-10" },
+
+    { "iso3": "BRA", "pais": "Brasil", "pais_en": "Brazil", "region": "Latinoamérica", "alianzas": ["BRICS"], "capital": "Brasilia",
+      "poblacion_M": 215, "pib_USD_b": 2174, "gasto_militar_USD_b": 22.9, "gasto_militar_pct_pib": 1.13, "ranking_global": 22, "variacion_yoy_pct": 3.1,
+      "efectivos_activos": 366500, "efectivos_reserva": 1340000, "efectivos_paramilitares": 395000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 219000, "equipoClave": [{ "tipo": "M60A3 TTS / Leopard 1A5", "cantidad": 366 }, { "tipo": "Guarani 6x6", "cantidad": 700 }] },
+        { "rama": "Armada", "efectivos": 79000, "equipoClave": [{ "tipo": "Portahelicópteros NAM Atlântico", "cantidad": 1 }, { "tipo": "Submarinos Tupi/Scorpène (Tamoio)", "cantidad": 4 }, { "tipo": "SSN Álvaro Alberto", "cantidad": 0, "nota": "En desarrollo" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 68500, "equipoClave": [{ "tipo": "F-39E/F Gripen", "cantidad": 6, "nota": "Total 36 pedidos" }, { "tipo": "F-5M", "cantidad": 41 }, { "tipo": "A-29 Super Tucano", "cantidad": 78 }] }
+      ],
+      "inventario": { "carros_combate": 366, "vehiculos_combate": 2700, "aeronaves_combate": 130, "buques_superficie": 30, "submarinos": 4, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-39 Gripen (FX-2)", "tipo": "aeronaves", "socios": ["Saab", "Embraer"], "cuantia_estimada_M": 5200, "horizonte": "2024-2030", "estado": "producción", "descripcion": "36 unidades · transferencia tecnología" },
+        { "nombre": "Submarino nuclear (PROSUB)", "tipo": "naval", "socios": ["Naval Group + Marinha"], "cuantia_estimada_M": 9000, "horizonte": "2032+", "estado": "desarrollo", "descripcion": "SSN nacional Álvaro Alberto" },
+        { "nombre": "KC-390 Millennium", "tipo": "aeronaves", "socios": ["Embraer"], "cuantia_estimada_M": 2000, "horizonte": "2024-2030", "estado": "producción", "descripcion": "Exportación Portugal/NLD/AUT/CZE/HUN/KOR" }
+      ],
+      "doctrina": { "documento_clave": "Política Nacional de Defesa", "año": 2020, "enfoque": "Amazonia · Atlántico Sur · no alineamiento · BRICS" },
+      "ministerio": { "nombre": "Ministério da Defesa", "ministro": "José Múcio Monteiro", "url_oficial": "https://www.gov.br/defesa/", "presupuesto_anual_M": 22900, "agencias_clave": ["EMCFA", "Comando Cibernético", "AEB (espacial)"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 0.8, "empresas_top": ["Embraer Defense", "Avibras", "IMBEL", "Taurus Armas"] },
+      "despliegues": [{ "pais": "Líbano", "tipo": "misión ONU", "efectivos": 250 }, { "pais": "Haití", "tipo": "misión ONU", "efectivos": 100 }],
+      "postura": { "nivel_riesgo": "bajo", "factores": ["Estabilidad regional", "Brecha tecnológica", "Industria Embraer fuerte"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "IISS 2024", "Min. Defesa Brasil"], "actualizado": "2024-10" },
+
+    { "iso3": "IRN", "pais": "Irán", "pais_en": "Iran", "region": "Oriente Medio", "alianzas": ["BRICS"], "capital": "Teherán",
+      "poblacion_M": 88.5, "pib_USD_b": 367, "gasto_militar_USD_b": 10.3, "gasto_militar_pct_pib": 2.81, "ranking_global": 23, "variacion_yoy_pct": 0.6,
+      "efectivos_activos": 610000, "efectivos_reserva": 350000, "efectivos_paramilitares": 220000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 350000, "equipoClave": [{ "tipo": "T-72S / Zulfiqar 3", "cantidad": 1500 }, { "tipo": "BMP-1/2", "cantidad": 1100 }] },
+        { "rama": "Armada", "efectivos": 18000, "equipoClave": [{ "tipo": "Fragatas Moudge/Jamaran", "cantidad": 4 }, { "tipo": "Submarinos Kilo + Fateh", "cantidad": 22 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 37000, "equipoClave": [{ "tipo": "F-14A Tomcat", "cantidad": 40, "nota": "Únicos operativos del mundo" }, { "tipo": "MiG-29", "cantidad": 35 }, { "tipo": "Su-35 (pedido)", "cantidad": 0 }] },
+        { "rama": "Operaciones Especiales", "efectivos": 190000, "unidades": ["IRGC (Cuerpos de la Guardia Revolucionaria) - Quds Force, Aerospace, Basij"] }
+      ],
+      "inventario": { "carros_combate": 1500, "vehiculos_combate": 5400, "aeronaves_combate": 350, "helicopteros": 600, "buques_superficie": 60, "submarinos": 22, "portaaviones": 0, "uavs": 3000 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Shahed-131/136 (drones)", "tipo": "aeronaves", "socios": ["HESA"], "cuantia_estimada_M": 0, "horizonte": "activo", "estado": "producción", "descripcion": "Exportación masiva a Rusia · Houthis · Hezbolá" },
+        { "nombre": "Misiles balísticos Fattah/Khorramshahr", "tipo": "misiles", "socios": ["AIO"], "cuantia_estimada_M": 0, "horizonte": "activo", "estado": "producción", "descripcion": "Hipersónicos y maniobrables · alcance 1500-2000 km" },
+        { "nombre": "Su-35 + Yak-130 (de Rusia)", "tipo": "aeronaves", "socios": ["Rusia"], "cuantia_estimada_M": 0, "horizonte": "2024-2025", "estado": "producción", "descripcion": "24 Su-35 confirmados como parte de canje" }
+      ],
+      "doctrina": { "documento_clave": "Mosaic Defense / Disuasión Asimétrica", "año": 2019, "enfoque": "Defensa asimétrica · misiles + drones + proxies · negación de área (A2/AD)" },
+      "ministerio": { "nombre": "Ministerio de Defensa y Logística de FF.AA.", "ministro": "Aziz Nasirzadeh", "url_oficial": "https://aja.ir", "presupuesto_anual_M": 10300, "agencias_clave": ["AJA (Ejército regular)", "IRGC", "Basij", "Quds Force", "Aerospace Force IRGC"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.3, "empresas_top": ["DIO (Defense Industries Org.)", "AIO (Aerospace Industries Org.)", "HESA", "MAPNA"] },
+      "despliegues": [{ "pais": "Siria", "tipo": "permanente", "efectivos": 5000, "nota": "Quds Force + milicias" }, { "pais": "Iraq", "tipo": "permanente", "efectivos": 2000, "nota": "Asesoría + milicias chiitas" }, { "pais": "Yemen", "tipo": "rotatorio", "efectivos": 0, "nota": "Apoyo Hutíes" }],
+      "postura": { "nivel_riesgo": "crítico", "factores": ["Tensión Israel directa 2024", "Programa nuclear avanzado", "Eje Resistencia + Rusia/China", "Sanciones USA/EU"], "conflictos_activos": ["Mar Rojo (Hutíes)", "Líbano (Hezbolá)", "Iraq/Siria", "Confrontación Israel"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024", "FAS"], "actualizado": "2024-10" },
+
+    { "iso3": "PAK", "pais": "Pakistán", "pais_en": "Pakistan", "region": "Asia-Pacífico", "alianzas": ["OTROS"], "capital": "Islamabad",
+      "poblacion_M": 240, "pib_USD_b": 376, "gasto_militar_USD_b": 10.2, "gasto_militar_pct_pib": 2.71, "ranking_global": 26, "variacion_yoy_pct": 7,
+      "efectivos_activos": 654000, "efectivos_reserva": 550000, "efectivos_paramilitares": 291000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 560000, "equipoClave": [{ "tipo": "VT-4 / Al-Khalid", "cantidad": 1080 }, { "tipo": "T-80UD", "cantidad": 320 }, { "tipo": "SH-15 SPH", "cantidad": 236 }] },
+        { "rama": "Armada", "efectivos": 24000, "equipoClave": [{ "tipo": "Fragatas Type 054A/P (CHN)", "cantidad": 4 }, { "tipo": "Submarinos Khalid (Agosta-90B)", "cantidad": 5 }, { "tipo": "Submarinos Hangor-II (CHN)", "cantidad": 0, "nota": "8 en construcción" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 70000, "equipoClave": [{ "tipo": "JF-17 Thunder", "cantidad": 156 }, { "tipo": "J-10C", "cantidad": 25 }, { "tipo": "F-16C/D", "cantidad": 75 }] },
+        { "rama": "Operaciones Especiales", "efectivos": 0, "unidades": ["SSG (Special Service Group)", "SSG(N) Navy"] }
+      ],
+      "inventario": { "carros_combate": 2680, "vehiculos_combate": 1900, "aeronaves_combate": 400, "buques_superficie": 11, "submarinos": 5, "portaaviones": 0, "cabezas_nucleares": 170 },
+      "capacidades": { "nuclear": true, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "JF-17 Block III", "tipo": "aeronaves", "socios": ["PAC", "CAC (China)"], "cuantia_estimada_M": 3000, "horizonte": "2024+", "estado": "producción", "descripcion": "Caza ligero co-producción · exportación Myanmar/Nigeria/Iraq" },
+        { "nombre": "Submarinos Hangor-II", "tipo": "naval", "socios": ["CSOC (China)"], "cuantia_estimada_M": 5000, "horizonte": "2024-2028", "estado": "producción", "descripcion": "8 submarinos AIP" },
+        { "nombre": "Misiles Shaheen/Ababeel", "tipo": "misiles", "socios": ["NESCOM"], "cuantia_estimada_M": 0, "horizonte": "activo", "estado": "producción", "descripcion": "MRBM con MIRV · alcance 2.750 km" }
+      ],
+      "doctrina": { "documento_clave": "Doctrina Disuasión Mínima Creíble", "año": 1999, "enfoque": "Disuasión nuclear vs India · uso primero como opción · alianza con China" },
+      "ministerio": { "nombre": "Ministry of Defence Pakistan", "ministro": "Khawaja Asif", "url_oficial": "https://mod.gov.pk", "presupuesto_anual_M": 10200, "agencias_clave": ["ISI (intel)", "SPD (Strategic Plans)", "JS HQ", "POF (procurement)"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.4, "empresas_top": ["POF (Pakistan Ordnance Factories)", "PAC (Pakistan Aeronautical Complex)", "Heavy Industries Taxila"] },
+      "despliegues": [{ "pais": "Arabia Saudí", "tipo": "permanente", "efectivos": 2000, "nota": "Acuerdo defensa bilateral" }, { "pais": "ONU varios", "tipo": "misión ONU", "efectivos": 2300 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Tensión India (LOC Cachemira)", "Inestabilidad Afganistán/TTP", "Alianza China", "Crisis económica"], "conflictos_activos": ["Insurgencia TTP", "Tensión fronteriza India"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024", "MoD Pakistan"], "actualizado": "2024-10" },
+
+    { "iso3": "EGY", "pais": "Egipto", "pais_en": "Egypt", "region": "Oriente Medio", "alianzas": ["BRICS"], "capital": "El Cairo",
+      "poblacion_M": 109, "pib_USD_b": 393, "gasto_militar_USD_b": 4.2, "gasto_militar_pct_pib": 1.06, "ranking_global": 45, "variacion_yoy_pct": -3,
+      "efectivos_activos": 438500, "efectivos_reserva": 479000, "efectivos_paramilitares": 397000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 310000, "equipoClave": [{ "tipo": "M1A1 Abrams (ensamblaje EGY)", "cantidad": 1130 }, { "tipo": "M60A3", "cantidad": 500 }, { "tipo": "T-90MS (de Rusia)", "cantidad": 500, "nota": "Suspendido por sanciones" }] },
+        { "rama": "Armada", "efectivos": 18500, "equipoClave": [{ "tipo": "LHD Mistral (Anwar el Sadat / Gamal Abdel Nasser)", "cantidad": 2 }, { "tipo": "Fragatas Bergamini (FREMM)", "cantidad": 2 }, { "tipo": "Submarinos U209/U214", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 30000, "equipoClave": [{ "tipo": "F-16C/D", "cantidad": 200 }, { "tipo": "Rafale EM/EBM", "cantidad": 54 }, { "tipo": "MiG-29M/M2", "cantidad": 46 }] }
+      ],
+      "inventario": { "carros_combate": 2160, "vehiculos_combate": 4500, "aeronaves_combate": 460, "buques_superficie": 60, "submarinos": 4, "portaaviones": 2 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 2, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Modernización Marina (LHD + FREMM)", "tipo": "naval", "socios": ["Francia", "Italia", "Alemania"], "cuantia_estimada_M": 8000, "horizonte": "2025+", "estado": "producción", "descripcion": "Mayor flota árabe" },
+        { "nombre": "Eurofighter Tranche (negociación)", "tipo": "aeronaves", "socios": ["Italia, Alemania"], "cuantia_estimada_M": 0, "horizonte": "2025-2030", "estado": "planificación", "descripcion": "Hasta 24 Typhoon" }
+      ],
+      "doctrina": { "documento_clave": "Doctrina Militar Nacional", "año": 2014, "enfoque": "Mar Rojo + Mediterráneo · disuasión Etiopía/Israel · diversificación proveedores" },
+      "ministerio": { "nombre": "Ministerio de Defensa Producción Militar", "ministro": "Abdel Mageed Sakr", "url_oficial": "https://mod.gov.eg", "presupuesto_anual_M": 4200, "agencias_clave": ["GISS (intel militar)", "Comando Marítimo Norte/Sur", "AOI (Arab Organization for Industrialization)"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.1, "empresas_top": ["AOI", "Sakr Factory", "Maadi Engineering", "Helwan Engines"] },
+      "despliegues": [{ "pais": "Sinaí Norte", "tipo": "permanente", "efectivos": 88000, "nota": "Lucha vs IS-Sinaí" }, { "pais": "ONU varios", "tipo": "misión ONU", "efectivos": 1900 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Disputa GERD con Etiopía", "Frontera Libia/Sudán inestable", "Mar Rojo/Gaza", "Diversificación CHN/RUS"], "conflictos_activos": ["IS-Sinaí", "Tensión Mar Rojo"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "ARE", "pais": "Emiratos Árabes Unidos", "pais_en": "UAE", "region": "Oriente Medio", "alianzas": ["OTROS"], "capital": "Abu Dabi",
+      "poblacion_M": 9.5, "pib_USD_b": 504, "gasto_militar_USD_b": 22.0, "gasto_militar_pct_pib": 4.37, "ranking_global": 21, "variacion_yoy_pct": 8,
+      "efectivos_activos": 63000, "efectivos_reserva": 0, "efectivos_paramilitares": 12000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 44000, "equipoClave": [{ "tipo": "Leclerc EAU", "cantidad": 388 }, { "tipo": "OF-40", "cantidad": 36 }, { "tipo": "Patria AMV", "cantidad": 400 }] },
+        { "rama": "Armada", "efectivos": 4000, "equipoClave": [{ "tipo": "Corbetas Baynunah", "cantidad": 6 }, { "tipo": "Corbetas Falaj", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 4500, "equipoClave": [{ "tipo": "F-16E/F Block 60", "cantidad": 79 }, { "tipo": "Mirage 2000-9", "cantidad": 56 }, { "tipo": "Rafale F4 (pedido)", "cantidad": 0, "nota": "80 unidades en pedido" }] },
+        { "rama": "Operaciones Especiales", "efectivos": 1500, "unidades": ["Presidential Guard (multinacional)"] }
+      ],
+      "inventario": { "carros_combate": 424, "vehiculos_combate": 1100, "aeronaves_combate": 135, "buques_superficie": 25, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Rafale F4", "tipo": "aeronaves", "socios": ["Dassault"], "cuantia_estimada_M": 19000, "horizonte": "2026-2032", "estado": "producción", "descripcion": "80 Rafale F4 · mayor pedido exportación francés" },
+        { "nombre": "EDGE Group consolidación", "tipo": "industrial", "socios": ["EDGE Group"], "cuantia_estimada_M": 5000, "horizonte": "2025", "estado": "producción", "descripcion": "Conglomerado nacional 25 empresas defensa" }
+      ],
+      "doctrina": { "documento_clave": "Doctrina Defensa Activa", "año": 2017, "enfoque": "Disuasión Irán · proyección Yemen · base francesa Abu Dabi · industria propia EDGE" },
+      "ministerio": { "nombre": "Ministerio de Defensa", "ministro": "Mohammed bin Ahmed Al Bowardi", "url_oficial": "https://mod.gov.ae", "presupuesto_anual_M": 22000, "agencias_clave": ["EDGE Group", "Tawazun", "GHQ"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 1.5, "cuota_global_pct": 0.7, "empresas_top": ["EDGE Group", "Tawazun Council", "Halcon", "NIMR Automotive", "Caracal"] },
+      "despliegues": [{ "pais": "Yemen", "tipo": "permanente", "efectivos": 0, "nota": "Coalición + apoyo STC" }, { "pais": "Somalia", "tipo": "permanente", "efectivos": 250 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Irán (intercepts drones)", "Yemen", "Normalización Israel (Acuerdos Abraham)", "Industria EDGE en ascenso"], "conflictos_activos": ["Yemen (apoyo coalición)"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "TWN", "pais": "Taiwán", "pais_en": "Taiwan", "region": "Asia-Pacífico", "alianzas": ["OTROS"], "capital": "Taipei",
+      "poblacion_M": 23.4, "pib_USD_b": 790, "gasto_militar_USD_b": 16.5, "gasto_militar_pct_pib": 2.09, "ranking_global": 28, "variacion_yoy_pct": 11,
+      "efectivos_activos": 169000, "efectivos_reserva": 1657000, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 88000, "equipoClave": [{ "tipo": "CM-11 Brave Tiger", "cantidad": 460 }, { "tipo": "M60A3 TTS", "cantidad": 460 }, { "tipo": "M1A2T Abrams", "cantidad": 38, "nota": "108 pedidos" }] },
+        { "rama": "Armada", "efectivos": 40000, "equipoClave": [{ "tipo": "Destructores Keelung (Kidd-class)", "cantidad": 4 }, { "tipo": "Fragatas Cheng Kung/Kang Ding", "cantidad": 18 }, { "tipo": "Submarinos Hai Lung", "cantidad": 2 }, { "tipo": "Submarino IDS Hai Kun", "cantidad": 0, "nota": "Prototipo 2024" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 41000, "equipoClave": [{ "tipo": "F-16V Viper", "cantidad": 141, "nota": "Total 200 pedidos" }, { "tipo": "Mirage 2000-5", "cantidad": 55 }, { "tipo": "F-CK-1 Ching-kuo", "cantidad": 100 }] }
+      ],
+      "inventario": { "carros_combate": 958, "vehiculos_combate": 1200, "aeronaves_combate": 300, "buques_superficie": 30, "submarinos": 4, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "avanzada", "expedicionaria": "sin", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-16V Block 70", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 8000, "horizonte": "2026", "estado": "producción", "descripcion": "66 nuevos + 141 actualizados" },
+        { "nombre": "IDS Hai Kun (submarino indígena)", "tipo": "naval", "socios": ["CSBC + suministros varios"], "cuantia_estimada_M": 3000, "horizonte": "2025-2030", "estado": "desarrollo", "descripcion": "Primer submarino diseño propio · 8 totales" },
+        { "nombre": "Misiles Hsiung Feng III + Yun Feng", "tipo": "misiles", "socios": ["NCSIST"], "cuantia_estimada_M": 0, "horizonte": "activo", "estado": "producción", "descripcion": "Antibuque supersónico + crucero alcance medio" }
+      ],
+      "doctrina": { "documento_clave": "Overall Defense Concept (ODC)", "año": 2017, "enfoque": "Disuasión asimétrica + porcupine strategy · resistencia activa · alianza implícita USA" },
+      "ministerio": { "nombre": "Ministry of National Defense ROC", "ministro": "Wellington Koo", "url_oficial": "https://www.mnd.gov.tw", "presupuesto_anual_M": 16500, "agencias_clave": ["NCSIST", "MIB (Military Intel)", "DTAS (procurement)"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.1, "empresas_top": ["NCSIST", "AIDC (Aerospace Industrial Development)", "CSBC Corp", "TSMC (chips militares)"] },
+      "despliegues": [{ "pais": "Islas Spratly/Taiping", "tipo": "permanente", "efectivos": 200 }, { "pais": "Penghu/Kinmen/Matsu", "tipo": "permanente", "efectivos": 15000 }],
+      "postura": { "nivel_riesgo": "crítico", "factores": ["Presión militar China constante", "Servicio militar 1 año (desde 2024)", "Apoyo USA via TRA", "Vulnerabilidad bloqueo"], "conflictos_activos": ["Tensión Estrecho de Taiwán permanente"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024", "MND Taiwan"], "actualizado": "2024-10" },
+
+    { "iso3": "IDN", "pais": "Indonesia", "pais_en": "Indonesia", "region": "Asia-Pacífico", "alianzas": ["BRICS"], "capital": "Yakarta",
+      "poblacion_M": 277, "pib_USD_b": 1418, "gasto_militar_USD_b": 8.8, "gasto_militar_pct_pib": 0.62, "ranking_global": 34, "variacion_yoy_pct": 4,
+      "efectivos_activos": 395500, "efectivos_reserva": 400000, "efectivos_paramilitares": 280000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 300400, "equipoClave": [{ "tipo": "Leopard 2RI", "cantidad": 61 }, { "tipo": "AMX-13", "cantidad": 215 }] },
+        { "rama": "Armada", "efectivos": 65000, "equipoClave": [{ "tipo": "Submarinos Cakra/Nagapasa", "cantidad": 5 }, { "tipo": "Fragatas Martadinata + Bung Tomo", "cantidad": 5 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 30100, "equipoClave": [{ "tipo": "F-16C/D Fighting Falcon", "cantidad": 33 }, { "tipo": "Su-27/30", "cantidad": 16 }, { "tipo": "Rafale (pedido)", "cantidad": 0, "nota": "42 unidades pedidas" }, { "tipo": "F-15EX (intención)", "cantidad": 0, "nota": "24 unidades acuerdo 2023" }] }
+      ],
+      "inventario": { "carros_combate": 276, "vehiculos_combate": 1300, "aeronaves_combate": 50, "buques_superficie": 25, "submarinos": 5, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Rafale F4", "tipo": "aeronaves", "socios": ["Dassault"], "cuantia_estimada_M": 8100, "horizonte": "2026-2030", "estado": "producción", "descripcion": "42 Rafale F4 · mayor adquisición ASEAN" },
+        { "nombre": "KF-21 Boramae (socio Corea)", "tipo": "aeronaves", "socios": ["KAI", "Corea Sur"], "cuantia_estimada_M": 1700, "horizonte": "2026+", "estado": "desarrollo", "descripcion": "20% del programa, recibe 50 unidades" },
+        { "nombre": "Submarinos Scorpène", "tipo": "naval", "socios": ["Naval Group"], "cuantia_estimada_M": 1500, "horizonte": "2030+", "estado": "producción", "descripcion": "2 submarinos con AIP" }
+      ],
+      "doctrina": { "documento_clave": "Defense White Paper", "año": 2015, "enfoque": "Defensa archipelágica · soberanía Natuna · no alineamiento ASEAN" },
+      "ministerio": { "nombre": "Kementerian Pertahanan Republik Indonesia", "ministro": "Sjafrie Sjamsoeddin", "url_oficial": "https://www.kemhan.go.id", "presupuesto_anual_M": 8800, "agencias_clave": ["BAIS (intel mil)", "Kopassus", "Mabes TNI"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.3, "empresas_top": ["PT Pindad", "PT PAL", "PT Dirgantara Indonesia (PTDI)", "PT LEN"] },
+      "despliegues": [{ "pais": "ONU varios", "tipo": "misión ONU", "efectivos": 2700, "nota": "Top contribuyente ONU" }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Disputas Natuna Norte (China)", "ASEAN central", "Modernización masiva 2024-2030"], "conflictos_activos": ["Insurgencia Papua"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "ZAF", "pais": "Sudáfrica", "pais_en": "South Africa", "region": "África", "alianzas": ["BRICS"], "capital": "Pretoria",
+      "poblacion_M": 60.4, "pib_USD_b": 380, "gasto_militar_USD_b": 3.2, "gasto_militar_pct_pib": 0.84, "ranking_global": 48, "variacion_yoy_pct": -3,
+      "efectivos_activos": 73950, "efectivos_reserva": 12300, "efectivos_paramilitares": 0,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 39750, "equipoClave": [{ "tipo": "Olifant Mk1B/Mk2", "cantidad": 195 }, { "tipo": "Ratel/Badger", "cantidad": 880 }] },
+        { "rama": "Armada", "efectivos": 6500, "equipoClave": [{ "tipo": "Fragatas Valour", "cantidad": 4 }, { "tipo": "Submarinos Heroine (U209)", "cantidad": 3 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 9500, "equipoClave": [{ "tipo": "JAS 39C/D Gripen", "cantidad": 17, "nota": "Operatividad limitada por presupuesto" }, { "tipo": "BAE Hawk Mk120", "cantidad": 24 }] }
+      ],
+      "inventario": { "carros_combate": 195, "vehiculos_combate": 1200, "aeronaves_combate": 41, "buques_superficie": 4, "submarinos": 3, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Project Hoefyster (vehículos blindados)", "tipo": "terrestre", "socios": ["Denel"], "cuantia_estimada_M": 1500, "horizonte": "2025+", "estado": "desarrollo", "descripcion": "Recuperación industrial Denel" }
+      ],
+      "doctrina": { "documento_clave": "Defence Review", "año": 2015, "enfoque": "Operaciones de paz África · SADC · industria Denel" },
+      "ministerio": { "nombre": "Department of Defence", "ministro": "Angie Motshekga", "url_oficial": "https://www.dod.mil.za", "presupuesto_anual_M": 3200, "agencias_clave": ["Armscor (procurement)", "DI (intel)", "Denel"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 0.4, "empresas_top": ["Denel", "Paramount Group", "Saab Grintek Defence", "Reutech"] },
+      "despliegues": [{ "pais": "RDC", "tipo": "misión ONU", "efectivos": 1200, "nota": "MONUSCO + SAMIDRC" }, { "pais": "Mozambique", "tipo": "permanente", "efectivos": 1500, "nota": "SAMIM vs IS-Mozambique" }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Crisis financiera Denel", "Tensiones Mozambique/RDC", "BRICS+ rol creciente"], "conflictos_activos": ["IS-Mozambique"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "MAR", "pais": "Marruecos", "pais_en": "Morocco", "region": "África", "alianzas": ["OTROS"], "capital": "Rabat",
+      "poblacion_M": 37.4, "pib_USD_b": 142, "gasto_militar_USD_b": 5.4, "gasto_militar_pct_pib": 3.78, "ranking_global": 39, "variacion_yoy_pct": 17,
+      "efectivos_activos": 200000, "efectivos_reserva": 150000, "efectivos_paramilitares": 50000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 175000, "equipoClave": [{ "tipo": "M1A1 SA Abrams", "cantidad": 222 }, { "tipo": "VAB 6x6", "cantidad": 400 }, { "tipo": "Caesar 6x6 SPH", "cantidad": 36, "nota": "Pedido 36 más" }] },
+        { "rama": "Armada", "efectivos": 9000, "equipoClave": [{ "tipo": "FREMM Mohammed VI", "cantidad": 1 }, { "tipo": "Sigma class", "cantidad": 3 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 13500, "equipoClave": [{ "tipo": "F-16C/D Block 52", "cantidad": 23, "nota": "+25 nuevos pedidos" }, { "tipo": "Mirage F1", "cantidad": 30 }, { "tipo": "F-35 (interés)", "cantidad": 0 }] }
+      ],
+      "inventario": { "carros_combate": 1000, "vehiculos_combate": 2200, "aeronaves_combate": 100, "buques_superficie": 8, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-16V Block 70", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 3800, "horizonte": "2027-2029", "estado": "producción", "descripcion": "25 nuevos + actualización 23 existentes" },
+        { "nombre": "Bayraktar TB2", "tipo": "aeronaves", "socios": ["Baykar"], "cuantia_estimada_M": 70, "horizonte": "activo", "estado": "producción", "descripcion": "Drones TB2 desplegados Sahara Occidental" },
+        { "nombre": "Caesar 6x6 SPH adicionales", "tipo": "terrestre", "socios": ["Nexter"], "cuantia_estimada_M": 0, "horizonte": "2025+", "estado": "producción", "descripcion": "Modernización artillería" }
+      ],
+      "doctrina": { "documento_clave": "Documento Concertación Defensa", "año": 2020, "enfoque": "Sahara Occidental · normalización Israel (Abraham) · alianza USA Major Non-NATO Ally" },
+      "ministerio": { "nombre": "Ministère de la Défense Nationale", "ministro": "Abdellatif Loudiyi", "url_oficial": "https://www.mdn.gov.ma", "presupuesto_anual_M": 5400, "agencias_clave": ["DGED (intel ext)", "DGST", "FAR HQ"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.05, "empresas_top": ["Royal Air Maroc Industries", "SOFEMA Morocco", "Spaco"] },
+      "despliegues": [{ "pais": "Sahara Occidental", "tipo": "permanente", "efectivos": 100000, "nota": "FAR vs Frente Polisario" }, { "pais": "RDC", "tipo": "misión ONU", "efectivos": 800 }, { "pais": "EAU", "tipo": "permanente", "efectivos": 1500 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Sahara Occidental (Polisario/Argelia)", "Normalización Israel + Acuerdos Abraham", "Modernización masiva"], "conflictos_activos": ["Conflicto baja intensidad Sahara Occidental"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "ARG", "pais": "Argentina", "pais_en": "Argentina", "region": "Latinoamérica", "alianzas": ["OTROS"], "capital": "Buenos Aires",
+      "poblacion_M": 45.8, "pib_USD_b": 622, "gasto_militar_USD_b": 4.3, "gasto_militar_pct_pib": 0.5, "ranking_global": 47, "variacion_yoy_pct": 4,
+      "efectivos_activos": 80000, "efectivos_reserva": 0, "efectivos_paramilitares": 31000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 45000, "equipoClave": [{ "tipo": "TAM 2C", "cantidad": 226 }, { "tipo": "VCTP IFV", "cantidad": 117 }] },
+        { "rama": "Armada", "efectivos": 19000, "equipoClave": [{ "tipo": "Destructor Almirante Brown", "cantidad": 4 }, { "tipo": "Submarinos TR-1700", "cantidad": 1, "nota": "ARA San Juan se perdió 2017" }] },
+        { "rama": "Fuerza Aérea", "efectivos": 16000, "equipoClave": [{ "tipo": "F-16AM Fighting Falcon", "cantidad": 24, "nota": "Pedido a Dinamarca 2024" }, { "tipo": "A-4AR Skyhawk", "cantidad": 12 }] }
+      ],
+      "inventario": { "carros_combate": 226, "vehiculos_combate": 460, "aeronaves_combate": 40, "buques_superficie": 14, "submarinos": 1, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-16 (procedentes Dinamarca)", "tipo": "aeronaves", "socios": ["Dinamarca"], "cuantia_estimada_M": 320, "horizonte": "2024-2026", "estado": "producción", "descripcion": "24 F-16AM Block 15 sustituye Mirage" },
+        { "nombre": "OPV Bouchard", "tipo": "naval", "socios": ["Naval Group"], "cuantia_estimada_M": 350, "horizonte": "2024+", "estado": "despliegue", "descripcion": "4 patrulleros oceánicos" }
+      ],
+      "doctrina": { "documento_clave": "Libro Blanco de la Defensa", "año": 2015, "enfoque": "Defensa territorial · Atlántico Sur (Malvinas) · MERCOSUR cooperación" },
+      "ministerio": { "nombre": "Ministerio de Defensa", "ministro": "Luis Petri", "url_oficial": "https://www.argentina.gob.ar/defensa", "presupuesto_anual_M": 4300, "agencias_clave": ["EMCO", "AFI (intel)", "Fabricaciones Militares"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.02, "empresas_top": ["FAdeA", "Tandanor", "Fabricaciones Militares", "INVAP"] },
+      "despliegues": [{ "pais": "Chipre", "tipo": "misión ONU", "efectivos": 270, "nota": "UNFICYP comando" }, { "pais": "Haití", "tipo": "misión ONU", "efectivos": 50 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Disputa Malvinas con UK", "Atlántico Sur", "Acercamiento OTAN socio global"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "MEX", "pais": "México", "pais_en": "Mexico", "region": "Norteamérica", "alianzas": ["OTROS"], "capital": "Ciudad de México",
+      "poblacion_M": 128, "pib_USD_b": 1789, "gasto_militar_USD_b": 11.8, "gasto_militar_pct_pib": 0.66, "ranking_global": 22, "variacion_yoy_pct": 9,
+      "efectivos_activos": 277000, "efectivos_reserva": 81852, "efectivos_paramilitares": 130000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 213000, "equipoClave": [{ "tipo": "Sandcat / DN-IV Caballo", "cantidad": 350 }, { "tipo": "M3A1 White (modernizado)", "cantidad": 200 }] },
+        { "rama": "Armada", "efectivos": 64000, "equipoClave": [{ "tipo": "Patrulleros Sigma", "cantidad": 2 }, { "tipo": "Knox class fragatas (en retiro)", "cantidad": 2 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 21000, "equipoClave": [{ "tipo": "F-5E Tiger II", "cantidad": 8 }, { "tipo": "Pilatus PC-7", "cantidad": 80 }] }
+      ],
+      "inventario": { "carros_combate": 0, "vehiculos_combate": 550, "aeronaves_combate": 8, "buques_superficie": 20, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "sin", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Patrulleros Pola (Sigma)", "tipo": "naval", "socios": ["Damen + ASTIMAR"], "cuantia_estimada_M": 600, "horizonte": "2024+", "estado": "producción", "descripcion": "Patrulleros oceánicos nacional" },
+        { "nombre": "Guardia Nacional consolidación", "tipo": "logística", "socios": ["SEDENA"], "cuantia_estimada_M": 3000, "horizonte": "2024-2030", "estado": "despliegue", "descripcion": "130k efectivos vs crimen organizado" }
+      ],
+      "doctrina": { "documento_clave": "Plan Nacional de Desarrollo", "año": 2019, "enfoque": "Seguridad interior · narcotráfico · soberanía · no intervencionismo" },
+      "ministerio": { "nombre": "SEDENA (Defensa) + SEMAR (Marina)", "ministro": "Ricardo Trevilla Trejo", "url_oficial": "https://www.gob.mx/sedena", "presupuesto_anual_M": 11800, "agencias_clave": ["SEDENA", "SEMAR", "CNI (intel)", "Guardia Nacional"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.1, "empresas_top": ["Dirección General de Industria Militar (SEDENA)", "ASTIMAR"] },
+      "despliegues": [{ "pais": "ONU varios", "tipo": "misión ONU", "efectivos": 30 }, { "pais": "Frontera Norte (interna)", "tipo": "permanente", "efectivos": 130000, "nota": "Lucha narco" }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Crimen organizado severo", "Frontera USA migración", "No participa OTAN/coaliciones"], "conflictos_activos": ["Guerra al narco (CJNG, Sinaloa, etc.)"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "VNM", "pais": "Vietnam", "pais_en": "Vietnam", "region": "Asia-Pacífico", "alianzas": ["OTROS"], "capital": "Hanói",
+      "poblacion_M": 100, "pib_USD_b": 433, "gasto_militar_USD_b": 6.8, "gasto_militar_pct_pib": 1.57, "ranking_global": 35, "variacion_yoy_pct": 2,
+      "efectivos_activos": 470000, "efectivos_reserva": 5000000, "efectivos_paramilitares": 40000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 412000, "equipoClave": [{ "tipo": "T-90S Bhishma (de Rusia)", "cantidad": 64 }, { "tipo": "T-54/55 modernizado", "cantidad": 850 }] },
+        { "rama": "Armada", "efectivos": 40000, "equipoClave": [{ "tipo": "Submarinos Kilo class", "cantidad": 6 }, { "tipo": "Fragatas Gepard", "cantidad": 4 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 18000, "equipoClave": [{ "tipo": "Su-30MK2V", "cantidad": 35 }, { "tipo": "Su-27", "cantidad": 9 }] }
+      ],
+      "inventario": { "carros_combate": 1300, "vehiculos_combate": 4000, "aeronaves_combate": 75, "buques_superficie": 10, "submarinos": 6, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "desarrollada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Diversificación proveedores (USA/KOR/ISR)", "tipo": "logística", "socios": ["USA", "Corea Sur", "Israel"], "cuantia_estimada_M": 2000, "horizonte": "2024-2030", "estado": "planificación", "descripcion": "Reducir dependencia Rusia post-Ucrania" }
+      ],
+      "doctrina": { "documento_clave": "Defence White Paper", "año": 2019, "enfoque": "No alineamiento · cuatro nos · Mar Sur China · disuasión territorial" },
+      "ministerio": { "nombre": "Bộ Quốc phòng", "ministro": "Phan Văn Giang", "url_oficial": "http://mod.gov.vn", "presupuesto_anual_M": 6800, "agencias_clave": ["TC2 (intel mil)", "TC4 (logística)", "Cyber Command"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.2, "empresas_top": ["Viettel", "Z Industries (Z111, Z117, etc.)"] },
+      "despliegues": [{ "pais": "ONU Sudán Sur", "tipo": "misión ONU", "efectivos": 230 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Disputas Mar Sur China + Spratly", "Diversificación post-Rusia", "Acercamiento USA/India"], "conflictos_activos": ["Tensión marítima China"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "DZA", "pais": "Argelia", "pais_en": "Algeria", "region": "África", "alianzas": ["BRICS"], "capital": "Argel",
+      "poblacion_M": 45, "pib_USD_b": 224, "gasto_militar_USD_b": 18.3, "gasto_militar_pct_pib": 8.2, "ranking_global": 36, "variacion_yoy_pct": 76,
+      "efectivos_activos": 130000, "efectivos_reserva": 150000, "efectivos_paramilitares": 187200,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 105000, "equipoClave": [{ "tipo": "T-90SA", "cantidad": 305 }, { "tipo": "T-72M1", "cantidad": 320 }] },
+        { "rama": "Armada", "efectivos": 6000, "equipoClave": [{ "tipo": "Fragatas Adhafer (MEKO)", "cantidad": 2 }, { "tipo": "Submarinos Kilo + Improved Kilo", "cantidad": 6 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 14000, "equipoClave": [{ "tipo": "Su-30MKA", "cantidad": 70 }, { "tipo": "MiG-29S", "cantidad": 36 }, { "tipo": "Su-57E (pedido)", "cantidad": 0 }] }
+      ],
+      "inventario": { "carros_combate": 1700, "vehiculos_combate": 3000, "aeronaves_combate": 120, "buques_superficie": 8, "submarinos": 6, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": true, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "Su-57E (primer cliente exportación)", "tipo": "aeronaves", "socios": ["Sukhoi"], "cuantia_estimada_M": 5000, "horizonte": "2027+", "estado": "planificación", "descripcion": "Anuncio septiembre 2024" },
+        { "nombre": "Modernización masiva Rusia + China", "tipo": "logística", "socios": ["Rosoboronexport", "NORINCO"], "cuantia_estimada_M": 25000, "horizonte": "2024-2030", "estado": "producción", "descripcion": "Mayor adquirente África" }
+      ],
+      "doctrina": { "documento_clave": "Constitución Art. 30 (defensa territorial)", "año": 2020, "enfoque": "Disuasión Marruecos · Sahel/Libia · no intervencionismo · alianza Rusia" },
+      "ministerio": { "nombre": "Ministerio de Defensa Nacional", "ministro": "Saïd Chanegriha", "url_oficial": "https://www.mdn.dz", "presupuesto_anual_M": 18300, "agencias_clave": ["DGSI", "DRS (sucedido por DGSI)", "Comando 1ra Región Militar"] },
+      "industria": { "nivel": "integrador", "exportacion_USD_b": 0.1, "empresas_top": ["EMP Algeria", "ETRAG", "Mercedes Algeria (camiones militares)"] },
+      "despliegues": [{ "pais": "ONU", "tipo": "misión ONU", "efectivos": 250 }],
+      "postura": { "nivel_riesgo": "alto", "factores": ["Tensión histórica Marruecos", "Inestabilidad Sahel/Libia", "Mayor cliente armas Rusia África"], "conflictos_activos": ["Tensión fronteriza Sahel (sin operaciones)"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "NGA", "pais": "Nigeria", "pais_en": "Nigeria", "region": "África", "alianzas": ["OTROS"], "capital": "Abuya",
+      "poblacion_M": 218, "pib_USD_b": 397, "gasto_militar_USD_b": 3.2, "gasto_militar_pct_pib": 0.81, "ranking_global": 49, "variacion_yoy_pct": -10,
+      "efectivos_activos": 230000, "efectivos_reserva": 0, "efectivos_paramilitares": 80000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 162000, "equipoClave": [{ "tipo": "T-72AV (Ucrania)", "cantidad": 0, "nota": "Acuerdo pendiente" }, { "tipo": "VT-4 (China)", "cantidad": 50 }] },
+        { "rama": "Armada", "efectivos": 25000, "equipoClave": [{ "tipo": "Fragatas Centenario (CHN)", "cantidad": 2 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 43000, "equipoClave": [{ "tipo": "JF-17 Thunder Block II", "cantidad": 3 }, { "tipo": "A-29 Super Tucano", "cantidad": 12 }] }
+      ],
+      "inventario": { "carros_combate": 250, "vehiculos_combate": 900, "aeronaves_combate": 30, "buques_superficie": 10, "submarinos": 0, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "limitada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "JF-17 Block II + A-29", "tipo": "aeronaves", "socios": ["Pakistán", "USA"], "cuantia_estimada_M": 600, "horizonte": "2024+", "estado": "producción", "descripcion": "Lucha contra Boko Haram + bandidaje" }
+      ],
+      "doctrina": { "documento_clave": "Defence Policy", "año": 2017, "enfoque": "Lucha contra Boko Haram/ISWAP · operaciones lago Chad · liderazgo ECOWAS" },
+      "ministerio": { "nombre": "Ministry of Defence Nigeria", "ministro": "Mohammed Badaru Abubakar", "url_oficial": "https://defence.gov.ng", "presupuesto_anual_M": 3200, "agencias_clave": ["DIA (Defence Intel)", "DICON (procurement)", "NIA"] },
+      "industria": { "nivel": "consumidor", "exportacion_USD_b": 0.0, "empresas_top": ["DICON", "PROFORCE", "Innoson Vehicles (military variant)"] },
+      "despliegues": [{ "pais": "Mali / Lake Chad", "tipo": "permanente", "efectivos": 0, "nota": "MNJTF vs Boko Haram" }, { "pais": "ONU varios", "tipo": "misión ONU", "efectivos": 950 }],
+      "postura": { "nivel_riesgo": "crítico", "factores": ["Boko Haram + ISWAP activos", "Bandidaje norte", "Conflicto delta Níger", "Cuelas militares Sahel"], "conflictos_activos": ["Boko Haram", "ISWAP", "Bandidaje", "Insurgencia delta Níger"] },
+      "fuentes": ["SIPRI 2024", "IISS 2024"], "actualizado": "2024-10" },
+
+    { "iso3": "SGP", "pais": "Singapur", "pais_en": "Singapore", "region": "Asia-Pacífico", "alianzas": ["OTROS"], "capital": "Singapur",
+      "poblacion_M": 5.9, "pib_USD_b": 487, "gasto_militar_USD_b": 13.4, "gasto_militar_pct_pib": 2.75, "ranking_global": 30, "variacion_yoy_pct": 6,
+      "efectivos_activos": 51000, "efectivos_reserva": 252000, "efectivos_paramilitares": 75000,
+      "ramas": [
+        { "rama": "Ejército", "efectivos": 33500, "equipoClave": [{ "tipo": "Leopard 2SG", "cantidad": 196 }, { "tipo": "Hunter AFV", "cantidad": 30 }] },
+        { "rama": "Armada", "efectivos": 8500, "equipoClave": [{ "tipo": "Submarinos Invincible (Type 218SG)", "cantidad": 2 }, { "tipo": "Fragatas Formidable", "cantidad": 6 }] },
+        { "rama": "Fuerza Aérea", "efectivos": 9000, "equipoClave": [{ "tipo": "F-15SG", "cantidad": 40 }, { "tipo": "F-16C/D Block 52+", "cantidad": 60 }, { "tipo": "F-35B Lightning II", "cantidad": 4, "nota": "Total 12 pedidos" }, { "tipo": "F-35A", "cantidad": 0, "nota": "8 adicionales" }] }
+      ],
+      "inventario": { "carros_combate": 196, "vehiculos_combate": 800, "aeronaves_combate": 100, "buques_superficie": 12, "submarinos": 2, "portaaviones": 0 },
+      "capacidades": { "nuclear": false, "espacial": false, "ciber": "avanzada", "expedicionaria": "regional", "portaaviones": 0, "submarinos_nucleares": 0 },
+      "programas": [
+        { "nombre": "F-35B + F-35A", "tipo": "aeronaves", "socios": ["Lockheed Martin"], "cuantia_estimada_M": 4500, "horizonte": "2026-2030", "estado": "producción", "descripcion": "12 F-35B + 8 F-35A · sustituye F-16" },
+        { "nombre": "Multi-Role Combat Vessel", "tipo": "naval", "socios": ["ST Engineering"], "cuantia_estimada_M": 3000, "horizonte": "2026+", "estado": "desarrollo", "descripcion": "6 buques multipropósito" }
+      ],
+      "doctrina": { "documento_clave": "Total Defence", "año": 1984, "enfoque": "Poisoned shrimp · disuasión cualitativa · neutralidad activa · 5 Power Defence Arrangements" },
+      "ministerio": { "nombre": "Ministry of Defence (MINDEF)", "ministro": "Ng Eng Hen", "url_oficial": "https://www.mindef.gov.sg", "presupuesto_anual_M": 13400, "agencias_clave": ["DSO National Labs", "ST Engineering", "DSTA (procurement)", "MID (intel)"] },
+      "industria": { "nivel": "exportador líder", "exportacion_USD_b": 1.2, "empresas_top": ["ST Engineering", "DSO National Laboratories", "STELOP", "Singapore Technologies Aerospace"] },
+      "despliegues": [{ "pais": "Afganistán pasado", "tipo": "OTAN", "efectivos": 0 }, { "pais": "Tailandia/Cocos Islands", "tipo": "permanente", "efectivos": 30 }],
+      "postura": { "nivel_riesgo": "moderado", "factores": ["Mar Sur China", "ASEAN", "Cyber centro regional", "Mayor gasto per cápita Asia"], "conflictos_activos": [] },
+      "fuentes": ["SIPRI 2024", "IISS 2024", "MINDEF"], "actualizado": "2024-10" }
+  ]
+}
