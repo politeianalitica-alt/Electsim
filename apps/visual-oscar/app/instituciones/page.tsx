@@ -28,11 +28,11 @@ interface CCAA {
 }
 
 interface Municipio {
-  ine: string; slug: string; nombre: string; ccaa: string; provincia: string
-  poblacion: number; superficie: number
-  alcalde: string | null; partidoAlcalde: string | null; alcaldeDesde: number | null
-  webAyuntamiento: string | null; wikipedia: string
-  tokens: string[]
+  ine: string; slug: string; nombre: string; ccaa: string; provincia: string; cpro: string
+  poblacion: number; poblacionAño?: string; superficie?: number
+  alcalde?: string | null; partidoAlcalde?: string | null; alcaldeDesde?: number | null
+  webAyuntamiento?: string | null; wikipedia?: string
+  tokens?: string[]
 }
 
 interface CCAAProfile {
@@ -366,6 +366,7 @@ function CCAAProfileView({ profile }: { profile: CCAAProfile }) {
 
 function MunicipiosTab() {
   const [list, setList] = useState<Municipio[]>([])
+  const [grandTotal, setGrandTotal] = useState(0)
   const [selected, setSelected] = useState<string>('madrid')
   const [profile, setProfile] = useState<MunicipioProfile | null>(null)
   const [loading, setLoading] = useState(false)
@@ -374,7 +375,6 @@ function MunicipiosTab() {
   const [ccaaList, setCcaaList] = useState<CCAA[]>([])
 
   useEffect(() => {
-    fetch('/api/municipios/list?limit=200').then(r => r.json()).then(d => setList(d.items || [])).catch(() => {})
     fetch('/api/ccaa/list').then(r => r.json()).then(d => setCcaaList(d.items || [])).catch(() => {})
   }, [])
 
@@ -389,12 +389,21 @@ function MunicipiosTab() {
       .finally(() => setLoading(false))
   }, [selected])
 
-  // Búsqueda incremental
+  // Búsqueda incremental (debounce ligero)
   useEffect(() => {
-    const params = new URLSearchParams({ limit: '200' })
-    if (q) params.set('q', q)
-    if (ccaaFilter) params.set('ccaa', ccaaFilter)
-    fetch(`/api/municipios/list?${params}`).then(r => r.json()).then(d => setList(d.items || [])).catch(() => {})
+    const tm = setTimeout(() => {
+      const params = new URLSearchParams({ limit: '300' })
+      if (q) params.set('q', q)
+      if (ccaaFilter) params.set('ccaa', ccaaFilter)
+      fetch(`/api/municipios/list?${params}`)
+        .then(r => r.json())
+        .then(d => {
+          setList(d.items || [])
+          if (d.grandTotal) setGrandTotal(d.grandTotal)
+        })
+        .catch(() => {})
+    }, 200)
+    return () => clearTimeout(tm)
   }, [q, ccaaFilter])
 
   return (
@@ -402,11 +411,12 @@ function MunicipiosTab() {
       <aside style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: 14, maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column' }}>
         <input
           type="text" value={q} onChange={e => setQ(e.target.value)}
-          placeholder="Buscar municipio o alcalde…"
+          placeholder="Buscar entre 8.132 municipios…"
           style={{
             padding: '8px 12px', fontSize: 12, borderRadius: 8,
             border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit', marginBottom: 8,
           }}
+          autoFocus
         />
         <select value={ccaaFilter} onChange={e => setCcaaFilter(e.target.value)} style={{
           padding: '7px 10px', fontSize: 12, borderRadius: 8, border: '1px solid #ECECEF',
@@ -416,35 +426,45 @@ function MunicipiosTab() {
           {ccaaList.map(c => <option key={c.slug} value={c.slug}>{c.nombreCorto}</option>)}
         </select>
         <p style={{ fontSize: 10, color: '#6e6e73', margin: '0 0 8px' }}>
-          {list.length} municipio(s) · más por importancia (capital + grandes ciudades)
+          {grandTotal > 0 && `${grandTotal.toLocaleString('es-ES')} municipios en España · `}
+          mostrando {list.length} (filtrar/buscar para más)
         </p>
         <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
           {list.map(m => {
             const active = selected === m.slug
-            const partidoColor = m.partidoAlcalde ? (PARTY_COLOR[m.partidoAlcalde] || '#525258') : '#525258'
+            const partidoColor = m.partidoAlcalde ? (PARTY_COLOR[m.partidoAlcalde] || '#525258') : '#0F766E'
             return (
-              <button key={m.slug} onClick={() => setSelected(m.slug)} style={{
-                textAlign: 'left', padding: '8px 10px', borderRadius: 8,
+              <button key={m.slug + m.ine} onClick={() => setSelected(m.slug)} style={{
+                textAlign: 'left', padding: '7px 10px', borderRadius: 7,
                 background: active ? `${partidoColor}10` : '#fff',
                 border: '1px solid ' + (active ? partidoColor : '#F0F0F3'),
                 borderLeft: `3px solid ${partidoColor}`,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                  <strong style={{ fontSize: 12, color: '#1d1d1f' }}>{m.nombre}</strong>
-                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#6e6e73' }}>{(m.poblacion / 1000).toFixed(0)}k</span>
+                  <strong style={{ fontSize: 11.5, color: '#1d1d1f' }}>{m.nombre}</strong>
+                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>
+                    {m.poblacion > 1000000 ? `${(m.poblacion / 1000000).toFixed(1)}M`
+                     : m.poblacion > 1000 ? `${(m.poblacion / 1000).toFixed(0)}k`
+                     : m.poblacion}
+                  </span>
                 </div>
-                <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
+                <p style={{ margin: '2px 0 0', fontSize: 9.5, color: '#6e6e73' }}>
                   {m.provincia}{m.alcalde && ` · ${m.alcalde}`}
                 </p>
                 {m.partidoAlcalde && (
-                  <span style={{ fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: `${partidoColor}15`, color: partidoColor, letterSpacing: '0.04em', marginTop: 2, display: 'inline-block' }}>
+                  <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: `${partidoColor}15`, color: partidoColor, letterSpacing: '0.04em', marginTop: 2, display: 'inline-block' }}>
                     {m.partidoAlcalde.toUpperCase()}
                   </span>
                 )}
               </button>
             )
           })}
+          {list.length === 0 && q && (
+            <p style={{ fontSize: 11, color: '#9ca3af', textAlign: 'center', padding: 20 }}>
+              Sin coincidencias para "{q}"
+            </p>
+          )}
         </div>
       </aside>
 

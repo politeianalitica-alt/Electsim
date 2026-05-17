@@ -46,7 +46,10 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
   ])
 
-  const tokenPatterns = meta.tokens.map(t => { try { return new RegExp(t, 'i') } catch { return null } }).filter((r): r is RegExp => !!r)
+  const tokens = meta.tokens || [meta.nombre.toLowerCase()]
+  const tokenPatterns = tokens.map(t => {
+    try { return new RegExp('\\b' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i') } catch { return null }
+  }).filter((r): r is RegExp => !!r)
   const noticiasMatched = articles.filter(a => {
     const txt = (a.title + ' ' + a.description).toLowerCase()
     return tokenPatterns.some(re => re.test(txt))
@@ -70,19 +73,30 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     preocupaciones,
     metrics: {
       nNoticias7d: noticiasMatched.length,
-      densidadHabKm2: Math.round(meta.poblacion / meta.superficie),
+      densidadHabKm2: meta.superficie && meta.superficie > 0 ? Math.round(meta.poblacion / meta.superficie) : 0,
     },
     updatedAt: new Date().toISOString(),
   }
 }
 
 async function fetchBio(meta: Municipio) {
-  const title = meta.wikipedia.match(/wiki\/(.+)$/)?.[1]
-  if (!title) return { extract: '', sourceUrl: null }
-  const decoded = decodeURIComponent(title.replace(/_/g, ' '))
-  const summary = await fetchWikipediaSummary(decoded)
-  if (!summary?.extract) return { extract: '', sourceUrl: meta.wikipedia }
-  return { extract: summary.extract, sourceUrl: summary.content_urls?.desktop?.page || meta.wikipedia }
+  // Probar varios títulos posibles para Wikipedia
+  const candidatos = [
+    meta.nombre,
+    `${meta.nombre} (${meta.provincia})`,
+    meta.nombre.split('/')[0].trim(),
+    meta.nombre.replace(/^.+\s+de\s+/i, '').trim(),
+  ]
+  for (const candidato of candidatos) {
+    const summary = await fetchWikipediaSummary(candidato)
+    if (summary?.extract && summary.extract.length > 100) {
+      return {
+        extract: summary.extract,
+        sourceUrl: summary.content_urls?.desktop?.page || meta.wikipedia || null,
+      }
+    }
+  }
+  return { extract: '', sourceUrl: meta.wikipedia || null }
 }
 
 function computeAgregado(noticias: AggregatedArticle[]) {
