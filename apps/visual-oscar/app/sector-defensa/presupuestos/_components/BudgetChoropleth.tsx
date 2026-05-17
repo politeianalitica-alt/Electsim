@@ -77,7 +77,7 @@ export function BudgetChoropleth({ items }: Props) {
           { color: '#DCFCE7', label: '< 1%' },
           { color: '#BEF264', label: '1–1.5%' },
           { color: '#FCD34D', label: '1.5–2%' },
-          { color: '#F59E0B', label: '2–3% ✓ OTAN' },
+          { color: '#F59E0B', label: '2–3% OTAN' },
           { color: '#DC2626', label: '3–4%' },
           { color: '#7F1D1D', label: '> 4%' },
           { color: '#ECECEF', label: 'Sin datos' },

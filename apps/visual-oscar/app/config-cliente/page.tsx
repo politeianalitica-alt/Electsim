@@ -30,9 +30,9 @@ type SectionId =
   | 'personalizacion' | 'pipelines' | 'sistema' | 'logs' | 'facturacion' | 'soporte'
 
 const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: string }> = [
-  { id: 'cuenta',          label: 'Empresa y cuenta',     group: 'Organización', icon: '◉' },
+  { id: 'cuenta',          label: 'Empresa y cuenta',     group: 'Organización', icon: '' },
   { id: 'equipo',          label: 'Equipo y usuarios',    group: 'Organización', icon: '◍' },
-  { id: 'workspaces',      label: 'Workspaces',           group: 'Organización', icon: '⊞' },
+  { id: 'workspaces',      label: 'Workspaces',           group: 'Organización', icon: '' },
   { id: 'sectores',        label: 'Sectores y cobertura', group: 'Producto',     icon: '⌘' },
   { id: 'watchlists',      label: 'Watchlists y keywords',group: 'Producto',     icon: '⊙' },
   { id: 'fuentes',         label: 'Fuentes de datos',     group: 'Producto',     icon: '◊' },

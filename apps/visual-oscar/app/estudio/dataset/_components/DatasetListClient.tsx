@@ -151,7 +151,7 @@ export default function DatasetListClient() {
 
       {!isLoading && !isError && filtered.length === 0 && (
         <div className={styles.emptyState}>
-          <span style={{ fontSize: '2rem', opacity: 0.4 }}>⊞</span>
+          <span style={{ fontSize: '2rem', opacity: 0.4 }}></span>
           <p>{datasets.length === 0 ? 'Todavía no hay datasets.' : 'Ningún dataset coincide con los filtros.'}</p>
           {datasets.length === 0 && (
             <Link href="/estudio/dataset/nuevo" className={styles.btnPrimary}>Crear primer dataset</Link>

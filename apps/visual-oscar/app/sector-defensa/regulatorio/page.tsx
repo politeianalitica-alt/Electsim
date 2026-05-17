@@ -36,7 +36,7 @@ export default function RegulatorioPage() {
 
       {/* DISCLAIMER */}
       <div style={{ padding: '10px 16px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 10, marginBottom: 18, fontSize: 11.5, color: '#92400E' }}>
-        ⚠️ <strong>Aviso legal:</strong> La información de esta sección es orientativa y no constituye asesoramiento jurídico. Consulte siempre con un experto en control de exportaciones para operaciones reales.
+        <strong>Aviso legal:</strong> La información de esta sección es orientativa y no constituye asesoramiento jurídico. Consulte siempre con un experto en control de exportaciones para operaciones reales.
       </div>
 
       {/* SUB-TABS */}

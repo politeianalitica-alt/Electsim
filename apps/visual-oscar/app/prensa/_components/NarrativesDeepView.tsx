@@ -270,7 +270,7 @@ export default function NarrativesDeepView({ narratives, gaps }: {
 
               {/* CCAA */}
               {active.ccaas.length > 0 && (
-                <Section title="Cobertura territorial" icon="◉">
+                <Section title="Cobertura territorial" icon="">
                   <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
                     {active.ccaas.map(c => (
                       <span key={c.ccaa} style={{
@@ -285,7 +285,7 @@ export default function NarrativesDeepView({ narratives, gaps }: {
               )}
 
               {/* Noticias que la componen */}
-              <Section title="Noticias que la componen" icon="⊞">
+              <Section title="Noticias que la componen" icon="">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   {active.articles.slice(0, 5).map((a, i) => (
                     <a key={i} href={a.link} target="_blank" rel="noopener" style={{

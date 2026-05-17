@@ -66,10 +66,10 @@ const STAGE_COLOR: Record<string, string> = {
 }
 
 const STEP_KIND_GLYPH: Record<string, string> = {
-  'presentacion': '◉', 'calificacion': '⊟', 'toma-consideracion': '✓',
+  'presentacion': '', 'calificacion': '⊟', 'toma-consideracion': '✓',
   'enmiendas-totalidad': '⌥', 'enmiendas-articulado': '⌥', 'comparecencias': '◐',
-  'ponencia': '⊞', 'dictamen-comision': '✦', 'pleno-debate': '◫',
-  'pleno-votacion': '◉', 'remision-camara': '⇡', 'devolucion-enmiendas': '⇣',
+  'ponencia': '', 'dictamen-comision': '✦', 'pleno-debate': '◫',
+  'pleno-votacion': '', 'remision-camara': '⇡', 'devolucion-enmiendas': '⇣',
   'aprobacion-final': '★', 'sancion-real': '✓', 'publicacion-boe': '✓',
   'recurso-inconstitucionalidad': '!', 'sentencia-tc': '◐', 'otro': '·',
 }

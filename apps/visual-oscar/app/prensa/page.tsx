@@ -44,8 +44,8 @@ interface IntelResponse {
 type Tab = 'feed' | 'mapa' | 'narrativas' | 'sentimiento' | 'cobertura'
 
 const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }> = [
-  { id: 'feed',         label: 'Feed inteligente', glyph: '⊞', description: 'Multi-tier + categorías temáticas dinámicas' },
-  { id: 'mapa',         label: 'Mapa',             glyph: '◉', description: 'Sentimiento regional con drill provincial + figuras y empresas por CCAA' },
+  { id: 'feed',         label: 'Feed inteligente', glyph: '', description: 'Multi-tier + categorías temáticas dinámicas' },
+  { id: 'mapa',         label: 'Mapa',             glyph: '', description: 'Sentimiento regional con drill provincial + figuras y empresas por CCAA' },
   { id: 'narrativas',   label: 'Narrativas',       glyph: '✦', description: 'Anatomía: audiencia, canales, mensajes, objetivos, figuras, empresas' },
   { id: 'sentimiento',  label: 'Sentimiento',      glyph: '◐', description: 'Vista política (partidos × temas) y vista empresarial (IBEX/sectores)' },
   { id: 'cobertura',    label: 'Cobertura',        glyph: '◫', description: 'Misma historia, distintos framings ideológicos' },

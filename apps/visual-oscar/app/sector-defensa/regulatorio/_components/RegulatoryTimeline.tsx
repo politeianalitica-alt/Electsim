@@ -106,7 +106,7 @@ export function RegulatoryTimeline() {
                     <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: ac.bg, color: ac.color, letterSpacing: '0.06em' }}>{n.ambito}</span>
                     <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: ec.bg, color: ec.color }}>{ec.label}</span>
                     <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: ic.bg, color: ic.color }}>{ic.label}</span>
-                    {n.novedades_recientes && <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#DC2626' }}>🔴 NOVEDAD</span>}
+                    {n.novedades_recientes && <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#DC2626' }}>· NOVEDAD</span>}
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>

@@ -144,8 +144,8 @@ export async function fetchTejidoEmpresarial(codigoIne: string, poblacion: numbe
   const MEDIA_NACIONAL_DENSIDAD = 70
   const ratio = densidad / MEDIA_NACIONAL_DENSIDAD
   const ranking =
-    ratio > 1.5 ? '★ Tejido empresarial muy fuerte (50%+ sobre media)'
-    : ratio > 1.15 ? '◉ Tejido por encima de la media nacional'
+    ratio > 1.5 ? 'Tejido empresarial muy fuerte (50%+ sobre media)'
+    : ratio > 1.15 ? 'Tejido por encima de la media nacional'
     : ratio > 0.85 ? '◐ Tejido empresarial en línea con la media'
     : ratio > 0.6 ? '◓ Tejido por debajo de la media'
     : '◌ Tejido empresarial muy escaso'

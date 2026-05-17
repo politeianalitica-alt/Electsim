@@ -47,7 +47,7 @@ export const TOOLS: ToolDef[] = [
     description: 'Consola operativa: comandos rápidos, queries y atajos al stack.' },
 
   // CONTENIDO
-  { id: 'docs',           label: 'Docs',           glyph: '⊞', category: 'CONTENIDO',
+  { id: 'docs',           label: 'Docs',           glyph: '', category: 'CONTENIDO',
     href: `/workspaces/${DEFAULT_WORKSPACE}/docs`,
     description: 'Documentos vivos: briefings, informes, notas de prensa, propuestas.' },
   { id: 'tables',         label: 'Tables',         glyph: '⊟', category: 'CONTENIDO',
@@ -67,7 +67,7 @@ export const TOOLS: ToolDef[] = [
   { id: 'research',       label: 'Research',       glyph: '✦', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/research`,
     description: 'Investigación con IA: threads, fuentes, citas con trazabilidad.' },
-  { id: 'radar',          label: 'Radar',          glyph: '◉', category: 'INTELIGENCIA',
+  { id: 'radar',          label: 'Radar',          glyph: '', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/radar`,
     description: 'Vigilancia activa de temas, actores y narrativas emergentes.' },
   { id: 'simulator',      label: 'Simulator',      glyph: '◷', category: 'INTELIGENCIA',

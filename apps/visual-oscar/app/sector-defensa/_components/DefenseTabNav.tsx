@@ -4,40 +4,13 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const TABS = [
-  {
-    href: '/sector-defensa',
-    label: 'Situación',
-    description: 'Sala de mando macro',
-    exact: true,
-  },
-  {
-    href: '/sector-defensa/contratos',
-    label: 'Contratos',
-    description: 'Monitor de licitaciones y adjudicaciones',
-    exact: false,
-    badge: 'próximo' as const,
-  },
-  {
-    href: '/sector-defensa/presupuestos',
-    label: 'Presupuestos',
-    description: 'Gasto militar por país y tendencias',
-    exact: false,
-    badge: 'próximo' as const,
-  },
-  {
-    href: '/sector-defensa/programas',
-    label: 'Programas',
-    description: 'Adquisiciones y cadena de suministro',
-    exact: false,
-    badge: 'próximo' as const,
-  },
-  {
-    href: '/sector-defensa/regulatorio',
-    label: 'Regulatorio',
-    description: 'ITAR · EAR · Sanciones · Compliance',
-    exact: false,
-    badge: 'próximo' as const,
-  },
+  { href: '/sector-defensa',                label: 'Situación',     description: 'Sala de mando macro',                                   exact: true  },
+  { href: '/sector-defensa/paises',         label: 'Países',        description: 'Catálogo militar mundial (40+ ejércitos)',              exact: false },
+  { href: '/sector-defensa/oportunidades',  label: 'Oportunidades', description: 'Programas activos · ventanas competitivas globales',    exact: false },
+  { href: '/sector-defensa/contratos',      label: 'Contratos',     description: 'Monitor de licitaciones y adjudicaciones',              exact: false },
+  { href: '/sector-defensa/presupuestos',   label: 'Presupuestos',  description: 'Gasto militar por país y tendencias',                   exact: false },
+  { href: '/sector-defensa/programas',      label: 'Programas',     description: 'Adquisiciones y cadena de suministro',                  exact: false },
+  { href: '/sector-defensa/regulatorio',    label: 'Regulatorio',   description: 'ITAR · EAR · Sanciones · Compliance',                   exact: false },
 ]
 
 export function DefenseTabNav() {
@@ -98,22 +71,6 @@ export function DefenseTabNav() {
               }}
             >
               {tab.label}
-              {tab.badge && !active && (
-                <span
-                  style={{
-                    fontSize: 9,
-                    fontWeight: 700,
-                    padding: '2px 5px',
-                    borderRadius: 4,
-                    background: '#F5F5F7',
-                    color: '#86868b',
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {tab.badge}
-                </span>
-              )}
             </Link>
           )
         })}

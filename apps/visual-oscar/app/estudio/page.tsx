@@ -37,7 +37,7 @@ const GROUPS: StudioGroup[] = [
     cards: [
       { href: '/estudio/fuentes',  title: 'Fuentes',           description: 'Conecta prensa, BOE, encuestas, redes, hojas Excel y APIs en pocos clics.', glyph: '⇡', status: 'ready' },
       { href: '/estudio/pipeline', title: 'Limpieza y cruces', description: 'Limpia, cruza y enriquece tus fuentes paso a paso con un editor visual.',  glyph: '⟶', status: 'ready' },
-      { href: '/estudio/dataset',  title: 'Mis tablas',        description: 'Todos tus datos listos para explorar, filtrar y usar en paneles.',          glyph: '⊞', status: 'ready' },
+      { href: '/estudio/dataset',  title: 'Mis tablas',        description: 'Todos tus datos listos para explorar, filtrar y usar en paneles.',          glyph: '', status: 'ready' },
     ],
   },
   {
@@ -57,7 +57,7 @@ const GROUPS: StudioGroup[] = [
     cards: [
       { href: '/estudio/alertas',        title: 'Vigilantes',       description: 'Avísame cuando un dato suba, baje o se comporte de forma anómala.',   glyph: '!', status: 'ready' },
       { href: '/estudio/notificaciones', title: 'Mis avisos',       description: 'Todos los eventos importantes de tus análisis, en un solo sitio.',    glyph: '◐', status: 'ready' },
-      { href: '/estudio/health',         title: 'Estado del sistema',description: 'Comprueba de un vistazo que todo está funcionando bien.',            glyph: '◉', status: 'ready' },
+      { href: '/estudio/health',         title: 'Estado del sistema',description: 'Comprueba de un vistazo que todo está funcionando bien.',            glyph: '', status: 'ready' },
     ],
   },
   {

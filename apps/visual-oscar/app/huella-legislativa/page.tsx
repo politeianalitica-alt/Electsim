@@ -64,8 +64,8 @@ const ACTOR_TYPE_META: Record<string, { label: string; color: string; glyph: str
   'institucion':   { label: 'Institución',      color: '#1F4E8C', glyph: '⬡' },
   'experto':       { label: 'Experto',          color: '#0F766E', glyph: '✦' },
   'gobierno':      { label: 'Gobierno',         color: '#C01818', glyph: '★' },
-  'ponente':       { label: 'Ponente',          color: '#5B21B6', glyph: '⊞' },
-  'compareciente': { label: 'Compareciente',    color: '#0891B2', glyph: '◉' },
+  'ponente':       { label: 'Ponente',          color: '#5B21B6', glyph: '' },
+  'compareciente': { label: 'Compareciente',    color: '#0891B2', glyph: '' },
   'enmendante':    { label: 'Enmendante',       color: '#EAB308', glyph: '⌥' },
   'oposicion':     { label: 'Oposición',        color: '#DC2626', glyph: '✗' },
 }

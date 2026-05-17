@@ -99,7 +99,7 @@ export default function AlertFormModal({ alert: existing, datasets, onClose, onS
                   className={`${styles.sevBtn} ${severity === s ? styles.sevActive : ''}`}
                   style={severity === s ? { borderColor: s === 'info' ? '#3b82f6' : s === 'warning' ? '#f59e0b' : '#ef4444', color: s === 'info' ? '#3b82f6' : s === 'warning' ? '#f59e0b' : '#ef4444' } : {}}
                 >
-                  {s === 'info' ? 'ℹ Info' : s === 'warning' ? '! Aviso' : '⛔ Crítica'}
+                  {s === 'info' ? 'ℹ Info' : s === 'warning' ? '! Aviso' : '✕ Crítica'}
                 </button>
               ))}
             </div>

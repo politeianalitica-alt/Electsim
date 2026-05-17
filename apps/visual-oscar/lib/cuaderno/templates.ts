@@ -228,7 +228,7 @@ const ACTOR: Template = {
   name:        'Actor político',
   folder:      'Actores',
   description: 'Ficha viva: posición, intereses, red, historial, leverage',
-  glyph:       '◉',
+  glyph:       '',
   tags:        ['#actor'],
   body: c => `---
 tipo: actor
@@ -346,7 +346,7 @@ const DECISION: Template = {
   name:        'Decisión',
   folder:      'Decisiones',
   description: 'Decision log: opciones, criterios, decisión, revisión',
-  glyph:       '⊞',
+  glyph:       '',
   tags:        ['#decision'],
   body: c => `---
 tipo: decision

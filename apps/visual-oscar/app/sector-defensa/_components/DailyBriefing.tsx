@@ -13,7 +13,7 @@ export function DailyBriefingCard({ briefing }: { briefing: BriefingDiario }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
         <div>
           <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            ✦ BRIEFING IA · DEFENSA
+            BRIEFING IA · DEFENSA
           </p>
           <p style={{ margin: '4px 0 0', fontSize: 14, fontWeight: 700, color: '#1d1d1f' }}>{briefing.fecha}</p>
         </div>
@@ -46,7 +46,7 @@ export function DailyBriefingCard({ briefing }: { briefing: BriefingDiario }) {
       {briefing.recomendaciones.length > 0 && (
         <div style={{ marginBottom: 10, padding: 10, background: '#FAFAFA', borderRadius: 8, border: '1px solid #ECECEF' }}>
           <p style={{ margin: '0 0 6px', fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            ◉ RECOMENDACIONES ESTRATÉGICAS
+            RECOMENDACIONES ESTRATÉGICAS
           </p>
           <ol style={{ margin: 0, paddingLeft: 18, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
             {briefing.recomendaciones.map((r, i) => (

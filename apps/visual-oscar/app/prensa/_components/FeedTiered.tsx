@@ -18,7 +18,7 @@ import { useMemo, useState } from 'react'
 import type { TieredFeed, Tier, TieredArticle, DynamicCategory } from '@/lib/news-intel'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
-  nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '◉' },
+  nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '' },
   europeo:  { label: 'Europeo',   color: '#7C3AED', description: 'Bruselas, Estrasburgo y prensa europea', glyph: '◈' },
   regional: { label: 'Regional',  color: '#0F766E', description: 'CCAA y medios autonómicos',              glyph: '◐' },
   local:    { label: 'Local',     color: '#B45309', description: 'Ayuntamientos, comarcas, prensa local',  glyph: '◑' },

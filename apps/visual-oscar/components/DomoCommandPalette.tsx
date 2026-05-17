@@ -56,7 +56,7 @@ const KIND_COLOR: Record<ItemKind, string> = {
 const KIND_GLYPH: Record<ItemKind, string> = {
   source:    '⇡',
   pipeline:  '⟶',
-  dataset:   '⊞',
+  dataset:   '',
   dashboard: '⊟',
   alert:     '!',
   action:    '+',
@@ -77,13 +77,13 @@ const STATIC_NAV: CmdItem[] = [
   { kind: 'nav', id: 'nav-home',       title: 'Inicio del Estudio',      href: '/estudio',                glyph: '⬡' },
   { kind: 'nav', id: 'nav-fuentes',    title: 'Mis fuentes',             href: '/estudio/fuentes',        glyph: '⇡' },
   { kind: 'nav', id: 'nav-pipeline',   title: 'Limpieza y cruces',       href: '/estudio/pipeline',       glyph: '⟶' },
-  { kind: 'nav', id: 'nav-dataset',    title: 'Mis tablas',              href: '/estudio/dataset',        glyph: '⊞' },
+  { kind: 'nav', id: 'nav-dataset',    title: 'Mis tablas',              href: '/estudio/dataset',        glyph: '' },
   { kind: 'nav', id: 'nav-dashboard',  title: 'Mis paneles',             href: '/estudio/dashboard',      glyph: '⊟' },
   { kind: 'nav', id: 'nav-alertas',    title: 'Vigilantes',              href: '/estudio/alertas',        glyph: '!' },
   { kind: 'nav', id: 'nav-notif',      title: 'Mis avisos',              href: '/estudio/notificaciones', glyph: '◐' },
   { kind: 'nav', id: 'nav-gobernanza', title: 'Equipo y permisos',       href: '/estudio/gobernanza',     glyph: '✓' },
   { kind: 'nav', id: 'nav-query',      title: 'Pregúntale a los datos',  href: '/estudio/query',          glyph: '✦' },
-  { kind: 'nav', id: 'nav-health',     title: 'Estado del sistema',      href: '/estudio/health',         glyph: '◉' },
+  { kind: 'nav', id: 'nav-health',     title: 'Estado del sistema',      href: '/estudio/health',         glyph: '' },
 ]
 
 interface Props {

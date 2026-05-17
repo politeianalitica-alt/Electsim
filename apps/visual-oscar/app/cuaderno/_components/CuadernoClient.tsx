@@ -239,11 +239,11 @@ export default function CuadernoClient() {
       {/* ── Rail izquierdo: vistas ────────────────────────────────────── */}
       <nav className={styles.viewRail}>
         <RailBtn label="Hoy"        glyph="◷"  v="today"     view={view} set={setView} subtitle="Cmd+D" onClick={handleOpenToday} />
-        <RailBtn label="Notas"      glyph="⊞"  v="notes"     view={view} set={setView} subtitle={`${notes.length}`} />
+        <RailBtn label="Notas"      glyph=""  v="notes"     view={view} set={setView} subtitle={`${notes.length}`} />
         <RailBtn label="Tareas"     glyph="✓"  v="tasks"     view={view} set={setView} subtitle={`${taskSummary.pending}`} badge={taskSummary.overdue} />
         <RailBtn label="Calendario" glyph="▣"  v="calendar"  view={view} set={setView} subtitle="Cmd+1" />
         <RailBtn label="Tags"       glyph="#"  v="tags"      view={view} set={setView} subtitle={`${tags.length}`} />
-        <RailBtn label="Grafo"      glyph="◉"  v="graph"     view={view} set={setView} subtitle="Cmd+G" />
+        <RailBtn label="Grafo"      glyph=""  v="graph"     view={view} set={setView} subtitle="Cmd+G" />
         <RailBtn label="Plantillas" glyph="✎"  v="templates" view={view} set={setView} subtitle={`${TEMPLATES.length}`} />
         <div style={{ flex: 1 }} />
         <button className={styles.railSwitcher} onClick={() => setSwitcher(true)} title="Cmd+K">
@@ -347,7 +347,7 @@ export default function CuadernoClient() {
                 {outlineOpen ? '▣ Índice' : '□ Índice'}
               </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
-                {active.pinned ? '★ Fijada' : '☆ Fijar'}
+                {active.pinned ? 'Fijada' : '☆ Fijar'}
               </button>
               <button className={`${styles.toolbarBtn} ${styles.danger}`} onClick={handleDelete}>Borrar</button>
             </div>

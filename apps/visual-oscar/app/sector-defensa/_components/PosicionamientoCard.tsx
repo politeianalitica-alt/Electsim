@@ -66,13 +66,13 @@ export function PosicionamientoCard({ pos }: { pos: PosicionamientoDefensa }) {
           </ul>
         </div>
         <div style={{ padding: 10, background: 'rgba(22,163,74,0.05)', borderRadius: 8, borderLeft: '3px solid #16A34A' }}>
-          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>★ OPORTUNIDADES</p>
+          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>OPORTUNIDADES</p>
           <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11, color: '#1d1d1f', lineHeight: 1.5 }}>
             {pos.oportunidades.map((o, i) => <li key={i}>{o}</li>)}
           </ul>
         </div>
         <div style={{ padding: 10, background: 'rgba(124,58,237,0.05)', borderRadius: 8, borderLeft: '3px solid #7C3AED' }}>
-          <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>◉ PRIORIDADES</p>
+          <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>PRIORIDADES</p>
           <ol style={{ margin: '5px 0 0', paddingLeft: 18, fontSize: 11, color: '#1d1d1f', lineHeight: 1.5 }}>
             {pos.prioridades.map((p, i) => <li key={i}>{p}</li>)}
           </ol>

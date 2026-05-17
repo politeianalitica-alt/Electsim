@@ -48,12 +48,12 @@ type SectionId =
   | 'voluntarios' | 'fundraising' | 'presupuesto'
 
 const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: string }> = [
-  { id: 'dashboard',     label: 'Dashboard general',     group: 'Comando',           icon: '◉' },
+  { id: 'dashboard',     label: 'Dashboard general',     group: 'Comando',           icon: '' },
   { id: 'decisiones',    label: 'Cola de decisiones',    group: 'Comando',           icon: '◆' },
   { id: 'crisis',        label: 'Crisis radar',          group: 'Comando',           icon: '⚠' },
   { id: 'wargames',      label: 'War games',             group: 'Comando',           icon: '⊠' },
   { id: 'snapshot',      label: 'Snapshot electoral',    group: 'Electoral',         icon: '⌘' },
-  { id: 'encuestas',     label: 'Encuestas tracker',     group: 'Electoral',         icon: '⊞' },
+  { id: 'encuestas',     label: 'Encuestas tracker',     group: 'Electoral',         icon: '' },
   { id: 'territorio',    label: 'Mapa territorial',      group: 'Electoral',         icon: '⌖' },
   { id: 'mensaje',       label: 'Mensaje del día',       group: 'Mensaje',           icon: '◈' },
   { id: 'talking',       label: 'Talking points',        group: 'Mensaje',           icon: '⊙' },
@@ -975,7 +975,7 @@ function SecVoluntarios({ kpis }: any) {
           {VOL_ACTIVITY.map((v, i) => (
             <div key={i} style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:12, alignItems:'center', padding:'10px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
               <div style={{ width:36, height:36, borderRadius:8, background: TIPO_VOL_COLOR[v.tipo], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontWeight:800, fontSize:13, flexShrink:0 }}>
-                {v.tipo === 'puerta' ? '⌂' : v.tipo === 'llamada' ? '☎' : v.tipo === 'evento' ? '★' : '◉'}
+                {v.tipo === 'puerta' ? '⌂' : v.tipo === 'llamada' ? '☎' : v.tipo === 'evento' ? '★' : ''}
               </div>
               <div style={{ minWidth:0 }}>
                 <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.35 }}>{v.accion}</div>

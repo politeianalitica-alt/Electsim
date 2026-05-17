@@ -282,23 +282,23 @@ export function generarBriefingDiario(input: InputsBriefing): BriefingDiario {
     })
   }
   highlights.push({
-    icono: '◉',
+    icono: '',
     texto: `Amenaza prioritaria: ${dimensionMax.dimension} (nivel ${dimensionMax.nivel}/100 · ${dimensionMax.banda})`,
   })
   if (input.topSancion) {
     highlights.push({
-      icono: '⚠',
+      icono: '!',
       texto: `Nueva entidad sancionada relevante: ${input.topSancion.nombre}${input.topSancion.programa ? ` (${input.topSancion.programa})` : ''}`,
     })
   }
   if (input.programaCritico) {
     highlights.push({
-      icono: '⚙',
+      icono: '·',
       texto: `Programa a vigilar: ${input.programaCritico.nombre} · estado ${input.programaCritico.estado}`,
     })
   }
   highlights.push({
-    icono: '★',
+    icono: '*',
     texto: `Score de posicionamiento estratégico: ${input.posicionamiento.score}/100 (${input.posicionamiento.banda})`,
   })
 

@@ -22,7 +22,7 @@ interface Programa {
 }
 
 const HITO_ICONS: Record<string, string> = {
-  alcanzado: '✅', pendiente: '⏳', retrasado: '🔴',
+  alcanzado: '✓', pendiente: '◐', retrasado: '!',
 }
 const HITO_COLORS: Record<string, string> = {
   alcanzado: '#16A34A', pendiente: '#86868b', retrasado: '#DC2626',
@@ -37,7 +37,7 @@ const ROL_BADGE: Record<string, { bg: string; color: string }> = {
 export function ProgramDetail({ programa: p, onClose }: { programa: Programa | null; onClose: () => void }) {
   if (!p) return (
     <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 12, color: '#86868b', padding: 32, textAlign: 'center' }}>
-      <div style={{ fontSize: 40 }}>📋</div>
+      <div style={{ fontSize: 40 }}>·</div>
       <p style={{ fontSize: 13, margin: 0 }}>Selecciona un programa para ver su detalle</p>
     </div>
   )

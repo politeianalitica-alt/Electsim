@@ -471,7 +471,7 @@ function InitiativeRow({ it }: { it: LegislativeInitiative }) {
             fontSize: 9, fontWeight: 800, padding: '2px 8px', borderRadius: 4,
             background: promotorColor, color: '#fff', letterSpacing: '0.04em',
           }} title={`Propuesta por ${it.promotor}`}>
-            ◉ {it.promotor.replace(/^GP\s+/, '').toUpperCase()}
+            {it.promotor.replace(/^GP\s+/, '').toUpperCase()}
           </span>
           <span style={{ fontSize: 10, color: '#6e6e73' }}>· {it.materia}</span>
           {it.ccaa && <span style={{ fontSize: 10, color: '#6e6e73', fontStyle: 'italic' }}>· {it.ccaa}</span>}

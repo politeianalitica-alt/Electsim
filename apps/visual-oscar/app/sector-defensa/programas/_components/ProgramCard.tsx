@@ -9,8 +9,8 @@ const ESTADO_CONFIG: Record<string, { label: string; bg: string; color: string; 
 }
 
 const TIPO_EMOJI: Record<string, string> = {
-  aeronautico: '✈️', naval: '⚓', terrestre: '🚗', misiles: '🚀',
-  espacial: '🛰️', ciber: '💻', industrial: '🏭',
+  aeronautico: '◣', naval: '⌬', terrestre: '◰', misiles: '↑',
+  espacial: '◎', ciber: '⌗', industrial: '⬢',
 }
 
 interface Props {
@@ -70,7 +70,7 @@ export function ProgramCard({ programa: p, selected, onClick }: Props) {
       {/* Meta */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', fontSize: 10.5, color: '#86868b', marginBottom: 2 }}>
         <span>{p.inicio}–{p.fin_previsto}</span>
-        {p.coste_total_M && <span>💶 {(p.coste_total_M/1000).toFixed(0)}b€ total</span>}
+        {p.coste_total_M && <span>{(p.coste_total_M/1000).toFixed(0)}b€ total</span>}
         {p.coste_espana_M && p.coste_espana_M !== p.coste_total_M && <span>🇪🇸 {(p.coste_espana_M/1000).toFixed(1)}b€</span>}
         <span>Prime: {prime}</span>
       </div>

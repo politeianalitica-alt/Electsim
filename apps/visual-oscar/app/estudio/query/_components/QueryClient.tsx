@@ -313,7 +313,7 @@ function MessageBubble({ message: msg }: { message: QueryMessage }) {
         )}
 
         {msg.error && (
-          <div className={styles.errorBlock}>⛔ {msg.error}</div>
+          <div className={styles.errorBlock}>✕ {msg.error}</div>
         )}
       </div>
       <div className={styles.bubbleTime}>{timeAgo(msg.createdAt)}</div>

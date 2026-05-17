@@ -70,7 +70,7 @@ export function SanctionsSearch() {
 
       {source && (
         <div style={{ fontSize: 10, color: '#86868b', marginBottom: 10 }}>
-          {source === 'opensanctions' ? '⚡ OpenSanctions API en vivo' : '📊 Datos curados estáticos'}
+          {source === 'opensanctions' ? 'OpenSanctions API en vivo' : 'Datos curados estáticos'}
           {' · '}{items.length} resultados
         </div>
       )}
@@ -92,7 +92,7 @@ export function SanctionsSearch() {
               <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 6 }}>
                 <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: tc.bg, color: tc.color, letterSpacing: '0.04em', flexShrink: 0 }}>{it.tipo.toUpperCase()}</span>
                 <span style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', flex: 1 }}>{it.nombre}</span>
-                {it.relevancia_defensa && <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#DC2626' }}>❗ DEFENSA</span>}
+                {it.relevancia_defensa && <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#DC2626' }}>! DEFENSA</span>}
               </div>
 
               {it.aliases.length > 0 && (
@@ -104,7 +104,7 @@ export function SanctionsSearch() {
                   <span key={f} style={{ fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 4, background: '#F5F5F7', color: '#525258' }}>{f}</span>
                 ))}
                 {it.paises.map(p => (
-                  <span key={p} style={{ fontSize: 9.5, padding: '2px 7px', borderRadius: 4, background: '#FFF9E6', color: '#D97706', fontWeight: 700 }}>🏴 {p}</span>
+                  <span key={p} style={{ fontSize: 9.5, padding: '2px 7px', borderRadius: 4, background: '#FFF9E6', color: '#D97706', fontWeight: 700 }}>{p}</span>
                 ))}
               </div>
 

@@ -109,10 +109,10 @@ function evaluate(tech: string, pais: string): Result {
 }
 
 const NIVEL_STYLES: Record<number, { bg: string; border: string; color: string; icon: string }> = {
-  0: { bg: '#F0FDF4', border: '#BBF7D0', color: '#16A34A', icon: '✅' },
-  1: { bg: '#FFF9E6', border: '#FDE68A', color: '#D97706', icon: '⚠️' },
-  2: { bg: '#FFF1F2', border: '#FECACA', color: '#DC2626', icon: '🚨' },
-  3: { bg: '#1F2937', border: '#374151', color: '#F87171', icon: '⛔' },
+  0: { bg: '#F0FDF4', border: '#BBF7D0', color: '#16A34A', icon: '✓' },
+  1: { bg: '#FFF9E6', border: '#FDE68A', color: '#D97706', icon: '!' },
+  2: { bg: '#FFF1F2', border: '#FECACA', color: '#DC2626', icon: '!' },
+  3: { bg: '#1F2937', border: '#374151', color: '#F87171', icon: '✕' },
 }
 
 export function ComplianceChecker() {

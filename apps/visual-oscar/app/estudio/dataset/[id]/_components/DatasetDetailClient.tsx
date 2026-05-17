@@ -15,7 +15,7 @@ import styles from './DatasetDetail.module.css'
 type Tab = 'explore' | 'schema' | 'sql' | 'config'
 
 const TABS: Array<{ id: Tab; label: string; glyph: string }> = [
-  { id: 'explore', label: 'Explorar',   glyph: '⊞' },
+  { id: 'explore', label: 'Explorar',   glyph: '' },
   { id: 'schema',  label: 'Schema',     glyph: '⋮' },
   { id: 'sql',     label: 'SQL',        glyph: '≫' },
   { id: 'config',  label: 'Configurar', glyph: '⚙' },

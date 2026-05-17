@@ -18,7 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   // Fuentes
   { href: '/estudio/fuentes',         label: 'Mis fuentes',           glyph: '⇡', group: 'Fuentes' },
   { href: '/estudio/pipeline',        label: 'Limpieza y cruces',     glyph: '⟶' },
-  { href: '/estudio/dataset',         label: 'Mis tablas',            glyph: '⊞' },
+  { href: '/estudio/dataset',         label: 'Mis tablas',            glyph: '' },
   { href: '/estudio/warehouse',       label: 'Almacén',               glyph: '◫' },
 
   // Análisis
@@ -30,7 +30,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/estudio/alertas',         label: 'Vigilantes',            glyph: '!', group: 'Vigilancia' },
   { href: '/estudio/notificaciones',  label: 'Mis avisos',            glyph: '◐' },
   { href: '/estudio/jobs',            label: 'Histórico de tareas',   glyph: '⚙' },
-  { href: '/estudio/health',          label: 'Estado del sistema',    glyph: '◉' },
+  { href: '/estudio/health',          label: 'Estado del sistema',    glyph: '' },
 
   // Equipo
   { href: '/estudio/gobernanza',      label: 'Equipo y permisos',     glyph: '✓', group: 'Equipo' },

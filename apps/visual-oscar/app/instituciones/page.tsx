@@ -21,6 +21,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { NarrativasRadarChart } from './_components/NarrativasRadar'
+import { EmpresasTreemap } from './_components/EmpresasTreemap'
 
 // ─── Tipos ────────────────────────────────────────────────────────────────
 
@@ -216,8 +218,8 @@ export default function InstitucionesPage() {
 
         <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 16 }}>
           {([
-            { id: 'ccaa', label: 'Comunidades Autónomas', glyph: '◉' },
-            { id: 'municipios', label: 'Municipios y ciudades (8.132)', glyph: '⊞' },
+            { id: 'ccaa', label: 'Comunidades Autónomas', glyph: '' },
+            { id: 'municipios', label: 'Municipios y ciudades (8.132)', glyph: '' },
           ] as Array<{ id: SubTab; label: string; glyph: string }>).map(t => {
             const active = tab === t.id
             return (
@@ -309,7 +311,7 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
       />
 
       {/* RESUMEN IA */}
-      <Card titulo="✦ RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
+      <Card titulo="RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
         <p style={{ margin: 0, fontSize: 13, color: '#1d1d1f', lineHeight: 1.6 }}>{profile.resumenIA}</p>
         <div style={{ marginTop: 10, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {profile.estabilidad.razones.map((r, i) => (
@@ -333,17 +335,22 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           )}
 
           {profile.narrativas.length > 0 && (
-            <Card titulo={`✦ NARRATIVAS DOMINANTES · ${profile.narrativas.length}`} color="#7C3AED">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {profile.narrativas.map((n, i) => (
-                  <NarrativaCard key={i} narrativa={n}/>
-                ))}
-              </div>
-            </Card>
+            <>
+              <Card titulo={`NARRATIVAS DOMINANTES · ${profile.narrativas.length}`} color="#7C3AED">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {profile.narrativas.map((n, i) => (
+                    <NarrativaCard key={i} narrativa={n}/>
+                  ))}
+                </div>
+              </Card>
+              <Card titulo="RADAR DE NARRATIVAS · 6 EJES TEMÁTICOS" color="#7C3AED">
+                <NarrativasRadarChart narrativas={profile.narrativas}/>
+              </Card>
+            </>
           )}
 
           {profile.historicoElectoral.length > 0 && (
-            <Card titulo={`🗳 HISTÓRICO ELECTORAL · ${profile.historicoElectoral.length} elecciones`} color="#9333EA">
+            <Card titulo={`HISTÓRICO ELECTORAL · ${profile.historicoElectoral.length} elecciones`} color="#9333EA">
               {profile.historicoElectoral.map((e, i) => <ResultadosCard key={i} eleccion={e}/>)}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6e6e73' }}>
                 Fuente: Junta Electoral Central + Ministerio del Interior. Última actualización del snapshot: jul 2024.
@@ -352,7 +359,7 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           )}
 
           {profile.parlamento && (
-            <Card titulo={`🏛 PARLAMENTO AUTONÓMICO · ${profile.parlamento.totalEscaños} escaños`} color="#1F4E8C">
+            <Card titulo={`PARLAMENTO AUTONÓMICO · ${profile.parlamento.totalEscaños} escaños`} color="#1F4E8C">
               <HemicicloSVG parlamento={profile.parlamento}/>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '3px 12px', marginTop: 10 }}>
                 {profile.parlamento.partidos.map(p => (
@@ -421,9 +428,9 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11 }}>
-              <a href={c.gobiernoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>🏛 Gobierno {c.nombreCorto} ↗</a>
-              <a href={c.parlamentoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>⚖ {c.parlamento} ↗</a>
-              <a href={c.boletinUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>📋 Boletín {c.boletin} ↗</a>
+              <a href={c.gobiernoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>Gobierno {c.nombreCorto} ↗</a>
+              <a href={c.parlamentoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}> {c.parlamento} ↗</a>
+              <a href={c.boletinUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>Boletín {c.boletin} ↗</a>
             </div>
           </Card>
 
@@ -467,13 +474,13 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           </Card>
 
           {profile.patrimonio && profile.patrimonio.total > 0 && (
-            <Card titulo={`◊ PATRIMONIO CULTURAL · ${profile.patrimonio.total} bienes`} color="#5D4037">
+            <Card titulo={`PATRIMONIO CULTURAL · ${profile.patrimonio.total} bienes`} color="#5D4037">
               <PatrimonioCard patrimonio={profile.patrimonio}/>
             </Card>
           )}
 
           {profile.agenda.length > 0 && (
-            <Card titulo={`📅 AGENDA · ${profile.agenda.length} próximas citas`} color="#7C3AED">
+            <Card titulo={`AGENDA · ${profile.agenda.length} próximas citas`} color="#7C3AED">
               <AgendaCard agenda={profile.agenda}/>
             </Card>
           )}
@@ -587,7 +594,7 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
         ]}
       />
 
-      <Card titulo="✦ RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
+      <Card titulo="RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
         <p style={{ margin: 0, fontSize: 13, color: '#1d1d1f', lineHeight: 1.6 }}>{profile.resumenIA}</p>
         <div style={{ marginTop: 10, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
           {profile.estabilidad.razones.map((r, i) => (
@@ -610,18 +617,23 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           )}
 
           {profile.coords && (
-            <Card titulo={`📍 UBICACIÓN · ${profile.coords.lat.toFixed(3)}, ${profile.coords.lon.toFixed(3)}`} color="#0F766E">
+            <Card titulo={`UBICACIÓN · ${profile.coords.lat.toFixed(3)}, ${profile.coords.lon.toFixed(3)}`} color="#0F766E">
               <MapaEmbed lat={profile.coords.lat} lon={profile.coords.lon} nombre={profile.meta.nombre}/>
               {profile.tiempo && <TiempoCard tiempo={profile.tiempo} color={partidoColor}/>}
             </Card>
           )}
 
           {profile.narrativas.length > 0 && (
-            <Card titulo={`✦ NARRATIVAS LOCALES · ${profile.narrativas.length}`} color="#7C3AED">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {profile.narrativas.map((n, i) => <NarrativaCard key={i} narrativa={n}/>)}
-              </div>
-            </Card>
+            <>
+              <Card titulo={`NARRATIVAS LOCALES · ${profile.narrativas.length}`} color="#7C3AED">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {profile.narrativas.map((n, i) => <NarrativaCard key={i} narrativa={n}/>)}
+                </div>
+              </Card>
+              <Card titulo="RADAR DE NARRATIVAS · 6 EJES TEMÁTICOS" color="#7C3AED">
+                <NarrativasRadarChart narrativas={profile.narrativas}/>
+              </Card>
+            </>
           )}
 
           {profile.noticias.length > 0 && (
@@ -717,37 +729,44 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           )}
 
           {profile.empresas && (
-            <Card titulo={`🏢 TEJIDO EMPRESARIAL · ${profile.empresas.totalEmpresas.toLocaleString('es-ES')} empresas`} color="#0F766E">
-              <EmpresasCard empresas={profile.empresas}/>
-            </Card>
+            <>
+              <Card titulo={`TEJIDO EMPRESARIAL · ${profile.empresas.totalEmpresas.toLocaleString('es-ES')} empresas`} color="#0F766E">
+                <EmpresasCard empresas={profile.empresas}/>
+              </Card>
+              {profile.empresas.sectores.length > 0 && (
+                <Card titulo="DISTRIBUCIÓN POR SECTOR · TREEMAP" color="#0F766E">
+                  <EmpresasTreemap sectores={profile.empresas.sectores}/>
+                </Card>
+              )}
+            </>
           )}
 
           {profile.patrimonio && profile.patrimonio.total > 0 && (
-            <Card titulo={`◊ PATRIMONIO Y CULTURA · ${profile.patrimonio.total} bienes`} color="#5D4037">
+            <Card titulo={`PATRIMONIO Y CULTURA · ${profile.patrimonio.total} bienes`} color="#5D4037">
               <PatrimonioCard patrimonio={profile.patrimonio}/>
             </Card>
           )}
 
           {profile.agenda.length > 0 && (
-            <Card titulo={`📅 AGENDA · ${profile.agenda.length} citas`} color="#7C3AED">
+            <Card titulo={`AGENDA · ${profile.agenda.length} citas`} color="#7C3AED">
               <AgendaCard agenda={profile.agenda}/>
             </Card>
           )}
 
-          <Card titulo="🗳 RESULTADOS ELECTORALES OFICIALES" color="#9333EA">
+          <Card titulo="RESULTADOS ELECTORALES OFICIALES" color="#9333EA">
             <p style={{ margin: 0, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
               Resultados desagregados por mesa, sección y municipio en el portal oficial del Ministerio del Interior
               (todas las convocatorias desde 1977).
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5, marginTop: 10 }}>
               <a href={profile.enlacesElectorales.consultaMir} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
-                🗳 InfoElectoral · Ministerio del Interior ↗
+                InfoElectoral · Ministerio del Interior ↗
               </a>
               <a href={profile.enlacesElectorales.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
-                📖 Elecciones municipales · Wikipedia ↗
+                Elecciones municipales · Wikipedia ↗
               </a>
               <a href={profile.enlacesElectorales.junta} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
-                ⚖ Junta Electoral Central ↗
+                Junta Electoral Central ↗
               </a>
             </div>
             <p style={{ margin: '10px 0 0', fontSize: 10, color: '#9ca3af' }}>
@@ -757,8 +776,8 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
 
           <Card titulo="ENLACES OFICIALES" color={partidoColor}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5 }}>
-              {m.webAyuntamiento && <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>🏛 Ayuntamiento ↗</a>}
-              {m.wikipedia && <a href={m.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>📖 Wikipedia ↗</a>}
+              {m.webAyuntamiento && <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>Ayuntamiento ↗</a>}
+              {m.wikipedia && <a href={m.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>Wikipedia ↗</a>}
             </div>
           </Card>
         </div>
@@ -936,7 +955,7 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
         <span style={{ fontSize: 11, color: '#6e6e73' }}>BIC + monumentos catalogados</span>
         {patrimonio.unesco.length > 0 && (
           <span style={{ padding: '3px 9px', background: '#FFE082', color: '#5D4037', borderRadius: 999, fontSize: 10, fontWeight: 700 }}>
-            ★ {patrimonio.unesco.length} UNESCO
+            {patrimonio.unesco.length} UNESCO
           </span>
         )}
       </div>
@@ -983,7 +1002,7 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
 }
 
 function AgendaCard({ agenda }: { agenda: EventoAgenda[] }) {
-  const TIPO_GLYPH: Record<string, string> = { eleccion: '🗳', pleno: '🏛', 'boletín': '📑', fiesta: '✦', iniciativa: '⚖', celebración: '◉' }
+  const TIPO_GLYPH: Record<string, string> = { eleccion: '*', pleno: '·', 'boletín': '§', fiesta: '+', iniciativa: '~', celebración: '+' }
   return (
     <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
       {agenda.map((e, i) => {
@@ -1021,7 +1040,7 @@ function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
     <div style={{ background: '#fff', borderRadius: 14, padding: 18, border: '1px solid #ECECEF' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
         <p style={{ margin: 0, fontSize: 11, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-          ✦ ANÁLISIS IA INTEGRAL
+          ANÁLISIS IA INTEGRAL
         </p>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
           <span style={{ fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Riesgo político</span>
@@ -1040,7 +1059,7 @@ function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>★ OPORTUNIDADES</p>
+          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>OPORTUNIDADES</p>
           <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
             {analisis.oportunidades.map((o, i) => <li key={i}>{o}</li>)}
           </ul>
@@ -1054,7 +1073,7 @@ function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
       </div>
 
       <div style={{ marginTop: 12, padding: 10, background: 'rgba(124,58,237,0.05)', borderRadius: 8, borderLeft: '3px solid #7C3AED' }}>
-        <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>◉ TOP 3 PRIORIDADES ESTRATÉGICAS</p>
+        <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>TOP 3 PRIORIDADES ESTRATÉGICAS</p>
         <ol style={{ margin: '5px 0 0', paddingLeft: 18, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
           {analisis.prioridadesEstrategicas.map((p, i) => <li key={i}>{p}</li>)}
         </ol>
@@ -1099,13 +1118,13 @@ function TiempoCard({ tiempo, color }: { tiempo: CondicionMeteo; color: string }
         </div>
         <div style={{ textAlign: 'right', fontSize: 11, color: '#6e6e73' }}>
           <p style={{ margin: 0 }}>Sensación <strong style={{ color: '#1d1d1f' }}>{tiempo.sensacionTermica.toFixed(0)}°</strong></p>
-          {tiempo.viento > 0 && <p style={{ margin: '2px 0 0' }}>💨 {tiempo.viento.toFixed(0)} km/h</p>}
-          {tiempo.precip > 0 && <p style={{ margin: '2px 0 0' }}>💧 {tiempo.precip.toFixed(1)} mm</p>}
+          {tiempo.viento > 0 && <p style={{ margin: '2px 0 0' }}>~ {tiempo.viento.toFixed(0)} km/h</p>}
+          {tiempo.precip > 0 && <p style={{ margin: '2px 0 0' }}>mm {tiempo.precip.toFixed(1)} mm</p>}
         </div>
       </div>
       {(tiempo.alertaCalor || tiempo.alertaFrio) && (
         <p style={{ margin: '6px 0 0', fontSize: 11, color: tiempo.alertaCalor ? '#DC2626' : '#1F4E8C', fontWeight: 700 }}>
-          ⚠ Alerta {tiempo.alertaCalor ? 'calor extremo' : 'frío severo'}
+          Alerta {tiempo.alertaCalor ? 'calor extremo' : 'frío severo'}
         </p>
       )}
     </div>
@@ -1137,8 +1156,8 @@ function IndicadoresDemograficos({ piramide }: { piramide: INEPiramide }) {
   const interpretacion =
     envejecimiento > 200 ? '☉ Municipio muy envejecido — riesgo demográfico' :
     envejecimiento > 130 ? '◐ Envejecimiento alto — necesita políticas activas' :
-    envejecimiento >  80 ? '◉ Equilibrado generacionalmente' :
-                           '★ Municipio joven con dinamismo demográfico'
+    envejecimiento >  80 ? 'Equilibrado generacionalmente' :
+                           'Municipio joven con dinamismo demográfico'
 
   return (
     <div style={{ marginTop: 10, padding: 10, background: 'rgba(15,118,110,0.04)', borderRadius: 8, borderLeft: '3px solid #0F766E' }}>
@@ -1147,7 +1166,7 @@ function IndicadoresDemograficos({ piramide }: { piramide: INEPiramide }) {
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '4px 12px', marginTop: 6, fontSize: 11 }}>
         <div>♔ Envejecimiento: <strong>{envejecimiento}</strong></div>
-        <div>⚖ Dependencia: <strong>{dependencia}%</strong></div>
+        <div> Dependencia: <strong>{dependencia}%</strong></div>
         <div>♀ Feminidad: <strong>{feminidad}</strong></div>
         <div>↓16: <strong>{pctJoven}%</strong> · ↑65: <strong>{pctMayor}%</strong></div>
       </div>
@@ -1264,12 +1283,12 @@ function ResultadosCard({ eleccion }: { eleccion: ResultadoEleccion }) {
   // Barra horizontal stacked + tabla de top 6 partidos
   const top = eleccion.resultados.slice(0, 6)
   const restoPct = eleccion.resultados.slice(6).reduce((s, r) => s + r.pct, 0)
-  const competLabel = eleccion.competitividad < 25 ? '⚖ Muy competido' : eleccion.competitividad < 50 ? '◐ Competido' : eleccion.competitividad < 75 ? '◉ Cómodo' : '★ Hegemónico'
+  const competLabel = eleccion.competitividad < 25 ? ' Muy competido' : eleccion.competitividad < 50 ? '◐ Competido' : eleccion.competitividad < 75 ? 'Cómodo' : 'Hegemónico'
   return (
     <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: 14, marginBottom: 10 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <div>
-          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{eleccion.tipo === 'generales' ? '🗳 GENERALES' : '🏛 AUTONÓMICAS'}</p>
+          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{eleccion.tipo === 'generales' ? 'GENERALES' : 'AUTONÓMICAS'}</p>
           <p style={{ margin: '2px 0 0', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{eleccion.etiqueta}</p>
         </div>
         <div style={{ textAlign: 'right' }}>

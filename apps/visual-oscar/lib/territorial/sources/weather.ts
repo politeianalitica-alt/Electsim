@@ -35,16 +35,16 @@ interface OMResponse {
 }
 
 const WMO: Record<number, string> = {
-  0: '☀ Despejado',
-  1: '🌤 Mayormente despejado',
-  2: '⛅ Parcialmente nublado',
-  3: '☁ Nublado',
-  45: '🌫 Niebla', 48: '🌫 Niebla con escarcha',
-  51: '🌦 Llovizna ligera', 53: '🌦 Llovizna moderada', 55: '🌦 Llovizna densa',
-  61: '🌧 Lluvia ligera', 63: '🌧 Lluvia moderada', 65: '🌧 Lluvia intensa',
-  71: '🌨 Nieve ligera', 73: '🌨 Nieve moderada', 75: '🌨 Nieve intensa',
-  80: '🌧 Chubascos ligeros', 81: '🌧 Chubascos moderados', 82: '🌧 Chubascos violentos',
-  95: '⛈ Tormenta', 96: '⛈ Tormenta con granizo', 99: '⛈ Tormenta con granizo intenso',
+  0: 'Despejado',
+  1: 'Mayormente despejado',
+  2: 'Parcialmente nublado',
+  3: 'Nublado',
+  45: 'Niebla', 48: 'Niebla con escarcha',
+  51: 'Llovizna ligera', 53: 'Llovizna moderada', 55: 'Llovizna densa',
+  61: 'Lluvia ligera', 63: 'Lluvia moderada', 65: 'Lluvia intensa',
+  71: 'Nieve ligera', 73: 'Nieve moderada', 75: 'Nieve intensa',
+  80: 'Chubascos ligeros', 81: 'Chubascos moderados', 82: 'Chubascos violentos',
+  95: 'Tormenta', 96: 'Tormenta con granizo', 99: 'Tormenta con granizo intenso',
 }
 
 export async function fetchTiempo(lat: number, lon: number): Promise<CondicionMeteo | null> {
@@ -65,7 +65,7 @@ export async function fetchTiempo(lat: number, lon: number): Promise<CondicionMe
       temperatura: cur.temperature_2m ?? 0,
       sensacionTermica: cur.apparent_temperature ?? cur.temperature_2m ?? 0,
       weatherCode: cur.weather_code ?? 0,
-      weatherLabel: WMO[cur.weather_code ?? 0] || '? Condiciones desconocidas',
+      weatherLabel: WMO[cur.weather_code ?? 0] || 'Condiciones desconocidas',
       precip: cur.precipitation ?? 0,
       viento: cur.wind_speed_10m ?? 0,
       hora: cur.time ?? '',

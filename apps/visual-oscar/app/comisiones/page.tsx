@@ -53,8 +53,8 @@ type SubTab = 'inicio' | 'nacionales' | 'ccaa' | 'investigacion'
 
 const SUB_TABS: Array<{ id: SubTab; label: string; glyph: string; color: string }> = [
   { id: 'inicio',        label: 'Inicio · finalizadas',           glyph: '✓', color: '#16A34A' },
-  { id: 'nacionales',    label: 'Nacionales · Congreso + Senado', glyph: '⊞', color: '#1F4E8C' },
-  { id: 'ccaa',          label: 'CCAA',                            glyph: '◉', color: '#0F766E' },
+  { id: 'nacionales',    label: 'Nacionales · Congreso + Senado', glyph: '', color: '#1F4E8C' },
+  { id: 'ccaa',          label: 'CCAA',                            glyph: '', color: '#0F766E' },
   { id: 'investigacion', label: 'Comisiones de Investigación',     glyph: '!', color: '#DC2626' },
 ]
 
@@ -264,7 +264,7 @@ function NacionalesView({ commissions }: { commissions: Commission[] }) {
       {congreso.length > 0 && (
         <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '18px 24px' }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#1F4E8C', textTransform: 'uppercase', margin: '0 0 12px' }}>
-            ⊞ CONGRESO DE LOS DIPUTADOS · {congreso.length} comisiones
+            CONGRESO DE LOS DIPUTADOS · {congreso.length} comisiones
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
             {congreso.map(c => <CommissionCard key={c.id} c={c} variant="activa"/>)}
@@ -274,7 +274,7 @@ function NacionalesView({ commissions }: { commissions: Commission[] }) {
       {senado.length > 0 && (
         <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '18px 24px' }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#5B21B6', textTransform: 'uppercase', margin: '0 0 12px' }}>
-            ⊞ SENADO · {senado.length} comisiones
+            SENADO · {senado.length} comisiones
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px,1fr))', gap: 12 }}>
             {senado.map(c => <CommissionCard key={c.id} c={c} variant="activa"/>)}

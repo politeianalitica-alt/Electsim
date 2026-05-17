@@ -19,7 +19,7 @@ const ROLE_META: Record<OrgRole, { label: string; color: string }> = {
 }
 
 const AUDIT_GLYPH: Record<string, string> = {
-  dashboard: '⊟', dataset: '⊞', pipeline: '⇉', alert: '!',
+  dashboard: '⊟', dataset: '', pipeline: '⇉', alert: '!',
   query: '⌨', member: 'U', api_key: '⚿',
 }
 

@@ -173,7 +173,7 @@ function DashboardCard({
         </div>
         {dashboard.description && <p className={styles.cardDesc}>{dashboard.description}</p>}
         <div className={styles.cardMeta}>
-          <span>⊞ {dashboard.widgets.length} widgets</span>
+          <span>{dashboard.widgets.length} widgets</span>
           {dashboard.viewCount !== undefined && <span>· {formatNumber(dashboard.viewCount)} vistas</span>}
           <span>· {timeAgo(dashboard.updatedAt)}</span>
         </div>
