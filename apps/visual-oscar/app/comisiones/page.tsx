@@ -82,9 +82,16 @@ export default function ComisionesPage() {
   const [camara, setCamara] = useState<'todos' | 'congreso' | 'senado'>('todos')
   const [ccaa, setCcaa] = useState<string>('todas')
   const [q, setQ] = useState('')
+  const [legislatura, setLegislatura] = useState<'XV' | 'XIV' | 'XIII' | 'XII' | 'XI' | 'X' | 'IX'>('XV')
+
+  // Para XV: endpoint principal con todos los ámbitos
+  // Para histórica: endpoint específico con solo Congreso de esa legislatura
+  const apiUrl = legislatura === 'XV'
+    ? '/api/legislativo/commissions?active=true'
+    : `/api/legislativo/commissions-historical?legislatura=${legislatura}`
 
   const { data, source, updatedAt, refresh, loading } = useApi<CommissionsResponse>(
-    '/api/legislativo/commissions?active=true',
+    apiUrl,
     { refreshInterval: 1_200_000 }
   )
 
@@ -129,8 +136,31 @@ export default function ComisionesPage() {
               {stats?.total ?? '…'} comisiones <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#1F4E8C' }}>activas.</em>
             </h1>
             <p style={{ fontSize: 13, color: '#6e6e73', margin: 0, lineHeight: 1.45 }}>
-              Permanentes, no permanentes, mixtas y de investigación · Congreso + Senado + CCAA
+              Permanentes, no permanentes, mixtas y de investigación · Congreso + Senado + 16 CCAA
             </p>
+            {/* Selector de legislatura */}
+            <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase' }}>Legislatura:</span>
+              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                {(['XV', 'XIV', 'XIII', 'XII', 'XI', 'X', 'IX'] as const).map(L => {
+                  const active = legislatura === L
+                  return (
+                    <button key={L} onClick={() => setLegislatura(L)} style={{
+                      background: active ? '#fff' : 'transparent',
+                      color: active ? (L === 'XV' ? '#16A34A' : '#5B21B6') : '#6e6e73',
+                      border: 'none', borderRadius: 999, padding: '4px 10px',
+                      fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                      fontFamily: 'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                    }}>{L}{L === 'XV' && ' · Actual'}</button>
+                  )
+                })}
+              </div>
+              {legislatura !== 'XV' && (
+                <span style={{ fontSize: 10.5, color: '#7C3AED', fontWeight: 600 }}>
+                  ⚠ Solo Congreso (histórico)
+                </span>
+              )}
+            </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
             <KPI label="CONGRESO"  value={String(stats?.porCamara['congreso'] ?? 0)} color="#1F4E8C"/>
@@ -328,13 +358,32 @@ function CommissionCard({ c, variant, expand }: { c: Commission; variant: 'activ
   const [loading, setLoading] = useState(false)
   const [section, setSection] = useState<'composicion' | 'comparecientes' | 'sesiones' | 'agenda'>('composicion')
 
+  // Detectar si es comisión histórica (id formato cgr-XIV-301)
+  const isHistorical = /^cgr-(IX|X|XI|XII|XIII|XIV)-\d+$/.test(c.id)
+
   async function loadDetail() {
     if (detail || loading) return
     setLoading(true)
     try {
-      const res = await fetch(`/api/legislativo/commission/${encodeURIComponent(c.id)}`)
+      const endpoint = isHistorical
+        ? `/api/legislativo/commission-historical/${encodeURIComponent(c.id)}`
+        : `/api/legislativo/commission/${encodeURIComponent(c.id)}`
+      const res = await fetch(endpoint)
       const json = await res.json()
-      setDetail(json)
+      // Adaptar shape histórico → shape estándar (sin comparecientes/sesiones)
+      if (isHistorical) {
+        setDetail({
+          commission: c,
+          composition: json.composition,
+          groupSummary: json.groupSummary || [],
+          scheduledSessions: [],
+          comparecientes: [],
+          recentSessions: [],
+          sessionsCount: 0,
+        })
+      } else {
+        setDetail(json)
+      }
     } catch {/* noop */}
     finally { setLoading(false) }
   }

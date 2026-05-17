@@ -8,6 +8,8 @@ import { fetchCongresoInitiatives, fetchCongresoComisiones } from './congreso'
 import { fetchSenadoInitiatives, fetchSenadoComisiones, fetchSenadoApprovedLaws } from './senado'
 import { fetchCCAAInitiatives } from './ccaa-parliaments'
 import { fetchAllCCAACommissions } from './ccaa-commissions'
+import { fetchExtraCCAACommissions } from './ccaa-commissions-extra'
+import { listMadridCommissions } from './madrid-bypass'
 
 interface Cache<T> { ts: number; data: T }
 const TTL_MS = 30 * 60 * 1000
@@ -106,6 +108,8 @@ export async function getAllCommissions(): Promise<{
     fetchCongresoComisiones(),
     fetchSenadoComisiones(),
     fetchAllCCAACommissions(),
+    fetchExtraCCAACommissions(),
+    listMadridCommissions(),
   ])
 
   const all: Commission[] = []
