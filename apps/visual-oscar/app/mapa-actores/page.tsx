@@ -595,6 +595,14 @@ export default function MapaActoresPage() {
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Inteligencia Política · Mapa de Actores · Politeia Analítica · {new Date().getFullYear()}
       </footer>
+
+      {/* Modal de dossier completo · datos en vivo */}
+      <FigureDossierModal
+        figureId={dossierId}
+        byName={dossierByName}
+        onClose={() => { setDossierId(null); setDossierByName(null) }}
+        onSelectFigure={id => { setDossierByName(null); setDossierId(id) }}
+      />
     </div>
   )
 }
@@ -628,23 +636,35 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
   onOpenGraph: () => void
 }) {
   const [search, setSearch] = useState('')
+  const [dossier, setDossier] = useState<LiveDossierPanel | null>(null)
+  const [dossierLoading, setDossierLoading] = useState(false)
+
   const filtered = actors.filter(a =>
     !search || a.nombre.toLowerCase().includes(search.toLowerCase()) || a.partido.toLowerCase().includes(search.toLowerCase())
   )
   const a = actors.find(x => x.id === selectedId) ?? actors[0]
   const live = a ? liveByName[a.nombre.toLowerCase()] : undefined
 
-  const sentimiento = live?.sentimiento_actual ?? (a?.seg.tono ?? 0) / 50
-  const sentimientoTier = sentimiento > 0.1 ? 'mejorando' : sentimiento < -0.1 ? 'empeorando' : 'estable'
-  const sentimientoColor = sentimiento > 0.1 ? '#2d8a39' : sentimiento < -0.1 ? '#c42c2c' : '#6e6e73'
+  // Cargar dossier en vivo al cambiar selección
+  useEffect(() => {
+    if (!a) { setDossier(null); return }
+    setDossierLoading(true)
+    setDossier(null)
+    const params = new URLSearchParams({ name: a.nombre, cargo: a.cargo, afiliacion: a.partido, color: a.color })
+    fetch(`/api/figures/dossier-by-name?${params}`)
+      .then(r => r.json())
+      .then(setDossier)
+      .catch(e => setDossier({ error: String(e) } as LiveDossierPanel))
+      .finally(() => setDossierLoading(false))
+  }, [a])
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
       <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: 14 }}>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar actor…"
           style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8ed', borderRadius: 10, fontSize: 12, fontFamily: 'inherit', marginBottom: 10 }} />
-        <div style={{ maxHeight: 600, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {filtered.slice(0, 80).map(x => {
+        <div style={{ maxHeight: 700, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {filtered.slice(0, 120).map(x => {
             const active = x.id === selectedId
             return (
               <button key={x.id} onClick={() => onSelect(x.id)} style={{
@@ -673,7 +693,6 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
             <h2 style={{ margin: '0 0 4px', fontSize: 20, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, letterSpacing: '-0.015em' }}>{a.nombre}</h2>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
               <span style={{ padding: '3px 10px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontSize: 11, fontWeight: 700 }}>{a.partido}</span>
-              {live?.ambito && <span style={{ padding: '3px 10px', borderRadius: 999, background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontSize: 10.5, fontWeight: 600 }}>{live.ambito}</span>}
               <span style={{ fontSize: 12, color: '#6e6e73' }}>{a.cargo}</span>
             </div>
           </div>
@@ -683,67 +702,141 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
           }}>Ver grafo completo →</button>
         </div>
 
-        {/* Scores row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 18 }}>
-          <ScoreBar label="Influencia" value={live?.score_influencia ?? a.inf} max={100} color="#1F4E8C"/>
-          <ScoreBar label="Riesgo" value={live?.score_riesgo ?? Math.round(50 + (a.ejeX ?? 0) * 0.4)} max={100} color="#b25000"/>
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>
-              <span>Sentimiento</span>
-              <span style={{ color: sentimientoColor, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13 }}>
-                {sentimiento >= 0 ? '+' : ''}{sentimiento.toFixed(2)}
-              </span>
-            </div>
-            <span style={{
-              padding: '3px 10px', borderRadius: 999, background: `${sentimientoColor}15`, color: sentimientoColor,
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-            }}>{live?.tendencia_sentimiento ?? sentimientoTier}</span>
+        {dossierLoading && (
+          <div style={{ padding: 30, textAlign: 'center', color: '#9ca3af', fontSize: 12 }}>
+            Cargando dossier en vivo · Wikipedia + 50 medios RSS + Congreso…
           </div>
-        </div>
+        )}
 
-        {/* Two-column body: left bio + right scatter */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 18 }}>
+        {dossier && !dossier.error && (
+          <>
+            {/* Sentimiento + bio */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 14, marginBottom: 16 }}>
+              <div style={{ background: '#FAFAFB', borderRadius: 10, padding: 12, border: '1px solid #ECECEF' }}>
+                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+                  SENTIMIENTO 7D · {dossier.noticias.length} noticias
+                </div>
+                <div style={{ display: 'flex', gap: 4, marginBottom: 8, height: 8, borderRadius: 4, overflow: 'hidden', background: '#F5F5F7' }}>
+                  {dossier.sentimientoAgregado.positivo > 0 && <div style={{ flex: dossier.sentimientoAgregado.positivo, background: '#16A34A' }}/>}
+                  {dossier.sentimientoAgregado.neutral > 0 && <div style={{ flex: dossier.sentimientoAgregado.neutral, background: '#94A3B8' }}/>}
+                  {dossier.sentimientoAgregado.negativo > 0 && <div style={{ flex: dossier.sentimientoAgregado.negativo, background: '#DC2626' }}/>}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                  <span style={{ color: '#16A34A', fontWeight: 700 }}>+{dossier.sentimientoAgregado.positivo}</span>
+                  <span style={{ color: '#94A3B8', fontWeight: 700 }}>={dossier.sentimientoAgregado.neutral}</span>
+                  <span style={{ color: '#DC2626', fontWeight: 700 }}>−{dossier.sentimientoAgregado.negativo}</span>
+                </div>
+                <div style={{ marginTop: 8, fontSize: 11, color: '#1d1d1f', textAlign: 'center' }}>
+                  Score <strong>{dossier.sentimientoAgregado.score > 0 ? '+' : ''}{dossier.sentimientoAgregado.score}</strong> · tendencia {dossier.sentimientoAgregado.tendencia === 'up' ? '↑ mejora' : dossier.sentimientoAgregado.tendencia === 'down' ? '↓ empeora' : '→ estable'}
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+                  BIOGRAFÍA · {dossier.bio.extract ? 'Wikipedia' : '—'}
+                </div>
+                {dossier.bio.extract ? (
+                  <p style={{ margin: 0, fontSize: 12, color: '#3a3a3d', lineHeight: 1.5 }}>
+                    {dossier.bio.extract.slice(0, 350)}{dossier.bio.extract.length > 350 ? '…' : ''}
+                  </p>
+                ) : (
+                  <p style={{ margin: 0, fontSize: 11.5, color: '#9ca3af', fontStyle: 'italic' }}>
+                    Sin entrada Wikipedia detectada. {a.cargo} · {a.partido}.
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Temas en cobertura */}
+            {dossier.tagsCobertura.length > 0 && (
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+                  TEMAS EN COBERTURA MEDIÁTICA
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                  {dossier.tagsCobertura.map(t => (
+                    <span key={t} style={{ fontSize: 10.5, padding: '2px 8px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontWeight: 600 }}>{t}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Noticias recientes */}
+            {dossier.noticias.length > 0 && (
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#0F766E', textTransform: 'uppercase', marginBottom: 6 }}>
+                  ÚLTIMAS NOTICIAS · {dossier.noticias.length}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 280, overflowY: 'auto' }}>
+                  {dossier.noticias.slice(0, 12).map((n, i) => {
+                    const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
+                    return (
+                      <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
+                        padding: '7px 9px', borderRadius: 7, fontSize: 11,
+                        background: '#FAFAFB', border: `1px solid #ECECEF`, borderLeft: `3px solid ${sc}`,
+                        color: '#1d1d1f', textDecoration: 'none', display: 'block', lineHeight: 1.4,
+                      }}>
+                        <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
+                          <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                          {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
+                        </div>
+                        {n.titulo.slice(0, 130)}
+                      </a>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Comisiones + Intervenciones · grid 2-col */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+              {dossier.comisiones.length > 0 && (
+                <div>
+                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#1F4E8C', textTransform: 'uppercase', marginBottom: 6 }}>
+                    COMISIONES · {dossier.comisiones.length}
+                  </div>
+                  {dossier.comisiones.slice(0, 6).map((c, i) => (
+                    <div key={i} style={{ padding: '5px 8px', marginBottom: 4, background: '#FAFAFB', borderRadius: 6, fontSize: 11, color: '#1d1d1f' }}>
+                      <strong>{c.nombre}</strong> · <em style={{ color: '#6e6e73' }}>{c.cargo}</em>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {dossier.intervenciones.length > 0 && (
+                <div>
+                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#5B21B6', textTransform: 'uppercase', marginBottom: 6 }}>
+                    INTERVENCIONES · {dossier.intervenciones.length}
+                  </div>
+                  {dossier.intervenciones.slice(0, 6).map((iv, i) => (
+                    <div key={i} style={{ padding: '5px 8px', marginBottom: 4, background: '#FAFAFB', borderRadius: 6, fontSize: 11, color: '#1d1d1f' }}>
+                      {iv.organo} {iv.fecha && <span style={{ color: '#6e6e73' }}>· {iv.fecha}</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {dossier?.error && (
+          <div style={{ padding: 14, fontSize: 12, color: '#DC2626', background: 'rgba(220,38,38,0.06)', borderRadius: 10 }}>
+            Error: {dossier.error.slice(0, 200)}
+          </div>
+        )}
+
+        {/* Ideológico siempre al final */}
+        <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid #ECECEF', display: 'grid', gridTemplateColumns: '1fr 320px', gap: 18, alignItems: 'center' }}>
           <div>
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Biografía</div>
-            <p style={{ margin: '0 0 16px', fontSize: 12.5, color: '#424245', lineHeight: 1.6 }}>
-              {live?.bio ?? `${a.cargo} de ${a.partido}. Influencia ${a.inf}/100, valoración ${a.val}/10. ${a.evs?.[0] ?? ''}`}
+            <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>POSICIONAMIENTO IDEOLÓGICO</div>
+            <p style={{ margin: 0, fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
+              Eje horizontal: izquierda (−) ↔ derecha (+). Eje vertical: descentralización (−) ↔ centralización (+).
+              Posición estimada para {a.partido}.
             </p>
-
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Fortalezas</div>
-            <div style={{ marginBottom: 14 }}>
-              {a.forts.map(f => (
-                <div key={f} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
-                  <span style={{ color: '#2d8a39', fontWeight: 700 }}>+</span> {f}
-                </div>
-              ))}
-            </div>
-
-            <div style={{ fontSize: 10, color: '#c42c2c', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>Debilidades</div>
-            <div>
-              {a.debs.map(d => (
-                <div key={d} style={{ display: 'flex', gap: 8, marginBottom: 5, fontSize: 12, color: '#1d1d1f' }}>
-                  <span style={{ color: '#c42c2c', fontWeight: 700 }}>−</span> {d}
-                </div>
-              ))}
-            </div>
           </div>
-
-          <div>
-            <div style={{ fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 8 }}>
-              Posicionamiento ideológico
-            </div>
-            <IdeologicalScatter partido={a.partido} size={300}/>
-          </div>
+          <IdeologicalScatter partido={a.partido} size={300}/>
         </div>
       </div>
-
-      {/* Modal de dossier completo · datos en vivo */}
-      <FigureDossierModal
-        figureId={dossierId}
-        byName={dossierByName}
-        onClose={() => { setDossierId(null); setDossierByName(null) }}
-        onSelectFigure={id => { setDossierByName(null); setDossierId(id) }}
-      />
     </div>
   )
 }
