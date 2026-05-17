@@ -425,10 +425,35 @@ function FilterChips({ label, options, value, onChange }: { label: string; optio
   )
 }
 
+const PARTY_COLOR: Record<string, string> = {
+  'PP': '#1F4E8C', 'GP Popular': '#1F4E8C',
+  'PSOE': '#E1322D', 'GP Socialista': '#E1322D',
+  'VOX': '#5BA02E', 'GP VOX': '#5BA02E',
+  'Sumar': '#D43F8D', 'GP Sumar': '#D43F8D',
+  'Junts': '#1FA89B', 'GP Junts': '#1FA89B',
+  'ERC': '#E8A030', 'GP ERC': '#E8A030',
+  'EH Bildu': '#3F7A3A', 'GP EH Bildu': '#3F7A3A',
+  'PNV': '#7DB94B', 'GP PNV': '#7DB94B',
+  'BNG': '#5BB3D9',
+  'CC': '#F2C43A',
+  'Gobierno': '#7C3AED', 'Gobierno de España': '#7C3AED',
+  'Cortes Generales': '#9333EA',
+}
+
+function getPromotorColor(promotor: string): string {
+  if (PARTY_COLOR[promotor]) return PARTY_COLOR[promotor]
+  // Detectar por prefijo "GP ..." o por contiene
+  for (const [key, color] of Object.entries(PARTY_COLOR)) {
+    if (promotor.includes(key)) return color
+  }
+  return '#525258'
+}
+
 function InitiativeRow({ it }: { it: LegislativeInitiative }) {
   const kind = KIND_LABEL[it.kind] || KIND_LABEL.OTHER
   const stage = STAGE_META[it.stage] || STAGE_META.desconocido
   const ambito = AMBITO_LABEL[it.ambito] || AMBITO_LABEL['nacional-congreso']
+  const promotorColor = getPromotorColor(it.promotor)
 
   return (
     <article style={{
@@ -442,6 +467,12 @@ function InitiativeRow({ it }: { it: LegislativeInitiative }) {
           <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 7px', borderRadius: 4, background: ambito.color, color: '#fff', letterSpacing: '0.05em' }}>{ambito.short}</span>
           <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 7px', borderRadius: 4, background: kind.color, color: '#fff', letterSpacing: '0.05em' }}>{it.kind}</span>
           <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 999, background: `${stage.color}15`, color: stage.color, border: `1px solid ${stage.color}40`, letterSpacing: '0.04em' }}>{stage.label.toUpperCase()}</span>
+          <span style={{
+            fontSize: 9, fontWeight: 800, padding: '2px 8px', borderRadius: 4,
+            background: promotorColor, color: '#fff', letterSpacing: '0.04em',
+          }} title={`Propuesta por ${it.promotor}`}>
+            ◉ {it.promotor.replace(/^GP\s+/, '').toUpperCase()}
+          </span>
           <span style={{ fontSize: 10, color: '#6e6e73' }}>· {it.materia}</span>
           {it.ccaa && <span style={{ fontSize: 10, color: '#6e6e73', fontStyle: 'italic' }}>· {it.ccaa}</span>}
         </div>
@@ -450,7 +481,7 @@ function InitiativeRow({ it }: { it: LegislativeInitiative }) {
         </h3>
         <div style={{ marginTop: 6, display: 'flex', gap: 12, fontSize: 10.5, color: '#6e6e73', flexWrap: 'wrap' }}>
           <span><strong style={{ color: '#1d1d1f' }}>Exp.</strong> {it.expediente}</span>
-          <span><strong style={{ color: '#1d1d1f' }}>Promotor</strong> {it.promotor}</span>
+          <span><strong style={{ color: promotorColor }}>Propuesta por</strong> <strong>{it.promotor}</strong></span>
           {it.fechaRegistro && <span><strong style={{ color: '#1d1d1f' }}>Registro</strong> {it.fechaRegistro.slice(0, 10)}</span>}
         </div>
         {it.tags.length > 0 && (

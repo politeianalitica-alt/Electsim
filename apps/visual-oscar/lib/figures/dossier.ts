@@ -26,6 +26,44 @@ export async function buildFigureDossier(id: string): Promise<FigureDossier | nu
   const catalog = [...getExpandedCatalog(), ...getIbexCeosCatalog()]
   const figure = catalog.find(f => f.id === id)
   if (!figure) return null
+  return buildDossierForFigure(figure, catalog)
+}
+
+/**
+ * Carga un dossier por nombre. Si el nombre coincide con una figura del catálogo
+ * expandido, usa todos los datos enriquecidos. Si no, construye una figura
+ * ligera con la metadata mínima y enriquece igual con noticias + Wikipedia.
+ */
+export async function buildDossierByName(
+  name: string,
+  hints?: Partial<Pick<Figure, 'cargo' | 'organizacion' | 'afiliacion' | 'category' | 'color'>>,
+): Promise<FigureDossier | null> {
+  const catalog = [...getExpandedCatalog(), ...getIbexCeosCatalog()]
+  const nameLower = name.toLowerCase().trim()
+  // Buscar match exacto o por apellido
+  let figure = catalog.find(f => f.nombre.toLowerCase() === nameLower)
+  if (!figure) {
+    const apellidos = nameLower.split(/\s+/).slice(-2).join(' ')
+    figure = catalog.find(f => f.nombre.toLowerCase().includes(apellidos))
+  }
+  if (!figure) {
+    // Construir figura ligera "on the fly"
+    figure = {
+      id: `lite-${nameLower.replace(/\s+/g, '-')}`,
+      nombre: name,
+      category: hints?.category || 'politico',
+      cargo: hints?.cargo || '',
+      organizacion: hints?.organizacion || '',
+      afiliacion: hints?.afiliacion || null,
+      color: hints?.color || '#6E6E73',
+      ejeX: 0, ejeY: 0, influencia: 50, exposicion: 50,
+      tags: [],
+    }
+  }
+  return buildDossierForFigure(figure, catalog)
+}
+
+async function buildDossierForFigure(figure: Figure, catalog: Figure[]): Promise<FigureDossier> {
 
   // En paralelo: bio + noticias + intervenciones + comisiones
   const [bio, noticias, intervenciones, comisionesAfines, conexiones] = await Promise.all([

@@ -18,6 +18,7 @@
 
 import type { Figure, FigureCategory } from './types'
 import { IBEX_COMPANIES } from '@/lib/news-taxonomy'
+import { getNicheCatalog } from './catalog-extended'
 
 // ─── EMPRESARIOS · CEOs y figuras corporativas clave ───────────────────────
 
@@ -340,15 +341,16 @@ function withColor(fig: Omit<Figure, 'color'>): Figure {
 
 /**
  * Devuelve el catálogo expandido completo.
- * Combina las 7 nuevas categorías (~150 figuras) con el catálogo político
- * existente (~300) cuando se quiera unificar.
+ * Combina 12 categorías (~200 figuras) con datos reales públicos.
  */
 export function getExpandedCatalog(): Figure[] {
   const expanded = [
     ...EMPRESARIOS, ...MEDIATICOS, ...LOBBIES_CONSULTORAS,
     ...FONDOS, ...INSTITUCIONALES, ...ACADEMICOS,
   ].map(withColor)
-  return expanded
+  // Catálogo de nicho (tech, ciencia, cultura, activismo, religión, deporte, etc.)
+  const niche = getNicheCatalog()
+  return [...expanded, ...niche]
 }
 
 /**

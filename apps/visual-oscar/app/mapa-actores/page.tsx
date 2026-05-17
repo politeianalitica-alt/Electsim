@@ -7,6 +7,7 @@ import { ACTORES, CATS, CAT_LABEL, initials, type Categoria } from '@/lib/actore
 import { useApi } from '@/lib/useApi'
 import RelacionesGrafo from '@/components/RelacionesGrafo'
 import IdeologicalScatter from '@/components/IdeologicalScatter'
+import FigureDossierModal from '@/components/FigureDossierModal'
 
 type ActorView = 'mapa' | 'grafo' | 'dossier'
 
@@ -21,6 +22,17 @@ interface ApiPersona {
   tendencia_sentimiento?: string
   ambito?: string
   bio?: string
+}
+
+interface LiveDossierPanel {
+  figure: { nombre: string; cargo: string; organizacion: string; color: string; influencia: number; twitter?: string | null }
+  bio: { extract: string; sourceUrl: string | null }
+  noticias: Array<{ titulo: string; medio: string; fecha: string | null; url: string; sentiment: string; sentiment_score: number }>
+  intervenciones: Array<{ fecha: string; organo: string }>
+  comisiones: Array<{ nombre: string; cargo: string }>
+  sentimientoAgregado: { positivo: number; negativo: number; neutral: number; score: number; tendencia: string }
+  tagsCobertura: string[]
+  error?: string
 }
 
 const TIPO_COLOR: Record<Categoria, string> = {
@@ -41,6 +53,9 @@ export default function MapaActoresPage() {
   const [pinned, setPinned] = useState<string | null>(null)
   const [view, setView] = useState<ActorView>('mapa')
   const [dossierId, setDossierId] = useState<string | null>(null)
+  const [dossierByName, setDossierByName] = useState<{ name: string; cargo?: string; afiliacion?: string; color?: string } | null>(null)
+  const [livePanel, setLivePanel] = useState<LiveDossierPanel | null>(null)
+  const [livePanelLoading, setLivePanelLoading] = useState(false)
 
   // Live API: fetch personas from Politeia Intelligence
   const { data: apiPersonas } = useApi<ApiPersona[]>('/api/intelligence/personas?limit=100&order_by=score_influencia', { refreshInterval: 0 })
@@ -56,6 +71,26 @@ export default function MapaActoresPage() {
   }, [personas])
   const focused = pinned ?? hovered
   const focusedActor = focused ? ACTORES.find(a => a.id === focused) : null
+
+  // Cuando un actor queda FIJADO (clic), cargar dossier real
+  useEffect(() => {
+    if (!pinned) { setLivePanel(null); return }
+    const actor = ACTORES.find(a => a.id === pinned)
+    if (!actor) return
+    setLivePanelLoading(true)
+    setLivePanel(null)
+    const params = new URLSearchParams({
+      name: actor.nombre,
+      cargo: actor.cargo,
+      afiliacion: actor.partido,
+      color: actor.color,
+    })
+    fetch(`/api/figures/dossier-by-name?${params}`)
+      .then(r => r.json())
+      .then(setLivePanel)
+      .catch(e => setLivePanel({ error: String(e) } as LiveDossierPanel))
+      .finally(() => setLivePanelLoading(false))
+  }, [pinned])
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -302,53 +337,148 @@ export default function MapaActoresPage() {
                   <Coord label="Eje V" value={focusedActor.ejeY} pos={focusedActor.ejeY < 0 ? 'DESCENT.' : focusedActor.ejeY > 0 ? 'CENT.' : '—'} color={focusedActor.color}/>
                 </div>
 
-                {/* Fortalezas */}
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ fontSize:10, color:'#16A34A', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Fortalezas</div>
-                  {focusedActor.forts.map(f => (
-                    <div key={f} style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, marginBottom:4, lineHeight:1.4 }}>
-                      <span style={{ color:'#16A34A', flexShrink:0, fontWeight:700 }}>+</span>{f}
-                    </div>
-                  ))}
-                </div>
+                {/* DATOS REALES EN VIVO cuando el actor está fijado */}
+                {pinned && (
+                  <>
+                    {livePanelLoading && (
+                      <div style={{ padding: 14, fontSize: 11, color: '#9ca3af', textAlign: 'center', background: '#FAFAFB', borderRadius: 8 }}>
+                        Cargando dossier en vivo · Wikipedia + 50 medios RSS + Congreso…
+                      </div>
+                    )}
+                    {livePanel?.error && (
+                      <div style={{ padding: 10, fontSize: 11, color: '#DC2626', background: 'rgba(220,38,38,0.06)', borderRadius: 8 }}>
+                        Error cargando dossier: {livePanel.error.slice(0, 150)}
+                      </div>
+                    )}
+                    {livePanel && !livePanel.error && (
+                      <>
+                        {/* Sentimiento real desde RSS */}
+                        {livePanel.sentimientoAgregado && (
+                          <div style={{ marginBottom: 10, padding: '10px 12px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 9 }}>
+                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
+                              Sentimiento real · {livePanel.noticias.length} noticias 7d
+                            </div>
+                            <div style={{ display: 'flex', gap: 4, marginBottom: 6, height: 6, borderRadius: 3, overflow: 'hidden', background: '#F5F5F7' }}>
+                              {livePanel.sentimientoAgregado.positivo > 0 && (
+                                <div style={{ flex: livePanel.sentimientoAgregado.positivo, background: '#16A34A' }}/>
+                              )}
+                              {livePanel.sentimientoAgregado.neutral > 0 && (
+                                <div style={{ flex: livePanel.sentimientoAgregado.neutral, background: '#94A3B8' }}/>
+                              )}
+                              {livePanel.sentimientoAgregado.negativo > 0 && (
+                                <div style={{ flex: livePanel.sentimientoAgregado.negativo, background: '#DC2626' }}/>
+                              )}
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10 }}>
+                              <span style={{ color: '#16A34A' }}>+{livePanel.sentimientoAgregado.positivo}</span>
+                              <span style={{ color: '#94A3B8' }}>={livePanel.sentimientoAgregado.neutral}</span>
+                              <span style={{ color: '#DC2626' }}>−{livePanel.sentimientoAgregado.negativo}</span>
+                              <span style={{ color: '#1d1d1f', fontWeight: 700 }}>
+                                Score {livePanel.sentimientoAgregado.score > 0 ? '+' : ''}{livePanel.sentimientoAgregado.score} {livePanel.sentimientoAgregado.tendencia === 'up' ? '↑' : livePanel.sentimientoAgregado.tendencia === 'down' ? '↓' : '→'}
+                              </span>
+                            </div>
+                          </div>
+                        )}
 
-                {/* Debilidades */}
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ fontSize:10, color:'#DC2626', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Debilidades</div>
-                  {focusedActor.debs.map(d => (
-                    <div key={d} style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, marginBottom:4, lineHeight:1.4 }}>
-                      <span style={{ color:'#DC2626', flexShrink:0, fontWeight:700 }}>−</span>{d}
-                    </div>
-                  ))}
-                </div>
+                        {/* Bio Wikipedia */}
+                        {livePanel.bio.extract && (
+                          <div style={{ marginBottom: 10, padding: '10px 12px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 9 }}>
+                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                              Biografía · Wikipedia
+                            </div>
+                            <p style={{ margin: 0, fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5 }}>
+                              {livePanel.bio.extract.slice(0, 280)}{livePanel.bio.extract.length > 280 ? '…' : ''}
+                            </p>
+                          </div>
+                        )}
 
-                {/* Eventos */}
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Eventos recientes</div>
-                  {focusedActor.evs.map(e => (
-                    <div key={e} style={{ fontSize:11.5, color:'#3a3a3d', display:'flex', gap:6, marginBottom:4, lineHeight:1.4 }}>
-                      <span style={{ color:focusedActor.color, flexShrink:0, fontWeight:700 }}>→</span>{e}
-                    </div>
-                  ))}
-                </div>
+                        {/* Tags cobertura */}
+                        {livePanel.tagsCobertura.length > 0 && (
+                          <div style={{ marginBottom: 10 }}>
+                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                              Temas en cobertura
+                            </div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                              {livePanel.tagsCobertura.slice(0, 8).map(t => (
+                                <span key={t} style={{ fontSize: 10, padding: '2px 7px', borderRadius: 999, background: `${focusedActor.color}15`, color: focusedActor.color, fontWeight: 600 }}>{t}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
-                {/* Redes */}
-                <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px', marginBottom:6 }}>
-                  <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Redes sociales</div>
-                  {[
-                    { l:'Seguidores',  v:focusedActor.seg.f, c:focusedActor.color },
-                    { l:'Engagement',  v:focusedActor.seg.eng, c:focusedActor.color },
-                    { l:'Sentim. neto',v:`${focusedActor.seg.tono >= 0 ? '+' : ''}${focusedActor.seg.tono}`, c: focusedActor.seg.tono >= 0 ? '#16A34A' : '#DC2626' },
-                  ].map(x => (
-                    <div key={x.l} style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-                      <span style={{ fontSize:11, color:'#6e6e73' }}>{x.l}</span>
-                      <span style={{ fontSize:12, fontWeight:700, color:x.c }}>{x.v}</span>
-                    </div>
-                  ))}
-                </div>
+                        {/* Comisiones */}
+                        {livePanel.comisiones.length > 0 && (
+                          <div style={{ marginBottom: 10 }}>
+                            <div style={{ fontSize: 10, color: '#1F4E8C', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                              Comisiones · {livePanel.comisiones.length}
+                            </div>
+                            {livePanel.comisiones.slice(0, 4).map((c, i) => (
+                              <div key={i} style={{ fontSize: 11, color: '#3a3a3d', marginBottom: 3, padding: '3px 0' }}>
+                                <strong>{c.nombre}</strong> · <em style={{ color: '#6e6e73' }}>{c.cargo}</em>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Noticias recientes */}
+                        {livePanel.noticias.length > 0 && (
+                          <div style={{ marginBottom: 10 }}>
+                            <div style={{ fontSize: 10, color: '#0F766E', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                              Últimas noticias · {livePanel.noticias.length}
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 200, overflowY: 'auto' }}>
+                              {livePanel.noticias.slice(0, 8).map((n, i) => {
+                                const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
+                                return (
+                                  <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
+                                    padding: '5px 8px', borderRadius: 5, fontSize: 10.5,
+                                    background: '#FAFAFB', borderLeft: `2px solid ${sc}`,
+                                    color: '#1d1d1f', textDecoration: 'none', lineHeight: 1.3,
+                                  }}>
+                                    <div style={{ display: 'flex', gap: 6, fontSize: 9, color: '#6e6e73', marginBottom: 2 }}>
+                                      <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                                      {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
+                                    </div>
+                                    {n.titulo.slice(0, 120)}
+                                  </a>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Intervenciones */}
+                        {livePanel.intervenciones.length > 0 && (
+                          <div style={{ marginBottom: 10 }}>
+                            <div style={{ fontSize: 10, color: '#5B21B6', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                              Intervenciones · {livePanel.intervenciones.length}
+                            </div>
+                            {livePanel.intervenciones.slice(0, 5).map((iv, i) => (
+                              <div key={i} style={{ fontSize: 10.5, color: '#3a3a3d', marginBottom: 2 }}>
+                                {iv.organo} {iv.fecha && <span style={{ color: '#6e6e73' }}>· {iv.fecha}</span>}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <button onClick={() => setDossierByName({
+                          name: focusedActor.nombre,
+                          cargo: focusedActor.cargo,
+                          afiliacion: focusedActor.partido,
+                          color: focusedActor.color,
+                        })} style={{
+                          marginTop: 4, width: '100%',
+                          background: focusedActor.color, color: '#fff',
+                          border: 'none', borderRadius: 8, padding: '8px 12px',
+                          fontSize: 11.5, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer',
+                        }}>Abrir dossier completo →</button>
+                      </>
+                    )}
+                  </>
+                )}
 
                 <div style={{ fontSize:10.5, color:'#86868b', textAlign:'right', marginTop:6 }}>
-                  {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar'}
+                  {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar y cargar datos en vivo'}
                 </div>
               </>
             ) : (
@@ -606,6 +736,14 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
           </div>
         </div>
       </div>
+
+      {/* Modal de dossier completo · datos en vivo */}
+      <FigureDossierModal
+        figureId={dossierId}
+        byName={dossierByName}
+        onClose={() => { setDossierId(null); setDossierByName(null) }}
+        onSelectFigure={id => { setDossierByName(null); setDossierId(id) }}
+      />
     </div>
   )
 }

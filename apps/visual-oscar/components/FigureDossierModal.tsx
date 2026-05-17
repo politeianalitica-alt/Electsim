@@ -47,6 +47,8 @@ interface DossierData {
 
 interface Props {
   figureId: string | null
+  /** Alternativa: lookup por nombre + hints. Si figureId está, gana */
+  byName?: { name: string; cargo?: string; organizacion?: string; afiliacion?: string; category?: string; color?: string } | null
   onClose: () => void
   onSelectFigure?: (id: string) => void
 }
@@ -72,21 +74,37 @@ const RELACION_LABEL: Record<string, { label: string; color: string }> = {
   'otro':            { label: 'Otro',            color: '#6E6E73' },
 }
 
-export default function FigureDossierModal({ figureId, onClose, onSelectFigure }: Props) {
+export default function FigureDossierModal({ figureId, byName, onClose, onSelectFigure }: Props) {
   const [data, setData] = useState<DossierData | null>(null)
   const [loading, setLoading] = useState(false)
 
+  const active = !!(figureId || byName)
+  const cacheKey = figureId || (byName ? `name:${byName.name}` : null)
+
   useEffect(() => {
-    if (!figureId) { setData(null); return }
+    if (!active) { setData(null); return }
     setLoading(true)
-    fetch(`/api/figures/dossier/${encodeURIComponent(figureId)}`)
+    setData(null)
+    let url: string
+    if (figureId) {
+      url = `/api/figures/dossier/${encodeURIComponent(figureId)}`
+    } else if (byName) {
+      const params = new URLSearchParams({ name: byName.name })
+      if (byName.cargo) params.set('cargo', byName.cargo)
+      if (byName.organizacion) params.set('organizacion', byName.organizacion)
+      if (byName.afiliacion) params.set('afiliacion', byName.afiliacion)
+      if (byName.category) params.set('category', byName.category)
+      if (byName.color) params.set('color', byName.color)
+      url = `/api/figures/dossier-by-name?${params}`
+    } else { return }
+    fetch(url)
       .then(r => r.json())
       .then(setData)
       .catch(e => setData({ figure: {} as DossierData['figure'], error: String(e) } as DossierData))
       .finally(() => setLoading(false))
-  }, [figureId])
+  }, [active, cacheKey, figureId, byName])
 
-  if (!figureId) return null
+  if (!active) return null
 
   return (
     <div onClick={onClose} style={{

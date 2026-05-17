@@ -19,6 +19,7 @@
 
 import type { LegislativeInitiative, Commission, CommissionSession } from './types'
 import senadoComisionesXV from '@/data/senado-comisiones-xv.json'
+import senadoIniciativasXV from '@/data/senado-iniciativas-xv.json'
 
 const BASE = 'https://www.senado.es/web/ficopendataservlet'
 const LEGIS = '15'
@@ -137,40 +138,91 @@ function inferTags(titulo: string): string[] {
   return Array.from(new Set(words)).slice(0, 6)
 }
 
-export async function fetchSenadoInitiatives(): Promise<LegislativeInitiative[]> {
-  const xml = await fetchXml(9)
-  if (!xml) return []
-  const blocks = extractBlocks(xml, 'iniciativa')
-  const out: LegislativeInitiative[] = []
-  for (const b of blocks) {
-    const tipo = tagText(b, 'tipoExpediente') || ''
-    const numero = tagText(b, 'numeroExpediente') || ''
-    const titulo = tagText(b, 'titulo') || ''
-    const urlPag = tagText(b, 'urlPagina') || ''
-    if (!titulo || !numero) continue
+/** Detecta el promotor/proponente a partir del título.
+ *  Patrones típicos del Senado: "GP Popular", "GP Socialista", "Grupo Parlamentario...", "el Gobierno"
+ */
+function detectPromotorFromTitle(titulo: string, tipo: string): string {
+  const t = titulo.toLowerCase()
+  // Proyectos de ley = Gobierno
+  if (tipo.startsWith('621')) return 'Gobierno de España'
+  if (tipo.startsWith('600') && /constitución/i.test(t)) return 'Cortes Generales'
+  // Detectar grupo proponente
+  if (/gp popular|grupo popular|grupo parlamentario popular/i.test(t)) return 'GP Popular'
+  if (/gp socialista|grupo socialista|grupo parlamentario socialista/i.test(t)) return 'GP Socialista'
+  if (/gp vox|grupo vox|grupo parlamentario vox/i.test(t)) return 'GP VOX'
+  if (/sumar/i.test(t)) return 'GP Sumar'
+  if (/junts/i.test(t)) return 'GP Junts'
+  if (/erc|esquerra/i.test(t)) return 'GP ERC'
+  if (/eh bildu|bildu/i.test(t)) return 'GP EH Bildu'
+  if (/pnv|eaj/i.test(t)) return 'GP PNV'
+  if (/nacionalist[ao]s en el senado|gpncv/i.test(t)) return 'GP Nacionalistas'
+  if (/iu confederal|gpic|izquierda/i.test(t)) return 'GP IU'
+  if (/gobierno|consejo de ministros/i.test(t)) return 'Gobierno de España'
+  // Por defecto según tipo
+  if (tipo.startsWith('622')) return 'Grupo parlamentario'
+  if (tipo.startsWith('624')) return 'Gobierno o grupo (LO)'
+  if (tipo.startsWith('625')) return 'Gobierno (RDL)'
+  return 'Senado'
+}
 
-    const id = `sen-${tipo}-${numero}`
-    const expediente = `${tipo}/${numero}`
-    const url = urlPag.startsWith('http') ? urlPag : `https://www.senado.es${urlPag}`
-
-    out.push({
-      id,
-      ambito: 'nacional-senado',
-      ccaa: null,
-      expediente,
-      titulo,
-      kind: mapTipoExp(tipo),
-      materia: inferMateria(titulo),
-      promotor: 'Senado',
-      stage: 'comision', // estado por defecto - el Senado actúa como revisor
-      fechaRegistro: null,
-      fechaActualizacion: new Date().toISOString(),
-      urlOficial: url,
-      fuente: 'senado.es/opendata',
-      tags: inferTags(titulo),
-    })
+function entryToInitiative(entry: { tipo: string; numero: string; titulo: string; urlPagina?: string }): LegislativeInitiative {
+  const id = `sen-${entry.tipo}-${entry.numero}`
+  const expediente = `${entry.tipo}/${entry.numero}`
+  const urlOficial = entry.urlPagina
+    ? (entry.urlPagina.startsWith('http') ? entry.urlPagina : `https://www.senado.es${entry.urlPagina}`)
+    : `https://www.senado.es/web/actividadparlamentaria/iniciativas/detalleiniciativa/index.html?legis=15&id1=${entry.tipo}&id2=${entry.numero}`
+  return {
+    id,
+    ambito: 'nacional-senado',
+    ccaa: null,
+    expediente,
+    titulo: entry.titulo,
+    kind: mapTipoExp(entry.tipo),
+    materia: inferMateria(entry.titulo),
+    promotor: detectPromotorFromTitle(entry.titulo, entry.tipo),
+    stage: 'comision',
+    fechaRegistro: null,
+    fechaActualizacion: new Date().toISOString(),
+    urlOficial,
+    fuente: 'senado.es',
+    tags: inferTags(entry.titulo),
   }
-  return out
+}
+
+/**
+ * Devuelve las 242 iniciativas legislativas del Senado XV.
+ *
+ * Misma situación que comisiones: WAF del Senado devuelve 403 a IPs de
+ * cloud (Vercel/AWS). Usamos catálogo enumerado (datos reales descargados
+ * vía curl desde IP no bloqueada) + intento dinámico como complemento.
+ */
+export async function fetchSenadoInitiatives(): Promise<LegislativeInitiative[]> {
+  // 1) Catálogo enumerado primario
+  const catalogo: LegislativeInitiative[] = (senadoIniciativasXV as Array<{ tipo: string; numero: string; titulo: string; urlPagina?: string }>)
+    .map(entryToInitiative)
+
+  // 2) Fetch dinámico opcional
+  try {
+    const xml = await fetchXml(9, 8000)
+    if (xml && !isAccessDenied(xml)) {
+      const blocks = extractBlocks(xml, 'iniciativa')
+      const seen = new Set(catalogo.map(c => c.id))
+      for (const b of blocks) {
+        const tipo = tagText(b, 'tipoExpediente') || ''
+        const numero = tagText(b, 'numeroExpediente') || ''
+        const titulo = tagText(b, 'titulo') || ''
+        const urlPag = tagText(b, 'urlPagina') || ''
+        if (!titulo || !numero) continue
+        const id = `sen-${tipo}-${numero}`
+        if (!seen.has(id)) {
+          catalogo.push(entryToInitiative({ tipo, numero, titulo, urlPagina: urlPag }))
+          seen.add(id)
+        }
+      }
+    }
+  } catch {/* catálogo basta */}
+
+  return catalogo
 }
 
 // ─── Leyes aprobadas (tipoFich=18) ─────────────────────────────────────────
