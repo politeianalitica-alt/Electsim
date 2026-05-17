@@ -52,7 +52,11 @@ export default function MapaActoresPage() {
   const [hovered, setHovered] = useState<string | null>(null)
   const [pinned, setPinned] = useState<string | null>(null)
   const [view, setView] = useState<ActorView>('mapa')
+  /** ID de actor seleccionado dentro de la VISTA "Dossier" (catálogo ACTORES) */
+  const [dossierActorId, setDossierActorId] = useState<string | null>(null)
+  /** ID de figura del CATÁLOGO NUEVO (figures) — sólo para el modal lateral */
   const [dossierId, setDossierId] = useState<string | null>(null)
+  /** Lookup por nombre — para abrir modal desde cualquier sitio sin tener ID */
   const [dossierByName, setDossierByName] = useState<{ name: string; cargo?: string; afiliacion?: string; color?: string } | null>(null)
   const [livePanel, setLivePanel] = useState<LiveDossierPanel | null>(null)
   const [livePanelLoading, setLivePanelLoading] = useState(false)
@@ -193,8 +197,8 @@ export default function MapaActoresPage() {
         <DossierView
           actors={ACTORES}
           liveByName={liveByName}
-          selectedId={dossierId ?? ACTORES[0].id}
-          onSelect={setDossierId}
+          selectedId={dossierActorId ?? ACTORES[0].id}
+          onSelect={setDossierActorId}
           onOpenGraph={() => setView('grafo')}
         />
       )}

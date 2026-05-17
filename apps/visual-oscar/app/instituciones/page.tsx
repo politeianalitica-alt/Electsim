@@ -1,576 +1,607 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+
+/**
+ * /instituciones — Comunidades Autónomas y Municipios.
+ *
+ * 2 subpestañas:
+ *   1. CCAA: 19 comunidades + ciudades autónomas. Búsqueda + perfil rico
+ *      (Wikipedia + RSS news + iniciativas + sentimiento + preocupaciones).
+ *   2. Municipios: 60+ ciudades clave (capitales + grandes municipios).
+ *      Búsqueda + perfil con alcalde/partido + Wikipedia + noticias locales.
+ *
+ * Todo dinámico, sin contenido hardcodeado salvo metadata estable
+ * (códigos INE, capitales, fundación, web oficial).
+ */
+
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { useInstituciones } from '@/hooks/useInstituciones'
-import type {
-  Signo,
-  SignoBloque,
-  CCAA,
-  Diputacion,
-  Capital,
-  Insular,
-} from '@/data/instituciones-fixture'
 
-// ─────────────────────────────────────────────────────────────────────────
-// UI maps · se quedan en la página
-// ─────────────────────────────────────────────────────────────────────────
-const COLOR: Record<Signo, string> = {
-  'PP':'#1F4E8C', 'PSOE':'#E1322D', 'PSC':'#C5152D',
-  'PNV':'#7DB94B', 'PSE':'#E1322D',
-  'CC':'#F2C43A', 'NC':'#00A0DC',
-  'ERC':'#E8A030', 'Junts':'#1FA89B', 'Bildu':'#3F7A3A', 'BNG':'#5BB3D9',
-  'CUP':'#F0DD2A', 'Sumar':'#D43F8D', 'Foro':'#002757',
-  'ASG':'#0E7D8C', 'DO':'#9333EA', 'PRC':'#008C46',
-  'TpT':'#7C2D92', 'Sa Unió':'#0E7490', 'Independiente':'#6e6e73',
+interface CCAA {
+  slug: string; code: string; nombre: string; nombreCorto: string; capital: string
+  provincias: string[]; poblacion: number; superficie: number; fundacion: number
+  color: string; bandera: string; presidente: string; partidoGobierno: string
+  parlamento: string; parlamentoUrl: string; gobiernoUrl: string
+  boletin: string; boletinUrl: string; wikipedia: string
+  pibMillones: number; sectoresClave: string[]; tokens: string[]
 }
 
-const BLOQUE_META: Record<SignoBloque, { label: string; color: string }> = {
-  'derecha':     { label:'CENTRO-DERECHA', color:'#1F4E8C' },
-  'izquierda':   { label:'CENTRO-IZQUIERDA', color:'#E1322D' },
-  'territorial': { label:'TERRITORIAL', color:'#7C3AED' },
+interface Municipio {
+  ine: string; slug: string; nombre: string; ccaa: string; provincia: string
+  poblacion: number; superficie: number
+  alcalde: string | null; partidoAlcalde: string | null; alcaldeDesde: number | null
+  webAyuntamiento: string | null; wikipedia: string
+  tokens: string[]
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Componente
-// ─────────────────────────────────────────────────────────────────────────
+interface CCAAProfile {
+  meta: CCAA
+  bio: { extract: string; sourceUrl: string | null }
+  noticias: Array<{ titulo: string; medio: string; fecha: string | null; url: string; sentiment: string; sentiment_score: number }>
+  iniciativas: Array<{ titulo: string; expediente: string; materia: string; promotor: string; stage: string; fechaRegistro: string | null; url: string | null }>
+  sentimientoAgregado: { positivo: number; negativo: number; neutral: number; score: number; tendencia: string }
+  tagsCobertura: string[]
+  preocupaciones: string[]
+  metrics: { nNoticias7d: number; nIniciativas: number; pibMillonesEuros: number; densidadHabKm2: number }
+  updatedAt: string
+  error?: string
+}
+
+interface MunicipioProfile {
+  meta: Municipio
+  ccaaNombre: string
+  ccaaColor: string
+  bio: { extract: string; sourceUrl: string | null }
+  noticias: Array<{ titulo: string; medio: string; fecha: string | null; url: string; sentiment: string; sentiment_score: number }>
+  sentimientoAgregado: { positivo: number; negativo: number; neutral: number; score: number; tendencia: string }
+  tagsCobertura: string[]
+  preocupaciones: string[]
+  metrics: { nNoticias7d: number; densidadHabKm2: number }
+  updatedAt: string
+  error?: string
+}
+
+const PARTY_COLOR: Record<string, string> = {
+  'PP': '#1F4E8C', 'PSOE': '#E1322D', 'PSC': '#E1322D', 'PSC-PSOE': '#E1322D',
+  'PSE': '#E1322D', 'PSN-PSOE': '#E1322D',
+  'VOX': '#5BA02E', 'Sumar': '#D43F8D',
+  'Junts': '#1FA89B', 'ERC': '#E8A030', 'CUP': '#FFCC00',
+  'PNV': '#7DB94B', 'EH Bildu': '#3F7A3A',
+  'BNG': '#5BB3D9', 'CC': '#F2C43A', 'Ciudadanos': '#FA5000',
+  'Foro Asturias': '#9333EA', 'Democracia Ourensana': '#525258',
+  'Tot per Terrassa': '#0F9B6C', 'IU': '#A02525',
+}
+
+type SubTab = 'ccaa' | 'municipios'
+
 export default function InstitucionesPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const {
-    ccaas: CCAAS,
-    diputaciones: DIPUTACIONES,
-    capitales: CAPITALES,
-    insulares: INSULARES,
-  } = useInstituciones()
-
-  const [tab, setTab] = useState<'ccaa' | 'diputaciones' | 'capitales' | 'insulares'>('ccaa')
-  const [filterBloque, setFilterBloque] = useState<SignoBloque | 'Todos'>('Todos')
-  const [query, setQuery] = useState('')
-
-  // Totales para el hero
-  const totals = useMemo(() => {
-    const presupTotal = CCAAS.reduce((s, c) => s + c.presup, 0)
-    const ccaaPP = CCAAS.filter(c => c.bloque === 'derecha').length
-    const ccaaPSOE = CCAAS.filter(c => c.bloque === 'izquierda').length
-    const ccaaTerr = CCAAS.filter(c => c.bloque === 'territorial').length
-    return { ccaa: CCAAS.length, dip: DIPUTACIONES.length, capitales: CAPITALES.length, insulares: INSULARES.length, presup: presupTotal, ccaaPP, ccaaPSOE, ccaaTerr }
-  }, [CCAAS, DIPUTACIONES, CAPITALES, INSULARES])
+  const [tab, setTab] = useState<SubTab>('ccaa')
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
-        {/* ───── Hero ───── */}
+        {/* Hero */}
         <section style={{
-          background:'linear-gradient(135deg,#7C3AED 0%,#3B0764 100%)',
-          borderRadius:18, padding:'28px 36px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
+          background: 'linear-gradient(135deg,#0F766E 0%,#054742 100%)',
+          borderRadius: 22, padding: '28px 36px', marginBottom: 16, color: '#fff',
         }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
-              INTELIGENCIA POLÍTICA · INSTITUCIONES LOCALES Y REGIONALES
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              17 CCAA, 38 diputaciones <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>y 8 131 municipios</em>
-            </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
-              Mapa de poder territorial: Comunidades Autónomas, Diputaciones provinciales y forales, capitales con &gt; 75k habitantes y cabildos / consells insulares.
-              Presupuesto agregado autonómico: <strong style={{ color:'#fff' }}>{totals.presup.toFixed(1)} mil M€</strong>.
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
-            <HeroKPI label="CCAA" value={String(totals.ccaa)}/>
-            <HeroKPI label="Diput." value={String(totals.dip)}/>
-            <HeroKPI label="Capitales" value={String(totals.capitales)}/>
-            <HeroKPI label="Insul." value={String(totals.insulares)}/>
-          </div>
+          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.78, margin: '0 0 6px', textTransform: 'uppercase' }}>
+            INSTITUCIONES LOCALES Y REGIONALES · INTELIGENCIA TERRITORIAL
+          </p>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
+            Radar de las 17 CCAA + 2 ciudades autónomas + municipios clave
+          </h1>
+          <p style={{ fontSize: 13, opacity: 0.85, margin: 0, lineHeight: 1.5 }}>
+            Para consultores políticos, candidatos, prensa y corporativos del IBEX. Bio Wikipedia + 50 medios RSS +
+            iniciativas autonómicas + sentimiento mediático + preocupaciones detectadas + tags clave de cobertura.
+          </p>
         </section>
 
-        {/* ───── Mapa de poder político (CCAA) ───── */}
-        <section style={{
-          background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-          padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14,
-        }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12, flexWrap:'wrap', gap:8 }}>
-            <div>
-              <h3 style={{ margin:'0 0 3px', fontFamily:'var(--font-display)', fontSize:15, fontWeight:600, letterSpacing:'-0.013em' }}>Mapa de poder autonómico</h3>
-              <p style={{ margin:0, fontSize:11.5, color:'#6e6e73' }}>{totals.ccaaPP} CCAA centro-derecha · {totals.ccaaPSOE} centro-izquierda · {totals.ccaaTerr} territorial</p>
-            </div>
-            <div style={{ display:'flex', gap:14, fontSize:11, color:'#3a3a3d' }}>
-              <span style={{ display:'inline-flex', alignItems:'center', gap:6 }}><span style={{ width:11, height:11, borderRadius:3, background:'#1F4E8C', display:'inline-block' }}/>Centro-derecha</span>
-              <span style={{ display:'inline-flex', alignItems:'center', gap:6 }}><span style={{ width:11, height:11, borderRadius:3, background:'#E1322D', display:'inline-block' }}/>Centro-izquierda</span>
-              <span style={{ display:'inline-flex', alignItems:'center', gap:6 }}><span style={{ width:11, height:11, borderRadius:3, background:'#7C3AED', display:'inline-block' }}/>Territorial</span>
-            </div>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(78px,1fr))', gap:5 }}>
-            {CCAAS.map(c => (
-              <div key={c.id} title={`${c.nombre} · ${c.presidente} (${c.partido})`} style={{
-                background: BLOQUE_META[c.bloque].color, color:'#fff',
-                borderRadius:8, padding:'10px 6px', textAlign:'center',
-                cursor:'help', minHeight:54,
-                display:'flex', flexDirection:'column', justifyContent:'center',
+        {/* Subnav */}
+        <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 16 }}>
+          {([
+            { id: 'ccaa', label: 'Comunidades Autónomas', glyph: '◉' },
+            { id: 'municipios', label: 'Municipios y ciudades', glyph: '⊞' },
+          ] as Array<{ id: SubTab; label: string; glyph: string }>).map(t => {
+            const active = tab === t.id
+            return (
+              <button key={t.id} onClick={() => setTab(t.id)} style={{
+                background: 'transparent',
+                color: active ? '#0F766E' : '#6e6e73',
+                border: 0,
+                borderBottom: active ? '2px solid #0F766E' : '2px solid transparent',
+                padding: '10px 16px', fontSize: 13,
+                fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
+                display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: -1,
               }}>
-                <div style={{ fontSize:10, fontWeight:700, lineHeight:1.2, opacity:0.95 }}>{c.nombre.length > 14 ? c.nombre.slice(0,13)+'…' : c.nombre}</div>
-                <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.04em', marginTop:3, opacity:0.85 }}>{c.partido}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+                <span style={{ fontSize: 14, color: active ? '#0F766E' : '#9ca3af' }}>{t.glyph}</span>
+                {t.label}
+              </button>
+            )
+          })}
+        </nav>
 
-        {/* ───── Tabs ───── */}
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10, marginBottom:14 }}>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, flexWrap:'wrap' }}>
-            {([
-              { k:'ccaa',         label:'Comunidades Autónomas', count: totals.ccaa },
-              { k:'diputaciones', label:'Diputaciones',          count: totals.dip },
-              { k:'capitales',    label:'Capitales y ciudades',  count: totals.capitales },
-              { k:'insulares',    label:'Cabildos / Consells',   count: totals.insulares },
-            ] as const).map(t => {
-              const active = tab === t.k
-              return (
-                <button key={t.k} onClick={() => setTab(t.k)} style={{
-                  background: active ? '#fff' : 'transparent',
-                  color: active ? '#1d1d1f' : '#6e6e73',
-                  border:'none', borderRadius:999, padding:'7px 14px',
-                  fontSize:12, fontWeight: active ? 700 : 500, cursor:'pointer',
-                  fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                }}>
-                  {t.label} <span style={{ marginLeft:5, color: active ? '#7C3AED' : '#6e6e73', fontWeight:700, fontSize:10.5 }}>{t.count}</span>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Filtro común para listas */}
-        <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
-          <input
-            type="text" value={query} onChange={e => setQuery(e.target.value)}
-            placeholder="Buscar institución, presidente o partido…"
-            style={{
-              flex:'1 1 280px', maxWidth:380,
-              padding:'9px 14px', borderRadius:10,
-              border:'1px solid #ECECEF', background:'#fff',
-              fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-            }}
-          />
-          <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Bloque:</span>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
-            {(['Todos','derecha','izquierda','territorial'] as const).map(b => {
-              const active = filterBloque === b
-              const col = b === 'Todos' ? '#1d1d1f' : BLOQUE_META[b].color
-              const lbl = b === 'Todos' ? 'Todos' : BLOQUE_META[b].label
-              return (
-                <button key={b} onClick={() => setFilterBloque(b)} style={{
-                  background: active ? '#fff' : 'transparent',
-                  color: active ? col : '#6e6e73',
-                  border:'none', borderRadius:999, padding:'4px 10px',
-                  fontSize:11, fontWeight: active ? 700 : 500, cursor:'pointer',
-                  fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                }}>{lbl}</button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* ───── Tab CCAA ───── */}
-        {tab === 'ccaa' && <TabCCAA query={query} bloque={filterBloque} data={CCAAS}/>}
-
-        {/* ───── Tab Diputaciones ───── */}
-        {tab === 'diputaciones' && <TabDiputaciones query={query} bloque={filterBloque} data={DIPUTACIONES}/>}
-
-        {/* ───── Tab Capitales ───── */}
-        {tab === 'capitales' && <TabCapitales query={query} bloque={filterBloque} data={CAPITALES}/>}
-
-        {/* ───── Tab Insulares ───── */}
-        {tab === 'insulares' && <TabInsulares query={query} bloque={filterBloque} data={INSULARES}/>}
-
+        {tab === 'ccaa' && <CCAATab/>}
+        {tab === 'municipios' && <MunicipiosTab/>}
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
-        Instituciones Locales y Regionales · Politeia Analítica · {new Date().getFullYear()}
-      </footer>
     </div>
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Sub-tabs
-// ─────────────────────────────────────────────────────────────────────────
-function TabCCAA({ query, bloque, data }: { query: string, bloque: SignoBloque | 'Todos', data: CCAA[] }) {
-  const q = query.trim().toLowerCase()
-  const list = data.filter(c => bloque === 'Todos' || c.bloque === bloque)
-                    .filter(c => !q || c.nombre.toLowerCase().includes(q) || c.presidente.toLowerCase().includes(q) || c.partido.toLowerCase().includes(q))
+// ─── Tab CCAA ──────────────────────────────────────────────────────────────
+
+function CCAATab() {
+  const [list, setList] = useState<CCAA[]>([])
+  const [selected, setSelected] = useState<string>('madrid')
+  const [profile, setProfile] = useState<CCAAProfile | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [q, setQ] = useState('')
+
+  useEffect(() => {
+    fetch('/api/ccaa/list').then(r => r.json()).then(d => setList(d.items || [])).catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!selected) return
+    setLoading(true)
+    setProfile(null)
+    fetch(`/api/ccaa/profile/${selected}`)
+      .then(r => r.json())
+      .then(setProfile)
+      .catch(e => setProfile({ error: String(e) } as CCAAProfile))
+      .finally(() => setLoading(false))
+  }, [selected])
+
+  const filtered = q
+    ? list.filter(c => c.nombre.toLowerCase().includes(q.toLowerCase()) || c.capital.toLowerCase().includes(q.toLowerCase()))
+    : list
+
   return (
-    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(360px,1fr))', gap:12 }}>
-      {list.map(c => {
-        const col = COLOR[c.partido] || '#6e6e73'
-        const pctEsc = (c.escPdte / c.esc) * 100
-        return (
-          <article key={c.id} style={{
-            background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-            boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
-          }}>
-            <header style={{
-              display:'grid', gridTemplateColumns:'1fr auto', gap:10, alignItems:'center',
-              padding:'14px 16px',
-              background:`linear-gradient(135deg, ${col}10, ${col}03)`,
-              borderBottom:`2px solid ${col}`,
+    <div>
+      <div style={{ marginBottom: 14 }}>
+        <input
+          type="text" value={q} onChange={e => setQ(e.target.value)}
+          placeholder="Buscar comunidad o capital…"
+          style={{
+            width: '100%', padding: '10px 14px', fontSize: 13, borderRadius: 10,
+            border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit',
+          }}
+        />
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+        {filtered.map(c => {
+          const active = selected === c.slug
+          return (
+            <button key={c.slug} onClick={() => setSelected(c.slug)} style={{
+              background: active ? c.color : '#fff', color: active ? '#fff' : '#3a3a3d',
+              border: '1px solid ' + (active ? c.color : '#ECECEF'),
+              borderRadius: 999, padding: '6px 12px',
+              fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
             }}>
-              <div style={{ minWidth:0 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3 }}>
-                  <span style={{
-                    fontSize:9, fontWeight:800, letterSpacing:'0.08em',
-                    padding:'2px 7px', borderRadius:4,
-                    background:col, color:'#fff',
-                  }}>{c.partido}</span>
-                  <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· DESDE {c.desde} · CAP. {c.capital}</span>
-                </div>
-                <h3 style={{ margin:'0 0 2px', fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, letterSpacing:'-0.014em', color:'#1d1d1f' }}>{c.nombre}</h3>
-                <p style={{ margin:0, fontSize:11.5, color:'#3a3a3d', fontWeight:600 }}>{c.presidente}</p>
-              </div>
-              <div style={{ textAlign:'right', flexShrink:0 }}>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:col, letterSpacing:'-0.018em', lineHeight:1 }}>{c.escPdte}<span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>/{c.esc}</span></div>
-                <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', color:'#6e6e73', textTransform:'uppercase', marginTop:2 }}>esc. del Pdte.</div>
-              </div>
-            </header>
-            <div style={{ padding:'14px 16px' }}>
-              <div style={{
-                background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:9,
-                padding:'8px 11px', marginBottom:10,
-              }}>
-                <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>Apoyo parlamentario</div>
-                <div style={{ fontSize:12, color:'#1d1d1f', fontWeight:600, lineHeight:1.4 }}>{c.apoyo}</div>
-              </div>
-              <div style={{ marginBottom:10 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-                  <span style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>% escaños propios</span>
-                  <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:col }}>{pctEsc.toFixed(1)}%</span>
-                </div>
-                <div style={{ height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                  <div style={{ width:`${pctEsc}%`, height:'100%', background:col, borderRadius:3 }}/>
-                </div>
-              </div>
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:6, marginBottom:10 }}>
-                <Mini label="Población"  value={`${c.pob.toFixed(1)}M`}            color="#3a3a3d"/>
-                <Mini label="Presup."     value={`${c.presup.toFixed(1)} mM€`}     color="#16A34A"/>
-                <Mini label="Próx. elec." value={c.proxElec}                       color="#5B21B6"/>
-              </div>
-              {/* Consejerías clave */}
-              <div style={{ marginBottom:10 }}>
-                <div style={{ fontSize:8.5, fontWeight:800, letterSpacing:'0.08em', color:'#6e6e73', textTransform:'uppercase', marginBottom:5 }}>Consejerías clave</div>
-                <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
-                  {c.consejerias.slice(0, 4).map(s => (
-                    <div key={s} style={{ fontSize:10.5, color:'#3a3a3d', lineHeight:1.4, display:'flex', gap:5 }}>
-                      <span style={{ color:col, fontWeight:700, flexShrink:0 }}>·</span>{s}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {/* Enlace a la web oficial */}
-            <WebLink web={c.web} color={col}/>
-          </article>
-        )
-      })}
-      {list.length === 0 && <EmptyState/>}
-    </div>
-  )
-}
-
-function TabDiputaciones({ query, bloque, data }: { query: string, bloque: SignoBloque | 'Todos', data: Diputacion[] }) {
-  const q = query.trim().toLowerCase()
-  const list = data.filter(d => bloque === 'Todos' || d.bloque === bloque)
-                            .filter(d => !q || d.prov.toLowerCase().includes(q) || d.presidente.toLowerCase().includes(q) || d.partido.toLowerCase().includes(q) || d.ccaa.toLowerCase().includes(q))
-                            .sort((a,b) => b.pob - a.pob)
-  return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-      <div style={{ overflowX:'auto' }}>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:780 }}>
-          <thead>
-            <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
-              {[
-                { l:'Provincia', a:'left' },
-                { l:'CCAA',      a:'left' },
-                { l:'Presidente',a:'left' },
-                { l:'Partido',   a:'left' },
-                { l:'Bloque',    a:'left' },
-                { l:'Régimen',   a:'left' },
-                { l:'Población', a:'right' },
-                { l:'Web',       a:'center' },
-              ].map(h => (
-                <th key={h.l} style={{ textAlign:h.a as 'left'|'right'|'center', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h.l}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((d, i) => {
-              const col = COLOR[d.partido] || '#6e6e73'
-              return (
-                <tr key={`${d.prov}-${i}`} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                  <td style={{ padding:'9px 12px', fontWeight:600, color:'#1d1d1f' }}>{d.prov}</td>
-                  <td style={{ padding:'9px 12px', color:'#6e6e73', fontSize:11 }}>{d.ccaa}</td>
-                  <td style={{ padding:'9px 12px', fontWeight:600, color:'#1d1d1f' }}>{d.presidente}</td>
-                  <td style={{ padding:'9px 12px' }}>
-                    <span style={{
-                      fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                      padding:'2px 7px', borderRadius:4,
-                      background:col, color:'#fff',
-                    }}>{d.partido}</span>
-                  </td>
-                  <td style={{ padding:'9px 12px' }}>
-                    <span style={{
-                      fontSize:9, fontWeight:700, letterSpacing:'0.06em',
-                      padding:'2px 7px', borderRadius:999,
-                      background:`${BLOQUE_META[d.bloque].color}15`,
-                      color:BLOQUE_META[d.bloque].color,
-                      border:`1px solid ${BLOQUE_META[d.bloque].color}40`,
-                    }}>{BLOQUE_META[d.bloque].label}</span>
-                  </td>
-                  <td style={{ padding:'9px 12px', fontSize:11, color: d.forall ? '#5B21B6' : '#6e6e73', fontWeight: d.forall ? 700 : 500 }}>
-                    {d.forall ? 'FORAL' : 'Ordinaria'}
-                  </td>
-                  <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>
-                    {d.pob.toLocaleString('es-ES')}<span style={{ fontSize:9, color:'#86868b', marginLeft:2 }}>k</span>
-                  </td>
-                  <td style={{ padding:'9px 12px', textAlign:'center' }}>
-                    <WebIcon web={d.web} color={col}/>
-                  </td>
-                </tr>
-              )
-            })}
-            {list.length === 0 && (
-              <tr><td colSpan={8} style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13 }}>Sin coincidencias.</td></tr>
-            )}
-          </tbody>
-        </table>
+              {c.nombreCorto} <span style={{ opacity: 0.7, marginLeft: 4 }}>{c.poblacion}k hab.</span>
+            </button>
+          )
+        })}
       </div>
-    </div>
-  )
-}
 
-function TabCapitales({ query, bloque, data }: { query: string, bloque: SignoBloque | 'Todos', data: Capital[] }) {
-  const q = query.trim().toLowerCase()
-  const list = data.filter(c => bloque === 'Todos' || c.bloque === bloque)
-                         .filter(c => !q || c.ciudad.toLowerCase().includes(q) || c.alcalde.toLowerCase().includes(q) || c.partido.toLowerCase().includes(q) || c.prov.toLowerCase().includes(q))
-                         .sort((a,b) => b.pob - a.pob)
-  return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-      <div style={{ overflowX:'auto' }}>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:780 }}>
-          <thead>
-            <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
-              {[
-                { l:'Ciudad',    a:'left' },
-                { l:'Provincia', a:'left' },
-                { l:'Alcalde/sa',a:'left' },
-                { l:'Partido',   a:'left' },
-                { l:'Bloque',    a:'left' },
-                { l:'Desde',     a:'right' },
-                { l:'Población', a:'right' },
-                { l:'Web',       a:'center' },
-              ].map(h => (
-                <th key={h.l} style={{ textAlign:h.a as 'left'|'right'|'center', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h.l}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((c, i) => {
-              const col = COLOR[c.partido] || '#6e6e73'
-              return (
-                <tr key={c.id} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                  <td style={{ padding:'9px 12px' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', minWidth:24 }}>{i+1}</span>
-                      <span style={{ width:3, height:18, background:col, borderRadius:1 }}/>
-                      <span style={{ fontWeight:600, color:'#1d1d1f' }}>{c.ciudad}</span>
-                    </div>
-                  </td>
-                  <td style={{ padding:'9px 12px', color:'#6e6e73', fontSize:11 }}>{c.prov}</td>
-                  <td style={{ padding:'9px 12px', fontWeight:600, color:'#1d1d1f' }}>{c.alcalde}</td>
-                  <td style={{ padding:'9px 12px' }}>
-                    <span style={{
-                      fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                      padding:'2px 7px', borderRadius:4,
-                      background:col, color:'#fff',
-                    }}>{c.partido}</span>
-                  </td>
-                  <td style={{ padding:'9px 12px' }}>
-                    <span style={{
-                      fontSize:9, fontWeight:700, letterSpacing:'0.06em',
-                      padding:'2px 7px', borderRadius:999,
-                      background:`${BLOQUE_META[c.bloque].color}15`,
-                      color:BLOQUE_META[c.bloque].color,
-                      border:`1px solid ${BLOQUE_META[c.bloque].color}40`,
-                    }}>{BLOQUE_META[c.bloque].label}</span>
-                  </td>
-                  <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', color:'#3a3a3d' }}>{c.desde}</td>
-                  <td style={{ padding:'9px 12px', textAlign:'right', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>
-                    {c.pob.toLocaleString('es-ES')}<span style={{ fontSize:9, color:'#86868b', marginLeft:2 }}>k</span>
-                  </td>
-                  <td style={{ padding:'9px 12px', textAlign:'center' }}>
-                    <WebIcon web={c.web} color={col}/>
-                  </td>
-                </tr>
-              )
-            })}
-            {list.length === 0 && (
-              <tr><td colSpan={8} style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13 }}>Sin coincidencias.</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
-
-function TabInsulares({ query, bloque, data }: { query: string, bloque: SignoBloque | 'Todos', data: Insular[] }) {
-  const q = query.trim().toLowerCase()
-  const list = data.filter(i => bloque === 'Todos' || i.bloque === bloque)
-                         .filter(i => !q || i.nombre.toLowerCase().includes(q) || i.presidente.toLowerCase().includes(q) || i.partido.toLowerCase().includes(q))
-  const canarias = list.filter(i => i.archipielago === 'Canarias')
-  const baleares = list.filter(i => i.archipielago === 'Baleares')
-
-  return (
-    <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
-      {canarias.length > 0 && (
-        <div>
-          <h3 style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em', margin:'0 0 8px', color:'#1d1d1f' }}>
-            Cabildos canarios <span style={{ color:'#6e6e73', fontWeight:500, fontSize:11 }}>· {canarias.length} cabildos · 2.2M habitantes</span>
-          </h3>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:10 }}>
-            {canarias.map(i => <InsularCard key={i.id} ins={i}/>)}
-          </div>
+      {loading && (
+        <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+          Cargando perfil · Wikipedia + 50 medios RSS + Open Data legislativo…
         </div>
       )}
-      {baleares.length > 0 && (
-        <div>
-          <h3 style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em', margin:'0 0 8px', color:'#1d1d1f' }}>
-            Consells insulars baleàrics <span style={{ color:'#6e6e73', fontWeight:500, fontSize:11 }}>· {baleares.length} consells · 1.2M habitantes</span>
-          </h3>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:10 }}>
-            {baleares.map(i => <InsularCard key={i.id} ins={i}/>)}
-          </div>
-        </div>
-      )}
-      {list.length === 0 && <EmptyState/>}
+
+      {profile && profile.meta && <CCAAProfileView profile={profile}/>}
     </div>
   )
 }
 
-function InsularCard({ ins }: { ins: Insular }) {
-  const col = COLOR[ins.partido] || '#6e6e73'
+function CCAAProfileView({ profile }: { profile: CCAAProfile }) {
+  const c = profile.meta
   return (
-    <article style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
-      boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
-      borderLeft:`3px solid ${col}`,
-      display:'flex', flexDirection:'column',
-    }}>
-      <div style={{
-        display:'grid', gridTemplateColumns:'auto 1fr auto', gap:11, alignItems:'center',
-        padding:'12px 14px',
+    <>
+      <section style={{
+        background: `linear-gradient(135deg,${c.color}EE,${c.color}99)`,
+        borderRadius: 16, padding: '24px 30px', marginBottom: 16, color: '#fff',
       }}>
-        <div style={{
-          width:42, height:42, borderRadius:'50%', background:col, color:'#fff',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          fontFamily:'var(--font-display)', fontWeight:800, fontSize:11, flexShrink:0,
-        }}>{ins.partido}</div>
-        <div style={{ minWidth:0 }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, letterSpacing:'-0.012em', color:'#1d1d1f', lineHeight:1.2 }}>{ins.nombre}</div>
-          <div style={{ fontSize:11, color:'#3a3a3d', fontWeight:600 }}>{ins.presidente}</div>
-        </div>
-        <div style={{ textAlign:'right', flexShrink:0 }}>
-          <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.014em', lineHeight:1 }}>
-            {ins.pob.toLocaleString('es-ES')}<span style={{ fontSize:9, color:'#86868b', marginLeft:1, fontWeight:600 }}>k hab.</span>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, alignItems: 'center' }}>
+          <div>
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.85, margin: '0 0 6px', textTransform: 'uppercase' }}>
+              {c.partidoGobierno} · {c.presidente}
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 26, letterSpacing: '-0.022em', margin: '0 0 6px' }}>
+              {c.nombre}
+            </h2>
+            <p style={{ fontSize: 12, opacity: 0.85, margin: 0 }}>
+              Capital {c.capital} · {c.provincias.length} provincia(s) · fundación {c.fundacion}
+            </p>
           </div>
-          <div style={{ fontSize:9, fontWeight:700, color:BLOQUE_META[ins.bloque].color, letterSpacing:'0.06em', marginTop:2 }}>{BLOQUE_META[ins.bloque].label}</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 6 }}>
+            <HeroKPI label="Población" value={`${profile.meta.poblacion}k`}/>
+            <HeroKPI label="PIB" value={`${profile.metrics.pibMillonesEuros / 1000}B €`}/>
+            <HeroKPI label="Densidad" value={`${profile.metrics.densidadHabKm2}/km²`}/>
+            <HeroKPI label="Iniciativas" value={profile.metrics.nIniciativas}/>
+          </div>
+        </div>
+      </section>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {profile.bio.extract && (
+            <Card titulo="HISTORIA · WIKIPEDIA" color="#525258">
+              <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.55 }}>{profile.bio.extract}</p>
+              {profile.bio.sourceUrl && (
+                <a href={profile.bio.sourceUrl} target="_blank" rel="noopener noreferrer" style={{
+                  fontSize: 11, color: c.color, textDecoration: 'none', marginTop: 6, display: 'inline-block', fontWeight: 600,
+                }}>Wikipedia completa ↗</a>
+              )}
+            </Card>
+          )}
+
+          {profile.iniciativas.length > 0 && (
+            <Card titulo={`INICIATIVAS DEL PARLAMENTO · ${profile.iniciativas.length}`} color="#5B21B6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 360, overflowY: 'auto' }}>
+                {profile.iniciativas.map((it, i) => (
+                  <a key={i} href={it.url || '#'} target="_blank" rel="noopener noreferrer" style={{
+                    padding: '7px 10px', borderRadius: 7, background: '#FAFAFB',
+                    border: '1px solid #ECECEF', borderLeft: `3px solid ${c.color}`,
+                    textDecoration: 'none', color: '#1d1d1f',
+                  }}>
+                    <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
+                      <span style={{ fontWeight: 700, color: c.color }}>{it.promotor}</span>
+                      <span>· {it.materia}</span>
+                      {it.fechaRegistro && <span>· {it.fechaRegistro.slice(0, 10)}</span>}
+                    </div>
+                    <p style={{ margin: 0, fontSize: 11, lineHeight: 1.35 }}>{it.titulo.slice(0, 180)}</p>
+                  </a>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {profile.noticias.length > 0 && (
+            <Card titulo={`NOTICIAS 7D · ${profile.noticias.length}`} color="#0F766E">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 480, overflowY: 'auto' }}>
+                {profile.noticias.map((n, i) => {
+                  const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
+                  return (
+                    <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
+                      padding: '6px 9px', borderRadius: 6, fontSize: 11,
+                      background: '#FAFAFB', border: '1px solid #ECECEF', borderLeft: `3px solid ${sc}`,
+                      textDecoration: 'none', color: '#1d1d1f',
+                    }}>
+                      <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
+                        <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                        {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
+                      </div>
+                      {n.titulo.slice(0, 130)}
+                    </a>
+                  )
+                })}
+              </div>
+            </Card>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <Card titulo="GOBIERNO Y INSTITUCIONES" color="#1F4E8C">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11.5 }}>
+              <a href={c.gobiernoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>🏛 Gobierno {c.nombreCorto} ↗</a>
+              <a href={c.parlamentoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>⚖ {c.parlamento} ↗</a>
+              <a href={c.boletinUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>📋 Boletín {c.boletin} ↗</a>
+            </div>
+          </Card>
+
+          <Card titulo="SENTIMIENTO MEDIÁTICO" color="#6e6e73">
+            <div style={{ display: 'flex', gap: 4, marginBottom: 8, height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7' }}>
+              {profile.sentimientoAgregado.positivo > 0 && <div style={{ flex: profile.sentimientoAgregado.positivo, background: '#16A34A' }}/>}
+              {profile.sentimientoAgregado.neutral > 0 && <div style={{ flex: profile.sentimientoAgregado.neutral, background: '#94A3B8' }}/>}
+              {profile.sentimientoAgregado.negativo > 0 && <div style={{ flex: profile.sentimientoAgregado.negativo, background: '#DC2626' }}/>}
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+              <span style={{ color: '#16A34A', fontWeight: 700 }}>+{profile.sentimientoAgregado.positivo}</span>
+              <span style={{ color: '#94A3B8' }}>={profile.sentimientoAgregado.neutral}</span>
+              <span style={{ color: '#DC2626', fontWeight: 700 }}>−{profile.sentimientoAgregado.negativo}</span>
+            </div>
+            <p style={{ margin: '6px 0 0', fontSize: 11, color: '#1d1d1f', textAlign: 'center' }}>
+              Score <strong style={{ color: c.color, fontSize: 16 }}>{profile.sentimientoAgregado.score > 0 ? '+' : ''}{profile.sentimientoAgregado.score}</strong>
+              {' · '}
+              <strong>{profile.sentimientoAgregado.tendencia === 'up' ? '↑ mejora' : profile.sentimientoAgregado.tendencia === 'down' ? '↓ empeora' : '→ estable'}</strong>
+            </p>
+          </Card>
+
+          {profile.preocupaciones.length > 0 && (
+            <Card titulo={`PREOCUPACIONES DETECTADAS · ${profile.preocupaciones.length}`} color="#DC2626">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {profile.preocupaciones.map(p => (
+                  <div key={p} style={{ padding: '5px 9px', fontSize: 11, color: '#1d1d1f', background: 'rgba(220,38,38,0.06)', borderRadius: 6, borderLeft: '2px solid #DC2626' }}>
+                    {p}
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {profile.tagsCobertura.length > 0 && (
+            <Card titulo="TEMAS EN COBERTURA" color={c.color}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {profile.tagsCobertura.map(t => (
+                  <span key={t} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: `${c.color}15`, color: c.color, fontWeight: 600 }}>{t}</span>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          <Card titulo="ECONOMÍA Y SECTORES" color="#0F766E">
+            <p style={{ margin: '0 0 8px', fontSize: 11.5, color: '#1d1d1f' }}>
+              PIB anual: <strong>{c.pibMillones.toLocaleString('es-ES')} M€</strong>
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {c.sectoresClave.map(s => (
+                <span key={s} style={{ padding: '3px 9px', borderRadius: 6, fontSize: 11, background: '#FAFAFB', border: '1px solid #ECECEF', color: '#1d1d1f' }}>{s}</span>
+              ))}
+            </div>
+          </Card>
+
+          <Card titulo="PROVINCIAS" color="#525258">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              {c.provincias.map(p => (
+                <span key={p} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: '#FAFAFB', border: '1px solid #ECECEF', color: '#1d1d1f' }}>{p}</span>
+              ))}
+            </div>
+          </Card>
         </div>
       </div>
-      <WebLink web={ins.web} color={col} compact/>
-    </article>
+    </>
   )
 }
 
-function EmptyState() {
+// ─── Tab MUNICIPIOS ────────────────────────────────────────────────────────
+
+function MunicipiosTab() {
+  const [list, setList] = useState<Municipio[]>([])
+  const [selected, setSelected] = useState<string>('madrid')
+  const [profile, setProfile] = useState<MunicipioProfile | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [q, setQ] = useState('')
+  const [ccaaFilter, setCcaaFilter] = useState<string>('')
+  const [ccaaList, setCcaaList] = useState<CCAA[]>([])
+
+  useEffect(() => {
+    fetch('/api/municipios/list?limit=200').then(r => r.json()).then(d => setList(d.items || [])).catch(() => {})
+    fetch('/api/ccaa/list').then(r => r.json()).then(d => setCcaaList(d.items || [])).catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    if (!selected) return
+    setLoading(true)
+    setProfile(null)
+    fetch(`/api/municipios/profile/${selected}`)
+      .then(r => r.json())
+      .then(setProfile)
+      .catch(e => setProfile({ error: String(e) } as MunicipioProfile))
+      .finally(() => setLoading(false))
+  }, [selected])
+
+  // Búsqueda incremental
+  useEffect(() => {
+    const params = new URLSearchParams({ limit: '200' })
+    if (q) params.set('q', q)
+    if (ccaaFilter) params.set('ccaa', ccaaFilter)
+    fetch(`/api/municipios/list?${params}`).then(r => r.json()).then(d => setList(d.items || [])).catch(() => {})
+  }, [q, ccaaFilter])
+
   return (
-    <div style={{ padding:30, textAlign:'center', color:'#6e6e73', fontSize:13, background:'#fff', borderRadius:14, border:'1px solid #ECECEF' }}>
-      Sin coincidencias.
+    <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: 16 }}>
+      <aside style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: 14, maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column' }}>
+        <input
+          type="text" value={q} onChange={e => setQ(e.target.value)}
+          placeholder="Buscar municipio o alcalde…"
+          style={{
+            padding: '8px 12px', fontSize: 12, borderRadius: 8,
+            border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit', marginBottom: 8,
+          }}
+        />
+        <select value={ccaaFilter} onChange={e => setCcaaFilter(e.target.value)} style={{
+          padding: '7px 10px', fontSize: 12, borderRadius: 8, border: '1px solid #ECECEF',
+          background: '#fff', fontFamily: 'inherit', marginBottom: 8,
+        }}>
+          <option value="">Todas las CCAA</option>
+          {ccaaList.map(c => <option key={c.slug} value={c.slug}>{c.nombreCorto}</option>)}
+        </select>
+        <p style={{ fontSize: 10, color: '#6e6e73', margin: '0 0 8px' }}>
+          {list.length} municipio(s) · más por importancia (capital + grandes ciudades)
+        </p>
+        <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {list.map(m => {
+            const active = selected === m.slug
+            const partidoColor = m.partidoAlcalde ? (PARTY_COLOR[m.partidoAlcalde] || '#525258') : '#525258'
+            return (
+              <button key={m.slug} onClick={() => setSelected(m.slug)} style={{
+                textAlign: 'left', padding: '8px 10px', borderRadius: 8,
+                background: active ? `${partidoColor}10` : '#fff',
+                border: '1px solid ' + (active ? partidoColor : '#F0F0F3'),
+                borderLeft: `3px solid ${partidoColor}`,
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                  <strong style={{ fontSize: 12, color: '#1d1d1f' }}>{m.nombre}</strong>
+                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#6e6e73' }}>{(m.poblacion / 1000).toFixed(0)}k</span>
+                </div>
+                <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
+                  {m.provincia}{m.alcalde && ` · ${m.alcalde}`}
+                </p>
+                {m.partidoAlcalde && (
+                  <span style={{ fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 3, background: `${partidoColor}15`, color: partidoColor, letterSpacing: '0.04em', marginTop: 2, display: 'inline-block' }}>
+                    {m.partidoAlcalde.toUpperCase()}
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+      </aside>
+
+      <section>
+        {loading && (
+          <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+            Cargando perfil municipal · Wikipedia + 50 medios RSS…
+          </div>
+        )}
+        {profile && profile.meta && <MunicipioProfileView profile={profile}/>}
+      </section>
     </div>
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────────────
-function HeroKPI({ label, value }: { label:string, value:string }) {
+function MunicipioProfileView({ profile }: { profile: MunicipioProfile }) {
+  const m = profile.meta
+  const partidoColor = m.partidoAlcalde ? (PARTY_COLOR[m.partidoAlcalde] || '#525258') : profile.ccaaColor
+
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
-      <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:4, color:'#fff' }}>{label}</div>
+    <>
+      <section style={{
+        background: `linear-gradient(135deg,${partidoColor}EE,${partidoColor}99)`,
+        borderRadius: 16, padding: '24px 30px', marginBottom: 14, color: '#fff',
+        display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24, alignItems: 'center',
+      }}>
+        <div>
+          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.85, margin: '0 0 6px', textTransform: 'uppercase' }}>
+            {profile.ccaaNombre} · {m.provincia} · INE {m.ine}
+          </p>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 28, letterSpacing: '-0.022em', margin: '0 0 6px' }}>
+            {m.nombre}
+          </h2>
+          {m.alcalde && (
+            <p style={{ fontSize: 13, opacity: 0.9, margin: 0 }}>
+              <strong>{m.alcalde}</strong> ({m.partidoAlcalde}) · alcalde desde {m.alcaldeDesde}
+            </p>
+          )}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 6 }}>
+          <HeroKPI label="Población" value={m.poblacion.toLocaleString('es-ES')}/>
+          <HeroKPI label="Superficie" value={`${m.superficie} km²`}/>
+          <HeroKPI label="Densidad" value={`${profile.metrics.densidadHabKm2}/km²`}/>
+          <HeroKPI label="Noticias 7d" value={profile.metrics.nNoticias7d}/>
+        </div>
+      </section>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {profile.bio.extract && (
+            <Card titulo="WIKIPEDIA" color="#525258">
+              <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.55 }}>{profile.bio.extract}</p>
+              {profile.bio.sourceUrl && (
+                <a href={profile.bio.sourceUrl} target="_blank" rel="noopener noreferrer" style={{
+                  fontSize: 11, color: partidoColor, textDecoration: 'none', marginTop: 6, display: 'inline-block', fontWeight: 600,
+                }}>Wikipedia completa ↗</a>
+              )}
+            </Card>
+          )}
+
+          {profile.noticias.length > 0 && (
+            <Card titulo={`NOTICIAS LOCALES · ${profile.noticias.length}`} color="#0F766E">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 480, overflowY: 'auto' }}>
+                {profile.noticias.map((n, i) => {
+                  const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
+                  return (
+                    <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
+                      padding: '6px 9px', borderRadius: 6, fontSize: 11,
+                      background: '#FAFAFB', border: '1px solid #ECECEF', borderLeft: `3px solid ${sc}`,
+                      textDecoration: 'none', color: '#1d1d1f',
+                    }}>
+                      <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
+                        <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                        {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
+                      </div>
+                      {n.titulo.slice(0, 140)}
+                    </a>
+                  )
+                })}
+              </div>
+            </Card>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <Card titulo="WEBS OFICIALES" color={partidoColor}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11.5 }}>
+              {m.webAyuntamiento && (
+                <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>🏛 Ayuntamiento ↗</a>
+              )}
+              <a href={m.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>📖 Wikipedia ↗</a>
+            </div>
+          </Card>
+
+          {profile.noticias.length > 0 && (
+            <Card titulo="SENTIMIENTO LOCAL" color="#6e6e73">
+              <div style={{ display: 'flex', gap: 4, marginBottom: 8, height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7' }}>
+                {profile.sentimientoAgregado.positivo > 0 && <div style={{ flex: profile.sentimientoAgregado.positivo, background: '#16A34A' }}/>}
+                {profile.sentimientoAgregado.neutral > 0 && <div style={{ flex: profile.sentimientoAgregado.neutral, background: '#94A3B8' }}/>}
+                {profile.sentimientoAgregado.negativo > 0 && <div style={{ flex: profile.sentimientoAgregado.negativo, background: '#DC2626' }}/>}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <span style={{ color: '#16A34A', fontWeight: 700 }}>+{profile.sentimientoAgregado.positivo}</span>
+                <span style={{ color: '#94A3B8' }}>={profile.sentimientoAgregado.neutral}</span>
+                <span style={{ color: '#DC2626', fontWeight: 700 }}>−{profile.sentimientoAgregado.negativo}</span>
+              </div>
+              <p style={{ margin: '6px 0 0', fontSize: 11, textAlign: 'center', color: '#1d1d1f' }}>
+                Score <strong style={{ color: partidoColor }}>{profile.sentimientoAgregado.score > 0 ? '+' : ''}{profile.sentimientoAgregado.score}</strong>
+                {' · '}
+                <strong>{profile.sentimientoAgregado.tendencia === 'up' ? '↑' : profile.sentimientoAgregado.tendencia === 'down' ? '↓' : '→'}</strong>
+              </p>
+            </Card>
+          )}
+
+          {profile.preocupaciones.length > 0 && (
+            <Card titulo={`PREOCUPACIONES DETECTADAS · ${profile.preocupaciones.length}`} color="#DC2626">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {profile.preocupaciones.map(p => (
+                  <div key={p} style={{ padding: '5px 9px', fontSize: 11, color: '#1d1d1f', background: 'rgba(220,38,38,0.06)', borderRadius: 6, borderLeft: '2px solid #DC2626' }}>
+                    {p}
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
+
+          {profile.tagsCobertura.length > 0 && (
+            <Card titulo="TEMAS EN COBERTURA" color={partidoColor}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {profile.tagsCobertura.map(t => (
+                  <span key={t} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: `${partidoColor}15`, color: partidoColor, fontWeight: 600 }}>{t}</span>
+                ))}
+              </div>
+            </Card>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
+
+function HeroKPI({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div style={{ padding: '10px 12px', borderRadius: 10, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)' }}>
+      <div style={{ fontSize: 9, fontWeight: 700, opacity: 0.72, letterSpacing: '0.10em', textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, lineHeight: 1, marginTop: 3 }}>{value}</div>
     </div>
   )
 }
 
-function Mini({ label, value, color }: { label:string, value:string, color:string }) {
+function Card({ titulo, color, children }: { titulo: string; color: string; children: React.ReactNode }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:8, padding:'7px 6px', textAlign:'center' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color, lineHeight:1, letterSpacing:'-0.012em' }}>{value}</div>
-      <div style={{ fontSize:8.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', marginTop:3 }}>{label}</div>
-    </div>
-  )
-}
-
-// Enlace inferior a la web oficial (banda completa)
-function WebLink({ web, color, compact = false }: { web: string, color: string, compact?: boolean }) {
-  if (!web) return null
-  const dominio = web.replace(/^https?:\/\//, '').replace(/\/$/, '')
-  return (
-    <a href={web} target="_blank" rel="noopener noreferrer" style={{
-      display:'flex', alignItems:'center', justifyContent:'space-between', gap:8,
-      padding: compact ? '8px 14px' : '10px 16px',
-      borderTop:'1px solid #ECECEF',
-      background:'#FAFAFB', textDecoration:'none',
-      fontSize: compact ? 10.5 : 11, color:'#1d1d1f', fontWeight:600, fontFamily:'inherit',
-      transition:'background 160ms',
-    }}
-    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = `${color}10` }}
-    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#FAFAFB' }}>
-      <span style={{ display:'inline-flex', alignItems:'center', gap:6, minWidth:0 }}>
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style={{ flexShrink:0 }}>
-          <circle cx="5.5" cy="5.5" r="4.5" stroke={color} strokeWidth="1.2"/>
-          <path d="M1 5.5h9M5.5 1c1.5 1.5 1.5 7.5 0 9M5.5 1c-1.5 1.5-1.5 7.5 0 9" stroke={color} strokeWidth="1" fill="none"/>
-        </svg>
-        <span style={{ color, fontFamily:'var(--font-display)', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{dominio}</span>
-      </span>
-      <span style={{ color, display:'inline-flex', alignItems:'center', gap:3 }}>
-        Visitar
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path d="M2 2h6v6M2 8L8 2" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </span>
-    </a>
-  )
-}
-
-// Icono pequeño para tablas (un solo botón redondo con flecha de salida)
-function WebIcon({ web, color }: { web: string, color: string }) {
-  if (!web) return <span style={{ color:'#c5c5cb', fontSize:11 }}>—</span>
-  return (
-    <a href={web} target="_blank" rel="noopener noreferrer" title={web.replace(/^https?:\/\//, '').replace(/\/$/, '')} style={{
-      display:'inline-flex', alignItems:'center', justifyContent:'center',
-      width:24, height:24, borderRadius:6,
-      background:`${color}12`, border:`1px solid ${color}40`,
-      color, textDecoration:'none', transition:'all 160ms',
-    }}
-    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = color; (e.currentTarget as HTMLAnchorElement).style.color = '#fff' }}
-    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = `${color}12`; (e.currentTarget as HTMLAnchorElement).style.color = color }}>
-      <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-        <path d="M3 3h5v5M3 8L8 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    </a>
+    <section style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: '14px 18px' }}>
+      <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', color, textTransform: 'uppercase', margin: '0 0 10px' }}>{titulo}</p>
+      {children}
+    </section>
   )
 }
