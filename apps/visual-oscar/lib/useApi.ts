@@ -107,7 +107,7 @@ export function useApi<T = unknown>(path: string, opts: Options<T> = {}): State<
     source,
     warnings,
     latencyMs,
-    isLive: source === 'backend',
+    isLive: source === 'backend' || source === 'live',
     refresh: fetcher,
   }
 }

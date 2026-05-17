@@ -14,7 +14,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Origen real de los datos. El operador debe distinguir backend vs. mock. */
-export type DataSource = 'backend' | 'mock' | 'fallback' | 'error'
+export type DataSource = 'backend' | 'live' | 'mock' | 'fallback' | 'error'
 
 /** Bloque `_meta` que el proxy server-side añade a cada respuesta JSON. */
 export interface ResponseMeta {

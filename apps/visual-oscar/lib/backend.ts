@@ -107,7 +107,7 @@ export async function fromBackend<T = unknown>(
 //  withMeta — añade `_meta` estándar a la respuesta del proxy
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type ProxySource = 'backend' | 'mock' | 'fallback' | 'error'
+export type ProxySource = 'backend' | 'live' | 'mock' | 'fallback' | 'error'
 
 export interface ProxyMeta {
   source: ProxySource

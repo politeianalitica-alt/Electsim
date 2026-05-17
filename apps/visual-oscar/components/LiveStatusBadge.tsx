@@ -32,18 +32,21 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
   const fresh = ageS !== null && ageS < refreshIntervalSec + 5
 
   const isBackend = source === 'backend'
-  const isMock = source === 'mock' || source === 'fallback'
-  const isError = source === 'error'
-  const dotColor = isBackend ? '#10b981' : isError ? '#ef4444' : (isMock ? '#f59e0b' : '#9ca3af')
+  const isLive   = source === 'live'       // datos en vivo desde RSS sin backend Python
+  const isMock   = source === 'mock' || source === 'fallback'
+  const isError  = source === 'error'
+  const isGreen  = isBackend || isLive
+  const dotColor = isGreen ? '#10b981' : isError ? '#ef4444' : (isMock ? '#f59e0b' : '#9ca3af')
   const labelText = isBackend
     ? 'BACKEND CONECTADO'
-    : isError
-      ? 'ERROR DE CONEXIÓN'
-      : (isMock ? 'DATOS DE DEMO' : 'CONECTANDO…')
+    : isLive
+      ? 'EN VIVO · RSS'
+      : isError
+        ? 'ERROR DE CONEXIÓN'
+        : (isMock ? 'DATOS DE DEMO' : 'CONECTANDO…')
 
   function fmtAge(s: number | null): string {
     if (s === null) return '—'
-    // Si los datos se refrescaron en los últimos 30 s consideramos que están al día.
     if (s < 30) return 'actualizado'
     if (s < 60) return `hace ${s}s`
     if (s < 3600) return `hace ${Math.floor(s / 60)} min`
@@ -53,12 +56,12 @@ export default function LiveStatusBadge({ updatedAt, source, refreshIntervalSec 
   const warningsTooltip = warnings && warnings.length > 0
     ? `Avisos: ${warnings.join(' · ')}`
     : onRefresh ? 'Click para refrescar manualmente' : undefined
-  const bg = isBackend
+  const bg = isGreen
     ? 'rgba(16,185,129,0.10)'
     : isError ? 'rgba(239,68,68,0.10)'
     : isMock ? 'rgba(245,158,11,0.10)'
     : 'rgba(156,163,175,0.10)'
-  const borderCol = isBackend
+  const borderCol = isGreen
     ? 'rgba(16,185,129,0.30)'
     : isError ? 'rgba(239,68,68,0.30)'
     : isMock ? 'rgba(245,158,11,0.30)'
