@@ -22,6 +22,9 @@ import { fetchTiempo, type CondicionMeteo } from './sources/weather'
 import { fetchTejidoEmpresarial, type TejidoEmpresarial } from './sources/empresas'
 import { fetchPatrimonioMunicipio, type PatrimonioCultural } from './sources/cultura'
 import { getAgendaMunicipio, type EventoAgenda } from './sources/agenda'
+import { fetchHistoricoAlcaldes, type AlcaldeHistorico } from './sources/historico-alcaldes'
+import { fetchSerieHistoricaPoblacion, type SerieHistoricaPoblacion } from './sources/poblacion-historica'
+import { estimarPresupuestoMunicipal, type PresupuestoMunicipal } from './sources/presupuesto-municipal'
 import { fetchPiramide, fetchRentaMedia, fetchExtranjeros, type INEPiramide, type INERentaMedia, type INEExtranjeros } from './sources/ine'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
 import { analizarIntegral, type AnalisisIntegral } from './ai/analisis-integral'
@@ -67,6 +70,12 @@ export interface MunicipioProfile {
   patrimonio: PatrimonioCultural | null
   /** Agenda y próximas citas */
   agenda: EventoAgenda[]
+  /** Histórico de alcaldes (Wikidata) */
+  historicoAlcaldes: AlcaldeHistorico[]
+  /** Serie histórica de población (INE Padrón) */
+  seriePoblacion: SerieHistoricaPoblacion | null
+  /** Presupuesto municipal estimado (Mº Hacienda benchmarks) */
+  presupuesto: PresupuestoMunicipal | null
   metrics: {
     nNoticias7d: number
     densidadHabKm2: number
@@ -79,7 +88,7 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
   if (!meta) return null
   const ccaa = getCCAABySlug(meta.ccaa)
 
-  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros, coords, empresas, patrimonio] = await Promise.all([
+  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros, coords, empresas, patrimonio, historicoAlcaldes, seriePoblacion] = await Promise.all([
     fetchBio(meta),
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
     fetchAlcaldePorIne(meta.ine).catch(() => null),
@@ -89,8 +98,11 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     fetchCoordenadasMunicipio(meta.ine).catch(() => null),
     fetchTejidoEmpresarial(meta.ine, meta.poblacion).catch(() => null),
     fetchPatrimonioMunicipio(meta.ine).catch(() => null),
+    fetchHistoricoAlcaldes(meta.ine).catch(() => [] as AlcaldeHistorico[]),
+    fetchSerieHistoricaPoblacion(meta.ine, 20).catch(() => null),
   ])
   const agenda = getAgendaMunicipio(meta.webAyuntamiento || undefined)
+  const presupuesto = estimarPresupuestoMunicipal(meta.ine, meta.poblacion)
 
   const [alcaldeFoto, tiempo] = await Promise.all([
     alcalde?.qid ? fetchFotoPersona(alcalde.qid).catch(() => null) : Promise.resolve(null),
@@ -155,6 +167,9 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
     empresas,
     patrimonio,
     agenda,
+    historicoAlcaldes,
+    seriePoblacion,
+    presupuesto,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       densidadHabKm2: meta.superficie && meta.superficie > 0 ? Math.round(meta.poblacion / meta.superficie) : 0,

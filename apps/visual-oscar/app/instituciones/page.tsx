@@ -23,6 +23,9 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { NarrativasRadarChart } from './_components/NarrativasRadar'
 import { EmpresasTreemap } from './_components/EmpresasTreemap'
+import { TimelineAlcaldes } from './_components/TimelineAlcaldes'
+import { EvolucionPoblacionChart } from './_components/EvolucionPoblacion'
+import { PresupuestoMunicipalCard } from './_components/PresupuestoMunicipal'
 
 // ─── Tipos ────────────────────────────────────────────────────────────────
 
@@ -173,6 +176,9 @@ interface MunicipioProfile {
   empresas: TejidoEmpresarial | null
   patrimonio: PatrimonioCultural | null
   agenda: EventoAgenda[]
+  historicoAlcaldes: Array<{ qid: string; nombre: string; partido: string | null; inicio: string | null; fin: string | null; fotoUrl: string | null; wikipediaUrl: string | null }>
+  seriePoblacion: { puntos: Array<{ año: number; poblacion: number; variacion_pct?: number }>; añoMin: number; añoMax: number; poblacionMin: number; poblacionMax: number; cagr_pct: number; variacionTotal_pct: number; banda: string } | null
+  presupuesto: { presupuesto_total_M: number; presupuesto_per_capita_eur: number; composicion: Array<{ capitulo: string; pct: number; importe_M: number; color: string }>; deuda_viva_M: number | null; deuda_per_capita_eur: number | null; ratio_solvencia: string; año: number; metodologia: string; url_oficial: string } | null
   metrics: { nNoticias7d: number; densidadHabKm2: number }
   updatedAt: string
   error?: string
@@ -646,6 +652,30 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {profile.historicoAlcaldes.length > 0 && (
+            <Card titulo={`HISTÓRICO DE ALCALDES · ${profile.historicoAlcaldes.length}`} color="#1F4E8C">
+              <TimelineAlcaldes alcaldes={profile.historicoAlcaldes}/>
+              <p style={{ margin: '8px 0 0', fontSize: 10, color: '#9CA3AF', fontStyle: 'italic' }}>
+                Fuente: Wikidata SPARQL · P6 (head of government) por código INE
+              </p>
+            </Card>
+          )}
+
+          {profile.seriePoblacion && profile.seriePoblacion.puntos.length > 3 && (
+            <Card titulo={`EVOLUCIÓN POBLACIONAL · ${profile.seriePoblacion.añoMin}-${profile.seriePoblacion.añoMax}`} color="#0F766E">
+              <EvolucionPoblacionChart serie={profile.seriePoblacion}/>
+              <p style={{ margin: '6px 0 0', fontSize: 10, color: '#9CA3AF', fontStyle: 'italic' }}>
+                Fuente: INE · Padrón Municipal Continuo
+              </p>
+            </Card>
+          )}
+
+          {profile.presupuesto && (
+            <Card titulo={`PRESUPUESTO MUNICIPAL · ${profile.presupuesto.año}`} color="#5B21B6">
+              <PresupuestoMunicipalCard p={profile.presupuesto}/>
+            </Card>
+          )}
+
           {profile.alcalde && (
             <Card titulo="GOBIERNO MUNICIPAL · WIKIDATA" color="#1F4E8C">
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
