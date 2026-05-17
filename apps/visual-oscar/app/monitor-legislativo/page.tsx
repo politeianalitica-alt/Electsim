@@ -212,10 +212,7 @@ export default function MonitorLegislativoPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader/>
 
-      {/* Sub-nav del módulo Legislativo */}
-      <SubNav active="monitor"/>
-
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '8px 28px 80px' }}>
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* ───── Hero ────────────────────────────────────────────────────── */}
         <section style={{
@@ -381,39 +378,6 @@ export default function MonitorLegislativoPage() {
 }
 
 // ─── Componentes ───────────────────────────────────────────────────────────
-
-function SubNav({ active }: { active: 'monitor' | 'trazabilidad' | 'huella' | 'comisiones' }) {
-  const tabs = [
-    { id: 'monitor', label: 'Monitor en Tiempo Real', href: '/monitor-legislativo' },
-    { id: 'trazabilidad', label: 'Trazabilidad Legislativa', href: '/trazabilidad' },
-    { id: 'huella', label: 'Huella Legislativa', href: '/huella-legislativa' },
-    { id: 'comisiones', label: 'Comisiones', href: '/comisiones' },
-  ]
-  return (
-    <div style={{ background: '#fff', borderBottom: '1px solid #ECECEF', padding: '0 28px' }}>
-      <div style={{ maxWidth: 1500, margin: '0 auto', display: 'flex', gap: 4, alignItems: 'center' }}>
-        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: '#6e6e73', textTransform: 'uppercase', marginRight: 16, padding: '14px 0' }}>
-          LEGISLATIVO
-        </span>
-        {tabs.map(t => (
-          <Link key={t.id} href={t.href} style={{
-            textDecoration: 'none',
-            padding: '14px 16px',
-            fontSize: 13,
-            fontWeight: active === t.id ? 700 : 500,
-            color: active === t.id ? '#1F4E8C' : '#6e6e73',
-            borderBottom: active === t.id ? '2px solid #1F4E8C' : '2px solid transparent',
-            background: active === t.id ? 'rgba(31,78,140,0.04)' : 'transparent',
-            transition: 'color 160ms, background 160ms',
-            marginBottom: -1,
-          }}>
-            {t.label}
-          </Link>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 function KPI({ label, value, color }: { label: string; value: string; color: string }) {
   return (

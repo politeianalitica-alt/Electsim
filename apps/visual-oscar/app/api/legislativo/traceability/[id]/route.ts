@@ -22,7 +22,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     if (!init) {
       return NextResponse.json(withMeta({ error: 'not_found' }, 'error'), { status: 404 })
     }
-    const trace = buildTraceability(init)
+    const trace = await buildTraceability(init)
     return NextResponse.json(withMeta(trace, 'live'))
   } catch (e) {
     return NextResponse.json(withMeta({ error: String(e) }, 'error'), { status: 500 })

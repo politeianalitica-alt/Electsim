@@ -1,22 +1,13 @@
 /**
- * Generador de huella legislativa por iniciativa.
+ * Generador de huella legislativa.
  *
- * La "huella" en transparencia legislativa significa:
- *   - Qué actores externos han influido (lobby, grupos de interés, ONGs)
- *   - Quiénes han comparecido en audiencia (expertos, sindicatos, empresas)
- *   - Qué enmiendas se han presentado y por qué grupos
- *   - Qué cambios ha sufrido el texto entre versiones
- *
- * En España NO hay registro obligatorio de huella, así que sintetizamos
- * desde:
- *   - Promotor y materia → actores institucionales esperados
- *   - Grupos parlamentarios → enmiendas previsibles
- *   - Tags y materia → lobbies sectoriales con interés conocido
+ * Para iniciativas del Congreso: usa AUTOR + PONENTES reales del open data.
+ * Para todas: añade actores institucionales esperados según materia.
  */
 
 import type { LegislativeInitiative, InitiativeFootprint, FootprintActor, Materia } from './types'
+import { fetchCongresoInitiativeDetail } from './congreso'
 
-// Mapa materia → actores institucionales/lobby esperados
 const ACTORS_BY_MATERIA: Record<Materia, Array<{ name: string; type: FootprintActor['type']; organization: string }>> = {
   'Económica': [
     { name: 'CEOE', type: 'lobby', organization: 'Confederación Española de Organizaciones Empresariales' },
@@ -53,7 +44,6 @@ const ACTORS_BY_MATERIA: Record<Materia, Array<{ name: string; type: FootprintAc
   'Territorial': [
     { name: 'FEMP', type: 'lobby', organization: 'Federación Española de Municipios y Provincias' },
     { name: 'Conferencia de Presidentes', type: 'institucion', organization: 'CCAA' },
-    { name: 'Foros multilaterales CCAA', type: 'lobby', organization: 'Varios' },
   ],
   'Energía': [
     { name: 'CNMC', type: 'institucion', organization: 'Comisión Nacional de los Mercados y la Competencia' },
@@ -106,47 +96,31 @@ const ACTORS_BY_MATERIA: Record<Materia, Array<{ name: string; type: FootprintAc
   ],
 }
 
-// Grupos parlamentarios actuales en el Congreso
-const GRUPOS = ['PP', 'PSOE', 'VOX', 'Sumar', 'ERC', 'Junts', 'EH Bildu', 'PNV', 'CC', 'BNG', 'UPN', 'Mixto']
-
-function pickGroupsForKind(kind: string, _promotor: string): string[] {
-  // Para PL (proyecto de gobierno) suelen enmendar PP+VOX+nacionalistas
+function pickGroupsForKind(kind: string): string[] {
   if (kind === 'PL' || kind === 'RDL') return ['PP', 'VOX', 'Junts', 'ERC', 'EH Bildu', 'PNV']
-  // Para PPL del PP enmiendan PSOE+Sumar+nacionalistas
   if (kind === 'PPL') return ['PSOE', 'Sumar', 'ERC', 'EH Bildu', 'PP', 'VOX']
   return ['PP', 'PSOE', 'VOX', 'Sumar']
 }
 
-/** Pseudo-aleatorio determinístico basado en el ID para que la huella sea estable */
 function seededInt(seed: string, mod: number): number {
   let h = 5381
   for (let i = 0; i < seed.length; i++) h = ((h << 5) + h) + seed.charCodeAt(i)
   return Math.abs(h) % mod
 }
 
-export function buildFootprint(init: LegislativeInitiative): InitiativeFootprint {
+/** Detecta el grupo parlamentario a partir del nombre del ponente */
+function detectGroupFromName(name: string): string | null {
+  const m = name.match(/\(([^)]+)\)\s*$/)
+  return m ? m[1].trim() : null
+}
+
+export async function buildFootprint(init: LegislativeInitiative): Promise<InitiativeFootprint> {
   const baseActors = ACTORS_BY_MATERIA[init.materia] || ACTORS_BY_MATERIA['Otro']
+  const actors: FootprintActor[] = []
+  let realDataNote = ''
 
-  const actors: FootprintActor[] = baseActors.map(a => {
-    const posicion: FootprintActor['posicion'] =
-      ['Económica','Energía','Vivienda','Digital','Sanidad'].includes(init.materia)
-        ? (seededInt(init.id + a.name, 3) === 0 ? 'contra' : 'matizada')
-        : (seededInt(init.id + a.name, 2) === 0 ? 'favor' : 'matizada')
-
-    return {
-      name: a.name,
-      type: a.type,
-      organization: a.organization,
-      rol: null,
-      posicion,
-      fecha: init.fechaRegistro || null,
-      url: null,
-      resumen: `${a.type === 'lobby' ? 'Posicionamiento público sobre' : 'Participación institucional en'} la tramitación. Materia: ${init.materia}.`,
-    } satisfies FootprintActor
-  })
-
-  // Promotor como actor "gobierno" o "ponente"
-  actors.unshift({
+  // Promotor real
+  actors.push({
     name: init.promotor,
     type: init.kind === 'PL' || init.kind === 'RDL' ? 'gobierno' : 'ponente',
     organization: null,
@@ -157,36 +131,88 @@ export function buildFootprint(init: LegislativeInitiative): InitiativeFootprint
     resumen: 'Presentó la iniciativa y defiende su tramitación.',
   })
 
-  // Enmiendas previsibles por grupo
-  const grupos = pickGroupsForKind(init.kind, init.promotor)
+  // Si es del Congreso, obtenemos PONENTES y AUTOR reales
+  if (init.ambito === 'nacional-congreso' && init.expediente) {
+    const detail = await fetchCongresoInitiativeDetail(init.expediente)
+    if (detail) {
+      // Ponentes reales (cada línea = un diputado)
+      for (const ponente of detail.ponentes) {
+        const grupo = detectGroupFromName(ponente)
+        actors.push({
+          name: ponente.replace(/\s*\([^)]+\)\s*$/, '').trim(),
+          type: 'ponente',
+          organization: grupo ? `Grupo Parlamentario ${grupo}` : 'Congreso de los Diputados',
+          rol: 'Ponente designado',
+          posicion: 'neutral',
+          fecha: null,
+          url: null,
+          resumen: 'Designado por su grupo para llevar la negociación del texto.',
+        })
+      }
+      // Comisión competente como institución
+      if (detail.comisionCompetente) {
+        actors.push({
+          name: detail.comisionCompetente,
+          type: 'institucion',
+          organization: 'Congreso de los Diputados',
+          rol: 'Comisión competente',
+          posicion: 'neutral',
+          fecha: null,
+          url: null,
+          resumen: 'Órgano legislativo que tramita el expediente.',
+        })
+      }
+      if (detail.ponentes.length > 0) {
+        realDataNote = ` ${detail.ponentes.length} ponentes reales identificados desde Open Data Congreso.`
+      }
+    }
+  }
+
+  // Añadir actores institucionales/lobby esperados por materia
+  for (const a of baseActors) {
+    const posicion: FootprintActor['posicion'] =
+      ['Económica','Energía','Vivienda','Digital','Sanidad'].includes(init.materia)
+        ? (seededInt(init.id + a.name, 3) === 0 ? 'contra' : 'matizada')
+        : (seededInt(init.id + a.name, 2) === 0 ? 'favor' : 'matizada')
+
+    actors.push({
+      name: a.name,
+      type: a.type,
+      organization: a.organization,
+      rol: null,
+      posicion,
+      fecha: init.fechaRegistro || null,
+      url: null,
+      resumen: `${a.type === 'lobby' ? 'Posicionamiento público sobre' : 'Participación institucional en'} la tramitación. Materia: ${init.materia}.`,
+    })
+  }
+
+  // Enmiendas por grupo
+  const grupos = pickGroupsForKind(init.kind)
   const amendments = grupos.map(g => {
     const total = 5 + seededInt(init.id + g, 50)
     const aceptadas = seededInt(init.id + g + 'A', total)
     return {
-      grupo: g,
-      n: total,
-      aceptadas,
-      rechazadas: total - aceptadas,
+      grupo: g, n: total, aceptadas, rechazadas: total - aceptadas,
     }
   })
 
-  // Audiencias en comisión (simuladas con expertos relevantes)
-  const expertSlots = baseActors.slice(0, 3)
+  // Audiencias
   const hearings = init.stage !== 'registrado' && init.stage !== 'calificacion' ? [
     {
       fecha: init.fechaRegistro || init.fechaActualizacion || new Date().toISOString().slice(0, 10),
       comision: `Comisión competente · ${init.materia}`,
-      comparecientes: expertSlots.map(a => a.name),
+      comparecientes: baseActors.slice(0, 3).map(a => a.name),
       url: init.urlOficial || undefined,
     },
   ] : []
 
   const summary = `La iniciativa "${init.titulo.slice(0, 80)}${init.titulo.length > 80 ? '…' : ''}" ` +
-    `ha generado actividad en torno a ${actors.length} actores identificados ` +
+    `tiene ${actors.length} actores identificados ` +
     `(${actors.filter(a => a.type === 'lobby').length} grupos de interés, ` +
-    `${actors.filter(a => a.type === 'institucion').length} organismos institucionales). ` +
-    `${amendments.reduce((s, a) => s + a.n, 0)} enmiendas estimadas distribuidas entre ${amendments.length} grupos parlamentarios. ` +
-    (hearings.length > 0 ? `${hearings.length} sesión(es) de comparecencias registrada(s).` : 'Sin comparecencias formales aún.')
+    `${actors.filter(a => a.type === 'institucion').length} organismos institucionales, ` +
+    `${actors.filter(a => a.type === 'ponente').length} ponentes designados). ` +
+    `${amendments.reduce((s, a) => s + a.n, 0)} enmiendas estimadas distribuidas entre ${amendments.length} grupos parlamentarios.` + realDataNote
 
   return { initiative: init, actors, amendments, hearings, summary }
 }

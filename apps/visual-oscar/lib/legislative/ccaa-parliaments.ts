@@ -1,17 +1,9 @@
 /**
  * Agregador de RSS/Atom de parlamentos autonómicos.
  *
- * Cubre las CCAA que tienen feeds RSS verificados:
- *   - Andalucía (parlamentodeandalucia.es)
- *   - Baleares (parlamentib.es)
- *   - La Rioja (parlamento-larioja.org)
- *   - Murcia (asambleamurcia.es)
- *   - Asturias (jgpa.es)
- *   - Castilla-La Mancha (cortesclm.es)
- *   - Extremadura (asambleaex.es)
- *   - Canarias (parcan.es)
- *
- * Las demás CCAA no exponen RSS estructurado de iniciativas.
+ * Cubre las CCAA con feeds RSS verificados.
+ * Detección automática de encoding (UTF-8 / ISO-8859-1 / UTF-16) desde
+ * el header Content-Type o el prólogo XML.
  */
 
 import type { LegislativeInitiative, CCAA } from './types'
@@ -22,22 +14,24 @@ interface CcaaFeed {
   ccaa: CCAA
   parliament: string
   url: string
-  /** Tipo de feed: 'rss20' por defecto. 'atom' o 'rss-utf16' si difiere */
-  encoding?: 'utf8' | 'utf16'
+  /** Hint cuando el endpoint requiere un decoder específico */
+  encodingHint?: 'utf8' | 'iso-8859-1' | 'utf16'
 }
 
 const CCAA_FEEDS: CcaaFeed[] = [
-  // Andalucía — RSS de iniciativas y leyes
+  // Andalucía — ISO-8859-1
   { ccaa: 'andalucia', parliament: 'Parlamento de Andalucía',
-    url: 'https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Iniciativas' },
+    url: 'https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Iniciativas',
+    encodingHint: 'iso-8859-1' },
   { ccaa: 'andalucia', parliament: 'Parlamento de Andalucía',
-    url: 'https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Leyes' },
-  // Baleares — iniciativas y leyes
+    url: 'https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Leyes',
+    encodingHint: 'iso-8859-1' },
+  // Baleares — UTF-16
   { ccaa: 'baleares', parliament: 'Parlament de les Illes Balears',
-    url: 'https://web.parlamentib.es/rsswebapifront/iniciativesPresentades', encoding: 'utf16' },
+    url: 'https://web.parlamentib.es/rsswebapifront/iniciativesPresentades', encodingHint: 'utf16' },
   { ccaa: 'baleares', parliament: 'Parlament de les Illes Balears',
-    url: 'https://web.parlamentib.es/rsswebapifront/lleispib', encoding: 'utf16' },
-  // La Rioja — iniciativas y leyes
+    url: 'https://web.parlamentib.es/rsswebapifront/lleispib', encodingHint: 'utf16' },
+  // La Rioja
   { ccaa: 'rioja', parliament: 'Parlamento de La Rioja',
     url: 'https://www.parlamento-larioja.org/actividad-parlamentaria/listado-ultimas-iniciativas/RSS' },
   { ccaa: 'rioja', parliament: 'Parlamento de La Rioja',
@@ -45,7 +39,7 @@ const CCAA_FEEDS: CcaaFeed[] = [
   // Murcia
   { ccaa: 'murcia', parliament: 'Asamblea de Murcia',
     url: 'https://www.asambleamurcia.es/rss.xml' },
-  // Asturias (JGPA)
+  // Asturias
   { ccaa: 'asturias', parliament: 'Junta General del Principado de Asturias',
     url: 'https://agoranet.jgpa.es/docuAst/rss.jsp' },
   // Castilla-La Mancha
@@ -66,23 +60,42 @@ interface FeedItem {
   pubDate: string | null
 }
 
-/** Parser RSS/Atom mínimo. Maneja UTF-16 si encoding='utf16'. */
-async function fetchFeed(feed: CcaaFeed, timeoutMs = 8000): Promise<FeedItem[]> {
+/** Detecta el encoding desde header Content-Type, declaración XML o hint */
+function detectEncoding(contentType: string, sample: string, hint?: string): string {
+  // 1) Hint explícito
+  if (hint === 'utf16') return 'utf-16'
+  if (hint === 'iso-8859-1') return 'iso-8859-1'
+  if (hint === 'utf8') return 'utf-8'
+  // 2) Content-Type header
+  const ctMatch = contentType.toLowerCase().match(/charset=([\w-]+)/)
+  if (ctMatch) return ctMatch[1]
+  // 3) Declaración XML
+  const xmlMatch = sample.match(/<\?xml[^>]*encoding=["']([^"']+)["']/i)
+  if (xmlMatch) return xmlMatch[1].toLowerCase()
+  return 'utf-8'
+}
+
+async function fetchFeed(feed: CcaaFeed, timeoutMs = 9000): Promise<FeedItem[]> {
   const controller = new AbortController()
   const t = setTimeout(() => controller.abort(), timeoutMs)
   try {
     const res = await fetch(feed.url, {
-      headers: { 'User-Agent': UA, Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml' },
+      headers: { 'User-Agent': UA, Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' },
       signal: controller.signal,
       next: { revalidate: 1800 },
+      redirect: 'follow',
     })
     if (!res.ok) return []
+    const buf = await res.arrayBuffer()
+    // Detección de encoding
+    const sample = new TextDecoder('utf-8', { fatal: false }).decode(buf.slice(0, 200))
+    const encoding = detectEncoding(res.headers.get('content-type') || '', sample, feed.encodingHint)
     let text: string
-    if (feed.encoding === 'utf16') {
-      const buf = await res.arrayBuffer()
-      text = new TextDecoder('utf-16').decode(buf)
-    } else {
-      text = await res.text()
+    try {
+      text = new TextDecoder(encoding).decode(buf)
+    } catch {
+      // Fallback a UTF-8 si el encoding no es soportado
+      text = new TextDecoder('utf-8').decode(buf)
     }
     return parseFeed(text)
   } catch {
@@ -129,6 +142,15 @@ function extractTag(block: string, tag: string): string {
   return m[1].replace(/<!\[CDATA\[(.*?)\]\]>/gs, '$1').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 }
 
+function decodeHtmlEntities(s: string): string {
+  return s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&aacute;/gi, 'á').replace(/&eacute;/gi, 'é')
+    .replace(/&iacute;/gi, 'í').replace(/&oacute;/gi, 'ó').replace(/&uacute;/gi, 'ú').replace(/&ntilde;/gi, 'ñ')
+    .replace(/&Ntilde;/g, 'Ñ').replace(/&Aacute;/g, 'Á').replace(/&Eacute;/g, 'É').replace(/&Iacute;/g, 'Í')
+    .replace(/&Oacute;/g, 'Ó').replace(/&Uacute;/g, 'Ú').replace(/&uuml;/gi, 'ü')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+}
+
 // ─── Heurísticas ────────────────────────────────────────────────────────────
 
 function inferKind(title: string, desc: string): import('./types').InitiativeKind {
@@ -163,9 +185,27 @@ function inferMateria(text: string): import('./types').Materia {
 function inferTags(text: string): string[] {
   const STOP = new Set(['proyecto','proposicion','proposición','ley','orgánica','organica','reforma',
     'normas','sobre','desde','hasta','según','según','general','generales','público','públicas',
-    'relativa','relativo','presentada','presentado','grupo','parlamentario','sobre','con','desde'])
+    'relativa','relativo','presentada','presentado','grupo','parlamentario','sobre','con','desde',
+    'comunidad','autónoma','autonoma','andalucia','andalucía','cataluña','catalunya','madrid'])
   const words = text.toLowerCase().split(/\W+/).filter(w => w.length >= 6 && !STOP.has(w))
   return Array.from(new Set(words)).slice(0, 6)
+}
+
+/**
+ * Infiere etapa por edad de la iniciativa.
+ * Sin datos reales del parlamento autonómico, asumimos progresión razonable.
+ */
+function inferStageByAge(pubDate: Date | null): import('./types').Stage {
+  if (!pubDate) return 'desconocido'
+  const daysOld = (Date.now() - pubDate.getTime()) / (1000 * 60 * 60 * 24)
+  if (daysOld < 14)  return 'registrado'
+  if (daysOld < 30)  return 'calificacion'
+  if (daysOld < 60)  return 'comision'
+  if (daysOld < 120) return 'enmiendas'
+  if (daysOld < 180) return 'ponencia'
+  if (daysOld < 270) return 'dictamen'
+  if (daysOld < 365) return 'pleno-origen'
+  return 'pleno-revision'
 }
 
 // ─── API pública ───────────────────────────────────────────────────────────
@@ -182,23 +222,27 @@ export async function fetchCCAAInitiatives(maxPerCCAA = 30): Promise<Legislative
     const { feed, items } = r.value
     for (const it of items) {
       if (!it.title) continue
-      const kind = inferKind(it.title, it.description)
-      const id = `ccaa-${feed.ccaa}-${it.link.split('/').pop() || it.title.slice(0, 30)}`
+      const titleClean = decodeHtmlEntities(it.title)
+      const descClean = decodeHtmlEntities(it.description)
+      const kind = inferKind(titleClean, descClean)
+      const pubDate = it.pubDate ? new Date(it.pubDate) : null
+      const stage = inferStageByAge(pubDate)
+      const id = `ccaa-${feed.ccaa}-${(it.link.split('/').pop() || titleClean.slice(0, 30)).replace(/[^a-zA-Z0-9-]/g, '')}`
       out.push({
         id,
         ambito: 'autonomico',
         ccaa: feed.ccaa,
-        expediente: it.title.match(/\d{4,}\/\d+/)?.[0] || it.title.slice(0, 40),
-        titulo: it.title.length > 200 ? it.title.slice(0, 197) + '…' : it.title,
+        expediente: titleClean.match(/\d{2,4}[-/]\d{2,4}[-/]\w+[-/]\d+/)?.[0] || titleClean.match(/\d{4,}\/\d+/)?.[0] || titleClean.slice(0, 40),
+        titulo: titleClean.length > 200 ? titleClean.slice(0, 197) + '…' : titleClean,
         kind,
-        materia: inferMateria(it.title + ' ' + it.description),
+        materia: inferMateria(titleClean + ' ' + descClean),
         promotor: feed.parliament,
-        stage: 'registrado',
-        fechaRegistro: it.pubDate ? new Date(it.pubDate).toISOString() : null,
-        fechaActualizacion: it.pubDate ? new Date(it.pubDate).toISOString() : new Date().toISOString(),
+        stage,
+        fechaRegistro: pubDate ? pubDate.toISOString() : null,
+        fechaActualizacion: pubDate ? pubDate.toISOString() : new Date().toISOString(),
         urlOficial: it.link || null,
         fuente: feed.url,
-        tags: inferTags(it.title + ' ' + it.description),
+        tags: inferTags(titleClean + ' ' + descClean),
       })
     }
   }

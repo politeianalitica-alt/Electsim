@@ -1,15 +1,10 @@
 /**
- * Generador de trazabilidad legislativa por iniciativa.
+ * Generador de trazabilidad legislativa.
  *
- * Construye un timeline cronológico extrayendo:
- *   - Fecha de presentación (registro)
- *   - Pasos en comisión (datasets de intervenciones)
- *   - Votaciones (datasets de votaciones del Congreso)
- *   - Publicación BOE (cruce por fecha y número)
+ * Para iniciativas del Congreso: usa TRAMITACIONSEGUIDA real (campo del open data
+ * que contiene los pasos cronológicos con fechas separados por \n).
  *
- * Para el MVP no hay endpoint REST que devuelva el histórico completo de
- * una iniciativa, así que sintetizamos los pasos a partir de la información
- * disponible en los datasets y de su estado actual.
+ * Para Senado y CCAA: sintetiza desde el estado actual + fechas conocidas.
  */
 
 import type {
@@ -18,6 +13,7 @@ import type {
   TraceStep,
   Stage,
 } from './types'
+import { fetchCongresoInitiativeDetail } from './congreso'
 
 const STAGE_ORDER: Stage[] = [
   'registrado',
@@ -62,7 +58,6 @@ function fmtDate(iso: string | null): string | null {
   } catch { return iso }
 }
 
-/** Adds N days to ISO date */
 function addDays(iso: string | null, days: number): string | null {
   if (!iso) return null
   try {
@@ -73,21 +68,130 @@ function addDays(iso: string | null, days: number): string | null {
 }
 
 /**
- * Construye trazabilidad inferida desde el estado actual y fechas conocidas.
- * Genera un timeline coherente que muestra los pasos ya completados +
- * los pendientes con fecha estimada.
+ * Parsea una línea de TRAMITACIONSEGUIDA del Congreso.
+ * Formato típico: "DD/MM/YYYY - Descripción del paso. Órgano: XXX. Resultado: ..."
  */
-export function buildTraceability(init: LegislativeInitiative): InitiativeTraceability {
+function parseTramitacionLine(line: string): { date: string | null; description: string; forum: string } {
+  // Buscar fecha DD/MM/YYYY al inicio
+  const dateMatch = line.match(/^(\d{2})\/(\d{2})\/(\d{4})\s*[-.:]?\s*/)
+  let date: string | null = null
+  let rest = line
+  if (dateMatch) {
+    date = `${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}`
+    rest = line.slice(dateMatch[0].length).trim()
+  }
+  // Buscar órgano
+  const forumMatch = rest.match(/Órgano:\s*([^.]+?)(?:\.|$)/i) || rest.match(/Comisión[^.]*?:\s*([^.]+?)(?:\.|$)/i)
+  const forum = forumMatch ? forumMatch[1].trim() : 'Cámara'
+  return { date, description: rest, forum }
+}
+
+function inferStepKindFromText(text: string): import('./types').TraceStepKind {
+  const t = text.toLowerCase()
+  if (/publicad.*boe/.test(t)) return 'publicacion-boe'
+  if (/aprobad.*pleno|aprobad.*definitiv/.test(t)) return 'aprobacion-final'
+  if (/sancion.*real|sanci[oó]n.*rey/.test(t)) return 'sancion-real'
+  if (/remit.*senado|remit.*cámara/.test(t)) return 'remision-camara'
+  if (/votaci[oó]n.*pleno/.test(t)) return 'pleno-votacion'
+  if (/debate.*pleno/.test(t)) return 'pleno-debate'
+  if (/dictamen/.test(t)) return 'dictamen-comision'
+  if (/ponenci/.test(t)) return 'ponencia'
+  if (/comparece/.test(t)) return 'comparecencias'
+  if (/enmienda.*articulado/.test(t)) return 'enmiendas-articulado'
+  if (/enmienda.*totalidad|enmiendas/.test(t)) return 'enmiendas-totalidad'
+  if (/toma.*consideraci/.test(t)) return 'toma-consideracion'
+  if (/calific/.test(t)) return 'calificacion'
+  if (/present|registr/.test(t)) return 'presentacion'
+  if (/recurso.*inconstituc/.test(t)) return 'recurso-inconstitucionalidad'
+  if (/sentencia.*tc|tribunal constituc/.test(t)) return 'sentencia-tc'
+  return 'otro'
+}
+
+/**
+ * Trazabilidad para iniciativas del Congreso usando TRAMITACIONSEGUIDA real.
+ */
+async function buildCongresoTraceability(init: LegislativeInitiative): Promise<InitiativeTraceability | null> {
+  if (!init.expediente) return null
+  const detail = await fetchCongresoInitiativeDetail(init.expediente)
+  if (!detail || detail.tramitacionSeguida.length === 0) return null
+
+  // Parsear cada línea de TRAMITACIONSEGUIDA en un step real
+  const steps: TraceStep[] = detail.tramitacionSeguida.map((line, i) => {
+    const parsed = parseTramitacionLine(line)
+    return {
+      order: i + 1,
+      kind: inferStepKindFromText(parsed.description),
+      label: parsed.description.length > 100 ? parsed.description.slice(0, 97) + '…' : parsed.description,
+      date: parsed.date,
+      forum: parsed.forum,
+      outcome: 'Completado',
+      url: null,
+    } satisfies TraceStep
+  })
+
+  // Añadir enlaces a BOCG y DS si existen
+  if (detail.enlacesBOCG.length > 0) {
+    steps.push({
+      order: steps.length + 1,
+      kind: 'otro',
+      label: `Publicaciones BOCG · ${detail.enlacesBOCG.length} documento(s)`,
+      date: null,
+      forum: 'Boletín Oficial de las Cortes Generales',
+      outcome: 'Disponible',
+      url: detail.enlacesBOCG[0]?.match(/https?:\/\/\S+/)?.[0] || null,
+    })
+  }
+
+  // Añadir pasos pendientes hasta publicación
+  const currentIdx = stageIndex(init.stage)
+  for (let i = currentIdx + 1; i < STAGE_ORDER.length; i++) {
+    const stage = STAGE_ORDER[i]
+    if (init.stage === 'rechazado' || init.stage === 'caducado') break
+    const meta = STAGE_TO_TRACE[stage]
+    if (!meta) continue
+    steps.push({
+      order: steps.length + 1,
+      kind: meta.kind,
+      label: meta.label,
+      date: null,
+      forum: meta.forum,
+      outcome: 'Pendiente',
+      url: null,
+    })
+  }
+
+  const startDate = init.fechaRegistro
+  const daysSinceStart = startDate
+    ? Math.floor((Date.now() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))
+    : null
+
+  const next = steps.find(s => s.outcome === 'Pendiente')
+
+  return {
+    initiative: { ...init, titulo: detail.objeto, promotor: detail.autor.split('\n')[0] || init.promotor },
+    steps,
+    summary: {
+      totalSteps: steps.length,
+      currentStage: init.stage,
+      daysSinceStart,
+      nextExpected: next?.label || null,
+    },
+  }
+}
+
+/**
+ * Trazabilidad sintetizada para Senado/CCAA cuando no hay TRAMITACIONSEGUIDA.
+ */
+function buildSyntheticTraceability(init: LegislativeInitiative): InitiativeTraceability {
   const steps: TraceStep[] = []
   const startDate = init.fechaRegistro || init.fechaActualizacion
   const currentIdx = stageIndex(init.stage)
 
-  // Genera pasos completados (todos los anteriores al estado actual + el actual)
   for (let i = 0; i <= currentIdx; i++) {
     const stage = STAGE_ORDER[i]
     const meta = STAGE_TO_TRACE[stage]
     if (!meta) continue
-    const estimatedDays = i * 14   // ~2 semanas por etapa de media
+    const estimatedDays = i * 14
     const date = i === 0 ? startDate : addDays(startDate, estimatedDays)
     steps.push({
       order: i + 1,
@@ -100,7 +204,6 @@ export function buildTraceability(init: LegislativeInitiative): InitiativeTracea
     })
   }
 
-  // Pasos pendientes hasta aprobación (sin completar)
   for (let i = currentIdx + 1; i < STAGE_ORDER.length; i++) {
     const stage = STAGE_ORDER[i]
     if (init.stage === 'rechazado' || init.stage === 'caducado') break
@@ -118,7 +221,6 @@ export function buildTraceability(init: LegislativeInitiative): InitiativeTracea
     })
   }
 
-  // Casos especiales: rechazado / caducado
   if (init.stage === 'rechazado') {
     steps.push({
       order: steps.length + 1,
@@ -147,4 +249,13 @@ export function buildTraceability(init: LegislativeInitiative): InitiativeTracea
       nextExpected: next?.label || null,
     },
   }
+}
+
+export async function buildTraceability(init: LegislativeInitiative): Promise<InitiativeTraceability> {
+  // Para Congreso: intentar usar TRAMITACIONSEGUIDA real
+  if (init.ambito === 'nacional-congreso') {
+    const real = await buildCongresoTraceability(init)
+    if (real) return real
+  }
+  return buildSyntheticTraceability(init)
 }

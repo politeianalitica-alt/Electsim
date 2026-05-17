@@ -20,7 +20,7 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     if (!init) {
       return NextResponse.json(withMeta({ error: 'not_found' }, 'error'), { status: 404 })
     }
-    const footprint = buildFootprint(init)
+    const footprint = await buildFootprint(init)
     return NextResponse.json(withMeta(footprint, 'live'))
   } catch (e) {
     return NextResponse.json(withMeta({ error: String(e) }, 'error'), { status: 500 })
