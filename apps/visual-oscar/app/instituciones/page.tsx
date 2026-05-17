@@ -69,6 +69,14 @@ interface ResultadoEleccion {
 }
 interface EnlacesElectorales { consultaMir: string; wikipedia: string; junta: string; cpro: string }
 
+interface EscañoPartido { partido: string; escaños: number; pct: number; color: string }
+interface ComposicionParlamento {
+  totalEscaños: number; fecha: string
+  partidos: EscañoPartido[]
+  mayoriaAbsoluta: number
+  ganador: EscañoPartido
+}
+
 interface CCAAProfile {
   meta: CCAA
   bio: { extract: string; sourceUrl: string | null }
@@ -83,6 +91,7 @@ interface CCAAProfile {
   preocupaciones: string[]
   resumenIA: string
   historicoElectoral: ResultadoEleccion[]
+  parlamento: ComposicionParlamento | null
   metrics: { nNoticias7d: number; nIniciativas: number; pibMillonesEuros: number; densidadHabKm2: number }
   updatedAt: string
   error?: string
@@ -283,6 +292,25 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
               {profile.historicoElectoral.map((e, i) => <ResultadosCard key={i} eleccion={e}/>)}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6e6e73' }}>
                 Fuente: Junta Electoral Central + Ministerio del Interior. Última actualización del snapshot: jul 2024.
+              </p>
+            </Card>
+          )}
+
+          {profile.parlamento && (
+            <Card titulo={`🏛 PARLAMENTO AUTONÓMICO · ${profile.parlamento.totalEscaños} escaños`} color="#1F4E8C">
+              <HemicicloSVG parlamento={profile.parlamento}/>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '3px 12px', marginTop: 10 }}>
+                {profile.parlamento.partidos.map(p => (
+                  <div key={p.partido} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5 }}>
+                    <span style={{ width: 10, height: 10, background: p.color, borderRadius: 2, flexShrink: 0 }}/>
+                    <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.partido}</span>
+                    <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{p.escaños}</span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ margin: '10px 0 0', fontSize: 10.5, color: '#6e6e73', lineHeight: 1.5 }}>
+                Aproximación con D&apos;Hondt sobre últimas autonómicas ({profile.parlamento.fecha}). Mayoría absoluta: <strong>{profile.parlamento.mayoriaAbsoluta}</strong>.
+                Ganador: <strong style={{ color: profile.parlamento.ganador.color }}>{profile.parlamento.ganador.partido} ({profile.parlamento.ganador.escaños} escaños)</strong>.
               </p>
             </Card>
           )}
@@ -577,7 +605,10 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
                 </div>
               )}
               {profile.piramide && (
-                <PiramideMini piramide={profile.piramide} color={partidoColor}/>
+                <>
+                  <PiramideMini piramide={profile.piramide} color={partidoColor}/>
+                  <IndicadoresDemograficos piramide={profile.piramide}/>
+                </>
               )}
               {!profile.rentaMedia?.rentaMediaHogar && !profile.extranjeros?.totalExtranjeros && !profile.piramide && (
                 <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', fontStyle: 'italic' }}>INE no expone datos detallados de este municipio (consulta directa al INE para más).</p>
@@ -754,6 +785,50 @@ function SentimientoCard({ sentimiento, color }: { sentimiento: SentimientoAgreg
   )
 }
 
+function IndicadoresDemograficos({ piramide }: { piramide: INEPiramide }) {
+  // Calcular agregados por grupo de edad
+  const sumar = (rec: Record<string, number>, predicate: (a: number) => boolean): number => {
+    let s = 0
+    for (const [g, v] of Object.entries(rec)) {
+      const edadMin = parseInt(g.split('-')[0]) || 0
+      if (predicate(edadMin)) s += v
+    }
+    return s
+  }
+  const menores16  = sumar(piramide.hombres, x => x < 16)  + sumar(piramide.mujeres, x => x < 16)
+  const mayores64  = sumar(piramide.hombres, x => x >= 65) + sumar(piramide.mujeres, x => x >= 65)
+  const edadActiva = sumar(piramide.hombres, x => x >= 16 && x < 65) + sumar(piramide.mujeres, x => x >= 16 && x < 65)
+  const total      = menores16 + mayores64 + edadActiva
+  if (total === 0) return null
+
+  const envejecimiento = menores16 > 0 ? +((mayores64 / menores16) * 100).toFixed(0) : 0
+  const dependencia    = edadActiva > 0 ? +(((menores16 + mayores64) / edadActiva) * 100).toFixed(0) : 0
+  const feminidad      = piramide.totalHombres > 0 ? +((piramide.totalMujeres / piramide.totalHombres) * 100).toFixed(0) : 0
+  const pctJoven       = total > 0 ? +((menores16 / total) * 100).toFixed(1) : 0
+  const pctMayor       = total > 0 ? +((mayores64 / total) * 100).toFixed(1) : 0
+
+  const interpretacion =
+    envejecimiento > 200 ? '☉ Municipio muy envejecido — riesgo demográfico' :
+    envejecimiento > 130 ? '◐ Envejecimiento alto — necesita políticas activas' :
+    envejecimiento >  80 ? '◉ Equilibrado generacionalmente' :
+                           '★ Municipio joven con dinamismo demográfico'
+
+  return (
+    <div style={{ marginTop: 10, padding: 10, background: 'rgba(15,118,110,0.04)', borderRadius: 8, borderLeft: '3px solid #0F766E' }}>
+      <p style={{ margin: 0, fontSize: 10, color: '#0F766E', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        INDICADORES SOCIALES DERIVADOS
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '4px 12px', marginTop: 6, fontSize: 11 }}>
+        <div>♔ Envejecimiento: <strong>{envejecimiento}</strong></div>
+        <div>⚖ Dependencia: <strong>{dependencia}%</strong></div>
+        <div>♀ Feminidad: <strong>{feminidad}</strong></div>
+        <div>↓16: <strong>{pctJoven}%</strong> · ↑65: <strong>{pctMayor}%</strong></div>
+      </div>
+      <p style={{ margin: '6px 0 0', fontSize: 11, color: '#1d1d1f', fontStyle: 'italic' }}>{interpretacion}</p>
+    </div>
+  )
+}
+
 function PiramideMini({ piramide, color }: { piramide: INEPiramide; color: string }) {
   const grupos = Array.from(new Set([...Object.keys(piramide.hombres), ...Object.keys(piramide.mujeres)]))
     .sort((a, b) => parseInt(a) - parseInt(b))
@@ -782,6 +857,79 @@ function PiramideMini({ piramide, color }: { piramide: INEPiramide; color: strin
         ♂ {piramide.totalHombres.toLocaleString('es-ES')} · ♀ {piramide.totalMujeres.toLocaleString('es-ES')}
       </p>
     </div>
+  )
+}
+
+function HemicicloSVG({ parlamento }: { parlamento: ComposicionParlamento }) {
+  // Generar puntos del hemiciclo: filas concéntricas en semicírculo de π a 2π
+  const total = parlamento.totalEscaños
+  // Asignar escaños a cada diputado en orden por columna (de izquierda a derecha)
+  // Generamos asientos en filas concéntricas
+  const filas = Math.max(4, Math.ceil(Math.sqrt(total / Math.PI)))
+  const seats: Array<{ x: number; y: number; partido: string; color: string }> = []
+  let asignados = 0
+  for (let fila = 0; fila < filas && asignados < total; fila++) {
+    const radio = 100 + fila * 18
+    const circunferencia = Math.PI * radio
+    const numEnFila = Math.min(total - asignados, Math.max(1, Math.floor(circunferencia / 14)))
+    for (let i = 0; i < numEnFila && asignados < total; i++) {
+      const ang = Math.PI + (Math.PI * (i + 0.5)) / numEnFila
+      seats.push({
+        x: 220 + radio * Math.cos(ang),
+        y: 195 + radio * Math.sin(ang),
+        partido: '', color: '#000',
+      })
+      asignados++
+    }
+  }
+
+  // Ordenar asientos de izquierda a derecha (por su ángulo) para asignar partidos
+  const seatsOrdenados = [...seats].sort((a, b) => {
+    const angA = Math.atan2(a.y - 195, a.x - 220)
+    const angB = Math.atan2(b.y - 195, b.x - 220)
+    return angA - angB
+  })
+
+  // Asignar partidos según escaños — primero partidos "izquierda" → "derecha"
+  // Convención política: izquierda en pantalla = izquierda política
+  const ordenPolitico = (p: string): number => {
+    const orden: Record<string, number> = {
+      'CUP': -10, 'EH-Bildu': -9, 'IU': -8, 'BNG': -7, 'UE': -7,
+      'Sumar': -6, 'SUMAR': -6, 'Mas-Madrid': -6, 'Comuns-Sumar': -6, 'Podemos': -7,
+      'Adelante-A': -6, 'Por-Andalucia': -6, 'Compromis': -5,
+      'PSC': -3, 'PSOE': -3, 'PSPV-PSOE': -3, 'PSdeG-PSOE': -3, 'PSOE-A': -3,
+      'PSN-PSOE': -3, 'PSN': -3, 'PSIB': -3, 'PSE-EE': -3,
+      'ERC': -4, 'Junts': 0, 'PNV': 1, 'CCa': 1, 'PRC': 0, 'Geroa-Bai': -2,
+      'PP': 4, 'CS': 3, 'UPN': 4, 'Foro': 4, 'VOX': 8, 'CHA': -1, 'PAR': 3,
+      'Soria-Ya': 2, 'Teruel-Existe': 2, 'TERUEL-Existe': 2, 'UPL': 3,
+      'MES': -2, 'NC-bc': -2, 'El-Pi': 0, 'ASG': 0, 'DO': 4, 'CSpor': 3, 'AC': 0,
+      'OTROS': 6, 'Contigo-N': -4,
+    }
+    return orden[p] ?? 0
+  }
+  const partidosOrdenados = [...parlamento.partidos].sort((a, b) => ordenPolitico(a.partido) - ordenPolitico(b.partido))
+  let seatIdx = 0
+  for (const p of partidosOrdenados) {
+    for (let i = 0; i < p.escaños && seatIdx < seatsOrdenados.length; i++) {
+      seatsOrdenados[seatIdx].partido = p.partido
+      seatsOrdenados[seatIdx].color = p.color
+      seatIdx++
+    }
+  }
+
+  return (
+    <svg viewBox="0 0 440 220" style={{ width: '100%', maxWidth: 440, display: 'block', margin: '0 auto' }}>
+      {seatsOrdenados.map((s, i) => (
+        <circle key={i} cx={s.x} cy={s.y} r={5.5} fill={s.color} stroke="#fff" strokeWidth={0.5}>
+          <title>{s.partido}</title>
+        </circle>
+      ))}
+      {/* Linea de mayoría absoluta */}
+      <line x1="220" y1="200" x2="220" y2="80" stroke="#9CA3AF" strokeWidth="1.5" strokeDasharray="3,3"/>
+      <text x="220" y="73" textAnchor="middle" fontSize="9" fill="#6e6e73" fontWeight="700">
+        Mayoría: {parlamento.mayoriaAbsoluta}
+      </text>
+    </svg>
   )
 }
 

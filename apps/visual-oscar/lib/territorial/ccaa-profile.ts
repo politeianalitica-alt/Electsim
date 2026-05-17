@@ -19,6 +19,7 @@ import { getAllInitiatives } from '@/lib/legislative/aggregator'
 import { fetchPresidenteCcaa, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
 import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
 import { getHistoricoElectoralCCAA, indiceCompetitividad, type ResultadoEleccion } from './sources/electoral'
+import { getComposicionParlamento, type ComposicionParlamento } from './sources/parlamentos'
 
 export interface CCAAProfile {
   meta: CCAA
@@ -46,6 +47,8 @@ export interface CCAAProfile {
   resumenIA: string
   /** Histórico electoral (generales + autonómicas) */
   historicoElectoral: Array<ResultadoEleccion & { competitividad: number }>
+  /** Composición del parlamento autonómico (escaños por partido vía D'Hondt) */
+  parlamento: ComposicionParlamento | null
   metrics: {
     nNoticias7d: number
     nIniciativas: number
@@ -93,6 +96,7 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
 
   const historicoBase = getHistoricoElectoralCCAA(slug)
   const historicoElectoral = historicoBase.map(e => ({ ...e, competitividad: indiceCompetitividad(e) }))
+  const parlamento = getComposicionParlamento(slug)
 
   return {
     meta,
@@ -116,6 +120,7 @@ export async function buildCCAAProfile(slug: string): Promise<CCAAProfile | null
     preocupaciones,
     resumenIA,
     historicoElectoral,
+    parlamento,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       nIniciativas: iniciativasMatched.length,
