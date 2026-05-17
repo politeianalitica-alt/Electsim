@@ -1,34 +1,50 @@
 /**
- * Constructor de perfil dinámico de Municipio.
+ * Perfil ENRIQUECIDO de Municipio (8.132 cubiertos).
  *
- * Combina:
- *   - Bio Wikipedia REST API (auto-descarga)
- *   - Noticias RSS últimos 7d filtradas por tokens del municipio
- *   - Sentimiento agregado + preocupaciones detectadas
- *   - Datos demográficos del catálogo
- *   - Tags clave de cobertura mediática
+ * Combina dinámicamente:
+ *   - Wikipedia REST API (bio + foto)
+ *   - Wikidata SPARQL (alcalde actual + foto + partido)
+ *   - RSS news (50 medios filtrados por tokens del municipio)
+ *   - INE: pirámide poblacional + renta media + extranjeros
+ *   - Narrativas IA (clustering de noticias)
+ *   - Score de estabilidad política
+ *   - Preocupaciones detectadas
+ *   - Tags clave en cobertura
+ *   - Resumen IA del municipio
  */
 
 import { getMunicipioBySlug, type Municipio } from './municipios-catalog'
 import { getCCAABySlug } from './ccaa-catalog'
 import { fetchWikipediaSummary } from '@/lib/figures/wikipedia'
 import { getAggregatedNews, type AggregatedArticle } from '@/lib/news-aggregator'
+import { fetchAlcaldePorIne, fetchFotoPersona, type WikidataGobernante } from './sources/wikidata'
+import { fetchPiramide, fetchRentaMedia, fetchExtranjeros, type INEPiramide, type INERentaMedia, type INEExtranjeros } from './sources/ine'
+import { detectarNarrativas, scoreEstabilidad, type Narrativa } from './ai/narrativas'
 
 export interface MunicipioProfile {
   meta: Municipio
   ccaaNombre: string
   ccaaColor: string
   bio: { extract: string; sourceUrl: string | null }
+  alcalde: WikidataGobernante | null
+  alcaldeFoto: string | null
   noticias: Array<{
     titulo: string; medio: string; fecha: string | null; url: string
-    sentiment: string; sentiment_score: number
+    sentiment: string; sentiment_score: number; descripcion: string
   }>
   sentimientoAgregado: {
     positivo: number; negativo: number; neutral: number
     score: number; tendencia: 'up' | 'down' | 'stable'
   }
+  narrativas: Narrativa[]
+  estabilidad: { score: number; banda: 'baja' | 'media' | 'alta'; razones: string[] }
   tagsCobertura: string[]
   preocupaciones: string[]
+  resumenIA: string
+  // INE
+  piramide: INEPiramide | null
+  rentaMedia: INERentaMedia | null
+  extranjeros: INEExtranjeros | null
   metrics: {
     nNoticias7d: number
     densidadHabKm2: number
@@ -41,11 +57,18 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
   if (!meta) return null
   const ccaa = getCCAABySlug(meta.ccaa)
 
-  const [bio, articles] = await Promise.all([
+  const [bio, articles, alcalde, piramide, rentaMedia, extranjeros] = await Promise.all([
     fetchBio(meta),
     getAggregatedNews({ maxSources: 40, hoursBack: 168 }).catch(() => [] as AggregatedArticle[]),
+    fetchAlcaldePorIne(meta.ine).catch(() => null),
+    fetchPiramide(meta.ine).catch(() => null),
+    fetchRentaMedia(meta.ine).catch(() => null),
+    fetchExtranjeros(meta.ine).catch(() => null),
   ])
 
+  const alcaldeFoto = alcalde?.qid ? await fetchFotoPersona(alcalde.qid).catch(() => null) : null
+
+  // Tokens con word-boundary para evitar falsos positivos
   const tokens = meta.tokens || [meta.nombre.toLowerCase()]
   const tokenPatterns = tokens.map(t => {
     try { return new RegExp('\\b' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i') } catch { return null }
@@ -58,19 +81,36 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
   const sentimientoAgregado = computeAgregado(noticiasMatched)
   const tagsCobertura = extractTags(noticiasMatched)
   const preocupaciones = analyzePreocupaciones(noticiasMatched)
+  const narrativas = detectarNarrativas(noticiasMatched, 6)
+  const estabilidad = scoreEstabilidad({
+    noticiasNegativas: sentimientoAgregado.negativo,
+    noticiasTotal: noticiasMatched.length,
+    preocupaciones: preocupaciones.length,
+    narrativas,
+  })
+  const resumenIA = sintesisMunicipio(meta, alcalde, sentimientoAgregado, preocupaciones, narrativas, rentaMedia)
 
   return {
     meta,
     ccaaNombre: ccaa?.nombre || meta.ccaa,
     ccaaColor: ccaa?.color || '#525258',
     bio,
-    noticias: noticiasMatched.slice(0, 25).map(a => ({
+    alcalde,
+    alcaldeFoto,
+    noticias: noticiasMatched.slice(0, 30).map(a => ({
       titulo: a.title, medio: a.medio.nombre, fecha: a.pub_date_iso, url: a.link,
       sentiment: a.sentiment, sentiment_score: a.sentiment_score,
+      descripcion: (a.description || '').slice(0, 180),
     })),
     sentimientoAgregado,
+    narrativas,
+    estabilidad,
     tagsCobertura,
     preocupaciones,
+    resumenIA,
+    piramide,
+    rentaMedia,
+    extranjeros,
     metrics: {
       nNoticias7d: noticiasMatched.length,
       densidadHabKm2: meta.superficie && meta.superficie > 0 ? Math.round(meta.poblacion / meta.superficie) : 0,
@@ -80,7 +120,6 @@ export async function buildMunicipioProfile(slug: string): Promise<MunicipioProf
 }
 
 async function fetchBio(meta: Municipio) {
-  // Probar varios títulos posibles para Wikipedia
   const candidatos = [
     meta.nombre,
     `${meta.nombre} (${meta.provincia})`,
@@ -155,4 +194,38 @@ function analyzePreocupaciones(noticias: AggregatedArticle[]): string[] {
     }
   }
   return Array.from(out).slice(0, 7)
+}
+
+function sintesisMunicipio(
+  meta: Municipio,
+  alcalde: WikidataGobernante | null,
+  s: { positivo: number; negativo: number; score: number; tendencia: string },
+  preocupaciones: string[],
+  narrativas: Narrativa[],
+  renta: INERentaMedia | null,
+): string {
+  const total = s.positivo + s.negativo
+  const tonoLabel = s.score > 0.1 ? 'positivo' : s.score < -0.1 ? 'negativo' : 'mixto'
+
+  let r = `${meta.nombre} (${meta.provincia}, INE ${meta.ine}) `
+  if (alcalde) {
+    r += `está gobernado por ${alcalde.nombre}`
+    if (alcalde.partidoNombre) r += ` (${alcalde.partidoNombre})`
+    if (alcalde.inicioCargo) r += ` desde ${alcalde.inicioCargo}`
+    r += `. `
+  }
+  r += `Tiene ${meta.poblacion.toLocaleString('es-ES')} habitantes`
+  if (renta?.rentaMediaHogar) r += ` con renta media por hogar de ${renta.rentaMediaHogar.toLocaleString('es-ES')} € (${renta.año})`
+  r += `. `
+
+  if (total > 0) {
+    r += `Cobertura mediática últimos 7 días: ${total} noticias con tono ${tonoLabel}.`
+  }
+  if (narrativas.length > 0) {
+    r += ` Narrativas dominantes: ${narrativas.slice(0, 3).map(n => n.nombre).join(', ')}.`
+  }
+  if (preocupaciones.length > 0) {
+    r += ` Preocupaciones detectadas: ${preocupaciones.slice(0, 3).join(', ')}.`
+  }
+  return r
 }
