@@ -159,23 +159,21 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 9. Estudio · Centro de operaciones del analista ────────────────
-  // Antes 'Workspace'. Renombrado a 'Estudio' como punto de entrada principal.
-  // Workspaces y Command Center quitados del subnav — el Command Center
-  // sigue accesible desde el botón azul 'Workspace' del header (que apunta
-  // a /workspaces/ws_espana_2026/overview).
+  // ─── 9. Workspace · Centro de operaciones del analista ───────────────
+  // El módulo se llama 'Workspace' en la barra principal. Dentro están:
+  //   - Estudio (centro de datos / paneles / fuentes / IA)
+  //   - War Room (sala de operaciones de campaña)
+  //   - Cuaderno (notas tipo Obsidian con backlinks y grafo) ← nuevo
+  //   - Toolbox (hub con las herramientas secundarias del analista)
   {
-    id: 'workspace',           // id interno se mantiene para no romper lookups
-    label: 'Estudio',
-    full: 'Estudio · Centro de operaciones del analista',
+    id: 'workspace',
+    label: 'Workspace',
+    full: 'Workspace · Centro de operaciones del analista',
     items: [
-      // Subnav simplificado a 3 items principales. Las 7 herramientas
-      // secundarias (Investigation Canvas, Evidence Linker, Draft Studio,
-      // Intelligence Notebook, Political Calendar, Watchlists, Team
-      // Collaboration) se agrupan en /extras como hub-page.
-      { label: 'Estudio Politeia', href: '/estudio' },
-      { label: 'War Room',         href: '/war-room' },
-      { label: 'Extras',           href: '/extras' },
+      { label: 'Estudio',  href: '/estudio'  },  // 1ª — workspace de datos y paneles
+      { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
+      { label: 'Toolbox',  href: '/extras'   },  // 3ª — herramientas auxiliares
+      { label: 'Cuaderno', href: '/cuaderno' },  // 4ª — Obsidian del analista (notas + grafo + bitácora)
     ],
   },
 

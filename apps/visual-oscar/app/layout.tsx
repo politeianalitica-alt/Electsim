@@ -6,6 +6,7 @@ import { AlertsProvider } from '@/context/AlertsContext';
 import { QueryProvider } from '@/lib/api/query-provider';
 import { DomoProvider } from '@/context/DomoContext';
 import { NotificationsProvider } from '@/context/NotificationsContext';
+import CuadernoTracker from '@/components/CuadernoTracker';
 
 export const metadata: Metadata = {
   title: 'Politeia Analítica',
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <AlertsProvider>
               <DomoProvider>
                 <NotificationsProvider>
+                  <CuadernoTracker />
                   {children}
                   <BottomAgenteBar />
                 </NotificationsProvider>

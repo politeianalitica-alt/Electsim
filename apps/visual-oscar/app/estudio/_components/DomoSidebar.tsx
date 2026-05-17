@@ -34,6 +34,9 @@ const NAV_ITEMS: NavItem[] = [
 
   // Equipo
   { href: '/estudio/gobernanza',      label: 'Equipo y permisos',     glyph: '✓', group: 'Equipo' },
+
+  // Conocimiento — Obsidian-like notebook con backlinks y grafo
+  { href: '/cuaderno',                label: 'Cuaderno',              glyph: '✎', group: 'Conocimiento' },
 ]
 
 export default function DomoSidebar() {
