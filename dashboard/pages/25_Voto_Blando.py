@@ -277,3 +277,41 @@ with tab4:
             fig_cap.update_layout(height=360)
             st.plotly_chart(fig_cap, use_container_width=True)
             st.dataframe(df_cap.head(80), use_container_width=True)
+
+# ─────────────────────────────────────────────────────────────────
+# Brain · analiza voto blando y propone palancas accionables
+# ─────────────────────────────────────────────────────────────────
+st.divider()
+try:
+    from dashboard.components.groq_brain_panel import render_brain_panel
+    segmentos_compact = {}
+    if not df_vb_prov.empty:
+        # Compat: dependiendo del origen, la columna territorial puede ser
+        # 'circunscripcion' (DB) o 'provincia' (cálculo en memoria). Fix
+        # detectada en auditoría: el slice fijo KeyError-eaba si solo había
+        # 'circunscripcion', haciendo desaparecer el panel IA en silencio.
+        _terr_col = "provincia" if "provincia" in df_vb_prov.columns else "circunscripcion"
+        _cols_disp = [c for c in [_terr_col, "pct_voto_blando", "pct_probable_abst"] if c in df_vb_prov.columns]
+        segmentos_compact = {
+            "provincias_top_blandos": df_vb_prov.sort_values("pct_voto_blando", ascending=False)
+                .head(10)[_cols_disp]
+                .to_dict(orient="records"),
+            "media_nacional_blando": float(_safe_mean(df_vb_prov.get("pct_voto_blando"))),
+            "media_nacional_abst":   float(_safe_mean(df_vb_prov.get("pct_probable_abst"))),
+            "territorio_col":        _terr_col,
+        }
+    render_brain_panel(
+        tool="analyze_soft_vote",
+        title="Análisis IA · voto blando y palancas de captura",
+        kwargs={
+            "party": partido_propio,
+            "territory": "España",
+            "polls_summary": f"Estimación nowcasting / panel actual para {partido_propio}",
+            "segments_data": segmentos_compact,
+        },
+        ttl_seconds=900,
+        auto_run=False,
+        key=f"brain_vb_{partido_propio}",
+    )
+except Exception as _e:
+    st.caption(f"IA voto blando no disponible: {_e}")

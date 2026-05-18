@@ -6,6 +6,7 @@ import { WorkspaceViewHeader } from "@/app/_components/workspace/workspace-view-
 import { workspaceRepository } from "@/lib/workspace/workspace-repository";
 import { buildExecutiveContext } from "@/lib/workspace/analytics-builder";
 import type { DecisionSimulation, DecisionOutcome } from "@/types/simulator";
+import BrainPanelClient from "@/app/_components/workspace/brain-panel-client";
 
 const STORAGE_KEY = (ws: string) => `politeia:simulator:log:${ws}`;
 const HISTORY_LIMIT = 12;
@@ -261,6 +262,42 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
               </button>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* ───────────────────────────────────────────────────────────────
+          GroqBrain · forecast escenarios + interpretación del simulador.
+          Se invoca tras tener una simulación lista; el cliente decide
+          pulsar el botón para no consumir tokens en el render.
+         ─────────────────────────────────────────────────────────────── */}
+      {sim && (
+        <div style={{ marginTop: 20 }}>
+          <BrainPanelClient
+            title="Análisis IA · escenarios futuros del simulador"
+            tool="forecast_political_scenario"
+            kwargs={{
+              topic: scenario || "decisión simulada",
+              current_situation: `Workspace ${workspaceName}. Escenario simulado: ${scenario}. Outcomes generados: ${sim.outcomes
+                .map(o => `${o.id}=${o.probability}`)
+                .join(", ")}`,
+              time_horizon: "3-6 meses",
+              constraints: [],
+            }}
+            autoRun={false}
+            buttonLabel="Pedir escenarios + watch list al brain"
+          />
+          <BrainPanelClient
+            title="Análisis IA · interpretación razonada del simulador"
+            tool="interpret_simulation_results"
+            kwargs={{
+              simulation_type: "decision_simulator_workspace",
+              inputs_summary: `Escenario: ${scenario}. Workspace: ${workspaceName}.`,
+              results_payload: { outcomes: sim.outcomes, recommendation: (sim as unknown as Record<string, unknown>).recommendation },
+              audience: "directivo político",
+            }}
+            autoRun={false}
+            buttonLabel="Pedir takeaway + drivers + acciones"
+          />
         </div>
       )}
     </div>

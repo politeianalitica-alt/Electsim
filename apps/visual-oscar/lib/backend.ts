@@ -53,12 +53,19 @@ export async function callBackend<T = unknown>(
     ...(init.headers as Record<string, string> | undefined),
   }
   if (API_KEY) headers['X-API-Key'] = API_KEY
+  // Honra `init.cache` y `init.next.revalidate` del caller — si no los han
+  // pasado, defaultea a no-store. Antes se forzaba `cache: 'no-store'` tras
+  // el spread, lo que invalidaba ISR/revalidate en cualquier consumer
+  // (BrainPanel, listas de tools del brain, etc.).
+  const _initCache = (init as RequestInit).cache
+  const _initNext = (init as RequestInit & { next?: { revalidate: number } }).next
+  const _shouldDefaultNoStore = _initCache === undefined && _initNext === undefined
   try {
     const res = await fetch(`${BACKEND}${path}`, {
       ...init,
       signal: controller.signal,
       headers,
-      cache: 'no-store',
+      ...(_shouldDefaultNoStore ? { cache: 'no-store' as RequestCache } : {}),
     })
     const latency_ms = Date.now() - t0
     if (!res.ok) {

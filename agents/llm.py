@@ -325,7 +325,12 @@ class OllamaClient:
                 for line in response.iter_lines():
                     if not line:
                         continue
-                    chunk = json.loads(line)
+                    # Robustez: una línea malformada no debe abortar todo el
+                    # stream (paridad con OpenAIChatClient.stream_complete).
+                    try:
+                        chunk = json.loads(line)
+                    except (ValueError, TypeError):
+                        continue
                     token = str((chunk.get("message") or {}).get("content") or "")
                     if token:
                         yield token

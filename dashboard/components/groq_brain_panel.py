@@ -246,6 +246,121 @@ def _render_brain_output(out: dict[str, Any], *, show_raw: bool, key_prefix: str
             st.code(out["raw"], language="json")
 
 
+# ─────────────────────────────────────────────────────────────────
+# Panel de pronóstico (cuantitativo + lectura brain)
+# ─────────────────────────────────────────────────────────────────
+
+def render_forecast_panel(
+    df,
+    *,
+    fecha_col: str,
+    valor_col: str,
+    etiqueta: str = "serie",
+    horizonte_dias: int = 14,
+    eventos_recientes: list[str] | None = None,
+    pedir_escenarios: bool = False,
+    title: str = "Pronóstico IA · serie temporal",
+    key: str | None = None,
+    auto_run: bool = False,
+) -> dict[str, Any] | None:
+    """Renderiza el bloque de pronóstico transversal:
+      · KPIs (último, tendencia, fuerza, delta proyectado, volatilidad)
+      · Tabla de puntos proyectados con bandas
+      · Lectura razonada del brain (drivers, watch list, riesgos)
+      · Escenarios (opcional)
+    """
+    key = key or f"forecast_panel_{etiqueta}"
+    # Header
+    st.markdown(
+        f"""
+<div style="background:linear-gradient(135deg,{BLUE}10 0%,{GREEN}08 100%);
+            border:1px solid {BORDER};border-left:4px solid {BLUE};
+            border-radius:10px;padding:.9rem 1.1rem;margin:.8rem 0 .6rem">
+  <div style="font-size:.7rem;color:{BLUE};font-weight:800;
+              letter-spacing:.14em;text-transform:uppercase">{title}</div>
+  <div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">
+    Regresión robusta + bandas + razonamiento Groq · horizonte {horizonte_dias} días
+  </div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+    run = auto_run
+    if not auto_run:
+        if st.button(f"Calcular pronóstico · {etiqueta}", key=f"{key}_btn"):
+            run = True
+    if not run:
+        return None
+
+    try:
+        from dashboard.services.forecast_layer import forecast_serie
+    except Exception as exc:
+        st.warning(f"Forecast layer no disponible: {exc}")
+        return None
+
+    with st.spinner(f"Calculando tendencia + razonamiento ({etiqueta})…"):
+        res = forecast_serie(
+            df,
+            fecha_col=fecha_col,
+            valor_col=valor_col,
+            horizonte_dias=horizonte_dias,
+            etiqueta=etiqueta,
+            eventos_recientes=eventos_recientes or [],
+            pedir_brain=True,
+            pedir_escenarios=pedir_escenarios,
+        )
+
+    if not res.ok:
+        st.warning(f"Pronóstico no disponible: {res.error}")
+        return None
+
+    # KPIs cuantitativos
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Último valor", f"{res.last_value:+.3f}" if res.last_value is not None else "—",
+              help=res.last_date or "")
+    c2.metric("Tendencia",
+              f"{(res.trend_direction or '—').capitalize()} ({res.trend_strength or '—'})")
+    c3.metric("Δ proyectado",
+              f"{res.forecast_change_pct:+.2f} %" if res.forecast_change_pct is not None else "—",
+              help=f"a {res.forecast_horizon_days} días")
+    c4.metric("Volatilidad",
+              f"{res.volatility:.3f}" if res.volatility is not None else "—")
+    c5.metric("Outliers", str(len(res.outliers or [])))
+
+    # Tabla proyección
+    with st.expander("Puntos proyectados (banda lo–hi)", expanded=False):
+        try:
+            import pandas as pd
+            st.dataframe(pd.DataFrame(res.forecast_points), use_container_width=True)
+        except Exception:
+            st.json(res.forecast_points)
+
+    # Lectura del brain
+    brain = res.brain_reading or {}
+    if brain.get("ok"):
+        st.markdown("### Lectura razonada")
+        result = brain.get("result")
+        if isinstance(result, dict):
+            _render_dict_friendly(result)
+        else:
+            st.markdown(str(result))
+    elif brain:
+        st.info(f"IA: {brain.get('error') or 'lectura no disponible'}")
+
+    # Escenarios
+    sc = res.scenarios or {}
+    if sc.get("ok"):
+        st.markdown("### Escenarios")
+        sc_res = sc.get("result")
+        if isinstance(sc_res, dict):
+            _render_dict_friendly(sc_res)
+        else:
+            st.markdown(str(sc_res))
+
+    return res.to_dict()
+
+
 def _render_dict_friendly(d: Any) -> None:
     """Heurística mínima: muestra claves de primer nivel destacadas."""
     if not isinstance(d, dict):

@@ -134,3 +134,46 @@ with tab_pos:
         fig.update_layout(height=420)
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(dfp, use_container_width=True, hide_index=True)
+
+# ─────────────────────────────────────────────────────────────────
+# Brain · opposition research IA · estudia al rival desde la posición del cliente
+# ─────────────────────────────────────────────────────────────────
+st.divider()
+st.markdown("### Opposition Research IA")
+op1, op2 = st.columns([2, 1])
+with op1:
+    rival_ia = st.text_input("Rival a estudiar", value="Feijóo", key="op_rival_ia")
+    posicion_cliente_ia = st.text_area(
+        "Posición del cliente (1-3 frases)",
+        value="Gobierno actual con foco en cohesión territorial y políticas sociales.",
+        height=80,
+        key="op_pos_ia",
+    )
+with op2:
+    ventana_ia = st.selectbox("Ventana", ["últimos 3 meses", "últimos 6 meses", "último año"],
+                              index=1, key="op_vent_ia")
+    acciones_csv = st.text_area(
+        "Acciones recientes del rival (una por línea, opcional)",
+        value="",
+        height=80,
+        key="op_acc_ia",
+    )
+
+try:
+    from dashboard.components.groq_brain_panel import render_brain_panel
+    acciones_list = [a.strip() for a in (acciones_csv or "").split("\n") if a.strip()]
+    render_brain_panel(
+        tool="opposition_research",
+        title="War room · vectores de ataque y respuesta esperada del rival",
+        kwargs={
+            "target_actor": rival_ia,
+            "client_position": posicion_cliente_ia,
+            "recent_actions": acciones_list,
+            "time_window": ventana_ia,
+        },
+        ttl_seconds=600,
+        auto_run=False,
+        key=f"brain_op_{rival_ia}",
+    )
+except Exception as _e:
+    st.caption(f"IA opposition research no disponible: {_e}")

@@ -135,3 +135,38 @@ try:
         st.info("No hay elección activa para ver provincial.")
 except Exception:
     st.info("No se pudo cargar la matriz territorial aún.")
+
+# ─────────────────────────────────────────────────────────────────
+# Brain · resumen ejecutivo war room (markdown extenso)
+# ─────────────────────────────────────────────────────────────────
+try:
+    from dashboard.components.groq_brain_panel import render_brain_panel
+
+    senales = []
+    if not df_now.empty and "partido_siglas" in df_now.columns:
+        top_wr = df_now.sort_values("estimacion_pct", ascending=False).head(5)
+        senales.extend([f"{r['partido_siglas']}: {r['estimacion_pct']:.1f}%" for _, r in top_wr.iterrows()])
+    if not df_macro.empty and {"indicador", "valor"}.issubset(df_macro.columns):
+        senales.extend([f"{r['indicador']}: {r['valor']}" for _, r in df_macro.head(5).iterrows()])
+    contradicciones = []
+    if not df_cont_wr.empty:
+        contradicciones = [
+            f"{r.get('persona','')} · {r.get('tema','')} · {str(r.get('descripcion',''))[:120]}"
+            for _, r in df_cont_wr.iterrows()
+        ]
+    render_brain_panel(
+        tool="generate_war_room_summary",
+        title="Resumen ejecutivo IA · war room",
+        kwargs={
+            "situation": "Estado político-económico actual con foco en próximas 24h",
+            "signals": senales or ["sin señales captadas"],
+            "adversary_moves": contradicciones or ["sin contradicciones registradas"],
+            "client_assets": ["nowcasting actualizado", "alertas IA", "tracker narrativas"],
+            "time_pressure": "24h",
+        },
+        ttl_seconds=900,
+        auto_run=False,
+        key="brain_war_room_summary",
+    )
+except Exception as _e:  # noqa: BLE001
+    st.caption(f"IA war room no disponible: {_e}")

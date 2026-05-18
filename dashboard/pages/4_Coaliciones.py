@@ -917,3 +917,55 @@ with tab3:
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────
+# Brain · evaluar viabilidad de una coalición a la carta
+# ─────────────────────────────────────────────────────────────────
+st.divider()
+st.markdown("### Análisis IA · viabilidad de coalición a la carta")
+_cc1, _cc2 = st.columns([2, 1])
+with _cc1:
+    _parts_csv = st.text_input(
+        "Partidos de la coalición (CSV)",
+        value="PSOE,SUMAR,ERC,PNV,BILDU,JUNTS",
+        key="coal_brain_parts",
+    )
+    _seats_csv = st.text_input(
+        "Escaños por partido (PARTIDO:N, coma)",
+        value="PSOE:121,SUMAR:27,ERC:7,PNV:5,BILDU:6,JUNTS:7",
+        key="coal_brain_seats",
+    )
+with _cc2:
+    _coal_ctx = st.text_area(
+        "Contexto político (opcional)",
+        value="Tras la moción fallida del PP, el bloque progresista busca renovar el acuerdo de investidura.",
+        height=110,
+        key="coal_brain_ctx",
+    )
+
+try:
+    _parts = [p.strip() for p in _parts_csv.split(",") if p.strip()]
+    _seats: dict[str, int] = {}
+    for tok in _seats_csv.split(","):
+        if ":" in tok:
+            k, v = tok.split(":", 1)
+            try:
+                _seats[k.strip()] = int(v.strip())
+            except ValueError:
+                pass
+    from dashboard.components.groq_brain_panel import render_brain_panel
+    render_brain_panel(
+        tool="analyze_coalition_viability",
+        title="Coaliciones · aritmética + ideológica + política",
+        kwargs={
+            "proposed_coalition": _parts,
+            "seats_by_party": _seats,
+            "context": _coal_ctx,
+            "red_lines": {},
+        },
+        ttl_seconds=900,
+        auto_run=False,
+        key=f"brain_coal_{','.join(_parts)}",
+    )
+except Exception as _e:
+    st.caption(f"IA coaliciones no disponible: {_e}")

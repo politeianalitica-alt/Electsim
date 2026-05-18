@@ -62,10 +62,14 @@ class AnalysisMixin:
         Devuelve: {narrative_name, core_claim, supporting_arguments, characters,
                    plot_arc, attack_vectors, counter_narratives, ...}
         """
+        # Bug previo: el `[:25]` se ataba sólo al fallback `[str(pieces)]`,
+        # no al input. Ahora truncamos siempre a 25 piezas para no inundar
+        # el prompt (cap real protector).
+        _pieces_list = pieces if isinstance(pieces, list) else [str(pieces)]
         return self._call(
             "analysis_narrative",
             {
-                "pieces": pieces if isinstance(pieces, list) else [str(pieces)][:25],
+                "pieces": _pieces_list[:25],
                 "topic": topic,
                 "time_window": time_window,
             },

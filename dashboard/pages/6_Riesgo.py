@@ -831,3 +831,28 @@ with tab4:
                 f"{'Datos históricos reales de la BD ElectSim.'if usar_historico_bd else 'Serie sintética de referencia calibrada con eventos reales.'} "
                 f"Metodología: índice compuesto ponderado por dimensión. Frecuencia: mensual.</p>",
                 unsafe_allow_html=True)
+
+    # ─────────────────────────────────────────────────────────────
+    # IA · Pronóstico de la serie de riesgo + lectura razonada
+    # ─────────────────────────────────────────────────────────────
+    try:
+        from dashboard.components.groq_brain_panel import render_forecast_panel
+        if not _vh.empty and hasattr(fechas_hist, "tolist"):
+            df_riesgo_serie = pd.DataFrame({
+                "fecha": pd.to_datetime(fechas_hist).tolist()[:len(_vh)],
+                "indice": _vh.tolist(),
+            })
+            render_forecast_panel(
+                df_riesgo_serie,
+                fecha_col="fecha",
+                valor_col="indice",
+                etiqueta="índice de riesgo político",
+                horizonte_dias=60,
+                eventos_recientes=[t for _, t in eventos[-4:]] if eventos else [],
+                pedir_escenarios=True,
+                title="Pronóstico IA · evolución del riesgo político (60 días)",
+                key="brain_forecast_riesgo",
+                auto_run=False,
+            )
+    except Exception as _e:
+        st.caption(f"Pronóstico IA no disponible: {_e}")

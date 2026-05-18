@@ -693,6 +693,51 @@ with tab_senales:
                 except Exception as exc:
                     st.error(f"Error en pipeline: {exc}")
 
+# ─────────────────────────────────────────────────────────────────
+# Brain · impacto geopolítico sobre intereses españoles
+# ─────────────────────────────────────────────────────────────────
+st.divider()
+st.markdown("### Análisis IA · impacto geopolítico para España")
+_g1, _g2 = st.columns([2, 1])
+with _g1:
+    _ev_geo = st.text_area(
+        "Evento geopolítico (1-3 frases)",
+        value="Ucrania: Rusia incrementa ataques contra infraestructura energética. UE acelera 18º paquete de sanciones.",
+        height=80,
+        key="geo_brain_event",
+    )
+with _g2:
+    _sect_csv = st.text_input(
+        "Sectores foco (CSV)",
+        value="energía,defensa,migración",
+        key="geo_brain_sect",
+    )
+    _horiz = st.selectbox(
+        "Horizonte",
+        ["3-12 meses", "1-3 meses", "12-24 meses"],
+        index=0,
+        key="geo_brain_horiz",
+    )
+
+try:
+    from dashboard.components.groq_brain_panel import render_brain_panel
+    _sectores = [s.strip() for s in _sect_csv.split(",") if s.strip()]
+    render_brain_panel(
+        tool="geopolitical_impact",
+        title="Impacto geopolítico · directo + indirecto + sectores + acciones",
+        kwargs={
+            "event": _ev_geo,
+            "region": "España",
+            "sectors": _sectores,
+            "time_horizon": _horiz,
+        },
+        ttl_seconds=900,
+        auto_run=False,
+        key=f"brain_geo_{hash(_ev_geo) % 100000}",
+    )
+except Exception as _e:
+    st.caption(f"IA geopolítica no disponible: {_e}")
+
 
 # ============================================================================
 # Demo data
