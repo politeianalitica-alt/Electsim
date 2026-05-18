@@ -95,6 +95,8 @@ export interface DashboardNewsPulse {
   relevance: number
   date: string | null
   parties: string
+  url?: string          // enlace al artículo original
+  description?: string  // texto plano del feed para resumen rápido
 }
 
 export interface DashboardHome {
@@ -183,6 +185,8 @@ async function deriveNewsPulse(): Promise<DashboardNewsPulse[]> {
         relevance: 0.7 + (a.medio.audiencia_M / 20),
         date: a.pub_date_iso,
         parties: extractPartiesMentioned(a.title + ' ' + a.description),
+        url: a.link,
+        description: a.description,
       }))
   } catch {
     return []
