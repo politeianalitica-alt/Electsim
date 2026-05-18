@@ -236,6 +236,33 @@ const MESTRE         = id('Manuel Mestre')
 const CASTELEIRO     = id('Esperanza Casteleiro')
 const RELANZON       = id('Arturo Relanzón')
 
+// ─── Más consejeros andaluces ────────────────────────────────────────
+const PATRICIA_POZO  = id('Patricia del Pozo')
+const ROCIO_DIAZ     = id('Rocío Díaz')
+const BERNAL_ANDA    = id('Arturo Bernal')
+const CATALINA_GAR   = id('Catalina García')
+
+// ─── Galicia · gabinete Rueda ────────────────────────────────────────
+const DIEGO_CALVO    = id('Diego Calvo')
+const CORGOS         = id('Miguel Corgos')
+
+// ─── Eurodiputados clave ─────────────────────────────────────────────
+const IRATXE         = id('Iratxe García Pérez')
+const GONZALEZ_PONS  = id('Esteban González Pons')
+const MANU_PINEDA    = id('Manu Pineda')
+const DIANA_RIBA     = id('Diana Riba')
+const BARRENA        = id('Pernando Barrena')
+
+// ─── Más alcaldes / sindicalistas ────────────────────────────────────
+const SONSOLES       = id('Sonsoles Ónega')
+const DARIAS         = id('Carolina Darias')
+const CARBAYO        = id('Carlos García Carbayo')
+const MARCIANO_GOM   = id('Marciano Gómez')
+const MC_BARRERA     = id('Mari Carmen Barrera')
+const MC_VICENTE     = id('Mari Cruz Vicente')
+const PEPE_RUBIO     = id('Pepe Rubio')
+const PEPE_ONETO     = id('Pepe Oneto')
+
 // ─── Periodistas adicionales ─────────────────────────────────────────
 const INAKI_LOPEZ    = id('Iñaki López')
 const CRISTINA_PARDO = id('Cristina Pardo')
@@ -755,6 +782,278 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   { a: PRADALES, b: SANCHEZ,       val:  68, tipo: 'pacto_investidura', label: 'PNV en gobierno vasco · interlocución directa Moncloa' },
   { a: BURUAGA,  b: FEIJOO,        val:  75, tipo: 'aliado_partido',  label: 'PP nacional · barona Cantabria' },
   { a: CAPELLAN, b: FEIJOO,        val:  72, tipo: 'aliado_partido',  label: 'PP nacional · barón La Rioja' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 28 · CRUCES MINISTERIALES (ejes técnicos del Consejo de Ministros)
+  // ═══════════════════════════════════════════════════════════════════
+  { a: BOLANOS,  b: ALBARES,       val:  72, tipo: 'aliado_partido',  label: 'Eje Presidencia-Exteriores · coordinación UE y diplomacia' },
+  { a: BOLANOS,  b: ROBLES,        val:  68, tipo: 'aliado_partido',  label: 'Eje Presidencia-Defensa · gestión institucional' },
+  { a: BOLANOS,  b: MARLASKA,      val:  75, tipo: 'aliado_partido',  label: 'Eje Presidencia-Interior · línea jurídica del Gobierno' },
+  { a: ALBARES,  b: ROBLES,        val:  78, tipo: 'aliado_partido',  label: 'Eje exterior + defensa · misiones internacionales' },
+  { a: ALBARES,  b: MARLASKA,      val:  68, tipo: 'aliado_partido',  label: 'Coordinación seguridad exterior · OTAN, migración' },
+  { a: CUERPO,   b: AAGESEN,       val:  72, tipo: 'aliado_partido',  label: 'Eje economía-transición ecológica · fondos NextGen' },
+  { a: CUERPO,   b: PLANAS,        val:  68, tipo: 'aliado_partido',  label: 'Eje económico · agricultura + economía' },
+  { a: CUERPO,   b: HEREU,         val:  75, tipo: 'aliado_partido',  label: 'Eje económico · economía + industria' },
+  { a: AAGESEN,  b: PLANAS,        val:  62, tipo: 'aliado_partido',  label: 'Eje verde · transición ecológica + agricultura' },
+  { a: AAGESEN,  b: HEREU,         val:  62, tipo: 'aliado_partido',  label: 'Eje verde · industria + transición ecológica' },
+  { a: AAGESEN,  b: PUENTE,        val:  58, tipo: 'aliado_partido',  label: 'Eje verde-transportes · descarbonización flota' },
+  { a: MONICA_GARCIA, b: SAIZ,     val:  72, tipo: 'aliado_partido',  label: 'Eje social · sanidad + inclusión' },
+  { a: MONICA_GARCIA, b: AAGESEN,  val:  62, tipo: 'aliado_partido',  label: 'Eje salud pública · sanidad + medio ambiente' },
+  { a: BUSTINDUY, b: SAIZ,         val:  72, tipo: 'aliado_partido',  label: 'Eje social · derechos sociales + inclusión' },
+  { a: URTASUN,  b: MORANT,        val:  68, tipo: 'aliado_partido',  label: 'Eje cultura-ciencia · agenda creativa' },
+  { a: LOPEZ_TRANSF, b: CUERPO,    val:  72, tipo: 'aliado_partido',  label: 'Eje digital-económico · transformación productiva' },
+  { a: LOPEZ_TRANSF, b: HEREU,     val:  68, tipo: 'aliado_partido',  label: 'Eje digital-industrial · 5G y semiconductores' },
+  { a: SAIZ,     b: ALBARES,       val:  62, tipo: 'aliado_partido',  label: 'Eje migración + exteriores · acuerdos países origen' },
+  { a: MARLASKA, b: SAIZ,          val:  72, tipo: 'aliado_partido',  label: 'Eje migración-interior · Ceuta, Melilla, Canarias' },
+  { a: RODRIGUEZ, b: PUENTE,       val:  62, tipo: 'aliado_partido',  label: 'Eje vivienda + transportes · planificación urbana' },
+  { a: TORRES,   b: ALEGRIA,       val:  65, tipo: 'aliado_partido',  label: 'Eje política territorial + portavocía' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 29 · CÚPULA PP · transversal nacional ↔ baronesas y barones
+  // ═══════════════════════════════════════════════════════════════════
+  { a: GAMARRA,  b: MORENO,        val:  72, tipo: 'aliado_partido',  label: 'PP nacional ↔ Andalucía · coordinación congresos' },
+  { a: GAMARRA,  b: RUEDA,         val:  72, tipo: 'aliado_partido',  label: 'PP nacional ↔ Galicia · coordinación territorial' },
+  { a: GAMARRA,  b: MANUECO,       val:  68, tipo: 'aliado_partido',  label: 'PP nacional ↔ Castilla y León' },
+  { a: GAMARRA,  b: AZCON,         val:  70, tipo: 'aliado_partido',  label: 'PP nacional ↔ Aragón' },
+  { a: GAMARRA,  b: PROHENS,       val:  68, tipo: 'aliado_partido',  label: 'PP nacional ↔ Baleares' },
+  { a: TELLADO,  b: MORENO,        val:  72, tipo: 'aliado_partido',  label: 'Organización PP ↔ Andalucía · coordinación electoral' },
+  { a: TELLADO,  b: ALMEIDA,       val:  78, tipo: 'aliado_partido',  label: 'Organización PP ↔ Ayuntamiento Madrid · ejes campaña' },
+  { a: SEMPER,   b: ALMEIDA,       val:  72, tipo: 'aliado_partido',  label: 'Portavoz nacional ↔ alcalde Madrid · agenda mediática' },
+  { a: BENDODO,  b: MORENO,        val:  90, tipo: 'aliado_partido',  label: 'Mentor andaluz · ex-vicepresidente Moreno · veterano' },
+  { a: BENDODO,  b: A_SANZ,        val:  78, tipo: 'aliado_partido',  label: 'Núcleo andaluz PP · veteranos del aparato' },
+  { a: BENDODO,  b: C_ESPANA,      val:  72, tipo: 'aliado_partido',  label: 'Núcleo andaluz PP · economía' },
+  { a: BENDODO,  b: C_CRESPO,      val:  68, tipo: 'aliado_partido',  label: 'Núcleo andaluz PP · agricultura' },
+  { a: ALMEIDA,  b: CATALA,        val:  72, tipo: 'aliado_partido',  label: 'Alcaldes capitales PP · Madrid + Valencia' },
+  { a: ALMEIDA,  b: A_SANZ,        val:  68, tipo: 'aliado_partido',  label: 'Alcaldes PP · Madrid + Sevilla' },
+  { a: ALBIOL,   b: ALMEIDA,       val:  62, tipo: 'aliado_partido',  label: 'Alcaldes PP · Badalona + Madrid · coordinación' },
+  { a: CARBAYO,  b: MANUECO,       val:  72, tipo: 'aliado_partido',  label: 'Salamanca + Junta CyL · coordinación PP territorial' },
+  { a: CAYETANA, b: AYUSO,         val:  35, tipo: 'aliado_partido',  label: 'Espacio liberal interno PP · cercanas en agenda' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 30 · JUNTA DE ANDALUCÍA · gabinete interno + ejes
+  // ═══════════════════════════════════════════════════════════════════
+  { a: MORENO,   b: BERNAL_ANDA,   val:  78, tipo: 'aliado_partido',  label: 'Consejero Turismo · gabinete andaluz' },
+  { a: MORENO,   b: PATRICIA_POZO, val:  72, tipo: 'aliado_partido',  label: 'Consejera Cultura · gabinete andaluz' },
+  { a: MORENO,   b: ROCIO_DIAZ,    val:  72, tipo: 'aliado_partido',  label: 'Consejera Fomento · gabinete andaluz' },
+  { a: MORENO,   b: CATALINA_GAR,  val:  78, tipo: 'aliado_partido',  label: 'Consejera Salud · gabinete andaluz' },
+  { a: A_SANZ,   b: C_ESPANA,      val:  78, tipo: 'aliado_partido',  label: 'Núcleo gobierno andaluz · presidencia + hacienda' },
+  { a: A_SANZ,   b: BERNAL_ANDA,   val:  72, tipo: 'aliado_partido',  label: 'Consejeros andaluces · coordinación interna' },
+  { a: A_SANZ,   b: C_CRESPO,      val:  72, tipo: 'aliado_partido',  label: 'Consejeros andaluces · agricultura' },
+  { a: C_ESPANA, b: C_CRESPO,      val:  68, tipo: 'aliado_partido',  label: 'Consejeras andaluzas · economía + agricultura' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 31 · GOVERN CATALÀ · gabinete interno + Generalitat
+  // ═══════════════════════════════════════════════════════════════════
+  { a: DALMAU,   b: A_ROMERO,      val:  80, tipo: 'aliado_partido',  label: 'Núcleo Govern · presidencia + economía' },
+  { a: DALMAU,   b: PANEQUE,       val:  72, tipo: 'aliado_partido',  label: 'Consellers PSC · presidencia + territori' },
+  { a: A_ROMERO, b: N_MONTSERRAT,  val:  68, tipo: 'aliado_partido',  label: 'Consellers PSC · economía + universidades' },
+  { a: PANEQUE,  b: OLGA_PANE,     val:  68, tipo: 'aliado_partido',  label: 'Consellers PSC · territori + salut' },
+  { a: COLLBONI, b: DALMAU,        val:  72, tipo: 'aliado_partido',  label: 'Alcaldía Barcelona + Generalitat · ejes urbanos' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 32 · MADRID · entorno Ayuso + Vox madrileño
+  // ═══════════════════════════════════════════════════════════════════
+  { a: OSSORIO,  b: GARCIA_MARTIN, val:  72, tipo: 'aliado_partido',  label: 'Núcleo gabinete Ayuso · educación + presidencia' },
+  { a: GARCIA_MARTIN, b: ALMEIDA,  val:  72, tipo: 'aliado_partido',  label: 'Comunidad + Ayuntamiento Madrid · ejes administrativos' },
+  { a: AYUSO,    b: ESPINOSA,      val:  35, tipo: 'aliado_partido',  label: 'Sintonía liberal-económica · ex Vox cerca de Madrid' },
+  { a: AYUSO,    b: ORTEGA_SMITH,  val: -22, tipo: 'critica_publica', label: 'Choque Madrid PP-Vox · concejal vs Ayuntamiento' },
+  { a: ALMEIDA,  b: ORTEGA_SMITH,  val: -45, tipo: 'critica_publica', label: 'Alcalde PP vs concejal Vox en Madrid · choques pleno' },
+  { a: AYUSO,    b: AZNAR,         val:  62, tipo: 'aliado_partido',  label: 'Aliada del aznarismo dentro del PP' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 33 · PNV interno · cúpula vasca
+  // ═══════════════════════════════════════════════════════════════════
+  { a: ORTUZAR,  b: ATUTXA,        val:  85, tipo: 'aliado_partido',  label: 'Cúpula PNV · presidente partido + consejera Hacienda' },
+  { a: ORTUZAR,  b: MJ_SAN_JOSE,   val:  82, tipo: 'aliado_partido',  label: 'Cúpula PNV · presidente partido + consejera Trabajo' },
+  { a: AITOR_ESTEBAN, b: PRADALES, val:  88, tipo: 'aliado_partido',  label: 'PNV · portavoz Congreso + Lehendakari' },
+  { a: AITOR_ESTEBAN, b: ATUTXA,   val:  78, tipo: 'aliado_partido',  label: 'PNV · portavoz Congreso + Hacienda vasca' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 34 · GALICIA · gabinete Rueda + ejes
+  // ═══════════════════════════════════════════════════════════════════
+  { a: RUEDA,    b: DIEGO_CALVO,   val:  85, tipo: 'aliado_partido',  label: 'Consejero Presidencia · gabinete gallego' },
+  { a: RUEDA,    b: CORGOS,        val:  82, tipo: 'aliado_partido',  label: 'Consejero Hacienda · gabinete gallego' },
+  { a: DIEGO_CALVO, b: CORGOS,     val:  72, tipo: 'aliado_partido',  label: 'Núcleo gobierno gallego · presidencia + hacienda' },
+  { a: RAJOY,    b: RUEDA,         val:  68, tipo: 'aliado_partido',  label: 'Línea sucesoria PP gallego · padrinazgo histórico' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 35 · MINISTROS ↔ CCAA · choques sectoriales
+  // ═══════════════════════════════════════════════════════════════════
+  { a: MARLASKA, b: AYUSO,         val: -68, tipo: 'oposicion_frontal', label: 'Choque seguridad Madrid · concesiones a Vox y altercados' },
+  { a: MARLASKA, b: ALMEIDA,       val: -52, tipo: 'oposicion_frontal', label: 'Choque seguridad Ayuntamiento Madrid · pulsos rutinarios' },
+  { a: MONICA_GARCIA, b: AYUSO,    val: -85, tipo: 'oposicion_frontal', label: 'Choque sanitario Madrid · ex líder Más Madrid oposición' },
+  { a: MONICA_GARCIA, b: MATUTE,   val: -68, tipo: 'oposicion_frontal', label: 'Choque Ministra Sanidad ↔ Consejera Madrid · gestión SNS' },
+  { a: CUERPO,   b: AYUSO,         val: -45, tipo: 'critica_publica',  label: 'Tensión fiscal y armonización tributaria Madrid' },
+  { a: CUERPO,   b: MORENO,        val: -32, tipo: 'critica_publica',  label: 'Tensión fiscal con bajadas de impuestos PP' },
+  { a: AAGESEN,  b: C_CRESPO,      val: -38, tipo: 'critica_publica',  label: 'Tensión ecología-agricultura · regadíos Andalucía' },
+  { a: AAGESEN,  b: LOPEZ_MIRAS,   val: -52, tipo: 'oposicion_frontal', label: 'Choque trasvase Tajo-Segura · Murcia vs Transición' },
+  { a: HEREU,    b: ILLA,          val:  78, tipo: 'aliado_partido',   label: 'Ministro Industria ex alcalde Barcelona · aliado PSC' },
+  { a: HEREU,    b: COLLBONI,      val:  82, tipo: 'aliado_partido',   label: 'PSC · ex alcalde + alcalde actual Barcelona' },
+  { a: SAIZ,     b: CLAVIJO,       val:  55, tipo: 'mediador',         label: 'Migración Canarias · coordinación constante' },
+  { a: SAIZ,     b: BUSTINDUY,     val:  68, tipo: 'aliado_partido',   label: 'Eje Inclusión + Derechos Sociales · políticas migración' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 36 · CASOS JUDICIALES · más interconexiones magistrados
+  // ═══════════════════════════════════════════════════════════════════
+  { a: LLARENA,  b: MARCHENA,      val:  78, tipo: 'aliado_partido',   label: 'Cúpula TS Sala Penal · línea conservadora doctrinal' },
+  { a: CASTELLON, b: MARCHENA,     val:  62, tipo: 'aliado_partido',   label: 'Cúpula judicial · audiencias y TS sintonía instrucción' },
+  { a: CASTELLON, b: LLARENA,      val:  68, tipo: 'aliado_partido',   label: 'Cúpula judicial · instructores severos' },
+  { a: CONDE_PUMPIDO, b: LESMES,   val: -52, tipo: 'critica_publica',  label: 'TC vs ex CGPJ · pulso sobre nombramientos' },
+  { a: GARCIA_ORTIZ, b: LLARENA,   val: -42, tipo: 'critica_publica',  label: 'Fiscalía vs TS · tensión en amnistía y rebelión' },
+  { a: GARCIA_ORTIZ, b: PEINADO,   val: -78, tipo: 'conflicto_judicial', label: 'Fiscalía recurre actuaciones de Peinado en caso Begoña Gómez' },
+  { a: PEINADO,  b: MARCHENA,      val:  42, tipo: 'mediador',         label: 'Línea jurídica · TS revisará apelaciones del caso Begoña' },
+  { a: BEGONA,   b: GARCIA_ORTIZ,  val:  35, tipo: 'aliado_partido',   label: 'Fiscalía defiende posiciones procesales contra imputación' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 37 · ALCALDES territoriales · más alianzas y choques
+  // ═══════════════════════════════════════════════════════════════════
+  { a: CATALA,   b: MAZON,         val:  78, tipo: 'aliado_partido',   label: 'Alcaldía Valencia + Generalitat · eje PP valenciano' },
+  { a: CATALA,   b: MORANT,        val: -68, tipo: 'oposicion_frontal', label: 'Alcaldesa PP Valencia vs líder PSPV en oposición' },
+  { a: ALBIOL,   b: ILLA,          val: -55, tipo: 'oposicion_frontal', label: 'Badalona PP vs Generalitat · choques migración' },
+  { a: CARBAYO,  b: MANUECO,       val:  82, tipo: 'aliado_partido',   label: 'Salamanca + Junta CyL · alianza orgánica PP' },
+  { a: DARIAS,   b: CLAVIJO,       val: -42, tipo: 'critica_publica',  label: 'Alcaldesa Las Palmas PSOE vs presidente CC Canarias' },
+  { a: DARIAS,   b: SANCHEZ,       val:  78, tipo: 'aliado_partido',   label: 'Ex ministra Sanidad · aliada Moncloa · ahora alcaldesa' },
+  { a: DARIAS,   b: TORRES,        val:  72, tipo: 'aliado_partido',   label: 'PSOE Canarias · ex pte. canario + alcaldesa Las Palmas' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 38 · PERIODISTAS · interconexiones entre figuras
+  // ═══════════════════════════════════════════════════════════════════
+  { a: PEPA_BUENO, b: GABILONDO,   val:  68, tipo: 'aliado_partido',   label: 'PRISA · generaciones del periodismo progresista' },
+  { a: PEPA_BUENO, b: ANA_PASTOR,  val:  62, tipo: 'aliado_partido',   label: 'Generación PRISA · línea editorial común' },
+  { a: ANA_PASTOR, b: EVOLE,       val:  62, tipo: 'aliado_partido',   label: 'Newtral · documentales y entrevistas largas' },
+  { a: FERRERAS,   b: PEDROJOTA,   val: -62, tipo: 'oposicion_frontal', label: 'La Sexta vs El Español · rivalidad histórica TV-prensa' },
+  { a: FERRERAS,   b: ANA_ROSA,    val: -35, tipo: 'critica_publica',  label: 'Líneas matinales rivales · La Sexta vs Telecinco' },
+  { a: FERRERAS,   b: EVOLE,       val:  82, tipo: 'aliado_partido',   label: 'La Sexta · colaboración Atresmedia editorial común' },
+  { a: FERRERAS,   b: INAKI_LOPEZ, val:  82, tipo: 'aliado_partido',   label: 'La Sexta · Al Rojo Vivo + Más Vale Tarde' },
+  { a: FERRERAS,   b: CRISTINA_PARDO, val: 78, tipo: 'aliado_partido', label: 'La Sexta · Al Rojo Vivo + Más Vale Tarde' },
+  { a: VALLES,     b: SONSOLES,    val:  72, tipo: 'aliado_partido',   label: 'Antena 3 · Noticias 2 + tarde Sonsoles' },
+  { a: MARHUENDA,  b: INDA,        val:  68, tipo: 'aliado_partido',   label: 'Eje mediático derechoso · La Razón + OKdiario' },
+  { a: MARHUENDA,  b: LOSANTOS,    val:  55, tipo: 'aliado_partido',   label: 'Eje conservador prensa-radio · agenda compartida' },
+  { a: HERRERA,    b: LOSANTOS,    val: -32, tipo: 'critica_publica',  label: 'Rivalidad COPE vs esRadio · audiencia mañana' },
+  { a: HERRERA,    b: ALSINA,      val: -42, tipo: 'critica_publica',  label: 'Rivalidad COPE vs Onda Cero · misma franja' },
+  { a: ALSINA,     b: JULIA_OTERO, val:  62, tipo: 'aliado_partido',   label: 'Onda Cero · estrellas del mismo grupo' },
+  { a: GABILONDO,  b: ESCOLAR,     val:  68, tipo: 'aliado_partido',   label: 'Periodismo progresista · referentes generacionales' },
+  { a: ESCOLAR,    b: PEPA_BUENO,  val:  58, tipo: 'aliado_partido',   label: 'Eje progresista · eldiario.es + El País' },
+  { a: A_CANO,     b: PEPA_BUENO,  val:  42, tipo: 'aliado_partido',   label: 'Relevo en dirección El País · transición ordenada' },
+  { a: ANGELS,     b: PEPA_BUENO,  val:  62, tipo: 'aliado_partido',   label: 'Cadena SER + El País · grupo PRISA' },
+  { a: ANGELS,     b: VELASCO,     val:  72, tipo: 'aliado_partido',   label: 'Cadena SER · Hoy por Hoy + análisis político' },
+  { a: PEPE_RUBIO, b: ANGELS,      val:  72, tipo: 'aliado_partido',   label: 'Cadena SER · veteranos del grupo' },
+  { a: PEPE_RUBIO, b: VELASCO,     val:  68, tipo: 'aliado_partido',   label: 'Cadena SER · La Ventana + análisis político' },
+  { a: PEPE_ONETO, b: ESCOLAR,     val:  55, tipo: 'aliado_partido',   label: 'Eje progresista · veterano El Plural + eldiario.es' },
+  { a: PEDROJOTA,  b: AYUSO,       val:  68, tipo: 'aliado_mediatico', label: 'El Español · cobertura amigable a Ayuso · agenda Madrid' },
+  { a: INDA,       b: PEDROJOTA,   val:  62, tipo: 'aliado_partido',   label: 'Generación medios digitales conservadores' },
+  { a: M_ROBLES_P, b: AYUSO,       val:  35, tipo: 'aliado_mediatico', label: 'ABC · cobertura amigable a Ayuso · agenda Madrid' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 39 · CASA REAL · audiencias y ejes institucionales
+  // ═══════════════════════════════════════════════════════════════════
+  { a: FELIPE_VI, b: AITOR_ESTEBAN, val: 38, tipo: 'mediador',         label: 'Ronda consultas tras elecciones · interlocutor PNV' },
+  { a: FELIPE_VI, b: ORTUZAR,       val: 35, tipo: 'mediador',         label: 'Audiencias formales · presidente PNV' },
+  { a: FELIPE_VI, b: RUFIAN,        val: 22, tipo: 'mediador',         label: 'Ronda consultas tras elecciones · ERC' },
+  { a: FELIPE_VI, b: JUNQUERAS,     val: -32, tipo: 'critica_publica', label: 'Frialdad institucional · independentismo' },
+  { a: FELIPE_VI, b: PUIGDEMONT,    val: -95, tipo: 'oposicion_frontal', label: 'Independentismo · rechazo público a la Corona' },
+  { a: FELIPE_VI, b: OTEGI,         val: -42, tipo: 'critica_publica', label: 'Distancia institucional · pasado abertzale' },
+  { a: FELIPE_VI, b: PRADALES,      val:  55, tipo: 'mediador',        label: 'Audiencias institucionales · lehendakari' },
+  { a: LETIZIA,   b: SANCHEZ,      val:  35, tipo: 'mediador',         label: 'Actos institucionales · agenda de la Reina' },
+  { a: LETIZIA,   b: FEIJOO,       val:  32, tipo: 'mediador',         label: 'Actos institucionales · Casa Real' },
+  { a: JUAN_CARLOS, b: AZNAR,      val:  75, tipo: 'aliado_partido',   label: 'Eje histórico monárquico-conservador' },
+  { a: JUAN_CARLOS, b: FELIPE_GONZ, val: 68, tipo: 'aliado_partido',   label: 'Transición y consolidación · sintonía histórica' },
+  { a: JUAN_CARLOS, b: FEIJOO,     val:  35, tipo: 'aliado_partido',   label: 'Distancia formal con la oposición desde el exilio' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 40 · UE · más ejes europeos
+  // ═══════════════════════════════════════════════════════════════════
+  { a: COSTA,    b: MACRON,        val:  72, tipo: 'aliado_internacional', label: 'Consejo Europeo · alianza pragmática' },
+  { a: COSTA,    b: SCHOLZ,        val:  78, tipo: 'aliado_internacional', label: 'Eje socialdemócrata UE · cohesión' },
+  { a: LEPEN,    b: MELONI,        val:  42, tipo: 'aliado_internacional', label: 'Patriots vs ECR · derecha europea fragmentada' },
+  { a: LEPEN,    b: ORBAN,         val:  78, tipo: 'aliado_internacional', label: 'Patriots por Europa · alianza ultraderecha UE' },
+  { a: MACRON,   b: LEPEN,         val: -88, tipo: 'oposicion_frontal',    label: 'Oposición frontal francesa · presidenciales repetidas' },
+  { a: TRUMP,    b: MILEI,         val:  88, tipo: 'aliado_internacional', label: 'Eje populista de derecha transatlántica' },
+  { a: TRUMP,    b: LEPEN,         val:  72, tipo: 'aliado_internacional', label: 'Apoyo MAGA a Le Pen y Rassemblement' },
+  { a: TRUMP,    b: ORBAN,         val:  85, tipo: 'aliado_internacional', label: 'Sintonía MAGA-iliberal · visitas mutuas' },
+  { a: VONDERLEYEN, b: METSOLA,    val:  78, tipo: 'aliado_partido',       label: 'PPE · presidenta Comisión + Parlamento' },
+  { a: VONDERLEYEN, b: WEBER,      val:  82, tipo: 'aliado_partido',       label: 'PPE · líder grupo + presidenta Comisión' },
+  { a: WEBER,    b: TUSK,          val:  78, tipo: 'aliado_internacional', label: 'PPE · líderes europeos del PP transversal' },
+  { a: BORRELL,  b: SCHOLZ,        val:  62, tipo: 'aliado_internacional', label: 'Ex Alto Representante UE · sintonía socialdemócrata' },
+  { a: BORRELL,  b: MACRON,        val:  58, tipo: 'aliado_internacional', label: 'Sintonía exterior UE · estrategia común' },
+  { a: BORRELL,  b: COSTA,         val:  72, tipo: 'aliado_internacional', label: 'Generación socialista ibérica' },
+  { a: CALVINO,  b: VONDERLEYEN,   val:  68, tipo: 'aliado_internacional', label: 'BEI + Comisión UE · ejes inversión verde' },
+  { a: RIBERA,   b: VONDERLEYEN,   val:  82, tipo: 'aliado_partido',       label: 'Vicepresidenta Comisión · línea Competencia + verde' },
+  { a: RIBERA,   b: AAGESEN,       val:  88, tipo: 'aliado_partido',       label: 'Predecesora-sucesora · Transición Ecológica España' },
+  { a: RIBERA,   b: CUERPO,        val:  72, tipo: 'aliado_partido',       label: 'Eje verde-económico · agenda UE de transición' },
+  { a: METSOLA,  b: FEIJOO,        val:  68, tipo: 'aliado_partido',       label: 'PPE · presidenta PE + líder PP España' },
+  { a: WEBER,    b: GONZALEZ_PONS, val:  72, tipo: 'aliado_partido',       label: 'PPE · líder grupo + vicepresidente PPE español' },
+  { a: GONZALEZ_PONS, b: FEIJOO,   val:  78, tipo: 'aliado_partido',       label: 'PP · eurodiputado + presidente nacional' },
+  { a: IRATXE,   b: SANCHEZ,       val:  72, tipo: 'aliado_partido',       label: 'PSOE · presidenta S&D PE + presidente Gobierno' },
+  { a: IRATXE,   b: BORRELL,       val:  68, tipo: 'aliado_partido',       label: 'PSOE · S&D PE + ex Alto Representante UE' },
+  { a: MANU_PINEDA, b: YOLANDA,    val:  62, tipo: 'aliado_partido',       label: 'Sumar/IU · eurodiputado + vicepresidenta' },
+  { a: MANU_PINEDA, b: SIRA_REGO,  val:  78, tipo: 'aliado_partido',       label: 'IU · cúpula europea + ministerio Juventud' },
+  { a: DIANA_RIBA, b: JUNQUERAS,   val:  82, tipo: 'aliado_partido',       label: 'ERC · eurodiputada Verdes + presidente partido' },
+  { a: BARRENA,    b: OTEGI,       val:  82, tipo: 'aliado_partido',       label: 'EH Bildu · eurodiputado + líder histórico' },
+  { a: MELONI,     b: VONDERLEYEN, val:  45, tipo: 'aliado_internacional', label: 'ECR vs PPE · cooperación pragmática Comisión' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 41 · SINDICATOS · cuadros intermedios
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SORDO,    b: MC_VICENTE,    val:  92, tipo: 'aliado_partido',   label: 'CCOO · secretario general + secretaria Acción Sindical' },
+  { a: ALVAREZ,  b: MC_BARRERA,    val:  92, tipo: 'aliado_partido',   label: 'UGT · secretario general + secretaria Política Sindical' },
+  { a: MC_VICENTE, b: MC_BARRERA,  val:  72, tipo: 'aliado_sindical',  label: 'CCOO + UGT · coordinación negociación colectiva' },
+  { a: GARAMENDI, b: LORENZO_AMOR, val:  85, tipo: 'aliado_partido',   label: 'Cúpula CEOE · presidente + vicepresidente ATA' },
+  { a: SORDO,    b: LORENZO_AMOR,  val: -38, tipo: 'critica_publica',  label: 'Choque sindicatos vs autónomos · cuotas RETA' },
+  { a: ALVAREZ,  b: LORENZO_AMOR,  val: -35, tipo: 'critica_publica',  label: 'Choque UGT vs ATA · jornada laboral autónomos' },
+  { a: SORDO,    b: GERARDO_CUERVA, val: -32, tipo: 'critica_publica', label: 'Choque sindicatos vs CEPYME · convenios PYME' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 42 · PARLAMENTO · ejes de votación
+  // ═══════════════════════════════════════════════════════════════════
+  { a: BOLANOS,  b: AITOR_ESTEBAN, val:  72, tipo: 'pacto_investidura', label: 'Negociador Moncloa con portavoz PNV en Congreso' },
+  { a: BOLANOS,  b: RUFIAN,        val:  58, tipo: 'pacto_investidura', label: 'Negociador Moncloa con portavoz ERC' },
+  { a: BOLANOS,  b: AIZPURUA,      val:  48, tipo: 'pacto_investidura', label: 'Negociador Moncloa con portavoz Bildu' },
+  { a: BOLANOS,  b: PONTON,        val:  52, tipo: 'pacto_investidura', label: 'Negociador Moncloa con líder BNG' },
+  { a: YOLANDA,  b: AITOR_ESTEBAN, val:  52, tipo: 'pacto_investidura', label: 'Sumar coordina apoyos con PNV en reformas laborales' },
+  { a: YOLANDA,  b: AIZPURUA,      val:  62, tipo: 'pacto_investidura', label: 'Sumar coordina apoyos con Bildu · agenda social' },
+  { a: SEMPER,   b: GAMARRA,       val:  82, tipo: 'aliado_partido',    label: 'Cúpula PP Congreso · portavoz + sec.general' },
+  { a: TELLADO,  b: GAMARRA,       val:  78, tipo: 'aliado_partido',    label: 'Cúpula PP · sec.general + organización' },
+  { a: TELLADO,  b: SEMPER,        val:  72, tipo: 'aliado_partido',    label: 'Cúpula PP Congreso + organización campaña' },
+  { a: CAYETANA, b: SANCHEZ,       val: -78, tipo: 'oposicion_frontal', label: 'Choques verbales recurrentes en sesión de control' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 43 · EX PRESIDENTES con autonómicos del partido
+  // ═══════════════════════════════════════════════════════════════════
+  { a: FELIPE_GONZ, b: SUSANA_DIAZ, val: 68, tipo: 'aliado_partido',   label: 'Generaciones PSOE · sintonía sevillana' },
+  { a: ZAPATERO,    b: POMBO_BARBON, val: 62, tipo: 'aliado_partido',  label: 'PSOE asturiano · sintonía generacional' },
+  { a: ZAPATERO,    b: PAGE,        val:  45, tipo: 'mediador',        label: 'PSOE histórico · diálogo con barón crítico' },
+  { a: AZNAR,       b: ALMEIDA,     val:  62, tipo: 'aliado_partido',  label: 'Eje aznarista madrileño · agenda dura' },
+  { a: AZNAR,       b: BENDODO,     val:  35, tipo: 'aliado_partido',  label: 'Aznarismo + andalucismo PP · sintonía táctica' },
+  { a: RAJOY,       b: MORENO,      val:  72, tipo: 'aliado_partido',  label: 'PP gallego + andaluz · línea moderada' },
+  { a: RAJOY,       b: MANUECO,     val:  62, tipo: 'aliado_partido',  label: 'PP veteranos · línea moderada CyL' },
+  { a: CASADO,      b: SEMPER,      val:  42, tipo: 'aliado_partido',  label: 'Generación PP · proximidad ideológica' },
+  { a: CASADO,      b: ALMEIDA,     val:  55, tipo: 'aliado_partido',  label: 'Generación PP madrileña · alianza personal' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 44 · PODEMOS · más cruces con SUMAR y resto
+  // ═══════════════════════════════════════════════════════════════════
+  { a: BELARRA,  b: BUSTINDUY,     val: -55, tipo: 'rivalidad_interna', label: 'Belarra acusa a Bustinduy de traición a Podemos' },
+  { a: BELARRA,  b: SIRA_REGO,     val: -38, tipo: 'rivalidad_interna', label: 'IU dentro de Sumar · Podemos crítica' },
+  { a: BELARRA,  b: URTASUN,       val: -42, tipo: 'rivalidad_interna', label: 'Verdes Equo dentro de Sumar · Podemos crítica' },
+  { a: IGLESIAS, b: BUSTINDUY,     val: -52, tipo: 'rivalidad_interna', label: 'Iglesias acusa a antiguos compañeros de claudicar con Sumar' },
+  { a: IRENE_MONTERO, b: MONICA_GARCIA, val: -45, tipo: 'rivalidad_interna', label: 'Tensión Podemos vs Más Madrid heredada en Sumar' },
+  { a: ECHENIQUE, b: URTASUN,      val: -42, tipo: 'rivalidad_interna', label: 'Choque Podemos vs Verdes/Sumar' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 45 · CASOS ESPECÍFICOS · gabinete autonómico + ministros
+  // ═══════════════════════════════════════════════════════════════════
+  { a: MAZON,    b: MARCIANO_GOM,  val:  72, tipo: 'aliado_partido',   label: 'Pte. Generalitat valenciano + Conseller Sanidad · gestión DANA' },
+  { a: MORANT,   b: MAZON,         val: -78, tipo: 'oposicion_frontal', label: 'DANA Valencia · ministra y líder oposición vs president' },
+  { a: MORANT,   b: CATALA,        val: -55, tipo: 'oposicion_frontal', label: 'Tensión PSPV vs PP Valencia · gestión DANA' },
+  { a: BERNABE,  b: MAZON,         val: -88, tipo: 'oposicion_frontal', label: 'DANA Valencia · choques institucionales públicos sostenidos' },
+  { a: SAIZ,     b: DARIAS,        val:  72, tipo: 'aliado_partido',    label: 'Inclusión + alcaldesa Las Palmas · acuerdos migración' },
+  { a: BUSTINDUY, b: MONICA_GARCIA, val: 82, tipo: 'aliado_partido',    label: 'Sumar · derechos sociales + sanidad · agenda común' },
+  { a: PUENTE,    b: CABALLERO,    val:  62, tipo: 'aliado_partido',    label: 'Eje Transportes + alcalde Vigo · obras públicas' },
+  { a: PUENTE,    b: COLLBONI,     val:  68, tipo: 'aliado_partido',    label: 'Eje Transportes + alcalde Barcelona · Rodalies' },
+  { a: HEREU,     b: SANZ,         val:  35, tipo: 'mediador',          label: 'Industria + alcalde Sevilla · inversión sectorial' },
+  { a: ALEGRIA,   b: COLLBONI,     val:  68, tipo: 'aliado_partido',    label: 'PSC + portavoz Gobierno · agenda comunicativa' },
+  { a: PLANAS,    b: C_CRESPO,     val: -32, tipo: 'critica_publica',   label: 'Agricultura · choques nación-CCAA por PAC' },
 ]
 
 /**

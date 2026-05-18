@@ -93,8 +93,8 @@ function buildLinks(visible: Actor[]): InferredLink[] {
   // Ordena inferidas por intensidad descendente
   inferidas.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
 
-  // 3. Combina · explícitas siempre + hasta completar 280 con inferidas
-  return [...explicitas, ...inferidas].slice(0, 280)
+  // 3. Combina · explícitas siempre + hasta completar 450 con inferidas
+  return [...explicitas, ...inferidas].slice(0, 450)
 }
 function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   const pa = a.partido || 'Independiente'
