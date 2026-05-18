@@ -32,6 +32,7 @@ interface FactCheck {
   alcanceEstimado: 'bajo' | 'medio' | 'alto' | 'viral'
 }
 
+interface ActorAfectadoExt { actor: string; n: number; veredictosNegativos: number; temas: string[]; alcanceMedio: string; tendencia: 'creciente' | 'estable' | 'decreciente' }
 interface DesinformacionReport {
   items: FactCheck[]
   agregado: {
@@ -39,9 +40,11 @@ interface DesinformacionReport {
     porFuente: Record<string, number>
     porVeredicto: Record<string, number>
     porTema: Array<{ tema: string; n: number }>
-    actoresAfectados: Array<{ actor: string; n: number; veredictosNegativos: number }>
+    actoresAfectados: ActorAfectadoExt[]
     alcanceViral: number
   }
+  tendenciasTemporales: Array<{ fecha: string; total: number; bulos: number; engañosos: number }>
+  porTemaTemporal: Record<string, Array<{ fecha: string; n: number }>>
   ts: string
 }
 
@@ -209,29 +212,95 @@ export default function DesinformacionPage() {
                 </ul>
               </Panel>
 
-              {/* Actores afectados */}
-              <Panel title="Quién es negativamente afectado" subtitle="Actores / colectivos mencionados en bulos y desinformación (ranking)">
-                <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  {data.agregado.actoresAfectados.slice(0, 12).map(a => {
+              {/* Actores afectados — ENRIQUECIDO */}
+              <Panel title="Quién es negativamente afectado" subtitle="Actores/colectivos · ranking + temas + alcance + tendencia">
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {data.agregado.actoresAfectados.slice(0, 14).map(a => {
                     const pctNeg = a.n > 0 ? (a.veredictosNegativos / a.n) * 100 : 0
+                    const colorR = pctNeg > 70 ? '#7F1D1D' : pctNeg > 50 ? '#DC2626' : pctNeg > 30 ? '#F97316' : '#9CA3AF'
+                    const colorAlc = a.alcanceMedio === 'viral' ? '#DC2626' : a.alcanceMedio === 'alto' ? '#F97316' : a.alcanceMedio === 'medio' ? '#F59E0B' : '#9CA3AF'
+                    const colorTend = a.tendencia === 'creciente' ? '#DC2626' : a.tendencia === 'decreciente' ? '#16A34A' : '#9CA3AF'
                     return (
-                      <li key={a.actor} style={{ padding: '6px 9px', background: '#FAFAFA', borderRadius: 6, borderLeft: `3px solid ${pctNeg > 70 ? '#7F1D1D' : pctNeg > 50 ? '#DC2626' : pctNeg > 30 ? '#F97316' : '#9CA3AF'}` }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                          <span style={{ fontSize: 11.5, fontWeight: 600, color: '#1d1d1f' }}>{a.actor}</span>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: '#7F1D1D' }}>{a.veredictosNegativos}/{a.n}</span>
+                      <li key={a.actor} style={{ padding: '7px 10px', background: '#FAFAFA', borderRadius: 6, borderLeft: `3px solid ${colorR}` }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 6 }}>
+                          <span style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>{a.actor}</span>
+                          <div style={{ display: 'flex', gap: 4 }}>
+                            <span style={{ fontSize: 9, padding: '1px 5px', borderRadius: 4, background: `${colorAlc}25`, color: colorAlc, fontWeight: 700, textTransform: 'uppercase' }}>{a.alcanceMedio}</span>
+                            <span style={{ fontSize: 9, padding: '1px 5px', borderRadius: 4, background: `${colorTend}25`, color: colorTend, fontWeight: 700 }}>{a.tendencia === 'creciente' ? '↑' : a.tendencia === 'decreciente' ? '↓' : '→'} {a.tendencia}</span>
+                            <span style={{ fontSize: 10, fontWeight: 700, color: colorR }}>{a.veredictosNegativos}/{a.n}</span>
+                          </div>
                         </div>
                         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#6e6e73' }}>
-                          {pctNeg.toFixed(0)}% bulos/engañosos · {a.n} menciones totales
+                          {pctNeg.toFixed(0)}% veredictos negativos · {a.n} menciones
                         </p>
+                        {a.temas.length > 0 && (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 4 }}>
+                            {a.temas.slice(0, 4).map(t => (
+                              <span key={t} style={{ fontSize: 9, padding: '1px 5px', borderRadius: 3, background: '#fff', border: '1px solid #ECECEF', color: '#3a3a3d' }}>{t}</span>
+                            ))}
+                          </div>
+                        )}
                       </li>
                     )
                   })}
                 </ul>
               </Panel>
+
+              {/* TENDENCIAS TEMPORALES */}
+              {data.tendenciasTemporales.length > 1 && (
+                <Panel title="Tendencia temporal · últimos días" subtitle="Bulos + engañosos detectados por día · línea total">
+                  <TendenciasChart data={data.tendenciasTemporales}/>
+                </Panel>
+              )}
             </div>
           </div>
         )}
       </main>
+    </div>
+  )
+}
+
+function TendenciasChart({ data }: { data: Array<{ fecha: string; total: number; bulos: number; engañosos: number }> }) {
+  if (data.length === 0) return null
+  const W = 320, H = 140, P = 28
+  const maxV = Math.max(...data.map(d => d.total), 1)
+  const xScale = (i: number) => P + (i / Math.max(1, data.length - 1)) * (W - 2 * P)
+  const yScale = (v: number) => P + (1 - v / maxV) * (H - 2 * P)
+  const pathTotal = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${xScale(i).toFixed(1)},${yScale(d.total).toFixed(1)}`).join(' ')
+  return (
+    <div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H + 20}`} style={{ display: 'block', background: '#FAFAFB', borderRadius: 8 }}>
+        {/* Grid */}
+        {[0, 0.5, 1].map(g => (
+          <line key={g} x1={P} x2={W - P} y1={yScale(maxV * (1 - g))} y2={yScale(maxV * (1 - g))} stroke="#ECECEF" strokeWidth={0.6}/>
+        ))}
+        <text x={4} y={yScale(maxV) + 3} style={{ fontSize: 8, fill: '#9CA3AF' }}>{maxV}</text>
+        <text x={4} y={yScale(0) + 3} style={{ fontSize: 8, fill: '#9CA3AF' }}>0</text>
+        {/* Bulos stacked */}
+        {data.map((d, i) => {
+          const x = xScale(i)
+          const w = ((W - 2 * P) / Math.max(1, data.length)) - 2
+          return (
+            <g key={i}>
+              <rect x={x - w / 2} y={yScale(d.bulos)} width={w} height={H - P - yScale(d.bulos)} fill="#7F1D1D"/>
+              <rect x={x - w / 2} y={yScale(d.bulos + d.engañosos)} width={w} height={yScale(d.bulos) - yScale(d.bulos + d.engañosos)} fill="#F97316"/>
+              <title>{d.fecha}: {d.bulos} bulos · {d.engañosos} engañosos · {d.total} total</title>
+            </g>
+          )
+        })}
+        {/* Línea total */}
+        <path d={pathTotal} fill="none" stroke="#1d1d1f" strokeWidth={2}/>
+        {/* Etiquetas X */}
+        {data.filter((_, i) => i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 5) === 0).map((d, i) => {
+          const realI = data.indexOf(d)
+          return <text key={i} x={xScale(realI)} y={H - P + 12} textAnchor="middle" style={{ fontSize: 8.5, fill: '#86868b' }}>{d.fecha.slice(5)}</text>
+        })}
+      </svg>
+      <div style={{ display: 'flex', gap: 14, marginTop: 6, fontSize: 10.5 }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, background: '#7F1D1D', borderRadius: 2 }}/> Bulos</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, background: '#F97316', borderRadius: 2 }}/> Engañosos</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 14, height: 2, background: '#1d1d1f' }}/> Total línea</span>
+      </div>
     </div>
   )
 }

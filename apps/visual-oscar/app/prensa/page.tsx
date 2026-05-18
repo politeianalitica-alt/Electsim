@@ -25,6 +25,7 @@ import SentimentMapInteractive from './_components/SentimentMapInteractive'
 import NarrativesDeepView from './_components/NarrativesDeepView'
 import SentimentDualView from './_components/SentimentDualView'
 import StoryClustersView from './_components/StoryClustersView'
+import NarrativesV3View from './_components/NarrativesV3View'
 import type { TieredFeed, NarrativeAnatomy, TopicPartyCell, FigureSentimentDeep, StoryCluster, CoverageGap, CompanySentiment, SectorSentiment } from '@/lib/news-intel'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 
@@ -53,8 +54,7 @@ const TABS: Array<{ id: Tab; label: string; glyph: string; description: string }
 
 // Links directos a sub-páginas mejoradas
 const SUBPAGES: Array<{ href: string; label: string; descripcion: string; color: string }> = [
-  { href: '/prensa/narrativas-v2',  label: 'Narrativas v2',     descripcion: 'Framework multidimensional (6 ejes: tema + actores + frame + emoción + evidencia + persistencia)', color: '#7C3AED' },
-  { href: '/prensa/desinformacion', label: 'Desinformación',    descripcion: 'Observatorio fact-checkers en vivo (EFE Verifica + Newtral + Maldita) + actores afectados',         color: '#DC2626' },
+  { href: '/prensa/desinformacion', label: 'Observatorio de desinformación', descripcion: 'Fact-checkers en vivo (EFE Verifica + Newtral + Maldita) · tendencias + actores negativamente afectados', color: '#DC2626' },
 ]
 
 export default function PrensaPage() {
@@ -144,7 +144,7 @@ export default function PrensaPage() {
         </div>
 
         {/* ── Sub-páginas mejoradas ────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10, marginBottom: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 10, marginBottom: 14 }}>
           {SUBPAGES.map(s => (
             <a key={s.href} href={s.href} style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ padding: 14, background: `linear-gradient(135deg, ${s.color}10, ${s.color}03)`, borderRadius: 12, borderLeft: `4px solid ${s.color}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
@@ -197,7 +197,19 @@ export default function PrensaPage() {
           <>
             {tab === 'feed'        && <FeedTiered feed={data?.feed} />}
             {tab === 'mapa'        && <SentimentMapInteractive ccaaData={data?.ccaa} />}
-            {tab === 'narrativas'  && <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />}
+            {tab === 'narrativas'  && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                <NarrativesV3View/>
+                {(data?.narratives ?? []).length > 0 && (
+                  <div>
+                    <p style={{ margin: '0 0 8px', fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                      VISTA CLÁSICA · ANATOMÍA NARRATIVA (audiencia, canales, registro emocional)
+                    </p>
+                    <NarrativesDeepView narratives={data?.narratives ?? []} gaps={data?.gaps ?? []} />
+                  </div>
+                )}
+              </div>
+            )}
             {tab === 'sentimiento' && <SentimentDualView
                                         cells={data?.topicparty ?? []}
                                         figures={data?.figures ?? []}

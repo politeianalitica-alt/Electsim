@@ -245,9 +245,11 @@ export interface DesinformacionReport {
     porFuente: Record<string, number>
     porVeredicto: Record<string, number>
     porTema: Array<{ tema: string; n: number }>
-    actoresAfectados: Array<{ actor: string; n: number; veredictosNegativos: number }>
+    actoresAfectados: Array<{ actor: string; n: number; veredictosNegativos: number; temas: string[]; alcanceMedio: string; tendencia: 'creciente' | 'estable' | 'decreciente' }>
     alcanceViral: number
   }
+  tendenciasTemporales: Array<{ fecha: string; total: number; bulos: number; engañosos: number }>
+  porTemaTemporal: Record<string, Array<{ fecha: string; n: number }>>
   ts: string
 }
 
@@ -276,30 +278,78 @@ export async function getDesinformacionFeed(maxItems = 60): Promise<Desinformaci
   all.sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''))
   const items = all.slice(0, maxItems)
 
-  // Agregados
+  // Agregados básicos
   const porFuente: Record<string, number> = {}
   const porVeredicto: Record<string, number> = {}
   const temaMap = new Map<string, number>()
-  const actorMap = new Map<string, { n: number; neg: number }>()
+  const actorMap = new Map<string, { n: number; neg: number; temas: Set<string>; alcances: string[]; fechas: string[] }>()
   let viralCount = 0
   for (const it of items) {
     porFuente[it.fuente] = (porFuente[it.fuente] || 0) + 1
     porVeredicto[it.veredicto] = (porVeredicto[it.veredicto] || 0) + 1
     for (const t of it.temas) temaMap.set(t, (temaMap.get(t) || 0) + 1)
     for (const a of it.actoresAfectados) {
-      const existing = actorMap.get(a) || { n: 0, neg: 0 }
+      if (!actorMap.has(a)) actorMap.set(a, { n: 0, neg: 0, temas: new Set(), alcances: [], fechas: [] })
+      const existing = actorMap.get(a)!
       existing.n++
       if (it.veredicto === 'bulo' || it.veredicto === 'engañoso') existing.neg++
-      actorMap.set(a, existing)
+      for (const t of it.temas) existing.temas.add(t)
+      existing.alcances.push(it.alcanceEstimado)
+      if (it.fecha) existing.fechas.push(it.fecha.slice(0, 10))
     }
     if (it.alcanceEstimado === 'viral') viralCount++
   }
   const porTema = Array.from(temaMap.entries()).map(([t, n]) => ({ tema: t, n })).sort((a, b) => b.n - a.n)
-  const actoresAfectados = Array.from(actorMap.entries()).map(([a, v]) => ({ actor: a, n: v.n, veredictosNegativos: v.neg })).sort((a, b) => b.n - a.n)
+
+  const actoresAfectados = Array.from(actorMap.entries()).map(([a, v]) => {
+    // Alcance medio
+    const alcanceScore = v.alcances.reduce((s, x) => s + (x === 'viral' ? 3 : x === 'alto' ? 2 : x === 'medio' ? 1 : 0), 0) / Math.max(1, v.alcances.length)
+    const alcanceMedio = alcanceScore >= 2.3 ? 'viral' : alcanceScore >= 1.5 ? 'alto' : alcanceScore >= 0.8 ? 'medio' : 'bajo'
+    // Tendencia: comparar primera mitad con segunda mitad
+    const fechas = v.fechas.sort()
+    const half = Math.floor(fechas.length / 2)
+    const primera = fechas.slice(0, half).length
+    const segunda = fechas.slice(half).length
+    const tendencia: 'creciente' | 'estable' | 'decreciente' = segunda > primera * 1.3 ? 'creciente' : segunda < primera * 0.7 ? 'decreciente' : 'estable'
+    return {
+      actor: a, n: v.n, veredictosNegativos: v.neg,
+      temas: Array.from(v.temas).slice(0, 5),
+      alcanceMedio, tendencia,
+    }
+  }).sort((a, b) => b.n - a.n)
+
+  // Tendencias temporales (últimos 14 días)
+  const tendenciasMap = new Map<string, { total: number; bulos: number; engañosos: number }>()
+  const temaTemporalMap = new Map<string, Map<string, number>>()
+  for (const it of items) {
+    if (!it.fecha) continue
+    const fechaDia = it.fecha.slice(0, 10)
+    if (!tendenciasMap.has(fechaDia)) tendenciasMap.set(fechaDia, { total: 0, bulos: 0, engañosos: 0 })
+    const t = tendenciasMap.get(fechaDia)!
+    t.total++
+    if (it.veredicto === 'bulo') t.bulos++
+    if (it.veredicto === 'engañoso') t.engañosos++
+    for (const tm of it.temas) {
+      if (!temaTemporalMap.has(tm)) temaTemporalMap.set(tm, new Map())
+      const tt = temaTemporalMap.get(tm)!
+      tt.set(fechaDia, (tt.get(fechaDia) || 0) + 1)
+    }
+  }
+  const tendenciasTemporales = Array.from(tendenciasMap.entries())
+    .map(([fecha, v]) => ({ fecha, ...v }))
+    .sort((a, b) => a.fecha.localeCompare(b.fecha))
+
+  const porTemaTemporal: Record<string, Array<{ fecha: string; n: number }>> = {}
+  for (const [tema, fechas] of temaTemporalMap) {
+    porTemaTemporal[tema] = Array.from(fechas.entries())
+      .map(([fecha, n]) => ({ fecha, n }))
+      .sort((a, b) => a.fecha.localeCompare(b.fecha))
+  }
 
   const report: DesinformacionReport = {
     items,
     agregado: { totalItems: items.length, porFuente, porVeredicto, porTema, actoresAfectados, alcanceViral: viralCount },
+    tendenciasTemporales, porTemaTemporal,
     ts: new Date().toISOString(),
   }
   cache.set(cacheKey, { ts: Date.now(), data: report })
