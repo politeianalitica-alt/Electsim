@@ -173,7 +173,8 @@ class TestTerritoriosEnricher:
             ],
             "confidence": 0.7,
         })
-        e = TerritoriosEnricher(brain=brain)
+        e = TerritoriosEnricher(brain=brain, wiki=None)  # wiki=None evita fetch real en tests
+        # Marcamos usar_wikipedia=False para que no salga a internet
         out = e.enrich_municipio(
             nombre="Albacete",
             ccaa="Castilla-La Mancha", provincia="Albacete",
@@ -181,10 +182,13 @@ class TestTerritoriosEnricher:
             historico_electoral=[],
             alcalde_actual="Manuel Serrano",
             wikipedia_excerpt="Capital de Castilla-La Mancha. ...",
+            usar_wikipedia=False,
         )
         assert out.ok
-        assert "vivienda" in out.issues_locales_principales or len(out.issues_locales_principales) >= 1
-        assert out.alcalde_actual == "Manuel Serrano"
+        # La nueva estructura usa issues_principales (lista de dicts con campo "tema")
+        temas = [str(i.get("tema", "")).lower() for i in out.issues_principales]
+        assert any("vivienda" in t or "empleo" in t or t for t in temas) or len(out.issues_principales) >= 1
+        assert out.alcalde_o_presidente == "Manuel Serrano"
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -231,6 +235,40 @@ class TestActorGraphExtractor:
 # Dossier builder
 # ─────────────────────────────────────────────────────────────────
 
+class TestActorDiscovery:
+    def test_extract_names_simple(self):
+        from agents.brain.pipelines.actor_discovery import ActorDiscovery
+        disc = ActorDiscovery(actor_catalog=[])
+        names = disc._extract_names(
+            "Hoy María José Sánchez se reunió con Antonio García López."
+        )
+        # Esperamos detectar al menos uno (sin leaders, sentence-cleaned)
+        assert any("Sánchez" in n or "Antonio García López" in n for n in names)
+
+    def test_filters_known(self):
+        from agents.brain.pipelines.actor_discovery import ActorDiscovery
+        disc = ActorDiscovery(actor_catalog=[
+            {"name": "Pedro Sánchez", "surname": "Sánchez"},
+        ])
+        names = disc._extract_names("Pedro Sánchez declaró hoy.")
+        # No debe proponer "Pedro Sánchez" porque está en catálogo
+        assert not any("Pedro Sánchez" == n for n in names)
+
+    def test_discover_min_mentions(self):
+        from agents.brain.pipelines.actor_discovery import ActorDiscovery
+        disc = ActorDiscovery(actor_catalog=[], brain="__noop__", wiki="__noop__")
+        # Pasamos brain="__noop__" para que no llame al brain real (Truthy)
+        # pero falle en _get_brain check → skip brain step
+        texts = [
+            ("Antonio García López dijo X.", "2026-05-01", "elpais"),
+            ("Antonio García López ha hablado.", "2026-05-02", "abc"),
+            ("Hoy Antonio García López.", "2026-05-03", "europapress"),
+        ]
+        proposals = disc.discover_from_texts(texts, min_mentions=3)
+        names = [p.proposed_name for p in proposals]
+        assert any("Antonio" in n for n in names)
+
+
 class TestDossierBuilder:
     def test_actor_dossier(self):
         brain = _make_brain({
@@ -243,11 +281,15 @@ class TestDossierBuilder:
             "predicted_next_move": "ofensiva mediática",
             "confidence": 0.75,
         })
-        db = DossierBuilder(brain=brain)
-        out = db.build_actor_dossier("Pedro Sánchez", role="Presidente", depth="short")
+        db = DossierBuilder(brain=brain, wiki=None)
+        out = db.build_actor_dossier(
+            "Pedro Sánchez", role="Presidente", depth="short",
+            usar_wikipedia=False,  # no salimos a la red en tests
+        )
         assert out.ok
         assert "Político español" in out.executive_summary
-        assert "técnico" in out.sections.get("politico_style", "")
+        # La nueva clave es 'estilo_politico' (renombrada)
+        assert "técnico" in out.sections.get("estilo_politico", "")
 
     def test_issue_dossier(self):
         brain = _make_brain({

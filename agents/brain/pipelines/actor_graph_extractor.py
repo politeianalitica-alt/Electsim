@@ -89,11 +89,19 @@ class GraphAggregation:
 
 # Heurísticas de tipo de relación según verbos
 _RELATION_PATTERNS = {
-    "alianza":      ["pacta", "acuerda", "alía", "apoya", "respalda", "respaldó", "rescata", "agradece", "firma"],
-    "conflicto":    ["acusa", "denuncia", "ataca", "critica", "veta", "rompe", "exige", "amenaza", "rechaza"],
-    "competencia":  ["compite", "supera", "rebasa", "adelanta", "desbanca"],
-    "mentor":       ["forma", "promovió", "designó", "nombró"],
-    "subordinacion":["destituye", "nombra", "cesa", "sustituye"],
+    "alianza":          ["pacta", "acuerda", "alía", "apoya", "respalda", "respaldó",
+                          "rescata", "agradece", "firma", "secunda", "comparte"],
+    "alianza_tactica":  ["facilita", "permite", "se abstiene", "negocia con", "consensúa"],
+    "conflicto":        ["acusa", "denuncia", "ataca", "critica", "veta", "rompe",
+                          "exige", "amenaza", "rechaza", "carga contra", "desautoriza"],
+    "competencia":      ["compite", "supera", "rebasa", "adelanta", "desbanca", "rivaliza"],
+    "mentor":           ["forma", "promovió", "designó", "nombró", "apadrina", "lanzó"],
+    "subordinacion":    ["destituye", "cesa", "sustituye", "fulmina", "echa"],
+    "coalicion":        ["coalición", "gobierna con", "tripartito", "pacta gobierno"],
+    "familiar":         ["hermano", "hermana", "padre", "madre", "esposo", "esposa",
+                          "cónyuge", "hijo", "hija"],
+    "afinidad":         ["coincide con", "se reúne con", "elogia", "felicita"],
+    "negociacion":      ["se reúne", "dialoga", "negocia", "conversa"],
 }
 
 
@@ -107,17 +115,20 @@ def _detect_relation_heuristic(text: str) -> tuple[str | None, float]:
         if count > best_count:
             best_count = count
             best_type = rel_type
-    valence = 0.0
-    if best_type == "alianza":
-        valence = 0.6
-    elif best_type == "conflicto":
-        valence = -0.6
-    elif best_type == "subordinacion":
-        valence = -0.2
-    elif best_type == "competencia":
-        valence = -0.3
-    elif best_type == "mentor":
-        valence = 0.4
+    # Mapa valencia por tipo
+    valence_map = {
+        "alianza":         0.7,
+        "alianza_tactica": 0.4,
+        "coalicion":       0.8,
+        "afinidad":        0.5,
+        "mentor":          0.4,
+        "familiar":        0.5,
+        "negociacion":     0.2,
+        "competencia":     -0.3,
+        "subordinacion":   -0.2,
+        "conflicto":       -0.7,
+    }
+    valence = valence_map.get(best_type, 0.0) if best_type else 0.0
     return best_type, valence
 
 
@@ -243,6 +254,88 @@ class ActorGraphExtractor:
             edge.relation_type = "conflicto"
             edge.valence = -0.6
             edge.confidence = min(1.0, edge.confidence + 0.2)
+
+    # ─────────────────────────────────────────────────────────────
+    def extract_biographical_edges(
+        self,
+        actor_name: str,
+        actor_id: str,
+        *,
+        catalog_lookup: dict[str, str] | None = None,
+    ) -> list[GraphEdge]:
+        """Saca edges biográficos de la Wikipedia ES (afiliación partidista,
+        mentor, familia). Útil para enriquecer el grafo más allá de la
+        hemeroteca actual.
+
+        `catalog_lookup` mapea NOMBRE→actor_id para resolver candidatos
+        en el catálogo (si el bio menciona "Pablo Iglesias" y el catálogo
+        tiene actor_id, crea el edge).
+        """
+        edges: list[GraphEdge] = []
+        try:
+            from agents.brain.pipelines.wikipedia_fetcher import get_wikipedia_fetcher
+            wiki = get_wikipedia_fetcher()
+            bundle = wiki.fetch_actor(actor_name)
+        except Exception as exc:
+            logger.warning("biographical wiki falló: %s", exc)
+            return edges
+        if not bundle.get("found"):
+            return edges
+        infobox = bundle.get("infobox") or {}
+        extract = bundle.get("extract") or ""
+
+        lookup = {(k or "").lower(): v for k, v in (catalog_lookup or {}).items()}
+
+        def _maybe_edge(other_name: str, rel: str, valence: float, evidence: str) -> None:
+            if not other_name:
+                return
+            other_id = lookup.get(other_name.lower())
+            if not other_id or other_id == actor_id:
+                return
+            edges.append(GraphEdge(
+                actor_from=actor_id,
+                actor_to=other_id,
+                actor_from_name=actor_name,
+                actor_to_name=other_name,
+                relation_type=rel,
+                valence=valence,
+                strength=0.7,
+                directionality="bidirectional" if rel in {"familiar", "afinidad"} else "from_to",
+                date_iso="",
+                evidence_text=evidence[:240],
+                source="wikipedia_bio",
+                confidence=0.85,
+            ))
+
+        # Partido afiliación (alianza débil con líderes del mismo partido)
+        partido = infobox.get("partido") or infobox.get("partido_político") or infobox.get("filiación")
+        if partido:
+            # Si en el catálogo hay otros actores con el mismo partido, los edges
+            # se construyen externamente — solo registramos atributo.
+            pass
+
+        # Cónyuge / hijos / padres (familiar)
+        for k in ("cónyuge", "pareja", "padre", "madre", "hermano", "hermana"):
+            v = infobox.get(k)
+            if v:
+                _maybe_edge(v, "familiar", 0.5, f"infobox.{k}: {v}")
+
+        # Mentor / formación · si el extract menciona otro nombre del catálogo
+        # con verbos de mentoría, creamos edge
+        for name, oid in lookup.items():
+            if name == actor_name.lower() or len(name) < 4:
+                continue
+            # Búsqueda case-insensitive
+            idx = extract.lower().find(name)
+            if idx < 0:
+                continue
+            window = extract[max(0, idx - 80):idx + 120].lower()
+            if any(v in window for v in ("formó", "discípulo", "apadrinó", "mentor",
+                                          "designó", "nombró", "lanzó políticamente")):
+                _maybe_edge(name.title(), "mentor", 0.5,
+                            extract[max(0, idx - 80):idx + 120])
+
+        return edges
 
     # ─────────────────────────────────────────────────────────────
     def aggregate_edges(

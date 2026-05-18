@@ -204,6 +204,16 @@ def cmd_terri(args: argparse.Namespace) -> int:
         out_rows.append(profile.to_dict())
     out_path = _write_jsonl(f"terri_enriched_{datetime.utcnow():%Y%m%d_%H%M%S}.jsonl", out_rows)
     print(f"[terri] {len(out_rows)} fichas territoriales → {out_path}")
+    avg_comp = sum(r.get("completeness_score") or 0 for r in out_rows) / max(1, len(out_rows))
+    print(f"       completeness_score medio: {avg_comp:.2f}")
+    if getattr(args, "persist", False):
+        from agents.brain.pipelines.persistence import persist_territory_profile
+        total_db = 0
+        for r in out_rows:
+            s = persist_territory_profile(r)
+            if s.get("written_db"):
+                total_db += 1
+        print(f"[terri:persist] written_db={total_db}/{len(out_rows)}")
     return 0
 
 
@@ -280,6 +290,10 @@ def cmd_actors(args: argparse.Namespace) -> int:
     print(f"[actors] edges crudos:    {len(all_edges)} → {out_path1}")
     print(f"[actors] edges agregados: {len(aggregated)} → {out_path2}")
     print(f"[actors] cambios:         {len(changes)} → {out_path3}")
+    if getattr(args, "persist", False):
+        from agents.brain.pipelines.persistence import persist_graph_edges
+        s = persist_graph_edges([e.to_dict() for e in all_edges])
+        print(f"[actors:persist] db_rows={s['written_db']} err={s['error']}")
     return 0
 
 
@@ -315,6 +329,85 @@ def cmd_dossier(args: argparse.Namespace) -> int:
     if not out.ok:
         print(f"  ⚠ error: {out.error}")
         return 1
+    print(f"  completeness_score: {out.completeness_score:.2f}")
+    print(f"  stages OK: {out.stages_ok}")
+    if out.stages_err:
+        print(f"  stages err: {list(out.stages_err.keys())}")
+    if getattr(args, "persist", False):
+        from agents.brain.pipelines.persistence import (
+            persist_actor_dossier, persist_issue_dossier, persist_territory_profile,
+        )
+        d = out.to_dict()
+        if args.tipo == "actor":
+            s = persist_actor_dossier(d)
+        elif args.tipo == "issue":
+            s = persist_issue_dossier(d)
+        elif args.tipo == "territory":
+            # Persistimos como territory_profile (más útil para D2/maps)
+            s = persist_territory_profile({
+                **d.get("structured_data", {}),
+                "nombre": d["subject"], "tipo": "municipio",
+                "ccaa": d.get("structured_data", {}).get("ccaa", ""),
+                "provincia": "",
+                "completeness_score": out.completeness_score,
+                "confidence": out.confidence,
+                "url_wikipedia": d.get("structured_data", {}).get("url_wikipedia", ""),
+            })
+        else:
+            s = {"written_db": False, "written_jsonl": False, "error": "tipo no persistido"}
+        print(f"[dossier:persist] db={s.get('written_db')} jsonl={s.get('written_jsonl')} err={s.get('error')}")
+    return 0
+
+
+# ─────────────────────────────────────────────────────────────────
+# Subcomando: discover (actores nuevos)
+# ─────────────────────────────────────────────────────────────────
+
+def cmd_discover(args: argparse.Namespace) -> int:
+    """Descubre actores políticos no catalogados a partir de noticias."""
+    from agents.brain.pipelines.actor_discovery import ActorDiscovery
+    from agents.brain.pipelines.persistence import persist_actor_proposals
+
+    engine = _get_engine_or_none()
+    rows: list[dict[str, Any]] = []
+    catalog: list[dict[str, Any]] = []
+    if engine is not None:
+        try:
+            import pandas as pd
+            from sqlalchemy import text
+            try:
+                df_cat = pd.read_sql(
+                    text("SELECT id AS actor_id, nombre AS name, nombre_corto AS short_name, "
+                         "apellido AS surname FROM actores LIMIT 5000"),
+                    engine,
+                )
+                catalog = df_cat.to_dict(orient="records")
+            except Exception as exc:
+                logger.warning("Catálogo actores no disponible: %s", exc)
+            df = pd.read_sql(
+                text("SELECT contenido, fecha_pub, medio FROM noticias_prensa "
+                     "WHERE fecha_pub >= :since ORDER BY fecha_pub DESC LIMIT :lim"),
+                engine, params={"since": args.since, "lim": int(args.limit)},
+            )
+            rows = df.to_dict(orient="records")
+        except Exception as exc:
+            logger.warning("Lectura BD news falló: %s", exc)
+    if not rows:
+        logger.info("No hay noticias para discover.")
+        return 0
+
+    disc = ActorDiscovery(actor_catalog=catalog)
+    proposals = disc.discover_from_news_batch(rows, min_mentions=int(args.min_mentions))
+    out_rows = [p.to_dict() for p in proposals]
+    out_path = _write_jsonl(
+        f"actor_proposals_{datetime.utcnow():%Y%m%d_%H%M%S}.jsonl", out_rows,
+    )
+    print(f"[discover] {len(out_rows)} candidatos → {out_path}")
+    political = sum(1 for p in out_rows if p.get("is_political_figure"))
+    print(f"           is_political_figure={political}/{len(out_rows)}")
+    if args.persist:
+        s = persist_actor_proposals(out_rows)
+        print(f"[discover:persist] db={s['written_db']} jsonl={s['written_jsonl']} err={s['error']}")
     return 0
 
 
@@ -345,13 +438,23 @@ def main(argv: list[str] | None = None) -> int:
     # terri
     p_terri = sub.add_parser("terri", help="Generar fichas de municipios incompletos")
     p_terri.add_argument("--limit", default=50, type=int)
+    p_terri.add_argument("--persist", action="store_true", help="Persistir a BD si está disponible")
     p_terri.set_defaults(func=cmd_terri)
 
     # actors
     p_actors = sub.add_parser("actors", help="Extraer grafo de actores desde noticias")
     p_actors.add_argument("--limit", default=500, type=int)
     p_actors.add_argument("--since", default=(date.today() - timedelta(days=30)).isoformat())
+    p_actors.add_argument("--persist", action="store_true")
     p_actors.set_defaults(func=cmd_actors)
+
+    # discover
+    p_disc = sub.add_parser("discover", help="Descubrir actores nuevos en hemeroteca")
+    p_disc.add_argument("--limit", default=500, type=int)
+    p_disc.add_argument("--since", default=(date.today() - timedelta(days=30)).isoformat())
+    p_disc.add_argument("--min-mentions", default=3, type=int)
+    p_disc.add_argument("--persist", action="store_true")
+    p_disc.set_defaults(func=cmd_discover)
 
     # dossier
     p_dossier = sub.add_parser("dossier", help="Generar dossier completo")
@@ -360,6 +463,7 @@ def main(argv: list[str] | None = None) -> int:
     p_dossier.add_argument("--partido", default="")
     p_dossier.add_argument("--territorio", default="")
     p_dossier.add_argument("--depth", default="medium", choices=["short", "medium", "deep"])
+    p_dossier.add_argument("--persist", action="store_true")
     p_dossier.set_defaults(func=cmd_dossier)
 
     args = parser.parse_args(argv)
