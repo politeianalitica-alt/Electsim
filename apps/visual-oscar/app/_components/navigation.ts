@@ -25,10 +25,10 @@ export type NavModule = {
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
-  // Módulo OCULTO de la barra superior: no se renderiza como tab. Su
-  // contenido (Morning Briefing · Panel Ejecutivo · Alertas Prioritarias)
-  // aparece en el subnav cuando el usuario llega a /dashboard (vía logo
-  // POLITEIA ANALÍTICA · home post-login), /briefing o /alertas.
+  // Módulo OCULTO de la barra superior. /dashboard es la única pantalla
+  // de inicio · ya no hay subpáginas hermanas (briefing y alertas se
+  // consumen embebidas en el panel ejecutivo y siguen accesibles por URL
+  // directa, pero no aparecen como subnav).
   {
     id: 'inicio',
     label: 'Inicio',
@@ -36,8 +36,6 @@ export const MODULES: NavModule[] = [
     hideFromTopBar: true,
     items: [
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
-      { label: 'Morning Briefing',    href: '/briefing'  },
-      { label: 'Alertas Prioritarias',href: '/alertas'   },
     ],
   },
 

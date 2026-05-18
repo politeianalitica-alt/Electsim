@@ -98,8 +98,8 @@ export default function AppHeader() {
         </div>
       </nav>
 
-      {/* ── Subnav del módulo activo ── */}
-      {activeModule && (
+      {/* ── Subnav del módulo activo · solo si tiene 2+ items visibles ── */}
+      {activeModule && activeModule.items.filter(it => !it.hidden).length > 1 && (
         <div style={{
           position:'sticky',top:44,zIndex:49,height:38,
           background:'#fff',
