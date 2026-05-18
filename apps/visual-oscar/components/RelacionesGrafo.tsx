@@ -414,16 +414,41 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
             )}
           </div>
           <span style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', alignSelf: 'center' }}>Categoría:</span>
-          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-            {cats.map(c => (
-              <button key={c} onClick={() => { setFilterCat(c); setFocus(null) }} style={{
-                background: filterCat === c ? '#1d1d1f' : '#fff',
-                color: filterCat === c ? '#fff' : '#3a3a3d',
-                border: '1px solid ' + (filterCat === c ? '#1d1d1f' : '#ECECEF'),
-                borderRadius: 999, padding: '4px 10px',
-                fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
-              }}>{c}</button>
-            ))}
+          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+            <select
+              value={filterCat}
+              onChange={e => { setFilterCat(e.target.value); setFocus(null) }}
+              style={{
+                appearance: 'none',
+                WebkitAppearance: 'none',
+                MozAppearance: 'none',
+                background: filterCat === 'Todas' ? '#fff' : '#1d1d1f',
+                color: filterCat === 'Todas' ? '#3a3a3d' : '#fff',
+                border: '1px solid ' + (filterCat === 'Todas' ? '#ECECEF' : '#1d1d1f'),
+                borderRadius: 999,
+                padding: '6px 30px 6px 14px',
+                fontSize: 12,
+                fontFamily: 'inherit',
+                fontWeight: 500,
+                cursor: 'pointer',
+                outline: 'none',
+                transition: 'border-color 150ms, background 150ms',
+                minWidth: 160,
+              }}
+            >
+              {cats.map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+            {/* Chevron · superpuesto al select porque appearance:none oculta el del navegador */}
+            <svg
+              width="11" height="11" viewBox="0 0 24 24" fill="none"
+              stroke={filterCat === 'Todas' ? '#6e6e73' : '#fff'}
+              strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
           </div>
         </div>
 
