@@ -62,25 +62,6 @@ export default function AppHeader() {
             })}
           </div>
           <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
-            {/* Pill IA · permanente · indica que el cerebro Groq está activo */}
-            <Link href="/agente-ia" style={{
-              display:'inline-flex',alignItems:'center',gap:6,fontSize:10.5,
-              fontWeight:700,letterSpacing:'0.04em',textDecoration:'none',
-              color:'#fff',
-              background:'linear-gradient(135deg,#7C3AED 0%,#5B21B6 100%)',
-              padding:'4px 10px',borderRadius:999,
-              boxShadow:'0 1px 6px rgba(124,58,237,0.30)',
-            }} title="GroqBrain · 29 herramientas razonadoras activas">
-              <span style={{
-                width:6,height:6,borderRadius:'50%',background:'#22c55e',
-                boxShadow:'0 0 6px #22c55e',flexShrink:0,
-                animation:'pulseDot 1.8s ease-in-out infinite',
-              }}/>
-              IA · GROQ
-              <span style={{
-                fontSize:9.5,opacity:0.85,fontWeight:600,letterSpacing:'0.04em',
-              }}>29 tools</span>
-            </Link>
             <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
               <span style={{
                 width:5,height:5,borderRadius:'50%',background:'#2d8a39',

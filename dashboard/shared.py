@@ -1140,38 +1140,6 @@ def sidebar_nav():
             unsafe_allow_html=True,
         )
 
-        # ── Groq Brain v2 · cerebro razonador transversal (29 tools) ──────────
-        try:
-            from dashboard.services.brain_enrichment import _get_brain as _get_groq_brain  # noqa
-            _gb = _get_groq_brain()
-            if _gb is not None:
-                _groq_model = str(getattr(_gb.client, "modelo", "llama-3.3-70b"))
-                _groq_color = PURPLE
-                _groq_status = f"Groq · {_groq_model.split('-versatile')[0]}"
-            else:
-                _groq_model = "Groq no disponible"
-                _groq_color = MUTED
-                _groq_status = _groq_model
-        except Exception:
-            _groq_model = "Groq no disponible"
-            _groq_color = MUTED
-            _groq_status = _groq_model
-
-        st.markdown(
-            f'<div style="display:flex;align-items:center;gap:.5rem;padding:.4rem .6rem;'
-            f'background:linear-gradient(135deg,{_groq_color}18 0%,{BLUE}10 100%);'
-            f'border:1px solid {_groq_color}40;border-left:3px solid {_groq_color};'
-            f'border-radius:8px;margin:0 0 .55rem">'
-            f'<span style="width:7px;height:7px;border-radius:50%;background:{_groq_color};'
-            f'display:inline-block;box-shadow:0 0 8px {_groq_color}"></span>'
-            f'<span style="font-size:.68rem;color:{_groq_color};font-weight:800;letter-spacing:.04em">'
-            f'{_groq_status}</span>'
-            f'<span style="font-size:.58rem;color:{MUTED};margin-left:auto;font-weight:600;'
-            f'letter-spacing:.06em;text-transform:uppercase">29 tools</span>'
-            f'</div>',
-            unsafe_allow_html=True,
-        )
-
         render_sidebar_ai_chatbot()
 
         st.markdown(

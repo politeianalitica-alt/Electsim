@@ -13,7 +13,6 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { CDNum } from './_components/CDNum'
 import { HeroKPI } from './_components/HeroKPI'
 import { SKpi } from './_components/SKpi'
-import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 import type { RolEquipo, EstadoMiembro, TipoActo, PrioridadTerritorio, SeveridadCrisis, EstadoTarea } from '@/types/war-room'
 
 // ─── Colour maps ──────────────────────────────────────────
@@ -349,41 +348,6 @@ export default function WarRoomPage() {
           {section === 'voluntarios'  && <SecVoluntarios kpis={kpis}/>}
           {section === 'fundraising'  && <SecFundraising/>}
           {section === 'presupuesto'  && <SecPresupuesto presupuesto={presupuesto} candidato={candidato}/>}
-
-          {/* ── IA · resumen ejecutivo war room cuando se mira dashboard general ── */}
-          {section === 'dashboard' && (
-            <div style={{ marginTop: 24 }}>
-              <BrainPanelClient
-                title="War Room IA · resumen ejecutivo (Groq · LLaMA 3.3 70B)"
-                tool="generate_war_room_summary"
-                kwargs={{
-                  situation: `Sala de mando · ${candidato?.nombre ?? 'Candidatura'} · ventana 24h.`,
-                  signals: [
-                    `Encuestas tracking: ${encuestas?.length ?? 0} olas activas`,
-                    `Crisis radar: ${(crisis as unknown as { items?: unknown[] })?.items?.length ?? 0} señales`,
-                    `Tareas pendientes/curso: ${(tareas as unknown as { items?: unknown[] })?.items?.length ?? 0}`,
-                  ],
-                  adversary_moves: ['Ver pestaña Adversario para movimientos detectados'],
-                  client_assets: ['equipo war room', 'territorio activado', 'agenda mensaje día'],
-                  time_pressure: '24h',
-                }}
-                autoRun
-                buttonLabel="Re-generar resumen IA"
-              />
-              <BrainPanelClient
-                title="Análisis IA · vectores de respuesta y oposición esperada"
-                tool="opposition_research"
-                kwargs={{
-                  target_actor: 'Bloque opositor agregado',
-                  client_position: `Equipo de ${candidato?.nombre ?? 'la campaña'} en war room electoral.`,
-                  recent_actions: [],
-                  time_window: 'últimos 3 meses',
-                }}
-                autoRun={false}
-                buttonLabel="Pedir vectores de oposición"
-              />
-            </div>
-          )}
         </div>
       </main>
     </div>
