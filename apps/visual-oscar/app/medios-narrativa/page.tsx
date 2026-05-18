@@ -7,6 +7,8 @@ import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import NarrativeLifecycle from '@/components/NarrativeLifecycle'
 import SourceHealthDetail from '@/components/SourceHealthDetail'
+import NewsPulseCard, { type NewsPulseItem } from '@/components/NewsPulseCard'
+import { AlertKeyframes } from '@/components/AlertCard'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Modelo
@@ -130,6 +132,13 @@ export default function MediosNarrativaPage() {
     { refreshInterval: 300_000 }
   )
 
+  // Pulso de prensa · 8 noticias agregadas con sentiment y relevancia · 60s refresh
+  const { data: pulseData } = useApi<{ news_pulse?: NewsPulseItem[] }>(
+    '/api/dashboard/home',
+    { refreshInterval: 60_000 }
+  )
+  const newsPulse: NewsPulseItem[] = (pulseData?.news_pulse ?? []).slice(0, 8)
+
   // Adaptador: shape catálogo (ideologia/audiencia_M) → shape de la página (ejeX/alcance/tono)
   const MEDIOS: Medio[] = useMemo(() => {
     if (!data?.medios?.length) return INITIAL_MEDIOS
@@ -206,6 +215,45 @@ export default function MediosNarrativaPage() {
             <MiniK label="AGENC."   n={counts.byTipo['Agencias'] || 0}/>
             <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
           </div>
+        </section>
+
+        {/* Pulso de prensa · misma visual que las alertas de inicio */}
+        <section style={{ marginBottom: 18 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, margin: 0, letterSpacing: '-0.012em', color: '#1d1d1f' }}>
+                Pulso de prensa
+              </h2>
+              {newsPulse.length > 0 && (
+                <span style={{
+                  fontSize: 10.5, padding: '2px 8px', borderRadius: 999,
+                  background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
+                }}>{newsPulse.length} noticias</span>
+              )}
+              <span style={{ fontSize: 10.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+                Últimas 48h · agregador RSS
+              </span>
+            </div>
+            <button onClick={() => router.push('/medios-narrativa#feed')} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+              background: '#0071e3', color: '#fff',
+              fontSize: 11.5, fontWeight: 600, padding: '5px 12px',
+              borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              Ver feed completo
+              <span style={{ fontSize: 13, lineHeight: 1 }}>→</span>
+            </button>
+          </div>
+          {newsPulse.length === 0 ? (
+            <div style={{ padding: '20px', textAlign: 'center', color: '#6e6e73', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+              Sin noticias en el agregador en este momento.
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {newsPulse.map(n => <NewsPulseCard key={n.id} item={n} compact/>)}
+            </div>
+          )}
+          <AlertKeyframes/>
         </section>
 
         {/* Filtros */}
