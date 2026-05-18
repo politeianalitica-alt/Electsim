@@ -86,12 +86,19 @@ class OpenAIChatClient:
     def _post_once(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         if not self.api_key:
             raise RuntimeError("OPENAI_API_KEY no definida")
+        # Default max_tokens elevado a 4096 para respuestas agénticas completas
+        # (ReAct loops, informes ejecutivos, deliberaciones largas)
         payload: dict[str, Any] = {
             "model": self.model,
             "messages": messages,
             "temperature": float(kwargs.get("temperature", 0.4)),
-            "max_tokens": int(kwargs.get("max_tokens", 1024)),
+            "max_tokens": int(kwargs.get("max_tokens", 4096)),
         }
+        # Soporte opcional para JSON mode (útil para tool calling estructurado)
+        if kwargs.get("response_format") == "json_object":
+            payload["response_format"] = {"type": "json_object"}
+        if "stop" in kwargs:
+            payload["stop"] = kwargs["stop"]
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",

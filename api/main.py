@@ -12,6 +12,7 @@ from sqlalchemy.exc import OperationalError
 from api.routers import (
     actions,
     actors,
+    agent,  # ReAct agent orquestador (Groq via OpenAI-compat)
     ai,
     analogias,
     analytics,
@@ -156,6 +157,7 @@ app.include_router(actions.router, prefix="/actions", tags=["actions"])
 app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 app.include_router(search.router, prefix="/search", tags=["search"])
 app.include_router(ai.router, prefix="/ai", tags=["ai"])
+app.include_router(agent.router, prefix="/api", tags=["agent"])  # POST /api/v1/agent/query
 app.include_router(pipelines.router, prefix="/pipelines", tags=["pipelines"])
 app.include_router(opposition.router, prefix="/opposition", tags=["opposition"])
 app.include_router(campana.router, prefix="/campana", tags=["campana"])
