@@ -8,6 +8,7 @@
  * Sin emojis (regla del proyecto).
  */
 import { useEffect, useState } from "react"
+import { PiramidePoblacional, LineaEvolucion, Hemiciclo } from "./charts"
 
 type Ficha = Record<string, any>
 
@@ -336,24 +337,16 @@ function BloqueDemografia({ demo }: { demo: any }) {
         {demo.pct_extranjeros && <Pill label="% extranjeros" value={fmtPct(demo.pct_extranjeros)} />}
       </div>
       {piramide.length > 0 && (
-        <details style={{ marginTop: 12 }}>
-          <summary style={{ cursor: "pointer", fontSize: 12, fontWeight: 600,
-                            color: "#1F4E8C" }}>
-            Pirámide poblacional ({piramide.length} tramos)
-          </summary>
-          <ul style={{ marginTop: 8, fontSize: 12, lineHeight: 1.6 }}>
-            {piramide.map((p, i) => (
-              <li key={i}>
-                {p.edad_min}–{p.edad_max}: {fmtNum(p.hombres)} H · {fmtNum(p.mujeres)} M
-              </li>
-            ))}
-          </ul>
-        </details>
+        <div style={{ marginTop: 14 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#1d1d1f",
+                        marginBottom: 6 }}>Pirámide poblacional</div>
+          <PiramidePoblacional tramos={piramide} />
+        </div>
       )}
-      {evol.length > 0 && (
-        <div style={{ marginTop: 10, fontSize: 12, color: "#6e6e73" }}>
-          Evolución población {evol[0]?.anio}–{evol[evol.length - 1]?.anio}: de
-          {" "}{fmtNum(evol[0]?.valor)} a {fmtNum(evol[evol.length - 1]?.valor)}.
+      {evol.length > 1 && (
+        <div style={{ marginTop: 14 }}>
+          <LineaEvolucion serie={evol} label="Evolución de población"
+                          color="#1F4E8C" />
         </div>
       )}
       <FuentesFooter fuentes={demo.fuentes} />
@@ -438,9 +431,15 @@ function BloqueAgenda({ agenda }: { agenda: any }) {
 
 function BloquePleno({ pleno }: { pleno: any }) {
   const comp = (pleno.composicion || []) as any[]
+  // Normalizar para Hemiciclo: necesita {partido, escanos, color?}
+  const hemiData = comp
+    .filter((c: any) => c.escanos && Number(c.escanos) > 0)
+    .map((c: any) => ({ partido: String(c.partido || ""), escanos: Number(c.escanos) }))
   return (
     <CardWrapper title="Pleno / parlamento" ok={comp.length > 0}>
-      {comp.length > 0 ? (
+      {hemiData.length > 0 ? (
+        <Hemiciclo composicion={hemiData} />
+      ) : comp.length > 0 ? (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           {comp.map((c: any, i: number) => (
             <Pill key={i} label={c.partido} value={`${c.escanos || 0}`} />

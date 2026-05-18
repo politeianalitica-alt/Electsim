@@ -4,6 +4,7 @@
  * Sin emojis. Patrón idéntico a FichaTerritorialView.
  */
 import { useEffect, useState } from "react"
+import { RadarTemas, LineaEvolucion } from "./charts"
 
 type Ficha = Record<string, any>
 
@@ -219,16 +220,42 @@ function BloqueActividad({ ai_ }: { ai_: any }) {
 }
 
 function BloquePosicionamiento({ pos }: { pos: any }) {
+  // Build radar ejes desde los 3 ejes ideológicos + temas dominantes
+  const ejes: Array<{ nombre: string; valor: number }> = []
+  if (typeof pos.eje_izq_der === "number") {
+    // Convertimos -1..1 → 0..1 (0 = izquierda extrema, 1 = derecha extrema)
+    ejes.push({ nombre: "Izq → Dcha", valor: (pos.eje_izq_der + 1) / 2 })
+  }
+  if (typeof pos.eje_lib_aut === "number") {
+    ejes.push({ nombre: "Lib → Aut", valor: (pos.eje_lib_aut + 1) / 2 })
+  }
+  if (typeof pos.eje_centro_periferia === "number") {
+    ejes.push({ nombre: "Centro → Per.", valor: (pos.eje_centro_periferia + 1) / 2 })
+  }
+  if (typeof pos.fidelidad_partido_pct === "number") {
+    ejes.push({ nombre: "Fidelidad", valor: pos.fidelidad_partido_pct / 100 })
+  }
+  for (const t of (pos.temas_dominantes || []).slice(0, 4)) {
+    if (t.tema && typeof t.peso_pct === "number") {
+      ejes.push({ nombre: String(t.tema).slice(0, 12), valor: t.peso_pct / 100 })
+    }
+  }
   return (
     <Card title="Posicionamiento ideológico" ok={pos.ok !== false}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
         {typeof pos.eje_izq_der === "number" &&
-          <Pill label="Eje izq-dcha" value={pos.eje_izq_der.toFixed(2)} color={pos.eje_izq_der < 0 ? "#1F4E8C" : "#DC2626"} />}
+          <Pill label="Eje izq-dcha" value={pos.eje_izq_der.toFixed(2)}
+                color={pos.eje_izq_der < 0 ? "#1F4E8C" : "#DC2626"} />}
         {typeof pos.eje_lib_aut === "number" &&
           <Pill label="Eje lib-aut" value={pos.eje_lib_aut.toFixed(2)} color="#7C3AED" />}
         {typeof pos.fidelidad_partido_pct === "number" &&
           <Pill label="Fidelidad partido" value={`${pos.fidelidad_partido_pct.toFixed(0)}%`} color="#16A34A" />}
       </div>
+      {ejes.length >= 3 && (
+        <div style={{ marginTop: 14, display: "flex", justifyContent: "center" }}>
+          <RadarTemas ejes={ejes} />
+        </div>
+      )}
       <Fuentes f={pos.fuentes} />
     </Card>
   )

@@ -193,13 +193,51 @@ class FichaPoliticoBuilder:
             ficha.trayectoria = t
         self._run(ficha, "trayectoria", _stage_trayectoria)
 
-        # ── Bloque 2 · Actividad institucional ─────────────────────
+        # ── Bloque 2 · Actividad institucional (congreso.es) ───────
         def _stage_actividad():
-            from agents.brain.pipelines.ficha_schemas import PoliticoActividadInstitucional
-            ai = PoliticoActividadInstitucional()
-            # Sin scraping de congreso.es en MVP — placeholder con BD si hay
-            ai.fuentes = [FuenteRef(tipo="brain", nombre="Pendiente conector congreso.es")]
-            ficha.actividad_institucional = ai
+            from agents.brain.pipelines.ficha_schemas import (
+                PoliticoActividadInstitucional, Intervencion, VotacionClave,
+            )
+            from agents.brain.pipelines.data_sources import congreso_actividad
+            ai_ = PoliticoActividadInstitucional()
+            id_dip = congreso_actividad.find_diputado_id(nombre_politico)
+            if id_dip:
+                bundle = congreso_actividad.fetch_actividad_completa(id_dip)
+                if bundle.get("ok"):
+                    ai_.intervenciones_recientes = [
+                        Intervencion(**i) for i in bundle.get("intervenciones", [])[:10]
+                        if isinstance(i, dict)
+                    ]
+                    ai_.n_intervenciones_anio = len(bundle.get("intervenciones", []))
+                    iniciativas = bundle.get("iniciativas", [])
+                    ai_.iniciativas_legislativas = iniciativas[:15]
+                    for it in iniciativas:
+                        if not isinstance(it, dict):
+                            continue
+                        tipo = str(it.get("tipo", "")).lower()
+                        if "pregunta" in tipo and "oral" in tipo:
+                            ai_.n_preguntas_orales += 1
+                        elif "pregunta" in tipo:
+                            ai_.n_preguntas_escritas += 1
+                        elif "proposici" in tipo and "ley" in tipo:
+                            ai_.n_proposiciones_ley += 1
+                        elif "moci" in tipo or "resoluci" in tipo:
+                            ai_.n_mociones += 1
+                    ai_.votaciones_clave = [
+                        VotacionClave(**v) for v in bundle.get("votaciones", [])[:10]
+                        if isinstance(v, dict)
+                    ]
+                    ai_.comisiones = bundle.get("comisiones", [])
+                    ai_.fuentes = [FuenteRef(tipo="brain",
+                                             nombre="datos.congreso.es",
+                                             url="https://www.congreso.es/opendata")]
+                else:
+                    ai_.fuentes = [FuenteRef(tipo="brain",
+                                             nombre=f"congreso.es error: {bundle.get('error', '?')}")]
+            else:
+                ai_.fuentes = [FuenteRef(tipo="brain",
+                                         nombre="No es diputado nacional o no resuelto en Congreso")]
+            ficha.actividad_institucional = ai_
         self._run(ficha, "actividad_institucional", _stage_actividad)
 
         # ── Bloque 3 · Posicionamiento ideológico (IA) ─────────────
@@ -340,10 +378,31 @@ class FichaPoliticoBuilder:
         # ── Bloque 7 · Patrimonio y transparencia ──────────────────
         def _stage_patrimonio():
             from agents.brain.pipelines.ficha_schemas import PoliticoPatrimonioTransparencia
+            from agents.brain.pipelines.data_sources import transparencia_bienes, congreso_actividad
             p = PoliticoPatrimonioTransparencia()
-            p.badge_transparencia = "amarillo"  # default hasta integrar Portal Transparencia
-            p.fuentes = [FuenteRef(tipo="transparencia",
-                                   nombre="Pendiente conector Portal Transparencia")]
+            id_dip = congreso_actividad.find_diputado_id(nombre_politico)
+            if id_dip:
+                decl = transparencia_bienes.fetch_declaracion_diputado(id_dip)
+                if decl.get("ok"):
+                    p.badge_transparencia = decl.get("badge_transparencia") or "verde"
+                    p.fuentes = [FuenteRef(
+                        tipo="transparencia",
+                        nombre=f"Declaración bienes {decl.get('anio') or '?'}",
+                        url=decl.get("url_pdf", ""),
+                    )]
+                    # OCR opcional — campos vacíos si no implementado
+                    ocr = transparencia_bienes.ocr_declaracion(decl["url_pdf"])
+                    if ocr.get("ok"):
+                        p.patrimonio_bruto_eur = ocr.get("patrimonio_bruto_eur")
+                        p.salario_anual_oficial_eur = ocr.get("salario_anual_oficial_eur")
+                else:
+                    p.badge_transparencia = decl.get("badge_transparencia") or "amarillo"
+                    p.fuentes = [FuenteRef(tipo="transparencia",
+                                           nombre=f"transparencia: {decl.get('error', '?')}")]
+            else:
+                p.badge_transparencia = "amarillo"
+                p.fuentes = [FuenteRef(tipo="transparencia",
+                                       nombre="No es diputado nacional · pendiente Senado/auton.")]
             ficha.patrimonio = p
         self._run(ficha, "patrimonio", _stage_patrimonio)
 
@@ -360,11 +419,40 @@ class FichaPoliticoBuilder:
             ficha.historico_electoral = he
         self._run(ficha, "historico_electoral", _stage_historico)
 
-        # ── Bloque 9 · Vínculos corporativos ───────────────────────
+        # ── Bloque 9 · Vínculos corporativos (BORME) ───────────────
         def _stage_vinculos():
-            from agents.brain.pipelines.ficha_schemas import PoliticoVinculosCorporativos
+            from agents.brain.pipelines.ficha_schemas import (
+                PoliticoVinculosCorporativos, EmpresaVinculada,
+            )
+            from agents.brain.pipelines.data_sources import borme_sabi
             v = PoliticoVinculosCorporativos()
-            v.fuentes = [FuenteRef(tipo="brain", nombre="Pendiente conector BORME/SABI")]
+            actos = borme_sabi.search_borme_actos(nombre_politico, dias_atras=730,
+                                                   max_items=20)
+            # Convertimos cada acto en una "empresa vinculada" cuando aplica
+            for a in actos:
+                tipo = str(a.get("tipo_acto") or "")
+                if tipo in {"nombramiento", "cese", "constitución sociedad",
+                             "ampliación capital"}:
+                    v.empresas_vinculadas.append(EmpresaVinculada(
+                        nombre=str(a.get("titulo") or "")[:160],
+                        sector="",
+                        relacion=tipo,
+                        fecha_inicio=str(a.get("fecha") or ""),
+                    ))
+            # Puertas giratorias · cruza trayectoria con BORME
+            try:
+                cargos = [c.model_dump() for c in (ficha.trayectoria.cargos_publicos or [])]
+            except Exception:
+                cargos = []
+            pg = borme_sabi.detectar_puertas_giratorias(cargos, actos)
+            if pg:
+                v.puertas_giratorias_detectadas = pg
+                v.alerta_solapamiento_legislador_regulado = True
+            v.fuentes = [FuenteRef(
+                tipo="brain",
+                nombre="BORME · BOE",
+                url=f"https://www.boe.es/buscar/borme.php",
+            )]
             ficha.vinculos_corporativos = v
         self._run(ficha, "vinculos_corporativos", _stage_vinculos)
 
