@@ -6,6 +6,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import BrainBriefing from '@/components/BrainBriefing'
+import BriefingExports from '@/components/BriefingExports'
 import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
@@ -173,6 +174,9 @@ export default function DashboardPage() {
         {/* Morning briefing */}
         <BrainBriefing/>
 
+        {/* Descargar briefing en PDF o escuchar en audio */}
+        <BriefingExports/>
+
         {/* ═══════════════ PANEL EJECUTIVO ═══════════════
            Bloque destacado · KPIs principales + risk + macro + alertas.
            Layout interno:
@@ -324,43 +328,87 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Row 3: Alertas críticas (chips inline) */}
-          {data?.alerts && data.alerts.length > 0 && (
-            <div style={{
-              background: '#fff', borderRadius: 10, padding: '10px 14px',
-              border: '1px solid #ECECEF',
-              display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-            }}>
-              <span style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}>
-                Alertas
-              </span>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', flex: 1 }}>
-                {data.alerts.slice(0, 4).map(a => {
-                  const aColor = a.type === 'warning' ? '#D97706' : a.type === 'ok' ? '#16A34A' : '#1F4E8C'
-                  const aIcon = a.type === 'warning' ? '⚠' : a.type === 'ok' ? '✓' : 'ℹ'
-                  return (
-                    <span key={a.id} onClick={() => router.push('/alertas')} style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 5,
-                      fontSize: 10.5, padding: '3px 9px', borderRadius: 999,
-                      background: `${aColor}10`, color: aColor, border: `1px solid ${aColor}33`,
-                      cursor: 'pointer', fontWeight: 500,
-                      maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    }} title={a.text}>
-                      <span style={{ fontWeight: 700 }}>{aIcon}</span>
-                      {a.text}
+          {/* Row 3: Top 5 alertas prioritarias · ordenadas por severidad */}
+          {data?.alerts && data.alerts.length > 0 && (() => {
+            // Prioridad: warning (alta) > info (media) > ok (baja)
+            const sevOrder: Record<string, number> = { warning: 0, info: 1, ok: 2 }
+            const top5 = [...data.alerts]
+              .sort((a, b) => (sevOrder[a.type] ?? 9) - (sevOrder[b.type] ?? 9))
+              .slice(0, 5)
+            const totalCount = data.alerts.length
+            return (
+              <div style={{
+                background: '#fff', borderRadius: 10, padding: '12px 14px',
+                border: '1px solid #ECECEF',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      Top 5 alertas del día
                     </span>
-                  )
-                })}
-                <button onClick={() => router.push('/alertas')} style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 10.5, color: '#6e6e73', fontFamily: 'inherit', fontWeight: 600,
-                  marginLeft: 'auto',
-                }}>
-                  Ver todas →
-                </button>
+                    <span style={{
+                      fontSize: 9.5, padding: '2px 7px', borderRadius: 999,
+                      background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
+                    }}>
+                      {totalCount} activas
+                    </span>
+                  </div>
+                  <button onClick={() => router.push('/alertas')} style={{
+                    background: '#0071e3', border: 'none', cursor: 'pointer',
+                    fontSize: 11, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
+                    padding: '5px 12px', borderRadius: 999,
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                  }}>
+                    Ver más
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  {top5.map((a, idx) => {
+                    const aColor = a.type === 'warning' ? '#D97706' : a.type === 'ok' ? '#16A34A' : '#1F4E8C'
+                    const aIcon = a.type === 'warning' ? '⚠' : a.type === 'ok' ? '✓' : 'ℹ'
+                    const aLabel = a.type === 'warning' ? 'AVISO' : a.type === 'ok' ? 'OK' : 'INFO'
+                    return (
+                      <div key={a.id} onClick={() => router.push('/alertas')} style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        padding: '8px 4px',
+                        borderTop: idx === 0 ? 'none' : '1px solid #F5F5F7',
+                        cursor: 'pointer', transition: 'background 120ms',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#FAFAFA' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+                      >
+                        <span style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                          width: 22, height: 22, borderRadius: 6,
+                          background: `${aColor}14`, color: aColor,
+                          fontSize: 11, fontWeight: 700, flexShrink: 0,
+                        }}>
+                          {aIcon}
+                        </span>
+                        <span style={{
+                          fontSize: 9.5, fontWeight: 700, color: aColor, letterSpacing: '0.05em',
+                          minWidth: 38, flexShrink: 0,
+                        }}>
+                          {aLabel}
+                        </span>
+                        <span style={{
+                          fontSize: 12, color: '#1d1d1f', flex: 1,
+                          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        }} title={a.text}>
+                          {a.text}
+                        </span>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#86868b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                          <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )
+          })()}
         </section>
 
         {/* Tendencias ahora */}

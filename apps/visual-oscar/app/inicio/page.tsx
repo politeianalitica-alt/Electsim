@@ -20,6 +20,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import BrainBriefing from '@/components/BrainBriefing'
+import BriefingExports from '@/components/BriefingExports'
 import CountUp from '@/components/CountUp'
 import { LiveDot } from '@/components/Skeleton'
 import type { DashboardHome } from '../api/dashboard/home/route'
@@ -51,7 +52,12 @@ export default function InicioPage() {
 
   // Top 3 KPIs (no más ruido en la home)
   const kpis = (data?.kpis ?? []).slice(0, 3)
-  const alerts = (data?.alerts ?? []).filter(a => a.type !== 'ok').slice(0, 5)
+  // Top 5 alertas ordenadas por severidad · warning > info (excluimos ok)
+  const sevOrder: Record<string, number> = { warning: 0, info: 1, ok: 2 }
+  const alerts = (data?.alerts ?? [])
+    .filter(a => a.type !== 'ok')
+    .sort((a, b) => (sevOrder[a.type] ?? 9) - (sevOrder[b.type] ?? 9))
+    .slice(0, 5)
 
   return (
     <>
@@ -64,6 +70,9 @@ export default function InicioPage() {
       }}>
         {/* 1 · Briefing matinal generado por la IA */}
         <BrainBriefing />
+
+        {/* 1bis · Descargar briefing en PDF o escuchar en audio */}
+        <BriefingExports />
 
         {/* 2 · KPIs vivos (3 max) */}
         <section style={{
