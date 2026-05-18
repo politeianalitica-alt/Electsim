@@ -51,6 +51,7 @@ from api.routers import (
     legislative_core_api,
     opendata,
     rag,
+    sectores,        # Sectorial intel unificado · /api/v1/sectores/*
     sectors,
 )
 from agents.semantic_search import validate_semantic_schema
@@ -227,6 +228,7 @@ app.include_router(groq_brain.router, tags=["groq-brain"])
 app.include_router(fichas.router, tags=["fichas"])
 # Bloque P2.2 — Routers de dominio que el frontend visual-oscar requería:
 app.include_router(sectors.router, tags=["sectors"])
+app.include_router(sectores.router, tags=["sectores-intel"])
 app.include_router(contratacion.router, tags=["contratacion"])
 app.include_router(fondos_eu.router, tags=["fondos-europeos"])
 # Bloque P3.2 — RAG: indexado BOE/Congreso/EUR-Lex/media + scheduler:

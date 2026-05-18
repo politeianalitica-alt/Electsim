@@ -9,6 +9,7 @@ import { KPIGrid } from './_components/KPIGrid';
 import { ActoresList } from './_components/ActoresList';
 import { EventosTimeline } from './_components/EventosTimeline';
 import { SectorIniciativas } from './_components/SectorIniciativas';
+import { SectorSignalsPanel } from './_components/SectorSignalsPanel';
 import { SectorSkeleton } from './_components/SectorSkeleton';
 
 // NOTE: generateStaticParams cannot coexist with 'use client'. Routes are
@@ -44,6 +45,7 @@ export default function SectorPage({ params }: { params: { id: string } }) {
           iniciativasIds={data.iniciativas_legislativas_ids}
           areasTematicas={meta.areas_tematicas}
         />
+        <SectorSignalsPanel sectorId={params.id} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ActoresList sectorId={params.id} />
           <EventosTimeline sectorId={params.id} />

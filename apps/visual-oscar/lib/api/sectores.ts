@@ -1,5 +1,6 @@
 // lib/api/sectores.ts
 import type { SectorReport, SectoresIndex, KPISectorial, ActorSectorial, EventoSectorial } from '@/types/sectores';
+import type { SectorSignalsResponse } from '@/types/sector-signals';
 
 const BASE = '/api/sectores';
 
@@ -29,5 +30,14 @@ export const sectoresApi = {
     return get<{ eventos: EventoSectorial[] }>(
       `${BASE}/${sectorId}/eventos${qs}`, 600
     );
+  },
+
+  getSignals: (sectorId: string, params?: { days?: number; limit?: number }) => {
+    const qs = params
+      ? '?' + new URLSearchParams(
+          Object.entries(params).filter(([, v]) => v != null).map(([k, v]) => [k, String(v)]),
+        ).toString()
+      : '';
+    return get<SectorSignalsResponse>(`${BASE}/${sectorId}/signals${qs}`, 300);
   },
 };
