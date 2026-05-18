@@ -6,6 +6,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import RiskIntelligence from '@/components/RiskIntelligence'
 import RiskV2Dashboard from '@/components/RiskV2Dashboard'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 
 type View = 'live' | 'estructural'
 
@@ -60,6 +61,35 @@ export default function RiesgoPage() {
         </div>
 
         {view === 'estructural' ? <RiskV2Dashboard country="ES" /> : <RiskIntelligence/>}
+
+        {/* ── IA · Análisis razonado del riesgo país (Groq LLaMA 3.3 70B) ── */}
+        <div style={{ marginTop: 24 }}>
+          <BrainPanelClient
+            title="Análisis IA · escenarios futuros del riesgo país"
+            tool="forecast_political_scenario"
+            kwargs={{
+              topic: 'Riesgo político España',
+              current_situation:
+                'Lectura compuesta del termómetro: dimensiones institucional, electoral, geopolítica, económica, mediática y social. Tensión presupuestaria 2026, debate amnistía en TC, alianzas parlamentarias frágiles.',
+              time_horizon: '3-6 meses',
+              constraints: [],
+            }}
+            autoRun
+            buttonLabel="Pedir escenarios al cerebro"
+          />
+          <BrainPanelClient
+            title="Análisis IA · vector de respuesta del gobierno y oposición"
+            tool="assess_electoral_risk"
+            kwargs={{
+              party: 'PSOE',
+              risk_event: 'Tensión presupuestaria 2026 + ruido judicial',
+              polls_summary: 'Diferencial PP-PSOE 4-6 pts según ola. Bloque progresista frágil. Bloque conservador con techo.',
+              narrative_context: 'Narrativa de bloqueo institucional y desgaste; oposición presiona con calendario judicial.',
+            }}
+            autoRun={false}
+            buttonLabel="Calcular impacto electoral"
+          />
+        </div>
       </main>
       <footer style={{ borderTop: '1px solid var(--hairline)', padding: '22px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Politeia Analítica · Risk Intelligence v2.0 · {new Date().getFullYear()}

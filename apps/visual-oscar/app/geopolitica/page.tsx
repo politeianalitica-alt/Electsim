@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -1589,6 +1590,42 @@ export default function GeopoliticaPage() {
 
         {/* TAB 5 — Análisis IA */}
         {tab === 5 && <AnalisisIATab alertas={alertas} riesgo={riesgoSorted} osint={osint}/>}
+
+        {/* ── IA · impacto geopolítico razonado por Groq al cargar tab IA ── */}
+        {tab === 5 && (
+          <div style={{ marginTop: 18 }}>
+            <BrainPanelClient
+              title="Análisis IA · impacto geopolítico para España (Groq · LLaMA 3.3 70B)"
+              tool="geopolitical_impact"
+              kwargs={{
+                event:
+                  (alertas && alertas.length > 0)
+                    ? `Alertas geopolíticas activas: ${alertas.slice(0, 3).map(a =>
+                        typeof a === 'string' ? a : (a as Record<string, unknown>).titulo as string,
+                      ).join(' · ')}.`
+                    : 'Lectura agregada de Teatro Global · ACLED + GDELT + OSINT.',
+                region: 'España',
+                sectors: ['energía', 'defensa', 'migración', 'turismo', 'fondos UE'],
+                time_horizon: '3-12 meses',
+              }}
+              autoRun
+              buttonLabel="Re-analizar impacto"
+            />
+            <BrainPanelClient
+              title="Escenarios prospectivos IA · próximos 6-12 meses"
+              tool="forecast_political_scenario"
+              kwargs={{
+                topic: 'Geopolítica con foco España',
+                current_situation:
+                  'Riesgo elevado en Ucrania, Magreb y Oriente Medio. Cumbres OTAN y UE en agenda. Tensión energética con presión de transición.',
+                time_horizon: '6-12 meses',
+                constraints: [],
+              }}
+              autoRun={false}
+              buttonLabel="Pedir 4 escenarios + watch list"
+            />
+          </div>
+        )}
 
       </main>
 

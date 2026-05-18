@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 
 interface AdversariosResp {
   profiles?: Array<{ partido: string; intencion: number; delta7d: number; escanos: number; nivel: string }>
@@ -794,6 +795,45 @@ export default function AdversariosPage() {
           </section>
         )}
 
+        {/* ── IA · Opposition research razonado por Groq sobre el rival seleccionado ── */}
+        {selected && (
+          <div style={{ marginTop: 24 }}>
+            <BrainPanelClient
+              title={`Análisis IA · vectores de ataque y respuesta esperada · ${selected.nombre}`}
+              tool="opposition_research"
+              kwargs={{
+                target_actor: selected.nombre,
+                client_position:
+                  'Equipo de inteligencia de Politeia · análisis competitivo frente al actor seleccionado.',
+                recent_actions: (selected.proximos || []).slice(0, 6).map(m =>
+                  `[${m.fecha}] ${m.tipo}: ${m.titulo} (${m.ubicacion})`
+                ),
+                time_window: 'últimos 3 meses',
+              }}
+              autoRun
+              buttonLabel="Re-analizar rival"
+            />
+            <BrainPanelClient
+              title={`Perfil IA 360 · ${selected.lider || selected.nombre}`}
+              tool="build_actor_profile"
+              kwargs={{
+                actor_name: selected.lider || selected.nombre,
+                role: `Líder de ${selected.nombre} (${selected.siglas})`,
+                known_facts: [
+                  `Intención de voto: ${selected.intencionVoto}% (Δ30d ${selected.delta30d})`,
+                  `Valoración líder: ${selected.liderValoracion}/10`,
+                  `Estrategia conocida: ${selected.estrategia}`,
+                  `Comunicación: ${selected.comunicacion}`,
+                ],
+                recent_statements: (selected.mensajes || []).slice(0, 5).map(m =>
+                  typeof m === 'string' ? m : (m as Record<string, unknown>).texto as string,
+                ).filter(Boolean),
+              }}
+              autoRun={false}
+              buttonLabel="Construir perfil 360 IA"
+            />
+          </div>
+        )}
       </main>
       <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
         Inteligencia de Adversarios · Politeia Analítica · {new Date().getFullYear()}

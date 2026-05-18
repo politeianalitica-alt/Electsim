@@ -22,6 +22,7 @@ import { useApi } from '@/lib/useApi'
 import BrainBriefing from '@/components/BrainBriefing'
 import CountUp from '@/components/CountUp'
 import { LiveDot } from '@/components/Skeleton'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 const QUICK_LINKS: Array<{ href: string; label: string; sub: string; glyph: string }> = [
@@ -232,6 +233,28 @@ export default function InicioPage() {
               </span>
             </Link>
           ))}
+        </section>
+
+        {/* ── IA · Briefing matinal generado por Groq al cargar la home ── */}
+        <section style={{ marginTop: 28 }}>
+          <BrainPanelClient
+            title="Briefing matinal · sintetizado por IA (Groq · LLaMA 3.3 70B)"
+            tool="generate_briefing"
+            kwargs={{
+              title: 'Briefing matinal Politeia',
+              date: new Date().toISOString().slice(0, 10),
+              sections_context: {
+                contexto:
+                  'Panel de inicio del analista. Politeia Analítica — plataforma de inteligencia política española con cobertura BOE, Congreso, Senado, RRSS, prensa nacional + UE, fact-checkers, think-tanks.',
+                hoy:
+                  'Genera un briefing ejecutivo con 5 bullets accionables: política nacional, legislativo, mediático, económico-macro, geopolítica. Cierra con 3 cosas a vigilar próximas 24-72h.',
+              },
+              audience: 'directivos políticos y CEOs',
+              length: 'corto',
+            }}
+            autoRun
+            buttonLabel="Regenerar briefing IA"
+          />
         </section>
 
         {/* Acceso al panel completo para quien lo necesite */}

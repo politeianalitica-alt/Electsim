@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useBriefing } from '@/hooks/narrativa/useBriefing'
 import type { BriefingItem, TipoBriefingItem } from '@/types/narrativa'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 
 // ── design tokens ─────────────────────────────────────────────────────────
 const CARD: React.CSSProperties = {
@@ -270,6 +271,31 @@ export default function BriefingPage() {
           {filtered.map(item => (
             <ItemCard key={item.id} item={item} onRead={marcarLeido} />
           ))}
+        </div>
+
+        {/* ── IA · Briefing ejecutivo razonado por Groq ── */}
+        <div style={{ marginTop: 28 }}>
+          <BrainPanelClient
+            title="Briefing IA · síntesis ejecutiva del día (Groq · LLaMA 3.3 70B)"
+            tool="generate_briefing"
+            kwargs={{
+              title: 'Briefing Politeia',
+              date: new Date().toISOString().slice(0, 10),
+              sections_context: {
+                politica_nacional:
+                  `Briefing del día con ${briefing?.total_items ?? 0} ítems, ${briefing?.alertas_criticas ?? 0} alertas críticas.`,
+                items_destacados: (briefing?.items ?? []).slice(0, 8).map(i =>
+                  `[${(i as BriefingItem).tipo}] ${(i as BriefingItem).titular}`
+                ).join(' | '),
+                contexto:
+                  'Plataforma Politeia · cobertura nacional + UE · monitor 24/7 sobre medios, Congreso, BOE y RRSS.',
+              },
+              audience: 'directivos políticos y CEOs',
+              length: 'medio',
+            }}
+            autoRun
+            buttonLabel="Regenerar briefing"
+          />
         </div>
       </main>
     </div>

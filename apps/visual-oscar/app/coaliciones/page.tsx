@@ -11,6 +11,7 @@ import VotoBlandoPanel from '@/components/VotoBlandoPanel'
 import AnalogiasPanel from '@/components/AnalogiasPanel'
 import MarketPanel from '@/components/MarketPanel'
 import OntologyPanel from '@/components/OntologyPanel'
+import BrainPanelClient from '@/app/_components/workspace/brain-panel-client'
 
 type HubTab = 'resumen' | 'propensity' | 'adversario' | 'campana' | 'voto' | 'analogias' | 'mercado' | 'ontologia'
 const HUB_TABS: { v: HubTab; l: string }[] = [
@@ -226,6 +227,39 @@ export default function CoalicionesPage(){
         {tab === 'analogias' && <AnalogiasPanel/>}
         {tab === 'mercado' && <MarketPanel/>}
         {tab === 'ontologia' && <OntologyPanel/>}
+
+        {/* ── IA · Viabilidad de coalición razonada por Groq ── */}
+        <div style={{ marginTop: 24 }}>
+          <BrainPanelClient
+            title="Análisis IA · viabilidad de coalición (aritmética + ideológica + política)"
+            tool="analyze_coalition_viability"
+            kwargs={{
+              proposed_coalition: ['PSOE','SUMAR','ERC','PNV','BILDU','JUNTS'],
+              seats_by_party: { PSOE:121, SUMAR:27, ERC:7, PNV:5, BILDU:6, JUNTS:7 },
+              context: 'Configuración Frankenstein vigente · presión judicial sobre acuerdos · calendario presupuestario.',
+              red_lines: {
+                JUNTS: ['Amnistía total', 'Referéndum'],
+                BILDU: ['Política penitenciaria'],
+                PNV:   ['Cupo vasco', 'Inversiones'],
+              },
+            }}
+            autoRun
+            buttonLabel="Re-evaluar coalición"
+          />
+          <BrainPanelClient
+            title="Análisis IA · escenarios prospectivos del bloque progresista"
+            tool="forecast_political_scenario"
+            kwargs={{
+              topic: 'Estabilidad de la coalición de gobierno',
+              current_situation:
+                'Frankenstein con dependencias críticas de Junts. Tensión por amnistía y calendario judicial. Encuestas con techo del bloque.',
+              time_horizon: '6-12 meses',
+              constraints: ['Sin convocatoria anticipada inmediata', 'PGE como driver crítico'],
+            }}
+            autoRun={false}
+            buttonLabel="Pedir 4 escenarios + watch list"
+          />
+        </div>
 
       </main>
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
