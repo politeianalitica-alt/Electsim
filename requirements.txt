@@ -125,3 +125,10 @@ opentelemetry-instrumentation-httpx>=0.45b0       # Auto-instrumentacion httpx (
 # Risk v2 ETL
 xlrd>=2.0.1
 openpyxl>=3.1.0
+
+# Fichas dinámicas · OCR de declaraciones de bienes
+# pdfplumber: backend principal (PDF nativo, sin deps C externas)
+# pdfminer.six: fallback puro Python
+# pytesseract + tesseract-ocr quedan opcionales para PDFs escaneados antiguos
+pdfplumber>=0.10.0
+pdfminer.six>=20221105

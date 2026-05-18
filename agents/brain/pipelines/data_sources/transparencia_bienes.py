@@ -84,30 +84,23 @@ def fetch_declaracion_diputado(id_diputado: str,
 
 
 def ocr_declaracion(pdf_url: str) -> dict[str, Any]:
-    """Stub · OCR de declaración para extraer patrimonio detallado.
+    """OCR/parse de declaración de bienes · cascada de backends.
 
-    Requeriría:
-      - Descargar PDF con http_get_text en modo binario
-      - Pasar por pdfplumber (PDF nativo) o pytesseract (escaneado)
-      - Parsear tablas estructuradas tipo:
-          "Patrimonio total bruto: 350.000 €"
-          "Inmuebles: ..."
-          "Cuentas bancarias: ..."
+    Usa `pdf_ocr.parse_declaracion_pdf` que prueba en orden:
+      pdfplumber → PyMuPDF → pdfminer.six → pytesseract (con tesseract-ocr).
 
-    Esto se deja como pipeline secundario opcional (requiere dependencias
-    pesadas: poppler, tesseract-ocr, pdfplumber, pytesseract).
-
-    Devuelve estructura vacía para que el caller no rompa.
+    Si ningún backend está instalado, devuelve {ok: False, hint: ...}
+    sin levantar. Cuando un backend funciona, extrae:
+      · patrimonio_bruto_eur
+      · salario_anual_oficial_eur
+      · bienes: list[{tipo, descripcion, valor_eur, anio_declaracion}]
+      · anio_declaracion
     """
-    return {
-        "ok": False,
-        "error": "OCR no implementado en MVP · requiere pdfplumber + pytesseract",
-        "pdf_url": pdf_url,
-        "patrimonio_bruto_eur": None,
-        "salario_anual_oficial_eur": None,
-        "bienes": [],
-        "evolucion_patrimonial": [],
-    }
+    from agents.brain.pipelines.data_sources.pdf_ocr import parse_declaracion_pdf
+    out = parse_declaracion_pdf(pdf_url)
+    out["pdf_url"] = pdf_url
+    out.setdefault("evolucion_patrimonial", [])
+    return out
 
 
 def evaluar_consistencia_patrimonio(historico: list[dict[str, Any]],

@@ -375,34 +375,74 @@ class FichaPoliticoBuilder:
             ficha.comunicacion_digital = cd
         self._run(ficha, "comunicacion_digital", _stage_digital)
 
-        # ── Bloque 7 · Patrimonio y transparencia ──────────────────
+        # ── Bloque 7 · Patrimonio y transparencia (con OCR) ────────
         def _stage_patrimonio():
-            from agents.brain.pipelines.ficha_schemas import PoliticoPatrimonioTransparencia
+            from agents.brain.pipelines.ficha_schemas import (
+                PoliticoPatrimonioTransparencia, BienDeclarado,
+            )
             from agents.brain.pipelines.data_sources import transparencia_bienes, congreso_actividad
             p = PoliticoPatrimonioTransparencia()
             id_dip = congreso_actividad.find_diputado_id(nombre_politico)
-            if id_dip:
-                decl = transparencia_bienes.fetch_declaracion_diputado(id_dip)
-                if decl.get("ok"):
-                    p.badge_transparencia = decl.get("badge_transparencia") or "verde"
-                    p.fuentes = [FuenteRef(
-                        tipo="transparencia",
-                        nombre=f"Declaración bienes {decl.get('anio') or '?'}",
-                        url=decl.get("url_pdf", ""),
-                    )]
-                    # OCR opcional — campos vacíos si no implementado
-                    ocr = transparencia_bienes.ocr_declaracion(decl["url_pdf"])
-                    if ocr.get("ok"):
-                        p.patrimonio_bruto_eur = ocr.get("patrimonio_bruto_eur")
-                        p.salario_anual_oficial_eur = ocr.get("salario_anual_oficial_eur")
-                else:
-                    p.badge_transparencia = decl.get("badge_transparencia") or "amarillo"
-                    p.fuentes = [FuenteRef(tipo="transparencia",
-                                           nombre=f"transparencia: {decl.get('error', '?')}")]
-            else:
+            if not id_dip:
                 p.badge_transparencia = "amarillo"
                 p.fuentes = [FuenteRef(tipo="transparencia",
                                        nombre="No es diputado nacional · pendiente Senado/auton.")]
+                ficha.patrimonio = p
+                return
+
+            decl = transparencia_bienes.fetch_declaracion_diputado(id_dip)
+            if not decl.get("ok"):
+                p.badge_transparencia = decl.get("badge_transparencia") or "amarillo"
+                p.fuentes = [FuenteRef(tipo="transparencia",
+                                       nombre=f"transparencia: {decl.get('error', '?')}")]
+                ficha.patrimonio = p
+                return
+
+            # Tenemos URL del PDF · intentar OCR
+            p.badge_transparencia = "verde"
+            url_pdf = decl["url_pdf"]
+            ocr = transparencia_bienes.ocr_declaracion(url_pdf)
+            fuentes = [FuenteRef(
+                tipo="transparencia",
+                nombre=f"Declaración bienes {decl.get('anio') or ocr.get('anio_declaracion') or '?'}",
+                url=url_pdf,
+            )]
+            if ocr.get("ok"):
+                p.patrimonio_bruto_eur = ocr.get("patrimonio_bruto_eur")
+                p.salario_anual_oficial_eur = ocr.get("salario_anual_oficial_eur")
+                anio = ocr.get("anio_declaracion") or decl.get("anio") or ""
+                bienes_raw = ocr.get("bienes") or []
+                p.bienes = [
+                    BienDeclarado(
+                        tipo=b.get("tipo") or "otro",
+                        descripcion=b.get("descripcion") or "",
+                        valor_eur=b.get("valor_eur"),
+                        anio_declaracion=str(anio),
+                    )
+                    for b in bienes_raw if isinstance(b, dict)
+                ]
+                # Evaluar inconsistencia patrimonio vs salario
+                if p.patrimonio_bruto_eur and p.salario_anual_oficial_eur:
+                    historico = [{
+                        "anio": int(anio) if anio.isdigit() else 2024,
+                        "patrimonio_bruto_eur": p.patrimonio_bruto_eur,
+                    }]
+                    eval_ = transparencia_bienes.evaluar_consistencia_patrimonio(
+                        historico, p.salario_anual_oficial_eur,
+                    )
+                    if eval_.get("alerta"):
+                        p.alerta_ia = eval_.get("razon", "")
+                fuentes.append(FuenteRef(tipo="brain",
+                                         nombre=f"OCR · {ocr.get('backend', '?')} "
+                                                f"({ocr.get('n_pages') or '?'} pág)"))
+            else:
+                # OCR no instalado · marcamos amarillo y dejamos PDF como referencia
+                if ocr.get("error") == "no_pdf_backend_installed":
+                    p.alerta_ia = (
+                        "PDF disponible pero OCR no extrajo campos · "
+                        "instalar pdfplumber para activar"
+                    )
+            p.fuentes = fuentes
             ficha.patrimonio = p
         self._run(ficha, "patrimonio", _stage_patrimonio)
 
@@ -419,16 +459,19 @@ class FichaPoliticoBuilder:
             ficha.historico_electoral = he
         self._run(ficha, "historico_electoral", _stage_historico)
 
-        # ── Bloque 9 · Vínculos corporativos (BORME) ───────────────
+        # ── Bloque 9 · Vínculos corporativos (BORME + OpenCorporates + SABI) ─
         def _stage_vinculos():
             from agents.brain.pipelines.ficha_schemas import (
                 PoliticoVinculosCorporativos, EmpresaVinculada,
             )
-            from agents.brain.pipelines.data_sources import borme_sabi
+            from agents.brain.pipelines.data_sources import (
+                borme_sabi, opencorporates,
+            )
             v = PoliticoVinculosCorporativos()
+
+            # 1) BORME · actos mercantiles con su nombre
             actos = borme_sabi.search_borme_actos(nombre_politico, dias_atras=730,
                                                    max_items=20)
-            # Convertimos cada acto en una "empresa vinculada" cuando aplica
             for a in actos:
                 tipo = str(a.get("tipo_acto") or "")
                 if tipo in {"nombramiento", "cese", "constitución sociedad",
@@ -439,7 +482,43 @@ class FichaPoliticoBuilder:
                         relacion=tipo,
                         fecha_inicio=str(a.get("fecha") or ""),
                     ))
-            # Puertas giratorias · cruza trayectoria con BORME
+
+            # 2) OpenCorporates · oficiales / consejeros declarados
+            try:
+                oc_results = opencorporates.find_officer_companies(
+                    nombre_politico, country="es", limit=20,
+                )
+            except Exception as exc:
+                logger.debug("OpenCorporates falló: %s", exc)
+                oc_results = []
+            for o in oc_results:
+                v.empresas_vinculadas.append(EmpresaVinculada(
+                    nombre=str(o.get("empresa_nombre") or "")[:160],
+                    sector="",
+                    relacion=str(o.get("rol") or "consejero"),
+                    fecha_inicio=str(o.get("fecha_inicio") or ""),
+                    fecha_fin=str(o.get("fecha_fin") or ""),
+                    cif=str(o.get("empresa_numero") or ""),
+                ))
+            if oc_results:
+                v.sectores_interes_legislativo = opencorporates.inferir_sectores_de_empresas(
+                    oc_results,
+                )
+
+            # 3) SABI (cuando licencia configurada via SABI_API_KEY/SABI_TOKEN)
+            sabi = opencorporates.get_sabi_client()
+            if sabi.configured:
+                sabi_results = sabi.search_officer(nombre_politico)
+                for o in sabi_results[:10]:
+                    v.empresas_vinculadas.append(EmpresaVinculada(
+                        nombre=str(o.get("nombre", ""))[:160],
+                        sector=o.get("sector", ""),
+                        relacion=o.get("rol", "consejero"),
+                        fecha_inicio=str(o.get("fecha_inicio", "")),
+                        cif=o.get("cif", ""),
+                    ))
+
+            # 4) Puertas giratorias · cruza trayectoria con BORME
             try:
                 cargos = [c.model_dump() for c in (ficha.trayectoria.cargos_publicos or [])]
             except Exception:
@@ -448,11 +527,15 @@ class FichaPoliticoBuilder:
             if pg:
                 v.puertas_giratorias_detectadas = pg
                 v.alerta_solapamiento_legislador_regulado = True
-            v.fuentes = [FuenteRef(
-                tipo="brain",
-                nombre="BORME · BOE",
-                url=f"https://www.boe.es/buscar/borme.php",
-            )]
+
+            v.fuentes = [
+                FuenteRef(tipo="brain", nombre="BORME · BOE",
+                          url="https://www.boe.es/buscar/borme.php"),
+                FuenteRef(tipo="brain", nombre="OpenCorporates",
+                          url="https://opencorporates.com"),
+            ]
+            if sabi.configured:
+                v.fuentes.append(FuenteRef(tipo="brain", nombre="SABI (Bureau van Dijk)"))
             ficha.vinculos_corporativos = v
         self._run(ficha, "vinculos_corporativos", _stage_vinculos)
 

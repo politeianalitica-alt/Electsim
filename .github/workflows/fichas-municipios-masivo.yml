@@ -1,0 +1,143 @@
+name: Fichas municipios masivo (matrix)
+
+# Pre-genera fichas de los 8.132 municipios partidas en N shards
+# paralelos (matrix strategy de GitHub Actions).
+#
+# Cada shard procesa 1/N del total con checkpoint independiente.
+# El job final agrega artefactos en una sola release.
+#
+# Activación: manual (workflow_dispatch) o programada (cron mensual).
+
+on:
+  workflow_dispatch:
+    inputs:
+      total_shards:
+        description: "Número de shards paralelos (max 20 jobs simultáneos)"
+        required: true
+        default: "10"
+      min_poblacion:
+        description: "Población mínima del municipio (0 = todos)"
+        required: false
+        default: "0"
+      ccaa:
+        description: "Filtrar por CCAA (vacío = todas)"
+        required: false
+        default: ""
+      persist_db:
+        description: "Persistir a Postgres (requiere DATABASE_URL)"
+        type: boolean
+        default: false
+  # 1ª noche de cada mes a las 02:00 UTC
+  schedule:
+    - cron: "0 2 1 * *"
+
+concurrency:
+  group: fichas-municipios-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.compute.outputs.shards }}
+    steps:
+      - id: compute
+        run: |
+          TOTAL="${{ inputs.total_shards || 10 }}"
+          # Genera array JSON [0, 1, ..., TOTAL-1]
+          SHARDS=$(python -c "import json,sys; print(json.dumps(list(range(int(sys.argv[1])))))" "$TOTAL")
+          echo "shards=$SHARDS" >> "$GITHUB_OUTPUT"
+          echo "Plan: $TOTAL shards paralelos"
+
+  fichas:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        shard: ${{ fromJSON(needs.prepare.outputs.shards) }}
+    env:
+      OPENAI_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      OPENAI_BASE_URL: https://api.groq.com/openai/v1
+      ELECTSIM_OPENAI_MODEL: llama-3.3-70b-versatile
+      ELECTSIM_LLM_PROVIDER: openai
+      GROQ_MAX_TOKENS: "4096"
+      GROQ_TEMPERATURE: "0.3"
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      OTEL_SDK_DISABLED: "true"
+      TOTAL_SHARDS: ${{ inputs.total_shards || 10 }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Pre-fetch inventario municipios (1ª vez, cachea CSV)
+        run: |
+          python -c "
+          from agents.brain.pipelines.data_sources.municipios_inventory import list_all_municipios, stats
+          mm = list_all_municipios()
+          print(f'Inventario: {len(mm)} municipios')
+          print(stats())
+          "
+
+      - name: Backfill shard ${{ matrix.shard }}/${{ inputs.total_shards || 10 }}
+        env:
+          SHARD: ${{ matrix.shard }}
+          MIN_POB: ${{ inputs.min_poblacion || 0 }}
+          CCAA: ${{ inputs.ccaa || '' }}
+          PERSIST: ${{ inputs.persist_db && '--persist' || '' }}
+        run: |
+          ARGS="--shard ${SHARD}/${TOTAL_SHARDS} --resume --workers 2 --rate-rpm 25"
+          if [ "$MIN_POB" != "0" ]; then ARGS="$ARGS --min-pob $MIN_POB"; fi
+          if [ -n "$CCAA" ]; then ARGS="$ARGS --ccaa \"$CCAA\""; fi
+          if [ -n "$PERSIST" ]; then ARGS="$ARGS $PERSIST"; fi
+          echo "Args: $ARGS"
+          eval python -m pipelines.backfill_municipios_masivo $ARGS
+
+      - name: Subir JSONL de este shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fichas-municipios-shard-${{ matrix.shard }}-${{ github.run_number }}
+          path: |
+            data/processed/brain_enrichment/ficha_territorial_*.jsonl
+            data/processed/brain_enrichment/backfill_municipios.checkpoint
+            data/raw/municipios_ine.csv
+          retention-days: 30
+          if-no-files-found: warn
+
+  agregar:
+    needs: fichas
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar todos los artefactos
+        uses: actions/download-artifact@v4
+        with:
+          path: artefactos/
+
+      - name: Contar fichas generadas
+        run: |
+          echo "## Resumen agregado · $(date -u +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+          TOTAL=$(find artefactos -name "ficha_territorial_*.jsonl" | wc -l)
+          echo "- Total fichas territoriales generadas: **$TOTAL**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Por shard:" >> $GITHUB_STEP_SUMMARY
+          for dir in artefactos/fichas-municipios-shard-*; do
+            shard_name=$(basename "$dir")
+            count=$(find "$dir" -name "ficha_territorial_*.jsonl" 2>/dev/null | wc -l)
+            echo "- $shard_name: $count fichas" >> $GITHUB_STEP_SUMMARY
+          done
