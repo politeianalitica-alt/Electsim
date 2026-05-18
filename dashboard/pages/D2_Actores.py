@@ -353,25 +353,44 @@ def _node_color(actor: dict, comm: dict) -> str:
     return _color_tipo(actor.get("tipo", ""))
 
 def _get_actores() -> list[dict]:
+    # Datos crudos (BD o demo)
     if _SVC_OK:
         try:
-            return _svc.get_actores()
+            base = _svc.get_actores()
         except Exception:
-            pass
-    return DEMO_ACTORES_FULL
+            base = DEMO_ACTORES_FULL
+    else:
+        base = DEMO_ACTORES_FULL
+    # Enriquecimiento silencioso por brain_content (rellena campos vacíos
+    # con el dossier de actor si existe en brain_actor_dossiers o JSONL).
+    try:
+        from dashboard.services.brain_content import enrich_actor_list
+        return enrich_actor_list(base)
+    except Exception:
+        return base
 
 def _get_actor_by_nombre(nombre: str) -> dict | None:
+    found = None
     for a in DEMO_ACTORES_FULL:
         if a["nombre"] == nombre:
-            return a
-    if _SVC_OK:
+            found = a
+            break
+    if found is None and _SVC_OK:
         try:
             for a in _svc.get_actores():
                 if a.get("nombre") == nombre:
-                    return a
+                    found = a
+                    break
         except Exception:
             pass
-    return None
+    if found is None:
+        return None
+    # Enriquecimiento silencioso por brain_content
+    try:
+        from dashboard.services.brain_content import enrich_actor_dict
+        return enrich_actor_dict(found)
+    except Exception:
+        return found
 
 def _sentimiento_label(s: float) -> str:
     if s > 0.1:
@@ -566,6 +585,36 @@ with tab_dossier:
             f'<div class="dossier-bio">{bio}</div>',
             unsafe_allow_html=True,
         )
+        # Si brain_content tiene contexto extra (estilo, momentum, next_move,
+        # fortalezas/debilidades, citaciones) lo añadimos al mismo bloque
+        # respetando la estética existente (`dossier-bio`).
+        _extra_bits = []
+        if actor_d.get("brain_estilo_politico"):
+            _extra_bits.append(f"<strong>Estilo:</strong> {actor_d['brain_estilo_politico']}")
+        if actor_d.get("brain_momentum"):
+            _extra_bits.append(f"<strong>Momentum:</strong> {actor_d['brain_momentum']}")
+        if actor_d.get("brain_next_move"):
+            _extra_bits.append(f"<strong>Próximo movimiento esperado:</strong> {actor_d['brain_next_move']}")
+        if _extra_bits:
+            st.markdown(
+                "<div class='dossier-bio' style='margin-top:.6rem'>"
+                + "<br>".join(_extra_bits)
+                + "</div>",
+                unsafe_allow_html=True,
+            )
+        # Citaciones (si Wikipedia o BD las aportaron)
+        cits = actor_d.get("brain_citations") or []
+        if cits:
+            with st.expander(f"Fuentes consultadas ({len(cits)})", expanded=False):
+                for c in cits[:5]:
+                    if isinstance(c, dict):
+                        url = c.get("url") or ""
+                        tit = c.get("titulo") or c.get("title") or url
+                        tip = c.get("tipo") or "fuente"
+                        if url:
+                            st.markdown(f"- [{tit}]({url}) · _{tip}_")
+                        else:
+                            st.markdown(f"- {tit} · _{tip}_")
 
     # ── Sección 3: Noticias recientes ─────────────────────────────────────
     section_header("Últimas noticias", AMBER)

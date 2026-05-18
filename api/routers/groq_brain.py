@@ -262,6 +262,64 @@ def ontology_enrich(payload: OntologyEnrichRequest) -> dict[str, Any]:
         raise HTTPException(status_code=500, detail=f"{type(exc).__name__}: {str(exc)[:300]}") from exc
 
 
+@router.get("/content/actor/{name}", tags=["groq-brain"])
+def content_actor(name: str, depth: str | None = None) -> dict[str, Any]:
+    """Devuelve dossier enriquecido del actor (lectura, no genera)."""
+    try:
+        from dashboard.services.brain_content import get_actor_dossier
+        dossier = get_actor_dossier(name, depth=depth)
+        if not dossier:
+            return {"found": False, "name": name}
+        return {"found": True, "name": name, "dossier": dossier}
+    except Exception as exc:
+        logger.warning("content_actor falló: %s", exc)
+        return {"found": False, "name": name, "error": str(exc)[:200]}
+
+
+@router.get("/content/territory/{name}", tags=["groq-brain"])
+def content_territory(name: str, ccaa: str = "") -> dict[str, Any]:
+    """Devuelve ficha enriquecida del territorio (lectura, no genera)."""
+    try:
+        from dashboard.services.brain_content import get_territory_profile
+        profile = get_territory_profile(name, ccaa)
+        if not profile:
+            return {"found": False, "name": name}
+        return {"found": True, "name": name, "profile": profile}
+    except Exception as exc:
+        logger.warning("content_territory falló: %s", exc)
+        return {"found": False, "name": name, "error": str(exc)[:200]}
+
+
+@router.get("/content/issue/{name}", tags=["groq-brain"])
+def content_issue(name: str) -> dict[str, Any]:
+    """Devuelve dossier enriquecido de un issue."""
+    try:
+        from dashboard.services.brain_content import get_issue_dossier
+        dossier = get_issue_dossier(name)
+        if not dossier:
+            return {"found": False, "name": name}
+        return {"found": True, "name": name, "dossier": dossier}
+    except Exception as exc:
+        logger.warning("content_issue falló: %s", exc)
+        return {"found": False, "name": name, "error": str(exc)[:200]}
+
+
+@router.get("/content/actor-edges", tags=["groq-brain"])
+def content_actor_edges(
+    actor_id: str | None = None,
+    min_strength: float = 0.0,
+    limit: int = 200,
+) -> dict[str, Any]:
+    """Devuelve edges del grafo de actores (ego-network si actor_id)."""
+    try:
+        from dashboard.services.brain_content import get_actor_edges
+        edges = get_actor_edges(actor_id, min_strength=min_strength, limit=int(limit))
+        return {"count": len(edges), "edges": edges}
+    except Exception as exc:
+        logger.warning("content_actor_edges falló: %s", exc)
+        return {"count": 0, "edges": [], "error": str(exc)[:200]}
+
+
 @router.post("/forecast/serie", tags=["groq-brain"])
 def forecast_serie(payload: ForecastSerieRequest) -> dict[str, Any]:
     """Forecast cuantitativo + lectura razonada para una serie temporal."""

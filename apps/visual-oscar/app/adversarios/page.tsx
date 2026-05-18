@@ -461,6 +461,39 @@ export default function AdversariosPage() {
   const [tab, setTab] = useState<'dafo' | 'mensajes' | 'voceros' | 'vulnerabilidades' | 'coaliciones' | 'agenda'>('dafo')
   const selected = useMemo(() => ADVERSARIOS.find(a => a.id === selectedId)!, [selectedId])
 
+  // Enriquecimiento silencioso desde brain_actor_dossiers (si existe).
+  // Fetch al endpoint /api/brain-content/actor/{lider}. Si no hay dossier,
+  // brainDossier queda null y la página se renderiza igual que antes.
+  const [brainDossier, setBrainDossier] = useState<Record<string, unknown> | null>(null)
+  useEffect(() => {
+    let cancelled = false
+    setBrainDossier(null)
+    const subject = selected?.lider || selected?.nombre
+    if (!subject) return
+    const url = `/api/brain-content/actor/${encodeURIComponent(subject)}`
+    fetch(url, { cache: 'force-cache' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (cancelled) return
+        if (j && j.found && j.dossier) {
+          setBrainDossier(j.dossier as Record<string, unknown>)
+        }
+      })
+      .catch(() => { /* silencio · sin dossier la UI no cambia */ })
+    return () => { cancelled = true }
+  }, [selected])
+
+  const brainSummary: string | null = (() => {
+    if (!brainDossier) return null
+    const exec = brainDossier.executive_summary
+    const ol = brainDossier.one_liner
+    if (typeof exec === 'string' && exec.length > 0) return exec
+    if (typeof ol === 'string' && ol.length > 0) return ol
+    return null
+  })()
+  const brainSections = (brainDossier?.sections as Record<string, unknown> | undefined) || {}
+  const brainRisks = (brainDossier?.risks as string[] | undefined) || []
+
   const totals = useMemo(() => {
     const cri = ADVERSARIOS.filter(a => a.amenaza === 'CRÍTICO').length
     const alt = ADVERSARIOS.filter(a => a.amenaza === 'ALTO').length
@@ -576,6 +609,18 @@ export default function AdversariosPage() {
             </div>
           </div>
 
+          {/* Síntesis biográfica desde brain (solo si hay dossier) */}
+          {brainSummary && (
+            <p style={{
+              margin:'0 0 12px', fontSize:13, lineHeight:1.55,
+              color:'#3a3a3d', fontStyle:'italic',
+              borderLeft:`3px solid ${selected.color}40`,
+              paddingLeft:12,
+            }}>
+              {brainSummary}
+            </p>
+          )}
+
           {/* Indicadores clave */}
           <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:8, marginBottom:14 }}>
             <SKpi label="Conocimiento"    value={`${selected.conocimiento}%`}              color="#5B21B6"/>
@@ -585,6 +630,39 @@ export default function AdversariosPage() {
             <SKpi label="Voluntarios"     value={`${selected.voluntariosEstim}K`}          color="#0EA5E9"/>
             <SKpi label="Alcance redes"   value={`${selected.redesAlcance}M`}              color="#DC2626"/>
           </div>
+
+          {/* Bloque enriquecido por brain · solo si hay secciones */}
+          {(Object.keys(brainSections).length > 0 || brainRisks.length > 0) && (
+            <div style={{
+              background:'#fafafa', border:'1px solid #ECECEF', borderRadius:10,
+              padding:'12px 14px', marginBottom:14, fontSize:12.5, lineHeight:1.55,
+              color:'#3a3a3d',
+            }}>
+              {typeof brainSections['estilo_politico'] === 'string' && (brainSections['estilo_politico'] as string) && (
+                <div style={{ marginBottom:6 }}>
+                  <strong style={{ color:'#1d1d1f' }}>Estilo:</strong> {brainSections['estilo_politico'] as string}
+                </div>
+              )}
+              {typeof brainSections['momentum'] === 'string' && (brainSections['momentum'] as string) && (
+                <div style={{ marginBottom:6 }}>
+                  <strong style={{ color:'#1d1d1f' }}>Momentum:</strong> {brainSections['momentum'] as string}
+                </div>
+              )}
+              {typeof brainSections['predicted_next_move'] === 'string' && (brainSections['predicted_next_move'] as string) && (
+                <div style={{ marginBottom:6 }}>
+                  <strong style={{ color:'#1d1d1f' }}>Próximo movimiento esperado:</strong> {brainSections['predicted_next_move'] as string}
+                </div>
+              )}
+              {brainRisks.length > 0 && (
+                <div style={{ marginTop:6 }}>
+                  <strong style={{ color:'#1d1d1f' }}>Riesgos identificados:</strong>
+                  <ul style={{ margin:'4px 0 0 18px', padding:0 }}>
+                    {brainRisks.slice(0, 4).map((r, i) => (<li key={i}>{r}</li>))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Equipo */}
           <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 14px', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:14, fontSize:11.5 }}>

@@ -39,6 +39,13 @@ def render_ficha(conn, politico_id: str) -> None:
     if not perfil:
         st.warning("No se encontró ficha para el político seleccionado.")
         return
+    # Enriquecimiento silencioso desde brain_actor_dossiers si existe
+    try:
+        from dashboard.services.brain_content import get_actor_dossier
+        _nombre_busqueda = perfil.get("nombre_completo") or perfil.get("nombre")
+        _brain_dossier = get_actor_dossier(_nombre_busqueda) if _nombre_busqueda else None
+    except Exception:
+        _brain_dossier = None
 
     partido = str(perfil.get("partido_actual", ""))
     color = COLORES_PARTIDO.get(partido, "#666")
@@ -91,6 +98,11 @@ def render_ficha(conn, politico_id: str) -> None:
     ])
 
     with tab_bio:
+        # Síntesis ejecutiva del cerebro (si el dossier la tiene) — va arriba
+        if _brain_dossier:
+            _exec = _brain_dossier.get("executive_summary") or _brain_dossier.get("one_liner")
+            if _exec:
+                st.markdown(f"_{_exec}_")
         c1, c2 = st.columns(2)
         with c1:
             st.markdown("**Datos personales**")
@@ -110,6 +122,40 @@ def render_ficha(conn, politico_id: str) -> None:
                 st.markdown("**Formación**")
                 for f in form:
                     st.write(f"▵  {f}")
+
+        # Bloque enriquecido por brain (solo si dossier existe)
+        if _brain_dossier:
+            _sections = _brain_dossier.get("sections") or {}
+            _renderable = [
+                ("Estilo político", _sections.get("estilo_politico")),
+                ("Momentum", _sections.get("momentum")),
+                ("Fortalezas", _sections.get("fortalezas")),
+                ("Debilidades", _sections.get("debilidades")),
+                ("Palancas (qué le mueve)", _sections.get("palancas")),
+                ("Audiencias clave", _sections.get("audiencias_clave")),
+                ("Canales preferidos", _sections.get("canales_preferidos")),
+                ("Predicted next move", _sections.get("predicted_next_move")),
+            ]
+            _to_show = [(lbl, val) for lbl, val in _renderable if val]
+            if _to_show:
+                st.markdown("---")
+                st.markdown("**Análisis político**")
+                for lbl, val in _to_show:
+                    st.markdown(f"**{lbl}**")
+                    st.markdown(val)
+            # Citaciones
+            _cits = _brain_dossier.get("citations") or []
+            if _cits:
+                with st.expander(f"Fuentes ({len(_cits)})"):
+                    for c in _cits[:6]:
+                        if isinstance(c, dict):
+                            url = c.get("url") or ""
+                            tit = c.get("titulo") or url
+                            tip = c.get("tipo") or "fuente"
+                            if url:
+                                st.markdown(f"- [{tit}]({url}) · _{tip}_")
+                            else:
+                                st.markdown(f"- {tit} · _{tip}_")
 
     with tab_tray:
         df_tray = ficha.get("trayectoria", pd.DataFrame())

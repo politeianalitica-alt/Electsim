@@ -42,7 +42,15 @@ def render_territory_detail_panel(
     except Exception:
         profile = {}
 
-    name = profile.get("name") or territory_id
+    # Enriquecimiento silencioso por brain_content (rellena campos faltantes
+    # con el perfil generado por los pipelines del cerebro, si está disponible).
+    try:
+        from dashboard.services.brain_content import enrich_territory_dict
+        profile = enrich_territory_dict(profile or {})
+    except Exception:
+        pass
+
+    name = profile.get("name") or profile.get("nombre") or territory_id
 
     st.markdown(f"### 📍 {name}")
     st.caption(f"`{territory_id}`")
@@ -50,6 +58,11 @@ def render_territory_detail_panel(
     if not profile:
         st.warning("No hay datos disponibles para este territorio.")
         return
+
+    # ── Síntesis brain (si disponible) ────────────────────────────────────────
+    sintesis = profile.get("sintesis") or ""
+    if sintesis:
+        st.markdown(f"_{sintesis}_")
 
     # ── KPIs principales ──────────────────────────────────────────────────────
     st.markdown("#### Indicadores clave")
@@ -156,6 +169,76 @@ def render_territory_detail_panel(
             st.caption("Sin recomendaciones disponibles.")
     except Exception:
         st.caption("Módulo de campaña no disponible.")
+
+    # ── Contenido enriquecido por brain_content (silencioso · no widgets IA) ──
+    # Solo se renderiza si los pipelines ya han poblado la BD/JSONL.
+    _brain_issues = profile.get("brain_issues") or []
+    _brain_factores = profile.get("brain_factores_basculantes") or []
+    _brain_riesgos = profile.get("brain_riesgos") or []
+    _brain_palancas = profile.get("brain_palancas") or []
+    _brain_mensajes = profile.get("brain_mensajes") or []
+    _brain_segmentos = profile.get("brain_segmentos") or []
+    _brain_analogos = profile.get("brain_analogos") or []
+    _perfil_voto = profile.get("perfil_voto") or ""
+    _bisagra = profile.get("brain_es_bisagra")
+
+    if _brain_issues or _brain_factores or _brain_riesgos or _brain_palancas:
+        st.markdown("#### Perfil territorial detallado")
+
+        if _perfil_voto:
+            etiqueta_bisagra = " · BISAGRA" if _bisagra else ""
+            st.markdown(f"**Tipo electoral:** {_perfil_voto}{etiqueta_bisagra}")
+
+        if _brain_issues:
+            st.markdown("**Issues locales principales:**")
+            for issue in _brain_issues[:6]:
+                if isinstance(issue, dict):
+                    tema = issue.get("tema", "")
+                    desc = issue.get("descripcion", "")
+                    line = f"- {tema}"
+                    if desc:
+                        line += f": {desc}"
+                    st.markdown(line)
+                else:
+                    st.markdown(f"- {issue}")
+
+        if _brain_factores:
+            st.markdown("**Factores basculantes a vigilar:**")
+            for f in _brain_factores[:5]:
+                st.markdown(f"- {f}")
+
+        if _brain_palancas:
+            st.markdown("**Palancas de movilización:**")
+            for p in _brain_palancas[:5]:
+                st.markdown(f"- {p}")
+
+        if _brain_mensajes:
+            st.markdown("**Mensajes que funcionan localmente:**")
+            for m in _brain_mensajes[:5]:
+                st.markdown(f"- {m}")
+
+        if _brain_riesgos:
+            st.markdown("**Riesgos locales:**")
+            for r in _brain_riesgos[:4]:
+                st.markdown(f"- {r}")
+
+        if _brain_segmentos:
+            with st.expander(f"Segmentos de voto detallados ({len(_brain_segmentos)})", expanded=False):
+                for seg in _brain_segmentos[:6]:
+                    if isinstance(seg, dict):
+                        nom = seg.get("nombre", "segmento")
+                        size = seg.get("size_pct")
+                        lean = seg.get("current_lean", "")
+                        motivs = seg.get("motivations") or []
+                        st.markdown(f"**{nom}** · {size}% · lean={lean}")
+                        for mot in motivs[:3]:
+                            st.caption(f"  · {mot}")
+
+        if _brain_analogos:
+            st.caption(f"📊 Territorios análogos: {', '.join(map(str, _brain_analogos[:4]))}")
+
+        if profile.get("url_wikipedia"):
+            st.caption(f"📖 [Wikipedia]({profile['url_wikipedia']})")
 
 
 def render_layer_selector(
