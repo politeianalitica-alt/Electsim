@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "version": "2026.05",
+    "actualizado": "2026-05",
+    "descripcion": "Grupos de trabajo, eventos y calls for proposals EDA + OTAN + OSCE + Ministerios",
+    "fuentes": ["EDA What-we-do", "NATO STO Calls", "OSCE FSC", "BOE", "DGAM", "DGA", "BAAINBw"]
+  },
+  "captechs_eda": [
+    { "id": "AIR", "nombre": "Aerial Systems", "dominio": "Aéreo", "relevancia_es": "alta", "descripcion": "Cazas, drones, helicópteros, transporte aéreo · liderazgo en FCAS, Eurodrone, NH-90", "actividades_2026": ["Workshop UCAV (mar 2026)", "Study Eurodrone payload (jun 2026)"] },
+    { "id": "Land", "nombre": "Ground Systems", "dominio": "Terrestre", "relevancia_es": "media", "descripcion": "Vehículos blindados, MBT, sistemas terrestres" },
+    { "id": "Maritime", "nombre": "Maritime Systems", "dominio": "Naval", "relevancia_es": "alta", "descripcion": "Fragatas, submarinos, vigilancia costera · F-110, S-80, MCM" },
+    { "id": "Missiles", "nombre": "Missiles & Munitions", "dominio": "Transversal", "relevancia_es": "muy_alta", "descripcion": "Munición 155mm, misiles aire-aire, sistemas antibalísticos · MBDA leadership" },
+    { "id": "RADAR", "nombre": "Radar Systems", "dominio": "ISR/Electrónica", "relevancia_es": "alta", "descripcion": "Sistemas vigilancia, SIVE, radares 3D, AESA" },
+    { "id": "Cyber", "nombre": "CapTech Cyber", "dominio": "Cyber", "relevancia_es": "alta", "descripcion": "Ciberdefensa, criptografía, hardening sistemas militares" },
+    { "id": "Information", "nombre": "Information Superiority", "dominio": "C4ISR/Hybrid", "relevancia_es": "alta", "descripcion": "C2 conjunto, gestión de batalla, fusión de datos" },
+    { "id": "Optronics", "nombre": "Optronics Systems", "dominio": "ISR/Sensores", "relevancia_es": "media", "descripcion": "Sensores EO/IR, visores, designadores láser" },
+    { "id": "Materials", "nombre": "Materials & Structures", "dominio": "Industrial", "relevancia_es": "baja", "descripcion": "Materiales avanzados, blindajes compuestos" },
+    { "id": "GNC", "nombre": "Guidance, Navigation & Control", "dominio": "Misiles/Drones", "relevancia_es": "alta", "descripcion": "Precisión munición guiada, navegación inercial, UAV control" },
+    { "id": "SIM", "nombre": "Simulation Technologies", "dominio": "Adiestramiento", "relevancia_es": "media", "descripcion": "Simuladores combate, M&S, virtual training" },
+    { "id": "COMP", "nombre": "Components", "dominio": "Electrónica base", "relevancia_es": "media", "descripcion": "Semiconductores militares, FPGA radiation-hardened" },
+    { "id": "CBRN", "nombre": "CBRN and Human Factors", "dominio": "CBRN", "relevancia_es": "baja", "descripcion": "Defensa química-biológica-radiológica-nuclear" },
+    { "id": "Energy", "nombre": "Energy and Environment", "dominio": "Enabler", "relevancia_es": "media", "descripcion": "Combustibles alternativos, baterías militares, eficiencia energética" },
+    { "id": "Space", "nombre": "Space", "dominio": "Espacial", "relevancia_es": "alta", "descripcion": "Satélites militares, vigilancia espacial · Hisdesat, PAZ" },
+    { "id": "UAS", "nombre": "Autonomous Systems / UAS", "dominio": "Drones", "relevancia_es": "muy_alta", "descripcion": "Drones MALE, swarming, contra-UAS, regulación UAS" }
+  ],
+  "comites_otan": [
+    { "id": "MCJSB", "nombre": "Military Committee Joint Standardization Board", "tipo": "estandarizacion", "descripcion": "Aprueba STANAGs · condiciona qué equipos se pueden comprar bajo interoperabilidad OTAN", "url": "https://www.nato.int/cps/en/natohq/topics_69269.htm" },
+    { "id": "CDAB", "nombre": "Capability Development and Armaments Board", "tipo": "capacidades", "descripcion": "Define prioridades de capacidad multinacional · sesiones cerradas + resúmenes públicos" },
+    { "id": "NIAG", "nombre": "NATO Industrial Advisory Group", "tipo": "industria", "descripcion": "Canal oficial industria → OTAN · estudios abiertos NIAG SG-XX", "url": "https://www.ncia.nato.int/NIAG" },
+    { "id": "NCIA", "nombre": "NATO Communications and Information Agency", "tipo": "agencia", "descripcion": "Contratos C4ISR, redes, ciber · 600M€/año", "url": "https://www.ncia.nato.int/AboutUs/Pages/Bidding.aspx" },
+    { "id": "NSPA", "nombre": "NATO Support and Procurement Agency", "tipo": "agencia", "descripcion": "Logística, combustible, mantenimiento, munición · no-profit/no-loss · 32 aliados", "url": "https://www.nspa.nato.int/business" }
+  ],
+  "sto_rtg": [
+    { "id": "SCI-355", "nombre": "Autonomous Systems in Multi-Domain Operations", "panel": "SCI", "estado": "activo", "duracion": "2024-2027" },
+    { "id": "SCI-362", "nombre": "Counter-UAS Systems", "panel": "SCI", "estado": "activo", "duracion": "2025-2028" },
+    { "id": "IST-186", "nombre": "AI for Intelligence Analysis", "panel": "IST", "estado": "activo", "duracion": "2024-2027" },
+    { "id": "HFM-345", "nombre": "Human Performance in Contested Environments", "panel": "HFM", "estado": "activo", "duracion": "2024-2026" },
+    { "id": "SET-302", "nombre": "Radar Technologies for Contested Airspace", "panel": "SET", "estado": "activo", "duracion": "2025-2028" },
+    { "id": "SAS-178", "nombre": "Strategic Foresight on Hybrid Threats", "panel": "SAS", "estado": "activo", "duracion": "2024-2026" }
+  ],
+  "osce_foros": [
+    { "id": "FSC", "nombre": "Forum for Security Co-operation", "descripcion": "Semanal Viena · control armamentos, medidas de confianza, transparencia FF.AA.", "url": "https://www.osce.org/fsc" },
+    { "id": "VDoc", "nombre": "Vienna Document Updates", "descripcion": "Medidas de confianza · inventarios declarados FF.AA.", "url": "https://www.osce.org/fsc/military-information-exchange" },
+    { "id": "Asian", "nombre": "OSCE Asian Conference", "descripcion": "Anual · 2026 sobre amenazas digitales transnacionales" }
+  ],
+  "eventos_2026": [
+    { "id": "ev-eda-annual", "nombre": "EDA Annual Conference", "tipo": "conferencia", "fecha": "2026-11-12", "ubicacion": "Bruselas", "organizador": "EDA", "url": "https://www.eda.europa.eu/news-and-events/events", "descripcion": "Evento político-estratégico principal de la EDA · ministros de defensa", "publico": "alta_dirección", "relevancia": "alta" },
+    { "id": "ev-eurosatory", "nombre": "Eurosatory", "tipo": "feria_industrial", "fecha": "2026-06-15", "ubicacion": "París Villepinte", "organizador": "COGES", "url": "https://www.eurosatory.com", "descripcion": "Mayor feria terrestre europea · 1.800 expositores", "publico": "industria_completa", "relevancia": "alta" },
+    { "id": "ev-feindef", "nombre": "FEINDEF Madrid", "tipo": "feria_industrial", "fecha": "2027-11-09", "ubicacion": "Madrid IFEMA", "organizador": "AFARMADE + ISDEFE", "url": "https://www.feindef.com", "descripcion": "Feria Internacional de Defensa y Seguridad de España · bienal", "publico": "industria_es", "relevancia": "alta" },
+    { "id": "ev-mspo", "nombre": "MSPO", "tipo": "feria_industrial", "fecha": "2026-09-08", "ubicacion": "Kielce Polonia", "organizador": "Targi Kielce", "url": "https://www.mspo.pl", "descripcion": "Mayor feria defensa Europa Central · cliente n°1 OTAN", "publico": "industria_otan", "relevancia": "alta" },
+    { "id": "ev-dsei-eur", "nombre": "DSEI UK 2027", "tipo": "feria_industrial", "fecha": "2027-09-14", "ubicacion": "Londres ExCeL", "organizador": "Clarion Defence", "url": "https://www.dsei.co.uk", "descripcion": "Bienal · principal feria defensa UK", "publico": "industria_completa", "relevancia": "alta" },
+    { "id": "ev-nitec", "nombre": "NITEC", "tipo": "conferencia", "fecha": "2026-04-21", "ubicacion": "Mons (NATO HQ)", "organizador": "NCIA", "url": "https://nitec.nci.nato.int", "descripcion": "NATO IT Enterprise Conference · C4ISR/Cyber", "publico": "industria_tic", "relevancia": "alta" },
+    { "id": "ev-tide-sprint", "nombre": "TIDE Sprint Q1", "tipo": "workshop_tecnico", "fecha": "2026-03-10", "ubicacion": "Norfolk (ACT)", "organizador": "NATO ACT", "url": "https://tide.act.nato.int", "descripcion": "Interoperabilidad y estándares datos · semestral", "publico": "industria_tic", "relevancia": "media" },
+    { "id": "ev-edif-industry", "nombre": "EDA Industry Day 2026", "tipo": "industry_day", "fecha": "2026-10-08", "ubicacion": "Bruselas", "organizador": "EDA", "url": "https://www.eda.europa.eu/news-and-events/events", "descripcion": "Roadmap de contratos EDA · acceso para industria acreditada", "publico": "industria_acreditada", "relevancia": "muy_alta" },
+    { "id": "ev-card-briefing", "nombre": "CARD 2026 Public Briefing", "tipo": "briefing", "fecha": "2026-09-15", "ubicacion": "Bruselas + streaming", "organizador": "EDA", "url": "https://www.eda.europa.eu", "descripcion": "Coordinated Annual Review on Defence · resultados públicos", "publico": "analistas_publico", "relevancia": "media" }
+  ],
+  "calls_activas": [
+    { "id": "call-edf-2026", "nombre": "EDF 2026 Call for Proposals", "organizador": "Comisión Europea (DG DEFIS)", "tipo": "subvencion_id", "fecha_apertura": "2026-03-15", "fecha_cierre": "2026-09-30", "cuantia_total_M": 1000, "url": "https://defence-industry-space.ec.europa.eu/edf-calls-proposals_en", "descripcion": "31 tópicos · 1bn€ · I+D y desarrollo capacidades multinacionales · consorcios 3+ estados", "elegibles_es": ["Indra", "Navantia", "Airbus DS", "GMV", "Sener", "Tecnobit", "Aertec"], "relevancia": "muy_alta" },
+    { "id": "call-edip-2026", "nombre": "EDIP 2026 First Tranche", "organizador": "Comisión Europea + EDA", "tipo": "produccion_conjunta", "fecha_apertura": "2026-06-01", "fecha_cierre": "2026-12-15", "cuantia_total_M": 500, "url": "https://defence-industry-space.ec.europa.eu/edip", "descripcion": "European Defence Industry Programme · producción conjunta · 65% contenido EU", "relevancia": "muy_alta" },
+    { "id": "call-pesco-25", "nombre": "PESCO Wave 2026", "organizador": "Consejo UE", "tipo": "proyecto_pesco", "fecha_apertura": "2026-01-15", "fecha_cierre": "2026-05-30", "url": "https://www.consilium.europa.eu/en/policies/defence-security/pesco-permanent-structured-cooperation/", "descripcion": "Nuevos proyectos PESCO · cooperación estructurada permanente", "relevancia": "alta" },
+    { "id": "call-sto-2026", "nombre": "NATO STO Annual Call", "organizador": "NATO STO", "tipo": "papers_y_participacion", "fecha_apertura": "2026-01-30", "fecha_cierre": "2026-04-30", "url": "https://www.sto.nato.int/Pages/calls.aspx", "descripcion": "Call for participation en RTG/ET · 30+ paneles", "relevancia": "alta" },
+    { "id": "call-perte-2026", "nombre": "CDTI PERTE Defensa 2026", "organizador": "CDTI España", "tipo": "subvencion_nacional", "fecha_apertura": "2026-05-15", "fecha_cierre": "2026-09-30", "cuantia_total_M": 800, "url": "https://www.cdti.es", "descripcion": "Convocatoria PERTE Aeroespacial y Defensa · I+D industria española", "elegibles_es": ["Todas las empresas defensa registradas"], "relevancia": "muy_alta" },
+    { "id": "call-niag-26", "nombre": "NIAG SG-Open 2026", "organizador": "NATO NIAG", "tipo": "estudio_industrial", "fecha_apertura": "2026-02-01", "fecha_cierre": "2026-06-30", "url": "https://www.ncia.nato.int/NIAG", "descripcion": "Convocatoria para Study Groups industriales NIAG", "relevancia": "media" },
+    { "id": "call-edf-emergencias", "nombre": "EDF Emergency Stockpiles Call", "organizador": "Comisión Europea", "tipo": "subvencion_id", "fecha_apertura": "2026-02-15", "fecha_cierre": "2026-06-15", "cuantia_total_M": 220, "url": "https://defence-industry-space.ec.europa.eu/edf-calls-proposals_en", "descripcion": "Producción urgente munición 155mm · ASAP 2.0", "relevancia": "muy_alta" }
+  ]
+}

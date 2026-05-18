@@ -1,0 +1,513 @@
+{
+  "_meta": {
+    "version": "2026.05",
+    "actualizado": "2026-05",
+    "descripcion": "Estrategias industriales de defensa por país · documentos oficiales + organigramas reales + empresas tractoras + objetivos",
+    "fuentes_metodologia": "Documentos estratégicos oficiales (LPM, NDS, NSS, White Papers), webs ministeriales, IISS, SIPRI, Wikipedia 'Defence procurement of X'"
+  },
+  "paises": [
+    {
+      "iso2": "ES", "iso3": "ESP", "nombre": "España",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Concepto de Defensa Nacional 2023",
+          "tipo": "concepto_defensa",
+          "año": 2023, "vigencia_hasta": 2030,
+          "url_oficial": "https://www.defensa.gob.es/Galerias/politica/seguridad-defensa/ficheros/DGL-2023-Concepto-Defensa-Nacional.pdf",
+          "resumen": "Define el marco estratégico nacional con enfoque multidimensional: defensa colectiva OTAN, autonomía estratégica europea, y prioridad al flanco sur (Mediterráneo + Sahel).",
+          "objetivos_clave": [
+            "Alcanzar 2% PIB OTAN en 2029 (plan acelerado tras Cumbre Vilna)",
+            "Modernización tecnológica con énfasis en sistemas no tripulados",
+            "Refuerzo capacidades C4ISR + ciber + espacio",
+            "Industria nacional como pilar estratégico (RIS 2030)",
+            "Apoyo continuado a Ucrania + presencia eFP OTAN"
+          ],
+          "presupuesto_previsto_usd_m": 165000, "periodo": "2024-2030"
+        },
+        {
+          "titulo": "PERTE Aeroespacial y de Defensa",
+          "tipo": "plan_industrial",
+          "año": 2022, "vigencia_hasta": 2026,
+          "url_oficial": "https://planderecuperacion.gob.es/como-acceder-a-los-fondos/pertes/perte-aeroespacial",
+          "resumen": "PERTE de 4.5 bn€ públicos (12 bn€ total) para tecnología aeroespacial/defensa: nuevas plataformas, espacio, drones, ciber.",
+          "objetivos_clave": [
+            "FCAS / NGWS · contribución España (33% programa)",
+            "Programa Espacial Nacional + IRIS² constelación europea",
+            "Sistemas no tripulados (UCAV, MALE, USV)",
+            "Capacidades cuánticas y AI militar"
+          ],
+          "presupuesto_previsto_usd_m": 12000, "periodo": "2022-2026"
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "minisdef", "nombre": "Ministerio de Defensa", "nombre_corto": "MINISDEF", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.defensa.gob.es", "presupuesto_usd_m": 13700, "descripcion_corta": "Cabecera del ramo", "pais": "ES" },
+          { "id": "sedef", "nombre": "Secretaría de Estado de Defensa", "nombre_corto": "SEDEF", "tipo": "ministerio", "nivel": 2, "parent_id": "minisdef", "descripcion_corta": "Coordina política industrial y presupuesto", "pais": "ES" },
+          { "id": "dgam", "nombre": "Dirección General de Armamento y Material", "nombre_corto": "DGAM", "tipo": "agencia_adquisicion", "nivel": 3, "parent_id": "sedef", "url_oficial": "https://www.defensa.gob.es/DGAM/", "descripcion_corta": "Adquisiciones de sistemas, plataformas y electrónica. 602+ contratos, 40b€", "pais": "ES" },
+          { "id": "digenpol", "nombre": "Dirección General de Política de Defensa", "nombre_corto": "DIGENPOL", "tipo": "ministerio", "nivel": 3, "parent_id": "sedef", "descripcion_corta": "Estrategia política, OTAN/UE", "pais": "ES" },
+          { "id": "digenin", "nombre": "Dirección General de Infraestructura", "nombre_corto": "DIGENIN", "tipo": "agencia_adquisicion", "nivel": 3, "parent_id": "sedef", "descripcion_corta": "Bases, instalaciones, IMINSA", "pais": "ES" },
+          { "id": "jemad", "nombre": "Jefatura de Estado Mayor de la Defensa", "nombre_corto": "JEMAD", "tipo": "estado_mayor", "nivel": 2, "parent_id": "minisdef", "url_oficial": "https://www.emad.defensa.gob.es", "descripcion_corta": "Mando operativo conjunto", "pais": "ES" },
+          { "id": "et", "nombre": "Ejército de Tierra", "nombre_corto": "Ejército", "tipo": "rama_militar", "nivel": 3, "parent_id": "jemad", "url_oficial": "https://ejercito.defensa.gob.es", "presupuesto_usd_m": 3800, "descripcion_corta": "70.000 efectivos · 219 Leopard 2E", "pais": "ES" },
+          { "id": "armada", "nombre": "Armada Española", "nombre_corto": "Armada", "tipo": "rama_militar", "nivel": 3, "parent_id": "jemad", "url_oficial": "https://armada.defensa.gob.es", "presupuesto_usd_m": 2200, "descripcion_corta": "21.000 efectivos · LHD Juan Carlos I · 5 F-100 AEGIS", "pais": "ES" },
+          { "id": "ea", "nombre": "Ejército del Aire y del Espacio", "nombre_corto": "EAyE", "tipo": "rama_militar", "nivel": 3, "parent_id": "jemad", "url_oficial": "https://ejercitodelaire.defensa.gob.es", "presupuesto_usd_m": 2400, "descripcion_corta": "21.000 efectivos · 70 Eurofighter · 71 F-18 · 14 A400M", "pais": "ES" },
+          { "id": "ugcc", "nombre": "Unidad Conjunta del Ciberespacio (Mando)", "nombre_corto": "MCCE", "tipo": "estado_mayor", "nivel": 3, "parent_id": "jemad", "descripcion_corta": "800 efectivos · operaciones ciber", "pais": "ES" },
+          { "id": "cni", "nombre": "Centro Nacional de Inteligencia", "nombre_corto": "CNI", "tipo": "agencia_exportacion", "nivel": 2, "parent_id": "minisdef", "url_oficial": "https://www.cni.es", "descripcion_corta": "Inteligencia estratégica", "pais": "ES" },
+          { "id": "inta", "nombre": "Instituto Nacional de Técnica Aeroespacial", "nombre_corto": "INTA", "tipo": "organismo_id", "nivel": 3, "parent_id": "sedef", "url_oficial": "https://www.inta.es", "descripcion_corta": "I+D + ensayos + Centro Espacial Maspalomas", "pais": "ES" },
+          { "id": "isdefe", "nombre": "Ingeniería de Sistemas para la Defensa de España", "nombre_corto": "ISDEFE", "tipo": "empresa_publica", "nivel": 3, "parent_id": "sedef", "url_oficial": "https://www.isdefe.es", "descripcion_corta": "Consultoría tecnológica MINISDEF", "pais": "ES" },
+          { "id": "indra", "nombre": "Indra", "nombre_corto": "Indra", "tipo": "empresa_publica", "nivel": 4, "parent_id": "dgam", "url_oficial": "https://www.indracompany.com", "descripcion_corta": "Prime C4ISR/radar/SCOMBA · 50.000 empleados · 28% SEPI", "pais": "ES" },
+          { "id": "navantia", "nombre": "Navantia", "nombre_corto": "Navantia", "tipo": "empresa_publica", "nivel": 4, "parent_id": "dgam", "url_oficial": "https://www.navantia.es", "descripcion_corta": "Naval militar · S-80, F-110, LHD · 100% SEPI", "pais": "ES" },
+          { "id": "airbus_es", "nombre": "Airbus Defence & Space España", "nombre_corto": "Airbus ES", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dgam", "url_oficial": "https://www.airbus.com", "descripcion_corta": "Planta A400M Sevilla · Eurofighter · drones", "pais": "ES" },
+          { "id": "santa_barbara", "nombre": "GDELS-Santa Bárbara Sistemas", "nombre_corto": "GDELS-SBS", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dgam", "descripcion_corta": "Blindados · Leopard 2E · VCR Dragón", "pais": "ES" }
+        ],
+        "relaciones": [
+          { "origen": "minisdef", "destino": "sedef", "tipo": "jerarquia" },
+          { "origen": "minisdef", "destino": "jemad", "tipo": "jerarquia" },
+          { "origen": "minisdef", "destino": "cni", "tipo": "supervision" },
+          { "origen": "sedef", "destino": "dgam", "tipo": "jerarquia" },
+          { "origen": "sedef", "destino": "digenpol", "tipo": "jerarquia" },
+          { "origen": "sedef", "destino": "digenin", "tipo": "jerarquia" },
+          { "origen": "sedef", "destino": "inta", "tipo": "supervision" },
+          { "origen": "sedef", "destino": "isdefe", "tipo": "supervision" },
+          { "origen": "jemad", "destino": "et", "tipo": "coordinacion" },
+          { "origen": "jemad", "destino": "armada", "tipo": "coordinacion" },
+          { "origen": "jemad", "destino": "ea", "tipo": "coordinacion" },
+          { "origen": "jemad", "destino": "ugcc", "tipo": "jerarquia" },
+          { "origen": "dgam", "destino": "indra", "tipo": "contratacion" },
+          { "origen": "dgam", "destino": "navantia", "tipo": "contratacion" },
+          { "origen": "dgam", "destino": "airbus_es", "tipo": "contratacion" },
+          { "origen": "dgam", "destino": "santa_barbara", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Indra", "ticker": "IDR.MC", "tipo": "prime_contractor", "pais": "ES", "revenue_defensa_usd_m": 1850, "capacidades": ["Radares", "C4ISR", "SCOMBA", "SIVE", "Ciberdefensa"], "programas_activos": ["F-110 (SCOMBA)", "VCR Dragón", "Eurofighter Tranche 5"], "exporta_a": ["IDN", "TUR", "VEN", "BRA"] },
+        { "nombre": "Navantia", "tipo": "empresa_publica", "pais": "ES", "revenue_defensa_usd_m": 1200, "capacidades": ["Construcción naval militar", "Combate aéreo embarcado", "Sistemas C2 naval"], "programas_activos": ["S-80 Plus", "F-110", "LHD Australia/Brasil"], "exporta_a": ["AUS", "BRA", "SAU", "IND", "NOR"] },
+        { "nombre": "Airbus Defence & Space España", "tipo": "prime_contractor", "pais": "ES", "revenue_defensa_usd_m": 4500, "capacidades": ["Aviones de transporte", "Helicópteros", "Satélites", "UCAV"], "programas_activos": ["A400M (Sevilla)", "Eurofighter", "FCAS/NGWS", "Eurodrone"], "exporta_a": ["MYS", "TUR", "DEU"] },
+        { "nombre": "GDELS-Santa Bárbara Sistemas", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 380, "capacidades": ["Vehículos blindados", "MBT", "Sistemas terrestres"], "programas_activos": ["VCR Dragón", "Leopard 2E sostenimiento"], "exporta_a": ["NOR", "ROU"] },
+        { "nombre": "ITP Aero", "ticker": "ITP.MC", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 1300, "capacidades": ["Motores aeronáuticos", "Componentes turbomaquinaria"], "programas_activos": ["EJ200 Eurofighter", "TP400 A400M"] },
+        { "nombre": "GMV", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 320, "capacidades": ["Espacio", "Sistemas C2", "Ciberseguridad"], "programas_activos": ["Galileo", "Spainsat NG", "C2 militar"] },
+        { "nombre": "Sener", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 220, "capacidades": ["Sistemas espaciales", "Misiles", "Ingeniería sistemas"], "programas_activos": ["IRIS-T", "Patriot PAC-3 (componentes)", "FCAS"] },
+        { "nombre": "Escribano Mechanical & Engineering", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 180, "capacidades": ["Optrónica", "Sistemas remotos de armas", "Estabilización"] },
+        { "nombre": "Expal Systems (MAXAM)", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 290, "capacidades": ["Munición", "Propulsantes", "Demolición"], "exporta_a": ["MENA", "LATAM"] },
+        { "nombre": "Tecnobit-Grupo Oesía", "tipo": "tier1", "pais": "ES", "revenue_defensa_usd_m": 140, "capacidades": ["Optrónica avanzada", "Visores HUD", "Simulación"], "programas_activos": ["Eurofighter (visores)", "F-35 (cooperación)"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "aereo", "meta": "Alcanzar 95 Eurofighter operativos + 70 nuevos para sustituir F-18 Hornet", "estado": "en_plazo", "programa_vinculado": "Eurofighter Tranche 5 + FCAS", "plazo_declarado": "2030" },
+        { "dominio": "naval", "meta": "Renovación flota: 5 F-110 (sucesoras F-80) + 4 S-80 Plus operativos", "estado": "con_retraso", "programa_vinculado": "F-110 + S-80 Plus", "plazo_declarado": "2031 (F-110), 2030 (S-80)" },
+        { "dominio": "terrestre", "meta": "348 VCR Dragón 8x8 + modernización Leopard 2E + nuevo SPH 155mm", "estado": "en_plazo", "programa_vinculado": "VCR Dragón", "plazo_declarado": "2028" },
+        { "dominio": "misiles_estrategicos", "meta": "8 baterías NASAMS + integración Patriot + IRIS-T SLM", "estado": "en_plazo", "programa_vinculado": "NASAMS + Patriot", "plazo_declarado": "2027" },
+        { "dominio": "espacial", "meta": "Constelación Paz/Ingenio renovada + participación IRIS² + Hisdesat sucesor", "estado": "en_plazo", "plazo_declarado": "2028" },
+        { "dominio": "cyber", "meta": "Ampliar MCCE de 800 a 1.500 efectivos + nuevos cuarteles Granada", "estado": "en_plazo", "plazo_declarado": "2026" },
+        { "dominio": "drones", "meta": "Adquisición MALE Eurodrone + UCAV propio dentro FCAS", "estado": "con_retraso", "programa_vinculado": "Eurodrone + FCAS Wingman", "plazo_declarado": "2028+" }
+      ]
+    },
+
+    {
+      "iso2": "FR", "iso3": "FRA", "nombre": "Francia",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Loi de Programmation Militaire 2024-2030",
+          "tipo": "ley_programacion",
+          "año": 2023, "vigencia_hasta": 2030,
+          "url_oficial": "https://www.defense.gouv.fr/sites/default/files/ministere-armees/Synth%C3%A8se%20LPM%202024-2030.pdf",
+          "resumen": "Ley n° 2023-703 · 413 b€ en 7 años · El esfuerzo de modernización militar más ambicioso de Francia desde la Guerra Fría · Aumento del 40% vs LPM anterior",
+          "objetivos_clave": [
+            "Disuasión nuclear renovada (M51.3 SLBM + Barracuda SSN)",
+            "Sucesión Charles de Gaulle (PANG nuclear, 8.000 M€)",
+            "FCAS/SCAF · primer prototipo 2027",
+            "Aumento munición (estoc estratégico 2030)",
+            "Espacio militar: 6 b€ inversión"
+          ],
+          "presupuesto_previsto_usd_m": 450000, "periodo": "2024-2030"
+        },
+        {
+          "titulo": "Revue Nationale Stratégique 2022",
+          "tipo": "estrategia_seguridad",
+          "año": 2022, "vigencia_hasta": 2030,
+          "url_oficial": "https://www.elysee.fr/admin/upload/default/0001/14/RNS_2022.pdf",
+          "resumen": "Marco doctrinario nacional · Autonomía estratégica · Disuasión nuclear independiente · Puissance d'équilibre",
+          "objetivos_clave": ["10 funciones estratégicas militares", "Indo-Pacífico como prioridad", "Resiliencia ante guerra híbrida"]
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "mindef_fr", "nombre": "Ministère des Armées", "nombre_corto": "Ministère", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.defense.gouv.fr", "presupuesto_usd_m": 53000, "descripcion_corta": "Cabecera política", "pais": "FR" },
+          { "id": "dga_fr", "nombre": "Direction Générale de l'Armement", "nombre_corto": "DGA", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mindef_fr", "url_oficial": "https://www.defense.gouv.fr/dga", "presupuesto_usd_m": 15000, "descripcion_corta": "10.000 empleados · adquisiciones militares + I+D + control exportaciones", "pais": "FR" },
+          { "id": "sga_fr", "nombre": "Secrétariat Général pour l'Administration", "nombre_corto": "SGA", "tipo": "ministerio", "nivel": 2, "parent_id": "mindef_fr", "descripcion_corta": "Recursos humanos, financiero, jurídico", "pais": "FR" },
+          { "id": "ema_fr", "nombre": "État-Major des Armées", "nombre_corto": "EMA", "tipo": "estado_mayor", "nivel": 2, "parent_id": "mindef_fr", "descripcion_corta": "Mando operativo conjunto", "pais": "FR" },
+          { "id": "armee_terre", "nombre": "Armée de Terre", "nombre_corto": "Terre", "tipo": "rama_militar", "nivel": 3, "parent_id": "ema_fr", "descripcion_corta": "118.000 efectivos · 222 Leclerc", "pais": "FR" },
+          { "id": "marine_nationale", "nombre": "Marine Nationale", "nombre_corto": "Marine", "tipo": "rama_militar", "nivel": 3, "parent_id": "ema_fr", "descripcion_corta": "39.000 efectivos · CdG · 4 SSBN + 4 SSN", "pais": "FR" },
+          { "id": "armee_air", "nombre": "Armée de l'Air et de l'Espace", "nombre_corto": "Air & Espace", "tipo": "rama_militar", "nivel": 3, "parent_id": "ema_fr", "descripcion_corta": "41.000 efectivos · 102 Rafale", "pais": "FR" },
+          { "id": "dgse", "nombre": "Direction Générale de la Sécurité Extérieure", "nombre_corto": "DGSE", "tipo": "agencia_exportacion", "nivel": 2, "parent_id": "mindef_fr", "descripcion_corta": "Servicio exterior de inteligencia", "pais": "FR" },
+          { "id": "dassault", "nombre": "Dassault Aviation", "nombre_corto": "Dassault", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dga_fr", "url_oficial": "https://www.dassault-aviation.com", "descripcion_corta": "Rafale + FCAS lead · 13.000 empleados", "pais": "FR" },
+          { "id": "thales_fr", "nombre": "Thales", "nombre_corto": "Thales", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dga_fr", "url_oficial": "https://www.thalesgroup.com", "descripcion_corta": "Electrónica, radares, sistemas C4ISR", "pais": "FR" },
+          { "id": "naval_group", "nombre": "Naval Group", "nombre_corto": "Naval Grp", "tipo": "empresa_publica", "nivel": 4, "parent_id": "dga_fr", "url_oficial": "https://www.naval-group.com", "descripcion_corta": "Submarinos + buques superficie · 62% Estado", "pais": "FR" },
+          { "id": "mbda_fr", "nombre": "MBDA France", "nombre_corto": "MBDA", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dga_fr", "descripcion_corta": "Misiles · joint con UK + Italia · 11.000 empleados", "pais": "FR" },
+          { "id": "safran_fr", "nombre": "Safran Defense", "nombre_corto": "Safran", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dga_fr", "url_oficial": "https://www.safran-group.com", "descripcion_corta": "Motores aeronáuticos + sistemas inerciales", "pais": "FR" },
+          { "id": "knds_fr", "nombre": "KNDS France (Nexter)", "nombre_corto": "Nexter", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dga_fr", "descripcion_corta": "Blindados + cañones · joint con KMW (Alemania)", "pais": "FR" }
+        ],
+        "relaciones": [
+          { "origen": "mindef_fr", "destino": "dga_fr", "tipo": "jerarquia" },
+          { "origen": "mindef_fr", "destino": "sga_fr", "tipo": "jerarquia" },
+          { "origen": "mindef_fr", "destino": "ema_fr", "tipo": "jerarquia" },
+          { "origen": "mindef_fr", "destino": "dgse", "tipo": "supervision" },
+          { "origen": "ema_fr", "destino": "armee_terre", "tipo": "coordinacion" },
+          { "origen": "ema_fr", "destino": "marine_nationale", "tipo": "coordinacion" },
+          { "origen": "ema_fr", "destino": "armee_air", "tipo": "coordinacion" },
+          { "origen": "dga_fr", "destino": "dassault", "tipo": "contratacion" },
+          { "origen": "dga_fr", "destino": "thales_fr", "tipo": "contratacion" },
+          { "origen": "dga_fr", "destino": "naval_group", "tipo": "contratacion" },
+          { "origen": "dga_fr", "destino": "mbda_fr", "tipo": "contratacion" },
+          { "origen": "dga_fr", "destino": "safran_fr", "tipo": "contratacion" },
+          { "origen": "dga_fr", "destino": "knds_fr", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Dassault Aviation", "ticker": "AM.PA", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 4900, "capacidades": ["Rafale", "Falcon militar", "FCAS lead"], "programas_activos": ["Rafale F4/F5", "FCAS/SCAF", "nEUROn UCAV"], "exporta_a": ["IND", "EGY", "QAT", "GRC", "HRV", "IDN", "ARE", "SRB"] },
+        { "nombre": "Thales", "ticker": "HO.PA", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 12500, "capacidades": ["Radares", "C4ISR", "Optrónica", "Satélites militares"], "programas_activos": ["FCAS", "PANG", "Eurosam SAMP/T NG"] },
+        { "nombre": "Naval Group", "tipo": "empresa_publica", "pais": "FR", "revenue_defensa_usd_m": 4800, "capacidades": ["SSN Barracuda", "SSBN Triomphant", "Fragatas FREMM"], "programas_activos": ["Barracuda", "PANG", "FDI HN"], "exporta_a": ["BRA", "EGY", "GRC", "IND", "ROU", "MYS"] },
+        { "nombre": "Airbus Defence & Space", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 11800, "capacidades": ["A400M", "Eurofighter", "Satélites Pléiades/CSO"], "programas_activos": ["FCAS", "MQ-9 SeaGuardian", "CSO 3"] },
+        { "nombre": "MBDA France", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 3200, "capacidades": ["Misiles aire-aire MICA/Meteor", "Crucero SCALP", "ASMPA nuclear"] },
+        { "nombre": "Safran", "ticker": "SAF.PA", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 5400, "capacidades": ["Motores aeronáuticos M88/RR", "Sistemas inerciales", "Optrónica"] },
+        { "nombre": "KNDS France (Nexter)", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 1900, "capacidades": ["Leclerc", "Caesar 155mm", "Cañones marítimos"], "exporta_a": ["UKR", "DNK", "EST"] },
+        { "nombre": "ArianeGroup", "tipo": "prime_contractor", "pais": "FR", "revenue_defensa_usd_m": 2100, "capacidades": ["M51 SLBM nuclear", "Lanzadores espaciales"], "programas_activos": ["M51.3", "ASN4G hipersónico"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "naval", "meta": "Sucesor Charles de Gaulle (PANG nuclear) + 6 SSN Barracuda + 4 SSBN Triomphant", "estado": "en_plazo", "plazo_declarado": "2038" },
+        { "dominio": "aereo", "meta": "Rafale F5 + FCAS prototipo 2027", "estado": "en_plazo", "plazo_declarado": "2030" },
+        { "dominio": "terrestre", "meta": "Programa SCORPION completo (Griffon/Jaguar/Serval) + Caesar reemplazo", "estado": "con_retraso", "plazo_declarado": "2030" },
+        { "dominio": "nuclear", "meta": "M51.3 SLBM + ASN4G hipersónico (sucesor ASMPA)", "estado": "en_plazo", "plazo_declarado": "2035" },
+        { "dominio": "espacial", "meta": "CSO-3 + Syracuse IV constelación", "estado": "en_plazo", "plazo_declarado": "2027" }
+      ]
+    },
+
+    {
+      "iso2": "DE", "iso3": "DEU", "nombre": "Alemania",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Nationale Sicherheitsstrategie 2023",
+          "tipo": "estrategia_seguridad",
+          "año": 2023, "vigencia_hasta": 2030,
+          "url_oficial": "https://www.nationalesicherheitsstrategie.de/National-Security-Strategy-EN.pdf",
+          "resumen": "Primera Estrategia de Seguridad Nacional de Alemania post-Guerra Fría · Establece la Zeitenwende (cambio de era) tras invasión rusa de Ucrania.",
+          "objetivos_clave": [
+            "Cumplir 2% PIB OTAN de forma sostenida",
+            "Sondervermögen 100 b€ rearme acelerado",
+            "Brigada permanente Lituania (5.000 efectivos en 2027)",
+            "Nuclear sharing F-35A (35 unidades para sustituir Tornado)",
+            "Arrow-3 defensa antibalística (primer país EU)"
+          ]
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "bmvg", "nombre": "Bundesministerium der Verteidigung", "nombre_corto": "BMVg", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.bmvg.de", "presupuesto_usd_m": 71000, "descripcion_corta": "Cabecera política", "pais": "DE" },
+          { "id": "baainbw", "nombre": "Bundesamt für Ausrüstung, IT und Nutzung der Bundeswehr", "nombre_corto": "BAAINBw", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "bmvg", "url_oficial": "https://www.baainbw.de", "descripcion_corta": "Agencia central de adquisiciones · 10.000 empleados", "pais": "DE" },
+          { "id": "bundeswehr", "nombre": "Bundeswehr", "nombre_corto": "Bundeswehr", "tipo": "estado_mayor", "nivel": 2, "parent_id": "bmvg", "descripcion_corta": "Fuerzas armadas alemanas", "pais": "DE" },
+          { "id": "heer", "nombre": "Heer (Ejército)", "nombre_corto": "Heer", "tipo": "rama_militar", "nivel": 3, "parent_id": "bundeswehr", "descripcion_corta": "64.000 · 297 Leopard 2A7V", "pais": "DE" },
+          { "id": "deutsche_marine", "nombre": "Deutsche Marine", "nombre_corto": "Marine", "tipo": "rama_militar", "nivel": 3, "parent_id": "bundeswehr", "descripcion_corta": "16.500 · 6 submarinos U212A", "pais": "DE" },
+          { "id": "luftwaffe", "nombre": "Luftwaffe", "nombre_corto": "Luftwaffe", "tipo": "rama_militar", "nivel": 3, "parent_id": "bundeswehr", "descripcion_corta": "27.500 · 130 Eurofighter", "pais": "DE" },
+          { "id": "kdo_cir", "nombre": "Kommando Cyber- und Informationsraum", "nombre_corto": "KdoCIR", "tipo": "rama_militar", "nivel": 3, "parent_id": "bundeswehr", "descripcion_corta": "14.500 · ciberdefensa unificada", "pais": "DE" },
+          { "id": "bnd", "nombre": "Bundesnachrichtendienst", "nombre_corto": "BND", "tipo": "agencia_exportacion", "nivel": 2, "parent_id": "bmvg", "descripcion_corta": "Servicio federal de inteligencia exterior", "pais": "DE" },
+          { "id": "rheinmetall", "nombre": "Rheinmetall AG", "nombre_corto": "Rheinmetall", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "url_oficial": "https://www.rheinmetall.com", "descripcion_corta": "Munición + KF51 Panther + Lynx · 33.000 empleados", "pais": "DE" },
+          { "id": "kmw_knds", "nombre": "KNDS Deutschland (Krauss-Maffei Wegmann)", "nombre_corto": "KMW", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "descripcion_corta": "Leopard 2 + Puma + PzH 2000 · joint con Nexter", "pais": "DE" },
+          { "id": "airbus_de", "nombre": "Airbus Defence & Space (Manching)", "nombre_corto": "Airbus DE", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "descripcion_corta": "Eurofighter + A400M + Eurodrone", "pais": "DE" },
+          { "id": "hensoldt", "nombre": "Hensoldt", "nombre_corto": "Hensoldt", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "descripcion_corta": "Radares + sensores · spin-off Airbus 2017 · 7.500 empleados", "pais": "DE" },
+          { "id": "diehl_de", "nombre": "Diehl Defence", "nombre_corto": "Diehl", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "descripcion_corta": "Defensa aérea IRIS-T · misiles", "pais": "DE" },
+          { "id": "tkms", "nombre": "ThyssenKrupp Marine Systems (HDW)", "nombre_corto": "TKMS", "tipo": "prime_contractor", "nivel": 4, "parent_id": "baainbw", "descripcion_corta": "Submarinos U212/U214 · fragatas", "pais": "DE" }
+        ],
+        "relaciones": [
+          { "origen": "bmvg", "destino": "baainbw", "tipo": "jerarquia" },
+          { "origen": "bmvg", "destino": "bundeswehr", "tipo": "jerarquia" },
+          { "origen": "bmvg", "destino": "bnd", "tipo": "supervision" },
+          { "origen": "bundeswehr", "destino": "heer", "tipo": "coordinacion" },
+          { "origen": "bundeswehr", "destino": "deutsche_marine", "tipo": "coordinacion" },
+          { "origen": "bundeswehr", "destino": "luftwaffe", "tipo": "coordinacion" },
+          { "origen": "bundeswehr", "destino": "kdo_cir", "tipo": "coordinacion" },
+          { "origen": "baainbw", "destino": "rheinmetall", "tipo": "contratacion" },
+          { "origen": "baainbw", "destino": "kmw_knds", "tipo": "contratacion" },
+          { "origen": "baainbw", "destino": "airbus_de", "tipo": "contratacion" },
+          { "origen": "baainbw", "destino": "hensoldt", "tipo": "contratacion" },
+          { "origen": "baainbw", "destino": "diehl_de", "tipo": "contratacion" },
+          { "origen": "baainbw", "destino": "tkms", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Rheinmetall", "ticker": "RHM.DE", "tipo": "prime_contractor", "pais": "DE", "revenue_defensa_usd_m": 9800, "capacidades": ["Munición 155mm", "MBT KF51 Panther", "IFV Lynx", "Cañones tanque 130mm"], "exporta_a": ["HUN", "USA", "ITA", "AUT", "UKR"] },
+        { "nombre": "KNDS Deutschland (KMW)", "tipo": "prime_contractor", "pais": "DE", "revenue_defensa_usd_m": 3200, "capacidades": ["Leopard 2A8", "Puma IFV", "PzH 2000"], "exporta_a": ["NOR", "ITA", "POL", "HUN"] },
+        { "nombre": "Airbus DS Manching", "tipo": "prime_contractor", "pais": "DE", "revenue_defensa_usd_m": 8500, "capacidades": ["Eurofighter", "A400M (final assembly)", "Eurodrone (lead)"] },
+        { "nombre": "Hensoldt", "ticker": "HAG.DE", "tipo": "tier1", "pais": "DE", "revenue_defensa_usd_m": 2100, "capacidades": ["Radar TRML/Captor", "Sensores autoprotección"] },
+        { "nombre": "Diehl Defence", "tipo": "tier1", "pais": "DE", "revenue_defensa_usd_m": 1900, "capacidades": ["IRIS-T SLM/SLS", "Misiles cortos alcance"], "exporta_a": ["UKR", "EGY", "SVK", "EST"] },
+        { "nombre": "TKMS (HDW)", "tipo": "prime_contractor", "pais": "DE", "revenue_defensa_usd_m": 2700, "capacidades": ["Submarinos U212A/U214/U212CD", "Fragatas MEKO"], "exporta_a": ["NOR", "GRC", "TUR", "POR", "ITA", "SGP", "EGY"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "aereo", "meta": "35 F-35A (nuclear sharing) + 20 Eurofighter Tranche 5 ECR Quadriga", "estado": "en_plazo", "plazo_declarado": "2030" },
+        { "dominio": "terrestre", "meta": "Brigada permanente Lituania 5.000 efectivos + KF51 Panther fase prototipo", "estado": "en_plazo", "plazo_declarado": "2027 (Lituania), 2028 (KF51)" },
+        { "dominio": "misiles_estrategicos", "meta": "Arrow-3 (3 baterías) primer país EU con defensa antibalística exoatmosférica", "estado": "en_plazo", "plazo_declarado": "2025-2030" },
+        { "dominio": "naval", "meta": "4 F126 fragatas (sucesoras F123) + sucesor Type 212CD", "estado": "en_plazo", "plazo_declarado": "2028+" }
+      ]
+    },
+
+    {
+      "iso2": "GB", "iso3": "GBR", "nombre": "Reino Unido",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Integrated Review Refresh 2023 + SDR 2025",
+          "tipo": "estrategia_seguridad",
+          "año": 2023, "vigencia_hasta": 2030,
+          "url_oficial": "https://www.gov.uk/government/publications/integrated-review-refresh-2023",
+          "resumen": "Refresco de la IR 2021 post-Ucrania · Tilt to Indo-Pacific + apoyo Ucrania + AUKUS · 2.5% PIB defensa para 2030",
+          "objetivos_clave": ["2.5% PIB en 2030", "GCAP (Tempest) operativo 2035", "AUKUS Pillar 1 SSN-AUKUS"]
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "mod_uk", "nombre": "Ministry of Defence", "nombre_corto": "MoD", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.gov.uk/government/organisations/ministry-of-defence", "presupuesto_usd_m": 65000, "descripcion_corta": "Cabecera ministerial", "pais": "GB" },
+          { "id": "de_s", "nombre": "Defence Equipment & Support", "nombre_corto": "DE&S", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mod_uk", "url_oficial": "https://www.gov.uk/government/organisations/defence-equipment-and-support", "descripcion_corta": "12.000 empleados · adquisiciones todo MoD", "pais": "GB" },
+          { "id": "dstl", "nombre": "Defence Science & Technology Laboratory", "nombre_corto": "DSTL", "tipo": "organismo_id", "nivel": 2, "parent_id": "mod_uk", "url_oficial": "https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory", "descripcion_corta": "I+D militar · Porton Down · 3.700 científicos", "pais": "GB" },
+          { "id": "uk_stratcom", "nombre": "UK Strategic Command", "nombre_corto": "StratCom", "tipo": "estado_mayor", "nivel": 2, "parent_id": "mod_uk", "descripcion_corta": "Joint capability + cyber + intel + logistics", "pais": "GB" },
+          { "id": "british_army", "nombre": "British Army", "nombre_corto": "Army", "tipo": "rama_militar", "nivel": 3, "parent_id": "mod_uk", "descripcion_corta": "75.800 · 213 Challenger 2/3", "pais": "GB" },
+          { "id": "royal_navy", "nombre": "Royal Navy", "nombre_corto": "RN", "tipo": "rama_militar", "nivel": 3, "parent_id": "mod_uk", "descripcion_corta": "33.000 · 2 portaaviones · 4 SSBN · 5 SSN", "pais": "GB" },
+          { "id": "raf", "nombre": "Royal Air Force", "nombre_corto": "RAF", "tipo": "rama_militar", "nivel": 3, "parent_id": "mod_uk", "descripcion_corta": "28.500 · 137 Typhoon · 33 F-35B", "pais": "GB" },
+          { "id": "bae_uk", "nombre": "BAE Systems", "nombre_corto": "BAE", "tipo": "prime_contractor", "nivel": 4, "parent_id": "de_s", "url_oficial": "https://www.baesystems.com", "descripcion_corta": "Mayor contratista UK · 99.000 empleados global", "pais": "GB" },
+          { "id": "rr_defence", "nombre": "Rolls-Royce Defence", "nombre_corto": "RR", "tipo": "prime_contractor", "nivel": 4, "parent_id": "de_s", "descripcion_corta": "Motores aeronáuticos + nucleares submarinos", "pais": "GB" },
+          { "id": "babcock", "nombre": "Babcock International", "nombre_corto": "Babcock", "tipo": "prime_contractor", "nivel": 4, "parent_id": "de_s", "descripcion_corta": "Sostenimiento naval + infraestructura", "pais": "GB" },
+          { "id": "leonardo_uk", "nombre": "Leonardo UK", "nombre_corto": "Leonardo UK", "tipo": "prime_contractor", "nivel": 4, "parent_id": "de_s", "descripcion_corta": "Helicópteros + electrónica defensa", "pais": "GB" },
+          { "id": "mbda_uk", "nombre": "MBDA UK", "nombre_corto": "MBDA UK", "tipo": "prime_contractor", "nivel": 4, "parent_id": "de_s", "descripcion_corta": "Misiles Meteor/CAMM/Brimstone", "pais": "GB" }
+        ],
+        "relaciones": [
+          { "origen": "mod_uk", "destino": "de_s", "tipo": "jerarquia" },
+          { "origen": "mod_uk", "destino": "dstl", "tipo": "supervision" },
+          { "origen": "mod_uk", "destino": "uk_stratcom", "tipo": "jerarquia" },
+          { "origen": "mod_uk", "destino": "british_army", "tipo": "coordinacion" },
+          { "origen": "mod_uk", "destino": "royal_navy", "tipo": "coordinacion" },
+          { "origen": "mod_uk", "destino": "raf", "tipo": "coordinacion" },
+          { "origen": "de_s", "destino": "bae_uk", "tipo": "contratacion" },
+          { "origen": "de_s", "destino": "rr_defence", "tipo": "contratacion" },
+          { "origen": "de_s", "destino": "babcock", "tipo": "contratacion" },
+          { "origen": "de_s", "destino": "leonardo_uk", "tipo": "contratacion" },
+          { "origen": "de_s", "destino": "mbda_uk", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "BAE Systems", "ticker": "BA.L", "tipo": "prime_contractor", "pais": "GB", "revenue_defensa_usd_m": 30500, "capacidades": ["Typhoon", "Type 26", "Dreadnought SSBN", "Challenger 3"], "exporta_a": ["AUS", "USA", "SAU", "TUR", "IDN"] },
+        { "nombre": "Rolls-Royce Defence", "ticker": "RR.L", "tipo": "prime_contractor", "pais": "GB", "revenue_defensa_usd_m": 4900, "capacidades": ["EJ200 Eurofighter", "F136 alt", "Reactores SSN/SSBN"] },
+        { "nombre": "Babcock International", "ticker": "BAB.L", "tipo": "prime_contractor", "pais": "GB", "revenue_defensa_usd_m": 3800, "capacidades": ["Sostenimiento naval HMNB", "Type 31 fragatas"] },
+        { "nombre": "MBDA UK", "tipo": "prime_contractor", "pais": "GB", "revenue_defensa_usd_m": 1800, "capacidades": ["Meteor", "CAMM/CAMM-ER", "Brimstone", "FC/ASW"] },
+        { "nombre": "Leonardo UK", "tipo": "prime_contractor", "pais": "GB", "revenue_defensa_usd_m": 2400, "capacidades": ["AW101 Merlin", "AW159 Wildcat", "Electrónica defensa"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "aereo", "meta": "GCAP/Tempest (lead) primer vuelo 2027 · operacional 2035", "estado": "en_plazo", "plazo_declarado": "2035" },
+        { "dominio": "naval", "meta": "8 Type 26 fragatas + 5 Type 31 + 4 Dreadnought SSBN + SSN-AUKUS", "estado": "en_plazo", "plazo_declarado": "2030+" },
+        { "dominio": "terrestre", "meta": "148 Challenger 3 + 589 Ajax + Boxer 8x8 (623 vehículos)", "estado": "con_retraso", "plazo_declarado": "2030" }
+      ]
+    },
+
+    {
+      "iso2": "PL", "iso3": "POL", "nombre": "Polonia",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Plan de Modernización Técnica 2021-2035",
+          "tipo": "plan_industrial",
+          "año": 2020, "vigencia_hasta": 2035,
+          "url_oficial": "https://www.gov.pl/web/national-defence",
+          "resumen": "El plan más agresivo de modernización militar en OTAN · 130 b€ en 14 años · Convertir Polonia en mayor potencia terrestre de Europa post-Ucrania",
+          "objetivos_clave": [
+            "1.000 K2 Black Panther + 366 M1A2 Abrams",
+            "212 K9 Thunder + HIMARS + Homar-K (290+)",
+            "32 F-35A + 48 FA-50 Korea + actualización F-16",
+            "3 fragatas Miecznik + 4 submarinos Orka",
+            "Defensa aérea: Wisła (Patriot) + Narew (CAMM)"
+          ],
+          "presupuesto_previsto_usd_m": 130000, "periodo": "2021-2035"
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "mon_pl", "nombre": "Ministerstwo Obrony Narodowej", "nombre_corto": "MON", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.gov.pl/web/national-defence", "presupuesto_usd_m": 31600, "descripcion_corta": "Mayor crecimiento militar OTAN", "pais": "PL" },
+          { "id": "agencja_uz", "nombre": "Agencja Uzbrojenia", "nombre_corto": "AU", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mon_pl", "descripcion_corta": "Agencia central de adquisiciones (desde 2022)", "pais": "PL" },
+          { "id": "inspekt_uz", "nombre": "Inspektorat Uzbrojenia", "nombre_corto": "IU", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mon_pl", "descripcion_corta": "Inspección armamento", "pais": "PL" },
+          { "id": "sztab_pl", "nombre": "Sztab Generalny", "nombre_corto": "SG", "tipo": "estado_mayor", "nivel": 2, "parent_id": "mon_pl", "descripcion_corta": "Mando operativo", "pais": "PL" },
+          { "id": "pgz", "nombre": "Polska Grupa Zbrojeniowa", "nombre_corto": "PGZ", "tipo": "empresa_publica", "nivel": 4, "parent_id": "agencja_uz", "url_oficial": "https://www.pgzsa.pl", "descripcion_corta": "Conglomerado público · 60+ empresas · 100% Estado", "pais": "PL" },
+          { "id": "wb_electronics", "nombre": "WB Group", "nombre_corto": "WB", "tipo": "tier1", "nivel": 4, "parent_id": "agencja_uz", "descripcion_corta": "C4ISR + sistemas no tripulados (Warmate)", "pais": "PL" },
+          { "id": "mesko", "nombre": "Mesko", "nombre_corto": "Mesko", "tipo": "empresa_publica", "nivel": 4, "parent_id": "agencja_uz", "descripcion_corta": "Munición + cohetes (subsidiaria PGZ)", "pais": "PL" }
+        ],
+        "relaciones": [
+          { "origen": "mon_pl", "destino": "agencja_uz", "tipo": "jerarquia" },
+          { "origen": "mon_pl", "destino": "inspekt_uz", "tipo": "jerarquia" },
+          { "origen": "mon_pl", "destino": "sztab_pl", "tipo": "jerarquia" },
+          { "origen": "agencja_uz", "destino": "pgz", "tipo": "supervision" },
+          { "origen": "agencja_uz", "destino": "wb_electronics", "tipo": "contratacion" },
+          { "origen": "agencja_uz", "destino": "mesko", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "PGZ", "tipo": "empresa_publica", "pais": "PL", "revenue_defensa_usd_m": 1900, "capacidades": ["Tanques sostenimiento", "Munición", "Vehículos blindados Rosomak"] },
+        { "nombre": "WB Group", "tipo": "tier1", "pais": "PL", "revenue_defensa_usd_m": 450, "capacidades": ["Drones suicidas Warmate", "C4ISR", "Comunicaciones taticas"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "terrestre", "meta": "1.000 K2 Black Panther + 366 M1A2 + 212 K9", "estado": "en_plazo", "plazo_declarado": "2030" },
+        { "dominio": "aereo", "meta": "32 F-35A + 48 FA-50 + actualización 48 F-16", "estado": "en_plazo", "plazo_declarado": "2030" },
+        { "dominio": "misiles_estrategicos", "meta": "Wisła (Patriot PAC-3 MSE) + Narew (CAMM)", "estado": "en_plazo", "plazo_declarado": "2030" },
+        { "dominio": "naval", "meta": "3 Miecznik fragatas + 4 Orka submarinos", "estado": "con_retraso", "plazo_declarado": "2030+" }
+      ]
+    },
+
+    {
+      "iso2": "IT", "iso3": "ITA", "nombre": "Italia",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Documento Programmatico Pluriennale 2024-2026 + DPP en revisión",
+          "tipo": "ley_programacion",
+          "año": 2024, "vigencia_hasta": 2026,
+          "url_oficial": "https://www.difesa.it",
+          "resumen": "Plan plurianual del MoD italiano · 30 b€ presupuesto 2024 · Modernización masiva navy + GCAP + cyber"
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "mindef_it", "nombre": "Ministero della Difesa", "nombre_corto": "MinDifesa", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.difesa.it", "presupuesto_usd_m": 30000, "descripcion_corta": "Cabecera ministerial", "pais": "IT" },
+          { "id": "segredifesa", "nombre": "Segretariato Generale della Difesa / DNA", "nombre_corto": "Segredifesa", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mindef_it", "descripcion_corta": "Direzione Nazionale Armamenti · adquisiciones", "pais": "IT" },
+          { "id": "aid_it", "nombre": "Agenzia Industrie Difesa", "nombre_corto": "AID", "tipo": "empresa_publica", "nivel": 3, "parent_id": "segredifesa", "descripcion_corta": "Arsenal + munición pública", "pais": "IT" },
+          { "id": "leonardo_it", "nombre": "Leonardo S.p.A.", "nombre_corto": "Leonardo", "tipo": "empresa_publica", "nivel": 4, "parent_id": "segredifesa", "url_oficial": "https://www.leonardo.com", "descripcion_corta": "Mayor contratista IT · 30% Estado · helicópteros + electrónica + defensa", "pais": "IT" },
+          { "id": "fincantieri", "nombre": "Fincantieri", "nombre_corto": "Fincantieri", "tipo": "empresa_publica", "nivel": 4, "parent_id": "segredifesa", "url_oficial": "https://www.fincantieri.com", "descripcion_corta": "Mayor astillero EU · F-35 italiano (sostén) · PPA · Cavour", "pais": "IT" },
+          { "id": "iveco_def", "nombre": "Iveco Defence Vehicles", "nombre_corto": "Iveco DV", "tipo": "prime_contractor", "nivel": 4, "parent_id": "segredifesa", "descripcion_corta": "VBM Freccia + Centauro II + LMV", "pais": "IT" },
+          { "id": "mbda_it", "nombre": "MBDA Italy", "nombre_corto": "MBDA IT", "tipo": "prime_contractor", "nivel": 4, "parent_id": "segredifesa", "descripcion_corta": "Misiles tierra-aire + CAMM-ER", "pais": "IT" }
+        ],
+        "relaciones": [
+          { "origen": "mindef_it", "destino": "segredifesa", "tipo": "jerarquia" },
+          { "origen": "segredifesa", "destino": "aid_it", "tipo": "supervision" },
+          { "origen": "segredifesa", "destino": "leonardo_it", "tipo": "contratacion" },
+          { "origen": "segredifesa", "destino": "fincantieri", "tipo": "contratacion" },
+          { "origen": "segredifesa", "destino": "iveco_def", "tipo": "contratacion" },
+          { "origen": "segredifesa", "destino": "mbda_it", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Leonardo", "ticker": "LDO.MI", "tipo": "empresa_publica", "pais": "IT", "revenue_defensa_usd_m": 13800, "capacidades": ["Helicópteros AW101/139/149", "Eurofighter (consorcio)", "GCAP", "Radares"], "exporta_a": ["USA", "POL", "TUR", "AUS"] },
+        { "nombre": "Fincantieri", "ticker": "FCT.MI", "tipo": "empresa_publica", "pais": "IT", "revenue_defensa_usd_m": 4900, "capacidades": ["Portaaviones Trieste", "PPA", "FREMM", "Submarinos U212NFS"], "exporta_a": ["USA (Constellation)", "QAT", "MAR"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "aereo", "meta": "GCAP (Tempest joint UK/JPN) + 25 F-35 adicionales", "estado": "en_plazo", "plazo_declarado": "2035" },
+        { "dominio": "naval", "meta": "7 PPA + 4 fragatas Bergamini + U212NFS", "estado": "en_plazo", "plazo_declarado": "2028" }
+      ]
+    },
+
+    {
+      "iso2": "US", "iso3": "USA", "nombre": "Estados Unidos",
+      "documentos_estrategicos": [
+        {
+          "titulo": "National Defense Strategy 2022",
+          "tipo": "estrategia_seguridad",
+          "año": 2022, "vigencia_hasta": 2027,
+          "url_oficial": "https://media.defense.gov/2022/Oct/27/2003103845/-1/-1/1/2022-NATIONAL-DEFENSE-STRATEGY-NPR-MDR.PDF",
+          "resumen": "NDS 2022 + NPR (Nuclear Posture Review) + MDR (Missile Defense Review) · China como pacing challenge · disuasión integrada",
+          "objetivos_clave": ["Pacing challenge: China", "Disuasión Rusia", "Defensa colectiva con aliados", "Construcción de ventajas duraderas"]
+        },
+        {
+          "titulo": "NDAA FY2026",
+          "tipo": "ley_programacion",
+          "año": 2025, "vigencia_hasta": 2026,
+          "url_oficial": "https://www.congress.gov/bill/119th-congress",
+          "resumen": "National Defense Authorization Act 2026 · 895 bn$ topline · prioridades NDS",
+          "presupuesto_previsto_usd_m": 895000
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "dod", "nombre": "Department of Defense", "nombre_corto": "DoD", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.defense.gov", "presupuesto_usd_m": 850000, "descripcion_corta": "Mayor presupuesto militar mundial", "pais": "US" },
+          { "id": "osd", "nombre": "Office of the Secretary of Defense", "nombre_corto": "OSD", "tipo": "ministerio", "nivel": 2, "parent_id": "dod", "descripcion_corta": "Cabecera política · acquisitions chief", "pais": "US" },
+          { "id": "jcs", "nombre": "Joint Chiefs of Staff", "nombre_corto": "JCS", "tipo": "estado_mayor", "nivel": 2, "parent_id": "dod", "descripcion_corta": "Junta de jefes (CJCS + 6 jefes)", "pais": "US" },
+          { "id": "darpa", "nombre": "Defense Advanced Research Projects Agency", "nombre_corto": "DARPA", "tipo": "organismo_id", "nivel": 2, "parent_id": "osd", "url_oficial": "https://www.darpa.mil", "descripcion_corta": "I+D disruptiva", "pais": "US" },
+          { "id": "us_army", "nombre": "United States Army", "nombre_corto": "Army", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "460.000 + 540 HIMARS", "pais": "US" },
+          { "id": "us_navy", "nombre": "United States Navy", "nombre_corto": "Navy", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "340.000 · 11 CVN + 14 SSBN", "pais": "US" },
+          { "id": "usaf", "nombre": "United States Air Force", "nombre_corto": "USAF", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "325.000 · 380 F-35A + 183 F-22", "pais": "US" },
+          { "id": "usmc", "nombre": "United States Marine Corps", "nombre_corto": "USMC", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "175.000 efectivos", "pais": "US" },
+          { "id": "ussf", "nombre": "United States Space Force", "nombre_corto": "Space Force", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "14.000 · 6ª rama (desde 2019)", "pais": "US" },
+          { "id": "uscg", "nombre": "United States Coast Guard", "nombre_corto": "USCG", "tipo": "rama_militar", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "41.000 efectivos", "pais": "US" },
+          { "id": "socom", "nombre": "U.S. Special Operations Command", "nombre_corto": "USSOCOM", "tipo": "estado_mayor", "nivel": 3, "parent_id": "jcs", "descripcion_corta": "70.000 · JSOC + 5 commands", "pais": "US" },
+          { "id": "lockheed", "nombre": "Lockheed Martin", "nombre_corto": "Lockheed", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dod", "url_oficial": "https://www.lockheedmartin.com", "descripcion_corta": "F-35 + F-22 + THAAD + Aegis · 122.000 empleados", "pais": "US" },
+          { "id": "rtx", "nombre": "RTX (Raytheon)", "nombre_corto": "RTX", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dod", "url_oficial": "https://www.rtx.com", "descripcion_corta": "Patriot + Tomahawk + Pratt & Whitney", "pais": "US" },
+          { "id": "boeing_def", "nombre": "Boeing Defense", "nombre_corto": "Boeing", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dod", "descripcion_corta": "F-15EX + P-8 + Apache + KC-46", "pais": "US" },
+          { "id": "northrop", "nombre": "Northrop Grumman", "nombre_corto": "Northrop", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dod", "descripcion_corta": "B-21 Raider + Sentinel ICBM + Global Hawk", "pais": "US" },
+          { "id": "general_dynamics", "nombre": "General Dynamics", "nombre_corto": "GD", "tipo": "prime_contractor", "nivel": 4, "parent_id": "dod", "descripcion_corta": "Abrams + submarinos Columbia/Virginia", "pais": "US" }
+        ],
+        "relaciones": [
+          { "origen": "dod", "destino": "osd", "tipo": "jerarquia" },
+          { "origen": "dod", "destino": "jcs", "tipo": "coordinacion" },
+          { "origen": "osd", "destino": "darpa", "tipo": "supervision" },
+          { "origen": "jcs", "destino": "us_army", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "us_navy", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "usaf", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "usmc", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "ussf", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "uscg", "tipo": "coordinacion" },
+          { "origen": "jcs", "destino": "socom", "tipo": "jerarquia" },
+          { "origen": "dod", "destino": "lockheed", "tipo": "contratacion" },
+          { "origen": "dod", "destino": "rtx", "tipo": "contratacion" },
+          { "origen": "dod", "destino": "boeing_def", "tipo": "contratacion" },
+          { "origen": "dod", "destino": "northrop", "tipo": "contratacion" },
+          { "origen": "dod", "destino": "general_dynamics", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Lockheed Martin", "ticker": "LMT", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 67500, "capacidades": ["F-35", "F-22", "C-130", "Aegis", "PAC-3", "THAAD"], "exporta_a": ["32 países"] },
+        { "nombre": "RTX (Raytheon)", "ticker": "RTX", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 65000, "capacidades": ["Patriot", "Tomahawk", "AIM-120", "Pratt & Whitney F135"] },
+        { "nombre": "Boeing Defense", "ticker": "BA", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 25500, "capacidades": ["F-15EX", "P-8A Poseidon", "AH-64 Apache", "KC-46"] },
+        { "nombre": "Northrop Grumman", "ticker": "NOC", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 39300, "capacidades": ["B-21 Raider", "Sentinel ICBM", "Global Hawk", "Triton"] },
+        { "nombre": "General Dynamics", "ticker": "GD", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 42300, "capacidades": ["M1A2 Abrams", "Submarinos Columbia/Virginia", "AJAX"] },
+        { "nombre": "L3Harris", "ticker": "LHX", "tipo": "prime_contractor", "pais": "US", "revenue_defensa_usd_m": 19400, "capacidades": ["Comunicaciones tácticas", "ISR avanzado"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "aereo", "meta": "2.456 F-35 (Air Force/Navy/Marines) + B-21 (100 unidades) + NGAD 6ª gen", "estado": "en_plazo", "plazo_declarado": "2070" },
+        { "dominio": "nuclear", "meta": "Triada: 400 Sentinel ICBM + 12 Columbia SSBN + B-21", "estado": "en_plazo", "plazo_declarado": "2035" },
+        { "dominio": "espacial", "meta": "Próxima generación SBIRS + GPS III + constelaciones bajas SDA", "estado": "en_plazo", "plazo_declarado": "2030" }
+      ]
+    },
+
+    {
+      "iso2": "IL", "iso3": "ISR", "nombre": "Israel",
+      "documentos_estrategicos": [
+        {
+          "titulo": "Tnufa (Momentum) Plan + Multi-Arena Concept",
+          "tipo": "directiva_politica",
+          "año": 2020, "vigencia_hasta": 2030,
+          "resumen": "Plan multidominio · superioridad cualitativa · destruir antes de ser destruido · 5 años digitalización IDF",
+          "objetivos_clave": ["Multi-domain operations", "AI militar dominante", "Defensa antibalística multicapa (Arrow 2/3/4 + David's Sling + Iron Dome + Iron Beam)", "Cyber líder global"]
+        }
+      ],
+      "organigrama": {
+        "nodos": [
+          { "id": "mod_il", "nombre": "Ministry of Defense", "nombre_corto": "MoD", "tipo": "ministerio", "nivel": 1, "url_oficial": "https://www.mod.gov.il", "presupuesto_usd_m": 27500, "descripcion_corta": "Cabecera política", "pais": "IL" },
+          { "id": "imod_dir", "nombre": "IMOD Directorate of Production & Procurement (MANHAR)", "nombre_corto": "MANHAR", "tipo": "agencia_adquisicion", "nivel": 2, "parent_id": "mod_il", "descripcion_corta": "Adquisiciones MoD", "pais": "IL" },
+          { "id": "mafat", "nombre": "Directorate of Defense R&D (MAFAT)", "nombre_corto": "MAFAT", "tipo": "organismo_id", "nivel": 2, "parent_id": "mod_il", "descripcion_corta": "I+D militar de élite", "pais": "IL" },
+          { "id": "sibat", "nombre": "Defense Export & Defense Cooperation (SIBAT)", "nombre_corto": "SIBAT", "tipo": "agencia_exportacion", "nivel": 2, "parent_id": "mod_il", "descripcion_corta": "Promoción exportación", "pais": "IL" },
+          { "id": "idf", "nombre": "Israel Defense Forces", "nombre_corto": "IDF", "tipo": "estado_mayor", "nivel": 2, "parent_id": "mod_il", "descripcion_corta": "169.500 + 465.000 reservistas", "pais": "IL" },
+          { "id": "aman", "nombre": "Aman (Military Intelligence)", "nombre_corto": "Aman", "tipo": "agencia_exportacion", "nivel": 3, "parent_id": "idf", "descripcion_corta": "Inteligencia militar · Unit 8200 SIGINT", "pais": "IL" },
+          { "id": "elbit", "nombre": "Elbit Systems", "nombre_corto": "Elbit", "tipo": "prime_contractor", "nivel": 4, "parent_id": "manhar", "url_oficial": "https://elbitsystems.com", "descripcion_corta": "C4ISR + UAVs + sistemas terrestres · 19.000 empleados", "pais": "IL" },
+          { "id": "iai", "nombre": "Israel Aerospace Industries", "nombre_corto": "IAI", "tipo": "empresa_publica", "nivel": 4, "parent_id": "manhar", "url_oficial": "https://www.iai.co.il", "descripcion_corta": "100% Estado · UAVs Heron · misiles · Arrow", "pais": "IL" },
+          { "id": "rafael_il", "nombre": "Rafael Advanced Defense Systems", "nombre_corto": "Rafael", "tipo": "empresa_publica", "nivel": 4, "parent_id": "manhar", "url_oficial": "https://www.rafael.co.il", "descripcion_corta": "100% Estado · Iron Dome · Spike · Litening", "pais": "IL" }
+        ],
+        "relaciones": [
+          { "origen": "mod_il", "destino": "imod_dir", "tipo": "jerarquia" },
+          { "origen": "mod_il", "destino": "mafat", "tipo": "jerarquia" },
+          { "origen": "mod_il", "destino": "sibat", "tipo": "jerarquia" },
+          { "origen": "mod_il", "destino": "idf", "tipo": "jerarquia" },
+          { "origen": "idf", "destino": "aman", "tipo": "jerarquia" },
+          { "origen": "imod_dir", "destino": "elbit", "tipo": "contratacion" },
+          { "origen": "imod_dir", "destino": "iai", "tipo": "contratacion" },
+          { "origen": "imod_dir", "destino": "rafael_il", "tipo": "contratacion" }
+        ]
+      },
+      "empresas_clave": [
+        { "nombre": "Elbit Systems", "ticker": "ESLT", "tipo": "prime_contractor", "pais": "IL", "revenue_defensa_usd_m": 6800, "capacidades": ["C4ISR", "UAVs", "Sistemas terrestres avanzados"], "exporta_a": ["DEU", "GBR", "ROU", "AUS", "IND"] },
+        { "nombre": "Israel Aerospace Industries (IAI)", "tipo": "empresa_publica", "pais": "IL", "revenue_defensa_usd_m": 5600, "capacidades": ["Heron UAV", "Misiles tactical/balísticos", "Arrow 2/3", "Satélites Ofeq"] },
+        { "nombre": "Rafael Advanced Defense Systems", "tipo": "empresa_publica", "pais": "IL", "revenue_defensa_usd_m": 5200, "capacidades": ["Iron Dome", "Spike", "Trophy APS", "Litening pod"], "exporta_a": ["DEU", "USA", "IND", "ROU", "FIN"] }
+      ],
+      "objetivos_capacidad": [
+        { "dominio": "misiles_estrategicos", "meta": "Arrow-4 (sucesor) + Iron Beam láser operacional + David's Sling expansión", "estado": "en_plazo", "plazo_declarado": "2027" },
+        { "dominio": "aereo", "meta": "75 F-35I Adir + sucesor furtivo (estudios)", "estado": "en_plazo", "plazo_declarado": "2028" },
+        { "dominio": "terrestre", "meta": "Merkava Mk5 Barak con IA + Iron Vision · 200 unidades", "estado": "en_plazo", "plazo_declarado": "2026+" }
+      ]
+    }
+  ]
+}

@@ -4,15 +4,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const TABS = [
-  { href: '/sector-defensa',                label: 'Situación',     description: 'Sala de mando macro',                                   exact: true  },
-  { href: '/sector-defensa/paises',         label: 'Países',        description: 'Catálogo militar mundial (36 ejércitos)',               exact: false },
-  { href: '/sector-defensa/ministerios',    label: 'Ministerios',   description: 'Estructura ministerios de defensa + agencias',          exact: false },
-  { href: '/sector-defensa/teatros',        label: 'Teatros',       description: 'Balance de poder por área operacional',                 exact: false },
-  { href: '/sector-defensa/oportunidades',  label: 'Oportunidades', description: 'Programas activos · ventanas competitivas globales',    exact: false },
-  { href: '/sector-defensa/contratos',      label: 'Contratos',     description: 'Monitor de licitaciones y adjudicaciones',              exact: false },
-  { href: '/sector-defensa/presupuestos',   label: 'Presupuestos',  description: 'Gasto militar por país y tendencias',                   exact: false },
-  { href: '/sector-defensa/programas',      label: 'Programas',     description: 'Adquisiciones y cadena de suministro',                  exact: false },
-  { href: '/sector-defensa/regulatorio',    label: 'Regulatorio',   description: 'ITAR · EAR · Sanciones · Compliance',                   exact: false },
+  { href: '/sector-defensa',                       label: 'Situación',          description: 'Sala de mando macro',                                                exact: true  },
+  { href: '/sector-defensa/paises',                label: 'Países',             description: 'Catálogo militar mundial (36 ejércitos)',                            exact: false },
+  { href: '/sector-defensa/estrategia-industrial', label: 'Estrategia',         description: 'Doc estratégicos + organigramas + base industrial 8 países',         exact: false },
+  { href: '/sector-defensa/ministerios',           label: 'Ministerios',        description: 'Estructura ministerios de defensa + agencias',                       exact: false },
+  { href: '/sector-defensa/teatros',               label: 'Teatros',            description: 'Balance de poder por área operacional',                              exact: false },
+  { href: '/sector-defensa/oportunidades',         label: 'Oportunidades',      description: 'Programas activos · ventanas competitivas globales',                 exact: false },
+  { href: '/sector-defensa/grupos-trabajo',        label: 'Grupos · Eventos',   description: 'CapTechs EDA · STO OTAN · ferias · convocatorias I+D',               exact: false },
+  { href: '/sector-defensa/briefing',              label: 'Briefing',           description: '8 medios RSS especializados en vivo · Infodefensa · Defense News · TWZ', exact: false },
+  { href: '/sector-defensa/contratos',             label: 'Contratos',          description: 'Monitor de licitaciones y adjudicaciones',                           exact: false },
+  { href: '/sector-defensa/presupuestos',          label: 'Presupuestos',       description: 'Gasto militar por país y tendencias',                                exact: false },
+  { href: '/sector-defensa/programas',             label: 'Programas',          description: 'Adquisiciones y cadena de suministro',                               exact: false },
+  { href: '/sector-defensa/regulatorio',           label: 'Regulatorio',        description: 'ITAR · EAR · Sanciones · Compliance',                                exact: false },
 ]
 
 export function DefenseTabNav() {

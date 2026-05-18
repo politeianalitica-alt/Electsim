@@ -3,18 +3,18 @@
  * /sector-defensa/paises/[iso3]
  * Ficha completa de un país militar · estilo IISS country profile.
  */
-import { use, useEffect } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
 import { getPaisByIso3, type PaisMilitar } from '@/lib/defense/military-catalog'
 
-export default function PaisFichaPage({ params }: { params: Promise<{ iso3: string }> }) {
+export default function PaisFichaPage({ params }: { params: { iso3: string } }) {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const { iso3 } = use(params)
+  const iso3 = params.iso3
   const pais = getPaisByIso3(iso3.toUpperCase())
 
   if (!pais) {
