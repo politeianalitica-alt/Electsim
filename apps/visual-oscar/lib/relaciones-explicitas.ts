@@ -189,6 +189,69 @@ const RAJOY          = id('Mariano Rajoy')
 const FELIPE_GONZ    = id('Felipe González')
 const CASADO         = id('Pablo Casado')
 
+// ─── Consejeros autonómicos clave ────────────────────────────────────
+const OSSORIO        = id('Enrique Ossorio')
+const MATUTE         = id('Fátima Matute')
+const IZQUIERDO_CM   = id('Carlos Izquierdo')
+const PACO_MADRID    = id('Mariano de Paco')
+const GARCIA_MARTIN  = id('Miguel Ángel García Martín')
+const N_MONTSERRAT   = id('Núria Montserrat')
+const OLGA_PANE      = id('Olga Pané')
+const NIUBO          = id('Esther Niubó')
+const DALMAU         = id('Albert Dalmau')
+const A_ROMERO       = id('Alícia Romero')
+const PANEQUE        = id('Sílvia Paneque')
+const A_SANZ         = id('Antonio Sanz')
+const C_ESPANA       = id('Carolina España')
+const C_CRESPO       = id('Carmen Crespo')
+const ATUTXA         = id('Itxaso Atutxa')
+const MIKEL_TORRES   = id('Mikel Torres')
+const MJ_SAN_JOSE    = id('María Jesús San José')
+const CARRIEDO       = id('Carlos Fernández Carriedo')
+const I_BLANCO       = id('Isabel Blanco')
+const VAQUERO        = id('Mar Vaquero')
+const PRADALES       = id('Imanol Pradales')
+const CHIVITE        = id('María Chivite')
+const BURUAGA        = id('María José Sáenz de Buruaga')
+const CAPELLAN       = id('Gonzalo Capellán')
+
+// ─── Interior · cúpula civil ─────────────────────────────────────────
+const PARDO_PIQUERAS = id('Francisco Pardo Piqueras')
+const MERCEDES_GONZ  = id('Mercedes González')
+const RAFAEL_PEREZ   = id('Rafael Pérez')
+const PERE_NAVARRO   = id('Pere Navarro')
+
+// ─── Moncloa · staff ─────────────────────────────────────────────────
+const CRISOSTOMO     = id('Susana Crisóstomo')
+const IVAN_REDONDO   = id('Iván Redondo')
+
+// ─── Defensa · cúpula militar ────────────────────────────────────────
+const LOPEZ_CALDERON = id('Teodoro López Calderón')
+const ENSENAT        = id('Amador Enseñat')
+const PINEIRO        = id('Antonio Piñeiro')
+const BRACO_CARBO    = id('Francisco Braco Carbó')
+const MESTRE         = id('Manuel Mestre')
+
+// ─── Inteligencia · CNI ──────────────────────────────────────────────
+const CASTELEIRO     = id('Esperanza Casteleiro')
+const RELANZON       = id('Arturo Relanzón')
+
+// ─── Periodistas adicionales ─────────────────────────────────────────
+const INAKI_LOPEZ    = id('Iñaki López')
+const CRISTINA_PARDO = id('Cristina Pardo')
+const HILARIO_PINO   = id('Hilario Pino')
+const E_PALOMERA     = id('Esther Palomera')
+const INDA           = id('Eduardo Inda')
+const ABADILLO       = id('Casimiro García-Abadillo')
+const ESCOLAR        = id('Ignacio Escolar')
+const MARHUENDA      = id('Francisco Marhuenda')
+const L_MENDEZ       = id('Lucía Méndez')
+const L_HERRERO      = id('Luis Herrero')
+const M_ROBLES_P     = id('Marta Robles')
+const A_CANO         = id('Antonio Caño')
+const NARANJO        = id('Antonio Naranjo')
+const VELASCO        = id('Pilar Velasco')
+
 // ─── Internacional ───────────────────────────────────────────────────
 const VONDERLEYEN    = id('Ursula von der Leyen')
 const COSTA          = id('António Costa')
@@ -568,6 +631,130 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   { a: REVILLA,    b: FEIJOO,    val:  22, tipo: 'mediador',          label: 'Diálogo informal · figura puente' },
   { a: BERNABE,    b: MAZON,     val: -78, tipo: 'oposicion_frontal', label: 'DANA Valencia · choques institucionales públicos' },
   { a: ORTUZAR,    b: SANCHEZ,   val:  72, tipo: 'mediador',          label: 'Interlocutor central PNV · canal de negociación' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 21 · GABINETES AUTONÓMICOS · presidentes ↔ consejeros clave
+  // ═══════════════════════════════════════════════════════════════════
+  // Madrid · Gobierno Ayuso
+  { a: AYUSO,   b: OSSORIO,      val:  85, tipo: 'aliado_partido',    label: 'Consejero Educación · hombre fuerte gabinete Madrid' },
+  { a: AYUSO,   b: MATUTE,       val:  78, tipo: 'aliado_partido',    label: 'Consejera Sanidad · gabinete Ayuso' },
+  { a: AYUSO,   b: IZQUIERDO_CM, val:  72, tipo: 'aliado_partido',    label: 'Consejero Vivienda · gabinete Ayuso' },
+  { a: AYUSO,   b: PACO_MADRID,  val:  72, tipo: 'aliado_partido',    label: 'Consejero Cultura · gabinete Ayuso' },
+  { a: AYUSO,   b: GARCIA_MARTIN, val: 82, tipo: 'aliado_partido',    label: 'Consejero Presidencia · número 2 de Ayuso' },
+
+  // Cataluña · Govern Illa
+  { a: ILLA,    b: DALMAU,       val:  88, tipo: 'aliado_partido',    label: 'Conseller Presidència · mano derecha de Illa' },
+  { a: ILLA,    b: A_ROMERO,     val:  85, tipo: 'aliado_partido',    label: 'Consellera Economia · núcleo gobierno catalán' },
+  { a: ILLA,    b: N_MONTSERRAT, val:  78, tipo: 'aliado_partido',    label: 'Consellera Universitats · gobierno catalán' },
+  { a: ILLA,    b: OLGA_PANE,    val:  78, tipo: 'aliado_partido',    label: 'Consellera Salut · gobierno catalán' },
+  { a: ILLA,    b: NIUBO,        val:  76, tipo: 'aliado_partido',    label: 'Consellera Educació · gobierno catalán' },
+  { a: ILLA,    b: PANEQUE,      val:  78, tipo: 'aliado_partido',    label: 'Consellera Territori · gobierno catalán' },
+
+  // Andalucía · Junta Moreno
+  { a: MORENO,  b: A_SANZ,       val:  88, tipo: 'aliado_partido',    label: 'Consejero Presidencia · mano derecha de Moreno' },
+  { a: MORENO,  b: C_ESPANA,     val:  82, tipo: 'aliado_partido',    label: 'Consejera Economía y Hacienda · núcleo Andalucía' },
+  { a: MORENO,  b: C_CRESPO,     val:  78, tipo: 'aliado_partido',    label: 'Consejera Agricultura · gabinete Andalucía' },
+
+  // País Vasco · Lehendakari Pradales
+  { a: PRADALES, b: MIKEL_TORRES, val: 78, tipo: 'aliado_partido',    label: 'Vicelehendakari I · socio PSE-EE en gobierno vasco' },
+  { a: PRADALES, b: ATUTXA,      val:  88, tipo: 'aliado_partido',    label: 'Consejera Hacienda · núcleo PNV gabinete vasco' },
+  { a: PRADALES, b: MJ_SAN_JOSE, val:  82, tipo: 'aliado_partido',    label: 'Consejera Trabajo · gabinete vasco' },
+  { a: PRADALES, b: ORTUZAR,     val:  92, tipo: 'aliado_partido',    label: 'Eje PNV · lehendakari + presidente del partido' },
+
+  // Castilla y León
+  { a: MANUECO, b: CARRIEDO,     val:  85, tipo: 'aliado_partido',    label: 'Consejero Economía · veterano gabinete CyL' },
+  { a: MANUECO, b: I_BLANCO,     val:  80, tipo: 'aliado_partido',    label: 'Vicepresidenta · núcleo gobierno CyL' },
+
+  // Aragón
+  { a: AZCON,   b: VAQUERO,      val:  80, tipo: 'aliado_partido',    label: 'Vicepresidenta y consejera Empleo · gabinete Azcón' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 22 · INTERIOR · cúpula civil de seguridad
+  // ═══════════════════════════════════════════════════════════════════
+  { a: MARLASKA, b: PARDO_PIQUERAS, val: 92, tipo: 'aliado_partido', label: 'Director General Policía Nacional · cargo de confianza' },
+  { a: MARLASKA, b: MERCEDES_GONZ,  val: 92, tipo: 'aliado_partido', label: 'Directora General Guardia Civil · cargo de confianza' },
+  { a: MARLASKA, b: RAFAEL_PEREZ,   val: 90, tipo: 'aliado_partido', label: 'Secretario de Estado Seguridad · número 2 Interior' },
+  { a: MARLASKA, b: PERE_NAVARRO,   val: 78, tipo: 'aliado_partido', label: 'Director General Tráfico · veterano DGT' },
+  { a: PARDO_PIQUERAS, b: MERCEDES_GONZ, val: 75, tipo: 'aliado_partido', label: 'Eje cúpula seguridad · CNP + GC' },
+  { a: PARDO_PIQUERAS, b: RAFAEL_PEREZ,  val: 78, tipo: 'aliado_partido', label: 'Línea jerárquica Sec.Estado → DG Policía' },
+  { a: MERCEDES_GONZ,  b: RAFAEL_PEREZ,  val: 78, tipo: 'aliado_partido', label: 'Línea jerárquica Sec.Estado → DG Guardia Civil' },
+  { a: SANCHEZ, b: MERCEDES_GONZ,  val:  62, tipo: 'aliado_partido', label: 'Ex delegada del Gobierno en Madrid · confianza Moncloa' },
+  { a: AYUSO,   b: MERCEDES_GONZ,  val: -50, tipo: 'critica_publica', label: 'Choques cuando fue delegada del Gobierno en Madrid' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 23 · DEFENSA · cúpula militar
+  // ═══════════════════════════════════════════════════════════════════
+  { a: ROBLES,   b: LOPEZ_CALDERON, val: 90, tipo: 'aliado_partido', label: 'Jefe Estado Mayor Defensa (JEMAD) · línea de mando' },
+  { a: ROBLES,   b: ENSENAT,        val: 85, tipo: 'aliado_partido', label: 'Jefe Estado Mayor del Ejército de Tierra · JEME' },
+  { a: ROBLES,   b: PINEIRO,        val: 85, tipo: 'aliado_partido', label: 'Jefe Estado Mayor de la Armada · AJEMA' },
+  { a: ROBLES,   b: BRACO_CARBO,    val: 85, tipo: 'aliado_partido', label: 'Jefe Estado Mayor del Ejército del Aire · JEMA' },
+  { a: ROBLES,   b: MESTRE,         val: 78, tipo: 'aliado_partido', label: 'Director Política de Defensa · gabinete técnico' },
+  { a: LOPEZ_CALDERON, b: ENSENAT,  val: 80, tipo: 'aliado_partido', label: 'Cúpula militar · JEMAD + JEME' },
+  { a: LOPEZ_CALDERON, b: PINEIRO,  val: 80, tipo: 'aliado_partido', label: 'Cúpula militar · JEMAD + AJEMA' },
+  { a: LOPEZ_CALDERON, b: BRACO_CARBO, val: 80, tipo: 'aliado_partido', label: 'Cúpula militar · JEMAD + JEMA' },
+  { a: FELIPE_VI, b: LOPEZ_CALDERON, val: 78, tipo: 'mediador',      label: 'Mando supremo Fuerzas Armadas · jefe JEMAD' },
+  { a: FELIPE_VI, b: ROBLES,        val: 72, tipo: 'mediador',       label: 'Audiencias formales sobre Fuerzas Armadas' },
+  { a: FELIPE_VI, b: ENSENAT,       val: 65, tipo: 'mediador',       label: 'Comandancia Fuerzas Armadas · actos institucionales' },
+  { a: FELIPE_VI, b: PINEIRO,       val: 65, tipo: 'mediador',       label: 'Comandancia Armada · actos institucionales' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 24 · INTELIGENCIA · CNI y Seguridad Nacional
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SANCHEZ,  b: CASTELEIRO,    val: 85, tipo: 'aliado_partido',  label: 'Directora CNI · depende de Moncloa · cargo de confianza' },
+  { a: BOLANOS,  b: CASTELEIRO,    val: 78, tipo: 'aliado_partido',  label: 'Coordinación CNI · gabinete jurídico Moncloa' },
+  { a: ROBLES,   b: CASTELEIRO,    val: 82, tipo: 'aliado_partido',  label: 'CNI dentro de Defensa · línea jerárquica' },
+  { a: MARLASKA, b: CASTELEIRO,    val: 72, tipo: 'aliado_partido',  label: 'Coordinación CNI-Interior · seguridad nacional' },
+  { a: ALBARES,  b: CASTELEIRO,    val: 75, tipo: 'aliado_partido',  label: 'Coordinación inteligencia exterior · CNI + Exteriores' },
+  { a: CASTELEIRO, b: RELANZON,    val: 85, tipo: 'aliado_partido',  label: 'Eje seguridad nacional · CNI + DSN Moncloa' },
+  { a: FELIPE_VI, b: CASTELEIRO,   val: 68, tipo: 'mediador',        label: 'Briefings periódicos de seguridad nacional al Rey' },
+  { a: SANCHEZ,  b: RELANZON,      val: 75, tipo: 'aliado_partido',  label: 'Director Seguridad Nacional · gabinete Moncloa' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 25 · MONCLOA · staff y comunicación
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SANCHEZ,  b: CRISOSTOMO,    val: 88, tipo: 'aliado_partido',  label: 'Secretaria de Estado Comunicación · cargo de confianza' },
+  { a: BOLANOS,  b: CRISOSTOMO,    val: 80, tipo: 'aliado_partido',  label: 'Línea comunicación Moncloa · coordinación con Presidencia' },
+  { a: ALEGRIA,  b: CRISOSTOMO,    val: 78, tipo: 'aliado_partido',  label: 'Eje portavocía + comunicación institucional' },
+  { a: SANCHEZ,  b: IVAN_REDONDO,  val: 55, tipo: 'critica_publica', label: 'Ex jefe de Gabinete (2018-2021) · alejamiento desde 2021' },
+  { a: BOLANOS,  b: IVAN_REDONDO,  val: -35, tipo: 'critica_publica', label: 'Rivalidad histórica · Bolaños lo sustituyó' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 26 · PERIODISTAS · más afinidades editoriales
+  // ═══════════════════════════════════════════════════════════════════
+  { a: INAKI_LOPEZ, b: CRISTINA_PARDO, val: 95, tipo: 'aliado_partido', label: 'Matrimonio · copresentadores Más Vale Tarde (La Sexta)' },
+  { a: INAKI_LOPEZ, b: YOLANDA,    val:  38, tipo: 'aliado_mediatico', label: 'La Sexta · cobertura afín al espacio Sumar' },
+  { a: CRISTINA_PARDO, b: SANCHEZ, val:  35, tipo: 'aliado_mediatico', label: 'La Sexta · línea editorial progresista' },
+  { a: HILARIO_PINO, b: SANCHEZ,   val:  32, tipo: 'aliado_mediatico', label: 'RNE · cobertura institucional del Gobierno' },
+  { a: E_PALOMERA, b: SANCHEZ,     val:  38, tipo: 'aliado_mediatico', label: 'RTVE · presentadora La Hora 1 · línea oficial' },
+  { a: INDA,      b: SANCHEZ,      val: -92, tipo: 'critica_publica',  label: 'OKdiario · ataque diario al Gobierno y Begoña Gómez' },
+  { a: INDA,      b: AYUSO,        val:  68, tipo: 'aliado_mediatico', label: 'OKdiario · respaldo permanente a Ayuso' },
+  { a: INDA,      b: ABASCAL,      val:  42, tipo: 'aliado_mediatico', label: 'OKdiario · cobertura amigable a Vox' },
+  { a: INDA,      b: BEGONA,       val: -90, tipo: 'critica_publica',  label: 'OKdiario · serie de exclusivas contra Begoña Gómez' },
+  { a: ABADILLO,  b: FEIJOO,       val:  35, tipo: 'aliado_mediatico', label: 'El Independiente · escrutinio moderado al Gobierno' },
+  { a: ABADILLO,  b: SANCHEZ,      val: -38, tipo: 'critica_publica',  label: 'El Independiente · línea crítica con el Gobierno' },
+  { a: ESCOLAR,   b: SANCHEZ,      val:  52, tipo: 'aliado_mediatico', label: 'eldiario.es · línea progresista cercana al Gobierno' },
+  { a: ESCOLAR,   b: YOLANDA,      val:  58, tipo: 'aliado_mediatico', label: 'eldiario.es · cobertura amigable a Sumar' },
+  { a: ESCOLAR,   b: AYUSO,        val: -72, tipo: 'critica_publica',  label: 'eldiario.es · investigaciones recurrentes sobre Madrid' },
+  { a: MARHUENDA, b: FEIJOO,       val:  62, tipo: 'aliado_mediatico', label: 'La Razón · línea conservadora afín al PP' },
+  { a: MARHUENDA, b: ABASCAL,      val:  45, tipo: 'aliado_mediatico', label: 'La Razón · tribuna habitual de Vox' },
+  { a: MARHUENDA, b: SANCHEZ,      val: -72, tipo: 'critica_publica',  label: 'La Razón · escrutinio crítico al Gobierno' },
+  { a: L_MENDEZ,  b: SANCHEZ,      val: -32, tipo: 'critica_publica',  label: 'Columnista El Mundo · línea crítica' },
+  { a: L_HERRERO, b: FEIJOO,       val:  42, tipo: 'aliado_mediatico', label: 'esRadio · cobertura conservadora moderada' },
+  { a: L_HERRERO, b: ABASCAL,      val:  45, tipo: 'aliado_mediatico', label: 'esRadio · cercanía con espacio Vox' },
+  { a: M_ROBLES_P, b: FEIJOO,      val:  35, tipo: 'aliado_mediatico', label: 'ABC · línea conservadora' },
+  { a: A_CANO,    b: SANCHEZ,      val: -32, tipo: 'critica_publica',  label: 'Ex director El País · crítico tras dejar PRISA' },
+  { a: NARANJO,   b: ABASCAL,      val:  45, tipo: 'aliado_mediatico', label: 'esRadio · cobertura afín a Vox' },
+  { a: NARANJO,   b: SANCHEZ,      val: -68, tipo: 'critica_publica',  label: 'esRadio · ataque permanente al Gobierno' },
+  { a: VELASCO,   b: SANCHEZ,      val:  35, tipo: 'aliado_mediatico', label: 'Cadena SER · línea editorial progresista' },
+  { a: VELASCO,   b: YOLANDA,      val:  32, tipo: 'aliado_mediatico', label: 'Cadena SER · cobertura amigable a Sumar' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 27 · OTROS PRESIDENTES AUTONÓMICOS · Núcleo con Sánchez/Feijóo
+  // ═══════════════════════════════════════════════════════════════════
+  { a: CHIVITE,  b: SANCHEZ,       val:  72, tipo: 'aliado_partido',  label: 'Presidenta Navarra PSOE · alianza estable con Moncloa' },
+  { a: PRADALES, b: SANCHEZ,       val:  68, tipo: 'pacto_investidura', label: 'PNV en gobierno vasco · interlocución directa Moncloa' },
+  { a: BURUAGA,  b: FEIJOO,        val:  75, tipo: 'aliado_partido',  label: 'PP nacional · barona Cantabria' },
+  { a: CAPELLAN, b: FEIJOO,        val:  72, tipo: 'aliado_partido',  label: 'PP nacional · barón La Rioja' },
 ]
 
 /**

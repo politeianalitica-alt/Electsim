@@ -24,7 +24,7 @@ export type Actor = {
 }
 
 const PARTY_COLOR: Record<string, string> = {
-  'PSOE':'#E1322D','PSC':'#E1322D','PSC-PSOE':'#E1322D',
+  'PSOE':'#E1322D','PSC':'#E1322D','PSC-PSOE':'#E1322D','PSE-EE':'#E1322D',
   'PP':'#1F4E8C','VOX':'#5BA02E','Sumar':'#D43F8D',
   'Junts':'#1FA89B','JxCat':'#1FA89B','ERC':'#E8A030',
   'EH Bildu':'#3F7A3A','PNV':'#7DB94B','EAJ-PNV':'#7DB94B',
@@ -42,6 +42,7 @@ const POS_BASE: Record<string, [number, number]> = {
   'PSOE':       [-22,  +12],
   'PSC':        [-15,  -35],
   'PSC-PSOE':   [-15,  -35],
+  'PSE-EE':     [-18,  -45],
   'PP':         [+38,  -12],
   'VOX':        [+78,  +60],
   'Sumar':      [-58,  -18],
@@ -488,6 +489,74 @@ const BASE_EXTENDED: Base[] = [
 
   // ── MINISTRO INDUSTRIA ──
   { nombre:'Jordi Hereu',           partido:'PSOE',      cargo:'Ministro de Industria y Turismo · ex alcalde Barcelona',       cat:'gobierno' },
+
+  // ── CONSEJEROS · COMUNIDAD DE MADRID (Gobierno Ayuso) ──
+  { nombre:'Enrique Ossorio',       partido:'PP',        cargo:'Consejero de Educación y Universidades · Comunidad de Madrid', cat:'autonomico' },
+  { nombre:'Fátima Matute',         partido:'PP',        cargo:'Consejera de Sanidad · Comunidad de Madrid',                   cat:'autonomico' },
+  { nombre:'Carlos Izquierdo',      partido:'PP',        cargo:'Consejero de Vivienda · Comunidad de Madrid',                  cat:'autonomico' },
+  { nombre:'Mariano de Paco',       partido:'PP',        cargo:'Consejero de Cultura · Comunidad de Madrid',                   cat:'autonomico' },
+  { nombre:'Miguel Ángel García Martín', partido:'PP',  cargo:'Consejero de Presidencia, Justicia y Adm. Local · Madrid',    cat:'autonomico' },
+
+  // ── CONSEJEROS · GENERALITAT DE CATALUNYA (Govern Illa) ──
+  { nombre:'Núria Montserrat',      partido:'PSC-PSOE',  cargo:'Consellera de Recerca i Universitats · Generalitat',          cat:'autonomico' },
+  { nombre:'Olga Pané',             partido:'PSC-PSOE',  cargo:'Consellera de Salut · Generalitat',                            cat:'autonomico' },
+  { nombre:'Esther Niubó',          partido:'PSC-PSOE',  cargo:'Consellera d\'Educació · Generalitat',                          cat:'autonomico' },
+  { nombre:'Jaume Duch',            partido:'Independiente', cargo:'Conseller d\'Unió Europea · Generalitat',                  cat:'autonomico' },
+
+  // ── CONSEJEROS · JUNTA DE ANDALUCÍA (Gobierno Moreno) ──
+  { nombre:'Carmen Crespo',         partido:'PP',        cargo:'Consejera de Agricultura · Junta de Andalucía',                cat:'autonomico' },
+  { nombre:'Patricia del Pozo',     partido:'PP',        cargo:'Consejera de Cultura · Junta de Andalucía',                    cat:'autonomico' },
+  { nombre:'Rocío Díaz',            partido:'PP',        cargo:'Consejera de Fomento · Junta de Andalucía',                    cat:'autonomico' },
+
+  // ── CONSEJEROS · GOBIERNO VASCO (Lehendakari Pradales) ──
+  { nombre:'Mikel Torres',          partido:'PSE-EE',    cargo:'Vicelehendakari I · Industria · Gobierno Vasco',               cat:'autonomico' },
+  { nombre:'Itxaso Atutxa',         partido:'EAJ-PNV',   cargo:'Consejera de Hacienda y Finanzas · Gobierno Vasco',            cat:'autonomico' },
+  { nombre:'María Jesús San José',  partido:'EAJ-PNV',   cargo:'Consejera de Trabajo · Gobierno Vasco',                        cat:'autonomico' },
+
+  // ── CONSEJEROS · CASTILLA Y LEÓN (Gobierno Mañueco) ──
+  { nombre:'Isabel Blanco',         partido:'PP',        cargo:'Vicepresidenta de la Junta de Castilla y León',                cat:'autonomico' },
+  { nombre:'Verónica Casado',       partido:'Independiente', cargo:'Ex consejera Sanidad Castilla y León · referente médica', cat:'autonomico' },
+
+  // ── DIRECTORES GENERALES · INTERIOR ──
+  { nombre:'Mercedes González',     partido:'PSOE',      cargo:'Directora General de la Guardia Civil',                        cat:'institucion' },
+  { nombre:'Francisco Pardo Piqueras', partido:'PSOE',  cargo:'Director General de la Policía Nacional',                       cat:'institucion' },
+  { nombre:'Rafael Pérez',          partido:'PSOE',      cargo:'Secretario de Estado de Seguridad · Min. Interior',            cat:'institucion' },
+  { nombre:'Pere Navarro',          partido:'PSOE',      cargo:'Director General de Tráfico (DGT)',                            cat:'institucion' },
+  { nombre:'Aitor Esteban (Director General)', partido:'Independiente', cargo:'Director General de Coordinación · Min. Interior', cat:'institucion' },
+
+  // ── DIRECTORES GENERALES · OTROS MINISTERIOS ──
+  { nombre:'Susana Crisóstomo',     partido:'PSOE',      cargo:'Secretaria de Estado de Comunicación · Moncloa',               cat:'institucion' },
+  { nombre:'Iván Redondo',          partido:'Independiente', cargo:'Ex jefe de Gabinete de Sánchez · estratega Reload',         cat:'institucion' },
+  { nombre:'Carlos Cabanas',        partido:'PSOE',      cargo:'Secretario General de Universidades · Min. Universidades',     cat:'institucion' },
+
+  // ── CÚPULA MILITAR · MINISTERIO DEFENSA ──
+  { nombre:'Teodoro López Calderón', partido:'Independiente', cargo:'Almirante General · ex JEMAD (Jefe Estado Mayor Defensa)', cat:'institucion' },
+  { nombre:'Amador Enseñat',        partido:'Independiente', cargo:'General de Ejército · Jefe Estado Mayor del Ejército de Tierra (JEME)', cat:'institucion' },
+  { nombre:'Antonio Piñeiro',       partido:'Independiente', cargo:'Almirante General · Jefe Estado Mayor Armada (AJEMA)',     cat:'institucion' },
+  { nombre:'Francisco Braco Carbó', partido:'Independiente', cargo:'General Aire · Jefe Estado Mayor Ejército Aire (JEMA)',    cat:'institucion' },
+  { nombre:'Manuel Mestre',         partido:'Independiente', cargo:'Almirante · Director Política Defensa · Min. Defensa',     cat:'institucion' },
+
+  // ── INTELIGENCIA · CNI ──
+  { nombre:'Esperanza Casteleiro',  partido:'Independiente', cargo:'Directora del Centro Nacional de Inteligencia (CNI)',     cat:'institucion' },
+  { nombre:'Arturo Relanzón',       partido:'Independiente', cargo:'Director del Departamento de Seguridad Nacional · Moncloa', cat:'institucion' },
+
+  // ── MEDIOS · PERIODISTAS adicionales ──
+  { nombre:'Iñaki López',           partido:'Medios',    cargo:'Presentador · Más Vale Tarde (La Sexta)',                      cat:'mediatico' },
+  { nombre:'Cristina Pardo',        partido:'Medios',    cargo:'Presentadora · Más Vale Tarde (La Sexta)',                     cat:'mediatico' },
+  { nombre:'Hilario Pino',          partido:'Medios',    cargo:'Periodista · Las Mañanas RNE',                                  cat:'mediatico' },
+  { nombre:'Esther Palomera',       partido:'Medios',    cargo:'Periodista · La Hora de la 1 (RTVE)',                          cat:'mediatico' },
+  { nombre:'Eduardo Inda',          partido:'Medios',    cargo:'Director · OKdiario · agenda anti-gobierno',                   cat:'mediatico' },
+  { nombre:'Casimiro García-Abadillo', partido:'Medios', cargo:'Director · El Independiente',                                  cat:'mediatico' },
+  { nombre:'Ignacio Escolar',       partido:'Medios',    cargo:'Director · eldiario.es · agenda progresista',                  cat:'mediatico' },
+  { nombre:'Francisco Marhuenda',   partido:'Medios',    cargo:'Director · La Razón · agenda conservadora',                    cat:'mediatico' },
+  { nombre:'Lucía Méndez',          partido:'Medios',    cargo:'Periodista · columnista El Mundo',                              cat:'mediatico' },
+  { nombre:'Luis Herrero',          partido:'Medios',    cargo:'Periodista · esRadio · ex-conductor La Brújula',                cat:'mediatico' },
+  { nombre:'Marta Robles',          partido:'Medios',    cargo:'Periodista y escritora · ABC',                                  cat:'mediatico' },
+  { nombre:'Antonio Caño',          partido:'Medios',    cargo:'Ex director de El País · referente periodístico',              cat:'mediatico' },
+  { nombre:'Antonio Naranjo',       partido:'Medios',    cargo:'Periodista · esRadio · La Vanguardia',                          cat:'mediatico' },
+  { nombre:'Pilar Velasco',         partido:'Medios',    cargo:'Periodista · Cadena SER',                                       cat:'mediatico' },
+  { nombre:'Pepe Rubio',            partido:'Medios',    cargo:'Periodista · La Ventana (Cadena SER)',                          cat:'mediatico' },
+  { nombre:'Pepe Oneto',            partido:'Medios',    cargo:'Periodista decano · El Plural',                                 cat:'mediatico' },
 
   // ── CASA REAL ──
   { nombre:'Letizia Ortiz',         partido:'Casa Real', cargo:'Reina de España',                                             cat:'institucion' },
