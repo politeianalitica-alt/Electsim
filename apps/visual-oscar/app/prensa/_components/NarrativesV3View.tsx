@@ -117,10 +117,190 @@ export default function NarrativesV3View() {
 
       {loading && <p style={{ textAlign: 'center', padding: 32, color: '#6e6e73' }}>Analizando narrativas multidimensionalmente…</p>}
 
-      {/* NARRATIVAS */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-        {narr.map((n, i) => <CardV3 key={n.id} n={n} rank={i + 1}/>)}
+      {/* NARRATIVAS AGRUPADAS POR CATEGORÍA · COLAPSABLES */}
+      <NarrativasAgrupadas narr={narr}/>
+    </div>
+  )
+}
+
+function NarrativasAgrupadas({ narr }: { narr: NarrativaV3[] }) {
+  // Agrupar por taxonomía
+  const grupos: Record<string, NarrativaV3[]> = {}
+  for (const n of narr) {
+    if (!grupos[n.taxonomia]) grupos[n.taxonomia] = []
+    grupos[n.taxonomia].push(n)
+  }
+  const grupoOrdenado = Object.entries(grupos).sort((a, b) => b[1].length - a[1].length)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {grupoOrdenado.map(([taxonomia, items]) => {
+        const colorGrupo = items[0]?.color || '#525258'
+        return (
+          <div key={taxonomia} style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, overflow: 'hidden', borderLeft: `5px solid ${colorGrupo}` }}>
+            <div style={{ padding: '12px 16px', background: `${colorGrupo}08`, borderBottom: '1px solid #ECECEF' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+                <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: colorGrupo, textTransform: 'capitalize', letterSpacing: '0.02em' }}>
+                  {taxonomia.replace(/_/g, ' ')}
+                </h3>
+                <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600 }}>
+                  {items.length} {items.length === 1 ? 'narrativa' : 'narrativas'} · {items.reduce((s, n) => s + n.fuerza, 0)} artículos
+                </span>
+              </div>
+            </div>
+            <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {items.map(n => <CardV3Colapsable key={n.id} n={n}/>)}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function CardV3Colapsable({ n }: { n: NarrativaV3 }) {
+  const [expanded, setExpanded] = useState(false)
+  const tonoColor = n.tono === 'positivo' ? '#16A34A' : n.tono === 'negativo' ? '#DC2626' : n.tono === 'polarizado' ? '#F59E0B' : '#9CA3AF'
+
+  return (
+    <div style={{ background: '#FAFAFB', border: '1px solid #ECECEF', borderRadius: 10, overflow: 'hidden' }}>
+      {/* HEADER colapsado · CLICK para expandir */}
+      <div onClick={() => setExpanded(!expanded)} style={{ padding: 12, cursor: 'pointer', borderBottom: expanded ? '1px solid #ECECEF' : 'none' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 10, alignItems: 'center' }}>
+          <span style={{ color: n.color, fontSize: 14, fontWeight: 700, transition: 'transform 0.15s', transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)' }}>▶</span>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f' }}>{n.tema}</span>
+              <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 4, background: FASE_COLOR[n.faseCiclo] || '#9CA3AF', color: '#fff', textTransform: 'uppercase', fontWeight: 700 }}>{n.faseCiclo}</span>
+              {n.subtemas.slice(0, 2).map(s => (
+                <span key={s} style={{ fontSize: 9, padding: '1px 5px', borderRadius: 999, background: `${n.color}15`, color: n.color, fontWeight: 600 }}>{s}</span>
+              ))}
+            </div>
+            {!expanded && n.ejemplos[0] && (
+              <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                Ej: «{n.ejemplos[0].titulo}»
+              </p>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 11 }}>
+            <span style={{ padding: '2px 7px', borderRadius: 4, background: '#1d1d1f', color: '#fff', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{n.fuerza}</span>
+            <span style={{ padding: '2px 6px', borderRadius: 4, color: tonoColor, fontWeight: 700, fontSize: 10 }}>{n.tono}</span>
+            {n.crescendo > 1.2 && <span style={{ padding: '2px 6px', borderRadius: 4, background: '#16A34A20', color: '#16A34A', fontWeight: 700, fontSize: 10 }}>↑ {n.crescendo}x</span>}
+          </div>
+        </div>
       </div>
+
+      {/* CONTENIDO EXPANDIDO · 8 dimensiones */}
+      {expanded && (
+        <div style={{ padding: 14, background: '#fff' }}>
+          {/* 5 métricas pequeñas */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 10 }}>
+            <Mini label="Fuerza" value={String(n.fuerza)} color="#1d1d1f"/>
+            <Mini label="Días" value={String(n.diasActiva)} color="#1F4E8C"/>
+            <Mini label="Crescendo" value={`${n.crescendo}x`} color={n.crescendo > 1.2 ? '#16A34A' : '#9CA3AF'}/>
+            <Mini label="Polariz." value={`${(n.polarizacion * 100).toFixed(0)}%`} color="#F59E0B"/>
+            <Mini label="Veloc." value={`${n.velocidadDifusion}/h`} color="#7C3AED"/>
+          </div>
+
+          {/* 5 dimensiones */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6, marginBottom: 10 }}>
+            <DimSmall titulo="FRAME" color={FRAME_COLOR[n.frameDominante] || '#525258'} valor={n.frameDominante.replace(/_/g, ' ')}/>
+            <DimSmall titulo="EMOCIÓN" color={EMOCION_COLOR[n.emocionDominante] || '#525258'} valor={n.emocionDominante}/>
+            <DimSmall titulo="EVIDENCIA" color="#0F766E" valor={n.tipoEvidenciaDominante.replace(/_/g, ' ')}/>
+            <DimSmall titulo="MEDIOS" color={IDEO_COLOR[n.ideologiaMediaMedios] || '#525258'} valor={n.ideologiaMediaMedios.replace(/_/g, ' ')}/>
+            <DimSmall titulo="OBJETIVO" color="#16A34A" valor={n.objetivoInferido}/>
+          </div>
+
+          {/* Actores compactos */}
+          {n.actores.length > 0 && (
+            <div style={{ marginBottom: 10 }}>
+              <p style={{ margin: '0 0 4px', fontSize: 9, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>ACTORES</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                {n.actores.slice(0, 6).map(a => {
+                  const tc = ACTOR_TIPO_COLOR[a.tipo] || '#525258'
+                  const sc = a.sentimientoMedio > 0.15 ? '#16A34A' : a.sentimientoMedio < -0.15 ? '#DC2626' : '#9CA3AF'
+                  return (
+                    <span key={a.nombre} style={{ fontSize: 10, padding: '2px 7px', borderRadius: 999, background: `${tc}15`, color: tc, fontWeight: 600 }}>
+                      {a.nombre} <span style={{ color: sc }}>{a.sentimientoMedio > 0 ? '+' : ''}{a.sentimientoMedio}</span>
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Beneficia / Perjudica */}
+          {(n.beneficia.length > 0 || n.perjudica.length > 0) && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 10 }}>
+              {n.beneficia.length > 0 && (
+                <div style={{ padding: 8, background: 'rgba(22,163,74,0.05)', borderLeft: '2px solid #16A34A', borderRadius: 4 }}>
+                  <p style={{ margin: 0, fontSize: 9, color: '#16A34A', fontWeight: 700, textTransform: 'uppercase' }}>Beneficia</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 10.5, color: '#1d1d1f' }}>{n.beneficia.map(b => b.actor).join(' · ')}</p>
+                </div>
+              )}
+              {n.perjudica.length > 0 && (
+                <div style={{ padding: 8, background: 'rgba(220,38,38,0.05)', borderLeft: '2px solid #DC2626', borderRadius: 4 }}>
+                  <p style={{ margin: 0, fontSize: 9, color: '#DC2626', fontWeight: 700, textTransform: 'uppercase' }}>Perjudica</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 10.5, color: '#1d1d1f' }}>{n.perjudica.map(p => p.actor).join(' · ')}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Mensajes clave */}
+          {n.mensajesClave.length > 0 && (
+            <div style={{ marginBottom: 10, padding: 8, background: '#FAFAFB', borderRadius: 6 }}>
+              <p style={{ margin: '0 0 4px', fontSize: 9, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Mensajes clave (frases recurrentes)</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {n.mensajesClave.map((m, i) => (
+                  <span key={i} style={{ fontSize: 10, padding: '2px 7px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 4, fontStyle: 'italic' }}>«{m}»</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Ejemplos + medios */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 8, paddingTop: 6, borderTop: '1px dashed #ECECEF' }}>
+            <div>
+              <p style={{ margin: 0, fontSize: 9, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase' }}>Ejemplos</p>
+              <ul style={{ margin: '4px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {n.ejemplos.map((e, i) => (
+                  <li key={i} style={{ fontSize: 10.5, lineHeight: 1.4 }}>
+                    <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>{e.titulo}</a>
+                    <span style={{ color: '#9CA3AF', fontSize: 9 }}> · {e.medio}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: 9, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase' }}>{n.mediosCubriendo.length} medios</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginTop: 4 }}>
+                {n.mediosCubriendo.slice(0, 8).map(m => (
+                  <span key={m} style={{ fontSize: 9, padding: '1px 5px', borderRadius: 3, background: '#F5F5F7', color: '#3a3a3d' }}>{m}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Mini({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div style={{ padding: '4px 8px', background: '#FAFAFB', borderRadius: 4, textAlign: 'center' }}>
+      <p style={{ margin: 0, fontSize: 8, color: '#6e6e73', fontWeight: 700, textTransform: 'uppercase' }}>{label}</p>
+      <p style={{ margin: '2px 0 0', fontSize: 12, fontWeight: 700, color, fontFamily: 'var(--font-display)' }}>{value}</p>
+    </div>
+  )
+}
+
+function DimSmall({ titulo, color, valor }: { titulo: string; color: string; valor: string }) {
+  return (
+    <div style={{ padding: '5px 7px', background: '#FAFAFB', borderRadius: 4, borderLeft: `2px solid ${color}` }}>
+      <p style={{ margin: 0, fontSize: 8, color, fontWeight: 700, textTransform: 'uppercase' }}>{titulo}</p>
+      <p style={{ margin: '2px 0 0', fontSize: 10, fontWeight: 700, color: '#1d1d1f', textTransform: 'capitalize' }}>{valor}</p>
     </div>
   )
 }

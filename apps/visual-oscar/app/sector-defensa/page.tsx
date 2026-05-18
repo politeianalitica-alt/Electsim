@@ -18,6 +18,7 @@ import { analizarPosicionamientoDefensa, calcularThreatRadar, generarBriefingDia
 import { ThreatRadarChart } from './_components/ThreatRadar'
 import { DailyBriefingCard } from './_components/DailyBriefing'
 import { PosicionamientoCard } from './_components/PosicionamientoCard'
+import { EmpresasCotizadasStrip, BriefingAudio } from './_components/EmpresasCotizadasStrip'
 
 interface ResumenResp {
   kpis: {
@@ -136,6 +137,30 @@ export default function SectorDefensaPage() {
             accent="#86EFAC" sub="últimos 90 días"/>
         </div>
       </section>
+
+      {/* MERCADOS DE DEFENSA · EMPRESAS COTIZADAS EUROPA + GLOBAL */}
+      <Panel title="Mercados de defensa · cotización en vivo" subtitle="Empresas cotizadas europeas + USA + Israel · 23 fichas con estructura completa · click para abrir ficha detallada (estructura · programas · joint ventures · sanciones · cultura)" marginBottom>
+        <EmpresasCotizadasStrip/>
+      </Panel>
+
+      {/* BRIEFING DEL DÍA (con audio TTS) */}
+      {(() => {
+        if (!resumen || !contratos) return null
+        const fechaHoy = new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+        const textoBriefing = `Briefing del sector defensa, ${fechaHoy}. ` +
+          `España gasta el ${resumen.kpis.gasto_pct_pib?.toFixed(2) || '?'} por ciento del PIB en defensa, ` +
+          `con ${resumen.kpis.contratos_defensa_90d || 0} contratos publicados en los últimos 90 días por valor de ${contratos.stats.importe_total_M?.toFixed(0) || 0} millones de euros. ` +
+          `La brecha respecto al objetivo OTAN del ${resumen.kpis.compromiso_otan_pct || 2} por ciento es de ${resumen.kpis.gap_otan_pp?.toFixed(2) || '?'} puntos. ` +
+          `Programas estratégicos en curso: FCAS, S-80 Plus, Fragatas F-110, VCR Dragón, NASAMS y Eurodrone.`
+        return (
+          <Panel title="Briefing del día · resumen ejecutivo" subtitle={fechaHoy} marginBottom>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 14, alignItems: 'center' }}>
+              <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.6 }}>{textoBriefing}</p>
+              <BriefingAudio texto={textoBriefing}/>
+            </div>
+          </Panel>
+        )
+      })()}
 
       {/* ANÁLISIS IA + THREAT RADAR + BRIEFING */}
       {(() => {

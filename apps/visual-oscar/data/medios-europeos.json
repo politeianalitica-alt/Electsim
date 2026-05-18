@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "version": "2026.05",
+    "actualizado": "2026-05",
+    "descripcion": "16 medios europeos clave para tier Europeo de Pulso de Prensa · todos con RSS verificado"
+  },
+  "medios": [
+    { "id": "politico_eu", "nombre": "Politico Europe", "grupo": "Politico", "tipo": "digital", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 8.5, "credibilidad": 0.85, "rss": "https://www.politico.eu/feed/", "web": "https://www.politico.eu", "color": "#E63946" },
+    { "id": "bbc_europe", "nombre": "BBC News", "grupo": "BBC", "tipo": "publico", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 100, "credibilidad": 0.92, "rss": "https://feeds.bbci.co.uk/news/rss.xml", "web": "https://www.bbc.com", "color": "#BB1919" },
+    { "id": "guardian_world", "nombre": "The Guardian", "grupo": "Guardian Media", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": -1, "audiencia_M": 24, "credibilidad": 0.88, "rss": "https://www.theguardian.com/world/rss", "web": "https://www.theguardian.com", "color": "#052962" },
+    { "id": "lemonde", "nombre": "Le Monde", "grupo": "Le Monde", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": -1, "audiencia_M": 9, "credibilidad": 0.90, "rss": "https://www.lemonde.fr/rss/une.xml", "web": "https://www.lemonde.fr", "color": "#1A1A1A" },
+    { "id": "ft_world", "nombre": "Financial Times", "grupo": "Nikkei", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": 1, "audiencia_M": 13, "credibilidad": 0.93, "rss": "https://www.ft.com/rss/home", "web": "https://www.ft.com", "color": "#FFF1E5" },
+    { "id": "spiegel_intl", "nombre": "Der Spiegel International", "grupo": "Spiegel-Verlag", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": -1, "audiencia_M": 11, "credibilidad": 0.88, "rss": "https://www.spiegel.de/international/index.rss", "web": "https://www.spiegel.de", "color": "#E64415" },
+    { "id": "reuters_world", "nombre": "Reuters World", "grupo": "Thomson Reuters", "tipo": "agencia", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 50, "credibilidad": 0.94, "rss": "https://www.reutersagency.com/feed/?best-topics=political-general&post_type=best", "web": "https://www.reuters.com", "color": "#FB8500" },
+    { "id": "deutsche_welle", "nombre": "Deutsche Welle", "grupo": "DW", "tipo": "publico", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 6, "credibilidad": 0.89, "rss": "https://rss.dw.com/rdf/rss-en-all", "web": "https://www.dw.com", "color": "#002A5C" },
+    { "id": "euronews", "nombre": "Euronews", "grupo": "Euronews", "tipo": "digital", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 4.5, "credibilidad": 0.82, "rss": "https://www.euronews.com/rss?level=theme&name=news", "web": "https://www.euronews.com", "color": "#FBC405" },
+    { "id": "corriere", "nombre": "Corriere della Sera", "grupo": "RCS MediaGroup", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 4, "credibilidad": 0.85, "rss": "https://xml2.corriereobjects.it/rss/homepage.xml", "web": "https://www.corriere.it", "color": "#000000" },
+    { "id": "faz", "nombre": "Frankfurter Allgemeine Zeitung", "grupo": "FAZ", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": 1, "audiencia_M": 4.5, "credibilidad": 0.89, "rss": "https://www.faz.net/rss/aktuell/", "web": "https://www.faz.net", "color": "#003C81" },
+    { "id": "the_telegraph", "nombre": "The Telegraph", "grupo": "Telegraph Media Group", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": 1, "audiencia_M": 14, "credibilidad": 0.79, "rss": "https://www.telegraph.co.uk/rss.xml", "web": "https://www.telegraph.co.uk", "color": "#0058A3" },
+    { "id": "independent", "nombre": "The Independent", "grupo": "Independent Digital News", "tipo": "digital", "ambito": "Europeo", "ccaa": null, "ideologia": -1, "audiencia_M": 22, "credibilidad": 0.81, "rss": "https://www.independent.co.uk/rss", "web": "https://www.independent.co.uk", "color": "#E91D0E" },
+    { "id": "publico_pt", "nombre": "Público (Portugal)", "grupo": "Sonaecom", "tipo": "periodico", "ambito": "Europeo", "ccaa": null, "ideologia": -1, "audiencia_M": 0.5, "credibilidad": 0.83, "rss": "https://feeds.feedburner.com/publicoRSS", "web": "https://www.publico.pt", "color": "#E10600" },
+    { "id": "rfi", "nombre": "Radio France Internationale", "grupo": "France Médias Monde", "tipo": "publico", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 4, "credibilidad": 0.87, "rss": "https://www.rfi.fr/es/rss", "web": "https://www.rfi.fr/es", "color": "#1A1A1A" },
+    { "id": "swi_swissinfo", "nombre": "Swissinfo.ch", "grupo": "SRG SSR", "tipo": "publico", "ambito": "Europeo", "ccaa": null, "ideologia": 0, "audiencia_M": 1.5, "credibilidad": 0.86, "rss": "https://www.swissinfo.ch/spa/last/rss/2/", "web": "https://www.swissinfo.ch/spa", "color": "#FF0000" }
+  ]
+}

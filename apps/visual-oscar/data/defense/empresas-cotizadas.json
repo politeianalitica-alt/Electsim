@@ -1,0 +1,709 @@
+{
+  "_meta": {
+    "version": "2026.05",
+    "actualizado": "2026-05",
+    "descripcion": "Empresas cotizadas de defensa europeas + globales · 32 compañías con ficha completa: estructura, programas, joint ventures, sanciones, compliance, cultura",
+    "fuentes": ["Reuters", "Bloomberg", "Yahoo Finance", "SEC", "EDA", "SIPRI Top 100 2024", "informes anuales corporativos"]
+  },
+  "empresas": [
+    {
+      "ticker": "BA.L", "exchange": "LSE", "moneda": "GBP",
+      "nombre": "BAE Systems plc", "nombre_corto": "BAE",
+      "pais": "GB", "pais_nombre": "Reino Unido", "sede": "Londres",
+      "fundacion": 1999, "empleados": 99000,
+      "revenue_total_USD_b": 31.2, "revenue_defensa_USD_b": 30.5, "pct_defensa": 98,
+      "ranking_sipri": 7,
+      "segmentos": ["Aeronáutica militar", "Naval militar", "Sistemas terrestres", "Ciber + electrónica", "Espacial"],
+      "capacidades_clave": ["Eurofighter Typhoon", "Type 26 fragatas", "Dreadnought SSBN", "Challenger 3", "Maritime systems"],
+      "programas_activos": ["Eurofighter Typhoon", "GCAP (Tempest)", "Dreadnought SSBN", "Type 26 fragatas", "AUKUS SSN", "Challenger 3"],
+      "estructura": {
+        "ceo": { "nombre": "Charles Woodburn", "desde": "2017", "trayectoria": "Schlumberger 23 años", "url_wikipedia": "https://en.wikipedia.org/wiki/Charles_Woodburn" },
+        "areas_clave": [
+          { "area": "Air Sector", "responsable": "Richard Hamilton", "descripcion": "Eurofighter + GCAP + Hawk · 39.000 empleados" },
+          { "area": "Maritime Sector", "responsable": "Cliff Robson", "descripcion": "Type 26 + Dreadnought · 11.000 empleados" },
+          { "area": "Land Sector", "responsable": "Tommy Gustafsson-Rask", "descripcion": "Challenger 3 + Bofors · 6.000 empleados" },
+          { "area": "Electronic Systems (US)", "responsable": "Tom Arseneault", "descripcion": "Radares + EW · 14.000 empleados" }
+        ]
+      },
+      "grupos_trabajo": ["NIAG NATO Industrial Advisory Group", "Aerospace Defence Security Space (ADS UK)"],
+      "exportaciones_principales": ["AUS (Hunter-class)", "USA (F-35 partner)", "SAU (Typhoon)", "TUR", "IDN"],
+      "joint_ventures": [
+        { "nombre": "MBDA", "participacion": "37.5%", "socios": ["Airbus 37.5%", "Leonardo 25%"], "actividad": "Misiles" },
+        { "nombre": "Eurofighter GmbH", "participacion": "33%", "socios": ["Airbus DE 33%", "Leonardo 21%", "BAE 33%", "Airbus ES 13%"], "actividad": "Eurofighter consortium" }
+      ],
+      "filiales_principales": ["BAE Systems Inc (USA)", "BAE Systems Australia", "BAE Systems Hägglunds (SE)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 9001", "AS9100", "DGA Q-AQAP", "CMMC nivel 3"],
+      "cultura_defensa": "Pillar of Defence Industrial Strategy UK · cooperación AUKUS · 50% R&D investment company-funded",
+      "limitaciones": ["Brexit · acceso EDF restringido", "Dependencia política UK gobierno laborista"],
+      "novedades_2026": ["GCAP Tempest primer vuelo prototipo previsto 2027", "Pedido 'Big Bang' Type 26 ampliado", "AUKUS Pillar 1 entra producción"],
+      "logo_url": "https://logo.clearbit.com/baesystems.com",
+      "web": "https://www.baesystems.com"
+    },
+    {
+      "ticker": "RHM.DE", "exchange": "XETRA", "moneda": "EUR",
+      "nombre": "Rheinmetall AG", "nombre_corto": "Rheinmetall",
+      "pais": "DE", "pais_nombre": "Alemania", "sede": "Düsseldorf",
+      "fundacion": 1889, "empleados": 33000,
+      "revenue_total_USD_b": 10.6, "revenue_defensa_USD_b": 9.8, "pct_defensa": 92,
+      "ranking_sipri": 22,
+      "segmentos": ["Sistemas terrestres", "Munición", "Vehículos militares", "Defensa aérea"],
+      "capacidades_clave": ["MBT KF51 Panther", "IFV Lynx", "Munición 155mm", "Cañón tanque 130mm", "Skyranger sistema antiaéreo"],
+      "programas_activos": ["KF51 Panther", "Lynx (Hungría, Italia)", "Plan Munición Ucrania", "Skyranger 30", "Boxer 8x8"],
+      "estructura": {
+        "ceo": { "nombre": "Armin Papperger", "desde": "2013", "trayectoria": "30 años en Rheinmetall", "perfil": "Ingeniero mecánico, RWTH Aachen" },
+        "areas_clave": [
+          { "area": "Weapon & Ammunition", "responsable": "Helmut P. Merch", "descripcion": "Munición 155mm + propulsantes · expansión x4 capacidad para Ucrania" },
+          { "area": "Vehicle Systems", "responsable": "Björn Bernhard", "descripcion": "Boxer, Lynx, Fuchs, KF51" },
+          { "area": "Electronic Solutions", "responsable": "Thomas Schwender", "descripcion": "Optrónica + Skyranger" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Land", "EDA CapTech Missiles & Munitions", "BDSV (German defence industry association)"],
+      "exportaciones_principales": ["HUN (Lynx)", "USA", "ITA", "AUT", "UKR (munición)"],
+      "joint_ventures": [
+        { "nombre": "Rheinmetall Hungary", "participacion": "60%", "socios": ["N7 Holding (HUN) 40%"], "actividad": "Producción Lynx en Hungría" },
+        { "nombre": "RBSL (Rheinmetall BAE Systems Land UK)", "participacion": "55%", "socios": ["BAE 45%"], "actividad": "Vehículos UK · Challenger 3" }
+      ],
+      "filiales_principales": ["Rheinmetall Defence Australia", "Rheinmetall Italia", "American Rheinmetall (USA)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 9001", "AS9100", "AQAP 2110"],
+      "cultura_defensa": "Productor europeo nº1 munición · planta nueva Unterlüss 2024 para 700k proyectiles/año · acuerdos Ucrania",
+      "limitaciones": ["Capacidad de producción munición saturada hasta 2027", "Dependencia consumo nacional Bundeswehr aún limitado"],
+      "novedades_2026": ["Nueva planta Lituania anunciada (2027)", "Adjudicación 1.000 Lynx con Italia", "Ampliación capacidad munición a 1.1M proyectiles/año en 2027"],
+      "logo_url": "https://logo.clearbit.com/rheinmetall.com",
+      "web": "https://www.rheinmetall.com"
+    },
+    {
+      "ticker": "AIR.PA", "exchange": "Euronext Paris", "moneda": "EUR",
+      "nombre": "Airbus SE (Defence & Space)", "nombre_corto": "Airbus DS",
+      "pais": "FR", "pais_nombre": "Francia (con sede holding NL)", "sede": "Leiden / Toulouse",
+      "fundacion": 1970, "empleados": 145000,
+      "revenue_total_USD_b": 76.0, "revenue_defensa_USD_b": 11.8, "pct_defensa": 16,
+      "ranking_sipri": 12,
+      "segmentos": ["Aeronáutica militar", "Espacio", "Helicópteros", "UAVs", "Misiles (via MBDA)"],
+      "capacidades_clave": ["A400M Atlas", "Eurofighter (consorcio)", "Eurodrone", "H145M", "Pléiades/CSO satélites"],
+      "programas_activos": ["A400M", "Eurofighter", "FCAS lead industrial Francia", "Eurodrone (lead)", "Tiger 3", "Telecom satellites"],
+      "estructura": {
+        "ceo": { "nombre": "Guillaume Faury", "desde": "2019", "trayectoria": "Peugeot, Eurocopter", "perfil": "Ingeniero · ENSAE" },
+        "areas_clave": [
+          { "area": "Defence & Space CEO", "responsable": "Mike Schoellhorn", "descripcion": "División completa · 39.000 empleados" },
+          { "area": "Military Air Systems", "responsable": "Jean-Brice Dumont", "descripcion": "A400M + Eurofighter + FCAS" },
+          { "area": "Space Systems", "responsable": "Christoph Kurth", "descripcion": "Satélites observación + telecom" },
+          { "area": "Airbus Helicopters CEO", "responsable": "Bruno Even", "descripcion": "Helicópteros civiles/militares" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Air", "EDA CapTech Space", "ASD Aerospace Defence Security Europe"],
+      "exportaciones_principales": ["MYS (A400M)", "TUR", "EGY (Rafale a través de consorcio)", "DEU", "ESP"],
+      "joint_ventures": [
+        { "nombre": "MBDA", "participacion": "37.5%", "socios": ["BAE 37.5%", "Leonardo 25%"], "actividad": "Misiles" },
+        { "nombre": "Eurofighter GmbH", "participacion": "46% efectivo", "socios": ["BAE 33%", "Leonardo 21%"], "actividad": "Producción Eurofighter" },
+        { "nombre": "ArianeGroup", "participacion": "50%", "socios": ["Safran 50%"], "actividad": "Lanzadores + M51 nuclear" }
+      ],
+      "filiales_principales": ["Airbus Defence & Space (Sevilla ES)", "Airbus DS GmbH (Manching DE)", "Airbus DS Ltd (UK)"],
+      "exposicion_sanciones": "media",
+      "compliance_certificaciones": ["AS9100", "ISO 27001", "ITAR/EAR registered"],
+      "cultura_defensa": "Pillar industrial europeo · contrapeso Boeing · FCAS prime contractor Francia · soberanía EU",
+      "limitaciones": ["Tensiones internas FCAS con Dassault", "Dependencia componentes USA (ITAR) reduce flexibilidad export"],
+      "novedades_2026": ["FCAS Phase 1B firmado · prototipo 2027", "Eurodrone primer vuelo 2026", "Pedido A400M ampliado Alemania"],
+      "logo_url": "https://logo.clearbit.com/airbus.com",
+      "web": "https://www.airbus.com/defence"
+    },
+    {
+      "ticker": "LDO.MI", "exchange": "Borsa Italiana", "moneda": "EUR",
+      "nombre": "Leonardo S.p.A.", "nombre_corto": "Leonardo",
+      "pais": "IT", "pais_nombre": "Italia (30.2% Estado)", "sede": "Roma",
+      "fundacion": 1948, "empleados": 53000,
+      "revenue_total_USD_b": 17.3, "revenue_defensa_USD_b": 13.8, "pct_defensa": 80,
+      "ranking_sipri": 13,
+      "segmentos": ["Helicópteros", "Electrónica defensa", "Aeronáutica", "Ciber", "Espacial"],
+      "capacidades_clave": ["AW101 + AW149 + AW169 helicópteros", "Eurofighter (consorcio)", "EFA M-346", "GCAP/Tempest"],
+      "programas_activos": ["Eurofighter", "GCAP (Tempest)", "AW149 Polonia (32 unidades)", "M-346", "DRS US (electronics)", "EFA UAV"],
+      "estructura": {
+        "ceo": { "nombre": "Roberto Cingolani", "desde": "2023", "trayectoria": "Min Transición Ecológica IT, IIT", "perfil": "Físico" },
+        "areas_clave": [
+          { "area": "Helicopters", "responsable": "Gian Piero Cutillo", "descripcion": "Líder global helicópteros civiles/militares" },
+          { "area": "Electronics Italy", "responsable": "Andrea Pellegrino", "descripcion": "Radares + EW + comunicaciones" },
+          { "area": "Aircraft Division", "responsable": "Marco Zoff", "descripcion": "Eurofighter + GCAP + M-346" },
+          { "area": "Leonardo DRS (USA)", "responsable": "Bill Lynn", "descripcion": "Filial USA · 6.700 empleados" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Air", "EDA CapTech Optronics", "AIAD (asociación industria defensa italiana)"],
+      "exportaciones_principales": ["POL (AW149)", "USA (DRS)", "TUR", "AUS (helicópteros)"],
+      "joint_ventures": [
+        { "nombre": "MBDA", "participacion": "25%", "socios": ["Airbus 37.5%", "BAE 37.5%"], "actividad": "Misiles" },
+        { "nombre": "Eurofighter GmbH", "participacion": "21%", "socios": ["Airbus 46%", "BAE 33%"], "actividad": "Eurofighter" },
+        { "nombre": "Thales Alenia Space", "participacion": "33%", "socios": ["Thales 67%"], "actividad": "Satélites" }
+      ],
+      "filiales_principales": ["Leonardo DRS Inc (USA)", "Leonardo UK Ltd", "Telespazio (joint Thales)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 9001", "AS9100", "AQAP 2110", "CMMC nivel 2 (DRS)"],
+      "cultura_defensa": "Pilar industria EU sur · alta participación pública (Estado IT 30.2%) · estrategia 'Be Tomorrow 2030'",
+      "limitaciones": ["Burocracia interna · Estado accionista", "Tensiones FCAS vs GCAP"],
+      "novedades_2026": ["GCAP UK joint Tempest avanzado", "Adquisición Aerial Industries (radar AESA)", "Aumento producción AW149 Polonia"],
+      "logo_url": "https://logo.clearbit.com/leonardo.com",
+      "web": "https://www.leonardo.com"
+    },
+    {
+      "ticker": "HO.PA", "exchange": "Euronext Paris", "moneda": "EUR",
+      "nombre": "Thales", "nombre_corto": "Thales",
+      "pais": "FR", "pais_nombre": "Francia (25.8% Estado + Dassault 25.3%)", "sede": "París",
+      "fundacion": 2000, "empleados": 81000,
+      "revenue_total_USD_b": 21.0, "revenue_defensa_USD_b": 12.5, "pct_defensa": 60,
+      "ranking_sipri": 14,
+      "segmentos": ["Electrónica defensa", "Aeroespacio", "Ciber + identidad digital", "Satélites militares", "Sonar/sistemas navales"],
+      "capacidades_clave": ["Radares C4ISR", "Satélites Pléiades/CSO", "Sonar naval", "Encriptación gubernamental", "Crotale defensa aérea"],
+      "programas_activos": ["FCAS (electronics)", "PANG (radar)", "Eurosam SAMP/T NG (con MBDA)", "Sistemas C4ISR varios"],
+      "estructura": {
+        "ceo": { "nombre": "Patrice Caine", "desde": "2014", "trayectoria": "Areva, Min Defensa FR" },
+        "areas_clave": [
+          { "area": "Defence Mission Systems", "responsable": "Pierre-Eric Pommellet (anterior)", "descripcion": "Radares, sonars, sistemas combate" },
+          { "area": "Land & Air Systems", "responsable": "Hervé Multon", "descripcion": "Defensa aérea + comunicaciones tácticas" },
+          { "area": "Space", "responsable": "Jean-Loïc Galle", "descripcion": "Thales Alenia Space" },
+          { "area": "Identity & Biometric Solutions", "responsable": "Philippe Vallée", "descripcion": "Identidad digital + tarjetas" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTechs Radar/Optronics/Cyber", "EUROSPACE", "ASD"],
+      "exportaciones_principales": ["AUS (Naval Group submarinos)", "BRA (Gripen radar)", "EGY (FREMM)", "GRC (FDI radar)"],
+      "joint_ventures": [
+        { "nombre": "Thales Alenia Space", "participacion": "67%", "socios": ["Leonardo 33%"], "actividad": "Satélites" },
+        { "nombre": "Eurosam", "participacion": "50%", "socios": ["MBDA 50%"], "actividad": "SAMP/T misiles tierra-aire" }
+      ],
+      "filiales_principales": ["Thales Australia", "Thales UK", "Thales Nederland", "Thales Alenia Space"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 27001", "AQAP 2110", "CC EAL5+ (productos cripto)"],
+      "cultura_defensa": "Líder europeo electrónica defensa · ciber + identidad digital crecientes · estrategia 'Avance' 2024-2026",
+      "limitaciones": ["Competencia con Hensoldt (DE) en radares", "Tensiones FCAS"],
+      "novedades_2026": ["Adquisición Cobham Aerospace Communications", "SAMP/T NG operacional", "Nuevos radares GM200 MM/C"],
+      "logo_url": "https://logo.clearbit.com/thalesgroup.com",
+      "web": "https://www.thalesgroup.com"
+    },
+    {
+      "ticker": "AM.PA", "exchange": "Euronext Paris", "moneda": "EUR",
+      "nombre": "Dassault Aviation", "nombre_corto": "Dassault",
+      "pais": "FR", "pais_nombre": "Francia (62% familia Dassault)", "sede": "Saint-Cloud",
+      "fundacion": 1929, "empleados": 13000,
+      "revenue_total_USD_b": 5.4, "revenue_defensa_USD_b": 4.9, "pct_defensa": 91,
+      "ranking_sipri": 28,
+      "segmentos": ["Aeronáutica militar (cazas)", "Aviación ejecutiva (Falcon)"],
+      "capacidades_clave": ["Rafale", "Mirage 2000 (sostenimiento)", "FCAS lead", "nEUROn UCAV demostrador"],
+      "programas_activos": ["Rafale F4/F5", "FCAS lead industrial Francia", "Falcon 10X", "nEUROn UCAV"],
+      "estructura": {
+        "ceo": { "nombre": "Éric Trappier", "desde": "2013", "trayectoria": "Dassault 40+ años" },
+        "areas_clave": [
+          { "area": "Military Aircraft", "responsable": "Bruno Stoufflet (CTO)", "descripcion": "Rafale + FCAS + nEUROn" },
+          { "area": "Industrial Strategy", "responsable": "Loïk Segalen", "descripcion": "Plan exportación + cooperaciones" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Air", "ASD"],
+      "exportaciones_principales": ["IND (36 + 26 Rafale)", "EGY (54)", "QAT (36)", "GRC (24)", "HRV (12)", "IDN (42)", "ARE (80)", "SRB (12)"],
+      "joint_ventures": [
+        { "nombre": "FCAS programme office", "participacion": "33%", "socios": ["Airbus DE 33%", "Indra 33%"], "actividad": "Sistema combate aéreo 6ª gen" }
+      ],
+      "filiales_principales": ["Sogitec (formación)", "DC Solutions (servicios)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AQAP 2110"],
+      "cultura_defensa": "Última empresa aeronáutica europea independiente · pilar autonomía estratégica francesa · estrategia 'campeón nacional'",
+      "limitaciones": ["Tensión con Airbus DS por liderazgo FCAS", "Volumen producción limitado (3 Rafale/mes vs 8 F-35 USA)"],
+      "novedades_2026": ["FCAS Phase 2 lanzado con liderazgo cuestionado", "Pedido récord Rafale EAU 80 unidades", "Falcon 10X entrega 2026"],
+      "logo_url": "https://logo.clearbit.com/dassault-aviation.com",
+      "web": "https://www.dassault-aviation.com"
+    },
+    {
+      "ticker": "SAAB-B.ST", "exchange": "Stockholm", "moneda": "SEK",
+      "nombre": "Saab AB", "nombre_corto": "Saab",
+      "pais": "SE", "pais_nombre": "Suecia (Investor AB 40.3%)", "sede": "Estocolmo",
+      "fundacion": 1937, "empleados": 23000,
+      "revenue_total_USD_b": 4.7, "revenue_defensa_USD_b": 4.5, "pct_defensa": 96,
+      "ranking_sipri": 32,
+      "segmentos": ["Aeronáutica militar", "Naval militar", "Sistemas terrestres", "Surveillance + radar"],
+      "capacidades_clave": ["JAS 39 Gripen", "Submarinos A26", "Sistema GlobalEye AEW&C", "Carl-Gustaf armas anti-tanque", "Tridon Mk2"],
+      "programas_activos": ["Gripen E/F (BRA, THA)", "A26 submarinos (NOR cooperación)", "GlobalEye (SAU, FRA)", "Carl-Gustaf masivo Ucrania"],
+      "estructura": {
+        "ceo": { "nombre": "Micael Johansson", "desde": "2019", "trayectoria": "Saab 35 años" },
+        "areas_clave": [
+          { "area": "Aeronautics", "responsable": "Lars Tossman", "descripcion": "Gripen + GlobalEye" },
+          { "area": "Dynamics", "responsable": "Görgen Johansson", "descripcion": "Misiles + Carl-Gustaf + Tridon" },
+          { "area": "Surveillance", "responsable": "Carl-Johan Bergholm", "descripcion": "Radares + sonar + EW" },
+          { "area": "Kockums (Naval)", "responsable": "Mats Wicksell", "descripcion": "Submarinos + Visby corbetas" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Maritime", "EDA CapTech Air", "FMV Sweden (procurement)"],
+      "exportaciones_principales": ["BRA (39 Gripen)", "THA (Gripen)", "AUS (Carl-Gustaf)", "SAU (GlobalEye)", "UKR (NLAW)"],
+      "joint_ventures": [
+        { "nombre": "Saab Barracuda", "participacion": "100%", "socios": [], "actividad": "Camuflaje signaturas" },
+        { "nombre": "NLAW joint venture", "participacion": "compartido", "socios": ["Thales UK"], "actividad": "Misil anti-tanque" }
+      ],
+      "filiales_principales": ["Saab Kockums (submarinos)", "Saab Barracuda", "Saab Australia"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AQAP 2110"],
+      "cultura_defensa": "Pilar OTAN nuevo miembro (2024) · estrategia 'Saab Plan 2025-2030' · expansión x2 capacidad munición",
+      "limitaciones": ["Tamaño mediano vs primes globales", "Mercado nacional pequeño"],
+      "novedades_2026": ["Pedido Saab Tactical UCAS · sucesor Gripen", "Expansión planta Karlskoga (munición)", "Posibles ventas Filipinas"],
+      "logo_url": "https://logo.clearbit.com/saab.com",
+      "web": "https://www.saab.com"
+    },
+    {
+      "ticker": "RR.L", "exchange": "LSE", "moneda": "GBP",
+      "nombre": "Rolls-Royce Holdings plc", "nombre_corto": "Rolls-Royce",
+      "pais": "GB", "pais_nombre": "Reino Unido", "sede": "Derby",
+      "fundacion": 1906, "empleados": 42000,
+      "revenue_total_USD_b": 21.7, "revenue_defensa_USD_b": 4.9, "pct_defensa": 23,
+      "ranking_sipri": 34,
+      "segmentos": ["Motores aeronáuticos militares", "Reactores nucleares navales", "Sistemas de propulsión naval"],
+      "capacidades_clave": ["EJ200 Eurofighter", "F136 alt F-35", "PR3 reactor SSN/SSBN", "TP400 A400M (partner)", "MT30 turbinas navales"],
+      "programas_activos": ["EJ200 sustento", "Tempest engine (GCAP)", "Dreadnought reactor", "MT30 fragatas Type 26"],
+      "estructura": {
+        "ceo": { "nombre": "Tufan Erginbilgiç", "desde": "2023", "trayectoria": "BP 25 años" },
+        "areas_clave": [
+          { "area": "Defence", "responsable": "Steve Carlier", "descripcion": "Motores militares + integración" },
+          { "area": "Submarines", "responsable": "Steve Carlier", "descripcion": "Reactores nucleares SSN/SSBN" }
+        ]
+      },
+      "grupos_trabajo": ["AIAA", "ADS UK"],
+      "exportaciones_principales": ["DEU (EJ200)", "ESP (EJ200)", "ITA (EJ200)", "USA (T56)"],
+      "joint_ventures": [
+        { "nombre": "EuroJet Turbo GmbH", "participacion": "33%", "socios": ["MTU Aero Engines DE 33%", "Avio IT 21%", "ITP Aero ES 13%"], "actividad": "Motor EJ200 Eurofighter" }
+      ],
+      "filiales_principales": ["Rolls-Royce Submarines (Derby)", "Rolls-Royce North America"],
+      "exposicion_sanciones": "media",
+      "compliance_certificaciones": ["AS9100", "AS9110 (MRO)", "AQAP 2110"],
+      "cultura_defensa": "Estratégico para soberanía nuclear UK · monopolio reactores submarinos UK · partner GCAP",
+      "limitaciones": ["Pérdidas operativas 2020-2022 · recuperación en curso", "Programa SMR civil consume capacidad I+D"],
+      "novedades_2026": ["Tempest engine demonstrator", "Acuerdo nuclear naval AUKUS Australia", "Nueva planta motores Hertfordshire"],
+      "logo_url": "https://logo.clearbit.com/rolls-royce.com",
+      "web": "https://www.rolls-royce.com/defence"
+    },
+    {
+      "ticker": "HAG.DE", "exchange": "XETRA", "moneda": "EUR",
+      "nombre": "Hensoldt AG", "nombre_corto": "Hensoldt",
+      "pais": "DE", "pais_nombre": "Alemania", "sede": "Taufkirchen",
+      "fundacion": 2017, "empleados": 7500,
+      "revenue_total_USD_b": 2.3, "revenue_defensa_USD_b": 2.1, "pct_defensa": 91,
+      "ranking_sipri": 67,
+      "segmentos": ["Radares", "Sensores", "Optrónica", "Avionica"],
+      "capacidades_clave": ["TRML-4D radar 3D", "Captor radar Eurofighter", "PERAS sistema autoprotección"],
+      "programas_activos": ["Captor-E AESA Eurofighter", "TRML-4D para múltiples clientes", "FCAS sensores"],
+      "estructura": {
+        "ceo": { "nombre": "Oliver Dörre", "desde": "2024", "trayectoria": "Airbus, Thales" },
+        "areas_clave": [
+          { "area": "Sensors", "responsable": "Andreas Hülle", "descripcion": "Radar + EW + optrónica" },
+          { "area": "Optronics", "responsable": "Christoph Müllerleile", "descripcion": "Visores + cámaras EO/IR" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Radar", "BDSV"],
+      "exportaciones_principales": ["UKR (TRML-4D)", "EGY", "QAT", "IDN"],
+      "joint_ventures": [],
+      "filiales_principales": ["Hensoldt UK", "Hensoldt South Africa", "Nexeya"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AQAP 2110"],
+      "cultura_defensa": "Spin-off Airbus 2017 · IPO 2020 · KKR salida → Bundeswehr y BMC accionistas · estrategia 'Hensoldt 2025'",
+      "limitaciones": ["Tamaño menor vs Thales/Leonardo", "Concentración en defensa pura (riesgo cíclico)"],
+      "novedades_2026": ["Pedido TRML-4D Ucrania ampliado", "Adquisición ESG Elektroniksystem", "Contrato radar Tempest UK"],
+      "logo_url": "https://logo.clearbit.com/hensoldt.net",
+      "web": "https://www.hensoldt.net"
+    },
+    {
+      "ticker": "IDR.MC", "exchange": "BME (España)", "moneda": "EUR",
+      "nombre": "Indra Sistemas S.A.", "nombre_corto": "Indra",
+      "pais": "ES", "pais_nombre": "España (SEPI 28% + EPI Group 9.5%)", "sede": "Alcobendas, Madrid",
+      "fundacion": 1992, "empleados": 50000,
+      "revenue_total_USD_b": 4.9, "revenue_defensa_USD_b": 1.85, "pct_defensa": 38,
+      "ranking_sipri": 71,
+      "segmentos": ["C4ISR", "Radares", "EW", "Simulación", "Tráfico aéreo (civil + militar)"],
+      "capacidades_clave": ["SIVE vigilancia fronteras", "SCOMBA combate naval", "Lanza radar 3D", "Eurofighter sensores"],
+      "programas_activos": ["F-110 (SCOMBA)", "VCR Dragón (electrónica)", "Eurofighter Tranche 5", "FCAS partner ES", "Eurodrone"],
+      "estructura": {
+        "ceo": { "nombre": "José Vicente de los Mozos", "desde": "2024", "trayectoria": "Renault, Iveco" },
+        "areas_clave": [
+          { "area": "Defence", "responsable": "Carlos Sánchez Castro", "descripcion": "C4ISR + sensores + EW" },
+          { "area": "Air Traffic Management (Minsait)", "responsable": "Borja Ochoa", "descripcion": "ATM global · cliente civil y militar" },
+          { "area": "Tessella", "responsable": "Marko Erkic", "descripcion": "Consultoría tecnológica UK" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Radar", "EDA CapTech Optronics", "DGAM JIDEM ES"],
+      "exportaciones_principales": ["IDN", "TUR", "VEN", "BRA", "ARG"],
+      "joint_ventures": [
+        { "nombre": "Indra Lockheed Martin Spain", "participacion": "compartido", "socios": ["Lockheed Martin"], "actividad": "Cooperación industrial F-35 + Aegis" }
+      ],
+      "filiales_principales": ["Minsait (consultoría)", "Tessella UK", "Indra USA"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 27001", "ENS Alto", "ITAR registered"],
+      "cultura_defensa": "Pilar industria defensa española · pretende ser prime europeo · estrategia 'Leading the Future' · debate ampliación rol con SEPI",
+      "limitaciones": ["Posicionamiento incómodo civil/militar", "Dependencia accionariado SEPI"],
+      "novedades_2026": ["Adquisición prevista de divisiones defensa de ITP/escisión", "FCAS firmado · Phase 1B", "VCR Dragón Lote 2"],
+      "logo_url": "https://logo.clearbit.com/indracompany.com",
+      "web": "https://www.indracompany.com"
+    },
+    {
+      "ticker": "FCT.MI", "exchange": "Borsa Italiana", "moneda": "EUR",
+      "nombre": "Fincantieri S.p.A.", "nombre_corto": "Fincantieri",
+      "pais": "IT", "pais_nombre": "Italia (CDP 71%)", "sede": "Trieste",
+      "fundacion": 1959, "empleados": 21000,
+      "revenue_total_USD_b": 8.7, "revenue_defensa_USD_b": 4.9, "pct_defensa": 56,
+      "ranking_sipri": 38,
+      "segmentos": ["Construcción naval militar", "Cruceros", "Submarinos"],
+      "capacidades_clave": ["LHD Trieste", "Fragatas FREMM/PPA", "Submarinos U212NFS", "Constellation class para USA"],
+      "programas_activos": ["7 PPA", "FREMM evolution", "U212NFS submarinos", "Constellation class FFG (USA)", "Qatar OPV + LHD"],
+      "estructura": {
+        "ceo": { "nombre": "Pierroberto Folgiero", "desde": "2022", "trayectoria": "Maire Tecnimont" },
+        "areas_clave": [
+          { "area": "Naval Vessels", "responsable": "Dario Deste", "descripcion": "Buques militares" },
+          { "area": "Cruise Ships", "responsable": "Luigi Matarazzo", "descripcion": "Cruceros (civil)" },
+          { "area": "Equipment", "responsable": "Andrea Pizzoni", "descripcion": "Sistemas y subsistemas" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Maritime", "AIAD IT"],
+      "exportaciones_principales": ["USA (FFG-62 Constellation, 20 ud)", "QAT (PPA + LPD)", "MAR (FREMM)", "EGY (FREMM)"],
+      "joint_ventures": [
+        { "nombre": "Naviris", "participacion": "50%", "socios": ["Naval Group 50%"], "actividad": "Cooperación naval franco-italiana" },
+        { "nombre": "Orizzonte Sistemi Navali", "participacion": "51%", "socios": ["Leonardo 49%"], "actividad": "Programas Marina Militare" }
+      ],
+      "filiales_principales": ["Fincantieri Marinette Marine (USA)", "VARD (Noruega)", "Fincantieri Cantieri Navali (Italia)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["ISO 9001", "AQAP 2110"],
+      "cultura_defensa": "Mayor astillero europeo · contrato histórico Constellation USA · estrategia 'Fincantieri Five Year Plan'",
+      "limitaciones": ["Endeudamiento alto", "Capacidad astilleros saturada hasta 2030"],
+      "novedades_2026": ["Fragata Constellation primer corte 2026", "U212NFS primera unidad 2027", "Adquisición de RAMSES (US ship repair)"],
+      "logo_url": "https://logo.clearbit.com/fincantieri.com",
+      "web": "https://www.fincantieri.com"
+    },
+    {
+      "ticker": "KOG.OL", "exchange": "Oslo", "moneda": "NOK",
+      "nombre": "Kongsberg Gruppen ASA", "nombre_corto": "Kongsberg",
+      "pais": "NO", "pais_nombre": "Noruega (Estado 50.001%)", "sede": "Kongsberg",
+      "fundacion": 1814, "empleados": 14000,
+      "revenue_total_USD_b": 3.8, "revenue_defensa_USD_b": 2.4, "pct_defensa": 63,
+      "ranking_sipri": 52,
+      "segmentos": ["Misiles", "Sistemas remotos de armas", "C4ISR naval", "Espacio"],
+      "capacidades_clave": ["NSM/JSM (Joint Strike Missile)", "Protector RWS (sistema remoto armas)", "NASAMS", "K9 Vidar (joint Hanwha)"],
+      "programas_activos": ["NSM exportaciones masivas", "NASAMS para Ucrania + 14 países", "JSM (F-35 inglobado)", "PRSM coop con Lockheed"],
+      "estructura": {
+        "ceo": { "nombre": "Geir Håøy", "desde": "2016", "trayectoria": "Kongsberg 25 años" },
+        "areas_clave": [
+          { "area": "Defence & Aerospace", "responsable": "Eirik Lie", "descripcion": "Misiles + sistemas C4ISR" },
+          { "area": "Discovery (Maritime)", "responsable": "Lisa Edvardsen Haugan", "descripcion": "Sistemas marinos" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Missiles", "Norwegian Defence Industry Association"],
+      "exportaciones_principales": ["USA (NSM Marines)", "POL", "AUS", "ESP (NASAMS)", "UKR (NASAMS)"],
+      "joint_ventures": [
+        { "nombre": "Kongsberg Defence Australia", "participacion": "100%", "socios": [], "actividad": "Apoyo Australia AUKUS" }
+      ],
+      "filiales_principales": ["Kongsberg Defence & Aerospace", "Kongsberg Maritime", "Kongsberg Digital"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AQAP 2110", "ISO 27001"],
+      "cultura_defensa": "Niche europeo en misiles antibuque + NASAMS · alianza estrecha USA (Raytheon NASAMS) · expansión x3 capacidad 2023-2027",
+      "limitaciones": ["Capacidad producción NSM saturada", "Mercado nacional pequeño"],
+      "novedades_2026": ["JSM operativo F-35 NOR/AUS", "Nueva planta misiles · 5x capacidad 2027", "Acuerdo PrSM Lockheed Martin"],
+      "logo_url": "https://logo.clearbit.com/kongsberg.com",
+      "web": "https://www.kongsberg.com/defence"
+    },
+    {
+      "ticker": "MTX.DE", "exchange": "XETRA", "moneda": "EUR",
+      "nombre": "MTU Aero Engines AG", "nombre_corto": "MTU",
+      "pais": "DE", "pais_nombre": "Alemania", "sede": "Múnich",
+      "fundacion": 1934, "empleados": 12500,
+      "revenue_total_USD_b": 6.6, "revenue_defensa_USD_b": 2.0, "pct_defensa": 30,
+      "ranking_sipri": 73,
+      "segmentos": ["Motores aeronáuticos militares + civiles"],
+      "capacidades_clave": ["EJ200 Eurofighter (33%)", "TP400 A400M (partner)", "PW1100G civil"],
+      "programas_activos": ["EJ200 producción + sostenimiento", "TP400 sostenimiento", "FCAS engine (con Safran)", "GE9X civil"],
+      "estructura": {
+        "ceo": { "nombre": "Lars Wagner", "desde": "2023", "trayectoria": "Airbus" },
+        "areas_clave": [
+          { "area": "Military Engines", "responsable": "Michael Schreyögg (CSO)", "descripcion": "EJ200 + TP400 + FCAS engine" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Air", "BDLI"],
+      "exportaciones_principales": ["DEU", "ITA", "ESP", "UK (Eurofighter)"],
+      "joint_ventures": [
+        { "nombre": "EuroJet Turbo", "participacion": "33%", "socios": ["RR 33%", "Avio 21%", "ITP 13%"], "actividad": "EJ200" }
+      ],
+      "filiales_principales": ["MTU Aero Engines North America", "Vericor Power Systems"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AS9110"],
+      "cultura_defensa": "Mayor MRO motores aeronáuticos Europa · partner Pratt & Whitney + GE · estrategia 'Top Three Engine' visión 2030",
+      "limitaciones": ["Dependencia ciclo civil aeronáutico", "MRO concentra negocio"],
+      "novedades_2026": ["FCAS engine fase 1B con Safran", "Nuevo MRO planta Polonia"],
+      "logo_url": "https://logo.clearbit.com/mtu.de",
+      "web": "https://www.mtu.de"
+    },
+    {
+      "ticker": "BAB.L", "exchange": "LSE", "moneda": "GBP",
+      "nombre": "Babcock International Group plc", "nombre_corto": "Babcock",
+      "pais": "GB", "pais_nombre": "Reino Unido", "sede": "Londres",
+      "fundacion": 1891, "empleados": 30000,
+      "revenue_total_USD_b": 5.6, "revenue_defensa_USD_b": 3.8, "pct_defensa": 68,
+      "ranking_sipri": 41,
+      "segmentos": ["Sostenimiento naval militar", "Aviación militar", "Servicios nucleares", "Ingeniería defensa"],
+      "capacidades_clave": ["Sostenimiento HM Naval Bases Devonport/Faslane/Rosyth", "Type 31 fragatas (lead)", "Mantenimiento Hawk + Typhoon"],
+      "programas_activos": ["Type 31 fragatas (5 unidades)", "Submarinos Astute sostenimiento", "Dreadnought servicios"],
+      "estructura": {
+        "ceo": { "nombre": "David Lockwood", "desde": "2020", "trayectoria": "Cobham, Laird" },
+        "areas_clave": [
+          { "area": "Marine", "responsable": "Steve Carbray", "descripcion": "Astilleros + submarinos" },
+          { "area": "Nuclear", "responsable": "Catherine Burrows", "descripcion": "Servicios nucleares" },
+          { "area": "Land", "responsable": "Ash Mehta", "descripcion": "Vehículos + ingeniería terrestre" }
+        ]
+      },
+      "grupos_trabajo": ["ADS UK", "NIAG"],
+      "exportaciones_principales": ["AUS (sostenimiento)", "POL (Miecznik fragatas tech transfer)", "FRA (Mistral support)"],
+      "joint_ventures": [
+        { "nombre": "Babcock Mission Critical Services FR", "participacion": "100%", "socios": [], "actividad": "Servicios aviación militar Francia" }
+      ],
+      "filiales_principales": ["Babcock Mission Critical Services", "Babcock Australasia", "Babcock South Africa"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9110 (MRO)", "AQAP 2110"],
+      "cultura_defensa": "Pillar sostenimiento UK · cuello de botella crítico para Royal Navy · estrategia 'Stronger Together'",
+      "limitaciones": ["Salida de Sudáfrica reduce diversificación", "Capacidad astilleros UK saturada"],
+      "novedades_2026": ["Type 31 primera unidad 2027", "Contrato AUKUS sostenimiento", "Skynet 6A servicios"],
+      "logo_url": "https://logo.clearbit.com/babcockinternational.com",
+      "web": "https://www.babcockinternational.com"
+    },
+    {
+      "ticker": "ITP.MC", "exchange": "BME (España)", "moneda": "EUR",
+      "nombre": "ITP Aero", "nombre_corto": "ITP Aero",
+      "pais": "ES", "pais_nombre": "España (consorcio Bain Capital + JB Capital + SAPA)", "sede": "Zamudio",
+      "fundacion": 1989, "empleados": 5500,
+      "revenue_total_USD_b": 1.6, "revenue_defensa_USD_b": 1.3, "pct_defensa": 81,
+      "ranking_sipri": 89,
+      "segmentos": ["Motores aeronáuticos militares + civiles"],
+      "capacidades_clave": ["EJ200 Eurofighter (13%)", "TP400 A400M", "PT6 turbohélices civiles"],
+      "programas_activos": ["EJ200 producción", "TP400 sostenimiento", "FCAS engine (con Safran/MTU)", "Pearl 700/15X civil"],
+      "estructura": {
+        "ceo": { "nombre": "Carlos Alzola", "desde": "2024", "trayectoria": "ITP 20+ años" },
+        "areas_clave": [
+          { "area": "Military Programs", "responsable": "Iñaki Alkorta", "descripcion": "EJ200 + TP400 + FCAS" }
+        ]
+      },
+      "grupos_trabajo": ["AESMIDE ES", "DGAM JIDEM"],
+      "exportaciones_principales": ["UK (RR partner)", "DEU (MTU partner)"],
+      "joint_ventures": [
+        { "nombre": "EuroJet Turbo", "participacion": "13%", "socios": ["RR 33%", "MTU 33%", "Avio 21%"], "actividad": "EJ200" },
+        { "nombre": "Europrop International (EPI)", "participacion": "compartido", "socios": ["RR", "MTU", "Safran"], "actividad": "TP400 A400M" }
+      ],
+      "filiales_principales": ["ITP Externals UK"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AS9110"],
+      "cultura_defensa": "Tier 1 motores aeronáuticos · diseño + producción + MRO · spin-off RR 2022 · estrategia 'Be First, Be Better'",
+      "limitaciones": ["Tamaño pequeño vs primes globales", "Dependencia consorcio Eurofighter"],
+      "novedades_2026": ["FCAS engine partner confirmado", "Nuevo banco pruebas Zamudio"],
+      "logo_url": "https://logo.clearbit.com/itpaero.com",
+      "web": "https://www.itpaero.com"
+    },
+    {
+      "ticker": "PGZ-NR", "exchange": "no cotizada (100% Estado)", "moneda": "PLN",
+      "nombre": "Polska Grupa Zbrojeniowa S.A.", "nombre_corto": "PGZ",
+      "pais": "PL", "pais_nombre": "Polonia (100% Estado)", "sede": "Radom",
+      "fundacion": 2013, "empleados": 17000,
+      "revenue_total_USD_b": 2.1, "revenue_defensa_USD_b": 1.9, "pct_defensa": 91,
+      "ranking_sipri": 75,
+      "segmentos": ["Vehículos blindados", "Munición", "Electrónica defensa", "Naval"],
+      "capacidades_clave": ["Rosomak APC", "Krab SPH (con Hanwha)", "Munición artillería", "Lider AS-90 PL"],
+      "programas_activos": ["K2/Krab ensamblaje en Polonia", "Borsuk IFV", "Miecznik fragatas (con Babcock UK)", "Wisła + Narew"],
+      "estructura": {
+        "ceo": { "nombre": "Krzysztof Trofiniak", "desde": "2024", "trayectoria": "Bumar" },
+        "areas_clave": [
+          { "area": "Vehicles", "responsable": "consortium head", "descripcion": "Rosomak + Borsuk" },
+          { "area": "Ammunition", "responsable": "Mesko (subsidiaria)", "descripcion": "Producción munición masiva" }
+        ]
+      },
+      "grupos_trabajo": ["EDA CapTech Land", "Polish Defence Industry Federation"],
+      "exportaciones_principales": ["UKR", "USA (poco)", "IND"],
+      "joint_ventures": [
+        { "nombre": "PGZ-Hanwha", "participacion": "compartido", "socios": ["Hanwha Aerospace KR"], "actividad": "K9 + K2 producción local Polonia" }
+      ],
+      "filiales_principales": ["Mesko (munición)", "Rosomak SA", "WB Group (parcial)", "PIT-RADWAR (radar)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AQAP 2110"],
+      "cultura_defensa": "Conglomerado público polaco · pilar mayor programa modernización OTAN · contratos K2/Krab masivos",
+      "limitaciones": ["Burocracia conglomerado público", "Dependencia transferencia tecnológica Hanwha/Lockheed"],
+      "novedades_2026": ["Borsuk IFV en producción serie", "Miecznik fragata 1 botadura 2027", "Ampliación producción munición 155mm"],
+      "logo_url": "https://logo.clearbit.com/pgzsa.pl",
+      "web": "https://www.pgzsa.pl"
+    },
+    {
+      "ticker": "EXLS.LSE", "exchange": "LSE", "moneda": "GBP",
+      "nombre": "QinetiQ Group plc", "nombre_corto": "QinetiQ",
+      "pais": "GB", "pais_nombre": "Reino Unido", "sede": "Farnborough",
+      "fundacion": 2001, "empleados": 7000,
+      "revenue_total_USD_b": 2.3, "revenue_defensa_USD_b": 2.1, "pct_defensa": 91,
+      "ranking_sipri": 77,
+      "segmentos": ["I+D defensa", "Test & evaluation", "Sistemas robóticos", "Ciber"],
+      "capacidades_clave": ["EMP testing", "Talon UGV", "Sistemas autónomos"],
+      "programas_activos": ["LTPA (Long Term Partnering Agreement) UK", "AUKUS Pillar 2"],
+      "estructura": {
+        "ceo": { "nombre": "Steve Wadey", "desde": "2015", "trayectoria": "MBDA UK" }
+      },
+      "grupos_trabajo": ["ADS UK", "NIAG"],
+      "exportaciones_principales": ["AUS (LTPA)", "USA", "DEU"],
+      "joint_ventures": [],
+      "filiales_principales": ["QinetiQ US", "QinetiQ Australia"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "CMMC nivel 3 (US)"],
+      "cultura_defensa": "Spin-off DSTL UK · partner I+D MoD UK · estrategia 'mission-led innovation'",
+      "limitaciones": ["Dependencia concentrada MoD UK"],
+      "novedades_2026": ["Adquisición Avantus Federal (USA)", "AUKUS Pillar 2 contratos"],
+      "logo_url": "https://logo.clearbit.com/qinetiq.com",
+      "web": "https://www.qinetiq.com"
+    },
+    {
+      "ticker": "ESLT", "exchange": "NASDAQ", "moneda": "USD",
+      "nombre": "Elbit Systems Ltd", "nombre_corto": "Elbit",
+      "pais": "IL", "pais_nombre": "Israel", "sede": "Haifa",
+      "fundacion": 1966, "empleados": 19000,
+      "revenue_total_USD_b": 6.8, "revenue_defensa_USD_b": 6.8, "pct_defensa": 100,
+      "ranking_sipri": 27,
+      "segmentos": ["C4ISR", "UAVs", "Sistemas terrestres", "Optrónica avanzada"],
+      "capacidades_clave": ["Hermes UAV series", "PULS launcher 'HIMARS-like'", "Iron Fist APS"],
+      "programas_activos": ["PULS para múltiples (Dinamarca, Países Bajos, Países Bajos, Alemania)", "Hermes 900 exportación"],
+      "estructura": {
+        "ceo": { "nombre": "Bezhalel Machlis", "desde": "2013", "trayectoria": "Elbit 35+ años" }
+      },
+      "grupos_trabajo": ["Israel Defence Industry Council"],
+      "exportaciones_principales": ["DEU (PULS)", "DNK (PULS)", "GBR", "ROU", "AUS", "IND"],
+      "joint_ventures": [
+        { "nombre": "Elbit Systems of America", "participacion": "100%", "socios": [], "actividad": "Filial US para contratos DoD" }
+      ],
+      "filiales_principales": ["Elbit Systems of America", "Elbit Systems UK"],
+      "exposicion_sanciones": "media (boycotts campaña BDS)",
+      "compliance_certificaciones": ["AS9100", "ITAR registered"],
+      "cultura_defensa": "Líder israelí · estrategia 'global integrator' · innovación masiva combate Gaza 2023+",
+      "limitaciones": ["Boycotts campaña BDS afecta operaciones UK/AU", "Disputas reputacionales"],
+      "novedades_2026": ["PULS Alemania pedido", "Hermes 900 expansion masiva", "Iron Fist APS Korea joint"],
+      "logo_url": "https://logo.clearbit.com/elbitsystems.com",
+      "web": "https://elbitsystems.com"
+    },
+    {
+      "ticker": "LMT", "exchange": "NYSE", "moneda": "USD",
+      "nombre": "Lockheed Martin Corporation", "nombre_corto": "Lockheed",
+      "pais": "US", "pais_nombre": "Estados Unidos", "sede": "Bethesda, Maryland",
+      "fundacion": 1995, "empleados": 122000,
+      "revenue_total_USD_b": 71.0, "revenue_defensa_USD_b": 67.5, "pct_defensa": 95,
+      "ranking_sipri": 1,
+      "segmentos": ["F-35 (Aeronautics)", "Sikorsky helicópteros", "Misiles + control fuego", "Espacio (RMS)"],
+      "capacidades_clave": ["F-35", "F-22", "C-130", "Aegis", "PAC-3", "THAAD", "JASSM", "GMLRS"],
+      "programas_activos": ["F-35 (32 países)", "Aegis", "Patriot PAC-3", "PrSM", "LRHW hipersónico", "NGAD"],
+      "estructura": {
+        "ceo": { "nombre": "James Taiclet", "desde": "2020", "trayectoria": "American Tower" }
+      },
+      "grupos_trabajo": ["NIAG NATO", "AIA US"],
+      "exportaciones_principales": ["32 países F-35", "POL", "ROU", "GRC", "FIN", "DNK", "DEU"],
+      "joint_ventures": [
+        { "nombre": "United Launch Alliance", "participacion": "50%", "socios": ["Boeing 50%"], "actividad": "Lanzadores espaciales militares" }
+      ],
+      "filiales_principales": ["Sikorsky Aircraft", "Lockheed Martin Aeronautics"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "CMMC nivel 3", "ITAR registered"],
+      "cultura_defensa": "Mayor contratista defensa del mundo · pilar US disuasión nuclear + convencional",
+      "limitaciones": ["Concentración F-35 en backlog (riesgo)", "Costo F-35 problemático"],
+      "novedades_2026": ["F-35 entrega ampliada 156/año", "NGAD seleccionado (USAF prefiere otro)", "LRHW operacional"],
+      "logo_url": "https://logo.clearbit.com/lockheedmartin.com",
+      "web": "https://www.lockheedmartin.com"
+    },
+    {
+      "ticker": "RTX", "exchange": "NYSE", "moneda": "USD",
+      "nombre": "RTX Corporation (Raytheon)", "nombre_corto": "RTX",
+      "pais": "US", "pais_nombre": "Estados Unidos", "sede": "Arlington, Virginia",
+      "fundacion": 1922, "empleados": 185000,
+      "revenue_total_USD_b": 80.7, "revenue_defensa_USD_b": 65.0, "pct_defensa": 81,
+      "ranking_sipri": 2,
+      "segmentos": ["Misiles (Raytheon)", "Pratt & Whitney motores", "Collins Aerospace aviónica"],
+      "capacidades_clave": ["Patriot", "Tomahawk", "AMRAAM", "AIM-9X", "GEM-T", "F135 motor F-35"],
+      "programas_activos": ["NASAMS expansion", "GEM-T munición", "Patriot PAC-3 MSE producción x4", "LTAMDS sucesor radar Patriot"],
+      "estructura": {
+        "ceo": { "nombre": "Christopher Calio", "desde": "2024", "trayectoria": "P&W, RTX" }
+      },
+      "grupos_trabajo": ["NIAG", "AIA"],
+      "exportaciones_principales": ["UKR (Patriot, NASAMS, AMRAAM)", "POL", "ESP", "DEU", "USA"],
+      "joint_ventures": [
+        { "nombre": "MEADS", "participacion": "compartido", "socios": ["MBDA"], "actividad": "Sistema defensa antibalística" }
+      ],
+      "filiales_principales": ["Pratt & Whitney", "Collins Aerospace", "Raytheon"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "CMMC nivel 3", "ITAR registered"],
+      "cultura_defensa": "Líder global misiles · F-135 motor F-35 monopolio · estrategia 'integrated' tras fusión 2020",
+      "limitaciones": ["Backlog masivo capacidad saturada hasta 2030", "Costo F135"],
+      "novedades_2026": ["LTAMDS operacional", "NASAMS Tier 2 entrega", "Producción Patriot duplicada"],
+      "logo_url": "https://logo.clearbit.com/rtx.com",
+      "web": "https://www.rtx.com"
+    },
+    {
+      "ticker": "NOC", "exchange": "NYSE", "moneda": "USD",
+      "nombre": "Northrop Grumman Corporation", "nombre_corto": "Northrop",
+      "pais": "US", "pais_nombre": "Estados Unidos", "sede": "Falls Church",
+      "fundacion": 1939, "empleados": 101000,
+      "revenue_total_USD_b": 41.0, "revenue_defensa_USD_b": 39.3, "pct_defensa": 96,
+      "ranking_sipri": 4,
+      "segmentos": ["Aeronáutica (B-21)", "Misiles + defensa", "Espacio", "Mission Systems"],
+      "capacidades_clave": ["B-21 Raider", "Sentinel ICBM (LGM-35A)", "RQ-4 Global Hawk", "MQ-4C Triton"],
+      "programas_activos": ["B-21 producción", "Sentinel ICBM (problemas costo)", "GBSD nuclear", "JWST follow-on espacio"],
+      "estructura": {
+        "ceo": { "nombre": "Kathy Warden", "desde": "2019" }
+      },
+      "grupos_trabajo": ["NIAG", "AIA"],
+      "exportaciones_principales": ["AUS (Triton)", "Allied F-35 partner"],
+      "joint_ventures": [],
+      "filiales_principales": ["Northrop Grumman Aeronautics", "NG Space Systems"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "CMMC nivel 3", "ITAR registered"],
+      "cultura_defensa": "Pilar disuasión nuclear US · B-21 + Sentinel ICBM · innovación furtiva",
+      "limitaciones": ["Sentinel ICBM costo +37% (Nunn-McCurdy breach)", "Programa B-21 secreto limita transparencia"],
+      "novedades_2026": ["B-21 segundo prototipo en pruebas", "Sentinel ICBM revisión Nunn-McCurdy", "Triton ampliación"],
+      "logo_url": "https://logo.clearbit.com/northropgrumman.com",
+      "web": "https://www.northropgrumman.com"
+    },
+    {
+      "ticker": "GD", "exchange": "NYSE", "moneda": "USD",
+      "nombre": "General Dynamics Corporation", "nombre_corto": "General Dynamics",
+      "pais": "US", "pais_nombre": "Estados Unidos", "sede": "Reston, Virginia",
+      "fundacion": 1952, "empleados": 110000,
+      "revenue_total_USD_b": 42.3, "revenue_defensa_USD_b": 42.3, "pct_defensa": 100,
+      "ranking_sipri": 5,
+      "segmentos": ["Submarinos nucleares", "Vehículos blindados", "Sistemas combate naval", "Gulfstream (civil)"],
+      "capacidades_clave": ["Submarinos Columbia + Virginia (Electric Boat)", "M1A2 Abrams", "Stryker", "AJAX"],
+      "programas_activos": ["Columbia SSBN producción", "Virginia Block V", "M1A2 SEPv3", "AJAX UK (problemas)"],
+      "estructura": {
+        "ceo": { "nombre": "Phebe Novakovic", "desde": "2013", "trayectoria": "CIA, GD" }
+      },
+      "grupos_trabajo": ["NIAG", "AIA"],
+      "exportaciones_principales": ["AUS (AUKUS partner)", "POL (M1A2)", "UK (AJAX)", "ROU (M1A2)"],
+      "joint_ventures": [],
+      "filiales_principales": ["Electric Boat (submarinos)", "GDLS (vehículos)", "GDELS Europe (Mowag)", "GDIT (IT services)"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "AQAP 2110", "CMMC nivel 3"],
+      "cultura_defensa": "Pilar US submarinos nucleares · estrategia 'enterprise excellence'",
+      "limitaciones": ["AJAX UK problemas técnicos prolongados", "Capacidad Electric Boat saturada"],
+      "novedades_2026": ["Columbia SSBN 1 entrega 2027", "Virginia Block VI diseñado", "Pedido M1A2 Polonia Lote 2"],
+      "logo_url": "https://logo.clearbit.com/gd.com",
+      "web": "https://www.gd.com"
+    },
+    {
+      "ticker": "BA", "exchange": "NYSE", "moneda": "USD",
+      "nombre": "The Boeing Company (Defense)", "nombre_corto": "Boeing",
+      "pais": "US", "pais_nombre": "Estados Unidos", "sede": "Arlington, Virginia",
+      "fundacion": 1916, "empleados": 170000,
+      "revenue_total_USD_b": 78.0, "revenue_defensa_USD_b": 25.5, "pct_defensa": 33,
+      "ranking_sipri": 8,
+      "segmentos": ["Aeronáutica militar", "Misiles + munición", "Helicópteros (Apache)"],
+      "capacidades_clave": ["F-15EX Eagle II", "P-8A Poseidon", "AH-64 Apache", "KC-46 Pegasus", "F/A-18 Super Hornet"],
+      "programas_activos": ["F-15EX producción", "P-8A exportaciones (NOR, ALEM)", "KC-46 expansión", "Apache E"],
+      "estructura": {
+        "ceo": { "nombre": "Kelly Ortberg", "desde": "2024", "trayectoria": "Collins Aerospace" }
+      },
+      "grupos_trabajo": ["NIAG", "AIA"],
+      "exportaciones_principales": ["POL (Apache)", "DEU (P-8, CH-47)", "JPN (E-3 update)", "AUS"],
+      "joint_ventures": [
+        { "nombre": "United Launch Alliance", "participacion": "50%", "socios": ["Lockheed Martin 50%"], "actividad": "Lanzadores espaciales" }
+      ],
+      "filiales_principales": ["Boeing Defense Space & Security"],
+      "exposicion_sanciones": "baja",
+      "compliance_certificaciones": ["AS9100", "CMMC nivel 3", "ITAR registered"],
+      "cultura_defensa": "Pillar aeronáutica defensa US · MQ-25 + F-15EX + KC-46 · estrategia 'profitable growth'",
+      "limitaciones": ["Crisis comercial reciente afecta financiación defensa", "T-7 retrasos"],
+      "novedades_2026": ["MQ-25 operacional 2026", "F-15EX entregas masivas a USAF", "Apache E nuevas variantes"],
+      "logo_url": "https://logo.clearbit.com/boeing.com",
+      "web": "https://www.boeing.com/defense"
+    }
+  ]
+}

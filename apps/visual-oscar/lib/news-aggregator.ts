@@ -9,6 +9,7 @@
 // devuelto por getAggregatedNews().
 
 import mediosData from '@/data/medios.json'
+import mediosEuropeosData from '@/data/medios-europeos.json'
 import { fetchRSS, type RSSItem } from './rss'
 
 export interface CatalogMedio {
@@ -26,7 +27,10 @@ export interface CatalogMedio {
   color?: string
 }
 
-const CATALOG: CatalogMedio[] = (mediosData as { medios: CatalogMedio[] }).medios
+const CATALOG: CatalogMedio[] = [
+  ...(mediosData as { medios: CatalogMedio[] }).medios,
+  ...(mediosEuropeosData as { medios: CatalogMedio[] }).medios,
+]
 
 export interface AggregatedArticle {
   title: string
@@ -273,14 +277,60 @@ export interface CCAARegionStat {
   top_topics: string[]
 }
 
-/** Agrupa artículos por CCAA del medio. Los nacionales se asignan a Madrid. */
+// Detectores de CCAA en texto (titulares + descripciones de medios nacionales)
+const CCAA_DETECTORS: Array<{ label: string; patterns: RegExp[] }> = [
+  { label: 'Madrid',           patterns: [/\bmadrid\b|comunidad de madrid|m\.\s*madrid|ayuso/i] },
+  { label: 'Cataluña',         patterns: [/catalu[ñn]a|barcelona|generalitat|catal[áa]n|tarragona|girona|lleida|sabadell|terrassa/i] },
+  { label: 'Andalucía',        patterns: [/andaluc[íi]a|sevilla|m[áa]laga|c[óo]rdoba|granada|c[áa]diz|almer[íi]a|huelva|ja[ée]n|junta de andaluc[íi]a|junta.*andaluc/i] },
+  { label: 'Galicia',          patterns: [/galicia|gallego|gallega|santiago de compostela|vigo|coru[ñn]a|pontevedra|ourense|lugo|xunta/i] },
+  { label: 'C. Valenciana',    patterns: [/valencia|valenciano|alicante|castell[óo]n|generalitat valenciana|comunidad valenciana|gva\b|carlos maz[óo]n/i] },
+  { label: 'País Vasco',       patterns: [/pa[íi]s vasco|euskadi|euskera|bilbao|san sebasti[áa]n|vitoria|guip[úu]zcoa|vizcaya|[áa]lava|lehendakari/i] },
+  { label: 'Castilla y León',  patterns: [/castilla y le[óo]n|cyl|valladolid|salamanca|burgos|le[óo]n|palencia|zamora|segovia|ávila|soria/i] },
+  { label: 'Castilla-La Mancha', patterns: [/castilla[ -]la mancha|toledo|ciudad real|albacete|cuenca|guadalajara/i] },
+  { label: 'Aragón',           patterns: [/arag[óo]n|zaragoza|huesca|teruel|gobierno de arag/i] },
+  { label: 'Murcia',           patterns: [/regi[óo]n de murcia|\bmurcia\b|cartagena|gobierno de murcia/i] },
+  { label: 'Baleares',         patterns: [/baleares|illes balears|mallorca|menorca|ibiza|formentera|palma de mallorca/i] },
+  { label: 'Canarias',         patterns: [/canarias|tenerife|las palmas|gran canaria|lanzarote|fuerteventura|gobierno de canarias/i] },
+  { label: 'Asturias',         patterns: [/asturias|principado de asturias|oviedo|gij[óo]n|aviles|asturiano/i] },
+  { label: 'Cantabria',        patterns: [/cantabria|santander|gobierno de cantabria/i] },
+  { label: 'Navarra',          patterns: [/navarra|pamplona|nafarroa|gobierno de navarra/i] },
+  { label: 'La Rioja',         patterns: [/la rioja|logro[ñn]o|gobierno.*la rioja/i] },
+  { label: 'Extremadura',      patterns: [/extremadura|c[áa]ceres|badajoz|m[ée]rida|junta de extremadura/i] },
+  { label: 'Ceuta',            patterns: [/\bceuta\b/i] },
+  { label: 'Melilla',          patterns: [/\bmelilla\b/i] },
+]
+
+function detectarCCAAEnTexto(texto: string): string | null {
+  for (const d of CCAA_DETECTORS) {
+    if (d.patterns.some(p => p.test(texto))) return d.label
+  }
+  return null
+}
+
+/**
+ * Agrupa artículos por CCAA · combinación de:
+ *   - ccaa propia del medio (si tiene)
+ *   - detección por keywords en titular+descripción (para medios nacionales)
+ * Los medios europeos/internacionales se descartan (no entran al mapa CCAA).
+ */
 export function byCCAA(articles: AggregatedArticle[]): Record<string, CCAARegionStat> {
   const buckets = new Map<string, AggregatedArticle[]>()
   for (const a of articles) {
-    let label: string
-    if (a.medio.ambito === 'Nacional') label = 'Madrid'
-    else if (a.medio.ccaa) label = CCAA_LABEL[a.medio.ccaa] || a.medio.ccaa
-    else continue
+    let label: string | null = null
+
+    // 1. Medios autonómicos/provinciales con CCAA propia
+    if (a.medio.ccaa) {
+      label = CCAA_LABEL[a.medio.ccaa] || a.medio.ccaa
+    }
+    // 2. Medios nacionales: detectar CCAA por keywords del titular+descripción
+    else if (a.medio.ambito === 'Nacional') {
+      const txt = (a.title + ' ' + (a.description || ''))
+      const detectada = detectarCCAAEnTexto(txt)
+      label = detectada // Si no detecta CCAA específica, no entra al mapa
+    }
+    // 3. Medios europeos no entran al mapa CCAA
+
+    if (!label) continue
     const cur = buckets.get(label) || []
     cur.push(a)
     buckets.set(label, cur)

@@ -167,7 +167,7 @@ const EU_HINTS = ['euractiv','euobserver','politico.eu','euronews','bbc.com','re
 const LOCAL_KEYWORDS = ['ayuntamiento','alcalde','pleno municipal','diputación','diputacion','comarca','barrio','distrito','vecinos','plenario','concejal']
 
 export function classifyTier(a: AggregatedArticle): Tier {
-  if (a.medio.ambito === 'Internacional' || a.medio.ambito === 'UE') return 'europeo'
+  if (a.medio.ambito === 'Internacional' || a.medio.ambito === 'UE' || a.medio.ambito === 'Europeo') return 'europeo'
   if (a.medio.ambito === 'Nacional')      return 'nacional'
   if (EU_HINTS.some(h => a.link.toLowerCase().includes(h))) return 'europeo'
   const text = `${a.title} ${a.description}`.toLowerCase()
@@ -795,11 +795,40 @@ export function storyCluster(articles: AggregatedArticle[], threshold = 0.30, ma
 
 // ── CCAA Deep Detail (con figuras + empresas + provincias) ─────────────────
 
+// Patrones de detección por menciones en texto · igual que en news-aggregator.ts
+const CCAA_TEXT_PATTERNS: Record<string, RegExp[]> = {
+  'Madrid':           [/\bmadrid\b|comunidad de madrid|ayuso/i],
+  'Cataluña':         [/catalu[ñn]a|barcelona|generalitat|catal[áa]n|tarragona|girona|lleida/i],
+  'Andalucía':        [/andaluc[íi]a|sevilla|m[áa]laga|c[óo]rdoba|granada|c[áa]diz|almer[íi]a|huelva|junta de andaluc/i],
+  'Galicia':          [/galicia|gallego|santiago de compostela|vigo|coru[ñn]a|pontevedra|xunta/i],
+  'C. Valenciana':    [/valencia|valenciano|alicante|castell[óo]n|generalitat valenciana|carlos maz[óo]n/i],
+  'País Vasco':       [/pa[íi]s vasco|euskadi|bilbao|san sebasti[áa]n|vitoria|lehendakari/i],
+  'Castilla y León':  [/castilla y le[óo]n|valladolid|salamanca|burgos|le[óo]n|segovia|ávila|soria/i],
+  'Castilla-La Mancha': [/castilla[ -]la mancha|toledo|ciudad real|albacete|cuenca|guadalajara/i],
+  'Aragón':           [/arag[óo]n|zaragoza|huesca|teruel/i],
+  'Murcia':           [/regi[óo]n de murcia|\bmurcia\b|cartagena/i],
+  'Baleares':         [/baleares|illes balears|mallorca|menorca|ibiza|palma de mallorca/i],
+  'Canarias':         [/canarias|tenerife|las palmas|gran canaria|lanzarote|fuerteventura/i],
+  'Asturias':         [/asturias|principado de asturias|oviedo|gij[óo]n|aviles/i],
+  'Cantabria':        [/cantabria|santander/i],
+  'Navarra':          [/navarra|pamplona|nafarroa/i],
+  'La Rioja':         [/la rioja|logro[ñn]o/i],
+  'Extremadura':      [/extremadura|c[áa]ceres|badajoz|m[ée]rida/i],
+  'Ceuta':            [/\bceuta\b/i],
+  'Melilla':          [/\bmelilla\b/i],
+}
+
 export function ccaaDeep(articles: AggregatedArticle[], ccaaLabel: string): CCAADeepDetail {
   const target = Object.entries(CCAA_LABEL).find(([_, label]) => label === ccaaLabel)?.[0]
+  const patterns = CCAA_TEXT_PATTERNS[ccaaLabel] || []
   const mine = articles.filter(a => {
+    // 1. Medio autonómico de la propia CCAA
     if (target && a.medio.ccaa === target) return true
-    if (ccaaLabel === 'Madrid' && a.medio.ambito === 'Nacional') return true
+    // 2. Medio nacional/europeo: solo si menciona explícitamente la CCAA
+    if (patterns.length > 0) {
+      const txt = (a.title + ' ' + (a.description || ''))
+      return patterns.some(p => p.test(txt))
+    }
     return false
   })
   const total = mine.length
