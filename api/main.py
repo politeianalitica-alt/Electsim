@@ -44,6 +44,7 @@ from api.routers import (
     contratacion,
     crm_comms,
     economy,
+    fichas,           # Fichas dinámicas territoriales + políticos
     fondos_eu,
     groq_brain,  # GroqBrain v2 · 29 tools cerebro razonador
     intelligence_workspace,
@@ -176,6 +177,8 @@ app.include_router(crm_comms.router, tags=["crm-comms"])
 app.include_router(brain.router, tags=["brain"])
 # GroqBrain v2 · cerebro razonador transversal (29 tools, Groq + LLaMA 3.3 70B)
 app.include_router(groq_brain.router, tags=["groq-brain"])
+# Fichas dinámicas (territorios CCAA/municipios y políticos)
+app.include_router(fichas.router, tags=["fichas"])
 # Bloque P2.2 — Routers de dominio que el frontend visual-oscar requería:
 app.include_router(sectors.router, tags=["sectors"])
 app.include_router(contratacion.router, tags=["contratacion"])

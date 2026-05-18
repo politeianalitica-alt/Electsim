@@ -456,6 +456,84 @@ def main(argv: list[str] | None = None) -> int:
     p_disc.add_argument("--persist", action="store_true")
     p_disc.set_defaults(func=cmd_discover)
 
+    # ficha-territorial (nuevo · 12 bloques)
+    p_ft = sub.add_parser("ficha-territorio", help="Construir ficha territorial completa")
+    p_ft.add_argument("--cod-ine", required=False, help="Código INE 5 dígitos para municipio")
+    p_ft.add_argument("--ccaa", required=False, help="Nombre de CCAA")
+    p_ft.add_argument("--persist", action="store_true")
+    def _cmd_ft(args):
+        from agents.brain.pipelines.ficha_territorial_builder import FichaTerritorialBuilder
+        from agents.brain.pipelines.persistence_fichas import persist_ficha_territorial
+        b = FichaTerritorialBuilder()
+        if args.cod_ine:
+            ficha = b.build_municipio(args.cod_ine)
+        elif args.ccaa:
+            ficha = b.build_ccaa(args.ccaa)
+        else:
+            print("Pasa --cod-ine o --ccaa")
+            return 2
+        d = ficha.model_dump()
+        out = _write_jsonl(f"ficha_territorial_{ficha.id}_{datetime.utcnow():%Y%m%d_%H%M%S}.jsonl", [d])
+        print(f"[ficha-territorio] {ficha.nombre} ({ficha.tipo}) "
+              f"completeness={ficha.completeness:.2f} bloques_ok={len(ficha.bloques_ok)} "
+              f"errs={list(ficha.bloques_err.keys())} → {out}")
+        if args.persist:
+            s = persist_ficha_territorial(d)
+            print(f"[ficha-territorio:persist] db={s['written_db']} err={s['error']}")
+        return 0
+    p_ft.set_defaults(func=_cmd_ft)
+
+    # ficha-politico (nuevo · 12 bloques)
+    p_fp = sub.add_parser("ficha-politico", help="Construir ficha de político completa")
+    p_fp.add_argument("--qid", required=False, help="QID Wikidata (Q12345)")
+    p_fp.add_argument("--nombre", required=False, help="Nombre completo (fallback)")
+    p_fp.add_argument("--persist", action="store_true")
+    def _cmd_fp(args):
+        from agents.brain.pipelines.ficha_politico_builder import FichaPoliticoBuilder
+        from agents.brain.pipelines.persistence_fichas import persist_ficha_politico
+        b = FichaPoliticoBuilder()
+        if args.qid:
+            ficha = b.build_by_qid(args.qid)
+        elif args.nombre:
+            ficha = b.build_by_name(args.nombre)
+        else:
+            print("Pasa --qid o --nombre")
+            return 2
+        d = ficha.model_dump()
+        out = _write_jsonl(f"ficha_politico_{ficha.id}_{datetime.utcnow():%Y%m%d_%H%M%S}.jsonl", [d])
+        print(f"[ficha-politico] {ficha.nombre} completeness={ficha.completeness:.2f} "
+              f"bloques_ok={len(ficha.bloques_ok)} errs={list(ficha.bloques_err.keys())} → {out}")
+        if args.persist:
+            s = persist_ficha_politico(d)
+            print(f"[ficha-politico:persist] db={s['written_db']} err={s['error']}")
+        return 0
+    p_fp.set_defaults(func=_cmd_fp)
+
+    # backfill-politicos (batch)
+    p_bp = sub.add_parser("backfill-politicos",
+                          help="Construir fichas de políticos activos en lote (Wikidata)")
+    p_bp.add_argument("--limit", default=20, type=int)
+    p_bp.add_argument("--persist", action="store_true")
+    def _cmd_bp(args):
+        from agents.brain.pipelines.data_sources.wikidata_politicos import list_politicos_activos
+        from agents.brain.pipelines.ficha_politico_builder import FichaPoliticoBuilder
+        from agents.brain.pipelines.persistence_fichas import persist_ficha_politico
+        candidatos = list_politicos_activos(limit=int(args.limit))
+        print(f"[backfill-politicos] {len(candidatos)} candidatos")
+        b = FichaPoliticoBuilder()
+        for i, c in enumerate(candidatos):
+            try:
+                ficha = b.build_by_qid(c["qid"])
+                d = ficha.model_dump()
+                print(f"  [{i+1}/{len(candidatos)}] {c['nombre']} ({c['qid']}) "
+                      f"completeness={ficha.completeness:.2f}")
+                if args.persist:
+                    persist_ficha_politico(d)
+            except Exception as exc:
+                print(f"  [{i+1}/{len(candidatos)}] {c['nombre']} ERROR: {exc}")
+        return 0
+    p_bp.set_defaults(func=_cmd_bp)
+
     # dossier
     p_dossier = sub.add_parser("dossier", help="Generar dossier completo")
     p_dossier.add_argument("--tipo", required=True, choices=["actor", "issue", "territory", "campaign"])
