@@ -852,7 +852,7 @@ with tab4:
                 pedir_escenarios=True,
                 title="Pronóstico IA · evolución del riesgo político (60 días)",
                 key="brain_forecast_riesgo",
-                auto_run=False,
+                auto_run=True,  # Pronóstico visible al cargar (cache 5 min)
             )
     except Exception as _e:
         st.caption(f"Pronóstico IA no disponible: {_e}")

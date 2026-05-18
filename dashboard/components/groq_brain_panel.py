@@ -121,16 +121,29 @@ def render_brain_panel(
     key = key or f"brain_panel_{tool}"
     kwargs = dict(kwargs or {})
 
-    # Header
+    # Header MUY visible — gradiente fuerte, badges grandes
     st.markdown(
         f"""
-<div style="background:linear-gradient(135deg,{PURPLE}15 0%,{BLUE}08 100%);
-            border:1px solid {BORDER};border-left:4px solid {PURPLE};
-            border-radius:10px;padding:.9rem 1.1rem;margin:.8rem 0 .6rem">
-  <div style="font-size:.7rem;color:{PURPLE};font-weight:800;
-              letter-spacing:.14em;text-transform:uppercase">{title}</div>
-  <div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">
-    Powered by Groq · LLaMA 3.3 70B · tool <code>{tool}</code>
+<div style="background:linear-gradient(135deg,{PURPLE}30 0%,{BLUE}18 60%,{PURPLE}10 100%);
+            border:2px solid {PURPLE}55;border-left:6px solid {PURPLE};
+            border-radius:12px;padding:1.05rem 1.25rem;margin:1.2rem 0 .55rem;
+            box-shadow:0 6px 24px {PURPLE}22, 0 0 0 1px {PURPLE}15;">
+  <div style="display:flex;align-items:center;gap:.7rem">
+    <span style="background:{PURPLE};color:#fff;font-size:.62rem;font-weight:900;
+                  padding:.18rem .45rem;border-radius:5px;letter-spacing:.14em;
+                  text-transform:uppercase">IA · Groq</span>
+    <span style="font-size:.95rem;color:#fff;font-weight:800;
+                  letter-spacing:.01em">{title}</span>
+    <span style="margin-left:auto;font-size:.62rem;color:{TEXT2};font-weight:700;
+                  padding:.18rem .45rem;background:{BG3};border-radius:5px;
+                  border:1px solid {BORDER};letter-spacing:.04em">
+      <code style="color:{CYAN};background:transparent;padding:0">{tool}</code>
+    </span>
+  </div>
+  <div style="font-size:.78rem;color:{TEXT2};margin-top:.4rem;line-height:1.45">
+    Razonamiento autónomo con <strong style="color:{CYAN}">LLaMA 3.3 70B</strong> ·
+    interpreta los datos de esta página, identifica drivers, predice
+    consecuencias y propone acciones.
   </div>
 </div>
 """,
@@ -270,16 +283,25 @@ def render_forecast_panel(
       · Escenarios (opcional)
     """
     key = key or f"forecast_panel_{etiqueta}"
-    # Header
+    # Header prominente · forecast = azul/verde
     st.markdown(
         f"""
-<div style="background:linear-gradient(135deg,{BLUE}10 0%,{GREEN}08 100%);
-            border:1px solid {BORDER};border-left:4px solid {BLUE};
-            border-radius:10px;padding:.9rem 1.1rem;margin:.8rem 0 .6rem">
-  <div style="font-size:.7rem;color:{BLUE};font-weight:800;
-              letter-spacing:.14em;text-transform:uppercase">{title}</div>
-  <div style="font-size:.78rem;color:{MUTED};margin-top:.2rem">
-    Regresión robusta + bandas + razonamiento Groq · horizonte {horizonte_dias} días
+<div style="background:linear-gradient(135deg,{BLUE}28 0%,{GREEN}16 60%,{CYAN}12 100%);
+            border:2px solid {BLUE}55;border-left:6px solid {CYAN};
+            border-radius:12px;padding:1.05rem 1.25rem;margin:1.2rem 0 .55rem;
+            box-shadow:0 6px 24px {BLUE}22, 0 0 0 1px {BLUE}15;">
+  <div style="display:flex;align-items:center;gap:.7rem">
+    <span style="background:{CYAN};color:#0a0e1c;font-size:.62rem;font-weight:900;
+                  padding:.18rem .45rem;border-radius:5px;letter-spacing:.14em;
+                  text-transform:uppercase">Pronóstico · IA</span>
+    <span style="font-size:.95rem;color:#fff;font-weight:800">{title}</span>
+    <span style="margin-left:auto;font-size:.62rem;color:{TEXT2};font-weight:700;
+                  padding:.18rem .45rem;background:{BG3};border-radius:5px;
+                  border:1px solid {BORDER}">{horizonte_dias} días</span>
+  </div>
+  <div style="font-size:.78rem;color:{TEXT2};margin-top:.4rem;line-height:1.45">
+    Tendencia + bandas + razonamiento <strong style="color:{CYAN}">Groq LLaMA 3.3 70B</strong>
+    sobre drivers, watch list y escenarios futuros.
   </div>
 </div>
 """,

@@ -165,7 +165,7 @@ try:
             "time_pressure": "24h",
         },
         ttl_seconds=900,
-        auto_run=False,
+        auto_run=True,  # War Room: IA visible al abrir la página
         key="brain_war_room_summary",
     )
 except Exception as _e:  # noqa: BLE001

@@ -227,7 +227,7 @@ with tab_menciones:
                         "time_window": f"últimos {int(dias)} días",
                     },
                     ttl_seconds=600,
-                    auto_run=False,  # botón explícito para no quemar tokens al cargar
+                    auto_run=True,  # IA visible automáticamente · cache 10 min evita spam
                     key=f"brain_narr_{objeto_id}_{int(dias)}",
                 )
 
