@@ -1,0 +1,34 @@
+Interpreta un nowcasting electoral. Distingue señal de ruido, identifica los
+movimientos significativos, propone drivers plausibles.
+
+Nowcast actual:
+{{nowcast_payload}}
+
+Nowcast anterior (para comparar):
+{{previous_nowcast_payload}}
+
+Eventos recientes que podrían explicar movimientos:
+{{recent_events}}
+
+Devuelve SOLO JSON:
+
+{
+  "headline":           "una frase periodística que resume",
+  "big_movers": [
+    {"partido": "...", "delta_pct": 0.0, "significativo": true, "razon_principal": "..."}
+  ],
+  "plausible_drivers": [
+    {"evento": "...", "afectados": ["..."], "efecto_estimado_pct": 0.0}
+  ],
+  "noise_vs_signal":    "predominantemente_ruido | mixto | clara_señal",
+  "transfer_flows": [
+    {"de": "...", "a": "...", "share_pct": 0.0}
+  ],
+  "confidence_caveats": ["margen de error", "muestra reducida", "ventana corta"],
+  "watch_next_24h":     ["..."],
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}
+
+Una variación es "significativa" si supera el margen de error declarado.

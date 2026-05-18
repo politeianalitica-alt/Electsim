@@ -1,0 +1,30 @@
+Identifica la narrativa que se está construyendo a partir de varias piezas
+de contenido relacionadas. Una narrativa es más que la suma de noticias:
+es una historia con personajes, conflicto, claim central y arco temporal.
+
+Tema: {{topic}}
+Ventana temporal: {{time_window}}
+
+Piezas (cada una en orden):
+{{pieces}}
+
+Devuelve SOLO JSON:
+
+{
+  "narrative_name":       "etiqueta corta y memorable",
+  "core_claim":           "la tesis central que el conjunto intenta consolidar",
+  "supporting_arguments": ["..."],
+  "characters":           [
+    {"name": "...", "role": "héroe | villano | víctima | experto | observador"}
+  ],
+  "plot_arc":             "exposición | desarrollo | clímax | resolución | bucle",
+  "intensity_trend":      "creciendo | estable | decayendo",
+  "attack_vectors":       ["a quién daña la narrativa y cómo"],
+  "counter_narratives":   ["narrativas rivales detectables"],
+  "credibility_signals":  ["fuentes sólidas", "anécdotas", "rumor", "datos verificables"],
+  "amplifiers":           ["medios o cuentas que la propagan"],
+  "estimated_audience":   "general | nicho ideológico | élite política | RRSS",
+  "confidence":           0.0,
+  "reasoning_steps":      ["..."],
+  "sources":              []
+}

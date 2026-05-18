@@ -1,0 +1,34 @@
+Genera un briefing político estructurado para {{audience}}. Longitud: {{length}}.
+
+Título: {{title}}
+Fecha: {{date}}
+
+Contexto por sección (resúmenes desde la BD del sistema):
+{{sections_context}}
+
+Devuelve SOLO JSON:
+
+{
+  "title":             "{{title}}",
+  "date":              "{{date}}",
+  "executive_summary": "5-8 frases con lo esencial. Si solo lee esto, está informado.",
+  "sections": [
+    {
+      "heading":     "Política nacional | Legislativo | Mediático | Económico | Geopolítica | Riesgo",
+      "body":        "3-6 frases con análisis, no enumeración",
+      "key_points":  ["..."],
+      "citations":   ["fuente abreviada o id del item"]
+    }
+  ],
+  "today_actions":     ["3-5 acciones concretas para hoy"],
+  "watch_next":        ["3-5 cosas que vigilar próximas 24-72h"],
+  "tone":              "ejecutivo",
+  "confidence":        0.0,
+  "reasoning_steps":   ["..."],
+  "sources":           []
+}
+
+Reglas:
+- No inventes hechos: si un punto no está en el contexto, escribe "según
+  fuentes propias pendientes de verificar".
+- Prioriza señales fuertes; descarta ruido.

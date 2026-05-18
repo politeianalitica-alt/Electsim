@@ -15,6 +15,7 @@ if str(_ROOT) not in sys.path:
 
 from dashboard.shared import kpi_card, section_header, sidebar_nav
 from dashboard.services import tracker as svc
+from dashboard.components.groq_brain_panel import render_brain_panel
 
 st.set_page_config(page_title="Tracker de Narrativas", layout="wide")
 sidebar_nav()
@@ -204,6 +205,31 @@ with tab_menciones:
                     st.caption(f"Sentimiento: {sent}")
                     if row.get("url"):
                         st.markdown(f"[Abrir enlace]({row['url']})")
+
+            # ─────────────────────────────────────────────────────
+            # Análisis IA · GroqBrain · interpreta la narrativa que
+            # se está construyendo a partir de los titulares listados
+            # ─────────────────────────────────────────────────────
+            obj_label_clean = str(obj_label).split(" - ", 1)[-1] if obj_label else ""
+            pieces = [
+                f"[{str(r.get('fecha_pub') or '')[:10]} · {r.get('medio') or ''} · "
+                f"{r.get('tono') or 'neutro'}] {r.get('titulo') or ''}"
+                for _, r in df_top.iterrows()
+                if r.get("titulo")
+            ][:25]
+            if pieces:
+                render_brain_panel(
+                    tool="analyze_narrative",
+                    title="Análisis IA · ¿qué narrativa se construye?",
+                    kwargs={
+                        "pieces": pieces,
+                        "topic": obj_label_clean,
+                        "time_window": f"últimos {int(dias)} días",
+                    },
+                    ttl_seconds=600,
+                    auto_run=False,  # botón explícito para no quemar tokens al cargar
+                    key=f"brain_narr_{objeto_id}_{int(dias)}",
+                )
 
 with tab_obj:
     col_add, col_list = st.columns([1, 2])

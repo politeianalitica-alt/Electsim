@@ -1,0 +1,33 @@
+Genera una alerta accionable para {{recipient_role}}. Urgencia: {{urgency}}.
+
+Evento:
+"""
+{{event}}
+"""
+
+Contexto:
+"""
+{{context}}
+"""
+
+Devuelve SOLO JSON:
+
+{
+  "headline":           "máx 90 caracteres, periodístico, sin clickbait",
+  "what_happened":      "3-5 frases factuales",
+  "why_it_matters":     "3-4 frases conectando con riesgos/oportunidades del cliente",
+  "stakeholders_impact": [
+    {"stakeholder": "...", "impact": "positivo | negativo | mixto", "magnitude": "alto | medio | bajo"}
+  ],
+  "recommended_actions": [
+    {"action": "...", "owner": "comunicación | dirección | jurídico | gobierno | otro", "priority": "P0 | P1 | P2", "deadline_hours": 0}
+  ],
+  "monitor_next":       ["..."],
+  "escalate_to":        ["..."],
+  "draft_internal_note": "1 párrafo listo para reenvío interno",
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}
+
+P0 = ahora; P1 = hoy; P2 = esta semana.

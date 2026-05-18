@@ -1,0 +1,35 @@
+Identifica el voto blando de un partido y propone palancas accionables.
+
+Partido: {{party}}
+Territorio: {{territory}}
+Resumen de encuestas:
+"""
+{{polls_summary}}
+"""
+Datos de segmentos (CIS/40dB/sociodemográficos):
+{{segments_data}}
+
+Devuelve SOLO JSON:
+
+{
+  "soft_voter_segments": [
+    {
+      "name":          "etiqueta descriptiva (ej: 'mujer urbana 45-55 economía justa')",
+      "size_pct":      0.0,
+      "current_lean":  "abstención | otro_partido | indeciso",
+      "motivations":   ["..."],
+      "deal_breakers": ["..."],
+      "channels":      ["TV", "Instagram", "TikTok", "radio_local", "boca a boca"]
+    }
+  ],
+  "priority_segment": "nombre del segmento más rentable",
+  "persuasive_messages": [
+    {"target_segment": "...", "message_frame": "económico | identitario | emocional | técnico", "claim": "...", "evidence_needed": "..."}
+  ],
+  "expected_yield_pct": 0.0,
+  "competitive_threats": ["partidos que también pelean por estos blandos"],
+  "demobilization_risks": ["acciones propias que podrían perder ese voto"],
+  "confidence":          0.0,
+  "reasoning_steps":     ["..."],
+  "sources":             []
+}

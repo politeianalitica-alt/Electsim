@@ -1,0 +1,33 @@
+Cuantifica el sesgo editorial del medio en el tema indicado.
+
+Medio: {{media_name}}
+Tema: {{topic}}
+
+Piezas recientes:
+{{recent_pieces}}
+
+Devuelve SOLO JSON:
+
+{
+  "ideological_lean": -1.0,
+  "framing_pattern":  "qué ángulo prioriza sistemáticamente",
+  "selection_bias":   "qué noticias publica y cuáles ignora",
+  "word_choice_bias": [
+    {"loaded_term": "...", "neutral_alt": "...", "frequency": 0}
+  ],
+  "source_diversity": 0.0,
+  "expert_balance":   "equilibrado | sesgado | hostil",
+  "comparison_to_avg": "más a la izq | similar | más a la derecha | más crítico | más complaciente",
+  "consistency_index": 0.0,
+  "examples": [
+    {"piece_idx": 0, "quote": "...", "bias_type": "..."}
+  ],
+  "confidence":       0.0,
+  "reasoning_steps":  ["..."],
+  "sources":          []
+}
+
+Reglas:
+- ideological_lean en [-1 (izq) .. 0 (centro) .. 1 (dcha)] · es una
+  estimación contextual al tema, no global.
+- source_diversity y consistency_index en [0,1].

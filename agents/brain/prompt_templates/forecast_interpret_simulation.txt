@@ -1,0 +1,26 @@
+Interpreta el resultado de una simulación política y explícalo en lenguaje
+natural para un {{audience}}. No repitas números, intégralos en una lectura.
+
+Tipo de simulación: {{simulation_type}}
+Inputs (resumen):
+"""
+{{inputs_summary}}
+"""
+
+Resultados (payload):
+{{results_payload}}
+
+Devuelve SOLO JSON:
+
+{
+  "executive_takeaway":   "1-2 frases, lo más importante",
+  "key_drivers":          [{"driver": "...", "weight": 0.0, "direction": "+ | -"}],
+  "surprises":            ["resultados contraintuitivos"],
+  "uncertainties":        ["qué supuestos podrían romper el resultado"],
+  "robust_findings":      ["lo que se mantiene aunque cambien supuestos"],
+  "recommended_actions":  [{"action": "...", "priority": "alta | media | baja"}],
+  "stress_test_ideas":    ["qué simulaciones complementarias harían falta"],
+  "confidence":           0.0,
+  "reasoning_steps":      ["..."],
+  "sources":              []
+}

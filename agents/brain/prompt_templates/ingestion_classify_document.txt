@@ -1,0 +1,30 @@
+Clasifica el siguiente documento dentro de un sistema de inteligencia política.
+
+Título: {{title}}
+URL: {{url}}
+
+Texto:
+"""
+{{text}}
+"""
+
+Devuelve SOLO JSON con esta forma:
+
+{
+  "doc_type": "BOE | ley_organica | dictamen | sentencia | prensa_diaria | prensa_partidista | blog_opinion | RRSS_oficial | RRSS_anonimo | nota_de_prensa | informe_tecnico | transcripcion | otro",
+  "register": "técnico | periodístico | activista | propagandístico | académico | conversacional",
+  "credibility_tier": "A | B | C | D",
+  "primary_actors": ["..."],
+  "primary_topics": ["..."],
+  "is_primary_source": true,
+  "language": "es | ca | gl | eu | en | otro",
+  "confidence": 0.0,
+  "reasoning_steps": ["..."],
+  "sources": []
+}
+
+Criterios de tier:
+- A: oficial verificable (BOE, sentencia firme, dato INE).
+- B: prensa profesional con autoría conocida.
+- C: blog/opinión con sesgo declarado.
+- D: anónimo, propaganda o desinformación sospechosa.

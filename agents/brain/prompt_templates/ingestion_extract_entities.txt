@@ -1,0 +1,31 @@
+Extrae todas las entidades políticas mencionadas en el texto.
+
+Contexto auxiliar: {{context}}
+
+Texto:
+"""
+{{text}}
+"""
+
+Devuelve SOLO JSON con esta forma exacta:
+
+{
+  "actors":        [{"name": "...", "role": "...", "party": "..."}],
+  "parties":       ["..."],
+  "institutions":  ["..."],
+  "laws":          [{"name": "...", "type": "ley|decreto|reglamento", "estado": "vigente|tramitación|propuesta"}],
+  "events":        [{"name": "...", "date": "YYYY-MM-DD|null", "type": "elección|moción|debate|crisis|otro"}],
+  "locations":     ["..."],
+  "topics":        ["..."],
+  "dates_mentioned": ["YYYY-MM-DD"],
+  "confidence":    0.0,
+  "reasoning_steps": ["..."],
+  "sources":       []
+}
+
+Reglas:
+- No inventes entidades que no aparezcan literal o claramente referidas.
+- Nombres en castellano por defecto (catalán/gallego/euskera permitido si así
+  aparece).
+- Fechas en ISO. Si solo hay año, usa YYYY-01-01.
+- Vacío [] mejor que inventar.

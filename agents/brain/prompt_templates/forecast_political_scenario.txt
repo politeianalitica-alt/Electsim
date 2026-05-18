@@ -1,0 +1,35 @@
+Genera escenarios prospectivos sobre el tema indicado. Sigue el formato
+clásico de scenario planning (base / optimista / pesimista / tail).
+
+Tema: {{topic}}
+Situación actual:
+"""
+{{current_situation}}
+"""
+Horizonte temporal: {{time_horizon}}
+Restricciones / dado por sentado:
+{{constraints}}
+
+Devuelve SOLO JSON:
+
+{
+  "scenarios": [
+    {
+      "name":             "base | optimista | pesimista | cisne_negro",
+      "probability":      0.0,
+      "narrative":        "qué pasa en este escenario, en 3-5 frases",
+      "triggers":         ["..."],
+      "consequences":     [{"area": "política | económica | social | mediática", "detail": "..."}],
+      "winners":          ["..."],
+      "losers":           ["..."],
+      "early_indicators": ["señales tempranas que nos dirían que vamos hacia aquí"]
+    }
+  ],
+  "most_likely_scenario": "...",
+  "watch_list":           ["3-7 cosas que mirar semanalmente para revisar el escenario"],
+  "confidence":           0.0,
+  "reasoning_steps":      ["..."],
+  "sources":              []
+}
+
+La suma de probabilities debe ser ≈ 1.0.

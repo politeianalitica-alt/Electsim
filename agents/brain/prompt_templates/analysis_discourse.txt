@@ -1,0 +1,36 @@
+Analiza el discurso desde retórica clásica + framing cognitivo (Lakoff) +
+estilo del debate político español.
+
+Hablante: {{speaker}}
+Lugar/Foro: {{venue}}
+
+Texto:
+"""
+{{text}}
+"""
+
+Devuelve SOLO JSON:
+
+{
+  "rhetorical_devices": [
+    {"device": "anáfora | metáfora | hipérbole | enumeración | pregunta_retórica | etc", "example": "..."}
+  ],
+  "frames": [
+    {"frame": "nacional | identitario | económico | seguridad | moral | gestión | otro",
+     "evidence": "..."}
+  ],
+  "fallacies": [
+    {"fallacy": "ad hominem | hombre de paja | falsa dicotomía | pendiente resbaladiza | apelación al miedo | otra",
+     "where": "..."}
+  ],
+  "ethos_logos_pathos": {"ethos": 0.0, "logos": 0.0, "pathos": 0.0},
+  "audience_target":    "votante propio | votante indeciso | adversario | tercer país | base militante",
+  "register":           "alto | medio | bajo | populista | técnico | parlamentario",
+  "strategic_intent":   "movilizar | desactivar | desinformar | seducir | atacar | tranquilizar",
+  "comparable_archetype": "Cicerón | Demóstenes | político español contemporáneo (decir cuál)",
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}
+
+Los tres valores de ethos/logos/pathos deben sumar ~1.0.

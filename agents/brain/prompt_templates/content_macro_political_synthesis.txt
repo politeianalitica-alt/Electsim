@@ -1,0 +1,60 @@
+Cruza señales macroeconómicas y políticas en una síntesis ejecutiva para
+{{horizon}}. Devuelve markdown extenso, no JSON.
+
+Indicadores macro:
+{{macro_indicators}}
+
+Eventos políticos:
+{{political_events}}
+
+Señales sectoriales:
+{{sector_signals}}
+
+Formato exacto (todas las secciones, mismas cabeceras):
+
+# Síntesis Macro × Política — {{horizon}}
+
+## 1. Lectura corta
+[2-3 frases]
+
+## 2. Cuadro macro
+- Crecimiento:
+- Inflación:
+- Empleo / paro:
+- Mercados / prima de riesgo:
+- Sector exterior:
+
+## 3. Política nacional
+- Estado del gobierno:
+- Equilibrios parlamentarios:
+- Próximos hitos legislativos:
+
+## 4. Política europea / geopolítica
+- ...
+
+## 5. Cruces relevantes (macro ↔ política)
+- Cuando X macro empuja Y político (con evidencia).
+- Cuando Z político mueve W macro (con evidencia).
+
+## 6. Sectores en riesgo / oportunidad
+| Sector | Dirección | Driver principal | Horizonte |
+|---|---|---|---|
+| ... | ... | ... | ... |
+
+## 7. Escenarios para {{horizon}}
+- Base ([prob]): ...
+- Optimista ([prob]): ...
+- Pesimista ([prob]): ...
+- Cisne negro ([prob]): ...
+
+## 8. Implicaciones para decisores
+- Empresas:
+- Gobierno:
+- Inversores:
+- Sociedad civil:
+
+## 9. Indicadores a vigilar
+- ...
+
+## 10. Caveats / qué no estamos capturando
+- ...

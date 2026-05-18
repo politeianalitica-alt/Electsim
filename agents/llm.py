@@ -72,33 +72,45 @@ class OpenAIChatClient:
         api_key: str | None = None,
         model: str | None = None,
         base_url: str | None = None,
-        timeout_s: float = 120.0,
+        timeout_s: float = 180.0,
     ) -> None:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         self.model = model or os.environ.get("ELECTSIM_OPENAI_MODEL", "gpt-4o-mini")
         self.base_url = (base_url or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
         self.timeout_s = timeout_s
+        # Defaults parametrizables via env (Groq-friendly):
+        #   GROQ_MAX_TOKENS  → max_tokens default (4096)
+        #   GROQ_TEMPERATURE → temperature default (0.3 para razonamiento agéntico)
+        self.default_max_tokens = _safe_int(os.environ.get("GROQ_MAX_TOKENS"), 4096)
+        self.default_temperature = _safe_float(os.environ.get("GROQ_TEMPERATURE"), 0.3)
 
     @property
     def modelo(self) -> str:
         return self.model
+
+    def _build_payload(self, messages: list[dict[str, str]], stream: bool, **kwargs: Any) -> dict[str, Any]:
+        """Construye el payload común para /chat/completions (stream o no)."""
+        payload: dict[str, Any] = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": float(kwargs.get("temperature", self.default_temperature)),
+            "max_tokens": int(kwargs.get("max_tokens", self.default_max_tokens)),
+            "stream": bool(stream),
+        }
+        if kwargs.get("response_format") == "json_object":
+            payload["response_format"] = {"type": "json_object"}
+        if "stop" in kwargs:
+            payload["stop"] = kwargs["stop"]
+        if "top_p" in kwargs:
+            payload["top_p"] = float(kwargs["top_p"])
+        return payload
 
     def _post_once(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         if not self.api_key:
             raise RuntimeError("OPENAI_API_KEY no definida")
         # Default max_tokens elevado a 4096 para respuestas agénticas completas
         # (ReAct loops, informes ejecutivos, deliberaciones largas)
-        payload: dict[str, Any] = {
-            "model": self.model,
-            "messages": messages,
-            "temperature": float(kwargs.get("temperature", 0.4)),
-            "max_tokens": int(kwargs.get("max_tokens", 4096)),
-        }
-        # Soporte opcional para JSON mode (útil para tool calling estructurado)
-        if kwargs.get("response_format") == "json_object":
-            payload["response_format"] = {"type": "json_object"}
-        if "stop" in kwargs:
-            payload["stop"] = kwargs["stop"]
+        payload = self._build_payload(messages, stream=False, **kwargs)
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -119,6 +131,50 @@ class OpenAIChatClient:
 
     def complete(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
         return _with_retry(self._post_once, messages, **kwargs)
+
+    def stream_complete(self, messages: list[dict[str, str]], **kwargs: Any):
+        """Streaming SSE token a token compatible OpenAI (Groq incluido).
+
+        Parsea las líneas `data: {...}` y emite el delta de contenido.
+        Útil para dashboards Streamlit (`st.write_stream`) y respuestas largas
+        (briefings, informes ejecutivos, war room).
+        """
+        if not self.api_key:
+            raise RuntimeError("OPENAI_API_KEY no definida")
+        payload = self._build_payload(messages, stream=True, **kwargs)
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "Accept": "text/event-stream",
+        }
+        with httpx.Client(timeout=self.timeout_s) as client:
+            with client.stream(
+                "POST",
+                f"{self.base_url}/chat/completions",
+                headers=headers,
+                content=json.dumps(payload),
+            ) as response:
+                response.raise_for_status()
+                for raw_line in response.iter_lines():
+                    if not raw_line:
+                        continue
+                    line = raw_line.strip()
+                    if not line.startswith("data:"):
+                        continue
+                    payload_str = line[len("data:"):].strip()
+                    if payload_str == "[DONE]":
+                        break
+                    try:
+                        chunk = json.loads(payload_str)
+                    except json.JSONDecodeError:
+                        continue
+                    try:
+                        delta = chunk["choices"][0].get("delta") or {}
+                        token = str(delta.get("content") or "")
+                    except (KeyError, IndexError, TypeError):
+                        token = ""
+                    if token:
+                        yield token
 
 
 class AnthropicChatClient:

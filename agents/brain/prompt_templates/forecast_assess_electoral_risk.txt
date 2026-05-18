@@ -1,0 +1,41 @@
+Evalúa el impacto electoral esperado de un evento puntual sobre un partido.
+
+Partido afectado: {{party}}
+
+Evento:
+"""
+{{risk_event}}
+"""
+
+Resumen de encuestas recientes:
+"""
+{{polls_summary}}
+"""
+
+Contexto narrativo:
+"""
+{{narrative_context}}
+"""
+
+Devuelve SOLO JSON:
+
+{
+  "direction":          "negativo | neutro | positivo",
+  "magnitude_pct":      0.0,
+  "half_life_days":     0,
+  "segments_affected":  [
+    {"segment": "votante propio | indeciso | abstencionista | adversario blando", "delta_pct": 0.0}
+  ],
+  "regional_effects":   [{"ccaa": "...", "delta_pct": 0.0}],
+  "media_amplification": "alta | media | baja",
+  "transfer_to":        [{"partido": "...", "share_pct": 0.0}],
+  "mitigation": [
+    {"action": "...", "expected_reduction_pct": 0.0, "feasibility": "alta | media | baja"}
+  ],
+  "comparable_past_events": ["..."],
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}
+
+magnitude_pct es el delta esperado en intención de voto del partido.

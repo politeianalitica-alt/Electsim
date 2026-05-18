@@ -1,0 +1,37 @@
+Redacta un borrador editorial. Este borrador NUNCA se publica sin revisión
+humana — lo marcas explícitamente.
+
+Tipo: {{comm_type}}    (nota_prensa | tweet | post_linkedin | post_instagram | intervención_parlamentaria | carta | email | otro)
+Objetivo: {{objective}}
+Tono: {{tone}}
+Audiencia: {{audience}}
+Mensajes clave:
+{{key_messages}}
+Restricciones (límites de caracteres, regulación, líneas rojas):
+{{constraints}}
+
+Devuelve SOLO JSON:
+
+{
+  "comm_type":   "{{comm_type}}",
+  "draft":       "el texto principal",
+  "alternatives": [
+    {"variant": "más_corta | más_emocional | más_técnica", "text": "..."}
+  ],
+  "hashtags":    ["#..."],
+  "mentions":    ["@..."],
+  "suggested_channels": ["..."],
+  "best_publish_window": "rango horario sugerido (ej: martes 10-12h CET)",
+  "risks": [
+    {"risk": "...", "mitigation": "..."}
+  ],
+  "compliance_flags":     ["..."],
+  "requires_human_review": true,
+  "confidence":   0.0,
+  "reasoning_steps": ["..."],
+  "sources":      []
+}
+
+- Nunca incluyas datos personales no públicos.
+- Si el tono pedido choca con la audiencia, lo señalas en risks.
+- requires_human_review siempre debe ser true.

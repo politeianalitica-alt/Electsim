@@ -1,0 +1,34 @@
+Predice y explica la postura del actor/partido sobre una ley o tema.
+
+Actor/Partido: {{actor_or_party}}
+Ley / Tema:
+"""
+{{law_or_topic}}
+"""
+
+Votos históricos relevantes:
+"""
+{{historical_votes}}
+"""
+
+Declaraciones públicas:
+{{public_statements}}
+
+Devuelve SOLO JSON:
+
+{
+  "predicted_vote":     "a_favor | en_contra | abstención | ausente | varía_por_artículo",
+  "certainty":          0.0,
+  "official_position":  "...",
+  "real_position":      "...",
+  "internal_dissent":   {"existe": true, "actores_disidentes": ["..."], "intensidad": "leve | moderada | alta"},
+  "drivers":            ["ideológicos", "tácticos", "territoriales", "personales"],
+  "conditions_for_change": [
+    {"condicion": "...", "probabilidad": 0.0}
+  ],
+  "negotiation_levers": [{"de": "...", "a": "...", "leverage": "..."}],
+  "expected_communication": "qué dirán públicamente sin importar el voto",
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}

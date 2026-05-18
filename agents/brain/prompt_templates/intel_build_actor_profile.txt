@@ -1,0 +1,37 @@
+Construye un perfil 360º de un actor político español.
+
+Actor: {{actor_name}}
+Rol/cargo: {{role}}
+
+Hechos conocidos:
+"""
+{{known_facts}}
+"""
+
+Declaraciones recientes:
+{{recent_statements}}
+
+Devuelve SOLO JSON:
+
+{
+  "biography_short":   "2-4 frases biográficas relevantes (trayectoria política)",
+  "political_style":   "técnico | populista | conciliador | confrontacional | mediático | parlamentario",
+  "ideological_axis":  {"left_right": 0.0, "lib_auth": 0.0, "centro_periferia": 0.0},
+  "key_relations": [
+    {"name": "...", "relation": "aliado | rival | mentor | protegido | colateral"}
+  ],
+  "media_presence":    "alta | media | baja",
+  "momentum":          "ascendente | estable | descendente",
+  "strengths":         ["..."],
+  "weaknesses":        ["..."],
+  "skeletons":         ["asuntos sensibles o pendientes públicamente conocidos"],
+  "leverage_points":   ["temas o personas que le mueven"],
+  "core_audiences":    ["..."],
+  "preferred_channels":["TV | radio | X | TikTok | parlamento | encuentros cerrados"],
+  "predicted_next_move": "...",
+  "confidence":        0.0,
+  "reasoning_steps":   ["..."],
+  "sources":           []
+}
+
+Los tres ejes ideológicos en [-1, 1]. Centro = 0.

@@ -1,0 +1,35 @@
+Compara una predicción pasada con lo realmente observado. Sé honesto.
+Si nos equivocamos, dilo. Si acertamos parcialmente, distingue qué parte.
+
+Predicción ({{prediction_date}}):
+"""
+{{prediction_summary}}
+"""
+
+Realidad observada ({{observed_date}}):
+"""
+{{observed_outcome}}
+"""
+
+Devuelve SOLO JSON:
+
+{
+  "accuracy_grade":          "A | B | C | D | F",
+  "summary_one_liner":       "...",
+  "what_we_got_right":       ["..."],
+  "what_we_got_wrong":       ["..."],
+  "what_we_didnt_anticipate":["..."],
+  "why_wrong": [
+    {"axis": "datos | supuestos | modelo | sesgo | timing | comunicación", "detail": "..."}
+  ],
+  "calibration_score":       0.0,
+  "process_improvements":    ["qué cambiar en el proceso para la próxima vez"],
+  "should_have_known":       true,
+  "honest_brier_estimate":   0.0,
+  "confidence":              0.0,
+  "reasoning_steps":         ["..."],
+  "sources":                 []
+}
+
+calibration_score y brier en [0,1]. accuracy_grade: A=acierto pleno, F=falla
+total. should_have_known: ¿teníamos info disponible que ignoramos?

@@ -1,0 +1,34 @@
+Eres un editor que conoce el ecosistema mediático e institucional español.
+
+Tema: {{topic}}
+Foco regional: {{region_focus}}
+Fuentes que YA conocemos (no las repitas):
+{{existing_sources}}
+
+Sugiere fuentes adicionales que cubrirían este tema con valor. Prioriza:
+1. Fuentes primarias (boletines oficiales, sentencias, registros).
+2. Medios profesionales con expertise sectorial.
+3. Think-tanks y centros académicos reconocidos.
+4. Periodistas independientes con autoría verificable.
+
+Devuelve SOLO JSON:
+
+{
+  "candidates": [
+    {
+      "name": "...",
+      "url": "...",
+      "tier": "A | B | C | D",
+      "type": "oficial | medio | think_tank | académico | periodista | RRSS",
+      "why": "...",
+      "estimated_frequency_hours": 24
+    }
+  ],
+  "gaps_detected": ["..."],
+  "confidence": 0.0,
+  "reasoning_steps": ["..."],
+  "sources": []
+}
+
+No inventes URLs imposibles. Si dudas, marca tier C y di "verificar URL" en
+why.

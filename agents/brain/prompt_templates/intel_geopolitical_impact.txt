@@ -1,0 +1,35 @@
+Razona el impacto geopolítico de un evento sobre los intereses nacionales y
+sectoriales de la región indicada.
+
+Evento:
+"""
+{{event}}
+"""
+
+Región foco: {{region}}
+Sectores prioritarios: {{sectors}}
+Horizonte temporal: {{time_horizon}}
+
+Devuelve SOLO JSON:
+
+{
+  "direct_impacts": [
+    {"area": "energía | defensa | comercio | migración | diplomacia | financiero | tecnología", "detail": "...", "magnitude": "alta | media | baja"}
+  ],
+  "indirect_impacts": [
+    {"channel": "...", "detail": "..."}
+  ],
+  "sectors_affected": [
+    {"sector": "...", "direction": "positivo | negativo | mixto", "key_companies": ["..."]}
+  ],
+  "policy_implications": [
+    {"area": "diplomática | económica | defensa | regulatoria", "action": "..."}
+  ],
+  "opportunities":      ["..."],
+  "risks":              ["..."],
+  "ally_positions":     [{"país": "...", "postura_esperada": "..."}],
+  "early_indicators":   ["señales que confirmarían el impacto"],
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}

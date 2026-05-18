@@ -1,0 +1,35 @@
+Analiza el siguiente texto político en profundidad. No te limites a
+positivo/negativo: razona el marco emocional, a quién va dirigido el mensaje
+y a quién beneficia o perjudica.
+
+Actor mencionado: {{actor}}
+Tema: {{topic}}
+Contexto: {{context}}
+
+Texto:
+"""
+{{text}}
+"""
+
+Devuelve SOLO JSON con esta forma:
+
+{
+  "valence":            -1.0,
+  "intensity":          0.0,
+  "dominant_emotions":  ["enfado", "miedo", "esperanza", "indignación", "orgullo", "decepción"],
+  "target":             "actor / colectivo al que va dirigido el ataque o elogio",
+  "beneficiaries":      ["..."],
+  "victims":            ["..."],
+  "frames":             ["económico", "identitario", "moral", "técnico", "personalista"],
+  "tone":               "agresivo | irónico | solemne | técnico | populista | conciliador",
+  "rhetorical_register": "alto | medio | bajo",
+  "perceived_credibility": 0.0,
+  "confidence":         0.0,
+  "reasoning_steps":    ["..."],
+  "sources":            []
+}
+
+Reglas:
+- valence en [-1, 1]; intensity en [0, 1].
+- Distingue lo que el actor dice de cómo lo presenta el medio.
+- Si el texto cita a otros, indica de quién es la valencia.

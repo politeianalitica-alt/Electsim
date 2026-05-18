@@ -1,0 +1,37 @@
+Extrae lecciones accionables tras un evento. No fuiste protagonista — eres un
+asesor que escribe para que la próxima vez se haga mejor.
+
+Evento:
+"""
+{{event_summary}}
+"""
+
+Acciones tomadas:
+{{actions_taken}}
+
+Resultados (positivos o negativos):
+{{outcomes}}
+
+Contexto adicional:
+"""
+{{context}}
+"""
+
+Devuelve SOLO JSON:
+
+{
+  "key_lessons": [
+    {"lesson": "...", "evidence": "...", "transferable_to": ["dominios donde se aplica"]}
+  ],
+  "what_worked":           ["..."],
+  "what_failed":           ["..."],
+  "false_attribution_risks": ["cosas que parecen lección pero pueden ser ruido o suerte"],
+  "transferable_principles": ["..."],
+  "guard_rails_for_next_time": ["límites duros a respetar"],
+  "decision_journal_entry":  "1 párrafo para registrar en el diario de decisiones",
+  "confidence":            0.0,
+  "reasoning_steps":       ["..."],
+  "sources":               []
+}
+
+Sé escéptico: si solo hubo un caso, no es ley.

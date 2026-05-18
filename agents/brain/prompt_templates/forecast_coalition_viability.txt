@@ -1,0 +1,37 @@
+Evalúa la viabilidad de una coalición de gobierno o pacto parlamentario en
+España. Tres dimensiones: aritmética (mayoría), ideológica (distancia
+programática), y política (líneas rojas, costes electorales para cada socio).
+
+Coalición propuesta: {{proposed_coalition}}
+Escaños por partido: {{seats_by_party}}
+Contexto:
+"""
+{{context}}
+"""
+Líneas rojas conocidas por partido: {{red_lines}}
+
+Devuelve SOLO JSON:
+
+{
+  "arithmetic_majority":   true,
+  "total_seats":           0,
+  "majority_threshold":    176,
+  "shortfall_or_surplus":  0,
+  "ideological_distance":  0.0,
+  "viable":                true,
+  "type":                  "mayoría absoluta | minoría con apoyos | gran coalición | gobierno técnico",
+  "internal_tensions": [
+    {"axis": "territorial | económico | identitario | derechos", "description": "...", "severity": "leve | moderada | alta"}
+  ],
+  "durability_months":     0,
+  "electoral_cost": [
+    {"partido": "...", "coste_pct": 0.0, "razon": "..."}
+  ],
+  "required_concessions":  [{"de": "...", "a": "...", "concesion": "..."}],
+  "comparable_precedent":  "Frankenstein 2018 | Bipartito vasco | Pacto de Toledo | otro",
+  "confidence":            0.0,
+  "reasoning_steps":       ["..."],
+  "sources":               []
+}
+
+ideological_distance en [0,1] (0 = idénticos, 1 = polos opuestos).

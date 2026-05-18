@@ -1,0 +1,26 @@
+Compara el comportamiento histórico de una fuente con muestras recientes y
+decide si ha cambiado de tono, enfoque o credibilidad.
+
+Fuente: {{source_name}}
+
+Resumen baseline (cómo solía ser):
+"""
+{{baseline_summary}}
+"""
+
+Muestras recientes:
+{{recent_samples}}
+
+Devuelve SOLO JSON:
+
+{
+  "changed": true,
+  "severity": "ninguna | leve | moderada | alta",
+  "dimensions": ["tono", "framing", "fuentes citadas", "tema dominante", "calidad"],
+  "examples":   [{"sample_idx": 0, "quote": "...", "why": "..."}],
+  "drivers":    ["..."],
+  "recommended_action": "monitorizar | rebajar_tier | escalar_a_humano | excluir | sin_acción",
+  "confidence": 0.0,
+  "reasoning_steps": ["..."],
+  "sources": []
+}
