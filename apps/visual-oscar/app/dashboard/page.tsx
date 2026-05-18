@@ -180,7 +180,7 @@ export default function DashboardPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
       <AppHeader/>
 
-      <main style={{ maxWidth: 1440, margin: '0 auto', padding: '24px 28px 60px' }}>
+      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
 
         {/* Morning briefing */}
         <BrainBriefing/>
@@ -204,11 +204,11 @@ export default function DashboardPage() {
           {/* Section header */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
                 Panel ejecutivo
               </h2>
-              <span style={{ fontSize: 10, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <span style={{ fontSize: 11.5, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
                 Estado del sistema · vista consolidada
               </span>
             </div>
@@ -231,28 +231,28 @@ export default function DashboardPage() {
                   border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
                   cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
                   display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  minHeight: 132,
+                  minHeight: 150,
                 }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
                 >
                   <div>
-                    <p style={{ fontSize: 10, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
+                    <p style={{ fontSize: 11.5, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
                       Risk Index
                     </p>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
-                        {isReady ? <CountUp value={score}/> : <Skeleton width={70} height={40} radius={6}/>}
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 48, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
+                        {isReady ? <CountUp value={score}/> : <Skeleton width={84} height={48} radius={6}/>}
                       </span>
-                      <span style={{ fontSize: 11, color: '#86868b', fontWeight: 500 }}>/100</span>
+                      <span style={{ fontSize: 12, color: '#86868b', fontWeight: 500 }}>/100</span>
                     </div>
                   </div>
                   <div>
                     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 999, background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
                       <span style={{ width: 7, height: 7, borderRadius: '50%', background: semColor }}/>
-                      <span style={{ fontSize: 10.5, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
                     </div>
-                    <p style={{ fontSize: 10, color: '#6e6e73', margin: '6px 0 0' }}>
+                    <p style={{ fontSize: 11.5, color: '#6e6e73', margin: '6px 0 0' }}>
                       Tensión política y económica · click para detalle
                     </p>
                   </div>
@@ -271,21 +271,21 @@ export default function DashboardPage() {
                     border: '1px solid #ECECEF', borderLeft: `3px solid ${k.accent}`,
                     display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                   }}>
-                    <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
+                    <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
                       {isReady && !Number.isNaN(numeric)
                         ? <><CountUp value={numeric}/>{suffix}</>
-                        : <Skeleton width={50} height={26} radius={4}/>
+                        : <Skeleton width={58} height={30} radius={4}/>
                       }
                     </div>
-                    <p style={{ fontSize: 10, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+                    <p style={{ fontSize: 11.5, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
                   </div>
                 )
               })}
               {!data?.kpis && !isReady && [0,1,2,3].map(i => (
                 <div key={i} style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', border: '1px solid #ECECEF' }}>
-                  <Skeleton width={70} height={9} radius={3} style={{ marginBottom: 8 }}/>
-                  <Skeleton width={70} height={26} radius={4}/>
+                  <Skeleton width={80} height={11} radius={3} style={{ marginBottom: 8 }}/>
+                  <Skeleton width={80} height={30} radius={4}/>
                 </div>
               ))}
             </div>
@@ -320,10 +320,10 @@ export default function DashboardPage() {
                   onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF' }}
                   >
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
+                      <p style={{ fontSize: 11, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: trendColor }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
+                        <span style={{ fontSize: 11.5, fontWeight: 700, color: trendColor }}>
                           {isPositiveDir ? '↑' : '↓'} {m.delta}
                         </span>
                       </div>
@@ -344,11 +344,11 @@ export default function DashboardPage() {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     Top 5 alertas del día
                   </span>
                   <span style={{
-                    fontSize: 9.5, padding: '2px 7px', borderRadius: 999,
+                    fontSize: 11, padding: '2px 7px', borderRadius: 999,
                     background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
                   }}>
                     {richAlerts.length} activas
@@ -356,7 +356,7 @@ export default function DashboardPage() {
                 </div>
                 <button onClick={() => router.push('/alertas')} style={{
                   background: '#0071e3', border: 'none', cursor: 'pointer',
-                  fontSize: 11, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
+                  fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
                   padding: '5px 12px', borderRadius: 999,
                   display: 'inline-flex', alignItems: 'center', gap: 4,
                 }}>
@@ -396,18 +396,18 @@ export default function DashboardPage() {
             <section style={{ marginBottom: 20 }}>
               {/* Section header */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
                   Tendencias ahora
                 </h2>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   {formattedTs && (
-                    <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>
+                    <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>
                       {formattedTs}
                     </span>
                   )}
                   {sourcePills.map(src => (
                     <span key={src} style={{
-                      fontSize: 9, fontWeight: 600, padding: '2px 7px', borderRadius: 999,
+                      fontSize: 10.5, fontWeight: 600, padding: '2px 7px', borderRadius: 999,
                       background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.03em',
                       border: '1px solid #ECECEF',
                     }}>
@@ -422,7 +422,7 @@ export default function DashboardPage() {
                 <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
                   {[0,1,2,3,4,5].map(i => (
                     <div key={i} style={{
-                      minWidth: 200, maxWidth: 240, flexShrink: 0,
+                      minWidth: 220, maxWidth: 280, flexShrink: 0,
                       background: '#fff', borderRadius: 10, padding: '12px 13px',
                       boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                       border: '1px solid #ECECEF', borderLeft: '3px solid #e8e8ed',
@@ -439,7 +439,7 @@ export default function DashboardPage() {
                 <div style={{
                   background: '#fff', borderRadius: 10, padding: '18px 20px',
                   boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
-                  textAlign: 'center', color: '#6e6e73', fontSize: 12,
+                  textAlign: 'center', color: '#6e6e73', fontSize: 13,
                 }}>
                   Sin tendencias disponibles
                 </div>
@@ -456,7 +456,7 @@ export default function DashboardPage() {
                       <div key={t.id}
                         onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
                         style={{
-                          minWidth: 200, maxWidth: 240, flexShrink: 0,
+                          minWidth: 220, maxWidth: 280, flexShrink: 0,
                           background: '#fff', borderRadius: 10, padding: '11px 13px',
                           boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
                           border: '1px solid #ECECEF', borderLeft,
@@ -471,14 +471,14 @@ export default function DashboardPage() {
                         {/* Rank + geo badge row */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                           <span style={{
-                            fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                            fontSize: 10.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
                             background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.04em',
                           }}>
                             #{t.rank}
                           </span>
                           {t.es_evento_geo && (
                             <span style={{
-                              fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                              fontSize: 10, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
                               background: '#c42c2c18', color: '#c42c2c', letterSpacing: '0.04em',
                             }}>
                               GEO
@@ -487,19 +487,19 @@ export default function DashboardPage() {
                         </div>
 
                         {/* Termino */}
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                           {t.termino}
                         </div>
 
                         {/* Fuente */}
-                        <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 500 }}>
+                        <div style={{ fontSize: 12, color: '#6e6e73', fontWeight: 500 }}>
                           {t.fuente}
                         </div>
 
                         {/* Resumen */}
                         {t.resumen && (
                           <div style={{
-                            fontSize: 12, color: '#444', lineHeight: 1.4,
+                            fontSize: 13, color: '#444', lineHeight: 1.4,
                             display: '-webkit-box',
                             WebkitLineClamp: 2,
                             WebkitBoxOrient: 'vertical',
@@ -514,7 +514,7 @@ export default function DashboardPage() {
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
                             {t.paises_mencionados.slice(0, 3).map(p => (
                               <span key={p} style={{
-                                fontSize: 9, padding: '1px 5px', borderRadius: 999,
+                                fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
                                 background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
                                 border: '1px solid #dce6ff',
                               }}>
@@ -530,7 +530,7 @@ export default function DashboardPage() {
                             <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
                           </div>
                           {t.url && (
-                            <span style={{ fontSize: 12, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
+                            <span style={{ fontSize: 13, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
                           )}
                         </div>
                       </div>
@@ -555,12 +555,12 @@ export default function DashboardPage() {
                       onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                       onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                     >
-                      <div style={{ fontWeight: 700, fontSize: 12, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
+                      <div style={{ fontWeight: 700, fontSize: 13, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
                         {t.termino}
                       </div>
                       {t.resumen && (
                         <div style={{
-                          fontSize: 11, color: '#444', lineHeight: 1.4, marginBottom: 6,
+                          fontSize: 12, color: '#444', lineHeight: 1.4, marginBottom: 6,
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
@@ -573,7 +573,7 @@ export default function DashboardPage() {
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
                           {t.paises_mencionados.map(p => (
                             <span key={p} style={{
-                              fontSize: 9, padding: '1px 5px', borderRadius: 999,
+                              fontSize: 10.5, padding: '1px 5px', borderRadius: 999,
                               background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
                               border: '1px solid #dce6ff',
                             }}>
@@ -582,7 +582,7 @@ export default function DashboardPage() {
                           ))}
                         </div>
                       )}
-                      <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
+                      <div style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
                     </div>
                   ))}
                 </div>
@@ -597,10 +597,10 @@ export default function DashboardPage() {
           {/* Pulso informativo */}
           <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
                 Pulso informativo
               </h2>
-              <button onClick={() => router.push('/medios-narrativa')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: '#6E6E73', fontFamily: 'inherit' }}>
+              <button onClick={() => router.push('/medios-narrativa')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#6E6E73', fontFamily: 'inherit' }}>
                 Feed completo →
               </button>
             </div>
@@ -614,8 +614,8 @@ export default function DashboardPage() {
                       borderBottom: i < 4 ? '1px solid var(--hairline)' : 'none',
                     }}>
                       <div style={{ minWidth: 0 }}>
-                        <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
-                        <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
+                        <div style={{ fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
+                        <div style={{ fontSize: 11.5, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
                           <span style={{ fontWeight: 600 }}>{n.source}</span>
                           {sanitizeParties(n.parties) && <span>· {sanitizeParties(n.parties)}</span>}
                         </div>
@@ -623,7 +623,7 @@ export default function DashboardPage() {
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: 3 }}>
                         {/* Source badge */}
                         <span style={{
-                          fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
+                          fontSize: 10, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
                           background: `${sentColor}18`, color: sentColor, letterSpacing: '0.03em',
                           maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         }}>
@@ -652,10 +652,10 @@ export default function DashboardPage() {
                         </div>
                         {/* Relevance + sentiment label */}
                         <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                          <span style={{ fontSize: 8.5, color: '#6E6E73', fontWeight: 500 }}>
+                          <span style={{ fontSize: 10, color: '#6E6E73', fontWeight: 500 }}>
                             rel {(n.relevance * 100).toFixed(0)}%
                           </span>
-                          <span style={{ fontSize: 9, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
+                          <span style={{ fontSize: 10.5, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
                             {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
                           </span>
                         </div>
@@ -676,7 +676,7 @@ export default function DashboardPage() {
 
             {/* Header + tab toggle */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
                 Mapa territorial
               </h2>
               <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
@@ -684,7 +684,7 @@ export default function DashboardPage() {
                   <button key={tab} onClick={() => setMapTab(tab)} style={{
                     background: mapTab === tab ? '#fff' : 'transparent',
                     border: 'none', cursor: 'pointer', borderRadius: 6,
-                    padding: '3px 8px', fontSize: 10, fontWeight: 600,
+                    padding: '3px 8px', fontSize: 11.5, fontWeight: 600,
                     color: mapTab === tab ? '#1d1d1f' : '#6e6e73',
                     fontFamily: 'inherit', letterSpacing: '0.01em',
                     boxShadow: mapTab === tab ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
@@ -716,7 +716,7 @@ export default function DashboardPage() {
                             display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                             cursor: 'pointer',
                           }}>
-                          <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
+                          <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
                           <div style={{ fontSize: cell.height >= 64 ? 11 : 9.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
                         </div>
                       )
@@ -737,14 +737,14 @@ export default function DashboardPage() {
                             cursor: 'pointer',
                             borderLeft: `3px solid ${dirColor}`,
                           }}>
-                          <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
+                          <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
                           {cell.height >= 52 ? (
                             <div>
                               <div style={{ fontSize: cell.height >= 64 ? 10.5 : 9, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
-                              <div style={{ fontSize: 9, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
+                              <div style={{ fontSize: 10.5, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
                             </div>
                           ) : (
-                            <div style={{ fontSize: 9, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
+                            <div style={{ fontSize: 10.5, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
                           )}
                         </div>
                       )
@@ -763,13 +763,13 @@ export default function DashboardPage() {
                           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                           cursor: 'pointer', transition: 'background 600ms ease',
                         }}>
-                        <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
+                        <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
                         {region && cell.height >= 52 ? (
                           <div>
-                            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
+                            <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MIXTO'}
                             </div>
-                            <div style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
+                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
                               PP {region.pp_pct.toFixed(1)}% · PSOE {region.psoe_pct.toFixed(1)}%
                             </div>
                             <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
@@ -784,7 +784,7 @@ export default function DashboardPage() {
                               {REGION_LABEL[lean]}
                             </div>
                             {diff !== 0 && (
-                              <div style={{ fontSize: 8.5, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
+                              <div style={{ fontSize: 10, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
                                 {diff > 0 ? '+' : ''}{Math.round(diff)} esc.
                               </div>
                             )}
@@ -792,7 +792,7 @@ export default function DashboardPage() {
                         ) : region ? (
                           // Small cell with real data: label + proportional bar
                           <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
+                            <div style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MX'}
                             </div>
                             <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
@@ -802,7 +802,7 @@ export default function DashboardPage() {
                             </div>
                           </div>
                         ) : (
-                          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                          <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                             {REGION_LABEL[lean]}
                           </div>
                         )}
@@ -815,7 +815,7 @@ export default function DashboardPage() {
 
             {/* Trending figures strip */}
             <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
-              <div style={{ fontSize: 9.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
                 Figuras en tendencia
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
@@ -831,10 +831,10 @@ export default function DashboardPage() {
                     onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F5' }}
                     onMouseLeave={e => { e.currentTarget.style.background = '#F9F9FB' }}>
                       <div style={{ width: '100%', height: 2, background: f.color, borderRadius: 1, marginBottom: 5 }}/>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, color: '#1d1d1f', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.name}</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.name}</div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: 8.5, color: '#6e6e73' }}>{f.party}</span>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: trendColor }}>{arrow}{f.trend}</span>
+                        <span style={{ fontSize: 10, color: '#6e6e73' }}>{f.party}</span>
+                        <span style={{ fontSize: 10.5, fontWeight: 700, color: trendColor }}>{arrow}{f.trend}</span>
                       </div>
                     </button>
                   )
@@ -852,10 +852,10 @@ export default function DashboardPage() {
         */}
         <section style={{ marginTop: 24 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
               Centros de inteligencia
             </h2>
-            <span style={{ fontSize: 10.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
               {MODULES.length} módulos · click para abrir
             </span>
           </div>
@@ -872,14 +872,14 @@ export default function DashboardPage() {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
                   {m.tag && (
-                    <span style={{ fontSize: 8.5, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
                       {m.tag}
                     </span>
                   )}
                 </div>
-                <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
+                <p style={{ margin: 0, fontSize: 12, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
               </button>
             ))}
           </div>
@@ -887,7 +887,7 @@ export default function DashboardPage() {
 
       </main>
 
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11 }}>
+      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 12 }}>
         Politeia Analítica · {new Date().getFullYear()}
         <span style={{ marginLeft: 16 }}><LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60}/></span>
       </footer>
