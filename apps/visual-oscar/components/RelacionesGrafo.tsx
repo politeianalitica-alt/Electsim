@@ -93,8 +93,8 @@ function buildLinks(visible: Actor[]): InferredLink[] {
   // Ordena inferidas por intensidad descendente
   inferidas.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
 
-  // 3. Combina · explícitas siempre + hasta completar 180 con inferidas
-  return [...explicitas, ...inferidas].slice(0, 180)
+  // 3. Combina · explícitas siempre + hasta completar 280 con inferidas
+  return [...explicitas, ...inferidas].slice(0, 280)
 }
 function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   const pa = a.partido || 'Independiente'
@@ -146,7 +146,7 @@ function antiCollide(positions: Record<string, [number, number]>, radii: Record<
   return result
 }
 
-export default function RelacionesGrafo({ actors = [], maxActors = 80 }: Props) {
+export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props) {
   const [focus, setFocus] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
   const [hoveredLink, setHoveredLink] = useState<number | null>(null)

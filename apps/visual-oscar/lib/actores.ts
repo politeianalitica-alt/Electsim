@@ -486,6 +486,44 @@ const BASE_EXTENDED: Base[] = [
   { nombre:'Julia Otero',           partido:'Medios',   cargo:'Periodista · Onda Cero · Julia en la Onda',   cat:'mediatico' },
   { nombre:'Carlos Alsina',         partido:'Medios',   cargo:'Periodista · Onda Cero · Más de uno',         cat:'mediatico' },
 
+  // ── MINISTRO INDUSTRIA ──
+  { nombre:'Jordi Hereu',           partido:'PSOE',      cargo:'Ministro de Industria y Turismo · ex alcalde Barcelona',       cat:'gobierno' },
+
+  // ── CASA REAL ──
+  { nombre:'Letizia Ortiz',         partido:'Casa Real', cargo:'Reina de España',                                             cat:'institucion' },
+  { nombre:'Juan Carlos I',         partido:'Casa Real', cargo:'Rey emérito · residente en Abu Dabi',                          cat:'institucion' },
+
+  // ── CASOS JUDICIALES ACTIVOS · entorno PSOE ──
+  { nombre:'Begoña Gómez',          partido:'Independiente', cargo:'Esposa del presidente · investigada por juez Peinado',     cat:'institucion' },
+  { nombre:'José Luis Ábalos',      partido:'Independiente', cargo:'Ex ministro Transportes · expulsado grupo PSOE · caso Koldo', cat:'parlamento' },
+  { nombre:'Koldo García',          partido:'Independiente', cargo:'Ex asesor de Ábalos · imputado caso Koldo · mascarillas',   cat:'institucion' },
+  { nombre:'Víctor de Aldama',      partido:'Independiente', cargo:'Empresario · acusa al gobierno · trama hidrocarburos',     cat:'institucion' },
+
+  // ── PODEMOS (separados de Sumar) ──
+  { nombre:'Ione Belarra',          partido:'Podemos',   cargo:'Secretaria General de Podemos · ex ministra Derechos Sociales', cat:'oposicion' },
+  { nombre:'Irene Montero',         partido:'Podemos',   cargo:'Eurodiputada · ex ministra Igualdad',                          cat:'europa' },
+  { nombre:'Pablo Echenique',       partido:'Podemos',   cargo:'Activista digital · ex portavoz parlamentario Podemos',        cat:'oposicion' },
+
+  // ── VOX secundarios ──
+  { nombre:'Iván Espinosa de los Monteros', partido:'Independiente', cargo:'Ex portavoz de VOX en el Congreso · ahora Atenea',  cat:'parlamento' },
+  { nombre:'Javier Ortega Smith',   partido:'VOX',       cargo:'Secretario adjunto VOX · concejal Madrid',                     cat:'municipal' },
+  { nombre:'Rocío Monasterio',      partido:'VOX',       cargo:'Presidenta del Comité Ejecutivo VOX Madrid',                   cat:'autonomico' },
+
+  // ── MEDIÁTICOS extra ──
+  { nombre:'Federico Jiménez Losantos', partido:'Medios', cargo:'Director de esRadio · agenda conservadora',                   cat:'mediatico' },
+
+  // ── INTERNACIONAL / UE clave ──
+  { nombre:'Josep Borrell',         partido:'PSOE',      cargo:'Ex Alto Representante UE para Asuntos Exteriores',             cat:'europa' },
+  { nombre:'Nadia Calviño',         partido:'PSOE',      cargo:'Presidenta del Banco Europeo de Inversiones (BEI)',            cat:'europa' },
+  { nombre:'Teresa Ribera',         partido:'PSOE',      cargo:'Vicepresidenta de la Comisión Europea · Competencia',          cat:'europa' },
+  { nombre:'Roberta Metsola',       partido:'Independiente', cargo:'Presidenta del Parlamento Europeo',                       cat:'europa' },
+  { nombre:'Manfred Weber',         partido:'Independiente', cargo:'Presidente del PPE · alemán',                              cat:'europa' },
+  { nombre:'Donald Tusk',           partido:'Independiente', cargo:'Primer Ministro de Polonia · líder PPE',                   cat:'europa' },
+  { nombre:'Lula da Silva',         partido:'Independiente', cargo:'Presidente de Brasil',                                     cat:'europa' },
+  { nombre:'Javier Milei',          partido:'Independiente', cargo:'Presidente de Argentina',                                  cat:'europa' },
+  { nombre:'Marine Le Pen',         partido:'Independiente', cargo:'Líder Rassemblement National · Francia',                   cat:'europa' },
+  { nombre:'Viktor Orbán',          partido:'Independiente', cargo:'Primer Ministro de Hungría',                               cat:'europa' },
+
   // ── EX-PRESIDENTES Y FIGURAS HISTÓRICAS ──
   { nombre:'José María Aznar',     partido:'PP',        cargo:'Ex-presidente del Gobierno · presidente FAES',                cat:'oposicion' },
   { nombre:'Mariano Rajoy',        partido:'PP',        cargo:'Ex-presidente del Gobierno · expresidente PP',                cat:'oposicion' },

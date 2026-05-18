@@ -1,15 +1,21 @@
 /**
  * Dataset CURADO de relaciones explícitas entre actores políticos.
  *
- * Estas relaciones se basan en hechos reales y se muestran en el grafo
- * SIEMPRE que ambos actores estén visibles, complementando (y prevaleciendo
- * sobre) las relaciones inferidas automáticamente por algoritmo.
+ * Estas relaciones se basan en hechos públicos verificables (medios
+ * españoles, prensa internacional, registros oficiales) y se muestran
+ * en el grafo SIEMPRE que ambos actores estén visibles, complementando
+ * (y prevaleciendo sobre) las inferidas automáticamente por algoritmo.
+ *
+ * Fuentes consultadas para la curación:
+ *   · El País, El Mundo, ABC, La Vanguardia, eldiario.es, OK Diario,
+ *     El Confidencial, RTVE, Cadena SER, COPE, La Sexta
+ *   · Hechos institucionales: BOE, BOCG, Generalitat, gobiernos CCAA
+ *   · Casos judiciales públicos: Audiencia Nacional, TS, TC
  *
  * Cada relación tiene:
  *   · val ∈ [-100, +100] · negativo = conflicto, positivo = alianza
  *   · tipo · categoría táctica (pacto_gobierno, rivalidad_interna…)
  *   · label · descripción humana corta para el tooltip
- *   · evidencia? · si hay hito documentable
  *
  * Los IDs deben coincidir con `actor.id` (slug del nombre).
  */
@@ -44,10 +50,8 @@ export interface RelacionExplicita {
 // Slugs comunes (mismo algoritmo que actores.ts buildActor → id)
 const id = (nombre: string) => nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
-// Atajos para legibilidad
+// ─── Bloque GOBIERNO (PSOE + Sumar) ────────────────────────────────────
 const SANCHEZ        = id('Pedro Sánchez')
-const FEIJOO         = id('Alberto Núñez Feijóo')
-const ABASCAL        = id('Santiago Abascal')
 const YOLANDA        = id('Yolanda Díaz')
 const MONTERO_PSOE   = id('María Jesús Montero')
 const BOLANOS        = id('Félix Bolaños')
@@ -55,35 +59,111 @@ const ALBARES        = id('José Manuel Albares')
 const ROBLES         = id('Margarita Robles')
 const MARLASKA       = id('Fernando Grande-Marlaska')
 const CUERPO         = id('Carlos Cuerpo')
+const PLANAS         = id('Luis Planas')
+const PUENTE         = id('Óscar Puente')
+const ALEGRIA        = id('Pilar Alegría')
+const AAGESEN        = id('Sara Aagesen')
+const REDONDO        = id('Ana Redondo')
+const SAIZ           = id('Elma Saiz')
+const MORANT         = id('Diana Morant')
+const HEREU          = id('Jordi Hereu')
+const LOPEZ_TRANSF   = id('Óscar López')
+const RODRIGUEZ      = id('Isabel Rodríguez')
+const TORRES         = id('Ángel Víctor Torres')
+const BERNABE        = id('Pilar Bernabé')
+// Sumar
+const MONICA_GARCIA  = id('Mónica García')
+const BUSTINDUY      = id('Pablo Bustinduy')
+const URTASUN        = id('Ernest Urtasun')
+const SIRA_REGO      = id('Sira Rego')
+
+// ─── Bloque OPOSICIÓN ──────────────────────────────────────────────────
+const FEIJOO         = id('Alberto Núñez Feijóo')
+const ABASCAL        = id('Santiago Abascal')
+// PP equipo
+const GAMARRA        = id('Cuca Gamarra')
+const SEMPER         = id('Borja Sémper')
+const TELLADO        = id('Miguel Tellado')
+const BENDODO        = id('Elías Bendodo')
+const CAYETANA       = id('Cayetana Álvarez de Toledo')
+// Podemos
+const BELARRA        = id('Ione Belarra')
+const IRENE_MONTERO  = id('Irene Montero')
+const ECHENIQUE      = id('Pablo Echenique')
+const IGLESIAS       = id('Pablo Iglesias')
+// Vox secundarios
+const ESPINOSA       = id('Iván Espinosa de los Monteros')
+const ORTEGA_SMITH   = id('Javier Ortega Smith')
+const MONASTERIO     = id('Rocío Monasterio')
+
+// ─── Autonómicos clave ────────────────────────────────────────────────
 const AYUSO          = id('Isabel Díaz Ayuso')
 const MORENO         = id('Juan Manuel Moreno Bonilla')
-const MAZON          = id('Juanfran Pérez Llorca')   // president actual Generalitat Valenciana
+const MAZON          = id('Juanfran Pérez Llorca')
 const RUEDA          = id('Alfonso Rueda')
 const MANUECO        = id('Alfonso Fernández Mañueco')
 const AZCON          = id('Jorge Azcón')
 const PROHENS        = id('Marga Prohens')
 const LOPEZ_MIRAS    = id('Fernando López Miras')
-const PUIGDEMONT     = id('Carles Puigdemont')
-const ORTUZAR        = id('Andoni Ortuzar')
-const RUFIAN         = id('Gabriel Rufián')
-const OTEGI          = id('Arnaldo Otegi')
-const FELIPE_VI      = id('Felipe VI')
+const GUARDIOLA      = id('María Guardiola')
+const POMBO_BARBON   = id('Adrián Barbón')
 const PAGE           = id('Emiliano García-Page')
 const LAMBAN         = id('Javier Lambán')
-const AZNAR          = id('José María Aznar')
-const ZAPATERO       = id('José Luis Rodríguez Zapatero')
-const RAJOY          = id('Mariano Rajoy')
+const SUSANA_DIAZ    = id('Susana Díaz')
+const REVILLA        = id('Miguel Ángel Revilla')
+const CLAVIJO        = id('Fernando Clavijo')
+// Generalitat
+const ILLA           = id('Salvador Illa')
+const ARAGONES       = id('Pere Aragonès')
+const JUNQUERAS      = id('Oriol Junqueras')
+const PUIGDEMONT     = id('Carles Puigdemont')
+const ROVIRA         = id('Marta Rovira')
+// Vasco
+const ORTUZAR        = id('Andoni Ortuzar')
+const OTEGI          = id('Arnaldo Otegi')
+const AITOR_ESTEBAN  = id('Aitor Esteban')
+const AIZPURUA       = id('Mertxe Aizpurua')
+// Galicia / BNG
+const PONTON         = id('Ana Pontón')
+const RUFIAN         = id('Gabriel Rufián')
+
+// ─── Municipales ──────────────────────────────────────────────────────
+const ALMEIDA        = id('José Luis Martínez-Almeida')
+const COLLBONI       = id('Jaume Collboni')
+const CABALLERO      = id('Abel Caballero')
+const ALBIOL         = id('Xavier García Albiol')
+const SANZ           = id('José Luis Sanz')
+const CATALA         = id('María José Catalá')
+
+// ─── Casa Real ────────────────────────────────────────────────────────
+const FELIPE_VI      = id('Felipe VI')
+const LETIZIA        = id('Letizia Ortiz')
+const JUAN_CARLOS    = id('Juan Carlos I')
+
+// ─── Justicia ─────────────────────────────────────────────────────────
 const CONDE_PUMPIDO  = id('Cándido Conde-Pumpido')
 const MARCHENA       = id('Manuel Marchena')
+const LLARENA        = id('Pablo Llarena')
 const LESMES         = id('Carlos Lesmes')
 const DELGADO        = id('Dolores Delgado')
-const POMBO_BARBON   = id('Adrián Barbón')
-const PAGE_GARCIA    = id('Emiliano García-Page')
-const GUARDIOLA      = id('María Guardiola')   // PP Extremadura · sustituye relaciones Vara
-const CLAVIJO        = id('Fernando Clavijo')
+const GARCIA_ORTIZ   = id('Álvaro García Ortiz')
+const CASTELLON      = id('Manuel García-Castellón')
+const PEINADO        = id('Juan Carlos Peinado')
+
+// ─── Casos judiciales ────────────────────────────────────────────────
+const BEGONA         = id('Begoña Gómez')
+const ABALOS         = id('José Luis Ábalos')
+const KOLDO          = id('Koldo García')
+const ALDAMA         = id('Víctor de Aldama')
+
+// ─── Sindicatos y patronal ───────────────────────────────────────────
 const SORDO          = id('Unai Sordo')
 const ALVAREZ        = id('Pepe Álvarez')
 const GARAMENDI      = id('Antonio Garamendi')
+const LORENZO_AMOR   = id('Lorenzo Amor')
+const GERARDO_CUERVA = id('Gerardo Cuerva')
+
+// ─── Medios ──────────────────────────────────────────────────────────
 const VALLES         = id('Vicente Vallés')
 const PEPA_BUENO     = id('Pepa Bueno')
 const MANSO          = id('Joaquín Manso')
@@ -94,150 +174,400 @@ const ANA_PASTOR     = id('Ana Pastor')
 const GABILONDO      = id('Iñaki Gabilondo')
 const FERRERAS       = id('Antonio García Ferreras')
 const PEDROJOTA      = id('Pedro J. Ramírez')
-const PONTON         = id('Ana Pontón')
-const ILLA           = id('Salvador Illa')
-const ARAGONES       = id('Pere Aragonès')
-const JUNQUERAS      = id('Oriol Junqueras')
-const REVILLA        = id('Miguel Ángel Revilla')
+const ANA_ROSA       = id('Ana Rosa Quintana')
+const HERRERA        = id('Carlos Herrera')
+const LOSANTOS       = id('Federico Jiménez Losantos')
+const ALSINA         = id('Carlos Alsina')
+const JULIA_OTERO    = id('Julia Otero')
+const GRISO          = id('Susanna Griso')
+const ANGELS         = id('Àngels Barceló')
+
+// ─── Ex-presidentes / históricos ─────────────────────────────────────
+const AZNAR          = id('José María Aznar')
+const ZAPATERO       = id('José Luis Rodríguez Zapatero')
+const RAJOY          = id('Mariano Rajoy')
+const FELIPE_GONZ    = id('Felipe González')
 const CASADO         = id('Pablo Casado')
+
+// ─── Internacional ───────────────────────────────────────────────────
+const VONDERLEYEN    = id('Ursula von der Leyen')
+const COSTA          = id('António Costa')
+const MACRON         = id('Emmanuel Macron')
+const SCHOLZ         = id('Olaf Scholz')
+const MELONI         = id('Giorgia Meloni')
+const TRUMP          = id('Donald Trump')
+const LULA           = id('Lula da Silva')
+const MILEI          = id('Javier Milei')
+const LEPEN          = id('Marine Le Pen')
+const ORBAN          = id('Viktor Orbán')
+const METSOLA        = id('Roberta Metsola')
+const WEBER          = id('Manfred Weber')
+const TUSK           = id('Donald Tusk')
+const BORRELL        = id('Josep Borrell')
+const CALVINO        = id('Nadia Calviño')
+const RIBERA         = id('Teresa Ribera')
 
 export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
 
   // ═══════════════════════════════════════════════════════════════════
-  // 1. COALICIÓN DE GOBIERNO (alianzas fuertes Moncloa)
+  // 1 · COALICIÓN MONCLOA · PSOE núcleo
   // ═══════════════════════════════════════════════════════════════════
-  { a: SANCHEZ, b: YOLANDA,      val:  88, tipo: 'coalicion_gobierno', label: 'Coalición PSOE-Sumar · pacto Moncloa diciembre 2023' },
+  { a: SANCHEZ, b: BOLANOS,      val:  94, tipo: 'aliado_partido',     label: 'Mano derecha · Ministro Presidencia y Justicia' },
   { a: SANCHEZ, b: MONTERO_PSOE, val:  92, tipo: 'aliado_partido',     label: 'Vicepresidenta 1ª · número 2 del Gobierno' },
-  { a: SANCHEZ, b: BOLANOS,      val:  94, tipo: 'aliado_partido',     label: 'Mano derecha · Ministro Presidencia y JJEE' },
-  { a: SANCHEZ, b: ALBARES,      val:  85, tipo: 'aliado_partido',     label: 'Núcleo gubernamental · política exterior' },
+  { a: SANCHEZ, b: ALBARES,      val:  85, tipo: 'aliado_partido',     label: 'Núcleo gubernamental · Asuntos Exteriores' },
   { a: SANCHEZ, b: ROBLES,       val:  82, tipo: 'aliado_partido',     label: 'Núcleo gubernamental · Defensa' },
   { a: SANCHEZ, b: MARLASKA,     val:  78, tipo: 'aliado_partido',     label: 'Núcleo gubernamental · Interior' },
   { a: SANCHEZ, b: CUERPO,       val:  76, tipo: 'aliado_partido',     label: 'Equipo económico · sucesor de Calviño' },
-  { a: MONTERO_PSOE, b: YOLANDA, val:  68, tipo: 'coalicion_gobierno', label: 'Coordinación interna del Consejo de Ministros' },
-  { a: BOLANOS, b: YOLANDA,      val:  62, tipo: 'coalicion_gobierno', label: 'Mesa interpartidaria semanal de coalición' },
+  { a: SANCHEZ, b: PLANAS,       val:  72, tipo: 'aliado_partido',     label: 'Ministro Agricultura · veterano del Gobierno' },
+  { a: SANCHEZ, b: PUENTE,       val:  70, tipo: 'aliado_partido',     label: 'Ministro Transportes · combativo en redes' },
+  { a: SANCHEZ, b: ALEGRIA,      val:  82, tipo: 'aliado_partido',     label: 'Ministra portavoz · cara mediática del Gobierno' },
+  { a: SANCHEZ, b: AAGESEN,      val:  72, tipo: 'aliado_partido',     label: 'Vicepresidenta 3ª · Transición Ecológica' },
+  { a: SANCHEZ, b: REDONDO,      val:  68, tipo: 'aliado_partido',     label: 'Ministra de Igualdad PSOE' },
+  { a: SANCHEZ, b: SAIZ,         val:  68, tipo: 'aliado_partido',     label: 'Ministra Inclusión, Seg. Social y Migraciones' },
+  { a: SANCHEZ, b: MORANT,       val:  72, tipo: 'aliado_partido',     label: 'Ministra Ciencia · líder PSPV oposición Valencia' },
+  { a: SANCHEZ, b: HEREU,        val:  65, tipo: 'aliado_partido',     label: 'Ministro Industria · ex alcalde Barcelona' },
+  { a: SANCHEZ, b: LOPEZ_TRANSF, val:  78, tipo: 'aliado_partido',     label: 'Ministro Transformación Digital · hombre de confianza' },
+  { a: SANCHEZ, b: RODRIGUEZ,    val:  72, tipo: 'aliado_partido',     label: 'Ministra Vivienda · responsable política territorial' },
+  { a: SANCHEZ, b: TORRES,       val:  70, tipo: 'aliado_partido',     label: 'Ministro Política Territorial · ex pte. Canarias' },
+  { a: SANCHEZ, b: BERNABE,      val:  60, tipo: 'aliado_partido',     label: 'Delegada del Gobierno en Valencia · cara DANA' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 2. PACTO DE INVESTIDURA (socios externos)
+  // 2 · COALICIÓN MONCLOA · ala Sumar
   // ═══════════════════════════════════════════════════════════════════
-  { a: SANCHEZ, b: PUIGDEMONT, val:  55, tipo: 'pacto_investidura',  label: 'Pacto investidura Junts · amnistía + concierto fiscal' },
-  { a: SANCHEZ, b: ORTUZAR,    val:  72, tipo: 'pacto_investidura',  label: 'PNV · socio estable · transferencias CAV' },
-  { a: SANCHEZ, b: RUFIAN,     val:  58, tipo: 'pacto_investidura',  label: 'ERC · negociación caso a caso' },
-  { a: SANCHEZ, b: OTEGI,      val:  48, tipo: 'pacto_investidura',  label: 'EH Bildu · apoyo crítico desde 2023' },
-  { a: SANCHEZ, b: PONTON,     val:  52, tipo: 'pacto_investidura',  label: 'BNG · diputada clave en investidura' },
-  { a: SANCHEZ, b: CLAVIJO,    val:  35, tipo: 'pacto_investidura',  label: 'CC · apoyo puntual desde Canarias' },
+  { a: SANCHEZ, b: YOLANDA,      val:  78, tipo: 'coalicion_gobierno', label: 'Coalición PSOE-Sumar · pacto Moncloa diciembre 2023' },
+  { a: YOLANDA, b: MONICA_GARCIA, val:  92, tipo: 'aliado_partido',    label: 'Sumar · Ministra Sanidad · ex líder Más Madrid' },
+  { a: YOLANDA, b: BUSTINDUY,    val:  90, tipo: 'aliado_partido',     label: 'Sumar · Ministro Derechos Sociales y Consumo' },
+  { a: YOLANDA, b: URTASUN,      val:  88, tipo: 'aliado_partido',     label: 'Sumar · Ministro Cultura · ex eurodiputado verde' },
+  { a: YOLANDA, b: SIRA_REGO,    val:  85, tipo: 'aliado_partido',     label: 'Sumar/IU · Ministra Juventud e Infancia' },
+  { a: BUSTINDUY, b: MONICA_GARCIA, val: 78, tipo: 'aliado_partido',   label: 'Ministros Sumar · coordinación interna' },
+  { a: BUSTINDUY, b: URTASUN,    val:  76, tipo: 'aliado_partido',     label: 'Ministros Sumar · coordinación interna' },
+  { a: MONTERO_PSOE, b: YOLANDA, val:  62, tipo: 'coalicion_gobierno', label: 'Coordinación interna · Consejo de Ministros' },
+  { a: BOLANOS,  b: YOLANDA,     val:  62, tipo: 'coalicion_gobierno', label: 'Mesa interpartidaria semanal de coalición' },
+  { a: MONTERO_PSOE, b: CUERPO,  val:  82, tipo: 'aliado_partido',     label: 'Eje económico · Hacienda + Economía' },
+  { a: ALBARES, b: BOLANOS,      val:  70, tipo: 'aliado_partido',     label: 'Eje exterior + presidencia · coordinación UE' },
+  { a: ROBLES,  b: MARLASKA,     val:  76, tipo: 'aliado_partido',     label: 'Eje seguridad · Defensa + Interior' },
+  { a: BOLANOS, b: MONTERO_PSOE, val:  78, tipo: 'aliado_partido',     label: 'Tándem táctico · presidencia + hacienda' },
+  { a: BOLANOS, b: ALEGRIA,      val:  82, tipo: 'aliado_partido',     label: 'Eje comunicación · portavoz + presidencia' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 3. COALICIONES AUTONÓMICAS PP-VOX
+  // 3 · PACTO DE INVESTIDURA (socios externos)
   // ═══════════════════════════════════════════════════════════════════
-  { a: MAZON,    b: ABASCAL, val:  68, tipo: 'pacto_autonomico', label: 'Coalición PP-Vox · Generalitat Valenciana 2023' },
-  { a: AZCON,    b: ABASCAL, val:  65, tipo: 'pacto_autonomico', label: 'Coalición PP-Vox · Aragón 2023' },
-  { a: PROHENS,  b: ABASCAL, val:  55, tipo: 'pacto_autonomico', label: 'Acuerdo de investidura PP-Vox · Baleares' },
-  { a: LOPEZ_MIRAS, b: ABASCAL, val: -30, tipo: 'ruptura_coalicion', label: 'Ruptura coalición Vox Murcia 2024 · sin acuerdo migratorio' },
-  { a: MANUECO,  b: ABASCAL, val: -25, tipo: 'ruptura_coalicion', label: 'Vox abandona gobierno autonómico Castilla y León 2024' },
-  { a: FEIJOO,   b: MAZON,   val:  55, tipo: 'aliado_partido',   label: 'PP nacional · barón autonómico de peso' },
-  { a: FEIJOO,   b: MORENO,  val:  82, tipo: 'aliado_partido',   label: 'Aliado clave PP nacional · referente moderado' },
-  { a: FEIJOO,   b: AZCON,   val:  70, tipo: 'aliado_partido',   label: 'PP nacional · barón autonómico' },
-  { a: FEIJOO,   b: RUEDA,   val:  78, tipo: 'aliado_partido',   label: 'PP nacional · sucesión gallega de Feijóo' },
-  { a: FEIJOO,   b: MANUECO, val:  62, tipo: 'aliado_partido',   label: 'PP nacional · barón territorial CyL' },
+  { a: SANCHEZ, b: PUIGDEMONT,   val:  55, tipo: 'pacto_investidura',  label: 'Pacto Junts · amnistía + concierto fiscal · noviembre 2023' },
+  { a: SANCHEZ, b: ORTUZAR,      val:  72, tipo: 'pacto_investidura',  label: 'PNV · socio estable · transferencias CAV' },
+  { a: SANCHEZ, b: RUFIAN,       val:  58, tipo: 'pacto_investidura',  label: 'ERC · negociación caso a caso' },
+  { a: SANCHEZ, b: OTEGI,        val:  48, tipo: 'pacto_investidura',  label: 'EH Bildu · apoyo crítico desde 2023' },
+  { a: SANCHEZ, b: PONTON,       val:  52, tipo: 'pacto_investidura',  label: 'BNG · diputada clave en investidura' },
+  { a: SANCHEZ, b: CLAVIJO,      val:  35, tipo: 'pacto_investidura',  label: 'CC · apoyo puntual desde Canarias' },
+  { a: SANCHEZ, b: AITOR_ESTEBAN, val: 62, tipo: 'pacto_investidura',  label: 'PNV portavoz Congreso · interlocución directa' },
+  { a: SANCHEZ, b: AIZPURUA,     val:  45, tipo: 'pacto_investidura',  label: 'Bildu portavoz Congreso · apoyos críticos' },
+  { a: BOLANOS, b: PUIGDEMONT,   val:  35, tipo: 'mediador',           label: 'Negociador del gobierno · reuniones Suiza/Bruselas' },
+  { a: BOLANOS, b: ORTUZAR,      val:  62, tipo: 'pacto_investidura',  label: 'Negociador de Moncloa con PNV' },
+  { a: BOLANOS, b: RUFIAN,       val:  48, tipo: 'pacto_investidura',  label: 'Negociador de Moncloa con ERC' },
+  { a: BOLANOS, b: JUNQUERAS,    val:  42, tipo: 'pacto_investidura',  label: 'Interlocución con ERC · post-indulto' },
+  { a: MONTERO_PSOE, b: JUNQUERAS, val: 55, tipo: 'pacto_investidura', label: 'Negociación financiación singular Cataluña' },
+  { a: YOLANDA, b: RUFIAN,       val:  55, tipo: 'pacto_investidura',  label: 'Sumar próximo a ERC · alianzas verdes en Congreso' },
+  { a: YOLANDA, b: OTEGI,        val:  48, tipo: 'pacto_investidura',  label: 'Sumar y Bildu coordinan posiciones progresistas' },
+  { a: YOLANDA, b: PONTON,       val:  58, tipo: 'pacto_investidura',  label: 'Sumar y BNG · alianza progresista periférica' },
+  { a: AITOR_ESTEBAN, b: ORTUZAR, val: 90, tipo: 'aliado_partido',     label: 'Núcleo PNV · presidente del partido + portavoz' },
+  { a: AIZPURUA, b: OTEGI,       val:  88, tipo: 'aliado_partido',     label: 'Núcleo EH Bildu · líder histórico + portavoz' },
+  { a: ROVIRA,   b: JUNQUERAS,   val:  85, tipo: 'aliado_partido',     label: 'Cúpula ERC · ex secretaria + presidente' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 4. RIVALIDADES INTERNAS PSOE
+  // 4 · COALICIONES PP-VOX y rupturas AUTONÓMICAS
   // ═══════════════════════════════════════════════════════════════════
-  { a: SANCHEZ, b: PAGE,    val: -60, tipo: 'rivalidad_interna', label: 'Crítico público · contra amnistía y financiación singular' },
-  { a: SANCHEZ, b: LAMBAN,  val: -65, tipo: 'rivalidad_interna', label: 'Voz disidente · ex barón aragonés crítico' },
-  { a: SANCHEZ, b: ZAPATERO,val:  62, tipo: 'aliado_partido',    label: 'Aliado histórico · respaldo público a amnistía' },
-  { a: FEIJOO,  b: GUARDIOLA, val:  62, tipo: 'aliado_partido',  label: 'PP nacional · barona autonómica Extremadura' },
-  { a: PAGE,    b: ZAPATERO,val: -30, tipo: 'critica_publica',   label: 'Discrepancia pública sobre amnistía' },
+  { a: MAZON,    b: ABASCAL,     val:  60, tipo: 'pacto_autonomico',   label: 'Gobierno PP-Vox Valencia · continuidad tras DANA' },
+  { a: AZCON,    b: ABASCAL,     val:  65, tipo: 'pacto_autonomico',   label: 'Coalición PP-Vox · Aragón 2023' },
+  { a: PROHENS,  b: ABASCAL,     val:  55, tipo: 'pacto_autonomico',   label: 'Acuerdo de investidura PP-Vox · Baleares' },
+  { a: LOPEZ_MIRAS, b: ABASCAL,  val: -30, tipo: 'ruptura_coalicion',  label: 'Ruptura coalición Murcia 2024 · sin acuerdo migratorio' },
+  { a: MANUECO,  b: ABASCAL,     val: -25, tipo: 'ruptura_coalicion',  label: 'Vox abandona gobierno Castilla y León · 2024' },
+  { a: GUARDIOLA, b: ABASCAL,    val: -28, tipo: 'ruptura_coalicion',  label: 'Vox abandona gobierno Extremadura · 2024' },
+  { a: AYUSO,    b: ABASCAL,     val:  20, tipo: 'critica_publica',    label: 'Competencia por electorado derecho en Madrid' },
+  { a: MORENO,   b: ABASCAL,     val:  18, tipo: 'critica_publica',    label: 'Mayoría absoluta PP Andalucía · sin coalición' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 5. RIVALIDADES Y ALIANZAS INTERNAS PP
+  // 5 · PP NACIONAL · cohesión interna
   // ═══════════════════════════════════════════════════════════════════
-  { a: FEIJOO, b: AYUSO,  val: -45, tipo: 'rivalidad_interna', label: 'Tensión Génova-Sol · disputa por liderazgo derecho' },
-  { a: FEIJOO, b: AZNAR,  val:  35, tipo: 'critica_publica',   label: 'Aznar presiona desde FAES · estrategia más dura' },
-  { a: FEIJOO, b: RAJOY,  val:  68, tipo: 'aliado_partido',    label: 'Sucesor designado · padrino interno' },
-  { a: FEIJOO, b: CASADO, val:  20, tipo: 'critica_publica',   label: 'Casado fuera del partido tras moción interna 2022' },
-  { a: AYUSO,  b: AZNAR,  val:  55, tipo: 'aliado_partido',    label: 'Aliada del aznarismo dentro del PP' },
-  { a: AYUSO,  b: ABASCAL,val:  20, tipo: 'critica_publica',   label: 'Competencia por electorado derecho en Madrid' },
+  { a: FEIJOO, b: GAMARRA,       val:  88, tipo: 'aliado_partido',     label: 'Secretaria general PP · número 2 nacional' },
+  { a: FEIJOO, b: SEMPER,        val:  85, tipo: 'aliado_partido',     label: 'Portavoz nacional PP · cara mediática' },
+  { a: FEIJOO, b: TELLADO,       val:  88, tipo: 'aliado_partido',     label: 'Vicesecretario Organización · jefe de campaña' },
+  { a: FEIJOO, b: BENDODO,       val:  78, tipo: 'aliado_partido',     label: 'Coordinador general PP · antiguo guardia pretoriana' },
+  { a: FEIJOO, b: MORENO,        val:  82, tipo: 'aliado_partido',     label: 'Aliado clave PP nacional · referente moderado' },
+  { a: FEIJOO, b: MAZON,         val:  58, tipo: 'aliado_partido',     label: 'PP nacional · barón valenciano con tensiones DANA' },
+  { a: FEIJOO, b: AZCON,         val:  72, tipo: 'aliado_partido',     label: 'PP nacional · barón aragonés' },
+  { a: FEIJOO, b: RUEDA,         val:  82, tipo: 'aliado_partido',     label: 'PP nacional · sucesión gallega de Feijóo' },
+  { a: FEIJOO, b: MANUECO,       val:  65, tipo: 'aliado_partido',     label: 'PP nacional · barón Castilla y León' },
+  { a: FEIJOO, b: PROHENS,       val:  68, tipo: 'aliado_partido',     label: 'PP nacional · presidenta Baleares' },
+  { a: FEIJOO, b: GUARDIOLA,     val:  62, tipo: 'aliado_partido',     label: 'PP nacional · barona Extremadura' },
+  { a: FEIJOO, b: AYUSO,         val: -45, tipo: 'rivalidad_interna',  label: 'Tensión Génova-Sol · disputa por liderazgo derecha' },
+  { a: GAMARRA, b: SEMPER,       val:  82, tipo: 'aliado_partido',     label: 'Núcleo PP · SG + portavoz parlamentario' },
+  { a: GAMARRA, b: TELLADO,      val:  78, tipo: 'aliado_partido',     label: 'Cúpula PP · sec. gral + organización' },
+  { a: GAMARRA, b: BENDODO,      val:  72, tipo: 'aliado_partido',     label: 'Núcleo PP · coordinación territorial' },
+  { a: SEMPER,  b: TELLADO,      val:  72, tipo: 'aliado_partido',     label: 'Engranaje PP · portavoz + organización' },
+  { a: AYUSO,   b: GAMARRA,      val: -28, tipo: 'rivalidad_interna',  label: 'Tensión Madrid-Génova · disputa narrativas' },
+  { a: AYUSO,   b: TELLADO,      val: -22, tipo: 'rivalidad_interna',  label: 'Tensión campaña · Madrid vs aparato nacional' },
+  { a: AYUSO,   b: ALMEIDA,      val:  85, tipo: 'aliado_partido',     label: 'Eje Madrid PP · Comunidad + Ayuntamiento' },
+  { a: AYUSO,   b: MONASTERIO,   val: -32, tipo: 'critica_publica',    label: 'Competencia electoral Madrid PP vs Vox' },
+  { a: CAYETANA, b: FEIJOO,      val:  18, tipo: 'critica_publica',    label: 'Crítica interna recurrente · diputada disidente' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 6. OPOSICIÓN FRONTAL ENTRE LÍDERES
+  // 6 · VOX NÚCLEO Y RUPTURAS
   // ═══════════════════════════════════════════════════════════════════
-  { a: SANCHEZ, b: FEIJOO,    val: -78, tipo: 'oposicion_frontal', label: 'Confrontación parlamentaria semanal · sesión control' },
-  { a: SANCHEZ, b: ABASCAL,   val: -92, tipo: 'oposicion_frontal', label: 'Extrema oposición · objetivo prioritario de Vox' },
-  { a: SANCHEZ, b: AYUSO,     val: -88, tipo: 'oposicion_frontal', label: 'Rivalidad pública continuada · Madrid vs Moncloa' },
-  { a: FEIJOO,  b: ABASCAL,   val: -38, tipo: 'critica_publica',   label: 'Competencia por espacio derecho · choques tácticos' },
-  { a: YOLANDA, b: FEIJOO,    val: -55, tipo: 'oposicion_frontal', label: 'Choque parlamentario semanal' },
-  { a: YOLANDA, b: ABASCAL,   val: -82, tipo: 'oposicion_frontal', label: 'Antagonismo total · debate visceral' },
-  { a: BOLANOS, b: AYUSO,     val: -75, tipo: 'oposicion_frontal', label: 'Choque institucional Moncloa-Sol' },
+  { a: ABASCAL, b: ORTEGA_SMITH, val:  82, tipo: 'aliado_partido',     label: 'Núcleo VOX · sec. adjunto + concejal Madrid' },
+  { a: ABASCAL, b: MONASTERIO,   val:  78, tipo: 'aliado_partido',     label: 'Núcleo VOX · presidenta Madrid + esposa' },
+  { a: ORTEGA_SMITH, b: MONASTERIO, val: 70, tipo: 'aliado_partido',   label: 'Eje VOX Madrid' },
+  { a: ABASCAL, b: ESPINOSA,     val: -45, tipo: 'rivalidad_interna',  label: 'Espinosa de los Monteros dimite por choque interno · 2023' },
+  { a: ESPINOSA, b: ORTEGA_SMITH, val: -30, tipo: 'critica_publica',   label: 'Tensión entre ex portavoz y ala dura' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 7. CONFLICTOS TERRITORIALES (Cataluña, País Vasco)
+  // 7 · PODEMOS · ruptura con SUMAR
   // ═══════════════════════════════════════════════════════════════════
-  { a: PUIGDEMONT, b: JUNQUERAS, val: -55, tipo: 'conflicto_territorial', label: 'Rivalidad histórica Junts-ERC por liderazgo independentista' },
-  { a: PUIGDEMONT, b: ARAGONES,  val: -45, tipo: 'conflicto_territorial', label: 'Junts vs ERC · disputa estrategia independentista' },
-  { a: PUIGDEMONT, b: ILLA,      val: -68, tipo: 'oposicion_frontal',     label: 'Independentismo vs PSC · gobierno Generalitat' },
-  { a: JUNQUERAS,  b: ILLA,      val: -55, tipo: 'oposicion_frontal',     label: 'Tensión ERC-PSC tras pacto Govern 2024' },
-  { a: ORTUZAR,    b: OTEGI,     val: -40, tipo: 'conflicto_territorial', label: 'Rivalidad PNV-EH Bildu · liderazgo abertzale' },
-  { a: ARAGONES,   b: JUNQUERAS, val: -25, tipo: 'rivalidad_interna',     label: 'Tensión interna ERC tras pacto investidura' },
+  { a: BELARRA, b: IGLESIAS,     val:  92, tipo: 'aliado_partido',     label: 'Núcleo Podemos · pareja política y personal' },
+  { a: BELARRA, b: IRENE_MONTERO, val: 92, tipo: 'aliado_partido',     label: 'Cúpula Podemos · líder + ex ministra Igualdad' },
+  { a: BELARRA, b: ECHENIQUE,    val:  82, tipo: 'aliado_partido',     label: 'Núcleo Podemos · líder + estratega digital' },
+  { a: IGLESIAS, b: IRENE_MONTERO, val: 95, tipo: 'aliado_partido',    label: 'Núcleo Podemos · pareja personal y política' },
+  { a: IGLESIAS, b: ECHENIQUE,   val:  82, tipo: 'aliado_partido',     label: 'Camarilla histórica Podemos' },
+  { a: BELARRA, b: YOLANDA,      val: -68, tipo: 'rivalidad_interna',  label: 'Ruptura Podemos-Sumar · Podemos sale del grupo en 2023' },
+  { a: IGLESIAS, b: YOLANDA,     val: -62, tipo: 'rivalidad_interna',  label: 'Crítica pública desde Canal Red · contra Yolanda' },
+  { a: IRENE_MONTERO, b: YOLANDA, val: -55, tipo: 'rivalidad_interna', label: 'Tensiones por candidatura europea de Podemos' },
+  { a: BELARRA, b: MONICA_GARCIA, val: -45, tipo: 'critica_publica',   label: 'Choque Podemos vs Sumar en políticas sociales' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 8. CONFLICTOS JUDICIALES E INSTITUCIONALES
+  // 8 · OPOSICIÓN FRONTAL entre líderes
   // ═══════════════════════════════════════════════════════════════════
-  { a: CONDE_PUMPIDO, b: MARCHENA, val: -55, tipo: 'critica_publica',    label: 'TC vs TS · pulso doctrinal sobre amnistía' },
+  { a: SANCHEZ, b: FEIJOO,       val: -78, tipo: 'oposicion_frontal',  label: 'Confrontación parlamentaria semanal · sesión de control' },
+  { a: SANCHEZ, b: ABASCAL,      val: -92, tipo: 'oposicion_frontal',  label: 'Extrema oposición · objetivo prioritario de Vox' },
+  { a: SANCHEZ, b: AYUSO,        val: -88, tipo: 'oposicion_frontal',  label: 'Rivalidad pública continuada · Madrid vs Moncloa' },
+  { a: FEIJOO,  b: ABASCAL,      val: -38, tipo: 'critica_publica',    label: 'Competencia por espacio derecho · choques tácticos' },
+  { a: YOLANDA, b: FEIJOO,       val: -55, tipo: 'oposicion_frontal',  label: 'Choque parlamentario semanal' },
+  { a: YOLANDA, b: ABASCAL,      val: -82, tipo: 'oposicion_frontal',  label: 'Antagonismo total · debate visceral' },
+  { a: BOLANOS, b: AYUSO,        val: -75, tipo: 'oposicion_frontal',  label: 'Choque institucional Moncloa-Sol' },
+  { a: BOLANOS, b: FEIJOO,       val: -65, tipo: 'oposicion_frontal',  label: 'Choque en Congreso · CGPJ + reformas' },
+  { a: MONTERO_PSOE, b: FEIJOO,  val: -62, tipo: 'oposicion_frontal',  label: 'Choque por financiación autonómica' },
+  { a: MONTERO_PSOE, b: AYUSO,   val: -78, tipo: 'oposicion_frontal',  label: 'Choque fiscal · Andalucía + Madrid contra Hacienda' },
+  { a: PUENTE,  b: AYUSO,        val: -65, tipo: 'critica_publica',    label: 'Choque público recurrente en redes' },
+  { a: PUENTE,  b: FEIJOO,       val: -55, tipo: 'critica_publica',    label: 'Choque público recurrente · Twitter' },
+  { a: ABASCAL, b: BELARRA,      val: -85, tipo: 'oposicion_frontal',  label: 'Antagonismo ideológico extremo' },
+  { a: ABASCAL, b: IGLESIAS,     val: -90, tipo: 'oposicion_frontal',  label: 'Histórica enemistad pública · debates electorales' },
+  { a: ABASCAL, b: OTEGI,        val: -95, tipo: 'oposicion_frontal',  label: 'Extremos opuestos · sin punto de encuentro' },
+  { a: ABASCAL, b: PUIGDEMONT,   val: -92, tipo: 'oposicion_frontal',  label: 'Vox impulsa querellas contra el procés' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 9 · RIVALIDADES INTERNAS PSOE
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SANCHEZ, b: PAGE,         val: -62, tipo: 'rivalidad_interna',  label: 'Crítico público · contra amnistía y financiación singular' },
+  { a: SANCHEZ, b: LAMBAN,       val: -65, tipo: 'rivalidad_interna',  label: 'Voz disidente · ex barón aragonés crítico' },
+  { a: SANCHEZ, b: SUSANA_DIAZ,  val: -58, tipo: 'rivalidad_interna',  label: 'Rivalidad histórica · primarias 2017' },
+  { a: SANCHEZ, b: FELIPE_GONZ,  val: -42, tipo: 'critica_publica',    label: 'Ex pte crítico · amnistía y financiación singular' },
+  { a: SANCHEZ, b: ZAPATERO,     val:  72, tipo: 'aliado_partido',     label: 'Aliado histórico · respaldo público a amnistía' },
+  { a: PAGE,    b: LAMBAN,       val:  72, tipo: 'aliado_partido',     label: 'Eje de barones críticos PSOE · coordinación pública' },
+  { a: PAGE,    b: SUSANA_DIAZ,  val:  62, tipo: 'aliado_partido',     label: 'Bloque de barones críticos · sintonía privada' },
+  { a: LAMBAN,  b: SUSANA_DIAZ,  val:  55, tipo: 'aliado_partido',     label: 'Bloque de barones críticos PSOE' },
+  { a: PAGE,    b: ZAPATERO,     val: -32, tipo: 'critica_publica',    label: 'Discrepancia pública sobre amnistía' },
+  { a: PAGE,    b: FELIPE_GONZ,  val:  48, tipo: 'aliado_partido',     label: 'Eje crítico moderado · contra concierto fiscal' },
+  { a: LAMBAN,  b: FELIPE_GONZ,  val:  42, tipo: 'aliado_partido',     label: 'Ex barones + ex presidente · agenda compartida' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 10 · EJE EX-PRESIDENTES
+  // ═══════════════════════════════════════════════════════════════════
+  { a: FEIJOO, b: AZNAR,         val:  35, tipo: 'critica_publica',    label: 'Aznar presiona desde FAES · estrategia más dura' },
+  { a: FEIJOO, b: RAJOY,         val:  68, tipo: 'aliado_partido',     label: 'Sucesor designado · padrino interno' },
+  { a: FEIJOO, b: CASADO,        val:  18, tipo: 'critica_publica',    label: 'Casado fuera del partido tras moción interna 2022' },
+  { a: AYUSO,  b: AZNAR,         val:  62, tipo: 'aliado_partido',     label: 'Aliada del aznarismo dentro del PP' },
+  { a: AZNAR,  b: RAJOY,         val:  58, tipo: 'aliado_partido',     label: 'Generaciones PP · sintonía estratégica' },
+  { a: AZNAR,  b: CASADO,        val: -42, tipo: 'critica_publica',    label: 'Aznar deja caer a Casado en moción 2022' },
+  { a: AZNAR,  b: SANCHEZ,       val: -82, tipo: 'oposicion_frontal',  label: 'Ataque público continuado al Gobierno desde FAES' },
+  { a: AZNAR,  b: ZAPATERO,      val: -75, tipo: 'oposicion_frontal',  label: 'Antagonismo histórico desde la era 2004' },
+  { a: AZNAR,  b: FELIPE_GONZ,   val:  20, tipo: 'critica_publica',    label: 'Sintonía sorprendente contra amnistía' },
+  { a: RAJOY,  b: SANCHEZ,       val: -55, tipo: 'oposicion_frontal',  label: 'Moción de censura 2018 · ruptura histórica' },
+  { a: RAJOY,  b: ZAPATERO,      val: -45, tipo: 'critica_publica',    label: 'Rivalidad histórica ex-presidentes' },
+  { a: CASADO, b: AYUSO,         val: -68, tipo: 'rivalidad_interna',  label: 'Choque Ayuso-Casado 2022 · fin de Casado' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 11 · CONFLICTOS TERRITORIALES (CCAA vs Moncloa)
+  // ═══════════════════════════════════════════════════════════════════
+  { a: AYUSO,   b: BOLANOS,      val: -78, tipo: 'conflicto_territorial', label: 'Choque permanente Comunidad de Madrid vs Moncloa' },
+  { a: AYUSO,   b: MONTERO_PSOE, val: -82, tipo: 'conflicto_territorial', label: 'Pugna fiscal · armonización vs autonomía' },
+  { a: MORENO,  b: SANCHEZ,      val: -45, tipo: 'conflicto_territorial', label: 'Choque por financiación autonómica' },
+  { a: MORENO,  b: MONTERO_PSOE, val: -52, tipo: 'conflicto_territorial', label: 'Choque PP Andalucía vs Hacienda' },
+  { a: MAZON,   b: SANCHEZ,      val: -65, tipo: 'conflicto_territorial', label: 'Gestión DANA Valencia · reproches mutuos' },
+  { a: MAZON,   b: BERNABE,      val: -78, tipo: 'oposicion_frontal',     label: 'DANA · ataques públicos entre Generalitat y delegada' },
+  { a: MAZON,   b: MORANT,       val: -58, tipo: 'oposicion_frontal',     label: 'DANA · líder PSPV ataca al president' },
+  { a: ALMEIDA, b: SANCHEZ,      val: -68, tipo: 'conflicto_territorial', label: 'Ayuntamiento Madrid vs Moncloa · pulso recurrente' },
+  { a: ALMEIDA, b: BOLANOS,      val: -55, tipo: 'oposicion_frontal',     label: 'Choques institucionales por uso del Senado' },
+  { a: PAGE,    b: ARAGONES,     val: -55, tipo: 'conflicto_territorial', label: 'Page rechaza financiación singular Cataluña' },
+  { a: PAGE,    b: PUIGDEMONT,   val: -72, tipo: 'oposicion_frontal',     label: 'Page contra la amnistía desde dentro del PSOE' },
+  { a: PAGE,    b: ILLA,         val: -32, tipo: 'critica_publica',       label: 'Tensión PSC-PSOE Castilla-La Mancha por concierto' },
+  { a: LAMBAN,  b: ARAGONES,     val: -48, tipo: 'conflicto_territorial', label: 'Lambán rechaza financiación singular catalana' },
+  { a: LOPEZ_MIRAS, b: SANCHEZ,  val: -55, tipo: 'conflicto_territorial', label: 'Pulso por trasvase Tajo-Segura' },
+  { a: ALBIOL,  b: BOLANOS,      val: -50, tipo: 'critica_publica',       label: 'Alcalde Badalona PP · choques públicos' },
+  { a: SANZ,    b: SANCHEZ,      val: -42, tipo: 'critica_publica',       label: 'Alcalde Sevilla PP · oposición desde la calle' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 12 · CATALUÑA · tensiones internas
+  // ═══════════════════════════════════════════════════════════════════
+  { a: PUIGDEMONT, b: JUNQUERAS, val: -68, tipo: 'rivalidad_interna',   label: 'Rivalidad histórica Junts-ERC por liderazgo independentista' },
+  { a: PUIGDEMONT, b: ARAGONES,  val: -55, tipo: 'conflicto_territorial', label: 'Junts vs ERC · disputa estrategia independentista' },
+  { a: PUIGDEMONT, b: ILLA,      val: -72, tipo: 'oposicion_frontal',   label: 'Independentismo vs PSC · gobierno Generalitat' },
+  { a: JUNQUERAS, b: ILLA,       val: -58, tipo: 'oposicion_frontal',   label: 'Tensión ERC-PSC tras pacto Govern 2024' },
+  { a: ARAGONES, b: JUNQUERAS,   val: -28, tipo: 'rivalidad_interna',   label: 'Tensión interna ERC tras pacto investidura' },
+  { a: PUIGDEMONT, b: ROVIRA,    val: -45, tipo: 'critica_publica',     label: 'Tensión durante exilio · estrategias divergentes' },
+  { a: ILLA,    b: COLLBONI,     val:  88, tipo: 'aliado_partido',      label: 'Eje PSC · Generalitat + alcaldía Barcelona' },
+  { a: ILLA,    b: SANCHEZ,      val:  85, tipo: 'aliado_partido',      label: 'PSC alineado · president gracias a investidura PSOE' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 13 · PAÍS VASCO
+  // ═══════════════════════════════════════════════════════════════════
+  { a: ORTUZAR, b: OTEGI,        val: -42, tipo: 'rivalidad_interna',   label: 'Rivalidad PNV-EH Bildu · liderazgo abertzale' },
+  { a: AITOR_ESTEBAN, b: AIZPURUA, val: -38, tipo: 'critica_publica',   label: 'Tensión portavoces PNV vs Bildu' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 14 · CASOS JUDICIALES (activos en 2024-2025)
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SANCHEZ,  b: BEGONA,      val:  95, tipo: 'aliado_partido',     label: 'Esposa del presidente · objeto de instrucción judicial' },
+  { a: SANCHEZ,  b: PEINADO,     val: -78, tipo: 'conflicto_judicial', label: 'Juez instructor del caso Begoña Gómez · investiga entorno' },
+  { a: BEGONA,   b: PEINADO,     val: -92, tipo: 'conflicto_judicial', label: 'Investigada por presunto tráfico de influencias' },
+  { a: AYUSO,    b: GARCIA_ORTIZ, val: -82, tipo: 'conflicto_judicial', label: 'Caso González Amador · filtración correo · imputado' },
+  { a: AYUSO,    b: SANCHEZ,     val: -88, tipo: 'oposicion_frontal',  label: 'Rivalidad pública continuada · Madrid vs Moncloa' },
+  { a: SANCHEZ,  b: CASTELLON,   val: -68, tipo: 'conflicto_judicial', label: 'Juez instructor caso Koldo · audiencia Nacional' },
+  { a: ABALOS,   b: SANCHEZ,     val: -55, tipo: 'rivalidad_interna',  label: 'Caso Koldo · expulsado del grupo PSOE' },
+  { a: ABALOS,   b: KOLDO,       val:  82, tipo: 'aliado_partido',     label: 'Ex ministro + asesor de confianza · vínculo personal' },
+  { a: KOLDO,    b: CASTELLON,   val: -92, tipo: 'conflicto_judicial', label: 'Imputado en caso mascarillas y comisiones' },
+  { a: ALDAMA,   b: SANCHEZ,     val: -75, tipo: 'conflicto_judicial', label: 'Empresario · acusa al Gobierno y al PSOE' },
+  { a: ALDAMA,   b: ABALOS,      val: -65, tipo: 'conflicto_judicial', label: 'Aldama implica directamente a Ábalos' },
+  { a: ALDAMA,   b: CASTELLON,   val: -88, tipo: 'conflicto_judicial', label: 'Investigado por trama hidrocarburos · colabora con instrucción' },
+  { a: KOLDO,    b: ALDAMA,      val: -45, tipo: 'critica_publica',    label: 'Versiones contradictorias en el caso Koldo' },
+  { a: GARCIA_ORTIZ, b: BOLANOS, val:  68, tipo: 'aliado_partido',     label: 'Fiscal General nombrado por el Gobierno · sintonía' },
+  { a: GARCIA_ORTIZ, b: SANCHEZ, val:  72, tipo: 'aliado_partido',     label: 'Fiscal General · nombramiento del Gobierno PSOE' },
+  { a: GARCIA_ORTIZ, b: DELGADO, val:  78, tipo: 'aliado_partido',     label: 'Continuidad · sucesor de Delgado en Fiscalía' },
+  { a: GARCIA_ORTIZ, b: MARCHENA, val: -55, tipo: 'critica_publica',   label: 'Tensión Fiscalía-TS · agenda judicial' },
+  { a: CONDE_PUMPIDO, b: MARCHENA, val: -55, tipo: 'critica_publica',  label: 'TC vs TS · pulso doctrinal sobre amnistía' },
   { a: SANCHEZ,       b: MARCHENA, val: -45, tipo: 'conflicto_judicial', label: 'Pulso institucional · amnistía y caso Procés' },
-  { a: SANCHEZ,       b: CONDE_PUMPIDO, val: 35, tipo: 'aliado_partido', label: 'Nombramiento progresista por mandato gobierno' },
-  { a: SANCHEZ,       b: LESMES,   val: -38, tipo: 'critica_publica',    label: 'Tensión histórica · bloqueo renovación CGPJ' },
-  { a: FEIJOO,        b: LESMES,   val:  35, tipo: 'aliado_partido',     label: 'Sintonía sobre renovación judicial' },
-  { a: SANCHEZ,       b: DELGADO,  val:  62, tipo: 'aliado_partido',     label: 'Ex fiscal general designada por su gobierno' },
-  { a: SANCHEZ,       b: FELIPE_VI,val:  32, tipo: 'mediador',           label: 'Diálogo formal Moncloa-Zarzuela · enfriamiento por amnistía' },
-  { a: FEIJOO,        b: FELIPE_VI,val:  38, tipo: 'mediador',           label: 'Reuniones de audiencia · sintonía institucional' },
+  { a: SANCHEZ,       b: CONDE_PUMPIDO, val: 42, tipo: 'aliado_partido', label: 'Presidente TC · nombramiento del gobierno PSOE' },
+  { a: SANCHEZ,       b: LESMES,   val: -38, tipo: 'critica_publica',  label: 'Tensión histórica · bloqueo renovación CGPJ' },
+  { a: FEIJOO,        b: LESMES,   val:  35, tipo: 'aliado_partido',   label: 'Sintonía sobre renovación judicial' },
+  { a: SANCHEZ,       b: DELGADO,  val:  62, tipo: 'aliado_partido',   label: 'Ex Ministra Justicia y Fiscal General · designada por su gobierno' },
+  { a: LLARENA, b: PUIGDEMONT,    val: -95, tipo: 'conflicto_judicial', label: 'Instructor causa Procés · órdenes europeas de detención rechazadas' },
+  { a: MARCHENA, b: PUIGDEMONT,   val: -92, tipo: 'conflicto_judicial', label: 'Presidente Sala que sentenció el Procés en 2019' },
+  { a: MARCHENA, b: JUNQUERAS,    val: -85, tipo: 'conflicto_judicial', label: 'Sentenció a Junqueras a 13 años · STC 459/2019' },
+  { a: LLARENA,  b: JUNQUERAS,    val: -78, tipo: 'conflicto_judicial', label: 'Instructor causa Procés · investigación Junqueras' },
+  { a: CONDE_PUMPIDO, b: CASTELLON, val: -42, tipo: 'critica_publica', label: 'Tensión instrucción casos vs TC · Procés y Koldo' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 9. SINDICATOS Y PATRONAL
+  // 15 · BLOQUEO LEGISLATIVO
   // ═══════════════════════════════════════════════════════════════════
-  { a: SORDO,   b: ALVAREZ,   val:  85, tipo: 'aliado_sindical',   label: 'Coordinación CCOO-UGT · mesa diálogo social' },
-  { a: SORDO,   b: GARAMENDI, val: -45, tipo: 'oposicion_frontal', label: 'Negociación SMI · choque salarios mínimos' },
-  { a: ALVAREZ, b: GARAMENDI, val: -42, tipo: 'oposicion_frontal', label: 'Negociación SMI · choque salarios mínimos' },
-  { a: YOLANDA, b: SORDO,     val:  68, tipo: 'aliado_sindical',   label: 'Sindicatos alineados con reformas laborales Sumar' },
-  { a: YOLANDA, b: ALVAREZ,   val:  65, tipo: 'aliado_sindical',   label: 'Sindicatos alineados con reformas laborales Sumar' },
-  { a: YOLANDA, b: GARAMENDI, val: -52, tipo: 'oposicion_frontal', label: 'Negociación tripartita · tensión con patronal' },
-  { a: MONTERO_PSOE, b: GARAMENDI, val: -38, tipo: 'critica_publica', label: 'Tensión fiscal · subida impuestos al capital' },
-  { a: SANCHEZ, b: GARAMENDI, val:  20, tipo: 'mediador',          label: 'Reuniones periódicas · diálogo institucional' },
-  { a: CUERPO,  b: GARAMENDI, val:  38, tipo: 'mediador',          label: 'Diálogo Economía-CEOE · estabilidad macroeconómica' },
+  { a: FEIJOO,  b: BOLANOS,      val: -68, tipo: 'bloqueo_legislativo', label: 'Bloqueo de renovación CGPJ + reformas judiciales' },
+  { a: PUIGDEMONT, b: BOLANOS,   val: -42, tipo: 'bloqueo_legislativo', label: 'Junts bloquea decretos del Gobierno · presión recurrente' },
+  { a: PUIGDEMONT, b: YOLANDA,   val: -38, tipo: 'bloqueo_legislativo', label: 'Junts bloquea decretos laborales y reformas Sumar' },
+  { a: ABASCAL, b: YOLANDA,      val: -85, tipo: 'oposicion_frontal',   label: 'Vox impulsa enmiendas contra leyes Sumar' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 10. EJE MEDIÁTICO · proximidad editorial
+  // 16 · CASA REAL
   // ═══════════════════════════════════════════════════════════════════
-  { a: PEPA_BUENO, b: SANCHEZ,  val:  35, tipo: 'aliado_mediatico', label: 'El País · línea editorial progresista PRISA' },
-  { a: MANSO,      b: FEIJOO,   val:  40, tipo: 'aliado_mediatico', label: 'El Mundo · cobertura crítica con el gobierno' },
-  { a: RUBIDO,     b: FEIJOO,   val:  45, tipo: 'aliado_mediatico', label: 'El Debate · agenda conservadora cercana al PP' },
-  { a: RUBIDO,     b: ABASCAL,  val:  35, tipo: 'aliado_mediatico', label: 'El Debate · sin filtro a posiciones de Vox' },
-  { a: PEDROJOTA,  b: FEIJOO,   val:  30, tipo: 'aliado_mediatico', label: 'El Español · escrutinio al gobierno' },
-  { a: PABLO_MOTOS,b: AYUSO,    val:  35, tipo: 'aliado_mediatico', label: 'El Hormiguero · audiencia masiva amigable a Ayuso' },
-  { a: EVOLE,      b: YOLANDA,  val:  35, tipo: 'aliado_mediatico', label: 'Lo de Évole · entrevistas afines a la izquierda' },
-  { a: GABILONDO,  b: SANCHEZ,  val:  28, tipo: 'aliado_mediatico', label: 'Voz histórica · línea editorial progresista' },
-  { a: FERRERAS,   b: SANCHEZ,  val:  35, tipo: 'aliado_mediatico', label: 'La Sexta · cobertura matizadamente progresista' },
-  { a: VALLES,     b: FEIJOO,   val:  28, tipo: 'aliado_mediatico', label: 'Antena 3 · línea editorial moderada centro-derecha' },
-  { a: ANA_PASTOR, b: SANCHEZ,  val:  25, tipo: 'mediador',         label: 'Newtral · fact-checking crítico con todos los partidos' },
+  { a: FELIPE_VI, b: SANCHEZ,    val:  32, tipo: 'mediador',          label: 'Diálogo formal Moncloa-Zarzuela · enfriamiento por amnistía' },
+  { a: FELIPE_VI, b: FEIJOO,     val:  38, tipo: 'mediador',          label: 'Reuniones de audiencia · sintonía institucional' },
+  { a: FELIPE_VI, b: YOLANDA,    val:  28, tipo: 'mediador',          label: 'Audiencias formales como vicepresidenta' },
+  { a: FELIPE_VI, b: LETIZIA,    val:  98, tipo: 'aliado_partido',    label: 'Matrimonio · pareja institucional' },
+  { a: FELIPE_VI, b: JUAN_CARLOS, val: -68, tipo: 'rivalidad_interna', label: 'Tensión familiar · retirada de funciones y exilio Abu Dabi' },
+  { a: JUAN_CARLOS, b: SANCHEZ,  val: -52, tipo: 'critica_publica',   label: 'Sánchez no facilita regreso del rey emérito a España' },
+  { a: LETIZIA,   b: JUAN_CARLOS, val: -55, tipo: 'critica_publica',  label: 'Tensión histórica con su suegro · documentada' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 11. PRESIDENTES AUTONÓMICOS ALIADOS DE SANCHEZ (PSOE)
+  // 17 · SINDICATOS Y PATRONAL
   // ═══════════════════════════════════════════════════════════════════
-  { a: SANCHEZ, b: POMBO_BARBON, val: 62, tipo: 'aliado_partido', label: 'Barón PSOE asturiano · disciplinado' },
-  { a: PAGE, b: LAMBAN,          val: 68, tipo: 'aliado_partido', label: 'Eje de barones críticos PSOE · coordinación pública' },
-  { a: GUARDIOLA, b: ABASCAL,    val: -28, tipo: 'ruptura_coalicion', label: 'Ruptura coalición PP-Vox · Extremadura 2024' },
+  { a: SORDO,   b: ALVAREZ,      val:  85, tipo: 'aliado_sindical',   label: 'Coordinación CCOO-UGT · mesa diálogo social' },
+  { a: SORDO,   b: GARAMENDI,    val: -45, tipo: 'oposicion_frontal', label: 'Negociación SMI · choque salarios mínimos' },
+  { a: ALVAREZ, b: GARAMENDI,    val: -42, tipo: 'oposicion_frontal', label: 'Negociación SMI · choque salarios mínimos' },
+  { a: YOLANDA, b: SORDO,        val:  68, tipo: 'aliado_sindical',   label: 'Sindicatos alineados con reformas laborales Sumar' },
+  { a: YOLANDA, b: ALVAREZ,      val:  65, tipo: 'aliado_sindical',   label: 'Sindicatos alineados con reformas laborales Sumar' },
+  { a: BUSTINDUY, b: SORDO,      val:  68, tipo: 'aliado_sindical',   label: 'Ministerio Sumar próximo a CCOO · derechos sociales' },
+  { a: BUSTINDUY, b: ALVAREZ,    val:  65, tipo: 'aliado_sindical',   label: 'Ministerio Sumar próximo a UGT' },
+  { a: YOLANDA, b: GARAMENDI,    val: -52, tipo: 'oposicion_frontal', label: 'Negociación tripartita · tensión con patronal' },
+  { a: MONTERO_PSOE, b: GARAMENDI, val: -42, tipo: 'critica_publica', label: 'Tensión fiscal · subida impuestos al capital' },
+  { a: SANCHEZ, b: GARAMENDI,    val:  25, tipo: 'mediador',          label: 'Reuniones periódicas · diálogo institucional' },
+  { a: CUERPO,  b: GARAMENDI,    val:  42, tipo: 'mediador',          label: 'Diálogo Economía-CEOE · estabilidad macroeconómica' },
+  { a: SORDO,   b: MONTERO_PSOE, val:  48, tipo: 'aliado_sindical',   label: 'Coordinación SMI · alianza táctica' },
+  { a: ALVAREZ, b: MONTERO_PSOE, val:  45, tipo: 'aliado_sindical',   label: 'Coordinación SMI · alianza táctica' },
+  { a: GARAMENDI, b: LORENZO_AMOR, val: 85, tipo: 'aliado_partido',   label: 'Cúpula CEOE · presidente + vicepresidente ATA' },
+  { a: GARAMENDI, b: GERARDO_CUERVA, val: 78, tipo: 'aliado_partido', label: 'CEOE + CEPYME · representación empresarial' },
+  { a: GARAMENDI, b: FEIJOO,     val:  62, tipo: 'aliado_partido',    label: 'Sintonía CEOE-PP en agenda económica' },
+  { a: LORENZO_AMOR, b: YOLANDA, val: -52, tipo: 'oposicion_frontal', label: 'ATA contra reformas laborales · jornada y SMI' },
 
   // ═══════════════════════════════════════════════════════════════════
-  // 12. RELACIONES PERSONAJES SINGULARES
+  // 18 · AFINIDAD MEDIÁTICA (eje editorial)
   // ═══════════════════════════════════════════════════════════════════
-  { a: REVILLA,   b: SANCHEZ, val:  32, tipo: 'mediador', label: 'Diálogo informal · crítico moderado' },
-  { a: REVILLA,   b: FEIJOO,  val:  20, tipo: 'mediador', label: 'Diálogo informal' },
-  { a: AZNAR,     b: ZAPATERO,val: -75, tipo: 'oposicion_frontal', label: 'Antagonismo histórico desde la era 2004' },
-  { a: AZNAR,     b: RAJOY,   val:  55, tipo: 'aliado_partido',    label: 'Generaciones PP · sintonía estratégica' },
-  { a: ZAPATERO,  b: RAJOY,   val: -45, tipo: 'critica_publica',   label: 'Rivalidad ex-presidentes' },
-  { a: PUIGDEMONT,b: AZNAR,   val: -85, tipo: 'oposicion_frontal', label: 'Antagonismo total · independentismo vs derechón' },
-  { a: OTEGI,     b: ABASCAL, val: -95, tipo: 'oposicion_frontal', label: 'Extremos opuestos · sin punto de encuentro' },
-  { a: PUIGDEMONT,b: ABASCAL, val: -92, tipo: 'oposicion_frontal', label: 'Vox impulsa querellas contra el procés' },
+  { a: PEPA_BUENO, b: SANCHEZ,   val:  38, tipo: 'aliado_mediatico',  label: 'El País · línea editorial progresista PRISA' },
+  { a: MANSO,      b: FEIJOO,    val:  42, tipo: 'aliado_mediatico',  label: 'El Mundo · cobertura crítica con el gobierno' },
+  { a: MANSO,      b: SANCHEZ,   val: -45, tipo: 'critica_publica',   label: 'El Mundo · línea crítica contra el Gobierno' },
+  { a: RUBIDO,     b: FEIJOO,    val:  45, tipo: 'aliado_mediatico',  label: 'El Debate · agenda conservadora cercana al PP' },
+  { a: RUBIDO,     b: ABASCAL,   val:  35, tipo: 'aliado_mediatico',  label: 'El Debate · sin filtro a posiciones de Vox' },
+  { a: PEDROJOTA,  b: FEIJOO,    val:  35, tipo: 'aliado_mediatico',  label: 'El Español · escrutinio al gobierno' },
+  { a: PEDROJOTA,  b: SANCHEZ,   val: -55, tipo: 'critica_publica',   label: 'El Español · cobertura crítica permanente' },
+  { a: PABLO_MOTOS, b: AYUSO,    val:  40, tipo: 'aliado_mediatico',  label: 'El Hormiguero · audiencia masiva amigable a Ayuso' },
+  { a: PABLO_MOTOS, b: FEIJOO,   val:  30, tipo: 'aliado_mediatico',  label: 'El Hormiguero · entrevistas favorables a la oposición' },
+  { a: EVOLE,      b: YOLANDA,   val:  35, tipo: 'aliado_mediatico',  label: 'Lo de Évole · entrevistas afines a la izquierda' },
+  { a: GABILONDO,  b: SANCHEZ,   val:  32, tipo: 'aliado_mediatico',  label: 'Voz histórica · línea editorial progresista' },
+  { a: GABILONDO,  b: AZNAR,     val: -42, tipo: 'critica_publica',   label: 'Histórico antagonismo desde la era Aznar' },
+  { a: FERRERAS,   b: SANCHEZ,   val:  38, tipo: 'aliado_mediatico',  label: 'La Sexta · cobertura matizadamente progresista' },
+  { a: FERRERAS,   b: YOLANDA,   val:  35, tipo: 'aliado_mediatico',  label: 'La Sexta · tribuna habitual de Sumar' },
+  { a: VALLES,     b: FEIJOO,    val:  28, tipo: 'aliado_mediatico',  label: 'Antena 3 · línea editorial moderada centro-derecha' },
+  { a: ANA_PASTOR, b: SANCHEZ,   val:  20, tipo: 'mediador',          label: 'Newtral · fact-checking riguroso a todos los partidos' },
+  { a: ANA_ROSA,   b: FEIJOO,    val:  48, tipo: 'aliado_mediatico',  label: 'Programa matinal · cobertura afín al PP' },
+  { a: ANA_ROSA,   b: SANCHEZ,   val: -50, tipo: 'critica_publica',   label: 'Línea editorial Telecinco · crítica al Gobierno' },
+  { a: HERRERA,    b: FEIJOO,    val:  52, tipo: 'aliado_mediatico',  label: 'COPE · línea conservadora afín al PP' },
+  { a: HERRERA,    b: ABASCAL,   val:  38, tipo: 'aliado_mediatico',  label: 'COPE · tribuna habitual de Vox' },
+  { a: HERRERA,    b: SANCHEZ,   val: -55, tipo: 'critica_publica',   label: 'COPE · crítica permanente al Gobierno' },
+  { a: LOSANTOS,   b: ABASCAL,   val:  55, tipo: 'aliado_mediatico',  label: 'esRadio · tribuna ultra-derecha' },
+  { a: LOSANTOS,   b: AYUSO,     val:  68, tipo: 'aliado_mediatico',  label: 'esRadio · respaldo permanente a Ayuso' },
+  { a: LOSANTOS,   b: SANCHEZ,   val: -82, tipo: 'critica_publica',   label: 'esRadio · ataque diario al Gobierno' },
+  { a: LOSANTOS,   b: FEIJOO,    val:  22, tipo: 'critica_publica',   label: 'Tensión con la línea de Génova · más cerca de Vox' },
+  { a: ALSINA,     b: FEIJOO,    val:  35, tipo: 'aliado_mediatico',  label: 'Onda Cero · cobertura moderada centro-derecha' },
+  { a: ALSINA,     b: SANCHEZ,   val: -32, tipo: 'critica_publica',   label: 'Onda Cero · entrevistas incisivas al presidente' },
+  { a: JULIA_OTERO, b: SANCHEZ,  val:  32, tipo: 'aliado_mediatico',  label: 'Onda Cero · línea progresista' },
+  { a: ANGELS,     b: SANCHEZ,   val:  38, tipo: 'aliado_mediatico',  label: 'Hoy por Hoy SER · línea progresista PRISA' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 19 · ALIANZAS Y CONFLICTOS INTERNACIONALES
+  // ═══════════════════════════════════════════════════════════════════
+  { a: SANCHEZ, b: MACRON,       val:  75, tipo: 'aliado_internacional', label: 'Eje franco-español · Tratado de Barcelona 2023' },
+  { a: SANCHEZ, b: SCHOLZ,       val:  82, tipo: 'aliado_internacional', label: 'Eje socialdemócrata · cumbres bilaterales' },
+  { a: SANCHEZ, b: COSTA,        val:  88, tipo: 'aliado_internacional', label: 'Aliado socialista portugués · Presidente Consejo UE' },
+  { a: SANCHEZ, b: MELONI,       val: -38, tipo: 'critica_publica',      label: 'Frialdad ideológica · choques migración Ocean Viking' },
+  { a: SANCHEZ, b: TRUMP,        val: -65, tipo: 'critica_publica',      label: 'Frialdad · choques sobre OTAN 2% PIB y Venezuela' },
+  { a: SANCHEZ, b: VONDERLEYEN,  val:  48, tipo: 'aliado_internacional', label: 'Relación institucional UE · fondos Next Generation' },
+  { a: SANCHEZ, b: MILEI,        val: -82, tipo: 'oposicion_frontal',    label: 'Crisis diplomática · retirada embajador 2024' },
+  { a: SANCHEZ, b: LULA,         val:  78, tipo: 'aliado_internacional', label: 'Eje iberoamericano de izquierda' },
+  { a: SANCHEZ, b: ORBAN,        val: -72, tipo: 'critica_publica',      label: 'Antagonismo en Consejo Europeo · veto Ucrania' },
+  { a: FEIJOO,  b: MELONI,       val:  62, tipo: 'aliado_internacional', label: 'Alianza ideológica · proceso Patriots' },
+  { a: FEIJOO,  b: WEBER,        val:  82, tipo: 'aliado_internacional', label: 'PPE · alineación europea' },
+  { a: FEIJOO,  b: METSOLA,      val:  62, tipo: 'aliado_internacional', label: 'Pte Parlamento Europeo · PPE' },
+  { a: FEIJOO,  b: TUSK,         val:  55, tipo: 'aliado_internacional', label: 'Aliado PPE · sintonía centro-derecha' },
+  { a: FEIJOO,  b: VONDERLEYEN,  val:  52, tipo: 'aliado_internacional', label: 'PPE · misma familia política europea' },
+  { a: ABASCAL, b: TRUMP,        val:  82, tipo: 'aliado_internacional', label: 'Visitas y alianza MAGA · sintonía populista' },
+  { a: ABASCAL, b: MELONI,       val:  48, tipo: 'aliado_internacional', label: 'Patriots por Europa · alianza ECR' },
+  { a: ABASCAL, b: MILEI,        val:  88, tipo: 'aliado_internacional', label: 'Aliado clave · convocatorias conjuntas Madrid 2024' },
+  { a: ABASCAL, b: LEPEN,        val:  72, tipo: 'aliado_internacional', label: 'Patriots por Europa · líderes ultraderecha UE' },
+  { a: ABASCAL, b: ORBAN,        val:  78, tipo: 'aliado_internacional', label: 'Patriots por Europa · referente fundador' },
+  { a: MELONI,  b: TRUMP,        val:  62, tipo: 'aliado_internacional', label: 'Sintonía conservadora transatlántica' },
+  { a: MELONI,  b: ORBAN,        val:  58, tipo: 'aliado_internacional', label: 'Eje conservador europeo' },
+  { a: MACRON,  b: SCHOLZ,       val:  78, tipo: 'aliado_internacional', label: 'Eje franco-alemán · motor UE' },
+  { a: MACRON,  b: VONDERLEYEN,  val:  65, tipo: 'aliado_internacional', label: 'Sintonía agenda europea liberal' },
+  { a: VONDERLEYEN, b: COSTA,    val:  72, tipo: 'aliado_internacional', label: 'Presidenta Comisión + Presidente Consejo · tándem UE' },
+  { a: WEBER,   b: METSOLA,      val:  85, tipo: 'aliado_partido',       label: 'PPE · líder grupo + Presidenta PE' },
+  { a: ALBARES, b: BORRELL,      val:  72, tipo: 'aliado_partido',       label: 'PSOE · ministro Exteriores ↔ ex Alto Representante UE' },
+  { a: SANCHEZ, b: BORRELL,      val:  68, tipo: 'aliado_partido',       label: 'Histórico PSOE · ex ministro Exteriores' },
+  { a: SANCHEZ, b: CALVINO,      val:  82, tipo: 'aliado_partido',       label: 'Ex vicepresidenta económica · ahora pte. BEI' },
+  { a: CUERPO,  b: CALVINO,      val:  85, tipo: 'aliado_partido',       label: 'Sucesor en Economía · continuidad técnica' },
+  { a: SANCHEZ, b: RIBERA,       val:  82, tipo: 'aliado_partido',       label: 'Ex vicepresidenta · ahora Comisaria UE Competencia' },
+  { a: YOLANDA, b: IRENE_MONTERO, val: -55, tipo: 'rivalidad_interna',   label: 'Choque candidatura europea 2024 Sumar vs Podemos' },
+  { a: BORRELL, b: ALBARES,      val:  72, tipo: 'aliado_partido',       label: 'Generación PSOE Exteriores · sintonía' },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // 20 · MEDIADORES Y DIÁLOGOS FORMALES
+  // ═══════════════════════════════════════════════════════════════════
+  { a: REVILLA,    b: SANCHEZ,   val:  32, tipo: 'mediador',          label: 'Diálogo informal · crítico moderado' },
+  { a: REVILLA,    b: FEIJOO,    val:  22, tipo: 'mediador',          label: 'Diálogo informal · figura puente' },
+  { a: BERNABE,    b: MAZON,     val: -78, tipo: 'oposicion_frontal', label: 'DANA Valencia · choques institucionales públicos' },
+  { a: ORTUZAR,    b: SANCHEZ,   val:  72, tipo: 'mediador',          label: 'Interlocutor central PNV · canal de negociación' },
 ]
 
 /**
@@ -250,23 +580,23 @@ export function relacionesVisibles(visibleIds: string[]): RelacionExplicita[] {
 }
 
 /**
- * Paleta y groso por tipo de relación · para que el grafo distinga visualmente.
+ * Paleta y grosor por tipo de relación · para que el grafo distinga visualmente.
  */
 export const TIPO_META: Record<TipoRelacion, { color: string; intensidad: number; cat: 'alianza' | 'conflicto' | 'neutral' }> = {
-  coalicion_gobierno:    { color: '#0F766E', intensidad: 1.0, cat: 'alianza' },
-  pacto_investidura:     { color: '#0E7490', intensidad: 0.9, cat: 'alianza' },
-  pacto_autonomico:      { color: '#0EA5E9', intensidad: 0.8, cat: 'alianza' },
+  coalicion_gobierno:    { color: '#0F766E', intensidad: 1.0,  cat: 'alianza' },
+  pacto_investidura:     { color: '#0E7490', intensidad: 0.9,  cat: 'alianza' },
+  pacto_autonomico:      { color: '#0EA5E9', intensidad: 0.8,  cat: 'alianza' },
   aliado_partido:        { color: '#2D8A39', intensidad: 0.85, cat: 'alianza' },
-  aliado_internacional:  { color: '#7C3AED', intensidad: 0.7, cat: 'alianza' },
-  aliado_sindical:       { color: '#A02525', intensidad: 0.7, cat: 'alianza' },
-  aliado_mediatico:      { color: '#525258', intensidad: 0.6, cat: 'alianza' },
-  mediador:              { color: '#9CA3AF', intensidad: 0.5, cat: 'neutral' },
-  oposicion_frontal:     { color: '#DC2626', intensidad: 1.0, cat: 'conflicto' },
+  aliado_internacional:  { color: '#7C3AED', intensidad: 0.7,  cat: 'alianza' },
+  aliado_sindical:       { color: '#A02525', intensidad: 0.7,  cat: 'alianza' },
+  aliado_mediatico:      { color: '#525258', intensidad: 0.6,  cat: 'alianza' },
+  mediador:              { color: '#9CA3AF', intensidad: 0.5,  cat: 'neutral' },
+  oposicion_frontal:     { color: '#DC2626', intensidad: 1.0,  cat: 'conflicto' },
   rivalidad_interna:     { color: '#F97316', intensidad: 0.85, cat: 'conflicto' },
   conflicto_judicial:    { color: '#7F1D1D', intensidad: 0.95, cat: 'conflicto' },
-  conflicto_territorial: { color: '#B45309', intensidad: 0.8, cat: 'conflicto' },
-  bloqueo_legislativo:   { color: '#991B1B', intensidad: 0.9, cat: 'conflicto' },
-  critica_publica:       { color: '#D97706', intensidad: 0.6, cat: 'conflicto' },
+  conflicto_territorial: { color: '#B45309', intensidad: 0.8,  cat: 'conflicto' },
+  bloqueo_legislativo:   { color: '#991B1B', intensidad: 0.9,  cat: 'conflicto' },
+  critica_publica:       { color: '#D97706', intensidad: 0.6,  cat: 'conflicto' },
   ruptura_coalicion:     { color: '#B91C1C', intensidad: 0.95, cat: 'conflicto' },
 }
 
