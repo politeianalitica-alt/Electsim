@@ -23,6 +23,7 @@ import BrainBriefing from '@/components/BrainBriefing'
 import BriefingExports from '@/components/BriefingExports'
 import CountUp from '@/components/CountUp'
 import { LiveDot } from '@/components/Skeleton'
+import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/components/AlertCard'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 const QUICK_LINKS: Array<{ href: string; label: string; sub: string; glyph: string }> = [
@@ -31,12 +32,6 @@ const QUICK_LINKS: Array<{ href: string; label: string; sub: string; glyph: stri
   { href: '/monitor-legislativo', label: 'Monitor Legislativo', sub: 'BOE, BOCG, Congreso',      glyph: '⊟' },
   { href: '/estudio',           label: 'Tu Estudio',           sub: 'Paneles, fuentes, IA',     glyph: '⬡' },
 ]
-
-const ALERT_META: Record<string, { color: string; bg: string; label: string }> = {
-  warning: { color: '#D97706', bg: 'rgba(217,119,6,0.10)',  label: 'Aviso'   },
-  info:    { color: '#0071e3', bg: 'rgba(0,113,227,0.10)',  label: 'Info'    },
-  ok:      { color: '#2d8a39', bg: 'rgba(45,138,57,0.10)',  label: 'OK'      },
-}
 
 export default function InicioPage() {
   const router = useRouter()
@@ -48,16 +43,21 @@ export default function InicioPage() {
 
   const { data, source, loading } = useApi<DashboardHome>('/api/dashboard/home', { staleTimeMs: 30_000 })
 
+  // Alertas con shape rico · misma visual que /alertas
+  const { data: signalsData } = useApi<{ signals?: AlertaItem[] }>(
+    '/api/intelligence/signals?legacy=1',
+    { refreshInterval: 30_000 }
+  )
+
   if (!ready) return null
 
   // Top 3 KPIs (no más ruido en la home)
   const kpis = (data?.kpis ?? []).slice(0, 3)
-  // Top 5 alertas ordenadas por severidad · warning > info (excluimos ok)
-  const sevOrder: Record<string, number> = { warning: 0, info: 1, ok: 2 }
-  const alerts = (data?.alerts ?? [])
-    .filter(a => a.type !== 'ok')
-    .sort((a, b) => (sevOrder[a.type] ?? 9) - (sevOrder[b.type] ?? 9))
-    .slice(0, 5)
+  // Top 5 alertas ordenadas por nivel · misma prioridad que /alertas
+  const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
+    .slice()
+    .sort((a, b) => LEVELS_ORDER.indexOf(a.level) - LEVELS_ORDER.indexOf(b.level))
+  const alerts = richAlerts.slice(0, 5)
 
   return (
     <>
@@ -131,19 +131,13 @@ export default function InicioPage() {
           ))}
         </section>
 
-        {/* 3 · Alertas prioritarias (5 max) */}
-        <section style={{
-          marginTop: 22,
-          background: '#fff',
-          border: '1px solid var(--hairline-2,#ECECEF)',
-          borderRadius: 14,
-          padding: '14px 18px',
-        }}>
+        {/* 3 · Alertas prioritarias (5 max) · misma visual que /alertas */}
+        <section style={{ marginTop: 22 }}>
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: 10,
+            marginBottom: 12,
           }}>
             <h2 style={{
               fontFamily: 'var(--font-display)',
@@ -157,48 +151,35 @@ export default function InicioPage() {
             }}>
               <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
               Alertas que necesitan tu atención
+              {richAlerts.length > 0 && (
+                <span style={{
+                  fontSize: 10.5, padding: '2px 8px', borderRadius: 999,
+                  background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
+                  marginLeft: 4,
+                }}>{richAlerts.length} activas</span>
+              )}
             </h2>
-            <Link href="/alertas" style={{ fontSize: 12, color: 'var(--accent,#0071e3)', fontWeight: 500 }}>
-              Ver todas →
+            <Link href="/alertas" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 4,
+              background: '#0071e3', color: '#fff',
+              fontSize: 11.5, fontWeight: 600, padding: '5px 12px',
+              borderRadius: 999, textDecoration: 'none',
+            }}>
+              Ver más
+              <span style={{ fontSize: 13, lineHeight: 1 }}>→</span>
             </Link>
           </div>
           {alerts.length === 0 && !loading && (
-            <div style={{ padding: '10px 0', color: 'var(--ink-4,#6e6e73)', fontSize: 13 }}>
+            <div style={{ padding: '20px', textAlign: 'center', color: 'var(--ink-4,#6e6e73)', fontSize: 13, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
               Sin alertas activas. Todo bajo control.
             </div>
           )}
-          {alerts.map(a => {
-            const meta = ALERT_META[a.type] ?? ALERT_META.info
-            return (
-              <div key={a.id} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '9px 0',
-                borderBottom: '1px solid var(--hairline-2,#ECECEF)',
-                fontSize: 13,
-              }}>
-                <span style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  background: meta.bg,
-                  color: meta.color,
-                  padding: '3px 8px',
-                  borderRadius: 999,
-                  flexShrink: 0,
-                  minWidth: 56,
-                  textAlign: 'center',
-                }}>
-                  {meta.label}
-                </span>
-                <span style={{ flex: 1, color: 'var(--ink,#1d1d1f)' }}>
-                  {a.text}
-                </span>
-              </div>
-            )
-          })}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {alerts.map(a => (
+              <AlertCard key={a.id} alert={a} compact/>
+            ))}
+          </div>
+          <AlertKeyframes/>
         </section>
 
         {/* 4 · Cuatro atajos rápidos a lo que más uso */}

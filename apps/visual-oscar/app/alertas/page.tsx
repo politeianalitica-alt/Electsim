@@ -5,28 +5,11 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import AlertCard, { AlertKeyframes, LEVEL_META, LEVELS_ORDER, type AlertaItem, type AlertLevel as Level } from '@/components/AlertCard'
 
-// Niveles de alerta — orden ascendente de gravedad
-type Level = 'amarillo' | 'naranja' | 'rojo' | 'rojo-parpadeante'
+const LEVELS: Level[] = LEVELS_ORDER
 
-const LEVEL_META: Record<Level, { label: string; color: string; bg: string; ring: string; pulse?: boolean }> = {
-  'amarillo':         { label:'BAJA',     color:'#EAB308', bg:'rgba(234,179,8,0.10)',   ring:'rgba(234,179,8,0.45)'   },
-  'naranja':          { label:'MEDIA',    color:'#F97316', bg:'rgba(249,115,22,0.10)',  ring:'rgba(249,115,22,0.50)'  },
-  'rojo':             { label:'ALTA',     color:'#DC2626', bg:'rgba(220,38,38,0.10)',   ring:'rgba(220,38,38,0.50)'   },
-  'rojo-parpadeante': { label:'CRÍTICA',  color:'#7F1D1D', bg:'rgba(127,29,29,0.16)',   ring:'rgba(127,29,29,0.7)', pulse:true },
-}
-
-const LEVELS: Level[] = ['rojo-parpadeante','rojo','naranja','amarillo']
-
-type Alerta = {
-  id: string
-  level: Level
-  category: 'Mercados' | 'Gobierno' | 'Parlamento' | 'Encuestas' | 'Geopolítica' | 'Medios' | 'Riesgo'
-  title: string
-  description: string
-  source: string
-  ts: string
-}
+type Alerta = AlertaItem
 
 // Datos iniciales · se sustituyen por la respuesta de /api/intelligence/signals.
 // Sirven como fallback para el primer paint y si la API estuviera caída.
@@ -190,54 +173,12 @@ export default function AlertasPage() {
               Sin alertas que coincidan con el filtro.
             </div>
           )}
-          {filtered.map(a => {
-            const m = LEVEL_META[a.level]
-            return (
-              <article key={a.id} style={{
-                display: 'grid', gridTemplateColumns: '6px 110px 1fr auto', gap: 14, alignItems: 'center',
-                padding: '14px 18px 14px 0', borderRadius: 14,
-                background: m.bg, border: `1px solid ${m.ring}`,
-                position: 'relative', overflow: 'hidden',
-                animation: m.pulse ? 'alertCard 1.6s ease-in-out infinite' : undefined,
-              }}>
-                <div style={{
-                  background: m.color, height: '100%',
-                  boxShadow: m.pulse ? `0 0 12px ${m.color}` : undefined,
-                }}/>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 5, paddingLeft: 6 }}>
-                  <span style={{
-                    fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em',
-                    color: '#fff', background: m.color,
-                    padding: '3px 8px', borderRadius: 999,
-                    display: 'inline-flex', alignItems: 'center', gap: 5,
-                    animation: m.pulse ? 'alertPulse 1.2s ease-in-out infinite' : undefined,
-                    boxShadow: m.pulse ? `0 0 10px ${m.color}` : undefined,
-                  }}>
-                    {m.pulse && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'alertDot 1s ease-in-out infinite' }}/>}
-                    {m.label}
-                  </span>
-                  <span style={{ fontSize: 10.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.04em' }}>{a.category.toUpperCase()}</span>
-                </div>
-                <div style={{ minWidth: 0 }}>
-                  <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.012em', color: '#1d1d1f' }}>{a.title}</h3>
-                  <p style={{ margin: '3px 0 6px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.45 }}>{a.description}</p>
-                  <span style={{ fontSize: 11, color: '#6e6e73' }}>{a.source} · <span style={{ fontWeight: 600 }}>{a.ts}</span></span>
-                </div>
-                <button style={{
-                  background: '#fff', border: '1px solid #ECECEF', borderRadius: 8,
-                  padding: '6px 12px', fontSize: 11.5, fontWeight: 600, color: '#3a3a3d',
-                  cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0,
-                }}>Detalle →</button>
-              </article>
-            )
-          })}
+          {filtered.map(a => (
+            <AlertCard key={a.id} alert={a}/>
+          ))}
         </div>
 
-        <style>{`
-          @keyframes alertPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
-          @keyframes alertDot   { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-          @keyframes alertCard  { 0%, 100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); } 50% { box-shadow: 0 0 22px -2px rgba(185,28,28,0.45); } }
-        `}</style>
+        <AlertKeyframes/>
       </main>
       <footer style={{ borderTop: '1px solid var(--hairline)', padding: '20px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
         Sala de Control · Alertas · Politeia Analítica · {new Date().getFullYear()}
