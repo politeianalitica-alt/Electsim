@@ -27,19 +27,16 @@ export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
   // Módulo OCULTO de la barra superior: no se renderiza como tab. Su
   // contenido (Morning Briefing · Panel Ejecutivo · Alertas Prioritarias)
-  // aparece en el subnav cuando el usuario llega a /inicio (vía logo
-  // POLITEIA ANALÍTICA), /briefing, /dashboard o /alertas.
+  // aparece en el subnav cuando el usuario llega a /dashboard (vía logo
+  // POLITEIA ANALÍTICA · home post-login), /briefing o /alertas.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
     hideFromTopBar: true,
     items: [
-      // /inicio se mantiene como item HIDDEN para que moduleOfPath('/inicio')
-      // resuelva al módulo y el subnav aparezca, pero no se renderiza pill.
-      { label: 'Inicio',              href: '/inicio',   hidden: true },
-      { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
+      { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Alertas Prioritarias',href: '/alertas'   },
     ],
   },

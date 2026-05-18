@@ -6,8 +6,7 @@
  *
  * Usado en:
  *   · /alertas        · listado completo con filtros
- *   · /dashboard      · top-5 en el panel ejecutivo
- *   · /inicio         · top-5 en la home minimalista
+ *   · /dashboard      · top-5 en el panel ejecutivo (home única)
  *
  * La animación pulse para alertas críticas requiere los keyframes
  * `alertPulse`, `alertDot`, `alertCard` · usa <AlertKeyframes/> al menos
