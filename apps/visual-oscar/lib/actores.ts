@@ -486,6 +486,41 @@ const BASE_EXTENDED: Base[] = [
   { nombre:'Julia Otero',           partido:'Medios',   cargo:'Periodista · Onda Cero · Julia en la Onda',   cat:'mediatico' },
   { nombre:'Carlos Alsina',         partido:'Medios',   cargo:'Periodista · Onda Cero · Más de uno',         cat:'mediatico' },
 
+  // ── EX-PRESIDENTES Y FIGURAS HISTÓRICAS ──
+  { nombre:'José María Aznar',     partido:'PP',        cargo:'Ex-presidente del Gobierno · presidente FAES',                cat:'oposicion' },
+  { nombre:'Mariano Rajoy',        partido:'PP',        cargo:'Ex-presidente del Gobierno · expresidente PP',                cat:'oposicion' },
+  { nombre:'José Luis Rodríguez Zapatero', partido:'PSOE', cargo:'Ex-presidente del Gobierno · referente histórico PSOE', cat:'gobierno' },
+  { nombre:'Felipe González',      partido:'PSOE',      cargo:'Ex-presidente del Gobierno · referente histórico PSOE',       cat:'gobierno' },
+  { nombre:'Pablo Casado',         partido:'PP',        cargo:'Ex-presidente del PP · fuera del partido desde 2022',          cat:'oposicion' },
+  { nombre:'Pablo Iglesias',       partido:'Podemos',   cargo:'Ex-vicepresidente · referente Podemos · tertuliano',          cat:'oposicion' },
+  { nombre:'Albert Rivera',        partido:'Independiente', cargo:'Ex-líder de Ciudadanos',                                  cat:'oposicion' },
+  { nombre:'Inés Arrimadas',       partido:'Independiente', cargo:'Ex-líder de Ciudadanos',                                  cat:'oposicion' },
+
+  // ── BARONES PSOE críticos ──
+  { nombre:'Javier Lambán',        partido:'PSOE',      cargo:'Ex-presidente de Aragón · barón crítico PSOE',                cat:'autonomico' },
+  { nombre:'Susana Díaz',          partido:'PSOE',      cargo:'Ex-presidenta de Andalucía · senadora · barón crítica',       cat:'parlamento' },
+
+  // ── PRESIDENTES AUTONÓMICOS FALTANTES ──
+  { nombre:'Pere Aragonès',        partido:'ERC',       cargo:'Ex-presidente de la Generalitat de Cataluña (2021-2024)',     cat:'autonomico' },
+  { nombre:'Miguel Ángel Revilla', partido:'PRC',       cargo:'Ex-presidente de Cantabria · líder histórico del PRC',         cat:'autonomico' },
+
+  // ── INSTITUCIONES Y JUSTICIA EXTRA ──
+  { nombre:'Álvaro García Ortiz',  partido:'Fiscalía',  cargo:'Fiscal General del Estado',                                    cat:'institucion' },
+  { nombre:'Juan Carlos Campo',    partido:'TC',        cargo:'Magistrado del Tribunal Constitucional · ex-Ministro Justicia', cat:'institucion' },
+  { nombre:'Concepción Espejel',   partido:'TC',        cargo:'Magistrada del Tribunal Constitucional · sector conservador',  cat:'institucion' },
+  { nombre:'Juan Manuel Fernández',partido:'CGPJ',      cargo:'Vocal del CGPJ · sector progresista',                          cat:'institucion' },
+  { nombre:'Pablo Llarena',        partido:'TS',        cargo:'Magistrado del Tribunal Supremo · instructor Procés',          cat:'institucion' },
+  { nombre:'Manuel García-Castellón', partido:'TS',     cargo:'Juez Audiencia Nacional · instructor caso Koldo',              cat:'institucion' },
+  { nombre:'Juan Carlos Peinado',  partido:'TS',        cargo:'Juez de Madrid · investiga a Begoña Gómez',                    cat:'institucion' },
+
+  // ── EUROPA / INTERNACIONAL · jefes de Estado o gobierno relevantes ──
+  { nombre:'Ursula von der Leyen', partido:'Independiente', cargo:'Presidenta de la Comisión Europea',                       cat:'europa' },
+  { nombre:'António Costa',        partido:'Independiente', cargo:'Presidente del Consejo Europeo · ex PM Portugal',          cat:'europa' },
+  { nombre:'Emmanuel Macron',      partido:'Independiente', cargo:'Presidente de Francia',                                    cat:'europa' },
+  { nombre:'Olaf Scholz',          partido:'Independiente', cargo:'Canciller de Alemania',                                    cat:'europa' },
+  { nombre:'Giorgia Meloni',       partido:'Independiente', cargo:'Primera Ministra de Italia',                               cat:'europa' },
+  { nombre:'Donald Trump',         partido:'Independiente', cargo:'Presidente de Estados Unidos',                             cat:'europa' },
+
   // ── PATRONAL Y SINDICATOS extra ──
   { nombre:'Íñigo Fernández de Mesa', partido:'CEOE',   cargo:'Vicepresidente de la CEOE',                   cat:'patronal' },
   { nombre:'Ricardo Mur',           partido:'CEPYME',   cargo:'Vicepresidente de CEPYME',                    cat:'patronal' },

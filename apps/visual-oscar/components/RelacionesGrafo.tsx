@@ -1,5 +1,6 @@
 'use client'
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
+import { RELACIONES_EXPLICITAS, TIPO_META, TIPO_LABEL, type TipoRelacion } from '@/lib/relaciones-explicitas'
 
 // Grafo de relaciones de actores políticos · v3
 // Mejoras sobre v2:
@@ -50,19 +51,50 @@ const PARTY_BLOCK: Record<string, 'izq' | 'der' | 'centro' | 'institucion'> = {
   Medios:'institucion', Independiente:'institucion',
 }
 
-interface InferredLink { a: string; b: string; val: number; label: string }
-function inferLinks(visible: Actor[]): InferredLink[] {
-  const out: InferredLink[] = []
+interface InferredLink {
+  a: string
+  b: string
+  val: number
+  label: string
+  tipo?: TipoRelacion           // si proviene de relación explícita
+  curado?: boolean              // true si está en el dataset curado
+}
+
+/**
+ * Combina relaciones EXPLÍCITAS (dataset curado con hitos reales) con
+ * relaciones INFERIDAS por algoritmo. Las explícitas siempre prevalecen
+ * y se muestran primero · luego las inferidas rellenan hasta el límite.
+ */
+function buildLinks(visible: Actor[]): InferredLink[] {
+  const visIds = new Set(visible.map(v => v.id))
+
+  // 1. Relaciones explícitas que aplican a los actores visibles
+  const explicitas: InferredLink[] = []
+  const explicitKey = new Set<string>()
+  for (const r of RELACIONES_EXPLICITAS) {
+    if (!visIds.has(r.a) || !visIds.has(r.b)) continue
+    const key = [r.a, r.b].sort().join('|')
+    explicitKey.add(key)
+    explicitas.push({ a: r.a, b: r.b, val: r.val, label: r.label, tipo: r.tipo, curado: true })
+  }
+
+  // 2. Relaciones inferidas (pero solo donde no hay explícita)
+  const inferidas: InferredLink[] = []
   for (let i = 0; i < visible.length; i++) {
     for (let j = i + 1; j < visible.length; j++) {
+      const key = [visible[i].id, visible[j].id].sort().join('|')
+      if (explicitKey.has(key)) continue
       const link = pairScore(visible[i], visible[j])
       if (link && Math.abs(link.val) >= 30) {
-        out.push({ a: visible[i].id, b: visible[j].id, val: link.val, label: link.label })
+        inferidas.push({ a: visible[i].id, b: visible[j].id, val: link.val, label: link.label })
       }
     }
   }
-  out.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
-  return out.slice(0, 90)
+  // Ordena inferidas por intensidad descendente
+  inferidas.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
+
+  // 3. Combina · explícitas siempre + hasta completar 180 con inferidas
+  return [...explicitas, ...inferidas].slice(0, 180)
 }
 function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   const pa = a.partido || 'Independiente'
@@ -114,7 +146,7 @@ function antiCollide(positions: Record<string, [number, number]>, radii: Record<
   return result
 }
 
-export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) {
+export default function RelacionesGrafo({ actors = [], maxActors = 80 }: Props) {
   const [focus, setFocus] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
   const [hoveredLink, setHoveredLink] = useState<number | null>(null)
@@ -146,7 +178,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
     return [...pool].sort((x, y) => infOf(y) - infOf(x)).slice(0, maxActors)
   }, [actors, filterCat, maxActors])
 
-  const allLinks = useMemo(() => inferLinks(visibleActors), [visibleActors])
+  const allLinks = useMemo(() => buildLinks(visibleActors), [visibleActors])
 
   // Posiciones BASE (sin zoom/pan/custom). Anti-collision.
   const basePosMap = useMemo(() => {
@@ -518,10 +550,15 @@ export default function RelacionesGrafo({ actors = [], maxActors = 60 }: Props) 
               const len = Math.sqrt(dx * dx + dy * dy) || 1
               const cmx = mx + (dx / len) * 30
               const cmy = my + (dy / len) * 30
-              const stroke = l.val >= 0 ? '#16A34A' : '#DC2626'
+              // Si la relación es CURADA (explícita) usamos el color específico
+              // del tipo · si es INFERIDA, fallback al verde/rojo genérico.
+              const tipoMeta = l.tipo ? TIPO_META[l.tipo] : null
+              const stroke = tipoMeta?.color ?? (l.val >= 0 ? '#16A34A' : '#DC2626')
               const isHL = (focus && (l.a === focus || l.b === focus)) || (hoveredLink === i)
-              const opacity = isHL ? 0.95 : (focus ? 0.10 : Math.min(0.55, Math.abs(l.val) / 100 + 0.10))
-              const width = Math.max(0.8, (Math.abs(l.val) / 100) * 5) * (isHL ? 1.7 : 1)
+              const baseOpacity = l.curado ? 0.72 : 0.45
+              const opacity = isHL ? 0.96 : (focus ? 0.10 : Math.min(baseOpacity, Math.abs(l.val) / 100 + 0.15))
+              const intensidad = tipoMeta?.intensidad ?? 1
+              const width = Math.max(0.8, (Math.abs(l.val) / 100) * 5 * intensidad) * (isHL ? 1.7 : 1) * (l.curado ? 1.25 : 1)
               const dash = l.val < 0 ? '5 5' : ''
               return (
                 <g key={i} style={{ pointerEvents: 'visibleStroke' }}>
@@ -920,20 +957,53 @@ function LegendPanel({ actors, totalActors, cats }: { actors: Actor[]; totalActo
         Posición: <strong>X</strong> ideología (izq/dcha) · <strong>Y</strong> centralización.
       </p>
 
-      <LegendRow>
-        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#16A34A" strokeWidth="3.5" strokeLinecap="round"/></svg>
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Alianza</div>
-          <div style={{ fontSize: 11, color: '#6e6e73' }}>Compañeros · bloque ideológico</div>
-        </div>
-      </LegendRow>
-      <LegendRow>
-        <svg width="48" height="14"><line x1="0" y1="7" x2="48" y2="7" stroke="#DC2626" strokeWidth="2.5" strokeDasharray="5 5" strokeLinecap="round"/></svg>
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 500 }}>Conflicto</div>
-          <div style={{ fontSize: 11, color: '#6e6e73' }}>Bloques opuestos · gobierno↔oposición</div>
-        </div>
-      </LegendRow>
+      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+        Tipos de alianza
+      </p>
+      {[
+        ['coalicion_gobierno', 'Coalición Moncloa'],
+        ['pacto_investidura',  'Pacto investidura'],
+        ['pacto_autonomico',   'Coalición autonómica'],
+        ['aliado_partido',     'Aliado de partido'],
+        ['aliado_sindical',    'Alianza sindical'],
+        ['aliado_mediatico',   'Afinidad mediática'],
+        ['mediador',           'Diálogo institucional'],
+      ].map(([k, l]) => {
+        const m = TIPO_META[k as TipoRelacion]
+        return (
+          <LegendRow key={k}>
+            <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeLinecap="round"/></svg>
+            <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
+          </LegendRow>
+        )
+      })}
+
+      <div style={{ height: 1, background: '#e8e8ed', margin: '12px 0' }}/>
+
+      <p style={{ fontSize: 10.5, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600, margin: '0 0 8px' }}>
+        Tipos de conflicto
+      </p>
+      {[
+        ['oposicion_frontal',     'Oposición frontal'],
+        ['rivalidad_interna',     'Rivalidad interna'],
+        ['conflicto_judicial',    'Conflicto judicial'],
+        ['conflicto_territorial', 'Conflicto territorial'],
+        ['ruptura_coalicion',     'Ruptura coalición'],
+        ['critica_publica',       'Crítica pública'],
+      ].map(([k, l]) => {
+        const m = TIPO_META[k as TipoRelacion]
+        return (
+          <LegendRow key={k}>
+            <svg width="40" height="10"><line x1="0" y1="5" x2="40" y2="5" stroke={m.color} strokeWidth={2.6 * m.intensidad} strokeDasharray="4 4" strokeLinecap="round"/></svg>
+            <div style={{ fontSize: 11.5, color: '#3a3a3d' }}>{l}</div>
+          </LegendRow>
+        )
+      })}
+
+      <div style={{ fontSize: 10.5, color: '#6e6e73', margin: '10px 0 0', lineHeight: 1.4 }}>
+        Las relaciones <strong>curadas</strong> (con tipo) son más gruesas y opacas
+        · las <strong>inferidas</strong> por algoritmo son más finas.
+      </div>
 
       <div style={{ height: 1, background: '#e8e8ed', margin: '14px 0' }}/>
 
