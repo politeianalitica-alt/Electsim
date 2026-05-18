@@ -8,7 +8,7 @@ en producción con caché Postgres y backfill nocturno automático.
 ### En el host del FastAPI (Railway, Render, etc.)
 
 ```bash
-# LLM (Groq)
+# LLM (Groq · obligatorio)
 ELECTSIM_LLM_PROVIDER=openai
 OPENAI_API_KEY=gsk_...                 # tu clave Groq
 OPENAI_BASE_URL=https://api.groq.com/openai/v1
@@ -16,8 +16,42 @@ ELECTSIM_OPENAI_MODEL=llama-3.3-70b-versatile
 GROQ_MAX_TOKENS=4096
 GROQ_TEMPERATURE=0.3
 
-# Postgres para caché de fichas
+# Postgres para caché de fichas (obligatorio en producción)
 DATABASE_URL=postgresql://user:pwd@host:5432/db
+
+# Connectors externos (opcionales · sin ellos se omiten bloques)
+OPENCORPORATES_API_KEY=...             # opcional · sube 500→10000 req/mes
+SABI_API_KEY=...                       # opcional · cuando se contrate licencia
+SABI_TOKEN=...
+AEMET_API_KEY=...                      # opendata.aemet.es · clima/alertas
+IDEALISTA_API_KEY=...                  # opcional · cuando se contrate
+IDEALISTA_SECRET=...
+```
+
+### Deploy backend con Docker (Railway, Render, Fly.io, AWS ECS)
+
+El repo incluye:
+- `Dockerfile.railway` — imagen Python 3.11-slim con todas las deps
+- `railway.toml` — config Railway con healthcheck `/health`
+- `render.yaml` — blueprint Render con `dockerfilePath: ./Dockerfile.railway`
+
+**Railway** (recomendado, free tier $5/mes):
+```bash
+railway init
+railway link <project-id>
+railway up   # construye Docker y despliega
+```
+
+**Render** (alternativa):
+```bash
+# Dashboard → New Blueprint → conectar repo → render.yaml detectado
+```
+
+**Fly.io** (más control):
+```bash
+fly launch --dockerfile Dockerfile.railway
+fly secrets set OPENAI_API_KEY=... DATABASE_URL=...
+fly deploy
 ```
 
 ### En Vercel (visual-oscar)

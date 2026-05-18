@@ -1,0 +1,26 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile.railway"
+
+[deploy]
+startCommand = "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+
+# Sleeping disabled · las fichas pueden tardar 30-40s en construirse, no
+# queremos que el host se duerma a medio request.
+[deploy.scaling]
+minInstances = 1
+maxInstances = 2
+
+# Variables que se setean desde el dashboard Railway · documentadas en
+# docs/FICHAS_DINAMICAS_SETUP.md
+#
+#   DATABASE_URL              · Postgres conexión
+#   OPENAI_API_KEY            · clave Groq
+#   OPENAI_BASE_URL           · https://api.groq.com/openai/v1
+#   ELECTSIM_OPENAI_MODEL     · llama-3.3-70b-versatile
+#   OPENCORPORATES_API_KEY    · opcional (subir limit gratuito)
+#   SABI_API_KEY              · opcional (cuando se contrate)

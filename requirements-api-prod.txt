@@ -23,3 +23,7 @@ scipy>=1.13.0
 polars>=1.8.2
 pyyaml>=6.0.2
 aiofiles>=23.0.0
+
+# Fichas dinámicas · OCR de declaraciones (sin deps C en pdfplumber/pdfminer)
+pdfplumber>=0.10.0
+pdfminer.six>=20221105

@@ -9,6 +9,7 @@
  */
 import { useEffect, useState } from "react"
 import { PiramidePoblacional, LineaEvolucion, Hemiciclo } from "./charts"
+import MapaTerritorio from "./mapa-territorio"
 
 type Ficha = Record<string, any>
 
@@ -456,17 +457,24 @@ function BloquePleno({ pleno }: { pleno: any }) {
 }
 
 function BloqueMapa({ mapa, hero }: { mapa: any; hero: any }) {
+  const focoTipo = (hero?.tipo === "ccaa" ? "ccaa"
+                    : hero?.tipo === "provincia" ? "provincia"
+                    : "municipio") as "municipio" | "provincia" | "ccaa"
   return (
     <CardWrapper title="Mapa interactivo" ok={mapa.ok !== false}>
-      <div style={{ fontSize: 13, color: "#6e6e73" }}>
-        Capas disponibles cuando se conecten los geo-datos:
-        {" "}{(mapa.capas_disponibles || []).join(", ") || "—"}
+      <MapaTerritorio
+        foco={{
+          tipo: focoTipo,
+          cod: hero?.codigo_ine || "",
+          nombre: hero?.nombre || "",
+          lat: hero?.coordenadas?.lat,
+          lon: hero?.coordenadas?.lon,
+        }}
+        capa="renta"
+      />
+      <div style={{ marginTop: 10, fontSize: 12, color: "#6e6e73" }}>
+        Capas disponibles: {(mapa.capas_disponibles || []).join(", ") || "renta, voto, densidad, envejecimiento"}
       </div>
-      {hero.coordenadas?.lat && (
-        <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 6 }}>
-          Coords: {hero.coordenadas.lat}, {hero.coordenadas.lon}
-        </div>
-      )}
       <FuentesFooter fuentes={mapa.fuentes} />
     </CardWrapper>
   )

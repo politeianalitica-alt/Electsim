@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MODULES, moduleOfPath, itemOfPath } from './navigation'
+import GlobalSearch from './global-search'
 
 export default function AppHeader() {
   const path = usePathname() || ''
@@ -62,6 +63,7 @@ export default function AppHeader() {
             })}
           </div>
           <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
+            <GlobalSearch />
             <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
               <span style={{
                 width:5,height:5,borderRadius:'50%',background:'#2d8a39',

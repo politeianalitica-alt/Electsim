@@ -172,22 +172,35 @@ class FichaTerritorialBuilder:
             ficha.electoral = e
         self._run(ficha, "electoral", _stage_electoral)
 
-        # ── Bloque 3 · Economía ─────────────────────────────────────
+        # ── Bloque 3 · Economía + Vivienda (INE IPV 25171) ────────
         def _stage_economia():
             from agents.brain.pipelines.ficha_schemas import TerritorioEconomia
+            from agents.brain.pipelines.data_sources import precio_vivienda
             ec = TerritorioEconomia()
             renta = ine_municipio.fetch_renta_municipio(codigo_ine)
             if renta.get("ok"):
                 ec.renta_media_hogar = renta.get("renta_media_hogar")
             cod_prov = codigo_ine[:2] if len(codigo_ine) >= 2 else ""
+            fuentes = [
+                FuenteRef(tipo="ine", nombre="INE · Atlas distribución renta"),
+                FuenteRef(tipo="ine", nombre="INE · EPA paro provincial"),
+            ]
             if cod_prov:
                 paro = ine_municipio.fetch_paro_provincia(cod_prov)
                 if paro.get("ok"):
                     ec.tasa_desempleo_pct = paro.get("tasa_paro_pct")
-            ec.fuentes = [
-                FuenteRef(tipo="ine", nombre="INE · Atlas distribución renta"),
-                FuenteRef(tipo="ine", nombre="INE · EPA paro provincial"),
-            ]
+                # Precio vivienda
+                viv = precio_vivienda.fetch_precio_provincia(cod_prov)
+                if viv.get("ok"):
+                    ec.precio_vivienda_m2 = viv.get("precio_m2")
+                evol_viv = precio_vivienda.fetch_evolucion_precio_provincia(
+                    cod_prov, periodos=12,
+                )
+                if evol_viv:
+                    ec.precio_vivienda_evolucion = evol_viv
+                    fuentes.append(FuenteRef(tipo="ine",
+                                             nombre="INE · IPV (índice precio vivienda)"))
+            ec.fuentes = fuentes
             ficha.economia = ec
         self._run(ficha, "economia", _stage_economia)
 

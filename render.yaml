@@ -1,0 +1,31 @@
+# Render Blueprint · alternativa a Railway con el mismo Dockerfile.
+# Despliegue: `render blueprint deploy` o desde el dashboard apuntando a este YAML.
+
+services:
+  - type: web
+    name: politeia-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.railway
+    plan: starter           # mínimo · 0.5 CPU, 512MB RAM. Sube a `standard` si fichas pesadas.
+    region: frankfurt        # latencia Europa
+    healthCheckPath: /health
+    autoDeploy: true
+    branch: main
+    numInstances: 1
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: ELECTSIM_LLM_PROVIDER
+        value: openai
+      - key: OPENAI_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: ELECTSIM_OPENAI_MODEL
+        value: llama-3.3-70b-versatile
+      - key: GROQ_MAX_TOKENS
+        value: "4096"
+      - key: GROQ_TEMPERATURE
+        value: "0.3"
+      - key: OTEL_SDK_DISABLED
+        value: "true"
+      # Secrets se configuran desde el dashboard (no en YAML por seguridad):
+      #   DATABASE_URL · OPENAI_API_KEY · OPENCORPORATES_API_KEY · SABI_API_KEY

@@ -137,7 +137,53 @@ async def structured_log_middleware(request: Request, call_next):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "electsim-api"}
+    """Health/readiness check para Railway/Render/Vercel healthchecks.
+
+    Devuelve `status:ok` siempre que el app cargue · si los checks de
+    deep dependency fallan, los detallamos pero el endpoint sigue 200
+    para no tirar el contenedor por una BD intermitente.
+    """
+    checks: dict[str, str] = {}
+    # BD opcional
+    try:
+        from db.session import get_engine
+        eng = get_engine()
+        with eng.connect() as c:
+            c.execute(__import__("sqlalchemy").text("SELECT 1"))
+        checks["db"] = "ok"
+    except Exception as exc:
+        checks["db"] = f"err: {type(exc).__name__}"
+    # Groq opcional
+    try:
+        import os as _os
+        if _os.environ.get("OPENAI_API_KEY"):
+            checks["llm"] = "configured"
+        else:
+            checks["llm"] = "no_key"
+    except Exception as exc:
+        checks["llm"] = f"err: {type(exc).__name__}"
+    return {
+        "status": "ok", "service": "electsim-api",
+        "version": getattr(app, "version", "0.2.0"),
+        "checks": checks,
+    }
+
+
+@app.get("/ready")
+def ready():
+    """Readiness · 200 si BD responde, 503 si no. Útil para load balancers."""
+    from fastapi.responses import JSONResponse
+    try:
+        from db.session import get_engine
+        eng = get_engine()
+        with eng.connect() as c:
+            c.execute(__import__("sqlalchemy").text("SELECT 1"))
+        return {"ready": True}
+    except Exception as exc:
+        return JSONResponse(
+            status_code=503,
+            content={"ready": False, "error": f"{type(exc).__name__}: {str(exc)[:200]}"},
+        )
 
 
 @app.get("/metrics")

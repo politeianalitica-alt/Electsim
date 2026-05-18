@@ -149,6 +149,63 @@ def rebuild_ficha_politico(qid: str, background: BackgroundTasks) -> dict[str, A
 # DISCOVERY
 # ─────────────────────────────────────────────────────────────────
 
+@router.get("/territorios/buscar")
+def buscar_territorios(q: str, limit: int = 8) -> dict[str, Any]:
+    """Autocompletado de municipios + CCAA · usado por la barra Cmd+K.
+
+    Fuzzy match sobre el CSV inventario cacheado · respuesta <50ms.
+    """
+    if not q or len(q) < 2:
+        return {"resultados": []}
+    try:
+        from agents.brain.pipelines.data_sources.municipios_inventory import (
+            list_all_municipios, list_ccaa,
+        )
+        import unicodedata
+        def _norm(s: str) -> str:
+            return unicodedata.normalize("NFD", (s or "").lower()).encode(
+                "ascii", "ignore",
+            ).decode("ascii").strip()
+        qn = _norm(q)
+        resultados: list[dict[str, Any]] = []
+        # CCAA (max 3)
+        for c in list_ccaa():
+            if qn in _norm(c["nombre"]):
+                resultados.append({
+                    "tipo": "ccaa",
+                    "nombre": c["nombre"],
+                    "codigo_ine": c["codigo"],
+                    "capital": c.get("capital", ""),
+                })
+                if sum(1 for r in resultados if r["tipo"] == "ccaa") >= 3:
+                    break
+        # Municipios
+        cupo = max(1, int(limit) - len(resultados))
+        for m in list_all_municipios()[:5000]:
+            nn = _norm(m.get("nombre", ""))
+            if nn.startswith(qn) or qn in nn:
+                resultados.append({
+                    "tipo": "municipio",
+                    "nombre": m.get("nombre"),
+                    "codigo_ine": m.get("codigo_ine"),
+                    "provincia": m.get("provincia"),
+                    "ccaa": m.get("ccaa"),
+                    "poblacion": m.get("poblacion"),
+                })
+                if sum(1 for r in resultados if r["tipo"] == "municipio") >= cupo:
+                    break
+        # Orden: prefijo primero, luego por población desc
+        def _rank(r: dict[str, Any]) -> tuple[int, int]:
+            n = _norm(r.get("nombre", ""))
+            pref = 0 if n.startswith(qn) else 1
+            return (pref, -(r.get("poblacion") or 0))
+        resultados.sort(key=_rank)
+        return {"resultados": resultados[: int(limit)]}
+    except Exception as exc:
+        logger.exception("buscar_territorios falló")
+        return {"resultados": [], "error": str(exc)[:200]}
+
+
 @router.get("/politicos/activos")
 def listar_politicos_activos(limit: int = 50) -> dict[str, Any]:
     """Lista QID + nombre de políticos españoles con cargo activo (Wikidata)."""

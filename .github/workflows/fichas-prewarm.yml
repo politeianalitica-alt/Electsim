@@ -1,0 +1,124 @@
+name: Fichas pre-warmup
+
+# Después de cada deploy a Vercel/Railway, "calienta" las top 100 fichas
+# llamando a su endpoint con ?fresh=1 una sola vez. Asegura que los
+# primeros usuarios no esperan 30s en su primer hit.
+#
+# Triggers:
+#   · Manual (workflow_dispatch)
+#   · Después de push a main
+#   · Cron diario a las 04:00 UTC
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit_territorios:
+        description: "Territorios a calentar"
+        required: false
+        default: "100"
+      limit_politicos:
+        description: "Políticos a calentar"
+        required: false
+        default: "50"
+      backend_url:
+        description: "URL FastAPI (sobreescribe BACKEND_URL secret)"
+        required: false
+  push:
+    branches: [main]
+    paths:
+      - "agents/brain/pipelines/**"
+      - "api/routers/fichas.py"
+  schedule:
+    - cron: "0 4 * * *"
+
+concurrency:
+  group: prewarm-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prewarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      BACKEND: ${{ inputs.backend_url || secrets.BACKEND_URL }}
+      LIMIT_TERR: ${{ inputs.limit_territorios || '100' }}
+      LIMIT_POL: ${{ inputs.limit_politicos || '50' }}
+    steps:
+      - name: Verificar BACKEND_URL configurado
+        run: |
+          if [ -z "$BACKEND" ]; then
+            echo "::error::BACKEND_URL no configurado (ni en secrets ni en input)"
+            exit 1
+          fi
+          echo "Backend: $BACKEND"
+          echo "Limits: TERR=$LIMIT_TERR · POL=$LIMIT_POL"
+
+      - name: Healthcheck previo
+        run: |
+          curl --fail --max-time 10 "$BACKEND/health" || (echo "::error::Backend no responde" && exit 1)
+          echo "Backend OK"
+
+      - name: Pre-warm 17 CCAA + 2 ciudades autónomas
+        run: |
+          CCAAS=(
+            "Andalucía" "Aragón" "Asturias" "Islas Baleares" "Islas Canarias"
+            "Cantabria" "Castilla-La Mancha" "Castilla y León" "Cataluña"
+            "Extremadura" "Galicia" "Comunidad de Madrid" "Murcia"
+            "Comunidad Foral de Navarra" "País Vasco" "La Rioja"
+            "Comunidad Valenciana" "Ceuta" "Melilla"
+          )
+          for ccaa in "${CCAAS[@]}"; do
+            ccaa_url=$(printf '%s' "$ccaa" | python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.stdin.read()))")
+            echo "  CCAA: $ccaa"
+            curl -s --max-time 90 -o /dev/null -w "    HTTP %{http_code} · %{time_total}s\n" \
+              "$BACKEND/api/v2/ficha/territorio/ccaa/$ccaa_url" || true
+          done
+
+      - name: Pre-warm top municipios
+        run: |
+          # Top 100 municipios por población · códigos INE estables
+          MUNICIPIOS=$(python3 -c "
+          codigos = [
+            '28079','08019','46250','41091','50297','29067','30030','07040','03014',
+            '35016','30024','33044','06015','13034','25120','26089','27028','31201',
+            '02003','04013','11012','12040','14021','15030','16078','17079','18087',
+            '19130','20069','21041','22125','23050','24089','37274','38038','39075',
+            '40194','42173','43148','44216','45168','47186','48020','49275',
+          ]
+          print(' '.join(codigos[:int('$LIMIT_TERR'.split('/')[0])]))
+          ")
+          for cod in $MUNICIPIOS; do
+            curl -s --max-time 90 -o /dev/null -w "    $cod HTTP %{http_code} · %{time_total}s\n" \
+              "$BACKEND/api/v2/ficha/territorio/$cod" || true
+          done
+
+      - name: Pre-warm top políticos
+        run: |
+          # QIDs Wikidata de políticos top conocidos
+          QIDS=(
+            "Q186200"    # Pedro Sánchez
+            "Q34624"     # Alberto Núñez Feijóo
+            "Q11892050"  # Santiago Abascal
+            "Q19367113"  # Yolanda Díaz
+            "Q1393925"   # Pablo Iglesias
+            "Q108028"    # Carles Puigdemont
+            "Q464100"    # Isabel Díaz Ayuso
+            "Q1183148"   # Oriol Junqueras
+            "Q3146432"   # Aitor Esteban
+            "Q3145812"   # Arnaldo Otegi
+          )
+          for qid in "${QIDS[@]:0:$LIMIT_POL}"; do
+            curl -s --max-time 90 -o /dev/null -w "    $qid HTTP %{http_code} · %{time_total}s\n" \
+              "$BACKEND/api/v2/ficha/politico/$qid" || true
+          done
+
+      - name: Resumen
+        if: always()
+        run: |
+          echo "## Pre-warmup completado · $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Territorios calentados: hasta $LIMIT_TERR" >> $GITHUB_STEP_SUMMARY
+          echo "- Políticos calentados: hasta $LIMIT_POL" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend: $BACKEND" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Los primeros usuarios deberían recibir las fichas en <100ms desde caché." >> $GITHUB_STEP_SUMMARY
