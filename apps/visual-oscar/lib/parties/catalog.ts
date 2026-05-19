@@ -54,7 +54,7 @@ export const PARTIES: PartyMeta[] = [
     wikipedia: 'https://es.wikipedia.org/wiki/Partido_Popular_(Espa%C3%B1a)',
     grupoUE: 'PPE · Partido Popular Europeo',
     tokens: ['\\bpp\\b', 'partido popular', 'populares', 'gp popular'],
-    liderazgos: ['Alberto Núñez Feijóo', 'Miguel Tellado', 'Isabel Díaz Ayuso', 'Juanma Moreno', 'Carlos Mazón'],
+    liderazgos: ['Alberto Núñez Feijóo', 'Miguel Tellado', 'Isabel Díaz Ayuso', 'Juanma Moreno', 'Alfonso Rueda', 'Juanfran Pérez Llorca'],
   },
   {
     slug: 'vox', siglas: 'VOX', nombre: 'VOX', color: '#5BA02E',

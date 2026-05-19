@@ -73,7 +73,7 @@ export type Insular = {
 // Datos · Comunidades Autónomas y Ciudades Autónomas (19)
 // ─────────────────────────────────────────────────────────────────────────
 export const CCAAS: CCAA[] = [
-  { id:'andalucia', nombre:'Andalucía',           presidente:'Juan Manuel Moreno Bonilla',  partido:'PP',   bloque:'derecha',     apoyo:'Mayoría absoluta PP',                       pob:8.6, presup:48.2, esc:109, escPdte:58, proxElec:'Jun 2026', desde:2019, capital:'Sevilla',
+  { id:'andalucia', nombre:'Andalucía',           presidente:'Juanma Moreno',               partido:'PP',   bloque:'derecha',     apoyo:'Mayoría absoluta PP',                       pob:8.6, presup:48.2, esc:109, escPdte:58, proxElec:'Jun 2026', desde:2019, capital:'Sevilla',
     web:'https://www.juntadeandalucia.es/', consejerias:['Hacienda · Carolina España','Salud · Catalina García','Sostenibilidad · R. Fernández-Pacheco','Turismo · Arturo Bernal'] },
   { id:'aragon',    nombre:'Aragón',              presidente:'Jorge Azcón',                 partido:'PP',   bloque:'derecha',     apoyo:'PP en minoría (rota con VOX)',              pob:1.3, presup:8.4,  esc:67,  escPdte:28, proxElec:'May 2027', desde:2023, capital:'Zaragoza',
     web:'https://www.aragon.es/', consejerias:['Presidencia · Mar Vaquero','Hacienda · Manuel Magdaleno','Educación · Claudia Pérez Forniés'] },
@@ -105,7 +105,7 @@ export const CCAAS: CCAA[] = [
     web:'https://www.navarra.es/', consejerias:['Vp · Ana Ollo (Geroa Bai)','Hacienda · Félix Taberna','Derechos Sociales · Begoña Alfaro (Sumar)'] },
   { id:'pvasco',    nombre:'Euskadi · País Vasco',presidente:'Imanol Pradales',             partido:'PNV',  bloque:'territorial', apoyo:'PNV+PSE-EE',                                 pob:2.2, presup:14.7, esc:75,  escPdte:27, proxElec:'Abr 2028', desde:2024, capital:'Vitoria-Gasteiz',
     web:'https://www.euskadi.eus/', consejerias:['Vlhdtz. · Mikel Torres (PSE)','Gobernanza · M. Ubarretxena','Educación · Maite Alonso','Salud · Alberto Martínez'] },
-  { id:'cvalenciana',nombre:'Comunitat Valenciana',presidente:'Juanfran Pérez Llorca',       partido:'PP',   bloque:'derecha',     apoyo:'PP en coalición con VOX (relevo Mazón)',     pob:5.2, presup:27.8, esc:99,  escPdte:40, proxElec:'May 2027', desde:2024, capital:'València',
+  { id:'cvalenciana',nombre:'Comunitat Valenciana',presidente:'Juanfran Pérez Llorca',       partido:'PP',   bloque:'derecha',     apoyo:'PP en minoría (relevo de Mazón tras DANA · ruptura con VOX)',     pob:5.2, presup:27.8, esc:99,  escPdte:40, proxElec:'May 2027', desde:2025, capital:'València',
     web:'https://www.gva.es/', consejerias:['Vp y Servicios Sociales · Susana Camarero','Hacienda · J. B. Ruiz','Sanidad · Marciano Gómez','Educación · J. A. Rovira'] },
   { id:'ceuta',     nombre:'Ciudad Autónoma de Ceuta',  presidente:'Juan Jesús Vivas',  partido:'PP', bloque:'derecha', apoyo:'PP en minoría',           pob:0.08, presup:0.32, esc:25, escPdte:14, proxElec:'May 2027', desde:2001, capital:'Ceuta',
     web:'https://www.ceuta.es/', consejerias:['Vp · Carlos Rontomé','Hacienda · Mabel Deu'] },

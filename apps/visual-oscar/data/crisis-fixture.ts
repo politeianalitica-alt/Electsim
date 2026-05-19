@@ -57,7 +57,7 @@ export const CRISIS: Crisis[] = [
     tipo:'Climática', severidad:'ALTA', fase:'Contención',
     inicio:'29/10/2024', actualizacion:'06/05/2026 09:30',
     ubicacion:'C. Valenciana · 75 municipios afectados',
-    resumen:'Comisión de investigación abierta · 219 fallecidos · ejecución de ayudas en el 47% · tensión política sobre el reparto. Mazón dimitió en noviembre 2024 · sustituido por Pérez Llorca. Vox rompe el pacto con PP en diciembre 2024.',
+    resumen:'Comisión de investigación abierta · 219 fallecidos · ejecución de ayudas en el 47% · tensión política sobre el reparto. Carlos Mazón dimitió en noviembre 2025 (un año después de la riada) · sustituido por Juanfran Pérez Llorca. VOX rompe el pacto con PP en diciembre 2025.',
     stakeholders:[
       { nombre:'Generalitat Valenciana',      rol:'Gobierno autonómico',     posicion:'opositor' },
       { nombre:'Gobierno central',            rol:'Coordinación · ayudas',    posicion:'aliado'   },
