@@ -98,6 +98,95 @@ const DIM_SOURCES: Record<string, string> = {
   social:        'Banco Mundial paro 16-24 · INE EPA · Politeia Lab',
 }
 
+/** Catálogo de fuentes externas referenciables · cada token devuelve un href. */
+const SOURCE_URL: Record<string, string> = {
+  // Banco Mundial
+  'Banco Mundial':         'https://data.worldbank.org/country/ES',
+  'BM Gini':               'https://data.worldbank.org/indicator/SI.POV.GINI?locations=ES',
+  'Gini':                  'https://data.worldbank.org/indicator/SI.POV.GINI?locations=ES',
+  'BM Gasto militar':      'https://data.worldbank.org/indicator/MS.MIL.XPND.GD.ZS?locations=ES',
+  'Gasto militar':         'https://data.worldbank.org/indicator/MS.MIL.XPND.GD.ZS?locations=ES',
+  'BM Paro juvenil':       'https://data.worldbank.org/indicator/SL.UEM.1524.NE.ZS?locations=ES',
+  'Paro juvenil':          'https://data.worldbank.org/indicator/SL.UEM.1524.NE.ZS?locations=ES',
+  'paro 16-24':            'https://data.worldbank.org/indicator/SL.UEM.1524.NE.ZS?locations=ES',
+  // BCE / ECB
+  'BCE':                   'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html',
+  'ECB':                   'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html',
+  'ECB SDW':               'https://data.ecb.europa.eu/',
+  'ECB DFR':               'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html',
+  'DFR':                   'https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html',
+  // INE
+  'INE':                   'https://www.ine.es/',
+  'INE IPC':               'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176802',
+  'INE TempUS':            'https://www.ine.es/dyngs/DataLab/manual.html?cid=1259943100329',
+  'INE EPA':               'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176918',
+  'IPC':                   'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176802',
+  // GDELT
+  'GDELT':                 'https://www.gdeltproject.org/',
+  'GDELT 2.0':             'https://www.gdeltproject.org/',
+  // GPR / ACLED / V-Dem
+  'GPR':                   'https://www.matteoiacoviello.com/gpr.htm',
+  'GPR Caldara':           'https://www.matteoiacoviello.com/gpr.htm',
+  'ACLED':                 'https://acleddata.com/',
+  'V-Dem':                 'https://v-dem.net/',
+  // Encuestas
+  'CIS':                   'https://www.cis.es/',
+  '40dB':                  'https://www.40db.com/',
+  'Wikipedia':             'https://es.wikipedia.org/wiki/Anexo:Encuestas_de_intenci%C3%B3n_de_voto_para_las_elecciones_generales_de_Espa%C3%B1a_de_2027',
+  // SIGINT / seguridad
+  'INCIBE':                'https://www.incibe.es/',
+  'INCIBE-CERT':           'https://www.incibe.es/incibe-cert',
+  'CCN-CERT':              'https://www.ccn-cert.cni.es/',
+  'EMSC':                  'https://www.emsc-csem.org/Earthquake/',
+  'Google News':           'https://news.google.com/?hl=es&gl=ES&ceid=ES:es',
+  'Google Noticias':       'https://news.google.com/?hl=es&gl=ES&ceid=ES:es',
+  'Congreso':              'https://www.congreso.es/',
+  // OTAN / UE
+  'OTAN':                  'https://www.nato.int/cps/en/natohq/topics_67655.htm',
+  'UE':                    'https://european-union.europa.eu/index_es',
+  // Propios
+  'Politeia':              '/dashboard',
+  'Politeia Lab':          '/dashboard',
+}
+
+function resolveSourceUrl(token: string): string | null {
+  const trimmed = token.trim()
+  // exact match
+  if (SOURCE_URL[trimmed]) return SOURCE_URL[trimmed]
+  // case-insensitive substring (longest match)
+  const candidates = Object.keys(SOURCE_URL).filter(k => trimmed.toLowerCase().includes(k.toLowerCase()))
+  candidates.sort((a, b) => b.length - a.length)
+  if (candidates.length > 0) return SOURCE_URL[candidates[0]]
+  return null
+}
+
+/** Renderiza un string con separadores '·' donde cada token enlaza a su fuente si existe. */
+function SourceList({ text, baseColor = '#6e6e73', accent = '#0071e3' }: { text: string; baseColor?: string; accent?: string }) {
+  const tokens = text.split('·').map(t => t.trim()).filter(Boolean)
+  return (
+    <>
+      {tokens.map((t, i) => {
+        const url = resolveSourceUrl(t)
+        const sep = i > 0 ? ' · ' : ''
+        if (!url) return <span key={i} style={{ color: baseColor }}>{sep}{t}</span>
+        return (
+          <span key={i} style={{ color: baseColor }}>
+            {sep}
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: accent, textDecoration: 'none', borderBottom: `1px dotted ${accent}55`, fontWeight: 500 }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderBottomStyle = 'solid' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderBottomStyle = 'dotted' }}
+            >{t}</a>
+          </span>
+        )
+      })}
+    </>
+  )
+}
+
 // Mapeo entre dim keys del termómetro y index_id del endpoint risk-v2
 const DIM_TO_RISKV2: Record<string, string> = {
   institutional: 'institutional',
@@ -187,7 +276,7 @@ function InfoTip({ text }: { text: string }) {
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: 14, height: 14, borderRadius: '50%',
         background: '#F5F5F7', color: '#6e6e73',
-        fontSize: 9.5, fontWeight: 700, cursor: 'help',
+        fontSize: 11, fontWeight: 700, cursor: 'help',
         marginLeft: 6, lineHeight: 1, verticalAlign: 'middle',
       }}
     >?</span>
@@ -274,33 +363,33 @@ function DimCard({ dim, k, buckets, onClick }: { dim: RiskDimension; k: string; 
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 12.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {DIM_LABELS[k] || dim.label || k}
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 4 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.025em', color: sc, lineHeight: 1 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: 38, fontWeight: 700, letterSpacing: '-0.025em', color: sc, lineHeight: 1 }}>
               {dim.score.toFixed(0)}
             </span>
-            <span style={{ fontSize: 12, color: '#86868b' }}>/100</span>
+            <span style={{ fontSize: 13.5, color: '#86868b' }}>/100</span>
             {dim.is_anomaly && (
-              <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff', background: '#F59E0B', borderRadius: 999, padding: '2px 8px', letterSpacing: '0.06em' }}>ANOMALÍA</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#fff', background: '#F59E0B', borderRadius: 999, padding: '2px 8px', letterSpacing: '0.06em' }}>ANOMALÍA</span>
             )}
           </div>
         </div>
         {sparkValues.length > 1 && (
           <div style={{ textAlign: 'right' }}>
             <Sparkline data={sparkValues} color={color} W={80} H={36} />
-            <div style={{ fontSize: 10, color: '#86868b', marginTop: 4 }}>últ. 14 días</div>
+            <div style={{ fontSize: 11.5, color: '#86868b', marginTop: 4 }}>últ. 14 días</div>
           </div>
         )}
       </div>
-      <p style={{ margin: '6px 0 10px', fontSize: 12, color: '#515154', lineHeight: 1.4 }}>
+      <p style={{ margin: '6px 0 10px', fontSize: 13.5, color: '#515154', lineHeight: 1.4 }}>
         {DIM_DESC[k] ?? 'Dimensión del termómetro de riesgo.'}
       </p>
       <div style={{ height: 6, background: '#F5F5F7', borderRadius: 3, marginBottom: 10 }}>
         <div style={{ width: `${Math.min(100, dim.score)}%`, height: '100%', borderRadius: 3, background: color, transition: 'width 600ms ease' }} />
       </div>
-      <div style={{ display: 'flex', gap: 14, fontSize: 11.5, color: '#6e6e73', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 14, fontSize: 13, color: '#6e6e73', flexWrap: 'wrap' }}>
         <span title="Número de artículos del feed RSS analizados para esta dimensión en las últimas horas">
           <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{dim.n_articles}</span> art.
         </span>
@@ -316,10 +405,10 @@ function DimCard({ dim, k, buckets, onClick }: { dim: RiskDimension; k: string; 
           </span>
         )}
       </div>
-      <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F7', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>Fuentes · <span style={{ color: '#6e6e73' }}>{DIM_SOURCES[k] ?? '—'}</span></span>
+      <div style={{ fontSize: 12, color: '#86868b', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F7', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Fuentes · <SourceList text={DIM_SOURCES[k] ?? '—'} baseColor="#6e6e73"/></span>
         {onClick && (
-          <span style={{ color: color, fontWeight: 600, fontSize: 11 }}>
+          <span style={{ color: color, fontWeight: 600, fontSize: 12.5 }}>
             Ver sub-KPIs →
           </span>
         )}
@@ -367,13 +456,13 @@ function SubKpiModal({
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 14 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
               Sub-KPIs del índice
             </div>
-            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', color: '#1d1d1f' }}>
+            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.022em', color: '#1d1d1f' }}>
               {DIM_LABELS[dimKey] || dim.label}
             </h2>
-            <p style={{ margin: '6px 0 0', fontSize: 13.5, color: '#515154', lineHeight: 1.5 }}>
+            <p style={{ margin: '6px 0 0', fontSize: 15, color: '#515154', lineHeight: 1.5 }}>
               {DIM_DESC[dimKey]}
             </p>
           </div>
@@ -394,14 +483,14 @@ function SubKpiModal({
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: 64, height: 64, borderRadius: 14, flexShrink: 0,
             background: color, color: '#fff',
-            fontSize: 26, fontWeight: 800,
+            fontSize: 30, fontWeight: 800,
             fontFamily: 'var(--font-display)', letterSpacing: '-0.02em',
           }}>{dim.score.toFixed(0)}</div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: scoreColor(dim.score), letterSpacing: '0.06em' }}>
+            <div style={{ fontSize: 13.5, fontWeight: 700, color: scoreColor(dim.score), letterSpacing: '0.06em' }}>
               SCORE {dim.level}
             </div>
-            <div style={{ fontSize: 13, color: '#3a3a3d', marginTop: 4, lineHeight: 1.45 }}>
+            <div style={{ fontSize: 14.5, color: '#3a3a3d', marginTop: 4, lineHeight: 1.45 }}>
               Este score se calcula combinando <strong>{components.length || 'varios'}</strong> sub-KPI{components.length === 1 ? '' : 's'}
               {' '}provenientes de fuentes públicas. Cada sub-KPI tiene su propio score 0-100 y su peso en el agregado.
               Cambia · <span style={{ fontWeight: 600, color: dim.delta_24h > 0 ? '#DC2626' : '#16A34A' }}>{dim.delta_24h >= 0 ? '+' : ''}{dim.delta_24h.toFixed(1)}</span> en 24h.
@@ -411,15 +500,15 @@ function SubKpiModal({
 
         {/* Sub-KPIs detallados */}
         <div style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
             Componentes del score
           </div>
           {components.length === 0 ? (
-            <div style={{ padding: '18px 20px', background: '#FAFAFA', borderRadius: 12, fontSize: 13, color: '#6e6e73', lineHeight: 1.5 }}>
+            <div style={{ padding: '18px 20px', background: '#FAFAFA', borderRadius: 12, fontSize: 14.5, color: '#6e6e73', lineHeight: 1.5 }}>
               Sin sub-KPIs disponibles desde el agregador para esta dimensión.
               El score se calcula desde fuentes calibradas pero la trazabilidad
               fina solo está disponible cuando las fuentes externas responden.
-              {' '}<span style={{ color: '#86868b', fontSize: 12 }}>Fuentes esperadas · {DIM_SOURCES[dimKey] ?? '—'}</span>
+              {' '}<span style={{ color: '#86868b', fontSize: 13.5 }}>Fuentes esperadas · <SourceList text={DIM_SOURCES[dimKey] ?? '—'} baseColor="#86868b"/></span>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -430,20 +519,25 @@ function SubKpiModal({
                   <div key={i} style={{ padding: '14px 16px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 12 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, gap: 12 }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>
+                        <div style={{ fontSize: 15.5, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>
                           {c.metric_name}
                         </div>
-                        <div style={{ fontSize: 11.5, color: '#86868b' }}>
-                          Fuente · <span style={{ color: '#6e6e73', fontWeight: 600 }}>{c.source_id}</span>
+                        <div style={{ fontSize: 13, color: '#86868b' }}>
+                          Fuente · {(() => {
+                            const url = resolveSourceUrl(c.source_id)
+                            return url
+                              ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#0071e3', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}>{c.source_id}</a>
+                              : <span style={{ color: '#6e6e73', fontWeight: 600 }}>{c.source_id}</span>
+                          })()}
                           {' '}· Peso · <span style={{ color: '#6e6e73', fontWeight: 600 }}>{(c.weight * 100).toFixed(0)}%</span>
                           {c.raw_value != null && <> · Valor raw · <span style={{ color: '#1d1d1f', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{c.raw_value}</span></>}
                         </div>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: sc, lineHeight: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: 25, fontWeight: 700, color: sc, lineHeight: 1 }}>
                           {c.score_0_100}
                         </div>
-                        <div style={{ fontSize: 10, color: '#86868b' }}>/100</div>
+                        <div style={{ fontSize: 11.5, color: '#86868b' }}>/100</div>
                       </div>
                     </div>
                     {/* Barra del score */}
@@ -451,10 +545,10 @@ function SubKpiModal({
                       <div style={{ width: `${Math.min(100, c.score_0_100)}%`, height: '100%', borderRadius: 3, background: sc }} />
                     </div>
                     {/* Interpretación contextual */}
-                    <p style={{ fontSize: 12.5, color: '#3a3a3d', margin: 0, lineHeight: 1.5, padding: '8px 10px', background: '#FAFAFA', borderRadius: 8, borderLeft: `3px solid ${sc}` }}>
+                    <p style={{ fontSize: 14, color: '#3a3a3d', margin: 0, lineHeight: 1.5, padding: '8px 10px', background: '#FAFAFA', borderRadius: 8, borderLeft: `3px solid ${sc}` }}>
                       {interpretation}
                     </p>
-                    <div style={{ fontSize: 11, color: '#86868b', marginTop: 8 }}>
+                    <div style={{ fontSize: 12.5, color: '#86868b', marginTop: 8 }}>
                       Aporta <span style={{ fontWeight: 700, color: sc }}>{c.contribution.toFixed(1)}</span> puntos al score agregado de {DIM_LABELS[dimKey]}.
                     </div>
                   </div>
@@ -466,10 +560,10 @@ function SubKpiModal({
 
         {/* Cómo se calcula */}
         <div style={{ padding: '14px 16px', background: '#FAFAFA', borderRadius: 12, marginBottom: 16 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
             Cómo se calcula este score
           </div>
-          <p style={{ fontSize: 13, color: '#3a3a3d', margin: 0, lineHeight: 1.55 }}>
+          <p style={{ fontSize: 14.5, color: '#3a3a3d', margin: 0, lineHeight: 1.55 }}>
             Cada sub-KPI raw (Gini, IPC, gasto militar, etc.) se normaliza a una escala 0-100 con
             calibración histórica. La media ponderada de los sub-KPIs (pesos = 100%) produce el score
             agregado de la dimensión. El score final del termómetro es la media ponderada de las seis
@@ -481,7 +575,7 @@ function SubKpiModal({
         {/* Badge de origen + cierre */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{
-            fontSize: 10.5, fontWeight: 700, color: sourceLabel === 'live' ? '#fff' : '#3a3a3d',
+            fontSize: 12, fontWeight: 700, color: sourceLabel === 'live' ? '#fff' : '#3a3a3d',
             background: sourceLabel === 'live' ? '#16A34A' : '#F5F5F7',
             padding: '4px 10px', borderRadius: 999, letterSpacing: '0.06em',
           }}>
@@ -489,7 +583,7 @@ function SubKpiModal({
           </span>
           <button onClick={onClose} style={{
             background: '#0071e3', color: '#fff', border: 'none',
-            borderRadius: 8, padding: '8px 18px', fontSize: 13, fontWeight: 600,
+            borderRadius: 8, padding: '8px 18px', fontSize: 14.5, fontWeight: 600,
             cursor: 'pointer', fontFamily: 'inherit',
           }}>Cerrar</button>
         </div>
@@ -508,12 +602,12 @@ function KPI({ label, value, accent, sub, tip }: { label: string; value: string 
       border: '1px solid #ECECEF', borderLeft: `4px solid ${accent}`,
       boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
     }}>
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 8 }}>
+      <div style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 8 }}>
         {label}
         {tip && <InfoTip text={tip} />}
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', color: accent, lineHeight: 1 }}>{value}</div>
-      {sub && <div style={{ fontSize: 12, color: '#86868b', marginTop: 7, lineHeight: 1.35 }}>{sub}</div>}
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 700, letterSpacing: '-0.025em', color: accent, lineHeight: 1 }}>{value}</div>
+      {sub && <div style={{ fontSize: 13.5, color: '#86868b', marginTop: 7, lineHeight: 1.35 }}>{sub}</div>}
     </div>
   )
 }
@@ -564,22 +658,23 @@ export default function TermometroPage() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader />
-      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '32px 40px 80px' }}>
+      <main style={{ maxWidth: 1640, margin: '0 auto', padding: '34px 44px 88px' }}>
 
         {/* Header */}
         <section style={{ marginBottom: 22 }}>
-          <p style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+          <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
             <span>INTELIGENCIA · TERMÓMETRO DE RIESGO</span>
             <LiveStatusBadge updatedAt={risk?.fetched_at ?? null} source={(riskData as unknown as { source?: string }).source ?? 'aggregator'} refreshIntervalSec={120} onRefresh={riskData.refresh}/>
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 36, letterSpacing: '-0.024em', margin: '0 0 8px', lineHeight: 1.05, color: '#1d1d1f' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 42, letterSpacing: '-0.024em', margin: '0 0 8px', lineHeight: 1.05, color: '#1d1d1f' }}>
             Termómetro de Riesgo <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#6e6e73' }}>· España</em>
           </h1>
-          <p style={{ fontSize: 15.5, color: '#515154', margin: 0, maxWidth: 920, lineHeight: 1.55 }}>
+          <p style={{ fontSize: 17, color: '#515154', margin: 0, maxWidth: 980, lineHeight: 1.55 }}>
             Índice compuesto multidimensional que mide la tensión política, económica y social del país en una escala
             de <strong>0 a 100</strong>. Agrega <strong>seis dimensiones</strong> (institucional, electoral, geopolítico, económico,
-            mediático y social) calculadas en vivo desde feeds públicos: Banco Mundial, ECB, INE, GDELT, INCIBE-CERT,
-            EMSC sismos, Google News y un agregador propio de 30+ medios.
+            mediático y social) calculadas en vivo desde feeds públicos:{' '}
+            <SourceList text="Banco Mundial · ECB · INE · GDELT · INCIBE-CERT · EMSC · Google Noticias" baseColor="#515154"/>
+            {' '}y un agregador propio de 30+ medios.
           </p>
         </section>
 
@@ -594,18 +689,18 @@ export default function TermometroPage() {
             display: 'flex', flexDirection: 'column', alignItems: 'center',
           }}>
             <Thermometer score={composite} semaforo={semaforo} level={semLabel} />
-            <div style={{ marginTop: 6, fontSize: 12.5, color: '#6e6e73', textAlign: 'center', fontWeight: 500 }}>
+            <div style={{ marginTop: 6, fontSize: 14, color: '#6e6e73', textAlign: 'center', fontWeight: 500 }}>
               {risk?.framework === 'unavailable' ? 'Estimación SIGINT · sin backend' : `Framework · ${risk?.framework ?? 'politeia-v3'}`}
             </div>
             {compositeHistory.length > 1 && (
               <div style={{ marginTop: 16, width: '100%', borderTop: '1px solid #F5F5F7', paddingTop: 16 }}>
-                <div style={{ fontSize: 10.5, color: '#6e6e73', marginBottom: 8, textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700 }}>
+                <div style={{ fontSize: 12, color: '#6e6e73', marginBottom: 8, textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700 }}>
                   Histórico 30 días
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Sparkline data={compositeHistory} color={semColor} W={240} H={48} />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10, fontSize: 12, color: '#6e6e73' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10, fontSize: 13.5, color: '#6e6e73' }}>
                   <span>Min · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{Math.min(...compositeHistory).toFixed(0)}</span></span>
                   <span>Max · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{Math.max(...compositeHistory).toFixed(0)}</span></span>
                   <span>Media · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{(compositeHistory.reduce((a, b) => a + b, 0) / compositeHistory.length).toFixed(0)}</span></span>
@@ -625,14 +720,14 @@ export default function TermometroPage() {
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 width: 44, height: 44, borderRadius: 12, flexShrink: 0,
                 background: semColor, color: '#fff',
-                fontSize: 18, fontWeight: 900, letterSpacing: '0.02em',
+                fontSize: 20, fontWeight: 900, letterSpacing: '0.02em',
                 fontFamily: 'var(--font-display)',
               }}>{Math.round(composite)}</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, color: '#1d1d1f', fontWeight: 700, marginBottom: 3 }}>
+                <div style={{ fontSize: 14.5, color: '#1d1d1f', fontWeight: 700, marginBottom: 3 }}>
                   Nivel actual · <span style={{ color: semColor, letterSpacing: '0.04em' }}>{semLabel}</span>
                 </div>
-                <p style={{ fontSize: 13, color: '#3a3a3d', margin: 0, lineHeight: 1.5 }}>
+                <p style={{ fontSize: 14.5, color: '#3a3a3d', margin: 0, lineHeight: 1.5 }}>
                   {currentLevelDesc}
                 </p>
               </div>
@@ -657,24 +752,24 @@ export default function TermometroPage() {
             {signals.length > 0 && (
               <div style={{ background: '#fff', borderRadius: 14, padding: '16px 20px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     Señales SIGINT recientes
                     <InfoTip text="Top señales detectadas en las últimas horas por el agregador. Cada una contribuye al score de alguna dimensión." />
                   </div>
-                  <div style={{ fontSize: 11, color: '#86868b' }}>
+                  <div style={{ fontSize: 12.5, color: '#86868b' }}>
                     Actualizado cada 5 minutos
                   </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {signals.slice(0, 5).map((s, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '78px 1fr auto', gap: 12, alignItems: 'center', fontSize: 13, padding: '8px 0', borderTop: i > 0 ? '1px solid #F5F5F7' : 'none' }}>
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '78px 1fr auto', gap: 12, alignItems: 'center', fontSize: 14.5, padding: '8px 0', borderTop: i > 0 ? '1px solid #F5F5F7' : 'none' }}>
                       <span style={{
                         color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b',
-                        fontWeight: 800, fontSize: 10, letterSpacing: '0.08em',
+                        fontWeight: 800, fontSize: 11.5, letterSpacing: '0.08em',
                         padding: '3px 8px', borderRadius: 999, textAlign: 'center',
                       }}>{s.severidad}</span>
                       <span style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.titulo}</span>
-                      <span style={{ color: '#6e6e73', fontSize: 11.5, fontWeight: 500 }}>{s.fuente.split(' ')[0]}</span>
+                      <span style={{ color: '#6e6e73', fontSize: 13, fontWeight: 500 }}>{s.fuente.split(' ')[0]}</span>
                     </div>
                   ))}
                 </div>
@@ -686,11 +781,11 @@ export default function TermometroPage() {
         {/* Guía de niveles · siempre visible · ayuda a leer el score */}
         <section style={{ marginBottom: 22 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f' }}>
               Cómo leer el score
             </h2>
             <button onClick={() => setMethodOpen(o => !o)} style={{
-              background: 'none', border: 'none', fontSize: 12.5, color: '#0071e3', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
+              background: 'none', border: 'none', fontSize: 14, color: '#0071e3', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
             }}>
               {methodOpen ? 'Ocultar metodología ↑' : 'Ver metodología ↓'}
             </button>
@@ -706,10 +801,10 @@ export default function TermometroPage() {
                   borderRadius: 12, padding: '14px 16px',
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: r.color, letterSpacing: '0.06em' }}>{r.label}</span>
-                    <span style={{ fontSize: 11.5, fontFamily: 'var(--font-display)', fontWeight: 700, color: '#6e6e73' }}>{r.range}</span>
+                    <span style={{ fontSize: 13.5, fontWeight: 800, color: r.color, letterSpacing: '0.06em' }}>{r.label}</span>
+                    <span style={{ fontSize: 13, fontFamily: 'var(--font-display)', fontWeight: 700, color: '#6e6e73' }}>{r.range}</span>
                   </div>
-                  <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{r.desc}</p>
+                  <p style={{ fontSize: 13.5, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{r.desc}</p>
                 </div>
               )
             })}
@@ -720,22 +815,22 @@ export default function TermometroPage() {
               marginTop: 14, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 14,
               padding: '18px 22px',
             }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, margin: '0 0 8px', color: '#1d1d1f' }}>Metodología</h3>
-              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 15.5, fontWeight: 700, margin: '0 0 8px', color: '#1d1d1f' }}>Metodología</h3>
+              <p style={{ fontSize: 14.5, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
                 Cada dimensión se calcula a partir de una o varias fuentes públicas en tiempo real (Banco Mundial WDI,
                 ECB SDW, INE TempUS, GDELT, INCIBE, EMSC, Google News, agregador RSS de 30 medios). Los valores raw
                 se normalizan a una escala 0-100 con calibración histórica, y luego se combinan con pesos que totalizan
                 100%. El compuesto final es la media ponderada y se redondea al entero más cercano.
               </p>
-              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+              <p style={{ fontSize: 14.5, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
                 <strong>Z-score</strong> mide cuántas desviaciones típicas se aleja la dimensión de su media histórica de 30 días.
                 Si |z|&gt;2 se marca como <em>anomalía</em>: ese movimiento ocurre menos del 5% del tiempo en el histórico.
               </p>
-              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+              <p style={{ fontSize: 14.5, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
                 <strong>Delta 24h</strong> es la diferencia entre el score actual y el de hace 24 horas. <strong>Spike</strong> es el porcentaje
                 por encima de la media de 7 días. Una dimensión con delta positivo y spike alto está acelerando.
               </p>
-              <p style={{ fontSize: 12, color: '#6e6e73', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: 13.5, color: '#6e6e73', lineHeight: 1.5, margin: 0 }}>
                 Frequencia de refresco · score compuesto 2 min · timeseries 30 min · SIGINT 5 min. Las fuentes externas
                 tienen sus propios SLA: GDELT actualiza cada 15 min, INCIBE-CERT con cada nueva alerta, EMSC en tiempo real.
               </p>
@@ -752,7 +847,7 @@ export default function TermometroPage() {
                 background: active ? '#fff' : 'transparent',
                 color: active ? '#1d1d1f' : '#6e6e73',
                 border: 'none', borderRadius: 999, padding: '8px 18px',
-                fontSize: 13, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                fontSize: 14.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
                 fontFamily: 'inherit',
                 boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
               }}>{label}</button>
@@ -761,7 +856,7 @@ export default function TermometroPage() {
         </div>
 
         {/* Contexto de la pestaña activa */}
-        <p style={{ fontSize: 13, color: '#6e6e73', margin: '0 0 18px', maxWidth: 920, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 14.5, color: '#6e6e73', margin: '0 0 18px', maxWidth: 920, lineHeight: 1.5 }}>
           {tab === 'overview'    && 'Resumen de las seis dimensiones con su score, peso, variación 24h y sparkline de los últimos 14 días.'}
           {tab === 'dimensiones' && 'Selecciona una dimensión a la izquierda para ver su descomposición · métricas detalladas, drivers (noticias/eventos que la están moviendo) y nivel.'}
           {tab === 'drivers'     && 'Listado completo de drivers · cada uno es un evento o noticia con relevancia, sentimiento e impacto sobre España. Ordenados por contribución al score.'}
@@ -772,7 +867,7 @@ export default function TermometroPage() {
         {tab === 'overview' && (
           <div>
             {dimKeys.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '28px 32px', textAlign: 'center', color: '#6e6e73', fontSize: 13.5 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '28px 32px', textAlign: 'center', color: '#6e6e73', fontSize: 15 }}>
                 {riskData.loading ? 'Cargando dimensiones…' : 'Sin backend · mostrando estimación a partir de señales SIGINT'}
                 {signals.length > 0 && (
                   <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 12, textAlign: 'left' }}>
@@ -789,13 +884,13 @@ export default function TermometroPage() {
                       return (
                         <div key={label} style={{ background: '#fff', borderRadius: 12, padding: '14px 18px', border: '1px solid #ECECEF', borderLeft: `3px solid ${color}` }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
-                            <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: scoreColor(avgScore) }}>{avgScore}</span>
+                            <span style={{ fontSize: 13.5, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
+                            <span style={{ fontFamily: 'var(--font-display)', fontSize: 25, fontWeight: 700, color: scoreColor(avgScore) }}>{avgScore}</span>
                           </div>
                           <div style={{ height: 5, background: '#F5F5F7', borderRadius: 3, marginBottom: 6 }}>
                             <div style={{ width: `${Math.min(100, avgScore)}%`, height: '100%', borderRadius: 3, background: color }} />
                           </div>
-                          <div style={{ fontSize: 12, color: '#86868b' }}>{related.length} señales SIGINT activas</div>
+                          <div style={{ fontSize: 13.5, color: '#86868b' }}>{related.length} señales SIGINT activas</div>
                         </div>
                       )
                     })}
@@ -815,7 +910,7 @@ export default function TermometroPage() {
           <div style={{ display: 'grid', gridTemplateColumns: selectedDim ? '340px 1fr' : '1fr', gap: 18 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {dimKeys.length === 0 ? (
-                <div style={{ color: '#86868b', textAlign: 'center', padding: 32, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', fontSize: 13 }}>
+                <div style={{ color: '#86868b', textAlign: 'center', padding: 32, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', fontSize: 14.5 }}>
                   Sin dimensiones desde backend
                 </div>
               ) : dimKeys.map(k => {
@@ -831,13 +926,13 @@ export default function TermometroPage() {
                     fontFamily: 'inherit', transition: 'all 160ms',
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                      <span style={{ fontSize: 13.5, fontWeight: 700, color: '#1d1d1f' }}>{DIM_LABELS[k] || dim.label || k}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: scoreColor(dim.score) }}>{dim.score.toFixed(0)}</span>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: '#1d1d1f' }}>{DIM_LABELS[k] || dim.label || k}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 25, fontWeight: 700, color: scoreColor(dim.score) }}>{dim.score.toFixed(0)}</span>
                     </div>
                     <div style={{ height: 4, background: '#F5F5F7', borderRadius: 2, marginBottom: 8 }}>
                       <div style={{ width: `${Math.min(100, dim.score)}%`, height: '100%', borderRadius: 2, background: color }} />
                     </div>
-                    <div style={{ fontSize: 11.5, color: '#86868b', lineHeight: 1.4 }}>
+                    <div style={{ fontSize: 13, color: '#86868b', lineHeight: 1.4 }}>
                       {dim.n_articles} art · peso {(dim.weight * 100).toFixed(0)}% · {dim.is_anomaly ? 'anomalía' : 'normal'}
                     </div>
                   </button>
@@ -846,14 +941,14 @@ export default function TermometroPage() {
             </div>
             {selectedDim && dimensions[selectedDim] && (
               <div style={{ background: '#fff', borderRadius: 14, padding: 22, border: `1px solid ${DIM_COLORS[selectedDim] ?? '#ECECEF'}60`, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.018em' }}>
+                <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 25, fontWeight: 700, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.018em' }}>
                   {DIM_LABELS[selectedDim] || dimensions[selectedDim].label || selectedDim}
                 </h2>
-                <p style={{ fontSize: 13, color: '#515154', margin: '0 0 6px', lineHeight: 1.5 }}>
+                <p style={{ fontSize: 14.5, color: '#515154', margin: '0 0 6px', lineHeight: 1.5 }}>
                   {DIM_DESC[selectedDim]}
                 </p>
-                <p style={{ fontSize: 11.5, color: '#86868b', margin: '0 0 18px' }}>
-                  Fuentes · {DIM_SOURCES[selectedDim]}
+                <p style={{ fontSize: 13, color: '#86868b', margin: '0 0 18px' }}>
+                  Fuentes · <SourceList text={DIM_SOURCES[selectedDim]} baseColor="#86868b"/>
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
                   {[
@@ -865,10 +960,10 @@ export default function TermometroPage() {
                     { label: 'Nivel',     value: dimensions[selectedDim].level, color: SEV_COLOR[dimensions[selectedDim].level] ?? '#86868b', tip: 'Etiqueta del rango actual: BAJO (<30), MEDIO (30-54), ALTO (55-74), CRÍTICO (≥75).' },
                   ].map(({ label, value, color, tip }) => (
                     <div key={label} style={{ background: '#FAFAFA', borderRadius: 10, padding: '14px 16px' }}>
-                      <div style={{ fontSize: 11, color: '#6e6e73', marginBottom: 6, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                      <div style={{ fontSize: 12.5, color: '#6e6e73', marginBottom: 6, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                         {label}<InfoTip text={tip}/>
                       </div>
-                      <div style={{ fontSize: 22, fontWeight: 700, color, fontFamily: 'var(--font-display)' }}>{value}</div>
+                      <div style={{ fontSize: 25, fontWeight: 700, color, fontFamily: 'var(--font-display)' }}>{value}</div>
                     </div>
                   ))}
                 </div>
@@ -879,7 +974,7 @@ export default function TermometroPage() {
                   if (comps.length === 0) return null
                   return (
                     <div style={{ marginBottom: 20 }}>
-                      <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
                         Sub-KPIs que justifican el valor
                         <InfoTip text="Métricas raw de fuentes públicas que se combinan para calcular el score." />
                       </div>
@@ -891,21 +986,27 @@ export default function TermometroPage() {
                             <div key={i} style={{ padding: '12px 14px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 10 }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
                                 <div style={{ flex: 1 }}>
-                                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 2 }}>{c.metric_name}</div>
-                                  <div style={{ fontSize: 11, color: '#86868b' }}>
-                                    {c.source_id} · peso {(c.weight * 100).toFixed(0)}%
+                                  <div style={{ fontSize: 14.5, fontWeight: 600, color: '#1d1d1f', marginBottom: 2 }}>{c.metric_name}</div>
+                                  <div style={{ fontSize: 12.5, color: '#86868b' }}>
+                                    {(() => {
+                                      const url = resolveSourceUrl(c.source_id)
+                                      return url
+                                        ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#0071e3', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}>{c.source_id}</a>
+                                        : <span style={{ fontWeight: 600, color: '#6e6e73' }}>{c.source_id}</span>
+                                    })()}
+                                    {' '}· peso {(c.weight * 100).toFixed(0)}%
                                     {c.raw_value != null && <> · valor raw <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{c.raw_value}</strong></>}
                                   </div>
                                 </div>
                                 <div style={{ textAlign: 'right' }}>
-                                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: sc, lineHeight: 1 }}>{c.score_0_100}</div>
-                                  <div style={{ fontSize: 9.5, color: '#86868b' }}>/100</div>
+                                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, color: sc, lineHeight: 1 }}>{c.score_0_100}</div>
+                                  <div style={{ fontSize: 11, color: '#86868b' }}>/100</div>
                                 </div>
                               </div>
                               <div style={{ height: 5, background: '#F5F5F7', borderRadius: 3, marginBottom: 8 }}>
                                 <div style={{ width: `${Math.min(100, c.score_0_100)}%`, height: '100%', borderRadius: 3, background: sc }} />
                               </div>
-                              <p style={{ fontSize: 11.5, color: '#3a3a3d', margin: 0, lineHeight: 1.45, padding: '6px 8px', background: '#FAFAFA', borderRadius: 6, borderLeft: `2px solid ${sc}` }}>
+                              <p style={{ fontSize: 13, color: '#3a3a3d', margin: 0, lineHeight: 1.45, padding: '6px 8px', background: '#FAFAFA', borderRadius: 6, borderLeft: `2px solid ${sc}` }}>
                                 {interpretation}
                               </p>
                             </div>
@@ -918,15 +1019,15 @@ export default function TermometroPage() {
 
                 {dimensions[selectedDim].drivers?.length > 0 && (
                   <div>
-                    <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
                       Drivers del índice
                       <InfoTip text="Eventos o noticias concretas que están moviendo el score de esta dimensión." />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {dimensions[selectedDim].drivers.slice(0, 8).map(d => (
-                        <div key={d.id} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, fontSize: 13 }}>
+                        <div key={d.id} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, fontSize: 14.5 }}>
                           <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5 }}>{d.title}</div>
-                          <div style={{ display: 'flex', gap: 16, color: '#6e6e73', fontSize: 11.5, flexWrap: 'wrap' }}>
+                          <div style={{ display: 'flex', gap: 16, color: '#6e6e73', fontSize: 13, flexWrap: 'wrap' }}>
                             <span><span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.source}</span></span>
                             <span>Relevancia · <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.relevance}</span></span>
                             <span style={{ color: d.sentiment === 'negativo' || d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600 }}>{d.sentiment}</span>
@@ -940,7 +1041,7 @@ export default function TermometroPage() {
               </div>
             )}
             {!selectedDim && dimKeys.length > 0 && (
-              <div style={{ background: '#FAFAFA', border: '1px dashed #ECECEF', borderRadius: 14, padding: '40px 32px', textAlign: 'center', color: '#86868b', fontSize: 14 }}>
+              <div style={{ background: '#FAFAFA', border: '1px dashed #ECECEF', borderRadius: 14, padding: '40px 32px', textAlign: 'center', color: '#86868b', fontSize: 15.5 }}>
                 Selecciona una dimensión a la izquierda para ver el detalle, métricas técnicas y los drivers que la están moviendo.
               </div>
             )}
@@ -951,7 +1052,7 @@ export default function TermometroPage() {
         {tab === 'drivers' && (
           <div>
             {topRisks.length === 0 && signals.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13.5 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 15 }}>
                 Sin drivers disponibles
               </div>
             ) : (
@@ -960,7 +1061,7 @@ export default function TermometroPage() {
                   display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px',
                   gap: 12, padding: '12px 20px',
                   background: '#FAFAFA', borderBottom: '1px solid #ECECEF',
-                  fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                  fontSize: 12.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
                 }}>
                   <span>Driver</span>
                   <span style={{ textAlign: 'center' }}>Relevancia<InfoTip text="0-100. Cuán importante es el evento dentro de su tipo." /></span>
@@ -969,26 +1070,26 @@ export default function TermometroPage() {
                   <span>Detectado</span>
                 </div>
                 {topRisks.map(d => (
-                  <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 13 }}>
+                  <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 14.5 }}>
                     <div>
                       <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{d.title}</div>
-                      <div style={{ fontSize: 11.5, color: '#86868b' }}>{d.source}</div>
+                      <div style={{ fontSize: 13, color: '#86868b' }}>{d.source}</div>
                     </div>
                     <span style={{ color: '#1d1d1f', textAlign: 'center', fontWeight: 700 }}>{d.relevance}</span>
-                    <span style={{ color: d.sentiment === 'negativo' ? '#F59E0B' : d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600, fontSize: 12 }}>{d.sentiment}</span>
-                    <span style={{ color: d.spain_impact === 'alto' ? '#DC2626' : d.spain_impact === 'medio' ? '#F59E0B' : '#16A34A', fontWeight: 600, fontSize: 12 }}>{d.spain_impact}</span>
-                    <span style={{ color: '#86868b', fontSize: 11.5 }}>{relTime(d.scraped_at)}</span>
+                    <span style={{ color: d.sentiment === 'negativo' ? '#F59E0B' : d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600, fontSize: 13.5 }}>{d.sentiment}</span>
+                    <span style={{ color: d.spain_impact === 'alto' ? '#DC2626' : d.spain_impact === 'medio' ? '#F59E0B' : '#16A34A', fontWeight: 600, fontSize: 13.5 }}>{d.spain_impact}</span>
+                    <span style={{ color: '#86868b', fontSize: 13 }}>{relTime(d.scraped_at)}</span>
                   </div>
                 ))}
                 {topRisks.length === 0 && signals.map((s, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 13 }}>
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 14.5 }}>
                     <div>
                       <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{s.titulo}</div>
-                      <div style={{ fontSize: 11.5, color: '#86868b' }}>{s.fuente} · {s.tipo}</div>
+                      <div style={{ fontSize: 13, color: '#86868b' }}>{s.fuente} · {s.tipo}</div>
                     </div>
-                    <span style={{ color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b', fontWeight: 800, fontSize: 10, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 999, textAlign: 'center' }}>{s.severidad}</span>
+                    <span style={{ color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 999, textAlign: 'center' }}>{s.severidad}</span>
                     <span style={{ color: scoreColor(s.score), fontWeight: 700, fontFamily: 'var(--font-display)' }}>{s.score}/100</span>
-                    <span style={{ color: '#86868b', fontSize: 11.5 }}>SIGINT</span>
+                    <span style={{ color: '#86868b', fontSize: 13 }}>SIGINT</span>
                   </div>
                 ))}
               </div>
@@ -1014,7 +1115,7 @@ export default function TermometroPage() {
                 const c = DIM_COLORS[k] ?? '#2563EB'
                 return (
                   <button key={k} onClick={() => setHistDim(k)} style={{
-                    padding: '7px 16px', borderRadius: 999, fontSize: 12.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                    padding: '7px 16px', borderRadius: 999, fontSize: 14, fontWeight: active ? 700 : 500, cursor: 'pointer',
                     background: active ? c : '#fff',
                     color: active ? '#fff' : '#3a3a3d',
                     border: '1px solid ' + (active ? c : '#ECECEF'),
@@ -1024,7 +1125,7 @@ export default function TermometroPage() {
               })}
             </div>
             {buckets.length < 2 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13.5 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 15 }}>
                 Sin datos históricos · backend no conectado
               </div>
             ) : (() => {
@@ -1035,10 +1136,10 @@ export default function TermometroPage() {
               return (
                 <div style={{ background: '#fff', borderRadius: 14, padding: '22px 26px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
                   <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <div style={{ fontSize: 13.5, color: '#1d1d1f', fontWeight: 600 }}>
+                    <div style={{ fontSize: 15, color: '#1d1d1f', fontWeight: 600 }}>
                       Serie {histDim === 'composite' ? 'del índice compuesto' : `de la dimensión ${DIM_LABELS[histDim] ?? histDim}`}
                     </div>
-                    <div style={{ fontSize: 11, color: '#86868b' }}>30 días · 1 bucket por día</div>
+                    <div style={{ fontSize: 12.5, color: '#86868b' }}>30 días · 1 bucket por día</div>
                   </div>
                   <svg viewBox={`0 0 ${W} ${H + 30}`} style={{ width: '100%', height: 'auto' }}>
                     {/* Bandas de nivel · fondo */}
@@ -1077,13 +1178,13 @@ export default function TermometroPage() {
                       { label: 'Media',  value: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(0), color: '#1d1d1f' },
                       { label: 'Δ 7d',   value: vals.length >= 8 ? `${(vals[vals.length - 1] - vals[vals.length - 8]).toFixed(1)}` : '—', color: vals.length >= 8 && vals[vals.length - 1] > vals[vals.length - 8] ? '#DC2626' : '#16A34A' },
                     ].map(({ label, value, color: col }) => (
-                      <div key={label} style={{ fontSize: 12.5 }}>
+                      <div key={label} style={{ fontSize: 14 }}>
                         <span style={{ color: '#6e6e73', fontWeight: 500 }}>{label} · </span>
-                        <span style={{ color: col, fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 18 }}>{value}</span>
+                        <span style={{ color: col, fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 20 }}>{value}</span>
                       </div>
                     ))}
                   </div>
-                  <p style={{ fontSize: 11.5, color: '#86868b', margin: '14px 0 0', lineHeight: 1.45 }}>
+                  <p style={{ fontSize: 13, color: '#86868b', margin: '14px 0 0', lineHeight: 1.45 }}>
                     Las bandas de fondo indican los rangos BAJO (verde), MEDIO (azul), ALTO (naranja) y CRÍTICO (rojo).
                     Cruces consistentes entre rangos en pocos días indican aceleración del riesgo.
                   </p>
