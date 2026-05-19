@@ -294,3 +294,45 @@ class InvestigationDetail(Investigation):
     artifacts: list[Artifact] = Field(default_factory=list)
     recent_events: list[AnalystEvent] = Field(default_factory=list)
     counts: dict[str, int] = Field(default_factory=dict)
+
+
+# ─────────────────────────────────────────────────────────────────
+# Backlinks · Pilar 1 + 2 conectados (memoria institucional propia)
+# ─────────────────────────────────────────────────────────────────
+
+class InvestigationRef(BaseModel):
+    """Referencia compacta a una investigación (para backlinks)."""
+    id: int
+    slug: str
+    title: str
+    status: str
+    updated_at: datetime
+    pinned_position: int | None = None  # null si solo se referencia desde artifacts
+    pinned_note: str = ""
+
+
+class ArtifactRef(BaseModel):
+    """Referencia a un artifact que menciona la entidad."""
+    id: int
+    investigation_id: int
+    investigation_slug: str
+    investigation_title: str
+    artifact_kind: ArtifactKind
+    title: str
+    updated_at: datetime
+
+
+class EntityBacklinks(BaseModel):
+    """Backlinks de una entity: dónde aparece dentro de Politeia.
+
+    Esto convierte cada ficha (Pedro Sánchez, PSOE, Madrid…) en un nodo
+    de memoria institucional: muestra todas las investigaciones donde
+    está pinned + todos los artifacts (notebook, hipótesis, evidencias)
+    que la referencian. Backlinks estilo Obsidian/Roam para el workspace
+    investigativo.
+    """
+    entity_id: int
+    investigations: list[InvestigationRef] = Field(default_factory=list)
+    artifact_refs: list[ArtifactRef] = Field(default_factory=list)
+    total_pinned: int = 0
+    total_artifact_refs: int = 0

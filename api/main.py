@@ -50,6 +50,7 @@ from api.routers import (
     intelligence_workspace,
     legislative_core_api,
     opendata,
+    brain_copilot,   # Brain copiloto context-aware · /api/v1/brain/copilot
     entities,        # Ontología unificada · /api/v1/entities/*
     investigations,  # Workspace investigation-centric · /api/v1/investigations/*
     rag,
@@ -233,6 +234,7 @@ app.include_router(sectors.router, tags=["sectors"])
 app.include_router(sectores.router, tags=["sectores-intel"])
 app.include_router(entities.router, tags=["entities"])              # Pilar 1
 app.include_router(investigations.router, tags=["investigations"])  # Pilar 2
+app.include_router(brain_copilot.router, tags=["brain-copilot"])    # Pilar 3
 app.include_router(contratacion.router, tags=["contratacion"])
 app.include_router(fondos_eu.router, tags=["fondos-europeos"])
 # Bloque P3.2 — RAG: indexado BOE/Congreso/EUR-Lex/media + scheduler:

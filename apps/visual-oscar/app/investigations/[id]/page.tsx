@@ -26,6 +26,7 @@ import { PinnedSidebar } from './_components/PinnedSidebar'
 import { ArtifactTabs } from './_components/ArtifactTabs'
 import { EventsRail } from './_components/EventsRail'
 import { EntitySearchModal } from './_components/EntitySearchModal'
+import { BrainCopilotPanel } from './_components/BrainCopilotPanel'
 
 type Tab = 'notebook' | 'hypothesis' | 'evidence' | 'canvas' | 'briefs'
 
@@ -39,6 +40,7 @@ export default function InvestigationDetailPage() {
   const [error, setError] = useState<string | null>(null)
   const [tab, setTab] = useState<Tab>('notebook')
   const [searchOpen, setSearchOpen] = useState(false)
+  const [copilotOpen, setCopilotOpen] = useState(false)
 
   useEffect(() => {
     if (!isAuthenticated()) { router.push('/login'); return }
@@ -60,12 +62,15 @@ export default function InvestigationDetailPage() {
     }
   }, [invId])
 
-  // Cmd+P para pin entity
+  // Cmd+P para pin entity · Cmd+J para brain copilot
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === 'p') {
         e.preventDefault()
         setSearchOpen(true)
+      } else if ((e.metaKey || e.ctrlKey) && e.key === 'j') {
+        e.preventDefault()
+        setCopilotOpen((v) => !v)
       }
     }
     window.addEventListener('keydown', onKey)
@@ -171,6 +176,23 @@ export default function InvestigationDetailPage() {
             >
               Fijar entidad <kbd style={{ marginLeft: 6, opacity: 0.6 }}>⌘P</kbd>
             </button>
+            <button
+              onClick={() => setCopilotOpen((v) => !v)}
+              style={{
+                padding: '4px 12px',
+                background: copilotOpen ? 'var(--color-accent)' : 'var(--color-surface)',
+                border: '1px solid var(--color-accent)',
+                borderRadius: 8, fontSize: 11, fontWeight: 600,
+                color: copilotOpen ? '#fff' : 'var(--color-accent-text)',
+                cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              {copilotOpen ? 'Cerrar copiloto' : 'Abrir copiloto'} <kbd style={{
+                marginLeft: 6,
+                opacity: 0.7,
+                color: copilotOpen ? '#fff' : 'inherit',
+              }}>⌘J</kbd>
+            </button>
           </div>
         </header>
 
@@ -193,6 +215,12 @@ export default function InvestigationDetailPage() {
           onSelect={(r) => pinEntity(r.entity.id)}
         />
       )}
+
+      <BrainCopilotPanel
+        open={copilotOpen}
+        onClose={() => setCopilotOpen(false)}
+        detail={detail}
+      />
     </div>
   )
 }

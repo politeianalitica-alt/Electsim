@@ -15,6 +15,8 @@
  */
 
 import { useState, useEffect } from 'react'
+import EntityBacklinks from './EntityBacklinks'
+import { slugify } from '@/lib/ontology/slugify'
 
 interface DossierData {
   figure: {
@@ -316,6 +318,13 @@ export default function FigureDossierModal({ figureId, byName, onClose, onSelect
                   </div>
                 </section>
               )}
+
+              {/* Backlinks · memoria institucional propia (Pilar 1+2) */}
+              <EntityBacklinks
+                kind="actor_person"
+                slug={slugify(data.figure.nombre)}
+                fallbackName={data.figure.nombre}
+              />
 
               <p style={{ margin: 0, fontSize: 10, color: '#9ca3af', textAlign: 'center', paddingTop: 8 }}>
                 Dossier actualizado · {new Date(data.updatedAt).toLocaleString('es-ES')}

@@ -29,14 +29,17 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
 
+from fastapi import Header
+
 from agents.entities import (
     EntityRepository, get_entity_repository,
     EntityCreate, EntityUpdate, Entity, EntitySummary, EntitySearchResult,
     EntityLink, EntityLinkCreate,
 )
 from agents.entities.schemas import (
-    EntityKind, LinkKind,
+    EntityKind, LinkKind, EntityBacklinks,
 )
+from agents.entities.investigations import get_investigation_repository
 import typing as _t
 
 logger = logging.getLogger(__name__)
@@ -156,6 +159,27 @@ def get_entity_links(
         )
     except RuntimeError as exc:
         raise HTTPException(503, detail=f"BD no disponible: {exc}") from exc
+
+
+@router.get("/{entity_id}/backlinks", response_model=EntityBacklinks)
+def get_entity_backlinks(
+    entity_id: int,
+    limit: int = Query(default=50, ge=1, le=200),
+    x_user_id: str | None = Header(default=None, alias="X-User-Id"),
+) -> EntityBacklinks:
+    """Backlinks de una entity · dónde aparece dentro del workspace.
+
+    Devuelve las investigaciones del usuario donde la entity está pinned
+    + los artifacts (notebook_block, hypothesis, evidence...) que la
+    referencian. Resiliente · BD fresca devuelve listas vacías.
+
+    Es la conexión Pilar 1 ↔ Pilar 2: cada ficha de actor/partido/territorio
+    se convierte en nodo de memoria institucional propia (estilo Obsidian).
+    """
+    owner = (x_user_id or "demo").strip() or "demo"
+    return get_investigation_repository().backlinks_for_entity(
+        entity_id, owner_id=owner, limit=limit,
+    )
 
 
 # ─────────────────────────────────────────────────────────────────

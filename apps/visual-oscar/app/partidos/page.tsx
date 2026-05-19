@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import EntityBacklinks from '@/components/EntityBacklinks'
 
 // Tipos del proxy /api/market/parties
 type BackendParty = {
@@ -820,6 +821,15 @@ function PartidoCard({ p }: { p: Partido }) {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Backlinks · memoria institucional propia (Pilar 1+2) */}
+        <div style={{ marginTop: 12 }}>
+          <EntityBacklinks
+            kind="party"
+            slug={p.id}
+            fallbackName={p.nombre}
+          />
         </div>
       </div>
 

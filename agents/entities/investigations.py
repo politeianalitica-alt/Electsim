@@ -28,6 +28,7 @@ from agents.entities.schemas import (
     Investigation, InvestigationCreate, InvestigationUpdate,
     PinnedEntity, Artifact, ArtifactCreate, AnalystEvent,
     InvestigationDetail, EntitySummary,
+    EntityBacklinks, InvestigationRef, ArtifactRef,
 )
 from agents.entities.resolver import slugify
 from agents.entities.repository import _get_engine, _json_dumps
@@ -363,6 +364,91 @@ class InvestigationRepository:
                 target_kind=target_kind, target_id=target_id, entity_id=entity_id,
                 payload=payload,
             )
+
+    # ─────────────────────────────────────────────────────────────
+    # Backlinks · investigaciones / artifacts que mencionan una entity
+    # ─────────────────────────────────────────────────────────────
+    def backlinks_for_entity(
+        self,
+        entity_id: int,
+        *,
+        owner_id: str | None = None,
+        limit: int = 50,
+    ) -> EntityBacklinks:
+        """Devuelve dónde aparece una entity dentro del workspace.
+
+        Resiliente: si las tablas no existen aún (BD fresca sin alembic
+        upgrade), devuelve listas vacías en lugar de propagar el error.
+
+        El filtro por `owner_id` aplica RLS lite: solo se cuentan
+        investigaciones del propio analista (o donde es collaborator).
+        Si owner_id=None devuelve todo (uso interno).
+        """
+        try:
+            engine = self._ensure_engine()
+        except RuntimeError:
+            return EntityBacklinks(entity_id=entity_id)
+
+        rls = ""
+        params: dict[str, Any] = {"eid": entity_id, "limit": limit}
+        if owner_id:
+            rls = " AND (i.owner_id = :oid OR :oid = ANY(i.collaborators))"
+            params["oid"] = owner_id
+
+        try:
+            with engine.connect() as conn:
+                # 1) Investigations donde la entity está pinned
+                inv_rows = conn.execute(
+                    sql_text(f"""
+                        SELECT i.id, i.slug, i.title, i.status, i.updated_at,
+                               p.position AS pinned_position, p.note AS pinned_note
+                        FROM investigations i
+                        JOIN inv_pinned p ON p.investigation_id = i.id
+                        WHERE p.entity_id = :eid
+                          AND i.archived_at IS NULL{rls}
+                        ORDER BY i.updated_at DESC
+                        LIMIT :limit
+                    """),
+                    params,
+                ).all()
+
+                # 2) Artifacts que referencian la entity (via entity_refs array)
+                art_rows = conn.execute(
+                    sql_text(f"""
+                        SELECT a.id, a.investigation_id, a.artifact_kind,
+                               COALESCE(NULLIF(a.title, ''), 'sin título') AS title,
+                               a.updated_at,
+                               i.slug AS investigation_slug,
+                               i.title AS investigation_title
+                        FROM inv_artifacts a
+                        JOIN investigations i ON i.id = a.investigation_id
+                        WHERE :eid = ANY(a.entity_refs)
+                          AND a.archived_at IS NULL
+                          AND i.archived_at IS NULL{rls}
+                        ORDER BY a.updated_at DESC
+                        LIMIT :limit
+                    """),
+                    params,
+                ).all()
+        except Exception as exc:
+            logger.debug("backlinks_for_entity: query falló (tablas inexistentes?): %s", exc)
+            return EntityBacklinks(entity_id=entity_id)
+
+        investigations = [
+            InvestigationRef.model_validate({**dict(r._mapping)})
+            for r in inv_rows
+        ]
+        artifact_refs = [
+            ArtifactRef.model_validate({**dict(r._mapping)})
+            for r in art_rows
+        ]
+        return EntityBacklinks(
+            entity_id=entity_id,
+            investigations=investigations,
+            artifact_refs=artifact_refs,
+            total_pinned=len(investigations),
+            total_artifact_refs=len(artifact_refs),
+        )
 
     def recent_events(self, investigation_id: int, *, limit: int = 30) -> list[AnalystEvent]:
         engine = self._ensure_engine()
