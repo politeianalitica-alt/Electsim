@@ -7,7 +7,7 @@ import CountUp from './CountUp'
 import LiveStatusBadge from './LiveStatusBadge'
 import {
   RiesgoGauge, RiesgoRadar, RiesgoTrendChart,
-  RiesgoRadarLegend, RiesgoTrendLegend,
+  RiesgoTrendLegend,
   type RiesgoTrendData,
 } from './RiskVisuals'
 import type { RiskComposite, RiskDimension, RiskDriver } from '../app/api/risk/composite/route'
@@ -174,7 +174,7 @@ export default function RiskIntelligence() {
           )}
         </Card>
 
-        {/* Radar · 3 niveles (Vigilancia / Alerta / Crítico) · mismo tamaño que gauge */}
+        {/* Radar · 3 niveles · sin leyendas para que el SVG se vea más grande */}
         {(() => {
           const dims = composite?.dimensions ?? {}
           const axes = DIM_KEYS.map(k => dims[k]?.label || k)
@@ -188,11 +188,7 @@ export default function RiskIntelligence() {
             ],
           }
           return (
-            <Card
-              title="Radar de amenazas"
-              subtitle="3 niveles"
-              extra={<RiesgoRadarLegend levels={radarData.levels}/>}
-            >
+            <Card title="Radar de amenazas">
               {Object.keys(dims).length > 0 ? (
                 <RiesgoRadar data={radarData} size="small"/>
               ) : (
@@ -202,14 +198,14 @@ export default function RiskIntelligence() {
           )
         })()}
 
-        {/* Serie histórica + previsión · misma horizontal */}
+        {/* Serie histórica + previsión · más alta para llenar todo el hueco */}
         <Card
           title="Serie histórica"
           subtitle={`${timeseries?.buckets?.length ?? 0}d + previsión 7d`}
           extra={<RiesgoTrendLegend/>}
         >
           {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
-            <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={240}/>
+            <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={340}/>
           ) : (
             <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
               Cargando serie histórica…
