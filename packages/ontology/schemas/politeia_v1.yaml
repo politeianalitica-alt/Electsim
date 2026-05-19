@@ -1,0 +1,334 @@
+id: https://politeia-analitica.es/schemas/v1
+name: politeia-v1
+version: 1.0.0
+title: Politeia · ontología object-centric (LinkML schema)
+description: |
+  Schema LinkML que describe la ontología object-centric implementada en
+  Postgres (`entities` + `entity_links` · migración 0063).
+
+  Sirve para:
+    - Validar JSON Schema de salidas LLM (OntoGPT pattern).
+    - Auto-generar documentación del modelo de datos.
+    - Validar payloads de conectores antes de persistir.
+    - Generar OWL/RDF si en algún momento se necesita exportar.
+
+  Fuente de verdad del schema runtime: `agents/entities/schemas.py` (Pydantic).
+  Cuando una clase cambia aquí, el modelo Pydantic correspondiente debe
+  reflejar el cambio (CI valida el alineamiento).
+
+  Ref: `docs/INGESTA_PROPUESTA.md §4` (schema LinkML · pegamento central).
+
+license: https://creativecommons.org/licenses/by/4.0/
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pol: https://politeia-analitica.es/schemas/v1/
+  wd: https://www.wikidata.org/entity/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: pol
+default_range: string
+
+imports:
+  - linkml:types
+
+# ─────────────────────────────────────────────────────────────────
+# Enums · listas cerradas (añadir un valor = decisión consciente)
+# ─────────────────────────────────────────────────────────────────
+enums:
+
+  EntityKind:
+    description: |
+      Tipos de entidad canónica. Sincronizado con `EntityKind` en
+      `agents/entities/schemas.py`. Cerrado por contrato.
+    permissible_values:
+      actor_person:
+        description: Individuo político (Pedro Sánchez, Ayuso, líder sectorial)
+      actor_org:
+        description: Organización política o económica (partido, ONG, empresa)
+      institution:
+        description: Institución del Estado (Congreso, Senado, TS, TC, CNMC...)
+      party:
+        description: Partido político (subkind de actor_org, conservado por retro-compat)
+      government:
+        description: Gobierno (central, autonómico, local)
+      law:
+        description: Norma legal · ley, RDL, decreto, dictamen
+      event:
+        description: Hecho político · investidura, DANA, ruptura...
+      territory:
+        description: CCAA, provincia, municipio
+      media:
+        description: Medio de comunicación (El País, ABC, Cadena Ser...)
+      document:
+        description: Documento (BOE, BOCG, contrato PLACSP, sentencia...)
+      sector:
+        description: Sector económico (banca, energía, farma, defensa...)
+      narrative:
+        description: Narrativa identificada (ataques al CGPJ, vivienda...)
+      theme:
+        description: Tema · agenda (vivienda, IA Act, transición energética...)
+
+  LinkKind:
+    description: |
+      Tipos de relación entre entidades. Sincronizado con `LinkKind`.
+      Direccionalidad explícita siempre (src → dst).
+    permissible_values:
+      # Pertenencia / rol
+      member_of:        { description: actor_person → party / actor_org }
+      leads:            { description: actor_person → actor_org / government }
+      president_of:     { description: actor_person → territory / government / institution }
+      minister_of:      { description: actor_person → institution }
+      succeeds:         { description: actor_person → actor_person (sucesión) }
+      # Acción legislativa
+      proposes:         { description: actor → law }
+      votes_for:        { description: actor → law }
+      votes_against:    { description: actor → law }
+      abstains_on:      { description: actor → law }
+      regulates:        { description: institution → sector / theme }
+      # Geografía
+      located_in:       { description: entity → territory }
+      covers:           { description: media → territory / sector / theme }
+      # Eventos
+      participated_in:  { description: actor → event }
+      caused:           { description: event → event }
+      responded_to:     { description: actor → event }
+      # Relaciones políticas
+      allied_with:      { description: actor → actor }
+      rival_of:         { description: actor → actor }
+      coalition_with:   { description: party → party }
+      criticizes:       { description: actor → actor / law / event }
+      supports:         { description: actor → actor / law / event }
+      # Narrativa / cobertura
+      mentions:         { description: document / media → entity }
+      frames:           { description: narrative → actor / law / event }
+      attacks:          { description: narrative → actor (ataque narrativo) }
+      promotes:         { description: actor → narrative }
+      # Documentos
+      issued_by:        { description: document → institution }
+      cites:            { description: document → document / law }
+
+  SourceKind:
+    description: |
+      Fuente origen de un NormalizedItem. Sincronizado con `SourceKind`
+      en `packages/types/normalized_item.py`.
+    permissible_values:
+      # Legislación
+      boe:              { description: Boletín Oficial del Estado }
+      bocg:             { description: Boletín Oficial de las Cortes Generales }
+      borme:            { description: Boletín Oficial Registro Mercantil }
+      doue:             { description: Diario Oficial de la UE }
+      eur_lex:          { description: EUR-Lex }
+      ccaa_boletin:     { description: Boletines autonómicos (DOGC, BOCM, BOJA...) }
+      # Parlamento
+      congreso:         { description: Congreso de los Diputados · iniciativas + votos }
+      senado:           { description: Senado }
+      europarl:         { description: Parlamento Europeo }
+      ccaa_parlamento:  { description: Parlamentos autonómicos }
+      # Contratación
+      placsp:           { description: Plataforma de Contratación del Sector Público }
+      ted_eu:           { description: Tenders Electronic Daily UE }
+      ccaa_contratacion: { description: Contratación CCAA }
+      # Datos abiertos
+      ine:              { description: Instituto Nacional de Estadística }
+      bde:              { description: Banco de España }
+      eurostat:         { description: Eurostat }
+      datos_gob:        { description: datos.gob.es }
+      ckan_ccaa:        { description: CKAN/Socrata CCAA y municipales }
+      # Política
+      cis:              { description: Centro de Investigaciones Sociológicas }
+      interior_elecciones: { description: Resultados electorales · Ministerio Interior }
+      tribunal_cuentas: { description: Tribunal de Cuentas }
+      # Geopolítica
+      gdelt:            { description: GDELT 2.0 events DB }
+      acled:            { description: ACLED · armed conflict events }
+      ucdp:             { description: UCDP · Uppsala Conflict Data Program }
+      opensanctions:    { description: OpenSanctions · PEPs + sanciones }
+      opencorporates:   { description: OpenCorporates · empresas globales }
+      # Medios
+      rss:              { description: RSS feed de medio español }
+      rss_global:       { description: RSS feed internacional }
+      scraping_html:    { description: Scraping HTML directo (fallback) }
+      # Economía
+      ree:              { description: Red Eléctrica de España (apidatos) }
+      ecb:              { description: European Central Bank (SDW) }
+      world_bank:       { description: World Bank Open Data }
+      openbb:           { description: OpenBB · mercados }
+      # OSINT
+      telegram:         { description: Canales Telegram públicos }
+      x:                { description: X / Twitter (read-only) }
+      fact_check_rss:   { description: Maldita.es, Newtral RSS fact-check }
+      # Otros
+      wikidata:         { description: Wikidata SPARQL }
+      manual:           { description: Entrada manual por analista }
+      import:           { description: Importación bulk (CSV / API ad-hoc) }
+
+# ─────────────────────────────────────────────────────────────────
+# Slots (atributos reutilizables)
+# ─────────────────────────────────────────────────────────────────
+slots:
+
+  id:
+    identifier: true
+    range: integer
+    description: ID interno autogenerado en Postgres
+
+  kind:
+    range: EntityKind
+    required: true
+    description: Subtipo dentro de Entity
+
+  link_kind:
+    range: LinkKind
+    required: true
+    description: Tipo de relación
+
+  slug:
+    range: string
+    required: true
+    pattern: "^[a-z0-9][a-z0-9-]{0,118}[a-z0-9]$"
+    description: |
+      Slug humano legible único por (kind, slug). Lowercase, alphanumeric
+      + guion, sin acentos. Ej. 'pedro-sanchez', 'ley-amnistia-2024'.
+
+  qid:
+    range: string
+    pattern: "^Q[0-9]+$"
+    description: Wikidata QID si la entidad existe en Wikidata
+
+  display_name:
+    range: string
+    required: true
+    description: Nombre humano para mostrar (acepta acentos, mayúsculas, etc)
+
+  aliases:
+    range: string
+    multivalued: true
+    description: Otros nombres conocidos para la entidad
+
+  payload:
+    range: string
+    description: |
+      JSON con datos específicos del kind (no encajan en el schema
+      universal). En la BD es jsonb.
+
+  tags:
+    range: string
+    multivalued: true
+    description: Tags arbitrarios para clasificación lateral
+
+  confidence:
+    range: float
+    minimum_value: 0.0
+    maximum_value: 1.0
+    description: Confianza en la entidad/relación (1.0 = curada manualmente)
+
+  source:
+    range: string
+    description: De dónde proviene esta entidad/relación
+
+  valid_from:
+    range: datetime
+    description: Cuándo empieza a ser válida la entidad/relación
+
+  valid_to:
+    range: datetime
+    description: Cuándo deja de ser válida (null = todavía válida)
+
+  src_id:
+    range: integer
+    required: true
+    description: ID de la entity de origen del link
+
+  dst_id:
+    range: integer
+    required: true
+    description: ID de la entity de destino del link
+
+  evidence_url:
+    range: uri
+    description: URL del documento que evidencia esta relación
+
+  evidence_id:
+    range: integer
+    description: ID de la entity (kind=document) que evidencia esta relación
+
+# ─────────────────────────────────────────────────────────────────
+# Clases · alineadas con tablas Postgres (migración 0063)
+# ─────────────────────────────────────────────────────────────────
+classes:
+
+  Entity:
+    description: |
+      Objeto canónico de Politeia. Mapea a tabla `entities`.
+      Identidad única: (kind, slug). qid es secundaria (puede estar vacía).
+    slots:
+      - id
+      - kind
+      - slug
+      - qid
+      - display_name
+      - aliases
+      - payload
+      - tags
+      - confidence
+      - source
+      - valid_from
+      - valid_to
+    slot_usage:
+      slug:
+        required: true
+      kind:
+        required: true
+      display_name:
+        required: true
+    unique_keys:
+      kind_slug_uk:
+        unique_key_slots: [kind, slug]
+      qid_uk:
+        description: qid único cuando existe (NULL no cuenta)
+        unique_key_slots: [qid]
+
+  EntityLink:
+    description: |
+      Relación tipada y direccional entre dos Entity. Mapea a tabla
+      `entity_links`. Misma entity puede tener múltiples links del mismo
+      kind hacia distintos destinos (no hay UNIQUE en la tripla).
+    slots:
+      - id
+      - src_id
+      - dst_id
+      - link_kind
+      - confidence
+      - evidence_url
+      - evidence_id
+      - payload
+      - valid_from
+      - valid_to
+    slot_usage:
+      src_id:
+        required: true
+      dst_id:
+        required: true
+      link_kind:
+        required: true
+
+  EntityCollection:
+    description: |
+      Colección reutilizable de Entity (para tests, fixtures, exports).
+    attributes:
+      schema_version:
+        range: string
+        required: true
+        description: Versión del schema politeia_v1 usado
+      generated_at:
+        range: datetime
+        required: true
+      entities:
+        range: Entity
+        multivalued: true
+        inlined_as_list: true
+      links:
+        range: EntityLink
+        multivalued: true
+        inlined_as_list: true

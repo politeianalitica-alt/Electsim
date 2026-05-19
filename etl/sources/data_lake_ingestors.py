@@ -834,6 +834,32 @@ class DataLakeOrchestrator:
             results[layer] = self.run_layer(layer, **kwargs)
         return results
 
+    def run_priority(self) -> dict:
+        """Ingesta rapida · senales urgentes para ciclo horario.
+
+        Subset de run_daily limitado a 4 layers que aportan mas senal
+        por minuto-de-ingesta: BORME (eventos corporativos), contratacion
+        del Estado (PLACSP), media RSS espanol, GDELT (eventos
+        geopoliticos referenciados en prensa).
+
+        Llamado desde `agents/pipelines/master_pipeline.step_datalake_priority`
+        cada hora (cron `0 * * * *`).
+
+        Antes de esta implementacion, este metodo no existia: el wrapper
+        `_timed()` absorbia el `AttributeError` con `except Exception`,
+        haciendo que `run_signals` ejecutara silenciosamente sin ingesta.
+        """
+        priority = [
+            ("borme",        {}),
+            ("contratacion", {}),
+            ("media_rss",    {}),
+            ("gdelt",        {"query": "Espana politica gobierno"}),
+        ]
+        results = {}
+        for layer, kwargs in priority:
+            results[layer] = self.run_layer(layer, **kwargs)
+        return results
+
     def _save_to_staging(self, source: str, records: list[dict]) -> int:
         if not records:
             return 0

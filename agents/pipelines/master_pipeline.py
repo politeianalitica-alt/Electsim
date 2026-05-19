@@ -53,8 +53,22 @@ SENTIMENT_WEEKEND = int(os.getenv("MASTER_SENTIMENT_WEEKEND_TOP_N", "100"))
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 
+# P-INGESTA S1.1 · errores estructurales (bugs) vs operacionales (transitorios).
+# Antes este wrapper absorbia AttributeError de master_pipeline.py:79 (run_priority
+# no existia en DataLakeOrchestrator) sin que nadie se enterara — el daemon
+# pasaba todo el tiempo sin hacer ingesta. Ahora estos errores se loguean como
+# CRITICAL con stacktrace y la causa raiz es visible en cualquier observador.
+_STRUCTURAL_ERRORS = (AttributeError, ImportError, ModuleNotFoundError, TypeError, NameError)
+
+
 def _timed(step_name: str, fn: Callable, *args, **kwargs):
-    """Ejecuta fn con logging de duracion y manejo de errores."""
+    """Ejecuta fn con logging de duracion y manejo de errores.
+
+    Distingue entre errores estructurales (bug: metodo/clase/import no
+    existe) que se loguean como CRITICAL con stacktrace, y errores
+    operacionales (transitorios: red, BD, rate-limit) que se loguean
+    como ERROR sin stacktrace para reducir ruido.
+    """
     t0 = time.perf_counter()
     try:
         result = fn(*args, **kwargs)
@@ -62,6 +76,14 @@ def _timed(step_name: str, fn: Callable, *args, **kwargs):
         log.info("[master] step=%s status=ok elapsed_s=%.2f result=%s",
                  step_name, elapsed, result)
         return result
+    except _STRUCTURAL_ERRORS as exc:
+        elapsed = round(time.perf_counter() - t0, 2)
+        log.critical(
+            "[master] step=%s status=bug elapsed_s=%.2f error_type=%s error=%s",
+            step_name, elapsed, type(exc).__name__, exc,
+            exc_info=True,
+        )
+        return None
     except Exception as exc:
         elapsed = round(time.perf_counter() - t0, 2)
         log.error("[master] step=%s status=error elapsed_s=%.2f error=%s",
