@@ -4,7 +4,7 @@
  *
  * Lee de /api/media-intel-v2/* (proxies del backend /api/media-intel/*).
  * Todos los gráficos son SVG nativos para mantener consistencia con
- * RiskV2Dashboard y MacroFinanceDashboard (sin recharts ni date-fns).
+ * MacroFinanceDashboard (sin recharts ni date-fns).
  *
  * 7 pestañas:
  *  1. Panorama   — KPIs + espectro ideológico + cobertura CCAA

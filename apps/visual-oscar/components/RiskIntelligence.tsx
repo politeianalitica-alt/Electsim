@@ -41,8 +41,8 @@ function gaugeColor(score: number): string {
   return '#16A34A'
 }
 
-// Card wrapper · mismo estilo que el del motor estructural (RiskV2Dashboard)
-// para que el bloque Gauge + Radar + Trend del live tenga aspecto idéntico.
+// Card wrapper · contenedor estándar con el estilo Apple light
+// (border #ECECEF + shadow + h3 11.5px uppercase).
 function Card({ title, subtitle, extra, children, style }: {
   title: string; subtitle?: string; extra?: React.ReactNode
   children: React.ReactNode; style?: React.CSSProperties
