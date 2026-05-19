@@ -1,4 +1,5 @@
 'use client'
+import './senales-criticas.css'
 import { useState, useEffect, useCallback } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
@@ -127,26 +128,18 @@ function SignalCard({ s, onClick }: { s: CrisisSignal; onClick?: () => void }) {
   return (
     <button
       onClick={onClick}
-      style={{
-        width: '100%', textAlign: 'left', background: 'rgba(255,255,255,0.04)',
-        border: `1px solid ${color}40`, borderLeft: `3px solid ${color}`,
-        borderRadius: 6, padding: '10px 12px', cursor: 'pointer',
-        transition: 'background .15s',
-      }}
-      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
-      onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
+      className="sc-signal-card"
+      style={{ border: `1px solid ${color}40`, borderLeft: `3px solid ${color}` }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color, flexShrink: 0 }}>{s.severidad}</span>
-        <span style={{ fontSize: 10, color: 'rgba(148,163,184,.6)', flexShrink: 0 }}>{relTime(s.timestamp)}</span>
+      <div className="sc-signal-head">
+        <span className="sc-signal-sev" style={{ color }}>{s.severidad}</span>
+        <span className="sc-signal-time">{relTime(s.timestamp)}</span>
       </div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', margin: '4px 0 3px', lineHeight: 1.35 }}>{s.titulo}</div>
-      <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 10, background: 'rgba(255,255,255,.08)', borderRadius: 3, padding: '1px 5px', color: '#94a3b8' }}>
-          {TIPO_LABEL[s.tipo] ?? s.tipo}
-        </span>
-        <span style={{ fontSize: 10, color: '#64748b' }}>{s.fuente}</span>
-        {s.pais && <span style={{ fontSize: 10, color: '#64748b' }}>{s.pais}</span>}
+      <div className="sc-signal-title">{s.titulo}</div>
+      <div className="sc-signal-meta">
+        <span className="sc-signal-tag">{TIPO_LABEL[s.tipo] ?? s.tipo}</span>
+        <span className="sc-signal-source">{s.fuente}</span>
+        {s.pais && <span className="sc-signal-source">{s.pais}</span>}
       </div>
     </button>
   )
@@ -157,33 +150,30 @@ function ClusterCard({ c }: { c: CrisisCluster }) {
   const color = SEV_COLOR[c.severidad]
   const tendColor = c.tendencia === 'subiendo' ? '#f59e0b' : c.tendencia === 'bajando' ? '#22c55e' : '#64748b'
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.04)', border: `1px solid ${color}30`,
-      borderRadius: 8, padding: '14px 16px',
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0' }}>{c.nombre}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, color, background: `${color}20`, borderRadius: 4, padding: '2px 7px' }}>{c.severidad}</span>
+    <div className="sc-cluster-card" style={{ border: `1px solid ${color}30` }}>
+      <div className="sc-cluster-head">
+        <span className="sc-cluster-name">{c.nombre}</span>
+        <span className="sc-cluster-sev" style={{ color, background: `${color}20` }}>{c.severidad}</span>
       </div>
-      <div style={{ fontSize: 12, color: '#94a3b8', marginBottom: 10, lineHeight: 1.45 }}>{c.resumen}</div>
-      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+      <div className="sc-cluster-resumen">{c.resumen}</div>
+      <div className="sc-cluster-row">
         <div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>Señales</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#e2e8f0' }}>{c.n_señales}</div>
+          <div className="sc-cluster-stat-label">Señales</div>
+          <div className="sc-cluster-stat-value">{c.n_señales}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>Score max</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color }}>{c.score_max}</div>
+          <div className="sc-cluster-stat-label">Score max</div>
+          <div className="sc-cluster-stat-value" style={{ color }}>{c.score_max}</div>
         </div>
         <div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>Velocidad</div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: tendColor }}>
+          <div className="sc-cluster-stat-label">Velocidad</div>
+          <div className="sc-cluster-stat-value" style={{ color: tendColor }}>
             {TENDENCIA_ICON[c.tendencia]} {c.velocidad}/h
           </div>
         </div>
         <div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>Emocion</div>
-          <div style={{ fontSize: 12, fontWeight: 600, color: EMOCION_COLOR[c.emocion] }}>{c.emocion}</div>
+          <div className="sc-cluster-stat-label">Emocion</div>
+          <div className="sc-cluster-stat-value--emocion" style={{ color: EMOCION_COLOR[c.emocion] }}>{c.emocion}</div>
         </div>
       </div>
     </div>
@@ -195,30 +185,21 @@ function AttackGauge({ v }: { v: AttackVector }) {
   const color = LEVEL_COLOR[v.nivel]
   const icons: Record<string, string> = { ciber: 'CPU', informacional: 'INF', fisico: 'FIS' }
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.04)', border: `1px solid ${color}40`,
-      borderRadius: 10, padding: '16px 18px', flex: 1, minWidth: 200,
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+    <div className="sc-gauge" style={{ border: `1px solid ${color}40` }}>
+      <div className="sc-gauge-row">
         <div>
-          <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600, letterSpacing: '0.1em' }}>{icons[v.tipo]}</div>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#e2e8f0' }}>{v.nombre}</div>
+          <div className="sc-gauge-tipo">{icons[v.tipo]}</div>
+          <div className="sc-gauge-name">{v.nombre}</div>
         </div>
-        <div style={{
-          width: 52, height: 52, borderRadius: '50%',
-          border: `3px solid ${color}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: `${color}15`,
-        }}>
-          <span style={{ fontSize: 13, fontWeight: 800, color }}>{v.nivel}</span>
+        <div className="sc-gauge-circle" style={{ border: `3px solid ${color}`, background: `${color}15` }}>
+          <span className="sc-gauge-nivel" style={{ color }}>{v.nivel}</span>
         </div>
       </div>
-      {/* Score bar */}
-      <div style={{ height: 4, background: 'rgba(255,255,255,.08)', borderRadius: 2, marginBottom: 10 }}>
-        <div style={{ width: `${v.score}%`, height: '100%', borderRadius: 2, background: color, transition: 'width 1s' }} />
+      <div className="sc-gauge-track">
+        <div className="sc-gauge-fill" style={{ width: `${v.score}%`, background: color }} />
       </div>
-      <div style={{ fontSize: 11, color: '#94a3b8', lineHeight: 1.4 }}>{v.descripcion}</div>
-      <div style={{ marginTop: 8, fontSize: 10, color: '#64748b' }}>
+      <div className="sc-gauge-desc">{v.descripcion}</div>
+      <div className="sc-gauge-foot">
         {v.señales_activas} señales activas
       </div>
     </div>
@@ -258,28 +239,27 @@ export default function SenalesCriticasPage() {
   const globalLevelColor = LEVEL_COLOR[globalLevel]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#050d1a', color: '#e2e8f0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+    <div className="sc-root">
       <AppHeader />
-      <div style={{ padding: '24px 28px', maxWidth: 1440, margin: '0 auto' }}>
+      <div className="sc-main">
 
         {/* ── Header ── */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
+        <div className="sc-header">
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', margin: 0, letterSpacing: '-0.02em' }}>
+            <h1 className="sc-header-title">
               Senales Criticas — SIGINT-CIVIL
             </h1>
-            <div style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>
+            <div className="sc-header-subtitle">
               Agregacion en tiempo real: GDELT 2.0 · INCIBE-CERT · EMSC · Wikipedia · Congreso · Google Noticias ES
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            {/* Live indicator */}
-            <span style={{ display: 'flex', gap: 5, alignItems: 'center', fontSize: 11, color: '#22c55e' }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', animation: 'pulse 2s infinite' }} />
+          <div className="sc-header-right">
+            <span className="sc-live">
+              <span className="sc-live-dot" />
               LIVE
             </span>
             {signalsData.data?.timestamp && (
-              <span style={{ fontSize: 10, color: '#475569' }}>
+              <span className="sc-live-ts">
                 {new Date(signalsData.data.timestamp).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
               </span>
             )}
@@ -287,7 +267,7 @@ export default function SenalesCriticasPage() {
         </div>
 
         {/* ── Estado Global (KPI bar) ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 24 }}>
+        <div className="sc-kpi-grid">
           {[
             { label: 'Total senales', value: stats?.total ?? signals.length, color: '#94a3b8' },
             { label: 'Criticas', value: stats?.criticos ?? signals.filter(s => s.severidad === 'CRITICO').length, color: '#dc2626' },
@@ -296,22 +276,19 @@ export default function SenalesCriticasPage() {
             { label: 'Clusters', value: clusters.length, color: '#8b5cf6' },
             { label: 'Alerta global', value: globalLevel, color: globalLevelColor },
           ].map(({ label, value, color }) => (
-            <div key={label} style={{
-              background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '14px 16px',
-              border: '1px solid rgba(255,255,255,.07)',
-            }}>
-              <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600, letterSpacing: '0.08em', marginBottom: 6 }}>{label.toUpperCase()}</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color, lineHeight: 1 }}>{value}</div>
+            <div key={label} className="sc-kpi-card">
+              <div className="sc-kpi-label">{label.toUpperCase()}</div>
+              <div className="sc-kpi-value" style={{ color }}>{value}</div>
             </div>
           ))}
         </div>
 
         {/* ── Attack Detection bar ── */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', letterSpacing: '0.1em', marginBottom: 10 }}>
+        <div className="sc-attack-section">
+          <div className="sc-section-label">
             DETECCION DE ATAQUE — SEMAFORO
           </div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div className="sc-attack-row">
             {vectors.length > 0 ? vectors.map(v => <AttackGauge key={v.tipo} v={v} />) : (
               [
                 { tipo: 'ciber' as const, nombre: 'Vector Cibernetico', nivel: 'VERDE' as AttackLevel, score: 20, descripcion: 'Cargando datos INCIBE...', señales_activas: 0, ultima_actualizacion: new Date().toISOString() },
@@ -323,7 +300,7 @@ export default function SenalesCriticasPage() {
         </div>
 
         {/* ── Tab bar ── */}
-        <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
+        <div className="sc-tabs">
           {([
             { id: 'clusters', label: 'Clusters Activos' },
             { id: 'feed', label: 'Feed de Senales' },
@@ -333,12 +310,7 @@ export default function SenalesCriticasPage() {
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              style={{
-                padding: '8px 16px', borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: 'none',
-                background: tab === t.id ? 'rgba(59,130,246,.25)' : 'rgba(255,255,255,.05)',
-                color: tab === t.id ? '#93c5fd' : '#94a3b8',
-                borderBottom: tab === t.id ? '2px solid #3b82f6' : '2px solid transparent',
-              }}
+              className={`sc-tab${tab === t.id ? ' sc-tab--active' : ''}`}
             >
               {t.label}
             </button>
@@ -349,11 +321,11 @@ export default function SenalesCriticasPage() {
         {tab === 'clusters' && (
           <div>
             {loading ? (
-              <div style={{ color: '#475569', textAlign: 'center', padding: 48 }}>Cargando clusters...</div>
+              <div className="sc-state">Cargando clusters...</div>
             ) : clusters.length === 0 ? (
-              <div style={{ color: '#475569', textAlign: 'center', padding: 48 }}>Sin clusters detectados</div>
+              <div className="sc-state">Sin clusters detectados</div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 12 }}>
+              <div className="sc-cluster-grid">
                 {clusters.map(c => <ClusterCard key={c.id} c={c} />)}
               </div>
             )}
@@ -364,11 +336,11 @@ export default function SenalesCriticasPage() {
         {tab === 'feed' && (
           <div>
             {/* Filters */}
-            <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+            <div className="sc-filters-row">
               <select
                 value={filterTipo}
                 onChange={e => setFilterTipo(e.target.value)}
-                style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 5, color: '#e2e8f0', padding: '5px 10px', fontSize: 12 }}
+                className="sc-select"
               >
                 <option value="todos">Todos los tipos</option>
                 {(['ciberataque', 'conflicto', 'diplomatico', 'parlamentario', 'social', 'sismo', 'desinformacion', 'economico', 'energia'] as SignalType[]).map(t => (
@@ -378,72 +350,68 @@ export default function SenalesCriticasPage() {
               <select
                 value={filterSev}
                 onChange={e => setFilterSev(e.target.value)}
-                style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 5, color: '#e2e8f0', padding: '5px 10px', fontSize: 12 }}
+                className="sc-select"
               >
                 <option value="todos">Todas las severidades</option>
                 {(['CRITICO', 'ALTO', 'MEDIO', 'BAJO'] as Severity[]).map(s => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
-              <span style={{ fontSize: 11, color: '#475569', alignSelf: 'center' }}>
+              <span className="sc-filters-count">
                 {filteredSignals.length} de {signals.length} señales
               </span>
             </div>
 
             {/* Two-column layout: list + detail */}
-            <div style={{ display: 'grid', gridTemplateColumns: selectedSignal ? '380px 1fr' : '1fr', gap: 16 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div className={`sc-feed-grid${selectedSignal ? ' sc-feed-grid--with-detail' : ''}`}>
+              <div className="sc-feed-list">
                 {loading ? (
-                  <div style={{ color: '#475569', textAlign: 'center', padding: 32 }}>Cargando señales...</div>
+                  <div className="sc-state sc-state--small">Cargando señales...</div>
                 ) : filteredSignals.length === 0 ? (
-                  <div style={{ color: '#475569', textAlign: 'center', padding: 32 }}>Sin señales para los filtros aplicados</div>
+                  <div className="sc-state sc-state--small">Sin señales para los filtros aplicados</div>
                 ) : filteredSignals.map(s => (
                   <SignalCard key={s.id} s={s} onClick={() => setSelectedSignal(prev => prev?.id === s.id ? null : s)} />
                 ))}
               </div>
 
               {selectedSignal && (
-                <div style={{
-                  background: 'rgba(255,255,255,.04)', borderRadius: 10,
-                  border: `1px solid ${SEV_COLOR[selectedSignal.severidad]}40`, padding: 20,
-                  position: 'sticky', top: 80, alignSelf: 'start',
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: SEV_COLOR[selectedSignal.severidad] }}>
+                <div className="sc-detail" style={{ border: `1px solid ${SEV_COLOR[selectedSignal.severidad]}40` }}>
+                  <div className="sc-detail-head">
+                    <span className="sc-detail-sev" style={{ color: SEV_COLOR[selectedSignal.severidad] }}>
                       {selectedSignal.severidad} — {TIPO_LABEL[selectedSignal.tipo] ?? selectedSignal.tipo}
                     </span>
-                    <button onClick={() => setSelectedSignal(null)} style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 16 }}>x</button>
+                    <button onClick={() => setSelectedSignal(null)} className="sc-detail-close">x</button>
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#f1f5f9', marginBottom: 10, lineHeight: 1.4 }}>
+                  <div className="sc-detail-title">
                     {selectedSignal.titulo}
                   </div>
-                  <div style={{ fontSize: 12, color: '#94a3b8', lineHeight: 1.6, marginBottom: 14 }}>
+                  <div className="sc-detail-desc">
                     {selectedSignal.descripcion}
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 14 }}>
+                  <div className="sc-detail-grid">
                     <div>
-                      <div style={{ fontSize: 10, color: '#64748b' }}>Fuente</div>
-                      <div style={{ fontSize: 12, color: '#e2e8f0', fontWeight: 600 }}>{selectedSignal.fuente}</div>
+                      <div className="sc-detail-field-label">Fuente</div>
+                      <div className="sc-detail-field-value">{selectedSignal.fuente}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 10, color: '#64748b' }}>Score</div>
-                      <div style={{ fontSize: 12, color: SEV_COLOR[selectedSignal.severidad], fontWeight: 700 }}>{selectedSignal.score}/100</div>
+                      <div className="sc-detail-field-label">Score</div>
+                      <div className="sc-detail-field-value sc-detail-field-value--score" style={{ color: SEV_COLOR[selectedSignal.severidad] }}>{selectedSignal.score}/100</div>
                     </div>
                     {selectedSignal.pais && (
                       <div>
-                        <div style={{ fontSize: 10, color: '#64748b' }}>Pais/Region</div>
-                        <div style={{ fontSize: 12, color: '#e2e8f0' }}>{selectedSignal.pais}</div>
+                        <div className="sc-detail-field-label">Pais/Region</div>
+                        <div className="sc-detail-field-value">{selectedSignal.pais}</div>
                       </div>
                     )}
                     <div>
-                      <div style={{ fontSize: 10, color: '#64748b' }}>Timestamp</div>
-                      <div style={{ fontSize: 12, color: '#e2e8f0' }}>{relTime(selectedSignal.timestamp)}</div>
+                      <div className="sc-detail-field-label">Timestamp</div>
+                      <div className="sc-detail-field-value">{relTime(selectedSignal.timestamp)}</div>
                     </div>
                   </div>
                   {selectedSignal.tags.length > 0 && (
-                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 14 }}>
+                    <div className="sc-detail-tags-row">
                       {selectedSignal.tags.map(tag => (
-                        <span key={tag} style={{ fontSize: 10, background: 'rgba(255,255,255,.08)', borderRadius: 3, padding: '2px 6px', color: '#94a3b8' }}>
+                        <span key={tag} className="sc-detail-tag">
                           #{tag}
                         </span>
                       ))}
@@ -454,7 +422,7 @@ export default function SenalesCriticasPage() {
                       href={selectedSignal.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ fontSize: 12, color: '#3b82f6', textDecoration: 'none' }}
+                      className="sc-detail-link"
                     >
                       Ver fuente original →
                     </a>
@@ -468,32 +436,24 @@ export default function SenalesCriticasPage() {
         {/* ══════════ TAB: MAPA ══════════ */}
         {tab === 'mapa' && (
           <div>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+            <div className="sc-map-tabs">
               <button
                 onClick={() => setMapView('mundo')}
-                style={{
-                  padding: '6px 14px', borderRadius: 5, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: mapView === 'mundo' ? 'rgba(59,130,246,.25)' : 'rgba(255,255,255,.06)',
-                  color: mapView === 'mundo' ? '#93c5fd' : '#94a3b8',
-                }}
+                className={`sc-map-tab${mapView === 'mundo' ? ' sc-map-tab--active' : ''}`}
               >
                 Vista Mundo
               </button>
               <button
                 onClick={() => setMapView('españa')}
-                style={{
-                  padding: '6px 14px', borderRadius: 5, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none',
-                  background: mapView === 'españa' ? 'rgba(59,130,246,.25)' : 'rgba(255,255,255,.06)',
-                  color: mapView === 'españa' ? '#93c5fd' : '#94a3b8',
-                }}
+                className={`sc-map-tab${mapView === 'españa' ? ' sc-map-tab--active' : ''}`}
               >
                 Vista España
               </button>
             </div>
 
             {mapView === 'mundo' ? (
-              <div style={{ background: 'rgba(255,255,255,.03)', borderRadius: 10, padding: 16, border: '1px solid rgba(255,255,255,.06)' }}>
-                <svg viewBox="0 0 880 440" style={{ width: '100%', height: 'auto', maxHeight: 500 }}>
+              <div className="sc-map-frame">
+                <svg viewBox="0 0 880 440" className="sc-map-svg">
                   {/* Ocean background */}
                   <rect width={880} height={440} fill="#0a1628" rx={4} />
                   {/* Grid lines */}
@@ -535,13 +495,13 @@ export default function SenalesCriticasPage() {
                     ))}
                   </g>
                 </svg>
-                <div style={{ marginTop: 10, fontSize: 11, color: '#475569' }}>
+                <div className="sc-map-foot">
                   {geoSignals.length} señales geolocalizadas · fuentes: GDELT 2.0, EMSC, INCIBE-CERT
                 </div>
               </div>
             ) : (
-              <div style={{ background: 'rgba(255,255,255,.03)', borderRadius: 10, padding: 16, border: '1px solid rgba(255,255,255,.06)' }}>
-                <svg viewBox="0 0 500 300" style={{ width: '100%', height: 'auto', maxHeight: 400 }}>
+              <div className="sc-map-frame">
+                <svg viewBox="0 0 500 300" className="sc-map-svg sc-map-svg--small">
                   <rect width={500} height={300} fill="#0a1628" rx={4} />
                   {/* Spain bounding box */}
                   <rect x={10} y={10} width={480} height={280} fill="#0f1e35" stroke="rgba(255,255,255,.06)" strokeWidth={1} rx={3} />
@@ -580,28 +540,23 @@ export default function SenalesCriticasPage() {
                     </g>
                   ))}
                 </svg>
-                <div style={{ marginTop: 10, fontSize: 11, color: '#475569' }}>
+                <div className="sc-map-foot">
                   {esSignals.length} señales en territorio nacional
                 </div>
               </div>
             )}
 
             {/* Signal table below map */}
-            <div style={{ marginTop: 16 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', letterSpacing: '0.08em', marginBottom: 10 }}>SEÑALES GEOLOCALIZADAS</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div className="sc-geo-section">
+              <div className="sc-geo-label">SEÑALES GEOLOCALIZADAS</div>
+              <div className="sc-geo-list">
                 {geoSignals.slice(0, 8).map(s => (
-                  <div key={s.id} style={{
-                    display: 'grid', gridTemplateColumns: '80px 1fr 80px 80px 80px',
-                    gap: 10, alignItems: 'center', padding: '8px 12px',
-                    background: 'rgba(255,255,255,.03)', borderRadius: 5,
-                    fontSize: 12, border: '1px solid rgba(255,255,255,.05)',
-                  }}>
-                    <span style={{ color: SEV_COLOR[s.severidad], fontWeight: 700, fontSize: 11 }}>{s.severidad}</span>
-                    <span style={{ color: '#e2e8f0' }}>{s.titulo.slice(0, 60)}{s.titulo.length > 60 ? '...' : ''}</span>
-                    <span style={{ color: '#64748b' }}>{s.pais ?? '—'}</span>
-                    <span style={{ color: '#64748b', fontSize: 10 }}>{s.lat?.toFixed(1)}, {s.lon?.toFixed(1)}</span>
-                    <span style={{ color: '#475569', fontSize: 10 }}>{relTime(s.timestamp)}</span>
+                  <div key={s.id} className="sc-geo-row">
+                    <span className="sc-geo-sev" style={{ color: SEV_COLOR[s.severidad] }}>{s.severidad}</span>
+                    <span className="sc-geo-title">{s.titulo.slice(0, 60)}{s.titulo.length > 60 ? '...' : ''}</span>
+                    <span className="sc-geo-pais">{s.pais ?? '—'}</span>
+                    <span className="sc-geo-coords">{s.lat?.toFixed(1)}, {s.lon?.toFixed(1)}</span>
+                    <span className="sc-geo-time">{relTime(s.timestamp)}</span>
                   </div>
                 ))}
               </div>
@@ -613,33 +568,29 @@ export default function SenalesCriticasPage() {
         {tab === 'ataque' && (
           <div>
             {/* Global semaforo */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: 20, marginBottom: 24,
-              background: `${globalLevelColor}12`, border: `1px solid ${globalLevelColor}40`,
-              borderRadius: 10, padding: '16px 24px',
-            }}>
-              <div style={{ width: 64, height: 64, borderRadius: '50%', border: `4px solid ${globalLevelColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', background: `${globalLevelColor}20` }}>
-                <span style={{ fontSize: 15, fontWeight: 900, color: globalLevelColor }}>{globalLevel}</span>
+            <div className="sc-global" style={{ background: `${globalLevelColor}12`, border: `1px solid ${globalLevelColor}40` }}>
+              <div className="sc-global-circle" style={{ border: `4px solid ${globalLevelColor}`, background: `${globalLevelColor}20` }}>
+                <span className="sc-global-level" style={{ color: globalLevelColor }}>{globalLevel}</span>
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#e2e8f0' }}>Nivel de Alerta Global</div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: globalLevelColor }}>Score: {globalScore}/100</div>
-                <div style={{ fontSize: 11, color: '#94a3b8' }}>Ponderacion: Ciber 40% · Informacional 40% · Fisico 20%</div>
+                <div className="sc-global-info-label">Nivel de Alerta Global</div>
+                <div className="sc-global-score" style={{ color: globalLevelColor }}>Score: {globalScore}/100</div>
+                <div className="sc-global-weights">Ponderacion: Ciber 40% · Informacional 40% · Fisico 20%</div>
               </div>
             </div>
 
             {/* Three vectors detail */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className="sc-vectors-grid">
               {/* Cyber */}
-              <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 10, padding: 16, border: '1px solid rgba(255,255,255,.07)' }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#dc2626', marginBottom: 12, letterSpacing: '0.05em' }}>VECTOR CIBERNETICO</div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 10 }}>Fuentes: INCIBE-CERT, CCN-CERT</div>
+              <div className="sc-vector-card">
+                <div className="sc-vector-title sc-vector-title--cyber">VECTOR CIBERNETICO</div>
+                <div className="sc-vector-source">Fuentes: INCIBE-CERT, CCN-CERT</div>
                 {attackData.data?.details?.cyber && (attackData.data.details.cyber as CrisisSignal[]).length > 0 ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div className="sc-vector-list">
                     {(attackData.data.details.cyber as Array<{ nombre?: string; cvss?: number; afectados?: string; tipo_ataque?: string; fuente?: string; timestamp?: string }>).map((t, i) => (
-                      <div key={i} style={{ padding: '8px 10px', background: 'rgba(220,38,38,.08)', borderRadius: 5, border: '1px solid rgba(220,38,38,.2)' }}>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: '#fca5a5', marginBottom: 3 }}>{t.nombre?.slice(0, 70)}</div>
-                        <div style={{ display: 'flex', gap: 8, fontSize: 10, color: '#94a3b8' }}>
+                      <div key={i} className="sc-vector-item sc-vector-item--cyber">
+                        <div className="sc-vector-item-name sc-vector-item-name--cyber">{t.nombre?.slice(0, 70)}</div>
+                        <div className="sc-vector-item-meta">
                           {t.cvss && <span>CVSS: {t.cvss}</span>}
                           {t.tipo_ataque && <span>{t.tipo_ataque}</span>}
                           {t.afectados && <span>{t.afectados}</span>}
@@ -648,23 +599,23 @@ export default function SenalesCriticasPage() {
                     ))}
                   </div>
                 ) : (
-                  <div style={{ padding: '12px', background: 'rgba(34,197,94,.06)', borderRadius: 6, border: '1px solid rgba(34,197,94,.2)' }}>
-                    <div style={{ fontSize: 12, color: '#86efac' }}>Sin alertas criticas activas de INCIBE-CERT</div>
-                    <div style={{ fontSize: 10, color: '#475569', marginTop: 4 }}>Sistema de monitorizacion activo</div>
+                  <div className="sc-vector-empty">
+                    <div className="sc-vector-empty-msg">Sin alertas criticas activas de INCIBE-CERT</div>
+                    <div className="sc-vector-empty-sub">Sistema de monitorizacion activo</div>
                   </div>
                 )}
               </div>
 
               {/* Informacional */}
-              <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 10, padding: 16, border: '1px solid rgba(255,255,255,.07)' }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#f59e0b', marginBottom: 12, letterSpacing: '0.05em' }}>VECTOR INFORMACIONAL</div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 10 }}>Fuentes: Google Noticias ES, GDELT</div>
+              <div className="sc-vector-card">
+                <div className="sc-vector-title sc-vector-title--info">VECTOR INFORMACIONAL</div>
+                <div className="sc-vector-source">Fuentes: Google Noticias ES, GDELT</div>
                 {attackData.data?.details?.informacional && (attackData.data.details.informacional as unknown[]).length > 0 ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div className="sc-vector-list">
                     {(attackData.data.details.informacional as Array<{ narrativa?: string; objetivo?: string; velocidad?: number; plataformas?: string[]; timestamp?: string }>).map((t, i) => (
-                      <div key={i} style={{ padding: '8px 10px', background: 'rgba(245,158,11,.07)', borderRadius: 5, border: '1px solid rgba(245,158,11,.2)' }}>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: '#fde68a', marginBottom: 3 }}>{t.narrativa?.slice(0, 70)}</div>
-                        <div style={{ display: 'flex', gap: 8, fontSize: 10, color: '#94a3b8' }}>
+                      <div key={i} className="sc-vector-item sc-vector-item--info">
+                        <div className="sc-vector-item-name sc-vector-item-name--info">{t.narrativa?.slice(0, 70)}</div>
+                        <div className="sc-vector-item-meta">
                           {t.objetivo && <span>{t.objetivo}</span>}
                           {t.velocidad && <span>{t.velocidad} menciones/h</span>}
                         </div>
@@ -672,23 +623,23 @@ export default function SenalesCriticasPage() {
                     ))}
                   </div>
                 ) : (
-                  <div style={{ padding: '12px', background: 'rgba(34,197,94,.06)', borderRadius: 6, border: '1px solid rgba(34,197,94,.2)' }}>
-                    <div style={{ fontSize: 12, color: '#86efac' }}>Sin campanas de desinformacion activas</div>
-                    <div style={{ fontSize: 10, color: '#475569', marginTop: 4 }}>Monitor narrativo activo</div>
+                  <div className="sc-vector-empty">
+                    <div className="sc-vector-empty-msg">Sin campanas de desinformacion activas</div>
+                    <div className="sc-vector-empty-sub">Monitor narrativo activo</div>
                   </div>
                 )}
               </div>
 
               {/* Fisico */}
-              <div style={{ background: 'rgba(255,255,255,.04)', borderRadius: 10, padding: 16, border: '1px solid rgba(255,255,255,.07)' }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#3b82f6', marginBottom: 12, letterSpacing: '0.05em' }}>VECTOR FISICO</div>
-                <div style={{ fontSize: 11, color: '#64748b', marginBottom: 10 }}>Fuentes: EMSC, emergencias medios</div>
+              <div className="sc-vector-card">
+                <div className="sc-vector-title sc-vector-title--fisico">VECTOR FISICO</div>
+                <div className="sc-vector-source">Fuentes: EMSC, emergencias medios</div>
                 {attackData.data?.details?.fisico && (attackData.data.details.fisico as unknown[]).length > 0 ? (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div className="sc-vector-list">
                     {(attackData.data.details.fisico as Array<{ tipo?: string; ubicacion?: string; fuente?: string; lat?: number; lon?: number; timestamp?: string }>).map((t, i) => (
-                      <div key={i} style={{ padding: '8px 10px', background: 'rgba(59,130,246,.07)', borderRadius: 5, border: '1px solid rgba(59,130,246,.2)' }}>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: '#93c5fd', marginBottom: 3 }}>{t.tipo} — {t.ubicacion}</div>
-                        <div style={{ display: 'flex', gap: 8, fontSize: 10, color: '#94a3b8' }}>
+                      <div key={i} className="sc-vector-item sc-vector-item--fisico">
+                        <div className="sc-vector-item-name sc-vector-item-name--fisico">{t.tipo} — {t.ubicacion}</div>
+                        <div className="sc-vector-item-meta">
                           <span>{t.fuente}</span>
                           {t.lat && <span>{t.lat?.toFixed(2)}, {t.lon?.toFixed(2)}</span>}
                         </div>
@@ -696,35 +647,29 @@ export default function SenalesCriticasPage() {
                     ))}
                   </div>
                 ) : (
-                  <div style={{ padding: '12px', background: 'rgba(34,197,94,.06)', borderRadius: 6, border: '1px solid rgba(34,197,94,.2)' }}>
-                    <div style={{ fontSize: 12, color: '#86efac' }}>Sin alertas fisicas activas</div>
-                    <div style={{ fontSize: 10, color: '#475569', marginTop: 4 }}>EMSC: monitoring iberico activo</div>
+                  <div className="sc-vector-empty">
+                    <div className="sc-vector-empty-msg">Sin alertas fisicas activas</div>
+                    <div className="sc-vector-empty-sub">EMSC: monitoring iberico activo</div>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Fusion matrix */}
-            <div style={{ marginTop: 20, background: 'rgba(255,255,255,.03)', borderRadius: 10, padding: '16px 20px', border: '1px solid rgba(255,255,255,.06)' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#475569', letterSpacing: '0.1em', marginBottom: 14 }}>MATRIZ DE CORRELACION</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr 1fr', gap: 1, maxWidth: 480 }}>
+            <div className="sc-matrix-section">
+              <div className="sc-matrix-label">MATRIZ DE CORRELACION</div>
+              <div className="sc-matrix-grid">
                 {[['', 'Ciber', 'Informacional', 'Fisico'],
                   ['Ciber', '—', vectors[0] && vectors[1] ? Math.round(Math.abs(vectors[0].score - vectors[1].score) / 100 * 10) / 10 : '—', vectors[0] && vectors[2] ? Math.round(Math.abs(vectors[0].score - vectors[2].score) / 100 * 10) / 10 : '—'],
                   ['Informacional', '—', '—', vectors[1] && vectors[2] ? Math.round(Math.abs(vectors[1].score - vectors[2].score) / 100 * 10) / 10 : '—'],
                   ['Fisico', '—', '—', '—'],
                 ].map((row, ri) => row.map((cell, ci) => (
-                  <div key={`${ri}_${ci}`} style={{
-                    padding: '6px 10px', fontSize: 11,
-                    background: ri === 0 || ci === 0 ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.03)',
-                    color: ri === 0 || ci === 0 ? '#94a3b8' : '#e2e8f0',
-                    fontWeight: ri === 0 || ci === 0 ? 700 : 400,
-                    textAlign: 'center',
-                  }}>
+                  <div key={`${ri}_${ci}`} className={`sc-matrix-cell ${ri === 0 || ci === 0 ? 'sc-matrix-cell--header' : 'sc-matrix-cell--body'}`}>
                     {cell}
                   </div>
                 )))}
               </div>
-              <div style={{ marginTop: 12, fontSize: 11, color: '#475569' }}>
+              <div className="sc-matrix-foot">
                 Correlacion calculada entre vectores de ataque en la ultima hora. Valor entre 0 (sin correlacion) y 1 (ataque coordinado).
               </div>
             </div>
@@ -732,13 +677,6 @@ export default function SenalesCriticasPage() {
         )}
 
       </div>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
     </div>
   )
 }

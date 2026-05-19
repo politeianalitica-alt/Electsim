@@ -1,0 +1,684 @@
+/* /senales-criticas · estilos tokenizados (Pilar 4 · Ronda 3)
+ *
+ * Dashboard SIGINT-CIVIL con tema oscuro propio (#050d1a base).
+ * Las variables --sc-* aíslan el dark theme de esta ruta sin tocar
+ * los tokens globales del design system.
+ *
+ * Prefijo .sc- para todas las clases.
+ */
+
+/* ─── Tema oscuro local ───────────────────────────────────── */
+:root {
+  --sc-bg: #050d1a;
+  --sc-bg-map: #0a1628;
+  --sc-bg-map-inner: #0f1e35;
+  --sc-surface: rgba(255, 255, 255, 0.04);
+  --sc-surface-hover: rgba(255, 255, 255, 0.07);
+  --sc-surface-2: rgba(255, 255, 255, 0.03);
+  --sc-surface-3: rgba(255, 255, 255, 0.06);
+  --sc-tab-active: rgba(59, 130, 246, 0.25);
+  --sc-border: rgba(255, 255, 255, 0.07);
+  --sc-border-soft: rgba(255, 255, 255, 0.05);
+  --sc-border-grid: rgba(255, 255, 255, 0.03);
+  --sc-ink-1: #f1f5f9;
+  --sc-ink-2: #e2e8f0;
+  --sc-ink-3: #94a3b8;
+  --sc-ink-4: #64748b;
+  --sc-ink-5: #475569;
+  --sc-accent: #3b82f6;
+  --sc-accent-soft: #93c5fd;
+}
+
+@keyframes sc-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
+/* ─── Layout base ─────────────────────────────────────────── */
+.sc-root {
+  min-height: 100vh;
+  background: var(--sc-bg);
+  color: var(--sc-ink-2);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.sc-main {
+  padding: 24px 28px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* ─── Header ──────────────────────────────────────────────── */
+.sc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+.sc-header-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--sc-ink-1);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.sc-header-subtitle {
+  font-size: 12px;
+  color: var(--sc-ink-4);
+  margin-top: 4px;
+}
+.sc-header-right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.sc-live {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 11px;
+  color: #22c55e;
+}
+.sc-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: sc-pulse 2s infinite;
+}
+.sc-live-ts {
+  font-size: 10px;
+  color: var(--sc-ink-5);
+}
+
+/* ─── KPI strip ───────────────────────────────────────────── */
+.sc-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.sc-kpi-card {
+  background: var(--sc-surface);
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--sc-border);
+}
+.sc-kpi-label {
+  font-size: 10px;
+  color: var(--sc-ink-4);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.sc-kpi-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ─── Attack vectors section ──────────────────────────────── */
+.sc-attack-section {
+  margin-bottom: 24px;
+}
+.sc-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sc-ink-5);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.sc-attack-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ─── Attack gauge card ───────────────────────────────────── */
+.sc-gauge {
+  background: var(--sc-surface);
+  border-radius: 10px;
+  padding: 16px 18px;
+  flex: 1;
+  min-width: 200px;
+}
+.sc-gauge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.sc-gauge-tipo {
+  font-size: 10px;
+  color: var(--sc-ink-4);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.sc-gauge-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sc-ink-2);
+}
+.sc-gauge-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sc-gauge-nivel {
+  font-size: 13px;
+  font-weight: 800;
+}
+.sc-gauge-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+.sc-gauge-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s;
+}
+.sc-gauge-desc {
+  font-size: 11px;
+  color: var(--sc-ink-3);
+  line-height: 1.4;
+}
+.sc-gauge-foot {
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--sc-ink-4);
+}
+
+/* ─── Tabs ────────────────────────────────────────────────── */
+.sc-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.sc-tab {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sc-ink-3);
+  border-bottom: 2px solid transparent;
+  transition: background 150ms;
+}
+.sc-tab--active {
+  background: var(--sc-tab-active);
+  color: var(--sc-accent-soft);
+  border-bottom: 2px solid var(--sc-accent);
+}
+
+/* ─── States ──────────────────────────────────────────────── */
+.sc-state {
+  color: var(--sc-ink-5);
+  text-align: center;
+  padding: 48px;
+}
+.sc-state--small {
+  padding: 32px;
+}
+
+/* ─── Cluster grid ─────────────────────────────────────────── */
+.sc-cluster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 12px;
+}
+.sc-cluster-card {
+  background: var(--sc-surface);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.sc-cluster-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.sc-cluster-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sc-ink-2);
+}
+.sc-cluster-sev {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+.sc-cluster-resumen {
+  font-size: 12px;
+  color: var(--sc-ink-3);
+  margin-bottom: 10px;
+  line-height: 1.45;
+}
+.sc-cluster-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.sc-cluster-stat-label {
+  font-size: 10px;
+  color: var(--sc-ink-4);
+}
+.sc-cluster-stat-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sc-ink-2);
+}
+.sc-cluster-stat-value--emocion {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ─── Signal card ─────────────────────────────────────────── */
+.sc-signal-card {
+  width: 100%;
+  text-align: left;
+  background: var(--sc-surface);
+  border-radius: 6px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 150ms;
+}
+.sc-signal-card:hover {
+  background: var(--sc-surface-hover);
+}
+.sc-signal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+.sc-signal-sev {
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.sc-signal-time {
+  font-size: 10px;
+  color: rgba(148, 163, 184, 0.6);
+  flex-shrink: 0;
+}
+.sc-signal-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sc-ink-2);
+  margin: 4px 0 3px;
+  line-height: 1.35;
+}
+.sc-signal-meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sc-signal-tag {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--sc-ink-3);
+}
+.sc-signal-source {
+  font-size: 10px;
+  color: var(--sc-ink-4);
+}
+
+/* ─── Feed filters ────────────────────────────────────────── */
+.sc-filters-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.sc-select {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  color: var(--sc-ink-2);
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.sc-filters-count {
+  font-size: 11px;
+  color: var(--sc-ink-5);
+  align-self: center;
+}
+
+/* ─── Feed layout (list + detail) ─────────────────────────── */
+.sc-feed-grid {
+  display: grid;
+  gap: 16px;
+}
+.sc-feed-grid--with-detail {
+  grid-template-columns: 380px 1fr;
+}
+.sc-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ─── Detail panel ────────────────────────────────────────── */
+.sc-detail {
+  background: var(--sc-surface);
+  border-radius: 10px;
+  padding: 20px;
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+.sc-detail-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.sc-detail-sev {
+  font-size: 11px;
+  font-weight: 700;
+}
+.sc-detail-close {
+  background: none;
+  border: none;
+  color: var(--sc-ink-4);
+  cursor: pointer;
+  font-size: 16px;
+}
+.sc-detail-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sc-ink-1);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.sc-detail-desc {
+  font-size: 12px;
+  color: var(--sc-ink-3);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.sc-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.sc-detail-field-label {
+  font-size: 10px;
+  color: var(--sc-ink-4);
+}
+.sc-detail-field-value {
+  font-size: 12px;
+  color: var(--sc-ink-2);
+  font-weight: 600;
+}
+.sc-detail-field-value--score {
+  font-weight: 700;
+}
+.sc-detail-tags-row {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.sc-detail-tag {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: var(--sc-ink-3);
+}
+.sc-detail-link {
+  font-size: 12px;
+  color: var(--sc-accent);
+  text-decoration: none;
+}
+
+/* ─── Mapa ───────────────────────────────────────────────── */
+.sc-map-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.sc-map-tab {
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: var(--sc-surface-3);
+  color: var(--sc-ink-3);
+}
+.sc-map-tab--active {
+  background: var(--sc-tab-active);
+  color: var(--sc-accent-soft);
+}
+.sc-map-frame {
+  background: var(--sc-surface-2);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--sc-surface-3);
+}
+.sc-map-svg {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+}
+.sc-map-svg--small {
+  max-height: 400px;
+}
+.sc-map-foot {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--sc-ink-5);
+}
+
+/* ─── Geosignals table ────────────────────────────────────── */
+.sc-geo-section {
+  margin-top: 16px;
+}
+.sc-geo-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sc-ink-5);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.sc-geo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sc-geo-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px 80px 80px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--sc-surface-2);
+  border-radius: 5px;
+  font-size: 12px;
+  border: 1px solid var(--sc-border-soft);
+}
+.sc-geo-sev {
+  font-weight: 700;
+  font-size: 11px;
+}
+.sc-geo-title {
+  color: var(--sc-ink-2);
+}
+.sc-geo-pais {
+  color: var(--sc-ink-4);
+}
+.sc-geo-coords {
+  color: var(--sc-ink-4);
+  font-size: 10px;
+}
+.sc-geo-time {
+  color: var(--sc-ink-5);
+  font-size: 10px;
+}
+
+/* ─── Attack tab · Global semáforo ────────────────────────── */
+.sc-global {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  padding: 16px 24px;
+}
+.sc-global-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sc-global-level {
+  font-size: 15px;
+  font-weight: 900;
+}
+.sc-global-info-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sc-ink-2);
+}
+.sc-global-score {
+  font-size: 20px;
+  font-weight: 900;
+}
+.sc-global-weights {
+  font-size: 11px;
+  color: var(--sc-ink-3);
+}
+
+/* ─── Attack tab · vectors grid ──────────────────────────── */
+.sc-vectors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.sc-vector-card {
+  background: var(--sc-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--sc-border);
+}
+.sc-vector-title {
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.sc-vector-title--cyber { color: #dc2626; }
+.sc-vector-title--info { color: #f59e0b; }
+.sc-vector-title--fisico { color: #3b82f6; }
+.sc-vector-source {
+  font-size: 11px;
+  color: var(--sc-ink-4);
+  margin-bottom: 10px;
+}
+.sc-vector-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sc-vector-item {
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+.sc-vector-item--cyber {
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+.sc-vector-item--info {
+  background: rgba(245, 158, 11, 0.07);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+.sc-vector-item--fisico {
+  background: rgba(59, 130, 246, 0.07);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+.sc-vector-item-name {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.sc-vector-item-name--cyber { color: #fca5a5; }
+.sc-vector-item-name--info { color: #fde68a; }
+.sc-vector-item-name--fisico { color: #93c5fd; }
+.sc-vector-item-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--sc-ink-3);
+}
+.sc-vector-empty {
+  padding: 12px;
+  background: rgba(34, 197, 94, 0.06);
+  border-radius: 6px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+.sc-vector-empty-msg {
+  font-size: 12px;
+  color: #86efac;
+}
+.sc-vector-empty-sub {
+  font-size: 10px;
+  color: var(--sc-ink-5);
+  margin-top: 4px;
+}
+
+/* ─── Correlation matrix ─────────────────────────────────── */
+.sc-matrix-section {
+  margin-top: 20px;
+  background: var(--sc-surface-2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  border: 1px solid var(--sc-surface-3);
+}
+.sc-matrix-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sc-ink-5);
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+.sc-matrix-grid {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr;
+  gap: 1px;
+  max-width: 480px;
+}
+.sc-matrix-cell {
+  padding: 6px 10px;
+  font-size: 11px;
+  text-align: center;
+}
+.sc-matrix-cell--header {
+  background: var(--sc-surface-3);
+  color: var(--sc-ink-3);
+  font-weight: 700;
+}
+.sc-matrix-cell--body {
+  background: var(--sc-surface-2);
+  color: var(--sc-ink-2);
+  font-weight: 400;
+}
+.sc-matrix-foot {
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--sc-ink-5);
+}
