@@ -312,7 +312,7 @@ function Thermometer({ score, semaforo, level }: { score: number; semaforo: Sema
   const nx = cx + (r - 22) * Math.cos(toRad(needleAngle))
   const ny = cy + (r - 22) * Math.sin(toRad(needleAngle))
   return (
-    <svg viewBox="0 0 280 220" width="100%" height="auto" style={{ display: 'block', maxWidth: 340 }}>
+    <svg viewBox="0 0 280 220" width="100%" height="auto" style={{ display: 'block', maxWidth: 260 }}>
       {/* Track segmentado · 4 zonas con sus colores */}
       {[
         { from: -135, to: -54,  c: '#16A34A' },
@@ -679,7 +679,7 @@ export default function TermometroPage() {
         </section>
 
         {/* Gauge + KPIs + nivel actual */}
-        <section style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 18, marginBottom: 22 }}>
+        <section style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 18, marginBottom: 22 }}>
 
           {/* Gauge card */}
           <div style={{
@@ -698,7 +698,7 @@ export default function TermometroPage() {
                   Histórico 30 días
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Sparkline data={compositeHistory} color={semColor} W={240} H={48} />
+                  <Sparkline data={compositeHistory} color={semColor} W={200} H={38} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10, fontSize: 13.5, color: '#6e6e73' }}>
                   <span>Min · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{Math.min(...compositeHistory).toFixed(0)}</span></span>
@@ -1130,7 +1130,7 @@ export default function TermometroPage() {
               </div>
             ) : (() => {
               const vals = buckets.map(b => histDim === 'composite' ? b.composite : ((b as unknown as Record<string, number>)[histDim] ?? 0))
-              const W = 800, H = 240
+              const W = 760, H = 200
               const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * W},${H - (v / 100) * H}`)
               const color = DIM_COLORS[histDim] ?? '#2563EB'
               return (

@@ -330,7 +330,7 @@ function Overview({ indices, aggregate, trend }: {
         extra={<RiesgoTrendLegend/>}
       >
         {trend ? (
-          <RiesgoTrendChart trend={trend} height={300}/>
+          <RiesgoTrendChart trend={trend} height={240}/>
         ) : (
           <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
             Cargando serie histórica…

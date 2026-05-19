@@ -209,7 +209,7 @@ export default function RiskIntelligence() {
         style={{ marginBottom: 16 }}
       >
         {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
-          <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={300}/>
+          <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={240}/>
         ) : (
           <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
             Cargando serie histórica…
