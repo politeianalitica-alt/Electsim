@@ -3,6 +3,7 @@ import { useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import type { RiskIndicesPayload, RiskIndexCard } from '@/app/api/risk-v2/indices/route'
 
 // ─── types ────────────────────────────────────────────────────────────────────
 type Level = 'BAJO' | 'MEDIO' | 'ALTO' | 'CRITICO'
@@ -95,6 +96,61 @@ const DIM_SOURCES: Record<string, string> = {
   economic:      'ECB SDW (DFR) · INE TempUS (IPC) · Banco Mundial',
   media:         'GDELT 2.0 · RSS 30 medios · sentiment NLP',
   social:        'Banco Mundial paro 16-24 · INE EPA · Politeia Lab',
+}
+
+// Mapeo entre dim keys del termómetro y index_id del endpoint risk-v2
+const DIM_TO_RISKV2: Record<string, string> = {
+  institutional: 'institutional',
+  electoral:     'electoral',
+  geopolitical:  'geopolitical',
+  economic:      'economic',
+  media:         'media',
+  social:        'social',
+}
+
+// Interpretación contextual de un sub-KPI según su raw value y métrica
+function interpretSubKpi(metricName: string, rawValue: number | null, score: number): string {
+  if (rawValue == null) return 'Valor no disponible · usando aproximación calibrada.'
+  const lower = metricName.toLowerCase()
+  if (lower.includes('gini')) {
+    if (rawValue >= 35) return `Gini ${rawValue} · desigualdad alta (>35 es preocupante en países UE). Genera tensión social latente y aporta al riesgo institucional.`
+    if (rawValue >= 30) return `Gini ${rawValue} · desigualdad moderada-alta. Por debajo de Reino Unido pero por encima de Francia/Alemania.`
+    return `Gini ${rawValue} · desigualdad moderada. Dentro de la media UE.`
+  }
+  if (lower.includes('militar')) {
+    if (rawValue >= 2.0) return `Gasto militar ${rawValue}% PIB · cumple objetivo OTAN 2%. Indica presión externa elevada (Rusia/Sahel).`
+    if (rawValue >= 1.5) return `Gasto militar ${rawValue}% PIB · por debajo del objetivo OTAN del 2%. España sigue siendo de los aliados menos invertidos.`
+    return `Gasto militar ${rawValue}% PIB · muy bajo en contexto OTAN. Aporta poco al score geopolítico.`
+  }
+  if (lower.includes('paro juvenil')) {
+    if (rawValue >= 35) return `Paro 16-24 ${rawValue}% · zona crítica. Españа es de los peores datos de la UE. Genera tensión social estructural.`
+    if (rawValue >= 25) return `Paro 16-24 ${rawValue}% · alto. España duplica la media UE en paro juvenil. Riesgo de movilización.`
+    if (rawValue >= 15) return `Paro 16-24 ${rawValue}% · moderado. Por encima de la media UE pero contenido.`
+    return `Paro 16-24 ${rawValue}% · controlado.`
+  }
+  if (lower.includes('ipc')) {
+    if (rawValue >= 4) return `IPC ${rawValue}% · inflación alta. Erosiona poder adquisitivo y presiona al BCE a no bajar tipos.`
+    if (rawValue >= 2.5) return `IPC ${rawValue}% · ligeramente por encima del objetivo BCE (2%). Estable.`
+    if (rawValue >= 1.5) return `IPC ${rawValue}% · en zona del objetivo BCE. Inflación controlada.`
+    return `IPC ${rawValue}% · por debajo del objetivo. Riesgo de deflación si persiste.`
+  }
+  if (lower.includes('dfr')) {
+    if (rawValue >= 4) return `DFR ${rawValue}% · tipos altos. Encarece deuda soberana y crédito empresarial.`
+    if (rawValue >= 2.5) return `DFR ${rawValue}% · tipos restrictivos pero a la baja desde el pico de 2023.`
+    if (rawValue >= 1) return `DFR ${rawValue}% · zona neutral. BCE sigue ciclo bajista.`
+    return `DFR ${rawValue}% · tipos bajos. Estímulo monetario activo.`
+  }
+  if (lower.includes('gdelt') || lower.includes('tone')) {
+    if (rawValue <= -5) return `Tone ${rawValue} · cobertura internacional muy negativa sobre España. Indica presión mediática externa.`
+    if (rawValue <= -2) return `Tone ${rawValue} · cobertura con sesgo negativo. Eleva el score mediático.`
+    if (rawValue <= 0)  return `Tone ${rawValue} · cobertura neutral-negativa. Score moderado.`
+    return `Tone ${rawValue} · cobertura positiva. Score mediático bajo.`
+  }
+  if (lower.includes('pedersen')) {
+    if (score >= 70) return `Volatilidad electoral alta · cambios significativos respecto al ciclo anterior.`
+    return `Volatilidad electoral moderada · cambios contenidos.`
+  }
+  return `Valor calculado de la fuente oficial · contribuye al score ${score}/100 del índice.`
 }
 
 const LEVEL_RANGES: Array<{ label: string; range: string; color: string; desc: string }> = [
@@ -199,18 +255,23 @@ function Thermometer({ score, semaforo, level }: { score: number; semaforo: Sema
 }
 
 // ─── Dimension card (light) ───────────────────────────────────────────────────
-function DimCard({ dim, k, buckets }: { dim: RiskDimension; k: string; buckets: RiskBucket[] }) {
+function DimCard({ dim, k, buckets, onClick }: { dim: RiskDimension; k: string; buckets: RiskBucket[]; onClick?: () => void }) {
   const color = DIM_COLORS[k] ?? '#6e6e73'
   const sparkValues = buckets.slice(-14).map(b => (b as unknown as Record<string, number>)[k] ?? 0)
   const deltaColor = dim.delta_24h > 0 ? '#DC2626' : dim.delta_24h < 0 ? '#16A34A' : '#86868b'
   const sc = scoreColor(dim.score)
   return (
-    <div style={{
+    <div onClick={onClick} style={{
       background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
       borderLeft: `4px solid ${color}`,
       padding: '18px 22px',
       boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-    }}>
+      cursor: onClick ? 'pointer' : 'default',
+      transition: 'border-color 160ms, box-shadow 160ms, transform 100ms',
+    }}
+    onMouseEnter={e => { if (onClick) { e.currentTarget.style.borderColor = color + '80'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.06)' } }}
+    onMouseLeave={e => { if (onClick) { e.currentTarget.style.borderColor = '#ECECEF'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.03)' } }}
+    >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
@@ -255,8 +316,185 @@ function DimCard({ dim, k, buckets }: { dim: RiskDimension; k: string; buckets: 
           </span>
         )}
       </div>
-      <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F7' }}>
-        Fuentes · <span style={{ color: '#6e6e73' }}>{DIM_SOURCES[k] ?? '—'}</span>
+      <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F7', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Fuentes · <span style={{ color: '#6e6e73' }}>{DIM_SOURCES[k] ?? '—'}</span></span>
+        {onClick && (
+          <span style={{ color: color, fontWeight: 600, fontSize: 11 }}>
+            Ver sub-KPIs →
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─── Modal de sub-KPIs · explica QUÉ valores justifican el score ──────────────
+function SubKpiModal({
+  open, onClose, dimKey, dim, indexCard,
+}: {
+  open: boolean
+  onClose: () => void
+  dimKey: string
+  dim: RiskDimension | null
+  indexCard: RiskIndexCard | null
+}) {
+  if (!open || !dim) return null
+  const color = DIM_COLORS[dimKey] ?? '#6e6e73'
+  const components = indexCard?.components ?? []
+  const sourceLabel = indexCard?.source ?? 'demo'
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 200,
+        background: 'rgba(0,0,0,0.45)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 20,
+        animation: 'subkpiIn 180ms ease-out',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: '#fff', borderRadius: 16,
+          maxWidth: 720, width: '100%', maxHeight: '88vh', overflowY: 'auto',
+          padding: '24px 28px', boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
+          borderTop: `4px solid ${color}`,
+        }}
+      >
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 14 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.10em', textTransform: 'uppercase', marginBottom: 6 }}>
+              Sub-KPIs del índice
+            </div>
+            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.022em', color: '#1d1d1f' }}>
+              {DIM_LABELS[dimKey] || dim.label}
+            </h2>
+            <p style={{ margin: '6px 0 0', fontSize: 13.5, color: '#515154', lineHeight: 1.5 }}>
+              {DIM_DESC[dimKey]}
+            </p>
+          </div>
+          <button onClick={onClose} aria-label="Cerrar" style={{
+            background: '#F5F5F7', border: '1px solid #ECECEF', borderRadius: 10,
+            padding: 8, cursor: 'pointer', fontFamily: 'inherit', color: '#3a3a3d',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Score agregado destacado */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 16, padding: '14px 16px', background: `${color}10`, borderRadius: 12, marginBottom: 18 }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 64, height: 64, borderRadius: 14, flexShrink: 0,
+            background: color, color: '#fff',
+            fontSize: 26, fontWeight: 800,
+            fontFamily: 'var(--font-display)', letterSpacing: '-0.02em',
+          }}>{dim.score.toFixed(0)}</div>
+          <div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: scoreColor(dim.score), letterSpacing: '0.06em' }}>
+              SCORE {dim.level}
+            </div>
+            <div style={{ fontSize: 13, color: '#3a3a3d', marginTop: 4, lineHeight: 1.45 }}>
+              Este score se calcula combinando <strong>{components.length || 'varios'}</strong> sub-KPI{components.length === 1 ? '' : 's'}
+              {' '}provenientes de fuentes públicas. Cada sub-KPI tiene su propio score 0-100 y su peso en el agregado.
+              Cambia · <span style={{ fontWeight: 600, color: dim.delta_24h > 0 ? '#DC2626' : '#16A34A' }}>{dim.delta_24h >= 0 ? '+' : ''}{dim.delta_24h.toFixed(1)}</span> en 24h.
+            </div>
+          </div>
+        </div>
+
+        {/* Sub-KPIs detallados */}
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+            Componentes del score
+          </div>
+          {components.length === 0 ? (
+            <div style={{ padding: '18px 20px', background: '#FAFAFA', borderRadius: 12, fontSize: 13, color: '#6e6e73', lineHeight: 1.5 }}>
+              Sin sub-KPIs disponibles desde el agregador para esta dimensión.
+              El score se calcula desde fuentes calibradas pero la trazabilidad
+              fina solo está disponible cuando las fuentes externas responden.
+              {' '}<span style={{ color: '#86868b', fontSize: 12 }}>Fuentes esperadas · {DIM_SOURCES[dimKey] ?? '—'}</span>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {components.map((c, i) => {
+                const sc = scoreColor(c.score_0_100)
+                const interpretation = interpretSubKpi(c.metric_name, c.raw_value, c.score_0_100)
+                return (
+                  <div key={i} style={{ padding: '14px 16px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 12 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, gap: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginBottom: 4 }}>
+                          {c.metric_name}
+                        </div>
+                        <div style={{ fontSize: 11.5, color: '#86868b' }}>
+                          Fuente · <span style={{ color: '#6e6e73', fontWeight: 600 }}>{c.source_id}</span>
+                          {' '}· Peso · <span style={{ color: '#6e6e73', fontWeight: 600 }}>{(c.weight * 100).toFixed(0)}%</span>
+                          {c.raw_value != null && <> · Valor raw · <span style={{ color: '#1d1d1f', fontWeight: 700, fontFamily: 'var(--font-display)' }}>{c.raw_value}</span></>}
+                        </div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: sc, lineHeight: 1 }}>
+                          {c.score_0_100}
+                        </div>
+                        <div style={{ fontSize: 10, color: '#86868b' }}>/100</div>
+                      </div>
+                    </div>
+                    {/* Barra del score */}
+                    <div style={{ height: 6, background: '#F5F5F7', borderRadius: 3, marginBottom: 10 }}>
+                      <div style={{ width: `${Math.min(100, c.score_0_100)}%`, height: '100%', borderRadius: 3, background: sc }} />
+                    </div>
+                    {/* Interpretación contextual */}
+                    <p style={{ fontSize: 12.5, color: '#3a3a3d', margin: 0, lineHeight: 1.5, padding: '8px 10px', background: '#FAFAFA', borderRadius: 8, borderLeft: `3px solid ${sc}` }}>
+                      {interpretation}
+                    </p>
+                    <div style={{ fontSize: 11, color: '#86868b', marginTop: 8 }}>
+                      Aporta <span style={{ fontWeight: 700, color: sc }}>{c.contribution.toFixed(1)}</span> puntos al score agregado de {DIM_LABELS[dimKey]}.
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Cómo se calcula */}
+        <div style={{ padding: '14px 16px', background: '#FAFAFA', borderRadius: 12, marginBottom: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+            Cómo se calcula este score
+          </div>
+          <p style={{ fontSize: 13, color: '#3a3a3d', margin: 0, lineHeight: 1.55 }}>
+            Cada sub-KPI raw (Gini, IPC, gasto militar, etc.) se normaliza a una escala 0-100 con
+            calibración histórica. La media ponderada de los sub-KPIs (pesos = 100%) produce el score
+            agregado de la dimensión. El score final del termómetro es la media ponderada de las seis
+            dimensiones. Refresco · cada 2 minutos cuando el backend responde, cada 5 minutos por
+            cache en cliente.
+          </p>
+        </div>
+
+        {/* Badge de origen + cierre */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{
+            fontSize: 10.5, fontWeight: 700, color: sourceLabel === 'live' ? '#fff' : '#3a3a3d',
+            background: sourceLabel === 'live' ? '#16A34A' : '#F5F5F7',
+            padding: '4px 10px', borderRadius: 999, letterSpacing: '0.06em',
+          }}>
+            {sourceLabel === 'live' ? '● DATOS LIVE' : 'DATOS DEMO'}
+          </span>
+          <button onClick={onClose} style={{
+            background: '#0071e3', color: '#fff', border: 'none',
+            borderRadius: 8, padding: '8px 18px', fontSize: 13, fontWeight: 600,
+            cursor: 'pointer', fontFamily: 'inherit',
+          }}>Cerrar</button>
+        </div>
+
+        <style>{`@keyframes subkpiIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
       </div>
     </div>
   )
@@ -286,10 +524,13 @@ export default function TermometroPage() {
   const [selectedDim, setSelectedDim] = useState<string | null>(null)
   const [histDim, setHistDim] = useState<string>('composite')
   const [methodOpen, setMethodOpen] = useState(false)
+  const [modalDim, setModalDim]     = useState<string | null>(null)
 
   const riskData   = useApi<RiskComposite & { _meta?: unknown }>('/api/risk/composite', { refreshInterval: 120_000 })
   const tsData     = useApi<RiskTimeseriesResponse>('/api/risk/timeseries?days=30', { refreshInterval: 1_800_000 })
   const signalData = useApi<{ signals: Array<{ tipo: string; titulo: string; severidad: string; score: number; fuente: string; timestamp: string }> }>('/api/crisis/signals', { refreshInterval: 300_000 })
+  // Sub-KPIs reales por índice (components con metric_name/raw_value/score_0_100/weight/contribution)
+  const indicesData = useApi<RiskIndicesPayload>('/api/risk-v2/indices?country=ES', { refreshInterval: 300_000 })
 
   const risk    = riskData.data
   const ts      = tsData.data
@@ -310,6 +551,15 @@ export default function TermometroPage() {
 
   // Descripción explicativa del nivel actual
   const currentLevelDesc = LEVEL_RANGES.find(r => r.label.startsWith(semLabel.charAt(0)))?.desc ?? ''
+
+  // Sub-KPIs por índice (lookup rápido)
+  const indexCardByDim = (k: string): RiskIndexCard | null => {
+    const id = DIM_TO_RISKV2[k]
+    if (!id) return null
+    return indicesData.data?.indices?.find(idx => idx.index_id === id) ?? null
+  }
+  const modalIndex = modalDim ? indexCardByDim(modalDim) : null
+  const modalDimObj = modalDim ? (dimensions[modalDim] ?? null) : null
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
@@ -554,7 +804,7 @@ export default function TermometroPage() {
               </div>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 14 }}>
-                {dimKeys.map(k => <DimCard key={k} dim={dimensions[k]} k={k} buckets={buckets} />)}
+                {dimKeys.map(k => <DimCard key={k} dim={dimensions[k]} k={k} buckets={buckets} onClick={() => setModalDim(k)} />)}
               </div>
             )}
           </div>
@@ -622,6 +872,50 @@ export default function TermometroPage() {
                     </div>
                   ))}
                 </div>
+                {/* SUB-KPIs · justifican el score con métricas concretas */}
+                {(() => {
+                  const idxCard = indexCardByDim(selectedDim)
+                  const comps = idxCard?.components ?? []
+                  if (comps.length === 0) return null
+                  return (
+                    <div style={{ marginBottom: 20 }}>
+                      <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
+                        Sub-KPIs que justifican el valor
+                        <InfoTip text="Métricas raw de fuentes públicas que se combinan para calcular el score." />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {comps.map((c, i) => {
+                          const sc = scoreColor(c.score_0_100)
+                          const interpretation = interpretSubKpi(c.metric_name, c.raw_value, c.score_0_100)
+                          return (
+                            <div key={i} style={{ padding: '12px 14px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 10 }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 6 }}>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', marginBottom: 2 }}>{c.metric_name}</div>
+                                  <div style={{ fontSize: 11, color: '#86868b' }}>
+                                    {c.source_id} · peso {(c.weight * 100).toFixed(0)}%
+                                    {c.raw_value != null && <> · valor raw <strong style={{ color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{c.raw_value}</strong></>}
+                                  </div>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: sc, lineHeight: 1 }}>{c.score_0_100}</div>
+                                  <div style={{ fontSize: 9.5, color: '#86868b' }}>/100</div>
+                                </div>
+                              </div>
+                              <div style={{ height: 5, background: '#F5F5F7', borderRadius: 3, marginBottom: 8 }}>
+                                <div style={{ width: `${Math.min(100, c.score_0_100)}%`, height: '100%', borderRadius: 3, background: sc }} />
+                              </div>
+                              <p style={{ fontSize: 11.5, color: '#3a3a3d', margin: 0, lineHeight: 1.45, padding: '6px 8px', background: '#FAFAFA', borderRadius: 6, borderLeft: `2px solid ${sc}` }}>
+                                {interpretation}
+                              </p>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })()}
+
                 {dimensions[selectedDim].drivers?.length > 0 && (
                   <div>
                     <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
@@ -701,6 +995,15 @@ export default function TermometroPage() {
             )}
           </div>
         )}
+
+        {/* MODAL · Sub-KPIs · se abre al clickar una DimCard del Overview */}
+        <SubKpiModal
+          open={!!modalDim}
+          onClose={() => setModalDim(null)}
+          dimKey={modalDim ?? ''}
+          dim={modalDimObj}
+          indexCard={modalIndex}
+        />
 
         {/* TAB: HISTÓRICO */}
         {tab === 'historico' && (
