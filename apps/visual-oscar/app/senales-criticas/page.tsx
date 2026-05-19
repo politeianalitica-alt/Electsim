@@ -125,12 +125,15 @@ function Sparkline({ data, color, height = 24 }: { data: number[]; color: string
 function SignalCard({ s, onClick }: { s: CrisisSignal; onClick?: () => void }) {
   const color = SEV_COLOR[s.severidad]
   return (
-    <button
+    <div
       onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={e => { if (onClick && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onClick() } }}
       style={{
         width: '100%', textAlign: 'left', background: 'rgba(255,255,255,0.04)',
         border: `1px solid ${color}40`, borderLeft: `3px solid ${color}`,
-        borderRadius: 6, padding: '10px 12px', cursor: 'pointer',
+        borderRadius: 6, padding: '10px 12px', cursor: onClick ? 'pointer' : 'default',
         transition: 'background .15s',
       }}
       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
@@ -140,7 +143,15 @@ function SignalCard({ s, onClick }: { s: CrisisSignal; onClick?: () => void }) {
         <span style={{ fontSize: 12, fontWeight: 700, color, flexShrink: 0 }}>{s.severidad}</span>
         <span style={{ fontSize: 10, color: 'rgba(148,163,184,.6)', flexShrink: 0 }}>{relTime(s.timestamp)}</span>
       </div>
-      <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', margin: '4px 0 3px', lineHeight: 1.35 }}>{s.titulo}</div>
+      {s.url ? (
+        <a href={s.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+           style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#e2e8f0', margin: '4px 0 3px', lineHeight: 1.35, textDecoration: 'none', borderBottom: '1px dotted rgba(96,165,250,0.45)' }}
+           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#60A5FA' }}
+           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#e2e8f0' }}
+        >{s.titulo} <span style={{ color: '#60A5FA', fontSize: 11 }}>↗</span></a>
+      ) : (
+        <div style={{ fontSize: 13, fontWeight: 600, color: '#e2e8f0', margin: '4px 0 3px', lineHeight: 1.35 }}>{s.titulo}</div>
+      )}
       <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
         <span style={{ fontSize: 10, background: 'rgba(255,255,255,.08)', borderRadius: 3, padding: '1px 5px', color: '#94a3b8' }}>
           {TIPO_LABEL[s.tipo] ?? s.tipo}
@@ -148,7 +159,7 @@ function SignalCard({ s, onClick }: { s: CrisisSignal; onClick?: () => void }) {
         <span style={{ fontSize: 10, color: '#64748b' }}>{s.fuente}</span>
         {s.pais && <span style={{ fontSize: 10, color: '#64748b' }}>{s.pais}</span>}
       </div>
-    </button>
+    </div>
   )
 }
 
@@ -598,7 +609,15 @@ export default function SenalesCriticasPage() {
                     fontSize: 12, border: '1px solid rgba(255,255,255,.05)',
                   }}>
                     <span style={{ color: SEV_COLOR[s.severidad], fontWeight: 700, fontSize: 11 }}>{s.severidad}</span>
-                    <span style={{ color: '#e2e8f0' }}>{s.titulo.slice(0, 60)}{s.titulo.length > 60 ? '...' : ''}</span>
+                    {s.url ? (
+                      <a href={s.url} target="_blank" rel="noopener noreferrer"
+                         style={{ color: '#e2e8f0', textDecoration: 'none', borderBottom: '1px dotted rgba(96,165,250,0.45)' }}
+                         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#60A5FA' }}
+                         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#e2e8f0' }}
+                      >{s.titulo.slice(0, 60)}{s.titulo.length > 60 ? '...' : ''} <span style={{ color: '#60A5FA', fontSize: 10 }}>↗</span></a>
+                    ) : (
+                      <span style={{ color: '#e2e8f0' }}>{s.titulo.slice(0, 60)}{s.titulo.length > 60 ? '...' : ''}</span>
+                    )}
                     <span style={{ color: '#64748b' }}>{s.pais ?? '—'}</span>
                     <span style={{ color: '#64748b', fontSize: 10 }}>{s.lat?.toFixed(1)}, {s.lon?.toFixed(1)}</span>
                     <span style={{ color: '#475569', fontSize: 10 }}>{relTime(s.timestamp)}</span>

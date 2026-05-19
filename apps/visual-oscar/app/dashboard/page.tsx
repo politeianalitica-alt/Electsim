@@ -614,7 +614,17 @@ export default function DashboardPage() {
                       borderBottom: i < 4 ? '1px solid var(--hairline)' : 'none',
                     }}>
                       <div style={{ minWidth: 0 }}>
-                        <div style={{ fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
+                        {n.url ? (
+                          <a href={n.url} target="_blank" rel="noopener noreferrer" style={{
+                            display: 'block', fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500,
+                            marginBottom: 3, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)',
+                          }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
+                          >{n.title} <span style={{ color: '#0071e3', fontSize: 11 }}>↗</span></a>
+                        ) : (
+                          <div style={{ fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
+                        )}
                         <div style={{ fontSize: 11.5, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
                           <span style={{ fontWeight: 600 }}>{n.source}</span>
                           {sanitizeParties(n.parties) && <span>· {sanitizeParties(n.parties)}</span>}

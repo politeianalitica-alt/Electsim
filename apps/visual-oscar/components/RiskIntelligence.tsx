@@ -298,7 +298,14 @@ export default function RiskIntelligence() {
                         fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 4, letterSpacing: '0.04em',
                         background: '#EFF6FF', color: '#1F4E8C', marginRight: 6,
                       }}>{r.dimension_label?.toUpperCase()}</span>
-                      <span style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4 }}>{r.title}</span>
+                      {r.url ? (
+                        <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
+                        >{r.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span></a>
+                      ) : (
+                        <span style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4 }}>{r.title}</span>
+                      )}
                     </div>
                   </div>
                   <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8, marginLeft: 46 }}>

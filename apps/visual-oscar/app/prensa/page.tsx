@@ -102,7 +102,14 @@ export default function PrensaPage() {
                   <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--color-ink-4)', background: 'var(--color-surface-raised)', padding: '2px 6px', borderRadius: 4 }}>{signal.score_relevancia}</span>
                 </div>
               </div>
-              <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', margin: '0 0 6px', lineHeight: 1.3 }}>{signal.titulo}</h3>
+              {signal.url ? (
+                <a href={signal.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', display: 'block', margin: '0 0 6px', lineHeight: 1.3, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}
+                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--color-ink)' }}
+                >{signal.titulo} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+              ) : (
+                <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--color-ink)', fontFamily: 'var(--font-display)', letterSpacing: '-0.01em', margin: '0 0 6px', lineHeight: 1.3 }}>{signal.titulo}</h3>
+              )}
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-ink-3)', lineHeight: 1.6, margin: '0 0 10px' }}>{signal.resumen}</p>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                 {signal.temas.map(t => <span key={t} style={{ fontSize: 'var(--text-xs)', padding: '2px 8px', background: 'var(--color-accent-subtle)', color: 'var(--color-accent-text)', borderRadius: 'var(--radius-full)' }}>{t}</span>)}
