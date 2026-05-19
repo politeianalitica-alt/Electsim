@@ -54,6 +54,12 @@ class AnalystMemoryRepository:
             self.engine = _get_engine()
         if self.engine is None:
             raise RuntimeError("AnalystMemoryRepository: no engine")
+        # Auto-init de tabla en primer uso (incluye pg_trgm best-effort)
+        try:
+            from agents.memory._schema import ensure_memory_tables
+            ensure_memory_tables(self.engine)
+        except Exception as exc:
+            logger.debug("auto-init memory: %s", exc)
         return self.engine
 
     # ─────────────────────────────────────────────────────────────

@@ -47,6 +47,12 @@ class InvestigationRepository:
             self.engine = _get_engine()
         if self.engine is None:
             raise RuntimeError("InvestigationRepository: no engine (DATABASE_URL?)")
+        # Auto-init de tablas en primer uso
+        try:
+            from agents.entities._schema import ensure_ontology_tables
+            ensure_ontology_tables(self.engine)
+        except Exception as exc:
+            logger.debug("auto-init ontology (investigations): %s", exc)
         return self.engine
 
     # ─────────────────────────────────────────────────────────────

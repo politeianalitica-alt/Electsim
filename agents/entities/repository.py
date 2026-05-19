@@ -56,6 +56,12 @@ class EntityRepository:
             self.engine = _get_engine()
         if self.engine is None:
             raise RuntimeError("EntityRepository: no engine (DATABASE_URL?)")
+        # Auto-init de tablas en primer uso · 1 vez por proceso (flag interno)
+        try:
+            from agents.entities._schema import ensure_ontology_tables
+            ensure_ontology_tables(self.engine)
+        except Exception as exc:
+            logger.debug("auto-init ontology: %s", exc)
         return self.engine
 
     @staticmethod
