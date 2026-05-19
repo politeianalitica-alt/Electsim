@@ -157,9 +157,9 @@ export default function RiskIntelligence() {
         <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={180} onRefresh={refresh}/>
       </div>
 
-      {/* Top row: Gauge (1fr) + Radar (2fr) · MISMA VISUAL que motor estructural */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14, marginBottom: 14 }}>
-        {/* Gauge estructural */}
+      {/* Fila única horizontal · Gauge + Radar (mismo tamaño) + Serie (más ancha) */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: 14, marginBottom: 16 }}>
+        {/* Gauge */}
         <Card title="Principio de calibración" subtitle="índice compuesto live">
           {composite ? (
             <RiesgoGauge
@@ -172,7 +172,7 @@ export default function RiskIntelligence() {
           )}
         </Card>
 
-        {/* Radar estructural · 3 niveles (Vigilancia / Alerta / Crítico) */}
+        {/* Radar · 3 niveles (Vigilancia / Alerta / Crítico) · mismo tamaño que gauge */}
         {(() => {
           const dims = composite?.dimensions ?? {}
           const axes = DIM_KEYS.map(k => dims[k]?.label || k)
@@ -188,7 +188,7 @@ export default function RiskIntelligence() {
           return (
             <Card
               title="Radar de amenazas"
-              subtitle="3 niveles · vigilancia / alerta / crítico"
+              subtitle="3 niveles"
               extra={<RiesgoRadarLegend levels={radarData.levels}/>}
             >
               {Object.keys(dims).length > 0 ? (
@@ -199,23 +199,22 @@ export default function RiskIntelligence() {
             </Card>
           )
         })()}
-      </div>
 
-      {/* Serie histórica + previsión · MISMA VISUAL que motor estructural */}
-      <Card
-        title="Serie histórica"
-        subtitle={`${timeseries?.buckets?.length ?? 0} días + previsión 14 días`}
-        extra={<RiesgoTrendLegend/>}
-        style={{ marginBottom: 16 }}
-      >
-        {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
-          <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={240}/>
-        ) : (
-          <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
-            Cargando serie histórica…
-          </div>
-        )}
-      </Card>
+        {/* Serie histórica + previsión · misma horizontal */}
+        <Card
+          title="Serie histórica"
+          subtitle={`${timeseries?.buckets?.length ?? 0}d + previsión 14d`}
+          extra={<RiesgoTrendLegend/>}
+        >
+          {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
+            <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={240}/>
+          ) : (
+            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
+              Cargando serie histórica…
+            </div>
+          )}
+        </Card>
+      </div>
 
       {/* Dimensions strip — clickable */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10, marginBottom: 16 }}>
