@@ -1,4 +1,5 @@
 'use client'
+import { useState, useRef } from 'react'
 /**
  * RiskVisuals · 3 componentes del Termómetro de Riesgo Político
  *
@@ -231,6 +232,36 @@ export function RiesgoTrendChart({
   const x = (i: number): number => padL + i * stepX
   const y = (v: number): number => padT + (1 - v / max) * (H - padT - padB)
 
+  // Hover state · índice global (0..total-1) actualmente bajo el cursor
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+
+  function onMove(e: React.MouseEvent<SVGSVGElement>) {
+    const svg = svgRef.current
+    if (!svg) return
+    const rect = svg.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width * W
+    // Devuelve el índice global más cercano dentro del rango del gráfico
+    const rel = Math.max(0, Math.min(total - 1, Math.round((px - padL) / stepX)))
+    setHoverIdx(rel)
+  }
+  function onLeave() { setHoverIdx(null) }
+
+  // Resolución del valor según el índice global
+  function valueAt(i: number): { v: number; kind: 'hist' | 'fc'; low?: number; high?: number; offset: number } {
+    if (i < trend.history.length) {
+      return { v: trend.history[i], kind: 'hist', offset: i - (trend.history.length - 1) }
+    }
+    const j = i - trend.history.length
+    return {
+      v: trend.forecast[j],
+      kind: 'fc',
+      low: trend.forecastLow[j],
+      high: trend.forecastHigh[j],
+      offset: j + 1,
+    }
+  }
+
   const histPath = trend.history.map((v, i) => (i === 0 ? 'M' : 'L') + x(i) + ' ' + y(v)).join(' ')
   const histFill = histPath + ` L ${x(trend.history.length - 1)} ${H - padB} L ${x(0)} ${H - padB} Z`
 
@@ -256,7 +287,13 @@ export function RiesgoTrendChart({
   const labels = xLabels || defaultXLabels
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+    <svg
+      ref={svgRef}
+      viewBox={`0 0 ${W} ${H}`}
+      style={{ width: '100%', display: 'block', cursor: 'crosshair' }}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+    >
       <defs>
         <linearGradient id="riesgoHistFill" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#0EA5E9" stopOpacity={0.18}/>
@@ -305,6 +342,52 @@ export function RiesgoTrendChart({
       {trend.forecast.map((v, i) => (
         <circle key={i} cx={x(last + 1 + i)} cy={y(v)} r={2.4} fill="#F59E0B"/>
       ))}
+
+      {/* ── HOVER · línea guía + dot resaltado + tooltip flotante ── */}
+      {hoverIdx != null && (() => {
+        const info = valueAt(hoverIdx)
+        const hx = x(hoverIdx)
+        const hy = y(info.v)
+        const color = info.kind === 'hist' ? '#0EA5E9' : '#F59E0B'
+        const kindLabel = info.kind === 'hist' ? 'Histórico' : 'Previsión'
+        const offsetLabel = info.offset === 0 ? 'Hoy' : info.offset > 0 ? `D+${info.offset}` : `D${info.offset}`
+        const valueStr = info.v.toFixed(1).replace('.', ',')
+        // Tooltip layout
+        const lines: Array<{ label: string; value: string; color?: string }> = [
+          { label: kindLabel, value: offsetLabel, color },
+          { label: 'Score',   value: `${valueStr}/100`, color },
+        ]
+        if (info.kind === 'fc' && info.low != null && info.high != null) {
+          lines.push({ label: 'IC 80%', value: `${info.low.toFixed(1).replace('.', ',')} – ${info.high.toFixed(1).replace('.', ',')}`, color: '#86868b' })
+        }
+        const ttW = 168, ttH = 14 + lines.length * 16
+        // Posicionar a la izquierda si está cerca del borde derecho
+        const onRight = hx + 14 + ttW > W - padR
+        const ttX = onRight ? hx - 14 - ttW : hx + 14
+        const ttY = Math.max(padT, Math.min(H - padB - ttH, hy - ttH / 2))
+        return (
+          <g pointerEvents="none">
+            {/* Línea guía vertical */}
+            <line x1={hx} y1={padT} x2={hx} y2={H - padB} stroke="#3a3a3d" strokeWidth={1} strokeDasharray="3 3" opacity={0.55}/>
+            {/* Dot resaltado */}
+            <circle cx={hx} cy={hy} r={5} fill={color} stroke="#fff" strokeWidth={2}/>
+            {/* Card tooltip */}
+            <rect x={ttX} y={ttY} width={ttW} height={ttH} rx={8} ry={8}
+                  fill="#fff" stroke="#ECECEF" strokeWidth={1} />
+            {/* Accent bar lateral */}
+            <rect x={ttX} y={ttY} width={3} height={ttH} fill={color} rx={1.5}/>
+            {/* Contenido del tooltip */}
+            {lines.map((ln, i) => (
+              <g key={i}>
+                <text x={ttX + 12} y={ttY + 18 + i * 16} fontSize={10.5} fill="#86868b" fontWeight={600}
+                      letterSpacing="0.04em">{ln.label}</text>
+                <text x={ttX + ttW - 12} y={ttY + 18 + i * 16} fontSize={11.5} fill={ln.color || '#1d1d1f'}
+                      fontWeight={700} textAnchor="end" fontFamily="var(--font-display)">{ln.value}</text>
+              </g>
+            ))}
+          </g>
+        )
+      })()}
     </svg>
   )
 }
