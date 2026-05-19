@@ -161,19 +161,24 @@ Esto es **el cambio de menor riesgo y mayor impacto visual inmediato**. 8 535 in
 
 **Coste**: 1 sprint constante (mejora continua). **Impacto**: la app se siente súbitamente *coherente*. El cliente paga por sentirse en un sistema, no en un Frankenstein.
 
-### Pilar 5 · Velocidad percibida + URL como estado
+### Pilar 5 · Velocidad percibida + URL como estado ✅ (parcial · mayo 2026)
 
 Hoy la app pierde 200-800ms en cada navegación. Los filtros no viven en la URL (se pierden al refrescar). Eso es el mayor gap vs Linear/Figma/Vercel dashboard.
 
 **Acción**:
 
-- **Server Components agresivo**: las páginas pesadas (`/mapa-actores`, `/instituciones`, `/sector-*`) hoy son `'use client'` enteras. Migrar las shells a Server Components y mantener client solo en los widgets interactivos.
-- **URL = estado global**: cada filtro, cada vista, cada periodo temporal vivido en URL via `searchParams`. Esto habilita compartir vistas, deep-linking en briefings, y bookmarks.
-- **Optimistic UI por defecto**: toda mutación (toggle de favorito, comentario, edición) se aplica al instante y se rollback si falla.
-- **Prefetch en hover**: `<Link prefetch>` agresivo en las 20 rutas más visitadas.
-- **Skeleton dimensionados**: cada loading state ocupa el espacio exacto del contenido que vendrá (no spinners genéricos).
+- ✅ **URL = estado global**: `lib/useUrlState.ts` aplicado en `/war-room`, `/config-cliente`, `/geopolitica`, `/competidores`. Bookmarkable, compartible, deep-linkable.
+- ✅ **Skeleton dimensionados**: `loading.tsx` con SkeletonCard/SkeletonGrid en las 6 rutas top — `/war-room`, `/geopolitica`, `/competidores`, `/config-cliente`, `/operaciones`, `/investigations`. Ocupan el espacio real del contenido.
+- ✅ **Prefetch agresivo**: AppHeader ya usa `<Link>` (prefetch por defecto en Next 14). Auditados y migrados los `<a href="/...">` residuales en `/crisis` y `/ataques-narrativos`.
+- ⏳ **Server Components agresivo**: pendiente para sprint siguiente. Requiere migrar shells de las páginas pesadas (hoy `'use client'` enteras) a Server Components.
+- ⏳ **Optimistic UI por defecto**: pendiente como mejora continua aplicada cuando una mutación tenga latencia visible.
 
-**Coste**: 1 sprint. **Impacto**: la diferencia entre "esta app se siente lenta" y "esta app es snappy" se decide aquí.
+Ver `docs/PILAR_5_PERFORMANCE.md` para el patrón canónico, ejemplos
+y métricas de éxito.
+
+**Coste real**: 1 sprint. **Impacto**: las 6 rutas top son bookmarkables;
+ningún salto visual al cargar; navegación instantánea entre tabs sin
+recarga.
 
 ---
 

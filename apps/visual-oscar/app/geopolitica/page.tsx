@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
+import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 
@@ -312,8 +313,15 @@ interface PresenciaItem {
 }
 
 // ── main component ────────────────────────────────────────────────────────────
+// Slugs persistibles en URL para los 6 tabs (0..5)
+const GEO_TABS = ['teatro', 'alertas', 'osint', 'impacto', 'presencia', 'ia'] as const
+type GeoTabSlug = typeof GEO_TABS[number]
+
 export default function GeopoliticaPage() {
-  const [tab, setTab] = useState(0)
+  // P5 · Pilar 5 · estado en URL para bookmarkear tabs
+  const [tabSlug, setTabSlug] = useUrlState<GeoTabSlug>('tab', 'teatro')
+  const tab = Math.max(0, GEO_TABS.indexOf(tabSlug))
+  const setTab = (i: number) => setTabSlug((GEO_TABS[i] ?? 'teatro') as GeoTabSlug)
   const [osintUrgMin, setOsintUrgMin] = useState(1)
   const [osintCat, setOsintCat] = useState('all')
   // Filtro de dimensión/sector para TAB 3 Impacto España

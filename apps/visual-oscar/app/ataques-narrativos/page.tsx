@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useAtaquesNarrativos } from '@/hooks/narrativa/useAtaquesNarrativos'
@@ -482,9 +483,9 @@ function AttackRiskContext() {
           P(crisis mediática {scenario.horizon_days}d): {scenario.probability.toFixed(0)}%
         </span>
       )}
-      <a href="/riesgo" style={{
+      <Link href="/riesgo" style={{
         fontSize:11, fontWeight:600, color:'#0c4a6e', textDecoration:'none', marginLeft:'auto',
-      }}>Ver termómetro completo →</a>
+      }}>Ver termómetro completo →</Link>
     </section>
   )
 }

@@ -10,6 +10,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useWarRoom, useWarRoomCrisis, useWarRoomTareas, useCountdown } from '@/hooks/war-room'
 import { useApi } from '@/lib/useApi'
+import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { CDNum } from './_components/CDNum'
 import { HeroKPI } from './_components/HeroKPI'
@@ -213,7 +214,8 @@ export default function WarRoomPage() {
   }, [data])
   const tiempo = useCountdown(eleccionesFecha)
 
-  const [section, setSection] = useState<SectionId>('dashboard')
+  // P5 · Pilar 5 · estado en URL para bookmarkear secciones
+  const [section, setSection] = useUrlState<SectionId>('section', 'dashboard')
 
   const sectionsByGroup = useMemo(() => {
     const out: Record<string, typeof SECTIONS> = {}

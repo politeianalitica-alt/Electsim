@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useCompetidores } from '@/hooks/useCompetidores'
+import { useUrlState } from '@/lib/useUrlState'
 import type { Sector, Amenaza, TipoInforme, Competidor } from '@/data/competidores-fixture'
 import './competidores.css'
 
@@ -38,8 +39,9 @@ export default function CompetidoresPage() {
 
   const { competidores: COMPETIDORES, winLoss: WIN_LOSS, informes: INFORMES_HISTORICO } = useCompetidores()
 
-  const [selectedId, setSelectedId] = useState<string>('')
-  const [tab, setTab] = useState<'perfil' | 'winloss' | 'pricing' | 'historico'>('perfil')
+  // P5 · Pilar 5 · estado en URL para compartir vistas concretas
+  const [selectedId, setSelectedId] = useUrlState<string>('competidor', '')
+  const [tab, setTab] = useUrlState<'perfil' | 'winloss' | 'pricing' | 'historico'>('tab', 'perfil')
 
   useEffect(() => {
     if (!selectedId && COMPETIDORES.length > 0) setSelectedId(COMPETIDORES[0].id)

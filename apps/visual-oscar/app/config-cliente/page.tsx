@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
+import { useUrlState } from '@/lib/useUrlState'
 
 // ─── Tipos ──────────────────────────────────────────────
 type SystemHealth = {
@@ -191,7 +192,8 @@ export default function ConfigClientePage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const [section, setSection] = useState<SectionId>('cuenta')
+  // P5 · Pilar 5 · estado en URL para bookmarkear secciones
+  const [section, setSection] = useUrlState<SectionId>('section', 'cuenta')
   const { data: hData } = useApi<SystemHealth>('/api/system/health', { refreshInterval: 60_000 })
   const { data: pData } = useApi<{ items?: PipelineRun[] } | PipelineRun[]>('/api/system/pipelines', { refreshInterval: 60_000 })
 

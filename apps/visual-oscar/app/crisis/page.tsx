@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useCrisis } from '@/hooks/useCrisis'
@@ -571,9 +572,9 @@ function RiskContextStrip() {
            {alerts} alertas estructurales activas
         </span>
       )}
-      <a href="/riesgo" style={{
+      <Link href="/riesgo" style={{
         fontSize:11, fontWeight:600, color:'#0c4a6e', textDecoration:'none',
-      }}>Ver termómetro completo →</a>
+      }}>Ver termómetro completo →</Link>
     </section>
   )
 }
