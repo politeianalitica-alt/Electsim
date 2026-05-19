@@ -5,6 +5,7 @@
  * 14 secciones con datos detallados, toggles funcionales, tablas, métricas
  * de uso, integraciones, seguridad, facturación, etc.
  */
+import './config-cliente.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
@@ -218,25 +219,22 @@ export default function ConfigClientePage() {
   }, [])
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
+    <div className="cfg-root">
       <AppHeader/>
 
       {/* HERO compacto con info del cliente */}
-      <section style={{
-        background: 'linear-gradient(135deg, #1d1d1f 0%, #0a0a0a 100%)',
-        color: '#fff', padding: '22px 32px',
-      }}>
-        <div style={{ maxWidth: 1500, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: 24, alignItems: 'center' }}>
+      <section className="cfg-hero">
+        <div className="cfg-hero-inner">
           <div>
-            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.16em', opacity: 0.6, textTransform: 'uppercase', margin: '0 0 4px' }}>CONFIGURACIÓN · POLITEIA ENTERPRISE</p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.02em', margin: '0 0 4px' }}>
+            <p className="cfg-hero-eyebrow">CONFIGURACIÓN · POLITEIA ENTERPRISE</p>
+            <h1 className="cfg-hero-title">
               Acme Consulting · ES-B47383920
             </h1>
-            <p style={{ fontSize: 12.5, opacity: 0.7, margin: 0 }}>
+            <p className="cfg-hero-sub">
               Suscripción activa hasta 31 dic 2026 · 12 usuarios · 5 workspaces · 6 sectores activos · 10 watchlists
             </p>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div className="cfg-hero-counters">
             <HeroCounter label="Items hoy" value="9.847" accent="#86EFAC"/>
             <HeroCounter label="API calls 24h" value="142.3k" accent="#7DD3FC"/>
             <HeroCounter label="Uso storage" value="38%" accent="#FCD34D"/>
@@ -245,37 +243,23 @@ export default function ConfigClientePage() {
         </div>
       </section>
 
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 24 }}>
+      <main className="cfg-main">
 
         {/* SIDEBAR · Navegación por secciones */}
-        <aside style={{
-          background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '14px 12px',
-          alignSelf: 'start', position: 'sticky', top: 80, maxHeight: 'calc(100vh - 100px)', overflowY: 'auto',
-        }}>
+        <aside className="cfg-sidebar">
           {Object.entries(sectionsByGroup).map(([group, items]) => (
-            <div key={group} style={{ marginBottom: 12 }}>
-              <div style={{
-                fontSize: 9.5, fontWeight: 800, letterSpacing: '0.1em', color: '#6e6e73',
-                textTransform: 'uppercase', padding: '0 10px 6px',
-              }}>{group}</div>
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <div key={group} className="cfg-sidebar-group">
+              <div className="cfg-sidebar-group-label">{group}</div>
+              <ul className="cfg-sidebar-list">
                 {items.map(s => {
                   const active = section === s.id
                   return (
                     <li key={s.id}>
                       <button
                         onClick={() => setSection(s.id)}
-                        style={{
-                          width: '100%', display: 'flex', alignItems: 'center', gap: 8,
-                          padding: '7px 10px', borderRadius: 7,
-                          background: active ? '#1d1d1f' : 'transparent',
-                          color: active ? '#fff' : '#3a3a3d',
-                          border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-                          fontSize: 12, fontWeight: active ? 600 : 500, textAlign: 'left',
-                          transition: 'all 120ms',
-                        }}
+                        className={`cfg-sidebar-btn${active ? ' cfg-sidebar-btn--active' : ''}`}
                       >
-                        <span style={{ width: 16, fontSize: 14, color: active ? '#fff' : '#86868b' }}>{s.icon}</span>
+                        <span className="cfg-sidebar-icon">{s.icon}</span>
                         {s.label}
                       </button>
                     </li>
@@ -315,22 +299,16 @@ export default function ConfigClientePage() {
 
 function HeroCounter({ label, value, accent }: { label: string; value: string; accent: string }) {
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
-      borderRadius: 10, padding: '10px 14px', minWidth: 100,
-    }}>
-      <div style={{ fontSize: 8.5, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', opacity: 0.65, marginBottom: 3 }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: accent, letterSpacing: '-0.018em', lineHeight: 1 }}>{value}</div>
+    <div className="cfg-hcounter">
+      <div className="cfg-hcounter-label">{label}</div>
+      <div className="cfg-hcounter-value" style={{ color: accent }}>{value}</div>
     </div>
   )
 }
 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
-    <div style={{
-      background: '#fff', border: '1px solid #ECECEF', borderRadius: 14,
-      padding: '20px 24px', marginBottom: 14, ...style,
-    }}>
+    <div className="cfg-card" style={style}>
       {children}
     </div>
   )
@@ -338,10 +316,10 @@ function Card({ children, style }: { children: React.ReactNode; style?: React.CS
 
 function CardHeader({ title, sub, right }: { title: string; sub?: string; right?: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 14, gap: 12, flexWrap: 'wrap' }}>
+    <div className="cfg-card-head">
       <div>
-        <h3 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, letterSpacing: '-0.014em', color: '#1d1d1f' }}>{title}</h3>
-        {sub && <p style={{ margin: '3px 0 0', fontSize: 11.5, color: '#6e6e73' }}>{sub}</p>}
+        <h3 className="cfg-card-title">{title}</h3>
+        {sub && <p className="cfg-card-sub">{sub}</p>}
       </div>
       {right}
     </div>
@@ -350,37 +328,27 @@ function CardHeader({ title, sub, right }: { title: string; sub?: string; right?
 
 function Field({ label, value, children, sub }: { label: string; value?: string | React.ReactNode; children?: React.ReactNode; sub?: string }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 12, alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #F5F5F7' }}>
+    <div className="cfg-field">
       <div>
-        <div style={{ fontSize: 11.5, color: '#3a3a3d', fontWeight: 600 }}>{label}</div>
-        {sub && <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 2 }}>{sub}</div>}
+        <div className="cfg-field-label">{label}</div>
+        {sub && <div className="cfg-field-sub">{sub}</div>}
       </div>
-      <div style={{ fontSize: 12, color: '#1d1d1f' }}>{children ?? value}</div>
+      <div className="cfg-field-value">{children ?? value}</div>
     </div>
   )
 }
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: () => void }) {
   return (
-    <button onClick={onChange} style={{
-      width: 36, height: 20, borderRadius: 999, border: 'none',
-      background: checked ? '#16A34A' : '#D1D5DB',
-      position: 'relative', cursor: 'pointer', transition: 'background 160ms', padding: 0,
-    }}>
-      <span style={{
-        position: 'absolute', top: 2, left: checked ? 18 : 2,
-        width: 16, height: 16, borderRadius: '50%', background: '#fff',
-        transition: 'left 160ms', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-      }}/>
+    <button onClick={onChange} className={`cfg-toggle ${checked ? 'cfg-toggle--on' : 'cfg-toggle--off'}`}>
+      <span className={`cfg-toggle-knob ${checked ? 'cfg-toggle-knob--on' : 'cfg-toggle-knob--off'}`}/>
     </button>
   )
 }
 
 function Badge({ label, color, outline = false }: { label: string; color: string; outline?: boolean }) {
   return (
-    <span style={{
-      fontSize: 9.5, fontWeight: 800, letterSpacing: '0.06em',
-      padding: '2px 8px', borderRadius: 4,
+    <span className="cfg-badge" style={{
       background: outline ? `${color}15` : color,
       color: outline ? color : '#fff',
       border: outline ? `1px solid ${color}40` : 'none',
@@ -391,18 +359,11 @@ function Badge({ label, color, outline = false }: { label: string; color: string
 function Button({ children, variant = 'primary', size = 'md', onClick }: {
   children: React.ReactNode; variant?: 'primary' | 'secondary' | 'danger'; size?: 'sm' | 'md'; onClick?: () => void
 }) {
-  const styles: Record<string, React.CSSProperties> = {
-    primary:   { background: '#1d1d1f', color: '#fff', border: 'none' },
-    secondary: { background: '#fff', color: '#1d1d1f', border: '1px solid #DCDCE0' },
-    danger:    { background: '#fff', color: '#DC2626', border: '1px solid #FECACA' },
-  }
   return (
-    <button onClick={onClick} style={{
-      ...styles[variant],
-      padding: size === 'sm' ? '6px 12px' : '9px 16px',
-      borderRadius: 8, fontSize: size === 'sm' ? 11 : 12, fontWeight: 600,
-      cursor: 'pointer', fontFamily: 'inherit', transition: 'all 120ms',
-    }}>{children}</button>
+    <button
+      onClick={onClick}
+      className={`cfg-btn cfg-btn--${size} cfg-btn--${variant}`}
+    >{children}</button>
   )
 }
 
@@ -426,9 +387,9 @@ function SecCuenta() {
       <Card>
         <CardHeader title="Plan y suscripción" sub="Politeia Enterprise · contrato anual"/>
         <Field label="Plan actual">
-          <span style={{ display:'inline-flex', alignItems:'center', gap:8 }}>
+          <span className="cfg-plan-inline">
             <Badge label="Enterprise" color="#5B21B6"/>
-            <span style={{ fontWeight:600 }}>€48.000/año · facturación anual</span>
+            <span className="cfg-plan-price">€48.000/año · facturación anual</span>
           </span>
         </Field>
         <Field label="Inicio contrato"  value="01 enero 2026"/>
@@ -436,7 +397,7 @@ function SecCuenta() {
         <Field label="Próxima factura"  value="€48.000 + IVA · 01 enero 2027"/>
         <Field label="Account Manager"  value="Marta Sanz · m.sanz@politeia.es"/>
         <Field label="Customer Success" value="Pedro Vargas · p.vargas@politeia.es · +34 600 000 000"/>
-        <div style={{ marginTop:12, display:'flex', gap:8 }}>
+        <div className="cfg-flex-row-8-mt">
           <Button variant="secondary">Ver factura</Button>
           <Button variant="secondary">Solicitar upgrade</Button>
           <Button variant="danger">Cancelar renovación</Button>
@@ -444,7 +405,7 @@ function SecCuenta() {
       </Card>
       <Card>
         <CardHeader title="Beneficios incluidos en tu plan"/>
-        <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
+        <ul className="cfg-benefits">
           {[
             'Workspaces ilimitados',
             'Hasta 50 usuarios federados (SSO incluido)',
@@ -459,8 +420,8 @@ function SecCuenta() {
             'Auditoría de actividad y compliance · GDPR + SOC 2 Type II',
             'Onboarding técnico (8h) y formación continua trimestral',
           ].map(b => (
-            <li key={b} style={{ display:'flex', gap:8, fontSize:11.5, color:'#3a3a3d', lineHeight:1.4 }}>
-              <span style={{ color:'#16A34A', fontWeight:800, flexShrink:0 }}>✓</span>
+            <li key={b} className="cfg-benefit">
+              <span className="cfg-benefit-check">✓</span>
               {b}
             </li>
           ))}
@@ -478,34 +439,34 @@ function SecEquipo() {
           title="Usuarios" sub={`${USUARIOS_DEMO.length} miembros · ${USUARIOS_DEMO.filter(u => u.estado === 'Activa').length} activos`}
           right={<><Button size="sm" variant="secondary">Importar CSV</Button> <Button size="sm">+ Invitar usuario</Button></>}
         />
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+        <table className="cfg-table">
           <thead>
-            <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+            <tr>
               {['Usuario','Email','Rol','Última actividad','Estado','Acciones'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                <th key={h} className="cfg-th">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {USUARIOS_DEMO.map(u => (
-              <tr key={u.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'10px 8px' }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                    <div style={{ width:26, height:26, borderRadius:'50%', background:'#1F4E8C', color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-display)', fontSize:10, fontWeight:800 }}>
+              <tr key={u.id}>
+                <td className="cfg-td">
+                  <div className="cfg-avatar-cell">
+                    <div className="cfg-avatar-circle">
                       {u.nombre.split(/\s+/).map(s => s[0]).slice(0,2).join('')}
                     </div>
-                    <span style={{ fontWeight:600, color:'#1d1d1f' }}>{u.nombre}</span>
+                    <span className="cfg-avatar-name">{u.nombre}</span>
                   </div>
                 </td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73' }}>{u.email}</td>
-                <td style={{ padding:'10px 8px' }}>
+                <td className="cfg-td cfg-td-muted">{u.email}</td>
+                <td className="cfg-td">
                   <Badge label={u.rol} color={ROL_PERMISSIONS[u.rol as Rol].color} outline/>
                 </td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73', fontSize:11 }}>{u.ultima}</td>
-                <td style={{ padding:'10px 8px' }}>
+                <td className="cfg-td cfg-td-time">{u.ultima}</td>
+                <td className="cfg-td">
                   <Badge label={u.estado} color={statusColor(u.estado)}/>
                 </td>
-                <td style={{ padding:'10px 8px' }}>
+                <td className="cfg-td">
                   <Button size="sm" variant="secondary">Editar</Button>
                 </td>
               </tr>
@@ -515,25 +476,25 @@ function SecEquipo() {
       </Card>
       <Card>
         <CardHeader title="Roles y permisos" sub="Matriz de capacidades por rol"/>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:12 }}>
+        <div className="cfg-roles-grid">
           {ROLES.map(r => {
             const p = ROL_PERMISSIONS[r]
             return (
-              <div key={r} style={{ padding:'14px 16px', background:`${p.color}05`, border:`1px solid ${p.color}30`, borderRadius:10, borderLeft:`3px solid ${p.color}` }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }}>
+              <div key={r} className="cfg-role-card" style={{ background:`${p.color}05`, border:`1px solid ${p.color}30`, borderLeft:`3px solid ${p.color}` }}>
+                <div className="cfg-role-card-head">
                   <Badge label={r} color={p.color}/>
-                  <span style={{ fontSize:10, color:'#86868b' }}>{USUARIOS_DEMO.filter(u => u.rol === r).length} usuarios</span>
+                  <span className="cfg-role-users">{USUARIOS_DEMO.filter(u => u.rol === r).length} usuarios</span>
                 </div>
-                <div style={{ marginBottom:8 }}>
-                  <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.06em', color:'#16A34A', textTransform:'uppercase', marginBottom:4 }}>Permite</div>
-                  <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
+                <div className="cfg-role-section">
+                  <div className="cfg-role-section-label cfg-role-section-label--ok">Permite</div>
+                  <ul className="cfg-role-list">
                     {p.permissions.map(perm => <li key={perm}>· {perm}</li>)}
                   </ul>
                 </div>
                 {p.restrictions.length > 0 && (
                   <div>
-                    <div style={{ fontSize:10, fontWeight:800, letterSpacing:'0.06em', color:'#DC2626', textTransform:'uppercase', marginBottom:4 }}>Restringe</div>
-                    <ul style={{ listStyle:'none', margin:0, padding:0, fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
+                    <div className="cfg-role-section-label cfg-role-section-label--no">Restringe</div>
+                    <ul className="cfg-role-list">
                       {p.restrictions.map(r2 => <li key={r2}>· {r2}</li>)}
                     </ul>
                   </div>
@@ -552,27 +513,27 @@ function SecWorkspaces() {
     <>
       <Card>
         <CardHeader title="Workspaces" sub={`${WORKSPACES_DEMO.length} workspaces · ilimitados en tu plan`} right={<Button>+ Nuevo workspace</Button>}/>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+        <table className="cfg-table">
           <thead>
-            <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+            <tr>
               {['Nombre','Tipo','Items','Miembros','Última actividad','Acciones'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                <th key={h} className="cfg-th">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {WORKSPACES_DEMO.map(w => (
-              <tr key={w.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'10px 8px' }}>
-                  <div style={{ fontWeight:600, color:'#1d1d1f' }}>{w.nombre}</div>
-                  <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace' }}>{w.id}</div>
+              <tr key={w.id}>
+                <td className="cfg-td">
+                  <div className="cfg-ws-name">{w.nombre}</div>
+                  <div className="cfg-ws-id">{w.id}</div>
                 </td>
-                <td style={{ padding:'10px 8px' }}><Badge label={w.tipo} color="#1F4E8C" outline/></td>
-                <td style={{ padding:'10px 8px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{w.items.toLocaleString('es-ES')}</td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73' }}>{w.miembros}</td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73', fontSize:11 }}>{w.ult}</td>
-                <td style={{ padding:'10px 8px' }}>
-                  <div style={{ display:'flex', gap:6 }}>
+                <td className="cfg-td"><Badge label={w.tipo} color="#1F4E8C" outline/></td>
+                <td className="cfg-td cfg-td-num">{w.items.toLocaleString('es-ES')}</td>
+                <td className="cfg-td cfg-td-muted">{w.miembros}</td>
+                <td className="cfg-td cfg-td-time">{w.ult}</td>
+                <td className="cfg-td">
+                  <div className="cfg-row-actions">
                     <Button size="sm" variant="secondary">Abrir</Button>
                     <Button size="sm" variant="secondary">Archivar</Button>
                   </div>
@@ -593,22 +554,19 @@ function SecSectores({ state, onToggle }: { state: Record<string, boolean>; onTo
         title="Sectores y cobertura"
         sub={`${Object.values(state).filter(v => v).length} de ${SECTORES_DEMO.length} sectores activos`}
       />
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+      <div className="cfg-list-col-8">
         {SECTORES_DEMO.map(s => {
           const active = state[s.id]
           return (
-            <div key={s.id} style={{
-              display:'grid', gridTemplateColumns:'auto 1fr auto auto', gap:14, alignItems:'center',
-              padding:'12px 16px', background: active ? '#F0FDF4' : '#FAFAFB', border:`1px solid ${active ? '#86EFAC' : '#ECECEF'}`, borderRadius:10,
-            }}>
+            <div key={s.id} className={`cfg-sector-row ${active ? 'cfg-sector-row--on' : 'cfg-sector-row--off'}`}>
               <Toggle checked={active} onChange={() => onToggle(s.id)}/>
               <div>
-                <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{s.label}</div>
-                <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>
+                <div className="cfg-sector-label">{s.label}</div>
+                <div className="cfg-sector-sub">
                   Items procesados últimas 24h: <strong>{active ? s.items_24h : '0'}</strong>
                 </div>
               </div>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color: active ? '#16A34A' : '#86868b' }}>{active ? s.items_24h : '—'}</span>
+              <span className={`cfg-sector-num ${active ? 'cfg-sector-num--on' : 'cfg-sector-num--off'}`}>{active ? s.items_24h : '—'}</span>
               <Button size="sm" variant="secondary">Configurar</Button>
             </div>
           )
@@ -626,20 +584,17 @@ function SecWatchlists({ state, onToggle }: { state: Record<string, boolean>; on
         sub={`${Object.values(state).filter(v => v).length} de ${WATCHLISTS_DEMO.length} listas activas`}
         right={<Button>+ Nueva watchlist</Button>}
       />
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+      <div className="cfg-list-col-8">
         {WATCHLISTS_DEMO.map(w => {
           const active = state[w.id]
           return (
-            <div key={w.id} style={{
-              display:'grid', gridTemplateColumns:'auto 1fr auto auto auto', gap:14, alignItems:'center',
-              padding:'12px 16px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-            }}>
+            <div key={w.id} className="cfg-watch-row">
               <Toggle checked={active} onChange={() => onToggle(w.id)}/>
               <div>
-                <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{w.nombre}</div>
-                <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>{w.terminos} términos · {w.alertas} alertas en 7d</div>
+                <div className="cfg-watch-label">{w.nombre}</div>
+                <div className="cfg-watch-sub">{w.terminos} términos · {w.alertas} alertas en 7d</div>
               </div>
-              <span style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color: w.alertas > 15 ? '#DC2626' : '#1F4E8C' }}>{w.alertas}</span>
+              <span className={`cfg-watch-num ${w.alertas > 15 ? 'cfg-watch-num--hi' : 'cfg-watch-num--norm'}`}>{w.alertas}</span>
               <Button size="sm" variant="secondary">Editar</Button>
               <Button size="sm" variant="danger">Eliminar</Button>
             </div>
@@ -657,30 +612,30 @@ function SecFuentes() {
         title="Fuentes de datos · estado y calidad"
         sub={`${FUENTES_DEMO.filter(f => f.estado === 'OK').length}/${FUENTES_DEMO.length} fuentes operativas · ${FUENTES_DEMO.reduce((s,f)=>s+f.items_24h,0).toLocaleString('es-ES')} items últimas 24h`}
       />
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+      <table className="cfg-table">
         <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+          <tr>
             {['Fuente','Estado','Items 24h','Latencia','Calidad','Acciones'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+              <th key={h} className="cfg-th">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {FUENTES_DEMO.map(f => (
-            <tr key={f.fuente} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'10px 8px', fontWeight:600, color:'#1d1d1f' }}>{f.fuente}</td>
-              <td style={{ padding:'10px 8px' }}><Badge label={f.estado} color={statusColor(f.estado)}/></td>
-              <td style={{ padding:'10px 8px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{f.items_24h.toLocaleString('es-ES')}</td>
-              <td style={{ padding:'10px 8px', color:'#6e6e73', fontFamily:'monospace', fontSize:11 }}>{typeof f.lat_ms === 'number' ? `${f.lat_ms} ms` : f.lat_ms}</td>
-              <td style={{ padding:'10px 8px' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                  <div style={{ flex:1, maxWidth:80, height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                    <div style={{ width:`${f.calidad}%`, height:'100%', background: f.calidad >= 95 ? '#16A34A' : f.calidad >= 80 ? '#F97316' : '#DC2626' }}/>
+            <tr key={f.fuente}>
+              <td className="cfg-td cfg-td-strong">{f.fuente}</td>
+              <td className="cfg-td"><Badge label={f.estado} color={statusColor(f.estado)}/></td>
+              <td className="cfg-td cfg-td-num">{f.items_24h.toLocaleString('es-ES')}</td>
+              <td className="cfg-td cfg-td-mono--11">{typeof f.lat_ms === 'number' ? `${f.lat_ms} ms` : f.lat_ms}</td>
+              <td className="cfg-td">
+                <div className="cfg-quality-cell">
+                  <div className="cfg-quality-track">
+                    <div className="cfg-quality-fill" style={{ width:`${f.calidad}%`, background: f.calidad >= 95 ? '#16A34A' : f.calidad >= 80 ? '#F97316' : '#DC2626' }}/>
                   </div>
-                  <span style={{ fontSize:11, fontWeight:700, color:'#3a3a3d' }}>{f.calidad}%</span>
+                  <span className="cfg-quality-num">{f.calidad}%</span>
                 </div>
               </td>
-              <td style={{ padding:'10px 8px' }}>
+              <td className="cfg-td">
                 <Button size="sm" variant="secondary">Ver logs</Button>
               </td>
             </tr>
@@ -712,7 +667,7 @@ function SecBrain({ health }: { health: SystemHealth }) {
         <Field label="Formato briefing" value="Resumen 3 frases + bullets + fuentes citadas"/>
         <Field label="Idioma respuestas" value="es-ES · adaptable a en-GB y ca-ES"/>
         <Field label="Contexto fijo">
-          <div style={{ background:'#FAFAFB', padding:'8px 10px', borderRadius:6, fontFamily:'monospace', fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
+          <div className="cfg-context-block">
             «Eres un analista político español de Politeia Analítica. Responde siempre con datos verificados, citando fuentes oficiales (BOE, Congreso, INE, CIS). Evita opiniones partidistas. Estructura tus respuestas con resumen + hallazgos + recomendaciones.»
           </div>
         </Field>
@@ -727,15 +682,15 @@ function SecApi() {
       <Card>
         <CardHeader title="API tokens" sub="Tokens de acceso a la API REST" right={<Button>+ Generar token</Button>}/>
         <Field label="Token producción">
-          <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-            <code style={{ background:'#FAFAFB', padding:'5px 10px', borderRadius:6, fontFamily:'monospace', fontSize:11, color:'#1d1d1f', flex:1 }}>pol_live_4f8a••••••••••••••••••••8c7d</code>
+          <div className="cfg-token-row">
+            <code className="cfg-token-code">pol_live_4f8a••••••••••••••••••••8c7d</code>
             <Button size="sm" variant="secondary">Copiar</Button>
             <Button size="sm" variant="danger">Revocar</Button>
           </div>
         </Field>
         <Field label="Token desarrollo">
-          <div style={{ display:'flex', gap:8, alignItems:'center' }}>
-            <code style={{ background:'#FAFAFB', padding:'5px 10px', borderRadius:6, fontFamily:'monospace', fontSize:11, color:'#1d1d1f', flex:1 }}>pol_test_2d7b••••••••••••••••••••5e9f</code>
+          <div className="cfg-token-row">
+            <code className="cfg-token-code">pol_test_2d7b••••••••••••••••••••5e9f</code>
             <Button size="sm" variant="secondary">Copiar</Button>
             <Button size="sm" variant="danger">Revocar</Button>
           </div>
@@ -743,33 +698,33 @@ function SecApi() {
         <Field label="Cuota actual" value="142.300 / 100.000 requests · 142% (overage facturable)" sub="Reset diario 00:00 UTC"/>
         <Field label="Rate limit" value="100 requests/segundo · burst 500"/>
         <Field label="Documentación">
-          <a href="#" style={{ color:'#1F4E8C', textDecoration:'none', fontWeight:600 }}>docs.politeia.es/api/v2 ↗</a>
+          <a href="#" className="cfg-link">docs.politeia.es/api/v2 ↗</a>
         </Field>
       </Card>
       <Card>
         <CardHeader title="Webhooks" sub={`${WEBHOOKS_DEMO.length} endpoints configurados`} right={<Button>+ Añadir webhook</Button>}/>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+        <table className="cfg-table">
           <thead>
-            <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+            <tr>
               {['Endpoint','Eventos','Última entrega','Éxitos 24h','Estado','Acciones'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                <th key={h} className="cfg-th">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {WEBHOOKS_DEMO.map(w => (
-              <tr key={w.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'10px 8px', fontFamily:'monospace', fontSize:11, color:'#1d1d1f', maxWidth:280, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{w.endpoint}</td>
-                <td style={{ padding:'10px 8px' }}>
-                  <div style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
+              <tr key={w.id}>
+                <td className="cfg-td-endpoint">{w.endpoint}</td>
+                <td className="cfg-td">
+                  <div className="cfg-events-pills">
                     {w.eventos.map(e => <Badge key={e} label={e} color="#5B21B6" outline/>)}
                   </div>
                 </td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73' }}>{w.last}</td>
-                <td style={{ padding:'10px 8px', fontFamily:'var(--font-display)', fontWeight:700, color: w.exitos_24h > 0 ? '#16A34A' : '#86868b' }}>{w.exitos_24h}</td>
-                <td style={{ padding:'10px 8px' }}><Badge label={w.activo ? 'Activo' : 'Pausado'} color={w.activo ? '#16A34A' : '#86868b'}/></td>
-                <td style={{ padding:'10px 8px' }}>
-                  <div style={{ display:'flex', gap:4 }}>
+                <td className="cfg-td cfg-td-muted">{w.last}</td>
+                <td className={`cfg-td-success ${w.exitos_24h > 0 ? 'cfg-td-success--ok' : 'cfg-td-success--zero'}`}>{w.exitos_24h}</td>
+                <td className="cfg-td"><Badge label={w.activo ? 'Activo' : 'Pausado'} color={w.activo ? '#16A34A' : '#86868b'}/></td>
+                <td className="cfg-td">
+                  <div className="cfg-row-actions--4">
                     <Button size="sm" variant="secondary">Ver logs</Button>
                     <Button size="sm" variant="secondary">Test</Button>
                   </div>
@@ -787,23 +742,15 @@ function SecIntegraciones() {
   return (
     <Card>
       <CardHeader title="Integraciones" sub={`${INTEGRACIONES.filter(i => i.estado === 'Conectada').length} de ${INTEGRACIONES.length} conectadas`}/>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10 }}>
+      <div className="cfg-integ-grid">
         {INTEGRACIONES.map(i => {
           const conectada = i.estado === 'Conectada'
           return (
-            <div key={i.id} style={{
-              display:'grid', gridTemplateColumns:'auto 1fr auto', gap:14, alignItems:'center',
-              padding:'14px 16px', background:'#fff', border:`1px solid ${conectada ? '#86EFAC' : '#ECECEF'}`, borderRadius:10,
-              borderLeft:`3px solid ${i.color}`,
-            }}>
-              <div style={{
-                width:38, height:38, borderRadius:9, background: i.color, color:'#fff',
-                display:'flex', alignItems:'center', justifyContent:'center',
-                fontFamily:'var(--font-display)', fontWeight:800, fontSize:18,
-              }}>{i.icon}</div>
+            <div key={i.id} className={`cfg-integ-card ${conectada ? 'cfg-integ-card--on' : 'cfg-integ-card--off'}`} style={{ borderLeft:`3px solid ${i.color}` }}>
+              <div className="cfg-integ-icon" style={{ background: i.color }}>{i.icon}</div>
               <div>
-                <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f' }}>{i.nombre}</div>
-                <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>{i.desc}</div>
+                <div className="cfg-integ-name">{i.nombre}</div>
+                <div className="cfg-integ-desc">{i.desc}</div>
                 <Badge label={i.estado} color={conectada ? '#16A34A' : '#86868b'}/>
               </div>
               <Button size="sm" variant={conectada ? 'secondary' : 'primary'}>{conectada ? 'Configurar' : 'Conectar'}</Button>
@@ -820,13 +767,13 @@ function SecNotificaciones({ state, onToggle, hora, setHora }: { state: Record<s
     <>
       <Card>
         <CardHeader title="Canales de notificación" sub={`${Object.values(state).filter(v => v).length} de ${NOTIF_CHANNELS.length} canales activos`}/>
-        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+        <div className="cfg-list-col-8">
           {NOTIF_CHANNELS.map(n => (
-            <div key={n.id} style={{ display:'grid', gridTemplateColumns:'auto 1fr', gap:14, alignItems:'center', padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10 }}>
+            <div key={n.id} className="cfg-notif-row">
               <Toggle checked={state[n.id]} onChange={() => onToggle(n.id)}/>
               <div>
-                <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f' }}>{n.label}</div>
-                <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>{n.desc}</div>
+                <div className="cfg-notif-label">{n.label}</div>
+                <div className="cfg-notif-sub">{n.desc}</div>
               </div>
             </div>
           ))}
@@ -835,9 +782,7 @@ function SecNotificaciones({ state, onToggle, hora, setHora }: { state: Record<s
       <Card>
         <CardHeader title="Horarios y umbrales"/>
         <Field label="Hora briefing matinal">
-          <input type="time" value={hora} onChange={e => setHora(e.target.value)} style={{
-            padding:'7px 11px', borderRadius:7, border:'1px solid #DCDCE0', fontFamily:'inherit', fontSize:12, fontWeight:600,
-          }}/>
+          <input type="time" value={hora} onChange={e => setHora(e.target.value)} className="cfg-time-input"/>
         </Field>
         <Field label="Zona horaria" value="Europe/Madrid (CET / CEST)"/>
         <Field label="Severidad mínima · push" value="ALTA"/>
@@ -875,7 +820,7 @@ function SecSeguridad() {
       </Card>
       <Card>
         <CardHeader title="Acciones de privacidad" sub="Derechos GDPR para ejercicio inmediato"/>
-        <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+        <div className="cfg-flex-row-8-wrap">
           <Button variant="secondary">Exportar datos personales (JSON)</Button>
           <Button variant="secondary">Solicitar rectificación</Button>
           <Button variant="secondary">Solicitar limitación tratamiento</Button>
@@ -892,21 +837,18 @@ function SecPersonalizacion({ tema, setTema, idioma, setIdioma }: { tema: string
       <Card>
         <CardHeader title="Apariencia"/>
         <Field label="Tema">
-          <div style={{ display:'flex', gap:6 }}>
+          <div className="cfg-theme-row">
             {(['auto', 'claro', 'oscuro'] as const).map(t => (
-              <button key={t} onClick={() => setTema(t)} style={{
-                padding:'7px 14px', borderRadius:7, fontSize:11.5, fontWeight: tema === t ? 700 : 500,
-                background: tema === t ? '#1d1d1f' : '#fff',
-                color: tema === t ? '#fff' : '#3a3a3d',
-                border: `1px solid ${tema === t ? '#1d1d1f' : '#DCDCE0'}`, cursor:'pointer', fontFamily:'inherit',
-              }}>{t.charAt(0).toUpperCase() + t.slice(1)}</button>
+              <button
+                key={t}
+                onClick={() => setTema(t)}
+                className={`cfg-theme-btn${tema === t ? ' cfg-theme-btn--active' : ''}`}
+              >{t.charAt(0).toUpperCase() + t.slice(1)}</button>
             ))}
           </div>
         </Field>
         <Field label="Idioma de la interfaz">
-          <select value={idioma} onChange={e => setIdioma(e.target.value as 'es' | 'en' | 'ca')} style={{
-            padding:'7px 12px', borderRadius:7, border:'1px solid #DCDCE0', fontFamily:'inherit', fontSize:12, fontWeight:600,
-          }}>
+          <select value={idioma} onChange={e => setIdioma(e.target.value as 'es' | 'en' | 'ca')} className="cfg-lang-select">
             <option value="es">Español (España)</option>
             <option value="en">English (UK)</option>
             <option value="ca">Català</option>
@@ -919,8 +861,8 @@ function SecPersonalizacion({ tema, setTema, idioma, setIdioma }: { tema: string
       <Card>
         <CardHeader title="Branding"/>
         <Field label="Logo cliente">
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ width:48, height:48, background:'#1F4E8C', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontFamily:'var(--font-display)', fontWeight:800, fontSize:14 }}>AC</div>
+          <div className="cfg-logo-row">
+            <div className="cfg-logo-box">AC</div>
             <Button size="sm" variant="secondary">Cambiar</Button>
           </div>
         </Field>
@@ -937,30 +879,30 @@ function SecPipelines({ pipelines }: { pipelines: PipelineRun[] }) {
   return (
     <Card>
       <CardHeader title="Pipelines ETL · ejecución" sub={`${pipelines.length} pipelines · auto-refresh 60s · ${pipelines.filter(p => p.status === 'success').length} OK · ${pipelines.filter(p => p.status === 'failed').length} fallidos`}/>
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+      <table className="cfg-table">
         <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+          <tr>
             {['Pipeline','Estado','Schedule','Inicio','Duración','Filas','Acciones'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+              <th key={h} className="cfg-th">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {pipelines.map(p => (
-            <tr key={p.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'10px 8px' }}>
-                <div style={{ fontWeight:600, color:'#1d1d1f' }}>{p.name}</div>
-                {p.descripcion && <div style={{ fontSize:10.5, color:'#86868b', marginTop:2 }}>{p.descripcion}</div>}
+            <tr key={p.id}>
+              <td className="cfg-td">
+                <div className="cfg-ws-name">{p.name}</div>
+                {p.descripcion && <div className="cfg-integ-desc">{p.descripcion}</div>}
               </td>
-              <td style={{ padding:'10px 8px' }}><Badge label={p.status} color={statusColor(p.status)}/></td>
-              <td style={{ padding:'10px 8px', fontFamily:'monospace', fontSize:10.5, color:'#6e6e73' }}>{p.schedule || '—'}</td>
-              <td style={{ padding:'10px 8px', color:'#6e6e73', fontSize:11 }}>{p.started_at ? new Date(p.started_at).toLocaleTimeString('es-ES') : '—'}</td>
-              <td style={{ padding:'10px 8px', color:'#6e6e73', fontFamily:'monospace', fontSize:11 }}>{p.duration_s != null ? `${p.duration_s}s` : '—'}</td>
-              <td style={{ padding:'10px 8px', color:'#6e6e73', fontVariantNumeric:'tabular-nums', fontSize:11 }}>
+              <td className="cfg-td"><Badge label={p.status} color={statusColor(p.status)}/></td>
+              <td className="cfg-td cfg-td-mono">{p.schedule || '—'}</td>
+              <td className="cfg-td cfg-td-time">{p.started_at ? new Date(p.started_at).toLocaleTimeString('es-ES') : '—'}</td>
+              <td className="cfg-td cfg-td-mono--11">{p.duration_s != null ? `${p.duration_s}s` : '—'}</td>
+              <td className="cfg-td cfg-td-tab">
                 {p.rows_in != null ? `${p.rows_in.toLocaleString('es-ES')} → ${(p.rows_out ?? p.rows_in).toLocaleString('es-ES')}` : '—'}
               </td>
-              <td style={{ padding:'10px 8px' }}>
-                <div style={{ display:'flex', gap:4 }}>
+              <td className="cfg-td">
+                <div className="cfg-row-actions--4">
                   <Button size="sm" variant="secondary">Ejecutar</Button>
                   <Button size="sm" variant="secondary">Logs</Button>
                 </div>
@@ -976,7 +918,7 @@ function SecPipelines({ pipelines }: { pipelines: PipelineRun[] }) {
 function SecSistema({ health }: { health: SystemHealth }) {
   return (
     <>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10, marginBottom:14 }}>
+      <div className="cfg-metric-grid-4">
         <SystemMetric label="Estado global" value={health.status?.toUpperCase() ?? 'OK'} color={statusColor(health.status)}/>
         <SystemMetric label="Uptime 30d"    value={`${health.uptime_pct ?? 99.9}%`} color="#16A34A"/>
         <SystemMetric label="Latencia API"  value={`${health.api_latency_ms ?? 142} ms`} color="#0EA5E9"/>
@@ -1009,10 +951,10 @@ function SecSistema({ health }: { health: SystemHealth }) {
 
 function SystemMetric({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <Card style={{ marginBottom:0, padding:'14px 16px' }}>
-      <div style={{ fontSize:9.5, fontWeight:800, letterSpacing:'0.08em', color:'#6e6e73', textTransform:'uppercase', marginBottom:5 }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color, lineHeight:1, letterSpacing:'-0.02em' }}>{value}</div>
-    </Card>
+    <div className="cfg-metric-card">
+      <div className="cfg-metric-label">{label}</div>
+      <div className="cfg-metric-value" style={{ color }}>{value}</div>
+    </div>
   )
 }
 
@@ -1032,23 +974,23 @@ function SecLogs() {
   return (
     <Card>
       <CardHeader title="Audit log · últimas 24h" sub="Eventos auditables · exportable a SIEM" right={<><Button size="sm" variant="secondary">Filtrar</Button> <Button size="sm" variant="secondary">Exportar CSV</Button></>}/>
-      <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11.5 }}>
+      <table className="cfg-table--sm">
         <thead>
-          <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+          <tr>
             {['Hora','Usuario','Acción','Target','IP','Severidad'].map(h => (
-              <th key={h} style={{ textAlign:'left', padding:'8px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+              <th key={h} className="cfg-th--sm">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {events.map((e, i) => (
-            <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
-              <td style={{ padding:'8px 8px', fontFamily:'monospace', color:'#6e6e73' }}>{e.ts}</td>
-              <td style={{ padding:'8px 8px', fontWeight:600, color:'#1d1d1f' }}>{e.user}</td>
-              <td style={{ padding:'8px 8px', color:'#3a3a3d' }}>{e.action}</td>
-              <td style={{ padding:'8px 8px', color:'#1d1d1f', fontFamily:'monospace', fontSize:10.5 }}>{e.target}</td>
-              <td style={{ padding:'8px 8px', fontFamily:'monospace', color:'#86868b' }}>{e.ip}</td>
-              <td style={{ padding:'8px 8px' }}>
+            <tr key={i}>
+              <td className="cfg-td--sm cfg-td-mono--sm">{e.ts}</td>
+              <td className="cfg-td--sm cfg-td-strong">{e.user}</td>
+              <td className="cfg-td--sm cfg-td-mid">{e.action}</td>
+              <td className="cfg-td--sm cfg-td-mono--ink">{e.target}</td>
+              <td className="cfg-td--sm cfg-td-mono-ip">{e.ip}</td>
+              <td className="cfg-td--sm">
                 <Badge label={e.sev} color={e.sev === 'ERROR' ? '#DC2626' : e.sev === 'WARN' ? '#F97316' : '#16A34A'}/>
               </td>
             </tr>
@@ -1062,7 +1004,7 @@ function SecLogs() {
 function SecFacturacion() {
   return (
     <>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10, marginBottom:14 }}>
+      <div className="cfg-metric-grid-3">
         <SystemMetric label="Plan mensual" value="€4.000" color="#5B21B6"/>
         <SystemMetric label="Overage actual" value="€238" color="#F97316"/>
         <SystemMetric label="Próxima factura" value="€4.238" color="#1d1d1f"/>
@@ -1078,11 +1020,11 @@ function SecFacturacion() {
       </Card>
       <Card>
         <CardHeader title="Facturas recientes"/>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+        <table className="cfg-table">
           <thead>
-            <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+            <tr>
               {['Periodo','Importe','Estado','Pagada','Acciones'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                <th key={h} className="cfg-th">{h}</th>
               ))}
             </tr>
           </thead>
@@ -1094,12 +1036,12 @@ function SecFacturacion() {
               { period: 'Enero 2026',   amount: '€4.000', status: 'Pagada', date: '02 feb 2026' },
               { period: 'Anual 2026',   amount: '€48.000 (-€8.000 dto.)', status: 'Pagada anticipo', date: '15 ene 2026' },
             ].map((f, i) => (
-              <tr key={i} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'10px 8px', fontWeight:600 }}>{f.period}</td>
-                <td style={{ padding:'10px 8px', fontFamily:'var(--font-display)', fontWeight:700 }}>{f.amount}</td>
-                <td style={{ padding:'10px 8px' }}><Badge label={f.status} color="#16A34A"/></td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73' }}>{f.date}</td>
-                <td style={{ padding:'10px 8px' }}>
+              <tr key={i}>
+                <td className="cfg-td-amount">{f.period}</td>
+                <td className="cfg-td-amount--display">{f.amount}</td>
+                <td className="cfg-td"><Badge label={f.status} color="#16A34A"/></td>
+                <td className="cfg-td cfg-td-muted">{f.date}</td>
+                <td className="cfg-td">
                   <Button size="sm" variant="secondary">Descargar PDF</Button>
                 </td>
               </tr>
@@ -1113,7 +1055,7 @@ function SecFacturacion() {
         <Field label="IBAN" value="ES** **** **** **** **** 4729"/>
         <Field label="Titular" value="Acme Consulting & Strategy SL"/>
         <Field label="Mandato SEPA" value="Firmado 15 ene 2026 · ESM02ZZZACME20260115"/>
-        <div style={{ marginTop:12, display:'flex', gap:8 }}>
+        <div className="cfg-flex-row-8-mt">
           <Button variant="secondary">Cambiar método</Button>
           <Button variant="secondary">Descargar mandato</Button>
         </div>
@@ -1126,17 +1068,17 @@ function UsageBar({ label, used, limit, unit, ilimitado }: { label: string; used
   const pct = ilimitado ? 0 : (used / limit) * 100
   const color = pct > 90 ? '#DC2626' : pct > 70 ? '#F97316' : '#16A34A'
   return (
-    <div style={{ marginBottom:12 }}>
-      <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
-        <span style={{ fontSize:12, fontWeight:600, color:'#1d1d1f' }}>{label}</span>
-        <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color }}>
+    <div className="cfg-usage-row">
+      <div className="cfg-usage-head">
+        <span className="cfg-usage-label">{label}</span>
+        <span className="cfg-usage-value" style={{ color }}>
           {used.toLocaleString('es-ES')} {unit}
-          {!ilimitado && <span style={{ color:'#86868b', fontWeight:500 }}> / {limit.toLocaleString('es-ES')} ({pct.toFixed(1)}%)</span>}
-          {ilimitado && <span style={{ color:'#86868b', fontWeight:500 }}> · ILIMITADO</span>}
+          {!ilimitado && <span className="cfg-usage-muted"> / {limit.toLocaleString('es-ES')} ({pct.toFixed(1)}%)</span>}
+          {ilimitado && <span className="cfg-usage-muted"> · ILIMITADO</span>}
         </span>
       </div>
-      <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-        <div style={{ width: ilimitado ? '8%' : `${Math.min(100, pct)}%`, height:'100%', background: color }}/>
+      <div className="cfg-usage-track">
+        <div className="cfg-usage-fill" style={{ width: ilimitado ? '8%' : `${Math.min(100, pct)}%`, background: color }}/>
       </div>
     </div>
   )
@@ -1145,26 +1087,26 @@ function UsageBar({ label, used, limit, unit, ilimitado }: { label: string; used
 function SecSoporte() {
   return (
     <>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14, marginBottom:14 }}>
+      <div className="cfg-soporte-grid">
         {[
           { titulo:'Centro de ayuda', desc:'Documentación, tutoriales, vídeos', cta:'Abrir docs', color:'#1F4E8C' },
           { titulo:'Email · respuesta <2h', desc:'soporte@politeia.es · 24/7 P1', cta:'Escribir email', color:'#5B21B6' },
           { titulo:'Slack compartido', desc:'#politeia-acme · canal directo', cta:'Abrir Slack', color:'#611f69' },
         ].map(s => (
-          <Card key={s.titulo} style={{ marginBottom:0, borderTop:`3px solid ${s.color}` }}>
-            <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, color:'#1d1d1f' }}>{s.titulo}</h3>
-            <p style={{ margin:'0 0 10px', fontSize:12, color:'#6e6e73' }}>{s.desc}</p>
+          <div key={s.titulo} className="cfg-soporte-card" style={{ borderTop:`3px solid ${s.color}` }}>
+            <h3 className="cfg-soporte-title">{s.titulo}</h3>
+            <p className="cfg-soporte-desc">{s.desc}</p>
             <Button>{s.cta}</Button>
-          </Card>
+          </div>
         ))}
       </div>
       <Card>
         <CardHeader title="Tickets recientes" right={<Button>+ Crear ticket</Button>}/>
-        <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+        <table className="cfg-table">
           <thead>
-            <tr style={{ borderBottom:'2px solid #ECECEF' }}>
+            <tr>
               {['ID','Asunto','Prioridad','Estado','Última actividad'].map(h => (
-                <th key={h} style={{ textAlign:'left', padding:'10px 8px', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                <th key={h} className="cfg-th">{h}</th>
               ))}
             </tr>
           </thead>
@@ -1175,12 +1117,12 @@ function SecSoporte() {
               { id:'#PT-2026-0395', asunto:'Cambio rol usuario · Marta R.', prio:'P3', estado:'Resuelto', ult:'hace 1 semana' },
               { id:'#PT-2026-0383', asunto:'Pipeline GDELT · timeout intermitente', prio:'P2', estado:'En análisis', ult:'hace 1 semana' },
             ].map(t => (
-              <tr key={t.id} style={{ borderBottom:'1px solid #F5F5F7' }}>
-                <td style={{ padding:'10px 8px', fontFamily:'monospace', fontSize:11, color:'#1d1d1f' }}>{t.id}</td>
-                <td style={{ padding:'10px 8px', fontWeight:600, color:'#1d1d1f' }}>{t.asunto}</td>
-                <td style={{ padding:'10px 8px' }}><Badge label={t.prio} color={t.prio === 'P1' ? '#DC2626' : t.prio === 'P2' ? '#F97316' : '#1F4E8C'}/></td>
-                <td style={{ padding:'10px 8px' }}><Badge label={t.estado} color={t.estado === 'Resuelto' ? '#16A34A' : '#5B21B6'} outline/></td>
-                <td style={{ padding:'10px 8px', color:'#6e6e73', fontSize:11 }}>{t.ult}</td>
+              <tr key={t.id}>
+                <td className="cfg-td cfg-td-mono--ink-11">{t.id}</td>
+                <td className="cfg-td cfg-td-strong">{t.asunto}</td>
+                <td className="cfg-td"><Badge label={t.prio} color={t.prio === 'P1' ? '#DC2626' : t.prio === 'P2' ? '#F97316' : '#1F4E8C'}/></td>
+                <td className="cfg-td"><Badge label={t.estado} color={t.estado === 'Resuelto' ? '#16A34A' : '#5B21B6'} outline/></td>
+                <td className="cfg-td cfg-td-time">{t.ult}</td>
               </tr>
             ))}
           </tbody>
