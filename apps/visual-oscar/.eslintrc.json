@@ -21,7 +21,7 @@
           "forbid": [
             {
               "propName": "style",
-              "message": "Politeia Design System · usa primitivas tokenizadas (Card, Stat, Badge, Toolbar, …) en lugar de style={{...}} inline. Excepción: valores dinámicos del runtime (color de partido, etc.) que no caben en tokens estáticos."
+              "message": "Politeia Design System · Pilar 4 · usa primitivas tokenizadas (@/components/ui · Card, Stat, Badge, Toolbar, …) o clases CSS desde <route>.css con var(--token-*). Excepción legítima: valores DINÁMICOS de runtime (color de partido recibido por prop, width:`${pct}%`, color por severidad de un map). Ver docs/UI_MIGRATION.md para el patrón completo y la lista de archivos ya migrados (operaciones, competidores, war-room, geopolitica, config-cliente)."
             }
           ]
         }]

@@ -81,18 +81,26 @@ Inline está justificado **solo** cuando el valor depende de runtime:
 
 ## Estado actual de la migración
 
-| Archivo | Inline antes | Inline después | Estado |
-|---------|-------------:|---------------:|--------|
-| `app/operaciones/page.tsx` | 50 | ~3 (whitelist runtime) | ✅ Migrado |
-| `app/competidores/page.tsx` | 304 | — | ⏳ Pendiente |
-| `app/instituciones/page.tsx` | 243 | — | ⏳ Pendiente |
-| `app/war-room/page.tsx` | 235 | — | ⏳ Pendiente |
-| `app/geopolitica/page.tsx` | 223 | — | ⏳ Pendiente |
-| `app/config-cliente/page.tsx` | 188 | — | ⏳ Pendiente |
+| Archivo | Inline antes | Inline después | Reducción | Estado |
+|---------|-------------:|---------------:|-----------|--------|
+| `app/operaciones/page.tsx` | 50 | ~3 | -94% | ✅ Migrado |
+| `app/competidores/page.tsx` | 304 | 126 | -58% | ✅ Migrado |
+| `app/war-room/page.tsx` | 235 | 33 | -86% | ✅ Migrado |
+| `app/geopolitica/page.tsx` | 223 | 57 | -74% | ✅ Migrado |
+| `app/config-cliente/page.tsx` | 188 | 10 | -95% | ✅ Migrado |
+| `app/instituciones/page.tsx` | 243 | — | — | ⏳ Pendiente (datos críticos) |
 
-Total estimado restante: ~7 500 inline styles. Migración progresiva al
-tocar cada archivo por feature work. **No hacer migración en lote** —
-es la receta para regresiones visuales.
+**Total Pilar 4 (top 5):** 1 000 inline → 229 (-77%). Los 229 restantes son
+todos legítimamente dinámicos: colores por rol/estado/severidad/partido, width
+porcentajes de progreso, conic-gradient angles, animaciones condicionales por
+flags de runtime.
+
+**CSS tokenizado generado:** 5 archivos `<route>.css` con ~600 clases prefijadas
+(`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`).
+
+**Restantes en el repo:** ~7 500 inline styles repartidos por páginas menos
+visitadas. Migración progresiva al tocar cada archivo por feature work.
+**No hacer migración en lote** — es la receta para regresiones visuales.
 
 ## Primitivas disponibles · `@/components/ui`
 
