@@ -80,19 +80,35 @@ const DIM_LABELS: Record<string, string> = {
   institutional: 'Institucional', electoral: 'Electoral', geopolitical: 'Geopolítico',
   economic: 'Económico', media: 'Mediático', social: 'Social',
 }
+const DIM_DESC: Record<string, string> = {
+  institutional: 'Estabilidad de instituciones · independencia judicial · renovación de órganos · tensión Gobierno-CGPJ-TC',
+  electoral:     'Volatilidad electoral · Pedersen · proximidad de elecciones · cambios en intención de voto',
+  geopolitical:  'Presión externa · gasto defensa % PIB · OTAN · ofertas armamentísticas · conflictos vecinos',
+  economic:      'IPC · tipos BCE · prima de riesgo · paro · variables macro clave',
+  media:         'Tone informativo · polarización mediática · concentración de menciones negativas',
+  social:        'Paro juvenil · movilizaciones · conflicto laboral · indicadores cohesión',
+}
+const DIM_SOURCES: Record<string, string> = {
+  institutional: 'Banco Mundial WGI · V-Dem · CIS confianza',
+  electoral:     'Wikipedia agregador encuestas · CIS · 40dB',
+  geopolitical:  'Banco Mundial gasto militar · GPR Caldara · ACLED',
+  economic:      'ECB SDW (DFR) · INE TempUS (IPC) · Banco Mundial',
+  media:         'GDELT 2.0 · RSS 30 medios · sentiment NLP',
+  social:        'Banco Mundial paro 16-24 · INE EPA · Politeia Lab',
+}
+
+const LEVEL_RANGES: Array<{ label: string; range: string; color: string; desc: string }> = [
+  { label: 'BAJO',    range: '0–29',   color: '#16A34A', desc: 'Riesgo controlado · vigilancia ordinaria · sin necesidad de comunicación pública específica.' },
+  { label: 'MEDIO',   range: '30–54',  color: '#2563EB', desc: 'Riesgo moderado · seguimiento reforzado · preparar mensajes y posibles intervenciones.' },
+  { label: 'ALTO',    range: '55–74',  color: '#F59E0B', desc: 'Riesgo elevado · activación de comités · comunicación pública coordinada · revisión de calendario.' },
+  { label: 'CRÍTICO', range: '75–100', color: '#DC2626', desc: 'Crisis activa · comité interministerial 24/7 · gabinete de comunicación · medidas extraordinarias.' },
+]
 
 function scoreColor(s: number): string {
   if (s >= 75) return '#DC2626'
   if (s >= 55) return '#F59E0B'
   if (s >= 30) return '#2563EB'
   return '#16A34A'
-}
-
-function scoreLabel(s: number): Level {
-  if (s >= 75) return 'CRITICO'
-  if (s >= 55) return 'ALTO'
-  if (s >= 30) return 'MEDIO'
-  return 'BAJO'
 }
 
 function relTime(iso: string | null): string {
@@ -104,6 +120,22 @@ function relTime(iso: string | null): string {
     if (h < 24) return `hace ${h}h`
     return `hace ${Math.floor(h / 24)}d`
   } catch { return '—' }
+}
+
+// ─── Tooltip de ayuda inline (info icon) ──────────────────────────────────────
+function InfoTip({ text }: { text: string }) {
+  return (
+    <span
+      title={text}
+      style={{
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        width: 14, height: 14, borderRadius: '50%',
+        background: '#F5F5F7', color: '#6e6e73',
+        fontSize: 9.5, fontWeight: 700, cursor: 'help',
+        marginLeft: 6, lineHeight: 1, verticalAlign: 'middle',
+      }}
+    >?</span>
+  )
 }
 
 // ─── Sparkline (light) ────────────────────────────────────────────────────────
@@ -135,33 +167,33 @@ function Thermometer({ score, semaforo, level }: { score: number; semaforo: Sema
   const nx = cx + (r - 22) * Math.cos(toRad(needleAngle))
   const ny = cy + (r - 22) * Math.sin(toRad(needleAngle))
   return (
-    <svg viewBox="0 0 280 200" width="100%" height="auto" style={{ display: 'block', maxWidth: 320 }}>
+    <svg viewBox="0 0 280 220" width="100%" height="auto" style={{ display: 'block', maxWidth: 340 }}>
       {/* Track segmentado · 4 zonas con sus colores */}
       {[
         { from: -135, to: -54,  c: '#16A34A' },
-        { from: -54,  to:  18,  c: '#EAB308' },
+        { from: -54,  to:  18,  c: '#2563EB' },
         { from:  18,  to:  72,  c: '#F59E0B' },
         { from:  72,  to: 135,  c: '#DC2626' },
       ].map((seg, i) => (
-        <path key={i} d={arcPath(seg.from, seg.to, r)} fill="none" stroke={seg.c} strokeWidth={14} strokeLinecap="butt" opacity={0.18} />
+        <path key={i} d={arcPath(seg.from, seg.to, r)} fill="none" stroke={seg.c} strokeWidth={16} strokeLinecap="butt" opacity={0.20} />
       ))}
       {/* Track activo */}
-      <path d={arcPath(-135, -135 + (score / 100) * 270, r)} fill="none" stroke={color} strokeWidth={14} strokeLinecap="round" />
+      <path d={arcPath(-135, -135 + (score / 100) * 270, r)} fill="none" stroke={color} strokeWidth={16} strokeLinecap="round" />
       {/* Marcas */}
       {[0, 25, 50, 75, 100].map(v => {
         const a = -135 + (v / 100) * 270
-        const mx = cx + (r + 16) * Math.cos(toRad(a))
-        const my = cy + (r + 16) * Math.sin(toRad(a))
-        return <text key={v} x={mx} y={my + 3} textAnchor="middle" fill="#86868b" fontSize={10} fontWeight={600}>{v}</text>
+        const mx = cx + (r + 18) * Math.cos(toRad(a))
+        const my = cy + (r + 18) * Math.sin(toRad(a))
+        return <text key={v} x={mx} y={my + 3} textAnchor="middle" fill="#86868b" fontSize={11} fontWeight={600}>{v}</text>
       })}
       {/* Aguja */}
-      <line x1={cx} y1={cy} x2={nx} y2={ny} stroke="#1d1d1f" strokeWidth={3} strokeLinecap="round" />
-      <circle cx={cx} cy={cy} r={9} fill={color} />
-      <circle cx={cx} cy={cy} r={4} fill="#fff" />
+      <line x1={cx} y1={cy} x2={nx} y2={ny} stroke="#1d1d1f" strokeWidth={3.5} strokeLinecap="round" />
+      <circle cx={cx} cy={cy} r={10} fill={color} />
+      <circle cx={cx} cy={cy} r={4.5} fill="#fff" />
       {/* Lectura central */}
-      <text x={cx} y={cy + 38} textAnchor="middle" fill={color} fontSize={36} fontWeight={800} style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}>{Math.round(score)}</text>
-      <text x={cx} y={cy + 55} textAnchor="middle" fill="#86868b" fontSize={11} fontWeight={500}>/100</text>
-      <text x={cx} y={cy + 78} textAnchor="middle" fill={color} fontSize={13} fontWeight={700} letterSpacing="0.08em">{level}</text>
+      <text x={cx} y={cy + 42} textAnchor="middle" fill={color} fontSize={42} fontWeight={800} style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.03em' }}>{Math.round(score)}</text>
+      <text x={cx} y={cy + 60} textAnchor="middle" fill="#86868b" fontSize={12} fontWeight={500}>de 100</text>
+      <text x={cx} y={cy + 84} textAnchor="middle" fill={color} fontSize={15} fontWeight={700} letterSpacing="0.08em">{level}</text>
     </svg>
   )
 }
@@ -175,51 +207,75 @@ function DimCard({ dim, k, buckets }: { dim: RiskDimension; k: string; buckets: 
   return (
     <div style={{
       background: '#fff', borderRadius: 14, border: '1px solid #ECECEF',
-      borderLeft: `3px solid ${color}`,
-      padding: '14px 18px',
+      borderLeft: `4px solid ${color}`,
+      padding: '18px 22px',
       boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <div>
-          <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {DIM_LABELS[k] || dim.label || k}
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 4 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontSize: 28, fontWeight: 700, letterSpacing: '-0.025em', color: sc, lineHeight: 1 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: 32, fontWeight: 700, letterSpacing: '-0.025em', color: sc, lineHeight: 1 }}>
               {dim.score.toFixed(0)}
             </span>
-            <span style={{ fontSize: 11, color: '#86868b' }}>/100</span>
+            <span style={{ fontSize: 12, color: '#86868b' }}>/100</span>
             {dim.is_anomaly && (
-              <span style={{ fontSize: 9, fontWeight: 800, color: '#fff', background: '#F59E0B', borderRadius: 999, padding: '2px 7px', letterSpacing: '0.06em' }}>ANOMALÍA</span>
+              <span style={{ fontSize: 9.5, fontWeight: 800, color: '#fff', background: '#F59E0B', borderRadius: 999, padding: '2px 8px', letterSpacing: '0.06em' }}>ANOMALÍA</span>
             )}
           </div>
         </div>
-        {sparkValues.length > 1 && <Sparkline data={sparkValues} color={color} W={68} H={32} />}
+        {sparkValues.length > 1 && (
+          <div style={{ textAlign: 'right' }}>
+            <Sparkline data={sparkValues} color={color} W={80} H={36} />
+            <div style={{ fontSize: 10, color: '#86868b', marginTop: 4 }}>últ. 14 días</div>
+          </div>
+        )}
       </div>
-      <div style={{ height: 5, background: '#F5F5F7', borderRadius: 3, marginBottom: 10 }}>
+      <p style={{ margin: '6px 0 10px', fontSize: 12, color: '#515154', lineHeight: 1.4 }}>
+        {DIM_DESC[k] ?? 'Dimensión del termómetro de riesgo.'}
+      </p>
+      <div style={{ height: 6, background: '#F5F5F7', borderRadius: 3, marginBottom: 10 }}>
         <div style={{ width: `${Math.min(100, dim.score)}%`, height: '100%', borderRadius: 3, background: color, transition: 'width 600ms ease' }} />
       </div>
-      <div style={{ display: 'flex', gap: 14, fontSize: 11, color: '#6e6e73', flexWrap: 'wrap' }}>
-        <span><span style={{ fontWeight: 600, color: '#1d1d1f' }}>{dim.n_articles}</span> art.</span>
-        <span>peso <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{(dim.weight * 100).toFixed(0)}%</span></span>
-        <span style={{ color: deltaColor, fontWeight: 600 }}>{dim.delta_24h >= 0 ? '+' : ''}{dim.delta_24h.toFixed(1)} 24h</span>
-        {Math.abs(dim.z_score) > 0.1 && <span>z=<span style={{ fontWeight: 600, color: '#1d1d1f' }}>{dim.z_score.toFixed(1)}</span></span>}
+      <div style={{ display: 'flex', gap: 14, fontSize: 11.5, color: '#6e6e73', flexWrap: 'wrap' }}>
+        <span title="Número de artículos del feed RSS analizados para esta dimensión en las últimas horas">
+          <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{dim.n_articles}</span> art.
+        </span>
+        <span title="Peso del índice en el cómputo del score compuesto">
+          peso <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{(dim.weight * 100).toFixed(0)}%</span>
+        </span>
+        <span style={{ color: deltaColor, fontWeight: 600 }} title="Variación del score frente a las últimas 24h">
+          {dim.delta_24h >= 0 ? '+' : ''}{dim.delta_24h.toFixed(1)} 24h
+        </span>
+        {Math.abs(dim.z_score) > 0.1 && (
+          <span title="Z-score · desviaciones típicas respecto al promedio histórico. |z|>2 = anomalía estadística">
+            z=<span style={{ fontWeight: 600, color: '#1d1d1f' }}>{dim.z_score.toFixed(1)}</span>
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 8, paddingTop: 8, borderTop: '1px solid #F5F5F7' }}>
+        Fuentes · <span style={{ color: '#6e6e73' }}>{DIM_SOURCES[k] ?? '—'}</span>
       </div>
     </div>
   )
 }
 
 // ─── KPI tile ─────────────────────────────────────────────────────────────────
-function KPI({ label, value, accent, sub }: { label: string; value: string | number; accent: string; sub?: string }) {
+function KPI({ label, value, accent, sub, tip }: { label: string; value: string | number; accent: string; sub?: string; tip?: string }) {
   return (
     <div style={{
-      background: '#fff', borderRadius: 14, padding: '14px 18px',
-      border: '1px solid #ECECEF', borderLeft: `3px solid ${accent}`,
+      background: '#fff', borderRadius: 14, padding: '16px 20px',
+      border: '1px solid #ECECEF', borderLeft: `4px solid ${accent}`,
       boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
     }}>
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 6 }}>{label}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.025em', color: accent, lineHeight: 1 }}>{value}</div>
-      {sub && <div style={{ fontSize: 11, color: '#86868b', marginTop: 6 }}>{sub}</div>}
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', marginBottom: 8 }}>
+        {label}
+        {tip && <InfoTip text={tip} />}
+      </div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', color: accent, lineHeight: 1 }}>{value}</div>
+      {sub && <div style={{ fontSize: 12, color: '#86868b', marginTop: 7, lineHeight: 1.35 }}>{sub}</div>}
     </div>
   )
 }
@@ -229,6 +285,7 @@ export default function TermometroPage() {
   const [tab, setTab] = useState<'overview' | 'dimensiones' | 'drivers' | 'historico'>('overview')
   const [selectedDim, setSelectedDim] = useState<string | null>(null)
   const [histDim, setHistDim] = useState<string>('composite')
+  const [methodOpen, setMethodOpen] = useState(false)
 
   const riskData   = useApi<RiskComposite & { _meta?: unknown }>('/api/risk/composite', { refreshInterval: 120_000 })
   const tsData     = useApi<RiskTimeseriesResponse>('/api/risk/timeseries?days=30', { refreshInterval: 1_800_000 })
@@ -251,83 +308,123 @@ export default function TermometroPage() {
     ? +(compositeHistory[compositeHistory.length - 1] - compositeHistory[compositeHistory.length - 8]).toFixed(1)
     : 0
 
+  // Descripción explicativa del nivel actual
+  const currentLevelDesc = LEVEL_RANGES.find(r => r.label.startsWith(semLabel.charAt(0)))?.desc ?? ''
+
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
       <AppHeader />
-      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 80px' }}>
+      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '32px 40px 80px' }}>
 
         {/* Header */}
-        <section style={{ marginBottom: 18 }}>
-          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <section style={{ marginBottom: 22 }}>
+          <p style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6e6e73', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
             <span>INTELIGENCIA · TERMÓMETRO DE RIESGO</span>
             <LiveStatusBadge updatedAt={risk?.fetched_at ?? null} source={(riskData as unknown as { source?: string }).source ?? 'aggregator'} refreshIntervalSec={120} onRefresh={riskData.refresh}/>
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 32, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1, color: '#1d1d1f' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 36, letterSpacing: '-0.024em', margin: '0 0 8px', lineHeight: 1.05, color: '#1d1d1f' }}>
             Termómetro de Riesgo <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#6e6e73' }}>· España</em>
           </h1>
-          <p style={{ fontSize: 14, color: '#6e6e73', margin: 0, maxWidth: 880, lineHeight: 1.5 }}>
-            Índice compuesto multidimensional · seis dimensiones agregadas (institucional, electoral,
-            geopolítico, económico, mediático, social) con feeds públicos y análisis SIGINT en tiempo real.
+          <p style={{ fontSize: 15.5, color: '#515154', margin: 0, maxWidth: 920, lineHeight: 1.55 }}>
+            Índice compuesto multidimensional que mide la tensión política, económica y social del país en una escala
+            de <strong>0 a 100</strong>. Agrega <strong>seis dimensiones</strong> (institucional, electoral, geopolítico, económico,
+            mediático y social) calculadas en vivo desde feeds públicos: Banco Mundial, ECB, INE, GDELT, INCIBE-CERT,
+            EMSC sismos, Google News y un agregador propio de 30+ medios.
           </p>
         </section>
 
-        {/* Gauge + KPIs */}
-        <section style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: 16, marginBottom: 18 }}>
+        {/* Gauge + KPIs + nivel actual */}
+        <section style={{ display: 'grid', gridTemplateColumns: '360px 1fr', gap: 18, marginBottom: 22 }}>
 
           {/* Gauge card */}
           <div style={{
-            background: '#fff', borderRadius: 16, padding: '20px 16px 24px',
+            background: '#fff', borderRadius: 16, padding: '24px 18px 26px',
             border: '1px solid #ECECEF', borderTop: `4px solid ${semColor}`,
             boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             display: 'flex', flexDirection: 'column', alignItems: 'center',
           }}>
             <Thermometer score={composite} semaforo={semaforo} level={semLabel} />
-            <div style={{ marginTop: 4, fontSize: 11.5, color: '#6e6e73', textAlign: 'center' }}>
+            <div style={{ marginTop: 6, fontSize: 12.5, color: '#6e6e73', textAlign: 'center', fontWeight: 500 }}>
               {risk?.framework === 'unavailable' ? 'Estimación SIGINT · sin backend' : `Framework · ${risk?.framework ?? 'politeia-v3'}`}
             </div>
             {compositeHistory.length > 1 && (
-              <div style={{ marginTop: 14, width: '100%', borderTop: '1px solid #F5F5F7', paddingTop: 14 }}>
-                <div style={{ fontSize: 10, color: '#6e6e73', marginBottom: 6, textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <div style={{ marginTop: 16, width: '100%', borderTop: '1px solid #F5F5F7', paddingTop: 16 }}>
+                <div style={{ fontSize: 10.5, color: '#6e6e73', marginBottom: 8, textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 700 }}>
                   Histórico 30 días
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Sparkline data={compositeHistory} color={semColor} W={220} H={44} />
+                  <Sparkline data={compositeHistory} color={semColor} W={240} H={48} />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 8, fontSize: 11, color: '#6e6e73' }}>
-                  <span>Min · <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{Math.min(...compositeHistory).toFixed(0)}</span></span>
-                  <span>Max · <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{Math.max(...compositeHistory).toFixed(0)}</span></span>
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10, fontSize: 12, color: '#6e6e73' }}>
+                  <span>Min · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{Math.min(...compositeHistory).toFixed(0)}</span></span>
+                  <span>Max · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{Math.max(...compositeHistory).toFixed(0)}</span></span>
+                  <span>Media · <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{(compositeHistory.reduce((a, b) => a + b, 0) / compositeHistory.length).toFixed(0)}</span></span>
                 </div>
               </div>
             )}
           </div>
 
-          {/* KPIs grid */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-              <KPI label="Score compuesto"   value={composite.toFixed(0)} accent={semColor} sub={`${semLabel} · ${change7d >= 0 ? '+' : ''}${change7d.toFixed(1)} vs 7d`}/>
-              <KPI label="Dimensiones"        value={dimKeys.length || 6}  accent="#6e6e73" sub="Cobertura completa"/>
-              <KPI label="Drivers activos"    value={topRisks.length || signals.filter(s => s.score >= 50).length} accent="#F59E0B" sub="Eventos con peso >50"/>
-              <KPI label="Anomalías"          value={dimKeys.filter(k => dimensions[k]?.is_anomaly).length} accent="#DC2626" sub="z-score |·|>2"/>
-              <KPI label="Señales SIGINT"     value={signals.filter(s => s.severidad === 'CRITICO').length} accent="#DC2626" sub={`${signals.length} totales últimas 6h`}/>
-              <KPI label="Cambio 7 días"      value={`${change7d >= 0 ? '+' : ''}${change7d.toFixed(1)}`} accent={change7d > 0 ? '#DC2626' : '#16A34A'} sub="Variación del compuesto"/>
+          {/* KPIs grid + explicación nivel */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {/* Banner explicativo del nivel actual */}
+            <div style={{
+              background: `${semColor}10`, borderLeft: `4px solid ${semColor}`, borderRadius: 12,
+              padding: '14px 20px', display: 'flex', gap: 14, alignItems: 'flex-start',
+            }}>
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+                background: semColor, color: '#fff',
+                fontSize: 18, fontWeight: 900, letterSpacing: '0.02em',
+                fontFamily: 'var(--font-display)',
+              }}>{Math.round(composite)}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, color: '#1d1d1f', fontWeight: 700, marginBottom: 3 }}>
+                  Nivel actual · <span style={{ color: semColor, letterSpacing: '0.04em' }}>{semLabel}</span>
+                </div>
+                <p style={{ fontSize: 13, color: '#3a3a3d', margin: 0, lineHeight: 1.5 }}>
+                  {currentLevelDesc}
+                </p>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+              <KPI label="Score compuesto"   value={composite.toFixed(0)} accent={semColor} sub={`${semLabel} · ${change7d >= 0 ? '+' : ''}${change7d.toFixed(1)} vs hace 7d`}
+                   tip="Media ponderada de las 6 dimensiones, normalizada 0-100. Lectura semáforo: verde<30, azul 30-54, naranja 55-74, rojo ≥75."/>
+              <KPI label="Dimensiones"        value={dimKeys.length || 6}  accent="#6e6e73" sub="Institucional, electoral, geopolítico, económico, mediático, social"
+                   tip="Cada dimensión se calcula independientemente y aporta al compuesto según su peso (que totaliza 100%)."/>
+              <KPI label="Drivers activos"    value={topRisks.length || signals.filter(s => s.score >= 50).length} accent="#F59E0B" sub="Eventos detectados con score >50/100"
+                   tip="Drivers: noticias, eventos o señales que están moviendo el score de alguna dimensión hoy."/>
+              <KPI label="Anomalías"          value={dimKeys.filter(k => dimensions[k]?.is_anomaly).length} accent="#DC2626" sub="Dimensiones con |z-score|>2"
+                   tip="Z-score mide cuántas desviaciones típicas se aleja la dimensión de su media histórica. |z|>2 es estadísticamente raro."/>
+              <KPI label="Señales SIGINT"     value={signals.filter(s => s.severidad === 'CRITICO').length} accent="#DC2626" sub={`${signals.length} totales últimas 6h`}
+                   tip="Señales de inteligencia agregadas de GDELT, INCIBE, CCN-CERT, EMSC sismos, Google News y Wikipedia."/>
+              <KPI label="Variación 7 días"   value={`${change7d >= 0 ? '+' : ''}${change7d.toFixed(1)}`} accent={change7d > 0 ? '#DC2626' : '#16A34A'} sub={change7d > 0 ? 'Score creciente · vigilar' : 'Tendencia a la baja'}
+                   tip="Diferencia entre el score actual y el de hace 7 días. Valor positivo = riesgo creciendo."/>
             </div>
 
             {/* Señales SIGINT recientes */}
             {signals.length > 0 && (
-              <div style={{ background: '#fff', borderRadius: 14, padding: '14px 18px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
-                  Señales SIGINT recientes
+              <div style={{ background: '#fff', borderRadius: 14, padding: '16px 20px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    Señales SIGINT recientes
+                    <InfoTip text="Top señales detectadas en las últimas horas por el agregador. Cada una contribuye al score de alguna dimensión." />
+                  </div>
+                  <div style={{ fontSize: 11, color: '#86868b' }}>
+                    Actualizado cada 5 minutos
+                  </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {signals.slice(0, 4).map((s, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '70px 1fr auto', gap: 10, alignItems: 'center', fontSize: 12, padding: '6px 0', borderTop: i > 0 ? '1px solid #F5F5F7' : 'none' }}>
+                  {signals.slice(0, 5).map((s, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '78px 1fr auto', gap: 12, alignItems: 'center', fontSize: 13, padding: '8px 0', borderTop: i > 0 ? '1px solid #F5F5F7' : 'none' }}>
                       <span style={{
                         color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b',
-                        fontWeight: 800, fontSize: 9.5, letterSpacing: '0.08em',
+                        fontWeight: 800, fontSize: 10, letterSpacing: '0.08em',
                         padding: '3px 8px', borderRadius: 999, textAlign: 'center',
                       }}>{s.severidad}</span>
                       <span style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.titulo}</span>
-                      <span style={{ color: '#6e6e73', fontSize: 11, fontWeight: 500 }}>{s.fuente.split(' ')[0]}</span>
+                      <span style={{ color: '#6e6e73', fontSize: 11.5, fontWeight: 500 }}>{s.fuente.split(' ')[0]}</span>
                     </div>
                   ))}
                 </div>
@@ -336,16 +433,76 @@ export default function TermometroPage() {
           </div>
         </section>
 
+        {/* Guía de niveles · siempre visible · ayuda a leer el score */}
+        <section style={{ marginBottom: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f' }}>
+              Cómo leer el score
+            </h2>
+            <button onClick={() => setMethodOpen(o => !o)} style={{
+              background: 'none', border: 'none', fontSize: 12.5, color: '#0071e3', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
+            }}>
+              {methodOpen ? 'Ocultar metodología ↑' : 'Ver metodología ↓'}
+            </button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+            {LEVEL_RANGES.map(r => {
+              const isActive = r.label.startsWith(semLabel.charAt(0))
+              return (
+                <div key={r.label} style={{
+                  background: isActive ? `${r.color}12` : '#fff',
+                  border: `1px solid ${isActive ? r.color + '60' : '#ECECEF'}`,
+                  borderLeft: `4px solid ${r.color}`,
+                  borderRadius: 12, padding: '14px 16px',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: r.color, letterSpacing: '0.06em' }}>{r.label}</span>
+                    <span style={{ fontSize: 11.5, fontFamily: 'var(--font-display)', fontWeight: 700, color: '#6e6e73' }}>{r.range}</span>
+                  </div>
+                  <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{r.desc}</p>
+                </div>
+              )
+            })}
+          </div>
+
+          {methodOpen && (
+            <div style={{
+              marginTop: 14, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 14,
+              padding: '18px 22px',
+            }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, margin: '0 0 8px', color: '#1d1d1f' }}>Metodología</h3>
+              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+                Cada dimensión se calcula a partir de una o varias fuentes públicas en tiempo real (Banco Mundial WDI,
+                ECB SDW, INE TempUS, GDELT, INCIBE, EMSC, Google News, agregador RSS de 30 medios). Los valores raw
+                se normalizan a una escala 0-100 con calibración histórica, y luego se combinan con pesos que totalizan
+                100%. El compuesto final es la media ponderada y se redondea al entero más cercano.
+              </p>
+              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+                <strong>Z-score</strong> mide cuántas desviaciones típicas se aleja la dimensión de su media histórica de 30 días.
+                Si |z|&gt;2 se marca como <em>anomalía</em>: ese movimiento ocurre menos del 5% del tiempo en el histórico.
+              </p>
+              <p style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 10px' }}>
+                <strong>Delta 24h</strong> es la diferencia entre el score actual y el de hace 24 horas. <strong>Spike</strong> es el porcentaje
+                por encima de la media de 7 días. Una dimensión con delta positivo y spike alto está acelerando.
+              </p>
+              <p style={{ fontSize: 12, color: '#6e6e73', lineHeight: 1.5, margin: 0 }}>
+                Frequencia de refresco · score compuesto 2 min · timeseries 30 min · SIGINT 5 min. Las fuentes externas
+                tienen sus propios SLA: GDELT actualiza cada 15 min, INCIBE-CERT con cada nueva alerta, EMSC en tiempo real.
+              </p>
+            </div>
+          )}
+        </section>
+
         {/* Tabs Apple style */}
-        <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3, marginBottom: 18 }}>
+        <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 4, marginBottom: 18 }}>
           {([['overview', 'Vista general'], ['dimensiones', 'Dimensiones'], ['drivers', 'Drivers de riesgo'], ['historico', 'Histórico']] as const).map(([id, label]) => {
             const active = tab === id
             return (
               <button key={id} onClick={() => setTab(id)} style={{
                 background: active ? '#fff' : 'transparent',
                 color: active ? '#1d1d1f' : '#6e6e73',
-                border: 'none', borderRadius: 999, padding: '7px 16px',
-                fontSize: 12.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                border: 'none', borderRadius: 999, padding: '8px 18px',
+                fontSize: 13, fontWeight: active ? 700 : 500, cursor: 'pointer',
                 fontFamily: 'inherit',
                 boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
               }}>{label}</button>
@@ -353,14 +510,22 @@ export default function TermometroPage() {
           })}
         </div>
 
+        {/* Contexto de la pestaña activa */}
+        <p style={{ fontSize: 13, color: '#6e6e73', margin: '0 0 18px', maxWidth: 920, lineHeight: 1.5 }}>
+          {tab === 'overview'    && 'Resumen de las seis dimensiones con su score, peso, variación 24h y sparkline de los últimos 14 días.'}
+          {tab === 'dimensiones' && 'Selecciona una dimensión a la izquierda para ver su descomposición · métricas detalladas, drivers (noticias/eventos que la están moviendo) y nivel.'}
+          {tab === 'drivers'     && 'Listado completo de drivers · cada uno es un evento o noticia con relevancia, sentimiento e impacto sobre España. Ordenados por contribución al score.'}
+          {tab === 'historico'   && 'Serie temporal de cualquier dimensión o del compuesto. Útil para detectar tendencias estructurales o picos puntuales.'}
+        </p>
+
         {/* TAB: OVERVIEW */}
         {tab === 'overview' && (
           <div>
             {dimKeys.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '24px 28px', textAlign: 'center', color: '#6e6e73', fontSize: 13 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '28px 32px', textAlign: 'center', color: '#6e6e73', fontSize: 13.5 }}>
                 {riskData.loading ? 'Cargando dimensiones…' : 'Sin backend · mostrando estimación a partir de señales SIGINT'}
                 {signals.length > 0 && (
-                  <div style={{ marginTop: 18, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 10, textAlign: 'left' }}>
+                  <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 12, textAlign: 'left' }}>
                     {[
                       { label: 'Institucional',  types: ['parlamentario'], color: '#2563EB' },
                       { label: 'Ciberseguridad', types: ['ciberataque'],   color: '#DC2626' },
@@ -372,15 +537,15 @@ export default function TermometroPage() {
                       const related = signals.filter(s => types.includes(s.tipo))
                       const avgScore = related.length > 0 ? Math.round(related.reduce((a, b) => a + b.score, 0) / related.length) : Math.round(15 + Math.random() * 20)
                       return (
-                        <div key={label} style={{ background: '#fff', borderRadius: 12, padding: '14px 16px', border: '1px solid #ECECEF', borderLeft: `3px solid ${color}` }}>
+                        <div key={label} style={{ background: '#fff', borderRadius: 12, padding: '14px 18px', border: '1px solid #ECECEF', borderLeft: `3px solid ${color}` }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
-                            <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: scoreColor(avgScore) }}>{avgScore}</span>
+                            <span style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
+                            <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: scoreColor(avgScore) }}>{avgScore}</span>
                           </div>
                           <div style={{ height: 5, background: '#F5F5F7', borderRadius: 3, marginBottom: 6 }}>
                             <div style={{ width: `${Math.min(100, avgScore)}%`, height: '100%', borderRadius: 3, background: color }} />
                           </div>
-                          <div style={{ fontSize: 11, color: '#86868b' }}>{related.length} señales SIGINT activas</div>
+                          <div style={{ fontSize: 12, color: '#86868b' }}>{related.length} señales SIGINT activas</div>
                         </div>
                       )
                     })}
@@ -388,7 +553,7 @@ export default function TermometroPage() {
                 )}
               </div>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 12 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: 14 }}>
                 {dimKeys.map(k => <DimCard key={k} dim={dimensions[k]} k={k} buckets={buckets} />)}
               </div>
             )}
@@ -397,10 +562,10 @@ export default function TermometroPage() {
 
         {/* TAB: DIMENSIONES */}
         {tab === 'dimensiones' && (
-          <div style={{ display: 'grid', gridTemplateColumns: selectedDim ? '320px 1fr' : '1fr', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: selectedDim ? '340px 1fr' : '1fr', gap: 18 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {dimKeys.length === 0 ? (
-                <div style={{ color: '#86868b', textAlign: 'center', padding: 32, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+                <div style={{ color: '#86868b', textAlign: 'center', padding: 32, background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', fontSize: 13 }}>
                   Sin dimensiones desde backend
                 </div>
               ) : dimKeys.map(k => {
@@ -409,20 +574,20 @@ export default function TermometroPage() {
                 const active = selectedDim === k
                 return (
                   <button key={k} onClick={() => setSelectedDim(prev => prev === k ? null : k)} style={{
-                    textAlign: 'left', padding: '12px 16px', borderRadius: 12, cursor: 'pointer',
-                    background: active ? `${color}10` : '#fff',
+                    textAlign: 'left', padding: '14px 18px', borderRadius: 12, cursor: 'pointer',
+                    background: active ? `${color}12` : '#fff',
                     border: '1px solid ' + (active ? color + '60' : '#ECECEF'),
-                    borderLeft: `3px solid ${color}`,
+                    borderLeft: `4px solid ${color}`,
                     fontFamily: 'inherit', transition: 'all 160ms',
                   }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
-                      <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{DIM_LABELS[k] || dim.label || k}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: scoreColor(dim.score) }}>{dim.score.toFixed(0)}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                      <span style={{ fontSize: 13.5, fontWeight: 700, color: '#1d1d1f' }}>{DIM_LABELS[k] || dim.label || k}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: scoreColor(dim.score) }}>{dim.score.toFixed(0)}</span>
                     </div>
-                    <div style={{ height: 4, background: '#F5F5F7', borderRadius: 2, marginBottom: 6 }}>
+                    <div style={{ height: 4, background: '#F5F5F7', borderRadius: 2, marginBottom: 8 }}>
                       <div style={{ width: `${Math.min(100, dim.score)}%`, height: '100%', borderRadius: 2, background: color }} />
                     </div>
-                    <div style={{ fontSize: 11, color: '#86868b' }}>
+                    <div style={{ fontSize: 11.5, color: '#86868b', lineHeight: 1.4 }}>
                       {dim.n_articles} art · peso {(dim.weight * 100).toFixed(0)}% · {dim.is_anomaly ? 'anomalía' : 'normal'}
                     </div>
                   </button>
@@ -430,44 +595,59 @@ export default function TermometroPage() {
               })}
             </div>
             {selectedDim && dimensions[selectedDim] && (
-              <div style={{ background: '#fff', borderRadius: 14, padding: 20, border: `1px solid ${DIM_COLORS[selectedDim] ?? '#ECECEF'}60`, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: '#1d1d1f', marginBottom: 16, letterSpacing: '-0.015em' }}>
+              <div style={{ background: '#fff', borderRadius: 14, padding: 22, border: `1px solid ${DIM_COLORS[selectedDim] ?? '#ECECEF'}60`, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.018em' }}>
                   {DIM_LABELS[selectedDim] || dimensions[selectedDim].label || selectedDim}
                 </h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 18 }}>
+                <p style={{ fontSize: 13, color: '#515154', margin: '0 0 6px', lineHeight: 1.5 }}>
+                  {DIM_DESC[selectedDim]}
+                </p>
+                <p style={{ fontSize: 11.5, color: '#86868b', margin: '0 0 18px' }}>
+                  Fuentes · {DIM_SOURCES[selectedDim]}
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 20 }}>
                   {[
-                    { label: 'Score',     value: dimensions[selectedDim].score.toFixed(0), color: scoreColor(dimensions[selectedDim].score) },
-                    { label: 'Delta 24h', value: `${dimensions[selectedDim].delta_24h >= 0 ? '+' : ''}${dimensions[selectedDim].delta_24h.toFixed(1)}`, color: dimensions[selectedDim].delta_24h > 0 ? '#DC2626' : '#16A34A' },
-                    { label: 'Z-score',   value: dimensions[selectedDim].z_score.toFixed(2), color: Math.abs(dimensions[selectedDim].z_score) > 2 ? '#DC2626' : '#86868b' },
-                    { label: 'Artículos', value: dimensions[selectedDim].n_articles, color: '#1d1d1f' },
-                    { label: 'Peso',      value: `${(dimensions[selectedDim].weight * 100).toFixed(0)}%`, color: '#1d1d1f' },
-                    { label: 'Nivel',     value: dimensions[selectedDim].level, color: SEV_COLOR[dimensions[selectedDim].level] ?? '#86868b' },
-                  ].map(({ label, value, color }) => (
-                    <div key={label} style={{ background: '#FAFAFA', borderRadius: 10, padding: '12px 14px' }}>
-                      <div style={{ fontSize: 10, color: '#6e6e73', marginBottom: 4, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</div>
-                      <div style={{ fontSize: 18, fontWeight: 700, color, fontFamily: 'var(--font-display)' }}>{value}</div>
+                    { label: 'Score',     value: dimensions[selectedDim].score.toFixed(0), color: scoreColor(dimensions[selectedDim].score), tip: 'Score normalizado 0-100. Mayor = más riesgo en esta dimensión.' },
+                    { label: 'Delta 24h', value: `${dimensions[selectedDim].delta_24h >= 0 ? '+' : ''}${dimensions[selectedDim].delta_24h.toFixed(1)}`, color: dimensions[selectedDim].delta_24h > 0 ? '#DC2626' : '#16A34A', tip: 'Variación del score frente a hace 24h. Positivo = riesgo creciendo.' },
+                    { label: 'Z-score',   value: dimensions[selectedDim].z_score.toFixed(2), color: Math.abs(dimensions[selectedDim].z_score) > 2 ? '#DC2626' : '#86868b', tip: 'Desviaciones típicas frente al promedio histórico. |z|>2 = anomalía estadística.' },
+                    { label: 'Artículos', value: dimensions[selectedDim].n_articles, color: '#1d1d1f', tip: 'Número de artículos del agregador RSS analizados para esta dimensión.' },
+                    { label: 'Peso',      value: `${(dimensions[selectedDim].weight * 100).toFixed(0)}%`, color: '#1d1d1f', tip: 'Contribución de esta dimensión al score compuesto. La suma de los pesos = 100%.' },
+                    { label: 'Nivel',     value: dimensions[selectedDim].level, color: SEV_COLOR[dimensions[selectedDim].level] ?? '#86868b', tip: 'Etiqueta del rango actual: BAJO (<30), MEDIO (30-54), ALTO (55-74), CRÍTICO (≥75).' },
+                  ].map(({ label, value, color, tip }) => (
+                    <div key={label} style={{ background: '#FAFAFA', borderRadius: 10, padding: '14px 16px' }}>
+                      <div style={{ fontSize: 11, color: '#6e6e73', marginBottom: 6, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        {label}<InfoTip text={tip}/>
+                      </div>
+                      <div style={{ fontSize: 22, fontWeight: 700, color, fontFamily: 'var(--font-display)' }}>{value}</div>
                     </div>
                   ))}
                 </div>
                 {dimensions[selectedDim].drivers?.length > 0 && (
                   <div>
-                    <div style={{ fontSize: 10.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 10 }}>
+                    <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>
                       Drivers del índice
+                      <InfoTip text="Eventos o noticias concretas que están moviendo el score de esta dimensión." />
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      {dimensions[selectedDim].drivers.slice(0, 6).map(d => (
-                        <div key={d.id} style={{ padding: '10px 12px', background: '#FAFAFA', borderRadius: 8, fontSize: 12.5 }}>
-                          <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 4 }}>{d.title}</div>
-                          <div style={{ display: 'flex', gap: 14, color: '#6e6e73', fontSize: 11, flexWrap: 'wrap' }}>
+                      {dimensions[selectedDim].drivers.slice(0, 8).map(d => (
+                        <div key={d.id} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, fontSize: 13 }}>
+                          <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5 }}>{d.title}</div>
+                          <div style={{ display: 'flex', gap: 16, color: '#6e6e73', fontSize: 11.5, flexWrap: 'wrap' }}>
                             <span><span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.source}</span></span>
-                            <span>Relevancia · {d.relevance}</span>
+                            <span>Relevancia · <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.relevance}</span></span>
                             <span style={{ color: d.sentiment === 'negativo' || d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600 }}>{d.sentiment}</span>
+                            {d.spain_impact && <span>impacto · {d.spain_impact}</span>}
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
+              </div>
+            )}
+            {!selectedDim && dimKeys.length > 0 && (
+              <div style={{ background: '#FAFAFA', border: '1px dashed #ECECEF', borderRadius: 14, padding: '40px 32px', textAlign: 'center', color: '#86868b', fontSize: 14 }}>
+                Selecciona una dimensión a la izquierda para ver el detalle, métricas técnicas y los drivers que la están moviendo.
               </div>
             )}
           </div>
@@ -477,45 +657,44 @@ export default function TermometroPage() {
         {tab === 'drivers' && (
           <div>
             {topRisks.length === 0 && signals.length === 0 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13.5 }}>
                 Sin drivers disponibles
               </div>
             ) : (
               <div style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)', overflow: 'hidden' }}>
-                {/* Header */}
                 <div style={{
-                  display: 'grid', gridTemplateColumns: '1fr 80px 100px 90px 100px',
-                  gap: 10, padding: '10px 18px',
+                  display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px',
+                  gap: 12, padding: '12px 20px',
                   background: '#FAFAFA', borderBottom: '1px solid #ECECEF',
-                  fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                  fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
                 }}>
                   <span>Driver</span>
-                  <span style={{ textAlign: 'center' }}>Relevancia</span>
-                  <span>Sentimiento</span>
-                  <span>Impacto</span>
+                  <span style={{ textAlign: 'center' }}>Relevancia<InfoTip text="0-100. Cuán importante es el evento dentro de su tipo." /></span>
+                  <span>Sentimiento<InfoTip text="Polaridad del evento: negativo eleva el score, positivo lo reduce." /></span>
+                  <span>Impacto<InfoTip text="Magnitud del impacto previsible sobre España (alto/medio/bajo)." /></span>
                   <span>Detectado</span>
                 </div>
                 {topRisks.map(d => (
-                  <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 100px 90px 100px', gap: 10, alignItems: 'center', padding: '12px 18px', borderTop: '1px solid #F5F5F7', fontSize: 12.5 }}>
+                  <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 13 }}>
                     <div>
                       <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{d.title}</div>
-                      <div style={{ fontSize: 11, color: '#86868b' }}>{d.source}</div>
+                      <div style={{ fontSize: 11.5, color: '#86868b' }}>{d.source}</div>
                     </div>
-                    <span style={{ color: '#1d1d1f', textAlign: 'center', fontWeight: 600 }}>{d.relevance}</span>
-                    <span style={{ color: d.sentiment === 'negativo' ? '#F59E0B' : d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600, fontSize: 11.5 }}>{d.sentiment}</span>
-                    <span style={{ color: d.spain_impact === 'alto' ? '#DC2626' : d.spain_impact === 'medio' ? '#F59E0B' : '#16A34A', fontWeight: 600, fontSize: 11.5 }}>{d.spain_impact}</span>
-                    <span style={{ color: '#86868b', fontSize: 11 }}>{relTime(d.scraped_at)}</span>
+                    <span style={{ color: '#1d1d1f', textAlign: 'center', fontWeight: 700 }}>{d.relevance}</span>
+                    <span style={{ color: d.sentiment === 'negativo' ? '#F59E0B' : d.sentiment === 'muy_negativo' ? '#DC2626' : '#16A34A', fontWeight: 600, fontSize: 12 }}>{d.sentiment}</span>
+                    <span style={{ color: d.spain_impact === 'alto' ? '#DC2626' : d.spain_impact === 'medio' ? '#F59E0B' : '#16A34A', fontWeight: 600, fontSize: 12 }}>{d.spain_impact}</span>
+                    <span style={{ color: '#86868b', fontSize: 11.5 }}>{relTime(d.scraped_at)}</span>
                   </div>
                 ))}
                 {topRisks.length === 0 && signals.map((s, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 80px 100px 100px', gap: 10, alignItems: 'center', padding: '12px 18px', borderTop: '1px solid #F5F5F7', fontSize: 12.5 }}>
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 13 }}>
                     <div>
                       <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{s.titulo}</div>
-                      <div style={{ fontSize: 11, color: '#86868b' }}>{s.fuente} · {s.tipo}</div>
+                      <div style={{ fontSize: 11.5, color: '#86868b' }}>{s.fuente} · {s.tipo}</div>
                     </div>
-                    <span style={{ color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b', fontWeight: 800, fontSize: 9.5, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 999, textAlign: 'center' }}>{s.severidad}</span>
-                    <span style={{ color: scoreColor(s.score), fontWeight: 700 }}>{s.score}/100</span>
-                    <span style={{ color: '#86868b', fontSize: 11 }}>SIGINT</span>
+                    <span style={{ color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b', fontWeight: 800, fontSize: 10, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 999, textAlign: 'center' }}>{s.severidad}</span>
+                    <span style={{ color: scoreColor(s.score), fontWeight: 700, fontFamily: 'var(--font-display)' }}>{s.score}/100</span>
+                    <span style={{ color: '#86868b', fontSize: 11.5 }}>SIGINT</span>
                   </div>
                 ))}
               </div>
@@ -526,13 +705,13 @@ export default function TermometroPage() {
         {/* TAB: HISTÓRICO */}
         {tab === 'historico' && (
           <div>
-            <div style={{ display: 'flex', gap: 6, marginBottom: 14, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 16, flexWrap: 'wrap' }}>
               {['composite', ...Object.keys(DIM_COLORS)].map(k => {
                 const active = histDim === k
                 const c = DIM_COLORS[k] ?? '#2563EB'
                 return (
                   <button key={k} onClick={() => setHistDim(k)} style={{
-                    padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: active ? 700 : 500, cursor: 'pointer',
+                    padding: '7px 16px', borderRadius: 999, fontSize: 12.5, fontWeight: active ? 700 : 500, cursor: 'pointer',
                     background: active ? c : '#fff',
                     color: active ? '#fff' : '#3a3a3d',
                     border: '1px solid ' + (active ? c : '#ECECEF'),
@@ -542,47 +721,69 @@ export default function TermometroPage() {
               })}
             </div>
             {buckets.length < 2 ? (
-              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13 }}>
+              <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 48, textAlign: 'center', color: '#86868b', fontSize: 13.5 }}>
                 Sin datos históricos · backend no conectado
               </div>
             ) : (() => {
               const vals = buckets.map(b => histDim === 'composite' ? b.composite : ((b as unknown as Record<string, number>)[histDim] ?? 0))
-              const W = 800, H = 220
+              const W = 800, H = 240
               const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * W},${H - (v / 100) * H}`)
               const color = DIM_COLORS[histDim] ?? '#2563EB'
               return (
-                <div style={{ background: '#fff', borderRadius: 14, padding: '20px 24px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                <div style={{ background: '#fff', borderRadius: 14, padding: '22px 26px', border: '1px solid #ECECEF', boxShadow: '0 1px 3px rgba(0,0,0,0.03)' }}>
+                  <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <div style={{ fontSize: 13.5, color: '#1d1d1f', fontWeight: 600 }}>
+                      Serie {histDim === 'composite' ? 'del índice compuesto' : `de la dimensión ${DIM_LABELS[histDim] ?? histDim}`}
+                    </div>
+                    <div style={{ fontSize: 11, color: '#86868b' }}>30 días · 1 bucket por día</div>
+                  </div>
                   <svg viewBox={`0 0 ${W} ${H + 30}`} style={{ width: '100%', height: 'auto' }}>
+                    {/* Bandas de nivel · fondo */}
+                    {[
+                      { from:  0,  to: 30, c: '#16A34A' },
+                      { from: 30,  to: 55, c: '#2563EB' },
+                      { from: 55,  to: 75, c: '#F59E0B' },
+                      { from: 75,  to: 100, c: '#DC2626' },
+                    ].map((seg, i) => {
+                      const y1 = H - (seg.to / 100) * H
+                      const y2 = H - (seg.from / 100) * H
+                      return <rect key={i} x={32} y={y1} width={W - 32} height={y2 - y1} fill={seg.c} opacity={0.045}/>
+                    })}
                     {[0, 25, 50, 75, 100].map(v => {
                       const y = H - (v / 100) * H
                       return (
                         <g key={v}>
                           <line x1={32} y1={y} x2={W} y2={y} stroke="#F5F5F7" strokeWidth={1} />
-                          <text x={4} y={y + 3} fill="#86868b" fontSize={10}>{v}</text>
+                          <text x={4} y={y + 3} fill="#86868b" fontSize={10.5}>{v}</text>
                         </g>
                       )
                     })}
-                    <polygon points={`32,${H} ${pts.map((p, i) => i === 0 ? `32,${p.split(',')[1]}` : p).join(' ')} ${W},${H}`} fill={color} fillOpacity={0.08} />
-                    <polyline points={pts.map(p => { const [x, y] = p.split(','); return `${Math.max(32, +x)},${y}` }).join(' ')} fill="none" stroke={color} strokeWidth={2.2} strokeLinejoin="round" />
+                    <polygon points={`32,${H} ${pts.map((p) => { const [x, y] = p.split(','); return `${Math.max(32, +x)},${y}` }).join(' ')} ${W},${H}`} fill={color} fillOpacity={0.10} />
+                    <polyline points={pts.map(p => { const [x, y] = p.split(','); return `${Math.max(32, +x)},${y}` }).join(' ')} fill="none" stroke={color} strokeWidth={2.4} strokeLinejoin="round" />
                     {buckets.map((b, i) => {
                       if (i % Math.ceil(buckets.length / 7) !== 0) return null
                       const x = Math.max(32, (i / (buckets.length - 1)) * W)
-                      return <text key={i} x={x} y={H + 20} textAnchor="middle" fill="#86868b" fontSize={10}>{b.date.slice(5)}</text>
+                      return <text key={i} x={x} y={H + 22} textAnchor="middle" fill="#86868b" fontSize={10.5}>{b.date.slice(5)}</text>
                     })}
                   </svg>
-                  <div style={{ display: 'flex', gap: 24, marginTop: 14, paddingTop: 14, borderTop: '1px solid #F5F5F7', flexWrap: 'wrap' }}>
+                  <div style={{ display: 'flex', gap: 28, marginTop: 16, paddingTop: 16, borderTop: '1px solid #F5F5F7', flexWrap: 'wrap' }}>
                     {[
                       { label: 'Máximo', value: Math.max(...vals).toFixed(0), color: scoreColor(Math.max(...vals)) },
                       { label: 'Mínimo', value: Math.min(...vals).toFixed(0), color: '#16A34A' },
                       { label: 'Actual', value: vals[vals.length - 1]?.toFixed(0) ?? '—', color },
                       { label: 'Media',  value: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(0), color: '#1d1d1f' },
+                      { label: 'Δ 7d',   value: vals.length >= 8 ? `${(vals[vals.length - 1] - vals[vals.length - 8]).toFixed(1)}` : '—', color: vals.length >= 8 && vals[vals.length - 1] > vals[vals.length - 8] ? '#DC2626' : '#16A34A' },
                     ].map(({ label, value, color: col }) => (
-                      <div key={label} style={{ fontSize: 12 }}>
+                      <div key={label} style={{ fontSize: 12.5 }}>
                         <span style={{ color: '#6e6e73', fontWeight: 500 }}>{label} · </span>
-                        <span style={{ color: col, fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 16 }}>{value}</span>
+                        <span style={{ color: col, fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 18 }}>{value}</span>
                       </div>
                     ))}
                   </div>
+                  <p style={{ fontSize: 11.5, color: '#86868b', margin: '14px 0 0', lineHeight: 1.45 }}>
+                    Las bandas de fondo indican los rangos BAJO (verde), MEDIO (azul), ALTO (naranja) y CRÍTICO (rojo).
+                    Cruces consistentes entre rangos en pocos días indican aceleración del riesgo.
+                  </p>
                 </div>
               )
             })()}
