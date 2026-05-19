@@ -5,6 +5,8 @@ import { COOKIE_NAME } from '@/lib/auth/session'
 const PUBLIC_PREFIXES = [
   '/login',
   '/api/auth/',
+  '/api/health',
+  '/api/admin/init_workspace',
   '/api/cron/',
   '/api/system/',
   '/_next',

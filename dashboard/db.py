@@ -25,7 +25,31 @@ sys.path.insert(0, str(_ROOT))
 import pandas as pd
 import psycopg
 from psycopg import sql as psycopg_sql
-import streamlit as st
+try:
+    import streamlit as st
+except ModuleNotFoundError:
+    class _NoopCacheDecorator:
+        def __call__(self, *args: Any, **kwargs: Any):
+            if args and callable(args[0]) and len(args) == 1 and not kwargs:
+                return args[0]
+
+            def _decorator(func):
+                return func
+
+            return _decorator
+
+        def clear(self) -> None:
+            return None
+
+    class _StreamlitShim:
+        cache_data = _NoopCacheDecorator()
+        cache_resource = _NoopCacheDecorator()
+
+        @staticmethod
+        def warning(message: Any) -> None:
+            logger.warning("%s", message)
+
+    st = _StreamlitShim()
 from dotenv import load_dotenv
 from sqlalchemy import text
 from sqlalchemy.engine import Engine
