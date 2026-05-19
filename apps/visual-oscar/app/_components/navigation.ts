@@ -25,18 +25,15 @@ export type NavModule = {
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
-  // Módulo OCULTO de la barra superior · subnav visible cuando el
-  // usuario llega a /inicio (home post-login), /briefing, /dashboard o /alertas.
+  // Módulo OCULTO · /dashboard es la home post-login (Panel Ejecutivo).
+  // /inicio redirige a /dashboard para mantener compat con bookmarks.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
     hideFromTopBar: true,
     items: [
-      { label: 'Inicio',              href: '/inicio',   hidden: true },
-      { label: 'Morning Briefing',    href: '/briefing'  },
-      { label: 'Panel Ejecutivo',     href: '/dashboard' },
-      { label: 'Alertas Prioritarias',href: '/alertas'   },
+      { label: 'Panel Ejecutivo', href: '/dashboard' },
     ],
   },
 

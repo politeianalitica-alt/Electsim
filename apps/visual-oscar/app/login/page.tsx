@@ -28,7 +28,7 @@ export default function LoginPage() {
       }
       const data = await res.json()
       setTokens(data.access_token, data.refresh_token)
-      router.push('/inicio')
+      router.push('/dashboard')
     } catch {
       setError('Error de conexión. Inténtalo de nuevo.')
     } finally {
