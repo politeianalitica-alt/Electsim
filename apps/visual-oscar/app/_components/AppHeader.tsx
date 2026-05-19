@@ -25,7 +25,7 @@ export default function AppHeader() {
           fontFamily:'var(--font-body,-apple-system,system-ui)',
           fontSize:12,
         }}>
-          <Link href="/dashboard" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
+          <Link href="/inicio" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
             {/* Icono Politeia Analítica — capitel jónico + barras */}
             <svg width="20" height="18" viewBox="0 0 120 110" fill="currentColor">
               <rect x="8" y="6" width="104" height="6" rx="1"/>

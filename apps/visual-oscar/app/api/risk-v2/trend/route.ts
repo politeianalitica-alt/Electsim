@@ -13,6 +13,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, withMeta } from '@/lib/backend'
+import { fetchAllRiskFeeds, computeRiskScores } from '@/lib/sources/risk-feeds'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -32,21 +33,38 @@ interface TrendPayload {
   country: string
 }
 
-// Aggregate score base coherente con _mocks.ts (~55 medio)
-const AGGREGATE_BASE = 28  // riesgo bajo · zona "Verde + Amarillo"
+// Score base por defecto si el agregador live falla (riesgo medio)
+const AGGREGATE_FALLBACK = 52
 
-function mockTrend(country: string): TrendPayload {
+/** Obtiene el agregado actual a partir de los 6 índices live · fallback al default. */
+async function getCurrentAggregate(): Promise<number> {
+  try {
+    const snap = await fetchAllRiskFeeds()
+    if (snap.sources_ok >= 3) {
+      const s = computeRiskScores(snap)
+      const all = [s.institutional, s.electoral, s.geopolitical, s.economic, s.media, s.social]
+      const avg = all.reduce((acc, v) => acc + v, 0) / all.length
+      if (Number.isFinite(avg)) return Math.round(avg * 10) / 10
+    }
+  } catch { /* fall through */ }
+  return AGGREGATE_FALLBACK
+}
+
+function syntheticTrend(country: string, aggregate: number): TrendPayload {
   const HIST_DAYS = 30
   const FC_DAYS = 14
   const history: number[] = []
-  let s = AGGREGATE_BASE + (Math.random() - 0.5) * 6
-  // Caminata aleatoria mean-reverting + estacionalidad débil
+  // Punto inicial divergente del actual (random walk reversible)
+  let s = aggregate + (Math.random() - 0.5) * 10
+  // Caminata aleatoria mean-reverting al aggregate live + estacionalidad débil
   for (let i = HIST_DAYS - 1; i >= 0; i--) {
-    const dir = (AGGREGATE_BASE - s) * 0.06
-    const noise = (Math.random() - 0.5) * 6
-    const seasonal = Math.sin(i / 5) * 2.5
+    const dir = (aggregate - s) * 0.08
+    const noise = (Math.random() - 0.5) * 4
+    const seasonal = Math.sin(i / 5) * 2.0
     s = Math.max(5, Math.min(95, s + dir + noise + seasonal))
-    history.push(Math.round(s * 10) / 10)
+    // Force last point (today) = aggregate EXACTO para coherencia con termómetro
+    const v = i === 0 ? aggregate : Math.round(s * 10) / 10
+    history.push(v)
   }
   // Previsión: tendencia ligeramente bajista con incertidumbre creciente
   const lastHist = history[history.length - 1]
@@ -55,7 +73,7 @@ function mockTrend(country: string): TrendPayload {
   const forecastHigh: number[] = []
   let f = lastHist
   for (let i = 1; i <= FC_DAYS; i++) {
-    const drift = (AGGREGATE_BASE - f) * 0.04
+    const drift = (aggregate - f) * 0.05
     const driftNoise = (Math.random() - 0.5) * 1.8
     f = Math.max(5, Math.min(95, f + drift + driftNoise))
     forecast.push(Math.round(f * 10) / 10)
@@ -91,8 +109,11 @@ export async function GET(req: NextRequest) {
   if (r.data && Array.isArray(r.data.history) && r.data.history.length > 0) {
     return NextResponse.json(withMeta(r.data, 'backend', { latency_ms: r.latency_ms }))
   }
-  return NextResponse.json(withMeta(mockTrend(country), 'mock', {
-    warnings: r.error ? [`backend_unreachable:${r.error}`] : ['demo_data'],
+  // Backend caído · serie sintética ANCLADA al agregado live actual,
+  // para que la tendencia sea coherente con los 6 índices del termómetro.
+  const aggregate = await getCurrentAggregate()
+  return NextResponse.json(withMeta(syntheticTrend(country, aggregate), 'aggregator', {
+    warnings: r.error ? [`backend_unreachable:${r.error}`, 'synthetic_anchored_to_live'] : ['synthetic_anchored_to_live'],
     latency_ms: r.latency_ms,
   }))
 }

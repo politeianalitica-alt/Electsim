@@ -25,17 +25,18 @@ export type NavModule = {
 
 export const MODULES: NavModule[] = [
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
-  // Módulo OCULTO de la barra superior. /dashboard es la única pantalla
-  // de inicio · ya no hay subpáginas hermanas (briefing y alertas se
-  // consumen embebidas en el panel ejecutivo y siguen accesibles por URL
-  // directa, pero no aparecen como subnav).
+  // Módulo OCULTO de la barra superior · subnav visible cuando el
+  // usuario llega a /inicio (home post-login), /briefing, /dashboard o /alertas.
   {
     id: 'inicio',
     label: 'Inicio',
     full: 'Inicio / Overview',
     hideFromTopBar: true,
     items: [
+      { label: 'Inicio',              href: '/inicio',   hidden: true },
+      { label: 'Morning Briefing',    href: '/briefing'  },
       { label: 'Panel Ejecutivo',     href: '/dashboard' },
+      { label: 'Alertas Prioritarias',href: '/alertas'   },
     ],
   },
 
