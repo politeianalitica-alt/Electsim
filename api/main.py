@@ -50,6 +50,8 @@ from api.routers import (
     intelligence_workspace,
     legislative_core_api,
     opendata,
+    entities,        # Ontología unificada · /api/v1/entities/*
+    investigations,  # Workspace investigation-centric · /api/v1/investigations/*
     rag,
     sectores,        # Sectorial intel unificado · /api/v1/sectores/*
     sectors,
@@ -229,6 +231,8 @@ app.include_router(fichas.router, tags=["fichas"])
 # Bloque P2.2 — Routers de dominio que el frontend visual-oscar requería:
 app.include_router(sectors.router, tags=["sectors"])
 app.include_router(sectores.router, tags=["sectores-intel"])
+app.include_router(entities.router, tags=["entities"])              # Pilar 1
+app.include_router(investigations.router, tags=["investigations"])  # Pilar 2
 app.include_router(contratacion.router, tags=["contratacion"])
 app.include_router(fondos_eu.router, tags=["fondos-europeos"])
 # Bloque P3.2 — RAG: indexado BOE/Congreso/EUR-Lex/media + scheduler:
