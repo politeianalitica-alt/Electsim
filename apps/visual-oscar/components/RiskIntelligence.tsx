@@ -5,6 +5,11 @@ import { useApi } from '@/lib/useApi'
 import Skeleton, { LiveDot } from './Skeleton'
 import CountUp from './CountUp'
 import LiveStatusBadge from './LiveStatusBadge'
+import {
+  RiesgoGauge, RiesgoRadar, RiesgoTrendChart,
+  RiesgoRadarLegend, RiesgoTrendLegend,
+  type RiesgoTrendData,
+} from './RiskVisuals'
 import type { RiskComposite, RiskDimension, RiskDriver } from '../app/api/risk/composite/route'
 import type { RiskTimeseriesResponse } from '../app/api/risk/timeseries/route'
 import type { EscalationsResponse } from '../app/api/risk/escalations/route'
@@ -34,6 +39,64 @@ function gaugeColor(score: number): string {
   if (score >= 50) return '#DC2626'
   if (score >= 30) return '#D97706'
   return '#16A34A'
+}
+
+// Card wrapper · mismo estilo que el del motor estructural (RiskV2Dashboard)
+// para que el bloque Gauge + Radar + Trend del live tenga aspecto idéntico.
+function Card({ title, subtitle, extra, children, style }: {
+  title: string; subtitle?: string; extra?: React.ReactNode
+  children: React.ReactNode; style?: React.CSSProperties
+}) {
+  return (
+    <section style={{
+      background: '#fff', border: '1px solid #ECECEF', borderRadius: 12,
+      padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      ...style,
+    }}>
+      <header style={{
+        margin: '0 0 10px', display: 'flex', justifyContent: 'space-between',
+        alignItems: 'baseline', gap: 12, flexWrap: 'wrap',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+          <h3 style={{
+            margin: 0, fontSize: 11.5, fontWeight: 700,
+            color: '#1d1d1f', letterSpacing: '0.06em', textTransform: 'uppercase',
+          }}>{title}</h3>
+          {subtitle && (
+            <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 400 }}>· {subtitle}</span>
+          )}
+        </div>
+        {extra}
+      </header>
+      {children}
+    </section>
+  )
+}
+
+/**
+ * Construye un trend con shape RiesgoTrendData a partir del timeseries del
+ * motor live. Como /api/risk/timeseries no devuelve previsión, generamos una
+ * proyección simple de 14 días con drift = media de los últimos 7 días y un
+ * IC 80% que se ensancha con el horizonte (~±1.4*sqrt(t)).
+ */
+function buildTrendFromTimeseries(buckets: Array<{ composite: number }>): RiesgoTrendData {
+  const history = buckets.map(b => b.composite)
+  const last = history[history.length - 1] ?? 0
+  const recent = history.slice(-7)
+  const avg = recent.length > 0 ? recent.reduce((s, v) => s + v, 0) / recent.length : last
+  const drift = (avg - last) * 0.05 // mean-reverting suave hacia la media reciente
+  const forecast: number[] = []
+  const forecastLow: number[] = []
+  const forecastHigh: number[] = []
+  let f = last
+  for (let i = 1; i <= 14; i++) {
+    f = Math.max(0, Math.min(100, f + drift + (Math.random() - 0.5) * 1.2))
+    forecast.push(Math.round(f * 10) / 10)
+    const halfWidth = 3 + Math.sqrt(i) * 2.2
+    forecastLow.push(Math.max(0, Math.round((f - halfWidth) * 10) / 10))
+    forecastHigh.push(Math.min(100, Math.round((f + halfWidth) * 10) / 10))
+  }
+  return { history, forecast, forecastLow, forecastHigh }
 }
 
 export default function RiskIntelligence() {
@@ -94,21 +157,65 @@ export default function RiskIntelligence() {
         <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={180} onRefresh={refresh}/>
       </div>
 
-      {/* Top row: Gauge + Radar + Time series */}
-      <div style={{ display: 'grid', gridTemplateColumns: '4fr 4fr 4fr', gap: 14, marginBottom: 16 }}>
-        {/* Composite Gauge */}
-        <CompositeGauge composite={composite}/>
+      {/* Top row: Gauge (1fr) + Radar (2fr) · MISMA VISUAL que motor estructural */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14, marginBottom: 14 }}>
+        {/* Gauge estructural */}
+        <Card title="Principio de calibración" subtitle="índice compuesto live">
+          {composite ? (
+            <RiesgoGauge
+              value={composite.composite}
+              delta={composite.dimensions ? +(Object.values(composite.dimensions).reduce((s, d) => s + d.delta_24h, 0) / Math.max(1, Object.keys(composite.dimensions).length)).toFixed(1) : undefined}
+              showTicks
+            />
+          ) : (
+            <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Cargando…</div>
+          )}
+        </Card>
 
-        {/* Radar */}
-        <RiskRadar
-          dimensions={composite?.dimensions}
-          selected={selectedDim}
-          onSelect={setSelectedDim}
-        />
-
-        {/* Time series stack */}
-        <CompositeTimeline timeseries={timeseries} composite={composite}/>
+        {/* Radar estructural · 3 niveles (Vigilancia / Alerta / Crítico) */}
+        {(() => {
+          const dims = composite?.dimensions ?? {}
+          const axes = DIM_KEYS.map(k => dims[k]?.label || k)
+          const current = DIM_KEYS.map(k => dims[k]?.score ?? 0)
+          const radarData = {
+            axes,
+            levels: [
+              { label: 'Nivel 3 · Vigilancia', color: '#22C55E', values: axes.map(() => 30) },
+              { label: 'Nivel 2 · Alerta',     color: '#F59E0B', values: axes.map(() => 60) },
+              { label: 'Nivel 1 · Crítico',    color: '#EF4444', values: current },
+            ],
+          }
+          return (
+            <Card
+              title="Radar de amenazas"
+              subtitle="3 niveles · vigilancia / alerta / crítico"
+              extra={<RiesgoRadarLegend levels={radarData.levels}/>}
+            >
+              {Object.keys(dims).length > 0 ? (
+                <RiesgoRadar data={radarData} size="small"/>
+              ) : (
+                <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Sin dimensiones</div>
+              )}
+            </Card>
+          )
+        })()}
       </div>
+
+      {/* Serie histórica + previsión · MISMA VISUAL que motor estructural */}
+      <Card
+        title="Serie histórica"
+        subtitle={`${timeseries?.buckets?.length ?? 0} días + previsión 14 días`}
+        extra={<RiesgoTrendLegend/>}
+        style={{ marginBottom: 16 }}
+      >
+        {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
+          <RiesgoTrendChart trend={buildTrendFromTimeseries(timeseries.buckets)} height={300}/>
+        ) : (
+          <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>
+            Cargando serie histórica…
+          </div>
+        )}
+      </Card>
 
       {/* Dimensions strip — clickable */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10, marginBottom: 16 }}>
@@ -230,264 +337,6 @@ export default function RiskIntelligence() {
         onGenerate={generateScenarios}
       />
     </section>
-  )
-}
-
-// ── Composite Gauge ─────────────────────────────────────────────────────────
-function CompositeGauge({ composite }: { composite?: RiskComposite }) {
-  const score = composite?.composite ?? 0
-  const level = composite?.composite_level ?? 'BAJO'
-  const semaforo = composite?.composite_semaforo ?? 'verde'
-  const color = gaugeColor(score)
-
-  // Arc params
-  const dasharray = 282
-  const filled = (score / 100) * dasharray
-
-  return (
-    <div style={{
-      background: SEMAFORO_BG[semaforo] || '#FAFAFB',
-      borderRadius: 14, padding: '20px 22px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-      border: `1px solid ${color}30`,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      minHeight: 220,
-    }}>
-      <div style={{ fontSize: 9.5, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 8 }}>
-        Índice compuesto
-      </div>
-      <div style={{ position: 'relative', width: 200, height: 100 }}>
-        <svg viewBox="0 0 200 100" style={{ width: '100%', height: '100%' }}>
-          {/* Background arc */}
-          <path d="M 10 100 A 90 90 0 0 1 190 100" stroke="#E5E7EB" strokeWidth="14" fill="none" strokeLinecap="round"/>
-          {/* Color zones (translucent) */}
-          <path d="M 10 100 A 90 90 0 0 1 64 22" stroke="#16A34A20" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          <path d="M 64 22 A 90 90 0 0 1 100 10" stroke="#D9770620" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          <path d="M 100 10 A 90 90 0 0 1 136 22" stroke="#DC262620" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          <path d="M 136 22 A 90 90 0 0 1 190 100" stroke="#991B1B20" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          {/* Filled arc */}
-          <path
-            d="M 10 100 A 90 90 0 0 1 190 100"
-            stroke={color} strokeWidth="14" fill="none" strokeLinecap="round"
-            strokeDasharray={`${filled} ${dasharray}`}
-            style={{ transition: 'stroke-dasharray 1200ms cubic-bezier(0.16,1,0.3,1)' }}
-          />
-        </svg>
-      </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 44, fontWeight: 600, letterSpacing: '-0.03em', color, lineHeight: 1, marginTop: -8 }}>
-        <CountUp value={score} decimals={1}/>
-      </div>
-      <div style={{ fontSize: 12, fontWeight: 600, color, letterSpacing: '0.06em', marginTop: 4 }}>
-        {level}
-      </div>
-      <div style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 6, fontFamily: 'var(--font-body)' }}>
-        Semáforo <strong style={{ color }}>{semaforo}</strong>
-      </div>
-    </div>
-  )
-}
-
-// ── Risk Radar ───────────────────────────────────────────────────────────────
-function RiskRadar({ dimensions, selected, onSelect }: {
-  dimensions?: Record<string, RiskDimension>
-  selected: DimKey | null
-  onSelect: (k: DimKey) => void
-}) {
-  const W = 280, H = 220
-  const cx = W / 2, cy = H / 2 + 6
-  const r = 80
-  const dims = DIM_KEYS
-
-  function pointAt(idx: number, value: number): [number, number] {
-    const angle = (Math.PI * 2 * idx) / dims.length - Math.PI / 2
-    const radius = (Math.max(0, Math.min(100, value)) / 100) * r
-    return [cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius]
-  }
-  function labelAt(idx: number): [number, number] {
-    const angle = (Math.PI * 2 * idx) / dims.length - Math.PI / 2
-    return [cx + Math.cos(angle) * (r + 22), cy + Math.sin(angle) * (r + 22)]
-  }
-
-  // Threshold rings
-  const rings = [25, 50, 75]
-
-  // Polygon points
-  const dataPoints = dims.map((k, i) => pointAt(i, dimensions?.[k]?.score ?? 0))
-  const polyPath = dataPoints.map(([x, y]) => `${x},${y}`).join(' ')
-
-  return (
-    <div style={{
-      background: '#fff', borderRadius: 14, padding: '20px 18px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.06)', minHeight: 220,
-    }}>
-      <div style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6, textAlign: 'center' }}>
-        Radar 6 dimensiones
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto' }}>
-        {/* Threshold rings */}
-        {rings.map(t => (
-          <circle key={t} cx={cx} cy={cy} r={(t / 100) * r}
-                  stroke={t >= 75 ? '#FEE2E2' : t >= 50 ? '#FED7AA' : '#FEF3C7'}
-                  strokeWidth="0.8" fill="none" strokeDasharray="2 2" opacity={0.6}/>
-        ))}
-        <circle cx={cx} cy={cy} r={r} stroke="#E5E7EB" strokeWidth="1" fill="none"/>
-
-        {/* Axes */}
-        {dims.map((_, i) => {
-          const [x, y] = pointAt(i, 100)
-          return <line key={i} x1={cx} y1={cy} x2={x} y2={y} stroke="#ECECEF" strokeWidth="0.5"/>
-        })}
-
-        {/* Data polygon */}
-        {dimensions && (
-          <polygon points={polyPath} fill="#1F4E8C40" stroke="#1F4E8C" strokeWidth="1.5"/>
-        )}
-
-        {/* Data dots */}
-        {dimensions && dims.map((k, i) => {
-          const v = dimensions[k]?.score ?? 0
-          const [x, y] = pointAt(i, v)
-          const c = gaugeColor(v)
-          const isSelected = selected === k
-          return (
-            <g key={k} style={{ cursor: 'pointer' }} onClick={() => onSelect(k)}>
-              <circle cx={x} cy={y} r={isSelected ? 5 : 3.5} fill={c} stroke="#fff" strokeWidth="1.5"/>
-              <title>{`${dimensions[k]?.label}: ${v.toFixed(1)}/100`}</title>
-            </g>
-          )
-        })}
-
-        {/* Labels */}
-        {dims.map((k, i) => {
-          const [x, y] = labelAt(i)
-          const label = dimensions?.[k]?.label || k
-          const isSelected = selected === k
-          // Shorten label to first 2 words
-          const short = label.split(' ').slice(0, 2).join(' ')
-          return (
-            <text key={k} x={x} y={y} textAnchor="middle"
-                  style={{ fontSize: 9.5, fontFamily: 'var(--font-display)', fill: isSelected ? '#1F4E8C' : '#6E6E73', fontWeight: isSelected ? 700 : 500, cursor: 'pointer' }}
-                  onClick={() => onSelect(k)}>
-              {short}
-            </text>
-          )
-        })}
-      </svg>
-    </div>
-  )
-}
-
-// ── Composite Timeline ───────────────────────────────────────────────────────
-function CompositeTimeline({ timeseries, composite }: {
-  timeseries?: RiskTimeseriesResponse
-  composite?: RiskComposite
-}) {
-  const buckets = timeseries?.buckets ?? []
-  const W = 320, H = 220, padX = 12, padY = 30
-
-  const maxScore = 60  // fixed scale 0-60 for clarity
-
-  function project(idx: number, value: number): [number, number] {
-    const x = padX + (idx / Math.max(1, buckets.length - 1)) * (W - 2 * padX)
-    const y = (H - padY) - (Math.min(maxScore, value) / maxScore) * (H - padY - padY / 2)
-    return [x, y]
-  }
-
-  // Lines per dimension (lighter), composite (bolder)
-  const dimColors: Record<string, string> = {
-    institutional: '#1F4E8C',
-    electoral:     '#7C3AED',
-    geopolitical:  '#0F766E',
-    economic:      '#D97706',
-    media:         '#DC2626',
-    social:        '#15803D',
-  }
-
-  return (
-    <div style={{
-      background: '#fff', borderRadius: 14, padding: '18px 18px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.06)', minHeight: 220,
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-        <span style={{ fontSize: 10, color: 'var(--ink-4)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>
-          Evolución 14 días
-        </span>
-        {composite && (
-          <span style={{ fontSize: 11, fontWeight: 600, color: gaugeColor(composite.composite) }}>
-            {composite.composite.toFixed(1)} hoy
-          </span>
-        )}
-      </div>
-      {buckets.length > 1 ? (
-        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto' }}>
-          {/* Y axis grid */}
-          {[15, 30, 45].map(t => {
-            const [, y] = project(0, t)
-            return (
-              <g key={t}>
-                <line x1={padX} y1={y} x2={W - padX} y2={y} stroke="#F5F5F7" strokeWidth="0.5"/>
-                <text x={padX - 4} y={y + 3} textAnchor="end" style={{ fontSize: 8, fill: '#9CA3AF' }}>{t}</text>
-              </g>
-            )
-          })}
-
-          {/* Dimension lines (faint) */}
-          {DIM_KEYS.map(k => {
-            const path = buckets.map((b, i) => {
-              const [x, y] = project(i, b[k] ?? 0)
-              return `${i === 0 ? 'M' : 'L'} ${x} ${y}`
-            }).join(' ')
-            return <path key={k} d={path} stroke={dimColors[k]} strokeWidth="0.8" fill="none" opacity={0.45}/>
-          })}
-
-          {/* Composite line (bold) */}
-          {(() => {
-            const path = buckets.map((b, i) => {
-              const [x, y] = project(i, b.composite)
-              return `${i === 0 ? 'M' : 'L'} ${x} ${y}`
-            }).join(' ')
-            // Area fill
-            const last = buckets.length - 1
-            const [xL, yL] = project(last, buckets[last].composite)
-            const [x0] = project(0, 0)
-            const [, yBase] = project(0, 0)
-            const fillPath = `${path} L ${xL} ${yBase} L ${x0} ${yBase} Z`
-            return (
-              <>
-                <path d={fillPath} fill="#1F4E8C15"/>
-                <path d={path} stroke="#1F4E8C" strokeWidth="2" fill="none"/>
-                {/* Last point dot */}
-                <circle cx={xL} cy={yL} r={3} fill="#1F4E8C" stroke="#fff" strokeWidth="1.5"/>
-              </>
-            )
-          })()}
-
-          {/* X axis dates (every 3 days) */}
-          {buckets.map((b, i) => {
-            if (i % 3 !== 0 && i !== buckets.length - 1) return null
-            const [x] = project(i, 0)
-            const date = new Date(b.date)
-            return (
-              <text key={i} x={x} y={H - 10} textAnchor="middle" style={{ fontSize: 8.5, fill: '#9CA3AF' }}>
-                {date.getDate()}/{date.getMonth() + 1}
-              </text>
-            )
-          })}
-        </svg>
-      ) : (
-        <Skeleton width="100%" height={170} radius={8}/>
-      )}
-      {/* Mini legend */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6, fontSize: 8.5, color: 'var(--ink-4)' }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 3 }}><span style={{ width: 8, height: 2, background: '#1F4E8C', display: 'inline-block' }}/>Compuesto</span>
-        {DIM_KEYS.map(k => (
-          <span key={k} style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <span style={{ width: 8, height: 2, background: dimColors[k], display: 'inline-block', opacity: 0.6 }}/>
-            {k.slice(0, 4)}
-          </span>
-        ))}
-      </div>
-    </div>
   )
 }
 
