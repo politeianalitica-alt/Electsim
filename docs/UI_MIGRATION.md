@@ -95,17 +95,30 @@ Inline está justificado **solo** cuando el valor depende de runtime:
 | 10 | `app/adjudicaciones/page.tsx` | 147 | 30 | -80% | ✅ Migrado (R2) |
 | 11 | `app/dashboard/page.tsx` | 145 | 38 | -74% | ✅ Migrado (R2) |
 | 12 | `app/contratos-vigentes/page.tsx` | 144 | 22 | -85% | ✅ Migrado (R2) |
+| 13 | `app/senales-criticas/page.tsx` | 141 | 21 | -85% | ✅ Migrado (R3) |
+| 14 | `app/litigios-contratacion/page.tsx` | 140 | — | — | ⏳ Pendiente (R3) |
+| 15 | `app/crisis/page.tsx` | 138 | — | — | ⏳ Pendiente (R3) |
+| 16 | `app/fondos-europeos/page.tsx` | 137 | — | — | ⏳ Pendiente (R3) |
+| 17 | `app/ataques-narrativos/page.tsx` | 136 | — | — | ⏳ Pendiente (R3) |
+| 18 | `app/adversarios/page.tsx` | 134 | — | — | ⏳ Pendiente (R3) |
 
-**Total Pilar 4 (12 archivos top):** 2 171 inline → 464 (-79%). Los 464
-restantes son todos legítimamente dinámicos: colores por rol/estado/
-severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`, `RIESGO_C`,
-`SECTOR_COLOR`, party-color, sem-color), width porcentajes de progreso
-(`flex: r.pct`, `width: ${%}`), conic-gradient angles, sparkline strokes
-condicionales, animaciones por flags de runtime.
+**Total Pilar 4 (13 archivos top migrados):** 2 312 inline → 485 (-79%).
+Los 485 restantes son todos legítimamente dinámicos: colores por
+rol/estado/severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`,
+`RIESGO_C`, `SECTOR_COLOR`, `SEV_COLOR`, `LEVEL_COLOR`, party-color,
+sem-color), width porcentajes de progreso (`flex: r.pct`, `width: ${%}`),
+conic-gradient angles, sparkline strokes condicionales, animaciones por
+flags de runtime.
 
-**CSS tokenizado generado:** 12 archivos `<route>.css` con ~1 460 clases
+**CSS tokenizado generado:** 13 archivos `<route>.css` con ~1 545 clases
 prefijadas (`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`, `.inst-`,
-`.ma-`, `.mac-`, `.pt-`, `.adj-`, `.dash-`, `.cv-`).
+`.ma-`, `.mac-`, `.pt-`, `.adj-`, `.dash-`, `.cv-`, `.sc-`).
+
+**Bloqueador R3 (5 archivos restantes):** los sub-agentes están bloqueados
+por límite mensual del org. Cuando se restauren, lanzar los 5 agentes en
+paralelo con los prompts canónicos ya validados sobre 13 migraciones.
+Patrón estable, sin sorpresas. Total estimado restante R3: ~685 inline
+→ ~150 (-78%).
 
 **Restantes en el repo:** ~7 500 inline styles repartidos por páginas menos
 visitadas. Migración progresiva al tocar cada archivo por feature work.
