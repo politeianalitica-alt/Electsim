@@ -116,11 +116,11 @@ export interface RiesgoRadarProps {
 
 export function RiesgoRadar({ data, size = 'small' }: RiesgoRadarProps) {
   const W = size === 'large' ? 900 : 460
-  const H = size === 'large' ? 440 : 380
-  const R = size === 'large' ? 170 : 138
-  const labelR = size === 'large' ? 192 : 168
-  const fontSize = size === 'large' ? 12 : 10.5
-  const dotR = size === 'large' ? 3.5 : 3
+  const H = size === 'large' ? 440 : 420
+  const R = size === 'large' ? 170 : 180
+  const labelR = size === 'large' ? 192 : 210
+  const fontSize = size === 'large' ? 12 : 11.5
+  const dotR = size === 'large' ? 3.5 : 4
 
   const cx = W / 2, cy = H / 2
   const N = data.axes.length
