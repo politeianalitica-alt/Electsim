@@ -107,18 +107,26 @@ def copilot(
     started = time.time()
     user = (x_user_id or "demo").strip() or "demo"
 
-    # 1) Hidratar contexto · entidades pinneadas + investigación
+    # 1) Hidratar contexto · entidades pinneadas + investigación + memoria persistente
     pinned_summary = _build_pinned_summary(body.pinned_entity_ids)
     investigation_summary = _build_investigation_summary(body.investigation_id, user)
+    memory_recall = _recall_memories(user, body.prompt, body.pinned_entity_ids, body.investigation_id)
 
     # 2) Ejecutar la acción
     try:
+        # Construimos un contexto enriquecido con la memoria recuperada
+        enriched_context = body.context_notes
+        if memory_recall:
+            enriched_context = (
+                (body.context_notes + "\n\n" if body.context_notes else "")
+                + "MEMORIA PERSISTENTE (top-relevantes del analista):\n" + memory_recall
+            )
         result = _dispatch_action(
             action=body.action,
             prompt=body.prompt,
             pinned_summary=pinned_summary,
             investigation_summary=investigation_summary,
-            context_notes=body.context_notes,
+            context_notes=enriched_context,
             pinned_entity_ids=body.pinned_entity_ids,
         )
     except Exception as exc:
@@ -154,8 +162,79 @@ def copilot(
         except Exception as exc:
             logger.debug("audit copilot event falló: %s", exc)
 
+    # 4) Persistir en memoria del analista (no bloquea)
+    try:
+        from agents.memory import get_memory_repository, MemoryCreate
+        memrepo = get_memory_repository()
+        # Guardamos la pregunta
+        memrepo.store(MemoryCreate(
+            user_id=user, kind="brain_query",
+            title=body.prompt[:120],
+            content=body.prompt,
+            tags=["copilot", f"action:{body.action}"],
+            entity_refs=body.pinned_entity_ids,
+            investigation_id=body.investigation_id,
+            source="brain_copilot",
+        ))
+        # Si la respuesta es OK y no es stub, también guardamos la respuesta
+        if result.ok and result.answer and len(result.answer) > 50:
+            memrepo.store(MemoryCreate(
+                user_id=user, kind="brain_response",
+                title=f"[{body.action}] {body.prompt[:80]}",
+                content=result.answer,
+                content_summary=result.answer[:300],
+                tags=["copilot", f"action:{body.action}",
+                      *[f"tool:{t.tool}" for t in result.tool_trace[:3]]],
+                entity_refs=body.pinned_entity_ids,
+                investigation_id=body.investigation_id,
+                source="brain_copilot",
+                confidence=0.85,
+                payload={
+                    "tool_trace": [t.model_dump() for t in result.tool_trace],
+                    "model": result.model,
+                },
+            ))
+    except Exception as exc:
+        logger.debug("memory persist falló: %s", exc)
+
     result.latency_ms = int((time.time() - started) * 1000)
     return result
+
+
+def _recall_memories(
+    user_id: str, prompt: str, pinned_entity_ids: list[int], investigation_id: int | None,
+) -> str:
+    """Recupera memorias relevantes del analista y las formatea como contexto.
+
+    Resiliente · si la tabla no existe o no hay BD devuelve "".
+    """
+    try:
+        from agents.memory import get_memory_repository
+        memrepo = get_memory_repository()
+        results = memrepo.recall_for_query(
+            user_id=user_id,
+            prompt=prompt,
+            pinned_entity_ids=pinned_entity_ids,
+            investigation_id=investigation_id,
+            limit=5,
+        )
+        if not results:
+            return ""
+        lines: list[str] = []
+        for r in results:
+            e = r.entry
+            when = e.created_at.strftime("%Y-%m-%d")
+            tag_str = ", ".join(e.tags[:3]) if e.tags else ""
+            summary = e.content_summary or e.content[:200]
+            lines.append(
+                f"[{when} · {e.kind} · score={r.score:.2f}] "
+                f"{e.title or summary[:80]}\n  {summary[:300]}"
+                + (f"\n  tags: {tag_str}" if tag_str else "")
+            )
+        return "\n\n".join(lines)
+    except Exception as exc:
+        logger.debug("recall_memories falló: %s", exc)
+        return ""
 
 
 # ─────────────────────────────────────────────────────────────────

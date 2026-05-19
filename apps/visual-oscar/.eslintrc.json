@@ -1,0 +1,31 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-img-element": "off"
+  },
+  "overrides": [
+    {
+      "files": ["app/**/*.tsx", "components/**/*.tsx"],
+      "excludedFiles": [
+        "components/ui/**",
+        "app/_components/AppHeader.tsx",
+        "app/_components/global-search.tsx",
+        "components/EntityBacklinks.tsx",
+        "components/FigureDossierModal.tsx",
+        "app/investigations/**",
+        "app/sector/**"
+      ],
+      "rules": {
+        "react/forbid-dom-props": ["warn", {
+          "forbid": [
+            {
+              "propName": "style",
+              "message": "Politeia Design System · usa primitivas tokenizadas (Card, Stat, Badge, Toolbar, …) en lugar de style={{...}} inline. Excepción: valores dinámicos del runtime (color de partido, etc.) que no caben en tokens estáticos."
+            }
+          ]
+        }]
+      }
+    }
+  ]
+}

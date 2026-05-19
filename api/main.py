@@ -56,6 +56,7 @@ from api.routers import (
     rag,
     sectores,        # Sectorial intel unificado · /api/v1/sectores/*
     sectors,
+    workflows,       # Workflows agentic (composición tools) · /api/v1/workflows/*
 )
 from agents.semantic_search import validate_semantic_schema
 from db.session import get_session_factory
@@ -235,6 +236,7 @@ app.include_router(sectores.router, tags=["sectores-intel"])
 app.include_router(entities.router, tags=["entities"])              # Pilar 1
 app.include_router(investigations.router, tags=["investigations"])  # Pilar 2
 app.include_router(brain_copilot.router, tags=["brain-copilot"])    # Pilar 3
+app.include_router(workflows.router, tags=["workflows"])            # Pilar 3 · agentic
 app.include_router(contratacion.router, tags=["contratacion"])
 app.include_router(fondos_eu.router, tags=["fondos-europeos"])
 # Bloque P3.2 — RAG: indexado BOE/Congreso/EUR-Lex/media + scheduler:
