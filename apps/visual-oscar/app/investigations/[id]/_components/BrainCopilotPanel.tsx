@@ -17,6 +17,9 @@
  */
 import { useEffect, useRef, useState } from 'react'
 import type { InvestigationDetail } from '@/types/investigations'
+import type { WorkflowResult } from '@/types/workflows'
+import { WorkflowsSection } from './WorkflowsSection'
+import { WorkflowResultView } from './WorkflowResultView'
 
 type CopilotAction =
   | 'resumen_caso'
@@ -51,14 +54,27 @@ interface CopilotResponse {
   error?: string | null
 }
 
-interface ConversationEntry {
-  id: string
-  prompt: string
-  action: CopilotAction
-  response?: CopilotResponse
-  pending: boolean
-  ts: string
-}
+// Tagged union · una entry es action simple o workflow multi-step
+type ConversationEntry =
+  | {
+      kind: 'action'
+      id: string
+      prompt: string
+      action: CopilotAction
+      response?: CopilotResponse
+      pending: boolean
+      ts: string
+    }
+  | {
+      kind: 'workflow'
+      id: string
+      workflow_slug: string
+      inputs_label: string  // resumen humano de los inputs ("sector=defensa")
+      result?: WorkflowResult
+      error?: string
+      pending: boolean
+      ts: string
+    }
 
 const ACTION_BUTTONS: { action: CopilotAction; label: string; hint: string }[] = [
   { action: 'resumen_caso',      label: 'Resumen del caso',     hint: 'Sintetiza con las entidades fijadas' },
@@ -94,6 +110,7 @@ export function BrainCopilotPanel({
     setBusy(true)
     const id = `${action}-${Date.now()}`
     const entry: ConversationEntry = {
+      kind: 'action',
       id, action,
       prompt: text || ACTION_BUTTONS.find(b => b.action === action)?.label || action,
       pending: true,
@@ -115,19 +132,62 @@ export function BrainCopilotPanel({
         }),
       })
       const data = await res.json() as CopilotResponse
-      setConversation((c) => c.map(e => e.id === id ? { ...e, response: data, pending: false } : e))
+      setConversation((c) => c.map(e =>
+        e.id === id && e.kind === 'action'
+          ? { ...e, response: data, pending: false }
+          : e
+      ))
     } catch (err) {
-      setConversation((c) => c.map(e => e.id === id ? {
-        ...e, pending: false,
-        response: {
-          answer: `Error de red: ${String(err).slice(0, 160)}`,
-          structured: {}, tool_trace: [], sources: [], suggested_actions: [],
-          latency_ms: 0, ok: false,
-        },
-      } : e))
+      setConversation((c) => c.map(e =>
+        e.id === id && e.kind === 'action'
+          ? {
+              ...e, pending: false,
+              response: {
+                answer: `Error de red: ${String(err).slice(0, 160)}`,
+                structured: {}, tool_trace: [], sources: [], suggested_actions: [],
+                latency_ms: 0, ok: false,
+              },
+            }
+          : e
+      ))
     } finally {
       setBusy(false)
     }
+  }
+
+  // ─── Handlers para workflows ──────────────────────────────────
+  function handleWorkflowPending(slug: string, inputs: Record<string, unknown>): string {
+    const id = `wf-${slug}-${Date.now()}`
+    const inputsLabel = Object.entries(inputs)
+      .slice(0, 3)
+      .map(([k, v]) => `${k}=${String(v).slice(0, 30)}`)
+      .join(' · ')
+    setBusy(true)
+    setConversation((c) => [...c, {
+      kind: 'workflow',
+      id,
+      workflow_slug: slug,
+      inputs_label: inputsLabel,
+      pending: true,
+      ts: new Date().toISOString(),
+    }])
+    return id
+  }
+  function handleWorkflowResult(entryId: string, result: WorkflowResult) {
+    setConversation((c) => c.map(e =>
+      e.id === entryId && e.kind === 'workflow'
+        ? { ...e, result, pending: false }
+        : e
+    ))
+    setBusy(false)
+  }
+  function handleWorkflowError(entryId: string, error: string) {
+    setConversation((c) => c.map(e =>
+      e.id === entryId && e.kind === 'workflow'
+        ? { ...e, error, pending: false }
+        : e
+    ))
+    setBusy(false)
   }
 
   if (!open) return null
@@ -206,6 +266,15 @@ export function BrainCopilotPanel({
         flex: 1, overflowY: 'auto', padding: '16px 18px',
         display: 'flex', flexDirection: 'column', gap: 14,
       }}>
+        {/* Workflows section · colapsable */}
+        <WorkflowsSection
+          detail={detail}
+          busy={busy}
+          onPending={handleWorkflowPending}
+          onResult={handleWorkflowResult}
+          onError={handleWorkflowError}
+        />
+
         {conversation.length === 0 && (
           <div style={{
             padding: 16, fontSize: 12.5, color: 'var(--color-ink-4, #6e6e73)',
@@ -218,13 +287,16 @@ export function BrainCopilotPanel({
             </p>
             <p style={{ margin: 0, fontSize: 11.5 }}>
               Conozco las {pinnedCount} entidades fijadas y los artefactos del notebook,
-              hipótesis y evidencias. Usa los botones de acción o pregúntame algo
-              concreto. Te muestro qué tools del brain estoy usando y cuánto tardan.
+              hipótesis y evidencias. Usa los botones de acción rápida, ejecuta un
+              workflow multi-paso o pregúntame algo concreto. Te muestro qué tools
+              del brain estoy usando y cuánto tardan.
             </p>
           </div>
         )}
         {conversation.map((entry) => (
-          <ConversationItem key={entry.id} entry={entry} onAction={send} />
+          entry.kind === 'action'
+            ? <ConversationItem key={entry.id} entry={entry} onAction={send} />
+            : <WorkflowConversationItem key={entry.id} entry={entry} />
         ))}
       </div>
 
@@ -284,7 +356,7 @@ export function BrainCopilotPanel({
 function ConversationItem({
   entry, onAction,
 }: {
-  entry: ConversationEntry
+  entry: Extract<ConversationEntry, { kind: 'action' }>
   onAction: (a: CopilotAction, prompt?: string) => void
 }) {
   return (
@@ -425,4 +497,70 @@ const kbdStyle: React.CSSProperties = {
   background: 'var(--color-surface, #fff)',
   border: '1px solid var(--color-hairline, #ECECEF)',
   borderRadius: 4, color: 'var(--color-ink-4, #6e6e73)',
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Workflow item · render del resultado multi-step
+// ─────────────────────────────────────────────────────────────────
+
+function WorkflowConversationItem({
+  entry,
+}: {
+  entry: Extract<ConversationEntry, { kind: 'workflow' }>
+}) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {/* Header del workflow lanzado */}
+      <div style={{
+        alignSelf: 'flex-end', maxWidth: '90%',
+        padding: '8px 12px', borderRadius: 12,
+        background: 'var(--color-accent-subtle, rgba(0,113,227,0.08))',
+        fontSize: 12.5, color: 'var(--color-ink, #1d1d1f)',
+        lineHeight: 1.4,
+      }}>
+        <div style={{
+          fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
+          color: 'var(--color-accent-text, #0066cc)', textTransform: 'uppercase',
+          marginBottom: 3,
+        }}>
+          WORKFLOW · {entry.workflow_slug.replace(/_/g, ' ')}
+        </div>
+        {entry.inputs_label && (
+          <div style={{
+            fontSize: 10.5, color: 'var(--color-ink-4, #6e6e73)',
+            fontFamily: 'var(--font-mono, monospace)',
+          }}>
+            {entry.inputs_label}
+          </div>
+        )}
+      </div>
+
+      {/* Resultado */}
+      {entry.pending ? (
+        <div style={{
+          alignSelf: 'flex-start', maxWidth: '95%',
+          padding: '8px 12px', borderRadius: 12,
+          background: 'var(--color-surface-raised, #f5f5f7)',
+          fontSize: 12, color: 'var(--color-ink-4, #6e6e73)',
+          fontStyle: 'italic',
+        }}>
+          Ejecutando workflow · esto puede tardar 30-60s para encadenar varias tools…
+        </div>
+      ) : entry.error ? (
+        <div style={{
+          alignSelf: 'flex-start', maxWidth: '95%',
+          padding: '8px 12px', borderRadius: 12,
+          background: 'var(--color-danger-subtle, rgba(196,44,44,0.08))',
+          color: 'var(--color-danger, #c42c2c)',
+          fontSize: 12,
+        }}>
+          {entry.error}
+        </div>
+      ) : entry.result ? (
+        <div style={{ alignSelf: 'flex-start', maxWidth: '98%', width: '98%' }}>
+          <WorkflowResultView result={entry.result} />
+        </div>
+      ) : null}
+    </div>
+  )
 }
