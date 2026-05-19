@@ -90,7 +90,13 @@ def _extract_json(raw: str) -> Any:
 
 
 def _estimate_tokens(text: str) -> int:
-    """Estimación rápida de tokens (~4 chars por token sin tiktoken)."""
+    """Estimación rápida de tokens.
+
+    I4 · Si tiktoken está disponible usa cl100k_base (exacto). Si no, la
+    heurística por defecto es 3.3 chars/token (calibrada para español con
+    SentencePiece BPE de LLaMA), no 4 chars/token (que es la heurística
+    estándar para inglés y subestima un ~25% para textos en español).
+    """
     if not text:
         return 0
     try:
@@ -98,7 +104,8 @@ def _estimate_tokens(text: str) -> int:
         enc = tiktoken.get_encoding("cl100k_base")
         return len(enc.encode(text))
     except Exception:
-        return max(1, len(text) // 4)
+        # 3.3 chars/token ≈ promedio empírico para español LLaMA tokenizer
+        return max(1, int(len(text) / 3.3))
 
 
 def _normalize_result(
@@ -226,6 +233,19 @@ class GroqBrainBase:
         if extra_system:
             system = f"{system}\n\n{extra_system}"
 
+        # I8 · Groq/OpenAI exigen literalmente la palabra "json" en messages
+        # cuando response_format=json_object. Si la plantilla la pierde por
+        # edición, inyectamos un sufijo al system para no romper en producción.
+        if response_format == "json_object":
+            haystack = (system + " " + user_content).lower()
+            if "json" not in haystack:
+                logger.warning(
+                    "brain._call('%s') · expect_json pero prompt sin 'json' · "
+                    "inyectando recordatorio al system (revisa la plantilla)",
+                    prompt_name,
+                )
+                system = system + "\n\nIMPORTANTE: Responde estrictamente en formato JSON válido."
+
         messages = [
             {"role": "system", "content": system},
             {"role": "user", "content": user_content},
@@ -305,24 +325,92 @@ def _build_groq_brain_class():
     return GroqBrain
 
 
-# Singleton
+# ─────────────────────────────────────────────────────────────────
+# Singleton + I2 · Circuit breaker
+# ─────────────────────────────────────────────────────────────────
+# Si _build_groq_brain_class() falla (p.ej. plantilla de prompt no encontrada),
+# en vez de relanzar la construcción en cada llamada (bucle de fallos sobre
+# rate limits, import cycles, etc.), memorizamos el fallo y devolvemos una
+# instancia stub que registra el error original y falla de forma controlada.
+# Tras `_CIRCUIT_BREAKER_COOLDOWN_S` el siguiente get_groq_brain() reintenta
+# la construcción una vez (semi-open). Si funciona se queda en closed.
+
 _BRAIN_LOCK = Lock()
 _BRAIN_INSTANCE = None
+_BRAIN_BUILD_ERROR: BaseException | None = None
+_BRAIN_BUILD_ERROR_AT: float = 0.0
+_CIRCUIT_BREAKER_COOLDOWN_S: float = 60.0
+
+
+class _GroqBrainBuildErrorStub:
+    """Stub que sustituye al brain cuando la construcción falla.
+
+    Cada llamada a una tool devuelve un dict normalizado con ok=False y
+    el error original, en lugar de relanzar la excepción.
+    """
+    __slots__ = ("_error",)
+
+    def __init__(self, error: BaseException) -> None:
+        self._error = error
+
+    def __getattr__(self, name: str):
+        err = self._error
+        def _stub_tool(*_args: Any, **_kwargs: Any) -> dict[str, Any]:
+            return {
+                "ok": False, "result": None, "raw": "", "confidence": 0.0,
+                "sources": [], "reasoning_steps": [],
+                "model": "", "tokens_used": 0, "latency_ms": 0,
+                "prompt_name": name, "from_fallback": False,
+                "error": f"GroqBrain build failed: {type(err).__name__}: {str(err)[:200]}",
+                "circuit_breaker_open": True,
+            }
+        return _stub_tool
 
 
 def get_groq_brain():
-    """Devuelve la instancia singleton de GroqBrain (lazy)."""
-    global _BRAIN_INSTANCE
-    if _BRAIN_INSTANCE is None:
-        with _BRAIN_LOCK:
-            if _BRAIN_INSTANCE is None:
-                klass = _build_groq_brain_class()
-                _BRAIN_INSTANCE = klass()
-    return _BRAIN_INSTANCE
+    """Devuelve la instancia singleton de GroqBrain (lazy + circuit breaker).
+
+    I2 · Si la construcción ha fallado recientemente (< 60s) devuelve un stub
+    en lugar de relanzar el build. Tras la cooldown reintenta una vez.
+    """
+    import time
+    global _BRAIN_INSTANCE, _BRAIN_BUILD_ERROR, _BRAIN_BUILD_ERROR_AT
+
+    if _BRAIN_INSTANCE is not None:
+        return _BRAIN_INSTANCE
+
+    with _BRAIN_LOCK:
+        if _BRAIN_INSTANCE is not None:
+            return _BRAIN_INSTANCE
+
+        # ¿Hay un error reciente y la cooldown no ha vencido?
+        if _BRAIN_BUILD_ERROR is not None:
+            age = time.time() - _BRAIN_BUILD_ERROR_AT
+            if age < _CIRCUIT_BREAKER_COOLDOWN_S:
+                logger.debug(
+                    "GroqBrain build circuit-open (age=%.1fs<%.0fs) · devolviendo stub",
+                    age, _CIRCUIT_BREAKER_COOLDOWN_S,
+                )
+                return _GroqBrainBuildErrorStub(_BRAIN_BUILD_ERROR)
+            logger.info("GroqBrain build retry tras cooldown %.0fs", age)
+
+        try:
+            klass = _build_groq_brain_class()
+            _BRAIN_INSTANCE = klass()
+            _BRAIN_BUILD_ERROR = None
+            _BRAIN_BUILD_ERROR_AT = 0.0
+            return _BRAIN_INSTANCE
+        except Exception as exc:
+            logger.exception("GroqBrain build falló · activando circuit breaker")
+            _BRAIN_BUILD_ERROR = exc
+            _BRAIN_BUILD_ERROR_AT = time.time()
+            return _GroqBrainBuildErrorStub(exc)
 
 
 def reset_groq_brain() -> None:
-    """Reinicia el singleton (útil para tests)."""
-    global _BRAIN_INSTANCE
+    """Reinicia el singleton (útil para tests · resetea también el circuit breaker)."""
+    global _BRAIN_INSTANCE, _BRAIN_BUILD_ERROR, _BRAIN_BUILD_ERROR_AT
     with _BRAIN_LOCK:
         _BRAIN_INSTANCE = None
+        _BRAIN_BUILD_ERROR = None
+        _BRAIN_BUILD_ERROR_AT = 0.0

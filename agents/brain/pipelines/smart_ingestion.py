@@ -197,9 +197,15 @@ class SmartIngestionPipeline:
                         for l in ls if l
                     ][:10]
 
-        # Stage 3 — Relevancia de fuente (sólo si es desconocida)
-        if "relevance" in self.stages and doc.source_name:
-            if doc.source_name.lower() not in self.known_sources:
+        # Stage 3 — Relevancia de fuente
+        # I7 · Si source_name está vacío, lo marcamos en stages_err en lugar
+        # de saltarlo silenciosamente (un doc sin fuente debería ser visible).
+        if "relevance" in self.stages:
+            if not doc.source_name:
+                doc.stages_err["relevance"] = "skipped: source_name vacío (documento sin metadata de origen)"
+            elif doc.source_name.lower() in self.known_sources:
+                doc.stages_err["relevance"] = f"skipped: fuente conocida ({doc.source_name})"
+            else:
                 self._safe_stage(doc, "relevance", lambda: brain.identify_source_relevance(
                     source_url=doc.url,
                     source_title=doc.title,
@@ -208,11 +214,16 @@ class SmartIngestionPipeline:
                 ))
 
         # Stage 4 — Señales de desinformación
+        # A7 · Pasamos cross_check_summary derivado de las entidades extraídas
+        # cuando es posible. Si no hay nada que cruzar, lo marcamos explícito
+        # ('not_available') para que el modelo no asuma cross-check positivo.
         if "disinfo" in self.stages:
+            cross_check = self._build_cross_check_summary(doc)
             self._safe_stage(doc, "disinfo", lambda: brain.detect_disinformation_signals(
                 text=doc.text,
                 source=doc.source_name,
                 url=doc.url,
+                cross_check_summary=cross_check,
             ))
             if isinstance(doc.disinfo, dict) and isinstance(doc.disinfo.get("result"), dict):
                 doc.risk_level = str(doc.disinfo["result"].get("risk_level") or "") or None
@@ -262,13 +273,55 @@ class SmartIngestionPipeline:
             doc.stages_err[stage_name] = f"{type(exc).__name__}: {str(exc)[:200]}"
 
     # ─────────────────────────────────────────────────────────────
+    def _build_cross_check_summary(self, doc: IngestedDocument) -> str:
+        """A7 · Construye un cross_check_summary mínimo para detect_disinfo.
+
+        Si tenemos entidades extraídas (stage 2 OK), las incluimos como
+        contexto cruzable. Si no, devolvemos 'not_available' para que el
+        modelo sepa que no debe asumir contraste con otras fuentes.
+        """
+        ents = doc.entities if isinstance(doc.entities, dict) else {}
+        res = ents.get("result") if isinstance(ents.get("result"), dict) else {}
+        actors = res.get("actors") or []
+        parties = res.get("parties") or []
+        laws = res.get("laws") or []
+        if not (actors or parties or laws):
+            return "not_available"
+        bits: list[str] = []
+        if actors:
+            bits.append(
+                "actores mencionados: " + ", ".join(
+                    (a.get("name") if isinstance(a, dict) else str(a))
+                    for a in actors[:5]
+                )
+            )
+        if parties:
+            bits.append("partidos: " + ", ".join(str(p) for p in parties[:5]))
+        if laws:
+            bits.append(
+                "leyes/normas: " + ", ".join(
+                    (l.get("name") if isinstance(l, dict) else str(l))
+                    for l in laws[:5]
+                )
+            )
+        bits.append("nota: contraste basado solo en entidades del mismo texto, no en otras fuentes")
+        return " | ".join(bits)
+
+    # ─────────────────────────────────────────────────────────────
     def process_batch(
         self,
         items: list[dict[str, Any]],
         *,
-        max_workers: int = 4,
+        max_workers: int = 2,
     ) -> list[IngestedDocument]:
-        """Procesa una lista en paralelo (Groq aguanta concurrencia)."""
+        """Procesa una lista en paralelo respetando rate-limit de Groq.
+
+        I1 · max_workers reducido a 2 por defecto: cada documento dispara 5
+        stages → 5 llamadas Groq. Con 4 workers eran 20 req simultáneas, muy
+        por encima del rate-limit 30/min del tier gratuito.
+        El rate-limiter centralizado de `groq_client._acquire_rate_slot()`
+        es el que bloquea cuando se satura — los workers simplemente esperan.
+        """
         results: list[IngestedDocument] = []
         if not items:
             return results
@@ -325,15 +378,31 @@ def enrich_dataframe(
             "source_name": str(row.get(source_col) or "") if source_col else "",
         })
     pipe = SmartIngestionPipeline(stages=stages)
-    # Bug previo: hacíamos process_batch + process_one en secuencia, doblando
-    # llamadas Groq. Ahora: process_batch para concurrencia, y luego sólo
-    # reordenamos por (title, url) — UNA pasada por documento.
-    enriched = pipe.process_batch(items, max_workers=max_workers)
-    key_to_doc = {(d.title, d.url): d for d in enriched}
-    enriched_ordered = [
-        key_to_doc.get((it["title"], it["url"]), IngestedDocument(text=it["text"]))
-        for it in items
-    ]
+    # I6 · enriquecemos con `(idx, title, url)` para evitar colisiones cuando
+    # el mismo título+URL aparece duplicado en varios rows. process_batch
+    # devuelve los docs en orden arbitrario (as_completed); cada item lleva
+    # _row_idx y reasociamos por índice exacto.
+    indexed_items = [{**it, "_row_idx": i} for i, it in enumerate(items)]
+    # process_one no acepta _row_idx → lo extraemos antes del submit
+    enriched_unordered: list[tuple[int, IngestedDocument]] = []
+    with ThreadPoolExecutor(max_workers=max(1, int(max_workers))) as ex:
+        future_to_idx = {}
+        for it in indexed_items:
+            idx = it.pop("_row_idx")
+            future_to_idx[ex.submit(pipe.process_one, **it)] = idx
+        for fut in as_completed(future_to_idx):
+            idx = future_to_idx[fut]
+            try:
+                enriched_unordered.append((idx, fut.result()))
+            except Exception as exc:
+                logger.exception("enrich_dataframe worker idx=%s failed", idx)
+                enriched_unordered.append((idx, IngestedDocument(
+                    text=str(items[idx].get("text") or ""),
+                    stages_err={"worker": f"{type(exc).__name__}: {str(exc)[:200]}"},
+                )))
+    # Reordenar por índice original
+    enriched_unordered.sort(key=lambda t: t[0])
+    enriched_ordered = [d for _, d in enriched_unordered]
     df["brain_doc_type"] = [d.doc_type for d in enriched_ordered]
     df["brain_tier"] = [d.credibility_tier for d in enriched_ordered]
     df["brain_risk"] = [d.risk_level for d in enriched_ordered]

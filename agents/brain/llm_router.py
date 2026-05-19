@@ -52,6 +52,30 @@ _SPEED_MODELS = {
 }
 _OLLAMA_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
 
+# G2 · Comprobación perezosa de disponibilidad de Ollama (cacheada 60s).
+_OLLAMA_AVAILABLE: dict[str, Any] = {"checked_at": 0.0, "ok": False}
+
+
+def _is_ollama_reachable() -> bool:
+    """Comprueba si Ollama responde (cache 60s).
+
+    En despliegues sin Ollama local (Railway, Render, Vercel functions) esto
+    devuelve False y el router debe ir directo a Groq en lugar de gastar
+    timeouts intentando Ollama primero.
+    """
+    now = time.time()
+    if now - _OLLAMA_AVAILABLE["checked_at"] < 60.0:
+        return bool(_OLLAMA_AVAILABLE["ok"])
+    try:
+        import requests
+        r = requests.get(f"{_OLLAMA_URL}/api/tags", timeout=2)
+        ok = r.status_code == 200
+    except Exception:
+        ok = False
+    _OLLAMA_AVAILABLE["checked_at"] = now
+    _OLLAMA_AVAILABLE["ok"] = ok
+    return ok
+
 # Caché en memoria: {cache_key: {result, cached_at, task_type}}
 _LLM_CACHE: dict[str, dict] = {}
 _CACHE_MAX_SIZE = 2000
@@ -89,6 +113,22 @@ def route(
             return {**cached, "from_cache": True, "ok": True, "error": None}
 
     model = _SPEED_MODELS.get(cfg["speed"], _SPEED_MODELS["normal"])
+
+    # G2 · Si Ollama no es alcanzable (despliegue cloud), ir directo a Groq
+    if not _is_ollama_reachable():
+        groq_result = _try_groq_fallback(prompt, task_type, cfg["json"])
+        if groq_result:
+            response = {**groq_result, "task_type": task_type, "from_cache": False, "ok": True}
+            _store_cache(cache_key, response)
+            return response
+        cloud_result = _try_cloud_fallback(task_type, prompt, cfg)
+        if cloud_result:
+            return {**cloud_result, "from_cache": False, "ok": True}
+        return {
+            "result": None, "model": model, "task_type": task_type,
+            "from_cache": False, "latency_ms": 0, "ok": False,
+            "error": "no_llm_available (ollama unreachable, no groq/cloud key)",
+        }
 
     # Intentar Ollama
     start = time.time()
@@ -171,17 +211,45 @@ def _call_ollama(prompt: str, model: str, timeout: int, expect_json: bool) -> An
 
 
 def _try_groq_fallback(prompt: str, task_type: str, expect_json: bool) -> dict | None:
-    """Intenta usar Groq como alternativa rápida antes del cloud."""
+    """Intenta usar Groq como alternativa rápida antes del cloud.
+
+    G2 · Propaga el tier real del task (fast/normal/deep) al modelo Groq
+    correspondiente — antes colapsaba 'deep' a 'normal' por error.
+    G6 · Loguea siempre el error de Groq para diagnóstico (rate-limit,
+    quota, prompt malformado…) en lugar de devolver None silencioso.
+    """
     try:
         from agents.brain.groq_client import is_groq_available, call_groq
         if not is_groq_available():
+            log.debug("groq fallback skipped: no API key configured")
             return None
-        tier = "fast" if _TASK_CONFIG.get(task_type, {}).get("speed") == "fast" else "normal"
-        result = call_groq(prompt, model_tier=tier, expect_json=expect_json, timeout=15)
+        # Mapeo task → tier de Groq (fast / normal / deep, todos ahora válidos)
+        speed = _TASK_CONFIG.get(task_type, {}).get("speed", "normal")
+        tier = speed if speed in ("classify", "fast", "normal", "deep") else "normal"
+        timeout = _TASK_CONFIG.get(task_type, {}).get("timeout", 30)
+        result = call_groq(
+            prompt,
+            model_tier=tier,
+            expect_json=expect_json,
+            timeout=int(timeout),
+        )
         if result.get("ok"):
+            log.info(
+                "groq fallback ok · task=%s tier=%s model=%s latency=%dms",
+                task_type, tier, result.get("model", ""), result.get("latency_ms", 0),
+            )
             return result
+        # G6 · log explícito del error de Groq
+        log.warning(
+            "groq fallback failed · task=%s tier=%s status=%s attempts=%s error=%s",
+            task_type, tier,
+            result.get("status_code", 0),
+            result.get("attempts", 0),
+            result.get("error", "")[:200],
+        )
         return None
-    except Exception:
+    except Exception as exc:
+        log.warning("groq fallback exception · task=%s: %s", task_type, exc)
         return None
 
 
