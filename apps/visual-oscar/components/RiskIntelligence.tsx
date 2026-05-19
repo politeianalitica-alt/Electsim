@@ -89,7 +89,9 @@ function buildTrendFromTimeseries(buckets: Array<{ composite: number }>): Riesgo
   const forecastLow: number[] = []
   const forecastHigh: number[] = []
   let f = last
-  for (let i = 1; i <= 14; i++) {
+  // Previsión más corta (7 días en lugar de 14) para que ocupe menos espacio
+  // y los puntos del histórico se vean con más holgura
+  for (let i = 1; i <= 7; i++) {
     f = Math.max(0, Math.min(100, f + drift + (Math.random() - 0.5) * 1.2))
     forecast.push(Math.round(f * 10) / 10)
     const halfWidth = 3 + Math.sqrt(i) * 2.2
@@ -165,7 +167,7 @@ export default function RiskIntelligence() {
             <RiesgoGauge
               value={composite.composite}
               delta={composite.dimensions ? +(Object.values(composite.dimensions).reduce((s, d) => s + d.delta_24h, 0) / Math.max(1, Object.keys(composite.dimensions).length)).toFixed(1) : undefined}
-              showTicks
+              showTicks={false}
             />
           ) : (
             <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Cargando…</div>
@@ -203,7 +205,7 @@ export default function RiskIntelligence() {
         {/* Serie histórica + previsión · misma horizontal */}
         <Card
           title="Serie histórica"
-          subtitle={`${timeseries?.buckets?.length ?? 0}d + previsión 14d`}
+          subtitle={`${timeseries?.buckets?.length ?? 0}d + previsión 7d`}
           extra={<RiesgoTrendLegend/>}
         >
           {timeseries && timeseries.buckets && timeseries.buckets.length > 0 ? (
@@ -374,7 +376,21 @@ function DimensionDrillDown({ dim }: { dim: RiskDimension }) {
                 {drv.contribution.toFixed(0)}
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, marginBottom: 2 }}>{drv.title}</div>
+                {drv.url ? (
+                  <a
+                    href={drv.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, marginBottom: 2,
+                      display: 'block', textDecoration: 'none',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
+                  >{drv.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span></a>
+                ) : (
+                  <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, marginBottom: 2 }}>{drv.title}</div>
+                )}
                 <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
                   <span style={{ fontWeight: 600 }}>{drv.source}</span>
                   <span>● {drv.sentiment}</span>

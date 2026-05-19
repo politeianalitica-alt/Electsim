@@ -407,6 +407,7 @@ export interface RiskDriver {
   scraped_at: string | null
   dimension?: string
   dimension_label?: string
+  url?: string   // enlace al artículo original cuando proviene del feed RSS
 }
 
 export interface RiskDimensionStat {
@@ -485,6 +486,7 @@ export function dimensionStats(articles: AggregatedArticle[]): Record<string, Ri
         scraped_at: a.pub_date_iso,
         dimension: dim,
         dimension_label: DIMENSION_LABELS[dim],
+        url: a.link,
       }))
     // delta_24h: artículos en últimas 24h vs media baseline (estimado)
     const recent = arts.filter(a => a.pubDate && Date.now() - a.pubDate.getTime() < 24 * 3600_000).length

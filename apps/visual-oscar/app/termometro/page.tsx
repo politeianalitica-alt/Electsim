@@ -20,6 +20,7 @@ interface RiskDriver {
   scraped_at: string | null
   dimension?: string
   dimension_label?: string
+  url?: string
 }
 
 interface RiskDimension {
@@ -622,7 +623,7 @@ export default function TermometroPage() {
 
   const riskData   = useApi<RiskComposite & { _meta?: unknown }>('/api/risk/composite', { refreshInterval: 120_000 })
   const tsData     = useApi<RiskTimeseriesResponse>('/api/risk/timeseries?days=30', { refreshInterval: 1_800_000 })
-  const signalData = useApi<{ signals: Array<{ tipo: string; titulo: string; severidad: string; score: number; fuente: string; timestamp: string }> }>('/api/crisis/signals', { refreshInterval: 300_000 })
+  const signalData = useApi<{ signals: Array<{ tipo: string; titulo: string; severidad: string; score: number; fuente: string; timestamp: string; url?: string }> }>('/api/crisis/signals', { refreshInterval: 300_000 })
   // Sub-KPIs reales por índice (components con metric_name/raw_value/score_0_100/weight/contribution)
   const indicesData = useApi<RiskIndicesPayload>('/api/risk-v2/indices?country=ES', { refreshInterval: 300_000 })
 
@@ -768,7 +769,14 @@ export default function TermometroPage() {
                         fontWeight: 800, fontSize: 11.5, letterSpacing: '0.08em',
                         padding: '3px 8px', borderRadius: 999, textAlign: 'center',
                       }}>{s.severidad}</span>
-                      <span style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.titulo}</span>
+                      {s.url ? (
+                        <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
+                        >{s.titulo} <span style={{ color: '#0071e3', fontSize: 11 }}>↗</span></a>
+                      ) : (
+                        <span style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.titulo}</span>
+                      )}
                       <span style={{ color: '#6e6e73', fontSize: 13, fontWeight: 500 }}>{s.fuente.split(' ')[0]}</span>
                     </div>
                   ))}
@@ -1026,7 +1034,14 @@ export default function TermometroPage() {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {dimensions[selectedDim].drivers.slice(0, 8).map(d => (
                         <div key={d.id} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, fontSize: 14.5 }}>
-                          <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5 }}>{d.title}</div>
+                          {d.url ? (
+                            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
+                               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
+                            >{d.title} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                          ) : (
+                            <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5 }}>{d.title}</div>
+                          )}
                           <div style={{ display: 'flex', gap: 16, color: '#6e6e73', fontSize: 13, flexWrap: 'wrap' }}>
                             <span><span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.source}</span></span>
                             <span>Relevancia · <span style={{ fontWeight: 600, color: '#1d1d1f' }}>{d.relevance}</span></span>
@@ -1072,7 +1087,17 @@ export default function TermometroPage() {
                 {topRisks.map(d => (
                   <div key={d.id} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 100px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 14.5 }}>
                     <div>
-                      <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{d.title}</div>
+                      {(() => {
+                        const url = d.url
+                        return url ? (
+                          <a href={url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
+                             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
+                          >{d.title} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                        ) : (
+                          <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{d.title}</div>
+                        )
+                      })()}
                       <div style={{ fontSize: 13, color: '#86868b' }}>{d.source}</div>
                     </div>
                     <span style={{ color: '#1d1d1f', textAlign: 'center', fontWeight: 700 }}>{d.relevance}</span>
@@ -1084,7 +1109,14 @@ export default function TermometroPage() {
                 {topRisks.length === 0 && signals.map((s, i) => (
                   <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 14.5 }}>
                     <div>
-                      <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{s.titulo}</div>
+                      {s.url ? (
+                        <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
+                        >{s.titulo} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                      ) : (
+                        <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{s.titulo}</div>
+                      )}
                       <div style={{ fontSize: 13, color: '#86868b' }}>{s.fuente} · {s.tipo}</div>
                     </div>
                     <span style={{ color: '#fff', background: SEV_COLOR[s.severidad] ?? '#86868b', fontWeight: 800, fontSize: 11.5, letterSpacing: '0.08em', padding: '3px 8px', borderRadius: 999, textAlign: 'center' }}>{s.severidad}</span>

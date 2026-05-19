@@ -40,9 +40,9 @@ const GAUGE_SEGMENTS = [
 ]
 
 export function RiesgoGauge({ value, delta, showTicks = true }: RiesgoGaugeProps) {
-  const W = 300, H = 180
+  const W = 340, H = 210
   const cx = W / 2, cy = H * 0.85
-  const r = 108
+  const r = 128
   const arc = (a1: number, a2: number, rad: number): string => {
     const x1 = cx + Math.cos(a1 * Math.PI / 180) * rad
     const y1 = cy + Math.sin(a1 * Math.PI / 180) * rad
@@ -64,21 +64,21 @@ export function RiesgoGauge({ value, delta, showTicks = true }: RiesgoGaugeProps
     <div style={{ width: '100%' }}>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block', margin: '0 auto' }}>
         {GAUGE_SEGMENTS.map((s, i) => (
-          <path key={i} d={arc(s.from, s.to, r)} stroke={s.color} strokeWidth={18} fill="none" strokeLinecap="butt" opacity={0.92}/>
+          <path key={i} d={arc(s.from, s.to, r)} stroke={s.color} strokeWidth={22} fill="none" strokeLinecap="butt" opacity={0.92}/>
         ))}
-        <text x={cx} y={H * 0.15} textAnchor="middle" fontSize={9.5} fill="#86868b" letterSpacing="0.1em" fontWeight={600}>
+        <text x={cx} y={H * 0.14} textAnchor="middle" fontSize={10.5} fill="#86868b" letterSpacing="0.1em" fontWeight={600}>
           RIESGO POLÍTICO
         </text>
-        <text x={cx} y={cy - 46} textAnchor="middle" fontFamily="var(--font-display)" fontSize={38} fontWeight={600} letterSpacing="-0.03em" fill="#1d1d1f">
+        <text x={cx} y={cy - 54} textAnchor="middle" fontFamily="var(--font-display)" fontSize={46} fontWeight={600} letterSpacing="-0.03em" fill="#1d1d1f">
           {valueStr}
         </text>
         {delta != null && (
-          <text x={cx} y={cy - 30} textAnchor="middle" fontSize={11} fill={deltaColor} fontWeight={600}>
+          <text x={cx} y={cy - 34} textAnchor="middle" fontSize={12} fill={deltaColor} fontWeight={600}>
             {deltaArrow} {deltaStr}
           </text>
         )}
-        <line x1={cx} y1={cy} x2={nx} y2={ny} stroke="#1d1d1f" strokeWidth={2.2} strokeLinecap="round"/>
-        <circle cx={cx} cy={cy} r={5} fill="#1d1d1f"/>
+        <line x1={cx} y1={cy} x2={nx} y2={ny} stroke="#1d1d1f" strokeWidth={2.6} strokeLinecap="round"/>
+        <circle cx={cx} cy={cy} r={6} fill="#1d1d1f"/>
       </svg>
       {showTicks && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 2, padding: '6px 4px 0', fontSize: 9.5 }}>
