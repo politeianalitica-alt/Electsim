@@ -1,0 +1,807 @@
+/* /macro · estilos tokenizados (Pilar 4)
+ *
+ * Reemplaza ~140 de los 164 style={{...}} inline.
+ * Los ~24 restantes son legítimamente dinámicos (colores condicionales
+ * por dato económico, anchos de barras por porcentaje, colores de KPI,
+ * strokes de sparklines, fondos con accent del país/sector/variable).
+ *
+ * Prefijo .mac- para todas las clases.
+ */
+
+/* ─── Layout base ───────────────────────────────────────── */
+.mac-root {
+  background: var(--color-bg);
+  min-height: 100vh;
+  font-family: var(--font-text);
+  color: var(--color-ink);
+}
+.mac-main {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-7) var(--space-16);
+}
+.mac-loading {
+  color: var(--color-ink-4);
+  font-size: var(--text-sm);
+}
+.mac-footer {
+  border-top: 1px solid var(--color-hairline);
+  padding: var(--space-5) var(--space-7);
+  text-align: center;
+  color: var(--color-ink-4);
+  font-size: var(--text-xs);
+}
+
+/* ─── Hero ──────────────────────────────────────────────── */
+.mac-hero {
+  background: linear-gradient(135deg, #0E2A1F 0%, #052016 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-8);
+  margin-bottom: var(--space-5);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+.mac-hero-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-2);
+}
+.mac-hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+.mac-hero-title em {
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+.mac-hero-subtitle {
+  font-size: var(--text-sm);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.5;
+}
+.mac-hero-termo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.mac-hero-termo-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+.mac-hero-termo-status {
+  font-size: var(--text-xs);
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+/* ─── KPI section ───────────────────────────────────────── */
+.mac-kpi-section {
+  margin-bottom: var(--space-5);
+}
+.mac-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.mac-kpi-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 14px 14px 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition: box-shadow 200ms;
+  /* border, borderLeft, boxShadow vienen inline (dinámicos por color del KPI) */
+}
+.mac-kpi-label {
+  margin: 0 0 6px;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--color-ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mac-kpi-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+.mac-kpi-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  /* color inline (dinámico por k.c) */
+}
+.mac-kpi-delta {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 700;
+  /* color inline (verde/rojo según dirección) */
+}
+.mac-kpi-foot {
+  font-size: 9.5px;
+  color: var(--color-ink-5);
+  margin-top: 5px;
+  line-height: 1.3;
+}
+
+.mac-kpi-detail {
+  margin-top: 10px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  /* border inline (color del KPI activo) */
+}
+.mac-kpi-detail-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #fff;
+  /* background inline (color del KPI) */
+}
+.mac-kpi-detail-value {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  /* color inline (KPI) */
+}
+.mac-kpi-detail-comment {
+  font-size: 11px;
+  color: var(--color-ink-2);
+  flex: 1;
+  min-width: 200px;
+}
+.mac-kpi-detail-source {
+  font-size: 10px;
+  color: var(--color-ink-4);
+  font-weight: 600;
+}
+
+/* ─── Tabs ──────────────────────────────────────────────── */
+.mac-tabs {
+  display: inline-flex;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.mac-tab-btn {
+  background: transparent;
+  color: var(--color-ink-4);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 7px 14px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.mac-tab-btn--active {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 700;
+  box-shadow: var(--shadow-xs);
+}
+.mac-tab-count {
+  margin-left: 5px;
+  color: var(--color-ink-4);
+  font-weight: 700;
+  font-size: 10.5px;
+}
+.mac-tab-btn--active .mac-tab-count {
+  color: #0F766E;
+}
+
+/* ─── Section cards ─────────────────────────────────────── */
+.mac-section-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--space-5) var(--space-6);
+  box-shadow: var(--shadow-xs);
+}
+.mac-section-h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.mac-section-sub {
+  margin: 0 0 16px;
+  font-size: 11.5px;
+  color: var(--color-ink-4);
+}
+
+/* ─── Tables ────────────────────────────────────────────── */
+.mac-table-wrap {
+  overflow-x: auto;
+}
+.mac-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  min-width: 780px;
+}
+.mac-table thead tr {
+  background: var(--color-surface-raised);
+  border-bottom: 2px solid var(--color-hairline);
+}
+.mac-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--color-ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mac-th--center {
+  text-align: center !important;
+  padding: 10px 14px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--color-ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mac-table tbody tr {
+  border-bottom: 1px solid var(--color-hairline);
+}
+.mac-table td {
+  padding: 10px 14px;
+}
+.mac-table-row--alt { background: #fafafa; }
+.mac-table-row--esp { background: var(--color-surface-raised); }
+.mac-table-flagcell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mac-table-flag {
+  width: 28px;
+  height: 20px;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  /* background inline (color del país) */
+}
+.mac-table-pais {
+  color: var(--color-ink);
+}
+.mac-table-mono {
+  font-family: var(--font-display);
+  font-weight: 700;
+  /* color inline (verde/rojo según valor) */
+}
+.mac-table-score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mac-table-score-track {
+  flex: 1;
+  height: 7px;
+  background: var(--color-surface-raised);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.mac-table-score-fill {
+  height: 100%;
+  /* width y background inline (dinámicos) */
+}
+.mac-table-score-num {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  min-width: 24px;
+  text-align: right;
+  /* color inline */
+}
+
+/* ─── IPC + Sectores grid ───────────────────────────────── */
+.mac-ipc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 24px;
+}
+.mac-ipc-h4 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.mac-ipc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mac-ipc-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 50px 30px;
+  gap: 10px;
+  align-items: center;
+}
+.mac-ipc-cat {
+  font-size: 11px;
+  color: var(--color-ink-2);
+  font-weight: 600;
+}
+.mac-ipc-bar-track {
+  height: 9px;
+  background: var(--color-surface-raised);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.mac-ipc-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  /* width y background inline (dinámicos) */
+}
+.mac-ipc-val {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-align: right;
+  /* color inline */
+}
+.mac-ipc-peso {
+  font-size: 10px;
+  color: var(--color-ink-5);
+  text-align: right;
+}
+.mac-ipc-footer-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 50px 30px;
+  gap: 10px;
+  align-items: center;
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px dashed var(--color-hairline);
+}
+.mac-ipc-footer-label {
+  font-size: 9.5px;
+  color: var(--color-ink-5);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mac-ipc-footer-peso {
+  font-size: 9px;
+  color: var(--color-ink-5);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Sectores PIB stack ────────────────────────────────── */
+.mac-sec-stack {
+  display: flex;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.mac-sec-stack-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 10.5px;
+  /* width y background inline (dinámicos por sector) */
+}
+.mac-sec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mac-sec-row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.mac-sec-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  /* background inline (color sector) */
+}
+.mac-sec-name {
+  font-size: 11.5px;
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.mac-sec-pct {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  /* color inline (sector) */
+}
+
+/* ─── Mercados ──────────────────────────────────────────── */
+.mac-mercados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.mac-mercado-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-xs);
+  /* borderLeft inline (color mercado) */
+}
+.mac-mercado-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.mac-mercado-label {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--color-ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mac-mercado-delta {
+  font-size: 10.5px;
+  font-weight: 700;
+  /* color inline */
+}
+.mac-mercado-value {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1;
+  margin-bottom: 6px;
+  /* color inline */
+}
+
+/* ─── Vivienda / Salarios grid ──────────────────────────── */
+.mac-v-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.mac-v-card {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.mac-v-label {
+  margin: 0 0 5px;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--color-ink-4);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.mac-v-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.mac-v-value {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  /* color inline */
+}
+.mac-v-sub {
+  margin: 5px 0 0;
+  font-size: 10.5px;
+  color: var(--color-ink-4);
+}
+
+/* ─── Calendario ────────────────────────────────────────── */
+.mac-cal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mac-cal-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px 120px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  /* borderLeft inline */
+}
+.mac-cal-fecha {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.mac-cal-publi {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.mac-cal-org {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-ink-2);
+}
+.mac-cal-impacto {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  text-align: center;
+  /* background/color/border inline (dinámicos) */
+}
+
+/* ─── Votantes ──────────────────────────────────────────── */
+.mac-vot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.mac-vot-card {
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  /* border y borderLeft inline (color perfil) */
+}
+.mac-vot-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  /* color inline */
+}
+.mac-vot-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+.mac-vot-key {
+  color: var(--color-ink-4);
+}
+.mac-vot-val {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-align: right;
+}
+.mac-vot-sens-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--color-ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.mac-vot-sens-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 18px;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 3px;
+  font-size: 10.5px;
+}
+.mac-vot-sens-key {
+  color: var(--color-ink-2);
+  text-transform: capitalize;
+}
+.mac-vot-sens-track {
+  height: 6px;
+  background: var(--color-surface);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--color-hairline);
+}
+.mac-vot-sens-fill {
+  height: 100%;
+  border-radius: 3px;
+  /* width y background inline */
+}
+.mac-vot-sens-val {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: right;
+  /* color inline */
+}
+
+/* ─── Ciclos históricos ─────────────────────────────────── */
+.mac-table-ciclo th {
+  padding: 10px 12px;
+}
+.mac-table-ciclo td {
+  padding: 9px 12px;
+}
+.mac-table-ciclo-anyo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--color-ink);
+}
+.mac-table-ciclo-gob {
+  color: var(--color-ink-2);
+}
+.mac-table-ciclo-gan {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.mac-table-ciclo-esc {
+  color: var(--color-ink-4);
+}
+.mac-table-ciclo-lec {
+  font-size: 11px;
+  color: var(--color-ink-2);
+}
+
+/* ─── Impacto político ──────────────────────────────────── */
+.mac-table-impacto th {
+  padding: 10px 12px;
+}
+.mac-table-impacto td {
+  padding: 10px 12px;
+}
+.mac-impacto-varcell {
+  font-weight: 700;
+  color: var(--color-ink);
+  text-align: left;
+}
+.mac-impacto-var-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.mac-impacto-vardot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* background inline (color variable) */
+}
+.mac-impacto-valencia-cell {
+  text-align: center;
+}
+.mac-impacto-valencia {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  /* background/color/border inline (favor/contra) */
+}
+
+/* ─── DeltaCell helper ──────────────────────────────────── */
+.mac-delta-cell {
+  text-align: center;
+  padding: 10px 12px;
+}
+.mac-delta-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.mac-delta-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+  /* background inline (color partido) */
+}
+.mac-delta-val {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  /* color inline (verde positivo / rojo negativo) */
+}
+
+/* ─── Termómetro ────────────────────────────────────────── */
+.mac-termo-wrap {
+  text-align: center;
+}
+.mac-termo-num {
+  margin-top: -10px;
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  line-height: 1;
+  /* color inline (depende del valor) */
+}
+.mac-termo-num-100 {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+}
+
+/* ─── Section Header helper ─────────────────────────────── */
+.mac-sectionheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.mac-sectionheader-h2 {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mac-sectionheader-bar {
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  display: inline-block;
+  /* background inline (accent) */
+}
+.mac-sectionheader-count {
+  font-size: 10.5px;
+  color: var(--color-ink-4);
+  font-weight: 600;
+}
+
+/* ─── Sparkline ─────────────────────────────────────────── */
+.mac-spark {
+  width: 100%;
+  display: block;
+}
+
+/* ─── Responsivo ────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .mac-hero { grid-template-columns: 1fr; }
+  .mac-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .mac-ipc-grid { grid-template-columns: 1fr; }
+  .mac-v-grid { grid-template-columns: 1fr 1fr; }
+}

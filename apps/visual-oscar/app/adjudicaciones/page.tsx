@@ -1,4 +1,5 @@
 'use client'
+import './adjudicaciones.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
@@ -40,7 +41,7 @@ const POR_PROC: { p: ProcedimientoAdj; n: number }[] = [
   { p:'Negociado',            n:10.8 },
   { p:'Diálogo competitivo',  n: 6.4 },
   { p:'Emergencia',           n: 4.8 },
-  { p:'Concursal',            n: 2.8 },
+  { p:'Concursal',           n: 2.8 },
 ]
 const POR_SECTOR: { s: SectorContratacion; n: number }[] = [
   { s:'Infraestructuras',    n:28.4 },
@@ -86,37 +87,33 @@ export default function AdjudicacionesPage() {
   }, [adjudicaciones, filterRiesgo, query])
 
   if (loading) return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div className="adj-root">
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px', textAlign:'center', paddingTop:80 }}>
-        <div style={{ fontSize:13, color:'#6e6e73' }}>Cargando adjudicaciones…</div>
+      <main className="adj-main adj-main--loading">
+        <div className="adj-loading-text">Cargando adjudicaciones…</div>
       </main>
     </div>
   )
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div className="adj-root">
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+      <main className="adj-main">
 
         {/* ───── Hero ───── */}
-        <section style={{
-          background:'linear-gradient(135deg,#0F766E 0%,#042F2E 100%)',
-          borderRadius:18, padding:'24px 32px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
-        }}>
+        <section className="adj-hero">
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
+            <p className="adj-hero-eyebrow">
               LICITACIONES Y CONTRATACIÓN PÚBLICA · INTELIGENCIA DE ADJUDICACIONES
             </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {totals.totalImporte.toFixed(0)} M€ adjudicados <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>en últimas 6 semanas</em>
+            <h1 className="adj-hero-title">
+              {totals.totalImporte.toFixed(0)} M€ adjudicados <em>en últimas 6 semanas</em>
             </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
+            <p className="adj-hero-subtitle">
               {totals.total} expedientes monitorizados · {totals.criticos} con riesgo alto o crítico · {totals.numEmergencia} por emergencia · {totals.conAlertas} con alertas activas. Cruce con BOE, PLACSP, FNMT y datos abiertos del Tribunal de Cuentas.
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
+          <div className="adj-hero-kpis">
             <HeroKPI label="Expedientes" value={String(totals.total)}                 accent="#86EFAC"/>
             <HeroKPI label="∑ Importe"   value={`${totals.totalImporte.toFixed(0)}M€`} accent="#7DD3FC"/>
             <HeroKPI label="Baja media"   value={`${totals.bajaMedia.toFixed(1)}%`}    accent="#FCD34D"/>
@@ -133,9 +130,9 @@ export default function AdjudicacionesPage() {
         />
 
         {/* ───── Snapshot · 8 KPIs detallados ───── */}
-        <section style={{ marginBottom:18 }}>
+        <section className="adj-snapshot">
           <SectionHeader label="Snapshot del mercado" count="2026 · ene-may" accent="#0F766E"/>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+          <div className="adj-snapshot-grid">
             <SKpi label="Total adjudicado 2026"     value="68.4"    sub="mil M€"   delta="+12.4%"  pos color="#0F766E"/>
             <SKpi label="Nº de expedientes"          value="9.842"   sub="acum."    delta="+8.5%"  pos color="#5B21B6"/>
             <SKpi label="Importe medio"              value="6.95"    sub="M€/exp"   delta="+3.2%"  pos color="#1F4E8C"/>
@@ -148,7 +145,7 @@ export default function AdjudicacionesPage() {
         </section>
 
         {/* ───── Tabs ───── */}
-        <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
+        <div className="adj-tabs">
           {([
             { k:'recientes',     label:'Adjudicaciones recientes', count: adjudicaciones.length },
             { k:'organismos',    label:'Organismos contratantes',  count: organismos.length },
@@ -159,14 +156,12 @@ export default function AdjudicacionesPage() {
           ] as const).map(t => {
             const active = tab === t.k
             return (
-              <button key={t.k} onClick={() => setTab(t.k)} style={{
-                background: active ? '#fff' : 'transparent',
-                color: active ? '#1d1d1f' : '#6e6e73',
-                border:'none', borderRadius:999, padding:'7px 14px',
-                fontSize:12, fontWeight: active ? 700 : 500, cursor:'pointer',
-                fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              }}>
-                {t.label} <span style={{ marginLeft:5, color: active ? '#0F766E' : '#6e6e73', fontWeight:700, fontSize:10.5 }}>{t.count}</span>
+              <button
+                key={t.k}
+                onClick={() => setTab(t.k)}
+                className={`adj-tab-btn${active ? ' adj-tab-btn--active' : ''}`}
+              >
+                {t.label} <span className="adj-tab-count">{t.count}</span>
               </button>
             )
           })}
@@ -175,81 +170,86 @@ export default function AdjudicacionesPage() {
         {/* ───── TAB · Recientes ───── */}
         {tab === 'recientes' && (
           <>
-            <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', marginBottom:12 }}>
-              <input type="text" value={query} onChange={e => setQuery(e.target.value)}
+            <div className="adj-filters">
+              <input
+                type="text"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
                 placeholder="Buscar por título, organismo, empresa o expediente…"
-                style={{ flex:'1 1 280px', maxWidth:380, padding:'9px 14px', borderRadius:10, border:'1px solid #ECECEF', background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f' }}/>
-              <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Riesgo:</span>
-              <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
+                className="adj-search-input"
+              />
+              <span className="adj-filter-label">Riesgo:</span>
+              <div className="adj-filter-pills">
                 {(['Todos','CRÍTICO','ALTO','MEDIO','BAJO'] as const).map(r => {
                   const active = filterRiesgo === r
                   const col = r === 'Todos' ? '#1d1d1f' : RIESGO_C[r as RiesgoContrato]
                   return (
-                    <button key={r} onClick={() => setFilterRiesgo(r)} style={{
-                      background: active ? '#fff' : 'transparent',
-                      color: active ? col : '#6e6e73',
-                      border:'none', borderRadius:999, padding:'4px 12px',
-                      fontSize:11, fontWeight: active ? 700 : 500, cursor:'pointer',
-                      fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                    }}>{r}</button>
+                    <button
+                      key={r}
+                      onClick={() => setFilterRiesgo(r)}
+                      className={`adj-filter-pill${active ? ' adj-filter-pill--active' : ''}`}
+                      style={{ color: active ? col : undefined }}  // dynamic riesgo color
+                    >{r}</button>
                   )
                 })}
               </div>
-              <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} expedientes visibles</span>
+              <span className="adj-filter-count">{filtered.length} expedientes visibles</span>
             </div>
-            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+            <div className="adj-list">
               {filtered.map(a => (
-                <article key={a.id} style={{
-                  background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-                  boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden',
-                  borderLeft:`4px solid ${RIESGO_C[a.riesgo]}`,
-                }}>
-                  <header style={{ padding:'12px 16px', display:'grid', gridTemplateColumns:'1fr auto', gap:10, borderBottom:'1px solid #F5F5F7' }}>
-                    <div style={{ minWidth:0 }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
-                        <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:RIESGO_C[a.riesgo], color:'#fff' }}>RIESGO {a.riesgo}</span>
-                        <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:`${SECTOR_COLOR[a.sector]}15`, color:SECTOR_COLOR[a.sector], border:`1px solid ${SECTOR_COLOR[a.sector]}40` }}>{a.sector.toUpperCase()}</span>
-                        <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:`${PROC_COLOR[a.procedimiento]}15`, color:PROC_COLOR[a.procedimiento], border:`1px solid ${PROC_COLOR[a.procedimiento]}40` }}>{a.procedimiento.toUpperCase()}</span>
-                        <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${EST_C[a.estado]}15`, color:EST_C[a.estado], border:`1px solid ${EST_C[a.estado]}40` }}>{a.estado.toUpperCase()}</span>
-                        <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:600 }}>· EXP. {a.exp}</span>
+                <article key={a.id} className="adj-card" style={{ borderLeft:`4px solid ${RIESGO_C[a.riesgo]}` }}>
+                  <header className="adj-card-header">
+                    <div className="adj-card-headline">
+                      <div className="adj-card-badges">
+                        <span className="adj-badge-riesgo" style={{ background:RIESGO_C[a.riesgo] }}>RIESGO {a.riesgo}</span>
+                        <span className="adj-badge-tag" style={{ background:`${SECTOR_COLOR[a.sector]}15`, color:SECTOR_COLOR[a.sector], border:`1px solid ${SECTOR_COLOR[a.sector]}40` }}>{a.sector.toUpperCase()}</span>
+                        <span className="adj-badge-tag" style={{ background:`${PROC_COLOR[a.procedimiento]}15`, color:PROC_COLOR[a.procedimiento], border:`1px solid ${PROC_COLOR[a.procedimiento]}40` }}>{a.procedimiento.toUpperCase()}</span>
+                        <span className="adj-badge-estado" style={{ background:`${EST_C[a.estado]}15`, color:EST_C[a.estado], border:`1px solid ${EST_C[a.estado]}40` }}>{a.estado.toUpperCase()}</span>
+                        <span className="adj-badge-exp">· EXP. {a.exp}</span>
                       </div>
-                      <h3 style={{ margin:'0 0 3px', fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, letterSpacing:'-0.012em', color:'#1d1d1f', lineHeight:1.3 }}>{a.titulo}</h3>
-                      <div style={{ fontSize:11.5, color:'#3a3a3d' }}>{a.organismo} · <span style={{ color:'#6e6e73' }}>{a.ccaa}</span></div>
+                      <h3 className="adj-card-title">{a.titulo}</h3>
+                      <div className="adj-card-subtitle">{a.organismo} · <span className="adj-card-subtitle-soft">{a.ccaa}</span></div>
                     </div>
-                    <div style={{ textAlign:'right', flexShrink:0, minWidth:140 }}>
-                      <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'#0F766E', letterSpacing:'-0.018em', lineHeight:1 }}>
-                        {(a.importeAdj / 1_000_000).toFixed(1)}<span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>M€</span>
+                    <div className="adj-card-money">
+                      <div className="adj-card-money-value">
+                        {(a.importeAdj / 1_000_000).toFixed(1)}<span className="adj-card-money-unit">M€</span>
                       </div>
-                      <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>vs base {(a.importeBase / 1_000_000).toFixed(1)}M€</div>
-                      <div style={{ fontSize:10.5, fontWeight:700, color: a.baja >= 5 ? '#16A34A' : a.baja > 0 ? '#F97316' : '#DC2626', marginTop:3 }}>
+                      <div className="adj-card-money-base">vs base {(a.importeBase / 1_000_000).toFixed(1)}M€</div>
+                      <div
+                        className="adj-card-money-baja"
+                        style={{ color: a.baja >= 5 ? '#16A34A' : a.baja > 0 ? '#F97316' : '#DC2626' }}
+                      >
                         {a.baja > 0 ? '▼' : '→'} baja {a.baja.toFixed(1)}%
                       </div>
                     </div>
                   </header>
-                  <div style={{ padding:'12px 16px', display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', gap:14, alignItems:'center' }}>
+                  <div className="adj-card-meta">
                     <div>
-                      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:2 }}>Adjudicatario</div>
-                      <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f' }}>{a.adjudicatario}</div>
+                      <div className="adj-meta-label">Adjudicatario</div>
+                      <div className="adj-meta-value">{a.adjudicatario}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:2 }}>Licitadores</div>
-                      <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color: a.numLicit >= 5 ? '#16A34A' : a.numLicit >= 3 ? '#F97316' : '#DC2626' }}>{a.numLicit > 0 ? a.numLicit : '—'}</div>
+                      <div className="adj-meta-label">Licitadores</div>
+                      <div
+                        className="adj-meta-licit"
+                        style={{ color: a.numLicit >= 5 ? '#16A34A' : a.numLicit >= 3 ? '#F97316' : '#DC2626' }}
+                      >{a.numLicit > 0 ? a.numLicit : '—'}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:2 }}>Duración</div>
-                      <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f' }}>{a.duracion}</div>
+                      <div className="adj-meta-label">Duración</div>
+                      <div className="adj-meta-value">{a.duracion}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:2 }}>Adjudicación</div>
-                      <div style={{ fontFamily:'var(--font-display)', fontSize:12.5, fontWeight:700, color:'#1d1d1f' }}>{a.fechaAdj}</div>
+                      <div className="adj-meta-label">Adjudicación</div>
+                      <div className="adj-meta-fecha">{a.fechaAdj}</div>
                     </div>
                   </div>
                   {a.alertas.length > 0 && (
-                    <div style={{ background:'#FEF2F2', borderTop:'1px solid #FECACA', padding:'8px 16px' }}>
-                      <div style={{ fontSize:9, fontWeight:800, color:'#DC2626', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:3 }}>Alertas</div>
+                    <div className="adj-card-alerts">
+                      <div className="adj-alerts-label">Alertas</div>
                       {a.alertas.map((al, i) => (
-                        <div key={i} style={{ fontSize:11, color:'#7F1D1D', display:'flex', gap:6, lineHeight:1.4, marginBottom:2 }}>
-                          <span style={{ color:'#DC2626', fontWeight:800, flexShrink:0 }}>!</span>{al}
+                        <div key={i} className="adj-alert-row">
+                          <span className="adj-alert-bang">!</span>{al}
                         </div>
                       ))}
                     </div>
@@ -262,13 +262,13 @@ export default function AdjudicacionesPage() {
 
         {/* ───── TAB · Organismos ───── */}
         {tab === 'organismos' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-            <div style={{ overflowX:'auto' }}>
-              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:980 }}>
+          <section className="adj-table-card">
+            <div className="adj-table-scroll">
+              <table className="adj-table">
                 <thead>
-                  <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+                  <tr>
                     {['#','Organismo','Tipo','∑ Adjudicado','Nº exp.','Baja media','Conc. top-1','% modific.','Salud licitadora'].map(h => (
-                      <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                      <th key={h}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -277,35 +277,41 @@ export default function AdjudicacionesPage() {
                     const salud = Math.round((o.bajaMedia * 6) + (100 - o.concentracion) * 0.4 + (100 - o.modificacionesPct * 2) * 0.3)
                     const sCol = salud >= 70 ? '#16A34A' : salud >= 50 ? '#F97316' : '#DC2626'
                     return (
-                      <tr key={o.nombre} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:800, color:'#1d1d1f' }}>{i+1}</td>
-                        <td style={{ padding:'10px 12px', fontWeight:600, color:'#1d1d1f' }}>{o.nombre}</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <span style={{
-                            fontSize:9, fontWeight:800, letterSpacing:'0.06em',
-                            padding:'2px 7px', borderRadius:4,
-                            background: o.tipo === 'AGE' ? '#1F4E8C' : o.tipo === 'CCAA' ? '#5B21B6' : o.tipo === 'Local' ? '#16A34A' : '#525258',
-                            color:'#fff',
-                          }}>{o.tipo.toUpperCase()}</span>
+                      <tr key={o.nombre} className={i%2 ? 'adj-table-row--alt' : ''}>
+                        <td className="adj-table-num">{i+1}</td>
+                        <td className="adj-table-name">{o.nombre}</td>
+                        <td>
+                          <span
+                            className="adj-tipo-badge"
+                            style={{ background: o.tipo === 'AGE' ? '#1F4E8C' : o.tipo === 'CCAA' ? '#5B21B6' : o.tipo === 'Local' ? '#16A34A' : '#525258' }}
+                          >{o.tipo.toUpperCase()}</span>
                         </td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:'#0F766E' }}>{o.totalAdj.toLocaleString('es-ES')}M€</td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>{o.numAdj}</td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color: o.bajaMedia >= 6 ? '#16A34A' : o.bajaMedia >= 3 ? '#F97316' : '#DC2626' }}>{o.bajaMedia.toFixed(1)}%</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                            <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:60 }}>
-                              <div style={{ width:`${o.concentracion}%`, height:'100%', background: o.concentracion >= 40 ? '#DC2626' : o.concentracion >= 25 ? '#F97316' : '#16A34A' }}/>
+                        <td className="adj-table-money">{o.totalAdj.toLocaleString('es-ES')}M€</td>
+                        <td className="adj-table-mono--bold">{o.numAdj}</td>
+                        <td
+                          className="adj-table-mono--bold"
+                          style={{ color: o.bajaMedia >= 6 ? '#16A34A' : o.bajaMedia >= 3 ? '#F97316' : '#DC2626' }}
+                        >{o.bajaMedia.toFixed(1)}%</td>
+                        <td>
+                          <div className="adj-conc-cell">
+                            <div className="adj-conc-bar">
+                              <div
+                                className="adj-conc-fill"
+                                style={{ width:`${o.concentracion}%`, background: o.concentracion >= 40 ? '#DC2626' : o.concentracion >= 25 ? '#F97316' : '#16A34A' }}
+                              />
                             </div>
-                            <span style={{ fontFamily:'var(--font-display)', fontSize:11, fontWeight:700, color:'#1d1d1f', minWidth:28, textAlign:'right' }}>{o.concentracion}%</span>
+                            <span className="adj-conc-pct">{o.concentracion}%</span>
                           </div>
                         </td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color: o.modificacionesPct >= 15 ? '#DC2626' : o.modificacionesPct >= 10 ? '#F97316' : '#16A34A' }}>{o.modificacionesPct}%</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <span style={{
-                            fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                            padding:'3px 8px', borderRadius:999,
-                            background:`${sCol}15`, color:sCol, border:`1px solid ${sCol}40`,
-                          }}>{salud}/100</span>
+                        <td
+                          className="adj-table-mono--bold"
+                          style={{ color: o.modificacionesPct >= 15 ? '#DC2626' : o.modificacionesPct >= 10 ? '#F97316' : '#16A34A' }}
+                        >{o.modificacionesPct}%</td>
+                        <td>
+                          <span
+                            className="adj-salud-pill"
+                            style={{ background:`${sCol}15`, color:sCol, border:`1px solid ${sCol}40` }}
+                          >{salud}/100</span>
                         </td>
                       </tr>
                     )
@@ -318,13 +324,13 @@ export default function AdjudicacionesPage() {
 
         {/* ───── TAB · Empresas ───── */}
         {tab === 'empresas' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-            <div style={{ overflowX:'auto' }}>
-              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:980 }}>
+          <section className="adj-table-card">
+            <div className="adj-table-scroll">
+              <table className="adj-table">
                 <thead>
-                  <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+                  <tr>
                     {['#','Empresa','CIF','Sectores','∑ Adjudicado','Nº exp.','Empleados','Vinculación','País matriz'].map(h => (
-                      <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                      <th key={h}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -332,32 +338,31 @@ export default function AdjudicacionesPage() {
                   {[...empresas].sort((a,b) => b.totalAdj - a.totalAdj).map((e, i) => {
                     const vincCol = e.vinculacion === 'Investigada' ? '#DC2626' : e.vinculacion === 'Política' ? '#F97316' : e.vinculacion === 'Mediática' ? '#EAB308' : '#16A34A'
                     return (
-                      <tr key={e.cif} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:800, color:'#1d1d1f' }}>{i+1}</td>
-                        <td style={{ padding:'10px 12px', fontWeight:600, color:'#1d1d1f' }}>{e.nombre}</td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', color:'#6e6e73', fontSize:11 }}>{e.cif}</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
+                      <tr key={e.cif} className={i%2 ? 'adj-table-row--alt' : ''}>
+                        <td className="adj-table-num">{i+1}</td>
+                        <td className="adj-table-name">{e.nombre}</td>
+                        <td className="adj-table-mono">{e.cif}</td>
+                        <td>
+                          <div className="adj-sector-tags">
                             {e.sectores.map(s => (
-                              <span key={s} style={{
-                                fontSize:8.5, fontWeight:800, letterSpacing:'0.06em',
-                                padding:'1px 6px', borderRadius:4,
-                                background:`${SECTOR_COLOR[s]}15`, color:SECTOR_COLOR[s], border:`1px solid ${SECTOR_COLOR[s]}40`,
-                              }}>{s.toUpperCase()}</span>
+                              <span
+                                key={s}
+                                className="adj-sector-tag"
+                                style={{ background:`${SECTOR_COLOR[s]}15`, color:SECTOR_COLOR[s], border:`1px solid ${SECTOR_COLOR[s]}40` }}
+                              >{s.toUpperCase()}</span>
                             ))}
                           </div>
                         </td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:'#0F766E' }}>{e.totalAdj.toLocaleString('es-ES')}M€</td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:600, color:'#1d1d1f' }}>{e.numAdj}</td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', color:'#3a3a3d' }}>{e.empleados}</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <span style={{
-                            fontSize:9, fontWeight:800, letterSpacing:'0.06em',
-                            padding:'2px 7px', borderRadius:999,
-                            background:`${vincCol}15`, color:vincCol, border:`1px solid ${vincCol}40`,
-                          }}>{e.vinculacion.toUpperCase()}</span>
+                        <td className="adj-table-money">{e.totalAdj.toLocaleString('es-ES')}M€</td>
+                        <td className="adj-table-mono--bold">{e.numAdj}</td>
+                        <td className="adj-table-mono--bold">{e.empleados}</td>
+                        <td>
+                          <span
+                            className="adj-vinc-pill"
+                            style={{ background:`${vincCol}15`, color:vincCol, border:`1px solid ${vincCol}40` }}
+                          >{e.vinculacion.toUpperCase()}</span>
                         </td>
-                        <td style={{ padding:'10px 12px', color:'#3a3a3d', fontSize:11 }}>{e.paisMatriz}</td>
+                        <td className="adj-table-mono">{e.paisMatriz}</td>
                       </tr>
                     )
                   })}
@@ -369,26 +374,22 @@ export default function AdjudicacionesPage() {
 
         {/* ───── TAB · Casos ───── */}
         {tab === 'casos' && (
-          <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:10 }}>
+          <section className="adj-casos-grid">
             {[...casosMediaticos].sort((a,b) => {
               const order = { 'CRÍTICO':0, 'ALTO':1, 'MEDIO':2, 'BAJO':3 } as Record<RiesgoContrato, number>
               return order[a.severidad] - order[b.severidad]
             }).map((c, i) => {
               const estCol = c.estado === 'Sumario abierto' ? '#DC2626' : c.estado === 'En instrucción' ? '#F97316' : c.estado === 'Sentencia' ? '#5B21B6' : '#525258'
               return (
-                <article key={i} style={{
-                  background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-                  padding:'14px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-                  borderLeft:`3px solid ${RIESGO_C[c.severidad]}`,
-                }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:6, flexWrap:'wrap' }}>
-                    <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:RIESGO_C[c.severidad], color:'#fff' }}>{c.severidad}</span>
-                    <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${estCol}15`, color:estCol, border:`1px solid ${estCol}40` }}>{c.estado.toUpperCase()}</span>
-                    <span style={{ marginLeft:'auto', fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:'#0F766E' }}>{c.importe.toFixed(1)}M€</span>
+                <article key={i} className="adj-caso-card" style={{ borderLeft:`3px solid ${RIESGO_C[c.severidad]}` }}>
+                  <div className="adj-caso-head">
+                    <span className="adj-caso-severidad" style={{ background:RIESGO_C[c.severidad] }}>{c.severidad}</span>
+                    <span className="adj-caso-estado" style={{ background:`${estCol}15`, color:estCol, border:`1px solid ${estCol}40` }}>{c.estado.toUpperCase()}</span>
+                    <span className="adj-caso-importe">{c.importe.toFixed(1)}M€</span>
                   </div>
-                  <h4 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, color:'#1d1d1f', letterSpacing:'-0.012em' }}>{c.caso}</h4>
-                  <div style={{ fontSize:10.5, color:'#6e6e73', marginBottom:8 }}>{c.protag}</div>
-                  <p style={{ margin:0, fontSize:11.5, color:'#3a3a3d', lineHeight:1.45 }}>{c.detalle}</p>
+                  <h4 className="adj-caso-title">{c.caso}</h4>
+                  <div className="adj-caso-protag">{c.protag}</div>
+                  <p className="adj-caso-detalle">{c.detalle}</p>
                 </article>
               )
             })}
@@ -397,11 +398,11 @@ export default function AdjudicacionesPage() {
 
         {/* ───── TAB · Series ───── */}
         {tab === 'series' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'22px 28px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-            <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Evolución mensual de las adjudicaciones · 11 meses</h3>
-            <p style={{ margin:'0 0 18px', fontSize:11.5, color:'#6e6e73' }}>Volumen total y número de expedientes · 2025 · primera mitad de 2026</p>
+          <section className="adj-series-card">
+            <h3 className="adj-series-title">Evolución mensual de las adjudicaciones · 11 meses</h3>
+            <p className="adj-series-subtitle">Volumen total y número de expedientes · 2025 · primera mitad de 2026</p>
             <BigSeries meses={SERIE_MENSUAL.meses} importe={SERIE_MENSUAL.importe} numero={SERIE_MENSUAL.numero}/>
-            <div style={{ marginTop:18, display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:14 }}>
+            <div className="adj-series-minis">
               <Mini label="Mejor mes (importe)" value="10.4 mil M€" sub="abril 2026" color="#0F766E"/>
               <Mini label="Mejor mes (volumen)" value="468"          sub="abril 2026"   color="#5B21B6"/>
               <Mini label="Crecimiento YoY"     value="+18.4%"       sub="vs mismo periodo 2025" color="#16A34A"/>
@@ -411,60 +412,64 @@ export default function AdjudicacionesPage() {
 
         {/* ───── TAB · Distribución ───── */}
         {tab === 'distribucion' && (
-          <section style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+          <section className="adj-distrib-grid">
             {/* Por sector */}
-            <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'20px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Por sector · % del importe total</h3>
-              <p style={{ margin:'0 0 16px', fontSize:11.5, color:'#6e6e73' }}>Reparto sectorial de los 68.4 mil M€ adjudicados</p>
-              <div style={{ display:'flex', height:34, borderRadius:8, overflow:'hidden', marginBottom:14 }}>
+            <div className="adj-distrib-card">
+              <h3 className="adj-distrib-h3">Por sector · % del importe total</h3>
+              <p className="adj-distrib-sub">Reparto sectorial de los 68.4 mil M€ adjudicados</p>
+              <div className="adj-stack-bar">
                 {POR_SECTOR.map(s => (
-                  <div key={s.s} title={`${s.s}: ${s.n}%`} style={{
-                    width:`${s.n}%`, background:SECTOR_COLOR[s.s],
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    color:'#fff', fontFamily:'var(--font-display)', fontWeight:700, fontSize:10,
-                  }}>{s.n >= 8 ? `${s.n}%` : ''}</div>
+                  <div
+                    key={s.s}
+                    title={`${s.s}: ${s.n}%`}
+                    className="adj-stack-segment"
+                    style={{ width:`${s.n}%`, background:SECTOR_COLOR[s.s] }}
+                  >{s.n >= 8 ? `${s.n}%` : ''}</div>
                 ))}
               </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+              <div className="adj-legend">
                 {POR_SECTOR.map(s => (
-                  <div key={s.s} style={{ display:'grid', gridTemplateColumns:'12px 1fr auto', gap:8, alignItems:'center' }}>
-                    <span style={{ width:10, height:10, borderRadius:2, background:SECTOR_COLOR[s.s], display:'inline-block' }}/>
-                    <span style={{ fontSize:11.5, color:'#1d1d1f', fontWeight:600 }}>{s.s}</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:SECTOR_COLOR[s.s] }}>{s.n}%</span>
+                  <div key={s.s} className="adj-legend-row">
+                    <span className="adj-legend-dot" style={{ background:SECTOR_COLOR[s.s] }}/>
+                    <span className="adj-legend-name">{s.s}</span>
+                    <span className="adj-legend-pct" style={{ color:SECTOR_COLOR[s.s] }}>{s.n}%</span>
                   </div>
                 ))}
               </div>
             </div>
             {/* Por procedimiento */}
-            <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'20px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Por procedimiento · % del nº de expedientes</h3>
-              <p style={{ margin:'0 0 16px', fontSize:11.5, color:'#6e6e73' }}>Tipos de procedimiento usados · vigilar emergencia y negociado</p>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+            <div className="adj-distrib-card">
+              <h3 className="adj-distrib-h3">Por procedimiento · % del nº de expedientes</h3>
+              <p className="adj-distrib-sub">Tipos de procedimiento usados · vigilar emergencia y negociado</p>
+              <div className="adj-proc-list">
                 {POR_PROC.map(p => (
                   <div key={p.p}>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3 }}>
-                      <span style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:11.5, fontWeight:600, color:'#1d1d1f' }}>
-                        <span style={{ width:9, height:9, borderRadius:2, background:PROC_COLOR[p.p], display:'inline-block' }}/>
+                    <div className="adj-proc-row-header">
+                      <span className="adj-proc-row-name">
+                        <span className="adj-proc-dot" style={{ background:PROC_COLOR[p.p] }}/>
                         {p.p}
                       </span>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:12.5, fontWeight:700, color:PROC_COLOR[p.p] }}>{p.n}%</span>
+                      <span className="adj-proc-pct" style={{ color:PROC_COLOR[p.p] }}>{p.n}%</span>
                     </div>
-                    <div style={{ height:7, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                      <div style={{ width:`${(p.n / 50) * 100}%`, height:'100%', background:PROC_COLOR[p.p], borderRadius:3 }}/>
+                    <div className="adj-proc-bar">
+                      <div
+                        className="adj-proc-fill"
+                        style={{ width:`${(p.n / 50) * 100}%`, background:PROC_COLOR[p.p] }}
+                      />
                     </div>
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop:14, padding:'10px 12px', background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:8 }}>
-                <div style={{ fontSize:9, fontWeight:800, color:'#DC2626', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:3 }}>Bandera roja</div>
-                <p style={{ margin:0, fontSize:11.5, color:'#7F1D1D', lineHeight:1.4 }}>El 4.8% del importe va por <strong>emergencia</strong> sin licitación pública (DANA). Aumentó +1.2 pp vs 2025 · vigilar concentración de adjudicatarios y modificados.</p>
+              <div className="adj-redflag">
+                <div className="adj-redflag-label">Bandera roja</div>
+                <p className="adj-redflag-p">El 4.8% del importe va por <strong>emergencia</strong> sin licitación pública (DANA). Aumentó +1.2 pp vs 2025 · vigilar concentración de adjudicatarios y modificados.</p>
               </div>
             </div>
           </section>
         )}
 
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+      <footer className="adj-footer">
         Inteligencia de Adjudicaciones · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
@@ -476,35 +481,35 @@ export default function AdjudicacionesPage() {
 // ─────────────────────────────────────────────────────────────────────────
 function HeroKPI({ label, value, accent }: { label:string, value:string, accent:string }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:`1px solid ${accent}55` }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
-      <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.75, marginTop:4, color:accent }}>{label}</div>
+    <div className="adj-hero-kpi" style={{ border:`1px solid ${accent}55` }}>
+      <div className="adj-hero-kpi-value">{value}</div>
+      <div className="adj-hero-kpi-label" style={{ color:accent }}>{label}</div>
     </div>
   )
 }
 
 function SectionHeader({ label, count, accent }: { label: string, count: string, accent: string }) {
   return (
-    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-      <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#3a3a3d', display:'flex', alignItems:'center', gap:8 }}>
-        <span style={{ width:3, height:14, borderRadius:2, background:accent, display:'inline-block' }}/>
+    <div className="adj-section-header">
+      <h2 className="adj-section-h2">
+        <span className="adj-section-h2-bar" style={{ background:accent }}/>
         {label}
       </h2>
-      <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600 }}>{count}</span>
+      <span className="adj-section-h2-count">{count}</span>
     </div>
   )
 }
 
 function SKpi({ label, value, sub, delta, pos, color }: { label:string, value:string, sub?:string, delta?:string, pos?:boolean, color:string }) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:12, padding:'14px 16px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}</div>
-      <div style={{ display:'flex', alignItems:'baseline', gap:5, marginTop:4 }}>
-        <span style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color, letterSpacing:'-0.022em', lineHeight:1 }}>{value}</span>
-        {sub && <span style={{ fontSize:10, color:'#86868b', fontWeight:600 }}>{sub}</span>}
+    <div className="adj-skpi">
+      <div className="adj-skpi-label">{label}</div>
+      <div className="adj-skpi-value-row">
+        <span className="adj-skpi-value" style={{ color }}>{value}</span>
+        {sub && <span className="adj-skpi-sub">{sub}</span>}
       </div>
       {delta && (
-        <div style={{ fontSize:10, fontWeight:700, color: pos ? '#16A34A' : '#DC2626', marginTop:5 }}>
+        <div className={`adj-skpi-delta${pos ? ' adj-skpi-delta--pos' : ' adj-skpi-delta--neg'}`}>
           {pos ? '▲' : '▼'} {delta}
         </div>
       )}
@@ -514,10 +519,10 @@ function SKpi({ label, value, sub, delta, pos, color }: { label:string, value:st
 
 function Mini({ label, value, sub, color }: { label:string, value:string, sub:string, color:string }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 12px', textAlign:'center' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color, lineHeight:1 }}>{value}</div>
-      <div style={{ fontSize:9.5, color:'#86868b', fontWeight:600, marginTop:3 }}>{sub}</div>
-      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase', marginTop:5 }}>{label}</div>
+    <div className="adj-mini">
+      <div className="adj-mini-value" style={{ color }}>{value}</div>
+      <div className="adj-mini-sub">{sub}</div>
+      <div className="adj-mini-label">{label}</div>
     </div>
   )
 }
@@ -532,7 +537,7 @@ function BigSeries({ meses, importe, numero }: { meses: string[], importe: numbe
   const lineImp = ysImp.map((y, i) => `${i === 0 ? 'M' : 'L'} ${xs[i]} ${y}`).join(' ')
   const areaImp = `M ${xs[0]} ${h - padB} L ${xs[0]} ${ysImp[0]} ` + ysImp.map((y, i) => `L ${xs[i]} ${y}`).join(' ') + ` L ${xs[xs.length-1]} ${h - padB} Z`
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width:'100%', height:h, display:'block' }} preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${w} ${h}`} className="adj-series-svg" style={{ height:h }} preserveAspectRatio="none">
       <defs>
         <linearGradient id="g-adj" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#0F766E" stopOpacity="0.32"/>

@@ -81,23 +81,31 @@ Inline está justificado **solo** cuando el valor depende de runtime:
 
 ## Estado actual de la migración
 
-| Archivo | Inline antes | Inline después | Reducción | Estado |
-|---------|-------------:|---------------:|-----------|--------|
-| `app/operaciones/page.tsx` | 50 | ~3 | -94% | ✅ Migrado |
-| `app/competidores/page.tsx` | 304 | 126 | -58% | ✅ Migrado |
-| `app/war-room/page.tsx` | 235 | 33 | -86% | ✅ Migrado |
-| `app/geopolitica/page.tsx` | 223 | 57 | -74% | ✅ Migrado |
-| `app/config-cliente/page.tsx` | 188 | 10 | -95% | ✅ Migrado |
-| `app/instituciones/page.tsx` | 243 | 49 | -80% | ✅ Migrado |
+| # | Archivo | Inline antes | Inline después | Reducción | Estado |
+|---|---------|-------------:|---------------:|-----------|--------|
+| 1 | `app/operaciones/page.tsx` | 50 | ~3 | -94% | ✅ Migrado |
+| 2 | `app/competidores/page.tsx` | 304 | 126 | -58% | ✅ Migrado |
+| 3 | `app/war-room/page.tsx` | 235 | 33 | -86% | ✅ Migrado |
+| 4 | `app/geopolitica/page.tsx` | 223 | 57 | -74% | ✅ Migrado |
+| 5 | `app/config-cliente/page.tsx` | 188 | 10 | -95% | ✅ Migrado |
+| 6 | `app/instituciones/page.tsx` | 243 | 49 | -80% | ✅ Migrado |
+| 7 | `app/mapa-actores/page.tsx` | 175 | 30 | -83% | ✅ Migrado (R2) |
+| 8 | `app/macro/page.tsx` | 164 | 41 | -75% | ✅ Migrado (R2) |
+| 9 | `app/partidos/page.tsx` | 153 | 25 | -84% | ✅ Migrado (R2) |
+| 10 | `app/adjudicaciones/page.tsx` | 147 | 30 | -80% | ✅ Migrado (R2) |
+| 11 | `app/dashboard/page.tsx` | 145 | 38 | -74% | ✅ Migrado (R2) |
+| 12 | `app/contratos-vigentes/page.tsx` | 144 | 22 | -85% | ✅ Migrado (R2) |
 
-**Total Pilar 4 (6 archivos top):** 1 243 inline → 278 (-78%). Los 278
+**Total Pilar 4 (12 archivos top):** 2 171 inline → 464 (-79%). Los 464
 restantes son todos legítimamente dinámicos: colores por rol/estado/
-severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`), width
-porcentajes de progreso (`flex: r.pct`), conic-gradient angles,
-animaciones condicionales por flags de runtime.
+severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`, `RIESGO_C`,
+`SECTOR_COLOR`, party-color, sem-color), width porcentajes de progreso
+(`flex: r.pct`, `width: ${%}`), conic-gradient angles, sparkline strokes
+condicionales, animaciones por flags de runtime.
 
-**CSS tokenizado generado:** 6 archivos `<route>.css` con ~820 clases
-prefijadas (`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`, `.inst-`).
+**CSS tokenizado generado:** 12 archivos `<route>.css` con ~1 460 clases
+prefijadas (`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`, `.inst-`,
+`.ma-`, `.mac-`, `.pt-`, `.adj-`, `.dash-`, `.cv-`).
 
 **Restantes en el repo:** ~7 500 inline styles repartidos por páginas menos
 visitadas. Migración progresiva al tocar cada archivo por feature work.

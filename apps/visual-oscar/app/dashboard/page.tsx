@@ -10,6 +10,7 @@ import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import type { DashboardHome } from '../api/dashboard/home/route'
+import './dashboard.css'
 
 // ── Trends types ─────────────────────────────────────────────────────────────
 
@@ -165,10 +166,10 @@ export default function DashboardPage() {
   const isReady = !!data && Array.isArray(data.parties) && data.parties.length > 0
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
+    <div className="dash-root">
       <AppHeader/>
 
-      <main style={{ maxWidth: 1440, margin: '0 auto', padding: '24px 28px 60px' }}>
+      <main className="dash-main">
 
         {/* Morning briefing */}
         <BrainBriefing/>
@@ -180,20 +181,15 @@ export default function DashboardPage() {
              [ Macro strip (4 cols con sparklines) ]
              [ Alertas críticas (chips inline) ]
         */}
-        <section style={{
-          background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)',
-          borderRadius: 16, padding: '20px 22px', marginTop: 18, marginBottom: 18,
-          border: '1px solid #ECECEF',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-        }}>
+        <section className="dash-panel">
           {/* Section header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="dash-panel-head">
+            <div className="dash-panel-head-left">
+              <h2 className="dash-panel-title">
                 <LiveDot color={source === 'backend' ? '#10b981' : '#f59e0b'} />
                 Panel ejecutivo
               </h2>
-              <span style={{ fontSize: 10, color: '#86868b', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>
+              <span className="dash-panel-eyebrow">
                 Estado del sistema · vista consolidada
               </span>
             </div>
@@ -201,7 +197,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Row 1: Risk hero (left) + KPIs grid 2x2 (right) */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
+          <div className="dash-row1">
 
             {/* Risk hero card */}
             {(() => {
@@ -211,33 +207,28 @@ export default function DashboardPage() {
               const semColor = semaforo === 'rojo' ? '#DC2626' : semaforo === 'ambar' || semaforo === 'amarillo' ? '#D97706' : '#16A34A'
               const semLabel = semaforo === 'rojo' ? 'Rojo' : semaforo === 'ambar' || semaforo === 'amarillo' ? 'Ámbar' : 'Verde'
               return (
-                <div onClick={() => router.push('/riesgo')} style={{
-                  background: '#fff', borderRadius: 12, padding: '16px 18px',
-                  border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
-                  cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  minHeight: 132,
-                }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
+                <div className="dash-risk-hero" onClick={() => router.push('/riesgo')}
+                  style={{ borderLeft: `4px solid ${semColor}` }}
+                  onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+                  onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
                 >
                   <div>
-                    <p style={{ fontSize: 10, color: '#86868b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>
+                    <p className="dash-risk-label">
                       Risk Index
                     </p>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 40, fontWeight: 700, letterSpacing: '-0.03em', color: semColor, lineHeight: 1 }}>
+                    <div className="dash-risk-value-row">
+                      <span className="dash-risk-value" style={{ color: semColor }}>
                         {isReady ? <CountUp value={score}/> : <Skeleton width={70} height={40} radius={6}/>}
                       </span>
-                      <span style={{ fontSize: 11, color: '#86868b', fontWeight: 500 }}>/100</span>
+                      <span className="dash-risk-scale">/100</span>
                     </div>
                   </div>
                   <div>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '3px 10px', borderRadius: 999, background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
-                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: semColor }}/>
-                      <span style={{ fontSize: 10.5, fontWeight: 700, color: semColor, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{semLabel}</span>
+                    <div className="dash-risk-pill" style={{ background: `${semColor}14`, border: `1px solid ${semColor}33` }}>
+                      <span className="dash-risk-pill-dot" style={{ background: semColor }}/>
+                      <span className="dash-risk-pill-label" style={{ color: semColor }}>{semLabel}</span>
                     </div>
-                    <p style={{ fontSize: 10, color: '#6e6e73', margin: '6px 0 0' }}>
+                    <p className="dash-risk-foot">
                       Tensión política y económica · click para detalle
                     </p>
                   </div>
@@ -246,29 +237,25 @@ export default function DashboardPage() {
             })()}
 
             {/* KPIs grid 2x2 */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: 10 }}>
+            <div className="dash-kpi-grid">
               {(data?.kpis ?? []).slice(0, 4).map(k => {
                 const numeric = typeof k.value === 'number' ? k.value : Number(String(k.value).replace(/[^0-9.-]/g, ''))
                 const suffix = typeof k.value === 'string' && k.value.includes('%') ? '%' : ''
                 return (
-                  <div key={k.label} style={{
-                    background: '#fff', borderRadius: 10, padding: '12px 14px',
-                    border: '1px solid #ECECEF', borderLeft: `3px solid ${k.accent}`,
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  }}>
-                    <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', margin: 0 }}>{k.label}</p>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 700, letterSpacing: '-0.025em', color: k.accent, lineHeight: 1, marginTop: 4 }}>
+                  <div key={k.label} className="dash-kpi-card" style={{ borderLeft: `3px solid ${k.accent}` }}>
+                    <p className="dash-kpi-label">{k.label}</p>
+                    <div className="dash-kpi-value" style={{ color: k.accent }}>
                       {isReady && !Number.isNaN(numeric)
                         ? <><CountUp value={numeric}/>{suffix}</>
                         : <Skeleton width={50} height={26} radius={4}/>
                       }
                     </div>
-                    <p style={{ fontSize: 10, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+                    <p className="dash-kpi-sub">{k.sub}</p>
                   </div>
                 )
               })}
               {!data?.kpis && !isReady && [0,1,2,3].map(i => (
-                <div key={i} style={{ background: '#fff', borderRadius: 10, padding: '12px 14px', border: '1px solid #ECECEF' }}>
+                <div key={i} className="dash-kpi-skel">
                   <Skeleton width={70} height={9} radius={3} style={{ marginBottom: 8 }}/>
                   <Skeleton width={70} height={26} radius={4}/>
                 </div>
@@ -278,7 +265,7 @@ export default function DashboardPage() {
 
           {/* Row 2: Macro strip (4 cols con sparklines) */}
           {data?.macro && data.macro.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(4, data.macro.length)}, 1fr)`, gap: 8, marginBottom: 12 }}>
+            <div className="dash-macro-strip" style={{ gridTemplateColumns: `repeat(${Math.min(4, data.macro.length)}, 1fr)` }}>
               {data.macro.slice(0, 4).map(m => {
                 const goodIsUp = m.good === 'up'
                 const isPositiveDir = m.dir === 'up'
@@ -295,26 +282,21 @@ export default function DashboardPage() {
                   return `${x},${y}`
                 }).join(' ')
                 return (
-                  <div key={m.label} onClick={() => router.push('/macro')} style={{
-                    background: '#fff', borderRadius: 10, padding: '10px 12px',
-                    border: '1px solid #ECECEF', cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                    transition: 'border-color 150ms',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#D6D6DA' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF' }}
+                  <div key={m.label} className="dash-macro-card" onClick={() => router.push('/macro')}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = '#D6D6DA' }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = '#ECECEF' }}
                   >
-                    <div style={{ minWidth: 0, flex: 1 }}>
-                      <p style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', margin: 0, marginBottom: 2 }}>{m.label}</p>
-                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, letterSpacing: '-0.015em', color: '#1d1d1f' }}>{m.value}</span>
-                        <span style={{ fontSize: 10, fontWeight: 700, color: trendColor }}>
+                    <div className="dash-macro-mid">
+                      <p className="dash-macro-label">{m.label}</p>
+                      <div className="dash-macro-value-row">
+                        <span className="dash-macro-value">{m.value}</span>
+                        <span className="dash-macro-delta" style={{ color: trendColor }}>
                           {isPositiveDir ? '↑' : '↓'} {m.delta}
                         </span>
                       </div>
                     </div>
                     {data_arr.length > 1 && (
-                      <svg width={w} height={h} style={{ flexShrink: 0 }}>
+                      <svg className="dash-macro-spark" width={w} height={h}>
                         <polyline points={points} fill="none" stroke={trendColor} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round"/>
                       </svg>
                     )}
@@ -326,36 +308,24 @@ export default function DashboardPage() {
 
           {/* Row 3: Alertas críticas (chips inline) */}
           {data?.alerts && data.alerts.length > 0 && (
-            <div style={{
-              background: '#fff', borderRadius: 10, padding: '10px 14px',
-              border: '1px solid #ECECEF',
-              display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
-            }}>
-              <span style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}>
+            <div className="dash-alerts-strip">
+              <span className="dash-alerts-label">
                 Alertas
               </span>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', flex: 1 }}>
+              <div className="dash-alerts-row">
                 {data.alerts.slice(0, 4).map(a => {
                   const aColor = a.type === 'warning' ? '#D97706' : a.type === 'ok' ? '#16A34A' : '#1F4E8C'
                   const aIcon = a.type === 'warning' ? '⚠' : a.type === 'ok' ? '✓' : 'ℹ'
                   return (
-                    <span key={a.id} onClick={() => router.push('/alertas')} style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 5,
-                      fontSize: 10.5, padding: '3px 9px', borderRadius: 999,
-                      background: `${aColor}10`, color: aColor, border: `1px solid ${aColor}33`,
-                      cursor: 'pointer', fontWeight: 500,
-                      maxWidth: 320, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    }} title={a.text}>
-                      <span style={{ fontWeight: 700 }}>{aIcon}</span>
+                    <span key={a.id} className="dash-alert-chip" onClick={() => router.push('/alertas')}
+                      style={{ background: `${aColor}10`, color: aColor, border: `1px solid ${aColor}33` }}
+                      title={a.text}>
+                      <span className="dash-alert-icon">{aIcon}</span>
                       {a.text}
                     </span>
                   )
                 })}
-                <button onClick={() => router.push('/alertas')} style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 10.5, color: '#6e6e73', fontFamily: 'inherit', fontWeight: 600,
-                  marginLeft: 'auto',
-                }}>
+                <button className="dash-alerts-more" onClick={() => router.push('/alertas')}>
                   Ver todas →
                 </button>
               </div>
@@ -382,24 +352,20 @@ export default function DashboardPage() {
             : null
 
           return (
-            <section style={{ marginBottom: 20 }}>
+            <section className="dash-trends-section">
               {/* Section header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+              <div className="dash-trends-head">
+                <h2 className="dash-trends-title">
                   Tendencias ahora
                 </h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="dash-trends-head-right">
                   {formattedTs && (
-                    <span style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>
+                    <span className="dash-trends-ts">
                       {formattedTs}
                     </span>
                   )}
                   {sourcePills.map(src => (
-                    <span key={src} style={{
-                      fontSize: 9, fontWeight: 600, padding: '2px 7px', borderRadius: 999,
-                      background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.03em',
-                      border: '1px solid #ECECEF',
-                    }}>
+                    <span key={src} className="dash-trends-source-pill">
                       {src}
                     </span>
                   ))}
@@ -408,14 +374,9 @@ export default function DashboardPage() {
 
               {/* Horizontal scroll row */}
               {trendsLoading ? (
-                <div style={{ display: 'flex', gap: 8, overflowX: 'hidden' }}>
+                <div className="dash-trends-scroll--hidden">
                   {[0,1,2,3,4,5].map(i => (
-                    <div key={i} style={{
-                      minWidth: 200, maxWidth: 240, flexShrink: 0,
-                      background: '#fff', borderRadius: 10, padding: '12px 13px',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                      border: '1px solid #ECECEF', borderLeft: '3px solid #e8e8ed',
-                    }}>
+                    <div key={i} className="dash-trend-skel">
                       <Skeleton width={160} height={10} radius={4} style={{ marginBottom: 7 }}/>
                       <Skeleton width={80} height={8} radius={4} style={{ marginBottom: 8 }}/>
                       <Skeleton width={180} height={8} radius={4} style={{ marginBottom: 4 }}/>
@@ -425,88 +386,55 @@ export default function DashboardPage() {
                   ))}
                 </div>
               ) : trends.length === 0 ? (
-                <div style={{
-                  background: '#fff', borderRadius: 10, padding: '18px 20px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF',
-                  textAlign: 'center', color: '#6e6e73', fontSize: 12,
-                }}>
+                <div className="dash-trends-empty">
                   Sin tendencias disponibles
                 </div>
               ) : (
-                <div style={{
-                  display: 'flex', gap: 8, overflowX: 'auto',
-                  paddingBottom: 4,
-                  msOverflowStyle: 'none',
-                } as React.CSSProperties}>
+                <div className="dash-trends-scroll">
                   {trends.map(t => {
                     const accentColor = t.categoria ? (CATEGORIA_COLOR[t.categoria] ?? '#6e6e73') : '#6e6e73'
                     const borderLeft = t.es_evento_geo ? '3px solid #c42c2c' : '3px solid #e8e8ed'
                     return (
-                      <div key={t.id}
+                      <div key={t.id} className="dash-trend-card"
                         onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
-                        style={{
-                          minWidth: 200, maxWidth: 240, flexShrink: 0,
-                          background: '#fff', borderRadius: 10, padding: '11px 13px',
-                          boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                          border: '1px solid #ECECEF', borderLeft,
-                          cursor: t.url ? 'pointer' : 'default',
-                          display: 'flex', flexDirection: 'column', gap: 5,
-                          position: 'relative',
-                          transition: 'box-shadow 150ms',
-                        }}
+                        style={{ borderLeft, cursor: t.url ? 'pointer' : 'default' }}
                         onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                         onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                       >
                         {/* Rank + geo badge row */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                          <span style={{
-                            fontSize: 9, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                            background: '#F5F5F7', color: '#6e6e73', letterSpacing: '0.04em',
-                          }}>
+                        <div className="dash-trend-head-row">
+                          <span className="dash-trend-rank">
                             #{t.rank}
                           </span>
                           {t.es_evento_geo && (
-                            <span style={{
-                              fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                              background: '#c42c2c18', color: '#c42c2c', letterSpacing: '0.04em',
-                            }}>
+                            <span className="dash-trend-geo-badge">
                               GEO
                             </span>
                           )}
                         </div>
 
                         {/* Termino */}
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                        <div className="dash-trend-termino">
                           {t.termino}
                         </div>
 
                         {/* Fuente */}
-                        <div style={{ fontSize: 11, color: '#6e6e73', fontWeight: 500 }}>
+                        <div className="dash-trend-fuente">
                           {t.fuente}
                         </div>
 
                         {/* Resumen */}
                         {t.resumen && (
-                          <div style={{
-                            fontSize: 12, color: '#444', lineHeight: 1.4,
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            overflow: 'hidden',
-                          } as React.CSSProperties}>
+                          <div className="dash-trend-resumen">
                             {t.resumen}
                           </div>
                         )}
 
                         {/* Country chips */}
                         {t.paises_mencionados && t.paises_mencionados.length > 0 && (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                          <div className="dash-trend-countries">
                             {t.paises_mencionados.slice(0, 3).map(p => (
-                              <span key={p} style={{
-                                fontSize: 9, padding: '1px 5px', borderRadius: 999,
-                                background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
-                                border: '1px solid #dce6ff',
-                              }}>
+                              <span key={p} className="dash-country-chip">
                                 {p}
                               </span>
                             ))}
@@ -514,12 +442,12 @@ export default function DashboardPage() {
                         )}
 
                         {/* Score bar + link arrow */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 'auto' }}>
-                          <div style={{ flex: 1, height: 3, background: '#F5F5F7', borderRadius: 3, overflow: 'hidden' }}>
-                            <div style={{ width: `${Math.min(100, t.score_norm * 100)}%`, height: '100%', background: accentColor, borderRadius: 3 }}/>
+                        <div className="dash-trend-foot">
+                          <div className="dash-trend-score-track">
+                            <div className="dash-trend-score-fill" style={{ width: `${Math.min(100, t.score_norm * 100)}%`, background: accentColor }}/>
                           </div>
                           {t.url && (
-                            <span style={{ fontSize: 12, color: '#6e6e73', flexShrink: 0, lineHeight: 1 }}>→</span>
+                            <span className="dash-trend-arrow">→</span>
                           )}
                         </div>
                       </div>
@@ -530,48 +458,32 @@ export default function DashboardPage() {
 
               {/* Geo highlights */}
               {geoItems.length > 0 && !trendsLoading && (
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${geoItems.length}, 1fr)`, gap: 8, marginTop: 8 }}>
+                <div className="dash-geo-grid" style={{ gridTemplateColumns: `repeat(${geoItems.length}, 1fr)` }}>
                   {geoItems.map(t => (
-                    <div key={`geo-${t.id}`}
+                    <div key={`geo-${t.id}`} className="dash-geo-card"
                       onClick={() => t.url ? window.open(t.url, '_blank', 'noopener,noreferrer') : undefined}
-                      style={{
-                        background: '#fff', borderRadius: 10, padding: '13px 15px',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                        border: '1px solid #f0d0d0', borderLeft: '3px solid #c42c2c',
-                        cursor: t.url ? 'pointer' : 'default',
-                        transition: 'box-shadow 150ms',
-                      }}
+                      style={{ cursor: t.url ? 'pointer' : 'default' }}
                       onMouseEnter={e => { if (t.url) e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.1)' }}
                       onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06)' }}
                     >
-                      <div style={{ fontWeight: 700, fontSize: 12, color: '#1d1d1f', marginBottom: 4, letterSpacing: '-0.01em' }}>
+                      <div className="dash-geo-titulo">
                         {t.termino}
                       </div>
                       {t.resumen && (
-                        <div style={{
-                          fontSize: 11, color: '#444', lineHeight: 1.4, marginBottom: 6,
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                        } as React.CSSProperties}>
+                        <div className="dash-geo-resumen">
                           {t.resumen}
                         </div>
                       )}
                       {t.paises_mencionados && t.paises_mencionados.length > 0 && (
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 4 }}>
+                        <div className="dash-geo-countries">
                           {t.paises_mencionados.map(p => (
-                            <span key={p} style={{
-                              fontSize: 9, padding: '1px 5px', borderRadius: 999,
-                              background: '#F0F4FF', color: '#1F4E8C', fontWeight: 600,
-                              border: '1px solid #dce6ff',
-                            }}>
+                            <span key={p} className="dash-country-chip">
                               {p}
                             </span>
                           ))}
                         </div>
                       )}
-                      <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 500 }}>{t.fuente}</div>
+                      <div className="dash-geo-fuente">{t.fuente}</div>
                     </div>
                   ))}
                 </div>
@@ -581,70 +493,55 @@ export default function DashboardPage() {
         })()}
 
         {/* News pulse + enriched territory map */}
-        <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 16 }}>
+        <div className="dash-mid-grid">
 
           {/* Pulso informativo */}
-          <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+          <section className="dash-news-section">
+            <div className="dash-news-head">
+              <h2 className="dash-news-title">
                 Pulso informativo
               </h2>
-              <button onClick={() => router.push('/medios-narrativa')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: '#6E6E73', fontFamily: 'inherit' }}>
+              <button className="dash-news-more-btn" onClick={() => router.push('/medios-narrativa')}>
                 Feed completo →
               </button>
             </div>
             {data?.news_pulse && data.news_pulse.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              <div className="dash-news-list">
                 {data.news_pulse.slice(0, 5).map((n, i) => {
                   const sentColor = n.sentiment > 0.2 ? '#16A34A' : n.sentiment < -0.2 ? '#DC2626' : '#6E6E73'
                   return (
-                    <div key={n.id} style={{
-                      display: 'grid', gridTemplateColumns: '1fr 72px', gap: 12, padding: '9px 0',
-                      borderBottom: i < 4 ? '1px solid var(--hairline)' : 'none',
-                    }}>
-                      <div style={{ minWidth: 0 }}>
-                        <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
-                        <div style={{ fontSize: 10, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
-                          <span style={{ fontWeight: 600 }}>{n.source}</span>
+                    <div key={n.id} className={`dash-news-row${i < 4 ? ' dash-news-row--bordered' : ''}`}>
+                      <div className="dash-news-row-left">
+                        <div className="dash-news-row-title">{n.title}</div>
+                        <div className="dash-news-row-meta">
+                          <span className="dash-news-row-source">{n.source}</span>
                           {sanitizeParties(n.parties) && <span>· {sanitizeParties(n.parties)}</span>}
                         </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: 3 }}>
+                      <div className="dash-news-row-right">
                         {/* Source badge */}
-                        <span style={{
-                          fontSize: 8.5, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                          background: `${sentColor}18`, color: sentColor, letterSpacing: '0.03em',
-                          maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                        }}>
+                        <span className="dash-news-row-badge" style={{ background: `${sentColor}18`, color: sentColor }}>
                           {n.source}
                         </span>
                         {/* Bi-directional sentiment bar */}
-                        <div style={{ width: 64, height: 14, background: '#F5F5F7', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                        <div className="dash-sent-bar">
                           {/* Center divider */}
-                          <div style={{ position: 'absolute', left: '50%', width: 1, height: '100%', background: 'rgba(0,0,0,0.1)', zIndex: 1 }}/>
+                          <div className="dash-sent-bar-divider"/>
                           {/* Negative fill (left of center) */}
                           {n.sentiment < 0 && (
-                            <div style={{
-                              position: 'absolute', right: '50%', height: '100%',
-                              width: `${Math.min(50, Math.abs(n.sentiment) * 50)}%`,
-                              background: '#DC2626',
-                            }}/>
+                            <div className="dash-sent-bar-neg" style={{ width: `${Math.min(50, Math.abs(n.sentiment) * 50)}%` }}/>
                           )}
                           {/* Positive fill (right of center) */}
                           {n.sentiment > 0 && (
-                            <div style={{
-                              position: 'absolute', left: '50%', height: '100%',
-                              width: `${Math.min(50, n.sentiment * 50)}%`,
-                              background: '#16A34A',
-                            }}/>
+                            <div className="dash-sent-bar-pos" style={{ width: `${Math.min(50, n.sentiment * 50)}%` }}/>
                           )}
                         </div>
                         {/* Relevance + sentiment label */}
-                        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                          <span style={{ fontSize: 8.5, color: '#6E6E73', fontWeight: 500 }}>
+                        <div className="dash-news-row-rel">
+                          <span className="dash-news-row-rel-num">
                             rel {(n.relevance * 100).toFixed(0)}%
                           </span>
-                          <span style={{ fontSize: 9, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
+                          <span className="dash-news-row-sent" style={{ color: sentColor }}>
                             {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
                           </span>
                         </div>
@@ -654,32 +551,23 @@ export default function DashboardPage() {
                 })}
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              <div className="dash-skel-list">
                 {[0,1,2,3,4].map(i => <Skeleton key={i} height={42} radius={6}/>)}
               </div>
             )}
           </section>
 
           {/* Mapa territorial — enriched */}
-          <section style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <section className="dash-map-section">
 
             {/* Header + tab toggle */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+            <div className="dash-map-head">
+              <h2 className="dash-map-title">
                 Mapa territorial
               </h2>
-              <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
+              <div className="dash-map-tabs">
                 {(['electoral', 'narrativa', 'figuras'] as MapTab[]).map(tab => (
-                  <button key={tab} onClick={() => setMapTab(tab)} style={{
-                    background: mapTab === tab ? '#fff' : 'transparent',
-                    border: 'none', cursor: 'pointer', borderRadius: 6,
-                    padding: '3px 8px', fontSize: 10, fontWeight: 600,
-                    color: mapTab === tab ? '#1d1d1f' : '#6e6e73',
-                    fontFamily: 'inherit', letterSpacing: '0.01em',
-                    boxShadow: mapTab === tab ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                    textTransform: 'capitalize',
-                    transition: 'all 150ms',
-                  }}>
+                  <button key={tab} onClick={() => setMapTab(tab)} className={`dash-map-tab${mapTab === tab ? ' dash-map-tab--active' : ''}`}>
                     {tab === 'electoral' ? 'Electoral' : tab === 'narrativa' ? 'Narrativa' : 'Figuras'}
                   </button>
                 ))}
@@ -687,26 +575,23 @@ export default function DashboardPage() {
             </div>
 
             {/* Map cells */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <div className="dash-map-grid">
               {REGION_GRID.map((row, ri) => (
-                <div key={ri} style={{ display: 'flex', gap: 3 }}>
+                <div key={ri} className="dash-map-row">
                   {row.map(cell => {
                     const region = data?.regions?.find(r => r.name === cell.name || r.name === BACKEND_NAME_MAP[cell.name])
 
                     if (mapTab === 'narrativa') {
                       const nv = CCAA_NARRATIVA[cell.name]
                       return (
-                        <div key={cell.name} onClick={() => router.push(`/mapa?ccaa=${encodeURIComponent(cell.name)}`)}
+                        <div key={cell.name} className="dash-map-cell" onClick={() => router.push(`/mapa?ccaa=${encodeURIComponent(cell.name)}`)}
                           title={`${cell.name} · Narrativa dominante: ${nv?.tema ?? '?'}`}
                           style={{
                             flex: cell.flex, height: cell.height,
                             background: nv ? `${nv.color}e8` : '#6e727888',
-                            borderRadius: 6, padding: '5px 7px', color: '#fff',
-                            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                            cursor: 'pointer',
                           }}>
-                          <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
-                          <div style={{ fontSize: cell.height >= 64 ? 11 : 9.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
+                          <div className="dash-map-cell-display--narrativa">{cell.display}</div>
+                          <div className={`dash-map-narrativa-tema ${cell.height >= 64 ? 'dash-map-narrativa-tema--lg' : 'dash-map-narrativa-tema--sm'}`}>{nv?.tema ?? '?'}</div>
                         </div>
                       )
                     }
@@ -716,24 +601,20 @@ export default function DashboardPage() {
                       const dirColor = fg?.dir === 'up' ? '#16A34A' : fg?.dir === 'down' ? '#DC2626' : '#6e6e73'
                       const dirArrow = fg?.dir === 'up' ? '↑' : fg?.dir === 'down' ? '↓' : '–'
                       return (
-                        <div key={cell.name} onClick={() => router.push('/mapa-actores')}
+                        <div key={cell.name} className="dash-map-cell dash-map-cell--figuras" onClick={() => router.push('/mapa-actores')}
                           title={`${cell.name} · ${fg?.name ?? '?'} (${fg?.partido ?? '?'})`}
                           style={{
                             flex: cell.flex, height: cell.height,
-                            background: '#1c2333',
-                            borderRadius: 6, padding: '5px 7px', color: '#fff',
-                            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                            cursor: 'pointer',
                             borderLeft: `3px solid ${dirColor}`,
                           }}>
-                          <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
+                          <div className="dash-map-cell-display--figuras">{cell.display}</div>
                           {cell.height >= 52 ? (
                             <div>
-                              <div style={{ fontSize: cell.height >= 64 ? 10.5 : 9, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
-                              <div style={{ fontSize: 9, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
+                              <div className={`dash-map-figura-name ${cell.height >= 64 ? 'dash-map-figura-name--lg' : 'dash-map-figura-name--sm'}`}>{fg?.name ?? '?'}</div>
+                              <div className="dash-map-figura-trend" style={{ color: dirColor }}>{dirArrow} {fg?.trend}</div>
                             </div>
                           ) : (
-                            <div style={{ fontSize: 9, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
+                            <div className="dash-map-figura-trend" style={{ color: dirColor }}>{dirArrow}{fg?.trend}</div>
                           )}
                         </div>
                       )
@@ -743,37 +624,34 @@ export default function DashboardPage() {
                     const lean = (region?.lean ?? 'mixed') as 'pp' | 'psoe' | 'mixed'
                     const diff = region?.diff ?? 0
                     return (
-                      <div key={cell.name} onClick={() => router.push(`/nowcasting?ccaa=${encodeURIComponent(cell.name)}`)}
+                      <div key={cell.name} className="dash-map-cell dash-map-cell--electoral" onClick={() => router.push(`/nowcasting?ccaa=${encodeURIComponent(cell.name)}`)}
                         title={region ? `${cell.name} · PP ${region.pp_pct}% · PSOE ${region.psoe_pct}% · dif ${region.diff > 0 ? '+' : ''}${region.diff}` : cell.name}
                         style={{
                           flex: cell.flex, height: cell.height,
-                          background: REGION_COLOR[lean], borderRadius: 6,
-                          padding: '5px 7px', color: '#fff',
-                          display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                          cursor: 'pointer', transition: 'background 600ms ease',
+                          background: REGION_COLOR[lean],
                         }}>
-                        <div style={{ fontSize: 9, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
+                        <div className="dash-map-cell-display">{cell.display}</div>
                         {region && cell.height >= 52 ? (
                           <div>
-                            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
+                            <div className="dash-map-electoral-lean dash-map-electoral-lean--big">
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MIXTO'}
                             </div>
-                            <div style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
+                            <div className="dash-map-electoral-pct">
                               PP {region.pp_pct.toFixed(1)}% · PSOE {region.psoe_pct.toFixed(1)}%
                             </div>
-                            <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
-                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
-                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
-                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+                            <div className="dash-map-electoral-bar">
+                              <div className="dash-map-electoral-bar-pp" style={{ flex: region.pp_pct }}/>
+                              <div className="dash-map-electoral-bar-psoe" style={{ flex: region.psoe_pct }}/>
+                              <div className="dash-map-electoral-bar-otros" style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct) }}/>
                             </div>
                           </div>
                         ) : cell.height >= 52 ? (
                           <div>
-                            <div style={{ fontSize: cell.height >= 64 ? 14 : 12, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                            <div className={`dash-map-electoral-label-md ${cell.height >= 64 ? 'dash-map-electoral-label-md--64' : 'dash-map-electoral-label-md--52'}`}>
                               {REGION_LABEL[lean]}
                             </div>
                             {diff !== 0 && (
-                              <div style={{ fontSize: 8.5, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
+                              <div className="dash-map-electoral-diff">
                                 {diff > 0 ? '+' : ''}{Math.round(diff)} esc.
                               </div>
                             )}
@@ -781,17 +659,17 @@ export default function DashboardPage() {
                         ) : region ? (
                           // Small cell with real data: label + proportional bar
                           <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
+                            <div className="dash-map-electoral-label-sm">
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MX'}
                             </div>
-                            <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
-                              <div style={{ flex: region.pp_pct, background: '#5a9af0' }}/>
-                              <div style={{ flex: region.psoe_pct, background: '#f87171' }}/>
-                              <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
+                            <div className="dash-map-electoral-bar--thin">
+                              <div className="dash-map-electoral-bar-pp" style={{ flex: region.pp_pct }}/>
+                              <div className="dash-map-electoral-bar-psoe" style={{ flex: region.psoe_pct }}/>
+                              <div className="dash-map-electoral-bar-otros" style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct) }}/>
                             </div>
                           </div>
                         ) : (
-                          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                          <div className="dash-map-electoral-label-xs">
                             {REGION_LABEL[lean]}
                           </div>
                         )}
@@ -803,27 +681,23 @@ export default function DashboardPage() {
             </div>
 
             {/* Trending figures strip */}
-            <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
-              <div style={{ fontSize: 9.5, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
+            <div className="dash-trending-figs-wrap">
+              <div className="dash-trending-figs-label">
                 Figuras en tendencia
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+              <div className="dash-trending-figs-grid">
                 {TRENDING_FIGURES.map(f => {
                   const arrow = f.dir === 'up' ? '↑' : '↓'
                   const trendColor = f.dir === 'up' ? '#16A34A' : '#DC2626'
                   return (
-                    <button key={f.name} onClick={() => router.push('/mapa-actores')} style={{
-                      background: '#F9F9FB', border: 'none', borderRadius: 7,
-                      padding: '6px 7px', cursor: 'pointer', fontFamily: 'inherit',
-                      textAlign: 'left', transition: 'background 150ms',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F5' }}
-                    onMouseLeave={e => { e.currentTarget.style.background = '#F9F9FB' }}>
-                      <div style={{ width: '100%', height: 2, background: f.color, borderRadius: 1, marginBottom: 5 }}/>
-                      <div style={{ fontSize: 9.5, fontWeight: 700, color: '#1d1d1f', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{f.name}</div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ fontSize: 8.5, color: '#6e6e73' }}>{f.party}</span>
-                        <span style={{ fontSize: 9, fontWeight: 700, color: trendColor }}>{arrow}{f.trend}</span>
+                    <button key={f.name} className="dash-trending-fig-btn" onClick={() => router.push('/mapa-actores')}
+                      onMouseEnter={e => { e.currentTarget.style.background = '#F0F0F5' }}
+                      onMouseLeave={e => { e.currentTarget.style.background = '#F9F9FB' }}>
+                      <div className="dash-trending-fig-accent" style={{ background: f.color }}/>
+                      <div className="dash-trending-fig-name">{f.name}</div>
+                      <div className="dash-trending-fig-meta">
+                        <span className="dash-trending-fig-party">{f.party}</span>
+                        <span className="dash-trending-fig-trend" style={{ color: trendColor }}>{arrow}{f.trend}</span>
                       </div>
                     </button>
                   )
@@ -839,36 +713,33 @@ export default function DashboardPage() {
            Navegación principal · 12 módulos. Va al final porque es navegación,
            no contenido en vivo (los KPIs y tendencias se ven antes).
         */}
-        <section style={{ marginTop: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f' }}>
+        <section className="dash-modules-section">
+          <div className="dash-modules-head">
+            <h2 className="dash-modules-title">
               Centros de inteligencia
             </h2>
-            <span style={{ fontSize: 10.5, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
+            <span className="dash-modules-meta">
               {MODULES.length} módulos · click para abrir
             </span>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+          <div className="dash-modules-grid">
             {MODULES.map(m => (
-              <button key={m.href} onClick={() => router.push(m.href)} style={{
-                background: '#fff',
-                border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
-                borderLeft: `3px solid ${m.accent}`,
-                borderRadius: 10, padding: '11px 13px', textAlign: 'left', cursor: 'pointer',
-                fontFamily: 'inherit', boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
-                transition: 'transform 160ms ease, box-shadow 160ms ease',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+              <button key={m.href} className="dash-module-btn" onClick={() => router.push(m.href)}
+                style={{
+                  border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
+                  borderLeft: `3px solid ${m.accent}`,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(0,0,0,0.08)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
+                <div className="dash-module-head">
+                  <span className="dash-module-label">{m.label}</span>
                   {m.tag && (
-                    <span style={{ fontSize: 8.5, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+                    <span className="dash-module-tag" style={{ background: `${m.accent}18`, color: m.accent }}>
                       {m.tag}
                     </span>
                   )}
                 </div>
-                <p style={{ margin: 0, fontSize: 10.5, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
+                <p className="dash-module-sub">{m.sub}</p>
               </button>
             ))}
           </div>
@@ -876,9 +747,9 @@ export default function DashboardPage() {
 
       </main>
 
-      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11 }}>
+      <footer className="dash-footer">
         Politeia Analítica · {new Date().getFullYear()}
-        <span style={{ marginLeft: 16 }}><LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60}/></span>
+        <span className="dash-footer-badge"><LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60}/></span>
       </footer>
     </div>
   )

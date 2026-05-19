@@ -1,4 +1,5 @@
 'use client'
+import './mapa-actores.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
@@ -115,28 +116,24 @@ export default function MapaActoresPage() {
   const yToPx = (y: number) => H - 30 - ((y + 100) / 200) * (H - 60)
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color:'#1d1d1f' }}>
+    <div className="ma-root">
       <AppHeader/>
-      <main style={{ maxWidth: 1600, margin: '0 auto', padding: '24px 28px 80px' }}>
+      <main className="ma-main">
 
         {/* Hero */}
-        <section style={{
-          background:'linear-gradient(135deg,#1F4E8C 0%,#0F2A4F 100%)',
-          borderRadius:22, padding:'30px 38px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.7fr 1fr', gap:32, alignItems:'center',
-        }}>
+        <section className="ma-hero">
           <div>
-            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px' }}>
+            <p className="ma-hero-eyebrow">
               INTELIGENCIA POLÍTICA · MAPA DE ACTORES
             </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {ACTORES.length} actores políticos, <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>económicos y sociales</em>
+            <h1 className="ma-hero-title">
+              {ACTORES.length} actores políticos, <em>económicos y sociales</em>
             </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
+            <p className="ma-hero-subtitle">
               Cuadrante ideológico · busca por nombre, partido o cargo · pulsa cualquier burbuja para ver el detalle
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:6 }}>
+          <div className="ma-hero-kpis">
             <MiniK label="Gob." n={counts['gobierno']||0}/>
             <MiniK label="Opos." n={counts['oposicion']||0}/>
             <MiniK label="Parlam." n={counts['parlamento']||0}/>
@@ -151,21 +148,20 @@ export default function MapaActoresPage() {
         </section>
 
         {/* Tabs: Mapa | Grafo de relaciones | Dossier */}
-        <div style={{ display: 'flex', gap: 4, padding: 5, background: '#fff', border: '1px solid #e8e8ed', borderRadius: 999, marginBottom: 16, width: 'fit-content' }}>
+        <div className="ma-view-tabs">
           {([
             { v: 'mapa' as ActorView, l: 'Mapa de actores' },
             { v: 'grafo' as ActorView, l: 'Grafo de relaciones' },
             { v: 'dossier' as ActorView, l: 'Dossier' },
           ]).map(t => (
-            <button key={t.v} onClick={() => setView(t.v)} style={{
-              padding: '7px 16px', borderRadius: 999, border: 'none',
-              background: view === t.v ? '#1d1d1f' : 'transparent',
-              color: view === t.v ? '#fff' : '#6e6e73',
-              fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-            }}>{t.l}</button>
+            <button
+              key={t.v}
+              onClick={() => setView(t.v)}
+              className={`ma-view-tab${view === t.v ? ' ma-view-tab--active' : ''}`}
+            >{t.l}</button>
           ))}
           {isLiveData && (
-            <span style={{ padding: '7px 14px', borderRadius: 999, background: 'rgba(45,138,57,0.10)', color: '#2d8a39', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', alignSelf: 'center' }}>
+            <span className="ma-live-badge">
               ● {personas.length} live
             </span>
           )}
@@ -206,45 +202,36 @@ export default function MapaActoresPage() {
       {view === 'mapa' && (<>
 
         {/* Filtros + Buscador */}
-        <div style={{ display:'flex', gap:12, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
+        <div className="ma-filter-bar">
           <input
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder={`Buscar entre ${ACTORES.length} actores…`}
-            style={{
-              flex: '1 1 280px', maxWidth:380,
-              padding:'9px 14px', borderRadius:10,
-              border:'1px solid #ECECEF', background:'#fff',
-              fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-            }}
+            className="ma-search-input"
           />
-          <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginLeft:6 }}>Tipo:</span>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, flexWrap:'wrap' }}>
+          <span className="ma-filter-label">Tipo:</span>
+          <div className="ma-filter-segment">
             {CATS.map(c => {
               const active = filterCat === c
               const col = c === 'Todos' ? '#1d1d1f' : TIPO_COLOR[c as Categoria]
               return (
-                <button key={c} onClick={() => setFilterCat(c)} style={{
-                  background: active ? '#fff' : 'transparent',
-                  color: active ? col : '#6e6e73',
-                  border:'none', borderRadius:999, padding:'4px 10px',
-                  fontSize:11, fontWeight: active ? 700 : 500, cursor:'pointer',
-                  fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                }}>{c === 'Todos' ? 'Todos' : CAT_LABEL[c as Categoria]}</button>
+                <button
+                  key={c}
+                  onClick={() => setFilterCat(c)}
+                  className={`ma-filter-chip${active ? ' ma-filter-chip--active' : ''}`}
+                  style={{ color: active ? col : undefined }}  // dynamic accent
+                >{c === 'Todos' ? 'Todos' : CAT_LABEL[c as Categoria]}</button>
               )
             })}
           </div>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{visible.length} actores visibles · burbuja = influencia</span>
+          <span className="ma-filter-count">{visible.length} actores visibles · burbuja = influencia</span>
         </div>
 
         {/* Cuadrante + panel detalle */}
-        <section style={{ display:'grid', gridTemplateColumns:'1fr 340px', gap:14, marginBottom:14 }}>
-          <div style={{
-            background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:14,
-            boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-          }}>
-            <svg viewBox={`0 0 ${W} ${H}`} style={{ width:'100%', height:'auto', display:'block' }}>
+        <section className="ma-quad-grid">
+          <div className="ma-quad-canvas">
+            <svg viewBox={`0 0 ${W} ${H}`} className="ma-quad-svg">
               {/* Cuadrantes con sombra alternada */}
               <rect x={0}   y={0}   width={W/2} height={H/2} fill="#FAFAFB"/>
               <rect x={W/2} y={0}   width={W/2} height={H/2} fill="#F5F5F7"/>
@@ -265,7 +252,7 @@ export default function MapaActoresPage() {
                 const dim = focused && focused !== a.id
                 const r = 6 + (a.inf / 100) * 18  // 6..24
                 return (
-                  <g key={a.id} style={{ cursor:'pointer' }}
+                  <g key={a.id} className="ma-quad-bubble-group"
                      onMouseEnter={() => setHovered(a.id)}
                      onMouseLeave={() => setHovered(null)}
                      onClick={() => setPinned(pinned === a.id ? null : a.id)}>
@@ -288,55 +275,47 @@ export default function MapaActoresPage() {
           </div>
 
           {/* Panel detalle (sticky) */}
-          <aside style={{
-            background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:14,
-            padding:'18px 18px 14px', position:'sticky', top:60,
-            maxHeight:'calc(100vh - 80px)', overflowY:'auto',
-          }}>
+          <aside className="ma-panel">
             {focusedActor ? (
               <>
-                <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
-                  <div style={{
-                    width:54, height:54, borderRadius:'50%', background:focusedActor.color, color:'#fff',
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    fontFamily:'var(--font-display)', fontWeight:700, fontSize:18, flexShrink:0,
-                  }}>{initials(focusedActor.nombre)}</div>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ fontSize:9.5, color:focusedActor.color, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                <div className="ma-panel-header">
+                  <div className="ma-panel-avatar" style={{ background: focusedActor.color }}>{initials(focusedActor.nombre)}</div>
+                  <div className="ma-panel-meta">
+                    <div className="ma-panel-eyebrow" style={{ color: focusedActor.color }}>
                       {focusedActor.partido} · {CAT_LABEL[focusedActor.cat]}
                     </div>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.15 }}>{focusedActor.nombre}</div>
+                    <div className="ma-panel-name">{focusedActor.nombre}</div>
                   </div>
                 </div>
 
-                <p style={{ fontSize:12, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 12px' }}>{focusedActor.cargo}</p>
+                <p className="ma-panel-cargo">{focusedActor.cargo}</p>
 
                 {/* Valoración + influencia */}
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 }}>
-                  <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
-                    <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>Valoración</div>
-                    <div style={{ display:'flex', alignItems:'baseline', gap:5 }}>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color:focusedActor.color }}>{focusedActor.val}</span>
-                      <span style={{ fontSize:11, color:'#6e6e73' }}>/10</span>
+                <div className="ma-panel-2col">
+                  <div className="ma-stat-card">
+                    <div className="ma-stat-label">Valoración</div>
+                    <div className="ma-stat-row">
+                      <span className="ma-stat-value" style={{ color: focusedActor.color }}>{focusedActor.val}</span>
+                      <span className="ma-stat-unit">/10</span>
                     </div>
-                    <div style={{ fontSize:10, color: focusedActor.delta >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:1 }}>
+                    <div className={`ma-stat-delta ${focusedActor.delta >= 0 ? 'ma-stat-delta--up' : 'ma-stat-delta--down'}`}>
                       {focusedActor.delta >= 0 ? '▲' : '▼'} {Math.abs(focusedActor.delta)} vs mes
                     </div>
                   </div>
-                  <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
-                    <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>Influencia</div>
-                    <div style={{ display:'flex', alignItems:'baseline', gap:5 }}>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color:focusedActor.color }}>{focusedActor.inf}</span>
-                      <span style={{ fontSize:11, color:'#6e6e73' }}>/100</span>
+                  <div className="ma-stat-card">
+                    <div className="ma-stat-label">Influencia</div>
+                    <div className="ma-stat-row">
+                      <span className="ma-stat-value" style={{ color: focusedActor.color }}>{focusedActor.inf}</span>
+                      <span className="ma-stat-unit">/100</span>
                     </div>
-                    <div style={{ marginTop:5, height:4, background:'#F5F5F7', borderRadius:2, overflow:'hidden' }}>
-                      <div style={{ width:`${focusedActor.inf}%`, height:'100%', background:focusedActor.color }}/>
+                    <div className="ma-stat-bar-track">
+                      <div className="ma-stat-bar-fill" style={{ width: `${focusedActor.inf}%`, background: focusedActor.color }}/>
                     </div>
                   </div>
                 </div>
 
                 {/* Coordenadas ideológicas */}
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:14 }}>
+                <div className="ma-panel-2col ma-panel-2col--space">
                   <Coord label="Eje H" value={focusedActor.ejeX} pos={focusedActor.ejeX < 0 ? 'IZQ' : focusedActor.ejeX > 0 ? 'DCHA' : '—'} color={focusedActor.color}/>
                   <Coord label="Eje V" value={focusedActor.ejeY} pos={focusedActor.ejeY < 0 ? 'DESCENT.' : focusedActor.ejeY > 0 ? 'CENT.' : '—'} color={focusedActor.color}/>
                 </div>
@@ -345,12 +324,12 @@ export default function MapaActoresPage() {
                 {pinned && (
                   <>
                     {livePanelLoading && (
-                      <div style={{ padding: 14, fontSize: 11, color: '#9ca3af', textAlign: 'center', background: '#FAFAFB', borderRadius: 8 }}>
+                      <div className="ma-live-loading">
                         Cargando dossier en vivo · Wikipedia + 50 medios RSS + Congreso…
                       </div>
                     )}
                     {livePanel?.error && (
-                      <div style={{ padding: 10, fontSize: 11, color: '#DC2626', background: 'rgba(220,38,38,0.06)', borderRadius: 8 }}>
+                      <div className="ma-live-error">
                         Error cargando dossier: {livePanel.error.slice(0, 150)}
                       </div>
                     )}
@@ -358,26 +337,26 @@ export default function MapaActoresPage() {
                       <>
                         {/* Sentimiento real desde RSS */}
                         {livePanel.sentimientoAgregado && (
-                          <div style={{ marginBottom: 10, padding: '10px 12px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 9 }}>
-                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
+                          <div className="ma-live-card">
+                            <div className="ma-live-card-label">
                               Sentimiento real · {livePanel.noticias.length} noticias 7d
                             </div>
-                            <div style={{ display: 'flex', gap: 4, marginBottom: 6, height: 6, borderRadius: 3, overflow: 'hidden', background: '#F5F5F7' }}>
+                            <div className="ma-sent-bar">
                               {livePanel.sentimientoAgregado.positivo > 0 && (
-                                <div style={{ flex: livePanel.sentimientoAgregado.positivo, background: '#16A34A' }}/>
+                                <div className="ma-sent-bar-positivo" style={{ flex: livePanel.sentimientoAgregado.positivo }}/>
                               )}
                               {livePanel.sentimientoAgregado.neutral > 0 && (
-                                <div style={{ flex: livePanel.sentimientoAgregado.neutral, background: '#94A3B8' }}/>
+                                <div className="ma-sent-bar-neutral" style={{ flex: livePanel.sentimientoAgregado.neutral }}/>
                               )}
                               {livePanel.sentimientoAgregado.negativo > 0 && (
-                                <div style={{ flex: livePanel.sentimientoAgregado.negativo, background: '#DC2626' }}/>
+                                <div className="ma-sent-bar-negativo" style={{ flex: livePanel.sentimientoAgregado.negativo }}/>
                               )}
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10 }}>
-                              <span style={{ color: '#16A34A' }}>+{livePanel.sentimientoAgregado.positivo}</span>
-                              <span style={{ color: '#94A3B8' }}>={livePanel.sentimientoAgregado.neutral}</span>
-                              <span style={{ color: '#DC2626' }}>−{livePanel.sentimientoAgregado.negativo}</span>
-                              <span style={{ color: '#1d1d1f', fontWeight: 700 }}>
+                            <div className="ma-sent-legend">
+                              <span className="ma-sent-legend-pos">+{livePanel.sentimientoAgregado.positivo}</span>
+                              <span className="ma-sent-legend-neu">={livePanel.sentimientoAgregado.neutral}</span>
+                              <span className="ma-sent-legend-neg">−{livePanel.sentimientoAgregado.negativo}</span>
+                              <span className="ma-sent-legend-score">
                                 Score {livePanel.sentimientoAgregado.score > 0 ? '+' : ''}{livePanel.sentimientoAgregado.score} {livePanel.sentimientoAgregado.tendencia === 'up' ? '↑' : livePanel.sentimientoAgregado.tendencia === 'down' ? '↓' : '→'}
                               </span>
                             </div>
@@ -386,11 +365,11 @@ export default function MapaActoresPage() {
 
                         {/* Bio Wikipedia */}
                         {livePanel.bio.extract && (
-                          <div style={{ marginBottom: 10, padding: '10px 12px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 9 }}>
-                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                          <div className="ma-live-card">
+                            <div className="ma-live-card-label ma-live-card-label--tight">
                               Biografía · Wikipedia
                             </div>
-                            <p style={{ margin: 0, fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5 }}>
+                            <p className="ma-bio-text">
                               {livePanel.bio.extract.slice(0, 280)}{livePanel.bio.extract.length > 280 ? '…' : ''}
                             </p>
                           </div>
@@ -398,13 +377,13 @@ export default function MapaActoresPage() {
 
                         {/* Tags cobertura */}
                         {livePanel.tagsCobertura.length > 0 && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                          <div className="ma-tags-wrap">
+                            <div className="ma-live-card-label ma-live-card-label--tight">
                               Temas en cobertura
                             </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                            <div className="ma-tags-row">
                               {livePanel.tagsCobertura.slice(0, 8).map(t => (
-                                <span key={t} style={{ fontSize: 10, padding: '2px 7px', borderRadius: 999, background: `${focusedActor.color}15`, color: focusedActor.color, fontWeight: 600 }}>{t}</span>
+                                <span key={t} className="ma-tag" style={{ background: `${focusedActor.color}15`, color: focusedActor.color }}>{t}</span>
                               ))}
                             </div>
                           </div>
@@ -412,13 +391,13 @@ export default function MapaActoresPage() {
 
                         {/* Comisiones */}
                         {livePanel.comisiones.length > 0 && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ fontSize: 10, color: '#1F4E8C', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                          <div className="ma-comisiones-block">
+                            <div className="ma-live-card-label ma-live-card-label--comisiones ma-live-card-label--tight">
                               Comisiones · {livePanel.comisiones.length}
                             </div>
                             {livePanel.comisiones.slice(0, 4).map((c, i) => (
-                              <div key={i} style={{ fontSize: 11, color: '#3a3a3d', marginBottom: 3, padding: '3px 0' }}>
-                                <strong>{c.nombre}</strong> · <em style={{ color: '#6e6e73' }}>{c.cargo}</em>
+                              <div key={i} className="ma-comision-item">
+                                <strong>{c.nombre}</strong> · <em>{c.cargo}</em>
                               </div>
                             ))}
                           </div>
@@ -426,21 +405,19 @@ export default function MapaActoresPage() {
 
                         {/* Noticias recientes */}
                         {livePanel.noticias.length > 0 && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ fontSize: 10, color: '#0F766E', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                          <div className="ma-noticias-block">
+                            <div className="ma-live-card-label ma-live-card-label--noticias ma-live-card-label--tight">
                               Últimas noticias · {livePanel.noticias.length}
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 200, overflowY: 'auto' }}>
+                            <div className="ma-noticias-list">
                               {livePanel.noticias.slice(0, 8).map((n, i) => {
                                 const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
                                 return (
-                                  <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
-                                    padding: '5px 8px', borderRadius: 5, fontSize: 10.5,
-                                    background: '#FAFAFB', borderLeft: `2px solid ${sc}`,
-                                    color: '#1d1d1f', textDecoration: 'none', lineHeight: 1.3,
-                                  }}>
-                                    <div style={{ display: 'flex', gap: 6, fontSize: 9, color: '#6e6e73', marginBottom: 2 }}>
-                                      <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                                  <a key={i} href={n.url} target="_blank" rel="noopener noreferrer"
+                                    className="ma-noticia-link"
+                                    style={{ borderLeft: `2px solid ${sc}` }}>
+                                    <div className="ma-noticia-meta">
+                                      <span className="ma-noticia-medio" style={{ color: sc }}>{n.medio}</span>
                                       {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
                                     </div>
                                     {n.titulo.slice(0, 120)}
@@ -453,13 +430,13 @@ export default function MapaActoresPage() {
 
                         {/* Intervenciones */}
                         {livePanel.intervenciones.length > 0 && (
-                          <div style={{ marginBottom: 10 }}>
-                            <div style={{ fontSize: 10, color: '#5B21B6', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>
+                          <div className="ma-interv-block">
+                            <div className="ma-live-card-label ma-live-card-label--intervenciones ma-live-card-label--tight">
                               Intervenciones · {livePanel.intervenciones.length}
                             </div>
                             {livePanel.intervenciones.slice(0, 5).map((iv, i) => (
-                              <div key={i} style={{ fontSize: 10.5, color: '#3a3a3d', marginBottom: 2 }}>
-                                {iv.organo} {iv.fecha && <span style={{ color: '#6e6e73' }}>· {iv.fecha}</span>}
+                              <div key={i} className="ma-interv-item">
+                                {iv.organo} {iv.fecha && <span>· {iv.fecha}</span>}
                               </div>
                             ))}
                           </div>
@@ -470,34 +447,32 @@ export default function MapaActoresPage() {
                           cargo: focusedActor.cargo,
                           afiliacion: focusedActor.partido,
                           color: focusedActor.color,
-                        })} style={{
-                          marginTop: 4, width: '100%',
-                          background: focusedActor.color, color: '#fff',
-                          border: 'none', borderRadius: 8, padding: '8px 12px',
-                          fontSize: 11.5, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer',
-                        }}>Abrir dossier completo →</button>
+                        })}
+                          className="ma-dossier-btn"
+                          style={{ background: focusedActor.color }}
+                        >Abrir dossier completo →</button>
                       </>
                     )}
                   </>
                 )}
 
-                <div style={{ fontSize:10.5, color:'#86868b', textAlign:'right', marginTop:6 }}>
+                <div className="ma-panel-footnote">
                   {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar y cargar datos en vivo'}
                 </div>
               </>
             ) : (
               <>
-                <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Selecciona un actor</div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:600, color:'#1d1d1f', marginBottom:10 }}>Mapa de actores</div>
-                <p style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 14px' }}>
+                <div className="ma-empty-eyebrow">Selecciona un actor</div>
+                <div className="ma-empty-title">Mapa de actores</div>
+                <p className="ma-empty-text">
                   Pasa el cursor sobre cualquier burbuja para ver el detalle, o pulsa para fijarlo. El tamaño indica la influencia estimada.
                 </p>
-                <div style={{ display:'flex', flexDirection:'column', gap:6, fontSize:11.5 }}>
+                <div className="ma-legend-list">
                   {(Object.keys(CAT_LABEL) as Categoria[]).map(t => (
-                    <div key={t} style={{ display:'flex', alignItems:'center', gap:8 }}>
-                      <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[t] }}/>
-                      <span style={{ color:'#3a3a3d' }}>{CAT_LABEL[t]}</span>
-                      <span style={{ marginLeft:'auto', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{counts[t] || 0}</span>
+                    <div key={t} className="ma-legend-row">
+                      <span className="ma-legend-dot" style={{ background: TIPO_COLOR[t] }}/>
+                      <span className="ma-legend-label">{CAT_LABEL[t]}</span>
+                      <span className="ma-legend-count">{counts[t] || 0}</span>
                     </div>
                   ))}
                 </div>
@@ -516,77 +491,57 @@ export default function MapaActoresPage() {
           const limit = (rq || showAllRank) ? filtered.length : 60
           const slice = filtered.slice(0, limit)
           return (
-            <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12, marginBottom:14 }}>
-                <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>
+            <section className="ma-rank-section">
+              <div className="ma-rank-header">
+                <h2 className="ma-rank-title">
                   Ranking · {filtered.length} {filtered.length === 1 ? 'actor' : 'actores'}
                 </h2>
-                <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+                <div className="ma-rank-tools">
                   <input
                     type="text"
                     value={rankQuery}
                     onChange={e => setRankQuery(e.target.value)}
                     placeholder="Buscar persona en ranking…"
-                    style={{
-                      width: 280,
-                      padding:'8px 13px', borderRadius:10,
-                      border:'1px solid #ECECEF', background:'#FAFAFB',
-                      fontSize:12.5, fontFamily:'inherit', outline:'none', color:'#1d1d1f',
-                    }}
+                    className="ma-rank-search"
                   />
                   {rankQuery && (
-                    <button onClick={() => setRankQuery('')} style={{
-                      background:'transparent', border:'1px solid #ECECEF', borderRadius:8,
-                      padding:'5px 10px', fontSize:11, color:'#6e6e73', cursor:'pointer', fontFamily:'inherit',
-                    }}>Limpiar</button>
+                    <button onClick={() => setRankQuery('')} className="ma-rank-clear-btn">Limpiar</button>
                   )}
-                  <span style={{ fontSize:11, color:'#6e6e73' }}>Orden por influencia</span>
+                  <span className="ma-rank-hint">Orden por influencia</span>
                 </div>
               </div>
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:8 }}>
+              <div className="ma-rank-grid">
                 {slice.map(a => {
                   const matchHL = rq && a.nombre.toLowerCase().includes(rq)
                   return (
-                    <div key={a.id} style={{
-                      display:'grid', gridTemplateColumns:'auto 1fr 50px', gap:10, alignItems:'center',
-                      padding:'9px 12px',
-                      background: matchHL ? '#FFFBEA' : '#FAFAFB',
-                      border:`1px solid ${matchHL ? '#F2C43A' : '#ECECEF'}`,
-                      borderRadius:10, cursor:'pointer',
-                    }}
-                    onMouseEnter={() => setHovered(a.id)}
-                    onMouseLeave={() => setHovered(null)}
-                    onClick={() => setPinned(pinned === a.id ? null : a.id)}>
-                      <div style={{
-                        width:32, height:32, borderRadius:'50%', background:a.color, color:'#fff',
-                        display:'flex', alignItems:'center', justifyContent:'center',
-                        fontFamily:'var(--font-display)', fontWeight:700, fontSize:11, flexShrink:0,
-                      }}>{initials(a.nombre)}</div>
-                      <div style={{ minWidth:0 }}>
-                        <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{a.nombre}</div>
-                        <div style={{ fontSize:10.5, color:'#6e6e73', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>
-                          {CAT_LABEL[a.cat]} · <span style={{ color:a.color, fontWeight:600 }}>{a.partido}</span>
+                    <div key={a.id}
+                      className={`ma-rank-card${matchHL ? ' ma-rank-card--match' : ''}`}
+                      onMouseEnter={() => setHovered(a.id)}
+                      onMouseLeave={() => setHovered(null)}
+                      onClick={() => setPinned(pinned === a.id ? null : a.id)}>
+                      <div className="ma-rank-avatar" style={{ background: a.color }}>{initials(a.nombre)}</div>
+                      <div className="ma-rank-body">
+                        <div className="ma-rank-name">{a.nombre}</div>
+                        <div className="ma-rank-sub">
+                          {CAT_LABEL[a.cat]} · <span className="ma-rank-sub-party" style={{ color: a.color }}>{a.partido}</span>
                         </div>
                       </div>
-                      <div style={{ textAlign:'right' }}>
-                        <div style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:a.color, lineHeight:1 }}>{a.inf}</div>
-                        <div style={{ fontSize:9, color:'#86868b', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>infl.</div>
+                      <div className="ma-rank-side">
+                        <div className="ma-rank-infl" style={{ color: a.color }}>{a.inf}</div>
+                        <div className="ma-rank-infl-label">infl.</div>
                       </div>
                     </div>
                   )
                 })}
                 {filtered.length === 0 && (
-                  <div style={{ gridColumn:'1/-1', padding:30, textAlign:'center', color:'#6e6e73', fontSize:13 }}>
+                  <div className="ma-rank-empty">
                     {rq ? <>Sin coincidencias para «<strong>{rankQuery}</strong>».</> : 'Sin resultados.'}
                   </div>
                 )}
               </div>
               {!rq && filtered.length > 60 && (
-                <div style={{ textAlign:'center', marginTop:14 }}>
-                  <button onClick={() => setShowAllRank(s => !s)} style={{
-                    background:'#1d1d1f', color:'#fff', border:'none', borderRadius:999,
-                    padding:'8px 18px', fontSize:12, fontWeight:600, cursor:'pointer', fontFamily:'inherit',
-                  }}>
+                <div className="ma-rank-toggle">
+                  <button onClick={() => setShowAllRank(s => !s)} className="ma-rank-toggle-btn">
                     {showAllRank ? `Mostrar solo top 60` : `Mostrar los ${filtered.length}`}
                   </button>
                 </div>
@@ -596,7 +551,7 @@ export default function MapaActoresPage() {
         })()}
       </>)}
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+      <footer className="ma-footer">
         Inteligencia Política · Mapa de Actores · Politeia Analítica · {new Date().getFullYear()}
       </footer>
 
@@ -613,19 +568,19 @@ export default function MapaActoresPage() {
 
 function MiniK({ label, n }: { label:string, n:number }) {
   return (
-    <div style={{ textAlign:'center', padding:'9px 4px', borderRadius:9, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, lineHeight:1, color:'#fff' }}>{n}</div>
-      <div style={{ fontSize:8, fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase', opacity:0.7, marginTop:3, color:'#fff' }}>{label}</div>
+    <div className="ma-mini-kpi">
+      <div className="ma-mini-kpi-value">{n}</div>
+      <div className="ma-mini-kpi-label">{label}</div>
     </div>
   )
 }
 function Coord({ label, value, pos, color }: { label:string, value:number, pos:string, color:string }) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
-      <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
-      <div style={{ display:'flex', alignItems:'baseline', gap:5 }}>
-        <span style={{ fontFamily:'var(--font-display)', fontSize:16, fontWeight:700, color, letterSpacing:'-0.018em' }}>{value > 0 ? `+${value}` : value}</span>
-        <span style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.04em' }}>{pos}</span>
+    <div className="ma-coord">
+      <div className="ma-coord-label">{label}</div>
+      <div className="ma-coord-row">
+        <span className="ma-coord-value" style={{ color }}>{value > 0 ? `+${value}` : value}</span>
+        <span className="ma-coord-pos">{pos}</span>
       </div>
     </div>
   )
@@ -663,51 +618,43 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
   }, [a])
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16 }}>
-      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: 14 }}>
+    <div className="ma-dv-grid">
+      <div className="ma-dv-sidebar">
         <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar actor…"
-          style={{ width: '100%', padding: '8px 12px', border: '1px solid #e8e8ed', borderRadius: 10, fontSize: 12, fontFamily: 'inherit', marginBottom: 10 }} />
-        <div style={{ maxHeight: 700, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          className="ma-dv-search" />
+        <div className="ma-dv-list">
           {filtered.slice(0, 120).map(x => {
             const active = x.id === selectedId
             return (
-              <button key={x.id} onClick={() => onSelect(x.id)} style={{
-                textAlign: 'left', padding: '8px 12px', borderRadius: 10,
-                border: '1px solid ' + (active ? x.color : '#f0f0f3'),
-                background: active ? `${x.color}10` : '#fff',
-                cursor: 'pointer', fontFamily: 'inherit',
-              }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: '#1d1d1f' }}>{x.nombre}</div>
-                <div style={{ fontSize: 10.5, color: '#6e6e73' }}>{x.partido} · {x.cargo}</div>
+              <button key={x.id} onClick={() => onSelect(x.id)} className="ma-dv-item"
+                style={{
+                  border: '1px solid ' + (active ? x.color : '#f0f0f3'),  // dynamic
+                  background: active ? `${x.color}10` : undefined,  // dynamic
+                }}>
+                <div className="ma-dv-item-name">{x.nombre}</div>
+                <div className="ma-dv-item-sub">{x.partido} · {x.cargo}</div>
               </button>
             )
           })}
         </div>
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #e8e8ed', borderRadius: 14, padding: '20px 24px' }}>
+      <div className="ma-dv-card">
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-          <div style={{
-            width: 64, height: 64, borderRadius: '50%', background: a.color, color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-display,system-ui)', fontSize: 22, fontWeight: 700,
-          }}>{initials(a.nombre)}</div>
-          <div style={{ flex: 1 }}>
-            <h2 style={{ margin: '0 0 4px', fontSize: 20, fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, letterSpacing: '-0.015em' }}>{a.nombre}</h2>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ padding: '3px 10px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontSize: 11, fontWeight: 700 }}>{a.partido}</span>
-              <span style={{ fontSize: 12, color: '#6e6e73' }}>{a.cargo}</span>
+        <div className="ma-dv-header">
+          <div className="ma-dv-avatar" style={{ background: a.color }}>{initials(a.nombre)}</div>
+          <div className="ma-dv-header-body">
+            <h2 className="ma-dv-h2">{a.nombre}</h2>
+            <div className="ma-dv-tag-row">
+              <span className="ma-dv-partido-pill" style={{ background: `${a.color}15`, color: a.color }}>{a.partido}</span>
+              <span className="ma-dv-cargo-text">{a.cargo}</span>
             </div>
           </div>
-          <button onClick={onOpenGraph} style={{
-            padding: '8px 14px', borderRadius: 999, border: '1px solid #e8e8ed', background: '#fff',
-            fontSize: 11.5, fontWeight: 600, color: '#1d1d1f', cursor: 'pointer', fontFamily: 'inherit',
-          }}>Ver grafo completo →</button>
+          <button onClick={onOpenGraph} className="ma-dv-grafo-btn">Ver grafo completo →</button>
         </div>
 
         {dossierLoading && (
-          <div style={{ padding: 30, textAlign: 'center', color: '#9ca3af', fontSize: 12 }}>
+          <div className="ma-dv-loading">
             Cargando dossier en vivo · Wikipedia + 50 medios RSS + Congreso…
           </div>
         )}
@@ -715,36 +662,36 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
         {dossier && !dossier.error && (
           <>
             {/* Sentimiento + bio */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 14, marginBottom: 16 }}>
-              <div style={{ background: '#FAFAFB', borderRadius: 10, padding: 12, border: '1px solid #ECECEF' }}>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+            <div className="ma-dv-grid-2">
+              <div className="ma-dv-sent-block">
+                <div className="ma-dv-section-label">
                   SENTIMIENTO 7D · {dossier.noticias.length} noticias
                 </div>
-                <div style={{ display: 'flex', gap: 4, marginBottom: 8, height: 8, borderRadius: 4, overflow: 'hidden', background: '#F5F5F7' }}>
-                  {dossier.sentimientoAgregado.positivo > 0 && <div style={{ flex: dossier.sentimientoAgregado.positivo, background: '#16A34A' }}/>}
-                  {dossier.sentimientoAgregado.neutral > 0 && <div style={{ flex: dossier.sentimientoAgregado.neutral, background: '#94A3B8' }}/>}
-                  {dossier.sentimientoAgregado.negativo > 0 && <div style={{ flex: dossier.sentimientoAgregado.negativo, background: '#DC2626' }}/>}
+                <div className="ma-sent-bar ma-sent-bar--lg">
+                  {dossier.sentimientoAgregado.positivo > 0 && <div className="ma-sent-bar-positivo" style={{ flex: dossier.sentimientoAgregado.positivo }}/>}
+                  {dossier.sentimientoAgregado.neutral > 0 && <div className="ma-sent-bar-neutral" style={{ flex: dossier.sentimientoAgregado.neutral }}/>}
+                  {dossier.sentimientoAgregado.negativo > 0 && <div className="ma-sent-bar-negativo" style={{ flex: dossier.sentimientoAgregado.negativo }}/>}
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
-                  <span style={{ color: '#16A34A', fontWeight: 700 }}>+{dossier.sentimientoAgregado.positivo}</span>
-                  <span style={{ color: '#94A3B8', fontWeight: 700 }}>={dossier.sentimientoAgregado.neutral}</span>
-                  <span style={{ color: '#DC2626', fontWeight: 700 }}>−{dossier.sentimientoAgregado.negativo}</span>
+                <div className="ma-sent-legend ma-sent-legend--lg">
+                  <span className="ma-sent-legend-pos ma-sent-legend-bold">+{dossier.sentimientoAgregado.positivo}</span>
+                  <span className="ma-sent-legend-neu ma-sent-legend-bold">={dossier.sentimientoAgregado.neutral}</span>
+                  <span className="ma-sent-legend-neg ma-sent-legend-bold">−{dossier.sentimientoAgregado.negativo}</span>
                 </div>
-                <div style={{ marginTop: 8, fontSize: 11, color: '#1d1d1f', textAlign: 'center' }}>
+                <div className="ma-sent-score-center">
                   Score <strong>{dossier.sentimientoAgregado.score > 0 ? '+' : ''}{dossier.sentimientoAgregado.score}</strong> · tendencia {dossier.sentimientoAgregado.tendencia === 'up' ? '↑ mejora' : dossier.sentimientoAgregado.tendencia === 'down' ? '↓ empeora' : '→ estable'}
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+                <div className="ma-dv-section-label">
                   BIOGRAFÍA · {dossier.bio.extract ? 'Wikipedia' : '—'}
                 </div>
                 {dossier.bio.extract ? (
-                  <p style={{ margin: 0, fontSize: 12, color: '#3a3a3d', lineHeight: 1.5 }}>
+                  <p className="ma-dv-bio-text">
                     {dossier.bio.extract.slice(0, 350)}{dossier.bio.extract.length > 350 ? '…' : ''}
                   </p>
                 ) : (
-                  <p style={{ margin: 0, fontSize: 11.5, color: '#9ca3af', fontStyle: 'italic' }}>
+                  <p className="ma-dv-bio-empty">
                     Sin entrada Wikipedia detectada. {a.cargo} · {a.partido}.
                   </p>
                 )}
@@ -753,13 +700,13 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
 
             {/* Temas en cobertura */}
             {dossier.tagsCobertura.length > 0 && (
-              <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 6 }}>
+              <div className="ma-dv-tags-block">
+                <div className="ma-dv-section-label">
                   TEMAS EN COBERTURA MEDIÁTICA
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                <div className="ma-tags-row">
                   {dossier.tagsCobertura.map(t => (
-                    <span key={t} style={{ fontSize: 10.5, padding: '2px 8px', borderRadius: 999, background: `${a.color}15`, color: a.color, fontWeight: 600 }}>{t}</span>
+                    <span key={t} className="ma-tag ma-tag--lg" style={{ background: `${a.color}15`, color: a.color }}>{t}</span>
                   ))}
                 </div>
               </div>
@@ -767,21 +714,19 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
 
             {/* Noticias recientes */}
             {dossier.noticias.length > 0 && (
-              <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#0F766E', textTransform: 'uppercase', marginBottom: 6 }}>
+              <div className="ma-dv-tags-block">
+                <div className="ma-dv-section-label ma-dv-section-label--noticias">
                   ÚLTIMAS NOTICIAS · {dossier.noticias.length}
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, maxHeight: 280, overflowY: 'auto' }}>
+                <div className="ma-dv-noticias-grid">
                   {dossier.noticias.slice(0, 12).map((n, i) => {
                     const sc = n.sentiment === 'positive' ? '#16A34A' : n.sentiment === 'negative' ? '#DC2626' : '#94A3B8'
                     return (
-                      <a key={i} href={n.url} target="_blank" rel="noopener noreferrer" style={{
-                        padding: '7px 9px', borderRadius: 7, fontSize: 11,
-                        background: '#FAFAFB', border: `1px solid #ECECEF`, borderLeft: `3px solid ${sc}`,
-                        color: '#1d1d1f', textDecoration: 'none', display: 'block', lineHeight: 1.4,
-                      }}>
-                        <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
-                          <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+                      <a key={i} href={n.url} target="_blank" rel="noopener noreferrer"
+                        className="ma-dv-noticia-card"
+                        style={{ borderLeft: `3px solid ${sc}` }}>
+                        <div className="ma-dv-noticia-meta">
+                          <span className="ma-dv-noticia-medio" style={{ color: sc }}>{n.medio}</span>
                           {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
                         </div>
                         {n.titulo.slice(0, 130)}
@@ -793,15 +738,15 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
             )}
 
             {/* Comisiones + Intervenciones · grid 2-col */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+            <div className="ma-dv-grid-half">
               {dossier.comisiones.length > 0 && (
                 <div>
-                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#1F4E8C', textTransform: 'uppercase', marginBottom: 6 }}>
+                  <div className="ma-dv-section-label ma-dv-section-label--comisiones">
                     COMISIONES · {dossier.comisiones.length}
                   </div>
                   {dossier.comisiones.slice(0, 6).map((c, i) => (
-                    <div key={i} style={{ padding: '5px 8px', marginBottom: 4, background: '#FAFAFB', borderRadius: 6, fontSize: 11, color: '#1d1d1f' }}>
-                      <strong>{c.nombre}</strong> · <em style={{ color: '#6e6e73' }}>{c.cargo}</em>
+                    <div key={i} className="ma-dv-item-row">
+                      <strong>{c.nombre}</strong> · <em>{c.cargo}</em>
                     </div>
                   ))}
                 </div>
@@ -809,12 +754,12 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
 
               {dossier.intervenciones.length > 0 && (
                 <div>
-                  <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#5B21B6', textTransform: 'uppercase', marginBottom: 6 }}>
+                  <div className="ma-dv-section-label ma-dv-section-label--intervenciones">
                     INTERVENCIONES · {dossier.intervenciones.length}
                   </div>
                   {dossier.intervenciones.slice(0, 6).map((iv, i) => (
-                    <div key={i} style={{ padding: '5px 8px', marginBottom: 4, background: '#FAFAFB', borderRadius: 6, fontSize: 11, color: '#1d1d1f' }}>
-                      {iv.organo} {iv.fecha && <span style={{ color: '#6e6e73' }}>· {iv.fecha}</span>}
+                    <div key={i} className="ma-dv-item-row">
+                      {iv.organo} {iv.fecha && <span>· {iv.fecha}</span>}
                     </div>
                   ))}
                 </div>
@@ -824,16 +769,16 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
         )}
 
         {dossier?.error && (
-          <div style={{ padding: 14, fontSize: 12, color: '#DC2626', background: 'rgba(220,38,38,0.06)', borderRadius: 10 }}>
+          <div className="ma-dv-error">
             Error: {dossier.error.slice(0, 200)}
           </div>
         )}
 
         {/* Ideológico siempre al final */}
-        <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid #ECECEF', display: 'grid', gridTemplateColumns: '1fr 320px', gap: 18, alignItems: 'center' }}>
+        <div className="ma-dv-footer">
           <div>
-            <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#6e6e73', textTransform: 'uppercase', marginBottom: 8 }}>POSICIONAMIENTO IDEOLÓGICO</div>
-            <p style={{ margin: 0, fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
+            <div className="ma-dv-section-label">POSICIONAMIENTO IDEOLÓGICO</div>
+            <p className="ma-dv-footer-text">
               Eje horizontal: izquierda (−) ↔ derecha (+). Eje vertical: descentralización (−) ↔ centralización (+).
               Posición estimada para {a.partido}.
             </p>
@@ -848,12 +793,12 @@ function DossierView({ actors, liveByName, selectedId, onSelect, onOpenGraph }: 
 function ScoreBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700, marginBottom: 4 }}>
+      <div className="ma-scorebar-head">
         <span>{label}</span>
-        <span style={{ color: '#1d1d1f', fontFamily: 'var(--font-display,system-ui)', fontWeight: 700, fontSize: 13 }}>{value}/{max}</span>
+        <span className="ma-scorebar-val">{value}/{max}</span>
       </div>
-      <div style={{ height: 6, background: '#e8e8ed', borderRadius: 999, overflow: 'hidden' }}>
-        <div style={{ width: `${(value / max) * 100}%`, height: '100%', background: color, borderRadius: 999 }} />
+      <div className="ma-scorebar-track">
+        <div className="ma-scorebar-fill" style={{ width: `${(value / max) * 100}%`, background: color }} />
       </div>
     </div>
   )
