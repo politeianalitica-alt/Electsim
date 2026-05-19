@@ -1,5 +1,7 @@
 'use client'
 
+import './instituciones.css'
+
 /**
  * /instituciones — Inteligencia territorial completa de las 19 CCAA + 8.132 municipios.
  *
@@ -205,37 +207,32 @@ export default function InstitucionesPage() {
   const [tab, setTab] = useState<SubTab>('ccaa')
 
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
+    <div className="inst-root">
       <AppHeader/>
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+      <main className="inst-main">
 
-        <section style={{ background: 'linear-gradient(135deg,#0F766E 0%,#054742 100%)', borderRadius: 22, padding: '28px 36px', marginBottom: 16, color: '#fff' }}>
-          <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.78, margin: '0 0 6px', textTransform: 'uppercase' }}>
+        <section className="inst-page-hero">
+          <p className="inst-page-hero-eyebrow">
             INSTITUCIONES LOCALES Y REGIONALES · INTELIGENCIA TERRITORIAL EN VIVO
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 30, letterSpacing: '-0.024em', margin: '0 0 6px', lineHeight: 1.1 }}>
+          <h1 className="inst-page-hero-title">
             19 CCAA + 8.132 municipios · fichas ricas con IA
           </h1>
-          <p style={{ fontSize: 13, opacity: 0.85, margin: 0, lineHeight: 1.5 }}>
+          <p className="inst-page-hero-subtitle">
             Bio Wikipedia + foto del alcalde/presidente (Wikidata) + noticias 50 medios RSS + narrativas IA + preocupaciones detectadas
             + iniciativas legislativas + INE demografía/renta/extranjeros + score de estabilidad + resumen ejecutivo automático.
           </p>
         </section>
 
-        <nav style={{ display: 'flex', gap: 4, borderBottom: '1px solid #ECECEF', marginBottom: 16 }}>
+        <nav className="inst-tabs-nav">
           {([
             { id: 'ccaa', label: 'Comunidades Autónomas', glyph: '' },
             { id: 'municipios', label: 'Municipios y ciudades (8.132)', glyph: '' },
           ] as Array<{ id: SubTab; label: string; glyph: string }>).map(t => {
             const active = tab === t.id
             return (
-              <button key={t.id} onClick={() => setTab(t.id)} style={{
-                background: 'transparent', color: active ? '#0F766E' : '#6e6e73', border: 0,
-                borderBottom: active ? '2px solid #0F766E' : '2px solid transparent',
-                padding: '10px 16px', fontSize: 13, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
-                display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: -1,
-              }}>
-                <span style={{ fontSize: 14, color: active ? '#0F766E' : '#9ca3af' }}>{t.glyph}</span>
+              <button key={t.id} onClick={() => setTab(t.id)} className={`inst-tab-btn${active ? ' inst-tab-btn--active' : ''}`}>
+                <span className="inst-tab-glyph">{t.glyph}</span>
                 {t.label}
               </button>
             )
@@ -273,18 +270,18 @@ function CCAATab() {
   return (
     <div>
       <input type="text" value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar comunidad o capital…"
-        style={{ width: '100%', padding: '10px 14px', fontSize: 13, borderRadius: 10, border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit', marginBottom: 14 }}/>
+        className="inst-search-input"/>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+      <div className="inst-ccaa-chips">
         {filtered.map(c => {
           const active = selected === c.slug
           return (
-            <button key={c.slug} onClick={() => setSelected(c.slug)} style={{
-              background: active ? c.color : '#fff', color: active ? '#fff' : '#3a3a3d',
-              border: '1px solid ' + (active ? c.color : '#ECECEF'),
-              borderRadius: 999, padding: '6px 12px',
-              fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
-            }}>{c.nombreCorto} <span style={{ opacity: 0.7, marginLeft: 4 }}>{c.poblacion}k</span></button>
+            <button key={c.slug} onClick={() => setSelected(c.slug)}
+              className={`inst-ccaa-chip${active ? ' inst-ccaa-chip--active' : ''}`}
+              style={{
+                background: active ? c.color : undefined,
+                border: '1px solid ' + (active ? c.color : 'var(--color-hairline-soft)'),
+              }}>{c.nombreCorto} <span className="inst-ccaa-chip-pop">{c.poblacion}k</span></button>
           )
         })}
       </div>
@@ -318,24 +315,24 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
 
       {/* RESUMEN IA */}
       <Card titulo="RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
-        <p style={{ margin: 0, fontSize: 13, color: '#1d1d1f', lineHeight: 1.6 }}>{profile.resumenIA}</p>
-        <div style={{ marginTop: 10, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <p className="inst-paragraph">{profile.resumenIA}</p>
+        <div className="inst-razones-row">
           {profile.estabilidad.razones.map((r, i) => (
-            <span key={i} style={{ padding: '4px 10px', borderRadius: 999, fontSize: 11, background: `${ESTAB_COLOR(profile.estabilidad.banda)}15`, color: ESTAB_COLOR(profile.estabilidad.banda), fontWeight: 600 }}>{r}</span>
+            <span key={i} className="inst-razon-chip" style={{ background: `${ESTAB_COLOR(profile.estabilidad.banda)}15`, color: ESTAB_COLOR(profile.estabilidad.banda) }}>{r}</span>
           ))}
         </div>
       </Card>
 
       {/* ANÁLISIS IA INTEGRAL */}
-      <div style={{ marginTop: 14 }}>
+      <div className="inst-mt-14">
         <AnalisisIntegralCard analisis={profile.analisisIntegral}/>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginTop: 14 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div className="inst-main-grid">
+        <div className="inst-col-stack">
           {profile.bio.extract && (
             <Card titulo="HISTORIA · WIKIPEDIA" color="#525258">
-              <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.55 }}>{profile.bio.extract}</p>
+              <p className="inst-paragraph--bio">{profile.bio.extract}</p>
               {profile.bio.sourceUrl && <SmallLink href={profile.bio.sourceUrl} color={c.color}>Wikipedia completa ↗</SmallLink>}
             </Card>
           )}
@@ -343,7 +340,7 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           {profile.narrativas.length > 0 && (
             <>
               <Card titulo={`NARRATIVAS DOMINANTES · ${profile.narrativas.length}`} color="#7C3AED">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="inst-narrativas-stack">
                   {profile.narrativas.map((n, i) => (
                     <NarrativaCard key={i} narrativa={n}/>
                   ))}
@@ -358,7 +355,7 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           {profile.historicoElectoral.length > 0 && (
             <Card titulo={`HISTÓRICO ELECTORAL · ${profile.historicoElectoral.length} elecciones`} color="#9333EA">
               {profile.historicoElectoral.map((e, i) => <ResultadosCard key={i} eleccion={e}/>)}
-              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6e6e73' }}>
+              <p className="inst-card-source">
                 Fuente: Junta Electoral Central + Ministerio del Interior. Última actualización del snapshot: jul 2024.
               </p>
             </Card>
@@ -367,16 +364,16 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
           {profile.parlamento && (
             <Card titulo={`PARLAMENTO AUTONÓMICO · ${profile.parlamento.totalEscaños} escaños`} color="#1F4E8C">
               <HemicicloSVG parlamento={profile.parlamento}/>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '3px 12px', marginTop: 10 }}>
+              <div className="inst-parlamento-legend">
                 {profile.parlamento.partidos.map(p => (
-                  <div key={p.partido} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11.5 }}>
-                    <span style={{ width: 10, height: 10, background: p.color, borderRadius: 2, flexShrink: 0 }}/>
-                    <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.partido}</span>
-                    <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{p.escaños}</span>
+                  <div key={p.partido} className="inst-parlamento-row">
+                    <span className="inst-parlamento-swatch" style={{ background: p.color }}/>
+                    <span className="inst-parlamento-name">{p.partido}</span>
+                    <span className="inst-parlamento-seats">{p.escaños}</span>
                   </div>
                 ))}
               </div>
-              <p style={{ margin: '10px 0 0', fontSize: 10.5, color: '#6e6e73', lineHeight: 1.5 }}>
+              <p className="inst-parlamento-note">
                 Aproximación con D&apos;Hondt sobre últimas autonómicas ({profile.parlamento.fecha}). Mayoría absoluta: <strong>{profile.parlamento.mayoriaAbsoluta}</strong>.
                 Ganador: <strong style={{ color: profile.parlamento.ganador.color }}>{profile.parlamento.ganador.partido} ({profile.parlamento.ganador.escaños} escaños)</strong>.
               </p>
@@ -385,19 +382,17 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
 
           {profile.iniciativas.length > 0 && (
             <Card titulo={`INICIATIVAS DEL PARLAMENTO · ${profile.iniciativas.length}`} color="#5B21B6">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, maxHeight: 360, overflowY: 'auto' }}>
+              <div className="inst-iniciativas-list">
                 {profile.iniciativas.map((it, i) => (
-                  <a key={i} href={it.url || '#'} target="_blank" rel="noopener noreferrer" style={{
-                    padding: '7px 10px', borderRadius: 7, background: '#FAFAFB',
-                    border: '1px solid #ECECEF', borderLeft: `3px solid ${c.color}`,
-                    textDecoration: 'none', color: '#1d1d1f',
-                  }}>
-                    <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
-                      <span style={{ fontWeight: 700, color: c.color }}>{it.promotor}</span>
+                  <a key={i} href={it.url || '#'} target="_blank" rel="noopener noreferrer"
+                    className="inst-iniciativa-row"
+                    style={{ borderLeft: `3px solid ${c.color}` }}>
+                    <div className="inst-iniciativa-meta">
+                      <span className="inst-iniciativa-promotor" style={{ color: c.color }}>{it.promotor}</span>
                       <span>· {it.materia}</span>
                       {it.fechaRegistro && <span>· {it.fechaRegistro.slice(0, 10)}</span>}
                     </div>
-                    <p style={{ margin: 0, fontSize: 11, lineHeight: 1.35 }}>{it.titulo.slice(0, 180)}</p>
+                    <p className="inst-iniciativa-title">{it.titulo.slice(0, 180)}</p>
                   </a>
                 ))}
               </div>
@@ -406,37 +401,37 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
 
           {profile.noticias.length > 0 && (
             <Card titulo={`NOTICIAS 7D · ${profile.noticias.length}`} color="#0F766E">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 480, overflowY: 'auto' }}>
+              <div className="inst-noticias-list">
                 {profile.noticias.map((n, i) => <NewsRow key={i} n={n}/>)}
               </div>
             </Card>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="inst-col-stack">
           {/* Gobierno */}
           <Card titulo="GOBIERNO Y CARGOS" color="#1F4E8C">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
+            <div className="inst-gob-head">
               {profile.presidenteFoto ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={profile.presidenteFoto} alt={profile.presidente?.nombre || c.presidente} style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${c.color}` }}/>
+                <img src={profile.presidenteFoto} alt={profile.presidente?.nombre || c.presidente} className="inst-gob-foto" style={{ border: `2px solid ${c.color}` }}/>
               ) : (
-                <div style={{ width: 56, height: 56, borderRadius: '50%', background: c.color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                <div className="inst-gob-initials" style={{ background: c.color }}>
                   {(profile.presidente?.nombre || c.presidente).split(' ').map(w => w[0]).slice(0,2).join('')}
                 </div>
               )}
               <div>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{profile.presidente?.nombre || c.presidente}</p>
-                <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
+                <p className="inst-gob-name">{profile.presidente?.nombre || c.presidente}</p>
+                <p className="inst-gob-role">
                   Presidente/a · {profile.presidente?.partidoNombre || c.partidoGobierno}
                 </p>
-                {profile.presidente?.inicioCargo && <p style={{ margin: '3px 0 0', fontSize: 10, color: '#9ca3af' }}>Desde {profile.presidente.inicioCargo}</p>}
+                {profile.presidente?.inicioCargo && <p className="inst-gob-since">Desde {profile.presidente.inicioCargo}</p>}
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11 }}>
-              <a href={c.gobiernoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>Gobierno {c.nombreCorto} ↗</a>
-              <a href={c.parlamentoUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}> {c.parlamento} ↗</a>
-              <a href={c.boletinUrl} target="_blank" rel="noopener noreferrer" style={{ color: c.color, textDecoration: 'none', fontWeight: 600 }}>Boletín {c.boletin} ↗</a>
+            <div className="inst-gob-links">
+              <a href={c.gobiernoUrl} target="_blank" rel="noopener noreferrer" className="inst-gob-link" style={{ color: c.color }}>Gobierno {c.nombreCorto} ↗</a>
+              <a href={c.parlamentoUrl} target="_blank" rel="noopener noreferrer" className="inst-gob-link" style={{ color: c.color }}> {c.parlamento} ↗</a>
+              <a href={c.boletinUrl} target="_blank" rel="noopener noreferrer" className="inst-gob-link" style={{ color: c.color }}>Boletín {c.boletin} ↗</a>
             </div>
           </Card>
 
@@ -444,9 +439,9 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
 
           {profile.preocupaciones.length > 0 && (
             <Card titulo={`PREOCUPACIONES DETECTADAS · ${profile.preocupaciones.length}`} color="#DC2626">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div className="inst-preocupaciones-list">
                 {profile.preocupaciones.map(p => (
-                  <div key={p} style={{ padding: '5px 9px', fontSize: 11, color: '#1d1d1f', background: 'rgba(220,38,38,0.06)', borderRadius: 6, borderLeft: '2px solid #DC2626' }}>{p}</div>
+                  <div key={p} className="inst-preocupacion">{p}</div>
                 ))}
               </div>
             </Card>
@@ -454,27 +449,27 @@ function CCAAView({ profile }: { profile: CCAAProfile }) {
 
           {profile.tagsCobertura.length > 0 && (
             <Card titulo="TEMAS EN COBERTURA" color={c.color}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              <div className="inst-tags-wrap">
                 {profile.tagsCobertura.map(t => (
-                  <span key={t} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: `${c.color}15`, color: c.color, fontWeight: 600 }}>{t}</span>
+                  <span key={t} className="inst-tag-pill" style={{ background: `${c.color}15`, color: c.color }}>{t}</span>
                 ))}
               </div>
             </Card>
           )}
 
           <Card titulo="ECONOMÍA Y SECTORES" color="#0F766E">
-            <p style={{ margin: '0 0 8px', fontSize: 11.5, color: '#1d1d1f' }}>PIB anual: <strong>{c.pibMillones.toLocaleString('es-ES')} M€</strong></p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <p className="inst-economia-pib">PIB anual: <strong>{c.pibMillones.toLocaleString('es-ES')} M€</strong></p>
+            <div className="inst-tags-wrap">
               {c.sectoresClave.map(s => (
-                <span key={s} style={{ padding: '3px 9px', borderRadius: 6, fontSize: 11, background: '#FAFAFB', border: '1px solid #ECECEF', color: '#1d1d1f' }}>{s}</span>
+                <span key={s} className="inst-sector-pill">{s}</span>
               ))}
             </div>
           </Card>
 
           <Card titulo="PROVINCIAS" color="#525258">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            <div className="inst-tags-wrap">
               {c.provincias.map(p => (
-                <span key={p} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: '#FAFAFB', border: '1px solid #ECECEF', color: '#1d1d1f' }}>{p}</span>
+                <span key={p} className="inst-provincia-pill">{p}</span>
               ))}
             </div>
           </Card>
@@ -532,40 +527,38 @@ function MunicipiosTab() {
   }, [q, ccaaFilter])
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '340px 1fr', gap: 16 }}>
-      <aside style={{ background: '#fff', borderRadius: 14, border: '1px solid #ECECEF', padding: 12, maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column' }}>
+    <div className="inst-municipios-layout">
+      <aside className="inst-municipios-aside">
         <input type="text" value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar entre 8.132 municipios…" autoFocus
-          style={{ padding: '8px 12px', fontSize: 12, borderRadius: 8, border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit', marginBottom: 8 }}/>
-        <select value={ccaaFilter} onChange={e => setCcaaFilter(e.target.value)} style={{ padding: '7px 10px', fontSize: 12, borderRadius: 8, border: '1px solid #ECECEF', background: '#fff', fontFamily: 'inherit', marginBottom: 8 }}>
+          className="inst-municipios-search"/>
+        <select value={ccaaFilter} onChange={e => setCcaaFilter(e.target.value)} className="inst-municipios-select">
           <option value="">Todas las CCAA</option>
           {ccaaList.map(c => <option key={c.slug} value={c.slug}>{c.nombreCorto}</option>)}
         </select>
-        <p style={{ fontSize: 10, color: '#6e6e73', margin: '0 0 8px' }}>
+        <p className="inst-municipios-count">
           {grandTotal > 0 && `${grandTotal.toLocaleString('es-ES')} totales · `}mostrando {list.length}
         </p>
-        <div style={{ overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <div className="inst-municipios-list">
           {list.map(m => {
             const active = selected === m.slug
             const partidoColor = m.partidoAlcalde ? (PARTY_COLOR[m.partidoAlcalde] || '#525258') : '#0F766E'
             return (
-              <button key={m.slug + m.ine} onClick={() => setSelected(m.slug)} style={{
-                textAlign: 'left', padding: '6px 9px', borderRadius: 6,
-                background: active ? `${partidoColor}10` : '#fff',
+              <button key={m.slug + m.ine} onClick={() => setSelected(m.slug)} className="inst-municipio-row" style={{
+                background: active ? `${partidoColor}10` : undefined,
                 border: '1px solid ' + (active ? partidoColor : '#F0F0F3'),
                 borderLeft: `3px solid ${partidoColor}`,
-                cursor: 'pointer', fontFamily: 'inherit',
               }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                  <strong style={{ fontSize: 11.5, color: '#1d1d1f' }}>{m.nombre}</strong>
-                  <span style={{ marginLeft: 'auto', fontSize: 9.5, color: '#6e6e73', fontVariantNumeric: 'tabular-nums' }}>
+                <div className="inst-municipio-row-head">
+                  <strong className="inst-municipio-row-name">{m.nombre}</strong>
+                  <span className="inst-municipio-row-pop">
                     {m.poblacion > 1000000 ? `${(m.poblacion/1000000).toFixed(1)}M` : m.poblacion > 1000 ? `${(m.poblacion/1000).toFixed(0)}k` : m.poblacion}
                   </span>
                 </div>
-                <p style={{ margin: '2px 0 0', fontSize: 9.5, color: '#6e6e73' }}>{m.provincia}</p>
+                <p className="inst-municipio-row-provincia">{m.provincia}</p>
               </button>
             )
           })}
-          {list.length === 0 && q && <p style={{ fontSize: 11, color: '#9ca3af', textAlign: 'center', padding: 20 }}>Sin coincidencias para "{q}"</p>}
+          {list.length === 0 && q && <p className="inst-municipios-empty">Sin coincidencias para "{q}"</p>}
         </div>
       </aside>
 
@@ -601,23 +594,23 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
       />
 
       <Card titulo="RESUMEN EJECUTIVO IA" color="#7C3AED" highlight>
-        <p style={{ margin: 0, fontSize: 13, color: '#1d1d1f', lineHeight: 1.6 }}>{profile.resumenIA}</p>
-        <div style={{ marginTop: 10, display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+        <p className="inst-paragraph">{profile.resumenIA}</p>
+        <div className="inst-razones-row">
           {profile.estabilidad.razones.map((r, i) => (
-            <span key={i} style={{ padding: '4px 10px', borderRadius: 999, fontSize: 11, background: `${ESTAB_COLOR(profile.estabilidad.banda)}15`, color: ESTAB_COLOR(profile.estabilidad.banda), fontWeight: 600 }}>{r}</span>
+            <span key={i} className="inst-razon-chip" style={{ background: `${ESTAB_COLOR(profile.estabilidad.banda)}15`, color: ESTAB_COLOR(profile.estabilidad.banda) }}>{r}</span>
           ))}
         </div>
       </Card>
 
-      <div style={{ marginTop: 14 }}>
+      <div className="inst-mt-14">
         <AnalisisIntegralCard analisis={profile.analisisIntegral}/>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginTop: 14 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div className="inst-main-grid">
+        <div className="inst-col-stack">
           {profile.bio.extract && (
             <Card titulo="WIKIPEDIA" color="#525258">
-              <p style={{ margin: 0, fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.55 }}>{profile.bio.extract}</p>
+              <p className="inst-paragraph--bio">{profile.bio.extract}</p>
               {profile.bio.sourceUrl && <SmallLink href={profile.bio.sourceUrl} color={partidoColor}>Wikipedia completa ↗</SmallLink>}
             </Card>
           )}
@@ -632,7 +625,7 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           {profile.narrativas.length > 0 && (
             <>
               <Card titulo={`NARRATIVAS LOCALES · ${profile.narrativas.length}`} color="#7C3AED">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="inst-narrativas-stack">
                   {profile.narrativas.map((n, i) => <NarrativaCard key={i} narrativa={n}/>)}
                 </div>
               </Card>
@@ -644,18 +637,18 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
 
           {profile.noticias.length > 0 && (
             <Card titulo={`NOTICIAS LOCALES · ${profile.noticias.length}`} color="#0F766E">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 480, overflowY: 'auto' }}>
+              <div className="inst-noticias-list">
                 {profile.noticias.map((n, i) => <NewsRow key={i} n={n}/>)}
               </div>
             </Card>
           )}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div className="inst-col-stack">
           {profile.historicoAlcaldes.length > 0 && (
             <Card titulo={`HISTÓRICO DE ALCALDES · ${profile.historicoAlcaldes.length}`} color="#1F4E8C">
               <TimelineAlcaldes alcaldes={profile.historicoAlcaldes}/>
-              <p style={{ margin: '8px 0 0', fontSize: 10, color: '#9CA3AF', fontStyle: 'italic' }}>
+              <p className="inst-card-source-alc">
                 Fuente: Wikidata SPARQL · P6 (head of government) por código INE
               </p>
             </Card>
@@ -664,7 +657,7 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           {profile.seriePoblacion && profile.seriePoblacion.puntos.length > 3 && (
             <Card titulo={`EVOLUCIÓN POBLACIONAL · ${profile.seriePoblacion.añoMin}-${profile.seriePoblacion.añoMax}`} color="#0F766E">
               <EvolucionPoblacionChart serie={profile.seriePoblacion}/>
-              <p style={{ margin: '6px 0 0', fontSize: 10, color: '#9CA3AF', fontStyle: 'italic' }}>
+              <p className="inst-card-source-pob">
                 Fuente: INE · Padrón Municipal Continuo
               </p>
             </Card>
@@ -678,19 +671,19 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
 
           {profile.alcalde && (
             <Card titulo="GOBIERNO MUNICIPAL · WIKIDATA" color="#1F4E8C">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div className="inst-alcalde-head">
                 {profile.alcaldeFoto ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={profile.alcaldeFoto} alt={profile.alcalde.nombre} style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${partidoColor}` }}/>
+                  <img src={profile.alcaldeFoto} alt={profile.alcalde.nombre} className="inst-alcalde-foto" style={{ border: `2px solid ${partidoColor}` }}/>
                 ) : (
-                  <div style={{ width: 64, height: 64, borderRadius: '50%', background: partidoColor, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 18 }}>
+                  <div className="inst-alcalde-initials" style={{ background: partidoColor }}>
                     {profile.alcalde.nombre.split(' ').map(w => w[0]).slice(0,2).join('')}
                   </div>
                 )}
                 <div>
-                  <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#1d1d1f' }}>{profile.alcalde.nombre}</p>
-                  <p style={{ margin: '3px 0 0', fontSize: 11.5, color: '#6e6e73' }}>Alcalde/sa{profile.alcalde.partidoNombre ? ` · ${profile.alcalde.partidoNombre}` : ''}</p>
-                  {profile.alcalde.inicioCargo && <p style={{ margin: '3px 0 0', fontSize: 10, color: '#9ca3af' }}>Desde {profile.alcalde.inicioCargo}</p>}
+                  <p className="inst-alcalde-name">{profile.alcalde.nombre}</p>
+                  <p className="inst-alcalde-role">Alcalde/sa{profile.alcalde.partidoNombre ? ` · ${profile.alcalde.partidoNombre}` : ''}</p>
+                  {profile.alcalde.inicioCargo && <p className="inst-alcalde-since">Desde {profile.alcalde.inicioCargo}</p>}
                 </div>
               </div>
             </Card>
@@ -699,26 +692,26 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           {(profile.rentaMedia || profile.extranjeros || profile.piramide) && (
             <Card titulo="DEMOGRAFÍA Y ECONOMÍA · INE" color="#0F766E">
               {profile.rentaMedia?.rentaMediaHogar && (
-                <div style={{ marginBottom: 10 }}>
-                  <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>RENTA MEDIA HOGAR {profile.rentaMedia.año}</p>
-                  <p style={{ margin: '3px 0 0', fontSize: 18, fontWeight: 700, color: '#0F766E', fontFamily: 'var(--font-display)' }}>
+                <div className="inst-demo-block">
+                  <p className="inst-demo-label">RENTA MEDIA HOGAR {profile.rentaMedia.año}</p>
+                  <p className="inst-demo-value-big">
                     {profile.rentaMedia.rentaMediaHogar.toLocaleString('es-ES')} €
                   </p>
-                  {profile.rentaMedia.rentaMediaPersona && <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>{profile.rentaMedia.rentaMediaPersona.toLocaleString('es-ES')} €/persona</p>}
-                  {profile.rentaMedia.ginis && <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>Gini: {profile.rentaMedia.ginis}</p>}
+                  {profile.rentaMedia.rentaMediaPersona && <p className="inst-demo-meta">{profile.rentaMedia.rentaMediaPersona.toLocaleString('es-ES')} €/persona</p>}
+                  {profile.rentaMedia.ginis && <p className="inst-demo-meta">Gini: {profile.rentaMedia.ginis}</p>}
                 </div>
               )}
               {profile.extranjeros && profile.extranjeros.totalExtranjeros > 0 && (
-                <div style={{ marginBottom: 10 }}>
-                  <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>POBLACIÓN EXTRANJERA</p>
-                  <p style={{ margin: '3px 0 0', fontSize: 14, color: '#1d1d1f' }}>
+                <div className="inst-demo-block">
+                  <p className="inst-demo-label">POBLACIÓN EXTRANJERA</p>
+                  <p className="inst-demo-value-mid">
                     <strong>{profile.extranjeros.totalExtranjeros.toLocaleString('es-ES')}</strong> ({profile.extranjeros.porcentaje}%)
                   </p>
-                  <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  <div className="inst-demo-nacionalidades">
                     {profile.extranjeros.topNacionalidades.slice(0, 5).map(n => (
-                      <div key={n.nacionalidad} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10.5 }}>
+                      <div key={n.nacionalidad} className="inst-demo-nac-row">
                         <span>{n.nacionalidad}</span>
-                        <span style={{ color: '#6e6e73' }}>{n.total.toLocaleString('es-ES')} ({n.porcentaje}%)</span>
+                        <span className="inst-demo-nac-meta">{n.total.toLocaleString('es-ES')} ({n.porcentaje}%)</span>
                       </div>
                     ))}
                   </div>
@@ -731,7 +724,7 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
                 </>
               )}
               {!profile.rentaMedia?.rentaMediaHogar && !profile.extranjeros?.totalExtranjeros && !profile.piramide && (
-                <p style={{ margin: 0, fontSize: 11, color: '#9ca3af', fontStyle: 'italic' }}>INE no expone datos detallados de este municipio (consulta directa al INE para más).</p>
+                <p className="inst-demo-empty">INE no expone datos detallados de este municipio (consulta directa al INE para más).</p>
               )}
             </Card>
           )}
@@ -740,9 +733,9 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
 
           {profile.preocupaciones.length > 0 && (
             <Card titulo={`PREOCUPACIONES DETECTADAS · ${profile.preocupaciones.length}`} color="#DC2626">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div className="inst-preocupaciones-list">
                 {profile.preocupaciones.map(p => (
-                  <div key={p} style={{ padding: '5px 9px', fontSize: 11, color: '#1d1d1f', background: 'rgba(220,38,38,0.06)', borderRadius: 6, borderLeft: '2px solid #DC2626' }}>{p}</div>
+                  <div key={p} className="inst-preocupacion">{p}</div>
                 ))}
               </div>
             </Card>
@@ -750,9 +743,9 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
 
           {profile.tagsCobertura.length > 0 && (
             <Card titulo="TEMAS EN COBERTURA" color={partidoColor}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+              <div className="inst-tags-wrap">
                 {profile.tagsCobertura.map(t => (
-                  <span key={t} style={{ padding: '3px 9px', borderRadius: 999, fontSize: 11, background: `${partidoColor}15`, color: partidoColor, fontWeight: 600 }}>{t}</span>
+                  <span key={t} className="inst-tag-pill" style={{ background: `${partidoColor}15`, color: partidoColor }}>{t}</span>
                 ))}
               </div>
             </Card>
@@ -784,30 +777,30 @@ function MunicipioView({ profile }: { profile: MunicipioProfile }) {
           )}
 
           <Card titulo="RESULTADOS ELECTORALES OFICIALES" color="#9333EA">
-            <p style={{ margin: 0, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+            <p className="inst-res-paragraph">
               Resultados desagregados por mesa, sección y municipio en el portal oficial del Ministerio del Interior
               (todas las convocatorias desde 1977).
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5, marginTop: 10 }}>
-              <a href={profile.enlacesElectorales.consultaMir} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+            <div className="inst-res-links">
+              <a href={profile.enlacesElectorales.consultaMir} target="_blank" rel="noopener noreferrer" className="inst-res-link">
                 InfoElectoral · Ministerio del Interior ↗
               </a>
-              <a href={profile.enlacesElectorales.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+              <a href={profile.enlacesElectorales.wikipedia} target="_blank" rel="noopener noreferrer" className="inst-res-link">
                 Elecciones municipales · Wikipedia ↗
               </a>
-              <a href={profile.enlacesElectorales.junta} target="_blank" rel="noopener noreferrer" style={{ color: '#9333EA', textDecoration: 'none', fontWeight: 600 }}>
+              <a href={profile.enlacesElectorales.junta} target="_blank" rel="noopener noreferrer" className="inst-res-link">
                 Junta Electoral Central ↗
               </a>
             </div>
-            <p style={{ margin: '10px 0 0', fontSize: 10, color: '#9ca3af' }}>
+            <p className="inst-res-meta">
               INE {profile.meta.ine} · provincia {profile.enlacesElectorales.cpro}
             </p>
           </Card>
 
           <Card titulo="ENLACES OFICIALES" color={partidoColor}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, fontSize: 11.5 }}>
-              {m.webAyuntamiento && <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>Ayuntamiento ↗</a>}
-              {m.wikipedia && <a href={m.wikipedia} target="_blank" rel="noopener noreferrer" style={{ color: partidoColor, textDecoration: 'none', fontWeight: 600 }}>Wikipedia ↗</a>}
+            <div className="inst-enlaces-list">
+              {m.webAyuntamiento && <a href={m.webAyuntamiento} target="_blank" rel="noopener noreferrer" className="inst-enlaces-link" style={{ color: partidoColor }}>Ayuntamiento ↗</a>}
+              {m.wikipedia && <a href={m.wikipedia} target="_blank" rel="noopener noreferrer" className="inst-enlaces-link" style={{ color: partidoColor }}>Wikipedia ↗</a>}
             </div>
           </Card>
         </div>
@@ -823,24 +816,24 @@ function Hero({ color, eyebrow, nombre, subtitulo, foto, kpis }: {
   foto: string | null; partidoLabel: string; kpis: Array<{ label: string; value: string | number; color: string }>
 }) {
   return (
-    <section style={{
-      background: `linear-gradient(135deg,${color}EE,${color}99)`, borderRadius: 16, padding: '24px 30px', marginBottom: 14, color: '#fff',
-      display: 'grid', gridTemplateColumns: foto ? 'auto 1.5fr 1fr' : '2fr 1fr', gap: 20, alignItems: 'center',
-    }}>
+    <section
+      className={`inst-hero ${foto ? 'inst-hero--with-foto' : 'inst-hero--no-foto'}`}
+      style={{ background: `linear-gradient(135deg,${color}EE,${color}99)` }}
+    >
       {foto && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={foto} alt={nombre} style={{ width: 90, height: 90, borderRadius: '50%', objectFit: 'cover', border: '3px solid rgba(255,255,255,0.6)' }}/>
+        <img src={foto} alt={nombre} className="inst-hero-foto"/>
       )}
       <div>
-        <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.85, margin: '0 0 4px', textTransform: 'uppercase' }}>{eyebrow}</p>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 28, letterSpacing: '-0.022em', margin: '0 0 4px' }}>{nombre}</h2>
-        <p style={{ fontSize: 12.5, opacity: 0.85, margin: 0 }}>{subtitulo}</p>
+        <p className="inst-hero-eyebrow">{eyebrow}</p>
+        <h2 className="inst-hero-name">{nombre}</h2>
+        <p className="inst-hero-subtitle">{subtitulo}</p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+      <div className="inst-hero-kpis">
         {kpis.map((k, i) => (
-          <div key={i} style={{ padding: '10px 8px', borderRadius: 8, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', textAlign: 'center' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, opacity: 0.74, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{k.label}</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, lineHeight: 1.1, marginTop: 3, color: k.color }}>{k.value}</div>
+          <div key={i} className="inst-hero-kpi">
+            <div className="inst-hero-kpi-label">{k.label}</div>
+            <div className="inst-hero-kpi-value" style={{ color: k.color }}>{k.value}</div>
           </div>
         ))}
       </div>
@@ -850,32 +843,27 @@ function Hero({ color, eyebrow, nombre, subtitulo, foto, kpis }: {
 
 function Card({ titulo, color, children, highlight }: { titulo: string; color: string; children: React.ReactNode; highlight?: boolean }) {
   return (
-    <section style={{
-      background: highlight ? `${color}06` : '#fff',
-      borderRadius: 14, border: '1px solid ' + (highlight ? `${color}40` : '#ECECEF'),
-      padding: '14px 18px',
+    <section className="inst-card" style={{
+      background: highlight ? `${color}06` : undefined,
+      border: '1px solid ' + (highlight ? `${color}40` : 'var(--color-hairline-soft)'),
       borderLeft: highlight ? `4px solid ${color}` : undefined,
     }}>
-      <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.12em', color, textTransform: 'uppercase', margin: '0 0 10px' }}>{titulo}</p>
+      <p className="inst-card-title" style={{ color }}>{titulo}</p>
       {children}
     </section>
   )
 }
 
 function SmallLink({ href, color, children }: { href: string; color: string; children: React.ReactNode }) {
-  return <a href={href} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color, textDecoration: 'none', marginTop: 6, display: 'inline-block', fontWeight: 600 }}>{children}</a>
+  return <a href={href} target="_blank" rel="noopener noreferrer" className="inst-small-link" style={{ color }}>{children}</a>
 }
 
 function NewsRow({ n }: { n: { titulo: string; medio: string; fecha: string | null; url: string; sentiment: string; descripcion?: string } }) {
   const sc = SENT_COLOR(n.sentiment)
   return (
-    <a href={n.url} target="_blank" rel="noopener noreferrer" style={{
-      padding: '7px 10px', borderRadius: 7, fontSize: 11.5,
-      background: '#FAFAFB', border: '1px solid #ECECEF', borderLeft: `3px solid ${sc}`,
-      textDecoration: 'none', color: '#1d1d1f',
-    }}>
-      <div style={{ display: 'flex', gap: 6, fontSize: 9.5, color: '#6e6e73', marginBottom: 2 }}>
-        <span style={{ color: sc, fontWeight: 700 }}>{n.medio}</span>
+    <a href={n.url} target="_blank" rel="noopener noreferrer" className="inst-news-row" style={{ borderLeft: `3px solid ${sc}` }}>
+      <div className="inst-news-meta">
+        <span className="inst-news-medio" style={{ color: sc }}>{n.medio}</span>
         {n.fecha && <span>· {n.fecha.slice(0, 10)}</span>}
       </div>
       {n.titulo}
@@ -886,21 +874,21 @@ function NewsRow({ n }: { n: { titulo: string; medio: string; fecha: string | nu
 function NarrativaCard({ narrativa }: { narrativa: Narrativa }) {
   const color = SENT_COLOR(narrativa.tono)
   return (
-    <div style={{ padding: '10px 12px', borderRadius: 10, background: '#FAFAFB', border: '1px solid #ECECEF', borderLeft: `3px solid ${color}` }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-        <strong style={{ fontSize: 12.5, color: '#1d1d1f' }}>{narrativa.nombre}</strong>
-        <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color, padding: '2px 7px', borderRadius: 999, background: `${color}15` }}>
+    <div className="inst-narrativa-card" style={{ borderLeft: `3px solid ${color}` }}>
+      <div className="inst-narrativa-head">
+        <strong className="inst-narrativa-title">{narrativa.nombre}</strong>
+        <span className="inst-narrativa-fuerza" style={{ color, background: `${color}15` }}>
           {narrativa.fuerza} art.
         </span>
-        <span style={{ fontSize: 10, color }}>{narrativa.sentimiento > 0 ? '+' : ''}{narrativa.sentimiento}</span>
+        <span className="inst-narrativa-sent" style={{ color }}>{narrativa.sentimiento > 0 ? '+' : ''}{narrativa.sentimiento}</span>
       </div>
       {narrativa.tags.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3, marginBottom: 5 }}>
-          {narrativa.tags.map(t => <span key={t} style={{ fontSize: 9.5, padding: '1px 6px', borderRadius: 3, background: 'rgba(0,0,0,0.04)', color: '#525258' }}>{t}</span>)}
+        <div className="inst-narrativa-tags">
+          {narrativa.tags.map(t => <span key={t} className="inst-narrativa-tag">{t}</span>)}
         </div>
       )}
       {narrativa.ejemplos.length > 0 && (
-        <a href={narrativa.ejemplos[0].url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10.5, color: '#525258', textDecoration: 'none', fontStyle: 'italic' }}>
+        <a href={narrativa.ejemplos[0].url} target="_blank" rel="noopener noreferrer" className="inst-narrativa-example">
           ‟{narrativa.ejemplos[0].titulo.slice(0, 100)}” · {narrativa.ejemplos[0].medio}
         </a>
       )}
@@ -911,18 +899,18 @@ function NarrativaCard({ narrativa }: { narrativa: Narrativa }) {
 function SentimientoCard({ sentimiento, color }: { sentimiento: SentimientoAgregado; color: string }) {
   return (
     <Card titulo="SENTIMIENTO MEDIÁTICO" color="#6e6e73">
-      <div style={{ display: 'flex', gap: 4, marginBottom: 8, height: 12, borderRadius: 6, overflow: 'hidden', background: '#F5F5F7' }}>
-        {sentimiento.positivo > 0 && <div style={{ flex: sentimiento.positivo, background: '#16A34A' }}/>}
-        {sentimiento.neutral > 0 && <div style={{ flex: sentimiento.neutral, background: '#94A3B8' }}/>}
-        {sentimiento.negativo > 0 && <div style={{ flex: sentimiento.negativo, background: '#DC2626' }}/>}
+      <div className="inst-sent-bar">
+        {sentimiento.positivo > 0 && <div className="inst-sent-bar-pos" style={{ flex: sentimiento.positivo }}/>}
+        {sentimiento.neutral > 0 && <div className="inst-sent-bar-neutral" style={{ flex: sentimiento.neutral }}/>}
+        {sentimiento.negativo > 0 && <div className="inst-sent-bar-neg" style={{ flex: sentimiento.negativo }}/>}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
-        <span style={{ color: '#16A34A', fontWeight: 700 }}>+{sentimiento.positivo}</span>
-        <span style={{ color: '#94A3B8' }}>={sentimiento.neutral}</span>
-        <span style={{ color: '#DC2626', fontWeight: 700 }}>−{sentimiento.negativo}</span>
+      <div className="inst-sent-counts">
+        <span className="inst-sent-count-pos">+{sentimiento.positivo}</span>
+        <span className="inst-sent-count-neutral">={sentimiento.neutral}</span>
+        <span className="inst-sent-count-neg">−{sentimiento.negativo}</span>
       </div>
-      <p style={{ margin: '8px 0 0', fontSize: 12, color: '#1d1d1f', textAlign: 'center' }}>
-        Score <strong style={{ color, fontSize: 18 }}>{sentimiento.score > 0 ? '+' : ''}{sentimiento.score}</strong>
+      <p className="inst-sent-score-row">
+        Score <strong className="inst-sent-score-num" style={{ color }}>{sentimiento.score > 0 ? '+' : ''}{sentimiento.score}</strong>
         {' · '}
         <strong>{sentimiento.tendencia === 'up' ? '↑ mejora' : sentimiento.tendencia === 'down' ? '↓ empeora' : '→ estable'}</strong>
       </p>
@@ -935,43 +923,43 @@ function EmpresasCard({ empresas }: { empresas: TejidoEmpresarial }) {
   const restoPct = empresas.sectores.slice(6).reduce((s, x) => s + x.pct, 0)
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+      <div className="inst-emp-head">
         <div>
-          <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>
+          <p className="inst-emp-num-big">
             {empresas.totalEmpresas.toLocaleString('es-ES')}
           </p>
-          <p style={{ margin: 0, fontSize: 11, color: '#6e6e73' }}>empresas registradas · {empresas.año}</p>
+          <p className="inst-emp-num-sub">empresas registradas · {empresas.año}</p>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#0F766E', fontFamily: 'var(--font-display)' }}>
+        <div className="inst-emp-right">
+          <p className="inst-emp-densidad-num">
             {empresas.densidad}
           </p>
-          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>empresas / 1.000 hab</p>
+          <p className="inst-emp-densidad-sub">empresas / 1.000 hab</p>
         </div>
       </div>
 
       {/* Barra stacked sectores */}
-      <div style={{ display: 'flex', height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7', marginBottom: 10 }}>
+      <div className="inst-emp-stack">
         {top.map((r, i) => <div key={i} style={{ flex: r.pct, background: r.color }} title={`${r.sector}: ${r.pct}%`}/>)}
-        {restoPct > 0 && <div style={{ flex: restoPct, background: '#E0E0E0' }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
+        {restoPct > 0 && <div className="inst-emp-stack-rest" style={{ flex: restoPct }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
       </div>
 
       {/* Lista sectores top */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <div className="inst-emp-list">
         {top.map(r => (
-          <div key={r.sector} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
-            <span style={{ width: 10, height: 10, background: r.color, borderRadius: 2, flexShrink: 0 }}/>
-            <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.sector}</span>
-            <span style={{ color: '#6e6e73', fontSize: 10 }}>{r.empresas.toLocaleString('es-ES')}</span>
-            <span style={{ fontWeight: 700, color: '#1d1d1f', minWidth: 36, textAlign: 'right' }}>{r.pct.toFixed(1)}%</span>
+          <div key={r.sector} className="inst-emp-row">
+            <span className="inst-emp-row-swatch" style={{ background: r.color }}/>
+            <span className="inst-emp-row-name">{r.sector}</span>
+            <span className="inst-emp-row-count">{r.empresas.toLocaleString('es-ES')}</span>
+            <span className="inst-emp-row-pct">{r.pct.toFixed(1)}%</span>
           </div>
         ))}
       </div>
 
-      <p style={{ margin: '10px 0 0', padding: 8, background: 'rgba(15,118,110,0.05)', borderRadius: 6, fontSize: 11, color: '#0F766E', fontWeight: 600 }}>
+      <p className="inst-emp-comparativa">
         {empresas.comparativa.ranking} · ratio {empresas.comparativa.vsMediaNacional}× la media nacional
       </p>
-      <p style={{ margin: '6px 0 0', fontSize: 9.5, color: '#9ca3af' }}>{empresas.fuente}</p>
+      <p className="inst-emp-fuente">{empresas.fuente}</p>
     </div>
   )
 }
@@ -980,11 +968,11 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
   const conImagen = patrimonio.bienes.filter(b => b.imagen).slice(0, 6)
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-        <span style={{ fontSize: 28, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{patrimonio.total}</span>
-        <span style={{ fontSize: 11, color: '#6e6e73' }}>BIC + monumentos catalogados</span>
+      <div className="inst-pat-head">
+        <span className="inst-pat-total">{patrimonio.total}</span>
+        <span className="inst-pat-total-label">BIC + monumentos catalogados</span>
         {patrimonio.unesco.length > 0 && (
-          <span style={{ padding: '3px 9px', background: '#FFE082', color: '#5D4037', borderRadius: 999, fontSize: 10, fontWeight: 700 }}>
+          <span className="inst-pat-unesco-badge">
             {patrimonio.unesco.length} UNESCO
           </span>
         )}
@@ -992,22 +980,22 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
 
       {/* Galería miniaturas */}
       {conImagen.length > 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 12 }}>
+        <div className="inst-pat-gallery">
           {conImagen.map(b => (
             <a key={b.qid} href={b.wikipediaUrl || `https://www.wikidata.org/wiki/${b.qid}`} target="_blank" rel="noopener noreferrer"
-               style={{ textDecoration: 'none', display: 'block' }}>
+               className="inst-pat-thumb-link">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={b.imagen!} alt={b.nombre} style={{ width: '100%', height: 70, objectFit: 'cover', borderRadius: 6, border: '1px solid #ECECEF' }}/>
-              <p style={{ margin: '3px 0 0', fontSize: 10, color: '#1d1d1f', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.nombre}</p>
+              <img src={b.imagen!} alt={b.nombre} className="inst-pat-thumb-img"/>
+              <p className="inst-pat-thumb-name">{b.nombre}</p>
             </a>
           ))}
         </div>
       )}
 
       {/* Distribución por tipo */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+      <div className="inst-tags-wrap">
         {Object.entries(patrimonio.estadisticas.porTipo).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([tipo, n]) => (
-          <span key={tipo} style={{ padding: '3px 8px', borderRadius: 999, fontSize: 10.5, background: '#FFF3E0', color: '#5D4037', fontWeight: 600 }}>
+          <span key={tipo} className="inst-pat-tipo">
             {tipo} · {n}
           </span>
         ))}
@@ -1015,18 +1003,18 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
 
       {/* Lista compacta */}
       {patrimonio.bienes.length > 0 && (
-        <ul style={{ margin: '10px 0 0', paddingLeft: 16, fontSize: 11, color: '#1d1d1f', lineHeight: 1.5 }}>
+        <ul className="inst-pat-list">
           {patrimonio.bienes.slice(0, 6).map(b => (
             <li key={b.qid}>
               {b.wikipediaUrl ? (
-                <a href={b.wikipediaUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#5D4037', textDecoration: 'none' }}>{b.nombre}</a>
+                <a href={b.wikipediaUrl} target="_blank" rel="noopener noreferrer" className="inst-pat-list-link">{b.nombre}</a>
               ) : b.nombre}
-              {b.esUnesco && <span style={{ marginLeft: 4, color: '#FF6F00' }}>★</span>}
+              {b.esUnesco && <span className="inst-pat-unesco-star">★</span>}
             </li>
           ))}
         </ul>
       )}
-      <p style={{ margin: '8px 0 0', fontSize: 9.5, color: '#9ca3af' }}>{patrimonio.fuente}</p>
+      <p className="inst-pat-fuente">{patrimonio.fuente}</p>
     </div>
   )
 }
@@ -1034,25 +1022,25 @@ function PatrimonioCard({ patrimonio }: { patrimonio: PatrimonioCultural }) {
 function AgendaCard({ agenda }: { agenda: EventoAgenda[] }) {
   const TIPO_GLYPH: Record<string, string> = { eleccion: '*', pleno: '·', 'boletín': '§', fiesta: '+', iniciativa: '~', celebración: '+' }
   return (
-    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <ul className="inst-agenda-list">
       {agenda.map((e, i) => {
         const dias = e.diasRestantes
         const color = e.importancia === 'alta' ? '#DC2626' : e.importancia === 'media' ? '#F97316' : '#9CA3AF'
         const proxima = dias !== null && dias >= 0 && dias < 365
         return (
-          <li key={i} style={{ padding: 8, background: proxima ? `${color}08` : '#FAFAFB', borderRadius: 8, borderLeft: `3px solid ${color}` }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
-              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#1d1d1f' }}>
-                <span style={{ marginRight: 4 }}>{TIPO_GLYPH[e.tipo] || '·'}</span>{e.titulo}
+          <li key={i} className="inst-agenda-item" style={{ background: proxima ? `${color}08` : '#FAFAFB', borderLeft: `3px solid ${color}` }}>
+            <div className="inst-agenda-item-row">
+              <p className="inst-agenda-title">
+                <span className="inst-agenda-glyph">{TIPO_GLYPH[e.tipo] || '·'}</span>{e.titulo}
               </p>
               {dias !== null && (
-                <span style={{ fontSize: 10, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
+                <span className="inst-agenda-dias" style={{ color }}>
                   {dias > 0 ? `en ${dias}d` : 'hoy'}
                 </span>
               )}
             </div>
-            <p style={{ margin: '3px 0 0', fontSize: 10.5, color: '#6e6e73', lineHeight: 1.4 }}>{e.descripcion}</p>
-            {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, color, fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: 4 }}>Acceder ↗</a>}
+            <p className="inst-agenda-desc">{e.descripcion}</p>
+            {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" className="inst-agenda-link" style={{ color }}>Acceder ↗</a>}
           </li>
         )
       })}
@@ -1067,49 +1055,49 @@ function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
                     :                                      '#16A34A'
 
   return (
-    <div style={{ background: '#fff', borderRadius: 14, padding: 18, border: '1px solid #ECECEF' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <p style={{ margin: 0, fontSize: 11, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+    <div className="inst-analisis-card">
+      <div className="inst-analisis-head">
+        <p className="inst-analisis-eyebrow">
           ANÁLISIS IA INTEGRAL
         </p>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-          <span style={{ fontSize: 11, color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Riesgo político</span>
-          <span style={{ fontSize: 28, fontWeight: 700, color: colorRiesgo, fontFamily: 'var(--font-display)' }}>{analisis.scoreRiesgoPolitico}</span>
-          <span style={{ fontSize: 11, color: colorRiesgo, fontWeight: 700, textTransform: 'uppercase' }}>{analisis.bandaRiesgo}</span>
+        <div className="inst-analisis-riesgo-row">
+          <span className="inst-analisis-riesgo-label">Riesgo político</span>
+          <span className="inst-analisis-riesgo-score" style={{ color: colorRiesgo }}>{analisis.scoreRiesgoPolitico}</span>
+          <span className="inst-analisis-riesgo-banda" style={{ color: colorRiesgo }}>{analisis.bandaRiesgo}</span>
         </div>
       </div>
 
       {analisis.alertasSituacionales.length > 0 && (
-        <div style={{ marginBottom: 12, padding: 10, background: 'rgba(127,29,29,0.06)', borderRadius: 8, borderLeft: '3px solid #7F1D1D' }}>
+        <div className="inst-analisis-alertas">
           {analisis.alertasSituacionales.map((a, i) => (
-            <p key={i} style={{ margin: i === 0 ? 0 : '3px 0 0', fontSize: 11.5, color: '#7F1D1D', fontWeight: 600 }}>{a}</p>
+            <p key={i} className={`inst-analisis-alerta ${i === 0 ? 'inst-analisis-alerta--first' : 'inst-analisis-alerta--rest'}`}>{a}</p>
           ))}
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      <div className="inst-analisis-cols">
         <div>
-          <p style={{ margin: 0, fontSize: 10, color: '#16A34A', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>OPORTUNIDADES</p>
-          <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+          <p className="inst-analisis-col-label inst-analisis-col-label--op">OPORTUNIDADES</p>
+          <ul className="inst-analisis-list">
             {analisis.oportunidades.map((o, i) => <li key={i}>{o}</li>)}
           </ul>
         </div>
         <div>
-          <p style={{ margin: 0, fontSize: 10, color: '#DC2626', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ AMENAZAS</p>
-          <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+          <p className="inst-analisis-col-label inst-analisis-col-label--am">⚠ AMENAZAS</p>
+          <ul className="inst-analisis-list">
             {analisis.amenazas.map((a, i) => <li key={i}>{a}</li>)}
           </ul>
         </div>
       </div>
 
-      <div style={{ marginTop: 12, padding: 10, background: 'rgba(124,58,237,0.05)', borderRadius: 8, borderLeft: '3px solid #7C3AED' }}>
-        <p style={{ margin: 0, fontSize: 10, color: '#7C3AED', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>TOP 3 PRIORIDADES ESTRATÉGICAS</p>
-        <ol style={{ margin: '5px 0 0', paddingLeft: 18, fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.5 }}>
+      <div className="inst-analisis-prioridades">
+        <p className="inst-analisis-col-label inst-analisis-col-label--pri">TOP 3 PRIORIDADES ESTRATÉGICAS</p>
+        <ol className="inst-analisis-prioridades-list">
           {analisis.prioridadesEstrategicas.map((p, i) => <li key={i}>{p}</li>)}
         </ol>
       </div>
 
-      <p style={{ margin: '10px 0 0', fontSize: 10.5, color: '#9ca3af', fontStyle: 'italic' }}>
+      <p className="inst-analisis-contexto">
         Contexto: {analisis.contextoMacro}
       </p>
     </div>
@@ -1120,16 +1108,16 @@ function MapaEmbed({ lat, lon, nombre }: { lat: number; lon: number; nombre: str
   const delta = 0.025
   const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`
   return (
-    <div style={{ position: 'relative', width: '100%', height: 280, borderRadius: 10, overflow: 'hidden', border: '1px solid #ECECEF' }}>
+    <div className="inst-mapa-wrap">
       <iframe
         title={`Mapa OSM ${nombre}`}
         src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`}
-        style={{ width: '100%', height: '100%', border: 0 }}
+        className="inst-mapa-iframe"
         loading="lazy"
       />
       <a href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=14/${lat}/${lon}`}
          target="_blank" rel="noopener noreferrer"
-         style={{ position: 'absolute', bottom: 8, right: 8, padding: '4px 8px', background: 'rgba(255,255,255,0.92)', borderRadius: 6, fontSize: 10.5, color: '#0F766E', textDecoration: 'none', fontWeight: 600 }}>
+         className="inst-mapa-zoom">
         Ampliar mapa ↗
       </a>
     </div>
@@ -1138,22 +1126,25 @@ function MapaEmbed({ lat, lon, nombre }: { lat: number; lon: number; nombre: str
 
 function TiempoCard({ tiempo, color }: { tiempo: CondicionMeteo; color: string }) {
   return (
-    <div style={{ background: tiempo.alertaCalor ? 'rgba(220,38,38,0.06)' : tiempo.alertaFrio ? 'rgba(31,78,140,0.06)' : '#FAFAFB', borderRadius: 8, padding: 10, marginTop: 6, borderLeft: `3px solid ${tiempo.alertaCalor ? '#DC2626' : tiempo.alertaFrio ? '#1F4E8C' : color}` }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+    <div className="inst-tiempo" style={{
+      background: tiempo.alertaCalor ? 'rgba(220,38,38,0.06)' : tiempo.alertaFrio ? 'rgba(31,78,140,0.06)' : '#FAFAFB',
+      borderLeft: `3px solid ${tiempo.alertaCalor ? '#DC2626' : tiempo.alertaFrio ? '#1F4E8C' : color}`,
+    }}>
+      <div className="inst-tiempo-head">
         <div>
-          <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>
+          <p className="inst-tiempo-temp">
             {tiempo.temperatura.toFixed(0)}°
           </p>
-          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>{tiempo.weatherLabel}</p>
+          <p className="inst-tiempo-label">{tiempo.weatherLabel}</p>
         </div>
-        <div style={{ textAlign: 'right', fontSize: 11, color: '#6e6e73' }}>
-          <p style={{ margin: 0 }}>Sensación <strong style={{ color: '#1d1d1f' }}>{tiempo.sensacionTermica.toFixed(0)}°</strong></p>
-          {tiempo.viento > 0 && <p style={{ margin: '2px 0 0' }}>~ {tiempo.viento.toFixed(0)} km/h</p>}
-          {tiempo.precip > 0 && <p style={{ margin: '2px 0 0' }}>mm {tiempo.precip.toFixed(1)} mm</p>}
+        <div className="inst-tiempo-right">
+          <p>Sensación <strong className="inst-tiempo-sensacion-strong">{tiempo.sensacionTermica.toFixed(0)}°</strong></p>
+          {tiempo.viento > 0 && <p className="inst-tiempo-extra">~ {tiempo.viento.toFixed(0)} km/h</p>}
+          {tiempo.precip > 0 && <p className="inst-tiempo-extra">mm {tiempo.precip.toFixed(1)} mm</p>}
         </div>
       </div>
       {(tiempo.alertaCalor || tiempo.alertaFrio) && (
-        <p style={{ margin: '6px 0 0', fontSize: 11, color: tiempo.alertaCalor ? '#DC2626' : '#1F4E8C', fontWeight: 700 }}>
+        <p className="inst-tiempo-alerta" style={{ color: tiempo.alertaCalor ? '#DC2626' : '#1F4E8C' }}>
           Alerta {tiempo.alertaCalor ? 'calor extremo' : 'frío severo'}
         </p>
       )}
@@ -1190,17 +1181,17 @@ function IndicadoresDemograficos({ piramide }: { piramide: INEPiramide }) {
                            'Municipio joven con dinamismo demográfico'
 
   return (
-    <div style={{ marginTop: 10, padding: 10, background: 'rgba(15,118,110,0.04)', borderRadius: 8, borderLeft: '3px solid #0F766E' }}>
-      <p style={{ margin: 0, fontSize: 10, color: '#0F766E', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+    <div className="inst-indi">
+      <p className="inst-indi-label">
         INDICADORES SOCIALES DERIVADOS
       </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '4px 12px', marginTop: 6, fontSize: 11 }}>
+      <div className="inst-indi-grid">
         <div>♔ Envejecimiento: <strong>{envejecimiento}</strong></div>
         <div> Dependencia: <strong>{dependencia}%</strong></div>
         <div>♀ Feminidad: <strong>{feminidad}</strong></div>
         <div>↓16: <strong>{pctJoven}%</strong> · ↑65: <strong>{pctMayor}%</strong></div>
       </div>
-      <p style={{ margin: '6px 0 0', fontSize: 11, color: '#1d1d1f', fontStyle: 'italic' }}>{interpretacion}</p>
+      <p className="inst-indi-interp">{interpretacion}</p>
     </div>
   )
 }
@@ -1210,26 +1201,26 @@ function PiramideMini({ piramide, color }: { piramide: INEPiramide; color: strin
     .sort((a, b) => parseInt(a) - parseInt(b))
   const maxVal = Math.max(...Object.values(piramide.hombres), ...Object.values(piramide.mujeres))
   return (
-    <div style={{ marginTop: 6 }}>
-      <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>PIRÁMIDE POBLACIÓN</p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <div className="inst-pir-wrap">
+      <p className="inst-pir-label">PIRÁMIDE POBLACIÓN</p>
+      <div className="inst-pir-rows">
         {grupos.map(g => {
           const h = piramide.hombres[g] || 0
           const m = piramide.mujeres[g] || 0
           return (
-            <div key={g} style={{ display: 'grid', gridTemplateColumns: '1fr 50px 1fr', gap: 4, alignItems: 'center', fontSize: 9 }}>
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <div style={{ background: '#1F4E8C', height: 8, width: `${(h / maxVal) * 100}%` }} title={`Hombres ${g}: ${h}`}/>
+            <div key={g} className="inst-pir-row">
+              <div className="inst-pir-left">
+                <div className="inst-pir-bar-h" style={{ width: `${(h / maxVal) * 100}%` }} title={`Hombres ${g}: ${h}`}/>
               </div>
-              <span style={{ textAlign: 'center', color: '#6e6e73' }}>{g}</span>
+              <span className="inst-pir-grupo">{g}</span>
               <div>
-                <div style={{ background: '#DC2626', height: 8, width: `${(m / maxVal) * 100}%` }} title={`Mujeres ${g}: ${m}`}/>
+                <div className="inst-pir-bar-m" style={{ width: `${(m / maxVal) * 100}%` }} title={`Mujeres ${g}: ${m}`}/>
               </div>
             </div>
           )
         })}
       </div>
-      <p style={{ margin: '5px 0 0', fontSize: 9.5, color: '#6e6e73', textAlign: 'center' }}>
+      <p className="inst-pir-totals">
         ♂ {piramide.totalHombres.toLocaleString('es-ES')} · ♀ {piramide.totalMujeres.toLocaleString('es-ES')}
       </p>
     </div>
@@ -1294,7 +1285,7 @@ function HemicicloSVG({ parlamento }: { parlamento: ComposicionParlamento }) {
   }
 
   return (
-    <svg viewBox="0 0 440 220" style={{ width: '100%', maxWidth: 440, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 440 220" className="inst-hemiciclo-svg">
       {seatsOrdenados.map((s, i) => (
         <circle key={i} cx={s.x} cy={s.y} r={5.5} fill={s.color} stroke="#fff" strokeWidth={0.5}>
           <title>{s.partido}</title>
@@ -1315,42 +1306,42 @@ function ResultadosCard({ eleccion }: { eleccion: ResultadoEleccion }) {
   const restoPct = eleccion.resultados.slice(6).reduce((s, r) => s + r.pct, 0)
   const competLabel = eleccion.competitividad < 25 ? ' Muy competido' : eleccion.competitividad < 50 ? '◐ Competido' : eleccion.competitividad < 75 ? 'Cómodo' : 'Hegemónico'
   return (
-    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: 14, marginBottom: 10 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+    <div className="inst-res-card">
+      <div className="inst-res-head">
         <div>
-          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{eleccion.tipo === 'generales' ? 'GENERALES' : 'AUTONÓMICAS'}</p>
-          <p style={{ margin: '2px 0 0', fontSize: 13, fontWeight: 700, color: '#1d1d1f' }}>{eleccion.etiqueta}</p>
+          <p className="inst-res-tipo">{eleccion.tipo === 'generales' ? 'GENERALES' : 'AUTONÓMICAS'}</p>
+          <p className="inst-res-etiqueta">{eleccion.etiqueta}</p>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <p style={{ margin: 0, fontSize: 10, color: '#6e6e73' }}>{competLabel}</p>
-          <p style={{ margin: '2px 0 0', fontSize: 11, fontWeight: 700, color: eleccion.ganador.color }}>{eleccion.ganador.partido} {eleccion.ganador.pct.toFixed(1)}%</p>
+        <div className="inst-emp-right">
+          <p className="inst-res-compet-label">{competLabel}</p>
+          <p className="inst-res-compet-ganador" style={{ color: eleccion.ganador.color }}>{eleccion.ganador.partido} {eleccion.ganador.pct.toFixed(1)}%</p>
         </div>
       </div>
 
       {/* Barra horizontal */}
-      <div style={{ display: 'flex', height: 10, borderRadius: 5, overflow: 'hidden', background: '#F5F5F7', marginBottom: 10 }}>
+      <div className="inst-res-bar">
         {top.map((r, i) => <div key={i} style={{ flex: r.pct, background: r.color }} title={`${r.partido}: ${r.pct}%`}/>)}
-        {restoPct > 0 && <div style={{ flex: restoPct, background: '#E0E0E0' }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
+        {restoPct > 0 && <div className="inst-res-rest" style={{ flex: restoPct }} title={`Otros: ${restoPct.toFixed(1)}%`}/>}
       </div>
 
       {/* Tabla compacta */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3px 12px' }}>
+      <div className="inst-res-table">
         {top.map(r => (
-          <div key={r.partido} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11 }}>
-            <span style={{ width: 10, height: 10, background: r.color, borderRadius: 2, flexShrink: 0 }}/>
-            <span style={{ color: '#1d1d1f', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.partido}</span>
-            <span style={{ fontWeight: 700, color: '#1d1d1f' }}>{r.pct.toFixed(1)}%</span>
+          <div key={r.partido} className="inst-res-row">
+            <span className="inst-res-swatch" style={{ background: r.color }}/>
+            <span className="inst-res-partido">{r.partido}</span>
+            <span className="inst-res-pct">{r.pct.toFixed(1)}%</span>
           </div>
         ))}
       </div>
-      <p style={{ margin: '8px 0 0', fontSize: 9, color: '#9ca3af' }}>{eleccion.fuente}</p>
+      <p className="inst-res-fuente">{eleccion.fuente}</p>
     </div>
   )
 }
 
 function Loading({ text }: { text: string }) {
   return (
-    <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', background: '#fff', borderRadius: 14, border: '1px solid #ECECEF' }}>
+    <div className="inst-loading">
       {text}
     </div>
   )

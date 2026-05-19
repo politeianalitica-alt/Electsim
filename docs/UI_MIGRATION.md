@@ -88,15 +88,16 @@ Inline está justificado **solo** cuando el valor depende de runtime:
 | `app/war-room/page.tsx` | 235 | 33 | -86% | ✅ Migrado |
 | `app/geopolitica/page.tsx` | 223 | 57 | -74% | ✅ Migrado |
 | `app/config-cliente/page.tsx` | 188 | 10 | -95% | ✅ Migrado |
-| `app/instituciones/page.tsx` | 243 | — | — | ⏳ Pendiente (datos críticos) |
+| `app/instituciones/page.tsx` | 243 | 49 | -80% | ✅ Migrado |
 
-**Total Pilar 4 (top 5):** 1 000 inline → 229 (-77%). Los 229 restantes son
-todos legítimamente dinámicos: colores por rol/estado/severidad/partido, width
-porcentajes de progreso, conic-gradient angles, animaciones condicionales por
-flags de runtime.
+**Total Pilar 4 (6 archivos top):** 1 243 inline → 278 (-78%). Los 278
+restantes son todos legítimamente dinámicos: colores por rol/estado/
+severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`), width
+porcentajes de progreso (`flex: r.pct`), conic-gradient angles,
+animaciones condicionales por flags de runtime.
 
-**CSS tokenizado generado:** 5 archivos `<route>.css` con ~600 clases prefijadas
-(`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`).
+**CSS tokenizado generado:** 6 archivos `<route>.css` con ~820 clases
+prefijadas (`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`, `.inst-`).
 
 **Restantes en el repo:** ~7 500 inline styles repartidos por páginas menos
 visitadas. Migración progresiva al tocar cada archivo por feature work.
