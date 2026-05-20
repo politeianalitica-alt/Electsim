@@ -1427,3 +1427,147 @@ def test_telecom_tools_sin_bd():
         assert r3["top_movil"] == []
     finally:
         svc._get_engine = original
+
+
+# ── Sprint 13 · Inmobiliario (Catastro+Registradores+INE+markets) ────
+
+def test_catastro_client_importable():
+    """Sprint 13 · S13.1 · cliente Catastro importable sin red."""
+    from etl.sources.housing.catastro import CatastroClient, get_catastro_client
+    client = get_catastro_client()
+    assert isinstance(client, CatastroClient)
+
+
+def test_registradores_serie_compraventas():
+    """Sprint 13 · S13.2 · serie compraventas registradores."""
+    from etl.sources.housing.registradores import (
+        serie_compraventas, serie_hipotecas, resumen_ultimo_trimestre,
+    )
+    res = serie_compraventas()
+    assert res["n_periodos"] >= 8
+    assert all("total" in d for d in res["data"])
+    res_h = serie_hipotecas(start="2025Q1")
+    # debería filtrar a partir de 2025Q1
+    assert all(d["period"] >= "2025Q1" for d in res_h["data"])
+    resumen = resumen_ultimo_trimestre()
+    assert "last_period" in resumen
+    assert "yoy_pct" in resumen["compraventas"]
+
+
+def test_ine_vivienda_client_y_series():
+    """Sprint 13 · S13.3 · cliente INE + códigos IPV definidos."""
+    from etl.sources.housing.ine_vivienda import (
+        INEViviendaClient, get_ine_vivienda_client, IPV_SERIES,
+    )
+    client = get_ine_vivienda_client()
+    assert isinstance(client, INEViviendaClient)
+    for k in ("general", "usada", "nueva"):
+        assert k in IPV_SERIES
+        assert IPV_SERIES[k]["code"].startswith("IPV")
+
+
+def test_housing_seed_valido():
+    """Sprint 13 · S13.4 · seed JSON mercados vivienda."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "housing" / "markets_seed.json"
+    assert seed.exists()
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "madrid_centro", "barcelona_eixample", "palma_mallorca",
+        "malaga_capital", "san_sebastian", "girona_capital",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["name"] and r["ccaa"]
+        assert r["scope"] in {"distrito", "municipio", "comarca", "provincia", "ccaa"}
+        assert isinstance(r.get("zona_mercado_tensionado", False), bool)
+
+
+def test_housing_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio housing_markets devuelve estructuras vacías."""
+    from etl.sources.housing import markets_service as svc
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        assert svc.get_market("madrid_centro") is None
+        assert svc.list_markets() == []
+        assert svc.tension_alerts() == []
+        res = svc.load_markets_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        svc._get_engine = original
+
+
+def test_housing_migracion_0073_existe():
+    """Migración 0073_housing_markets existe."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0073_housing_markets.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0073_housing_markets"' in src
+    assert 'down_revision = "0072_telecom_operators"' in src
+    assert 'create_table' in src and '"housing_markets"' in src
+
+
+def test_inmobiliario_tools_registradas():
+    """Sprint 13 · S13.5 · tools inmobiliario registradas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.inmobiliario_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "catastro_consulta_rc", "catastro_consulta_coordenadas",
+        "registradores_compraventas", "registradores_hipotecas",
+        "registradores_ultimo_resumen", "ine_vivienda_serie",
+        "housing_market", "list_housing_markets", "housing_tension_alerts",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_registradores_tools_funcionan():
+    """Tools registradores trabajan sobre dataset estático (no requieren BD ni red)."""
+    from agents.tools import ToolRegistry
+    import agents.tools.inmobiliario_tools  # noqa: F401
+
+    r1 = ToolRegistry.get("registradores_compraventas")(start="2025Q1", end="2025Q4")
+    assert r1["n_periodos"] == 4
+    r2 = ToolRegistry.get("registradores_hipotecas")()
+    assert r2["n_periodos"] >= 8
+    r3 = ToolRegistry.get("registradores_ultimo_resumen")()
+    assert "last_period" in r3
+
+
+def test_ine_vivienda_serie_invalida():
+    """ine_vivienda_serie rechaza explicitamente series desconocidas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.inmobiliario_tools  # noqa: F401
+
+    fn = ToolRegistry.get("ine_vivienda_serie")
+    res = fn(serie="serie_inexistente_xyz", last_n=5)
+    assert res["data"] == []
+    assert "error" in res and res["error"]
+
+
+def test_housing_tools_sin_bd():
+    """housing_market / list / tension_alerts sin BD devuelven error consistente."""
+    from agents.tools import ToolRegistry
+    import agents.tools.inmobiliario_tools  # noqa: F401
+    from etl.sources.housing import markets_service as svc
+
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        r1 = ToolRegistry.get("housing_market")(slug="madrid_centro")
+        assert "error" in r1
+        r2 = ToolRegistry.get("list_housing_markets")(zmt_only=True)
+        assert r2["n_items"] == 0
+        r3 = ToolRegistry.get("housing_tension_alerts")()
+        assert r3["n_items"] == 0
+    finally:
+        svc._get_engine = original
