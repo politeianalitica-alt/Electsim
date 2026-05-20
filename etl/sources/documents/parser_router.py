@@ -92,7 +92,7 @@ def parse_document(
 
     parser_type = select_parser(path, mime_type)
 
-    # Intentar Docling primero para formatos compatibles
+    # Intentar Docling primero para formatos compatibles (mejor en PDFs complejos)
     if is_docling_enabled() and parser_type in ("pdf", "docx", "pptx", "xlsx"):
         try:
             from etl.sources.documents.docling_parser import parse_with_docling
@@ -103,6 +103,27 @@ def parse_document(
                 return result
         except Exception as exc:
             logger.debug("parse_document docling fallback: %s", exc)
+
+    # Sprint 1 · S1.3 · Intentar Markitdown para formatos ligeros (HTML/DOCX/XLSX/audio)
+    # antes de caer en parsers especificos. Markitdown es mas universal y ligero que docling.
+    if parser_type in ("docx", "xlsx", "pptx", "html", "md"):
+        try:
+            from etl.sources.documents.markitdown_parser import is_markitdown_enabled, parse_file as markitdown_parse
+            if is_markitdown_enabled():
+                md_result = markitdown_parse(path)
+                if md_result.get("ok") and md_result.get("markdown"):
+                    from etl.sources.documents.schemas import ParsedDocument
+                    result = ParsedDocument(
+                        document_id=document_id,
+                        parser_used="markitdown",
+                        markdown=md_result["markdown"],
+                        plain_text=md_result["markdown"],  # markitdown ya devuelve plano
+                        warnings=[],
+                    )
+                    _update_status(document_id, "parsed", "markitdown", engine)
+                    return result
+        except Exception as exc:
+            logger.debug("parse_document markitdown fallback: %s", exc)
 
     # Parsers específicos
     try:
