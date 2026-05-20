@@ -1816,3 +1816,162 @@ def test_eu_cap_tool_fallback():
     res = fn(indicator="agricultural_income", geo="ES", last_n_years=3)
     # Si no hay red el data vendrá vacío con error string
     assert "data" in res
+
+
+# ── Sprint 15 · Turismo ──────────────────────────────────────────────
+
+def test_ine_turismo_client_y_catalogo():
+    """Sprint 15 · S15.1 · cliente INE turismo + catálogo series."""
+    from etl.sources.tourism.ine_turismo import (
+        INETurismoClient, get_ine_turismo_client, TURISMO_SERIES,
+    )
+    client = get_ine_turismo_client()
+    assert isinstance(client, INETurismoClient)
+    for k in ("llegadas_internacional", "pernoctaciones_hotelero", "gasto_turistico"):
+        assert k in TURISMO_SERIES
+        assert TURISMO_SERIES[k]["code"]
+    # Indicador inválido devuelve error explícito
+    res = client.get_indicador("no_existe_xyz", last_n=3)
+    assert res["data"] == []
+    assert "error" in res and res["error"]
+
+
+def test_eurostat_tourism_client():
+    """Sprint 15 · S15.2 · cliente Eurostat tourism importable."""
+    from etl.sources.tourism.eurostat_tourism import (
+        EurostatTourismClient, get_eurostat_tourism_client, TOURISM_INDICATORS,
+    )
+    client = get_eurostat_tourism_client()
+    assert isinstance(client, EurostatTourismClient)
+    for k in ("noches_total", "llegadas_alojamientos", "capacidad_alojamientos"):
+        assert k in TOURISM_INDICATORS
+
+
+def test_aena_puertos_catalogo():
+    """Sprint 15 · S15.3 · catálogo AENA + cruceros consistente."""
+    from etl.sources.tourism.aena_puertos import (
+        AENA_PAX_2024, CRUISE_PAX_2024,
+        list_aena_traffic, get_aena_airport,
+        list_cruise_ports, get_cruise_port,
+    )
+    assert len(AENA_PAX_2024) >= 8
+    # Top 3 por orden coherente
+    top3 = list_aena_traffic(top_n=3)
+    assert top3[0]["slug"] == "madrid_barajas"
+    assert top3[1]["slug"] == "barcelona_prat"
+    assert top3[2]["slug"] == "palma_mallorca"
+    # Cruceros
+    ports = list_cruise_ports()
+    assert ports[0]["slug"] == "barcelona"
+    assert get_aena_airport("madrid_barajas")["rank"] == 1
+    assert get_cruise_port("palma")["ccaa"] == "Illes Balears"
+    assert get_aena_airport("no_existe") is None
+
+
+def test_tourism_seed_valido():
+    """Sprint 15 · S15.4 · seed JSON destinos turísticos."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "tourism" / "destinations_seed.json"
+    assert seed.exists()
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "barcelona_ciudad", "palma_mallorca", "madrid_capital",
+        "ibiza", "tenerife_sur", "san_sebastian", "lanzarote_isla",
+    ):
+        assert required in slugs, f"slug '{required}' falta"
+    for r in rows:
+        assert r["slug"] and r["name"] and r["ccaa"]
+        assert r["kind"] in {"urbano", "costa", "rural", "cultural", "mixto", "isla"}
+        assert r["regulacion_pisos_turisticos"] in {
+            "permisivo", "restringido", "moratoria", "prohibido_centro"
+        }
+        assert r["presion_turistica"] in {"bajo", "medio", "alto", "critico"}
+
+
+def test_tourism_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio devuelve estructuras vacías."""
+    from etl.sources.tourism import destinations_service as svc
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        assert svc.get_destination("barcelona_ciudad") is None
+        assert svc.list_destinations() == []
+        assert svc.pressure_alerts() == []
+        res = svc.load_destinations_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        svc._get_engine = original
+
+
+def test_tourism_migracion_0075_existe():
+    """Migración 0075_tourism_destinations existe."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0075_tourism_destinations.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0075_tourism_destinations"' in src
+    assert 'down_revision = "0074_commodity_recipes"' in src
+    assert 'create_table' in src and '"tourism_destinations"' in src
+
+
+def test_turismo_tools_registradas():
+    """Sprint 15 · S15.5 · tools turismo registradas."""
+    from agents.tools import ToolRegistry
+    import agents.tools.turismo_tools  # noqa: F401
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "ine_turismo_serie", "eurostat_tourism",
+        "aena_top_airports", "aena_airport", "cruise_ports",
+        "tourism_destination", "list_tourism_destinations", "tourism_pressure_alerts",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_aena_tools_estaticas_funcionan():
+    """aena_top_airports + cruise_ports funcionan sin BD ni red."""
+    from agents.tools import ToolRegistry
+    import agents.tools.turismo_tools  # noqa: F401
+    r1 = ToolRegistry.get("aena_top_airports")(top_n=5)
+    assert r1["n_items"] == 5
+    assert r1["items"][0]["rank"] == 1
+    r2 = ToolRegistry.get("cruise_ports")()
+    assert r2["n_items"] >= 5
+    r3 = ToolRegistry.get("aena_airport")(slug="madrid_barajas")
+    assert r3["name"] == "Adolfo Suárez Madrid-Barajas"
+    r4 = ToolRegistry.get("aena_airport")(slug="no_existe")
+    assert "error" in r4
+
+
+def test_tourism_tools_sin_bd():
+    """tourism_destination + list + pressure_alerts sin BD devuelven error consistente."""
+    from agents.tools import ToolRegistry
+    import agents.tools.turismo_tools  # noqa: F401
+    from etl.sources.tourism import destinations_service as svc
+
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        r1 = ToolRegistry.get("tourism_destination")(slug="barcelona_ciudad")
+        assert "error" in r1
+        r2 = ToolRegistry.get("list_tourism_destinations")(presion_min="alto")
+        assert r2["n_items"] == 0
+        r3 = ToolRegistry.get("tourism_pressure_alerts")()
+        assert r3["n_items"] == 0
+    finally:
+        svc._get_engine = original
+
+
+def test_ine_turismo_tool_indicador_invalido():
+    """ine_turismo_serie con indicador inválido devuelve error explícito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.turismo_tools  # noqa: F401
+    fn = ToolRegistry.get("ine_turismo_serie")
+    res = fn(indicator="inventado_xyz", last_n=3)
+    assert res["data"] == []
+    assert "error" in res and res["error"]
