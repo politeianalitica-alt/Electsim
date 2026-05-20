@@ -16,6 +16,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_VIVIENDA, REGULADORES_VIVIENDA, PROGRAMAS_VIVIENDA } from '@/lib/sources/ine'
 import { Panel } from '@/components/SectorPanel'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 interface ResumenResp {
   kpis: {
@@ -192,6 +193,9 @@ export default function SectorViviendaPage() {
             <AreasTematicas/>
           </Panel>
         </div>
+
+        {/* Politeia intel · housing_markets ZMT + tensión */}
+        <SectorIntelPanel sector="vivienda" />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos INE…</div>}
       </main>

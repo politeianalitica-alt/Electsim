@@ -19,6 +19,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_FARMA, REGULADORES_FARMA } from '@/lib/sources/aemps'
 import PillSelect, { PillInput } from '@/components/PillSelect'
 import { Panel } from '@/components/SectorPanel'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 interface ResumenResp {
   kpis: {
@@ -210,6 +211,9 @@ export default function SectorFarmaPage() {
             <AreasTematicas/>
           </Panel>
         </div>
+
+        {/* Politeia intel · pharma_signals + AEMPS + EMA */}
+        <SectorIntelPanel sector="farma" />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos AEMPS…</div>}
       </main>

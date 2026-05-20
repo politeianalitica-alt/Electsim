@@ -20,6 +20,7 @@ import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SectorHero,
 } from '@/components/SectorialWidgets'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 const ACCENT = '#1F4E8C'
 const ACCENT_DARK = '#0d2e58'
@@ -202,6 +203,9 @@ export default function SectorBancaPage() {
             <AreasTematicas areas={AREAS_BANCA}/>
           </Panel>
         </div>
+
+        {/* Politeia intel · regulatory_obligations + CNMV */}
+        <SectorIntelPanel sector="banca" accent={ACCENT} />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos ECB + WB…</div>}
       </main>

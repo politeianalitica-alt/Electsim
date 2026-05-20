@@ -13,6 +13,7 @@ import {
   HeroKPI, Panel, EmpresasGrid, RegLista, ProgramasGrid, AreasTematicas,
   LicitacionesShortcut, SerieLineChart, SectorHero,
 } from '@/components/SectorialWidgets'
+import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
 const ACCENT = '#F97316'
 const ACCENT_DARK = '#7c2d12'
@@ -106,6 +107,9 @@ export default function SectorInfraestructurasPage() {
             <AreasTematicas areas={AREAS_INFRA}/>
           </Panel>
         </div>
+
+        {/* Politeia intel · infra_projects + TED + PLACE */}
+        <SectorIntelPanel sector="infraestructuras" accent={ACCENT} />
       </main>
     </div>
   )
