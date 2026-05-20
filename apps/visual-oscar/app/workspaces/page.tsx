@@ -10,6 +10,8 @@ type Briefing = { id: string; title?: string; created_at?: string; type?: string
 type KPISnap = { active_alerts?: number; new_signals_24h?: number; risk_index?: number; coverage_pct?: number; pending_briefings?: number }
 
 const FALLBACK_WORKSPACES: Workspace[] = [
+  // Workspace principal — datos curados completos (cabecera ejecutiva España 2026)
+  { id: 'ws_espana_2026', name: 'España 2026', description: 'Workspace principal · Elecciones Generales 2026 · datos curados + 10 secciones ejecutivas', sector: 'Política Nacional', members: 5 },
   { id: 'spain-energy', name: 'Energía España', description: 'Vigilancia regulatoria y narrativa sectorial.', sector: 'Energía', members: 4 },
   { id: 'banking-eu', name: 'Banca UE', description: 'Monitorización MiCA, DORA y supervisión BCE.', sector: 'Banca', members: 3 },
   { id: 'health-public', name: 'Sanidad pública', description: 'CCAA, presupuestos sanitarios y narrativa hospitalaria.', sector: 'Salud', members: 5 },
