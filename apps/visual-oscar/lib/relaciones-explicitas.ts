@@ -47,6 +47,10 @@ export interface RelacionExplicita {
   label: string        // descripción corta · va al tooltip
 }
 
+// Relaciones adicionales importadas del CSV (mayo 2026, fuentes verificadas).
+// Importadas como value pero el back-edge es solo type, no hay ciclo runtime.
+import { RELACIONES_CSV_CURADAS } from './relaciones-csv-curadas'
+
 // Slugs comunes (mismo algoritmo que actores.ts buildActor → id)
 const id = (nombre: string) => nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
@@ -1054,6 +1058,10 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   { a: HEREU,     b: SANZ,         val:  35, tipo: 'mediador',          label: 'Industria + alcalde Sevilla · inversión sectorial' },
   { a: ALEGRIA,   b: COLLBONI,     val:  68, tipo: 'aliado_partido',    label: 'PSC + portavoz Gobierno · agenda comunicativa' },
   { a: PLANAS,    b: C_CRESPO,     val: -32, tipo: 'critica_publica',   label: 'Agricultura · choques nación-CCAA por PAC' },
+
+  // ─── 50 relaciones adicionales importadas del CSV next50 ──────────
+  // Fuentes periodísticas verificables (mayo 2026)
+  ...RELACIONES_CSV_CURADAS,
 ]
 
 /**
