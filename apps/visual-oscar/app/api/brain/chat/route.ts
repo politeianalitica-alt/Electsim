@@ -192,12 +192,19 @@ export async function POST(req: NextRequest) {
         const cost = calculateCost(result.model, result.usage)
 
         // Detectar si Claude usó el fallback de conocimiento general
-        // (marcador "GENERAL::" al inicio de la respuesta)
-        const GENERAL_MARKER = /^GENERAL::\s*respuesta basada en conocimiento general[^\n]*\n+/i
-        const fromGeneralKnowledge = GENERAL_MARKER.test(result.text)
-        const cleanedReply = fromGeneralKnowledge
-          ? result.text.replace(GENERAL_MARKER, "").trim()
-          : result.text
+        // (marcador "GENERAL::" al inicio de la respuesta). Regex permisivo:
+        // detecta el marcador en las primeras líneas y limpia hasta el
+        // primer doble \n.
+        const trimmedText = result.text.trimStart()
+        const fromGeneralKnowledge = /^GENERAL::/i.test(trimmedText)
+        let cleanedReply = result.text
+        if (fromGeneralKnowledge) {
+          // Quita la primera línea (marcador) + posibles líneas en blanco
+          // hasta llegar al contenido real
+          cleanedReply = trimmedText
+            .replace(/^GENERAL::[^\n]*\n+/i, "")
+            .trim()
+        }
 
         return NextResponse.json({
           reply: cleanedReply,
