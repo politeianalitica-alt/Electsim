@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { useRouter } from 'next/navigation'
@@ -7,6 +7,10 @@ import { clearTokens, isAuthenticated } from '@/lib/auth'
 import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import {
+  provincialToParties,
+  type ProvincialApiResponse,
+} from '@/lib/escenarios/provincial-adapter'
 
 type Party = {
   siglas: string; nombre: string; pct: number;
@@ -17,10 +21,9 @@ type Party = {
 }
 type Transfer = { partido: string; delta: number; fuente: string; dir: 'up' | 'down'; color: string }
 
-// Datos iniciales · sustituidos por la respuesta de /api/analytics/nowcast
-// INITIAL_PARTIES sincronizadas con el sistema D'Hondt provincial calibrado
-// (lib/sources/dhondt-provincial.ts) · estos valores se usan como
-// initialData hasta que llega el primer fetch de /api/analytics/nowcast.
+// Datos iniciales · placeholder hasta el primer fetch de
+// /api/electoral/provincial. Se reemplazan en vivo con D'Hondt provincial
+// real (misma fuente que /escenarios y el Mapa Político).
 const INITIAL_PARTIES: Party[] = [
   { siglas:'PP',       nombre:'Partido Popular',            pct:32.47, ci_inf:30.5, ci_sup:34.4, seats:136, seats_low:130, seats_high:142, color:'#009FDB', bloque:'derecha',   delta:-0.6, n_enc:12 },
   { siglas:'PSOE',     nombre:'PSOE',                       pct:26.90, ci_inf:25.1, ci_sup:28.7, seats:101, seats_low: 95, seats_high:107, color:'#E30613', bloque:'izquierda', delta:-4.8, n_enc:12 },
@@ -106,28 +109,35 @@ function SeatsChart({parties}:{parties:Party[]}){
   )
 }
 
-type NowcastResponse = {
-  parties: Party[];
-  transfers?: Transfer[];
-  n_polls?: number;
-  pedersen?: number;
-  last_update?: string;
-}
-
 export default function NowcastingPage(){
   const router=useRouter()
   const currentPath='/nowcasting'
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
 
-  // Fetch en vivo del nowcasting · auto-refresh 30s
-  const { data, source, updatedAt, refresh } = useApi<NowcastResponse>(
-    '/api/analytics/nowcast',
-    { initialData: { parties: INITIAL_PARTIES, transfers: INITIAL_TRANSFERS }, refreshInterval: 30_000 },
+  // ─── FUENTE ÚNICA: /api/electoral/provincial ────────────────────────
+  // Antes esta página usaba /api/analytics/nowcast (modelo simplificado),
+  // produciendo seats distintos de los del Mapa Político y /escenarios.
+  // Ahora consumimos /api/electoral/provincial (D'Hondt LOREG real con
+  // 52 circunscripciones, calibrado 23-J) — la misma fuente que el resto
+  // de la plataforma electoral.
+  const { data: provincial, source, updatedAt, refresh } = useApi<ProvincialApiResponse>(
+    '/api/electoral/provincial',
+    { refreshInterval: 30_000 },
   )
-  const PARTIES: Party[] = data?.parties && data.parties.length > 0 ? data.parties : INITIAL_PARTIES
-  const TRANSFERS: Transfer[] = data?.transfers && data.transfers.length > 0 ? data.transfers : INITIAL_TRANSFERS
-  const N_POLLS = data?.n_polls ?? 12
+
+  // Adaptamos respuesta provincial al shape Party[] usando la misma σ
+  // heurística del Monte Carlo de /escenarios (coherencia visual total).
+  const PARTIES: Party[] = useMemo(() => {
+    const adapted = provincialToParties(provincial)
+    return adapted.length > 0 ? (adapted as Party[]) : INITIAL_PARTIES
+  }, [provincial])
+
+  // Las transferencias siguen viniendo del set inicial (el endpoint
+  // provincial no las calcula). En una iteración futura se pueden derivar
+  // de la diferencia entre la última encuesta y la anterior.
+  const TRANSFERS: Transfer[] = INITIAL_TRANSFERS
+  const N_POLLS = provincial?.n_sondeos ?? 30
 
   const der=PARTIES.filter(p=>p.bloque==='derecha').reduce((s,p)=>s+p.seats,0)
   const izq=PARTIES.filter(p=>p.bloque==='izquierda').reduce((s,p)=>s+p.seats,0)
@@ -152,11 +162,11 @@ export default function NowcastingPage(){
         <section style={{background:'linear-gradient(135deg,#1e3a5f 0%,#0a1628 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
           <div>
             <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px',display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
-              <span>Nowcasting Electoral · Tiempo real</span>
+              <span>Módulo Electoral · D'Hondt provincial en vivo</span>
               <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={30} onRefresh={refresh}/>
             </p>
             <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>{PARTIES[0]?.siglas || 'PP'} mantiene <em style={{fontWeight:300}}>ventaja sólida</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de {N_POLLS} encuestas · 350 escaños · D'Hondt</p>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>Media de {N_POLLS} encuestas · 52 circunscripciones · LOREG · misma fuente que /escenarios y /mapa</p>
           </div>
           <div style={{textAlign:'right',flexShrink:0}}>
             <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#60a5fa'}}>{(PARTIES[0]?.pct ?? 32.1).toFixed(1)}<span style={{fontSize:28}}>%</span></div>
@@ -238,7 +248,7 @@ export default function NowcastingPage(){
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:8,gap:10,flexWrap:'wrap'}}>
               <div>
                 <h2 style={{fontFamily:'var(--font-display)',fontSize:15,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Hemiciclo · estimación actual</h2>
-                <p style={{margin:'3px 0 0',fontSize:11.5,color:'#6e6e73'}}>350 escaños · IC 95% sobre 12 encuestas · activa <strong style={{color:'#1d1d1f'}}>Calcular coalición</strong> para sumar bloques</p>
+                <p style={{margin:'3px 0 0',fontSize:11.5,color:'#6e6e73'}}>350 escaños · IC 95% sobre {N_POLLS} encuestas · activa <strong style={{color:'#1d1d1f'}}>Calcular coalición</strong> para sumar bloques</p>
               </div>
               <span style={{fontSize:11,fontWeight:600,color:'#16A34A',background:'#f0fdf4',borderRadius:999,padding:'4px 10px',border:'1px solid #bbf7d0'}}>EN VIVO</span>
             </div>
