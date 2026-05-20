@@ -238,3 +238,112 @@ def run_backfill(dry_run: bool = Query(default=False)) -> dict[str, Any]:
     except Exception as exc:
         logger.exception("backfill falló")
         raise HTTPException(500, detail=str(exc)[:300]) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
+# Sprint 5 · S5.2 · Grafo temporal · estado en fecha pasada
+# ─────────────────────────────────────────────────────────────────
+
+@router.get("/timeline")
+def get_timeline(
+    at: str = Query(description="Fecha objetivo · ISO 'YYYY-MM-DD' o 'YYYY-MM-DDTHH:MM:SS'"),
+    kinds: str | None = Query(
+        default=None,
+        description="EntityKinds separados por coma (ej. 'actor_person,party')",
+    ),
+    link_kinds: str | None = Query(
+        default=None,
+        description="LinkKinds separados por coma (ej. 'member_of,leads')",
+    ),
+    limit_entities: int = Query(default=500, ge=1, le=5000),
+    limit_links: int = Query(default=1000, ge=1, le=10000),
+) -> dict[str, Any]:
+    """Devuelve el estado del grafo (entities + entity_links) en una fecha pasada.
+
+    Sprint 5 · S5.2 (`docs/ROADMAP_GITS_AMIGOS.md §4 Sprint 5`).
+
+    Filtra por `valid_from <= at < valid_to` (o `valid_to IS NULL` = vigente).
+
+    Útil para:
+      · Reproducir el grafo de actores políticos en una fecha histórica
+      · Detectar formación/ruptura de alianzas a lo largo del tiempo
+      · Time-travel queries para análisis longitudinal
+
+    Ejemplo:
+      GET /api/v1/entities/timeline?at=2024-01-01&kinds=actor_person,party
+    """
+    from datetime import datetime
+
+    # Parsear fecha
+    try:
+        at_date = datetime.fromisoformat(at.replace("Z", "+00:00"))
+    except ValueError:
+        try:
+            # 'YYYY-MM-DD'
+            at_date = datetime.strptime(at, "%Y-%m-%d")
+        except ValueError:
+            raise HTTPException(400, detail=f"Fecha inválida '{at}' · usa 'YYYY-MM-DD' o ISO")
+
+    kinds_list = [k.strip() for k in kinds.split(",")] if kinds else None
+    link_kinds_list = [k.strip() for k in link_kinds.split(",")] if link_kinds else None
+
+    repo = get_entity_repository()
+    if repo is None:
+        raise HTTPException(503, detail="EntityRepository no disponible (sin engine)")
+
+    try:
+        result = repo.get_graph_at(
+            at_date=at_date,
+            kinds=kinds_list,
+            link_kinds=link_kinds_list,
+            limit_entities=limit_entities,
+            limit_links=limit_links,
+        )
+        # Serializar entities/links a dicts para JSON
+        return {
+            "at_date": result["at_date"],
+            "n_entities": result["n_entities"],
+            "n_links": result["n_links"],
+            "entities": [e.model_dump() for e in result["entities"]],
+            "links": [l.model_dump() for l in result["links"]],
+            "filters": {
+                "kinds": kinds_list,
+                "link_kinds": link_kinds_list,
+            },
+        }
+    except Exception as exc:
+        logger.exception("timeline query falló")
+        raise HTTPException(500, detail=str(exc)[:300]) from exc
+
+
+@router.get("/{entity_id}/links-at")
+def get_entity_links_at(
+    entity_id: int,
+    at: str = Query(description="Fecha objetivo ISO"),
+    direction: str = Query(default="both", pattern="^(outgoing|incoming|both)$"),
+    link_kind: str | None = Query(default=None),
+) -> list[dict[str, Any]]:
+    """Devuelve los links de una entity vigentes en una fecha pasada.
+
+    Sprint 5 · S5.2 · variante por-entity de /timeline.
+    """
+    from datetime import datetime
+    try:
+        at_date = datetime.fromisoformat(at.replace("Z", "+00:00"))
+    except ValueError:
+        try:
+            at_date = datetime.strptime(at, "%Y-%m-%d")
+        except ValueError:
+            raise HTTPException(400, detail=f"Fecha inválida '{at}'")
+
+    repo = get_entity_repository()
+    if repo is None:
+        raise HTTPException(503, detail="EntityRepository no disponible")
+
+    links = repo.get_links_at(
+        entity_id=entity_id,
+        at_date=at_date,
+        direction=direction,
+        link_kind=link_kind,
+    )
+    return [l.model_dump() for l in links]

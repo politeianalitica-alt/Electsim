@@ -346,6 +346,127 @@ class EntityRepository:
             rows = conn.execute(sql_text(sql), params).all()
         return [self._row_to_link(r) for r in rows]
 
+    # ─────────────────────────────────────────────────────────────
+    # Sprint 5 · S5.1+S5.2 · Queries temporales (grafo en fecha X)
+    # ─────────────────────────────────────────────────────────────
+
+    def get_graph_at(
+        self,
+        at_date: Any,  # datetime · estado del grafo a esta fecha
+        *,
+        kinds: list[str] | None = None,
+        link_kinds: list[str] | None = None,
+        limit_entities: int = 2000,
+        limit_links: int = 5000,
+    ) -> dict[str, Any]:
+        """Devuelve estado del grafo (entities + entity_links) en una fecha pasada.
+
+        Filtra por valid_from <= at_date < valid_to (o valid_to IS NULL).
+
+        Args:
+          at_date: datetime con la fecha objetivo
+          kinds: filtro de EntityKinds a incluir (None = todos)
+          link_kinds: filtro de LinkKinds (None = todos)
+          limit_entities / limit_links: anti-DoS
+
+        Returns:
+          {
+            "at_date": "2024-01-01T00:00:00",
+            "n_entities": int,
+            "n_links": int,
+            "entities": [{id, kind, slug, display_name, qid, valid_from, valid_to}, ...],
+            "links": [{src_id, dst_id, link_kind, confidence, valid_from, valid_to}, ...],
+          }
+        """
+        engine = self._ensure_engine()
+
+        # ── Entities vigentes en at_date ──
+        ent_clauses: list[str] = [
+            "(valid_from IS NULL OR valid_from <= :at)",
+            "(valid_to IS NULL OR valid_to > :at)",
+        ]
+        ent_params: dict[str, Any] = {"at": at_date, "limit": limit_entities}
+        if kinds:
+            ent_clauses.append("kind = ANY(:kinds)")
+            ent_params["kinds"] = list(kinds)
+
+        ent_sql = f"""
+            SELECT id, kind, slug, qid, display_name, aliases, payload, tags,
+                   confidence, source, valid_from, valid_to, created_at, updated_at
+            FROM entities
+            WHERE {' AND '.join(ent_clauses)}
+            ORDER BY confidence DESC, updated_at DESC
+            LIMIT :limit
+        """
+
+        # ── Links vigentes en at_date ──
+        link_clauses: list[str] = [
+            "(valid_from IS NULL OR valid_from <= :at)",
+            "(valid_to IS NULL OR valid_to > :at)",
+        ]
+        link_params: dict[str, Any] = {"at": at_date, "limit": limit_links}
+        if link_kinds:
+            link_clauses.append("link_kind = ANY(:lkinds)")
+            link_params["lkinds"] = list(link_kinds)
+
+        link_sql = f"""
+            SELECT id, src_id, dst_id, link_kind, confidence, evidence_url,
+                   evidence_id, payload, valid_from, valid_to, created_at
+            FROM entity_links
+            WHERE {' AND '.join(link_clauses)}
+            ORDER BY confidence DESC
+            LIMIT :limit
+        """
+
+        with engine.connect() as conn:
+            ent_rows = conn.execute(sql_text(ent_sql), ent_params).all()
+            link_rows = conn.execute(sql_text(link_sql), link_params).all()
+
+        entities = [self._row_to_entity(r) for r in ent_rows]
+        links = [self._row_to_link(r) for r in link_rows]
+
+        return {
+            "at_date": at_date.isoformat() if hasattr(at_date, "isoformat") else str(at_date),
+            "n_entities": len(entities),
+            "n_links": len(links),
+            "entities": entities,
+            "links": links,
+        }
+
+    def get_links_at(
+        self,
+        entity_id: int,
+        at_date: Any,
+        *,
+        direction: str = "both",
+        link_kind: str | None = None,
+    ) -> list[EntityLink]:
+        """Devuelve links de una entity vigentes en at_date.
+
+        Variante temporal de get_links · útil para construir vecinos
+        de una entity en una fecha específica.
+        """
+        engine = self._ensure_engine()
+        clauses: list[str] = [
+            "(valid_from IS NULL OR valid_from <= :at)",
+            "(valid_to IS NULL OR valid_to > :at)",
+        ]
+        params: dict[str, Any] = {"id": entity_id, "at": at_date}
+        if direction == "outgoing":
+            clauses.append("src_id = :id")
+        elif direction == "incoming":
+            clauses.append("dst_id = :id")
+        else:
+            clauses.append("(src_id = :id OR dst_id = :id)")
+        if link_kind:
+            clauses.append("link_kind = :kind")
+            params["kind"] = link_kind
+
+        sql = f"SELECT * FROM entity_links WHERE {' AND '.join(clauses)} ORDER BY confidence DESC LIMIT 500"
+        with engine.connect() as conn:
+            rows = conn.execute(sql_text(sql), params).all()
+        return [self._row_to_link(r) for r in rows]
+
 
 # ─────────────────────────────────────────────────────────────────
 # Helpers

@@ -444,3 +444,26 @@ def test_party_position_tool_partido_no_existe():
     result = fn(party_slug="partido_inventado_xyz")
     assert "error" in result
     assert result["party_slug"] == "partido_inventado_xyz"
+
+
+# ── Sprint 5 · Grafo temporal ─────────────────────────────────────────
+
+def test_entity_repository_tiene_get_graph_at():
+    """EntityRepository tiene método get_graph_at (Sprint 5 · S5.1)."""
+    from agents.entities.repository import EntityRepository
+
+    assert hasattr(EntityRepository, "get_graph_at")
+    assert hasattr(EntityRepository, "get_links_at")
+    assert callable(EntityRepository.get_graph_at)
+
+
+def test_timeline_endpoint_registrado():
+    """/api/v1/entities/timeline registrado (Sprint 5 · S5.2)."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    assert "/api/v1/entities/timeline" in paths
+    assert "/api/v1/entities/{entity_id}/links-at" in paths
