@@ -47,6 +47,20 @@ const BLOQUE_BY_SIGLAS: Record<string, 'izquierda' | 'derecha' | 'otros'> = {
   Junts: 'otros', PNV: 'otros',
 }
 
+// El endpoint /api/electoral/provincial devuelve siglas en UPPERCASE
+// (PP, PSOE, VOX, SUMAR, BILDU…). El resto del frontend espera la forma
+// "humana" (Sumar, EH Bildu). Aquí normalizamos.
+const SIGLAS_DISPLAY: Record<string, string> = {
+  PP: 'PP', PSOE: 'PSOE', VOX: 'VOX', SUMAR: 'Sumar',
+  ERC: 'ERC', JUNTS: 'Junts', PNV: 'PNV',
+  BILDU: 'EH Bildu', 'EH BILDU': 'EH Bildu',
+  CC: 'CC', BNG: 'BNG', UPN: 'UPN', OTROS: 'Otros',
+}
+function normalizeSiglas(raw: string): string {
+  const upper = raw.toUpperCase().trim()
+  return SIGLAS_DISPLAY[upper] || raw
+}
+
 // Respuesta del endpoint /api/escenarios/explain (análisis IA)
 interface ScenarioAnalysis {
   factores_favorables: string[]
@@ -344,17 +358,20 @@ export default function EscenariosPage(){
     useApi<ProvincialResponse>('/api/electoral/provincial', { refreshInterval: 30_000 })
 
   // Construimos NowcastParty[] desde totales_por_partido (D'Hondt real)
+  // Normalizamos siglas porque el endpoint las devuelve en UPPERCASE
+  // mientras que el resto del frontend espera formato "humano".
   const liveParties: NowcastParty[] = useMemo(() => {
     if (!provincial?.totales_por_partido) return []
     const pctMap = provincial.estimacion_pct || {}
     return Object.entries(provincial.totales_por_partido)
       .filter(([, seats]) => seats > 0)
-      .map(([siglas, seats]) => {
+      .map(([rawSiglas, seats]) => {
+        const siglas = normalizeSiglas(rawSiglas)
         const colorKey = siglas.toLowerCase().replace(/\s/g, '').replace('ehbildu', 'bildu') as keyof typeof PC
         return {
           siglas,
           nombre: siglas,
-          pct: Number((pctMap[siglas] || 0).toFixed(2)),
+          pct: Number((pctMap[rawSiglas] || pctMap[siglas] || 0).toFixed(2)),
           seats,
           color: PC[colorKey] || PC.otros,
           bloque: BLOQUE_BY_SIGLAS[siglas] || 'otros',
