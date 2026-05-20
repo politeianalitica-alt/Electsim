@@ -5,14 +5,14 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const SECTIONS = [
-  { id: 'contexto', titulo: 'Contexto político actual', delay: 1200 },
-  { id: 'senales', titulo: 'Señales de inteligencia', delay: 1800 },
-  { id: 'riesgo', titulo: 'Evaluación de riesgo', delay: 1500 },
-  { id: 'diplomatico', titulo: 'Frente diplomático', delay: 1400 },
-  { id: 'economico', titulo: 'Panorama económico', delay: 1000 },
-  { id: 'recomendaciones', titulo: 'Recomendaciones', delay: 2000 },
-  { id: 'escenarios', titulo: 'Escenarios probables', delay: 1600 },
-  { id: 'alertas', titulo: 'Alertas prioritarias', delay: 800 },
+  { id: 'contexto', titulo: 'Qué está pasando hoy', delay: 1200 },
+  { id: 'senales', titulo: 'Lo que vemos venir', delay: 1800 },
+  { id: 'riesgo', titulo: 'Dónde está el riesgo', delay: 1500 },
+  { id: 'diplomatico', titulo: 'En lo internacional', delay: 1400 },
+  { id: 'economico', titulo: 'La economía hoy', delay: 1000 },
+  { id: 'recomendaciones', titulo: 'Qué deberías hacer', delay: 2000 },
+  { id: 'escenarios', titulo: 'Posibles escenarios', delay: 1600 },
+  { id: 'alertas', titulo: 'A lo que tienes que prestar atención', delay: 800 },
 ]
 
 export async function GET(_req: NextRequest) {
@@ -52,14 +52,14 @@ export async function GET(_req: NextRequest) {
           section_id: section.id,
           titulo: section.titulo,
           progress: Math.round(((i + 1) / SECTIONS.length) * 100),
-          contenido: `Análisis de ${section.titulo.toLowerCase()} en curso. ${backendContext ? 'Datos en tiempo real integrados.' : 'Usando fuentes analíticas disponibles.'}`,
+          contenido: `Estamos revisando ${section.titulo.toLowerCase()}. ${backendContext ? 'Con datos al minuto.' : 'Con la mejor información que tenemos ahora mismo.'}`,
         })
       }
 
       if (!closed) {
         send('generation_complete', {
           briefing_id: `briefing_${Date.now()}`,
-          titulo: `Briefing Ejecutivo — ${new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}`,
+          titulo: `Tu briefing de hoy — ${new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}`,
           ts: new Date().toISOString(),
         })
       }

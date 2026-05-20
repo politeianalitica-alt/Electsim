@@ -34,22 +34,22 @@ type Msg = {
 const PRESET_QUESTIONS = [
   {
     n: 1,
-    q: '¿Mantendrá el PP el liderazgo si la narrativa de vivienda erosiona su electorado urbano?',
-    a: 'Análisis de elasticidad: el PP mantiene un colchón de **+6,4 pp** sobre el PSOE. Una erosión completa del voto urbano joven (≈12% del electorado PP en grandes ciudades) reduciría su ventaja a **+1,8 pp** pero seguiría liderando.\n\n**Riesgo medio**. Madrid capital y zonas turísticas costeras son los focos a vigilar. Recomiendo cruzar con `/microdatos` para ver el voto blando por franja 25-44 años.',
+    q: '¿Aguanta el PP arriba si la vivienda le sigue comiendo voto en las ciudades?',
+    a: 'Te lo cuento rápido: el PP tiene un colchón de **+6,4 pp** sobre el PSOE. Si pierde del todo el voto urbano joven (más o menos un 12% de su electorado en ciudades grandes), su ventaja se queda en **+1,8 pp** — sigue arriba, pero por los pelos.\n\n**Riesgo medio**. Mira sobre todo Madrid capital y las zonas turísticas de costa. Para profundizar, cruza con `/microdatos` y revisa el voto blando entre 25 y 44 años.',
   },
   {
     n: 2,
-    q: '¿Activará el PSOE una iniciativa fiscal antes del cierre del semestre?',
-    a: 'Probabilidad estimada: **62%**. Indicadores: Hacienda ha movido a 3 técnicos a Presupuestos esta semana, Montero canceló agenda exterior del 14-18 mayo, y el filtrado a *El País* del lunes apunta a una rebaja en el IRPF de tramos bajos.\n\nVentana óptima política: **18-25 mayo** (antes del Consejo Europeo del 27). Detalle en `/proyectos`.',
+    q: '¿Se atreverá el PSOE a mover ficha en lo fiscal antes de que acabe el semestre?',
+    a: 'Yo lo veo en un **62%**. ¿Por qué? Hacienda ha mandado a 3 técnicos a Presupuestos esta semana, Montero ha cancelado su agenda fuera del 14 al 18 de mayo, y el filtrado a *El País* del lunes apunta a una rebaja del IRPF en los tramos bajos.\n\nLa mejor ventana política: **del 18 al 25 de mayo**, antes del Consejo Europeo del 27. Más detalle en `/proyectos`.',
   },
   {
     n: 3,
-    q: '¿Qué impacto tiene el bloqueo de Junts en la coalición de investidura a 12 meses?',
-    a: 'Sin Junts el bloque de investidura cae a **172 escaños** (insuficiente). Tres caminos a 12 meses:\n\n• **45%** Junts vuelve con concesión fiscal (transferencia IRPF)\n• **30%** Reformulación de mayoría con CC + abstención de PNV en clave (170-175)\n• **25%** Adelanto electoral antes de Q1 2027\n\nVer escenarios completos en `/escenarios` y simular votación en `/congreso`.',
+    q: '¿Cuánto daña a la coalición si Junts sigue bloqueando? Pensemos a 12 meses.',
+    a: 'Sin Junts, el bloque de investidura se cae a **172 escaños** — insuficiente. Tres caminos posibles a 12 meses:\n\n• **45%** Junts vuelve a la mesa con una concesión fiscal (transferencia del IRPF)\n• **30%** Se rehace la mayoría con CC + abstención clave del PNV (170-175)\n• **25%** Elecciones anticipadas antes del primer trimestre de 2027\n\nMira los escenarios completos en `/escenarios` y simula la votación en `/congreso`.',
   },
 ]
 
-const WELCOME_TEXT = 'El PP consolida su liderazgo en intención de voto (+0,4 pp esta semana) mientras el PSOE mantiene posiciones tras la última intervención del presidente. La narrativa de vivienda continúa en aceleración (+18% menciones 24h) con una emoción dominante de frustración. La amnistía vuelve al primer plano tras dos decisiones judiciales que dividen al socio Junts. En lo económico, el IPC subyacente sorprende a la baja, lo que abre margen al gobierno para una intervención en política fiscal antes del cierre del semestre.'
+const WELCOME_TEXT = 'Buenos días. Te resumo cómo está la mañana. El PP sigue por delante — sube 0,4 puntos esta semana — y el PSOE aguanta el tipo tras la rueda de prensa del presidente. La vivienda no afloja: las menciones se han disparado un 18% en 24 horas y la conversación pública está más cabreada que asustada. La amnistía vuelve a portada por dos decisiones judiciales que están dividiendo a Junts. Y una buena noticia para Moncloa: el IPC subyacente ha bajado más de lo esperado, así que tienen margen para mover algo en lo fiscal antes de que acabe el semestre.'
 
 /**
  * Renderer ligero de markdown para respuestas del Brain.
@@ -311,7 +311,7 @@ export default function BrainBriefing() {
  <div>
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
-                BRIEFING MATINAL · POLITEIA
+                TU BRIEFING DE LA MAÑANA · POLITEIA
  </span>
               {briefingMode === 'real' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#fff', background: '#10b981', padding: '2px 6px', borderRadius: 4 }}>LIVE</span>}
               {briefingMode === 'demo' && <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#0F1F3D', background: '#fbbf24', padding: '2px 6px', borderRadius: 4 }}>DEMO</span>}
@@ -334,7 +334,7 @@ export default function BrainBriefing() {
             fontSize: 11.5, fontWeight: 600, textDecoration: 'none', flexShrink: 0,
           }}>
  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Ver briefing completo
+            Ver todo el briefing
  </Link>
  </div>
 
@@ -351,8 +351,8 @@ export default function BrainBriefing() {
             fontSize: 10, fontWeight: 800, color: '#93C5FD',
             letterSpacing: '0.10em', textTransform: 'uppercase',
           }}>
- <span>◆</span>LECTURA ANALÍTICA · INFERIDO
- <span title="Interpretación derivada por el modelo a partir de las señales SIGINT disponibles · requiere validación humana antes de informar decisiones."
+ <span>◆</span>NUESTRA LECTURA · INTERPRETADO
+ <span title="Esto es nuestra interpretación a partir de las señales que vemos. Conviene validarlo antes de tomar decisiones grandes."
                   style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                     width: 12, height: 12, borderRadius: '50%',
@@ -372,8 +372,8 @@ export default function BrainBriefing() {
           fontSize: 10, fontWeight: 800, color: 'rgba(252,211,77,0.95)',
           letterSpacing: '0.10em', textTransform: 'uppercase',
         }}>
- <span>◐</span>ESCENARIOS PARA EXPLORAR · PROYECTADO
- <span title="Posibles evoluciones · hipótesis prospectivas · no son predicciones deterministas."
+ <span>◐</span>PREGUNTAS PARA DARLE VUELTAS · ESCENARIOS
+ <span title="Estas son hipótesis para explorar, no predicciones cerradas. Te ayudan a pensar el día."
                 style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   width: 12, height: 12, borderRadius: '50%',
@@ -571,12 +571,12 @@ export default function BrainBriefing() {
         {/* Quick actions · botones de prompt rápido */}
  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
           {[
-            { label: ' Resumen del día', prompt: 'Resume lo más importante del día en 3 frases.' },
-            { label: ' Última encuesta', prompt: '¿Cómo va la última encuesta?' },
-            { label: ' Alertas críticas', prompt: '¿Qué alertas críticas hay activas ahora?' },
-            { label: ' Narrativas calientes', prompt: '¿Qué narrativas están acelerándose?' },
-            { label: ' Estado coalición', prompt: '¿Cómo está la coalición de gobierno?' },
-            { label: ' Riesgo político', prompt: '¿Cómo va el índice de riesgo?' },
+            { label: ' Cuéntame lo de hoy', prompt: 'Resume lo más importante del día en 3 frases.' },
+            { label: ' ¿Qué dicen las encuestas?', prompt: '¿Cómo va la última encuesta?' },
+            { label: ' Lo urgente ahora', prompt: '¿Qué alertas críticas hay activas ahora?' },
+            { label: ' Lo que se está moviendo', prompt: '¿Qué narrativas están acelerándose?' },
+            { label: ' ¿Cómo está el gobierno?', prompt: '¿Cómo está la coalición de gobierno?' },
+            { label: ' ¿Y el riesgo político?', prompt: '¿Cómo va el índice de riesgo?' },
           ].map((qa) => (
  <button
               key={qa.label}
@@ -647,7 +647,7 @@ export default function BrainBriefing() {
  </svg>
  <input
             type="text"
-            placeholder="Pregunta a Politeia sobre lo que ha pasado hoy…"
+            placeholder="Pregúntame lo que quieras sobre el día…"
             value={input}
             onChange={e => setInput(e.target.value)}
             style={{
@@ -682,23 +682,23 @@ export default function BrainBriefing() {
               textTransform: 'uppercase', flexShrink: 0, marginTop: 1,
               display: 'inline-flex', alignItems: 'center', gap: 4,
             }}>
- <span></span>NOTA · RECOMENDADO
+ <span></span>UNA ÚLTIMA COSA
  </span>
  <span style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.85)', lineHeight: 1.45 }}>
-              {analystNote || 'Semana de inflexión electoral. Vigilar señales de movilización en mayores de 55 años.'}
+              {analystNote || 'Semana clave. Quien mueva el voto de los +55 marca el ritmo. Atención ahí.'}
  </span>
  </div>
  <Link href="/agente-ia" style={{ fontSize: 12, color: '#a78bfa', textDecoration: 'none', fontWeight: 600, flexShrink: 0 }}>
-            Profundizar con Politeia →
+            Sigue hablando con Politeia →
  </Link>
  </div>
  <p style={{
           marginTop: 8, fontSize: 10.5, color: 'rgba(255,255,255,0.4)',
           lineHeight: 1.45, fontStyle: 'italic',
         }}>
-          Aviso metodológico · El briefing combina datos <em>observados</em> con
-          interpretaciones <em>inferidas</em> y escenarios <em>proyectados</em>
-          generados por IA. No constituye predicción determinista y requiere validación.
+          Una nota honesta · El briefing mezcla lo que <em>vemos</em> con
+          nuestra <em>interpretación</em> y algunos <em>escenarios</em> generados por IA.
+          No es una bola de cristal — úsalo como punto de partida, no como decisión cerrada.
  </p>
 
  <style>{`

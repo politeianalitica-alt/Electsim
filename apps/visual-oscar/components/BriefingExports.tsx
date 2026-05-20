@@ -73,20 +73,20 @@ export default function BriefingExports() {
 
   function buildSpeechText(): string {
     if (!briefing) return ''
-    const parts: string[] = ['Briefing matinal de Politeia Analítica.']
+    const parts: string[] = ['Buenos días. Te cuento cómo está la mañana en Politeia Analítica.']
     if (briefing.executive_summary) parts.push(briefing.executive_summary)
     const criticas = (briefing.key_alerts || []).filter(a => ['critical', 'high'].includes((a.level || '').toLowerCase())).slice(0, 3)
     if (criticas.length > 0) {
-      parts.push('Alertas críticas del día.')
+      parts.push('Vamos con lo urgente.')
       criticas.forEach((a, i) => {
         parts.push(`${i + 1}. ${a.title}.${a.body ? ' ' + a.body : ''}`)
       })
     }
     if (briefing.three_questions && briefing.three_questions.length > 0) {
-      parts.push('Las tres preguntas para reflexionar hoy.')
+      parts.push('Y para que te las lleves en la cabeza, tres preguntas para hoy.')
       briefing.three_questions.forEach((q, i) => parts.push(`Pregunta ${i + 1}. ${q}`))
     }
-    if (briefing.analyst_note) parts.push(`Nota del analista. ${briefing.analyst_note}`)
+    if (briefing.analyst_note) parts.push(`Antes de cerrar, una nota: ${briefing.analyst_note}`)
     return parts.join(' ')
   }
 

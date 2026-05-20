@@ -44,13 +44,13 @@ function spanishLevel(level?: string): string {
 function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   const blocks: PdfDocSpec['blocks'] = []
 
-  blocks.push({ type: 'h2', text: 'Resumen ejecutivo' })
-  blocks.push({ type: 'p', text: briefing.executive_summary || 'No hay datos disponibles para esta sesión.' })
+  blocks.push({ type: 'h2', text: 'Lo importante de hoy' })
+  blocks.push({ type: 'p', text: briefing.executive_summary || 'Hoy no tenemos datos suficientes — te avisamos en cuanto los tengamos.' })
 
   // Alertas clave
   if (briefing.key_alerts && briefing.key_alerts.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Alertas clave' })
+    blocks.push({ type: 'h2', text: 'A lo que tienes que prestar atención' })
     briefing.key_alerts.forEach(a => {
       blocks.push({ type: 'h3', text: `[${spanishLevel(a.level)}]  ${a.title}` })
       if (a.body) blocks.push({ type: 'p', text: a.body })
@@ -60,7 +60,7 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   // Top stories
   if (briefing.top_stories && briefing.top_stories.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Top stories del día' })
+    blocks.push({ type: 'h2', text: 'Las noticias que más se están moviendo' })
     briefing.top_stories.slice(0, 5).forEach(s => {
       const rel = s.relevance != null ? ` (relevancia ${Math.round(s.relevance * 100)}%)` : ''
       blocks.push({ type: 'bullet', text: `${s.title} — ${s.source || 'fuente desconocida'}${rel}` })
@@ -70,18 +70,18 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   // Narrativas activas
   if (briefing.active_narratives && briefing.active_narratives.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Narrativas activas' })
+    blocks.push({ type: 'h2', text: 'De qué se está hablando' })
     briefing.active_narratives.forEach(n => {
-      const vel = n.velocity === 'up' ? '↑ acelerando' : n.velocity === 'down' ? '↓ enfriándose' : '→ estable'
+      const vel = n.velocity === 'up' ? '↑ subiendo' : n.velocity === 'down' ? '↓ enfriándose' : '→ estable'
       blocks.push({ type: 'h3', text: `${n.frame_label}  ·  ${vel}` })
-      if (n.recommended_action) blocks.push({ type: 'p', text: `Acción recomendada · ${n.recommended_action}` })
+      if (n.recommended_action) blocks.push({ type: 'p', text: `Qué hacer · ${n.recommended_action}` })
     })
   }
 
   // Las tres preguntas
   if (briefing.three_questions && briefing.three_questions.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Las tres preguntas del día' })
+    blocks.push({ type: 'h2', text: 'Tres preguntas para que te lleves al día' })
     briefing.three_questions.forEach((q, i) => {
       blocks.push({ type: 'h3', text: `${i + 1}.  ${q}` })
     })
@@ -90,7 +90,7 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   // Snapshot electoral
   if (briefing.electoral_snapshot) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Snapshot electoral' })
+    blocks.push({ type: 'h2', text: 'Cómo va la cosa electoral' })
     const es = briefing.electoral_snapshot
     const tendencia = es.trend === 'up' ? '↑ subiendo' : es.trend === 'down' ? '↓ bajando' : '→ estable'
     const pairs: Array<[string, string]> = []
@@ -104,7 +104,7 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   // Nota del analista
   if (briefing.analyst_note) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h2', text: 'Nota del analista' })
+    blocks.push({ type: 'h2', text: 'Una última cosa' })
     blocks.push({ type: 'callout', text: briefing.analyst_note, tone: 'info' })
   }
 
@@ -114,8 +114,8 @@ function buildInforme(briefing: MorningBriefing): PdfDocSpec['blocks'] {
 function buildNota(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   const blocks: PdfDocSpec['blocks'] = []
 
-  blocks.push({ type: 'h2', text: 'Resumen ejecutivo' })
-  blocks.push({ type: 'p', text: briefing.executive_summary || 'No hay datos disponibles para esta sesión.' })
+  blocks.push({ type: 'h2', text: 'Lo importante de hoy' })
+  blocks.push({ type: 'p', text: briefing.executive_summary || 'Hoy no tenemos datos suficientes — te avisamos en cuanto los tengamos.' })
 
   // Solo las 2 alertas críticas máximas
   const criticas = (briefing.key_alerts || [])
@@ -123,7 +123,7 @@ function buildNota(briefing: MorningBriefing): PdfDocSpec['blocks'] {
     .slice(0, 3)
   if (criticas.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h3', text: 'Lo crítico de hoy' })
+    blocks.push({ type: 'h3', text: 'Lo urgente de hoy' })
     criticas.forEach(a => {
       blocks.push({ type: 'callout', text: `${a.title}${a.body ? ' · ' + a.body : ''}`, tone: levelTone(a.level) })
     })
@@ -132,7 +132,7 @@ function buildNota(briefing: MorningBriefing): PdfDocSpec['blocks'] {
   // 3 preguntas como teaser
   if (briefing.three_questions && briefing.three_questions.length > 0) {
     blocks.push({ type: 'divider' })
-    blocks.push({ type: 'h3', text: 'Para reflexionar' })
+    blocks.push({ type: 'h3', text: 'Para darle vueltas' })
     briefing.three_questions.slice(0, 3).forEach((q, i) => {
       blocks.push({ type: 'bullet', text: `${i + 1}.  ${q}` })
     })
@@ -179,8 +179,8 @@ export async function POST(req: NextRequest) {
   const fechaCorta = today.toISOString().slice(0, 10)
 
   const titulo = format === 'nota'
-    ? 'Nota informativa · Briefing matinal'
-    : 'Informe ejecutivo · Briefing matinal'
+    ? 'Tu briefing de la mañana · resumen rápido'
+    : 'Tu briefing de la mañana · informe completo'
 
   const spec: PdfDocSpec = {
     title: titulo,
