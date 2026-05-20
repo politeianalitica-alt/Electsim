@@ -17,6 +17,7 @@
  */
 
 import { backendUrl, backendConfigured } from "../backend";
+import { searchBoeRecent, getBoeSumario, formatBoeItemsForLLM } from "./boe-client";
 import type Anthropic from "@anthropic-ai/sdk";
 
 // ─── Definiciones de tools (schema para Claude) ────────────────────────
@@ -97,17 +98,51 @@ export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_legislative_activity",
     description:
-      "Devuelve actividad legislativa reciente (BOE, votaciones del Congreso, " +
-      "tramitación de leyes). Filtrable por tema (vivienda, energía, etc.) y " +
-      "tipo (boe, congreso, eur_lex). Útil para preguntas sobre leyes en trámite.",
+      "Devuelve normas publicadas en el BOE (Boletín Oficial del Estado) " +
+      "de los últimos 14 días filtradas por keyword. SIEMPRE úsala para " +
+      "preguntas tipo 'normas BOE sobre X', 'últimas leyes de Y', " +
+      "'qué dice el BOE de vivienda', 'tramitación de Z'. Datos reales " +
+      "vía API pública del BOE — no inventes nada, llama esta tool.",
     input_schema: {
       type: "object",
       properties: {
-        topic: { type: "string", description: "Tema/sector (opcional)." },
-        tipo: {
+        topic: {
           type: "string",
-          enum: ["boe", "congreso", "eur_lex", "todas"],
-          description: "Tipo de fuente legislativa (default 'todas').",
+          description:
+            "Tema/keyword a buscar en títulos de normas (ej: 'vivienda', " +
+            "'energía', 'IA', 'inmigración', 'fiscal'). Puede ser varios " +
+            "separados por espacios.",
+        },
+        days_back: {
+          type: "number",
+          description: "Cuántos días atrás buscar (default 14, max 30).",
+        },
+        limit: {
+          type: "number",
+          description: "Número máximo de normas a devolver (default 8).",
+        },
+      },
+      required: ["topic"],
+    },
+  },
+  {
+    name: "get_boe_today",
+    description:
+      "Devuelve TODAS las normas publicadas en el BOE del día actual " +
+      "(o de una fecha específica). Útil para preguntas tipo 'qué hay " +
+      "hoy en el BOE', 'normas publicadas esta mañana', 'sumario BOE'. " +
+      "Datos reales vía API pública del BOE.",
+    input_schema: {
+      type: "object",
+      properties: {
+        fecha: {
+          type: "string",
+          description:
+            "Fecha en formato YYYY-MM-DD (opcional, default hoy). Ejemplo: '2026-05-20'.",
+        },
+        limit: {
+          type: "number",
+          description: "Número máximo de items a devolver (default 15).",
         },
       },
     },
@@ -530,21 +565,32 @@ async function execGetAlertDetails(input: { nivel?: string }): Promise<ToolResul
 
 async function execGetLegislativeActivity(input: {
   topic?: string;
-  tipo?: string;
+  days_back?: number;
+  limit?: number;
 }): Promise<ToolResult> {
-  const data = await fetchInternal<unknown>("/api/huella-legislativa");
-  if (!data) return "No hay datos legislativos disponibles.";
-  // Estructura puede variar; devolvemos truncado para que Claude lo parsee
-  const str = JSON.stringify(data);
-  return JSON.stringify(
-    {
-      topic_filter: input.topic ?? null,
-      tipo_filter: input.tipo ?? "todas",
-      data_preview: str.slice(0, 1500) + (str.length > 1500 ? "...[truncado]" : ""),
-    },
-    null,
-    0
+  const topic = (input.topic || "").trim();
+  if (!topic) {
+    return "Necesito un keyword/tema para buscar en el BOE. Ejemplo: 'vivienda', 'IA', 'energía'.";
+  }
+  const items = await searchBoeRecent(
+    topic,
+    Math.min(input.days_back ?? 14, 30),
+    Math.min(input.limit ?? 8, 15)
   );
+  return formatBoeItemsForLLM(items);
+}
+
+async function execGetBoeToday(input: { fecha?: string; limit?: number }): Promise<ToolResult> {
+  let date: Date | undefined;
+  if (input.fecha) {
+    const m = input.fecha.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) {
+      date = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    }
+  }
+  const items = await getBoeSumario(date);
+  const limited = items.slice(0, Math.min(input.limit ?? 15, 25));
+  return formatBoeItemsForLLM(limited);
 }
 
 async function execGetNarrativeTrends(input: { limit?: number }): Promise<ToolResult> {
@@ -595,7 +641,9 @@ export async function executeTool(
       case "get_alert_details":
         return await execGetAlertDetails(input as { nivel?: string });
       case "get_legislative_activity":
-        return await execGetLegislativeActivity(input as { topic?: string; tipo?: string });
+        return await execGetLegislativeActivity(input as { topic?: string; days_back?: number; limit?: number });
+      case "get_boe_today":
+        return await execGetBoeToday(input as { fecha?: string; limit?: number });
       case "get_narrative_trends":
         return await execGetNarrativeTrends(input as { limit?: number });
       case "get_coalition_status":
