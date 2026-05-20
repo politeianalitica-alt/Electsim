@@ -237,12 +237,30 @@ class EnrichedItem(NormalizedItem):
     )
     sentiment: dict[str, Any] = Field(
         default_factory=dict,
-        description="{label: 'positive'|'neutral'|'negative', score: float}. "
-                    "Producido por pysentimiento (RoBERTuito ES).",
+        description="{label: 'positivo'|'neutral'|'negativo', positivo: float, "
+                    "negativo: float, neutral: float, score: float, backend: str}. "
+                    "Producido por pysentimiento (RoBERTuito ES finetuned) si esta "
+                    "instalado, fallback a transformers cardiffnlp, fallback a lexicon.",
+    )
+    emotion: dict[str, Any] = Field(
+        default_factory=dict,
+        description="{label: 'joy'|'sadness'|'anger'|'fear'|'surprise'|'disgust'|'others', "
+                    "probas: dict, backend: str}. Solo si pysentimiento esta instalado. "
+                    "Vacio en otros backends.",
+    )
+    hate: dict[str, Any] = Field(
+        default_factory=dict,
+        description="{label, probas: {hateful, targeted, aggressive}, backend}. "
+                    "Solo si pysentimiento esta instalado.",
+    )
+    irony: dict[str, Any] = Field(
+        default_factory=dict,
+        description="{label: 'ironic'|'not_ironic', probas, backend}. "
+                    "Solo si pysentimiento esta instalado.",
     )
     keywords: list[str] = Field(
         default_factory=list,
-        description="Keywords extraídas por YAKE!.",
+        description="Keywords extraidas por YAKE! (sin modelo · estadistico).",
     )
 
     # NER · entidades detectadas (aún no ground en ontología)
