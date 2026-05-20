@@ -1975,3 +1975,80 @@ def test_ine_turismo_tool_indicador_invalido():
     res = fn(indicator="inventado_xyz", last_n=3)
     assert res["data"] == []
     assert "error" in res and res["error"]
+
+
+# ── Forecast µservice client · cliente HTTP + fallback local ────────
+
+def test_forecast_client_fallback_sin_url(monkeypatch):
+    """Sin FORECAST_SERVICE_URL · usa naive_drift local idéntico al stub."""
+    monkeypatch.delenv("FORECAST_SERVICE_URL", raising=False)
+    from etl.sources.commodities import forecast_client
+    closes = [10.0 + i * 0.1 for i in range(60)]
+    res = forecast_client.forecast(closes, horizon=14)
+    assert res["model"] == "naive_drift"
+    assert res["source"] == "local_fallback"
+    assert len(res["forecast"]) == 14
+    p0 = res["forecast"][0]
+    for k in ("date", "value", "lower_80", "upper_80", "lower_95", "upper_95"):
+        assert k in p0
+    # Bandas 95% más anchas que 80%
+    assert (p0["upper_95"] - p0["lower_95"]) >= (p0["upper_80"] - p0["lower_80"])
+
+
+def test_forecast_client_closes_insuficiente(monkeypatch):
+    """closes con < 10 obs · devuelve estructura con warning explícito."""
+    monkeypatch.delenv("FORECAST_SERVICE_URL", raising=False)
+    from etl.sources.commodities.forecast_client import forecast
+    res = forecast([1.0, 2.0, 3.0], horizon=5)
+    assert res["model"] == "naive_drift"
+    assert res["forecast"] == []
+    assert res["warning"]
+
+
+def test_forecast_client_health_no_configurado(monkeypatch):
+    """health() sin FORECAST_SERVICE_URL devuelve status not_configured."""
+    monkeypatch.delenv("FORECAST_SERVICE_URL", raising=False)
+    from etl.sources.commodities.forecast_client import health, is_service_configured
+    assert is_service_configured() is False
+    h = health()
+    assert h["status"] == "not_configured"
+    assert h["configured"] is False
+
+
+def test_forecast_uservice_archivos_existen():
+    """El µservicio tiene la estructura completa: main + Dockerfile + reqs."""
+    from pathlib import Path
+    root = Path(__file__).parent.parent.parent / "apps" / "forecast-service"
+    assert root.exists()
+    main_py = root / "main.py"
+    assert main_py.exists()
+    assert (root / "Dockerfile").exists()
+    assert (root / "requirements.txt").exists()
+    # Sintaxis válida
+    src = main_py.read_text(encoding="utf-8")
+    compile(src, str(main_py), "exec")
+    assert "@app.post" in src and "/forecast" in src
+    assert "@app.get" in src and "/health" in src
+    assert "naive_drift" in src and "_prophet_forecast" in src
+    assert "_auto_arima_forecast" in src
+
+
+def test_commodity_forecast_endpoints_registrados():
+    """Endpoints /api/v1/commodities/{slug}/forecast + /forecast/health activos."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    assert "/api/v1/commodities/{slug}/forecast" in paths
+    assert "/api/v1/commodities/forecast/health" in paths
+
+
+def test_forecast_client_genera_serie_creciente_drift_positivo():
+    """Sanity: serie con drift positivo debe predecir valores crecientes."""
+    from etl.sources.commodities.forecast_client import _local_naive_drift
+    from datetime import date
+    closes = [10.0 + i for i in range(30)]
+    res = _local_naive_drift(closes, horizon=10, start=date(2026, 1, 1))
+    assert res["forecast"][0]["value"] > closes[-1]
+    assert res["forecast"][-1]["value"] > res["forecast"][0]["value"]

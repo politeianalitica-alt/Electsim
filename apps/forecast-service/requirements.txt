@@ -1,0 +1,18 @@
+# Forecast microservice · Politeia · runtime deps
+#
+# Pesado por construcción (Prophet arrastra cmdstanpy + pandas + numpy).
+# Diseño: container dedicado · no se mezcla con backend principal.
+
+fastapi>=0.111,<0.121
+uvicorn[standard]>=0.30,<0.36
+pydantic>=2.6,<3.0
+
+# Modelos · ambos opcionales (el código hace fallback si no están)
+# Para deshabilitar uno: instala el otro o ninguno (queda naive_drift)
+prophet>=1.1.5,<1.2
+statsforecast>=1.7,<2.0
+
+# Deps explicitadas que prophet/statsforecast traen indirectamente
+# (las anclamos para builds reproducibles)
+numpy>=1.26,<2.2
+pandas>=2.1,<2.4

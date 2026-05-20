@@ -51,12 +51,25 @@ export default function ForecastPage() {
         <h1 style={{ fontSize: 26, fontWeight: 800, color: '#111827', margin: '12px 0 4px' }}>
           Motor de Forecasting · IA
         </h1>
-        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 18 }}>
+        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 8 }}>
           Predicción de precios con bandas de confianza 80% y 95%.{' '}
-          {forecast?.accuracy_disclaimer ? (
+          {forecast?.model_source === 'service' ? (
+            <span style={{ color: '#16a34a', fontWeight: 600 }}>
+              · µservice live ({forecast.model})
+            </span>
+          ) : forecast?.model_source === 'local_fallback' ? (
+            <span style={{ color: '#f59e0b' }}>
+              · fallback local naive_drift (µservice no disponible)
+            </span>
+          ) : forecast?.accuracy_disclaimer ? (
             <span style={{ color: '#dc2626' }}>{forecast.accuracy_disclaimer}</span>
           ) : null}
         </p>
+        {forecast?.warning ? (
+          <p style={{ fontSize: 11, color: '#b45309', marginBottom: 12 }}>
+            ⚠ {forecast.warning}
+          </p>
+        ) : null}
 
         {/* Selector commodity + horizonte */}
         <div
@@ -132,7 +145,24 @@ export default function ForecastPage() {
             value={expectedReturn != null ? fmtPct(expectedReturn) : '—'}
             color={expectedReturn != null && expectedReturn > 0 ? '#16a34a' : expectedReturn != null && expectedReturn < 0 ? '#dc2626' : '#374151'}
           />
-          <Kpi label="Modelo" value={forecast?.model ?? '—'} sub="stub · drift naive" />
+          <Kpi
+            label="Modelo"
+            value={forecast?.model ?? '—'}
+            sub={
+              forecast?.accuracy_mape_30d != null
+                ? `MAPE 30d: ${forecast.accuracy_mape_30d}% · dir ${forecast.accuracy_dir_pct ?? '—'}%`
+                : forecast?.model_source === 'local_fallback'
+                  ? 'µservice no configurado'
+                  : 'sin back-test'
+            }
+            color={
+              forecast?.accuracy_mape_30d != null && forecast.accuracy_mape_30d < 8
+                ? '#16a34a'
+                : forecast?.accuracy_mape_30d != null && forecast.accuracy_mape_30d > 15
+                  ? '#dc2626'
+                  : undefined
+            }
+          />
         </div>
 
         <div

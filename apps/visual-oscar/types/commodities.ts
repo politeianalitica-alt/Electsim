@@ -111,6 +111,12 @@ export interface ForecastResponse {
   last_date?: string
   horizon: number
   model?: string
+  /** 'service' (µservice live) | 'local_fallback' (drift naive) */
+  model_source?: 'service' | 'local_fallback'
+  accuracy_mape_30d?: number | null
+  accuracy_dir_pct?: number | null
+  warning?: string | null
+  /** @deprecated · usar accuracy_mape_30d/accuracy_dir_pct/warning */
   accuracy_disclaimer?: string
   forecast: ForecastPoint[]
   available?: boolean

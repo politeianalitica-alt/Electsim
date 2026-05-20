@@ -188,15 +188,22 @@ def commodity_technical_endpoint(slug: str, range: str = Query("1y")) -> dict[st
 def commodity_forecast(
     slug: str,
     horizon: int = Query(30, ge=7, le=180),
+    model: str = Query("auto", description="prophet | auto_arima | naive_drift | auto"),
 ) -> dict[str, Any]:
-    """Forecast simple (último valor + drift histórico).
+    """Forecast del commodity · usa µservicio Prophet/AutoARIMA si configurado.
 
-    NOTA: implementación stub · sustituir por Prophet/NHITS microservicio
-    cuando esté disponible. Útil para mostrar UI de forecasting.
+    Si `FORECAST_SERVICE_URL` está definido, llama al microservicio Politeia
+    Forecast con Prophet (o AutoARIMA si Prophet no está disponible).
+
+    Si el µservicio no responde, cae al algoritmo naive_drift local · la SPA
+    siempre obtiene un forecast con la misma estructura.
     """
     try:
         from etl.sources.commodities.catalog import get_commodity
         from etl.sources.commodities.prices import get_yahoo_client
+        from etl.sources.commodities.forecast_client import forecast as call_forecast
+        from datetime import date as _date
+
         c = get_commodity(slug)
         if c is None:
             raise HTTPException(status_code=404, detail=f"commodity '{slug}' no encontrada")
@@ -211,24 +218,46 @@ def commodity_forecast(
                 "error": "histórico insuficiente",
             }
         closes = [p["close"] for p in ohlc if p.get("close") is not None]
-        forecast = _simple_drift_forecast(closes, horizon)
-        last_date = ohlc[-1]["date"]
+        last_date_str = ohlc[-1]["date"]
+        try:
+            start = _date.fromisoformat(last_date_str)
+        except Exception:
+            start = _date.today()
+
+        fc_result = call_forecast(
+            closes,
+            horizon=horizon,
+            model=model,  # type: ignore[arg-type]
+            start_date=start,
+        )
+
         return {
             "slug": slug,
             "name": c.get("name"),
             "last_price": closes[-1],
-            "last_date": last_date,
+            "last_date": last_date_str,
             "horizon": horizon,
-            "model": "drift_naive_v1",
-            "accuracy_disclaimer": (
-                "Stub · sustituir por Prophet/NHITS microservicio para precisión real"
-            ),
-            "forecast": forecast,
+            "model": fc_result.get("model", "naive_drift"),
+            "model_source": fc_result.get("source", "local_fallback"),
+            "accuracy_mape_30d": fc_result.get("accuracy_mape_30d"),
+            "accuracy_dir_pct": fc_result.get("accuracy_dir_pct"),
+            "warning": fc_result.get("warning"),
+            "forecast": fc_result.get("forecast", []),
         }
     except HTTPException:
         raise
     except Exception as exc:
         logger.exception("commodity_forecast falló · %s", slug)
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/forecast/health")
+def forecast_health() -> dict[str, Any]:
+    """Diagnóstico del µservicio forecast · muestra qué modelos están listos."""
+    try:
+        from etl.sources.commodities.forecast_client import health
+        return health()
+    except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
