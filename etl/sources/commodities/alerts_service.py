@@ -415,6 +415,74 @@ def _in_cooldown(alert: dict[str, Any]) -> bool:
         return False
 
 
+def _adaptive_cooldown_for_alert(alert: dict[str, Any]) -> dict[str, Any]:
+    """Calcula cooldown ajustado por volatilidad para una alerta.
+
+    Devuelve dict con metadata + adjusted_minutes. Si el metadata_payload
+    del usuario lleva `adaptive_cooldown=False`, devuelve sin ajustar.
+    """
+    base = alert.get("cooldown_minutes") or 60
+    meta = alert.get("metadata_payload") or {}
+    if isinstance(meta, str):
+        try:
+            meta = json.loads(meta)
+        except Exception:
+            meta = {}
+    if meta.get("adaptive_cooldown") is False:
+        return {
+            "base_minutes": base,
+            "adjusted_minutes": base,
+            "multiplier": 1.0,
+            "bucket": "disabled",
+            "sigma_pct": None,
+            "slug_used": None,
+            "fell_back": False,
+        }
+    # Slugs para vol · regla compuesta vs simple
+    rule_def = alert.get("rule_definition")
+    if rule_def:
+        try:
+            from etl.sources.commodities.rule_engine import slugs_in_rule
+            slugs = slugs_in_rule(rule_def)
+        except Exception:
+            slugs = []
+    else:
+        slugs = [alert.get("commodity_slug", "")]
+    try:
+        from etl.sources.commodities.adaptive_cooldown import compute_adaptive_cooldown
+        return compute_adaptive_cooldown(slugs, base_minutes=base)
+    except Exception as exc:
+        logger.debug("adaptive cooldown · %s", exc)
+        return {
+            "base_minutes": base,
+            "adjusted_minutes": base,
+            "multiplier": 1.0,
+            "bucket": "error",
+            "sigma_pct": None,
+            "slug_used": None,
+            "fell_back": True,
+        }
+
+
+def _in_cooldown_adaptive(alert: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
+    """Versión adaptativa de _in_cooldown · devuelve (in_cd, cooldown_info)."""
+    last = alert.get("last_triggered_at")
+    info = _adaptive_cooldown_for_alert(alert)
+    cd = info.get("adjusted_minutes") or alert.get("cooldown_minutes") or 60
+    if not last:
+        return False, info
+    try:
+        last_dt = (
+            datetime.fromisoformat(last.replace("Z", "+00:00"))
+            if isinstance(last, str) else last
+        )
+        if last_dt.tzinfo is None:
+            last_dt = last_dt.replace(tzinfo=timezone.utc)
+        return (_now() - last_dt) < timedelta(minutes=cd), info
+    except Exception:
+        return False, info
+
+
 def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
     """Una pasada del cron · evalúa todas las alertas activas contra snapshots
     live de Yahoo Finance y dispara las que se cumplan (respeta cooldown).
@@ -429,34 +497,47 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
     if not alerts:
         return {"evaluated": 0, "triggered": 0, "events": [], "errors": []}
 
-    # Cache de snapshots por slug · una llamada YF por commodity, no por alerta
+    # Pre-warming · recolectar todos los slugs únicos de TODAS las alertas
+    # (legacy + rule-based) y hacer un único batch fetch via warmer compartido
     try:
-        from etl.sources.commodities.prices import get_yahoo_client
-        from etl.sources.commodities.catalog import get_commodity
-        yf = get_yahoo_client()
+        from etl.sources.commodities.snapshot_warmer import (
+            warm_snapshots, resolve_snapshot,
+        )
     except Exception as exc:
         return {"evaluated": 0, "triggered": 0, "events": [], "errors": [str(exc)]}
 
-    snapshot_cache: dict[str, dict[str, Any]] = {}
+    needed_slugs: list[str] = []
+    for a in alerts:
+        if a.get("rule_definition"):
+            try:
+                from etl.sources.commodities.rule_engine import slugs_in_rule
+                for s in slugs_in_rule(a["rule_definition"]):
+                    if s not in needed_slugs:
+                        needed_slugs.append(s)
+            except Exception:
+                pass
+        else:
+            slug = a.get("commodity_slug")
+            if slug and slug not in needed_slugs:
+                needed_slugs.append(slug)
+
+    # Batch warm · una llamada YF por slug, cache compartido entre evaluaciones
+    if needed_slugs:
+        warm_snapshots(needed_slugs)
 
     def _snap(slug: str) -> dict[str, Any]:
-        if slug in snapshot_cache:
-            return snapshot_cache[slug]
-        c = get_commodity(slug)
-        if c is None or not c.get("yahoo_ticker"):
-            snapshot_cache[slug] = {}
-            return {}
-        s = yf.quote_snapshot(c["yahoo_ticker"]) or {}
-        snapshot_cache[slug] = s
-        return s
+        return resolve_snapshot(slug) or {}
 
     events: list[dict[str, Any]] = []
     errors: list[str] = []
     triggered = 0
+    skipped_cooldown = 0
 
     for a in alerts:
         try:
-            if _in_cooldown(a):
+            in_cd, cd_info = _in_cooldown_adaptive(a)
+            if in_cd:
+                skipped_cooldown += 1
                 continue
 
             rule_definition = a.get("rule_definition")
@@ -494,6 +575,8 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
                     "trigger_value": trigger_value,
                     "threshold": a["threshold"],
                     "channels_planned": channels,
+                    "rule_details": rule_details,
+                    "cooldown_info": cd_info,
                     "dry_run": True,
                 })
                 continue
@@ -518,6 +601,7 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
                 "channels_notified": channels_notified,
                 "delivery_log": delivery_log,
                 "rule_details": rule_details,
+                "cooldown_info": cd_info,
             })
         except Exception as exc:
             errors.append(f"alert {a.get('id')}: {exc}")
@@ -529,6 +613,8 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
     return {
         "evaluated": len(alerts),
         "triggered": triggered,
+        "skipped_cooldown": skipped_cooldown,
+        "warmed_slugs": needed_slugs,
         "events": events,
         "errors": errors,
         "ts": _now().isoformat(),

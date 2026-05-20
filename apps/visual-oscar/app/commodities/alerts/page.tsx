@@ -98,9 +98,25 @@ export default function AlertsPage() {
               alignSelf: 'start',
             }}
           >
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: '#111827', margin: '0 0 12px' }}>
-              Crear alerta
-            </h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#111827', margin: 0 }}>
+                Crear alerta simple
+              </h3>
+              <Link
+                href="/commodities/alerts/rule-builder"
+                style={{
+                  padding: '4px 10px',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  background: '#7c3aed',
+                  color: '#fff',
+                  borderRadius: 4,
+                  textDecoration: 'none',
+                }}
+              >
+                ⚡ Multi-condición →
+              </Link>
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <Field label="Commodity">
                 <select

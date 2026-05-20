@@ -2473,3 +2473,165 @@ def test_sse_proxy_route_exists_frontend():
     assert "EventSource" not in src  # esto es server-side proxy
     assert "force-dynamic" in src
     assert "text/event-stream" in src
+
+
+# ── Snapshot warmer + cooldown adaptativo + RuleBuilder ──────────────
+
+def test_snapshot_warmer_cache_basico(monkeypatch):
+    """warm_snapshots cachea por TTL · resolve_snapshot sirve desde cache."""
+    from etl.sources.commodities import snapshot_warmer
+    snapshot_warmer.clear_cache()
+
+    # Mockear fetch para evitar red
+    calls = {"n": 0}
+    def fake_fetch(slug):
+        calls["n"] += 1
+        return {"slug": slug, "last_price": 100.0, "rsi_14": 50}
+    monkeypatch.setattr(snapshot_warmer, "_fetch_snapshot_uncached", fake_fetch)
+
+    # Primera pasada · 2 fetches
+    out = snapshot_warmer.warm_snapshots(["a", "b"])
+    assert calls["n"] == 2
+    assert out["a"]["last_price"] == 100.0
+
+    # Segunda pasada · ningún fetch nuevo (cache fresh)
+    out2 = snapshot_warmer.warm_snapshots(["a", "b"])
+    assert calls["n"] == 2
+    assert out2["a"]["last_price"] == 100.0
+
+    # force=True invalida cache
+    snapshot_warmer.warm_snapshots(["a"], force=True)
+    assert calls["n"] == 3
+
+
+def test_snapshot_warmer_resolve_on_demand(monkeypatch):
+    """resolve_snapshot fetch si miss, cache si hit."""
+    from etl.sources.commodities import snapshot_warmer
+    snapshot_warmer.clear_cache()
+    calls = {"n": 0}
+    monkeypatch.setattr(
+        snapshot_warmer, "_fetch_snapshot_uncached",
+        lambda s: (calls.__setitem__("n", calls["n"] + 1), {"slug": s, "last_price": 1.0})[1],
+    )
+    r1 = snapshot_warmer.resolve_snapshot("x")
+    r2 = snapshot_warmer.resolve_snapshot("x")
+    assert calls["n"] == 1
+    assert r1["last_price"] == r2["last_price"] == 1.0
+
+
+def test_snapshot_warmer_dedup_slugs(monkeypatch):
+    """warm_snapshots deduplica slugs duplicados."""
+    from etl.sources.commodities import snapshot_warmer
+    snapshot_warmer.clear_cache()
+    calls = {"n": 0}
+    monkeypatch.setattr(
+        snapshot_warmer, "_fetch_snapshot_uncached",
+        lambda s: (calls.__setitem__("n", calls["n"] + 1), {"slug": s, "last_price": 1.0})[1],
+    )
+    snapshot_warmer.warm_snapshots(["a", "a", "b", "a", "b"])
+    assert calls["n"] == 2  # solo a y b
+
+
+def test_snapshot_warmer_cache_stats():
+    """cache_stats reporta entradas total/fresh/stale."""
+    from etl.sources.commodities import snapshot_warmer
+    snapshot_warmer.clear_cache()
+    stats = snapshot_warmer.cache_stats()
+    assert stats["total_entries"] == 0
+    assert stats["fresh_entries"] == 0
+
+
+def test_adaptive_cooldown_bucket_for_sigma():
+    """bucket_for_sigma · clasificación correcta de sigma %."""
+    from etl.sources.commodities.adaptive_cooldown import bucket_for_sigma
+    assert bucket_for_sigma(0.3) == (4.0, "very_low")
+    assert bucket_for_sigma(1.0) == (2.0, "low")
+    assert bucket_for_sigma(2.0) == (1.0, "medium")
+    assert bucket_for_sigma(4.0) == (0.5, "high")
+    assert bucket_for_sigma(6.0) == (0.33, "very_high")
+
+
+def test_adaptive_cooldown_sin_volatilidad(monkeypatch):
+    """compute_adaptive_cooldown sin histórico → fell_back=True con base."""
+    from etl.sources.commodities import adaptive_cooldown
+    adaptive_cooldown.clear_volatility_cache()
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: None)
+    res = adaptive_cooldown.compute_adaptive_cooldown("wheat_cbot", base_minutes=60)
+    assert res["adjusted_minutes"] == 60
+    assert res["fell_back"] is True
+    assert res["multiplier"] == 1.0
+
+
+def test_adaptive_cooldown_ajusta_segun_sigma(monkeypatch):
+    """Con sigma alta, cooldown se reduce. Con sigma baja, se alarga."""
+    from etl.sources.commodities import adaptive_cooldown
+    adaptive_cooldown.clear_volatility_cache()
+    # σ baja → cooldown × 4 (= 240min)
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: 0.3)
+    r_low = adaptive_cooldown.compute_adaptive_cooldown("x", base_minutes=60)
+    assert r_low["adjusted_minutes"] == 240
+    assert r_low["bucket"] == "very_low"
+    # σ alta → cooldown × 0.5 = 30min
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: 4.0)
+    r_hi = adaptive_cooldown.compute_adaptive_cooldown("x", base_minutes=60)
+    assert r_hi["adjusted_minutes"] == 30
+    assert r_hi["bucket"] == "high"
+
+
+def test_adaptive_cooldown_multi_slug_usa_mas_volatil(monkeypatch):
+    """En regla con varios slugs, usa el de MAYOR sigma (más conservador)."""
+    from etl.sources.commodities import adaptive_cooldown
+    adaptive_cooldown.clear_volatility_cache()
+    sigmas = {"calm": 0.3, "volatile": 6.5}
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: sigmas.get(s))
+    res = adaptive_cooldown.compute_adaptive_cooldown(["calm", "volatile"], base_minutes=60)
+    assert res["slug_used"] == "volatile"
+    assert res["bucket"] == "very_high"
+
+
+def test_adaptive_cooldown_clamp_min_max(monkeypatch):
+    """Resultado siempre dentro de [MIN, MAX]."""
+    from etl.sources.commodities import adaptive_cooldown
+    adaptive_cooldown.clear_volatility_cache()
+    # Base alto + multiplicador bajo → no menos de MIN_COOLDOWN_MIN
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: 8.0)
+    r = adaptive_cooldown.compute_adaptive_cooldown("x", base_minutes=10)
+    assert r["adjusted_minutes"] >= adaptive_cooldown.MIN_COOLDOWN_MIN
+    # Base muy alto + multiplicador 4 → no más de MAX
+    monkeypatch.setattr(adaptive_cooldown, "compute_volatility", lambda s: 0.3)
+    r2 = adaptive_cooldown.compute_adaptive_cooldown("x", base_minutes=600)
+    assert r2["adjusted_minutes"] <= adaptive_cooldown.MAX_COOLDOWN_MIN
+
+
+def test_in_cooldown_adaptive_disabled_via_metadata():
+    """metadata.adaptive_cooldown=False usa base sin ajustar."""
+    from etl.sources.commodities.alerts_service import _adaptive_cooldown_for_alert
+    alert = {
+        "cooldown_minutes": 60,
+        "commodity_slug": "wheat_cbot",
+        "metadata_payload": {"adaptive_cooldown": False},
+    }
+    info = _adaptive_cooldown_for_alert(alert)
+    assert info["adjusted_minutes"] == 60
+    assert info["bucket"] == "disabled"
+
+
+def test_rule_builder_ui_page_exists():
+    """Página RuleBuilder existe y declara los elementos clave."""
+    from pathlib import Path
+    p = (
+        Path(__file__).parent.parent.parent
+        / "apps" / "visual-oscar" / "app" / "commodities" / "alerts"
+        / "rule-builder" / "page.tsx"
+    )
+    assert p.exists()
+    src = p.read_text(encoding="utf-8")
+    assert "rule_definition" in src
+    assert "adaptive_cooldown" in src
+    # Los 6 operadores soportados
+    for op in (
+        "price_gt", "price_lt",
+        "change_pct_gte", "change_pct_lte",
+        "rsi_gt", "rsi_lt",
+    ):
+        assert op in src
