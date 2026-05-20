@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
+import BrainRouteActions from '@/components/BrainRouteActions'
 import Link from 'next/link'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
@@ -454,6 +455,10 @@ export default function BrainBriefing() {
                 }}>
                   {renderBrainMarkdown(m.text)}
                 </div>
+                {/* Botones CTA · rutas del dashboard mencionadas */}
+                {m.role === 'brain' && (
+                  <BrainRouteActions text={m.text} theme="dark"/>
+                )}
                 {/* Metadata: tools usadas + modelo + latencia (solo brain) */}
                 {m.role === 'brain' && (m.toolsUsed?.length || m.model || m.ms) && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, maxWidth: '88%' }}>

@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useBrainStream } from '@/hooks/useBrainStream'
 import { useRagSearch, type RagCitation } from '@/hooks/useRagSearch'
+import BrainRouteActions from '@/components/BrainRouteActions'
 
 type Msg = {
   role: 'user' | 'assistant'
@@ -165,6 +166,10 @@ export default function AgenteIAPage() {
               }}>
                 {renderText(m.text)}
               </div>
+              {/* Botones CTA · rutas del dashboard mencionadas en la respuesta */}
+              {m.role === 'assistant' && (
+                <BrainRouteActions text={m.text} theme="light"/>
+              )}
               {/* Citas RAG + metadata por mensaje */}
               {m.role === 'assistant' && (m.citations?.length || m.toolsUsed?.length) ? (
                 <MessageMeta citations={m.citations} toolsUsed={m.toolsUsed} modelUsed={m.modelUsed} latencyMs={m.latencyMs}/>
