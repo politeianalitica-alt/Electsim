@@ -16,6 +16,7 @@
  */
 import { NextResponse } from 'next/server'
 import { fetchAllBulosLive, type BuloDetectado } from '@/lib/sources/maldita'
+import { enrichBulosList, type BuloRich } from '@/lib/sources/maldita-enriched'
 
 // Endpoint idempotente · cacheamos en CDN 5 min para no martillear los RSS de origen.
 // Si quieres siempre fresco vuelve a 'force-dynamic' y Cache-Control: no-store.
@@ -755,33 +756,77 @@ export async function GET() {
     }
   })
 
-  // ── BULOS LIVE de Maldita.es + Newtral RSS ────────────────────────
-  // Combinamos los bulos detallados (mock con timeline completa) con
-  // los bulos en vivo de los feeds reales para tener cobertura actualizada.
+  // ── BULOS REALES desde Maldita.es + Newtral RSS ───────────────────
+  // Antes había un array BULOS hardcoded de Q2 2026 plausible. Ahora
+  // los bulos vienen 100% del RSS en vivo de los fact-checkers y se
+  // enriquecen heurísticamente con timeline/canales/alcance estimados.
+  // El catálogo hardcoded BULOS se mantiene SOLO como fallback last-resort
+  // si todos los RSS fallan (raro), nunca como datos por defecto.
   let bulosLive: BuloDetectado[] = []
   try {
-    bulosLive = await fetchAllBulosLive(15)
+    bulosLive = await fetchAllBulosLive(30)
   } catch (e) {
     console.warn('[desinformacion/bulos] live feeds error:', e instanceof Error ? e.message : e)
   }
 
-  // delta_24h · combina detecciones recientes de live + curados
-  const ahora = Date.now()
-  const cutoff24h = ahora - 86400000
-  const live24h = bulosLive.filter(b => new Date(b.fecha).getTime() > cutoff24h).length
-  const curated24h = BULOS.filter(b => new Date(b.primera_deteccion).getTime() > cutoff24h).length
+  // Enriquecemos los bulos del RSS al shape rico Bulo (timeline, paciente
+  // cero estimado, alcance heurístico, etc.). Esto reemplaza al BULOS
+  // hardcoded.
+  const bulosEnriched: BuloRich[] = enrichBulosList(bulosLive)
+
+  // Si por algún motivo no hay datos en vivo, usamos el fallback hardcoded
+  // (nunca debería pasar salvo caída total de los RSS).
+  const useLive = bulosEnriched.length > 0
+  const finalBulos = useLive ? bulosEnriched : (BULOS as unknown as BuloRich[])
+
+  // KPIs derivados de los datos reales
+  const kpisFinal = {
+    bulos_activos: finalBulos.length,
+    desmentidos: finalBulos.filter(b => b.estado === 'CONFIRMADO_FALSO' || b.estado === 'DESMENTIDO').length,
+    en_investigacion: finalBulos.filter(b => b.estado === 'EN_INVESTIGACION').length,
+    alcance_total: finalBulos.reduce((s, b) => s + b.alcance_estimado, 0),
+    viralidad_max: finalBulos.reduce((m, b) => Math.max(m, b.viralidad), 0),
+    delta_24h: finalBulos.filter(b => new Date(b.primera_deteccion).getTime() > Date.now() - 86400000).length,
+  }
+
+  // Enriquecer con URLs auto-generadas (igual que hacía con BULOS hardcoded)
+  const finalBulosConLinks = finalBulos.map(b => ({
+    ...b,
+    busqueda_url: urlBusquedaBulo(b.titulo),
+    categoria_url: urlMalditaCategoria(b.categoria),
+    paciente_cero: {
+      ...b.paciente_cero,
+      url: urlForCuenta(b.paciente_cero.cuenta, b.paciente_cero.canal),
+    },
+    amplificadores: b.amplificadores.map(a => ({
+      ...a,
+      url: urlForCuenta(a.nombre, a.canal),
+    })),
+    canales_activos: b.canales_activos.map(c => ({
+      ...c,
+      url: busquedaCanal(c.canal, b.titulo),
+    })),
+    factcheckers: b.factcheckers.map(f => {
+      const provided = f.url
+      const auto = urlFactchecker(f.nombre, b.titulo)
+      return { ...f, url: provided || auto.search || auto.home }
+    }),
+    beneficiarios: (b.beneficiarios || []).map(name => ({
+      nombre: name,
+      url: urlPartido(name),
+    })),
+    timeline: b.timeline.map(ev => ({
+      ...ev,
+      url: ev.canal in COLOR_CANAL
+        ? busquedaCanal(ev.canal as CanalBulo, b.titulo)
+        : null,
+    })),
+  }))
 
   return NextResponse.json({
-    kpis: {
-      bulos_activos: total + bulosLive.length,
-      desmentidos: desmentidos + bulosLive.filter(b => b.veredicto === 'FALSO' || b.veredicto === 'ENGAÑOSO').length,
-      en_investigacion: en_invest + bulosLive.filter(b => b.veredicto === 'EN ANÁLISIS').length,
-      alcance_total,
-      viralidad_max,
-      delta_24h: live24h + curated24h,
-    },
-    bulos: bulosConLinks,
-    bulos_live: bulosLive,                       // NUEVOS · feeds Maldita+Newtral en vivo
+    kpis: kpisFinal,
+    bulos: finalBulosConLinks,
+    bulos_live: bulosLive,                       // raw RSS data por si el cliente lo necesita
     top_fuentes: topFuentesConLinks,
     canales_heatmap: buildCanalesHeatmap(),
     color_estado: COLOR_ESTADO,
@@ -794,11 +839,14 @@ export async function GET() {
     })),
     fetched_at: new Date().toISOString(),
     fetch_ms: Date.now() - t0,
-    fuentes: 'Maldita.es RSS + Newtral RSS (live) + catálogo curado (timeline trazabilidad)',
+    fuentes: useLive
+      ? 'Maldita.es RSS + Newtral RSS (live) · timeline/alcance heurísticos derivados'
+      : 'Catálogo fallback (RSS no disponibles)',
     _meta: {
-      source: bulosLive.length > 0 ? 'aggregator' : 'mock',
+      source: useLive ? 'live-rss' : 'mock-fallback',
       ts: new Date().toISOString(),
       live_feeds_ok: bulosLive.length,
+      total_bulos_servidos: finalBulos.length,
     },
   }, { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } })
 }
