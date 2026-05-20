@@ -11,6 +11,7 @@ import CountUp from '@/components/CountUp'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/components/AlertCard'
+import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
 import type { DashboardHome } from '../api/dashboard/home/route'
@@ -616,16 +617,34 @@ export default function DashboardPage() {
         {/* News pulse (full width arriba) + Mapa territorial (full width abajo) */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
 
-          {/* Pulso informativo */}
-          <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
-                Pulso informativo
-              </h2>
-              <button onClick={() => router.push('/medios-narrativa')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#6E6E73', fontFamily: 'inherit' }}>
-                Feed completo →
+          {/* Pulso informativo · misma visual que las alertas (AlertCard) */}
+          <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', border: '1px solid #ECECEF' }}>
+            {/* Cabecera estilo "Top 5 alertas del día": label uppercase + chip + botón accent */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 11.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Pulso de prensa · top 5
+                </span>
+                {data?.news_pulse && data.news_pulse.length > 0 && (
+                  <span style={{
+                    fontSize: 11, padding: '2px 7px', borderRadius: 999,
+                    background: '#F5F5F7', color: '#6e6e73', fontWeight: 600,
+                  }}>
+                    {data.news_pulse.length} titulares
+                  </span>
+                )}
+              </div>
+              <button onClick={() => router.push('/medios-narrativa')} style={{
+                background: '#0071e3', border: 'none', cursor: 'pointer',
+                fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
+                padding: '5px 12px', borderRadius: 999,
+                display: 'inline-flex', alignItems: 'center', gap: 4,
+              }}>
+                Feed completo
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
+
             {data?.news_pulse && data.news_pulse.length > 0 && (
               <MetricTrace
                 compact
@@ -637,82 +656,29 @@ export default function DashboardPage() {
                 sampleSize={`${data.news_pulse.length} titulares analizados`}
                 updatedAt={data?.last_updated ?? null}
                 methodology="Sentiment heurístico por keywords. Ranking por relevancia del medio (audiencia mensual) × frescor (recencia del artículo)."
-                style={{ marginBottom: 10, borderTop: 'none', paddingTop: 0 }}
+                style={{ marginBottom: 12, borderTop: 'none', paddingTop: 0 }}
               />
             )}
+
             {data?.news_pulse && data.news_pulse.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                {data.news_pulse.slice(0, 5).map((n, i) => {
-                  const sentColor = n.sentiment > 0.2 ? '#16A34A' : n.sentiment < -0.2 ? '#DC2626' : '#6E6E73'
-                  return (
-                    <div key={n.id} style={{
-                      display: 'grid', gridTemplateColumns: '1fr 72px', gap: 12, padding: '9px 0',
-                      borderBottom: i < 4 ? '1px solid var(--hairline)' : 'none',
-                    }}>
-                      <div style={{ minWidth: 0 }}>
-                        {n.url ? (
-                          <a href={n.url} target="_blank" rel="noopener noreferrer" style={{
-                            display: 'block', fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500,
-                            marginBottom: 3, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)',
-                          }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
-                          >{n.title} <span style={{ color: '#0071e3', fontSize: 11 }}>↗</span></a>
-                        ) : (
-                          <div style={{ fontSize: 13, color: 'var(--ink)', lineHeight: 1.35, fontWeight: 500, marginBottom: 3 }}>{n.title}</div>
-                        )}
-                        <div style={{ fontSize: 11.5, color: 'var(--ink-4)', display: 'flex', gap: 8 }}>
-                          <span style={{ fontWeight: 600 }}>{n.source}</span>
-                          {sanitizeParties(n.parties) && <span>· {sanitizeParties(n.parties)}</span>}
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: 3 }}>
-                        {/* Source badge */}
-                        <span style={{
-                          fontSize: 10, fontWeight: 700, padding: '1px 5px', borderRadius: 999,
-                          background: `${sentColor}18`, color: sentColor, letterSpacing: '0.03em',
-                          maxWidth: 72, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                        }}>
-                          {n.source}
-                        </span>
-                        {/* Bi-directional sentiment bar */}
-                        <div style={{ width: 64, height: 14, background: '#F5F5F7', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
-                          {/* Center divider */}
-                          <div style={{ position: 'absolute', left: '50%', width: 1, height: '100%', background: 'rgba(0,0,0,0.1)', zIndex: 1 }}/>
-                          {/* Negative fill (left of center) */}
-                          {n.sentiment < 0 && (
-                            <div style={{
-                              position: 'absolute', right: '50%', height: '100%',
-                              width: `${Math.min(50, Math.abs(n.sentiment) * 50)}%`,
-                              background: '#DC2626',
-                            }}/>
-                          )}
-                          {/* Positive fill (right of center) */}
-                          {n.sentiment > 0 && (
-                            <div style={{
-                              position: 'absolute', left: '50%', height: '100%',
-                              width: `${Math.min(50, n.sentiment * 50)}%`,
-                              background: '#16A34A',
-                            }}/>
-                          )}
-                        </div>
-                        {/* Relevance + sentiment label */}
-                        <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
-                          <span style={{ fontSize: 10, color: '#6E6E73', fontWeight: 500 }}>
-                            rel {(n.relevance * 100).toFixed(0)}%
-                          </span>
-                          <span style={{ fontSize: 10.5, color: sentColor, fontWeight: 600, letterSpacing: '0.02em' }}>
-                            {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {data.news_pulse.slice(0, 5).map(n => {
+                  const item: NewsItem = {
+                    id: n.id,
+                    title: n.title,
+                    source: n.source,
+                    sentiment: n.sentiment,
+                    relevance: n.relevance,
+                    url: n.url,
+                    parties: sanitizeParties(n.parties),
+                    ts: null,
+                  }
+                  return <NewsCard key={n.id} item={item} compact/>
                 })}
               </div>
             ) : loading ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                {[0,1,2,3,4].map(i => <Skeleton key={i} height={42} radius={6}/>)}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {[0,1,2,3,4].map(i => <Skeleton key={i} height={64} radius={14}/>)}
               </div>
             ) : (
               <EmptyState
