@@ -89,10 +89,6 @@ def test_port_overview_unknown_returns_404(client: TestClient):
 
 @pytest.mark.parametrize("path", [
     "/api/v1/ports/vessels/IMO9525338/screen",   # P5
-    "/api/v1/ports/freight/snapshot",            # P4
-    "/api/v1/ports/freight/baltic_dry/price",    # P4
-    "/api/v1/ports/chokepoints",                 # P4
-    "/api/v1/ports/chokepoints/suez",            # P4
 ])
 def test_deferred_endpoints_return_501(client: TestClient, path: str):
     r = client.get(path)
@@ -188,6 +184,55 @@ def test_trade_top_partners_endpoint(client: TestClient):
     data = r.json()
     assert data["ok"] is True
     assert len(data["items"]) <= 5
+
+
+# ─────────────────────────────────────────────────────────────────
+# Endpoints P4 (freight + chokepoints)
+# ─────────────────────────────────────────────────────────────────
+
+def test_freight_snapshot_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/freight/snapshot")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["n_items"] == 6
+    assert all("signal" in item for item in data["items"])
+
+
+def test_freight_price_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/freight/baltic_dry/price?range=3mo")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["slug"] == "baltic_dry"
+    assert len(data["ohlc"]) == 90
+
+
+def test_freight_price_unknown_404(client: TestClient):
+    r = client.get("/api/v1/ports/freight/nonexistent/price")
+    assert r.status_code == 404
+
+
+def test_chokepoints_list_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/chokepoints")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["n_items"] == 6
+    # Ordenado por risk desc
+    scores = [it["risk_score"] for it in data["items"]]
+    assert scores == sorted(scores, reverse=True)
+
+
+def test_chokepoint_detail_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/chokepoints/suez?days=15")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["slug"] == "suez"
+    assert "recent_events" in data
+    assert "risk_score" in data
+
+
+def test_chokepoint_detail_unknown_404(client: TestClient):
+    r = client.get("/api/v1/ports/chokepoints/nonexistent")
+    assert r.status_code == 404
 
 
 def test_deferred_sanctions_screen_returns_501(client: TestClient):

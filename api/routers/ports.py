@@ -233,31 +233,66 @@ def trade_top_partners_endpoint(
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/freight/snapshot", status_code=501)
+@router.get("/freight/snapshot")
 def freight_snapshot_endpoint() -> dict[str, Any]:
-    """[P4] Snapshot BDI + VLCC + FBX."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P4 (freight_rates)")
+    """Snapshot 6 freight indices (BDI + sub-índices + FBX)."""
+    try:
+        from etl.sources.ports.freight_rates import snapshot_all
+        return snapshot_all()
+    except Exception as exc:
+        logger.exception("freight_snapshot falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/freight/{index_slug}/price", status_code=501)
+@router.get("/freight/{index_slug}/price")
 def freight_price_endpoint(
     index_slug: str,
     range_: str = Query("1y", alias="range"),
 ) -> dict[str, Any]:
-    """[P4] Serie histórica freight index."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P4 (freight_rates)")
+    """Serie histórica de un freight index (OHLC + KPIs)."""
+    try:
+        from etl.sources.ports.freight_rates import get_price
+        res = get_price(index_slug, range_=range_)
+        if "error" in res:
+            raise HTTPException(status_code=404, detail=res["error"])
+        return res
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("freight_price falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/chokepoints", status_code=501)
-def chokepoints_list_endpoint() -> dict[str, Any]:
-    """[P4] Lista corredores + risk_score actual."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P4 (chokepoints)")
+@router.get("/chokepoints")
+def chokepoints_list_endpoint(
+    days: int = Query(30, ge=1, le=180),
+) -> dict[str, Any]:
+    """6 corredores marítimos + risk_score actual (con ACLED si disponible)."""
+    try:
+        from etl.sources.ports.chokepoints import all_chokepoints_risk
+        return all_chokepoints_risk(days=days)
+    except Exception as exc:
+        logger.exception("chokepoints_list falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/chokepoints/{slug}", status_code=501)
-def chokepoint_detail_endpoint(slug: str) -> dict[str, Any]:
-    """[P4] Detalle corredor + eventos ACLED recientes."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P4 (chokepoints)")
+@router.get("/chokepoints/{slug}")
+def chokepoint_detail_endpoint(
+    slug: str,
+    days: int = Query(30, ge=1, le=180),
+) -> dict[str, Any]:
+    """Detalle corredor + eventos ACLED recientes en bbox."""
+    try:
+        from etl.sources.ports.chokepoints import compute_risk_score
+        res = compute_risk_score(slug, days=days)
+        if "error" in res:
+            raise HTTPException(status_code=404, detail=res["error"])
+        return res
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("chokepoint_detail falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.post("/sanctions/screen", status_code=501)
