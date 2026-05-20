@@ -34,6 +34,7 @@ const PARTY_COLOR: Record<string, string> = {
  'BdE':'#0F766E','BEI':'#0F766E',
  'CEOE':'#0E7490','CEPYME':'#0E7490','ATA':'#0E7490',
  'CCOO':'#A02525','UGT':'#A02525',
+ 'CSIF':'#0E7490','AUGC':'#525258','Sindicatos':'#A02525',
  'Medios':'#525258','Independiente':'#6e6e73',
 }
 
@@ -635,6 +636,42 @@ const BASE_EXTENDED: Base[] = [
   { nombre:'Mari Carmen Barrera',   partido:'UGT',      cargo:'Secretaria de Política Sindical UGT',         cat:'sindicato' },
   { nombre:'Mari Cruz Vicente',     partido:'CCOO',     cargo:'Secretaria confederal de Acción Sindical CCOO', cat:'sindicato' },
   { nombre:'Lola Santillana',       partido:'UGT',      cargo:'Secretaria de Igualdad UGT',                  cat:'sindicato' },
+
+  // ───── Actores adicionales del CSV next50 + top50 (mayo 2026) ─────
+  // Estos también están en data/actores-fixture.ts. Hay que mantener ambos
+  // archivos sincronizados (TODO: consolidar en una única fuente).
+  // Políticos
+  { nombre:'María Pastor',          partido:'Sumar',    cargo:'Portavoz de Más Madrid en la Asamblea',       cat:'autonomico' },
+  { nombre:'Juan Lobato',           partido:'PSOE',     cargo:'Portavoz del PSOE-M en la Asamblea de Madrid', cat:'autonomico' },
+  { nombre:'José María Aznar',      partido:'PP',       cargo:'Expresidente del Gobierno · presidente FAES', cat:'institucion' },
+  { nombre:'Juanma Moreno',         partido:'PP',       cargo:'Presidente de la Junta de Andalucía',         cat:'autonomico' },
+  { nombre:'Pere Aragonès',         partido:'ERC',      cargo:'Expresident de la Generalitat de Catalunya',  cat:'autonomico' },
+  // Internacionales
+  { nombre:'Javier Milei',          partido:'Independiente', cargo:'Presidente de la República Argentina',   cat:'europa' },
+  { nombre:'Josep Borrell',         partido:'PSOE',     cargo:'Ex Alto Representante UE para Asuntos Exteriores', cat:'europa' },
+  // Patronal / empresarios
+  { nombre:'Juan Roig',             partido:'Independiente', cargo:'Presidente ejecutivo de Mercadona',      cat:'patronal' },
+  { nombre:'Ignacio Sánchez Galán', partido:'Independiente', cargo:'Presidente ejecutivo de Iberdrola',      cat:'patronal' },
+  { nombre:'Josu Jon Imaz',         partido:'Independiente', cargo:'Consejero delegado de Repsol',           cat:'patronal' },
+  { nombre:'Ana Botín',             partido:'Independiente', cargo:'Presidenta del Banco Santander',         cat:'patronal' },
+  { nombre:'Florentino Pérez',      partido:'Independiente', cargo:'Presidente del Real Madrid · ACS',       cat:'patronal' },
+  // Sindicatos y entidades genéricas
+  { nombre:'CSIF',                  partido:'CSIF',     cargo:'Central Sindical Independiente y de Funcionarios', cat:'sindicato' },
+  { nombre:'AUGC',                  partido:'AUGC',     cargo:'Asociación Unificada de Guardias Civiles',   cat:'institucion' },
+  { nombre:'Sindicatos policiales', partido:'Sindicatos', cargo:'Coordinadora de sindicatos de la Policía Nacional', cat:'sindicato' },
+  { nombre:'CEOE',                  partido:'CEOE',     cargo:'Confederación Española de Organizaciones Empresariales', cat:'patronal' },
+  { nombre:'UGT',                   partido:'UGT',      cargo:'Unión General de Trabajadores',               cat:'sindicato' },
+  { nombre:'Junts',                 partido:'Junts',    cargo:'Junts per Catalunya · grupo parlamentario',   cat:'parlamento' },
+  { nombre:'Gobierno de España',    partido:'PSOE',     cargo:'Consejo de Ministros · coalición PSOE-Sumar', cat:'gobierno' },
+  // Otras figuras
+  { nombre:'Javier Tebas',          partido:'Independiente', cargo:'Presidente de LaLiga',                   cat:'institucion' },
+  { nombre:'Luis Rubiales',         partido:'Independiente', cargo:'Ex presidente RFEF',                     cat:'institucion' },
+  { nombre:'Jennifer Hermoso',      partido:'Independiente', cargo:'Futbolista internacional · selección',   cat:'mediatico' },
+  { nombre:'Leonardo Marcos',       partido:'Independiente', cargo:'Ex director general de la Guardia Civil', cat:'institucion' },
+  // Del CSV top50
+  { nombre:'Joan Laporta',          partido:'Independiente', cargo:'Presidente del FC Barcelona',            cat:'institucion' },
+  { nombre:'Ejército del Aire y del Espacio', partido:'Independiente', cargo:'Cuerpo militar · Fuerzas Armadas españolas', cat:'institucion' },
+  { nombre:'UPA',                   partido:'Sindicatos', cargo:'Unión de Pequeños Agricultores',           cat:'sindicato' },
 ]
 
 
