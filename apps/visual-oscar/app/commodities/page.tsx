@@ -14,6 +14,9 @@ import { useCommoditySnapshot } from '@/hooks/useCommodities'
 import { useCommodityWatchlist } from '@/hooks/useCommodityWatchlist'
 import { PriceCard } from '@/components/commodities/PriceCard'
 import { CategoryTabs } from '@/components/commodities/CategoryTabs'
+import { MarketSummaryBanner } from '@/components/commodities/MarketSummaryBanner'
+import { PriceHeatmap } from '@/components/commodities/PriceHeatmap'
+import { CategoryPerformanceBar } from '@/components/commodities/CategoryPerformanceBar'
 import type { CommodityCategory, CommoditySnapshot } from '@/types/commodities'
 
 const ACCENT = '#7c3aed'
@@ -116,8 +119,42 @@ export default function CommoditiesDashboard() {
           ))}
         </nav>
 
+        <MarketSummaryBanner items={items} />
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <CategoryTabs active={category} onChange={setCategory} />
+
+          {items.length > 0 ? (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)',
+                gap: 16,
+                marginBottom: 4,
+              }}
+            >
+              <div
+                style={{
+                  background: '#fff',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 8,
+                  padding: 14,
+                }}
+              >
+                <PriceHeatmap items={items} />
+              </div>
+              <div
+                style={{
+                  background: '#fff',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: 8,
+                  padding: 14,
+                }}
+              >
+                <CategoryPerformanceBar items={items} />
+              </div>
+            </div>
+          ) : null}
 
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
             <input
