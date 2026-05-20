@@ -8,6 +8,12 @@ import HemicycleAdvanced, { HParty } from '@/components/HemicycleAdvanced'
 import MapaPoliticoEspana from '@/components/MapaPoliticoEspana'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import {
+  computeScenarios,
+  probMayoriaDerecha,
+  type ScenarioComputed,
+} from '@/lib/escenarios/compute'
+import { computeMonteCarlo, type McRow } from '@/lib/escenarios/montecarlo'
 
 // Shape del nowcast en vivo (igual al que usa /nowcasting)
 interface NowcastParty {
@@ -15,6 +21,17 @@ interface NowcastParty {
   color: string; bloque: 'izquierda' | 'derecha' | 'otros'; delta: number;
 }
 interface NowcastResponse { parties?: NowcastParty[]; n_polls?: number }
+
+// Respuesta del endpoint /api/escenarios/explain (análisis IA)
+interface ScenarioAnalysis {
+  factores_favorables: string[]
+  factores_desfavorables: string[]
+  sucesos_pivote: string[]
+  analista_note: string
+  model: string
+  ms: number
+  source: string
+}
 
 // Paleta unificada con /mapa (incluye históricos UCD/CiU)
 const PC = {
@@ -221,25 +238,9 @@ const HEMI_HISTORIC = [
 ] as const
 const HEMI_HISTORIC_KEYS: readonly string[] = HEMI_HISTORIC.map(o => o.k)
 
-const ESCENARIOS = [
-  {id:'pp-vox',         nombre:'PP + VOX + CC (mayoría exacta)',partidos:[{s:'PP',c:'#009FDB'},{s:'VOX',c:'#63BE21'},{s:'CC',c:'#FFC107'}],seats:176,prob:38,viable:true},
-  {id:'pp-vox-upn-cc',  nombre:'Bloqueo / repetición electoral',partidos:[],seats:0,prob:22,viable:false},
-  {id:'pp-minoria',     nombre:'PP gobierno en minoría',partidos:[{s:'PP',c:'#009FDB'}],seats:132,prob:18,viable:false},
-  {id:'psoe-sumar',     nombre:'PSOE + bloque izquierda',partidos:[{s:'PSOE',c:'#E30613'},{s:'Sumar',c:'#E4007C'},{s:'ERC',c:'#F4B20A'},{s:'EH Bildu',c:'#A9C55A'},{s:'BNG',c:'#73C6EE'}],seats:161,prob:13,viable:false},
-  {id:'psoe-junts',     nombre:'PSOE + bloque + Junts',partidos:[{s:'PSOE',c:'#E30613'},{s:'Sumar',c:'#E4007C'},{s:'ERC',c:'#F4B20A'},{s:'EH Bildu',c:'#A9C55A'},{s:'Junts',c:'#00AEEF'}],seats:168,prob:5,viable:false},
-  {id:'gran-coalicion', nombre:'Gran coalición PP + PSOE',partidos:[{s:'PP',c:'#009FDB'},{s:'PSOE',c:'#E30613'}],seats:242,prob:4,viable:true},
-]
-
-const MC_SIMS = [
-  {siglas:'PP',      mean:132,ic80l:124,ic80h:140,ic95l:118,ic95h:146,color:'#009FDB'},
-  {siglas:'PSOE',    mean:110,ic80l:100,ic80h:120,ic95l: 92,ic95h:128,color:'#E30613'},
-  {siglas:'VOX',     mean: 42,ic80l: 36,ic80h: 48,ic95l: 30,ic95h: 54,color:'#63BE21'},
-  {siglas:'Sumar',   mean: 35,ic80l: 29,ic80h: 41,ic95l: 23,ic95h: 47,color:'#E4007C'},
-  {siglas:'ERC',     mean: 11,ic80l:  9,ic80h: 13,ic95l:  7,ic95h: 15,color:'#F4B20A'},
-  {siglas:'Junts',   mean:  7,ic80l:  5,ic80h:  9,ic95l:  3,ic95h: 11,color:'#00AEEF'},
-  {siglas:'PNV',     mean:  5,ic80l:  4,ic80h:  6,ic95l:  3,ic95h:  7,color:'#007A3D'},
-  {siglas:'EH Bildu',mean:  4,ic80l:  3,ic80h:  5,ic95l:  2,ic95h:  6,color:'#A9C55A'},
-]
+// ARRAYS ANTIGUOS (ESCENARIOS, MC_SIMS) ELIMINADOS · ahora se calculan
+// dinámicamente desde el nowcast en lib/escenarios/compute.ts y
+// lib/escenarios/montecarlo.ts
 
 const MACRO_IMPACT = [
   {v:'Desempleo',      val:'11.4%',  imp:'−0.8% PSOE',dir:'neg'},
@@ -259,28 +260,37 @@ const NAV=[
   {label:'Agentes',href:'/agentes'},{label:'Geopolítica',href:'/geopolitica'},
 ]
 
-function MCChart(){
-  // rowH 32 · ~80% del original (36), aún algo más pequeño que el inicial
-  const W=820,rowH=32,padL=76,padR=98,barW=W-padL-padR,maxS=160
-  const H=rowH*MC_SIMS.length+16
-  const majX=padL+(176/maxS)*barW
-  return(
-    <svg viewBox={`0 0 ${W} ${H}`} style={{width:'100%',maxWidth:1040,display:'block',margin:'0 auto'}}>
-      <line x1={majX} y1={0} x2={majX} y2={H-8} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="3 4"/>
-      <text x={majX} y={H-1} textAnchor="middle" fontSize="9.5" fill="var(--ink-4)">Mayoría 176</text>
-      {MC_SIMS.map((p,i)=>{
-        const y=i*rowH+rowH/2+3
-        const x95l=padL+(p.ic95l/maxS)*barW,x95h=padL+(p.ic95h/maxS)*barW
-        const x80l=padL+(p.ic80l/maxS)*barW,x80h=padL+(p.ic80h/maxS)*barW
-        const xm=padL+(p.mean/maxS)*barW
-        return(
+function MCChart({ rows }: { rows: McRow[] }) {
+  // Calcula maxS dinámicamente para que el bar más alto siempre quepa
+  // (mín. 160 para que la línea de 176 nunca quede fuera del view).
+  const maxS = Math.max(160, ...rows.map(r => r.ic95h + 4))
+  const W = 820, rowH = 32, padL = 76, padR = 98, barW = W - padL - padR
+  const H = rowH * Math.max(rows.length, 1) + 16
+  const majX = padL + (176 / maxS) * barW
+  if (rows.length === 0) {
+    return (
+      <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--ink-4)', fontSize: 12 }}>
+        Datos de nowcast no disponibles. Reintentando…
+      </div>
+    )
+  }
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 1040, display: 'block', margin: '0 auto' }}>
+      <line x1={majX} y1={0} x2={majX} y2={H - 8} stroke="var(--ink-4)" strokeWidth="1" strokeDasharray="3 4"/>
+      <text x={majX} y={H - 1} textAnchor="middle" fontSize="9.5" fill="var(--ink-4)">Mayoría 176</text>
+      {rows.map((p, i) => {
+        const y = i * rowH + rowH / 2 + 3
+        const x95l = padL + (p.ic95l / maxS) * barW, x95h = padL + (p.ic95h / maxS) * barW
+        const x80l = padL + (p.ic80l / maxS) * barW, x80h = padL + (p.ic80h / maxS) * barW
+        const xm = padL + (p.mean / maxS) * barW
+        return (
           <g key={p.siglas}>
-            <text x={padL-7} y={y+3} textAnchor="end" fontSize="11.5" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
-            <rect x={x95l} y={y-7.5} width={x95h-x95l} height={15} rx="3"   fill={p.color} opacity="0.14"/>
-            <rect x={x80l} y={y-5.5} width={x80h-x80l} height={11.5} rx="2" fill={p.color} opacity="0.30"/>
-            <rect x={xm-3.5} y={y-7.5} width={7}      height={15} rx="2"   fill={p.color}/>
-            <text x={x95h+4} y={y+3} fontSize="10" fill="var(--ink-4)">[{p.ic95l}–{p.ic95h}]</text>
-            <text x={W-padR+8} y={y+3} fontSize="11.5" fontWeight="700" fill={p.color}>{p.mean}</text>
+            <text x={padL - 7} y={y + 3} textAnchor="end" fontSize="11.5" fontWeight="600" fill="var(--ink-2)">{p.siglas}</text>
+            <rect x={x95l} y={y - 7.5} width={x95h - x95l} height={15} rx="3" fill={p.color} opacity="0.14"/>
+            <rect x={x80l} y={y - 5.5} width={x80h - x80l} height={11.5} rx="2" fill={p.color} opacity="0.30"/>
+            <rect x={xm - 3.5} y={y - 7.5} width={7} height={15} rx="2" fill={p.color}/>
+            <text x={x95h + 4} y={y + 3} fontSize="10" fill="var(--ink-4)">[{p.ic95l}–{p.ic95h}]</text>
+            <text x={W - padR + 8} y={y + 3} fontSize="11.5" fontWeight="700" fill={p.color}>{p.mean}</text>
           </g>
         )
       })}
@@ -326,18 +336,72 @@ export default function EscenariosPage(){
   const activeHemi: HParty[] | null = hemiDataset === 'estimacion'
     ? liveEstimacion
     : (HEMI_DATASETS[hemiDataset] || null)
+
+  // ─── Escenarios + Monte Carlo computados desde nowcast ───────────────
+  // Reemplaza los arrays hardcoded ESCENARIOS y MC_SIMS con cálculo en
+  // vivo a partir de los escaños reales del nowcasting.
+  const liveScenarios = useMemo(() => {
+    if (!nowcast?.parties) return []
+    return computeScenarios(nowcast.parties)
+  }, [nowcast])
+
+  const liveMC = useMemo(() => {
+    if (!nowcast?.parties) return []
+    return computeMonteCarlo(nowcast.parties, 8)
+  }, [nowcast])
+
+  const probDerecha = useMemo(() => probMayoriaDerecha(liveScenarios), [liveScenarios])
+
+  // Escenario seleccionado para mostrar análisis de factores (Claude)
+  const [selectedScenario, setSelectedScenario] = useState<string | null>(null)
+  const [scenarioAnalysis, setScenarioAnalysis] = useState<Record<string, ScenarioAnalysis | 'loading' | 'error'>>({})
+
+  // Toggle expansión + lazy-fetch de análisis
+  const toggleScenario = async (sc: ScenarioComputed) => {
+    if (selectedScenario === sc.id) {
+      setSelectedScenario(null)
+      return
+    }
+    setSelectedScenario(sc.id)
+    if (scenarioAnalysis[sc.id] && scenarioAnalysis[sc.id] !== 'error') return // ya cacheado
+    setScenarioAnalysis(prev => ({ ...prev, [sc.id]: 'loading' }))
+    try {
+      const res = await fetch('/api/escenarios/explain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenario_id: sc.id,
+          scenario_nombre: sc.nombre,
+          composition: sc.composition,
+          seats: sc.seats,
+          viable: sc.viable,
+          prob: sc.prob,
+          tipo: sc.tipo,
+        }),
+      })
+      if (!res.ok) throw new Error(`status ${res.status}`)
+      const data = await res.json() as ScenarioAnalysis
+      setScenarioAnalysis(prev => ({ ...prev, [sc.id]: data }))
+    } catch {
+      setScenarioAnalysis(prev => ({ ...prev, [sc.id]: 'error' }))
+    }
+  }
   return(
     <div style={{background:'var(--bg)',minHeight:'100vh',fontFamily:'var(--font-body)'}}>
       <AppHeader/>
       <main style={{maxWidth:1600,margin:'0 auto',padding:'0 28px 80px'}}>
         <section style={{background:'linear-gradient(135deg,#2e1065 0%,#0f0a2e 100%)',borderRadius:'0 0 24px 24px',padding:'36px 48px',display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22,color:'#fff'}}>
           <div>
-            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Simulador de Escenarios · 5.000 simulaciones</p>
-            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>Mayoría PP-VOX-CC <em style={{fontWeight:300}}>la más probable</em></h1>
-            <p style={{fontSize:13,opacity:0.65,margin:0}}>Monte Carlo · D'Hondt · Incertidumbre σ = 2.5</p>
+            <p style={{fontSize:10.5,fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',opacity:0.65,margin:'0 0 8px'}}>Simulador de Escenarios · live · nowcast electoral</p>
+            <h1 style={{fontFamily:'var(--font-display)',fontSize:30,fontWeight:700,letterSpacing:'-0.024em',margin:'0 0 6px',lineHeight:1.1}}>
+              {liveScenarios[0]
+                ? <>{liveScenarios[0].nombre} <em style={{fontWeight:300}}>la más probable</em></>
+                : <>Calculando escenarios…</>}
+            </h1>
+            <p style={{fontSize:13,opacity:0.65,margin:0}}>D'Hondt provincial · Incertidumbre por tamaño de partido · Datos del nowcast en vivo</p>
           </div>
           <div style={{textAlign:'right',flexShrink:0}}>
-            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#c4b5fd'}}>38<span style={{fontSize:28}}>%</span></div>
+            <div style={{fontFamily:'var(--font-display)',fontSize:64,fontWeight:700,letterSpacing:'-0.05em',lineHeight:1,color:'#c4b5fd'}}>{probDerecha}<span style={{fontSize:28}}>%</span></div>
             <div style={{fontSize:13,opacity:0.65,marginTop:4}}>P(Mayoría derecha)</div>
           </div>
         </section>
@@ -435,48 +499,123 @@ export default function EscenariosPage(){
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20}}>
-          <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:'0 0 16px'}}>Escenarios de gobierno</h2>
-          <div style={{display:'flex',flexDirection:'column',gap:10}}>
-            {ESCENARIOS.map((e,i)=>(
-              <div key={i} id={e.id} style={{padding:'14px 18px',borderRadius:14,background:'var(--bg-soft)',border:'1px solid var(--hairline)',display:'grid',gridTemplateColumns:'1fr 80px 150px',gap:16,alignItems:'center',scrollMarginTop:60}}>
-                <div>
-                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
-                    <span style={{fontSize:13,fontWeight:600}}>{e.nombre}</span>
-                    <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,background:e.viable?'#16A34A':'var(--hairline)',color:e.viable?'#fff':'var(--ink-4)'}}>{e.viable?'VIABLE':'INVIABLE'}</span>
-                  </div>
-                  <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
-                    {e.partidos.map(p=><span key={p.s} style={{fontSize:11,fontWeight:600,padding:'2px 7px',borderRadius:999,background:`${p.c}18`,color:p.c,border:`1px solid ${p.c}3a`}}>{p.s}</span>)}
-                    {e.partidos.length===0&&<span style={{fontSize:11,color:'var(--ink-4)'}}>Sin coalición posible</span>}
-                  </div>
-                </div>
-                <div style={{textAlign:'center'}}>
-                  <div style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700}}>{e.seats||'—'}</div>
-                  <div style={{fontSize:10.5,color:'var(--ink-4)'}}>escaños</div>
-                </div>
-                <div>
-                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
-                    <span style={{fontSize:10.5,color:'var(--ink-4)'}}>Probabilidad</span>
-                    <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{e.prob}%</span>
-                  </div>
-                  <div style={{height:7,background:'var(--hairline)',borderRadius:999,overflow:'hidden'}}>
-                    <div style={{width:`${e.prob}%`,height:'100%',background:e.viable?'#16A34A':'#9E9E9E',borderRadius:999}}/>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',marginBottom:14,gap:12,flexWrap:'wrap'}}>
+            <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Escenarios de gobierno</h2>
+            <div style={{display:'flex',alignItems:'center',gap:10,fontSize:11,color:'var(--ink-3)'}}>
+              <span>Calculado desde nowcast en vivo · click en un escenario para análisis IA</span>
+              <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
+            </div>
           </div>
+          {liveScenarios.length === 0 ? (
+            <div style={{padding:'28px 0',textAlign:'center',color:'var(--ink-4)',fontSize:13}}>
+              Cargando nowcast electoral…
+            </div>
+          ) : (
+            <div style={{display:'flex',flexDirection:'column',gap:10}}>
+              {liveScenarios.map((e) => {
+                const isOpen = selectedScenario === e.id
+                const analysis = scenarioAnalysis[e.id]
+                return (
+                  <div key={e.id} id={e.id} style={{
+                    borderRadius:14,
+                    background: isOpen ? 'linear-gradient(180deg,#fafafa 0%,#fff 100%)' : 'var(--bg-soft)',
+                    border: isOpen ? '1px solid #c4b5fd' : '1px solid var(--hairline)',
+                    overflow:'hidden',
+                    transition:'all 180ms',
+                    scrollMarginTop:60,
+                  }}>
+                    <button
+                      type="button"
+                      onClick={() => toggleScenario(e)}
+                      style={{
+                        width:'100%',
+                        padding:'14px 18px',
+                        background:'transparent',
+                        border:'none',
+                        cursor:'pointer',
+                        display:'grid',
+                        gridTemplateColumns:'1fr 80px 150px 24px',
+                        gap:16,
+                        alignItems:'center',
+                        textAlign:'left',
+                        fontFamily:'inherit',
+                        color:'inherit',
+                      }}
+                    >
+                      <div>
+                        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6,flexWrap:'wrap'}}>
+                          <span style={{fontSize:13,fontWeight:600}}>{e.nombre}</span>
+                          <span style={{fontSize:9.5,fontWeight:700,padding:'2px 7px',borderRadius:999,background:e.viable?'#16A34A':'var(--hairline)',color:e.viable?'#fff':'var(--ink-4)'}}>{e.viable?'VIABLE':'INVIABLE'}</span>
+                          {!isOpen && (
+                            <span style={{fontSize:10,color:'var(--ink-4)',fontStyle:'italic'}}>· click para detalles</span>
+                          )}
+                        </div>
+                        <div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+                          {e.partidos.map(p=><span key={p.s} style={{fontSize:11,fontWeight:600,padding:'2px 7px',borderRadius:999,background:`${p.c}18`,color:p.c,border:`1px solid ${p.c}3a`}}>{p.s}</span>)}
+                          {e.partidos.length===0&&<span style={{fontSize:11,color:'var(--ink-4)'}}>Sin coalición posible</span>}
+                        </div>
+                      </div>
+                      <div style={{textAlign:'center'}}>
+                        <div style={{fontFamily:'var(--font-display)',fontSize:22,fontWeight:700}}>{e.seats||'—'}</div>
+                        <div style={{fontSize:10.5,color:'var(--ink-4)'}}>escaños{e.viable ? ` (+${e.gap})` : e.gap !== 0 ? ` (${e.gap})` : ''}</div>
+                      </div>
+                      <div>
+                        <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                          <span style={{fontSize:10.5,color:'var(--ink-4)'}}>Probabilidad</span>
+                          <span style={{fontFamily:'var(--font-display)',fontSize:13,fontWeight:700}}>{e.prob}%</span>
+                        </div>
+                        <div style={{height:7,background:'var(--hairline)',borderRadius:999,overflow:'hidden'}}>
+                          <div style={{width:`${e.prob}%`,height:'100%',background:e.viable?'#16A34A':'#9E9E9E',borderRadius:999}}/>
+                        </div>
+                      </div>
+                      <div style={{textAlign:'center',color:'var(--ink-4)',fontSize:14,transition:'transform 180ms',transform:isOpen?'rotate(180deg)':'rotate(0deg)'}}>⌄</div>
+                    </button>
+
+                    {/* Panel expandible · análisis IA */}
+                    {isOpen && (
+                      <div style={{padding:'4px 22px 18px',borderTop:'1px solid #ECECEF'}}>
+                        {analysis === 'loading' && (
+                          <div style={{padding:'24px 0',textAlign:'center',color:'var(--ink-4)',fontSize:12.5,display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+                            <div style={{width:12,height:12,borderRadius:'50%',border:'2px solid #c4b5fd',borderTopColor:'transparent',animation:'spin 0.8s linear infinite'}}/>
+                            Analizando escenario con Claude Sonnet…
+                          </div>
+                        )}
+                        {analysis === 'error' && (
+                          <div style={{padding:'16px 0',color:'#dc2626',fontSize:12}}>
+                            No se pudo cargar el análisis. <button type="button" onClick={() => toggleScenario(e)} style={{background:'none',border:'none',color:'#1F4E8C',cursor:'pointer',textDecoration:'underline',fontFamily:'inherit',fontSize:12}}>Reintentar</button>
+                          </div>
+                        )}
+                        {analysis && typeof analysis === 'object' && (
+                          <ScenarioAnalysisPanel analysis={analysis}/>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+              <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
+            </div>
+          )}
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'20px 24px 18px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)',marginBottom:20,maxWidth:1120,margin:'0 auto 20px'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:14,gap:12,flexWrap:'wrap'}}>
-            <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:0}}>Distribución Monte Carlo · 5.000 simulaciones</h2>
-            <div style={{display:'flex',gap:12,fontSize:11,color:'var(--ink-3)'}}>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.14,display:'inline-block'}}/>IC 95%</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:1.5,background:'#666',display:'inline-block'}}/>Media</span>
+            <div>
+              <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:0}}>Distribución Monte Carlo</h2>
+              <p style={{fontSize:11,color:'var(--ink-4)',margin:'3px 0 0'}}>
+                Bandas IC calculadas desde nowcast actual con σ por tamaño de partido · {nowcast?.n_polls ?? '?'} encuestas
+              </p>
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{display:'flex',gap:12,fontSize:11,color:'var(--ink-3)'}}>
+                <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.14,display:'inline-block'}}/>IC 95%</span>
+                <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
+                <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:1.5,background:'#666',display:'inline-block'}}/>Media</span>
+              </div>
+              <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
             </div>
           </div>
-          <MCChart/>
+          <MCChart rows={liveMC}/>
         </div>
 
         <div style={{background:'#fff',borderRadius:16,padding:'22px 24px',boxShadow:'0 1px 3px rgba(0,0,0,0.06)'}}>
@@ -501,6 +640,136 @@ export default function EscenariosPage(){
       <footer style={{borderTop:'1px solid var(--hairline)',padding:'20px 28px',textAlign:'center',color:'var(--ink-4)',fontSize:11.5}}>
         Estimación en vivo · sondeos publicados (Wikipedia · electocracia.com) + D'Hondt provincial · Politeia Analítica · {new Date().getFullYear()}
       </footer>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// ScenarioAnalysisPanel · render de la respuesta de Claude para un escenario
+// Muestra factores favorables/desfavorables/sucesos pivote/nota analista
+// ─────────────────────────────────────────────────────────────────────────
+function ScenarioAnalysisPanel({ analysis }: { analysis: ScenarioAnalysis }) {
+  const Section = ({
+    title,
+    items,
+    color,
+    icon,
+  }: {
+    title: string
+    items: string[]
+    color: string
+    icon: string
+  }) => {
+    if (!items || items.length === 0) return null
+    return (
+      <div>
+        <div style={{
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          color: color,
+          textTransform: 'uppercase',
+          marginBottom: 8,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 5,
+        }}>
+          <span>{icon}</span>{title}
+        </div>
+        <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {items.map((it, i) => (
+            <li key={i} style={{
+              fontSize: 12.5,
+              color: 'var(--ink-2)',
+              lineHeight: 1.5,
+              paddingLeft: 14,
+              position: 'relative',
+            }}>
+              <span style={{
+                position: 'absolute',
+                left: 0,
+                top: 7,
+                width: 5,
+                height: 5,
+                borderRadius: '50%',
+                background: color,
+              }}/>
+              {it}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, paddingTop: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <Section
+          title="Factores favorables"
+          items={analysis.factores_favorables}
+          color="#16A34A"
+          icon="✓"
+        />
+        <Section
+          title="Factores desfavorables"
+          items={analysis.factores_desfavorables}
+          color="#DC2626"
+          icon="✗"
+        />
+      </div>
+      {analysis.sucesos_pivote && analysis.sucesos_pivote.length > 0 && (
+        <Section
+          title="Sucesos pivote · eventos que decidirían"
+          items={analysis.sucesos_pivote}
+          color="#9333EA"
+          icon="◆"
+        />
+      )}
+      {analysis.analista_note && (
+        <div style={{
+          marginTop: 4,
+          padding: '12px 14px',
+          borderRadius: 10,
+          background: 'rgba(139,92,246,0.06)',
+          border: '1px solid rgba(139,92,246,0.20)',
+          fontSize: 12.5,
+          color: 'var(--ink-2)',
+          lineHeight: 1.5,
+        }}>
+          <div style={{
+            fontSize: 9.5,
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            color: '#7C3AED',
+            textTransform: 'uppercase',
+            marginBottom: 5,
+          }}>
+            NOTA DEL ANALISTA
+          </div>
+          {analysis.analista_note}
+        </div>
+      )}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: -6 }}>
+        {analysis.source === 'anthropic' && (
+          <span style={{
+            fontSize: 9.5,
+            padding: '1px 6px',
+            borderRadius: 4,
+            background: 'rgba(16,185,129,0.15)',
+            color: '#059669',
+            border: '1px solid rgba(16,185,129,0.3)',
+            letterSpacing: '0.02em',
+          }}>
+            Claude {analysis.model?.includes('haiku') ? 'Haiku' : 'Sonnet'}
+          </span>
+        )}
+        {analysis.ms > 0 && (
+          <span style={{ fontSize: 9.5, color: 'var(--ink-4)' }}>
+            {analysis.ms < 1000 ? `${analysis.ms}ms` : `${(analysis.ms / 1000).toFixed(1)}s`}
+          </span>
+        )}
+      </div>
     </div>
   )
 }
