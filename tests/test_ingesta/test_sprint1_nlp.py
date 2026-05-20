@@ -467,3 +467,37 @@ def test_timeline_endpoint_registrado():
     paths = {r.path for r in app.routes if hasattr(r, "path")}
     assert "/api/v1/entities/timeline" in paths
     assert "/api/v1/entities/{entity_id}/links-at" in paths
+
+
+# ── Sprint 6 · Briefing sectorial ─────────────────────────────────────
+
+def test_sector_briefing_endpoint_registrado():
+    """/api/v1/sectores/{id}/briefing registrado (Sprint 6 · S6.2)."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    assert "/api/v1/sectores/{sector_id}/briefing" in paths
+
+
+def test_sector_briefing_tools_registradas():
+    """sector_briefing y list_sectors registrados en ToolRegistry (Sprint 6 · S6.3)."""
+    from agents.tools import ToolRegistry
+    import agents.tools.sector_briefing_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    assert "sector_briefing" in tools
+    assert "list_sectors" in tools
+
+
+def test_sector_briefing_tool_sector_invalido():
+    """sector_briefing con sector inexistente devuelve error explicito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.sector_briefing_tools
+
+    fn = ToolRegistry.get("sector_briefing")
+    result = fn(sector="sector_inventado_xyz", days_back=1)
+    # Esperamos error explicito o respuesta con error en payload
+    assert "error" in result or "errors" in result
