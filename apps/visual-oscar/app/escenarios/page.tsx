@@ -22,6 +22,31 @@ interface NowcastParty {
 }
 interface NowcastResponse { parties?: NowcastParty[]; n_polls?: number }
 
+// Shape del endpoint /api/electoral/provincial · FUENTE ÚNICA DE VERDAD
+// Esta es la fuente que alimenta el mapa político provincial. Para evitar
+// que los 3 widgets (tabla, mapa, escenarios) muestren cifras divergentes,
+// ahora TODA la página /escenarios usa este endpoint en lugar de
+// /api/analytics/nowcast (que aplicaba un modelo simplificado distinto).
+interface ProvincialResponse {
+  totales_por_partido?: Record<string, number>
+  estimacion_pct?: Record<string, number>
+  n_provincias?: number
+  total_escanos?: number
+  n_sondeos?: number
+  last_update?: string
+  metodologia?: string
+  fuente?: string
+}
+
+// Bloques canónicos para enriquecer NowcastParty.bloque (necesario para
+// algunos componentes del hemiciclo).
+const BLOQUE_BY_SIGLAS: Record<string, 'izquierda' | 'derecha' | 'otros'> = {
+  PP: 'derecha', VOX: 'derecha', UPN: 'derecha', CC: 'derecha',
+  PSOE: 'izquierda', Sumar: 'izquierda', ERC: 'izquierda',
+  'EH Bildu': 'izquierda', BNG: 'izquierda', Bildu: 'izquierda',
+  Junts: 'otros', PNV: 'otros',
+}
+
 // Respuesta del endpoint /api/escenarios/explain (análisis IA)
 interface ScenarioAnalysis {
   factores_favorables: string[]
@@ -307,26 +332,51 @@ export default function EscenariosPage(){
   useEffect(()=>{if(!isAuthenticated())router.push('/login')},[router])
   function logout(){clearTokens();router.push('/login')}
 
-  // Datos LIVE del nowcasting (auto-refresh 30s) — sustituyen al hardcodeado
-  // HEMI_DATASETS.estimacion cuando el dataset activo es 'estimacion'.
-  const { data: nowcast, source: nowcastSource, updatedAt: nowcastUpdated, refresh: refreshNowcast } =
-    useApi<NowcastResponse>('/api/analytics/nowcast', { refreshInterval: 30_000 })
+  // ─── FUENTE ÚNICA: /api/electoral/provincial ────────────────────────
+  // Antes había dos fuentes distintas dando cifras divergentes:
+  //   1) /api/analytics/nowcast → hemiciclo y tabla (PP=132, VOX=42…)
+  //   2) /api/electoral/provincial → mapa político (PP=128, VOX=73…)
+  // Ahora todo (hemiciclo, escenarios, MC) usa /api/electoral/provincial,
+  // que es D'Hondt provincial real con 52 circunscripciones (LOREG) y
+  // calibrado a 23-J 2023. Es la fuente más fiable y la que el mapa
+  // político ya consumía.
+  const { data: provincial, source: provincialSource, updatedAt: provincialUpdated, refresh: refreshProvincial } =
+    useApi<ProvincialResponse>('/api/electoral/provincial', { refreshInterval: 30_000 })
 
-  // Convertimos NowcastParty[] → HParty[] (siglas → id estable, mismos colores)
+  // Construimos NowcastParty[] desde totales_por_partido (D'Hondt real)
+  const liveParties: NowcastParty[] = useMemo(() => {
+    if (!provincial?.totales_por_partido) return []
+    const pctMap = provincial.estimacion_pct || {}
+    return Object.entries(provincial.totales_por_partido)
+      .filter(([, seats]) => seats > 0)
+      .map(([siglas, seats]) => {
+        const colorKey = siglas.toLowerCase().replace(/\s/g, '').replace('ehbildu', 'bildu') as keyof typeof PC
+        return {
+          siglas,
+          nombre: siglas,
+          pct: Number((pctMap[siglas] || 0).toFixed(2)),
+          seats,
+          color: PC[colorKey] || PC.otros,
+          bloque: BLOQUE_BY_SIGLAS[siglas] || 'otros',
+          delta: 0,
+        }
+      })
+      .sort((a, b) => b.seats - a.seats)
+  }, [provincial])
+
+  // Convertimos liveParties → HParty[] (hemiciclo) usando la misma fuente
   const liveEstimacion: HParty[] | null = useMemo(() => {
-    if (!nowcast?.parties || nowcast.parties.length === 0) return null
+    if (liveParties.length === 0) return null
     const idMap: Record<string, string> = {
       pp:'pp', psoe:'psoe', vox:'vox', sumar:'sumar',
       erc:'erc', junts:'junts', pnv:'pnv', bildu:'bildu',
       cc:'cc', bng:'bng', upn:'upn', otros:'otros',
     }
-    return nowcast.parties
-      .filter(p => p.seats > 0)
-      .map(p => {
-        const key = (p.siglas || '').toLowerCase().replace(/\s/g, '').replace('ehbildu', 'bildu')
-        return { id: idMap[key] || 'otros', name: p.siglas, color: p.color, seats: p.seats }
-      })
-  }, [nowcast])
+    return liveParties.map(p => {
+      const key = p.siglas.toLowerCase().replace(/\s/g, '').replace('ehbildu', 'bildu')
+      return { id: idMap[key] || 'otros', name: p.siglas, color: p.color, seats: p.seats }
+    })
+  }, [liveParties])
 
   // 'estimacion' viene del back electoral (/api/analytics/nowcast).
   // Aceptamos tanto 'backend' (FastAPI conectado) como 'mock' (fallback
@@ -337,18 +387,20 @@ export default function EscenariosPage(){
     ? liveEstimacion
     : (HEMI_DATASETS[hemiDataset] || null)
 
-  // ─── Escenarios + Monte Carlo computados desde nowcast ───────────────
-  // Reemplaza los arrays hardcoded ESCENARIOS y MC_SIMS con cálculo en
-  // vivo a partir de los escaños reales del nowcasting.
+  // ─── Escenarios + Monte Carlo computados desde la misma fuente ──────
+  // Ambos consumen liveParties (derivado de /api/electoral/provincial),
+  // garantizando que las cifras de la tabla del hemiciclo, el mapa
+  // político, los escenarios y la distribución Monte Carlo SIEMPRE
+  // coincidan exactamente.
   const liveScenarios = useMemo(() => {
-    if (!nowcast?.parties) return []
-    return computeScenarios(nowcast.parties)
-  }, [nowcast])
+    if (liveParties.length === 0) return []
+    return computeScenarios(liveParties)
+  }, [liveParties])
 
   const liveMC = useMemo(() => {
-    if (!nowcast?.parties) return []
-    return computeMonteCarlo(nowcast.parties, 8)
-  }, [nowcast])
+    if (liveParties.length === 0) return []
+    return computeMonteCarlo(liveParties, 8)
+  }, [liveParties])
 
   const probDerecha = useMemo(() => probMayoriaDerecha(liveScenarios), [liveScenarios])
 
@@ -425,7 +477,7 @@ export default function EscenariosPage(){
               <div style={{display:'flex',alignItems:'center',gap:8,minWidth:0,flex:'1 1 auto'}}>
                 <h2 style={{fontFamily:'var(--font-display)',fontSize:14.5,fontWeight:600,letterSpacing:'-0.013em',margin:0,whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>Hemiciclo · coaliciones</h2>
                 {hemiDataset === 'estimacion' && (
-                  <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
+                  <LiveStatusBadge updatedAt={provincialUpdated} source={provincialSource} refreshIntervalSec={30} onRefresh={refreshProvincial}/>
                 )}
               </div>
               <div style={{display:'inline-flex',alignItems:'center',gap:5,flex:'0 0 auto',marginLeft:'auto'}}>
@@ -503,7 +555,7 @@ export default function EscenariosPage(){
             <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Escenarios de gobierno</h2>
             <div style={{display:'flex',alignItems:'center',gap:10,fontSize:11,color:'var(--ink-3)'}}>
               <span>Calculado desde nowcast en vivo · click en un escenario para análisis IA</span>
-              <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
+              <LiveStatusBadge updatedAt={provincialUpdated} source={provincialSource} refreshIntervalSec={30} onRefresh={refreshProvincial}/>
             </div>
           </div>
           {liveScenarios.length === 0 ? (
@@ -603,7 +655,7 @@ export default function EscenariosPage(){
             <div>
               <h2 style={{fontFamily:'var(--font-display)',fontSize:15.5,fontWeight:600,letterSpacing:'-0.014em',margin:0}}>Distribución Monte Carlo</h2>
               <p style={{fontSize:11,color:'var(--ink-4)',margin:'3px 0 0'}}>
-                Bandas IC calculadas desde nowcast actual con σ por tamaño de partido · {nowcast?.n_polls ?? '?'} encuestas
+                Bandas IC calculadas desde D'Hondt provincial con σ por tamaño de partido · {provincial?.n_sondeos ?? '?'} encuestas · {provincial?.n_provincias ?? 52} provincias
               </p>
             </div>
             <div style={{display:'flex',alignItems:'center',gap:12}}>
@@ -612,7 +664,7 @@ export default function EscenariosPage(){
                 <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:16,height:7,borderRadius:2,background:'#888',opacity:0.30,display:'inline-block'}}/>IC 80%</span>
                 <span style={{display:'inline-flex',alignItems:'center',gap:5}}><span style={{width:7,height:11,borderRadius:1.5,background:'#666',display:'inline-block'}}/>Media</span>
               </div>
-              <LiveStatusBadge updatedAt={nowcastUpdated} source={nowcastSource} refreshIntervalSec={30} onRefresh={refreshNowcast}/>
+              <LiveStatusBadge updatedAt={provincialUpdated} source={provincialSource} refreshIntervalSec={30} onRefresh={refreshProvincial}/>
             </div>
           </div>
           <MCChart rows={liveMC}/>
