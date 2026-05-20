@@ -1,0 +1,74 @@
+{
+  "wheat_milling_euronext": {
+    "name": "Trigo",
+    "regions": ["Francia", "España", "Alemania"],
+    "phases": [
+      { "month": 1, "label": "post-cosecha", "color": "#94a3b8" },
+      { "month": 2, "label": "post-cosecha", "color": "#94a3b8" },
+      { "month": 3, "label": "siembra spring", "color": "#22c55e" },
+      { "month": 4, "label": "crecimiento", "color": "#86efac" },
+      { "month": 5, "label": "crecimiento", "color": "#86efac" },
+      { "month": 6, "label": "crecimiento", "color": "#86efac" },
+      { "month": 7, "label": "cosecha", "color": "#f59e0b" },
+      { "month": 8, "label": "cosecha", "color": "#f59e0b" },
+      { "month": 9, "label": "post-cosecha", "color": "#94a3b8" },
+      { "month": 10, "label": "siembra winter", "color": "#22c55e" },
+      { "month": 11, "label": "siembra winter", "color": "#22c55e" },
+      { "month": 12, "label": "dormancia", "color": "#94a3b8" }
+    ]
+  },
+  "corn_cbot": {
+    "name": "Maíz",
+    "regions": ["EE.UU. Midwest", "Brasil", "Argentina", "Francia"],
+    "phases": [
+      { "month": 1, "label": "post-cosecha NH", "color": "#94a3b8" },
+      { "month": 2, "label": "post-cosecha NH", "color": "#94a3b8" },
+      { "month": 3, "label": "cosecha SH", "color": "#f59e0b" },
+      { "month": 4, "label": "siembra NH", "color": "#22c55e" },
+      { "month": 5, "label": "siembra NH", "color": "#22c55e" },
+      { "month": 6, "label": "crecimiento", "color": "#86efac" },
+      { "month": 7, "label": "polinización", "color": "#fde047" },
+      { "month": 8, "label": "llenado grano", "color": "#86efac" },
+      { "month": 9, "label": "cosecha NH", "color": "#f59e0b" },
+      { "month": 10, "label": "cosecha NH", "color": "#f59e0b" },
+      { "month": 11, "label": "siembra SH", "color": "#22c55e" },
+      { "month": 12, "label": "siembra SH", "color": "#22c55e" }
+    ]
+  },
+  "olive_oil_es": {
+    "name": "Aceite de oliva",
+    "regions": ["Jaén", "Córdoba", "Sevilla"],
+    "phases": [
+      { "month": 1, "label": "almazaras activas", "color": "#f59e0b" },
+      { "month": 2, "label": "fin cosecha", "color": "#f59e0b" },
+      { "month": 3, "label": "poda", "color": "#94a3b8" },
+      { "month": 4, "label": "brotación", "color": "#22c55e" },
+      { "month": 5, "label": "floración", "color": "#fde047" },
+      { "month": 6, "label": "cuajado", "color": "#86efac" },
+      { "month": 7, "label": "engorde", "color": "#86efac" },
+      { "month": 8, "label": "estimación cosecha", "color": "#86efac" },
+      { "month": 9, "label": "maduración", "color": "#86efac" },
+      { "month": 10, "label": "inicio cosecha", "color": "#f59e0b" },
+      { "month": 11, "label": "campaña plena", "color": "#f59e0b" },
+      { "month": 12, "label": "campaña plena", "color": "#f59e0b" }
+    ]
+  },
+  "soybeans_cbot": {
+    "name": "Soja",
+    "regions": ["EE.UU.", "Brasil", "Argentina"],
+    "phases": [
+      { "month": 1, "label": "crecimiento SH", "color": "#86efac" },
+      { "month": 2, "label": "cosecha temprana SH", "color": "#f59e0b" },
+      { "month": 3, "label": "cosecha SH", "color": "#f59e0b" },
+      { "month": 4, "label": "fin cosecha SH", "color": "#f59e0b" },
+      { "month": 5, "label": "siembra NH", "color": "#22c55e" },
+      { "month": 6, "label": "siembra NH", "color": "#22c55e" },
+      { "month": 7, "label": "crecimiento", "color": "#86efac" },
+      { "month": 8, "label": "llenado vainas", "color": "#86efac" },
+      { "month": 9, "label": "cosecha NH", "color": "#f59e0b" },
+      { "month": 10, "label": "cosecha NH", "color": "#f59e0b" },
+      { "month": 11, "label": "siembra SH", "color": "#22c55e" },
+      { "month": 12, "label": "siembra SH", "color": "#22c55e" }
+    ]
+  }
+}
