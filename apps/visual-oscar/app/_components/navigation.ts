@@ -149,6 +149,7 @@ export const MODULES: NavModule[] = [
       { label: 'Vivienda & Inmobiliario',      href: '/sector-vivienda' },
       { label: 'Banca & Seguros',              href: '/sector-banca' },
       { label: 'Agroalimentario & Rural',      href: '/sector-agro' },
+      { label: 'Commodities (Vesper)',         href: '/commodities' },
       { label: 'Telecom & Digital',            href: '/sector-telecom' },
       { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
       { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
