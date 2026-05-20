@@ -16,9 +16,21 @@ from agents.topics.bertopic_service import (
     get_topic_label,
     extract_keywords_yake,
 )
+from agents.topics.iptc_classifier import (
+    classify_iptc,
+    classify_iptc_with_scores,
+    enrich_with_iptc,
+    IPTC_TOP_LEVEL_TOPICS,
+)
 
 __all__ = [
+    # BERTopic + YAKE (Sprint 1)
     "enrich_with_topics",
     "get_topic_label",
     "extract_keywords_yake",
+    # IPTC (Sprint 2)
+    "classify_iptc",
+    "classify_iptc_with_scores",
+    "enrich_with_iptc",
+    "IPTC_TOP_LEVEL_TOPICS",
 ]
