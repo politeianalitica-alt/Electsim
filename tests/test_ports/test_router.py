@@ -152,9 +152,42 @@ def test_vessel_track_endpoint(client: TestClient):
     assert data["n_points"] > 0
 
 
-def test_deferred_trade_bilateral_returns_501(client: TestClient):
-    r = client.get("/api/v1/ports/trade/bilateral?reporter=ES&partner=CN")
-    assert r.status_code == 501
+# ─────────────────────────────────────────────────────────────────
+# Endpoints P3 (comercio declarado)
+# ─────────────────────────────────────────────────────────────────
+
+def test_trade_bilateral_auto_route_comext_for_eu(client: TestClient):
+    r = client.get("/api/v1/ports/trade/bilateral?reporter=ES&partner=DE&period=2024-12")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert data["use_source"] == "comext"  # ambos UE
+    assert data["n_items"] >= 1
+
+
+def test_trade_bilateral_routes_comtrade_for_non_eu(client: TestClient):
+    r = client.get("/api/v1/ports/trade/bilateral?reporter=ESP&partner=CHN&period=2024-12&flow=import")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert data["use_source"] == "comtrade"
+
+
+def test_trade_spain_flows_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/trade/spain-flows?period=2024-12")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert data["reporter_iso"] == "ESP"
+    assert data["n_items"] > 0
+
+
+def test_trade_top_partners_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/trade/top-partners?reporter=ESP&flow=export&limit=5")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert len(data["items"]) <= 5
 
 
 def test_deferred_sanctions_screen_returns_501(client: TestClient):

@@ -160,24 +160,77 @@ def vessel_screen_endpoint(imo: str) -> dict[str, Any]:
     raise HTTPException(status_code=501, detail="diferido a sprint P5 (sanctions_maritime)")
 
 
-@router.get("/trade/bilateral", status_code=501)
+@router.get("/trade/bilateral")
 def trade_bilateral_endpoint(
     reporter: str = Query(..., min_length=2, max_length=3),
     partner: str = Query(..., min_length=2, max_length=3),
-    hs: str | None = Query(None),
-    period: str | None = Query(None, description="YYYY-MM"),
+    hs: str | None = Query(None, description="HS code · 2-8 dígitos. None=totales"),
+    period: str | None = Query(None, description="YYYY-MM. None=último disponible"),
+    flow: str | None = Query(None, description="export|import. None=ambos"),
+    source: str = Query("auto", description="comtrade|comext|auto (intenta comext si EU+EU)"),
 ) -> dict[str, Any]:
-    """[P3] Comercio bilateral UN Comtrade + Eurostat Comext."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P3 (comtrade_client)")
+    """Comercio bilateral · cache + Comtrade/Comext + seed demo."""
+    try:
+        from etl.sources.ports.comext_client import bilateral_eu
+        from etl.sources.ports.comtrade_client import bilateral_trade
+
+        # Auto · si ambos son UE preferir Comext (más granular)
+        # Lista EU-27 + UK histórico para clasificar; lo demás → Comtrade
+        EU_27_ISO2 = {"AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR",
+                      "HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK",
+                      "SI","ES","SE","GB"}
+        EU_27_ISO3 = {"AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA",
+                      "DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD",
+                      "POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR"}
+        eu_codes = EU_27_ISO2 | EU_27_ISO3
+        rep_up, par_up = reporter.upper(), partner.upper()
+        if source == "auto":
+            if rep_up in eu_codes and par_up in eu_codes:
+                use_source = "comext"
+            else:
+                use_source = "comtrade"
+        else:
+            use_source = source
+
+        if use_source == "comext":
+            res = bilateral_eu(reporter, partner, hs_code=hs, period_ym=period, flow_kind=flow)
+        else:
+            res = bilateral_trade(reporter, partner, hs_code=hs, period_ym=period, flow_kind=flow)
+        return {**res, "use_source": use_source}
+    except Exception as exc:
+        logger.exception("trade_bilateral falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/trade/spain-flows", status_code=501)
+@router.get("/trade/spain-flows")
 def trade_spain_flows_endpoint(
     hs: str | None = Query(None),
     period: str | None = Query(None),
+    flow: str | None = Query(None, description="export|import. None=ambos"),
 ) -> dict[str, Any]:
-    """[P3] Atajo España específico vía Comext."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P3 (comext)")
+    """Atajo España · todos los partners vía Comext."""
+    try:
+        from etl.sources.ports.comext_client import spain_flows
+        return spain_flows(hs_code=hs, period_ym=period, flow_kind=flow)
+    except Exception as exc:
+        logger.exception("trade_spain_flows falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/trade/top-partners")
+def trade_top_partners_endpoint(
+    reporter: str = Query(..., min_length=2, max_length=3),
+    flow: str = Query("export"),
+    period: str | None = Query(None),
+    limit: int = Query(10, ge=1, le=50),
+) -> dict[str, Any]:
+    """Top N partners comerciales por valor (USD)."""
+    try:
+        from etl.sources.ports.comtrade_client import top_partners
+        return top_partners(reporter, period_ym=period, flow_kind=flow, limit=limit)
+    except Exception as exc:
+        logger.exception("trade_top_partners falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/freight/snapshot", status_code=501)
