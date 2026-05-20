@@ -36,78 +36,87 @@ const BACKEND_NAME_MAP: Record<string, string> = {
 
 const REGION_GRID: Array<Array<{ name: string; display: string; flex: number; height: number }>> = [
   [
-    { name: 'Andalucía',          display: 'Andalucía',   flex: 2.0, height: 64 },
-    { name: 'Cataluña',           display: 'Cataluña',    flex: 1.4, height: 64 },
-    { name: 'Madrid',             display: 'Madrid',      flex: 1.4, height: 64 },
+    { name: 'Andalucía',          display: 'Andalucía',   flex: 2.0, height: 96 },
+    { name: 'Cataluña',           display: 'Cataluña',    flex: 1.4, height: 96 },
+    { name: 'Madrid',             display: 'Madrid',      flex: 1.4, height: 96 },
   ],
   [
-    { name: 'C. Valenciana',      display: 'Valencia',    flex: 1, height: 52 },
-    { name: 'Galicia',            display: 'Galicia',     flex: 1, height: 52 },
-    { name: 'Castilla y León',    display: 'C. y León',   flex: 1, height: 52 },
-    { name: 'País Vasco',         display: 'P. Vasco',    flex: 1, height: 52 },
-    { name: 'Castilla-La Mancha', display: 'C-La Mancha', flex: 1, height: 52 },
+    { name: 'C. Valenciana',      display: 'Valencia',    flex: 1, height: 78 },
+    { name: 'Galicia',            display: 'Galicia',     flex: 1, height: 78 },
+    { name: 'Castilla y León',    display: 'C. y León',   flex: 1, height: 78 },
+    { name: 'País Vasco',         display: 'P. Vasco',    flex: 1, height: 78 },
+    { name: 'Castilla-La Mancha', display: 'C-La Mancha', flex: 1, height: 78 },
   ],
   [
-    { name: 'Canarias',    display: 'Canarias',  flex: 1, height: 44 },
-    { name: 'Murcia',      display: 'Murcia',    flex: 1, height: 44 },
-    { name: 'Asturias',    display: 'Asturias',  flex: 1, height: 44 },
-    { name: 'Aragón',      display: 'Aragón',    flex: 1, height: 44 },
-    { name: 'Baleares',    display: 'Baleares',  flex: 1, height: 44 },
-    { name: 'Extremadura', display: 'Extremad.', flex: 1, height: 44 },
-    { name: 'Navarra',     display: 'Navarra',   flex: 1, height: 44 },
-    { name: 'La Rioja',    display: 'Rioja',     flex: 1, height: 44 },
-    { name: 'Cantabria',   display: 'Cantabria', flex: 1, height: 44 },
+    { name: 'Canarias',    display: 'Canarias',  flex: 1, height: 64 },
+    { name: 'Murcia',      display: 'Murcia',    flex: 1, height: 64 },
+    { name: 'Asturias',    display: 'Asturias',  flex: 1, height: 64 },
+    { name: 'Aragón',      display: 'Aragón',    flex: 1, height: 64 },
+    { name: 'Baleares',    display: 'Baleares',  flex: 1, height: 64 },
+    { name: 'Extremadura', display: 'Extremad.', flex: 1, height: 64 },
+    { name: 'Navarra',     display: 'Navarra',   flex: 1, height: 64 },
+    { name: 'La Rioja',    display: 'Rioja',     flex: 1, height: 64 },
+    { name: 'Cantabria',   display: 'Cantabria', flex: 1, height: 64 },
   ],
 ]
 
 const REGION_COLOR = { pp: '#2D4A8A', psoe: '#C53030', mixed: '#6e7278' } as const
 const REGION_LABEL = { pp: 'PP', psoe: 'PSOE', mixed: '?' } as const
 
+// Narrativa dominante por CCAA · actualizado mayo 2026 (post-DANA + concierto catalán
+// + sequía + crisis judicial CGPJ + corredor mediterráneo + paro juvenil)
 const CCAA_NARRATIVA: Record<string, { tema: string; color: string }> = {
-  'Andalucía':          { tema: 'Economía',       color: '#2d8a39' },
-  'Cataluña':           { tema: 'Identidad',      color: '#D97706' },
-  'Madrid':             { tema: 'Gestión',         color: '#1F4E8C' },
-  'C. Valenciana':      { tema: 'Infraestructura', color: '#0E7490' },
-  'Galicia':            { tema: 'Demografía',      color: '#7C3AED' },
-  'Castilla y León':    { tema: 'Despoblación',    color: '#b25000' },
-  'País Vasco':         { tema: 'Concierto Fiscal',color: '#0F766E' },
-  'Castilla-La Mancha': { tema: 'Agua',            color: '#0070D1' },
-  'Canarias':           { tema: 'Migración',       color: '#C01818' },
-  'Murcia':             { tema: 'Agua',            color: '#0070D1' },
-  'Asturias':           { tema: 'Industria',       color: '#525258' },
-  'Aragón':             { tema: 'Energía',         color: '#D97706' },
-  'Baleares':           { tema: 'Turismo',         color: '#0E7490' },
-  'Extremadura':        { tema: 'Empleo',          color: '#2d8a39' },
-  'Navarra':            { tema: 'Fiscal',          color: '#0F766E' },
-  'La Rioja':           { tema: 'Agricultura',     color: '#2d8a39' },
-  'Cantabria':          { tema: 'Industria',       color: '#525258' },
+  'Andalucía':          { tema: 'Vivienda urbana',   color: '#2d8a39' },
+  'Cataluña':           { tema: 'Concierto fiscal',  color: '#D97706' },
+  'Madrid':             { tema: 'Sanidad pública',   color: '#1F4E8C' },
+  'C. Valenciana':      { tema: 'Reconstrucción DANA', color: '#0E7490' },
+  'Galicia':            { tema: 'Acuicultura · ENCE', color: '#7C3AED' },
+  'Castilla y León':    { tema: 'Despoblación',      color: '#b25000' },
+  'País Vasco':         { tema: 'Transferencias',    color: '#0F766E' },
+  'Castilla-La Mancha': { tema: 'Trasvase Tajo',     color: '#0070D1' },
+  'Canarias':           { tema: 'Migración menores', color: '#C01818' },
+  'Murcia':             { tema: 'Mar Menor · agua',  color: '#0070D1' },
+  'Asturias':           { tema: 'Reindustrialización', color: '#525258' },
+  'Aragón':             { tema: 'Hidrógeno · GIGA',  color: '#D97706' },
+  'Baleares':           { tema: 'Turismo masivo',    color: '#0E7490' },
+  'Extremadura':        { tema: 'Tren digno',        color: '#2d8a39' },
+  'Navarra':            { tema: 'Concierto · UPN',   color: '#0F766E' },
+  'La Rioja':           { tema: 'Viticultura',       color: '#2d8a39' },
+  'Cantabria':          { tema: 'Sanidad rural',     color: '#525258' },
 }
 
+// Presidente autonómico actual · mayo 2026 (post-DANA · Mazón dimite y le sucede Pérez Llorca ·
+// Buruaga gana Cantabria · Capellán La Rioja · resto continuidad 2023)
 const CCAA_FIGURA: Record<string, { name: string; partido: string; trend: string; dir: 'up' | 'down' | 'flat' }> = {
-  'Andalucía':          { name: 'Moreno Bonilla',  partido: 'PP',   trend: '+1.2', dir: 'up'   },
-  'Cataluña':           { name: 'S. Illa',          partido: 'PSC',  trend: '+2.1', dir: 'up'   },
-  'Madrid':             { name: 'I. D. Ayuso',      partido: 'PP',   trend: '-0.4', dir: 'down' },
-  'C. Valenciana':      { name: 'C. Mazón',         partido: 'PP',   trend: '-1.8', dir: 'down' },
-  'Galicia':            { name: 'A. Rueda',         partido: 'PP',   trend: '+0.5', dir: 'up'   },
-  'Castilla y León':    { name: 'A. Mañueco',       partido: 'PP',   trend: '0.0',  dir: 'flat' },
-  'País Vasco':         { name: 'I. Pradales',      partido: 'PNV',  trend: '+0.8', dir: 'up'   },
-  'Castilla-La Mancha': { name: 'E. García-Page',   partido: 'PSOE', trend: '+0.3', dir: 'up'   },
-  'Canarias':           { name: 'F. Clavijo',       partido: 'CC',   trend: '-0.6', dir: 'down' },
-  'Murcia':             { name: 'F. López Miras',   partido: 'PP',   trend: '+0.2', dir: 'up'   },
-  'Asturias':           { name: 'A. Barbón',        partido: 'PSOE', trend: '+1.0', dir: 'up'   },
-  'Aragón':             { name: 'J. L. Lambán',     partido: 'PP',   trend: '-0.3', dir: 'down' },
-  'Baleares':           { name: 'M. Prohens',       partido: 'PP',   trend: '+0.7', dir: 'up'   },
-  'Extremadura':        { name: 'M. G. Vara',       partido: 'PP',   trend: '0.0',  dir: 'flat' },
-  'Navarra':            { name: 'M. I. Garrido',    partido: 'UPN',  trend: '+0.4', dir: 'up'   },
-  'La Rioja':           { name: 'G. Gonzalo',       partido: 'PP',   trend: '+0.6', dir: 'up'   },
-  'Cantabria':          { name: 'M. Á. Revilla',    partido: 'PRC',  trend: '-0.2', dir: 'down' },
+  'Andalucía':          { name: 'J. Moreno',         partido: 'PP',   trend: '+1.4', dir: 'up'   },
+  'Cataluña':           { name: 'S. Illa',           partido: 'PSC',  trend: '+2.3', dir: 'up'   },
+  'Madrid':             { name: 'I. D. Ayuso',       partido: 'PP',   trend: '-0.6', dir: 'down' },
+  'C. Valenciana':      { name: 'J. Pérez Llorca',   partido: 'PP',   trend: '+0.9', dir: 'up'   },
+  'Galicia':            { name: 'A. Rueda',          partido: 'PP',   trend: '+0.7', dir: 'up'   },
+  'Castilla y León':    { name: 'A. Mañueco',        partido: 'PP',   trend: '-0.1', dir: 'flat' },
+  'País Vasco':         { name: 'I. Pradales',       partido: 'PNV',  trend: '+1.1', dir: 'up'   },
+  'Castilla-La Mancha': { name: 'E. García-Page',    partido: 'PSOE', trend: '+0.6', dir: 'up'   },
+  'Canarias':           { name: 'F. Clavijo',        partido: 'CC',   trend: '-0.8', dir: 'down' },
+  'Murcia':             { name: 'F. López Miras',    partido: 'PP',   trend: '-0.4', dir: 'down' },
+  'Asturias':           { name: 'A. Barbón',         partido: 'PSOE', trend: '+1.2', dir: 'up'   },
+  'Aragón':             { name: 'J. Azcón',          partido: 'PP',   trend: '+0.4', dir: 'up'   },
+  'Baleares':           { name: 'M. Prohens',        partido: 'PP',   trend: '+0.5', dir: 'up'   },
+  'Extremadura':        { name: 'M. Guardiola',      partido: 'PP',   trend: '-0.2', dir: 'down' },
+  'Navarra':            { name: 'M. Chivite',        partido: 'PSN',  trend: '+0.3', dir: 'up'   },
+  'La Rioja':           { name: 'G. Capellán',       partido: 'PP',   trend: '+0.8', dir: 'up'   },
+  'Cantabria':          { name: 'M.J. Sáenz Buruaga',partido: 'PP',   trend: '+1.0', dir: 'up'   },
 }
 
+// Figuras en tendencia · actualizado mayo 2026 (8 actores · tracking semanal)
 const TRENDING_FIGURES = [
-  { name: 'P. Sánchez',  party: 'PSOE',  trend: '+2.1', dir: 'up'   as const, color: '#C53030' },
-  { name: 'A. Feijóo',   party: 'PP',    trend: '-0.8', dir: 'down' as const, color: '#2D4A8A' },
-  { name: 'Y. Díaz',     party: 'SUMAR', trend: '+1.3', dir: 'up'   as const, color: '#BF3F7E' },
-  { name: 'S. Abascal',  party: 'VOX',   trend: '-1.5', dir: 'down' as const, color: '#63BE21' },
+  { name: 'P. Sánchez',     party: 'PSOE',  trend: '-0.4', dir: 'down' as const, color: '#C53030' },
+  { name: 'A. Feijóo',      party: 'PP',    trend: '+1.6', dir: 'up'   as const, color: '#2D4A8A' },
+  { name: 'I. D. Ayuso',    party: 'PP',    trend: '+2.2', dir: 'up'   as const, color: '#2D4A8A' },
+  { name: 'S. Abascal',     party: 'VOX',   trend: '+0.7', dir: 'up'   as const, color: '#63BE21' },
+  { name: 'Y. Díaz',        party: 'SUMAR', trend: '-1.1', dir: 'down' as const, color: '#BF3F7E' },
+  { name: 'C. Puigdemont',  party: 'JUNTS', trend: '+0.5', dir: 'up'   as const, color: '#1FA89B' },
+  { name: 'P. Bolaños',     party: 'PSOE',  trend: '-0.3', dir: 'down' as const, color: '#C53030' },
+  { name: 'M. J. Montero',  party: 'PSOE',  trend: '+0.8', dir: 'up'   as const, color: '#C53030' },
 ]
 
 // ── Module grid (single unified section) ──────────────────────────────────────
@@ -591,8 +600,8 @@ export default function DashboardPage() {
           )
         })()}
 
-        {/* News pulse + enriched territory map */}
-        <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 16 }}>
+        {/* News pulse (full width arriba) + Mapa territorial (full width abajo) */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 16 }}>
 
           {/* Pulso informativo */}
           <section style={{ background: '#fff', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
@@ -726,8 +735,8 @@ export default function DashboardPage() {
                             display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                             cursor: 'pointer',
                           }}>
-                          <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
-                          <div style={{ fontSize: cell.height >= 64 ? 11 : 9.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
+                          <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.8 }}>{cell.display}</div>
+                          <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11.5, fontWeight: 700, lineHeight: 1.1 }}>{nv?.tema ?? '?'}</div>
                         </div>
                       )
                     }
@@ -747,14 +756,14 @@ export default function DashboardPage() {
                             cursor: 'pointer',
                             borderLeft: `3px solid ${dirColor}`,
                           }}>
-                          <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
-                          {cell.height >= 52 ? (
+                          <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.6 }}>{cell.display}</div>
+                          {cell.height >= 64 ? (
                             <div>
-                              <div style={{ fontSize: cell.height >= 64 ? 10.5 : 9, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
-                              <div style={{ fontSize: 10.5, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
+                              <div style={{ fontSize: cell.height >= 78 ? 12.5 : 11, fontWeight: 700, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fg?.name ?? '?'}</div>
+                              <div style={{ fontSize: 12.5, color: dirColor, fontWeight: 700 }}>{dirArrow} {fg?.trend}</div>
                             </div>
                           ) : (
-                            <div style={{ fontSize: 10.5, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
+                            <div style={{ fontSize: 12.5, fontWeight: 700, color: dirColor }}>{dirArrow}{fg?.trend}</div>
                           )}
                         </div>
                       )
@@ -773,13 +782,13 @@ export default function DashboardPage() {
                           display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
                           cursor: 'pointer', transition: 'background 600ms ease',
                         }}>
-                        <div style={{ fontSize: 10.5, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
-                        {region && cell.height >= 52 ? (
+                        <div style={{ fontSize: 12.5, fontWeight: 500, opacity: 0.75 }}>{cell.display}</div>
+                        {region && cell.height >= 64 ? (
                           <div>
-                            <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
+                            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: '-0.01em', color: '#fff', marginBottom: 2 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MIXTO'}
                             </div>
-                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
+                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>
                               PP {region.pp_pct.toFixed(1)}% · PSOE {region.psoe_pct.toFixed(1)}%
                             </div>
                             <div style={{ height: 3, borderRadius: 2, overflow: 'hidden', display: 'flex' }}>
@@ -788,13 +797,13 @@ export default function DashboardPage() {
                               <div style={{ flex: Math.max(0, 100 - region.pp_pct - region.psoe_pct), background: 'rgba(255,255,255,0.2)' }}/>
                             </div>
                           </div>
-                        ) : cell.height >= 52 ? (
+                        ) : cell.height >= 64 ? (
                           <div>
-                            <div style={{ fontSize: cell.height >= 64 ? 14 : 12, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                            <div style={{ fontSize: cell.height >= 78 ? 16 : 13.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                               {REGION_LABEL[lean]}
                             </div>
                             {diff !== 0 && (
-                              <div style={{ fontSize: 10, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
+                              <div style={{ fontSize: 12, opacity: 0.75, marginTop: 2, fontWeight: 600 }}>
                                 {diff > 0 ? '+' : ''}{Math.round(diff)} esc.
                               </div>
                             )}
@@ -802,7 +811,7 @@ export default function DashboardPage() {
                         ) : region ? (
                           // Small cell with real data: label + proportional bar
                           <div>
-                            <div style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
+                            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1, marginBottom: 3 }}>
                               {lean === 'pp' ? 'PP' : lean === 'psoe' ? 'PSOE' : 'MX'}
                             </div>
                             <div style={{ height: 3, borderRadius: 1, overflow: 'hidden', display: 'flex' }}>
@@ -812,7 +821,7 @@ export default function DashboardPage() {
                             </div>
                           </div>
                         ) : (
-                          <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
+                          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1 }}>
                             {REGION_LABEL[lean]}
                           </div>
                         )}
@@ -828,7 +837,7 @@ export default function DashboardPage() {
               <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
                 Figuras en tendencia
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
                 {TRENDING_FIGURES.map(f => {
                   const arrow = f.dir === 'up' ? '↑' : '↓'
                   const trendColor = f.dir === 'up' ? '#16A34A' : '#DC2626'
