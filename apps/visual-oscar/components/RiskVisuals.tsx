@@ -112,9 +112,13 @@ export interface RiesgoRadarData {
 export interface RiesgoRadarProps {
   data: RiesgoRadarData
   size?: 'small' | 'large'
+  /** Si se pasa, los dots del nivel crítico (puntos de datos) son clickables. */
+  onPointClick?: (axisIndex: number) => void
+  /** Índice del eje actualmente seleccionado · su dot se resalta. */
+  selectedIndex?: number | null
 }
 
-export function RiesgoRadar({ data, size = 'small' }: RiesgoRadarProps) {
+export function RiesgoRadar({ data, size = 'small', onPointClick, selectedIndex = null }: RiesgoRadarProps) {
   const W = size === 'large' ? 900 : 500
   const H = size === 'large' ? 440 : 440
   const R = size === 'large' ? 170 : 175
@@ -164,17 +168,50 @@ export function RiesgoRadar({ data, size = 'small' }: RiesgoRadarProps) {
           fill={l.color} fillOpacity={0.18}
           stroke={l.color} strokeWidth={1.5}/>
       ))}
-      {/* Dots solo en el nivel crítico (el más exterior) */}
+      {/* Dots solo en el nivel crítico (el más exterior) · clickables si onPointClick */}
       {criticalLevel && criticalLevel.values.map((v, i) => {
         const [x, y] = point(i, v)
-        return <circle key={i} cx={x} cy={y} r={dotR} fill={topDotsColor}/>
+        const isSelected = selectedIndex === i
+        const r = isSelected ? dotR * 1.8 : dotR
+        const isClickable = !!onPointClick
+        return (
+          <g key={i}>
+            {/* Hit area más grande para mejor UX */}
+            {isClickable && (
+              <circle
+                cx={x} cy={y} r={dotR * 3}
+                fill="transparent"
+                style={{ cursor: 'pointer' }}
+                onClick={() => onPointClick(i)}
+              >
+                <title>{`${data.axes[i]} · ${v.toFixed(1)}/100 · click para detalle`}</title>
+              </circle>
+            )}
+            <circle
+              cx={x} cy={y} r={r}
+              fill={topDotsColor}
+              stroke={isSelected ? '#fff' : 'none'}
+              strokeWidth={isSelected ? 2.5 : 0}
+              style={{ pointerEvents: 'none', transition: 'r 160ms' }}
+            />
+          </g>
+        )
       })}
-      {/* Etiquetas de ejes */}
+      {/* Etiquetas de ejes · también clickables si hay handler */}
       {data.axes.map((a, i) => {
         const [x, y] = point(i, (labelR / R) * 100)
+        const isSelected = selectedIndex === i
+        const isClickable = !!onPointClick
         return (
-          <text key={a} x={x} y={y} textAnchor="middle" dominantBaseline="middle"
-            fontSize={fontSize} fill="#3a3a3d" fontWeight={500}>
+          <text
+            key={a}
+            x={x} y={y} textAnchor="middle" dominantBaseline="middle"
+            fontSize={fontSize}
+            fill={isSelected ? '#1d1d1f' : '#3a3a3d'}
+            fontWeight={isSelected ? 700 : 500}
+            style={{ cursor: isClickable ? 'pointer' : 'default' }}
+            onClick={isClickable ? () => onPointClick(i) : undefined}
+          >
             {a}
           </text>
         )
