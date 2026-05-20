@@ -524,6 +524,11 @@ const BASE_EXTENDED: Base[] = [
   { nombre:'Luis Rubiales',         partido:'Independiente', cargo:'Ex presidente RFEF',                     cat:'institucion' },
   { nombre:'Jennifer Hermoso',      partido:'Independiente', cargo:'Futbolista internacional · selección',   cat:'mediatico' },
   { nombre:'Leonardo Marcos',       partido:'Independiente', cargo:'Ex director general de la Guardia Civil', cat:'institucion' },
+
+  // ───── Actores adicionales del CSV top50 (3 nuevos) ─────
+  { nombre:'Joan Laporta',          partido:'Independiente', cargo:'Presidente del FC Barcelona',            cat:'institucion' },
+  { nombre:'Ejército del Aire y del Espacio', partido:'Independiente', cargo:'Cuerpo militar · Fuerzas Armadas españolas', cat:'institucion' },
+  { nombre:'UPA',                   partido:'Sindicatos', cargo:'Unión de Pequeños Agricultores',           cat:'sindicato' },
 ]
 
 

@@ -47,9 +47,11 @@ export interface RelacionExplicita {
   label: string        // descripción corta · va al tooltip
 }
 
-// Relaciones adicionales importadas del CSV (mayo 2026, fuentes verificadas).
-// Importadas como value pero el back-edge es solo type, no hay ciclo runtime.
+// Relaciones adicionales importadas de CSVs curados (mayo 2026, fuentes
+// verificadas). Importadas como value pero el back-edge es solo type,
+// no hay ciclo runtime.
 import { RELACIONES_CSV_CURADAS } from './relaciones-csv-curadas'
+import { RELACIONES_CSV_TOP50 } from './relaciones-csv-top50'
 
 // Slugs comunes (mismo algoritmo que actores.ts buildActor → id)
 const id = (nombre: string) => nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -1062,6 +1064,10 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   // ─── 50 relaciones adicionales importadas del CSV next50 ──────────
   // Fuentes periodísticas verificables (mayo 2026)
   ...RELACIONES_CSV_CURADAS,
+
+  // ─── 47 relaciones adicionales importadas del CSV top50 ───────────
+  // Fechas más precisas + descripciones complementarias (mayo 2026)
+  ...RELACIONES_CSV_TOP50,
 ]
 
 /**
