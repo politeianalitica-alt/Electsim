@@ -43,7 +43,7 @@ export default function ReportingPage({ params }: { params: { workspaceId: strin
         view="reporting"
         eyebrow="Workspace · Reportes"
         title="Dashboard & Reporting"
-        description="Analytics ejecutivo del workspace · gráficos en tiempo real · síntesis Ollama"
+        description="Analytics ejecutivo del workspace · gráficos en tiempo real · síntesis PoliteIA"
         badge={`${data.kpis.reduce((s, k) => s + k.value, 0)} señales`}
       />
 

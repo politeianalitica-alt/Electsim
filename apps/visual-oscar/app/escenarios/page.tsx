@@ -571,7 +571,7 @@ export default function EscenariosPage(){
           <div style={{display:'flex',alignItems:'baseline',justifyContent:'space-between',marginBottom:14,gap:12,flexWrap:'wrap'}}>
             <h2 style={{fontFamily:'var(--font-display)',fontSize:16,fontWeight:600,letterSpacing:'-0.015em',margin:0}}>Escenarios de gobierno</h2>
             <div style={{display:'flex',alignItems:'center',gap:10,fontSize:11,color:'var(--ink-3)'}}>
-              <span>Calculado desde nowcast en vivo · click en un escenario para análisis IA</span>
+              <span>Calculado desde D'Hondt provincial en vivo · click en un escenario para análisis PoliteIA</span>
               <LiveStatusBadge updatedAt={provincialUpdated} source={provincialSource} refreshIntervalSec={30} onRefresh={refreshProvincial}/>
             </div>
           </div>
@@ -646,7 +646,7 @@ export default function EscenariosPage(){
                         {analysis === 'loading' && (
                           <div style={{padding:'24px 0',textAlign:'center',color:'var(--ink-4)',fontSize:12.5,display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
                             <div style={{width:12,height:12,borderRadius:'50%',border:'2px solid #c4b5fd',borderTopColor:'transparent',animation:'spin 0.8s linear infinite'}}/>
-                            Analizando escenario con Claude Sonnet…
+                            Analizando con PoliteIA…
                           </div>
                         )}
                         {analysis === 'error' && (
@@ -830,7 +830,7 @@ function ScenarioAnalysisPanel({ analysis }: { analysis: ScenarioAnalysis }) {
             border: '1px solid rgba(16,185,129,0.3)',
             letterSpacing: '0.02em',
           }}>
-            Claude {analysis.model?.includes('haiku') ? 'Haiku' : 'Sonnet'}
+            PoliteIA · profundo
           </span>
         )}
         {analysis.ms > 0 && (

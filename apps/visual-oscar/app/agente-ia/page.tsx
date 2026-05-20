@@ -25,7 +25,7 @@ const SUGGESTIONS = [
   'Resume las últimas normas BOE sobre vivienda',
 ]
 
-const WELCOME = 'Hola, soy el Brain de Politeia Analítica. Puedo analizar estimaciones electorales, escenarios de coalición, riesgo político, normativa BOE/EUR-Lex, contratación pública y fondos europeos.\n\nUso fuentes reales en vivo cuando están disponibles. Si activas **Tools**, puedo consultar BOE, Congreso, EUR-Lex y mapa de actores directamente.\n\nPrueba con una sugerencia o escribe tu pregunta.'
+const WELCOME = 'Hola, soy **PoliteIA**, el motor analítico de Politeia Analítica. Puedo analizar estimaciones electorales, escenarios de coalición, riesgo político, normativa BOE/EUR-Lex, contratación pública y fondos europeos.\n\nUso fuentes reales en vivo cuando están disponibles. Si activas **Tools**, puedo consultar BOE, Congreso, EUR-Lex y mapa de actores directamente.\n\nPrueba con una sugerencia o escribe tu pregunta.'
 
 export default function AgenteIAPage() {
   const router = useRouter()
@@ -251,11 +251,11 @@ export default function AgenteIAPage() {
 
         {/* Estado del Brain */}
         <div style={{ marginTop: 8, fontSize: 10.5, color: '#86868b', textAlign: 'center' }}>
-          {brain.end?.mode === 'ollama+stream'  && <>Respuesta en vivo de <strong style={{color:'#10b981'}}>Ollama</strong> · </>}
-          {brain.end?.mode === 'ollama+tools'   && <>Backend Politeia con <strong style={{color:'#10b981'}}>{brain.end?.tools_used?.length ?? 0} tools</strong> · </>}
+          {brain.end?.mode === 'ollama+stream'  && <>Respuesta en vivo de <strong style={{color:'#10b981'}}>PoliteIA</strong> · </>}
+          {brain.end?.mode === 'ollama+tools'   && <>PoliteIA con <strong style={{color:'#10b981'}}>{brain.end?.tools_used?.length ?? 0} tools</strong> · </>}
           {brain.error                          && <>Error: <strong style={{color:'#DC2626'}}>{brain.error}</strong> · </>}
           {brain.end?.latency_ms                && <>{brain.end.latency_ms} ms · </>}
-          modelo: <code style={{fontSize:10.5,background:'#F5F5F7',padding:'1px 5px',borderRadius:3}}>{brain.end?.model_used ?? 'auto'}</code>
+          motor: <code style={{fontSize:10.5,background:'#F5F5F7',padding:'1px 5px',borderRadius:3}}>PoliteIA</code>
         </div>
 
         <style>{`

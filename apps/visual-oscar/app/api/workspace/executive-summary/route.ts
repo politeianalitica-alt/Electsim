@@ -75,7 +75,7 @@ function mockResponse(name: string, context: string, goal: string) {
     `2. Comunicado proactivo sobre Plan Vive antes del lunes.`,
     `3. Reunión interna de coordinación con dirección.`,
     ``,
-    `[respuesta mock — configura OLLAMA_URL para activar síntesis Ollama]`,
+    `[respuesta de muestra · PoliteIA está procesando este módulo]`,
   ].join("\n");
   return new Response(text, {
     headers: { "Content-Type": "text/plain; charset=utf-8", "X-AI-Provider": "mock" },

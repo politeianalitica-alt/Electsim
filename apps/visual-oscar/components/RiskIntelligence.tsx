@@ -540,7 +540,7 @@ function ScenariosPanel({ scenarios, loading, horizon, onHorizonChange, onGenera
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10, marginBottom: 14 }}>
         <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>
-          Escenarios prospectivos · generados con Ollama
+          Escenarios prospectivos · generados con PoliteIA
         </h3>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: 2 }}>

@@ -111,7 +111,7 @@ export default function ContratosLiveFeed({
           </h2>
           <p style={{ fontSize:12, color:'#6e6e73', margin:0, lineHeight:1.45 }}>
             Datos directos de los feeds Atom oficiales de la Plataforma de Contratación del Sector Público ·
-            scoring 0-100 por importe, estado, organismo y recencia · pulsa <strong>&quot;Analizar con IA&quot;</strong> para enviar a Ollama.
+            scoring 0-100 por importe, estado, organismo y recencia · pulsa <strong>&quot;Analizar con IA&quot;</strong> para enviar a PoliteIA.
           </p>
         </div>
         <div style={{ display:'flex', gap:8 }}>

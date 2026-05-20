@@ -94,7 +94,7 @@ export default function RiskBreakdown() {
               color: sentiment.trend < -2 ? '#c42c2c' : sentiment.trend > 2 ? '#2d8a39' : '#6e6e73',
             }}>{sentiment.trend > 0 ? '+' : ''}{sentiment.trend} pp</strong>
             <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 4 }}>
-              Calculado sobre 414 fuentes y análisis Ollama.
+              Calculado sobre 414 fuentes y análisis PoliteIA.
             </div>
           </div>
         )}

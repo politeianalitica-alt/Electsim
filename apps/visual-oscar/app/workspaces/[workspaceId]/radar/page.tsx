@@ -57,9 +57,8 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
         view="radar"
         eyebrow="Workspace · Radar"
         title="Radar de Oportunidades"
-        description={`Generación JSON estructurada · ${
-          batch?.source === "anthropic" ? "Claude live"
-          : batch?.source === "ollama" ? "Ollama live"
+        description={`Generación JSON estructurada con PoliteIA · ${
+          batch?.source === "anthropic" || batch?.source === "ollama" ? "live"
           : "mock"
         }`}
         badge={batch ? `${batch.opportunities.length} oportunidades` : ""}
@@ -80,7 +79,7 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
                 fontFamily: WS.font,
               }}
             >
-              {isLoading ? "Generando…" : "Regenerar con Ollama"}
+              {isLoading ? "Generando…" : "Regenerar con PoliteIA"}
             </button>
           </div>
         }
@@ -132,7 +131,7 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
 
           <div style={{ marginTop: 18, fontSize: 11, color: WS.ink3 }}>
             Generado {new Date(batch.generatedAt).toLocaleString("es-ES")} · fuente: {batch.source}
-            {batch.source === "mock" && " · configura OLLAMA_URL para activar generación real"}
+            {batch.source === "mock" && " · PoliteIA está procesando este módulo"}
           </div>
         </>
       )}

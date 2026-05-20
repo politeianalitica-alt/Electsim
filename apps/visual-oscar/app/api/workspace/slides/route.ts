@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     id: `deck_${Date.now()}`,
     workspaceId,
     title: inferredTitle,
-    subtitle: "Mock determinista — configura OLLAMA_URL para generación live",
+    subtitle: "Vista de muestra · PoliteIA generará el deck en vivo",
     client: workspaceName,
     generatedAt: new Date().toISOString(),
     source: "mock",

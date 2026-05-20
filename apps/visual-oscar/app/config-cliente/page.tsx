@@ -697,7 +697,7 @@ function SecBrain({ health }: { health: SystemHealth }) {
       <Card>
         <CardHeader title="Brain · IA · politeia-brain" sub="Modelo y configuración" right={<Badge label={health.ollama?.status?.toUpperCase() ?? 'OK'} color={statusColor(health.ollama?.status)}/>}/>
         <Field label="Modelo activo" value={health.ollama?.model ?? 'politeia-brain:latest'}/>
-        <Field label="Provider"      value="Ollama · self-hosted en VPS Hetzner"/>
+        <Field label="Provider"      value="PoliteIA · motor analítico"/>
         <Field label="Embeddings"    value="nomic-embed-text · 768 dim"/>
         <Field label="RAG · ChromaDB" value="12.4k documentos vectorizados"/>
         <Field label="Latencia media" value={`${health.ollama?.latency_ms ?? 1240} ms`}/>
@@ -988,7 +988,7 @@ function SecSistema({ health }: { health: SystemHealth }) {
         <Field label="Database · PostgreSQL 16" value="OK · Hetzner cx32 · 24 GB · 8 cores"/>
         <Field label="Cache · Redis 7"     value="OK · 1.2 GB usado · 4 GB total"/>
         <Field label="Vector DB · Chroma"  value="OK · 12.4k embeddings · 768 dim"/>
-        <Field label="Brain · Ollama"      value={`${health.ollama?.model} · ${health.ollama?.latency_ms} ms`}/>
+        <Field label="Brain · PoliteIA"      value={`${health.ollama?.model} · ${health.ollama?.latency_ms} ms`}/>
         <Field label="Object Storage · R2" value="OK · 3.2 GB usado · 100 GB plan"/>
         <Field label="Job queue · BullMQ"  value="OK · 0 jobs en cola · 47 procesados/min"/>
         <Field label="Observabilidad"      value="Sentry + Datadog · 0 errores P95 últimas 24h"/>

@@ -110,7 +110,7 @@ export default function NarrativesGallery() {
           </h2>
           <p style={{ fontSize: 12, color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {data ? (
-              <><CountUp value={data.total_clusters}/> narrativas detectadas en 72h · análisis Entman + Lakoff con Ollama</>
+              <><CountUp value={data.total_clusters}/> narrativas detectadas en 72h · análisis Entman + Lakoff con PoliteIA</>
             ) : 'Detectando narrativas...'}
           </p>
         </div>
@@ -239,7 +239,7 @@ function NarrativeCard({
               <Skeleton width="100%" height={11} radius={4} style={{ marginBottom: 6 }}/>
               <Skeleton width="92%" height={11} radius={4} style={{ marginBottom: 6 }}/>
               <Skeleton width="88%" height={11} radius={4}/>
-              <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 10, fontStyle: 'italic' }}>Analizando con Ollama (framework Entman + Lakoff)...</p>
+              <p style={{ fontSize: 10.5, color: 'var(--ink-4)', marginTop: 10, fontStyle: 'italic' }}>Analizando con PoliteIA (framework Entman + Lakoff)...</p>
             </div>
           ) : (
             <div style={{ padding: '12px 0' }}>

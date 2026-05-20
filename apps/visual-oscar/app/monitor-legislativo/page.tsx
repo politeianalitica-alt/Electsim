@@ -274,7 +274,7 @@ export default function MonitorLegislativoPage() {
         {/* ═════════════════════════════════════════════════════════════════
             BOE EN VIVO · Disposiciones generales últimos 7 días
             Datos REALES de la API de Datos Abiertos del BOE.
-            Botón "Analizar con IA" envía cada disposición a Ollama.
+            Botón "Analizar con IA" envía cada disposición a PoliteIA.
             ═════════════════════════════════════════════════════════════════ */}
         <section style={{
           background:'#fff', border:'1px solid #ECECEF', borderRadius:18,
@@ -290,7 +290,7 @@ export default function MonitorLegislativoPage() {
               </h2>
               <p style={{ fontSize:12, color:'#6e6e73', margin:0, lineHeight:1.45 }}>
                 Datos reales del Boletín Oficial del Estado · clasificación heurística por tipo y materia ·
-                pulsa &quot;Analizar con IA&quot; para enviar la disposición a Ollama (resumen, sectores, impacto político, pronóstico).
+                pulsa &quot;Analizar con IA&quot; para enviar la disposición a PoliteIA (resumen, sectores, impacto político, pronóstico).
               </p>
             </div>
             <div style={{ display:'flex', gap:8 }}>

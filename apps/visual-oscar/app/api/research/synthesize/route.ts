@@ -106,7 +106,7 @@ function buildMockSynthesis(input: {
     "2. Canal bilateral con portavoz Junts esta semana.",
     "3. Comunicado proactivo sobre Plan Vive (vivienda) antes del lunes.",
     "",
-    `[respuesta mock generada sin LLM real — configura OLLAMA_URL para activar síntesis Ollama]`,
+    `[respuesta de muestra · PoliteIA está procesando este módulo]`,
   ].filter(Boolean);
   return lines.join("\n");
 }

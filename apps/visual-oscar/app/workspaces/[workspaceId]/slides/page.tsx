@@ -115,9 +115,8 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
         view="slides"
         eyebrow="Workspace · Presentaciones"
         title="Politeia Slides"
-        description={`Generación con LLM · ${
-          deck?.source === "anthropic" ? "Claude live"
-          : deck?.source === "ollama" ? "Ollama live"
+        description={`Generación con PoliteIA · ${
+          deck?.source === "anthropic" || deck?.source === "ollama" ? "live"
           : "mock"
         }`}
         badge={deck ? `${deck.slides.length} slides` : ""}

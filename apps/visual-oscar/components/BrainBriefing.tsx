@@ -433,7 +433,7 @@ export default function BrainBriefing() {
                       <line x1="12" y1="8" x2="12" y2="12"/>
                       <line x1="12" y1="16" x2="12.01" y2="16"/>
                     </svg>
-                    SIN DATOS DE POLITEIA · RESPUESTA DE CLAUDE BASADA EN CONOCIMIENTO GENERAL
+                    SIN DATOS DE POLITEIA · RESPUESTA BASADA EN CONOCIMIENTO GENERAL
                   </div>
                 )}
                 <div style={{
@@ -474,7 +474,7 @@ export default function BrainBriefing() {
                     ))}
                     {m.source === 'anthropic' && m.model && (
                       <span
-                        title={`Modelo: ${m.model}\nTier: ${m.tier ?? 'fast'}\n${m.cost ? `Coste: ${m.cost.usd < 0.001 ? '<0,1¢' : (m.cost.usd * 100).toFixed(2).replace('.', ',') + '¢'}` : ''}`}
+                        title={`Motor PoliteIA · ${m.tier === 'premium' ? 'modo profundo' : 'modo rápido'}${m.cost ? ` · Coste: ${m.cost.usd < 0.001 ? '<0,1¢' : (m.cost.usd * 100).toFixed(2).replace('.', ',') + '¢'}` : ''}`}
                         style={{
                           fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
                           background: m.tier === 'premium' ? 'rgba(168,85,247,0.18)' : 'rgba(16,185,129,0.15)',
@@ -483,7 +483,7 @@ export default function BrainBriefing() {
                           letterSpacing: '0.02em', cursor: 'help',
                         }}
                       >
-                        Claude {m.model.includes('haiku') ? 'Haiku' : 'Sonnet'}
+                        PoliteIA {m.tier === 'premium' ? '· profundo' : '· rápido'}
                       </span>
                     )}
                     {m.cost && m.cost.usd > 0 && (

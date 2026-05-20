@@ -134,7 +134,7 @@ export function OpportunityDrawer({
         </section>
 
         <div style={{ fontSize: 10, color: WS.ink3, paddingTop: 6 }}>
-          Generado por {opportunity.source === "ollama" ? "Ollama" : "mock"} · {new Date(opportunity.generatedAt).toLocaleString("es-ES")}
+          Generado por {opportunity.source === "ollama" || opportunity.source === "anthropic" ? "PoliteIA" : "mock"} · {new Date(opportunity.generatedAt).toLocaleString("es-ES")}
         </div>
       </div>
     </div>

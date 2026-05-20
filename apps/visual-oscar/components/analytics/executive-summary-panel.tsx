@@ -111,7 +111,7 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: WS.ink2, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Resumen ejecutivo · Ollama
+            Resumen ejecutivo · PoliteIA
           </div>
           <div style={{ fontSize: 11, color: WS.ink3, marginTop: 4 }}>
             Llama3.2 sobre los KPIs y proyectos del workspace.
@@ -146,7 +146,7 @@ export function ExecutiveSummaryPanel({ workspaceName, context }: Props) {
         {error && <div style={{ color: WS.danger, fontSize: 12 }}>Error: {error}</div>}
         {!text && !isLoading && !error && (
           <span style={{ color: WS.ink3 }}>
-            Pulsa <strong>Generar</strong> para crear el resumen ejecutivo con Ollama.
+            Pulsa <strong>Generar</strong> para crear el resumen ejecutivo con PoliteIA.
           </span>
         )}
         {text}

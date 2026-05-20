@@ -276,7 +276,7 @@ export default function IntelligenceFeed() {
               <span style={{ color: '#DC2626', fontWeight: 600 }}>− <CountUp value={breakdown.neg}/>%</span>
             </div>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 600, margin: '0 0 8px', letterSpacing: '-0.01em' }}>
-              Top temas detectados (Ollama)
+              Top temas detectados (PoliteIA)
             </h3>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
               {topics.length > 0 ? topics.slice(0, 12).map((t, i) => {
@@ -302,7 +302,7 @@ export default function IntelligenceFeed() {
         <div style={{ background: '#fff', borderRadius: 16, padding: '18px 20px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
-              Feed analizado por Ollama
+              Feed analizado por PoliteIA
             </h3>
             {/* Filter pills */}
             <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 2 }}>

@@ -83,7 +83,7 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
         view="simulator"
         eyebrow="Workspace · Simulador"
         title="Simulador de Decisión"
-        description="Antes de actuar · 3 outcomes con probabilidades + contramovimientos · Ollama"
+        description="Antes de actuar · 3 outcomes con probabilidades + contramovimientos · PoliteIA"
         badge={sim ? `${sim.outcomes.length} outcomes` : ""}
       />
 
