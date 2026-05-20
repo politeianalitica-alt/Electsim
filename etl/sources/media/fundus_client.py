@@ -1,20 +1,37 @@
 """
 Cliente Fundus para extracción de texto completo de artículos.
 
-Opcional — activado con ELECTSIM_MEDIA_USE_FUNDUS=true.
-Si Fundus no está disponible, devuelve el artículo sin enriquecer.
+> **Sprint 2 · S2.4** (`docs/ROADMAP_GITS_AMIGOS.md §4 Sprint 2`)
 
-Fundus: https://github.com/flairNLP/fundus
+Politeia ya tenia este cliente con `enrich_article_with_fundus(url)`. Sprint 2
+añade:
+  - list_es_publishers()  → lista los 7 publishers ES nativos de fundus
+  - crawl_es_news(max)    → crawl masivo de medios ES con NormalizedItem
+  - ELECTSIM_MEDIA_USE_FUNDUS=auto por defecto (activa si instalado)
+
+Publishers ES nativos en fundus (a 2026-05):
+  - El País (es.elpais.com) · RSS + Sitemap + News-Map
+  - El Mundo
+  - ABC
+  - La Vanguardia
+  - El Diario
+  - Público
+  - Mallorca (×2 · diaspora alemana en Mallorca)
+
+Fundus: https://github.com/flairNLP/fundus (mantenido por Humboldt-U Berlin)
 """
 from __future__ import annotations
 
 import logging
 import os
+from datetime import datetime, timezone
 from typing import Any
 
 logger = logging.getLogger(__name__)
 
-_USE_FUNDUS = os.getenv("ELECTSIM_MEDIA_USE_FUNDUS", "false").lower() == "true"
+# 'auto' = activado si fundus está instalado · default Sprint 2
+_FUNDUS_MODE = os.getenv("ELECTSIM_MEDIA_USE_FUNDUS", "auto").lower()
+_USE_FUNDUS = _FUNDUS_MODE in {"true", "1", "yes", "auto"}
 _FUNDUS_TIMEOUT = int(os.getenv("ELECTSIM_FUNDUS_TIMEOUT", "10"))
 
 # ── Lazy loader de Fundus ─────────────────────────────────────────────────────
@@ -99,6 +116,159 @@ def enrich_article_with_fundus(
     except Exception as exc:
         logger.debug("enrich_article_with_fundus error (%s): %s", source_name, exc)
         return empty
+
+
+# ────────────────────────────────────────────────────────────────────
+# Sprint 2 · S2.4 · crawl de medios ES + NormalizedItem
+# ────────────────────────────────────────────────────────────────────
+
+# Publishers ES nativos de fundus · sincronizado con
+# gits amigos/fundus-master/src/fundus/publishers/es/__init__.py
+ES_PUBLISHERS: tuple[str, ...] = (
+    "ElPais",
+    "ElMundo",
+    "ABC",
+    "LaVanguardia",
+    "ElDiario",
+    "Publico",
+)
+
+
+def list_es_publishers() -> list[dict[str, str]]:
+    """Lista los publishers españoles que Fundus puede crawlear.
+
+    Returns:
+      [{"name": "ElPais", "host": "elpais.com", "available": True}, ...]
+    """
+    if not _USE_FUNDUS or not _check_fundus():
+        return [
+            {"name": name, "host": "", "available": False}
+            for name in ES_PUBLISHERS
+        ]
+    try:
+        from fundus import PublisherCollection
+        es = getattr(PublisherCollection, "es", None)
+        if es is None:
+            return [
+                {"name": name, "host": "", "available": False}
+                for name in ES_PUBLISHERS
+            ]
+        out: list[dict[str, str]] = []
+        # PublisherCollection.es es un PublisherGroup con publishers como atributos
+        for name in ES_PUBLISHERS:
+            pub = getattr(es, name, None)
+            if pub is None:
+                out.append({"name": name, "host": "", "available": False})
+                continue
+            # fundus expone domain via .source_info.domain o .domain dependiendo de version
+            host = ""
+            for attr_chain in [("source_info", "domain"), ("domain",)]:
+                obj: Any = pub
+                try:
+                    for a in attr_chain:
+                        obj = getattr(obj, a)
+                    if obj:
+                        host = str(obj)
+                        break
+                except AttributeError:
+                    continue
+            out.append({
+                "name": name,
+                "host": host,
+                "available": True,
+            })
+        return out
+    except Exception as exc:
+        logger.debug("list_es_publishers · %s", exc)
+        return [
+            {"name": name, "host": "", "available": False}
+            for name in ES_PUBLISHERS
+        ]
+
+
+def crawl_es_news(
+    max_articles: int = 50,
+    publishers: list[str] | None = None,
+    timeout_s: int | None = None,
+) -> list[dict[str, Any]]:
+    """Crawl masivo de medios ES via Fundus.
+
+    Args:
+      max_articles: límite total
+      publishers: lista de nombres (ej. ['ElPais', 'ElMundo']) o None=todos
+      timeout_s: timeout total
+
+    Returns:
+      Lista de dicts compatibles con NormalizedItem:
+      [{
+        "source": "rss",  # o el host concreto
+        "item_id": "<hash o URL>",
+        "title": "...",
+        "body": "<plaintext extraído>",
+        "summary": "...",
+        "url": "https://www.elpais.com/...",
+        "published_at": datetime,
+        "author": "...",
+        "raw_hash": "...",
+      }, ...]
+
+      Lista vacía si Fundus no disponible.
+    """
+    if not _USE_FUNDUS or not _check_fundus():
+        return []
+
+    try:
+        from fundus import Crawler, PublisherCollection
+        es = getattr(PublisherCollection, "es", None)
+        if es is None:
+            return []
+
+        # Filtrar publishers si se especificaron
+        if publishers:
+            wanted = set(p.lower() for p in publishers)
+            pubs = [p for p in es if p.publisher_name.lower() in wanted]
+            if not pubs:
+                logger.warning("crawl_es_news: ningún publisher coincide con %s", publishers)
+                return []
+            crawler = Crawler(*pubs)
+        else:
+            crawler = Crawler(es)
+
+        results: list[dict[str, Any]] = []
+        for art in crawler.crawl(max_articles=max_articles):
+            url = str(getattr(art, "html", None).requested_url) if getattr(art, "html", None) else ""
+            title = getattr(art, "title", None) or ""
+            body = getattr(art, "plaintext", None) or ""
+            summary = getattr(art, "summary", None) or ""
+            pub_date = getattr(art, "publishing_date", None) or datetime.now(timezone.utc)
+            authors = list(getattr(art, "authors", []) or [])
+
+            # raw_hash determinista para dedup
+            import hashlib
+            raw_hash = hashlib.sha256(f"{url}|{title}".encode("utf-8")).hexdigest()
+
+            results.append({
+                "source": "rss",  # SourceKind válido
+                "item_id": url or raw_hash,
+                "title": title.strip(),
+                "body": body.strip(),
+                "summary": summary.strip(),
+                "url": url,
+                "published_at": pub_date if isinstance(pub_date, datetime) else datetime.now(timezone.utc),
+                "author": ", ".join(authors)[:240],
+                "raw_hash": raw_hash,
+                "language": "es",
+                "payload": {
+                    "fundus_publisher": art.publisher_name if hasattr(art, "publisher_name") else "",
+                },
+            })
+
+        logger.info("crawl_es_news: %d articulos crawlados", len(results))
+        return results
+
+    except Exception as exc:
+        logger.warning("crawl_es_news · %s", exc)
+        return []
 
 
 def enrich_many(

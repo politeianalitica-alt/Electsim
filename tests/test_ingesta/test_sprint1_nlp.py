@@ -195,3 +195,92 @@ def test_markitdown_no_instalado_no_rompe():
     # Sin markitdown · 'ok' es False con error explicito o unavailable=True
     if not result.get("ok"):
         assert result.get("unavailable") or "no instalado" in (result.get("error") or "").lower()
+
+
+# ── Sprint 2 · S2 tests ───────────────────────────────────────────────
+
+def test_iptc_topics_definidos():
+    """17 top-level IPTC topics deben estar definidos."""
+    from agents.topics.iptc_classifier import IPTC_TOP_LEVEL_TOPICS
+
+    assert len(IPTC_TOP_LEVEL_TOPICS) == 17
+    assert "politics" in IPTC_TOP_LEVEL_TOPICS
+    assert "economy, business and finance" in IPTC_TOP_LEVEL_TOPICS
+
+
+def test_iptc_classify_texto_vacio():
+    """classify_iptc con texto vacio devuelve []."""
+    from agents.topics.iptc_classifier import classify_iptc
+
+    assert classify_iptc("") == []
+    assert classify_iptc("   ") == []
+
+
+def test_boe_tools_registradas():
+    """4 BOE tools deben estar registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.boe_live_tools  # noqa: F401 · trigger registro
+
+    tools = ToolRegistry.list_tools()
+    assert "boe_sumario" in tools
+    assert "boe_search_consolidated" in tools
+    assert "boe_get_norma" in tools
+    assert "boe_novedades_ultimos_dias" in tools
+
+
+def test_boe_search_query_vacia():
+    """boe_search_consolidated con query vacia · devuelve error explicito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.boe_live_tools  # noqa: F401
+
+    fn = ToolRegistry.get("boe_search_consolidated")
+    result = fn(query="")
+    assert result.get("error") == "query vacía"
+    assert result.get("items") == []
+
+
+def test_media_reliability_extract_host():
+    """extract_host normaliza URLs comunes."""
+    from etl.sources.media.reliability import extract_host
+
+    assert extract_host("https://www.elpais.com/politica/2026") == "elpais.com"
+    assert extract_host("http://abc.es") == "abc.es"
+    assert extract_host("elpais.com") == "elpais.com"
+    assert extract_host("") == ""
+    assert extract_host("not a url") == "not a url"  # urlparse permisivo
+
+
+def test_media_reliability_sin_bd_devuelve_none():
+    """Sin BD configurada, get_reliability devuelve None (no rompe)."""
+    from etl.sources.media.reliability import get_reliability
+
+    # En tests no hay engine, debe devolver None
+    result = get_reliability("test-host-nonexistente.com")
+    assert result is None
+
+
+def test_fundus_es_publishers_constantes():
+    """ES_PUBLISHERS tiene los 6 medios principales españoles."""
+    from etl.sources.media.fundus_client import ES_PUBLISHERS
+
+    assert "ElPais" in ES_PUBLISHERS
+    assert "ElMundo" in ES_PUBLISHERS
+    assert "ABC" in ES_PUBLISHERS
+    assert "LaVanguardia" in ES_PUBLISHERS
+    assert "ElDiario" in ES_PUBLISHERS
+    assert "Publico" in ES_PUBLISHERS
+    assert len(ES_PUBLISHERS) == 6
+
+
+def test_fundus_list_publishers_estructura():
+    """list_es_publishers devuelve siempre lista de dicts con keys correctas."""
+    from etl.sources.media.fundus_client import list_es_publishers
+
+    pubs = list_es_publishers()
+    assert isinstance(pubs, list)
+    assert len(pubs) == 6  # 6 publishers ES
+    for p in pubs:
+        assert "name" in p
+        assert "host" in p
+        assert "available" in p
+        assert isinstance(p["name"], str)
