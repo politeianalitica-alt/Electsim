@@ -1265,3 +1265,165 @@ def test_eda_program_via_tool():
     assert res["code"] == "FCAS / NGWS"
     res2 = ToolRegistry.get("eda_program")(slug="no_existe")
     assert "error" in res2
+
+
+# ── Sprint 12 · Telecom (CNMC+BEREC+espectro+operators) ──────────────
+
+def test_cnmc_telecom_client_y_filtro():
+    """Sprint 12 · S12.1 · cliente CNMC + filtro keywords telecom."""
+    from etl.sources.telecom.cnmc import (
+        CNMCTelecomClient, get_cnmc_telecom_client, _TELECOM_KEYWORDS,
+    )
+    client = get_cnmc_telecom_client()
+    assert isinstance(client, CNMCTelecomClient)
+    assert "5G" in _TELECOM_KEYWORDS
+    # Filtro funciona
+    items = [
+        {"title": "CNMC sanciona a Movistar", "description": "Telefónica móvil"},
+        {"title": "Resolución sector ferroviario", "description": "ADIF"},
+    ]
+    out = client.filter_telecom(items)
+    assert len(out) == 1
+    assert "Movistar" in out[0]["title"]
+
+
+def test_berec_client_parser():
+    """Sprint 12 · S12.2 · cliente BEREC importable + parser RSS."""
+    from etl.sources.telecom.berec import BERECClient, get_berec_client
+    client = get_berec_client()
+    assert isinstance(client, BERECClient)
+    items = BERECClient._parse_rss("<rss><channel></channel></rss>")
+    assert items == []
+
+
+def test_spectrum_auctions_catalogo():
+    """Sprint 12 · S12.3 · catálogo subastas espectro coherente."""
+    from etl.sources.telecom.spectrum import (
+        SPECTRUM_AUCTIONS, list_spectrum_auctions, get_spectrum_auction,
+        operator_spectrum_summary,
+    )
+    for required in (
+        "auction_700mhz_2020", "auction_3_5ghz_2018",
+        "auction_26ghz_2022", "auction_900_1800mhz_2024",
+    ):
+        assert required in SPECTRUM_AUCTIONS
+    # Filtros
+    completadas = list_spectrum_auctions(status="completada")
+    assert len(completadas) >= 4
+    previstas = list_spectrum_auctions(status="previsto")
+    assert len(previstas) >= 1
+    # Detalle por slug
+    a = get_spectrum_auction("auction_700mhz_2020")
+    assert a["band"].startswith("700")
+    assert a["total_revenue_eur"] > 0
+    # Sumario por operador
+    movistar = operator_spectrum_summary("Movistar")
+    assert movistar["n_auctions_participated"] >= 3
+    assert movistar["total_paid_eur"] > 0
+
+
+def test_telecom_operators_seed_valido():
+    """Sprint 12 · S12.4 · seed JSON con operadores principales."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "telecom" / "operators_seed.json"
+    assert seed.exists()
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "movistar", "masorange", "vodafone_es_zegona", "digi_es",
+        "cellnex", "avatel",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["name"]
+        assert r["kind"] in {
+            "incumbente", "mvno", "omv", "mayorista", "tower",
+            "isp", "satelital", "submarino",
+        }
+
+
+def test_telecom_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio telecom_operators devuelve estructuras vacías."""
+    from etl.sources.telecom import operators_service as svc
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        assert svc.get_operator("movistar") is None
+        assert svc.list_operators() == []
+        ms = svc.market_share_summary()
+        assert ms["top_movil"] == []
+        assert "error" in ms
+        res = svc.load_operators_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        svc._get_engine = original
+
+
+def test_telecom_migracion_0072_existe():
+    """Migración 0072_telecom_operators existe."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0072_telecom_operators.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0072_telecom_operators"' in src
+    assert 'down_revision = "0071_defense_programs"' in src
+    assert 'create_table' in src and '"telecom_operators"' in src
+
+
+def test_telecom_tools_registradas():
+    """Sprint 12 · S12.5 · tools telecom registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.telecom_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "cnmc_telecom_news", "berec_news",
+        "spectrum_auctions_list", "spectrum_auction", "operator_spectrum",
+        "telecom_operator", "list_telecom_operators", "telecom_market_summary",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_spectrum_tool_estatico():
+    """spectrum_auction tool · catálogo estático sin BD funciona."""
+    from agents.tools import ToolRegistry
+    import agents.tools.telecom_tools  # noqa: F401
+
+    res = ToolRegistry.get("spectrum_auction")(slug="auction_700mhz_2020")
+    assert "band" in res
+    res2 = ToolRegistry.get("spectrum_auction")(slug="no_existe")
+    assert "error" in res2
+
+
+def test_operator_spectrum_tool():
+    """operator_spectrum tool · suma espectro adjudicado a un operador."""
+    from agents.tools import ToolRegistry
+    import agents.tools.telecom_tools  # noqa: F401
+
+    res = ToolRegistry.get("operator_spectrum")(operator_name="Vodafone")
+    assert res["n_auctions_participated"] >= 3
+    assert res["total_lots_won"] > 0
+
+
+def test_telecom_tools_sin_bd():
+    """telecom_operator / list / market_summary sin BD devuelven error explícito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.telecom_tools  # noqa: F401
+    from etl.sources.telecom import operators_service as svc
+
+    original = svc._get_engine
+    svc._get_engine = lambda: None
+    try:
+        r1 = ToolRegistry.get("telecom_operator")(slug="movistar")
+        assert "error" in r1
+        r2 = ToolRegistry.get("list_telecom_operators")(kind="incumbente")
+        assert r2["n_items"] == 0
+        r3 = ToolRegistry.get("telecom_market_summary")()
+        assert r3["top_movil"] == []
+    finally:
+        svc._get_engine = original
