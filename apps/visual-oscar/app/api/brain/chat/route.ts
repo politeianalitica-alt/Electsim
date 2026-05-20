@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
-import { generateText, AI_CONFIG } from '@/lib/ai'
+import { generateText, generateWithTools, AI_CONFIG } from '@/lib/ai'
+import { buildLiveContext } from '@/lib/ai/context-builder'
+import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
+import { BRAIN_TOOLS, executeTool } from '@/lib/ai/tools'
 
 // POST /api/brain/chat
 //
@@ -153,27 +156,43 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // 1. Anthropic Claude (Haiku para chat) — PRIORIDAD MÁXIMA cuando
-  //    LLM_PROVIDER=anthropic, porque sabemos que el dashboard tiene un
-  //    LLM real configurado y queremos calidad antes que el backend mock.
+  // 1. Anthropic Claude (Haiku · tool use loop) — PRIORIDAD MÁXIMA
+  //    cuando LLM_PROVIDER=anthropic. Inyecta contexto vivo del dashboard
+  //    + define tools que Claude puede llamar para profundizar.
   if (AI_CONFIG.provider === 'anthropic') {
     try {
-      const reply = await generateText({
+      const liveContext = await buildLiveContext()
+      const systemPrompt = buildBrainSystemPrompt(liveContext)
+
+      // Detecta si la última pregunta del usuario pide expansión
+      // (esto se gestiona en el system prompt, pero subimos maxTokens
+      // a 1500 por si pide "detalle"; sigue siendo controlado por el
+      // prompt para responder breve por defecto).
+      const result = await generateWithTools({
         tier: 'fast',
+        system: systemPrompt,
         messages: clean.map(m => ({
           role: m.role === 'system' ? 'system' : m.role,
           content: m.content,
         })),
-        temperature: 0.4,
-        maxTokens: 1024,
+        temperature: 0.3,
+        maxTokens: 1500,
+        tools: BRAIN_TOOLS,
+        executor: executeTool,
+        maxIterations: 4,
       })
-      if (reply) {
+      if (result.text) {
         return NextResponse.json({
-          reply,
+          reply: result.text,
           source: 'anthropic',
           model: AI_CONFIG.anthropicFastModel,
-          tools_used: [],
+          tools_used: result.toolsUsed.map(t => ({
+            name: t.name,
+            input: t.input,
+            ms: t.ms,
+          })),
           citations: [],
+          iterations: result.iterations,
           ms: Date.now() - started,
           _meta: { source: 'anthropic', ts: new Date().toISOString() },
         })
@@ -182,6 +201,33 @@ export async function POST(req: NextRequest) {
       const err = e instanceof Error ? e.message : String(e)
       // eslint-disable-next-line no-console
       console.warn('[brain/chat] anthropic failed:', err)
+      // Fallback simple sin tools si tool use falla
+      try {
+        const reply = await generateText({
+          tier: 'fast',
+          system: buildBrainSystemPrompt(await buildLiveContext()),
+          messages: clean.map(m => ({
+            role: m.role === 'system' ? 'system' : m.role,
+            content: m.content,
+          })),
+          temperature: 0.4,
+          maxTokens: 1024,
+        })
+        if (reply) {
+          return NextResponse.json({
+            reply,
+            source: 'anthropic',
+            model: AI_CONFIG.anthropicFastModel,
+            tools_used: [],
+            citations: [],
+            ms: Date.now() - started,
+            _meta: { source: 'anthropic', ts: new Date().toISOString(), fallback: 'no_tools' },
+          })
+        }
+      } catch (e2) {
+        // eslint-disable-next-line no-console
+        console.warn('[brain/chat] anthropic fallback also failed:', (e2 as Error).message)
+      }
     }
   }
 

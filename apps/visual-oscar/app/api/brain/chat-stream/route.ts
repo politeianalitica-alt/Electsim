@@ -1,6 +1,8 @@
 import { NextRequest } from 'next/server'
 import { backendUrl, backendConfigured } from '@/lib/backend'
 import { streamText, AI_CONFIG } from '@/lib/ai'
+import { buildLiveContext } from '@/lib/ai/context-builder'
+import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
 
 // POST /api/brain/chat-stream
 //
@@ -63,6 +65,14 @@ async function* proxyBackendStream(body: object): AsyncGenerator<string> {
  * Stream desde Anthropic Claude vía la capa unificada `@/lib/ai`. Adapta
  * el ReadableStream<Uint8Array> a la cadena SSE esperada por el cliente.
  * Usa `tier: 'fast'` para que use Haiku 4.5 (chat de alto volumen).
+ *
+ * Inyecta el contexto vivo del dashboard + el system prompt de Politeia
+ * para que las respuestas sean breves, ejecutivas y con datos reales.
+ *
+ * Nota: en streaming NO usamos tool use (Claude no puede llamar tools en
+ * modo stream sin complicaciones). Las respuestas que necesiten tools
+ * pasan por brain/chat (no-stream). El streaming es para preguntas
+ * directas que se contestan con el contexto inyectado.
  */
 async function* anthropicStream(messages: Msg[]): AsyncGenerator<string> {
   const t0 = Date.now()
@@ -71,14 +81,17 @@ async function* anthropicStream(messages: Msg[]): AsyncGenerator<string> {
   let chars = 0
   let n = 0
   try {
+    const liveContext = await buildLiveContext()
+    const systemPrompt = buildBrainSystemPrompt(liveContext)
     const stream = streamText({
       tier: 'fast',
+      system: systemPrompt,
       messages: messages.map(m => ({
         role: m.role === 'system' ? 'system' : m.role,
         content: m.content,
       })),
-      temperature: 0.4,
-      maxTokens: 1024,
+      temperature: 0.3,
+      maxTokens: 1500,
     })
     const reader = stream.getReader()
     const decoder = new TextDecoder()

@@ -275,6 +275,136 @@ export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
   });
 }
 
+// ─── generateWithTools ──────────────────────────────────────────────────
+//
+// Tool use loop: Claude puede llamar a tools (funciones) que nosotros
+// ejecutamos y devolvemos. Hace un ciclo hasta que Claude da una respuesta
+// final (sin más tool_use). Máximo 5 iteraciones para evitar loops.
+//
+// Returns { text, toolsUsed } — el texto final + lista de tools que usó.
+
+export interface ToolUseLog {
+  name: string;
+  input: Record<string, unknown>;
+  result_preview: string;
+  ms: number;
+}
+
+export interface GenerateWithToolsResult {
+  text: string;
+  toolsUsed: ToolUseLog[];
+  iterations: number;
+}
+
+export async function generateWithTools(opts: {
+  tier?: AiTier;
+  model?: string;
+  system?: string;
+  messages: AiMessage[];
+  temperature?: number;
+  maxTokens?: number;
+  tools: Anthropic.Messages.Tool[];
+  executor: (name: string, input: Record<string, unknown>) => Promise<string>;
+  maxIterations?: number;
+  signal?: AbortSignal;
+}): Promise<GenerateWithToolsResult> {
+  const client = getClient();
+  const model = pickModel(opts);
+  const maxIter = opts.maxIterations ?? 5;
+  const toolsUsed: ToolUseLog[] = [];
+
+  // Construye system + messages iniciales
+  const { system, messages: initialMessages } = buildRequest({
+    system: opts.system,
+    messages: opts.messages,
+  });
+
+  // El historial mutable que se va expandiendo con tool_use / tool_result
+  let conversation: Anthropic.Messages.MessageParam[] = [...initialMessages];
+  let finalText = "";
+  let iteration = 0;
+
+  try {
+    while (iteration < maxIter) {
+      iteration++;
+
+      const res = await client.messages.create(
+        {
+          model,
+          max_tokens: opts.maxTokens ?? 1024,
+          temperature: opts.temperature ?? 0.3,
+          system,
+          messages: conversation,
+          tools: opts.tools,
+        },
+        { signal: opts.signal }
+      );
+
+      logUsage(model, res.usage, `tools.iter${iteration}`);
+
+      // Extraer text blocks
+      const textBlocks = res.content.filter(
+        (b): b is Anthropic.Messages.TextBlock => b.type === "text"
+      );
+      const toolUseBlocks = res.content.filter(
+        (b): b is Anthropic.Messages.ToolUseBlock => b.type === "tool_use"
+      );
+
+      // Si no hay tool_use, terminamos
+      if (toolUseBlocks.length === 0) {
+        finalText = textBlocks.map((b) => b.text).join("");
+        break;
+      }
+
+      // Añadir la respuesta del assistant (con tool_use) al historial
+      conversation.push({ role: "assistant", content: res.content });
+
+      // Ejecutar cada tool y construir el tool_result
+      const toolResults: Anthropic.Messages.ToolResultBlockParam[] = [];
+      for (const block of toolUseBlocks) {
+        const t0 = Date.now();
+        const input = (block.input as Record<string, unknown>) ?? {};
+        let result: string;
+        try {
+          result = await opts.executor(block.name, input);
+        } catch (e) {
+          result = `Error: ${(e as Error).message}`;
+        }
+        const ms = Date.now() - t0;
+        toolsUsed.push({
+          name: block.name,
+          input,
+          result_preview: result.slice(0, 200),
+          ms,
+        });
+        toolResults.push({
+          type: "tool_result",
+          tool_use_id: block.id,
+          content: result,
+        });
+      }
+
+      // Añadir los tool_results como user message
+      conversation.push({ role: "user", content: toolResults });
+
+      // Si el stop_reason fue 'end_turn' a pesar de tool_use, salimos
+      if (res.stop_reason === "end_turn") {
+        finalText = textBlocks.map((b) => b.text).join("");
+        break;
+      }
+    }
+
+    // Si nunca encontramos respuesta final (loop infinito), forzamos resumen
+    if (!finalText && iteration >= maxIter) {
+      finalText = `[Excedido el límite de ${maxIter} iteraciones de tool use sin respuesta final]`;
+    }
+
+    return { text: finalText, toolsUsed, iterations: iteration };
+  } catch (err) {
+    throw wrapError("generateWithTools", err);
+  }
+}
+
 // ─── generateJSON ───────────────────────────────────────────────────────
 //
 // Anthropic no tiene `format: "json"` nativo como Ollama, pero la forma

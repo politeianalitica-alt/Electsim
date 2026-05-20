@@ -27,8 +27,15 @@ import * as ollama from "./ollama-client";
 
 // ─── Tipos públicos (re-exports) ─────────────────────────────────────────
 
-export type { AiRole, AiMessage, AiTier, AiChatOptions } from "./anthropic-client";
-export { AiUnavailableError } from "./anthropic-client";
+export type {
+  AiRole,
+  AiMessage,
+  AiTier,
+  AiChatOptions,
+  ToolUseLog,
+  GenerateWithToolsResult,
+} from "./anthropic-client";
+export { AiUnavailableError, generateWithTools } from "./anthropic-client";
 export { getProviderName } from "./ai-config";
 export { AI_CONFIG, isAiEnabled };
 

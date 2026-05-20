@@ -5,7 +5,19 @@ import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import type { MorningBriefing } from '@/lib/api-types'
 
-type Msg = { role: 'user' | 'brain'; text: string; ts: number }
+type Msg = {
+  role: 'user' | 'brain'
+  text: string
+  ts: number
+  /** Modelo que respondió (ej: 'claude-haiku-4-5-20251001'). */
+  model?: string
+  /** Tools que el modelo usó para responder. */
+  toolsUsed?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
+  /** Provider del LLM ('anthropic', 'backend', 'ollama', 'fallback'). */
+  source?: string
+  /** Latencia total en ms. */
+  ms?: number
+}
 
 // Preguntas predefinidas del briefing matinal — usadas como fallback
 // si el backend no está conectado. Cuando hay backend, se reemplazan
@@ -92,7 +104,10 @@ export default function BrainBriefing() {
       return
     }
 
-    // Texto libre → llamamos al LLM (Ollama o backend según config).
+    // Texto libre → llamamos al LLM (Anthropic / backend / Ollama / mock
+    // según LLM_PROVIDER en Vercel). El endpoint inyecta contexto vivo
+    // del dashboard y puede invocar tools (get_polls, get_actor_profile,
+    // etc.) si la pregunta lo requiere.
     try {
       const res = await fetch('/api/brain/chat', {
         method: 'POST',
@@ -104,11 +119,25 @@ export default function BrainBriefing() {
           })),
         }),
       })
-      const data: { reply: string; source: 'ollama' | 'backend' | 'fallback' } = await res.json()
+      const data: {
+        reply: string
+        source: 'anthropic' | 'ollama' | 'backend' | 'fallback'
+        model?: string
+        tools_used?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
+        ms?: number
+      } = await res.json()
       const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
         ? data.reply
         : fakeReply(text)
-      setMessages(m => [...m, { role: 'brain', text: reply, ts: Date.now() }])
+      setMessages(m => [...m, {
+        role: 'brain',
+        text: reply,
+        ts: Date.now(),
+        model: data.model,
+        source: data.source,
+        toolsUsed: data.tools_used,
+        ms: data.ms,
+      }])
     } catch {
       setMessages(m => [...m, { role: 'brain', text: fakeReply(text), ts: Date.now() }])
     } finally {
@@ -234,7 +263,7 @@ export default function BrainBriefing() {
             display: 'flex', flexDirection: 'column', gap: 10,
           }}>
             {messages.map((m, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
                 <div style={{
                   maxWidth: '88%',
                   padding: '8px 12px', borderRadius: 12,
@@ -249,6 +278,38 @@ export default function BrainBriefing() {
                         : s)}</span>
                   )}
                 </div>
+                {/* Metadata: tools usadas + modelo + latencia (solo brain) */}
+                {m.role === 'brain' && (m.toolsUsed?.length || m.model || m.ms) && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 4, maxWidth: '88%' }}>
+                    {m.toolsUsed?.map((t, k) => (
+                      <span key={k} title={`${t.name}(${JSON.stringify(t.input)}) · ${t.ms}ms`} style={{
+                        fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                        background: 'rgba(167,139,250,0.15)', color: '#c4b5fd',
+                        border: '1px solid rgba(167,139,250,0.3)', letterSpacing: '0.02em',
+                        fontFamily: 'ui-monospace,monospace',
+                      }}>
+                        ⚒ {t.name}
+                      </span>
+                    ))}
+                    {m.source === 'anthropic' && m.model && (
+                      <span style={{
+                        fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                        background: 'rgba(16,185,129,0.15)', color: '#6ee7b7',
+                        border: '1px solid rgba(16,185,129,0.3)', letterSpacing: '0.02em',
+                      }}>
+                        Claude {m.model.includes('haiku') ? 'Haiku' : 'Sonnet'}
+                      </span>
+                    )}
+                    {m.ms && m.ms > 0 && (
+                      <span style={{
+                        fontSize: 9.5, color: 'rgba(255,255,255,0.45)',
+                        letterSpacing: '0.02em',
+                      }}>
+                        {m.ms < 1000 ? `${m.ms}ms` : `${(m.ms/1000).toFixed(1)}s`}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
             {thinking && (
