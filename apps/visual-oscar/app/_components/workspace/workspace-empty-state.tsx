@@ -6,11 +6,13 @@ interface WorkspaceEmptyStateProps {
   view: WorkspaceView;
   title: string;
   description: string;
+  /** Etiqueta opcional uppercase encima del título (estilo "Workspace · Sección"). */
+  eyebrow?: string;
   cta?: string;
   onCta?: () => void;
 }
 
-export function WorkspaceEmptyState({ view, title, description, cta, onCta }: WorkspaceEmptyStateProps) {
+export function WorkspaceEmptyState({ view, title, description, eyebrow, cta, onCta }: WorkspaceEmptyStateProps) {
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
@@ -25,6 +27,15 @@ export function WorkspaceEmptyState({ view, title, description, cta, onCta }: Wo
       }}>
         <ViewIcon view={view} size={28} color={WS.ink3} />
       </div>
+      {eyebrow && (
+        <div style={{
+          fontSize: 10, color: WS.ink3, textTransform: "uppercase",
+          letterSpacing: "0.08em", fontWeight: 600, marginBottom: 6,
+          fontFamily: WS.font,
+        }}>
+          {eyebrow}
+        </div>
+      )}
       <div style={{ fontSize: 16, fontWeight: 600, color: WS.ink, marginBottom: 8, letterSpacing: "-0.01em" }}>
         {title}
       </div>

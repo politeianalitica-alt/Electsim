@@ -126,6 +126,29 @@ function buildRequest(opts: AiChatOptions): BuiltRequest {
   return { system, messages: userMessages };
 }
 
+// ─── Wrapping de errores con código HTTP/status preservado ────────────
+//
+// Anthropic SDK lanza errores tipados (APIError, RateLimitError,
+// AuthenticationError, etc.) con `status`, `error.type` y `message`.
+// Los envolvemos en AiUnavailableError pero preservamos el detalle para
+// que sea visible en Vercel logs y útil para debug.
+
+function wrapError(context: string, err: unknown): AiUnavailableError {
+  if (err instanceof AiUnavailableError) return err;
+  if (err instanceof Anthropic.APIError) {
+    const status = err.status ?? "?";
+    const type = (err.error as { error?: { type?: string } })?.error?.type ?? "unknown";
+    return new AiUnavailableError(
+      `Anthropic ${context} failed [${status} ${type}]: ${err.message}`,
+      err
+    );
+  }
+  return new AiUnavailableError(
+    `Anthropic ${context} failed: ${(err as Error).message}`,
+    err
+  );
+}
+
 // ─── Logging de tokens para visibilidad de coste real ──────────────────
 
 function logUsage(
@@ -134,16 +157,22 @@ function logUsage(
   context: string
 ): void {
   if (!usage) return;
+  // Anthropic pricing model:
+  //   - input_tokens                 → full price (1.00x)
+  //   - cache_creation_input_tokens  → 1.25x price (escritura al caché)
+  //   - cache_read_input_tokens      → 0.10x price (lectura del caché)
+  //   - output_tokens                → output price
+  // Total real "tokens leídos" como input = in + cache_read + cache_write.
   const input = usage.input_tokens ?? 0;
   const output = usage.output_tokens ?? 0;
   const cacheRead = usage.cache_read_input_tokens ?? 0;
   const cacheWrite = usage.cache_creation_input_tokens ?? 0;
-  const total = input + output + cacheRead + cacheWrite;
+  const totalInput = input + cacheRead + cacheWrite;
   // eslint-disable-next-line no-console
   console.log(
-    `[ai] ${context} · ${model} · in=${input} out=${output}${
-      cacheRead ? ` cache_read=${cacheRead}` : ""
-    }${cacheWrite ? ` cache_write=${cacheWrite}` : ""} · total=${total}`
+    `[ai] ${context} · ${model} · in_billed=${input}${
+      cacheRead ? ` cache_hit=${cacheRead}` : ""
+    }${cacheWrite ? ` cache_write=${cacheWrite}` : ""} · in_total=${totalInput} · out=${output}`
   );
 }
 
@@ -174,11 +203,7 @@ export async function generateText(opts: AiChatOptions): Promise<string> {
       .join("");
     return text;
   } catch (err) {
-    if (err instanceof AiUnavailableError) throw err;
-    throw new AiUnavailableError(
-      `Anthropic generateText failed: ${(err as Error).message}`,
-      err
-    );
+    throw wrapError("generateText", err);
   }
 }
 
@@ -190,6 +215,8 @@ export async function generateText(opts: AiChatOptions): Promise<string> {
 export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
   const encoder = new TextEncoder();
   let cancelled = false;
+  // Referencia al stream activo para poder abortarlo si el caller cancela.
+  let activeStream: ReturnType<Anthropic["messages"]["stream"]> | null = null;
 
   return new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -198,7 +225,7 @@ export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
         const model = pickModel(opts);
         const { system, messages } = buildRequest(opts);
 
-        const stream = client.messages.stream({
+        activeStream = client.messages.stream({
           model,
           max_tokens: opts.maxTokens ?? 1024,
           temperature: opts.temperature ?? 0.3,
@@ -207,7 +234,7 @@ export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
           stop_sequences: opts.stop,
         }, { signal: opts.signal });
 
-        for await (const event of stream) {
+        for await (const event of activeStream) {
           if (cancelled) break;
           if (
             event.type === "content_block_delta" &&
@@ -218,23 +245,32 @@ export function streamText(opts: AiChatOptions): ReadableStream<Uint8Array> {
           }
         }
 
-        // Log final usage cuando el stream termina
-        const finalMessage = await stream.finalMessage();
-        logUsage(model, finalMessage.usage, "streamText");
+        // Log final usage solo si el stream se completó naturalmente.
+        // Si fue cancelado, `finalMessage()` puede no estar listo y
+        // bloquearía el cierre del controller.
+        if (!cancelled) {
+          try {
+            const finalMessage = await activeStream.finalMessage();
+            logUsage(model, finalMessage.usage, "streamText");
+          } catch {
+            // Si falla el finalMessage (ya consumido, abortado, etc.)
+            // no es crítico — el contenido ya se entregó al cliente.
+          }
+        }
         controller.close();
       } catch (err) {
         controller.error(
           err instanceof AiUnavailableError
             ? err
-            : new AiUnavailableError(
-                `Anthropic streamText failed: ${(err as Error).message}`,
-                err
-              )
+            : wrapError("streamText", err)
         );
       }
     },
     cancel() {
       cancelled = true;
+      // Abortar la conexión upstream para liberar la cuota de Anthropic
+      // inmediatamente cuando el cliente desconecta.
+      activeStream?.abort();
     },
   });
 }
