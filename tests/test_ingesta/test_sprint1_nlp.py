@@ -628,3 +628,150 @@ def test_banca_tool_cnmv_estructura():
     assert "n_items" in result
     assert "items" in result
     assert isinstance(result["items"], list)
+
+
+# ── Sprint 8 · Farma (AEMPS/CIMA + EMA + pharma_signals) ──────────────
+
+def test_aemps_cima_client_importable():
+    """Sprint 8 · S8.1 · cliente AEMPS/CIMA importable y construye sin red."""
+    from etl.sources.spain.aemps_cima import AEMPSCIMAClient, get_aemps_client
+    client = get_aemps_client()
+    assert isinstance(client, AEMPSCIMAClient)
+    # Notas placeholder devuelve []
+    assert client.notas_informativas() == []
+
+
+def test_ema_client_y_feeds():
+    """Sprint 8 · S8.2 · cliente EMA importable + feeds bien declarados."""
+    from etl.sources.eu.ema import EMAClient, get_ema_client, _EMA_FEEDS
+    client = get_ema_client()
+    assert isinstance(client, EMAClient)
+    for k in ("news", "shortages", "epar", "referrals"):
+        assert k in _EMA_FEEDS
+        assert _EMA_FEEDS[k].startswith("https://www.ema.europa.eu/")
+    # Parser RSS con XML vacío
+    items = EMAClient._parse_rss("<rss><channel></channel></rss>", "news")
+    assert items == []
+
+
+def test_ema_parse_rss_basico():
+    """EMA parser extrae items de RSS válido."""
+    from etl.sources.eu.ema import EMAClient
+    xml = """<?xml version="1.0"?><rss><channel>
+        <item>
+          <title>Ozempic shortage update</title>
+          <link>https://www.ema.europa.eu/en/news/ozempic-1</link>
+          <description>Updated info on shortage</description>
+          <pubDate>Mon, 19 May 2026 10:00:00 GMT</pubDate>
+          <guid>ema-shortages-ozempic-1</guid>
+        </item>
+    </channel></rss>"""
+    items = EMAClient._parse_rss(xml, "shortages")
+    assert len(items) == 1
+    assert items[0]["id"] == "ema-shortages-ozempic-1"
+    assert items[0]["feed"] == "shortages"
+
+
+def test_pharma_signals_seed_valido():
+    """Sprint 8 · S8.3 · seed JSON con señales farma críticas."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "pharma" / "signals_seed.json"
+    assert seed.exists(), "signals_seed.json no encontrado"
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    # Señales icónicas del seed
+    for required in (
+        "shortage_ozempic_es_2025",
+        "shortage_amoxicilina_es_2025",
+        "shortage_metilfenidato_es_2024",
+        "epar_leqembi_2025",
+        "recall_ranitidina_es",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["product_name"]
+        assert r["source"] in {"aemps", "ema", "fda", "manual"}
+        assert r["signal_kind"] in {
+            "shortage", "recall", "epar", "referral", "genericization", "pricing"
+        }
+        assert r["severity"] in {"info", "medium", "high", "critical"}
+        assert r["status"] in {"active", "monitoring", "resolved", "archived"}
+
+
+def test_pharma_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio devuelve estructuras vacías sin romper."""
+    from etl.sources.pharma import service
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        assert service.get_signal("shortage_ozempic_es_2025") is None
+        assert service.list_signals() == []
+        assert service.active_signals() == []
+        res = service.load_signals_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        service._get_engine = original
+
+
+def test_pharma_migracion_0068_existe():
+    """Migración 0068_pharma_signals existe y declara tabla."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0068_pharma_signals.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0068_pharma_signals"' in src
+    assert 'down_revision = "0067_regulatory_obligations"' in src
+    assert 'create_table' in src and '"pharma_signals"' in src
+
+
+def test_farma_tools_registradas():
+    """Sprint 8 · S8.4 · tools farma registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.farma_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "aemps_cima_buscar",
+        "aemps_ficha_medicamento",
+        "aemps_problemas_suministro",
+        "ema_alertas",
+        "pharma_signal",
+        "list_pharma_signals",
+        "active_pharma_signals",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_farma_tools_fallan_cerrado_sin_bd():
+    """Tools farma sobre pharma_signals devuelven estructura vacía con error."""
+    from agents.tools import ToolRegistry
+    import agents.tools.farma_tools  # noqa: F401
+    from etl.sources.pharma import service
+
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        r1 = ToolRegistry.get("pharma_signal")(slug="shortage_ozempic_es_2025")
+        assert "error" in r1
+        r2 = ToolRegistry.get("list_pharma_signals")(severity="critical")
+        assert r2["n_items"] == 0
+        r3 = ToolRegistry.get("active_pharma_signals")(severity_min="high")
+        assert r3["n_items"] == 0
+    finally:
+        service._get_engine = original
+
+
+def test_ema_alertas_tool_feed_invalido():
+    """ema_alertas rechaza explicitamente feeds desconocidos."""
+    from agents.tools import ToolRegistry
+    import agents.tools.farma_tools  # noqa: F401
+
+    fn = ToolRegistry.get("ema_alertas")
+    res = fn(feed="feed_inexistente_xyz", limit=5)
+    assert res["n_items"] == 0
+    assert "error" in res and res["error"]
