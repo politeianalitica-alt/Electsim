@@ -1,4 +1,5 @@
 'use client'
+import './litigios-contratacion.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
@@ -143,37 +144,33 @@ export default function LitigiosPage() {
   }, [casos, filterSev, filterFase, query])
 
   if (loading) return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div className="lc-root">
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px', textAlign:'center', paddingTop:80 }}>
-        <div style={{ fontSize:13, color:'#6e6e73' }}>Cargando litigios…</div>
+      <main className="lc-main lc-main--loading">
+        <div className="lc-loading-msg">Cargando litigios…</div>
       </main>
     </div>
   )
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div className="lc-root">
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+      <main className="lc-main">
 
         {/* ───── Hero ───── */}
-        <section style={{
-          background:'linear-gradient(135deg,#7F1D1D 0%,#1A0202 100%)',
-          borderRadius:18, padding:'24px 32px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
-        }}>
+        <section className="lc-hero">
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px' }}>
+            <p className="lc-hero-kicker">
               LICITACIONES Y CONTRATACIÓN PÚBLICA · RIESGO Y LITIGIOS
             </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:30, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {totals.total} casos vivos · {(totals.importeTotal/1_000_000).toFixed(0)} M€ <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>en disputa</em>
+            <h1 className="lc-hero-title">
+              {totals.total} casos vivos · {(totals.importeTotal/1_000_000).toFixed(0)} M€ <em className="lc-hero-em">en disputa</em>
             </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
+            <p className="lc-hero-sub">
               {totals.criticos} críticos · {totals.penales} causas penales abiertas · win rate del {totals.ratio}% en resoluciones firmes. Seguimiento de TACRC, OARC, TACP, TS, AN, TSJ, Tribunal de Cuentas, Comisión Europea y JEC.
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
+          <div className="lc-hero-kpis">
             <HeroKPI label="Casos vivos"  value={String(totals.total)}        accent="#FCA5A5"/>
             <HeroKPI label="Críticos"      value={String(totals.criticos)}     accent="#DC2626"/>
             <HeroKPI label="Penales"       value={String(totals.penales)}       accent="#FCD34D"/>
@@ -182,9 +179,9 @@ export default function LitigiosPage() {
         </section>
 
         {/* ───── Snapshot ───── */}
-        <section style={{ marginBottom:18 }}>
+        <section className="lc-snapshot">
           <SectionHeader label="Snapshot del riesgo legal" count="Datos al cierre Q1-2026" accent="#7F1D1D"/>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
+          <div className="lc-skpi-grid">
             <SKpi label="Importe en disputa"  value={`${(totals.importeTotal/1_000_000).toFixed(0)}`} sub="M€"        color="#DC2626"/>
             <SKpi label="Casos activos"       value={String(totals.activos)} sub="en curso"            delta={`+12% vs Q4-25`} color="#F97316"/>
             <SKpi label="Tiempo medio resol."  value="285"                  sub="días promedio"        color="#5B21B6"/>
@@ -197,7 +194,7 @@ export default function LitigiosPage() {
         </section>
 
         {/* ───── Tabs ───── */}
-        <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
+        <div className="lc-tabs">
           {([
             { k:'casos',         label:'Casos abiertos',         count: casos.length },
             { k:'tribunales',    label:'Tribunales y órganos',   count: TRIBUNALES_AGG.length },
@@ -206,14 +203,8 @@ export default function LitigiosPage() {
           ] as const).map(t => {
             const active = tab === t.k
             return (
-              <button key={t.k} onClick={() => setTab(t.k)} style={{
-                background: active ? '#fff' : 'transparent',
-                color: active ? '#1d1d1f' : '#6e6e73',
-                border:'none', borderRadius:999, padding:'7px 14px',
-                fontSize:12, fontWeight: active ? 700 : 500, cursor:'pointer',
-                fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              }}>
-                {t.label} <span style={{ marginLeft:5, color: active ? '#7F1D1D' : '#6e6e73', fontWeight:700, fontSize:10.5 }}>{t.count}</span>
+              <button key={t.k} onClick={() => setTab(t.k)} className={`lc-tab${active ? ' lc-tab--active' : ''}`}>
+                {t.label} <span className="lc-tab-count">{t.count}</span>
               </button>
             )
           })}
@@ -222,39 +213,36 @@ export default function LitigiosPage() {
         {/* ───── TAB · Casos ───── */}
         {tab === 'casos' && (
           <>
-            <div style={{ display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
+            <div className="lc-filters">
               <input type="text" value={query} onChange={e => setQuery(e.target.value)}
                 placeholder="Buscar caso · expediente · empresa · organismo…"
-                style={{ flex:'1 1 260px', maxWidth:380, padding:'9px 14px', borderRadius:10, border:'1px solid #ECECEF', background:'#fff', fontSize:13, fontFamily:'inherit', outline:'none', color:'#1d1d1f' }}/>
+                className="lc-search"/>
               <Selector label="Severidad" value={filterSev} options={['Todos','CRÍTICO','ALTO','MEDIO','BAJO']} onChange={v => setFilterSev(v as SeveridadLitigio | 'Todos')}/>
               <Selector label="Fase"      value={filterFase} options={['Todos','Activa','En recurso','Resuelta · favorable','Resuelta · adversa','Suspendida']} onChange={v => setFilterFase(v as FaseLitigio | 'Todos')}/>
-              <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{filtered.length} casos · ordenados por severidad</span>
+              <span className="lc-filters-count">{filtered.length} casos · ordenados por severidad</span>
             </div>
 
             {/* Grid 2 col: lista + detalle del seleccionado */}
-            <section style={{ display:'grid', gridTemplateColumns:'1.2fr 1fr', gap:14 }}>
+            <section className="lc-casos-grid">
               {/* Lista */}
-              <div style={{ display:'flex', flexDirection:'column', gap:8, maxHeight:850, overflowY:'auto', paddingRight:6 }}>
+              <div className="lc-casos-list">
                 {filtered.map(c => {
                   const active = c.id === selectedId
                   return (
-                    <button key={c.id} onClick={() => setSelectedId(c.id)} style={{
-                      textAlign:'left', cursor:'pointer', fontFamily:'inherit',
-                      background:'#fff', border:`1px solid ${active ? SEV_COLOR[c.severidad] : '#ECECEF'}`,
-                      borderRadius:12, padding:'12px 14px',
+                    <button key={c.id} onClick={() => setSelectedId(c.id)} className="lc-case" style={{
+                      border: `1px solid ${active ? SEV_COLOR[c.severidad] : '#ECECEF'}`,
                       boxShadow: active ? `0 0 0 3px ${SEV_COLOR[c.severidad]}22` : '0 1px 3px rgba(0,0,0,0.04)',
-                      borderLeft:`4px solid ${SEV_COLOR[c.severidad]}`,
-                      transition:'box-shadow 200ms',
+                      borderLeft: `4px solid ${SEV_COLOR[c.severidad]}`,
                     }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:5, flexWrap:'wrap' }}>
-                        <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:SEV_COLOR[c.severidad], color:'#fff' }}>{c.severidad}</span>
-                        <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:`${TIPO_COLOR[c.tipo]}15`, color:TIPO_COLOR[c.tipo], border:`1px solid ${TIPO_COLOR[c.tipo]}40` }}>{c.tipo.toUpperCase()}</span>
-                        <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${TRIB_COLOR[c.tribunal]}15`, color:TRIB_COLOR[c.tribunal], border:`1px solid ${TRIB_COLOR[c.tribunal]}40` }}>{c.tribunal}</span>
+                      <div className="lc-case-tags">
+                        <span className="lc-tag-sev" style={{ background: SEV_COLOR[c.severidad] }}>{c.severidad}</span>
+                        <span className="lc-tag-tipo" style={{ background:`${TIPO_COLOR[c.tipo]}15`, color:TIPO_COLOR[c.tipo], border:`1px solid ${TIPO_COLOR[c.tipo]}40` }}>{c.tipo.toUpperCase()}</span>
+                        <span className="lc-tag-trib" style={{ background:`${TRIB_COLOR[c.tribunal]}15`, color:TRIB_COLOR[c.tribunal], border:`1px solid ${TRIB_COLOR[c.tribunal]}40` }}>{c.tribunal}</span>
                       </div>
-                      <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{c.titulo}</h3>
-                      <div style={{ display:'flex', justifyContent:'space-between', fontSize:10.5, color:'#6e6e73' }}>
+                      <h3 className="lc-case-title">{c.titulo}</h3>
+                      <div className="lc-case-foot">
                         <span>{c.expCaso}</span>
-                        <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:SEV_COLOR[c.severidad] }}>{(c.importeImpacto/1_000_000).toFixed(1)}M€</span>
+                        <span className="lc-case-importe" style={{ color: SEV_COLOR[c.severidad] }}>{(c.importeImpacto/1_000_000).toFixed(1)}M€</span>
                       </div>
                     </button>
                   )
@@ -263,47 +251,47 @@ export default function LitigiosPage() {
 
               {/* Detalle */}
               {selected && (
-                <div style={{ position:'sticky', top:60, alignSelf:'flex-start', background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 20px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', borderLeft:`4px solid ${SEV_COLOR[selected.severidad]}` }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:8, flexWrap:'wrap' }}>
-                    <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:SEV_COLOR[selected.severidad], color:'#fff' }}>{selected.severidad}</span>
-                    <span style={{ fontSize:9, fontWeight:700, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:4, background:TIPO_COLOR[selected.tipo], color:'#fff' }}>{selected.tipo.toUpperCase()}</span>
-                    <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.06em', padding:'2px 7px', borderRadius:999, background:`${ESTADO_COLOR[selected.estado]}15`, color:ESTADO_COLOR[selected.estado], border:`1px solid ${ESTADO_COLOR[selected.estado]}40` }}>{selected.estado.toUpperCase()}</span>
+                <div className="lc-detail" style={{ borderLeft:`4px solid ${SEV_COLOR[selected.severidad]}` }}>
+                  <div className="lc-detail-tags">
+                    <span className="lc-tag-sev" style={{ background: SEV_COLOR[selected.severidad] }}>{selected.severidad}</span>
+                    <span className="lc-tag-tipo--solid" style={{ background: TIPO_COLOR[selected.tipo] }}>{selected.tipo.toUpperCase()}</span>
+                    <span className="lc-tag-estado" style={{ background:`${ESTADO_COLOR[selected.estado]}15`, color:ESTADO_COLOR[selected.estado], border:`1px solid ${ESTADO_COLOR[selected.estado]}40` }}>{selected.estado.toUpperCase()}</span>
                   </div>
-                  <h2 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:17, fontWeight:700, color:'#1d1d1f', letterSpacing:'-0.014em', lineHeight:1.25 }}>{selected.titulo}</h2>
-                  <p style={{ margin:'0 0 8px', fontSize:11, color:'#6e6e73' }}>{selected.expCaso} · {selected.tribunal}</p>
-                  <p style={{ margin:'0 0 12px', fontSize:12.5, color:'#3a3a3d', lineHeight:1.5 }}>{selected.resumen}</p>
-                  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:12 }}>
+                  <h2 className="lc-detail-title">{selected.titulo}</h2>
+                  <p className="lc-detail-meta">{selected.expCaso} · {selected.tribunal}</p>
+                  <p className="lc-detail-resumen">{selected.resumen}</p>
+                  <div className="lc-detail-mini-grid">
                     <Mini label="Recurrente"   value={selected.recurrente} sub="parte" color={SEV_COLOR[selected.severidad]}/>
                     <Mini label="Recurrido"    value={selected.recurrido}  sub="parte" color="#525258"/>
                     <Mini label="Importe"      value={`${(selected.importeImpacto/1_000_000).toFixed(1)}M€`} sub="impacto" color="#7F1D1D"/>
                     <Mini label="Próx. acción" value={selected.proxAccion}  sub={selected.fechaProx} color="#5B21B6"/>
                   </div>
-                  <div style={{ marginBottom:12 }}>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4, fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                  <div className="lc-detail-fase">
+                    <div className="lc-detail-fase-head">
                       <span>Fase: <span style={{ color:FASE_META[selected.fase].color }}>{selected.fase}</span></span>
                       <span>{FASE_META[selected.fase].pct}% del ciclo</span>
                     </div>
-                    <div style={{ height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                      <div style={{ width:`${FASE_META[selected.fase].pct}%`, height:'100%', background:FASE_META[selected.fase].color }}/>
+                    <div className="lc-fase-track">
+                      <div className="lc-fase-fill" style={{ width:`${FASE_META[selected.fase].pct}%`, background:FASE_META[selected.fase].color }}/>
                     </div>
                   </div>
-                  <h4 style={{ margin:'0 0 5px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Alegaciones principales</h4>
-                  <ul style={{ margin:'0 0 12px', paddingLeft:16, fontSize:11, color:'#3a3a3d', lineHeight:1.5 }}>
+                  <h4 className="lc-detail-h4">Alegaciones principales</h4>
+                  <ul className="lc-alegaciones">
                     {selected.alegaciones.map((a, i) => <li key={i}>{a}</li>)}
                   </ul>
-                  <h4 style={{ margin:'0 0 6px', fontSize:9, fontWeight:800, color:'#3a3a3d', letterSpacing:'0.08em', textTransform:'uppercase' }}>Hitos del caso</h4>
-                  <div style={{ position:'relative' }}>
-                    <div style={{ position:'absolute', left:6, top:6, bottom:6, width:2, background:'#ECECEF' }}/>
+                  <h4 className="lc-detail-h4 lc-detail-h4--hitos">Hitos del caso</h4>
+                  <div className="lc-hitos">
+                    <div className="lc-hitos-spine"/>
                     {selected.hitos.map((h, i) => (
-                      <div key={i} style={{ display:'grid', gridTemplateColumns:'14px 1fr auto', gap:10, alignItems:'flex-start', paddingLeft:0, paddingBottom: i === selected.hitos.length - 1 ? 0 : 8 }}>
-                        <div style={{ position:'relative', width:14, height:14, marginTop:2 }}>
-                          <div style={{ width:10, height:10, borderRadius:'50%', background:'#fff', border:`2px solid ${SEV_COLOR[selected.severidad]}`, position:'absolute', top:1, left:2, zIndex:1 }}/>
+                      <div key={i} className="lc-hito">
+                        <div className="lc-hito-dot-wrap">
+                          <div className="lc-hito-dot" style={{ border:`2px solid ${SEV_COLOR[selected.severidad]}` }}/>
                         </div>
                         <div>
-                          <div style={{ fontSize:10.5, fontWeight:700, color:'#1d1d1f' }}>{h.tipo}</div>
-                          <div style={{ fontSize:10.5, color:'#3a3a3d', marginTop:2, lineHeight:1.4 }}>{h.nota}</div>
+                          <div className="lc-hito-tipo">{h.tipo}</div>
+                          <div className="lc-hito-nota">{h.nota}</div>
                         </div>
-                        <span style={{ fontSize:10, fontWeight:600, color:'#6e6e73', whiteSpace:'nowrap' }}>{h.fecha}</span>
+                        <span className="lc-hito-fecha">{h.fecha}</span>
                       </div>
                     ))}
                   </div>
@@ -315,17 +303,17 @@ export default function LitigiosPage() {
 
         {/* ───── TAB · Tribunales ───── */}
         {tab === 'tribunales' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-            <div style={{ padding:'14px 18px', borderBottom:'1px solid #ECECEF' }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600 }}>Tribunales y órganos administrativos · agregado</h3>
-              <p style={{ margin:0, fontSize:11.5, color:'#6e6e73' }}>Casos por tribunal · ratio de éxito de los recurrentes · tiempo medio de resolución (días)</p>
+          <section className="lc-tribunales">
+            <div className="lc-tribunales-head">
+              <h3 className="lc-tribunales-h3">Tribunales y órganos administrativos · agregado</h3>
+              <p className="lc-tribunales-sub">Casos por tribunal · ratio de éxito de los recurrentes · tiempo medio de resolución (días)</p>
             </div>
-            <div style={{ overflowX:'auto' }}>
-              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12, minWidth:780 }}>
+            <div className="lc-table-wrap">
+              <table className="lc-table">
                 <thead>
-                  <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+                  <tr>
                     {['#','Órgano / Tribunal','Casos · 12m','Ratio éxito recurrente','Tiempo medio','Carga'].map(h => (
-                      <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                      <th key={h}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -334,33 +322,25 @@ export default function LitigiosPage() {
                     const ratioColor = t.ratio >= 50 ? '#16A34A' : t.ratio >= 35 ? '#F97316' : '#DC2626'
                     const cargaColor = t.casos >= 25 ? '#DC2626' : t.casos >= 12 ? '#F97316' : '#16A34A'
                     return (
-                      <tr key={t.trib} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:800, color:'#1d1d1f' }}>{i+1}</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <span style={{
-                            fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                            padding:'3px 8px', borderRadius:4,
-                            background:TRIB_COLOR[t.trib as TribunalLitigio] || '#6e6e73', color:'#fff',
-                          }}>{t.trib}</span>
+                      <tr key={t.trib} className={i % 2 ? 'lc-row--alt' : undefined}>
+                        <td className="lc-td-num">{i+1}</td>
+                        <td>
+                          <span className="lc-trib-badge" style={{ background: TRIB_COLOR[t.trib as TribunalLitigio] || '#6e6e73' }}>{t.trib}</span>
                         </td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{t.casos}</td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                            <div style={{ flex:1, height:6, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:80 }}>
-                              <div style={{ width:`${t.ratio}%`, height:'100%', background:ratioColor }}/>
+                        <td className="lc-td-casos">{t.casos}</td>
+                        <td>
+                          <div className="lc-ratio-cell">
+                            <div className="lc-ratio-track">
+                              <div className="lc-ratio-fill" style={{ width:`${t.ratio}%`, background:ratioColor }}/>
                             </div>
-                            <span style={{ fontFamily:'var(--font-display)', fontSize:11.5, fontWeight:700, color:ratioColor, minWidth:32, textAlign:'right' }}>{t.ratio}%</span>
+                            <span className="lc-ratio-value" style={{ color: ratioColor }}>{t.ratio}%</span>
                           </div>
                         </td>
-                        <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color: t.tiempoMedio > 365 ? '#DC2626' : t.tiempoMedio > 180 ? '#F97316' : '#16A34A' }}>
+                        <td className="lc-td-tiempo" style={{ color: t.tiempoMedio > 365 ? '#DC2626' : t.tiempoMedio > 180 ? '#F97316' : '#16A34A' }}>
                           {t.tiempoMedio}d
                         </td>
-                        <td style={{ padding:'10px 12px' }}>
-                          <span style={{
-                            fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                            padding:'3px 8px', borderRadius:999,
-                            background:`${cargaColor}15`, color:cargaColor, border:`1px solid ${cargaColor}40`,
-                          }}>{t.casos >= 25 ? 'ALTA' : t.casos >= 12 ? 'MEDIA' : 'BAJA'}</span>
+                        <td>
+                          <span className="lc-carga-badge" style={{ background:`${cargaColor}15`, color:cargaColor, border:`1px solid ${cargaColor}40` }}>{t.casos >= 25 ? 'ALTA' : t.casos >= 12 ? 'MEDIA' : 'BAJA'}</span>
                         </td>
                       </tr>
                     )
@@ -368,7 +348,7 @@ export default function LitigiosPage() {
                 </tbody>
               </table>
             </div>
-            <div style={{ padding:'14px 18px', borderTop:'1px solid #ECECEF', display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14 }}>
+            <div className="lc-tribunales-foot">
               <Mini2 label="Tribunal más rápido" value="TACP Madrid" sub="98 días media" color="#16A34A"/>
               <Mini2 label="Tribunal más exigente" value="TS · Supremo" sub="55% éxito recurrente" color="#5B21B6"/>
               <Mini2 label="Mayor carga"          value="TACRC"        sub="38 casos · 12m"         color="#DC2626"/>
@@ -378,28 +358,20 @@ export default function LitigiosPage() {
 
         {/* ───── TAB · Jurisprudencia ───── */}
         {tab === 'jurisprudencia' && (
-          <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(440px,1fr))', gap:10 }}>
+          <section className="lc-juris-grid">
             {JURISPRUDENCIA.map((j, i) => (
-              <article key={i} style={{
-                background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-                padding:'16px 18px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-                borderLeft:`3px solid ${IMPACTO_COLOR[j.impacto]}`,
-              }}>
-                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6, flexWrap:'wrap', gap:6 }}>
+              <article key={i} className="lc-juris-card" style={{ borderLeft:`3px solid ${IMPACTO_COLOR[j.impacto]}` }}>
+                <div className="lc-juris-head">
                   <div>
-                    <span style={{
-                      fontSize:9, fontWeight:800, letterSpacing:'0.08em',
-                      padding:'2px 7px', borderRadius:4,
-                      background:IMPACTO_COLOR[j.impacto], color:'#fff',
-                    }}>IMPACTO {j.impacto}</span>
-                    <span style={{ marginLeft:8, fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· {j.sala}</span>
+                    <span className="lc-juris-impacto" style={{ background: IMPACTO_COLOR[j.impacto] }}>IMPACTO {j.impacto}</span>
+                    <span className="lc-juris-sala">· {j.sala}</span>
                   </div>
-                  <span style={{ fontFamily:'var(--font-display)', fontSize:10.5, color:'#1d1d1f', fontWeight:700 }}>{j.fecha}</span>
+                  <span className="lc-juris-fecha">{j.fecha}</span>
                 </div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:11, color:IMPACTO_COLOR[j.impacto], fontWeight:800, letterSpacing:'0.04em', marginBottom:3 }}>{j.referencia}</div>
-                <h3 style={{ margin:'0 0 5px', fontFamily:'var(--font-display)', fontSize:14.5, fontWeight:600, color:'#1d1d1f', letterSpacing:'-0.012em', lineHeight:1.3 }}>{j.titulo}</h3>
-                <div style={{ fontSize:10.5, color:'#6e6e73', marginBottom:8, fontWeight:600 }}>{j.materia}</div>
-                <p style={{ margin:0, fontSize:11.5, color:'#3a3a3d', lineHeight:1.5 }}>{j.resumen}</p>
+                <div className="lc-juris-ref" style={{ color: IMPACTO_COLOR[j.impacto] }}>{j.referencia}</div>
+                <h3 className="lc-juris-titulo">{j.titulo}</h3>
+                <div className="lc-juris-materia">{j.materia}</div>
+                <p className="lc-juris-resumen">{j.resumen}</p>
               </article>
             ))}
           </section>
@@ -407,82 +379,81 @@ export default function LitigiosPage() {
 
         {/* ───── TAB · Mapa de riesgos ───── */}
         {tab === 'mapa' && (
-          <section style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+          <section className="lc-mapa-grid">
             {/* Heatmap riesgo × probabilidad */}
-            <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'20px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600 }}>Matriz de riesgo · impacto × probabilidad</h3>
-              <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Posición actual de cada caso en el mapa</p>
-              <div style={{ aspectRatio:'1.2 / 1', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, position:'relative', padding:14 }}>
+            <div className="lc-card">
+              <h3 className="lc-card-title">Matriz de riesgo · impacto × probabilidad</h3>
+              <p className="lc-card-sub">Posición actual de cada caso en el mapa</p>
+              <div className="lc-matrix">
                 {/* Cuadrantes */}
-                <div style={{ position:'absolute', inset:14, display:'grid', gridTemplateColumns:'1fr 1fr', gridTemplateRows:'1fr 1fr', gap:0 }}>
-                  <div style={{ background:'#16A34A12', borderRight:'1px dashed #ECECEF', borderBottom:'1px dashed #ECECEF', display:'flex', alignItems:'flex-start', padding:8 }}>
-                    <span style={{ fontSize:8, color:'#16A34A', fontWeight:800, letterSpacing:'0.06em' }}>BAJO IMPACTO · BAJA PROB.</span>
+                <div className="lc-matrix-quadrants">
+                  <div className="lc-quad lc-quad--tl">
+                    <span className="lc-quad-label lc-quad-label--bajo">BAJO IMPACTO · BAJA PROB.</span>
                   </div>
-                  <div style={{ background:'#F9731612', borderBottom:'1px dashed #ECECEF', display:'flex', alignItems:'flex-start', padding:8 }}>
-                    <span style={{ fontSize:8, color:'#F97316', fontWeight:800, letterSpacing:'0.06em' }}>BAJO IMPACTO · ALTA PROB.</span>
+                  <div className="lc-quad lc-quad--tr">
+                    <span className="lc-quad-label lc-quad-label--medio">BAJO IMPACTO · ALTA PROB.</span>
                   </div>
-                  <div style={{ background:'#F9731612', borderRight:'1px dashed #ECECEF', display:'flex', alignItems:'flex-start', padding:8 }}>
-                    <span style={{ fontSize:8, color:'#F97316', fontWeight:800, letterSpacing:'0.06em' }}>ALTO IMPACTO · BAJA PROB.</span>
+                  <div className="lc-quad lc-quad--bl">
+                    <span className="lc-quad-label lc-quad-label--medio">ALTO IMPACTO · BAJA PROB.</span>
                   </div>
-                  <div style={{ background:'#DC262612', display:'flex', alignItems:'flex-start', padding:8 }}>
-                    <span style={{ fontSize:8, color:'#DC2626', fontWeight:800, letterSpacing:'0.06em' }}>ALTO IMPACTO · ALTA PROB.</span>
+                  <div className="lc-quad lc-quad--br">
+                    <span className="lc-quad-label lc-quad-label--alto">ALTO IMPACTO · ALTA PROB.</span>
                   </div>
                 </div>
                 {/* Bubbles */}
                 {casos.slice(0, 12).map((c, i) => {
                   const prob = (i * 7 + 23) % 100
                   const imp = Math.min(100, (c.importeImpacto / 5_000_000_000) * 100 + 30)
+                  const size = Math.max(12, Math.min(28, c.importeImpacto / 25_000_000))
                   return (
                     <div key={c.id} title={`${c.titulo} (${(c.importeImpacto / 1_000_000).toFixed(0)}M€)`}
                       onClick={() => setSelectedId(c.id)}
+                      className="lc-matrix-bubble"
                       style={{
-                        position:'absolute',
-                        left:`${14 + (prob / 100) * 88}%`, bottom:`${14 + (imp / 100) * 78}%`,
-                        width: Math.max(12, Math.min(28, c.importeImpacto / 25_000_000)) + 'px',
-                        height: Math.max(12, Math.min(28, c.importeImpacto / 25_000_000)) + 'px',
-                        borderRadius:'50%',
-                        background:SEV_COLOR[c.severidad], opacity:0.75,
-                        cursor:'pointer', transform:'translate(-50%, 50%)',
-                        border:'2px solid #fff', boxShadow:'0 2px 4px rgba(0,0,0,0.1)',
+                        left: `${14 + (prob / 100) * 88}%`,
+                        bottom: `${14 + (imp / 100) * 78}%`,
+                        width: `${size}px`,
+                        height: `${size}px`,
+                        background: SEV_COLOR[c.severidad],
                       }}/>
                   )
                 })}
                 {/* Labels ejes */}
-                <div style={{ position:'absolute', bottom:-6, left:'50%', transform:'translateX(-50%)', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em' }}>PROBABILIDAD →</div>
-                <div style={{ position:'absolute', top:'50%', left:-6, transform:'translateY(-50%) rotate(-90deg)', fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', whiteSpace:'nowrap' }}>IMPACTO →</div>
+                <div className="lc-matrix-axis-x">PROBABILIDAD →</div>
+                <div className="lc-matrix-axis-y">IMPACTO →</div>
               </div>
             </div>
 
             {/* Distribución por tipo */}
-            <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'20px 24px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-              <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600 }}>Distribución por tipo · 12 meses</h3>
-              <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Casos vivos por tipo de procedimiento</p>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+            <div className="lc-card">
+              <h3 className="lc-card-title">Distribución por tipo · 12 meses</h3>
+              <p className="lc-card-sub">Casos vivos por tipo de procedimiento</p>
+              <div className="lc-dist-list">
                 {(Object.keys(TIPO_COLOR) as TipoLitigio[]).map(tipo => {
                   const num = casos.filter(c => c.tipo === tipo).length + Math.floor(Math.random() * 8) + 2
                   const max = 16
                   const w = (num / max) * 100
                   return (
-                    <div key={tipo} style={{ display:'grid', gridTemplateColumns:'130px 1fr 30px', gap:10, alignItems:'center' }}>
-                      <span style={{ fontSize:11.5, fontWeight:600, color:'#1d1d1f' }}>{tipo}</span>
-                      <div style={{ height:9, background:'#F5F5F7', borderRadius:4, overflow:'hidden' }}>
-                        <div style={{ width:`${w}%`, height:'100%', background:TIPO_COLOR[tipo], borderRadius:4 }}/>
+                    <div key={tipo} className="lc-dist-row">
+                      <span className="lc-dist-tipo">{tipo}</span>
+                      <div className="lc-dist-track">
+                        <div className="lc-dist-fill" style={{ width:`${w}%`, background:TIPO_COLOR[tipo] }}/>
                       </div>
-                      <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:TIPO_COLOR[tipo], textAlign:'right' }}>{num}</span>
+                      <span className="lc-dist-num" style={{ color: TIPO_COLOR[tipo] }}>{num}</span>
                     </div>
                   )
                 })}
               </div>
-              <div style={{ marginTop:18, padding:'12px 14px', background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:8 }}>
-                <div style={{ fontSize:9, fontWeight:800, color:'#DC2626', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:5 }}>Bandera roja del trimestre</div>
-                <p style={{ margin:0, fontSize:11.5, color:'#7F1D1D', lineHeight:1.5 }}>Aumento del 28% en recursos especiales (TACRC) y 3 nuevas causas penales abiertas. Vigilar especialmente los procedimientos de emergencia post-DANA y las adjudicaciones de defensa con licitadores únicos.</p>
+              <div className="lc-flag">
+                <div className="lc-flag-label">Bandera roja del trimestre</div>
+                <p className="lc-flag-msg">Aumento del 28% en recursos especiales (TACRC) y 3 nuevas causas penales abiertas. Vigilar especialmente los procedimientos de emergencia post-DANA y las adjudicaciones de defensa con licitadores únicos.</p>
               </div>
             </div>
           </section>
         )}
 
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+      <footer className="lc-footer">
         Riesgo y Litigios · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
@@ -494,35 +465,35 @@ export default function LitigiosPage() {
 // ─────────────────────────────────────────────────────────────────────────
 function HeroKPI({ label, value, accent }: { label:string, value:string, accent:string }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:`1px solid ${accent}55` }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
-      <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.75, marginTop:4, color:accent }}>{label}</div>
+    <div className="lc-hero-kpi" style={{ border:`1px solid ${accent}55` }}>
+      <div className="lc-hero-kpi-value">{value}</div>
+      <div className="lc-hero-kpi-label" style={{ color: accent }}>{label}</div>
     </div>
   )
 }
 
 function SectionHeader({ label, count, accent }: { label: string, count: string, accent: string }) {
   return (
-    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-      <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#3a3a3d', display:'flex', alignItems:'center', gap:8 }}>
-        <span style={{ width:3, height:14, borderRadius:2, background:accent, display:'inline-block' }}/>
+    <div className="lc-section-head">
+      <h2 className="lc-section-title">
+        <span className="lc-section-bar" style={{ background: accent }}/>
         {label}
       </h2>
-      <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:600 }}>{count}</span>
+      <span className="lc-section-count">{count}</span>
     </div>
   )
 }
 
 function SKpi({ label, value, sub, delta, pos, color }: { label:string, value:string, sub?:string, delta?:string, pos?:boolean, color:string }) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:12, padding:'14px 16px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}</div>
-      <div style={{ display:'flex', alignItems:'baseline', gap:5, marginTop:4 }}>
-        <span style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color, letterSpacing:'-0.022em', lineHeight:1 }}>{value}</span>
-        {sub && <span style={{ fontSize:10, color:'#86868b', fontWeight:600 }}>{sub}</span>}
+    <div className="lc-skpi">
+      <div className="lc-skpi-label">{label}</div>
+      <div className="lc-skpi-row">
+        <span className="lc-skpi-value" style={{ color }}>{value}</span>
+        {sub && <span className="lc-skpi-sub">{sub}</span>}
       </div>
       {delta && (
-        <div style={{ fontSize:10, fontWeight:700, color: pos ? '#16A34A' : color, marginTop:5 }}>
+        <div className="lc-skpi-delta" style={{ color: pos ? '#16A34A' : color }}>
           {pos ? '▲ ' : ''}{delta}
         </div>
       )}
@@ -532,34 +503,29 @@ function SKpi({ label, value, sub, delta, pos, color }: { label:string, value:st
 
 function Mini({ label, value, sub, color }: { label:string, value:string, sub:string, color:string }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:8, padding:'8px 10px' }}>
-      <div style={{ fontSize:8.5, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>{label}</div>
-      <div style={{ fontSize:11.5, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{value}</div>
-      <div style={{ fontSize:9.5, color:'#86868b', marginTop:2 }}>{sub}</div>
+    <div className="lc-mini">
+      <div className="lc-mini-label">{label}</div>
+      <div className="lc-mini-value">{value}</div>
+      <div className="lc-mini-sub">{sub}</div>
     </div>
   )
 }
 
 function Mini2({ label, value, sub, color }: { label:string, value:string, sub:string, color:string }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 12px', borderLeft:`3px solid ${color}` }}>
-      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:3 }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color, lineHeight:1.2 }}>{value}</div>
-      <div style={{ fontSize:9.5, color:'#86868b', marginTop:3 }}>{sub}</div>
+    <div className="lc-mini2" style={{ borderLeft:`3px solid ${color}` }}>
+      <div className="lc-mini2-label">{label}</div>
+      <div className="lc-mini2-value" style={{ color }}>{value}</div>
+      <div className="lc-mini2-sub">{sub}</div>
     </div>
   )
 }
 
 function Selector({ label, value, options, onChange }: { label: string, value: string, options: string[], onChange: (v: string) => void }) {
   return (
-    <div style={{ display:'inline-flex', alignItems:'center', gap:6 }}>
-      <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}:</span>
-      <select value={value} onChange={e => onChange(e.target.value)} style={{
-        padding:'6px 28px 6px 12px', borderRadius:999, border:'1px solid #ECECEF', background:'#fff',
-        fontSize:11.5, fontFamily:'inherit', fontWeight:600, color:'#1d1d1f', cursor:'pointer', appearance:'none',
-        backgroundImage:'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'10\' viewBox=\'0 0 10 10\'%3E%3Cpath d=\'M2 4l3 3 3-3\' stroke=\'%236e6e73\' stroke-width=\'1.5\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
-        backgroundRepeat:'no-repeat', backgroundPosition:'right 9px center',
-      }}>
+    <div className="lc-selector">
+      <span className="lc-selector-label">{label}:</span>
+      <select value={value} onChange={e => onChange(e.target.value)} className="lc-select">
         {options.map(o => <option key={o} value={o}>{o}</option>)}
       </select>
     </div>

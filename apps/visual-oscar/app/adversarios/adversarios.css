@@ -1,0 +1,793 @@
+/* /adversarios · estilos tokenizados (Pilar 4 · Ronda 4)
+ *
+ * Inteligencia competitiva sobre adversarios políticos.
+ * Las propiedades dinámicas (color de partido, color de amenaza,
+ * porcentajes, gradientes condicionales) permanecen inline.
+ * Todo lo estático vive en este archivo con prefijo .adv-.
+ */
+
+/* ─── Layout base ─────────────────────────────────────────── */
+.adv-root {
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: var(--font-text);
+  color: #1d1d1f;
+}
+.adv-main {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+}
+
+/* ─── Hero ────────────────────────────────────────────────── */
+.adv-hero {
+  background: linear-gradient(135deg, #7F1D1D 0%, #1A0202 100%);
+  border-radius: 18px;
+  padding: 24px 32px;
+  margin-bottom: 18px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.adv-hero-eyebrow {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.adv-hero-eyebrow-meta {
+  font-size: 10px;
+  opacity: 0.55;
+  font-weight: 500;
+}
+.adv-hero-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+.adv-hero-title em {
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+.adv-hero-lede {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.5;
+}
+.adv-hero-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* ─── Hero KPI ────────────────────────────────────────────── */
+.adv-hero-kpi {
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.adv-hero-kpi-value {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.018em;
+}
+.adv-hero-kpi-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+/* ─── Selector grid (cards de adversario) ─────────────────── */
+.adv-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.adv-selector-card {
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+  transition: box-shadow 200ms;
+}
+.adv-selector-head {
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.adv-selector-siglas {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+.adv-selector-meta {
+  min-width: 0;
+}
+.adv-selector-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+.adv-threat-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #fff;
+}
+.adv-selector-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1d1d1f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.adv-selector-lider {
+  font-size: 10.5px;
+  color: #6e6e73;
+}
+.adv-selector-right {
+  text-align: right;
+}
+.adv-selector-intencion {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+.adv-selector-intencion-pct {
+  font-size: 11px;
+  color: #6e6e73;
+  font-weight: 600;
+}
+.adv-selector-delta {
+  font-size: 9px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.adv-selector-spark {
+  padding: 4px 14px 12px;
+}
+
+/* ─── Cabecera del adversario seleccionado ────────────────── */
+.adv-header-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 14px;
+}
+.adv-header-grid {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.adv-header-iniciales {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.adv-header-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+.adv-threat-badge--lg {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+.adv-header-siglas-text {
+  font-size: 10.5px;
+  color: #6e6e73;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.adv-header-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  margin: 0 0 3px;
+  color: #1d1d1f;
+}
+.adv-header-lider {
+  margin: 0;
+  font-size: 12px;
+  color: #3a3a3d;
+}
+.adv-header-lider strong {
+  color: #1d1d1f;
+}
+.adv-header-right {
+  text-align: right;
+}
+.adv-header-right-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.adv-header-right-value {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  line-height: 1;
+}
+.adv-header-right-pct {
+  font-size: 18px;
+  color: #6e6e73;
+  font-weight: 600;
+}
+.adv-header-right-delta {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* ─── Brain summary ──────────────────────────────────────── */
+.adv-brain-summary {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #3a3a3d;
+  font-style: italic;
+  padding-left: 12px;
+}
+
+/* ─── KPIs del adversario ────────────────────────────────── */
+.adv-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.adv-kpi-card {
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.adv-kpi-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.adv-kpi-value {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.018em;
+  margin-top: 3px;
+  line-height: 1;
+}
+.adv-kpi-sub {
+  font-size: 9px;
+  color: #86868b;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ─── Brain enriquecido ──────────────────────────────────── */
+.adv-brain-box {
+  background: #fafafa;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #3a3a3d;
+}
+.adv-brain-row {
+  margin-bottom: 6px;
+}
+.adv-brain-row strong {
+  color: #1d1d1f;
+}
+.adv-brain-risks {
+  margin-top: 6px;
+}
+.adv-brain-risks strong {
+  color: #1d1d1f;
+}
+.adv-brain-risks ul {
+  margin: 4px 0 0 18px;
+  padding: 0;
+}
+
+/* ─── Equipo bar ─────────────────────────────────────────── */
+.adv-equipo {
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  font-size: 11.5px;
+}
+.adv-equipo-label {
+  color: #6e6e73;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+.adv-equipo-value {
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+/* ─── Tabs ───────────────────────────────────────────────── */
+.adv-tabs {
+  display: inline-flex;
+  background: #F5F5F7;
+  border-radius: 999px;
+  padding: 3px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.adv-tab {
+  background: transparent;
+  color: #6e6e73;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.adv-tab--active {
+  background: #fff;
+  color: #1d1d1f;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.adv-tab-count {
+  margin-left: 5px;
+  color: #6e6e73;
+  font-weight: 700;
+  font-size: 10.5px;
+}
+
+/* ─── DAFO grid ──────────────────────────────────────────── */
+.adv-dafo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.adv-dafo-block {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.adv-dafo-title {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.adv-dafo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.adv-dafo-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.adv-dafo-sym {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+.adv-dafo-text {
+  margin: 0;
+  font-size: 12px;
+  color: #3a3a3d;
+  line-height: 1.45;
+  padding-top: 3px;
+}
+
+/* ─── Mensajes panel ─────────────────────────────────────── */
+.adv-panel {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.adv-panel-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.adv-panel-sub {
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  color: #6e6e73;
+}
+.adv-mensajes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.adv-mensaje-row {
+  display: grid;
+  grid-template-columns: 1fr 200px 200px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+}
+.adv-mensaje-titular {
+  font-size: 13px;
+  color: #1d1d1f;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.4;
+}
+.adv-bar-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  font-size: 9.5px;
+  color: #6e6e73;
+  font-weight: 700;
+}
+.adv-bar-label {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.adv-bar-value {
+  font-family: var(--font-display);
+}
+.adv-bar-track {
+  height: 7px;
+  background: #fff;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #ECECEF;
+}
+.adv-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* ─── Voceros table ──────────────────────────────────────── */
+.adv-voceros-panel {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+.adv-voceros-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.adv-voceros-thead {
+  background: #FAFAFB;
+  border-bottom: 2px solid #ECECEF;
+}
+.adv-voceros-th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #6e6e73;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.adv-voceros-row {
+  border-bottom: 1px solid #ECECEF;
+}
+.adv-voceros-row--odd {
+  background: #fafafa;
+}
+.adv-voceros-row--even {
+  background: #fff;
+}
+.adv-voceros-td {
+  padding: 10px 12px;
+}
+.adv-voceros-td--num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.adv-voceros-td--nombre {
+  font-weight: 600;
+  color: #1d1d1f;
+}
+.adv-voceros-td--rol {
+  color: #3a3a3d;
+}
+.adv-voceros-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.adv-voceros-track {
+  flex: 1;
+  height: 7px;
+  background: #F5F5F7;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.adv-voceros-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+.adv-voceros-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: right;
+  color: #1d1d1f;
+}
+
+/* ─── Vulnerabilidades grid ──────────────────────────────── */
+.adv-vuln-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 10px;
+}
+.adv-vuln-card {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.adv-vuln-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.adv-vuln-sev-badge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+.adv-vuln-score {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+}
+.adv-vuln-score-max {
+  font-size: 10px;
+  color: #86868b;
+}
+.adv-vuln-title {
+  margin: 0 0 5px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+  letter-spacing: -0.012em;
+}
+.adv-vuln-detail {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  color: #3a3a3d;
+  line-height: 1.45;
+}
+.adv-vuln-track {
+  height: 5px;
+  background: #F5F5F7;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.adv-vuln-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+.adv-vuln-foot {
+  font-size: 9px;
+  font-weight: 700;
+  color: #6e6e73;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ─── Coaliciones ────────────────────────────────────────── */
+.adv-coal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.adv-coal-row {
+  display: grid;
+  grid-template-columns: 160px 130px 1fr 80px;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 14px;
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+}
+.adv-coal-aliado {
+  font-size: 13px;
+  color: #1d1d1f;
+}
+.adv-coal-tipo {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.adv-coal-track {
+  height: 8px;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ECECEF;
+}
+.adv-coal-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 320ms;
+}
+.adv-coal-score {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* ─── Agenda ─────────────────────────────────────────────── */
+.adv-agenda-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.adv-agenda-title {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.adv-agenda-row {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+}
+.adv-agenda-fecha-wrap {
+  text-align: center;
+}
+.adv-agenda-fecha {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.adv-agenda-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.adv-agenda-tipo {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #fff;
+}
+.adv-agenda-titulo {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+.adv-agenda-ubicacion {
+  font-size: 10.5px;
+  color: #6e6e73;
+  margin-top: 1px;
+}
+
+/* ─── Footer ─────────────────────────────────────────────── */
+.adv-footer {
+  border-top: 1px solid var(--hairline);
+  padding: 18px 28px;
+  text-align: center;
+  color: var(--ink-4);
+  font-size: 11.5px;
+}
+
+/* ─── Sparkline ──────────────────────────────────────────── */
+.adv-sparkline {
+  width: 100%;
+  display: block;
+}

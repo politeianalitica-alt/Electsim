@@ -1,0 +1,903 @@
+/* /litigios-contratacion · estilos tokenizados (Pilar 4 · Ronda 3)
+ *
+ * Riesgo y litigios en contratación pública. Prefijo .lc- para todas las clases.
+ * Mantenemos inline solamente colores dinámicos (TIPO_COLOR, SEV_COLOR, FASE_META...)
+ * y dimensiones runtime (% de barras, posiciones de burbujas).
+ */
+
+/* ─── Layout base ─────────────────────────────────────────── */
+.lc-root {
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: var(--font-text);
+  color: #1d1d1f;
+}
+.lc-main {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+}
+.lc-main--loading {
+  text-align: center;
+  padding-top: 80px;
+}
+.lc-loading-msg {
+  font-size: 13px;
+  color: #6e6e73;
+}
+
+/* ─── Hero ────────────────────────────────────────────────── */
+.lc-hero {
+  background: linear-gradient(135deg, #7F1D1D 0%, #1A0202 100%);
+  border-radius: 18px;
+  padding: 24px 32px;
+  margin-bottom: 18px;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.lc-hero-kicker {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.lc-hero-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+.lc-hero-em {
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+}
+.lc-hero-sub {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.5;
+}
+.lc-hero-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* ─── Hero KPI ────────────────────────────────────────────── */
+.lc-hero-kpi {
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.lc-hero-kpi-value {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.018em;
+}
+.lc-hero-kpi-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+/* ─── Snapshot section ────────────────────────────────────── */
+.lc-snapshot {
+  margin-bottom: 18px;
+}
+.lc-skpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* ─── Section header ──────────────────────────────────────── */
+.lc-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.lc-section-title {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3a3a3d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lc-section-bar {
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.lc-section-count {
+  font-size: 10.5px;
+  color: #6e6e73;
+  font-weight: 600;
+}
+
+/* ─── SKpi card ───────────────────────────────────────────── */
+.lc-skpi {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.lc-skpi-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lc-skpi-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 4px;
+}
+.lc-skpi-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1;
+}
+.lc-skpi-sub {
+  font-size: 10px;
+  color: #86868b;
+  font-weight: 600;
+}
+.lc-skpi-delta {
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+/* ─── Tabs ────────────────────────────────────────────────── */
+.lc-tabs {
+  display: inline-flex;
+  background: #F5F5F7;
+  border-radius: 999px;
+  padding: 3px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.lc-tab {
+  background: transparent;
+  color: #6e6e73;
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.lc-tab--active {
+  background: #fff;
+  color: #1d1d1f;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.lc-tab-count {
+  margin-left: 5px;
+  color: #6e6e73;
+  font-weight: 700;
+  font-size: 10.5px;
+}
+.lc-tab--active .lc-tab-count {
+  color: #7F1D1D;
+}
+
+/* ─── Filtros ─────────────────────────────────────────────── */
+.lc-filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.lc-search {
+  flex: 1 1 260px;
+  max-width: 380px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid #ECECEF;
+  background: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  color: #1d1d1f;
+}
+.lc-filters-count {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: #6e6e73;
+}
+
+/* ─── Selector ────────────────────────────────────────────── */
+.lc-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.lc-selector-label {
+  font-size: 11px;
+  color: #6e6e73;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lc-select {
+  padding: 6px 28px 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #ECECEF;
+  background-color: #fff;
+  font-size: 11.5px;
+  font-family: inherit;
+  font-weight: 600;
+  color: #1d1d1f;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 4l3 3 3-3' stroke='%236e6e73' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+}
+
+/* ─── Casos: layout ───────────────────────────────────────── */
+.lc-casos-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+}
+.lc-casos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 850px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* ─── Caso item ───────────────────────────────────────────── */
+.lc-case {
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 200ms;
+  border: 1px solid #ECECEF;
+}
+.lc-case-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.lc-tag-sev {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+.lc-tag-tipo {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.lc-tag-trib {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.lc-case-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d1d1f;
+  line-height: 1.3;
+}
+.lc-case-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: #6e6e73;
+}
+.lc-case-importe {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* ─── Caso detalle ────────────────────────────────────────── */
+.lc-detail {
+  position: sticky;
+  top: 60px;
+  align-self: flex-start;
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.lc-detail-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.lc-tag-tipo--solid {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+.lc-tag-estado {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.lc-detail-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.014em;
+  line-height: 1.25;
+}
+.lc-detail-meta {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: #6e6e73;
+}
+.lc-detail-resumen {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: #3a3a3d;
+  line-height: 1.5;
+}
+.lc-detail-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.lc-detail-fase {
+  margin-bottom: 12px;
+}
+.lc-detail-fase-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lc-fase-track {
+  height: 6px;
+  background: #F5F5F7;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.lc-fase-fill {
+  height: 100%;
+}
+.lc-detail-h4 {
+  margin: 0 0 5px;
+  font-size: 9px;
+  font-weight: 800;
+  color: #3a3a3d;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lc-detail-h4--hitos {
+  margin: 0 0 6px;
+}
+.lc-alegaciones {
+  margin: 0 0 12px;
+  padding-left: 16px;
+  font-size: 11px;
+  color: #3a3a3d;
+  line-height: 1.5;
+}
+
+/* ─── Hitos timeline ──────────────────────────────────────── */
+.lc-hitos {
+  position: relative;
+}
+.lc-hitos-spine {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: #ECECEF;
+}
+.lc-hito {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 10px;
+  align-items: flex-start;
+  padding-bottom: 8px;
+}
+.lc-hito:last-child {
+  padding-bottom: 0;
+}
+.lc-hito-dot-wrap {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}
+.lc-hito-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  z-index: 1;
+}
+.lc-hito-tipo {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.lc-hito-nota {
+  font-size: 10.5px;
+  color: #3a3a3d;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.lc-hito-fecha {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6e6e73;
+  white-space: nowrap;
+}
+
+/* ─── Mini card ───────────────────────────────────────────── */
+.lc-mini {
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.lc-mini-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.lc-mini-value {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1d1d1f;
+  line-height: 1.3;
+}
+.lc-mini-sub {
+  font-size: 9.5px;
+  color: #86868b;
+  margin-top: 2px;
+}
+
+/* ─── Mini2 (tribunales footer) ───────────────────────────── */
+.lc-mini2 {
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.lc-mini2-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.lc-mini2-value {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.lc-mini2-sub {
+  font-size: 9.5px;
+  color: #86868b;
+  margin-top: 3px;
+}
+
+/* ─── Tribunales tab ──────────────────────────────────────── */
+.lc-tribunales {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+.lc-tribunales-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid #ECECEF;
+}
+.lc-tribunales-h3 {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+}
+.lc-tribunales-sub {
+  margin: 0;
+  font-size: 11.5px;
+  color: #6e6e73;
+}
+.lc-table-wrap {
+  overflow-x: auto;
+}
+.lc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 780px;
+}
+.lc-table thead tr {
+  background: #FAFAFB;
+  border-bottom: 2px solid #ECECEF;
+}
+.lc-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #6e6e73;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lc-table tbody tr {
+  border-bottom: 1px solid #ECECEF;
+  background: #fff;
+}
+.lc-table tbody tr.lc-row--alt {
+  background: #fafafa;
+}
+.lc-table td {
+  padding: 10px 12px;
+}
+.lc-td-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: #1d1d1f;
+}
+.lc-td-casos {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #1d1d1f;
+}
+.lc-td-tiempo {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.lc-trib-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #fff;
+}
+.lc-ratio-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lc-ratio-track {
+  flex: 1;
+  height: 6px;
+  background: #F5F5F7;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 80px;
+}
+.lc-ratio-fill {
+  height: 100%;
+}
+.lc-ratio-value {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: right;
+}
+.lc-carga-badge {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.lc-tribunales-foot {
+  padding: 14px 18px;
+  border-top: 1px solid #ECECEF;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+/* ─── Jurisprudencia ──────────────────────────────────────── */
+.lc-juris-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 10px;
+}
+.lc-juris-card {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.lc-juris-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.lc-juris-impacto {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+.lc-juris-sala {
+  margin-left: 8px;
+  font-size: 9.5px;
+  color: #6e6e73;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.lc-juris-fecha {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  color: #1d1d1f;
+  font-weight: 700;
+}
+.lc-juris-ref {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin-bottom: 3px;
+}
+.lc-juris-titulo {
+  margin: 0 0 5px;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1d1d1f;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+}
+.lc-juris-materia {
+  font-size: 10.5px;
+  color: #6e6e73;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.lc-juris-resumen {
+  margin: 0;
+  font-size: 11.5px;
+  color: #3a3a3d;
+  line-height: 1.5;
+}
+
+/* ─── Mapa de riesgos ─────────────────────────────────────── */
+.lc-mapa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.lc-card {
+  background: #fff;
+  border: 1px solid #ECECEF;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.lc-card-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+}
+.lc-card-sub {
+  margin: 0 0 14px;
+  font-size: 11.5px;
+  color: #6e6e73;
+}
+
+/* ─── Matriz riesgo ───────────────────────────────────────── */
+.lc-matrix {
+  aspect-ratio: 1.2 / 1;
+  background: #FAFAFB;
+  border: 1px solid #ECECEF;
+  border-radius: 10px;
+  position: relative;
+  padding: 14px;
+}
+.lc-matrix-quadrants {
+  position: absolute;
+  inset: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+}
+.lc-quad {
+  display: flex;
+  align-items: flex-start;
+  padding: 8px;
+}
+.lc-quad--tl {
+  background: #16A34A12;
+  border-right: 1px dashed #ECECEF;
+  border-bottom: 1px dashed #ECECEF;
+}
+.lc-quad--tr {
+  background: #F9731612;
+  border-bottom: 1px dashed #ECECEF;
+}
+.lc-quad--bl {
+  background: #F9731612;
+  border-right: 1px dashed #ECECEF;
+}
+.lc-quad--br {
+  background: #DC262612;
+}
+.lc-quad-label {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.lc-quad-label--bajo { color: #16A34A; }
+.lc-quad-label--medio { color: #F97316; }
+.lc-quad-label--alto { color: #DC2626; }
+.lc-matrix-bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.75;
+  cursor: pointer;
+  transform: translate(-50%, 50%);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.lc-matrix-axis-x {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.08em;
+}
+.lc-matrix-axis-y {
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%) rotate(-90deg);
+  font-size: 9px;
+  font-weight: 800;
+  color: #6e6e73;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* ─── Distribución por tipo ───────────────────────────────── */
+.lc-dist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lc-dist-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 30px;
+  gap: 10px;
+  align-items: center;
+}
+.lc-dist-tipo {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+.lc-dist-track {
+  height: 9px;
+  background: #F5F5F7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.lc-dist-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+.lc-dist-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+.lc-flag {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+}
+.lc-flag-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #DC2626;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.lc-flag-msg {
+  margin: 0;
+  font-size: 11.5px;
+  color: #7F1D1D;
+  line-height: 1.5;
+}
+
+/* ─── Footer ──────────────────────────────────────────────── */
+.lc-footer {
+  border-top: 1px solid var(--hairline);
+  padding: 18px 28px;
+  text-align: center;
+  color: var(--ink-4);
+  font-size: 11.5px;
+}

@@ -5,6 +5,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import './adversarios.css'
 
 interface AdversariosResp {
   profiles?: Array<{ partido: string; intencion: number; delta7d: number; escanos: number; nivel: string }>
@@ -503,32 +504,28 @@ export default function AdversariosPage() {
   }, [])
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
+    <div className="adv-root">
       <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+      <main className="adv-main">
 
         {/* ───── Hero ───── */}
-        <section style={{
-          background:'linear-gradient(135deg,#7F1D1D 0%,#1A0202 100%)',
-          borderRadius:18, padding:'24px 32px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:32, alignItems:'center',
-        }}>
+        <section className="adv-hero">
           <div>
-            <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.14em', opacity:0.7, textTransform:'uppercase', margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
+            <p className="adv-hero-eyebrow">
               <span>ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS</span>
               <LiveStatusBadge updatedAt={liveUpdated} source={liveSource} refreshIntervalSec={60} onRefresh={liveRefresh}/>
               {liveData?.profiles && liveData.profiles.length > 0 && (
-                <span style={{ fontSize:10, opacity:0.55, fontWeight:500 }}>· {liveData.profiles.length} perfiles vivos</span>
+                <span className="adv-hero-eyebrow-meta">· {liveData.profiles.length} perfiles vivos</span>
               )}
             </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontSize:28, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              Conoce a tu adversario <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.7)' }}>antes de cada movimiento</em>
+            <h1 className="adv-hero-title">
+              Conoce a tu adversario <em>antes de cada movimiento</em>
             </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0, lineHeight:1.5 }}>
+            <p className="adv-hero-lede">
               {totals.total} adversarios bajo seguimiento · DAFO estratégico, vulnerabilidades, mapa de mensajes, voceros, coaliciones y agenda. Inteligencia competitiva para campaña.
             </p>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
+          <div className="adv-hero-kpis">
             <HeroKPI label="Adversarios" value={String(totals.total)}     accent="#FCA5A5"/>
             <HeroKPI label="Críticos"     value={String(totals.cri)}       accent="#DC2626"/>
             <HeroKPI label="Altos"        value={String(totals.alt)}       accent="#F97316"/>
@@ -537,40 +534,33 @@ export default function AdversariosPage() {
         </section>
 
         {/* ───── Selector de adversarios ───── */}
-        <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:10, marginBottom:18 }}>
+        <section className="adv-selector-grid">
           {ADVERSARIOS.map(a => {
             const active = a.id === selectedId
             const tm = THREAT_META[a.amenaza]
             return (
-              <button key={a.id} onClick={() => setSelectedId(a.id)} style={{
-                textAlign:'left', cursor:'pointer', fontFamily:'inherit',
-                background:'#fff', border:`1px solid ${active ? a.color : '#ECECEF'}`,
-                borderRadius:14, overflow:'hidden',
+              <button key={a.id} onClick={() => setSelectedId(a.id)} className="adv-selector-card" style={{
+                border:`1px solid ${active ? a.color : '#ECECEF'}`,
                 boxShadow: active ? `0 0 0 3px ${a.color}22` : '0 1px 3px rgba(0,0,0,0.04)',
                 borderLeft:`4px solid ${a.color}`,
-                padding:0, transition:'box-shadow 200ms',
               }}>
-                <header style={{ padding:'12px 14px', display:'grid', gridTemplateColumns:'auto 1fr auto', gap:10, alignItems:'center' }}>
-                  <div style={{
-                    width:42, height:42, borderRadius:10, background:a.color, color:'#fff',
-                    display:'flex', alignItems:'center', justifyContent:'center',
-                    fontFamily:'var(--font-display)', fontWeight:800, fontSize:13, letterSpacing:'-0.01em',
-                  }}>{a.siglas.length <= 4 ? a.siglas : a.siglas.slice(0,4)}</div>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:5, marginBottom:2 }}>
-                      <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'1px 6px', borderRadius:4, background:tm.color, color:'#fff' }}>NIVEL {a.amenaza}</span>
+                <header className="adv-selector-head">
+                  <div className="adv-selector-siglas" style={{ background:a.color }}>{a.siglas.length <= 4 ? a.siglas : a.siglas.slice(0,4)}</div>
+                  <div className="adv-selector-meta">
+                    <div className="adv-selector-badge-row">
+                      <span className="adv-threat-badge" style={{ background:tm.color }}>NIVEL {a.amenaza}</span>
                     </div>
-                    <div style={{ fontSize:13, fontWeight:700, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{a.nombre}</div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73' }}>{a.lider}</div>
+                    <div className="adv-selector-name">{a.nombre}</div>
+                    <div className="adv-selector-lider">{a.lider}</div>
                   </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:a.color, lineHeight:1 }}>{a.intencionVoto}<span style={{ fontSize:11, color:'#6e6e73', fontWeight:600 }}>%</span></div>
-                    <div style={{ fontSize:9, fontWeight:700, color: a.delta30d > 0 ? '#16A34A' : a.delta30d < 0 ? '#DC2626' : '#6e6e73', marginTop:2 }}>
+                  <div className="adv-selector-right">
+                    <div className="adv-selector-intencion" style={{ color:a.color }}>{a.intencionVoto}<span className="adv-selector-intencion-pct">%</span></div>
+                    <div className="adv-selector-delta" style={{ color: a.delta30d > 0 ? '#16A34A' : a.delta30d < 0 ? '#DC2626' : '#6e6e73' }}>
                       {a.delta30d > 0 ? '▲' : a.delta30d < 0 ? '▼' : '→'} {Math.abs(a.delta30d).toFixed(1)}
                     </div>
                   </div>
                 </header>
-                <div style={{ padding:'4px 14px 12px' }}>
+                <div className="adv-selector-spark">
                   <Sparkline data={a.intencionUlt} color={a.color} h={28}/>
                 </div>
               </button>
@@ -579,31 +569,29 @@ export default function AdversariosPage() {
         </section>
 
         {/* ───── Cabecera del adversario seleccionado ───── */}
-        <section style={{
-          background:'#fff', border:`2px solid ${selected.color}40`, borderRadius:14,
-          padding:'24px 28px', boxShadow:`0 4px 16px ${selected.color}1a`, marginBottom:14,
+        <section className="adv-header-card" style={{
+          border:`2px solid ${selected.color}40`,
+          boxShadow:`0 4px 16px ${selected.color}1a`,
         }}>
-          <div style={{ display:'grid', gridTemplateColumns:'auto 1fr auto', gap:18, alignItems:'center', marginBottom:18 }}>
-            <div style={{
-              width:64, height:64, borderRadius:16, background:selected.color, color:'#fff',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              fontFamily:'var(--font-display)', fontWeight:800, fontSize:22, letterSpacing:'-0.02em',
+          <div className="adv-header-grid">
+            <div className="adv-header-iniciales" style={{
+              background:selected.color,
               boxShadow:`0 4px 12px ${selected.color}50`,
             }}>{selected.liderIniciales}</div>
             <div>
-              <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:3, flexWrap:'wrap' }}>
-                <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'2px 7px', borderRadius:4, background:THREAT_META[selected.amenaza].color, color:'#fff' }}>NIVEL DE AMENAZA: {selected.amenaza}</span>
-                <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em' }}>· {selected.siglas.toUpperCase()}</span>
+              <div className="adv-header-badge-row">
+                <span className="adv-threat-badge--lg" style={{ background:THREAT_META[selected.amenaza].color }}>NIVEL DE AMENAZA: {selected.amenaza}</span>
+                <span className="adv-header-siglas-text">· {selected.siglas.toUpperCase()}</span>
               </div>
-              <h2 style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, letterSpacing:'-0.018em', margin:'0 0 3px', color:'#1d1d1f' }}>{selected.nombre}</h2>
-              <p style={{ margin:0, fontSize:12, color:'#3a3a3d' }}>
-                Líder: <strong style={{ color:'#1d1d1f' }}>{selected.lider}</strong> · valoración <strong>{selected.liderValoracion}/10</strong> · imagen {selected.liderImagen}/10 · conocimiento {selected.liderConocimiento}%
+              <h2 className="adv-header-name">{selected.nombre}</h2>
+              <p className="adv-header-lider">
+                Líder: <strong>{selected.lider}</strong> · valoración <strong>{selected.liderValoracion}/10</strong> · imagen {selected.liderImagen}/10 · conocimiento {selected.liderConocimiento}%
               </p>
             </div>
-            <div style={{ textAlign:'right' }}>
-              <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:2 }}>Intención de voto</div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, color:selected.color, letterSpacing:'-0.024em', lineHeight:1 }}>{selected.intencionVoto}<span style={{ fontSize:18, color:'#6e6e73', fontWeight:600 }}>%</span></div>
-              <div style={{ fontSize:11, fontWeight:700, color: selected.delta30d > 0 ? '#16A34A' : selected.delta30d < 0 ? '#DC2626' : '#6e6e73', marginTop:2 }}>
+            <div className="adv-header-right">
+              <div className="adv-header-right-label">Intención de voto</div>
+              <div className="adv-header-right-value" style={{ color:selected.color }}>{selected.intencionVoto}<span className="adv-header-right-pct">%</span></div>
+              <div className="adv-header-right-delta" style={{ color: selected.delta30d > 0 ? '#16A34A' : selected.delta30d < 0 ? '#DC2626' : '#6e6e73' }}>
                 {selected.delta30d > 0 ? '▲' : selected.delta30d < 0 ? '▼' : '→'} {Math.abs(selected.delta30d).toFixed(1)} · 30 días
               </div>
             </div>
@@ -611,18 +599,13 @@ export default function AdversariosPage() {
 
           {/* Síntesis biográfica desde brain (solo si hay dossier) */}
           {brainSummary && (
-            <p style={{
-              margin:'0 0 12px', fontSize:13, lineHeight:1.55,
-              color:'#3a3a3d', fontStyle:'italic',
-              borderLeft:`3px solid ${selected.color}40`,
-              paddingLeft:12,
-            }}>
+            <p className="adv-brain-summary" style={{ borderLeft:`3px solid ${selected.color}40` }}>
               {brainSummary}
             </p>
           )}
 
           {/* Indicadores clave */}
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:8, marginBottom:14 }}>
+          <div className="adv-kpi-grid">
             <SKpi label="Conocimiento"    value={`${selected.conocimiento}%`}              color="#5B21B6"/>
             <SKpi label="Eje izq-dcha"    value={selected.ideologia > 0 ? `+${selected.ideologia}` : `${selected.ideologia}`} sub={selected.ideologia < 0 ? 'izquierda' : 'derecha'} color={selected.color}/>
             <SKpi label="Eje territorial" value={selected.centralizacion > 0 ? `+${selected.centralizacion}` : `${selected.centralizacion}`} sub={selected.centralizacion < 0 ? 'descentr.' : 'central.'} color="#0F766E"/>
@@ -633,30 +616,26 @@ export default function AdversariosPage() {
 
           {/* Bloque enriquecido por brain · solo si hay secciones */}
           {(Object.keys(brainSections).length > 0 || brainRisks.length > 0) && (
-            <div style={{
-              background:'#fafafa', border:'1px solid #ECECEF', borderRadius:10,
-              padding:'12px 14px', marginBottom:14, fontSize:12.5, lineHeight:1.55,
-              color:'#3a3a3d',
-            }}>
+            <div className="adv-brain-box">
               {typeof brainSections['estilo_politico'] === 'string' && (brainSections['estilo_politico'] as string) && (
-                <div style={{ marginBottom:6 }}>
-                  <strong style={{ color:'#1d1d1f' }}>Estilo:</strong> {brainSections['estilo_politico'] as string}
+                <div className="adv-brain-row">
+                  <strong>Estilo:</strong> {brainSections['estilo_politico'] as string}
                 </div>
               )}
               {typeof brainSections['momentum'] === 'string' && (brainSections['momentum'] as string) && (
-                <div style={{ marginBottom:6 }}>
-                  <strong style={{ color:'#1d1d1f' }}>Momentum:</strong> {brainSections['momentum'] as string}
+                <div className="adv-brain-row">
+                  <strong>Momentum:</strong> {brainSections['momentum'] as string}
                 </div>
               )}
               {typeof brainSections['predicted_next_move'] === 'string' && (brainSections['predicted_next_move'] as string) && (
-                <div style={{ marginBottom:6 }}>
-                  <strong style={{ color:'#1d1d1f' }}>Próximo movimiento esperado:</strong> {brainSections['predicted_next_move'] as string}
+                <div className="adv-brain-row">
+                  <strong>Próximo movimiento esperado:</strong> {brainSections['predicted_next_move'] as string}
                 </div>
               )}
               {brainRisks.length > 0 && (
-                <div style={{ marginTop:6 }}>
-                  <strong style={{ color:'#1d1d1f' }}>Riesgos identificados:</strong>
-                  <ul style={{ margin:'4px 0 0 18px', padding:0 }}>
+                <div className="adv-brain-risks">
+                  <strong>Riesgos identificados:</strong>
+                  <ul>
                     {brainRisks.slice(0, 4).map((r, i) => (<li key={i}>{r}</li>))}
                   </ul>
                 </div>
@@ -665,15 +644,15 @@ export default function AdversariosPage() {
           )}
 
           {/* Equipo */}
-          <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 14px', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:14, fontSize:11.5 }}>
-            <div><strong style={{ color:'#6e6e73', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', display:'block', marginBottom:3 }}>Jefe de campaña</strong><span style={{ color:'#1d1d1f', fontWeight:600 }}>{selected.jefeCampania}</span></div>
-            <div><strong style={{ color:'#6e6e73', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', display:'block', marginBottom:3 }}>Estrategia</strong><span style={{ color:'#1d1d1f', fontWeight:600 }}>{selected.estrategia}</span></div>
-            <div><strong style={{ color:'#6e6e73', fontSize:9, letterSpacing:'0.08em', textTransform:'uppercase', display:'block', marginBottom:3 }}>Comunicación</strong><span style={{ color:'#1d1d1f', fontWeight:600 }}>{selected.comunicacion}</span></div>
+          <div className="adv-equipo">
+            <div><strong className="adv-equipo-label">Jefe de campaña</strong><span className="adv-equipo-value">{selected.jefeCampania}</span></div>
+            <div><strong className="adv-equipo-label">Estrategia</strong><span className="adv-equipo-value">{selected.estrategia}</span></div>
+            <div><strong className="adv-equipo-label">Comunicación</strong><span className="adv-equipo-value">{selected.comunicacion}</span></div>
           </div>
         </section>
 
         {/* ───── Tabs ───── */}
-        <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3, marginBottom:14, flexWrap:'wrap' }}>
+        <div className="adv-tabs">
           {([
             { k:'dafo',             label:'Análisis DAFO',          count: 4 },
             { k:'mensajes',          label:'Mapa de mensajes',       count: selected.mensajes.length },
@@ -684,14 +663,8 @@ export default function AdversariosPage() {
           ] as const).map(t => {
             const active = tab === t.k
             return (
-              <button key={t.k} onClick={() => setTab(t.k)} style={{
-                background: active ? '#fff' : 'transparent',
-                color: active ? '#1d1d1f' : '#6e6e73',
-                border:'none', borderRadius:999, padding:'7px 14px',
-                fontSize:12, fontWeight: active ? 700 : 500, cursor:'pointer',
-                fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-              }}>
-                {t.label} <span style={{ marginLeft:5, color: active ? selected.color : '#6e6e73', fontWeight:700, fontSize:10.5 }}>{t.count}</span>
+              <button key={t.k} onClick={() => setTab(t.k)} className={`adv-tab${active ? ' adv-tab--active' : ''}`}>
+                {t.label} <span className="adv-tab-count" style={active ? { color: selected.color } : undefined}>{t.count}</span>
               </button>
             )
           })}
@@ -699,7 +672,7 @@ export default function AdversariosPage() {
 
         {/* ───── TAB · DAFO ───── */}
         {tab === 'dafo' && (
-          <section style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+          <section className="adv-dafo-grid">
             <DafoBlock titulo="Fortalezas (de su lado)"        items={selected.fortalezas}            color="#16A34A" sym="+"/>
             <DafoBlock titulo="Debilidades (de su lado)"        items={selected.debilidades}           color="#DC2626" sym="−"/>
             <DafoBlock titulo="Oportunidades (para nosotros)"  items={selected.oportunidadesNosotros} color="#5B21B6" sym="↗"/>
@@ -709,75 +682,78 @@ export default function AdversariosPage() {
 
         {/* ───── TAB · Mensajes ───── */}
         {tab === 'mensajes' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-            <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Mapa de mensajes · narrativa principal</h3>
-            <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Recurrencia (intensidad de uso) y eficacia (impacto en intención de voto) estimadas</p>
-            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-              {selected.mensajes.map((m, i) => (
-                <div key={i} style={{
-                  display:'grid', gridTemplateColumns:'1fr 200px 200px', gap:14, alignItems:'center',
-                  padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                }}>
-                  <div style={{ fontSize:13, color:'#1d1d1f', fontWeight:600, fontStyle:'italic', lineHeight:1.4 }}>{m.titular}</div>
-                  <div>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3, fontSize:9.5, color:'#6e6e73', fontWeight:700 }}>
-                      <span style={{ letterSpacing:'0.06em', textTransform:'uppercase' }}>Recurrencia</span>
-                      <span style={{ fontFamily:'var(--font-display)', color:selected.color }}>{m.recurrencia}</span>
+          <section className="adv-panel">
+            <h3 className="adv-panel-title">Mapa de mensajes · narrativa principal</h3>
+            <p className="adv-panel-sub">Recurrencia (intensidad de uso) y eficacia (impacto en intención de voto) estimadas</p>
+            <div className="adv-mensajes-list">
+              {selected.mensajes.map((m, i) => {
+                const efCol = m.eficacia >= 60 ? '#DC2626' : m.eficacia >= 40 ? '#F97316' : '#16A34A'
+                return (
+                  <div key={i} className="adv-mensaje-row">
+                    <div className="adv-mensaje-titular">{m.titular}</div>
+                    <div>
+                      <div className="adv-bar-head">
+                        <span className="adv-bar-label">Recurrencia</span>
+                        <span className="adv-bar-value" style={{ color:selected.color }}>{m.recurrencia}</span>
+                      </div>
+                      <div className="adv-bar-track">
+                        <div className="adv-bar-fill" style={{ width:`${m.recurrencia}%`, background:selected.color }}/>
+                      </div>
                     </div>
-                    <div style={{ height:7, background:'#fff', borderRadius:3, overflow:'hidden', border:'1px solid #ECECEF' }}>
-                      <div style={{ width:`${m.recurrencia}%`, height:'100%', background:selected.color, borderRadius:3 }}/>
+                    <div>
+                      <div className="adv-bar-head">
+                        <span className="adv-bar-label">Eficacia</span>
+                        <span className="adv-bar-value" style={{ color:efCol }}>{m.eficacia}</span>
+                      </div>
+                      <div className="adv-bar-track">
+                        <div className="adv-bar-fill" style={{ width:`${m.eficacia}%`, background:efCol }}/>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3, fontSize:9.5, color:'#6e6e73', fontWeight:700 }}>
-                      <span style={{ letterSpacing:'0.06em', textTransform:'uppercase' }}>Eficacia</span>
-                      <span style={{ fontFamily:'var(--font-display)', color: m.eficacia >= 60 ? '#DC2626' : m.eficacia >= 40 ? '#F97316' : '#16A34A' }}>{m.eficacia}</span>
-                    </div>
-                    <div style={{ height:7, background:'#fff', borderRadius:3, overflow:'hidden', border:'1px solid #ECECEF' }}>
-                      <div style={{ width:`${m.eficacia}%`, height:'100%', background: m.eficacia >= 60 ? '#DC2626' : m.eficacia >= 40 ? '#F97316' : '#16A34A', borderRadius:3 }}/>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </section>
         )}
 
         {/* ───── TAB · Voceros ───── */}
         {tab === 'voceros' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, boxShadow:'0 1px 3px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-            <table style={{ width:'100%', borderCollapse:'collapse', fontSize:12 }}>
+          <section className="adv-voceros-panel">
+            <table className="adv-voceros-table">
               <thead>
-                <tr style={{ background:'#FAFAFB', borderBottom:'2px solid #ECECEF' }}>
+                <tr className="adv-voceros-thead">
                   {['#','Voz','Rol','Valoración (/10)','Visibilidad mediática'].map(h => (
-                    <th key={h} style={{ textAlign:'left', padding:'10px 12px', fontSize:9.5, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase' }}>{h}</th>
+                    <th key={h} className="adv-voceros-th">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {[...selected.voceros].sort((a,b) => b.visibilidad - a.visibilidad).map((v, i) => (
-                  <tr key={v.nombre} style={{ borderBottom:'1px solid #ECECEF', background: i%2 ? '#fafafa' : '#fff' }}>
-                    <td style={{ padding:'10px 12px', fontFamily:'var(--font-display)', fontWeight:700, color:'#1d1d1f' }}>{i+1}</td>
-                    <td style={{ padding:'10px 12px', fontWeight:600, color:'#1d1d1f' }}>{v.nombre}</td>
-                    <td style={{ padding:'10px 12px', color:'#3a3a3d' }}>{v.rol}</td>
-                    <td style={{ padding:'10px 12px' }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                        <div style={{ flex:1, height:7, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:80 }}>
-                          <div style={{ width:`${(v.valoracion / 10) * 100}%`, height:'100%', background: v.valoracion >= 5 ? '#16A34A' : v.valoracion >= 4 ? '#F97316' : '#DC2626', borderRadius:3 }}/>
+                {[...selected.voceros].sort((a,b) => b.visibilidad - a.visibilidad).map((v, i) => {
+                  const valCol = v.valoracion >= 5 ? '#16A34A' : v.valoracion >= 4 ? '#F97316' : '#DC2626'
+                  return (
+                    <tr key={v.nombre} className={`adv-voceros-row ${i%2 ? 'adv-voceros-row--odd' : 'adv-voceros-row--even'}`}>
+                      <td className="adv-voceros-td adv-voceros-td--num">{i+1}</td>
+                      <td className="adv-voceros-td adv-voceros-td--nombre">{v.nombre}</td>
+                      <td className="adv-voceros-td adv-voceros-td--rol">{v.rol}</td>
+                      <td className="adv-voceros-td">
+                        <div className="adv-voceros-bar-wrap">
+                          <div className="adv-voceros-track">
+                            <div className="adv-voceros-fill" style={{ width:`${(v.valoracion / 10) * 100}%`, background:valCol }}/>
+                          </div>
+                          <span className="adv-voceros-num">{v.valoracion}</span>
                         </div>
-                        <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:'#1d1d1f', minWidth:24, textAlign:'right' }}>{v.valoracion}</span>
-                      </div>
-                    </td>
-                    <td style={{ padding:'10px 12px' }}>
-                      <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                        <div style={{ flex:1, height:7, background:'#F5F5F7', borderRadius:3, overflow:'hidden', minWidth:80 }}>
-                          <div style={{ width:`${v.visibilidad}%`, height:'100%', background:selected.color, borderRadius:3 }}/>
+                      </td>
+                      <td className="adv-voceros-td">
+                        <div className="adv-voceros-bar-wrap">
+                          <div className="adv-voceros-track">
+                            <div className="adv-voceros-fill" style={{ width:`${v.visibilidad}%`, background:selected.color }}/>
+                          </div>
+                          <span className="adv-voceros-num" style={{ color:selected.color }}>{v.visibilidad}</span>
                         </div>
-                        <span style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:selected.color, minWidth:24, textAlign:'right' }}>{v.visibilidad}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </section>
@@ -785,29 +761,23 @@ export default function AdversariosPage() {
 
         {/* ───── TAB · Vulnerabilidades ───── */}
         {tab === 'vulnerabilidades' && (
-          <section style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(380px,1fr))', gap:10 }}>
+          <section className="adv-vuln-grid">
             {[...selected.vulnerabilidades].sort((a,b) => b.explotabilidad - a.explotabilidad).map((v, i) => {
               const c = v.explotabilidad >= 75 ? '#DC2626' : v.explotabilidad >= 50 ? '#F97316' : '#EAB308'
               return (
-                <article key={i} style={{
-                  background:'#fff', border:'1px solid #ECECEF', borderRadius:12,
-                  padding:'14px 16px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-                  borderLeft:`3px solid ${c}`,
-                }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
-                    <span style={{
-                      fontSize:9, fontWeight:800, letterSpacing:'0.08em',
-                      padding:'2px 7px', borderRadius:4,
-                      background:c, color:'#fff',
-                    }}>{v.explotabilidad >= 75 ? 'CRÍTICA' : v.explotabilidad >= 50 ? 'ALTA' : 'MEDIA'}</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:14, fontWeight:700, color:c }}>{v.explotabilidad}<span style={{ fontSize:10, color:'#86868b' }}>/100</span></span>
+                <article key={i} className="adv-vuln-card" style={{ borderLeft:`3px solid ${c}` }}>
+                  <div className="adv-vuln-head">
+                    <span className="adv-vuln-sev-badge" style={{ background:c }}>
+                      {v.explotabilidad >= 75 ? 'CRÍTICA' : v.explotabilidad >= 50 ? 'ALTA' : 'MEDIA'}
+                    </span>
+                    <span className="adv-vuln-score" style={{ color:c }}>{v.explotabilidad}<span className="adv-vuln-score-max">/100</span></span>
                   </div>
-                  <h4 style={{ margin:'0 0 5px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, color:'#1d1d1f', letterSpacing:'-0.012em' }}>{v.titulo}</h4>
-                  <p style={{ margin:'0 0 8px', fontSize:11.5, color:'#3a3a3d', lineHeight:1.45 }}>{v.detalle}</p>
-                  <div style={{ height:5, background:'#F5F5F7', borderRadius:3, overflow:'hidden' }}>
-                    <div style={{ width:`${v.explotabilidad}%`, height:'100%', background:c, borderRadius:3 }}/>
+                  <h4 className="adv-vuln-title">{v.titulo}</h4>
+                  <p className="adv-vuln-detail">{v.detalle}</p>
+                  <div className="adv-vuln-track">
+                    <div className="adv-vuln-fill" style={{ width:`${v.explotabilidad}%`, background:c }}/>
                   </div>
-                  <div style={{ fontSize:9, fontWeight:700, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', marginTop:4 }}>Explotabilidad</div>
+                  <div className="adv-vuln-foot">Explotabilidad</div>
                 </article>
               )
             })}
@@ -816,28 +786,23 @@ export default function AdversariosPage() {
 
         {/* ───── TAB · Coaliciones ───── */}
         {tab === 'coaliciones' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-            <h3 style={{ margin:'0 0 4px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Coaliciones y aliados</h3>
-            <p style={{ margin:'0 0 14px', fontSize:11.5, color:'#6e6e73' }}>Estabilidad estimada de cada relación · 0 (frágil) a 100 (sólida)</p>
-            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          <section className="adv-panel">
+            <h3 className="adv-panel-title">Coaliciones y aliados</h3>
+            <p className="adv-panel-sub">Estabilidad estimada de cada relación · 0 (frágil) a 100 (sólida)</p>
+            <div className="adv-coal-list">
               {selected.coaliciones.map((c, i) => {
                 const estCol = c.estabilidad >= 70 ? '#16A34A' : c.estabilidad >= 50 ? '#F97316' : '#DC2626'
                 const tipoCol = c.tipo === 'Coalición' ? '#16A34A' : c.tipo === 'Investidura' ? '#5B21B6' : c.tipo === 'Apoyo' ? '#0EA5E9' : '#F97316'
                 return (
-                  <div key={i} style={{
-                    display:'grid', gridTemplateColumns:'160px 130px 1fr 80px', gap:14, alignItems:'center',
-                    padding:'10px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                  }}>
-                    <strong style={{ fontSize:13, color:'#1d1d1f' }}>{c.aliado}</strong>
-                    <span style={{
-                      fontSize:9, fontWeight:800, letterSpacing:'0.06em', textAlign:'center',
-                      padding:'3px 8px', borderRadius:999,
+                  <div key={i} className="adv-coal-row">
+                    <strong className="adv-coal-aliado">{c.aliado}</strong>
+                    <span className="adv-coal-tipo" style={{
                       background:`${tipoCol}15`, color:tipoCol, border:`1px solid ${tipoCol}40`,
                     }}>{c.tipo.toUpperCase()}</span>
-                    <div style={{ height:8, background:'#fff', borderRadius:4, overflow:'hidden', border:'1px solid #ECECEF' }}>
-                      <div style={{ width:`${c.estabilidad}%`, height:'100%', background:estCol, borderRadius:4, transition:'width 320ms' }}/>
+                    <div className="adv-coal-track">
+                      <div className="adv-coal-fill" style={{ width:`${c.estabilidad}%`, background:estCol }}/>
                     </div>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:estCol, textAlign:'right' }}>{c.estabilidad}/100</span>
+                    <span className="adv-coal-score" style={{ color:estCol }}>{c.estabilidad}/100</span>
                   </div>
                 )
               })}
@@ -847,24 +812,20 @@ export default function AdversariosPage() {
 
         {/* ───── TAB · Próximos movimientos ───── */}
         {tab === 'agenda' && (
-          <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-            <h3 style={{ margin:'0 0 14px', fontFamily:'var(--font-display)', fontSize:14, fontWeight:600, letterSpacing:'-0.012em' }}>Próximos movimientos detectados</h3>
-            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          <section className="adv-panel">
+            <h3 className="adv-agenda-title">Próximos movimientos detectados</h3>
+            <div className="adv-agenda-list">
               {selected.proximos.map((m, i) => (
-                <div key={i} style={{
-                  display:'grid', gridTemplateColumns:'70px 1fr auto', gap:14, alignItems:'center',
-                  padding:'12px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                  borderLeft:`3px solid ${selected.color}`,
-                }}>
-                  <div style={{ textAlign:'center' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:12, fontWeight:700, color:'#1d1d1f' }}>{m.fecha.slice(0,5)}</div>
+                <div key={i} className="adv-agenda-row" style={{ borderLeft:`3px solid ${selected.color}` }}>
+                  <div className="adv-agenda-fecha-wrap">
+                    <div className="adv-agenda-fecha">{m.fecha.slice(0,5)}</div>
                   </div>
                   <div>
-                    <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:2 }}>
-                      <span style={{ fontSize:9, fontWeight:800, letterSpacing:'0.08em', padding:'1px 6px', borderRadius:4, background:selected.color, color:'#fff' }}>{m.tipo.toUpperCase()}</span>
+                    <div className="adv-agenda-meta">
+                      <span className="adv-agenda-tipo" style={{ background:selected.color }}>{m.tipo.toUpperCase()}</span>
                     </div>
-                    <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f' }}>{m.titulo}</div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:1 }}>{m.ubicacion}</div>
+                    <div className="adv-agenda-titulo">{m.titulo}</div>
+                    <div className="adv-agenda-ubicacion">{m.ubicacion}</div>
                   </div>
                 </div>
               ))}
@@ -873,7 +834,7 @@ export default function AdversariosPage() {
         )}
 
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
+      <footer className="adv-footer">
         Inteligencia de Adversarios · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
@@ -885,41 +846,34 @@ export default function AdversariosPage() {
 // ─────────────────────────────────────────────────────────────────────────
 function HeroKPI({ label, value, accent }: { label:string, value:string, accent:string }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:`1px solid ${accent}55` }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:21, fontWeight:700, lineHeight:1, color:'#fff', letterSpacing:'-0.018em' }}>{value}</div>
-      <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.75, marginTop:4, color:accent }}>{label}</div>
+    <div className="adv-hero-kpi" style={{ border:`1px solid ${accent}55` }}>
+      <div className="adv-hero-kpi-value">{value}</div>
+      <div className="adv-hero-kpi-label" style={{ color:accent }}>{label}</div>
     </div>
   )
 }
 
 function SKpi({ label, value, sub, color }: { label:string, value:string, sub?:string, color:string }) {
   return (
-    <div style={{ background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10, padding:'10px 12px', textAlign:'center' }}>
-      <div style={{ fontSize:9, fontWeight:800, color:'#6e6e73', letterSpacing:'0.08em', textTransform:'uppercase' }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color, letterSpacing:'-0.018em', marginTop:3, lineHeight:1 }}>{value}</div>
-      {sub && <div style={{ fontSize:9, color:'#86868b', fontWeight:600, marginTop:2 }}>{sub}</div>}
+    <div className="adv-kpi-card">
+      <div className="adv-kpi-label">{label}</div>
+      <div className="adv-kpi-value" style={{ color }}>{value}</div>
+      {sub && <div className="adv-kpi-sub">{sub}</div>}
     </div>
   )
 }
 
 function DafoBlock({ titulo, items, color, sym }: { titulo:string, items:string[], color:string, sym:string }) {
   return (
-    <div style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-      padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-      borderTop:`4px solid ${color}`,
-    }}>
-      <h3 style={{ margin:'0 0 12px', fontFamily:'var(--font-display)', fontSize:13.5, fontWeight:600, letterSpacing:'-0.012em', color }}>{titulo}</h3>
-      <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+    <div className="adv-dafo-block" style={{ borderTop:`4px solid ${color}` }}>
+      <h3 className="adv-dafo-title" style={{ color }}>{titulo}</h3>
+      <div className="adv-dafo-list">
         {items.map((it, i) => (
-          <div key={i} style={{ display:'flex', gap:8, alignItems:'flex-start' }}>
-            <span style={{
-              flexShrink:0, width:22, height:22, borderRadius:'50%',
+          <div key={i} className="adv-dafo-item">
+            <span className="adv-dafo-sym" style={{
               background:`${color}15`, color, border:`1px solid ${color}40`,
-              display:'flex', alignItems:'center', justifyContent:'center',
-              fontSize:11, fontWeight:800,
             }}>{sym}</span>
-            <p style={{ margin:0, fontSize:12, color:'#3a3a3d', lineHeight:1.45, paddingTop:3 }}>{it}</p>
+            <p className="adv-dafo-text">{it}</p>
           </div>
         ))}
       </div>
@@ -938,7 +892,7 @@ function Sparkline({ data, color, h = 30 }: { data: number[], color: string, h?:
   }).join(' ')
   const area = `0,${h} ${pts} ${w},${h}`
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} style={{ width:'100%', height:h, display:'block' }} preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${w} ${h}`} className="adv-sparkline" style={{ height:h }} preserveAspectRatio="none">
       <polyline points={area} fill={`${color}20`} stroke="none"/>
       <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round"/>
       <circle cx={w} cy={h - 4 - ((data[data.length - 1] - min) / range) * (h - 8)} r="2" fill={color}/>

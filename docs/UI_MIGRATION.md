@@ -96,29 +96,29 @@ Inline está justificado **solo** cuando el valor depende de runtime:
 | 11 | `app/dashboard/page.tsx` | 145 | 38 | -74% | ✅ Migrado (R2) |
 | 12 | `app/contratos-vigentes/page.tsx` | 144 | 22 | -85% | ✅ Migrado (R2) |
 | 13 | `app/senales-criticas/page.tsx` | 141 | 21 | -85% | ✅ Migrado (R3) |
-| 14 | `app/litigios-contratacion/page.tsx` | 140 | — | — | ⏳ Pendiente (R3) |
-| 15 | `app/crisis/page.tsx` | 138 | — | — | ⏳ Pendiente (R3) |
-| 16 | `app/fondos-europeos/page.tsx` | 137 | — | — | ⏳ Pendiente (R3) |
-| 17 | `app/ataques-narrativos/page.tsx` | 136 | — | — | ⏳ Pendiente (R3) |
-| 18 | `app/adversarios/page.tsx` | 134 | — | — | ⏳ Pendiente (R3) |
+| 14 | `app/litigios-contratacion/page.tsx` | 140 | 30 | -79% | ✅ Migrado (R3) |
+| 15 | `app/crisis/page.tsx` | 138 | 26 | -81% | ✅ Migrado (R3) |
+| 16 | `app/fondos-europeos/page.tsx` | 137 | 27 | -80% | ✅ Migrado (R3) |
+| 17 | `app/ataques-narrativos/page.tsx` | 136 | 25 | -82% | ✅ Migrado (R3) |
+| 18 | `app/adversarios/page.tsx` | 134 | 34 | -75% | ✅ Migrado (R3) |
 
-**Total Pilar 4 (13 archivos top migrados):** 2 312 inline → 485 (-79%).
-Los 485 restantes son todos legítimamente dinámicos: colores por
-rol/estado/severidad/partido (`c.color`, `ESTAB_COLOR`, `SENT_COLOR`,
-`RIESGO_C`, `SECTOR_COLOR`, `SEV_COLOR`, `LEVEL_COLOR`, party-color,
-sem-color), width porcentajes de progreso (`flex: r.pct`, `width: ${%}`),
-conic-gradient angles, sparkline strokes condicionales, animaciones por
-flags de runtime.
+**Total Pilar 4 (18 archivos top migrados):** 2 997 inline → 627 (-79%).
+Los 627 restantes son todos legítimamente dinámicos: colores por
+rol/estado/severidad/partido/tribunal (`c.color`, `ESTAB_COLOR`,
+`SENT_COLOR`, `RIESGO_C`, `SECTOR_COLOR`, `SEV_COLOR`, `LEVEL_COLOR`,
+`TIPO_COLOR`, `TRIB_COLOR`, `FASE_META`, `THREAT_META`, `MATCH_COLOR`,
+party-color, sem-color, plataformas), width porcentajes de progreso
+(`flex: r.pct`, `width: ${%}`), conic-gradient angles, sparkline strokes
+condicionales, animaciones por flags de runtime.
 
-**CSS tokenizado generado:** 13 archivos `<route>.css` con ~1 545 clases
+**CSS tokenizado generado:** 18 archivos `<route>.css` con ~2 100 clases
 prefijadas (`.op-`, `.cm-`, `.wr-`, `.geo-`, `.cfg-`, `.inst-`,
-`.ma-`, `.mac-`, `.pt-`, `.adj-`, `.dash-`, `.cv-`, `.sc-`).
+`.ma-`, `.mac-`, `.pt-`, `.adj-`, `.dash-`, `.cv-`, `.sc-`,
+`.lc-`, `.cr-`, `.fe-`, `.an-`, `.adv-`).
 
-**Bloqueador R3 (5 archivos restantes):** los sub-agentes están bloqueados
-por límite mensual del org. Cuando se restauren, lanzar los 5 agentes en
-paralelo con los prompts canónicos ya validados sobre 13 migraciones.
-Patrón estable, sin sorpresas. Total estimado restante R3: ~685 inline
-→ ~150 (-78%).
+**P4-R3 cerrado ✅** · los 5 archivos restantes migrados en paralelo
+mediante 5 sub-agentes ejecutando el prompt canónico sobre el patrón
+estabilizado en las 13 anteriores. Sin regresiones visuales · TS clean.
 
 **Restantes en el repo:** ~7 500 inline styles repartidos por páginas menos
 visitadas. Migración progresiva al tocar cada archivo por feature work.
