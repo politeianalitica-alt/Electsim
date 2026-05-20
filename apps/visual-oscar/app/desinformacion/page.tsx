@@ -162,10 +162,10 @@ export default function DesinformacionPage() {
         }}>
           <div>
             <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.16em', opacity: 0.85, textTransform: 'uppercase', margin: '0 0 8px' }}>
-              SEGURIDAD · DESINFORMACIÓN · RASTREO DE BULOS
+              MEDIOS · DESINFORMACIÓN · RASTREO DE BULOS
             </p>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700, letterSpacing: '-0.024em', margin: '0 0 10px', lineHeight: 1.05 }}>
-              Bulos y narrativa hostil <em style={{ fontWeight: 300, fontStyle: 'italic', opacity: 0.78 }}>con trazabilidad</em>
+              Desinformación <em style={{ fontWeight: 300, fontStyle: 'italic', opacity: 0.78 }}>con trazabilidad</em>
             </h1>
             <p style={{ fontSize: 13.5, opacity: 0.85, margin: 0, lineHeight: 1.5 }}>
               Catálogo de bulos detectados con identificación del <strong>paciente cero</strong>,

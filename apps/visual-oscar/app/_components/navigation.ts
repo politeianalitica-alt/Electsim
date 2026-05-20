@@ -79,7 +79,6 @@ export const MODULES: NavModule[] = [
       { label: 'Termómetro de Riesgo',         href: '/riesgo' },
       { label: 'Crisis Intelligence',          href: '/crisis' },
       { label: 'Detección de Ataques',         href: '/deteccion-ataques' },
-      { label: 'Bulos y Desinformación',       href: '/ataques-narrativos' },
     ],
   },
 
@@ -123,6 +122,7 @@ export const MODULES: NavModule[] = [
     items: [
       { label: 'Pulso de Prensa', href: '/prensa' },
       { label: 'Mapa de Medios',  href: '/medios-narrativa' },
+      { label: 'Desinformación',  href: '/desinformacion' },
     ],
   },
 
