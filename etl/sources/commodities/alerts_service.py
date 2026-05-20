@@ -52,29 +52,50 @@ _KEYS = [
     "id", "user_id", "commodity_slug", "kind", "threshold", "period_days",
     "channels", "active", "last_triggered_at", "last_evaluated_at",
     "cooldown_minutes", "metadata_payload", "created_at", "updated_at",
+    "rule_definition", "rule_name",
 ]
 
 
 def create_alert(
     *,
     user_id: str,
-    commodity_slug: str,
-    kind: AlertKind,
-    threshold: float,
-    channels: list[Channel],
+    commodity_slug: str | None = None,
+    kind: AlertKind | None = None,
+    threshold: float | None = None,
+    channels: list[Channel] | None = None,
     period_days: int | None = None,
     cooldown_minutes: int = 60,
     active: bool = True,
     metadata: dict | None = None,
+    rule_definition: dict | None = None,
+    rule_name: str | None = None,
 ) -> dict[str, Any]:
-    """Inserta una nueva alerta. Devuelve la fila creada."""
+    """Inserta una nueva alerta. Devuelve la fila creada.
+
+    Dos modos:
+      · Legacy:   kind + threshold + commodity_slug
+      · Multi-condición: rule_definition (dict) · commodity_slug ='__multi__' por defecto
+    """
     engine = _get_engine()
     if engine is None:
         return {"error": "no engine", "id": None}
-    if kind not in ("price_above", "price_below", "change_pct"):
-        return {"error": f"kind '{kind}' no válido"}
-    if kind == "change_pct" and not period_days:
-        period_days = 7  # default razonable
+    channels = channels or ["inapp"]
+
+    if rule_definition is not None:
+        from etl.sources.commodities.rule_engine import RuleValidationError, validate_rule
+        try:
+            validate_rule(rule_definition)
+        except RuleValidationError as exc:
+            return {"error": f"rule_definition inválida: {exc}", "id": None}
+        kind = kind or "multi"  # type: ignore[assignment]
+        threshold = float(threshold) if threshold is not None else 0.0
+    else:
+        if kind not in ("price_above", "price_below", "change_pct"):
+            return {"error": f"kind '{kind}' no válido", "id": None}
+        if threshold is None:
+            return {"error": "threshold requerido para alerta legacy", "id": None}
+        if kind == "change_pct" and not period_days:
+            period_days = 7
 
     aid = _make_id()
     from sqlalchemy import text
@@ -83,15 +104,17 @@ def create_alert(
             conn.execute(text("""
                 INSERT INTO commodity_alerts (
                   id, user_id, commodity_slug, kind, threshold,
-                  period_days, channels, active, cooldown_minutes, metadata_payload
+                  period_days, channels, active, cooldown_minutes, metadata_payload,
+                  rule_definition, rule_name
                 ) VALUES (
                   :id, :uid, :slug, :kind, :thr,
-                  :period, CAST(:ch AS JSONB), :active, :cd, CAST(:meta AS JSONB)
+                  :period, CAST(:ch AS JSONB), :active, :cd, CAST(:meta AS JSONB),
+                  CAST(:rule AS JSONB), :rname
                 )
             """), {
                 "id": aid,
                 "uid": user_id,
-                "slug": commodity_slug.lower(),
+                "slug": (commodity_slug or "__multi__").lower(),
                 "kind": kind,
                 "thr": threshold,
                 "period": period_days,
@@ -99,6 +122,8 @@ def create_alert(
                 "active": active,
                 "cd": cooldown_minutes,
                 "meta": json.dumps(metadata or {}),
+                "rule": json.dumps(rule_definition) if rule_definition else None,
+                "rname": rule_name,
             })
         return get_alert(aid) or {"id": aid}
     except Exception as exc:
@@ -215,6 +240,13 @@ def _row_to_dict(row: Any) -> dict[str, Any]:
             d["threshold"] = float(d["threshold"])
         except Exception:
             pass
+    # rule_definition viene como dict (JSONB) o string (sqlite/json)
+    rd = d.get("rule_definition")
+    if isinstance(rd, str):
+        try:
+            d["rule_definition"] = json.loads(rd)
+        except Exception:
+            d["rule_definition"] = None
     return d
 
 
@@ -426,12 +458,24 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
         try:
             if _in_cooldown(a):
                 continue
-            s = _snap(a["commodity_slug"])
-            triggered_ok, trigger_value = _evaluate_condition(
-                a,
-                s.get("last_price"),
-                s.get("change_pct"),
-            )
+
+            rule_definition = a.get("rule_definition")
+            rule_details: list[dict[str, Any]] | None = None
+            if rule_definition:
+                # Multi-condición via rule engine
+                from etl.sources.commodities.rule_engine import evaluate_rule
+                rule_result = evaluate_rule(rule_definition, _snap)
+                triggered_ok = rule_result.get("triggered", False)
+                trigger_value = rule_result.get("trigger_value")
+                rule_details = rule_result.get("details")
+            else:
+                # Alerta legacy single-commodity
+                s = _snap(a["commodity_slug"])
+                triggered_ok, trigger_value = _evaluate_condition(
+                    a,
+                    s.get("last_price"),
+                    s.get("change_pct"),
+                )
             if not triggered_ok or trigger_value is None:
                 continue
             triggered += 1
@@ -457,6 +501,9 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
             # Notificar + persistir
             delivery_log = notify_event(a, trigger_value, channels)
             channels_notified = [c for c, status in delivery_log.items() if status == "ok"]
+            # Adjuntar detalles del rule engine al delivery_log si aplica
+            if rule_details:
+                delivery_log = {**delivery_log, "rule_details": rule_details}
             event_id = record_event(
                 alert=a,
                 trigger_value=trigger_value,
@@ -470,6 +517,7 @@ def evaluate_all(dry_run: bool = False) -> dict[str, Any]:
                 "trigger_value": trigger_value,
                 "channels_notified": channels_notified,
                 "delivery_log": delivery_log,
+                "rule_details": rule_details,
             })
         except Exception as exc:
             errors.append(f"alert {a.get('id')}: {exc}")

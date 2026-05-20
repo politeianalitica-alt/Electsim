@@ -12,6 +12,7 @@ import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useCommodityCatalog, useCommoditySnapshot } from '@/hooks/useCommodities'
 import { useCommodityAlerts, type AlertKind } from '@/hooks/useCommodityAlerts'
+import { useAlertEventsStream } from '@/hooks/useAlertEventsStream'
 import { fmtPct, fmtPrice } from '@/lib/commodities-utils'
 
 export default function AlertsPage() {
@@ -25,6 +26,7 @@ export default function AlertsPage() {
   const { items: catalog } = useCommodityCatalog()
   const { items: snapshots } = useCommoditySnapshot(undefined, 40)
   const { alerts, add, remove, toggleActive, backendOk } = useCommodityAlerts()
+  const { events: liveEvents, isConnected: sseConnected } = useAlertEventsStream()
 
   const [slug, setSlug] = useState<string>(initialSlug ?? '')
   const [kind, setKind] = useState<AlertKind>('price_above')
@@ -70,6 +72,13 @@ export default function AlertsPage() {
           ) : backendOk === false ? (
             <span style={{ color: '#f59e0b', fontWeight: 600 }}>○ solo localStorage</span>
           ) : null}
+          {sseConnected ? (
+            <span style={{ color: '#7c3aed', fontWeight: 600, marginLeft: 8 }}>
+              ⚡ SSE live ({liveEvents.length} eventos)
+            </span>
+          ) : (
+            <span style={{ color: '#9ca3af', marginLeft: 8 }}>○ SSE reconectando…</span>
+          )}
         </p>
 
         <div

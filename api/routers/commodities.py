@@ -22,7 +22,8 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
@@ -267,14 +268,28 @@ def forecast_health() -> dict[str, Any]:
 
 class AlertCreate(BaseModel):
     user_id: str = Field(..., min_length=1, max_length=120)
-    commodity_slug: str = Field(..., min_length=1, max_length=80)
-    kind: str = Field(..., description="price_above | price_below | change_pct")
-    threshold: float
+    commodity_slug: str | None = Field(
+        None,
+        description="Slug del commodity · opcional para multi-condición (usa __multi__)",
+    )
+    kind: str | None = Field(
+        None,
+        description="price_above | price_below | change_pct · null para multi-condición",
+    )
+    threshold: float | None = None
     period_days: int | None = None
     channels: list[str] = Field(default_factory=lambda: ["inapp"])
     cooldown_minutes: int = 60
     active: bool = True
     metadata: dict[str, Any] | None = None
+    rule_definition: dict[str, Any] | None = Field(
+        None,
+        description=(
+            "Regla compuesta {logic: AND|OR, conditions: [{slug, op, value, period_days?}]}. "
+            "Operadores: price_gt/lt, change_pct_gte/lte, rsi_gt/lt"
+        ),
+    )
+    rule_name: str | None = None
 
 
 class AlertPatch(BaseModel):
@@ -315,6 +330,8 @@ def create_alert_endpoint(req: AlertCreate) -> dict[str, Any]:
             period_days=req.period_days,
             cooldown_minutes=req.cooldown_minutes,
             active=req.active,
+            rule_definition=req.rule_definition,
+            rule_name=req.rule_name,
             metadata=req.metadata,
         )
         if res.get("error"):
@@ -407,6 +424,91 @@ def evaluate_alerts_endpoint(dry_run: bool = Query(False)) -> dict[str, Any]:
     except Exception as exc:
         logger.exception("evaluate_alerts falló")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
+# SSE · server-sent events para push de eventos nuevos
+# ─────────────────────────────────────────────────────────────────
+
+@router.get("/alerts-events/stream")
+async def stream_alert_events(
+    request: Request,
+    user_id: str | None = Query(None),
+    poll_seconds: int = Query(10, ge=2, le=60),
+    keepalive_seconds: int = Query(20, ge=5, le=60),
+) -> StreamingResponse:
+    """Server-Sent Events · stream de nuevos disparos de alertas.
+
+    Mantiene conexión abierta y envía:
+      - 'event: connected' · al iniciar (con last_seen_event_id)
+      - 'event: alert' · cada vez que aparece evento nuevo (poll cada poll_seconds)
+      - 'event: ping' · keepalive cada keepalive_seconds para mantener conexión
+
+    Cliente JS:
+      const es = new EventSource('/api/commodities/alerts-events/stream?user_id=...')
+      es.addEventListener('alert', (e) => { console.log(JSON.parse(e.data)) })
+      es.addEventListener('ping', () => {})
+
+    Cierre limpio cuando el cliente desconecta (request.is_disconnected()).
+    """
+    import asyncio
+    import json as _json
+
+    async def _generator():
+        from etl.sources.commodities.alerts_service import list_events
+
+        # 1. evento inicial · marca el cursor "last_seen_event_id"
+        try:
+            seed_events = list_events(user_id=user_id, limit=1)
+            last_id = seed_events[0]["id"] if seed_events else 0
+        except Exception:
+            last_id = 0
+
+        yield (
+            f"event: connected\n"
+            f"data: {_json.dumps({'last_seen_event_id': last_id, 'poll_seconds': poll_seconds})}\n\n"
+        )
+
+        last_ping = asyncio.get_event_loop().time()
+
+        while True:
+            # Cliente cerró?
+            if await request.is_disconnected():
+                break
+
+            # Poll eventos nuevos (id > last_id)
+            try:
+                events = list_events(user_id=user_id, limit=20)
+                fresh = [e for e in events if (e.get("id") or 0) > last_id]
+                fresh.sort(key=lambda e: e.get("id") or 0)
+                for ev in fresh:
+                    payload = _json.dumps(ev, default=str)
+                    yield f"event: alert\ndata: {payload}\n\n"
+                    last_id = max(last_id, int(ev.get("id") or 0))
+            except Exception as exc:
+                # En caso de fallo, mandamos un evento de error pero seguimos
+                yield (
+                    f"event: error\n"
+                    f"data: {_json.dumps({'error': str(exc)})}\n\n"
+                )
+
+            # Keepalive periódico
+            now = asyncio.get_event_loop().time()
+            if (now - last_ping) >= keepalive_seconds:
+                yield f"event: ping\ndata: {{}}\n\n"
+                last_ping = now
+
+            await asyncio.sleep(poll_seconds)
+
+    return StreamingResponse(
+        _generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache, no-transform",
+            "X-Accel-Buffering": "no",
+            "Connection": "keep-alive",
+        },
+    )
 
 
 # ─────────────────────────────────────────────────────────────────

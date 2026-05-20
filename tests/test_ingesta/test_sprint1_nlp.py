@@ -2305,3 +2305,171 @@ def test_briefing_extended_alias_resuelven_tracker_correcto():
     finally:
         for mod, original in originals:
             mod._get_engine = original  # type: ignore
+
+
+# ── Rule engine multi-condición + SSE ────────────────────────────────
+
+def test_rule_engine_validate_basico():
+    """validate_rule acepta reglas válidas y rechaza inválidas."""
+    from etl.sources.commodities.rule_engine import validate_rule, RuleValidationError
+    ok = {
+        "logic": "AND",
+        "conditions": [
+            {"slug": "wheat_cbot", "op": "change_pct_gte", "value": 5},
+            {"slug": "corn_cbot", "op": "change_pct_lte", "value": -3},
+        ],
+    }
+    validate_rule(ok)
+    import pytest
+    with pytest.raises(RuleValidationError):
+        validate_rule({"logic": "XOR", "conditions": []})
+    with pytest.raises(RuleValidationError):
+        validate_rule({"logic": "AND", "conditions": []})
+    with pytest.raises(RuleValidationError):
+        validate_rule({"logic": "AND", "conditions": [{"slug": "x", "op": "invalid", "value": 1}]})
+    with pytest.raises(RuleValidationError):
+        validate_rule({"logic": "AND", "conditions": [{"slug": "x", "op": "price_gt", "value": {"foo": "bar"}}]})
+
+
+def test_rule_engine_evaluate_and():
+    """evaluate_rule AND · todas las condiciones deben pasar."""
+    from etl.sources.commodities.rule_engine import evaluate_rule
+    rule = {
+        "logic": "AND",
+        "conditions": [
+            {"slug": "a", "op": "price_gt", "value": 100},
+            {"slug": "b", "op": "change_pct_lte", "value": -3},
+        ],
+    }
+    def resolver(slug):
+        return {
+            "a": {"last_price": 110},
+            "b": {"change_pct": -5},
+        }.get(slug)
+    res = evaluate_rule(rule, resolver)
+    assert res["triggered"] is True
+    # Si una falla, AND no dispara
+    res2 = evaluate_rule(rule, lambda s: {"a": {"last_price": 90}, "b": {"change_pct": -5}}.get(s))
+    assert res2["triggered"] is False
+
+
+def test_rule_engine_evaluate_or():
+    """evaluate_rule OR · basta con una condición que pase."""
+    from etl.sources.commodities.rule_engine import evaluate_rule
+    rule = {
+        "logic": "OR",
+        "conditions": [
+            {"slug": "a", "op": "price_gt", "value": 100},
+            {"slug": "b", "op": "price_gt", "value": 200},
+        ],
+    }
+    res = evaluate_rule(
+        rule,
+        lambda s: {"a": {"last_price": 50}, "b": {"last_price": 250}}.get(s),
+    )
+    assert res["triggered"] is True
+
+
+def test_rule_engine_evaluate_snapshot_ausente():
+    """Snapshot None → condición False sin excepción."""
+    from etl.sources.commodities.rule_engine import evaluate_rule
+    rule = {
+        "logic": "AND",
+        "conditions": [{"slug": "missing", "op": "price_gt", "value": 100}],
+    }
+    res = evaluate_rule(rule, lambda s: None)
+    assert res["triggered"] is False
+    assert res["details"][0]["snapshot_present"] is False
+
+
+def test_rule_engine_slugs_in_rule():
+    """slugs_in_rule devuelve únicos preservando orden."""
+    from etl.sources.commodities.rule_engine import slugs_in_rule
+    rule = {
+        "logic": "OR",
+        "conditions": [
+            {"slug": "wheat_cbot", "op": "price_gt", "value": 1},
+            {"slug": "corn_cbot", "op": "price_lt", "value": 1},
+            {"slug": "wheat_cbot", "op": "rsi_gt", "value": 70},
+        ],
+    }
+    assert slugs_in_rule(rule) == ["wheat_cbot", "corn_cbot"]
+
+
+def test_rule_engine_operadores_completos():
+    """6 operadores cubiertos."""
+    from etl.sources.commodities.rule_engine import evaluate_rule, VALID_OPERATORS
+    assert VALID_OPERATORS == {
+        "price_gt", "price_lt",
+        "change_pct_gte", "change_pct_lte",
+        "rsi_gt", "rsi_lt",
+    }
+    snap = {"last_price": 100, "change_pct": 5, "rsi_14": 72}
+    cases = [
+        ("price_gt", 50, True),
+        ("price_lt", 50, False),
+        ("change_pct_gte", 4, True),
+        ("change_pct_lte", 4, False),
+        ("rsi_gt", 70, True),
+        ("rsi_lt", 70, False),
+    ]
+    for op, value, expected in cases:
+        rule = {"logic": "AND", "conditions": [{"slug": "x", "op": op, "value": value}]}
+        res = evaluate_rule(rule, lambda s: snap)
+        assert res["triggered"] is expected, f"op={op} value={value} esperaba {expected}"
+
+
+def test_alerts_create_alert_rule_invalida_no_toca_bd():
+    """create_alert con rule_definition mal formada devuelve error sin INSERT."""
+    from etl.sources.commodities import alerts_service
+    original = alerts_service._get_engine
+    alerts_service._get_engine = lambda: object()  # placeholder · validamos antes
+    try:
+        res = alerts_service.create_alert(
+            user_id="user@test.com",
+            rule_definition={"logic": "XOR", "conditions": []},
+            channels=["inapp"],
+        )
+        assert res.get("error")
+        assert "rule_definition inválida" in res["error"]
+    finally:
+        alerts_service._get_engine = original
+
+
+def test_alerts_migration_0077_existe():
+    """Migración 0077 añade rule_definition + rule_name."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0077_commodity_alerts_rule_engine.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'down_revision = "0076_commodity_alerts"' in src
+    assert "rule_definition" in src
+    assert "rule_name" in src
+
+
+def test_sse_stream_endpoint_registrado():
+    """Endpoint SSE /alerts-events/stream activo en main.py."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    assert "/api/v1/commodities/alerts-events/stream" in paths
+
+
+def test_sse_proxy_route_exists_frontend():
+    """Frontend proxy SSE existe + sintaxis correcta."""
+    from pathlib import Path
+    p = (
+        Path(__file__).parent.parent.parent
+        / "apps" / "visual-oscar" / "app" / "api" / "commodities"
+        / "alerts-events" / "stream" / "route.ts"
+    )
+    assert p.exists()
+    src = p.read_text(encoding="utf-8")
+    assert "EventSource" not in src  # esto es server-side proxy
+    assert "force-dynamic" in src
+    assert "text/event-stream" in src
