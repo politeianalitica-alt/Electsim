@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent, useRef, useEffect } from 'react'
+import { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
@@ -17,6 +17,8 @@ type Msg = {
   source?: string
   /** Latencia total en ms. */
   ms?: number
+  /** Preguntas de seguimiento sugeridas (solo en mensajes de brain). */
+  followUps?: string[]
 }
 
 // Preguntas predefinidas del briefing matinal — usadas como fallback
@@ -74,9 +76,46 @@ export default function BrainBriefing() {
   const analystNote = briefing?.analyst_note
   const briefingMode = briefing?.mode
 
-  const [messages, setMessages] = useState<Msg[]>([])
+  // ─── Persistencia de conversación en localStorage ─────────────────────
+  // Se carga lazy en el primer render y se sincroniza en cada cambio.
+  // Clave por día para que cada mañana empiece limpia.
+  const sessionKey = useMemo(() => {
+    const d = new Date()
+    return `politeia.brain.${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+  }, [])
+
+  const [messages, setMessages] = useState<Msg[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      const raw = window.localStorage.getItem(sessionKey)
+      if (!raw) return []
+      const parsed = JSON.parse(raw) as Msg[]
+      return Array.isArray(parsed) ? parsed.slice(-30) : []
+    } catch {
+      return []
+    }
+  })
+
+  // Sync messages → localStorage (debounced via React batching)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      window.localStorage.setItem(sessionKey, JSON.stringify(messages.slice(-30)))
+    } catch {
+      // localStorage lleno o desactivado, ignorar
+    }
+  }, [messages, sessionKey])
+
+  // Pre-warm del context builder al montar — así la primera pregunta del
+  // usuario tiene el contexto ya cacheado (latencia -1 a -2s).
+  useEffect(() => {
+    fetch('/api/brain/warmup').catch(() => {/* silent */})
+  }, [])
+
   const [input, setInput] = useState('')
   const [thinking, setThinking] = useState(false)
+  // Qué tool está ejecutándose en este momento (para indicador visual)
+  const [activeTool, setActiveTool] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -129,7 +168,7 @@ export default function BrainBriefing() {
       const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
         ? data.reply
         : fakeReply(text)
-      setMessages(m => [...m, {
+      const newBrainMsg: Msg = {
         role: 'brain',
         text: reply,
         ts: Date.now(),
@@ -137,7 +176,30 @@ export default function BrainBriefing() {
         source: data.source,
         toolsUsed: data.tools_used,
         ms: data.ms,
-      }])
+      }
+      setMessages(m => [...m, newBrainMsg])
+
+      // Auto-generar 3 sugerencias de follow-up en background (no bloquea)
+      // Solo cuando la respuesta vino de Anthropic (real LLM)
+      if (data.source === 'anthropic' && reply.length > 30) {
+        fetch('/api/brain/followups', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_question: text,
+            brain_answer: reply.slice(0, 600),
+          }),
+        })
+          .then(r => r.ok ? r.json() : null)
+          .then((fu: { suggestions?: string[] } | null) => {
+            if (fu?.suggestions && fu.suggestions.length > 0) {
+              setMessages(prev => prev.map(m =>
+                m.ts === newBrainMsg.ts ? { ...m, followUps: fu.suggestions } : m
+              ))
+            }
+          })
+          .catch(() => {/* silent */})
+      }
     } catch {
       setMessages(m => [...m, { role: 'brain', text: fakeReply(text), ts: Date.now() }])
     } finally {
@@ -310,6 +372,47 @@ export default function BrainBriefing() {
                     )}
                   </div>
                 )}
+                {/* Follow-ups: sugerencias de pregunta de seguimiento */}
+                {m.role === 'brain' && m.followUps && m.followUps.length > 0 && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6, maxWidth: '88%' }}>
+                    {m.followUps.slice(0, 3).map((fu, k) => (
+                      <button
+                        key={k}
+                        type="button"
+                        onClick={() => ask(fu)}
+                        disabled={thinking}
+                        style={{
+                          background: 'rgba(255,255,255,0.04)',
+                          border: '1px solid rgba(255,255,255,0.10)',
+                          color: 'rgba(255,255,255,0.75)',
+                          fontSize: 10.5,
+                          padding: '3px 8px',
+                          borderRadius: 6,
+                          cursor: thinking ? 'not-allowed' : 'pointer',
+                          fontFamily: 'inherit',
+                          textAlign: 'left',
+                          maxWidth: '100%',
+                          lineHeight: 1.4,
+                          transition: 'all 150ms',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!thinking) {
+                            (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.15)'
+                            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(167,139,250,0.3)'
+                            ;(e.currentTarget as HTMLButtonElement).style.color = '#fff'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'
+                          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.10)'
+                          ;(e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.75)'
+                        }}
+                      >
+                        → {fu}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
             {thinking && (
@@ -321,6 +424,74 @@ export default function BrainBriefing() {
             )}
           </div>
         )}
+
+        {/* Quick actions · botones de prompt rápido */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+          {[
+            { label: '☀ Resumen del día', prompt: 'Resume lo más importante del día en 3 frases.' },
+            { label: '📊 Última encuesta', prompt: '¿Cómo va la última encuesta?' },
+            { label: '⚠ Alertas críticas', prompt: '¿Qué alertas críticas hay activas ahora?' },
+            { label: '🔥 Narrativas calientes', prompt: '¿Qué narrativas están acelerándose?' },
+            { label: '🏛 Estado coalición', prompt: '¿Cómo está la coalición de gobierno?' },
+            { label: '🌡 Riesgo político', prompt: '¿Cómo va el índice de riesgo?' },
+          ].map((qa) => (
+            <button
+              key={qa.label}
+              type="button"
+              disabled={thinking}
+              onClick={() => ask(qa.prompt)}
+              style={{
+                background: 'rgba(167,139,250,0.10)',
+                border: '1px solid rgba(167,139,250,0.25)',
+                color: '#c4b5fd',
+                fontSize: 11,
+                fontWeight: 600,
+                padding: '4px 9px',
+                borderRadius: 999,
+                cursor: thinking ? 'not-allowed' : 'pointer',
+                fontFamily: 'inherit',
+                letterSpacing: '0.02em',
+                transition: 'all 150ms',
+                opacity: thinking ? 0.5 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!thinking) {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.20)'
+                  ;(e.currentTarget as HTMLButtonElement).style.color = '#fff'
+                }
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(167,139,250,0.10)'
+                ;(e.currentTarget as HTMLButtonElement).style.color = '#c4b5fd'
+              }}
+            >
+              {qa.label}
+            </button>
+          ))}
+          {messages.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                setMessages([])
+                if (typeof window !== 'undefined') window.localStorage.removeItem(sessionKey)
+              }}
+              style={{
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.10)',
+                color: 'rgba(255,255,255,0.4)',
+                fontSize: 10.5,
+                padding: '4px 9px',
+                borderRadius: 999,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                marginLeft: 'auto',
+              }}
+              title="Limpiar conversación"
+            >
+              ✕ Limpiar
+            </button>
+          )}
+        </div>
 
         {/* Input + footer */}
         <form onSubmit={onSubmit} style={{
