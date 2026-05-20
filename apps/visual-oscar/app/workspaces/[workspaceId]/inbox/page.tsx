@@ -8,6 +8,7 @@ export default function InboxPage({ params }: { params: { workspaceId: string } 
     <div>
       <WorkspaceViewHeader
         view="inbox"
+        eyebrow="Workspace · Bandeja"
         title="Inbox"
         description="Señal sin ruido · RSS · BOE · Alerts · X · Newsletters · Agente"
         badge="C N K A · atajos"

@@ -16,7 +16,7 @@ const MODE_CONFIG: Record<AgentMode, { label: string; color: string }> = {
 
 export function AgentHeader({ mode, onModeChange, onClear }: AgentHeaderProps) {
   return (
-    <div className="flex flex-col gap-2 border-b border-slate-800 px-3 py-2.5">
+    <div className="flex flex-col gap-2 border-b border-[#e8e8ed] px-3 py-2.5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div
@@ -25,14 +25,14 @@ export function AgentHeader({ mode, onModeChange, onClear }: AgentHeaderProps) {
           >
             AI
           </div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#1d1d1f]">
             ARIA
           </span>
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
         </div>
         <button
           onClick={onClear}
-          className="text-[10px] text-slate-500 hover:text-slate-300 transition-colors"
+          className="text-[10px] text-[#6e6e73] hover:text-[#3a3a3d] transition-colors"
         >
           Nueva conversación
         </button>

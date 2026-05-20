@@ -19,7 +19,7 @@ export default function DocEditorPage({
   if (!doc) {
     return (
       <div className="flex h-full flex-col items-center justify-center text-center">
-        <p className="text-lg font-semibold text-slate-200 mb-2">Documento no encontrado</p>
+        <p className="text-lg font-semibold text-[#1d1d1f] mb-2">Documento no encontrado</p>
         <Link
           href={`/workspaces/${params.workspaceId}/docs`}
           className="text-sm text-indigo-400 hover:text-indigo-300"
@@ -34,18 +34,18 @@ export default function DocEditorPage({
     <div className="flex h-full -mx-7 -my-6">
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Doc topbar */}
-        <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-6 py-3">
+        <div className="flex items-center justify-between border-b border-[#e8e8ed] bg-white px-6 py-3">
           <div className="flex items-center gap-3">
             <Link
               href={`/workspaces/${params.workspaceId}/docs`}
-              className="text-xs text-slate-500 hover:text-slate-300"
+              className="text-xs text-[#6e6e73] hover:text-[#3a3a3d]"
             >
               ← Docs
             </Link>
-            <span className="text-slate-700">/</span>
+            <span className="text-[#3a3a3d]">/</span>
             <BadgeStatus value={doc.status} />
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-slate-500">
+          <div className="flex items-center gap-2 text-[11px] text-[#6e6e73]">
             {isSaving ? (
               <span className="text-amber-400">Guardando…</span>
             ) : lastSavedAt ? (
@@ -63,7 +63,7 @@ export default function DocEditorPage({
               type="text"
               value={doc.title}
               onChange={e => updateDoc({ title: e.target.value })}
-              className="w-full bg-transparent text-3xl font-bold text-slate-100 outline-none placeholder-slate-700 mb-8"
+              className="w-full bg-transparent text-3xl font-bold text-[#1d1d1f] outline-none placeholder-[#aeaeb2] mb-8"
               placeholder="Título del documento…"
             />
             <PoliteiBlockEditor

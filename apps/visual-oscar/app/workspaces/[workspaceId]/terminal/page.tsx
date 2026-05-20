@@ -109,6 +109,7 @@ export default function TerminalPage({ params }: { params: { workspaceId: string
     <div>
       <WorkspaceViewHeader
         view="terminal"
+        eyebrow="Workspace · Terminal"
         title="Terminal"
         description={`Vista operativa intensiva · ${workspaceName} · modo ${labelFor(layout.mode)}`}
         actions={

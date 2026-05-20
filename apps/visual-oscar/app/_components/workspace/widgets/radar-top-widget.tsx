@@ -20,7 +20,7 @@ export function RadarTopWidget({
       action={{ label: "Ver radar", href: `/workspaces/${workspaceId}/terminal` }}
     >
       {opportunities.length === 0 ? (
-        <p className="text-sm text-slate-400">Sin oportunidades del radar.</p>
+        <p className="text-sm text-[#6e6e73]">Sin oportunidades del radar.</p>
       ) : (
         <ul className="space-y-2">
           {opportunities.map(opp => {
@@ -35,25 +35,25 @@ export function RadarTopWidget({
             return (
               <li
                 key={opp.id}
-                className="rounded-lg bg-slate-950 p-2.5 hover:bg-slate-800/60 transition-colors cursor-pointer"
+                className="rounded-lg bg-[#fbfbfd] p-2.5 hover:bg-[#f5f5f7]/60 transition-colors cursor-pointer"
                 onClick={() => router.push(`/workspaces/${workspaceId}/docs`)}
               >
                 <div className="flex items-start justify-between gap-2 mb-1.5">
-                  <p className="text-xs font-semibold text-slate-100 leading-snug flex-1">
+                  <p className="text-xs font-semibold text-[#1d1d1f] leading-snug flex-1">
                     {opp.title}
                   </p>
                   <div className="text-right flex-none">
                     <div className="text-base font-bold" style={{ color: scoreColor }}>
                       {opp.score}
                     </div>
-                    <div className="text-[9px] text-slate-500">SCORE</div>
+                    <div className="text-[9px] text-[#6e6e73]">SCORE</div>
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-500 mb-1">{opp.area}</p>
-                <p className="text-[10px] text-slate-400 leading-snug line-clamp-2">
+                <p className="text-[10px] text-[#6e6e73] mb-1">{opp.area}</p>
+                <p className="text-[10px] text-[#6e6e73] leading-snug line-clamp-2">
                   ▸ {opp.recommendedAction}
                 </p>
-                <p className="text-[10px] text-slate-600 mt-1">{daysLeft} días de ventana</p>
+                <p className="text-[10px] text-[#8e8e93] mt-1">{daysLeft} días de ventana</p>
               </li>
             );
           })}

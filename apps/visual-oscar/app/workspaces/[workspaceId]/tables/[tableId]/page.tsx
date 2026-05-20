@@ -17,7 +17,7 @@ export default function TableEditorPage({
   if (!table) {
     return (
       <div className="flex h-full flex-col items-center justify-center">
-        <p className="text-lg font-semibold text-slate-200 mb-2">Dataset no encontrado</p>
+        <p className="text-lg font-semibold text-[#1d1d1f] mb-2">Dataset no encontrado</p>
         <Link href={`/workspaces/${params.workspaceId}/tables`} className="text-sm text-indigo-400 hover:text-indigo-300">
           ← Volver a Tables
         </Link>
@@ -31,18 +31,18 @@ export default function TableEditorPage({
         <div>
           <Link
             href={`/workspaces/${params.workspaceId}/tables`}
-            className="text-xs text-slate-500 hover:text-slate-300"
+            className="text-xs text-[#6e6e73] hover:text-[#3a3a3d]"
           >
             ← Tables
           </Link>
-          <h1 className="text-lg font-bold text-slate-100 mt-1">{table.name}</h1>
-          <p className="text-xs text-slate-500">
+          <h1 className="text-lg font-bold text-[#1d1d1f] mt-1">{table.name}</h1>
+          <p className="text-xs text-[#6e6e73]">
             {table.rows.length} filas · {table.columns.length} columnas
           </p>
         </div>
         <Link
           href={`/workspaces/${params.workspaceId}/tables/${table.id}/analysis`}
-          className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-300 hover:text-slate-100 transition-colors"
+          className="rounded-lg border border-[#e8e8ed] px-3 py-1.5 text-xs text-[#3a3a3d] hover:text-[#1d1d1f] transition-colors"
         >
           Análisis profundo
         </Link>

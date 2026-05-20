@@ -22,6 +22,7 @@ export default function AutomationsPage({ params }: { params: { workspaceId: str
     return (
       <WorkspaceEmptyState
         view="automations"
+        eyebrow="Workspace · Automatizaciones"
         title="Sin automatizaciones aún"
         description="Crea reglas que disparen acciones automáticas en el workspace."
         cta="+ Nueva automatización"

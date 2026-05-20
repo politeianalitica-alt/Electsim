@@ -113,6 +113,7 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
     <div>
       <WorkspaceViewHeader
         view="slides"
+        eyebrow="Workspace · Presentaciones"
         title="Politeia Slides"
         description={`Presentaciones generadas por Ollama · ${deck?.source === "ollama" ? "live" : "mock"}`}
         badge={deck ? `${deck.slides.length} slides` : ""}

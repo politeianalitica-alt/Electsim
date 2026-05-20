@@ -55,6 +55,7 @@ export default function RadarPage({ params }: { params: { workspaceId: string } 
     <div>
       <WorkspaceViewHeader
         view="radar"
+        eyebrow="Workspace · Radar"
         title="Radar de Oportunidades"
         description={`Generación estructurada con Ollama (llama3.2) · ${batch?.source === "ollama" ? "live" : "mock"}`}
         badge={batch ? `${batch.opportunities.length} oportunidades` : ""}

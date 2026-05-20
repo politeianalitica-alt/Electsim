@@ -60,7 +60,7 @@ export function KpiStripWidget({ data, workspaceId }: KpiStripWidgetProps) {
   ];
 
   return (
-    <div className="grid h-full grid-cols-4 gap-3 rounded-xl border border-slate-800 bg-slate-900 p-4">
+    <div className="grid h-full grid-cols-4 gap-3 rounded-xl border border-[#e8e8ed] bg-white p-4">
       {tiles.map(tile => (
         <KpiTileBox key={tile.id} tile={tile} />
       ))}
@@ -77,9 +77,9 @@ function KpiTileBox({ tile }: { tile: KpiTile }) {
   return (
     <Link
       href={tile.href}
-      className="flex flex-col justify-between rounded-lg bg-slate-950 p-3 hover:bg-slate-800/60 transition-colors"
+      className="flex flex-col justify-between rounded-lg bg-[#fbfbfd] p-3 hover:bg-[#f5f5f7]/60 transition-colors"
     >
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+      <span className="text-[10px] font-semibold uppercase tracking-wider text-[#6e6e73]">
         {tile.label}
       </span>
       <div className="flex items-baseline gap-2">
@@ -90,7 +90,7 @@ function KpiTileBox({ tile }: { tile: KpiTile }) {
           {tile.value}
         </span>
         {tile.delta && (
-          <span className="text-[10px] text-slate-500">{tile.delta}</span>
+          <span className="text-[10px] text-[#6e6e73]">{tile.delta}</span>
         )}
       </div>
     </Link>

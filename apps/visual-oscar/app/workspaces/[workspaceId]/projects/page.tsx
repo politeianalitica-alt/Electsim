@@ -12,6 +12,7 @@ export default function ProjectsPage({ params }: { params: { workspaceId: string
     <div>
       <WorkspaceViewHeader
         view="projects"
+        eyebrow="Workspace · Proyectos"
         title="Projects"
         description="Gestión de proyectos · Gantt, Kanban, Lista, Resumen"
         badge={`${projects.length} proyectos`}
@@ -27,13 +28,13 @@ export default function ProjectsPage({ params }: { params: { workspaceId: string
             <Link
               key={p.id}
               href={`/workspaces/${params.workspaceId}/projects/${p.id}`}
-              className="rounded-xl border border-slate-800 bg-slate-900 p-4 hover:border-indigo-500/40 hover:bg-slate-800/60 transition-colors"
+              className="rounded-xl border border-[#e8e8ed] bg-white p-4 hover:border-indigo-500/40 hover:bg-[#f5f5f7]/60 transition-colors"
               style={{ borderLeftColor: p.color, borderLeftWidth: 3 }}
             >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="text-sm font-semibold text-slate-100">{p.title}</p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">{tCfg.label}</p>
+                  <p className="text-sm font-semibold text-[#1d1d1f]">{p.title}</p>
+                  <p className="text-[11px] text-[#6e6e73] mt-0.5">{tCfg.label}</p>
                 </div>
                 <span
                   className="rounded px-2 py-0.5 text-[10px] font-semibold"
@@ -42,10 +43,10 @@ export default function ProjectsPage({ params }: { params: { workspaceId: string
                   {sCfg.label}
                 </span>
               </div>
-              <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-2">
+              <div className="h-1.5 rounded-full bg-[#f5f5f7] overflow-hidden mb-2">
                 <div className="h-full rounded-full" style={{ width: `${completion}%`, background: p.color }} />
               </div>
-              <div className="flex items-center justify-between text-[10px] text-slate-500">
+              <div className="flex items-center justify-between text-[10px] text-[#6e6e73]">
                 <span>{p.tasks.length} tareas · {done} hechas</span>
                 <span>{new Date(p.endDate).toLocaleDateString("es-ES")}</span>
               </div>

@@ -24,6 +24,7 @@ export default function KnowledgePage({ params }: { params: { workspaceId: strin
     return (
       <WorkspaceEmptyState
         view="knowledge"
+        eyebrow="Workspace · Conocimiento"
         title="Sin items de conocimiento"
         description="Empieza a construir la memoria institucional del workspace."
         cta="+ Añadir artículo"

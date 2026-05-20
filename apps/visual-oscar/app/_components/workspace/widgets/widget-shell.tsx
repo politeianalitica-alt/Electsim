@@ -27,10 +27,10 @@ export function WidgetShell({
 }: WidgetShellProps) {
   const badgeStyle = BADGE_STYLES[badgeVariant];
   return (
-    <div className={`flex h-full flex-col rounded-xl border border-slate-800 bg-slate-900 ${className}`}>
-      <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
+    <div className={`flex h-full flex-col rounded-xl border border-[#e8e8ed] bg-white ${className}`}>
+      <div className="flex items-center justify-between border-b border-[#e8e8ed] px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6e6e73]">
             {title}
           </span>
           {badge !== undefined && (
@@ -45,7 +45,7 @@ export function WidgetShell({
         {action && (
           <Link
             href={action.href}
-            className="text-[11px] text-slate-500 hover:text-slate-300 transition-colors"
+            className="text-[11px] text-[#6e6e73] hover:text-[#3a3a3d] transition-colors"
           >
             {action.label} →
           </Link>

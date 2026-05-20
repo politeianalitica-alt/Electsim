@@ -81,6 +81,7 @@ export default function SimulatorPage({ params }: { params: { workspaceId: strin
     <div>
       <WorkspaceViewHeader
         view="simulator"
+        eyebrow="Workspace · Simulador"
         title="Simulador de Decisión"
         description="Antes de actuar · 3 outcomes con probabilidades + contramovimientos · Ollama"
         badge={sim ? `${sim.outcomes.length} outcomes` : ""}
