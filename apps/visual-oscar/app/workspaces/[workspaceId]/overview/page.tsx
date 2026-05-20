@@ -18,6 +18,7 @@ import { CanvasSummaryWidget } from "@/app/_components/workspace/widgets/canvas-
 import { RadarTopWidget } from "@/app/_components/workspace/widgets/radar-top-widget";
 import { CrmAlertsPanel } from "@/components/crm/crm-alerts-panel";
 import { InboxMiniWidget } from "@/app/_components/workspace/widgets/inbox-mini-widget";
+import WorkspacePoliticalOverview from "@/app/_components/workspace/political-overview";
 
 export default function WorkspaceOverviewPage({ params }: { params: { workspaceId: string } }) {
   const { workspaceId } = params;
@@ -51,7 +52,12 @@ export default function WorkspaceOverviewPage({ params }: { params: { workspaceI
   }
 
   return (
-    <div className="grid grid-cols-12 grid-rows-[auto_auto_1fr_1fr] gap-3 h-full min-h-[800px]">
+    <div className="flex flex-col gap-6">
+      {/* Cabecera ejecutiva · overview de inteligencia política (España 2026) */}
+      <WorkspacePoliticalOverview />
+
+      {/* Grid operativo · widgets existentes (Morning Brief, KPIs, Agenda, etc.) */}
+      <div className="grid grid-cols-12 grid-rows-[auto_auto_1fr_1fr] gap-3 h-full min-h-[800px]">
       <div className="col-span-4 row-span-2">
         <MorningBriefWidget
           brief={brief}
@@ -91,6 +97,7 @@ export default function WorkspaceOverviewPage({ params }: { params: { workspaceI
       </div>
       <div className="col-span-4">
         <CrmAlertsPanel workspaceId={workspaceId} />
+      </div>
       </div>
     </div>
   );
