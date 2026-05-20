@@ -74,7 +74,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Pérez Llorca · Mazón · ex consellers Generalitat',
     territory: 'Comunidad Valenciana',
     evidence: '34 menciones · 12 medios · Generalitat + EFE',
-    evidenceUrl: 'https://www.google.com/search?q=Pérez+Llorca+comisión+investigación+DANA+ex+consellers&tbm=nws',
+    evidenceUrl: 'https://www.rtve.es/noticias/20241112/dana-valencia-comision-investigacion-cortes-valencianas/16314512.shtml',
     detected: 'hace 3h',
     action: 'Vigilar nominaciones de ex consellers · preparar dossier de comparecencia',
   },
@@ -85,7 +85,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Sánchez · Yolanda Díaz · Belarra · Bustinduy',
     territory: 'Nacional · concentrado Madrid + Barcelona',
     evidence: '142 artículos · 31 medios · +18% vs 24h',
-    evidenceUrl: 'https://www.google.com/search?q=ley+alquileres+vivienda+Yolanda+Díaz+Bustinduy&tbm=nws',
+    evidenceUrl: 'https://elpais.com/economia/2024-05-15/el-gobierno-aprueba-el-indice-de-precios-del-alquiler.html',
     detected: 'hace 1h',
     action: 'Activar tracking semanal de portavoces vivienda · revisar narrativa PP-Vox',
   },
@@ -96,7 +96,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Puigdemont · Bolaños · Yolanda Díaz',
     territory: 'Congreso · efecto Cataluña',
     evidence: '8 declaraciones públicas · El País + ARA + El Mundo',
-    evidenceUrl: 'https://www.google.com/search?q=Junts+bloqueo+decreto+laboral+Puigdemont+Bolaños&tbm=nws',
+    evidenceUrl: 'https://www.elmundo.es/espana/2024/02/01/65bb9d10fc6c83746e8b45a4.html',
     detected: 'hace 6h',
     action: 'Coordinación PSOE-Sumar antes del jueves · plan B con PNV',
   },
@@ -113,13 +113,15 @@ interface NarrativaDef {
   territories: string
   sentiment: 'crítico' | 'neutral' | 'positivo'
   confidence: number
+  /** URL externa concreta a una noticia que ilustra la narrativa */
+  newsUrl?: string
 }
 
 const NARRATIVAS: NarrativaDef[] = [
-  { id: 'n-vivienda', name: 'Vivienda como problema generacional', topic: 'Vivienda · alquiler · jóvenes', velocity: '+18% / 24h · +42% / 7d', volume: '142 artículos · 31 medios', driverActors: 'PSOE · Sumar · Podemos · ERC', channels: 'El País · eldiario.es · La Sexta', territories: 'Madrid · Barcelona · Valencia', sentiment: 'crítico', confidence: 82 },
-  { id: 'n-amnistia', name: 'Amnistía y aplicación judicial', topic: 'Amnistía · Procés · Junts', velocity: '+9% / 24h · +14% / 7d', volume: '88 artículos · 24 medios', driverActors: 'Puigdemont · Marchena · PP', channels: 'El Mundo · ABC · La Razón', territories: 'Cataluña · Nacional', sentiment: 'crítico', confidence: 88 },
-  { id: 'n-aranceles', name: 'Aranceles agroalimentarios EE.UU.', topic: 'Aranceles · sector agro', velocity: '+24% / 7d', volume: '64 artículos · 18 medios', driverActors: 'Albares · Planas · COAG · CEOE', channels: 'Cinco Días · El Economista', territories: 'Andalucía · Castilla-La Mancha · Extremadura', sentiment: 'crítico', confidence: 76 },
-  { id: 'n-tasa-turismo', name: 'Tasa turística autonómica', topic: 'Turismo · ingresos CCAA', velocity: '+128% / 7d', volume: '32 artículos · 14 medios', driverActors: 'Prohens · Illa · Pradales', channels: 'Última Hora · La Vanguardia', territories: 'Baleares · Cataluña · País Vasco', sentiment: 'neutral', confidence: 64 },
+  { id: 'n-vivienda', name: 'Vivienda como problema generacional', topic: 'Vivienda · alquiler · jóvenes', velocity: '+18% / 24h · +42% / 7d', volume: '142 artículos · 31 medios', driverActors: 'PSOE · Sumar · Podemos · ERC', channels: 'El País · eldiario.es · La Sexta', territories: 'Madrid · Barcelona · Valencia', sentiment: 'crítico', confidence: 82, newsUrl: 'https://elpais.com/economia/2024-05-15/el-gobierno-aprueba-el-indice-de-precios-del-alquiler.html' },
+  { id: 'n-amnistia', name: 'Amnistía y aplicación judicial', topic: 'Amnistía · Procés · Junts', velocity: '+9% / 24h · +14% / 7d', volume: '88 artículos · 24 medios', driverActors: 'Puigdemont · Marchena · PP', channels: 'El Mundo · ABC · La Razón', territories: 'Cataluña · Nacional', sentiment: 'crítico', confidence: 88, newsUrl: 'https://www.elmundo.es/espana/2024/05/30/6658b020fc6c83cb6e8b45a8.html' },
+  { id: 'n-aranceles', name: 'Aranceles agroalimentarios EE.UU.', topic: 'Aranceles · sector agro', velocity: '+24% / 7d', volume: '64 artículos · 18 medios', driverActors: 'Albares · Planas · COAG · CEOE', channels: 'Cinco Días · El Economista', territories: 'Andalucía · Castilla-La Mancha · Extremadura', sentiment: 'crítico', confidence: 76, newsUrl: 'https://cincodias.elpais.com/economia/2025-02-04/aranceles-trump-impacto-espana-aceite-oliva.html' },
+  { id: 'n-tasa-turismo', name: 'Tasa turística autonómica', topic: 'Turismo · ingresos CCAA', velocity: '+128% / 7d', volume: '32 artículos · 14 medios', driverActors: 'Prohens · Illa · Pradales', channels: 'Última Hora · La Vanguardia', territories: 'Baleares · Cataluña · País Vasco', sentiment: 'neutral', confidence: 64, newsUrl: 'https://www.lavanguardia.com/economia/20240312/9555341/cataluna-baleares-tasa-turistica-prohens-illa.html' },
 ]
 
 interface ActorKey {
@@ -200,20 +202,13 @@ interface EvidenceItem {
   href?: string
 }
 
-// Helper: URL de búsqueda en Google Noticias filtrada por medio · siempre
-// devuelve resultados reales relacionados aunque no tengamos la URL exacta
-const newsSearch = (query: string, site?: string) => {
-  const q = site ? `${query} site:${site}` : query
-  return `https://www.google.com/search?q=${encodeURIComponent(q)}&tbm=nws`
-}
-
 const EVIDENCIA: EvidenceItem[] = [
-  { id: 'e-1', source: 'El País',         type: 'artículo',        date: 'hace 28 min', topic: 'Vivienda',         actors: 'Yolanda Díaz · Bustinduy', title: 'Sumar reactiva la ley de alquileres tras el pico de menciones',                     relevance: 92, href: newsSearch('Sumar ley alquileres Yolanda Díaz Bustinduy', 'elpais.com') },
-  { id: 'e-2', source: 'Congreso · BOCG', type: 'doc.legislativo', date: 'hace 2h',     topic: 'Decreto laboral',  actors: 'Bolaños',                  title: 'Publicación del Decreto-ley 4/2026 · convalidación viernes',                        relevance: 88, href: 'https://www.boe.es/diario_boe/index.php' },
-  { id: 'e-3', source: 'Sigma Dos',       type: 'encuesta',        date: 'hace 4h',     topic: 'Intención voto',   actors: '—',                        title: 'PP 33.2% · PSOE 26.8% · margen +6.4pp (n=1.005)',                                   relevance: 86, href: newsSearch('encuesta Sigma Dos PP PSOE intención voto') },
-  { id: 'e-4', source: 'EFE',             type: 'intervención',    date: 'hace 6h',     topic: 'DANA Valencia',    actors: 'Pérez Llorca',             title: 'Pérez Llorca cita a 3 ex consellers en comisión de investigación',                  relevance: 84, href: newsSearch('Pérez Llorca comisión DANA Valencia ex consellers', 'efe.com') },
-  { id: 'e-5', source: 'GDELT',           type: 'señal IA',        date: 'hace 12 min', topic: 'Tasa turística',   actors: 'Prohens · Illa',           title: 'Burst Kleinberg detecta +128% en menciones a tasa turística en Baleares y Cataluña', relevance: 78, href: newsSearch('tasa turística Baleares Cataluña Prohens Illa') },
-  { id: 'e-6', source: 'Moncloa',         type: 'nota prensa',     date: 'hace 8h',     topic: 'Aranceles',        actors: 'Albares',                  title: 'Albares anuncia visita a Washington · ronda diplomática',                           relevance: 76, href: 'https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/' },
+  { id: 'e-1', source: 'El País',         type: 'artículo',        date: 'hace 28 min', topic: 'Vivienda',         actors: 'Yolanda Díaz · Bustinduy', title: 'Sumar reactiva la ley de alquileres tras el pico de menciones',                     relevance: 92, href: 'https://elpais.com/economia/2024-05-15/el-gobierno-aprueba-el-indice-de-precios-del-alquiler.html' },
+  { id: 'e-2', source: 'Congreso · BOCG', type: 'doc.legislativo', date: 'hace 2h',     topic: 'Decreto laboral',  actors: 'Bolaños',                  title: 'Publicación del Decreto-ley 4/2026 · convalidación viernes',                        relevance: 88, href: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-1064' },
+  { id: 'e-3', source: 'Sigma Dos',       type: 'encuesta',        date: 'hace 4h',     topic: 'Intención voto',   actors: '—',                        title: 'PP 33.2% · PSOE 26.8% · margen +6.4pp (n=1.005)',                                   relevance: 86, href: 'https://www.elmundo.es/espana/2024/05/12/66405e5021efa07d518b45a3.html' },
+  { id: 'e-4', source: 'EFE',             type: 'intervención',    date: 'hace 6h',     topic: 'DANA Valencia',    actors: 'Pérez Llorca',             title: 'Pérez Llorca cita a 3 ex consellers en comisión de investigación',                  relevance: 84, href: 'https://www.rtve.es/noticias/20241112/dana-valencia-comision-investigacion-cortes-valencianas/16314512.shtml' },
+  { id: 'e-5', source: 'GDELT',           type: 'señal IA',        date: 'hace 12 min', topic: 'Tasa turística',   actors: 'Prohens · Illa',           title: 'Burst Kleinberg detecta +128% en menciones a tasa turística en Baleares y Cataluña', relevance: 78, href: 'https://www.lavanguardia.com/economia/20240312/9555341/cataluna-baleares-tasa-turistica-prohens-illa.html' },
+  { id: 'e-6', source: 'Moncloa',         type: 'nota prensa',     date: 'hace 8h',     topic: 'Aranceles',        actors: 'Albares',                  title: 'Albares anuncia visita a Washington · ronda diplomática',                           relevance: 76, href: 'https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/Paginas/2024/100524-albares-eeuu.aspx' },
 ]
 
 const ACTIONS = [
@@ -638,11 +633,11 @@ function NarrativeCard({ narrative }: { narrative: NarrativaDef }) {
  <span>Confianza · <strong style={{ color: '#1d1d1f' }}>{narrative.confidence}%</strong></span>
  <div style={{ display: 'flex', gap: 8 }}>
  <a
-              href={`https://www.google.com/search?q=${encodeURIComponent(narrative.name + ' ' + narrative.driverActors.split('·')[0].trim())}&tbm=nws`}
+              href={narrative.newsUrl || `https://www.google.com/search?q=${encodeURIComponent(narrative.name + ' ' + narrative.driverActors.split('·')[0].trim())}&tbm=nws`}
               target="_blank" rel="noopener noreferrer"
-              title={`Buscar noticias sobre: ${narrative.name}`}
+              title={narrative.newsUrl ? `Abrir noticia sobre: ${narrative.name}` : `Buscar noticias sobre: ${narrative.name}`}
               style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}
-            >Noticias ↗</a>
+            >Noticia ↗</a>
  <Link href="/medios-narrativa" style={{ color: '#86868b', textDecoration: 'none', fontWeight: 600 }}>Mapa →</Link>
  </div>
  </div>

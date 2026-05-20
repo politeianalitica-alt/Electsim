@@ -45,6 +45,9 @@ export interface RelacionExplicita {
   val: number          // -100 .. +100
   tipo: TipoRelacion
   label: string        // descripción corta · va al tooltip
+  /** URL externa a noticia concreta que documenta la relación.
+   *  Si está presente, el pill "evidencia" del grafo navega aquí. */
+  sourceUrl?: string
 }
 
 // Relaciones adicionales importadas de CSVs curados (mayo 2026, fuentes

@@ -66,6 +66,7 @@ interface InferredLink {
   label: string
   tipo?: TipoRelacion           // si proviene de relación explícita
   curado?: boolean              // true si está en el dataset curado
+  sourceUrl?: string            // URL a noticia concreta (relaciones curadas)
 }
 
 /**
@@ -83,7 +84,7 @@ function buildLinks(visible: Actor[]): InferredLink[] {
     if (!visIds.has(r.a) || !visIds.has(r.b)) continue
     const key = [r.a, r.b].sort().join('|')
     explicitKey.add(key)
-    explicitas.push({ a: r.a, b: r.b, val: r.val, label: r.label, tipo: r.tipo, curado: true })
+    explicitas.push({ a: r.a, b: r.b, val: r.val, label: r.label, tipo: r.tipo, curado: true, sourceUrl: r.sourceUrl })
   }
 
   // 2. Relaciones inferidas (pero solo donde no hay explícita)
@@ -102,7 +103,7 @@ function buildLinks(visible: Actor[]): InferredLink[] {
   inferidas.sort((x, y) => Math.abs(y.val) - Math.abs(x.val))
 
   // 3. Combina · explícitas siempre + hasta completar 450 con inferidas
-  return [...explicitas, ...inferidas].slice(0, 450)
+  return [...explicitas, ...inferidas].slice(0, 1500)
 }
 function pairScore(a: Actor, b: Actor): { val: number; label: string } | null {
   const pa = a.partido || 'Independiente'
@@ -271,7 +272,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
   const focusStats = focusActor ? (() => {
     const links = allLinks
       .filter(l => l.a === focusActor.id || l.b === focusActor.id)
-      .map(l => ({ otherId: l.a === focusActor.id ? l.b : l.a, val: l.val, label: l.label, tipo: l.tipo, curado: l.curado }))
+      .map(l => ({ otherId: l.a === focusActor.id ? l.b : l.a, val: l.val, label: l.label, tipo: l.tipo, curado: l.curado, sourceUrl: l.sourceUrl }))
       .sort((a, b) => b.val - a.val)
     return { actor: focusActor, links }
   })() : null
@@ -950,7 +951,7 @@ function FilterBtn({ active, onClick, accent, children }: { active: boolean; onC
 }
 
 function FocusPanel({ stats, actors, metrics }: {
-  stats: { actor: Actor; links: { otherId: string; val: number; label: string; tipo?: TipoRelacion; curado?: boolean }[] }
+  stats: { actor: Actor; links: { otherId: string; val: number; label: string; tipo?: TipoRelacion; curado?: boolean; sourceUrl?: string }[] }
   actors: Actor[]
   metrics: { degree: Record<string, number>; negDegree: Record<string, number>; posDegree: Record<string, number>; bridges: Set<string>; polarizers: Set<string>; isolated: Set<string>; meanG: number; bridgeThreshold: number }
 }) {
@@ -1188,17 +1189,19 @@ function FocusPanel({ stats, actors, metrics }: {
  <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
                   {l.curado && (() => {
-                    // Convierte la etiqueta de la relación en una URL de
-                    // búsqueda en Google Noticias para que el usuario
-                    // pueda verificar la evidencia con un click.
+                    // Si la relación curada trae URL a una noticia concreta,
+                    // navega directamente al artículo. Si no, cae al buscador
+                    // de Google Noticias con los dos nombres.
                     const queryActors = `${nameOf(stats.actor)} ${nameOf(other)}`
-                    const url = `https://www.google.com/search?q=${encodeURIComponent(queryActors)}&tbm=nws`
+                    const fallback = `https://www.google.com/search?q=${encodeURIComponent(queryActors)}&tbm=nws`
+                    const url = l.sourceUrl || fallback
+                    const isReal = !!l.sourceUrl
                     return (
  <a href={url} target="_blank" rel="noopener noreferrer"
-                        title={`Buscar noticias: ${l.label}`}
+                        title={isReal ? `Abrir noticia: ${l.label}` : `Buscar noticias: ${l.label}`}
                         style={{ textDecoration: 'none' }}
                       >
- <InsightPill variant="observed" label="evidencia ↗"/>
+ <InsightPill variant="observed" label={isReal ? 'noticia ↗' : 'evidencia ↗'}/>
  </a>
                     )
                   })()}

@@ -151,7 +151,7 @@ export default function MapaActoresPage() {
               score_influencia: 'score_influencia' in p ? p.score_influencia : any.inf,
             }
           })}
-          maxActors={60}
+          maxActors={300}
         />
       )}
 
