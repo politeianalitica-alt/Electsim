@@ -3,7 +3,7 @@ import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
 import { generateText, generateWithTools, AI_CONFIG } from '@/lib/ai'
 import { buildLiveContext } from '@/lib/ai/context-builder'
 import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
-import { BRAIN_TOOLS, WEB_SEARCH_TOOL, executeTool } from '@/lib/ai/tools'
+import { BRAIN_TOOLS, executeTool } from '@/lib/ai/tools'
 import { chooseTier, lastUserMessage } from '@/lib/ai/tier-router'
 import { calculateCost } from '@/lib/ai/cost-calculator'
 
@@ -180,11 +180,7 @@ export async function POST(req: NextRequest) {
         })),
         temperature: 0.3,
         maxTokens: tier === 'premium' ? 2000 : 1500,
-        // BRAIN_TOOLS = nuestras 13 tools custom (BOE, actores, polls...)
-        // + WEB_SEARCH_TOOL = server tool de Anthropic (búsqueda web nativa).
-        // Web search se usa solo si las custom no devuelven datos y Claude
-        // detecta que necesita info fresca de internet.
-        tools: [...BRAIN_TOOLS, WEB_SEARCH_TOOL],
+        tools: BRAIN_TOOLS,
         executor: executeTool,
         maxIterations: 4,
       })
@@ -242,10 +238,18 @@ export async function POST(req: NextRequest) {
           maxTokens: 1024,
         })
         if (reply) {
+          // También detectar marcador GENERAL:: en el fallback
+          const trimmedFb = reply.trimStart()
+          const fbGeneral = /^GENERAL::/i.test(trimmedFb)
+          const cleanedFb = fbGeneral
+            ? trimmedFb.replace(/^GENERAL::[^\n]*\n+/i, "").trim()
+            : reply
           return NextResponse.json({
-            reply,
+            reply: cleanedFb,
             source: 'anthropic',
             model: AI_CONFIG.anthropicFastModel,
+            tier: 'fast',
+            from_general_knowledge: fbGeneral,
             tools_used: [],
             citations: [],
             ms: Date.now() - started,
