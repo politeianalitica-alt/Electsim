@@ -14,6 +14,7 @@ import { useCommodityCatalog, useCommoditySnapshot } from '@/hooks/useCommoditie
 import { useCommodityAlerts, type AlertKind } from '@/hooks/useCommodityAlerts'
 import { useAlertEventsStream } from '@/hooks/useAlertEventsStream'
 import { fmtPct, fmtPrice } from '@/lib/commodities-utils'
+import { PushToggle } from './_components/PushToggle'
 
 export default function AlertsPage() {
   const router = useRouter()
@@ -80,6 +81,8 @@ export default function AlertsPage() {
             <span style={{ color: '#9ca3af', marginLeft: 8 }}>○ SSE reconectando…</span>
           )}
         </p>
+
+        <PushToggle />
 
         <div
           style={{

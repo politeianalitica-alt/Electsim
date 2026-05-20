@@ -512,6 +512,119 @@ async def stream_alert_events(
 
 
 # ─────────────────────────────────────────────────────────────────
+# Web Push (VAPID) · suscripciones del navegador
+# ─────────────────────────────────────────────────────────────────
+
+class PushSubscriptionIn(BaseModel):
+    user_id: str = Field(..., min_length=1, max_length=120)
+    endpoint: str = Field(..., min_length=10)
+    p256dh: str = Field(..., min_length=20, max_length=200)
+    auth: str = Field(..., min_length=10, max_length=64)
+    user_agent: str | None = None
+
+
+class PushSubscriptionDelete(BaseModel):
+    endpoint: str = Field(..., min_length=10)
+
+
+@router.get("/push/public-key")
+def get_push_public_key() -> dict[str, Any]:
+    """Devuelve VAPID_PUBLIC_KEY · el SW la necesita para applicationServerKey.
+
+    Si las VAPID keys no están configuradas, devuelve `{enabled: false}` y
+    la UI muestra "push no disponible".
+    """
+    import os as _os
+    from etl.sources.commodities.web_push import is_configured
+    if not is_configured():
+        return {"enabled": False, "reason": "VAPID no configurado o pywebpush no instalado"}
+    return {
+        "enabled": True,
+        "public_key": _os.environ.get("VAPID_PUBLIC_KEY", ""),
+        "subject": _os.environ.get("VAPID_SUBJECT", "mailto:alerts@politeia-analitica.es"),
+    }
+
+
+@router.post("/push/subscribe")
+def push_subscribe(req: PushSubscriptionIn) -> dict[str, Any]:
+    """Registra (o re-activa) una suscripción Web Push para el usuario."""
+    try:
+        from etl.sources.commodities.web_push import upsert_subscription
+        return upsert_subscription(
+            user_id=req.user_id,
+            endpoint=req.endpoint,
+            p256dh=req.p256dh,
+            auth=req.auth,
+            user_agent=req.user_agent,
+        )
+    except Exception as exc:
+        logger.exception("push_subscribe falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/push/unsubscribe")
+def push_unsubscribe(req: PushSubscriptionDelete) -> dict[str, Any]:
+    """Marca la suscripción como inactiva (no se borra · audit trail)."""
+    try:
+        from etl.sources.commodities.web_push import remove_subscription
+        return remove_subscription(req.endpoint)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/push/subscriptions")
+def push_list_subscriptions(
+    user_id: str = Query(..., min_length=1),
+    active_only: bool = Query(True),
+) -> dict[str, Any]:
+    """Lista las suscripciones del usuario · útil para ajustes y debug."""
+    try:
+        from etl.sources.commodities.web_push import list_subscriptions
+        items = list_subscriptions(user_id=user_id, active_only=active_only)
+        return {"n_items": len(items), "items": items}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
+# Templates de reglas multi-condición
+# ─────────────────────────────────────────────────────────────────
+
+class ApplyTemplateRequest(BaseModel):
+    template_id: str = Field(..., min_length=1)
+    slots: dict[str, str] = Field(default_factory=dict)
+    params: dict[str, float] | None = None
+
+
+@router.get("/alerts/rule-templates")
+def list_rule_templates_endpoint() -> dict[str, Any]:
+    """Galería de templates predefinidos · contango, RSI extremos, etc."""
+    try:
+        from etl.sources.commodities.rule_templates import list_templates
+        items = list_templates()
+        return {"n_items": len(items), "items": items}
+    except Exception as exc:
+        logger.exception("list_rule_templates falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/alerts/rule-templates/apply")
+def apply_rule_template_endpoint(req: ApplyTemplateRequest) -> dict[str, Any]:
+    """Aplica un template · devuelve rule_definition listo para POST /alerts."""
+    try:
+        from etl.sources.commodities.rule_templates import apply_template
+        result = apply_template(req.template_id, req.slots, req.params)
+        if not result.get("ok"):
+            raise HTTPException(status_code=400, detail=result.get("error", "template invalid"))
+        return result
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("apply_rule_template falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
 # Recipe Cost
 # ─────────────────────────────────────────────────────────────────
 

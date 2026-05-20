@@ -8,7 +8,8 @@ Sustituye el storage localStorage del Sprint 7 Vesper-FE. Diseño:
   · cooldown_minutes evita spam · una alerta no se dispara más de una vez
     cada N minutos
   · notify_event() abstrae el envío · soporta 'inapp' (siempre, vía BD) +
-    'email' (Resend opt-in si RESEND_API_KEY) + 'push' (placeholder)
+    'email' (Resend opt-in si RESEND_API_KEY) + 'push' (Web Push VAPID
+    si VAPID_PRIVATE_KEY · ver etl/sources/commodities/web_push.py)
 
 Falla cerrado: cualquier excepción → {error: str, ...vacío}.
 """
@@ -661,12 +662,21 @@ def notify_event(
             elif ch == "email":
                 out[ch] = _send_email(alert, trigger_value)
             elif ch == "push":
-                out[ch] = "skipped"  # placeholder · web push fuera de scope
+                out[ch] = _send_web_push(alert, trigger_value)
             else:
                 out[ch] = f"error: canal desconocido '{ch}'"
         except Exception as exc:
             out[ch] = f"error: {exc}"
     return out
+
+
+def _send_web_push(alert: dict[str, Any], trigger_value: float) -> str:
+    """Delegate al módulo web_push (VAPID). Falla cerrado si no configurado."""
+    try:
+        from etl.sources.commodities.web_push import send_push_for_alert
+        return send_push_for_alert(alert, trigger_value)
+    except Exception as exc:
+        return f"error: web_push: {exc}"
 
 
 def _send_email(alert: dict[str, Any], trigger_value: float) -> str:

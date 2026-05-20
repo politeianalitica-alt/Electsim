@@ -18,6 +18,7 @@ import Link from 'next/link'
 import AppHeader from '../../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useCommodityCatalog } from '@/hooks/useCommodities'
+import { TemplateGallery } from './_components/TemplateGallery'
 
 type Operator =
   | 'price_gt'
@@ -155,11 +156,35 @@ export default function RuleBuilderPage() {
         <h1 style={{ fontSize: 26, fontWeight: 800, color: '#111827', margin: '12px 0 4px' }}>
           RuleBuilder · alertas multi-condición
         </h1>
-        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 18 }}>
+        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 14 }}>
           Construye reglas compuestas (hasta 8 condiciones). Cooldown adaptativo
           ajusta automáticamente según volatilidad histórica del commodity más
           volátil de la regla.
         </p>
+
+        <div style={{ marginBottom: 16 }}>
+          <TemplateGallery
+            catalog={catalog.map((c) => ({
+              slug: c.slug,
+              name: c.name,
+              category: c.category,
+            }))}
+            onApply={(rd, suggestedName) => {
+              setLogic(rd.logic)
+              setConditions(
+                rd.conditions.map((c) => ({
+                  slug: c.slug,
+                  op: c.op as Operator,
+                  value: c.value,
+                  period_days: c.period_days,
+                })),
+              )
+              if (suggestedName) setRuleName(suggestedName)
+              setError(null)
+              setSuccess(`Template aplicado · revisa y guarda`)
+            }}
+          />
+        </div>
 
         <div
           style={{
