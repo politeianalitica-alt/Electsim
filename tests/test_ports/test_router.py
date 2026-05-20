@@ -88,21 +88,68 @@ def test_port_overview_unknown_returns_404(client: TestClient):
 
 
 @pytest.mark.parametrize("path", [
-    "/api/v1/ports/algeciras/vessels",
-    "/api/v1/ports/algeciras/calls",
-    "/api/v1/ports/algeciras/congestion",
-    "/api/v1/ports/vessels/IMO9525338",
-    "/api/v1/ports/vessels/IMO9525338/track",
-    "/api/v1/ports/vessels/IMO9525338/screen",
-    "/api/v1/ports/freight/snapshot",
-    "/api/v1/ports/freight/baltic_dry/price",
-    "/api/v1/ports/chokepoints",
-    "/api/v1/ports/chokepoints/suez",
+    "/api/v1/ports/vessels/IMO9525338/screen",   # P5
+    "/api/v1/ports/freight/snapshot",            # P4
+    "/api/v1/ports/freight/baltic_dry/price",    # P4
+    "/api/v1/ports/chokepoints",                 # P4
+    "/api/v1/ports/chokepoints/suez",            # P4
 ])
 def test_deferred_endpoints_return_501(client: TestClient, path: str):
     r = client.get(path)
     assert r.status_code == 501, f"{path} no es 501 (es {r.status_code})"
     assert "diferido" in r.json().get("detail", "").lower()
+
+
+# ─────────────────────────────────────────────────────────────────
+# Endpoints P2 ahora implementados
+# ─────────────────────────────────────────────────────────────────
+
+def test_port_vessels_returns_list(client: TestClient):
+    r = client.get("/api/v1/ports/algeciras/vessels?limit=15")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["port_slug"] == "algeciras"
+    assert data["n_vessels"] == len(data["items"])
+    assert data["n_vessels"] == 15
+
+
+def test_port_calls_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/valencia/calls?days_back=3&limit=20")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["port_slug"] == "valencia"
+    assert data["days_back"] == 3
+    assert len(data["items"]) > 0
+
+
+def test_port_congestion_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/rotterdam/congestion?days=14")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["port_slug"] == "rotterdam"
+    assert len(data["series"]) == 14
+
+
+def test_vessel_lookup_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/vessels/IMO9525338")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["imo"] == "IMO9525338"
+    assert data["name"] == "EVER GIVEN"
+
+
+def test_vessel_lookup_unknown(client: TestClient):
+    r = client.get("/api/v1/ports/vessels/IMO0000000")
+    assert r.status_code == 404
+
+
+def test_vessel_track_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/vessels/IMO9525338/track?hours=12&max_points=12")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["imo"] == "IMO9525338"
+    assert data["hours"] == 12
+    assert data["n_points"] > 0
 
 
 def test_deferred_trade_bilateral_returns_501(client: TestClient):

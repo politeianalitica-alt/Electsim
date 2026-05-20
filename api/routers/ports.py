@@ -122,16 +122,36 @@ def snapshot_all_endpoint(
 # (definidos ANTES de /{port_slug} para que FastAPI los priorice)
 # ─────────────────────────────────────────────────────────────────
 
-@router.get("/vessels/{imo}", status_code=501)
+@router.get("/vessels/{imo}")
 def vessel_lookup_endpoint(imo: str) -> dict[str, Any]:
-    """[P2] Metadata + última posición."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P2 (AIS client)")
+    """Metadata + última posición del buque (AIS BD si hay, sintético si no)."""
+    try:
+        from etl.sources.ports.ais_client import get_vessel_position
+        pos = get_vessel_position(imo)
+        if pos is None:
+            raise HTTPException(status_code=404, detail=f"vessel '{imo}' no existe")
+        return pos
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("vessel_lookup falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/vessels/{imo}/track", status_code=501)
-def vessel_track_endpoint(imo: str) -> dict[str, Any]:
-    """[P2] Track AIS histórico."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P2 (AIS client)")
+@router.get("/vessels/{imo}/track")
+def vessel_track_endpoint(
+    imo: str,
+    hours: int = Query(24, ge=1, le=720),
+    max_points: int = Query(200, ge=10, le=1000),
+) -> dict[str, Any]:
+    """Track AIS · puntos cronológicos en las últimas N horas."""
+    try:
+        from etl.sources.ports.ais_client import get_vessel_track
+        points = get_vessel_track(imo, hours=hours, max_points=max_points)
+        return {"imo": imo, "hours": hours, "n_points": len(points), "points": points}
+    except Exception as exc:
+        logger.exception("vessel_track falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/vessels/{imo}/screen", status_code=501)
@@ -198,22 +218,51 @@ def sanctions_screen_endpoint(req: SanctionsScreenRequest) -> dict[str, Any]:
 # luego el genérico al final para no caparlos
 # ─────────────────────────────────────────────────────────────────
 
-@router.get("/{port_slug}/vessels", status_code=501)
-def port_vessels_endpoint(port_slug: str) -> dict[str, Any]:
-    """[P2] Buques en/cerca puerto via AIS."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P2 (AIS client)")
+@router.get("/{port_slug}/vessels")
+def port_vessels_endpoint(
+    port_slug: str,
+    radius_nm: float = Query(20.0, gt=0, le=200),
+    limit: int = Query(50, ge=1, le=200),
+) -> dict[str, Any]:
+    """Buques en/cerca puerto · BD AIS o sintético si no hay datos."""
+    try:
+        from etl.sources.ports.ais_client import get_vessels_near
+        items = get_vessels_near(port_slug, radius_nm=radius_nm, limit=limit)
+        return {"port_slug": port_slug, "n_vessels": len(items), "items": items}
+    except Exception as exc:
+        logger.exception("port_vessels falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/{port_slug}/calls", status_code=501)
-def port_calls_endpoint(port_slug: str) -> dict[str, Any]:
-    """[P2] Port calls históricos."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P2 (port_intel)")
+@router.get("/{port_slug}/calls")
+def port_calls_endpoint(
+    port_slug: str,
+    days_back: int = Query(7, ge=1, le=90),
+    limit: int = Query(100, ge=1, le=500),
+) -> dict[str, Any]:
+    """Histórico port calls (arrivals + departures)."""
+    try:
+        from etl.sources.ports.port_intel import port_calls
+        items = port_calls(port_slug, days_back=days_back, limit=limit)
+        return {"port_slug": port_slug, "days_back": days_back,
+                "n_items": len(items), "items": items}
+    except Exception as exc:
+        logger.exception("port_calls falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/{port_slug}/congestion", status_code=501)
-def port_congestion_endpoint(port_slug: str) -> dict[str, Any]:
-    """[P2] Serie histórica congestión."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P2 (port_intel)")
+@router.get("/{port_slug}/congestion")
+def port_congestion_endpoint(
+    port_slug: str,
+    days: int = Query(30, ge=1, le=180),
+) -> dict[str, Any]:
+    """Serie diaria de vessels-anchored y avg wait."""
+    try:
+        from etl.sources.ports.port_intel import port_congestion
+        return port_congestion(port_slug, days=days)
+    except Exception as exc:
+        logger.exception("port_congestion falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/{port_slug}")
