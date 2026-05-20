@@ -930,3 +930,170 @@ def test_bdns_aggregator_funciones_sin_red():
         assert "error" in r3
     finally:
         client._session = original_session
+
+
+# ── Sprint 10 · Infraestructuras (TED+PLACE+MITMS+infra_projects) ────
+
+def test_ted_aggregator_importable():
+    """Sprint 10 · S10.1 · aggregator TED importable + funciones expuestas."""
+    from etl.sources.eu.ted_aggregator import (
+        top_adjudicatarios, ranking_por_pais, serie_temporal_cpv,
+    )
+    assert callable(top_adjudicatarios)
+    assert callable(ranking_por_pais)
+    assert callable(serie_temporal_cpv)
+
+
+def test_ted_aggregator_sector_invalido():
+    """Sector desconocido → error explícito."""
+    from etl.sources.eu.ted_aggregator import top_adjudicatarios
+    res = top_adjudicatarios(sector="sector_inexistente_xyz", max_pages=1)
+    assert res["n_notices"] == 0
+    assert "error" in res and res["error"]
+
+
+def test_place_client_y_parser():
+    """Sprint 10 · S10.2 · PLACE client importable + parser Atom."""
+    from etl.sources.spain.place import PLACEClient, get_place_client, INFRA_ORGS
+    client = get_place_client()
+    assert isinstance(client, PLACEClient)
+    # Organismos definidos
+    for k in ("adif", "aena", "puertos", "renfe", "enaire"):
+        assert k in INFRA_ORGS
+    # Parser con Atom vacío
+    items = PLACEClient._parse_atom("<feed xmlns='http://www.w3.org/2005/Atom'></feed>")
+    assert items == []
+
+
+def test_place_parse_atom_basico():
+    """PLACE parser extrae entries de un feed Atom mínimo."""
+    from etl.sources.spain.place import PLACEClient
+    xml = """<?xml version="1.0"?>
+    <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <entry>
+            <id>urn:test:place:1</id>
+            <title>Licitación ADIF tramo X</title>
+            <summary>Construcción tramo ferroviario</summary>
+            <updated>2026-05-10T12:00:00Z</updated>
+            <link href="https://contrataciondelestado.es/test/1" rel="alternate"/>
+            <dc:publisher>ADIF Alta Velocidad</dc:publisher>
+        </entry>
+    </feed>"""
+    items = PLACEClient._parse_atom(xml)
+    assert len(items) == 1
+    assert items[0]["id"] == "urn:test:place:1"
+    assert "ADIF" in items[0]["organismo"]
+    # Filtro por organismo funciona
+    filt = PLACEClient().filter_by_organismo(items, "adif")
+    assert len(filt) == 1
+
+
+def test_mitms_client_importable():
+    """Sprint 10 · S10.3 · cliente MITMS open data sin red."""
+    from etl.sources.spain.mitms_data import MITMSDataClient, get_mitms_client
+    client = get_mitms_client()
+    assert isinstance(client, MITMSDataClient)
+
+
+def test_infra_seed_valido():
+    """Sprint 10 · S10.4 · seed JSON con proyectos críticos."""
+    import json
+    from pathlib import Path
+    seed = Path(__file__).parent.parent.parent / "data" / "infra" / "projects_seed.json"
+    assert seed.exists(), "projects_seed.json no encontrado"
+    rows = json.loads(seed.read_text(encoding="utf-8"))
+    slugs = {r["slug"] for r in rows}
+    for required in (
+        "ave_galicia", "y_vasca", "corredor_mediterraneo",
+        "ampliacion_barajas_t1", "interconexion_biscay",
+    ):
+        assert required in slugs, f"slug '{required}' falta en seed"
+    for r in rows:
+        assert r["slug"] and r["name"] and r["owner_organism"]
+        assert r["kind"] in {
+            "ferroviario_av", "ferroviario", "aeropuerto", "puerto",
+            "carretera", "energia", "agua", "telecom",
+        }
+        assert r["status"] in {
+            "estudio_informativo", "licitado", "en_obras",
+            "parado", "completado", "cancelado",
+        }
+
+
+def test_infra_service_falla_cerrado_sin_engine():
+    """Sin BD el servicio infra devuelve estructuras vacías."""
+    from etl.sources.infra import service
+    original = service._get_engine
+    service._get_engine = lambda: None
+    try:
+        assert service.get_project("ave_galicia") is None
+        assert service.list_projects() == []
+        assert service.delayed_projects() == []
+        res = service.load_projects_seed()
+        assert res["loaded"] == 0
+        assert "error" in res
+    finally:
+        service._get_engine = original
+
+
+def test_infra_migracion_0070_existe():
+    """Migración 0070_infra_projects existe y declara tabla."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0070_infra_projects.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0070_infra_projects"' in src
+    assert 'down_revision = "0069_social_orgs"' in src
+    assert 'create_table' in src and '"infra_projects"' in src
+
+
+def test_infraestructuras_tools_registradas():
+    """Sprint 10 · S10.5 · tools infra registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.infraestructuras_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    for name in (
+        "ted_top_constructoras",
+        "ted_ranking_pais_infra",
+        "ted_serie_cpv",
+        "place_licitaciones",
+        "mitms_datasets",
+        "infra_project",
+        "list_infra_projects",
+        "infra_projects_delayed",
+    ):
+        assert name in tools, f"tool '{name}' no registrada"
+
+
+def test_place_licitaciones_organismo_invalido():
+    """place_licitaciones con organismo desconocido → error explícito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.infraestructuras_tools  # noqa: F401
+
+    fn = ToolRegistry.get("place_licitaciones")
+    res = fn(organismo="organismo_no_existe", limit=5)
+    assert res["n_items"] == 0
+    assert "error" in res and res["error"]
+
+
+def test_infra_tool_proyecto_sin_bd():
+    """infra_project sin BD devuelve error consistente."""
+    from agents.tools import ToolRegistry
+    import agents.tools.infraestructuras_tools  # noqa: F401
+    from etl.sources.infra import service as svc_infra
+
+    original = svc_infra._get_engine
+    svc_infra._get_engine = lambda: None
+    try:
+        res = ToolRegistry.get("infra_project")(slug="ave_galicia")
+        assert "error" in res
+        res2 = ToolRegistry.get("list_infra_projects")(kind="ferroviario_av")
+        assert res2["n_items"] == 0
+        res3 = ToolRegistry.get("infra_projects_delayed")(min_delay_months=24)
+        assert res3["n_items"] == 0
+    finally:
+        svc_infra._get_engine = original
