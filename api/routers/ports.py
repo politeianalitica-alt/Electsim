@@ -154,10 +154,20 @@ def vessel_track_endpoint(
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.get("/vessels/{imo}/screen", status_code=501)
+@router.get("/vessels/{imo}/screen")
 def vessel_screen_endpoint(imo: str) -> dict[str, Any]:
-    """[P5] Screening sanciones."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P5 (sanctions_maritime)")
+    """Screening sanciones marítimas (OFAC/UE/UN vía OpenSanctions)."""
+    try:
+        from etl.sources.ports.sanctions_maritime import screen_vessel
+        res = screen_vessel(imo)
+        if not res.get("ok"):
+            raise HTTPException(status_code=404, detail=res.get("error", "no vessel"))
+        return res
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("vessel_screen falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/trade/bilateral")
@@ -295,10 +305,15 @@ def chokepoint_detail_endpoint(
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
-@router.post("/sanctions/screen", status_code=501)
+@router.post("/sanctions/screen")
 def sanctions_screen_endpoint(req: SanctionsScreenRequest) -> dict[str, Any]:
-    """[P5] Batch screening vessels + operators."""
-    raise HTTPException(status_code=501, detail="diferido a sprint P5 (sanctions_maritime)")
+    """Batch screening de vessels (por IMO) y/o operadores (por nombre)."""
+    try:
+        from etl.sources.ports.sanctions_maritime import screen_batch
+        return screen_batch(vessels=req.vessels, operators=req.operators)
+    except Exception as exc:
+        logger.exception("sanctions_screen falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 # ─────────────────────────────────────────────────────────────────

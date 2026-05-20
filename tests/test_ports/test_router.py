@@ -87,13 +87,7 @@ def test_port_overview_unknown_returns_404(client: TestClient):
     assert r.status_code == 404
 
 
-@pytest.mark.parametrize("path", [
-    "/api/v1/ports/vessels/IMO9525338/screen",   # P5
-])
-def test_deferred_endpoints_return_501(client: TestClient, path: str):
-    r = client.get(path)
-    assert r.status_code == 501, f"{path} no es 501 (es {r.status_code})"
-    assert "diferido" in r.json().get("detail", "").lower()
+# Todos los endpoints diferidos ya implementados en P2-P5 · sin 501s pendientes.
 
 
 # ─────────────────────────────────────────────────────────────────
@@ -235,9 +229,27 @@ def test_chokepoint_detail_unknown_404(client: TestClient):
     assert r.status_code == 404
 
 
-def test_deferred_sanctions_screen_returns_501(client: TestClient):
+def test_vessel_screen_endpoint(client: TestClient):
+    r = client.get("/api/v1/ports/vessels/IMO9525338/screen")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert data["vessel_name"] == "EVER GIVEN"
+    assert "checks" in data
+
+
+def test_vessel_screen_unknown_404(client: TestClient):
+    r = client.get("/api/v1/ports/vessels/IMO0000000/screen")
+    assert r.status_code == 404
+
+
+def test_sanctions_batch_screen_endpoint(client: TestClient):
     r = client.post(
         "/api/v1/ports/sanctions/screen",
-        json={"vessels": ["IMO9525338"]},
+        json={"vessels": ["IMO9525338"], "operators": ["Sovcomflot"]},
     )
-    assert r.status_code == 501
+    assert r.status_code == 200
+    data = r.json()
+    assert data["ok"] is True
+    assert data["summary"]["n_vessels_checked"] == 1
+    assert data["summary"]["n_operators_checked"] == 1
