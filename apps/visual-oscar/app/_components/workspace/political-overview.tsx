@@ -60,6 +60,8 @@ interface AlertDef {
   actors: string
   territory: string
   evidence: string
+  /** URL externa a una noticia/fuente que explica o desarrolla el caso */
+  evidenceUrl?: string
   detected: string
   action: string
 }
@@ -72,6 +74,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Pérez Llorca · Mazón · ex consellers Generalitat',
     territory: 'Comunidad Valenciana',
     evidence: '34 menciones · 12 medios · Generalitat + EFE',
+    evidenceUrl: 'https://www.google.com/search?q=Pérez+Llorca+comisión+investigación+DANA+ex+consellers&tbm=nws',
     detected: 'hace 3h',
     action: 'Vigilar nominaciones de ex consellers · preparar dossier de comparecencia',
   },
@@ -82,6 +85,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Sánchez · Yolanda Díaz · Belarra · Bustinduy',
     territory: 'Nacional · concentrado Madrid + Barcelona',
     evidence: '142 artículos · 31 medios · +18% vs 24h',
+    evidenceUrl: 'https://www.google.com/search?q=ley+alquileres+vivienda+Yolanda+Díaz+Bustinduy&tbm=nws',
     detected: 'hace 1h',
     action: 'Activar tracking semanal de portavoces vivienda · revisar narrativa PP-Vox',
   },
@@ -92,6 +96,7 @@ const ALERTAS: AlertDef[] = [
     actors: 'Puigdemont · Bolaños · Yolanda Díaz',
     territory: 'Congreso · efecto Cataluña',
     evidence: '8 declaraciones públicas · El País + ARA + El Mundo',
+    evidenceUrl: 'https://www.google.com/search?q=Junts+bloqueo+decreto+laboral+Puigdemont+Bolaños&tbm=nws',
     detected: 'hace 6h',
     action: 'Coordinación PSOE-Sumar antes del jueves · plan B con PNV',
   },
@@ -195,13 +200,20 @@ interface EvidenceItem {
   href?: string
 }
 
+// Helper: URL de búsqueda en Google Noticias filtrada por medio · siempre
+// devuelve resultados reales relacionados aunque no tengamos la URL exacta
+const newsSearch = (query: string, site?: string) => {
+  const q = site ? `${query} site:${site}` : query
+  return `https://www.google.com/search?q=${encodeURIComponent(q)}&tbm=nws`
+}
+
 const EVIDENCIA: EvidenceItem[] = [
-  { id: 'e-1', source: 'El País',         type: 'artículo',      date: 'hace 28 min', topic: 'Vivienda',     actors: 'Yolanda Díaz · Bustinduy', title: 'Sumar reactiva la ley de alquileres tras el pico de menciones',                     relevance: 92, href: '/medios-narrativa' },
-  { id: 'e-2', source: 'Congreso · BOCG', type: 'doc.legislativo', date: 'hace 2h',    topic: 'Decreto laboral', actors: 'Bolaños',              title: 'Publicación del Decreto-ley 4/2026 · convalidación viernes',                       relevance: 88, href: '/monitor-legislativo' },
-  { id: 'e-3', source: 'Sigma Dos',       type: 'encuesta',      date: 'hace 4h',     topic: 'Intención voto', actors: '—',                      title: 'PP 33.2% · PSOE 26.8% · margen +6.4pp (n=1.005)',                                  relevance: 86, href: '/nowcasting' },
-  { id: 'e-4', source: 'EFE',             type: 'intervención',  date: 'hace 6h',     topic: 'DANA Valencia', actors: 'Pérez Llorca',           title: 'Pérez Llorca cita a 3 ex consellers en comisión de investigación',                  relevance: 84, href: '/crisis' },
-  { id: 'e-5', source: 'GDELT',           type: 'señal IA',      date: 'hace 12 min', topic: 'Tasa turística', actors: 'Prohens · Illa',         title: 'Burst Kleinberg detecta +128% en menciones a tasa turística en Baleares y Cataluña', relevance: 78 },
-  { id: 'e-6', source: 'Moncloa',         type: 'nota prensa',   date: 'hace 8h',     topic: 'Aranceles',     actors: 'Albares',                title: 'Albares anuncia visita a Washington · ronda diplomática',                          relevance: 76 },
+  { id: 'e-1', source: 'El País',         type: 'artículo',        date: 'hace 28 min', topic: 'Vivienda',         actors: 'Yolanda Díaz · Bustinduy', title: 'Sumar reactiva la ley de alquileres tras el pico de menciones',                     relevance: 92, href: newsSearch('Sumar ley alquileres Yolanda Díaz Bustinduy', 'elpais.com') },
+  { id: 'e-2', source: 'Congreso · BOCG', type: 'doc.legislativo', date: 'hace 2h',     topic: 'Decreto laboral',  actors: 'Bolaños',                  title: 'Publicación del Decreto-ley 4/2026 · convalidación viernes',                        relevance: 88, href: 'https://www.boe.es/diario_boe/index.php' },
+  { id: 'e-3', source: 'Sigma Dos',       type: 'encuesta',        date: 'hace 4h',     topic: 'Intención voto',   actors: '—',                        title: 'PP 33.2% · PSOE 26.8% · margen +6.4pp (n=1.005)',                                   relevance: 86, href: newsSearch('encuesta Sigma Dos PP PSOE intención voto') },
+  { id: 'e-4', source: 'EFE',             type: 'intervención',    date: 'hace 6h',     topic: 'DANA Valencia',    actors: 'Pérez Llorca',             title: 'Pérez Llorca cita a 3 ex consellers en comisión de investigación',                  relevance: 84, href: newsSearch('Pérez Llorca comisión DANA Valencia ex consellers', 'efe.com') },
+  { id: 'e-5', source: 'GDELT',           type: 'señal IA',        date: 'hace 12 min', topic: 'Tasa turística',   actors: 'Prohens · Illa',           title: 'Burst Kleinberg detecta +128% en menciones a tasa turística en Baleares y Cataluña', relevance: 78, href: newsSearch('tasa turística Baleares Cataluña Prohens Illa') },
+  { id: 'e-6', source: 'Moncloa',         type: 'nota prensa',     date: 'hace 8h',     topic: 'Aranceles',        actors: 'Albares',                  title: 'Albares anuncia visita a Washington · ronda diplomática',                           relevance: 76, href: 'https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/exteriores/' },
 ]
 
 const ACTIONS = [
@@ -568,14 +580,35 @@ function AlertItem({ alert }: { alert: AlertDef }) {
  <strong style={{ color: '#1d1d1f' }}>{alert.topic}</strong> · {alert.territory} · <span style={{ color: '#6e6e73' }}>{alert.actors}</span>
  </div>
  <div style={{ fontSize: 11, color: '#86868b' }}>
-          {alert.evidence} · detectado {alert.detected}
+          {alert.evidenceUrl ? (
+ <a href={alert.evidenceUrl} target="_blank" rel="noopener noreferrer"
+              title="Abrir noticias relacionadas con esta evidencia"
+              style={{
+                color: '#3a3a3d', textDecoration: 'none',
+                borderBottom: '1px dotted rgba(0,113,227,0.4)',
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#0071e3' }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#3a3a3d' }}
+            >
+              Evidencia: {alert.evidence} <span style={{ color: '#0071e3' }}>↗</span>
+ </a>
+          ) : (
+ <>Evidencia: {alert.evidence}</>
+          )}
+          {' · detectado '}{alert.detected}
  </div>
  <p style={{ margin: '8px 0 0', fontSize: 11.5, color: '#3a3a3d', padding: '6px 10px', background: 'rgba(91,33,182,0.06)', borderLeft: '2px solid #5B21B6', borderRadius: 6 }}>
  <span style={{ fontWeight: 700, color: '#5B21B6', fontSize: 9.5, letterSpacing: '0.08em' }}>RECOMENDADO · </span>
           {alert.action}
  </p>
  </div>
+        {alert.evidenceUrl ? (
+ <a href={alert.evidenceUrl} target="_blank" rel="noopener noreferrer" style={{ ...btnSecondary, textDecoration: 'none' }}>
+            Ver evidencia ↗
+ </a>
+        ) : (
  <button style={btnSecondary}>Ver evidencia</button>
+        )}
  </article>
   )
 }
@@ -670,6 +703,19 @@ function AgendaRow({ ev }: { ev: AgendaEvent }) {
 }
 
 function EvidenceRow({ ev }: { ev: EvidenceItem }) {
+  // Detecta si el href es externo (http/https) o interno (/ruta del dashboard)
+  // y renderiza con <a target="_blank"> o <Link> según corresponda.
+  const isExternal = ev.href?.startsWith('http')
+  const titleStyle = {
+    color: '#1d1d1f', fontWeight: 600, lineHeight: 1.35,
+    textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)',
+  } as const
+  const titleNode = (
+    <>
+      {ev.title}{' '}
+      <span style={{ color: '#0071e3', fontSize: 10 }}>{isExternal ? '↗' : '→'}</span>
+    </>
+  )
   return (
  <div style={{
       display: 'grid', gridTemplateColumns: '90px 1fr auto auto auto',
@@ -678,12 +724,16 @@ function EvidenceRow({ ev }: { ev: EvidenceItem }) {
     }}>
  <span style={{ fontSize: 9.5, fontWeight: 700, color: '#3a3a3d', background: '#F0F0F2', padding: '3px 7px', borderRadius: 4, textAlign: 'center', letterSpacing: '0.04em' }}>{ev.type.toUpperCase()}</span>
  <div>
-        {ev.href ? (
- <Link href={ev.href} style={{ color: '#1d1d1f', fontWeight: 600, lineHeight: 1.35, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}>
-            {ev.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span>
- </Link>
-        ) : (
+        {!ev.href ? (
  <span style={{ color: '#1d1d1f', fontWeight: 600 }}>{ev.title}</span>
+        ) : isExternal ? (
+ <a href={ev.href} target="_blank" rel="noopener noreferrer" style={titleStyle} title={`Abrir noticia · ${ev.source}`}>
+            {titleNode}
+ </a>
+        ) : (
+ <Link href={ev.href} style={titleStyle}>
+            {titleNode}
+ </Link>
         )}
  <div style={{ fontSize: 10.5, color: '#86868b', marginTop: 2 }}>
  <strong style={{ color: '#3a3a3d' }}>{ev.source}</strong> · {ev.actors}

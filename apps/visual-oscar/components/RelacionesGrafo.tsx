@@ -1187,7 +1187,21 @@ function FocusPanel({ stats, actors, metrics }: {
  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, fontWeight: 500, minWidth: 0 }}>
  <span style={{ width: 8, height: 8, borderRadius: 999, background: otherColor, flexShrink: 0 }}/>
  <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shortName(other)}</span>
-                  {l.curado && <InsightPill variant="observed" label="evidencia"/>}
+                  {l.curado && (() => {
+                    // Convierte la etiqueta de la relación en una URL de
+                    // búsqueda en Google Noticias para que el usuario
+                    // pueda verificar la evidencia con un click.
+                    const queryActors = `${nameOf(stats.actor)} ${nameOf(other)}`
+                    const url = `https://www.google.com/search?q=${encodeURIComponent(queryActors)}&tbm=nws`
+                    return (
+ <a href={url} target="_blank" rel="noopener noreferrer"
+                        title={`Buscar noticias: ${l.label}`}
+                        style={{ textDecoration: 'none' }}
+                      >
+ <InsightPill variant="observed" label="evidencia ↗"/>
+ </a>
+                    )
+                  })()}
  </span>
  <span style={{
                   fontFamily: 'var(--font-display)', fontSize: 12.5, fontWeight: 600,
