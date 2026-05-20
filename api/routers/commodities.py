@@ -262,6 +262,154 @@ def forecast_health() -> dict[str, Any]:
 
 
 # ─────────────────────────────────────────────────────────────────
+# Commodity alerts · CRUD + evaluador (Sprint cron)
+# ─────────────────────────────────────────────────────────────────
+
+class AlertCreate(BaseModel):
+    user_id: str = Field(..., min_length=1, max_length=120)
+    commodity_slug: str = Field(..., min_length=1, max_length=80)
+    kind: str = Field(..., description="price_above | price_below | change_pct")
+    threshold: float
+    period_days: int | None = None
+    channels: list[str] = Field(default_factory=lambda: ["inapp"])
+    cooldown_minutes: int = 60
+    active: bool = True
+    metadata: dict[str, Any] | None = None
+
+
+class AlertPatch(BaseModel):
+    active: bool | None = None
+    threshold: float | None = None
+    channels: list[str] | None = None
+    cooldown_minutes: int | None = None
+    period_days: int | None = None
+    metadata_payload: dict[str, Any] | None = None
+
+
+@router.get("/alerts")
+def list_alerts_endpoint(
+    user_id: str | None = Query(None),
+    active_only: bool = Query(False),
+) -> dict[str, Any]:
+    """Lista alertas (opcionalmente filtradas por user_id)."""
+    try:
+        from etl.sources.commodities.alerts_service import list_alerts
+        items = list_alerts(user_id=user_id, active_only=active_only)
+        return {"n_items": len(items), "items": items}
+    except Exception as exc:
+        logger.exception("list_alerts falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/alerts")
+def create_alert_endpoint(req: AlertCreate) -> dict[str, Any]:
+    """Crea una nueva alerta."""
+    try:
+        from etl.sources.commodities.alerts_service import create_alert
+        res = create_alert(
+            user_id=req.user_id,
+            commodity_slug=req.commodity_slug,
+            kind=req.kind,  # type: ignore[arg-type]
+            threshold=req.threshold,
+            channels=req.channels,  # type: ignore[arg-type]
+            period_days=req.period_days,
+            cooldown_minutes=req.cooldown_minutes,
+            active=req.active,
+            metadata=req.metadata,
+        )
+        if res.get("error"):
+            raise HTTPException(status_code=400, detail=res["error"])
+        return res
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.exception("create_alert falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/alerts/{alert_id}")
+def get_alert_endpoint(alert_id: str) -> dict[str, Any]:
+    try:
+        from etl.sources.commodities.alerts_service import get_alert
+        row = get_alert(alert_id)
+        if row is None:
+            raise HTTPException(status_code=404, detail="alerta no encontrada")
+        return row
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.patch("/alerts/{alert_id}")
+def patch_alert_endpoint(alert_id: str, req: AlertPatch) -> dict[str, Any]:
+    try:
+        from etl.sources.commodities.alerts_service import update_alert
+        patch = {k: v for k, v in req.model_dump().items() if v is not None}
+        row = update_alert(alert_id, **patch)
+        if row is None:
+            raise HTTPException(status_code=404, detail="alerta no encontrada")
+        return row
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.delete("/alerts/{alert_id}")
+def delete_alert_endpoint(alert_id: str) -> dict[str, Any]:
+    try:
+        from etl.sources.commodities.alerts_service import delete_alert
+        ok = delete_alert(alert_id)
+        if not ok:
+            raise HTTPException(status_code=404, detail="alerta no encontrada")
+        return {"deleted": True, "id": alert_id}
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.get("/alerts-events/list")
+def list_alert_events_endpoint(
+    user_id: str | None = Query(None),
+    unread_only: bool = Query(False),
+    limit: int = Query(50, ge=1, le=200),
+) -> dict[str, Any]:
+    """Histórico de disparos · feed in-app de notificaciones."""
+    try:
+        from etl.sources.commodities.alerts_service import list_events
+        items = list_events(user_id=user_id, unread_only=unread_only, limit=limit)
+        return {"n_items": len(items), "items": items}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/alerts-events/{event_id}/read")
+def mark_event_read_endpoint(event_id: int) -> dict[str, Any]:
+    try:
+        from etl.sources.commodities.alerts_service import mark_event_read
+        return {"ok": mark_event_read(event_id), "event_id": event_id}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@router.post("/alerts/evaluate")
+def evaluate_alerts_endpoint(dry_run: bool = Query(False)) -> dict[str, Any]:
+    """Trigger manual del evaluador · útil para debug o cron externo.
+
+    En producción, llamar este endpoint desde un cron periódico (cada 15-30 min)
+    o usar el script `python -m etl.workers.commodity_alerts_worker`.
+    """
+    try:
+        from etl.sources.commodities.alerts_service import evaluate_all
+        return evaluate_all(dry_run=dry_run)
+    except Exception as exc:
+        logger.exception("evaluate_alerts falló")
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+# ─────────────────────────────────────────────────────────────────
 # Recipe Cost
 # ─────────────────────────────────────────────────────────────────
 

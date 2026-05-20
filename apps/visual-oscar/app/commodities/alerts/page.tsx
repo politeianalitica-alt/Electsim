@@ -24,7 +24,7 @@ export default function AlertsPage() {
   const initialSlug = search?.get('slug') ?? null
   const { items: catalog } = useCommodityCatalog()
   const { items: snapshots } = useCommoditySnapshot(undefined, 40)
-  const { alerts, add, remove, toggleActive } = useCommodityAlerts()
+  const { alerts, add, remove, toggleActive, backendOk } = useCommodityAlerts()
 
   const [slug, setSlug] = useState<string>(initialSlug ?? '')
   const [kind, setKind] = useState<AlertKind>('price_above')
@@ -62,9 +62,14 @@ export default function AlertsPage() {
         <h1 style={{ fontSize: 26, fontWeight: 800, color: '#111827', margin: '12px 0 4px' }}>
           Alertas de precios
         </h1>
-        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 18 }}>
+        <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 8 }}>
           Configura umbrales por commodity. Las alertas se evalúan contra el snapshot
-          live cada vez que esta página se recarga (Sprint 7 stub · backend cron pendiente).
+          live cuando esta página se recarga, y por el cron del backend cada 15-30 min.{' '}
+          {backendOk === true ? (
+            <span style={{ color: '#16a34a', fontWeight: 600 }}>● sincronizado backend</span>
+          ) : backendOk === false ? (
+            <span style={{ color: '#f59e0b', fontWeight: 600 }}>○ solo localStorage</span>
+          ) : null}
         </p>
 
         <div

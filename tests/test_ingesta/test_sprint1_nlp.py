@@ -2131,6 +2131,152 @@ def test_briefing_extended_estructura_completa():
         svc_reg._get_engine = original
 
 
+def test_alerts_migration_0076_existe():
+    """Migración 0076_commodity_alerts existe y declara tabla."""
+    from pathlib import Path
+    mig = (
+        Path(__file__).parent.parent.parent
+        / "db" / "migrations" / "versions" / "0076_commodity_alerts.py"
+    )
+    assert mig.exists()
+    src = mig.read_text(encoding="utf-8")
+    assert 'revision = "0076_commodity_alerts"' in src
+    assert 'down_revision = "0075_tourism_destinations"' in src
+    assert '"commodity_alerts"' in src
+    assert '"commodity_alert_events"' in src
+
+
+def test_alerts_service_falla_cerrado_sin_engine():
+    """CRUD sin BD devuelve estructuras vacías sin romper."""
+    from etl.sources.commodities import alerts_service
+    original = alerts_service._get_engine
+    alerts_service._get_engine = lambda: None
+    try:
+        assert alerts_service.list_alerts() == []
+        assert alerts_service.list_alerts(user_id="x") == []
+        assert alerts_service.get_alert("x") is None
+        assert alerts_service.update_alert("x", active=False) is None
+        assert alerts_service.delete_alert("x") is False
+        assert alerts_service.list_events() == []
+        res = alerts_service.create_alert(
+            user_id="x", commodity_slug="wheat_cbot",
+            kind="price_above", threshold=10.0, channels=["inapp"],
+        )
+        assert res.get("error")
+    finally:
+        alerts_service._get_engine = original
+
+
+def test_alerts_evaluate_condition_price_above():
+    """_evaluate_condition · price_above dispara solo si supera umbral."""
+    from etl.sources.commodities.alerts_service import _evaluate_condition
+    alert = {"kind": "price_above", "threshold": 100}
+    ok, val = _evaluate_condition(alert, last_price=110, change_pct=None)
+    assert ok and val == 110
+    ok, val = _evaluate_condition(alert, last_price=90, change_pct=None)
+    assert not ok and val is None
+
+
+def test_alerts_evaluate_condition_price_below():
+    """price_below dispara si precio cae bajo umbral."""
+    from etl.sources.commodities.alerts_service import _evaluate_condition
+    alert = {"kind": "price_below", "threshold": 50}
+    ok, val = _evaluate_condition(alert, last_price=40, change_pct=None)
+    assert ok and val == 40
+    ok, val = _evaluate_condition(alert, last_price=60, change_pct=None)
+    assert not ok
+
+
+def test_alerts_evaluate_condition_change_pct():
+    """change_pct dispara si la variación supera el umbral (con signo)."""
+    from etl.sources.commodities.alerts_service import _evaluate_condition
+    # Umbral positivo · dispara con cambios crecientes
+    alert = {"kind": "change_pct", "threshold": 5.0}
+    ok, _ = _evaluate_condition(alert, last_price=100, change_pct=6.5)
+    assert ok
+    ok, _ = _evaluate_condition(alert, last_price=100, change_pct=4.0)
+    assert not ok
+    # Umbral negativo · dispara con caídas
+    alert = {"kind": "change_pct", "threshold": -5.0}
+    ok, _ = _evaluate_condition(alert, last_price=100, change_pct=-6.0)
+    assert ok
+    ok, _ = _evaluate_condition(alert, last_price=100, change_pct=-3.0)
+    assert not ok
+
+
+def test_alerts_cooldown_funciona():
+    """_in_cooldown · alerta recién disparada está en cooldown."""
+    from etl.sources.commodities.alerts_service import _in_cooldown
+    from datetime import datetime, timezone, timedelta
+    now = datetime.now(timezone.utc)
+    # Recién disparada · cooldown 60min default
+    alert = {
+        "last_triggered_at": (now - timedelta(minutes=10)).isoformat(),
+        "cooldown_minutes": 60,
+    }
+    assert _in_cooldown(alert) is True
+    # Disparada hace 2h · ya fuera de cooldown
+    alert["last_triggered_at"] = (now - timedelta(hours=2)).isoformat()
+    assert _in_cooldown(alert) is False
+    # Nunca disparada
+    alert["last_triggered_at"] = None
+    assert _in_cooldown(alert) is False
+
+
+def test_alerts_evaluate_all_sin_alertas():
+    """evaluate_all sin alertas activas no peta y devuelve totales 0."""
+    from etl.sources.commodities import alerts_service
+    original = alerts_service._get_engine
+    alerts_service._get_engine = lambda: None
+    try:
+        res = alerts_service.evaluate_all(dry_run=True)
+        assert res["evaluated"] == 0
+        assert res["triggered"] == 0
+        assert res["events"] == []
+    finally:
+        alerts_service._get_engine = original
+
+
+def test_alerts_endpoints_registrados():
+    """Endpoints CRUD + evaluate + events activos en main.py."""
+    import os
+    os.environ.setdefault("DATABASE_URL", "sqlite:///./test.db")
+    os.environ.setdefault("OTEL_SDK_DISABLED", "true")
+    from api.main import app
+    paths = {r.path for r in app.routes if hasattr(r, "path")}
+    for p in (
+        "/api/v1/commodities/alerts",
+        "/api/v1/commodities/alerts/{alert_id}",
+        "/api/v1/commodities/alerts/evaluate",
+        "/api/v1/commodities/alerts-events/list",
+        "/api/v1/commodities/alerts-events/{event_id}/read",
+    ):
+        assert p in paths, f"endpoint '{p}' no registrado"
+
+
+def test_alerts_worker_script_invocable():
+    """El worker python -m etl.workers.commodity_alerts_worker es importable."""
+    from pathlib import Path
+    p = Path(__file__).parent.parent.parent / "etl" / "workers" / "commodity_alerts_worker.py"
+    assert p.exists()
+    src = p.read_text(encoding="utf-8")
+    compile(src, str(p), "exec")
+    assert "def main" in src
+    assert "--loop" in src and "--dry-run" in src
+
+
+def test_alerts_notify_email_sin_resend_key(monkeypatch):
+    """_send_email sin RESEND_API_KEY devuelve 'skipped'."""
+    monkeypatch.delenv("RESEND_API_KEY", raising=False)
+    from etl.sources.commodities.alerts_service import _send_email
+    alert = {
+        "user_id": "user@example.com", "commodity_slug": "wheat_cbot",
+        "kind": "price_above", "threshold": 100,
+    }
+    res = _send_email(alert, trigger_value=110)
+    assert res == "skipped"
+
+
 def test_briefing_extended_alias_resuelven_tracker_correcto():
     """Alias resuelven al tracker correcto · todos los servicios sin BD."""
     from agents.brain.pipelines.sector_briefing_extended import build_sector_tracker
