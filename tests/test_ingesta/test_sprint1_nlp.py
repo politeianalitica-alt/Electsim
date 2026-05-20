@@ -284,3 +284,64 @@ def test_fundus_list_publishers_estructura():
         assert "host" in p
         assert "available" in p
         assert isinstance(p["name"], str)
+
+
+# ── Sprint 3 · BDNS + TED + Brain tools ───────────────────────────────
+
+def test_bdns_client_construido():
+    """BDNSClient se construye correctamente."""
+    from etl.sources.spain.bdns import BDNSClient, get_bdns_client
+
+    c = get_bdns_client()
+    assert c is not None
+    # Singleton
+    c2 = get_bdns_client()
+    assert c is c2
+
+
+def test_ted_client_construido_y_cpv_sectores():
+    """TEDClient + mapa CPV_BY_SECTOR para sectores Politeia."""
+    from etl.sources.eu.ted import TEDClient, CPV_BY_SECTOR, get_ted_client
+
+    c = get_ted_client()
+    assert c is not None
+    # Sectores Politeia mapeados a CPV
+    for sector in ["energia", "farma", "defensa", "infraestructuras", "telecom"]:
+        assert sector in CPV_BY_SECTOR
+        assert isinstance(CPV_BY_SECTOR[sector], list)
+        assert len(CPV_BY_SECTOR[sector]) >= 1
+
+
+def test_sprint3_tools_registradas():
+    """6 tools Sprint 3 deben estar registradas en ToolRegistry."""
+    from agents.tools import ToolRegistry
+    import agents.tools.contratacion_subvenciones_tools  # noqa: F401
+
+    tools = ToolRegistry.list_tools()
+    assert "bdns_search_convocatorias" in tools
+    assert "bdns_search_concesiones" in tools
+    assert "ted_search_licitaciones" in tools
+    assert "congreso_votaciones" in tools
+    assert "congreso_iniciativas" in tools
+    assert "senado_actividad" in tools
+
+
+def test_ted_search_sector_invalido():
+    """ted_search_licitaciones con sector inválido devuelve error explicito."""
+    from agents.tools import ToolRegistry
+    import agents.tools.contratacion_subvenciones_tools
+
+    fn = ToolRegistry.get("ted_search_licitaciones")
+    result = fn(sector="sector_inventado", max_items=1)
+    assert "error" in result
+    assert result["n_items"] == 0
+    assert "energia" in result["error"]  # mensaje lista sectores válidos
+
+
+def test_bdns_to_normalized_items_yields_normalized():
+    """to_normalized_items es un generador · devuelve objetos válidos sin romper."""
+    from etl.sources.spain.bdns import to_normalized_items
+
+    # Iterar con max=0 · generador puede estar vacío sin romper
+    items = list(to_normalized_items(max_items=0))
+    assert items == []
