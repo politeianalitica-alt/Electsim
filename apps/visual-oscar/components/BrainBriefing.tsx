@@ -21,6 +21,8 @@ type Msg = {
   ms?: number
   /** Coste de la respuesta. */
   cost?: { usd: number; cents: number }
+  /** True si Claude usó conocimiento general (no datos de Politeia). */
+  fromGeneralKnowledge?: boolean
   /** Preguntas de seguimiento sugeridas (solo en mensajes de brain). */
   followUps?: string[]
 }
@@ -242,6 +244,7 @@ export default function BrainBriefing() {
         tools_used?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
         ms?: number
         cost?: { usd: number; cents: number }
+        from_general_knowledge?: boolean
       } = await res.json()
       const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
         ? data.reply
@@ -256,6 +259,7 @@ export default function BrainBriefing() {
         toolsUsed: data.tools_used,
         ms: data.ms,
         cost: data.cost,
+        fromGeneralKnowledge: data.from_general_knowledge,
       }
       setMessages(m => [...m, newBrainMsg])
 
@@ -405,12 +409,47 @@ export default function BrainBriefing() {
             display: 'flex', flexDirection: 'column', gap: 10,
           }}>
             {messages.map((m, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '100%' }}>
+                {/* Warning banner para respuestas de conocimiento general */}
+                {m.role === 'brain' && m.fromGeneralKnowledge && (
+                  <div style={{
+                    maxWidth: '88%',
+                    background: 'rgba(251,191,36,0.10)',
+                    border: '1px solid rgba(251,191,36,0.4)',
+                    borderRadius: '10px 10px 0 0',
+                    padding: '6px 10px',
+                    fontSize: 10.5,
+                    color: '#fbbf24',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    marginBottom: -1,
+                  }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="8" x2="12" y2="12"/>
+                      <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    SIN DATOS DE POLITEIA · RESPUESTA DE CLAUDE BASADA EN CONOCIMIENTO GENERAL
+                  </div>
+                )}
                 <div style={{
                   maxWidth: '88%',
-                  padding: '8px 12px', borderRadius: 12,
-                  background: m.role === 'user' ? 'rgba(91,33,182,0.5)' : 'rgba(255,255,255,0.06)',
-                  border: m.role === 'user' ? '1px solid rgba(139,92,246,0.4)' : '1px solid rgba(255,255,255,0.08)',
+                  padding: '8px 12px',
+                  borderRadius: m.fromGeneralKnowledge ? '0 0 12px 12px' : 12,
+                  background: m.role === 'user'
+                    ? 'rgba(91,33,182,0.5)'
+                    : m.fromGeneralKnowledge
+                      ? 'rgba(251,191,36,0.06)'
+                      : 'rgba(255,255,255,0.06)',
+                  border: m.role === 'user'
+                    ? '1px solid rgba(139,92,246,0.4)'
+                    : m.fromGeneralKnowledge
+                      ? '1px solid rgba(251,191,36,0.4)'
+                      : '1px solid rgba(255,255,255,0.08)',
+                  borderTop: m.fromGeneralKnowledge ? 'none' : undefined,
                   color: '#fff', fontSize: 12.5, lineHeight: 1.55,
                 }}>
                   {renderBrainMarkdown(m.text)}

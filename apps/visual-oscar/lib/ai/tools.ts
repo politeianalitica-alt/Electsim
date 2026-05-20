@@ -22,6 +22,18 @@ import type Anthropic from "@anthropic-ai/sdk";
 
 // ─── Definiciones de tools (schema para Claude) ────────────────────────
 
+// Server tool de Anthropic — web search nativo. Anthropic ejecuta la
+// búsqueda server-side y devuelve resultados como bloques `web_search_tool_result`.
+// Se incluye al final del array junto a nuestras tools custom.
+//
+// Limitamos a 3 búsquedas por respuesta para controlar coste (cada búsqueda
+// añade ~$0.01 al input según pricing).
+export const WEB_SEARCH_TOOL: Anthropic.Messages.WebSearchTool20260209 = {
+  type: "web_search_20260209",
+  name: "web_search",
+  max_uses: 3,
+};
+
 export const BRAIN_TOOLS: Anthropic.Messages.Tool[] = [
   {
     name: "get_actor_profile",

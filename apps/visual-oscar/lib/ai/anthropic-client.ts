@@ -312,7 +312,13 @@ export async function generateWithTools(opts: {
   messages: AiMessage[];
   temperature?: number;
   maxTokens?: number;
-  tools: Anthropic.Messages.Tool[];
+  /**
+   * Tools del modelo. Acepta:
+   *  - Tools custom (Anthropic.Messages.Tool) que ejecutamos nosotros vía executor
+   *  - Server tools de Anthropic (WebSearchTool20260209) que ejecuta Anthropic
+   *    automáticamente y devuelve resultados como bloques `web_search_tool_result`
+   */
+  tools: Array<Anthropic.Messages.Tool | Anthropic.Messages.WebSearchTool20260209>;
   executor: (name: string, input: Record<string, unknown>) => Promise<string>;
   maxIterations?: number;
   signal?: AbortSignal;

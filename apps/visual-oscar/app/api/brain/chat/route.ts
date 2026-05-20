@@ -3,7 +3,7 @@ import { callBackend, fromBackend, backendConfigured } from '@/lib/backend'
 import { generateText, generateWithTools, AI_CONFIG } from '@/lib/ai'
 import { buildLiveContext } from '@/lib/ai/context-builder'
 import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
-import { BRAIN_TOOLS, executeTool } from '@/lib/ai/tools'
+import { BRAIN_TOOLS, WEB_SEARCH_TOOL, executeTool } from '@/lib/ai/tools'
 import { chooseTier, lastUserMessage } from '@/lib/ai/tier-router'
 import { calculateCost } from '@/lib/ai/cost-calculator'
 
@@ -180,17 +180,31 @@ export async function POST(req: NextRequest) {
         })),
         temperature: 0.3,
         maxTokens: tier === 'premium' ? 2000 : 1500,
-        tools: BRAIN_TOOLS,
+        // BRAIN_TOOLS = nuestras 13 tools custom (BOE, actores, polls...)
+        // + WEB_SEARCH_TOOL = server tool de Anthropic (búsqueda web nativa).
+        // Web search se usa solo si las custom no devuelven datos y Claude
+        // detecta que necesita info fresca de internet.
+        tools: [...BRAIN_TOOLS, WEB_SEARCH_TOOL],
         executor: executeTool,
         maxIterations: 4,
       })
       if (result.text) {
         const cost = calculateCost(result.model, result.usage)
+
+        // Detectar si Claude usó el fallback de conocimiento general
+        // (marcador "GENERAL::" al inicio de la respuesta)
+        const GENERAL_MARKER = /^GENERAL::\s*respuesta basada en conocimiento general[^\n]*\n+/i
+        const fromGeneralKnowledge = GENERAL_MARKER.test(result.text)
+        const cleanedReply = fromGeneralKnowledge
+          ? result.text.replace(GENERAL_MARKER, "").trim()
+          : result.text
+
         return NextResponse.json({
-          reply: result.text,
+          reply: cleanedReply,
           source: 'anthropic',
           model: result.model,
           tier,
+          from_general_knowledge: fromGeneralKnowledge,
           tools_used: result.toolsUsed.map(t => ({
             name: t.name,
             input: t.input,
