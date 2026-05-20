@@ -43,19 +43,24 @@ export function chooseTier(userMessage: string): AiTier {
   const lower = userMessage.toLowerCase().trim();
   const wordCount = lower.split(/\s+/).length;
 
-  // 1. Preguntas muy cortas (≤5 palabras) → Haiku
-  if (wordCount <= 5) return "fast";
-
-  // 2. Empieza con keyword factual simple → Haiku
-  if (HAIKU_PREFERRED.some((k) => lower.startsWith(k))) return "fast";
-
-  // 3. Contiene trigger de Sonnet → escala a premium
+  // 1. SONNET_TRIGGERS tienen PRIORIDAD MÁXIMA. Si la pregunta menciona
+  //    cualquier keyword de análisis, comparativa, BOE/normas, etc.,
+  //    escalamos a Sonnet aunque sea corta o empiece con keyword "haiku".
+  //    Razón: Sonnet es mucho más fiable que Haiku en tool use complejo
+  //    y en análisis denso, y la diferencia de coste se compensa con
+  //    cero respuestas defectuosas.
   if (SONNET_TRIGGERS.some((k) => lower.includes(k))) return "premium";
 
-  // 4. Pregunta larga (>25 palabras) → Sonnet (probablemente requiere análisis)
+  // 2. Pregunta larga (>25 palabras) → Sonnet (probable análisis)
   if (wordCount > 25) return "premium";
 
-  // 5. Default: Haiku (más barato y suficiente para 80% de casos)
+  // 3. Preguntas muy cortas (≤5 palabras) sin trigger de Sonnet → Haiku
+  if (wordCount <= 5) return "fast";
+
+  // 4. Empieza con keyword factual simple → Haiku
+  if (HAIKU_PREFERRED.some((k) => lower.startsWith(k))) return "fast";
+
+  // 5. Default: Haiku (más barato, suficiente para 70%+ de casos)
   return "fast";
 }
 
