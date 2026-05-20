@@ -26,6 +26,43 @@ const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434'
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:7b'
 const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 90_000)
 
+/**
+ * Limpia XML residual de tool calls que Claude pueda haber "leaked" en
+ * el texto visible. Esto pasa cuando el modelo (especialmente Haiku) decide
+ * imprimir la invocación XML en vez de usar el formato nativo tool_use.
+ * También filtra meta-comentarios tipo "Voy a buscar..." / "Déjame consultar..."
+ * que el system prompt prohíbe pero a veces se cuelan.
+ */
+function stripToolXml(text: string): string {
+  let cleaned = text
+  // 1. Bloques completos <function_calls>...</function_calls>
+  cleaned = cleaned.replace(/<function_calls>[\s\S]*?<\/function_calls>/gi, "")
+  // 2. Bloques <invoke>...</invoke> sueltos
+  cleaned = cleaned.replace(/<invoke[^>]*>[\s\S]*?<\/invoke>/gi, "")
+  // 3. Tags sueltas que puedan quedar (<parameter>, etc.)
+  cleaned = cleaned.replace(/<\/?(?:function_calls|invoke|parameter)[^>]*>/gi, "")
+  // 4. Meta-frases típicas del modelo ("Voy a buscar/llamar/consultar...")
+  //    al inicio de la respuesta. Solo si aparecen en las primeras 2 líneas.
+  const lines = cleaned.split("\n")
+  while (lines.length > 0) {
+    const first = lines[0].trim()
+    if (!first) {
+      lines.shift()
+      continue
+    }
+    const metaPattern = /^(voy a (buscar|llamar|consultar|revisar|comprobar|verificar)|d[eé]jame (buscar|consultar|comprobar)|llamar[ée] a|consultar[ée]|comprobar[ée])\b/i
+    if (metaPattern.test(first) && first.length < 120) {
+      lines.shift()
+    } else {
+      break
+    }
+  }
+  cleaned = lines.join("\n")
+  // 5. Compactar líneas en blanco consecutivas (>2) a 2
+  cleaned = cleaned.replace(/\n{3,}/g, "\n\n")
+  return cleaned.trim()
+}
+
 // SYSTEM_PROMPT centralizado — refleja la guía editorial de Politeia.
 // Cuando el backend nuevo `chat-with-tools` esté en producción, este prompt
 // se mueve a `packages/prompts/src/system/politeia_brain.md` (versionado).
@@ -201,6 +238,10 @@ export async function POST(req: NextRequest) {
             .replace(/^GENERAL::[^\n]*\n+/i, "")
             .trim()
         }
+        // Post-process: stripear XML de tool calls que Claude pueda haber
+        // "leaked" en el texto visible (bug ocasional del modelo, sobre
+        // todo Haiku). El system prompt lo prohíbe pero hacemos defensa.
+        cleanedReply = stripToolXml(cleanedReply)
 
         return NextResponse.json({
           reply: cleanedReply,
@@ -241,9 +282,10 @@ export async function POST(req: NextRequest) {
           // También detectar marcador GENERAL:: en el fallback
           const trimmedFb = reply.trimStart()
           const fbGeneral = /^GENERAL::/i.test(trimmedFb)
-          const cleanedFb = fbGeneral
+          let cleanedFb = fbGeneral
             ? trimmedFb.replace(/^GENERAL::[^\n]*\n+/i, "").trim()
             : reply
+          cleanedFb = stripToolXml(cleanedFb)
           return NextResponse.json({
             reply: cleanedFb,
             source: 'anthropic',

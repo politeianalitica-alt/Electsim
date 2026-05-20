@@ -584,11 +584,25 @@ async function execGetLegislativeActivity(input: {
   if (!topic) {
     return "Necesito un keyword/tema para buscar en el BOE. Ejemplo: 'vivienda', 'IA', 'energía'.";
   }
-  const items = await searchBoeRecent(
-    topic,
-    Math.min(input.days_back ?? 14, 30),
-    Math.min(input.limit ?? 8, 15)
-  );
+  const limit = Math.min(input.limit ?? 8, 15);
+  // Intento 1: ventana solicitada (default 14d)
+  const days1 = Math.min(input.days_back ?? 14, 30);
+  let items = await searchBoeRecent(topic, days1, limit);
+  // Si no hay resultados y la ventana era corta, amplio a 30d para no
+  // dejar a Claude sin nada que decir.
+  if (items.length === 0 && days1 < 30) {
+    items = await searchBoeRecent(topic, 30, limit);
+    if (items.length > 0) {
+      return JSON.stringify(
+        {
+          nota: `Ventana ampliada a 30 días (sin resultados en ${days1}d)`,
+          ...JSON.parse(formatBoeItemsForLLM(items)),
+        },
+        null,
+        0
+      );
+    }
+  }
   return formatBoeItemsForLLM(items);
 }
 

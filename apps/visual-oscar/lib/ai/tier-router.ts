@@ -17,7 +17,7 @@ const SONNET_TRIGGERS = [
   "estrategia", "estratégico", "implicación", "consecuencia",
   "impacto", "perspectiva", "escenario", "futuro",
   // Comparativas profundas
-  "compáralo", "compárame", "diferencia entre",
+  "compáralo", "compárame", "diferencia entre", "compara",
   // Triggers de profundidad (mismos que el system prompt)
   "detalle", "profundiza", "explícame", "explica", "amplía",
   "desglosa", "desglose",
@@ -26,6 +26,10 @@ const SONNET_TRIGGERS = [
   "cuáles son las causas", "qué efecto", "implicacion", "implicaciones",
   // Productos largos
   "informe", "memo", "briefing completo", "redacta", "escribe",
+  // ⚠ Preguntas que requieren MÚLTIPLES tools encadenados → Sonnet
+  // mucho más fiable que Haiku en tool use complejo
+  "boe", "norma", "normas", "decreto", "ley", "leyes", "legislativ",
+  "tramitación", "tramitacion", "sumario", "publicación", "publicacion",
 ];
 
 const HAIKU_PREFERRED = [
