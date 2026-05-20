@@ -1,5 +1,5 @@
 'use client'
-import { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
+import React, { useState, FormEvent, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
@@ -11,12 +11,16 @@ type Msg = {
   ts: number
   /** Modelo que respondió (ej: 'claude-haiku-4-5-20251001'). */
   model?: string
+  /** Tier que se usó ('fast' = Haiku · 'premium' = Sonnet). */
+  tier?: 'fast' | 'premium'
   /** Tools que el modelo usó para responder. */
   toolsUsed?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
   /** Provider del LLM ('anthropic', 'backend', 'ollama', 'fallback'). */
   source?: string
   /** Latencia total en ms. */
   ms?: number
+  /** Coste de la respuesta. */
+  cost?: { usd: number; cents: number }
   /** Preguntas de seguimiento sugeridas (solo en mensajes de brain). */
   followUps?: string[]
 }
@@ -43,6 +47,78 @@ const PRESET_QUESTIONS = [
 ]
 
 const WELCOME_TEXT = 'El PP consolida su liderazgo en intención de voto (+0,4 pp esta semana) mientras el PSOE mantiene posiciones tras la última intervención del presidente. La narrativa de vivienda continúa en aceleración (+18% menciones 24h) con una emoción dominante de frustración. La amnistía vuelve al primer plano tras dos decisiones judiciales que dividen al socio Junts. En lo económico, el IPC subyacente sorprende a la baja, lo que abre margen al gobierno para una intervención en política fiscal antes del cierre del semestre.'
+
+/**
+ * Renderer ligero de markdown para respuestas del Brain.
+ * Soporta:
+ *   - **negrita** → <strong style="color:#fbbf24">
+ *   - `código`   → <code>
+ *   - [texto](url) → <a target="_blank">
+ *   - /rutas-del-dashboard (autodetectado) → <a>
+ *   - · bullets, líneas con "- " al inicio
+ *   - números: 12,4%, +0,3pp, +18% son resaltados sutilmente
+ * No usa una librería para minimizar bundle size (esto pesa ~80 líneas).
+ */
+function renderBrainMarkdown(text: string): React.ReactNode {
+  const lines = text.split('\n')
+  return lines.map((line, lineIdx) => {
+    const trimmed = line.trim()
+    const isBullet = trimmed.startsWith('- ') || trimmed.startsWith('• ') || trimmed.startsWith('· ')
+    const content = isBullet ? trimmed.slice(2) : line
+    const rendered = renderInline(content)
+    return (
+      <div key={lineIdx} style={{
+        marginTop: lineIdx === 0 ? 0 : 2,
+        paddingLeft: isBullet ? 14 : 0,
+        position: 'relative',
+      }}>
+        {isBullet && (
+          <span style={{
+            position: 'absolute', left: 2, top: 0,
+            color: 'rgba(167,139,250,0.7)', fontWeight: 700,
+          }}>·</span>
+        )}
+        {rendered}
+        {/* No insertar <br/> si la línea está vacía solo (espaciado natural) */}
+        {line === '' && <span>&nbsp;</span>}
+      </div>
+    )
+  })
+}
+
+function renderInline(text: string): React.ReactNode {
+  // Pattern: **bold**, `code`, [text](url), /rutas/del/dashboard, 12,4% (sutil)
+  const parts: Array<{ type: 'text' | 'bold' | 'code' | 'link' | 'route' | 'num'; value: string; href?: string }> = []
+  let remaining = text
+  // Regex unified: matches first occurrence of any pattern
+  const PATTERN = /(\*\*([^*]+)\*\*)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)]+)\))|(\/[a-z][a-z0-9/-]*[a-z0-9])|(\b\d+(?:[,.]\d+)?(?:%|pp)\b)|([+-]\d+(?:[,.]\d+)?(?:pp|%)?)/
+
+  while (remaining.length > 0) {
+    const m = remaining.match(PATTERN)
+    if (!m || m.index === undefined) {
+      parts.push({ type: 'text', value: remaining })
+      break
+    }
+    if (m.index > 0) {
+      parts.push({ type: 'text', value: remaining.slice(0, m.index) })
+    }
+    if (m[1]) parts.push({ type: 'bold', value: m[2] })
+    else if (m[3]) parts.push({ type: 'code', value: m[4] })
+    else if (m[5]) parts.push({ type: 'link', value: m[6], href: m[7] })
+    else if (m[8]) parts.push({ type: 'route', value: m[8] })
+    else if (m[9] || m[10]) parts.push({ type: 'num', value: m[9] || m[10] })
+    remaining = remaining.slice(m.index + m[0].length)
+  }
+
+  return parts.map((p, i) => {
+    if (p.type === 'bold') return <strong key={i} style={{ color: '#fbbf24', fontWeight: 700 }}>{p.value}</strong>
+    if (p.type === 'code') return <code key={i} style={{ background: 'rgba(255,255,255,0.10)', padding: '1px 5px', borderRadius: 4, fontSize: 11.5, fontFamily: 'ui-monospace,monospace' }}>{p.value}</code>
+    if (p.type === 'link') return <a key={i} href={p.href} target="_blank" rel="noopener noreferrer" style={{ color: '#a78bfa', textDecoration: 'underline', textUnderlineOffset: 2 }}>{p.value}</a>
+    if (p.type === 'route') return <a key={i} href={p.value} style={{ color: '#a78bfa', textDecoration: 'none', fontFamily: 'ui-monospace,monospace', fontSize: 11.5, padding: '1px 4px', borderRadius: 3, background: 'rgba(167,139,250,0.12)' }}>{p.value}</a>
+    if (p.type === 'num') return <span key={i} style={{ color: '#fde68a', fontWeight: 600 }}>{p.value}</span>
+    return <span key={i}>{p.value}</span>
+  })
+}
 
 function fakeReply(q: string): string {
   const lower = q.toLowerCase()
@@ -162,8 +238,10 @@ export default function BrainBriefing() {
         reply: string
         source: 'anthropic' | 'ollama' | 'backend' | 'fallback'
         model?: string
+        tier?: 'fast' | 'premium'
         tools_used?: Array<{ name: string; input: Record<string, unknown>; ms: number }>
         ms?: number
+        cost?: { usd: number; cents: number }
       } = await res.json()
       const reply = (data.source !== 'fallback' && data.reply.trim().length > 0)
         ? data.reply
@@ -173,9 +251,11 @@ export default function BrainBriefing() {
         text: reply,
         ts: Date.now(),
         model: data.model,
+        tier: data.tier,
         source: data.source,
         toolsUsed: data.tools_used,
         ms: data.ms,
+        cost: data.cost,
       }
       setMessages(m => [...m, newBrainMsg])
 
@@ -331,14 +411,9 @@ export default function BrainBriefing() {
                   padding: '8px 12px', borderRadius: 12,
                   background: m.role === 'user' ? 'rgba(91,33,182,0.5)' : 'rgba(255,255,255,0.06)',
                   border: m.role === 'user' ? '1px solid rgba(139,92,246,0.4)' : '1px solid rgba(255,255,255,0.08)',
-                  color: '#fff', fontSize: 12.5, lineHeight: 1.55, whiteSpace: 'pre-wrap',
+                  color: '#fff', fontSize: 12.5, lineHeight: 1.55,
                 }}>
-                  {m.text.split('**').map((seg, j) => j % 2 === 1
-                    ? <strong key={j} style={{ color:'#fbbf24' }}>{seg}</strong>
-                    : <span key={j}>{seg.split('`').map((s, k) => k % 2 === 1
-                        ? <code key={k} style={{ background:'rgba(255,255,255,0.1)', padding:'1px 5px', borderRadius:4, fontSize:11.5, fontFamily:'ui-monospace,monospace' }}>{s}</code>
-                        : s)}</span>
-                  )}
+                  {renderBrainMarkdown(m.text)}
                 </div>
                 {/* Metadata: tools usadas + modelo + latencia (solo brain) */}
                 {m.role === 'brain' && (m.toolsUsed?.length || m.model || m.ms) && (
@@ -354,12 +429,36 @@ export default function BrainBriefing() {
                       </span>
                     ))}
                     {m.source === 'anthropic' && m.model && (
-                      <span style={{
-                        fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
-                        background: 'rgba(16,185,129,0.15)', color: '#6ee7b7',
-                        border: '1px solid rgba(16,185,129,0.3)', letterSpacing: '0.02em',
-                      }}>
+                      <span
+                        title={`Modelo: ${m.model}\nTier: ${m.tier ?? 'fast'}\n${m.cost ? `Coste: ${m.cost.usd < 0.001 ? '<0,1¢' : (m.cost.usd * 100).toFixed(2).replace('.', ',') + '¢'}` : ''}`}
+                        style={{
+                          fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                          background: m.tier === 'premium' ? 'rgba(168,85,247,0.18)' : 'rgba(16,185,129,0.15)',
+                          color: m.tier === 'premium' ? '#d8b4fe' : '#6ee7b7',
+                          border: m.tier === 'premium' ? '1px solid rgba(168,85,247,0.35)' : '1px solid rgba(16,185,129,0.3)',
+                          letterSpacing: '0.02em', cursor: 'help',
+                        }}
+                      >
                         Claude {m.model.includes('haiku') ? 'Haiku' : 'Sonnet'}
+                      </span>
+                    )}
+                    {m.cost && m.cost.usd > 0 && (
+                      <span
+                        title="Coste estimado de esta respuesta"
+                        style={{
+                          fontSize: 9.5, padding: '1px 5px', borderRadius: 4,
+                          background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)',
+                          border: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.02em',
+                          fontFamily: 'ui-monospace,monospace', cursor: 'help',
+                        }}
+                      >
+                        {m.cost.usd < 0.001
+                          ? '<0,1¢'
+                          : m.cost.usd < 0.01
+                            ? `${(m.cost.usd * 100).toFixed(1).replace('.', ',')}¢`
+                            : m.cost.usd < 1
+                              ? `${Math.round(m.cost.usd * 100)}¢`
+                              : `$${m.cost.usd.toFixed(2)}`}
                       </span>
                     )}
                     {m.ms && m.ms > 0 && (

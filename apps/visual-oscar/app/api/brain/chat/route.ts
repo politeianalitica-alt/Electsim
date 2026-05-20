@@ -4,6 +4,8 @@ import { generateText, generateWithTools, AI_CONFIG } from '@/lib/ai'
 import { buildLiveContext } from '@/lib/ai/context-builder'
 import { buildBrainSystemPrompt } from '@/lib/ai/system-prompts/politeia-brain'
 import { BRAIN_TOOLS, executeTool } from '@/lib/ai/tools'
+import { chooseTier, lastUserMessage } from '@/lib/ai/tier-router'
+import { calculateCost } from '@/lib/ai/cost-calculator'
 
 // POST /api/brain/chat
 //
@@ -164,28 +166,31 @@ export async function POST(req: NextRequest) {
       const liveContext = await buildLiveContext()
       const systemPrompt = buildBrainSystemPrompt(liveContext)
 
-      // Detecta si la última pregunta del usuario pide expansión
-      // (esto se gestiona en el system prompt, pero subimos maxTokens
-      // a 1500 por si pide "detalle"; sigue siendo controlado por el
-      // prompt para responder breve por defecto).
+      // Auto-router: decide Sonnet (premium) o Haiku (fast) según la
+      // complejidad de la última pregunta del usuario. Reduce coste 60%
+      // en preguntas simples sin sacrificar calidad en las complejas.
+      const tier = chooseTier(lastUserMessage(clean))
+
       const result = await generateWithTools({
-        tier: 'fast',
+        tier,
         system: systemPrompt,
         messages: clean.map(m => ({
           role: m.role === 'system' ? 'system' : m.role,
           content: m.content,
         })),
         temperature: 0.3,
-        maxTokens: 1500,
+        maxTokens: tier === 'premium' ? 2000 : 1500,
         tools: BRAIN_TOOLS,
         executor: executeTool,
         maxIterations: 4,
       })
       if (result.text) {
+        const cost = calculateCost(result.model, result.usage)
         return NextResponse.json({
           reply: result.text,
           source: 'anthropic',
-          model: AI_CONFIG.anthropicFastModel,
+          model: result.model,
+          tier,
           tools_used: result.toolsUsed.map(t => ({
             name: t.name,
             input: t.input,
@@ -193,6 +198,8 @@ export async function POST(req: NextRequest) {
           })),
           citations: [],
           iterations: result.iterations,
+          usage: result.usage,
+          cost: { usd: cost.usd, cents: cost.cents, breakdown: cost.breakdown },
           ms: Date.now() - started,
           _meta: { source: 'anthropic', ts: new Date().toISOString() },
         })

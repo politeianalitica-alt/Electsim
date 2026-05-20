@@ -290,10 +290,19 @@ export interface ToolUseLog {
   ms: number;
 }
 
+export interface AggregatedUsage {
+  input_billed: number;
+  cache_read: number;
+  cache_write: number;
+  output: number;
+}
+
 export interface GenerateWithToolsResult {
   text: string;
   toolsUsed: ToolUseLog[];
   iterations: number;
+  usage: AggregatedUsage;
+  model: string;
 }
 
 export async function generateWithTools(opts: {
@@ -312,6 +321,12 @@ export async function generateWithTools(opts: {
   const model = pickModel(opts);
   const maxIter = opts.maxIterations ?? 5;
   const toolsUsed: ToolUseLog[] = [];
+  const aggregatedUsage: AggregatedUsage = {
+    input_billed: 0,
+    cache_read: 0,
+    cache_write: 0,
+    output: 0,
+  };
 
   // Construye system + messages iniciales
   const { system, messages: initialMessages } = buildRequest({
@@ -341,6 +356,13 @@ export async function generateWithTools(opts: {
       );
 
       logUsage(model, res.usage, `tools.iter${iteration}`);
+      // Acumular tokens de cada iteración para coste final
+      if (res.usage) {
+        aggregatedUsage.input_billed += res.usage.input_tokens ?? 0;
+        aggregatedUsage.cache_read += res.usage.cache_read_input_tokens ?? 0;
+        aggregatedUsage.cache_write += res.usage.cache_creation_input_tokens ?? 0;
+        aggregatedUsage.output += res.usage.output_tokens ?? 0;
+      }
 
       // Extraer text blocks
       const textBlocks = res.content.filter(
@@ -399,7 +421,13 @@ export async function generateWithTools(opts: {
       finalText = `[Excedido el límite de ${maxIter} iteraciones de tool use sin respuesta final]`;
     }
 
-    return { text: finalText, toolsUsed, iterations: iteration };
+    return {
+      text: finalText,
+      toolsUsed,
+      iterations: iteration,
+      usage: aggregatedUsage,
+      model,
+    };
   } catch (err) {
     throw wrapError("generateWithTools", err);
   }
