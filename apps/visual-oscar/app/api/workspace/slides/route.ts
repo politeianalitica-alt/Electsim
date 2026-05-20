@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai";
-import { isAiEnabled } from "@/lib/ai";
+import { generateJSON, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 import { DeckPayloadSchema, SLIDES_SCHEMA_HINT } from "@/lib/slides/slides-schema";
 import { buildMockDeck } from "@/lib/slides/slides-mock";
 import type { Deck } from "@/types/slides";
@@ -70,7 +69,7 @@ export async function POST(req: NextRequest) {
       subtitle: parsed.data.subtitle,
       client: workspaceName,
       generatedAt: new Date().toISOString(),
-      source: "ollama",
+      source: AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       slides: parsed.data.slides,
     };
     return NextResponse.json(deck);

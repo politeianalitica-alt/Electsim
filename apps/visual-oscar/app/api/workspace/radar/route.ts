@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai";
-import { isAiEnabled } from "@/lib/ai";
+import { generateJSON, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 import {
   RadarPayloadSchema,
   RADAR_SCHEMA_HINT,
@@ -74,12 +73,12 @@ export async function POST(req: NextRequest) {
       id: `rb_${Date.now()}`,
       workspaceId,
       generatedAt: new Date().toISOString(),
-      source: "ollama",
+      source: AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       opportunities: (parsed.data as RadarPayload).opportunities.map(o => ({
         ...o,
         relatedIds:  o.relatedIds ?? [],
         generatedAt: new Date().toISOString(),
-        source:      "ollama",
+        source:      AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       })),
     };
     return NextResponse.json(batch);

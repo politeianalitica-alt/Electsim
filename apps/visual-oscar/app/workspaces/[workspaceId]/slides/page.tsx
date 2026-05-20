@@ -115,7 +115,11 @@ export default function SlidesPage({ params }: { params: { workspaceId: string }
         view="slides"
         eyebrow="Workspace · Presentaciones"
         title="Politeia Slides"
-        description={`Presentaciones generadas por Ollama · ${deck?.source === "ollama" ? "live" : "mock"}`}
+        description={`Generación con LLM · ${
+          deck?.source === "anthropic" ? "Claude live"
+          : deck?.source === "ollama" ? "Ollama live"
+          : "mock"
+        }`}
         badge={deck ? `${deck.slides.length} slides` : ""}
         actions={
           <div style={{ display: "flex", gap: 8 }}>

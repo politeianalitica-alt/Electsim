@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateJSON, OllamaUnavailableError } from "@/lib/ai";
-import { isAiEnabled } from "@/lib/ai";
+import { generateJSON, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 import { SimulationPayloadSchema, SIM_SCHEMA_HINT } from "@/lib/simulator/simulator-schema";
 import { buildMockSimulation } from "@/lib/simulator/simulator-mock";
 import type { DecisionSimulation } from "@/types/simulator";
@@ -62,7 +61,7 @@ export async function POST(req: NextRequest) {
       workspaceId,
       scenario,
       generatedAt: new Date().toISOString(),
-      source: "ollama",
+      source: AI_CONFIG.provider === "anthropic" ? "anthropic" : "ollama",
       context: context.slice(0, 600),
       outcomes:       parsed.data.outcomes,
       counterMoves:   parsed.data.counterMoves,

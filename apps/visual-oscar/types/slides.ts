@@ -40,6 +40,6 @@ export interface Deck {
   subtitle?:    string;
   client?:      string;
   generatedAt:  string;
-  source:       "ollama" | "mock";
+  source:       "ollama" | "anthropic" | "mock";
   slides:       Slide[];
 }

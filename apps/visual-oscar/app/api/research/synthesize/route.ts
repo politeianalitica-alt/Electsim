@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { streamText, OllamaUnavailableError } from "@/lib/ai";
-import { isAiEnabled } from "@/lib/ai";
+import { streamText, OllamaUnavailableError, isAiEnabled, AI_CONFIG } from "@/lib/ai";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-store",
-        "X-AI-Provider": "ollama",
+        "X-AI-Provider": AI_CONFIG.provider,
       },
     });
   } catch (err) {
