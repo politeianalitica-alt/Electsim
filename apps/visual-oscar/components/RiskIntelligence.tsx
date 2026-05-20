@@ -101,10 +101,27 @@ function buildTrendFromTimeseries(buckets: Array<{ composite: number }>): Riesgo
   return { history, forecast, forecastLow, forecastHigh }
 }
 
+// Metadata explicativa de las 6 dimensiones del radar
+const RADAR_DIM_INFO: Record<DimKey, { label: string; desc: string }> = {
+  institutional: { label: 'Institucional', desc: 'Estabilidad de instituciones · independencia judicial · renovación CGPJ · tensión Gobierno-TC' },
+  electoral:     { label: 'Electoral',     desc: 'Volatilidad electoral · Pedersen · proximidad de elecciones · cambios en intención de voto' },
+  geopolitical:  { label: 'Geopolítico',   desc: 'Presión externa · gasto defensa % PIB · OTAN · conflictos vecinos · sanciones internacionales' },
+  economic:      { label: 'Económico',     desc: 'IPC interanual · tipos BCE · prima de riesgo · paro · variables macro clave' },
+  media:         { label: 'Mediático',     desc: 'Tone informativo GDELT · polarización · concentración de menciones negativas sobre España' },
+  social:        { label: 'Social',        desc: 'Paro juvenil 16-24 · movilizaciones · conflicto laboral · indicadores de cohesión' },
+}
+
+const RADAR_LEVELS: Array<{ label: string; range: string; color: string; desc: string }> = [
+  { label: 'Vigilancia', range: '0–30',   color: '#22C55E', desc: 'Riesgo controlado · seguimiento ordinario' },
+  { label: 'Alerta',     range: '30–60',  color: '#F59E0B', desc: 'Tensión moderada · comité de seguimiento' },
+  { label: 'Crítico',    range: '60–100', color: '#EF4444', desc: 'Riesgo elevado · activación de comités' },
+]
+
 export default function RiskIntelligence() {
   const [selectedDim, setSelectedDim] = useState<DimKey | null>(null)
   const [scenarioHorizon, setScenarioHorizon] = useState<'24h' | '7d' | '30d'>('7d')
   const [scenarios, setScenarios] = useState<RiskScenario[]>([])
+  const [radarInfoOpen, setRadarInfoOpen] = useState(false)
   const [scenariosLoading, setScenariosLoading] = useState(false)
 
   const { data: composite, source, updatedAt, refresh } = useApi<RiskComposite>(
@@ -174,10 +191,10 @@ export default function RiskIntelligence() {
           )}
         </Card>
 
-        {/* Radar · 3 niveles · sin leyendas para que el SVG se vea más grande */}
+        {/* Radar · 3 niveles · botón Información despliega explicación abajo */}
         {(() => {
           const dims = composite?.dimensions ?? {}
-          const axes = DIM_KEYS.map(k => dims[k]?.label || k)
+          const axes = DIM_KEYS.map(k => dims[k]?.label || RADAR_DIM_INFO[k].label)
           const current = DIM_KEYS.map(k => dims[k]?.score ?? 0)
           const radarData = {
             axes,
@@ -188,11 +205,107 @@ export default function RiskIntelligence() {
             ],
           }
           return (
-            <Card title="Radar de amenazas">
+            <Card
+              title="Radar de amenazas"
+              extra={
+                <button
+                  onClick={() => setRadarInfoOpen(o => !o)}
+                  aria-expanded={radarInfoOpen}
+                  style={{
+                    background: radarInfoOpen ? '#1d1d1f' : '#fff',
+                    color: radarInfoOpen ? '#fff' : '#1d1d1f',
+                    border: '1px solid ' + (radarInfoOpen ? '#1d1d1f' : '#ECECEF'),
+                    borderRadius: 999, padding: '5px 12px',
+                    fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    transition: 'all 160ms',
+                  }}
+                >
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    width: 14, height: 14, borderRadius: '50%',
+                    border: '1.5px solid currentColor',
+                    fontSize: 10, fontWeight: 800, fontStyle: 'italic',
+                  }}>i</span>
+                  Información
+                </button>
+              }
+            >
               {Object.keys(dims).length > 0 ? (
                 <RiesgoRadar data={radarData} size="small"/>
               ) : (
                 <div style={{ padding: 40, textAlign: 'center', color: '#86868b', fontSize: 12 }}>Sin dimensiones</div>
+              )}
+
+              {radarInfoOpen && (
+                <div style={{
+                  marginTop: 14, paddingTop: 14, borderTop: '1px solid #ECECEF',
+                  display: 'flex', flexDirection: 'column', gap: 16,
+                  animation: 'radarInfoFade 220ms ease-out',
+                }}>
+                  {/* Niveles · paleta de colores del radar */}
+                  <div>
+                    <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+                      Niveles de riesgo
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+                      {RADAR_LEVELS.map(lv => (
+                        <div key={lv.label} style={{
+                          padding: '10px 12px', background: '#FAFAFA', border: '1px solid #ECECEF',
+                          borderLeft: `4px solid ${lv.color}`, borderRadius: 10,
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                            <span style={{ fontSize: 12.5, fontWeight: 800, color: lv.color, letterSpacing: '0.06em' }}>
+                              {lv.label.toUpperCase()}
+                            </span>
+                            <span style={{ fontSize: 11.5, color: '#6e6e73', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+                              {lv.range}
+                            </span>
+                          </div>
+                          <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>{lv.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Dimensiones · 6 ejes del radar con descripción */}
+                  <div>
+                    <div style={{ fontSize: 11.5, fontWeight: 700, color: '#6e6e73', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+                      Las 6 dimensiones
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {DIM_KEYS.map(k => {
+                        const info = RADAR_DIM_INFO[k]
+                        const score = dims[k]?.score ?? 0
+                        const sc = score >= 60 ? '#EF4444' : score >= 30 ? '#F59E0B' : '#22C55E'
+                        return (
+                          <div key={k} style={{
+                            display: 'grid', gridTemplateColumns: '50px 1fr',
+                            gap: 12, padding: '10px 12px', background: '#FAFAFA', borderRadius: 10,
+                            alignItems: 'center',
+                          }}>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: sc, lineHeight: 1 }}>
+                                {score.toFixed(0)}
+                              </div>
+                              <div style={{ fontSize: 10, color: '#86868b', marginTop: 2 }}>/100</div>
+                            </div>
+                            <div>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: '#1d1d1f', marginBottom: 2 }}>
+                                {info.label}
+                              </div>
+                              <p style={{ fontSize: 12, color: '#3a3a3d', margin: 0, lineHeight: 1.45 }}>
+                                {info.desc}
+                              </p>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  <style>{`@keyframes radarInfoFade { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+                </div>
               )}
             </Card>
           )
